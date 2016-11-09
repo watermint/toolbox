@@ -72,6 +72,7 @@ func main() {
 		seelog.Error("Unable to acquire token")
 		return
 	}
+	defer auth.RevokeToken(token)
 
 	uc := &dupload.UploadContext{
 		LocalPath:          opts.LocalPath,
