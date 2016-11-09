@@ -16,7 +16,7 @@ const (
     		<format id="short" format="%Time [%LEVEL][%File:%FuncShort:%Line] %Msg%n" />
 	</formats>
 	<outputs formatid="detail">
-		<filter levels="trace,info,warn,error,critical">
+		<filter levels="info,warn,error,critical">
         		<console formatid="short" />
     		</filter>
     	</outputs>
