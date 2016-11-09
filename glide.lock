@@ -1,0 +1,44 @@
+hash: 98457811513efb22d3c502b167652bd55be14f12d9baacf5b37aeb07eb0bf5e9
+updated: 2016-11-08T16:37:51.084813842+09:00
+imports:
+- name: github.com/cihub/seelog
+  version: d2c6e5aa9fbfdd1c624e140287063c7730654115
+- name: github.com/dropbox/dropbox-sdk-go-unofficial
+  version: ebfe7ba0b8fdddbd444ee0d7e56c2dc3b1457efa
+  subpackages:
+  - apierror
+  - async
+  - auth
+  - dropbox/...
+  - files
+  - properties
+  - sharing
+  - team
+  - team_common
+  - team_policies
+  - users
+- name: github.com/golang/protobuf
+  version: 2402d76f3d41f928c7902a765dfc872356dd3aad
+  subpackages:
+  - proto
+- name: github.com/satori/go.uuid
+  version: 879c5887cd475cd7864858769793b2ceb0d44feb
+- name: golang.org/x/net
+  version: f315505cf3349909cdf013ea56690da34e96a451
+  subpackages:
+  - context
+- name: golang.org/x/oauth2
+  version: 1e695b1c8febf17aad3bfa7bf0a819ef94b98ad5
+  subpackages:
+  - internal
+- name: google.golang.org/appengine
+  version: 5b8c3b819891014a2d12354528f7d046dd53c89e
+  subpackages:
+  - internal
+  - internal/base
+  - internal/datastore
+  - internal/log
+  - internal/remote_api
+  - internal/urlfetch
+  - urlfetch
+testImports: []

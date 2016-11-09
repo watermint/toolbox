@@ -1,0 +1,13 @@
+package: github.com/watermint/toolbox
+import:
+- package: github.com/dropbox/dropbox-sdk-go-unofficial
+  subpackages:
+  - dropbox/...
+- package: github.com/cihub/seelog
+  version: v2.6
+- package: golang.org/x/oauth2
+- package: github.com/satori/go.uuid
+  version: v1.1.0
+- package: golang.org/x/net
+  subpackages:
+  - context
