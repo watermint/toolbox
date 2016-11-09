@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 const (
@@ -26,17 +27,11 @@ type UploadContext struct {
 	DropboxToken       string
 }
 
-type UploadSkipped struct {
-	File   *UploadContext
-	Reason error
-}
-
 func Upload(uc *UploadContext) {
 	queue := make(chan *UploadContext)
-	skipped := make(chan *UploadSkipped)
 	control := make(chan string)
 
-	go uploadRoutine(queue, skipped, control)
+	go uploadRoutine(queue, control)
 
 	base, err := os.Lstat(uc.LocalPath)
 	if err != nil {
@@ -62,40 +57,13 @@ func Upload(uc *UploadContext) {
 	case <-control:
 		seelog.Info("Upload finished")
 	}
-
-	go skippedFileReport(skipped, control)
-	control <- "skipped-stop"
-
-	select {
-	case <-control:
-		seelog.Trace("Skipped report finished")
-	}
 }
 
-func skippedFileReport(skipped chan *UploadSkipped, control chan string) {
-	for {
-		select {
-		case s := <-skipped:
-			seelog.Warn("Skipped file: [%s] by reason [%s]", s.File.LocalPath, s.Reason)
-
-		case cmd := <-control:
-			seelog.Trace("Skipped record finished")
-			control <- cmd + "-ack"
-		}
-	}
-}
-
-func uploadRoutine(c chan *UploadContext, skipped chan *UploadSkipped, control chan string) {
+func uploadRoutine(c chan *UploadContext, control chan string) {
 	for {
 		select {
 		case uc := <-c:
-			err := upload(uc)
-			if err != nil {
-				skipped <- &UploadSkipped{
-					File:   uc,
-					Reason: err,
-				}
-			}
+			upload(uc)
 
 		case cmd := <-control:
 			seelog.Trace("Finished")
@@ -103,6 +71,10 @@ func uploadRoutine(c chan *UploadContext, skipped chan *UploadSkipped, control c
 			return
 		}
 	}
+}
+
+func rebaseTime(t time.Time) time.Time {
+	return t.Round(time.Second).UTC()
 }
 
 func upload(uc *UploadContext) error {
@@ -139,7 +111,7 @@ func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string) error
 	}
 
 	ci := files.NewCommitInfo(dropboxPath)
-	ci.ClientModified = info.ModTime().UTC()
+	ci.ClientModified = rebaseTime(info.ModTime())
 	ci.Mode = &files.WriteMode{
 		Tag: "overwrite",
 	}
@@ -197,7 +169,7 @@ func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) erro
 	cursor := files.NewUploadSessionCursor(session.SessionId, uint64(writtenBytes))
 	ci := files.NewCommitInfo(dropboxPath)
 	ci.Path = dropboxPath
-	ci.ClientModified = info.ModTime().UTC()
+	ci.ClientModified = rebaseTime(info.ModTime())
 	ci.Mode = &files.WriteMode{
 		Tag: "overwrite",
 	}
