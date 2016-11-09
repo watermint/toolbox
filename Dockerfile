@@ -2,7 +2,7 @@ FROM golang:1.7
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y zip
+RUN apt-get install -y zip git
 
 RUN curl https://glide.sh/get | sh
 

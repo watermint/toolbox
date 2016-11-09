@@ -10,6 +10,7 @@ TARGET_ARCH="amd64 386"
 TARGET_TOOLS="dupload"
 
 BUILD_VERSION=$(cat $PROJECT_ROOT/version)
+BUILD_HASH=$(cd $PROJECT_ROOT && git rev-parse HEAD)
 
 function test {
     echo BUILD: Testing..
@@ -27,6 +28,7 @@ function build {
 
     X_APP_NAME="-X github.com/watermint/toolbox/infra/knowledge.AppName=$TOOL"
     X_APP_VERSION="-X github.com/watermint/toolbox/infra/knowledge.AppVersion=$BUILD_VERSION"
+    X_APP_HASH="-X github.com/watermint/toolbox/infra/knowledge.AppHash=$BUILD_HASH"
     X_APP_CREDENTIALS=""
 
     if [ -e $PROJECT_ROOT/tools/$TOOL/credentials.secret ]; then
@@ -36,7 +38,7 @@ function build {
     TOOL_BUILD_PATH=$BUILD_PATH/$TOOL/$GOOS/$GOARCH
     mkdir -p $TOOL_BUILD_PATH
     cd $TOOL_BUILD_PATH
-    go build -ldflags "$X_APP_NAME $X_APP_VERSION $X_APP_CREDENTIALS" github.com/watermint/toolbox/tools/$TOOL
+    go build -ldflags "$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_CREDENTIALS" github.com/watermint/toolbox/tools/$TOOL
 }
 
 test

@@ -27,7 +27,7 @@ const (
 func InfraStartup() error {
 	replaceLogger()
 
-	seelog.Infof("[%s] version [%s]", knowledge.AppName, knowledge.AppVersion)
+	seelog.Infof("[%s] version [%s] hash[%s]", knowledge.AppName, knowledge.AppVersion, knowledge.AppHash)
 	diag.LogDiagnostics()
 
 	return nil
