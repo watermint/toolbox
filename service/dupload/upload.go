@@ -45,10 +45,12 @@ func Upload(uc *UploadContext) {
 	}
 
 	if base.IsDir() {
-		uc.localBasePath = uc.LocalPath
+		uc.localBasePath = filepath.Clean(uc.LocalPath)
 	} else {
-		uc.localBasePath = filepath.Dir(uc.LocalPath)
+		uc.localBasePath = filepath.Clean(filepath.Dir(uc.LocalPath))
 	}
+
+	seelog.Infof("Scanning files from: [%s]", uc.localBasePath)
 
 	queuePath(uc, queue)
 
@@ -116,7 +118,8 @@ func upload(uc *UploadContext) error {
 		seelog.Warnf("Unable to compute relative path [%s] by error [%s]. Skipped.", uc.LocalPath, err)
 		return err
 	}
-	dropboxPath := filepath.Join(uc.DropboxBasePath, relative)
+
+	dropboxPath := filepath.ToSlash(filepath.Join(uc.DropboxBasePath, relative))
 
 	seelog.Tracef("Start uploading local[%s] dropbox[%s] relative [%s]", uc.LocalPath, dropboxPath, relative)
 	defer seelog.Tracef("Finished uploading local[%s] dropbox[%s] relative [%s]", uc.localBasePath, dropboxPath, relative)

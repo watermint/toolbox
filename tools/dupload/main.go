@@ -5,9 +5,9 @@ import (
 	"flag"
 	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/integration/auth"
 	"github.com/watermint/toolbox/service/dupload"
 	"os"
-	"github.com/watermint/toolbox/integration/auth"
 )
 
 var (
