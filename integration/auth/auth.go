@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial"
-	"github.com/satori/go.uuid"
+	"github.com/watermint/toolbox/infra/util"
 	"golang.org/x/oauth2"
+	"strings"
 )
 
 type DropboxAuthenticator struct {
@@ -49,11 +50,15 @@ func (d *DropboxAuthenticator) Authorise() (string, error) {
 	if d.AppKey == "" || d.AppSecret == "" {
 		return d.acquireToken()
 	} else {
-		state := uuid.NewV4().String()
+		state, err := util.GenerateRandomString(8)
+		if err != nil {
+			seelog.Errorf("Unable to generate `state` [%s]", err)
+			return "", err
+		}
 
 		tok, err := d.auth(state)
 		if err != nil {
-			fmt.Errorf("Err: %s\n", err)
+			seelog.Errorf("Authentication failed due to the error [%s]", err)
 			return "", err
 		}
 		return tok.AccessToken, nil
@@ -62,15 +67,22 @@ func (d *DropboxAuthenticator) Authorise() (string, error) {
 
 func (d *DropboxAuthenticator) acquireToken() (string, error) {
 	fmt.Println(authGeneratedToken1)
-	fmt.Println(authGeneratedToken2)
 
 	var code string
 
-	if _, err := fmt.Scan(&code); err != nil {
-		fmt.Errorf("%s\n", err)
-		return "", err
+	for {
+		fmt.Println(authGeneratedToken2)
+		if _, err := fmt.Scan(&code); err != nil {
+			seelog.Errorf("Input error (%s), try again.", err)
+			continue
+		}
+		trim := strings.TrimSpace(code)
+		if len(trim) < 1 {
+			seelog.Errorf("Input error, try again.")
+			continue
+		}
+		return trim, nil
 	}
-	return code, nil
 }
 
 func (d *DropboxAuthenticator) authEndpoint() *oauth2.Endpoint {

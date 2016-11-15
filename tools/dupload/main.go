@@ -69,7 +69,7 @@ func main() {
 
 	token, err := a.Authorise()
 	if err != nil || token == "" {
-		seelog.Error("Unable to acquire token")
+		seelog.Errorf("Unable to acquire token (error: %s)", err)
 		return
 	}
 	defer auth.RevokeToken(token)
