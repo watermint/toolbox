@@ -1,9 +1,8 @@
 package diag
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/cihub/seelog"
+	"github.com/watermint/toolbox/infra/util"
 	"net/http"
 	"os"
 	"runtime"
@@ -75,29 +74,17 @@ func NewDiagnosticsNetwork(testUrl string) DiagnosticsNetwork {
 
 func DigestDiagnosticsInfra() string {
 	d := NewDiagnosticsInfra()
-	j, err := json.Marshal(d)
-	if err != nil {
-		return fmt.Sprintf("%v", d)
-	}
-	return string(j)
+	return util.MarshalObjectToString(d)
 }
 
 func DigestDiagnosticsRuntime() string {
 	d := NewDiagnosticsRuntime()
-	j, err := json.Marshal(d)
-	if err != nil {
-		return fmt.Sprintf("%v", d)
-	}
-	return string(j)
+	return util.MarshalObjectToString(d)
 }
 
 func DigestDiagnosticsNetwork(testUrl string) string {
 	d := NewDiagnosticsNetwork(testUrl)
-	j, err := json.Marshal(d)
-	if err != nil {
-		return fmt.Sprintf("%v", d)
-	}
-	return string(j)
+	return util.MarshalObjectToString(d)
 }
 
 func LogDiagnostics() {

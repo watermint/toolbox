@@ -5,6 +5,7 @@ import (
 	"flag"
 	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/integration/auth"
 	"github.com/watermint/toolbox/service/dupload"
 	"os"
@@ -64,7 +65,7 @@ func main() {
 	if err != nil {
 		return
 	}
-	seelog.Infof("Upload from [%s](Local) to [%s](Dropbox)", opts.LocalPath, opts.DropboxBasePath)
+	seelog.Infof("Upload options: %s", util.MarshalObjectToString(opts))
 
 	infra.SetupHttpProxy(opts.Proxy)
 
@@ -80,6 +81,7 @@ func main() {
 	}
 	defer auth.RevokeToken(token)
 
+	seelog.Infof("Upload from [%s](Local) to [%s](Dropbox)", opts.LocalPath, opts.DropboxBasePath)
 	uc := &dupload.UploadContext{
 		LocalPath:          opts.LocalPath,
 		LocalRecursive:     opts.LocalRecursive,
