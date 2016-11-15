@@ -101,15 +101,17 @@ func DigestDiagnosticsNetwork(testUrl string) string {
 }
 
 func LogDiagnostics() {
+	seelog.Infof("Diagnostics(Infra): %s", DigestDiagnosticsInfra())
+	seelog.Infof("Diagnostics(Runtime): %s", DigestDiagnosticsRuntime())
+	seelog.Flush()
+}
+
+func LogNetworkDiagnostics() {
 	testUrls := []string{
 		"https://www.dropbox.com",
 		"https://api.dropboxapi.com",
 	}
-
-	seelog.Infof("Diagnostics(Infra): %s", DigestDiagnosticsInfra())
-	seelog.Infof("Diagnostics(Runtime): %s", DigestDiagnosticsRuntime())
 	for _, u := range testUrls {
 		seelog.Infof("Diagnostics(Network:%s): %s", u, DigestDiagnosticsNetwork(u))
 	}
-	seelog.Flush()
 }

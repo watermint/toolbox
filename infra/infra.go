@@ -34,16 +34,18 @@ func InfraStartup() error {
 }
 
 func InfraShutdown() {
+	diag.LogNetworkDiagnostics()
 	seelog.Trace("Shutdown infrastructure")
 	seelog.Flush()
 }
 
 func SetupHttpProxy(proxy string) {
 	if proxy != "" {
-		seelog.Info("Proxy configuration: HTTP_PROXY[%s]", proxy)
-		seelog.Info("Proxy configuration: HTTPS_PROXY[%s]", proxy)
+		seelog.Infof("Proxy configuration: HTTP_PROXY[%s]", proxy)
+		seelog.Infof("Proxy configuration: HTTPS_PROXY[%s]", proxy)
 		os.Setenv("HTTP_PROXY", proxy)
 		os.Setenv("HTTPS_PROXY", proxy)
+
 	}
 }
 

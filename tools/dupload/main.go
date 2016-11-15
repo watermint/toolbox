@@ -24,15 +24,20 @@ type UploadOptions struct {
 }
 
 func parseArgs() (*UploadOptions, error) {
-	proxy := flag.String("proxy", "", "HTTP(S) proxy (hostname:port)")
-	localPath := flag.String("localPath", "", "Path to upload (required)")
-	localRecursive := flag.Bool("recursive", true, "Upload child directories")
-	localFollowSymlink := flag.Bool("followSymlink", false, "Follow symlink")
-	dropboxPath := flag.String("dropboxPath", "", "Base path in Dropbox (required)")
+	f := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+
+	proxy := f.String("proxy", "", "HTTP(S) proxy (hostname:port)")
+	localPath := f.String("localPath", "", "Path to upload (required)")
+	localRecursive := f.Bool("recursive", true, "Upload child directories")
+	localFollowSymlink := f.Bool("followSymlink", false, "Follow symlink")
+	dropboxPath := f.String("dropboxPath", "", "Base path in Dropbox (required)")
 
 	seelog.Flush()
-	flag.CommandLine.SetOutput(os.Stdout)
-	flag.Parse()
+	f.SetOutput(os.Stdout)
+	f.Parse(os.Args[1:])
+	for 0 < f.NArg() {
+		f.Parse(f.Args()[1:])
+	}
 
 	if *localPath == "" || *dropboxPath == "" {
 		seelog.Error("Missing required option: `-localPath` and/or `-dropboxPath`")
@@ -59,6 +64,7 @@ func main() {
 	if err != nil {
 		return
 	}
+	seelog.Infof("Upload from [%s](Local) to [%s](Dropbox)", opts.LocalPath, opts.DropboxBasePath)
 
 	infra.SetupHttpProxy(opts.Proxy)
 
