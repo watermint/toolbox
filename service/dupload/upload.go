@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"sync"
 	"time"
 )
 
@@ -19,56 +20,62 @@ const (
 
 type UploadContext struct {
 	localBasePath string
+	localPath     string
 
-	LocalPath          string
 	LocalRecursive     bool
 	LocalFollowSymlink bool
 	DropboxBasePath    string
 	DropboxToken       string
 }
 
-func Upload(uc *UploadContext) {
+func Upload(srcPaths []string, baseUc *UploadContext, concurrency int) {
 	queue := make(chan *UploadContext)
-	control := make(chan string)
+	wg := &sync.WaitGroup{}
 
-	go uploadRoutine(queue, control)
+	for i := 0; i < concurrency; i++ {
+		go uploadRoutine(queue, wg)
+	}
+	for _, p := range srcPaths {
+		scanPath(p, baseUc, wg, queue)
+	}
 
-	base, err := os.Lstat(uc.LocalPath)
+	close(queue)
+	wg.Wait()
+}
+
+func scanPath(srcPath string, baseUc *UploadContext, wg *sync.WaitGroup, queue chan *UploadContext) {
+	uc := UploadContext{
+		localPath:          srcPath,
+		LocalRecursive:     baseUc.LocalRecursive,
+		LocalFollowSymlink: baseUc.LocalFollowSymlink,
+		DropboxBasePath:    baseUc.DropboxBasePath,
+		DropboxToken:       baseUc.DropboxToken,
+	}
+
+	base, err := os.Lstat(uc.localPath)
 	if err != nil {
-		seelog.Warnf("Unable to acquire information about path [%s] by error [%s]. Skipped", uc.LocalPath, err)
+		seelog.Warnf("Unable to acquire information about path [%s] by error [%s]. Skipped", uc.localPath, err)
 		return
 	}
 
 	if base.IsDir() {
-		uc.localBasePath = filepath.Clean(uc.LocalPath)
+		uc.localBasePath = filepath.Clean(uc.localPath)
 	} else {
-		uc.localBasePath = filepath.Clean(filepath.Dir(uc.LocalPath))
+		uc.localBasePath = filepath.Clean(filepath.Dir(uc.localPath))
 	}
 
 	seelog.Infof("Scanning files from: [%s]", uc.localBasePath)
 
-	queuePath(uc, queue)
-
-	// Enqueue stop command
-	control <- "upload-stop"
-
-	// Wait for finish
-	select {
-	case <-control:
-		seelog.Info("Upload finished")
-	}
+	queuePath(&uc, queue, wg)
 }
 
-func uploadRoutine(c chan *UploadContext, control chan string) {
-	for {
-		select {
-		case uc := <-c:
-			upload(uc)
+func uploadRoutine(uploadQueue chan *UploadContext, wg *sync.WaitGroup) {
+	for uc := range uploadQueue {
+		err := upload(uc)
+		wg.Done()
 
-		case cmd := <-control:
-			seelog.Trace("Finished")
-			control <- cmd + "-ack"
-			return
+		if err != nil {
+			// TODO: err handling
 		}
 	}
 }
@@ -78,22 +85,22 @@ func rebaseTime(t time.Time) time.Time {
 }
 
 func upload(uc *UploadContext) error {
-	seelog.Trace("Uploading file: ", uc.LocalPath)
-	info, err := os.Lstat(uc.LocalPath)
+	seelog.Trace("Uploading file: ", uc.localPath)
+	info, err := os.Lstat(uc.localPath)
 	if err != nil {
-		seelog.Warnf("Unable to acquire information about path [%s] by error [%s]. Skipped.", uc.LocalPath, err)
+		seelog.Warnf("Unable to acquire information about path [%s] by error [%s]. Skipped.", uc.localPath, err)
 		return err
 	}
 
-	relative, err := filepath.Rel(uc.localBasePath, uc.LocalPath)
+	relative, err := filepath.Rel(uc.localBasePath, uc.localPath)
 	if err != nil {
-		seelog.Warnf("Unable to compute relative path [%s] by error [%s]. Skipped.", uc.LocalPath, err)
+		seelog.Warnf("Unable to compute relative path [%s] by error [%s]. Skipped.", uc.localPath, err)
 		return err
 	}
 
 	dropboxPath := filepath.ToSlash(filepath.Join(uc.DropboxBasePath, relative))
 
-	seelog.Tracef("Start uploading local[%s] dropbox[%s] relative [%s]", uc.LocalPath, dropboxPath, relative)
+	seelog.Tracef("Start uploading local[%s] dropbox[%s] relative [%s]", uc.localPath, dropboxPath, relative)
 	defer seelog.Tracef("Finished uploading local[%s] dropbox[%s] relative [%s]", uc.localBasePath, dropboxPath, relative)
 	if info.Size() < UPLOAD_CHUNK_THRESHOLD {
 		return uploadSingle(uc, info, dropboxPath)
@@ -104,9 +111,9 @@ func upload(uc *UploadContext) error {
 
 func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string) error {
 	client := dropbox.Client(uc.DropboxToken, dropbox.Options{})
-	f, err := os.Open(uc.LocalPath)
+	f, err := os.Open(uc.localPath)
 	if err != nil {
-		seelog.Warn("Unable to open file. Skipped.", uc.LocalPath, err)
+		seelog.Warn("Unable to open file. Skipped.", uc.localPath, err)
 		return err
 	}
 
@@ -118,31 +125,31 @@ func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string) error
 
 	res, err := client.Upload(ci, f)
 	if err != nil {
-		seelog.Warn("Unable to upload file.", uc.LocalPath, err)
+		seelog.Warn("Unable to upload file.", uc.localPath, err)
 		return err
 	}
-	seelog.Infof("File uploaded [%s] -> [%s] (%s)", uc.LocalPath, dropboxPath, res.Id)
+	seelog.Infof("File uploaded [%s] -> [%s] (%s)", uc.localPath, dropboxPath, res.Id)
 	return nil
 }
 
 func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) error {
-	seelog.Tracef("Chunked upload: %s", uc.LocalPath)
+	seelog.Tracef("Chunked upload: %s", uc.localPath)
 	client := dropbox.Client(uc.DropboxToken, dropbox.Options{})
-	f, err := os.Open(uc.LocalPath)
+	f, err := os.Open(uc.localPath)
 	if err != nil {
-		seelog.Warnf("Unable to open file [%s] by error [%v]. Skipped.", uc.LocalPath, err)
+		seelog.Warnf("Unable to open file [%s] by error [%v]. Skipped.", uc.localPath, err)
 		return err
 	}
 
-	seelog.Tracef("Chunked Upload: Start session: %s", uc.LocalPath)
+	seelog.Tracef("Chunked Upload: Start session: %s", uc.localPath)
 	r := io.LimitReader(f, UPLOAD_CHUNK_SIZE)
 	session, err := client.UploadSessionStart(files.NewUploadSessionStartArg(), r)
 	if err != nil {
-		seelog.Warnf("Unable to create upload file [%s] by error [%v]", uc.LocalPath, err)
+		seelog.Warnf("Unable to create upload file [%s] by error [%v]", uc.localPath, err)
 		return err
 	}
 
-	seelog.Tracef("Chunked Upload: Session started file [%s] session [%s]", uc.LocalPath, session.SessionId)
+	seelog.Tracef("Chunked Upload: Session started file [%s] session [%s]", uc.localPath, session.SessionId)
 
 	var writtenBytes, totalBytes int64
 
@@ -150,7 +157,7 @@ func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) erro
 	totalBytes = info.Size()
 
 	for (totalBytes - writtenBytes) > UPLOAD_CHUNK_SIZE {
-		seelog.Tracef("Chunked Upload: Append file [%s], session [%s], written [%d]", uc.LocalPath, session.SessionId, writtenBytes)
+		seelog.Tracef("Chunked Upload: Append file [%s], session [%s], written [%d]", uc.localPath, session.SessionId, writtenBytes)
 
 		cursor := files.NewUploadSessionCursor(session.SessionId, uint64(writtenBytes))
 		aa := files.NewUploadSessionAppendArg(cursor)
@@ -158,14 +165,14 @@ func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) erro
 		r = io.LimitReader(f, UPLOAD_CHUNK_SIZE)
 		err := client.UploadSessionAppendV2(aa, r)
 		if err != nil {
-			seelog.Warnf("Unable to upload file [%s] caused by error [%v]", uc.LocalPath, err)
+			seelog.Warnf("Unable to upload file [%s] caused by error [%v]", uc.localPath, err)
 			return err
 		}
-		seelog.Tracef("Chunked Upload: Append (done): path [%s] session [%s] written [%d]", uc.LocalPath, session.SessionId, writtenBytes)
+		seelog.Tracef("Chunked Upload: Append (done): path [%s] session [%s] written [%d]", uc.localPath, session.SessionId, writtenBytes)
 		writtenBytes += UPLOAD_CHUNK_SIZE
 	}
 
-	seelog.Tracef("Chunked Upload: Finish path[%s] sessoin[%s] written[%d]", uc.LocalPath, session.SessionId, writtenBytes)
+	seelog.Tracef("Chunked Upload: Finish path[%s] sessoin[%s] written[%d]", uc.localPath, session.SessionId, writtenBytes)
 	cursor := files.NewUploadSessionCursor(session.SessionId, uint64(writtenBytes))
 	ci := files.NewCommitInfo(dropboxPath)
 	ci.Path = dropboxPath
@@ -179,36 +186,37 @@ func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) erro
 		seelog.Warnf("Unable to finish upload: path[%s] caused by error [%s]", dropboxPath, err)
 		return err
 	}
-	seelog.Infof("File uploaded [%s] -> [%s] (%s)", uc.LocalPath, dropboxPath, res.Id)
+	seelog.Infof("File uploaded [%s] -> [%s] (%s)", uc.localPath, dropboxPath, res.Id)
 	return nil
 }
 
-func queuePath(uc *UploadContext, c chan *UploadContext) {
-	info, err := os.Lstat(uc.LocalPath)
+func queuePath(uc *UploadContext, c chan *UploadContext, wg *sync.WaitGroup) {
+	info, err := os.Lstat(uc.localPath)
 	if err != nil {
-		seelog.Warn("Unable to acquire information about path. Skipped.", uc.LocalPath)
+		seelog.Warn("Unable to acquire information about path. Skipped.", uc.localPath)
 		return
 	}
 	if info.Mode()&os.ModeSymlink == os.ModeSymlink && !uc.LocalFollowSymlink {
-		seelog.Infof("Skipped (symlink): %s", uc.LocalPath)
+		seelog.Infof("Skipped (symlink): %s", uc.localPath)
 		return
 	}
 
 	if info.IsDir() {
-		queueDir(uc, c)
+		queueDir(uc, c, wg)
 	} else {
-		seelog.Trace("Queue Path: ", uc.LocalPath)
+		seelog.Trace("Queue Path: ", uc.localPath)
 		c <- uc
+		wg.Add(1)
 	}
 }
 
-func queueDir(uc *UploadContext, c chan *UploadContext) error {
-	list, err := ioutil.ReadDir(uc.LocalPath)
+func queueDir(uc *UploadContext, c chan *UploadContext, wg *sync.WaitGroup) error {
+	list, err := ioutil.ReadDir(uc.localPath)
 	if err != nil {
-		seelog.Warnf("Unable to load directory [%s]. Skipped", uc.LocalPath)
+		seelog.Warnf("Unable to load directory [%s]. Skipped", uc.localPath)
 	}
 	for _, f := range list {
-		localPath := filepath.Join(uc.LocalPath, f.Name())
+		localPath := filepath.Join(uc.localPath, f.Name())
 
 		if f.Mode()&os.ModeSymlink == os.ModeSymlink && !uc.LocalFollowSymlink {
 			seelog.Infof("Skipped (symlink): %s", localPath)
@@ -221,14 +229,14 @@ func queueDir(uc *UploadContext, c chan *UploadContext) error {
 
 		child := &UploadContext{
 			localBasePath:      uc.localBasePath,
-			LocalPath:          localPath,
+			localPath:          localPath,
 			LocalRecursive:     uc.LocalRecursive,
 			LocalFollowSymlink: uc.LocalFollowSymlink,
 			DropboxBasePath:    uc.DropboxBasePath,
 			DropboxToken:       uc.DropboxToken,
 		}
 
-		queuePath(child, c)
+		queuePath(child, c, wg)
 	}
 	return nil
 }

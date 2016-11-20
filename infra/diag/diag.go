@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/util"
 	"net/http"
 	"os"
+	"os/user"
 	"runtime"
 )
 
@@ -33,11 +34,14 @@ type DiagnosticsRuntime struct {
 	WorkingDirectory string
 	PID              int
 	ExecutorUID      int
+	CurrentUID       string
+	UserName         string
 }
 
 func NewDiagnosticsRuntime() DiagnosticsRuntime {
 	hostname, _ := os.Hostname()
 	wd, _ := os.Getwd()
+	usr, _ := user.Current()
 
 	return DiagnosticsRuntime{
 		Args:             os.Args,
@@ -46,6 +50,8 @@ func NewDiagnosticsRuntime() DiagnosticsRuntime {
 		WorkingDirectory: wd,
 		PID:              os.Getpid(),
 		ExecutorUID:      os.Geteuid(),
+		CurrentUID:       usr.Uid,
+		UserName:         usr.Username,
 	}
 }
 

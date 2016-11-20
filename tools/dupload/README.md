@@ -5,7 +5,7 @@ Bulk file and/or directory Uploader.
 ## Usage
 
 ```sh
-$ ./dupload -localPath YOUR_LOCAL_PATH -dropboxPath DROPBOX_PATH
+$ ./dupload [OPTION]... SRC [SRC]... DEST
 ```
 
 ## How to build
