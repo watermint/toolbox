@@ -1,15 +1,18 @@
 package auth
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial"
 	"github.com/watermint/toolbox/infra/util"
 	"golang.org/x/oauth2"
+	"io/ioutil"
 	"strings"
 )
 
 type DropboxAuthenticator struct {
+	AuthFile  string
 	AppKey    string
 	AppSecret string
 }
@@ -44,12 +47,92 @@ Enter the generated token here:
 `
 )
 
+func (d *DropboxAuthenticator) TokenFileLoadMap() (map[string]string, error) {
+	seelog.Tracef("Loading token from file: [%s]", d.AuthFile)
+	f, err := ioutil.ReadFile(d.AuthFile)
+	if err != nil {
+		seelog.Tracef("Unable to load file: file[%s], err[%s]", d.AuthFile, err)
+		return nil, err
+	}
+	m := make(map[string]string)
+	err = json.Unmarshal(f, &m)
+	if err != nil {
+		seelog.Tracef("Unable to unmarshal: error[%v]", err)
+		return nil, err
+	}
+	return m, nil
+}
+
+func (d *DropboxAuthenticator) TokenFileLoad() (string, error) {
+	m, err := d.TokenFileLoadMap()
+	if err != nil {
+		return "", err
+	}
+	if t, ex := m[d.AppKey]; !ex {
+		seelog.Tracef("Appkey[%s] not found in loaded token map", d.AppKey)
+		return "", err
+	} else {
+		seelog.Tracef("Token for App key[%s] found in map", d.AppKey)
+		return t, nil
+	}
+}
+
+func (d *DropboxAuthenticator) TokenFileSave(token string) error {
+	seelog.Infof("Saving token to the file: [%s]", d.AuthFile)
+
+	// TODO: check file exist or not
+	m, err := d.TokenFileLoadMap()
+	if err != nil {
+		m = make(map[string]string)
+	}
+
+	// overwrite token for AppKey
+	m[d.AppKey] = token
+
+	f, err := json.Marshal(m)
+	if err != nil {
+		seelog.Error("Unable to marshal auth tokens. Failed to save token to the file")
+		return err
+	}
+
+	err = ioutil.WriteFile(d.AuthFile, f, 0600)
+
+	if err != nil {
+		seelog.Errorf("Unable to write authentication token to file: %s", d.AuthFile)
+		return err
+	}
+
+	return nil
+}
+
+func (d *DropboxAuthenticator) LoadOrAuthorise() (string, error) {
+	t, err := d.TokenFileLoad()
+	if err != nil {
+		return d.Authorise()
+	}
+	client := dropbox.Client(t, dropbox.Options{})
+
+	fa, err := client.GetCurrentAccount()
+	if err != nil {
+		return d.Authorise()
+	}
+	seelog.Infof("Dropbox Account[%s](%s)", fa.Email, fa.AccountId)
+
+	return t, nil
+}
+
 func (d *DropboxAuthenticator) Authorise() (string, error) {
 	seelog.Flush()
 
 	if d.AppKey == "" || d.AppSecret == "" {
-		return d.acquireToken()
+		seelog.Tracef("No AppKey/AppSecret found. Try asking 'Generate Token'")
+		tok, err := d.acquireToken()
+		if err == nil {
+			d.TokenFileSave(tok)
+		}
+		return tok, err
 	} else {
+		seelog.Tracef("Start auth sequence for AppKey[%s]", d.AppKey)
 		state, err := util.GenerateRandomString(8)
 		if err != nil {
 			seelog.Errorf("Unable to generate `state` [%s]", err)
@@ -61,6 +144,7 @@ func (d *DropboxAuthenticator) Authorise() (string, error) {
 			seelog.Errorf("Authentication failed due to the error [%s]", err)
 			return "", err
 		}
+		d.TokenFileSave(tok.AccessToken)
 		return tok.AccessToken, nil
 	}
 }

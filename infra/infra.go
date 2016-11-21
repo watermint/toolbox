@@ -47,13 +47,13 @@ type InfraOpts struct {
 	LogRolls   int
 }
 
-func InfraStartup(opts InfraOpts) error {
-	err := setupWorkPath(&opts)
+func InfraStartup(opts *InfraOpts) error {
+	err := setupWorkPath(opts)
 	if err != nil {
 		return err
 	}
 
-	setupLogger(&opts)
+	setupLogger(opts)
 
 	seelog.Infof("[%s] version [%s] hash[%s]", knowledge.AppName, knowledge.AppVersion, knowledge.AppHash)
 

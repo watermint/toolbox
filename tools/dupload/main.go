@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/integration/auth"
 	"github.com/watermint/toolbox/service/dupload"
 	"os"
+	"path/filepath"
 )
 
 var (
@@ -118,7 +119,7 @@ func main() {
 		WorkPath: opts.WorkPath,
 		Proxy:    opts.Proxy,
 	}
-	err = infra.InfraStartup(infraOpts)
+	err = infra.InfraStartup(&infraOpts)
 	if err != nil {
 		seelog.Errorf("Unable to start operation: %s", err)
 		return
@@ -131,11 +132,12 @@ func main() {
 	infra.SetupHttpProxy(opts.Proxy)
 
 	a := auth.DropboxAuthenticator{
+		AuthFile:  filepath.Join(infraOpts.WorkPath, knowledge.AppName+".secret"),
 		AppKey:    AppKey,
 		AppSecret: AppSecret,
 	}
 
-	token, err := a.Authorise()
+	token, err := a.LoadOrAuthorise()
 	if err != nil || token == "" {
 		seelog.Errorf("Unable to acquire token (error: %s)", err)
 		return
