@@ -105,7 +105,7 @@ func (d *DropboxAuthenticator) TokenFileSave(token string) error {
 	return nil
 }
 
-func (d *DropboxAuthenticator) LoadOrAuthorise() (string, error) {
+func (d *DropboxAuthenticator) LoadOrAuth() (string, error) {
 	t, err := d.TokenFileLoad()
 	if err != nil {
 		return d.Authorise()

@@ -39,6 +39,10 @@ const (
 	DefaultLogRolls   = 7
 )
 
+var (
+	logPath string
+)
+
 type InfraOpts struct {
 	Proxy      string
 	WorkPath   string
@@ -69,6 +73,7 @@ func InfraStartup(opts *InfraOpts) error {
 
 func InfraShutdown() {
 	seelog.Trace("Shutdown infrastructure")
+	seelog.Infof("Log file is at [%s]", logPath)
 	seelog.Flush()
 }
 
@@ -129,6 +134,8 @@ func setupLogger(opts *InfraOpts) {
 	if opts.LogPath == "" {
 		opts.LogPath = filepath.Join(opts.WorkPath, knowledge.AppName+".log")
 	}
+
+	logPath = opts.LogPath
 
 	conf, err := util.CompileTemplate(logConfig, opts)
 	if err != nil {
