@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"time"
 )
@@ -99,6 +100,10 @@ func upload(uc *UploadContext) error {
 	}
 
 	dropboxPath := filepath.ToSlash(filepath.Join(uc.DropboxBasePath, relative))
+	if !strings.HasPrefix(dropboxPath, "/") {
+		// Dropbox path must be start from '/'
+		dropboxPath = "/" + dropboxPath
+	}
 
 	seelog.Tracef("Start uploading local[%s] dropbox[%s] relative [%s]", uc.localPath, dropboxPath, relative)
 	defer seelog.Tracef("Finished uploading local[%s] dropbox[%s] relative [%s]", uc.localBasePath, dropboxPath, relative)

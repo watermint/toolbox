@@ -94,8 +94,8 @@ func DigestDiagnosticsNetwork(testUrl string) string {
 }
 
 func LogDiagnostics() {
-	seelog.Infof("Diagnostics(Infra): %s", DigestDiagnosticsInfra())
-	seelog.Infof("Diagnostics(Runtime): %s", DigestDiagnosticsRuntime())
+	seelog.Tracef("Diagnostics(Infra): %s", DigestDiagnosticsInfra())
+	seelog.Tracef("Diagnostics(Runtime): %s", DigestDiagnosticsRuntime())
 	seelog.Flush()
 }
 
@@ -105,6 +105,6 @@ func LogNetworkDiagnostics() {
 		"https://api.dropboxapi.com",
 	}
 	for _, u := range testUrls {
-		seelog.Infof("Diagnostics(Network:%s): %s", u, DigestDiagnosticsNetwork(u))
+		seelog.Tracef("Diagnostics(Network:%s): %s", u, DigestDiagnosticsNetwork(u))
 	}
 }

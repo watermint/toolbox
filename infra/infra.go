@@ -1,14 +1,16 @@
 package infra
 
 import (
-	"bytes"
+	"errors"
 	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/infra/diag"
 	"github.com/watermint/toolbox/infra/knowledge"
+	"github.com/watermint/toolbox/infra/util"
 	"log"
 	"os"
-	"text/template"
+	"os/user"
+	"path/filepath"
 )
 
 const (
@@ -19,19 +21,22 @@ const (
     		<format id="short" format="%Time [%LEVEL][%File:%FuncShort:%Line] %Msg%n" />
 	</formats>
 	<outputs formatid="detail">
-	<!--
 		{{if .LogPath}}
     		<filter levels="trace,info,warn,error,critical">
         		<rollingfile formatid="detail" filename="{{.LogPath}}" type="size" maxsize="{{.LogMaxSize}}" maxrolls="{{.LogRolls}}" />
     		</filter>
 		{{end}}
-		-->
-		<filter levels="trace,info,warn,error,critical">
+		<filter levels="info,warn,error,critical">
         		<console formatid="short" />
     		</filter>
     	</outputs>
 	</seelog>
 	`
+)
+
+const (
+	DefaultLogMaxSize = 52428800
+	DefaultLogRolls   = 7
 )
 
 type InfraOpts struct {
@@ -43,18 +48,66 @@ type InfraOpts struct {
 }
 
 func InfraStartup(opts InfraOpts) error {
-	replaceLogger()
+	err := setupWorkPath(&opts)
+	if err != nil {
+		return err
+	}
+
+	setupLogger(&opts)
 
 	seelog.Infof("[%s] version [%s] hash[%s]", knowledge.AppName, knowledge.AppVersion, knowledge.AppHash)
+
+	if opts.Proxy != "" {
+		SetupHttpProxy(opts.Proxy)
+	}
+
 	diag.LogDiagnostics()
+	diag.LogNetworkDiagnostics()
 
 	return nil
 }
 
 func InfraShutdown() {
-	diag.LogNetworkDiagnostics()
 	seelog.Trace("Shutdown infrastructure")
 	seelog.Flush()
+}
+
+func DefaultWorkPath() string {
+	u, err := user.Current()
+	if err != nil {
+		log.Fatalf("Unable to determine current user: %v", err)
+		panic(err)
+	}
+	return filepath.Join(u.HomeDir, "."+knowledge.AppName)
+}
+
+func setupWorkPath(opts *InfraOpts) error {
+	if opts.WorkPath == "" {
+		opts.WorkPath = DefaultWorkPath()
+		log.Printf("Setup using default work path: [%s]", opts.WorkPath)
+	}
+
+	st, err := os.Stat(opts.WorkPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			err = os.MkdirAll(opts.WorkPath, 0701)
+			if err != nil {
+				log.Fatalf("Unable to create work directory: [%s]", opts.WorkPath)
+				return err
+			}
+		} else {
+			return err
+		}
+	} else {
+		if !st.IsDir() {
+			return errors.New(fmt.Sprintf("Unable to create work directory, it's not directory: [%s]. ", opts.WorkPath))
+		}
+		if st.Mode()&0700 == 0 {
+			return errors.New(fmt.Sprintf("Unable to read/write work directory: %s", opts.WorkPath))
+		}
+	}
+
+	return nil
 }
 
 func SetupHttpProxy(proxy string) {
@@ -63,29 +116,41 @@ func SetupHttpProxy(proxy string) {
 		seelog.Infof("Proxy configuration: HTTPS_PROXY[%s]", proxy)
 		os.Setenv("HTTP_PROXY", proxy)
 		os.Setenv("HTTPS_PROXY", proxy)
-
 	}
 }
 
-func replaceLogger() {
-	logger, err := seelog.LoggerFromConfigAsString(logConfig)
+func setupLogger(opts *InfraOpts) {
+	if opts.LogMaxSize < 1 {
+		opts.LogMaxSize = DefaultLogMaxSize
+	}
+	if opts.LogRolls < 1 {
+		opts.LogRolls = DefaultLogRolls
+	}
+	if opts.LogPath == "" {
+		opts.LogPath = filepath.Join(opts.WorkPath, knowledge.AppName+".log")
+	}
+
+	conf, err := util.CompileTemplate(logConfig, opts)
+	if err != nil {
+		log.Fatalf("Unable to create log config template: %s", err)
+		panic(err)
+	}
+	logger, err := seelog.LoggerFromConfigAsString(conf)
 	if err != nil {
 		log.Fatalln("Unable to configure seelog", err)
+		panic(err)
 	} else {
 		seelog.ReplaceLogger(logger)
 	}
+
+	seelog.Infof("Logging started: file[%s] maxSize[%d] rolls[%d]", opts.LogPath, opts.LogMaxSize, opts.LogRolls)
 }
 
 func ShowUsage(tmpl string, data interface{}) {
-	t, err := template.New("").Parse(tmpl)
+	t, err := util.CompileTemplate(tmpl, data)
 	if err != nil {
+		seelog.Errorf("Unable to create usage template: %v", err)
 		panic(err)
 	}
-	var buf bytes.Buffer
-
-	if err := t.Execute(&buf, data); err != nil {
-		panic(err)
-	}
-
-	fmt.Fprint(os.Stderr, buf.String())
+	fmt.Fprint(os.Stderr, t)
 }

@@ -71,7 +71,7 @@ func parseArgs() (*UploadOptions, error) {
 	descCleanup := "Revoke token on exit"
 	f.BoolVar(&cleanupToken, "revoke-token", false, descCleanup)
 
-	descWork := "Work directory (default: $HOME/.dupload)"
+	descWork := fmt.Sprintf("Work directory (default: %s)", infra.DefaultWorkPath())
 	f.StringVar(&workPath, "work", "", descWork)
 
 	descConcurrency := "Upload concurrency"
@@ -114,11 +114,19 @@ func main() {
 		return
 	}
 
-	infraOpts := infra.InfraOpts{}
-	infra.InfraStartup(infraOpts)
+	infraOpts := infra.InfraOpts{
+		WorkPath: opts.WorkPath,
+		Proxy:    opts.Proxy,
+	}
+	err = infra.InfraStartup(infraOpts)
+	if err != nil {
+		seelog.Errorf("Unable to start operation: %s", err)
+		return
+	}
+
 	defer infra.InfraShutdown()
 
-	seelog.Infof("Upload options: %s", util.MarshalObjectToString(opts))
+	seelog.Tracef("Upload options: %s", util.MarshalObjectToString(opts))
 
 	infra.SetupHttpProxy(opts.Proxy)
 
@@ -132,7 +140,9 @@ func main() {
 		seelog.Errorf("Unable to acquire token (error: %s)", err)
 		return
 	}
-	defer auth.RevokeToken(token)
+	if opts.CleanupToken {
+		defer auth.RevokeToken(token)
+	}
 
 	uc := &dupload.UploadContext{
 		LocalRecursive:     opts.LocalRecursive,
