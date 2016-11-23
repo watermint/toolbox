@@ -122,12 +122,10 @@ func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string) error
 		seelog.Warn("Unable to open file. Skipped.", uc.localPath, err)
 		return err
 	}
+	defer f.Close()
 
 	ci := files.NewCommitInfo(dropboxPath)
 	ci.ClientModified = rebaseTime(info.ModTime())
-	//ci.Mode = &files.WriteMode{
-	//	Update: files.WriteModeOverwrite,
-	//}
 
 	res, err := client.Upload(ci, f)
 	if err != nil {
@@ -147,6 +145,7 @@ func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) erro
 		seelog.Warnf("Unable to open file [%s] by error [%v]. Skipped.", uc.localPath, err)
 		return err
 	}
+	defer f.Close()
 
 	seelog.Tracef("Chunked Upload: Start session: %s", uc.localPath)
 	r := io.LimitReader(f, UPLOAD_CHUNK_SIZE)
@@ -184,9 +183,6 @@ func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) erro
 	ci := files.NewCommitInfo(dropboxPath)
 	ci.Path = dropboxPath
 	ci.ClientModified = rebaseTime(info.ModTime())
-	//ci.Mode = &files.WriteMode{
-	//	Update: files.WriteModeOverwrite,
-	//}
 	fa := files.NewUploadSessionFinishArg(cursor, ci)
 	res, err := client.UploadSessionFinish(fa, f)
 	if err != nil {
