@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/cihub/seelog"
-	"github.com/dropbox/dropbox-sdk-go-unofficial"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/auth"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/users"
 	"github.com/watermint/toolbox/infra/util"
 	"golang.org/x/oauth2"
 	"io/ioutil"
@@ -110,7 +112,8 @@ func (d *DropboxAuthenticator) LoadOrAuth() (string, error) {
 	if err != nil {
 		return d.Authorise()
 	}
-	client := dropbox.Client(t, dropbox.Options{})
+	config := dropbox.Config{Token: t, Verbose: false}
+	client := users.New(config)
 
 	fa, err := client.GetCurrentAccount()
 	if err != nil {
@@ -220,7 +223,8 @@ func (d *DropboxAuthenticator) auth(state string) (*oauth2.Token, error) {
 }
 
 func RevokeToken(token string) {
-	client := dropbox.Client(token, dropbox.Options{})
+	config := dropbox.Config{Token: token, Verbose: false}
+	client := auth.New(config)
 	err := client.TokenRevoke()
 	if err != nil {
 		seelog.Warnf("Error during clean up token: %s", err)

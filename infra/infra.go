@@ -35,7 +35,7 @@ const (
 )
 
 const (
-	DefaultLogMaxSize = 52428800
+	DefaultLogMaxSize = 50 * 1024 * 1024
 	DefaultLogRolls   = 7
 )
 

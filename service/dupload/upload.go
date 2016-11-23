@@ -2,8 +2,8 @@ package dupload
 
 import (
 	"github.com/cihub/seelog"
-	"github.com/dropbox/dropbox-sdk-go-unofficial"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/files"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"io"
 	"io/ioutil"
 	"os"
@@ -115,7 +115,8 @@ func upload(uc *UploadContext) error {
 }
 
 func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string) error {
-	client := dropbox.Client(uc.DropboxToken, dropbox.Options{})
+	config := dropbox.Config{Token: uc.DropboxToken, Verbose: false}
+	client := files.New(config)
 	f, err := os.Open(uc.localPath)
 	if err != nil {
 		seelog.Warn("Unable to open file. Skipped.", uc.localPath, err)
@@ -124,13 +125,13 @@ func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string) error
 
 	ci := files.NewCommitInfo(dropboxPath)
 	ci.ClientModified = rebaseTime(info.ModTime())
-	ci.Mode = &files.WriteMode{
-		Tag: "overwrite",
-	}
+	//ci.Mode = &files.WriteMode{
+	//	Update: files.WriteModeOverwrite,
+	//}
 
 	res, err := client.Upload(ci, f)
 	if err != nil {
-		seelog.Warn("Unable to upload file.", uc.localPath, err)
+		seelog.Warnf("Unable to upload file. path[%s] error[%s]", uc.localPath, err)
 		return err
 	}
 	seelog.Infof("File uploaded [%s] -> [%s] (%s)", uc.localPath, dropboxPath, res.Id)
@@ -139,7 +140,8 @@ func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string) error
 
 func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) error {
 	seelog.Tracef("Chunked upload: %s", uc.localPath)
-	client := dropbox.Client(uc.DropboxToken, dropbox.Options{})
+	config := dropbox.Config{Token: uc.DropboxToken, Verbose: false}
+	client := files.New(config)
 	f, err := os.Open(uc.localPath)
 	if err != nil {
 		seelog.Warnf("Unable to open file [%s] by error [%v]. Skipped.", uc.localPath, err)
@@ -182,9 +184,9 @@ func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) erro
 	ci := files.NewCommitInfo(dropboxPath)
 	ci.Path = dropboxPath
 	ci.ClientModified = rebaseTime(info.ModTime())
-	ci.Mode = &files.WriteMode{
-		Tag: "overwrite",
-	}
+	//ci.Mode = &files.WriteMode{
+	//	Update: files.WriteModeOverwrite,
+	//}
 	fa := files.NewUploadSessionFinishArg(cursor, ci)
 	res, err := client.UploadSessionFinish(fa, f)
 	if err != nil {
