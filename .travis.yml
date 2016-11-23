@@ -1,0 +1,24 @@
+language: go
+go:
+ - 1.7
+ - tip
+
+before_install:
+ - go get golang.org/x/tools/cmd/cover
+ - go get github.com/modocache/gover
+ - go get github.com/mattn/goveralls
+ - go get github.com/Masterminds/glide
+
+install:
+ - glide install
+
+script:
+ - go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' $(glide novendor) | xargs -L 1 sh -c
+ - gover
+
+after_success:
+ - goveralls -coverprofile=gover.coverprofile -service=travis-ci -repotoken $COVERALLS_TOKEN
+
+env:
+  global:
+    secure: oLP6VnfHo1ety/IBuyR0oGVJmaJAhXyXN+ukehltJq4TKeXAm3/ZiXZ8G4Aa4aOrSvL32dfSucDr96SXvcGtE/x0hQ8N937BcwqozTJ5OCp4D4Nuu21Y6WOzEjF48DfR08SBw7j2LzhfLHLPeOymYMmWn+LFpP6BURIDWq+O2JO3VBylXyU3Q8MNIj4dEepZmaqFKB5jw65GX1P+jtz7zQce7eN3aRW7KG2VSt8WEo+sXxTswfr9WnxYNWIDozE+iXBFkIj9sdZPiyheJjW/1q6v6NcZl+nDARnobmoC1a26uToJporEbYBJ46NnrMRPVcFw/iTu4HcaiJ1t0y13mPqb2fuJppci3rRNGWgYA+Nn+fykRp9CT1m55tnxhTXloDbzBG35p8XBqZfA/fGC5uZiAVheeEq4ljcdj6I96S+GqbgpfnqJptg+DSpx6vjmb9kHjP3TDeoEdrnglAduTJg4BsPVRCnKtJC64avNm/ywr9xFPuXY3qlhfN9ENqp1/nw2T+FAWh5449hJjbI/E7XmjfErGzIBOXF0fPfOjtYsxD5BcNIv+7ii3MIX+MP7iu1Pn4hUDGnpUc9Jgzmo3mhctsUab5vIvtBvD+SXFe6Oqcw09YTRESKRH08oYk5G759iw6rShOmgpUNeRLD+FJ+CkQy5gtuIkthpbuqPyLc=
