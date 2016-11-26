@@ -18,7 +18,7 @@ const (
 	<seelog type="adaptive" mininterval="200000000" maxinterval="1000000000" critmsgcount="5">
 	<formats>
     		<format id="detail" format="date:%Date(2006-01-02T15:04:05Z07:00)%tloc:%File:%FuncShort:%Line%tlevel:%Level%tmsg:%Msg%n" />
-    		<format id="short" format="%Time [%LEVEL][%File:%FuncShort:%Line] %Msg%n" />
+    		<format id="short" format="%Time [%LEVEL] %Msg%n" />
 	</formats>
 	<outputs formatid="detail">
 		{{if .LogPath}}

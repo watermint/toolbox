@@ -48,7 +48,7 @@ type UploadOptions struct {
 	CleanupToken       bool
 	WorkPath           string
 	Concurrency        int
-	//BandwidthLimit     int
+	BandwidthLimit     int
 }
 
 func parseArgs() (*UploadOptions, error) {
@@ -56,7 +56,7 @@ func parseArgs() (*UploadOptions, error) {
 
 	var proxy, workPath string
 	var localRecursive, localFollowSymlink, cleanupToken bool
-	var concurrency int
+	var concurrency, bandwidthLimit int
 
 	descProxy := "HTTP/HTTPS proxy (hostname:port)"
 	f.StringVar(&proxy, "proxy", "", descProxy)
@@ -79,8 +79,8 @@ func parseArgs() (*UploadOptions, error) {
 	f.IntVar(&concurrency, "concurrency", 1, descConcurrency)
 	f.IntVar(&concurrency, "c", 1, descConcurrency)
 
-	//descBandwidthLimit := "Limit upload bandwidth; KBytes per second (not kbps)"
-	//f.IntVar(&bandwidthLimit, "bwlimit", 0, descBandwidthLimit)
+	descBandwidthLimit := "Limit upload bandwidth; KBytes per second (not kbps)"
+	f.IntVar(&bandwidthLimit, "bwlimit", 0, descBandwidthLimit)
 
 	f.SetOutput(os.Stderr)
 	f.Parse(os.Args[1:])
@@ -94,6 +94,11 @@ func parseArgs() (*UploadOptions, error) {
 	if concurrency < 1 {
 		concurrency = 1
 	}
+	if bandwidthLimit < 0 {
+		bandwidthLimit = 0
+	} else {
+		bandwidthLimit = bandwidthLimit * 1024
+	}
 
 	return &UploadOptions{
 		Proxy:              proxy,
@@ -104,7 +109,7 @@ func parseArgs() (*UploadOptions, error) {
 		CleanupToken:       cleanupToken,
 		WorkPath:           workPath,
 		Concurrency:        concurrency,
-		//BandwidthLimit:     bandwidthLimit,
+		BandwidthLimit:     bandwidthLimit,
 	}, nil
 }
 
@@ -151,6 +156,7 @@ func main() {
 		LocalFollowSymlink: opts.LocalFollowSymlink,
 		DropboxBasePath:    opts.DropboxBasePath,
 		DropboxToken:       token,
+		BandwidthLimit:     opts.BandwidthLimit,
 	}
 
 	dupload.Upload(opts.LocalPaths, uc, opts.Concurrency)

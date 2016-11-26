@@ -4,6 +4,7 @@ import (
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
+	"github.com/watermint/bwlimit"
 	"io"
 	"io/ioutil"
 	"os"
@@ -27,21 +28,26 @@ type UploadContext struct {
 	LocalFollowSymlink bool
 	DropboxBasePath    string
 	DropboxToken       string
+
+	BandwidthLimit int
 }
 
 func Upload(srcPaths []string, baseUc *UploadContext, concurrency int) {
 	queue := make(chan *UploadContext)
 	wg := &sync.WaitGroup{}
+	bw := bwlimit.NewBwlimit(baseUc.BandwidthLimit, true)
 
 	for i := 0; i < concurrency; i++ {
-		go uploadRoutine(queue, wg)
+		go uploadRoutine(queue, wg, &bw)
 	}
 	for _, p := range srcPaths {
 		scanPath(p, baseUc, wg, queue)
 	}
 
 	close(queue)
+
 	wg.Wait()
+	bw.Wait()
 }
 
 func scanPath(srcPath string, baseUc *UploadContext, wg *sync.WaitGroup, queue chan *UploadContext) {
@@ -70,9 +76,9 @@ func scanPath(srcPath string, baseUc *UploadContext, wg *sync.WaitGroup, queue c
 	queuePath(&uc, queue, wg)
 }
 
-func uploadRoutine(uploadQueue chan *UploadContext, wg *sync.WaitGroup) {
+func uploadRoutine(uploadQueue chan *UploadContext, wg *sync.WaitGroup, bw *bwlimit.Bwlimit) {
 	for uc := range uploadQueue {
-		err := upload(uc)
+		err := upload(uc, bw)
 		wg.Done()
 
 		if err != nil {
@@ -85,7 +91,7 @@ func rebaseTime(t time.Time) time.Time {
 	return t.Round(time.Second).UTC()
 }
 
-func upload(uc *UploadContext) error {
+func upload(uc *UploadContext, bw *bwlimit.Bwlimit) error {
 	seelog.Trace("Uploading file: ", uc.localPath)
 	info, err := os.Lstat(uc.localPath)
 	if err != nil {
@@ -108,13 +114,13 @@ func upload(uc *UploadContext) error {
 	seelog.Tracef("Start uploading local[%s] dropbox[%s] relative [%s]", uc.localPath, dropboxPath, relative)
 	defer seelog.Tracef("Finished uploading local[%s] dropbox[%s] relative [%s]", uc.localBasePath, dropboxPath, relative)
 	if info.Size() < UPLOAD_CHUNK_THRESHOLD {
-		return uploadSingle(uc, info, dropboxPath)
+		return uploadSingle(uc, info, dropboxPath, bw)
 	} else {
-		return uploadChunked(uc, info, dropboxPath)
+		return uploadChunked(uc, info, dropboxPath, bw)
 	}
 }
 
-func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string) error {
+func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string, bw *bwlimit.Bwlimit) error {
 	config := dropbox.Config{Token: uc.DropboxToken, Verbose: false}
 	client := files.New(config)
 	f, err := os.Open(uc.localPath)
@@ -123,11 +129,12 @@ func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string) error
 		return err
 	}
 	defer f.Close()
+	bwf := bw.Reader(f)
 
 	ci := files.NewCommitInfo(dropboxPath)
 	ci.ClientModified = rebaseTime(info.ModTime())
 
-	res, err := client.Upload(ci, f)
+	res, err := client.Upload(ci, bwf)
 	if err != nil {
 		seelog.Warnf("Unable to upload file. path[%s] error[%s]", uc.localPath, err)
 		return err
@@ -136,7 +143,7 @@ func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string) error
 	return nil
 }
 
-func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) error {
+func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string, bw *bwlimit.Bwlimit) error {
 	seelog.Tracef("Chunked upload: %s", uc.localPath)
 	config := dropbox.Config{Token: uc.DropboxToken, Verbose: false}
 	client := files.New(config)
@@ -148,7 +155,7 @@ func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) erro
 	defer f.Close()
 
 	seelog.Tracef("Chunked Upload: Start session: %s", uc.localPath)
-	r := io.LimitReader(f, UPLOAD_CHUNK_SIZE)
+	r := bw.Reader(io.LimitReader(f, UPLOAD_CHUNK_SIZE))
 	session, err := client.UploadSessionStart(files.NewUploadSessionStartArg(), r)
 	if err != nil {
 		seelog.Warnf("Unable to create upload file [%s] by error [%v]", uc.localPath, err)
@@ -168,7 +175,7 @@ func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) erro
 		cursor := files.NewUploadSessionCursor(session.SessionId, uint64(writtenBytes))
 		aa := files.NewUploadSessionAppendArg(cursor)
 
-		r = io.LimitReader(f, UPLOAD_CHUNK_SIZE)
+		r = bw.Reader(io.LimitReader(f, UPLOAD_CHUNK_SIZE))
 		err := client.UploadSessionAppendV2(aa, r)
 		if err != nil {
 			seelog.Warnf("Unable to upload file [%s] caused by error [%v]", uc.localPath, err)
@@ -184,7 +191,7 @@ func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string) erro
 	ci.Path = dropboxPath
 	ci.ClientModified = rebaseTime(info.ModTime())
 	fa := files.NewUploadSessionFinishArg(cursor, ci)
-	res, err := client.UploadSessionFinish(fa, f)
+	res, err := client.UploadSessionFinish(fa, bw.Reader(f))
 	if err != nil {
 		seelog.Warnf("Unable to finish upload: path[%s] caused by error [%s]", dropboxPath, err)
 		return err
@@ -203,7 +210,6 @@ func queuePath(uc *UploadContext, c chan *UploadContext, wg *sync.WaitGroup) {
 		seelog.Infof("Skipped (symlink): %s", uc.localPath)
 		return
 	}
-
 	if info.IsDir() {
 		queueDir(uc, c, wg)
 	} else {
