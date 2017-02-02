@@ -125,7 +125,7 @@ func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string, bw *b
 	client := files.New(config)
 	f, err := os.Open(uc.localPath)
 	if err != nil {
-		seelog.Warn("Unable to open file. Skipped.", uc.localPath, err)
+		seelog.Warnf("Unable to open file. Skipped. localPath[%s] error[%s]", uc.localPath, err)
 		return err
 	}
 	defer f.Close()

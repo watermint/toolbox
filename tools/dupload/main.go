@@ -142,7 +142,7 @@ func main() {
 		AppSecret: AppSecret,
 	}
 
-	token, err := a.LoadOrAuth()
+	token, err := a.LoadOrAuth(false)
 	if err != nil || token == "" {
 		seelog.Errorf("Unable to acquire token (error: %s)", err)
 		return

@@ -6,6 +6,7 @@ import (
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/auth"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/users"
 	"github.com/watermint/toolbox/infra/util"
 	"golang.org/x/oauth2"
@@ -107,19 +108,29 @@ func (d *DropboxAuthenticator) TokenFileSave(token string) error {
 	return nil
 }
 
-func (d *DropboxAuthenticator) LoadOrAuth() (string, error) {
+func (d *DropboxAuthenticator) LoadOrAuth(business bool) (string, error) {
 	t, err := d.TokenFileLoad()
 	if err != nil {
 		return d.Authorise()
 	}
-	config := dropbox.Config{Token: t, Verbose: false}
-	client := users.New(config)
 
-	fa, err := client.GetCurrentAccount()
-	if err != nil {
-		return d.Authorise()
+	if business {
+		config := dropbox.Config{Token: t, Verbose: false}
+		client := team.New(config)
+		fa, err := client.GetInfo()
+		if err != nil {
+			return d.Authorise()
+		}
+		seelog.Infof("Dropbox Team[%s](%s)", fa.TeamId, fa.Name)
+	} else {
+		config := dropbox.Config{Token: t, Verbose: false}
+		client := users.New(config)
+		fa, err := client.GetCurrentAccount()
+		if err != nil {
+			return d.Authorise()
+		}
+		seelog.Infof("Dropbox Account[%s](%s)", fa.Email, fa.AccountId)
 	}
-	seelog.Infof("Dropbox Account[%s](%s)", fa.Email, fa.AccountId)
 
 	return t, nil
 }

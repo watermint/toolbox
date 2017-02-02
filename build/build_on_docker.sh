@@ -7,7 +7,7 @@ DIST_PATH=/dist
 
 TARGET_OS="windows darwin linux"
 TARGET_ARCH="amd64 386"
-TARGET_TOOLS="dupload"
+TARGET_TOOLS="dupload dsharedlink"
 
 BUILD_VERSION=$(cat $PROJECT_ROOT/version)
 BUILD_HASH=$(cd $PROJECT_ROOT && git rev-parse HEAD)
