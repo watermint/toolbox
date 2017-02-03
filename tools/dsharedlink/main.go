@@ -119,6 +119,10 @@ func main() {
 		fmt.Fprintln(os.Stderr, "Operation for personal account not yet supported")
 		return
 	}
+	if ef.Days < 1 {
+		fmt.Fprintln(os.Stderr, "Expiration days must be grater equal 1")
+		return
+	}
 
 	infraOpts := infra.InfraOpts{
 		WorkPath: ef.Common.WorkPath,
