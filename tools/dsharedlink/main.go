@@ -51,10 +51,11 @@ type ListFlags struct {
 }
 
 type ExpireFlags struct {
-	Team      bool
-	Common    *CommonFlags
-	Days      int
-	Overwrite bool
+	Team       bool
+	Common     *CommonFlags
+	Days       int
+	Overwrite  bool
+	TargetUser string
 }
 
 func prepareCommonFlags(flagset *flag.FlagSet) *CommonFlags {
@@ -86,6 +87,9 @@ func parseExpireFlags(args []string) (*ExpireFlags, error) {
 
 	descOverwrite := "Overwrite expiration if existing expiration exceeds specified duration"
 	f.BoolVar(&pf.Overwrite, "overwrite", false, descOverwrite)
+
+	descTargetUser := "Specify target user by email for test purpose"
+	f.StringVar(&pf.TargetUser, "target-user", "", descTargetUser)
 
 	f.SetOutput(os.Stderr)
 	f.Parse(args)
@@ -147,6 +151,7 @@ func main() {
 	}
 
 	dsharedlink.UpdateSharedLinkForTeam(token, dsharedlink.UpdateSharedLinkExpireContext{
+		TargetUser: ef.TargetUser,
 		Expiration: time.Duration(ef.Days) * time.Hour * 24,
 		Overwrite:  ef.Overwrite,
 	})

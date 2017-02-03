@@ -5,6 +5,7 @@ import (
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/sharing"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team"
 	"github.com/watermint/toolbox/integration/business"
 	"reflect"
 	"sync"
@@ -22,8 +23,16 @@ type SharedLinkReceiverEOF struct {
 }
 
 type UpdateSharedLinkExpireContext struct {
+	TargetUser string
 	Expiration time.Duration
 	Overwrite  bool
+}
+
+func (u *UpdateSharedLinkExpireContext) IsTargetUser(m *team.TeamMemberInfo) bool {
+	if u.TargetUser == "" {
+		return true
+	}
+	return u.TargetUser == m.Profile.Email
 }
 
 func (u *UpdateSharedLinkExpireContext) ExpireTime() time.Time {
@@ -56,7 +65,11 @@ func UpdateSharedLinkForTeam(token string, expiration UpdateSharedLinkExpireCont
 	go UpdateSharedLinkExpire(receiver, expiration, wg)
 
 	for _, m := range members {
-		seelog.Tracef("Loading shared link for member[%s]", m.Profile.TeamMemberId)
+		if !expiration.IsTargetUser(m) {
+			seelog.Infof("Skip user [%s]", m.Profile.Email)
+			continue
+		}
+		seelog.Infof("Loading shared link for member[%s]", m.Profile.Email)
 
 		c := dropbox.Config{
 			Token:      token,
