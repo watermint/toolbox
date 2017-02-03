@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"flag"
 )
 
 const (
@@ -49,6 +50,7 @@ type InfraOpts struct {
 	LogPath    string
 	LogMaxSize uint64
 	LogRolls   int
+	CleanupToken bool
 }
 
 func InfraStartup(opts *InfraOpts) error {
@@ -84,6 +86,21 @@ func DefaultWorkPath() string {
 		panic(err)
 	}
 	return filepath.Join(u.HomeDir, "."+knowledge.AppName)
+}
+
+func PrepareInfraFlags(flagset *flag.FlagSet) *InfraOpts {
+	opts := &InfraOpts{}
+
+	descProxy := "HTTP/HTTPS proxy (hostname:port)"
+	flagset.StringVar(&opts.Proxy, "proxy", "", descProxy)
+
+	descWork := fmt.Sprintf("Work directory (default: %s)", DefaultWorkPath())
+	flagset.StringVar(&opts.WorkPath, "work", "", descWork)
+
+	descCleanup := "Revoke token on exit"
+	flagset.BoolVar(&opts.CleanupToken, "revoke-token", false, descCleanup)
+
+	return opts
 }
 
 func setupWorkPath(opts *InfraOpts) error {

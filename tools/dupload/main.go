@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	AppKey    string = ""
+	AppKey string = ""
 	AppSecret string = ""
 )
 
@@ -40,13 +40,11 @@ Usage:
 }
 
 type UploadOptions struct {
-	Proxy              string
+	Infra              *infra.InfraOpts
 	LocalPaths         []string
 	LocalRecursive     bool
 	LocalFollowSymlink bool
 	DropboxBasePath    string
-	CleanupToken       bool
-	WorkPath           string
 	Concurrency        int
 	BandwidthLimit     int
 }
@@ -54,33 +52,23 @@ type UploadOptions struct {
 func parseArgs() (*UploadOptions, error) {
 	f := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 
-	var proxy, workPath string
-	var localRecursive, localFollowSymlink, cleanupToken bool
-	var concurrency, bandwidthLimit int
-
-	descProxy := "HTTP/HTTPS proxy (hostname:port)"
-	f.StringVar(&proxy, "proxy", "", descProxy)
+	uo := UploadOptions{}
+	uo.Infra = infra.PrepareInfraFlags(f)
 
 	descRecursive := "Recurse into directories"
-	f.BoolVar(&localRecursive, "recursive", true, descRecursive)
-	f.BoolVar(&localRecursive, "r", true, descRecursive)
+	f.BoolVar(&uo.LocalRecursive, "recursive", true, descRecursive)
+	f.BoolVar(&uo.LocalRecursive, "r", true, descRecursive)
 
 	descSymlink := "Follow symlinks"
-	f.BoolVar(&localFollowSymlink, "follow-symlink", false, descSymlink)
-	f.BoolVar(&localFollowSymlink, "L", false, descSymlink)
-
-	descCleanup := "Revoke token on exit"
-	f.BoolVar(&cleanupToken, "revoke-token", false, descCleanup)
-
-	descWork := fmt.Sprintf("Work directory (default: %s)", infra.DefaultWorkPath())
-	f.StringVar(&workPath, "work", "", descWork)
+	f.BoolVar(&uo.LocalFollowSymlink, "follow-symlink", false, descSymlink)
+	f.BoolVar(&uo.LocalFollowSymlink, "L", false, descSymlink)
 
 	descConcurrency := "Upload concurrency"
-	f.IntVar(&concurrency, "concurrency", 1, descConcurrency)
-	f.IntVar(&concurrency, "c", 1, descConcurrency)
+	f.IntVar(&uo.Concurrency, "concurrency", 1, descConcurrency)
+	f.IntVar(&uo.Concurrency, "c", 1, descConcurrency)
 
 	descBandwidthLimit := "Limit upload bandwidth; KBytes per second (not kbps)"
-	f.IntVar(&bandwidthLimit, "bwlimit", 0, descBandwidthLimit)
+	f.IntVar(&uo.BandwidthLimit, "bwlimit", 0, descBandwidthLimit)
 
 	f.SetOutput(os.Stderr)
 	f.Parse(os.Args[1:])
@@ -91,26 +79,19 @@ func parseArgs() (*UploadOptions, error) {
 		f.PrintDefaults()
 		return nil, errors.New("Missing SRC and/or DEST")
 	}
-	if concurrency < 1 {
-		concurrency = 1
+	if uo.Concurrency < 1 {
+		uo.Concurrency = 1
 	}
-	if bandwidthLimit < 0 {
-		bandwidthLimit = 0
+	if uo.BandwidthLimit < 0 {
+		uo.BandwidthLimit = 0
 	} else {
-		bandwidthLimit = bandwidthLimit * 1024
+		uo.BandwidthLimit = uo.BandwidthLimit * 1024
 	}
 
-	return &UploadOptions{
-		Proxy:              proxy,
-		LocalPaths:         args[:splitPos],
-		LocalRecursive:     localRecursive,
-		LocalFollowSymlink: localFollowSymlink,
-		DropboxBasePath:    args[splitPos],
-		CleanupToken:       cleanupToken,
-		WorkPath:           workPath,
-		Concurrency:        concurrency,
-		BandwidthLimit:     bandwidthLimit,
-	}, nil
+	uo.LocalPaths = args[:splitPos]
+	uo.DropboxBasePath = args[splitPos]
+
+	return &uo, nil
 }
 
 func main() {
@@ -120,24 +101,17 @@ func main() {
 		return
 	}
 
-	infraOpts := infra.InfraOpts{
-		WorkPath: opts.WorkPath,
-		Proxy:    opts.Proxy,
-	}
-	err = infra.InfraStartup(&infraOpts)
+	err = infra.InfraStartup(opts.Infra)
 	if err != nil {
 		seelog.Errorf("Unable to start operation: %s", err)
 		return
 	}
-
 	defer infra.InfraShutdown()
 
 	seelog.Tracef("Upload options: %s", util.MarshalObjectToString(opts))
 
-	infra.SetupHttpProxy(opts.Proxy)
-
 	a := auth.DropboxAuthenticator{
-		AuthFile:  filepath.Join(infraOpts.WorkPath, knowledge.AppName+".secret"),
+		AuthFile:  filepath.Join(opts.Infra.WorkPath, knowledge.AppName + ".secret"),
 		AppKey:    AppKey,
 		AppSecret: AppSecret,
 	}
@@ -147,7 +121,7 @@ func main() {
 		seelog.Errorf("Unable to acquire token (error: %s)", err)
 		return
 	}
-	if opts.CleanupToken {
+	if opts.Infra.CleanupToken {
 		defer auth.RevokeToken(token)
 	}
 

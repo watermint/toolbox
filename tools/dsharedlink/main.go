@@ -41,43 +41,22 @@ Expire shared links at +7 days if expiration not set
 	infra.ShowUsage(tmpl, data)
 }
 
-type CommonFlags struct {
-	WorkPath     string
-	CleanupToken bool
-	Proxy        string
-}
-
 type ListFlags struct {
 }
 
 type ExpireFlags struct {
 	Team       bool
-	Common     *CommonFlags
+	Infra      *infra.InfraOpts
 	Days       int
 	Overwrite  bool
 	TargetUser string
-}
-
-func prepareCommonFlags(flagset *flag.FlagSet) *CommonFlags {
-	cf := &CommonFlags{}
-
-	descProxy := "HTTP/HTTPS proxy (hostname:port)"
-	flagset.StringVar(&cf.Proxy, "proxy", "", descProxy)
-
-	descWork := fmt.Sprintf("Work directory (default: %s)", infra.DefaultWorkPath())
-	flagset.StringVar(&cf.WorkPath, "work", "", descWork)
-
-	descCleanup := "Revoke token on exit"
-	flagset.BoolVar(&cf.CleanupToken, "revoke-token", false, descCleanup)
-
-	return cf
 }
 
 func parseExpireFlags(args []string) (*ExpireFlags, error) {
 	f := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 
 	pf := &ExpireFlags{}
-	pf.Common = prepareCommonFlags(f)
+	pf.Infra = infra.PrepareInfraFlags(f)
 
 	descDays := "Specify expire date in days"
 	f.IntVar(&pf.Days, "days", 0, descDays)
@@ -124,23 +103,18 @@ func main() {
 		return
 	}
 
-	infraOpts := infra.InfraOpts{
-		WorkPath: ef.Common.WorkPath,
-		Proxy:    ef.Common.Proxy,
-	}
-	err = infra.InfraStartup(&infraOpts)
+	err = infra.InfraStartup(ef.Infra)
 	if err != nil {
 		seelog.Errorf("Unable to start operation: %s", err)
 		return
 	}
 
 	defer infra.InfraShutdown()
-	infra.SetupHttpProxy(ef.Common.Proxy)
 
 	seelog.Tracef("options: %s", util.MarshalObjectToString(ef))
 
 	a := auth.DropboxAuthenticator{
-		AuthFile:  filepath.Join(infraOpts.WorkPath, knowledge.AppName+".secret"),
+		AuthFile:  filepath.Join(ef.Infra.WorkPath, knowledge.AppName+".secret"),
 		AppKey:    AppKey,
 		AppSecret: AppSecret,
 	}
@@ -150,7 +124,7 @@ func main() {
 		seelog.Errorf("Unable to acquire token (error: %s)", err)
 		return
 	}
-	if ef.Common.CleanupToken {
+	if ef.Infra.CleanupToken {
 		defer auth.RevokeToken(token)
 	}
 
