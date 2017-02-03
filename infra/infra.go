@@ -2,6 +2,7 @@ package infra
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/infra/diag"
@@ -11,7 +12,6 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
-	"flag"
 )
 
 const (
@@ -45,11 +45,11 @@ var (
 )
 
 type InfraOpts struct {
-	Proxy      string
-	WorkPath   string
-	LogPath    string
-	LogMaxSize uint64
-	LogRolls   int
+	Proxy        string
+	WorkPath     string
+	LogPath      string
+	LogMaxSize   uint64
+	LogRolls     int
 	CleanupToken bool
 }
 

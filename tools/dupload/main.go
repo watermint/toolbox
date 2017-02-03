@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	AppKey string = ""
+	AppKey    string = ""
 	AppSecret string = ""
 )
 
@@ -111,7 +111,7 @@ func main() {
 	seelog.Tracef("Upload options: %s", util.MarshalObjectToString(opts))
 
 	a := auth.DropboxAuthenticator{
-		AuthFile:  filepath.Join(opts.Infra.WorkPath, knowledge.AppName + ".secret"),
+		AuthFile:  filepath.Join(opts.Infra.WorkPath, knowledge.AppName+".secret"),
 		AppKey:    AppKey,
 		AppSecret: AppSecret,
 	}

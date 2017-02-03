@@ -8,10 +8,9 @@ import (
 	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/integration/auth"
-	"github.com/watermint/toolbox/service/dsharedlink"
+	"github.com/watermint/toolbox/service/dteammember"
 	"os"
 	"path/filepath"
-	"time"
 )
 
 var (
@@ -22,9 +21,10 @@ var (
 func usage() {
 	tmpl := `{{.AppName}} {{.AppVersion}} ({{.AppHash}}):
 
-Expire shared links at +7 days if expiration not set
+Detach member(s) from the team
 
-{{.Command}} expire -team -days 7
+{{.Command}} detach -user user@example.com
+{{.Command}} detach -csv user-list.csv
 `
 
 	data := struct {
@@ -41,39 +41,33 @@ Expire shared links at +7 days if expiration not set
 	infra.ShowUsage(tmpl, data)
 }
 
-type ListFlags struct {
+type DetachOptions struct {
+	Infra    *infra.InfraOpts
+	User     string
+	UserFile string
+	DryRun   bool
 }
 
-type ExpireFlags struct {
-	Team       bool
-	Infra      *infra.InfraOpts
-	Days       int
-	Overwrite  bool
-	TargetUser string
-}
-
-func parseExpireFlags(args []string) (*ExpireFlags, error) {
+func parseDetachOptions(args []string) (*DetachOptions, error) {
 	f := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 
-	pf := &ExpireFlags{}
-	pf.Infra = infra.PrepareInfraFlags(f)
+	opts := &DetachOptions{}
 
-	descDays := "Specify expire date in days"
-	f.IntVar(&pf.Days, "days", 0, descDays)
+	opts.Infra = infra.PrepareInfraFlags(f)
 
-	descTeam := "Apply for Team (Dropbox Business)"
-	f.BoolVar(&pf.Team, "team", false, descTeam)
+	descUser := "Specify target user by email address"
+	f.StringVar(&opts.User, "user", "", descUser)
 
-	descOverwrite := "Overwrite expiration if existing expiration exceeds specified duration"
-	f.BoolVar(&pf.Overwrite, "overwrite", false, descOverwrite)
+	descUserFile := "Specify CSV file path of target user email address"
+	f.StringVar(&opts.UserFile, "csv", "", descUserFile)
 
-	descTargetUser := "Specify target user by email for test purpose"
-	f.StringVar(&pf.TargetUser, "target-user", "", descTargetUser)
+	descDryRun := "Dry run"
+	f.BoolVar(&opts.DryRun, "dry-run", true, descDryRun)
 
 	f.SetOutput(os.Stderr)
 	f.Parse(args)
 
-	return pf, nil
+	return opts, nil
 }
 
 func main() {
@@ -81,25 +75,21 @@ func main() {
 		usage()
 		return
 	}
-
-	if os.Args[1] != "expire" {
+	if os.Args[1] != "detach" {
 		usage()
 		return
 	}
 
-	opts, err := parseExpireFlags(os.Args[2:])
-
+	opts, err := parseDetachOptions(os.Args[2:])
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Error: ", err)
 		usage()
 		return
 	}
-	if !opts.Team {
-		fmt.Fprintln(os.Stderr, "Operation for personal account not yet supported")
-		return
-	}
-	if opts.Days < 1 {
-		fmt.Fprintln(os.Stderr, "Expiration days must be grater equal 1")
+
+	if opts.User == "" && opts.UserFile == "" {
+		fmt.Fprintln(os.Stderr, "Specify user or csv file")
+		usage()
 		return
 	}
 
@@ -119,7 +109,7 @@ func main() {
 		AppSecret: AppSecret,
 	}
 
-	token, err := a.LoadOrAuth(opts.Team)
+	token, err := a.LoadOrAuth(true)
 	if err != nil || token == "" {
 		seelog.Errorf("Unable to acquire token (error: %s)", err)
 		return
@@ -128,9 +118,10 @@ func main() {
 		defer auth.RevokeToken(token)
 	}
 
-	dsharedlink.UpdateSharedLinkForTeam(token, dsharedlink.UpdateSharedLinkExpireContext{
-		TargetUser: opts.TargetUser,
-		Expiration: time.Duration(opts.Days) * time.Hour * 24,
-		Overwrite:  opts.Overwrite,
-	})
+	if opts.User != "" {
+		dteammember.DetachUser(token, opts.User, opts.DryRun)
+	}
+	if opts.UserFile != "" {
+		dteammember.DetachUserByList(token, opts.UserFile, opts.DryRun)
+	}
 }
