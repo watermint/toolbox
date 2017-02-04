@@ -11,6 +11,8 @@ Tools for Dropbox and Dropbox Business
 $ docker build -t toolbox . && rm -fr /tmp/dist && docker run -v /tmp/dist:/dist:rw --rm toolbox
 ```
 
-## Available Tools
+# Available Tools
 
 * [dupload](tools/dupload/) ... file/directory uploader.
+* [dsharedlink](tools/dsharedlink) ... Shared link utility.
+* [dteammember](tools/dteammember) ... Team member management.
