@@ -1,4 +1,4 @@
-package dsharedlink
+package sharedlink
 
 import (
 	"errors"
@@ -7,6 +7,7 @@ import (
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/sharing"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team"
 	"github.com/watermint/toolbox/integration/business"
+	"github.com/watermint/toolbox/integration/sdk"
 	"reflect"
 	"sync"
 	"time"
@@ -36,7 +37,7 @@ func (u *UpdateSharedLinkExpireContext) IsTargetUser(m *team.TeamMemberInfo) boo
 }
 
 func (u *UpdateSharedLinkExpireContext) ExpireTime() time.Time {
-	return time.Now().Round(time.Second).UTC().Add(u.Expiration)
+	return sdk.RebaseTimeForAPI(time.Now().Add(u.Expiration))
 }
 
 func (u *UpdateSharedLinkExpireContext) ShouldUpdate(s *sharing.SharedLinkMetadata) (bool, *time.Time) {

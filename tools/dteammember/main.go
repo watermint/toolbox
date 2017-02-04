@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/integration/auth"
-	"github.com/watermint/toolbox/service/dteammember"
+	"github.com/watermint/toolbox/service/detach"
 	"os"
 	"path/filepath"
 )
@@ -119,9 +119,9 @@ func main() {
 	}
 
 	if opts.User != "" {
-		dteammember.DetachUser(token, opts.User, opts.DryRun)
+		detach.DetachUser(token, opts.User, opts.DryRun)
 	}
 	if opts.UserFile != "" {
-		dteammember.DetachUserByList(token, opts.UserFile, opts.DryRun)
+		detach.DetachUserByList(token, opts.UserFile, opts.DryRun)
 	}
 }

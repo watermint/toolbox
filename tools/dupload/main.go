@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/integration/auth"
-	"github.com/watermint/toolbox/service/dupload"
+	"github.com/watermint/toolbox/service/upload"
 	"os"
 	"path/filepath"
 )
@@ -125,7 +125,7 @@ func main() {
 		defer auth.RevokeToken(token)
 	}
 
-	uc := &dupload.UploadContext{
+	uc := &upload.UploadContext{
 		LocalRecursive:     opts.LocalRecursive,
 		LocalFollowSymlink: opts.LocalFollowSymlink,
 		DropboxBasePath:    opts.DropboxBasePath,
@@ -133,5 +133,5 @@ func main() {
 		BandwidthLimit:     opts.BandwidthLimit,
 	}
 
-	dupload.Upload(opts.LocalPaths, uc, opts.Concurrency)
+	upload.Upload(opts.LocalPaths, uc, opts.Concurrency)
 }

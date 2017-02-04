@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/integration/auth"
-	"github.com/watermint/toolbox/service/dsharedlink"
+	"github.com/watermint/toolbox/service/sharedlink"
 	"os"
 	"path/filepath"
 	"time"
@@ -128,7 +128,7 @@ func main() {
 		defer auth.RevokeToken(token)
 	}
 
-	dsharedlink.UpdateSharedLinkForTeam(token, dsharedlink.UpdateSharedLinkExpireContext{
+	sharedlink.UpdateSharedLinkForTeam(token, sharedlink.UpdateSharedLinkExpireContext{
 		TargetUser: opts.TargetUser,
 		Expiration: time.Duration(opts.Days) * time.Hour * 24,
 		Overwrite:  opts.Overwrite,

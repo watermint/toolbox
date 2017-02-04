@@ -1,4 +1,4 @@
-package dteammember
+package detach
 
 import (
 	"encoding/csv"

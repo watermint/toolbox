@@ -1,17 +1,17 @@
-package dupload
+package upload
 
 import (
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/watermint/bwlimit"
+	"github.com/watermint/toolbox/integration/sdk"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"sync"
-	"time"
 )
 
 const (
@@ -87,10 +87,6 @@ func uploadRoutine(uploadQueue chan *UploadContext, wg *sync.WaitGroup, bw *bwli
 	}
 }
 
-func rebaseTime(t time.Time) time.Time {
-	return t.Round(time.Second).UTC()
-}
-
 func upload(uc *UploadContext, bw *bwlimit.Bwlimit) error {
 	seelog.Trace("Uploading file: ", uc.localPath)
 	info, err := os.Lstat(uc.localPath)
@@ -132,7 +128,7 @@ func uploadSingle(uc *UploadContext, info os.FileInfo, dropboxPath string, bw *b
 	bwf := bw.Reader(f)
 
 	ci := files.NewCommitInfo(dropboxPath)
-	ci.ClientModified = rebaseTime(info.ModTime())
+	ci.ClientModified = sdk.RebaseTimeForAPI(info.ModTime())
 
 	res, err := client.Upload(ci, bwf)
 	if err != nil {
@@ -189,7 +185,7 @@ func uploadChunked(uc *UploadContext, info os.FileInfo, dropboxPath string, bw *
 	cursor := files.NewUploadSessionCursor(session.SessionId, uint64(writtenBytes))
 	ci := files.NewCommitInfo(dropboxPath)
 	ci.Path = dropboxPath
-	ci.ClientModified = rebaseTime(info.ModTime())
+	ci.ClientModified = sdk.RebaseTimeForAPI(info.ModTime())
 	fa := files.NewUploadSessionFinishArg(cursor, ci)
 	res, err := client.UploadSessionFinish(fa, bw.Reader(f))
 	if err != nil {
