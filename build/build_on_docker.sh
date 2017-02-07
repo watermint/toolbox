@@ -31,8 +31,8 @@ function build {
     X_APP_HASH="-X github.com/watermint/toolbox/infra/knowledge.AppHash=$BUILD_HASH"
     X_APP_CREDENTIALS=""
 
-    if [ -e $PROJECT_ROOT/tools/$TOOL/credentials.secret ]; then
-      X_APP_CREDENTIALS=$(cat $PROJECT_ROOT/tools/$TOOL/credentials.secret | xargs)
+    if [ -e $PROJECT_ROOT/credentials.secret ]; then
+      X_APP_CREDENTIALS=$(cat $PROJECT_ROOT/credentials.secret | xargs)
     fi
 
     TOOL_BUILD_PATH=$BUILD_PATH/$TOOL/$GOOS/$GOARCH

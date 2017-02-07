@@ -32,7 +32,10 @@ func DetachUser(token, userEmail string, dryRun bool) error {
 	}
 	member := members[0]
 	seelog.Infof("User AccountId[%s] TeamMemberId[%s] Name[%s] Email[%s]", member.MemberInfo.Profile.AccountId, member.MemberInfo.Profile.TeamMemberId, member.MemberInfo.Profile.Name.DisplayName, member.MemberInfo.Profile.Email)
-
+	if member.MemberInfo.Role.Tag == team.AdminTierTeamAdmin {
+		seelog.Warnf("Skip: Please remove Team admin role from user[%s] before detach", member.MemberInfo.Profile.Email)
+		return nil
+	}
 	if dryRun {
 		seelog.Info("Skip detach operation (Dry run)")
 		return nil

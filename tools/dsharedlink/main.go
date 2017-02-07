@@ -7,16 +7,9 @@ import (
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/infra/util"
-	"github.com/watermint/toolbox/integration/auth"
 	"github.com/watermint/toolbox/service/sharedlink"
 	"os"
-	"path/filepath"
 	"time"
-)
-
-var (
-	AppKey    string = ""
-	AppSecret string = ""
 )
 
 func usage() {
@@ -103,29 +96,20 @@ func main() {
 		return
 	}
 
-	err = infra.InfraStartup(opts.Infra)
+	err = opts.Infra.Startup()
 	if err != nil {
 		seelog.Errorf("Unable to start operation: %s", err)
 		return
 	}
 
-	defer infra.InfraShutdown()
+	defer opts.Infra.Shutdown()
 
 	seelog.Tracef("options: %s", util.MarshalObjectToString(opts))
 
-	a := auth.DropboxAuthenticator{
-		AuthFile:  filepath.Join(opts.Infra.WorkPath, knowledge.AppName+".secret"),
-		AppKey:    AppKey,
-		AppSecret: AppSecret,
-	}
-
-	token, err := a.LoadOrAuth(opts.Team)
+	token, err := opts.Infra.LoadOrAuthBusinessFile()
 	if err != nil || token == "" {
 		seelog.Errorf("Unable to acquire token (error: %s)", err)
 		return
-	}
-	if opts.Infra.CleanupToken {
-		defer auth.RevokeToken(token)
 	}
 
 	sharedlink.UpdateSharedLinkForTeam(token, sharedlink.UpdateSharedLinkExpireContext{

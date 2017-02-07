@@ -12,6 +12,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"github.com/watermint/toolbox/integration/auth"
 )
 
 const (
@@ -51,9 +52,59 @@ type InfraOpts struct {
 	LogMaxSize   uint64
 	LogRolls     int
 	CleanupToken bool
+
+	issuedTokens []string
 }
 
-func InfraStartup(opts *InfraOpts) error {
+func (opts *InfraOpts) AuthFile() string {
+	return filepath.Join(opts.WorkPath, knowledge.AppName+".secret")
+}
+
+func (opts *InfraOpts) issueToken(a auth.DropboxAuthenticator, business bool) (string, error) {
+	token, err := a.LoadOrAuth(business)
+	if err != nil {
+		opts.issuedTokens = append(opts.issuedTokens, token)
+	}
+	return token, err
+}
+
+func (opts *InfraOpts) LoadOrAuthDropboxFull() (string, error) {
+	a := auth.DropboxAuthenticator{
+		AuthFile:  opts.AuthFile(),
+		AppKey:    DropboxFullAppKey,
+		AppSecret: DropboxFullAppSecret,
+	}
+	return opts.issueToken(a, false)
+}
+
+func (opts *InfraOpts) LoadOrAuthBusinessInfo() (string, error) {
+	a := auth.DropboxAuthenticator{
+		AuthFile:  opts.AuthFile(),
+		AppKey:    BusinessInfoAppKey,
+		AppSecret: BusinessInfoAppSecret,
+	}
+	return opts.issueToken(a, true)
+}
+
+func (opts *InfraOpts) LoadOrAuthBusinessFile() (string, error) {
+	a := auth.DropboxAuthenticator{
+		AuthFile:  opts.AuthFile(),
+		AppKey:    BusinessFileAppKey,
+		AppSecret: BusinessFileAppSecret,
+	}
+	return opts.issueToken(a, true)
+}
+
+func (opts *InfraOpts) LoadOrAuthBusinessManagement() (string, error) {
+	a := auth.DropboxAuthenticator{
+		AuthFile:  opts.AuthFile(),
+		AppKey:    BusinessManagementAppKey,
+		AppSecret: BusinessManagementAppSecret,
+	}
+	return opts.issueToken(a, true)
+}
+
+func (opts *InfraOpts) Startup() error {
 	err := setupWorkPath(opts)
 	if err != nil {
 		return err
@@ -73,7 +124,12 @@ func InfraStartup(opts *InfraOpts) error {
 	return nil
 }
 
-func InfraShutdown() {
+func (opts *InfraOpts) Shutdown() {
+	if opts.CleanupToken {
+		for _, token := range opts.issuedTokens {
+			auth.RevokeToken(token)
+		}
+	}
 	seelog.Trace("Shutdown infrastructure")
 	seelog.Infof("Log file is at [%s]", logPath)
 	seelog.Flush()
