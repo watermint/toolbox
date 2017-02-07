@@ -5,7 +5,15 @@
 
 Tools for Dropbox and Dropbox Business
 
-## Build
+# Build
+
+## Credentials
+
+* Copy `credentials.sample` with name `credentials.secret`.
+* Update `ApiKey` and `ApiSecret` for your Application ID.
+* Build entire project using Dockerfile on top of the project.
+
+## Build script
 
 ```sh
 $ docker build -t toolbox . && rm -fr /tmp/dist && docker run -v /tmp/dist:/dist:rw --rm toolbox

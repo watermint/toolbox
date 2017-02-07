@@ -27,8 +27,3 @@ $ ./dsharedlink expire -team -days 7 -overwrite
     	Work directory
 ```
 
-## How to build
-
-* Copy `credentials.sample` with name `credentials.secret`.
-* Update `ApiKey` and `ApiSecret` for your Application ID.
-* Build entire project using Dockerfile on top of the project.
