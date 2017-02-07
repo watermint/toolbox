@@ -8,11 +8,11 @@ import (
 	"github.com/watermint/toolbox/infra/diag"
 	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/infra/util"
+	"github.com/watermint/toolbox/integration/auth"
 	"log"
 	"os"
 	"os/user"
 	"path/filepath"
-	"github.com/watermint/toolbox/integration/auth"
 )
 
 const (
