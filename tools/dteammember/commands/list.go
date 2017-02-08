@@ -68,7 +68,7 @@ func List(args []string) error {
 	if opts.OutputCsv == "" {
 		return members.ListMembers(token, os.Stdout, opts.Status)
 	} else {
-		f, err := os.Open(opts.OutputCsv)
+		f, err := os.Create(opts.OutputCsv)
 		if err != nil {
 			seelog.Errorf("Unable to write file[%s] erorr[%s]", opts.OutputCsv, err)
 			return err
