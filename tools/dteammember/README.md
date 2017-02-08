@@ -10,6 +10,12 @@ Team member management utility.
 $ ./dteammember detach -user someone@example.com
 ```
 
+## List team member(s)
+
+```shh
+$ ./dteammember list -status invited
+```
+
 ## Options
 
 ```
