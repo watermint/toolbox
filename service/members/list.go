@@ -3,18 +3,18 @@ package members
 import (
 	"encoding/csv"
 	"github.com/cihub/seelog"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team"
 	"github.com/watermint/toolbox/integration/business"
 	"io"
 	"strconv"
 )
 
 func ListMembers(token string, output io.Writer, status string) error {
-	members, err := business.TeamMembers(token)
+	queue := make(chan *team.TeamMemberInfo)
+	err := business.LoadTeamMembers(token, queue)
 	if err != nil {
 		return err
 	}
-
-	seelog.Infof("%d members loaded", len(members))
 
 	w := csv.NewWriter(output)
 	defer w.Flush()
@@ -31,7 +31,10 @@ func ListMembers(token string, output io.Writer, status string) error {
 
 	w.Write(head)
 
-	for _, m := range members {
+	for m := range queue {
+		if m == nil {
+			break
+		}
 		if status != "all" && status != m.Profile.Status.Tag {
 			seelog.Debugf("Skip: status[%s] profile[%s]", status, m.Profile.Status.Tag)
 			continue

@@ -54,7 +54,8 @@ func (u *UpdateSharedLinkExpireContext) ShouldUpdate(s *sharing.SharedLinkMetada
 }
 
 func UpdateSharedLinkForTeam(token string, expiration UpdateSharedLinkExpireContext) {
-	members, err := business.TeamMembers(token)
+	queue := make(chan *team.TeamMemberInfo)
+	err := business.LoadTeamMembers(token, queue)
 	if err != nil {
 		seelog.Errorf("Unable to load team members: error[%s]", err)
 		return
@@ -65,7 +66,10 @@ func UpdateSharedLinkForTeam(token string, expiration UpdateSharedLinkExpireCont
 
 	go UpdateSharedLinkExpire(receiver, expiration, wg)
 
-	for _, m := range members {
+	for m := range queue {
+		if m == nil {
+			break
+		}
 		if !expiration.IsTargetUser(m) {
 			seelog.Infof("Skip user [%s]", m.Profile.Email)
 			continue

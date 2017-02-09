@@ -6,22 +6,26 @@ import (
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team"
 )
 
-func TeamMembers(token string) ([]*team.TeamMemberInfo, error) {
+// Load and enqueue *team.TeamMemberInfo.
+// enqueue `nil` at the end of load.
+func LoadTeamMembers(token string, queue chan *team.TeamMemberInfo) error {
 	client := team.New(dropbox.Config{
 		Token: token,
 	})
-
-	members := make([]*team.TeamMemberInfo, 0)
 
 	arg := team.NewMembersListArg()
 	result, err := client.MembersList(arg)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
-	members = append(members, result.Members...)
+	for _, m := range result.Members {
+		queue <- m
+	}
+
 	if !result.HasMore {
-		return members, nil
+		queue <- nil
+		return nil
 	}
 
 	cursor := result.Cursor
@@ -30,11 +34,15 @@ func TeamMembers(token string) ([]*team.TeamMemberInfo, error) {
 		result, err = client.MembersListContinue(cont)
 		if err != nil {
 			seelog.Debugf("Could not load team member (continue): cursor[%s]", cursor)
-			return members, err
+			queue <- nil
+			return err
 		}
-		members = append(members, result.Members...)
+		for _, m := range result.Members {
+			queue <- m
+		}
 		if !result.HasMore {
-			return members, nil
+			queue <- nil
+			return nil
 		}
 		cursor = result.Cursor
 	}
