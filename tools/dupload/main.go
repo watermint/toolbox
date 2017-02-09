@@ -94,12 +94,12 @@ func main() {
 		return
 	}
 
+	defer opts.Infra.Shutdown()
 	err = opts.Infra.Startup()
 	if err != nil {
 		seelog.Errorf("Unable to start operation: %s", err)
 		return
 	}
-	defer opts.Infra.Shutdown()
 
 	seelog.Tracef("Upload options: %s", util.MarshalObjectToString(opts))
 

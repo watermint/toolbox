@@ -50,12 +50,12 @@ func List(args []string) error {
 		return err
 	}
 
+	defer opts.Infra.Shutdown()
 	err = opts.Infra.Startup()
 	if err != nil {
 		seelog.Errorf("Unable to start operation: %s", err)
 		return err
 	}
-	defer opts.Infra.Shutdown()
 
 	seelog.Tracef("options: %s", util.MarshalObjectToString(opts))
 

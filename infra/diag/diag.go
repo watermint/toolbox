@@ -1,6 +1,8 @@
 package diag
 
 import (
+	"errors"
+	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/infra/util"
 	"net/http"
@@ -97,6 +99,18 @@ func LogDiagnostics() {
 	seelog.Tracef("Diagnostics(Infra): %s", DigestDiagnosticsInfra())
 	seelog.Tracef("Diagnostics(Runtime): %s", DigestDiagnosticsRuntime())
 	seelog.Flush()
+}
+
+func QuickNetworkDiagnostics() error {
+	resp, err := http.Head("https://www.dropbox.com")
+	if err != nil {
+		return err
+	}
+	if resp.StatusCode >= 400 {
+		seelog.Warnf("Server error: status code[%d]", resp.StatusCode)
+		return errors.New(fmt.Sprintf("Server error response code(%d)", resp.StatusCode))
+	}
+	return nil
 }
 
 func LogNetworkDiagnostics() {

@@ -49,13 +49,12 @@ func Detach(args []string) error {
 		return errors.New("Specify user or csv file")
 	}
 
+	defer opts.Infra.Shutdown()
 	err = opts.Infra.Startup()
 	if err != nil {
 		seelog.Errorf("Unable to start operation: %s", err)
 		return err
 	}
-
-	defer opts.Infra.Shutdown()
 
 	seelog.Tracef("options: %s", util.MarshalObjectToString(opts))
 
