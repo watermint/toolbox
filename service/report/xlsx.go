@@ -69,6 +69,8 @@ func writeXlsxData(sheet *xlsx.Sheet, data ReportData) {
 			cell.SetFormula(fmt.Sprintf("%d", a))
 		case int:
 			cell.SetFormula(fmt.Sprintf("%d", a))
+		case string:
+			cell.SetString(d)
 		default:
 			cell.SetValue(d)
 		}
