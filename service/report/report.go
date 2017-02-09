@@ -14,7 +14,7 @@ type ReportHeader struct {
 }
 
 type ReportData struct {
-	Data []string
+	Data []interface{}
 }
 
 type ReportEOF struct {
@@ -40,7 +40,7 @@ func PrepareReportFlags(f *flag.FlagSet) *ReportOpts {
 
 func (r *ReportOpts) Write(rows chan ReportRow) {
 	if r.OutputXlsx != "" {
-		go WriteXlsx(r.OutputXlsx, "Members", rows, &r.wg)
+		go WriteXlsx(r.OutputXlsx, "Report", rows, &r.wg)
 	} else if r.OutputCsv == "" {
 		go WriteCsv(os.Stdout, rows, &r.wg)
 	} else {

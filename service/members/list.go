@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/integration/business"
 	"github.com/watermint/toolbox/service/report"
-	"strconv"
 	"sync"
 )
 
@@ -40,11 +39,11 @@ func reportMembers(rows chan report.ReportRow, members chan *team.TeamMemberInfo
 		}
 
 		rows <- report.ReportData{
-			Data: []string{
+			Data: []interface{}{
 				m.Profile.AccountId,
 				m.Profile.TeamMemberId,
 				m.Profile.Email,
-				strconv.FormatBool(m.Profile.EmailVerified),
+				m.Profile.EmailVerified,
 				m.Profile.Status.Tag,
 				m.Profile.ExternalId,
 				m.Profile.Name.GivenName,

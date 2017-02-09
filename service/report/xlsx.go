@@ -2,6 +2,7 @@ package report
 
 import (
 	"errors"
+	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/tealeg/xlsx"
 	"github.com/watermint/toolbox/infra/util"
@@ -46,8 +47,31 @@ func writeXlsxData(sheet *xlsx.Sheet, data ReportData) {
 
 	for _, d := range data.Data {
 		cell := row.AddCell()
-		cell.Value = d
 		cell.SetStyle(ds)
+		switch a := d.(type) {
+		case uint64:
+			cell.SetFormula(fmt.Sprintf("%d", a))
+		case uint32:
+			cell.SetFormula(fmt.Sprintf("%d", a))
+		case uint16:
+			cell.SetFormula(fmt.Sprintf("%d", a))
+		case uint8:
+			cell.SetFormula(fmt.Sprintf("%d", a))
+		case uint:
+			cell.SetFormula(fmt.Sprintf("%d", a))
+		case int64:
+			cell.SetFormula(fmt.Sprintf("%d", a))
+		case int32:
+			cell.SetFormula(fmt.Sprintf("%d", a))
+		case int16:
+			cell.SetFormula(fmt.Sprintf("%d", a))
+		case int8:
+			cell.SetFormula(fmt.Sprintf("%d", a))
+		case int:
+			cell.SetFormula(fmt.Sprintf("%d", a))
+		default:
+			cell.SetValue(d)
+		}
 	}
 }
 

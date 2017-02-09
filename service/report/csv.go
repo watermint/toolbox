@@ -3,6 +3,7 @@ package report
 import (
 	"encoding/csv"
 	"errors"
+	"fmt"
 	"github.com/cihub/seelog"
 	"io"
 	"os"
@@ -21,7 +22,11 @@ func WriteCsv(f io.Writer, report chan ReportRow, wg *sync.WaitGroup) error {
 			w.Write(row.Headers)
 
 		case ReportData:
-			w.Write(row.Data)
+			rowStr := make([]string, 0)
+			for _, a := range row.Data {
+				rowStr = append(rowStr, fmt.Sprintf("%v", a))
+			}
+			w.Write(rowStr)
 
 		case ReportEOF:
 			return nil

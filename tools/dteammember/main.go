@@ -56,6 +56,12 @@ func main() {
 			seelog.Error(err)
 		}
 
+	case "space":
+		err := commands.Space(os.Args[2:])
+		if err != nil {
+			seelog.Error(err)
+		}
+
 	default:
 		usage()
 	}
