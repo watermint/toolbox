@@ -1,5 +1,5 @@
-hash: 31f0d2f3d9c8fe7cfdfca2e52dc4bb63b358f0ba12b656988b136bcde492476e
-updated: 2017-02-02T22:36:20.248953299+09:00
+hash: 3e6249a551df7cfea5f7ffe84cd860a983784eb570251e1b0a6839eac9e102bd
+updated: 2017-02-09T13:53:54.888548835+09:00
 imports:
 - name: github.com/cihub/seelog
   version: d2c6e5aa9fbfdd1c624e140287063c7730654115
@@ -21,18 +21,20 @@ imports:
   version: 8ee79997227bf9b34611aee7946ae64735e6fd93
   subpackages:
   - proto
+- name: github.com/tealeg/xlsx
+  version: e0f3d7d6cf84b282edb711bc6a23e8dbbd331a13
 - name: github.com/watermint/bwlimit
   version: eefb786b3ce25329d4d886e5e761b43effd1f244
 - name: golang.org/x/net
-  version: 007e530097ad7f954752df63046b4036f98ba6a6
+  version: 236b8f043b920452504e263bc21d354427127473
   subpackages:
   - context
 - name: golang.org/x/oauth2
-  version: 314dd2c0bf3ebd592ec0d20847d27e79d0dbe8dd
+  version: de0725b330ab43c1a3d6c84d961cf01183783f1e
   subpackages:
   - internal
 - name: google.golang.org/appengine
-  version: a2c54d2174c17540446e0ced57d9d459af61bc1c
+  version: 2e4a801b39fc199db615bfca7d0b9f8cd9580599
   subpackages:
   - internal
   - internal/base

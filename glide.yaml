@@ -11,3 +11,5 @@ import:
   - context
 - package: github.com/watermint/bwlimit
   version: 1.0.2
+- package: github.com/tealeg/xlsx
+  version: master

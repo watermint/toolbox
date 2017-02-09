@@ -1,56 +1,75 @@
 package members
 
 import (
-	"encoding/csv"
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team"
+	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/integration/business"
-	"io"
+	"github.com/watermint/toolbox/service/report"
 	"strconv"
+	"sync"
 )
 
-func ListMembers(token string, output io.Writer, status string) error {
-	queue := make(chan *team.TeamMemberInfo)
-	err := business.LoadTeamMembers(token, queue)
-	if err != nil {
-		return err
+func reportMembers(rows chan report.ReportRow, members chan *team.TeamMemberInfo, wg *sync.WaitGroup, status string) {
+	seelog.Tracef("Start reporting members: status[%s]", status)
+	wg.Add(1)
+	defer wg.Done()
+
+	rows <- report.ReportHeader{
+		Headers: []string{
+			"Account ID",
+			"Team Member ID",
+			"Email",
+			"Email verified?",
+			"Status",
+			"External ID",
+			"Given Name",
+			"Surname",
+		},
 	}
 
-	w := csv.NewWriter(output)
-	defer w.Flush()
-
-	head := make([]string, 0)
-	head = append(head, "Account ID")
-	head = append(head, "Team Member ID")
-	head = append(head, "Email")
-	head = append(head, "Email verified?")
-	head = append(head, "Status")
-	head = append(head, "External ID")
-	head = append(head, "Given Name")
-	head = append(head, "Surname")
-
-	w.Write(head)
-
-	for m := range queue {
+	for m := range members {
 		if m == nil {
 			break
 		}
+		seelog.Tracef("Member: %s", util.MarshalObjectToString(m))
+
 		if status != "all" && status != m.Profile.Status.Tag {
 			seelog.Debugf("Skip: status[%s] profile[%s]", status, m.Profile.Status.Tag)
 			continue
 		}
-		line := make([]string, 0)
-		line = append(line, m.Profile.AccountId)
-		line = append(line, m.Profile.TeamMemberId)
-		line = append(line, m.Profile.Email)
-		line = append(line, strconv.FormatBool(m.Profile.EmailVerified))
-		line = append(line, m.Profile.Status.Tag)
-		line = append(line, m.Profile.ExternalId)
-		line = append(line, m.Profile.Name.GivenName)
-		line = append(line, m.Profile.Name.Surname)
 
-		w.Write(line)
+		rows <- report.ReportData{
+			Data: []string{
+				m.Profile.AccountId,
+				m.Profile.TeamMemberId,
+				m.Profile.Email,
+				strconv.FormatBool(m.Profile.EmailVerified),
+				m.Profile.Status.Tag,
+				m.Profile.ExternalId,
+				m.Profile.Name.GivenName,
+				m.Profile.Name.Surname,
+			},
+		}
 	}
+
+	rows <- report.ReportEOF{}
+	seelog.Tracef("Finished report")
+}
+
+func ListMembers(token string, rows chan report.ReportRow, status string) error {
+	seelog.Tracef("Start listing members for status[%s]", status)
+	wg := &sync.WaitGroup{}
+	members := make(chan *team.TeamMemberInfo)
+
+	go reportMembers(rows, members, wg, status)
+
+	err := business.LoadTeamMembers(token, members)
+	if err != nil {
+		return err
+	}
+
+	wg.Wait()
 
 	return nil
 }

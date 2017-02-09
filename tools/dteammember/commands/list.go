@@ -7,13 +7,16 @@ import (
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/service/members"
+	"github.com/watermint/toolbox/service/report"
 	"os"
+	"sync"
 )
 
 type ListOptions struct {
-	Infra     *infra.InfraOpts
-	OutputCsv string
-	Status    string
+	Infra      *infra.InfraOpts
+	OutputCsv  string
+	OutputXlsx string
+	Status     string
 }
 
 func parseListOptions(args []string) (*ListOptions, error) {
@@ -24,6 +27,9 @@ func parseListOptions(args []string) (*ListOptions, error) {
 
 	descCsv := "Output CSV path"
 	f.StringVar(&opts.OutputCsv, "csv", "", descCsv)
+
+	descXlsx := "Output .xlsx path"
+	f.StringVar(&opts.OutputXlsx, "xlsx", "", descXlsx)
 
 	descStatus := "Status (all|active|invited|suspended|removed)"
 	f.StringVar(&opts.Status, "status", "all", descStatus)
@@ -65,15 +71,23 @@ func List(args []string) error {
 		return err
 	}
 
-	if opts.OutputCsv == "" {
-		return members.ListMembers(token, os.Stdout, opts.Status)
+	rows := make(chan report.ReportRow)
+	writeWg := &sync.WaitGroup{}
+	if opts.OutputXlsx != "" {
+		go report.WriteXlsx(opts.OutputXlsx, "Members", rows, writeWg)
+	} else if opts.OutputCsv == "" {
+		go report.WriteCsv(os.Stdout, rows, writeWg)
 	} else {
-		f, err := os.Create(opts.OutputCsv)
-		if err != nil {
-			seelog.Errorf("Unable to write file[%s] erorr[%s]", opts.OutputCsv, err)
-			return err
-		}
-		defer f.Close()
-		return members.ListMembers(token, f, opts.Status)
+		go report.WriteCsvFile(opts.OutputCsv, rows, writeWg)
 	}
+
+	err = members.ListMembers(token, rows, opts.Status)
+	if err != nil {
+		seelog.Errorf("Unable to load members: error[%s]", err)
+		return err
+	}
+
+	writeWg.Wait()
+
+	return nil
 }

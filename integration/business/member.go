@@ -9,6 +9,7 @@ import (
 // Load and enqueue *team.TeamMemberInfo.
 // enqueue `nil` at the end of load.
 func LoadTeamMembers(token string, queue chan *team.TeamMemberInfo) error {
+	seelog.Trace("Start loading team members")
 	client := team.New(dropbox.Config{
 		Token: token,
 	})
@@ -19,6 +20,9 @@ func LoadTeamMembers(token string, queue chan *team.TeamMemberInfo) error {
 	if err != nil {
 		return err
 	}
+	seelog.Tracef("Load: %d member(s)", len(result.Members))
+	seelog.Tracef("Has More: %t", result.HasMore)
+
 	for _, m := range result.Members {
 		queue <- m
 	}
@@ -33,10 +37,12 @@ func LoadTeamMembers(token string, queue chan *team.TeamMemberInfo) error {
 		cont := team.NewMembersListContinueArg(cursor)
 		result, err = client.MembersListContinue(cont)
 		if err != nil {
-			seelog.Debugf("Could not load team member (continue): cursor[%s]", cursor)
+			seelog.Tracef("Could not load team member (continue): cursor[%s]", cursor)
 			queue <- nil
 			return err
 		}
+		seelog.Tracef("Load with cursor: %d member(s)", len(result.Members))
+		seelog.Tracef("Has More: %t", result.HasMore)
 		for _, m := range result.Members {
 			queue <- m
 		}
