@@ -60,9 +60,10 @@ func (opts *InfraOpts) AuthFile() string {
 	return filepath.Join(opts.WorkPath, knowledge.AppName+".secret")
 }
 
-func (opts *InfraOpts) issueToken(a auth.DropboxAuthenticator, business bool) (string, error) {
+func (opts *InfraOpts) queueToken(a auth.DropboxAuthenticator, business bool) (string, error) {
 	token, err := a.LoadOrAuth(business, !opts.CleanupToken)
-	if err != nil {
+	if err == nil {
+		seelog.Debugf("Issued token stored in InfraOpts")
 		opts.issuedTokens = append(opts.issuedTokens, token)
 	}
 	return token, err
@@ -74,7 +75,7 @@ func (opts *InfraOpts) LoadOrAuthDropboxFull() (string, error) {
 		AppKey:    DropboxFullAppKey,
 		AppSecret: DropboxFullAppSecret,
 	}
-	return opts.issueToken(a, false)
+	return opts.queueToken(a, false)
 }
 
 func (opts *InfraOpts) LoadOrAuthBusinessInfo() (string, error) {
@@ -83,7 +84,7 @@ func (opts *InfraOpts) LoadOrAuthBusinessInfo() (string, error) {
 		AppKey:    BusinessInfoAppKey,
 		AppSecret: BusinessInfoAppSecret,
 	}
-	return opts.issueToken(a, true)
+	return a
 }
 
 func (opts *InfraOpts) LoadOrAuthBusinessFile() (string, error) {
@@ -92,7 +93,7 @@ func (opts *InfraOpts) LoadOrAuthBusinessFile() (string, error) {
 		AppKey:    BusinessFileAppKey,
 		AppSecret: BusinessFileAppSecret,
 	}
-	return opts.issueToken(a, true)
+	return a
 }
 
 func (opts *InfraOpts) LoadOrAuthBusinessManagement() (string, error) {
@@ -101,7 +102,7 @@ func (opts *InfraOpts) LoadOrAuthBusinessManagement() (string, error) {
 		AppKey:    BusinessManagementAppKey,
 		AppSecret: BusinessManagementAppSecret,
 	}
-	return opts.issueToken(a, true)
+	return a
 }
 
 func (opts *InfraOpts) Startup() error {
@@ -158,8 +159,8 @@ func PrepareInfraFlags(flagset *flag.FlagSet) *InfraOpts {
 	descWork := fmt.Sprintf("Work directory (default: %s)", DefaultWorkPath())
 	flagset.StringVar(&opts.WorkPath, "work", "", descWork)
 
-	descCleanup := "Revoke token on exit"
-	flagset.BoolVar(&opts.CleanupToken, "revoke-token", false, descCleanup)
+	descCleanup := "Cleanup token on exit"
+	flagset.BoolVar(&opts.CleanupToken, "cleanup-token", false, descCleanup)
 
 	return opts
 }

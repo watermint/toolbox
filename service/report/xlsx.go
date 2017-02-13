@@ -45,34 +45,34 @@ func writeXlsxData(sheet *xlsx.Sheet, data ReportData) {
 	ds.Border.Right = "thin"
 	ds.Border.RightColor = XLSX_THEME_COLOR
 
-	for _, d := range data.Data {
+	for _, dat := range data.Data {
 		cell := row.AddCell()
 		cell.SetStyle(ds)
-		switch a := d.(type) {
+		switch datOfType := dat.(type) {
 		case uint64:
-			cell.SetFormula(fmt.Sprintf("%d", a))
+			cell.SetFormula(fmt.Sprintf("%d", datOfType))
 		case uint32:
-			cell.SetFormula(fmt.Sprintf("%d", a))
+			cell.SetFormula(fmt.Sprintf("%d", datOfType))
 		case uint16:
-			cell.SetFormula(fmt.Sprintf("%d", a))
+			cell.SetFormula(fmt.Sprintf("%d", datOfType))
 		case uint8:
-			cell.SetFormula(fmt.Sprintf("%d", a))
+			cell.SetFormula(fmt.Sprintf("%d", datOfType))
 		case uint:
-			cell.SetFormula(fmt.Sprintf("%d", a))
+			cell.SetFormula(fmt.Sprintf("%d", datOfType))
 		case int64:
-			cell.SetFormula(fmt.Sprintf("%d", a))
+			cell.SetFormula(fmt.Sprintf("%d", datOfType))
 		case int32:
-			cell.SetFormula(fmt.Sprintf("%d", a))
+			cell.SetFormula(fmt.Sprintf("%d", datOfType))
 		case int16:
-			cell.SetFormula(fmt.Sprintf("%d", a))
+			cell.SetFormula(fmt.Sprintf("%d", datOfType))
 		case int8:
-			cell.SetFormula(fmt.Sprintf("%d", a))
+			cell.SetFormula(fmt.Sprintf("%d", datOfType))
 		case int:
-			cell.SetFormula(fmt.Sprintf("%d", a))
+			cell.SetFormula(fmt.Sprintf("%d", datOfType))
 		case string:
-			cell.SetString(d)
+			cell.SetString(datOfType)
 		default:
-			cell.SetValue(d)
+			cell.SetValue(dat)
 		}
 	}
 }

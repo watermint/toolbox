@@ -241,5 +241,7 @@ func RevokeToken(token string) {
 	err := client.TokenRevoke()
 	if err != nil {
 		seelog.Warnf("Error during clean up token: %s", err)
+	} else {
+		seelog.Info("Token successfully revoked")
 	}
 }
