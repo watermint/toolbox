@@ -84,7 +84,7 @@ func (opts *InfraOpts) LoadOrAuthBusinessInfo() (string, error) {
 		AppKey:    BusinessInfoAppKey,
 		AppSecret: BusinessInfoAppSecret,
 	}
-	return a
+	return a.LoadOrAuth(true, !opts.CleanupToken)
 }
 
 func (opts *InfraOpts) LoadOrAuthBusinessFile() (string, error) {
@@ -93,7 +93,7 @@ func (opts *InfraOpts) LoadOrAuthBusinessFile() (string, error) {
 		AppKey:    BusinessFileAppKey,
 		AppSecret: BusinessFileAppSecret,
 	}
-	return a
+	return a.LoadOrAuth(true, !opts.CleanupToken)
 }
 
 func (opts *InfraOpts) LoadOrAuthBusinessManagement() (string, error) {
@@ -102,7 +102,7 @@ func (opts *InfraOpts) LoadOrAuthBusinessManagement() (string, error) {
 		AppKey:    BusinessManagementAppKey,
 		AppSecret: BusinessManagementAppSecret,
 	}
-	return a
+	return a.LoadOrAuth(true, !opts.CleanupToken)
 }
 
 func (opts *InfraOpts) Startup() error {
