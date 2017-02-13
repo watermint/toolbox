@@ -108,10 +108,10 @@ func (d *DropboxAuthenticator) TokenFileSave(token string) error {
 	return nil
 }
 
-func (d *DropboxAuthenticator) LoadOrAuth(business bool) (string, error) {
+func (d *DropboxAuthenticator) LoadOrAuth(business bool, storeToken bool) (string, error) {
 	t, err := d.TokenFileLoad()
 	if err != nil {
-		return d.Authorise()
+		return d.Authorise(storeToken)
 	}
 
 	if business {
@@ -119,7 +119,7 @@ func (d *DropboxAuthenticator) LoadOrAuth(business bool) (string, error) {
 		client := team.New(config)
 		fa, err := client.GetInfo()
 		if err != nil {
-			return d.Authorise()
+			return d.Authorise(storeToken)
 		}
 		seelog.Infof("Dropbox Team[%s](%s)", fa.TeamId, fa.Name)
 	} else {
@@ -127,7 +127,7 @@ func (d *DropboxAuthenticator) LoadOrAuth(business bool) (string, error) {
 		client := users.New(config)
 		fa, err := client.GetCurrentAccount()
 		if err != nil {
-			return d.Authorise()
+			return d.Authorise(storeToken)
 		}
 		seelog.Infof("Dropbox Account[%s](%s)", fa.Email, fa.AccountId)
 	}
@@ -135,13 +135,13 @@ func (d *DropboxAuthenticator) LoadOrAuth(business bool) (string, error) {
 	return t, nil
 }
 
-func (d *DropboxAuthenticator) Authorise() (string, error) {
+func (d *DropboxAuthenticator) Authorise(storeToken bool) (string, error) {
 	seelog.Flush()
 
 	if d.AppKey == "" || d.AppSecret == "" {
 		seelog.Tracef("No AppKey/AppSecret found. Try asking 'Generate Token'")
 		tok, err := d.acquireToken()
-		if err == nil {
+		if err == nil && storeToken {
 			d.TokenFileSave(tok)
 		}
 		return tok, err
@@ -158,7 +158,9 @@ func (d *DropboxAuthenticator) Authorise() (string, error) {
 			seelog.Errorf("Authentication failed due to the error [%s]", err)
 			return "", err
 		}
-		d.TokenFileSave(tok.AccessToken)
+		if storeToken {
+			d.TokenFileSave(tok.AccessToken)
+		}
 		return tok.AccessToken, nil
 	}
 }

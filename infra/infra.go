@@ -61,7 +61,7 @@ func (opts *InfraOpts) AuthFile() string {
 }
 
 func (opts *InfraOpts) issueToken(a auth.DropboxAuthenticator, business bool) (string, error) {
-	token, err := a.LoadOrAuth(business)
+	token, err := a.LoadOrAuth(business, !opts.CleanupToken)
 	if err != nil {
 		opts.issuedTokens = append(opts.issuedTokens, token)
 	}
