@@ -100,8 +100,7 @@ func main() {
 		seelog.Errorf("Unable to start operation: %s", err)
 		return
 	}
-
-	seelog.Tracef("Upload options: %s", util.MarshalObjectToString(opts))
+	seelog.Tracef("Options: %s", util.MarshalObjectToString(opts))
 
 	token, err := opts.Infra.LoadOrAuthDropboxFull()
 	if err != nil || token == "" {

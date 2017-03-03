@@ -124,7 +124,7 @@ func (opts *InfraOpts) Startup() error {
 
 	err = diag.QuickNetworkDiagnostics()
 	if err != nil {
-		return errors.New("Unable to reach `www.dropbox.com`. Please check network connection or proxy configuration.")
+		return errors.New("Unable to reach `www.dropbox.com`. Please check network connection and/or proxy configuration.")
 	}
 
 	return nil

@@ -102,7 +102,6 @@ func main() {
 		seelog.Errorf("Unable to start operation: %s", err)
 		return
 	}
-
 	seelog.Tracef("options: %s", util.MarshalObjectToString(opts))
 
 	token, err := opts.Infra.LoadOrAuthBusinessFile()

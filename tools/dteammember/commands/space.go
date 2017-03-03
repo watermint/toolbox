@@ -44,7 +44,6 @@ func Space(args []string) error {
 		seelog.Errorf("Unable to start operation: %s", err)
 		return err
 	}
-
 	seelog.Tracef("options: %s", util.MarshalObjectToString(opts))
 
 	token, err := opts.Infra.LoadOrAuthBusinessFile()
