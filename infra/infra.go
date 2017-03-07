@@ -56,8 +56,12 @@ type InfraOpts struct {
 	issuedTokens []string
 }
 
+func (opts *InfraOpts) FileOnWorkPath(name string) string {
+	return filepath.Join(opts.WorkPath, name)
+}
+
 func (opts *InfraOpts) AuthFile() string {
-	return filepath.Join(opts.WorkPath, knowledge.AppName+".secret")
+	return opts.FileOnWorkPath(knowledge.AppName + ".secret")
 }
 
 func (opts *InfraOpts) queueToken(a auth.DropboxAuthenticator, business bool) (string, error) {
@@ -196,8 +200,8 @@ func setupWorkPath(opts *InfraOpts) error {
 
 func SetupHttpProxy(proxy string) {
 	if proxy != "" {
-		seelog.Infof("Proxy configuration: HTTP_PROXY[%s]", proxy)
-		seelog.Infof("Proxy configuration: HTTPS_PROXY[%s]", proxy)
+		seelog.Debugf("Proxy configuration: HTTP_PROXY[%s]", proxy)
+		seelog.Debugf("Proxy configuration: HTTPS_PROXY[%s]", proxy)
 		os.Setenv("HTTP_PROXY", proxy)
 		os.Setenv("HTTPS_PROXY", proxy)
 	}

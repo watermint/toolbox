@@ -13,3 +13,5 @@ import:
   version: 1.0.2
 - package: github.com/tealeg/xlsx
   version: master
+- package: github.com/mattn/go-sqlite3
+  version: v1.2.0

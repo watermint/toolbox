@@ -8,7 +8,6 @@ import (
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team"
 	"github.com/watermint/toolbox/integration/business"
 	"github.com/watermint/toolbox/integration/sdk"
-	"reflect"
 	"sync"
 	"time"
 )
@@ -131,16 +130,18 @@ func ListAllSharedLinks(dropbox *dropbox.Config, receiver chan SharedLinkReceive
 			return err
 		}
 
-		for _, l := range result.Links {
-			meta, err := extractSharedLinkMetadata(l)
-			if err != nil {
-				seelog.Warnf("Unable to load shared link metadata: %s", err)
-				return err
-			}
+		var entries []sharing.IsSharedLinkMetadata
+		for _, l := range entries {
+			switch meta := l.(type) {
+			case *sharing.SharedLinkMetadata:
+				receiver <- SharedLinkReceiverContent{
+					SharedLink: meta,
+					Dropbox:    dropbox,
+				}
 
-			receiver <- SharedLinkReceiverContent{
-				SharedLink: meta,
-				Dropbox:    dropbox,
+			default:
+				seelog.Warnf("Unable to load shared link metadata: %s")
+				return errors.New("Unable to extract metadata")
 			}
 		}
 
@@ -149,27 +150,4 @@ func ListAllSharedLinks(dropbox *dropbox.Config, receiver chan SharedLinkReceive
 		}
 		cursor = result.Cursor
 	}
-}
-
-// Workaround: There are no function to retrieve SharedLinkMetadata from IsSharedLinkMetadata.
-func extractSharedLinkMetadata(link sharing.IsSharedLinkMetadata) (*sharing.SharedLinkMetadata, error) {
-	v := reflect.ValueOf(link).Elem()
-	t := v.Type()
-
-	for i := 0; i < v.NumField(); i++ {
-		vf := v.Field(i)
-		tf := t.Field(i)
-
-		if tf.Name == "SharedLinkMetadata" {
-			val := vf.Interface()
-			switch s := val.(type) {
-			case sharing.SharedLinkMetadata:
-				return &s, nil
-
-			default:
-				seelog.Warnf("Unknown type for 'SharedLinkMetadata' (%s)", vf.Type().Name())
-			}
-		}
-	}
-	return nil, errors.New("Unable to load 'SharedLinkMetadata'")
 }

@@ -20,6 +20,9 @@ func ContentHash(path string) (string, error) {
 		seelog.Warnf("Unable to acquire information about path [%s] error[%s]", path, err)
 		return "", err
 	}
+	if info.Size() < 1 {
+		return HASH_FOR_EMPTY, nil
+	}
 
 	f, err := os.Open(path)
 	if err != nil {
@@ -32,7 +35,7 @@ func ContentHash(path string) (string, error) {
 
 	loadedBytes = 0
 	totalBytes = info.Size()
-	hashePerBlock := make([][32]byte, 0)
+	hashPerBlock := make([][32]byte, 0)
 
 	for (totalBytes - loadedBytes) > 0 {
 		r := io.LimitReader(f, BLOCK_SIZE)
@@ -47,17 +50,13 @@ func ContentHash(path string) (string, error) {
 		}
 
 		h := sha256.Sum256(block[:readBytes])
-		hashePerBlock = append(hashePerBlock, h)
+		hashPerBlock = append(hashPerBlock, h)
 	}
 
-	if len(hashePerBlock) < 1 {
-		return HASH_FOR_EMPTY, nil
-	} else {
-		concatenated := make([]byte, 0)
-		for _, h := range hashePerBlock {
-			concatenated = append(concatenated, h[:]...)
-		}
-		h := sha256.Sum256(concatenated)
-		return hex.EncodeToString(h[:]), nil
+	concatenated := make([]byte, 0)
+	for _, h := range hashPerBlock {
+		concatenated = append(concatenated, h[:]...)
 	}
+	h := sha256.Sum256(concatenated)
+	return hex.EncodeToString(h[:]), nil
 }
