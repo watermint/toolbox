@@ -1,4 +1,4 @@
-package traverse
+package compare
 
 import (
 	"github.com/watermint/toolbox/infra"
@@ -17,9 +17,9 @@ func TestTraverseLocalFile_Prepare(t *testing.T) {
 	opts := &infra.InfraOpts{
 		WorkPath: base,
 	}
-	trav := TraverseLocalFile{
-		BasePath:  tmpd,
-		InfraOpts: opts,
+	trav := Traverse{
+		LocalBasePath: tmpd,
+		InfraOpts:     opts,
 	}
 	err = trav.Prepare()
 	if err != nil {
@@ -35,11 +35,11 @@ func TestTraverseLocalFile_Prepare(t *testing.T) {
 	tmpf.WriteString("Hello")
 	tmpf.Close()
 
-	trav.Scan()
+	trav.ScanLocal()
 
 	listen := make(chan *LocalFileInfo)
 	wg := sync.WaitGroup{}
-	go trav.Retrieve(listen, &wg)
+	go trav.RetrieveLocal(listen, &wg)
 
 	var lfi1, lfi2 *LocalFileInfo
 	lfi1 = <-listen

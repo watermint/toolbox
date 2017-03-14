@@ -3,9 +3,12 @@ package compare
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"fmt"
 	"github.com/cihub/seelog"
+	"github.com/watermint/toolbox/infra"
 	"io"
 	"os"
+	"sync"
 )
 
 const (
@@ -59,4 +62,88 @@ func ContentHash(path string) (string, error) {
 	}
 	h := sha256.Sum256(concatenated)
 	return hex.EncodeToString(h[:]), nil
+}
+
+func Compare(infraOpts *infra.InfraOpts, token, localBasePath, dropboxBasePath string) error {
+	var err error
+	trav := Traverse{
+		DropboxToken:    token,
+		DropboxBasePath: dropboxBasePath,
+		LocalBasePath:   localBasePath,
+		InfraOpts:       infraOpts,
+	}
+	err = trav.Prepare()
+	if err != nil {
+		return err
+	}
+	defer trav.Close()
+
+	seelog.Info("Start scanning local files")
+	trav.ScanLocal()
+
+	seelog.Info("Start scanning dropbox files")
+	trav.ScanDropbox()
+
+	wg := &sync.WaitGroup{}
+	dtl := make(chan *CompareRowDropboxToLocal)
+	ltd := make(chan *CompareRowLocalToDropbox)
+	sah := make(chan *CompareRowSizeAndHash)
+
+	go trav.CompareDropboxToLocal(dtl, wg)
+
+	fmt.Println("*** Record: files not found in Local")
+	for {
+		row := <-dtl
+		if row == nil {
+			break
+		}
+
+		fmt.Printf("Path[%s] (lower:%s) Size[%d] Hash[%s] DropboxFileId[%s] DropboxRev[%s]\n",
+			row.Path,
+			row.PathLower,
+			row.Size,
+			row.ContentHash,
+			row.DropboxFileId,
+			row.DropboxRevision,
+		)
+	}
+
+	go trav.CompareLocalToDropbox(ltd, wg)
+
+	fmt.Println("*** Record: files not found in Dropbox")
+	for {
+		row := <-ltd
+		if row == nil {
+			break
+		}
+		fmt.Printf("Path[%s] (lower:%s) Size[%d] Hash[%s]\n",
+			row.Path,
+			row.PathLower,
+			row.Size,
+			row.ContentHash,
+		)
+	}
+
+	go trav.CompareSizeAndHash(sah, wg)
+
+	fmt.Println("*** Record: files size and/or hash not mached")
+	for {
+		row := <-sah
+		if row == nil {
+			break
+		}
+
+		fmt.Printf("Path[%s] (lower:%s) Size(Local:%d, Dropbox:%d), Hash(Local:%s, Dropbox:%s)\n",
+			row.Path,
+			row.PathLower,
+			row.LocalSize,
+			row.DropboxSize,
+			row.LocalContentHash,
+			row.DropboxContentHash,
+		)
+	}
+
+	wg.Wait()
+
+	return nil
 }

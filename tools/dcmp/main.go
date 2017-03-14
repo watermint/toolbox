@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/infra/util"
+	"github.com/watermint/toolbox/service/compare"
 	"os"
 )
 
@@ -77,4 +78,11 @@ func main() {
 	}
 	seelog.Tracef("Options: %s", util.MarshalObjectToString(opts))
 
+	token, err := opts.Infra.LoadOrAuthDropboxFull()
+	if err != nil || token == "" {
+		seelog.Errorf("Unable to acquire token (error: %s)", err)
+		return
+	}
+
+	compare.Compare(opts.Infra, token, opts.LocalPath, opts.DropboxPath)
 }

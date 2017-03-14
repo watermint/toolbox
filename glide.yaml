@@ -15,3 +15,6 @@ import:
   version: master
 - package: github.com/mattn/go-sqlite3
   version: v1.2.0
+- package: golang.org/x/text
+  subpackages:
+  - unicode/norm
