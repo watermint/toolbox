@@ -13,7 +13,7 @@ const (
 	XLSX_THEME_COLOR = "FF548235"
 )
 
-func writeXlsxHeader(sheet *xlsx.Sheet, header ReportHeader) {
+func WriteXlsxHeader(sheet *xlsx.Sheet, header *ReportHeader) {
 	row := sheet.AddRow()
 
 	hs := xlsx.NewStyle()
@@ -31,7 +31,7 @@ func writeXlsxHeader(sheet *xlsx.Sheet, header ReportHeader) {
 	}
 }
 
-func writeXlsxData(sheet *xlsx.Sheet, data ReportData) {
+func WriteXlsxData(sheet *xlsx.Sheet, data *ReportData) {
 	row := sheet.AddRow()
 
 	ds := xlsx.NewStyle()
@@ -77,6 +77,26 @@ func writeXlsxData(sheet *xlsx.Sheet, data ReportData) {
 	}
 }
 
+func WriteXlsxRow(sheet *xlsx.Sheet, reportRow ReportRow) error {
+	switch row := reportRow.(type) {
+	case nil:
+		return nil
+
+	case *ReportHeader:
+		seelog.Tracef("Header(%s)", util.MarshalObjectToString(row.Headers))
+		WriteXlsxHeader(sheet, row)
+
+	case *ReportData:
+		seelog.Tracef("Data(%s)", util.MarshalObjectToString(row.Data))
+		WriteXlsxData(sheet, row)
+
+	default:
+		seelog.Warnf("Unexpected row")
+		return errors.New("Unexpected row detected")
+	}
+	return nil
+}
+
 func WriteXlsx(path, sheetName string, report chan ReportRow, wg *sync.WaitGroup) error {
 	wg.Add(1)
 	defer wg.Done()
@@ -89,22 +109,13 @@ func WriteXlsx(path, sheetName string, report chan ReportRow, wg *sync.WaitGroup
 	defer f.Save(path)
 
 	for r := range report {
-		switch row := r.(type) {
-		case ReportHeader:
-			seelog.Tracef("Header(%s)", util.MarshalObjectToString(row.Headers))
-			writeXlsxHeader(sheet, row)
-
-		case ReportData:
-			seelog.Tracef("Data(%s)", util.MarshalObjectToString(row.Data))
-			writeXlsxData(sheet, row)
-
-		case ReportEOF:
-			seelog.Trace("EOF")
-			return nil
-
-		default:
-			seelog.Warnf("Unexpected row")
-			return errors.New("Unexpected row detected")
+		if r == nil {
+			break
+		}
+		err = WriteXlsxRow(sheet, r)
+		if err != nil {
+			seelog.Warnf("Unable to write row : error[%s]", err)
+			return err
 		}
 	}
 	return nil

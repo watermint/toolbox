@@ -73,7 +73,8 @@ func (t *Traverse) normalizeKeyPath(path string) string {
 		path = "/" + path
 	}
 
-	// Normalize Unicode: macOS normalize file names by NFD (with some exception).
+	// Normalize Unicode: HFS+(mac) normalize file names by NFD (with some exception in specific CJK chars).
+	// @see http://tama-san.com/hfsplus/
 	path = t.normalizeUnicodePath(path)
 	return path
 }
@@ -184,9 +185,14 @@ func (t *Traverse) scanDropboxPath(path string) error {
 
 	seelog.Debugf("Scanning path: [%s]", path)
 
-	if path == "" {
+	switch path {
+	case "/":
+		return t.scanDropboxFolder("")
+
+	case "":
 		return t.scanDropboxFolder(path)
-	} else {
+
+	default:
 
 		client := files.New(t.dropboxConfig)
 		marg := files.NewGetMetadataArg(path)
@@ -691,8 +697,13 @@ func (t *Traverse) CompareSizeAndHash(listener chan *CompareRowSizeAndHash, wg *
 	  traversedropboxfile d
 	WHERE
               l.path_lower = d.path_lower
-          AND (l.size <> d.size OR l.content_hash <> d.content_hash)
+          AND (l.size <> d.size
+           OR (d.content_hash <> "" AND l.content_hash <> d.content_hash))
+        ORDER BY
+          l.path_lower
 	`
+	// Compare size only if empty has for Dropbox content hash
+	// (because content_hash is optional in Dropbox response.)
 
 	seelog.Debug("Compare size and/or hash")
 	rows, err := t.db.Query(q)

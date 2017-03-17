@@ -13,7 +13,7 @@ import (
 
 type ListOptions struct {
 	Infra  *infra.InfraOpts
-	Report *report.ReportOpts
+	Report *report.SimpleReportOpts
 	Status string
 }
 
@@ -22,7 +22,7 @@ func parseListOptions(args []string) (*ListOptions, error) {
 
 	opts := &ListOptions{}
 	opts.Infra = infra.PrepareInfraFlags(f)
-	opts.Report = report.PrepareReportFlags(f)
+	opts.Report = report.PrepareSimpleReportFlags(f)
 
 	descStatus := "Status (all|active|invited|suspended|removed)"
 	f.StringVar(&opts.Status, "status", "all", descStatus)

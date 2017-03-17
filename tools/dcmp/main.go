@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/service/compare"
+	"github.com/watermint/toolbox/service/report"
 	"os"
 )
 
@@ -33,17 +34,12 @@ Compare local path and Dropbox path
 	infra.ShowUsage(tmpl, data)
 }
 
-type CmpOptions struct {
-	Infra       *infra.InfraOpts
-	LocalPath   string
-	DropboxPath string
-}
-
-func parseArgs() (*CmpOptions, error) {
+func parseArgs() (*compare.CompareOpts, error) {
 	f := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 
-	opts := CmpOptions{}
-	opts.Infra = infra.PrepareInfraFlags(f)
+	opts := compare.CompareOpts{}
+	opts.InfraOpts = infra.PrepareInfraFlags(f)
+	opts.ReportOpts = report.PrepareMultiReportFlags(f)
 
 	f.SetOutput(os.Stderr)
 	f.Parse(os.Args[1:])
@@ -54,11 +50,11 @@ func parseArgs() (*CmpOptions, error) {
 		return nil, errors.New("Missing LOCALPATH and/or DROPBOXPATH")
 	}
 
-	opts.LocalPath = args[0]
+	opts.LocalBasePath = args[0]
 	if len(args) == 1 {
-		opts.DropboxPath = ""
+		opts.DropboxBasePath = ""
 	} else {
-		opts.DropboxPath = args[1]
+		opts.DropboxBasePath = args[1]
 	}
 
 	return &opts, nil
@@ -70,19 +66,19 @@ func main() {
 		fmt.Fprintln(os.Stderr, "Error: ", err)
 		return
 	}
-	defer opts.Infra.Shutdown()
-	err = opts.Infra.Startup()
+	defer opts.InfraOpts.Shutdown()
+	err = opts.InfraOpts.Startup()
 	if err != nil {
 		seelog.Errorf("Unable to start operation: %s", err)
 		return
 	}
 	seelog.Tracef("Options: %s", util.MarshalObjectToString(opts))
 
-	token, err := opts.Infra.LoadOrAuthDropboxFull()
+	token, err := opts.InfraOpts.LoadOrAuthDropboxFull()
 	if err != nil || token == "" {
 		seelog.Errorf("Unable to acquire token (error: %s)", err)
 		return
 	}
 
-	compare.Compare(opts.Infra, token, opts.LocalPath, opts.DropboxPath)
+	compare.Compare(opts)
 }

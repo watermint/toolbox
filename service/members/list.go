@@ -14,7 +14,7 @@ func reportMembers(rows chan report.ReportRow, members chan *team.TeamMemberInfo
 	wg.Add(1)
 	defer wg.Done()
 
-	rows <- report.ReportHeader{
+	rows <- &report.ReportHeader{
 		Headers: []string{
 			"Account ID",
 			"Team Member ID",
@@ -38,7 +38,7 @@ func reportMembers(rows chan report.ReportRow, members chan *team.TeamMemberInfo
 			continue
 		}
 
-		rows <- report.ReportData{
+		rows <- &report.ReportData{
 			Data: []interface{}{
 				m.Profile.AccountId,
 				m.Profile.TeamMemberId,
@@ -52,7 +52,7 @@ func reportMembers(rows chan report.ReportRow, members chan *team.TeamMemberInfo
 		}
 	}
 
-	rows <- report.ReportEOF{}
+	rows <- nil
 	seelog.Tracef("Finished report")
 }
 

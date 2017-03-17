@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/service/report"
 	"io"
 	"os"
 	"sync"
@@ -64,41 +65,143 @@ func ContentHash(path string) (string, error) {
 	return hex.EncodeToString(h[:]), nil
 }
 
-func Compare(infraOpts *infra.InfraOpts, token, localBasePath, dropboxBasePath string) error {
+type CompareOpts struct {
+	InfraOpts  *infra.InfraOpts
+	ReportOpts *report.MultiReportOpts
+
+	DropboxToken    string
+	LocalBasePath   string
+	DropboxBasePath string
+}
+
+func Compare(opts *CompareOpts) error {
 	var err error
 	trav := Traverse{
-		DropboxToken:    token,
-		DropboxBasePath: dropboxBasePath,
-		LocalBasePath:   localBasePath,
-		InfraOpts:       infraOpts,
+		DropboxToken:    opts.DropboxToken,
+		DropboxBasePath: opts.DropboxBasePath,
+		LocalBasePath:   opts.LocalBasePath,
+		InfraOpts:       opts.InfraOpts,
 	}
 	err = trav.Prepare()
 	if err != nil {
 		return err
 	}
 	defer trav.Close()
+	err = opts.ReportOpts.BeginMultiReport()
+	if err != nil {
+		seelog.Warnf("Unable to prepare report : error[%s]", err)
+		return err
+	}
+	defer opts.ReportOpts.EndMultiReport()
 
+	err = compareScan(&trav)
+	if err != nil {
+		seelog.Warnf("Unable to scan: error[%s]", err)
+		return err
+	}
+
+	reportSummary(&trav, opts)
+	reportDropboxToLocal(&trav, opts)
+	reportLocalToDropbox(&trav, opts)
+	reportSizeAndHash(&trav, opts)
+
+	opts.ReportOpts.EndMultiReport()
+
+	return nil
+}
+
+func compareScan(trav *Traverse) error {
 	seelog.Info("Start scanning local files")
-	trav.ScanLocal()
+	err := trav.ScanLocal()
+	if err != nil {
+		seelog.Warnf("Unable to scan local files : error[%s]", err)
+		return err
+	}
 
 	seelog.Info("Start scanning dropbox files")
-	trav.ScanDropbox()
+	err = trav.ScanDropbox()
+	if err != nil {
+		seelog.Warnf("Unable to scan Dropbox files : error[%s]", err)
+		return err
+	}
+	return nil
+}
 
+func reportSummary(trav *Traverse, opts *CompareOpts) error {
+	dbxCount, dbxSize, err := trav.SummaryDropbox()
+	if err != nil {
+		seelog.Warnf("Unable to summarise results : error[%s]", err)
+		return err
+	}
+	loCount, loSize, err := trav.SummaryLocal()
+	if err != nil {
+		seelog.Warnf("Unable to summarise results : error[%s]", err)
+		return err
+	}
+	repo := make(chan report.ReportRow)
+
+	go opts.ReportOpts.Write("Summary", repo)
+
+	repo <- report.ReportHeader{
+		Headers: []string{
+			"Source",
+			"File count",
+			"Total size (bytes)",
+		},
+	}
+
+	repo <- report.ReportData{
+		Data: []interface{}{
+			fmt.Sprintf("Local(%s)", opts.LocalBasePath),
+			loCount,
+			loSize,
+		},
+	}
+
+	repo <- report.ReportData{
+		Data: []interface{}{
+			"Dropbox",
+			dbxCount,
+			dbxSize,
+		},
+	}
+
+	repo <- nil
+
+	err = opts.ReportOpts.FlushSingleReport()
+	if err != nil {
+		seelog.Warnf("Unable to flush report : error[%s]", err)
+		return err
+	}
+
+	return nil
+}
+
+func reportDropboxToLocal(trav *Traverse, opts *CompareOpts) error {
 	wg := &sync.WaitGroup{}
-	dtl := make(chan *CompareRowDropboxToLocal)
-	ltd := make(chan *CompareRowLocalToDropbox)
-	sah := make(chan *CompareRowSizeAndHash)
+	cmpRows := make(chan *CompareRowDropboxToLocal)
+	repRows := make(chan report.ReportRow)
 
-	go trav.CompareDropboxToLocal(dtl, wg)
+	go trav.CompareDropboxToLocal(cmpRows, wg)
+	go opts.ReportOpts.Write("NotFoundInLocal", repRows)
 
-	fmt.Println("*** Record: files not found in Local")
-	for {
-		row := <-dtl
+	repRows <- report.ReportHeader{
+		Headers: []string{
+			"Path",
+			"File Size (bytes)",
+			"Content Hash",
+			"Dropbox File ID",
+			"Dropbox Revision",
+		},
+	}
+
+	seelog.Debug("*** Record: files not found in Local")
+	for row := range cmpRows {
 		if row == nil {
 			break
 		}
 
-		fmt.Printf("Path[%s] (lower:%s) Size[%d] Hash[%s] DropboxFileId[%s] DropboxRev[%s]\n",
+		seelog.Debugf("Path[%s] (lower:%s) Size[%d] Hash[%s] DropboxFileId[%s] DropboxRev[%s]\n",
 			row.Path,
 			row.PathLower,
 			row.Size,
@@ -106,34 +209,94 @@ func Compare(infraOpts *infra.InfraOpts, token, localBasePath, dropboxBasePath s
 			row.DropboxFileId,
 			row.DropboxRevision,
 		)
+
+		repRows <- report.ReportData{
+			Data: []interface{}{
+				row.Path,
+				row.Size,
+				row.ContentHash,
+				row.DropboxFileId,
+				row.DropboxRevision,
+			},
+		}
+	}
+	repRows <- nil
+
+	wg.Wait()
+	opts.ReportOpts.FlushSingleReport()
+
+	return nil
+}
+
+func reportLocalToDropbox(trav *Traverse, opts *CompareOpts) error {
+	wg := &sync.WaitGroup{}
+	cmpRows := make(chan *CompareRowLocalToDropbox)
+	repRows := make(chan report.ReportRow)
+
+	go trav.CompareLocalToDropbox(cmpRows, wg)
+	go opts.ReportOpts.Write("NotFoundInDropbox", repRows)
+
+	repRows <- report.ReportHeader{
+		Headers: []string{
+			"Path",
+			"File Size (bytes)",
+			"Content Hash",
+		},
 	}
 
-	go trav.CompareLocalToDropbox(ltd, wg)
-
-	fmt.Println("*** Record: files not found in Dropbox")
-	for {
-		row := <-ltd
+	seelog.Debug("*** Record: files not found in Dropbox")
+	for row := range cmpRows {
 		if row == nil {
 			break
 		}
-		fmt.Printf("Path[%s] (lower:%s) Size[%d] Hash[%s]\n",
+		seelog.Debugf("Path[%s] (lower:%s) Size[%d] Hash[%s]\n",
 			row.Path,
 			row.PathLower,
 			row.Size,
 			row.ContentHash,
 		)
+
+		repRows <- report.ReportData{
+			Data: []interface{}{
+				row.Path,
+				row.Size,
+				row.ContentHash,
+			},
+		}
+	}
+	repRows <- nil
+
+	wg.Wait()
+	opts.ReportOpts.FlushSingleReport()
+
+	return nil
+}
+
+func reportSizeAndHash(trav *Traverse, opts *CompareOpts) error {
+	wg := &sync.WaitGroup{}
+	cmpRows := make(chan *CompareRowSizeAndHash)
+	repRows := make(chan report.ReportRow)
+
+	go opts.ReportOpts.Write("DifferentContent", repRows)
+	go trav.CompareSizeAndHash(cmpRows, wg)
+
+	repRows <- report.ReportHeader{
+		Headers: []string{
+			"Path",
+			"Local File Size (bytes)",
+			"Dropbox File Size (bytes)",
+			"Local Content Hash",
+			"Dropbox Content Hash",
+		},
 	}
 
-	go trav.CompareSizeAndHash(sah, wg)
-
-	fmt.Println("*** Record: files size and/or hash not mached")
-	for {
-		row := <-sah
+	seelog.Debug("*** Record: files size and/or hash not mached")
+	for row := range cmpRows {
 		if row == nil {
 			break
 		}
 
-		fmt.Printf("Path[%s] (lower:%s) Size(Local:%d, Dropbox:%d), Hash(Local:%s, Dropbox:%s)\n",
+		seelog.Debugf("Path[%s] (lower:%s) Size(Local:%d, Dropbox:%d), Hash(Local:%s, Dropbox:%s)\n",
 			row.Path,
 			row.PathLower,
 			row.LocalSize,
@@ -141,9 +304,21 @@ func Compare(infraOpts *infra.InfraOpts, token, localBasePath, dropboxBasePath s
 			row.LocalContentHash,
 			row.DropboxContentHash,
 		)
+
+		repRows <- report.ReportData{
+			Data: []interface{}{
+				row.Path,
+				row.LocalSize,
+				row.DropboxSize,
+				row.LocalContentHash,
+				row.DropboxContentHash,
+			},
+		}
 	}
+	repRows <- nil
 
 	wg.Wait()
+	opts.ReportOpts.FlushSingleReport()
 
 	return nil
 }

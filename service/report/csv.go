@@ -10,33 +10,45 @@ import (
 	"sync"
 )
 
-func WriteCsv(f io.Writer, report chan ReportRow, wg *sync.WaitGroup) error {
-	wg.Add(1)
-	defer wg.Done()
+func WriteCsvRow(f io.Writer, row ReportRow) error {
 	w := csv.NewWriter(f)
 	defer w.Flush()
 
+	switch r := row.(type) {
+	case nil:
+		return nil
+
+	case *ReportHeader:
+		return w.Write(r.Headers)
+
+	case *ReportData:
+		rowStr := make([]string, 0)
+		for _, a := range r.Data {
+			rowStr = append(rowStr, fmt.Sprintf("%v", a))
+		}
+		return w.Write(rowStr)
+
+	default:
+		seelog.Warnf("Unexpected row")
+		return errors.New("Unexpected row detected")
+	}
+	return nil
+}
+
+func WriteCsv(f io.Writer, report chan ReportRow, wg *sync.WaitGroup) error {
+	wg.Add(1)
+	defer wg.Done()
+
 	for r := range report {
-		switch row := r.(type) {
-		case ReportHeader:
-			w.Write(row.Headers)
-
-		case ReportData:
-			rowStr := make([]string, 0)
-			for _, a := range row.Data {
-				rowStr = append(rowStr, fmt.Sprintf("%v", a))
-			}
-			w.Write(rowStr)
-
-		case ReportEOF:
-			return nil
-
-		default:
-			seelog.Warnf("Unexpected row")
-			return errors.New("Unexpected row detected")
+		if r == nil {
+			break
+		}
+		err := WriteCsvRow(f, r)
+		if err != nil {
+			seelog.Warnf("Unable to write row : error[%s]", err)
+			return err
 		}
 	}
-
 	return nil
 }
 

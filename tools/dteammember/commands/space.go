@@ -16,7 +16,7 @@ import (
 
 type SpaceOptions struct {
 	Infra  *infra.InfraOpts
-	Report *report.ReportOpts
+	Report *report.SimpleReportOpts
 }
 
 func parseSpaceOptions(args []string) (*SpaceOptions, error) {
@@ -24,7 +24,7 @@ func parseSpaceOptions(args []string) (*SpaceOptions, error) {
 
 	opts := new(SpaceOptions)
 	opts.Infra = infra.PrepareInfraFlags(f)
-	opts.Report = report.PrepareReportFlags(f)
+	opts.Report = report.PrepareSimpleReportFlags(f)
 
 	f.SetOutput(os.Stderr)
 	f.Parse(args)
@@ -120,6 +120,6 @@ func reportSpace(token string, rows chan report.ReportRow, members chan *team.Te
 		}
 	}
 
-	rows <- report.ReportEOF{}
+	rows <- nil
 	seelog.Tracef("Finished report")
 }
