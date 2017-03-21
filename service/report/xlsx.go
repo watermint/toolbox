@@ -82,13 +82,13 @@ func WriteXlsxRow(sheet *xlsx.Sheet, reportRow ReportRow) error {
 	case nil:
 		return nil
 
-	case *ReportHeader:
+	case ReportHeader:
 		seelog.Tracef("Header(%s)", util.MarshalObjectToString(row.Headers))
-		WriteXlsxHeader(sheet, row)
+		WriteXlsxHeader(sheet, &row)
 
-	case *ReportData:
+	case ReportData:
 		seelog.Tracef("Data(%s)", util.MarshalObjectToString(row.Data))
-		WriteXlsxData(sheet, row)
+		WriteXlsxData(sheet, &row)
 
 	default:
 		seelog.Warnf("Unexpected row")

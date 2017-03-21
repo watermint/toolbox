@@ -128,6 +128,7 @@ func compareScan(trav *Traverse) error {
 }
 
 func reportSummary(trav *Traverse, opts *CompareOpts) error {
+	seelog.Debug("Start reporting Summary of comparison")
 	dbxCount, dbxSize, err := trav.SummaryDropbox()
 	if err != nil {
 		seelog.Warnf("Unable to summarise results : error[%s]", err)
@@ -139,8 +140,9 @@ func reportSummary(trav *Traverse, opts *CompareOpts) error {
 		return err
 	}
 	repo := make(chan report.ReportRow)
+	wg := &sync.WaitGroup{}
 
-	go opts.ReportOpts.Write("Summary", repo)
+	go opts.ReportOpts.Write("Summary", repo, wg)
 
 	repo <- report.ReportHeader{
 		Headers: []string{
@@ -168,22 +170,19 @@ func reportSummary(trav *Traverse, opts *CompareOpts) error {
 
 	repo <- nil
 
-	err = opts.ReportOpts.FlushSingleReport()
-	if err != nil {
-		seelog.Warnf("Unable to flush report : error[%s]", err)
-		return err
-	}
+	wg.Wait()
 
 	return nil
 }
 
 func reportDropboxToLocal(trav *Traverse, opts *CompareOpts) error {
+	seelog.Debug("Start reporting Dropbox to Local")
 	wg := &sync.WaitGroup{}
 	cmpRows := make(chan *CompareRowDropboxToLocal)
 	repRows := make(chan report.ReportRow)
 
 	go trav.CompareDropboxToLocal(cmpRows, wg)
-	go opts.ReportOpts.Write("NotFoundInLocal", repRows)
+	go opts.ReportOpts.Write("NotFoundInLocal", repRows, wg)
 
 	repRows <- report.ReportHeader{
 		Headers: []string{
@@ -223,18 +222,18 @@ func reportDropboxToLocal(trav *Traverse, opts *CompareOpts) error {
 	repRows <- nil
 
 	wg.Wait()
-	opts.ReportOpts.FlushSingleReport()
 
 	return nil
 }
 
 func reportLocalToDropbox(trav *Traverse, opts *CompareOpts) error {
+	seelog.Debug("Start reporting Local to Dropbox comparison")
 	wg := &sync.WaitGroup{}
 	cmpRows := make(chan *CompareRowLocalToDropbox)
 	repRows := make(chan report.ReportRow)
 
 	go trav.CompareLocalToDropbox(cmpRows, wg)
-	go opts.ReportOpts.Write("NotFoundInDropbox", repRows)
+	go opts.ReportOpts.Write("NotFoundInDropbox", repRows, wg)
 
 	repRows <- report.ReportHeader{
 		Headers: []string{
@@ -267,17 +266,17 @@ func reportLocalToDropbox(trav *Traverse, opts *CompareOpts) error {
 	repRows <- nil
 
 	wg.Wait()
-	opts.ReportOpts.FlushSingleReport()
 
 	return nil
 }
 
 func reportSizeAndHash(trav *Traverse, opts *CompareOpts) error {
+	seelog.Debug("Start reporting size and hash comparison")
 	wg := &sync.WaitGroup{}
 	cmpRows := make(chan *CompareRowSizeAndHash)
 	repRows := make(chan report.ReportRow)
 
-	go opts.ReportOpts.Write("DifferentContent", repRows)
+	go opts.ReportOpts.Write("DifferentContent", repRows, wg)
 	go trav.CompareSizeAndHash(cmpRows, wg)
 
 	repRows <- report.ReportHeader{
@@ -318,7 +317,6 @@ func reportSizeAndHash(trav *Traverse, opts *CompareOpts) error {
 	repRows <- nil
 
 	wg.Wait()
-	opts.ReportOpts.FlushSingleReport()
 
 	return nil
 }

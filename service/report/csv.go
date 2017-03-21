@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/cihub/seelog"
+	"github.com/watermint/toolbox/infra/util"
 	"io"
 	"os"
 	"sync"
@@ -18,10 +19,12 @@ func WriteCsvRow(f io.Writer, row ReportRow) error {
 	case nil:
 		return nil
 
-	case *ReportHeader:
+	case ReportHeader:
+		seelog.Tracef("Header(%s)", util.MarshalObjectToString(r.Headers))
 		return w.Write(r.Headers)
 
-	case *ReportData:
+	case ReportData:
+		seelog.Tracef("Data(%s)", util.MarshalObjectToString(r.Data))
 		rowStr := make([]string, 0)
 		for _, a := range r.Data {
 			rowStr = append(rowStr, fmt.Sprintf("%v", a))
@@ -36,6 +39,7 @@ func WriteCsvRow(f io.Writer, row ReportRow) error {
 }
 
 func WriteCsv(f io.Writer, report chan ReportRow, wg *sync.WaitGroup) error {
+	seelog.Debug("Writing csv")
 	wg.Add(1)
 	defer wg.Done()
 
@@ -53,6 +57,7 @@ func WriteCsv(f io.Writer, report chan ReportRow, wg *sync.WaitGroup) error {
 }
 
 func WriteCsvFile(file string, report chan ReportRow, wg *sync.WaitGroup) error {
+	seelog.Debugf("writing csv to the file: path[%s]", file)
 	wg.Add(1)
 	defer wg.Done()
 

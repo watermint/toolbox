@@ -16,8 +16,12 @@ import (
 func usage() {
 	tmpl := `{{.AppName}} {{.AppVersion}} ({{.AppHash}}):
 
-Compare local path and Dropbox path
-{{.Command}} LOCALPATH [DROPBOXPATH]
+Usage:
+
+{{.Command}}                   LOCALPATH [DROPBOXPATH]
+{{.Command}}    -xlsx XLSXPATH LOCALPATH [DROPBOXPATH]
+{{.Command}} -csv-dir CSVDIR   LOCALPATH [DROPBOXPATH]
+
 `
 
 	data := struct {
@@ -63,6 +67,13 @@ func parseArgs() (*compare.CompareOpts, error) {
 func main() {
 	opts, err := parseArgs()
 	if err != nil {
+		usage()
+		fmt.Fprintln(os.Stderr, "Error: ", err)
+		return
+	}
+	err = opts.ReportOpts.ValidateMultiReportOpts()
+	if err != nil {
+		usage()
 		fmt.Fprintln(os.Stderr, "Error: ", err)
 		return
 	}
@@ -79,6 +90,7 @@ func main() {
 		seelog.Errorf("Unable to acquire token (error: %s)", err)
 		return
 	}
+	opts.DropboxToken = token
 
 	compare.Compare(opts)
 }

@@ -24,7 +24,7 @@ const (
 	</formats>
 	<outputs formatid="detail">
 		{{if .LogPath}}
-    		<filter levels="trace,info,warn,error,critical">
+    		<filter levels="trace,debug,info,warn,error,critical">
         		<rollingfile formatid="detail" filename="{{.LogPath}}" type="size" maxsize="{{.LogMaxSize}}" maxrolls="{{.LogRolls}}" />
     		</filter>
 		{{end}}

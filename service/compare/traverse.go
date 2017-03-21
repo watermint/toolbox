@@ -209,10 +209,10 @@ func (t *Traverse) scanDropboxPath(path string) error {
 func (t *Traverse) scanDropboxMeta(meta files.IsMetadata) error {
 	switch f := meta.(type) {
 	case *files.FileMetadata:
-		t.loadDropboxFileMetadata(f)
+		return t.loadDropboxFileMetadata(f)
 
 	case *files.FolderMetadata:
-		t.scanDropboxFolder(f.PathLower)
+		return t.scanDropboxFolder(f.PathLower)
 
 	case *files.DeletedMetadata:
 		seelog.Debugf("Ignore deleted file metadata: Path[%s]", f.PathLower)

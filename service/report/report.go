@@ -57,7 +57,6 @@ func (r *SimpleReportOpts) Wait() {
 type MultiReportOpts struct {
 	OutputCSVDir    string
 	OutputExcelFile string
-	wg              sync.WaitGroup
 
 	xlsxFile *xlsx.File
 }
@@ -74,7 +73,15 @@ func PrepareMultiReportFlags(f *flag.FlagSet) *MultiReportOpts {
 	return &opts
 }
 
+func (r *MultiReportOpts) ValidateMultiReportOpts() error {
+	if r.OutputCSVDir != "" && r.OutputExcelFile != "" {
+		return errors.New("Unable to specify `-xlsx` and `-csv-dir` same time. Please run separately")
+	}
+	return nil
+}
+
 func (r *MultiReportOpts) BeginMultiReport() error {
+	seelog.Debug("Begin report")
 	err := r.beginMultiReportXlsx()
 	if err != nil {
 		seelog.Warnf("Unable to begin report session for xlsx : error[%s]", err)
@@ -122,24 +129,33 @@ func (r *MultiReportOpts) beginMultiReportCsv() error {
 	return nil
 }
 
-func (r *MultiReportOpts) Write(name string, rows chan ReportRow) error {
-	err := r.writeXlsx(name, rows)
-	if err != nil {
-		seelog.Warnf("Unable to write report : name[%s] error[%s]", name, err)
-		return err
+func (r *MultiReportOpts) Write(name string, rows chan ReportRow, wg *sync.WaitGroup) error {
+	wg.Add(1)
+	defer wg.Done()
+
+	if r.OutputExcelFile != "" {
+		err := r.writeXlsx(name, rows, wg)
+		if err != nil {
+			seelog.Warnf("Unable to write report : name[%s] error[%s]", name, err)
+			return err
+		}
+		return nil
 	}
-	err = r.writeCsv(name, rows)
-	if err != nil {
-		seelog.Warnf("Unable to write report : name[%s] error[%s]", name, err)
-		return err
+	if r.OutputCSVDir != "" {
+		err := r.writeCsv(name, rows, wg)
+		if err != nil {
+			seelog.Warnf("Unable to write report : name[%s] error[%s]", name, err)
+			return err
+		}
+		return nil
 	}
 
 	return nil
 }
 
-func (r *MultiReportOpts) writeXlsx(name string, rows chan ReportRow) error {
-	r.wg.Add(1)
-	defer r.wg.Done()
+func (r *MultiReportOpts) writeXlsx(name string, rows chan ReportRow, wg *sync.WaitGroup) error {
+	wg.Add(1)
+	defer wg.Done()
 
 	sheet, err := r.xlsxFile.AddSheet(name)
 	if err != nil {
@@ -149,6 +165,7 @@ func (r *MultiReportOpts) writeXlsx(name string, rows chan ReportRow) error {
 
 	for r := range rows {
 		if r == nil {
+			seelog.Debug("Finished")
 			break
 		}
 		err = WriteXlsxRow(sheet, r)
@@ -160,16 +177,10 @@ func (r *MultiReportOpts) writeXlsx(name string, rows chan ReportRow) error {
 	return nil
 }
 
-func (r *MultiReportOpts) writeCsv(name string, rows chan ReportRow) error {
+func (r *MultiReportOpts) writeCsv(name string, rows chan ReportRow, wg *sync.WaitGroup) error {
 	csvPath := filepath.Join(r.OutputCSVDir, fmt.Sprintf("%s.csv", name))
 
-	return WriteCsvFile(csvPath, rows, &r.wg)
-}
-
-func (r *MultiReportOpts) FlushSingleReport() error {
-	r.wg.Wait()
-
-	return nil
+	return WriteCsvFile(csvPath, rows, wg)
 }
 
 func (r *MultiReportOpts) EndMultiReport() error {

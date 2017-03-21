@@ -124,8 +124,8 @@ func (d *DropboxAuthenticator) LoadOrAuth(business bool, storeToken bool) (strin
 		seelog.Infof("Dropbox Team[%s](%s)", fa.TeamId, fa.Name)
 	} else {
 		config := dropbox.Config{Token: t, Verbose: false}
-		client := users.New(config)
-		fa, err := client.GetCurrentAccount()
+		cu := users.New(config)
+		fa, err := cu.GetCurrentAccount()
 		if err != nil {
 			return d.Authorise(storeToken)
 		}
