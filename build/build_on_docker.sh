@@ -5,50 +5,36 @@
 BUILD_PATH=/tmp/out
 DIST_PATH=/dist
 
-TARGET_OS="windows darwin linux"
-TARGET_ARCH="amd64 386"
 TARGET_TOOLS="dupload dsharedlink dteammember dcmp"
+TARGET_PLATFORM="windows/386,windows/amd64,darwin/amd64,linux/386,linux/amd64"
 
 BUILD_VERSION=$(cat $PROJECT_ROOT/version)
 BUILD_HASH=$(cd $PROJECT_ROOT && git rev-parse HEAD)
 
-function test {
-    echo BUILD: Testing..
+echo --------------------
+echo BUILD: Testing..
 
-    cd $PROJECT_ROOT
-    go test $(glide novendor)
-}
+cd $PROJECT_ROOT
+go test $(glide novendor)
 
-function build {
-    echo BUILD: Building tool: $1, target OS: $2, target Arch: $3
-
-    TOOL=$1
-    export GOOS=$2
-    export GOARCH=$3
-
-    X_APP_NAME="-X github.com/watermint/toolbox/infra/knowledge.AppName=$TOOL"
-    X_APP_VERSION="-X github.com/watermint/toolbox/infra/knowledge.AppVersion=$BUILD_VERSION"
-    X_APP_HASH="-X github.com/watermint/toolbox/infra/knowledge.AppHash=$BUILD_HASH"
-    X_APP_CREDENTIALS=""
-
-    if [ -e $PROJECT_ROOT/credentials.secret ]; then
-      X_APP_CREDENTIALS=$(cat $PROJECT_ROOT/credentials.secret | xargs)
-    fi
-
-    TOOL_BUILD_PATH=$BUILD_PATH/$TOOL/$GOOS/$GOARCH
-    mkdir -p $TOOL_BUILD_PATH
-    cd $TOOL_BUILD_PATH
-    go build -ldflags "$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_CREDENTIALS" github.com/watermint/toolbox/tools/$TOOL
-}
-
-test
 
 for t in $TARGET_TOOLS; do
-  for os in $TARGET_OS; do
-    for a in $TARGET_ARCH; do
-      build $t $os $a
-    done
-  done
-  cd $BUILD_PATH/$t
-  zip -9 -r $DIST_PATH/$t-$BUILD_VERSION.zip .
+  echo --------------------
+  echo BUILD: Building tool $t
+
+  X_APP_NAME="-X github.com/watermint/toolbox/infra/knowledge.AppName=$t"
+  X_APP_VERSION="-X github.com/watermint/toolbox/infra/knowledge.AppVersion=$BUILD_VERSION"
+  X_APP_HASH="-X github.com/watermint/toolbox/infra/knowledge.AppHash=$BUILD_HASH"
+  X_APP_CREDENTIALS=""
+  if [ -e $PROJECT_ROOT/credentials.secret ]; then
+    X_APP_CREDENTIALS=$(cat $PROJECT_ROOT/credentials.secret | xargs)
+  fi
+  LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_CREDENTIALS"
+
+  xgo --ldflags="$LD_FLAGS" -out $t-$BUILD_VERSION -targets $TARGET_PLATFORM github.com/watermint/toolbox/tools/$t 
 done
+
+echo --------------------
+echo BUILD: Packaging
+cd /build
+zip -9 -r $DIST_PATH/toolbox-$BUILD_VERSION.zip .
