@@ -140,13 +140,15 @@ func (r *MultiReportOpts) Write(name string, rows chan ReportRow, wg *sync.WaitG
 			return err
 		}
 		return nil
-	}
-	if r.OutputCSVDir != "" {
+	} else if r.OutputCSVDir != "" {
 		err := r.writeCsv(name, rows, wg)
 		if err != nil {
 			seelog.Warnf("Unable to write report : name[%s] error[%s]", name, err)
 			return err
 		}
+		return nil
+	} else {
+		WriteCsv(os.Stdout, rows, wg)
 		return nil
 	}
 

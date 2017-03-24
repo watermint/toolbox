@@ -18,12 +18,14 @@ func LoadTeamMembers(token string, queue chan *team.TeamMemberInfo) error {
 	result, err := client.MembersList(arg)
 
 	if err != nil {
+		seelog.Errorf("Could not load team member: error[%s]", err)
 		return err
 	}
 	seelog.Tracef("Load: %d member(s)", len(result.Members))
 	seelog.Tracef("Has More: %t", result.HasMore)
 
 	for _, m := range result.Members {
+		seelog.Tracef("Enqueue: %s", m.Profile.AccountId)
 		queue <- m
 	}
 
@@ -37,7 +39,7 @@ func LoadTeamMembers(token string, queue chan *team.TeamMemberInfo) error {
 		cont := team.NewMembersListContinueArg(cursor)
 		result, err = client.MembersListContinue(cont)
 		if err != nil {
-			seelog.Tracef("Could not load team member (continue): cursor[%s]", cursor)
+			seelog.Errorf("Could not load team member (continue): cursor[%s] error[%s]", cursor, err)
 			queue <- nil
 			return err
 		}

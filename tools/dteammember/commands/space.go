@@ -58,7 +58,7 @@ func Space(args []string) error {
 	wg := &sync.WaitGroup{}
 	members := make(chan *team.TeamMemberInfo)
 
-	go reportSpace(token, rows, members, wg)
+	go ReportSpace(token, rows, members, wg)
 
 	err = business.LoadTeamMembers(token, members)
 	if err != nil {
@@ -72,7 +72,7 @@ func Space(args []string) error {
 	return nil
 }
 
-func reportSpace(token string, rows chan report.ReportRow, members chan *team.TeamMemberInfo, wg *sync.WaitGroup) {
+func ReportSpace(token string, rows chan report.ReportRow, members chan *team.TeamMemberInfo, wg *sync.WaitGroup) {
 	wg.Add(1)
 	defer wg.Done()
 

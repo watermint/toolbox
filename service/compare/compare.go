@@ -74,7 +74,8 @@ type CompareOpts struct {
 	DropboxBasePath string
 }
 
-func Compare(opts *CompareOpts) error {
+// Returns (true, nil) when equal contents between local and dropbox
+func Compare(opts *CompareOpts) (bool, error) {
 	var err error
 	trav := Traverse{
 		DropboxToken:    opts.DropboxToken,
@@ -84,30 +85,30 @@ func Compare(opts *CompareOpts) error {
 	}
 	err = trav.Prepare()
 	if err != nil {
-		return err
+		return false, err
 	}
 	defer trav.Close()
 	err = opts.ReportOpts.BeginMultiReport()
 	if err != nil {
 		seelog.Warnf("Unable to prepare report : error[%s]", err)
-		return err
+		return false, err
 	}
 	defer opts.ReportOpts.EndMultiReport()
 
 	err = compareScan(&trav)
 	if err != nil {
 		seelog.Warnf("Unable to scan: error[%s]", err)
-		return err
+		return false, err
 	}
 
-	reportSummary(&trav, opts)
-	reportDropboxToLocal(&trav, opts)
-	reportLocalToDropbox(&trav, opts)
-	reportSizeAndHash(&trav, opts)
+	matchSum, _ := reportSummary(&trav, opts)
+	matchDtl, _ := reportDropboxToLocal(&trav, opts)
+	matchLtd, _ := reportLocalToDropbox(&trav, opts)
+	matchSah, _ := reportSizeAndHash(&trav, opts)
 
 	opts.ReportOpts.EndMultiReport()
 
-	return nil
+	return matchSum && matchDtl && matchLtd && matchSah, nil
 }
 
 func compareScan(trav *Traverse) error {
@@ -127,17 +128,17 @@ func compareScan(trav *Traverse) error {
 	return nil
 }
 
-func reportSummary(trav *Traverse, opts *CompareOpts) error {
+func reportSummary(trav *Traverse, opts *CompareOpts) (bool, error) {
 	seelog.Debug("Start reporting Summary of comparison")
 	dbxCount, dbxSize, err := trav.SummaryDropbox()
 	if err != nil {
 		seelog.Warnf("Unable to summarise results : error[%s]", err)
-		return err
+		return false, err
 	}
 	loCount, loSize, err := trav.SummaryLocal()
 	if err != nil {
 		seelog.Warnf("Unable to summarise results : error[%s]", err)
-		return err
+		return false, err
 	}
 	repo := make(chan report.ReportRow)
 	wg := &sync.WaitGroup{}
@@ -172,10 +173,10 @@ func reportSummary(trav *Traverse, opts *CompareOpts) error {
 
 	wg.Wait()
 
-	return nil
+	return dbxCount == loCount && dbxSize == loSize, nil
 }
 
-func reportDropboxToLocal(trav *Traverse, opts *CompareOpts) error {
+func reportDropboxToLocal(trav *Traverse, opts *CompareOpts) (bool, error) {
 	seelog.Debug("Start reporting Dropbox to Local")
 	wg := &sync.WaitGroup{}
 	cmpRows := make(chan *CompareRowDropboxToLocal)
@@ -195,10 +196,12 @@ func reportDropboxToLocal(trav *Traverse, opts *CompareOpts) error {
 	}
 
 	seelog.Debug("*** Record: files not found in Local")
+	rowCount := 0
 	for row := range cmpRows {
 		if row == nil {
 			break
 		}
+		rowCount++
 
 		seelog.Debugf("Path[%s] (lower:%s) Size[%d] Hash[%s] DropboxFileId[%s] DropboxRev[%s]\n",
 			row.Path,
@@ -223,10 +226,10 @@ func reportDropboxToLocal(trav *Traverse, opts *CompareOpts) error {
 
 	wg.Wait()
 
-	return nil
+	return rowCount == 0, nil
 }
 
-func reportLocalToDropbox(trav *Traverse, opts *CompareOpts) error {
+func reportLocalToDropbox(trav *Traverse, opts *CompareOpts) (bool, error) {
 	seelog.Debug("Start reporting Local to Dropbox comparison")
 	wg := &sync.WaitGroup{}
 	cmpRows := make(chan *CompareRowLocalToDropbox)
@@ -244,10 +247,12 @@ func reportLocalToDropbox(trav *Traverse, opts *CompareOpts) error {
 	}
 
 	seelog.Debug("*** Record: files not found in Dropbox")
+	rowCount := 0
 	for row := range cmpRows {
 		if row == nil {
 			break
 		}
+		rowCount++
 		seelog.Debugf("Path[%s] (lower:%s) Size[%d] Hash[%s]\n",
 			row.Path,
 			row.PathLower,
@@ -267,10 +272,10 @@ func reportLocalToDropbox(trav *Traverse, opts *CompareOpts) error {
 
 	wg.Wait()
 
-	return nil
+	return rowCount == 0, nil
 }
 
-func reportSizeAndHash(trav *Traverse, opts *CompareOpts) error {
+func reportSizeAndHash(trav *Traverse, opts *CompareOpts) (bool, error) {
 	seelog.Debug("Start reporting size and hash comparison")
 	wg := &sync.WaitGroup{}
 	cmpRows := make(chan *CompareRowSizeAndHash)
@@ -290,10 +295,12 @@ func reportSizeAndHash(trav *Traverse, opts *CompareOpts) error {
 	}
 
 	seelog.Debug("*** Record: files size and/or hash not mached")
+	rowCount := 0
 	for row := range cmpRows {
 		if row == nil {
 			break
 		}
+		rowCount++
 
 		seelog.Debugf("Path[%s] (lower:%s) Size(Local:%d, Dropbox:%d), Hash(Local:%s, Dropbox:%s)\n",
 			row.Path,
@@ -318,5 +325,5 @@ func reportSizeAndHash(trav *Traverse, opts *CompareOpts) error {
 
 	wg.Wait()
 
-	return nil
+	return rowCount == 0, nil
 }

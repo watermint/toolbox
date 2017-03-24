@@ -162,9 +162,15 @@ func (t *Traverse) loadDropboxFileMetadata(f *files.FileMetadata) error {
 	) VALUES (?, ?, ?, ?, ?, ?)
 	`
 
-	_, err := t.db.Exec(
+	keyPath, err := filepath.Rel(t.DropboxBasePath, f.PathLower)
+	if err != nil {
+		seelog.Warnf("Unable to identify relative path from base[%s] to [%s] : error[%s]", t.DropboxBasePath, f.PathLower, err)
+		return err
+	}
+
+	_, err = t.db.Exec(
 		q,
-		t.normalizeKeyPath(f.PathLower),
+		t.normalizeKeyPath(keyPath),
 		f.PathDisplay,
 		f.Id,
 		f.Rev,
@@ -387,6 +393,7 @@ func (t *Traverse) InsertLocal(fileInfo *LocalFileInfo) error {
 	  content_hash
 	) VALUES (?, ?, ?, ?)
 	`
+
 	_, err := t.db.Exec(
 		q,
 		t.normalizeKeyPath(fileInfo.PathLower),
