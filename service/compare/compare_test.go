@@ -1,8 +1,15 @@
 package compare
 
 import (
+	"fmt"
+	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/service/report"
+	"github.com/watermint/toolbox/service/upload"
 	"io/ioutil"
+	"os"
+	"path"
 	"testing"
+	"time"
 )
 
 func TestContentHash(t *testing.T) {
@@ -40,5 +47,55 @@ func TestContentHash(t *testing.T) {
 	}
 	if h != expectedChunked {
 		t.Errorf("Hash not matched expected[%s] actual[%s]", expectedChunked, h)
+	}
+}
+
+func TestUploadAndCompare(t *testing.T) {
+	infraOpts := infra.InfraOpts{}
+	err := infraOpts.Startup()
+	if err != nil {
+		t.Skip("Skip")
+		return
+	}
+	defer infraOpts.Shutdown()
+	token := os.Getenv("TEST_TOKEN_DROPBOX_FULL")
+	if token == "" {
+		t.Skip("No token for test.")
+		return
+	}
+	wd, err := os.Getwd()
+	if err != nil {
+		t.Error("Could not acquire wd", err)
+		return
+	}
+
+	localBasePath := path.Join(wd, "infra")
+	dbxTestPath := "/test"
+	dbxTestSession := fmt.Sprintf("%x", time.Now().Unix())
+	dbxBasePath := path.Join(dbxTestPath, dbxTestSession)
+
+	uc := &upload.UploadContext{
+		LocalRecursive:     true,
+		LocalFollowSymlink: false,
+		DropboxBasePath:    dbxBasePath,
+		DropboxToken:       token,
+		BandwidthLimit:     0,
+	}
+	upload.Upload([]string{localBasePath}, uc, 1)
+
+	co := CompareOpts{
+		InfraOpts:       &infraOpts,
+		ReportOpts:      &report.MultiReportOpts{},
+		DropboxToken:    token,
+		DropboxBasePath: dbxBasePath,
+		LocalBasePath:   localBasePath,
+	}
+	match, err := Compare(&co)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if !match {
+		t.Error("Contents are not matched")
 	}
 }

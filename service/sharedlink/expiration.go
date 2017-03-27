@@ -118,6 +118,7 @@ func ListAllSharedLinks(dropbox *dropbox.Config, receiver chan SharedLinkReceive
 	for {
 		arg := sharing.NewListSharedLinksArg()
 		arg.Cursor = cursor
+		seelog.Tracef("ListSharedLink with cursor[%s]", cursor)
 		result, err := client.ListSharedLinks(arg)
 
 		if err != nil {
@@ -126,6 +127,7 @@ func ListAllSharedLinks(dropbox *dropbox.Config, receiver chan SharedLinkReceive
 		}
 
 		var entries []sharing.IsSharedLinkMetadata
+		seelog.Tracef("[%d] links found, has_more[%t]", len(entries), result.HasMore)
 		for _, l := range entries {
 			switch meta := l.(type) {
 			case *sharing.SharedLinkMetadata:
