@@ -69,6 +69,7 @@ func NewLocalFileInfo(basePath, path string) (*LocalFileInfo, error) {
 
 func (t *Traverse) normalizeKeyPath(path string) string {
 	path = strings.ToLower(path)
+	path = filepath.ToSlash(path)
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -147,7 +148,7 @@ func (t *Traverse) Prepare() error {
 }
 
 func (t *Traverse) ScanDropbox() error {
-	return t.scanDropboxPath(t.DropboxBasePath)
+	return t.scanDropboxPath(filepath.ToSlash(t.DropboxBasePath))
 }
 
 func (t *Traverse) loadDropboxFileMetadata(f *files.FileMetadata) error {
@@ -162,15 +163,33 @@ func (t *Traverse) loadDropboxFileMetadata(f *files.FileMetadata) error {
 	) VALUES (?, ?, ?, ?, ?, ?)
 	`
 
-	keyPath, err := filepath.Rel(t.DropboxBasePath, f.PathLower)
-	if err != nil {
-		seelog.Warnf("Unable to identify relative path from base[%s] to [%s] : error[%s]", t.DropboxBasePath, f.PathLower, err)
-		return err
+	var err error
+	var keyPath string
+
+	if t.DropboxBasePath != "" {
+		keyPath, err = filepath.Rel(t.DropboxBasePath, f.PathLower)
+		if err != nil {
+			seelog.Warnf("Unable to identify relative path from base[%s] to [%s] : error[%s]", t.DropboxBasePath, f.PathLower, err)
+			return err
+		}
+	} else {
+		keyPath = f.PathLower
 	}
+	keyPath = t.normalizeKeyPath(keyPath)
+
+	seelog.Tracef(
+		"Loading Dropbox file metadata: keyPath[%s] path[%s] id[%s] rev[%s] size[%d] hash[%s]",
+		keyPath,
+		f.PathDisplay,
+		f.Id,
+		f.Rev,
+		f.Size,
+		f.ContentHash,
+	)
 
 	_, err = t.db.Exec(
 		q,
-		t.normalizeKeyPath(keyPath),
+		keyPath,
 		f.PathDisplay,
 		f.Id,
 		f.Rev,
@@ -394,10 +413,21 @@ func (t *Traverse) InsertLocal(fileInfo *LocalFileInfo) error {
 	) VALUES (?, ?, ?, ?)
 	`
 
+	keyPath := t.normalizeKeyPath(fileInfo.PathLower)
+	path := t.normalizeUnicodePath(fileInfo.Path)
+
+	seelog.Tracef(
+		"Loading local file: keyPath[%s] path[%s] size[%d] hash[%s]",
+		keyPath,
+		path,
+		fileInfo.Size,
+		fileInfo.ContentHash,
+	)
+
 	_, err := t.db.Exec(
 		q,
-		t.normalizeKeyPath(fileInfo.PathLower),
-		t.normalizeUnicodePath(fileInfo.Path),
+		keyPath,
+		path,
 		fileInfo.Size,
 		fileInfo.ContentHash,
 	)
@@ -453,8 +483,26 @@ func (t *Traverse) scanLocalDir(path string) error {
 		return err
 	}
 	for _, f := range list {
-		p := filepath.Join(path, f.Name())
+		name := f.Name()
+		p := filepath.Join(path, name)
 		seelog.Debugf("Directory entry[%s] isDir[%t] size[%d]", p, f.IsDir(), f.Size())
+
+		lowerName := strings.ToLower(name)
+		// Ignore files which not sync'ed through Dropbox (e.g. desktop.ini)
+		// @see https://www.dropbox.com/help/9183
+		// @see https://www.dropbox.com/help/8838
+		// @see https://www.dropbox.com/help/328
+		if lowerName == ".dropbox" ||
+			lowerName == ".dropbox.cache" ||
+			lowerName == ".dropbox.attr" ||
+			lowerName == "desktop.ini" ||
+			lowerName == "thumbs.db" ||
+			lowerName == ".ds_store" ||
+			lowerName == "icon\r" {
+			seelog.Debugf("Ignore Dropbox system file [%s]", name)
+			continue
+		}
+
 		if f.IsDir() {
 			err := t.scanLocalDir(p)
 			if err != nil {
