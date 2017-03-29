@@ -1,14 +1,4 @@
-FROM karalabe/xgo-1.7.x
-
-RUN apt-get update -y
-RUN apt-get upgrade -y
-RUN apt-get install -y zip git curl
-
-ENV GOBIN=/usr/local/go/bin
-ENV PATH=$PATH:/usr/local/go/bin
-RUN curl https://glide.sh/get | sh
-
-RUN cd $GOPATH
+FROM watermint/xgo-glide
 
 RUN mkdir /dist
 ENV PROJECT_ROOT=$GOPATH/src/github.com/watermint/toolbox
