@@ -475,6 +475,35 @@ func (t *Traverse) scanLocalPath(path string) error {
 	}
 }
 
+func IsDropboxSyncableFileName(name string) bool {
+	lowerName := strings.ToLower(name)
+
+	// Ignore files which not sync'ed through Dropbox (e.g. desktop.ini)
+	// @see https://www.dropbox.com/help/9183
+	// @see https://www.dropbox.com/help/8838
+	// @see https://www.dropbox.com/help/328
+	if lowerName == ".dropbox" ||
+		lowerName == ".dropbox.cache" ||
+		lowerName == ".dropbox.attr" ||
+		lowerName == "desktop.ini" ||
+		lowerName == "thumbs.db" ||
+		lowerName == ".ds_store" ||
+		lowerName == "icon\r" {
+		return false
+	}
+
+	// Ignore temporary files
+	// @see https://www.dropbox.com/help/145
+	if strings.HasPrefix(lowerName, "~$") ||
+		strings.HasPrefix(lowerName, ".~") ||
+		(strings.HasPrefix(lowerName, "~") && strings.HasSuffix(lowerName, ".tmp")) {
+
+		return false
+	}
+
+	return true
+}
+
 func (t *Traverse) scanLocalDir(path string) error {
 	seelog.Debugf("Scanning directory: [%s]", path)
 	list, err := ioutil.ReadDir(path)
@@ -487,19 +516,8 @@ func (t *Traverse) scanLocalDir(path string) error {
 		p := filepath.Join(path, name)
 		seelog.Debugf("Directory entry[%s] isDir[%t] size[%d]", p, f.IsDir(), f.Size())
 
-		lowerName := strings.ToLower(name)
-		// Ignore files which not sync'ed through Dropbox (e.g. desktop.ini)
-		// @see https://www.dropbox.com/help/9183
-		// @see https://www.dropbox.com/help/8838
-		// @see https://www.dropbox.com/help/328
-		if lowerName == ".dropbox" ||
-			lowerName == ".dropbox.cache" ||
-			lowerName == ".dropbox.attr" ||
-			lowerName == "desktop.ini" ||
-			lowerName == "thumbs.db" ||
-			lowerName == ".ds_store" ||
-			lowerName == "icon\r" {
-			seelog.Debugf("Ignore Dropbox system file [%s]", name)
+		if !IsDropboxSyncableFileName(name) {
+			seelog.Debugf("Ignore file which cannot sync'ed through Dropbox. name[%s]", name)
 			continue
 		}
 
