@@ -83,7 +83,7 @@ func TestUploadAndCompare(t *testing.T) {
 		BandwidthLimit:     0,
 		Concurrency:        1,
 	}
-	upload.Upload(uc)
+	uc.Upload()
 
 	co := CompareOpts{
 		InfraOpts:       &infraOpts,

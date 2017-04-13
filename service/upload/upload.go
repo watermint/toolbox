@@ -28,11 +28,13 @@ type UploadContext struct {
 	LocalFollowSymlink bool
 	DropboxBasePath    string
 	DropboxToken       string
+	DeleteAfterUpload  bool
+	BandwidthLimit     int
+	Concurrency        int
 
-	DeleteOnUpload bool
-
-	BandwidthLimit int
-	Concurrency    int
+	uploadQueue chan *scanContext
+	throttle    *bwlimit.Bwlimit
+	backlog     *sync.WaitGroup
 }
 
 type scanContext struct {
@@ -41,25 +43,26 @@ type scanContext struct {
 	uploadContext *UploadContext
 }
 
-func Upload(uc *UploadContext) {
-	queue := make(chan *scanContext)
-	wg := &sync.WaitGroup{}
+func (uc *UploadContext) Upload() {
 	bw := bwlimit.NewBwlimit(uc.BandwidthLimit, true)
+	uc.uploadQueue = make(chan *scanContext)
+	uc.backlog = &sync.WaitGroup{}
+	uc.throttle = &bw
 
 	for i := 0; i < uc.Concurrency; i++ {
-		go uploadRoutine(queue, wg, &bw)
+		go uc.uploadRoutine()
 	}
 	for _, p := range uc.LocalPaths {
-		scanPath(p, uc, wg, queue)
+		uc.scanPath(p)
 	}
 
-	close(queue)
+	close(uc.uploadQueue)
 
-	wg.Wait()
-	bw.Wait()
+	uc.backlog.Wait()
+	uc.throttle.Wait()
 }
 
-func scanPath(srcPath string, uc *UploadContext, wg *sync.WaitGroup, queue chan *scanContext) {
+func (uc *UploadContext) scanPath(srcPath string) {
 	sc := scanContext{
 		localPath:     srcPath,
 		uploadContext: uc,
@@ -79,13 +82,13 @@ func scanPath(srcPath string, uc *UploadContext, wg *sync.WaitGroup, queue chan 
 
 	seelog.Infof("Scanning files from: [%s]", sc.localBasePath)
 
-	queuePath(&sc, queue, wg)
+	sc.queuePath()
 }
 
-func uploadRoutine(uploadQueue chan *scanContext, wg *sync.WaitGroup, bw *bwlimit.Bwlimit) {
-	for uc := range uploadQueue {
-		err := upload(uc, bw)
-		wg.Done()
+func (uc *UploadContext) uploadRoutine() {
+	for sc := range uc.uploadQueue {
+		err := sc.upload()
+		uc.backlog.Done()
 
 		if err != nil {
 			// TODO: err handling
@@ -93,7 +96,7 @@ func uploadRoutine(uploadQueue chan *scanContext, wg *sync.WaitGroup, bw *bwlimi
 	}
 }
 
-func upload(sc *scanContext, bw *bwlimit.Bwlimit) error {
+func (sc *scanContext) upload() error {
 	seelog.Trace("Uploading file: ", sc.localPath)
 	info, err := os.Lstat(sc.localPath)
 	if err != nil {
@@ -116,13 +119,13 @@ func upload(sc *scanContext, bw *bwlimit.Bwlimit) error {
 	seelog.Tracef("Start uploading local[%s] dropbox[%s] relative [%s]", sc.localPath, dropboxPath, relative)
 	defer seelog.Tracef("Finished uploading local[%s] dropbox[%s] relative [%s]", sc.localBasePath, dropboxPath, relative)
 	if info.Size() < UPLOAD_CHUNK_THRESHOLD {
-		return uploadSingle(sc, info, dropboxPath, bw)
+		return sc.uploadSingle(info, dropboxPath)
 	} else {
-		return uploadChunked(sc, info, dropboxPath, bw)
+		return sc.uploadChunked(info, dropboxPath)
 	}
 }
 
-func uploadSingle(sc *scanContext, info os.FileInfo, dropboxPath string, bw *bwlimit.Bwlimit) error {
+func (sc *scanContext) uploadSingle(info os.FileInfo, dropboxPath string) error {
 	config := dropbox.Config{Token: sc.uploadContext.DropboxToken, Verbose: false}
 	client := files.New(config)
 	f, err := os.Open(sc.localPath)
@@ -131,7 +134,7 @@ func uploadSingle(sc *scanContext, info os.FileInfo, dropboxPath string, bw *bwl
 		return err
 	}
 	defer f.Close()
-	bwf := bw.Reader(f)
+	bwf := sc.uploadContext.throttle.Reader(f)
 
 	ci := files.NewCommitInfo(dropboxPath)
 	ci.ClientModified = sdk.RebaseTimeForAPI(info.ModTime())
@@ -142,10 +145,11 @@ func uploadSingle(sc *scanContext, info os.FileInfo, dropboxPath string, bw *bwl
 		return err
 	}
 	seelog.Infof("File uploaded [%s] -> [%s] (%s)", sc.localPath, dropboxPath, res.Id)
+
 	return nil
 }
 
-func uploadChunked(sc *scanContext, info os.FileInfo, dropboxPath string, bw *bwlimit.Bwlimit) error {
+func (sc *scanContext) uploadChunked(info os.FileInfo, dropboxPath string) error {
 	seelog.Tracef("Chunked upload: %s", sc.localPath)
 	config := dropbox.Config{Token: sc.uploadContext.DropboxToken, Verbose: false}
 	client := files.New(config)
@@ -157,7 +161,7 @@ func uploadChunked(sc *scanContext, info os.FileInfo, dropboxPath string, bw *bw
 	defer f.Close()
 
 	seelog.Tracef("Chunked Upload: Start session: %s", sc.localPath)
-	r := bw.Reader(io.LimitReader(f, UPLOAD_CHUNK_SIZE))
+	r := sc.uploadContext.throttle.Reader(io.LimitReader(f, UPLOAD_CHUNK_SIZE))
 	session, err := client.UploadSessionStart(files.NewUploadSessionStartArg(), r)
 	if err != nil {
 		seelog.Warnf("Unable to create upload file [%s] by error [%v]", sc.localPath, err)
@@ -177,7 +181,7 @@ func uploadChunked(sc *scanContext, info os.FileInfo, dropboxPath string, bw *bw
 		cursor := files.NewUploadSessionCursor(session.SessionId, uint64(writtenBytes))
 		aa := files.NewUploadSessionAppendArg(cursor)
 
-		r = bw.Reader(io.LimitReader(f, UPLOAD_CHUNK_SIZE))
+		r = sc.uploadContext.throttle.Reader(io.LimitReader(f, UPLOAD_CHUNK_SIZE))
 		err := client.UploadSessionAppendV2(aa, r)
 		if err != nil {
 			seelog.Warnf("Unable to upload file [%s] caused by error [%v]", sc.localPath, err)
@@ -193,7 +197,7 @@ func uploadChunked(sc *scanContext, info os.FileInfo, dropboxPath string, bw *bw
 	ci.Path = dropboxPath
 	ci.ClientModified = sdk.RebaseTimeForAPI(info.ModTime())
 	fa := files.NewUploadSessionFinishArg(cursor, ci)
-	res, err := client.UploadSessionFinish(fa, bw.Reader(f))
+	res, err := client.UploadSessionFinish(fa, sc.uploadContext.throttle.Reader(f))
 	if err != nil {
 		seelog.Warnf("Unable to finish upload: path[%s] caused by error [%s]", dropboxPath, err)
 		return err
@@ -202,7 +206,7 @@ func uploadChunked(sc *scanContext, info os.FileInfo, dropboxPath string, bw *bw
 	return nil
 }
 
-func queuePath(sc *scanContext, c chan *scanContext, wg *sync.WaitGroup) {
+func (sc *scanContext) queuePath() {
 	info, err := os.Lstat(sc.localPath)
 	if err != nil {
 		seelog.Warn("Unable to acquire information about path. Skipped.", sc.localPath)
@@ -213,15 +217,15 @@ func queuePath(sc *scanContext, c chan *scanContext, wg *sync.WaitGroup) {
 		return
 	}
 	if info.IsDir() {
-		queueDir(sc, c, wg)
+		sc.queueDir()
 	} else {
 		seelog.Trace("Queue Path: ", sc.localPath)
-		c <- sc
-		wg.Add(1)
+		sc.uploadContext.uploadQueue <- sc
+		sc.uploadContext.backlog.Add(1)
 	}
 }
 
-func queueDir(sc *scanContext, c chan *scanContext, wg *sync.WaitGroup) error {
+func (sc *scanContext) queueDir() error {
 	list, err := ioutil.ReadDir(sc.localPath)
 	if err != nil {
 		seelog.Warnf("Unable to load directory [%s]. Skipped", sc.localPath)
@@ -239,12 +243,12 @@ func queueDir(sc *scanContext, c chan *scanContext, wg *sync.WaitGroup) error {
 		}
 
 		child := &scanContext{
+			uploadContext: sc.uploadContext,
 			localBasePath: sc.localBasePath,
 			localPath:     localPath,
-			uploadContext: sc.uploadContext,
 		}
 
-		queuePath(child, c, wg)
+		child.queuePath()
 	}
 	return nil
 }

@@ -53,6 +53,9 @@ func parseArgs() (*upload.UploadContext, error) {
 	descBandwidthLimit := "Limit upload bandwidth; KBytes per second (not kbps)"
 	f.IntVar(&uo.BandwidthLimit, "bwlimit", 0, descBandwidthLimit)
 
+	descDeleteAfterUpload := "Delete file after upload completed"
+	f.BoolVar(&uo.DeleteAfterUpload, "migrate", false, descDeleteAfterUpload)
+
 	f.SetOutput(os.Stderr)
 	f.Parse(os.Args[1:])
 	args := f.Args()
@@ -98,5 +101,5 @@ func main() {
 		return
 	}
 
-	upload.Upload(opts)
+	opts.Upload()
 }
