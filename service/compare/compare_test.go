@@ -75,13 +75,15 @@ func TestUploadAndCompare(t *testing.T) {
 	dbxBasePath := path.Join(dbxTestPath, dbxTestSession)
 
 	uc := &upload.UploadContext{
+		LocalPaths:         []string{localBasePath},
 		LocalRecursive:     true,
 		LocalFollowSymlink: false,
 		DropboxBasePath:    dbxBasePath,
 		DropboxToken:       token,
 		BandwidthLimit:     0,
+		Concurrency:        1,
 	}
-	upload.Upload([]string{localBasePath}, uc, 1)
+	upload.Upload(uc)
 
 	co := CompareOpts{
 		InfraOpts:       &infraOpts,

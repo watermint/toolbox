@@ -32,20 +32,10 @@ Usage:
 	infra.ShowUsage(tmpl, data)
 }
 
-type UploadOptions struct {
-	Infra              *infra.InfraOpts
-	LocalPaths         []string
-	LocalRecursive     bool
-	LocalFollowSymlink bool
-	DropboxBasePath    string
-	Concurrency        int
-	BandwidthLimit     int
-}
-
-func parseArgs() (*UploadOptions, error) {
+func parseArgs() (*upload.UploadContext, error) {
 	f := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 
-	uo := UploadOptions{}
+	uo := upload.UploadContext{}
 	uo.Infra = infra.PrepareInfraFlags(f)
 
 	descRecursive := "Recurse into directories"
@@ -108,13 +98,5 @@ func main() {
 		return
 	}
 
-	uc := &upload.UploadContext{
-		LocalRecursive:     opts.LocalRecursive,
-		LocalFollowSymlink: opts.LocalFollowSymlink,
-		DropboxBasePath:    opts.DropboxBasePath,
-		DropboxToken:       token,
-		BandwidthLimit:     opts.BandwidthLimit,
-	}
-
-	upload.Upload(opts.LocalPaths, uc, opts.Concurrency)
+	upload.Upload(opts)
 }
