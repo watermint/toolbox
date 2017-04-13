@@ -32,9 +32,12 @@ type UploadContext struct {
 	BandwidthLimit     int
 	Concurrency        int
 
-	uploadQueue chan *scanContext
-	throttle    *bwlimit.Bwlimit
-	backlog     *sync.WaitGroup
+	// private variables
+	uploadQueue   chan *scanContext
+	uploadBacklog *sync.WaitGroup
+	deleteQueue   chan *deleteContext
+	deleteBacklog *sync.WaitGroup
+	throttle      *bwlimit.Bwlimit
 }
 
 type scanContext struct {
@@ -43,12 +46,22 @@ type scanContext struct {
 	uploadContext *UploadContext
 }
 
+type deleteContext struct {
+	localPath     string
+	localFile     os.FileInfo
+	uploadedFile  *files.FileMetadata
+	uploadContext *UploadContext
+}
+
 func (uc *UploadContext) Upload() {
 	bw := bwlimit.NewBwlimit(uc.BandwidthLimit, true)
+	uc.deleteQueue = make(chan *deleteContext)
+	uc.deleteBacklog = &sync.WaitGroup{}
 	uc.uploadQueue = make(chan *scanContext)
-	uc.backlog = &sync.WaitGroup{}
+	uc.uploadBacklog = &sync.WaitGroup{}
 	uc.throttle = &bw
 
+	go uc.deleteRoutine()
 	for i := 0; i < uc.Concurrency; i++ {
 		go uc.uploadRoutine()
 	}
@@ -58,8 +71,16 @@ func (uc *UploadContext) Upload() {
 
 	close(uc.uploadQueue)
 
-	uc.backlog.Wait()
+	uc.uploadBacklog.Wait()
 	uc.throttle.Wait()
+	uc.deleteBacklog.Wait()
+
+	if uc.DeleteAfterUpload && uc.LocalRecursive {
+		seelog.Tracef("Delete empty folders after upload")
+		for _, p := range uc.LocalPaths {
+			deleteEmptyFolders(p)
+		}
+	}
 }
 
 func (uc *UploadContext) scanPath(srcPath string) {
@@ -88,11 +109,18 @@ func (uc *UploadContext) scanPath(srcPath string) {
 func (uc *UploadContext) uploadRoutine() {
 	for sc := range uc.uploadQueue {
 		err := sc.upload()
-		uc.backlog.Done()
+		uc.uploadBacklog.Done()
 
 		if err != nil {
 			// TODO: err handling
 		}
+	}
+}
+
+func (uc *UploadContext) deleteRoutine() {
+	for dc := range uc.deleteQueue {
+		dc.deleteFile()
+		uc.deleteBacklog.Done()
 	}
 }
 
@@ -125,6 +153,24 @@ func (sc *scanContext) upload() error {
 	}
 }
 
+func (sc *scanContext) deleteQueue(path string, info os.FileInfo, meta *files.FileMetadata) {
+	if !sc.uploadContext.DeleteAfterUpload {
+		return // Ignore
+	}
+
+	d := &deleteContext{
+		localPath:     path,
+		localFile:     info,
+		uploadedFile:  meta,
+		uploadContext: sc.uploadContext,
+	}
+
+	seelog.Tracef("Enqueue delete: [%s]", sc.localPath)
+
+	sc.uploadContext.deleteBacklog.Add(1)
+	sc.uploadContext.deleteQueue <- d
+}
+
 func (sc *scanContext) uploadSingle(info os.FileInfo, dropboxPath string) error {
 	config := dropbox.Config{Token: sc.uploadContext.DropboxToken, Verbose: false}
 	client := files.New(config)
@@ -145,6 +191,7 @@ func (sc *scanContext) uploadSingle(info os.FileInfo, dropboxPath string) error 
 		return err
 	}
 	seelog.Infof("File uploaded [%s] -> [%s] (%s)", sc.localPath, dropboxPath, res.Id)
+	sc.deleteQueue(sc.localPath, info, res)
 
 	return nil
 }
@@ -203,6 +250,8 @@ func (sc *scanContext) uploadChunked(info os.FileInfo, dropboxPath string) error
 		return err
 	}
 	seelog.Infof("File uploaded [%s] -> [%s] (%s)", sc.localPath, dropboxPath, res.Id)
+	sc.deleteQueue(sc.localPath, info, res)
+
 	return nil
 }
 
@@ -220,8 +269,8 @@ func (sc *scanContext) queuePath() {
 		sc.queueDir()
 	} else {
 		seelog.Trace("Queue Path: ", sc.localPath)
+		sc.uploadContext.uploadBacklog.Add(1)
 		sc.uploadContext.uploadQueue <- sc
-		sc.uploadContext.backlog.Add(1)
 	}
 }
 
@@ -251,4 +300,87 @@ func (sc *scanContext) queueDir() error {
 		child.queuePath()
 	}
 	return nil
+}
+
+func (dc *deleteContext) deleteFile() error {
+	if !dc.uploadContext.DeleteAfterUpload {
+		seelog.Trace("Skip deleteFile")
+		return nil
+	}
+
+	if uint64(dc.localFile.Size()) != dc.uploadedFile.Size {
+		seelog.Warnf(
+			"Skip delete file: because size not equal to uploaded file. Local(path:%s, size:%d) Dropbox(path:%s, size:%d)",
+			dc.localPath,
+			dc.localFile.Size(),
+			dc.uploadedFile.Name,
+			dc.uploadedFile.Size,
+		)
+		return nil
+	}
+
+	err := os.Remove(dc.localPath)
+	if err != nil {
+		seelog.Warnf("Unable to remove file : path[%s] error[%s]", dc.localPath, err)
+		return err
+	}
+	seelog.Infof("Removed uploaded file: %s", dc.localPath)
+
+	return nil
+}
+
+func deleteEmptyFolders(path string) {
+	seelog.Tracef("Delete empty folder: %s", path)
+	info, err := os.Lstat(path)
+	if err != nil {
+		seelog.Warn("Unable to acquire information about path. Skipped.", path)
+		return
+	}
+	if info.Mode()&os.ModeSymlink == os.ModeSymlink {
+		seelog.Tracef("Skipped (symlink): %s", path)
+		return
+	}
+	if !info.IsDir() {
+		seelog.Tracef("Skipped (regular file): %s", path)
+		return
+	}
+
+	list, err := ioutil.ReadDir(path)
+	if err != nil {
+		seelog.Warnf("Unable to load directory [%s]. Skipped", path)
+		return
+	}
+
+	regularFiles := 0
+	for _, f := range list {
+		childPath := filepath.Join(path, f.Name())
+
+		if f.IsDir() {
+			deleteEmptyFolders(childPath)
+		} else {
+			regularFiles++
+		}
+	}
+
+	if regularFiles > 0 {
+		seelog.Tracef("Skip: file exists (%d regular files): %s", regularFiles, path)
+		return
+	}
+
+	list, err = ioutil.ReadDir(path)
+	if err != nil {
+		seelog.Warnf("Unable to load directory [%s]. Skipped", path)
+		return
+	}
+	if len(list) > 0 {
+		seelog.Tracef("Skip: file exists (%d files or folders): %s", len(list), path)
+		return
+	}
+
+	err = os.Remove(path)
+	if err != nil {
+		seelog.Warnf("Unable to remove folder : path[%s] error[%s]", path, err)
+		return
+	}
+	seelog.Infof("Removed uploaded folder: %s", path)
 }

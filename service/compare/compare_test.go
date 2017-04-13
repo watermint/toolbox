@@ -80,6 +80,7 @@ func TestUploadAndCompare(t *testing.T) {
 		LocalFollowSymlink: false,
 		DropboxBasePath:    dbxBasePath,
 		DropboxToken:       token,
+		DeleteAfterUpload:  false,
 		BandwidthLimit:     0,
 		Concurrency:        1,
 	}

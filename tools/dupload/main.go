@@ -100,6 +100,6 @@ func main() {
 		seelog.Errorf("Unable to acquire token (error: %s)", err)
 		return
 	}
-
+	opts.DropboxToken = token
 	opts.Upload()
 }
