@@ -21,16 +21,16 @@ func AssignPseudoExtId(token string, member *team.TeamMemberInfo, dryRun bool) e
 	}
 
 	config := dropbox.Config{
-		Token:   token,
-		Verbose: true,
+		Token: token,
 	}
 	client := team.New(config)
-	s := &team.UserSelectorArg{
-		Email: member.Profile.Email,
-	}
+	s := &team.UserSelectorArg{}
+	s.Tag = "email" // Workaround
+	s.Email = member.Profile.Email
+
 	a := team.NewMembersSetProfileArg(s)
-	a.User = s
 	a.NewExternalId = newExternalId
+
 	m, err := client.MembersSetProfile(a)
 	if err != nil {
 		seelog.Warnf("Unable to update member external Id : email[%s] error[%s]", member.Profile.Email, err)
@@ -50,7 +50,9 @@ func AssignPseudoExtIdByEmail(token string, email string, dryRun bool) error {
 	s := &team.UserSelectorArg{
 		Email: email,
 	}
-	a := team.NewMembersGetInfoArgs([]*team.UserSelectorArg{s})
+	u := make([]*team.UserSelectorArg, 0)
+	u = append(u, s)
+	a := team.NewMembersGetInfoArgs(u)
 	m, err := client.MembersGetInfo(a)
 	if err != nil {
 		seelog.Warnf("Unable to get member info : email[%s] error[%s]", email, err)
@@ -93,7 +95,6 @@ func AssignPseudoExtIdForTeam(token string, dryRun bool) error {
 	err := business.LoadTeamMembers(token, queue)
 	if err != nil {
 		seelog.Warnf("Unable to load members : error[%s]", err)
-		return err
 	}
 
 	wg.Wait()
