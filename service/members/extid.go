@@ -25,7 +25,7 @@ func AssignPseudoExtId(token string, member *team.TeamMemberInfo, dryRun bool) e
 	}
 	client := team.New(config)
 	s := &team.UserSelectorArg{}
-	s.Tag = "email" // Workaround
+	//s.Tag = "email" // Workaround
 	s.Email = member.Profile.Email
 
 	a := team.NewMembersSetProfileArg(s)
@@ -66,38 +66,31 @@ func AssignPseudoExtIdByEmail(token string, email string, dryRun bool) error {
 	return AssignPseudoExtId(token, m[0].MemberInfo, dryRun)
 }
 
-func assignPseudoExtIdForTeamMember(token string, queue chan *team.TeamMemberInfo, dryRun bool, wg *sync.WaitGroup) error {
-	wg.Add(1)
-	defer wg.Done()
+type assignPseudoExtIdForTeamMember struct {
+	token  string
+	dryRun bool
+}
 
-	for member := range queue {
-		if member == nil {
-			seelog.Trace("Reached to the end")
-			break
-		}
+func (a *assignPseudoExtIdForTeamMember) LoadMember(member *team.TeamMemberInfo) error {
+	seelog.Tracef("Assign pseudo external id: Email[%s] OrigExtId[%s]", member.Profile.Email, member.Profile.ExternalId)
+	return AssignPseudoExtId(a.token, member, a.dryRun)
+}
 
-		err := AssignPseudoExtId(token, member, dryRun)
-		if err != nil {
-			seelog.Warnf("Unable to update member. Suspend operation : error[%s]", err)
-			return err
-		}
-	}
-	seelog.Trace("Finished")
-	return nil
+func (a *assignPseudoExtIdForTeamMember) Finished() {
+	// NOP
 }
 
 func AssignPseudoExtIdForTeam(token string, dryRun bool) error {
-	wg := &sync.WaitGroup{}
-	queue := make(chan *team.TeamMemberInfo)
+	a := &assignPseudoExtIdForTeamMember{
+		token:  token,
+		dryRun: dryRun,
+	}
 
-	go assignPseudoExtIdForTeamMember(token, queue, dryRun, wg)
-
-	err := business.LoadTeamMembers(token, queue)
+	err := business.LoadTeamMembers(token, a)
 	if err != nil {
 		seelog.Warnf("Unable to load members : error[%s]", err)
 	}
 
-	wg.Wait()
 	return nil
 }
 
@@ -146,7 +139,7 @@ func ShowExtIdForTeam(token string) error {
 
 	go showExtIdForTeamMember(queue, wg)
 
-	err := business.LoadTeamMembers(token, queue)
+	err := business.LoadTeamMembersQueue(token, queue)
 	if err != nil {
 		seelog.Warnf("Unable to load members : error[%s]", err)
 		return err

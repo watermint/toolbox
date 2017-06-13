@@ -32,7 +32,7 @@ func TestTeamMemberSpace(t *testing.T) {
 	go ReportSpace(token, rows, mq, wg)
 	wg.Done()
 
-	err = business.LoadTeamMembers(token, mq)
+	err = business.LoadTeamMembersQueue(token, mq)
 	if err != nil {
 		t.Error(err)
 	}

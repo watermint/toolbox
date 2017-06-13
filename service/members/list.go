@@ -63,7 +63,7 @@ func ListMembers(token string, rows chan report.ReportRow, status string) error 
 
 	go reportMembers(rows, members, wg, status)
 
-	err := business.LoadTeamMembers(token, members)
+	err := business.LoadTeamMembersQueue(token, members)
 	if err != nil {
 		return err
 	}

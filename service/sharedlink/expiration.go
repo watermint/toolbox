@@ -58,7 +58,7 @@ func UpdateSharedLinkForTeam(token string, expiration UpdateSharedLinkExpireCont
 	wg := &sync.WaitGroup{}
 
 	go UpdateSharedLinkExpire(receiver, expiration, wg)
-	go business.LoadTeamMembers(token, queue)
+	go business.LoadTeamMembersQueue(token, queue)
 
 	for m := range queue {
 		if m == nil {

@@ -60,7 +60,7 @@ func Space(args []string) error {
 
 	go ReportSpace(token, rows, members, wg)
 
-	err = business.LoadTeamMembers(token, members)
+	err = business.LoadTeamMembersQueue(token, members)
 	if err != nil {
 		return err
 	}
