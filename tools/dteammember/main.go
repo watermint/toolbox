@@ -21,6 +21,12 @@ List member(s) of the team
 {{.Command}} list
 {{.Command}} list -csv members.csv
 {{.Command}} list -status invited
+
+External Id
+{{.Command}} extid -list -user user@example.com
+{{.Command}} extid -list -all-users
+{{.Command}} extid -assign-pseudo-id -user user@example.com
+{{.Command}} extid -assign-pseudo-id -all-users
 `
 
 	data := struct {
@@ -58,6 +64,12 @@ func main() {
 
 	case "space":
 		err := commands.Space(os.Args[2:])
+		if err != nil {
+			seelog.Error(err)
+		}
+
+	case "extid":
+		err := commands.ExtId(os.Args[2:])
 		if err != nil {
 			seelog.Error(err)
 		}
