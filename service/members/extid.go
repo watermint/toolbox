@@ -25,7 +25,7 @@ func AssignPseudoExtId(token string, member *team.TeamMemberInfo, dryRun bool) e
 	}
 	client := team.New(config)
 	s := &team.UserSelectorArg{}
-	//s.Tag = "email" // Workaround
+	s.Tag = "email" // Workaround
 	s.Email = member.Profile.Email
 
 	a := team.NewMembersSetProfileArg(s)
