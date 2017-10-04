@@ -172,7 +172,7 @@ func (sc *scanContext) deleteQueue(path string, info os.FileInfo, meta *files.Fi
 }
 
 func (sc *scanContext) uploadSingle(info os.FileInfo, dropboxPath string) error {
-	config := dropbox.Config{Token: sc.uploadContext.DropboxToken, Verbose: false}
+	config := dropbox.Config{Token: sc.uploadContext.DropboxToken}
 	client := files.New(config)
 	f, err := os.Open(sc.localPath)
 	if err != nil {
@@ -198,7 +198,7 @@ func (sc *scanContext) uploadSingle(info os.FileInfo, dropboxPath string) error 
 
 func (sc *scanContext) uploadChunked(info os.FileInfo, dropboxPath string) error {
 	seelog.Tracef("Chunked upload: %s", sc.localPath)
-	config := dropbox.Config{Token: sc.uploadContext.DropboxToken, Verbose: false}
+	config := dropbox.Config{Token: sc.uploadContext.DropboxToken}
 	client := files.New(config)
 	f, err := os.Open(sc.localPath)
 	if err != nil {

@@ -1,17 +1,17 @@
 hash: f2662ec035af7970bb1391cc84741f6e6719b08ef3c176e5c20db10f56555e36
-updated: 2017-08-07T15:53:24.984842763+09:00
+updated: 2017-10-04T15:48:08.619715277+01:00
 imports:
 - name: github.com/cihub/seelog
   version: d2c6e5aa9fbfdd1c624e140287063c7730654115
 - name: github.com/dropbox/dropbox-sdk-go-unofficial
-  version: 38a991074941e4fafc1f9f28191df02312a1601e
+  version: 21bd0de0e00c1ab4c552c27ade3fd7d779d1707d
   subpackages:
   - dropbox
   - dropbox/...
   - dropbox/async
   - dropbox/auth
+  - dropbox/file_properties
   - dropbox/files
-  - dropbox/properties
   - dropbox/sharing
   - dropbox/team
   - dropbox/team_common
@@ -19,31 +19,31 @@ imports:
   - dropbox/users
   - dropbox/users_common
 - name: github.com/golang/protobuf
-  version: 748d386b5c1ea99658fd69fe9f03991ce86a90c1
+  version: 130e6b02ab059e7b717a096f397c5b60111cae74
   subpackages:
   - proto
 - name: github.com/mattn/go-sqlite3
   version: ca5e3819723d8eeaf170ad510e7da1d6d2e94a08
 - name: github.com/tealeg/xlsx
-  version: 213bccdca3ebca16656be44dd663b8b52c00a954
+  version: 466a0a69fccec6236a79c9214acb5502dbc6fa9a
 - name: github.com/watermint/bwlimit
   version: 8152079585508d4cb67950578277091bb233641b
 - name: golang.org/x/net
-  version: f5079bd7f6f74e23c4d65efa0f4ce14cbd6a3c0f
+  version: a04bdaca5b32abe1c069418fb7088ae607de5bd0
   subpackages:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: 96fca6c793ec32f068f97942ae3c7c073810dfc1
+  version: bb50c06baba3d0c76f9d125c0719093e315b5b44
   subpackages:
   - internal
 - name: golang.org/x/text
-  version: 3bd178b88a8180be2df394a1fbb81313916f0e7b
+  version: 1cbadb444a806fd9430d14ad08967ed91da4fa0a
   subpackages:
   - transform
   - unicode/norm
 - name: google.golang.org/appengine
-  version: c5a90ac045b779001847fec87403f5cba090deae
+  version: 24e4144ec923c2374f6b06610c0df16a9222c3d9
   subpackages:
   - internal
   - internal/base

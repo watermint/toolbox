@@ -11,8 +11,6 @@ import (
 	"runtime"
 )
 
-const ()
-
 type DiagnosticsInfra struct {
 	OS        string
 	Arch      string

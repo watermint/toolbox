@@ -13,6 +13,7 @@ import (
 	"golang.org/x/oauth2"
 	"io/ioutil"
 	"strings"
+	"context"
 )
 
 type DropboxTokenType int
@@ -171,7 +172,7 @@ func (d *DropboxAuthenticator) LoadOrAuth(business bool, storeToken bool) (strin
 	}
 
 	if business {
-		config := dropbox.Config{Token: t, Verbose: false}
+		config := dropbox.Config{Token: t}
 		client := team.New(config)
 		fa, err := client.GetInfo()
 		if err != nil {
@@ -179,7 +180,7 @@ func (d *DropboxAuthenticator) LoadOrAuth(business bool, storeToken bool) (strin
 		}
 		seelog.Infof("Dropbox Team[%s](%s)", fa.TeamId, fa.Name)
 	} else {
-		config := dropbox.Config{Token: t, Verbose: false}
+		config := dropbox.Config{Token: t}
 		cu := users.New(config)
 		fa, err := cu.GetCurrentAccount()
 		if err != nil {
@@ -265,7 +266,7 @@ func (d *DropboxAuthenticator) authUrl(cfg *oauth2.Config, state string) string 
 }
 
 func (d *DropboxAuthenticator) authExchange(cfg *oauth2.Config, code string) (*oauth2.Token, error) {
-	return cfg.Exchange(oauth2.NoContext, code)
+	return cfg.Exchange(context.Background(), code)
 }
 
 func (d *DropboxAuthenticator) codeDialogue(state string) string {
@@ -292,7 +293,7 @@ func (d *DropboxAuthenticator) auth(state string) (*oauth2.Token, error) {
 }
 
 func RevokeToken(token string) {
-	config := dropbox.Config{Token: token, Verbose: false}
+	config := dropbox.Config{Token: token}
 	client := auth.New(config)
 	err := client.TokenRevoke()
 	if err != nil {
