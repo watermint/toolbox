@@ -2,6 +2,7 @@ package auth
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
@@ -14,10 +15,22 @@ import (
 	"strings"
 )
 
+type DropboxTokenType int
+
+const (
+	DropboxTokenFull DropboxTokenType = iota
+	DropboxTokenApp
+	DropboxTokenBusinessInfo
+	DropboxTokenBusinessAudit
+	DropboxTokenBusinessFile
+	DropboxTokenBusinessManagement
+)
+
 type DropboxAuthenticator struct {
 	AuthFile  string
 	AppKey    string
 	AppSecret string
+	TokenType DropboxTokenType
 }
 
 const (
@@ -32,14 +45,14 @@ const (
 	authPromptMessage2 = `
 Enter the authorisation code here: `
 
-	authGeneratedToken1 = `========================================================
+	authGeneratedToken1Tmpl = `========================================================
 1. Visit the MyApp page (you mihgt have to login first):
 
 https://www.dropbox.com/developers/apps
 
 2. Proceed with "Create App"
-3. Choose "Dropbox API"
-4. Choose "Full Dropbox"
+3. Choose "{{.API}}"
+4. Choose "{{.TypeOfAccess}}"
 5. Enter name of your app
 6. Proceed with "Create App"
 7. Hit "Generate" button near "Generated access token"
@@ -49,6 +62,49 @@ https://www.dropbox.com/developers/apps
 Enter the generated token here:
 `
 )
+
+func (d *DropboxAuthenticator) generateTokenInstruction() error {
+	api := ""
+	toa := ""
+
+	if d.TokenType == DropboxTokenFull {
+		api = "Dropbox API"
+		toa = "Full Dropbox"
+	} else if d.TokenType == DropboxTokenApp {
+		api = "Dropbox API"
+		toa = "App folder"
+	} else if d.TokenType == DropboxTokenBusinessInfo {
+		api = "Dropbox Business API"
+		toa = "Team information"
+	} else if d.TokenType == DropboxTokenBusinessAudit {
+		api = "Dropbox Business API"
+		toa = "Team auditing"
+	} else if d.TokenType == DropboxTokenBusinessFile {
+		api = "Dropbox Business API"
+		toa = "Team member file access"
+	} else if d.TokenType == DropboxTokenBusinessManagement {
+		api = "Dropbox Business API"
+		toa = "Team member management"
+	} else {
+		seelog.Errorf("Undefined token type: %d", d.TokenType)
+		return errors.New(fmt.Sprintf("Undefined token type"))
+	}
+
+	data := struct {
+		API          string
+		TypeOfAccess string
+	}{
+		API:          api,
+		TypeOfAccess: toa,
+	}
+	instr, err := util.CompileTemplate(authGeneratedToken1Tmpl, data)
+	if err != nil {
+		seelog.Debugf("Unable to compile template: [[[%s]]]", authGeneratedToken1Tmpl)
+		return errors.New("unable to generate instruction")
+	}
+	fmt.Println(instr)
+	return nil
+}
 
 func (d *DropboxAuthenticator) TokenFileLoadMap() (map[string]string, error) {
 	seelog.Tracef("Loading token from file: [%s]", d.AuthFile)
@@ -166,7 +222,7 @@ func (d *DropboxAuthenticator) Authorise(storeToken bool) (string, error) {
 }
 
 func (d *DropboxAuthenticator) acquireToken() (string, error) {
-	fmt.Println(authGeneratedToken1)
+	d.generateTokenInstruction()
 
 	var code string
 

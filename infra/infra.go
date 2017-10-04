@@ -78,6 +78,7 @@ func (opts *InfraOpts) LoadOrAuthDropboxFull() (string, error) {
 		AuthFile:  opts.AuthFile(),
 		AppKey:    DropboxFullAppKey,
 		AppSecret: DropboxFullAppSecret,
+		TokenType: auth.DropboxTokenFull,
 	}
 	return opts.queueToken(a, false)
 }
@@ -87,6 +88,7 @@ func (opts *InfraOpts) LoadOrAuthBusinessInfo() (string, error) {
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessInfoAppKey,
 		AppSecret: BusinessInfoAppSecret,
+		TokenType: auth.DropboxTokenBusinessInfo,
 	}
 	return a.LoadOrAuth(true, !opts.CleanupToken)
 }
@@ -96,6 +98,7 @@ func (opts *InfraOpts) LoadOrAuthBusinessFile() (string, error) {
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessFileAppKey,
 		AppSecret: BusinessFileAppSecret,
+		TokenType: auth.DropboxTokenBusinessFile,
 	}
 	return a.LoadOrAuth(true, !opts.CleanupToken)
 }
@@ -105,6 +108,7 @@ func (opts *InfraOpts) LoadOrAuthBusinessManagement() (string, error) {
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessManagementAppKey,
 		AppSecret: BusinessManagementAppSecret,
+		TokenType: auth.DropboxTokenBusinessManagement,
 	}
 	return a.LoadOrAuth(true, !opts.CleanupToken)
 }
