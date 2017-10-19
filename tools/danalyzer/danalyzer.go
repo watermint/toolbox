@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/watermint/toolbox/infra/knowledge"
-	"os"
-	"github.com/watermint/toolbox/infra"
 	"github.com/cihub/seelog"
+	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/service/tree"
+	"os"
 )
 
 func usage() {

@@ -1,18 +1,18 @@
 package file
 
 import (
-	"github.com/watermint/toolbox/infra"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"database/sql"
-	"github.com/cihub/seelog"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
-	"strings"
-	"fmt"
-	"path/filepath"
 	"errors"
-	_ "github.com/mattn/go-sqlite3"
-	"github.com/gosuri/uiprogress"
+	"fmt"
+	"github.com/cihub/seelog"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/sharing"
+	"github.com/gosuri/uiprogress"
+	_ "github.com/mattn/go-sqlite3"
+	"github.com/watermint/toolbox/infra"
+	"path/filepath"
+	"strings"
 )
 
 type MoveContext struct {
@@ -22,11 +22,9 @@ type MoveContext struct {
 	cleanedSrcPaths []string
 	cleanedDestPath string
 
-	Infra              *infra.InfraOpts
-	SrcPath            string
-	DestPath           string
-	AutoRename         bool
-	PromptConfirmation bool
+	Infra    *infra.InfraOpts
+	SrcPath  string
+	DestPath string
 }
 
 func (m *MoveContext) Move(token string) error {
@@ -780,7 +778,7 @@ func (m *MoveContext) moveFiles(token string) error {
 		}
 
 		destPath := filepath.Join(m.cleanedDestPath, rel)
-		seelog.Debugf("Move file from [%s] to [%s]", pathDisplay, destPath)
+		seelog.Debugf("Moving file from [%s] to [%s]", pathDisplay, destPath)
 
 		arg := files.NewRelocationArg(pathDisplay, destPath)
 		arg.Autorename = false

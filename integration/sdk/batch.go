@@ -1,10 +1,10 @@
 package sdk
 
 import (
+	"bytes"
+	"encoding/json"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
-	"encoding/json"
-	"bytes"
 	"io/ioutil"
 	"net/http"
 )

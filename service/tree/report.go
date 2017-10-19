@@ -1,17 +1,17 @@
 package tree
 
 import (
-	"flag"
-	"os"
-	"github.com/watermint/toolbox/infra"
-	"fmt"
-	"strings"
-	"errors"
-	"github.com/cihub/seelog"
-	"github.com/watermint/toolbox/infra/util"
 	"database/sql"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team"
+	"errors"
+	"flag"
+	"fmt"
+	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team"
+	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/infra/util"
+	"os"
+	"strings"
 )
 
 type ReportOpts struct {
@@ -178,7 +178,7 @@ func (r *ReportOpts) ReportTeamFolder(teamFileToken string) error {
 		seelog.Errorf("Unable to drop table: %s", err)
 		return err
 	}
-	
+
 	q = `
 	CREATE TABLE shared_folder (
 	  shared_folder_id      VARCHAR PRIMARY KEY,
@@ -277,11 +277,9 @@ func (r *ReportOpts) reportSharedFolders() error {
 	//DROP
 	q := ``
 
-
 }
 
 func (r *ReportOpts) reportSharedFolderMembers() error {
-
 
 }
 

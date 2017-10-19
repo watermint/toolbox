@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -13,7 +14,6 @@ import (
 	"golang.org/x/oauth2"
 	"io/ioutil"
 	"strings"
-	"context"
 )
 
 type DropboxTokenType int

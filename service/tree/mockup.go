@@ -1,12 +1,12 @@
 package tree
 
 import (
-	"github.com/watermint/toolbox/infra"
-	"flag"
-	"os"
 	"errors"
+	"flag"
 	"github.com/cihub/seelog"
+	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/util"
+	"os"
 )
 
 type MockupOpts struct {
