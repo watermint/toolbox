@@ -13,16 +13,12 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/gosuri/uiprogress"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/sharing"
-	"github.com/watermint/toolbox/integration/sdk"
-	"time"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/async"
+	"sync"
 )
 
 type MoveContext struct {
 	db              *sql.DB
 	dbFile          string
-	dbAsync         *sql.DB
-	dbAsyncFile     string
 	cleanedSrcBase  string
 	cleanedSrcPaths []string
 	cleanedDestPath string
@@ -34,12 +30,8 @@ type MoveContext struct {
 	PromptConfirmation bool
 }
 
-const (
-	MOVE_BATCH_SIZE = 100
-)
-
 func (m *MoveContext) Move(token string) error {
-	totalSteps := 10
+	totalSteps := 9
 
 	seelog.Infof("[Step 1 of %d]: Prepare execution plan", totalSteps)
 	err := m.preparePlan(token)
@@ -89,14 +81,14 @@ func (m *MoveContext) Move(token string) error {
 		return err
 	}
 
-	seelog.Infof("[Step 8 of %d]: Move files", totalSteps)
+	seelog.Infof("[Step 8 of %d]: Move file(s)", totalSteps)
 	err = m.moveFiles(token)
 	if err != nil {
 		seelog.Warnf("Unable to move file(s) : error[%s]", err)
 		return err
 	}
 
-	seelog.Infof("[Step 10 of %d]: Clean up folders of source folder", totalSteps)
+	seelog.Infof("[Step 9 of %d]: Clean up folders of source folder", totalSteps)
 	err = m.cleanupFolders(token)
 	if err != nil {
 		seelog.Warnf("Unable to clean up folder(s) : error[%s]", err)
@@ -242,15 +234,6 @@ func (m *MoveContext) prepareScan() error {
 		return err
 	}
 
-	m.dbAsyncFile = m.Infra.FileOnWorkPath("move-async.db")
-	m.dbAsync, err = sql.Open("sqlite3", m.dbAsyncFile)
-
-	if err != nil {
-		seelog.Errorf("Unable to open file: path[%s] error[%s]", m.dbFile, err)
-		return err
-	}
-
-
 	q := `
 	DROP TABLE IF EXISTS target_file
 	`
@@ -334,29 +317,6 @@ func (m *MoveContext) prepareScan() error {
 	`
 
 	_, err = m.db.Exec(q)
-	if err != nil {
-		seelog.Warnf("Unable to create table : error[%s]", err)
-		return err
-	}
-
-	q = `
-	DROP TABLE IF EXISTS job_async
-	`
-
-	_, err = m.dbAsync.Exec(q)
-	if err != nil {
-		seelog.Warnf("Unable to drop table : error[%s]", err)
-		return err
-	}
-
-	q = `
-	CREATE TABLE job_async (
-	  async_job_id    VARCHAR PRIMARY KEY,
-	  job_timestamp   INT8
-	)
-	`
-
-	_, err = m.dbAsync.Exec(q)
 	if err != nil {
 		seelog.Warnf("Unable to create table : error[%s]", err)
 		return err
@@ -782,7 +742,9 @@ func (m *MoveContext) moveFiles(token string) error {
 		return err
 	}
 
-	seelog.Infof("Moving %d files", cnt)
+	seelog.Infof("Move %d files into destination", cnt)
+
+	client := files.New(dropbox.Config{Token: token})
 
 	seelog.Flush()
 	uip := uiprogress.New()
@@ -801,8 +763,6 @@ func (m *MoveContext) moveFiles(token string) error {
 		seelog.Warnf("Unable to retrieve shared_folder info : error[%s]", err)
 		return err
 	}
-
-	batch := make([]*files.RelocationPath, 0)
 
 	for rows.Next() {
 		pathDisplay := ""
@@ -823,24 +783,16 @@ func (m *MoveContext) moveFiles(token string) error {
 		destPath := filepath.Join(m.cleanedDestPath, rel)
 		seelog.Debugf("Move file from [%s] to [%s]", pathDisplay, destPath)
 
-		batch = append(batch, files.NewRelocationPath(pathDisplay, destPath))
-		if len(batch) > MOVE_BATCH_SIZE {
-			m.enqueueBatch(batch, token)
-			batch = make([]*files.RelocationPath, 0)
+		arg := files.NewRelocationArg(pathDisplay, destPath)
+		arg.Autorename = false
+		arg.AllowOwnershipTransfer = true
+		res, err := client.MoveV2(arg)
+		if err != nil {
+			seelog.Warnf("Unable to move file from [%s] to [%s] : error[%s]", pathDisplay, destPath, err)
+			return err
 		}
-		bar.Incr()
-	}
 
-	if len(batch) > 0 {
-		m.enqueueBatch(batch, token)
-	}
-
-	return nil
-}
-
-func (m *MoveContext) debugBatchMoveEntries(entries []*files.RelocationBatchResultData) {
-	for _, e := range entries {
-		switch f := e.Metadata.(type) {
+		switch f := res.Metadata.(type) {
 		case *files.FileMetadata:
 			seelog.Debugf("File moved into [%s] file_id[%s]", f.PathDisplay, f.Id)
 
@@ -851,61 +803,13 @@ func (m *MoveContext) debugBatchMoveEntries(entries []*files.RelocationBatchResu
 			seelog.Warnf("This path should not be removed [%s]", f.PathDisplay)
 
 		default:
-			seelog.Warnf("Unknown metadata type found while moving file")
-		}
-	}
-}
-
-func (m *MoveContext) enqueueBatch(batch []*files.RelocationPath, token string) {
-	arg := files.NewRelocationBatchArg(batch)
-	arg.Autorename = false
-	arg.AllowOwnershipTransfer = true
-	arg.AllowSharedFolder = true
-
-	res, err := sdk.ZMoveBatch(dropbox.Config{Token: token}, arg)
-	if err != nil {
-		seelog.Warnf("Unable to enqueue move task : error[%s]", err)
-		return
-	}
-
-	seelog.Debugf("AsyncJobId[%s] Tag[%s]", res.AsyncJobId, res.Tag)
-	client := files.New(dropbox.Config{Token: token})
-
-	switch res.Tag {
-	case "completed":
-		seelog.Debugf("Move completed (%d relocations)", len(batch))
-
-		if res.Complete.Entries != nil {
-			m.debugBatchMoveEntries(res.Complete.Entries)
+			seelog.Warnf("Unknown metadata type found while moving file from [%s] to [%s]", pathDisplay, destPath)
 		}
 
-	case "async_job_id":
-		seelog.Debugf("Waiting task [%s]", res.AsyncJobId)
-		for {
-			time.Sleep(MOVE_BATCH_SIZE * time.Millisecond * 10)
-			batchStatus, err := client.MoveBatchCheck(async.NewPollArg(res.AsyncJobId))
-			if err != nil {
-				seelog.Warnf("Unable to check job status[%s] : error[%s]", res.AsyncJobId, err)
-			} else {
-				switch res.Tag {
-				case "in_progress":
-					seelog.Debugf("async_job_id [%s] is still in progress", res.AsyncJobId)
-
-				case "failed":
-					seelog.Debugf("async_job_id [%s] failed with error [%s]", res.AsyncJobId, batchStatus.Failed.Tag)
-					return
-
-				case "completed":
-					seelog.Debugf("async_job_id [%s] completed", res.AsyncJobId)
-					if res.Complete != nil && res.Complete.Entries != nil {
-						m.debugBatchMoveEntries(res.Complete.Entries)
-					}
-					return
-				}
-			}
-
-		}
+		bar.Incr()
 	}
+
+	return nil
 }
 
 func (m *MoveContext) cleanupFolders(token string) error {
