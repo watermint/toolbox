@@ -6,13 +6,16 @@ import (
 	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/async"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/sharing"
 	"github.com/gosuri/uiprogress"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/integration/sdk"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 type MoveContext struct {
@@ -26,6 +29,12 @@ type MoveContext struct {
 	SrcPath  string
 	DestPath string
 }
+
+const (
+	MOVE_BATCH_SIZE           = 100
+	MOVE_BATCH_RETRY_INTERVAL = 30
+	MOVE_BATCH_CHECK_INTERVAL = 3
+)
 
 func (m *MoveContext) Move(token string) error {
 	totalSteps := 9
@@ -96,8 +105,7 @@ func (m *MoveContext) Move(token string) error {
 }
 
 func cleanPath(path string) (string, error) {
-	c := filepath.Clean(path)
-	c = filepath.ToSlash(c)
+	c := filepath.ToSlash(filepath.Clean(path))
 	if !strings.HasPrefix(c, "/") {
 		c = "/" + c
 	}
@@ -170,7 +178,7 @@ func (m *MoveContext) preparePlan(token string) error {
 			for _, f := range lf.Entries {
 				n := nameInMetadata(f)
 				if n != "" {
-					m.cleanedSrcPaths = append(m.cleanedSrcPaths, filepath.Join(csp, n))
+					m.cleanedSrcPaths = append(m.cleanedSrcPaths, filepath.ToSlash(filepath.Join(csp, n)))
 				}
 			}
 			if lf.HasMore {
@@ -192,7 +200,7 @@ func (m *MoveContext) promptPlan() bool {
 	for _, sp := range m.cleanedSrcPaths {
 		b := filepath.Base(sp)
 		seelog.Infof("%s", sp)
-		seelog.Infof("-> %s", filepath.Join(m.cleanedDestPath, b))
+		seelog.Infof("-> %s", filepath.ToSlash(filepath.Join(m.cleanedDestPath, b)))
 	}
 
 	phrase := "move"
@@ -701,7 +709,7 @@ func (m *MoveContext) createFolders(token string) error {
 			seelog.Warnf("Unable to calculate relative path[%s] : error[%s]", pathDisplay, err)
 			return err
 		}
-		destPath := filepath.Join(m.cleanedDestPath, rel)
+		destPath := filepath.ToSlash(filepath.Join(m.cleanedDestPath, rel))
 		seelog.Debugf("Create destionation folder[%s]", destPath)
 
 		arg := files.NewCreateFolderArg(destPath)
@@ -741,8 +749,6 @@ func (m *MoveContext) moveFiles(token string) error {
 
 	seelog.Infof("Move %d files into destination", cnt)
 
-	client := files.New(dropbox.Config{Token: token})
-
 	seelog.Flush()
 	uip := uiprogress.New()
 	uip.Start()
@@ -761,6 +767,8 @@ func (m *MoveContext) moveFiles(token string) error {
 		return err
 	}
 
+	batch := make([]*files.RelocationPath, 0)
+
 	for rows.Next() {
 		pathDisplay := ""
 		err = rows.Scan(
@@ -777,36 +785,92 @@ func (m *MoveContext) moveFiles(token string) error {
 			return err
 		}
 
-		destPath := filepath.Join(m.cleanedDestPath, rel)
+		destPath := filepath.ToSlash(filepath.Join(m.cleanedDestPath, rel))
 		seelog.Debugf("Moving file from [%s] to [%s]", pathDisplay, destPath)
 
-		arg := files.NewRelocationArg(pathDisplay, destPath)
-		arg.Autorename = false
-		arg.AllowOwnershipTransfer = true
-
-		res, err := client.MoveV2(arg)
-		if err != nil || res.Metadata == nil {
-			seelog.Warnf("Unable to move file from [%s] to [%s] : error[%s]", arg.FromPath, arg.ToPath, err)
-		} else {
-			switch f := res.Metadata.(type) {
-			case *files.FileMetadata:
-				seelog.Debugf("File moved into [%s] file_id[%s]", f.PathDisplay, f.Id)
-
-			case *files.FolderMetadata:
-				seelog.Warnf("This path should be file [%s] folder_id[%s]", f.PathDisplay, f.Id)
-
-			case *files.DeletedMetadata:
-				seelog.Warnf("This path should not be removed [%s]", f.PathDisplay)
-
-			default:
-				seelog.Warnf("Unknown metadata type found while moving file from [%s] to [%s]", arg.FromPath, arg.ToPath)
-			}
+		batch = append(batch, files.NewRelocationPath(pathDisplay, destPath))
+		if MOVE_BATCH_SIZE <= len(batch) {
+			m.moveBatch(batch, token, bar)
+			batch = make([]*files.RelocationPath, 0)
 		}
+	}
 
-		bar.Incr()
+	if 0 < len(batch) {
+		m.moveBatch(batch, token, bar)
 	}
 
 	return nil
+}
+
+func (m *MoveContext) moveBatch(batch []*files.RelocationPath, token string, bar *uiprogress.Bar) error {
+	seelog.Debugf("Trying to move %d files", len(batch))
+	cfg := dropbox.Config{Token: token}
+	for {
+		arg := files.NewRelocationBatchArg(batch)
+		arg.AllowSharedFolder = true
+		arg.AllowOwnershipTransfer = true
+		arg.Autorename = false
+		mbRes, err := sdk.ZMoveBatch(cfg, arg)
+		if err != nil {
+			seelog.Warnf("Unable to call `move_batch` : error[%s]", err)
+			return err
+		}
+
+		asyncJobId := ""
+		switch mbRes.Tag {
+		case "complete":
+			seelog.Debugf("Move completed for %d files", len(batch))
+			for i := 0; i < len(batch); i++ {
+				bar.Incr()
+			}
+			return nil
+
+		case "async_job_id":
+			asyncJobId = mbRes.AsyncJobId
+			seelog.Debugf("`async_job_id` issued [%s]", asyncJobId)
+			break
+
+		default:
+			seelog.Warnf("Unknown tag for /files/move_batch: [%s]", mbRes.Tag)
+			return errors.New("unknown tag")
+		}
+
+		for {
+			ckRes, err := sdk.ZMoveBatchCheck(cfg, async.NewPollArg(asyncJobId))
+			if err != nil {
+				seelog.Warnf("Unable to call `/files/move_batch_check` : error[%s]", err)
+				return err
+			}
+
+			switch ckRes.Tag {
+			case "complete":
+				seelog.Debugf("Move completed by async job for %d files", len(batch))
+				for i := 0; i < len(batch); i++ {
+					bar.Incr()
+				}
+				return nil
+
+			case "in_progress":
+				seelog.Debugf("`async_job_id`[%s] is in progress", asyncJobId)
+				time.Sleep(MOVE_BATCH_CHECK_INTERVAL * time.Second)
+
+			case "failed":
+				if strings.HasPrefix(ckRes.Failed.Tag, "too_many_write_operations") {
+					seelog.Debugf("`too_many_write_operations`: Wait for seconds")
+					time.Sleep(MOVE_BATCH_RETRY_INTERVAL * time.Second)
+					break
+
+				} else {
+					seelog.Warnf("Unable to move %d files: error [%s]", len(batch), ckRes.Failed.Tag)
+					for i := 0; i < len(batch); i++ {
+						bar.Incr()
+					}
+
+					return errors.New(ckRes.Failed.Tag)
+				}
+			}
+		}
+	}
 }
 
 func (m *MoveContext) cleanupFolders(token string) error {

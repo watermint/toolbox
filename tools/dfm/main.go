@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"flag"
-	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/knowledge"
