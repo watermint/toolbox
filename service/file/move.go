@@ -13,7 +13,6 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/gosuri/uiprogress"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/sharing"
-	"sync"
 )
 
 type MoveContext struct {
@@ -764,36 +763,6 @@ func (m *MoveContext) moveFiles(token string) error {
 		return err
 	}
 
-	queue := make(chan *files.RelocationArg)
-	wg := sync.WaitGroup{}
-	for i := 0; i < 2; i++ {
-		go func(){
-			for arg := range queue {
-				res, err := client.MoveV2(arg)
-				if err != nil || res.Metadata == nil {
-					seelog.Warnf("Unable to move file from [%s] to [%s] : error[%s]", arg.FromPath, arg.ToPath, err)
-				} else {
-					switch f := res.Metadata.(type) {
-					case *files.FileMetadata:
-						seelog.Debugf("File moved into [%s] file_id[%s]", f.PathDisplay, f.Id)
-
-					case *files.FolderMetadata:
-						seelog.Warnf("This path should be file [%s] folder_id[%s]", f.PathDisplay, f.Id)
-
-					case *files.DeletedMetadata:
-						seelog.Warnf("This path should not be removed [%s]", f.PathDisplay)
-
-					default:
-						seelog.Warnf("Unknown metadata type found while moving file from [%s] to [%s]", arg.FromPath, arg.ToPath)
-					}
-				}
-
-				bar.Incr()
-				wg.Done()
-			}
-		}()
-	}
-
 	for rows.Next() {
 		pathDisplay := ""
 		err = rows.Scan(
@@ -817,10 +786,27 @@ func (m *MoveContext) moveFiles(token string) error {
 		arg.Autorename = false
 		arg.AllowOwnershipTransfer = true
 
-		wg.Add(1)
-		queue <- arg
+		res, err := client.MoveV2(arg)
+		if err != nil || res.Metadata == nil {
+			seelog.Warnf("Unable to move file from [%s] to [%s] : error[%s]", arg.FromPath, arg.ToPath, err)
+		} else {
+			switch f := res.Metadata.(type) {
+			case *files.FileMetadata:
+				seelog.Debugf("File moved into [%s] file_id[%s]", f.PathDisplay, f.Id)
+
+			case *files.FolderMetadata:
+				seelog.Warnf("This path should be file [%s] folder_id[%s]", f.PathDisplay, f.Id)
+
+			case *files.DeletedMetadata:
+				seelog.Warnf("This path should not be removed [%s]", f.PathDisplay)
+
+			default:
+				seelog.Warnf("Unknown metadata type found while moving file from [%s] to [%s]", arg.FromPath, arg.ToPath)
+			}
+		}
+
+		bar.Incr()
 	}
-	wg.Wait()
 
 	return nil
 }
