@@ -1,6 +1,7 @@
 # dcmp
 
-File comparison utility.
+File comparison utility. Generate report differences between local files and files on Dropbox.
+Comparing files by not only filename/size but also a content hash.
 
 # Usage
 

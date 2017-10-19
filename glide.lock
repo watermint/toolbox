@@ -1,10 +1,10 @@
-hash: f2662ec035af7970bb1391cc84741f6e6719b08ef3c176e5c20db10f56555e36
-updated: 2017-10-04T15:48:08.619715277+01:00
+hash: 1c0096bfca57281b9e0d7066c01e070ee9b10b166e43117f5ff798f436f0693d
+updated: 2017-10-19T12:04:35.39997626+09:00
 imports:
 - name: github.com/cihub/seelog
   version: d2c6e5aa9fbfdd1c624e140287063c7730654115
 - name: github.com/dropbox/dropbox-sdk-go-unofficial
-  version: 21bd0de0e00c1ab4c552c27ade3fd7d779d1707d
+  version: 91af7487000a752fa2d77f245665a81da072d122
   subpackages:
   - dropbox
   - dropbox/...
@@ -22,6 +22,14 @@ imports:
   version: 130e6b02ab059e7b717a096f397c5b60111cae74
   subpackages:
   - proto
+- name: github.com/gosuri/uilive
+  version: ac356e6e42cd31fcef8e6aec13ae9ed6fe87713e
+- name: github.com/gosuri/uiprogress
+  version: d0567a9d84a1c40dd7568115ea66f4887bf57b33
+  subpackages:
+  - util/strutil
+- name: github.com/mattn/go-isatty
+  version: a5cdd64afdee435007ee3e9f6ed4684af949d568
 - name: github.com/mattn/go-sqlite3
   version: ca5e3819723d8eeaf170ad510e7da1d6d2e94a08
 - name: github.com/tealeg/xlsx
@@ -29,7 +37,7 @@ imports:
 - name: github.com/watermint/bwlimit
   version: 8152079585508d4cb67950578277091bb233641b
 - name: golang.org/x/net
-  version: a04bdaca5b32abe1c069418fb7088ae607de5bd0
+  version: 1087133bc4af3073e18add999345c6ae75918503
   subpackages:
   - context
   - context/ctxhttp
@@ -37,13 +45,17 @@ imports:
   version: bb50c06baba3d0c76f9d125c0719093e315b5b44
   subpackages:
   - internal
+- name: golang.org/x/sys
+  version: 8dbc5d05d6edcc104950cc299a1ce6641235bc86
+  subpackages:
+  - unix
 - name: golang.org/x/text
-  version: 1cbadb444a806fd9430d14ad08967ed91da4fa0a
+  version: c01e4764d870b77f8abe5096ee19ad20d80e8075
   subpackages:
   - transform
   - unicode/norm
 - name: google.golang.org/appengine
-  version: 24e4144ec923c2374f6b06610c0df16a9222c3d9
+  version: a2e0dc829727a4f957a7428b1f322805cfc1f362
   subpackages:
   - internal
   - internal/base
