@@ -31,7 +31,7 @@ type MoveContext struct {
 }
 
 const (
-	MOVE_BATCH_SIZE           = 100
+	MOVE_BATCH_SIZE           = 1000
 	MOVE_BATCH_RETRY_INTERVAL = 30
 	MOVE_BATCH_CHECK_INTERVAL = 3
 )
@@ -803,9 +803,14 @@ func (m *MoveContext) moveFiles(token string) error {
 }
 
 func (m *MoveContext) moveBatch(batch []*files.RelocationPath, token string, bar *uiprogress.Bar) error {
-	seelog.Debugf("Trying to move %d files", len(batch))
 	cfg := dropbox.Config{Token: token}
+	retry := false
 	for {
+		if retry {
+			seelog.Debugf("Re-trying to move %d files", len(batch))
+		} else {
+			seelog.Debugf("Trying to move %d files", len(batch))
+		}
 		arg := files.NewRelocationBatchArg(batch)
 		arg.AllowSharedFolder = true
 		arg.AllowOwnershipTransfer = true
@@ -858,7 +863,7 @@ func (m *MoveContext) moveBatch(batch []*files.RelocationPath, token string, bar
 				if strings.HasPrefix(ckRes.Failed.Tag, "too_many_write_operations") {
 					seelog.Debugf("`too_many_write_operations`: Wait for seconds")
 					time.Sleep(MOVE_BATCH_RETRY_INTERVAL * time.Second)
-					break
+					retry = true
 
 				} else {
 					seelog.Warnf("Unable to move %d files: error [%s]", len(batch), ckRes.Failed.Tag)
@@ -868,6 +873,10 @@ func (m *MoveContext) moveBatch(batch []*files.RelocationPath, token string, bar
 
 					return errors.New(ckRes.Failed.Tag)
 				}
+			}
+
+			if retry {
+				break
 			}
 		}
 	}
