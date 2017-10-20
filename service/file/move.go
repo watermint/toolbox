@@ -279,6 +279,7 @@ func (m *MoveContext) prepareScan() error {
 	q = `
 	CREATE TABLE target_file (
 	  file_id                         VARCHAR PRIMARY KEY,
+	  parent_folder_id                VARCHAR,
 	  name                            VARCHAR,
 	  rev                             VARCHAR,
 	  size                            INT8,
@@ -309,6 +310,7 @@ func (m *MoveContext) prepareScan() error {
 	q = `
 	CREATE TABLE target_folder (
 	  folder_id                       VARCHAR PRIMARY KEY,
+	  parent_folder_id                VARCHAR,
 	  depth                           INT,
 	  name                            VARCHAR,
 	  path_lower                      VARCHAR,
@@ -384,16 +386,16 @@ func (m *MoveContext) scan(src, token string) error {
 		return err
 	}
 
-	return m.scanDispatch(meta, token)
+	return m.scanDispatch(meta, nil, token)
 }
 
-func (m *MoveContext) scanDispatch(meta files.IsMetadata, token string) error {
+func (m *MoveContext) scanDispatch(meta files.IsMetadata, parentFolder *files.FolderMetadata, token string) error {
 	switch f := meta.(type) {
 	case *files.FileMetadata:
-		return m.scanFile(f)
+		return m.scanFile(f, parentFolder)
 
 	case *files.FolderMetadata:
-		return m.scanFolder(f, token)
+		return m.scanFolder(f, parentFolder, token)
 
 	case *files.DeletedMetadata:
 		seelog.Warnf("Deleted file cannot move [%s]", f.PathDisplay)
@@ -405,10 +407,11 @@ func (m *MoveContext) scanDispatch(meta files.IsMetadata, token string) error {
 	}
 }
 
-func (m *MoveContext) scanFile(meta *files.FileMetadata) error {
+func (m *MoveContext) scanFile(meta *files.FileMetadata, parentFolder *files.FolderMetadata) error {
 	q := `
 	INSERT OR REPLACE INTO target_file (
 	  file_id,
+	  parent_folder_id,
 	  name,
 	  rev,
 	  size,
@@ -417,7 +420,7 @@ func (m *MoveContext) scanFile(meta *files.FileMetadata) error {
 	  content_hash,
 	  sharing_read_only,
 	  sharing_parent_shared_folder_id
-	) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+	) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	`
 
 	sharingReadOnly := false
@@ -438,9 +441,15 @@ func (m *MoveContext) scanFile(meta *files.FileMetadata) error {
 		pathDisplay = ""
 	}
 
+	parentFolderId := ""
+	if parentFolder != nil {
+		parentFolderId = parentFolder.Id
+	}
+
 	_, err := m.db.Exec(
 		q,
 		meta.Id,
+		parentFolderId,
 		name,
 		meta.Rev,
 		meta.Size,
@@ -459,12 +468,13 @@ func (m *MoveContext) scanFile(meta *files.FileMetadata) error {
 	return nil
 }
 
-func (m *MoveContext) scanFolder(meta *files.FolderMetadata, token string) error {
+func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata, token string) error {
 	client := files.New(dropbox.Config{Token: token})
 
 	q := `
 	INSERT OR REPLACE INTO target_folder (
 	  folder_id,
+	  parent_folder_id,
 	  depth,
 	  name,
 	  path_lower,
@@ -474,7 +484,7 @@ func (m *MoveContext) scanFolder(meta *files.FolderMetadata, token string) error
 	  sharing_shared_folder_id,
 	  sharing_traverse_only,
 	  sharing_no_access
-	) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	`
 
 	sharingReadOnly := false
@@ -501,9 +511,15 @@ func (m *MoveContext) scanFolder(meta *files.FolderMetadata, token string) error
 		pathDisplay = ""
 	}
 
+	parentFolderId := ""
+	if parentFolder != nil {
+		parentFolderId = parentFolder.Id
+	}
+
 	_, err := m.db.Exec(
 		q,
 		meta.Id,
+		parentFolderId,
 		len(strings.Split(meta.PathLower, "/")),
 		name,
 		pathLower,
@@ -529,7 +545,7 @@ func (m *MoveContext) scanFolder(meta *files.FolderMetadata, token string) error
 	more := true
 	for more {
 		for _, f := range lf.Entries {
-			err = m.scanDispatch(f, token)
+			err = m.scanDispatch(f, meta, token)
 			if err != nil {
 				seelog.Warnf("Unable to prepare file/folder meta data[%s] : error[%s]", meta.PathDisplay, err)
 				return err
