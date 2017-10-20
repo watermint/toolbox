@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"flag"
+	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/knowledge"
@@ -38,10 +39,19 @@ func parseMoveArgs(args []string) (mc *file.MoveContext, err error) {
 	mc = &file.MoveContext{}
 	mc.Infra = infra.PrepareInfraFlags(f)
 
+	descBatchSize := fmt.Sprintf("Move operation batch size (1 < batch_size < %d)", file.MOVE_BATCH_MAX_SIZE)
+	f.IntVar(&mc.BatchSize, "batch-size", 100, descBatchSize)
+
+	descPreflight := "Preflight mode (simulation mode)"
+	f.BoolVar(&mc.Preflight, "preflight", false, descPreflight)
+
+	descPreflightAnon := "Anonimise file names and folder names on preflight"
+	f.BoolVar(&mc.PreflightAnon, "preflight-anon", true, descPreflightAnon)
+
 	f.SetOutput(os.Stderr)
 	f.Parse(args)
 	remainder := f.Args()
-	if len(args) != 2 {
+	if len(remainder) != 2 {
 		f.PrintDefaults()
 		return nil, errors.New("Missing SRC and/or DEST")
 	}

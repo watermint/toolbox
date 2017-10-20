@@ -25,19 +25,25 @@ type MoveContext struct {
 	cleanedSrcPaths []string
 	cleanedDestPath string
 
-	Infra    *infra.InfraOpts
-	SrcPath  string
-	DestPath string
+	Infra         *infra.InfraOpts
+	SrcPath       string
+	DestPath      string
+	Preflight     bool
+	PreflightAnon bool
+	BatchSize     int
 }
 
 const (
-	MOVE_BATCH_SIZE           = 1000
+	MOVE_BATCH_MAX_SIZE       = 9000
 	MOVE_BATCH_RETRY_INTERVAL = 30
 	MOVE_BATCH_CHECK_INTERVAL = 3
 )
 
 func (m *MoveContext) Move(token string) error {
 	totalSteps := 9
+	if m.Preflight {
+		totalSteps = 6
+	}
 
 	seelog.Infof("[Step 1 of %d]: Prepare execution plan", totalSteps)
 	err := m.preparePlan(token)
@@ -78,6 +84,11 @@ func (m *MoveContext) Move(token string) error {
 	err = m.validatePermissions()
 	if err != nil {
 		return err
+	}
+
+	if m.Preflight {
+		seelog.Info("Preflight: Skip moving files")
+		return nil
 	}
 
 	seelog.Infof("[Step 7 of %d]: Create destination folders", totalSteps)
@@ -133,6 +144,11 @@ func nameInMetadata(meta files.IsMetadata) string {
 func (m *MoveContext) preparePlan(token string) error {
 	var err error
 	client := files.New(dropbox.Config{Token: token})
+
+	if MOVE_BATCH_MAX_SIZE < m.BatchSize {
+		seelog.Infof("Batch size reduced to avoid hitting API upper limit: %d -> %d", m.BatchSize, MOVE_BATCH_MAX_SIZE)
+		m.BatchSize = MOVE_BATCH_MAX_SIZE
+	}
 
 	// Prepare dest path
 	m.cleanedDestPath, err = cleanPath(m.DestPath)
@@ -192,15 +208,26 @@ func (m *MoveContext) preparePlan(token string) error {
 		}
 	}
 
+	if len(m.cleanedSrcPaths) < 1 {
+		seelog.Warnf("No target files/folders found.")
+		return errors.New("no target files or folders found")
+	}
+
 	return nil
 }
 
 func (m *MoveContext) promptPlan() bool {
+
 	seelog.Info("Execution plan:")
 	for _, sp := range m.cleanedSrcPaths {
 		b := filepath.Base(sp)
 		seelog.Infof("%s", sp)
 		seelog.Infof("-> %s", filepath.ToSlash(filepath.Join(m.cleanedDestPath, b)))
+	}
+
+	if m.Preflight {
+		seelog.Info("Skip confirmation for preflight mode")
+		return true
 	}
 
 	phrase := "move"
@@ -401,14 +428,24 @@ func (m *MoveContext) scanFile(meta *files.FileMetadata) error {
 		sharingParentSharedFolderId = meta.SharingInfo.ParentSharedFolderId
 	}
 
+	name := meta.Name
+	pathLower := meta.PathLower
+	pathDisplay := meta.PathDisplay
+
+	if m.Preflight && m.PreflightAnon {
+		name = ""
+		pathLower = ""
+		pathDisplay = ""
+	}
+
 	_, err := m.db.Exec(
 		q,
 		meta.Id,
-		meta.Name,
+		name,
 		meta.Rev,
 		meta.Size,
-		meta.PathLower,
-		meta.PathDisplay,
+		pathLower,
+		pathDisplay,
 		meta.ContentHash,
 		sharingReadOnly,
 		sharingParentSharedFolderId,
@@ -454,13 +491,23 @@ func (m *MoveContext) scanFolder(meta *files.FolderMetadata, token string) error
 		sharingNoAccess = meta.SharingInfo.NoAccess
 	}
 
+	name := meta.Name
+	pathLower := meta.PathLower
+	pathDisplay := meta.PathDisplay
+
+	if m.Preflight && m.PreflightAnon {
+		name = ""
+		pathLower = ""
+		pathDisplay = ""
+	}
+
 	_, err := m.db.Exec(
 		q,
 		meta.Id,
 		len(strings.Split(meta.PathLower, "/")),
-		meta.Name,
-		meta.PathLower,
-		meta.PathDisplay,
+		name,
+		pathLower,
+		pathDisplay,
 		sharingReadOnly,
 		sharingParentSharedFolderId,
 		sharingSharedFolderId,
@@ -558,14 +605,22 @@ func (m *MoveContext) scanSharedFolderInfo(sharedFolderId, token string) error {
 	) VALUES (?, ?, ?, ?, ?, ?)
 	`
 
+	name := meta.Name
+	pathLower := meta.PathLower
+
+	if m.Preflight && m.PreflightAnon {
+		name = ""
+		pathLower = ""
+	}
+
 	_, err = m.db.Exec(
 		q,
 		meta.SharedFolderId,
-		meta.Name,
+		name,
 		meta.IsInsideTeamFolder,
 		meta.IsTeamFolder,
 		meta.ParentSharedFolderId,
-		meta.PathLower,
+		pathLower,
 	)
 	if err != nil {
 		seelog.Warnf("Unable to prepare shared folder info : error[%s]", err)
@@ -789,7 +844,7 @@ func (m *MoveContext) moveFiles(token string) error {
 		seelog.Debugf("Moving file from [%s] to [%s]", pathDisplay, destPath)
 
 		batch = append(batch, files.NewRelocationPath(pathDisplay, destPath))
-		if MOVE_BATCH_SIZE <= len(batch) {
+		if m.BatchSize <= len(batch) {
 			m.moveBatch(batch, token, bar)
 			batch = make([]*files.RelocationPath, 0)
 		}
