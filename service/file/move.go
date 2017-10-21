@@ -1,7 +1,6 @@
 package file
 
 import (
-	"database/sql"
 	"errors"
 	"fmt"
 	"github.com/cihub/seelog"
@@ -10,10 +9,9 @@ import (
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/sharing"
 	"github.com/dustin/go-humanize"
-	"github.com/gosuri/uiprogress"
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/watermint/toolbox/infra"
-	"github.com/watermint/toolbox/infra/util"
+	"github.com/watermint/toolbox/infra/dbsugar"
+	"github.com/watermint/toolbox/infra/progress"
 	"github.com/watermint/toolbox/integration/sdk"
 	"path/filepath"
 	"strings"
@@ -21,7 +19,7 @@ import (
 )
 
 type MoveContext struct {
-	db              *sql.DB
+	db              *dbsugar.DatabaseSugar
 	dbFile          string
 	cleanedSrcBase  string
 	cleanedSrcPaths []string
@@ -84,20 +82,23 @@ const (
 	)
 	`
 
-	move_table_target_file          = "target_file"
-	move_table_target_folder        = "target_folder"
-	move_table_target_shared_folder = "target_shared_folder"
-	move_table_dest_file            = "dest_file"
-	move_table_dest_folder          = "dest_folder"
-	move_table_dest_shared_folder   = "dest_shared_folder"
+	move_table_src_file          = "src_file"
+	move_table_src_folder        = "src_folder"
+	move_table_src_shared_folder = "src_shared_folder"
+	move_table_dst_file          = "dst_file"
+	move_table_dst_folder        = "dst_folder"
+	move_table_dst_shared_folder = "dst_shared_folder"
+
+	move_scan_src = 1
+	move_scan_dst = 2
 )
 
 const (
 	move_step_prepare_execution_plan = iota
 	move_step_confirm_execution_plan
 	move_step_prepare_scan
-	move_step_scan_target_folders
-	move_step_scan_target_shared_folders
+	move_step_scan_src_folders
+	move_step_scan_src_shared_folders
 	move_step_validate
 	move_step_create_destination_folders
 	move_step_move_files
@@ -126,11 +127,11 @@ func (m *MoveContext) Move() error {
 	title[move_step_prepare_scan] = "Preparing scan files and folders"
 	steps[move_step_prepare_scan] = m.stepPrepareScan
 
-	title[move_step_scan_target_folders] = "Scan target files and folders"
-	steps[move_step_scan_target_folders] = m.stepScanTargetFolders
+	title[move_step_scan_src_folders] = "Scan source files and folders"
+	steps[move_step_scan_src_folders] = m.stepScanSrcFolders
 
-	title[move_step_scan_target_shared_folders] = "Scan sharing information"
-	steps[move_step_scan_target_shared_folders] = m.stepScanTargetSharedFolders
+	title[move_step_scan_src_shared_folders] = "Scan source shared folders"
+	steps[move_step_scan_src_shared_folders] = m.stepScanSrcSharedFolders
 
 	title[move_step_validate] = "Validate permissions of files/folders"
 	steps[move_step_validate] = m.stepValidatePermissions
@@ -256,8 +257,8 @@ func (m *MoveContext) stepPrepareExecutionPlan() error {
 	}
 
 	if len(m.cleanedSrcPaths) < 1 {
-		seelog.Warnf("No target files/folders found.")
-		return errors.New("no target files or folders found")
+		seelog.Warnf("No src files/folders found.")
+		return errors.New("no src files or folders found")
 	}
 
 	return nil
@@ -302,54 +303,26 @@ func (m *MoveContext) stepConfirmExecutionPlan() error {
 	return nil
 }
 
-func (m *MoveContext) createTable(tableName, ddlTmpl string) error {
-	dropTable := fmt.Sprintf("DROP TABLE IF EXISTS %s", tableName)
-	_, err := m.db.Exec(dropTable)
-	if err != nil {
-		seelog.Warnf("Unable to drop table [%s] : error[%s]", tableName, err)
-		return err
-	}
-
-	ddl, err := util.CompileTemplate(ddlTmpl, struct {
-		TableName string
-	}{
-		TableName: tableName,
-	})
-
-	if err != nil {
-		seelog.Warnf("Unable to compile TableName[%s], DDL[%s] : error[%s]", tableName, ddlTmpl, err)
-		return err
-	}
-
-	_, err = m.db.Exec(ddl)
-	if err != nil {
-		seelog.Warnf("Unable to create table [%s] : error[%s]", tableName, err)
-		return err
-	}
-	return nil
-}
-
 func (m *MoveContext) stepPrepareScan() error {
 	var err error
 
 	m.dbFile = m.Infra.FileOnWorkPath("move.db")
-	m.db, err = sql.Open("sqlite3", m.dbFile)
-
-	if err != nil {
+	m.db = &dbsugar.DatabaseSugar{DataSourceName: m.dbFile}
+	if err = m.db.Open(); err != nil {
 		seelog.Errorf("Unable to open file: path[%s] error[%s]", m.dbFile, err)
 		return err
 	}
 
 	ddl := make(map[string]string)
-	ddl[move_table_dest_file] = move_create_table_file
-	ddl[move_table_dest_folder] = move_create_table_folder
-	ddl[move_table_dest_shared_folder] = move_create_table_shared_folder
-	ddl[move_table_target_file] = move_create_table_file
-	ddl[move_table_target_folder] = move_create_table_folder
-	ddl[move_table_target_shared_folder] = move_create_table_shared_folder
+	ddl[move_table_dst_file] = move_create_table_file
+	ddl[move_table_dst_folder] = move_create_table_folder
+	ddl[move_table_dst_shared_folder] = move_create_table_shared_folder
+	ddl[move_table_src_file] = move_create_table_file
+	ddl[move_table_src_folder] = move_create_table_folder
+	ddl[move_table_src_shared_folder] = move_create_table_shared_folder
 
 	for tn, d := range ddl {
-		err = m.createTable(tn, d)
+		err = m.db.CreateTable(tn, d)
 		if err != nil {
 			seelog.Warnf("Failed to prepare table[%s]: error[%s]", tn, err)
 			return err
@@ -359,21 +332,18 @@ func (m *MoveContext) stepPrepareScan() error {
 	return nil
 }
 
-func (m *MoveContext) stepScanTargetFolders() error {
-	seelog.Flush()
-	uip := uiprogress.New()
-	uip.Start()
-	defer uip.Stop()
-	bar := uip.AddBar(len(m.cleanedSrcPaths))
-	bar.PrependElapsed()
-	bar.AppendCompleted()
+func (m *MoveContext) stepScanSrcFolders() error {
+	pui := &progress.ProgressUI{}
+	pui.Start(len(m.cleanedSrcPaths))
+	defer pui.End()
+
 	for _, s := range m.cleanedSrcPaths {
 		err := m.scan(s)
 		if err != nil {
-			seelog.Warnf("Failed to scan target files/folders : error[%s]", err)
+			seelog.Warnf("Failed to scan src files/folders : error[%s]", err)
 			return err
 		}
-		bar.Incr()
+		pui.Incr()
 	}
 
 	m.scanReport()
@@ -386,12 +356,10 @@ func (m *MoveContext) scanReport() {
 	var fSize uint64
 	var folderCount int64
 
-	q := `
-	SELECT COUNT(file_id), SUM(size) FROM target_file
-	`
-
-	row := m.db.QueryRow(q)
-	err := row.Scan(
+	err := m.db.QueryRow(
+		"SELECT COUNT(file_id), SUM(size) FROM {{.TableName}}",
+		move_table_src_file,
+	).Scan(
 		&fCount,
 		&fSize,
 	)
@@ -400,12 +368,10 @@ func (m *MoveContext) scanReport() {
 		return
 	}
 
-	q = `
-	SELECT COUNT(folder_id) FROM target_folder
-	`
-
-	row = m.db.QueryRow(q)
-	err = row.Scan(
+	err = m.db.QueryRow(
+		"SELECT COUNT(folder_id) FROM {{.TableName}}",
+		move_table_src_folder,
+	).Scan(
 		&folderCount,
 	)
 	if err != nil {
@@ -452,7 +418,7 @@ func (m *MoveContext) scanDispatch(meta files.IsMetadata, parentFolder *files.Fo
 
 func (m *MoveContext) scanFile(meta *files.FileMetadata, parentFolder *files.FolderMetadata) error {
 	q := `
-	INSERT OR REPLACE INTO target_file (
+	INSERT OR REPLACE INTO {{.TableName}} (
 	  file_id,
 	  parent_folder_id,
 	  name,
@@ -491,6 +457,7 @@ func (m *MoveContext) scanFile(meta *files.FileMetadata, parentFolder *files.Fol
 
 	_, err := m.db.Exec(
 		q,
+		move_table_src_file,
 		meta.Id,
 		parentFolderId,
 		name,
@@ -513,22 +480,6 @@ func (m *MoveContext) scanFile(meta *files.FileMetadata, parentFolder *files.Fol
 
 func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata) error {
 	client := files.New(m.dbxCfgFull)
-
-	q := `
-	INSERT OR REPLACE INTO target_folder (
-	  folder_id,
-	  parent_folder_id,
-	  depth,
-	  name,
-	  path_lower,
-	  path_display,
-	  sharing_read_only,
-	  sharing_parent_shared_folder_id,
-	  sharing_shared_folder_id,
-	  sharing_traverse_only,
-	  sharing_no_access
-	) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-	`
 
 	sharingReadOnly := false
 	sharingParentSharedFolderId := ""
@@ -560,7 +511,20 @@ func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata) error
 	}
 
 	_, err := m.db.Exec(
-		q,
+		`INSERT OR REPLACE INTO {{.TableName}} (
+		  folder_id,
+		  parent_folder_id,
+		  depth,
+		  name,
+		  path_lower,
+		  path_display,
+		  sharing_read_only,
+		  sharing_parent_shared_folder_id,
+		  sharing_shared_folder_id,
+		  sharing_traverse_only,
+		  sharing_no_access
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+		move_table_src_folder,
 		meta.Id,
 		parentFolderId,
 		len(strings.Split(meta.PathLower, "/")),
@@ -607,11 +571,11 @@ func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata) error
 	return nil
 }
 
-func (m *MoveContext) stepScanTargetSharedFolders() error {
-	q := `
-	SELECT DISTINCT sharing_shared_folder_id FROM target_folder WHERE sharing_shared_folder_id <> ""
-	`
-	rows, err := m.db.Query(q)
+func (m *MoveContext) stepScanSrcSharedFolders() error {
+	rows, err := m.db.Query(
+		`SELECT DISTINCT sharing_shared_folder_id FROM {{.TableName}} WHERE sharing_shared_folder_id <> ""`,
+		move_table_src_folder,
+	)
 	if err != nil {
 		seelog.Warnf("Unable to retrieve shared_folder info : error[%s]", err)
 		return err
@@ -654,17 +618,6 @@ func (m *MoveContext) scanSharedFolderInfo(sharedFolderId string) error {
 		return err
 	}
 
-	q := `
-	INSERT OR REPLACE INTO target_shared_folder (
-	  shared_folder_id,
-	  name,
-	  is_inside_team_folder,
-	  is_team_folder,
-	  parent_shared_folder_id,
-	  path_lower
-	) VALUES (?, ?, ?, ?, ?, ?)
-	`
-
 	name := meta.Name
 	pathLower := meta.PathLower
 
@@ -674,7 +627,15 @@ func (m *MoveContext) scanSharedFolderInfo(sharedFolderId string) error {
 	}
 
 	_, err = m.db.Exec(
-		q,
+		`INSERT OR REPLACE INTO {{.TableName}} (
+		  shared_folder_id,
+		  name,
+		  is_inside_team_folder,
+		  is_team_folder,
+		  parent_shared_folder_id,
+		  path_lower
+		) VALUES (?, ?, ?, ?, ?, ?)`,
+		move_table_src_shared_folder,
 		meta.SharedFolderId,
 		name,
 		meta.IsInsideTeamFolder,
@@ -691,13 +652,13 @@ func (m *MoveContext) scanSharedFolderInfo(sharedFolderId string) error {
 }
 
 func (m *MoveContext) numberOfSharedFoldersInSrc() (int, error) {
-	q := `
-	SELECT COUNT(DISTINCT sharing_shared_folder_id) FROM target_folder WHERE sharing_shared_folder_id <> ""
-	`
-
 	cnt := 0
-	row := m.db.QueryRow(q)
-	err := row.Scan(
+	err := m.db.QueryRow(
+		`SELECT COUNT(DISTINCT sharing_shared_folder_id)
+		FROM  {{.TableName}}
+		WHERE sharing_shared_folder_id <> ""`,
+		move_table_src_folder,
+	).Scan(
 		&cnt,
 	)
 	if err != nil {
@@ -714,15 +675,10 @@ func (m *MoveContext) stepValidatePermissions() error {
 	cntNoAccess := 0
 
 	// Validate files
-	q := `
-	SELECT
-	  SUM(sharing_read_only)
-	FROM
-	  target_file
-	`
-
-	row := m.db.QueryRow(q)
-	err := row.Scan(
+	err := m.db.QueryRow(
+		`SELECT IFNULL(SUM(sharing_read_only), 0) FROM {{.TableName}}`,
+		move_table_src_file,
+	).Scan(
 		&cntReadOnly,
 	)
 	if err != nil {
@@ -736,17 +692,14 @@ func (m *MoveContext) stepValidatePermissions() error {
 	}
 
 	// Validate folders
-	q = `
-	SELECT
-	  SUM(sharing_read_only),
-	  SUM(sharing_traverse_only),
-	  SUM(sharing_no_access)
-	FROM
-	  target_folder
-	`
-
-	row = m.db.QueryRow(q)
-	err = row.Scan(
+	err = m.db.QueryRow(
+		`SELECT
+	  		IFNULL(SUM(sharing_read_only), 0),
+	  		IFNULL(SUM(sharing_traverse_only), 0),
+	  		IFNULL(SUM(sharing_no_access), 0)
+		FROM {{.TableName}}`,
+		move_table_src_folder,
+	).Scan(
 		&cntReadOnly,
 		&cntTraverseOnly,
 		&cntNoAccess,
@@ -773,27 +726,28 @@ func (m *MoveContext) stepValidatePermissions() error {
 }
 
 func (m *MoveContext) stepCreateDestFolders() error {
-	q := `
-	SELECT COUNT(path_display) FROM target_folder
-	`
-
 	cnt := 0
-	row := m.db.QueryRow(q)
-	err := row.Scan(
+	err := m.db.QueryRow(
+		`SELECT COUNT(path_display) FROM {{.TableName}}`,
+		move_table_src_folder,
+	).Scan(
 		&cnt,
 	)
 	if err != nil {
 		seelog.Warnf("Unable to count folders : error[%s]", err)
 		return err
 	}
+	if cnt == 0 {
+		seelog.Debugf("No create folder required")
+		return nil
+	}
 
 	seelog.Infof("Create %d folder(s) in destination", cnt)
 
-	q = `
-	SELECT path_display FROM target_folder ORDER BY depth
-	`
-
-	rows, err := m.db.Query(q)
+	rows, err := m.db.Query(
+		`SELECT path_display FROM {{.TableName}} ORDER BY depth`,
+		move_table_src_folder,
+	)
 	if err != nil {
 		seelog.Warnf("Unable to retrieve shared_folder info : error[%s]", err)
 		return err
@@ -801,13 +755,9 @@ func (m *MoveContext) stepCreateDestFolders() error {
 
 	client := files.New(m.dbxCfgFull)
 
-	seelog.Flush()
-	uip := uiprogress.New()
-	uip.Start()
-	defer uip.Stop()
-	bar := uip.AddBar(cnt)
-	bar.PrependElapsed()
-	bar.AppendCompleted()
+	pui := progress.ProgressUI{}
+	pui.Start(cnt)
+	defer pui.End()
 
 	for rows.Next() {
 		pathDisplay := ""
@@ -841,20 +791,18 @@ func (m *MoveContext) stepCreateDestFolders() error {
 			seelog.Debugf("Destination folder created[%s] folder_id[%s]", destPath, res.Metadata.Id)
 		}
 
-		bar.Incr()
+		pui.Incr()
 	}
 
 	return nil
 }
 
 func (m *MoveContext) stepMoveFiles() error {
-	q := `
-	SELECT COUNT(path_display) FROM target_file
-	`
-
 	cnt := 0
-	row := m.db.QueryRow(q)
-	err := row.Scan(
+	err := m.db.QueryRow(
+		`SELECT COUNT(path_display) FROM {{.TableName}}`,
+		move_table_src_file,
+	).Scan(
 		&cnt,
 	)
 	if err != nil {
@@ -864,19 +812,14 @@ func (m *MoveContext) stepMoveFiles() error {
 
 	seelog.Infof("Move %d files into destination", cnt)
 
-	seelog.Flush()
-	uip := uiprogress.New()
-	uip.Start()
-	defer uip.Stop()
-	bar := uip.AddBar(cnt)
-	bar.PrependElapsed()
-	bar.AppendCompleted()
+	pui := &progress.ProgressUI{}
+	pui.Start(cnt)
+	defer pui.End()
 
-	q = `
-	SELECT path_display FROM target_file
-	`
-
-	rows, err := m.db.Query(q)
+	rows, err := m.db.Query(
+		`SELECT path_display FROM {{.TableName}}`,
+		move_table_src_file,
+	)
 	if err != nil {
 		seelog.Warnf("Unable to retrieve shared_folder info : error[%s]", err)
 		return err
@@ -905,19 +848,19 @@ func (m *MoveContext) stepMoveFiles() error {
 
 		batch = append(batch, files.NewRelocationPath(pathDisplay, destPath))
 		if m.BatchSize <= len(batch) {
-			m.moveBatch(batch, bar)
+			m.moveBatch(batch, pui)
 			batch = make([]*files.RelocationPath, 0)
 		}
 	}
 
 	if 0 < len(batch) {
-		m.moveBatch(batch, bar)
+		m.moveBatch(batch, pui)
 	}
 
 	return nil
 }
 
-func (m *MoveContext) moveBatch(batch []*files.RelocationPath, bar *uiprogress.Bar) error {
+func (m *MoveContext) moveBatch(batch []*files.RelocationPath, pui *progress.ProgressUI) error {
 	retry := false
 	for {
 		if retry {
@@ -940,7 +883,7 @@ func (m *MoveContext) moveBatch(batch []*files.RelocationPath, bar *uiprogress.B
 		case "complete":
 			seelog.Debugf("Move completed for %d files", len(batch))
 			for i := 0; i < len(batch); i++ {
-				bar.Incr()
+				pui.Incr()
 			}
 			return nil
 
@@ -965,7 +908,7 @@ func (m *MoveContext) moveBatch(batch []*files.RelocationPath, bar *uiprogress.B
 			case "complete":
 				seelog.Debugf("Move completed by async job for %d files", len(batch))
 				for i := 0; i < len(batch); i++ {
-					bar.Incr()
+					pui.Incr()
 				}
 				return nil
 
@@ -982,7 +925,7 @@ func (m *MoveContext) moveBatch(batch []*files.RelocationPath, bar *uiprogress.B
 				} else {
 					seelog.Warnf("Unable to move %d files: error [%s]", len(batch), ckRes.Failed.Tag)
 					for i := 0; i < len(batch); i++ {
-						bar.Incr()
+						pui.Incr()
 					}
 
 					return errors.New(ckRes.Failed.Tag)
@@ -997,13 +940,11 @@ func (m *MoveContext) moveBatch(batch []*files.RelocationPath, bar *uiprogress.B
 }
 
 func (m *MoveContext) stepCleanupSourceFolders() error {
-	q := `
-	SELECT COUNT(path_display) FROM target_folder
-	`
-
 	cnt := 0
-	row := m.db.QueryRow(q)
-	err := row.Scan(
+	err := m.db.QueryRow(
+		`SELECT COUNT(path_display) FROM {{.TableName}}`,
+		move_table_src_folder,
+	).Scan(
 		&cnt,
 	)
 	if err != nil {
@@ -1011,13 +952,17 @@ func (m *MoveContext) stepCleanupSourceFolders() error {
 		return err
 	}
 
+	if cnt == 0 {
+		seelog.Debugf("No folder cleanup required")
+		return nil
+	}
+
 	seelog.Infof("Remove %d folder(s) in source", cnt)
 
-	q = `
-	SELECT path_display FROM target_folder ORDER BY depth DESC
-	`
-
-	rows, err := m.db.Query(q)
+	rows, err := m.db.Query(
+		`SELECT path_display FROM {{.TableName}} ORDER BY depth DESC`,
+		move_table_src_folder,
+	)
 	if err != nil {
 		seelog.Warnf("Unable to retrieve folder info : error[%s]", err)
 		return err
@@ -1025,13 +970,9 @@ func (m *MoveContext) stepCleanupSourceFolders() error {
 
 	client := files.New(m.dbxCfgFull)
 
-	seelog.Flush()
-	uip := uiprogress.New()
-	uip.Start()
-	defer uip.Stop()
-	bar := uip.AddBar(cnt)
-	bar.PrependElapsed()
-	bar.AppendCompleted()
+	pui := &progress.ProgressUI{}
+	pui.Start(cnt)
+	defer pui.End()
 
 	for rows.Next() {
 		pathDisplay := ""
@@ -1060,7 +1001,7 @@ func (m *MoveContext) stepCleanupSourceFolders() error {
 			return err
 		}
 
-		bar.Incr()
+		pui.Incr()
 	}
 
 	return nil
