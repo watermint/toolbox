@@ -9,6 +9,7 @@ import (
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/async"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/sharing"
+	"github.com/dustin/go-humanize"
 	"github.com/gosuri/uiprogress"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/watermint/toolbox/infra"
@@ -375,7 +376,50 @@ func (m *MoveContext) scanTarget(token string) error {
 		}
 		bar.Incr()
 	}
+
+	m.scanReport()
+
 	return nil
+}
+
+func (m *MoveContext) scanReport() {
+	var fileCount int64
+	var fileSize uint64
+	var folderCount int64
+
+	q := `
+	SELECT COUNT(file_id), SUM(size) FROM target_file
+	`
+
+	row := m.db.QueryRow(q)
+	err := row.Scan(
+		&fileCount,
+		&fileSize,
+	)
+	if err != nil {
+		seelog.Debugf("Unable to retrieve file size/count : error[%s]", err)
+		return
+	}
+
+	q = `
+	SELECT COUNT(folder_id) FROM target_folder
+	`
+
+	row = m.db.QueryRow(q)
+	err = row.Scan(
+		&folderCount,
+	)
+	if err != nil {
+		seelog.Debugf("Unable to retrieve folder count : error[%s]", err)
+		return
+	}
+
+	seelog.Infof(
+		"Found: %s folders, %s files, total %s",
+		humanize.Comma(folderCount),
+		humanize.Comma(fileCount),
+		humanize.IBytes(fileSize),
+	)
 }
 
 func (m *MoveContext) scan(src, token string) error {
@@ -593,7 +637,8 @@ func (m *MoveContext) scanSharingInfo(token string) error {
 	if len(sharedFolderIds) < 1 {
 		return nil
 	}
-	seelog.Infof("%d shared folder(s) found in source path", len(sharedFolderIds))
+	seelog.Infof("%s shared folder(s) found in source path",
+		humanize.Comma(int64(len(sharedFolderIds))))
 
 	for _, sf := range sharedFolderIds {
 		m.scanSharedFolderInfo(sf, token)

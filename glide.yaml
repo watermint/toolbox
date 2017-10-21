@@ -20,3 +20,4 @@ import:
   - unicode/norm
 - package: github.com/gosuri/uiprogress
 - package: github.com/gosuri/uilive
+- package: github.com/dustin/go-humanize
