@@ -87,7 +87,8 @@ func main() {
 			seelog.Errorf("Unable to acquire token (error: %s)", err)
 			return
 		}
-		mc.Move(token)
+		mc.TokenFull = token
+		mc.Move()
 
 	default:
 		usage()

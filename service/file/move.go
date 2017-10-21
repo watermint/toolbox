@@ -26,6 +26,7 @@ type MoveContext struct {
 	cleanedSrcBase  string
 	cleanedSrcPaths []string
 	cleanedDestPath string
+	dbxCfgFull      dropbox.Config
 
 	Infra         *infra.InfraOpts
 	SrcPath       string
@@ -33,6 +34,7 @@ type MoveContext struct {
 	Preflight     bool
 	PreflightAnon bool
 	BatchSize     int
+	TokenFull     string
 }
 
 const (
@@ -90,14 +92,14 @@ const (
 	move_table_dest_shared_folder   = "dest_shared_folder"
 )
 
-func (m *MoveContext) Move(token string) error {
+func (m *MoveContext) Move() error {
 	totalSteps := 9
 	if m.Preflight {
 		totalSteps = 6
 	}
 
 	seelog.Infof("[Step 1 of %d]: Prepare execution plan", totalSteps)
-	err := m.preparePlan(token)
+	err := m.preparePlan()
 	if err != nil {
 		seelog.Warnf("Suspend execution : error[%s]", err)
 		return err
@@ -118,14 +120,14 @@ func (m *MoveContext) Move(token string) error {
 	}
 
 	seelog.Infof("[Step 4 of %d]: Scan target files and folders", totalSteps)
-	err = m.scanTarget(token)
+	err = m.scanTarget()
 	if err != nil {
 		seelog.Warnf("Unable to scan target files and folders : error[%s]", err)
 		return err
 	}
 
 	seelog.Infof("[Step 5 of %d]: Scan sharing information", totalSteps)
-	err = m.scanSharingInfo(token)
+	err = m.scanSharingInfo()
 	if err != nil {
 		seelog.Warnf("Unable to scan sharing information : error[%s]", err)
 		return err
@@ -143,21 +145,21 @@ func (m *MoveContext) Move(token string) error {
 	}
 
 	seelog.Infof("[Step 7 of %d]: Create destination folders", totalSteps)
-	err = m.createFolders(token)
+	err = m.createFolders()
 	if err != nil {
 		seelog.Warnf("Unable to create folder(s) : error[%s]", err)
 		return err
 	}
 
 	seelog.Infof("[Step 8 of %d]: Move file(s)", totalSteps)
-	err = m.moveFiles(token)
+	err = m.moveFiles()
 	if err != nil {
 		seelog.Warnf("Unable to move file(s) : error[%s]", err)
 		return err
 	}
 
 	seelog.Infof("[Step 9 of %d]: Clean up folders of source folder", totalSteps)
-	err = m.cleanupFolders(token)
+	err = m.cleanupFolders()
 	if err != nil {
 		seelog.Warnf("Unable to clean up folder(s) : error[%s]", err)
 		return err
@@ -192,9 +194,10 @@ func nameInMetadata(meta files.IsMetadata) string {
 	}
 }
 
-func (m *MoveContext) preparePlan(token string) error {
+func (m *MoveContext) preparePlan() error {
 	var err error
-	client := files.New(dropbox.Config{Token: token})
+	m.dbxCfgFull = dropbox.Config{Token: m.TokenFull}
+	client := files.New(m.dbxCfgFull)
 
 	if MOVE_BATCH_MAX_SIZE < m.BatchSize {
 		seelog.Infof("Batch size reduced to avoid hitting API upper limit: %d -> %d", m.BatchSize, MOVE_BATCH_MAX_SIZE)
@@ -363,7 +366,7 @@ func (m *MoveContext) prepareScan() error {
 	return nil
 }
 
-func (m *MoveContext) scanTarget(token string) error {
+func (m *MoveContext) scanTarget() error {
 	seelog.Flush()
 	uip := uiprogress.New()
 	uip.Start()
@@ -372,7 +375,7 @@ func (m *MoveContext) scanTarget(token string) error {
 	bar.PrependElapsed()
 	bar.AppendCompleted()
 	for _, s := range m.cleanedSrcPaths {
-		err := m.scan(s, token)
+		err := m.scan(s)
 		if err != nil {
 			seelog.Warnf("Failed to scan target files/folders : error[%s]", err)
 			return err
@@ -425,24 +428,24 @@ func (m *MoveContext) scanReport() {
 	)
 }
 
-func (m *MoveContext) scan(src, token string) error {
-	client := files.New(dropbox.Config{Token: token})
+func (m *MoveContext) scan(src string) error {
+	client := files.New(m.dbxCfgFull)
 	meta, err := client.GetMetadata(files.NewGetMetadataArg(src))
 	if err != nil {
 		seelog.Warnf("Unable to load metadata for path[%s] : error[%s]", src, err)
 		return err
 	}
 
-	return m.scanDispatch(meta, nil, token)
+	return m.scanDispatch(meta, nil)
 }
 
-func (m *MoveContext) scanDispatch(meta files.IsMetadata, parentFolder *files.FolderMetadata, token string) error {
+func (m *MoveContext) scanDispatch(meta files.IsMetadata, parentFolder *files.FolderMetadata) error {
 	switch f := meta.(type) {
 	case *files.FileMetadata:
 		return m.scanFile(f, parentFolder)
 
 	case *files.FolderMetadata:
-		return m.scanFolder(f, parentFolder, token)
+		return m.scanFolder(f, parentFolder)
 
 	case *files.DeletedMetadata:
 		seelog.Warnf("Deleted file cannot move [%s]", f.PathDisplay)
@@ -515,8 +518,8 @@ func (m *MoveContext) scanFile(meta *files.FileMetadata, parentFolder *files.Fol
 	return nil
 }
 
-func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata, token string) error {
-	client := files.New(dropbox.Config{Token: token})
+func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata) error {
+	client := files.New(m.dbxCfgFull)
 
 	q := `
 	INSERT OR REPLACE INTO target_folder (
@@ -592,7 +595,7 @@ func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata, token
 	more := true
 	for more {
 		for _, f := range lf.Entries {
-			err = m.scanDispatch(f, meta, token)
+			err = m.scanDispatch(f, meta)
 			if err != nil {
 				seelog.Warnf("Unable to prepare file/folder meta data[%s] : error[%s]", meta.PathDisplay, err)
 				return err
@@ -611,7 +614,7 @@ func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata, token
 	return nil
 }
 
-func (m *MoveContext) scanSharingInfo(token string) error {
+func (m *MoveContext) scanSharingInfo() error {
 	q := `
 	SELECT DISTINCT sharing_shared_folder_id FROM target_folder WHERE sharing_shared_folder_id <> ""
 	`
@@ -644,14 +647,14 @@ func (m *MoveContext) scanSharingInfo(token string) error {
 		humanize.Comma(int64(len(sharedFolderIds))))
 
 	for _, sf := range sharedFolderIds {
-		m.scanSharedFolderInfo(sf, token)
+		m.scanSharedFolderInfo(sf)
 	}
 
 	return nil
 }
 
-func (m *MoveContext) scanSharedFolderInfo(sharedFolderId, token string) error {
-	client := sharing.New(dropbox.Config{Token: token})
+func (m *MoveContext) scanSharedFolderInfo(sharedFolderId string) error {
+	client := sharing.New(m.dbxCfgFull)
 	meta, err := client.GetFolderMetadata(sharing.NewGetMetadataArgs(sharedFolderId))
 	if err != nil {
 		seelog.Warnf("Unable to load shared_folder metadata [%s] : error[%s]", sharedFolderId, err)
@@ -776,7 +779,7 @@ func (m *MoveContext) validatePermissions() error {
 	return nil
 }
 
-func (m *MoveContext) createFolders(token string) error {
+func (m *MoveContext) createFolders() error {
 	q := `
 	SELECT COUNT(path_display) FROM target_folder
 	`
@@ -803,7 +806,7 @@ func (m *MoveContext) createFolders(token string) error {
 		return err
 	}
 
-	client := files.New(dropbox.Config{Token: token})
+	client := files.New(m.dbxCfgFull)
 
 	seelog.Flush()
 	uip := uiprogress.New()
@@ -851,7 +854,7 @@ func (m *MoveContext) createFolders(token string) error {
 	return nil
 }
 
-func (m *MoveContext) moveFiles(token string) error {
+func (m *MoveContext) moveFiles() error {
 	q := `
 	SELECT COUNT(path_display) FROM target_file
 	`
@@ -909,20 +912,19 @@ func (m *MoveContext) moveFiles(token string) error {
 
 		batch = append(batch, files.NewRelocationPath(pathDisplay, destPath))
 		if m.BatchSize <= len(batch) {
-			m.moveBatch(batch, token, bar)
+			m.moveBatch(batch, bar)
 			batch = make([]*files.RelocationPath, 0)
 		}
 	}
 
 	if 0 < len(batch) {
-		m.moveBatch(batch, token, bar)
+		m.moveBatch(batch, bar)
 	}
 
 	return nil
 }
 
-func (m *MoveContext) moveBatch(batch []*files.RelocationPath, token string, bar *uiprogress.Bar) error {
-	cfg := dropbox.Config{Token: token}
+func (m *MoveContext) moveBatch(batch []*files.RelocationPath, bar *uiprogress.Bar) error {
 	retry := false
 	for {
 		if retry {
@@ -934,7 +936,7 @@ func (m *MoveContext) moveBatch(batch []*files.RelocationPath, token string, bar
 		arg.AllowSharedFolder = true
 		arg.AllowOwnershipTransfer = true
 		arg.Autorename = false
-		mbRes, err := sdk.ZMoveBatch(cfg, arg)
+		mbRes, err := sdk.ZMoveBatch(m.dbxCfgFull, arg)
 		if err != nil {
 			seelog.Warnf("Unable to call `move_batch` : error[%s]", err)
 			return err
@@ -960,7 +962,7 @@ func (m *MoveContext) moveBatch(batch []*files.RelocationPath, token string, bar
 		}
 
 		for {
-			ckRes, err := sdk.ZMoveBatchCheck(cfg, async.NewPollArg(asyncJobId))
+			ckRes, err := sdk.ZMoveBatchCheck(m.dbxCfgFull, async.NewPollArg(asyncJobId))
 			if err != nil {
 				seelog.Warnf("Unable to call `/files/move_batch_check` : error[%s]", err)
 				return err
@@ -1001,7 +1003,7 @@ func (m *MoveContext) moveBatch(batch []*files.RelocationPath, token string, bar
 	}
 }
 
-func (m *MoveContext) cleanupFolders(token string) error {
+func (m *MoveContext) cleanupFolders() error {
 	q := `
 	SELECT COUNT(path_display) FROM target_folder
 	`
@@ -1028,7 +1030,7 @@ func (m *MoveContext) cleanupFolders(token string) error {
 		return err
 	}
 
-	client := files.New(dropbox.Config{Token: token})
+	client := files.New(m.dbxCfgFull)
 
 	seelog.Flush()
 	uip := uiprogress.New()
