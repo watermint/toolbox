@@ -92,77 +92,70 @@ const (
 	move_table_dest_shared_folder   = "dest_shared_folder"
 )
 
+const (
+	move_step_prepare_execution_plan = iota
+	move_step_confirm_execution_plan
+	move_step_prepare_scan
+	move_step_scan_target_folders
+	move_step_scan_target_shared_folders
+	move_step_validate
+	move_step_create_destination_folders
+	move_step_move_files
+	move_step_cleanup
+)
+
+type moveStepFunc func() error
+
 func (m *MoveContext) Move() error {
-	totalSteps := 9
-	if m.Preflight {
-		totalSteps = 6
-	}
-
-	seelog.Infof("[Step 1 of %d]: Prepare execution plan", totalSteps)
-	err := m.preparePlan()
-	if err != nil {
-		seelog.Warnf("Suspend execution : error[%s]", err)
-		return err
-	}
-
-	seelog.Infof("[Step 2 of %d]: Confirm execution plan", totalSteps)
-	cont := m.promptPlan()
-	if !cont {
-		seelog.Info("Execution cancelled.")
-		return errors.New("execution cancelled")
-	}
-
-	seelog.Infof("[Step 3 of %d]: Preparing scan files and folders", totalSteps)
-	err = m.prepareScan()
-	if err != nil {
-		seelog.Warnf("Preparation failed for scan : error[%s]", err)
-		return err
-	}
-
-	seelog.Infof("[Step 4 of %d]: Scan target files and folders", totalSteps)
-	err = m.scanTarget()
-	if err != nil {
-		seelog.Warnf("Unable to scan target files and folders : error[%s]", err)
-		return err
-	}
-
-	seelog.Infof("[Step 5 of %d]: Scan sharing information", totalSteps)
-	err = m.scanSharingInfo()
-	if err != nil {
-		seelog.Warnf("Unable to scan sharing information : error[%s]", err)
-		return err
-	}
-
-	seelog.Infof("[Step 6 of %d]: Validate permissions of files/folders", totalSteps)
-	err = m.validatePermissions()
-	if err != nil {
-		return err
-	}
+	stepStart := move_step_prepare_execution_plan
+	stepEnd := move_step_cleanup
 
 	if m.Preflight {
-		seelog.Info("Preflight: Skip moving files")
-		return nil
+		stepEnd = move_step_validate
 	}
 
-	seelog.Infof("[Step 7 of %d]: Create destination folders", totalSteps)
-	err = m.createFolders()
-	if err != nil {
-		seelog.Warnf("Unable to create folder(s) : error[%s]", err)
-		return err
-	}
+	steps := make(map[int]moveStepFunc)
+	title := make(map[int]string)
 
-	seelog.Infof("[Step 8 of %d]: Move file(s)", totalSteps)
-	err = m.moveFiles()
-	if err != nil {
-		seelog.Warnf("Unable to move file(s) : error[%s]", err)
-		return err
-	}
+	title[move_step_prepare_execution_plan] = "Prepare execution plan"
+	steps[move_step_prepare_execution_plan] = m.stepPrepareExecutionPlan
 
-	seelog.Infof("[Step 9 of %d]: Clean up folders of source folder", totalSteps)
-	err = m.cleanupFolders()
-	if err != nil {
-		seelog.Warnf("Unable to clean up folder(s) : error[%s]", err)
-		return err
+	title[move_step_confirm_execution_plan] = "Confirm execution plan"
+	steps[move_step_confirm_execution_plan] = m.stepConfirmExecutionPlan
+
+	title[move_step_prepare_scan] = "Preparing scan files and folders"
+	steps[move_step_prepare_scan] = m.stepPrepareScan
+
+	title[move_step_scan_target_folders] = "Scan target files and folders"
+	steps[move_step_scan_target_folders] = m.stepScanTargetFolders
+
+	title[move_step_scan_target_shared_folders] = "Scan sharing information"
+	steps[move_step_scan_target_shared_folders] = m.stepScanTargetSharedFolders
+
+	title[move_step_validate] = "Validate permissions of files/folders"
+	steps[move_step_validate] = m.stepValidatePermissions
+
+	title[move_step_create_destination_folders] = "Create destination folders"
+	steps[move_step_create_destination_folders] = m.stepCreateDestFolders
+
+	title[move_step_move_files] = "Move file(s)"
+	steps[move_step_move_files] = m.stepMoveFiles
+
+	title[move_step_cleanup] = "Clean up folders of source folder"
+	steps[move_step_cleanup] = m.stepCleanupSourceFolders
+
+	for s := stepStart; s <= stepEnd; s++ {
+		seelog.Infof(
+			"[Step %d of %d] %s",
+			s+1,
+			stepEnd+1,
+			title[s],
+		)
+
+		if err := steps[s](); err != nil {
+			seelog.Debugf("Abort step[%d] due to error[%s]", s+1, err)
+			return err
+		}
 	}
 
 	return nil
@@ -194,7 +187,7 @@ func nameInMetadata(meta files.IsMetadata) string {
 	}
 }
 
-func (m *MoveContext) preparePlan() error {
+func (m *MoveContext) stepPrepareExecutionPlan() error {
 	var err error
 	m.dbxCfgFull = dropbox.Config{Token: m.TokenFull}
 	client := files.New(m.dbxCfgFull)
@@ -270,7 +263,7 @@ func (m *MoveContext) preparePlan() error {
 	return nil
 }
 
-func (m *MoveContext) promptPlan() bool {
+func (m *MoveContext) stepConfirmExecutionPlan() error {
 
 	seelog.Info("Execution plan:")
 	for _, sp := range m.cleanedSrcPaths {
@@ -281,7 +274,7 @@ func (m *MoveContext) promptPlan() bool {
 
 	if m.Preflight {
 		seelog.Info("Skip confirmation for preflight mode")
-		return true
+		return nil
 	}
 
 	phrase := "move"
@@ -302,11 +295,11 @@ func (m *MoveContext) promptPlan() bool {
 			continue
 		}
 		if trim == cancel {
-			return false
+			return errors.New("operation cancelled by user")
 		}
 	}
 
-	return true
+	return nil
 }
 
 func (m *MoveContext) createTable(tableName, ddlTmpl string) error {
@@ -336,7 +329,7 @@ func (m *MoveContext) createTable(tableName, ddlTmpl string) error {
 	return nil
 }
 
-func (m *MoveContext) prepareScan() error {
+func (m *MoveContext) stepPrepareScan() error {
 	var err error
 
 	m.dbFile = m.Infra.FileOnWorkPath("move.db")
@@ -366,7 +359,7 @@ func (m *MoveContext) prepareScan() error {
 	return nil
 }
 
-func (m *MoveContext) scanTarget() error {
+func (m *MoveContext) stepScanTargetFolders() error {
 	seelog.Flush()
 	uip := uiprogress.New()
 	uip.Start()
@@ -614,7 +607,7 @@ func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata) error
 	return nil
 }
 
-func (m *MoveContext) scanSharingInfo() error {
+func (m *MoveContext) stepScanTargetSharedFolders() error {
 	q := `
 	SELECT DISTINCT sharing_shared_folder_id FROM target_folder WHERE sharing_shared_folder_id <> ""
 	`
@@ -715,7 +708,7 @@ func (m *MoveContext) numberOfSharedFoldersInSrc() (int, error) {
 	return cnt, nil
 }
 
-func (m *MoveContext) validatePermissions() error {
+func (m *MoveContext) stepValidatePermissions() error {
 	cntReadOnly := 0
 	cntTraverseOnly := 0
 	cntNoAccess := 0
@@ -779,7 +772,7 @@ func (m *MoveContext) validatePermissions() error {
 	return nil
 }
 
-func (m *MoveContext) createFolders() error {
+func (m *MoveContext) stepCreateDestFolders() error {
 	q := `
 	SELECT COUNT(path_display) FROM target_folder
 	`
@@ -854,7 +847,7 @@ func (m *MoveContext) createFolders() error {
 	return nil
 }
 
-func (m *MoveContext) moveFiles() error {
+func (m *MoveContext) stepMoveFiles() error {
 	q := `
 	SELECT COUNT(path_display) FROM target_file
 	`
@@ -1003,7 +996,7 @@ func (m *MoveContext) moveBatch(batch []*files.RelocationPath, bar *uiprogress.B
 	}
 }
 
-func (m *MoveContext) cleanupFolders() error {
+func (m *MoveContext) stepCleanupSourceFolders() error {
 	q := `
 	SELECT COUNT(path_display) FROM target_folder
 	`
