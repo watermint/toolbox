@@ -13,6 +13,7 @@ import (
 	"github.com/gosuri/uiprogress"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/integration/sdk"
 	"path/filepath"
 	"strings"
@@ -38,6 +39,55 @@ const (
 	MOVE_BATCH_MAX_SIZE       = 9000
 	MOVE_BATCH_RETRY_INTERVAL = 30
 	MOVE_BATCH_CHECK_INTERVAL = 3
+
+	move_create_table_file = `
+	CREATE TABLE {{.TableName}} (
+	  file_id                         VARCHAR PRIMARY KEY,
+	  parent_folder_id                VARCHAR,
+	  name                            VARCHAR,
+	  rev                             VARCHAR,
+	  size                            INT8,
+	  path_lower                      VARCHAR,
+	  path_display                    VARCHAR,
+	  content_hash                    VARCHAR(32),
+	  sharing_read_only               BOOL,
+	  sharing_parent_shared_folder_id VARCHAR
+	)
+	`
+
+	move_create_table_folder = `
+	CREATE TABLE {{.TableName}} (
+	  folder_id                       VARCHAR PRIMARY KEY,
+	  parent_folder_id                VARCHAR,
+	  depth                           INT,
+	  name                            VARCHAR,
+	  path_lower                      VARCHAR,
+	  path_display                    VARCHAR,
+	  sharing_read_only               BOOL,
+	  sharing_parent_shared_folder_id VARCHAR,
+	  sharing_shared_folder_id        VARCHAR,
+	  sharing_traverse_only           BOOL,
+	  sharing_no_access               BOOL
+	)
+	`
+
+	move_create_table_shared_folder = `
+	CREATE TABLE {{.TableName}} (
+	  shared_folder_id                VARCHAR PRIMARY KEY,
+	  name                            VARCHAR,
+	  is_inside_team_folder           VARCHAR,
+	  is_team_folder                  VARCHAR,
+	  parent_shared_folder_id         VARCHAR,
+	  path_lower                      VARCHAR
+	)
+	`
+
+	move_table_target_file          = "target_file"
+	move_table_target_folder        = "target_folder"
+	move_table_target_shared_folder = "target_shared_folder"
+	move_table_dest_file            = "dest_file"
+	move_table_dest_folder          = "dest_folder"
+	move_table_dest_shared_folder   = "dest_shared_folder"
 )
 
 func (m *MoveContext) Move(token string) error {
@@ -256,6 +306,33 @@ func (m *MoveContext) promptPlan() bool {
 	return true
 }
 
+func (m *MoveContext) createTable(tableName, ddlTmpl string) error {
+	dropTable := fmt.Sprintf("DROP TABLE IF EXISTS %s", tableName)
+	_, err := m.db.Exec(dropTable)
+	if err != nil {
+		seelog.Warnf("Unable to drop table [%s] : error[%s]", tableName, err)
+		return err
+	}
+
+	ddl, err := util.CompileTemplate(ddlTmpl, struct {
+		TableName string
+	}{
+		TableName: tableName,
+	})
+
+	if err != nil {
+		seelog.Warnf("Unable to compile TableName[%s], DDL[%s] : error[%s]", tableName, ddlTmpl, err)
+		return err
+	}
+
+	_, err = m.db.Exec(ddl)
+	if err != nil {
+		seelog.Warnf("Unable to create table [%s] : error[%s]", tableName, err)
+		return err
+	}
+	return nil
+}
+
 func (m *MoveContext) prepareScan() error {
 	var err error
 
@@ -267,94 +344,20 @@ func (m *MoveContext) prepareScan() error {
 		return err
 	}
 
-	q := `
-	DROP TABLE IF EXISTS target_file
-	`
+	ddl := make(map[string]string)
+	ddl[move_table_dest_file] = move_create_table_file
+	ddl[move_table_dest_folder] = move_create_table_folder
+	ddl[move_table_dest_shared_folder] = move_create_table_shared_folder
+	ddl[move_table_target_file] = move_create_table_file
+	ddl[move_table_target_folder] = move_create_table_folder
+	ddl[move_table_target_shared_folder] = move_create_table_shared_folder
 
-	_, err = m.db.Exec(q)
-	if err != nil {
-		seelog.Warnf("Unable to drop table : error[%s]", err)
-		return err
-	}
-
-	q = `
-	CREATE TABLE target_file (
-	  file_id                         VARCHAR PRIMARY KEY,
-	  parent_folder_id                VARCHAR,
-	  name                            VARCHAR,
-	  rev                             VARCHAR,
-	  size                            INT8,
-	  path_lower                      VARCHAR,
-	  path_display                    VARCHAR,
-	  content_hash                    VARCHAR(32),
-	  sharing_read_only               BOOL,
-	  sharing_parent_shared_folder_id VARCHAR
-	)
-	`
-
-	_, err = m.db.Exec(q)
-	if err != nil {
-		seelog.Warnf("Unable to create table : error[%s]", err)
-		return err
-	}
-
-	q = `
-	DROP TABLE IF EXISTS target_folder
-	`
-
-	_, err = m.db.Exec(q)
-	if err != nil {
-		seelog.Warnf("Unable to drop table : error[%s]", err)
-		return err
-	}
-
-	q = `
-	CREATE TABLE target_folder (
-	  folder_id                       VARCHAR PRIMARY KEY,
-	  parent_folder_id                VARCHAR,
-	  depth                           INT,
-	  name                            VARCHAR,
-	  path_lower                      VARCHAR,
-	  path_display                    VARCHAR,
-	  sharing_read_only               BOOL,
-	  sharing_parent_shared_folder_id VARCHAR,
-	  sharing_shared_folder_id        VARCHAR,
-	  sharing_traverse_only           BOOL,
-	  sharing_no_access               BOOL
-	)
-	`
-
-	_, err = m.db.Exec(q)
-	if err != nil {
-		seelog.Warnf("Unable to create table : error[%s]", err)
-		return err
-	}
-
-	q = `
-	DROP TABLE IF EXISTS target_shared_folder
-	`
-
-	_, err = m.db.Exec(q)
-	if err != nil {
-		seelog.Warnf("Unable to drop table : error[%s]", err)
-		return err
-	}
-
-	q = `
-	CREATE TABLE target_shared_folder (
-	  shared_folder_id                VARCHAR PRIMARY KEY,
-	  name                            VARCHAR,
-	  is_inside_team_folder           VARCHAR,
-	  is_team_folder                  VARCHAR,
-	  parent_shared_folder_id         VARCHAR,
-	  path_lower                      VARCHAR
-	)
-	`
-
-	_, err = m.db.Exec(q)
-	if err != nil {
-		seelog.Warnf("Unable to create table : error[%s]", err)
-		return err
+	for tn, d := range ddl {
+		err = m.createTable(tn, d)
+		if err != nil {
+			seelog.Warnf("Failed to prepare table[%s]: error[%s]", tn, err)
+			return err
+		}
 	}
 
 	return nil
@@ -383,8 +386,8 @@ func (m *MoveContext) scanTarget(token string) error {
 }
 
 func (m *MoveContext) scanReport() {
-	var fileCount int64
-	var fileSize uint64
+	var fCount int64
+	var fSize uint64
 	var folderCount int64
 
 	q := `
@@ -393,8 +396,8 @@ func (m *MoveContext) scanReport() {
 
 	row := m.db.QueryRow(q)
 	err := row.Scan(
-		&fileCount,
-		&fileSize,
+		&fCount,
+		&fSize,
 	)
 	if err != nil {
 		seelog.Debugf("Unable to retrieve file size/count : error[%s]", err)
@@ -417,8 +420,8 @@ func (m *MoveContext) scanReport() {
 	seelog.Infof(
 		"Found: %s folders, %s files, total %s",
 		humanize.Comma(folderCount),
-		humanize.Comma(fileCount),
-		humanize.IBytes(fileSize),
+		humanize.Comma(fCount),
+		humanize.IBytes(fSize),
 	)
 }
 
@@ -826,7 +829,7 @@ func (m *MoveContext) createFolders(token string) error {
 			return err
 		}
 		destPath := filepath.ToSlash(filepath.Join(m.cleanedDestPath, rel))
-		seelog.Debugf("Create destionation folder[%s]", destPath)
+		seelog.Debugf("Create destination folder[%s]", destPath)
 
 		arg := files.NewCreateFolderArg(destPath)
 		arg.Autorename = false
