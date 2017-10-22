@@ -248,6 +248,10 @@ func (m *MoveContext) stepPrepareExecutionPlan() error {
 		seelog.Warnf("Unable to clean src path[%s] : error[%s]", m.SrcPath, err)
 		return err
 	}
+	if csp == "/" {
+		seelog.Warnf("It is not supported moving files/folders from the root folder.")
+		return errors.New("moving root folder not allowed")
+	}
 
 	if !strings.HasSuffix(csp, "/") {
 		// Ensure the file/folder exist
