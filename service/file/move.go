@@ -52,8 +52,7 @@ const (
 	  content_hash                    VARCHAR(32),
 	  sharing_read_only               BOOL,
 	  sharing_parent_shared_folder_id VARCHAR
-	)
-	`
+	)`
 
 	move_create_table_folder = `
 	CREATE TABLE {{.TableName}} (
@@ -68,8 +67,7 @@ const (
 	  sharing_shared_folder_id        VARCHAR,
 	  sharing_traverse_only           BOOL,
 	  sharing_no_access               BOOL
-	)
-	`
+	)`
 
 	move_create_table_shared_folder = `
 	CREATE TABLE {{.TableName}} (
@@ -79,8 +77,7 @@ const (
 	  is_team_folder                  VARCHAR,
 	  parent_shared_folder_id         VARCHAR,
 	  path_lower                      VARCHAR
-	)
-	`
+	)`
 
 	move_table_src_file          = "src_file"
 	move_table_src_folder        = "src_folder"
@@ -99,6 +96,8 @@ const (
 	move_step_prepare_scan
 	move_step_scan_src_folders
 	move_step_scan_src_shared_folders
+	move_step_scan_dst_folders
+	move_step_scan_dst_shared_folders
 	move_step_validate
 	move_step_create_destination_folders
 	move_step_move_files
@@ -132,6 +131,12 @@ func (m *MoveContext) Move() error {
 
 	title[move_step_scan_src_shared_folders] = "Scan source shared folders"
 	steps[move_step_scan_src_shared_folders] = m.stepScanSrcSharedFolders
+
+	title[move_step_scan_dst_folders] = "Scan dest files and folders"
+	steps[move_step_scan_dst_folders] = m.stepScanDestFolder
+
+	title[move_step_scan_dst_shared_folders] = "Scan dest shared folders"
+	steps[move_step_scan_dst_shared_folders] = m.stepScanDestSharedFolders
 
 	title[move_step_validate] = "Validate permissions of files/folders"
 	steps[move_step_validate] = m.stepValidatePermissions
@@ -338,7 +343,7 @@ func (m *MoveContext) stepScanSrcFolders() error {
 	defer pui.End()
 
 	for _, s := range m.cleanedSrcPaths {
-		err := m.scan(s)
+		err := m.scan(move_scan_src, s)
 		if err != nil {
 			seelog.Warnf("Failed to scan src files/folders : error[%s]", err)
 			return err
@@ -346,19 +351,30 @@ func (m *MoveContext) stepScanSrcFolders() error {
 		pui.Incr()
 	}
 
-	m.scanReport()
+	m.scanReport(move_scan_src)
 
 	return nil
 }
 
-func (m *MoveContext) scanReport() {
+func (m *MoveContext) stepScanDestFolder() error {
+	err := m.scan(move_scan_dst, m.cleanedDestPath)
+	if err != nil {
+		seelog.Warnf("Failed to scan dest files/folders : error[%s]", err)
+		return err
+	}
+	m.scanReport(move_scan_dst)
+
+	return nil
+}
+
+func (m *MoveContext) scanReport(scanTarget int) {
 	var fCount int64
 	var fSize uint64
 	var folderCount int64
 
 	err := m.db.QueryRow(
 		"SELECT COUNT(file_id), SUM(size) FROM {{.TableName}}",
-		move_table_src_file,
+		m.tableNameFile(scanTarget),
 	).Scan(
 		&fCount,
 		&fSize,
@@ -370,7 +386,7 @@ func (m *MoveContext) scanReport() {
 
 	err = m.db.QueryRow(
 		"SELECT COUNT(folder_id) FROM {{.TableName}}",
-		move_table_src_folder,
+		m.tableNameFolder(scanTarget),
 	).Scan(
 		&folderCount,
 	)
@@ -387,7 +403,7 @@ func (m *MoveContext) scanReport() {
 	)
 }
 
-func (m *MoveContext) scan(src string) error {
+func (m *MoveContext) scan(scanTarget int, src string) error {
 	client := files.New(m.dbxCfgFull)
 	meta, err := client.GetMetadata(files.NewGetMetadataArg(src))
 	if err != nil {
@@ -395,16 +411,16 @@ func (m *MoveContext) scan(src string) error {
 		return err
 	}
 
-	return m.scanDispatch(meta, nil)
+	return m.scanDispatch(scanTarget, meta, nil)
 }
 
-func (m *MoveContext) scanDispatch(meta files.IsMetadata, parentFolder *files.FolderMetadata) error {
+func (m *MoveContext) scanDispatch(scanTarget int, meta files.IsMetadata, parentFolder *files.FolderMetadata) error {
 	switch f := meta.(type) {
 	case *files.FileMetadata:
-		return m.scanFile(f, parentFolder)
+		return m.scanFile(scanTarget, f, parentFolder)
 
 	case *files.FolderMetadata:
-		return m.scanFolder(f, parentFolder)
+		return m.scanFolder(scanTarget, f, parentFolder)
 
 	case *files.DeletedMetadata:
 		seelog.Warnf("Deleted file cannot move [%s]", f.PathDisplay)
@@ -416,22 +432,43 @@ func (m *MoveContext) scanDispatch(meta files.IsMetadata, parentFolder *files.Fo
 	}
 }
 
-func (m *MoveContext) scanFile(meta *files.FileMetadata, parentFolder *files.FolderMetadata) error {
-	q := `
-	INSERT OR REPLACE INTO {{.TableName}} (
-	  file_id,
-	  parent_folder_id,
-	  name,
-	  rev,
-	  size,
-	  path_lower,
-	  path_display,
-	  content_hash,
-	  sharing_read_only,
-	  sharing_parent_shared_folder_id
-	) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-	`
+func (m *MoveContext) tableNameFile(scanTarget int) string {
+	switch scanTarget {
+	case move_scan_src:
+		return move_table_src_file
+	case move_scan_dst:
+		return move_table_dst_file
+	default:
+		seelog.Errorf("Invalid scan target[%d]", scanTarget)
+		return ""
+	}
+}
 
+func (m *MoveContext) tableNameFolder(scanTarget int) string {
+	switch scanTarget {
+	case move_scan_src:
+		return move_table_src_folder
+	case move_scan_dst:
+		return move_table_dst_folder
+	default:
+		seelog.Errorf("Invalid scan target[%d]", scanTarget)
+		return ""
+	}
+}
+
+func (m *MoveContext) tableNameSharedFolder(scanTarget int) string {
+	switch scanTarget {
+	case move_scan_src:
+		return move_table_src_shared_folder
+	case move_scan_dst:
+		return move_table_dst_shared_folder
+	default:
+		seelog.Errorf("Invalid scan target[%d]", scanTarget)
+		return ""
+	}
+}
+
+func (m *MoveContext) scanFile(scanTarget int, meta *files.FileMetadata, parentFolder *files.FolderMetadata) error {
 	sharingReadOnly := false
 	sharingParentSharedFolderId := ""
 
@@ -456,8 +493,19 @@ func (m *MoveContext) scanFile(meta *files.FileMetadata, parentFolder *files.Fol
 	}
 
 	_, err := m.db.Exec(
-		q,
-		move_table_src_file,
+		`INSERT OR REPLACE INTO {{.TableName}} (
+		  file_id,
+		  parent_folder_id,
+		  name,
+		  rev,
+		  size,
+		  path_lower,
+		  path_display,
+		  content_hash,
+		  sharing_read_only,
+		  sharing_parent_shared_folder_id
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+		m.tableNameFile(scanTarget),
 		meta.Id,
 		parentFolderId,
 		name,
@@ -478,7 +526,7 @@ func (m *MoveContext) scanFile(meta *files.FileMetadata, parentFolder *files.Fol
 	return nil
 }
 
-func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata) error {
+func (m *MoveContext) scanFolder(scanTarget int, meta, parentFolder *files.FolderMetadata) error {
 	client := files.New(m.dbxCfgFull)
 
 	sharingReadOnly := false
@@ -524,7 +572,7 @@ func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata) error
 		  sharing_traverse_only,
 		  sharing_no_access
 		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-		move_table_src_folder,
+		m.tableNameFolder(scanTarget),
 		meta.Id,
 		parentFolderId,
 		len(strings.Split(meta.PathLower, "/")),
@@ -552,7 +600,7 @@ func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata) error
 	more := true
 	for more {
 		for _, f := range lf.Entries {
-			err = m.scanDispatch(f, meta)
+			err = m.scanDispatch(scanTarget, f, meta)
 			if err != nil {
 				seelog.Warnf("Unable to prepare file/folder meta data[%s] : error[%s]", meta.PathDisplay, err)
 				return err
@@ -572,9 +620,17 @@ func (m *MoveContext) scanFolder(meta, parentFolder *files.FolderMetadata) error
 }
 
 func (m *MoveContext) stepScanSrcSharedFolders() error {
+	return m.scanSharedFolders(move_scan_src)
+}
+
+func (m *MoveContext) stepScanDestSharedFolders() error {
+	return m.scanSharedFolders(move_scan_dst)
+}
+
+func (m *MoveContext) scanSharedFolders(scanTarget int) error {
 	rows, err := m.db.Query(
 		`SELECT DISTINCT sharing_shared_folder_id FROM {{.TableName}} WHERE sharing_shared_folder_id <> ""`,
-		move_table_src_folder,
+		m.tableNameFolder(scanTarget),
 	)
 	if err != nil {
 		seelog.Warnf("Unable to retrieve shared_folder info : error[%s]", err)
@@ -604,13 +660,13 @@ func (m *MoveContext) stepScanSrcSharedFolders() error {
 		humanize.Comma(int64(len(sharedFolderIds))))
 
 	for _, sf := range sharedFolderIds {
-		m.scanSharedFolderInfo(sf)
+		m.scanSharedFolderInfo(scanTarget, sf)
 	}
 
 	return nil
 }
 
-func (m *MoveContext) scanSharedFolderInfo(sharedFolderId string) error {
+func (m *MoveContext) scanSharedFolderInfo(scanTarget int, sharedFolderId string) error {
 	client := sharing.New(m.dbxCfgFull)
 	meta, err := client.GetFolderMetadata(sharing.NewGetMetadataArgs(sharedFolderId))
 	if err != nil {
@@ -635,7 +691,7 @@ func (m *MoveContext) scanSharedFolderInfo(sharedFolderId string) error {
 		  parent_shared_folder_id,
 		  path_lower
 		) VALUES (?, ?, ?, ?, ?, ?)`,
-		move_table_src_shared_folder,
+		m.tableNameSharedFolder(scanTarget),
 		meta.SharedFolderId,
 		name,
 		meta.IsInsideTeamFolder,
@@ -808,6 +864,10 @@ func (m *MoveContext) stepMoveFiles() error {
 	if err != nil {
 		seelog.Warnf("Unable to count file(s) : error[%s]", err)
 		return err
+	}
+	if cnt == 0 {
+		seelog.Info("No files to be moved")
+		return nil
 	}
 
 	seelog.Infof("Move %d files into destination", cnt)
