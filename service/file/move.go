@@ -31,12 +31,14 @@ type MoveContext struct {
 	DestPath      string
 	Preflight     bool
 	PreflightAnon bool
+	FileByFile    bool
 	BatchSize     int
 	TokenFull     string
 }
 
 const (
-	MOVE_BATCH_MAX_SIZE       = 9000
+	MOVE_BATCH_API_LIMIT      = 9500 // Actual limit is 10K, 500 is for buffer
+	MOVE_BATCH_MAX_SIZE       = MOVE_BATCH_API_LIMIT
 	MOVE_BATCH_RETRY_INTERVAL = 30
 	MOVE_BATCH_CHECK_INTERVAL = 3
 
@@ -79,12 +81,25 @@ const (
 	  path_lower                      VARCHAR
 	)`
 
+	move_create_table_operation_move = `
+	CREATE TABLE {{.TableName}} (
+	  operation_id                    VARCHAR PRIMARY KEY,
+	  operation                       VARCHAR,
+	  move_from                       VARCHAR,
+	  move_to                         VARCHAR,
+	  file_count                      INT
+	)`
+
 	move_table_src_file          = "src_file"
 	move_table_src_folder        = "src_folder"
 	move_table_src_shared_folder = "src_shared_folder"
 	move_table_dst_file          = "dst_file"
 	move_table_dst_folder        = "dst_folder"
 	move_table_dst_shared_folder = "dst_shared_folder"
+	move_table_operation_move    = "opr_move"
+
+	move_oper_file   = "file"
+	move_oper_folder = "folder"
 
 	move_scan_src = 1
 	move_scan_dst = 2
@@ -100,8 +115,8 @@ const (
 	move_step_scan_dst_shared_folders
 	move_step_validate_src
 	move_step_validate_dst
-	move_step_create_destination_folders
-	move_step_move_files
+	move_step_prepare_operation_plan
+	move_step_execute_operation_plan
 	move_step_cleanup
 )
 
@@ -112,7 +127,7 @@ func (m *MoveContext) Move() error {
 	stepEnd := move_step_cleanup
 
 	if m.Preflight {
-		stepEnd = move_step_validate_src
+		stepEnd = move_step_prepare_operation_plan
 	}
 
 	steps := make(map[int]moveStepFunc)
@@ -145,11 +160,11 @@ func (m *MoveContext) Move() error {
 	title[move_step_validate_dst] = "Validate permissions of dest files/folders"
 	steps[move_step_validate_dst] = m.stepValidateDestPermissions
 
-	title[move_step_create_destination_folders] = "Create destination folders"
-	steps[move_step_create_destination_folders] = m.stepCreateDestFolders
+	title[move_step_prepare_operation_plan] = "Prepare operation plan"
+	steps[move_step_prepare_operation_plan] = m.stepPrepareOperationPlan
 
-	title[move_step_move_files] = "Move file(s)"
-	steps[move_step_move_files] = m.stepMoveFiles
+	title[move_step_execute_operation_plan] = "Execute operation plan"
+	steps[move_step_execute_operation_plan] = m.stepExecuteOperationPlan
 
 	title[move_step_cleanup] = "Clean up folders of source folder"
 	steps[move_step_cleanup] = m.stepCleanupSourceFolders
@@ -329,6 +344,7 @@ func (m *MoveContext) stepPrepareScan() error {
 	ddl[move_table_src_file] = move_create_table_file
 	ddl[move_table_src_folder] = move_create_table_folder
 	ddl[move_table_src_shared_folder] = move_create_table_shared_folder
+	ddl[move_table_operation_move] = move_create_table_operation_move
 
 	for tn, d := range ddl {
 		err = m.db.CreateTable(tn, d)
@@ -362,6 +378,10 @@ func (m *MoveContext) stepScanSrcFolders() error {
 
 func (m *MoveContext) stepScanDestFolder() error {
 	err := m.scan(move_scan_dst, m.cleanedDestPath)
+	if strings.HasPrefix(err.Error(), "path/not_found") {
+		seelog.Debugf("Skip scan destination folder")
+		return nil
+	}
 	if err != nil {
 		seelog.Warnf("Failed to scan dest files/folders : error[%s]", err)
 		return err
@@ -793,145 +813,6 @@ func (m *MoveContext) validatePermissions(scanTarget int) error {
 	return nil
 }
 
-func (m *MoveContext) stepCreateDestFolders() error {
-	cnt := 0
-	err := m.db.QueryRow(
-		`SELECT COUNT(path_display) FROM {{.TableName}}`,
-		move_table_src_folder,
-	).Scan(
-		&cnt,
-	)
-	if err != nil {
-		seelog.Warnf("Unable to count folders : error[%s]", err)
-		return err
-	}
-	if cnt == 0 {
-		seelog.Debugf("No create folder required")
-		return nil
-	}
-
-	seelog.Infof("Create %d folder(s) in destination", cnt)
-
-	rows, err := m.db.Query(
-		`SELECT path_display FROM {{.TableName}} ORDER BY depth`,
-		move_table_src_folder,
-	)
-	if err != nil {
-		seelog.Warnf("Unable to retrieve shared_folder info : error[%s]", err)
-		return err
-	}
-
-	client := files.New(m.dbxCfgFull)
-
-	pui := progress.ProgressUI{}
-	pui.Start(cnt)
-	defer pui.End()
-
-	for rows.Next() {
-		pathDisplay := ""
-		err = rows.Scan(
-			&pathDisplay,
-		)
-		if err != nil {
-			seelog.Warnf("Unable to retrieve folder name : error[%s]", err)
-			return err
-		}
-
-		rel, err := filepath.Rel(m.cleanedSrcBase, pathDisplay)
-		if err != nil {
-			seelog.Warnf("Unable to calculate relative path[%s] : error[%s]", pathDisplay, err)
-			return err
-		}
-		destPath := filepath.ToSlash(filepath.Join(m.cleanedDestPath, rel))
-		seelog.Debugf("Create destination folder[%s]", destPath)
-
-		arg := files.NewCreateFolderArg(destPath)
-		arg.Autorename = false
-		res, err := client.CreateFolderV2(arg)
-		if err != nil {
-			if strings.HasPrefix(err.Error(), "path/conflict") {
-				seelog.Debugf("Folder [%s] already exists. Skip", destPath)
-			} else {
-				seelog.Warnf("Unable to create folder[%s] : error[%s]", destPath, err)
-				return err
-			}
-		} else {
-			seelog.Debugf("Destination folder created[%s] folder_id[%s]", destPath, res.Metadata.Id)
-		}
-
-		pui.Incr()
-	}
-
-	return nil
-}
-
-func (m *MoveContext) stepMoveFiles() error {
-	cnt := 0
-	err := m.db.QueryRow(
-		`SELECT COUNT(path_display) FROM {{.TableName}}`,
-		move_table_src_file,
-	).Scan(
-		&cnt,
-	)
-	if err != nil {
-		seelog.Warnf("Unable to count file(s) : error[%s]", err)
-		return err
-	}
-	if cnt == 0 {
-		seelog.Info("No files to be moved")
-		return nil
-	}
-
-	seelog.Infof("Move %d files into destination", cnt)
-
-	pui := &progress.ProgressUI{}
-	pui.Start(cnt)
-	defer pui.End()
-
-	rows, err := m.db.Query(
-		`SELECT path_display FROM {{.TableName}}`,
-		move_table_src_file,
-	)
-	if err != nil {
-		seelog.Warnf("Unable to retrieve shared_folder info : error[%s]", err)
-		return err
-	}
-
-	batch := make([]*files.RelocationPath, 0)
-
-	for rows.Next() {
-		pathDisplay := ""
-		err = rows.Scan(
-			&pathDisplay,
-		)
-		if err != nil {
-			seelog.Warnf("Unable to retrieve folder name : error[%s]", err)
-			return err
-		}
-
-		rel, err := filepath.Rel(m.cleanedSrcBase, pathDisplay)
-		if err != nil {
-			seelog.Warnf("Unable to calculate relative path[%s] : error[%s]", pathDisplay, err)
-			return err
-		}
-
-		destPath := filepath.ToSlash(filepath.Join(m.cleanedDestPath, rel))
-		seelog.Debugf("Moving file from [%s] to [%s]", pathDisplay, destPath)
-
-		batch = append(batch, files.NewRelocationPath(pathDisplay, destPath))
-		if m.BatchSize <= len(batch) {
-			m.moveBatch(batch, pui)
-			batch = make([]*files.RelocationPath, 0)
-		}
-	}
-
-	if 0 < len(batch) {
-		m.moveBatch(batch, pui)
-	}
-
-	return nil
-}
-
 func (m *MoveContext) moveBatch(batch []*files.RelocationPath, pui *progress.ProgressUI) error {
 	retry := false
 	for {
@@ -1074,6 +955,522 @@ func (m *MoveContext) stepCleanupSourceFolders() error {
 		}
 
 		pui.Incr()
+	}
+
+	return nil
+}
+
+func (m *MoveContext) stepPrepareOperationPlan() error {
+	baseFolderId := ""
+	fileCnt, movable, err := m.operPlanSrcFolder(baseFolderId)
+	if err != nil {
+		seelog.Warnf("Unable to prepare operation plan: error[%s]", err)
+		return err
+	}
+
+	if movable {
+		m.operPlanMoveFolder(baseFolderId, fileCnt)
+	}
+
+	return nil
+}
+
+func (m *MoveContext) operPlanSrcFolder(folderId string) (fileCnt int, folderMovable bool, err error) {
+	folderMovable = false
+
+	// Validate file count
+	err = m.db.QueryRow(
+		`SELECT COUNT(file_id) FROM {{.TableName}} WHERE parent_folder_id = ?`,
+		move_table_src_file,
+		folderId,
+	).Scan(
+		&fileCnt,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to prepare operation plan : error[%s]", err)
+		return 0, false, err
+	}
+
+	seelog.Debugf("OperPlanFolder: %d files found under folder[%s]", fileCnt, folderId)
+
+	if MOVE_BATCH_API_LIMIT < fileCnt {
+		seelog.Debugf("OperPlanFolder: too many files for move in one operation.")
+
+		// Plan move files if folderMovable == false
+		err = m.operPlanMoveFiles(folderId)
+		return fileCnt, false, err
+	}
+
+	// Validate shared folder
+	sharedFolderId := ""
+	if folderId != "" {
+		err = m.db.QueryRow(
+			`SELECT sharing_shared_folder_id FROM {{.TableName}} WHERE folder_id = ?`,
+			move_table_src_folder,
+			folderId,
+		).Scan(
+			&sharedFolderId,
+		)
+		if err != nil {
+			seelog.Warnf("Unable to prepare operation plan : error[%s]", err)
+			return fileCnt, false, err
+		}
+	}
+
+	// TODO: Validate dest folders
+
+	// Validate child folders
+	row, err := m.db.Query(
+		`SELECT folder_id, path_display FROM {{.TableName}} WHERE parent_folder_id = ?`,
+		move_table_src_folder,
+		folderId,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to prepare operation plan : error[%s]", err)
+		return fileCnt, false, err
+	}
+
+	childFolders := make(map[string]string)
+	childMovable := make(map[string]bool)
+	childFileCnt := make(map[string]int)
+
+	for row.Next() {
+		var childFolderId, pathDisplay string
+		err = row.Scan(
+			&childFolderId,
+			&pathDisplay,
+		)
+		if err != nil {
+			seelog.Warnf("Unable to prepare operation plan : error[%s]", err)
+			return fileCnt, false, err
+		}
+		seelog.Debugf("OperPlanFolder: Scan for oper plan: FolderId[%s] PathDisplay[%s]", childFolderId, pathDisplay)
+		childFolders[childFolderId] = pathDisplay
+	}
+
+	allChildMovable := true
+	for childFolderId, _ := range childFolders {
+		childCnt, movable, err := m.operPlanSrcFolder(childFolderId)
+		if err != nil {
+			seelog.Warnf("Unable to prepare operation plan : error[%s]", err)
+			return fileCnt, false, err
+		}
+
+		if !movable {
+			seelog.Debugf("OperPlanFolder: Cannot move child folder FolderId[%s] SharedFolderId[%s]", folderId, sharedFolderId)
+			allChildMovable = false
+		}
+
+		childMovable[childFolderId] = movable
+		childFileCnt[childFolderId] = childCnt
+		fileCnt += childCnt
+	}
+
+	if allChildMovable &&
+		fileCnt < MOVE_BATCH_API_LIMIT &&
+		sharedFolderId == "" &&
+		folderId != "" {
+
+		return fileCnt, true, nil
+	}
+
+	for childFolderId, movable := range childMovable {
+		if sharedFolderId == "" {
+			if movable {
+				m.operPlanMoveFolder(childFolderId, childFileCnt[childFolderId])
+			}
+		} else {
+			m.operPlanMoveFiles(childFolderId)
+		}
+	}
+
+	m.operPlanMoveFiles(folderId)
+
+	return fileCnt, false, nil
+}
+
+func (m *MoveContext) operPlanMoveFolder(folderId string, fileCnt int) (err error) {
+	if folderId == "" {
+		return nil
+	}
+
+	var pathDisplay string
+	err = m.db.QueryRow(
+		`SELECT path_display FROM {{.TableName}} WHERE folder_id = ?`,
+		move_table_src_folder,
+		folderId,
+	).Scan(
+		&pathDisplay,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to prepare operation plan FolderId[%s] : error[%s]", folderId, err)
+		return
+	}
+
+	destPath, err := m.destPathFromSrcPath(pathDisplay)
+	if err != nil {
+		seelog.Warnf("Unable to prepare operation plan FolderId[%s] DisplayPath[%s]: error[%s]", pathDisplay, err)
+		return
+	}
+
+	_, err = m.db.Exec(
+		`INSERT OR REPLACE INTO {{.TableName}} (
+		  operation_id,
+		  operation,
+		  move_from,
+		  move_to,
+		  file_count
+		) VALUES (?, ?, ?, ?, ?)`,
+		move_table_operation_move,
+		folderId,
+		move_oper_folder,
+		pathDisplay,
+		destPath,
+		fileCnt,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to prepare operation plan FolderId[%s] DisplayPath[%s]: error[%s]", pathDisplay, err)
+		return
+	}
+	return
+}
+
+func (m *MoveContext) operPlanMoveFiles(parentFolderId string) error {
+	row, err := m.db.Query(
+		`SELECT file_id, path_display FROM {{.TableName}} WHERE parent_folder_id = ?`,
+		move_table_src_file,
+		parentFolderId,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to prepare operation plan : error[%s]", err)
+		return err
+	}
+
+	oper := make(map[string]string)
+	for row.Next() {
+		var fileId, pathDisplay string
+		err = row.Scan(
+			&fileId,
+			&pathDisplay,
+		)
+		if err != nil {
+			seelog.Warnf("Unable to prepare operation plan : error[%s]", err)
+			return err
+		}
+
+		seelog.Debugf("File: Scan for oper plan: FolderId[%s] PathDisplay[%s]", fileId, pathDisplay)
+
+		oper[fileId] = pathDisplay
+	}
+
+	for fileId, pathDisplay := range oper {
+		destPath, err := m.destPathFromSrcPath(pathDisplay)
+		if err != nil {
+			seelog.Warnf("Unable to calculate dest path[%s] : error[%s]", pathDisplay, err)
+			continue
+		}
+
+		_, err = m.db.Exec(
+			`INSERT OR REPLACE INTO {{.TableName}} (
+			  operation_id,
+			  operation,
+			  move_from,
+			  move_to,
+			  file_count
+			) VALUES (?, ?, ?, ?, 1)`,
+			move_table_operation_move,
+			fileId,
+			move_oper_file,
+			pathDisplay,
+			destPath,
+		)
+		if err != nil {
+			seelog.Warnf("Unable to prepare operation plan : error[%s]", err)
+			continue
+		}
+	}
+
+	return nil
+}
+
+func (m *MoveContext) destPathFromSrcPath(srcDisplayPath string) (destPath string, err error) {
+	rel, err := filepath.Rel(m.cleanedSrcBase, srcDisplayPath)
+	if err != nil {
+		seelog.Warnf("Unable to calculate relative path[%s] : error[%s]", srcDisplayPath, err)
+		return
+	}
+
+	destPath = filepath.ToSlash(filepath.Join(m.cleanedDestPath, rel))
+	return
+}
+
+func (m *MoveContext) stepExecuteOperationPlan() error {
+	var fCount int
+
+	err := m.db.QueryRow(
+		"SELECT COUNT(file_id) FROM {{.TableName}}",
+		move_table_src_file,
+	).Scan(
+		&fCount,
+	)
+	if err != nil {
+		seelog.Debugf("Unable to retrieve file size/count : error[%s]", err)
+		return err
+	}
+
+	pui := &progress.ProgressUI{}
+	if fCount < 1 {
+		pui.Start(1)
+	} else {
+		pui.Start(fCount)
+	}
+	defer pui.End()
+
+	err = m.executeOperFolders(pui)
+	if err != nil {
+		seelog.Warnf("Unable to execute operation : error[%s]", err)
+		return err
+	}
+	err = m.executeOperFiles(pui)
+	if err != nil {
+		seelog.Warnf("Unable to execute operation : error[%s]", err)
+		return err
+	}
+
+	return nil
+}
+
+func (m *MoveContext) executeOperFolders(pui *progress.ProgressUI) error {
+	rows, err := m.db.Query(
+		`SELECT
+		  move_from,
+		  move_to,
+		  file_count
+		FROM
+		  {{.TableName}}
+		WHERE
+		  operation = ?`,
+		move_table_operation_move,
+		move_oper_folder,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to execute operation for folder : error[%s]", err)
+		return err
+	}
+
+	client := files.New(m.dbxCfgFull)
+
+	for rows.Next() {
+		var moveFrom, moveTo string
+		var cnt int
+		err = rows.Scan(
+			&moveFrom,
+			&moveTo,
+			&cnt,
+		)
+		if err != nil {
+			seelog.Warnf("Unable to execute operation for folder : error[%s]", err)
+			return err
+		}
+
+		arg := files.NewRelocationArg(moveFrom, moveTo)
+		arg.Autorename = false
+		arg.AllowOwnershipTransfer = true
+		arg.AllowSharedFolder = true
+
+		_, err := client.MoveV2(arg)
+		if err != nil {
+			seelog.Warnf("Failed to move folder from[%s] to [%s] : error[%s]", moveFrom, moveTo, err)
+			return err
+		}
+
+		for i := 0; i < cnt; i++ {
+			pui.Incr()
+		}
+	}
+
+	return nil
+}
+
+func (m *MoveContext) executeOperFiles(pui *progress.ProgressUI) error {
+	rows, err := m.db.Query(
+		`SELECT
+		  move_from,
+		  move_to
+		FROM
+		  {{.TableName}}
+		WHERE
+		  operation = ?`,
+		move_table_operation_move,
+		move_oper_file,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to execute operation for folder : error[%s]", err)
+		return err
+	}
+
+	batch := make([]*files.RelocationPath, 0)
+	for rows.Next() {
+		var moveFrom, moveTo string
+
+		rows.Scan(
+			&moveFrom,
+			&moveTo,
+		)
+		batch = append(batch, files.NewRelocationPath(moveFrom, moveTo))
+		if m.BatchSize <= len(batch) {
+			err = m.moveBatch(batch, pui)
+			if err != nil {
+				seelog.Warnf("Failed to move batch file move : error[%s]", err)
+				return err
+			}
+			batch = make([]*files.RelocationPath, 0)
+		}
+	}
+	if 0 < len(batch) {
+		err = m.moveBatch(batch, pui)
+		if err != nil {
+			seelog.Warnf("Failed to move batch file move : error[%s]", err)
+			return err
+		}
+	}
+	return nil
+}
+
+//------- deprecated
+
+func (m *MoveContext) stepCreateDestFolders() error {
+	cnt := 0
+	err := m.db.QueryRow(
+		`SELECT COUNT(path_display) FROM {{.TableName}}`,
+		move_table_src_folder,
+	).Scan(
+		&cnt,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to count folders : error[%s]", err)
+		return err
+	}
+	if cnt == 0 {
+		seelog.Debugf("No create folder required")
+		return nil
+	}
+
+	seelog.Infof("Create %d folder(s) in destination", cnt)
+
+	rows, err := m.db.Query(
+		`SELECT path_display FROM {{.TableName}} ORDER BY depth`,
+		move_table_src_folder,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to retrieve shared_folder info : error[%s]", err)
+		return err
+	}
+
+	client := files.New(m.dbxCfgFull)
+
+	pui := progress.ProgressUI{}
+	pui.Start(cnt)
+	defer pui.End()
+
+	for rows.Next() {
+		pathDisplay := ""
+		err = rows.Scan(
+			&pathDisplay,
+		)
+		if err != nil {
+			seelog.Warnf("Unable to retrieve folder name : error[%s]", err)
+			return err
+		}
+
+		rel, err := filepath.Rel(m.cleanedSrcBase, pathDisplay)
+		if err != nil {
+			seelog.Warnf("Unable to calculate relative path[%s] : error[%s]", pathDisplay, err)
+			return err
+		}
+		destPath := filepath.ToSlash(filepath.Join(m.cleanedDestPath, rel))
+		seelog.Debugf("Create destination folder[%s]", destPath)
+
+		arg := files.NewCreateFolderArg(destPath)
+		arg.Autorename = false
+		res, err := client.CreateFolderV2(arg)
+		if err != nil {
+			if strings.HasPrefix(err.Error(), "path/conflict") {
+				seelog.Debugf("Folder [%s] already exists. Skip", destPath)
+			} else {
+				seelog.Warnf("Unable to create folder[%s] : error[%s]", destPath, err)
+				return err
+			}
+		} else {
+			seelog.Debugf("Destination folder created[%s] folder_id[%s]", destPath, res.Metadata.Id)
+		}
+
+		pui.Incr()
+	}
+
+	return nil
+}
+
+func (m *MoveContext) stepMoveFiles() error {
+	cnt := 0
+	err := m.db.QueryRow(
+		`SELECT COUNT(path_display) FROM {{.TableName}}`,
+		move_table_src_file,
+	).Scan(
+		&cnt,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to count file(s) : error[%s]", err)
+		return err
+	}
+	if cnt == 0 {
+		seelog.Info("No files to be moved")
+		return nil
+	}
+
+	seelog.Infof("Move %d files into destination", cnt)
+
+	pui := &progress.ProgressUI{}
+	pui.Start(cnt)
+	defer pui.End()
+
+	rows, err := m.db.Query(
+		`SELECT path_display FROM {{.TableName}}`,
+		move_table_src_file,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to retrieve shared_folder info : error[%s]", err)
+		return err
+	}
+
+	batch := make([]*files.RelocationPath, 0)
+
+	for rows.Next() {
+		pathDisplay := ""
+		err = rows.Scan(
+			&pathDisplay,
+		)
+		if err != nil {
+			seelog.Warnf("Unable to retrieve folder name : error[%s]", err)
+			return err
+		}
+
+		destPath, err := m.destPathFromSrcPath(pathDisplay)
+		if err != nil {
+			seelog.Warnf("Unable to calculate relative path[%s] : error[%s]", pathDisplay, err)
+			return err
+		}
+		seelog.Debugf("Moving file from [%s] to [%s]", pathDisplay, destPath)
+
+		batch = append(batch, files.NewRelocationPath(pathDisplay, destPath))
+		if m.BatchSize <= len(batch) {
+			m.moveBatch(batch, pui)
+			batch = make([]*files.RelocationPath, 0)
+		}
+	}
+
+	if 0 < len(batch) {
+		m.moveBatch(batch, pui)
 	}
 
 	return nil
