@@ -1069,7 +1069,8 @@ func (m *MoveContext) operPlanSrcFolder(folderId string) (fileCnt int, folderMov
 	if allChildMovable &&
 		fileCnt < MOVE_BATCH_API_LIMIT &&
 		sharedFolderId == "" &&
-		folderId != "" {
+		folderId != "" &&
+		!m.FileByFile {
 
 		return fileCnt, true, nil
 	}

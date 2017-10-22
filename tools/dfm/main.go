@@ -48,6 +48,9 @@ func parseMoveArgs(args []string) (mc *file.MoveContext, err error) {
 	descPreflightAnon := "Anonimise file names and folder names on preflight"
 	f.BoolVar(&mc.PreflightAnon, "preflight-anon", true, descPreflightAnon)
 
+	descFileByFile := "File by file operation mode"
+	f.BoolVar(&mc.FileByFile, "file-by-file", false, descFileByFile)
+
 	f.SetOutput(os.Stderr)
 	f.Parse(args)
 	remainder := f.Args()
