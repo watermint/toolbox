@@ -98,7 +98,8 @@ const (
 	move_step_scan_src_shared_folders
 	move_step_scan_dst_folders
 	move_step_scan_dst_shared_folders
-	move_step_validate
+	move_step_validate_src
+	move_step_validate_dst
 	move_step_create_destination_folders
 	move_step_move_files
 	move_step_cleanup
@@ -111,7 +112,7 @@ func (m *MoveContext) Move() error {
 	stepEnd := move_step_cleanup
 
 	if m.Preflight {
-		stepEnd = move_step_validate
+		stepEnd = move_step_validate_src
 	}
 
 	steps := make(map[int]moveStepFunc)
@@ -138,8 +139,11 @@ func (m *MoveContext) Move() error {
 	title[move_step_scan_dst_shared_folders] = "Scan dest shared folders"
 	steps[move_step_scan_dst_shared_folders] = m.stepScanDestSharedFolders
 
-	title[move_step_validate] = "Validate permissions of files/folders"
-	steps[move_step_validate] = m.stepValidatePermissions
+	title[move_step_validate_src] = "Validate permissions of source files/folders"
+	steps[move_step_validate_src] = m.stepValidateSrcPermissions
+
+	title[move_step_validate_dst] = "Validate permissions of dest files/folders"
+	steps[move_step_validate_dst] = m.stepValidateDestPermissions
 
 	title[move_step_create_destination_folders] = "Create destination folders"
 	steps[move_step_create_destination_folders] = m.stepCreateDestFolders
@@ -725,7 +729,15 @@ func (m *MoveContext) numberOfSharedFoldersInSrc() (int, error) {
 	return cnt, nil
 }
 
-func (m *MoveContext) stepValidatePermissions() error {
+func (m *MoveContext) stepValidateSrcPermissions() error {
+	return m.validatePermissions(move_scan_src)
+}
+
+func (m *MoveContext) stepValidateDestPermissions() error {
+	return m.validatePermissions(move_scan_dst)
+}
+
+func (m *MoveContext) validatePermissions(scanTarget int) error {
 	cntReadOnly := 0
 	cntTraverseOnly := 0
 	cntNoAccess := 0
@@ -733,7 +745,7 @@ func (m *MoveContext) stepValidatePermissions() error {
 	// Validate files
 	err := m.db.QueryRow(
 		`SELECT IFNULL(SUM(sharing_read_only), 0) FROM {{.TableName}}`,
-		move_table_src_file,
+		m.tableNameFile(scanTarget),
 	).Scan(
 		&cntReadOnly,
 	)
@@ -754,7 +766,7 @@ func (m *MoveContext) stepValidatePermissions() error {
 	  		IFNULL(SUM(sharing_traverse_only), 0),
 	  		IFNULL(SUM(sharing_no_access), 0)
 		FROM {{.TableName}}`,
-		move_table_src_folder,
+		m.tableNameFolder(scanTarget),
 	).Scan(
 		&cntReadOnly,
 		&cntTraverseOnly,
