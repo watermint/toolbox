@@ -1278,6 +1278,8 @@ func (m *MoveContext) executeOperFolders(pui *progress.ProgressUI) error {
 		arg.AllowOwnershipTransfer = true
 		arg.AllowSharedFolder = true
 
+		seelog.Debugf("ExecOper: move from[%s] to[%s]", moveFrom, moveTo)
+
 		_, err := client.MoveV2(arg)
 		if err != nil {
 			seelog.Warnf("Failed to move folder from[%s] to [%s] : error[%s]", moveFrom, moveTo, err)
@@ -1317,6 +1319,9 @@ func (m *MoveContext) executeOperFiles(pui *progress.ProgressUI) error {
 			&moveFrom,
 			&moveTo,
 		)
+
+		seelog.Debugf("ExecOper: move from[%s] to[%s]", moveFrom, moveTo)
+
 		batch = append(batch, files.NewRelocationPath(moveFrom, moveTo))
 		if m.BatchSize <= len(batch) {
 			err = m.moveBatch(batch, pui)
@@ -1334,144 +1339,5 @@ func (m *MoveContext) executeOperFiles(pui *progress.ProgressUI) error {
 			return err
 		}
 	}
-	return nil
-}
-
-//------- deprecated
-
-func (m *MoveContext) stepCreateDestFolders() error {
-	cnt := 0
-	err := m.db.QueryRow(
-		`SELECT COUNT(path_display) FROM {{.TableName}}`,
-		move_table_src_folder,
-	).Scan(
-		&cnt,
-	)
-	if err != nil {
-		seelog.Warnf("Unable to count folders : error[%s]", err)
-		return err
-	}
-	if cnt == 0 {
-		seelog.Debugf("No create folder required")
-		return nil
-	}
-
-	seelog.Infof("Create %d folder(s) in destination", cnt)
-
-	rows, err := m.db.Query(
-		`SELECT path_display FROM {{.TableName}} ORDER BY depth`,
-		move_table_src_folder,
-	)
-	if err != nil {
-		seelog.Warnf("Unable to retrieve shared_folder info : error[%s]", err)
-		return err
-	}
-
-	client := files.New(m.dbxCfgFull)
-
-	pui := progress.ProgressUI{}
-	pui.Start(cnt)
-	defer pui.End()
-
-	for rows.Next() {
-		pathDisplay := ""
-		err = rows.Scan(
-			&pathDisplay,
-		)
-		if err != nil {
-			seelog.Warnf("Unable to retrieve folder name : error[%s]", err)
-			return err
-		}
-
-		rel, err := filepath.Rel(m.cleanedSrcBase, pathDisplay)
-		if err != nil {
-			seelog.Warnf("Unable to calculate relative path[%s] : error[%s]", pathDisplay, err)
-			return err
-		}
-		destPath := filepath.ToSlash(filepath.Join(m.cleanedDestPath, rel))
-		seelog.Debugf("Create destination folder[%s]", destPath)
-
-		arg := files.NewCreateFolderArg(destPath)
-		arg.Autorename = false
-		res, err := client.CreateFolderV2(arg)
-		if err != nil {
-			if strings.HasPrefix(err.Error(), "path/conflict") {
-				seelog.Debugf("Folder [%s] already exists. Skip", destPath)
-			} else {
-				seelog.Warnf("Unable to create folder[%s] : error[%s]", destPath, err)
-				return err
-			}
-		} else {
-			seelog.Debugf("Destination folder created[%s] folder_id[%s]", destPath, res.Metadata.Id)
-		}
-
-		pui.Incr()
-	}
-
-	return nil
-}
-
-func (m *MoveContext) stepMoveFiles() error {
-	cnt := 0
-	err := m.db.QueryRow(
-		`SELECT COUNT(path_display) FROM {{.TableName}}`,
-		move_table_src_file,
-	).Scan(
-		&cnt,
-	)
-	if err != nil {
-		seelog.Warnf("Unable to count file(s) : error[%s]", err)
-		return err
-	}
-	if cnt == 0 {
-		seelog.Info("No files to be moved")
-		return nil
-	}
-
-	seelog.Infof("Move %d files into destination", cnt)
-
-	pui := &progress.ProgressUI{}
-	pui.Start(cnt)
-	defer pui.End()
-
-	rows, err := m.db.Query(
-		`SELECT path_display FROM {{.TableName}}`,
-		move_table_src_file,
-	)
-	if err != nil {
-		seelog.Warnf("Unable to retrieve shared_folder info : error[%s]", err)
-		return err
-	}
-
-	batch := make([]*files.RelocationPath, 0)
-
-	for rows.Next() {
-		pathDisplay := ""
-		err = rows.Scan(
-			&pathDisplay,
-		)
-		if err != nil {
-			seelog.Warnf("Unable to retrieve folder name : error[%s]", err)
-			return err
-		}
-
-		destPath, err := m.destPathFromSrcPath(pathDisplay)
-		if err != nil {
-			seelog.Warnf("Unable to calculate relative path[%s] : error[%s]", pathDisplay, err)
-			return err
-		}
-		seelog.Debugf("Moving file from [%s] to [%s]", pathDisplay, destPath)
-
-		batch = append(batch, files.NewRelocationPath(pathDisplay, destPath))
-		if m.BatchSize <= len(batch) {
-			m.moveBatch(batch, pui)
-			batch = make([]*files.RelocationPath, 0)
-		}
-	}
-
-	if 0 < len(batch) {
-		m.moveBatch(batch, pui)
-	}
-
 	return nil
 }
