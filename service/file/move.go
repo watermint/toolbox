@@ -203,7 +203,7 @@ func cleanPath(path string) (string, error) {
 	if !strings.HasPrefix(c, "/") {
 		c = "/" + c
 	}
-	if strings.HasSuffix(path, "/") {
+	if c != "/" && strings.HasSuffix(path, "/") {
 		c = c + "/"
 	}
 	return c, nil
@@ -391,14 +391,34 @@ func (m *MoveContext) stepScanSrcFolders() error {
 }
 
 func (m *MoveContext) stepScanDestFolder() error {
-	err := m.scan(move_scan_dst, m.cleanedDestPath)
-	if err != nil && strings.HasPrefix(err.Error(), "path/not_found") {
-		seelog.Debugf("Skip scan destination folder")
-		return nil
-	}
-	if err != nil {
-		seelog.Warnf("Failed to scan dest files/folders : error[%s]", err)
-		return err
+	seelog.Debugf("ScanDestFolder: cleanedDestPath[%s]", m.cleanedDestPath)
+	if m.cleanedDestPath == "/" {
+		for _, sp := range m.cleanedSrcPaths {
+			n := filepath.Base(sp)
+			p := filepath.ToSlash(filepath.Join("/", n))
+			seelog.Debugf("ScanDestFolder: Path[%s] SrcPath[%s]", p, sp)
+
+			err := m.scan(move_scan_dst, sp)
+			if err != nil && strings.HasPrefix(err.Error(), "path/not_found") {
+				seelog.Debugf("Skip scan destination folder")
+				continue
+			}
+			if err != nil {
+				seelog.Warnf("Failed to scan dest files/folders : error[%s]", err)
+				return err
+			}
+		}
+
+	} else {
+		err := m.scan(move_scan_dst, m.cleanedDestPath)
+		if err != nil && strings.HasPrefix(err.Error(), "path/not_found") {
+			seelog.Debugf("Skip scan destination folder")
+			return nil
+		}
+		if err != nil {
+			seelog.Warnf("Failed to scan dest files/folders : error[%s]", err)
+			return err
+		}
 	}
 	m.scanReport(move_scan_dst)
 
@@ -441,9 +461,14 @@ func (m *MoveContext) scanReport(scanTarget int) {
 	)
 }
 
-func (m *MoveContext) scan(scanTarget int, src string) error {
+func (m *MoveContext) scan(scanTarget int, path string) error {
+	if path == "/" {
+
+		return m.scanFolder(scanTarget, nil, nil)
+	}
+
 	client := files.New(m.dbxCfgFull)
-	meta, err := client.GetMetadata(files.NewGetMetadataArg(src))
+	meta, err := client.GetMetadata(files.NewGetMetadataArg(path))
 	if scanTarget == move_scan_dst &&
 		err != nil &&
 		strings.HasPrefix(err.Error(), "path/not_found") {
@@ -451,7 +476,7 @@ func (m *MoveContext) scan(scanTarget int, src string) error {
 		return nil
 	}
 	if err != nil {
-		seelog.Warnf("Unable to load metadata for path[%s] : error[%s]", src, err)
+		seelog.Warnf("Unable to load metadata for path[%s] : error[%s]", path, err)
 		return err
 	}
 
@@ -461,9 +486,13 @@ func (m *MoveContext) scan(scanTarget int, src string) error {
 func (m *MoveContext) scanDispatch(scanTarget int, meta files.IsMetadata, parentFolder *files.FolderMetadata) error {
 	switch f := meta.(type) {
 	case *files.FileMetadata:
+		if scanTarget == move_scan_src {
+			seelog.Debugf("Scan file: FileId[%s] PathDisplay[%s]", f.Id, f.PathDisplay)
+		}
 		return m.scanFile(scanTarget, f, parentFolder)
 
 	case *files.FolderMetadata:
+		seelog.Debugf("Scan folder: FolderId[%s] PathDisplay[%s]", f.Id, f.PathDisplay)
 		return m.scanFolder(scanTarget, f, parentFolder)
 
 	case *files.DeletedMetadata:
@@ -573,72 +602,76 @@ func (m *MoveContext) scanFile(scanTarget int, meta *files.FileMetadata, parentF
 func (m *MoveContext) scanFolder(scanTarget int, meta, parentFolder *files.FolderMetadata) error {
 	client := files.New(m.dbxCfgFull)
 
-	sharingReadOnly := false
-	sharingParentSharedFolderId := ""
-	sharingSharedFolderId := ""
-	sharingTraverseOnly := false
-	sharingNoAccess := false
+	path := ""
+	if meta != nil {
+		path = meta.PathDisplay
+		sharingReadOnly := false
+		sharingParentSharedFolderId := ""
+		sharingSharedFolderId := ""
+		sharingTraverseOnly := false
+		sharingNoAccess := false
 
-	if meta.SharingInfo != nil {
-		sharingReadOnly = meta.SharingInfo.ReadOnly
-		sharingParentSharedFolderId = meta.SharingInfo.ParentSharedFolderId
-		sharingSharedFolderId = meta.SharingInfo.SharedFolderId
-		sharingTraverseOnly = meta.SharingInfo.TraverseOnly
-		sharingNoAccess = meta.SharingInfo.NoAccess
+		if meta.SharingInfo != nil {
+			sharingReadOnly = meta.SharingInfo.ReadOnly
+			sharingParentSharedFolderId = meta.SharingInfo.ParentSharedFolderId
+			sharingSharedFolderId = meta.SharingInfo.SharedFolderId
+			sharingTraverseOnly = meta.SharingInfo.TraverseOnly
+			sharingNoAccess = meta.SharingInfo.NoAccess
+		}
+
+		name := meta.Name
+		pathLower := meta.PathLower
+		pathDisplay := meta.PathDisplay
+
+		if m.Preflight && m.PreflightAnon {
+			name = ""
+			pathLower = ""
+			pathDisplay = ""
+		}
+
+		parentFolderId := ""
+		if parentFolder != nil {
+			parentFolderId = parentFolder.Id
+		}
+
+		_, err := m.db.Exec(
+			`INSERT OR REPLACE INTO {{.TableName}} (
+			  folder_id,
+			  parent_folder_id,
+			  depth,
+			  name,
+			  path_lower,
+			  path_display,
+			  sharing_read_only,
+			  sharing_parent_shared_folder_id,
+			  sharing_shared_folder_id,
+			  sharing_traverse_only,
+			  sharing_no_access
+			) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			m.tableNameFolder(scanTarget),
+			meta.Id,
+			parentFolderId,
+			len(strings.Split(meta.PathLower, "/")),
+			name,
+			pathLower,
+			pathDisplay,
+			sharingReadOnly,
+			sharingParentSharedFolderId,
+			sharingSharedFolderId,
+			sharingTraverseOnly,
+			sharingNoAccess,
+		)
+		if err != nil {
+			seelog.Warnf("Unable to prepare target folder meta data[%s] : error[%s]", meta.PathDisplay, err)
+			return err
+		}
 	}
 
-	name := meta.Name
-	pathLower := meta.PathLower
-	pathDisplay := meta.PathDisplay
-
-	if m.Preflight && m.PreflightAnon {
-		name = ""
-		pathLower = ""
-		pathDisplay = ""
-	}
-
-	parentFolderId := ""
-	if parentFolder != nil {
-		parentFolderId = parentFolder.Id
-	}
-
-	_, err := m.db.Exec(
-		`INSERT OR REPLACE INTO {{.TableName}} (
-		  folder_id,
-		  parent_folder_id,
-		  depth,
-		  name,
-		  path_lower,
-		  path_display,
-		  sharing_read_only,
-		  sharing_parent_shared_folder_id,
-		  sharing_shared_folder_id,
-		  sharing_traverse_only,
-		  sharing_no_access
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-		m.tableNameFolder(scanTarget),
-		meta.Id,
-		parentFolderId,
-		len(strings.Split(meta.PathLower, "/")),
-		name,
-		pathLower,
-		pathDisplay,
-		sharingReadOnly,
-		sharingParentSharedFolderId,
-		sharingSharedFolderId,
-		sharingTraverseOnly,
-		sharingNoAccess,
-	)
-	if err != nil {
-		seelog.Warnf("Unable to prepare target folder meta data[%s] : error[%s]", meta.PathDisplay, err)
-		return err
-	}
-
-	listArg := files.NewListFolderArg(meta.PathLower)
+	listArg := files.NewListFolderArg(path)
 
 	lf, err := client.ListFolder(listArg)
 	if err != nil {
-		seelog.Warnf("Unable to load folder[%s] : error[%s]", meta.PathDisplay, err)
+		seelog.Warnf("Unable to load folder[%s] : error[%s]", path, err)
 		return err
 	}
 	more := true
@@ -646,14 +679,14 @@ func (m *MoveContext) scanFolder(scanTarget int, meta, parentFolder *files.Folde
 		for _, f := range lf.Entries {
 			err = m.scanDispatch(scanTarget, f, meta)
 			if err != nil {
-				seelog.Warnf("Unable to prepare file/folder meta data[%s] : error[%s]", meta.PathDisplay, err)
+				seelog.Warnf("Unable to prepare file/folder meta data[%s] : error[%s]", path, err)
 				return err
 			}
 		}
 		if lf.HasMore {
 			lf, err = client.ListFolderContinue(files.NewListFolderContinueArg(lf.Cursor))
 			if err != nil {
-				seelog.Warnf("Unable to load folder (cont) [%s] : error[%s]", meta.PathDisplay, err)
+				seelog.Warnf("Unable to load folder (cont) [%s] : error[%s]", path, err)
 				return err
 			}
 		}
@@ -994,6 +1027,7 @@ func (m *MoveContext) stepPrepareOperationPlan() error {
 	}
 
 	if movable {
+		seelog.Debugf("OprFolder: move FolderId[%s] FileCount[%d]", baseFolderId, fileCnt)
 		m.operPlanMoveFolder(baseFolderId, fileCnt)
 	}
 
@@ -1002,6 +1036,7 @@ func (m *MoveContext) stepPrepareOperationPlan() error {
 
 func (m *MoveContext) operPlanSrcFolder(folderId string) (fileCnt int, folderMovable bool, err error) {
 	folderMovable = false
+	seelog.Debugf("OperPlan: Start plan for FolderId[%s]", folderId)
 
 	// Validate file count
 	err = m.db.QueryRow(
@@ -1040,6 +1075,7 @@ func (m *MoveContext) operPlanSrcFolder(folderId string) (fileCnt int, folderMov
 			seelog.Warnf("Unable to prepare operation plan : error[%s]", err)
 			return fileCnt, false, err
 		}
+		seelog.Debugf("OperPlan: Ensure shared folder[%s]", sharedFolderId)
 	}
 
 	// Validate dest folders
@@ -1062,6 +1098,8 @@ func (m *MoveContext) operPlanSrcFolder(folderId string) (fileCnt int, folderMov
 			return fileCnt, false, err
 		}
 
+		seelog.Debugf("OperPlan: Compare path srcPathDisplay[%s] destPathDisplay[%s]", srcPathDisplay, destFolderPath)
+
 		var pd int
 		err = m.db.QueryRow(
 			`SELECT COUNT(path_display) FROM {{.TableName}} WHERE path_display = ?`,
@@ -1070,6 +1108,7 @@ func (m *MoveContext) operPlanSrcFolder(folderId string) (fileCnt int, folderMov
 		).Scan(
 			&pd,
 		)
+		seelog.Debugf("OperPlan: Ensure dest path exist[%d] for folderId[%s]", pd, folderId)
 		if pd > 0 {
 			destFolderExists = true
 		}
@@ -1113,9 +1152,11 @@ func (m *MoveContext) operPlanSrcFolder(folderId string) (fileCnt int, folderMov
 		}
 
 		if !movable {
-			seelog.Debugf("OperPlanFolder: Cannot move child folder FolderId[%s] SharedFolderId[%s]", folderId, sharedFolderId)
+			seelog.Debugf("OperPlanFolder: Cannot move child folder FolderId[%s]", childFolderId)
 			allChildMovable = false
 		}
+
+		seelog.Debugf("OperPlan: ChildFolderId[%s] movable[%t] FileCount[%d]", childFolderId, movable, childCnt)
 
 		childMovable[childFolderId] = movable
 		childFileCnt[childFolderId] = childCnt
@@ -1129,20 +1170,20 @@ func (m *MoveContext) operPlanSrcFolder(folderId string) (fileCnt int, folderMov
 		!destFolderExists &&
 		!m.FileByFile {
 
+		seelog.Debugf("OperPlan: Folder[%s] movable. AllChildMovable[%t] FileCount[%d] SharedFolderId[%s]", folderId, allChildMovable, fileCnt, sharedFolderId)
 		return fileCnt, true, nil
 	}
 
-	if destFolderPath != "" {
+	if destFolderPath != "" && !destFolderExists {
+		seelog.Debugf("OperPlan: Create Folder DestPath[%s]", destFolderPath)
 		m.operPlanCreateFolder(destFolderPath)
 	}
 
 	for childFolderId, movable := range childMovable {
-		if sharedFolderId == "" {
-			if movable {
-				m.operPlanMoveFolder(childFolderId, childFileCnt[childFolderId])
-			}
-		} else {
-			m.operPlanMoveFiles(childFolderId)
+		seelog.Debugf("OperPlan: ChildFolderId[%s] Movable[%t]", childFolderId, movable)
+		if movable {
+			seelog.Debugf("OperPlan: Move child ChildFolderId[%s] Movable[%t]", childFolderId, movable)
+			m.operPlanMoveFolder(childFolderId, childFileCnt[childFolderId])
 		}
 	}
 
@@ -1153,10 +1194,11 @@ func (m *MoveContext) operPlanSrcFolder(folderId string) (fileCnt int, folderMov
 
 func (m *MoveContext) operPlanCreateFolder(pathDisplay string) error {
 	_, err := m.db.Exec(
-		`INSERT OR REPLACE INTO (
+		`INSERT OR REPLACE INTO {{.TableName}} (
 		  path_display,
 		  operation
 		) VALUES (?, ?)`,
+		move_table_operation_folder,
 		pathDisplay,
 		move_oper_create_folder,
 	)
