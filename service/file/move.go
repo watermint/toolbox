@@ -109,12 +109,14 @@ const (
 	move_oper_folder        = "folder"
 	move_oper_create_folder = "create_folder"
 
+	move_database_filename = "move.db"
+
 	move_scan_src = 1
 	move_scan_dst = 2
 )
 
 const (
-	move_step_prepare_execution_plan = iota
+	move_step_prepare_execution_plan  = iota
 	move_step_confirm_execution_plan
 	move_step_prepare_scan
 	move_step_scan_src_folders
@@ -198,12 +200,12 @@ func (m *MoveContext) Move() error {
 	return nil
 }
 
-func cleanPath(path string) (string, error) {
+func cleanPath(path string, allowTrailingSlash bool) (string, error) {
 	c := filepath.ToSlash(filepath.Clean(path))
 	if !strings.HasPrefix(c, "/") {
 		c = "/" + c
 	}
-	if c != "/" && strings.HasSuffix(path, "/") {
+	if c != "/" && allowTrailingSlash && strings.HasSuffix(path, "/") {
 		c = c + "/"
 	}
 	return c, nil
@@ -235,14 +237,14 @@ func (m *MoveContext) stepPrepareExecutionPlan() error {
 	}
 
 	// Prepare dest path
-	m.cleanedDestPath, err = cleanPath(m.DestPath)
+	m.cleanedDestPath, err = cleanPath(m.DestPath, false)
 	if err != nil {
 		seelog.Warnf("Unable to clean dest path[%s] : error[%s]", m.DestPath, err)
 		return err
 	}
 
 	// Prepare src path
-	csp, err := cleanPath(m.SrcPath)
+	csp, err := cleanPath(m.SrcPath, true)
 	m.cleanedSrcPaths = make([]string, 0)
 	if err != nil {
 		seelog.Warnf("Unable to clean src path[%s] : error[%s]", m.SrcPath, err)
@@ -347,7 +349,7 @@ func (m *MoveContext) stepConfirmExecutionPlan() error {
 func (m *MoveContext) stepPrepareScan() error {
 	var err error
 
-	m.dbFile = m.Infra.FileOnWorkPath("move.db")
+	m.dbFile = m.Infra.FileOnWorkPath(move_database_filename)
 	m.db = &dbsugar.DatabaseSugar{DataSourceName: m.dbFile}
 	if err = m.db.Open(); err != nil {
 		seelog.Errorf("Unable to open file: path[%s] error[%s]", m.dbFile, err)
@@ -396,28 +398,15 @@ func (m *MoveContext) stepScanSrcFolders() error {
 
 func (m *MoveContext) stepScanDestFolder() error {
 	seelog.Debugf("ScanDestFolder: cleanedDestPath[%s]", m.cleanedDestPath)
-	if m.cleanedDestPath == "/" {
-		for _, sp := range m.cleanedSrcPaths {
-			n := filepath.Base(sp)
-			p := filepath.ToSlash(filepath.Join("/", n))
-			seelog.Debugf("ScanDestFolder: Path[%s] SrcPath[%s]", p, sp)
+	for _, sp := range m.cleanedSrcPaths {
+		n := filepath.Base(sp)
+		p := filepath.ToSlash(filepath.Join(m.cleanedDestPath, n))
+		seelog.Debugf("ScanDestFolder: Path[%s] SrcPath[%s]", p, sp)
 
-			err := m.scan(move_scan_dst, sp)
-			if err != nil && strings.HasPrefix(err.Error(), "path/not_found") {
-				seelog.Debugf("Skip scan destination folder")
-				continue
-			}
-			if err != nil {
-				seelog.Warnf("Failed to scan dest files/folders : error[%s]", err)
-				return err
-			}
-		}
-
-	} else {
-		err := m.scan(move_scan_dst, m.cleanedDestPath)
+		err := m.scan(move_scan_dst, p)
 		if err != nil && strings.HasPrefix(err.Error(), "path/not_found") {
 			seelog.Debugf("Skip scan destination folder")
-			return nil
+			continue
 		}
 		if err != nil {
 			seelog.Warnf("Failed to scan dest files/folders : error[%s]", err)
@@ -490,9 +479,6 @@ func (m *MoveContext) scan(scanTarget int, path string) error {
 func (m *MoveContext) scanDispatch(scanTarget int, meta files.IsMetadata, parentFolder *files.FolderMetadata) error {
 	switch f := meta.(type) {
 	case *files.FileMetadata:
-		if scanTarget == move_scan_src {
-			seelog.Debugf("Scan file: FileId[%s] PathDisplay[%s]", f.Id, f.PathDisplay)
-		}
 		return m.scanFile(scanTarget, f, parentFolder)
 
 	case *files.FolderMetadata:
