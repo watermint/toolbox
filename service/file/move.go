@@ -90,6 +90,12 @@ const (
 	  file_count                      INT
 	)`
 
+	move_create_table_operation_folder = `
+	CREATE TABLE {{.TableName}} (
+	  path_display                    VARCHAR PRIMARY KEY,
+	  operation                       VARCHAR
+	)`
+
 	move_table_src_file          = "src_file"
 	move_table_src_folder        = "src_folder"
 	move_table_src_shared_folder = "src_shared_folder"
@@ -97,9 +103,11 @@ const (
 	move_table_dst_folder        = "dst_folder"
 	move_table_dst_shared_folder = "dst_shared_folder"
 	move_table_operation_move    = "opr_move"
+	move_table_operation_folder  = "opr_folder"
 
-	move_oper_file   = "file"
-	move_oper_folder = "folder"
+	move_oper_file          = "file"
+	move_oper_folder        = "folder"
+	move_oper_create_folder = "create_folder"
 
 	move_scan_src = 1
 	move_scan_dst = 2
@@ -116,6 +124,7 @@ const (
 	move_step_validate_src
 	move_step_validate_dst
 	move_step_prepare_operation_plan
+	move_step_execute_create_folder
 	move_step_execute_operation_plan
 	move_step_cleanup
 )
@@ -162,6 +171,9 @@ func (m *MoveContext) Move() error {
 
 	title[move_step_prepare_operation_plan] = "Prepare operation plan"
 	steps[move_step_prepare_operation_plan] = m.stepPrepareOperationPlan
+
+	title[move_step_execute_create_folder] = "Create folders in destination"
+	steps[move_step_execute_create_folder] = m.stepExecuteCreateFolder
 
 	title[move_step_execute_operation_plan] = "Execute operation plan"
 	steps[move_step_execute_operation_plan] = m.stepExecuteOperationPlan
@@ -231,7 +243,6 @@ func (m *MoveContext) stepPrepareExecutionPlan() error {
 
 	// Prepare src path
 	csp, err := cleanPath(m.SrcPath)
-	m.cleanedSrcBase = csp
 	m.cleanedSrcPaths = make([]string, 0)
 	if err != nil {
 		seelog.Warnf("Unable to clean src path[%s] : error[%s]", m.SrcPath, err)
@@ -246,14 +257,16 @@ func (m *MoveContext) stepPrepareExecutionPlan() error {
 			return err
 		}
 		n := nameInMetadata(meta)
-		if n != "" {
+		if n == "" {
 			seelog.Warnf("File or folder not found for path[%s]", csp)
 			return errors.New("file or folder not found")
 		}
 		m.cleanedSrcPaths = append(m.cleanedSrcPaths, csp)
+		m.cleanedSrcBase = filepath.ToSlash(filepath.Dir(csp))
 
 	} else {
 		// Expand src if the path has the suffix "/".
+		m.cleanedSrcBase = csp
 
 		listArg := files.NewListFolderArg(csp)
 		lf, err := client.ListFolder(listArg)
@@ -345,6 +358,7 @@ func (m *MoveContext) stepPrepareScan() error {
 	ddl[move_table_src_folder] = move_create_table_folder
 	ddl[move_table_src_shared_folder] = move_create_table_shared_folder
 	ddl[move_table_operation_move] = move_create_table_operation_move
+	ddl[move_table_operation_folder] = move_create_table_operation_folder
 
 	for tn, d := range ddl {
 		err = m.db.CreateTable(tn, d)
@@ -378,7 +392,7 @@ func (m *MoveContext) stepScanSrcFolders() error {
 
 func (m *MoveContext) stepScanDestFolder() error {
 	err := m.scan(move_scan_dst, m.cleanedDestPath)
-	if strings.HasPrefix(err.Error(), "path/not_found") {
+	if err != nil && strings.HasPrefix(err.Error(), "path/not_found") {
 		seelog.Debugf("Skip scan destination folder")
 		return nil
 	}
@@ -430,6 +444,12 @@ func (m *MoveContext) scanReport(scanTarget int) {
 func (m *MoveContext) scan(scanTarget int, src string) error {
 	client := files.New(m.dbxCfgFull)
 	meta, err := client.GetMetadata(files.NewGetMetadataArg(src))
+	if scanTarget == move_scan_dst &&
+		err != nil &&
+		strings.HasPrefix(err.Error(), "path/not_found") {
+		seelog.Debugf("Skip scan destination folder")
+		return nil
+	}
 	if err != nil {
 		seelog.Warnf("Unable to load metadata for path[%s] : error[%s]", src, err)
 		return err
@@ -938,6 +958,11 @@ func (m *MoveContext) stepCleanupSourceFolders() error {
 		}
 
 		lf, err := client.ListFolder(files.NewListFolderArg(pathDisplay))
+		if err != nil && strings.HasPrefix(err.Error(), "path/not_found") {
+			seelog.Debugf("Path[%s] already moved", pathDisplay)
+			pui.Incr()
+			continue
+		}
 		if err != nil {
 			seelog.Warnf("Unable to list folder[%s] : error[%s]", pathDisplay, err)
 			return err
@@ -1017,7 +1042,38 @@ func (m *MoveContext) operPlanSrcFolder(folderId string) (fileCnt int, folderMov
 		}
 	}
 
-	// TODO: Validate dest folders
+	// Validate dest folders
+	var srcPathDisplay string
+	var destFolderExists bool
+	destFolderExists = false
+	destFolderPath := ""
+
+	if folderId != "" {
+		err = m.db.QueryRow(
+			`SELECT path_display FROM {{.TableName}} WHERE folder_id = ?`,
+			move_table_src_folder,
+			folderId,
+		).Scan(
+			&srcPathDisplay,
+		)
+		destFolderPath, err = m.destPathFromSrcPath(srcPathDisplay)
+		if err != nil {
+			seelog.Warnf("Unable to prepare operation plan : error[%s]", err)
+			return fileCnt, false, err
+		}
+
+		var pd int
+		err = m.db.QueryRow(
+			`SELECT COUNT(path_display) FROM {{.TableName}} WHERE path_display = ?`,
+			move_table_dst_folder,
+			destFolderPath,
+		).Scan(
+			&pd,
+		)
+		if pd > 0 {
+			destFolderExists = true
+		}
+	}
 
 	// Validate child folders
 	row, err := m.db.Query(
@@ -1070,9 +1126,14 @@ func (m *MoveContext) operPlanSrcFolder(folderId string) (fileCnt int, folderMov
 		fileCnt < MOVE_BATCH_API_LIMIT &&
 		sharedFolderId == "" &&
 		folderId != "" &&
+		!destFolderExists &&
 		!m.FileByFile {
 
 		return fileCnt, true, nil
+	}
+
+	if destFolderPath != "" {
+		m.operPlanCreateFolder(destFolderPath)
 	}
 
 	for childFolderId, movable := range childMovable {
@@ -1088,6 +1149,22 @@ func (m *MoveContext) operPlanSrcFolder(folderId string) (fileCnt int, folderMov
 	m.operPlanMoveFiles(folderId)
 
 	return fileCnt, false, nil
+}
+
+func (m *MoveContext) operPlanCreateFolder(pathDisplay string) error {
+	_, err := m.db.Exec(
+		`INSERT OR REPLACE INTO (
+		  path_display,
+		  operation
+		) VALUES (?, ?)`,
+		pathDisplay,
+		move_oper_create_folder,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to plan create folder : error[%s]", err)
+		return err
+	}
+	return nil
 }
 
 func (m *MoveContext) operPlanMoveFolder(folderId string, fileCnt int) (err error) {
@@ -1238,6 +1315,44 @@ func (m *MoveContext) stepExecuteOperationPlan() error {
 		return err
 	}
 
+	return nil
+}
+
+func (m *MoveContext) stepExecuteCreateFolder() error {
+	rows, err := m.db.Query(
+		`SELECT
+		  path_display
+		FROM {{.TableName}}
+		WHERE operation = ?
+		`,
+		move_table_operation_folder,
+		move_oper_create_folder,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to retrieve operation plan : error[%s]", err)
+		return err
+	}
+
+	client := files.New(m.dbxCfgFull)
+
+	for rows.Next() {
+		pathDisplay := ""
+		err := rows.Scan(
+			&pathDisplay,
+		)
+		if err != nil {
+			seelog.Warnf("Unable to retrive operaiton plan : error[%s]", err)
+			return err
+		}
+
+		arg := files.NewCreateFolderArg(pathDisplay)
+		arg.Autorename = false
+		_, err = client.CreateFolderV2(arg)
+		if err != nil {
+			seelog.Warnf("Failed to create folder[%s] : error[%s]", pathDisplay, err)
+			return err
+		}
+	}
 	return nil
 }
 

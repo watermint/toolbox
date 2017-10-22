@@ -40,7 +40,7 @@ func parseMoveArgs(args []string) (mc *file.MoveContext, err error) {
 	mc.Infra = infra.PrepareInfraFlags(f)
 
 	descBatchSize := fmt.Sprintf("Move operation batch size (1 < batch_size < %d)", file.MOVE_BATCH_MAX_SIZE)
-	f.IntVar(&mc.BatchSize, "batch-size", 100, descBatchSize)
+	f.IntVar(&mc.BatchSize, "batch-size", 1000, descBatchSize)
 
 	descPreflight := "Preflight mode (simulation mode)"
 	f.BoolVar(&mc.Preflight, "preflight", false, descPreflight)
