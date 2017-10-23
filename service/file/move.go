@@ -900,6 +900,11 @@ func (m *MoveContext) moveBatch(batch []*files.RelocationPath, pui *progress.Pro
 
 		for {
 			ckRes, err := sdk.ZMoveBatchCheck(m.dbxCfgFull, async.NewPollArg(asyncJobId))
+			if err != nil && strings.HasPrefix(err.Error(), "internal_error") {
+				// Retry BatchCheck later
+				time.Sleep(MOVE_BATCH_RETRY_INTERVAL * time.Second)
+				continue
+			}
 			if err != nil {
 				seelog.Warnf("Unable to call `/files/move_batch_check` : error[%s]", err)
 				return err
@@ -1515,13 +1520,15 @@ func (m *MoveMockContext) MockUp() (err error) {
 		return
 	}
 
+	seelog.Infof("MockUp: DestPath[%s]", cleanedDestPath)
+
 	m.createMock(cleanedDestPath, "")
 
 	return nil
 }
 
 func (m *MoveMockContext) createMock(basePath, folderId string) (err error) {
-	seelog.Debugf("CreateMock: BasePath[%s] FolderId[%s]", basePath, folderId)
+	seelog.Infof("CreateMock: BasePath[%s] FolderId[%s]", basePath, folderId)
 
 	err = os.MkdirAll(basePath, 0755)
 	if err != nil {

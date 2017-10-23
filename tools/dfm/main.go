@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/service/file"
-	"github.com/watermint/toolbox/service/tree"
 	"os"
 )
 
