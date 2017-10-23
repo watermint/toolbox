@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/dbsugar"
 	"github.com/watermint/toolbox/infra/progress"
 	"github.com/watermint/toolbox/integration/sdk"
+	"os"
 	"path/filepath"
 	"strings"
 	"time"
@@ -116,7 +117,7 @@ const (
 )
 
 const (
-	move_step_prepare_execution_plan  = iota
+	move_step_prepare_execution_plan = iota
 	move_step_confirm_execution_plan
 	move_step_prepare_scan
 	move_step_scan_src_folders
@@ -1384,6 +1385,10 @@ func (m *MoveContext) stepExecuteCreateFolder() error {
 		arg := files.NewCreateFolderArg(pathDisplay)
 		arg.Autorename = false
 		_, err = client.CreateFolderV2(arg)
+		if err != nil && strings.HasPrefix(err.Error(), "path/conflict") {
+			seelog.Debugf("Folder[%s] already exist.", pathDisplay)
+			continue
+		}
 		if err != nil {
 			seelog.Warnf("Failed to create folder[%s] : error[%s]", pathDisplay, err)
 			return err
@@ -1492,4 +1497,95 @@ func (m *MoveContext) executeOperFiles(pui *progress.ProgressUI) error {
 		}
 	}
 	return nil
+}
+
+type MoveMockContext struct {
+	db *dbsugar.DatabaseSugar
+
+	Infra    *infra.InfraOpts
+	DbFile   string
+	DestPath string
+}
+
+func (m *MoveMockContext) MockUp() (err error) {
+	cleanedDestPath := filepath.Clean(m.DestPath)
+	m.db = &dbsugar.DatabaseSugar{DataSourceName: m.DbFile}
+	if err = m.db.Open(); err != nil {
+		seelog.Errorf("Unable to open file: path[%s] error[%s]", m.DbFile, err)
+		return
+	}
+
+	m.createMock(cleanedDestPath, "")
+
+	return nil
+}
+
+func (m *MoveMockContext) createMock(basePath, folderId string) (err error) {
+	seelog.Debugf("CreateMock: BasePath[%s] FolderId[%s]", basePath, folderId)
+
+	err = os.MkdirAll(basePath, 0755)
+	if err != nil {
+		seelog.Warnf("Unable to create folder[%s] : error[%s]", basePath, err)
+		return err
+	}
+
+	rows, err := m.db.Query(
+		`SELECT file_id FROM {{.TableName}} WHERE parent_folder_id = ?`,
+		move_table_src_file,
+		folderId,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to load files : error[%s]", err)
+		return err
+	}
+
+	for rows.Next() {
+		fileId := ""
+		err = rows.Scan(&fileId)
+		if err != nil {
+			seelog.Warnf("Unable to load file : error[%s]", err)
+			return err
+		}
+		filePath := filepath.Join(basePath, m.fileName(fileId))
+		f, err := os.Create(filePath)
+		if err != nil {
+			seelog.Warnf("Unable to create file[%s] : error[%s]", filePath, err)
+			return err
+		}
+		f.Close()
+	}
+
+	rows, err = m.db.Query(
+		`SELECT folder_id FROM {{.TableName}} WHERE parent_folder_id = ?`,
+		move_table_src_folder,
+		folderId,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to load files : error[%s]", err)
+		return err
+	}
+	folderIds := make([]string, 0)
+	for rows.Next() {
+		childId := ""
+		err = rows.Scan(&childId)
+		if err != nil {
+			seelog.Warnf("Unable to load folder : error[%s]", err)
+			return err
+		}
+		folderIds = append(folderIds, childId)
+	}
+
+	for _, fid := range folderIds {
+		p := filepath.Join(basePath, m.folderName(fid))
+		m.createMock(p, fid)
+	}
+	return nil
+}
+
+func (m *MoveMockContext) fileName(fileId string) string {
+	return fmt.Sprintf("%s.dat", strings.Join(strings.Split(fileId, ":"), "-"))
+}
+
+func (m *MoveMockContext) folderName(folderId string) string {
+	return strings.Join(strings.Split(folderId, ":"), "-")
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/service/file"
+	"github.com/watermint/toolbox/service/tree"
 	"os"
 )
 
@@ -65,6 +66,25 @@ func parseMoveArgs(args []string) (mc *file.MoveContext, err error) {
 	return
 }
 
+func parseMoveMockArgs(args []string) (mmc *file.MoveMockContext, err error) {
+	f := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+
+	mmc = &file.MoveMockContext{}
+	mmc.Infra = infra.PrepareInfraFlags(f)
+
+	f.SetOutput(os.Stderr)
+	f.Parse(args)
+	remainder := f.Args()
+	if len(remainder) != 2 {
+		f.PrintDefaults()
+		return nil, errors.New("Missing [SQLITE3 DBFILE] or [DEST FOLDER]")
+	}
+	mmc.DbFile = remainder[0]
+	mmc.DestPath = remainder[1]
+
+	return
+}
+
 func main() {
 	if len(os.Args) < 2 {
 		usage()
@@ -92,6 +112,35 @@ func main() {
 		}
 		mc.TokenFull = token
 		mc.Move()
+
+	case "move-mockup":
+		// hidden command. undocumented in usage() or README; because it is only for testing purpose.
+		//
+		// {{.Command}} move-mockup [SQLITE3 DBFILE] [DEST FOLDER]
+		// This command creates dummy files and folders by using existing preflight data.
+		//
+		// [SQLITE3 DBFILE]
+		// Preflight data might have actual file/folder names. It depends on PreflightAnon option.
+		// But this command uses only for fileId/folderId to create dummy file tree.
+		//
+		// [DEST FOLDER]
+		// Dest folder is the location of destination path of local Dropbox folder.
+		// If you want to simulate nested shared folder permission, please specify the team folder.
+
+		mmc, err := parseMoveMockArgs(os.Args[2:])
+		if err != nil {
+			usage()
+			return
+		}
+		defer mmc.Infra.Shutdown()
+		err = mmc.Infra.Startup()
+		if err != nil {
+			seelog.Errorf("Unable to start operation: %s", err)
+			return
+		}
+		seelog.Tracef("Options: %s", util.MarshalObjectToString(mmc))
+
+		mmc.MockUp()
 
 	default:
 		usage()
