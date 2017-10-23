@@ -138,7 +138,11 @@ func (m *MoveContext) Move() error {
 	stepEnd := move_step_cleanup
 
 	if m.Preflight {
-		stepEnd = move_step_prepare_operation_plan
+		if m.PreflightAnon {
+			stepEnd = move_step_validate_dst
+		} else {
+			stepEnd = move_step_prepare_operation_plan
+		}
 	}
 
 	steps := make(map[int]moveStepFunc)
