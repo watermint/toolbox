@@ -1536,6 +1536,19 @@ func (m *MoveMockContext) createMock(basePath, folderId string) (err error) {
 		return err
 	}
 
+	var sharedFolderId string
+	err = m.db.QueryRow(
+		`SELECT sharing_shared_folder_id FROM {{.TableName}} WHERE folder_id = ?`,
+			move_table_src_folder,
+				folderId,
+	).Scan(
+		&sharedFolderId,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to load folder info : error[%s]", err)
+		return err
+	}
+
 	rows, err := m.db.Query(
 		`SELECT file_id FROM {{.TableName}} WHERE parent_folder_id = ?`,
 		move_table_src_file,

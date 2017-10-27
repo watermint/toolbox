@@ -14,18 +14,26 @@ type ProgressUI struct {
 }
 
 func (p *ProgressUI) Start(cnt int) {
-	seelog.Flush()
-	p.UI = uiprogress.New()
-	p.UI.Start()
-	p.Bar = p.UI.AddBar(cnt)
-	p.Bar.PrependElapsed()
-	p.Bar.AppendCompleted()
+	if p.Infra.ShowProgress {
+		seelog.Flush()
+		p.UI = uiprogress.New()
+		p.UI.Start()
+		p.Bar = p.UI.AddBar(cnt)
+		p.Bar.PrependElapsed()
+		p.Bar.AppendCompleted()
+	}
 }
 
 func (p *ProgressUI) End() {
-	p.UI.Stop()
+	if p.Infra.ShowProgress {
+		p.UI.Stop()
+	}
 }
 
 func (p *ProgressUI) Incr() bool {
-	return p.Bar.Incr()
+	if p.Infra.ShowProgress {
+		return p.Bar.Incr()
+	} else {
+		return true
+	}
 }

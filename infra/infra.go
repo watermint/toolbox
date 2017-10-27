@@ -52,6 +52,7 @@ type InfraOpts struct {
 	LogMaxSize   uint64
 	LogRolls     int
 	CleanupToken bool
+	ShowProgress bool
 
 	issuedTokens []string
 }
@@ -169,6 +170,9 @@ func PrepareInfraFlags(flagset *flag.FlagSet) *InfraOpts {
 
 	descCleanup := "Cleanup token on exit"
 	flagset.BoolVar(&opts.CleanupToken, "cleanup-token", false, descCleanup)
+
+	descProgress := "Show progress"
+	flagset.BoolVar(&opts.ShowProgress, "progress", false, descProgress)
 
 	return opts
 }
