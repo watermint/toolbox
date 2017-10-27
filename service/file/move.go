@@ -383,7 +383,7 @@ func (m *MoveContext) stepPrepareScan() error {
 }
 
 func (m *MoveContext) stepScanSrcFolders() error {
-	pui := &progress.ProgressUI{}
+	pui := &progress.ProgressUI{Infra: m.Infra}
 	pui.Start(len(m.cleanedSrcPaths))
 	defer pui.End()
 
@@ -976,7 +976,7 @@ func (m *MoveContext) stepCleanupSourceFolders() error {
 
 	client := files.New(m.dbxCfgFull)
 
-	pui := &progress.ProgressUI{}
+	pui := &progress.ProgressUI{Infra: m.Infra}
 	pui.Start(cnt)
 	defer pui.End()
 
@@ -1338,7 +1338,7 @@ func (m *MoveContext) stepExecuteOperationPlan() error {
 		return err
 	}
 
-	pui := &progress.ProgressUI{}
+	pui := &progress.ProgressUI{Infra: m.Infra}
 	if fCount < 1 {
 		pui.Start(1)
 	} else {
