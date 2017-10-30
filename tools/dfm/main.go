@@ -17,6 +17,9 @@ func usage() {
 
 Move files/folders to destination
 {{.Command}} move [OPTION]... SRC DEST
+
+Restore files under path
+{{.Command}} restore [OPTION]... PATH
 `
 
 	data := struct {
@@ -84,6 +87,26 @@ func parseMoveMockArgs(args []string) (mmc *file.MoveMockContext, err error) {
 	return
 }
 
+func parseRestoreArgs(args []string) (rc *file.RestoreContext, err error) {
+	f := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+
+	rc = &file.RestoreContext{}
+	rc.Infra = infra.PrepareInfraFlags(f)
+
+	descPreflight := "Preflight mode (simulation mode)"
+	f.BoolVar(&rc.Preflight, "preflight", false, descPreflight)
+
+	f.SetOutput(os.Stderr)
+	f.Parse(args)
+	remainder := f.Args()
+	if len(remainder) != 1 {
+		f.PrintDefaults()
+		return nil, errors.New("missing [path]")
+	}
+	rc.Path = remainder[0]
+	return
+}
+
 func main() {
 	if len(os.Args) < 2 {
 		usage()
@@ -140,6 +163,28 @@ func main() {
 		seelog.Tracef("Options: %s", util.MarshalObjectToString(mmc))
 
 		mmc.MockUp()
+
+	case "restore":
+		rc, err := parseRestoreArgs(os.Args[2:])
+		if err != nil {
+			usage()
+			return
+		}
+		defer rc.Infra.Shutdown()
+		err = rc.Infra.Startup()
+		if err != nil {
+			seelog.Errorf("Unable to start operation: %s", err)
+			return
+		}
+		seelog.Tracef("Options: %s", util.MarshalObjectToString(rc))
+
+		token, err := rc.Infra.LoadOrAuthDropboxFull()
+		if err != nil || token == "" {
+			seelog.Errorf("Unable to acquire token (error: %s)", err)
+			return
+		}
+		rc.TokenFull = token
+		rc.Restore()
 
 	default:
 		usage()

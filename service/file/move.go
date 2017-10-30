@@ -205,7 +205,7 @@ func (m *MoveContext) Move() error {
 	return nil
 }
 
-func cleanPath(path string, allowTrailingSlash bool) (string, error) {
+func (m *MoveContext) cleanPath(path string, allowTrailingSlash bool) (string, error) {
 	c := filepath.ToSlash(filepath.Clean(path))
 	if !strings.HasPrefix(c, "/") {
 		c = "/" + c
@@ -216,7 +216,7 @@ func cleanPath(path string, allowTrailingSlash bool) (string, error) {
 	return c, nil
 }
 
-func nameInMetadata(meta files.IsMetadata) string {
+func (m *MoveContext) nameInMetadata(meta files.IsMetadata) string {
 	switch f := meta.(type) {
 	case *files.FileMetadata:
 		return f.Name
@@ -242,14 +242,14 @@ func (m *MoveContext) stepPrepareExecutionPlan() error {
 	}
 
 	// Prepare dest path
-	m.cleanedDestPath, err = cleanPath(m.DestPath, false)
+	m.cleanedDestPath, err = m.cleanPath(m.DestPath, false)
 	if err != nil {
 		seelog.Warnf("Unable to clean dest path[%s] : error[%s]", m.DestPath, err)
 		return err
 	}
 
 	// Prepare src path
-	csp, err := cleanPath(m.SrcPath, true)
+	csp, err := m.cleanPath(m.SrcPath, true)
 	m.cleanedSrcPaths = make([]string, 0)
 	if err != nil {
 		seelog.Warnf("Unable to clean src path[%s] : error[%s]", m.SrcPath, err)
@@ -267,7 +267,7 @@ func (m *MoveContext) stepPrepareExecutionPlan() error {
 			seelog.Warnf("Unable to load metadata for path[%s] : error[%s]", csp, err)
 			return err
 		}
-		n := nameInMetadata(meta)
+		n := m.nameInMetadata(meta)
 		if n == "" {
 			seelog.Warnf("File or folder not found for path[%s]", csp)
 			return errors.New("file or folder not found")
@@ -288,7 +288,7 @@ func (m *MoveContext) stepPrepareExecutionPlan() error {
 		more := true
 		for more {
 			for _, f := range lf.Entries {
-				n := nameInMetadata(f)
+				n := m.nameInMetadata(f)
 				if n != "" {
 					m.cleanedSrcPaths = append(m.cleanedSrcPaths, filepath.ToSlash(filepath.Join(csp, n)))
 				}
@@ -1539,8 +1539,8 @@ func (m *MoveMockContext) createMock(basePath, folderId string) (err error) {
 	var sharedFolderId string
 	err = m.db.QueryRow(
 		`SELECT sharing_shared_folder_id FROM {{.TableName}} WHERE folder_id = ?`,
-			move_table_src_folder,
-				folderId,
+		move_table_src_folder,
+		folderId,
 	).Scan(
 		&sharedFolderId,
 	)
