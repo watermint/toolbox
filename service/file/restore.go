@@ -1,7 +1,9 @@
 package file
 
 import (
+	"database/sql"
 	"errors"
+	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
@@ -11,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/progress"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 type RestoreContext struct {
@@ -19,10 +22,11 @@ type RestoreContext struct {
 	cleanedPath string
 	dbxCfgFull  dropbox.Config
 
-	Infra     *infra.InfraOpts
-	Path      string
-	TokenFull string
-	Preflight bool
+	Infra           *infra.InfraOpts
+	Path            string
+	TokenFull       string
+	Preflight       bool
+	FilterTimeAfter *time.Time
 }
 
 const (
@@ -134,7 +138,15 @@ func (r *RestoreContext) restoreStepScanPath() error {
 	if err != nil {
 		return err
 	}
-	seelog.Infof("%s deleted file(s), total %s",
+	seelog.Infof("   Scan result: %s deleted file(s), total %s",
+		humanize.Comma(fileCount),
+		humanize.IBytes(fileSize),
+	)
+	fileCount, fileSize, err = r.scanFilteredStats()
+	if err != nil {
+		return err
+	}
+	seelog.Infof("Restore target: %s deleted file(s), total %s",
 		humanize.Comma(fileCount),
 		humanize.IBytes(fileSize),
 	)
@@ -144,9 +156,31 @@ func (r *RestoreContext) restoreStepScanPath() error {
 
 func (r *RestoreContext) scanStats() (fileCount int64, fileSize uint64, err error) {
 	err = r.db.QueryRow(
-		`SELECT COUNT(path_display), SUM(size) FROM {{.TableName}}`,
+		`SELECT COUNT(path_display), IFNULL(SUM(size), 0) FROM {{.TableName}}`,
 		restore_table_file,
 	).Scan(
+		&fileCount,
+		&fileSize,
+	)
+	if err != nil {
+		seelog.Warnf("Unable to retrieve scan stats : error[%s]", err)
+		return
+	}
+	return
+}
+
+func (r *RestoreContext) scanFilteredStats() (fileCount int64, fileSize uint64, err error) {
+	rows, err := r.filteredQuery("COUNT(path_display), IFNULL(SUM(size), 0)")
+	if err != nil {
+		seelog.Warnf("Unable to retrieve scan stats : error[%s]", err)
+		return
+	}
+	if !rows.Next() {
+		seelog.Warnf("Unable to retrieve scan stats : error[%s]", err)
+		err = errors.New("no row found")
+		return
+	}
+	rows.Scan(
 		&fileCount,
 		&fileSize,
 	)
@@ -165,7 +199,7 @@ func (r *RestoreContext) scanDispatch(meta files.IsMetadata) error {
 
 	case *files.FolderMetadata:
 		seelog.Debugf("ScanDispatch: FolderId[%s] PathDisplay[%s]", f.Id, f.PathDisplay)
-		return r.scanFolder(f)
+		return r.scanFolder(f.PathDisplay)
 
 	case *files.DeletedMetadata:
 		seelog.Debugf("ScanDispatch: Deleted[%s]", f.PathDisplay)
@@ -174,16 +208,17 @@ func (r *RestoreContext) scanDispatch(meta files.IsMetadata) error {
 	return errors.New("unexpected metadata type")
 }
 
-func (r *RestoreContext) scanFolder(meta *files.FolderMetadata) error {
-	seelog.Debugf("ScanFolder: Path[%s]", meta.PathDisplay)
+func (r *RestoreContext) scanFolder(pathDisplay string) error {
+	seelog.Debugf("ScanFolder: Path[%s]", pathDisplay)
 	client := files.New(r.dbxCfgFull)
-	arg := files.NewListFolderArg(meta.PathDisplay)
+	arg := files.NewListFolderArg(pathDisplay)
+	arg.Recursive = true
 	arg.IncludeDeleted = true
 	more := true
 
 	lf, err := client.ListFolder(arg)
 	if err != nil {
-		seelog.Warnf("Unable to load folder[%s] : error[%s]", meta.PathDisplay, err)
+		seelog.Warnf("Unable to load folder[%s] : error[%s]", pathDisplay, err)
 		return err
 	}
 	for more {
@@ -197,7 +232,7 @@ func (r *RestoreContext) scanFolder(meta *files.FolderMetadata) error {
 		if lf.HasMore {
 			lf, err = client.ListFolderContinue(files.NewListFolderContinueArg(lf.Cursor))
 			if err != nil {
-				seelog.Warnf("Unable to load folder (cont) [%s] : error[%s]", meta.PathDisplay, err)
+				seelog.Warnf("Unable to load folder (cont) [%s] : error[%s]", pathDisplay, err)
 				return err
 			}
 		}
@@ -215,8 +250,8 @@ func (r *RestoreContext) scanDeleted(meta *files.DeletedMetadata) error {
 
 	res, err := client.ListRevisions(arg)
 	if err != nil && strings.HasPrefix(err.Error(), "path/not_file") {
-		seelog.Debugf("Skip for deleted folder[%s]", meta.PathDisplay)
-		return nil
+		seelog.Debugf("Skip for deleted folder[%s], try scan as folder", meta.PathDisplay)
+		return r.scanFolder(meta.PathDisplay)
 	}
 	if err != nil {
 		seelog.Warnf("Unable to list revisions for path[%s] : error[%s]", meta.PathDisplay, err)
@@ -255,18 +290,19 @@ func (r *RestoreContext) scanDeleted(meta *files.DeletedMetadata) error {
 
 func (r *RestoreContext) restoreStepRestore() error {
 	seelog.Debugf("Restore Start")
-	fileCount, _, err := r.scanStats()
+	fileCount, _, err := r.scanFilteredStats()
 	if err != nil {
 		return err
+	}
+	if fileCount < 1 {
+		seelog.Infof("No restore target files")
+		return nil
 	}
 
 	pui := progress.ProgressUI{Infra: r.Infra}
 	pui.Start(int(fileCount))
 
-	rows, err := r.db.Query(
-		`SELECT path_display, rev FROM {{.TableName}}`,
-		restore_table_file,
-	)
+	rows, err := r.filteredQuery("path_display, rev")
 	if err != nil {
 		seelog.Warnf("Unable to retrieve scan data : error[%s]", err)
 		return err
@@ -294,4 +330,20 @@ func (r *RestoreContext) restoreStepRestore() error {
 	seelog.Debugf("Restore Finished")
 
 	return nil
+}
+
+func (r *RestoreContext) filteredQuery(columns string) (rows *sql.Rows, err error) {
+	if r.FilterTimeAfter != nil {
+		rows, err = r.db.Query(
+			fmt.Sprintf("SELECT %s FROM {{.TableName}} WHERE ? <= server_deleted", columns),
+			restore_table_file,
+			r.FilterTimeAfter,
+		)
+	} else {
+		rows, err = r.db.Query(
+			fmt.Sprintf("SELECT %s FROM {{.TableName}}", columns),
+			restore_table_file,
+		)
+	}
+	return
 }

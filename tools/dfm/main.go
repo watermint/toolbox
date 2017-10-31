@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/service/file"
 	"os"
+	"time"
 )
 
 func usage() {
@@ -96,8 +97,19 @@ func parseRestoreArgs(args []string) (rc *file.RestoreContext, err error) {
 	descPreflight := "Preflight mode (simulation mode)"
 	f.BoolVar(&rc.Preflight, "preflight", false, descPreflight)
 
+	descFilterTimeAfter := "Filter: time after (inclusive)"
+	var timeAfter string
+	f.StringVar(&timeAfter, "after", "", descFilterTimeAfter)
+
 	f.SetOutput(os.Stderr)
 	f.Parse(args)
+
+	rc.FilterTimeAfter, err = parseTimestampOpt(timeAfter)
+	if err != nil {
+		fmt.Errorf("unable to parse time for `-after`: %s", timeAfter)
+		return nil, err
+	}
+
 	remainder := f.Args()
 	if len(remainder) != 1 {
 		f.PrintDefaults()
@@ -105,6 +117,30 @@ func parseRestoreArgs(args []string) (rc *file.RestoreContext, err error) {
 	}
 	rc.Path = remainder[0]
 	return
+}
+
+var (
+	TIMESTAMP_OPT_ACCEPTABLE_FORMATS = []string{
+		"2006-01-02",
+		"2006/01/02",
+		"2006-01-02T15:04:05",
+		"2006-01-02T15:04:05Z07:00",
+		"2006-01-02T15:04:05Z0700",
+		"2006-01-02 15:04:05",
+		"2006/01/02 15:04:05",
+		"2006-01-02 15:04",
+		"2006/01/02 15:04",
+	}
+)
+
+func parseTimestampOpt(t string) (*time.Time, error) {
+	for _, f := range TIMESTAMP_OPT_ACCEPTABLE_FORMATS {
+		t, err := time.ParseInLocation(f, t, time.Local)
+		if err == nil {
+			return &t, nil
+		}
+	}
+	return nil, errors.New("unable to parse date/time")
 }
 
 func main() {
