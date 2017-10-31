@@ -104,14 +104,18 @@ func parseRestoreArgs(args []string) (rc *file.RestoreContext, err error) {
 	f.SetOutput(os.Stderr)
 	f.Parse(args)
 
-	rc.FilterTimeAfter, err = parseTimestampOpt(timeAfter)
-	if err != nil {
-		fmt.Errorf("unable to parse time for `-after`: %s", timeAfter)
-		return nil, err
+	if timeAfter != "" {
+		rc.FilterTimeAfter, err = parseTimestampOpt(timeAfter)
+		if err != nil {
+			fmt.Errorf("unable to parse time for `-after`: %s", timeAfter)
+			return nil, err
+		}
+	} else {
+		rc.FilterTimeAfter = nil
 	}
 
 	remainder := f.Args()
-	if len(remainder) != 1 {
+	if len(remainder) < 1 {
 		f.PrintDefaults()
 		return nil, errors.New("missing [path]")
 	}

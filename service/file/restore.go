@@ -230,11 +230,15 @@ func (r *RestoreContext) scanFolder(pathDisplay string, recursive bool) error {
 	arg.IncludeMountedFolders = false
 
 	lf, err := client.ListFolder(arg)
+	if err != nil && strings.HasPrefix(err.Error(), "path/not_found") {
+		seelog.Debugf("Skip removed folder[%s]", pathDisplay)
+		return nil
+	}
 	if err != nil {
 		seelog.Warnf("Unable to load folder[%s] : error[%s]", pathDisplay, err)
 		return err
 	}
-	if len(lf.Entries) == 1 {
+	if recursive && len(lf.Entries) == 1 {
 		switch f := lf.Entries[0].(type) {
 		case *files.FolderMetadata:
 			if f.PathDisplay == pathDisplay {
@@ -254,9 +258,9 @@ func (r *RestoreContext) scanFolder(pathDisplay string, recursive bool) error {
 			case *files.FolderMetadata:
 				seelog.Tracef("ScanDispatch: FolderId[%s] PathDisplay[%s]", g.Id, g.PathDisplay)
 				if !recursive && g.PathDisplay != pathDisplay {
-					err = r.scanFolder(g.PathDisplay, false)
+					err = r.scanFolder(g.PathDisplay, true)
 					if err != nil {
-						seelog.Warnf("Unable to prepare file/folder meta data[%s] : error[%s]", err)
+						seelog.Warnf("Unable to prepare file/folder meta data[%s] : error[%s]", g.PathDisplay, err)
 						return err
 					}
 				}
@@ -265,7 +269,7 @@ func (r *RestoreContext) scanFolder(pathDisplay string, recursive bool) error {
 				seelog.Tracef("ScanDispatch: Deleted[%s]", g.PathDisplay)
 				err = r.scanDeleted(g)
 				if err != nil {
-					seelog.Warnf("Unable to prepare file/folder meta data[%s] : error[%s]", err)
+					seelog.Warnf("Unable to prepare file/folder meta data[%s] : error[%s]", g.PathDisplay, err)
 					return err
 				}
 
@@ -300,8 +304,9 @@ func (r *RestoreContext) scanDeleted(meta *files.DeletedMetadata) error {
 
 	res, err := client.ListRevisions(arg)
 	if err != nil && strings.HasPrefix(err.Error(), "path/not_file") {
-		seelog.Debugf("Skip for deleted folder[%s]", meta.PathDisplay)
-		return nil
+		//seelog.Debugf("Skip for deleted folder[%s]", meta.PathDisplay)
+		seelog.Debugf("Scan Folder[%s]", meta.PathDisplay)
+		return r.scanFolder(meta.PathDisplay, true)
 	}
 	if err != nil {
 		seelog.Warnf("Unable to list revisions for path[%s] : error[%s]", meta.PathDisplay, err)
