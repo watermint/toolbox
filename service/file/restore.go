@@ -17,13 +17,14 @@ import (
 )
 
 type RestoreContext struct {
-	db          *dbsugar.DatabaseSugar
-	dbFile      string
-	cleanedPath string
-	dbxCfgFull  dropbox.Config
+	db              *dbsugar.DatabaseSugar
+	dbFile          string
+	cleanedBasePath string
+	scanBasePath    string
+	dbxCfgFull      dropbox.Config
 
 	Infra           *infra.InfraOpts
-	Path            string
+	BasePath        string
 	TokenFull       string
 	Preflight       bool
 	FilterTimeAfter *time.Time
@@ -45,7 +46,8 @@ const (
 )
 
 const (
-	restore_step_prepare_execution_plan = iota
+	restore_step_prepare_resources = iota
+	restore_step_find_base
 	restore_step_scan_path
 	restore_step_restore
 )
@@ -53,7 +55,7 @@ const (
 type restoreStepFunc func() error
 
 func (r *RestoreContext) Restore() error {
-	stepStart := restore_step_prepare_execution_plan
+	stepStart := restore_step_prepare_resources
 	stepEnd := restore_step_restore
 
 	if r.Preflight {
@@ -63,8 +65,11 @@ func (r *RestoreContext) Restore() error {
 	steps := make(map[int]restoreStepFunc)
 	title := make(map[int]string)
 
-	title[restore_step_prepare_execution_plan] = "Prepare execution plan"
-	steps[restore_step_prepare_execution_plan] = r.restoreStepExecutionPlan
+	title[restore_step_prepare_resources] = "Prepare resources"
+	steps[restore_step_prepare_resources] = r.restoreStepPrepareResources
+
+	title[restore_step_find_base] = "Find base path of scan"
+	steps[restore_step_find_base] = r.restoreStepFindBase
 
 	title[restore_step_scan_path] = "Scan files and folders"
 	steps[restore_step_scan_path] = r.restoreStepScanPath
@@ -89,14 +94,14 @@ func (r *RestoreContext) Restore() error {
 	return nil
 }
 
-func (r *RestoreContext) restoreStepExecutionPlan() error {
+func (r *RestoreContext) restoreStepPrepareResources() error {
 	r.dbxCfgFull = dropbox.Config{Token: r.TokenFull}
-	r.cleanedPath = filepath.ToSlash(filepath.Clean(r.Path))
-	if !strings.HasPrefix(r.cleanedPath, "/") {
-		r.cleanedPath = "/" + r.cleanedPath
+	r.cleanedBasePath = filepath.ToSlash(filepath.Clean(r.BasePath))
+	if !strings.HasPrefix(r.cleanedBasePath, "/") {
+		r.cleanedBasePath = "/" + r.cleanedBasePath
 	}
-	if r.cleanedPath == "/" {
-		r.cleanedPath = ""
+	if r.cleanedBasePath == "/" {
+		r.cleanedBasePath = ""
 	}
 
 	r.dbFile = r.Infra.FileOnWorkPath(restore_database_filename)
@@ -119,20 +124,45 @@ func (r *RestoreContext) restoreStepExecutionPlan() error {
 	return nil
 }
 
-func (r *RestoreContext) restoreStepScanPath() error {
+func (r *RestoreContext) restoreStepFindBase() error {
 	client := files.New(r.dbxCfgFull)
-	arg := files.NewGetMetadataArg(r.cleanedPath)
-	arg.IncludeDeleted = true
-	meta, err := client.GetMetadata(arg)
-	if err != nil {
-		seelog.Warnf("Unable to load metadata for path[%s] : error[%s]", r.cleanedPath, err)
-		return err
+	sp := r.cleanedBasePath
+	for 0 < len(sp) {
+		seelog.Debugf("FindBase: GetMetadata[%s]", sp)
+		arg := files.NewGetMetadataArg(sp)
+		arg.IncludeDeleted = true
+		meta, err := client.GetMetadata(arg)
+		if err != nil {
+			seelog.Warnf("Unable to load metadata for path[%s] : error[%s]", r.cleanedBasePath, err)
+			return err
+		}
+		switch f := meta.(type) {
+		case *files.DeletedMetadata:
+			pp := filepath.ToSlash(filepath.Dir(sp))
+			if pp == "/" {
+				seelog.Debugf("Scan from root")
+				r.scanBasePath = ""
+				return nil
+			}
+			seelog.Debugf("Path[%s] found as deleted. Dig into parent [%s]", sp, pp)
+			sp = pp
+
+		case *files.FolderMetadata:
+			seelog.Debugf("Scan root path: [%s]", f.PathDisplay)
+			r.scanBasePath = f.PathDisplay
+			return nil
+
+		default:
+			seelog.Warnf("Unexpected metadata type: path[%s]", sp)
+			return errors.New("unexpected metadata type")
+		}
 	}
-	err = r.scanDispatch(meta)
-	if err != nil {
-		seelog.Warnf("Failed to scan folders : error[%s]", err)
-		return err
-	}
+
+	return nil
+}
+
+func (r *RestoreContext) restoreStepScanPath() error {
+	r.scanFolder(r.scanBasePath, true)
 
 	fileCount, fileSize, err := r.scanStats()
 	if err != nil {
@@ -191,42 +221,56 @@ func (r *RestoreContext) scanFilteredStats() (fileCount int64, fileSize uint64, 
 	return
 }
 
-func (r *RestoreContext) scanDispatch(meta files.IsMetadata) error {
-	switch f := meta.(type) {
-	case *files.FileMetadata:
-		// ignore
-		return nil
-
-	case *files.FolderMetadata:
-		seelog.Debugf("ScanDispatch: FolderId[%s] PathDisplay[%s]", f.Id, f.PathDisplay)
-		return r.scanFolder(f.PathDisplay)
-
-	case *files.DeletedMetadata:
-		seelog.Debugf("ScanDispatch: Deleted[%s]", f.PathDisplay)
-		return r.scanDeleted(f)
-	}
-	return errors.New("unexpected metadata type")
-}
-
-func (r *RestoreContext) scanFolder(pathDisplay string) error {
+func (r *RestoreContext) scanFolder(pathDisplay string, recursive bool) error {
 	seelog.Debugf("ScanFolder: Path[%s]", pathDisplay)
 	client := files.New(r.dbxCfgFull)
 	arg := files.NewListFolderArg(pathDisplay)
-	arg.Recursive = true
+	arg.Recursive = recursive
 	arg.IncludeDeleted = true
-	more := true
+	arg.IncludeMountedFolders = false
 
 	lf, err := client.ListFolder(arg)
 	if err != nil {
 		seelog.Warnf("Unable to load folder[%s] : error[%s]", pathDisplay, err)
 		return err
 	}
+	if len(lf.Entries) == 1 {
+		switch f := lf.Entries[0].(type) {
+		case *files.FolderMetadata:
+			if f.PathDisplay == pathDisplay {
+				seelog.Debugf("Retry with recursive=false: Path[%s]", pathDisplay)
+				return r.scanFolder(pathDisplay, false)
+			}
+		}
+	}
+
+	more := true
 	for more {
 		for _, f := range lf.Entries {
-			err = r.scanDispatch(f)
-			if err != nil {
-				seelog.Warnf("Unable to prepare file/folder meta data[%s] : error[%s]", err)
-				return err
+			switch g := f.(type) {
+			case *files.FileMetadata:
+				// ignore
+
+			case *files.FolderMetadata:
+				seelog.Tracef("ScanDispatch: FolderId[%s] PathDisplay[%s]", g.Id, g.PathDisplay)
+				if !recursive && g.PathDisplay != pathDisplay {
+					err = r.scanFolder(g.PathDisplay, false)
+					if err != nil {
+						seelog.Warnf("Unable to prepare file/folder meta data[%s] : error[%s]", err)
+						return err
+					}
+				}
+
+			case *files.DeletedMetadata:
+				seelog.Tracef("ScanDispatch: Deleted[%s]", g.PathDisplay)
+				err = r.scanDeleted(g)
+				if err != nil {
+					seelog.Warnf("Unable to prepare file/folder meta data[%s] : error[%s]", err)
+					return err
+				}
+
+			default:
+				return errors.New("unexpected metadata type")
 			}
 		}
 		if lf.HasMore {
@@ -242,7 +286,13 @@ func (r *RestoreContext) scanFolder(pathDisplay string) error {
 }
 
 func (r *RestoreContext) scanDeleted(meta *files.DeletedMetadata) error {
-	seelog.Debugf("ScanDeleted: Path[%s]", meta.PathDisplay)
+	seelog.Tracef("ScanDeleted: Path[%s]", meta.PathDisplay)
+
+	if !strings.HasPrefix(meta.PathDisplay, r.cleanedBasePath) {
+		seelog.Tracef("Skip: Base[%s] Path[%s]", r.cleanedBasePath, meta.PathDisplay)
+		return nil
+	}
+
 	client := files.New(r.dbxCfgFull)
 
 	arg := files.NewListRevisionsArg(meta.PathDisplay)
@@ -250,8 +300,8 @@ func (r *RestoreContext) scanDeleted(meta *files.DeletedMetadata) error {
 
 	res, err := client.ListRevisions(arg)
 	if err != nil && strings.HasPrefix(err.Error(), "path/not_file") {
-		seelog.Debugf("Skip for deleted folder[%s], try scan as folder", meta.PathDisplay)
-		return r.scanFolder(meta.PathDisplay)
+		seelog.Debugf("Skip for deleted folder[%s]", meta.PathDisplay)
+		return nil
 	}
 	if err != nil {
 		seelog.Warnf("Unable to list revisions for path[%s] : error[%s]", meta.PathDisplay, err)

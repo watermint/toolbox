@@ -115,7 +115,7 @@ func parseRestoreArgs(args []string) (rc *file.RestoreContext, err error) {
 		f.PrintDefaults()
 		return nil, errors.New("missing [path]")
 	}
-	rc.Path = remainder[0]
+	rc.BasePath = remainder[0]
 	return
 }
 
@@ -136,8 +136,9 @@ var (
 func parseTimestampOpt(t string) (*time.Time, error) {
 	for _, f := range TIMESTAMP_OPT_ACCEPTABLE_FORMATS {
 		t, err := time.ParseInLocation(f, t, time.Local)
+		u := t.UTC()
 		if err == nil {
-			return &t, nil
+			return &u, nil
 		}
 	}
 	return nil, errors.New("unable to parse date/time")
