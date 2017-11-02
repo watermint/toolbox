@@ -31,6 +31,7 @@ type RestoreContext struct {
 }
 
 const (
+	RESTORE_API_CALL_RETRY_INTERVAL = 60
 	restore_database_filename = "restore.db"
 
 	restore_table_file             = "restore_file"
@@ -374,10 +375,18 @@ func (r *RestoreContext) restoreStepRestore() error {
 
 		seelog.Debugf("Restore: Path[%s] Rev[%s]", pathDisplay, rev)
 		arg := files.NewRestoreArg(pathDisplay, rev)
-		_, err := client.Restore(arg)
-		if err != nil {
-			seelog.Warnf("Unable to restore file[%s] : error[%s]", pathDisplay, err)
-			return err
+		for {
+			_, err := client.Restore(arg)
+			if err != nil && strings.HasPrefix(err.Error(), "too_many_requests") {
+				seelog.Debugf("Error[%s] Wait for a while", err)
+				time.Sleep(RESTORE_API_CALL_RETRY_INTERVAL * time.Second)
+				continue
+			}
+			if err != nil {
+				seelog.Warnf("Unable to restore file[%s] : error[%s]", pathDisplay, err)
+				return err
+			}
+			break
 		}
 		pui.Incr()
 	}
