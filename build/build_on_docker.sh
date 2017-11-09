@@ -6,7 +6,8 @@ BUILD_PATH=/tmp/out
 DIST_PATH=/dist
 
 TARGET_TOOLS="dtm dfm"
-TARGET_PLATFORM="windows/386,windows/amd64,darwin/amd64,linux/386,linux/amd64"
+#TARGET_PLATFORM="windows/386,windows/amd64,darwin/amd64,linux/386,linux/amd64"
+TARGET_PLATFORM="windows/386,darwin/amd64,linux/386"
 
 BUILD_MAJOR_VERSION=$(cat $PROJECT_ROOT/version)
 BUILD_HASH=$(cd $PROJECT_ROOT && git rev-parse HEAD)
