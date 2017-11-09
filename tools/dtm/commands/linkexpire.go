@@ -1,6 +1,7 @@
-package main
+package commands
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"github.com/cihub/seelog"
@@ -17,7 +18,7 @@ func usage() {
 
 Expire shared links at +7 days if expiration not set
 
-{{.Command}} expire -team -days 7
+{{.Command}} link-expire -days 7
 `
 
 	data := struct {
@@ -34,18 +35,14 @@ Expire shared links at +7 days if expiration not set
 	infra.ShowUsage(tmpl, data)
 }
 
-type ListFlags struct {
-}
-
 type ExpireFlags struct {
-	Team       bool
 	Infra      *infra.InfraOpts
 	Days       int
 	Overwrite  bool
 	TargetUser string
 }
 
-func parseExpireFlags(args []string) (*ExpireFlags, error) {
+func parseLinkExpireFlags(args []string) (*ExpireFlags, error) {
 	f := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 
 	pf := &ExpireFlags{}
@@ -53,9 +50,6 @@ func parseExpireFlags(args []string) (*ExpireFlags, error) {
 
 	descDays := "Specify expire date in days"
 	f.IntVar(&pf.Days, "days", 0, descDays)
-
-	descTeam := "Apply for Team (Dropbox Business)"
-	f.BoolVar(&pf.Team, "team", false, descTeam)
 
 	descOverwrite := "Overwrite expiration if existing expiration exceeds specified duration"
 	f.BoolVar(&pf.Overwrite, "overwrite", false, descOverwrite)
@@ -69,45 +63,31 @@ func parseExpireFlags(args []string) (*ExpireFlags, error) {
 	return pf, nil
 }
 
-func main() {
-	if len(os.Args) < 2 {
-		usage()
-		return
-	}
-
-	if os.Args[1] != "expire" {
-		usage()
-		return
-	}
-
-	opts, err := parseExpireFlags(os.Args[2:])
+func LinkExpire(args []string) error {
+	opts, err := parseLinkExpireFlags(args)
 
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Error: ", err)
 		usage()
-		return
-	}
-	if !opts.Team {
-		fmt.Fprintln(os.Stderr, "Operation for personal account not yet supported")
-		return
+		return err
 	}
 	if opts.Days < 1 {
 		fmt.Fprintln(os.Stderr, "Expiration days must be grater equal 1")
-		return
+		return errors.New("expiration days must be grater equal 1")
 	}
 
 	defer opts.Infra.Shutdown()
 	err = opts.Infra.Startup()
 	if err != nil {
 		seelog.Errorf("Unable to start operation: %s", err)
-		return
+		return err
 	}
 	seelog.Tracef("options: %s", util.MarshalObjectToString(opts))
 
 	token, err := opts.Infra.LoadOrAuthBusinessFile()
 	if err != nil || token == "" {
 		seelog.Errorf("Unable to acquire token (error: %s)", err)
-		return
+		return err
 	}
 
 	sharedlink.UpdateSharedLinkForTeam(token, sharedlink.UpdateSharedLinkExpireContext{
@@ -115,4 +95,5 @@ func main() {
 		Expiration: time.Duration(opts.Days) * time.Hour * 24,
 		Overwrite:  opts.Overwrite,
 	})
+	return nil
 }

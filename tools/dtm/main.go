@@ -4,7 +4,7 @@ import (
 	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/knowledge"
-	"github.com/watermint/toolbox/tools/dteammember/commands"
+	"github.com/watermint/toolbox/tools/dtm/commands"
 	"os"
 )
 
@@ -27,6 +27,12 @@ External Id
 {{.Command}} extid -list -all-users
 {{.Command}} extid -assign-pseudo-id -user user@example.com
 {{.Command}} extid -assign-pseudo-id -all-users
+
+Enforce shared link expiration
+
+Expire shared links at +7 days if expiration not set
+{{.Command}} link-expire -days 7
+
 `
 
 	data := struct {
@@ -49,27 +55,35 @@ func main() {
 		return
 	}
 
+	commandArgs := os.Args[2:]
+
 	switch os.Args[1] {
 	case "detach":
-		err := commands.Detach(os.Args[2:])
+		err := commands.Detach(commandArgs)
 		if err != nil {
 			seelog.Error(err)
 		}
 
 	case "list":
-		err := commands.List(os.Args[2:])
+		err := commands.List(commandArgs)
 		if err != nil {
 			seelog.Error(err)
 		}
 
 	case "space":
-		err := commands.Space(os.Args[2:])
+		err := commands.Space(commandArgs)
 		if err != nil {
 			seelog.Error(err)
 		}
 
 	case "extid":
-		err := commands.ExtId(os.Args[2:])
+		err := commands.ExtId(commandArgs)
+		if err != nil {
+			seelog.Error(err)
+		}
+
+	case "link-expire":
+		err := commands.LinkExpire(commandArgs)
 		if err != nil {
 			seelog.Error(err)
 		}

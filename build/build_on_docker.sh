@@ -5,7 +5,7 @@
 BUILD_PATH=/tmp/out
 DIST_PATH=/dist
 
-TARGET_TOOLS="dsharedlink dteammember dfm"
+TARGET_TOOLS="dtm dfm"
 TARGET_PLATFORM="windows/386,windows/amd64,darwin/amd64,linux/386,linux/amd64"
 
 BUILD_MAJOR_VERSION=$(cat $PROJECT_ROOT/version)

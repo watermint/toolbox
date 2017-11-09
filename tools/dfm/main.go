@@ -19,6 +19,18 @@ import (
 func usage() {
 	tmpl := `{{.AppName}} {{.AppVersion}} ({{.AppHash}}):
 
+Usage:
+  {{.Command}} COMMAND
+
+Commands:
+  move       Move files/folders to destination inside Dropbox
+  restore    Restore files under path
+  compare    Compare local files and Dropbox files
+  upload     Upload local files into Dropbox
+
+
+Command examples:
+
 Move files/folders to destination
 {{.Command}} move [OPTION]... SRC DEST
 
@@ -238,9 +250,12 @@ func main() {
 		usage()
 		return
 	}
+
+	commandArgs := os.Args[2:]
+
 	switch os.Args[1] {
 	case "move":
-		mc, err := parseMoveArgs(os.Args[2:])
+		mc, err := parseMoveArgs(commandArgs)
 		if err != nil {
 			usage()
 			return
@@ -275,7 +290,7 @@ func main() {
 		// Dest folder is the location of destination path of local Dropbox folder.
 		// If you want to simulate nested shared folder permission, please specify the team folder.
 
-		mmc, err := parseMoveMockArgs(os.Args[2:])
+		mmc, err := parseMoveMockArgs(commandArgs)
 		if err != nil {
 			usage()
 			return
@@ -291,7 +306,7 @@ func main() {
 		mmc.MockUp()
 
 	case "restore":
-		rc, err := parseRestoreArgs(os.Args[2:])
+		rc, err := parseRestoreArgs(commandArgs)
 		if err != nil {
 			usage()
 			return
@@ -313,7 +328,7 @@ func main() {
 		rc.Restore()
 
 	case "compare":
-		opts, err := parseCmpArgs(os.Args[2:])
+		opts, err := parseCmpArgs(commandArgs)
 		if err != nil {
 			usage()
 			fmt.Fprintln(os.Stderr, "Error: ", err)
@@ -343,7 +358,7 @@ func main() {
 		compare.Compare(opts)
 
 	case "upload":
-		opts, err := parseUploadArgs(os.Args[2:])
+		opts, err := parseUploadArgs(commandArgs)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "Error: ", err)
 			return
