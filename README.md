@@ -21,7 +21,6 @@ $ docker build -t toolbox . && rm -fr /tmp/dist && docker run -v /tmp/dist:/dist
 
 # Available Tools
 
-* [dcmp](tools/dcmp) ... file compare utility.
-* [dupload](tools/dupload/) ... file/directory uploader.
+* [dfm](tools/dfm) ... file management utility.
 * [dsharedlink](tools/dsharedlink) ... Shared link utility.
 * [dteammember](tools/dteammember) ... Team member management.

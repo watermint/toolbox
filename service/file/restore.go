@@ -32,7 +32,7 @@ type RestoreContext struct {
 
 const (
 	RESTORE_API_CALL_RETRY_INTERVAL = 60
-	restore_database_filename = "restore.db"
+	restore_database_filename       = "restore.db"
 
 	restore_table_file             = "restore_file"
 	restore_create_table_operation = `

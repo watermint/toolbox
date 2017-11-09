@@ -8,7 +8,10 @@ import (
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/infra/util"
+	"github.com/watermint/toolbox/service/compare"
 	"github.com/watermint/toolbox/service/file"
+	"github.com/watermint/toolbox/service/report"
+	"github.com/watermint/toolbox/service/upload"
 	"os"
 	"time"
 )
@@ -21,6 +24,14 @@ Move files/folders to destination
 
 Restore files under path
 {{.Command}} restore [OPTION]... PATH
+
+Compare local files and Dropbox files
+{{.Command}} compare                   LOCALPATH [DROPBOXPATH]
+{{.Command}} compare    -xlsx XLSXPATH LOCALPATH [DROPBOXPATH]
+{{.Command}} compare -csv-dir CSVDIR   LOCALPATH [DROPBOXPATH]
+
+Upload files
+{{.Command}} upload [OPTION]... SRC [SRC]... DEST
 `
 
 	data := struct {
@@ -86,6 +97,80 @@ func parseMoveMockArgs(args []string) (mmc *file.MoveMockContext, err error) {
 	mmc.DestPath = remainder[1]
 
 	return
+}
+
+func parseUploadArgs(args []string) (*upload.UploadContext, error) {
+	f := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+
+	uo := upload.UploadContext{}
+	uo.Infra = infra.PrepareInfraFlags(f)
+
+	descRecursive := "Recurse into directories"
+	f.BoolVar(&uo.LocalRecursive, "recursive", true, descRecursive)
+	f.BoolVar(&uo.LocalRecursive, "r", true, descRecursive)
+
+	descSymlink := "Follow symlinks"
+	f.BoolVar(&uo.LocalFollowSymlink, "follow-symlink", false, descSymlink)
+	f.BoolVar(&uo.LocalFollowSymlink, "L", false, descSymlink)
+
+	descConcurrency := "Upload concurrency"
+	f.IntVar(&uo.Concurrency, "concurrency", 1, descConcurrency)
+	f.IntVar(&uo.Concurrency, "c", 1, descConcurrency)
+
+	descBandwidthLimit := "Limit upload bandwidth; KBytes per second (not kbps)"
+	f.IntVar(&uo.BandwidthLimit, "bwlimit", 0, descBandwidthLimit)
+
+	descDeleteAfterUpload := "Delete file after upload completed"
+	f.BoolVar(&uo.DeleteAfterUpload, "migrate", false, descDeleteAfterUpload)
+
+	f.SetOutput(os.Stderr)
+	f.Parse(args)
+	remainder := f.Args()
+	splitPos := len(remainder) - 1
+	if len(remainder) < 2 {
+		usage()
+		f.PrintDefaults()
+		return nil, errors.New("Missing SRC and/or DEST")
+	}
+	if uo.Concurrency < 1 {
+		uo.Concurrency = 1
+	}
+	if uo.BandwidthLimit < 0 {
+		uo.BandwidthLimit = 0
+	} else {
+		uo.BandwidthLimit = uo.BandwidthLimit * 1024
+	}
+
+	uo.LocalPaths = remainder[:splitPos]
+	uo.DropboxBasePath = remainder[splitPos]
+
+	return &uo, nil
+}
+
+func parseCmpArgs(arg []string) (*compare.CompareOpts, error) {
+	f := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+
+	opts := compare.CompareOpts{}
+	opts.InfraOpts = infra.PrepareInfraFlags(f)
+	opts.ReportOpts = report.PrepareMultiReportFlags(f)
+
+	f.SetOutput(os.Stderr)
+	f.Parse(arg)
+	remainder := f.Args()
+	if len(remainder) < 1 {
+		usage()
+		f.PrintDefaults()
+		return nil, errors.New("Missing LOCALPATH and/or DROPBOXPATH")
+	}
+
+	opts.LocalBasePath = remainder[0]
+	if len(remainder) == 1 {
+		opts.DropboxBasePath = ""
+	} else {
+		opts.DropboxBasePath = remainder[1]
+	}
+
+	return &opts, nil
 }
 
 func parseRestoreArgs(args []string) (rc *file.RestoreContext, err error) {
@@ -226,6 +311,59 @@ func main() {
 		}
 		rc.TokenFull = token
 		rc.Restore()
+
+	case "compare":
+		opts, err := parseCmpArgs(os.Args[2:])
+		if err != nil {
+			usage()
+			fmt.Fprintln(os.Stderr, "Error: ", err)
+			return
+		}
+		err = opts.ReportOpts.ValidateMultiReportOpts()
+		if err != nil {
+			usage()
+			fmt.Fprintln(os.Stderr, "Error: ", err)
+			return
+		}
+		defer opts.InfraOpts.Shutdown()
+		err = opts.InfraOpts.Startup()
+		if err != nil {
+			seelog.Errorf("Unable to start operation: %s", err)
+			return
+		}
+		seelog.Tracef("Options: %s", util.MarshalObjectToString(opts))
+
+		token, err := opts.InfraOpts.LoadOrAuthDropboxFull()
+		if err != nil || token == "" {
+			seelog.Errorf("Unable to acquire token (error: %s)", err)
+			return
+		}
+		opts.DropboxToken = token
+
+		compare.Compare(opts)
+
+	case "upload":
+		opts, err := parseUploadArgs(os.Args[2:])
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "Error: ", err)
+			return
+		}
+
+		defer opts.Infra.Shutdown()
+		err = opts.Infra.Startup()
+		if err != nil {
+			seelog.Errorf("Unable to start operation: %s", err)
+			return
+		}
+		seelog.Tracef("Options: %s", util.MarshalObjectToString(opts))
+
+		token, err := opts.Infra.LoadOrAuthDropboxFull()
+		if err != nil || token == "" {
+			seelog.Errorf("Unable to acquire token (error: %s)", err)
+			return
+		}
+		opts.DropboxToken = token
+		opts.Upload()
 
 	default:
 		usage()
