@@ -230,6 +230,9 @@ func (r *RestoreContext) isRetriableError(err error) bool {
 	if strings.HasPrefix(err.Error(), "too_many_requests") {
 		return true
 	}
+	if strings.HasPrefix(err.Error(), "too_many_write_operations") {
+		return true
+	}
 	if strings.Contains(err.Error(), "An existing connection was forcibly closed by the remote host") {
 		return true
 	}
