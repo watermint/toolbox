@@ -32,6 +32,7 @@ type RestoreContext struct {
 
 const (
 	RESTORE_API_CALL_RETRY_INTERVAL = 60
+	RESTORE_API_CALL_RETRY_MAX      = 100
 	restore_database_filename       = "restore.db"
 
 	restore_table_file             = "restore_file"
@@ -222,6 +223,89 @@ func (r *RestoreContext) scanFilteredStats() (fileCount int64, fileSize uint64, 
 	return
 }
 
+func (r *RestoreContext) isRetriableError(err error) bool {
+	if err == nil {
+		return false
+	}
+	if strings.HasPrefix(err.Error(), "too_many_requests") {
+		return true
+	}
+	if strings.Contains(err.Error(), "An existing connection was forcibly closed by the remote host") {
+		return true
+	}
+	if strings.HasPrefix(err.Error(), "unexpected end of JSON input") {
+		return true
+	}
+	return false
+}
+
+func (r *RestoreContext) apiWithRetry(api func() (interface{}, error)) (res interface{}, err error) {
+	sameErrorCount := 0
+	lastError := ""
+
+	for {
+		res, err = api()
+		if err == nil {
+			return
+		}
+		if lastError == err.Error() {
+			sameErrorCount++
+			if RESTORE_API_CALL_RETRY_MAX <= sameErrorCount {
+				seelog.Warnf("Exceed retry maximum number[%d] for same error[%s]", RESTORE_API_CALL_RETRY_MAX, err.Error())
+				return
+			}
+		}
+		lastError = err.Error()
+
+		if r.isRetriableError(err) {
+			seelog.Debugf("Retriable error[%s]: Wait for [%d] seconds, then retry", err, RESTORE_API_CALL_RETRY_INTERVAL)
+			time.Sleep(RESTORE_API_CALL_RETRY_INTERVAL * time.Second)
+			continue
+		} else {
+			return
+		}
+	}
+}
+
+func (r *RestoreContext) listFolderWithRetry(f func() (*files.ListFolderResult, error)) (*files.ListFolderResult, error) {
+	rr, err := r.apiWithRetry(func() (interface{}, error) {
+		return f()
+	})
+	switch lr := rr.(type) {
+	case *files.ListFolderResult:
+		return lr, err
+	default:
+		seelog.Warnf("unexpected result type")
+		return nil, errors.New("unexpected result type")
+	}
+}
+
+func (r *RestoreContext) restoreWithRetry(f func() (*files.FileMetadata, error)) (*files.FileMetadata, error) {
+	rr, err := r.apiWithRetry(func() (interface{}, error) {
+		return f()
+	})
+	switch lr := rr.(type) {
+	case *files.FileMetadata:
+		return lr, err
+	default:
+		seelog.Warnf("unexpected result type")
+		return nil, errors.New("unexpected result type")
+	}
+}
+
+func (r *RestoreContext) listRevisionsWithRetry(f func() (*files.ListRevisionsResult, error)) (*files.ListRevisionsResult, error) {
+	rr, err := r.apiWithRetry(func() (interface{}, error) {
+		return f()
+	})
+	switch lr := rr.(type) {
+	case *files.ListRevisionsResult:
+		return lr, err
+	default:
+		seelog.Warnf("unexpected result type")
+		return nil, errors.New("unexpected result type")
+	}
+}
+
 func (r *RestoreContext) scanFolder(pathDisplay string, recursive bool) error {
 	seelog.Debugf("ScanFolder: Path[%s]", pathDisplay)
 	client := files.New(r.dbxCfgFull)
@@ -230,7 +314,9 @@ func (r *RestoreContext) scanFolder(pathDisplay string, recursive bool) error {
 	arg.IncludeDeleted = true
 	arg.IncludeMountedFolders = false
 
-	lf, err := client.ListFolder(arg)
+	lf, err := r.listFolderWithRetry(func() (*files.ListFolderResult, error) {
+		return client.ListFolder(arg)
+	})
 	if err != nil && strings.HasPrefix(err.Error(), "path/not_found") {
 		seelog.Debugf("Skip removed folder[%s]", pathDisplay)
 		return nil
@@ -279,7 +365,9 @@ func (r *RestoreContext) scanFolder(pathDisplay string, recursive bool) error {
 			}
 		}
 		if lf.HasMore {
-			lf, err = client.ListFolderContinue(files.NewListFolderContinueArg(lf.Cursor))
+			lf, err = r.listFolderWithRetry(func() (*files.ListFolderResult, error) {
+				return client.ListFolderContinue(files.NewListFolderContinueArg(lf.Cursor))
+			})
 			if err != nil {
 				seelog.Warnf("Unable to load folder (cont) [%s] : error[%s]", pathDisplay, err)
 				return err
@@ -303,7 +391,9 @@ func (r *RestoreContext) scanDeleted(meta *files.DeletedMetadata) error {
 	arg := files.NewListRevisionsArg(meta.PathDisplay)
 	arg.Limit = 1
 
-	res, err := client.ListRevisions(arg)
+	res, err := r.listRevisionsWithRetry(func() (*files.ListRevisionsResult, error) {
+		return client.ListRevisions(arg)
+	})
 	if err != nil && strings.HasPrefix(err.Error(), "path/not_file") {
 		//seelog.Debugf("Skip for deleted folder[%s]", meta.PathDisplay)
 		seelog.Debugf("Scan Folder[%s]", meta.PathDisplay)
@@ -374,18 +464,13 @@ func (r *RestoreContext) restoreStepRestore() error {
 		}
 
 		seelog.Debugf("Restore: Path[%s] Rev[%s]", pathDisplay, rev)
+
 		arg := files.NewRestoreArg(pathDisplay, rev)
-		for {
-			_, err := client.Restore(arg)
-			if err != nil && strings.HasPrefix(err.Error(), "too_many_requests") {
-				seelog.Debugf("Error[%s] Wait for a while", err)
-				time.Sleep(RESTORE_API_CALL_RETRY_INTERVAL * time.Second)
-				continue
-			}
-			if err != nil {
-				seelog.Warnf("Unable to restore file[%s] with error[%s]. Skip", pathDisplay, err)
-			}
-			break
+		_, err := r.restoreWithRetry(func() (*files.FileMetadata, error) {
+			return client.Restore(arg)
+		})
+		if err != nil {
+			seelog.Warnf("Unable to restore file[%s] with error[%s]. Skip", pathDisplay, err)
 		}
 		pui.Incr()
 	}
