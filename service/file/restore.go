@@ -383,8 +383,7 @@ func (r *RestoreContext) restoreStepRestore() error {
 				continue
 			}
 			if err != nil {
-				seelog.Warnf("Unable to restore file[%s] : error[%s]", pathDisplay, err)
-				return err
+				seelog.Warnf("Unable to restore file[%s] with error[%s]. Skip", pathDisplay, err)
 			}
 			break
 		}
