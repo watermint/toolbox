@@ -1,10 +1,10 @@
 hash: 0f894b58e5e05750ae792dda9435bc0fc9acef1f1d4a61218b15ae739a967ea4
-updated: 2017-10-21T10:39:42.756756361+09:00
+updated: 2017-11-12T00:53:59.747463772+09:00
 imports:
 - name: github.com/cihub/seelog
   version: d2c6e5aa9fbfdd1c624e140287063c7730654115
 - name: github.com/dropbox/dropbox-sdk-go-unofficial
-  version: 91af7487000a752fa2d77f245665a81da072d122
+  version: 9a536e3b58ed271dc9d1f21681db990ca601a551
   subpackages:
   - dropbox
   - dropbox/...
@@ -19,9 +19,9 @@ imports:
   - dropbox/users
   - dropbox/users_common
 - name: github.com/dustin/go-humanize
-  version: 77ed807830b4df581417e7f89eb81d4872832b72
+  version: bb3d318650d48840a39aa21a027c6630e198e626
 - name: github.com/golang/protobuf
-  version: 130e6b02ab059e7b717a096f397c5b60111cae74
+  version: 1643683e1b54a9e88ad26d98f81400c8c9d9f4f9
   subpackages:
   - proto
 - name: github.com/gosuri/uilive
@@ -31,33 +31,33 @@ imports:
   subpackages:
   - util/strutil
 - name: github.com/mattn/go-isatty
-  version: a5cdd64afdee435007ee3e9f6ed4684af949d568
+  version: 6ca4dbf54d38eea1a992b3c722a76a5d1c4cb25c
 - name: github.com/mattn/go-sqlite3
   version: ca5e3819723d8eeaf170ad510e7da1d6d2e94a08
 - name: github.com/tealeg/xlsx
-  version: 466a0a69fccec6236a79c9214acb5502dbc6fa9a
+  version: 92caefe99f99872a8fb943097ed2bd47491d0b86
 - name: github.com/watermint/bwlimit
   version: 8152079585508d4cb67950578277091bb233641b
 - name: golang.org/x/net
-  version: cd69bc3fc700721b709c3a59e16e24c67b58f6ff
+  version: a337091b0525af65de94df2eb7e98bd9962dcbe2
   subpackages:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: bb50c06baba3d0c76f9d125c0719093e315b5b44
+  version: 9ff8ebcc8e241d46f52ecc5bff0e5a2f2dbef402
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: 8dbc5d05d6edcc104950cc299a1ce6641235bc86
+  version: 1e2299c37cc91a509f1b12369872d27be0ce98a6
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: c01e4764d870b77f8abe5096ee19ad20d80e8075
+  version: 88f656faf3f37f690df1a32515b479415e1a6769
   subpackages:
   - transform
   - unicode/norm
 - name: google.golang.org/appengine
-  version: a2e0dc829727a4f957a7428b1f322805cfc1f362
+  version: 9d8544a6b2c7df9cff240fcf92d7b2f59bc13416
   subpackages:
   - internal
   - internal/base
