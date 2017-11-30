@@ -1,4 +1,4 @@
-package thinsdk
+package api
 
 import (
 	"errors"
@@ -39,6 +39,10 @@ func (d *DropboxPath) CleanPath() string {
 	} else {
 		return p
 	}
+}
+
+func RebaseTimeForAPI(t time.Time) time.Time {
+	return t.Round(time.Second).UTC()
 }
 
 func IsRetriableError(err error) RetryReason {

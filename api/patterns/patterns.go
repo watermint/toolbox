@@ -3,12 +3,12 @@ package patterns
 import (
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
-	"github.com/watermint/toolbox/thinsdk"
+	"github.com/watermint/toolbox/api"
 	"time"
 )
 
 type TreeWalk struct {
-	ApiContext                      *thinsdk.ApiContext
+	ApiContext                      *api.ApiContext
 	Recursive                       bool
 	IncludeMediaInfo                bool
 	IncludeDeleted                  bool
@@ -18,7 +18,7 @@ type TreeWalk struct {
 }
 
 // New TreeWalk with Api default options
-func NewTreeWalk(ac *thinsdk.ApiContext) *TreeWalk {
+func NewTreeWalk(ac *api.ApiContext) *TreeWalk {
 	return &TreeWalk{
 		ApiContext:                      ac,
 		Recursive:                       false,
@@ -29,7 +29,7 @@ func NewTreeWalk(ac *thinsdk.ApiContext) *TreeWalk {
 	}
 }
 
-func (t *TreeWalk) Walk(path thinsdk.DropboxPath, f func(files.IsMetadata) error) error {
+func (t *TreeWalk) Walk(path api.DropboxPath, f func(files.IsMetadata) error) error {
 	arg := files.NewListFolderArg(path.CleanPath())
 	arg.Recursive = t.Recursive
 	arg.IncludeMediaInfo = t.IncludeMediaInfo
@@ -73,7 +73,7 @@ type BatchFileOper struct {
 	BatchApi  func(m []files.IsMetadata) error
 }
 
-func (b *BatchFileOper) Oper(path thinsdk.DropboxPath) error {
+func (b *BatchFileOper) Oper(path api.DropboxPath) error {
 	batch := make([]files.IsMetadata, 0)
 	seelog.Debugf("Walk tree for batch operation")
 
@@ -82,17 +82,17 @@ func (b *BatchFileOper) Oper(path thinsdk.DropboxPath) error {
 		for {
 			seelog.Tracef("Execute batch: size[%d]", len(m))
 			be := b.BatchApi(m)
-			re := thinsdk.IsRetriableError(be)
-			if re != thinsdk.THINSDK_RETRY_REASON_NORETRY {
+			re := api.IsRetriableError(be)
+			if re != api.THINSDK_RETRY_REASON_NORETRY {
 				return be
 			}
 			retries++
-			if thinsdk.THINSDK_API_CALL_RETRY_MAX <= retries {
+			if api.THINSDK_API_CALL_RETRY_MAX <= retries {
 				seelog.Debugf("Reached to maximum retry[%d] error[%s]", be)
 				return be
 			}
 			seelog.Debugf("Retry with reason[%d] retries[%d] error[%s]", re, retries, be)
-			time.Sleep(thinsdk.THINSDK_API_CALL_RETRY_INTERVAL)
+			time.Sleep(api.THINSDK_API_CALL_RETRY_INTERVAL)
 		}
 	}
 

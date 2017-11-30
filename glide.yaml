@@ -3,8 +3,6 @@ import:
 - package: github.com/dropbox/dropbox-sdk-go-unofficial
   subpackages:
   - dropbox/...
-- package: github.com/cihub/seelog
-  version: v2.6
 - package: golang.org/x/oauth2
 - package: golang.org/x/net
   subpackages:
@@ -13,11 +11,9 @@ import:
   version: 1.0.3
 - package: github.com/tealeg/xlsx
   version: master
-- package: github.com/mattn/go-sqlite3
-  version: v1.2.0
 - package: golang.org/x/text
   subpackages:
   - unicode/norm
-- package: github.com/gosuri/uiprogress
-- package: github.com/gosuri/uilive
 - package: github.com/dustin/go-humanize
+- package: github.com/cihub/seelog
+  version: v2.6

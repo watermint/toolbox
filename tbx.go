@@ -60,7 +60,7 @@ func main() {
 			SubCommands: []cmdlet.Commandlet{
 				&cmd_file.CmdFileCopy{},
 				&cmd_file.CmdFileMove{},
-				&cmd_file.CmdFileRemove{},
+				cmd_file.NewCmdFileMove(),
 			},
 		},
 	}

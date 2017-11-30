@@ -3,13 +3,25 @@ package cmd_file
 import (
 	"flag"
 	"fmt"
+	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
-	"github.com/watermint/toolbox/thinsdk"
+	"github.com/watermint/toolbox/infra"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
+	"github.com/cihub/seelog"
 )
 
 type CmdFileMove struct {
-	ParamSrc  *thinsdk.DropboxPath
-	ParamDest *thinsdk.DropboxPath
+	apiContext   *api.ApiContext
+	infraContext *infra.InfraContext
+	ParamSrc     *api.DropboxPath
+	ParamDest    *api.DropboxPath
+}
+
+func NewCmdFileMove() *CmdFileMove {
+	c := CmdFileMove{
+		infraContext: &infra.InfraContext{},
+	}
+	return &c
 }
 
 func (c *CmdFileMove) Name() string {
@@ -34,6 +46,8 @@ func (c *CmdFileMove) FlagSet() (f *flag.FlagSet) {
 	f.BoolVar(&recursive, "recursive", true, descRecursive)
 	f.BoolVar(&recursive, "r", true, descRecursive)
 
+	c.infraContext.PrepareFlags(f)
+
 	return f
 }
 
@@ -51,17 +65,40 @@ func (c *CmdFileMove) Exec(cc cmdlet.CommandletContext) error {
 			"missing SRC DEST params",
 		}
 	}
-	c.ParamSrc = &thinsdk.DropboxPath{Path: remainder[0]}
-	c.ParamDest = &thinsdk.DropboxPath{Path: remainder[1]}
+	c.ParamSrc = &api.DropboxPath{Path: remainder[0]}
+	c.ParamDest = &api.DropboxPath{Path: remainder[1]}
+	c.infraContext.Startup()
+	defer c.infraContext.Shutdown()
+	c.apiContext, err = c.infraContext.LoadOrAuthDropboxFull()
+	if err != nil {
+		seelog.Warnf("Unable to acquire token  : error[%s]", err)
+		return &cmdlet.CommandError{
+			Context:     cc,
+			ReasonTag:   "auth/auth_failed",
+			Description: fmt.Sprintf("Unable to acquire token : error[%s].", err),
+		}
+	}
 
-	return &cmdlet.CommandError{
-		Context:     cc,
-		ReasonTag:   "not_implemented",
-		Description: fmt.Sprintf("The command '%s' is not implemented yet.", c.Name()),
-	} //TODO
+	return c.move(cc)
 }
 
-func (c *CmdFileMove) move() error {
-	//	arg := files.NewRelocationArg(c.ParamSrc.CleanPath(), c.ParamDest.CleanPath())
+func (c *CmdFileMove) move(cc cmdlet.CommandletContext) error {
+	arg := files.NewRelocationArg(c.ParamSrc.CleanPath(), c.ParamDest.CleanPath())
+	arg.Autorename = false
+	arg.AllowSharedFolder = true
+	arg.AllowOwnershipTransfer = true
+
+	seelog.Debugf("Move from[%s] to[%s] (param src[%s] dest[%s])", arg.FromPath, arg.ToPath, c.ParamSrc, c.ParamDest)
+
+	_, err := c.apiContext.FilesMoveV2(arg)
+	if err != nil {
+		seelog.Warnf("Unable to move file(s) : error[%s]", err)
+		return &cmdlet.CommandError{
+			Context:     cc,
+			ReasonTag:   "file/move/error",
+			Description: fmt.Sprintf("Unable to move file(s) : error[%s].", err),
+		}
+	}
+
 	return nil
 }
