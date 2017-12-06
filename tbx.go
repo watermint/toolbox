@@ -84,7 +84,7 @@ func main() {
 		OutMachineFriendly: true,
 		Command:            rootCmd,
 		Cmd:                os.Args[0],
-		Args:               []string{"file", "move", "a", "a"},
+		Args:               os.Args[1:],
 	})
 	switch ce := err.(type) {
 	case nil:

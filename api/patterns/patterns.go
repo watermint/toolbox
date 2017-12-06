@@ -1,6 +1,7 @@
 package patterns
 
 import (
+	"errors"
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/watermint/toolbox/api"
@@ -8,7 +9,12 @@ import (
 )
 
 type TreeWalk struct {
-	ApiContext                      *api.ApiContext
+	ApiContext *api.ApiContext
+
+	// Recursively walk down folder tree
+	RecursiveWalk bool
+
+	// API option: Recursive
 	Recursive                       bool
 	IncludeMediaInfo                bool
 	IncludeDeleted                  bool
@@ -21,6 +27,7 @@ type TreeWalk struct {
 func NewTreeWalk(ac *api.ApiContext) *TreeWalk {
 	return &TreeWalk{
 		ApiContext:                      ac,
+		RecursiveWalk:                   false,
 		Recursive:                       false,
 		IncludeMediaInfo:                false,
 		IncludeDeleted:                  false,
@@ -29,41 +36,76 @@ func NewTreeWalk(ac *api.ApiContext) *TreeWalk {
 	}
 }
 
-func (t *TreeWalk) Walk(path api.DropboxPath, f func(files.IsMetadata) error) error {
-	arg := files.NewListFolderArg(path.CleanPath())
-	arg.Recursive = t.Recursive
-	arg.IncludeMediaInfo = t.IncludeMediaInfo
-	arg.IncludeDeleted = t.IncludeDeleted
-	arg.IncludeHasExplicitSharedMembers = t.IncludeHasExplicitSharedMembers
-	arg.IncludeMountedFolders = t.IncludeMountedFolders
+func (t *TreeWalk) walkDispatch(isTop bool, entry files.IsMetadata, f func(files.IsMetadata) error) error {
+	switch e := entry.(type) {
+	case *files.FileMetadata:
+		return f(e)
+	case *files.DeletedMetadata:
+		return f(e)
+	case *files.FolderMetadata:
+		if t.RecursiveWalk || isTop {
+			t.walkFolder(e, f)
+		}
+		return f(e)
+	default:
+		seelog.Warn("Unknown metadata type detected")
+		return errors.New("unknown metadata type detected")
+	}
+}
 
-	seelog.Tracef("ListFolder: Path[%s]", path)
-	res, err := t.ApiContext.FilesListFolder(arg)
+func (t *TreeWalk) walkFolder(folder *files.FolderMetadata, f func(files.IsMetadata) error) error {
+	lfa := files.NewListFolderArg(folder.PathDisplay)
+	lfa.Recursive = t.Recursive
+	lfa.IncludeMediaInfo = t.IncludeMediaInfo
+	lfa.IncludeDeleted = t.IncludeDeleted
+	lfa.IncludeHasExplicitSharedMembers = t.IncludeHasExplicitSharedMembers
+	lfa.IncludeMountedFolders = t.IncludeMountedFolders
+
+	seelog.Tracef("ListFolder: Path[%s]", folder.PathDisplay)
+	res, err := t.ApiContext.FilesListFolder(lfa)
 	if err != nil {
-		seelog.Debugf("Unable to list folder[%s] : error[%s]", path.CleanPath(), err)
+		seelog.Debugf("Unable to list folder[%s] : error[%s]", folder.PathDisplay, err)
 		return err
 	}
 
 	more := true
+
+	allEntries := make([]files.IsMetadata, 0)
 	for more {
-		for _, r := range res.Entries {
-			err = f(r)
-			if err != nil {
-				seelog.Tracef("Error from operation : error[%s]", err)
-				return err
-			}
-		}
+		allEntries = append(allEntries, res.Entries...)
 		if res.HasMore {
 			contArg := files.NewListFolderContinueArg(res.Cursor)
 			res, err = t.ApiContext.FilesListFolderContinue(contArg)
 			if err != nil {
-				seelog.Debugf("Unable to list folder(cont)[%s] : error[%s]", path.CleanPath(), err)
+				seelog.Debugf("Unable to list folder(cont)[%s] : error[%s]", folder.PathDisplay, err)
 				return err
 			}
 		}
 		more = res.HasMore
 	}
+
+	for _, entry := range allEntries {
+		err = t.walkDispatch(false, entry, f)
+		if err != nil {
+			seelog.Tracef("Error from operation : error[%s]", err)
+			return err
+		}
+	}
+
 	return nil
+}
+
+func (t *TreeWalk) Walk(path *api.DropboxPath, f func(files.IsMetadata) error) error {
+	seelog.Tracef("Walk path[%s]", path.CleanPath())
+	gma := files.NewGetMetadataArg(path.CleanPath())
+	gma.IncludeDeleted = t.IncludeDeleted
+	gma.IncludeMediaInfo = t.IncludeMediaInfo
+	entry, err := t.ApiContext.FilesGetMetadata(gma)
+	if err != nil {
+		seelog.Debugf("Unable to get metadata for path[%s] : error[%s]", path.CleanPath(), err)
+		return err
+	}
+	return t.walkDispatch(true, entry, f)
 }
 
 type BatchFileOper struct {
@@ -73,7 +115,7 @@ type BatchFileOper struct {
 	BatchApi  func(m []files.IsMetadata) error
 }
 
-func (b *BatchFileOper) Oper(path api.DropboxPath) error {
+func (b *BatchFileOper) Oper(path *api.DropboxPath) error {
 	batch := make([]files.IsMetadata, 0)
 	seelog.Debugf("Walk tree for batch operation")
 

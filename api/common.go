@@ -32,6 +32,12 @@ type DropboxPath struct {
 	Path string
 }
 
+func NewDropboxPath(path string) *DropboxPath {
+	return &DropboxPath{
+		Path: path,
+	}
+}
+
 func (d *DropboxPath) CleanPath() string {
 	p := filepath.ToSlash(filepath.Clean(d.Path))
 	if p == "/" {
