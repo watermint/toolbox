@@ -7,13 +7,8 @@ import:
 - package: golang.org/x/net
   subpackages:
   - context
-- package: github.com/watermint/bwlimit
-  version: 1.0.3
-- package: github.com/tealeg/xlsx
-  version: master
 - package: golang.org/x/text
   subpackages:
   - unicode/norm
-- package: github.com/dustin/go-humanize
 - package: github.com/cihub/seelog
   version: v2.6
