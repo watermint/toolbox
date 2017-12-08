@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/cmdlet/cmd_file"
-	"github.com/watermint/toolbox/cmdlet/cmd_member"
 	"github.com/watermint/toolbox/infra/util"
 	"os"
 )
@@ -58,22 +57,21 @@ func main() {
 	cmdFile := &cmd_file.CmdFile{
 		ParentCommandlet: &cmdlet.ParentCommandlet{
 			SubCommands: []cmdlet.Commandlet{
-				&cmd_file.CmdFileCopy{},
 				cmd_file.NewCmdFileCopy(),
 				cmd_file.NewCmdFileMove(),
 			},
 		},
 	}
-	cmdMember := &cmd_member.CmdMember{
-		ParentCommandlet: &cmdlet.ParentCommandlet{
-			SubCommands: []cmdlet.Commandlet{},
-		},
-	}
+	//cmdMember := &cmd_member.CmdMember{
+	//	ParentCommandlet: &cmdlet.ParentCommandlet{
+	//		SubCommands: []cmdlet.Commandlet{},
+	//	},
+	//}
 	rootCmd := &cmdlet.RootCommandlet{
 		ParentCommandlet: &cmdlet.ParentCommandlet{
 			SubCommands: []cmdlet.Commandlet{
 				cmdFile,
-				cmdMember,
+				//cmdMember,
 			},
 		},
 	}
