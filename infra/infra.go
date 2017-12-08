@@ -25,7 +25,7 @@ const (
 	</formats>
 	<outputs formatid="detail">
 		{{if .LogPath}}
-    		<filter levels="trace,debug,info,warn,error,critical">
+    		<filter levels="{{.LogLevels}}">
         		<rollingfile formatid="detail" filename="{{.LogPath}}" type="size" maxsize="{{.LogMaxSize}}" maxrolls="{{.LogRolls}}" />
     		</filter>
 		{{end}}
@@ -52,8 +52,9 @@ type InfraContext struct {
 	LogPath      string
 	LogMaxSize   uint64
 	LogRolls     int
+	LogLevels    string
 	CleanupToken bool
-
+	TraceLog     bool
 	issuedTokens []string
 }
 
@@ -193,6 +194,9 @@ func (ic *InfraContext) PrepareFlags(flagset *flag.FlagSet) {
 
 	descCleanup := "Cleanup token on exit"
 	flagset.BoolVar(&ic.CleanupToken, "cleanup-token", false, descCleanup)
+
+	descTrace := "Enable trace level log"
+	flagset.BoolVar(&ic.TraceLog, "trace", true, descTrace)
 }
 
 func setupWorkPath(opts *InfraContext) error {
@@ -245,6 +249,12 @@ func setupLogger(opts *InfraContext) {
 	}
 
 	logPath = opts.LogPath
+
+	if opts.TraceLog {
+		opts.LogLevels = "trace,debug,info,warn,error,critical"
+	} else {
+		opts.LogLevels = "debug,info,warn,error,critical"
+	}
 
 	conf, err := util.CompileTemplate(logConfig, opts)
 	if err != nil {

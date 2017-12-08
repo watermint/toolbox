@@ -232,7 +232,7 @@ func (c *CmdFileMove) destPath(path *api.DropboxPath, srcBase *api.DropboxPath, 
 	return
 }
 
-func (c *CmdFileMove) move(cc cmdlet.CommandletContext, src *api.DropboxPath, srcBase *api.DropboxPath, destBase *api.DropboxPath) (err error) {
+func (c *CmdFileMove) execMove(cc cmdlet.CommandletContext, src *api.DropboxPath, srcBase *api.DropboxPath, destBase *api.DropboxPath) (err error) {
 	seelog.Tracef("Move: srcBase[%s] src[%s] dest[%s]", srcBase.Path, src.Path, destBase.Path)
 	dest, err := c.destPath(src, srcBase, destBase)
 	if err != nil {
@@ -255,7 +255,7 @@ func (c *CmdFileMove) move(cc cmdlet.CommandletContext, src *api.DropboxPath, sr
 func (c *CmdFileMove) moveWithRecovery(cc cmdlet.CommandletContext, src *api.DropboxPath, srcBase *api.DropboxPath, dest *api.DropboxPath) (err error) {
 	seelog.Tracef("Move with recoverable opt: srcBase[%s] src[%s] dest[%s]", srcBase.Path, src.Path, dest.Path)
 
-	err = c.move(cc, src, srcBase, dest)
+	err = c.execMove(cc, src, srcBase, dest)
 	if err == nil {
 		seelog.Tracef("Move success src[%s] -> dest[%s]", src.Path, dest.Path)
 		return
@@ -288,7 +288,7 @@ func (c *CmdFileMove) moveWithRecovery(cc cmdlet.CommandletContext, src *api.Dro
 		isFolder := false
 		switch f := entry.(type) {
 		case *files.FileMetadata:
-			err = c.move(cc, api.NewDropboxPath(f.PathDisplay), srcBase, dest)
+			err = c.execMove(cc, api.NewDropboxPath(f.PathDisplay), srcBase, dest)
 			path = f.PathDisplay
 
 		case *files.FolderMetadata:

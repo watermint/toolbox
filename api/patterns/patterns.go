@@ -1,11 +1,9 @@
 package patterns
 
 import (
-	"errors"
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/watermint/toolbox/api"
-	"time"
 )
 
 func FilesListFolder(ac *api.ApiContext, lfa *files.ListFolderArg) (entries []files.IsMetadata, err error) {

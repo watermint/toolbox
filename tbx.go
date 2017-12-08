@@ -59,7 +59,7 @@ func main() {
 		ParentCommandlet: &cmdlet.ParentCommandlet{
 			SubCommands: []cmdlet.Commandlet{
 				&cmd_file.CmdFileCopy{},
-				&cmd_file.CmdFileMove{},
+				cmd_file.NewCmdFileCopy(),
 				cmd_file.NewCmdFileMove(),
 			},
 		},
