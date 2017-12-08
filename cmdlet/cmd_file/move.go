@@ -18,6 +18,7 @@ import (
 type CmdFileMove struct {
 	optForce        bool
 	optIgnoreErrors bool
+	optVerbose      bool
 	apiContext      *api.ApiContext
 	infraContext    *infra.InfraContext
 	ParamSrc        *api.DropboxPath
@@ -50,9 +51,14 @@ func (c *CmdFileMove) FlagSet() (f *flag.FlagSet) {
 
 	descForce := "Force move even if for a shared folder"
 	f.BoolVar(&c.optForce, "force", false, descForce)
+	f.BoolVar(&c.optForce, "f", false, descForce)
 
 	descContOnError := "Continue operation even if there are API errors"
 	f.BoolVar(&c.optIgnoreErrors, "ignore-errors", false, descContOnError)
+
+	descVerbose := "Showing files after they are moved"
+	f.BoolVar(&c.optVerbose, "verbose", false, descVerbose)
+	f.BoolVar(&c.optVerbose, "v", false, descVerbose)
 
 	c.infraContext.PrepareFlags(f)
 
@@ -150,38 +156,28 @@ func (c *CmdFileMove) examineSrcExpand(srcFolder *files.FolderMetadata) (src []*
 	lfa := files.NewListFolderArg(srcFolder.PathDisplay)
 	lfa.IncludeMountedFolders = true
 	lfa.Recursive = false
-	res, err := c.apiContext.FilesListFolder(lfa)
+	entries, err := patterns.FilesListFolder(c.apiContext, lfa)
 	if err != nil {
 		seelog.Warnf("Unable to list folder : error[%s]", err)
 		return
 	}
 
 	src = make([]*api.DropboxPath, 0)
-	for {
-		for _, e := range res.Entries {
-			switch f := e.(type) {
-			case *files.FileMetadata:
-				seelog.Tracef("src file: id[%s] path[%s] size[%d] hash[%s]", f.Id, f.PathDisplay, f.Size, f.ContentHash)
-				src = append(src, api.NewDropboxPath(f.PathDisplay))
+	for _, e := range entries {
+		switch f := e.(type) {
+		case *files.FileMetadata:
+			seelog.Tracef("src file: id[%s] path[%s] size[%d] hash[%s]", f.Id, f.PathDisplay, f.Size, f.ContentHash)
+			src = append(src, api.NewDropboxPath(f.PathDisplay))
 
-			case *files.FolderMetadata:
-				seelog.Tracef("src folder: id[%s] path[%s]", f.Id, f.PathDisplay)
-				src = append(src, api.NewDropboxPath(f.PathDisplay))
+		case *files.FolderMetadata:
+			seelog.Tracef("src folder: id[%s] path[%s]", f.Id, f.PathDisplay)
+			src = append(src, api.NewDropboxPath(f.PathDisplay))
 
-			default:
-				seelog.Debugf("unexpected metadata found at path[%s] meta[%s]")
-			}
-		}
-		if !res.HasMore {
-			return
-		}
-		seelog.Tracef("continue list folder with cursor[%s]", res.Cursor)
-		res, err = c.apiContext.FilesListFolderContinue(files.NewListFolderContinueArg(res.Cursor))
-		if err != nil {
-			seelog.Warnf("Unable to list folder : error[%s]", err)
-			return
+		default:
+			seelog.Debugf("unexpected metadata found at path[%s] meta[%s]")
 		}
 	}
+	return
 }
 
 func (c *CmdFileMove) dispatch(cc cmdlet.CommandletContext, srcPaths []*api.DropboxPath, dest *api.DropboxPath) (err error) {
@@ -211,6 +207,7 @@ func (c *CmdFileMove) dispatch(cc cmdlet.CommandletContext, srcPaths []*api.Drop
 		for _, s := range srcPaths {
 			fn := filepath.Base(s.Path)
 			d := api.NewDropboxPath(filepath.Join(dest.CleanPath(), fn))
+
 			seelog.Debugf("moving file/folder from [%s] to [%s]", s.Path, d.Path)
 			err = c.moveWithRecovery(cc, s, s, d)
 			if err != nil {
@@ -236,7 +233,7 @@ func (c *CmdFileMove) destPath(path *api.DropboxPath, srcBase *api.DropboxPath, 
 }
 
 func (c *CmdFileMove) move(cc cmdlet.CommandletContext, src *api.DropboxPath, srcBase *api.DropboxPath, destBase *api.DropboxPath) (err error) {
-	seelog.Debugf("Move: srcBase[%s] src[%s] dest[%s]", srcBase.Path, src.Path, destBase.Path)
+	seelog.Tracef("Move: srcBase[%s] src[%s] dest[%s]", srcBase.Path, src.Path, destBase.Path)
 	dest, err := c.destPath(src, srcBase, destBase)
 	if err != nil {
 		return err
@@ -246,44 +243,74 @@ func (c *CmdFileMove) move(cc cmdlet.CommandletContext, src *api.DropboxPath, sr
 	arg.AllowSharedFolder = true
 	arg.AllowOwnershipTransfer = true
 
-	seelog.Debugf("Move from[%s] to[%s]", arg.FromPath, arg.ToPath)
+	seelog.Tracef("Move from[%s] to[%s]", arg.FromPath, arg.ToPath)
 
 	_, err = c.apiContext.FilesMoveV2(arg)
+	if c.optVerbose && err == nil {
+		seelog.Infof("moved[%s] -> [%s]", arg.FromPath, arg.ToPath)
+	}
 	return
 }
 
 func (c *CmdFileMove) moveWithRecovery(cc cmdlet.CommandletContext, src *api.DropboxPath, srcBase *api.DropboxPath, dest *api.DropboxPath) (err error) {
-	seelog.Debugf("Move with recoverable opt: srcBase[%s] src[%s] dest[%s]", srcBase.Path, src.Path, dest.Path)
+	seelog.Tracef("Move with recoverable opt: srcBase[%s] src[%s] dest[%s]", srcBase.Path, src.Path, dest.Path)
 
 	err = c.move(cc, src, srcBase, dest)
-	if !c.isRecoverableError(err) {
+	if err == nil {
+		seelog.Tracef("Move success src[%s] -> dest[%s]", src.Path, dest.Path)
+		return
+	}
+	if strings.HasPrefix(err.Error(), "to/conflict/folder") {
+		seelog.Tracef("Ignore conflict error[%s]: src[%s] dest[%s]", err, src.Path, dest.Path)
+
+	} else if !c.isRecoverableError(err) {
+		seelog.Debugf("Unrecoverable error found[%s] src[%s] dest[%s]", err, src.Path, dest.Path)
 		return err
 	}
+
+	seelog.Debugf("Recoverable error[%s] src[%s] dest[%s]", err, src.Path, dest.Path)
+
+	lfa := files.NewListFolderArg(src.CleanPath())
+	lfa.Recursive = false
+	lfa.IncludeDeleted = false
+	lfa.IncludeMediaInfo = false
+	lfa.IncludeHasExplicitSharedMembers = false
+	lfa.IncludeMountedFolders = true
+
+	entries, err := patterns.FilesListFolder(c.apiContext, lfa)
 	if err != nil {
-		seelog.Debugf("Recoverable error[%s] src[%s] dest[%s]", err, src.Path, dest.Path)
+		seelog.Warnf("Unable to list files, path[%s] : error[%s]", lfa.Path, err)
+		return err
 	}
-
-	tw := patterns.NewTreeWalk(c.apiContext)
-	tw.RecursiveWalk = false
-	tw.Recursive = false
-	tw.IncludeDeleted = false
-	tw.IncludeMediaInfo = false
-	tw.IncludeHasExplicitSharedMembers = false
-	tw.IncludeMountedFolders = true
-
-	err = tw.Walk(src, func(entry files.IsMetadata) error {
+	for _, entry := range entries {
+		err = nil
+		path := ""
+		isFolder := false
 		switch f := entry.(type) {
 		case *files.FileMetadata:
-			return c.move(cc, api.NewDropboxPath(f.PathDisplay), srcBase, dest)
+			err = c.move(cc, api.NewDropboxPath(f.PathDisplay), srcBase, dest)
+			path = f.PathDisplay
 
 		case *files.FolderMetadata:
-			return c.moveWithRecovery(cc, api.NewDropboxPath(f.PathDisplay), srcBase, dest)
+			err = c.moveWithRecovery(cc, api.NewDropboxPath(f.PathDisplay), srcBase, dest)
+			path = f.PathDisplay
+			isFolder = true
 
 		default:
 			// ignore
-			return nil
 		}
-	})
+
+		if err != nil {
+			if isFolder && strings.HasSuffix(err.Error(), "to/conflict/folder") {
+				seelog.Debugf("Conflict folder found[%s]", path)
+			} else {
+				seelog.Warnf("Unable to move path[%s] due to error [%s]", path, err)
+				if !c.optIgnoreErrors {
+					return err
+				}
+			}
+		}
+	}
 	return
 }
 
