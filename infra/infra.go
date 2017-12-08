@@ -196,7 +196,7 @@ func (ic *InfraContext) PrepareFlags(flagset *flag.FlagSet) {
 	flagset.BoolVar(&ic.CleanupToken, "cleanup-token", false, descCleanup)
 
 	descTrace := "Enable trace level log"
-	flagset.BoolVar(&ic.TraceLog, "trace", true, descTrace)
+	flagset.BoolVar(&ic.TraceLog, "trace", false, descTrace)
 }
 
 func setupWorkPath(opts *InfraContext) error {
