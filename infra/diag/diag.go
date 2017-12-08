@@ -11,15 +11,15 @@ import (
 	"runtime"
 )
 
-type DiagnosticsInfra struct {
+type InfraDiag struct {
 	OS        string
 	Arch      string
 	GoVersion string
 	NumCpu    int
 }
 
-func NewDiagnosticsInfra() DiagnosticsInfra {
-	return DiagnosticsInfra{
+func NewInfraDiag() InfraDiag {
+	return InfraDiag{
 		OS:        runtime.GOOS,
 		Arch:      runtime.GOARCH,
 		GoVersion: runtime.Version(),
@@ -27,7 +27,7 @@ func NewDiagnosticsInfra() DiagnosticsInfra {
 	}
 }
 
-type DiagnosticsRuntime struct {
+type RuntimeDiag struct {
 	Args             []string
 	Hostname         string
 	Environment      []string
@@ -38,12 +38,12 @@ type DiagnosticsRuntime struct {
 	UserName         string
 }
 
-func NewDiagnosticsRuntime() DiagnosticsRuntime {
+func NewRuntimeDiag() RuntimeDiag {
 	hostname, _ := os.Hostname()
 	wd, _ := os.Getwd()
 	usr, _ := user.Current()
 
-	return DiagnosticsRuntime{
+	return RuntimeDiag{
 		Args:             os.Args,
 		Hostname:         hostname,
 		Environment:      os.Environ(),
@@ -55,41 +55,41 @@ func NewDiagnosticsRuntime() DiagnosticsRuntime {
 	}
 }
 
-type DiagnosticsNetwork struct {
+type NetworkDiag struct {
 	TestUrl      string
 	StatusCode   int
 	ErrorSummary string
 }
 
-func NewDiagnosticsNetwork(testUrl string) DiagnosticsNetwork {
+func NewNetworkDiag(testUrl string) NetworkDiag {
 	seelog.Tracef("Start diagnostics of network: [%s]", testUrl)
 	resp, err := http.Head(testUrl)
 
 	if err != nil {
-		return DiagnosticsNetwork{
+		return NetworkDiag{
 			TestUrl:      testUrl,
 			ErrorSummary: err.Error(),
 		}
 	}
 
-	return DiagnosticsNetwork{
+	return NetworkDiag{
 		TestUrl:    testUrl,
 		StatusCode: resp.StatusCode,
 	}
 }
 
 func DigestDiagnosticsInfra() string {
-	d := NewDiagnosticsInfra()
+	d := NewInfraDiag()
 	return util.MarshalObjectToString(d)
 }
 
 func DigestDiagnosticsRuntime() string {
-	d := NewDiagnosticsRuntime()
+	d := NewRuntimeDiag()
 	return util.MarshalObjectToString(d)
 }
 
 func DigestDiagnosticsNetwork(testUrl string) string {
-	d := NewDiagnosticsNetwork(testUrl)
+	d := NewNetworkDiag(testUrl)
 	return util.MarshalObjectToString(d)
 }
 
@@ -119,4 +119,5 @@ func LogNetworkDiagnostics() {
 	for _, u := range testUrls {
 		seelog.Tracef("Diagnostics(Network:%s): %s", u, DigestDiagnosticsNetwork(u))
 	}
+	seelog.Flush()
 }

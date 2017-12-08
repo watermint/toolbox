@@ -5,8 +5,6 @@
 BUILD_PATH=/tmp/out
 DIST_PATH=/dist
 
-TARGET_TOOLS="dtm dfm"
-#TARGET_PLATFORM="windows/386,windows/amd64,darwin/amd64,linux/386,linux/amd64"
 TARGET_PLATFORM="windows/386,darwin/amd64,linux/386"
 
 BUILD_MAJOR_VERSION=$(cat $PROJECT_ROOT/version)
@@ -27,23 +25,22 @@ cd $PROJECT_ROOT
 go test $(glide novendor)
 
 
-for t in $TARGET_TOOLS; do
-  echo --------------------
-  echo BUILD: Building tool $t
+echo --------------------
+echo BUILD: Building tool
 
-  X_APP_NAME="-X github.com/watermint/toolbox/infra/knowledge.AppName=$t"
-  X_APP_VERSION="-X github.com/watermint/toolbox/infra/knowledge.AppVersion=$BUILD_VERSION"
-  X_APP_HASH="-X github.com/watermint/toolbox/infra/knowledge.AppHash=$BUILD_HASH"
-  X_APP_CREDENTIALS=""
-  if [ -e $PROJECT_ROOT/credentials.secret ]; then
-    X_APP_CREDENTIALS=$(cat $PROJECT_ROOT/credentials.secret | xargs)
-  fi
-  if [ "$TOOLBOX_APP_CREDENTIALS"x != ""x ]; then
-    X_APP_CREDENTIALS="$TOOLBOX_APP_CREDENTIALS"
-  fi
-  LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_CREDENTIALS"
+X_APP_NAME="-X github.com/watermint/toolbox/infra.AppName=$t"
+X_APP_VERSION="-X github.com/watermint/toolbox/infra.AppVersion=$BUILD_VERSION"
+X_APP_HASH="-X github.com/watermint/toolbox/infra.AppHash=$BUILD_HASH"
+X_APP_CREDENTIALS=""
+if [ -e $PROJECT_ROOT/credentials.secret ]; then
+X_APP_CREDENTIALS=$(cat $PROJECT_ROOT/credentials.secret | xargs)
+fi
+if [ "$TOOLBOX_APP_CREDENTIALS"x != ""x ]; then
+X_APP_CREDENTIALS="$TOOLBOX_APP_CREDENTIALS"
+fi
+LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_CREDENTIALS"
 
-  xgo --ldflags="$LD_FLAGS" -out $t-$BUILD_VERSION -targets $TARGET_PLATFORM github.com/watermint/toolbox/tools/$t
+xgo --ldflags="$LD_FLAGS" -out tbx-$BUILD_VERSION -targets $TARGET_PLATFORM github.com/watermint/toolbox
 
-  ( cd /build && zip -9 -r $DIST_PATH/$t-$BUILD_VERSION.zip $t-* )
-done
+( cd /build && zip -9 -r $DIST_PATH/tbx-$BUILD_VERSION.zip tbx-* )
+

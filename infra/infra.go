@@ -5,10 +5,11 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cihub/seelog"
+	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
+	"github.com/watermint/toolbox/api"
+	"github.com/watermint/toolbox/api/auth"
 	"github.com/watermint/toolbox/infra/diag"
-	"github.com/watermint/toolbox/infra/knowledge"
 	"github.com/watermint/toolbox/infra/util"
-	"github.com/watermint/toolbox/integration/auth"
 	"log"
 	"os"
 	"os/user"
@@ -24,7 +25,7 @@ const (
 	</formats>
 	<outputs formatid="detail">
 		{{if .LogPath}}
-    		<filter levels="trace,debug,info,warn,error,critical">
+    		<filter levels="{{.LogLevels}}">
         		<rollingfile formatid="detail" filename="{{.LogPath}}" type="size" maxsize="{{.LogMaxSize}}" maxrolls="{{.LogRolls}}" />
     		</filter>
 		{{end}}
@@ -45,36 +46,61 @@ var (
 	logPath string
 )
 
-type InfraOpts struct {
+type InfraContext struct {
 	Proxy        string
 	WorkPath     string
 	LogPath      string
 	LogMaxSize   uint64
 	LogRolls     int
+	LogLevels    string
 	CleanupToken bool
-	ShowProgress bool
-
+	TraceLog     bool
 	issuedTokens []string
 }
 
-func (opts *InfraOpts) FileOnWorkPath(name string) string {
+var (
+	DropboxFullAppKey           string = ""
+	DropboxFullAppSecret        string = ""
+	BusinessInfoAppKey          string = ""
+	BusinessInfoAppSecret       string = ""
+	BusinessFileAppKey          string = ""
+	BusinessFileAppSecret       string = ""
+	BusinessManagementAppKey    string = ""
+	BusinessManagementAppSecret string = ""
+)
+
+var (
+	AppName    string = "toolbox"
+	AppVersion string = "dev"
+	AppHash    string = "XXXXXXX"
+)
+
+func (opts *InfraContext) FileOnWorkPath(name string) string {
 	return filepath.Join(opts.WorkPath, name)
 }
 
-func (opts *InfraOpts) AuthFile() string {
-	return opts.FileOnWorkPath(knowledge.AppName + ".secret")
+func (opts *InfraContext) AuthFile() string {
+	return opts.FileOnWorkPath(AppName + ".secret")
 }
 
-func (opts *InfraOpts) queueToken(a auth.DropboxAuthenticator, business bool) (string, error) {
+func (opts *InfraContext) queueToken(a auth.DropboxAuthenticator, business bool) (ac *api.ApiContext, err error) {
 	token, err := a.LoadOrAuth(business, !opts.CleanupToken)
-	if err == nil {
-		seelog.Debugf("Issued token stored in InfraOpts")
-		opts.issuedTokens = append(opts.issuedTokens, token)
+	if err != nil {
+		return
 	}
-	return token, err
+
+	seelog.Debugf("Issued token stored in InfraContext")
+	opts.issuedTokens = append(opts.issuedTokens, token)
+
+	ac = &api.ApiContext{
+		Config: dropbox.Config{
+			Token: token,
+		},
+	}
+	return
 }
 
-func (opts *InfraOpts) LoadOrAuthDropboxFull() (string, error) {
+func (opts *InfraContext) LoadOrAuthDropboxFull() (ac *api.ApiContext, err error) {
 	a := auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    DropboxFullAppKey,
@@ -84,7 +110,7 @@ func (opts *InfraOpts) LoadOrAuthDropboxFull() (string, error) {
 	return opts.queueToken(a, false)
 }
 
-func (opts *InfraOpts) LoadOrAuthBusinessInfo() (string, error) {
+func (opts *InfraContext) LoadOrAuthBusinessInfo() (string, error) {
 	a := auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessInfoAppKey,
@@ -94,7 +120,7 @@ func (opts *InfraOpts) LoadOrAuthBusinessInfo() (string, error) {
 	return a.LoadOrAuth(true, !opts.CleanupToken)
 }
 
-func (opts *InfraOpts) LoadOrAuthBusinessFile() (string, error) {
+func (opts *InfraContext) LoadOrAuthBusinessFile() (string, error) {
 	a := auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessFileAppKey,
@@ -104,7 +130,7 @@ func (opts *InfraOpts) LoadOrAuthBusinessFile() (string, error) {
 	return a.LoadOrAuth(true, !opts.CleanupToken)
 }
 
-func (opts *InfraOpts) LoadOrAuthBusinessManagement() (string, error) {
+func (opts *InfraContext) LoadOrAuthBusinessManagement() (string, error) {
 	a := auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessManagementAppKey,
@@ -114,7 +140,7 @@ func (opts *InfraOpts) LoadOrAuthBusinessManagement() (string, error) {
 	return a.LoadOrAuth(true, !opts.CleanupToken)
 }
 
-func (opts *InfraOpts) Startup() error {
+func (opts *InfraContext) Startup() error {
 	err := setupWorkPath(opts)
 	if err != nil {
 		return err
@@ -122,7 +148,7 @@ func (opts *InfraOpts) Startup() error {
 
 	setupLogger(opts)
 
-	seelog.Infof("[%s] version [%s] hash[%s]", knowledge.AppName, knowledge.AppVersion, knowledge.AppHash)
+	seelog.Infof("[%s] version [%s] hash[%s]", AppName, AppVersion, AppHash)
 
 	if opts.Proxy != "" {
 		SetupHttpProxy(opts.Proxy)
@@ -139,7 +165,7 @@ func (opts *InfraOpts) Startup() error {
 	return nil
 }
 
-func (opts *InfraOpts) Shutdown() {
+func (opts *InfraContext) Shutdown() {
 	if opts.CleanupToken {
 		for _, token := range opts.issuedTokens {
 			auth.RevokeToken(token)
@@ -156,28 +182,24 @@ func DefaultWorkPath() string {
 		log.Fatalf("Unable to determine current user: %v", err)
 		panic(err)
 	}
-	return filepath.Join(u.HomeDir, "."+knowledge.AppName)
+	return filepath.Join(u.HomeDir, "."+AppName)
 }
 
-func PrepareInfraFlags(flagset *flag.FlagSet) *InfraOpts {
-	opts := &InfraOpts{}
-
+func (ic *InfraContext) PrepareFlags(flagset *flag.FlagSet) {
 	descProxy := "HTTP/HTTPS proxy (hostname:port)"
-	flagset.StringVar(&opts.Proxy, "proxy", "", descProxy)
+	flagset.StringVar(&ic.Proxy, "proxy", "", descProxy)
 
 	descWork := fmt.Sprintf("Work directory (default: %s)", DefaultWorkPath())
-	flagset.StringVar(&opts.WorkPath, "work", "", descWork)
+	flagset.StringVar(&ic.WorkPath, "work", "", descWork)
 
 	descCleanup := "Cleanup token on exit"
-	flagset.BoolVar(&opts.CleanupToken, "cleanup-token", false, descCleanup)
+	flagset.BoolVar(&ic.CleanupToken, "cleanup-token", false, descCleanup)
 
-	descProgress := "Show progress"
-	flagset.BoolVar(&opts.ShowProgress, "progress", false, descProgress)
-
-	return opts
+	descTrace := "Enable trace level log"
+	flagset.BoolVar(&ic.TraceLog, "trace", false, descTrace)
 }
 
-func setupWorkPath(opts *InfraOpts) error {
+func setupWorkPath(opts *InfraContext) error {
 	if opts.WorkPath == "" {
 		opts.WorkPath = DefaultWorkPath()
 		log.Printf("Setup using default work path: [%s]", opts.WorkPath)
@@ -215,7 +237,7 @@ func SetupHttpProxy(proxy string) {
 	}
 }
 
-func setupLogger(opts *InfraOpts) {
+func setupLogger(opts *InfraContext) {
 	if opts.LogMaxSize < 1 {
 		opts.LogMaxSize = DefaultLogMaxSize
 	}
@@ -223,10 +245,16 @@ func setupLogger(opts *InfraOpts) {
 		opts.LogRolls = DefaultLogRolls
 	}
 	if opts.LogPath == "" {
-		opts.LogPath = filepath.Join(opts.WorkPath, knowledge.AppName+".log")
+		opts.LogPath = filepath.Join(opts.WorkPath, AppName+".log")
 	}
 
 	logPath = opts.LogPath
+
+	if opts.TraceLog {
+		opts.LogLevels = "trace,debug,info,warn,error,critical"
+	} else {
+		opts.LogLevels = "debug,info,warn,error,critical"
+	}
 
 	conf, err := util.CompileTemplate(logConfig, opts)
 	if err != nil {

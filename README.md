@@ -5,6 +5,25 @@
 
 Tools for Dropbox and Dropbox Business
 
+# Usage
+
+`tbx` have various features. Run without an option for a list of supported commands and options.
+Released package contains binaries for each operating system. Each binary are named like `tbx-[version]-[os]-[system]`. E.g. if the binary is for macOS, then the name will like `tbx-32.1.0.0-darwin-10.6-amd64`.
+
+```bash
+% ./tbx-32.1.0.0-darwin-10.6-amd64
+
+Usage: ./tbx-32.1.0.0-darwin-10.6-amd64 COMMAND
+
+Available commands:
+  file       File operation
+
+
+Run './tbx-32.1.0.0-darwin-10.6-amd64 COMMAND' for more information on a command.
+
+please specify sub command
+```
+
 # Build
 
 ## Credentials
@@ -15,11 +34,6 @@ Tools for Dropbox and Dropbox Business
 
 ## Build script
 
-```sh
+```bash
 $ docker build -t toolbox . && rm -fr /tmp/dist && docker run -v /tmp/dist:/dist:rw --rm toolbox
 ```
-
-# Available Tools
-
-* [dfm](tools/dfm) ... file management utility.
-* [dtm](tools/dtm) ... Team management utility.
