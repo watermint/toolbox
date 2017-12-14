@@ -17,8 +17,6 @@ type CmdFileMove struct {
 	optVerbose      bool
 	apiContext      *api.ApiContext
 	infraContext    *infra.InfraContext
-	ParamSrc        *api.DropboxPath
-	ParamDest       *api.DropboxPath
 }
 
 func NewCmdFileMove() *CmdFileMove {
@@ -83,11 +81,7 @@ func (c *CmdFileMove) Exec(cc cmdlet.CommandletContext) error {
 	c.apiContext, err = c.infraContext.LoadOrAuthDropboxFull()
 	if err != nil {
 		seelog.Warnf("Unable to acquire token  : error[%s]", err)
-		return &cmdlet.CommandError{
-			Context:     cc,
-			ReasonTag:   "auth/auth_failed",
-			Description: fmt.Sprintf("Unable to acquire token : error[%s].", err),
-		}
+		return cmdlet.NewAuthFailedError(cc, err)
 	}
 
 	reloc := CmdRelocation{
@@ -96,7 +90,11 @@ func (c *CmdFileMove) Exec(cc cmdlet.CommandletContext) error {
 		ApiContext:      c.apiContext,
 		RelocationFunc:  c.execMove,
 	}
-	return reloc.Dispatch(paramSrc, paramDest)
+	err = reloc.Dispatch(paramSrc, paramDest)
+	if err != nil {
+		return c.composeError(cc, err)
+	}
+	return nil
 }
 
 func (c *CmdFileMove) composeError(cc cmdlet.CommandletContext, err error) error {

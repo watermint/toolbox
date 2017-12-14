@@ -59,6 +59,7 @@ func main() {
 			SubCommands: []cmdlet.Commandlet{
 				cmd_file.NewCmdFileCopy(),
 				cmd_file.NewCmdFileMove(),
+				cmd_file.NewCmdFileUpload(),
 			},
 		},
 	}
