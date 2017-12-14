@@ -19,14 +19,26 @@ const (
 )
 
 const (
-	THINSDK_API_CALL_RETRY_INTERVAL = 60
-	THINSDK_API_CALL_RETRY_MAX      = 100
+	THINSDK_API_CALL_RETRY_INTERVAL                       = 60
+	THINSDK_API_CALL_RETRY_MAX                            = 100
+	THINSDK_DEFAULT_UPLOAD_CHUNKED_UPLOAD_THRESHOLD int64 = 150 * 1048576
+	THINSDK_DEFAULT_UPLOAD_CHUNK_SIZE               int64 = 150 * 1048576
 )
 
 type RetryReason int
 
 type ApiContext struct {
-	Config dropbox.Config
+	Config                       dropbox.Config
+	UploadChunkedUploadThreshold int64
+	UploadChunkedUploadChunkSize int64
+}
+
+func NewApiContext(config dropbox.Config) *ApiContext {
+	return &ApiContext{
+		Config: config,
+		UploadChunkedUploadThreshold: THINSDK_DEFAULT_UPLOAD_CHUNKED_UPLOAD_THRESHOLD,
+		UploadChunkedUploadChunkSize: THINSDK_DEFAULT_UPLOAD_CHUNK_SIZE,
+	}
 }
 
 type DropboxPath struct {

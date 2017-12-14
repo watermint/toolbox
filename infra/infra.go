@@ -92,11 +92,11 @@ func (opts *InfraContext) queueToken(a auth.DropboxAuthenticator, business bool)
 	seelog.Debugf("Issued token stored in InfraContext")
 	opts.issuedTokens = append(opts.issuedTokens, token)
 
-	ac = &api.ApiContext{
-		Config: dropbox.Config{
+	ac = api.NewApiContext(
+		dropbox.Config{
 			Token: token,
 		},
-	}
+	)
 	return
 }
 

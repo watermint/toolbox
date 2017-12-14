@@ -7,11 +7,7 @@ import (
 	"io"
 )
 
-const (
-	// Hard limit of API spec: 150MB.
-	UPLOAD_CHUNK_THRESHOLD int64 = 128 * 1048576 // 128MB
-	UPLOAD_CHUNK_SIZE      int64 = 128 * 1048576 // 128MB
-)
+const ()
 
 func FilesListFolder(ac *api.ApiContext, lfa *files.ListFolderArg) (entries []files.IsMetadata, err error) {
 	seelog.Tracef("ListFolder: Path[%s]", lfa.Path)
@@ -42,7 +38,7 @@ func FilesListFolder(ac *api.ApiContext, lfa *files.ListFolderArg) (entries []fi
 }
 
 func FilesUpload(ac *api.ApiContext, content io.Reader, size int64, ci *files.CommitInfo) (fm *files.FileMetadata, err error) {
-	if size > UPLOAD_CHUNK_THRESHOLD {
+	if size > ac.UploadChunkedUploadThreshold {
 		fm, err = filesUploadChunked(ac, content, size, ci)
 	} else {
 		fm, err = filesUploadSingle(ac, content, size, ci)
@@ -62,7 +58,7 @@ func filesUploadSingle(ac *api.ApiContext, content io.Reader, size int64, ci *fi
 func filesUploadChunked(ac *api.ApiContext, content io.Reader, size int64, ci *files.CommitInfo) (fm *files.FileMetadata, err error) {
 	seelog.Tracef("filesUploadChunked: toPath[%s] size[%d]", ci.Path, size)
 
-	r := io.LimitReader(content, UPLOAD_CHUNK_SIZE)
+	r := io.LimitReader(content, ac.UploadChunkedUploadChunkSize)
 	s, err := ac.FilesUploadSessionStart(files.NewUploadSessionStartArg(), r)
 	if err != nil {
 		seelog.Debugf("Unable to start upload session : error[%s]", err)
@@ -70,19 +66,19 @@ func filesUploadChunked(ac *api.ApiContext, content io.Reader, size int64, ci *f
 	}
 
 	var uploaded int64
-	uploaded = UPLOAD_CHUNK_SIZE
-	for (size - uploaded) > UPLOAD_CHUNK_SIZE {
+	uploaded = ac.UploadChunkedUploadChunkSize
+	for (size - uploaded) > ac.UploadChunkedUploadChunkSize {
 		seelog.Tracef("filesUploadChunked: toPath[%s]: uploaded[%d] of size[%d]", ci.Path, uploaded, size)
 
 		cursor := files.NewUploadSessionCursor(s.SessionId, uint64(uploaded))
 		arg := files.NewUploadSessionAppendArg(cursor)
-		r = io.LimitReader(r, int64(UPLOAD_CHUNK_SIZE))
+		r = io.LimitReader(content, int64(ac.UploadChunkedUploadChunkSize))
 		err = ac.FilesUploadSessionAppendV2(arg, r)
 		if err != nil {
 			seelog.Debugf("Unable to append upload session : error[%s]", err)
 			return
 		}
-		uploaded += UPLOAD_CHUNK_SIZE
+		uploaded += ac.UploadChunkedUploadChunkSize
 	}
 
 	seelog.Tracef("filesUploadChunked: toPath[%s]: uploaded[%d] of size[%d]", ci.Path, uploaded, size)
