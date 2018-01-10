@@ -113,7 +113,7 @@ func (c *CmdFileUpload) uploadFile(srcPath string, srcInfo os.FileInfo, dest *ap
 	ci := files.NewCommitInfo(dest.CleanPath())
 	ci.ClientModified = api.RebaseTimeForAPI(srcInfo.ModTime())
 
-	_, err = patterns.FilesUpload(c.apiContext, f, srcInfo.Size(), ci)
+	_, err = c.apiContext.PatternsFile().Upload(f, srcInfo.Size(), ci)
 
 	return
 }

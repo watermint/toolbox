@@ -21,7 +21,7 @@ type CmdRelocation struct {
 func (c *CmdRelocation) examineSrc(srcParam *api.DropboxPath) (src []*api.DropboxPath, err error) {
 	gmaSrc := files.NewGetMetadataArg(srcParam.CleanPath())
 	seelog.Tracef("examine src path[%s]", gmaSrc.Path)
-	metaSrc, err := c.ApiContext.FilesGetMetadata(gmaSrc)
+	metaSrc, err := c.ApiContext.Files().GetMetadata(gmaSrc)
 	if err != nil {
 		return
 	}
@@ -55,7 +55,7 @@ func (c *CmdRelocation) examineSrcExpand(srcFolder *files.FolderMetadata) (src [
 	lfa := files.NewListFolderArg(srcFolder.PathDisplay)
 	lfa.IncludeMountedFolders = true
 	lfa.Recursive = false
-	entries, err := patterns.FilesListFolder(c.ApiContext, lfa)
+	entries, err := c.ApiContext.PatternsFile().ListFolder(lfa)
 	if err != nil {
 		seelog.Warnf("Unable to list folder : error[%s]", err)
 		return
@@ -87,7 +87,7 @@ func (c *CmdRelocation) Dispatch(srcPath *api.DropboxPath, destPath *api.Dropbox
 	}
 	gmaDest := files.NewGetMetadataArg(destPath.CleanPath())
 	seelog.Tracef("examine dest path[%s]", gmaDest.Path)
-	metaDest, err := c.ApiContext.FilesGetMetadata(gmaDest)
+	metaDest, err := c.ApiContext.Files().GetMetadata(gmaDest)
 	if err != nil && strings.HasPrefix(err.Error(), "path/not_found") {
 		for _, s := range srcPaths {
 			err = c.relocationWithRecovery(s, s, destPath)
@@ -175,7 +175,7 @@ func (c *CmdRelocation) relocationWithRecovery(src *api.DropboxPath, srcBase *ap
 	lfa.IncludeHasExplicitSharedMembers = false
 	lfa.IncludeMountedFolders = true
 
-	entries, err := patterns.FilesListFolder(c.ApiContext, lfa)
+	entries, err := c.ApiContext.PatternsFile().ListFolder(lfa)
 	if err != nil {
 		seelog.Warnf("Unable to list files, path[%s] : error[%s]", lfa.Path, err)
 		return err

@@ -118,7 +118,7 @@ func (c *CmdFileCopy) execCopy(reloc *files.RelocationArg) (err error) {
 
 	seelog.Tracef("Copy from[%s] to[%s]", reloc.FromPath, reloc.ToPath)
 
-	_, err = c.apiContext.FilesCopyV2(reloc)
+	_, err = c.apiContext.Files().CopyV2(reloc)
 	if c.optVerbose && err == nil {
 		seelog.Infof("copied[%s] -> [%s]", reloc.FromPath, reloc.ToPath)
 	}

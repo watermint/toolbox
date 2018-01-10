@@ -113,7 +113,7 @@ func (c *CmdFileMove) execMove(reloc *files.RelocationArg) (err error) {
 
 	seelog.Tracef("Move from[%s] to[%s]", reloc.FromPath, reloc.ToPath)
 
-	_, err = c.apiContext.FilesMoveV2(reloc)
+	_, err = c.apiContext.Files().MoveV2(reloc)
 	if c.optVerbose && err == nil {
 		seelog.Infof("moved[%s] -> [%s]", reloc.FromPath, reloc.ToPath)
 	}
