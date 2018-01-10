@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cihub/seelog"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/api/auth"
 	"github.com/watermint/toolbox/infra/diag"

@@ -7,7 +7,6 @@ import (
 	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/watermint/toolbox/api"
-	"github.com/watermint/toolbox/api/patterns"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/util"
