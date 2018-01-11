@@ -66,6 +66,8 @@ var (
 	BusinessFileAppSecret       string = ""
 	BusinessManagementAppKey    string = ""
 	BusinessManagementAppSecret string = ""
+	BusinessAuditAppKey         string = ""
+	BusinessAuditAppSecret      string = ""
 )
 
 var (
@@ -106,34 +108,44 @@ func (opts *InfraContext) LoadOrAuthDropboxFull() (ac *api.ApiContext, err error
 	return opts.queueToken(a, false)
 }
 
-func (opts *InfraContext) LoadOrAuthBusinessInfo() (string, error) {
+func (opts *InfraContext) LoadOrAuthBusinessInfo() (ac *api.ApiContext, err error) {
 	a := auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessInfoAppKey,
 		AppSecret: BusinessInfoAppSecret,
 		TokenType: auth.DropboxTokenBusinessInfo,
 	}
-	return a.LoadOrAuth(true, !opts.CleanupToken)
+	return opts.queueToken(a, true)
 }
 
-func (opts *InfraContext) LoadOrAuthBusinessFile() (string, error) {
+func (opts *InfraContext) LoadOrAuthBusinessFile() (ac *api.ApiContext, err error) {
 	a := auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessFileAppKey,
 		AppSecret: BusinessFileAppSecret,
 		TokenType: auth.DropboxTokenBusinessFile,
 	}
-	return a.LoadOrAuth(true, !opts.CleanupToken)
+	return opts.queueToken(a, true)
 }
 
-func (opts *InfraContext) LoadOrAuthBusinessManagement() (string, error) {
+func (opts *InfraContext) LoadOrAuthBusinessManagement() (ac *api.ApiContext, err error) {
 	a := auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessManagementAppKey,
 		AppSecret: BusinessManagementAppSecret,
 		TokenType: auth.DropboxTokenBusinessManagement,
 	}
-	return a.LoadOrAuth(true, !opts.CleanupToken)
+	return opts.queueToken(a, true)
+}
+
+func (opts *InfraContext) LoadOrAuthBusinessAudit() (ac *api.ApiContext, err error) {
+	a := auth.DropboxAuthenticator{
+		AuthFile:  opts.AuthFile(),
+		AppKey:    BusinessAuditAppKey,
+		AppSecret: BusinessAuditAppSecret,
+		TokenType: auth.DropboxTokenBusinessAudit,
+	}
+	return opts.queueToken(a, true)
 }
 
 func (opts *InfraContext) Startup() error {

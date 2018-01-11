@@ -67,10 +67,7 @@ func (c *CmdFileCopy) FlagSet() (f *flag.FlagSet) {
 func (c *CmdFileCopy) Exec(cc cmdlet.CommandletContext) error {
 	remainder, err := cmdlet.ParseFlags(cc, c)
 	if err != nil {
-		return &cmdlet.CommandShowUsageError{
-			Context:     cc,
-			Instruction: err.Error(),
-		}
+		return err
 	}
 	if len(remainder) != 2 {
 		return &cmdlet.CommandShowUsageError{
