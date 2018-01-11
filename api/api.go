@@ -217,6 +217,17 @@ func (a *ApiRpcRequest) Call() (apiRes *ApiRpcResponse, err error) {
 		seelog.Tracef("Route[%s] Unable to prepare request : error[%s]", a.Route, err)
 		return
 	}
+	defaultErrorParser := func(body []byte) error {
+		// Try parse as APIError
+		var apiErr dropbox.APIError
+		err = json.Unmarshal(body, &apiErr)
+		if err != nil {
+			seelog.Debugf("Route[%s] unknown or server error. response body[%s], unmarshal err[%s]", a.Route, string(body), err)
+			return err
+		}
+		seelog.Debugf("Route[%s] unknown or server error[%s]", a.Route, err)
+		return apiErr
+	}
 
 	var lastErr error
 	// call and retry
@@ -263,7 +274,11 @@ func (a *ApiRpcRequest) Call() (apiRes *ApiRpcResponse, err error) {
 
 		case 409: // Endpoint specific error
 			seelog.Debugf("Route[%s] Endpoint specific error. error[%s]", a.Route)
-			return nil, a.EndpointErrorParser(body)
+			if a.EndpointErrorParser != nil {
+				return nil, a.EndpointErrorParser(body)
+			} else {
+				return nil, defaultErrorParser(body)
+			}
 
 		case 429: // Rate limit
 			retryAfter := res.Header.Get(API_RES_HEADER_RETRY_AFTER)
@@ -281,15 +296,7 @@ func (a *ApiRpcRequest) Call() (apiRes *ApiRpcResponse, err error) {
 			continue
 
 		default:
-			// Try parse as APIError
-			var apiErr dropbox.APIError
-			err = json.Unmarshal(body, &apiErr)
-			if err != nil {
-				seelog.Debugf("Route[%s] unknown or server error. response body[%s], unmarshal err[%s]", a.Route, string(body), err)
-				return nil, err
-			}
-			seelog.Debugf("Route[%s] unknown or server error[%s]", a.Route, err)
-			return nil, apiErr
+			return nil, defaultErrorParser(body)
 		}
 	}
 
