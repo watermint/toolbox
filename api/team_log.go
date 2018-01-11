@@ -27,19 +27,6 @@ type GetTeamEventsRawResult struct {
 	Events  []json.RawMessage `json:"events,omitempty"`
 }
 
-func parseGetTeamEventsRawResult(res *ApiRpcResponse) (r *GetTeamEventsRawResult, err error) {
-	err = json.Unmarshal(res.Body, &r)
-	return
-}
-
-func parseGetEventsAPIError(body []byte) error {
-	var apiErr team_log.GetEventsAPIError
-	if err := json.Unmarshal(body, &apiErr); err != nil {
-		return err
-	}
-	return apiErr
-}
-
 func (a *ApiTeamLog) RawGetEvents(arg *team_log.GetTeamEventsArg) (r *GetTeamEventsRawResult, err error) {
 	if res, err := a.Context.NewApiRpcRequest("team_log/get_events", parseGetEventsAPIError, arg).Call(); err != nil {
 		return nil, err

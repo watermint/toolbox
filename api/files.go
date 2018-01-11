@@ -8,32 +8,6 @@ import (
 	"io"
 )
 
-func parseResponseFilesSearch(res *ApiRpcResponse) (r *files.SearchResult, err error) {
-	err = json.Unmarshal(res.Body, &r)
-	return
-}
-
-func parseErrorFilesSearch(body []byte) error {
-	var apiErr files.SearchAPIError
-	if err := json.Unmarshal(body, &apiErr); err != nil {
-		return err
-	}
-	return apiErr
-}
-
-func parseResponseListFolder(res *ApiRpcResponse) (r *files.ListFolderResult, err error) {
-	err = json.Unmarshal(res.Body, &r)
-	return
-}
-
-func parseErrorListFolder(body []byte) error {
-	var apiErr files.ListFolderAPIError
-	if err := json.Unmarshal(body, &apiErr); err != nil {
-		return err
-	}
-	return apiErr
-}
-
 func (a *ApiFiles) AlphaGetMetadata(arg *files.AlphaGetMetadataArg) (res files.IsMetadata, err error) {
 	return a.Compat().AlphaGetMetadata(arg)
 }
@@ -56,7 +30,11 @@ func (a *ApiFiles) CopyReferenceSave(arg *files.SaveCopyReferenceArg) (res *file
 	return a.Compat().CopyReferenceSave(arg)
 }
 func (a *ApiFiles) CopyV2(arg *files.RelocationArg) (res *files.RelocationResult, err error) {
-	return a.Compat().CopyV2(arg)
+	if res, err := a.Context.NewApiRpcRequest("files/copy_v2", nil, arg).Call(); err != nil {
+		return
+	} else {
+		return parseRelocationResult(res)
+	}
 }
 func (a *ApiFiles) CreateFolder(arg *files.CreateFolderArg) (res *files.FolderMetadata, err error) {
 	return a.Compat().CreateFolder(arg)
@@ -99,9 +77,9 @@ func (a *ApiFiles) GetThumbnailBatch(arg *files.GetThumbnailBatchArg) (res *file
 }
 func (a *ApiFiles) ListFolder(arg *files.ListFolderArg) (lr *files.ListFolderResult, err error) {
 	if res, err := a.Context.NewApiRpcRequest("files/list_folder", parseErrorListFolder, arg).Call(); err != nil {
-		return nil, err
+		return
 	} else {
-		return parseResponseListFolder(res)
+		return parseListFolderResult(res)
 	}
 }
 func (a *ApiFiles) ListFolderContinue(arg *files.ListFolderContinueArg) (res *files.ListFolderResult, err error) {
@@ -126,7 +104,11 @@ func (a *ApiFiles) MoveBatchCheck(arg *async.PollArg) (res *files.RelocationBatc
 	return a.Compat().MoveBatchCheck(arg)
 }
 func (a *ApiFiles) MoveV2(arg *files.RelocationArg) (res *files.RelocationResult, err error) {
-	return a.Compat().MoveV2(arg)
+	if res, err := a.Context.NewApiRpcRequest("files/move_v2", nil, arg).Call(); err != nil {
+		return
+	} else {
+		return parseRelocationResult(res)
+	}
 }
 func (a *ApiFiles) PermanentlyDelete(arg *files.DeleteArg) (err error) {
 	return a.Compat().PermanentlyDelete(arg)
@@ -162,7 +144,7 @@ func (a *ApiFiles) Search(arg *files.SearchArg) (sr *files.SearchResult, err err
 	if res, err := a.Context.NewApiRpcRequest("files/search", parseErrorFilesSearch, arg).Call(); err != nil {
 		return nil, err
 	} else {
-		return parseResponseFilesSearch(res)
+		return parseSearchResult(res)
 	}
 }
 func (a *ApiFiles) Upload(arg *files.CommitInfo, content io.Reader) (res *files.FileMetadata, err error) {
