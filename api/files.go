@@ -1,7 +1,6 @@
 package api
 
 import (
-	"encoding/json"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/async"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/file_properties"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
@@ -29,11 +28,11 @@ func (a *ApiFiles) CopyReferenceGet(arg *files.GetCopyReferenceArg) (res *files.
 func (a *ApiFiles) CopyReferenceSave(arg *files.SaveCopyReferenceArg) (res *files.SaveCopyReferenceResult, err error) {
 	return a.Compat().CopyReferenceSave(arg)
 }
-func (a *ApiFiles) CopyV2(arg *files.RelocationArg) (res *files.RelocationResult, err error) {
-	if res, err := a.Context.NewApiRpcRequest("files/copy_v2", nil, arg).Call(); err != nil {
-		return
+func (a *ApiFiles) CopyV2(arg *files.RelocationArg) (*files.RelocationResult, error) {
+	if r, err := a.Context.NewApiRpcRequest("files/copy_v2", nil, arg).Call(); err != nil {
+		return nil, err
 	} else {
-		return parseRelocationResult(res)
+		return parseRelocationResult(r)
 	}
 }
 func (a *ApiFiles) CreateFolder(arg *files.CreateFolderArg) (res *files.FolderMetadata, err error) {
@@ -75,11 +74,11 @@ func (a *ApiFiles) GetThumbnail(arg *files.ThumbnailArg) (res *files.FileMetadat
 func (a *ApiFiles) GetThumbnailBatch(arg *files.GetThumbnailBatchArg) (res *files.GetThumbnailBatchResult, err error) {
 	return a.Compat().GetThumbnailBatch(arg)
 }
-func (a *ApiFiles) ListFolder(arg *files.ListFolderArg) (lr *files.ListFolderResult, err error) {
-	if res, err := a.Context.NewApiRpcRequest("files/list_folder", parseErrorListFolder, arg).Call(); err != nil {
-		return
+func (a *ApiFiles) ListFolder(arg *files.ListFolderArg) (*files.ListFolderResult, error) {
+	if r, err := a.Context.NewApiRpcRequest("files/list_folder", parseErrorListFolder, arg).Call(); err != nil {
+		return nil, err
 	} else {
-		return parseListFolderResult(res)
+		return parseListFolderResult(r)
 	}
 }
 func (a *ApiFiles) ListFolderContinue(arg *files.ListFolderContinueArg) (res *files.ListFolderResult, err error) {
@@ -103,11 +102,11 @@ func (a *ApiFiles) MoveBatch(arg *files.RelocationBatchArg) (res *files.Relocati
 func (a *ApiFiles) MoveBatchCheck(arg *async.PollArg) (res *files.RelocationBatchJobStatus, err error) {
 	return a.Compat().MoveBatchCheck(arg)
 }
-func (a *ApiFiles) MoveV2(arg *files.RelocationArg) (res *files.RelocationResult, err error) {
-	if res, err := a.Context.NewApiRpcRequest("files/move_v2", nil, arg).Call(); err != nil {
-		return
+func (a *ApiFiles) MoveV2(arg *files.RelocationArg) (*files.RelocationResult, error) {
+	if r, err := a.Context.NewApiRpcRequest("files/move_v2", nil, arg).Call(); err != nil {
+		return nil, err
 	} else {
-		return parseRelocationResult(res)
+		return parseRelocationResult(r)
 	}
 }
 func (a *ApiFiles) PermanentlyDelete(arg *files.DeleteArg) (err error) {
@@ -141,10 +140,10 @@ func (a *ApiFiles) SaveUrlCheckJobStatus(arg *async.PollArg) (res *files.SaveUrl
 	return a.Compat().SaveUrlCheckJobStatus(arg)
 }
 func (a *ApiFiles) Search(arg *files.SearchArg) (sr *files.SearchResult, err error) {
-	if res, err := a.Context.NewApiRpcRequest("files/search", parseErrorFilesSearch, arg).Call(); err != nil {
+	if r, err := a.Context.NewApiRpcRequest("files/search", parseErrorFilesSearch, arg).Call(); err != nil {
 		return nil, err
 	} else {
-		return parseSearchResult(res)
+		return parseSearchResult(r)
 	}
 }
 func (a *ApiFiles) Upload(arg *files.CommitInfo, content io.Reader) (res *files.FileMetadata, err error) {
