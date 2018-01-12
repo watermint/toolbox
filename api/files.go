@@ -82,7 +82,11 @@ func (a *ApiFiles) ListFolder(arg *files.ListFolderArg) (*files.ListFolderResult
 	}
 }
 func (a *ApiFiles) ListFolderContinue(arg *files.ListFolderContinueArg) (res *files.ListFolderResult, err error) {
-	return a.Compat().ListFolderContinue(arg)
+	if r, err := a.Context.NewApiRpcRequest("files/list_folder/continue", parseErrorListFolder, arg).Call(); err != nil {
+		return nil, err
+	} else {
+		return parseListFolderResult(r)
+	}
 }
 func (a *ApiFiles) ListFolderGetLatestCursor(arg *files.ListFolderArg) (res *files.ListFolderGetLatestCursorResult, err error) {
 	return a.Compat().ListFolderGetLatestCursor(arg)
