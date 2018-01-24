@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/watermint/toolbox/cmdlet"
+	"github.com/watermint/toolbox/cmdlet/cmd_event"
 	"github.com/watermint/toolbox/cmdlet/cmd_file"
 	"github.com/watermint/toolbox/infra/util"
 	"os"
@@ -59,6 +60,7 @@ func main() {
 			SubCommands: []cmdlet.Commandlet{
 				cmd_file.NewCmdFileCopy(),
 				cmd_file.NewCmdFileMove(),
+				cmd_file.NewCmdFileUpload(),
 			},
 		},
 	}
@@ -67,10 +69,18 @@ func main() {
 	//		SubCommands: []cmdlet.Commandlet{},
 	//	},
 	//}
+	cmdEvent := &cmd_event.CmdEvent{
+		ParentCommandlet: &cmdlet.ParentCommandlet{
+			SubCommands: []cmdlet.Commandlet{
+				cmd_event.NewCmdEventList(),
+			},
+		},
+	}
 	rootCmd := &cmdlet.RootCommandlet{
 		ParentCommandlet: &cmdlet.ParentCommandlet{
 			SubCommands: []cmdlet.Commandlet{
 				cmdFile,
+				cmdEvent,
 				//cmdMember,
 			},
 		},

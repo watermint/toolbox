@@ -39,6 +39,14 @@ func NewCommandletContext(cmd string, args []string, cmdlet Commandlet, cc Comma
 	}
 }
 
+func NewAuthFailedError(cc CommandletContext, err error) *CommandError {
+	return &CommandError{
+		Context:     cc,
+		ReasonTag:   "auth/auth_failed",
+		Description: fmt.Sprintf("Unable to acquire token : error[%s].", err),
+	}
+}
+
 type CommandError struct {
 	Context     CommandletContext
 	ReasonTag   string
