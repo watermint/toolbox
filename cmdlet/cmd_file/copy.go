@@ -18,8 +18,6 @@ type CmdFileCopy struct {
 	optAutoRename   bool
 	apiContext      *api.ApiContext
 	infraContext    *infra.InfraContext
-	ParamSrc        *api.DropboxPath
-	ParamDest       *api.DropboxPath
 }
 
 func NewCmdFileCopy() *CmdFileCopy {
@@ -69,10 +67,7 @@ func (c *CmdFileCopy) FlagSet() (f *flag.FlagSet) {
 func (c *CmdFileCopy) Exec(cc cmdlet.CommandletContext) error {
 	remainder, err := cmdlet.ParseFlags(cc, c)
 	if err != nil {
-		return &cmdlet.CommandShowUsageError{
-			Context:     cc,
-			Instruction: err.Error(),
-		}
+		return err
 	}
 	if len(remainder) != 2 {
 		return &cmdlet.CommandShowUsageError{
@@ -88,11 +83,7 @@ func (c *CmdFileCopy) Exec(cc cmdlet.CommandletContext) error {
 	c.apiContext, err = c.infraContext.LoadOrAuthDropboxFull()
 	if err != nil {
 		seelog.Warnf("Unable to acquire token  : error[%s]", err)
-		return &cmdlet.CommandError{
-			Context:     cc,
-			ReasonTag:   "auth/auth_failed",
-			Description: fmt.Sprintf("Unable to acquire token : error[%s].", err),
-		}
+		return cmdlet.NewAuthFailedError(cc, err)
 	}
 
 	reloc := CmdRelocation{
@@ -101,7 +92,11 @@ func (c *CmdFileCopy) Exec(cc cmdlet.CommandletContext) error {
 		ApiContext:      c.apiContext,
 		RelocationFunc:  c.execCopy,
 	}
-	return reloc.Dispatch(paramSrc, paramDest)
+	err = reloc.Dispatch(paramSrc, paramDest)
+	if err != nil {
+		return c.composeError(cc, err)
+	}
+	return nil
 }
 
 func (c *CmdFileCopy) composeError(cc cmdlet.CommandletContext, err error) error {
@@ -120,7 +115,7 @@ func (c *CmdFileCopy) execCopy(reloc *files.RelocationArg) (err error) {
 
 	seelog.Tracef("Copy from[%s] to[%s]", reloc.FromPath, reloc.ToPath)
 
-	_, err = c.apiContext.FilesCopyV2(reloc)
+	_, err = c.apiContext.Files().CopyV2(reloc)
 	if c.optVerbose && err == nil {
 		seelog.Infof("copied[%s] -> [%s]", reloc.FromPath, reloc.ToPath)
 	}
