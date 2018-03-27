@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/cmdlet/cmd_event"
 	"github.com/watermint/toolbox/cmdlet/cmd_file"
+	"github.com/watermint/toolbox/cmdlet/cmd_member"
 	"github.com/watermint/toolbox/infra/util"
 	"os"
 )
@@ -64,11 +65,13 @@ func main() {
 			},
 		},
 	}
-	//cmdMember := &cmd_member.CmdMember{
-	//	ParentCommandlet: &cmdlet.ParentCommandlet{
-	//		SubCommands: []cmdlet.Commandlet{},
-	//	},
-	//}
+	cmdMember := &cmd_member.CmdMember{
+		ParentCommandlet: &cmdlet.ParentCommandlet{
+			SubCommands: []cmdlet.Commandlet{
+				cmd_member.NewCmdMemberInvite(),
+			},
+		},
+	}
 	cmdEvent := &cmd_event.CmdEvent{
 		ParentCommandlet: &cmdlet.ParentCommandlet{
 			SubCommands: []cmdlet.Commandlet{
@@ -81,7 +84,7 @@ func main() {
 			SubCommands: []cmdlet.Commandlet{
 				cmdFile,
 				cmdEvent,
-				//cmdMember,
+				cmdMember,
 			},
 		},
 	}
