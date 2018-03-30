@@ -1,10 +1,8 @@
 package cmd_member
 
 import (
-	"errors"
 	"flag"
 	"github.com/cihub/seelog"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/async"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team"
 	"github.com/watermint/toolbox/api"
@@ -117,54 +115,53 @@ func (c *CmdMemberInvite) inviteByCsv(csvFile string) error {
 }
 
 func (c *CmdMemberInvite) invite(email, givenName, surname string) error {
-	client := team.New(dropbox.Config{
-		Token: c.apiContext.Token,
-	})
+	client := c.apiContext.Team()
 
 	inv := team.NewMemberAddArg(email)
 	inv.MemberGivenName = givenName
 	inv.MemberSurname = surname
 
 	arg := team.NewMembersAddArg([]*team.MemberAddArg{inv})
-	res, err := client.MembersAdd(arg)
-	if err != nil {
-		seelog.Warnf("Unable to invite member email[%s] givenName[%s] surName[%s] : error[%s]", email, givenName, surname, err)
-		return err
-	}
-	var added []*team.MemberAddResult
-	if res.AsyncJobId != "" {
-		added, err = c.waitForAsync(res.AsyncJobId, email, givenName, surname)
-		if err != nil {
-			seelog.Warnf("Unable to confirm result of invite member email[%s] givenName[%s] surName[%s] : error[%s]", email, givenName, surname, err)
-			return err
-		}
-	} else {
-		added = res.Complete
-	}
 
-	if len(added) < 1 {
-		seelog.Warnf("Unable to invite member email[%s] givenName[%s] surName[%s] : error[%s]", email, givenName, surname, err)
-		return errors.New("no one invited")
-	}
-
-	for _, m := range added {
-		if m.Success != nil {
-			seelog.Info("Invited: TeamMemberId[%s] Email[%s] GivenName[%s] SurName[%s]",
-				m.Success.Profile.TeamMemberId,
-				m.Success.Profile.Email,
-				m.Success.Profile.Name.GivenName,
-				m.Success.Profile.Name.Surname)
-		} else {
-			seelog.Warnf("Invitation failed: Email[%s] Reason[%s]", util.MarshalObjectToString(m))
-		}
-	}
+	client.MembersAdd(arg)
+	//res, err := client.MembersAdd(arg)
+	//if err != nil {
+	//	seelog.Warnf("Unable to invite member email[%s] givenName[%s] surName[%s] : error[%s]", email, givenName, surname, err)
+	//	return err
+	//}
+	//var added []*team.MemberAddResult
+	//if res.AsyncJobId != "" {
+	//	added, err = c.waitForAsync(res.AsyncJobId, email, givenName, surname)
+	//	if err != nil {
+	//		seelog.Warnf("Unable to confirm result of invite member email[%s] givenName[%s] surName[%s] : error[%s]", email, givenName, surname, err)
+	//		return err
+	//	}
+	//} else {
+	//	added = res.Complete
+	//}
+	//
+	//if len(added) < 1 {
+	//	seelog.Warnf("Unable to invite member email[%s] givenName[%s] surName[%s] : error[%s]", email, givenName, surname, err)
+	//	return errors.New("no one invited")
+	//}
+	//
+	//for _, m := range added {
+	//	if m.Success != nil {
+	//		seelog.Info("Invited: TeamMemberId[%s] Email[%s] GivenName[%s] SurName[%s]",
+	//			m.Success.Profile.TeamMemberId,
+	//			m.Success.Profile.Email,
+	//			m.Success.Profile.Name.GivenName,
+	//			m.Success.Profile.Name.Surname)
+	//	} else {
+	//		seelog.Warnf("Invitation failed: Email[%s] Reason[%s]", util.MarshalObjectToString(m))
+	//	}
+	//}
 	return nil
 }
 
 func (c *CmdMemberInvite) waitForAsync(asyncJobId, email, givenName, surname string) ([]*team.MemberAddResult, error) {
-	client := team.New(dropbox.Config{
-		Token: c.apiContext.Token,
-	})
+	client := c.apiContext.Team()
+
 	for {
 		time.Sleep(5 * time.Second)
 		res, err := client.MembersAddJobStatusGet(async.NewPollArg(asyncJobId))

@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"github.com/cihub/seelog"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/async"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/file_properties"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/file_requests"
@@ -318,6 +319,7 @@ func parseMembersAddJobStatus(res *ApiRpcResponse) (r *team.MembersAddJobStatus,
 	return
 }
 func parseMembersAddLaunch(res *ApiRpcResponse) (r *team.MembersAddLaunch, err error) {
+	seelog.Debug(string(res.Body))
 	err = json.Unmarshal(res.Body, &r)
 	return
 }

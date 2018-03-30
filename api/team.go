@@ -108,10 +108,18 @@ func (a *ApiTeam) MemberSpaceLimitsSetCustomQuota(arg *team.SetCustomQuotaArg) (
 	return a.Compat().MemberSpaceLimitsSetCustomQuota(arg)
 }
 func (a *ApiTeam) MembersAdd(arg *team.MembersAddArg) (res *team.MembersAddLaunch, err error) {
-	return a.Compat().MembersAdd(arg)
+	if r, err := a.Context.NewApiRpcRequest("team/members/add", nil, arg).Call(); err != nil {
+		return nil, err
+	} else {
+		return parseMembersAddLaunch(r)
+	}
 }
 func (a *ApiTeam) MembersAddJobStatusGet(arg *async.PollArg) (res *team.MembersAddJobStatus, err error) {
-	return a.Compat().MembersAddJobStatusGet(arg)
+	if r, err := a.Context.NewApiRpcRequest("/team/members/add/job_status/get", nil, arg).Call(); err != nil {
+		return nil, err
+	} else {
+		return parseMembersAddJobStatus(r)
+	}
 }
 func (a *ApiTeam) MembersGetInfo(arg *team.MembersGetInfoArgs) (res []*team.MembersGetInfoItem, err error) {
 	return a.Compat().MembersGetInfo(arg)

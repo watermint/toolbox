@@ -1,10 +1,10 @@
 hash: 3770646a1dd741135bc778a28c92e983493a002b790801adc6327dacf6220c4c
-updated: 2018-03-26T15:29:41.376968+09:00
+updated: 2018-03-31T07:29:41.379577+09:00
 imports:
 - name: github.com/cihub/seelog
   version: d2c6e5aa9fbfdd1c624e140287063c7730654115
 - name: github.com/dropbox/dropbox-sdk-go-unofficial
-  version: f0b3f3ded6d415a94e83e9a514fb8025e4e6be31
+  version: 9c27e83ceccc8f8bbc9afdc17c50798529d608b1
   subpackages:
   - dropbox
   - dropbox/...
@@ -23,21 +23,28 @@ imports:
   - dropbox/users
   - dropbox/users_common
 - name: github.com/golang/protobuf
-  version: bbd03ef6da3a115852eaf24c8a1c46aeb39aa175
+  version: 1e59b77b52bf8e4b449a57e6f79f21226d571845
   subpackages:
   - proto
 - name: golang.org/x/net
-  version: 6078986fec03a1dcc236c34816c71b0e05018fda
+  version: 434ec0c7fe3742c984919a691b2018a6e9694425
   subpackages:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: fdc9e635145ae97e6c2cb777c48305600cf515cb
+  version: 30785a2c434e431ef7c507b54617d6a951d5f2b4
   subpackages:
   - internal
 - name: golang.org/x/text
-  version: ab48842968a66deafa354805a8b031924668e059
+  version: e19ae1496984b1c655b8044a65c0300a3c878dd3
   subpackages:
+  - encoding
+  - encoding/internal
+  - encoding/internal/identifier
+  - encoding/unicode
+  - internal/utf8internal
+  - runes
+  - transform
   - unicode/norm
 - name: google.golang.org/appengine
   version: 5bee14b453b4c71be47ec1781b0fa61c2ea182db
