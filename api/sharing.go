@@ -116,6 +116,9 @@ func (a *ApiSharing) RemoveFolderMember(arg *sharing.RemoveFolderMemberArg) (res
 func (a *ApiSharing) RevokeSharedLink(arg *sharing.RevokeSharedLinkArg) (err error) {
 	return a.Compat().RevokeSharedLink(arg)
 }
+func (a *ApiSharing) SetAccessInheritance(arg *sharing.SetAccessInheritanceArg) (res *sharing.ShareFolderLaunch, err error) {
+	return a.Compat().SetAccessInheritance(arg)
+}
 func (a *ApiSharing) ShareFolder(arg *sharing.ShareFolderArg) (res *sharing.ShareFolderLaunch, err error) {
 	return a.Compat().ShareFolder(arg)
 }

@@ -86,6 +86,12 @@ func (a *ApiTeam) LinkedAppsRevokeLinkedApp(arg *team.RevokeLinkedApiAppArg) (er
 func (a *ApiTeam) LinkedAppsRevokeLinkedAppBatch(arg *team.RevokeLinkedApiAppBatchArg) (res *team.RevokeLinkedAppBatchResult, err error) {
 	return a.Compat().LinkedAppsRevokeLinkedAppBatch(arg)
 }
+func (a *ApiTeam) MembersMoveFormerMemberFiles(arg *team.MembersDataTransferArg) (res *async.LaunchEmptyResult, err error) {
+	return a.Compat().MembersMoveFormerMemberFiles(arg)
+}
+func (a *ApiTeam) MembersMoveFormerMemberFilesJobStatusCheck(arg *async.PollArg) (res *async.PollEmptyResult, err error) {
+	return a.Compat().MembersMoveFormerMemberFilesJobStatusCheck(arg)
+}
 func (a *ApiTeam) MemberSpaceLimitsExcludedUsersAdd(arg *team.ExcludedUsersUpdateArg) (res *team.ExcludedUsersUpdateResult, err error) {
 	return a.Compat().MemberSpaceLimitsExcludedUsersAdd(arg)
 }
@@ -210,6 +216,9 @@ func (a *ApiTeam) TeamFolderPermanentlyDelete(arg *team.TeamFolderIdArg) (err er
 }
 func (a *ApiTeam) TeamFolderRename(arg *team.TeamFolderRenameArg) (res *team.TeamFolderMetadata, err error) {
 	return a.Compat().TeamFolderRename(arg)
+}
+func (a *ApiTeam) TeamFolderUpdateSyncSettings(arg *team.TeamFolderUpdateSyncSettingsArg) (res *team.TeamFolderMetadata, err error) {
+	return a.Compat().TeamFolderUpdateSyncSettings(arg)
 }
 func (a *ApiTeam) TokenGetAuthenticatedAdmin() (res *team.TokenGetAuthenticatedAdminResult, err error) {
 	return a.Compat().TokenGetAuthenticatedAdmin()

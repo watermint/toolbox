@@ -41,6 +41,12 @@ func (a *ApiFiles) CreateFolder(arg *files.CreateFolderArg) (res *files.FolderMe
 func (a *ApiFiles) CreateFolderV2(arg *files.CreateFolderArg) (res *files.CreateFolderResult, err error) {
 	return a.Compat().CreateFolderV2(arg)
 }
+func (a *ApiFiles) CreateFolderBatch(arg *files.CreateFolderBatchArg) (res *files.CreateFolderBatchLaunch, err error) {
+	return a.Compat().CreateFolderBatch(arg)
+}
+func (a *ApiFiles) 	CreateFolderBatchCheck(arg *async.PollArg) (res *files.CreateFolderBatchJobStatus, err error) {
+	return a.Compat().CreateFolderBatchCheck(arg)
+}
 func (a *ApiFiles) Delete(arg *files.DeleteArg) (res files.IsMetadata, err error) {
 	return a.Compat().Delete(arg)
 }
@@ -67,6 +73,9 @@ func (a *ApiFiles) GetPreview(arg *files.PreviewArg) (res *files.FileMetadata, c
 }
 func (a *ApiFiles) GetTemporaryLink(arg *files.GetTemporaryLinkArg) (res *files.GetTemporaryLinkResult, err error) {
 	return a.Compat().GetTemporaryLink(arg)
+}
+func (a *ApiFiles) 	GetTemporaryUploadLink(arg *files.GetTemporaryUploadLinkArg) (res *files.GetTemporaryUploadLinkResult, err error) {
+	return a.Compat().GetTemporaryUploadLink(arg)
 }
 func (a *ApiFiles) GetThumbnail(arg *files.ThumbnailArg) (res *files.FileMetadata, content io.ReadCloser, err error) {
 	return a.Compat().GetThumbnail(arg)
