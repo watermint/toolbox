@@ -16,6 +16,7 @@ import (
 
 type CmdMemberInvite struct {
 	optCsv       string
+	optSilent    bool
 	apiContext   *api.ApiContext
 	infraContext *infra.InfraContext
 }
@@ -46,6 +47,9 @@ func (c *CmdMemberInvite) FlagSet() (f *flag.FlagSet) {
 
 	descCsv := "CSV file name"
 	f.StringVar(&c.optCsv, "csv", "", descCsv)
+
+	descSilent := "Silent provisioning"
+	f.BoolVar(&c.optSilent, "silent", false, descSilent)
 
 	c.infraContext.PrepareFlags(f)
 	return f
@@ -120,6 +124,10 @@ func (c *CmdMemberInvite) invite(email, givenName, surname string) error {
 	inv := team.NewMemberAddArg(email)
 	inv.MemberGivenName = givenName
 	inv.MemberSurname = surname
+
+	if c.optSilent {
+		inv.SendWelcomeEmail = false
+	}
 
 	arg := team.NewMembersAddArg([]*team.MemberAddArg{inv})
 
