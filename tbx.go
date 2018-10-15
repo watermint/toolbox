@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/cmdlet/cmd_event"
 	"github.com/watermint/toolbox/cmdlet/cmd_file"
 	"github.com/watermint/toolbox/cmdlet/cmd_member"
+	"github.com/watermint/toolbox/cmdlet/cmd_team"
 	"github.com/watermint/toolbox/infra/util"
 	"os"
 )
@@ -79,12 +80,20 @@ func main() {
 			},
 		},
 	}
+	cmdTeam := &cmd_team.CmdTeam{
+		ParentCommandlet: &cmdlet.ParentCommandlet{
+			SubCommands: []cmdlet.Commandlet{
+				cmd_team.NewCmdTeamScan(),
+			},
+		},
+	}
 	rootCmd := &cmdlet.RootCommandlet{
 		ParentCommandlet: &cmdlet.ParentCommandlet{
 			SubCommands: []cmdlet.Commandlet{
 				cmdFile,
 				cmdEvent,
 				cmdMember,
+				cmdTeam,
 			},
 		},
 	}

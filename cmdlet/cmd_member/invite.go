@@ -131,39 +131,8 @@ func (c *CmdMemberInvite) invite(email, givenName, surname string) error {
 
 	arg := team.NewMembersAddArg([]*team.MemberAddArg{inv})
 
+	seelog.Infof("Inviting: email[%s] givenName[%s] surName[%s] silent[%t]", email, givenName, surname, c.optSilent)
 	client.MembersAdd(arg)
-	//res, err := client.MembersAdd(arg)
-	//if err != nil {
-	//	seelog.Warnf("Unable to invite member email[%s] givenName[%s] surName[%s] : error[%s]", email, givenName, surname, err)
-	//	return err
-	//}
-	//var added []*team.MemberAddResult
-	//if res.AsyncJobId != "" {
-	//	added, err = c.waitForAsync(res.AsyncJobId, email, givenName, surname)
-	//	if err != nil {
-	//		seelog.Warnf("Unable to confirm result of invite member email[%s] givenName[%s] surName[%s] : error[%s]", email, givenName, surname, err)
-	//		return err
-	//	}
-	//} else {
-	//	added = res.Complete
-	//}
-	//
-	//if len(added) < 1 {
-	//	seelog.Warnf("Unable to invite member email[%s] givenName[%s] surName[%s] : error[%s]", email, givenName, surname, err)
-	//	return errors.New("no one invited")
-	//}
-	//
-	//for _, m := range added {
-	//	if m.Success != nil {
-	//		seelog.Info("Invited: TeamMemberId[%s] Email[%s] GivenName[%s] SurName[%s]",
-	//			m.Success.Profile.TeamMemberId,
-	//			m.Success.Profile.Email,
-	//			m.Success.Profile.Name.GivenName,
-	//			m.Success.Profile.Name.Surname)
-	//	} else {
-	//		seelog.Warnf("Invitation failed: Email[%s] Reason[%s]", util.MarshalObjectToString(m))
-	//	}
-	//}
 	return nil
 }
 
