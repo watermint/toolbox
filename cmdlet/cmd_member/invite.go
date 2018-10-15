@@ -111,8 +111,6 @@ func (c *CmdMemberInvite) inviteByCsv(csvFile string) error {
 			surName = cols[2]
 		}
 
-		seelog.Infof("Trying invite email[%s] givenName[%s] surName[%s]", email, givenName, surName)
-
 		c.invite(email, givenName, surName)
 	}
 	return nil
