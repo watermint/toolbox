@@ -6,10 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/cihub/seelog"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/auth"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/users"
 	"github.com/watermint/toolbox/infra/util"
 	"golang.org/x/oauth2"
 	"io/ioutil"
@@ -171,23 +167,23 @@ func (d *DropboxAuthenticator) LoadOrAuth(business bool, storeToken bool) (strin
 		return d.Authorise(storeToken)
 	}
 
-	if business {
-		config := dropbox.Config{Token: t}
-		client := team.New(config)
-		fa, err := client.GetInfo()
-		if err != nil {
-			return d.Authorise(storeToken)
-		}
-		seelog.Infof("Dropbox Team[%s](%s)", fa.TeamId, fa.Name)
-	} else {
-		config := dropbox.Config{Token: t}
-		cu := users.New(config)
-		fa, err := cu.GetCurrentAccount()
-		if err != nil {
-			return d.Authorise(storeToken)
-		}
-		seelog.Infof("Dropbox Account[%s](%s)", fa.Email, fa.AccountId)
-	}
+	//if business {
+	//	config := dropbox.Config{Token: t}
+	//	client := team.New(config)
+	//	fa, err := client.GetInfo()
+	//	if err != nil {
+	//		return d.Authorise(storeToken)
+	//	}
+	//	seelog.Infof("Dropbox Team[%s](%s)", fa.TeamId, fa.Name)
+	//} else {
+	//	config := dropbox.Config{Token: t}
+	//	cu := users.New(config)
+	//	fa, err := cu.GetCurrentAccount()
+	//	if err != nil {
+	//		return d.Authorise(storeToken)
+	//	}
+	//	seelog.Infof("Dropbox Account[%s](%s)", fa.Email, fa.AccountId)
+	//}
 
 	return t, nil
 }
@@ -293,12 +289,12 @@ func (d *DropboxAuthenticator) auth(state string) (*oauth2.Token, error) {
 }
 
 func RevokeToken(token string) {
-	config := dropbox.Config{Token: token}
-	client := auth.New(config)
-	err := client.TokenRevoke()
-	if err != nil {
-		seelog.Warnf("Error during clean up token: %s", err)
-	} else {
-		seelog.Info("Token successfully revoked")
-	}
+	//config := dropbox.Config{Token: token}
+	//client := auth.New(config)
+	//err := client.TokenRevoke()
+	//if err != nil {
+	//	seelog.Warnf("Error during clean up token: %s", err)
+	//} else {
+	//	seelog.Info("Token successfully revoked")
+	//}
 }

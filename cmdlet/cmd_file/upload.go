@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cihub/seelog"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/infra"
@@ -103,16 +102,16 @@ func (c *CmdFileUpload) execUpload(src string, dest *api.DropboxPath) error {
 }
 
 func (c *CmdFileUpload) uploadFile(srcPath string, srcInfo os.FileInfo, dest *api.DropboxPath) (err error) {
-	f, err := os.Open(srcPath)
-	if err != nil {
-		seelog.Warnf("Unable to open file[%s] : error[%s]", srcPath, err)
-		return err
-	}
-	defer f.Close()
-	ci := files.NewCommitInfo(dest.CleanPath())
-	ci.ClientModified = api.RebaseTimeForAPI(srcInfo.ModTime())
-
-	_, err = c.apiContext.PatternsFile().Upload(f, srcInfo.Size(), ci)
+	//f, err := os.Open(srcPath)
+	//if err != nil {
+	//	seelog.Warnf("Unable to open file[%s] : error[%s]", srcPath, err)
+	//	return err
+	//}
+	//defer f.Close()
+	//ci := files.NewCommitInfo(dest.CleanPath())
+	//ci.ClientModified = api.RebaseTimeForAPI(srcInfo.ModTime())
+	//
+	//_, err = c.apiContext.PatternsFile().Upload(f, srcInfo.Size(), ci)
 
 	return
 }

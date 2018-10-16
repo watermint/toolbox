@@ -1,60 +1,26 @@
-hash: 3770646a1dd741135bc778a28c92e983493a002b790801adc6327dacf6220c4c
-updated: 2018-10-11T17:09:44.912772+09:00
+hash: 08f3df11d1d84e77784aabad5849f26d8aafece404dc45999e51ed6436630b61
+updated: 2018-10-16T10:29:04.340613+09:00
 imports:
 - name: github.com/cihub/seelog
   version: d2c6e5aa9fbfdd1c624e140287063c7730654115
-- name: github.com/dropbox/dropbox-sdk-go-unofficial
-  version: 118eb0115111626cc1679ca95b8367b9f13653af
+- name: github.com/golang/snappy
+  version: 2e65f85255dbc3072edf28d6b5b8efc472979f5a
+- name: github.com/syndtr/goleveldb
+  version: 6b91fda63f2e36186f1c9d0e48578defb69c5d43
   subpackages:
-  - dropbox
-  - dropbox/...
-  - dropbox/async
-  - dropbox/auth
-  - dropbox/common
-  - dropbox/file_properties
-  - dropbox/file_requests
-  - dropbox/files
-  - dropbox/paper
-  - dropbox/seen_state
-  - dropbox/sharing
-  - dropbox/team
-  - dropbox/team_common
-  - dropbox/team_log
-  - dropbox/team_policies
-  - dropbox/users
-  - dropbox/users_common
-- name: github.com/golang/protobuf
-  version: ddf22928ea3c56eb4292a0adbbf5001b1e8e7d0d
-  subpackages:
-  - proto
+  - leveldb
+- name: github.com/tidwall/gjson
+  version: 1e3f6aeaa5bad08d777ea7807b279a07885dd8b2
+- name: github.com/tidwall/match
+  version: 1731857f09b1f38450e2c12409748407822dc6be
 - name: golang.org/x/net
-  version: 146acd28ed5894421fb5aac80ca93bc1b1f46f87
+  version: 49bb7cea24b1df9410e1712aa6433dae904ff66a
   subpackages:
   - context
-  - context/ctxhttp
 - name: golang.org/x/oauth2
   version: c57b0facaced709681d9f90397429b9430a74754
-  subpackages:
-  - internal
 - name: golang.org/x/text
   version: 4d1c5fb19474adfe9562c9847ba425e7da817e81
   subpackages:
-  - encoding
-  - encoding/internal
-  - encoding/internal/identifier
-  - encoding/unicode
-  - internal/utf8internal
-  - runes
-  - transform
   - unicode/norm
-- name: google.golang.org/appengine
-  version: ae0ab99deb4dc413a2b4bd6c8bdd0eb67f1e4d06
-  subpackages:
-  - internal
-  - internal/base
-  - internal/datastore
-  - internal/log
-  - internal/remote_api
-  - internal/urlfetch
-  - urlfetch
 testImports: []

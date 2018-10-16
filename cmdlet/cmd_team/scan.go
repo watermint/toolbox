@@ -10,7 +10,7 @@ import (
 )
 
 type CmdTeamScan struct {
-	apiContext *api.ApiContext
+	apiContext   *api.ApiContext
 	infraContext *infra.InfraContext
 }
 

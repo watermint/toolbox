@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cihub/seelog"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/files"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/infra"
@@ -73,8 +72,8 @@ func (c *CmdFileMove) Exec(cc cmdlet.CommandletContext) error {
 			Instruction: "missing SRC DEST params",
 		}
 	}
-	paramSrc := api.NewDropboxPath(remainder[0])
-	paramDest := api.NewDropboxPath(remainder[1])
+	//paramSrc := api.NewDropboxPath(remainder[0])
+	//paramDest := api.NewDropboxPath(remainder[1])
 	c.infraContext.Startup()
 	defer c.infraContext.Shutdown()
 	seelog.Debugf("move:%s", util.MarshalObjectToString(c))
@@ -84,16 +83,16 @@ func (c *CmdFileMove) Exec(cc cmdlet.CommandletContext) error {
 		return cmdlet.NewAuthFailedError(cc, err)
 	}
 
-	reloc := CmdRelocation{
-		OptForce:        c.optForce,
-		OptIgnoreErrors: c.optIgnoreErrors,
-		ApiContext:      c.apiContext,
-		RelocationFunc:  c.execMove,
-	}
-	err = reloc.Dispatch(paramSrc, paramDest)
-	if err != nil {
-		return c.composeError(cc, err)
-	}
+	//reloc := CmdRelocation{
+	//	OptForce:        c.optForce,
+	//	OptIgnoreErrors: c.optIgnoreErrors,
+	//	ApiContext:      c.apiContext,
+	//	RelocationFunc:  c.execMove,
+	//}
+	//err = reloc.Dispatch(paramSrc, paramDest)
+	//if err != nil {
+	//	return c.composeError(cc, err)
+	//}
 	return nil
 }
 
@@ -106,16 +105,17 @@ func (c *CmdFileMove) composeError(cc cmdlet.CommandletContext, err error) error
 	}
 }
 
-func (c *CmdFileMove) execMove(reloc *files.RelocationArg) (err error) {
-	reloc.Autorename = false
-	reloc.AllowSharedFolder = true
-	reloc.AllowOwnershipTransfer = true
-
-	seelog.Tracef("Move from[%s] to[%s]", reloc.FromPath, reloc.ToPath)
-
-	_, err = c.apiContext.Files().MoveV2(reloc)
-	if c.optVerbose && err == nil {
-		seelog.Infof("moved[%s] -> [%s]", reloc.FromPath, reloc.ToPath)
-	}
-	return
-}
+//
+//func (c *CmdFileMove) execMove(reloc *files.RelocationArg) (err error) {
+//	reloc.Autorename = false
+//	reloc.AllowSharedFolder = true
+//	reloc.AllowOwnershipTransfer = true
+//
+//	seelog.Tracef("Move from[%s] to[%s]", reloc.FromPath, reloc.ToPath)
+//
+//	_, err = c.apiContext.Files().MoveV2(reloc)
+//	if c.optVerbose && err == nil {
+//		seelog.Infof("moved[%s] -> [%s]", reloc.FromPath, reloc.ToPath)
+//	}
+//	return
+//}

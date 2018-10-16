@@ -3,15 +3,12 @@ package cmd_member
 import (
 	"flag"
 	"github.com/cihub/seelog"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/async"
-	"github.com/dropbox/dropbox-sdk-go-unofficial/dropbox/team"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/util"
 	"io"
 	"os"
-	"time"
 )
 
 type CmdMemberInvite struct {
@@ -102,59 +99,60 @@ func (c *CmdMemberInvite) inviteByCsv(csvFile string) error {
 			seelog.Warnf("Skip line: [%v]", cols)
 			continue
 		}
-		var email, givenName, surName string
-		email = cols[0]
-		if len(cols) >= 2 {
-			givenName = cols[1]
-		}
-		if len(cols) >= 3 {
-			surName = cols[2]
-		}
-
-		c.invite(email, givenName, surName)
+		//var email, givenName, surName string
+		//email = cols[0]
+		//if len(cols) >= 2 {
+		//	givenName = cols[1]
+		//}
+		//if len(cols) >= 3 {
+		//	surName = cols[2]
+		//}
+		//
+		//c.invite(email, givenName, surName)
 	}
 	return nil
 }
 
-func (c *CmdMemberInvite) invite(email, givenName, surname string) error {
-	client := c.apiContext.Team()
-
-	inv := team.NewMemberAddArg(email)
-	inv.MemberGivenName = givenName
-	inv.MemberSurname = surname
-
-	if c.optSilent {
-		inv.SendWelcomeEmail = false
-	}
-
-	arg := team.NewMembersAddArg([]*team.MemberAddArg{inv})
-
-	seelog.Infof("Inviting: email[%s] givenName[%s] surName[%s] silent[%t]", email, givenName, surname, c.optSilent)
-	client.MembersAdd(arg)
-	return nil
-}
-
-func (c *CmdMemberInvite) waitForAsync(asyncJobId, email, givenName, surname string) ([]*team.MemberAddResult, error) {
-	client := c.apiContext.Team()
-
-	for {
-		time.Sleep(5 * time.Second)
-		res, err := client.MembersAddJobStatusGet(async.NewPollArg(asyncJobId))
-		if err != nil {
-			seelog.Warnf("Unable to check status : error[%s]", err)
-			return nil, err
-		}
-		if res.Tag == "in_progress" {
-			seelog.Debugf("Process status `in_progress`: async_job_id[%s]", asyncJobId)
-			continue
-		}
-		if res.Failed != "" {
-			seelog.Warnf("Failed to add member email[%s] givenName[%s] surName[%s] : error[%s]",
-				email, givenName, surname, res.Failed)
-			return nil, err
-		}
-		if res.Complete != nil {
-			return res.Complete, nil
-		}
-	}
-}
+//
+//func (c *CmdMemberInvite) invite(email, givenName, surname string) error {
+//	client := c.apiContext.Team()
+//
+//	inv := team.NewMemberAddArg(email)
+//	inv.MemberGivenName = givenName
+//	inv.MemberSurname = surname
+//
+//	if c.optSilent {
+//		inv.SendWelcomeEmail = false
+//	}
+//
+//	arg := team.NewMembersAddArg([]*team.MemberAddArg{inv})
+//
+//	seelog.Infof("Inviting: email[%s] givenName[%s] surName[%s] silent[%t]", email, givenName, surname, c.optSilent)
+//	client.MembersAdd(arg)
+//	return nil
+//}
+//
+//func (c *CmdMemberInvite) waitForAsync(asyncJobId, email, givenName, surname string) ([]*team.MemberAddResult, error) {
+//	client := c.apiContext.Team()
+//
+//	for {
+//		time.Sleep(5 * time.Second)
+//		res, err := client.MembersAddJobStatusGet(async.NewPollArg(asyncJobId))
+//		if err != nil {
+//			seelog.Warnf("Unable to check status : error[%s]", err)
+//			return nil, err
+//		}
+//		if res.Tag == "in_progress" {
+//			seelog.Debugf("Process status `in_progress`: async_job_id[%s]", asyncJobId)
+//			continue
+//		}
+//		if res.Failed != "" {
+//			seelog.Warnf("Failed to add member email[%s] givenName[%s] surName[%s] : error[%s]",
+//				email, givenName, surname, res.Failed)
+//			return nil, err
+//		}
+//		if res.Complete != nil {
+//			return res.Complete, nil
+//		}
+//	}
+//}
