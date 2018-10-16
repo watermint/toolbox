@@ -18,6 +18,7 @@ var (
 	API_RPC_ENDPOINT                                  = "api.dropboxapi.com"
 	API_REQ_HEADER_SELECT_USER                        = "Dropbox-API-Select-User"
 	API_RES_HEADER_RETRY_AFTER                        = "Retry-After"
+	API_RES_JSON_DOT_TAG                              = "\\.tag"
 	API_DEFAULT_UPLOAD_CHUNKED_UPLOAD_THRESHOLD int64 = 150 * 1048576
 	API_DEFAULT_UPLOAD_CHUNK_SIZE               int64 = 150 * 1048576
 	API_DEFAULT_CLIENT_TIMEOUT                        = 60
@@ -206,7 +207,7 @@ func (a *ApiRpcRequest) Call() (apiRes *ApiRpcResponse, err error) {
 
 	if res.StatusCode == http.StatusOK {
 		jsonBody := string(body)
-		tag := gjson.Get(jsonBody, "\\.tag")
+		tag := gjson.Get(jsonBody, API_RES_JSON_DOT_TAG)
 		responseTag := ""
 		if tag.Exists() {
 			responseTag = tag.String()

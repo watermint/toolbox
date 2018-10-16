@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/cmdlet"
+	"github.com/watermint/toolbox/dbx/task/member"
+	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/workflow"
 )
@@ -53,7 +56,7 @@ func printUsage(cc cmdlet.CommandletContext, cl cmdlet.Commandlet, err error) {
 }
 
 func main() {
-	workflow.PipelinePoc()
+	PipelinePoc()
 
 	//cmdFile := &cmd_file.CmdFile{
 	//	ParentCommandlet: &cmdlet.ParentCommandlet{
@@ -115,4 +118,33 @@ func main() {
 	//case *cmdlet.CommandShowUsageError:
 	//	printUsage(ce.Context, ce.Context.Command, err)
 	//}
+}
+
+func PipelinePoc() error {
+	c := infra.InfraContext{}
+	c.Startup()
+	defer c.Shutdown()
+
+	apiMgmt, err := c.LoadOrAuthBusinessManagement()
+	if err != nil {
+		seelog.Warnf("Unable to acquire token : error[%s]", err)
+		return err
+	}
+
+	p := workflow.Pipeline{
+		Infra: &c,
+		Stages: []workflow.Worker{
+			&member.WorkerTeamMemberInviteLoaderCsv{},
+			&member.WorkerTeamMemberInvite{ApiManagement: apiMgmt, Silent: true},
+			&member.WorkerTeamMemberInviteResultAsync{ApiManagement: apiMgmt},
+			&member.WorkerTeamMemberInviteResultReduce{},
+		},
+	}
+	p.Init()
+	defer p.Close()
+
+	p.Enqueue(member.NewTaskTeamMemberInviteLoaderCsv("invite.csv"))
+	p.Loop()
+
+	return nil
 }
