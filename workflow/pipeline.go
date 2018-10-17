@@ -47,7 +47,7 @@ const (
 	TASK_STATE_WAITING = "W"
 	TASK_STATE_RUNNING = "R"
 	TASK_STATE_DONE    = "D"
-	TASK_SEPARATOR     = "\t"
+	TASK_SEPARATOR     = "\000"
 )
 
 func taskKey(state, prefix, taskId string) []byte {
