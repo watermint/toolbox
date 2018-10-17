@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/watermint/toolbox/cmdlet"
+	"github.com/watermint/toolbox/cmdlet/cmd_group"
 	"github.com/watermint/toolbox/cmdlet/cmd_member"
 	"github.com/watermint/toolbox/infra/util"
 	"os"
@@ -62,10 +63,18 @@ func main() {
 			},
 		},
 	}
+	cmdGroup := &cmd_group.CmdGroup{
+		ParentCommandlet: &cmdlet.ParentCommandlet{
+			SubCommands: []cmdlet.Commandlet{
+				cmd_group.NewCmdGroupList(),
+			},
+		},
+	}
 	rootCmd := &cmdlet.RootCommandlet{
 		ParentCommandlet: &cmdlet.ParentCommandlet{
 			SubCommands: []cmdlet.Commandlet{
 				cmdMember,
+				cmdGroup,
 			},
 		},
 	}

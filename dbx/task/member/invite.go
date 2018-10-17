@@ -89,8 +89,8 @@ type WorkerTeamMemberInvite struct {
 
 type ContextTeamMemberInvite struct {
 	Email     string `json:"email"`
-	GivenName string `json:"givenName"`
-	SurName   string `json:"surName"`
+	GivenName string `json:"given_name"`
+	SurName   string `json:"sur_name"`
 }
 
 func NewTaskTeamMemberInvite(email, givenName, surName string) *workflow.Task {
@@ -155,8 +155,8 @@ type WorkerTeamMemberInviteResultAsync struct {
 	ApiManagement *api.ApiContext
 }
 type ContextTeamMemberInviteResultAsync struct {
-	AsyncJobId   string   `json:"asyncJobId"`
-	MemberEmails []string `json:"memberEmails"`
+	AsyncJobId   string   `json:"async_job_id"`
+	MemberEmails []string `json:"member_emails"`
 }
 
 func NewTaskTeamMemberInviteResultAsync(asyncJobId string, memberEmails []string) *workflow.Task {
@@ -293,13 +293,13 @@ type ContextTeamMemberInviteResultSuccess struct {
 	Success json.RawMessage `json:"raw"`
 }
 type ContextTeamMemberInviteResultFailure struct {
-	ReasonTag    string `json:"reasonTag"`
-	ReasonDetail string `json:"reasonDetail"`
+	ReasonTag    string `json:"reason_tag"`
+	ReasonDetail string `json:"reason_detail"`
 }
 
 type ContextTeamMemberInviteResult struct {
 	Email     string                               `json:"email"`
-	IsSuccess bool                                 `json:"isSuccess"`
+	IsSuccess bool                                 `json:"is_success"`
 	Success   ContextTeamMemberInviteResultSuccess `json:"success"`
 	Failure   ContextTeamMemberInviteResultFailure `json:"failure"`
 }

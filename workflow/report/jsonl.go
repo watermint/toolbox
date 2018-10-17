@@ -23,6 +23,13 @@ func (w *WorkerReportJsonl) Prefix() string {
 }
 
 func (w *WorkerReportJsonl) Reduce(taskIter *workflow.TaskIterator) {
+	if !taskIter.Next() {
+		seelog.Debugf("Task not found for prefix[%s]", w.Prefix())
+		return
+	}
+	// rewind to first element
+	taskIter.Prev()
+
 	if w.ReportPath != "" {
 		wr, err := os.Create(w.ReportPath)
 		if err != nil {

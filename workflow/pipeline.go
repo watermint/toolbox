@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/syndtr/goleveldb/leveldb"
+	"github.com/syndtr/goleveldb/leveldb/opt"
 	"github.com/syndtr/goleveldb/leveldb/util"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/infra"
@@ -38,7 +39,6 @@ func (p *Pipeline) Init() error {
 		seelog.Warnf("Unable to open pipeline database : error[%s]", err)
 		return err
 	}
-
 	p.dbStatus = db
 	return nil
 }
@@ -75,7 +75,12 @@ func (p *Pipeline) Enqueue(task *Task) {
 }
 func (p *Pipeline) TaskIterator(state, taskPrefix string) *TaskIterator {
 	taskRange := util.Range{Start: []byte(state + TASK_SEPARATOR + taskPrefix + TASK_SEPARATOR)}
-	iter := p.dbStatus.NewIterator(&taskRange, nil)
+	iter := p.dbStatus.NewIterator(
+		&taskRange,
+		&opt.ReadOptions{
+			Strict: opt.StrictAll,
+		},
+	)
 
 	return &TaskIterator{
 		iter: iter,
@@ -103,6 +108,7 @@ func (p *Pipeline) nextStage() bool {
 	if waiting == 0 && running == 0 {
 		seelog.Debugf("Going to next stage from [%s]", prefix)
 		p.currentStage++
+		p.DumpPipeline()
 		return true
 	} else {
 		return false
@@ -153,7 +159,12 @@ func (p *Pipeline) dispatch() (deferUntil int64) {
 }
 
 func (p *Pipeline) DumpPipeline() {
-	dbIter := p.dbStatus.NewIterator(nil, nil)
+	dbIter := p.dbStatus.NewIterator(
+		nil,
+		&opt.ReadOptions{
+			Strict: opt.StrictAll,
+		},
+	)
 	taskIter := &TaskIterator{
 		iter: dbIter,
 	}
@@ -169,6 +180,7 @@ func (p *Pipeline) dispatchReduce(cw ReduceWorker) (deferUntil int64) {
 	iter := p.TaskIterator(TASK_STATE_WAITING, cw.Prefix())
 	defer iter.Release()
 
+	seelog.Debugf("Execute Reduce: TaskPrefix[%s]", cw.Prefix())
 	cw.Reduce(iter)
 
 	return 0
