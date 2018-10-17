@@ -2,6 +2,7 @@ package member
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/api"
@@ -35,7 +36,7 @@ func (w *WorkerTeamMemberInviteLoaderCsv) Exec(task *workflow.Task) {
 	f, err := os.Open(tc.Path)
 	if err != nil {
 		seelog.Warnf("Unable to open file[%s] : error[%s]", tc.Path, err)
-		//TODO Error report
+		w.Pipeline.GeneralError("file_not_found", fmt.Sprintf("File not found or unable to find file: Path[%s]", tc.Path))
 		return
 	}
 	csv := util.NewBomAwareCsvReader(f)
@@ -62,7 +63,7 @@ func (w *WorkerTeamMemberInviteLoaderCsv) Exec(task *workflow.Task) {
 			surName = cols[2]
 		}
 
-		w.SimpleWorkerImpl.Pipeline.Enqueue(NewTaskTeamMemberInvite(email, givenName, surName))
+		w.Pipeline.Enqueue(NewTaskTeamMemberInvite(email, givenName, surName))
 	}
 }
 
@@ -134,18 +135,16 @@ func (w *WorkerTeamMemberInvite) BatchExec(tasks []*workflow.Task) {
 	}
 	seelog.Debugf("AddMembersAdd Arg: [%s]", util.MarshalObjectToString(arg))
 
-	res, err := w.ApiManagement.CallRpc("team/members/add", arg)
-
-	if err != nil {
-		seelog.Errorf("Error: %s", err)
+	cont, res, _ := w.Pipeline.TasksRpc(tasks, w.ApiManagement, "team/members/add", arg)
+	if !cont {
 		return
 	}
 
-	seelog.Infof("ResponseTag[%s] Response[%s]", res.Tag, res.Body)
+	seelog.Debugf("ResponseTag[%s] Response[%s]", res.Tag, res.Body)
 
 	asyncJobId := gjson.Get(res.Body, "async_job_id")
 	if asyncJobId.Exists() {
-		w.BatchWorkerImpl.Pipeline.Enqueue(NewTaskTeamMemberInviteResultAsync(asyncJobId.String(), emails))
+		w.Pipeline.Enqueue(NewTaskTeamMemberInviteResultAsync(asyncJobId.String(), emails))
 	} else {
 		seelog.Errorf("Async Job Id not found in the response: Response[%s]", res.Body)
 	}
@@ -180,14 +179,11 @@ func (w *WorkerTeamMemberInviteResultAsync) Exec(task *workflow.Task) {
 	pa := api.ArgAsyncJobId{
 		AsyncJobId: tc.AsyncJobId,
 	}
-	res, err := w.ApiManagement.CallRpc("team/members/add/job_status/get", pa)
-	if w.SimpleWorkerImpl.Pipeline.HandleRateLimit(err, task) {
+	cont, res, _ := w.Pipeline.TaskRpc(task, w.ApiManagement, "team/members/add/job_status/get", pa)
+	if !cont {
 		return
 	}
-	if err != nil {
-		seelog.Errorf("Error: %s", err)
-		return
-	}
+
 	seelog.Debugf("Tag: Tag[%s] Body", res.Tag, res.Body)
 	switch res.Tag {
 	case "in_progress":
@@ -205,7 +201,7 @@ func (w *WorkerTeamMemberInviteResultAsync) Exec(task *workflow.Task) {
 }
 
 func (w *WorkerTeamMemberInviteResultAsync) reactInProgress(res *api.ApiRpcResponse, task *workflow.Task, tc *ContextTeamMemberInviteResultAsync) {
-	w.SimpleWorkerImpl.Pipeline.RetryAfter(task, time.Now().Unix()+5)
+	w.Pipeline.RetryAfter(task, time.Now().Unix()+5)
 }
 
 func (w *WorkerTeamMemberInviteResultAsync) reactComplete(res *api.ApiRpcResponse, task *workflow.Task, tc *ContextTeamMemberInviteResultAsync) {
@@ -233,7 +229,7 @@ func (w *WorkerTeamMemberInviteResultAsync) reactComplete(res *api.ApiRpcRespons
 				continue
 			}
 
-			w.SimpleWorkerImpl.Pipeline.Enqueue(
+			w.Pipeline.Enqueue(
 				NewTaskTeamMemberInviteResult(
 					&ContextTeamMemberInviteResult{
 						Email:     emailTag.String(),
@@ -252,7 +248,7 @@ func (w *WorkerTeamMemberInviteResultAsync) reactComplete(res *api.ApiRpcRespons
 				continue
 			}
 
-			w.SimpleWorkerImpl.Pipeline.Enqueue(
+			w.Pipeline.Enqueue(
 				NewTaskTeamMemberInviteResult(
 					&ContextTeamMemberInviteResult{
 						Email:     emailTag.String(),
@@ -277,7 +273,7 @@ func (w *WorkerTeamMemberInviteResultAsync) reactFailed(res *api.ApiRpcResponse,
 	}
 
 	for _, email := range tc.MemberEmails {
-		w.SimpleWorkerImpl.Pipeline.Enqueue(
+		w.Pipeline.Enqueue(
 			NewTaskTeamMemberInviteResult(
 				&ContextTeamMemberInviteResult{
 					Email:     email,
@@ -330,7 +326,30 @@ func (w *WorkerTeamMemberInviteResultReduce) Reduce(taskIter *workflow.TaskItera
 		tc := ContextTeamMemberInviteResult{}
 		workflow.UnmarshalContext(task, &tc)
 
-		seelog.Infof("Reduce: Email[%s] IsSuccess[%t] Success[%s] Failure[%s]", tc.Email, tc.IsSuccess, tc.Success, tc.Failure)
+		seelog.Debugf("Invite: Email[%s] IsSuccess[%t] Success[%s] Failure[%s]", tc.Email, tc.IsSuccess, tc.Success, tc.Failure)
+
+		if tc.IsSuccess {
+			if len(tc.Success.Success) > 0 {
+				successJson := string(tc.Success.Success)
+				emailVerifiedJson := gjson.Get(successJson, "profile.email_verified")
+				emailVerified := ""
+				if emailVerifiedJson.Exists() {
+					emailVerified = fmt.Sprintf("%t", emailVerifiedJson.Bool())
+				}
+
+				teamMemberIdJson := gjson.Get(successJson, "profile.team_member_id")
+				teamMemberId := ""
+				if teamMemberIdJson.Exists() {
+					teamMemberId = teamMemberIdJson.String()
+				}
+
+				seelog.Infof("Invitation success: Email[%s] EmailVerified[%s] TeamMemberId[%s]", tc.Email, emailVerified, teamMemberId)
+			} else {
+				seelog.Infof("Invitation success: Email[%s]", tc.Email)
+			}
+		} else {
+			seelog.Warnf("Invitation failure: Email[%s] ReasonTag[%s] ReasonDetail[%s]", tc.Email, tc.Failure.ReasonTag, tc.Failure.ReasonDetail)
+		}
 
 		w.Pipeline.MarkAsDone(task.TaskPrefix, task.TaskId)
 	}

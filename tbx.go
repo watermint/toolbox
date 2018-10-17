@@ -2,12 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/cmdlet"
-	"github.com/watermint/toolbox/dbx/task/member"
-	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/cmdlet/cmd_member"
 	"github.com/watermint/toolbox/infra/util"
-	"github.com/watermint/toolbox/workflow"
+	"os"
 )
 
 const (
@@ -56,95 +54,38 @@ func printUsage(cc cmdlet.CommandletContext, cl cmdlet.Commandlet, err error) {
 }
 
 func main() {
-	PipelinePoc()
-
-	//cmdFile := &cmd_file.CmdFile{
-	//	ParentCommandlet: &cmdlet.ParentCommandlet{
-	//		SubCommands: []cmdlet.Commandlet{
-	//			cmd_file.NewCmdFileCopy(),
-	//			cmd_file.NewCmdFileMove(),
-	//			cmd_file.NewCmdFileUpload(),
-	//		},
-	//	},
-	//}
-	//cmdMember := &cmd_member.CmdMember{
-	//	ParentCommandlet: &cmdlet.ParentCommandlet{
-	//		SubCommands: []cmdlet.Commandlet{
-	//			cmd_member.NewCmdMemberInvite(),
-	//		},
-	//	},
-	//}
-	//cmdEvent := &cmd_event.CmdEvent{
-	//	ParentCommandlet: &cmdlet.ParentCommandlet{
-	//		SubCommands: []cmdlet.Commandlet{
-	//			cmd_event.NewCmdEventList(),
-	//		},
-	//	},
-	//}
-	//cmdTeam := &cmd_team.CmdTeam{
-	//	ParentCommandlet: &cmdlet.ParentCommandlet{
-	//		SubCommands: []cmdlet.Commandlet{
-	//			cmd_team.NewCmdTeamScan(),
-	//		},
-	//	},
-	//}
-	//rootCmd := &cmdlet.RootCommandlet{
-	//	ParentCommandlet: &cmdlet.ParentCommandlet{
-	//		SubCommands: []cmdlet.Commandlet{
-	//			cmdFile,
-	//			cmdEvent,
-	//			cmdMember,
-	//			cmdTeam,
-	//		},
-	//	},
-	//}
-	//
-	//err := rootCmd.Exec(cmdlet.CommandletContext{
-	//	OutDest:            os.Stdout,
-	//	OutQuiet:           false,
-	//	OutMachineFriendly: true,
-	//	Command:            rootCmd,
-	//	Cmd:                os.Args[0],
-	//	Args:               os.Args[1:],
-	//})
-	//switch ce := err.(type) {
-	//case nil:
-	//	// nop
-	//
-	//case *cmdlet.CommandError:
-	//	ce.PrintError()
-	//	os.Exit(TBL_EXIT_FAILURE)
-	//
-	//case *cmdlet.CommandShowUsageError:
-	//	printUsage(ce.Context, ce.Context.Command, err)
-	//}
-}
-
-func PipelinePoc() error {
-	c := infra.InfraContext{}
-	c.Startup()
-	defer c.Shutdown()
-
-	apiMgmt, err := c.LoadOrAuthBusinessManagement()
-	if err != nil {
-		seelog.Warnf("Unable to acquire token : error[%s]", err)
-		return err
-	}
-
-	p := workflow.Pipeline{
-		Infra: &c,
-		Stages: []workflow.Worker{
-			&member.WorkerTeamMemberInviteLoaderCsv{},
-			&member.WorkerTeamMemberInvite{ApiManagement: apiMgmt, Silent: true},
-			&member.WorkerTeamMemberInviteResultAsync{ApiManagement: apiMgmt},
-			&member.WorkerTeamMemberInviteResultReduce{},
+	cmdMember := &cmd_member.CmdMember{
+		ParentCommandlet: &cmdlet.ParentCommandlet{
+			SubCommands: []cmdlet.Commandlet{
+				cmd_member.NewCmdMemberInvite(),
+			},
 		},
 	}
-	p.Init()
-	defer p.Close()
+	rootCmd := &cmdlet.RootCommandlet{
+		ParentCommandlet: &cmdlet.ParentCommandlet{
+			SubCommands: []cmdlet.Commandlet{
+				cmdMember,
+			},
+		},
+	}
 
-	p.Enqueue(member.NewTaskTeamMemberInviteLoaderCsv("invite.csv"))
-	p.Loop()
+	err := rootCmd.Exec(cmdlet.CommandletContext{
+		OutDest:            os.Stdout,
+		OutQuiet:           false,
+		OutMachineFriendly: true,
+		Command:            rootCmd,
+		Cmd:                os.Args[0],
+		Args:               os.Args[1:],
+	})
+	switch ce := err.(type) {
+	case nil:
+		// nop
 
-	return nil
+	case *cmdlet.CommandError:
+		ce.PrintError()
+		os.Exit(TBL_EXIT_FAILURE)
+
+	case *cmdlet.CommandShowUsageError:
+		printUsage(ce.Context, ce.Context.Command, err)
+	}
 }

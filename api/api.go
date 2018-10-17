@@ -32,11 +32,43 @@ type ArgAsyncJobId struct {
 	AsyncJobId string `json:"async_job_id"`
 }
 
-type ApiError struct {
+type ApiServerError struct {
+	StatusCode int
+}
+
+func (e ApiServerError) Error() string {
+	return fmt.Sprintf("An error occurred on the Dropbox servers (%d). Check status.dropbox.com for announcements about Dropbox service issues.", e.StatusCode)
+}
+
+type ApiEndpointSpecificError struct {
+	ErrorTag     string `json:"error,omitempty"`
+	ErrorSummary string `json:"error_summary,omitempty"`
+	UserMessage  string `json:"user_message,omitempty"`
+}
+
+func (e ApiEndpointSpecificError) Error() string {
+	return fmt.Sprintf("Endpoint specific error[%s] %s", e.ErrorTag, e.ErrorSummary)
+}
+
+type ApiInvalidTokenError struct {
+}
+
+func (e ApiInvalidTokenError) Error() string {
+	return "Bad or expired token"
+}
+
+type ApiAccessError struct {
+}
+
+func (e ApiAccessError) Error() string {
+	return "The user or team account doesn't have access to the endpoint or feature"
+}
+
+type ApiBadInputParamError struct {
 	ErrorSummary string `json:"error_summary"`
 }
 
-func (e ApiError) Error() string {
+func (e ApiBadInputParamError) Error() string {
 	return e.ErrorSummary
 }
 
@@ -142,6 +174,7 @@ type ApiRpcResponse struct {
 	StatusCode int
 	Tag        string
 	Body       string
+	Error      error
 }
 
 type ApiRpcRequest struct {
@@ -205,8 +238,10 @@ func (a *ApiRpcRequest) Call() (apiRes *ApiRpcResponse, err error) {
 	}
 	res.Body.Close()
 
+	bodyString := string(body)
+
 	if res.StatusCode == http.StatusOK {
-		jsonBody := string(body)
+		jsonBody := bodyString
 		tag := gjson.Get(jsonBody, API_RES_JSON_DOT_TAG)
 		responseTag := ""
 		if tag.Exists() {
@@ -222,15 +257,31 @@ func (a *ApiRpcRequest) Call() (apiRes *ApiRpcResponse, err error) {
 
 	switch res.StatusCode {
 	case 400: // Bad input param
-		err := ApiError{
-			ErrorSummary: string(body),
-		}
 		seelog.Debugf("Route[%s] Bad input param. error[%s]", a.Route, err)
-		return nil, err
+		return nil, ApiBadInputParamError{
+			ErrorSummary: bodyString,
+		}
 
 	case 401: // Bad or expired token
 		seelog.Debugf("Route[%s] Bad or expired token.", a.Route)
-		return nil, errors.New("token err")
+		return nil, ApiInvalidTokenError{}
+
+	case 403: // Access Error
+		seelog.Debugf("Route[%s] Access Error.", a.Route)
+		return nil, ApiAccessError{}
+
+	case 409: // Endpoint specific
+		seelog.Debugf("Route[%s] Endpoint specific Error.", a.Route)
+		apiErr := ApiEndpointSpecificError{}
+		ume := json.Unmarshal(body, &apiErr)
+		if ume != nil {
+			seelog.Debugf("Route[%s] unknown or server error. response body[%s], unmarshal err[%s]", a.Route, bodyString, err)
+			return nil, ApiEndpointSpecificError{
+				ErrorSummary: bodyString,
+			}
+		}
+
+		return nil, apiErr
 
 	case 429: // Rate limit
 		retryAfter := res.Header.Get(API_RES_HEADER_RETRY_AFTER)
@@ -242,14 +293,15 @@ func (a *ApiRpcRequest) Call() (apiRes *ApiRpcResponse, err error) {
 		seelog.Debugf("Route[%s] Wait for retry [%d] seconds.", retryAfterSec)
 
 		return nil, ApiErrorRateLimit{RetryAfter: retryAfterSec}
+	}
 
+	if int(res.StatusCode/100) == 5 {
+		seelog.Debugf("Route[%s] Server error", a.Route)
+		return nil, ApiServerError{
+			StatusCode: res.StatusCode,
+		}
 	}
-	var apiErr ApiError
-	err = json.Unmarshal(body, &apiErr)
-	if err != nil {
-		seelog.Debugf("Route[%s] unknown or server error. response body[%s], unmarshal err[%s]", a.Route, string(body), err)
-		return nil, err
-	}
+
 	seelog.Debugf("Route[%s] unknown or server error[%s]", a.Route, err)
-	return nil, apiErr
+	return nil, err
 }

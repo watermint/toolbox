@@ -5,10 +5,10 @@ import (
 	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
+	"github.com/watermint/toolbox/dbx/task/member"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/util"
-	"io"
-	"os"
+	"github.com/watermint/toolbox/workflow"
 )
 
 type CmdMemberInvite struct {
@@ -66,93 +66,27 @@ func (c *CmdMemberInvite) Exec(cc cmdlet.CommandletContext) error {
 	c.infraContext.Startup()
 	defer c.infraContext.Shutdown()
 	seelog.Debugf("invite:%s", util.MarshalObjectToString(c))
-	c.apiContext, err = c.infraContext.LoadOrAuthBusinessManagement()
 
-	if c.optCsv == "" {
-		return &cmdlet.CommandError{
-			Context:     cc,
-			ReasonTag:   "member/invite:missing_csv",
-			Description: "Missing CSV file",
-		}
-	}
-	return c.inviteByCsv(c.optCsv)
-}
-
-func (c *CmdMemberInvite) inviteByCsv(csvFile string) error {
-	f, err := os.Open(csvFile)
+	apiMgmt, err := c.infraContext.LoadOrAuthBusinessManagement()
 	if err != nil {
-		seelog.Warnf("Unable to open file[%s] : error[%s]", csvFile, err)
+		seelog.Warnf("Unable to acquire token : error[%s]", err)
 		return err
 	}
-	csv := util.NewBomAwareCsvReader(f)
 
-	for {
-		cols, err := csv.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			seelog.Warnf("Unable to read CSV file [%s] : error[%s]", csvFile, err)
-			return err
-		}
-		if len(cols) < 1 {
-			seelog.Warnf("Skip line: [%v]", cols)
-			continue
-		}
-		//var email, givenName, surName string
-		//email = cols[0]
-		//if len(cols) >= 2 {
-		//	givenName = cols[1]
-		//}
-		//if len(cols) >= 3 {
-		//	surName = cols[2]
-		//}
-		//
-		//c.invite(email, givenName, surName)
+	p := workflow.Pipeline{
+		Infra: c.infraContext,
+		Stages: []workflow.Worker{
+			&member.WorkerTeamMemberInviteLoaderCsv{},
+			&member.WorkerTeamMemberInvite{ApiManagement: apiMgmt, Silent: c.optSilent},
+			&member.WorkerTeamMemberInviteResultAsync{ApiManagement: apiMgmt},
+			&member.WorkerTeamMemberInviteResultReduce{},
+		},
 	}
+	p.Init()
+	defer p.Close()
+
+	p.Enqueue(member.NewTaskTeamMemberInviteLoaderCsv(c.optCsv))
+	p.Loop()
+
 	return nil
 }
-
-//
-//func (c *CmdMemberInvite) invite(email, givenName, surname string) error {
-//	client := c.apiContext.Team()
-//
-//	inv := team.NewMemberAddArg(email)
-//	inv.MemberGivenName = givenName
-//	inv.MemberSurname = surname
-//
-//	if c.optSilent {
-//		inv.SendWelcomeEmail = false
-//	}
-//
-//	arg := team.NewMembersAddArg([]*team.MemberAddArg{inv})
-//
-//	seelog.Infof("Inviting: email[%s] givenName[%s] surName[%s] silent[%t]", email, givenName, surname, c.optSilent)
-//	client.MembersAdd(arg)
-//	return nil
-//}
-//
-//func (c *CmdMemberInvite) waitForAsync(asyncJobId, email, givenName, surname string) ([]*team.MemberAddResult, error) {
-//	client := c.apiContext.Team()
-//
-//	for {
-//		time.Sleep(5 * time.Second)
-//		res, err := client.MembersAddJobStatusGet(async.NewPollArg(asyncJobId))
-//		if err != nil {
-//			seelog.Warnf("Unable to check status : error[%s]", err)
-//			return nil, err
-//		}
-//		if res.Tag == "in_progress" {
-//			seelog.Debugf("Process status `in_progress`: async_job_id[%s]", asyncJobId)
-//			continue
-//		}
-//		if res.Failed != "" {
-//			seelog.Warnf("Failed to add member email[%s] givenName[%s] surName[%s] : error[%s]",
-//				email, givenName, surname, res.Failed)
-//			return nil, err
-//		}
-//		if res.Complete != nil {
-//			return res.Complete, nil
-//		}
-//	}
-//}
