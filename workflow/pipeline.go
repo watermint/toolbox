@@ -441,12 +441,12 @@ func (p *Pipeline) Loop() {
 				time.Sleep(time.Duration(sleepSec)*time.Second + 100*time.Millisecond)
 			}
 		}
-		p.DumpPipeline()
 		p.nextStage()
 
 		// TODO: fix: workaround for spin
 		time.Sleep(100 * time.Millisecond)
 	}
+	p.DumpPipeline()
 }
 
 func (p *Pipeline) Close() {

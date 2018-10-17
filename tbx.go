@@ -58,6 +58,7 @@ func main() {
 		ParentCommandlet: &cmdlet.ParentCommandlet{
 			SubCommands: []cmdlet.Commandlet{
 				cmd_member.NewCmdMemberInvite(),
+				cmd_member.NewCmdMemberList(),
 			},
 		},
 	}

@@ -1,6 +1,8 @@
 package workflow
 
-import "github.com/cihub/seelog"
+import (
+	"github.com/cihub/seelog"
+)
 
 const (
 	WORKER_DONE                 = "done"
@@ -81,6 +83,10 @@ func (w *WorkerGeneralErrorReport) Prefix() string {
 func (w *WorkerGeneralErrorReport) Reduce(taskIter *TaskIterator) {
 	for taskIter.Next() {
 		_, task := taskIter.Task()
+		if task.TaskPrefix != WORKER_GENERAL_ERROR_REPORT {
+			// Skip
+			continue
+		}
 		tc := ContextGeneralErrorReport{}
 
 		UnmarshalContext(task, &tc)
