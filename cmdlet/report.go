@@ -8,23 +8,23 @@ import (
 )
 
 type Report struct {
-	optReportPath   string
-	optReportFormat string
+	ReportPath   string
+	ReportFormat string
 
 	DataHeaders []string
 }
 
 func (c *Report) FlagConfig(f *flag.FlagSet) {
 	descReportPath := "Output file path of the report (default: STDOUT)"
-	f.StringVar(&c.optReportPath, "report-path", "", descReportPath)
+	f.StringVar(&c.ReportPath, "report-path", "", descReportPath)
 
 	descReportFormat := "Output file format (csv|jsonl) (default: jsonl)"
-	f.StringVar(&c.optReportFormat, "report-format", "jsonl", descReportFormat)
+	f.StringVar(&c.ReportFormat, "report-format", "jsonl", descReportFormat)
 }
 
 func (c *Report) ReportStages() (reportTask string, stages []workflow.Worker, err error) {
 	reportTask = report.WORKER_REPORT_JSONL
-	switch c.optReportFormat {
+	switch c.ReportFormat {
 	case "jsonl":
 		reportTask = report.WORKER_REPORT_JSONL
 
@@ -32,17 +32,17 @@ func (c *Report) ReportStages() (reportTask string, stages []workflow.Worker, er
 		reportTask = report.WORKER_REPORT_CSV
 
 	default:
-		seelog.Warnf("Unsupported report format [%s]", c.optReportFormat)
+		seelog.Warnf("Unsupported report format [%s]", c.ReportFormat)
 		return "", nil, err
 	}
 
 	return reportTask,
 		[]workflow.Worker{
 			&report.WorkerReportJsonl{
-				ReportPath: c.optReportPath,
+				ReportPath: c.ReportPath,
 			},
 			&report.WorkerReportCsv{
-				ReportPath:  c.optReportPath,
+				ReportPath:  c.ReportPath,
 				DataHeaders: c.DataHeaders,
 			},
 		}, nil

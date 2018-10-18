@@ -1,6 +1,9 @@
 package cmd_member
 
-import "github.com/watermint/toolbox/cmdlet"
+import (
+	"github.com/watermint/toolbox/cmdlet"
+	"github.com/watermint/toolbox/cmdlet/cmd_member/linkedapp"
+)
 
 func NewCmdMember() cmdlet.Commandlet {
 	return &cmdlet.CommandletGroup{
@@ -13,6 +16,7 @@ func NewCmdMember() cmdlet.Commandlet {
 			&CmdMemberList{
 				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
 			},
+			linkedapp.NewCmdMemberLinkedApp(),
 		},
 	}
 }

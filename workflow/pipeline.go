@@ -270,6 +270,7 @@ func (p *Pipeline) MarkAsDone(taskPrefix, taskId string) {
 }
 
 func (p *Pipeline) TasksRpc(tasks []*Task, apiContext *api.ApiContext, route string, arg interface{}) (cont bool, apiRes *api.ApiRpcResponse, specificErr error) {
+	seelog.Debugf("Call[%s]: Arg[%s]", route, arg)
 	apiRes, err := apiContext.CallRpc(route, arg)
 	if err == nil {
 		return true, apiRes, nil
@@ -305,7 +306,7 @@ func (p *Pipeline) TasksRpc(tasks []*Task, apiContext *api.ApiContext, route str
 
 	case api.ApiBadInputParamError:
 		seelog.Debugf("Route[%s] Bad Input Param: TaskPrefix[%s] Error[%s]", route, prefix, e.Error())
-		p.GeneralError("bad_input_param", fmt.Sprintf("Task[%s] failed due to bad input parameter", prefix))
+		p.GeneralError("bad_input_param", fmt.Sprintf("Task[%s] failed due to bad input parameter. Error[%s]", prefix, e.Error()))
 		return false, apiRes, nil
 
 	case api.ApiEndpointSpecificError:
@@ -324,6 +325,7 @@ func (p *Pipeline) TasksRpc(tasks []*Task, apiContext *api.ApiContext, route str
 }
 
 func (p *Pipeline) TaskRpc(task *Task, apiContext *api.ApiContext, route string, arg interface{}) (cont bool, apiRes *api.ApiRpcResponse, specificErr error) {
+	seelog.Debugf("Call[%s]: TaskPrefix[%s] TaskId[%s] Arg[%s]", route, task.TaskPrefix, task.TaskId, arg)
 	apiRes, err := apiContext.CallRpc(route, arg)
 	if err == nil {
 		return true, apiRes, nil
@@ -351,7 +353,7 @@ func (p *Pipeline) TaskRpc(task *Task, apiContext *api.ApiContext, route string,
 
 	case api.ApiBadInputParamError:
 		seelog.Debugf("Route[%s] Bad Input Param: TaskPrefix[%s] TaskId[%s] Error[%s]", route, task.TaskPrefix, task.TaskId, e.Error())
-		p.GeneralError("bad_input_param", fmt.Sprintf("Task[%s] failed due to bad input parameter", task.TaskPrefix))
+		p.GeneralError("bad_input_param", fmt.Sprintf("Task[%s] failed due to bad input parameter. Error[%s]", task.TaskPrefix, e.Error()))
 		return false, apiRes, nil
 
 	case api.ApiEndpointSpecificError:

@@ -60,14 +60,14 @@ type ExecContext struct {
 var (
 	DropboxFullAppKey           string = ""
 	DropboxFullAppSecret        string = ""
-	BusinessInfoAppKey          string = ""
-	BusinessInfoAppSecret       string = ""
-	BusinessFileAppKey          string = ""
-	BusinessFileAppSecret       string = ""
-	BusinessManagementAppKey    string = ""
-	BusinessManagementAppSecret string = ""
-	BusinessAuditAppKey         string = ""
-	BusinessAuditAppSecret      string = ""
+	BusinessInfoAppKey          string = "7hvc6534xiq9b1w"
+	BusinessInfoAppSecret       string = "08w6ex5q3j76pqv"
+	BusinessFileAppKey          string = "40tbehrieaha9w3"
+	BusinessFileAppSecret       string = "jh1ylouwv9wbcu4"
+	BusinessManagementAppKey    string = "9ihfmr6pu82045o"
+	BusinessManagementAppSecret string = "ktvr8lltw5wqyxh"
+	BusinessAuditAppKey         string = "6eieiasy6iqlqx1"
+	BusinessAuditAppSecret      string = "za0n7k34ca10ows"
 )
 
 var (
@@ -87,7 +87,7 @@ func (opts *ExecContext) AuthFile() string {
 func (opts *ExecContext) queueToken(a auth.DropboxAuthenticator, business bool) (ac *api.ApiContext, err error) {
 	token, err := a.LoadOrAuth(business, !opts.CleanupToken)
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	seelog.Debugf("Issued token stored in ExecContext")

@@ -126,7 +126,7 @@ func (d *DropboxAuthenticator) TokenFileLoad() (string, error) {
 	}
 	if t, ex := m[d.AppKey]; !ex {
 		seelog.Tracef("Appkey[%s] not found in loaded token map", d.AppKey)
-		return "", err
+		return "", errors.New("app key not found in loaded token map")
 	} else {
 		seelog.Tracef("Token for App key[%s] found in map", d.AppKey)
 		return t, nil
@@ -171,6 +171,7 @@ func (d *DropboxAuthenticator) LoadOrAuth(business bool, storeToken bool) (strin
 }
 
 func (d *DropboxAuthenticator) Authorise(storeToken bool) (string, error) {
+	seelog.Debugf("Authorize(storeToken:%t)", storeToken)
 	seelog.Flush()
 
 	if d.AppKey == "" || d.AppSecret == "" {
