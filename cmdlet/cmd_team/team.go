@@ -10,6 +10,9 @@ func NewCmdTeam() cmdlet.Commandlet {
 			&CmdTeamInfo{
 				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
 			},
+			&CmdTeamFeature{
+				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
+			},
 		},
 	}
 }
