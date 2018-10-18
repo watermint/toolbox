@@ -15,3 +15,14 @@ func (c *CmdMember) Name() string {
 func (c *CmdMember) Desc() string {
 	return "Dropbox Business team member management"
 }
+
+func NewCmdMember() cmdlet.Commandlet {
+	return &CmdMember{
+		ParentCommandlet: &cmdlet.ParentCommandlet{
+			SubCommands: []cmdlet.Commandlet{
+				NewCmdMemberInvite(),
+				NewCmdMemberList(),
+			},
+		},
+	}
+}

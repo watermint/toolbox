@@ -329,7 +329,9 @@ func (p *Pipeline) TaskRpc(task *Task, apiContext *api.ApiContext, route string,
 		return true, apiRes, nil
 	}
 
-	apiRes.Error = err
+	if apiRes != nil {
+		apiRes.Error = err
+	}
 
 	switch e := err.(type) {
 	case api.ApiErrorRateLimit:

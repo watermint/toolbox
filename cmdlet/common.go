@@ -3,7 +3,6 @@ package cmdlet
 import (
 	"flag"
 	"fmt"
-	"io"
 )
 
 type CommandletCommonContext struct {
@@ -20,22 +19,16 @@ func (c *CommandletCommonContext) PrepareFlags(f *flag.FlagSet) {
 }
 
 type CommandletContext struct {
-	Cmd                string
-	Args               []string
-	Command            Commandlet
-	OutDest            io.Writer
-	OutQuiet           bool
-	OutMachineFriendly bool
+	Cmd     string
+	Args    []string
+	Command Commandlet
 }
 
 func NewCommandletContext(cmd string, args []string, cmdlet Commandlet, cc CommandletContext) CommandletContext {
 	return CommandletContext{
-		Cmd:                cmd,
-		Args:               args,
-		Command:            cmdlet,
-		OutDest:            cc.OutDest,
-		OutQuiet:           cc.OutQuiet,
-		OutMachineFriendly: cc.OutMachineFriendly,
+		Cmd:     cmd,
+		Args:    args,
+		Command: cmdlet,
 	}
 }
 
@@ -58,27 +51,15 @@ func (ce *CommandError) Error() string {
 }
 
 func (ce *CommandError) PrintError() {
-	if ce.Context.OutQuiet {
-		return
-	} else if ce.Context.OutMachineFriendly {
-		fmt.Fprintf(
-			ce.Context.OutDest,
-			`{"error":"%s","error_description":"%s"}`, // TODO use appropriate deserializer
-			ce.ReasonTag,
-			ce.Description,
-		)
-	} else {
-		fmt.Fprintf(
-			ce.Context.OutDest,
-			`Execution failed.
+	fmt.Printf(
+		`Execution failed.
 
      Reason: %s
 Description: %s
 `,
-			ce.ReasonTag,
-			ce.Description,
-		)
-	}
+		ce.ReasonTag,
+		ce.Description,
+	)
 }
 
 type Commandlet interface {
@@ -91,7 +72,6 @@ type Commandlet interface {
 
 func ParseFlags(cc CommandletContext, cl Commandlet) (remainder []string, err error) {
 	f := cl.FlagSet()
-	f.SetOutput(cc.OutDest)
 	if err := f.Parse(cc.Args); err != nil {
 		return []string{}, &CommandShowUsageError{
 			cc,

@@ -1,6 +1,7 @@
 package group
 
 import (
+	"encoding/json"
 	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/api"
@@ -18,7 +19,7 @@ type WorkerTeamGroupList struct {
 	NextTask      string
 }
 
-type ContentTeamGroupResult struct {
+type ContextTeamGroupResult struct {
 	GroupId             string `json:"group_id"`
 	GroupName           string `json:"group_name"`
 	GroupManagementType string `json:"group_management_type"`
@@ -26,7 +27,7 @@ type ContentTeamGroupResult struct {
 	MemberCount         int64  `json:"member_count"`
 }
 
-type ContentTeamGroupList struct {
+type ContextTeamGroupList struct {
 	Cursor string `json:"cursor"`
 }
 
@@ -35,7 +36,7 @@ func (w *WorkerTeamGroupList) Prefix() string {
 }
 
 func (w *WorkerTeamGroupList) Exec(task *workflow.Task) {
-	tc := &ContentTeamGroupList{}
+	tc := &ContextTeamGroupList{}
 	workflow.UnmarshalContext(task, tc)
 
 	if tc.Cursor == "" {
@@ -93,7 +94,7 @@ func (w *WorkerTeamGroupList) processResult(res *api.ApiRpcResponse, task *workf
 			continue
 		}
 
-		c := ContentTeamGroupResult{
+		c := ContextTeamGroupResult{
 			GroupId:             groupIdJson.String(),
 			GroupName:           group.Get("group_name").String(),
 			GroupManagementType: group.Get("group_management_type.\\.tag").String(),
@@ -117,7 +118,7 @@ func (w *WorkerTeamGroupList) processResult(res *api.ApiRpcResponse, task *workf
 			seelog.Debug("Cursor not found in the response (has_more appear and true)")
 			return
 		}
-		c := ContentTeamGroupList{
+		c := ContextTeamGroupList{
 			Cursor: cursorJson.String(),
 		}
 
@@ -135,4 +136,99 @@ type WorkerTeamGroupMemberList struct {
 	workflow.SimpleWorkerImpl
 	ApiManagement *api.ApiContext
 	NextTask      string
+}
+
+type ContextTeamGroupMemberList struct {
+	GroupId      string          `json:"group_id"`
+	GroupName    string          `json:"group_name"`
+	TeamMemberId string          `json:"team_member_id"`
+	Member       json.RawMessage `json:"member"`
+}
+
+func (w *WorkerTeamGroupMemberList) Prefix() string {
+	return WORKER_TEAM_GROUP_MEMBER_LIST
+}
+
+func (w *WorkerTeamGroupMemberList) Exec(task *workflow.Task) {
+	tc := &ContextTeamGroupResult{}
+	workflow.UnmarshalContext(task, tc)
+
+	type GroupSelector struct {
+		Tag     string `json:".tag"`
+		GroupId string `json:"group_id"`
+	}
+	type ListParam struct {
+		Group GroupSelector `json:"group"`
+		Limit int           `json:"limit"`
+	}
+
+	lp := ListParam{
+		Group: GroupSelector{
+			Tag:     "group_id",
+			GroupId: tc.GroupId,
+		},
+		Limit: 3,
+	}
+	seelog.Debug("groups/members/list")
+	cont, res, _ := w.Pipeline.TaskRpc(task, w.ApiManagement, "team/groups/members/list", lp)
+	if !cont {
+		return
+	}
+
+	w.processResult(res, tc)
+
+	if !gjson.Get(res.Body, "has_more").Bool() {
+		return
+	}
+	cursor := gjson.Get(res.Body, "cursor").String()
+
+	for {
+		seelog.Debug("groups/members/list")
+		type CursorParam struct {
+			Cursor string `json:"cursor"`
+		}
+		cp := CursorParam{
+			Cursor: cursor,
+		}
+		cont, res, _ := w.Pipeline.TaskRpc(task, w.ApiManagement, "team/groups/members/list/continue", cp)
+		if !cont {
+			return
+		}
+
+		w.processResult(res, tc)
+
+		cursor = gjson.Get(res.Body, "cursor").String()
+
+		if !gjson.Get(res.Body, "has_more").Bool() {
+			return
+		}
+	}
+}
+
+func (w *WorkerTeamGroupMemberList) processResult(res *api.ApiRpcResponse, tc *ContextTeamGroupResult) {
+	members := gjson.Get(res.Body, "members")
+	if !members.Exists() {
+		seelog.Debugf("`members` data not found")
+		return
+	}
+
+	for _, member := range members.Array() {
+		teamMemberId := member.Get("profile.team_member_id").String()
+		key := tc.GroupId + "@" + teamMemberId
+
+		c := ContextTeamGroupMemberList{
+			GroupId:      tc.GroupId,
+			GroupName:    tc.GroupName,
+			TeamMemberId: teamMemberId,
+			Member:       json.RawMessage(member.Raw),
+		}
+
+		w.Pipeline.Enqueue(
+			workflow.MarshalTask(
+				w.NextTask,
+				key,
+				c,
+			),
+		)
+	}
 }

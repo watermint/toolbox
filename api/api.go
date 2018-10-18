@@ -252,6 +252,7 @@ func (a *ApiRpcRequest) Call() (apiRes *ApiRpcResponse, err error) {
 			StatusCode: res.StatusCode,
 			Body:       jsonBody,
 			Tag:        responseTag,
+			Error:      nil,
 		}, nil
 	}
 
