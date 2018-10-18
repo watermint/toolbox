@@ -60,7 +60,7 @@ func (c *CmdTeamInfo) Exec(cc cmdlet.CommandletContext) error {
 	c.infraContext.Startup()
 	defer c.infraContext.Shutdown()
 
-	apiMgmt, err := c.infraContext.LoadOrAuthBusinessManagement()
+	apiMgmt, err := c.infraContext.LoadOrAuthBusinessInfo()
 	if err != nil {
 		seelog.Warnf("Unable to acquire token : error[%s]", err)
 		return err

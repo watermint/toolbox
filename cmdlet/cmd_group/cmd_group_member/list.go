@@ -64,7 +64,7 @@ func (c *CmdGroupMemberList) Exec(cc cmdlet.CommandletContext) error {
 	defer c.infraContext.Shutdown()
 	seelog.Debugf("invite:%s", util.MarshalObjectToString(c))
 
-	apiMgmt, err := c.infraContext.LoadOrAuthBusinessManagement()
+	apiMgmt, err := c.infraContext.LoadOrAuthBusinessInfo()
 	if err != nil {
 		seelog.Warnf("Unable to acquire token : error[%s]", err)
 		return err
