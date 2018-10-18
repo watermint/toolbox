@@ -1,58 +1,52 @@
-package cmd_group
+package sharedlink
 
 import (
 	"flag"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
-	"github.com/watermint/toolbox/dbx/task/group"
 	"github.com/watermint/toolbox/dbx/task/member"
+	"github.com/watermint/toolbox/dbx/task/sharedlink"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/workflow"
 )
 
-type CmdGrouplist struct {
+type CmdMemberSharedLinkList struct {
 	*cmdlet.SimpleCommandlet
 
-	optIncludeRemoved bool
-	apiContext        *api.ApiContext
-	report            cmdlet.Report
+	apiContext *api.ApiContext
+	report     cmdlet.Report
 }
 
-func (c *CmdGrouplist) Name() string {
+func (CmdMemberSharedLinkList) Name() string {
 	return "list"
 }
 
-func (c *CmdGrouplist) Desc() string {
-	return "List groups"
+func (CmdMemberSharedLinkList) Desc() string {
+	return "List all shared links of the team members' accounts"
 }
 
-func (c *CmdGrouplist) Usage() string {
+func (CmdMemberSharedLinkList) Usage() string {
 	return ""
 }
 
-func (c *CmdGrouplist) FlagConfig(f *flag.FlagSet) {
+func (c *CmdMemberSharedLinkList) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
-
-	descCsv := "Include removed members"
-	f.BoolVar(&c.optIncludeRemoved, "include-removed", false, descCsv)
 }
 
-func (c *CmdGrouplist) Exec(ec *infra.ExecContext, args []string) {
+func (c *CmdMemberSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
 	if err := ec.Startup(); err != nil {
 		return
 	}
 	defer ec.Shutdown()
 
-	apiMgmt, err := ec.LoadOrAuthBusinessInfo()
+	apiMgmt, err := ec.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
 
 	c.report.DataHeaders = []string{
-		"group_id",
-		"group_name",
-		"group_management_type",
-		"member_count",
+		"team_member_id",
+		"app_id",
 	}
 
 	rt, rs, err := c.report.ReportStages()
@@ -61,7 +55,14 @@ func (c *CmdGrouplist) Exec(ec *infra.ExecContext, args []string) {
 	}
 
 	stages := []workflow.Worker{
-		&group.WorkerTeamGroupList{
+		&member.WorkerTeamMemberList{
+			ApiManagement: apiMgmt,
+			NextTask:      workflow.WORKER_WORKFLOW_AS_MEMBER_ID,
+		},
+		&workflow.WorkerAsMemberIdDispatch{
+			NextTask: sharedlink.WORKER_SHAREDLINK_LIST,
+		},
+		&sharedlink.WorkerSharedLinkList{
 			Api:      apiMgmt,
 			NextTask: rt,
 		},

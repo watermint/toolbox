@@ -268,8 +268,11 @@ func (p *Pipeline) MarkAsDone(taskPrefix, taskId string) {
 		panic("Unable to commit transaction")
 	}
 }
-
 func (p *Pipeline) TasksRpc(tasks []*Task, apiContext *api.ApiContext, route string, arg interface{}) (cont bool, apiRes *api.ApiRpcResponse, specificErr error) {
+	return p.TasksRpcAsMemberId(tasks, apiContext, route, arg, "")
+}
+
+func (p *Pipeline) TasksRpcAsMemberId(tasks []*Task, apiContext *api.ApiContext, route string, arg interface{}, asMemberId string) (cont bool, apiRes *api.ApiRpcResponse, specificErr error) {
 	seelog.Debugf("Call[%s]: Arg[%s]", route, arg)
 	apiRes, err := apiContext.CallRpc(route, arg)
 	if err == nil {
@@ -325,8 +328,12 @@ func (p *Pipeline) TasksRpc(tasks []*Task, apiContext *api.ApiContext, route str
 }
 
 func (p *Pipeline) TaskRpc(task *Task, apiContext *api.ApiContext, route string, arg interface{}) (cont bool, apiRes *api.ApiRpcResponse, specificErr error) {
+	return p.TaskRpcAsMemberId(task, apiContext, route, arg, "")
+}
+
+func (p *Pipeline) TaskRpcAsMemberId(task *Task, apiContext *api.ApiContext, route string, arg interface{}, asMemberId string) (cont bool, apiRes *api.ApiRpcResponse, specificErr error) {
 	seelog.Debugf("Call[%s]: TaskPrefix[%s] TaskId[%s] Arg[%s]", route, task.TaskPrefix, task.TaskId, arg)
-	apiRes, err := apiContext.CallRpc(route, arg)
+	apiRes, err := apiContext.CallRpcAsMemberId(route, asMemberId, arg)
 	if err == nil {
 		return true, apiRes, nil
 	}

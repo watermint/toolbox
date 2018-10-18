@@ -15,8 +15,8 @@ const (
 
 type WorkerTeamGroupList struct {
 	workflow.SimpleWorkerImpl
-	ApiManagement *api.ApiContext
-	NextTask      string
+	Api      *api.ApiContext
+	NextTask string
 }
 
 type ContextTeamGroupResult struct {
@@ -55,7 +55,7 @@ func (w *WorkerTeamGroupList) list(task *workflow.Task) {
 	}
 
 	seelog.Debug("groups/list")
-	cont, res, _ := w.Pipeline.TaskRpc(task, w.ApiManagement, "team/groups/list", lp)
+	cont, res, _ := w.Pipeline.TaskRpc(task, w.Api, "team/groups/list", lp)
 	if !cont {
 		return
 	}
@@ -71,7 +71,7 @@ func (w *WorkerTeamGroupList) listContinue(cursor string, task *workflow.Task) {
 	}
 
 	seelog.Debugf("groups/list/continue (cursor: %s)", cursor)
-	cont, res, _ := w.Pipeline.TaskRpc(task, w.ApiManagement, "team/groups/list/continue", lp)
+	cont, res, _ := w.Pipeline.TaskRpc(task, w.Api, "team/groups/list/continue", lp)
 	if !cont {
 		return
 	}

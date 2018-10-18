@@ -149,13 +149,6 @@ func (a *ApiContext) NewApiRpcRequest(route string, arg interface{}) *ApiRpcRequ
 	}
 }
 
-//
-//func (a *ApiContext) PatternsFile() *ApiPatternFiles {
-//	return &ApiPatternFiles{
-//		Context: a,
-//	}
-//}
-
 func NewDefaultApiContext(token string) *ApiContext {
 	config := NewDefaultApiConfig()
 	return &ApiContext{

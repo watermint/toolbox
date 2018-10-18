@@ -3,6 +3,7 @@ package cmd_member
 import (
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/cmdlet/cmd_member/linkedapp"
+	"github.com/watermint/toolbox/cmdlet/cmd_member/sharedlink"
 )
 
 func NewCmdMember() cmdlet.Commandlet {
@@ -17,6 +18,7 @@ func NewCmdMember() cmdlet.Commandlet {
 				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
 			},
 			linkedapp.NewCmdMemberLinkedApp(),
+			sharedlink.NewCmdMemberSharedLink(),
 		},
 	}
 }

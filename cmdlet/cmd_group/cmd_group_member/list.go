@@ -62,8 +62,8 @@ func (c *CmdGroupMemberList) Exec(ec *infra.ExecContext, args []string) {
 
 	stages := []workflow.Worker{
 		&group.WorkerTeamGroupList{
-			ApiManagement: apiMgmt,
-			NextTask:      group.WORKER_TEAM_GROUP_MEMBER_LIST,
+			Api:      apiMgmt,
+			NextTask: group.WORKER_TEAM_GROUP_MEMBER_LIST,
 		},
 		&group.WorkerTeamGroupMemberList{
 			ApiManagement: apiMgmt,

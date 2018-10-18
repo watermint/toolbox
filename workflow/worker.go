@@ -5,8 +5,9 @@ import (
 )
 
 const (
-	WORKER_DONE                 = "done"
-	WORKER_GENERAL_ERROR_REPORT = "error"
+	WORKER_DONE                  = "done"
+	WORKER_GENERAL_ERROR_REPORT  = "error"
+	WORKER_WORKFLOW_AS_MEMBER_ID = "workflow/as_member_id"
 )
 
 type Task struct {
@@ -101,4 +102,38 @@ func (w *WorkerGeneralErrorReport) Reduce(taskIter *TaskIterator) {
 type ContextGeneralErrorReport struct {
 	ErrorTag         string `json:"errorTag"`
 	ErrorDescription string `json:"errorDesc"`
+}
+
+type WorkerAsMemberIdDispatch struct {
+	SimpleWorkerImpl
+	NextTask string
+}
+
+type ContextAsMemberId struct {
+	AsMemberId    string `json:"as_member_id"`
+	AsMemberEmail string `json:"as_member_email"`
+}
+type ContextTeamMemberId struct {
+	Email        string `json:"email"`
+	TeamMemberId string `json:"team_member_id"`
+}
+
+func (w *WorkerAsMemberIdDispatch) Prefix() string {
+	return WORKER_WORKFLOW_AS_MEMBER_ID
+}
+
+func (w *WorkerAsMemberIdDispatch) Exec(task *Task) {
+	tc := &ContextTeamMemberId{}
+	UnmarshalContext(task, tc)
+
+	w.Pipeline.Enqueue(
+		MarshalTask(
+			w.NextTask,
+			tc.TeamMemberId,
+			ContextAsMemberId{
+				AsMemberId:    tc.TeamMemberId,
+				AsMemberEmail: tc.Email,
+			},
+		),
+	)
 }

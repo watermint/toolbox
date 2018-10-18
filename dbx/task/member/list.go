@@ -21,8 +21,9 @@ type WorkerTeamMemberList struct {
 }
 
 type ContextTeamMemberResult struct {
-	Email  string          `json:"email"`
-	Member json.RawMessage `json:"member"`
+	Email        string          `json:"email"`
+	TeamMemberId string          `json:"team_member_id"`
+	Member       json.RawMessage `json:"member"`
 }
 
 type ContextTeamMemberList struct {
@@ -94,8 +95,9 @@ func (w *WorkerTeamMemberList) processResult(res *api.ApiRpcResponse, task *work
 		}
 
 		c := ContextTeamMemberResult{
-			Email:  emailJson.String(),
-			Member: json.RawMessage(member.Raw),
+			Email:        emailJson.String(),
+			TeamMemberId: member.Get("profile.team_member_id").String(),
+			Member:       json.RawMessage(member.Raw),
 		}
 
 		w.Pipeline.Enqueue(
