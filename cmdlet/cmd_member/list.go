@@ -2,29 +2,19 @@ package cmd_member
 
 import (
 	"flag"
-	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx/task/member"
 	"github.com/watermint/toolbox/infra"
-	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/workflow"
-	"github.com/watermint/toolbox/workflow/report"
 )
 
 type CmdMemberList struct {
-	optIncludeRemoved bool
-	optReportPath     string
-	optReportFormat   string
-	apiContext        *api.ApiContext
-	infraContext      *infra.InfraContext
-}
+	*cmdlet.SimpleCommandlet
 
-func NewCmdMemberList() *CmdMemberList {
-	c := CmdMemberList{
-		infraContext: &infra.InfraContext{},
-	}
-	return &c
+	optIncludeRemoved bool
+	apiContext        *api.ApiContext
+	report            cmdlet.Report
 }
 
 func (c *CmdMemberList) Name() string {
@@ -35,86 +25,62 @@ func (c *CmdMemberList) Desc() string {
 	return "List members"
 }
 
-func (c *CmdMemberList) UsageTmpl() string {
-	return `
-Usage: {{.Command}}
-`
+func (CmdMemberList) Usage() string {
+	return ""
 }
 
-func (c *CmdMemberList) FlagSet() (f *flag.FlagSet) {
-	f = flag.NewFlagSet(c.Name(), flag.ExitOnError)
+func (c *CmdMemberList) FlagConfig(f *flag.FlagSet) {
+	c.report.FlagConfig(f)
 
 	descCsv := "Include removed members"
 	f.BoolVar(&c.optIncludeRemoved, "include-removed", false, descCsv)
-
-	descReportPath := "Output file path of the report (default: STDOUT)"
-	f.StringVar(&c.optReportPath, "report-path", "", descReportPath)
-
-	descReportFormat := "Output file format (csv|jsonl) (default: jsonl)"
-	f.StringVar(&c.optReportFormat, "report-format", "jsonl", descReportFormat)
-
-	c.infraContext.PrepareFlags(f)
-	return f
 }
 
-func (c *CmdMemberList) Exec(cc cmdlet.CommandletContext) error {
-	_, err := cmdlet.ParseFlags(cc, c)
+func (c *CmdMemberList) Exec(ec *infra.ExecContext, args []string) {
+	if err := ec.Startup(); err != nil {
+		return
+	}
+	defer ec.Shutdown()
+
+	apiMgmt, err := ec.LoadOrAuthBusinessInfo()
 	if err != nil {
-		return err
+		return
 	}
-	c.infraContext.Startup()
-	defer c.infraContext.Shutdown()
-	seelog.Debugf("invite:%s", util.MarshalObjectToString(c))
 
-	apiMgmt, err := c.infraContext.LoadOrAuthBusinessInfo()
+	c.report.DataHeaders = []string{
+		"member.profile.team_member_id",
+		"member.profile.email",
+		"member.profile.email_verified",
+		"member.profile.status.\\.tag",
+		"member.profile.name.given_name",
+		"member.profile.name.surname",
+		"member.profile.name.familiar_name",
+		"member.profile.name.display_name",
+		"member.profile.name.abbreviated_name",
+		"member.profile.external_id",
+		"member.profile.account_id",
+		"member.profile.joined_on",
+		"member.role.\\.tag",
+	}
+
+	rt, rs, err := c.report.ReportStages()
 	if err != nil {
-		seelog.Warnf("Unable to acquire token : error[%s]", err)
-		return err
+		return
 	}
 
-	reportTask := report.WORKER_REPORT_JSONL
-	switch c.optReportFormat {
-	case "jsonl":
-		reportTask = report.WORKER_REPORT_JSONL
-
-	case "csv":
-		reportTask = report.WORKER_REPORT_CSV
-
-	default:
-		seelog.Warnf("Unsupported report format [%s]", c.optReportFormat)
-		return err
+	stages := []workflow.Worker{
+		&member.WorkerTeamMemberList{
+			ApiManagement:  apiMgmt,
+			IncludeRemoved: c.optIncludeRemoved,
+			NextTask:       rt,
+		},
 	}
+
+	stages = append(stages, rs...)
 
 	p := workflow.Pipeline{
-		Infra: c.infraContext,
-		Stages: []workflow.Worker{
-			&member.WorkerTeamMemberList{
-				ApiManagement:  apiMgmt,
-				IncludeRemoved: c.optIncludeRemoved,
-				NextTask:       reportTask,
-			},
-			&report.WorkerReportJsonl{
-				ReportPath: c.optReportPath,
-			},
-			&report.WorkerReportCsv{
-				ReportPath: c.optReportPath,
-				DataHeaders: []string{
-					"member.profile.team_member_id",
-					"member.profile.email",
-					"member.profile.email_verified",
-					"member.profile.status.\\.tag",
-					"member.profile.name.given_name",
-					"member.profile.name.surname",
-					"member.profile.name.familiar_name",
-					"member.profile.name.display_name",
-					"member.profile.name.abbreviated_name",
-					"member.profile.external_id",
-					"member.profile.account_id",
-					"member.profile.joined_on",
-					"member.role.\\.tag",
-				},
-			},
-		},
+		Infra:  ec,
+		Stages: stages,
 	}
 
 	p.Init()
@@ -128,6 +94,4 @@ func (c *CmdMemberList) Exec(cc cmdlet.CommandletContext) error {
 		),
 	)
 	p.Loop()
-
-	return nil
 }

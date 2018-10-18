@@ -2,30 +2,20 @@ package cmd_group
 
 import (
 	"flag"
-	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx/task/group"
 	"github.com/watermint/toolbox/dbx/task/member"
 	"github.com/watermint/toolbox/infra"
-	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/workflow"
-	"github.com/watermint/toolbox/workflow/report"
 )
 
 type CmdGrouplist struct {
-	optIncludeRemoved bool
-	optReportPath     string
-	optReportFormat   string
-	apiContext        *api.ApiContext
-	infraContext      *infra.InfraContext
-}
+	*cmdlet.SimpleCommandlet
 
-func NewCmdGroupList() *CmdGrouplist {
-	c := CmdGrouplist{
-		infraContext: &infra.InfraContext{},
-	}
-	return &c
+	optIncludeRemoved bool
+	apiContext        *api.ApiContext
+	report            cmdlet.Report
 }
 
 func (c *CmdGrouplist) Name() string {
@@ -36,76 +26,52 @@ func (c *CmdGrouplist) Desc() string {
 	return "List groups"
 }
 
-func (c *CmdGrouplist) UsageTmpl() string {
-	return `
-Usage: {{.Command}}
-`
+func (c *CmdGrouplist) Usage() string {
+	return ""
 }
 
-func (c *CmdGrouplist) FlagSet() (f *flag.FlagSet) {
-	f = flag.NewFlagSet(c.Name(), flag.ExitOnError)
+func (c *CmdGrouplist) FlagConfig(f *flag.FlagSet) {
+	c.report.FlagConfig(f)
 
 	descCsv := "Include removed members"
 	f.BoolVar(&c.optIncludeRemoved, "include-removed", false, descCsv)
-
-	descReportPath := "Output file path of the report (default: STDOUT)"
-	f.StringVar(&c.optReportPath, "report-path", "", descReportPath)
-
-	descReportFormat := "Output file format (csv|jsonl) (default: jsonl)"
-	f.StringVar(&c.optReportFormat, "report-format", "jsonl", descReportFormat)
-
-	c.infraContext.PrepareFlags(f)
-	return f
 }
 
-func (c *CmdGrouplist) Exec(cc cmdlet.CommandletContext) error {
-	_, err := cmdlet.ParseFlags(cc, c)
+func (c *CmdGrouplist) Exec(ec *infra.ExecContext, args []string) {
+	if err := ec.Startup(); err != nil {
+		return
+	}
+	defer ec.Shutdown()
+
+	apiMgmt, err := ec.LoadOrAuthBusinessInfo()
 	if err != nil {
-		return err
+		return
 	}
-	c.infraContext.Startup()
-	defer c.infraContext.Shutdown()
-	seelog.Debugf("invite:%s", util.MarshalObjectToString(c))
 
-	apiMgmt, err := c.infraContext.LoadOrAuthBusinessInfo()
+	c.report.DataHeaders = []string{
+		"group_id",
+		"group_name",
+		"group_management_type",
+		"member_count",
+	}
+
+	rt, rs, err := c.report.ReportStages()
 	if err != nil {
-		seelog.Warnf("Unable to acquire token : error[%s]", err)
-		return err
+		return
 	}
 
-	reportTask := report.WORKER_REPORT_JSONL
-	switch c.optReportFormat {
-	case "jsonl":
-		reportTask = report.WORKER_REPORT_JSONL
-
-	case "csv":
-		reportTask = report.WORKER_REPORT_CSV
-
-	default:
-		seelog.Warnf("Unsupported report format [%s]", c.optReportFormat)
-		return err
+	stages := []workflow.Worker{
+		&group.WorkerTeamGroupList{
+			ApiManagement: apiMgmt,
+			NextTask:      rt,
+		},
 	}
+
+	stages = append(stages, rs...)
 
 	p := workflow.Pipeline{
-		Infra: c.infraContext,
-		Stages: []workflow.Worker{
-			&group.WorkerTeamGroupList{
-				ApiManagement: apiMgmt,
-				NextTask:      reportTask,
-			},
-			&report.WorkerReportJsonl{
-				ReportPath: c.optReportPath,
-			},
-			&report.WorkerReportCsv{
-				ReportPath: c.optReportPath,
-				DataHeaders: []string{
-					"group_id",
-					"group_name",
-					"group_management_type",
-					"member_count",
-				},
-			},
-		},
+		Infra:  ec,
+		Stages: stages,
 	}
 
 	p.Init()
@@ -119,6 +85,4 @@ func (c *CmdGrouplist) Exec(cc cmdlet.CommandletContext) error {
 		),
 	)
 	p.Loop()
-
-	return nil
 }

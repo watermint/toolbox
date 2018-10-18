@@ -167,24 +167,6 @@ func (d *DropboxAuthenticator) LoadOrAuth(business bool, storeToken bool) (strin
 		return d.Authorise(storeToken)
 	}
 
-	//if business {
-	//	config := dropbox.Config{Token: t}
-	//	client := team.New(config)
-	//	fa, err := client.GetInfo()
-	//	if err != nil {
-	//		return d.Authorise(storeToken)
-	//	}
-	//	seelog.Infof("Dropbox Team[%s](%s)", fa.TeamId, fa.Name)
-	//} else {
-	//	config := dropbox.Config{Token: t}
-	//	cu := users.New(config)
-	//	fa, err := cu.GetCurrentAccount()
-	//	if err != nil {
-	//		return d.Authorise(storeToken)
-	//	}
-	//	seelog.Infof("Dropbox Account[%s](%s)", fa.Email, fa.AccountId)
-	//}
-
 	return t, nil
 }
 

@@ -2,30 +2,20 @@ package cmd_group_member
 
 import (
 	"flag"
-	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx/task/group"
 	"github.com/watermint/toolbox/dbx/task/member"
 	"github.com/watermint/toolbox/infra"
-	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/workflow"
-	"github.com/watermint/toolbox/workflow/report"
 )
 
 type CmdGroupMemberList struct {
-	optIncludeRemoved bool
-	optReportPath     string
-	optReportFormat   string
-	apiContext        *api.ApiContext
-	infraContext      *infra.InfraContext
-}
+	*cmdlet.SimpleCommandlet
 
-func NewCmdGroupMemberList() *CmdGroupMemberList {
-	c := CmdGroupMemberList{
-		infraContext: &infra.InfraContext{},
-	}
-	return &c
+	optIncludeRemoved bool
+	apiContext        *api.ApiContext
+	report            cmdlet.Report
 }
 
 func (c *CmdGroupMemberList) Name() string {
@@ -36,81 +26,55 @@ func (c *CmdGroupMemberList) Desc() string {
 	return "List group members"
 }
 
-func (c *CmdGroupMemberList) UsageTmpl() string {
-	return `
-Usage: {{.Command}}
-`
+func (c *CmdGroupMemberList) Usage() string {
+	return ""
 }
 
-func (c *CmdGroupMemberList) FlagSet() (f *flag.FlagSet) {
-	f = flag.NewFlagSet(c.Name(), flag.ExitOnError)
-
-	descReportPath := "Output file path of the report (default: STDOUT)"
-	f.StringVar(&c.optReportPath, "report-path", "", descReportPath)
-
-	descReportFormat := "Output file format (csv|jsonl) (default: jsonl)"
-	f.StringVar(&c.optReportFormat, "report-format", "jsonl", descReportFormat)
-
-	c.infraContext.PrepareFlags(f)
-	return f
+func (c *CmdGroupMemberList) FlagConfig(f *flag.FlagSet) {
+	c.report.FlagConfig(f)
 }
 
-func (c *CmdGroupMemberList) Exec(cc cmdlet.CommandletContext) error {
-	_, err := cmdlet.ParseFlags(cc, c)
+func (c *CmdGroupMemberList) Exec(ec *infra.ExecContext, args []string) {
+	if err := ec.Startup(); err != nil {
+		return
+	}
+	defer ec.Shutdown()
+
+	apiMgmt, err := ec.LoadOrAuthBusinessInfo()
 	if err != nil {
-		return err
+		return
 	}
-	c.infraContext.Startup()
-	defer c.infraContext.Shutdown()
-	seelog.Debugf("invite:%s", util.MarshalObjectToString(c))
 
-	apiMgmt, err := c.infraContext.LoadOrAuthBusinessInfo()
+	c.report.DataHeaders = []string{
+		"group_id",
+		"group_name",
+		"member.profile.team_member_id",
+		"member.profile.account_id",
+		"member.profile.email",
+		"member.profile.name.given_name",
+		"member.profile.name.surname",
+		"member.access_type.\\.tag",
+	}
+	rt, rs, err := c.report.ReportStages()
 	if err != nil {
-		seelog.Warnf("Unable to acquire token : error[%s]", err)
-		return err
+		return
 	}
 
-	reportTask := report.WORKER_REPORT_JSONL
-	switch c.optReportFormat {
-	case "jsonl":
-		reportTask = report.WORKER_REPORT_JSONL
-
-	case "csv":
-		reportTask = report.WORKER_REPORT_CSV
-
-	default:
-		seelog.Warnf("Unsupported report format [%s]", c.optReportFormat)
-		return err
+	stages := []workflow.Worker{
+		&group.WorkerTeamGroupList{
+			ApiManagement: apiMgmt,
+			NextTask:      group.WORKER_TEAM_GROUP_MEMBER_LIST,
+		},
+		&group.WorkerTeamGroupMemberList{
+			ApiManagement: apiMgmt,
+			NextTask:      rt,
+		},
 	}
+	stages = append(stages, rs...)
 
 	p := workflow.Pipeline{
-		Infra: c.infraContext,
-		Stages: []workflow.Worker{
-			&group.WorkerTeamGroupList{
-				ApiManagement: apiMgmt,
-				NextTask:      group.WORKER_TEAM_GROUP_MEMBER_LIST,
-			},
-			&group.WorkerTeamGroupMemberList{
-				ApiManagement: apiMgmt,
-				NextTask:      reportTask,
-			},
-			&report.WorkerReportJsonl{
-				ReportPath: c.optReportPath,
-			},
-			&report.WorkerReportCsv{
-				ReportPath: c.optReportPath,
-				DataHeaders: []string{
-					"group_id",
-					"group_name",
-					"member.profile.team_member_id",
-					"member.profile.account_id",
-					"member.profile.email",
-					"member.profile.name.given_name",
-					"member.profile.name.surname",
-					"member.access_type.\\.tag",
-				},
-			},
-		},
+		Infra:  ec,
+		Stages: stages,
 	}
 
 	p.Init()
@@ -124,6 +88,4 @@ func (c *CmdGroupMemberList) Exec(cc cmdlet.CommandletContext) error {
 		),
 	)
 	p.Loop()
-
-	return nil
 }

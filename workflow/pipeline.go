@@ -15,7 +15,7 @@ import (
 )
 
 type Pipeline struct {
-	Infra        *infra.InfraContext
+	Infra        *infra.ExecContext
 	dbStatus     *leveldb.DB
 	currentStage int
 	allStages    []Worker
