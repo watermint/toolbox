@@ -1,6 +1,10 @@
 package cmd_team
 
-import "github.com/watermint/toolbox/cmdlet"
+import (
+	"github.com/watermint/toolbox/cmdlet"
+	"github.com/watermint/toolbox/cmdlet/cmd_team/linkedapp"
+	"github.com/watermint/toolbox/cmdlet/cmd_team/sharedlink"
+)
 
 func NewCmdTeam() cmdlet.Commandlet {
 	return &cmdlet.CommandletGroup{
@@ -13,6 +17,8 @@ func NewCmdTeam() cmdlet.Commandlet {
 			&CmdTeamFeature{
 				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
 			},
+			linkedapp.NewCmdMemberLinkedApp(),
+			sharedlink.NewCmdMemberSharedLink(),
 		},
 	}
 }

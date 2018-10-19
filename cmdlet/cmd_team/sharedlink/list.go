@@ -15,6 +15,7 @@ type CmdMemberSharedLinkList struct {
 
 	apiContext *api.ApiContext
 	report     cmdlet.Report
+	filter     cmdlet.SharedLinkFilter
 }
 
 func (CmdMemberSharedLinkList) Name() string {
@@ -31,6 +32,7 @@ func (CmdMemberSharedLinkList) Usage() string {
 
 func (c *CmdMemberSharedLinkList) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
+	c.filter.FlagConfig(f)
 }
 
 func (c *CmdMemberSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
@@ -53,6 +55,14 @@ func (c *CmdMemberSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
 	if err != nil {
 		return
 	}
+	ft, fs, err := c.filter.FilterStages(rt)
+	if err != nil {
+		return
+	}
+	wrapUpTask := rt
+	if ft != "" {
+		wrapUpTask = ft
+	}
 
 	stages := []workflow.Worker{
 		&member.WorkerTeamMemberList{
@@ -64,10 +74,13 @@ func (c *CmdMemberSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
 		},
 		&sharedlink.WorkerSharedLinkList{
 			Api:      apiMgmt,
-			NextTask: rt,
+			NextTask: wrapUpTask,
 		},
 	}
 
+	if len(fs) > 0 {
+		stages = append(stages, fs...)
+	}
 	stages = append(stages, rs...)
 
 	p := workflow.Pipeline{

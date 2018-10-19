@@ -55,13 +55,18 @@ func (w *WorkerReportCsv) report(out io.Writer, taskIter *workflow.TaskIterator)
 	cw.Write(w.DataHeaders)
 	defer cw.Flush()
 
+	count := 0
+
 	for taskIter.Next() {
 		_, task := taskIter.Task()
 
 		w.reportLine(cw, string(task.Context))
+		count++
 
 		w.Pipeline.MarkAsDone(task.TaskPrefix, task.TaskId)
 	}
+
+	seelog.Infof("%d Record(s)", count)
 }
 
 func (w *WorkerReportCsv) reportLine(out *csv.Writer, jsonData string) {

@@ -47,11 +47,15 @@ func (w *WorkerReportJsonl) Reduce(taskIter *workflow.TaskIterator) {
 }
 
 func (w *WorkerReportJsonl) report(out io.Writer, taskIter *workflow.TaskIterator) {
+	count := 0
 	for taskIter.Next() {
 		_, task := taskIter.Task()
 
 		fmt.Fprintln(out, string(task.Context))
+		count++
 
 		w.Pipeline.MarkAsDone(task.TaskPrefix, task.TaskId)
 	}
+
+	seelog.Infof("%d Record(s)", count)
 }

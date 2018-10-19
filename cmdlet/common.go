@@ -32,6 +32,9 @@ func (*CommandletBase) PrintUsage(clt Commandlet) {
 		c = c.Parent()
 	}
 	tmpl := clt.Usage()
+	if tmpl == "" {
+		tmpl = "{{.Command}} [Options]"
+	}
 
 	chainSize := len(cmds) - 1
 	for i := len(cmds)/2 - 1; i >= 0; i-- {
@@ -49,7 +52,7 @@ func (*CommandletBase) PrintUsage(clt Commandlet) {
 		panic(tmplErr)
 	}
 
-	fmt.Printf("%s", usage)
+	fmt.Printf("Usage:\n\n%s\n\n", usage)
 }
 
 type SimpleCommandlet struct {
@@ -100,7 +103,7 @@ Available commmands:
 
 	u += `
 
-Run '{{.Command}} COMMAND' for more information on a command.
+Run '{{.Command}} COMMAND help' for more information on a command.
 `
 	return u
 }
@@ -129,8 +132,16 @@ func (c *CommandletGroup) Exec(ec *infra.ExecContext, args []string) {
 			c.PrintUsage(c)
 			return
 		}
+		remainders := c.flagset.Args()
+		if len(remainders) > 0 && remainders[0] == "help" {
+			c.PrintUsage(sc)
 
-		sc.Exec(ec, c.flagset.Args())
+			fmt.Println("Available options:")
+			c.flagset.PrintDefaults()
+			return
+		}
+
+		sc.Exec(ec, remainders)
 		return
 	}
 
