@@ -44,7 +44,7 @@ LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_CREDENTIALS"
 cd $BUILD_PATH
 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o tbx-$BUILD_VERSION-win.exe github.com/watermint/toolbox
 GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o tbx-$BUILD_VERSION-linux   github.com/watermint/toolbox
-GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o tbx-$BUILD_VERSION-darwin  github.com/watermint/toolbox
+GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o tbx-$BUILD_VERSION-macos   github.com/watermint/toolbox
 
 
 echo --------------------
