@@ -54,6 +54,7 @@ func (w *WorkerTeamMemberList) list(task *workflow.Task) {
 	}
 
 	seelog.Debug("members/list")
+	seelog.Info("Loading team member list")
 	cont, res, _ := w.Pipeline.TaskRpc(task, w.ApiManagement, "team/members/list", lp)
 	if !cont {
 		return

@@ -1,15 +1,19 @@
 package sharedlink
 
-import "github.com/watermint/toolbox/cmdlet"
+import (
+	"github.com/watermint/toolbox/cmdlet"
+	"github.com/watermint/toolbox/cmdlet/cmd_team/sharedlink/update"
+)
 
-func NewCmdMemberSharedLink() cmdlet.Commandlet {
+func NewCmdTeamSharedLink() cmdlet.Commandlet {
 	return &cmdlet.CommandletGroup{
 		CommandName: "sharedlink",
 		CommandDesc: "Member shared link management",
 		SubCommands: []cmdlet.Commandlet{
-			&CmdMemberSharedLinkList{
+			&CmdTeamSharedLinkList{
 				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
 			},
+			update.NewCmdMemberSharedLinkUpdate(),
 		},
 	}
 }

@@ -1,7 +1,8 @@
-package sharedlink
+package update
 
 import (
 	"flag"
+	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx/task/member"
@@ -10,36 +11,44 @@ import (
 	"github.com/watermint/toolbox/workflow"
 )
 
-type CmdTeamSharedLinkList struct {
+type CmdTeamSharedLinkUpdateExpire struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext *api.ApiContext
 	report     cmdlet.Report
 	filter     cmdlet.SharedLinkFilter
+	optDays    int
 }
 
-func (CmdTeamSharedLinkList) Name() string {
-	return "list"
+func (CmdTeamSharedLinkUpdateExpire) Name() string {
+	return "expire"
 }
 
-func (CmdTeamSharedLinkList) Desc() string {
-	return "List all shared links of the team members' accounts"
+func (CmdTeamSharedLinkUpdateExpire) Desc() string {
+	return "Update all shared link expire date of team members' accounts"
 }
 
-func (CmdTeamSharedLinkList) Usage() string {
+func (CmdTeamSharedLinkUpdateExpire) Usage() string {
 	return ""
 }
 
-func (c *CmdTeamSharedLinkList) FlagConfig(f *flag.FlagSet) {
+func (c *CmdTeamSharedLinkUpdateExpire) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 	c.filter.FlagConfig(f)
+
+	descDays := "Update and overwrite expiration date"
+	f.IntVar(&c.optDays, "days", 0, descDays)
 }
 
-func (c *CmdTeamSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
+func (c *CmdTeamSharedLinkUpdateExpire) Exec(ec *infra.ExecContext, args []string) {
 	if err := ec.Startup(); err != nil {
 		return
 	}
 	defer ec.Shutdown()
+	if c.optDays < 1 {
+		seelog.Warnf("Please specify expiration date")
+		return
+	}
 
 	apiMgmt, err := ec.LoadOrAuthBusinessFile()
 	if err != nil {
@@ -55,11 +64,11 @@ func (c *CmdTeamSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
 	if err != nil {
 		return
 	}
-	ft, fs, err := c.filter.FilterStages(rt)
+	ft, fs, err := c.filter.FilterStages(sharedlink.WORKER_SHAREDLINK_UPDATE_EXPIRES)
 	if err != nil {
 		return
 	}
-	wrapUpTask := rt
+	wrapUpTask := sharedlink.WORKER_SHAREDLINK_UPDATE_EXPIRES
 	if ft != "" {
 		wrapUpTask = ft
 	}
@@ -79,6 +88,15 @@ func (c *CmdTeamSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
 	}
 
 	stages = append(stages, fs...)
+	stages = append(
+		stages,
+		&sharedlink.WorkerSharedLinkUpdateExpires{
+			Api:      apiMgmt,
+			Days:     c.optDays,
+			NextTask: rt,
+		},
+	)
+
 	stages = append(stages, rs...)
 
 	p := workflow.Pipeline{

@@ -29,6 +29,7 @@ func (w *WorkerReportJsonl) Reduce(taskIter *workflow.TaskIterator) {
 	}
 	// rewind to first element
 	taskIter.Prev()
+	seelog.Flush()
 
 	if w.ReportPath != "" {
 		wr, err := os.Create(w.ReportPath)

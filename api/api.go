@@ -22,6 +22,7 @@ var (
 	API_DEFAULT_UPLOAD_CHUNKED_UPLOAD_THRESHOLD int64 = 150 * 1048576
 	API_DEFAULT_UPLOAD_CHUNK_SIZE               int64 = 150 * 1048576
 	API_DEFAULT_CLIENT_TIMEOUT                        = 60
+	API_DATE_TIME_FORMAT                              = "2006-01-02T15:04:05Z"
 )
 
 type DropboxPath struct {

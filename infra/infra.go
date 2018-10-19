@@ -277,5 +277,5 @@ func setupLogger(opts *ExecContext) {
 		seelog.ReplaceLogger(logger)
 	}
 
-	seelog.Infof("Logging started: file[%s] maxSize[%d] rolls[%d]", opts.LogPath, opts.LogMaxSize, opts.LogRolls)
+	seelog.Debugf("Logging started: file[%s] maxSize[%d] rolls[%d]", opts.LogPath, opts.LogMaxSize, opts.LogRolls)
 }

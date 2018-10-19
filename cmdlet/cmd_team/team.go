@@ -18,7 +18,7 @@ func NewCmdTeam() cmdlet.Commandlet {
 				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
 			},
 			linkedapp.NewCmdMemberLinkedApp(),
-			sharedlink.NewCmdMemberSharedLink(),
+			sharedlink.NewCmdTeamSharedLink(),
 		},
 	}
 }
