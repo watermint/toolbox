@@ -1,4 +1,4 @@
-FROM karalabe/xgo-1.8.x
+FROM golang:1.11
 
 RUN apt-get update -y
 RUN apt-get upgrade -y

@@ -45,7 +45,7 @@ var (
 	logPath string
 )
 
-type InfraContext struct {
+type ExecContext struct {
 	Proxy        string
 	WorkPath     string
 	LogPath      string
@@ -60,14 +60,14 @@ type InfraContext struct {
 var (
 	DropboxFullAppKey           string = ""
 	DropboxFullAppSecret        string = ""
-	BusinessInfoAppKey          string = ""
-	BusinessInfoAppSecret       string = ""
-	BusinessFileAppKey          string = ""
-	BusinessFileAppSecret       string = ""
-	BusinessManagementAppKey    string = ""
-	BusinessManagementAppSecret string = ""
-	BusinessAuditAppKey         string = ""
-	BusinessAuditAppSecret      string = ""
+	BusinessInfoAppKey          string = "7hvc6534xiq9b1w"
+	BusinessInfoAppSecret       string = "08w6ex5q3j76pqv"
+	BusinessFileAppKey          string = "40tbehrieaha9w3"
+	BusinessFileAppSecret       string = "jh1ylouwv9wbcu4"
+	BusinessManagementAppKey    string = "9ihfmr6pu82045o"
+	BusinessManagementAppSecret string = "ktvr8lltw5wqyxh"
+	BusinessAuditAppKey         string = "6eieiasy6iqlqx1"
+	BusinessAuditAppSecret      string = "za0n7k34ca10ows"
 )
 
 var (
@@ -76,21 +76,21 @@ var (
 	AppHash    string = "XXXXXXX"
 )
 
-func (opts *InfraContext) FileOnWorkPath(name string) string {
+func (opts *ExecContext) FileOnWorkPath(name string) string {
 	return filepath.Join(opts.WorkPath, name)
 }
 
-func (opts *InfraContext) AuthFile() string {
+func (opts *ExecContext) AuthFile() string {
 	return opts.FileOnWorkPath(AppName + ".secret")
 }
 
-func (opts *InfraContext) queueToken(a auth.DropboxAuthenticator, business bool) (ac *api.ApiContext, err error) {
+func (opts *ExecContext) queueToken(a auth.DropboxAuthenticator, business bool) (ac *api.ApiContext, err error) {
 	token, err := a.LoadOrAuth(business, !opts.CleanupToken)
 	if err != nil {
-		return
+		return nil, err
 	}
 
-	seelog.Debugf("Issued token stored in InfraContext")
+	seelog.Debugf("Issued token stored in ExecContext")
 	opts.issuedTokens = append(opts.issuedTokens, token)
 
 	ac = api.NewDefaultApiContext(token)
@@ -98,7 +98,7 @@ func (opts *InfraContext) queueToken(a auth.DropboxAuthenticator, business bool)
 	return
 }
 
-func (opts *InfraContext) LoadOrAuthDropboxFull() (ac *api.ApiContext, err error) {
+func (opts *ExecContext) LoadOrAuthDropboxFull() (ac *api.ApiContext, err error) {
 	a := auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    DropboxFullAppKey,
@@ -108,7 +108,7 @@ func (opts *InfraContext) LoadOrAuthDropboxFull() (ac *api.ApiContext, err error
 	return opts.queueToken(a, false)
 }
 
-func (opts *InfraContext) LoadOrAuthBusinessInfo() (ac *api.ApiContext, err error) {
+func (opts *ExecContext) LoadOrAuthBusinessInfo() (ac *api.ApiContext, err error) {
 	a := auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessInfoAppKey,
@@ -118,7 +118,7 @@ func (opts *InfraContext) LoadOrAuthBusinessInfo() (ac *api.ApiContext, err erro
 	return opts.queueToken(a, true)
 }
 
-func (opts *InfraContext) LoadOrAuthBusinessFile() (ac *api.ApiContext, err error) {
+func (opts *ExecContext) LoadOrAuthBusinessFile() (ac *api.ApiContext, err error) {
 	a := auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessFileAppKey,
@@ -128,7 +128,7 @@ func (opts *InfraContext) LoadOrAuthBusinessFile() (ac *api.ApiContext, err erro
 	return opts.queueToken(a, true)
 }
 
-func (opts *InfraContext) LoadOrAuthBusinessManagement() (ac *api.ApiContext, err error) {
+func (opts *ExecContext) LoadOrAuthBusinessManagement() (ac *api.ApiContext, err error) {
 	a := auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessManagementAppKey,
@@ -138,7 +138,7 @@ func (opts *InfraContext) LoadOrAuthBusinessManagement() (ac *api.ApiContext, er
 	return opts.queueToken(a, true)
 }
 
-func (opts *InfraContext) LoadOrAuthBusinessAudit() (ac *api.ApiContext, err error) {
+func (opts *ExecContext) LoadOrAuthBusinessAudit() (ac *api.ApiContext, err error) {
 	a := auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessAuditAppKey,
@@ -148,7 +148,7 @@ func (opts *InfraContext) LoadOrAuthBusinessAudit() (ac *api.ApiContext, err err
 	return opts.queueToken(a, true)
 }
 
-func (opts *InfraContext) Startup() error {
+func (opts *ExecContext) Startup() error {
 	err := setupWorkPath(opts)
 	if err != nil {
 		return err
@@ -173,7 +173,7 @@ func (opts *InfraContext) Startup() error {
 	return nil
 }
 
-func (opts *InfraContext) Shutdown() {
+func (opts *ExecContext) Shutdown() {
 	if opts.CleanupToken {
 		for _, token := range opts.issuedTokens {
 			auth.RevokeToken(token)
@@ -193,7 +193,7 @@ func DefaultWorkPath() string {
 	return filepath.Join(u.HomeDir, "."+AppName)
 }
 
-func (ic *InfraContext) PrepareFlags(flagset *flag.FlagSet) {
+func (ic *ExecContext) PrepareFlags(flagset *flag.FlagSet) {
 	descProxy := "HTTP/HTTPS proxy (hostname:port)"
 	flagset.StringVar(&ic.Proxy, "proxy", "", descProxy)
 
@@ -207,7 +207,7 @@ func (ic *InfraContext) PrepareFlags(flagset *flag.FlagSet) {
 	flagset.BoolVar(&ic.TraceLog, "trace", false, descTrace)
 }
 
-func setupWorkPath(opts *InfraContext) error {
+func setupWorkPath(opts *ExecContext) error {
 	if opts.WorkPath == "" {
 		opts.WorkPath = DefaultWorkPath()
 		log.Printf("Setup using default work path: [%s]", opts.WorkPath)
@@ -245,7 +245,7 @@ func SetupHttpProxy(proxy string) {
 	}
 }
 
-func setupLogger(opts *InfraContext) {
+func setupLogger(opts *ExecContext) {
 	if opts.LogMaxSize < 1 {
 		opts.LogMaxSize = DefaultLogMaxSize
 	}
@@ -277,14 +277,5 @@ func setupLogger(opts *InfraContext) {
 		seelog.ReplaceLogger(logger)
 	}
 
-	seelog.Infof("Logging started: file[%s] maxSize[%d] rolls[%d]", opts.LogPath, opts.LogMaxSize, opts.LogRolls)
-}
-
-func ShowUsage(tmpl string, data interface{}) {
-	t, err := util.CompileTemplate(tmpl, data)
-	if err != nil {
-		seelog.Errorf("Unable to create usage template: %v", err)
-		panic(err)
-	}
-	fmt.Fprint(os.Stderr, t)
+	seelog.Debugf("Logging started: file[%s] maxSize[%d] rolls[%d]", opts.LogPath, opts.LogMaxSize, opts.LogRolls)
 }

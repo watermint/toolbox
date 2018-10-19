@@ -1,48 +1,26 @@
-hash: 3770646a1dd741135bc778a28c92e983493a002b790801adc6327dacf6220c4c
-updated: 2018-01-10T15:45:39.231674751+09:00
+hash: 08f3df11d1d84e77784aabad5849f26d8aafece404dc45999e51ed6436630b61
+updated: 2018-10-16T10:29:04.340613+09:00
 imports:
 - name: github.com/cihub/seelog
   version: d2c6e5aa9fbfdd1c624e140287063c7730654115
-- name: github.com/dropbox/dropbox-sdk-go-unofficial
-  version: 9c27e83ceccc8f8bbc9afdc17c50798529d608b1
+- name: github.com/golang/snappy
+  version: 2e65f85255dbc3072edf28d6b5b8efc472979f5a
+- name: github.com/syndtr/goleveldb
+  version: 6b91fda63f2e36186f1c9d0e48578defb69c5d43
   subpackages:
-  - dropbox
-  - dropbox/...
-  - dropbox/async
-  - dropbox/auth
-  - dropbox/common
-  - dropbox/file_properties
-  - dropbox/files
-  - dropbox/team
-  - dropbox/team_common
-  - dropbox/team_policies
-  - dropbox/users
-  - dropbox/users_common
-- name: github.com/golang/protobuf
-  version: 1e59b77b52bf8e4b449a57e6f79f21226d571845
-  subpackages:
-  - proto
+  - leveldb
+- name: github.com/tidwall/gjson
+  version: 1e3f6aeaa5bad08d777ea7807b279a07885dd8b2
+- name: github.com/tidwall/match
+  version: 1731857f09b1f38450e2c12409748407822dc6be
 - name: golang.org/x/net
-  version: 434ec0c7fe3742c984919a691b2018a6e9694425
+  version: 49bb7cea24b1df9410e1712aa6433dae904ff66a
   subpackages:
   - context
-  - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: 30785a2c434e431ef7c507b54617d6a951d5f2b4
-  subpackages:
-  - internal
+  version: c57b0facaced709681d9f90397429b9430a74754
 - name: golang.org/x/text
-  version: e19ae1496984b1c655b8044a65c0300a3c878dd3
+  version: 4d1c5fb19474adfe9562c9847ba425e7da817e81
   subpackages:
   - unicode/norm
-- name: google.golang.org/appengine
-  version: 5bee14b453b4c71be47ec1781b0fa61c2ea182db
-  subpackages:
-  - internal
-  - internal/base
-  - internal/datastore
-  - internal/log
-  - internal/remote_api
-  - internal/urlfetch
-  - urlfetch
 testImports: []
