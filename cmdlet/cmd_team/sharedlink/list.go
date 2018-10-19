@@ -78,9 +78,7 @@ func (c *CmdMemberSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
 		},
 	}
 
-	if len(fs) > 0 {
-		stages = append(stages, fs...)
-	}
+	stages = append(stages, fs...)
 	stages = append(stages, rs...)
 
 	p := workflow.Pipeline{

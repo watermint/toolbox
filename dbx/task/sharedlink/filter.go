@@ -28,14 +28,14 @@ func (w *WorkerSharedLinkFilterByVisibility) Exec(task *workflow.Task) {
 	workflow.UnmarshalContext(task, tc)
 
 	link := string(tc.Link)
-	visibility := gjson.Get(link, "link_permissions.resolved_visibility").String()
+	visibility := gjson.Get(link, "link_permissions.resolved_visibility.\\.tag").String()
 
 	seelog.Debugf("SharedLinkId[%s] ResolvedVisibility[%s] FilterBy[%s]", tc.SharedLinkId, visibility, w.Visibility)
 
 	if visibility == w.Visibility {
 		w.Pipeline.Enqueue(
 			workflow.MarshalTask(
-				task.TaskPrefix,
+				w.NextTask,
 				task.TaskId,
 				tc,
 			),
@@ -58,7 +58,7 @@ func (w *WorkerSharedLinkFilterByPath) Exec(task *workflow.Task) {
 	workflow.UnmarshalContext(task, tc)
 
 	link := string(tc.Link)
-	pathLower := gjson.Get(link, "link_permissions.path_lower").String()
+	pathLower := gjson.Get(link, "path_lower").String()
 
 	filterPath := filepath.ToSlash(strings.ToLower(w.Path))
 
@@ -67,7 +67,7 @@ func (w *WorkerSharedLinkFilterByPath) Exec(task *workflow.Task) {
 	if strings.HasPrefix(pathLower, filterPath) {
 		w.Pipeline.Enqueue(
 			workflow.MarshalTask(
-				task.TaskPrefix,
+				w.NextTask,
 				task.TaskId,
 				tc,
 			),

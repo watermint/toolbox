@@ -28,6 +28,7 @@ func (s *SharedLinkFilter) FlagConfig(f *flag.FlagSet) {
 
 func (s *SharedLinkFilter) FilterStages(nextTask string) (firstFilter string, stages []workflow.Worker, err error) {
 	stages = make([]workflow.Worker, 0)
+	first := ""
 
 	if s.FilterByPath != "" {
 		seelog.Debugf("FilterByPath[%s]", s.FilterByPath)
@@ -35,6 +36,7 @@ func (s *SharedLinkFilter) FilterStages(nextTask string) (firstFilter string, st
 		if s.FilterByVisibility != "" {
 			nt = sharedlink.WORKER_SHAREDLINK_FILTER_VISIBILITY
 		}
+		first = sharedlink.WORKER_SHAREDLINK_FILTER_PATH
 		stages = append(
 			stages,
 			&sharedlink.WorkerSharedLinkFilterByPath{
@@ -46,6 +48,9 @@ func (s *SharedLinkFilter) FilterStages(nextTask string) (firstFilter string, st
 
 	if s.FilterByVisibility != "" {
 		seelog.Debugf("FilterByVisibility[%s]", s.FilterByVisibility)
+		if first == "" {
+			first = sharedlink.WORKER_SHAREDLINK_FILTER_VISIBILITY
+		}
 		found := false
 		for _, v := range s.SupportedVisibility() {
 			if v == s.FilterByVisibility {
@@ -65,10 +70,7 @@ func (s *SharedLinkFilter) FilterStages(nextTask string) (firstFilter string, st
 		)
 	}
 
-	first := ""
-	if len(stages) > 0 {
-		first = stages[0].Prefix()
-	}
+	seelog.Debugf("First filter stage[%s] NextTask[%s]", first, nextTask)
 
 	return first, stages, nil
 }
