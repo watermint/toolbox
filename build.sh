@@ -2,14 +2,15 @@
 
 # Prerequisite: set absolute path to project root to $PROJECT_ROOT
 
-BUILD_PATH=/tmp/out
+BUILD_PATH=/build
 DIST_PATH=/dist
-
-TARGET_PLATFORM="windows/386,darwin/amd64,linux/386"
 
 BUILD_MAJOR_VERSION=$(cat $PROJECT_ROOT/version)
 BUILD_HASH=$(cd $PROJECT_ROOT && git rev-parse HEAD)
 
+if [ ! -d $BUILD_PATH ]; then
+  mkdir -p $BUILD_PATH
+fi
 if [ "$TOOLBOX_BUILD_ID"x = ""x ]; then
   TOOLBOX_BUILD_ID=0.0
 fi
@@ -40,7 +41,12 @@ X_APP_CREDENTIALS="$TOOLBOX_APP_CREDENTIALS"
 fi
 LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_CREDENTIALS"
 
-xgo --ldflags="$LD_FLAGS" -out tbx-$BUILD_VERSION -targets $TARGET_PLATFORM github.com/watermint/toolbox
+cd $BUILD_PATH
+GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o tbx-$BUILD_VERSION-win.exe github.com/watermint/toolbox
+GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o tbx-$BUILD_VERSION-linux   github.com/watermint/toolbox
+GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o tbx-$BUILD_VERSION-darwin  github.com/watermint/toolbox
 
-( cd /build && zip -9 -r $DIST_PATH/tbx-$BUILD_VERSION.zip tbx-* )
 
+echo --------------------
+echo BUILD: Packaging
+zip -9 -r $DIST_PATH/tbx-$BUILD_VERSION.zip tbx-*
