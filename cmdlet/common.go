@@ -3,183 +3,148 @@ package cmdlet
 import (
 	"flag"
 	"fmt"
-	"io"
+	"github.com/cihub/seelog"
+	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/infra/util"
+	"strings"
 )
-
-type CommandletCommonContext struct {
-	OutQuiet           bool
-	OutMachineFriendly bool
-	Proxy              string
-	WorkPath           string
-	LogRolls           int
-	ContractName       string
-}
-
-func (c *CommandletCommonContext) PrepareFlags(f *flag.FlagSet) {
-	//TODO
-}
-
-type CommandletContext struct {
-	Cmd                string
-	Args               []string
-	Command            Commandlet
-	OutDest            io.Writer
-	OutQuiet           bool
-	OutMachineFriendly bool
-}
-
-func NewCommandletContext(cmd string, args []string, cmdlet Commandlet, cc CommandletContext) CommandletContext {
-	return CommandletContext{
-		Cmd:                cmd,
-		Args:               args,
-		Command:            cmdlet,
-		OutDest:            cc.OutDest,
-		OutQuiet:           cc.OutQuiet,
-		OutMachineFriendly: cc.OutMachineFriendly,
-	}
-}
-
-func NewAuthFailedError(cc CommandletContext, err error) *CommandError {
-	return &CommandError{
-		Context:     cc,
-		ReasonTag:   "auth/auth_failed",
-		Description: fmt.Sprintf("Unable to acquire token : error[%s].", err),
-	}
-}
-
-type CommandError struct {
-	Context     CommandletContext
-	ReasonTag   string
-	Description string
-}
-
-func (ce *CommandError) Error() string {
-	return fmt.Sprintf("command failed with reason[%s] : %s", ce.ReasonTag, ce.Description)
-}
-
-func (ce *CommandError) PrintError() {
-	if ce.Context.OutQuiet {
-		return
-	} else if ce.Context.OutMachineFriendly {
-		fmt.Fprintf(
-			ce.Context.OutDest,
-			`{"error":"%s","error_description":"%s"}`, // TODO use appropriate deserializer
-			ce.ReasonTag,
-			ce.Description,
-		)
-	} else {
-		fmt.Fprintf(
-			ce.Context.OutDest,
-			`Execution failed.
-
-     Reason: %s
-Description: %s
-`,
-			ce.ReasonTag,
-			ce.Description,
-		)
-	}
-}
 
 type Commandlet interface {
 	Name() string
 	Desc() string
-	UsageTmpl() string
-	FlagSet() *flag.FlagSet
-	Exec(cc CommandletContext) error
+	Usage() string
+	FlagConfig(f *flag.FlagSet)
+	Exec(ec *infra.ExecContext, args []string)
+	Init(parent Commandlet)
+	Parent() Commandlet
 }
 
-func ParseFlags(cc CommandletContext, cl Commandlet) (remainder []string, err error) {
-	f := cl.FlagSet()
-	f.SetOutput(cc.OutDest)
-	if err := f.Parse(cc.Args); err != nil {
-		return []string{}, &CommandShowUsageError{
-			cc,
-			err.Error(),
-		}
+type CommandletBase struct {
+	Commandlet
+}
+
+func (*CommandletBase) PrintUsage(clt Commandlet) {
+	var c Commandlet
+	cmds := make([]string, 0)
+	c = clt
+	for c != nil {
+		cmds = append(cmds, c.Name())
+		c = c.Parent()
 	}
-	remainder = f.Args()
-	return
-}
-
-type CommandShowUsageError struct {
-	Context     CommandletContext
-	Instruction string
-}
-
-func (e *CommandShowUsageError) Error() string {
-	if e.Instruction == "" {
-		return "invalid command argument(s)"
-	} else {
-		return e.Instruction
+	tmpl := clt.Usage()
+	if tmpl == "" {
+		tmpl = "{{.Command}} [Options]"
 	}
+
+	chainSize := len(cmds) - 1
+	for i := len(cmds)/2 - 1; i >= 0; i-- {
+		cmds[i], cmds[chainSize-i] = cmds[chainSize-i], cmds[i]
+	}
+	cmd := strings.Join(cmds, " ")
+
+	usage, tmplErr := util.CompileTemplate(tmpl,
+		struct {
+			Command string
+		}{
+			Command: cmd,
+		})
+	if tmplErr != nil {
+		panic(tmplErr)
+	}
+
+	fmt.Printf("Usage:\n\n%s\n\n", usage)
 }
 
-type ParentCommandlet struct {
+type SimpleCommandlet struct {
+	*CommandletBase
+	parent Commandlet
+}
+
+func (c *SimpleCommandlet) Parent() Commandlet {
+	return c.parent
+}
+
+func (c *SimpleCommandlet) Init(parent Commandlet) {
+	c.parent = parent
+}
+
+type CommandletGroup struct {
+	*CommandletBase
+	flagset     *flag.FlagSet
+	parent      Commandlet
 	SubCommands []Commandlet
+
+	CommandName string
+	CommandDesc string
 }
 
-func (c *ParentCommandlet) Exec(cc CommandletContext) error {
-	if len(cc.Args) < 1 {
-		return &CommandShowUsageError{
-			cc,
-			"please specify sub command",
-		}
-	}
-	subCmd := cc.Args[0]
-	subArgs := cc.Args[1:]
-	subCmds := make(map[string]Commandlet)
-	for _, s := range c.SubCommands {
-		subCmds[s.Name()] = s
-	}
-
-	if sc, ok := subCmds[subCmd]; ok {
-		scc := NewCommandletContext(
-			cc.Cmd+" "+subCmd,
-			subArgs,
-			sc,
-			cc,
-		)
-		return sc.Exec(scc)
-
-	} else {
-		return &CommandShowUsageError{
-			cc,
-			fmt.Sprintf("Invalid command [%s]", subCmd),
-		}
-	}
+func (c *CommandletGroup) Name() string {
+	return c.CommandName
+}
+func (c *CommandletGroup) Desc() string {
+	return c.CommandDesc
+}
+func (c *CommandletGroup) Parent() Commandlet {
+	return c.parent
 }
 
-func (c *ParentCommandlet) FlagSet() (f *flag.FlagSet) {
-	return nil
+func (c *CommandletGroup) Init(parent Commandlet) {
+	c.parent = parent
 }
 
-func (c *ParentCommandlet) UsageTmpl() string {
-	u := `
-Usage: {{.Command}} COMMAND
+func (c *CommandletGroup) Usage() string {
+	u := `{{.Command}} COMMAND
 
-Available commands:
+Available commmands:
 `
-
 	for _, s := range c.SubCommands {
 		u += fmt.Sprintf("  %-10s %s\n", s.Name(), s.Desc())
 	}
 
 	u += `
 
-Run '{{.Command}} COMMAND' for more information on a command.
+Run '{{.Command}} COMMAND help' for more information on a command.
 `
-
 	return u
 }
 
-type RootCommandlet struct {
-	*ParentCommandlet
+func (c *CommandletGroup) FlagConfig(f *flag.FlagSet) {
+	c.flagset = f
 }
 
-func (c *RootCommandlet) Name() string {
-	return "tbx"
-}
-func (c *RootCommandlet) Desc() string {
-	return "Dropbox tools"
+func (c *CommandletGroup) Exec(ec *infra.ExecContext, args []string) {
+	if len(args) < 1 {
+		c.PrintUsage(c)
+		return
+	}
+
+	subCmd := args[0]
+	subArgs := args[1:]
+	subCmds := make(map[string]Commandlet)
+	for _, s := range c.SubCommands {
+		subCmds[s.Name()] = s
+	}
+	if sc, ok := subCmds[subCmd]; ok {
+		sc.Init(c)
+		sc.FlagConfig(c.flagset)
+		if err := c.flagset.Parse(subArgs); err != nil {
+			seelog.Errorf("Command Parse error %s", err)
+			c.PrintUsage(c)
+			return
+		}
+		remainders := c.flagset.Args()
+		if len(remainders) > 0 && remainders[0] == "help" {
+			c.PrintUsage(sc)
+
+			fmt.Println("Available options:")
+			c.flagset.PrintDefaults()
+			return
+		}
+
+		sc.Exec(ec, remainders)
+		return
+	}
+
+	c.PrintUsage(c)
+	fmt.Printf("Invalid command [%s]", subCmd)
 }
