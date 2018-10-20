@@ -3,7 +3,9 @@ package cmd_team
 import (
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/cmdlet/cmd_team/linkedapp"
+	"github.com/watermint/toolbox/cmdlet/cmd_team/namespace"
 	"github.com/watermint/toolbox/cmdlet/cmd_team/sharedlink"
+	"github.com/watermint/toolbox/cmdlet/cmd_team/teamfolder"
 )
 
 func NewCmdTeam() cmdlet.Commandlet {
@@ -19,6 +21,8 @@ func NewCmdTeam() cmdlet.Commandlet {
 			},
 			linkedapp.NewCmdMemberLinkedApp(),
 			sharedlink.NewCmdTeamSharedLink(),
+			teamfolder.NewCmdTeamTeamFolder(),
+			namespace.NewCmdTeamNamespace(),
 		},
 	}
 }
