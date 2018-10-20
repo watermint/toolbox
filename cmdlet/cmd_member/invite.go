@@ -3,9 +3,9 @@ package cmd_member
 import (
 	"flag"
 	"github.com/cihub/seelog"
-	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
-	"github.com/watermint/toolbox/dbx/task/member"
+	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_task/task/member"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/workflow"
 )
@@ -14,7 +14,7 @@ type CmdMemberInvite struct {
 	*cmdlet.SimpleCommandlet
 	optCsv     string
 	optSilent  bool
-	apiContext *api.ApiContext
+	apiContext *dbx_api.ApiContext
 }
 
 func (c *CmdMemberInvite) Name() string {

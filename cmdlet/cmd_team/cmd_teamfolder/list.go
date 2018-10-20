@@ -1,53 +1,51 @@
-package cmd_team
+package cmd_teamfolder
 
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_task/task/team"
+	"github.com/watermint/toolbox/dbx_task/task/teamfolder"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/workflow"
 )
 
-type CmdTeamInfo struct {
+type CmdTeamTeamFolderList struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext *dbx_api.ApiContext
 	report     cmdlet.Report
 }
 
-func (CmdTeamInfo) Name() string {
-	return "info"
+func (CmdTeamTeamFolderList) Name() string {
+	return "list"
 }
 
-func (CmdTeamInfo) Desc() string {
-	return "Team info"
+func (CmdTeamTeamFolderList) Desc() string {
+	return "List all team folder of the team"
 }
 
-func (CmdTeamInfo) Usage() string {
+func (CmdTeamTeamFolderList) Usage() string {
 	return ""
 }
 
-func (c *CmdTeamInfo) FlagConfig(f *flag.FlagSet) {
+func (c *CmdTeamTeamFolderList) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 }
 
-func (c *CmdTeamInfo) Exec(ec *infra.ExecContext, args []string) {
+func (c *CmdTeamTeamFolderList) Exec(ec *infra.ExecContext, args []string) {
 	if err := ec.Startup(); err != nil {
 		return
 	}
 	defer ec.Shutdown()
 
-	apiMgmt, err := ec.LoadOrAuthBusinessInfo()
+	apiMgmt, err := ec.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
 
 	c.report.DataHeaders = []string{
-		"team_id",
-		"info.name",
-		"info.num_licensed_users",
-		"info.num_provisioned_users",
+		"team_member_id",
+		"app_id",
 	}
 
 	rt, rs, err := c.report.ReportStages()
@@ -56,9 +54,9 @@ func (c *CmdTeamInfo) Exec(ec *infra.ExecContext, args []string) {
 	}
 
 	stages := []workflow.Worker{
-		&team.WorkerTeamInfo{
-			ApiManagement: apiMgmt,
-			NextTask:      rt,
+		&teamfolder.WorkerTeamFolderList{
+			Api:      apiMgmt,
+			NextTask: rt,
 		},
 	}
 
@@ -74,9 +72,9 @@ func (c *CmdTeamInfo) Exec(ec *infra.ExecContext, args []string) {
 
 	p.Enqueue(
 		workflow.MarshalTask(
-			team.WORKER_TEAM_INFO,
-			team.WORKER_TEAM_INFO,
-			team.ContextTeamInfo{},
+			teamfolder.WORKER_TEAMFOLDER_LIST,
+			teamfolder.WORKER_TEAMFOLDER_LIST,
+			teamfolder.ContextTeamFolderList{},
 		),
 	)
 	p.Loop()

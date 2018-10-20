@@ -1,4 +1,4 @@
-package cmd_team
+package cmd_member
 
 import (
 	"flag"
@@ -9,41 +9,44 @@ import (
 	"github.com/watermint/toolbox/workflow"
 )
 
-type CmdTeamFeature struct {
+type CmdTeamNamespaceMemberList struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext *dbx_api.ApiContext
 	report     cmdlet.Report
 }
 
-func (c *CmdTeamFeature) Name() string {
-	return "feature"
+func (CmdTeamNamespaceMemberList) Name() string {
+	return "list"
 }
 
-func (c *CmdTeamFeature) Desc() string {
-	return "List team feature values"
+func (CmdTeamNamespaceMemberList) Desc() string {
+	return "List all namespaces of the team"
 }
 
-func (CmdTeamFeature) Usage() string {
+func (CmdTeamNamespaceMemberList) Usage() string {
 	return ""
 }
 
-func (c *CmdTeamFeature) FlagConfig(f *flag.FlagSet) {
+func (c *CmdTeamNamespaceMemberList) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 }
 
-func (c *CmdTeamFeature) Exec(ec *infra.ExecContext, args []string) {
+func (c *CmdTeamNamespaceMemberList) Exec(ec *infra.ExecContext, args []string) {
 	if err := ec.Startup(); err != nil {
 		return
 	}
 	defer ec.Shutdown()
 
-	apiMgmt, err := ec.LoadOrAuthBusinessInfo()
+	apiMgmt, err := ec.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
 
-	c.report.DataHeaders = []string{}
+	c.report.DataHeaders = []string{
+		"team_member_id",
+		"app_id",
+	}
 
 	rt, rs, err := c.report.ReportStages()
 	if err != nil {
@@ -51,9 +54,9 @@ func (c *CmdTeamFeature) Exec(ec *infra.ExecContext, args []string) {
 	}
 
 	stages := []workflow.Worker{
-		&team.WorkerTeamFeatures{
-			ApiManagement: apiMgmt,
-			NextTask:      rt,
+		&team.WorkerTeamNamespaceList{
+			Api:      apiMgmt,
+			NextTask: rt,
 		},
 	}
 
@@ -69,9 +72,9 @@ func (c *CmdTeamFeature) Exec(ec *infra.ExecContext, args []string) {
 
 	p.Enqueue(
 		workflow.MarshalTask(
-			team.WORKER_TEAM_FEATURES,
-			team.WORKER_TEAM_FEATURES,
-			team.ContextTeamFeature{},
+			team.WORKER_TEAM_NAMESPACE_LIST,
+			team.WORKER_TEAM_NAMESPACE_LIST,
+			team.ContextTeamNamespaceList{},
 		),
 	)
 	p.Loop()

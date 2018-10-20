@@ -2,9 +2,9 @@ package cmd_member
 
 import (
 	"flag"
-	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
-	"github.com/watermint/toolbox/dbx/task/member"
+	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_task/task/member"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/workflow"
 )
@@ -13,7 +13,7 @@ type CmdMemberList struct {
 	*cmdlet.SimpleCommandlet
 
 	optIncludeRemoved bool
-	apiContext        *api.ApiContext
+	apiContext        *dbx_api.ApiContext
 	report            cmdlet.Report
 }
 

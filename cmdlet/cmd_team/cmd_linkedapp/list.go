@@ -1,49 +1,52 @@
-package cmd_team
+package cmd_linkedapp
 
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_task/task/team"
+	"github.com/watermint/toolbox/dbx_task/task/member"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/workflow"
 )
 
-type CmdTeamFeature struct {
+type CmdMemberLinkedAppList struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext *dbx_api.ApiContext
 	report     cmdlet.Report
 }
 
-func (c *CmdTeamFeature) Name() string {
-	return "feature"
+func (CmdMemberLinkedAppList) Name() string {
+	return "list"
 }
 
-func (c *CmdTeamFeature) Desc() string {
-	return "List team feature values"
+func (CmdMemberLinkedAppList) Desc() string {
+	return "List all applications linked to the team members' accounts"
 }
 
-func (CmdTeamFeature) Usage() string {
+func (CmdMemberLinkedAppList) Usage() string {
 	return ""
 }
 
-func (c *CmdTeamFeature) FlagConfig(f *flag.FlagSet) {
+func (c *CmdMemberLinkedAppList) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 }
 
-func (c *CmdTeamFeature) Exec(ec *infra.ExecContext, args []string) {
+func (c *CmdMemberLinkedAppList) Exec(ec *infra.ExecContext, args []string) {
 	if err := ec.Startup(); err != nil {
 		return
 	}
 	defer ec.Shutdown()
 
-	apiMgmt, err := ec.LoadOrAuthBusinessInfo()
+	apiMgmt, err := ec.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
 
-	c.report.DataHeaders = []string{}
+	c.report.DataHeaders = []string{
+		"team_member_id",
+		"app_id",
+	}
 
 	rt, rs, err := c.report.ReportStages()
 	if err != nil {
@@ -51,7 +54,7 @@ func (c *CmdTeamFeature) Exec(ec *infra.ExecContext, args []string) {
 	}
 
 	stages := []workflow.Worker{
-		&team.WorkerTeamFeatures{
+		&member.WorkerTeamMemberLinkedApps{
 			ApiManagement: apiMgmt,
 			NextTask:      rt,
 		},
@@ -69,9 +72,9 @@ func (c *CmdTeamFeature) Exec(ec *infra.ExecContext, args []string) {
 
 	p.Enqueue(
 		workflow.MarshalTask(
-			team.WORKER_TEAM_FEATURES,
-			team.WORKER_TEAM_FEATURES,
-			team.ContextTeamFeature{},
+			member.WORKER_TEAM_MEMBER_LINKEDAPPS,
+			member.WORKER_TEAM_MEMBER_LINKEDAPPS,
+			member.ContextTeamMemberLinkedApps{},
 		),
 	)
 	p.Loop()

@@ -2,10 +2,10 @@ package cmd_group
 
 import (
 	"flag"
-	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
-	"github.com/watermint/toolbox/dbx/task/group"
-	"github.com/watermint/toolbox/dbx/task/member"
+	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_task/task/group"
+	"github.com/watermint/toolbox/dbx_task/task/member"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/workflow"
 )
@@ -14,7 +14,7 @@ type CmdGrouplist struct {
 	*cmdlet.SimpleCommandlet
 
 	optIncludeRemoved bool
-	apiContext        *api.ApiContext
+	apiContext        *dbx_api.ApiContext
 	report            cmdlet.Report
 }
 

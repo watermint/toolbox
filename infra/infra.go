@@ -5,8 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cihub/seelog"
-	"github.com/watermint/toolbox/api"
-	"github.com/watermint/toolbox/api/auth"
+	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_auth"
 	"github.com/watermint/toolbox/infra/diag"
 	"github.com/watermint/toolbox/infra/util"
 	"log"
@@ -84,7 +84,7 @@ func (opts *ExecContext) AuthFile() string {
 	return opts.FileOnWorkPath(AppName + ".secret")
 }
 
-func (opts *ExecContext) queueToken(a auth.DropboxAuthenticator, business bool) (ac *api.ApiContext, err error) {
+func (opts *ExecContext) queueToken(a dbx_auth.DropboxAuthenticator, business bool) (ac *dbx_api.ApiContext, err error) {
 	token, err := a.LoadOrAuth(business, !opts.CleanupToken)
 	if err != nil {
 		return nil, err
@@ -93,57 +93,57 @@ func (opts *ExecContext) queueToken(a auth.DropboxAuthenticator, business bool) 
 	seelog.Debugf("Issued token stored in ExecContext")
 	opts.issuedTokens = append(opts.issuedTokens, token)
 
-	ac = api.NewDefaultApiContext(token)
+	ac = dbx_api.NewDefaultApiContext(token)
 
 	return
 }
 
-func (opts *ExecContext) LoadOrAuthDropboxFull() (ac *api.ApiContext, err error) {
-	a := auth.DropboxAuthenticator{
+func (opts *ExecContext) LoadOrAuthDropboxFull() (ac *dbx_api.ApiContext, err error) {
+	a := dbx_auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    DropboxFullAppKey,
 		AppSecret: DropboxFullAppSecret,
-		TokenType: auth.DropboxTokenFull,
+		TokenType: dbx_auth.DropboxTokenFull,
 	}
 	return opts.queueToken(a, false)
 }
 
-func (opts *ExecContext) LoadOrAuthBusinessInfo() (ac *api.ApiContext, err error) {
-	a := auth.DropboxAuthenticator{
+func (opts *ExecContext) LoadOrAuthBusinessInfo() (ac *dbx_api.ApiContext, err error) {
+	a := dbx_auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessInfoAppKey,
 		AppSecret: BusinessInfoAppSecret,
-		TokenType: auth.DropboxTokenBusinessInfo,
+		TokenType: dbx_auth.DropboxTokenBusinessInfo,
 	}
 	return opts.queueToken(a, true)
 }
 
-func (opts *ExecContext) LoadOrAuthBusinessFile() (ac *api.ApiContext, err error) {
-	a := auth.DropboxAuthenticator{
+func (opts *ExecContext) LoadOrAuthBusinessFile() (ac *dbx_api.ApiContext, err error) {
+	a := dbx_auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessFileAppKey,
 		AppSecret: BusinessFileAppSecret,
-		TokenType: auth.DropboxTokenBusinessFile,
+		TokenType: dbx_auth.DropboxTokenBusinessFile,
 	}
 	return opts.queueToken(a, true)
 }
 
-func (opts *ExecContext) LoadOrAuthBusinessManagement() (ac *api.ApiContext, err error) {
-	a := auth.DropboxAuthenticator{
+func (opts *ExecContext) LoadOrAuthBusinessManagement() (ac *dbx_api.ApiContext, err error) {
+	a := dbx_auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessManagementAppKey,
 		AppSecret: BusinessManagementAppSecret,
-		TokenType: auth.DropboxTokenBusinessManagement,
+		TokenType: dbx_auth.DropboxTokenBusinessManagement,
 	}
 	return opts.queueToken(a, true)
 }
 
-func (opts *ExecContext) LoadOrAuthBusinessAudit() (ac *api.ApiContext, err error) {
-	a := auth.DropboxAuthenticator{
+func (opts *ExecContext) LoadOrAuthBusinessAudit() (ac *dbx_api.ApiContext, err error) {
+	a := dbx_auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessAuditAppKey,
 		AppSecret: BusinessAuditAppSecret,
-		TokenType: auth.DropboxTokenBusinessAudit,
+		TokenType: dbx_auth.DropboxTokenBusinessAudit,
 	}
 	return opts.queueToken(a, true)
 }
@@ -174,11 +174,6 @@ func (opts *ExecContext) Startup() error {
 }
 
 func (opts *ExecContext) Shutdown() {
-	if opts.CleanupToken {
-		for _, token := range opts.issuedTokens {
-			auth.RevokeToken(token)
-		}
-	}
 	seelog.Trace("Shutdown infrastructure")
 	seelog.Infof("Log file is at [%s]", logPath)
 	seelog.Flush()
