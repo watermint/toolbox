@@ -213,7 +213,7 @@ func (w *WorkerTeamMemberInviteResultAsync) reactComplete(res *api.ApiRpcRespons
 	}
 
 	for _, complete := range completeJson.Array() {
-		tagJson := complete.Get(api.API_RES_JSON_DOT_TAG)
+		tagJson := complete.Get(api.RES_JSON_DOT_TAG)
 		if !tagJson.Exists() {
 			// TODO Error handling
 			seelog.Errorf("`complete.\\.tag` not found: Response[%s]", res.Body)

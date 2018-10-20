@@ -15,14 +15,15 @@ import (
 )
 
 var (
-	API_RPC_ENDPOINT                                  = "api.dropboxapi.com"
-	API_REQ_HEADER_SELECT_USER                        = "Dropbox-API-Select-User"
-	API_RES_HEADER_RETRY_AFTER                        = "Retry-After"
-	API_RES_JSON_DOT_TAG                              = "\\.tag"
-	API_DEFAULT_UPLOAD_CHUNKED_UPLOAD_THRESHOLD int64 = 150 * 1048576
-	API_DEFAULT_UPLOAD_CHUNK_SIZE               int64 = 150 * 1048576
-	API_DEFAULT_CLIENT_TIMEOUT                        = 60
-	API_DATE_TIME_FORMAT                              = "2006-01-02T15:04:05Z"
+	RPC_ENDPOINT                                  = "api.dropboxapi.com"
+	REQ_HEADER_SELECT_USER                        = "Dropbox-API-Select-User"
+	REQ_HEADER_SELECT_ADMIN                       = "Dropbox-API-Select-Admin"
+	RES_HEADER_RETRY_AFTER                        = "Retry-After"
+	RES_JSON_DOT_TAG                              = "\\.tag"
+	DEFAULT_UPLOAD_CHUNKED_UPLOAD_THRESHOLD int64 = 150 * 1048576
+	DEFAULT_UPLOAD_CHUNK_SIZE               int64 = 150 * 1048576
+	DEFAULT_CLIENT_TIMEOUT                        = 60
+	DATE_TIME_FORMAT                              = "2006-01-02T15:04:05Z"
 )
 
 type DropboxPath struct {
@@ -108,9 +109,9 @@ type ApiConfig struct {
 
 func NewDefaultApiConfig() *ApiConfig {
 	return &ApiConfig{
-		Timeout: time.Duration(API_DEFAULT_CLIENT_TIMEOUT) * time.Second,
-		UploadChunkedUploadThreshold: API_DEFAULT_UPLOAD_CHUNKED_UPLOAD_THRESHOLD,
-		UploadChunkedUploadChunkSize: API_DEFAULT_UPLOAD_CHUNK_SIZE,
+		Timeout: time.Duration(DEFAULT_CLIENT_TIMEOUT) * time.Second,
+		UploadChunkedUploadThreshold: DEFAULT_UPLOAD_CHUNKED_UPLOAD_THRESHOLD,
+		UploadChunkedUploadChunkSize: DEFAULT_UPLOAD_CHUNK_SIZE,
 	}
 }
 
@@ -137,6 +138,17 @@ func (a *ApiContext) CallRpcAsMemberId(route, memberId string, arg interface{}) 
 		AuthHeader: true,
 		Context:    a,
 		AsMemberId: memberId,
+	}
+	return req.Call()
+}
+
+func (a *ApiContext) CallRpcAsAdminId(route, adminId string, arg interface{}) (apiRes *ApiRpcResponse, err error) {
+	req := ApiRpcRequest{
+		Param:      arg,
+		Route:      route,
+		AuthHeader: true,
+		Context:    a,
+		AsAdminId:  adminId,
 	}
 	return req.Call()
 }
@@ -176,11 +188,12 @@ type ApiRpcRequest struct {
 	AuthHeader bool
 	Route      string
 	AsMemberId string
+	AsAdminId  string
 	Context    *ApiContext
 }
 
 func (a *ApiRpcRequest) requestUrl() string {
-	return fmt.Sprintf("https://%s/2/%s", API_RPC_ENDPOINT, a.Route)
+	return fmt.Sprintf("https://%s/2/%s", RPC_ENDPOINT, a.Route)
 }
 
 func (a *ApiRpcRequest) rpcRequest() (req *http.Request, err error) {
@@ -204,7 +217,10 @@ func (a *ApiRpcRequest) rpcRequest() (req *http.Request, err error) {
 		req.Header.Add("Authorization", "Bearer "+a.Context.Token)
 	}
 	if a.AsMemberId != "" {
-		req.Header.Add(API_REQ_HEADER_SELECT_USER, a.AsMemberId)
+		req.Header.Add(REQ_HEADER_SELECT_USER, a.AsMemberId)
+	}
+	if a.AsAdminId != "" {
+		req.Header.Add(REQ_HEADER_SELECT_ADMIN, a.AsAdminId)
 	}
 	a.Context.PrepareHeader(req)
 	return
@@ -236,7 +252,7 @@ func (a *ApiRpcRequest) Call() (apiRes *ApiRpcResponse, err error) {
 
 	if res.StatusCode == http.StatusOK {
 		jsonBody := bodyString
-		tag := gjson.Get(jsonBody, API_RES_JSON_DOT_TAG)
+		tag := gjson.Get(jsonBody, RES_JSON_DOT_TAG)
 		responseTag := ""
 		if tag.Exists() {
 			responseTag = tag.String()
@@ -279,7 +295,7 @@ func (a *ApiRpcRequest) Call() (apiRes *ApiRpcResponse, err error) {
 		return nil, apiErr
 
 	case 429: // Rate limit
-		retryAfter := res.Header.Get(API_RES_HEADER_RETRY_AFTER)
+		retryAfter := res.Header.Get(RES_HEADER_RETRY_AFTER)
 		retryAfterSec, err := strconv.Atoi(retryAfter)
 		if err != nil {
 			seelog.Debugf("Route[%s] Unable to parse '%s' header. HeaderContent[%s] error[%s]", a.Route, retryAfter, err)

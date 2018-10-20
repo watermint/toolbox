@@ -9,6 +9,7 @@ import (
 	"github.com/syndtr/goleveldb/leveldb/util"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/infra"
+	"os"
 	"path/filepath"
 	"strings"
 	"time"
@@ -16,6 +17,7 @@ import (
 
 type Pipeline struct {
 	Infra        *infra.ExecContext
+	dbFilePath   string
 	dbStatus     *leveldb.DB
 	currentStage int
 	allStages    []Worker
@@ -34,7 +36,8 @@ func (p *Pipeline) Init() error {
 	p.allStages[len(p.Stages)] = genErr
 
 	dbName := fmt.Sprintf("p_%x", time.Now().UnixNano())
-	db, err := leveldb.OpenFile(filepath.Join(p.Infra.WorkPath, dbName), nil)
+	p.dbFilePath = filepath.Join(p.Infra.WorkPath, dbName)
+	db, err := leveldb.OpenFile(p.dbFilePath, nil)
 	if err != nil {
 		seelog.Warnf("Unable to open pipeline database : error[%s]", err)
 		return err
@@ -327,13 +330,8 @@ func (p *Pipeline) TasksRpcAsMemberId(tasks []*Task, apiContext *api.ApiContext,
 	return false, apiRes, nil
 }
 
-func (p *Pipeline) TaskRpc(task *Task, apiContext *api.ApiContext, route string, arg interface{}) (cont bool, apiRes *api.ApiRpcResponse, specificErr error) {
-	return p.TaskRpcAsMemberId(task, apiContext, route, arg, "")
-}
-
-func (p *Pipeline) TaskRpcAsMemberId(task *Task, apiContext *api.ApiContext, route string, arg interface{}, asMemberId string) (cont bool, apiRes *api.ApiRpcResponse, specificErr error) {
-	seelog.Debugf("Call[%s]: TaskPrefix[%s] TaskId[%s] Arg[%s]", route, task.TaskPrefix, task.TaskId, arg)
-	apiRes, err := apiContext.CallRpcAsMemberId(route, asMemberId, arg)
+func (p *Pipeline) taskRpcInternal(task *Task, ac *api.ApiContext, route string, arg interface{}, call func() (*api.ApiRpcResponse, error)) (cont bool, apiRes *api.ApiRpcResponse, specificErr error) {
+	apiRes, err := call()
 	if err == nil {
 		return true, apiRes, nil
 	}
@@ -365,6 +363,7 @@ func (p *Pipeline) TaskRpcAsMemberId(task *Task, apiContext *api.ApiContext, rou
 
 	case api.ApiEndpointSpecificError:
 		seelog.Debugf("Route[%s] API Specific: TaskPrefix[%s] TaskId[%s] Error[%s]", route, task.TaskPrefix, task.TaskId, e.Error())
+		seelog.Warnf("Task[prefix{%s}, id{%s]] caused error [%s]", task.TaskPrefix, task.TaskId, e.Error())
 		return false, apiRes, e
 
 	case api.ApiServerError:
@@ -376,6 +375,45 @@ func (p *Pipeline) TaskRpcAsMemberId(task *Task, apiContext *api.ApiContext, rou
 	seelog.Debugf("Route[%s] Error: TaskPrefix[%s] TaskId[%s] Error[%s]", route, task.TaskPrefix, task.TaskId, err.Error())
 	p.GeneralError("error", fmt.Sprintf("Task[%s] failed due to error [%s]", task.TaskPrefix, err.Error()))
 	return false, apiRes, nil
+}
+
+func (p *Pipeline) TaskRpc(task *Task, apiContext *api.ApiContext, route string, arg interface{}) (cont bool, apiRes *api.ApiRpcResponse, specificErr error) {
+	seelog.Debugf("Call[%s]: TaskPrefix[%s] TaskId[%s] Arg[%s]", route, task.TaskPrefix, task.TaskId, arg)
+	return p.taskRpcInternal(
+		task,
+		apiContext,
+		route,
+		arg,
+		func() (*api.ApiRpcResponse, error) {
+			return apiContext.CallRpc(route, arg)
+		},
+	)
+}
+
+func (p *Pipeline) TaskRpcAsMemberId(task *Task, apiContext *api.ApiContext, route string, arg interface{}, asMemberId string) (cont bool, apiRes *api.ApiRpcResponse, specificErr error) {
+	seelog.Debugf("Call[%s]: TaskPrefix[%s] TaskId[%s] Arg[%s] AsMemberId[%s]", route, task.TaskPrefix, task.TaskId, arg, asMemberId)
+	return p.taskRpcInternal(
+		task,
+		apiContext,
+		route,
+		arg,
+		func() (*api.ApiRpcResponse, error) {
+			return apiContext.CallRpcAsMemberId(route, asMemberId, arg)
+		},
+	)
+}
+
+func (p *Pipeline) TaskRpcAsAdminId(task *Task, apiContext *api.ApiContext, route string, arg interface{}, asAdminId string) (cont bool, apiRes *api.ApiRpcResponse, specificErr error) {
+	seelog.Debugf("Call[%s]: TaskPrefix[%s] TaskId[%s] Arg[%s] AsAdminId[%s]", route, task.TaskPrefix, task.TaskId, arg, asAdminId)
+	return p.taskRpcInternal(
+		task,
+		apiContext,
+		route,
+		arg,
+		func() (*api.ApiRpcResponse, error) {
+			return apiContext.CallRpcAsAdminId(route, asAdminId, arg)
+		},
+	)
 }
 
 func (p *Pipeline) RetryAfter(task *Task, deferUntil int64) {
@@ -474,6 +512,12 @@ func (p *Pipeline) Loop() {
 
 func (p *Pipeline) Close() {
 	p.dbStatus.Close()
+
+	seelog.Debugf("Removing pipeline database [%s]", p.dbFilePath)
+	err := os.RemoveAll(p.dbFilePath)
+	if err != nil {
+		seelog.Warnf("Unable to clean up folder: %s", p.dbFilePath)
+	}
 }
 
 func (p *Pipeline) GeneralError(errorTag, errorDesc string) {

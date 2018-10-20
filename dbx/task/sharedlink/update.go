@@ -43,7 +43,7 @@ func (w *WorkerSharedLinkUpdateExpires) Exec(task *workflow.Task) {
 
 	if expires != "" {
 		var err error
-		origTime, err = time.Parse(api.API_DATE_TIME_FORMAT, expires)
+		origTime, err = time.Parse(api.DATE_TIME_FORMAT, expires)
 		if err != nil {
 			seelog.Warnf("SharedLinkId[%s] Unable to parse time [%s]", tc.SharedLinkId, expires)
 			return
@@ -74,12 +74,12 @@ func (w *WorkerSharedLinkUpdateExpires) update(targetTime time.Time, origTime ti
 	up := UpdateParam{
 		Url: url,
 		Settings: SettingsParam{
-			Expires: targetTime.Format(api.API_DATE_TIME_FORMAT),
+			Expires: targetTime.Format(api.DATE_TIME_FORMAT),
 		},
 	}
 
-	oldTime := origTime.Format(api.API_DATE_TIME_FORMAT)
-	newTime := targetTime.Format(api.API_DATE_TIME_FORMAT)
+	oldTime := origTime.Format(api.DATE_TIME_FORMAT)
+	newTime := targetTime.Format(api.DATE_TIME_FORMAT)
 
 	seelog.Infof("Updating: SharedLinkId[%s] MemberEmail[%s]: Old[%s] -> New[%s]", tc.SharedLinkId, tc.AsMemberEmail, oldTime, newTime)
 	cont, res, _ := w.Pipeline.TaskRpcAsMemberId(
