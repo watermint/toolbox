@@ -53,11 +53,13 @@ func (c *CmdTeamTeamFolderList) Exec(ec *infra.ExecContext, args []string) {
 		return
 	}
 
+	wkTeamFolderList := &teamfolder.WorkerTeamFolderList{
+		Api:      apiMgmt,
+		NextTask: rt,
+	}
+
 	stages := []workflow.Worker{
-		&teamfolder.WorkerTeamFolderList{
-			Api:      apiMgmt,
-			NextTask: rt,
-		},
+		wkTeamFolderList,
 	}
 
 	stages = append(stages, rs...)
@@ -72,9 +74,9 @@ func (c *CmdTeamTeamFolderList) Exec(ec *infra.ExecContext, args []string) {
 
 	p.Enqueue(
 		workflow.MarshalTask(
-			teamfolder.WORKER_TEAMFOLDER_LIST,
-			teamfolder.WORKER_TEAMFOLDER_LIST,
-			teamfolder.ContextTeamFolderList{},
+			wkTeamFolderList.Prefix(),
+			wkTeamFolderList.Prefix(),
+			nil,
 		),
 	)
 	p.Loop()

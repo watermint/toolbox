@@ -9,21 +9,22 @@ import (
 )
 
 var (
-	ReqHeaderSelectUser    = "Dropbox-API-Select-User"
-	ReqHeaderSelectAdmin   = "Dropbox-API-Select-Admin"
-	ResHeaderRetryAfter    = "Retry-After"
-	ResJsonDotTag          = "\\.tag"
-	DefaultClientTimeout   = time.Duration(60) * time.Second
-	DateTimeFormat         = "2006-01-02T15:04:05Z"
-	ErrorBadInputParam     = 400
-	ErrorBadOrExpiredToken = 401
-	ErrorAccessError       = 403
-	ErrorEndpointSpecific  = 409
-	ErrorRateLimit         = 429
-	ErrorSuccess           = 0
-	ErrorTransport         = 1000
-	ErrorUnknown           = 1001
-	ErrorServerError       = 1500
+	ReqHeaderSelectUser     = "Dropbox-API-Select-User"
+	ReqHeaderSelectAdmin    = "Dropbox-API-Select-Admin"
+	ResHeaderRetryAfter     = "Retry-After"
+	ResJsonDotTag           = "\\.tag"
+	DefaultClientTimeout    = time.Duration(60) * time.Second
+	DateTimeFormat          = "2006-01-02T15:04:05Z"
+	ErrorBadInputParam      = 400
+	ErrorBadOrExpiredToken  = 401
+	ErrorAccessError        = 403
+	ErrorEndpointSpecific   = 409
+	ErrorRateLimit          = 429
+	ErrorSuccess            = 0
+	ErrorTransport          = 1000
+	ErrorUnknown            = 1001
+	ErrorUnexpectedDataType = 1002
+	ErrorServerError        = 1500
 )
 
 func ParseApiError(responseBody string) (ae ApiError) {
@@ -88,6 +89,8 @@ func (e ErrorAnnotation) ErrorTypeLabel() string {
 		return "transport_error"
 	case ErrorUnknown:
 		return "unknown"
+	case ErrorUnexpectedDataType:
+		return "unexpected_data_type"
 	case ErrorServerError:
 		return "server_error"
 	}
@@ -175,44 +178,3 @@ func NewContext(token string) *Context {
 		Client: &http.Client{Timeout: DefaultClientTimeout},
 	}
 }
-
-//func (a *Context) CallRpc(route string, arg interface{}) (apiRes *ApiRpcResponse, err error) {
-//	req := ApiRpcRequest{
-//		Param:      arg,
-//		Endpoint:      route,
-//		AuthHeader: true,
-//		Context:    a,
-//	}
-//	return req.Call()
-//}
-//
-//func (a *Context) CallRpcAsMemberId(route, memberId string, arg interface{}) (apiRes *ApiRpcResponse, err error) {
-//	req := ApiRpcRequest{
-//		Param:      arg,
-//		Endpoint:      route,
-//		AuthHeader: true,
-//		Context:    a,
-//		AsMemberId: memberId,
-//	}
-//	return req.Call()
-//}
-//
-//func (a *Context) CallRpcAsAdminId(route, adminId string, arg interface{}) (apiRes *ApiRpcResponse, err error) {
-//	req := ApiRpcRequest{
-//		Param:      arg,
-//		Endpoint:      route,
-//		AuthHeader: true,
-//		Context:    a,
-//		AsAdminId:  adminId,
-//	}
-//	return req.Call()
-//}
-//
-//func (a *Context) NewApiRpcRequest(route string, arg interface{}) *ApiRpcRequest {
-//	return &ApiRpcRequest{
-//		Param:      arg,
-//		Endpoint:      route,
-//		AuthHeader: true,
-//		Context:    a,
-//	}
-//}

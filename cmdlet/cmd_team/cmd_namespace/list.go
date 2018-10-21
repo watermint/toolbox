@@ -53,11 +53,13 @@ func (c *CmdTeamNamespaceList) Exec(ec *infra.ExecContext, args []string) {
 		return
 	}
 
+	wkNamespaceList := &team.WorkerTeamNamespaceList{
+		Api:      apiMgmt,
+		NextTask: rt,
+	}
+
 	stages := []workflow.Worker{
-		&team.WorkerTeamNamespaceList{
-			Api:      apiMgmt,
-			NextTask: rt,
-		},
+		wkNamespaceList,
 	}
 
 	stages = append(stages, rs...)
@@ -72,9 +74,9 @@ func (c *CmdTeamNamespaceList) Exec(ec *infra.ExecContext, args []string) {
 
 	p.Enqueue(
 		workflow.MarshalTask(
-			team.WORKER_TEAM_NAMESPACE_LIST,
-			team.WORKER_TEAM_NAMESPACE_LIST,
-			team.ContextTeamNamespaceList{},
+			wkNamespaceList.Prefix(),
+			wkNamespaceList.Prefix(),
+			nil,
 		),
 	)
 	p.Loop()

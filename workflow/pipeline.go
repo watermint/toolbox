@@ -273,6 +273,10 @@ func (p *Pipeline) MarkAsDone(taskPrefix, taskId string) {
 }
 
 func (p *Pipeline) HandleGeneralFailure(ea dbx_api.ErrorAnnotation) bool {
+	if ea.IsSuccess() {
+		return true
+	}
+
 	seelog.Debugf("Error: ErrorType[%s] UserMessage[%s]",
 		ea.ErrorTypeLabel(),
 		ea.UserMessage(),
@@ -291,152 +295,6 @@ func (p *Pipeline) HandleGeneralFailure(ea dbx_api.ErrorAnnotation) bool {
 
 	return ea.IsSuccess()
 }
-
-//
-//func (p *Pipeline) TasksRpc(tasks []*Task, apiContext *dbx_api.Context, route string, arg interface{}) (cont bool, apiRes *dbx_api.ApiRpcResponse, specificErr error) {
-//	return p.TasksRpcAsMemberId(tasks, apiContext, route, arg, "")
-//}
-//
-//func (p *Pipeline) TasksRpcAsMemberId(tasks []*Task, apiContext *dbx_api.Context, route string, arg interface{}, asMemberId string) (cont bool, apiRes *dbx_api.ApiRpcResponse, specificErr error) {
-//	seelog.Debugf("Call[%s]: Arg[%s]", route, arg)
-//	apiRes, err := apiContext.CallRpc(route, arg)
-//	if err == nil {
-//		return true, apiRes, nil
-//	}
-//
-//	prefix := ""
-//	if len(tasks) < 1 {
-//		seelog.Debugf("No tasks specified: Endpoint[%s]", route)
-//		prefix = "unknown"
-//	} else {
-//		prefix = tasks[0].TaskPrefix
-//	}
-//
-//	apiRes.Error = err
-//
-//	switch e := err.(type) {
-//	case dbx_api.ApiErrorRateLimit:
-//		for _, task := range tasks {
-//			p.RetryAfter(task, time.Now().Unix()+int64(e.RetryAfter))
-//			seelog.Debugf("Endpoint[%s] Retrying Task due to ApiErrorRateLimit: TaskPrefix[%s] TaskId[%s] RetryAfter[%d]", route, task.TaskPrefix, task.TaskId, e.RetryAfter)
-//		}
-//		return false, apiRes, nil
-//
-//	case dbx_api.ApiInvalidTokenError:
-//		seelog.Debugf("Endpoint[%s] Invalid Token: TaskPrefix[%s] Error[%s]", route, prefix, e.Error())
-//		p.GeneralError("invalid_token", fmt.Sprintf("Task[%s] failed due to bad or expired token", prefix))
-//		return false, apiRes, nil
-//
-//	case dbx_api.ApiAccessError:
-//		seelog.Debugf("Endpoint[%s] Access Error: TaskPrefix[%s] Error[%s]", route, prefix, e.Error())
-//		p.GeneralError("access_error", fmt.Sprintf("Task[%s] failed due to access error", prefix))
-//		return false, apiRes, nil
-//
-//	case dbx_api.ApiBadInputParamError:
-//		seelog.Debugf("Endpoint[%s] Bad Input Param: TaskPrefix[%s] Error[%s]", route, prefix, e.Error())
-//		p.GeneralError("bad_input_param", fmt.Sprintf("Task[%s] failed due to bad input parameter. Error[%s]", prefix, e.Error()))
-//		return false, apiRes, nil
-//
-//	case dbx_api.EndpointSpecificError:
-//		seelog.Debugf("Endpoint[%s] API Specific: TaskPrefix[%s] Error[%s]", route, prefix, e.Error())
-//		return false, apiRes, e
-//
-//	case dbx_api.ServerError:
-//		seelog.Debugf("Endpoint[%s] Server Error: TaskPrefix[%s] Error[%s]", route, prefix, e.Error())
-//		p.GeneralError("server_error", fmt.Sprintf("Task[%s] failed due to server error. Check status.dropbox.com for announcements about Dropbox service issues.", prefix))
-//		return false, apiRes, nil
-//	}
-//
-//	seelog.Debugf("Endpoint[%s] Error: TaskPrefix[%s] Error[%s]", route, prefix, err.Error())
-//	p.GeneralError("error", fmt.Sprintf("Task[%s] failed due to error [%s]", prefix, err.Error()))
-//	return false, apiRes, nil
-//}
-//
-//func (p *Pipeline) taskRpcInternal(task *Task, ac *dbx_api.Context, route string, arg interface{}, call func() (*dbx_api.ApiRpcResponse, error)) (cont bool, apiRes *dbx_api.ApiRpcResponse, specificErr error) {
-//	apiRes, err := call()
-//	if err == nil {
-//		return true, apiRes, nil
-//	}
-//
-//	if apiRes != nil {
-//		apiRes.Error = err
-//	}
-//
-//	switch e := err.(type) {
-//	case dbx_api.ApiErrorRateLimit:
-//		seelog.Debugf("Endpoint[%s] Retrying Task due to ApiErrorRateLimit: TaskPrefix[%s] TaskId[%s] RetryAfter[%d]", route, task.TaskPrefix, task.TaskId, e.RetryAfter)
-//		p.RetryAfter(task, time.Now().Unix()+int64(e.RetryAfter))
-//		return false, apiRes, nil
-//
-//	case dbx_api.ApiInvalidTokenError:
-//		seelog.Debugf("Endpoint[%s] Invalid Token: TaskPrefix[%s] TaskId[%s] Error[%s]", route, task.TaskPrefix, task.TaskId, e.Error())
-//		p.GeneralError("invalid_token", fmt.Sprintf("Task[%s] failed due to bad or expired token", task.TaskPrefix))
-//		return false, apiRes, nil
-//
-//	case dbx_api.ApiAccessError:
-//		seelog.Debugf("Endpoint[%s] Access Error: TaskPrefix[%s] TaskId[%s] Error[%s]", route, task.TaskPrefix, task.TaskId, e.Error())
-//		p.GeneralError("access_error", fmt.Sprintf("Task[%s] failed due to access error", task.TaskPrefix))
-//		return false, apiRes, nil
-//
-//	case dbx_api.ApiBadInputParamError:
-//		seelog.Debugf("Endpoint[%s] Bad Input Param: TaskPrefix[%s] TaskId[%s] Error[%s]", route, task.TaskPrefix, task.TaskId, e.Error())
-//		p.GeneralError("bad_input_param", fmt.Sprintf("Task[%s] failed due to bad input parameter. Error[%s]", task.TaskPrefix, e.Error()))
-//		return false, apiRes, nil
-//
-//	case dbx_api.EndpointSpecificError:
-//		seelog.Debugf("Endpoint[%s] API Specific: TaskPrefix[%s] TaskId[%s] Error[%s]", route, task.TaskPrefix, task.TaskId, e.Error())
-//		seelog.Warnf("Task[prefix{%s}, id{%s]] caused error [%s]", task.TaskPrefix, task.TaskId, e.Error())
-//		return false, apiRes, e
-//
-//	case dbx_api.ServerError:
-//		seelog.Debugf("Endpoint[%s] Server Error: TaskPrefix[%s] TaskId[%s] Error[%s]", route, task.TaskPrefix, task.TaskId, e.Error())
-//		p.GeneralError("server_error", fmt.Sprintf("Task[%s] failed due to server error. Check status.dropbox.com for announcements about Dropbox service issues.", task.TaskPrefix))
-//		return false, apiRes, nil
-//	}
-//
-//	seelog.Debugf("Endpoint[%s] Error: TaskPrefix[%s] TaskId[%s] Error[%s]", route, task.TaskPrefix, task.TaskId, err.Error())
-//	p.GeneralError("error", fmt.Sprintf("Task[%s] failed due to error [%s]", task.TaskPrefix, err.Error()))
-//	return false, apiRes, nil
-//}
-//
-//func (p *Pipeline) TaskRpc(task *Task, apiContext *dbx_api.Context, route string, arg interface{}) (cont bool, apiRes *dbx_api.ApiRpcResponse, specificErr error) {
-//	seelog.Debugf("Call[%s]: TaskPrefix[%s] TaskId[%s] Arg[%s]", route, task.TaskPrefix, task.TaskId, arg)
-//	return p.taskRpcInternal(
-//		task,
-//		apiContext,
-//		route,
-//		arg,
-//		func() (*dbx_api.ApiRpcResponse, error) {
-//			return apiContext.CallRpc(route, arg)
-//		},
-//	)
-//}
-//
-//func (p *Pipeline) TaskRpcAsMemberId(task *Task, apiContext *dbx_api.Context, route string, arg interface{}, asMemberId string) (cont bool, apiRes *dbx_api.ApiRpcResponse, specificErr error) {
-//	seelog.Debugf("Call[%s]: TaskPrefix[%s] TaskId[%s] Arg[%s] AsMemberId[%s]", route, task.TaskPrefix, task.TaskId, arg, asMemberId)
-//	return p.taskRpcInternal(
-//		task,
-//		apiContext,
-//		route,
-//		arg,
-//		func() (*dbx_api.ApiRpcResponse, error) {
-//			return apiContext.CallRpcAsMemberId(route, asMemberId, arg)
-//		},
-//	)
-//}
-//
-//func (p *Pipeline) TaskRpcAsAdminId(task *Task, apiContext *dbx_api.Context, route string, arg interface{}, asAdminId string) (cont bool, apiRes *dbx_api.ApiRpcResponse, specificErr error) {
-//	seelog.Debugf("Call[%s]: TaskPrefix[%s] TaskId[%s] Arg[%s] AsAdminId[%s]", route, task.TaskPrefix, task.TaskId, arg, asAdminId)
-//	return p.taskRpcInternal(
-//		task,
-//		apiContext,
-//		route,
-//		arg,
-//		func() (*dbx_api.ApiRpcResponse, error) {
-//			return apiContext.CallRpcAsAdminId(route, asAdminId, arg)
-//		},
-//	)
-//}
 
 func (p *Pipeline) RetryAfter(task *Task, deferUntil int64) {
 	retry := &Task{
