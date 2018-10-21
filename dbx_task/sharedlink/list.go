@@ -4,16 +4,13 @@ import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_rpc"
 	"github.com/watermint/toolbox/workflow"
-)
-
-const (
-	WORKER_SHAREDLINK_LIST = "sharedlink/list"
 )
 
 type WorkerSharedLinkList struct {
 	workflow.SimpleWorkerImpl
-	Api      *dbx_api.ApiContext
+	Api      *dbx_api.Context
 	NextTask string
 }
 
@@ -32,7 +29,7 @@ type ContextSharedLinkResult struct {
 }
 
 func (w *WorkerSharedLinkList) Prefix() string {
-	return WORKER_SHAREDLINK_LIST
+	return "sharedlink/list"
 }
 
 func (w *WorkerSharedLinkList) Exec(task *workflow.Task) {
@@ -46,50 +43,33 @@ func (w *WorkerSharedLinkList) Exec(task *workflow.Task) {
 	lp := ListParam{
 		Path: tc.Path,
 	}
+	list := dbx_rpc.RpcList{
+		EndpointList:         "sharing/list_shared_links",
+		EndpointListContinue: "sharing/list_shared_links",
+		AsMemberId:           tc.AsMemberId,
+		UseHasMore:           true,
+		ResultTag:            "links",
+		HandlerError:         w.Pipeline.HandleGeneralFailure,
+		HandlerEntry: func(link gjson.Result) bool {
+			linkId := link.Get("id").String()
 
-	cont, res, _ := w.Pipeline.TaskRpcAsMemberId(task, w.Api, "sharing/list_shared_links", lp, tc.AsMemberId)
-	if !cont {
-		return
+			c := ContextSharedLinkResult{
+				SharedLinkId:  linkId,
+				AsMemberId:    tc.AsMemberId,
+				AsMemberEmail: tc.AsMemberEmail,
+				Link:          json.RawMessage(link.Raw),
+			}
+
+			w.Pipeline.Enqueue(
+				workflow.MarshalTask(
+					w.NextTask,
+					linkId,
+					c,
+				),
+			)
+			return true
+		},
 	}
-	w.processResult(tc, res, task)
-}
 
-func (w *WorkerSharedLinkList) processResult(tc *ContextSharedLink, res *dbx_api.ApiRpcResponse, task *workflow.Task) {
-	for _, link := range gjson.Get(res.Body, "links").Array() {
-		linkId := link.Get("id").String()
-
-		c := ContextSharedLinkResult{
-			SharedLinkId:  linkId,
-			AsMemberId:    tc.AsMemberId,
-			AsMemberEmail: tc.AsMemberEmail,
-			Link:          json.RawMessage(link.Raw),
-		}
-
-		w.Pipeline.Enqueue(
-			workflow.MarshalTask(
-				w.NextTask,
-				linkId,
-				c,
-			),
-		)
-	}
-
-	hasMoreJson := gjson.Get(res.Body, "has_more")
-	if hasMoreJson.Exists() && hasMoreJson.Bool() {
-		cursorJson := gjson.Get(res.Body, "cursor")
-
-		c := ContextSharedLink{
-			Cursor:        cursorJson.String(),
-			AsMemberId:    tc.AsMemberId,
-			AsMemberEmail: tc.AsMemberEmail,
-		}
-
-		w.Pipeline.Enqueue(
-			workflow.MarshalTask(
-				w.Prefix(),
-				cursorJson.String(),
-				c,
-			),
-		)
-	}
+	list.List(w.Api, lp)
 }

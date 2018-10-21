@@ -1,77 +1,154 @@
 package dbx_api
 
 import (
-	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
-	"io/ioutil"
 	"net/http"
-	"path/filepath"
-	"strconv"
 	"time"
 )
 
 var (
-	RPC_ENDPOINT                                  = "api.dropboxapi.com"
-	REQ_HEADER_SELECT_USER                        = "Dropbox-API-Select-User"
-	REQ_HEADER_SELECT_ADMIN                       = "Dropbox-API-Select-Admin"
-	RES_HEADER_RETRY_AFTER                        = "Retry-After"
-	RES_JSON_DOT_TAG                              = "\\.tag"
-	DEFAULT_UPLOAD_CHUNKED_UPLOAD_THRESHOLD int64 = 150 * 1048576
-	DEFAULT_UPLOAD_CHUNK_SIZE               int64 = 150 * 1048576
-	DEFAULT_CLIENT_TIMEOUT                        = 60
-	DATE_TIME_FORMAT                              = "2006-01-02T15:04:05Z"
+	ReqHeaderSelectUser    = "Dropbox-API-Select-User"
+	ReqHeaderSelectAdmin   = "Dropbox-API-Select-Admin"
+	ResHeaderRetryAfter    = "Retry-After"
+	ResJsonDotTag          = "\\.tag"
+	DefaultClientTimeout   = time.Duration(60) * time.Second
+	DateTimeFormat         = "2006-01-02T15:04:05Z"
+	ErrorBadInputParam     = 400
+	ErrorBadOrExpiredToken = 401
+	ErrorAccessError       = 403
+	ErrorEndpointSpecific  = 409
+	ErrorRateLimit         = 429
+	ErrorSuccess           = 0
+	ErrorTransport         = 1000
+	ErrorUnknown           = 1001
+	ErrorServerError       = 1500
 )
 
-type DropboxPath struct {
-	Path string
+func ParseApiError(responseBody string) (ae ApiError) {
+	ae.ErrorTag = gjson.Get(responseBody, "error."+ResJsonDotTag).String()
+	ae.ErrorSummary = gjson.Get(responseBody, "error_summary").String()
+	ae.UserMessageLocale = gjson.Get(responseBody, "user_message.locale").String()
+	ae.UserMessage = gjson.Get(responseBody, "user_message.text").String()
+	ae.ErrorBody = json.RawMessage(gjson.Get(responseBody, "error").Raw)
+	ae.UserMessageBody = json.RawMessage(gjson.Get(responseBody, "user_message").Raw)
+
+	return
+}
+
+func ParseAccessError(responseBody string) (ae AccessError) {
+	ae.PaperAccessDenied = gjson.Get(responseBody, "invalid_account_type.\\.tag").String()
+	ae.InvalidAccountType = gjson.Get(responseBody, "paper_access_denied.\\.tag").String()
+	ae.ErrorBody = json.RawMessage(responseBody)
+
+	return
+}
+
+type ErrorAnnotation struct {
+	ErrorType int
+	Error     error
+}
+
+func (e ErrorAnnotation) IsSuccess() bool {
+	return e.ErrorType == ErrorSuccess
+}
+func (e ErrorAnnotation) IsFailure() bool {
+	return e.ErrorType != ErrorSuccess
+}
+func (e ErrorAnnotation) ApiError() *ApiError {
+	switch ae := e.Error.(type) {
+	case ApiError:
+		return &ae
+	}
+	return nil
+}
+func (e ErrorAnnotation) AccessError() *AccessError {
+	switch ae := e.Error.(type) {
+	case AccessError:
+		return &ae
+	}
+	return nil
+}
+func (e ErrorAnnotation) ErrorTypeLabel() string {
+	switch e.ErrorType {
+	case ErrorBadInputParam:
+		return "bad_input_param"
+	case ErrorBadOrExpiredToken:
+		return "bad_or_expired_token"
+	case ErrorAccessError:
+		return "access_error"
+	case ErrorEndpointSpecific:
+		return "endpoint_specific"
+	case ErrorRateLimit:
+		return "rate_limit"
+	case ErrorSuccess:
+		return "success"
+	case ErrorTransport:
+		return "transport_error"
+	case ErrorUnknown:
+		return "unknown"
+	case ErrorServerError:
+		return "server_error"
+	}
+	return "unknown"
+}
+func (e ErrorAnnotation) UserMessage() string {
+	if e.Error == nil {
+		return ""
+	}
+	if ae := e.ApiError(); ae != nil {
+		if ae.UserMessage != "" {
+			return ae.UserMessage
+		} else {
+			return ae.ErrorSummary
+		}
+	}
+	if ae := e.AccessError(); ae != nil {
+		return ae.Error()
+	}
+	return e.Error.Error()
 }
 
 type ArgAsyncJobId struct {
 	AsyncJobId string `json:"async_job_id"`
 }
 
-type ApiServerError struct {
+type ServerError struct {
 	StatusCode int
 }
 
-func (e ApiServerError) Error() string {
+func (e ServerError) Error() string {
 	return fmt.Sprintf("An error occurred on the Dropbox servers (%d). Check status.dropbox.com for announcements about Dropbox service issues.", e.StatusCode)
 }
 
-type ApiEndpointSpecificError struct {
-	ErrorTag     string `json:"error,omitempty"`
-	ErrorSummary string `json:"error_summary,omitempty"`
-	UserMessage  string `json:"user_message,omitempty"`
+type ApiError struct {
+	ErrorTag          string          `json:"error,omitempty"`
+	ErrorSummary      string          `json:"error_summary,omitempty"`
+	ErrorBody         json.RawMessage `json:"error,omitempty"`
+	UserMessageLocale string          `json:"user_message_lang,omitempty"`
+	UserMessage       string          `json:"user_message,omitempty"`
+	UserMessageBody   json.RawMessage `json:"user_message,omitempty"`
 }
 
-func (e ApiEndpointSpecificError) Error() string {
+func (e ApiError) Error() string {
 	return fmt.Sprintf("Endpoint specific error[%s] %s", e.ErrorTag, e.ErrorSummary)
 }
 
-type ApiInvalidTokenError struct {
+type AccessError struct {
+	InvalidAccountType string          `json:"invalid_account_type,omitempty"`
+	PaperAccessDenied  string          `json:"paper_access_denied,omitempty"`
+	ErrorBody          json.RawMessage `json:"error,omitempty"`
 }
 
-func (e ApiInvalidTokenError) Error() string {
-	return "Bad or expired token"
-}
-
-type ApiAccessError struct {
-}
-
-func (e ApiAccessError) Error() string {
+func (a AccessError) Error() string {
+	if a.InvalidAccountType != "" {
+		return a.InvalidAccountType
+	}
+	if a.PaperAccessDenied != "" {
+		return a.PaperAccessDenied
+	}
 	return "The user or team account doesn't have access to the endpoint or feature"
-}
-
-type ApiBadInputParamError struct {
-	ErrorSummary string `json:"error_summary"`
-}
-
-func (e ApiBadInputParamError) Error() string {
-	return e.ErrorSummary
 }
 
 type ApiErrorRateLimit struct {
@@ -82,237 +159,60 @@ func (e ApiErrorRateLimit) Error() string {
 	return fmt.Sprintf("API Rate limit (retry after %d sec)", e.RetryAfter)
 }
 
-func NewDropboxPath(path string) *DropboxPath {
-	return &DropboxPath{
-		Path: path,
-	}
-}
-
-func (d *DropboxPath) CleanPath() string {
-	p := filepath.ToSlash(filepath.Clean(d.Path))
-	if p == "/" {
-		return ""
-	} else {
-		return p
-	}
-}
-
 func RebaseTimeForAPI(t time.Time) time.Time {
 	return t.UTC().Round(time.Second)
 }
 
-type ApiConfig struct {
-	Timeout                      time.Duration
-	UploadChunkedUploadThreshold int64
-	UploadChunkedUploadChunkSize int64
+type Context struct {
+	Token      string
+	Client     *http.Client
+	RetryAfter time.Time
 }
 
-func NewDefaultApiConfig() *ApiConfig {
-	return &ApiConfig{
-		Timeout: time.Duration(DEFAULT_CLIENT_TIMEOUT) * time.Second,
-		UploadChunkedUploadThreshold: DEFAULT_UPLOAD_CHUNKED_UPLOAD_THRESHOLD,
-		UploadChunkedUploadChunkSize: DEFAULT_UPLOAD_CHUNK_SIZE,
-	}
-}
-
-type ApiContext struct {
-	Token  string
-	Client *http.Client
-	Config *ApiConfig
-}
-
-func (a *ApiContext) CallRpc(route string, arg interface{}) (apiRes *ApiRpcResponse, err error) {
-	req := ApiRpcRequest{
-		Param:      arg,
-		Route:      route,
-		AuthHeader: true,
-		Context:    a,
-	}
-	return req.Call()
-}
-
-func (a *ApiContext) CallRpcAsMemberId(route, memberId string, arg interface{}) (apiRes *ApiRpcResponse, err error) {
-	req := ApiRpcRequest{
-		Param:      arg,
-		Route:      route,
-		AuthHeader: true,
-		Context:    a,
-		AsMemberId: memberId,
-	}
-	return req.Call()
-}
-
-func (a *ApiContext) CallRpcAsAdminId(route, adminId string, arg interface{}) (apiRes *ApiRpcResponse, err error) {
-	req := ApiRpcRequest{
-		Param:      arg,
-		Route:      route,
-		AuthHeader: true,
-		Context:    a,
-		AsAdminId:  adminId,
-	}
-	return req.Call()
-}
-
-func (a *ApiContext) NewApiRpcRequest(route string, arg interface{}) *ApiRpcRequest {
-	return &ApiRpcRequest{
-		Param:      arg,
-		Route:      route,
-		AuthHeader: true,
-		Context:    a,
-	}
-}
-
-func NewDefaultApiContext(token string) *ApiContext {
-	config := NewDefaultApiConfig()
-	return &ApiContext{
+func NewContext(token string) *Context {
+	return &Context{
 		Token:  token,
-		Client: &http.Client{Timeout: config.Timeout},
-		Config: config,
+		Client: &http.Client{Timeout: DefaultClientTimeout},
 	}
 }
 
-func (c *ApiContext) PrepareHeader(req *http.Request) *http.Request {
-
-	return req
-}
-
-type ApiRpcResponse struct {
-	StatusCode int
-	Tag        string
-	Body       string
-	Error      error
-}
-
-type ApiRpcRequest struct {
-	Param      interface{}
-	AuthHeader bool
-	Route      string
-	AsMemberId string
-	AsAdminId  string
-	Context    *ApiContext
-}
-
-func (a *ApiRpcRequest) requestUrl() string {
-	return fmt.Sprintf("https://%s/2/%s", RPC_ENDPOINT, a.Route)
-}
-
-func (a *ApiRpcRequest) rpcRequest() (req *http.Request, err error) {
-	url := a.requestUrl()
-
-	// param
-	requestParam, err := json.Marshal(a.Param)
-	if err != nil {
-		seelog.Debugf("Route[%s] Unable to marshal params. error[%s]", a.Route, err)
-		return nil, err
-	}
-	seelog.Debugf("Request Params[%s]", string(requestParam))
-
-	req, err = http.NewRequest("POST", url, bytes.NewReader(requestParam))
-	if err != nil {
-		seelog.Debugf("Route[%s] Unable create request. error[%s]", a.Route, err)
-		return nil, err
-	}
-	req.Header.Add("Content-Type", "application/json")
-	if a.AuthHeader {
-		req.Header.Add("Authorization", "Bearer "+a.Context.Token)
-	}
-	if a.AsMemberId != "" {
-		req.Header.Add(REQ_HEADER_SELECT_USER, a.AsMemberId)
-	}
-	if a.AsAdminId != "" {
-		req.Header.Add(REQ_HEADER_SELECT_ADMIN, a.AsAdminId)
-	}
-	a.Context.PrepareHeader(req)
-	return
-}
-
-func (a *ApiRpcRequest) Call() (apiRes *ApiRpcResponse, err error) {
-	req, err := a.rpcRequest()
-	if err != nil {
-		seelog.Tracef("Route[%s] Unable to prepare request : error[%s]", a.Route, err)
-		return
-	}
-
-	seelog.Tracef("Route[%s]", a.Route)
-	res, err := a.Context.Client.Do(req)
-
-	if err != nil {
-		seelog.Debugf("Route[%s] Transport error[%s]", a.Route, err)
-		return nil, err
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		seelog.Debugf("Route[%s] Unable to read body. error[%s]", a.Route, err)
-		return nil, err
-	}
-	res.Body.Close()
-
-	bodyString := string(body)
-
-	if res.StatusCode == http.StatusOK {
-		jsonBody := bodyString
-		tag := gjson.Get(jsonBody, RES_JSON_DOT_TAG)
-		responseTag := ""
-		if tag.Exists() {
-			responseTag = tag.String()
-		}
-
-		return &ApiRpcResponse{
-			StatusCode: res.StatusCode,
-			Body:       jsonBody,
-			Tag:        responseTag,
-			Error:      nil,
-		}, nil
-	}
-
-	switch res.StatusCode {
-	case 400: // Bad input param
-		seelog.Debugf("Route[%s] Bad input param. error[%s]", a.Route, err)
-		return nil, ApiBadInputParamError{
-			ErrorSummary: bodyString,
-		}
-
-	case 401: // Bad or expired token
-		seelog.Debugf("Route[%s] Bad or expired token.", a.Route)
-		return nil, ApiInvalidTokenError{}
-
-	case 403: // Access Error
-		seelog.Debugf("Route[%s] Access Error.", a.Route)
-		return nil, ApiAccessError{}
-
-	case 409: // Endpoint specific
-		seelog.Debugf("Route[%s] Endpoint specific Error.", a.Route)
-		apiErr := ApiEndpointSpecificError{}
-		ume := json.Unmarshal(body, &apiErr)
-		if ume != nil {
-			seelog.Debugf("Route[%s] unknown or server error. response body[%s], unmarshal err[%s]", a.Route, bodyString, err)
-			return nil, ApiEndpointSpecificError{
-				ErrorSummary: bodyString,
-			}
-		}
-
-		return nil, apiErr
-
-	case 429: // Rate limit
-		retryAfter := res.Header.Get(RES_HEADER_RETRY_AFTER)
-		retryAfterSec, err := strconv.Atoi(retryAfter)
-		if err != nil {
-			seelog.Debugf("Route[%s] Unable to parse '%s' header. HeaderContent[%s] error[%s]", a.Route, retryAfter, err)
-			return nil, errors.New("unknown retry param")
-		}
-		seelog.Debugf("Route[%s] Wait for retry [%d] seconds.", retryAfterSec)
-
-		return nil, ApiErrorRateLimit{RetryAfter: retryAfterSec}
-	}
-
-	if int(res.StatusCode/100) == 5 {
-		seelog.Debugf("Route[%s] Server error", a.Route)
-		return nil, ApiServerError{
-			StatusCode: res.StatusCode,
-		}
-	}
-
-	seelog.Debugf("Route[%s] unknown or server error[%s]", a.Route, err)
-	return nil, err
-}
+//func (a *Context) CallRpc(route string, arg interface{}) (apiRes *ApiRpcResponse, err error) {
+//	req := ApiRpcRequest{
+//		Param:      arg,
+//		Endpoint:      route,
+//		AuthHeader: true,
+//		Context:    a,
+//	}
+//	return req.Call()
+//}
+//
+//func (a *Context) CallRpcAsMemberId(route, memberId string, arg interface{}) (apiRes *ApiRpcResponse, err error) {
+//	req := ApiRpcRequest{
+//		Param:      arg,
+//		Endpoint:      route,
+//		AuthHeader: true,
+//		Context:    a,
+//		AsMemberId: memberId,
+//	}
+//	return req.Call()
+//}
+//
+//func (a *Context) CallRpcAsAdminId(route, adminId string, arg interface{}) (apiRes *ApiRpcResponse, err error) {
+//	req := ApiRpcRequest{
+//		Param:      arg,
+//		Endpoint:      route,
+//		AuthHeader: true,
+//		Context:    a,
+//		AsAdminId:  adminId,
+//	}
+//	return req.Call()
+//}
+//
+//func (a *Context) NewApiRpcRequest(route string, arg interface{}) *ApiRpcRequest {
+//	return &ApiRpcRequest{
+//		Param:      arg,
+//		Endpoint:      route,
+//		AuthHeader: true,
+//		Context:    a,
+//	}
+//}

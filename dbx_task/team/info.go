@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_rpc"
 	"github.com/watermint/toolbox/workflow"
 )
 
@@ -13,7 +14,7 @@ const (
 
 type WorkerTeamInfo struct {
 	workflow.SimpleWorkerImpl
-	ApiManagement *dbx_api.ApiContext
+	ApiManagement *dbx_api.Context
 	NextTask      string
 }
 
@@ -27,8 +28,12 @@ func (w *WorkerTeamInfo) Prefix() string {
 }
 
 func (w *WorkerTeamInfo) Exec(task *workflow.Task) {
-	cont, res, _ := w.Pipeline.TaskRpc(task, w.ApiManagement, "team/get_info", nil)
-	if !cont {
+	req := dbx_rpc.RpcRequest{
+		Endpoint: "team/get_info",
+	}
+	res, ea, _ := req.Call(w.ApiManagement)
+	if ea.IsFailure() {
+		w.Pipeline.HandleGeneralFailure(ea)
 		return
 	}
 

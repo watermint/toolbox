@@ -5,17 +5,14 @@ import (
 	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_rpc"
 	"github.com/watermint/toolbox/workflow"
-)
-
-const (
-	WORKER_TEAM_MEMBER_LIST = "team/member/list"
 )
 
 type WorkerTeamMemberList struct {
 	workflow.SimpleWorkerImpl
-	ApiManagement *dbx_api.ApiContext
-	NextTask      string
+	Api      *dbx_api.Context
+	NextTask string
 
 	IncludeRemoved bool
 }
@@ -26,26 +23,11 @@ type ContextTeamMemberResult struct {
 	Member       json.RawMessage `json:"member"`
 }
 
-type ContextTeamMemberList struct {
-	Cursor string `json:"cursor"`
-}
-
 func (w *WorkerTeamMemberList) Prefix() string {
-	return WORKER_TEAM_MEMBER_LIST
+	return "team/member/list"
 }
 
 func (w *WorkerTeamMemberList) Exec(task *workflow.Task) {
-	tc := &ContextTeamMemberList{}
-	workflow.UnmarshalContext(task, tc)
-
-	if tc.Cursor == "" {
-		w.list(task)
-	} else {
-		w.listContinue(tc.Cursor, task)
-	}
-}
-
-func (w *WorkerTeamMemberList) list(task *workflow.Task) {
 	type ListParam struct {
 		IncludeRemoved bool `json:"include_removed"`
 	}
@@ -53,80 +35,38 @@ func (w *WorkerTeamMemberList) list(task *workflow.Task) {
 		IncludeRemoved: w.IncludeRemoved,
 	}
 
-	seelog.Debug("members/list")
-	seelog.Info("Loading team member list")
-	cont, res, _ := w.Pipeline.TaskRpc(task, w.ApiManagement, "team/members/list", lp)
-	if !cont {
-		return
+	list := dbx_rpc.RpcList{
+		EndpointList:         "team/members/list",
+		EndpointListContinue: "team/members/list/continue",
+		UseHasMore:           true,
+		ResultTag:            "members",
+		HandlerError:         w.Pipeline.HandleGeneralFailure,
+		HandlerEntry:         w.processResult,
 	}
 
-	w.processResult(res, task)
+	list.List(w.Api, lp)
 }
 
-func (w *WorkerTeamMemberList) listContinue(cursor string, task *workflow.Task) {
-	type ListContinueParam struct {
-		Cursor string `json:"cursor"`
-	}
-	lp := ListContinueParam{
-		Cursor: cursor,
-	}
+func (w *WorkerTeamMemberList) processResult(res gjson.Result) bool {
+	emailJson := res.Get("profile.email")
 
-	seelog.Debugf("members/list/continue (cursor: %s)", cursor)
-	cont, res, _ := w.Pipeline.TaskRpc(task, w.ApiManagement, "team/members/list/continue", lp)
-	if !cont {
-		return
+	if !emailJson.Exists() {
+		seelog.Debugf("one of member info (email) not found `%s`", res.Raw)
+		return false
 	}
 
-	w.processResult(res, task)
-}
-
-func (w *WorkerTeamMemberList) processResult(res *dbx_api.ApiRpcResponse, task *workflow.Task) {
-	members := gjson.Get(res.Body, "members")
-	if !members.Exists() {
-		seelog.Debugf("`members` data not found")
-		return
+	c := ContextTeamMemberResult{
+		Email:        emailJson.String(),
+		TeamMemberId: res.Get("profile.team_member_id").String(),
+		Member:       json.RawMessage(res.Raw),
 	}
 
-	for _, member := range members.Array() {
-		emailJson := member.Get("profile.email")
-
-		if !emailJson.Exists() {
-			seelog.Debugf("one of member info (email) not found `%s`", member.Raw)
-			continue
-		}
-
-		c := ContextTeamMemberResult{
-			Email:        emailJson.String(),
-			TeamMemberId: member.Get("profile.team_member_id").String(),
-			Member:       json.RawMessage(member.Raw),
-		}
-
-		w.Pipeline.Enqueue(
-			workflow.MarshalTask(
-				w.NextTask,
-				emailJson.String(),
-				c,
-			),
-		)
-	}
-
-	hasMoreJson := gjson.Get(res.Body, "has_more")
-	if hasMoreJson.Exists() && hasMoreJson.Bool() {
-		cursorJson := gjson.Get(res.Body, "cursor")
-		if !cursorJson.Exists() {
-			seelog.Debug("Cursor not found in the response (has_more appear and true)")
-			return
-		}
-		c := ContextTeamMemberList{
-			Cursor: cursorJson.String(),
-		}
-
-		w.Pipeline.Enqueue(
-			workflow.MarshalTask(
-				w.Prefix(),
-				cursorJson.String(),
-				c,
-			),
-		)
-	}
+	w.Pipeline.Enqueue(
+		workflow.MarshalTask(
+			w.NextTask,
+			emailJson.String(),
+			c,
+		),
+	)
+	return true
 }

@@ -5,7 +5,7 @@ import (
 	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_task/task/member"
+	"github.com/watermint/toolbox/dbx_task/member"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/workflow"
 )
@@ -14,7 +14,7 @@ type CmdMemberInvite struct {
 	*cmdlet.SimpleCommandlet
 	optCsv     string
 	optSilent  bool
-	apiContext *dbx_api.ApiContext
+	apiContext *dbx_api.Context
 }
 
 func (c *CmdMemberInvite) Name() string {

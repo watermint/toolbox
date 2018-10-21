@@ -5,21 +5,14 @@ import (
 	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_rpc"
 	"github.com/watermint/toolbox/workflow"
-)
-
-const (
-	WORKER_TEAM_MEMBER_LINKEDAPPS = "team/member/linkedapps"
 )
 
 type WorkerTeamMemberLinkedApps struct {
 	workflow.SimpleWorkerImpl
-	ApiManagement *dbx_api.ApiContext
-	NextTask      string
-}
-
-type ContextTeamMemberLinkedApps struct {
-	Cursor string `json:"cursor"`
+	Api      *dbx_api.Context
+	NextTask string
 }
 
 type ContextTeamMemberLinkedAppsResult struct {
@@ -29,90 +22,43 @@ type ContextTeamMemberLinkedAppsResult struct {
 }
 
 func (w *WorkerTeamMemberLinkedApps) Prefix() string {
-	return WORKER_TEAM_MEMBER_LINKEDAPPS
+	return "team/member/linked_apps"
 }
 
 func (w *WorkerTeamMemberLinkedApps) Exec(task *workflow.Task) {
-	tc := &ContextTeamMemberLinkedApps{}
-	workflow.UnmarshalContext(task, tc)
-
-	if tc.Cursor == "" {
-		w.list(task)
-	} else {
-		w.listContinue(tc.Cursor, task)
+	list := dbx_rpc.RpcList{
+		EndpointList:         "team/linked_apps/list_members_linked_apps",
+		EndpointListContinue: "team/linked_apps/list_members_linked_apps",
+		UseHasMore:           true,
+		ResultTag:            "apps",
+		HandlerError:         w.Pipeline.HandleGeneralFailure,
+		HandlerEntry:         w.processResult,
 	}
 
+	list.List(w.Api, nil)
 }
 
-func (w *WorkerTeamMemberLinkedApps) list(task *workflow.Task) {
-	type ListContinueParam struct {
-		Cursor string `json:"cursor"`
+func (w *WorkerTeamMemberLinkedApps) processResult(member gjson.Result) bool {
+	teamMemberId := member.Get("team_member_id").String()
+	apps := member.Get("linked_api_apps")
+	if !apps.Exists() || !apps.IsArray() {
+		seelog.Debugf("Apps not found in the result [%s]", member)
+		return false
 	}
-	lp := ListContinueParam{
-		Cursor: "",
-	}
-	cont, res, _ := w.Pipeline.TaskRpc(task, w.ApiManagement, "team/linked_apps/list_members_linked_apps", lp)
-	if !cont {
-		return
-	}
-	w.processResult(res, task)
-}
-
-func (w *WorkerTeamMemberLinkedApps) listContinue(cursor string, task *workflow.Task) {
-	type ListContinueParam struct {
-		Cursor string `json:"cursor"`
-	}
-	lp := ListContinueParam{
-		Cursor: cursor,
-	}
-	cont, res, _ := w.Pipeline.TaskRpc(task, w.ApiManagement, "team/linked_apps/list_members_linked_apps", lp)
-	if !cont {
-		return
-	}
-
-	w.processResult(res, task)
-}
-
-func (w *WorkerTeamMemberLinkedApps) processResult(res *dbx_api.ApiRpcResponse, task *workflow.Task) {
-	membersApps := gjson.Get(res.Body, "apps")
-
-	for _, member := range membersApps.Array() {
-		teamMemberId := member.Get("team_member_id").String()
-
-		for _, app := range member.Get("linked_api_apps").Array() {
-			appId := app.Get("app_id").String()
-			c := ContextTeamMemberLinkedAppsResult{
-				TeamMemberId:   teamMemberId,
-				LinkedApiAppId: appId,
-				LinkedApiApp:   json.RawMessage(app.Raw),
-			}
-			w.Pipeline.Enqueue(
-				workflow.MarshalTask(
-					w.NextTask,
-					teamMemberId+"@"+appId,
-					c,
-				),
-			)
+	for _, app := range apps.Array() {
+		appId := app.Get("app_id").String()
+		c := ContextTeamMemberLinkedAppsResult{
+			TeamMemberId:   teamMemberId,
+			LinkedApiAppId: appId,
+			LinkedApiApp:   json.RawMessage(app.Raw),
 		}
-	}
-
-	hasMoreJson := gjson.Get(res.Body, "has_more")
-	if hasMoreJson.Exists() && hasMoreJson.Bool() {
-		cursorJson := gjson.Get(res.Body, "cursor")
-		if !cursorJson.Exists() {
-			seelog.Debug("Cursor not found in the response (has_more appear and true)")
-			return
-		}
-		c := ContextTeamMemberLinkedApps{
-			Cursor: cursorJson.String(),
-		}
-
 		w.Pipeline.Enqueue(
 			workflow.MarshalTask(
-				w.Prefix(),
-				cursorJson.String(),
+				w.NextTask,
+				teamMemberId+"@"+appId,
 				c,
 			),
 		)
 	}
+	return true
 }

@@ -5,17 +5,14 @@ import (
 	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_rpc"
 	"github.com/watermint/toolbox/workflow"
 	"time"
 )
 
-const (
-	WORKER_SHAREDLINK_UPDATE_EXPIRES = "/sharedlink/update/expires"
-)
-
 type WorkerSharedLinkUpdateExpires struct {
 	workflow.SimpleWorkerImpl
-	Api      *dbx_api.ApiContext
+	Api      *dbx_api.Context
 	NextTask string
 	Days     int
 }
@@ -30,7 +27,7 @@ type ContextSharedLinkUpdateExpiresResult struct {
 }
 
 func (w *WorkerSharedLinkUpdateExpires) Prefix() string {
-	return WORKER_SHAREDLINK_UPDATE_EXPIRES
+	return "/sharedlink/update/expires"
 }
 
 func (w *WorkerSharedLinkUpdateExpires) Exec(task *workflow.Task) {
@@ -43,7 +40,7 @@ func (w *WorkerSharedLinkUpdateExpires) Exec(task *workflow.Task) {
 
 	if expires != "" {
 		var err error
-		origTime, err = time.Parse(dbx_api.DATE_TIME_FORMAT, expires)
+		origTime, err = time.Parse(dbx_api.DateTimeFormat, expires)
 		if err != nil {
 			seelog.Warnf("SharedLinkId[%s] Unable to parse time [%s]", tc.SharedLinkId, expires)
 			return
@@ -74,22 +71,23 @@ func (w *WorkerSharedLinkUpdateExpires) update(targetTime time.Time, origTime ti
 	up := UpdateParam{
 		Url: url,
 		Settings: SettingsParam{
-			Expires: targetTime.Format(dbx_api.DATE_TIME_FORMAT),
+			Expires: targetTime.Format(dbx_api.DateTimeFormat),
 		},
 	}
 
-	oldTime := origTime.Format(dbx_api.DATE_TIME_FORMAT)
-	newTime := targetTime.Format(dbx_api.DATE_TIME_FORMAT)
+	oldTime := origTime.Format(dbx_api.DateTimeFormat)
+	newTime := targetTime.Format(dbx_api.DateTimeFormat)
 
 	seelog.Infof("Updating: SharedLinkId[%s] MemberEmail[%s]: Old[%s] -> New[%s]", tc.SharedLinkId, tc.AsMemberEmail, oldTime, newTime)
-	cont, res, _ := w.Pipeline.TaskRpcAsMemberId(
-		task,
-		w.Api,
-		"sharing/modify_shared_link_settings",
-		up,
-		tc.AsMemberId,
-	)
-	if !cont {
+
+	req := dbx_rpc.RpcRequest{
+		Endpoint:   "sharing/modify_shared_link_settings",
+		Param:      up,
+		AsMemberId: tc.AsMemberId,
+	}
+	res, ea, _ := req.Call(w.Api)
+	if ea.IsFailure() {
+		w.Pipeline.HandleGeneralFailure(ea)
 		return
 	}
 

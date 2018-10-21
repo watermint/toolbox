@@ -5,8 +5,8 @@ import (
 	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_task/task/member"
-	"github.com/watermint/toolbox/dbx_task/task/sharedlink"
+	"github.com/watermint/toolbox/dbx_task/member"
+	"github.com/watermint/toolbox/dbx_task/sharedlink"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/workflow"
 )
@@ -14,7 +14,7 @@ import (
 type CmdTeamSharedLinkUpdateExpire struct {
 	*cmdlet.SimpleCommandlet
 
-	apiContext *dbx_api.ApiContext
+	apiContext *dbx_api.Context
 	report     cmdlet.Report
 	filter     cmdlet.SharedLinkFilter
 	optDays    int
@@ -64,39 +64,40 @@ func (c *CmdTeamSharedLinkUpdateExpire) Exec(ec *infra.ExecContext, args []strin
 	if err != nil {
 		return
 	}
-	ft, fs, err := c.filter.FilterStages(sharedlink.WORKER_SHAREDLINK_UPDATE_EXPIRES)
+	wkSharedLinkUpdateExpires := &sharedlink.WorkerSharedLinkUpdateExpires{
+		Api:      apiMgmt,
+		Days:     c.optDays,
+		NextTask: rt,
+	}
+
+	ft, fs, err := c.filter.FilterStages(wkSharedLinkUpdateExpires.Prefix())
 	if err != nil {
 		return
 	}
-	wrapUpTask := sharedlink.WORKER_SHAREDLINK_UPDATE_EXPIRES
+	wrapUpTask := wkSharedLinkUpdateExpires.Prefix()
 	if ft != "" {
 		wrapUpTask = ft
 	}
 
-	stages := []workflow.Worker{
-		&member.WorkerTeamMemberList{
-			ApiManagement: apiMgmt,
-			NextTask:      workflow.WORKER_WORKFLOW_AS_MEMBER_ID,
-		},
-		&workflow.WorkerAsMemberIdDispatch{
-			NextTask: sharedlink.WORKER_SHAREDLINK_LIST,
-		},
-		&sharedlink.WorkerSharedLinkList{
-			Api:      apiMgmt,
-			NextTask: wrapUpTask,
-		},
+	wkSharedLinkList := &sharedlink.WorkerSharedLinkList{
+		Api:      apiMgmt,
+		NextTask: wrapUpTask,
+	}
+	wkAsMemberIdDispatch := &workflow.WorkerAsMemberIdDispatch{
+		NextTask: wkSharedLinkList.Prefix(),
+	}
+	wkTeamMemberList := &member.WorkerTeamMemberList{
+		Api:      apiMgmt,
+		NextTask: workflow.WORKER_WORKFLOW_AS_MEMBER_ID,
 	}
 
+	stages := []workflow.Worker{
+		wkTeamMemberList,
+		wkAsMemberIdDispatch,
+		wkSharedLinkList,
+	}
 	stages = append(stages, fs...)
-	stages = append(
-		stages,
-		&sharedlink.WorkerSharedLinkUpdateExpires{
-			Api:      apiMgmt,
-			Days:     c.optDays,
-			NextTask: rt,
-		},
-	)
-
+	stages = append(stages, wkSharedLinkUpdateExpires)
 	stages = append(stages, rs...)
 
 	p := workflow.Pipeline{
@@ -109,9 +110,9 @@ func (c *CmdTeamSharedLinkUpdateExpire) Exec(ec *infra.ExecContext, args []strin
 
 	p.Enqueue(
 		workflow.MarshalTask(
-			member.WORKER_TEAM_MEMBER_LIST,
-			member.WORKER_TEAM_MEMBER_LIST,
-			member.ContextTeamMemberList{},
+			wkTeamMemberList.Prefix(),
+			wkTeamMemberList.Prefix(),
+			nil,
 		),
 	)
 	p.Loop()

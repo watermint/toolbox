@@ -4,8 +4,8 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_task/task/member"
-	"github.com/watermint/toolbox/dbx_task/task/sharedlink"
+	"github.com/watermint/toolbox/dbx_task/member"
+	"github.com/watermint/toolbox/dbx_task/sharedlink"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/workflow"
 )
@@ -13,7 +13,7 @@ import (
 type CmdTeamSharedLinkList struct {
 	*cmdlet.SimpleCommandlet
 
-	apiContext *dbx_api.ApiContext
+	apiContext *dbx_api.Context
 	report     cmdlet.Report
 	filter     cmdlet.SharedLinkFilter
 }
@@ -64,18 +64,22 @@ func (c *CmdTeamSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
 		wrapUpTask = ft
 	}
 
+	wkSharedLinkList := &sharedlink.WorkerSharedLinkList{
+		Api:      apiMgmt,
+		NextTask: wrapUpTask,
+	}
+	wkAsMemberIdDispatch := &workflow.WorkerAsMemberIdDispatch{
+		NextTask: wkSharedLinkList.Prefix(),
+	}
+	wkTeamMemberList := &member.WorkerTeamMemberList{
+		Api:      apiMgmt,
+		NextTask: wkAsMemberIdDispatch.Prefix(),
+	}
+
 	stages := []workflow.Worker{
-		&member.WorkerTeamMemberList{
-			ApiManagement: apiMgmt,
-			NextTask:      workflow.WORKER_WORKFLOW_AS_MEMBER_ID,
-		},
-		&workflow.WorkerAsMemberIdDispatch{
-			NextTask: sharedlink.WORKER_SHAREDLINK_LIST,
-		},
-		&sharedlink.WorkerSharedLinkList{
-			Api:      apiMgmt,
-			NextTask: wrapUpTask,
-		},
+		wkTeamMemberList,
+		wkAsMemberIdDispatch,
+		wkSharedLinkList,
 	}
 
 	stages = append(stages, fs...)
@@ -91,9 +95,9 @@ func (c *CmdTeamSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
 
 	p.Enqueue(
 		workflow.MarshalTask(
-			member.WORKER_TEAM_MEMBER_LIST,
-			member.WORKER_TEAM_MEMBER_LIST,
-			member.ContextTeamMemberList{},
+			wkTeamMemberList.Prefix(),
+			wkTeamMemberList.Prefix(),
+			nil,
 		),
 	)
 	p.Loop()

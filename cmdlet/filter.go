@@ -5,7 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cihub/seelog"
-	"github.com/watermint/toolbox/dbx_task/task/sharedlink"
+	"github.com/watermint/toolbox/dbx_task/sharedlink"
 	"github.com/watermint/toolbox/workflow"
 	"strings"
 )

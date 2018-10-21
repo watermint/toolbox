@@ -12,7 +12,7 @@ import (
 type CmdTeamNamespaceMemberList struct {
 	*cmdlet.SimpleCommandlet
 
-	apiContext *dbx_api.ApiContext
+	apiContext *dbx_api.Context
 	report     cmdlet.Report
 }
 

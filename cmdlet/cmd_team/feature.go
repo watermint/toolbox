@@ -4,7 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_task/task/team"
+	"github.com/watermint/toolbox/dbx_task/team"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/workflow"
 )
@@ -12,7 +12,7 @@ import (
 type CmdTeamFeature struct {
 	*cmdlet.SimpleCommandlet
 
-	apiContext *dbx_api.ApiContext
+	apiContext *dbx_api.Context
 	report     cmdlet.Report
 }
 

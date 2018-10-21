@@ -84,7 +84,7 @@ func (opts *ExecContext) AuthFile() string {
 	return opts.FileOnWorkPath(AppName + ".secret")
 }
 
-func (opts *ExecContext) queueToken(a dbx_auth.DropboxAuthenticator, business bool) (ac *dbx_api.ApiContext, err error) {
+func (opts *ExecContext) queueToken(a dbx_auth.DropboxAuthenticator, business bool) (ac *dbx_api.Context, err error) {
 	token, err := a.LoadOrAuth(business, !opts.CleanupToken)
 	if err != nil {
 		return nil, err
@@ -93,12 +93,12 @@ func (opts *ExecContext) queueToken(a dbx_auth.DropboxAuthenticator, business bo
 	seelog.Debugf("Issued token stored in ExecContext")
 	opts.issuedTokens = append(opts.issuedTokens, token)
 
-	ac = dbx_api.NewDefaultApiContext(token)
+	ac = dbx_api.NewContext(token)
 
 	return
 }
 
-func (opts *ExecContext) LoadOrAuthDropboxFull() (ac *dbx_api.ApiContext, err error) {
+func (opts *ExecContext) LoadOrAuthDropboxFull() (ac *dbx_api.Context, err error) {
 	a := dbx_auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    DropboxFullAppKey,
@@ -108,7 +108,7 @@ func (opts *ExecContext) LoadOrAuthDropboxFull() (ac *dbx_api.ApiContext, err er
 	return opts.queueToken(a, false)
 }
 
-func (opts *ExecContext) LoadOrAuthBusinessInfo() (ac *dbx_api.ApiContext, err error) {
+func (opts *ExecContext) LoadOrAuthBusinessInfo() (ac *dbx_api.Context, err error) {
 	a := dbx_auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessInfoAppKey,
@@ -118,7 +118,7 @@ func (opts *ExecContext) LoadOrAuthBusinessInfo() (ac *dbx_api.ApiContext, err e
 	return opts.queueToken(a, true)
 }
 
-func (opts *ExecContext) LoadOrAuthBusinessFile() (ac *dbx_api.ApiContext, err error) {
+func (opts *ExecContext) LoadOrAuthBusinessFile() (ac *dbx_api.Context, err error) {
 	a := dbx_auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessFileAppKey,
@@ -128,7 +128,7 @@ func (opts *ExecContext) LoadOrAuthBusinessFile() (ac *dbx_api.ApiContext, err e
 	return opts.queueToken(a, true)
 }
 
-func (opts *ExecContext) LoadOrAuthBusinessManagement() (ac *dbx_api.ApiContext, err error) {
+func (opts *ExecContext) LoadOrAuthBusinessManagement() (ac *dbx_api.Context, err error) {
 	a := dbx_auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessManagementAppKey,
@@ -138,7 +138,7 @@ func (opts *ExecContext) LoadOrAuthBusinessManagement() (ac *dbx_api.ApiContext,
 	return opts.queueToken(a, true)
 }
 
-func (opts *ExecContext) LoadOrAuthBusinessAudit() (ac *dbx_api.ApiContext, err error) {
+func (opts *ExecContext) LoadOrAuthBusinessAudit() (ac *dbx_api.Context, err error) {
 	a := dbx_auth.DropboxAuthenticator{
 		AuthFile:  opts.AuthFile(),
 		AppKey:    BusinessAuditAppKey,

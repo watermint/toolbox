@@ -6,7 +6,7 @@ import (
 	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_api/api_team"
+	"github.com/watermint/toolbox/dbx_api/dbx_rpc"
 	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/workflow"
 	"io"
@@ -83,7 +83,7 @@ func NewTaskTeamMemberInviteLoaderCsv(path string) *workflow.Task {
 
 type WorkerTeamMemberInvite struct {
 	workflow.BatchWorkerImpl
-	ApiManagement *dbx_api.ApiContext
+	ApiManagement *dbx_api.Context
 	Silent        bool
 }
 
@@ -111,13 +111,28 @@ func (w *WorkerTeamMemberInvite) BatchMaxSize() int {
 	return 20
 }
 func (w *WorkerTeamMemberInvite) BatchExec(tasks []*workflow.Task) {
-	invites := make([]api_team.ArgMemberAdd, 0)
+	type ArgMemberAdd struct {
+		MemberEmail           string `json:"member_email"`
+		MemberGivenName       string `json:"member_given_name,omitempty"`
+		MemberSurname         string `json:"member_surname,omitempty"`
+		MemberExternalId      string `json:"member_external_id,omitempty"`
+		MemberPersistentId    string `json:"member_persistent_id,omitempty"`
+		SendWelcomeEmail      bool   `json:"send_welcome_email"`
+		Role                  string `json:"role,omitempty"`
+		IsDirectoryRestricted bool   `json:"is_directory_restricted,omitempty"`
+	}
+	type ArgMembersAdd struct {
+		NewMembers []ArgMemberAdd `json:"new_members"`
+		ForceAsync bool           `json:"force_async"`
+	}
+
+	invites := make([]ArgMemberAdd, 0)
 	emails := make([]string, 0)
 	for _, t := range tasks {
 		tc := ContextTeamMemberInvite{}
 		workflow.UnmarshalContext(t, &tc)
 
-		invite := api_team.ArgMemberAdd{
+		invite := ArgMemberAdd{
 			MemberEmail:     tc.Email,
 			MemberSurname:   tc.SurName,
 			MemberGivenName: tc.GivenName,
@@ -129,14 +144,19 @@ func (w *WorkerTeamMemberInvite) BatchExec(tasks []*workflow.Task) {
 		emails = append(emails, tc.Email)
 	}
 
-	arg := api_team.ArgMembersAdd{
+	arg := ArgMembersAdd{
 		ForceAsync: true,
 		NewMembers: invites,
 	}
 	seelog.Debugf("AddMembersAdd Arg: [%s]", util.MarshalObjectToString(arg))
 
-	cont, res, _ := w.Pipeline.TasksRpc(tasks, w.ApiManagement, "team/members/add", arg)
-	if !cont {
+	req := dbx_rpc.RpcRequest{
+		Endpoint: "team/members/add",
+		Param:    arg,
+	}
+	res, et, _ := req.Call(w.ApiManagement)
+	if et.IsFailure() {
+		w.Pipeline.HandleGeneralFailure(et)
 		return
 	}
 
@@ -152,7 +172,7 @@ func (w *WorkerTeamMemberInvite) BatchExec(tasks []*workflow.Task) {
 
 type WorkerTeamMemberInviteResultAsync struct {
 	workflow.SimpleWorkerImpl
-	ApiManagement *dbx_api.ApiContext
+	ApiManagement *dbx_api.Context
 }
 type ContextTeamMemberInviteResultAsync struct {
 	AsyncJobId   string   `json:"async_job_id"`
@@ -179,8 +199,14 @@ func (w *WorkerTeamMemberInviteResultAsync) Exec(task *workflow.Task) {
 	pa := dbx_api.ArgAsyncJobId{
 		AsyncJobId: tc.AsyncJobId,
 	}
-	cont, res, _ := w.Pipeline.TaskRpc(task, w.ApiManagement, "team/members/add/job_status/get", pa)
-	if !cont {
+
+	req := dbx_rpc.RpcRequest{
+		Endpoint: "team/members/add/job_status/get",
+		Param:    pa,
+	}
+	res, et, _ := req.Call(w.ApiManagement)
+	if et.IsFailure() {
+		w.Pipeline.HandleGeneralFailure(et)
 		return
 	}
 
@@ -200,11 +226,11 @@ func (w *WorkerTeamMemberInviteResultAsync) Exec(task *workflow.Task) {
 	}
 }
 
-func (w *WorkerTeamMemberInviteResultAsync) reactInProgress(res *dbx_api.ApiRpcResponse, task *workflow.Task, tc *ContextTeamMemberInviteResultAsync) {
+func (w *WorkerTeamMemberInviteResultAsync) reactInProgress(res *dbx_rpc.RpcResponse, task *workflow.Task, tc *ContextTeamMemberInviteResultAsync) {
 	w.Pipeline.RetryAfter(task, time.Now().Unix()+5)
 }
 
-func (w *WorkerTeamMemberInviteResultAsync) reactComplete(res *dbx_api.ApiRpcResponse, task *workflow.Task, tc *ContextTeamMemberInviteResultAsync) {
+func (w *WorkerTeamMemberInviteResultAsync) reactComplete(res *dbx_rpc.RpcResponse, task *workflow.Task, tc *ContextTeamMemberInviteResultAsync) {
 	completeJson := gjson.Get(res.Body, "complete")
 	if !completeJson.Exists() {
 		// TODO Error handling
@@ -213,7 +239,7 @@ func (w *WorkerTeamMemberInviteResultAsync) reactComplete(res *dbx_api.ApiRpcRes
 	}
 
 	for _, complete := range completeJson.Array() {
-		tagJson := complete.Get(dbx_api.RES_JSON_DOT_TAG)
+		tagJson := complete.Get(dbx_api.ResJsonDotTag)
 		if !tagJson.Exists() {
 			// TODO Error handling
 			seelog.Errorf("`complete.\\.tag` not found: Response[%s]", res.Body)
@@ -265,7 +291,7 @@ func (w *WorkerTeamMemberInviteResultAsync) reactComplete(res *dbx_api.ApiRpcRes
 	}
 }
 
-func (w *WorkerTeamMemberInviteResultAsync) reactFailed(res *dbx_api.ApiRpcResponse, task *workflow.Task, tc *ContextTeamMemberInviteResultAsync) {
+func (w *WorkerTeamMemberInviteResultAsync) reactFailed(res *dbx_rpc.RpcResponse, task *workflow.Task, tc *ContextTeamMemberInviteResultAsync) {
 	reasonJson := gjson.Get(res.Body, "failed")
 	reason := "unknown"
 	if reasonJson.Exists() {

@@ -4,8 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_task/task/group"
-	"github.com/watermint/toolbox/dbx_task/task/member"
+	"github.com/watermint/toolbox/dbx_task/group"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/workflow"
 )
@@ -14,7 +13,7 @@ type CmdGrouplist struct {
 	*cmdlet.SimpleCommandlet
 
 	optIncludeRemoved bool
-	apiContext        *dbx_api.ApiContext
+	apiContext        *dbx_api.Context
 	report            cmdlet.Report
 }
 
@@ -60,11 +59,13 @@ func (c *CmdGrouplist) Exec(ec *infra.ExecContext, args []string) {
 		return
 	}
 
+	wkGroupList := &group.WorkerTeamGroupList{
+		Api:      apiMgmt,
+		NextTask: rt,
+	}
+
 	stages := []workflow.Worker{
-		&group.WorkerTeamGroupList{
-			Api:      apiMgmt,
-			NextTask: rt,
-		},
+		wkGroupList,
 	}
 
 	stages = append(stages, rs...)
@@ -79,9 +80,9 @@ func (c *CmdGrouplist) Exec(ec *infra.ExecContext, args []string) {
 
 	p.Enqueue(
 		workflow.MarshalTask(
-			member.WORKER_TEAM_MEMBER_LIST,
-			member.WORKER_TEAM_MEMBER_LIST,
-			member.ContextTeamMemberList{},
+			wkGroupList.Prefix(),
+			wkGroupList.Prefix(),
+			nil,
 		),
 	)
 	p.Loop()

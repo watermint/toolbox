@@ -4,7 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_task/task/member"
+	"github.com/watermint/toolbox/dbx_task/member"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/workflow"
 )
@@ -12,7 +12,7 @@ import (
 type CmdMemberLinkedAppList struct {
 	*cmdlet.SimpleCommandlet
 
-	apiContext *dbx_api.ApiContext
+	apiContext *dbx_api.Context
 	report     cmdlet.Report
 }
 
@@ -55,8 +55,8 @@ func (c *CmdMemberLinkedAppList) Exec(ec *infra.ExecContext, args []string) {
 
 	stages := []workflow.Worker{
 		&member.WorkerTeamMemberLinkedApps{
-			ApiManagement: apiMgmt,
-			NextTask:      rt,
+			Api:      apiMgmt,
+			NextTask: rt,
 		},
 	}
 
@@ -70,12 +70,12 @@ func (c *CmdMemberLinkedAppList) Exec(ec *infra.ExecContext, args []string) {
 	p.Init()
 	defer p.Close()
 
-	p.Enqueue(
-		workflow.MarshalTask(
-			member.WORKER_TEAM_MEMBER_LINKEDAPPS,
-			member.WORKER_TEAM_MEMBER_LINKEDAPPS,
-			member.ContextTeamMemberLinkedApps{},
-		),
-	)
+	//p.Enqueue(
+	//	workflow.MarshalTask(
+	//		member.WORKER_TEAM_MEMBER_LINKEDAPPS,
+	//		member.WORKER_TEAM_MEMBER_LINKEDAPPS,
+	//		member.ContextTeamMemberLinkedApps{},
+	//	),
+	//)
 	p.Loop()
 }
