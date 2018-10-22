@@ -49,8 +49,8 @@ func (w *WorkerSharedLinkList) Exec(task *workflow.Task) {
 		AsMemberId:           tc.AsMemberId,
 		UseHasMore:           true,
 		ResultTag:            "links",
-		HandlerError:         w.Pipeline.HandleGeneralFailure,
-		HandlerEntry: func(link gjson.Result) bool {
+		OnError:              w.Pipeline.HandleGeneralFailure,
+		OnEntry: func(link gjson.Result) bool {
 			linkId := link.Get("id").String()
 
 			c := ContextSharedLinkResult{

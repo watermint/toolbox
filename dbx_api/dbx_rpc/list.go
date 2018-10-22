@@ -13,9 +13,9 @@ type RpcList struct {
 	AsMemberId           string
 	AsAdminId            string
 	ResultTag            string
-	HandlerError         func(annotation dbx_api.ErrorAnnotation) bool
+	OnError              func(annotation dbx_api.ErrorAnnotation) bool
 	HandlerBody          func(body string) bool
-	HandlerEntry         func(result gjson.Result) bool
+	OnEntry              func(result gjson.Result) bool
 }
 
 // List and call handlers. Returns true when all operation succeed, otherwise false.
@@ -58,7 +58,7 @@ func (r *RpcList) listContinue(c *dbx_api.Context, cursor string) bool {
 
 func (r *RpcList) handleResponse(c *dbx_api.Context, res *RpcResponse, et dbx_api.ErrorAnnotation) bool {
 	if et.IsFailure() {
-		if !r.HandlerError(et) {
+		if !r.OnError(et) {
 			return false
 		}
 		seelog.Debugf("Endpoint[%s] Continue list (error handler returns continue)", r.EndpointList)
@@ -82,7 +82,7 @@ func (r *RpcList) handleResponse(c *dbx_api.Context, res *RpcResponse, et dbx_ap
 }
 
 func (r *RpcList) handleEntry(res *RpcResponse) bool {
-	if r.HandlerEntry == nil {
+	if r.OnEntry == nil {
 		seelog.Warnf("No entry handler found for Endpoint[%s]", r.EndpointList)
 		return false
 	}
@@ -99,7 +99,7 @@ func (r *RpcList) handleEntry(res *RpcResponse) bool {
 	}
 
 	for _, e := range results.Array() {
-		if !r.HandlerEntry(e) {
+		if !r.OnEntry(e) {
 			seelog.Debugf("Endpoint[%s] Handler Entry returned abort. Entry[%s]", r.EndpointList, e.Raw)
 			return false
 		}

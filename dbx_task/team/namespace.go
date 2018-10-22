@@ -31,8 +31,8 @@ func (w *WorkerTeamNamespaceList) Exec(task *workflow.Task) {
 		EndpointListContinue: "team/namespaces/list/continue",
 		UseHasMore:           true,
 		ResultTag:            "namespaces",
-		HandlerError:         w.Pipeline.HandleGeneralFailure,
-		HandlerEntry: func(namespace gjson.Result) bool {
+		OnError:              w.Pipeline.HandleGeneralFailure,
+		OnEntry: func(namespace gjson.Result) bool {
 			namespaceId := namespace.Get("namespace_id").String()
 
 			c := ContextTeamNamespaceListResult{

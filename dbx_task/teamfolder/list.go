@@ -34,8 +34,8 @@ func (w *WorkerTeamFolderList) Exec(task *workflow.Task) {
 		EndpointListContinue: "team/team_folder/list/continue",
 		UseHasMore:           true,
 		ResultTag:            "team_folders",
-		HandlerError:         w.Pipeline.HandleGeneralFailure,
-		HandlerEntry: func(folder gjson.Result) bool {
+		OnError:              w.Pipeline.HandleGeneralFailure,
+		OnEntry: func(folder gjson.Result) bool {
 			teamFolderId := folder.Get("team_folder_id").String()
 
 			c := ContextTeamFolderListResult{

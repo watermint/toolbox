@@ -31,8 +31,8 @@ func (w *WorkerTeamMemberLinkedApps) Exec(task *workflow.Task) {
 		EndpointListContinue: "team/linked_apps/list_members_linked_apps",
 		UseHasMore:           true,
 		ResultTag:            "apps",
-		HandlerError:         w.Pipeline.HandleGeneralFailure,
-		HandlerEntry:         w.processResult,
+		OnError:              w.Pipeline.HandleGeneralFailure,
+		OnEntry:              w.processResult,
 	}
 
 	list.List(w.Api, nil)
