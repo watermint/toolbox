@@ -2,7 +2,6 @@ package member
 
 import (
 	"encoding/json"
-	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_rpc"
@@ -39,26 +38,19 @@ func (w *WorkerTeamMemberLinkedApps) Exec(task *workflow.Task) {
 }
 
 func (w *WorkerTeamMemberLinkedApps) processResult(member gjson.Result) bool {
-	teamMemberId := member.Get("team_member_id").String()
-	apps := member.Get("linked_api_apps")
-	if !apps.Exists() || !apps.IsArray() {
-		seelog.Debugf("Apps not found in the result [%s]", member)
-		return false
-	}
-	for _, app := range apps.Array() {
-		appId := app.Get("app_id").String()
-		c := ContextTeamMemberLinkedAppsResult{
-			TeamMemberId:   teamMemberId,
-			LinkedApiAppId: appId,
-			LinkedApiApp:   json.RawMessage(app.Raw),
-		}
-		w.Pipeline.Enqueue(
-			workflow.MarshalTask(
-				w.NextTask,
-				teamMemberId+"@"+appId,
-				c,
-			),
-		)
-	}
+	//teamMemberId := member.Get("team_member_id").String()
+	//apps := member.Get("linked_api_apps")
+	//if !apps.Exists() || !apps.IsArray() {
+	//	seelog.Debugf("Apps not found in the result [%s]", member)
+	//	return false
+	//}
+	//for _, app := range apps.Array() {
+	//	appId := app.Get("app_id").String()
+	//	c := ContextTeamMemberLinkedAppsResult{
+	//		TeamMemberId:   teamMemberId,
+	//		LinkedApiAppId: appId,
+	//		LinkedApiApp:   json.RawMessage(app.Raw),
+	//	}
+	//}
 	return true
 }

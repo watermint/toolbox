@@ -52,7 +52,7 @@ func (a *GroupList) List(c *dbx_api.Context) bool {
 		OnError:              a.OnError,
 		OnEntry: func(r gjson.Result) bool {
 			p, ea, _ := ParseGroup(r)
-			if ea.IsSuccess() {
+			if ea.IsSuccess() && a.OnEntry != nil {
 				return a.OnEntry(p)
 			} else {
 				if a.OnError != nil {
@@ -70,6 +70,7 @@ type GroupMember struct {
 	GroupId      string            `json:"group_id"`
 	GroupName    string            `json:"group_name"`
 	TeamMemberId string            `json:"team_member_id"`
+	AccessType   string            `json:"access_type"`
 	Profile      *dbx_task.Profile `json:"profile"`
 }
 
@@ -101,12 +102,14 @@ func (a *GroupMemberList) List(c *dbx_api.Context, group *Group) bool {
 		ResultTag:            "members",
 		OnError:              a.OnError,
 		OnEntry: func(r gjson.Result) bool {
-			p, ea, _ := dbx_task.ParseProfile(r)
-			if ea.IsSuccess() {
+			accessType := r.Get("access_type\\.tag").String()
+			p, ea, _ := dbx_task.ParseProfile(r.Get("profile"))
+			if ea.IsSuccess() && a.OnEntry != nil {
 				gm := &GroupMember{
 					GroupId:      group.GroupId,
 					GroupName:    group.GroupName,
 					TeamMemberId: p.TeamMemberId,
+					AccessType:   accessType,
 					Profile:      p,
 				}
 				return a.OnEntry(gm)

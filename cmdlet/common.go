@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cihub/seelog"
+	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/util"
 	"strings"
@@ -147,4 +148,28 @@ func (c *CommandletGroup) Exec(ec *infra.ExecContext, args []string) {
 
 	c.PrintUsage(c)
 	fmt.Printf("Invalid command [%s]", subCmd)
+}
+
+func DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool {
+	if ea.IsSuccess() {
+		return true
+	}
+
+	seelog.Errorf("Error: ErrorType[%s] UserMessage[%s]",
+		ea.ErrorTypeLabel(),
+		ea.UserMessage(),
+	)
+	return false
+}
+
+func DefaultErrorHandlerIgnoreError(ea dbx_api.ErrorAnnotation) bool {
+	if ea.IsSuccess() {
+		return true
+	}
+
+	seelog.Warnf("Error: ErrorType[%s] UserMessage[%s]",
+		ea.ErrorTypeLabel(),
+		ea.UserMessage(),
+	)
+	return true
 }

@@ -4,9 +4,8 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_task/group"
+	"github.com/watermint/toolbox/dbx_api/dbx_team"
 	"github.com/watermint/toolbox/infra"
-	"github.com/watermint/toolbox/workflow"
 )
 
 type CmdGroupMemberList struct {
@@ -39,55 +38,29 @@ func (c *CmdGroupMemberList) Exec(ec *infra.ExecContext, args []string) {
 	}
 	defer ec.Shutdown()
 
-	apiMgmt, err := ec.LoadOrAuthBusinessInfo()
+	apiInfo, err := ec.LoadOrAuthBusinessInfo()
 	if err != nil {
 		return
 	}
 
-	c.report.DataHeaders = []string{
-		"group_id",
-		"group_name",
-		"member.profile.team_member_id",
-		"member.profile.account_id",
-		"member.profile.email",
-		"member.profile.name.given_name",
-		"member.profile.name.surname",
-		"member.access_type.\\.tag",
-	}
-	rt, rs, err := c.report.ReportStages()
-	if err != nil {
-		return
-	}
+	c.report.Open()
+	defer c.report.Close()
 
-	wkGroupMemberList := &group.WorkerTeamGroupMemberList{
-		Api:      apiMgmt,
-		NextTask: rt,
-	}
-	wkGroupList := &group.WorkerTeamGroupList{
-		Api:      apiMgmt,
-		NextTask: wkGroupMemberList.Prefix(),
-	}
+	gl := dbx_team.GroupList{
+		OnError: cmdlet.DefaultErrorHandler,
+		OnEntry: func(group *dbx_team.Group) bool {
 
-	stages := []workflow.Worker{
-		wkGroupList,
-		wkGroupMemberList,
+			gml := dbx_team.GroupMemberList{
+				OnError: cmdlet.DefaultErrorHandler,
+				OnEntry: func(gm *dbx_team.GroupMember) bool {
+					c.report.Report(gm)
+					return true
+				},
+			}
+			gml.List(apiInfo, group)
+
+			return true
+		},
 	}
-	stages = append(stages, rs...)
-
-	p := workflow.Pipeline{
-		Infra:  ec,
-		Stages: stages,
-	}
-
-	p.Init()
-	defer p.Close()
-
-	p.Enqueue(
-		workflow.MarshalTask(
-			wkGroupList.Prefix(),
-			wkGroupList.Prefix(),
-			nil,
-		),
-	)
-	p.Loop()
+	gl.List(apiInfo)
 }

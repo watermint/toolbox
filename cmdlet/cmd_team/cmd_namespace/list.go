@@ -4,9 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_task/team"
 	"github.com/watermint/toolbox/infra"
-	"github.com/watermint/toolbox/workflow"
 )
 
 type CmdTeamNamespaceList struct {
@@ -38,46 +36,41 @@ func (c *CmdTeamNamespaceList) Exec(ec *infra.ExecContext, args []string) {
 	}
 	defer ec.Shutdown()
 
-	apiMgmt, err := ec.LoadOrAuthBusinessFile()
-	if err != nil {
-		return
-	}
+	//apiMgmt, err := ec.LoadOrAuthBusinessFile()
+	//if err != nil {
+	//	return
+	//}
 
-	c.report.DataHeaders = []string{
-		"team_member_id",
-		"app_id",
-	}
-
-	rt, rs, err := c.report.ReportStages()
-	if err != nil {
-		return
-	}
-
-	wkNamespaceList := &team.WorkerTeamNamespaceList{
-		Api:      apiMgmt,
-		NextTask: rt,
-	}
-
-	stages := []workflow.Worker{
-		wkNamespaceList,
-	}
-
-	stages = append(stages, rs...)
-
-	p := workflow.Pipeline{
-		Infra:  ec,
-		Stages: stages,
-	}
-
-	p.Init()
-	defer p.Close()
-
-	p.Enqueue(
-		workflow.MarshalTask(
-			wkNamespaceList.Prefix(),
-			wkNamespaceList.Prefix(),
-			nil,
-		),
-	)
-	p.Loop()
+	//rt, rs, err := c.report.ReportStages()
+	//if err != nil {
+	//	return
+	//}
+	//
+	//wkNamespaceList := &team.WorkerTeamNamespaceList{
+	//	Api:      apiMgmt,
+	//	NextTask: rt,
+	//}
+	//
+	//stages := []workflow.Worker{
+	//	wkNamespaceList,
+	//}
+	//
+	//stages = append(stages, rs...)
+	//
+	//p := workflow.Pipeline{
+	//	Infra:  ec,
+	//	Stages: stages,
+	//}
+	//
+	//p.Init()
+	//defer p.Close()
+	//
+	//p.Enqueue(
+	//	workflow.MarshalTask(
+	//		wkNamespaceList.Prefix(),
+	//		wkNamespaceList.Prefix(),
+	//		nil,
+	//	),
+	//)
+	//p.Loop()
 }

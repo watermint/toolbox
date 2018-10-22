@@ -4,9 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_task/team"
 	"github.com/watermint/toolbox/infra"
-	"github.com/watermint/toolbox/workflow"
 )
 
 type CmdTeamFeature struct {
@@ -37,42 +35,42 @@ func (c *CmdTeamFeature) Exec(ec *infra.ExecContext, args []string) {
 		return
 	}
 	defer ec.Shutdown()
+	//
+	//apiMgmt, err := ec.LoadOrAuthBusinessInfo()
+	//if err != nil {
+	//	return
+	//}
 
-	apiMgmt, err := ec.LoadOrAuthBusinessInfo()
-	if err != nil {
-		return
-	}
-
-	c.report.DataHeaders = []string{}
-
-	rt, rs, err := c.report.ReportStages()
-	if err != nil {
-		return
-	}
-
-	stages := []workflow.Worker{
-		&team.WorkerTeamFeatures{
-			ApiManagement: apiMgmt,
-			NextTask:      rt,
-		},
-	}
-
-	stages = append(stages, rs...)
-
-	p := workflow.Pipeline{
-		Infra:  ec,
-		Stages: stages,
-	}
-
-	p.Init()
-	defer p.Close()
-
-	p.Enqueue(
-		workflow.MarshalTask(
-			team.WORKER_TEAM_FEATURES,
-			team.WORKER_TEAM_FEATURES,
-			team.ContextTeamFeature{},
-		),
-	)
-	p.Loop()
+	//c.report.DataHeaders = []string{}
+	//
+	//rt, rs, err := c.report.ReportStages()
+	//if err != nil {
+	//	return
+	//}
+	//
+	//stages := []workflow.Worker{
+	//	&team.WorkerTeamFeatures{
+	//		ApiManagement: apiMgmt,
+	//		NextTask:      rt,
+	//	},
+	//}
+	//
+	//stages = append(stages, rs...)
+	//
+	//p := workflow.Pipeline{
+	//	Infra:  ec,
+	//	Stages: stages,
+	//}
+	//
+	//p.Init()
+	//defer p.Close()
+	//
+	//p.Enqueue(
+	//	workflow.MarshalTask(
+	//		team.WORKER_TEAM_FEATURES,
+	//		team.WORKER_TEAM_FEATURES,
+	//		team.ContextTeamFeature{},
+	//	),
+	//)
+	//p.Loop()
 }
