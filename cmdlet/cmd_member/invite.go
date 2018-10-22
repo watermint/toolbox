@@ -2,6 +2,7 @@ package cmd_member
 
 import (
 	"flag"
+	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx/task/member"
@@ -25,7 +26,7 @@ func (c *CmdMemberInvite) Desc() string {
 }
 
 func (c *CmdMemberInvite) Usage() string {
-	return `-csv MEMBER_FILENAME`
+	return `{{.Command}} -csv MEMBER_FILENAME`
 }
 
 func (c *CmdMemberInvite) FlagConfig(f *flag.FlagSet) {
@@ -42,6 +43,12 @@ func (c *CmdMemberInvite) Exec(ec *infra.ExecContext, args []string) {
 		return
 	}
 	defer ec.Shutdown()
+	if c.optCsv == "" {
+		seelog.Errorf("Please specify input csv")
+		seelog.Flush()
+		c.PrintUsage(c)
+		return
+	}
 
 	apiMgmt, err := ec.LoadOrAuthBusinessManagement()
 	if err != nil {
