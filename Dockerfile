@@ -16,4 +16,4 @@ ADD . $PROJECT_ROOT
 WORKDIR $PROJECT_ROOT
 RUN glide install
 
-ENTRYPOINT $PROJECT_ROOT/build/build_on_docker.sh
+ENTRYPOINT $PROJECT_ROOT/build.sh
