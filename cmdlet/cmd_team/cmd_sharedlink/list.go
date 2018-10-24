@@ -4,6 +4,9 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_profile"
+	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
+	"github.com/watermint/toolbox/dbx_api/dbx_team"
 	"github.com/watermint/toolbox/infra"
 )
 
@@ -37,65 +40,28 @@ func (c *CmdTeamSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
 		return
 	}
 	defer ec.Shutdown()
-	//
-	//apiMgmt, err := ec.LoadOrAuthBusinessFile()
-	//if err != nil {
-	//	return
-	//}
-	//
-	//c.report.DataHeaders = []string{
-	//	"team_member_id",
-	//	"app_id",
-	//}
-	//
-	//rt, rs, err := c.report.ReportStages()
-	//if err != nil {
-	//	return
-	//}
-	//ft, fs, err := c.filter.FilterStages(rt)
-	//if err != nil {
-	//	return
-	//}
-	//wrapUpTask := rt
-	//if ft != "" {
-	//	wrapUpTask = ft
-	//}
-	//
-	//wkSharedLinkList := &sharedlink.WorkerSharedLinkList{
-	//	Api:      apiMgmt,
-	//	NextTask: wrapUpTask,
-	//}
-	//wkAsMemberIdDispatch := &workflow.WorkerAsMemberIdDispatch{
-	//	NextTask: wkSharedLinkList.Prefix(),
-	//}
-	//wkTeamMemberList := &member.WorkerTeamMemberList{
-	//	Api:      apiMgmt,
-	//	NextTask: wkAsMemberIdDispatch.Prefix(),
-	//}
-	//
-	//stages := []workflow.Worker{
-	//	wkTeamMemberList,
-	//	wkAsMemberIdDispatch,
-	//	wkSharedLinkList,
-	//}
-	//
-	//stages = append(stages, fs...)
-	//stages = append(stages, rs...)
-	//
-	//p := workflow.Pipeline{
-	//	Infra:  ec,
-	//	Stages: stages,
-	//}
-	//
-	//p.Init()
-	//defer p.Close()
-	//
-	//p.Enqueue(
-	//	workflow.MarshalTask(
-	//		wkTeamMemberList.Prefix(),
-	//		wkTeamMemberList.Prefix(),
-	//		nil,
-	//	),
-	//)
-	//p.Loop()
+
+	apiMgmt, err := ec.LoadOrAuthBusinessFile()
+	if err != nil {
+		return
+	}
+
+	ml := dbx_team.MembersList{
+		OnError: cmdlet.DefaultErrorHandler,
+		OnEntry: func(profile *dbx_profile.Profile) bool {
+
+			sl := dbx_sharing.SharedLinkList{
+				AsMemberId:    profile.TeamMemberId,
+				AsMemberEmail: profile.Email,
+				OnError:       cmdlet.DefaultErrorHandler,
+				OnEntry: func(link *dbx_sharing.SharedLink) bool {
+					c.report.Report(link)
+					return true
+				},
+			}
+			sl.List(apiMgmt)
+			return true
+		},
+	}
+	ml.List(apiMgmt, false)
 }

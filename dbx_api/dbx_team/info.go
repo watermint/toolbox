@@ -1,7 +1,6 @@
 package dbx_team
 
 import (
-	"context"
 	"encoding/json"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
@@ -18,7 +17,7 @@ type TeamInfoList struct {
 	OnEntry func(info *TeamInfo) bool
 }
 
-func (t *TeamInfoList) List(c *context.Context) bool {
+func (t *TeamInfoList) List(c *dbx_api.Context) bool {
 	req := dbx_rpc.RpcRequest{
 		Endpoint: "team/get_info",
 	}

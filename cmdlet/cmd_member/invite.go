@@ -107,9 +107,7 @@ func (c *CmdMemberInvite) Exec(ec *infra.ExecContext, args []string) {
 	mi := dbx_team.MembersInvite{
 		OnFailure: handleFailure,
 		OnSuccess: handleSuccess,
-		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
-			return true
-		},
+		OnError:   cmdlet.DefaultErrorHandler,
 	}
 	mi.Invite(apiMgmt, newMembers)
 }
@@ -131,7 +129,7 @@ func (c *CmdMemberInvite) loadCsv() (newMembers []*dbx_team.NewMember, err error
 		}
 		if err != nil {
 			seelog.Warnf("Unable to read CSV file [%s] : error[%s]", c.optCsv, err)
-			return
+			return nil, err
 		}
 		if len(cols) < 1 {
 			seelog.Warnf("Skip line: [%v]", cols)

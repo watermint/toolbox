@@ -3,6 +3,7 @@ package dbx_sharing
 import (
 	"encoding/json"
 	"errors"
+	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_rpc"
@@ -17,7 +18,30 @@ type SharedLink struct {
 	Link          json.RawMessage `json:"link"`
 }
 
-func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newLink *SharedLink, annotation dbx_api.ErrorAnnotation, err error) {
+func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newLInk *SharedLink, annotation dbx_api.ErrorAnnotation, err error) {
+	link := string(a.Link)
+	expires := gjson.Get(link, "expires").String()
+	var origTime time.Time
+	if expires != "" {
+		var err error
+		origTime, err = time.Parse(dbx_api.DateTimeFormat, expires)
+		if err != nil {
+			annotation = dbx_api.ErrorAnnotation{
+				ErrorType: dbx_api.ErrorUnexpectedDataType,
+				Error:     err,
+			}
+			return nil, annotation, err
+		}
+	}
+	if origTime.IsZero() || origTime.After(newExpire) {
+		return a.OverwriteExpire(c, newExpire)
+	} else {
+		seelog.Debugf("Skip LinkId[%s] Expire[%s]", a.SharedLinkId, origTime.String())
+	}
+	return a, dbx_api.Success, nil
+}
+
+func (a *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (newLink *SharedLink, annotation dbx_api.ErrorAnnotation, err error) {
 	url := gjson.Get(string(a.Link), "url").String()
 
 	type SettingsParam struct {

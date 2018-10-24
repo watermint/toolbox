@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_team"
 	"github.com/watermint/toolbox/infra"
 )
 
@@ -36,46 +37,20 @@ func (c *CmdTeamInfo) Exec(ec *infra.ExecContext, args []string) {
 	}
 	defer ec.Shutdown()
 
-	//apiMgmt, err := ec.LoadOrAuthBusinessInfo()
-	//if err != nil {
-	//	return
-	//}
+	apiInfo, err := ec.LoadOrAuthBusinessInfo()
+	if err != nil {
+		return
+	}
 
-	//c.report.DataHeaders = []string{
-	//	"team_id",
-	//	"info.name",
-	//	"info.num_licensed_users",
-	//	"info.num_provisioned_users",
-	//}
-	//
-	//rt, rs, err := c.report.ReportStages()
-	//if err != nil {
-	//	return
-	//}
-	//
-	//stages := []workflow.Worker{
-	//	&team.WorkerTeamInfo{
-	//		ApiManagement: apiMgmt,
-	//		NextTask:      rt,
-	//	},
-	//}
-	//
-	//stages = append(stages, rs...)
-	//
-	//p := workflow.Pipeline{
-	//	Infra:  ec,
-	//	Stages: stages,
-	//}
-	//
-	//p.Init()
-	//defer p.Close()
-	//
-	//p.Enqueue(
-	//	workflow.MarshalTask(
-	//		team.WORKER_TEAM_INFO,
-	//		team.WORKER_TEAM_INFO,
-	//		team.ContextTeamInfo{},
-	//	),
-	//)
-	//p.Loop()
+	c.report.Open()
+	defer c.report.Close()
+
+	l := dbx_team.TeamInfoList{
+		OnError: cmdlet.DefaultErrorHandler,
+		OnEntry: func(info *dbx_team.TeamInfo) bool {
+			c.report.Report(info)
+			return true
+		},
+	}
+	l.List(apiInfo)
 }

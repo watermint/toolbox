@@ -26,13 +26,13 @@ func ParseNamespace(n gjson.Result) (namespace *Namespace, annotation dbx_api.Er
 		return nil, annotation, err
 	}
 
-	c := Namespace{
+	ns := &Namespace{
 		NamespaceId:   namespaceId.String(),
 		NamespaceType: n.Get("namespace_type.\\.tag").String(),
 		Name:          n.Get("name").String(),
 		Namespace:     json.RawMessage(n.Raw),
 	}
-	return c, dbx_api.Success, nil
+	return ns, dbx_api.Success, nil
 }
 
 type NamespaceList struct {
@@ -58,5 +58,5 @@ func (w *NamespaceList) List(c *dbx_api.Context) bool {
 			return false
 		},
 	}
-	list.List(c, nil)
+	return list.List(c, nil)
 }
