@@ -1,6 +1,7 @@
 package dbx_team
 
 import (
+	"errors"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
@@ -9,7 +10,7 @@ import (
 
 type MembersList struct {
 	OnError func(annotation dbx_api.ErrorAnnotation) bool
-	OnEntry func(profile *dbx_task.Profile) bool
+	OnEntry func(profile *dbx_profile.Profile) bool
 }
 
 func (a *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
@@ -27,12 +28,12 @@ func (a *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
 		ResultTag:            "members",
 		OnError:              a.OnError,
 		OnEntry: func(member gjson.Result) bool {
-			p, ea, _ := dbx_task.ParseProfile(member)
+			p, ea, _ := dbx_profile.ParseProfile(member)
 			if ea.IsSuccess() {
 				return a.OnEntry(p)
 			} else {
 				if a.OnError != nil {
-					a.OnError(ea)
+					return a.OnError(ea)
 				}
 				return false
 			}
@@ -40,4 +41,121 @@ func (a *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
 	}
 
 	return list.List(c, lp)
+}
+
+const (
+	AdminTierTeamAdmin           = "team_admin"
+	AdminTierUserManagementAdmin = "user_management_admin"
+	AdminTierSupportAdmin        = "support_admin"
+	AdminTierMemberOnly          = "member_only"
+)
+
+type NewMember struct {
+	MemberEmail           string `json:"member_email"`
+	MemberGivenName       string `json:"member_given_name,omitempty"`
+	MemberSurname         string `json:"member_surname,omitempty"`
+	MemberExternalId      string `json:"member_external_id,omitempty"`
+	MemberPersistentId    string `json:"member_persistent_id,omitempty"`
+	SendWelcomeEmail      bool   `json:"send_welcome_email"`
+	Role                  string `json:"role,omitempty"`
+	IsDirectoryRestricted bool   `json:"is_directory_restricted,omitempty"`
+}
+
+type MembersInvite struct {
+	OnError   func(annotation dbx_api.ErrorAnnotation) bool
+	OnSuccess func(profile *dbx_profile.Profile, role string) bool
+	OnFailure func(email string, reason string) bool
+}
+
+func (m *MembersInvite) Invite(c *dbx_api.Context, members []*NewMember) bool {
+	chunkSize := 20
+	var batch []*NewMember
+	for len(members) > 0 {
+		if len(members) >= chunkSize {
+			batch = members[:chunkSize]
+			members = members[chunkSize:]
+		} else {
+			batch = members
+			members = make([]*NewMember, 0)
+		}
+
+		if !m.handleInvite(c, batch) {
+			return false
+		}
+	}
+	return true
+}
+
+func (m *MembersInvite) handleInvite(c *dbx_api.Context, members []*NewMember) bool {
+	type NewMembers struct {
+		NewMembers []*NewMember `json:"new_members"`
+		ForceAsync bool         `json:"force_async"`
+	}
+
+	arg := NewMembers{
+		NewMembers: members,
+		ForceAsync: true,
+	}
+
+	req := dbx_rpc.RpcRequest{
+		Endpoint: "team/members/add",
+		Param:    arg,
+	}
+	res, ea, _ := req.Call(c)
+	if ea.IsFailure() {
+		if m.OnError != nil {
+			return m.OnError(ea)
+		}
+		return false
+	}
+
+	as := dbx_rpc.AsyncStatus{
+		Endpoint:   "team/members/add/job_status/get",
+		OnError:    m.OnError,
+		OnComplete: m.handleComplete,
+	}
+	return as.Poll(c, res)
+}
+
+func (m *MembersInvite) handleComplete(complete gjson.Result) bool {
+	tag := complete.Get(dbx_api.ResJsonDotTag)
+	if !tag.Exists() {
+		err := errors.New("unexpected data format: `.tag` not found")
+		annotation := dbx_api.ErrorAnnotation{
+			ErrorType: dbx_api.ErrorUnexpectedDataType,
+			Error:     err,
+		}
+		if m.OnError != nil {
+			return m.OnError(annotation)
+		}
+		return false
+	}
+
+	if tag.String() == "success" {
+		return m.handleSuccess(complete)
+	} else {
+		return m.handleFailure(tag.String(), complete)
+	}
+}
+
+func (m *MembersInvite) handleSuccess(complete gjson.Result) bool {
+	p, ea, _ := dbx_profile.ParseProfile(complete.Get("profile"))
+	if ea.IsFailure() {
+		return m.OnError(ea)
+	}
+	role := complete.Get("role." + dbx_api.ResJsonDotTag)
+
+	if m.OnSuccess != nil {
+		return m.OnSuccess(p, role.String())
+	}
+	return true
+}
+
+func (m *MembersInvite) handleFailure(tag string, complete gjson.Result) bool {
+	email := complete.Get(tag).String()
+
+	if m.OnFailure != nil {
+		return m.OnFailure(email, tag)
+	}
+	return false
 }

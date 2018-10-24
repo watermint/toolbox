@@ -46,6 +46,13 @@ func ParseAccessError(responseBody string) (ae AccessError) {
 	return
 }
 
+var (
+	Success = ErrorAnnotation{
+		ErrorType: ErrorSuccess,
+		Error:     nil,
+	}
+)
+
 type ErrorAnnotation struct {
 	ErrorType int
 	Error     error

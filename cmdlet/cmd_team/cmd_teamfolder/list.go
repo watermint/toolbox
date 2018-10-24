@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_team"
 	"github.com/watermint/toolbox/infra"
 )
 
@@ -36,46 +37,20 @@ func (c *CmdTeamTeamFolderList) Exec(ec *infra.ExecContext, args []string) {
 	}
 	defer ec.Shutdown()
 
-	//apiMgmt, err := ec.LoadOrAuthBusinessFile()
-	//if err != nil {
-	//	return
-	//}
-	//
-	//c.report.DataHeaders = []string{
-	//	"team_member_id",
-	//	"app_id",
-	//}
-	//
-	//rt, rs, err := c.report.ReportStages()
-	//if err != nil {
-	//	return
-	//}
-	//
-	//wkTeamFolderList := &teamfolder.WorkerTeamFolderList{
-	//	Api:      apiMgmt,
-	//	NextTask: rt,
-	//}
-	//
-	//stages := []workflow.Worker{
-	//	wkTeamFolderList,
-	//}
-	//
-	//stages = append(stages, rs...)
-	//
-	//p := workflow.Pipeline{
-	//	Infra:  ec,
-	//	Stages: stages,
-	//}
-	//
-	//p.Init()
-	//defer p.Close()
-	//
-	//p.Enqueue(
-	//	workflow.MarshalTask(
-	//		wkTeamFolderList.Prefix(),
-	//		wkTeamFolderList.Prefix(),
-	//		nil,
-	//	),
-	//)
-	//p.Loop()
+	apiInfo, err := ec.LoadOrAuthBusinessInfo()
+	if err != nil {
+		return
+	}
+
+	c.report.Open()
+	defer c.report.Close()
+
+	l := dbx_team.TeamFolderList{
+		OnError: cmdlet.DefaultErrorHandler,
+		OnEntry: func(teamFolder *dbx_team.TeamFolder) bool {
+			c.report.Report(teamFolder)
+			return true
+		},
+	}
+	l.List(apiInfo)
 }
