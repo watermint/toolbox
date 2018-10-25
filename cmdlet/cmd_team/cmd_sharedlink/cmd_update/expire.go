@@ -58,11 +58,11 @@ func (c *CmdTeamSharedLinkUpdateExpire) Exec(ec *infra.ExecContext, args []strin
 	newExpire := dbx_api.RebaseTimeForAPI(time.Now().Add(time.Duration(c.optDays*24) * time.Hour))
 	ml := dbx_team.MembersList{
 		OnError: cmdlet.DefaultErrorHandler,
-		OnEntry: func(profile *dbx_profile.Profile) bool {
+		OnEntry: func(member *dbx_profile.Member) bool {
 
 			sl := dbx_sharing.SharedLinkList{
-				AsMemberId:    profile.TeamMemberId,
-				AsMemberEmail: profile.Email,
+				AsMemberId:    member.Profile.TeamMemberId,
+				AsMemberEmail: member.Profile.Email,
 				OnError:       cmdlet.DefaultErrorHandler,
 				OnEntry: func(link *dbx_sharing.SharedLink) bool {
 					if c.filter.IsAcceptable(link) {

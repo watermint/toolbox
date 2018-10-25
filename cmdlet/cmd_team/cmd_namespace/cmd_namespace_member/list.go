@@ -1,12 +1,11 @@
-package cmd_member
+package cmd_namespace_member
 
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_task/task/team"
+	"github.com/watermint/toolbox/dbx_api/dbx_team"
 	"github.com/watermint/toolbox/infra"
-	"github.com/watermint/toolbox/workflow"
 )
 
 type CmdTeamNamespaceMemberList struct {
@@ -21,7 +20,7 @@ func (CmdTeamNamespaceMemberList) Name() string {
 }
 
 func (CmdTeamNamespaceMemberList) Desc() string {
-	return "List all namespaces of the team"
+	return "List all namespace members of the team"
 }
 
 func (CmdTeamNamespaceMemberList) Usage() string {
@@ -38,44 +37,22 @@ func (c *CmdTeamNamespaceMemberList) Exec(ec *infra.ExecContext, args []string) 
 	}
 	defer ec.Shutdown()
 
-	apiMgmt, err := ec.LoadOrAuthBusinessFile()
+	apiFile, err := ec.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
 
-	c.report.DataHeaders = []string{
-		"team_member_id",
-		"app_id",
-	}
+	//admin, ea, _ := dbx_profile.AuthenticatedAdmin(apiFile)
+	//if ea.IsFailure() {
+	//	return cmdlet.DefaultErrorHandler(ea)
+	//}
 
-	rt, rs, err := c.report.ReportStages()
-	if err != nil {
-		return
-	}
-
-	stages := []workflow.Worker{
-		&team.WorkerTeamNamespaceList{
-			Api:      apiMgmt,
-			NextTask: rt,
+	l := dbx_team.NamespaceList{
+		OnError: cmdlet.DefaultErrorHandler,
+		OnEntry: func(namespace *dbx_team.Namespace) bool {
+			c.report.Report(namespace)
+			return true
 		},
 	}
-
-	stages = append(stages, rs...)
-
-	p := workflow.Pipeline{
-		Infra:  ec,
-		Stages: stages,
-	}
-
-	p.Init()
-	defer p.Close()
-
-	p.Enqueue(
-		workflow.MarshalTask(
-			team.WORKER_TEAM_NAMESPACE_LIST,
-			team.WORKER_TEAM_NAMESPACE_LIST,
-			team.ContextTeamNamespaceList{},
-		),
-	)
-	p.Loop()
+	l.List(apiFile)
 }

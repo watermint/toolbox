@@ -1,6 +1,9 @@
 package cmd_namespace
 
-import "github.com/watermint/toolbox/cmdlet"
+import (
+	"github.com/watermint/toolbox/cmdlet"
+	"github.com/watermint/toolbox/cmdlet/cmd_team/cmd_namespace/cmd_namespace_member"
+)
 
 func NewCmdTeamNamespace() cmdlet.Commandlet {
 	return &cmdlet.CommandletGroup{
@@ -10,6 +13,7 @@ func NewCmdTeamNamespace() cmdlet.Commandlet {
 			&CmdTeamNamespaceList{
 				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
 			},
+			cmd_namespace_member.NewCmdTeamNamespaceMember(),
 		},
 	}
 }

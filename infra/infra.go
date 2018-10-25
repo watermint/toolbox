@@ -1,6 +1,7 @@
 package infra
 
 import (
+	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
@@ -9,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/dbx_api/dbx_auth"
 	"github.com/watermint/toolbox/infra/diag"
 	"github.com/watermint/toolbox/infra/util"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/user"
@@ -54,7 +56,7 @@ type ExecContext struct {
 	LogLevels    string
 	CleanupToken bool
 	TraceLog     bool
-	issuedTokens []string
+	tokens       *Tokens
 }
 
 var (
@@ -73,93 +75,229 @@ var (
 var (
 	AppName    string = "toolbox"
 	AppVersion string = "dev"
-	AppHash    string = "XXXXXXX"
+	AppHash    string = ""
 )
 
-func (opts *ExecContext) FileOnWorkPath(name string) string {
-	return filepath.Join(opts.WorkPath, name)
+type AppKey struct {
+	DropboxFullAppKey           string `json:"DropboxFullAppKey,omitempty"`
+	DropboxFullAppSecret        string `json:"DropboxFullAppSecret,omitempty"`
+	BusinessInfoAppKey          string `json:"BusinessInfoAppKey,omitempty"`
+	BusinessInfoAppSecret       string `json:"BusinessInfoAppSecret,omitempty"`
+	BusinessFileAppKey          string `json:"BusinessFileAppKey,omitempty"`
+	BusinessFileAppSecret       string `json:"BusinessFileAppSecret,omitempty"`
+	BusinessManagementAppKey    string `json:"BusinessManagementAppKey,omitempty"`
+	BusinessManagementAppSecret string `json:"BusinessManagementAppSecret,omitempty"`
+	BusinessAuditAppKey         string `json:"BusinessAuditAppKey,omitempty"`
+	BusinessAuditAppSecret      string `json:"BusinessAuditAppSecret,omitempty"`
 }
 
-func (opts *ExecContext) AuthFile() string {
-	return opts.FileOnWorkPath(AppName + ".secret")
+type Tokens struct {
+	DropboxFullToken        string `json:"DropboxFullToken,omitempty"`
+	BusinessInfoToken       string `json:"BusinessInfoToken,omitempty"`
+	BusinessFileToken       string `json:"BusinessFileToken,omitempty"`
+	BusinessManagementToken string `json:"BusinessManagementToken,omitempty"`
+	BusinessAuditToken      string `json:"BusinessAuditToken,omitempty"`
 }
 
-func (opts *ExecContext) queueToken(a dbx_auth.DropboxAuthenticator, business bool) (ac *dbx_api.Context, err error) {
-	token, err := a.LoadOrAuth(business, !opts.CleanupToken)
+func (e *ExecContext) FileOnWorkPath(name string) string {
+	return filepath.Join(e.WorkPath, name)
+}
+
+func (e *ExecContext) AuthFile() string {
+	return e.FileOnWorkPath(AppName + ".secret")
+}
+
+func (e *ExecContext) queueToken(a dbx_auth.DropboxAuthenticator, business bool) (ac *dbx_api.Context, err error) {
+	token, err := a.LoadOrAuth(business, !e.CleanupToken)
 	if err != nil {
 		return nil, err
 	}
-
-	seelog.Debugf("Issued token stored in ExecContext")
-	opts.issuedTokens = append(opts.issuedTokens, token)
 
 	ac = dbx_api.NewContext(token)
 
 	return
 }
 
-func (opts *ExecContext) LoadOrAuthDropboxFull() (ac *dbx_api.Context, err error) {
+func (e *ExecContext) IsTokensAvailable() bool {
+	return e.tokens != nil
+}
+
+func (e *ExecContext) LoadOrAuthDropboxFull() (ac *dbx_api.Context, err error) {
+	if e.tokens != nil && e.tokens.DropboxFullToken != "" {
+		return dbx_api.NewContext(e.tokens.DropboxFullToken), nil
+	}
 	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  opts.AuthFile(),
+		AuthFile:  e.AuthFile(),
 		AppKey:    DropboxFullAppKey,
 		AppSecret: DropboxFullAppSecret,
 		TokenType: dbx_auth.DropboxTokenFull,
 	}
-	return opts.queueToken(a, false)
+	return e.queueToken(a, false)
 }
 
-func (opts *ExecContext) LoadOrAuthBusinessInfo() (ac *dbx_api.Context, err error) {
+func (e *ExecContext) LoadOrAuthBusinessInfo() (ac *dbx_api.Context, err error) {
+	if e.tokens != nil && e.tokens.BusinessInfoToken != "" {
+		return dbx_api.NewContext(e.tokens.BusinessInfoToken), nil
+	}
 	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  opts.AuthFile(),
+		AuthFile:  e.AuthFile(),
 		AppKey:    BusinessInfoAppKey,
 		AppSecret: BusinessInfoAppSecret,
 		TokenType: dbx_auth.DropboxTokenBusinessInfo,
 	}
-	return opts.queueToken(a, true)
+	return e.queueToken(a, true)
 }
 
-func (opts *ExecContext) LoadOrAuthBusinessFile() (ac *dbx_api.Context, err error) {
+func (e *ExecContext) LoadOrAuthBusinessFile() (ac *dbx_api.Context, err error) {
+	if e.tokens != nil && e.tokens.BusinessFileToken != "" {
+		return dbx_api.NewContext(e.tokens.BusinessFileToken), nil
+	}
 	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  opts.AuthFile(),
+		AuthFile:  e.AuthFile(),
 		AppKey:    BusinessFileAppKey,
 		AppSecret: BusinessFileAppSecret,
 		TokenType: dbx_auth.DropboxTokenBusinessFile,
 	}
-	return opts.queueToken(a, true)
+	return e.queueToken(a, true)
 }
 
-func (opts *ExecContext) LoadOrAuthBusinessManagement() (ac *dbx_api.Context, err error) {
+func (e *ExecContext) LoadOrAuthBusinessManagement() (ac *dbx_api.Context, err error) {
+	if e.tokens != nil && e.tokens.BusinessManagementToken != "" {
+		return dbx_api.NewContext(e.tokens.BusinessManagementToken), nil
+	}
 	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  opts.AuthFile(),
+		AuthFile:  e.AuthFile(),
 		AppKey:    BusinessManagementAppKey,
 		AppSecret: BusinessManagementAppSecret,
 		TokenType: dbx_auth.DropboxTokenBusinessManagement,
 	}
-	return opts.queueToken(a, true)
+	return e.queueToken(a, true)
 }
 
-func (opts *ExecContext) LoadOrAuthBusinessAudit() (ac *dbx_api.Context, err error) {
+func (e *ExecContext) LoadOrAuthBusinessAudit() (ac *dbx_api.Context, err error) {
+	if e.tokens != nil && e.tokens.BusinessAuditToken != "" {
+		return dbx_api.NewContext(e.tokens.BusinessAuditToken), nil
+	}
 	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  opts.AuthFile(),
+		AuthFile:  e.AuthFile(),
 		AppKey:    BusinessAuditAppKey,
 		AppSecret: BusinessAuditAppSecret,
 		TokenType: dbx_auth.DropboxTokenBusinessAudit,
 	}
-	return opts.queueToken(a, true)
+	return e.queueToken(a, true)
 }
 
-func (opts *ExecContext) Startup() error {
-	err := setupWorkPath(opts)
+func (e *ExecContext) loadAppKeysFileIfExists() {
+	appKeysFile := AppName + ".appkey"
+	_, err := os.Stat(appKeysFile)
+	if os.IsNotExist(err) {
+		return
+	}
+
+	ak, err := ioutil.ReadFile(appKeysFile)
+	if err != nil {
+		seelog.Debugf("Unable to load app keys file: [%s]", appKeysFile)
+		return
+	}
+	keys := AppKey{}
+	err = json.Unmarshal(ak, &keys)
+	if err != nil {
+		seelog.Debugf("Unable to load app keys file: [%s]", appKeysFile)
+		return
+	}
+
+	if keys.DropboxFullAppKey != "" {
+		DropboxFullAppKey = keys.DropboxFullAppKey
+	}
+	if keys.DropboxFullAppSecret != "" {
+		DropboxFullAppSecret = keys.DropboxFullAppSecret
+	}
+	if keys.BusinessInfoAppKey != "" {
+		BusinessInfoAppKey = keys.BusinessInfoAppKey
+	}
+	if keys.BusinessInfoAppSecret != "" {
+		BusinessInfoAppSecret = keys.BusinessInfoAppSecret
+	}
+	if keys.BusinessFileAppKey != "" {
+		BusinessFileAppKey = keys.BusinessFileAppKey
+	}
+	if keys.BusinessFileAppSecret != "" {
+		BusinessFileAppSecret = keys.BusinessFileAppSecret
+	}
+	if keys.BusinessManagementAppKey != "" {
+		BusinessManagementAppKey = keys.BusinessManagementAppKey
+	}
+	if keys.BusinessManagementAppSecret != "" {
+		BusinessManagementAppSecret = keys.BusinessManagementAppSecret
+	}
+	if keys.BusinessAuditAppKey != "" {
+		BusinessAuditAppKey = keys.BusinessAuditAppKey
+	}
+	if keys.BusinessAuditAppSecret != "" {
+		BusinessAuditAppSecret = keys.BusinessAuditAppSecret
+	}
+}
+
+func (e *ExecContext) loadTokensFileIfExists() {
+	pwd, _ := os.Getwd()
+	seelog.Debugf("Pwd[%s]", pwd)
+
+	tokensFile := AppName + ".tokens"
+	_, err := os.Stat(tokensFile)
+	if os.IsNotExist(err) {
+		return
+	}
+	ak, err := ioutil.ReadFile(tokensFile)
+	if err != nil {
+		seelog.Debugf("Unable to load tokens file: [%s]", tokensFile)
+		return
+	}
+	tokens := Tokens{}
+	err = json.Unmarshal(ak, &tokens)
+	if err != nil {
+		seelog.Debugf("Unable to load tokens file: [%s]", tokensFile)
+		return
+	}
+
+	if tokens.DropboxFullToken != "" &&
+		tokens.BusinessInfoToken != "" &&
+		tokens.BusinessManagementToken != "" &&
+		tokens.BusinessFileToken != "" &&
+		tokens.BusinessAuditToken != "" {
+
+		seelog.Debugf("Tokens file [%s] loaded", tokensFile)
+		e.tokens = &tokens
+	}
+}
+
+func (e *ExecContext) StartupForTest() error {
+	err := setupWorkPath(e)
 	if err != nil {
 		return err
 	}
 
-	setupLogger(opts)
+	setupLogger(e)
+	e.loadAppKeysFileIfExists()
+	e.loadTokensFileIfExists()
+
+	return nil
+}
+
+func (e *ExecContext) Startup() error {
+	err := setupWorkPath(e)
+	if err != nil {
+		return err
+	}
+
+	setupLogger(e)
 
 	seelog.Infof("[%s] version [%s] hash[%s]", AppName, AppVersion, AppHash)
 
-	if opts.Proxy != "" {
-		SetupHttpProxy(opts.Proxy)
+	e.loadAppKeysFileIfExists()
+	e.loadTokensFileIfExists()
+
+	if e.Proxy != "" {
+		SetupHttpProxy(e.Proxy)
 	}
 
 	diag.LogDiagnostics()
@@ -167,13 +305,13 @@ func (opts *ExecContext) Startup() error {
 
 	err = diag.QuickNetworkDiagnostics()
 	if err != nil {
-		return errors.New("Unable to reach `www.dropbox.com`. Please check network connection and/or proxy configuration.")
+		return errors.New("unable to reach `www.dropbox.com`. Please check network connection and/or proxy configuration.")
 	}
 
 	return nil
 }
 
-func (opts *ExecContext) Shutdown() {
+func (e *ExecContext) Shutdown() {
 	seelog.Trace("Shutdown infrastructure")
 	seelog.Infof("Log file is at [%s]", logPath)
 	seelog.Flush()
@@ -188,18 +326,18 @@ func DefaultWorkPath() string {
 	return filepath.Join(u.HomeDir, "."+AppName)
 }
 
-func (ic *ExecContext) PrepareFlags(flagset *flag.FlagSet) {
+func (e *ExecContext) PrepareFlags(flagset *flag.FlagSet) {
 	descProxy := "HTTP/HTTPS proxy (hostname:port)"
-	flagset.StringVar(&ic.Proxy, "proxy", "", descProxy)
+	flagset.StringVar(&e.Proxy, "proxy", "", descProxy)
 
 	descWork := fmt.Sprintf("Work directory (default: %s)", DefaultWorkPath())
-	flagset.StringVar(&ic.WorkPath, "work", "", descWork)
+	flagset.StringVar(&e.WorkPath, "work", "", descWork)
 
 	descCleanup := "Cleanup token on exit"
-	flagset.BoolVar(&ic.CleanupToken, "cleanup-token", false, descCleanup)
+	flagset.BoolVar(&e.CleanupToken, "cleanup-token", false, descCleanup)
 
 	descTrace := "Enable trace level log"
-	flagset.BoolVar(&ic.TraceLog, "trace", false, descTrace)
+	flagset.BoolVar(&e.TraceLog, "trace", false, descTrace)
 }
 
 func setupWorkPath(opts *ExecContext) error {

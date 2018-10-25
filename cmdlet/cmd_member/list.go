@@ -52,8 +52,8 @@ func (c *CmdMemberList) Exec(ec *infra.ExecContext, args []string) {
 
 	l := dbx_team.MembersList{
 		OnError: cmdlet.DefaultErrorHandler,
-		OnEntry: func(profile *dbx_profile.Profile) bool {
-			c.report.Report(profile)
+		OnEntry: func(member *dbx_profile.Member) bool {
+			c.report.Report(member)
 			return true
 		},
 	}

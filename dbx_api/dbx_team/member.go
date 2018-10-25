@@ -10,7 +10,7 @@ import (
 
 type MembersList struct {
 	OnError func(annotation dbx_api.ErrorAnnotation) bool
-	OnEntry func(profile *dbx_profile.Profile) bool
+	OnEntry func(member *dbx_profile.Member) bool
 }
 
 func (a *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
@@ -28,9 +28,9 @@ func (a *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
 		ResultTag:            "members",
 		OnError:              a.OnError,
 		OnEntry: func(member gjson.Result) bool {
-			p, ea, _ := dbx_profile.ParseProfile(member)
+			m, ea, _ := dbx_profile.ParseMember(member)
 			if ea.IsSuccess() {
-				return a.OnEntry(p)
+				return a.OnEntry(m)
 			} else {
 				if a.OnError != nil {
 					return a.OnError(ea)
@@ -63,7 +63,7 @@ type NewMember struct {
 
 type MembersInvite struct {
 	OnError   func(annotation dbx_api.ErrorAnnotation) bool
-	OnSuccess func(profile *dbx_profile.Profile, role string) bool
+	OnSuccess func(member *dbx_profile.Member) bool
 	OnFailure func(email string, reason string) bool
 }
 
@@ -139,14 +139,13 @@ func (m *MembersInvite) handleComplete(complete gjson.Result) bool {
 }
 
 func (m *MembersInvite) handleSuccess(complete gjson.Result) bool {
-	p, ea, _ := dbx_profile.ParseProfile(complete.Get("profile"))
+	member, ea, _ := dbx_profile.ParseMember(complete)
 	if ea.IsFailure() {
 		return m.OnError(ea)
 	}
-	role := complete.Get("role." + dbx_api.ResJsonDotTag)
 
 	if m.OnSuccess != nil {
-		return m.OnSuccess(p, role.String())
+		return m.OnSuccess(member)
 	}
 	return true
 }

@@ -15,6 +15,25 @@ type Profile struct {
 	Profile      json.RawMessage `json:"profile"`
 }
 
+type Member struct {
+	Profile *Profile `json:"profile"`
+	Role    string   `json:"role"`
+}
+
+func ParseMember(p gjson.Result) (member *Member, annotation dbx_api.ErrorAnnotation, err error) {
+	profile, ea, err := ParseProfile(p.Get("profile"))
+	if ea.IsFailure() {
+		return nil, ea, err
+	}
+	role := p.Get("role." + dbx_api.ResJsonDotTag).String()
+
+	member = &Member{
+		Profile: profile,
+		Role:    role,
+	}
+	return member, dbx_api.Success, nil
+}
+
 func ParseProfile(p gjson.Result) (profile *Profile, annotation dbx_api.ErrorAnnotation, err error) {
 	email := p.Get("email")
 	if !email.Exists() {

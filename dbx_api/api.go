@@ -3,6 +3,7 @@ package dbx_api
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"net/http"
 	"time"
@@ -79,6 +80,7 @@ func (e ErrorAnnotation) AccessError() *AccessError {
 	return nil
 }
 func (e ErrorAnnotation) ErrorTypeLabel() string {
+	seelog.Flush()
 	switch e.ErrorType {
 	case ErrorBadInputParam:
 		return "bad_input_param"

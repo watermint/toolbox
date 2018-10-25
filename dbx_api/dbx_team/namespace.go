@@ -58,5 +58,8 @@ func (w *NamespaceList) List(c *dbx_api.Context) bool {
 			return false
 		},
 	}
-	return list.List(c, nil)
+	type Limit struct {
+		Limit int `json:"limit"`
+	}
+	return list.List(c, Limit{Limit: 1000})
 }

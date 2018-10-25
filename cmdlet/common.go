@@ -25,6 +25,8 @@ type CommandletBase struct {
 }
 
 func (*CommandletBase) PrintUsage(clt Commandlet) {
+	seelog.Flush()
+
 	var c Commandlet
 	cmds := make([]string, 0)
 	c = clt

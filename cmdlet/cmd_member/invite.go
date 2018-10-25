@@ -65,19 +65,14 @@ func (c *CmdMemberInvite) Exec(ec *infra.ExecContext, args []string) {
 		return
 	}
 
-	type SuccessReport struct {
-		Profile *dbx_profile.Profile `json:"profile,omitempty"`
-		Role    string               `json:"role,omitempty"`
-	}
 	type FailureReport struct {
 		Email  string `json:"email,omitempty"`
 		Reason string `json:"reason,omitempty"`
 	}
-
 	type InviteReport struct {
-		Result  string         `json:"result"`
-		Success *SuccessReport `json:"success,omitempty"`
-		Failure *FailureReport `json:"failure,omitempty"`
+		Result  string              `json:"result"`
+		Success *dbx_profile.Member `json:"success,omitempty"`
+		Failure *FailureReport      `json:"failure,omitempty"`
 	}
 	handleFailure := func(email string, reason string) bool {
 		c.report.Report(
@@ -91,14 +86,11 @@ func (c *CmdMemberInvite) Exec(ec *infra.ExecContext, args []string) {
 		)
 		return true
 	}
-	handleSuccess := func(profile *dbx_profile.Profile, role string) bool {
+	handleSuccess := func(member *dbx_profile.Member) bool {
 		c.report.Report(
 			InviteReport{
-				Result: "success",
-				Success: &SuccessReport{
-					Profile: profile,
-					Role:    role,
-				},
+				Result:  "success",
+				Success: member,
 			},
 		)
 		return true

@@ -48,11 +48,10 @@ func (c *CmdTeamSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
 
 	ml := dbx_team.MembersList{
 		OnError: cmdlet.DefaultErrorHandler,
-		OnEntry: func(profile *dbx_profile.Profile) bool {
-
+		OnEntry: func(member *dbx_profile.Member) bool {
 			sl := dbx_sharing.SharedLinkList{
-				AsMemberId:    profile.TeamMemberId,
-				AsMemberEmail: profile.Email,
+				AsMemberId:    member.Profile.TeamMemberId,
+				AsMemberEmail: member.Profile.Email,
 				OnError:       cmdlet.DefaultErrorHandler,
 				OnEntry: func(link *dbx_sharing.SharedLink) bool {
 					c.report.Report(link)
