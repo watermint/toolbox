@@ -16,6 +16,9 @@ func CmdTest(t *testing.T, g Commandlet, args []string) {
 	}
 	for filepath.Base(tokensFilePath) != "toolbox" {
 		tokensFilePath = filepath.Dir(tokensFilePath)
+		if tokensFilePath == "." {
+			return
+		}
 	}
 	ec := &infra.ExecContext{}
 	if ec.StartupForTest(tokensFilePath) != nil {
