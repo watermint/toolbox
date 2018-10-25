@@ -81,7 +81,7 @@ func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, ea dbx_api.E
 	}
 
 	now := time.Now()
-	if c.RetryAfter.Before(now) {
+	if !c.RetryAfter.IsZero() && now.Before(c.RetryAfter) {
 		seelog.Debugf("Sleep until %s", c.RetryAfter.String())
 		time.Sleep(c.RetryAfter.Sub(now))
 	}

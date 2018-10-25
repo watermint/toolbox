@@ -46,10 +46,15 @@ func (c *Report) Open() error {
 func (c *Report) Close() {
 	if c.reportFile != nil {
 		c.reportFile.Close()
+		c.reportFile = nil
 	}
 }
 
 func (c *Report) Report(row interface{}) {
+	if c.reportWriter == nil {
+		seelog.Errorf("Report is not opened. Fallback to stdout")
+		c.reportWriter = os.Stdout
+	}
 	r, err := json.Marshal(row)
 	if err != nil {
 		seelog.Debugf("Marshal error[%s] Data[%v]", err, row)

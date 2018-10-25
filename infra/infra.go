@@ -238,11 +238,11 @@ func (e *ExecContext) loadAppKeysFileIfExists() {
 	}
 }
 
-func (e *ExecContext) loadTokensFileIfExists() {
+func (e *ExecContext) loadTokensFileIfExists(tokensFilePath string) {
 	pwd, _ := os.Getwd()
 	seelog.Debugf("Pwd[%s]", pwd)
 
-	tokensFile := AppName + ".tokens"
+	tokensFile := filepath.Join(tokensFilePath, AppName+".tokens")
 	_, err := os.Stat(tokensFile)
 	if os.IsNotExist(err) {
 		return
@@ -270,7 +270,7 @@ func (e *ExecContext) loadTokensFileIfExists() {
 	}
 }
 
-func (e *ExecContext) StartupForTest() error {
+func (e *ExecContext) StartupForTest(tokensFilePath string) error {
 	err := setupWorkPath(e)
 	if err != nil {
 		return err
@@ -278,7 +278,7 @@ func (e *ExecContext) StartupForTest() error {
 
 	setupLogger(e)
 	e.loadAppKeysFileIfExists()
-	e.loadTokensFileIfExists()
+	e.loadTokensFileIfExists(tokensFilePath)
 
 	return nil
 }
@@ -294,7 +294,7 @@ func (e *ExecContext) Startup() error {
 	seelog.Infof("[%s] version [%s] hash[%s]", AppName, AppVersion, AppHash)
 
 	e.loadAppKeysFileIfExists()
-	e.loadTokensFileIfExists()
+	e.loadTokensFileIfExists("")
 
 	if e.Proxy != "" {
 		SetupHttpProxy(e.Proxy)

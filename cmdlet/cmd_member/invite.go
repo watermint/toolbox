@@ -65,6 +65,9 @@ func (c *CmdMemberInvite) Exec(ec *infra.ExecContext, args []string) {
 		return
 	}
 
+	c.report.Open()
+	defer c.report.Close()
+
 	type FailureReport struct {
 		Email  string `json:"email,omitempty"`
 		Reason string `json:"reason,omitempty"`

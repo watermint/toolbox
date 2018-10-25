@@ -38,7 +38,7 @@ func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newL
 	} else {
 		seelog.Debugf("Skip LinkId[%s] Expire[%s]", a.SharedLinkId, origTime.String())
 	}
-	return a, dbx_api.Success, nil
+	return nil, dbx_api.Success, nil
 }
 
 func (a *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (newLink *SharedLink, annotation dbx_api.ErrorAnnotation, err error) {
@@ -69,7 +69,8 @@ func (a *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (n
 		return nil, ea, err
 	}
 
-	newLink, ea, err = ParseSharedLink(gjson.Get(res.Body, ""))
+	seelog.Debugf("SharedLinkRes[%s]", res.Body)
+	newLink, ea, err = ParseSharedLink(gjson.Parse(res.Body))
 	if ea.IsFailure() {
 		return nil, ea, err
 	}
@@ -90,7 +91,7 @@ func ParseSharedLink(res gjson.Result) (link *SharedLink, annotation dbx_api.Err
 		return nil, annotation, err
 	}
 	url := res.Get("url")
-	if !linkId.Exists() {
+	if !url.Exists() {
 		err = errors.New("required field `url` not found")
 		annotation = dbx_api.ErrorAnnotation{
 			ErrorType: dbx_api.ErrorUnexpectedDataType,
@@ -126,7 +127,7 @@ func (a *SharedLinkList) List(c *dbx_api.Context) bool {
 		EndpointList:         "sharing/list_shared_links",
 		EndpointListContinue: "sharing/list_shared_links",
 		AsMemberId:           a.AsMemberId,
-		UseHasMore:           true,
+		UseHasMore:           false,
 		ResultTag:            "links",
 		OnError:              a.OnError,
 		OnEntry: func(link gjson.Result) bool {

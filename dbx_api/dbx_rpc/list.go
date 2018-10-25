@@ -14,7 +14,7 @@ type RpcList struct {
 	AsAdminId            string
 	ResultTag            string
 	OnError              func(annotation dbx_api.ErrorAnnotation) bool
-	HandlerBody          func(body string) bool
+	OnResponse           func(body string) bool
 	OnEntry              func(result gjson.Result) bool
 }
 
@@ -64,7 +64,7 @@ func (r *RpcList) handleResponse(c *dbx_api.Context, res *RpcResponse, et dbx_ap
 		seelog.Debugf("Endpoint[%s] Continue list (error handler returns continue)", r.EndpointList)
 	}
 
-	if r.HandlerBody != nil && !r.HandlerBody(res.Body) {
+	if r.OnResponse != nil && !r.OnResponse(res.Body) {
 		seelog.Debugf("Endpoint[%s] Handler Body returned abort", r.EndpointList)
 		return false
 	}
@@ -83,8 +83,7 @@ func (r *RpcList) handleResponse(c *dbx_api.Context, res *RpcResponse, et dbx_ap
 
 func (r *RpcList) handleEntry(res *RpcResponse) bool {
 	if r.OnEntry == nil {
-		seelog.Warnf("No entry handler found for Endpoint[%s]", r.EndpointList)
-		return false
+		return true
 	}
 
 	results := gjson.Get(res.Body, r.ResultTag)

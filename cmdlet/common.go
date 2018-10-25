@@ -1,6 +1,7 @@
 package cmdlet
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"github.com/cihub/seelog"
@@ -148,8 +149,21 @@ func (c *CommandletGroup) Exec(ec *infra.ExecContext, args []string) {
 		return
 	}
 
+	err := errors.New(fmt.Sprintf("invalid command [%s]", subCmd))
+	ea := dbx_api.ErrorAnnotation{
+		ErrorType: dbx_api.ErrorBadInputParam,
+		Error:     err,
+	}
 	c.PrintUsage(c)
-	fmt.Printf("Invalid command [%s]", subCmd)
+	DefaultErrorHandler(ea)
+}
+
+var (
+	errorQueue = make([]dbx_api.ErrorAnnotation, 0)
+)
+
+func ErrorQueue() []dbx_api.ErrorAnnotation {
+	return errorQueue
 }
 
 func DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool {
@@ -161,6 +175,7 @@ func DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool {
 		ea.ErrorTypeLabel(),
 		ea.UserMessage(),
 	)
+	errorQueue = append(errorQueue, ea)
 	return false
 }
 
@@ -173,5 +188,6 @@ func DefaultErrorHandlerIgnoreError(ea dbx_api.ErrorAnnotation) bool {
 		ea.ErrorTypeLabel(),
 		ea.UserMessage(),
 	)
+	errorQueue = append(errorQueue, ea)
 	return true
 }

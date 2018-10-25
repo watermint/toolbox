@@ -45,6 +45,8 @@ func (c *CmdTeamSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
 	if err != nil {
 		return
 	}
+	c.report.Open()
+	defer c.report.Close()
 
 	ml := dbx_team.MembersList{
 		OnError: cmdlet.DefaultErrorHandler,

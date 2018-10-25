@@ -3,6 +3,7 @@ package cmd_update
 import (
 	"flag"
 	"github.com/cihub/seelog"
+	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
@@ -55,6 +56,17 @@ func (c *CmdTeamSharedLinkUpdateExpire) Exec(ec *infra.ExecContext, args []strin
 		return
 	}
 
+	c.report.Open()
+	defer c.report.Close()
+
+	type UpdateReport struct {
+		MemberId     string `json:"member_id"`
+		MemberEmail  string `json:"member_email"`
+		SharedLinkId string `json:"shared_link_id"`
+		OldExpires   string `json:"old_expires"`
+		NewExpires   string `json:"new_expires"`
+	}
+
 	newExpire := dbx_api.RebaseTimeForAPI(time.Now().Add(time.Duration(c.optDays*24) * time.Hour))
 	ml := dbx_team.MembersList{
 		OnError: cmdlet.DefaultErrorHandler,
@@ -71,7 +83,16 @@ func (c *CmdTeamSharedLinkUpdateExpire) Exec(ec *infra.ExecContext, args []strin
 							cmdlet.DefaultErrorHandlerIgnoreError(ea)
 							return true
 						}
-						c.report.Report(newLink)
+						if newLink != nil {
+							ur := UpdateReport{
+								MemberId:     member.Profile.TeamMemberId,
+								MemberEmail:  member.Profile.Email,
+								SharedLinkId: link.SharedLinkId,
+								OldExpires:   gjson.Get(string(link.Link), "expires").String(),
+								NewExpires:   gjson.Get(string(newLink.Link), "expires").String(),
+							}
+							c.report.Report(ur)
+						}
 					}
 					return true
 				},

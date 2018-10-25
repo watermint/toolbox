@@ -37,7 +37,7 @@ func (c *CmdTeamTeamFolderList) Exec(ec *infra.ExecContext, args []string) {
 	}
 	defer ec.Shutdown()
 
-	apiInfo, err := ec.LoadOrAuthBusinessInfo()
+	apiInfo, err := ec.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}

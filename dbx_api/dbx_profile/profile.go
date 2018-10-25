@@ -72,7 +72,7 @@ func CurrentAccount(c *dbx_api.Context) (account *Profile, annotation dbx_api.Er
 	}
 	res, annotation, err := req.Call(c)
 	if annotation.IsSuccess() {
-		return ParseProfile(gjson.Get(res.Body, "i"))
+		return ParseProfile(gjson.Parse(res.Body))
 	} else {
 		return
 	}

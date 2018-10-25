@@ -118,9 +118,8 @@ func (m *MembersInvite) handleInvite(c *dbx_api.Context, members []*NewMember) b
 }
 
 func (m *MembersInvite) handleComplete(complete gjson.Result) bool {
-	tag := complete.Get(dbx_api.ResJsonDotTag)
-	if !tag.Exists() {
-		err := errors.New("unexpected data format: `.tag` not found")
+	if !complete.IsArray() {
+		err := errors.New("unexpected data format: `complete` is not an array")
 		annotation := dbx_api.ErrorAnnotation{
 			ErrorType: dbx_api.ErrorUnexpectedDataType,
 			Error:     err,
@@ -130,12 +129,19 @@ func (m *MembersInvite) handleComplete(complete gjson.Result) bool {
 		}
 		return false
 	}
-
-	if tag.String() == "success" {
-		return m.handleSuccess(complete)
-	} else {
-		return m.handleFailure(tag.String(), complete)
+	for _, c := range complete.Array() {
+		tag := c.Get(dbx_api.ResJsonDotTag)
+		if tag.String() == "success" {
+			if !m.handleSuccess(c) {
+				return false
+			}
+		} else {
+			if !m.handleFailure(tag.String(), c) {
+				return false
+			}
+		}
 	}
+	return true
 }
 
 func (m *MembersInvite) handleSuccess(complete gjson.Result) bool {
