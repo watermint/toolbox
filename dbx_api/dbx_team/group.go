@@ -52,8 +52,12 @@ func (a *GroupList) List(c *dbx_api.Context) bool {
 		OnError:              a.OnError,
 		OnEntry: func(r gjson.Result) bool {
 			p, ea, _ := ParseGroup(r)
-			if ea.IsSuccess() && a.OnEntry != nil {
-				return a.OnEntry(p)
+			if ea.IsSuccess() {
+				if a.OnEntry != nil {
+					return a.OnEntry(p)
+				} else {
+					return true
+				}
 			} else {
 				if a.OnError != nil {
 					a.OnError(ea)
@@ -104,7 +108,10 @@ func (a *GroupMemberList) List(c *dbx_api.Context, group *Group) bool {
 		OnEntry: func(r gjson.Result) bool {
 			accessType := r.Get("access_type\\.tag").String()
 			p, ea, _ := dbx_profile.ParseProfile(r.Get("profile"))
-			if ea.IsSuccess() && a.OnEntry != nil {
+			if ea.IsSuccess() {
+				if a.OnEntry == nil {
+					return true
+				}
 				gm := &GroupMember{
 					GroupId:      group.GroupId,
 					GroupName:    group.GroupName,
