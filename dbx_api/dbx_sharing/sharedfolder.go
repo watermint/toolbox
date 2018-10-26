@@ -23,8 +23,8 @@ type User struct {
 }
 
 type MembershipUser struct {
-	Membership *Membership
-	User       *User
+	Membership *Membership `json:"membership"`
+	User       *User       `json:"user"`
 }
 
 type Group struct {
@@ -39,8 +39,8 @@ type Group struct {
 }
 
 type MembershipGroup struct {
-	Membership *Membership
-	Group      *Group
+	Membership *Membership `json:"membership"`
+	Group      *Group      `json:"group"`
 }
 
 type Invitee struct {
@@ -48,9 +48,9 @@ type Invitee struct {
 }
 
 type MembershipInvitee struct {
-	Membership *Membership
-	Invitee    *Invitee
-	User       *User
+	Membership *Membership `json:"membership"`
+	Invitee    *Invitee    `json:"invitee"`
+	User       *User       `json:"user,omitempty"`
 }
 
 func ParseMembership(r gjson.Result) (m *Membership) {
