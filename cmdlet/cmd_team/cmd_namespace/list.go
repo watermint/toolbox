@@ -1,4 +1,4 @@
-package cmd_team
+package cmd_namespace
 
 import (
 	"flag"
@@ -8,36 +8,36 @@ import (
 	"github.com/watermint/toolbox/infra"
 )
 
-type CmdTeamFeature struct {
+type CmdTeamNamespaceList struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext *dbx_api.Context
 	report     cmdlet.Report
 }
 
-func (c *CmdTeamFeature) Name() string {
-	return "feature"
+func (CmdTeamNamespaceList) Name() string {
+	return "list"
 }
 
-func (c *CmdTeamFeature) Desc() string {
-	return "List team feature values"
+func (CmdTeamNamespaceList) Desc() string {
+	return "List all namespaces of the team"
 }
 
-func (CmdTeamFeature) Usage() string {
+func (CmdTeamNamespaceList) Usage() string {
 	return ""
 }
 
-func (c *CmdTeamFeature) FlagConfig(f *flag.FlagSet) {
+func (c *CmdTeamNamespaceList) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 }
 
-func (c *CmdTeamFeature) Exec(ec *infra.ExecContext, args []string) {
+func (c *CmdTeamNamespaceList) Exec(ec *infra.ExecContext, args []string) {
 	if err := ec.Startup(); err != nil {
 		return
 	}
 	defer ec.Shutdown()
 
-	apiInfo, err := ec.LoadOrAuthBusinessInfo()
+	apiInfo, err := ec.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
@@ -45,10 +45,10 @@ func (c *CmdTeamFeature) Exec(ec *infra.ExecContext, args []string) {
 	c.report.Open()
 	defer c.report.Close()
 
-	l := dbx_team.FeatureList{
+	l := dbx_team.NamespaceList{
 		OnError: cmdlet.DefaultErrorHandler,
-		OnEntry: func(feature *dbx_team.Feature) bool {
-			c.report.Report(feature)
+		OnEntry: func(namespace *dbx_team.Namespace) bool {
+			c.report.Report(namespace)
 			return true
 		},
 	}

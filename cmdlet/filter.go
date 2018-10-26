@@ -1,12 +1,11 @@
 package cmdlet
 
 import (
-	"errors"
 	"flag"
 	"fmt"
-	"github.com/cihub/seelog"
-	"github.com/watermint/toolbox/dbx/task/sharedlink"
-	"github.com/watermint/toolbox/workflow"
+	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
+	"path/filepath"
 	"strings"
 )
 
@@ -26,53 +25,25 @@ func (s *SharedLinkFilter) FlagConfig(f *flag.FlagSet) {
 	f.StringVar(&s.FilterByVisibility, "filter-visibility", "", descFilterVisibility)
 }
 
-func (s *SharedLinkFilter) FilterStages(nextTask string) (firstFilter string, stages []workflow.Worker, err error) {
-	stages = make([]workflow.Worker, 0)
-	first := ""
+func (s *SharedLinkFilter) IsAcceptable(link *dbx_sharing.SharedLink) bool {
+	linkBody := string(link.Link)
+	result := true
+	if s.FilterByVisibility != "" {
+		visibility := gjson.Get(linkBody, "link_permissions.resolved_visibility.\\.tag").String()
+		if visibility != s.FilterByVisibility {
+			result = false
+		}
+	}
 
 	if s.FilterByPath != "" {
-		seelog.Debugf("FilterByPath[%s]", s.FilterByPath)
-		nt := nextTask
-		if s.FilterByVisibility != "" {
-			nt = sharedlink.WORKER_SHAREDLINK_FILTER_VISIBILITY
+		pathLower := gjson.Get(linkBody, "path_lower").String()
+		filterPath := filepath.ToSlash(strings.ToLower(s.FilterByPath))
+
+		if !strings.HasPrefix(pathLower, filterPath) {
+			result = false
 		}
-		first = sharedlink.WORKER_SHAREDLINK_FILTER_PATH
-		stages = append(
-			stages,
-			&sharedlink.WorkerSharedLinkFilterByPath{
-				Path:     s.FilterByPath,
-				NextTask: nt,
-			},
-		)
 	}
-
-	if s.FilterByVisibility != "" {
-		seelog.Debugf("FilterByVisibility[%s]", s.FilterByVisibility)
-		if first == "" {
-			first = sharedlink.WORKER_SHAREDLINK_FILTER_VISIBILITY
-		}
-		found := false
-		for _, v := range s.SupportedVisibility() {
-			if v == s.FilterByVisibility {
-				found = true
-			}
-		}
-		if !found {
-			seelog.Warnf("Unsupported visibility [%s] for filtering shared link", s.FilterByVisibility)
-			return "", nil, errors.New("unsupported visibility")
-		}
-		stages = append(
-			stages,
-			&sharedlink.WorkerSharedLinkFilterByVisibility{
-				Visibility: s.FilterByVisibility,
-				NextTask:   nextTask,
-			},
-		)
-	}
-
-	seelog.Debugf("First filter stage[%s] NextTask[%s]", first, nextTask)
-
-	return first, stages, nil
+	return result
 }
 
 func (s *SharedLinkFilter) SupportedVisibility() []string {
