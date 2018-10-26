@@ -2,18 +2,18 @@ package cmd_member
 
 import (
 	"flag"
-	"github.com/watermint/toolbox/api"
 	"github.com/watermint/toolbox/cmdlet"
-	"github.com/watermint/toolbox/dbx/task/member"
+	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_profile"
+	"github.com/watermint/toolbox/dbx_api/dbx_team"
 	"github.com/watermint/toolbox/infra"
-	"github.com/watermint/toolbox/workflow"
 )
 
 type CmdMemberList struct {
 	*cmdlet.SimpleCommandlet
 
 	optIncludeRemoved bool
-	apiContext        *api.ApiContext
+	apiContext        *dbx_api.Context
 	report            cmdlet.Report
 }
 
@@ -42,56 +42,20 @@ func (c *CmdMemberList) Exec(ec *infra.ExecContext, args []string) {
 	}
 	defer ec.Shutdown()
 
-	apiMgmt, err := ec.LoadOrAuthBusinessInfo()
+	apiInfo, err := ec.LoadOrAuthBusinessInfo()
 	if err != nil {
 		return
 	}
 
-	c.report.DataHeaders = []string{
-		"member.profile.team_member_id",
-		"member.profile.email",
-		"member.profile.email_verified",
-		"member.profile.status.\\.tag",
-		"member.profile.name.given_name",
-		"member.profile.name.surname",
-		"member.profile.name.familiar_name",
-		"member.profile.name.display_name",
-		"member.profile.name.abbreviated_name",
-		"member.profile.external_id",
-		"member.profile.account_id",
-		"member.profile.joined_on",
-		"member.role.\\.tag",
-	}
+	c.report.Open()
+	defer c.report.Close()
 
-	rt, rs, err := c.report.ReportStages()
-	if err != nil {
-		return
-	}
-
-	stages := []workflow.Worker{
-		&member.WorkerTeamMemberList{
-			ApiManagement:  apiMgmt,
-			IncludeRemoved: c.optIncludeRemoved,
-			NextTask:       rt,
+	l := dbx_team.MembersList{
+		OnError: cmdlet.DefaultErrorHandler,
+		OnEntry: func(member *dbx_profile.Member) bool {
+			c.report.Report(member)
+			return true
 		},
 	}
-
-	stages = append(stages, rs...)
-
-	p := workflow.Pipeline{
-		Infra:  ec,
-		Stages: stages,
-	}
-
-	p.Init()
-	defer p.Close()
-
-	p.Enqueue(
-		workflow.MarshalTask(
-			member.WORKER_TEAM_MEMBER_LIST,
-			member.WORKER_TEAM_MEMBER_LIST,
-			member.ContextTeamMemberList{},
-		),
-	)
-	p.Loop()
+	l.List(apiInfo, c.optIncludeRemoved)
 }

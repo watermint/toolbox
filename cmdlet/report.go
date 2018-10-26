@@ -1,50 +1,65 @@
 package cmdlet
 
 import (
+	"encoding/json"
 	"flag"
+	"fmt"
 	"github.com/cihub/seelog"
-	"github.com/watermint/toolbox/workflow"
-	"github.com/watermint/toolbox/workflow/report"
+	"io"
+	"os"
 )
 
 type Report struct {
 	ReportPath   string
 	ReportFormat string
-
-	DataHeaders []string
+	reportFile   *os.File
+	reportWriter io.Writer
 }
 
 func (c *Report) FlagConfig(f *flag.FlagSet) {
 	descReportPath := "Output file path of the report (default: STDOUT)"
 	f.StringVar(&c.ReportPath, "report-path", "", descReportPath)
 
-	descReportFormat := "Output file format (csv|jsonl) (default: jsonl)"
-	f.StringVar(&c.ReportFormat, "report-format", "jsonl", descReportFormat)
+	//descReportFormat := "Output file format (jsonl) (default: jsonl)"
+	//f.StringVar(&c.ReportFormat, "report-format", "jsonl", descReportFormat)
+
+	// Make supported format only for JSONL for while
+	c.ReportFormat = "jsonl"
 }
 
-func (c *Report) ReportStages() (reportTask string, stages []workflow.Worker, err error) {
-	reportTask = report.WORKER_REPORT_JSONL
-	switch c.ReportFormat {
-	case "jsonl":
-		reportTask = report.WORKER_REPORT_JSONL
-
-	case "csv":
-		reportTask = report.WORKER_REPORT_CSV
-
-	default:
-		seelog.Warnf("Unsupported report format [%s]", c.ReportFormat)
-		return "", nil, err
+func (c *Report) Open() error {
+	if c.ReportPath == "" {
+		c.reportWriter = os.Stdout
+	} else {
+		if f, err := os.Open(c.ReportPath); err != nil {
+			seelog.Errorf("Unable to open report file [%s]. Fallback to STDOUT", c.ReportPath)
+			c.reportWriter = os.Stdout
+			return err
+		} else {
+			c.reportFile = f
+			c.reportWriter = f
+		}
 	}
+	return nil
+}
 
-	return reportTask,
-		[]workflow.Worker{
-			&report.WorkerReportJsonl{
-				ReportPath: c.ReportPath,
-			},
-			&report.WorkerReportCsv{
-				ReportPath:  c.ReportPath,
-				DataHeaders: c.DataHeaders,
-			},
-		}, nil
+func (c *Report) Close() {
+	if c.reportFile != nil {
+		c.reportFile.Close()
+		c.reportFile = nil
+	}
+}
 
+func (c *Report) Report(row interface{}) {
+	if c.reportWriter == nil {
+		seelog.Errorf("Report is not opened. Fallback to stdout")
+		c.reportWriter = os.Stdout
+	}
+	r, err := json.Marshal(row)
+	if err != nil {
+		seelog.Debugf("Marshal error[%s] Data[%v]", err, row)
+		seelog.Warnf("Unable to marshal report due to error[%s].", err)
+		return
+	}
+	fmt.Fprintln(c.reportWriter, string(r))
 }
