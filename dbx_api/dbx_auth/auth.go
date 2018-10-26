@@ -15,19 +15,19 @@ import (
 type DropboxTokenType int
 
 const (
-	DropboxTokenFull DropboxTokenType = iota
-	DropboxTokenApp
-	DropboxTokenBusinessInfo
-	DropboxTokenBusinessAudit
-	DropboxTokenBusinessFile
-	DropboxTokenBusinessManagement
+	DropboxTokenFull               = "user_full"
+	DropboxTokenApp                = "user_app"
+	DropboxTokenBusinessInfo       = "business_info"
+	DropboxTokenBusinessAudit      = "business_audit"
+	DropboxTokenBusinessFile       = "business_file"
+	DropboxTokenBusinessManagement = "business_management"
 )
 
 type DropboxAuthenticator struct {
 	AuthFile  string
 	AppKey    string
 	AppSecret string
-	TokenType DropboxTokenType
+	TokenType string
 }
 
 const (
@@ -124,13 +124,16 @@ func (d *DropboxAuthenticator) TokenFileLoad() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if t, ex := m[d.AppKey]; !ex {
-		seelog.Tracef("Appkey[%s] not found in loaded token map", d.AppKey)
-		return "", errors.New("app key not found in loaded token map")
-	} else {
+	if t, ok := m[d.AppKey]; ok {
 		seelog.Tracef("Token for App key[%s] found in map", d.AppKey)
 		return t, nil
 	}
+	if t, ok := m[d.TokenType]; ok {
+		seelog.Tracef("Token for App type[%s] found in map", d.TokenType)
+		return t, nil
+	}
+	seelog.Tracef("Appkey[%s] not found in loaded token map", d.AppKey)
+	return "", errors.New("app key not found in loaded token map")
 }
 
 func (d *DropboxAuthenticator) TokenFileSave(token string) error {
@@ -142,8 +145,13 @@ func (d *DropboxAuthenticator) TokenFileSave(token string) error {
 		m = make(map[string]string)
 	}
 
-	// overwrite token for AppKey
-	m[d.AppKey] = token
+	if d.AppKey == "" {
+		// save as token type string
+		m[d.TokenType] = token
+	} else {
+		// overwrite token for AppKey
+		m[d.AppKey] = token
+	}
 
 	f, err := json.Marshal(m)
 	if err != nil {
