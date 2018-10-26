@@ -25,6 +25,7 @@ var (
 	ErrorTransport          = 1000
 	ErrorUnknown            = 1001
 	ErrorUnexpectedDataType = 1002
+	ErrorOperationFailed    = 1003
 	ErrorServerError        = 1500
 )
 
@@ -98,6 +99,8 @@ func (e ErrorAnnotation) ErrorTypeLabel() string {
 		return "transport_error"
 	case ErrorUnknown:
 		return "unknown"
+	case ErrorOperationFailed:
+		return "operation_failed"
 	case ErrorUnexpectedDataType:
 		return "unexpected_data_type"
 	case ErrorServerError:

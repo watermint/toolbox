@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cihub/seelog"
+	"github.com/watermint/toolbox/dbx_api"
 	"io"
 	"os"
 )
@@ -31,7 +32,7 @@ func (c *Report) Open() error {
 	if c.ReportPath == "" {
 		c.reportWriter = os.Stdout
 	} else {
-		if f, err := os.Open(c.ReportPath); err != nil {
+		if f, err := os.Create(c.ReportPath); err != nil {
 			seelog.Errorf("Unable to open report file [%s]. Fallback to STDOUT", c.ReportPath)
 			c.reportWriter = os.Stdout
 			return err
@@ -61,5 +62,16 @@ func (c *Report) Report(row interface{}) {
 		seelog.Warnf("Unable to marshal report due to error[%s].", err)
 		return
 	}
-	fmt.Fprintln(c.reportWriter, string(r))
+	_, err = fmt.Fprintln(c.reportWriter, string(r))
+	if err != nil {
+		seelog.Debugf("Unable to write data to the file [%s]", c.ReportPath)
+		seelog.Infof("%s", string(r))
+		an := dbx_api.ErrorAnnotation{
+			ErrorType: dbx_api.ErrorOperationFailed,
+			Error:     err,
+		}
+		DefaultErrorHandler(an)
+	} else {
+		seelog.Debugf("Report: %s", string(r))
+	}
 }
