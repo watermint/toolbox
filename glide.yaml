@@ -9,10 +9,6 @@ import:
   - unicode/norm
 - package: github.com/cihub/seelog
   version: v2.6
-- package: github.com/syndtr/goleveldb
-  subpackages:
-  - leveldb
-- package: github.com/golang/snappy
 - package: github.com/tidwall/gjson
   version: v1.1.3
 - package: github.com/tidwall/match
