@@ -56,7 +56,9 @@ func (c *CmdTeamSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
 				AsMemberEmail: member.Profile.Email,
 				OnError:       cmdlet.DefaultErrorHandler,
 				OnEntry: func(link *dbx_sharing.SharedLink) bool {
-					c.report.Report(link)
+					if c.filter.IsAcceptable(link) {
+						c.report.Report(link)
+					}
 					return true
 				},
 			}
