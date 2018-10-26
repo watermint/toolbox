@@ -9,22 +9,38 @@ import (
 )
 
 func TestCmdMemberInvite_Exec(t *testing.T) {
-	csvFile, err := ioutil.TempFile("", "team_member_invite")
+	reportCsvFile, err := ioutil.TempFile("", "member_invite_report")
 	if err != nil {
 		t.Error(err)
 	}
-	defer os.Remove(csvFile.Name())
+	defer os.Remove(reportCsvFile.Name())
+
+	inviteCsvFile, err := ioutil.TempFile("", "member_invite")
+	if err != nil {
+		t.Error(err)
+	}
+	defer os.Remove(inviteCsvFile.Name())
 
 	csvContent := ""
 	for i := 0; i < 3; i++ {
 		csvContent = csvContent + fmt.Sprintf("toolbox%d@example.com,toolbox,%d\n", i, i)
 	}
-	if _, err := csvFile.WriteString(csvContent); err != nil {
+	if _, err := inviteCsvFile.WriteString(csvContent); err != nil {
 		t.Error(err)
 	}
-	if err := csvFile.Close(); err != nil {
+	if err := inviteCsvFile.Close(); err != nil {
 		t.Error(err)
 	}
 
-	cmdlet.CmdTest(t, NewCmdMember(), []string{"invite", "-csv", csvFile.Name()})
+	cmdlet.CmdTest(
+		t,
+		NewCmdMember(),
+		[]string{
+			"invite",
+			"-csv",
+			inviteCsvFile.Name(),
+			"-report-path",
+			reportCsvFile.Name(),
+		},
+	)
 }
