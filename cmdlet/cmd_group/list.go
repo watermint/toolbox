@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
 )
 
 type CmdGrouplist struct {
@@ -35,22 +34,17 @@ func (c *CmdGrouplist) FlagConfig(f *flag.FlagSet) {
 	f.BoolVar(&c.optIncludeRemoved, "include-removed", false, descCsv)
 }
 
-func (c *CmdGrouplist) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
-
-	apiInfo, err := ec.LoadOrAuthBusinessInfo()
+func (c *CmdGrouplist) Exec(args []string) {
+	apiInfo, err := c.ExecContext.LoadOrAuthBusinessInfo()
 	if err != nil {
 		return
 	}
 
-	c.report.Open()
+	c.report.Open(c)
 	defer c.report.Close()
 
 	gl := dbx_team.GroupList{
-		OnError: cmdlet.DefaultErrorHandler,
+		OnError: c.DefaultErrorHandler,
 		OnEntry: func(group *dbx_team.Group) bool {
 			c.report.Report(group)
 			return true

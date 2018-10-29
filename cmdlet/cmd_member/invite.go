@@ -2,13 +2,12 @@ package cmd_member
 
 import (
 	"flag"
-	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/util"
+	"go.uber.org/zap"
 	"io"
 	"os"
 )
@@ -43,19 +42,14 @@ func (c *CmdMemberInvite) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 }
 
-func (c *CmdMemberInvite) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
+func (c *CmdMemberInvite) Exec(args []string) {
 	if c.optCsv == "" {
-		seelog.Errorf("Please specify input csv")
-		seelog.Flush()
+		c.Log().Error("Please specify input csv")
 		c.PrintUsage(c)
 		return
 	}
 
-	apiMgmt, err := ec.LoadOrAuthBusinessManagement()
+	apiMgmt, err := c.ExecContext.LoadOrAuthBusinessManagement()
 	if err != nil {
 		return
 	}
@@ -65,7 +59,7 @@ func (c *CmdMemberInvite) Exec(ec *infra.ExecContext, args []string) {
 		return
 	}
 
-	c.report.Open()
+	c.report.Open(c)
 	defer c.report.Close()
 
 	type FailureReport struct {
@@ -102,7 +96,7 @@ func (c *CmdMemberInvite) Exec(ec *infra.ExecContext, args []string) {
 	mi := dbx_team.MembersInvite{
 		OnFailure: handleFailure,
 		OnSuccess: handleSuccess,
-		OnError:   cmdlet.DefaultErrorHandler,
+		OnError:   c.DefaultErrorHandler,
 	}
 	mi.Invite(apiMgmt, newMembers)
 }
@@ -110,7 +104,11 @@ func (c *CmdMemberInvite) Exec(ec *infra.ExecContext, args []string) {
 func (c *CmdMemberInvite) loadCsv() (newMembers []*dbx_team.NewMember, err error) {
 	f, err := os.Open(c.optCsv)
 	if err != nil {
-		seelog.Warnf("Unable to open file[%s] : error[%s]", c.optCsv, err)
+		c.Log().Warn(
+			"Unable to open file",
+			zap.String("file", c.optCsv),
+			zap.Error(err),
+		)
 		return nil, err
 	}
 	csv := util.NewBomAwareCsvReader(f)
@@ -123,11 +121,15 @@ func (c *CmdMemberInvite) loadCsv() (newMembers []*dbx_team.NewMember, err error
 			break
 		}
 		if err != nil {
-			seelog.Warnf("Unable to read CSV file [%s] : error[%s]", c.optCsv, err)
+			c.Log().Warn(
+				"Unable to read CSV file",
+				zap.String("file", c.optCsv),
+				zap.Error(err),
+			)
 			return nil, err
 		}
 		if len(cols) < 1 {
-			seelog.Warnf("Skip line: [%v]", cols)
+			c.Log().Warn("No column found in the row. Skip")
 			continue
 		}
 

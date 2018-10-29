@@ -4,10 +4,10 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/infra"
 	"github.com/watermint/toolbox/infra/util"
+	"go.uber.org/zap"
 	"strings"
 )
 
@@ -16,9 +16,12 @@ type Commandlet interface {
 	Desc() string
 	Usage() string
 	FlagConfig(f *flag.FlagSet)
-	Exec(ec *infra.ExecContext, args []string)
+	Exec(args []string)
 	Init(parent Commandlet)
+	Setup(ec *infra.ExecContext)
 	Parent() Commandlet
+	Log() *zap.Logger
+	DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool
 }
 
 type CommandletBase struct {
@@ -26,8 +29,6 @@ type CommandletBase struct {
 }
 
 func (*CommandletBase) PrintUsage(clt Commandlet) {
-	seelog.Flush()
-
 	var c Commandlet
 	cmds := make([]string, 0)
 	c = clt
@@ -61,7 +62,9 @@ func (*CommandletBase) PrintUsage(clt Commandlet) {
 
 type SimpleCommandlet struct {
 	*CommandletBase
-	parent Commandlet
+	parent      Commandlet
+	logger      *zap.Logger
+	ExecContext *infra.ExecContext
 }
 
 func (c *SimpleCommandlet) Parent() Commandlet {
@@ -72,12 +75,51 @@ func (c *SimpleCommandlet) Init(parent Commandlet) {
 	c.parent = parent
 }
 
+func (c *SimpleCommandlet) Setup(ec *infra.ExecContext) {
+	c.ExecContext = ec
+	//	c.logger = ec.Log().With(zap.String("cmd", c.Name()))
+}
+
+func (c *SimpleCommandlet) Log() *zap.Logger {
+	//return c.logger
+	return c.ExecContext.Log()
+}
+
+func (c *SimpleCommandlet) DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool {
+	if ea.IsSuccess() {
+		return true
+	}
+
+	c.Log().Error("Default error handler caught an error",
+		zap.String("error_type", ea.ErrorTypeLabel()),
+		zap.String("error_message", ea.UserMessage()),
+	)
+	errorQueue = append(errorQueue, ea)
+	addError(ea)
+	return false
+}
+
+func (c *SimpleCommandlet) DefaultErrorHandlerIgnoreError(ea dbx_api.ErrorAnnotation) bool {
+	if ea.IsSuccess() {
+		return true
+	}
+
+	c.Log().Error("Default error handler caught an error",
+		zap.String("error_type", ea.ErrorTypeLabel()),
+		zap.String("error_message", ea.UserMessage()),
+	)
+	addError(ea)
+	return true
+}
+
 type CommandletGroup struct {
 	*CommandletBase
 	flagset     *flag.FlagSet
 	parent      Commandlet
+	logger      *zap.Logger
 	SubCommands []Commandlet
 
+	ExecContext *infra.ExecContext
 	CommandName string
 	CommandDesc string
 }
@@ -94,6 +136,16 @@ func (c *CommandletGroup) Parent() Commandlet {
 
 func (c *CommandletGroup) Init(parent Commandlet) {
 	c.parent = parent
+}
+
+func (c *CommandletGroup) Setup(ec *infra.ExecContext) {
+	c.ExecContext = ec
+	//c.logger = ec.Log().With(zap.String("cmd", c.Name()))
+}
+
+func (c *CommandletGroup) Log() *zap.Logger {
+	//return c.logger
+	return c.ExecContext.Log()
 }
 
 func (c *CommandletGroup) Usage() string {
@@ -116,7 +168,7 @@ func (c *CommandletGroup) FlagConfig(f *flag.FlagSet) {
 	c.flagset = f
 }
 
-func (c *CommandletGroup) Exec(ec *infra.ExecContext, args []string) {
+func (c *CommandletGroup) Exec(args []string) {
 	if len(args) < 1 {
 		c.PrintUsage(c)
 		return
@@ -132,7 +184,7 @@ func (c *CommandletGroup) Exec(ec *infra.ExecContext, args []string) {
 		sc.Init(c)
 		sc.FlagConfig(c.flagset)
 		if err := c.flagset.Parse(subArgs); err != nil {
-			seelog.Errorf("Command Parse error %s", err)
+			c.Log().Error("Command Parse error", zap.Error(err))
 			c.PrintUsage(c)
 			return
 		}
@@ -145,7 +197,10 @@ func (c *CommandletGroup) Exec(ec *infra.ExecContext, args []string) {
 			return
 		}
 
-		sc.Exec(ec, remainders)
+		c.ExecContext.ApplyFlags()
+		defer c.ExecContext.Shutdown()
+		sc.Setup(c.ExecContext)
+		sc.Exec(remainders)
 		return
 	}
 
@@ -155,7 +210,21 @@ func (c *CommandletGroup) Exec(ec *infra.ExecContext, args []string) {
 		Error:     err,
 	}
 	c.PrintUsage(c)
-	DefaultErrorHandler(ea)
+	addError(ea)
+}
+
+func (c *CommandletGroup) DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool {
+	if ea.IsSuccess() {
+		return true
+	}
+
+	c.Log().Error("Default error handler caught an error",
+		zap.String("error_type", ea.ErrorTypeLabel()),
+		zap.String("error_message", ea.UserMessage()),
+	)
+	errorQueue = append(errorQueue, ea)
+	addError(ea)
+	return false
 }
 
 var (
@@ -166,28 +235,6 @@ func ErrorQueue() []dbx_api.ErrorAnnotation {
 	return errorQueue
 }
 
-func DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool {
-	if ea.IsSuccess() {
-		return true
-	}
-
-	seelog.Errorf("Error: ErrorType[%s] UserMessage[%s]",
-		ea.ErrorTypeLabel(),
-		ea.UserMessage(),
-	)
+func addError(ea dbx_api.ErrorAnnotation) {
 	errorQueue = append(errorQueue, ea)
-	return false
-}
-
-func DefaultErrorHandlerIgnoreError(ea dbx_api.ErrorAnnotation) bool {
-	if ea.IsSuccess() {
-		return true
-	}
-
-	seelog.Warnf("Error: ErrorType[%s] UserMessage[%s]",
-		ea.ErrorTypeLabel(),
-		ea.UserMessage(),
-	)
-	errorQueue = append(errorQueue, ea)
-	return true
 }

@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
 )
 
 type CmdGroupMemberList struct {
@@ -32,26 +31,21 @@ func (c *CmdGroupMemberList) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 }
 
-func (c *CmdGroupMemberList) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
-
-	apiInfo, err := ec.LoadOrAuthBusinessInfo()
+func (c *CmdGroupMemberList) Exec(args []string) {
+	apiInfo, err := c.ExecContext.LoadOrAuthBusinessInfo()
 	if err != nil {
 		return
 	}
 
-	c.report.Open()
+	c.report.Open(c)
 	defer c.report.Close()
 
 	gl := dbx_team.GroupList{
-		OnError: cmdlet.DefaultErrorHandler,
+		OnError: c.DefaultErrorHandler,
 		OnEntry: func(group *dbx_team.Group) bool {
 
 			gml := dbx_team.GroupMemberList{
-				OnError: cmdlet.DefaultErrorHandler,
+				OnError: c.DefaultErrorHandler,
 				OnEntry: func(gm *dbx_team.GroupMember) bool {
 					c.report.Report(gm)
 					return true

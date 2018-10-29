@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
 )
 
 type CmdTeamInfo struct {
@@ -31,22 +30,17 @@ func (c *CmdTeamInfo) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 }
 
-func (c *CmdTeamInfo) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
-
-	apiInfo, err := ec.LoadOrAuthBusinessInfo()
+func (c *CmdTeamInfo) Exec(args []string) {
+	apiInfo, err := c.ExecContext.LoadOrAuthBusinessInfo()
 	if err != nil {
 		return
 	}
 
-	c.report.Open()
+	c.report.Open(c)
 	defer c.report.Close()
 
 	l := dbx_team.TeamInfoList{
-		OnError: cmdlet.DefaultErrorHandler,
+		OnError: c.DefaultErrorHandler,
 		OnEntry: func(info *dbx_team.TeamInfo) bool {
 			c.report.Report(info)
 			return true

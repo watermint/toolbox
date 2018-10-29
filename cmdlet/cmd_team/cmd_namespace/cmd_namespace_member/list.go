@@ -2,14 +2,13 @@ package cmd_namespace_member
 
 import (
 	"flag"
-	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
 	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
+	"go.uber.org/zap"
 )
 
 type CmdTeamNamespaceMemberList struct {
@@ -55,34 +54,29 @@ type NamespaceInvitee struct {
 	Invitee   *dbx_sharing.MembershipInvitee `json:"invitee"`
 }
 
-func (c *CmdTeamNamespaceMemberList) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
-
-	apiFile, err := ec.LoadOrAuthBusinessFile()
+func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
+	apiFile, err := c.ExecContext.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
 
 	admin, ea, _ := dbx_profile.AuthenticatedAdmin(apiFile)
 	if ea.IsFailure() {
-		cmdlet.DefaultErrorHandler(ea)
+		c.DefaultErrorHandler(ea)
 		return
 	}
-	c.report.Open()
+	c.report.Open(c)
 	defer c.report.Close()
 
 	if c.optExpandGroup {
 		if !c.expandGroup(apiFile) {
-			seelog.Warnf("Unable to list group members")
+			c.Log().Warn("Unable to list group members")
 			return
 		}
 	}
 
 	l := dbx_team.NamespaceList{
-		OnError: cmdlet.DefaultErrorHandler,
+		OnError: c.DefaultErrorHandler,
 		OnEntry: func(namespace *dbx_team.Namespace) bool {
 			if namespace.NamespaceType != "shared_folder" &&
 				namespace.NamespaceType != "team_folder" {
@@ -91,7 +85,7 @@ func (c *CmdTeamNamespaceMemberList) Exec(ec *infra.ExecContext, args []string) 
 
 			sl := dbx_sharing.SharedFolderMembers{
 				AsAdminId: admin.TeamMemberId,
-				OnError:   cmdlet.DefaultErrorHandler,
+				OnError:   c.DefaultErrorHandler,
 				OnUser: func(user *dbx_sharing.MembershipUser) bool {
 					nu := &NamespaceUser{
 						Namespace: namespace,
@@ -120,7 +114,11 @@ func (c *CmdTeamNamespaceMemberList) Exec(ec *infra.ExecContext, args []string) 
 								c.report.Report(nu)
 							}
 						} else {
-							seelog.Warnf("Could not expand group[id={%s} name={%s}]", group.Group.GroupId, group.Group.GroupName)
+							c.Log().Warn(
+								"Could not expand group",
+								zap.String("group_id", group.Group.GroupId),
+								zap.String("group_name", group.Group.GroupName),
+							)
 							ng := &NamespaceGroup{
 								Namespace: namespace,
 								Group:     group,
@@ -155,25 +153,36 @@ func (c *CmdTeamNamespaceMemberList) Exec(ec *infra.ExecContext, args []string) 
 func (c *CmdTeamNamespaceMemberList) expandGroup(ctx *dbx_api.Context) bool {
 	c.groups = make(map[string][]*dbx_team.GroupMember)
 
-	seelog.Debugf("Expand group")
+	c.Log().Debug("Expand group")
 	gl := dbx_team.GroupList{
-		OnError: cmdlet.DefaultErrorHandler,
+		OnError: c.DefaultErrorHandler,
 		OnEntry: func(group *dbx_team.Group) bool {
-			seelog.Debugf("Group[%s] Name[%s]", group.GroupId, group.GroupName)
+			c.Log().Debug("onEntry",
+				zap.String("group_id", group.GroupId),
+				zap.String("group_name", group.GroupName),
+			)
 
 			gml := dbx_team.GroupMemberList{
-				OnError: cmdlet.DefaultErrorHandler,
+				OnError: c.DefaultErrorHandler,
 				OnEntry: func(gm *dbx_team.GroupMember) bool {
 
 					if g, ok := c.groups[group.GroupId]; ok {
 						g = append(g, gm)
 						c.groups[group.GroupId] = g
-						seelog.Debugf("Group[%s] GroupMembers[%d]", group.GroupId, len(g))
+
+						c.Log().Debug("onEntry",
+							zap.String("group_id", group.GroupId),
+							zap.Int("group_members", len(g)),
+						)
 					} else {
 						g = make([]*dbx_team.GroupMember, 1)
 						g[0] = gm
 						c.groups[group.GroupId] = g
-						seelog.Debugf("Group[%s] GroupMembers[%d]", group.GroupId, len(g))
+
+						c.Log().Debug("onEntry",
+							zap.String("group_id", group.GroupId),
+							zap.Int("group_members", len(g)),
+						)
 					}
 
 					return true
@@ -186,7 +195,10 @@ func (c *CmdTeamNamespaceMemberList) expandGroup(ctx *dbx_api.Context) bool {
 	gl.List(ctx)
 
 	for k, v := range c.groups {
-		seelog.Debugf("GroupId[%s] GroupCount[%d]", k, len(v))
+		c.Log().Debug("Group summary",
+			zap.String("group_id", k),
+			zap.Int("member_count", len(v)),
+		)
 	}
 
 	return true
