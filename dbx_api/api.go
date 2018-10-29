@@ -3,8 +3,8 @@ package dbx_api
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
+	"go.uber.org/zap"
 	"net/http"
 	"time"
 )
@@ -81,7 +81,6 @@ func (e ErrorAnnotation) AccessError() *AccessError {
 	return nil
 }
 func (e ErrorAnnotation) ErrorTypeLabel() string {
-	seelog.Flush()
 	switch e.ErrorType {
 	case ErrorBadInputParam:
 		return "bad_input_param"
@@ -123,10 +122,6 @@ func (e ErrorAnnotation) UserMessage() string {
 		return ae.Error()
 	}
 	return e.Error.Error()
-}
-
-type ArgAsyncJobId struct {
-	AsyncJobId string `json:"async_job_id"`
 }
 
 type ServerError struct {
@@ -182,11 +177,18 @@ type Context struct {
 	Token      string
 	Client     *http.Client
 	RetryAfter time.Time
+	Logger     *zap.Logger
 }
 
-func NewContext(token string) *Context {
+func (c *Context) Log() *zap.Logger {
+	return c.Logger
+}
+
+func NewContext(token string, logger *zap.Logger) *Context {
+	logger.Debug("New context")
 	return &Context{
 		Token:  token,
 		Client: &http.Client{Timeout: DefaultClientTimeout},
+		Logger: logger,
 	}
 }

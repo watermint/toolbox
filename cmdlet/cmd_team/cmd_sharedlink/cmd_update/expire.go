@@ -2,14 +2,12 @@ package cmd_update
 
 import (
 	"flag"
-	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
 	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
 	"time"
 )
 
@@ -42,21 +40,17 @@ func (c *CmdTeamSharedLinkUpdateExpire) FlagConfig(f *flag.FlagSet) {
 	f.IntVar(&c.optDays, "days", 0, descDays)
 }
 
-func (c *CmdTeamSharedLinkUpdateExpire) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
+func (c *CmdTeamSharedLinkUpdateExpire) Exec(args []string) {
 	if c.optDays < 1 {
-		seelog.Warnf("Please specify expiration date")
+		c.Log().Error("Please specify expiration date")
 		return
 	}
-	apiMgmt, err := ec.LoadOrAuthBusinessFile()
+	apiMgmt, err := c.ExecContext.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
 
-	c.report.Open()
+	c.report.Open(c)
 	defer c.report.Close()
 
 	type UpdateReport struct {
@@ -69,18 +63,18 @@ func (c *CmdTeamSharedLinkUpdateExpire) Exec(ec *infra.ExecContext, args []strin
 
 	newExpire := dbx_api.RebaseTimeForAPI(time.Now().Add(time.Duration(c.optDays*24) * time.Hour))
 	ml := dbx_team.MembersList{
-		OnError: cmdlet.DefaultErrorHandler,
+		OnError: c.DefaultErrorHandler,
 		OnEntry: func(member *dbx_profile.Member) bool {
 
 			sl := dbx_sharing.SharedLinkList{
 				AsMemberId:    member.Profile.TeamMemberId,
 				AsMemberEmail: member.Profile.Email,
-				OnError:       cmdlet.DefaultErrorHandler,
+				OnError:       c.DefaultErrorHandler,
 				OnEntry: func(link *dbx_sharing.SharedLink) bool {
 					if c.filter.IsAcceptable(link) {
 						newLink, ea, _ := link.UpdateExpire(apiMgmt, newExpire)
 						if ea.IsFailure() {
-							cmdlet.DefaultErrorHandlerIgnoreError(ea)
+							c.DefaultErrorHandlerIgnoreError(ea)
 							return true
 						}
 						if newLink != nil {

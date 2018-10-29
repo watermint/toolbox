@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
 )
 
 type CmdTeamNamespaceList struct {
@@ -31,22 +30,17 @@ func (c *CmdTeamNamespaceList) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 }
 
-func (c *CmdTeamNamespaceList) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
-
-	apiInfo, err := ec.LoadOrAuthBusinessFile()
+func (c *CmdTeamNamespaceList) Exec(args []string) {
+	apiInfo, err := c.ExecContext.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
 
-	c.report.Open()
+	c.report.Open(c)
 	defer c.report.Close()
 
 	l := dbx_team.NamespaceList{
-		OnError: cmdlet.DefaultErrorHandler,
+		OnError: c.DefaultErrorHandler,
 		OnEntry: func(namespace *dbx_team.Namespace) bool {
 			c.report.Report(namespace)
 			return true

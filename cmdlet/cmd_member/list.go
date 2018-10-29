@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
 )
 
 type CmdMemberList struct {
@@ -36,22 +35,17 @@ func (c *CmdMemberList) FlagConfig(f *flag.FlagSet) {
 	f.BoolVar(&c.optIncludeRemoved, "include-removed", false, descCsv)
 }
 
-func (c *CmdMemberList) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
-
-	apiInfo, err := ec.LoadOrAuthBusinessInfo()
+func (c *CmdMemberList) Exec(args []string) {
+	apiInfo, err := c.ExecContext.LoadOrAuthBusinessInfo()
 	if err != nil {
 		return
 	}
 
-	c.report.Open()
+	c.report.Open(c)
 	defer c.report.Close()
 
 	l := dbx_team.MembersList{
-		OnError: cmdlet.DefaultErrorHandler,
+		OnError: c.DefaultErrorHandler,
 		OnEntry: func(member *dbx_profile.Member) bool {
 			c.report.Report(member)
 			return true

@@ -2,10 +2,10 @@ package dbx_sharing
 
 import (
 	"encoding/json"
-	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_rpc"
+	"go.uber.org/zap"
 )
 
 type Membership struct {
@@ -53,7 +53,7 @@ type MembershipInvitee struct {
 	User       *User       `json:"user,omitempty"`
 }
 
-func ParseMembership(r gjson.Result) (m *Membership) {
+func ParseMembership(r gjson.Result, log *zap.Logger) (m *Membership) {
 	m = &Membership{}
 
 	at := r.Get("access_type." + dbx_api.ResJsonDotTag)
@@ -67,7 +67,7 @@ func ParseMembership(r gjson.Result) (m *Membership) {
 	return
 }
 
-func ParseMembershipUser(r gjson.Result) (u *MembershipUser) {
+func ParseMembershipUser(r gjson.Result, log *zap.Logger) (u *MembershipUser) {
 	user := &User{}
 	resUser := r.Get("user")
 	if !resUser.Exists() {
@@ -75,10 +75,14 @@ func ParseMembershipUser(r gjson.Result) (u *MembershipUser) {
 	}
 	err := json.Unmarshal([]byte(resUser.Raw), user)
 	if err != nil {
-		seelog.Warnf("Parse error[%s] body[%s]", err, resUser.Raw)
+		log.Warn(
+			"parse error",
+			zap.Error(err),
+			zap.String("body", resUser.Str),
+		)
 		return nil
 	}
-	m := ParseMembership(r)
+	m := ParseMembership(r, log)
 	if m == nil {
 		return nil
 	}
@@ -89,7 +93,7 @@ func ParseMembershipUser(r gjson.Result) (u *MembershipUser) {
 	return
 }
 
-func ParseMembershipGroup(r gjson.Result) (g *MembershipGroup) {
+func ParseMembershipGroup(r gjson.Result, log *zap.Logger) (g *MembershipGroup) {
 	resGroup := r.Get("group")
 	if !resGroup.Exists() {
 		return nil
@@ -105,7 +109,7 @@ func ParseMembershipGroup(r gjson.Result) (g *MembershipGroup) {
 		SameTeam:            resGroup.Get("same_team").Bool(),
 		MemberCount:         resGroup.Get("member_count").Int(),
 	}
-	m := ParseMembership(r)
+	m := ParseMembership(r, log)
 	if m == nil {
 		return nil
 	}
@@ -137,7 +141,7 @@ func (s *SharedFolderMembers) List(c *dbx_api.Context, sharedFolderId string) bo
 			users := gjson.Get(body, "users")
 			if s.OnUser != nil && users.Exists() && users.IsArray() {
 				for _, u := range users.Array() {
-					user := ParseMembershipUser(u)
+					user := ParseMembershipUser(u, c.Log())
 					if user == nil {
 						continue
 					}
@@ -149,7 +153,7 @@ func (s *SharedFolderMembers) List(c *dbx_api.Context, sharedFolderId string) bo
 			groups := gjson.Get(body, "groups")
 			if s.OnGroup != nil && groups.Exists() && groups.IsArray() {
 				for _, g := range groups.Array() {
-					group := ParseMembershipGroup(g)
+					group := ParseMembershipGroup(g, c.Log())
 					if group == nil {
 						continue
 					}

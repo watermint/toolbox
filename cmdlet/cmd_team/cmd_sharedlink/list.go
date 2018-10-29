@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
 	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
 )
 
 type CmdTeamSharedLinkList struct {
@@ -35,26 +34,21 @@ func (c *CmdTeamSharedLinkList) FlagConfig(f *flag.FlagSet) {
 	c.filter.FlagConfig(f)
 }
 
-func (c *CmdTeamSharedLinkList) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
-
-	apiMgmt, err := ec.LoadOrAuthBusinessFile()
+func (c *CmdTeamSharedLinkList) Exec(args []string) {
+	apiMgmt, err := c.ExecContext.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
-	c.report.Open()
+	c.report.Open(c)
 	defer c.report.Close()
 
 	ml := dbx_team.MembersList{
-		OnError: cmdlet.DefaultErrorHandler,
+		OnError: c.DefaultErrorHandler,
 		OnEntry: func(member *dbx_profile.Member) bool {
 			sl := dbx_sharing.SharedLinkList{
 				AsMemberId:    member.Profile.TeamMemberId,
 				AsMemberEmail: member.Profile.Email,
-				OnError:       cmdlet.DefaultErrorHandler,
+				OnError:       c.DefaultErrorHandler,
 				OnEntry: func(link *dbx_sharing.SharedLink) bool {
 					if c.filter.IsAcceptable(link) {
 						c.report.Report(link)

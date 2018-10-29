@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/infra/util"
+	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"io/ioutil"
 	"strings"
@@ -28,6 +28,7 @@ type DropboxAuthenticator struct {
 	AppKey    string
 	AppSecret string
 	TokenType string
+	Logger    *zap.Logger
 }
 
 const (
@@ -60,6 +61,10 @@ Enter the generated token here:
 `
 )
 
+func (d *DropboxAuthenticator) Log() *zap.Logger {
+	return d.Logger
+}
+
 func (d *DropboxAuthenticator) generateTokenInstruction() error {
 	api := ""
 	toa := ""
@@ -83,8 +88,10 @@ func (d *DropboxAuthenticator) generateTokenInstruction() error {
 		api = "Dropbox Business API"
 		toa = "Team member management"
 	} else {
-		seelog.Errorf("Undefined token type: %d", d.TokenType)
-		return errors.New(fmt.Sprintf("Undefined token type"))
+		d.Log().Fatal(
+			"Undefined token type",
+			zap.String("type", d.TokenType),
+		)
 	}
 
 	data := struct {
@@ -96,7 +103,12 @@ func (d *DropboxAuthenticator) generateTokenInstruction() error {
 	}
 	instr, err := util.CompileTemplate(authGeneratedToken1Tmpl, data)
 	if err != nil {
-		seelog.Debugf("Unable to compile template: [[[%s]]]", authGeneratedToken1Tmpl)
+		d.Log().Fatal(
+			"Unable to compile template",
+			zap.String("tmpl", authGeneratedToken1Tmpl),
+			zap.Error(err),
+		)
+
 		return errors.New("unable to generate instruction")
 	}
 	fmt.Println(instr)
@@ -104,16 +116,27 @@ func (d *DropboxAuthenticator) generateTokenInstruction() error {
 }
 
 func (d *DropboxAuthenticator) TokenFileLoadMap() (map[string]string, error) {
-	seelog.Tracef("Loading token from file: [%s]", d.AuthFile)
+	log := d.Log().With(
+		zap.String("file", d.AuthFile),
+	)
+	log.Debug(
+		"Loading token from file",
+	)
 	f, err := ioutil.ReadFile(d.AuthFile)
 	if err != nil {
-		seelog.Tracef("Unable to load file: file[%s], err[%s]", d.AuthFile, err)
+		log.Debug(
+			"Unable to read file",
+			zap.Error(err),
+		)
 		return nil, err
 	}
 	m := make(map[string]string)
 	err = json.Unmarshal(f, &m)
 	if err != nil {
-		seelog.Tracef("Unable to unmarshal: error[%v]", err)
+		log.Debug(
+			"Unable to unmarshal file data",
+			zap.Error(err),
+		)
 		return nil, err
 	}
 	return m, nil
@@ -125,19 +148,30 @@ func (d *DropboxAuthenticator) TokenFileLoad() (string, error) {
 		return "", err
 	}
 	if t, ok := m[d.AppKey]; ok {
-		seelog.Tracef("Token for App key[%s] found in map", d.AppKey)
+		d.Log().Debug(
+			"Token for app key found in map",
+			zap.String("appKey", d.AppKey),
+		)
 		return t, nil
 	}
 	if t, ok := m[d.TokenType]; ok {
-		seelog.Tracef("Token for App type[%s] found in map", d.TokenType)
+		d.Log().Debug(
+			"Token for token type dound in map",
+			zap.String("tokenType", d.TokenType),
+		)
 		return t, nil
 	}
-	seelog.Tracef("Appkey[%s] not found in loaded token map", d.AppKey)
+
+	d.Log().Debug(
+		"Token not found in loaded token map",
+		zap.String("appKey", d.AppKey),
+	)
 	return "", errors.New("app key not found in loaded token map")
 }
 
 func (d *DropboxAuthenticator) TokenFileSave(token string) error {
-	seelog.Infof("Saving token to the file: [%s]", d.AuthFile)
+	log := d.Log().With(zap.String("file", d.AuthFile))
+	log.Info("Saving token to the file")
 
 	// TODO: check file exist or not
 	m, err := d.TokenFileLoadMap()
@@ -155,56 +189,68 @@ func (d *DropboxAuthenticator) TokenFileSave(token string) error {
 
 	f, err := json.Marshal(m)
 	if err != nil {
-		seelog.Error("Unable to marshal auth tokens. Failed to save token to the file")
+		log.Error(
+			"Unable to marshal auth tokens. Failed to save token to the file",
+			zap.Error(err),
+		)
 		return err
 	}
 
 	err = ioutil.WriteFile(d.AuthFile, f, 0600)
 
 	if err != nil {
-		seelog.Errorf("Unable to write authentication token to file: %s", d.AuthFile)
+		log.Error(
+			"Unable to write authentication token to file",
+			zap.Error(err),
+		)
 		return err
 	}
 
 	return nil
 }
 
-func (d *DropboxAuthenticator) LoadOrAuth(business bool, storeToken bool) (string, error) {
+func (d *DropboxAuthenticator) LoadOrAuth(business bool) (string, error) {
 	t, err := d.TokenFileLoad()
 	if err != nil {
-		return d.Authorise(storeToken)
+		return d.Authorise()
 	}
 
 	return t, nil
 }
 
-func (d *DropboxAuthenticator) Authorise(storeToken bool) (string, error) {
-	seelog.Debugf("Authorize(storeToken:%t)", storeToken)
-	seelog.Flush()
-
+func (d *DropboxAuthenticator) Authorise() (string, error) {
 	if d.AppKey == "" || d.AppSecret == "" {
-		seelog.Tracef("No AppKey/AppSecret found. Try asking 'Generate Token'")
+		d.Log().Debug(
+			"No AppKey/AppSecret found. Try asking 'Generate Token'",
+		)
 		tok, err := d.acquireToken()
-		if err == nil && storeToken {
+		if err == nil {
 			d.TokenFileSave(tok)
 		}
 		return tok, err
 	} else {
-		seelog.Tracef("Start auth sequence for AppKey[%s]", d.AppKey)
+		log := d.Log().With(
+			zap.String("appKey", d.AppKey),
+		)
+		log.Debug(
+			"Start auth sequence for AppKey",
+		)
 		state, err := util.GenerateRandomString(8)
 		if err != nil {
-			seelog.Errorf("Unable to generate `state` [%s]", err)
+			log.Error("Unable to generate `state`",
+				zap.Error(err),
+			)
 			return "", err
 		}
 
 		tok, err := d.auth(state)
 		if err != nil {
-			seelog.Errorf("Authentication failed due to the error [%s]", err)
+			log.Error("Authentication failed due to the error",
+				zap.Error(err),
+			)
 			return "", err
 		}
-		if storeToken {
-			d.TokenFileSave(tok.AccessToken)
-		}
+		d.TokenFileSave(tok.AccessToken)
 		return tok.AccessToken, nil
 	}
 }
@@ -217,12 +263,15 @@ func (d *DropboxAuthenticator) acquireToken() (string, error) {
 	for {
 		fmt.Println(authGeneratedToken2)
 		if _, err := fmt.Scan(&code); err != nil {
-			seelog.Errorf("Input error (%s), try again.", err)
+			d.Log().Error(
+				"Input error (%s), try again.",
+				zap.Error(err),
+			)
 			continue
 		}
 		trim := strings.TrimSpace(code)
 		if len(trim) < 1 {
-			seelog.Errorf("Input error, try again.")
+			d.Log().Error("Input error, try again.")
 			continue
 		}
 		return trim, nil

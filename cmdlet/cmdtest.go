@@ -2,8 +2,8 @@ package cmdlet
 
 import (
 	"flag"
-	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/infra"
+	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 	"testing"
@@ -20,23 +20,30 @@ func CmdTest(t *testing.T, g Commandlet, args []string) {
 			return
 		}
 	}
-	ec := &infra.ExecContext{}
-	if ec.StartupForTest(tokensFilePath) != nil {
+	ec := infra.NewExecContext()
+	ec.TokenFilePath = tokensFilePath
+	if err := ec.ApplyFlags(); err != nil {
 		return
 	}
 
 	// Finish tests if tokens file not available
 	if !ec.IsTokensAvailable() {
-		seelog.Info("Skip tests")
+		ec.Log().Info("Skip tests")
 		return
 	}
 
-	seelog.Infof("Testing Args[%v]", args)
+	ec.Log().Info(
+		"Testing",
+		zap.Strings("args", args),
+	)
 	f := flag.NewFlagSet(args[0], flag.ExitOnError)
 	ec.PrepareFlags(f)
 	g.Init(nil)
 	g.FlagConfig(f)
-	g.Exec(ec, args)
+	ec.ApplyFlags()
+	defer ec.Shutdown()
+	g.Setup(ec)
+	g.Exec(args)
 
 	eq := ErrorQueue()
 	if len(eq) > 0 {

@@ -36,5 +36,6 @@ func (c *Commands) Exec(ec *infra.ExecContext, args []string) {
 	ec.PrepareFlags(f)
 	c.rootCmd.Init(nil)
 	c.rootCmd.FlagConfig(f)
-	c.rootCmd.Exec(ec, args[1:])
+	c.rootCmd.Setup(ec)
+	c.rootCmd.Exec(args[1:])
 }
