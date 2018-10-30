@@ -82,7 +82,5 @@ func (c *Report) Report(row interface{}) {
 
 		c.cmd.Log().Debug("Report error to default error handler")
 		c.cmd.DefaultErrorHandler(an)
-	} else {
-		c.cmd.Log().Debug("report", zap.String("report", string(r)))
 	}
 }
