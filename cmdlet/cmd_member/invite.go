@@ -4,8 +4,8 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_member"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
 	"github.com/watermint/toolbox/infra/util"
 	"go.uber.org/zap"
 	"io"
@@ -93,7 +93,7 @@ func (c *CmdMemberInvite) Exec(args []string) {
 		return true
 	}
 
-	mi := dbx_team.MembersInvite{
+	mi := dbx_member.MembersInvite{
 		OnFailure: handleFailure,
 		OnSuccess: handleSuccess,
 		OnError:   c.DefaultErrorHandler,
@@ -101,7 +101,7 @@ func (c *CmdMemberInvite) Exec(args []string) {
 	mi.Invite(apiMgmt, newMembers)
 }
 
-func (c *CmdMemberInvite) loadCsv() (newMembers []*dbx_team.NewMember, err error) {
+func (c *CmdMemberInvite) loadCsv() (newMembers []*dbx_member.NewMember, err error) {
 	f, err := os.Open(c.optCsv)
 	if err != nil {
 		c.Log().Warn(
@@ -113,7 +113,7 @@ func (c *CmdMemberInvite) loadCsv() (newMembers []*dbx_team.NewMember, err error
 	}
 	csv := util.NewBomAwareCsvReader(f)
 
-	newMembers = make([]*dbx_team.NewMember, 0)
+	newMembers = make([]*dbx_member.NewMember, 0)
 
 	for {
 		cols, err := csv.Read()
@@ -133,7 +133,7 @@ func (c *CmdMemberInvite) loadCsv() (newMembers []*dbx_team.NewMember, err error
 			continue
 		}
 
-		newMember := &dbx_team.NewMember{}
+		newMember := &dbx_member.NewMember{}
 		newMember.MemberEmail = cols[0]
 		if len(cols) >= 2 {
 			newMember.MemberGivenName = cols[1]

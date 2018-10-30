@@ -5,9 +5,9 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_member"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
 	"time"
 )
 
@@ -62,7 +62,7 @@ func (c *CmdTeamSharedLinkUpdateExpire) Exec(args []string) {
 	}
 
 	newExpire := dbx_api.RebaseTimeForAPI(time.Now().Add(time.Duration(c.optDays*24) * time.Hour))
-	ml := dbx_team.MembersList{
+	ml := dbx_member.MembersList{
 		OnError: c.DefaultErrorHandler,
 		OnEntry: func(member *dbx_profile.Member) bool {
 

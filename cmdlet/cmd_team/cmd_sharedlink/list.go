@@ -4,9 +4,9 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_member"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
 )
 
 type CmdTeamSharedLinkList struct {
@@ -42,7 +42,7 @@ func (c *CmdTeamSharedLinkList) Exec(args []string) {
 	c.report.Open(c)
 	defer c.report.Close()
 
-	ml := dbx_team.MembersList{
+	ml := dbx_member.MembersList{
 		OnError: c.DefaultErrorHandler,
 		OnEntry: func(member *dbx_profile.Member) bool {
 			sl := dbx_sharing.SharedLinkList{
