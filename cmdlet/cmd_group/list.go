@@ -4,7 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
+	"github.com/watermint/toolbox/dbx_api/dbx_group"
 )
 
 type CmdGrouplist struct {
@@ -43,9 +43,9 @@ func (c *CmdGrouplist) Exec(args []string) {
 	c.report.Open(c)
 	defer c.report.Close()
 
-	gl := dbx_team.GroupList{
+	gl := dbx_group.GroupList{
 		OnError: c.DefaultErrorHandler,
-		OnEntry: func(group *dbx_team.Group) bool {
+		OnEntry: func(group *dbx_group.Group) bool {
 			c.report.Report(group)
 			return true
 		},
