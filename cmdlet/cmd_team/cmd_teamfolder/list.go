@@ -39,7 +39,7 @@ func (c *CmdTeamTeamFolderList) Exec(args []string) {
 	c.report.Open(c)
 	defer c.report.Close()
 
-	l := dbx_team.TeamFolderList{
+	l := dbx_team.ListTeamFolder{
 		OnError: c.DefaultErrorHandler,
 		OnEntry: func(teamFolder *dbx_team.TeamFolder) bool {
 			c.report.Report(teamFolder)
