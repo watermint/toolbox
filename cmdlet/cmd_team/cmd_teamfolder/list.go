@@ -4,7 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
+	"github.com/watermint/toolbox/dbx_api/dbx_teamfolder"
 )
 
 type CmdTeamTeamFolderList struct {
@@ -39,9 +39,9 @@ func (c *CmdTeamTeamFolderList) Exec(args []string) {
 	c.report.Open(c)
 	defer c.report.Close()
 
-	l := dbx_team.ListTeamFolder{
+	l := dbx_teamfolder.ListTeamFolder{
 		OnError: c.DefaultErrorHandler,
-		OnEntry: func(teamFolder *dbx_team.TeamFolder) bool {
+		OnEntry: func(teamFolder *dbx_teamfolder.TeamFolder) bool {
 			c.report.Report(teamFolder)
 			return true
 		},

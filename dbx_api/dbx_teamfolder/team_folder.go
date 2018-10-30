@@ -1,4 +1,4 @@
-package dbx_team
+package dbx_teamfolder
 
 import (
 	"encoding/json"
