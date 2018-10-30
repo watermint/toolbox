@@ -3,8 +3,8 @@ package cmd_namespace_file
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
+	"github.com/watermint/toolbox/dbx_api/dbx_namespace"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
 	"go.uber.org/zap"
 )
 
@@ -13,7 +13,7 @@ type CmdTeamNamespaceFileList struct {
 	optIncludeMediaInfo bool
 	optIncludeDeleted   bool
 	report              cmdlet.Report
-	namespaceFile       dbx_team.ListNamespaceFile
+	namespaceFile       dbx_namespace.ListNamespaceFile
 }
 
 func (CmdTeamNamespaceFileList) Name() string {
@@ -66,7 +66,7 @@ func (c *CmdTeamNamespaceFileList) Exec(args []string) {
 
 	c.namespaceFile.AsAdminId = admin.TeamMemberId
 	c.namespaceFile.OnError = c.DefaultErrorHandler
-	c.namespaceFile.OnNamespace = func(namespace *dbx_team.Namespace) bool {
+	c.namespaceFile.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
 		c.Log().Info("Scanning folder",
 			zap.String("namespace_type", namespace.NamespaceType),
 			zap.String("namespace_id", namespace.NamespaceId),
@@ -74,15 +74,15 @@ func (c *CmdTeamNamespaceFileList) Exec(args []string) {
 		)
 		return true
 	}
-	c.namespaceFile.OnFolder = func(folder *dbx_team.NamespaceFolder) bool {
+	c.namespaceFile.OnFolder = func(folder *dbx_namespace.NamespaceFolder) bool {
 		c.report.Report(folder)
 		return true
 	}
-	c.namespaceFile.OnFile = func(file *dbx_team.NamespaceFile) bool {
+	c.namespaceFile.OnFile = func(file *dbx_namespace.NamespaceFile) bool {
 		c.report.Report(file)
 		return true
 	}
-	c.namespaceFile.OnDelete = func(deleted *dbx_team.NamespaceDeleted) bool {
+	c.namespaceFile.OnDelete = func(deleted *dbx_namespace.NamespaceDeleted) bool {
 		c.report.Report(deleted)
 		return true
 	}

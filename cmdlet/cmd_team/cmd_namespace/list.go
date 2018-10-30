@@ -4,7 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
+	"github.com/watermint/toolbox/dbx_api/dbx_namespace"
 )
 
 type CmdTeamNamespaceList struct {
@@ -39,9 +39,9 @@ func (c *CmdTeamNamespaceList) Exec(args []string) {
 	c.report.Open(c)
 	defer c.report.Close()
 
-	l := dbx_team.NamespaceList{
+	l := dbx_namespace.NamespaceList{
 		OnError: c.DefaultErrorHandler,
-		OnEntry: func(namespace *dbx_team.Namespace) bool {
+		OnEntry: func(namespace *dbx_namespace.Namespace) bool {
 			c.report.Report(namespace)
 			return true
 		},
