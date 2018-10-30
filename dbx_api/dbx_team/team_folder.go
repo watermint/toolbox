@@ -33,12 +33,12 @@ func ParseTeamFolder(r gjson.Result) (tf *TeamFolder, annotation dbx_api.ErrorAn
 	return c, dbx_api.Success, nil
 }
 
-type TeamFolderList struct {
+type ListTeamFolder struct {
 	OnError func(annotation dbx_api.ErrorAnnotation) bool
 	OnEntry func(teamFolder *TeamFolder) bool
 }
 
-func (w *TeamFolderList) List(c *dbx_api.Context) bool {
+func (w *ListTeamFolder) List(c *dbx_api.Context) bool {
 	list := dbx_rpc.RpcList{
 		EndpointList:         "team/team_folder/list",
 		EndpointListContinue: "team/team_folder/list/continue",

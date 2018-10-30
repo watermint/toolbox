@@ -49,11 +49,19 @@ func (w *NamespaceList) List(c *dbx_api.Context) bool {
 		OnError:              w.OnError,
 		OnEntry: func(namespace gjson.Result) bool {
 			n, ea, _ := ParseNamespace(namespace)
-			if ea.IsSuccess() && w.OnEntry != nil {
-				return w.OnEntry(n)
+			if ea.IsSuccess() {
+				if w.OnEntry != nil {
+					return w.OnEntry(n)
+				} else {
+					return true
+				}
 			}
-			if ea.IsFailure() && w.OnError != nil {
-				return w.OnError(ea)
+			if ea.IsFailure() {
+				if w.OnError != nil {
+					return w.OnError(ea)
+				} else {
+					return false
+				}
 			}
 			return false
 		},

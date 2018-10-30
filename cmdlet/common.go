@@ -77,11 +77,9 @@ func (c *SimpleCommandlet) Init(parent Commandlet) {
 
 func (c *SimpleCommandlet) Setup(ec *infra.ExecContext) {
 	c.ExecContext = ec
-	//	c.logger = ec.Log().With(zap.String("cmd", c.Name()))
 }
 
 func (c *SimpleCommandlet) Log() *zap.Logger {
-	//return c.logger
 	return c.ExecContext.Log()
 }
 
@@ -140,11 +138,9 @@ func (c *CommandletGroup) Init(parent Commandlet) {
 
 func (c *CommandletGroup) Setup(ec *infra.ExecContext) {
 	c.ExecContext = ec
-	//c.logger = ec.Log().With(zap.String("cmd", c.Name()))
 }
 
 func (c *CommandletGroup) Log() *zap.Logger {
-	//return c.logger
 	return c.ExecContext.Log()
 }
 

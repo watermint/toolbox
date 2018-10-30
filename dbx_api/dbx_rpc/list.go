@@ -29,7 +29,7 @@ func (r *RpcList) List(c *dbx_api.Context, arg interface{}) bool {
 	}
 	res, et, _ := req.Call(c)
 
-	if r.handleResponse(c, res, et) {
+	if !r.handleResponse(c, res, et) {
 		return false
 	}
 	return true
