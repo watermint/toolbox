@@ -20,7 +20,6 @@ type RpcList struct {
 
 // List and call handlers. Returns true when all operation succeed, otherwise false.
 func (r *RpcList) List(c *dbx_api.Context, arg interface{}) bool {
-	c.Log().Debug("list", zap.String("endpoint", r.EndpointList))
 	req := RpcRequest{
 		Endpoint:   r.EndpointList,
 		AsAdminId:  r.AsAdminId,
@@ -39,9 +38,6 @@ func (r *RpcList) listContinue(c *dbx_api.Context, cursor string) bool {
 	type ContinueParam struct {
 		Cursor string `json:"cursor"`
 	}
-	log := c.Log().With(zap.String("cursor", cursor))
-	log.Debug("list_continue", zap.String("endpoint", r.EndpointListContinue))
-
 	req := RpcRequest{
 		Endpoint: r.EndpointListContinue,
 		Param: ContinueParam{

@@ -3,7 +3,6 @@ package cmd_namespace
 import (
 	"github.com/watermint/toolbox/cmdlet"
 	"io/ioutil"
-	"os"
 	"testing"
 )
 
@@ -12,7 +11,7 @@ func TestCmdTeamNamespaceList_Exec(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	defer os.Remove(csvFile.Name())
+	//defer os.Remove(csvFile.Name())
 
 	cmdlet.CmdTest(t, NewCmdTeamNamespace(), []string{"list", "-report-path", csvFile.Name()})
 }

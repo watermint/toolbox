@@ -1,4 +1,4 @@
-package cmd_namespace_file
+package cmd_teamfolder_file
 
 import (
 	"flag"
@@ -8,7 +8,7 @@ import (
 	"go.uber.org/zap"
 )
 
-type CmdTeamNamespaceFileList struct {
+type CmdTeamTeamFolderFileList struct {
 	*cmdlet.SimpleCommandlet
 	optIncludeMediaInfo bool
 	optIncludeDeleted   bool
@@ -16,19 +16,19 @@ type CmdTeamNamespaceFileList struct {
 	namespaceFile       dbx_team.ListNamespaceFile
 }
 
-func (CmdTeamNamespaceFileList) Name() string {
+func (CmdTeamTeamFolderFileList) Name() string {
 	return "list"
 }
 
-func (CmdTeamNamespaceFileList) Desc() string {
-	return "List files/folders in all namespaces of the team"
+func (CmdTeamTeamFolderFileList) Desc() string {
+	return "List files/folders in all team folders of the team"
 }
 
-func (CmdTeamNamespaceFileList) Usage() string {
+func (CmdTeamTeamFolderFileList) Usage() string {
 	return ""
 }
 
-func (c *CmdTeamNamespaceFileList) FlagConfig(f *flag.FlagSet) {
+func (c *CmdTeamTeamFolderFileList) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 
 	descIncludeDeleted := "Include deleted folders/files"
@@ -36,21 +36,14 @@ func (c *CmdTeamNamespaceFileList) FlagConfig(f *flag.FlagSet) {
 
 	descIncludeMediaInfo := "Include media info (metadata of photo and video)"
 	f.BoolVar(&c.namespaceFile.OptIncludeMediaInfo, "include-media-info", false, descIncludeMediaInfo)
-
-	descIncludeTeamFolder := "Include team folders"
-	f.BoolVar(&c.namespaceFile.OptIncludeTeamFolder, "include-team-folder", true, descIncludeTeamFolder)
-
-	descIncludeSharedFolder := "Include shared folders"
-	f.BoolVar(&c.namespaceFile.OptIncludeSharedFolder, "include-shared-folder", true, descIncludeSharedFolder)
-
-	descIncludeAppFolder := "Include app folders"
-	f.BoolVar(&c.namespaceFile.OptIncludeAppFolder, "include-app-folder", false, descIncludeAppFolder)
-
-	descIncludeMemberFolder := "Include team member folders"
-	f.BoolVar(&c.namespaceFile.OptIncludeMemberFolder, "include-member-folder", false, descIncludeMemberFolder)
 }
 
-func (c *CmdTeamNamespaceFileList) Exec(args []string) {
+func (c *CmdTeamTeamFolderFileList) Exec(args []string) {
+	c.namespaceFile.OptIncludeMemberFolder = false
+	c.namespaceFile.OptIncludeAppFolder = false
+	c.namespaceFile.OptIncludeTeamFolder = true
+	c.namespaceFile.OptIncludeSharedFolder = false
+
 	apiFile, err := c.ExecContext.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
@@ -67,8 +60,7 @@ func (c *CmdTeamNamespaceFileList) Exec(args []string) {
 	c.namespaceFile.AsAdminId = admin.TeamMemberId
 	c.namespaceFile.OnError = c.DefaultErrorHandler
 	c.namespaceFile.OnNamespace = func(namespace *dbx_team.Namespace) bool {
-		c.Log().Info("Scanning folder",
-			zap.String("namespace_type", namespace.NamespaceType),
+		c.Log().Info("Scanning team folder",
 			zap.String("namespace_id", namespace.NamespaceId),
 			zap.String("name", namespace.Name),
 		)

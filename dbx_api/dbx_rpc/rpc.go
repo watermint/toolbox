@@ -51,12 +51,6 @@ func (a *RpcRequest) rpcRequest(c *dbx_api.Context) (req *http.Request, err erro
 
 		return nil, err
 	}
-
-	log.Debug(
-		"request params",
-		zap.String("params", string(requestParam)),
-	)
-
 	req, err = http.NewRequest("POST", url, bytes.NewReader(requestParam))
 	if err != nil {
 		log.Debug(
@@ -100,7 +94,7 @@ func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, ea dbx_api.E
 		time.Sleep(c.RetryAfter.Sub(now))
 	}
 
-	log.Debug("do request")
+	log.Debug("do_request", zap.Any("param", a.Param))
 	res, err := c.Client.Do(req)
 
 	if err != nil {
