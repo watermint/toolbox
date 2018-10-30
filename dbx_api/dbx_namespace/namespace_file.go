@@ -1,4 +1,4 @@
-package dbx_team
+package dbx_namespace
 
 import (
 	"github.com/watermint/toolbox/dbx_api"

@@ -5,6 +5,7 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_namespace"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
 	"github.com/watermint/toolbox/dbx_api/dbx_team"
@@ -40,17 +41,17 @@ func (c *CmdTeamNamespaceMemberList) FlagConfig(f *flag.FlagSet) {
 }
 
 type NamespaceUser struct {
-	Namespace *dbx_team.Namespace         `json:"namespace"`
+	Namespace *dbx_namespace.Namespace    `json:"namespace"`
 	User      *dbx_sharing.MembershipUser `json:"user"`
 }
 
 type NamespaceGroup struct {
-	Namespace *dbx_team.Namespace          `json:"namespace"`
+	Namespace *dbx_namespace.Namespace     `json:"namespace"`
 	Group     *dbx_sharing.MembershipGroup `json:"group"`
 }
 
 type NamespaceInvitee struct {
-	Namespace *dbx_team.Namespace            `json:"namespace"`
+	Namespace *dbx_namespace.Namespace       `json:"namespace"`
 	Invitee   *dbx_sharing.MembershipInvitee `json:"invitee"`
 }
 
@@ -75,9 +76,9 @@ func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
 		}
 	}
 
-	l := dbx_team.NamespaceList{
+	l := dbx_namespace.NamespaceList{
 		OnError: c.DefaultErrorHandler,
-		OnEntry: func(namespace *dbx_team.Namespace) bool {
+		OnEntry: func(namespace *dbx_namespace.Namespace) bool {
 			if namespace.NamespaceType != "shared_folder" &&
 				namespace.NamespaceType != "team_folder" {
 				return true
