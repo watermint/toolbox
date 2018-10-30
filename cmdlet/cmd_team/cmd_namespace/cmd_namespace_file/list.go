@@ -73,6 +73,11 @@ func (c *CmdTeamNamespaceFileList) Exec(args []string) {
 	onNamespace := func(namespace *dbx_team.Namespace) bool {
 		log := c.Log().With(zap.String("ns", namespace.NamespaceId))
 		log.Debug("list_folder")
+		c.Log().Info("Scanning folder",
+			zap.String("namespace_type", namespace.NamespaceType),
+			zap.String("namespace_id", namespace.NamespaceId),
+			zap.String("name", namespace.Name),
+		)
 		lf := dbx_file.ListFolder{
 			AsAdminId:                       admin.TeamMemberId,
 			IncludeMediaInfo:                c.optIncludeMediaInfo,
@@ -80,30 +85,31 @@ func (c *CmdTeamNamespaceFileList) Exec(args []string) {
 			IncludeHasExplicitSharedMembers: true,
 			IncludeMountedFolders:           false,
 			OnError:                         c.DefaultErrorHandler,
-			OnFile: func(file *dbx_file.File) bool {
-				nf := NamespaceFile{
-					Namespace: namespace,
-					File:      file,
-				}
-				c.report.Report(nf)
-				return true
-			},
-			OnFolder: func(folder *dbx_file.Folder) bool {
-				nf := NamespaceFolder{
-					Namespace: namespace,
-					Folder:    folder,
-				}
-				c.report.Report(nf)
-				return true
-			},
-			OnDelete: func(deleted *dbx_file.Deleted) bool {
-				nd := NamespaceDeleted{
-					Namespace: namespace,
-					Deleted:   deleted,
-				}
-				c.report.Report(nd)
-				return true
-			},
+		}
+		lf.OnFile = func(file *dbx_file.File) bool {
+			nf := NamespaceFile{
+				Namespace: namespace,
+				File:      file,
+			}
+			c.report.Report(nf)
+			return true
+		}
+		lf.OnFolder = func(folder *dbx_file.Folder) bool {
+			nf := NamespaceFolder{
+				Namespace: namespace,
+				Folder:    folder,
+			}
+			c.report.Report(nf)
+			lf.List(apiFile, folder.FolderId)
+			return true
+		}
+		lf.OnDelete = func(deleted *dbx_file.Deleted) bool {
+			nd := NamespaceDeleted{
+				Namespace: namespace,
+				Deleted:   deleted,
+			}
+			c.report.Report(nd)
+			return true
 		}
 		return lf.List(apiFile, "ns:"+namespace.NamespaceId)
 	}
