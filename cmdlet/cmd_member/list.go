@@ -4,8 +4,8 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_member"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
 )
 
 type CmdMemberList struct {
@@ -44,7 +44,7 @@ func (c *CmdMemberList) Exec(args []string) {
 	c.report.Open(c)
 	defer c.report.Close()
 
-	l := dbx_team.MembersList{
+	l := dbx_member.MembersList{
 		OnError: c.DefaultErrorHandler,
 		OnEntry: func(member *dbx_profile.Member) bool {
 			c.report.Report(member)
