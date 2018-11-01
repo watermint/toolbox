@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api/dbx_namespace"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
+	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 )
 
@@ -12,7 +13,7 @@ type CmdTeamNamespaceFileList struct {
 	*cmdlet.SimpleCommandlet
 	optIncludeMediaInfo bool
 	optIncludeDeleted   bool
-	report              cmdlet.Report
+	report              report.Factory
 	namespaceFile       dbx_namespace.ListNamespaceFile
 }
 
@@ -61,7 +62,7 @@ func (c *CmdTeamNamespaceFileList) Exec(args []string) {
 		c.DefaultErrorHandler(ea)
 		return
 	}
-	c.report.Open(c)
+	c.report.Open(c.Log())
 	defer c.report.Close()
 
 	c.namespaceFile.AsAdminId = admin.TeamMemberId

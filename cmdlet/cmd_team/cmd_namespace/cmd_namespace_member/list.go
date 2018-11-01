@@ -5,10 +5,11 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_group"
 	"github.com/watermint/toolbox/dbx_api/dbx_namespace"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
+	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 )
 
@@ -16,8 +17,8 @@ type CmdTeamNamespaceMemberList struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext     *dbx_api.Context
-	report         cmdlet.Report
-	groups         map[string][]*dbx_team.GroupMember
+	report         report.Factory
+	groups         map[string][]*dbx_group.GroupMember
 	optExpandGroup bool
 }
 
@@ -66,7 +67,7 @@ func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
 		c.DefaultErrorHandler(ea)
 		return
 	}
-	c.report.Open(c)
+	c.report.Open(c.Log())
 	defer c.report.Close()
 
 	if c.optExpandGroup {
@@ -152,20 +153,20 @@ func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
 }
 
 func (c *CmdTeamNamespaceMemberList) expandGroup(ctx *dbx_api.Context) bool {
-	c.groups = make(map[string][]*dbx_team.GroupMember)
+	c.groups = make(map[string][]*dbx_group.GroupMember)
 
 	c.Log().Debug("Expand group")
-	gl := dbx_team.GroupList{
+	gl := dbx_group.GroupList{
 		OnError: c.DefaultErrorHandler,
-		OnEntry: func(group *dbx_team.Group) bool {
+		OnEntry: func(group *dbx_group.Group) bool {
 			c.Log().Debug("onEntry",
 				zap.String("group_id", group.GroupId),
 				zap.String("group_name", group.GroupName),
 			)
 
-			gml := dbx_team.GroupMemberList{
+			gml := dbx_group.GroupMemberList{
 				OnError: c.DefaultErrorHandler,
-				OnEntry: func(gm *dbx_team.GroupMember) bool {
+				OnEntry: func(gm *dbx_group.GroupMember) bool {
 
 					if g, ok := c.groups[group.GroupId]; ok {
 						g = append(g, gm)
@@ -176,7 +177,7 @@ func (c *CmdTeamNamespaceMemberList) expandGroup(ctx *dbx_api.Context) bool {
 							zap.Int("group_members", len(g)),
 						)
 					} else {
-						g = make([]*dbx_team.GroupMember, 1)
+						g = make([]*dbx_group.GroupMember, 1)
 						g[0] = gm
 						c.groups[group.GroupId] = g
 

@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/dbx_api/dbx_member"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/infra/util"
+	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -17,7 +18,7 @@ type CmdMemberInvite struct {
 	optCsv     string
 	optSilent  bool
 	apiContext *dbx_api.Context
-	report     cmdlet.Report
+	report     report.Factory
 }
 
 func (c *CmdMemberInvite) Name() string {
@@ -59,7 +60,7 @@ func (c *CmdMemberInvite) Exec(args []string) {
 		return
 	}
 
-	c.report.Open(c)
+	c.report.Open(c.Log())
 	defer c.report.Close()
 
 	type FailureReport struct {
