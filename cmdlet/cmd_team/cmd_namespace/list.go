@@ -5,13 +5,14 @@ import (
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_namespace"
+	"github.com/watermint/toolbox/report"
 )
 
 type CmdTeamNamespaceList struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext *dbx_api.Context
-	report     cmdlet.Report
+	report     report.Factory
 }
 
 func (CmdTeamNamespaceList) Name() string {
@@ -36,7 +37,7 @@ func (c *CmdTeamNamespaceList) Exec(args []string) {
 		return
 	}
 
-	c.report.Open(c)
+	c.report.Open(c.Log())
 	defer c.report.Close()
 
 	l := dbx_namespace.NamespaceList{

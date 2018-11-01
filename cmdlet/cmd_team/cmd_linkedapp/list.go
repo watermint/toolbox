@@ -5,13 +5,14 @@ import (
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_team"
+	"github.com/watermint/toolbox/report"
 )
 
 type CmdMemberLinkedAppList struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext *dbx_api.Context
-	report     cmdlet.Report
+	report     report.Factory
 }
 
 func (CmdMemberLinkedAppList) Name() string {
@@ -36,7 +37,7 @@ func (c *CmdMemberLinkedAppList) Exec(args []string) {
 		return
 	}
 
-	c.report.Open(c)
+	c.report.Open(c.Log())
 	defer c.report.Close()
 
 	l := dbx_team.LinkedAppList{

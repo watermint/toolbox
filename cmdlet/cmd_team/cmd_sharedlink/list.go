@@ -7,13 +7,14 @@ import (
 	"github.com/watermint/toolbox/dbx_api/dbx_member"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
+	"github.com/watermint/toolbox/report"
 )
 
 type CmdTeamSharedLinkList struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext *dbx_api.Context
-	report     cmdlet.Report
+	report     report.Factory
 	filter     cmdlet.SharedLinkFilter
 }
 
@@ -39,7 +40,7 @@ func (c *CmdTeamSharedLinkList) Exec(args []string) {
 	if err != nil {
 		return
 	}
-	c.report.Open(c)
+	c.report.Open(c.Log())
 	defer c.report.Close()
 
 	ml := dbx_member.MembersList{

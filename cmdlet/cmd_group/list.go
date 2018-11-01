@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_group"
+	"github.com/watermint/toolbox/report"
 )
 
 type CmdGrouplist struct {
@@ -12,7 +13,7 @@ type CmdGrouplist struct {
 
 	optIncludeRemoved bool
 	apiContext        *dbx_api.Context
-	report            cmdlet.Report
+	report            report.Factory
 }
 
 func (c *CmdGrouplist) Name() string {
@@ -40,7 +41,7 @@ func (c *CmdGrouplist) Exec(args []string) {
 		return
 	}
 
-	c.report.Open(c)
+	c.report.Open(c.Log())
 	defer c.report.Close()
 
 	gl := dbx_group.GroupList{

@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/dbx_api/dbx_member"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
+	"github.com/watermint/toolbox/report"
 	"time"
 )
 
@@ -15,7 +16,7 @@ type CmdTeamSharedLinkUpdateExpire struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext *dbx_api.Context
-	report     cmdlet.Report
+	report     report.Factory
 	filter     cmdlet.SharedLinkFilter
 	optDays    int
 }
@@ -50,7 +51,7 @@ func (c *CmdTeamSharedLinkUpdateExpire) Exec(args []string) {
 		return
 	}
 
-	c.report.Open(c)
+	c.report.Open(c.Log())
 	defer c.report.Close()
 
 	type UpdateReport struct {

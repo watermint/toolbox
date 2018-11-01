@@ -4,7 +4,8 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
+	"github.com/watermint/toolbox/dbx_api/dbx_group"
+	"github.com/watermint/toolbox/report"
 )
 
 type CmdGroupMemberList struct {
@@ -12,7 +13,7 @@ type CmdGroupMemberList struct {
 
 	optIncludeRemoved bool
 	apiContext        *dbx_api.Context
-	report            cmdlet.Report
+	report            report.Factory
 }
 
 func (c *CmdGroupMemberList) Name() string {
@@ -37,16 +38,16 @@ func (c *CmdGroupMemberList) Exec(args []string) {
 		return
 	}
 
-	c.report.Open(c)
+	c.report.Open(c.Log())
 	defer c.report.Close()
 
-	gl := dbx_team.GroupList{
+	gl := dbx_group.GroupList{
 		OnError: c.DefaultErrorHandler,
-		OnEntry: func(group *dbx_team.Group) bool {
+		OnEntry: func(group *dbx_group.Group) bool {
 
-			gml := dbx_team.GroupMemberList{
+			gml := dbx_group.GroupMemberList{
 				OnError: c.DefaultErrorHandler,
-				OnEntry: func(gm *dbx_team.GroupMember) bool {
+				OnEntry: func(gm *dbx_group.GroupMember) bool {
 					c.report.Report(gm)
 					return true
 				},

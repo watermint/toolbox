@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_member"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
+	"github.com/watermint/toolbox/report"
 )
 
 type CmdMemberList struct {
@@ -13,7 +14,7 @@ type CmdMemberList struct {
 
 	optIncludeRemoved bool
 	apiContext        *dbx_api.Context
-	report            cmdlet.Report
+	report            report.Factory
 }
 
 func (c *CmdMemberList) Name() string {
@@ -41,7 +42,7 @@ func (c *CmdMemberList) Exec(args []string) {
 		return
 	}
 
-	c.report.Open(c)
+	c.report.Open(c.Log())
 	defer c.report.Close()
 
 	l := dbx_member.MembersList{

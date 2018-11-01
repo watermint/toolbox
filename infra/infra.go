@@ -469,7 +469,7 @@ func (ec *ExecContext) setupLoggerFile() {
 		zapcore.NewTee(zc, ec.consoleLoggerCore()),
 	).WithOptions(zap.AddCaller())
 
-	logger.Info("Logger started",
+	logger.Info("logger started",
 		zap.String("app", AppName),
 		zap.String("version", AppVersion),
 		zap.String("revision", AppHash),
