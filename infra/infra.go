@@ -331,6 +331,7 @@ func (ec *ExecContext) ApplyFlags() error {
 
 func (ec *ExecContext) Shutdown() {
 	ec.Log().Debug("Shutdown")
+	ec.Log().Sync()
 }
 
 func (ec *ExecContext) DefaultWorkPath() string {

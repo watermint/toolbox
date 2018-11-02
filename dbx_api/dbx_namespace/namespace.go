@@ -9,10 +9,10 @@ import (
 )
 
 type Namespace struct {
-	NamespaceId   string          `json:"namespace_id" column:"namespace_id"`
-	NamespaceType string          `json:"namespace_type" column:"namespace_type"`
-	Name          string          `json:"name" column:"name"`
-	TeamMemberId  string          `json:"team_member_id,omitempty" column:"team_member_id"`
+	NamespaceId   string          `json:"namespace_id"`
+	NamespaceType string          `json:"namespace_type"`
+	Name          string          `json:"name"`
+	TeamMemberId  string          `json:"team_member_id,omitempty"`
 	Namespace     json.RawMessage `json:"namespace"`
 }
 
