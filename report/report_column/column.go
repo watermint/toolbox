@@ -5,134 +5,73 @@ import (
 	"go.uber.org/zap"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
-type ColumnType struct {
-	FieldIndex int
-	Tag        string
-	Type       reflect.Type
+type ColumnZ struct {
+	Log *zap.Logger
 }
 
-type Column struct {
-	Row        int
-	Column     int
-	ColumnName string
-	Value      string
-}
-
-const (
-	ColumnTag = "column"
-)
-
-type ColumnMarshaller struct {
-	firstColumn []ColumnType
-	rowIndex    int
-	Logger      *zap.Logger
-}
-
-func (c *ColumnMarshaller) IsFirstRow() bool {
-	return c.rowIndex == 0
-}
-
-func (c *ColumnMarshaller) ColumnTypes(row interface{}) []ColumnType {
-	rv := reflect.ValueOf(row)
-	rt := reflect.TypeOf(row)
-
+func (z *ColumnZ) typeOf(r interface{}) reflect.Type {
+	rt := reflect.TypeOf(r)
 	if rt.Kind() == reflect.Ptr {
-		rv = rv.Elem()
-		rt = rv.Type()
+		rt = reflect.ValueOf(r).Elem().Type()
 	}
-
-	cols := make([]ColumnType, 0)
-	for i := 0; i < rt.NumField(); i++ {
-		rf := rt.Field(i)
-		ft := rf.Tag.Get(ColumnTag)
-
-		if ft == "-" {
-			continue
-		}
-		if ft == "" {
-			ft = rf.Name
-		}
-		rfv := rv.Field(i)
-		if _, err := c.MarshalColumn(rfv); err != nil {
-			c.Logger.Debug(
-				"Skip unsupported type",
-				zap.String("field", rf.Name),
-				zap.String("row_type", rt.Name()),
-			)
-			continue
-		}
-
-		col := ColumnType{
-			FieldIndex: i,
-			Tag:        ft,
-			Type:       rf.Type,
-		}
-		cols = append(cols, col)
-	}
-	return cols
+	return rt
 }
 
-func (c *ColumnMarshaller) Row(row interface{}) (cols []Column, err error) {
-	rt := reflect.TypeOf(row)
-	rv := reflect.ValueOf(row)
-
-	if rt.Kind() == reflect.Ptr {
-		rv = rv.Elem()
-		rt = rv.Type()
+func (z *ColumnZ) supportedType(k reflect.Kind) bool {
+	switch k {
+	case reflect.Array:
+		return false
+	case reflect.Chan:
+		return false
+	case reflect.Func:
+		return false
+	case reflect.Map:
+		return false
+	case reflect.Slice:
+		return false
+	case reflect.UnsafePointer:
+		return false
+	case reflect.Uintptr:
+		return false
 	}
+	return true
+}
 
-	if c.rowIndex == 0 {
-		c.firstColumn = c.ColumnTypes(row)
-	} else {
-		colTypes := c.ColumnTypes(row)
-		if !reflect.DeepEqual(c.firstColumn, colTypes) {
-			c.Logger.Warn(
-				"incompatible row found",
-				zap.Any("expected", c.firstColumn),
-				zap.Any("found", colTypes),
-			)
-			return nil, errors.New("incompatible row found")
+func (z *ColumnZ) Header(row interface{}) []string {
+	return z.headerFromType("", z.typeOf(row))
+}
+
+func (z *ColumnZ) headerFromType(prefix string, rt reflect.Type) (cols []string) {
+	cols = make([]string, 0)
+	if rt.Kind() == reflect.Struct {
+		n := rt.NumField()
+		for i := 0; i < n; i++ {
+			rf := rt.Field(i)
+			rfk := rf.Type.Kind()
+			rft := rf.Type
+			if rfk == reflect.Ptr {
+				rfk = rf.Type.Elem().Kind()
+				rft = rf.Type.Elem()
+			}
+			if rfk == reflect.Struct {
+				cols = append(cols, z.headerFromType(prefix+rf.Name+".", rft)...)
+			} else if z.supportedType(rfk) {
+				cols = append(cols, prefix+rf.Name)
+			}
 		}
+	} else if z.supportedType(rt.Kind()) {
+		cols = append(cols, prefix+"")
 	}
-
-	if len(c.firstColumn) < 1 {
-		c.Logger.Warn("No column found")
-	}
-
-	cols = make([]Column, len(c.firstColumn))
-
-	for i, ct := range c.firstColumn {
-		rvf := rv.Field(ct.FieldIndex)
-		v, err := c.MarshalColumn(rvf)
-		if err != nil {
-			c.Logger.Warn(
-				"Unable to marshal data into columns",
-				zap.Int("row", c.rowIndex),
-				zap.Int("col", i),
-				zap.String("col_name", ct.Tag),
-				zap.Error(err),
-			)
-			v = ""
-		}
-
-		cols[i] = Column{
-			Row:        c.rowIndex,
-			Column:     i,
-			ColumnName: ct.Tag,
-			Value:      v,
-		}
-	}
-
-	c.rowIndex++
 	return
 }
 
-func (c *ColumnMarshaller) MarshalColumn(v reflect.Value) (string, error) {
+func (z *ColumnZ) marshal(v reflect.Value) (string, error) {
 	switch v.Kind() {
 	case reflect.Ptr:
-		return c.MarshalColumn(reflect.Indirect(v))
+		return z.marshal(v.Elem())
 	case reflect.Bool:
 		return strconv.FormatBool(v.Bool()), nil
 	case reflect.Int:
@@ -158,6 +97,63 @@ func (c *ColumnMarshaller) MarshalColumn(v reflect.Value) (string, error) {
 	case reflect.String:
 		return v.String(), nil
 	}
+	return "", errors.New("unsupported type")
+}
 
-	return "", errors.New("unsupported column type found")
+func (z *ColumnZ) valueForPath(path string, value reflect.Value) string {
+	if !value.IsValid() {
+		return ""
+	}
+	if value.Type().Kind() == reflect.Ptr {
+		value = value.Elem()
+	}
+	if path == "" {
+		if mv, err := z.marshal(value); err != nil {
+			return ""
+		} else {
+			return mv
+		}
+	}
+
+	paths := strings.Split(path, ".")
+	p0 := paths[0]
+	vt := value.Type()
+	if _, ok := vt.FieldByName(p0); !ok {
+		z.Log.Debug(
+			"field not found",
+			zap.String("path", path),
+			zap.String("field", p0),
+		)
+		return ""
+	}
+
+	vf := value.FieldByName(p0)
+	if !vf.IsValid() {
+		z.Log.Debug(
+			"field not found",
+			zap.String("path", path),
+			zap.String("field", p0),
+		)
+		return ""
+	}
+	if vf.Type().Kind() == reflect.Ptr {
+		vf = vf.Elem()
+	}
+	if len(paths) > 1 {
+		return z.valueForPath(strings.Join(paths[1:], "."), vf)
+	}
+	if mv, err := z.marshal(vf); err != nil {
+		return ""
+	} else {
+		return mv
+	}
+}
+
+func (z *ColumnZ) Values(cols []string, value interface{}) []string {
+	vals := make([]string, 0)
+	v := reflect.ValueOf(value)
+	for _, c := range cols {
+		vals = append(vals, z.valueForPath(c, v))
+	}
+	return vals
 }

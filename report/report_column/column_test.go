@@ -1,161 +1,122 @@
 package report_column
 
 import (
+	"encoding/json"
 	"go.uber.org/zap"
+	"reflect"
 	"testing"
 )
 
-func TestColumnMarshaller_ColumnTypes(t *testing.T) {
+func TestColumnMarshaller_Row2(t *testing.T) {
 	log, err := zap.NewDevelopment()
 	if err != nil {
 		t.Error(err)
 	}
 
-	type Member1 struct {
-		Id    int    `column:"id"`
-		Name  string `column:"name"`
-		Email string `column:"email"`
+	type Name3 struct {
+		GivenName string
+		Surname   string
 	}
-	m1 := Member1{
-		Id:    123,
-		Name:  "abc",
-		Email: "abc@example.com",
+	type Zip3 struct {
+		Major string
+		Minor string
 	}
-	cm1 := ColumnMarshaller{
-		Logger: log,
+	type Address3 struct {
+		Country string
+		City    string
+		Zip     *Zip3
 	}
-
-	ct1 := cm1.ColumnTypes(m1)
-	if len(ct1) != 3 ||
-		ct1[0].Tag != "id" ||
-		ct1[1].Tag != "name" ||
-		ct1[2].Tag != "email" {
-		t.Error("Invalid column types")
-	}
-
-	// pointer
-	ct1 = cm1.ColumnTypes(&m1)
-	if len(ct1) != 3 ||
-		ct1[0].Tag != "id" ||
-		ct1[1].Tag != "name" ||
-		ct1[2].Tag != "email" {
-		t.Error("Invalid column types")
+	type Member3 struct {
+		Id      int
+		Name    Name3
+		Email   string
+		Address Address3
+		Raw     []byte
+		Json    json.RawMessage
 	}
 
-	type Member2 struct {
-		Id    int    `column:"id"`
-		Name  string `column:"name"`
-		Data  []byte `column:"-"`
-		Email string `column:"email"`
-	}
-	m2 := Member2{
-		Id:    123,
-		Name:  "abc",
-		Data:  []byte("ABC"),
-		Email: "abc@example.com",
-	}
-	cm2 := ColumnMarshaller{
-		Logger: log,
-	}
-
-	ct2 := cm2.ColumnTypes(m2)
-	if len(ct2) != 3 ||
-		ct2[0].Tag != "id" ||
-		ct2[1].Tag != "name" ||
-		ct2[2].Tag != "email" {
-		t.Error("Invalid column types")
+	m3 := Member3{
+		Id: 123,
+		Name: Name3{
+			GivenName: "one",
+			Surname:   "two-three",
+		},
+		Email: "123@example.com",
+		Address: Address3{
+			Country: "Japan",
+			City:    "Tokyo",
+			Zip: &Zip3{
+				Major: "100",
+				Minor: "0000",
+			},
+		},
 	}
 
-	// pointer
-	ct2 = cm1.ColumnTypes(&m2)
-	if len(ct2) != 3 ||
-		ct2[0].Tag != "id" ||
-		ct2[1].Tag != "name" ||
-		ct2[2].Tag != "email" {
-		t.Error("Invalid column types")
-	}
-}
+	log.Debug("nested - no pointer")
+	cz := ColumnZ{}
 
-func TestColumnMarshaller_Row(t *testing.T) {
-	log, err := zap.NewDevelopment()
-	if err != nil {
-		t.Error(err)
-	}
+	cols3 := cz.Header(m3)
 
-	type Member1 struct {
-		Id    int    `column:"id"`
-		Name  string `column:"name"`
-		Email string `column:"email"`
+	expectedCols3 := []string{
+		"Id", "Name.GivenName", "Name.Surname", "Email",
+		"Address.Country", "Address.City",
+		"Address.Zip.Major", "Address.Zip.Minor",
 	}
-	m1 := Member1{
-		Id:    123,
-		Name:  "abc",
-		Email: "abc@example.com",
+	expectedVals3 := []string{
+		"123",
+		"one",
+		"two-three",
+		"123@example.com",
+		"Japan",
+		"Tokyo",
+		"100",
+		"0000",
 	}
-	cm1 := ColumnMarshaller{
-		Logger: log,
-	}
+	vals3 := cz.Values(cols3, m3)
+	log.Info("cols3", zap.Strings("cols", cols3))
+	log.Info("vals3", zap.Strings("vals", vals3))
 
-	if ct1, err := cm1.Row(m1); err != nil {
-		t.Error(err)
-	} else {
-		if len(ct1) != 3 ||
-			ct1[0].ColumnName != "id" || ct1[0].Value != "123" ||
-			ct1[1].ColumnName != "name" || ct1[1].Value != "abc" ||
-			ct1[2].ColumnName != "email" || ct1[2].Value != "abc@example.com" {
-			t.Error("Invalid column types")
-		}
+	if !reflect.DeepEqual(expectedCols3, cols3) {
+		t.Error("cols3 didn't match")
+	}
+	if !reflect.DeepEqual(expectedVals3, vals3) {
+		t.Error("vals3 didn't match")
 	}
 
-	//pointer
-	if ct1, err := cm1.Row(&m1); err != nil {
-		t.Error(err)
-	} else {
-		if len(ct1) != 3 ||
-			ct1[0].ColumnName != "id" || ct1[0].Value != "123" ||
-			ct1[1].ColumnName != "name" || ct1[1].Value != "abc" ||
-			ct1[2].ColumnName != "email" || ct1[2].Value != "abc@example.com" {
-			t.Error("Invalid column types")
-		}
+	m3s := Member3{
+		Id: 123,
+		Name: Name3{
+			GivenName: "one",
+			Surname:   "two-three",
+		},
+		Email: "123@example.com",
+		Address: Address3{
+			Country: "Japan",
+			City:    "Tokyo",
+			Zip:     nil,
+		},
+	}
+	expectedVals3s := []string{
+		"123",
+		"one",
+		"two-three",
+		"123@example.com",
+		"Japan",
+		"Tokyo",
+		"",
+		"",
 	}
 
-	type Member2 struct {
-		Id    int    `column:"id"`
-		Name  string `column:"name"`
-		Data  []byte `column:"-"`
-		Email string `column:"email"`
-	}
-	m2 := Member2{
-		Id:    123,
-		Name:  "abc",
-		Data:  []byte("ABC"),
-		Email: "abc@example.com",
-	}
-	cm2 := ColumnMarshaller{
-		Logger: log,
-	}
+	cols3s := cz.Header(m3s)
+	vals3s := cz.Values(cols3s, m3s)
+	log.Info("cols3", zap.Strings("cols", cols3s))
+	log.Info("vals3", zap.Strings("vals", vals3s))
 
-	if ct2, err := cm2.Row(m2); err != nil {
-		t.Error(err)
-	} else {
-		if len(ct2) != 3 ||
-			ct2[0].ColumnName != "id" || ct2[0].Value != "123" ||
-			ct2[1].ColumnName != "name" || ct2[1].Value != "abc" ||
-			ct2[2].ColumnName != "email" || ct2[2].Value != "abc@example.com" {
-			t.Error("Invalid column types")
-		}
+	if !reflect.DeepEqual(expectedCols3, cols3s) {
+		t.Error("cols3 didn't match")
 	}
-
-	// pointer
-	if ct2, err := cm2.Row(&m2); err != nil {
-		t.Error(err)
-	} else {
-		if len(ct2) != 3 ||
-			ct2[0].ColumnName != "id" || ct2[0].Value != "123" ||
-			ct2[1].ColumnName != "name" || ct2[1].Value != "abc" ||
-			ct2[2].ColumnName != "email" || ct2[2].Value != "abc@example.com" {
-			t.Error("Invalid column types")
-		}
+	if !reflect.DeepEqual(expectedVals3s, vals3s) {
+		t.Error("vals3 didn't match")
 	}
 
 }

@@ -13,13 +13,13 @@ type CsvReport struct {
 	ReportHeader bool
 	reportFile   *os.File
 	reportWriter *csv.Writer
-	marshaller   *report_column.ColumnMarshaller
+	marshaller   *report_column.ColumnZ
 }
 
 func (r *CsvReport) Open(logger *zap.Logger) error {
 	r.logger = logger
-	r.marshaller = &report_column.ColumnMarshaller{
-		Logger: logger,
+	r.marshaller = &report_column.ColumnZ{
+		Log: logger,
 	}
 
 	if r.ReportPath == "" {
@@ -41,25 +41,14 @@ func (r *CsvReport) Open(logger *zap.Logger) error {
 }
 
 func (r *CsvReport) Report(row interface{}) error {
-	outHeader := r.ReportHeader && r.marshaller.IsFirstRow()
+	//	outHeader := r.ReportHeader
+	headers := r.marshaller.Header(row)
+	r.reportWriter.Write(headers)
 
-	if cols, err := r.marshaller.Row(row); err != nil {
-		return err
-	} else {
-		if outHeader {
-			headers := make([]string, len(cols))
-			for i, c := range cols {
-				headers[i] = c.ColumnName
-			}
-			r.reportWriter.Write(headers)
-		}
-		vals := make([]string, len(cols))
-		for i, c := range cols {
-			vals[i] = c.Value
-		}
-		r.reportWriter.Write(vals)
-		r.reportWriter.Flush()
-	}
+	cols := r.marshaller.Values(headers, row)
+	r.reportWriter.Write(cols)
+	r.reportWriter.Flush()
+
 	return nil
 }
 
