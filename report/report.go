@@ -3,6 +3,7 @@ package report
 import (
 	"errors"
 	"flag"
+	"github.com/watermint/toolbox/report/report_csv"
 	"github.com/watermint/toolbox/report/report_json"
 	"go.uber.org/zap"
 )
@@ -16,7 +17,7 @@ type Report interface {
 type Factory struct {
 	logger       *zap.Logger
 	report       Report
-	OmitHeader   bool
+	ReportHeader bool
 	ReportPath   string
 	ReportFormat string
 }
@@ -25,22 +26,22 @@ func (y *Factory) FlagConfig(f *flag.FlagSet) {
 	descReportPath := "Output file path of the report (default: STDOUT)"
 	f.StringVar(&y.ReportPath, "report-path", "", descReportPath)
 
-	descReportFormat := "Output file format (json) (default: json)"
+	descReportFormat := "Output file for/**/mat (csv|json) (default: json)"
 	f.StringVar(&y.ReportFormat, "report-format", "json", descReportFormat)
 
-	//descOmitHeader := "Omit Report header"
-	//f.BoolVar(&y.OmitHeader, "report-omit-header", true, descOmitHeader)
+	descReportHeader := "Report with header (for csv)"
+	f.BoolVar(&y.ReportHeader, "report-header", true, descReportHeader)
 }
 
 func (y *Factory) Open(logger *zap.Logger) error {
 	y.logger = logger
 	switch y.ReportFormat {
-	//case "csv":
-	//	y.report = &report_csv.CsvReport{
-	//		ReportPath: y.ReportPath,
-	//		OmitHeader: y.OmitHeader,
-	//	}
-	//	return y.report.Open(y.logger)
+	case "csv":
+		y.report = &report_csv.CsvReport{
+			ReportPath:   y.ReportPath,
+			ReportHeader: y.ReportHeader,
+		}
+		return y.report.Open(y.logger)
 
 	case "json":
 		y.report = &report_json.JsonReport{

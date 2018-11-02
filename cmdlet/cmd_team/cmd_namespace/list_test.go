@@ -25,7 +25,7 @@ func TestCmdTeamNamespaceList_ExecCsv(t *testing.T) {
 			"list",
 			"-report-format",
 			"csv",
-			"-report-omit-header=false",
+			"-report-header",
 		},
 	)
 }
