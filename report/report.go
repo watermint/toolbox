@@ -9,7 +9,7 @@ import (
 )
 
 type Report interface {
-	Open(logger *zap.Logger) error
+	Init(logger *zap.Logger) error
 	Close()
 	Report(row interface{}) error
 }
@@ -33,7 +33,7 @@ func (y *Factory) FlagConfig(f *flag.FlagSet) {
 	f.BoolVar(&y.ReportHeader, "report-header", true, descReportHeader)
 }
 
-func (y *Factory) Open(logger *zap.Logger) error {
+func (y *Factory) Init(logger *zap.Logger) error {
 	y.logger = logger
 	switch y.ReportFormat {
 	case "csv":
@@ -41,13 +41,13 @@ func (y *Factory) Open(logger *zap.Logger) error {
 			ReportPath:   y.ReportPath,
 			ReportHeader: y.ReportHeader,
 		}
-		return y.report.Open(y.logger)
+		return y.report.Init(y.logger)
 
 	case "json":
 		y.report = &report_json.JsonReport{
 			ReportPath: y.ReportPath,
 		}
-		return y.report.Open(y.logger)
+		return y.report.Init(y.logger)
 
 	default:
 		y.logger.Error(

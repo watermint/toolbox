@@ -37,7 +37,7 @@ func (c *CmdTeamTeamFolderList) Exec(args []string) {
 		return
 	}
 
-	c.report.Open(c.Log())
+	c.report.Init(c.Log())
 	defer c.report.Close()
 
 	l := dbx_teamfolder.ListTeamFolder{

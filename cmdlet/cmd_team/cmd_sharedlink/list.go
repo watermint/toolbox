@@ -40,7 +40,7 @@ func (c *CmdTeamSharedLinkList) Exec(args []string) {
 	if err != nil {
 		return
 	}
-	c.report.Open(c.Log())
+	c.report.Init(c.Log())
 	defer c.report.Close()
 
 	ml := dbx_member.MembersList{
