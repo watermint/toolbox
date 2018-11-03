@@ -1,24 +1,56 @@
-hash: 04129d7e5d4fed56bc95767108a3907278933553921a4df94ba0bd2c8ff7796d
-updated: 2018-11-02T07:36:30.181553+09:00
+hash: 3ff59c01f048e21f1225ff73130fa21e2e7f7066180294542f53b23cd87e1855
+updated: 2018-11-02T07:49:18.346007+09:00
 imports:
+- name: github.com/golang/protobuf
+  version: 1918e1ff6ffd2be7bed0553df8650672c3bfe80d
+  subpackages:
+  - proto
 - name: github.com/tidwall/gjson
   version: 1e3f6aeaa5bad08d777ea7807b279a07885dd8b2
 - name: github.com/tidwall/match
   version: 1731857f09b1f38450e2c12409748407822dc6be
 - name: go.uber.org/atomic
   version: 1ea20fb1cbb1cc08cbd0d913a96dead89aa18289
+- name: go.uber.org/multierr
+  version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
 - name: go.uber.org/zap
   version: ff33455a0e382e8a81d14dd7c922020b6b5e7982
+  subpackages:
+  - buffer
+  - internal/bufferpool
+  - internal/color
+  - internal/exit
+  - zapcore
 - name: golang.org/x/net
-  version: c44066c5c816ec500d459a2a324a753f78531ae0
+  version: e11730110bbd884bbf19550bfafe9d69519ce29e
   subpackages:
   - context
+  - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: 8527f56f71077909d6ead7facfe18fbf05ebdf83
+  version: c453e0c757598fd055e170a3a359263c91e13153
+  subpackages:
+  - internal
 - name: golang.org/x/text
   version: 6f44c5a2ea40ee3593d98cdcc905cc1fdaa660e2
   subpackages:
+  - encoding
+  - encoding/internal
+  - encoding/internal/identifier
+  - encoding/unicode
+  - internal/utf8internal
+  - runes
+  - transform
   - unicode/norm
+- name: google.golang.org/appengine
+  version: 4a4468ece617fc8205e99368fa2200e9d1fad421
+  subpackages:
+  - internal
+  - internal/base
+  - internal/datastore
+  - internal/log
+  - internal/remote_api
+  - internal/urlfetch
+  - urlfetch
 - name: gopkg.in/natefinch/lumberjack.v2
   version: a96e63847dc3c67d17befa69c303767e2f84e54f
 testImports: []

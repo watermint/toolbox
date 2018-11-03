@@ -53,9 +53,8 @@ func TestColumnMarshaller_Row2(t *testing.T) {
 	}
 
 	log.Debug("nested - no pointer")
-	cz := ColumnZ{}
-
-	cols3 := cz.Header(m3)
+	cz3 := NewRow(m3, log)
+	cols3 := cz3.Header()
 
 	expectedCols3 := []string{
 		"Id", "Name.GivenName", "Name.Surname", "Email",
@@ -72,7 +71,7 @@ func TestColumnMarshaller_Row2(t *testing.T) {
 		"100",
 		"0000",
 	}
-	vals3 := cz.Values(cols3, m3)
+	vals3 := cz3.Values(m3)
 	log.Info("cols3", zap.Strings("cols", cols3))
 	log.Info("vals3", zap.Strings("vals", vals3))
 
@@ -107,8 +106,9 @@ func TestColumnMarshaller_Row2(t *testing.T) {
 		"",
 	}
 
-	cols3s := cz.Header(m3s)
-	vals3s := cz.Values(cols3s, m3s)
+	cz3s := NewRow(m3s, log)
+	cols3s := cz3s.Header()
+	vals3s := cz3.Values(m3s)
 	log.Info("cols3", zap.Strings("cols", cols3s))
 	log.Info("vals3", zap.Strings("vals", vals3s))
 
@@ -119,4 +119,8 @@ func TestColumnMarshaller_Row2(t *testing.T) {
 		t.Error("vals3 didn't match")
 	}
 
+	vals3s = cz3s.Values(m3s)
+	if !reflect.DeepEqual(expectedVals3s, vals3s) {
+		t.Error("vals3 didn't match")
+	}
 }

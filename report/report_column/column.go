@@ -8,11 +8,44 @@ import (
 	"strings"
 )
 
-type ColumnZ struct {
-	Log *zap.Logger
+func RowName(row interface{}) string {
+	rowType := reflect.TypeOf(row)
+	if rowType.Kind() == reflect.Ptr {
+		rowType = rowType.Elem()
+	}
+	return rowType.Name()
 }
 
-func (z *ColumnZ) typeOf(r interface{}) reflect.Type {
+func NewRow(row interface{}, logger *zap.Logger) Row {
+	ri := &rowImpl{
+		name:   RowName(row),
+		logger: logger,
+	}
+	ri.header = ri.parseHeader(row)
+
+	return ri
+}
+
+type Row interface {
+	Name() string
+	Header() []string
+	Values(r interface{}) []string
+}
+
+type rowImpl struct {
+	name   string
+	header []string
+	logger *zap.Logger
+}
+
+func (z *rowImpl) Name() string {
+	return z.name
+}
+func (z *rowImpl) Header() []string {
+	return z.header
+}
+
+func (z *rowImpl) typeOf(r interface{}) reflect.Type {
 	rt := reflect.TypeOf(r)
 	if rt.Kind() == reflect.Ptr {
 		rt = reflect.ValueOf(r).Elem().Type()
@@ -20,7 +53,7 @@ func (z *ColumnZ) typeOf(r interface{}) reflect.Type {
 	return rt
 }
 
-func (z *ColumnZ) supportedType(k reflect.Kind) bool {
+func (z *rowImpl) supportedType(k reflect.Kind) bool {
 	switch k {
 	case reflect.Array:
 		return false
@@ -40,11 +73,11 @@ func (z *ColumnZ) supportedType(k reflect.Kind) bool {
 	return true
 }
 
-func (z *ColumnZ) Header(row interface{}) []string {
+func (z *rowImpl) parseHeader(row interface{}) []string {
 	return z.headerFromType("", z.typeOf(row))
 }
 
-func (z *ColumnZ) headerFromType(prefix string, rt reflect.Type) (cols []string) {
+func (z *rowImpl) headerFromType(prefix string, rt reflect.Type) (cols []string) {
 	cols = make([]string, 0)
 	if rt.Kind() == reflect.Struct {
 		n := rt.NumField()
@@ -68,7 +101,7 @@ func (z *ColumnZ) headerFromType(prefix string, rt reflect.Type) (cols []string)
 	return
 }
 
-func (z *ColumnZ) marshal(v reflect.Value) (string, error) {
+func (z *rowImpl) marshal(v reflect.Value) (string, error) {
 	switch v.Kind() {
 	case reflect.Ptr:
 		return z.marshal(v.Elem())
@@ -100,7 +133,7 @@ func (z *ColumnZ) marshal(v reflect.Value) (string, error) {
 	return "", errors.New("unsupported type")
 }
 
-func (z *ColumnZ) valueForPath(path string, value reflect.Value) string {
+func (z *rowImpl) valueForPath(path string, value reflect.Value) string {
 	if !value.IsValid() {
 		return ""
 	}
@@ -119,7 +152,7 @@ func (z *ColumnZ) valueForPath(path string, value reflect.Value) string {
 	p0 := paths[0]
 	vt := value.Type()
 	if _, ok := vt.FieldByName(p0); !ok {
-		z.Log.Debug(
+		z.logger.Debug(
 			"field not found",
 			zap.String("path", path),
 			zap.String("field", p0),
@@ -129,7 +162,7 @@ func (z *ColumnZ) valueForPath(path string, value reflect.Value) string {
 
 	vf := value.FieldByName(p0)
 	if !vf.IsValid() {
-		z.Log.Debug(
+		z.logger.Debug(
 			"field not found",
 			zap.String("path", path),
 			zap.String("field", p0),
@@ -149,10 +182,10 @@ func (z *ColumnZ) valueForPath(path string, value reflect.Value) string {
 	}
 }
 
-func (z *ColumnZ) Values(cols []string, value interface{}) []string {
+func (z *rowImpl) Values(value interface{}) []string {
 	vals := make([]string, 0)
 	v := reflect.ValueOf(value)
-	for _, c := range cols {
+	for _, c := range z.header {
 		vals = append(vals, z.valueForPath(c, v))
 	}
 	return vals
