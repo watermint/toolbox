@@ -8,41 +8,6 @@ import (
 	"github.com/watermint/toolbox/dbx_api/dbx_rpc"
 )
 
-type MembersList struct {
-	OnError func(annotation dbx_api.ErrorAnnotation) bool
-	OnEntry func(member *dbx_profile.Member) bool
-}
-
-func (a *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
-	type ListParam struct {
-		IncludeRemoved bool `json:"include_removed"`
-	}
-	lp := ListParam{
-		IncludeRemoved: includeRemoved,
-	}
-
-	list := dbx_rpc.RpcList{
-		EndpointList:         "team/members/list",
-		EndpointListContinue: "team/members/list/continue",
-		UseHasMore:           true,
-		ResultTag:            "members",
-		OnError:              a.OnError,
-		OnEntry: func(member gjson.Result) bool {
-			m, ea, _ := dbx_profile.ParseMember(member)
-			if ea.IsSuccess() {
-				return a.OnEntry(m)
-			} else {
-				if a.OnError != nil {
-					return a.OnError(ea)
-				}
-				return false
-			}
-		},
-	}
-
-	return list.List(c, lp)
-}
-
 const (
 	AdminTierTeamAdmin           = "team_admin"
 	AdminTierUserManagementAdmin = "user_management_admin"
@@ -50,7 +15,17 @@ const (
 	AdminTierMemberOnly          = "member_only"
 )
 
-type NewMember struct {
+type FailureReport struct {
+	Email  string `json:"email,omitempty"`
+	Reason string `json:"reason,omitempty"`
+}
+type InviteReport struct {
+	Result  string              `json:"result"`
+	Success *dbx_profile.Member `json:"success,omitempty"`
+	Failure *FailureReport      `json:"failure,omitempty"`
+}
+
+type InviteMember struct {
 	MemberEmail           string `json:"member_email"`
 	MemberGivenName       string `json:"member_given_name,omitempty"`
 	MemberSurname         string `json:"member_surname,omitempty"`
@@ -67,16 +42,16 @@ type MembersInvite struct {
 	OnFailure func(email string, reason string) bool
 }
 
-func (m *MembersInvite) Invite(c *dbx_api.Context, members []*NewMember) bool {
+func (m *MembersInvite) Invite(c *dbx_api.Context, members []*InviteMember) bool {
 	chunkSize := 20
-	var batch []*NewMember
+	var batch []*InviteMember
 	for len(members) > 0 {
 		if len(members) >= chunkSize {
 			batch = members[:chunkSize]
 			members = members[chunkSize:]
 		} else {
 			batch = members
-			members = make([]*NewMember, 0)
+			members = make([]*InviteMember, 0)
 		}
 
 		if !m.handleInvite(c, batch) {
@@ -86,10 +61,10 @@ func (m *MembersInvite) Invite(c *dbx_api.Context, members []*NewMember) bool {
 	return true
 }
 
-func (m *MembersInvite) handleInvite(c *dbx_api.Context, members []*NewMember) bool {
+func (m *MembersInvite) handleInvite(c *dbx_api.Context, members []*InviteMember) bool {
 	type NewMembers struct {
-		NewMembers []*NewMember `json:"new_members"`
-		ForceAsync bool         `json:"force_async"`
+		NewMembers []*InviteMember `json:"new_members"`
+		ForceAsync bool            `json:"force_async"`
 	}
 
 	arg := NewMembers{
