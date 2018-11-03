@@ -62,7 +62,7 @@ func (c *CmdTeamNamespaceFileList) Exec(args []string) {
 		c.DefaultErrorHandler(ea)
 		return
 	}
-	c.report.Open(c.Log())
+	c.report.Init(c.Log())
 	defer c.report.Close()
 
 	c.namespaceFile.AsAdminId = admin.TeamMemberId

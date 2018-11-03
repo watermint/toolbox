@@ -41,7 +41,7 @@ func (c *CmdGrouplist) Exec(args []string) {
 		return
 	}
 
-	c.report.Open(c.Log())
+	c.report.Init(c.Log())
 	defer c.report.Close()
 
 	gl := dbx_group.GroupList{

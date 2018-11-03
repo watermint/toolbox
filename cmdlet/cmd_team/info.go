@@ -37,7 +37,7 @@ func (c *CmdTeamInfo) Exec(args []string) {
 		return
 	}
 
-	c.report.Open(c.Log())
+	c.report.Init(c.Log())
 	defer c.report.Close()
 
 	l := dbx_team.TeamInfoList{

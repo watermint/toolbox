@@ -67,7 +67,7 @@ func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
 		c.DefaultErrorHandler(ea)
 		return
 	}
-	c.report.Open(c.Log())
+	c.report.Init(c.Log())
 	defer c.report.Close()
 
 	if c.optExpandGroup {

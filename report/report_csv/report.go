@@ -71,7 +71,7 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 	return
 }
 
-func (z *CsvReport) Open(logger *zap.Logger) error {
+func (z *CsvReport) Init(logger *zap.Logger) error {
 	z.logger = logger
 	if z.files == nil {
 		z.files = make(map[string]*os.File)

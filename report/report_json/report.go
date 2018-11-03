@@ -16,7 +16,7 @@ type JsonReport struct {
 	reportWriter io.Writer
 }
 
-func (c *JsonReport) Open(logger *zap.Logger) error {
+func (c *JsonReport) Init(logger *zap.Logger) error {
 	c.logger = logger
 
 	if c.ReportPath == "" {
