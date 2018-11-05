@@ -33,8 +33,34 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 		return
 	}
 
+	// TODO: generalise func, and deduplicate with report_json's func
 	open := func(name string) (f *os.File, w *csv.Writer, err2 error) {
 		if z.ReportPath == "" {
+			return nil, csv.NewWriter(os.Stdout), nil
+		}
+		if st, err := os.Stat(z.ReportPath); os.IsNotExist(err) {
+			err = os.MkdirAll(z.ReportPath, 0701)
+			if err != nil {
+				z.logger.Error(
+					"Unable to create report path",
+					zap.Error(err),
+					zap.String("path", z.ReportPath),
+				)
+				return nil, csv.NewWriter(os.Stdout), err
+			}
+		} else if err != nil {
+			z.logger.Error(
+				"Unable to acquire information about the path",
+				zap.Error(err),
+				zap.String("path", z.ReportPath),
+			)
+			return nil, csv.NewWriter(os.Stdout), err
+		} else if !st.IsDir() {
+			z.logger.Error(
+				"Report path is not a directory",
+				zap.Error(err),
+				zap.String("path", z.ReportPath),
+			)
 			return nil, csv.NewWriter(os.Stdout), nil
 		}
 		filePath := filepath.Join(z.ReportPath, name+".csv")

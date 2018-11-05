@@ -2,69 +2,126 @@ package report_json
 
 import (
 	"encoding/json"
-	"errors"
-	"fmt"
+	"github.com/watermint/toolbox/report/report_column"
 	"go.uber.org/zap"
 	"io"
 	"os"
+	"path/filepath"
 )
 
 type JsonReport struct {
-	logger       *zap.Logger
-	ReportPath   string
-	reportFile   *os.File
-	reportWriter io.Writer
+	logger     *zap.Logger
+	ReportPath string
+	files      map[string]*os.File
+	writers    map[string]io.Writer
 }
 
-func (c *JsonReport) Init(logger *zap.Logger) error {
-	c.logger = logger
+func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err error) {
+	name := report_column.RowName(row)
+	if zw, ok := z.writers[name]; ok {
+		w = zw
+	}
+	if zf, ok := z.files[name]; ok {
+		f = zf
+	}
+	if w != nil {
+		return
+	}
 
-	if c.ReportPath == "" {
-		c.reportWriter = os.Stdout
-	} else {
-		if f, err := os.Create(c.ReportPath); err != nil {
-			c.logger.Error(
-				"unable to open report file. Fallback to STDOUT",
-				zap.String("file", c.ReportPath),
-			)
-			c.reportWriter = os.Stdout
-			return err
-		} else {
-			c.reportFile = f
-			c.reportWriter = f
+	open := func(name string) (f *os.File, w io.Writer, err2 error) {
+		if z.ReportPath == "" {
+			return nil, os.Stdout, nil
 		}
+		if st, err := os.Stat(z.ReportPath); os.IsNotExist(err) {
+			err = os.MkdirAll(z.ReportPath, 0701)
+			if err != nil {
+				z.logger.Error(
+					"Unable to create report path",
+					zap.Error(err),
+					zap.String("path", z.ReportPath),
+				)
+				return nil, os.Stdout, err
+			}
+		} else if err != nil {
+			z.logger.Error(
+				"Unable to acquire information about the path",
+				zap.Error(err),
+				zap.String("path", z.ReportPath),
+			)
+			return nil, os.Stdout, err
+		} else if !st.IsDir() {
+			z.logger.Error(
+				"Report path is not a directory",
+				zap.Error(err),
+				zap.String("path", z.ReportPath),
+			)
+			return nil, os.Stdout, nil
+		}
+
+		filePath := filepath.Join(z.ReportPath, name+".json")
+		z.logger.Debug("Opening report file", zap.String("path", filePath))
+		if zf, err := os.Create(filePath); err != nil {
+			z.logger.Error(
+				"unable to create report file, fallback to stdout",
+				zap.String("path", filePath),
+				zap.Error(err),
+			)
+			return nil, os.Stdout, nil
+		} else {
+			return zf, zf, nil
+		}
+	}
+
+	if f != nil {
+		f.Close()
+		z.logger.Fatal("File opened but no writer and/or parser available")
+	}
+	f, w, err = open(name)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	z.files[name] = f
+	z.writers[name] = w
+
+	return
+}
+
+func (z *JsonReport) Init(logger *zap.Logger) error {
+	z.logger = logger
+	if z.files == nil {
+		z.files = make(map[string]*os.File)
+	}
+	if z.writers == nil {
+		z.writers = make(map[string]io.Writer)
 	}
 	return nil
 }
 
-func (c *JsonReport) Close() {
-	if c.reportFile != nil {
-		c.reportFile.Close()
-		c.reportFile = nil
+func (z *JsonReport) Close() {
+	for _, f := range z.files {
+		f.Close()
 	}
 }
 
-func (c *JsonReport) Report(row interface{}) error {
-	if c.reportWriter == nil {
-		c.logger.Error("Report is not opened. Fallback to stdout")
-		c.reportWriter = os.Stdout
-	}
-
-	m, err := json.Marshal(row)
+func (z *JsonReport) Report(row interface{}) error {
+	f, w, err := z.prepare(row)
 	if err != nil {
-		c.logger.Debug("marshal error", zap.Error(err), zap.Any("data", row))
-		c.logger.Error("Unable to marshal report due to error", zap.Error(err))
 		return err
 	}
-	_, err = fmt.Fprintln(c.reportWriter, string(m))
+	b, err := json.Marshal(row)
 	if err != nil {
-		c.logger.Debug("Unable to write data to the file. Fallback to log")
-		c.logger.Warn(
-			"Can't write data into the file",
-			zap.String("report_path", c.ReportPath),
-			zap.String("report", string(m)),
+		fn := ""
+		if f != nil {
+			fn = f.Name()
+		}
+		z.logger.Error(
+			"Couldn't write report",
+			zap.Error(err),
+			zap.String("file", fn),
 		)
-		return errors.New("could not write data into the file")
 	}
+	w.Write(b)
+
 	return nil
 }

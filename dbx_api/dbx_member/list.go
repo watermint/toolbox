@@ -61,6 +61,7 @@ func (a *MembersList) ListAsMap(c *dbx_api.Context, includeRemoved bool) map[str
 			m, ea, _ := dbx_profile.ParseMember(member)
 			if ea.IsSuccess() {
 				members[m.Profile.Email] = m
+				return true
 			} else {
 				if a.OnError != nil {
 					return a.OnError(ea)
