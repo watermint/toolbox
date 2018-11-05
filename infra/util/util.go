@@ -6,7 +6,6 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"encoding/csv"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"golang.org/x/text/encoding/unicode"
@@ -14,14 +13,6 @@ import (
 	"io"
 	"text/template"
 )
-
-func MarshalObjectToString(obj interface{}) string {
-	j, err := json.Marshal(obj)
-	if err != nil {
-		return fmt.Sprintf("%v", obj)
-	}
-	return string(j)
-}
 
 // size: length of the string
 func GenerateRandomString(size int) (string, error) {
