@@ -266,11 +266,18 @@ type NamespaceMembershipFileInvitee struct {
 	File    *dbx_namespace.NamespaceFile   `json:"file"`
 	Invitee *dbx_sharing.MembershipInvitee `json:"invitee"`
 }
+type NamespaceMembershipError struct {
+	NamespaceId      string `json:"namespace_id"`
+	NamespaceOwnerId string `json:"namespace_owner_id,omitempty"`
+	AsMemberId       string `json:"as_member_id,omitempty"`
+	AsAdminId        string `json:"as_admin_id,omitempty"`
+	FileId           string `json:"file_id"`
+	FilePath         string `json:"file_path"`
+}
 
 func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx_profile.Profile) bool {
 	fileSharing := func(file *dbx_namespace.NamespaceFile) bool {
 		lfm := dbx_sharing.SharedFileMembers{
-			OnError:   z.DefaultErrorHandler,
 			OnUser: func(user *dbx_sharing.MembershipUser) bool {
 				r := NamespaceMembershipFileUser{
 					File: file,
@@ -327,6 +334,28 @@ func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx
 				return true
 			},
 		}
+		lfm.OnError = func(annotation dbx_api.ErrorAnnotation) bool {
+			nme := NamespaceMembershipError{
+				NamespaceId: file.Namespace.TeamMemberId,
+				NamespaceOwnerId: file.Namespace.TeamMemberId,
+				AsMemberId: lfm.AsMemberId,
+				AsAdminId: lfm.AsAdminId,
+				FileId: file.File.FileId,
+				FilePath: file.File.PathLower,
+			}
+			// Out error report
+			z.report.Report(nme)
+			z.Log().Warn(
+				"Unable to acquire sharing information",
+				zap.String("namespace_id", file.Namespace.TeamMemberId),
+				zap.String("namespace_owner_id", file.Namespace.TeamMemberId),
+				zap.String("as_member_id", lfm.AsMemberId),
+				zap.String("as_admin_id", lfm.AsAdminId),
+				zap.String("file_id", file.File.FileId),
+				zap.String("file_path", file.File.PathLower),
+			)
+			return z.DefaultErrorHandler(annotation)
+		}
 
 		if file.Namespace.TeamMemberId != "" {
 			lfm.AsMemberId = file.Namespace.TeamMemberId
@@ -362,7 +391,8 @@ func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx
 		z.report.Report(file)
 
 		if file.File.HasExplicitSharedMembers {
-			return fileSharing(file)
+			fileSharing(file) // ignore error
+			return true
 		}
 		return true
 	}
