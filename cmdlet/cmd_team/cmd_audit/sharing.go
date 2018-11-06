@@ -336,12 +336,12 @@ func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx
 		}
 		lfm.OnError = func(annotation dbx_api.ErrorAnnotation) bool {
 			nme := NamespaceMembershipError{
-				NamespaceId: file.Namespace.TeamMemberId,
+				NamespaceId:      file.Namespace.TeamMemberId,
 				NamespaceOwnerId: file.Namespace.TeamMemberId,
-				AsMemberId: lfm.AsMemberId,
-				AsAdminId: lfm.AsAdminId,
-				FileId: file.File.FileId,
-				FilePath: file.File.PathLower,
+				AsMemberId:       lfm.AsMemberId,
+				AsAdminId:        lfm.AsAdminId,
+				FileId:           file.File.FileId,
+				FilePath:         file.File.PathLower,
 			}
 			// Out error report
 			z.report.Report(nme)
