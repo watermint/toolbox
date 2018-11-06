@@ -270,7 +270,6 @@ type NamespaceMembershipFileInvitee struct {
 func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx_profile.Profile) bool {
 	fileSharing := func(file *dbx_namespace.NamespaceFile) bool {
 		lfm := dbx_sharing.SharedFileMembers{
-			AsAdminId: admin.TeamMemberId,
 			OnError:   z.DefaultErrorHandler,
 			OnUser: func(user *dbx_sharing.MembershipUser) bool {
 				r := NamespaceMembershipFileUser{
@@ -328,6 +327,13 @@ func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx
 				return true
 			},
 		}
+
+		if file.Namespace.TeamMemberId != "" {
+			lfm.AsMemberId = file.Namespace.TeamMemberId
+		} else {
+			lfm.AsAdminId = admin.TeamMemberId
+		}
+
 		return lfm.List(c, file.File.FileId)
 	}
 
@@ -341,7 +347,7 @@ func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx
 	lns.AsAdminId = admin.TeamMemberId
 	lns.OnError = z.DefaultErrorHandler
 	lns.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
-		c.Log().Info("Scanning folder",
+		z.Log().Info("Scanning folder",
 			zap.String("namespace_type", namespace.NamespaceType),
 			zap.String("namespace_id", namespace.NamespaceId),
 			zap.String("name", namespace.Name),
