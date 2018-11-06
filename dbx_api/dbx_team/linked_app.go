@@ -2,10 +2,10 @@ package dbx_team
 
 import (
 	"encoding/json"
-	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_rpc"
+	"go.uber.org/zap"
 )
 
 type LinkedApp struct {
@@ -30,7 +30,10 @@ func (a *LinkedAppList) List(c *dbx_api.Context) bool {
 			teamMemberId := result.Get("team_member_id").String()
 			apps := result.Get("linked_api_apps")
 			if !apps.Exists() || !apps.IsArray() {
-				seelog.Debugf("Apps not found in the result [%s]", result)
+				c.Log().Debug(
+					"app not found in the result",
+					zap.String("body", result.Str),
+				)
 				return false
 			}
 			for _, app := range apps.Array() {

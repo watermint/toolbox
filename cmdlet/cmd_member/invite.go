@@ -2,23 +2,16 @@ package cmd_member
 
 import (
 	"flag"
-	"github.com/cihub/seelog"
 	"github.com/watermint/toolbox/cmdlet"
-	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_api/dbx_profile"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
-	"github.com/watermint/toolbox/infra/util"
-	"io"
-	"os"
+	"github.com/watermint/toolbox/dbx_api/dbx_member"
+	"github.com/watermint/toolbox/report"
 )
 
 type CmdMemberInvite struct {
 	*cmdlet.SimpleCommandlet
-	optCsv     string
-	optSilent  bool
-	apiContext *dbx_api.Context
-	report     cmdlet.Report
+	optCsv    string
+	optSilent bool
+	report    report.Factory
 }
 
 func (c *CmdMemberInvite) Name() string {
@@ -43,107 +36,48 @@ func (c *CmdMemberInvite) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 }
 
-func (c *CmdMemberInvite) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
+func (c *CmdMemberInvite) Exec(args []string) {
 	if c.optCsv == "" {
-		seelog.Errorf("Please specify input csv")
-		seelog.Flush()
+		c.Log().Error("Please specify input csv")
 		c.PrintUsage(c)
 		return
 	}
 
-	apiMgmt, err := ec.LoadOrAuthBusinessManagement()
+	apiMgmt, err := c.ExecContext.LoadOrAuthBusinessManagement()
 	if err != nil {
 		return
 	}
 
-	newMembers, err := c.loadCsv()
+	mp := MembersProvision{
+		Logger: c.Log(),
+	}
+	err = mp.LoadCsv(c.optCsv)
 	if err != nil {
 		return
 	}
 
-	c.report.Open()
+	c.report.Init(c.Log())
 	defer c.report.Close()
 
-	type FailureReport struct {
-		Email  string `json:"email,omitempty"`
-		Reason string `json:"reason,omitempty"`
-	}
-	type InviteReport struct {
-		Result  string              `json:"result"`
-		Success *dbx_profile.Member `json:"success,omitempty"`
-		Failure *FailureReport      `json:"failure,omitempty"`
-	}
-	handleFailure := func(email string, reason string) bool {
-		c.report.Report(
-			InviteReport{
-				Result: "failure",
-				Failure: &FailureReport{
-					Email:  email,
-					Reason: reason,
-				},
-			},
-		)
-		return true
-	}
-	handleSuccess := func(member *dbx_profile.Member) bool {
-		c.report.Report(
-			InviteReport{
-				Result:  "success",
-				Success: member,
-			},
-		)
-		return true
+	memberReport := MemberReport{
+		Report: &c.report,
 	}
 
-	mi := dbx_team.MembersInvite{
-		OnFailure: handleFailure,
-		OnSuccess: handleSuccess,
-		OnError:   cmdlet.DefaultErrorHandler,
+	members := mp.Members
+	invites := make([]*dbx_member.InviteMember, len(members))
+
+	for i, m := range members {
+		invites[i] = m.InviteMember(c.optSilent)
 	}
-	mi.Invite(apiMgmt, newMembers)
-}
 
-func (c *CmdMemberInvite) loadCsv() (newMembers []*dbx_team.NewMember, err error) {
-	f, err := os.Open(c.optCsv)
-	if err != nil {
-		seelog.Warnf("Unable to open file[%s] : error[%s]", c.optCsv, err)
-		return nil, err
+	mi := dbx_member.MembersInvite{
+		OnFailure: memberReport.HandleFailure,
+		OnSuccess: memberReport.HandleSuccess,
+		OnError:   c.DefaultErrorHandler,
 	}
-	csv := util.NewBomAwareCsvReader(f)
-
-	newMembers = make([]*dbx_team.NewMember, 0)
-
-	for {
-		cols, err := csv.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			seelog.Warnf("Unable to read CSV file [%s] : error[%s]", c.optCsv, err)
-			return nil, err
-		}
-		if len(cols) < 1 {
-			seelog.Warnf("Skip line: [%v]", cols)
-			continue
-		}
-
-		newMember := &dbx_team.NewMember{}
-		newMember.MemberEmail = cols[0]
-		if len(cols) >= 2 {
-			newMember.MemberGivenName = cols[1]
-		}
-		if len(cols) >= 3 {
-			newMember.MemberSurname = cols[2]
-		}
-		if c.optSilent {
-			newMember.SendWelcomeEmail = false
-		}
-
-		newMembers = append(newMembers, newMember)
+	if !mi.Invite(apiMgmt, invites) {
+		c.Log().Warn("terminate operation due to error")
+		// quit, in case of the error
+		return
 	}
-	return newMembers, nil
 }

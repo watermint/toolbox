@@ -3,10 +3,10 @@ package dbx_sharing
 import (
 	"encoding/json"
 	"errors"
-	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_rpc"
+	"go.uber.org/zap"
 	"time"
 )
 
@@ -36,7 +36,12 @@ func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newL
 	if origTime.IsZero() || origTime.After(newExpire) {
 		return a.OverwriteExpire(c, newExpire)
 	} else {
-		seelog.Debugf("Skip LinkId[%s] Expire[%s]", a.SharedLinkId, origTime.String())
+		c.Log().Debug(
+			"skip updating link",
+			zap.String("shared_link_id", a.SharedLinkId),
+			zap.Time("orig_time", origTime),
+			zap.Time("target_time", newExpire),
+		)
 	}
 	return nil, dbx_api.Success, nil
 }
@@ -69,7 +74,7 @@ func (a *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (n
 		return nil, ea, err
 	}
 
-	seelog.Debugf("SharedLinkRes[%s]", res.Body)
+	c.Log().Debug("shared_link_response", zap.String("body", res.Body))
 	newLink, ea, err = ParseSharedLink(gjson.Parse(res.Body))
 	if ea.IsFailure() {
 		return nil, ea, err

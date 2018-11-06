@@ -5,14 +5,14 @@ import (
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
 	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/report"
 )
 
 type CmdMemberLinkedAppList struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext *dbx_api.Context
-	report     cmdlet.Report
+	report     report.Factory
 }
 
 func (CmdMemberLinkedAppList) Name() string {
@@ -31,22 +31,17 @@ func (c *CmdMemberLinkedAppList) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 }
 
-func (c *CmdMemberLinkedAppList) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
-
-	apiFile, err := ec.LoadOrAuthBusinessFile()
+func (c *CmdMemberLinkedAppList) Exec(args []string) {
+	apiFile, err := c.ExecContext.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
 
-	c.report.Open()
+	c.report.Init(c.Log())
 	defer c.report.Close()
 
 	l := dbx_team.LinkedAppList{
-		OnError: cmdlet.DefaultErrorHandler,
+		OnError: c.DefaultErrorHandler,
 		OnEntry: func(app *dbx_team.LinkedApp) bool {
 			c.report.Report(app)
 			return true

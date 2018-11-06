@@ -1,4 +1,4 @@
-package dbx_team
+package dbx_namespace
 
 import (
 	"encoding/json"
@@ -12,6 +12,7 @@ type Namespace struct {
 	NamespaceId   string          `json:"namespace_id"`
 	NamespaceType string          `json:"namespace_type"`
 	Name          string          `json:"name"`
+	TeamMemberId  string          `json:"team_member_id,omitempty"`
 	Namespace     json.RawMessage `json:"namespace"`
 }
 
@@ -49,11 +50,19 @@ func (w *NamespaceList) List(c *dbx_api.Context) bool {
 		OnError:              w.OnError,
 		OnEntry: func(namespace gjson.Result) bool {
 			n, ea, _ := ParseNamespace(namespace)
-			if ea.IsSuccess() && w.OnEntry != nil {
-				return w.OnEntry(n)
+			if ea.IsSuccess() {
+				if w.OnEntry != nil {
+					return w.OnEntry(n)
+				} else {
+					return true
+				}
 			}
-			if ea.IsFailure() && w.OnError != nil {
-				return w.OnError(ea)
+			if ea.IsFailure() {
+				if w.OnError != nil {
+					return w.OnError(ea)
+				} else {
+					return false
+				}
 			}
 			return false
 		},

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	ec := &infra.ExecContext{}
+	ec := infra.NewExecContext()
 	cmds := cmd_root.NewCommands()
 	cmds.Exec(ec, os.Args)
 }

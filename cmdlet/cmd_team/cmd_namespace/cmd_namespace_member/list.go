@@ -2,22 +2,23 @@ package cmd_namespace_member
 
 import (
 	"flag"
-	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_group"
+	"github.com/watermint/toolbox/dbx_api/dbx_namespace"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/report"
+	"go.uber.org/zap"
 )
 
 type CmdTeamNamespaceMemberList struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext     *dbx_api.Context
-	report         cmdlet.Report
-	groups         map[string][]*dbx_team.GroupMember
+	report         report.Factory
+	groupMembers   map[string][]*dbx_group.GroupMember
 	optExpandGroup bool
 }
 
@@ -40,50 +41,31 @@ func (c *CmdTeamNamespaceMemberList) FlagConfig(f *flag.FlagSet) {
 	f.BoolVar(&c.optExpandGroup, "expand-group", false, descExpandGroup)
 }
 
-type NamespaceUser struct {
-	Namespace *dbx_team.Namespace         `json:"namespace"`
-	User      *dbx_sharing.MembershipUser `json:"user"`
-}
-
-type NamespaceGroup struct {
-	Namespace *dbx_team.Namespace          `json:"namespace"`
-	Group     *dbx_sharing.MembershipGroup `json:"group"`
-}
-
-type NamespaceInvitee struct {
-	Namespace *dbx_team.Namespace            `json:"namespace"`
-	Invitee   *dbx_sharing.MembershipInvitee `json:"invitee"`
-}
-
-func (c *CmdTeamNamespaceMemberList) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
-
-	apiFile, err := ec.LoadOrAuthBusinessFile()
+func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
+	apiFile, err := c.ExecContext.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
 
 	admin, ea, _ := dbx_profile.AuthenticatedAdmin(apiFile)
 	if ea.IsFailure() {
-		cmdlet.DefaultErrorHandler(ea)
+		c.DefaultErrorHandler(ea)
 		return
 	}
-	c.report.Open()
+	c.report.Init(c.Log())
 	defer c.report.Close()
 
 	if c.optExpandGroup {
-		if !c.expandGroup(apiFile) {
-			seelog.Warnf("Unable to list group members")
+		c.groupMembers = dbx_group.GroupMembers(apiFile, c.Log(), c.DefaultErrorHandler)
+		if c.groupMembers == nil {
+			c.Log().Warn("Unable to list group members")
 			return
 		}
 	}
 
-	l := dbx_team.NamespaceList{
-		OnError: cmdlet.DefaultErrorHandler,
-		OnEntry: func(namespace *dbx_team.Namespace) bool {
+	l := dbx_namespace.NamespaceList{
+		OnError: c.DefaultErrorHandler,
+		OnEntry: func(namespace *dbx_namespace.Namespace) bool {
 			if namespace.NamespaceType != "shared_folder" &&
 				namespace.NamespaceType != "team_folder" {
 				return true
@@ -91,9 +73,9 @@ func (c *CmdTeamNamespaceMemberList) Exec(ec *infra.ExecContext, args []string) 
 
 			sl := dbx_sharing.SharedFolderMembers{
 				AsAdminId: admin.TeamMemberId,
-				OnError:   cmdlet.DefaultErrorHandler,
+				OnError:   c.DefaultErrorHandler,
 				OnUser: func(user *dbx_sharing.MembershipUser) bool {
-					nu := &NamespaceUser{
+					nu := &dbx_namespace.NamespaceUser{
 						Namespace: namespace,
 						User:      user,
 					}
@@ -102,9 +84,9 @@ func (c *CmdTeamNamespaceMemberList) Exec(ec *infra.ExecContext, args []string) 
 				},
 				OnGroup: func(group *dbx_sharing.MembershipGroup) bool {
 					if c.optExpandGroup {
-						if gmm, ok := c.groups[group.Group.GroupId]; ok {
+						if gmm, ok := c.groupMembers[group.Group.GroupId]; ok {
 							for _, gm := range gmm {
-								nu := &NamespaceUser{
+								nu := &dbx_namespace.NamespaceUser{
 									Namespace: namespace,
 									User: &dbx_sharing.MembershipUser{
 										Membership: group.Membership,
@@ -120,15 +102,19 @@ func (c *CmdTeamNamespaceMemberList) Exec(ec *infra.ExecContext, args []string) 
 								c.report.Report(nu)
 							}
 						} else {
-							seelog.Warnf("Could not expand group[id={%s} name={%s}]", group.Group.GroupId, group.Group.GroupName)
-							ng := &NamespaceGroup{
+							c.Log().Warn(
+								"Could not expand group",
+								zap.String("group_id", group.Group.GroupId),
+								zap.String("group_name", group.Group.GroupName),
+							)
+							ng := &dbx_namespace.NamespaceGroup{
 								Namespace: namespace,
 								Group:     group,
 							}
 							c.report.Report(ng)
 						}
 					} else {
-						ng := &NamespaceGroup{
+						ng := &dbx_namespace.NamespaceGroup{
 							Namespace: namespace,
 							Group:     group,
 						}
@@ -137,7 +123,7 @@ func (c *CmdTeamNamespaceMemberList) Exec(ec *infra.ExecContext, args []string) 
 					return true
 				},
 				OnInvitee: func(invitee *dbx_sharing.MembershipInvitee) bool {
-					ni := &NamespaceInvitee{
+					ni := &dbx_namespace.NamespaceInvitee{
 						Namespace: namespace,
 						Invitee:   invitee,
 					}
@@ -150,44 +136,4 @@ func (c *CmdTeamNamespaceMemberList) Exec(ec *infra.ExecContext, args []string) 
 		},
 	}
 	l.List(apiFile)
-}
-
-func (c *CmdTeamNamespaceMemberList) expandGroup(ctx *dbx_api.Context) bool {
-	c.groups = make(map[string][]*dbx_team.GroupMember)
-
-	seelog.Debugf("Expand group")
-	gl := dbx_team.GroupList{
-		OnError: cmdlet.DefaultErrorHandler,
-		OnEntry: func(group *dbx_team.Group) bool {
-			seelog.Debugf("Group[%s] Name[%s]", group.GroupId, group.GroupName)
-
-			gml := dbx_team.GroupMemberList{
-				OnError: cmdlet.DefaultErrorHandler,
-				OnEntry: func(gm *dbx_team.GroupMember) bool {
-
-					if g, ok := c.groups[group.GroupId]; ok {
-						g = append(g, gm)
-						c.groups[group.GroupId] = g
-						seelog.Debugf("Group[%s] GroupMembers[%d]", group.GroupId, len(g))
-					} else {
-						g = make([]*dbx_team.GroupMember, 1)
-						g[0] = gm
-						c.groups[group.GroupId] = g
-						seelog.Debugf("Group[%s] GroupMembers[%d]", group.GroupId, len(g))
-					}
-
-					return true
-				},
-			}
-			gml.List(ctx, group)
-			return true
-		},
-	}
-	gl.List(ctx)
-
-	for k, v := range c.groups {
-		seelog.Debugf("GroupId[%s] GroupCount[%d]", k, len(v))
-	}
-
-	return true
 }
