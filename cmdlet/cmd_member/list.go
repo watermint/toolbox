@@ -4,9 +4,9 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/dbx_api/dbx_member"
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/report"
 )
 
 type CmdMemberList struct {
@@ -14,7 +14,7 @@ type CmdMemberList struct {
 
 	optIncludeRemoved bool
 	apiContext        *dbx_api.Context
-	report            cmdlet.Report
+	report            report.Factory
 }
 
 func (c *CmdMemberList) Name() string {
@@ -36,22 +36,17 @@ func (c *CmdMemberList) FlagConfig(f *flag.FlagSet) {
 	f.BoolVar(&c.optIncludeRemoved, "include-removed", false, descCsv)
 }
 
-func (c *CmdMemberList) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
-
-	apiInfo, err := ec.LoadOrAuthBusinessInfo()
+func (c *CmdMemberList) Exec(args []string) {
+	apiInfo, err := c.ExecContext.LoadOrAuthBusinessInfo()
 	if err != nil {
 		return
 	}
 
-	c.report.Open()
+	c.report.Init(c.Log())
 	defer c.report.Close()
 
-	l := dbx_team.MembersList{
-		OnError: cmdlet.DefaultErrorHandler,
+	l := dbx_member.MembersList{
+		OnError: c.DefaultErrorHandler,
 		OnEntry: func(member *dbx_profile.Member) bool {
 			c.report.Report(member)
 			return true

@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
+	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -39,18 +39,24 @@ func (a *RpcRequest) requestUrl() string {
 
 func (a *RpcRequest) rpcRequest(c *dbx_api.Context) (req *http.Request, err error) {
 	url := a.requestUrl()
+	log := c.Log().With(zap.String("endpoint", a.Endpoint))
 
 	// param
 	requestParam, err := json.Marshal(a.Param)
 	if err != nil {
-		seelog.Debugf("Endpoint[%s] Unable to marshal params. error[%s]", a.Endpoint, err)
+		log.Debug(
+			"unable to marshal params",
+			zap.Error(err),
+		)
+
 		return nil, err
 	}
-	seelog.Debugf("Request Params[%s]", string(requestParam))
-
 	req, err = http.NewRequest("POST", url, bytes.NewReader(requestParam))
 	if err != nil {
-		seelog.Debugf("Endpoint[%s] Unable create request. error[%s]", a.Endpoint, err)
+		log.Debug(
+			"unable create request",
+			zap.Error(err),
+		)
 		return nil, err
 	}
 	req.Header.Add("Content-Type", "application/json")
@@ -73,30 +79,32 @@ func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, ea dbx_api.E
 			Error:     err,
 		}, err
 	}
-
+	log := c.Log().With(zap.String("endpoint", a.Endpoint))
 	req, err := a.rpcRequest(c)
 	if err != nil {
-		seelog.Tracef("Endpoint[%s] Unable to prepare request : error[%s]", a.Endpoint, err)
+		log.Debug("unable to prepare request", zap.Error(err))
 		return annotate(nil, dbx_api.ErrorUnknown, errors.New(fmt.Sprintf("unable to prepare request for [%s]", a.Endpoint)))
 	}
 
 	now := time.Now()
 	if !c.RetryAfter.IsZero() && now.Before(c.RetryAfter) {
-		seelog.Debugf("Sleep until %s", c.RetryAfter.String())
+		log.Debug("sleep until",
+			zap.Time("retry_after", c.RetryAfter),
+		)
 		time.Sleep(c.RetryAfter.Sub(now))
 	}
 
-	seelog.Tracef("Endpoint[%s]", a.Endpoint)
+	log.Debug("do_request", zap.Any("param", a.Param))
 	res, err := c.Client.Do(req)
 
 	if err != nil {
-		seelog.Debugf("Endpoint[%s] Transport error[%s]", a.Endpoint, err)
+		log.Debug("transport error", zap.Error(err))
 		return annotate(nil, dbx_api.ErrorTransport, err)
 	}
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		seelog.Debugf("Endpoint[%s] Unable to read body. error[%s]", a.Endpoint, err)
+		log.Debug("unable to read boy", zap.Error(err))
 		return annotate(nil, dbx_api.ErrorTransport, err)
 	}
 	res.Body.Close()
@@ -125,38 +133,62 @@ func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, ea dbx_api.E
 
 	switch res.StatusCode {
 	case dbx_api.ErrorBadInputParam: // Bad input param
-		seelog.Debugf("Endpoint[%s] Bad input param. error[%s]", a.Endpoint, err)
+		log.Debug("bad input param",
+			zap.String("error_body", bodyString),
+		)
 		return annotate(nil, dbx_api.ErrorBadInputParam, dbx_api.ParseApiError(bodyString))
 
 	case dbx_api.ErrorBadOrExpiredToken: // Bad or expired token
-		seelog.Debugf("Endpoint[%s] Bad or expired token.", a.Endpoint)
+		log.Debug(
+			"bad or expired token",
+			zap.String("error_body", bodyString),
+		)
 		return annotate(nil, dbx_api.ErrorBadOrExpiredToken, dbx_api.ParseApiError(bodyString))
 
 	case dbx_api.ErrorAccessError: // Access Error
-		seelog.Debugf("Endpoint[%s] Access Error.", a.Endpoint)
+		log.Debug(
+			"access error",
+			zap.String("error_body", bodyString),
+		)
 		return annotate(nil, dbx_api.ErrorAccessError, dbx_api.ParseAccessError(bodyString))
 
 	case dbx_api.ErrorEndpointSpecific: // Endpoint specific
-		seelog.Debugf("Endpoint[%s] Endpoint specific Error.", a.Endpoint)
+		log.Debug(
+			"endpoint specific error",
+			zap.String("error_body", bodyString),
+		)
+
 		return annotate(nil, dbx_api.ErrorEndpointSpecific, dbx_api.ParseAccessError(bodyString))
 
 	case dbx_api.ErrorRateLimit: // Rate limit
 		retryAfter := res.Header.Get(dbx_api.ResHeaderRetryAfter)
 		retryAfterSec, err := strconv.Atoi(retryAfter)
 		if err != nil {
-			seelog.Debugf("Endpoint[%s] Unable to parse '%s' header. HeaderContent[%s] error[%s]", a.Endpoint, retryAfter, err)
+			log.Debug(
+				"unable to parse header for RateLimit",
+				zap.String("header", retryAfter),
+				zap.Error(err),
+			)
 			return annotate(nil, dbx_api.ErrorRateLimit, errors.New("unknown retry param"))
 		}
 
 		c.RetryAfter = time.Now().Add(time.Duration(retryAfterSec+1) * time.Second)
-		seelog.Debugf("Endpoint[%s] Retry after (%d sec, after %s)", retryAfterSec, c.RetryAfter.Format(dbx_api.DateTimeFormat))
+		log.Debug(
+			"retry after",
+			zap.Int("retry_after_second", retryAfterSec),
+			zap.Time("retry_after", c.RetryAfter),
+		)
 
 		// Retry
 		return a.Call(c)
 	}
 
 	if int(res.StatusCode/100) == 5 {
-		seelog.Debugf("Endpoint[%s] Server error", a.Endpoint)
+		log.Debug(
+			"server error",
+			zap.Int("status_code", res.StatusCode),
+			zap.String("body", bodyString),
+		)
 		return annotate(nil, dbx_api.ErrorServerError,
 			dbx_api.ServerError{
 				StatusCode: res.StatusCode,
@@ -164,6 +196,10 @@ func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, ea dbx_api.E
 		)
 	}
 
-	seelog.Debugf("Endpoint[%s] unknown or server error[%s]", a.Endpoint, err)
+	log.Debug(
+		"unknown or server error",
+		zap.Int("status_code", res.StatusCode),
+		zap.String("body", bodyString),
+	)
 	return annotate(nil, dbx_api.ErrorUnknown, err)
 }

@@ -4,15 +4,15 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_api/dbx_team"
-	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/dbx_api/dbx_teamfolder"
+	"github.com/watermint/toolbox/report"
 )
 
 type CmdTeamTeamFolderList struct {
 	*cmdlet.SimpleCommandlet
 
 	apiContext *dbx_api.Context
-	report     cmdlet.Report
+	report     report.Factory
 }
 
 func (CmdTeamTeamFolderList) Name() string {
@@ -31,23 +31,18 @@ func (c *CmdTeamTeamFolderList) FlagConfig(f *flag.FlagSet) {
 	c.report.FlagConfig(f)
 }
 
-func (c *CmdTeamTeamFolderList) Exec(ec *infra.ExecContext, args []string) {
-	if err := ec.Startup(); err != nil {
-		return
-	}
-	defer ec.Shutdown()
-
-	apiInfo, err := ec.LoadOrAuthBusinessFile()
+func (c *CmdTeamTeamFolderList) Exec(args []string) {
+	apiInfo, err := c.ExecContext.LoadOrAuthBusinessFile()
 	if err != nil {
 		return
 	}
 
-	c.report.Open()
+	c.report.Init(c.Log())
 	defer c.report.Close()
 
-	l := dbx_team.TeamFolderList{
-		OnError: cmdlet.DefaultErrorHandler,
-		OnEntry: func(teamFolder *dbx_team.TeamFolder) bool {
+	l := dbx_teamfolder.ListTeamFolder{
+		OnError: c.DefaultErrorHandler,
+		OnEntry: func(teamFolder *dbx_teamfolder.TeamFolder) bool {
 			c.report.Report(teamFolder)
 			return true
 		},

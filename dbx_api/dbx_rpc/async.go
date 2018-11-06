@@ -2,9 +2,9 @@ package dbx_rpc
 
 import (
 	"errors"
-	"github.com/cihub/seelog"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/dbx_api"
+	"go.uber.org/zap"
 	"time"
 )
 
@@ -21,7 +21,11 @@ func (a *AsyncStatus) Poll(c *dbx_api.Context, res *RpcResponse) bool {
 }
 
 func (a *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobId string) bool {
-	seelog.Debugf("handlePoll res[%s] asyncJobId[%s]", res.Body, asyncJobId)
+	log := c.Log().With(zap.String("async_job_id", asyncJobId))
+	log.Debug(
+		"handlePoll",
+		zap.String("body", res.Body),
+	)
 	tag := gjson.Get(res.Body, dbx_api.ResJsonDotTag)
 
 	if !tag.Exists() {
@@ -38,24 +42,25 @@ func (a *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobI
 
 	switch tag.String() {
 	case "async_job_id":
-		seelog.Debugf("Waiting for complete async_job [%s]", asyncJobId)
+		log.Debug("Waiting for complete")
+
 		time.Sleep(time.Duration(3) * time.Second)
 		return a.handleAsyncJobId(c, res, "")
 
 	case "complete":
-		seelog.Debugf("completed async_job_id[%s]", asyncJobId)
+		log.Debug("complete")
 		if a.OnComplete != nil {
 			return a.OnComplete(gjson.Get(res.Body, "complete"))
 		}
 		return true
 
 	case "in_progress":
-		seelog.Debugf("in_progress async_job_id[%s]", asyncJobId)
+		log.Debug("in_progress")
 		time.Sleep(time.Duration(3) * time.Second)
 		return a.handleAsyncJobId(c, res, asyncJobId)
 
 	case "failed":
-		seelog.Debugf("failed async_job_id[%s]", asyncJobId)
+		log.Debug("failed")
 		// TODO Log entire message
 		if a.OnError == nil {
 			return false

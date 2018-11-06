@@ -16,3 +16,16 @@ func TestCmdTeamNamespaceList_Exec(t *testing.T) {
 
 	cmdlet.CmdTest(t, NewCmdTeamNamespace(), []string{"list", "-report-path", csvFile.Name()})
 }
+
+func TestCmdTeamNamespaceList_ExecCsv(t *testing.T) {
+	cmdlet.CmdTest(
+		t,
+		NewCmdTeamNamespace(),
+		[]string{
+			"list",
+			"-report-format",
+			"csv",
+			"-report-header",
+		},
+	)
+}
