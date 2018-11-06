@@ -18,7 +18,7 @@ type CmdTeamNamespaceMemberList struct {
 
 	apiContext     *dbx_api.Context
 	report         report.Factory
-	groups         map[string][]*dbx_group.GroupMember
+	groupMembers   map[string][]*dbx_group.GroupMember
 	optExpandGroup bool
 }
 
@@ -41,21 +41,6 @@ func (c *CmdTeamNamespaceMemberList) FlagConfig(f *flag.FlagSet) {
 	f.BoolVar(&c.optExpandGroup, "expand-group", false, descExpandGroup)
 }
 
-type NamespaceUser struct {
-	Namespace *dbx_namespace.Namespace    `json:"namespace"`
-	User      *dbx_sharing.MembershipUser `json:"user"`
-}
-
-type NamespaceGroup struct {
-	Namespace *dbx_namespace.Namespace     `json:"namespace"`
-	Group     *dbx_sharing.MembershipGroup `json:"group"`
-}
-
-type NamespaceInvitee struct {
-	Namespace *dbx_namespace.Namespace       `json:"namespace"`
-	Invitee   *dbx_sharing.MembershipInvitee `json:"invitee"`
-}
-
 func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
 	apiFile, err := c.ExecContext.LoadOrAuthBusinessFile()
 	if err != nil {
@@ -71,7 +56,8 @@ func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
 	defer c.report.Close()
 
 	if c.optExpandGroup {
-		if !c.expandGroup(apiFile) {
+		c.groupMembers = dbx_group.GroupMembers(apiFile, c.Log(), c.DefaultErrorHandler)
+		if c.groupMembers == nil {
 			c.Log().Warn("Unable to list group members")
 			return
 		}
@@ -89,7 +75,7 @@ func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
 				AsAdminId: admin.TeamMemberId,
 				OnError:   c.DefaultErrorHandler,
 				OnUser: func(user *dbx_sharing.MembershipUser) bool {
-					nu := &NamespaceUser{
+					nu := &dbx_namespace.NamespaceUser{
 						Namespace: namespace,
 						User:      user,
 					}
@@ -98,9 +84,9 @@ func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
 				},
 				OnGroup: func(group *dbx_sharing.MembershipGroup) bool {
 					if c.optExpandGroup {
-						if gmm, ok := c.groups[group.Group.GroupId]; ok {
+						if gmm, ok := c.groupMembers[group.Group.GroupId]; ok {
 							for _, gm := range gmm {
-								nu := &NamespaceUser{
+								nu := &dbx_namespace.NamespaceUser{
 									Namespace: namespace,
 									User: &dbx_sharing.MembershipUser{
 										Membership: group.Membership,
@@ -121,14 +107,14 @@ func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
 								zap.String("group_id", group.Group.GroupId),
 								zap.String("group_name", group.Group.GroupName),
 							)
-							ng := &NamespaceGroup{
+							ng := &dbx_namespace.NamespaceGroup{
 								Namespace: namespace,
 								Group:     group,
 							}
 							c.report.Report(ng)
 						}
 					} else {
-						ng := &NamespaceGroup{
+						ng := &dbx_namespace.NamespaceGroup{
 							Namespace: namespace,
 							Group:     group,
 						}
@@ -137,7 +123,7 @@ func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
 					return true
 				},
 				OnInvitee: func(invitee *dbx_sharing.MembershipInvitee) bool {
-					ni := &NamespaceInvitee{
+					ni := &dbx_namespace.NamespaceInvitee{
 						Namespace: namespace,
 						Invitee:   invitee,
 					}
@@ -150,58 +136,4 @@ func (c *CmdTeamNamespaceMemberList) Exec(args []string) {
 		},
 	}
 	l.List(apiFile)
-}
-
-func (c *CmdTeamNamespaceMemberList) expandGroup(ctx *dbx_api.Context) bool {
-	c.groups = make(map[string][]*dbx_group.GroupMember)
-
-	c.Log().Debug("Expand group")
-	gl := dbx_group.GroupList{
-		OnError: c.DefaultErrorHandler,
-		OnEntry: func(group *dbx_group.Group) bool {
-			c.Log().Debug("onEntry",
-				zap.String("group_id", group.GroupId),
-				zap.String("group_name", group.GroupName),
-			)
-
-			gml := dbx_group.GroupMemberList{
-				OnError: c.DefaultErrorHandler,
-				OnEntry: func(gm *dbx_group.GroupMember) bool {
-
-					if g, ok := c.groups[group.GroupId]; ok {
-						g = append(g, gm)
-						c.groups[group.GroupId] = g
-
-						c.Log().Debug("onEntry",
-							zap.String("group_id", group.GroupId),
-							zap.Int("group_members", len(g)),
-						)
-					} else {
-						g = make([]*dbx_group.GroupMember, 1)
-						g[0] = gm
-						c.groups[group.GroupId] = g
-
-						c.Log().Debug("onEntry",
-							zap.String("group_id", group.GroupId),
-							zap.Int("group_members", len(g)),
-						)
-					}
-
-					return true
-				},
-			}
-			gml.List(ctx, group)
-			return true
-		},
-	}
-	gl.List(ctx)
-
-	for k, v := range c.groups {
-		c.Log().Debug("Group summary",
-			zap.String("group_id", k),
-			zap.Int("member_count", len(v)),
-		)
-	}
-
-	return true
 }
