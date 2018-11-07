@@ -10,10 +10,11 @@ import (
 )
 
 type JsonReport struct {
-	logger     *zap.Logger
-	ReportPath string
-	files      map[string]*os.File
-	writers    map[string]io.Writer
+	logger        *zap.Logger
+	ReportPath    string
+	DefaultWriter io.Writer
+	files         map[string]*os.File
+	writers       map[string]io.Writer
 }
 
 func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err error) {
@@ -30,7 +31,7 @@ func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err erro
 
 	open := func(name string) (f *os.File, w io.Writer, err2 error) {
 		if z.ReportPath == "" {
-			return nil, os.Stdout, nil
+			return nil, z.DefaultWriter, nil
 		}
 		if st, err := os.Stat(z.ReportPath); os.IsNotExist(err) {
 			err = os.MkdirAll(z.ReportPath, 0701)
@@ -40,7 +41,7 @@ func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err erro
 					zap.Error(err),
 					zap.String("path", z.ReportPath),
 				)
-				return nil, os.Stdout, err
+				return nil, z.DefaultWriter, err
 			}
 		} else if err != nil {
 			z.logger.Error(
@@ -48,25 +49,25 @@ func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err erro
 				zap.Error(err),
 				zap.String("path", z.ReportPath),
 			)
-			return nil, os.Stdout, err
+			return nil, z.DefaultWriter, err
 		} else if !st.IsDir() {
 			z.logger.Error(
 				"Report path is not a directory",
 				zap.Error(err),
 				zap.String("path", z.ReportPath),
 			)
-			return nil, os.Stdout, nil
+			return nil, z.DefaultWriter, nil
 		}
 
 		filePath := filepath.Join(z.ReportPath, name+".json")
 		z.logger.Debug("Opening report file", zap.String("path", filePath))
 		if zf, err := os.Create(filePath); err != nil {
 			z.logger.Error(
-				"unable to create report file, fallback to stdout",
+				"unable to create report file, fallback to default writer",
 				zap.String("path", filePath),
 				zap.Error(err),
 			)
-			return nil, os.Stdout, nil
+			return nil, z.DefaultWriter, nil
 		} else {
 			return zf, zf, nil
 		}
@@ -122,6 +123,7 @@ func (z *JsonReport) Report(row interface{}) error {
 		)
 	}
 	w.Write(b)
+	w.Write([]byte("\n"))
 
 	return nil
 }
