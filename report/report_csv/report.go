@@ -4,17 +4,19 @@ import (
 	"encoding/csv"
 	"github.com/watermint/toolbox/report/report_column"
 	"go.uber.org/zap"
+	"io"
 	"os"
 	"path/filepath"
 )
 
 type CsvReport struct {
-	logger       *zap.Logger
-	ReportPath   string
-	ReportHeader bool
-	files        map[string]*os.File
-	writers      map[string]*csv.Writer
-	parsers      map[string]report_column.Row
+	logger        *zap.Logger
+	ReportPath    string
+	ReportHeader  bool
+	DefaultWriter io.Writer
+	files         map[string]*os.File
+	writers       map[string]*csv.Writer
+	parsers       map[string]report_column.Row
 }
 
 func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p report_column.Row, err error) {
@@ -36,7 +38,7 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 	// TODO: generalise func, and deduplicate with report_json's func
 	open := func(name string) (f *os.File, w *csv.Writer, err2 error) {
 		if z.ReportPath == "" {
-			return nil, csv.NewWriter(os.Stdout), nil
+			return nil, csv.NewWriter(z.DefaultWriter), nil
 		}
 		if st, err := os.Stat(z.ReportPath); os.IsNotExist(err) {
 			err = os.MkdirAll(z.ReportPath, 0701)
@@ -46,7 +48,7 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 					zap.Error(err),
 					zap.String("path", z.ReportPath),
 				)
-				return nil, csv.NewWriter(os.Stdout), err
+				return nil, csv.NewWriter(z.DefaultWriter), err
 			}
 		} else if err != nil {
 			z.logger.Error(
@@ -54,14 +56,14 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 				zap.Error(err),
 				zap.String("path", z.ReportPath),
 			)
-			return nil, csv.NewWriter(os.Stdout), err
+			return nil, csv.NewWriter(z.DefaultWriter), err
 		} else if !st.IsDir() {
 			z.logger.Error(
 				"Report path is not a directory",
 				zap.Error(err),
 				zap.String("path", z.ReportPath),
 			)
-			return nil, csv.NewWriter(os.Stdout), nil
+			return nil, csv.NewWriter(z.DefaultWriter), nil
 		}
 		filePath := filepath.Join(z.ReportPath, name+".csv")
 		z.logger.Debug("Opening report file", zap.String("path", filePath))
@@ -71,7 +73,7 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 				zap.String("path", filePath),
 				zap.Error(err),
 			)
-			return nil, csv.NewWriter(os.Stdout), nil
+			return nil, csv.NewWriter(z.DefaultWriter), nil
 		} else {
 			return zf, csv.NewWriter(zf), nil
 		}
