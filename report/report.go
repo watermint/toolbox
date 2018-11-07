@@ -6,6 +6,8 @@ import (
 	"github.com/watermint/toolbox/report/report_csv"
 	"github.com/watermint/toolbox/report/report_json"
 	"go.uber.org/zap"
+	"io"
+	"os"
 )
 
 type Report interface {
@@ -15,11 +17,12 @@ type Report interface {
 }
 
 type Factory struct {
-	logger       *zap.Logger
-	report       Report
-	ReportHeader bool
-	ReportPath   string
-	ReportFormat string
+	logger        *zap.Logger
+	report        Report
+	DefaultWriter io.Writer
+	ReportHeader  bool
+	ReportPath    string
+	ReportFormat  string
 }
 
 func (y *Factory) FlagConfig(f *flag.FlagSet) {
@@ -34,18 +37,24 @@ func (y *Factory) FlagConfig(f *flag.FlagSet) {
 }
 
 func (y *Factory) Init(logger *zap.Logger) error {
+	if y.DefaultWriter == nil {
+		y.DefaultWriter = os.Stdout
+	}
+
 	y.logger = logger
 	switch y.ReportFormat {
 	case "csv":
 		y.report = &report_csv.CsvReport{
-			ReportPath:   y.ReportPath,
-			ReportHeader: y.ReportHeader,
+			DefaultWriter: y.DefaultWriter,
+			ReportPath:    y.ReportPath,
+			ReportHeader:  y.ReportHeader,
 		}
 		return y.report.Init(y.logger)
 
 	case "json":
 		y.report = &report_json.JsonReport{
-			ReportPath: y.ReportPath,
+			DefaultWriter: y.DefaultWriter,
+			ReportPath:    y.ReportPath,
 		}
 		return y.report.Init(y.logger)
 
