@@ -1,11 +1,24 @@
 package cmd_teamfolder
 
 import (
+	"github.com/watermint/toolbox/cmdlet"
 	"github.com/watermint/toolbox/dbx_api/dbx_file"
 	"github.com/watermint/toolbox/dbx_api/dbx_namespace"
 	"go.uber.org/zap"
+	"io/ioutil"
+	"os"
 	"testing"
 )
+
+func TestCmdTeamTeamFolderSize_Exec(t *testing.T) {
+	csvFile, err := ioutil.TempFile("", "teamfolder_size")
+	if err != nil {
+		t.Error(err)
+	}
+	defer os.Remove(csvFile.Name())
+
+	cmdlet.CmdTest(t, NewCmdTeamTeamFolder(), []string{"size", "-report-path", csvFile.Name()})
+}
 
 func TestNamespaceSizes_OnFile(t *testing.T) {
 	log, err := zap.NewDevelopment()
