@@ -13,6 +13,9 @@ func NewCmdTeamTeamFolder() cmdlet.Commandlet {
 			&CmdTeamTeamFolderList{
 				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
 			},
+			&CmdTeamTeamFolderSize{
+				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
+			},
 			cmd_teamfolder_file.NewCmdTeamTeamFolderFile(),
 		},
 	}
