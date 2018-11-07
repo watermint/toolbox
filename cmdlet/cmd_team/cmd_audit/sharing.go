@@ -52,6 +52,9 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 		return
 	}
 	z.Log().Info("Execute scan as admin", zap.String("email", admin.Email))
+	if !z.reportSharedLink(apiFile) {
+		return
+	}
 
 	z.Log().Info("Scanning Team Info")
 	if !z.reportInfo(apiFile) {
@@ -77,6 +80,8 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 	if !z.reportGroupMember(apiFile) {
 		return
 	}
+
+	z.Log().Info("Scanning Shared links")
 
 	z.Log().Info("Scanning Namespace")
 	if !z.reportNamespace(apiFile) {
@@ -165,6 +170,26 @@ func (z *CmdTeamAuditSharing) reportGroupMember(c *dbx_api.Context) bool {
 		},
 	}
 	return gl.List(c)
+}
+
+func (z *CmdTeamAuditSharing) reportSharedLink(c *dbx_api.Context) bool {
+	ml := dbx_member.MembersList{
+		OnError: z.DefaultErrorHandler,
+		OnEntry: func(member *dbx_profile.Member) bool {
+			sl := dbx_sharing.SharedLinkList{
+				AsMemberId:    member.Profile.TeamMemberId,
+				AsMemberEmail: member.Profile.Email,
+				OnError:       z.DefaultErrorHandler,
+				OnEntry: func(link *dbx_sharing.SharedLink) bool {
+					z.report.Report(link)
+					return true
+				},
+			}
+			sl.List(c)
+			return true
+		},
+	}
+	return ml.List(c, false)
 }
 
 func (z *CmdTeamAuditSharing) reportNamespace(c *dbx_api.Context) bool {
