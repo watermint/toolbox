@@ -144,17 +144,9 @@ func (z *CmdTeamTeamFolderSize) loadFromApi(nsz *NamespaceSizes) {
 
 	namespaceFile := dbx_namespace.ListNamespaceFile{}
 	namespaceFile.AsAdminId = admin.TeamMemberId
+	namespaceFile.OptIncludeTeamFolder = true
 	namespaceFile.OnError = z.DefaultErrorHandler
 	namespaceFile.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
-		if namespace.NamespaceType != "team_folder" {
-			z.Log().Debug(
-				"Skip non `team_folder` namespace",
-				zap.String("namespace_type", namespace.NamespaceType),
-				zap.String("namespace_id", namespace.NamespaceId),
-				zap.String("name", namespace.Name),
-			)
-			return false
-		}
 		z.Log().Info("Scanning folder",
 			zap.String("namespace_type", namespace.NamespaceType),
 			zap.String("namespace_id", namespace.NamespaceId),
