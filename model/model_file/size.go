@@ -116,10 +116,10 @@ func (z *NamespaceSizes) OnDelete(deleted *dbx_namespace.NamespaceDeleted) bool 
 func (z *NamespaceSizes) Load(c *dbx_api.Context) bool {
 	if z.OptCachePath != "" && z.isCacheFilesAvailable() {
 		z.Logger.Info("Calculating size from cache")
-		z.LoadFromCache()
+		return z.LoadFromCache()
 	} else {
 		z.Logger.Info("Retrieve data from API, then calculating size")
-		z.LoadFromApi(c)
+		return z.LoadFromApi(c)
 	}
 }
 
