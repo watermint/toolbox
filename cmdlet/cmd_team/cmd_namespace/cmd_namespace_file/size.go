@@ -7,25 +7,25 @@ import (
 	"github.com/watermint/toolbox/report"
 )
 
-type CmdTeamNamespaceSize struct {
+type CmdTeamNamespaceFileSize struct {
 	*cmdlet.SimpleCommandlet
 	report report.Factory
 	nsz    model_file.NamespaceSizes
 }
 
-func (CmdTeamNamespaceSize) Name() string {
+func (CmdTeamNamespaceFileSize) Name() string {
 	return "size"
 }
 
-func (CmdTeamNamespaceSize) Desc() string {
+func (CmdTeamNamespaceFileSize) Desc() string {
 	return "Calculate size of namespaces"
 }
 
-func (CmdTeamNamespaceSize) Usage() string {
+func (CmdTeamNamespaceFileSize) Usage() string {
 	return ""
 }
 
-func (z *CmdTeamNamespaceSize) FlagConfig(f *flag.FlagSet) {
+func (z *CmdTeamNamespaceFileSize) FlagConfig(f *flag.FlagSet) {
 	z.report.FlagConfig(f)
 
 	descIncludeTeamFolder := "Include team folders"
@@ -47,7 +47,7 @@ func (z *CmdTeamNamespaceSize) FlagConfig(f *flag.FlagSet) {
 	f.IntVar(&z.nsz.OptDepth, "depth", 2, descOptDepth)
 }
 
-func (z *CmdTeamNamespaceSize) Exec(args []string) {
+func (z *CmdTeamNamespaceFileSize) Exec(args []string) {
 	z.report.Init(z.Log())
 	defer z.report.Close()
 
