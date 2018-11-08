@@ -10,6 +10,9 @@ func NewCmdTeamNamespaceFile() cmdlet.Commandlet {
 			&CmdTeamNamespaceFileList{
 				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
 			},
+			&CmdTeamNamespaceFileSize{
+				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
+			},
 		},
 	}
 }
