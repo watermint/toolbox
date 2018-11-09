@@ -80,4 +80,5 @@ func (c *CmdMemberInvite) Exec(args []string) {
 		// quit, in case of the error
 		return
 	}
+
 }

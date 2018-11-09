@@ -9,10 +9,16 @@ func NewCmdMember() cmdlet.Commandlet {
 		CommandName: "member",
 		CommandDesc: "Dropbox Business member management",
 		SubCommands: []cmdlet.Commandlet{
+			&CmdMemberList{
+				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
+			},
 			&CmdMemberInvite{
 				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
 			},
-			&CmdMemberList{
+			&CmdMemberRemove{
+				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
+			},
+			&CmdMemberSync{
 				SimpleCommandlet: &cmdlet.SimpleCommandlet{},
 			},
 		},
