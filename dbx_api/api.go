@@ -178,6 +178,7 @@ type Context struct {
 	Token      string
 	Client     *http.Client
 	RetryAfter time.Time
+	LastErrors []ErrorAnnotation
 	Logger     *zap.Logger
 }
 
@@ -188,9 +189,10 @@ func (c *Context) Log() *zap.Logger {
 func NewContext(token string, logger *zap.Logger) *Context {
 	logger.Debug("New context")
 	return &Context{
-		Token:  token,
-		Client: &http.Client{Timeout: DefaultClientTimeout},
-		Logger: logger,
+		Token:      token,
+		Client:     &http.Client{Timeout: DefaultClientTimeout},
+		Logger:     logger,
+		LastErrors: make([]ErrorAnnotation, 0),
 	}
 }
 

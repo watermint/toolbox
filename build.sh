@@ -1,15 +1,24 @@
 #!/usr/bin/env bash
 
-# Prerequisite: set absolute path to project root to $PROJECT_ROOT
-
-BUILD_PATH=/build
-DIST_PATH=/dist
+if [ x"" = x"$PROJECT_ROOT" ]; then
+  # Configure for regular build
+  PROJECT_ROOT=$PWD
+  BUILD_PATH=$PWD/build
+  DIST_PATH=$PWD/dist
+else
+  # Configure for Docker build
+  BUILD_PATH=/build
+  DIST_PATH=/dist
+fi
 
 BUILD_MAJOR_VERSION=$(cat $PROJECT_ROOT/version)
 BUILD_HASH=$(cd $PROJECT_ROOT && git rev-parse HEAD)
 
 if [ ! -d $BUILD_PATH ]; then
   mkdir -p $BUILD_PATH
+fi
+if [ ! -d $DIST_PATH ]; then
+  mkdir -p $DIST_PATH
 fi
 if [ "$TOOLBOX_BUILD_ID"x = ""x ]; then
   TOOLBOX_BUILD_ID=0.0
@@ -41,12 +50,11 @@ X_APP_CREDENTIALS="$TOOLBOX_APP_CREDENTIALS"
 fi
 LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_CREDENTIALS"
 
-cd $BUILD_PATH
-GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o tbx-$BUILD_VERSION-win.exe github.com/watermint/toolbox
-GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o tbx-$BUILD_VERSION-linux   github.com/watermint/toolbox
-GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o tbx-$BUILD_VERSION-macos   github.com/watermint/toolbox
+GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-win.exe github.com/watermint/toolbox
+GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-linux   github.com/watermint/toolbox
+GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-macos   github.com/watermint/toolbox
 
 
 echo --------------------
 echo BUILD: Packaging
-zip -9 -r $DIST_PATH/tbx-$BUILD_VERSION.zip tbx-*
+( cd $BUILD_PATH && zip -9 -r $DIST_PATH/tbx-$BUILD_VERSION.zip tbx-* )

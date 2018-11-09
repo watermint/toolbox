@@ -21,7 +21,7 @@ func TestNamespaceSizes_OnFile(t *testing.T) {
 	ns.OnFile(
 		&dbx_namespace.NamespaceFile{
 			Namespace: &dbx_namespace.Namespace{
-				NamespaceId: "ns:100",
+				NamespaceId: "100",
 			},
 			File: &dbx_file.File{
 				Name:      "park.jpg",
@@ -34,7 +34,7 @@ func TestNamespaceSizes_OnFile(t *testing.T) {
 	ns.OnFile(
 		&dbx_namespace.NamespaceFile{
 			Namespace: &dbx_namespace.Namespace{
-				NamespaceId: "ns:100",
+				NamespaceId: "100",
 			},
 			File: &dbx_file.File{
 				Name:      "park.jpg",
@@ -47,7 +47,7 @@ func TestNamespaceSizes_OnFile(t *testing.T) {
 	ns.OnFile(
 		&dbx_namespace.NamespaceFile{
 			Namespace: &dbx_namespace.Namespace{
-				NamespaceId: "ns:100",
+				NamespaceId: "100",
 			},
 			File: &dbx_file.File{
 				Name:      "park.jpg",
@@ -60,7 +60,7 @@ func TestNamespaceSizes_OnFile(t *testing.T) {
 	ns.OnFile(
 		&dbx_namespace.NamespaceFile{
 			Namespace: &dbx_namespace.Namespace{
-				NamespaceId: "ns:100",
+				NamespaceId: "100",
 			},
 			File: &dbx_file.File{
 				Name:      "park.jpg",
@@ -73,7 +73,7 @@ func TestNamespaceSizes_OnFile(t *testing.T) {
 	ns.OnFile(
 		&dbx_namespace.NamespaceFile{
 			Namespace: &dbx_namespace.Namespace{
-				NamespaceId: "ns:100",
+				NamespaceId: "100",
 			},
 			File: &dbx_file.File{
 				Name:      "park.jpg",
@@ -99,7 +99,7 @@ func TestNamespaceSizes_OnFile(t *testing.T) {
 	ns.OnFolder(
 		&dbx_namespace.NamespaceFolder{
 			Namespace: &dbx_namespace.Namespace{
-				NamespaceId: "ns:100",
+				NamespaceId: "100",
 			},
 			Folder: &dbx_file.Folder{
 				Name:      "park.jpg",
@@ -112,7 +112,7 @@ func TestNamespaceSizes_OnFile(t *testing.T) {
 	ns.OnFolder(
 		&dbx_namespace.NamespaceFolder{
 			Namespace: &dbx_namespace.Namespace{
-				NamespaceId: "ns:100",
+				NamespaceId: "100",
 			},
 			Folder: &dbx_file.Folder{
 				Name:      "park.jpg",
@@ -125,7 +125,7 @@ func TestNamespaceSizes_OnFile(t *testing.T) {
 	ns.OnFolder(
 		&dbx_namespace.NamespaceFolder{
 			Namespace: &dbx_namespace.Namespace{
-				NamespaceId: "ns:100",
+				NamespaceId: "100",
 			},
 			Folder: &dbx_file.Folder{
 				Name:      "park.jpg",
@@ -150,7 +150,7 @@ func TestNamespaceSizes_OnFile(t *testing.T) {
 	ns.OnFolder(
 		&dbx_namespace.NamespaceFolder{
 			Namespace: &dbx_namespace.Namespace{
-				NamespaceId: "ns:100",
+				NamespaceId: "100",
 			},
 			Folder: &dbx_file.Folder{
 				Name:      "park.jpg",
