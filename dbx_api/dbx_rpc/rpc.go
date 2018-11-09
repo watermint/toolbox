@@ -15,7 +15,9 @@ import (
 )
 
 const (
-	RpcEndpoint = "api.dropboxapi.com"
+	RpcEndpoint         = "api.dropboxapi.com"
+	SameErrorRetryCount = 5
+	SameErrorRetryWait  = time.Duration(60) * time.Second
 )
 
 type RpcResponse struct {
@@ -72,6 +74,41 @@ func (a *RpcRequest) rpcRequest(c *dbx_api.Context) (req *http.Request, err erro
 	return
 }
 
+func (a *RpcRequest) ensureRetryOnError(c *dbx_api.Context, annotation dbx_api.ErrorAnnotation) (apiRes *RpcResponse, ea dbx_api.ErrorAnnotation, err error) {
+	sameErrorCount := 0
+	if c.LastErrors == nil {
+		c.LastErrors = make([]dbx_api.ErrorAnnotation, 1)
+		c.LastErrors[0] = annotation
+	} else {
+		for _, e := range c.LastErrors {
+			if e.ErrorType == annotation.ErrorType {
+				sameErrorCount++
+			}
+		}
+		c.LastErrors = append(c.LastErrors, annotation)
+	}
+
+	if sameErrorCount >= SameErrorRetryCount {
+		c.Log().Debug(
+			"Abort retry due to `same_error_count` exceed threshold",
+			zap.Int("same_error_count", sameErrorCount),
+			zap.Int("error_type", annotation.ErrorType),
+			zap.Error(annotation.Error),
+		)
+		return nil, annotation, annotation.Error
+	}
+
+	c.RetryAfter = time.Now().Add(SameErrorRetryWait)
+	c.Log().Debug(
+		"retry after",
+		zap.Error(annotation.Error),
+		zap.Int("error_type", annotation.ErrorType),
+		zap.Time("retry_after", c.RetryAfter),
+	)
+
+	return a.Call(c)
+}
+
 func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, ea dbx_api.ErrorAnnotation, err error) {
 	annotate := func(res *RpcResponse, et int, err error) (*RpcResponse, dbx_api.ErrorAnnotation, error) {
 		return res, dbx_api.ErrorAnnotation{
@@ -99,11 +136,18 @@ func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, ea dbx_api.E
 
 	if err != nil {
 		log.Debug("transport error", zap.Error(err))
-		return annotate(nil, dbx_api.ErrorTransport, err)
+		return a.ensureRetryOnError(
+			c,
+			dbx_api.ErrorAnnotation{
+				ErrorType: dbx_api.ErrorTransport,
+				Error:     err,
+			},
+		)
 	}
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
+		// Do not retry
 		log.Debug("unable to read boy", zap.Error(err))
 		return annotate(nil, dbx_api.ErrorTransport, err)
 	}
@@ -189,9 +233,13 @@ func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, ea dbx_api.E
 			zap.Int("status_code", res.StatusCode),
 			zap.String("body", bodyString),
 		)
-		return annotate(nil, dbx_api.ErrorServerError,
-			dbx_api.ServerError{
-				StatusCode: res.StatusCode,
+		return a.ensureRetryOnError(
+			c,
+			dbx_api.ErrorAnnotation{
+				ErrorType: dbx_api.ErrorServerError,
+				Error: dbx_api.ServerError{
+					StatusCode: res.StatusCode,
+				},
 			},
 		)
 	}

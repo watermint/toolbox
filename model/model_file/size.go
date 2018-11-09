@@ -93,7 +93,7 @@ func (z *NamespaceSizes) Path(namespace *dbx_namespace.Namespace, path string) s
 		dp = strings.Join(pathElems, "/")
 	}
 	if dp == "" {
-		return namespace.NamespaceId + "/"
+		return "ns:" + namespace.NamespaceId + "/"
 	}
 
 	return "ns:" + namespace.NamespaceId + dp
