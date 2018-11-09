@@ -40,7 +40,7 @@ func TestCmdMemberProvisioning(t *testing.T) {
 	memberListJson := filepath.Join(memberListPath, "Member.json")
 	memberListFile, err := os.Open(memberListJson)
 	if err != nil {
-		t.Error(err)
+		log.Warn("Quit when first test failed", zap.Error(err))
 		return
 	}
 	defer memberListFile.Close()
