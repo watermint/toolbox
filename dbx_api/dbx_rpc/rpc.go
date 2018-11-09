@@ -202,7 +202,7 @@ func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, ea dbx_api.E
 			zap.String("error_body", bodyString),
 		)
 
-		return annotate(nil, dbx_api.ErrorEndpointSpecific, dbx_api.ParseAccessError(bodyString))
+		return annotate(nil, dbx_api.ErrorEndpointSpecific, dbx_api.ParseApiError(bodyString))
 
 	case dbx_api.ErrorRateLimit: // Rate limit
 		retryAfter := res.Header.Get(dbx_api.ResHeaderRetryAfter)

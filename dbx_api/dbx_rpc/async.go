@@ -79,7 +79,26 @@ func (a *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobI
 
 		return a.OnError(annotation)
 	}
-	// TODO error log
+
+	tag = gjson.Get(res.Body, "error."+dbx_api.ResJsonDotTag)
+	if tag.Exists() {
+		log.Debug(
+			"endpoint specific error",
+			zap.String("error_tag", tag.String()),
+		)
+		annotation := dbx_api.ErrorAnnotation{
+			ErrorType: dbx_api.ErrorEndpointSpecific,
+			Error:     dbx_api.ParseApiError(res.Body),
+		}
+		return a.OnError(annotation)
+	}
+
+	c.Log().Debug(
+		"Unknown error",
+		zap.Int("res_code", res.StatusCode),
+		zap.String("res_body", res.Body),
+	)
+
 	return false
 }
 

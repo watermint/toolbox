@@ -16,6 +16,10 @@ const (
 )
 
 func CmdTest(t *testing.T, g Commandlet, args []string) {
+	CmdTestWithTimeout(t, g, args, testTimeout)
+}
+
+func CmdTestWithTimeout(t *testing.T, g Commandlet, args []string, timeout time.Duration) {
 	tokensFilePath, err := os.Getwd()
 	if err != nil {
 		t.Error(err)
@@ -57,7 +61,7 @@ func CmdTest(t *testing.T, g Commandlet, args []string) {
 	}
 
 	ctx := context.Background()
-	ctx, cancel := context.WithTimeout(ctx, testTimeout)
+	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
 	c := make(chan bool)

@@ -31,6 +31,8 @@ func (z *CmdMemberSync) Usage() string {
 }
 
 func (z *CmdMemberSync) FlagConfig(f *flag.FlagSet) {
+	z.report.FlagConfig(f)
+
 	descCsv := "CSV file name"
 	f.StringVar(&z.optCsv, "csv", "", descCsv)
 

@@ -8,7 +8,6 @@ import (
 )
 
 type UpdateMember struct {
-	NewEmail                 string `json:"new_email,omitempty"`
 	NewExternalid            string `json:"new_externalid,omitempty"`
 	NewGivenName             string `json:"new_given_name,omitempty"`
 	NewSurname               string `json:"new_surname,omitempty"`
@@ -21,14 +20,13 @@ type MemberUpdate struct {
 	OnSuccess func(m *dbx_profile.Member) bool
 }
 
-func (z *MemberUpdate) Update(c *dbx_api.Context, teamMemberId string, m *UpdateMember) bool {
+func (z *MemberUpdate) Update(c *dbx_api.Context, email string, m *UpdateMember) bool {
 	type Selector struct {
-		Tag          string `json:".tag"`
-		TeamMemberId string `json:"team_member_id"`
+		Tag   string `json:".tag"`
+		Email string `json:"email"`
 	}
 	type Arg struct {
 		User                     Selector `json:"user"`
-		NewEmail                 string   `json:"new_email,omitempty"`
 		NewExternalid            string   `json:"new_externalid,omitempty"`
 		NewGivenName             string   `json:"new_given_name,omitempty"`
 		NewSurname               string   `json:"new_surname,omitempty"`
@@ -38,10 +36,9 @@ func (z *MemberUpdate) Update(c *dbx_api.Context, teamMemberId string, m *Update
 
 	a := Arg{
 		User: Selector{
-			Tag:          "team_member_id",
-			TeamMemberId: teamMemberId,
+			Tag:   "email",
+			Email: email,
 		},
-		NewEmail:                 m.NewEmail,
 		NewExternalid:            m.NewExternalid,
 		NewGivenName:             m.NewGivenName,
 		NewSurname:               m.NewSurname,
