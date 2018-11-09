@@ -5,6 +5,7 @@
 *.afdesign
 *.appkey
 /.idea
+/build
 /dist
 /vendor
 /kitchensink.go

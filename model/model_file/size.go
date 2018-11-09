@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/dbx_api/dbx_profile"
 	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
+	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -92,10 +93,10 @@ func (z *NamespaceSizes) Path(namespace *dbx_namespace.Namespace, path string) s
 		dp = strings.Join(pathElems, "/")
 	}
 	if dp == "" {
-		return namespace.NamespaceId + "/"
+		return "ns:" + namespace.NamespaceId + "/"
 	}
 
-	return namespace.NamespaceId + dp
+	return "ns:" + namespace.NamespaceId + dp
 }
 
 func (z *NamespaceSizes) OnFolder(folder *dbx_namespace.NamespaceFolder) bool {
@@ -134,6 +135,9 @@ func (z *NamespaceSizes) LoadFromCache() bool {
 		r := bufio.NewReader(f)
 		for {
 			line, _, err := r.ReadLine()
+			if err == io.EOF {
+				break
+			}
 			if err != nil {
 				z.Logger.Warn(
 					"Unable to read file",
@@ -169,6 +173,9 @@ func (z *NamespaceSizes) LoadFromCache() bool {
 		r := bufio.NewReader(f)
 		for {
 			line, _, err := r.ReadLine()
+			if err == io.EOF {
+				break
+			}
 			if err != nil {
 				z.Logger.Warn(
 					"Unable to read file",
@@ -212,6 +219,10 @@ func (z *NamespaceSizes) LoadFromApi(c *dbx_api.Context) bool {
 	nsl.AsAdminId = admin.TeamMemberId
 	nsl.OptIncludeTeamFolder = true
 	nsl.OnError = z.OnError
+	nsl.OptIncludeMemberFolder = z.OptIncludeMemberFolder
+	nsl.OptIncludeAppFolder = z.OptIncludeAppFolder
+	nsl.OptIncludeSharedFolder = z.OptIncludeSharedFolder
+	nsl.OptIncludeTeamFolder = z.OptIncludeTeamFolder
 	nsl.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
 		z.Logger.Info("Scanning folder",
 			zap.String("namespace_type", namespace.NamespaceType),

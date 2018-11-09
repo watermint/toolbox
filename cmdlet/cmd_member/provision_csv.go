@@ -6,6 +6,7 @@ import (
 	"go.uber.org/zap"
 	"io"
 	"os"
+	"strings"
 )
 
 type MemberProvision struct {
@@ -78,6 +79,11 @@ func (z *MembersProvision) LoadCsv(filePath string) error {
 		}
 		if len(cols) >= 3 {
 			mp.Surname = cols[2]
+		}
+
+		// skip
+		if !strings.Contains(mp.Email, "@") {
+			continue
 		}
 
 		z.Members = append(z.Members, mp)
