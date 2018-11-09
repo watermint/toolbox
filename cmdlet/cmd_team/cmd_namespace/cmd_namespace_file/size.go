@@ -56,12 +56,11 @@ func (z *CmdTeamNamespaceFileSize) Exec(args []string) {
 		return
 	}
 
-	nsz := &model_file.NamespaceSizes{}
-	nsz.Init(z.Log())
-	nsz.Load(apiFile)
+	z.nsz.Init(z.Log())
+	z.nsz.Load(apiFile)
 
 	z.Log().Info("Reporting result")
-	for _, sz := range nsz.Sizes {
+	for _, sz := range z.nsz.Sizes {
 		z.report.Report(sz)
 	}
 }
