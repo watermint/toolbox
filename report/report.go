@@ -21,6 +21,7 @@ type Factory struct {
 	report        Report
 	DefaultWriter io.Writer
 	ReportHeader  bool
+	ReportUseBom  bool
 	ReportPath    string
 	ReportFormat  string
 }
@@ -31,6 +32,9 @@ func (y *Factory) FlagConfig(f *flag.FlagSet) {
 
 	descReportFormat := "Output file for/**/mat (csv|json) (default: json)"
 	f.StringVar(&y.ReportFormat, "report-format", "json", descReportFormat)
+
+	descUseBom := "Use BOM"
+	f.BoolVar(&y.ReportUseBom, "report-usebom", false, descUseBom)
 
 	descReportHeader := "Report with header (for csv)"
 	f.BoolVar(&y.ReportHeader, "report-header", true, descReportHeader)
@@ -48,6 +52,7 @@ func (y *Factory) Init(logger *zap.Logger) error {
 			DefaultWriter: y.DefaultWriter,
 			ReportPath:    y.ReportPath,
 			ReportHeader:  y.ReportHeader,
+			ReportUseBom:  y.ReportUseBom,
 		}
 		return y.report.Init(y.logger)
 
