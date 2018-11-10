@@ -65,3 +65,9 @@ func NewBomAwareCsvReader(r io.Reader) *csv.Reader {
 
 	return csv.NewReader(transform.NewReader(br, dec))
 }
+
+func NewBomAawareCsvWriter(w io.Writer) *csv.Writer {
+	bomUtf8 := []byte{0xef, 0xbb, 0xbf}
+	w.Write(bomUtf8)
+	return csv.NewWriter(w)
+}
