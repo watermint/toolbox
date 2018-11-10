@@ -2,6 +2,7 @@ package report_csv
 
 import (
 	"encoding/csv"
+	"github.com/watermint/toolbox/infra/util"
 	"github.com/watermint/toolbox/report/report_column"
 	"go.uber.org/zap"
 	"io"
@@ -11,6 +12,7 @@ import (
 
 type CsvReport struct {
 	logger        *zap.Logger
+	ReportUseBom  bool
 	ReportPath    string
 	ReportHeader  bool
 	DefaultWriter io.Writer
@@ -74,6 +76,8 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 				zap.Error(err),
 			)
 			return nil, csv.NewWriter(z.DefaultWriter), nil
+		} else if z.ReportUseBom {
+			return zf, util.NewBomAawareCsvWriter(zf), nil
 		} else {
 			return zf, csv.NewWriter(zf), nil
 		}
