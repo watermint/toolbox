@@ -14,6 +14,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"runtime"
 )
 
 type ExecContext struct {
@@ -415,8 +416,12 @@ func (ec *ExecContext) consoleLoggerCore() zapcore.Core {
 	en := zapcore.EncoderConfig{
 		LevelKey:       "level",
 		MessageKey:     "msg",
-		EncodeLevel:    zapcore.CapitalColorLevelEncoder,
 		EncodeDuration: zapcore.StringDurationEncoder,
+	}
+	if runtime.GOOS == "windows" {
+		en.EncodeLevel = zapcore.CapitalLevelEncoder
+	} else {
+		en.EncodeLevel = zapcore.CapitalColorLevelEncoder
 	}
 	zo := zapcore.AddSync(os.Stdout)
 	return zapcore.NewCore(
