@@ -3,8 +3,8 @@ package cmd_teamfolder
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_api/dbx_teamfolder"
+	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_teamfolder"
 	"github.com/watermint/toolbox/report"
 )
 

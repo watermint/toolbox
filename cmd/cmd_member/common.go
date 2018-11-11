@@ -1,8 +1,8 @@
 package cmd_member
 
 import (
-	"github.com/watermint/toolbox/dbx_api/dbx_member"
-	"github.com/watermint/toolbox/dbx_api/dbx_profile"
+	"github.com/watermint/toolbox/model/dbx_member"
+	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/report"
 )
 

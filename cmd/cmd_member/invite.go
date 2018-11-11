@@ -3,7 +3,7 @@ package cmd_member
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/dbx_api/dbx_member"
+	"github.com/watermint/toolbox/model/dbx_member"
 	"github.com/watermint/toolbox/report"
 )
 

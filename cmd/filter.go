@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/dbx_api/dbx_sharing"
+	"github.com/watermint/toolbox/model/dbx_sharing"
 	"path/filepath"
 	"strings"
 )

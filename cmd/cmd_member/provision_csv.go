@@ -2,7 +2,7 @@ package cmd_member
 
 import (
 	"github.com/watermint/toolbox/app/util"
-	"github.com/watermint/toolbox/dbx_api/dbx_member"
+	"github.com/watermint/toolbox/model/dbx_member"
 	"go.uber.org/zap"
 	"io"
 	"os"

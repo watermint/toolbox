@@ -3,9 +3,9 @@ package model_file
 import (
 	"bufio"
 	"encoding/json"
-	"github.com/watermint/toolbox/dbx_api"
-	"github.com/watermint/toolbox/dbx_api/dbx_namespace"
-	"github.com/watermint/toolbox/dbx_api/dbx_profile"
+	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_namespace"
+	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 	"io"
