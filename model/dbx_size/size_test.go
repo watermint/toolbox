@@ -1,8 +1,8 @@
-package model_file
+package dbx_size
 
 import (
-	"github.com/watermint/toolbox/dbx_api/dbx_file"
-	"github.com/watermint/toolbox/dbx_api/dbx_namespace"
+	"github.com/watermint/toolbox/model/dbx_file"
+	"github.com/watermint/toolbox/model/dbx_namespace"
 	"go.uber.org/zap"
 	"testing"
 )

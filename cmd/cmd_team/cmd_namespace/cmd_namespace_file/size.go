@@ -3,14 +3,14 @@ package cmd_namespace_file
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/model/model_file"
+	"github.com/watermint/toolbox/model/dbx_size"
 	"github.com/watermint/toolbox/report"
 )
 
 type CmdTeamNamespaceFileSize struct {
 	*cmd.SimpleCommandlet
 	report report.Factory
-	nsz    model_file.NamespaceSizes
+	nsz    dbx_size.NamespaceSizes
 }
 
 func (CmdTeamNamespaceFileSize) Name() string {
