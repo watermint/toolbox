@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/app/util"
+	"github.com/watermint/toolbox/app/app_util"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"io/ioutil"
@@ -101,7 +101,7 @@ func (d *DropboxAuthenticator) generateTokenInstruction() error {
 		API:          api,
 		TypeOfAccess: toa,
 	}
-	instr, err := util.CompileTemplate(authGeneratedToken1Tmpl, data)
+	instr, err := app_util.CompileTemplate(authGeneratedToken1Tmpl, data)
 	if err != nil {
 		d.Log().Fatal(
 			"Unable to compile template",
@@ -235,7 +235,7 @@ func (d *DropboxAuthenticator) Authorise() (string, error) {
 		log.Debug(
 			"Start auth sequence for AppKey",
 		)
-		state, err := util.GenerateRandomString(8)
+		state, err := app_util.GenerateRandomString(8)
 		if err != nil {
 			log.Error("Unable to generate `state`",
 				zap.Error(err),

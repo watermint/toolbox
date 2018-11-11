@@ -1,7 +1,7 @@
 package cmd_member
 
 import (
-	"github.com/watermint/toolbox/app/util"
+	"github.com/watermint/toolbox/app/app_util"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"go.uber.org/zap"
 	"io"
@@ -48,7 +48,7 @@ func (z *MembersProvision) LoadCsv(filePath string) error {
 		)
 		return err
 	}
-	csv := util.NewBomAwareCsvReader(f)
+	csv := app_util.NewBomAwareCsvReader(f)
 
 	z.Members = make([]*MemberProvision, 0)
 	for {
