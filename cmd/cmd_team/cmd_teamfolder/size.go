@@ -3,7 +3,7 @@ package cmd_teamfolder
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/model/model_file"
+	"github.com/watermint/toolbox/model/dbx_size"
 	"github.com/watermint/toolbox/report"
 )
 
@@ -45,7 +45,7 @@ func (z *CmdTeamTeamFolderSize) Exec(args []string) {
 		return
 	}
 
-	nsz := &model_file.NamespaceSizes{}
+	nsz := &dbx_size.NamespaceSizes{}
 	nsz.Init(z.Log())
 	nsz.OptIncludeTeamFolder = true
 	nsz.OptIncludeSharedFolder = false

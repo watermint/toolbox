@@ -1,4 +1,4 @@
-package model_file
+package dbx_size
 
 import (
 	"bufio"
