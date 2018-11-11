@@ -2,7 +2,7 @@ package dbx_file
 
 import (
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_api"
 	"go.uber.org/zap"
 	"testing"
 )
