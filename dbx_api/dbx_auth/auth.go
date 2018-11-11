@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/infra/util"
+	"github.com/watermint/toolbox/app/util"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"io/ioutil"

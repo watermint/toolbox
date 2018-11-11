@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/watermint/toolbox/cmdlet/cmd_root"
-	"github.com/watermint/toolbox/infra"
+	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/cmd/cmd_root"
 	"os"
 )
 
 func main() {
-	ec := infra.NewExecContext()
+	ec := app.NewExecContext()
 	cmds := cmd_root.NewCommands()
 	cmds.Exec(ec, os.Args)
 }

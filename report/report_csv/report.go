@@ -2,7 +2,7 @@ package report_csv
 
 import (
 	"encoding/csv"
-	"github.com/watermint/toolbox/infra/util"
+	"github.com/watermint/toolbox/app/util"
 	"github.com/watermint/toolbox/report/report_column"
 	"go.uber.org/zap"
 	"io"
