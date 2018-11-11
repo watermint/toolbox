@@ -1,4 +1,4 @@
-package util
+package app_util
 
 import (
 	"bufio"

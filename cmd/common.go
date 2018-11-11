@@ -5,7 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/app/util"
+	"github.com/watermint/toolbox/app/app_util"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"go.uber.org/zap"
 	"strings"
@@ -47,7 +47,7 @@ func (*CommandletBase) PrintUsage(clt Commandlet) {
 	}
 	cmd := strings.Join(cmds, " ")
 
-	usage, tmplErr := util.CompileTemplate(tmpl,
+	usage, tmplErr := app_util.CompileTemplate(tmpl,
 		struct {
 			Command string
 		}{
