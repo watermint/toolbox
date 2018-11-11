@@ -3,7 +3,7 @@ package cmd_namespace
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/dbx_api/dbx_namespace"
+	"github.com/watermint/toolbox/model/dbx_namespace"
 	"github.com/watermint/toolbox/report"
 )
 

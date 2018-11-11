@@ -3,8 +3,8 @@ package cmd_namespace_file
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/dbx_api/dbx_namespace"
-	"github.com/watermint/toolbox/dbx_api/dbx_profile"
+	"github.com/watermint/toolbox/model/dbx_namespace"
+	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 )

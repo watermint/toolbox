@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/util"
-	"github.com/watermint/toolbox/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_api"
 	"go.uber.org/zap"
 	"strings"
 )
