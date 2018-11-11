@@ -1,10 +1,23 @@
-hash: 3ff59c01f048e21f1225ff73130fa21e2e7f7066180294542f53b23cd87e1855
-updated: 2018-11-10T22:45:31.812331-08:00
+hash: 7f09f604aa000870a5766db762d6ba3a7966d7ed3c90e06a42011cd090142e87
+updated: 2018-11-10T23:07:53.735488-08:00
 imports:
+- name: github.com/daaku/go.zipexe
+  version: a5fe2436ffcb3236e175e5149162b41cd28bd27d
+- name: github.com/GeertJohan/go.rice
+  version: c02ca9a983da5807ddf7d796784928f5be4afd09
+  subpackages:
+  - embedded
+  - rice
 - name: github.com/golang/protobuf
   version: 951a149f90371fb8858c6c979d03bb2583611052
   subpackages:
   - proto
+- name: github.com/gorilla/context
+  version: 51ce91d2eaddeca0ef29a71d766bb3634dadf729
+- name: github.com/gorilla/mux
+  version: e3702bed27f0d39777b0b37b664b6280e8ef8fbf
+- name: github.com/kardianos/osext
+  version: ae77be60afb1dcacde03767a8c37337fad28ac14
 - name: github.com/tidwall/gjson
   version: 1e3f6aeaa5bad08d777ea7807b279a07885dd8b2
 - name: github.com/tidwall/match

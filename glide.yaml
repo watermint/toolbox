@@ -18,3 +18,10 @@ import:
   version: ^2
 - package: go.uber.org/multierr
   version: ^1.1.0
+- package: github.com/GeertJohan/go.rice
+  subpackages:
+  - rice
+- package: github.com/gorilla/mux
+  version: ^1.6.2
+- package: github.com/daaku/go.zipexe
+- package: github.com/kardianos/osext
