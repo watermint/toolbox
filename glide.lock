@@ -1,8 +1,8 @@
 hash: 3ff59c01f048e21f1225ff73130fa21e2e7f7066180294542f53b23cd87e1855
-updated: 2018-11-02T07:49:18.346007+09:00
+updated: 2018-11-10T22:45:31.812331-08:00
 imports:
 - name: github.com/golang/protobuf
-  version: 1918e1ff6ffd2be7bed0553df8650672c3bfe80d
+  version: 951a149f90371fb8858c6c979d03bb2583611052
   subpackages:
   - proto
 - name: github.com/tidwall/gjson
@@ -22,12 +22,12 @@ imports:
   - internal/exit
   - zapcore
 - name: golang.org/x/net
-  version: e11730110bbd884bbf19550bfafe9d69519ce29e
+  version: 03003ca0c849e57b6ea29a4bab8d3cb6e4d568fe
   subpackages:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: c453e0c757598fd055e170a3a359263c91e13153
+  version: f42d05182288abf10faef86d16c0d07b8d40ea2d
   subpackages:
   - internal
 - name: golang.org/x/text
