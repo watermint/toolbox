@@ -8,13 +8,14 @@ import (
 
 type CmdWebStart struct {
 	*cmd.SimpleCommandlet
+	Web webui.WebUI
 }
 
-func (c *CmdWebStart) Name() string {
+func (z *CmdWebStart) Name() string {
 	return "start"
 }
 
-func (c *CmdWebStart) Desc() string {
+func (z *CmdWebStart) Desc() string {
 	return "Start web console"
 }
 
@@ -22,9 +23,11 @@ func (CmdWebStart) Usage() string {
 	return ""
 }
 
-func (c *CmdWebStart) FlagConfig(f *flag.FlagSet) {
+func (z *CmdWebStart) FlagConfig(f *flag.FlagSet) {
+	z.Web.FlagConfig(f)
 }
 
-func (c *CmdWebStart) Exec(args []string) {
-	webui.Start()
+func (z *CmdWebStart) Exec(args []string) {
+	z.Web.Logger = z.Log()
+	z.Web.Start()
 }
