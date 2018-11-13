@@ -3,7 +3,7 @@ package cmd_web
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/webui"
+	"github.com/watermint/toolbox/poc/webui"
 )
 
 type CmdWebStart struct {
