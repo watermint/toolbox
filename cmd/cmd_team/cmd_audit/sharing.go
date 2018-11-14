@@ -52,6 +52,8 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 		return
 	}
 	z.Log().Info("Execute scan as admin", zap.String("email", admin.Email))
+
+	z.Log().Info("Scanning Shared links")
 	if !z.reportSharedLink(apiFile) {
 		return
 	}
@@ -80,8 +82,6 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 	if !z.reportGroupMember(apiFile) {
 		return
 	}
-
-	z.Log().Info("Scanning Shared links")
 
 	z.Log().Info("Scanning Namespace")
 	if !z.reportNamespace(apiFile) {
