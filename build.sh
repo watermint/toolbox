@@ -32,6 +32,7 @@ echo --------------------
 echo BUILD: Testing..
 
 cd $PROJECT_ROOT
+#rice embed-go
 go test $(glide novendor)
 
 

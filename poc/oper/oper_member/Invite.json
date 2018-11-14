@@ -1,0 +1,7 @@
+{
+  "title": "Invite new team member(s)",
+  "desc": "Send invitation to new team member(s)",
+  "options": {
+    "silent": "Silent invitation"
+  }
+}
