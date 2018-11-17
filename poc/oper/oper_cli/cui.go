@@ -78,10 +78,6 @@ func (z *CUI) AskWarn(msg oper_msg.UIMessage) bool {
 	return z.YesNo()
 }
 
-func (z *CUI) AskOptions(title oper_msg.UIMessage, opts map[string]oper_msg.UIMessage) string {
-	panic("implement me")
-}
-
 func (z *CUI) AskText(msg oper_msg.UIMessage) string {
 	fmt.Fprintln(z.Out, msg.Text())
 	br := bufio.NewReader(z.In)

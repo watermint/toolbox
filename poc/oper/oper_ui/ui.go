@@ -29,9 +29,6 @@ type UI interface {
 	// the user/client agreed to proceed
 	AskWarn(msg oper_msg.UIMessage) bool
 
-	// Ask options. Returns selected option key.
-	AskOptions(title oper_msg.UIMessage, opts map[string]oper_msg.UIMessage) string
-
 	// Ask a text. UI ask text as required option but,
 	// a user/client can enter empty string.
 	AskText(msg oper_msg.UIMessage) string
