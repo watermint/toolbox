@@ -5,5 +5,11 @@ build:
     - docker:dind
   stage: build
   script:
+    - mkdir dist
+    - export TOOLBOX_BUILD_ID=$CI_PIPELINE_ID
     - docker build -t toolbox .
-    - docker run --rm toolbox
+    - docker run -v $PWD/dist:/dist --rm toolbox
+
+artifacts:
+  enabled: true
+  path: $PWD/dist
