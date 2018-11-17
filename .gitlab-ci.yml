@@ -21,7 +21,7 @@ test:
   script:
     - go test $(glide novendor)
 
-build
+build:
   stage: build
     - ./build.sh
 
