@@ -1,0 +1,27 @@
+image: golang:1.11
+
+cache:
+  paths:
+    - /apt-cache
+    - /go/src/github.com
+    - /go/src/golang.org
+    - /go/src/google.golang.org
+    - /go/src/gopkg.in
+
+stages:
+ - test
+ - build
+
+before_script:
+ - go get github.com/Masterminds/glide
+ - glide install
+
+test:
+  stage: test
+  script:
+    - go test $(glide novendor)
+
+build
+  stage: build
+    - ./build.sh
+
