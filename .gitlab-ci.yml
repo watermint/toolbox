@@ -1,22 +1,7 @@
-image: golang:1.11
-
-cache:
-  paths:
-    - /apt-cache
-    - /go/src/github.com
-    - /go/src/golang.org
-    - /go/src/google.golang.org
-    - /go/src/gopkg.in
-
-stages:
- - build
-
-before_script:
- - go get github.com/Masterminds/glide
- - glide install
+image: docker:lagest
 
 build:
   stage: build
   script:
-    - ./build.sh
-
+    - docker build -t toolbox .
+    - docker run --rm toolbox
