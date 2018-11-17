@@ -2,14 +2,13 @@
 build:
   image: docker:stable
   services:
-    - docker:dind
+  - docker:dind
   stage: build
   script:
-    - mkdir dist
-    - export TOOLBOX_BUILD_ID=$CI_PIPELINE_ID
-    - docker build -t toolbox .
-    - docker run -v $PWD/dist:/dist --rm toolbox
-
-artifacts:
-  enabled: true
-  path: $PWD/dist
+  - mkdir dist
+  - export TOOLBOX_BUILD_ID=$CI_PIPELINE_ID
+  - docker build -t toolbox .
+  - docker run -v $PWD/dist:/dist --rm toolbox
+  artifacts:
+    paths:
+    - $PWD/dist
