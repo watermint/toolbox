@@ -6,9 +6,9 @@ build:
   stage: build
   script:
   - mkdir dist
-  - export TOOLBOX_BUILD_ID=$CI_PIPELINE_ID
+  - export
   - docker build -t toolbox .
-  - docker run -v $PWD/dist:/dist --rm toolbox
+  - docker run -e TOOLBOX_BUILD_ID=$CI_PIPELINE_ID -v $PWD/dist:/dist --rm toolbox
   artifacts:
     paths:
     - $PWD/dist
