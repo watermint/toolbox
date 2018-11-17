@@ -1,6 +1,8 @@
-image: docker:lagest
 
 build:
+  image: docker:stable
+  services:
+    - docker:dind
   stage: build
   script:
     - docker build -t toolbox .
