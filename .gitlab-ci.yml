@@ -9,17 +9,11 @@ cache:
     - /go/src/gopkg.in
 
 stages:
- - test
  - build
 
 before_script:
  - go get github.com/Masterminds/glide
  - glide install
-
-test:
-  stage: test
-  script:
-    - go test $(glide novendor)
 
 build:
   stage: build
