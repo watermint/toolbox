@@ -1,15 +1,13 @@
 package oper_member
 
 import (
+	"github.com/watermint/toolbox/poc/oper"
 	"github.com/watermint/toolbox/poc/oper/oper_auth"
 	"github.com/watermint/toolbox/poc/oper/oper_io"
-	"github.com/watermint/toolbox/poc/oper/oper_ui"
-	"go.uber.org/zap"
 )
 
 type Invite struct {
-	UI              oper_ui.UI
-	Logger          *zap.Logger
+	oper.OperationBase
 	OptApi          *oper_auth.DropboxBusinessManagement
 	OptCsvFile      *oper_io.MustInputFile
 	OptReportFormat string
@@ -17,7 +15,8 @@ type Invite struct {
 }
 
 func (z *Invite) Exec() {
-	z.Logger.Info("Invite")
+	z.Log().Info("start invitation")
+	z.Tell(z.Message("start_invitation"))
 
 	//z.UI.Tell(z.Res.Msg("Start invitation"))
 	//z.Log.Info("CSV: ", zap.String("file", z.OptCsvFile.Path))
