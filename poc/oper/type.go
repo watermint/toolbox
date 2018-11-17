@@ -4,7 +4,6 @@ import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/poc/oper/oper_ui"
 	"go.uber.org/zap"
-	"golang.org/x/text/language"
 )
 
 type Operation interface {
@@ -19,19 +18,14 @@ type Group interface {
 }
 
 type Resource struct {
-	Title   string            `json:"title,omitempty"`
-	Desc    string            `json:"desc,omitempty"`
-	Options map[string]string `json:"options,omitempty"`
+	Title    string            `json:"title,omitempty"`
+	Desc     string            `json:"desc,omitempty"`
+	Options  map[string]string `json:"options,omitempty"`
+	Messages map[string]string `json:"messages,omitempty"`
 }
 
 type Context struct {
 	Logger *zap.Logger
 	Box    *rice.Box
-	Lang   language.Tag
 	UI     oper_ui.UI
-}
-
-func (c Context) LangBase() string {
-	base, _, _ := c.Lang.Raw()
-	return base.String()
 }

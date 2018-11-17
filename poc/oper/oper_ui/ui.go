@@ -1,57 +1,38 @@
 package oper_ui
 
-import (
-	"github.com/watermint/toolbox/poc/oper/oper_i18n"
-	"os"
-)
-
-type UITable interface {
-	Header() []oper_i18n.UIMessage
-	Row(row int) []oper_i18n.UIMessage
-	RowCount() int
-}
+import "github.com/watermint/toolbox/poc/oper/oper_msg"
 
 type UI interface {
 	// Tell message
-	Tell(msg oper_i18n.UIMessage)
+	Tell(msg oper_msg.UIMessage)
 
 	// Tell error message
-	TellError(msg oper_i18n.UIMessage)
-
-	// Tell table messages
-	TellTable(tbl UITable)
+	TellError(msg oper_msg.UIMessage)
 
 	// Tell done
-	TellDone(msg oper_i18n.UIMessage)
+	TellDone(msg oper_msg.UIMessage)
 
 	// Tell success
-	TellSuccess(msg oper_i18n.UIMessage)
+	TellSuccess(msg oper_msg.UIMessage)
 
 	// Tell failure
-	TellFailure(msg oper_i18n.UIMessage)
+	TellFailure(msg oper_msg.UIMessage)
 
 	// Tell progress (text)
-	TellProgress(msg oper_i18n.UIMessage)
+	TellProgress(msg oper_msg.UIMessage)
 
 	// Ask retry with retry message. Returns true when
 	// the user/client agreed retry
-	AskRetry(msg oper_i18n.UIMessage) bool
+	AskRetry(msg oper_msg.UIMessage) bool
 
 	// Ask continue with warning message. Returns true when
 	// the user/client agreed to proceed
-	AskWarn(msg oper_i18n.UIMessage) bool
+	AskWarn(msg oper_msg.UIMessage) bool
 
 	// Ask options. Returns selected option key.
-	AskOptions(title oper_i18n.UIMessage, opts map[string]oper_i18n.UIMessage) string
-
-	// Ask a file for input. Returns file if the user choose file.
-	// Returns nil when the user canceled selection or file not found.
-	AskInputFile(msg oper_i18n.UIMessage) *os.File
-
-	// Ask a file for output.
-	AskOutputFile(msg oper_i18n.UIMessage, filename string, tmpFilePath string)
+	AskOptions(title oper_msg.UIMessage, opts map[string]oper_msg.UIMessage) string
 
 	// Ask a text. UI ask text as required option but,
 	// a user/client can enter empty string.
-	AskText(msg oper_i18n.UIMessage) string
+	AskText(msg oper_msg.UIMessage) string
 }

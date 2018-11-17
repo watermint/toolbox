@@ -2,7 +2,6 @@ package oper_member
 
 import (
 	"github.com/watermint/toolbox/poc/oper/oper_auth"
-	"github.com/watermint/toolbox/poc/oper/oper_i18n"
 	"github.com/watermint/toolbox/poc/oper/oper_io"
 	"github.com/watermint/toolbox/poc/oper/oper_ui"
 	"go.uber.org/zap"
@@ -10,7 +9,6 @@ import (
 
 type Invite struct {
 	UI              oper_ui.UI
-	Res             *oper_i18n.Messages
 	Logger          *zap.Logger
 	OptApi          *oper_auth.DropboxBusinessManagement
 	OptCsvFile      *oper_io.MustInputFile

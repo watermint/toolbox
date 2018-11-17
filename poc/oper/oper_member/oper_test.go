@@ -5,7 +5,6 @@ import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/poc/oper"
 	"go.uber.org/zap"
-	"golang.org/x/text/language"
 	"testing"
 )
 
@@ -16,7 +15,6 @@ func TestGroup_Tag(t *testing.T) {
 		return
 	}
 	box := rice.MustFindBox("..")
-	lang := language.MustParse("ja_JP")
 
 	opers := []oper.Operation{
 		&Member{},
@@ -27,7 +25,6 @@ func TestGroup_Tag(t *testing.T) {
 	ctx := &oper.Context{
 		Logger: log,
 		Box:    box,
-		Lang:   lang,
 	}
 
 	for _, o := range opers {
