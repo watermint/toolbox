@@ -23,5 +23,6 @@ test:
 
 build:
   stage: build
+  script:
     - ./build.sh
 
