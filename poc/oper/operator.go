@@ -2,13 +2,15 @@ package oper
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/poc/oper/oper_msg"
 	"go.uber.org/zap"
 	"path/filepath"
 	"reflect"
 )
 
 const (
-	LogFieldName = "Logger"
+	LogFieldName     = "Logger"
+	ContextFieldName = "Ctx"
 )
 
 type Operator struct {
@@ -50,6 +52,29 @@ func (z *Operator) InjectLog() {
 			zvf.Set(reflect.ValueOf(z.Context.Logger))
 		}
 	}
+}
+
+func (z *Operator) inject(xv reflect.Value, fieldName string, v interface{}) {
+	xt := xv.Type()
+	if xt.Kind() == reflect.Ptr {
+		xt = xt.Elem()
+		xv = xv.Elem()
+	}
+
+	for i := xt.NumField() - 1; i >= 0; i-- {
+		xtf := xt.Field(i)
+		xvf := xv.Field(i)
+		if xtf.Type.Kind() == reflect.Struct {
+			z.inject(xvf, fieldName, v)
+		} else if xtf.Name == fieldName {
+			xvf.Set(reflect.ValueOf(v))
+		}
+	}
+}
+
+func (z *Operator) InjectContext() {
+	z.Context.Messages = oper_msg.NewMessageMap(z.Resource.Messages)
+	z.inject(reflect.ValueOf(z.Op), ContextFieldName, z.Context)
 }
 
 func (z *Operator) Log() *zap.Logger {
