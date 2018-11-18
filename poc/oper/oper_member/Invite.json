@@ -4,7 +4,7 @@
   "options": {
     "silent": "Silent invitation"
   },
-  "message":{
-
+  "messages":{
+    "start_invitation": "Start Invitation"
   }
 }

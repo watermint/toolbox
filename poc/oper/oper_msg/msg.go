@@ -20,7 +20,7 @@ func (z *Message) WithArg(a ...interface{}) UIMessage {
 }
 
 func (z *Message) Text() string {
-	if z.Args == nil {
+	if z.Args == nil || len(z.Args) < 1 {
 		return z.Message
 	} else {
 		return fmt.Sprintf(z.Message, z.Args...)
