@@ -2,6 +2,7 @@ package oper
 
 import (
 	"encoding/json"
+	"flag"
 	"github.com/watermint/toolbox/poc/oper/oper_msg"
 	"go.uber.org/zap"
 	"path/filepath"
@@ -52,6 +53,10 @@ func (z *Operator) InjectLog() {
 			zvf.Set(reflect.ValueOf(z.Context.Logger))
 		}
 	}
+}
+
+func (z *Operator) ConfigFlag(f *flag.FlagSet) {
+
 }
 
 func (z *Operator) inject(xv reflect.Value, fieldName string, v interface{}) {

@@ -10,12 +10,11 @@ type Invite struct {
 	oper.OperationBase
 	OptApi          *oper_auth.DropboxBusinessManagement
 	OptCsvFile      *oper_io.MustInputFile
-	OptReportFormat string
-	OptSilent       bool
+	OptReportFormat string `default:"json"`
+	OptSilent       bool   `default:"false"`
 }
 
 func (z *Invite) Exec() {
-	z.Log().Info("start invitation")
 	z.Tell(z.Message("start_invitation"))
 
 	//z.UI.Tell(z.Res.Msg("Start invitation"))
