@@ -3,5 +3,8 @@
   "desc": "Send invitation to new team member(s)",
   "options": {
     "silent": "Silent invitation"
+  },
+  "messages":{
+    "start_invitation": "Start Invitation"
   }
 }
