@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/poc/oper"
+	"github.com/watermint/toolbox/poc/oper/oper_cli"
 	"go.uber.org/zap"
-	"golang.org/x/text/language"
+	"os"
 	"testing"
 )
 
@@ -16,7 +17,6 @@ func TestGroup_Tag(t *testing.T) {
 		return
 	}
 	box := rice.MustFindBox("..")
-	lang := language.MustParse("ja_JP")
 
 	opers := []oper.Operation{
 		&Member{},
@@ -27,7 +27,10 @@ func TestGroup_Tag(t *testing.T) {
 	ctx := &oper.Context{
 		Logger: log,
 		Box:    box,
-		Lang:   lang,
+		UI: &oper_cli.CUI{
+			Out: os.Stdout,
+			In:  os.Stdin,
+		},
 	}
 
 	for _, o := range opers {
@@ -45,13 +48,14 @@ func TestGroup_Tag(t *testing.T) {
 			log.Info("Sub commands")
 			for _, so := range op.SubOperators() {
 				log.Info("Sub command",
-					zap.String("Path", fmt.Sprintf("%s.%s\n", op.Tag(), so.Tag())),
+					zap.String("Path", fmt.Sprintf("%s.%s", op.Tag(), so.Tag())),
 				)
 			}
 		}
 		if op.IsExecutable() {
 			log.Info("Exec", zap.String("tag", op.Tag()))
 			op.InjectLog()
+			op.InjectContext()
 			op.Executable().Exec()
 		}
 

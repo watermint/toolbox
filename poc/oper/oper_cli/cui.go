@@ -2,104 +2,96 @@ package oper_cli
 
 import (
 	"bufio"
-	"github.com/watermint/toolbox/poc/oper/oper_i18n"
-	"github.com/watermint/toolbox/poc/oper/oper_ui"
-	"golang.org/x/text/language"
+	"fmt"
+	"github.com/watermint/toolbox/poc/oper/oper_msg"
 	"io"
-	"os"
+	"strings"
 )
 
 type CUI struct {
-	out  *bufio.Writer
-	in   *bufio.Reader
-	Out  io.Writer
-	In   io.Reader
-	Lang language.Tag
+	Out io.Writer
+	In  io.Reader
 }
 
-func (z *CUI) TellSuccess(msg oper_i18n.UIMessage) {
-	z.out.WriteString("SUCCESS: ")
-	z.Tell(msg)
-}
-
-func (z *CUI) TellFailure(msg oper_i18n.UIMessage) {
-	z.out.WriteString("FAILURE: ")
-	z.Tell(msg)
-}
-
-func (z *CUI) Init() {
-	z.out = bufio.NewWriter(z.Out)
-	z.in = bufio.NewReader(z.In)
-}
-
-func (z *CUI) Tell(msg oper_i18n.UIMessage) {
-	z.out.WriteString(msg.Message(z.Lang))
-	z.out.WriteString("\n")
-}
-
-func (z *CUI) TellDone(msg oper_i18n.UIMessage) {
-	z.Tell(msg)
-}
-
-func (z *CUI) TellError(msg oper_i18n.UIMessage) {
-	z.out.WriteString("ERR: ")
-	z.out.WriteString(msg.Message(z.Lang))
-	z.out.WriteString("\n")
-}
-
-func (z *CUI) TellTable(tbl oper_ui.UITable) {
-	panic("implement me")
-}
-
-func (z *CUI) TellProgress(msg oper_i18n.UIMessage) {
-	z.Tell(msg)
-}
-
-func (z *CUI) AskRetry(msg oper_i18n.UIMessage) bool {
-	panic("implement me")
-}
-
-func (z *CUI) AskWarn(msg oper_i18n.UIMessage) bool {
-	panic("implement me")
-}
-
-func (z *CUI) AskOptions(title oper_i18n.UIMessage, opts map[string]oper_i18n.UIMessage) string {
-	panic("implement me")
-}
-
-func (z *CUI) AskInputFile(msg oper_i18n.UIMessage) *os.File {
-	z.out.WriteString("Ask[File]")
-	z.Tell(msg)
-	z.out.WriteString("\n")
-
+func (z *CUI) YesNo() bool {
+	br := bufio.NewReader(z.In)
 	for {
-		z.out.WriteString("Filename:\n")
-		pathByte, _, err := z.in.ReadLine()
+		line, _, err := br.ReadLine()
 		if err == io.EOF {
-			return nil
+			return false
 		}
-		path := string(pathByte)
-		if s, err := os.Stat(path); err != nil {
-			z.out.WriteString("ERR: " + err.Error() + "\n")
-			continue
-		} else if s.IsDir() {
-			z.out.WriteString("ERR: " + path + " is a directory")
-			continue
+		ans := strings.ToLower(strings.TrimSpace(string(line)))
+		switch ans {
+		case "y":
+			return true
+		case "yes":
+			return true
+		case "n":
+			return false
+		case "no":
+			return false
 		}
 
-		if f, err := os.Open(path); err != nil {
-			z.out.WriteString("ERR: " + err.Error() + "\n")
-			return nil
-		} else {
-			return f
-		}
+		// ask again
+		fmt.Fprintln(z.Out, "Retry? (y/n)")
 	}
 }
 
-func (z *CUI) AskOutputFile(msg oper_i18n.UIMessage, filename string, tmpFilePath string) {
-	panic("implement me")
+func (z *CUI) Tell(msg oper_msg.UIMessage) {
+	fmt.Fprintln(z.Out, msg.Text())
 }
 
-func (z *CUI) AskText(msg oper_i18n.UIMessage) string {
-	panic("implement me")
+func (z *CUI) TellError(msg oper_msg.UIMessage) {
+	fmt.Fprint(z.Out, "ERR: ")
+	fmt.Fprintln(z.Out, msg.Text())
+}
+
+func (z *CUI) TellDone(msg oper_msg.UIMessage) {
+	fmt.Fprint(z.Out, "DONE: ")
+	fmt.Fprintln(z.Out, msg.Text())
+}
+
+func (z *CUI) TellSuccess(msg oper_msg.UIMessage) {
+	fmt.Fprint(z.Out, "SUCCESS: ")
+	fmt.Fprintln(z.Out, msg.Text())
+}
+
+func (z *CUI) TellFailure(msg oper_msg.UIMessage) {
+	fmt.Fprint(z.Out, "FAILURE: ")
+	fmt.Fprintln(z.Out, msg.Text())
+}
+
+func (z *CUI) TellProgress(msg oper_msg.UIMessage) {
+	fmt.Fprintln(z.Out, msg.Text())
+}
+
+func (z *CUI) AskRetry(msg oper_msg.UIMessage) bool {
+	fmt.Fprintln(z.Out, msg.Text())
+	fmt.Fprintln(z.Out, "Retry? (y/n)")
+	return z.YesNo()
+}
+
+func (z *CUI) AskWarn(msg oper_msg.UIMessage) bool {
+	fmt.Fprint(z.Out, "WARN: ")
+	fmt.Fprintln(z.Out, msg.Text())
+	fmt.Fprintln(z.Out, "Continue? (y/n)")
+	return z.YesNo()
+}
+
+func (z *CUI) AskText(msg oper_msg.UIMessage) string {
+	fmt.Fprintln(z.Out, msg.Text())
+	br := bufio.NewReader(z.In)
+	for {
+		line, _, err := br.ReadLine()
+		if err == io.EOF {
+			return ""
+		}
+		text := strings.TrimSpace(string(line))
+		if text != "" {
+			return text
+		}
+
+		// ask again
+		fmt.Fprintln(z.Out, msg.Text())
+	}
 }
