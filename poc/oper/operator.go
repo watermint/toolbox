@@ -3,10 +3,13 @@ package oper
 import (
 	"encoding/json"
 	"flag"
+	"github.com/watermint/toolbox/poc/oper/oper_api"
+	"github.com/watermint/toolbox/poc/oper/oper_auth"
 	"github.com/watermint/toolbox/poc/oper/oper_msg"
 	"go.uber.org/zap"
 	"path/filepath"
 	"reflect"
+	"strings"
 )
 
 const (
@@ -15,9 +18,10 @@ const (
 )
 
 type Operator struct {
-	Context  *Context
-	Resource *Resource
-	Op       interface{}
+	Context       Context
+	Resource      *Resource
+	Authenticator oper_auth.Authenticator
+	Op            interface{}
 }
 
 func (z *Operator) Init() {
@@ -50,7 +54,7 @@ func (z *Operator) InjectLog() {
 	if _, ok := xt.FieldByName(LogFieldName); ok {
 		zvf := xv.FieldByName(LogFieldName)
 		if zvf.Type().String() == "*zap.Logger" {
-			zvf.Set(reflect.ValueOf(z.Context.Logger))
+			zvf.Set(reflect.ValueOf(z.Context.Log()))
 		}
 	}
 }
@@ -77,13 +81,57 @@ func (z *Operator) inject(xv reflect.Value, fieldName string, v interface{}) {
 	}
 }
 
+func (z *Operator) InjectOptDropboxAuthToken() {
+	xv := reflect.ValueOf(z.Op)
+	xt := xv.Type()
+	if xt.Kind() != reflect.Ptr {
+		return
+	}
+	xv = xv.Elem()
+	xt = xt.Elem()
+	var datType *oper_api.DropboxApiToken
+	dat := reflect.TypeOf(datType).Elem()
+
+	for i := xt.NumField() - 1; i >= 0; i-- {
+		xtf := xt.Field(i)
+		xvf := xv.Field(i)
+		if !strings.HasPrefix(xtf.Name, "Opt") {
+			continue
+		}
+		if !xtf.Type.Implements(dat) {
+			continue
+		}
+		aPtr := reflect.New(xtf.Type)
+		a0 := aPtr.Elem().Interface().(oper_api.DropboxApiToken)
+
+		a1, err := z.Authenticator.Auth(a0)
+		if err != nil {
+			z.Log().Error(
+				"Unable to inject auth",
+				zap.String("field", xtf.Name),
+				zap.String("tag", a0.Tag()),
+				zap.String("app_key", a0.ApiKey()),
+				zap.Error(err),
+			)
+			continue // TODO: just ignore for now
+		}
+
+		xvf.Set(reflect.ValueOf(a1))
+	}
+}
+
 func (z *Operator) InjectContext() {
-	z.Context.Messages = oper_msg.NewMessageMap(z.Resource.Messages)
-	z.inject(reflect.ValueOf(z.Op), ContextFieldName, z.Context)
+	z.inject(
+		reflect.ValueOf(z.Op),
+		ContextFieldName,
+		z.Context.WithMessages(
+			oper_msg.NewMessageMap(z.Resource.Messages, z.Log()),
+		),
+	)
 }
 
 func (z *Operator) Log() *zap.Logger {
-	return z.Context.Logger
+	return z.Context.Log()
 }
 
 func (z *Operator) IsExecutable() bool {
@@ -144,7 +192,7 @@ func (z *Operator) LocateResource() *Resource {
 		zap.String("resLoc", loc),
 	)
 
-	resBytes, err := z.Context.Box.Bytes(loc)
+	resBytes, err := z.Context.Box().Bytes(loc)
 	if err != nil {
 		z.Log().Debug("Unable to find resource", zap.Error(err))
 		return nil
@@ -158,6 +206,25 @@ func (z *Operator) LocateResource() *Resource {
 	}
 
 	z.Log().Info("Loaded resource", zap.Any("res", res))
+
+	resBytes, err = z.Context.Box().Bytes("sys_messages.json")
+	if err != nil {
+		z.Log().Debug("Unable to find resource `sys_messages.json`", zap.Error(err))
+		return nil
+	}
+	msgs := make(map[string]string)
+	err = json.Unmarshal(resBytes, &msgs)
+	if err != nil {
+		z.Log().Debug("Unable to unmarshal sys messages", zap.Error(err))
+		return nil
+	}
+	if res.Messages == nil {
+		res.Messages = msgs
+	} else {
+		for k, v := range msgs {
+			res.Messages[k] = v
+		}
+	}
 
 	return res
 }
