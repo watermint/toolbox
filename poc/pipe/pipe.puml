@@ -1,0 +1,74 @@
+@startuml
+
+interface Service {
+  +Exec(Session): (Response, error)
+}
+
+interface Request
+interface Response
+
+Service .. Request
+Service .. Response
+
+interface Session {
+  +Log(): *zap.Logger
+  +Message(key string): Message
+  +Set(key string, value interface{})
+  +Get(key string): (interface(), bool)
+}
+
+Session *-- Message
+interface Message {
+  +WithParam(p interface{}): Message
+  +Tell()
+  +TellError()
+  +TellWarn()
+  +TellSuccess()
+  +TellFailure()
+  +AskRetry()
+  +AskWarn()
+  +AskText()
+}
+
+
+Session <|-- SessionImpl
+Message <|-- UIMessage
+SessionImpl *-- UIMessage
+SessionImpl *-- UIResult
+SessionImpl *-- UI
+class SessionImpl {
+  #ui: UI
+  +Append(uir UIResult)
+}
+
+interface UIResult
+interface UI {
+  +Tell(): UIResult
+  +TellError(): UIResult
+  +TellWarn(): UIResult
+  +TellSuccess(): UIResult
+  +TellFailure(): UIResult
+  +AskRetry(): UIResult
+  +AskWarn(): UIResult
+  +AskText(): UIResult
+}
+UI .. UIResult
+
+UI <|-- BasicUI
+class BasicUI
+
+/'
+Service <|-- MemberInvite
+Request <|-- MemberInviteRequest
+Response <|-- MemberInviteResponse
+MemberInvite .. MemberInviteRequest
+MemberInvite .. MemberInviteResponse
+
+Service <|-- MemberList
+Request <|-- MemberListRequest
+Response <|-- MemberListResponse
+MemberList .. MemberListRequest
+MemberList .. MemberListResponse
+'/
+
+@enduml
