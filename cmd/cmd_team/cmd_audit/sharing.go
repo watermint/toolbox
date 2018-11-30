@@ -84,10 +84,9 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 	}
 
 	z.Log().Info("Scanning Namespace")
-	z.reportNamespace(apiFile) // TODO: adhoc workaround
-	//if !z.reportNamespace(apiFile) {
-	//	return
-	//}
+	if !z.reportNamespace(apiFile) {
+		return
+	}
 
 	if z.optExpandGroup {
 		z.Log().Info("Preparing for `-expand-group`")
@@ -103,11 +102,10 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 		return
 	}
 
-	// TODO: adhoc workaround
-	//z.Log().Info("Scanning Namespace files")
-	//if !z.reportNamespaceFile(apiFile, admin) {
-	//	return
-	//}
+	z.Log().Info("Scanning Namespace files")
+	if !z.reportNamespaceFile(apiFile, admin) {
+		return
+	}
 }
 
 func (z *CmdTeamAuditSharing) reportInfo(c *dbx_api.Context) bool {
