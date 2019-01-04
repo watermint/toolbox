@@ -31,10 +31,7 @@ func (a *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
 			if ea.IsSuccess() {
 				return a.OnEntry(m)
 			} else {
-				if a.OnError != nil {
-					return a.OnError(ea)
-				}
-				return false
+				return a.OnError(ea)
 			}
 		},
 	}
@@ -63,10 +60,7 @@ func (a *MembersList) ListAsMap(c *dbx_api.Context, includeRemoved bool) map[str
 				members[m.Profile.Email] = m
 				return true
 			} else {
-				if a.OnError != nil {
-					return a.OnError(ea)
-				}
-				return false
+				return a.OnError(ea)
 			}
 		},
 	}
