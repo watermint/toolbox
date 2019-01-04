@@ -84,7 +84,7 @@ func (z *CmdMemberSync) Exec(args []string) {
 		},
 	}
 	mi := dbx_member.MembersInvite{
-		OnError:   z.DefaultErrorHandler,
+		OnError:   z.DefaultErrorHandlerIgnoreError,
 		OnFailure: memberReport.HandleFailure,
 		OnSuccess: memberReport.HandleSuccess,
 	}

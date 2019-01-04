@@ -1,15 +1,9 @@
 package oper_auth
 
-import "github.com/watermint/toolbox/model/dbx_api"
+import (
+	"github.com/watermint/toolbox/poc/oper/oper_api"
+)
 
-type DropboxApiToken interface {
-	Api() *dbx_api.Context
-}
-
-type DropboxBusinessManagement struct {
-	Context *dbx_api.Context
-}
-
-func (z *DropboxBusinessManagement) Api() *dbx_api.Context {
-	return z.Context
+type Authenticator interface {
+	Auth(t oper_api.DropboxApiToken) (oper_api.DropboxApiToken, error)
 }
