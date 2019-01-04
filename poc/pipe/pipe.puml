@@ -1,20 +1,16 @@
 @startuml
 
+interface Recipe
+
 interface Service {
-  +Exec(Session): (Response, error)
+  +Recipes(): []Recipe
+  +Exec(r []Recipe, s Session)
 }
-
-interface Request
-interface Response
-
-Service .. Request
-Service .. Response
 
 interface Session {
   +Log(): *zap.Logger
   +Message(key string): Message
-  +Set(key string, value interface{})
-  +Get(key string): (interface(), bool)
+  +Auth(tag string): (ApiClient, error)
 }
 
 Session *-- Message
@@ -54,21 +50,14 @@ interface UI {
 }
 UI .. UIResult
 
-UI <|-- BasicUI
-class BasicUI
+UI <|-- ConsoleUI
+class ConsoleUI {
+  +In: io.Reader
+  +Out: io.Writer
+}
 
-/'
-Service <|-- MemberInvite
-Request <|-- MemberInviteRequest
-Response <|-- MemberInviteResponse
-MemberInvite .. MemberInviteRequest
-MemberInvite .. MemberInviteResponse
-
-Service <|-- MemberList
-Request <|-- MemberListRequest
-Response <|-- MemberListResponse
-MemberList .. MemberListRequest
-MemberList .. MemberListResponse
-'/
+UI <|-- WebUI
+class WebUI {
+}
 
 @enduml
