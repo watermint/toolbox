@@ -57,14 +57,11 @@ func (w *NamespaceList) List(c *dbx_api.Context) bool {
 					return true
 				}
 			}
-			if ea.IsFailure() {
-				if w.OnError != nil {
-					return w.OnError(ea)
-				} else {
-					return false
-				}
+			if w.OnError != nil {
+				return w.OnError(ea)
+			} else {
+				return false
 			}
-			return false
 		},
 	}
 	return list.List(c, nil)
