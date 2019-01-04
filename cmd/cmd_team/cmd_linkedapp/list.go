@@ -69,7 +69,7 @@ func (z *CmdMemberLinkedAppList) withMemberReport(apiFile *dbx_api.Context) {
 	z.Log().Info("Prepare for expand members")
 	members := make(map[string]*dbx_profile.Member)
 	lm := dbx_member.MembersList{
-		OnError: z.DefaultErrorHandler,
+		OnError: z.DefaultErrorHandlerIgnoreError,
 		OnEntry: func(member *dbx_profile.Member) bool {
 			members[member.Profile.TeamMemberId] = member
 			return true

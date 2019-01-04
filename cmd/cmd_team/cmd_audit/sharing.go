@@ -132,7 +132,7 @@ func (z *CmdTeamAuditSharing) reportFeature(c *dbx_api.Context) bool {
 
 func (z *CmdTeamAuditSharing) reportMember(c *dbx_api.Context) bool {
 	l := dbx_member.MembersList{
-		OnError: z.DefaultErrorHandler,
+		OnError: z.DefaultErrorHandlerIgnoreError,
 		OnEntry: func(member *dbx_profile.Member) bool {
 			z.report.Report(member)
 			return true
@@ -174,7 +174,7 @@ func (z *CmdTeamAuditSharing) reportGroupMember(c *dbx_api.Context) bool {
 
 func (z *CmdTeamAuditSharing) reportSharedLink(c *dbx_api.Context) bool {
 	ml := dbx_member.MembersList{
-		OnError: z.DefaultErrorHandler,
+		OnError: z.DefaultErrorHandlerIgnoreError,
 		OnEntry: func(member *dbx_profile.Member) bool {
 			sl := dbx_sharing.SharedLinkList{
 				AsMemberId:    member.Profile.TeamMemberId,
