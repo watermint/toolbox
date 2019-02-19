@@ -25,28 +25,28 @@ func TestParseError(t *testing.T) {
 
 	ae := ParseApiError(errResponse)
 	if ae.ErrorTag != "not_a_member" {
-		t.Error("Parse failed")
+		t.Error("ParseModel failed")
 	}
 	if ae.ErrorSummary != "not_a_member/.." {
-		t.Error("Parse failed")
+		t.Error("ParseModel failed")
 	}
 	if ae.UserMessageLocale != "ja" {
-		t.Error("Parse failed")
+		t.Error("ParseModel failed")
 	}
 
 	errResponse = `{"error_summary": "not_a_member/..", "error": {".tag": "not_a_member"}}`
 	ae = ParseApiError(errResponse)
 	if ae.ErrorTag != "not_a_member" {
-		t.Error("Parse failed")
+		t.Error("ParseModel failed")
 	}
 	if ae.ErrorSummary != "not_a_member/.." {
-		t.Error("Parse failed")
+		t.Error("ParseModel failed")
 	}
 	if ae.UserMessageLocale != "" {
-		t.Error("Parse failed")
+		t.Error("ParseModel failed")
 	}
 	if ae.UserMessage != "" {
-		t.Error("Parse failed")
+		t.Error("ParseModel failed")
 	}
 
 	errResponse = `{
@@ -62,13 +62,13 @@ func TestParseError(t *testing.T) {
 	ae = ParseApiError(errResponse)
 
 	if ae.ErrorTag != "bad_member" {
-		t.Error("Parse failed")
+		t.Error("ParseModel failed")
 	}
 	if ae.ErrorSummary != "bad_member/invalid_dropbox_id/..." {
-		t.Error("Parse failed")
+		t.Error("ParseModel failed")
 	}
 	if gjson.Get(string(ae.ErrorBody), "bad_member.invalid_dropbox_id").String() != "dbid:AAEufNrMPSPe0dMQijRP0N_aZtBJRm26W4Q" {
-		t.Error("Parse failed")
+		t.Error("ParseModel failed")
 	}
 
 }

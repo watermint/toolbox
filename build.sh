@@ -39,9 +39,9 @@ go test $(glide novendor)
 echo --------------------
 echo BUILD: Building tool
 
-X_APP_NAME="-X github.com/watermint/toolbox/infra.AppName=toolbox"
-X_APP_VERSION="-X github.com/watermint/toolbox/infra.AppVersion=$BUILD_VERSION"
-X_APP_HASH="-X github.com/watermint/toolbox/infra.AppHash=$BUILD_HASH"
+X_APP_NAME="-X github.com/watermint/toolbox/app.AppName=toolbox"
+X_APP_VERSION="-X github.com/watermint/toolbox/app.AppVersion=$BUILD_VERSION"
+X_APP_HASH="-X github.com/watermint/toolbox/app.AppHash=$BUILD_HASH"
 X_APP_CREDENTIALS=""
 if [ -e $PROJECT_ROOT/credentials.secret ]; then
 X_APP_CREDENTIALS=$(cat $PROJECT_ROOT/credentials.secret | xargs)

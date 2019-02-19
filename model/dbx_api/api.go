@@ -186,11 +186,22 @@ func (c *Context) Log() *zap.Logger {
 	return c.Logger
 }
 
+func (c *Context) ParseModel(v interface{}, j gjson.Result) error {
+	return parseModel(c.Log(), v, j)
+}
+
+func (c *Context) ParseModelJson(v interface{}, raw json.RawMessage) error {
+	return parseModelJson(c.Log(), v, raw)
+}
+
 func NewContext(token string, logger *zap.Logger) *Context {
 	logger.Debug("New context")
+
 	return &Context{
-		Token:      token,
-		Client:     &http.Client{Timeout: DefaultClientTimeout},
+		Token: token,
+		Client: &http.Client{
+			Timeout: DefaultClientTimeout,
+		},
 		Logger:     logger,
 		LastErrors: make([]ErrorAnnotation, 0),
 	}

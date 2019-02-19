@@ -2,7 +2,6 @@ package dbx_sharing
 
 import (
 	"encoding/json"
-	"errors"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_rpc"
@@ -11,15 +10,29 @@ import (
 )
 
 type SharedLink struct {
-	SharedLinkId  string          `json:"shared_link_id"`
-	AsMemberId    string          `json:"as_member_id"`
-	AsMemberEmail string          `json:"as_member_email"`
-	Url           string          `json:"url"`
-	Link          json.RawMessage `json:"link"`
+	Raw                          json.RawMessage
+	Kind                         string `path:"\\.tag" json:"kind"`
+	SharedLinkId                 string `path:"id" json:"shared_link_id"`
+	Url                          string `path:"url" json:"url"`
+	Name                         string `path:"name" json:"name"`
+	PathLower                    string `path:"path_lower" json:"path_lower"`
+	ClientModified               string `path:"client_modified" json:"client_modified"`
+	ServerModified               string `path:"server_modified" json:"server_modified"`
+	Revision                     string `path:"rev" json:"revision"`
+	Size                         uint64 `path:"size" json:"size,omitempty"`
+	Expires                      string `path:"expires" json:"expires"`
+	TeamId                       string `path:"team_member_info.team_info.id" json:"team_id"`
+	TeamName                     string `path:"team_member_info.team_info.name" json:"team_name"`
+	TeamMemberId                 string `path:"team_member_info.member_id" json:"team_member_id"`
+	TeamMemberName               string `path:"team_member_info.display_name" json:"team_member_name"`
+	ContentOwnerTeamId           string `path:"content_owner_team_info.id" json:"content_owner_team_id"`
+	ContentOwnerTeamName         string `path:"content_owner_team_info.name" json:"content_owner_team_name"`
+	PermissionResolvedVisibility string `path:"link_permissions.resolved_visibility.\\.tag" json:"permission_resolved_visibility"`
+	PermissionAllowDownload      bool   `path:"link_permissions.allow_download" json:"permission_allow_download"`
 }
 
 func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newLInk *SharedLink, annotation dbx_api.ErrorAnnotation, err error) {
-	link := string(a.Link)
+	link := string(a.Raw)
 	expires := gjson.Get(link, "expires").String()
 	var origTime time.Time
 	if expires != "" {
@@ -47,7 +60,7 @@ func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newL
 }
 
 func (a *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (newLink *SharedLink, annotation dbx_api.ErrorAnnotation, err error) {
-	url := gjson.Get(string(a.Link), "url").String()
+	url := gjson.Get(string(a.Raw), "url").String()
 
 	type SettingsParam struct {
 		Expires string `json:"expires"`
@@ -67,50 +80,26 @@ func (a *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (n
 	req := dbx_rpc.RpcRequest{
 		Endpoint:   "sharing/modify_shared_link_settings",
 		Param:      up,
-		AsMemberId: a.AsMemberId,
+		AsMemberId: a.TeamMemberId,
 	}
 	res, ea, err := req.Call(c)
+	c.Log().Debug("shared_link_response", zap.String("body", res.Body))
 	if ea.IsFailure() {
 		return nil, ea, err
 	}
 
 	c.Log().Debug("shared_link_response", zap.String("body", res.Body))
-	newLink, ea, err = ParseSharedLink(gjson.Parse(res.Body))
-	if ea.IsFailure() {
-		return nil, ea, err
-	}
-	newLink.AsMemberId = a.AsMemberId
-	newLink.AsMemberEmail = a.AsMemberEmail
 
-	return newLink, dbx_api.Success, nil
-}
-
-func ParseSharedLink(res gjson.Result) (link *SharedLink, annotation dbx_api.ErrorAnnotation, err error) {
-	linkId := res.Get("id")
-	if !linkId.Exists() {
-		err = errors.New("required field `id` not found")
-		annotation = dbx_api.ErrorAnnotation{
+	newLink = &SharedLink{}
+	err = c.ParseModel(newLink, gjson.Parse(res.Body))
+	if err == nil {
+		return newLink, dbx_api.Success, nil
+	} else {
+		return nil, dbx_api.ErrorAnnotation{
 			ErrorType: dbx_api.ErrorUnexpectedDataType,
 			Error:     err,
-		}
-		return nil, annotation, err
+		}, err
 	}
-	url := res.Get("url")
-	if !url.Exists() {
-		err = errors.New("required field `url` not found")
-		annotation = dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     err,
-		}
-		return nil, annotation, err
-	}
-
-	s := &SharedLink{
-		SharedLinkId: linkId.String(),
-		Url:          url.String(),
-		Link:         json.RawMessage(res.Raw),
-	}
-	return s, dbx_api.Success, nil
 }
 
 type SharedLinkList struct {
@@ -140,15 +129,17 @@ func (a *SharedLinkList) List(c *dbx_api.Context) bool {
 				return true
 			}
 
-			s, ea, _ := ParseSharedLink(link)
-			if ea.IsSuccess() {
-				s.AsMemberId = a.AsMemberId
-				s.AsMemberEmail = a.AsMemberEmail
-				return a.OnEntry(s)
+			s := SharedLink{}
+			err := c.ParseModel(&s, link)
+			if err == nil {
+				return a.OnEntry(&s)
 			}
 
 			if a.OnError != nil {
-				return a.OnError(ea)
+				return a.OnError(dbx_api.ErrorAnnotation{
+					ErrorType: dbx_api.ErrorUnexpectedDataType,
+					Error:     err,
+				})
 			}
 			return false
 		},
