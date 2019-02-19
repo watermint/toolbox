@@ -2,7 +2,6 @@ package cmd_update
 
 import (
 	"flag"
-	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_member"
@@ -83,8 +82,8 @@ func (c *CmdTeamSharedLinkUpdateExpire) Exec(args []string) {
 								MemberId:     member.Profile.TeamMemberId,
 								MemberEmail:  member.Profile.Email,
 								SharedLinkId: link.SharedLinkId,
-								OldExpires:   gjson.Get(string(link.Link), "expires").String(),
-								NewExpires:   gjson.Get(string(newLink.Link), "expires").String(),
+								OldExpires:   link.Expires,
+								NewExpires:   newLink.Expires,
 							}
 							c.report.Report(ur)
 						}
