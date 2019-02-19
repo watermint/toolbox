@@ -196,9 +196,14 @@ func (c *Context) ParseModelJson(v interface{}, raw json.RawMessage) error {
 
 func NewContext(token string, logger *zap.Logger) *Context {
 	logger.Debug("New context")
+	transport := &http.Transport{Proxy: http.ProxyFromEnvironment}
+
 	return &Context{
-		Token:      token,
-		Client:     &http.Client{Timeout: DefaultClientTimeout},
+		Token: token,
+		Client: &http.Client{
+			Timeout:   DefaultClientTimeout,
+			Transport: transport,
+		},
 		Logger:     logger,
 		LastErrors: make([]ErrorAnnotation, 0),
 	}
