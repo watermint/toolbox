@@ -64,8 +64,8 @@ func (z *ProvisionTest) ListTestAccounts(t *testing.T) ([]*dbx_profile.Member, e
 	memberListJson := filepath.Join(memberListPath, "Member.json")
 	memberListFile, err := os.Open(memberListJson)
 	if err != nil {
-		z.Logger.Warn("unable to open Member.json", zap.Error(err))
-		return nil, err
+		z.Logger.Info("unable to open Member.json", zap.Error(err))
+		return members, nil
 	}
 	defer memberListFile.Close()
 
