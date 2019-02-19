@@ -4,79 +4,74 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_member"
+	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/report"
 )
 
 type CmdMemberInvite struct {
 	*cmd.SimpleCommandlet
-	optCsv    string
 	optSilent bool
 	report    report.Factory
+	provision MembersProvision
 }
 
-func (c *CmdMemberInvite) Name() string {
+func (z *CmdMemberInvite) Name() string {
 	return "invite"
 }
 
-func (c *CmdMemberInvite) Desc() string {
+func (z *CmdMemberInvite) Desc() string {
 	return "Invite members"
 }
 
-func (c *CmdMemberInvite) Usage() string {
-	return `{{.Command}} -csv MEMBER_FILENAME`
+func (z *CmdMemberInvite) Usage() string {
+	return z.provision.Usage()
 }
 
-func (c *CmdMemberInvite) FlagConfig(f *flag.FlagSet) {
-	descCsv := "CSV file name"
-	f.StringVar(&c.optCsv, "csv", "", descCsv)
-
+func (z *CmdMemberInvite) FlagConfig(f *flag.FlagSet) {
 	descSilent := "Silent provisioning"
-	f.BoolVar(&c.optSilent, "silent", false, descSilent)
+	f.BoolVar(&z.optSilent, "silent", false, descSilent)
 
-	c.report.FlagConfig(f)
+	z.provision.FlagConfig(f)
+	z.report.FlagConfig(f)
 }
 
-func (c *CmdMemberInvite) Exec(args []string) {
-	if c.optCsv == "" {
-		c.Log().Error("Please specify input csv")
-		c.PrintUsage(c)
+func (z *CmdMemberInvite) Exec(args []string) {
+	z.provision.Logger = z.Log()
+	err := z.provision.Load(args)
+	if err != nil {
+		z.PrintUsage(z)
 		return
 	}
 
-	apiMgmt, err := c.ExecContext.LoadOrAuthBusinessManagement()
+	apiMgmt, err := z.ExecContext.LoadOrAuthBusinessManagement()
 	if err != nil {
 		return
 	}
 
-	mp := MembersProvision{
-		Logger: c.Log(),
-	}
-	err = mp.LoadCsv(c.optCsv)
-	if err != nil {
-		return
-	}
-
-	c.report.Init(c.Log())
-	defer c.report.Close()
+	z.report.Init(z.Log())
+	defer z.report.Close()
 
 	memberReport := MemberReport{
-		Report: &c.report,
+		Report: &z.report,
 	}
 
-	members := mp.Members
+	members := z.provision.Members
 	invites := make([]*dbx_member.InviteMember, len(members))
 
 	for i, m := range members {
-		invites[i] = m.InviteMember(c.optSilent)
+		invites[i] = m.InviteMember(z.optSilent)
 	}
 
 	mi := dbx_member.MembersInvite{
+		OnError:   z.DefaultErrorHandler,
 		OnFailure: memberReport.HandleFailure,
-		OnSuccess: memberReport.HandleSuccess,
-		OnError:   c.DefaultErrorHandler,
+		OnSuccess: func(m *dbx_profile.Member) bool {
+			z.report.Report(m)
+			return true
+		},
 	}
 	if !mi.Invite(apiMgmt, invites) {
-		c.Log().Warn("terminate operation due to error")
+		z.Log().Warn("terminate operation due to error")
 		// quit, in case of the error
 		return
 	}

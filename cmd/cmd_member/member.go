@@ -18,6 +18,9 @@ func NewCmdMember() cmd.Commandlet {
 			&CmdMemberRemove{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
+			&CmdMemberDetach{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
 			&CmdMemberSync{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},

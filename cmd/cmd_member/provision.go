@@ -1,6 +1,8 @@
 package cmd_member
 
 import (
+	"errors"
+	"flag"
 	"github.com/watermint/toolbox/app/app_util"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"go.uber.org/zap"
@@ -34,11 +36,43 @@ func (z *MemberProvision) UpdateMember() (email string, update *dbx_member.Updat
 }
 
 type MembersProvision struct {
+	optCsv  string
 	Members []*MemberProvision
 	Logger  *zap.Logger
 }
 
-func (z *MembersProvision) LoadCsv(filePath string) error {
+func (z *MembersProvision) FlagConfig(f *flag.FlagSet) {
+	descCsv := "CSV file name"
+	f.StringVar(&z.optCsv, "csv", "", descCsv)
+}
+
+func (z *MembersProvision) Usage() string {
+	return `{{.Command}} -csv MEMBER_FILENAME
+{{.Command}} member_email...`
+}
+
+func (z *MembersProvision) Load(args []string) error {
+	if z.optCsv != "" {
+		return z.loadCsv(z.optCsv)
+	}
+	if len(args) > 0 {
+		return z.loadArgs(args)
+	}
+	z.Logger.Error("Please specify input csv, or specify email addresses")
+	return errors.New("please specify member data")
+}
+
+func (z *MembersProvision) loadArgs(args []string) error {
+	z.Members = make([]*MemberProvision, 0)
+	for _, e := range args {
+		z.Members = append(z.Members, &MemberProvision{
+			Email: e,
+		})
+	}
+	return nil
+}
+
+func (z *MembersProvision) loadCsv(filePath string) error {
 	f, err := os.Open(filePath)
 	if err != nil {
 		z.Logger.Warn(
