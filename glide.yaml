@@ -25,3 +25,5 @@ import:
   version: ^1.6.2
 - package: github.com/daaku/go.zipexe
 - package: github.com/kardianos/osext
+- package: github.com/rapid7/go-get-proxied
+  version: ^1.2.0

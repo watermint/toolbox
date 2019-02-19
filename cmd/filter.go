@@ -3,7 +3,6 @@ package cmd
 import (
 	"flag"
 	"fmt"
-	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/model/dbx_sharing"
 	"path/filepath"
 	"strings"
@@ -26,20 +25,17 @@ func (s *SharedLinkFilter) FlagConfig(f *flag.FlagSet) {
 }
 
 func (s *SharedLinkFilter) IsAcceptable(link *dbx_sharing.SharedLink) bool {
-	linkBody := string(link.Link)
 	result := true
 	if s.FilterByVisibility != "" {
-		visibility := gjson.Get(linkBody, "link_permissions.resolved_visibility.\\.tag").String()
-		if visibility != s.FilterByVisibility {
+		if link.PermissionResolvedVisibility != s.FilterByVisibility {
 			result = false
 		}
 	}
 
 	if s.FilterByPath != "" {
-		pathLower := gjson.Get(linkBody, "path_lower").String()
 		filterPath := filepath.ToSlash(strings.ToLower(s.FilterByPath))
 
-		if !strings.HasPrefix(pathLower, filterPath) {
+		if !strings.HasPrefix(link.PathLower, filterPath) {
 			result = false
 		}
 	}

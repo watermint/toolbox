@@ -5,12 +5,14 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/rapid7/go-get-proxied/proxy"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"io/ioutil"
+	"log"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -401,15 +403,49 @@ func (ec *ExecContext) setupWorkPath() error {
 	return nil
 }
 
-func (ec *ExecContext) SetupHttpProxy(proxy string) {
-	ec.Log().Debug("Proxy configuration",
-		zap.String("HTTP_PROXY", proxy),
-		zap.String("HTTPS_PROXY", proxy),
-	)
-	if proxy != "" {
-		os.Setenv("HTTP_PROXY", proxy)
-		os.Setenv("HTTPS_PROXY", proxy)
+func (ec *ExecContext) SetupHttpProxy(p string) {
+	if p != "" {
+		os.Setenv("HTTP_PROXY", p)
+		os.Setenv("HTTPS_PROXY", p)
+		ec.Log().Debug("Proxy configuration",
+			zap.String("HTTP_PROXY", p),
+			zap.String("HTTPS_PROXY", p),
+		)
+		return
 	}
+
+	detect := proxy.NewProvider("").GetHTTPSProxy("https://api.dropboxapi.com")
+	if detect == nil {
+		ec.Log().Debug("Proxy configuration",
+			zap.String("HTTP_PROXY", ""),
+			zap.String("HTTPS_PROXY", ""),
+		)
+		return
+	}
+
+	usr, usrSpecified := detect.Username()
+	ec.Log().Debug("Proxy configuration detected",
+		zap.String("host", detect.Host()),
+		zap.Uint16("port", detect.Port()),
+		zap.Bool("user_auth", usrSpecified),
+		zap.String("username", usr),
+	)
+	if usrSpecified {
+		ec.Log().Debug("Skip proxy auto detect config because Basic Auth Proxy config not supported")
+		ec.Log().Debug("Proxy configuration",
+			zap.String("HTTP_PROXY", ""),
+			zap.String("HTTPS_PROXY", ""),
+		)
+		return
+	}
+
+	ap := fmt.Sprintf("%s:%d", detect.Host(), detect.Port())
+	os.Setenv("HTTP_PROXY", ap)
+	os.Setenv("HTTPS_PROXY", ap)
+	ec.Log().Debug("Proxy configuration",
+		zap.String("HTTP_PROXY", ap),
+		zap.String("HTTPS_PROXY", ap),
+	)
 }
 
 func (ec *ExecContext) consoleLoggerCore() zapcore.Core {
@@ -465,6 +501,9 @@ func (ec *ExecContext) setupLoggerFile() {
 		MaxBackups: 10,
 		MaxAge:     28, // days
 	})
+
+	// route default `log` package output into the file
+	log.SetOutput(zo)
 	zc := zapcore.NewCore(
 		zapcore.NewJSONEncoder(cfg),
 		zo,
@@ -484,6 +523,7 @@ func (ec *ExecContext) setupLoggerFile() {
 
 	ec.logger = logger
 	ec.logFilePath = logPath
+
 }
 
 func (ec *ExecContext) Log() *zap.Logger {

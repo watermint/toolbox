@@ -180,7 +180,7 @@ func (c *CommandletGroup) Exec(args []string) {
 		sc.Init(c)
 		sc.FlagConfig(c.flagset)
 		if err := c.flagset.Parse(subArgs); err != nil {
-			c.Log().Error("Command Parse error", zap.Error(err))
+			c.Log().Error("Command ParseModel error", zap.Error(err))
 			c.PrintUsage(c)
 			return
 		}

@@ -11,11 +11,11 @@ import (
 
 type CmdMemberSync struct {
 	*cmd.SimpleCommandlet
-	optCsv    string
 	optRemove string
 	optWipe   bool
 	optSilent bool
 	report    report.Factory
+	provision MembersProvision
 }
 
 func (z *CmdMemberSync) Name() string {
@@ -27,14 +27,12 @@ func (z *CmdMemberSync) Desc() string {
 }
 
 func (z *CmdMemberSync) Usage() string {
-	return `{{.Command}} -csv MEMBER_FILENAME`
+	return z.provision.Usage()
 }
 
 func (z *CmdMemberSync) FlagConfig(f *flag.FlagSet) {
 	z.report.FlagConfig(f)
-
-	descCsv := "CSV file name"
-	f.StringVar(&z.optCsv, "csv", "", descCsv)
+	z.provision.FlagConfig(f)
 
 	descSilent := "Silent provisioning"
 	f.BoolVar(&z.optSilent, "silent", false, descSilent)
@@ -48,20 +46,13 @@ func (z *CmdMemberSync) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdMemberSync) Exec(args []string) {
-	if z.optCsv == "" {
-		z.Log().Error("Please specify input csv")
+	z.provision.Logger = z.Log()
+	err := z.provision.Load(args)
+	if err != nil {
 		z.PrintUsage(z)
 		return
 	}
 	apiMgmt, err := z.ExecContext.LoadOrAuthBusinessManagement()
-	if err != nil {
-		return
-	}
-
-	mp := MembersProvision{
-		Logger: z.Log(),
-	}
-	err = mp.LoadCsv(z.optCsv)
 	if err != nil {
 		return
 	}
@@ -86,12 +77,15 @@ func (z *CmdMemberSync) Exec(args []string) {
 	mi := dbx_member.MembersInvite{
 		OnError:   z.DefaultErrorHandlerIgnoreError,
 		OnFailure: memberReport.HandleFailure,
-		OnSuccess: memberReport.HandleSuccess,
+		OnSuccess: func(m *dbx_profile.Member) bool {
+			z.report.Report(m)
+			return true
+		},
 	}
 	members := ml.ListAsMap(apiMgmt, false)
 	invites := make([]*dbx_member.InviteMember, 0)
 
-	for _, m := range mp.Members {
+	for _, m := range z.provision.Members {
 		if em, ok := members[m.Email]; ok {
 			z.Log().Info(
 				"Updating member",
