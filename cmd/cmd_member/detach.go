@@ -8,33 +8,25 @@ import (
 	"go.uber.org/zap"
 )
 
-type CmdMemberRemove struct {
+type CmdMemberDetach struct {
 	*cmd.SimpleCommandlet
-	optKeepAccount bool
-	optWipeData    bool
-	provision      MembersProvision
+	provision MembersProvision
 }
 
-func (CmdMemberRemove) Name() string {
-	return "remove"
+func (CmdMemberDetach) Name() string {
+	return "detach"
 }
-func (CmdMemberRemove) Desc() string {
-	return "Remove the member from the team"
+func (CmdMemberDetach) Desc() string {
+	return "Convert account into Dropbox Basic"
 }
-func (z *CmdMemberRemove) Usage() string {
+func (z *CmdMemberDetach) Usage() string {
 	return z.provision.Usage()
 }
-func (z *CmdMemberRemove) FlagConfig(f *flag.FlagSet) {
+func (z *CmdMemberDetach) FlagConfig(f *flag.FlagSet) {
 	z.provision.FlagConfig(f)
-
-	descKeepAccount := "Convert account into Dropbox Basic"
-	f.BoolVar(&z.optKeepAccount, "keep-account", false, descKeepAccount)
-
-	descWipeData := "Wipe data"
-	f.BoolVar(&z.optWipeData, "wipe-data", true, descWipeData)
 }
 
-func (z *CmdMemberRemove) Exec(args []string) {
+func (z *CmdMemberDetach) Exec(args []string) {
 	z.provision.Logger = z.Log()
 	err := z.provision.Load(args)
 	if err != nil {
@@ -51,19 +43,19 @@ func (z *CmdMemberRemove) Exec(args []string) {
 		OnError: z.DefaultErrorHandler,
 		OnFailure: func(email string, reason dbx_api.ApiError) bool {
 			z.Log().Error(
-				"Unable to remove user",
+				"Unable to detach user",
 				zap.String("email", email),
 				zap.String("reason", reason.ErrorTag),
 			)
 			return true
 		},
 		OnSuccess: func(email string) bool {
-			z.Log().Info("User removed", zap.String("email", email))
+			z.Log().Info("User detached", zap.String("email", email))
 			return true
 		},
 	}
 	for _, m := range z.provision.Members {
-		z.Log().Info("Removing account", zap.String("email", m.Email))
-		rm.Remove(apiMgmt, m.Email, z.optWipeData, z.optKeepAccount)
+		z.Log().Info("Detaching account", zap.String("email", m.Email))
+		rm.Remove(apiMgmt, m.Email, false, true)
 	}
 }
