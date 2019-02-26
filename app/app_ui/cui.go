@@ -3,7 +3,6 @@ package app_ui
 import (
 	"bufio"
 	"fmt"
-	"github.com/watermint/toolbox/app/app_msg"
 	"io"
 	"os"
 	"strings"
@@ -45,37 +44,37 @@ func (z *CUI) YesNo() bool {
 	}
 }
 
-func (z *CUI) Tell(msg app_msg.UIMessage) {
+func (z *CUI) Tell(msg UIMessage) {
 	fmt.Fprintln(z.Out, msg.Text())
 }
 
-func (z *CUI) TellError(msg app_msg.UIMessage) {
+func (z *CUI) TellError(msg UIMessage) {
 	fmt.Fprint(z.Out, "ERR: ")
 	fmt.Fprintln(z.Out, msg.Text())
 }
 
-func (z *CUI) TellDone(msg app_msg.UIMessage) {
+func (z *CUI) TellDone(msg UIMessage) {
 	fmt.Fprint(z.Out, "DONE: ")
 	fmt.Fprintln(z.Out, msg.Text())
 }
 
-func (z *CUI) TellSuccess(msg app_msg.UIMessage) {
+func (z *CUI) TellSuccess(msg UIMessage) {
 	fmt.Fprint(z.Out, "SUCCESS: ")
 	fmt.Fprintln(z.Out, msg.Text())
 }
 
-func (z *CUI) TellFailure(msg app_msg.UIMessage) {
+func (z *CUI) TellFailure(msg UIMessage) {
 	fmt.Fprint(z.Out, "FAILURE: ")
 	fmt.Fprintln(z.Out, msg.Text())
 }
 
-func (z *CUI) AskRetry(msg app_msg.UIMessage) bool {
+func (z *CUI) AskRetry(msg UIMessage) bool {
 	fmt.Fprintln(z.Out, msg.Text())
 	fmt.Fprintln(z.Out, "Retry? (y/n)")
 	return z.YesNo()
 }
 
-func (z *CUI) AskText(msg app_msg.UIMessage) string {
+func (z *CUI) AskText(msg UIMessage) string {
 	fmt.Fprintln(z.Out, msg.Text())
 	br := bufio.NewReader(z.In)
 	for {

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/GeertJohan/go.rice"
 	"github.com/rapid7/go-get-proxied/proxy"
 	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/model/dbx_api"
@@ -19,23 +20,6 @@ import (
 	"path/filepath"
 	"runtime"
 )
-
-type ExecContext struct {
-	Proxy         string
-	WorkPath      string
-	TokenFilePath string
-	UserInterface app_ui.UI
-
-	tokens      *Tokens
-	logFilePath string
-	logger      *zap.Logger
-}
-
-func NewExecContext() *ExecContext {
-	ec := &ExecContext{}
-	ec.startup()
-	return ec
-}
 
 var (
 	DropboxFullAppKey           string = ""
@@ -77,115 +61,149 @@ type Tokens struct {
 	BusinessAuditToken      string `json:"BusinessAuditToken,omitempty"`
 }
 
-func (ec *ExecContext) FileOnWorkPath(name string) string {
-	return filepath.Join(ec.WorkPath, name)
+type ExecContext struct {
+	Proxy         string
+	WorkPath      string
+	TokenFilePath string
+	userInterface app_ui.UI
+	resources     *rice.Box
+	tokens        *Tokens
+	logFilePath   string
+	logger        *zap.Logger
+	messages      *app_ui.UIMessageContainer
 }
 
-func (ec *ExecContext) AuthFile() string {
-	return ec.FileOnWorkPath(AppName + ".secret")
+func NewExecContextForTest() *ExecContext {
+	ec := &ExecContext{}
+	ec.startup()
+	return ec
 }
 
-func (ec *ExecContext) queueToken(a dbx_auth.DropboxAuthenticator, business bool) (ac *dbx_api.Context, err error) {
+func NewExecContext(bx *rice.Box) *ExecContext {
+	ec := &ExecContext{}
+	ec.resources = bx
+	ec.startup()
+	return ec
+}
+
+func (z *ExecContext) Msg(key string) app_ui.UIMessage {
+	return z.messages.Msg(key)
+}
+
+func (z *ExecContext) FileOnWorkPath(name string) string {
+	return filepath.Join(z.WorkPath, name)
+}
+
+func (z *ExecContext) AuthFile() string {
+	return z.FileOnWorkPath(AppName + ".secret")
+}
+
+func (z *ExecContext) queueToken(a dbx_auth.DropboxAuthenticator, business bool) (ac *dbx_api.Context, err error) {
 	token, err := a.LoadOrAuth(business)
 	if err != nil {
 		return nil, err
 	}
 
-	ac = dbx_api.NewContext(token, ec.Log().With(zap.String("token", a.TokenType)))
+	ac = dbx_api.NewContext(z.messages, token, z.Log().With(zap.String("token", a.TokenType)))
 
 	return
 }
 
-func (ec *ExecContext) IsTokensAvailable() bool {
-	return ec.tokens != nil
+func (z *ExecContext) IsTokensAvailable() bool {
+	return z.tokens != nil
 }
 
-func (ec *ExecContext) LoadOrAuthDropboxFull() (ac *dbx_api.Context, err error) {
-	if ec.tokens != nil && ec.tokens.DropboxFullToken != "" {
+func (z *ExecContext) LoadOrAuthDropboxFull() (ac *dbx_api.Context, err error) {
+	if z.tokens != nil && z.tokens.DropboxFullToken != "" {
 		return dbx_api.NewContext(
-			ec.tokens.DropboxFullToken,
-			ec.Log().With(zap.String("token", dbx_auth.DropboxTokenFull)),
+			z.messages,
+			z.tokens.DropboxFullToken,
+			z.Log().With(zap.String("token", dbx_auth.DropboxTokenFull)),
 		), nil
 	}
 	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  ec.AuthFile(),
+		AuthFile:  z.AuthFile(),
 		AppKey:    DropboxFullAppKey,
 		AppSecret: DropboxFullAppSecret,
 		TokenType: dbx_auth.DropboxTokenFull,
-		Logger:    ec.Log().With(zap.String("token", dbx_auth.DropboxTokenFull)),
+		Logger:    z.Log().With(zap.String("token", dbx_auth.DropboxTokenFull)),
 	}
-	return ec.queueToken(a, false)
+	return z.queueToken(a, false)
 }
 
-func (ec *ExecContext) LoadOrAuthBusinessInfo() (ac *dbx_api.Context, err error) {
-	if ec.tokens != nil && ec.tokens.BusinessInfoToken != "" {
+func (z *ExecContext) LoadOrAuthBusinessInfo() (ac *dbx_api.Context, err error) {
+	if z.tokens != nil && z.tokens.BusinessInfoToken != "" {
 		return dbx_api.NewContext(
-			ec.tokens.BusinessInfoToken,
-			ec.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessInfo)),
+			z.messages,
+			z.tokens.BusinessInfoToken,
+			z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessInfo)),
 		), nil
 	}
 	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  ec.AuthFile(),
+		AuthFile:  z.AuthFile(),
 		AppKey:    BusinessInfoAppKey,
 		AppSecret: BusinessInfoAppSecret,
 		TokenType: dbx_auth.DropboxTokenBusinessInfo,
-		Logger:    ec.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessInfo)),
+		Logger:    z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessInfo)),
 	}
-	return ec.queueToken(a, true)
+	return z.queueToken(a, true)
 }
 
-func (ec *ExecContext) LoadOrAuthBusinessFile() (ac *dbx_api.Context, err error) {
-	if ec.tokens != nil && ec.tokens.BusinessFileToken != "" {
+func (z *ExecContext) LoadOrAuthBusinessFile() (ac *dbx_api.Context, err error) {
+	if z.tokens != nil && z.tokens.BusinessFileToken != "" {
 		return dbx_api.NewContext(
-			ec.tokens.BusinessFileToken,
-			ec.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessFile)),
+			z.messages,
+			z.tokens.BusinessFileToken,
+			z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessFile)),
 		), nil
 	}
 	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  ec.AuthFile(),
+		AuthFile:  z.AuthFile(),
 		AppKey:    BusinessFileAppKey,
 		AppSecret: BusinessFileAppSecret,
 		TokenType: dbx_auth.DropboxTokenBusinessFile,
-		Logger:    ec.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessFile)),
+		Logger:    z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessFile)),
 	}
-	return ec.queueToken(a, true)
+	return z.queueToken(a, true)
 }
 
-func (ec *ExecContext) LoadOrAuthBusinessManagement() (ac *dbx_api.Context, err error) {
-	if ec.tokens != nil && ec.tokens.BusinessManagementToken != "" {
+func (z *ExecContext) LoadOrAuthBusinessManagement() (ac *dbx_api.Context, err error) {
+	if z.tokens != nil && z.tokens.BusinessManagementToken != "" {
 		return dbx_api.NewContext(
-			ec.tokens.BusinessManagementToken,
-			ec.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessManagement)),
+			z.messages,
+			z.tokens.BusinessManagementToken,
+			z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessManagement)),
 		), nil
 	}
 	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  ec.AuthFile(),
+		AuthFile:  z.AuthFile(),
 		AppKey:    BusinessManagementAppKey,
 		AppSecret: BusinessManagementAppSecret,
 		TokenType: dbx_auth.DropboxTokenBusinessManagement,
-		Logger:    ec.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessManagement)),
+		Logger:    z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessManagement)),
 	}
-	return ec.queueToken(a, true)
+	return z.queueToken(a, true)
 }
 
-func (ec *ExecContext) LoadOrAuthBusinessAudit() (ac *dbx_api.Context, err error) {
-	if ec.tokens != nil && ec.tokens.BusinessAuditToken != "" {
+func (z *ExecContext) LoadOrAuthBusinessAudit() (ac *dbx_api.Context, err error) {
+	if z.tokens != nil && z.tokens.BusinessAuditToken != "" {
 		return dbx_api.NewContext(
-			ec.tokens.BusinessAuditToken,
-			ec.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessAudit)),
+			z.messages,
+			z.tokens.BusinessAuditToken,
+			z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessAudit)),
 		), nil
 	}
 	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  ec.AuthFile(),
+		AuthFile:  z.AuthFile(),
 		AppKey:    BusinessAuditAppKey,
 		AppSecret: BusinessAuditAppSecret,
 		TokenType: dbx_auth.DropboxTokenBusinessAudit,
-		Logger:    ec.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessAudit)),
+		Logger:    z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessAudit)),
 	}
-	return ec.queueToken(a, true)
+	return z.queueToken(a, true)
 }
 
-func (ec *ExecContext) loadAppKeysFileIfExists() {
+func (z *ExecContext) loadAppKeysFileIfExists() {
 	appKeysFile := AppName + ".appkey"
 	_, err := os.Stat(appKeysFile)
 	if os.IsNotExist(err) {
@@ -194,7 +212,7 @@ func (ec *ExecContext) loadAppKeysFileIfExists() {
 
 	ak, err := ioutil.ReadFile(appKeysFile)
 	if err != nil {
-		ec.Log().Debug(
+		z.Log().Debug(
 			"Unable to read app keys file",
 			zap.String("file", appKeysFile),
 			zap.Error(err),
@@ -204,7 +222,7 @@ func (ec *ExecContext) loadAppKeysFileIfExists() {
 	keys := AppKey{}
 	err = json.Unmarshal(ak, &keys)
 	if err != nil {
-		ec.Log().Debug(
+		z.Log().Debug(
 			"Unable to unmarshal app keys file",
 			zap.String("file", appKeysFile),
 			zap.Error(err),
@@ -244,7 +262,7 @@ func (ec *ExecContext) loadAppKeysFileIfExists() {
 	}
 }
 
-func (ec *ExecContext) loadTokensFileIfExists(tokensFilePath string) {
+func (z *ExecContext) loadTokensFileIfExists(tokensFilePath string) {
 	tokensFile := filepath.Join(tokensFilePath, AppName+".tokens")
 	_, err := os.Stat(tokensFile)
 	if os.IsNotExist(err) {
@@ -252,7 +270,7 @@ func (ec *ExecContext) loadTokensFileIfExists(tokensFilePath string) {
 	}
 	ak, err := ioutil.ReadFile(tokensFile)
 	if err != nil {
-		ec.Log().Debug(
+		z.Log().Debug(
 			"Unable to read tokens file",
 			zap.String("file", tokensFile),
 			zap.Error(err),
@@ -262,7 +280,7 @@ func (ec *ExecContext) loadTokensFileIfExists(tokensFilePath string) {
 	tokens := Tokens{}
 	err = json.Unmarshal(ak, &tokens)
 	if err != nil {
-		ec.Log().Debug(
+		z.Log().Debug(
 			"Unable to unmarshal tokens file",
 			zap.String("file", tokensFile),
 			zap.Error(err),
@@ -276,54 +294,60 @@ func (ec *ExecContext) loadTokensFileIfExists(tokensFilePath string) {
 		tokens.BusinessFileToken != "" &&
 		tokens.BusinessAuditToken != "" {
 
-		ec.Log().Debug(
+		z.Log().Debug(
 			"Token file loaded",
 			zap.String("file", tokensFile),
 		)
-		ec.tokens = &tokens
+		z.tokens = &tokens
 	}
 }
 
-func (ec *ExecContext) startup() error {
-	ec.setupLoggerConsole()
-	ec.UserInterface = app_ui.NewDefaultCUI()
+func (z *ExecContext) startup() error {
+	z.setupLoggerConsole()
+	z.loadMessages()
+	z.userInterface = app_ui.NewDefaultCUI()
 	return nil
 }
 
-func (ec *ExecContext) applyFlagWorkPath() error {
-	err := ec.setupWorkPath()
+func (z *ExecContext) loadMessages() {
+	z.messages = app_ui.NewUIMessageContainer(z.resources, z.userInterface, z.logger)
+	z.messages.Load()
+}
+
+func (z *ExecContext) applyFlagWorkPath() error {
+	err := z.setupWorkPath()
 	if err != nil {
 		return err
 	}
 
-	ec.setupLoggerFile()
+	z.setupLoggerFile()
 	return nil
 }
 
-func (ec *ExecContext) applyFlagAppKeys() error {
-	ec.loadAppKeysFileIfExists()
-	ec.loadTokensFileIfExists(ec.TokenFilePath)
+func (z *ExecContext) applyFlagAppKeys() error {
+	z.loadAppKeysFileIfExists()
+	z.loadTokensFileIfExists(z.TokenFilePath)
 	return nil
 }
 
-func (ec *ExecContext) applyFlagNetwork() error {
-	ec.SetupHttpProxy(ec.Proxy)
+func (z *ExecContext) applyFlagNetwork() error {
+	z.SetupHttpProxy(z.Proxy)
 	return nil
 }
 
-func (ec *ExecContext) ApplyFlags() error {
-	if err := ec.applyFlagWorkPath(); err != nil {
+func (z *ExecContext) ApplyFlags() error {
+	if err := z.applyFlagWorkPath(); err != nil {
 		return err
 	}
-	if err := ec.applyFlagAppKeys(); err != nil {
+	if err := z.applyFlagAppKeys(); err != nil {
 		return err
 	}
-	if err := ec.applyFlagNetwork(); err != nil {
+	if err := z.applyFlagNetwork(); err != nil {
 		return err
 	}
 
 	d := Diag{
-		ExecContext: ec,
+		ExecContext: z,
 	}
 	if err := d.Runtime(); err != nil {
 		return err
@@ -335,15 +359,15 @@ func (ec *ExecContext) ApplyFlags() error {
 	return nil
 }
 
-func (ec *ExecContext) Shutdown() {
-	ec.Log().Debug("Shutdown")
-	ec.Log().Sync()
+func (z *ExecContext) Shutdown() {
+	z.Log().Debug("Shutdown")
+	z.Log().Sync()
 }
 
-func (ec *ExecContext) DefaultWorkPath() string {
+func (z *ExecContext) DefaultWorkPath() string {
 	u, err := user.Current()
 	if err != nil {
-		ec.Log().Fatal(
+		z.Log().Fatal(
 			"Unable to determine current user",
 			zap.Error(err),
 		)
@@ -351,54 +375,54 @@ func (ec *ExecContext) DefaultWorkPath() string {
 	return filepath.Join(u.HomeDir, "."+AppName)
 }
 
-func (ec *ExecContext) PrepareFlags(flagset *flag.FlagSet) {
+func (z *ExecContext) PrepareFlags(flagset *flag.FlagSet) {
 	descProxy := "HTTP/HTTPS proxy (hostname:port)"
-	flagset.StringVar(&ec.Proxy, "proxy", "", descProxy)
+	flagset.StringVar(&z.Proxy, "proxy", "", descProxy)
 
-	descWork := fmt.Sprintf("Work directory (default: %s)", ec.DefaultWorkPath())
-	flagset.StringVar(&ec.WorkPath, "work", "", descWork)
+	descWork := fmt.Sprintf("Work directory (default: %s)", z.DefaultWorkPath())
+	flagset.StringVar(&z.WorkPath, "work", "", descWork)
 }
 
-func (ec *ExecContext) setupWorkPath() error {
-	if ec.WorkPath == "" {
-		ec.WorkPath = ec.DefaultWorkPath()
-		ec.Log().Debug("Setup using default work path",
-			zap.String("path", ec.WorkPath),
+func (z *ExecContext) setupWorkPath() error {
+	if z.WorkPath == "" {
+		z.WorkPath = z.DefaultWorkPath()
+		z.Log().Debug("Setup using default work path",
+			zap.String("path", z.WorkPath),
 		)
 	}
 
-	st, err := os.Stat(ec.WorkPath)
+	st, err := os.Stat(z.WorkPath)
 	if err != nil && os.IsNotExist(err) {
-		err = os.MkdirAll(ec.WorkPath, 0701)
+		err = os.MkdirAll(z.WorkPath, 0701)
 		if err == nil {
-			ec.Log().Info(
+			z.Log().Info(
 				"Work directory created",
-				zap.String("path", ec.WorkPath),
+				zap.String("path", z.WorkPath),
 			)
 		} else {
-			ec.Log().Fatal(
+			z.Log().Fatal(
 				"Unable to create work directory",
-				zap.String("path", ec.WorkPath),
+				zap.String("path", z.WorkPath),
 				zap.Error(err),
 			)
 			return err
 		}
 	} else if err != nil {
-		ec.Log().Fatal(
+		z.Log().Fatal(
 			"Unable to setup work directory",
-			zap.String("path", ec.WorkPath),
+			zap.String("path", z.WorkPath),
 			zap.Error(err),
 		)
 	} else if !st.IsDir() {
-		ec.Log().Fatal(
+		z.Log().Fatal(
 			"Unable to setup work directory. It's not a directory",
-			zap.String("path", ec.WorkPath),
+			zap.String("path", z.WorkPath),
 		)
 		return errors.New("unable to setup work directory")
 	} else if st.Mode()&0700 == 0 {
-		ec.Log().Fatal(
+		z.Log().Fatal(
 			"Unable to setup work directory. No permission to read/write work directory",
-			zap.String("path", ec.WorkPath),
+			zap.String("path", z.WorkPath),
 		)
 		return errors.New("unable to setup work directory")
 	}
@@ -406,11 +430,11 @@ func (ec *ExecContext) setupWorkPath() error {
 	return nil
 }
 
-func (ec *ExecContext) SetupHttpProxy(p string) {
+func (z *ExecContext) SetupHttpProxy(p string) {
 	if p != "" {
 		os.Setenv("HTTP_PROXY", p)
 		os.Setenv("HTTPS_PROXY", p)
-		ec.Log().Debug("Proxy configuration",
+		z.Log().Debug("Proxy configuration",
 			zap.String("HTTP_PROXY", p),
 			zap.String("HTTPS_PROXY", p),
 		)
@@ -419,39 +443,32 @@ func (ec *ExecContext) SetupHttpProxy(p string) {
 
 	detect := proxy.NewProvider("").GetHTTPSProxy("https://api.dropboxapi.com")
 	if detect == nil {
-		ec.Log().Debug("Proxy configuration",
-			zap.String("HTTP_PROXY", ""),
-			zap.String("HTTPS_PROXY", ""),
-		)
+		z.Log().Debug("No proxy detected. Use direct connection")
 		return
 	}
 
 	usr, usrSpecified := detect.Username()
-	ec.Log().Debug("Proxy configuration detected",
+	z.Log().Debug("Proxy configuration detected",
 		zap.String("host", detect.Host()),
 		zap.Uint16("port", detect.Port()),
 		zap.Bool("user_auth", usrSpecified),
 		zap.String("username", usr),
 	)
 	if usrSpecified {
-		ec.Log().Debug("Skip proxy auto detect config because Basic Auth Proxy config not supported")
-		ec.Log().Debug("Proxy configuration",
-			zap.String("HTTP_PROXY", ""),
-			zap.String("HTTPS_PROXY", ""),
-		)
+		z.Log().Debug("Skip proxy auto detect config because Basic Auth Proxy config not supported")
 		return
 	}
 
 	ap := fmt.Sprintf("%s:%d", detect.Host(), detect.Port())
 	os.Setenv("HTTP_PROXY", ap)
 	os.Setenv("HTTPS_PROXY", ap)
-	ec.Log().Debug("Proxy configuration",
+	z.Log().Debug("Proxy configuration (auto detect)",
 		zap.String("HTTP_PROXY", ap),
 		zap.String("HTTPS_PROXY", ap),
 	)
 }
 
-func (ec *ExecContext) consoleLoggerCore() zapcore.Core {
+func (z *ExecContext) consoleLoggerCore() zapcore.Core {
 	en := zapcore.EncoderConfig{
 		LevelKey:       "level",
 		MessageKey:     "msg",
@@ -470,17 +487,17 @@ func (ec *ExecContext) consoleLoggerCore() zapcore.Core {
 	)
 }
 
-func (ec *ExecContext) setupLoggerConsole() *zap.Logger {
-	if ec.logger == nil {
-		ec.logger = zap.New(ec.consoleLoggerCore())
+func (z *ExecContext) setupLoggerConsole() *zap.Logger {
+	if z.logger == nil {
+		z.logger = zap.New(z.consoleLoggerCore())
 	}
-	return ec.logger
+	return z.logger
 }
 
-func (ec *ExecContext) setupLoggerFile() {
-	logPath := filepath.Join(ec.WorkPath, AppName+".log")
-	if ec.logFilePath == logPath {
-		ec.Log().Debug("Skip setup logger file (path unchanged)",
+func (z *ExecContext) setupLoggerFile() {
+	logPath := filepath.Join(z.WorkPath, AppName+".log")
+	if z.logFilePath == logPath {
+		z.Log().Debug("Skip setup logger file (path unchanged)",
 			zap.String("path", logPath),
 		)
 		return
@@ -514,7 +531,7 @@ func (ec *ExecContext) setupLoggerFile() {
 	)
 
 	logger := zap.New(
-		zapcore.NewTee(zc, ec.consoleLoggerCore()),
+		zapcore.NewTee(zc, z.consoleLoggerCore()),
 	).WithOptions(zap.AddCaller())
 
 	logger.Info("logger started",
@@ -524,14 +541,14 @@ func (ec *ExecContext) setupLoggerFile() {
 		zap.String("logfile", logPath),
 	)
 
-	ec.logger = logger
-	ec.logFilePath = logPath
+	z.logger = logger
+	z.logFilePath = logPath
 
 }
 
-func (ec *ExecContext) Log() *zap.Logger {
-	if ec.logger == nil {
-		ec.setupLoggerConsole()
+func (z *ExecContext) Log() *zap.Logger {
+	if z.logger == nil {
+		z.setupLoggerConsole()
 	}
-	return ec.logger
+	return z.logger
 }

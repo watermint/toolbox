@@ -31,7 +31,7 @@ func CmdTestWithTimeout(t *testing.T, g Commandlet, args []string, timeout time.
 			return
 		}
 	}
-	ec := app.NewExecContext()
+	ec := app.NewExecContextForTest()
 	ec.TokenFilePath = tokensFilePath
 	if err := ec.ApplyFlags(); err != nil {
 		return
