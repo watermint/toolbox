@@ -1,27 +1,30 @@
-hash: ae0d1dd7f144ad9b09f5128e488a0f09c760ecfccc8fb8695d371232a5ccd633
-updated: 2019-02-19T17:41:40.616419+09:00
+hash: 527bf5decb645868dd25bf3173de6f0acaaaffbbc1fce3d56b21965fa9433ab3
+updated: 2019-02-26T16:02:02.660721+09:00
 imports:
 - name: github.com/daaku/go.zipexe
   version: a5fe2436ffcb3236e175e5149162b41cd28bd27d
 - name: github.com/GeertJohan/go.rice
-  version: c02ca9a983da5807ddf7d796784928f5be4afd09
+  version: 0af3f3b09a0a8b391f63ab52ba5ab50f84fabd30
   subpackages:
   - embedded
   - rice
 - name: github.com/golang/protobuf
-  version: 951a149f90371fb8858c6c979d03bb2583611052
+  version: c823c79ea1570fb5ff454033735a8e68575d1d0f
   subpackages:
   - proto
 - name: github.com/gorilla/mux
   version: a7962380ca08b5a188038c69871b8d3fbdf31e89
 - name: github.com/kardianos/osext
-  version: ae77be60afb1dcacde03767a8c37337fad28ac14
+  version: 2bc1f35cddc0cc527b4bc3dce8578fc2a6c11384
 - name: github.com/rapid7/go-get-proxied
   version: 16249a544090ff549b357cfc72bccf76fc5a8b8d
+  subpackages:
+  - proxy
+  - winhttp
 - name: github.com/tidwall/gjson
   version: eee0b6226f0d1db2675a176fdfaa8419bcad4ca8
 - name: github.com/tidwall/match
-  version: 1731857f09b1f38450e2c12409748407822dc6be
+  version: 33827db735fff6510490d69a8622612558a557ed
 - name: github.com/tidwall/pretty
   version: 65a9db5fad5105a89e17f38adcc9878685be6d78
 - name: go.uber.org/atomic
@@ -37,16 +40,20 @@ imports:
   - internal/exit
   - zapcore
 - name: golang.org/x/net
-  version: 03003ca0c849e57b6ea29a4bab8d3cb6e4d568fe
+  version: fe579d43d83210096a79b46dcca0e3721058393a
   subpackages:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: f42d05182288abf10faef86d16c0d07b8d40ea2d
+  version: 9b3c75971fc92dd27c6436a37c05c831498658f1
   subpackages:
   - internal
+- name: golang.org/x/sys
+  version: cc5685c2db1239775905f3911f0067c0fa74762f
+  subpackages:
+  - windows
 - name: golang.org/x/text
-  version: 6f44c5a2ea40ee3593d98cdcc905cc1fdaa660e2
+  version: d14c52b222ee852cdba8b07206ca0c614b389876
   subpackages:
   - encoding
   - encoding/internal
@@ -57,7 +64,7 @@ imports:
   - transform
   - unicode/norm
 - name: google.golang.org/appengine
-  version: 4a4468ece617fc8205e99368fa2200e9d1fad421
+  version: 54a98f90d1c46b7731eb8fb305d2a321c30ef610
   subpackages:
   - internal
   - internal/base
