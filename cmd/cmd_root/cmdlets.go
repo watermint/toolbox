@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/cmd/cmd_group"
 	"github.com/watermint/toolbox/cmd/cmd_member"
 	"github.com/watermint/toolbox/cmd/cmd_team"
-	"github.com/watermint/toolbox/cmd/cmd_web"
 	"os"
 )
 
@@ -23,7 +22,6 @@ func NewCommands() Commands {
 				cmd_team.NewCmdTeam(),
 				cmd_member.NewCmdMember(),
 				cmd_group.NewCmdGroup(),
-				cmd_web.NewCmdWeb(),
 			},
 		},
 	}

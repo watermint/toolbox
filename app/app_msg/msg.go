@@ -1,4 +1,4 @@
-package oper_msg
+package app_msg
 
 import (
 	"fmt"

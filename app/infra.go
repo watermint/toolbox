@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/rapid7/go-get-proxied/proxy"
+	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"go.uber.org/zap"
@@ -23,6 +24,7 @@ type ExecContext struct {
 	Proxy         string
 	WorkPath      string
 	TokenFilePath string
+	UserInterface app_ui.UI
 
 	tokens      *Tokens
 	logFilePath string
@@ -284,6 +286,7 @@ func (ec *ExecContext) loadTokensFileIfExists(tokensFilePath string) {
 
 func (ec *ExecContext) startup() error {
 	ec.setupLoggerConsole()
+	ec.UserInterface = app_ui.NewDefaultCUI()
 	return nil
 }
 
