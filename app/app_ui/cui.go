@@ -1,12 +1,20 @@
-package oper_cli
+package app_ui
 
 import (
 	"bufio"
 	"fmt"
-	"github.com/watermint/toolbox/poc/oper/oper_msg"
+	"github.com/watermint/toolbox/app/app_msg"
 	"io"
+	"os"
 	"strings"
 )
+
+func NewDefaultCUI() UI {
+	return &CUI{
+		Out: os.Stdout,
+		In:  os.Stdin,
+	}
+}
 
 type CUI struct {
 	Out io.Writer
@@ -37,48 +45,37 @@ func (z *CUI) YesNo() bool {
 	}
 }
 
-func (z *CUI) Tell(msg oper_msg.UIMessage) {
+func (z *CUI) Tell(msg app_msg.UIMessage) {
 	fmt.Fprintln(z.Out, msg.Text())
 }
 
-func (z *CUI) TellError(msg oper_msg.UIMessage) {
+func (z *CUI) TellError(msg app_msg.UIMessage) {
 	fmt.Fprint(z.Out, "ERR: ")
 	fmt.Fprintln(z.Out, msg.Text())
 }
 
-func (z *CUI) TellDone(msg oper_msg.UIMessage) {
+func (z *CUI) TellDone(msg app_msg.UIMessage) {
 	fmt.Fprint(z.Out, "DONE: ")
 	fmt.Fprintln(z.Out, msg.Text())
 }
 
-func (z *CUI) TellSuccess(msg oper_msg.UIMessage) {
+func (z *CUI) TellSuccess(msg app_msg.UIMessage) {
 	fmt.Fprint(z.Out, "SUCCESS: ")
 	fmt.Fprintln(z.Out, msg.Text())
 }
 
-func (z *CUI) TellFailure(msg oper_msg.UIMessage) {
+func (z *CUI) TellFailure(msg app_msg.UIMessage) {
 	fmt.Fprint(z.Out, "FAILURE: ")
 	fmt.Fprintln(z.Out, msg.Text())
 }
 
-func (z *CUI) TellProgress(msg oper_msg.UIMessage) {
-	fmt.Fprintln(z.Out, msg.Text())
-}
-
-func (z *CUI) AskRetry(msg oper_msg.UIMessage) bool {
+func (z *CUI) AskRetry(msg app_msg.UIMessage) bool {
 	fmt.Fprintln(z.Out, msg.Text())
 	fmt.Fprintln(z.Out, "Retry? (y/n)")
 	return z.YesNo()
 }
 
-func (z *CUI) AskWarn(msg oper_msg.UIMessage) bool {
-	fmt.Fprint(z.Out, "WARN: ")
-	fmt.Fprintln(z.Out, msg.Text())
-	fmt.Fprintln(z.Out, "Continue? (y/n)")
-	return z.YesNo()
-}
-
-func (z *CUI) AskText(msg oper_msg.UIMessage) string {
+func (z *CUI) AskText(msg app_msg.UIMessage) string {
 	fmt.Fprintln(z.Out, msg.Text())
 	br := bufio.NewReader(z.In)
 	for {
