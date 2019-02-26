@@ -1,4 +1,10 @@
 {
+  "app.common.name": "Toolbox (version {{.Version}})",
+  "app.common.license": "Licensed under MIT License. See https://github.com/watermint/toolbox for more detail",
+  "app.common.copyright": "Copyright © 2016-2019 Takayuki Okazaki",
+  "app.common.flag.proxy": "HTTP/HTTPS proxy (hostname:port)",
+  "app.common.flag.work": "Work directory (default: %s)",
+  "app.common.flag.quiet": "Quiet mode",
   "auth.basic.oauth_seq1": "1. Visit the URL for the auth dialog:\n\n{{.Url}}\n\n2. Click 'Allow' (you might have to login first):\n3. Copy the authorisation code:",
   "auth.basic.oauth_seq2": "Enter the authorisation code",
   "auth.basic.generated_token1": "1. Visit the MyApp page (you might have to login first):\n\nhttps://www.dropbox.com/developers/apps\n\n2. Proceed with \"Create App\"\n3. Choose \"{{.API}}\"\n4. Choose \"{{.TypeOfAccess}}\"\n5. Enter name of your app\n6. Proceed with \"Create App\"\n7. Hit \"Generate\" button near \"Generated access token\"\n8. Copy generated token\n",

@@ -65,6 +65,7 @@ type ExecContext struct {
 	Proxy         string
 	WorkPath      string
 	TokenFilePath string
+	Quiet         bool
 	userInterface app_ui.UI
 	resources     *rice.Box
 	tokens        *Tokens
@@ -304,8 +305,18 @@ func (z *ExecContext) loadTokensFileIfExists(tokensFilePath string) {
 
 func (z *ExecContext) startup() error {
 	z.setupLoggerConsole()
-	z.loadMessages()
 	z.userInterface = app_ui.NewDefaultCUI()
+	z.loadMessages()
+
+	if !z.Quiet {
+		z.Msg("app.common.name").WithData(struct {
+			Version string
+		}{
+			Version: AppVersion,
+		}).Tell()
+		z.Msg("app.common.license").Tell()
+	}
+
 	return nil
 }
 
@@ -375,12 +386,15 @@ func (z *ExecContext) DefaultWorkPath() string {
 	return filepath.Join(u.HomeDir, "."+AppName)
 }
 
-func (z *ExecContext) PrepareFlags(flagset *flag.FlagSet) {
-	descProxy := "HTTP/HTTPS proxy (hostname:port)"
-	flagset.StringVar(&z.Proxy, "proxy", "", descProxy)
+func (z *ExecContext) PrepareFlags(f *flag.FlagSet) {
+	descProxy := z.Msg("app.common.flag.proxy").Text()
+	f.StringVar(&z.Proxy, "proxy", "", descProxy)
 
-	descWork := fmt.Sprintf("Work directory (default: %s)", z.DefaultWorkPath())
-	flagset.StringVar(&z.WorkPath, "work", "", descWork)
+	descWork := z.Msg("app.common.flag.work").WithArg(z.DefaultWorkPath()).Text()
+	f.StringVar(&z.WorkPath, "work", "", descWork)
+
+	descQuiet := z.Msg("app.common.flag.quiet").Text()
+	f.BoolVar(&z.Quiet, "quiet", false, descQuiet)
 }
 
 func (z *ExecContext) setupWorkPath() error {
@@ -534,16 +548,14 @@ func (z *ExecContext) setupLoggerFile() {
 		zapcore.NewTee(zc, z.consoleLoggerCore()),
 	).WithOptions(zap.AddCaller())
 
-	logger.Info("logger started",
+	z.logger = logger
+	z.logFilePath = logPath
+	z.logger.Debug("logger started",
 		zap.String("app", AppName),
 		zap.String("version", AppVersion),
 		zap.String("revision", AppHash),
 		zap.String("logfile", logPath),
 	)
-
-	z.logger = logger
-	z.logFilePath = logPath
-
 }
 
 func (z *ExecContext) Log() *zap.Logger {
