@@ -64,14 +64,14 @@ func (z *UIMessageContainer) Load() {
 		return
 	}
 
-	baseAppMsgBytes, err := z.resources.Bytes("app/app.json")
+	baseAppMsgBytes, err := z.resources.Bytes("resources/app.json")
 	if err != nil {
-		z.logger.Error("unable to load base app msg `app/app.json`", zap.Error(err))
+		z.logger.Error("unable to load base app msg `resources/app.json`", zap.Error(err))
 	} else {
 		baseAppMsg := make(map[string]string)
 		err = json.Unmarshal(baseAppMsgBytes, &baseAppMsg)
 		if err != nil {
-			z.logger.Error("unable to unmarshal app msg `app/app.json`", zap.Error(err))
+			z.logger.Error("unable to unmarshal app msg `resources/app.json`", zap.Error(err))
 		} else {
 			z.baseMessages = NewMessageMap(baseAppMsg, z.userInterface, z.logger)
 		}
@@ -79,6 +79,9 @@ func (z *UIMessageContainer) Load() {
 }
 
 func (z *UIMessageContainer) Msg(key string) UIMessage {
+	if z.baseMessages == nil {
+		return NewAltMessage(key, z.userInterface)
+	}
 	if m, e := z.baseMessages[key]; e {
 		return m
 	}
@@ -197,19 +200,21 @@ func (z *Message) AskText() string {
 
 func (z *Message) WithData(d interface{}) UIMessage {
 	return &Message{
-		message:  z.message,
-		args:     z.args,
-		tmplData: d,
-		logger:   z.logger,
+		message:       z.message,
+		args:          z.args,
+		tmplData:      d,
+		logger:        z.logger,
+		userInterface: z.userInterface,
 	}
 }
 
 func (z *Message) WithArg(a ...interface{}) UIMessage {
 	return &Message{
-		message:  z.message,
-		args:     a,
-		tmplData: z.tmplData,
-		logger:   z.logger,
+		message:       z.message,
+		args:          a,
+		tmplData:      z.tmplData,
+		logger:        z.logger,
+		userInterface: z.userInterface,
 	}
 }
 
