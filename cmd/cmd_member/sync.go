@@ -49,7 +49,7 @@ func (z *CmdMemberSync) Exec(args []string) {
 	z.provision.Logger = z.Log()
 	err := z.provision.Load(args)
 	if err != nil {
-		z.PrintUsage(z)
+		z.PrintUsage(z.ExecContext, z)
 		return
 	}
 	apiMgmt, err := z.ExecContext.LoadOrAuthBusinessManagement()

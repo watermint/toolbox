@@ -38,7 +38,7 @@ func (z *CmdMemberRemove) Exec(args []string) {
 	z.provision.Logger = z.Log()
 	err := z.provision.Load(args)
 	if err != nil {
-		z.PrintUsage(z)
+		z.PrintUsage(z.ExecContext, z)
 		return
 	}
 
