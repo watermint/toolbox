@@ -3,6 +3,7 @@ package cmd_teamfolder
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_size"
 	"github.com/watermint/toolbox/report"
 )
@@ -40,7 +41,8 @@ func (z *CmdTeamTeamFolderSize) Exec(args []string) {
 	z.report.Init(z.Log())
 	defer z.report.Close()
 
-	apiFile, err := z.ExecContext.LoadOrAuthBusinessFile()
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
 		return
 	}

@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_group"
 	"github.com/watermint/toolbox/report"
 )
@@ -16,39 +17,40 @@ type CmdGroupMemberList struct {
 	report            report.Factory
 }
 
-func (c *CmdGroupMemberList) Name() string {
+func (z *CmdGroupMemberList) Name() string {
 	return "list"
 }
 
-func (c *CmdGroupMemberList) Desc() string {
+func (z *CmdGroupMemberList) Desc() string {
 	return "List group members"
 }
 
-func (c *CmdGroupMemberList) Usage() string {
+func (z *CmdGroupMemberList) Usage() string {
 	return ""
 }
 
-func (c *CmdGroupMemberList) FlagConfig(f *flag.FlagSet) {
-	c.report.FlagConfig(f)
+func (z *CmdGroupMemberList) FlagConfig(f *flag.FlagSet) {
+	z.report.FlagConfig(f)
 }
 
-func (c *CmdGroupMemberList) Exec(args []string) {
-	apiInfo, err := c.ExecContext.LoadOrAuthBusinessInfo()
+func (z *CmdGroupMemberList) Exec(args []string) {
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiInfo, err := au.Auth(dbx_auth.DropboxTokenBusinessInfo)
 	if err != nil {
 		return
 	}
 
-	c.report.Init(c.Log())
-	defer c.report.Close()
+	z.report.Init(z.Log())
+	defer z.report.Close()
 
 	gl := dbx_group.GroupList{
-		OnError: c.DefaultErrorHandler,
+		OnError: z.DefaultErrorHandler,
 		OnEntry: func(group *dbx_group.Group) bool {
 
 			gml := dbx_group.GroupMemberList{
-				OnError: c.DefaultErrorHandler,
+				OnError: z.DefaultErrorHandler,
 				OnEntry: func(gm *dbx_group.GroupMember) bool {
-					c.report.Report(gm)
+					z.report.Report(gm)
 					return true
 				},
 			}

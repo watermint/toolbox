@@ -5,6 +5,7 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_group"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"github.com/watermint/toolbox/model/dbx_namespace"
@@ -38,7 +39,8 @@ func (z *CmdTeamAuditSharing) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdTeamAuditSharing) Exec(args []string) {
-	apiFile, err := z.ExecContext.LoadOrAuthBusinessFile()
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
 		return
 	}

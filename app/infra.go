@@ -1,19 +1,15 @@
 package app
 
 import (
-	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
 	"github.com/GeertJohan/go.rice"
 	"github.com/rapid7/go-get-proxied/proxy"
 	"github.com/watermint/toolbox/app/app_ui"
-	"github.com/watermint/toolbox/model/dbx_api"
-	"github.com/watermint/toolbox/model/dbx_auth"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/user"
@@ -22,44 +18,10 @@ import (
 )
 
 var (
-	DropboxFullAppKey           string = ""
-	DropboxFullAppSecret        string = ""
-	BusinessInfoAppKey          string = ""
-	BusinessInfoAppSecret       string = ""
-	BusinessFileAppKey          string = ""
-	BusinessFileAppSecret       string = ""
-	BusinessManagementAppKey    string = ""
-	BusinessManagementAppSecret string = ""
-	BusinessAuditAppKey         string = ""
-	BusinessAuditAppSecret      string = ""
-)
-
-var (
 	AppName    string = "toolbox"
 	AppVersion string = "dev"
 	AppHash    string = ""
 )
-
-type AppKey struct {
-	DropboxFullAppKey           string `json:"DropboxFullAppKey,omitempty"`
-	DropboxFullAppSecret        string `json:"DropboxFullAppSecret,omitempty"`
-	BusinessInfoAppKey          string `json:"BusinessInfoAppKey,omitempty"`
-	BusinessInfoAppSecret       string `json:"BusinessInfoAppSecret,omitempty"`
-	BusinessFileAppKey          string `json:"BusinessFileAppKey,omitempty"`
-	BusinessFileAppSecret       string `json:"BusinessFileAppSecret,omitempty"`
-	BusinessManagementAppKey    string `json:"BusinessManagementAppKey,omitempty"`
-	BusinessManagementAppSecret string `json:"BusinessManagementAppSecret,omitempty"`
-	BusinessAuditAppKey         string `json:"BusinessAuditAppKey,omitempty"`
-	BusinessAuditAppSecret      string `json:"BusinessAuditAppSecret,omitempty"`
-}
-
-type Tokens struct {
-	DropboxFullToken        string `json:"DropboxFullToken,omitempty"`
-	BusinessInfoToken       string `json:"BusinessInfoToken,omitempty"`
-	BusinessFileToken       string `json:"BusinessFileToken,omitempty"`
-	BusinessManagementToken string `json:"BusinessManagementToken,omitempty"`
-	BusinessAuditToken      string `json:"BusinessAuditToken,omitempty"`
-}
 
 type ExecContext struct {
 	Proxy         string
@@ -68,7 +30,6 @@ type ExecContext struct {
 	Quiet         bool
 	userInterface app_ui.UI
 	resources     *rice.Box
-	tokens        *Tokens
 	logFilePath   string
 	logger        *zap.Logger
 	messages      *app_ui.UIMessageContainer
@@ -91,6 +52,14 @@ func (z *ExecContext) Msg(key string) app_ui.UIMessage {
 	return z.messages.Msg(key)
 }
 
+func (z *ExecContext) MessageContainer() *app_ui.UIMessageContainer {
+	return z.messages
+}
+
+func (z *ExecContext) ResourceBytes(path string) ([]byte, error) {
+	return z.resources.Bytes(path)
+}
+
 func (z *ExecContext) FileOnWorkPath(name string) string {
 	return filepath.Join(z.WorkPath, name)
 }
@@ -99,217 +68,10 @@ func (z *ExecContext) AuthFile() string {
 	return z.FileOnWorkPath(AppName + ".secret")
 }
 
-func (z *ExecContext) queueToken(a *dbx_auth.DropboxAuthenticator, business bool) (ac *dbx_api.Context, err error) {
-	token, err := a.LoadOrAuth(business)
-	if err != nil {
-		return nil, err
-	}
-
-	ac = dbx_api.NewContext(z.messages, token, z.Log().With(zap.String("token", a.TokenType)))
-
-	return
-}
-
-func (z *ExecContext) IsTokensAvailable() bool {
-	return z.tokens != nil
-}
-
-func (z *ExecContext) LoadOrAuthDropboxFull() (ac *dbx_api.Context, err error) {
-	if z.tokens != nil && z.tokens.DropboxFullToken != "" {
-		return dbx_api.NewContext(
-			z.messages,
-			z.tokens.DropboxFullToken,
-			z.Log().With(zap.String("token", dbx_auth.DropboxTokenFull)),
-		), nil
-	}
-	a := dbx_auth.NewDropboxAuthenticator(
-		z.AuthFile(),
-		DropboxFullAppKey,
-		DropboxFullAppSecret,
-		dbx_auth.DropboxTokenFull,
-		z.messages,
-		z.Log().With(zap.String("token", dbx_auth.DropboxTokenFull)),
-	)
-	return z.queueToken(a, false)
-}
-
-func (z *ExecContext) LoadOrAuthBusinessInfo() (ac *dbx_api.Context, err error) {
-	if z.tokens != nil && z.tokens.BusinessInfoToken != "" {
-		return dbx_api.NewContext(
-			z.messages,
-			z.tokens.BusinessInfoToken,
-			z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessInfo)),
-		), nil
-	}
-	a := dbx_auth.NewDropboxAuthenticator(
-		z.AuthFile(),
-		BusinessInfoAppKey,
-		BusinessInfoAppSecret,
-		dbx_auth.DropboxTokenBusinessInfo,
-		z.messages,
-		z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessInfo)),
-	)
-	return z.queueToken(a, true)
-}
-
-func (z *ExecContext) LoadOrAuthBusinessFile() (ac *dbx_api.Context, err error) {
-	if z.tokens != nil && z.tokens.BusinessFileToken != "" {
-		return dbx_api.NewContext(
-			z.messages,
-			z.tokens.BusinessFileToken,
-			z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessFile)),
-		), nil
-	}
-	a := dbx_auth.NewDropboxAuthenticator(
-		z.AuthFile(),
-		BusinessFileAppKey,
-		BusinessFileAppSecret,
-		dbx_auth.DropboxTokenBusinessFile,
-		z.messages,
-		z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessFile)),
-	)
-	return z.queueToken(a, true)
-}
-
-func (z *ExecContext) LoadOrAuthBusinessManagement() (ac *dbx_api.Context, err error) {
-	if z.tokens != nil && z.tokens.BusinessManagementToken != "" {
-		return dbx_api.NewContext(
-			z.messages,
-			z.tokens.BusinessManagementToken,
-			z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessManagement)),
-		), nil
-	}
-	a := dbx_auth.NewDropboxAuthenticator(
-		z.AuthFile(),
-		BusinessManagementAppKey,
-		BusinessManagementAppSecret,
-		dbx_auth.DropboxTokenBusinessManagement,
-		z.messages,
-		z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessManagement)),
-	)
-	return z.queueToken(a, true)
-}
-
-func (z *ExecContext) LoadOrAuthBusinessAudit() (ac *dbx_api.Context, err error) {
-	if z.tokens != nil && z.tokens.BusinessAuditToken != "" {
-		return dbx_api.NewContext(
-			z.messages,
-			z.tokens.BusinessAuditToken,
-			z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessAudit)),
-		), nil
-	}
-	a := dbx_auth.NewDropboxAuthenticator(
-		z.AuthFile(),
-		BusinessAuditAppKey,
-		BusinessAuditAppSecret,
-		dbx_auth.DropboxTokenBusinessAudit,
-		z.messages,
-		z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessAudit)),
-	)
-	return z.queueToken(a, true)
-}
-
-func (z *ExecContext) loadAppKeysFileIfExists() {
-	appKeysFile := AppName + ".appkey"
-	_, err := os.Stat(appKeysFile)
-	if os.IsNotExist(err) {
-		return
-	}
-
-	ak, err := ioutil.ReadFile(appKeysFile)
-	if err != nil {
-		z.Log().Debug(
-			"Unable to read app keys file",
-			zap.String("file", appKeysFile),
-			zap.Error(err),
-		)
-		return
-	}
-	keys := AppKey{}
-	err = json.Unmarshal(ak, &keys)
-	if err != nil {
-		z.Log().Debug(
-			"Unable to unmarshal app keys file",
-			zap.String("file", appKeysFile),
-			zap.Error(err),
-		)
-		return
-	}
-
-	if keys.DropboxFullAppKey != "" {
-		DropboxFullAppKey = keys.DropboxFullAppKey
-	}
-	if keys.DropboxFullAppSecret != "" {
-		DropboxFullAppSecret = keys.DropboxFullAppSecret
-	}
-	if keys.BusinessInfoAppKey != "" {
-		BusinessInfoAppKey = keys.BusinessInfoAppKey
-	}
-	if keys.BusinessInfoAppSecret != "" {
-		BusinessInfoAppSecret = keys.BusinessInfoAppSecret
-	}
-	if keys.BusinessFileAppKey != "" {
-		BusinessFileAppKey = keys.BusinessFileAppKey
-	}
-	if keys.BusinessFileAppSecret != "" {
-		BusinessFileAppSecret = keys.BusinessFileAppSecret
-	}
-	if keys.BusinessManagementAppKey != "" {
-		BusinessManagementAppKey = keys.BusinessManagementAppKey
-	}
-	if keys.BusinessManagementAppSecret != "" {
-		BusinessManagementAppSecret = keys.BusinessManagementAppSecret
-	}
-	if keys.BusinessAuditAppKey != "" {
-		BusinessAuditAppKey = keys.BusinessAuditAppKey
-	}
-	if keys.BusinessAuditAppSecret != "" {
-		BusinessAuditAppSecret = keys.BusinessAuditAppSecret
-	}
-}
-
-func (z *ExecContext) loadTokensFileIfExists(tokensFilePath string) {
-	tokensFile := filepath.Join(tokensFilePath, AppName+".tokens")
-	_, err := os.Stat(tokensFile)
-	if os.IsNotExist(err) {
-		return
-	}
-	ak, err := ioutil.ReadFile(tokensFile)
-	if err != nil {
-		z.Log().Debug(
-			"Unable to read tokens file",
-			zap.String("file", tokensFile),
-			zap.Error(err),
-		)
-		return
-	}
-	tokens := Tokens{}
-	err = json.Unmarshal(ak, &tokens)
-	if err != nil {
-		z.Log().Debug(
-			"Unable to unmarshal tokens file",
-			zap.String("file", tokensFile),
-			zap.Error(err),
-		)
-		return
-	}
-
-	if tokens.DropboxFullToken != "" &&
-		tokens.BusinessInfoToken != "" &&
-		tokens.BusinessManagementToken != "" &&
-		tokens.BusinessFileToken != "" &&
-		tokens.BusinessAuditToken != "" {
-
-		z.Log().Debug(
-			"Token file loaded",
-			zap.String("file", tokensFile),
-		)
-		z.tokens = &tokens
-	}
-}
-
 func (z *ExecContext) startup() error {
 	z.setupLoggerConsole()
+	z.setupWorkPath()
+	z.setupLoggerFile()
 	z.userInterface = app_ui.NewDefaultCUI()
 	z.loadMessages()
 
@@ -342,22 +104,15 @@ func (z *ExecContext) applyFlagWorkPath() error {
 	return nil
 }
 
-func (z *ExecContext) applyFlagAppKeys() error {
-	z.loadAppKeysFileIfExists()
-	z.loadTokensFileIfExists(z.TokenFilePath)
-	return nil
-}
-
 func (z *ExecContext) applyFlagNetwork() error {
 	z.SetupHttpProxy(z.Proxy)
 	return nil
 }
 
 func (z *ExecContext) ApplyFlags() error {
+	z.startup()
+
 	if err := z.applyFlagWorkPath(); err != nil {
-		return err
-	}
-	if err := z.applyFlagAppKeys(); err != nil {
 		return err
 	}
 	if err := z.applyFlagNetwork(); err != nil {
@@ -398,8 +153,8 @@ func (z *ExecContext) PrepareFlags(f *flag.FlagSet) {
 	descProxy := z.Msg("app.common.flag.proxy").Text()
 	f.StringVar(&z.Proxy, "proxy", "", descProxy)
 
-	descWork := z.Msg("app.common.flag.work").WithArg(z.DefaultWorkPath()).Text()
-	f.StringVar(&z.WorkPath, "work", "", descWork)
+	//descWork := z.Msg("app.common.flag.work").WithArg(z.DefaultWorkPath()).Text()
+	//f.StringVar(&z.WorkPath, "work", "", descWork)
 
 	descQuiet := z.Msg("app.common.flag.quiet").Text()
 	f.BoolVar(&z.Quiet, "quiet", false, descQuiet)

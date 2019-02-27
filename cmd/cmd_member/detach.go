@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"go.uber.org/zap"
 )
@@ -34,7 +35,8 @@ func (z *CmdMemberDetach) Exec(args []string) {
 		return
 	}
 
-	apiMgmt, err := z.ExecContext.LoadOrAuthBusinessManagement()
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiMgmt, err := au.Auth(dbx_auth.DropboxTokenBusinessManagement)
 	if err != nil {
 		return
 	}
