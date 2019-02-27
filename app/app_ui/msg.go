@@ -85,6 +85,7 @@ func (z *UIMessageContainer) Msg(key string) UIMessage {
 	if m, e := z.baseMessages[key]; e {
 		return m
 	}
+	z.logger.Error("resource not found for key", zap.String("key", key))
 	return NewAltMessage(key, z.userInterface)
 }
 

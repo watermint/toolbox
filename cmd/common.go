@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/app/app_util"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"go.uber.org/zap"
 	"strings"
@@ -29,7 +28,7 @@ type CommandletBase struct {
 	Commandlet
 }
 
-func (*CommandletBase) PrintUsage(clt Commandlet) {
+func (*CommandletBase) PrintUsage(ec *app.ExecContext, clt Commandlet) {
 	var c Commandlet
 	cmds := make([]string, 0)
 	c = clt
@@ -37,28 +36,25 @@ func (*CommandletBase) PrintUsage(clt Commandlet) {
 		cmds = append(cmds, c.Name())
 		c = c.Parent()
 	}
-	tmpl := clt.Usage()
-	if tmpl == "" {
-		tmpl = "{{.Command}} [Options]"
-	}
 
+	// reverse array
 	chainSize := len(cmds) - 1
 	for i := len(cmds)/2 - 1; i >= 0; i-- {
 		cmds[i], cmds[chainSize-i] = cmds[chainSize-i], cmds[i]
 	}
 	cmd := strings.Join(cmds, " ")
-
-	usage, tmplErr := app_util.CompileTemplate(tmpl,
-		struct {
-			Command string
-		}{
-			Command: cmd,
-		})
-	if tmplErr != nil {
-		panic(tmplErr)
+	p := struct {
+		Command string
+	}{
+		Command: cmd,
 	}
 
-	fmt.Printf("Usage:\n\n%s\n\n", usage)
+	ec.Msg("cmd.common.base.usage.head").Tell()
+	if clt.Usage() == "" {
+		ec.Msg("cmd.common.base.usage.default").WithData(p).Tell()
+	} else {
+		ec.Msg(clt.Usage()).WithData(p).Tell()
+	}
 }
 
 type SimpleCommandlet struct {
@@ -154,18 +150,14 @@ func (z *CommandletGroup) Log() *zap.Logger {
 }
 
 func (z *CommandletGroup) Usage() string {
-	u := `{{.Command}} COMMAND
-
-Available commmands:
-`
+	u := z.ExecContext.Msg("cmd.common.group.usage.head").Text()
 	for _, s := range z.SubCommands {
 		u += fmt.Sprintf("  %-10s %s\n", s.Name(), s.Desc())
 	}
+	u += "\n\n"
+	u += z.ExecContext.Msg("cmd.common.group.usage.tail").Text()
+	u += "\n"
 
-	u += `
-
-Run '{{.Command}} COMMAND help' for more information on a command.
-`
 	return u
 }
 
@@ -175,7 +167,7 @@ func (z *CommandletGroup) FlagConfig(f *flag.FlagSet) {
 
 func (z *CommandletGroup) Exec(args []string) {
 	if len(args) < 1 {
-		z.PrintUsage(z)
+		z.PrintUsage(z.ExecContext, z)
 		return
 	}
 
@@ -190,14 +182,14 @@ func (z *CommandletGroup) Exec(args []string) {
 		sc.FlagConfig(z.flags)
 		if err := z.flags.Parse(subArgs); err != nil {
 			z.Log().Error("Command ParseModel error", zap.Error(err))
-			z.PrintUsage(z)
+			z.PrintUsage(z.ExecContext, z)
 			return
 		}
 		remainders := z.flags.Args()
 		if len(remainders) > 0 && remainders[0] == "help" {
-			z.PrintUsage(sc)
+			z.PrintUsage(z.ExecContext, sc)
 
-			fmt.Println("Available options:")
+			z.ExecContext.Msg("cmd.common.group.usage.options").Tell()
 			z.flags.PrintDefaults()
 			return
 		}
@@ -218,7 +210,7 @@ func (z *CommandletGroup) Exec(args []string) {
 		ErrorType: dbx_api.ErrorBadInputParam,
 		Error:     err,
 	}
-	z.PrintUsage(z)
+	z.PrintUsage(z.ExecContext, z)
 	addError(ea)
 }
 
