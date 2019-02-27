@@ -22,6 +22,7 @@ type Commandlet interface {
 	Parent() Commandlet
 	Log() *zap.Logger
 	DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool
+	IsGroup() bool
 }
 
 type CommandletBase struct {
@@ -67,28 +68,32 @@ type SimpleCommandlet struct {
 	ExecContext *app.ExecContext
 }
 
-func (c *SimpleCommandlet) Parent() Commandlet {
-	return c.parent
+func (z *SimpleCommandlet) IsGroup() bool {
+	return false
 }
 
-func (c *SimpleCommandlet) Init(parent Commandlet) {
-	c.parent = parent
+func (z *SimpleCommandlet) Parent() Commandlet {
+	return z.parent
 }
 
-func (c *SimpleCommandlet) Setup(ec *app.ExecContext) {
-	c.ExecContext = ec
+func (z *SimpleCommandlet) Init(parent Commandlet) {
+	z.parent = parent
 }
 
-func (c *SimpleCommandlet) Log() *zap.Logger {
-	return c.ExecContext.Log()
+func (z *SimpleCommandlet) Setup(ec *app.ExecContext) {
+	z.ExecContext = ec
 }
 
-func (c *SimpleCommandlet) DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool {
+func (z *SimpleCommandlet) Log() *zap.Logger {
+	return z.ExecContext.Log()
+}
+
+func (z *SimpleCommandlet) DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool {
 	if ea.IsSuccess() {
 		return true
 	}
 
-	c.Log().Error("Default error handler caught an error",
+	z.Log().Error("Default error handler caught an error",
 		zap.String("error_type", ea.ErrorTypeLabel()),
 		zap.String("error_message", ea.UserMessage()),
 	)
@@ -97,12 +102,12 @@ func (c *SimpleCommandlet) DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool 
 	return false
 }
 
-func (c *SimpleCommandlet) DefaultErrorHandlerIgnoreError(ea dbx_api.ErrorAnnotation) bool {
+func (z *SimpleCommandlet) DefaultErrorHandlerIgnoreError(ea dbx_api.ErrorAnnotation) bool {
 	if ea.IsSuccess() {
 		return true
 	}
 
-	c.Log().Error("Default error handler caught an error",
+	z.Log().Error("Default error handler caught an error",
 		zap.String("error_type", ea.ErrorTypeLabel()),
 		zap.String("error_message", ea.UserMessage()),
 	)
@@ -112,7 +117,7 @@ func (c *SimpleCommandlet) DefaultErrorHandlerIgnoreError(ea dbx_api.ErrorAnnota
 
 type CommandletGroup struct {
 	*CommandletBase
-	flagset     *flag.FlagSet
+	flags       *flag.FlagSet
 	parent      Commandlet
 	logger      *zap.Logger
 	SubCommands []Commandlet
@@ -122,34 +127,38 @@ type CommandletGroup struct {
 	CommandDesc string
 }
 
-func (c *CommandletGroup) Name() string {
-	return c.CommandName
-}
-func (c *CommandletGroup) Desc() string {
-	return c.CommandDesc
-}
-func (c *CommandletGroup) Parent() Commandlet {
-	return c.parent
+func (z *CommandletGroup) IsGroup() bool {
+	return true
 }
 
-func (c *CommandletGroup) Init(parent Commandlet) {
-	c.parent = parent
+func (z *CommandletGroup) Name() string {
+	return z.CommandName
+}
+func (z *CommandletGroup) Desc() string {
+	return z.CommandDesc
+}
+func (z *CommandletGroup) Parent() Commandlet {
+	return z.parent
 }
 
-func (c *CommandletGroup) Setup(ec *app.ExecContext) {
-	c.ExecContext = ec
+func (z *CommandletGroup) Init(parent Commandlet) {
+	z.parent = parent
 }
 
-func (c *CommandletGroup) Log() *zap.Logger {
-	return c.ExecContext.Log()
+func (z *CommandletGroup) Setup(ec *app.ExecContext) {
+	z.ExecContext = ec
 }
 
-func (c *CommandletGroup) Usage() string {
+func (z *CommandletGroup) Log() *zap.Logger {
+	return z.ExecContext.Log()
+}
+
+func (z *CommandletGroup) Usage() string {
 	u := `{{.Command}} COMMAND
 
 Available commmands:
 `
-	for _, s := range c.SubCommands {
+	for _, s := range z.SubCommands {
 		u += fmt.Sprintf("  %-10s %s\n", s.Name(), s.Desc())
 	}
 
@@ -160,43 +169,47 @@ Run '{{.Command}} COMMAND help' for more information on a command.
 	return u
 }
 
-func (c *CommandletGroup) FlagConfig(f *flag.FlagSet) {
-	c.flagset = f
+func (z *CommandletGroup) FlagConfig(f *flag.FlagSet) {
+	z.flags = f
 }
 
-func (c *CommandletGroup) Exec(args []string) {
+func (z *CommandletGroup) Exec(args []string) {
 	if len(args) < 1 {
-		c.PrintUsage(c)
+		z.PrintUsage(z)
 		return
 	}
 
 	subCmd := args[0]
 	subArgs := args[1:]
 	subCmds := make(map[string]Commandlet)
-	for _, s := range c.SubCommands {
+	for _, s := range z.SubCommands {
 		subCmds[s.Name()] = s
 	}
 	if sc, ok := subCmds[subCmd]; ok {
-		sc.Init(c)
-		sc.FlagConfig(c.flagset)
-		if err := c.flagset.Parse(subArgs); err != nil {
-			c.Log().Error("Command ParseModel error", zap.Error(err))
-			c.PrintUsage(c)
+		sc.Init(z)
+		sc.FlagConfig(z.flags)
+		if err := z.flags.Parse(subArgs); err != nil {
+			z.Log().Error("Command ParseModel error", zap.Error(err))
+			z.PrintUsage(z)
 			return
 		}
-		remainders := c.flagset.Args()
+		remainders := z.flags.Args()
 		if len(remainders) > 0 && remainders[0] == "help" {
-			c.PrintUsage(sc)
+			z.PrintUsage(sc)
 
 			fmt.Println("Available options:")
-			c.flagset.PrintDefaults()
+			z.flags.PrintDefaults()
 			return
 		}
 
-		c.ExecContext.ApplyFlags()
-		defer c.ExecContext.Shutdown()
-		sc.Setup(c.ExecContext)
+		if !sc.IsGroup() {
+			z.ExecContext.ApplyFlags()
+		}
+		sc.Setup(z.ExecContext)
 		sc.Exec(remainders)
+		if !sc.IsGroup() {
+			z.ExecContext.Shutdown()
+		}
 		return
 	}
 
@@ -205,16 +218,16 @@ func (c *CommandletGroup) Exec(args []string) {
 		ErrorType: dbx_api.ErrorBadInputParam,
 		Error:     err,
 	}
-	c.PrintUsage(c)
+	z.PrintUsage(z)
 	addError(ea)
 }
 
-func (c *CommandletGroup) DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool {
+func (z *CommandletGroup) DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool {
 	if ea.IsSuccess() {
 		return true
 	}
 
-	c.Log().Error("Default error handler caught an error",
+	z.Log().Error("Default error handler caught an error",
 		zap.String("error_type", ea.ErrorTypeLabel()),
 		zap.String("error_message", ea.UserMessage()),
 	)
