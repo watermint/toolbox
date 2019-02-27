@@ -26,12 +26,6 @@ please specify sub command
 
 # Build
 
-## Credentials
-
-* Copy `credentials.sample` with name `credentials.secret`.
-* Update `ApiKey` and `ApiSecret` for your Application ID.
-* Build entire project using Dockerfile on top of the project.
-
 ## Build script
 
 ```bash
