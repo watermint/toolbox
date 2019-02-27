@@ -308,6 +308,10 @@ func (z *ExecContext) startup() error {
 	z.userInterface = app_ui.NewDefaultCUI()
 	z.loadMessages()
 
+	return nil
+}
+
+func (z *ExecContext) StartupMessage() {
 	if !z.Quiet {
 		z.Msg("app.common.name").WithData(struct {
 			Version string
@@ -316,8 +320,6 @@ func (z *ExecContext) startup() error {
 		}).Tell()
 		z.Msg("app.common.license").Tell()
 	}
-
-	return nil
 }
 
 func (z *ExecContext) loadMessages() {
@@ -366,6 +368,7 @@ func (z *ExecContext) ApplyFlags() error {
 	if err := d.Network(); err != nil {
 		return err
 	}
+	z.StartupMessage()
 
 	return nil
 }
