@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_util"
@@ -175,6 +176,10 @@ func (z *UIAuthenticator) wrapToken(tokenType, token string, err error) (*dbx_ap
 }
 
 func (z *UIAuthenticator) Auth(tokenType string) (*dbx_api.Context, error) {
+	if z.ec.IsTest() {
+		return nil, errors.New("test mode")
+	}
+
 	key, secret := z.appKeys(tokenType)
 	if key == "" || secret == "" {
 		t, err := z.authGenerated(tokenType)
