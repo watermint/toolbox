@@ -99,7 +99,7 @@ func (z *ExecContext) AuthFile() string {
 	return z.FileOnWorkPath(AppName + ".secret")
 }
 
-func (z *ExecContext) queueToken(a dbx_auth.DropboxAuthenticator, business bool) (ac *dbx_api.Context, err error) {
+func (z *ExecContext) queueToken(a *dbx_auth.DropboxAuthenticator, business bool) (ac *dbx_api.Context, err error) {
 	token, err := a.LoadOrAuth(business)
 	if err != nil {
 		return nil, err
@@ -122,13 +122,14 @@ func (z *ExecContext) LoadOrAuthDropboxFull() (ac *dbx_api.Context, err error) {
 			z.Log().With(zap.String("token", dbx_auth.DropboxTokenFull)),
 		), nil
 	}
-	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  z.AuthFile(),
-		AppKey:    DropboxFullAppKey,
-		AppSecret: DropboxFullAppSecret,
-		TokenType: dbx_auth.DropboxTokenFull,
-		Logger:    z.Log().With(zap.String("token", dbx_auth.DropboxTokenFull)),
-	}
+	a := dbx_auth.NewDropboxAuthenticator(
+		z.AuthFile(),
+		DropboxFullAppKey,
+		DropboxFullAppSecret,
+		dbx_auth.DropboxTokenFull,
+		z.messages,
+		z.Log().With(zap.String("token", dbx_auth.DropboxTokenFull)),
+	)
 	return z.queueToken(a, false)
 }
 
@@ -140,13 +141,14 @@ func (z *ExecContext) LoadOrAuthBusinessInfo() (ac *dbx_api.Context, err error) 
 			z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessInfo)),
 		), nil
 	}
-	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  z.AuthFile(),
-		AppKey:    BusinessInfoAppKey,
-		AppSecret: BusinessInfoAppSecret,
-		TokenType: dbx_auth.DropboxTokenBusinessInfo,
-		Logger:    z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessInfo)),
-	}
+	a := dbx_auth.NewDropboxAuthenticator(
+		z.AuthFile(),
+		BusinessInfoAppKey,
+		BusinessInfoAppSecret,
+		dbx_auth.DropboxTokenBusinessInfo,
+		z.messages,
+		z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessInfo)),
+	)
 	return z.queueToken(a, true)
 }
 
@@ -158,13 +160,14 @@ func (z *ExecContext) LoadOrAuthBusinessFile() (ac *dbx_api.Context, err error) 
 			z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessFile)),
 		), nil
 	}
-	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  z.AuthFile(),
-		AppKey:    BusinessFileAppKey,
-		AppSecret: BusinessFileAppSecret,
-		TokenType: dbx_auth.DropboxTokenBusinessFile,
-		Logger:    z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessFile)),
-	}
+	a := dbx_auth.NewDropboxAuthenticator(
+		z.AuthFile(),
+		BusinessFileAppKey,
+		BusinessFileAppSecret,
+		dbx_auth.DropboxTokenBusinessFile,
+		z.messages,
+		z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessFile)),
+	)
 	return z.queueToken(a, true)
 }
 
@@ -176,13 +179,14 @@ func (z *ExecContext) LoadOrAuthBusinessManagement() (ac *dbx_api.Context, err e
 			z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessManagement)),
 		), nil
 	}
-	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  z.AuthFile(),
-		AppKey:    BusinessManagementAppKey,
-		AppSecret: BusinessManagementAppSecret,
-		TokenType: dbx_auth.DropboxTokenBusinessManagement,
-		Logger:    z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessManagement)),
-	}
+	a := dbx_auth.NewDropboxAuthenticator(
+		z.AuthFile(),
+		BusinessManagementAppKey,
+		BusinessManagementAppSecret,
+		dbx_auth.DropboxTokenBusinessManagement,
+		z.messages,
+		z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessManagement)),
+	)
 	return z.queueToken(a, true)
 }
 
@@ -194,13 +198,14 @@ func (z *ExecContext) LoadOrAuthBusinessAudit() (ac *dbx_api.Context, err error)
 			z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessAudit)),
 		), nil
 	}
-	a := dbx_auth.DropboxAuthenticator{
-		AuthFile:  z.AuthFile(),
-		AppKey:    BusinessAuditAppKey,
-		AppSecret: BusinessAuditAppSecret,
-		TokenType: dbx_auth.DropboxTokenBusinessAudit,
-		Logger:    z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessAudit)),
-	}
+	a := dbx_auth.NewDropboxAuthenticator(
+		z.AuthFile(),
+		BusinessAuditAppKey,
+		BusinessAuditAppSecret,
+		dbx_auth.DropboxTokenBusinessAudit,
+		z.messages,
+		z.Log().With(zap.String("token", dbx_auth.DropboxTokenBusinessAudit)),
+	)
 	return z.queueToken(a, true)
 }
 
