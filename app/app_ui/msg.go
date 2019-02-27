@@ -64,14 +64,14 @@ func (z *UIMessageContainer) Load() {
 		return
 	}
 
-	baseAppMsgBytes, err := z.resources.Bytes("resources/app.json")
+	baseAppMsgBytes, err := z.resources.Bytes("messages.json")
 	if err != nil {
-		z.logger.Error("unable to load base app msg `resources/app.json`", zap.Error(err))
+		z.logger.Error("unable to load base app msg `messages.json`", zap.Error(err))
 	} else {
 		baseAppMsg := make(map[string]string)
 		err = json.Unmarshal(baseAppMsgBytes, &baseAppMsg)
 		if err != nil {
-			z.logger.Error("unable to unmarshal app msg `resources/app.json`", zap.Error(err))
+			z.logger.Error("unable to unmarshal app msg `messages.json`", zap.Error(err))
 		} else {
 			z.baseMessages = NewMessageMap(baseAppMsg, z.userInterface, z.logger)
 		}

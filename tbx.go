@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	bx := rice.MustFindBox("")
+	bx := rice.MustFindBox("resources")
 	ec := app.NewExecContext(bx)
 	cmds := cmd_root.NewCommands()
 	cmds.Exec(ec, os.Args)

@@ -3,6 +3,7 @@ package cmd_namespace
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_namespace"
 	"github.com/watermint/toolbox/report"
 )
@@ -24,25 +25,26 @@ func (CmdTeamNamespaceList) Usage() string {
 	return ""
 }
 
-func (c *CmdTeamNamespaceList) FlagConfig(f *flag.FlagSet) {
-	c.report.FlagConfig(f)
+func (z *CmdTeamNamespaceList) FlagConfig(f *flag.FlagSet) {
+	z.report.FlagConfig(f)
 }
 
-func (c *CmdTeamNamespaceList) Exec(args []string) {
-	apiInfo, err := c.ExecContext.LoadOrAuthBusinessFile()
+func (z *CmdTeamNamespaceList) Exec(args []string) {
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
 		return
 	}
 
-	c.report.Init(c.Log())
-	defer c.report.Close()
+	z.report.Init(z.Log())
+	defer z.report.Close()
 
 	l := dbx_namespace.NamespaceList{
-		OnError: c.DefaultErrorHandler,
+		OnError: z.DefaultErrorHandler,
 		OnEntry: func(namespace *dbx_namespace.Namespace) bool {
-			c.report.Report(namespace)
+			z.report.Report(namespace)
 			return true
 		},
 	}
-	l.List(apiInfo)
+	l.List(apiFile)
 }

@@ -2,13 +2,16 @@ package dbx_auth
 
 import (
 	"context"
+	"crypto/sha256"
 	"encoding/json"
-	"errors"
-	"github.com/watermint/toolbox/app/app_ui"
+	"fmt"
+	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_util"
+	"github.com/watermint/toolbox/model/dbx_api"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -23,67 +26,214 @@ const (
 	DropboxTokenBusinessManagement = "business_management"
 )
 
-func NewDropboxAuthenticator(
-	authFile string,
-	appKey string,
-	appSecret string,
-	tokenType string,
-	msg *app_ui.UIMessageContainer,
-	logger *zap.Logger,
-) *DropboxAuthenticator {
-	return &DropboxAuthenticator{
-		authFile:  authFile,
-		appKey:    appKey,
-		appSecret: appSecret,
-		TokenType: tokenType,
-		mc:        msg,
-		logger:    logger,
+func NewDefaultAuth(ec *app.ExecContext) Authenticator {
+	return NewAuth(ec, "default")
+}
+
+func NewAuth(ec *app.ExecContext, peerName string) Authenticator {
+	ua := &UIAuthenticator{
+		ec: ec,
+	}
+	ua.init()
+	ca := &CachedAuthenticator{
+		peerName: peerName,
+		ec:       ec,
+		auth:     ua,
+	}
+	ca.init()
+	return ca
+}
+
+func IsCacheAvailable(ec *app.ExecContext, peerName string) bool {
+	ca := &CachedAuthenticator{
+		peerName: peerName,
+		ec:       ec,
+	}
+	return ca.loadResource() != nil
+}
+
+type Authenticator interface {
+	Auth(tokenType string) (*dbx_api.Context, error)
+}
+
+type CachedAuthenticator struct {
+	peerName string
+	tokens   map[string]string
+	ec       *app.ExecContext
+	auth     Authenticator
+}
+
+func (z *CachedAuthenticator) init() {
+	z.tokens = make(map[string]string)
+
+	if z.loadFile() == nil {
+		return // return on success
+	}
+	if z.loadResource() == nil {
+		return // return on success
 	}
 }
 
-type DropboxAuthenticator struct {
-	authFile  string
-	appKey    string
-	appSecret string
-	TokenType string
-	mc        *app_ui.UIMessageContainer
-	logger    *zap.Logger
+func (z *CachedAuthenticator) cacheFile() string {
+	px := sha256.Sum224([]byte(z.peerName))
+	pn := fmt.Sprintf("%x.tokens", px)
+	return z.ec.FileOnWorkPath(pn)
 }
 
-func (d *DropboxAuthenticator) Log() *zap.Logger {
-	return d.logger
+func (z *CachedAuthenticator) loadFile() error {
+	tf := z.cacheFile()
+	_, err := os.Stat(tf)
+	if os.IsNotExist(err) {
+		z.ec.Log().Debug("token file not found", zap.String("path", tf))
+		return err
+	}
+	tb, err := ioutil.ReadFile(tf)
+	if err != nil {
+		z.ec.Log().Debug("unable to read tokens file", zap.String("path", tf), zap.Error(err))
+		return err
+	}
+	err = json.Unmarshal(tb, &z.tokens)
+	if err != nil {
+		z.ec.Log().Debug("unable to unmarshal tokens file", zap.Error(err))
+		return err
+	}
+	return nil
 }
 
-func (d *DropboxAuthenticator) generateTokenInstruction() {
+func (z *CachedAuthenticator) loadResource() error {
+	tb, err := z.ec.ResourceBytes(z.peerName + ".tokens")
+	if err != nil {
+		z.ec.Log().Debug("unable to load tokens file", zap.Error(err))
+		return err
+	}
+
+	err = json.Unmarshal(tb, &z.tokens)
+	if err != nil {
+		z.ec.Log().Debug("unable to unmarshal tokens file", zap.Error(err))
+		return err
+	}
+	return nil
+}
+
+func (z *CachedAuthenticator) updateCache(tokenType, token string) {
+	z.tokens[tokenType] = token
+	tb, err := json.Marshal(z.tokens)
+	if err != nil {
+		z.ec.Log().Debug("unable to marshal tokens", zap.Error(err))
+		return
+	}
+	tf := z.cacheFile()
+	err = ioutil.WriteFile(tf, tb, 0600)
+	if err != nil {
+		z.ec.Log().Debug("unable to write tokens into file", zap.Error(err))
+		return
+	}
+}
+
+func (z *CachedAuthenticator) Auth(tokenType string) (*dbx_api.Context, error) {
+	if t, e := z.tokens[tokenType]; e {
+		return dbx_api.NewContext(
+			z.ec,
+			tokenType,
+			t,
+		), nil
+	}
+
+	if t, err := z.auth.Auth(tokenType); err != nil {
+		return nil, err
+	} else {
+		z.updateCache(tokenType, t.Token)
+		return t, nil
+	}
+}
+
+type UIAuthenticator struct {
+	ec   *app.ExecContext
+	keys map[string]string
+}
+
+func (z *UIAuthenticator) appKeys(tokenType string) (key, secret string) {
+	var e bool
+	if key, e = z.keys[tokenType+".key"]; !e {
+		return "", ""
+	}
+	if secret, e = z.keys[tokenType+".secret"]; !e {
+		return "", ""
+	}
+	return
+}
+
+func (z *UIAuthenticator) wrapToken(tokenType, token string, err error) (*dbx_api.Context, error) {
+	if err != nil {
+		return nil, err
+	}
+	return dbx_api.NewContext(
+		z.ec,
+		tokenType,
+		token,
+	), nil
+}
+
+func (z *UIAuthenticator) Auth(tokenType string) (*dbx_api.Context, error) {
+	key, secret := z.appKeys(tokenType)
+	if key == "" || secret == "" {
+		t, err := z.authGenerated(tokenType)
+		return z.wrapToken(tokenType, t, err)
+	} else {
+		t, err := z.oauthStart(tokenType)
+		return z.wrapToken(tokenType, t, err)
+	}
+}
+
+func (z *UIAuthenticator) loadKeys() {
+	kb, err := z.ec.ResourceBytes("toolbox.appkeys")
+	if err != nil {
+		z.ec.Log().Debug("unable to load resource `toolbox.appkeys`", zap.Error(err))
+		return
+	}
+	err = json.Unmarshal(kb, &z.keys)
+	if err != nil {
+		z.ec.Log().Debug("unable to unmarshal resource `toolbox.appkeys`", zap.Error(err))
+		return
+	}
+}
+
+func (z *UIAuthenticator) init() {
+	z.keys = make(map[string]string)
+	z.loadKeys()
+}
+
+func (z *UIAuthenticator) generatedTokenInstruction(tokenType string) {
 	api := ""
 	toa := ""
 
-	if d.TokenType == DropboxTokenFull {
+	switch tokenType {
+	case DropboxTokenFull:
 		api = "Dropbox API"
 		toa = "Full Dropbox"
-	} else if d.TokenType == DropboxTokenApp {
+	case DropboxTokenApp:
 		api = "Dropbox API"
 		toa = "App folder"
-	} else if d.TokenType == DropboxTokenBusinessInfo {
+	case DropboxTokenBusinessInfo:
 		api = "Dropbox Business API"
 		toa = "Team information"
-	} else if d.TokenType == DropboxTokenBusinessAudit {
+	case DropboxTokenBusinessAudit:
 		api = "Dropbox Business API"
 		toa = "Team auditing"
-	} else if d.TokenType == DropboxTokenBusinessFile {
+	case DropboxTokenBusinessFile:
 		api = "Dropbox Business API"
 		toa = "Team member file access"
-	} else if d.TokenType == DropboxTokenBusinessManagement {
+	case DropboxTokenBusinessManagement:
 		api = "Dropbox Business API"
 		toa = "Team member management"
-	} else {
-		d.Log().Fatal(
+	default:
+		z.ec.Log().Fatal(
 			"Undefined token type",
-			zap.String("type", d.TokenType),
+			zap.String("type", tokenType),
 		)
 	}
 
-	d.mc.Msg("auth.basic.generated_token1").WithData(struct {
+	z.ec.Msg("auth.basic.generated_token1").WithData(struct {
 		API          string
 		TypeOfAccess string
 	}{
@@ -92,150 +242,10 @@ func (d *DropboxAuthenticator) generateTokenInstruction() {
 	}).Tell()
 }
 
-func (d *DropboxAuthenticator) TokenFileLoadMap() (map[string]string, error) {
-	log := d.Log().With(
-		zap.String("file", d.authFile),
-	)
-	log.Debug(
-		"Loading token from file",
-	)
-	f, err := ioutil.ReadFile(d.authFile)
-	if err != nil {
-		log.Debug(
-			"Unable to read file",
-			zap.Error(err),
-		)
-		return nil, err
-	}
-	m := make(map[string]string)
-	err = json.Unmarshal(f, &m)
-	if err != nil {
-		log.Debug(
-			"Unable to unmarshal file data",
-			zap.Error(err),
-		)
-		return nil, err
-	}
-	return m, nil
-}
-
-func (d *DropboxAuthenticator) TokenFileLoad() (string, error) {
-	m, err := d.TokenFileLoadMap()
-	if err != nil {
-		return "", err
-	}
-	if t, ok := m[d.appKey]; ok {
-		d.Log().Debug(
-			"Token for app key found in map",
-			zap.String("appKey", d.appKey),
-		)
-		return t, nil
-	}
-	if t, ok := m[d.TokenType]; ok {
-		d.Log().Debug(
-			"Token for token type dound in map",
-			zap.String("TokenType", d.TokenType),
-		)
-		return t, nil
-	}
-
-	d.Log().Debug(
-		"Token not found in loaded token map",
-		zap.String("appKey", d.appKey),
-	)
-	return "", errors.New("app key not found in loaded token map")
-}
-
-func (d *DropboxAuthenticator) TokenFileSave(token string) error {
-	log := d.Log().With(zap.String("file", d.authFile))
-	log.Info("Saving token to the file")
-
-	// TODO: check file exist or not
-	m, err := d.TokenFileLoadMap()
-	if err != nil {
-		m = make(map[string]string)
-	}
-
-	if d.appKey == "" {
-		// save as token type string
-		m[d.TokenType] = token
-	} else {
-		// overwrite token for appKey
-		m[d.appKey] = token
-	}
-
-	f, err := json.Marshal(m)
-	if err != nil {
-		log.Error(
-			"Unable to marshal auth tokens. Failed to save token to the file",
-			zap.Error(err),
-		)
-		return err
-	}
-
-	err = ioutil.WriteFile(d.authFile, f, 0600)
-
-	if err != nil {
-		log.Error(
-			"Unable to write authentication token to file",
-			zap.Error(err),
-		)
-		return err
-	}
-
-	return nil
-}
-
-func (d *DropboxAuthenticator) LoadOrAuth(business bool) (string, error) {
-	t, err := d.TokenFileLoad()
-	if err != nil {
-		return d.Authorise()
-	}
-
-	return t, nil
-}
-
-func (d *DropboxAuthenticator) Authorise() (string, error) {
-	if d.appKey == "" || d.appSecret == "" {
-		d.Log().Debug(
-			"No appKey/appSecret found. Try asking 'Generate Token'",
-		)
-		tok, err := d.acquireToken()
-		if err == nil {
-			d.TokenFileSave(tok)
-		}
-		return tok, err
-	} else {
-		log := d.Log().With(
-			zap.String("appKey", d.appKey),
-		)
-		log.Debug(
-			"Start auth sequence for appKey",
-		)
-		state, err := app_util.GenerateRandomString(8)
-		if err != nil {
-			log.Error("Unable to generate `state`",
-				zap.Error(err),
-			)
-			return "", err
-		}
-
-		tok, err := d.auth(state)
-		if err != nil {
-			log.Error("Authentication failed due to the error",
-				zap.Error(err),
-			)
-			return "", err
-		}
-		d.TokenFileSave(tok.AccessToken)
-		return tok.AccessToken, nil
-	}
-}
-
-func (d *DropboxAuthenticator) acquireToken() (string, error) {
-	d.generateTokenInstruction()
+func (z *UIAuthenticator) generatedToken(tokenType string) (string, error) {
+	z.generatedTokenInstruction(tokenType)
 	for {
-		code := d.mc.Msg("auth.basic.generated_token2").AskText()
+		code := z.ec.Msg("auth.basic.generated_token2").AskText()
 		trim := strings.TrimSpace(code)
 		if len(trim) > 0 {
 			return trim, nil
@@ -243,36 +253,66 @@ func (d *DropboxAuthenticator) acquireToken() (string, error) {
 	}
 }
 
-func (d *DropboxAuthenticator) authEndpoint() *oauth2.Endpoint {
+func (z *UIAuthenticator) authGenerated(tokenType string) (string, error) {
+	z.ec.Log().Debug(
+		"No appKey/appSecret found. Try asking 'Generate Token'",
+	)
+	tok, err := z.generatedToken(tokenType)
+	return tok, err
+}
+
+func (z *UIAuthenticator) oauthStart(tokenType string) (string, error) {
+	log := z.ec.Log()
+	log.Debug("Start OAuth sequence")
+	state, err := app_util.GenerateRandomString(8)
+	if err != nil {
+		log.Error("Unable to generate `state`",
+			zap.Error(err),
+		)
+		return "", err
+	}
+
+	tok, err := z.oauthAskCode(tokenType, state)
+	if err != nil {
+		log.Error("Authentication failed due to the error",
+			zap.Error(err),
+		)
+		return "", err
+	}
+	return tok.AccessToken, nil
+}
+
+func (z *UIAuthenticator) oauthEndpoint() *oauth2.Endpoint {
 	return &oauth2.Endpoint{
 		AuthURL:  "https://www.dropbox.com/oauth2/authorize",
 		TokenURL: "https://api.dropboxapi.com/oauth2/token",
 	}
 }
 
-func (d *DropboxAuthenticator) authConfig() *oauth2.Config {
+func (z *UIAuthenticator) oauthConfig(tokenType string) *oauth2.Config {
+	key, secret := z.appKeys(tokenType)
 	return &oauth2.Config{
-		ClientID:     d.appKey,
-		ClientSecret: d.appSecret,
+		ClientID:     key,
+		ClientSecret: secret,
 		Scopes:       []string{},
-		Endpoint:     *d.authEndpoint(),
+		Endpoint:     *z.oauthEndpoint(),
 	}
 }
 
-func (d *DropboxAuthenticator) authUrl(cfg *oauth2.Config, state string) string {
+func (z *UIAuthenticator) oauthUrl(cfg *oauth2.Config, state string) string {
 	return cfg.AuthCodeURL(
 		state,
 		oauth2.SetAuthURLParam("response_type", "code"),
 	)
 }
 
-func (d *DropboxAuthenticator) authExchange(cfg *oauth2.Config, code string) (*oauth2.Token, error) {
+func (z *UIAuthenticator) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.Token, error) {
 	return cfg.Exchange(context.Background(), code)
 }
 
-func (d *DropboxAuthenticator) codeDialogue(state string) string {
+func (z *UIAuthenticator) oauthCode(state string) string {
 	for {
-		code := d.mc.Msg("auth.basic.oauth_seq2").AskText()
+		code := z.ec.Msg("auth.basic.oauth_seq2").AskText()
 		trim := strings.TrimSpace(code)
 		if len(trim) > 0 {
 			return trim
@@ -280,17 +320,17 @@ func (d *DropboxAuthenticator) codeDialogue(state string) string {
 	}
 }
 
-func (d *DropboxAuthenticator) auth(state string) (*oauth2.Token, error) {
-	cfg := d.authConfig()
-	url := d.authUrl(cfg, state)
+func (z *UIAuthenticator) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
+	cfg := z.oauthConfig(tokenType)
+	url := z.oauthUrl(cfg, state)
 
-	d.mc.Msg("auth.basic.oauth_seq1").WithData(struct {
+	z.ec.Msg("auth.basic.oauth_seq1").WithData(struct {
 		Url string
 	}{
 		Url: url,
 	}).Tell()
 
-	code := d.codeDialogue(state)
+	code := z.oauthCode(state)
 
-	return d.authExchange(cfg, code)
+	return z.oauthExchange(cfg, code)
 }

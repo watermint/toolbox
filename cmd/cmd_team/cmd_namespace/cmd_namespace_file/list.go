@@ -3,6 +3,7 @@ package cmd_namespace_file
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_namespace"
 	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/report"
@@ -29,63 +30,64 @@ func (CmdTeamNamespaceFileList) Usage() string {
 	return ""
 }
 
-func (c *CmdTeamNamespaceFileList) FlagConfig(f *flag.FlagSet) {
-	c.report.FlagConfig(f)
+func (z *CmdTeamNamespaceFileList) FlagConfig(f *flag.FlagSet) {
+	z.report.FlagConfig(f)
 
 	descIncludeDeleted := "Include deleted folders/files"
-	f.BoolVar(&c.namespaceFile.OptIncludeDeleted, "include-deleted", false, descIncludeDeleted)
+	f.BoolVar(&z.namespaceFile.OptIncludeDeleted, "include-deleted", false, descIncludeDeleted)
 
 	descIncludeMediaInfo := "Include media info (metadata of photo and video)"
-	f.BoolVar(&c.namespaceFile.OptIncludeMediaInfo, "include-media-info", false, descIncludeMediaInfo)
+	f.BoolVar(&z.namespaceFile.OptIncludeMediaInfo, "include-media-info", false, descIncludeMediaInfo)
 
 	descIncludeTeamFolder := "Include team folders"
-	f.BoolVar(&c.namespaceFile.OptIncludeTeamFolder, "include-team-folder", true, descIncludeTeamFolder)
+	f.BoolVar(&z.namespaceFile.OptIncludeTeamFolder, "include-team-folder", true, descIncludeTeamFolder)
 
 	descIncludeSharedFolder := "Include shared folders"
-	f.BoolVar(&c.namespaceFile.OptIncludeSharedFolder, "include-shared-folder", true, descIncludeSharedFolder)
+	f.BoolVar(&z.namespaceFile.OptIncludeSharedFolder, "include-shared-folder", true, descIncludeSharedFolder)
 
 	descIncludeAppFolder := "Include app folders"
-	f.BoolVar(&c.namespaceFile.OptIncludeAppFolder, "include-app-folder", false, descIncludeAppFolder)
+	f.BoolVar(&z.namespaceFile.OptIncludeAppFolder, "include-app-folder", false, descIncludeAppFolder)
 
 	descIncludeMemberFolder := "Include team member folders"
-	f.BoolVar(&c.namespaceFile.OptIncludeMemberFolder, "include-member-folder", false, descIncludeMemberFolder)
+	f.BoolVar(&z.namespaceFile.OptIncludeMemberFolder, "include-member-folder", false, descIncludeMemberFolder)
 }
 
-func (c *CmdTeamNamespaceFileList) Exec(args []string) {
-	apiFile, err := c.ExecContext.LoadOrAuthBusinessFile()
+func (z *CmdTeamNamespaceFileList) Exec(args []string) {
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
 		return
 	}
 
 	admin, ea, _ := dbx_profile.AuthenticatedAdmin(apiFile)
 	if ea.IsFailure() {
-		c.DefaultErrorHandler(ea)
+		z.DefaultErrorHandler(ea)
 		return
 	}
-	c.report.Init(c.Log())
-	defer c.report.Close()
+	z.report.Init(z.Log())
+	defer z.report.Close()
 
-	c.namespaceFile.AsAdminId = admin.TeamMemberId
-	c.namespaceFile.OnError = c.DefaultErrorHandler
-	c.namespaceFile.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
-		c.Log().Info("Scanning folder",
+	z.namespaceFile.AsAdminId = admin.TeamMemberId
+	z.namespaceFile.OnError = z.DefaultErrorHandler
+	z.namespaceFile.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
+		z.Log().Info("Scanning folder",
 			zap.String("namespace_type", namespace.NamespaceType),
 			zap.String("namespace_id", namespace.NamespaceId),
 			zap.String("name", namespace.Name),
 		)
 		return true
 	}
-	c.namespaceFile.OnFolder = func(folder *dbx_namespace.NamespaceFolder) bool {
-		c.report.Report(folder)
+	z.namespaceFile.OnFolder = func(folder *dbx_namespace.NamespaceFolder) bool {
+		z.report.Report(folder)
 		return true
 	}
-	c.namespaceFile.OnFile = func(file *dbx_namespace.NamespaceFile) bool {
-		c.report.Report(file)
+	z.namespaceFile.OnFile = func(file *dbx_namespace.NamespaceFile) bool {
+		z.report.Report(file)
 		return true
 	}
-	c.namespaceFile.OnDelete = func(deleted *dbx_namespace.NamespaceDeleted) bool {
-		c.report.Report(deleted)
+	z.namespaceFile.OnDelete = func(deleted *dbx_namespace.NamespaceDeleted) bool {
+		z.report.Report(deleted)
 		return true
 	}
-	c.namespaceFile.List(apiFile)
+	z.namespaceFile.List(apiFile)
 }

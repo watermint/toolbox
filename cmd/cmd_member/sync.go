@@ -3,6 +3,7 @@ package cmd_member
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/report"
@@ -52,7 +53,8 @@ func (z *CmdMemberSync) Exec(args []string) {
 		z.PrintUsage(z.ExecContext, z)
 		return
 	}
-	apiMgmt, err := z.ExecContext.LoadOrAuthBusinessManagement()
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiMgmt, err := au.Auth(dbx_auth.DropboxTokenBusinessManagement)
 	if err != nil {
 		return
 	}

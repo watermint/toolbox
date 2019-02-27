@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_teamfolder"
 	"github.com/watermint/toolbox/report"
 )
@@ -27,25 +28,26 @@ func (CmdTeamTeamFolderList) Usage() string {
 	return ""
 }
 
-func (c *CmdTeamTeamFolderList) FlagConfig(f *flag.FlagSet) {
-	c.report.FlagConfig(f)
+func (z *CmdTeamTeamFolderList) FlagConfig(f *flag.FlagSet) {
+	z.report.FlagConfig(f)
 }
 
-func (c *CmdTeamTeamFolderList) Exec(args []string) {
-	apiInfo, err := c.ExecContext.LoadOrAuthBusinessFile()
+func (z *CmdTeamTeamFolderList) Exec(args []string) {
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
 		return
 	}
 
-	c.report.Init(c.Log())
-	defer c.report.Close()
+	z.report.Init(z.Log())
+	defer z.report.Close()
 
 	l := dbx_teamfolder.ListTeamFolder{
-		OnError: c.DefaultErrorHandler,
+		OnError: z.DefaultErrorHandler,
 		OnEntry: func(teamFolder *dbx_teamfolder.TeamFolder) bool {
-			c.report.Report(teamFolder)
+			z.report.Report(teamFolder)
 			return true
 		},
 	}
-	l.List(apiInfo)
+	l.List(apiFile)
 }

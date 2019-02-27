@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_team"
 	"github.com/watermint/toolbox/report"
 )
@@ -27,23 +28,24 @@ func (CmdTeamInfo) Usage() string {
 	return ""
 }
 
-func (c *CmdTeamInfo) FlagConfig(f *flag.FlagSet) {
-	c.report.FlagConfig(f)
+func (z *CmdTeamInfo) FlagConfig(f *flag.FlagSet) {
+	z.report.FlagConfig(f)
 }
 
-func (c *CmdTeamInfo) Exec(args []string) {
-	apiInfo, err := c.ExecContext.LoadOrAuthBusinessInfo()
+func (z *CmdTeamInfo) Exec(args []string) {
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiInfo, err := au.Auth(dbx_auth.DropboxTokenBusinessInfo)
 	if err != nil {
 		return
 	}
 
-	c.report.Init(c.Log())
-	defer c.report.Close()
+	z.report.Init(z.Log())
+	defer z.report.Close()
 
 	l := dbx_team.TeamInfoList{
-		OnError: c.DefaultErrorHandler,
+		OnError: z.DefaultErrorHandler,
 		OnEntry: func(info *dbx_team.TeamInfo) bool {
-			c.report.Report(info)
+			z.report.Report(info)
 			return true
 		},
 	}
