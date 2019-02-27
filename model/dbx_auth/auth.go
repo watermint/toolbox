@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
+	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/app/app_util"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
@@ -23,49 +23,38 @@ const (
 	DropboxTokenBusinessManagement = "business_management"
 )
 
-type DropboxAuthenticator struct {
-	AuthFile  string
-	AppKey    string
-	AppSecret string
-	TokenType string
-	Logger    *zap.Logger
+func NewDropboxAuthenticator(
+	authFile string,
+	appKey string,
+	appSecret string,
+	tokenType string,
+	msg *app_ui.UIMessageContainer,
+	logger *zap.Logger,
+) *DropboxAuthenticator {
+	return &DropboxAuthenticator{
+		authFile:  authFile,
+		appKey:    appKey,
+		appSecret: appSecret,
+		TokenType: tokenType,
+		mc:        msg,
+		logger:    logger,
+	}
 }
 
-const (
-	authPromptMessage1 = `=================================================
-1. Visit the URL for the auth dialog:
-
-%s
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-`
-	authPromptMessage2 = `
-Enter the authorisation code here: `
-
-	authGeneratedToken1Tmpl = `========================================================
-1. Visit the MyApp page (you mihgt have to login first):
-
-https://www.dropbox.com/developers/apps
-
-2. Proceed with "Create App"
-3. Choose "{{.API}}"
-4. Choose "{{.TypeOfAccess}}"
-5. Enter name of your app
-6. Proceed with "Create App"
-7. Hit "Generate" button near "Generated access token"
-8. Copy generated token:
-`
-	authGeneratedToken2 = `
-Enter the generated token here:
-`
-)
+type DropboxAuthenticator struct {
+	authFile  string
+	appKey    string
+	appSecret string
+	TokenType string
+	mc        *app_ui.UIMessageContainer
+	logger    *zap.Logger
+}
 
 func (d *DropboxAuthenticator) Log() *zap.Logger {
-	return d.Logger
+	return d.logger
 }
 
-func (d *DropboxAuthenticator) generateTokenInstruction() error {
+func (d *DropboxAuthenticator) generateTokenInstruction() {
 	api := ""
 	toa := ""
 
@@ -94,35 +83,23 @@ func (d *DropboxAuthenticator) generateTokenInstruction() error {
 		)
 	}
 
-	data := struct {
+	d.mc.Msg("auth.basic.generated_token1").WithData(struct {
 		API          string
 		TypeOfAccess string
 	}{
 		API:          api,
 		TypeOfAccess: toa,
-	}
-	instr, err := app_util.CompileTemplate(authGeneratedToken1Tmpl, data)
-	if err != nil {
-		d.Log().Fatal(
-			"Unable to compile template",
-			zap.String("tmpl", authGeneratedToken1Tmpl),
-			zap.Error(err),
-		)
-
-		return errors.New("unable to generate instruction")
-	}
-	fmt.Println(instr)
-	return nil
+	}).Tell()
 }
 
 func (d *DropboxAuthenticator) TokenFileLoadMap() (map[string]string, error) {
 	log := d.Log().With(
-		zap.String("file", d.AuthFile),
+		zap.String("file", d.authFile),
 	)
 	log.Debug(
 		"Loading token from file",
 	)
-	f, err := ioutil.ReadFile(d.AuthFile)
+	f, err := ioutil.ReadFile(d.authFile)
 	if err != nil {
 		log.Debug(
 			"Unable to read file",
@@ -147,30 +124,30 @@ func (d *DropboxAuthenticator) TokenFileLoad() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if t, ok := m[d.AppKey]; ok {
+	if t, ok := m[d.appKey]; ok {
 		d.Log().Debug(
 			"Token for app key found in map",
-			zap.String("appKey", d.AppKey),
+			zap.String("appKey", d.appKey),
 		)
 		return t, nil
 	}
 	if t, ok := m[d.TokenType]; ok {
 		d.Log().Debug(
 			"Token for token type dound in map",
-			zap.String("tokenType", d.TokenType),
+			zap.String("TokenType", d.TokenType),
 		)
 		return t, nil
 	}
 
 	d.Log().Debug(
 		"Token not found in loaded token map",
-		zap.String("appKey", d.AppKey),
+		zap.String("appKey", d.appKey),
 	)
 	return "", errors.New("app key not found in loaded token map")
 }
 
 func (d *DropboxAuthenticator) TokenFileSave(token string) error {
-	log := d.Log().With(zap.String("file", d.AuthFile))
+	log := d.Log().With(zap.String("file", d.authFile))
 	log.Info("Saving token to the file")
 
 	// TODO: check file exist or not
@@ -179,12 +156,12 @@ func (d *DropboxAuthenticator) TokenFileSave(token string) error {
 		m = make(map[string]string)
 	}
 
-	if d.AppKey == "" {
+	if d.appKey == "" {
 		// save as token type string
 		m[d.TokenType] = token
 	} else {
-		// overwrite token for AppKey
-		m[d.AppKey] = token
+		// overwrite token for appKey
+		m[d.appKey] = token
 	}
 
 	f, err := json.Marshal(m)
@@ -196,7 +173,7 @@ func (d *DropboxAuthenticator) TokenFileSave(token string) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(d.AuthFile, f, 0600)
+	err = ioutil.WriteFile(d.authFile, f, 0600)
 
 	if err != nil {
 		log.Error(
@@ -219,9 +196,9 @@ func (d *DropboxAuthenticator) LoadOrAuth(business bool) (string, error) {
 }
 
 func (d *DropboxAuthenticator) Authorise() (string, error) {
-	if d.AppKey == "" || d.AppSecret == "" {
+	if d.appKey == "" || d.appSecret == "" {
 		d.Log().Debug(
-			"No AppKey/AppSecret found. Try asking 'Generate Token'",
+			"No appKey/appSecret found. Try asking 'Generate Token'",
 		)
 		tok, err := d.acquireToken()
 		if err == nil {
@@ -230,10 +207,10 @@ func (d *DropboxAuthenticator) Authorise() (string, error) {
 		return tok, err
 	} else {
 		log := d.Log().With(
-			zap.String("appKey", d.AppKey),
+			zap.String("appKey", d.appKey),
 		)
 		log.Debug(
-			"Start auth sequence for AppKey",
+			"Start auth sequence for appKey",
 		)
 		state, err := app_util.GenerateRandomString(8)
 		if err != nil {
@@ -257,24 +234,12 @@ func (d *DropboxAuthenticator) Authorise() (string, error) {
 
 func (d *DropboxAuthenticator) acquireToken() (string, error) {
 	d.generateTokenInstruction()
-
-	var code string
-
 	for {
-		fmt.Println(authGeneratedToken2)
-		if _, err := fmt.Scan(&code); err != nil {
-			d.Log().Error(
-				"Input error (%s), try again.",
-				zap.Error(err),
-			)
-			continue
-		}
+		code := d.mc.Msg("auth.basic.generated_token2").AskText()
 		trim := strings.TrimSpace(code)
-		if len(trim) < 1 {
-			d.Log().Error("Input error, try again.")
-			continue
+		if len(trim) > 0 {
+			return trim, nil
 		}
-		return trim, nil
 	}
 }
 
@@ -287,8 +252,8 @@ func (d *DropboxAuthenticator) authEndpoint() *oauth2.Endpoint {
 
 func (d *DropboxAuthenticator) authConfig() *oauth2.Config {
 	return &oauth2.Config{
-		ClientID:     d.AppKey,
-		ClientSecret: d.AppSecret,
+		ClientID:     d.appKey,
+		ClientSecret: d.appSecret,
 		Scopes:       []string{},
 		Endpoint:     *d.authEndpoint(),
 	}
@@ -306,22 +271,24 @@ func (d *DropboxAuthenticator) authExchange(cfg *oauth2.Config, code string) (*o
 }
 
 func (d *DropboxAuthenticator) codeDialogue(state string) string {
-	var code string
-
-	fmt.Println(authPromptMessage2)
-
-	if _, err := fmt.Scan(&code); err != nil {
-		fmt.Errorf("%s\n", err)
-		return ""
+	for {
+		code := d.mc.Msg("auth.basic.oauth_seq2").AskText()
+		trim := strings.TrimSpace(code)
+		if len(trim) > 0 {
+			return trim
+		}
 	}
-	return code
 }
 
 func (d *DropboxAuthenticator) auth(state string) (*oauth2.Token, error) {
 	cfg := d.authConfig()
 	url := d.authUrl(cfg, state)
 
-	fmt.Printf(authPromptMessage1, url)
+	d.mc.Msg("auth.basic.oauth_seq1").WithData(struct {
+		Url string
+	}{
+		Url: url,
+	}).Tell()
 
 	code := d.codeDialogue(state)
 
