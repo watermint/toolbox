@@ -47,6 +47,7 @@ type UIMessageContainer struct {
 	baseMessages  map[string]UIMessage
 	userInterface UI
 	logger        *zap.Logger
+	isTest        bool
 }
 
 func NewUIMessageContainer(bx *rice.Box, ui UI, logger *zap.Logger) *UIMessageContainer {
@@ -61,6 +62,7 @@ func (z *UIMessageContainer) Load() {
 	z.baseMessages = make(map[string]UIMessage)
 	if z.resources == nil {
 		z.logger.Debug("no box found. skip loading messages.")
+		z.isTest = true
 		return
 	}
 
@@ -85,7 +87,9 @@ func (z *UIMessageContainer) Msg(key string) UIMessage {
 	if m, e := z.baseMessages[key]; e {
 		return m
 	}
-	z.logger.Error("resource not found for key", zap.String("key", key))
+	if !z.isTest {
+		z.logger.Error("resource not found for key", zap.String("key", key))
+	}
 	return NewAltMessage(key, z.userInterface)
 }
 
@@ -105,31 +109,33 @@ type AltMessage struct {
 
 func (z *AltMessage) WithArg(a ...interface{}) UIMessage {
 	return &AltMessage{
-		key:  z.key,
-		args: a,
+		key:           z.key,
+		args:          a,
+		userInterface: z.userInterface,
 	}
 }
 
 func (z *AltMessage) WithData(d interface{}) UIMessage {
 	return &AltMessage{
-		key:      z.key,
-		tmplData: d,
+		key:           z.key,
+		tmplData:      d,
+		userInterface: z.userInterface,
 	}
 }
 
 func (z *AltMessage) Text() string {
 	if z.tmplData != nil {
 		d, err := json.Marshal(z.tmplData)
-		if err != nil {
+		if err == nil {
 			return fmt.Sprintf("key:%s data:%s", z.key, string(d))
 		}
-		return fmt.Sprintf("key:%s data:invalid", z.key)
+		return fmt.Sprintf("key:%s data:%v", z.key, z.tmplData)
 	} else if z.args != nil && len(z.args) > 0 {
 		a, err := json.Marshal(z.args)
-		if err != nil {
+		if err == nil {
 			return fmt.Sprintf("key:%s args:%s", z.key, string(a))
 		}
-		return fmt.Sprintf("key:%s args:invalid", z.key)
+		return fmt.Sprintf("key:%s args:%v", z.key, a)
 	} else {
 		return fmt.Sprintf("key:%s", z.key)
 	}

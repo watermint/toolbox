@@ -19,7 +19,7 @@ import (
 
 var (
 	AppName    string = "toolbox"
-	AppVersion string = "dev"
+	AppVersion string = "`dev`"
 	AppHash    string = ""
 )
 
@@ -28,6 +28,7 @@ type ExecContext struct {
 	WorkPath      string
 	TokenFilePath string
 	Quiet         bool
+	isTest        bool
 	userInterface app_ui.UI
 	resources     *rice.Box
 	logFilePath   string
@@ -37,15 +38,21 @@ type ExecContext struct {
 
 func NewExecContextForTest() *ExecContext {
 	ec := &ExecContext{}
+	ec.isTest = true
 	ec.startup()
 	return ec
 }
 
 func NewExecContext(bx *rice.Box) *ExecContext {
 	ec := &ExecContext{}
+	ec.isTest = false
 	ec.resources = bx
 	ec.startup()
 	return ec
+}
+
+func (z *ExecContext) IsTest() bool {
+	return z.isTest
 }
 
 func (z *ExecContext) Msg(key string) app_ui.UIMessage {
@@ -57,6 +64,9 @@ func (z *ExecContext) MessageContainer() *app_ui.UIMessageContainer {
 }
 
 func (z *ExecContext) ResourceBytes(path string) ([]byte, error) {
+	if z.resources == nil {
+		return nil, errors.New("`resources` not found")
+	}
 	return z.resources.Bytes(path)
 }
 
@@ -72,8 +82,14 @@ func (z *ExecContext) startup() error {
 	z.setupLoggerConsole()
 	z.setupWorkPath()
 	z.setupLoggerFile()
+	z.logger.Debug("Startup:",
+		zap.String("app", AppName),
+		zap.String("version", AppVersion),
+		zap.String("revision", AppHash),
+	)
 	z.userInterface = app_ui.NewDefaultCUI()
 	z.loadMessages()
+	z.logger.Debug("Startup completed")
 
 	return nil
 }
@@ -110,8 +126,6 @@ func (z *ExecContext) applyFlagNetwork() error {
 }
 
 func (z *ExecContext) ApplyFlags() error {
-	z.startup()
-
 	if err := z.applyFlagWorkPath(); err != nil {
 		return err
 	}
@@ -313,12 +327,6 @@ func (z *ExecContext) setupLoggerFile() {
 
 	z.logger = logger
 	z.logFilePath = logPath
-	z.logger.Debug("logger started",
-		zap.String("app", AppName),
-		zap.String("version", AppVersion),
-		zap.String("revision", AppHash),
-		zap.String("logfile", logPath),
-	)
 }
 
 func (z *ExecContext) Log() *zap.Logger {
