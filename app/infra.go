@@ -24,16 +24,18 @@ var (
 )
 
 type ExecContext struct {
-	Proxy         string
-	WorkPath      string
-	TokenFilePath string
-	Quiet         bool
-	isTest        bool
-	userInterface app_ui.UI
-	resources     *rice.Box
-	logFilePath   string
-	logger        *zap.Logger
-	messages      *app_ui.UIMessageContainer
+	Proxy           string
+	WorkPath        string
+	TokenFilePath   string
+	Quiet           bool
+	isTest          bool
+	noCacheToken    bool
+	defaultPeerName string
+	userInterface   app_ui.UI
+	resources       *rice.Box
+	logFilePath     string
+	logger          *zap.Logger
+	messages        *app_ui.UIMessageContainer
 }
 
 func NewExecContextForTest() *ExecContext {
@@ -49,6 +51,14 @@ func NewExecContext(bx *rice.Box) *ExecContext {
 	ec.resources = bx
 	ec.startup()
 	return ec
+}
+
+func (z *ExecContext) NoCacheToken() bool {
+	return z.noCacheToken
+}
+
+func (z *ExecContext) DefaultPeerName() string {
+	return z.defaultPeerName
 }
 
 func (z *ExecContext) IsTest() bool {
@@ -79,6 +89,7 @@ func (z *ExecContext) AuthFile() string {
 }
 
 func (z *ExecContext) startup() error {
+	z.defaultPeerName = "default"
 	z.setupLoggerConsole()
 	z.setupWorkPath()
 	z.setupLoggerFile()
@@ -172,6 +183,12 @@ func (z *ExecContext) PrepareFlags(f *flag.FlagSet) {
 
 	descQuiet := z.Msg("app.common.flag.quiet").Text()
 	f.BoolVar(&z.Quiet, "quiet", false, descQuiet)
+
+	descAlias := z.Msg("app.common.flag.alias").Text()
+	f.StringVar(&z.defaultPeerName, "alias", "default", descAlias)
+
+	descSecure := z.Msg("app.common.flag.secure").Text()
+	f.BoolVar(&z.noCacheToken, "secure", false, descSecure)
 }
 
 func (z *ExecContext) setupWorkPath() error {
