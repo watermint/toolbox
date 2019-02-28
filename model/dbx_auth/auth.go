@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_util"
 	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_rpc"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"io/ioutil"
@@ -28,7 +29,7 @@ const (
 )
 
 func NewDefaultAuth(ec *app.ExecContext) Authenticator {
-	return NewAuth(ec, "default")
+	return NewAuth(ec, ec.DefaultPeerName())
 }
 
 func NewAuth(ec *app.ExecContext, peerName string) Authenticator {
@@ -117,6 +118,11 @@ func (z *CachedAuthenticator) loadResource() error {
 }
 
 func (z *CachedAuthenticator) updateCache(tokenType, token string) {
+	// Do not store tokens into file
+	if z.ec.NoCacheToken() {
+		return
+	}
+
 	z.tokens[tokenType] = token
 	tb, err := json.Marshal(z.tokens)
 	if err != nil {
@@ -164,8 +170,48 @@ func (z *UIAuthenticator) appKeys(tokenType string) (key, secret string) {
 	return
 }
 
+func (z *UIAuthenticator) verifyToken(tokenType, token string) error {
+	c := dbx_api.NewContext(
+		z.ec,
+		tokenType,
+		token,
+	)
+
+	switch tokenType {
+	case DropboxTokenFull,
+		DropboxTokenApp:
+
+		req := dbx_rpc.RpcRequest{
+			Endpoint: "users/get_current_account",
+		}
+		res, _, err := req.Call(c)
+		z.ec.Log().Debug("Verify token(users/get_current_account)", zap.Any("res", res), zap.Error(err))
+		return err
+
+	case DropboxTokenBusinessInfo,
+		DropboxTokenBusinessManagement,
+		DropboxTokenBusinessFile,
+		DropboxTokenBusinessAudit:
+
+		req := dbx_rpc.RpcRequest{
+			Endpoint: "team/get_info",
+		}
+		res, _, err := req.Call(c)
+		z.ec.Log().Debug("Verify token(team/get_info)", zap.Any("res", res), zap.Error(err))
+		return err
+
+	default:
+		return nil
+	}
+}
+
 func (z *UIAuthenticator) wrapToken(tokenType, token string, err error) (*dbx_api.Context, error) {
 	if err != nil {
+		return nil, err
+	}
+	err = z.verifyToken(tokenType, token)
+	if err != nil {
+		z.ec.Log().Error("Unable to verify token, or invalid token")
 		return nil, err
 	}
 	return dbx_api.NewContext(
