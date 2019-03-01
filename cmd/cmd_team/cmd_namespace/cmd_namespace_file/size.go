@@ -22,11 +22,12 @@ func (CmdTeamNamespaceFileSize) Desc() string {
 	return "cmd.team.namespace.file.size.desc"
 }
 
-func (CmdTeamNamespaceFileSize) Usage() string {
-	return ""
+func (CmdTeamNamespaceFileSize) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
 func (z *CmdTeamNamespaceFileSize) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
 	descIncludeTeamFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_team_folder").Text()

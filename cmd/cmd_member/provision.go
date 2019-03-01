@@ -5,6 +5,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_util"
+	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"go.uber.org/zap"
 	"io"
@@ -48,8 +49,10 @@ func (z *MembersProvision) FlagConfig(f *flag.FlagSet) {
 	f.StringVar(&z.optCsv, "csv", "", descCsv)
 }
 
-func (z *MembersProvision) Usage() string {
-	return "cmd.member.provision.usage"
+func (z *MembersProvision) Usage() func(cmd.CommandUsage) {
+	return func(u cmd.CommandUsage) {
+		z.ec.Msg("cmd.member.provision.usage").WithData(u).Tell()
+	}
 }
 
 func (z *MembersProvision) Load(args []string) error {

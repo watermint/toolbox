@@ -23,8 +23,8 @@ func (CmdTeamTeamFolderSize) Desc() string {
 	return "cmd.team.teamfolder.size.desc"
 }
 
-func (CmdTeamTeamFolderSize) Usage() string {
-	return ""
+func (CmdTeamTeamFolderSize) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
 func (z *CmdTeamTeamFolderSize) FlagConfig(f *flag.FlagSet) {

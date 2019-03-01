@@ -27,7 +27,7 @@ func (z *CmdMemberSync) Desc() string {
 	return "cmd.member.sync.desc"
 }
 
-func (z *CmdMemberSync) Usage() string {
+func (z *CmdMemberSync) Usage() func(cmd.CommandUsage) {
 	return z.provision.Usage()
 }
 

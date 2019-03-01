@@ -24,8 +24,8 @@ func (CmdTeamInfo) Desc() string {
 	return "cmd.team.info.desc"
 }
 
-func (CmdTeamInfo) Usage() string {
-	return ""
+func (CmdTeamInfo) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
 func (z *CmdTeamInfo) FlagConfig(f *flag.FlagSet) {

@@ -29,8 +29,8 @@ func (CmdTeamSharedLinkUpdateExpire) Desc() string {
 	return "cmd.team.sharedlink.update.expire.desc"
 }
 
-func (CmdTeamSharedLinkUpdateExpire) Usage() string {
-	return ""
+func (CmdTeamSharedLinkUpdateExpire) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
 func (z *CmdTeamSharedLinkUpdateExpire) FlagConfig(f *flag.FlagSet) {

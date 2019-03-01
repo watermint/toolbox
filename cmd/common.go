@@ -5,15 +5,20 @@ import (
 	"flag"
 	"fmt"
 	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"go.uber.org/zap"
 	"strings"
 )
 
+type CommandUsage struct {
+	Command string
+}
+
 type Commandlet interface {
 	Name() string
 	Desc() string
-	Usage() string
+	Usage() func(CommandUsage)
 	FlagConfig(f *flag.FlagSet)
 	Exec(args []string)
 	Init(parent Commandlet)
@@ -49,11 +54,11 @@ func (*CommandletBase) PrintUsage(ec *app.ExecContext, clt Commandlet) {
 		Command: cmd,
 	}
 
-	ec.Msg("cmd.common.base.usage.head").Tell()
-	if clt.Usage() == "" {
+	ec.Msg("cmd.common.base.usage.head").WithData(p).Tell()
+	if clt.Usage() == nil {
 		ec.Msg("cmd.common.base.usage.default").WithData(p).Tell()
 	} else {
-		ec.Msg(clt.Usage()).WithData(p).Tell()
+		clt.Usage()(p)
 	}
 }
 
@@ -149,16 +154,19 @@ func (z *CommandletGroup) Log() *zap.Logger {
 	return z.ExecContext.Log()
 }
 
-func (z *CommandletGroup) Usage() string {
-	u := z.ExecContext.Msg("cmd.common.group.usage.head").Text()
-	for _, s := range z.SubCommands {
-		u += fmt.Sprintf("  %-10s %s\n", s.Name(), z.ExecContext.Msg(s.Desc()).Text())
+func (z *CommandletGroup) Usage() func(CommandUsage) {
+	f := func(c CommandUsage) {
+		z.ExecContext.Msg("cmd.common.group.usage.head").WithData(c).Tell()
+		for _, s := range z.SubCommands {
+			t := fmt.Sprintf("  %-12s %s", s.Name(), z.ExecContext.Msg(s.Desc()).Text())
+			tm := app_ui.NewTextMessage(t, z.ExecContext.UI(), z.Log())
+			tm.Tell()
+		}
+		app_ui.NewTextMessage("\n\n", z.ExecContext.UI(), z.Log()).Tell()
+		z.ExecContext.Msg("cmd.common.group.usage.tail").WithData(c).Tell()
 	}
-	u += "\n\n"
-	u += z.ExecContext.Msg("cmd.common.group.usage.tail").Text()
-	u += "\n"
 
-	return u
+	return f
 }
 
 func (z *CommandletGroup) FlagConfig(f *flag.FlagSet) {

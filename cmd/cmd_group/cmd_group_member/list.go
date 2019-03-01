@@ -24,8 +24,8 @@ func (z *CmdGroupMemberList) Desc() string {
 	return "cmd.group.member.list.desc"
 }
 
-func (z *CmdGroupMemberList) Usage() string {
-	return ""
+func (z *CmdGroupMemberList) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
 func (z *CmdGroupMemberList) FlagConfig(f *flag.FlagSet) {

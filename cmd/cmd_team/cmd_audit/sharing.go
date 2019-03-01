@@ -31,6 +31,10 @@ func (CmdTeamAuditSharing) Desc() string {
 	return "cmd.team.audit.sharing.desc"
 }
 
+func (z *CmdTeamAuditSharing) Usage() func(usage cmd.CommandUsage) {
+	return nil
+}
+
 func (z *CmdTeamAuditSharing) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)

@@ -113,7 +113,7 @@
   "cmd.team.info.desc": "Team info",
   "cmd.team.desc": "Dropbox Business Team management",
   "report.common.flag.report_path": "Output file path of the report (default: STDOUT)",
-  "report.common.flag.report_format": "Output file for/**/mat (csv|json) (default: json)",
+  "report.common.flag.report_format": "Output file for/**/mat (csv|json)",
   "report.common.flag.use_bom": "Use BOM",
   "report.common.flag.with_header": "Report with header (for csv)"
 }
