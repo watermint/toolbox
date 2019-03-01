@@ -24,7 +24,7 @@ func (z *CmdMemberSync) Name() string {
 }
 
 func (z *CmdMemberSync) Desc() string {
-	return "Sync member information with provided csv"
+	return "cmd.member.sync.desc"
 }
 
 func (z *CmdMemberSync) Usage() string {
@@ -32,10 +32,12 @@ func (z *CmdMemberSync) Usage() string {
 }
 
 func (z *CmdMemberSync) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
+	z.provision.ec = z.ExecContext
 	z.provision.FlagConfig(f)
 
-	descSilent := "Silent provisioning"
+	descSilent := z.ExecContext.Msg("cmd.member.sync.flag.silent").Text()
 	f.BoolVar(&z.optSilent, "silent", false, descSilent)
 
 	// first release includes only invite/update
@@ -59,7 +61,7 @@ func (z *CmdMemberSync) Exec(args []string) {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	memberReport := MemberReport{
@@ -89,6 +91,19 @@ func (z *CmdMemberSync) Exec(args []string) {
 
 	for _, m := range z.provision.Members {
 		if em, ok := members[m.Email]; ok {
+			z.ExecContext.Msg("cmd.member.sync.flag.progress.update").WithData(struct {
+				TeamMemberId string
+				CurrentEmail string
+				NewEmail     string
+				GivenName    string
+				Surname      string
+			}{
+				TeamMemberId: em.Profile.TeamMemberId,
+				CurrentEmail: em.Profile.Email,
+				NewEmail:     m.Email,
+				GivenName:    m.GivenName,
+				Surname:      m.Surname,
+			})
 			z.Log().Info(
 				"Updating member",
 				zap.String("team_member_id", em.Profile.TeamMemberId),

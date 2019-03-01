@@ -20,7 +20,7 @@ func (CmdTeamTeamFolderSize) Name() string {
 }
 
 func (CmdTeamTeamFolderSize) Desc() string {
-	return "Calculate size of team folder"
+	return "cmd.team.teamfolder.size.desc"
 }
 
 func (CmdTeamTeamFolderSize) Usage() string {
@@ -28,17 +28,18 @@ func (CmdTeamTeamFolderSize) Usage() string {
 }
 
 func (z *CmdTeamTeamFolderSize) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descOptDepth := "Depth directories deep"
+	descOptDepth := z.ExecContext.Msg("cmd.team.teamfolder.size.flag.depth").Text()
 	f.IntVar(&z.optDepth, "depth", 2, descOptDepth)
 
-	descUseCached := "Use cached information, or create cache if not exist"
+	descUseCached := z.ExecContext.Msg("cmd.team.teamfolder.size.flag.cache").Text()
 	f.StringVar(&z.optCachePath, "cache", "", descUseCached)
 }
 
 func (z *CmdTeamTeamFolderSize) Exec(args []string) {
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	au := dbx_auth.NewDefaultAuth(z.ExecContext)
@@ -48,7 +49,7 @@ func (z *CmdTeamTeamFolderSize) Exec(args []string) {
 	}
 
 	nsz := &dbx_size.NamespaceSizes{}
-	nsz.Init(z.Log())
+	nsz.Init(z.ExecContext)
 	nsz.OptIncludeTeamFolder = true
 	nsz.OptIncludeSharedFolder = false
 	nsz.OptIncludeAppFolder = false

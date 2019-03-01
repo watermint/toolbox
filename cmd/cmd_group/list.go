@@ -9,41 +9,38 @@ import (
 	"github.com/watermint/toolbox/report"
 )
 
-type CmdGrouplist struct {
+type CmdGroupList struct {
 	*cmd.SimpleCommandlet
 
-	optIncludeRemoved bool
-	apiContext        *dbx_api.Context
-	report            report.Factory
+	apiContext *dbx_api.Context
+	report     report.Factory
 }
 
-func (z *CmdGrouplist) Name() string {
+func (z *CmdGroupList) Name() string {
 	return "list"
 }
 
-func (z *CmdGrouplist) Desc() string {
-	return "List groups"
+func (z *CmdGroupList) Desc() string {
+	return "cmd.group.list.desc"
 }
 
-func (z *CmdGrouplist) Usage() string {
+func (z *CmdGroupList) Usage() string {
 	return ""
 }
 
-func (z *CmdGrouplist) FlagConfig(f *flag.FlagSet) {
+func (z *CmdGroupList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
-
-	descCsv := "Include removed members"
-	f.BoolVar(&z.optIncludeRemoved, "include-removed", false, descCsv)
 }
 
-func (z *CmdGrouplist) Exec(args []string) {
+func (z *CmdGroupList) Exec(args []string) {
 	au := dbx_auth.NewDefaultAuth(z.ExecContext)
 	apiInfo, err := au.Auth(dbx_auth.DropboxTokenBusinessInfo)
 	if err != nil {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	gl := dbx_group.GroupList{

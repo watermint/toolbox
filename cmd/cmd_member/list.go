@@ -23,7 +23,7 @@ func (z *CmdMemberList) Name() string {
 }
 
 func (z *CmdMemberList) Desc() string {
-	return "List members"
+	return "cmd.member.list.desc"
 }
 
 func (CmdMemberList) Usage() string {
@@ -31,6 +31,7 @@ func (CmdMemberList) Usage() string {
 }
 
 func (z *CmdMemberList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
 	descCsv := "Include removed members"
@@ -44,7 +45,7 @@ func (z *CmdMemberList) Exec(args []string) {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	l := dbx_member.MembersList{

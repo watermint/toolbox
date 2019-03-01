@@ -23,7 +23,7 @@ func (CmdTeamNamespaceFileList) Name() string {
 }
 
 func (CmdTeamNamespaceFileList) Desc() string {
-	return "List files/folders in all namespaces of the team"
+	return "cmd.team.namespace.file.list.desc"
 }
 
 func (CmdTeamNamespaceFileList) Usage() string {
@@ -31,24 +31,25 @@ func (CmdTeamNamespaceFileList) Usage() string {
 }
 
 func (z *CmdTeamNamespaceFileList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descIncludeDeleted := "Include deleted folders/files"
+	descIncludeDeleted := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_deleted").Text()
 	f.BoolVar(&z.namespaceFile.OptIncludeDeleted, "include-deleted", false, descIncludeDeleted)
 
-	descIncludeMediaInfo := "Include media info (metadata of photo and video)"
+	descIncludeMediaInfo := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_media_info").Text()
 	f.BoolVar(&z.namespaceFile.OptIncludeMediaInfo, "include-media-info", false, descIncludeMediaInfo)
 
-	descIncludeTeamFolder := "Include team folders"
+	descIncludeTeamFolder := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_team_folder").Text()
 	f.BoolVar(&z.namespaceFile.OptIncludeTeamFolder, "include-team-folder", true, descIncludeTeamFolder)
 
-	descIncludeSharedFolder := "Include shared folders"
+	descIncludeSharedFolder := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_shared_folder").Text()
 	f.BoolVar(&z.namespaceFile.OptIncludeSharedFolder, "include-shared-folder", true, descIncludeSharedFolder)
 
-	descIncludeAppFolder := "Include app folders"
+	descIncludeAppFolder := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_app_folder").Text()
 	f.BoolVar(&z.namespaceFile.OptIncludeAppFolder, "include-app-folder", false, descIncludeAppFolder)
 
-	descIncludeMemberFolder := "Include team member folders"
+	descIncludeMemberFolder := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_member_folder").Text()
 	f.BoolVar(&z.namespaceFile.OptIncludeMemberFolder, "include-member-folder", false, descIncludeMemberFolder)
 }
 
@@ -64,12 +65,21 @@ func (z *CmdTeamNamespaceFileList) Exec(args []string) {
 		z.DefaultErrorHandler(ea)
 		return
 	}
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	z.namespaceFile.AsAdminId = admin.TeamMemberId
 	z.namespaceFile.OnError = z.DefaultErrorHandler
 	z.namespaceFile.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
+		z.ExecContext.Msg("cmd.team.namespace.file.list.progress.scan_folder").WithData(struct {
+			Type string
+			Id   string
+			Name string
+		}{
+			Type: namespace.NamespaceType,
+			Id:   namespace.NamespaceId,
+			Name: namespace.Name,
+		})
 		z.Log().Info("Scanning folder",
 			zap.String("namespace_type", namespace.NamespaceType),
 			zap.String("namespace_id", namespace.NamespaceId),

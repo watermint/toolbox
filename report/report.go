@@ -3,6 +3,7 @@ package report
 import (
 	"errors"
 	"flag"
+	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/report/report_csv"
 	"github.com/watermint/toolbox/report/report_json"
 	"go.uber.org/zap"
@@ -11,13 +12,13 @@ import (
 )
 
 type Report interface {
-	Init(logger *zap.Logger) error
+	Init(ec *app.ExecContext) error
 	Close()
 	Report(row interface{}) error
 }
 
 type Factory struct {
-	logger        *zap.Logger
+	ExecContext   *app.ExecContext
 	report        Report
 	DefaultWriter io.Writer
 	ReportHeader  bool
@@ -26,65 +27,64 @@ type Factory struct {
 	ReportFormat  string
 }
 
-func (y *Factory) FlagConfig(f *flag.FlagSet) {
-	descReportPath := "Output file path of the report (default: STDOUT)"
-	f.StringVar(&y.ReportPath, "report-path", "", descReportPath)
+func (z *Factory) FlagConfig(f *flag.FlagSet) {
+	descReportPath := z.ExecContext.Msg("report.common.flag.report_path").Text()
+	f.StringVar(&z.ReportPath, "report-path", "", descReportPath)
 
-	descReportFormat := "Output file for/**/mat (csv|json) (default: json)"
-	f.StringVar(&y.ReportFormat, "report-format", "json", descReportFormat)
+	descReportFormat := z.ExecContext.Msg("report.common.flag.report_format").Text()
+	f.StringVar(&z.ReportFormat, "report-format", "json", descReportFormat)
 
-	descUseBom := "Use BOM"
-	f.BoolVar(&y.ReportUseBom, "report-usebom", false, descUseBom)
+	descUseBom := z.ExecContext.Msg("report.common.flag.use_bom").Text()
+	f.BoolVar(&z.ReportUseBom, "report-usebom", false, descUseBom)
 
-	descReportHeader := "Report with header (for csv)"
-	f.BoolVar(&y.ReportHeader, "report-header", true, descReportHeader)
+	descReportHeader := z.ExecContext.Msg("report.common.flag.with_header").Text()
+	f.BoolVar(&z.ReportHeader, "report-header", true, descReportHeader)
 }
 
-func (y *Factory) Init(logger *zap.Logger) error {
-	if y.DefaultWriter == nil {
-		y.DefaultWriter = os.Stdout
+func (z *Factory) Init(ec *app.ExecContext) error {
+	if z.DefaultWriter == nil {
+		z.DefaultWriter = os.Stdout
 	}
 
-	y.logger = logger
-	switch y.ReportFormat {
+	switch z.ReportFormat {
 	case "csv":
-		y.report = &report_csv.CsvReport{
-			DefaultWriter: y.DefaultWriter,
-			ReportPath:    y.ReportPath,
-			ReportHeader:  y.ReportHeader,
-			ReportUseBom:  y.ReportUseBom,
+		z.report = &report_csv.CsvReport{
+			DefaultWriter: z.DefaultWriter,
+			ReportPath:    z.ReportPath,
+			ReportHeader:  z.ReportHeader,
+			ReportUseBom:  z.ReportUseBom,
 		}
-		return y.report.Init(y.logger)
+		return z.report.Init(ec)
 
 	case "json":
-		y.report = &report_json.JsonReport{
-			DefaultWriter: y.DefaultWriter,
-			ReportPath:    y.ReportPath,
+		z.report = &report_json.JsonReport{
+			DefaultWriter: z.DefaultWriter,
+			ReportPath:    z.ReportPath,
 		}
-		return y.report.Init(y.logger)
+		return z.report.Init(ec)
 
 	default:
-		y.logger.Error(
+		z.ExecContext.Log().Error(
 			"unsupported report format",
-			zap.String("specified_format", y.ReportFormat),
+			zap.String("specified_format", z.ReportFormat),
 		)
 		return errors.New("unsupported format")
 	}
 }
 
-func (y *Factory) Report(row interface{}) error {
-	if y.report == nil {
-		y.logger.Fatal("open report before write")
+func (z *Factory) Report(row interface{}) error {
+	if z.report == nil {
+		z.ExecContext.Log().Fatal("open report before write")
 		return errors.New("report was not opened")
 	}
 
-	return y.report.Report(row)
+	return z.report.Report(row)
 }
 
-func (y *Factory) Close() {
-	if y.report == nil {
-		y.logger.Debug("Report already closed")
+func (z *Factory) Close() {
+	if z.report == nil {
+		z.ExecContext.Log().Debug("Report already closed")
 		return
 	}
-	y.report.Close()
+	z.report.Close()
 }

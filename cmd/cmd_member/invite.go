@@ -21,7 +21,7 @@ func (z *CmdMemberInvite) Name() string {
 }
 
 func (z *CmdMemberInvite) Desc() string {
-	return "Invite members"
+	return "cmd.member.invite.desc"
 }
 
 func (z *CmdMemberInvite) Usage() string {
@@ -29,10 +29,12 @@ func (z *CmdMemberInvite) Usage() string {
 }
 
 func (z *CmdMemberInvite) FlagConfig(f *flag.FlagSet) {
-	descSilent := "Silent provisioning"
+	descSilent := z.ExecContext.Msg("cmd.member.invite.flag.silent").Text()
 	f.BoolVar(&z.optSilent, "silent", false, descSilent)
 
+	z.provision.ec = z.ExecContext
 	z.provision.FlagConfig(f)
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 }
 
@@ -50,7 +52,7 @@ func (z *CmdMemberInvite) Exec(args []string) {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	memberReport := MemberReport{
@@ -73,7 +75,8 @@ func (z *CmdMemberInvite) Exec(args []string) {
 		},
 	}
 	if !mi.Invite(apiMgmt, invites) {
-		z.Log().Warn("terminate operation due to error")
+		z.ExecContext.Msg("cmd.member.invite.failure_exit").TellError()
+		z.Log().Debug("terminate operation due to error")
 		// quit, in case of the error
 		return
 	}

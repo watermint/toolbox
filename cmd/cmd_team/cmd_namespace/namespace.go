@@ -9,7 +9,7 @@ import (
 func NewCmdTeamNamespace() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "namespace",
-		CommandDesc: "Team namespace management",
+		CommandDesc: "cmd.team.namespace.desc",
 		SubCommands: []cmd.Commandlet{
 			&CmdTeamNamespaceList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},

@@ -18,7 +18,7 @@ func (CmdTeamNamespaceList) Name() string {
 }
 
 func (CmdTeamNamespaceList) Desc() string {
-	return "List all namespaces of the team"
+	return "cmd.team.namespace.list.desc"
 }
 
 func (CmdTeamNamespaceList) Usage() string {
@@ -26,6 +26,7 @@ func (CmdTeamNamespaceList) Usage() string {
 }
 
 func (z *CmdTeamNamespaceList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 }
 
@@ -36,7 +37,7 @@ func (z *CmdTeamNamespaceList) Exec(args []string) {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	l := dbx_namespace.NamespaceList{

@@ -3,6 +3,7 @@ package cmd_member
 import (
 	"errors"
 	"flag"
+	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_util"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"go.uber.org/zap"
@@ -36,19 +37,19 @@ func (z *MemberProvision) UpdateMember() (email string, update *dbx_member.Updat
 }
 
 type MembersProvision struct {
+	ec      *app.ExecContext
 	optCsv  string
 	Members []*MemberProvision
 	Logger  *zap.Logger
 }
 
 func (z *MembersProvision) FlagConfig(f *flag.FlagSet) {
-	descCsv := "CSV file name"
+	descCsv := z.ec.Msg("cmd.member.provision.flag.csv").Text()
 	f.StringVar(&z.optCsv, "csv", "", descCsv)
 }
 
 func (z *MembersProvision) Usage() string {
-	return `{{.Command}} -csv MEMBER_FILENAME
-{{.Command}} member_email...`
+	return "cmd.member.provision.usage"
 }
 
 func (z *MembersProvision) Load(args []string) error {
@@ -58,7 +59,8 @@ func (z *MembersProvision) Load(args []string) error {
 	if len(args) > 0 {
 		return z.loadArgs(args)
 	}
-	z.Logger.Error("Please specify input csv, or specify email addresses")
+	z.ec.Msg("cmd.member.provision.err.nodata").TellError()
+	z.Logger.Warn("no csv or argument provided")
 	return errors.New("please specify member data")
 }
 
@@ -75,6 +77,11 @@ func (z *MembersProvision) loadArgs(args []string) error {
 func (z *MembersProvision) loadCsv(filePath string) error {
 	f, err := os.Open(filePath)
 	if err != nil {
+		z.ec.Msg("cmd.member.provision.err.open_file").WithData(struct {
+			File string
+		}{
+			File: filePath,
+		}).TellError()
 		z.Logger.Warn(
 			"Unable to open file",
 			zap.String("file", filePath),
@@ -91,6 +98,11 @@ func (z *MembersProvision) loadCsv(filePath string) error {
 			break
 		}
 		if err != nil {
+			z.ec.Msg("cmd.member.provision.err.cant_read").WithData(struct {
+				File string
+			}{
+				File: filePath,
+			}).TellError()
 			z.Logger.Warn(
 				"Unable to read CSV file",
 				zap.String("file", filePath),
@@ -99,6 +111,7 @@ func (z *MembersProvision) loadCsv(filePath string) error {
 			return err
 		}
 		if len(cols) < 1 {
+			z.ec.Msg("cmd.member.provision.err.no_row").Tell()
 			z.Logger.Warn("No column found in the row. Skip")
 			continue
 		}

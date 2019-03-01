@@ -23,6 +23,10 @@ var (
 	AppHash    string = ""
 )
 
+const (
+	DefaultPeerName = "default"
+)
+
 type ExecContext struct {
 	Proxy           string
 	WorkPath        string
@@ -89,7 +93,7 @@ func (z *ExecContext) AuthFile() string {
 }
 
 func (z *ExecContext) startup() error {
-	z.defaultPeerName = "default"
+	z.defaultPeerName = DefaultPeerName
 	z.setupLoggerConsole()
 	z.setupWorkPath()
 	z.setupLoggerFile()
@@ -185,7 +189,7 @@ func (z *ExecContext) PrepareFlags(f *flag.FlagSet) {
 	f.BoolVar(&z.Quiet, "quiet", false, descQuiet)
 
 	descAlias := z.Msg("app.common.flag.alias").Text()
-	f.StringVar(&z.defaultPeerName, "alias", "default", descAlias)
+	f.StringVar(&z.defaultPeerName, "alias", DefaultPeerName, descAlias)
 
 	descSecure := z.Msg("app.common.flag.secure").Text()
 	f.BoolVar(&z.noCacheToken, "secure", false, descSecure)

@@ -20,7 +20,7 @@ func (CmdMemberRemove) Name() string {
 	return "remove"
 }
 func (CmdMemberRemove) Desc() string {
-	return "Remove the member from the team"
+	return "cmd.member.remove.desc"
 }
 func (z *CmdMemberRemove) Usage() string {
 	return z.provision.Usage()
@@ -28,10 +28,10 @@ func (z *CmdMemberRemove) Usage() string {
 func (z *CmdMemberRemove) FlagConfig(f *flag.FlagSet) {
 	z.provision.FlagConfig(f)
 
-	descKeepAccount := "Convert account into Dropbox Basic"
+	descKeepAccount := z.ExecContext.Msg("cmd.member.remove.flag.keep_account").Text()
 	f.BoolVar(&z.optKeepAccount, "keep-account", false, descKeepAccount)
 
-	descWipeData := "Wipe data"
+	descWipeData := z.ExecContext.Msg("cmd.member.remove.flag.wipe_data").Text()
 	f.BoolVar(&z.optWipeData, "wipe-data", true, descWipeData)
 }
 
@@ -52,7 +52,14 @@ func (z *CmdMemberRemove) Exec(args []string) {
 	rm := dbx_member.MemberRemove{
 		OnError: z.DefaultErrorHandler,
 		OnFailure: func(email string, reason dbx_api.ApiError) bool {
-			z.Log().Error(
+			z.ExecContext.Msg("cmd.member.remove.failure").WithData(struct {
+				Email  string
+				Reason string
+			}{
+				Email:  email,
+				Reason: reason.ErrorTag,
+			}).TellError()
+			z.Log().Warn(
 				"Unable to remove user",
 				zap.String("email", email),
 				zap.String("reason", reason.ErrorTag),
@@ -60,11 +67,22 @@ func (z *CmdMemberRemove) Exec(args []string) {
 			return true
 		},
 		OnSuccess: func(email string) bool {
+			z.ExecContext.Msg("cmd.member.remove.success").WithData(struct {
+				Email string
+			}{
+				Email: email,
+			})
 			z.Log().Info("User removed", zap.String("email", email))
 			return true
 		},
 	}
 	for _, m := range z.provision.Members {
+		z.ExecContext.Msg("cmd.member.remove.progress").WithData(struct {
+			Email string
+		}{
+			Email: m.Email,
+		}).Tell()
+
 		z.Log().Info("Removing account", zap.String("email", m.Email))
 		rm.Remove(apiMgmt, m.Email, z.optWipeData, z.optKeepAccount)
 	}
