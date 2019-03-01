@@ -21,7 +21,7 @@ func (CmdTeamTeamFolderList) Name() string {
 }
 
 func (CmdTeamTeamFolderList) Desc() string {
-	return "List all team folder of the team"
+	return "cmd.team.teamfolder.list.desc"
 }
 
 func (CmdTeamTeamFolderList) Usage() string {
@@ -29,6 +29,7 @@ func (CmdTeamTeamFolderList) Usage() string {
 }
 
 func (z *CmdTeamTeamFolderList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 }
 
@@ -39,7 +40,7 @@ func (z *CmdTeamTeamFolderList) Exec(args []string) {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	l := dbx_teamfolder.ListTeamFolder{

@@ -26,7 +26,7 @@ func (CmdTeamSharedLinkUpdateExpire) Name() string {
 }
 
 func (CmdTeamSharedLinkUpdateExpire) Desc() string {
-	return "Update all shared link expire date of team members' accounts"
+	return "cmd.team.sharedlink.update.expire.desc"
 }
 
 func (CmdTeamSharedLinkUpdateExpire) Usage() string {
@@ -34,15 +34,17 @@ func (CmdTeamSharedLinkUpdateExpire) Usage() string {
 }
 
 func (z *CmdTeamSharedLinkUpdateExpire) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 	z.filter.FlagConfig(f)
 
-	descDays := "Update and overwrite expiration date"
+	descDays := z.ExecContext.Msg("cmd.team.sharedlink.update.expire.flag.days").Text()
 	f.IntVar(&z.optDays, "days", 0, descDays)
 }
 
 func (z *CmdTeamSharedLinkUpdateExpire) Exec(args []string) {
 	if z.optDays < 1 {
+		z.ExecContext.Msg("cmd.team.sharedlink.update.expire.err.days_required").TellError()
 		z.Log().Error("Please specify expiration date")
 		return
 	}
@@ -52,7 +54,7 @@ func (z *CmdTeamSharedLinkUpdateExpire) Exec(args []string) {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	type UpdateReport struct {

@@ -21,7 +21,7 @@ func (CmdTeamInfo) Name() string {
 }
 
 func (CmdTeamInfo) Desc() string {
-	return "Team info"
+	return "cmd.team.info.desc"
 }
 
 func (CmdTeamInfo) Usage() string {
@@ -29,6 +29,7 @@ func (CmdTeamInfo) Usage() string {
 }
 
 func (z *CmdTeamInfo) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 }
 
@@ -39,7 +40,7 @@ func (z *CmdTeamInfo) Exec(args []string) {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	l := dbx_team.TeamInfoList{

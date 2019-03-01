@@ -211,7 +211,8 @@ func (z *UIAuthenticator) wrapToken(tokenType, token string, err error) (*dbx_ap
 	}
 	err = z.verifyToken(tokenType, token)
 	if err != nil {
-		z.ec.Log().Error("Unable to verify token, or invalid token")
+		z.ec.Log().Debug("failed verify token", zap.Error(err))
+		z.ec.Msg("auth.basic.verify.failed").TellError()
 		return nil, err
 	}
 	return dbx_api.NewContext(

@@ -8,7 +8,7 @@ import (
 func NewCmdTeamSharedLink() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "sharedlink",
-		CommandDesc: "Member shared link management",
+		CommandDesc: "cmd.team.sharedlink.desc",
 		SubCommands: []cmd.Commandlet{
 			&CmdTeamSharedLinkList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},

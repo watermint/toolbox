@@ -25,17 +25,18 @@ func (CmdMemberLinkedAppList) Name() string {
 }
 
 func (CmdMemberLinkedAppList) Desc() string {
-	return "List all applications linked to the team members' accounts"
-}
-
-func (CmdMemberLinkedAppList) Usage() string {
 	return ""
 }
 
+func (CmdMemberLinkedAppList) Usage() string {
+	return "cmd.team.linkedapp.list.desc"
+}
+
 func (z *CmdMemberLinkedAppList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descWithEmail := "Export report with team member email"
+	descWithEmail := z.ExecContext.Msg("cmd.team.linkedapp.list.flag.with_email").Text()
 	f.BoolVar(&z.OptWithMemberEmail, "with-email", false, descWithEmail)
 }
 
@@ -46,7 +47,7 @@ func (z *CmdMemberLinkedAppList) Exec(args []string) {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	if z.OptWithMemberEmail {

@@ -21,7 +21,7 @@ func (z *CmdTeamFeature) Name() string {
 }
 
 func (z *CmdTeamFeature) Desc() string {
-	return "List team feature values"
+	return "cmd.team.feature.desc"
 }
 
 func (CmdTeamFeature) Usage() string {
@@ -29,6 +29,7 @@ func (CmdTeamFeature) Usage() string {
 }
 
 func (z *CmdTeamFeature) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 }
 
@@ -39,7 +40,7 @@ func (z *CmdTeamFeature) Exec(args []string) {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	l := dbx_team.FeatureList{

@@ -2,6 +2,7 @@ package report_json
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/report/report_column"
 	"go.uber.org/zap"
 	"io"
@@ -10,7 +11,7 @@ import (
 )
 
 type JsonReport struct {
-	logger        *zap.Logger
+	ec            *app.ExecContext
 	ReportPath    string
 	DefaultWriter io.Writer
 	files         map[string]*os.File
@@ -36,7 +37,7 @@ func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err erro
 		if st, err := os.Stat(z.ReportPath); os.IsNotExist(err) {
 			err = os.MkdirAll(z.ReportPath, 0701)
 			if err != nil {
-				z.logger.Error(
+				z.ec.Log().Error(
 					"Unable to create report path",
 					zap.Error(err),
 					zap.String("path", z.ReportPath),
@@ -44,14 +45,14 @@ func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err erro
 				return nil, z.DefaultWriter, err
 			}
 		} else if err != nil {
-			z.logger.Error(
+			z.ec.Log().Error(
 				"Unable to acquire information about the path",
 				zap.Error(err),
 				zap.String("path", z.ReportPath),
 			)
 			return nil, z.DefaultWriter, err
 		} else if !st.IsDir() {
-			z.logger.Error(
+			z.ec.Log().Error(
 				"Report path is not a directory",
 				zap.Error(err),
 				zap.String("path", z.ReportPath),
@@ -60,9 +61,9 @@ func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err erro
 		}
 
 		filePath := filepath.Join(z.ReportPath, name+".json")
-		z.logger.Debug("Opening report file", zap.String("path", filePath))
+		z.ec.Log().Debug("Opening report file", zap.String("path", filePath))
 		if zf, err := os.Create(filePath); err != nil {
-			z.logger.Error(
+			z.ec.Log().Error(
 				"unable to create report file, fallback to default writer",
 				zap.String("path", filePath),
 				zap.Error(err),
@@ -75,7 +76,7 @@ func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err erro
 
 	if f != nil {
 		f.Close()
-		z.logger.Fatal("File opened but no writer and/or parser available")
+		z.ec.Log().Fatal("File opened but no writer and/or parser available")
 	}
 	f, w, err = open(name)
 	if err != nil {
@@ -88,8 +89,8 @@ func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err erro
 	return
 }
 
-func (z *JsonReport) Init(logger *zap.Logger) error {
-	z.logger = logger
+func (z *JsonReport) Init(ec *app.ExecContext) error {
+	z.ec = ec
 	if z.files == nil {
 		z.files = make(map[string]*os.File)
 	}
@@ -116,7 +117,7 @@ func (z *JsonReport) Report(row interface{}) error {
 		if f != nil {
 			fn = f.Name()
 		}
-		z.logger.Error(
+		z.ec.Log().Error(
 			"Couldn't write report",
 			zap.Error(err),
 			zap.String("file", fn),

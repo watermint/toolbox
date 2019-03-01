@@ -19,7 +19,7 @@ func (CmdTeamNamespaceFileSize) Name() string {
 }
 
 func (CmdTeamNamespaceFileSize) Desc() string {
-	return "Calculate size of namespaces"
+	return "cmd.team.namespace.file.size.desc"
 }
 
 func (CmdTeamNamespaceFileSize) Usage() string {
@@ -29,27 +29,27 @@ func (CmdTeamNamespaceFileSize) Usage() string {
 func (z *CmdTeamNamespaceFileSize) FlagConfig(f *flag.FlagSet) {
 	z.report.FlagConfig(f)
 
-	descIncludeTeamFolder := "Include team folders"
+	descIncludeTeamFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_team_folder").Text()
 	f.BoolVar(&z.nsz.OptIncludeTeamFolder, "include-team-folder", true, descIncludeTeamFolder)
 
-	descIncludeSharedFolder := "Include shared folders"
+	descIncludeSharedFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_shared_folder").Text()
 	f.BoolVar(&z.nsz.OptIncludeSharedFolder, "include-shared-folder", true, descIncludeSharedFolder)
 
-	descIncludeAppFolder := "Include app folders"
+	descIncludeAppFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_app_folder").Text()
 	f.BoolVar(&z.nsz.OptIncludeAppFolder, "include-app-folder", false, descIncludeAppFolder)
 
-	descIncludeMemberFolder := "Include team member folders"
+	descIncludeMemberFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_member_folder").Text()
 	f.BoolVar(&z.nsz.OptIncludeMemberFolder, "include-member-folder", false, descIncludeMemberFolder)
 
-	descUseCached := "Use cached information, or create cache if not exist"
+	descUseCached := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.cache").Text()
 	f.StringVar(&z.nsz.OptCachePath, "cache", "", descUseCached)
 
-	descOptDepth := "Depth directories deep"
+	descOptDepth := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.depth").Text()
 	f.IntVar(&z.nsz.OptDepth, "depth", 2, descOptDepth)
 }
 
 func (z *CmdTeamNamespaceFileSize) Exec(args []string) {
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	au := dbx_auth.NewDefaultAuth(z.ExecContext)
@@ -58,7 +58,7 @@ func (z *CmdTeamNamespaceFileSize) Exec(args []string) {
 		return
 	}
 
-	z.nsz.Init(z.Log())
+	z.nsz.Init(z.ExecContext)
 	z.nsz.Load(apiFile)
 
 	z.Log().Info("Reporting result")

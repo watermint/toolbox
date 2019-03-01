@@ -5,7 +5,7 @@ import "github.com/watermint/toolbox/cmd"
 func NewCmdTeamTeamFolderFile() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "file",
-		CommandDesc: "Team team folder file management",
+		CommandDesc: "cmd.team.teamfolder.file.desc",
 		SubCommands: []cmd.Commandlet{
 			&CmdTeamTeamFolderFileList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},

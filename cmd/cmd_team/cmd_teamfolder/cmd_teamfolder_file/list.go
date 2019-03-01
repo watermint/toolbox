@@ -23,7 +23,7 @@ func (CmdTeamTeamFolderFileList) Name() string {
 }
 
 func (CmdTeamTeamFolderFileList) Desc() string {
-	return "List files/folders in all team folders of the team"
+	return "cmd.team.teamfolder.file.list.desc"
 }
 
 func (CmdTeamTeamFolderFileList) Usage() string {
@@ -31,12 +31,13 @@ func (CmdTeamTeamFolderFileList) Usage() string {
 }
 
 func (z *CmdTeamTeamFolderFileList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descIncludeDeleted := "Include deleted folders/files"
+	descIncludeDeleted := z.ExecContext.Msg("cmd.team.teamfolder.file.list.flag.include_deleted").Text()
 	f.BoolVar(&z.namespaceFile.OptIncludeDeleted, "include-deleted", false, descIncludeDeleted)
 
-	descIncludeMediaInfo := "Include media info (metadata of photo and video)"
+	descIncludeMediaInfo := z.ExecContext.Msg("cmd.team.teamfolder.file.list.flag.include_media_info").Text()
 	f.BoolVar(&z.namespaceFile.OptIncludeMediaInfo, "include-media-info", false, descIncludeMediaInfo)
 }
 
@@ -57,12 +58,19 @@ func (z *CmdTeamTeamFolderFileList) Exec(args []string) {
 		z.DefaultErrorHandler(ea)
 		return
 	}
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	z.namespaceFile.AsAdminId = admin.TeamMemberId
 	z.namespaceFile.OnError = z.DefaultErrorHandler
 	z.namespaceFile.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
+		z.ExecContext.Msg("cmd.team.teamfolder.file.list.progress.scan").WithData(struct {
+			Id   string
+			Name string
+		}{
+			Id:   namespace.NamespaceId,
+			Name: namespace.Name,
+		})
 		z.Log().Info("Scanning team folder",
 			zap.String("namespace_id", namespace.NamespaceId),
 			zap.String("name", namespace.Name),

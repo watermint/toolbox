@@ -24,7 +24,7 @@ func (CmdTeamSharedLinkList) Name() string {
 }
 
 func (CmdTeamSharedLinkList) Desc() string {
-	return "List all shared links of the team members' accounts"
+	return "cmd.team.sharedlink.list.desc"
 }
 
 func (CmdTeamSharedLinkList) Usage() string {
@@ -32,6 +32,7 @@ func (CmdTeamSharedLinkList) Usage() string {
 }
 
 func (z *CmdTeamSharedLinkList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 	z.filter.FlagConfig(f)
 }
@@ -42,7 +43,7 @@ func (z *CmdTeamSharedLinkList) Exec(args []string) {
 	if err != nil {
 		return
 	}
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	ml := dbx_member.MembersList{

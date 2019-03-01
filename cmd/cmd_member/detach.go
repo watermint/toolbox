@@ -18,7 +18,7 @@ func (CmdMemberDetach) Name() string {
 	return "detach"
 }
 func (CmdMemberDetach) Desc() string {
-	return "Convert account into Dropbox Basic"
+	return "cmd.member.detach.desc"
 }
 func (z *CmdMemberDetach) Usage() string {
 	return z.provision.Usage()
@@ -44,7 +44,15 @@ func (z *CmdMemberDetach) Exec(args []string) {
 	rm := dbx_member.MemberRemove{
 		OnError: z.DefaultErrorHandler,
 		OnFailure: func(email string, reason dbx_api.ApiError) bool {
-			z.Log().Error(
+			z.ExecContext.Msg("cmd.member.detach.failure").WithData(struct {
+				Email  string
+				Reason string
+			}{
+				Email:  email,
+				Reason: reason.ErrorTag,
+			}).TellFailure()
+
+			z.Log().Debug(
 				"Unable to detach user",
 				zap.String("email", email),
 				zap.String("reason", reason.ErrorTag),
@@ -52,12 +60,22 @@ func (z *CmdMemberDetach) Exec(args []string) {
 			return true
 		},
 		OnSuccess: func(email string) bool {
-			z.Log().Info("User detached", zap.String("email", email))
+			z.ExecContext.Msg("cmd.member.detach.success").WithData(struct {
+				Email string
+			}{
+				Email: email,
+			}).TellSuccess()
+			z.Log().Debug("User detached", zap.String("email", email))
 			return true
 		},
 	}
 	for _, m := range z.provision.Members {
-		z.Log().Info("Detaching account", zap.String("email", m.Email))
+		z.ExecContext.Msg("cmd.member.detach.progress").WithData(struct {
+			Email string
+		}{
+			Email: m.Email,
+		}).TellSuccess()
+		z.Log().Debug("Detaching account", zap.String("email", m.Email))
 		rm.Remove(apiMgmt, m.Email, false, true)
 	}
 }

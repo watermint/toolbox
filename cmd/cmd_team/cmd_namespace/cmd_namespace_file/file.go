@@ -5,7 +5,7 @@ import "github.com/watermint/toolbox/cmd"
 func NewCmdTeamNamespaceFile() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "file",
-		CommandDesc: "Team namespace file management",
+		CommandDesc: "cmd.team.namespace.file.desc",
 		SubCommands: []cmd.Commandlet{
 			&CmdTeamNamespaceFileList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},

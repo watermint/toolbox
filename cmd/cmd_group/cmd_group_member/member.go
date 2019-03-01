@@ -5,7 +5,7 @@ import "github.com/watermint/toolbox/cmd"
 func NewCmdGroupMember() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "member",
-		CommandDesc: "Dropbox Business Group member management",
+		CommandDesc: "cmd.group.member.desc",
 		SubCommands: []cmd.Commandlet{
 			&CmdGroupMemberList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},

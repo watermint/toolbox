@@ -28,13 +28,14 @@ func (CmdTeamAuditSharing) Name() string {
 }
 
 func (CmdTeamAuditSharing) Desc() string {
-	return "Export all sharing information across team"
+	return "cmd.team.audit.sharing.desc"
 }
 
 func (z *CmdTeamAuditSharing) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descExpandGroup := "Expand group into members"
+	descExpandGroup := z.ExecContext.Msg("cmd.team.audit.sharing.flag.expand_group").Text()
 	f.BoolVar(&z.optExpandGroup, "expand-group", false, descExpandGroup)
 }
 
@@ -44,66 +45,92 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 	if err != nil {
 		return
 	}
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
-	z.Log().Info("Identify admin user")
+	// Identify admin
+	z.ExecContext.Msg("cmd.team.audit.sharing.progress.identify_admin").Tell()
 	admin, ea, _ := dbx_profile.AuthenticatedAdmin(apiFile)
 	if ea.IsFailure() {
 		z.DefaultErrorHandler(ea)
 		return
 	}
+	z.ExecContext.Msg("cmd.team.audit.sharing.progress.do_as_admin").WithData(struct {
+		Email string
+	}{
+		Email: admin.Email,
+	}).Tell()
 	z.Log().Info("Execute scan as admin", zap.String("email", admin.Email))
 
+	// Scan shared links
+	z.ExecContext.Msg("cmd.team.audit.sharing.progress.shared_link").Tell()
 	z.Log().Info("Scanning Shared links")
 	if !z.reportSharedLink(apiFile) {
 		return
 	}
 
+	// Scan team info
+	z.ExecContext.Msg("cmd.team.audit.sharing.progress.team_info").Tell()
 	z.Log().Info("Scanning Team Info")
 	if !z.reportInfo(apiFile) {
 		return
 	}
 
+	// Scan team feature
+	z.ExecContext.Msg("cmd.team.audit.sharing.progress.team_feature").Tell()
 	z.Log().Info("Scanning Team Feature")
 	if !z.reportFeature(apiFile) {
 		return
 	}
 
+	// Scan Team members
+	z.ExecContext.Msg("cmd.team.audit.sharing.progress.members").Tell()
 	z.Log().Info("Scanning Team Members")
 	if !z.reportMember(apiFile) {
 		return
 	}
 
+	// Scan Team group
+	z.ExecContext.Msg("cmd.team.audit.sharing.progress.groups").Tell()
 	z.Log().Info("Scanning Team Group")
 	if !z.reportGroup(apiFile) {
 		return
 	}
 
+	// Scan Team group members
+	z.ExecContext.Msg("cmd.team.audit.sharing.progress.group_members").Tell()
 	z.Log().Info("Scanning Team Group Member")
 	if !z.reportGroupMember(apiFile) {
 		return
 	}
 
+	// Scan namespaces
+	z.ExecContext.Msg("cmd.team.audit.sharing.progress.namespace").Tell()
 	z.Log().Info("Scanning Namespace")
 	if !z.reportNamespace(apiFile) {
 		return
 	}
 
+	// Expand group
 	if z.optExpandGroup {
+		z.ExecContext.Msg("cmd.team.audit.sharing.progress.expand_group").Tell()
 		z.Log().Info("Preparing for `-expand-group`")
 		z.groupMembers = dbx_group.GroupMembers(apiFile, z.Log(), z.DefaultErrorHandler)
 		if z.groupMembers == nil {
+			z.ExecContext.Msg("cmd.team.audit.sharing.err.fail_prepare_expand_group").TellError()
 			z.Log().Warn("Unable to list group members")
-			return
 		}
 	}
 
+	// Scan namespace members
+	z.ExecContext.Msg("cmd.team.audit.sharing.progress.namespace_members").Tell()
 	z.Log().Info("Scanning Namespace members")
 	if !z.reportNamespaceMember(apiFile, admin) {
 		return
 	}
 
+	// Scan namespace files
+	z.ExecContext.Msg("cmd.team.audit.sharing.progress.namespace_file").Tell()
 	z.Log().Info("Scanning Namespace files")
 	if !z.reportNamespaceFile(apiFile, admin) {
 		return
@@ -245,6 +272,13 @@ func (z *CmdTeamAuditSharing) reportNamespaceMember(c *dbx_api.Context, admin *d
 								z.report.Report(nu)
 							}
 						} else {
+							z.ExecContext.Msg("cmd.team.audit.sharing.err.fail_expand_group").WithData(struct {
+								GroupId   string
+								GroupName string
+							}{
+								GroupId:   group.Group.GroupId,
+								GroupName: group.Group.GroupName,
+							}).TellError()
 							z.Log().Warn(
 								"Could not expand group",
 								zap.String("group_id", group.Group.GroupId),
@@ -350,6 +384,14 @@ func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx
 						z.report.Report(nu)
 					}
 				} else {
+					z.ExecContext.Msg("cmd.team.audit.sharing.err.fail_expand_group").WithData(struct {
+						GroupId   string
+						GroupName string
+					}{
+						GroupId:   group.Group.GroupId,
+						GroupName: group.Group.GroupName,
+					}).TellError()
+
 					z.Log().Warn(
 						"Could not expand group",
 						zap.String("group_id", group.Group.GroupId),
@@ -372,9 +414,20 @@ func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx
 			}
 			// Out error report
 			z.report.Report(nme)
+			z.ExecContext.Msg("cmd.team.audit.sharing.err.unable_to_acquire_sharing_info").WithData(struct {
+				NamespaceId      string
+				NamespaceOwnerId string
+				FileId           string
+				FilePath         string
+			}{
+				NamespaceId:      file.Namespace.NamespaceId,
+				NamespaceOwnerId: file.Namespace.TeamMemberId,
+				FileId:           file.File.FileId,
+				FilePath:         file.File.PathDisplay,
+			}).TellError()
 			z.Log().Warn(
 				"Unable to acquire sharing information",
-				zap.String("namespace_id", file.Namespace.TeamMemberId),
+				zap.String("namespace_id", file.Namespace.NamespaceId),
 				zap.String("namespace_owner_id", file.Namespace.TeamMemberId),
 				zap.String("as_member_id", lfm.AsMemberId),
 				zap.String("as_admin_id", lfm.AsAdminId),
@@ -403,6 +456,15 @@ func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx
 	lns.AsAdminId = admin.TeamMemberId
 	lns.OnError = z.DefaultErrorHandler
 	lns.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
+		z.ExecContext.Msg("cmd.team.audit.sharing.progress.folder").WithData(struct {
+			Type        string
+			NamespaceId string
+			Name        string
+		}{
+			Type:        namespace.NamespaceType,
+			NamespaceId: namespace.NamespaceId,
+			Name:        namespace.Name,
+		}).Tell()
 		z.Log().Info("Scanning folder",
 			zap.String("namespace_type", namespace.NamespaceType),
 			zap.String("namespace_id", namespace.NamespaceId),

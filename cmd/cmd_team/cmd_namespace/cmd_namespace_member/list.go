@@ -28,18 +28,19 @@ func (CmdTeamNamespaceMemberList) Name() string {
 }
 
 func (CmdTeamNamespaceMemberList) Desc() string {
-	return "List all namespace members of the team"
+	return "cmd.team.namespace.member.list.desc"
 }
 
 func (CmdTeamNamespaceMemberList) Usage() string {
 	return ""
 }
 
-func (c *CmdTeamNamespaceMemberList) FlagConfig(f *flag.FlagSet) {
-	c.report.FlagConfig(f)
+func (z *CmdTeamNamespaceMemberList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
+	z.report.FlagConfig(f)
 
-	descExpandGroup := "Expand group into members"
-	f.BoolVar(&c.optExpandGroup, "expand-group", false, descExpandGroup)
+	descExpandGroup := z.ExecContext.Msg("cmd.team.namespace.member.list.flag.expand_group").Text()
+	f.BoolVar(&z.optExpandGroup, "expand-group", false, descExpandGroup)
 }
 
 func (z *CmdTeamNamespaceMemberList) Exec(args []string) {
@@ -54,12 +55,13 @@ func (z *CmdTeamNamespaceMemberList) Exec(args []string) {
 		z.DefaultErrorHandler(ea)
 		return
 	}
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	if z.optExpandGroup {
 		z.groupMembers = dbx_group.GroupMembers(apiFile, z.Log(), z.DefaultErrorHandler)
 		if z.groupMembers == nil {
+			z.ExecContext.Msg("cmd.team.namespace.member.list.err.fail_expand_group").TellError()
 			z.Log().Warn("Unable to list group members")
 			return
 		}
@@ -104,6 +106,13 @@ func (z *CmdTeamNamespaceMemberList) Exec(args []string) {
 								z.report.Report(nu)
 							}
 						} else {
+							z.ExecContext.Msg("cmd.team.namespace.member.list.err.cant_expand").WithData(struct {
+								Id   string
+								Name string
+							}{
+								Id:   group.Group.GroupId,
+								Name: group.Group.GroupName,
+							}).TellError()
 							z.Log().Warn(
 								"Could not expand group",
 								zap.String("group_id", group.Group.GroupId),

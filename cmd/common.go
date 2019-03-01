@@ -152,7 +152,7 @@ func (z *CommandletGroup) Log() *zap.Logger {
 func (z *CommandletGroup) Usage() string {
 	u := z.ExecContext.Msg("cmd.common.group.usage.head").Text()
 	for _, s := range z.SubCommands {
-		u += fmt.Sprintf("  %-10s %s\n", s.Name(), s.Desc())
+		u += fmt.Sprintf("  %-10s %s\n", s.Name(), z.ExecContext.Msg(s.Desc()).Text())
 	}
 	u += "\n\n"
 	u += z.ExecContext.Msg("cmd.common.group.usage.tail").Text()
@@ -179,6 +179,7 @@ func (z *CommandletGroup) Exec(args []string) {
 	}
 	if sc, ok := subCmds[subCmd]; ok {
 		sc.Init(z)
+		sc.Setup(z.ExecContext)
 		sc.FlagConfig(z.flags)
 		if err := z.flags.Parse(subArgs); err != nil {
 			z.Log().Error("Command ParseModel error", zap.Error(err))
@@ -197,7 +198,6 @@ func (z *CommandletGroup) Exec(args []string) {
 		if !sc.IsGroup() {
 			z.ExecContext.ApplyFlags()
 		}
-		sc.Setup(z.ExecContext)
 		sc.Exec(remainders)
 		if !sc.IsGroup() {
 			z.ExecContext.Shutdown()

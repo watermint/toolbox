@@ -8,7 +8,7 @@ import (
 func NewCmdTeamTeamFolder() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "teamfolder",
-		CommandDesc: "Team folder management",
+		CommandDesc: "cmd.team.teamfolder.desc",
 		SubCommands: []cmd.Commandlet{
 			&CmdTeamTeamFolderList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},

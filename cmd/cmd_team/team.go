@@ -12,7 +12,7 @@ import (
 func NewCmdTeam() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "team",
-		CommandDesc: "Dropbox Business Team management",
+		CommandDesc: "cmd.team.desc",
 		SubCommands: []cmd.Commandlet{
 			&CmdTeamInfo{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},

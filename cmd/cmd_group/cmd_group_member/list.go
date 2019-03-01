@@ -12,9 +12,8 @@ import (
 type CmdGroupMemberList struct {
 	*cmd.SimpleCommandlet
 
-	optIncludeRemoved bool
-	apiContext        *dbx_api.Context
-	report            report.Factory
+	apiContext *dbx_api.Context
+	report     report.Factory
 }
 
 func (z *CmdGroupMemberList) Name() string {
@@ -22,7 +21,7 @@ func (z *CmdGroupMemberList) Name() string {
 }
 
 func (z *CmdGroupMemberList) Desc() string {
-	return "List group members"
+	return "cmd.group.member.list.desc"
 }
 
 func (z *CmdGroupMemberList) Usage() string {
@@ -30,6 +29,7 @@ func (z *CmdGroupMemberList) Usage() string {
 }
 
 func (z *CmdGroupMemberList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 }
 
@@ -40,7 +40,7 @@ func (z *CmdGroupMemberList) Exec(args []string) {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	gl := dbx_group.GroupList{
