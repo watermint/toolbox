@@ -25,11 +25,13 @@ func (CmdMemberLinkedAppList) Name() string {
 }
 
 func (CmdMemberLinkedAppList) Desc() string {
-	return ""
+	return "cmd.team.linkedapp.list.desc"
 }
 
-func (CmdMemberLinkedAppList) Usage() string {
-	return "cmd.team.linkedapp.list.desc"
+func (z *CmdMemberLinkedAppList) Usage() func(cmd.CommandUsage) {
+	return func(u cmd.CommandUsage) {
+		z.ExecContext.Msg("cmd.team.linkedapp.list.desc").Tell()
+	}
 }
 
 func (z *CmdMemberLinkedAppList) FlagConfig(f *flag.FlagSet) {

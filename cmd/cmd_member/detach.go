@@ -20,10 +20,11 @@ func (CmdMemberDetach) Name() string {
 func (CmdMemberDetach) Desc() string {
 	return "cmd.member.detach.desc"
 }
-func (z *CmdMemberDetach) Usage() string {
+func (z *CmdMemberDetach) Usage() func(cmd.CommandUsage) {
 	return z.provision.Usage()
 }
 func (z *CmdMemberDetach) FlagConfig(f *flag.FlagSet) {
+	z.provision.ec = z.ExecContext
 	z.provision.FlagConfig(f)
 }
 

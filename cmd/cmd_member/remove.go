@@ -22,10 +22,11 @@ func (CmdMemberRemove) Name() string {
 func (CmdMemberRemove) Desc() string {
 	return "cmd.member.remove.desc"
 }
-func (z *CmdMemberRemove) Usage() string {
+func (z *CmdMemberRemove) Usage() func(cmd.CommandUsage) {
 	return z.provision.Usage()
 }
 func (z *CmdMemberRemove) FlagConfig(f *flag.FlagSet) {
+	z.provision.ec = z.ExecContext
 	z.provision.FlagConfig(f)
 
 	descKeepAccount := z.ExecContext.Msg("cmd.member.remove.flag.keep_account").Text()

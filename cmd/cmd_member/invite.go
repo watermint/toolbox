@@ -24,7 +24,7 @@ func (z *CmdMemberInvite) Desc() string {
 	return "cmd.member.invite.desc"
 }
 
-func (z *CmdMemberInvite) Usage() string {
+func (z *CmdMemberInvite) Usage() func(cmd.CommandUsage) {
 	return z.provision.Usage()
 }
 

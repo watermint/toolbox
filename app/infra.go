@@ -69,6 +69,10 @@ func (z *ExecContext) IsTest() bool {
 	return z.isTest
 }
 
+func (z *ExecContext) UI() app_ui.UI {
+	return z.userInterface
+}
+
 func (z *ExecContext) Msg(key string) app_ui.UIMessage {
 	return z.messages.Msg(key)
 }

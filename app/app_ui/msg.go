@@ -100,6 +100,88 @@ func NewAltMessage(key string, ui UI) UIMessage {
 	}
 }
 
+func NewTextMessage(text string, ui UI, logger *zap.Logger) UIMessage {
+	return &TextMessage{
+		text:          text,
+		userInterface: ui,
+		logger:        logger,
+	}
+}
+
+type TextMessage struct {
+	text          string
+	args          []interface{}
+	tmplData      interface{}
+	logger        *zap.Logger
+	userInterface UI
+}
+
+func (z *TextMessage) WithArg(a ...interface{}) UIMessage {
+	return &TextMessage{
+		text:          z.text,
+		args:          a,
+		logger:        z.logger,
+		userInterface: z.userInterface,
+	}
+}
+
+func (z *TextMessage) WithData(d interface{}) UIMessage {
+	return &TextMessage{
+		text:          z.text,
+		tmplData:      d,
+		logger:        z.logger,
+		userInterface: z.userInterface,
+	}
+}
+
+func (z *TextMessage) Text() string {
+	if z.tmplData != nil {
+		t, err := app_util.CompileTemplate(z.text, z.tmplData)
+		if err != nil {
+			z.logger.Error(
+				"Unable to compile template",
+				zap.String("tmpl", z.text),
+				zap.Any("data", z.tmplData),
+				zap.Error(err),
+			)
+			return z.text
+		}
+		return t
+	} else if z.args != nil && len(z.args) > 0 {
+		return fmt.Sprintf(z.text, z.args...)
+	} else {
+		return z.text
+	}
+}
+
+func (z *TextMessage) Tell() {
+	z.userInterface.Tell(z)
+}
+
+func (z *TextMessage) TellError() {
+	z.userInterface.TellError(z)
+}
+
+func (z *TextMessage) TellDone() {
+	z.userInterface.TellDone(z)
+}
+
+func (z *TextMessage) TellSuccess() {
+	z.userInterface.TellSuccess(z)
+}
+
+func (z *TextMessage) TellFailure() {
+	z.userInterface.TellFailure(z)
+}
+
+func (z *TextMessage) AskRetry() bool {
+	return z.userInterface.AskRetry(z)
+}
+
+func (z *TextMessage) AskText() string {
+	return z.userInterface.AskText(z)
+}
+
 type AltMessage struct {
 	key           string
 	args          []interface{}

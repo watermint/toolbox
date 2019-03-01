@@ -27,8 +27,8 @@ func (CmdTeamSharedLinkList) Desc() string {
 	return "cmd.team.sharedlink.list.desc"
 }
 
-func (CmdTeamSharedLinkList) Usage() string {
-	return ""
+func (CmdTeamSharedLinkList) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
 func (z *CmdTeamSharedLinkList) FlagConfig(f *flag.FlagSet) {

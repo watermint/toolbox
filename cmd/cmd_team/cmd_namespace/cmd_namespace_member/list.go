@@ -31,8 +31,8 @@ func (CmdTeamNamespaceMemberList) Desc() string {
 	return "cmd.team.namespace.member.list.desc"
 }
 
-func (CmdTeamNamespaceMemberList) Usage() string {
-	return ""
+func (CmdTeamNamespaceMemberList) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
 func (z *CmdTeamNamespaceMemberList) FlagConfig(f *flag.FlagSet) {

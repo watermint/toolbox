@@ -24,8 +24,8 @@ func (CmdTeamTeamFolderList) Desc() string {
 	return "cmd.team.teamfolder.list.desc"
 }
 
-func (CmdTeamTeamFolderList) Usage() string {
-	return ""
+func (CmdTeamTeamFolderList) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
 func (z *CmdTeamTeamFolderList) FlagConfig(f *flag.FlagSet) {

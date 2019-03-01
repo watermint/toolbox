@@ -26,8 +26,8 @@ func (CmdTeamNamespaceFileList) Desc() string {
 	return "cmd.team.namespace.file.list.desc"
 }
 
-func (CmdTeamNamespaceFileList) Usage() string {
-	return ""
+func (CmdTeamNamespaceFileList) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
 func (z *CmdTeamNamespaceFileList) FlagConfig(f *flag.FlagSet) {

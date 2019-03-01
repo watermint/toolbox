@@ -26,8 +26,8 @@ func (z *CmdMemberList) Desc() string {
 	return "cmd.member.list.desc"
 }
 
-func (CmdMemberList) Usage() string {
-	return ""
+func (CmdMemberList) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
 func (z *CmdMemberList) FlagConfig(f *flag.FlagSet) {
