@@ -183,11 +183,11 @@ func (z *ExecContext) DefaultWorkPath() string {
 }
 
 func (z *ExecContext) PrepareFlags(f *flag.FlagSet) {
-	descProxy := z.Msg("app.common.flag.proxy").Text()
-	f.StringVar(&z.Proxy, "proxy", "", descProxy)
-
 	//descWork := z.Msg("app.common.flag.work").WithArg(z.DefaultWorkPath()).Text()
 	//f.StringVar(&z.WorkPath, "work", "", descWork)
+
+	descProxy := z.Msg("app.common.flag.proxy").Text()
+	f.StringVar(&z.Proxy, "proxy", "", descProxy)
 
 	descQuiet := z.Msg("app.common.flag.quiet").Text()
 	f.BoolVar(&z.Quiet, "quiet", false, descQuiet)
