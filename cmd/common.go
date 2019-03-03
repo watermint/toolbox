@@ -176,6 +176,7 @@ func (z *CommandletGroup) FlagConfig(f *flag.FlagSet) {
 func (z *CommandletGroup) Exec(args []string) {
 	if len(args) < 1 {
 		z.PrintUsage(z.ExecContext, z)
+		z.ExecContext.Shutdown()
 		return
 	}
 
