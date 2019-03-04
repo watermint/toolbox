@@ -12,7 +12,7 @@ type Relocation struct {
 	ToPath                 string `json:"to_path"`
 	AllowSharedFolder      bool   `json:"allow_shared_folder"`
 	AllowOwnershipTransfer bool   `json:"allow_ownership_transfer"`
-	Autorename             bool   `json:"autorename"`
+	AutoRename             bool   `json:"autorename"`
 
 	AsMemberId string                                        `json:"-"`
 	OnError    func(annotation dbx_api.ErrorAnnotation) bool `json:"-"`
@@ -55,4 +55,22 @@ func (z *Relocation) Copy(c *dbx_api.Context) bool {
 
 func (z *Relocation) Move(c *dbx_api.Context) bool {
 	return z.relocation(c, "files/move_v2")
+}
+
+type MassRelocation struct {
+	Force      bool
+	AsMemberId string
+	OnError    func(annotation dbx_api.ErrorAnnotation) bool
+}
+
+func (z *MassRelocation) Copy(c *dbx_api.Context, src, dest string) bool {
+	return z.relocation(c, src, dest, "files/copy_v2")
+}
+
+func (z *MassRelocation) Move(c *dbx_api.Context, src, dest string) bool {
+	return z.relocation(c, src, dest, "files/move_v2")
+}
+
+func (z *MassRelocation) relocation(c *dbx_api.Context, src, dest, endpoint string) bool {
+	panic("implement me!")
 }
