@@ -1,5 +1,5 @@
 {
-  "app.common.name": "Toolbox (version {{.Version}})",
+  "app.common.name": "toolbox (version {{.Version}})",
   "app.common.license": "Licensed under MIT License. See https://github.com/watermint/toolbox for more detail",
   "app.common.copyright": "Copyright © 2016-2019 Takayuki Okazaki",
   "app.common.flag.proxy": "HTTP/HTTPS proxy (hostname:port)",
