@@ -32,7 +32,6 @@ echo --------------------
 echo BUILD: Testing..
 
 cd $PROJECT_ROOT
-rm resources/*.tokens
 rice embed-go
 go test $(glide novendor)
 
@@ -40,13 +39,26 @@ go test $(glide novendor)
 echo --------------------
 echo BUILD: Building tool
 
+if [ -e "resources/toolbox.appkeys" ]; then
+  echo App keys file found. Verify app key file...
+  cat resources/toolbox.appkeys | jq type
+  if [[ $? = 0 ]]; then
+    echo valid
+  else
+    echo invalid. return code: $?
+  fi
+fi
+
 X_APP_NAME="-X github.com/watermint/toolbox/app.AppName=toolbox"
 X_APP_VERSION="-X github.com/watermint/toolbox/app.AppVersion=$BUILD_VERSION"
 X_APP_HASH="-X github.com/watermint/toolbox/app.AppHash=$BUILD_HASH"
 LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH"
 
+echo Building: Windows
 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-win.exe github.com/watermint/toolbox
+echo Building: Linux
 GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-linux   github.com/watermint/toolbox
+echo Building: Darwin
 GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-macos   github.com/watermint/toolbox
 
 
