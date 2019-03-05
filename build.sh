@@ -43,10 +43,6 @@ echo BUILD: Building tool
 X_APP_NAME="-X github.com/watermint/toolbox/app.AppName=toolbox"
 X_APP_VERSION="-X github.com/watermint/toolbox/app.AppVersion=$BUILD_VERSION"
 X_APP_HASH="-X github.com/watermint/toolbox/app.AppHash=$BUILD_HASH"
-X_APP_CREDENTIALS=""
-if [ "$TOOLBOX_APP_CREDENTIALS"x != ""x ]; then
-  echo $TOOLBOX_APP_CREDENTIALS > resources/toolbox.appkeys
-fi
 LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH"
 
 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-win.exe github.com/watermint/toolbox
