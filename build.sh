@@ -28,13 +28,8 @@ BUILD_VERSION=$BUILD_MAJOR_VERSION.$TOOLBOX_BUILD_ID
 echo --------------------
 echo BUILD: Start building version: $BUILD_VERSION
 
-echo --------------------
-echo BUILD: Testing..
-
 cd $PROJECT_ROOT
 rice embed-go
-go test $(glide novendor)
-
 
 echo --------------------
 echo BUILD: Building tool
