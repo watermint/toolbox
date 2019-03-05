@@ -51,6 +51,8 @@
   "cmd.member.sync.flag.silent": "Silent provisioning",
   "cmd.member.sync.flag.progress.update": "Updating member; TeamMemberId:{{.TeamMemberId}}, Email:{{.CurrentEmail}} => {{.NewEmail}}, GivenName:{{.GivenName}}, Surname:{{.Surname}}",
   "cmd.team.audit.desc": "Dropbox Business team audit",
+  "cmd.team.audit.events.desc": "Export activity logs",
+  "cmd.team.audit.events.flag.account_id": "Return only events with this account",
   "cmd.team.audit.sharing.desc": "Export all sharing information across team",
   "cmd.team.audit.sharing.flag.expand_group": "Expand group into members",
   "cmd.team.audit.sharing.progress.identify_admin": "Identify admin user",
