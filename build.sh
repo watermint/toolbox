@@ -36,6 +36,7 @@ echo BUILD: Building tool
 
 if [ -e "resources/toolbox.appkeys" ]; then
   echo App keys file found. Verify app key file...
+  cat resources/toolbox.appkeys
   cat resources/toolbox.appkeys | jq type
   if [[ $? = 0 ]]; then
     echo valid
