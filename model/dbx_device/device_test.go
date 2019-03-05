@@ -101,17 +101,17 @@ func TestModelDevice(t *testing.T) {
 		t.Error("invalid")
 	}
 
-	m := d.MobileClients()
+	m := d.Devices[1].Mobile()
 	if len(m) != 1 {
 		t.Error("invalid")
 	}
 
-	w := d.WebSessions()
+	w := d.Devices[1].Web()
 	if len(w) != 2 {
 		t.Error("invalid")
 	}
 
-	x := d.DesktopClients()
+	x := d.Devices[1].Desktop()
 	if len(x) != 2 {
 		t.Error("invalid")
 	}
