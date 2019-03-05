@@ -70,14 +70,19 @@ func NewUIMessageContainer(bx *rice.Box, ui UI, logger *zap.Logger) *UIMessageCo
 }
 
 func (z *UIMessageContainer) detectLanguage() language.Tag {
-	ietf, err := jibber_jabber.DetectIETF()
+	bcp47, err := jibber_jabber.DetectIETF()
 	if err != nil {
 		z.logger.Debug("unable to detect language", zap.Error(err))
 		return language.English
 	}
-	tag, err := language.Parse(ietf)
+
+	return z.chooseLanguage(bcp47)
+}
+
+func (z *UIMessageContainer) chooseLanguage(bcp47 string) language.Tag {
+	tag, err := language.Parse(bcp47)
 	if err != nil {
-		z.logger.Debug("unable to parse language into tag", zap.String("ietf", ietf), zap.Error(err))
+		z.logger.Debug("unable to parse language into tag", zap.String("bcp47", bcp47), zap.Error(err))
 		return language.English
 	}
 	m := language.NewMatcher(supportedLanguages)
@@ -108,6 +113,22 @@ func (z *UIMessageContainer) loadResource(lang language.Tag) (map[string]UIMessa
 		} else {
 			return NewMessageMap(baseAppMsg, z.userInterface, z.logger), nil
 		}
+	}
+}
+
+func (z *UIMessageContainer) UpdateLang(bcp47 string) {
+	l := z.chooseLanguage(bcp47)
+	z.logger.Debug("Updating language", zap.String("bcp47", bcp47), zap.Any("chosen", l))
+
+	if l == language.English {
+		z.localMessages = nil
+	} else {
+		z.logger.Debug("Loading additional language resource", zap.Any("lang", l))
+		lmc, err := z.loadResource(l)
+		if err != nil {
+			return
+		}
+		z.localMessages = lmc
 	}
 }
 
