@@ -7,7 +7,7 @@ build:
   script:
   - mkdir dist
   - export
-  - echo $TOOLBOX_APP_CREDENTIALS > resources/toolbox.appkeys
+  - echo $TOOLBOX_APPKEYS > resources/toolbox.appkeys
   - docker build -t toolbox .
   - docker run -e TOOLBOX_BUILD_ID=$CI_PIPELINE_IID -v $PWD/dist:/dist --rm toolbox
   artifacts:
