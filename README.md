@@ -8,7 +8,7 @@ Tools for Dropbox and Dropbox Business
 # Usage
 
 `tbx` have various features. Run without an option for a list of supported commands and options.
-Released package contains binaries for each operating system. Each binary are named like `tbx-[version]-[os]`. e.g. if the binary is for macOS, then the name is like `tbx-41.2.0.0-win.exe`.
+Released package contains binaries for each operating system. Each binary are named like `tbx-[version]-[os]`. e.g. if the binary is for Windows, then the name is like `tbx-41.2.0.0-win.exe`.
 
 You can see available commands and options by running executable without arguments like below.
 
@@ -27,6 +27,35 @@ Available commands:
 
 Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 ```
+
+## Available commands
+
+| command                         | description                                                  |
+| ------------------------------- | ------------------------------------------------------------ |
+| `file metadata`                 | Report metadata for a file or folder                         |
+| `group list`                    | List groups                                                  |
+| `group member list`             | List group members                                           |
+| `member detach`                 | Convert account into Dropbox Basic                           |
+| `member invite`                 | Invite members                                               |
+| `member list`                   | List members                                                 |
+| `member remove`                 | Remove the member from the team                              |
+| `member sync`                   | Sync member information with provided csv                    |
+| `team feature`                  | List team feature values                                     |
+| `team info`                     | Team info                                                    |
+| `team audit sharing`            | Export all sharing information across team                   |
+| `team audit events`             | Export activity logs                                         |
+| `team device list`              | List devices or web sessions of the team                     |
+| `team device unlink`            | Unlink device                                                |
+| `team linkedapp list`           | List all applications linked to the team members             |
+| `team namespace list`           | List all namespaces of the team                              |
+| `team namespace file list`      | List files/folders in all namespaces of the team             |
+| `team namespace file size`      | Calculate size of namespaces                                 |
+| `team sharedlink list`          | List all shared links of the team members' accounts          |
+| `team sharedlink update expire` | Update all shared link expire date of team members' accounts |
+| `team teamfolder list`          | List all team folder of the team                             |
+| `team teamfolder size`          | Calculate size of team folder                                |
+| `team teamfolder file list`     | List files/folders in all team folders of the team           |
+
 
 ## Authentication
 
@@ -71,33 +100,6 @@ The executable store tokens at the file under folder `$HOME/.toolbox/(HASH).secr
 
 The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add `-proxy` option, like `-proxy hostname:port`.
 Currently, the executable doesn't support proxies which require authentication.
-
-# Available commands
-
-| command                         | description                                                  |
-| ------------------------------- | ------------------------------------------------------------ |
-| `file metadata`                 | Report metadata for a file or folder                         |
-| `group list`                    | List groups                                                  |
-| `group member list`             | List group members                                           |
-| `member detach`                 | Convert account into Dropbox Basic                           |
-| `member invite`                 | Invite members                                               |
-| `member list`                   | List members                                                 |
-| `member remove`                 | Remove the member from the team                              |
-| `member sync`                   | Sync member information with provided csv                    |
-| `team feature`                  | List team feature values                                     |
-| `team info`                     | Team info                                                    |
-| `team audit sharing`            | Export all sharing information across team                   |
-| `team device list`              | List devices or web sessions of the team                     |
-| `team device unlink`            | Unlink device                                                |
-| `team linkedapp list`           | List all applications linked to the team members             |
-| `team namespace list`           | List all namespaces of the team                              |
-| `team namespace file list`      | List files/folders in all namespaces of the team             |
-| `team namespace file size`      | Calculate size of namespaces                                 |
-| `team sharedlink list`          | List all shared links of the team members' accounts          |
-| `team sharedlink update expire` | Update all shared link expire date of team members' accounts |
-| `team teamfolder list`          | List all team folder of the team                             |
-| `team teamfolder size`          | Calculate size of team folder                                |
-| `team teamfolder file list`     | List files/folders in all team folders of the team           |
 
 # Build
 
