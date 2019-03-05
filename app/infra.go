@@ -38,6 +38,7 @@ type ExecContext struct {
 	userInterface   app_ui.UI
 	resources       *rice.Box
 	logFilePath     string
+	lang            string
 	logger          *zap.Logger
 	messages        *app_ui.UIMessageContainer
 }
@@ -144,8 +145,16 @@ func (z *ExecContext) applyFlagNetwork() error {
 	return nil
 }
 
+func (z *ExecContext) applyLang() error {
+	z.messages.UpdateLang(z.lang)
+	return nil
+}
+
 func (z *ExecContext) ApplyFlags() error {
 	if err := z.applyFlagWorkPath(); err != nil {
+		return err
+	}
+	if err := z.applyLang(); err != nil {
 		return err
 	}
 	if err := z.applyFlagNetwork(); err != nil {
@@ -197,6 +206,9 @@ func (z *ExecContext) PrepareFlags(f *flag.FlagSet) {
 
 	descSecure := z.Msg("app.common.flag.secure").Text()
 	f.BoolVar(&z.noCacheToken, "secure", false, descSecure)
+
+	descLang := z.Msg("app.common.flag.lang").Text()
+	f.StringVar(&z.lang, "lang", "", descLang)
 }
 
 func (z *ExecContext) setupWorkPath() error {

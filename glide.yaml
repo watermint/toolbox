@@ -27,3 +27,4 @@ import:
 - package: github.com/kardianos/osext
 - package: github.com/rapid7/go-get-proxied
   version: ^1
+- package: github.com/cloudfoundry-attic/jibber_jabber
