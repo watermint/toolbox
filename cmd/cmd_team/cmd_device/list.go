@@ -62,10 +62,12 @@ func (z *CmdTeamDeviceList) Exec(args []string) {
 		l.IncludeWebSessions = false
 		l.IncludeMobileClients = true
 		l.IncludeDesktopClients = false
+
 	case "web":
 		l.IncludeWebSessions = true
 		l.IncludeMobileClients = false
 		l.IncludeDesktopClients = false
+
 	case "desktop":
 		l.IncludeWebSessions = false
 		l.IncludeMobileClients = false
