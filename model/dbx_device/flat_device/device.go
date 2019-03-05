@@ -2,6 +2,7 @@ package flat_device
 
 // Flattened structure for `WebSession`
 type WebSession struct {
+	Tag          string `json:"tag"`
 	TeamMemberId string `json:"team_member_id"`
 	SessionId    string `json:"session_id"`
 	UserAgent    string `json:"user_agent"`
@@ -16,6 +17,7 @@ type WebSession struct {
 
 // Flattened structure for `DesktopClient`
 type DesktopClient struct {
+	Tag                       string `json:"tag"`
 	TeamMemberId              string `json:"team_member_id"`
 	SessionId                 string `json:"session_id"`
 	HostName                  string `json:"host_name"`
@@ -31,6 +33,7 @@ type DesktopClient struct {
 
 // Flattened structure for `MobileClient`
 type MobileClient struct {
+	Tag           string `json:"tag"`
 	TeamMemberId  string `json:"team_member_id"`
 	SessionId     string `json:"session_id"`
 	DeviceName    string `json:"device_name"`

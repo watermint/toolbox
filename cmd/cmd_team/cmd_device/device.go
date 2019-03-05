@@ -10,6 +10,9 @@ func NewCmdTeamDevice() cmd.Commandlet {
 			&CmdTeamDeviceList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
+			&CmdTeamDeviceUnlink{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
 		},
 	}
 }
