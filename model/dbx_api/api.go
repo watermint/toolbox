@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/app"
 	"go.uber.org/zap"
 	"net/http"
 	"time"
@@ -176,34 +177,34 @@ func RebaseTimeForAPI(t time.Time) time.Time {
 
 type Context struct {
 	Token      string
+	TokenType  string
 	Client     *http.Client
 	RetryAfter time.Time
 	LastErrors []ErrorAnnotation
-	Logger     *zap.Logger
+	ec         *app.ExecContext
 }
 
-func (c *Context) Log() *zap.Logger {
-	return c.Logger
+func (z *Context) Log() *zap.Logger {
+	return z.ec.Log().With(zap.String("token", z.TokenType))
 }
 
-func (c *Context) ParseModel(v interface{}, j gjson.Result) error {
-	return parseModel(c.Log(), v, j)
+func (z *Context) ParseModel(v interface{}, j gjson.Result) error {
+	return parseModel(z.Log(), v, j)
 }
 
-func (c *Context) ParseModelJson(v interface{}, raw json.RawMessage) error {
-	return parseModelJson(c.Log(), v, raw)
+func (z *Context) ParseModelJson(v interface{}, raw json.RawMessage) error {
+	return parseModelJson(z.Log(), v, raw)
 }
 
-func NewContext(token string, logger *zap.Logger) *Context {
-	logger.Debug("New context")
-
+func NewContext(ec *app.ExecContext, tokenType, token string) *Context {
 	return &Context{
-		Token: token,
+		Token:     token,
+		TokenType: tokenType,
 		Client: &http.Client{
 			Timeout: DefaultClientTimeout,
 		},
-		Logger:     logger,
 		LastErrors: make([]ErrorAnnotation, 0),
+		ec:         ec,
 	}
 }
 

@@ -3,6 +3,7 @@ package cmd_teamfolder_file
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_namespace"
 	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/report"
@@ -22,62 +23,71 @@ func (CmdTeamTeamFolderFileList) Name() string {
 }
 
 func (CmdTeamTeamFolderFileList) Desc() string {
-	return "List files/folders in all team folders of the team"
+	return "cmd.team.teamfolder.file.list.desc"
 }
 
-func (CmdTeamTeamFolderFileList) Usage() string {
-	return ""
+func (CmdTeamTeamFolderFileList) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
-func (c *CmdTeamTeamFolderFileList) FlagConfig(f *flag.FlagSet) {
-	c.report.FlagConfig(f)
+func (z *CmdTeamTeamFolderFileList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
+	z.report.FlagConfig(f)
 
-	descIncludeDeleted := "Include deleted folders/files"
-	f.BoolVar(&c.namespaceFile.OptIncludeDeleted, "include-deleted", false, descIncludeDeleted)
+	descIncludeDeleted := z.ExecContext.Msg("cmd.team.teamfolder.file.list.flag.include_deleted").Text()
+	f.BoolVar(&z.namespaceFile.OptIncludeDeleted, "include-deleted", false, descIncludeDeleted)
 
-	descIncludeMediaInfo := "Include media info (metadata of photo and video)"
-	f.BoolVar(&c.namespaceFile.OptIncludeMediaInfo, "include-media-info", false, descIncludeMediaInfo)
+	descIncludeMediaInfo := z.ExecContext.Msg("cmd.team.teamfolder.file.list.flag.include_media_info").Text()
+	f.BoolVar(&z.namespaceFile.OptIncludeMediaInfo, "include-media-info", false, descIncludeMediaInfo)
 }
 
-func (c *CmdTeamTeamFolderFileList) Exec(args []string) {
-	c.namespaceFile.OptIncludeMemberFolder = false
-	c.namespaceFile.OptIncludeAppFolder = false
-	c.namespaceFile.OptIncludeTeamFolder = true
-	c.namespaceFile.OptIncludeSharedFolder = false
+func (z *CmdTeamTeamFolderFileList) Exec(args []string) {
+	z.namespaceFile.OptIncludeMemberFolder = false
+	z.namespaceFile.OptIncludeAppFolder = false
+	z.namespaceFile.OptIncludeTeamFolder = true
+	z.namespaceFile.OptIncludeSharedFolder = false
 
-	apiFile, err := c.ExecContext.LoadOrAuthBusinessFile()
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
 		return
 	}
 
 	admin, ea, _ := dbx_profile.AuthenticatedAdmin(apiFile)
 	if ea.IsFailure() {
-		c.DefaultErrorHandler(ea)
+		z.DefaultErrorHandler(ea)
 		return
 	}
-	c.report.Init(c.Log())
-	defer c.report.Close()
+	z.report.Init(z.ExecContext)
+	defer z.report.Close()
 
-	c.namespaceFile.AsAdminId = admin.TeamMemberId
-	c.namespaceFile.OnError = c.DefaultErrorHandler
-	c.namespaceFile.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
-		c.Log().Info("Scanning team folder",
+	z.namespaceFile.AsAdminId = admin.TeamMemberId
+	z.namespaceFile.OnError = z.DefaultErrorHandler
+	z.namespaceFile.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
+		z.ExecContext.Msg("cmd.team.teamfolder.file.list.progress.scan").WithData(struct {
+			Id   string
+			Name string
+		}{
+			Id:   namespace.NamespaceId,
+			Name: namespace.Name,
+		})
+		z.Log().Info("Scanning team folder",
 			zap.String("namespace_id", namespace.NamespaceId),
 			zap.String("name", namespace.Name),
 		)
 		return true
 	}
-	c.namespaceFile.OnFolder = func(folder *dbx_namespace.NamespaceFolder) bool {
-		c.report.Report(folder)
+	z.namespaceFile.OnFolder = func(folder *dbx_namespace.NamespaceFolder) bool {
+		z.report.Report(folder)
 		return true
 	}
-	c.namespaceFile.OnFile = func(file *dbx_namespace.NamespaceFile) bool {
-		c.report.Report(file)
+	z.namespaceFile.OnFile = func(file *dbx_namespace.NamespaceFile) bool {
+		z.report.Report(file)
 		return true
 	}
-	c.namespaceFile.OnDelete = func(deleted *dbx_namespace.NamespaceDeleted) bool {
-		c.report.Report(deleted)
+	z.namespaceFile.OnDelete = func(deleted *dbx_namespace.NamespaceDeleted) bool {
+		z.report.Report(deleted)
 		return true
 	}
-	c.namespaceFile.List(apiFile)
+	z.namespaceFile.List(apiFile)
 }

@@ -5,6 +5,7 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/model/dbx_team"
@@ -24,27 +25,31 @@ func (CmdMemberLinkedAppList) Name() string {
 }
 
 func (CmdMemberLinkedAppList) Desc() string {
-	return "List all applications linked to the team members' accounts"
+	return "cmd.team.linkedapp.list.desc"
 }
 
-func (CmdMemberLinkedAppList) Usage() string {
-	return ""
+func (z *CmdMemberLinkedAppList) Usage() func(cmd.CommandUsage) {
+	return func(u cmd.CommandUsage) {
+		z.ExecContext.Msg("cmd.team.linkedapp.list.desc").Tell()
+	}
 }
 
 func (z *CmdMemberLinkedAppList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descWithEmail := "Export report with team member email"
+	descWithEmail := z.ExecContext.Msg("cmd.team.linkedapp.list.flag.with_email").Text()
 	f.BoolVar(&z.OptWithMemberEmail, "with-email", false, descWithEmail)
 }
 
 func (z *CmdMemberLinkedAppList) Exec(args []string) {
-	apiFile, err := z.ExecContext.LoadOrAuthBusinessFile()
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	if z.OptWithMemberEmail {

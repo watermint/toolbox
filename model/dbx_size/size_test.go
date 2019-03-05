@@ -1,6 +1,7 @@
 package dbx_size
 
 import (
+	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/model/dbx_file"
 	"github.com/watermint/toolbox/model/dbx_namespace"
 	"go.uber.org/zap"
@@ -8,15 +9,12 @@ import (
 )
 
 func TestNamespaceSizes_OnFile(t *testing.T) {
-	log, err := zap.NewDevelopment()
-	if err != nil {
-		t.Error(err)
-	}
+	ec := app.NewExecContextForTest()
 
 	ns := NamespaceSizes{
 		OptDepth: 2,
 	}
-	ns.Init(log)
+	ns.Init(ec)
 
 	ns.OnFile(
 		&dbx_namespace.NamespaceFile{
@@ -161,7 +159,7 @@ func TestNamespaceSizes_OnFile(t *testing.T) {
 	)
 
 	for p, ns := range ns.Sizes {
-		log.Info("Size",
+		ec.Log().Info("Size",
 			zap.String("path", p),
 			zap.Int64("descendant", ns.DescendantCount),
 			zap.Int64("folder", ns.FolderCount),

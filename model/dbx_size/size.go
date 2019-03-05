@@ -3,6 +3,7 @@ package dbx_size
 import (
 	"bufio"
 	"encoding/json"
+	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_namespace"
 	"github.com/watermint/toolbox/model/dbx_profile"
@@ -26,7 +27,7 @@ type NamespaceSize struct {
 
 type NamespaceSizes struct {
 	Sizes                  map[string]*NamespaceSize
-	Logger                 *zap.Logger
+	ec                     *app.ExecContext
 	OnError                func(annotation dbx_api.ErrorAnnotation) bool
 	OptDepth               int
 	OptCachePath           string
@@ -36,9 +37,9 @@ type NamespaceSizes struct {
 	OptIncludeSharedFolder bool
 }
 
-func (z *NamespaceSizes) Init(logger *zap.Logger) {
+func (z *NamespaceSizes) Init(ec *app.ExecContext) {
 	z.Sizes = make(map[string]*NamespaceSize)
-	z.Logger = logger
+	z.ec = ec
 }
 
 func (z *NamespaceSizes) parent(path string) string {
@@ -116,17 +117,17 @@ func (z *NamespaceSizes) OnDelete(deleted *dbx_namespace.NamespaceDeleted) bool 
 
 func (z *NamespaceSizes) Load(c *dbx_api.Context) bool {
 	if z.OptCachePath != "" && z.isCacheFilesAvailable() {
-		z.Logger.Info("Calculating size from cache")
+		z.ec.Log().Info("Calculating size from cache")
 		return z.LoadFromCache()
 	} else {
-		z.Logger.Info("Retrieve data from API, then calculating size")
+		z.ec.Log().Info("Retrieve data from API, then calculating size")
 		return z.LoadFromApi(c)
 	}
 }
 
 func (z *NamespaceSizes) LoadFromCache() bool {
 	if f, err := os.Open(z.cachePathFile()); err != nil {
-		z.Logger.Warn(
+		z.ec.Log().Warn(
 			"Skip loading",
 			zap.String("file", z.cachePathFile()),
 			zap.Error(err),
@@ -139,7 +140,7 @@ func (z *NamespaceSizes) LoadFromCache() bool {
 				break
 			}
 			if err != nil {
-				z.Logger.Warn(
+				z.ec.Log().Warn(
 					"Unable to read file",
 					zap.String("file", z.cachePathFile()),
 					zap.Error(err),
@@ -149,7 +150,7 @@ func (z *NamespaceSizes) LoadFromCache() bool {
 
 			nsf := &dbx_namespace.NamespaceFile{}
 			if err = json.Unmarshal(line, nsf); err != nil {
-				z.Logger.Warn(
+				z.ec.Log().Warn(
 					"Unable to parse line",
 					zap.String("file", z.cachePathFile()),
 					zap.String("line", string(line)),
@@ -164,7 +165,7 @@ func (z *NamespaceSizes) LoadFromCache() bool {
 	}
 
 	if f, err := os.Open(z.cachePathFolder()); err != nil {
-		z.Logger.Warn(
+		z.ec.Log().Warn(
 			"Skip loading",
 			zap.String("file", z.cachePathFolder()),
 			zap.Error(err),
@@ -177,7 +178,7 @@ func (z *NamespaceSizes) LoadFromCache() bool {
 				break
 			}
 			if err != nil {
-				z.Logger.Warn(
+				z.ec.Log().Warn(
 					"Unable to read file",
 					zap.String("file", z.cachePathFolder()),
 					zap.Error(err),
@@ -187,7 +188,7 @@ func (z *NamespaceSizes) LoadFromCache() bool {
 
 			nsf := &dbx_namespace.NamespaceFolder{}
 			if err = json.Unmarshal(line, nsf); err != nil {
-				z.Logger.Warn(
+				z.ec.Log().Warn(
 					"Unable to parse line",
 					zap.String("file", z.cachePathFolder()),
 					zap.String("line", string(line)),
@@ -213,7 +214,7 @@ func (z *NamespaceSizes) LoadFromApi(c *dbx_api.Context) bool {
 	cacheWriter.ReportPath = z.OptCachePath
 	cacheWriter.ReportFormat = "json"
 	cacheWriter.DefaultWriter = ioutil.Discard
-	cacheWriter.Init(c.Log())
+	cacheWriter.Init(z.ec)
 
 	nsl := dbx_namespace.ListNamespaceFile{}
 	nsl.AsAdminId = admin.TeamMemberId
@@ -224,7 +225,7 @@ func (z *NamespaceSizes) LoadFromApi(c *dbx_api.Context) bool {
 	nsl.OptIncludeSharedFolder = z.OptIncludeSharedFolder
 	nsl.OptIncludeTeamFolder = z.OptIncludeTeamFolder
 	nsl.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
-		z.Logger.Info("Scanning folder",
+		z.ec.Log().Info("Scanning folder",
 			zap.String("namespace_type", namespace.NamespaceType),
 			zap.String("namespace_id", namespace.NamespaceId),
 			zap.String("name", namespace.Name),
