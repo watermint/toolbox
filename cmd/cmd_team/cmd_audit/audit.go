@@ -10,6 +10,9 @@ func NewCmdTeamAudit() cmd.Commandlet {
 			&CmdTeamAuditSharing{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
+			&CmdTeamAuditEvents{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
 		},
 	}
 }
