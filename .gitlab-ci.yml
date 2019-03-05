@@ -8,7 +8,7 @@ build:
   - mkdir dist
   - export
   - docker build -t toolbox .
-  - docker run -e TOOLBOX_BUILD_ID=$CI_PIPELINE_IID -v $PWD/dist:/dist --rm toolbox
+  - docker run -e TOOLBOX_BUILD_ID=$CI_PIPELINE_IID -e TOOLBOX_APP_CREDENTIALS='$TOOLBOX_APP_CREDENTIALS' -v $PWD/dist:/dist --rm toolbox
   artifacts:
     paths:
     - $PWD/dist
