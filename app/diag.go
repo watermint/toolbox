@@ -37,6 +37,7 @@ func (d *Diag) Runtime() error {
 		zap.Int("euid", os.Geteuid()),
 		zap.Strings("env", os.Environ()),
 	)
+	d.Log().Debug("Command", zap.Strings("arg", os.Args))
 	return nil
 }
 
@@ -54,6 +55,14 @@ func (d *Diag) Network() error {
 				zap.String("url", url),
 				zap.Error(err),
 			)
+			d.ExecContext.Msg("app.common.diag.network.err.unreachable").WithData(struct {
+				Url   string
+				Error string
+			}{
+				Url:   url,
+				Error: err.Error(),
+			}).TellError()
+
 			return err
 		}
 

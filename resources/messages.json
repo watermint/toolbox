@@ -7,6 +7,7 @@
   "app.common.flag.quiet": "Quiet mode",
   "app.common.flag.alias": "Alias for account/team",
   "app.common.flag.secure": "Do not store tokens into a file",
+  "app.common.diag.network.err.unreachable": "Network unreachable to `{{.Url}}` with error `{{.Error}}`.\nPlease ensure your network connection or proxy configuration.\nPlease specify `-proxy` option if your machine is under proxy or firewall.",
   "auth.basic.oauth_seq1": "1. Visit the URL for the auth dialog:\n\n{{.Url}}\n\n2. Click 'Allow' (you might have to login first):\n3. Copy the authorisation code:",
   "auth.basic.oauth_seq2": "Enter the authorisation code",
   "auth.basic.generated_token1": "1. Visit the MyApp page (you might have to login first):\n\nhttps://www.dropbox.com/developers/apps\n\n2. Proceed with \"Create App\"\n3. Choose \"{{.API}}\"\n4. Choose \"{{.TypeOfAccess}}\"\n5. Enter name of your app\n6. Proceed with \"Create App\"\n7. Hit \"Generate\" button near \"Generated access token\"\n8. Copy generated token\n",
@@ -128,7 +129,7 @@
   "cmd.file.metadata.desc": "Report metadata for a file or folder",
   "cmd.file.metadata.usage": "{{.Command}} path...",
   "report.common.flag.report_path": "Output file path of the report (default: STDOUT)",
-  "report.common.flag.report_format": "Output file for/**/mat (csv|json)",
+  "report.common.flag.report_format": "Output file format (csv|json)",
   "report.common.flag.use_bom": "Use BOM",
   "report.common.flag.with_header": "Report with header (for csv)"
 }

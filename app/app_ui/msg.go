@@ -4,8 +4,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/GeertJohan/go.rice"
+	"github.com/cloudfoundry-attic/jibber_jabber"
 	"github.com/watermint/toolbox/app/app_util"
 	"go.uber.org/zap"
+	"golang.org/x/text/language"
+)
+
+var (
+	supportedLanguages = []language.Tag{
+		language.English,
+		language.Japanese,
+	}
 )
 
 type UIMessage interface {
@@ -45,9 +54,11 @@ type UIMessage interface {
 type UIMessageContainer struct {
 	resources     *rice.Box
 	baseMessages  map[string]UIMessage
+	localMessages map[string]UIMessage
 	userInterface UI
 	logger        *zap.Logger
 	isTest        bool
+	lang          string
 }
 
 func NewUIMessageContainer(bx *rice.Box, ui UI, logger *zap.Logger) *UIMessageContainer {
@@ -55,6 +66,48 @@ func NewUIMessageContainer(bx *rice.Box, ui UI, logger *zap.Logger) *UIMessageCo
 		resources:     bx,
 		userInterface: ui,
 		logger:        logger,
+	}
+}
+
+func (z *UIMessageContainer) detectLanguage() language.Tag {
+	ietf, err := jibber_jabber.DetectIETF()
+	if err != nil {
+		z.logger.Debug("unable to detect language", zap.Error(err))
+		return language.English
+	}
+	tag, err := language.Parse(ietf)
+	if err != nil {
+		z.logger.Debug("unable to parse language into tag", zap.String("ietf", ietf), zap.Error(err))
+		return language.English
+	}
+	m := language.NewMatcher(supportedLanguages)
+	l, _, c := m.Match(tag)
+	z.logger.Debug("detect language", zap.Any("lang", l), zap.String("confidence", c.String()))
+
+	return l
+}
+
+func (z *UIMessageContainer) loadResource(lang language.Tag) (map[string]UIMessage, error) {
+	resName := "messages.json"
+	if lang != language.English {
+		b, _ := lang.Base()
+		resName = fmt.Sprintf("messages_%s.json", b)
+	}
+	z.logger.Debug("Loading message resource", zap.String("name", resName))
+
+	baseAppMsgBytes, err := z.resources.Bytes(resName)
+	if err != nil {
+		z.logger.Error("unable to load base app msg", zap.String("name", resName), zap.Error(err))
+		return nil, err
+	} else {
+		baseAppMsg := make(map[string]string)
+		err = json.Unmarshal(baseAppMsgBytes, &baseAppMsg)
+		if err != nil {
+			z.logger.Error("unable to unmarshal app msg", zap.String("name", resName), zap.Error(err))
+			return nil, err
+		} else {
+			return NewMessageMap(baseAppMsg, z.userInterface, z.logger), nil
+		}
 	}
 }
 
@@ -66,23 +119,33 @@ func (z *UIMessageContainer) Load() {
 		return
 	}
 
-	baseAppMsgBytes, err := z.resources.Bytes("messages.json")
+	// load base message
+	bmc, err := z.loadResource(language.English)
 	if err != nil {
-		z.logger.Error("unable to load base app msg `messages.json`", zap.Error(err))
-	} else {
-		baseAppMsg := make(map[string]string)
-		err = json.Unmarshal(baseAppMsgBytes, &baseAppMsg)
+		return
+	}
+	z.baseMessages = bmc
+
+	lang := z.detectLanguage()
+	if lang != language.English {
+		z.logger.Debug("Loading additional language resource", zap.Any("lang", lang))
+		lmc, err := z.loadResource(lang)
 		if err != nil {
-			z.logger.Error("unable to unmarshal app msg `messages.json`", zap.Error(err))
-		} else {
-			z.baseMessages = NewMessageMap(baseAppMsg, z.userInterface, z.logger)
+			return
 		}
+		z.localMessages = lmc
 	}
 }
 
 func (z *UIMessageContainer) Msg(key string) UIMessage {
 	if z.baseMessages == nil {
 		return NewAltMessage(key, z.userInterface)
+	}
+	if z.localMessages != nil {
+		if m, e := z.localMessages[key]; e {
+			return m
+		}
+		// fallback to base messages if the message not found in local messages
 	}
 	if m, e := z.baseMessages[key]; e {
 		return m
