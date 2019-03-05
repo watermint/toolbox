@@ -5,7 +5,7 @@ import "github.com/watermint/toolbox/cmd"
 func NewCmdMemberSharedLinkUpdate() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "update",
-		CommandDesc: "Update shared link",
+		CommandDesc: "cmd.team.sharedlink.update.desc",
 		SubCommands: []cmd.Commandlet{
 			&CmdTeamSharedLinkUpdateExpire{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},

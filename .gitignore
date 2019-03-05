@@ -8,4 +8,5 @@
 /build
 /dist
 /vendor
-/kitchensink.go
+/resources/*.tokens
+/resources/*.appkey

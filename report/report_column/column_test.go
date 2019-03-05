@@ -2,16 +2,14 @@ package report_column
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/app"
 	"go.uber.org/zap"
 	"reflect"
 	"testing"
 )
 
 func TestColumnMarshaller_Row2(t *testing.T) {
-	log, err := zap.NewDevelopment()
-	if err != nil {
-		t.Error(err)
-	}
+	ec := app.NewExecContextForTest()
 
 	type Name3 struct {
 		GivenName string
@@ -52,8 +50,8 @@ func TestColumnMarshaller_Row2(t *testing.T) {
 		},
 	}
 
-	log.Debug("nested - no pointer")
-	cz3 := NewRow(m3, log)
+	ec.Log().Debug("nested - no pointer")
+	cz3 := NewRow(m3, ec)
 	cols3 := cz3.Header()
 
 	expectedCols3 := []string{
@@ -72,8 +70,8 @@ func TestColumnMarshaller_Row2(t *testing.T) {
 		"0000",
 	}
 	vals3 := cz3.Values(m3)
-	log.Info("cols3", zap.Strings("cols", cols3))
-	log.Info("vals3", zap.Strings("vals", vals3))
+	ec.Log().Info("cols3", zap.Strings("cols", cols3))
+	ec.Log().Info("vals3", zap.Strings("vals", vals3))
 
 	if !reflect.DeepEqual(expectedCols3, cols3) {
 		t.Error("cols3 didn't match")
@@ -106,11 +104,11 @@ func TestColumnMarshaller_Row2(t *testing.T) {
 		"",
 	}
 
-	cz3s := NewRow(m3s, log)
+	cz3s := NewRow(m3s, ec)
 	cols3s := cz3s.Header()
 	vals3s := cz3.Values(m3s)
-	log.Info("cols3", zap.Strings("cols", cols3s))
-	log.Info("vals3", zap.Strings("vals", vals3s))
+	ec.Log().Info("cols3", zap.Strings("cols", cols3s))
+	ec.Log().Info("vals3", zap.Strings("vals", vals3s))
 
 	if !reflect.DeepEqual(expectedCols3, cols3s) {
 		t.Error("cols3 didn't match")

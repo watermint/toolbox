@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_team"
 	"github.com/watermint/toolbox/report"
 )
@@ -15,35 +16,37 @@ type CmdTeamFeature struct {
 	report     report.Factory
 }
 
-func (c *CmdTeamFeature) Name() string {
+func (z *CmdTeamFeature) Name() string {
 	return "feature"
 }
 
-func (c *CmdTeamFeature) Desc() string {
-	return "List team feature values"
+func (z *CmdTeamFeature) Desc() string {
+	return "cmd.team.feature.desc"
 }
 
-func (CmdTeamFeature) Usage() string {
-	return ""
+func (CmdTeamFeature) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
-func (c *CmdTeamFeature) FlagConfig(f *flag.FlagSet) {
-	c.report.FlagConfig(f)
+func (z *CmdTeamFeature) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
+	z.report.FlagConfig(f)
 }
 
-func (c *CmdTeamFeature) Exec(args []string) {
-	apiInfo, err := c.ExecContext.LoadOrAuthBusinessInfo()
+func (z *CmdTeamFeature) Exec(args []string) {
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiInfo, err := au.Auth(dbx_auth.DropboxTokenBusinessInfo)
 	if err != nil {
 		return
 	}
 
-	c.report.Init(c.Log())
-	defer c.report.Close()
+	z.report.Init(z.ExecContext)
+	defer z.report.Close()
 
 	l := dbx_team.FeatureList{
-		OnError: c.DefaultErrorHandler,
+		OnError: z.DefaultErrorHandler,
 		OnEntry: func(feature *dbx_team.Feature) bool {
-			c.report.Report(feature)
+			z.report.Report(feature)
 			return true
 		},
 	}

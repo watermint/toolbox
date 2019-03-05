@@ -2,6 +2,7 @@ package report_column
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/app"
 	"go.uber.org/zap"
 	"reflect"
 	"strconv"
@@ -16,10 +17,10 @@ func RowName(row interface{}) string {
 	return rowType.Name()
 }
 
-func NewRow(row interface{}, logger *zap.Logger) Row {
+func NewRow(row interface{}, ec *app.ExecContext) Row {
 	ri := &rowImpl{
-		name:   RowName(row),
-		logger: logger,
+		name: RowName(row),
+		ec:   ec,
 	}
 	ri.header = ri.parseHeader(row)
 
@@ -35,7 +36,7 @@ type Row interface {
 type rowImpl struct {
 	name   string
 	header []string
-	logger *zap.Logger
+	ec     *app.ExecContext
 }
 
 func (z *rowImpl) Name() string {
@@ -152,7 +153,7 @@ func (z *rowImpl) valueForPath(path string, value reflect.Value) string {
 	p0 := paths[0]
 	vt := value.Type()
 	if _, ok := vt.FieldByName(p0); !ok {
-		z.logger.Debug(
+		z.ec.Log().Debug(
 			"field not found",
 			zap.String("path", path),
 			zap.String("field", p0),
@@ -162,7 +163,7 @@ func (z *rowImpl) valueForPath(path string, value reflect.Value) string {
 
 	vf := value.FieldByName(p0)
 	if !vf.IsValid() {
-		z.logger.Debug(
+		z.ec.Log().Debug(
 			"field not found",
 			zap.String("path", path),
 			zap.String("field", p0),

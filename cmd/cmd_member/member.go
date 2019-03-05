@@ -7,7 +7,7 @@ import (
 func NewCmdMember() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "member",
-		CommandDesc: "Dropbox Business member management",
+		CommandDesc: "cmd.member.desc",
 		SubCommands: []cmd.Commandlet{
 			&CmdMemberList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},

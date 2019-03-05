@@ -2,6 +2,7 @@ package report_csv
 
 import (
 	"encoding/csv"
+	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_util"
 	"github.com/watermint/toolbox/report/report_column"
 	"go.uber.org/zap"
@@ -11,7 +12,7 @@ import (
 )
 
 type CsvReport struct {
-	logger        *zap.Logger
+	ec            *app.ExecContext
 	ReportUseBom  bool
 	ReportPath    string
 	ReportHeader  bool
@@ -45,7 +46,7 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 		if st, err := os.Stat(z.ReportPath); os.IsNotExist(err) {
 			err = os.MkdirAll(z.ReportPath, 0701)
 			if err != nil {
-				z.logger.Error(
+				z.ec.Log().Error(
 					"Unable to create report path",
 					zap.Error(err),
 					zap.String("path", z.ReportPath),
@@ -53,14 +54,14 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 				return nil, csv.NewWriter(z.DefaultWriter), err
 			}
 		} else if err != nil {
-			z.logger.Error(
+			z.ec.Log().Error(
 				"Unable to acquire information about the path",
 				zap.Error(err),
 				zap.String("path", z.ReportPath),
 			)
 			return nil, csv.NewWriter(z.DefaultWriter), err
 		} else if !st.IsDir() {
-			z.logger.Error(
+			z.ec.Log().Error(
 				"Report path is not a directory",
 				zap.Error(err),
 				zap.String("path", z.ReportPath),
@@ -68,9 +69,9 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 			return nil, csv.NewWriter(z.DefaultWriter), nil
 		}
 		filePath := filepath.Join(z.ReportPath, name+".csv")
-		z.logger.Debug("Opening report file", zap.String("path", filePath))
+		z.ec.Log().Debug("Opening report file", zap.String("path", filePath))
 		if zf, err := os.Create(filePath); err != nil {
-			z.logger.Error(
+			z.ec.Log().Error(
 				"unable to create report file, fallback to stdout",
 				zap.String("path", filePath),
 				zap.Error(err),
@@ -85,13 +86,13 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 
 	if f != nil {
 		f.Close()
-		z.logger.Fatal("File opened but no writer and/or parser available")
+		z.ec.Log().Fatal("File opened but no writer and/or parser available")
 	}
 	f, w, err = open(name)
 	if err != nil {
 		return nil, nil, nil, err
 	}
-	p = report_column.NewRow(row, z.logger)
+	p = report_column.NewRow(row, z.ec)
 
 	z.files[name] = f
 	z.writers[name] = w
@@ -103,8 +104,8 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 	return
 }
 
-func (z *CsvReport) Init(logger *zap.Logger) error {
-	z.logger = logger
+func (z *CsvReport) Init(ec *app.ExecContext) error {
+	z.ec = ec
 	if z.files == nil {
 		z.files = make(map[string]*os.File)
 	}

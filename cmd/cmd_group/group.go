@@ -8,10 +8,10 @@ import (
 func NewCmdGroup() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "group",
-		CommandDesc: "Dropbox Business group management",
+		CommandDesc: "cmd.group.desc",
 		SubCommands: []cmd.Commandlet{
 			cmd_group_member.NewCmdGroupMember(),
-			&CmdGrouplist{
+			&CmdGroupList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
 		},

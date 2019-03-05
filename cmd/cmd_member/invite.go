@@ -3,6 +3,7 @@ package cmd_member
 import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/report"
@@ -20,18 +21,20 @@ func (z *CmdMemberInvite) Name() string {
 }
 
 func (z *CmdMemberInvite) Desc() string {
-	return "Invite members"
+	return "cmd.member.invite.desc"
 }
 
-func (z *CmdMemberInvite) Usage() string {
+func (z *CmdMemberInvite) Usage() func(cmd.CommandUsage) {
 	return z.provision.Usage()
 }
 
 func (z *CmdMemberInvite) FlagConfig(f *flag.FlagSet) {
-	descSilent := "Silent provisioning"
+	descSilent := z.ExecContext.Msg("cmd.member.invite.flag.silent").Text()
 	f.BoolVar(&z.optSilent, "silent", false, descSilent)
 
+	z.provision.ec = z.ExecContext
 	z.provision.FlagConfig(f)
+	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 }
 
@@ -39,16 +42,17 @@ func (z *CmdMemberInvite) Exec(args []string) {
 	z.provision.Logger = z.Log()
 	err := z.provision.Load(args)
 	if err != nil {
-		z.PrintUsage(z)
+		z.PrintUsage(z.ExecContext, z)
 		return
 	}
 
-	apiMgmt, err := z.ExecContext.LoadOrAuthBusinessManagement()
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiMgmt, err := au.Auth(dbx_auth.DropboxTokenBusinessManagement)
 	if err != nil {
 		return
 	}
 
-	z.report.Init(z.Log())
+	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
 	memberReport := MemberReport{
@@ -71,7 +75,8 @@ func (z *CmdMemberInvite) Exec(args []string) {
 		},
 	}
 	if !mi.Invite(apiMgmt, invites) {
-		z.Log().Warn("terminate operation due to error")
+		z.ExecContext.Msg("cmd.member.invite.failure_exit").TellError()
+		z.Log().Debug("terminate operation due to error")
 		// quit, in case of the error
 		return
 	}

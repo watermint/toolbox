@@ -32,7 +32,8 @@ echo --------------------
 echo BUILD: Testing..
 
 cd $PROJECT_ROOT
-#rice embed-go
+rm resources/*.tokens
+rice embed-go
 go test $(glide novendor)
 
 

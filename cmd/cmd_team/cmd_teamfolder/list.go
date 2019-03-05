@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_teamfolder"
 	"github.com/watermint/toolbox/report"
 )
@@ -20,32 +21,34 @@ func (CmdTeamTeamFolderList) Name() string {
 }
 
 func (CmdTeamTeamFolderList) Desc() string {
-	return "List all team folder of the team"
+	return "cmd.team.teamfolder.list.desc"
 }
 
-func (CmdTeamTeamFolderList) Usage() string {
-	return ""
+func (CmdTeamTeamFolderList) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
-func (c *CmdTeamTeamFolderList) FlagConfig(f *flag.FlagSet) {
-	c.report.FlagConfig(f)
+func (z *CmdTeamTeamFolderList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
+	z.report.FlagConfig(f)
 }
 
-func (c *CmdTeamTeamFolderList) Exec(args []string) {
-	apiInfo, err := c.ExecContext.LoadOrAuthBusinessFile()
+func (z *CmdTeamTeamFolderList) Exec(args []string) {
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
 		return
 	}
 
-	c.report.Init(c.Log())
-	defer c.report.Close()
+	z.report.Init(z.ExecContext)
+	defer z.report.Close()
 
 	l := dbx_teamfolder.ListTeamFolder{
-		OnError: c.DefaultErrorHandler,
+		OnError: z.DefaultErrorHandler,
 		OnEntry: func(teamFolder *dbx_teamfolder.TeamFolder) bool {
-			c.report.Report(teamFolder)
+			z.report.Report(teamFolder)
 			return true
 		},
 	}
-	l.List(apiInfo)
+	l.List(apiFile)
 }

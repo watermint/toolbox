@@ -4,50 +4,49 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_group"
 	"github.com/watermint/toolbox/report"
 )
 
-type CmdGrouplist struct {
+type CmdGroupList struct {
 	*cmd.SimpleCommandlet
 
-	optIncludeRemoved bool
-	apiContext        *dbx_api.Context
-	report            report.Factory
+	apiContext *dbx_api.Context
+	report     report.Factory
 }
 
-func (c *CmdGrouplist) Name() string {
+func (z *CmdGroupList) Name() string {
 	return "list"
 }
 
-func (c *CmdGrouplist) Desc() string {
-	return "List groups"
+func (z *CmdGroupList) Desc() string {
+	return "cmd.group.list.desc"
 }
 
-func (c *CmdGrouplist) Usage() string {
-	return ""
+func (z *CmdGroupList) Usage() func(cmd.CommandUsage) {
+	return nil
 }
 
-func (c *CmdGrouplist) FlagConfig(f *flag.FlagSet) {
-	c.report.FlagConfig(f)
-
-	descCsv := "Include removed members"
-	f.BoolVar(&c.optIncludeRemoved, "include-removed", false, descCsv)
+func (z *CmdGroupList) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
+	z.report.FlagConfig(f)
 }
 
-func (c *CmdGrouplist) Exec(args []string) {
-	apiInfo, err := c.ExecContext.LoadOrAuthBusinessInfo()
+func (z *CmdGroupList) Exec(args []string) {
+	au := dbx_auth.NewDefaultAuth(z.ExecContext)
+	apiInfo, err := au.Auth(dbx_auth.DropboxTokenBusinessInfo)
 	if err != nil {
 		return
 	}
 
-	c.report.Init(c.Log())
-	defer c.report.Close()
+	z.report.Init(z.ExecContext)
+	defer z.report.Close()
 
 	gl := dbx_group.GroupList{
-		OnError: c.DefaultErrorHandler,
+		OnError: z.DefaultErrorHandler,
 		OnEntry: func(group *dbx_group.Group) bool {
-			c.report.Report(group)
+			z.report.Report(group)
 			return true
 		},
 	}
