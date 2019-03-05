@@ -3,10 +3,10 @@
 *.secret
 *.tokens
 *.afdesign
-*.appkey
+*.appkeys
 /.idea
 /build
 /dist
 /vendor
 /resources/*.tokens
-/resources/*.appkey
+/resources/*.appkeys
