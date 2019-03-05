@@ -1,5 +1,5 @@
 {
-  "app.common.name": "Toolbox (version {{.Version}})",
+  "app.common.name": "toolbox (version {{.Version}})",
   "app.common.license": "MITライセンスのもと配布されています. 詳細は次のページをご参照ください: https:\/\/github.com\/watermint\/toolbox",
   "app.common.copyright": "Copyright © 2016-2019 Takayuki Okazaki",
   "app.common.flag.proxy": "HTTP\/HTTPS プロクシ (ホスト名:ポート番号)",
@@ -7,7 +7,8 @@
   "app.common.flag.quiet": "静寂モード(出力を抑制します)",
   "app.common.flag.alias": "アカウントまたはチームの別名",
   "app.common.flag.secure": "トークンをファイルに保存しません",
-  "app.common.diag.network.err.unreachable": "`{{.Url}}`へのネットワーク接続に失敗しました(エラー: `{{.Error}}`).\nネットワークが利用可能であるかどうか、またプロクシサーバの設定が正しいか確認してください.\nプロクシサーバやファイアウォール下で利用される場合には`-proxy`オプションにてプロクシサーバを指定してください.",
+  "app.common.flag.lang": "表示言語 (BCP47書式で指定してください, 例: `en`, `ja-JP`)",
+  "app.common.diag.network.err.unreachable": "`{{.Url}}`へのネットワーク接続に失敗しました.\nネットワークが利用可能であるかどうか、またプロクシサーバの設定が正しいか確認してください.\nプロクシサーバやファイアウォール下で利用される場合には`-proxy`オプションにてプロクシサーバを指定してくだい.\n\nエラー:\n{{.Error}}",
   "auth.basic.oauth_seq1": "1. 次のURLを開き認証ダイアログを開いてください:\n\n{{.Url}}\n\n2. 'Allow'をクリックします (先にログインしておく必要があります):\n3. 認証コードをコピーします:",
   "auth.basic.oauth_seq2": "認証コードを入力してください",
   "auth.basic.generated_token1": "1. MyAppページを開きます (先にログインしておく必要があります):\n\nhttps:\/\/www.dropbox.com\/developers\/apps\n\n2. \"Create App\"をクリックして進みます\n3. \"{{.API}}\"を選択\n4. \"{{.TypeOfAccess}}\"を選択\n5. アプリケーション名をつけて入力してください\n6. \"Create App\"をクリックして進みます\n7. \"Generated access token\"欄の近くにある\"Generate\"ボタンを押します\n8. 生成されたトークン文字列をコピーします\n",
