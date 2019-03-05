@@ -62,6 +62,7 @@ func (z Device) Web() []*flat_device.WebSession {
 	s := make([]*flat_device.WebSession, 0)
 	for _, w := range z.WebSessions {
 		x := flat_device.WebSession{
+			Tag:          "web_session",
 			TeamMemberId: z.TeamMemberId,
 			SessionId:    w.SessionId,
 			UserAgent:    w.UserAgent,
@@ -83,6 +84,7 @@ func (z Device) Desktop() []*flat_device.DesktopClient {
 	s := make([]*flat_device.DesktopClient, 0)
 	for _, w := range z.DesktopClients {
 		x := flat_device.DesktopClient{
+			Tag:                       "desktop_client",
 			TeamMemberId:              z.TeamMemberId,
 			SessionId:                 w.SessionId,
 			HostName:                  w.HostName,
@@ -105,6 +107,7 @@ func (z Device) Mobile() []*flat_device.MobileClient {
 	s := make([]*flat_device.MobileClient, 0)
 	for _, w := range z.MobileClients {
 		x := flat_device.MobileClient{
+			Tag:           "mobile_client",
 			TeamMemberId:  z.TeamMemberId,
 			SessionId:     w.SessionId,
 			DeviceName:    w.DeviceName,

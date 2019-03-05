@@ -53,6 +53,11 @@ func (z *CmdTeamDeviceList) Exec(args []string) {
 	}
 
 	switch z.deviceType {
+	case "all":
+		l.IncludeWebSessions = true
+		l.IncludeMobileClients = true
+		l.IncludeDesktopClients = true
+
 	case "mobile":
 		l.IncludeWebSessions = false
 		l.IncludeMobileClients = true
