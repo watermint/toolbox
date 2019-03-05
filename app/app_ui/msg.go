@@ -80,6 +80,9 @@ func (z *UIMessageContainer) detectLanguage() language.Tag {
 }
 
 func (z *UIMessageContainer) chooseLanguage(bcp47 string) language.Tag {
+	if bcp47 == "" {
+		return language.English
+	}
 	tag, err := language.Parse(bcp47)
 	if err != nil {
 		z.logger.Debug("unable to parse language into tag", zap.String("bcp47", bcp47), zap.Error(err))

@@ -146,7 +146,9 @@ func (z *ExecContext) applyFlagNetwork() error {
 }
 
 func (z *ExecContext) applyLang() error {
-	z.messages.UpdateLang(z.lang)
+	if z.lang != "" {
+		z.messages.UpdateLang(z.lang)
+	}
 	return nil
 }
 
