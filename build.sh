@@ -44,13 +44,10 @@ X_APP_NAME="-X github.com/watermint/toolbox/app.AppName=toolbox"
 X_APP_VERSION="-X github.com/watermint/toolbox/app.AppVersion=$BUILD_VERSION"
 X_APP_HASH="-X github.com/watermint/toolbox/app.AppHash=$BUILD_HASH"
 X_APP_CREDENTIALS=""
-if [ -e $PROJECT_ROOT/credentials.secret ]; then
-X_APP_CREDENTIALS=$(cat $PROJECT_ROOT/credentials.secret | xargs)
-fi
 if [ "$TOOLBOX_APP_CREDENTIALS"x != ""x ]; then
-X_APP_CREDENTIALS="$TOOLBOX_APP_CREDENTIALS"
+  echo $TOOLBOX_APP_CREDENTIALS > resources/toolbox.appkeys
 fi
-LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_CREDENTIALS"
+LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH"
 
 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-win.exe github.com/watermint/toolbox
 GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-linux   github.com/watermint/toolbox
