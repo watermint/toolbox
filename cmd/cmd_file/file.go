@@ -7,6 +7,9 @@ func NewCmdFile() cmd.Commandlet {
 		CommandName: "file",
 		CommandDesc: "cmd.file.desc",
 		SubCommands: []cmd.Commandlet{
+			&CmdFileCompare{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
 			&CmdFileMetadata{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},

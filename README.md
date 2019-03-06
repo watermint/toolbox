@@ -32,6 +32,7 @@ Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 
 | command                         | description                                                  |
 | ------------------------------- | ------------------------------------------------------------ |
+| `file compare`                  | Compare files between two accounts                           |
 | `file metadata`                 | Report metadata for a file or folder                         |
 | `file mirror`                   | Mirror files/folders into another account                    |
 | `group list`                    | List groups                                                  |
