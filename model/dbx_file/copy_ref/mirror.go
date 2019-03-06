@@ -238,6 +238,24 @@ func (z *Mirror) handleApiError(ref CopyRef, fromPath, toPath string, apiErr dbx
 
 	default:
 		// log and return
+		errMsg := apiErr.ErrorSummary
+		if apiErr.UserMessage != "" {
+			errMsg = apiErr.UserMessage
+		}
+		z.ExecContext.Msg("dbx_file.copy_ref.mirror.err.failed_mirror").WithData(struct {
+			FromPath    string
+			FromAccount string
+			ToPath      string
+			ToAccount   string
+			Error       string
+		}{
+			FromPath:    fromPath,
+			FromAccount: z.FromAccountAlias,
+			ToPath:      toPath,
+			ToAccount:   z.ToAccountAlias,
+			Error:       errMsg,
+		}).TellError()
+
 		z.ExecContext.Log().Debug("other error_tag", zap.String("error_tag", apiErr.ErrorSummary))
 		return false
 	}
