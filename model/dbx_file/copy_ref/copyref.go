@@ -64,7 +64,7 @@ type CopyRefSave struct {
 	OnFile     func(file *dbx_file.File) bool                `json:"-"`
 }
 
-func (z *CopyRefSave) Save(c *dbx_api.Context, ref CopyRef, path string) bool {
+func (z *CopyRefSave) Save(c *dbx_api.Context, ref CopyRef, path string) error {
 	p := struct {
 		CopyReference string `json:"copy_reference"`
 		Path          string `json:"path"`
@@ -87,26 +87,32 @@ func (z *CopyRefSave) Save(c *dbx_api.Context, ref CopyRef, path string) bool {
 		Endpoint:   "files/copy_reference/save",
 		Param:      p,
 	}
-	res, ea, _ := req.Call(c)
+	res, ea, err := req.Call(c)
 	if ea.IsFailure() {
-		return z.OnError(ea)
+		z.OnError(ea)
+		return err
 	}
 	rj := gjson.Parse(res.Body)
 	if !rj.Exists() {
+		err = errors.New("unable to parse json data")
 		c.Log().Debug("unable to parse JSON", zap.String("body", res.Body))
-		return z.OnError(dbx_api.ErrorAnnotation{
+		z.OnError(dbx_api.ErrorAnnotation{
 			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     errors.New("unable to parse json data"),
+			Error:     err,
 		})
+		return err
 	}
 	m := rj.Get("metadata")
 	if !m.Exists() {
 		c.Log().Debug("could not found `metadata`", zap.String("body", res.Body))
-		return z.OnError(dbx_api.ErrorAnnotation{
+		err = errors.New("unable to parse metadata")
+		z.OnError(dbx_api.ErrorAnnotation{
 			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     errors.New("unable to parse metadata"),
+			Error:     err,
 		})
+		return err
 	}
 
-	return ep.Parse(m)
+	ep.Parse(m)
+	return nil
 }
