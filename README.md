@@ -33,6 +33,7 @@ Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 | command                         | description                                                  |
 | ------------------------------- | ------------------------------------------------------------ |
 | `file metadata`                 | Report metadata for a file or folder                         |
+| `file mirror`                   | Mirror files/folders into another account                    |
 | `group list`                    | List groups                                                  |
 | `group member list`             | List group members                                           |
 | `member detach`                 | Convert account into Dropbox Basic                           |

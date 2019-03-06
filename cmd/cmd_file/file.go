@@ -10,6 +10,9 @@ func NewCmdFile() cmd.Commandlet {
 			&CmdFileMetadata{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
+			&CmdFileMirror{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
 		},
 	}
 }
