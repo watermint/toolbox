@@ -58,10 +58,15 @@ func (r *RpcList) handleResponse(c *dbx_api.Context, res *RpcResponse, et dbx_ap
 	log := c.Log().With(zap.String("endpoint", r.EndpointList))
 
 	if et.IsFailure() {
-		if !r.OnError(et) {
+		if !r.OnError(et) || res == nil {
 			return false
 		}
 		log.Debug("continue list (error handler returns continue)")
+	}
+
+	if res == nil {
+		log.Debug("Response is null")
+		return false
 	}
 
 	if r.OnResponse != nil && !r.OnResponse(res.Body) {

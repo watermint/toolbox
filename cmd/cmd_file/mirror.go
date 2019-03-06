@@ -4,9 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_file"
 	"github.com/watermint/toolbox/model/dbx_file/copy_ref"
-	"go.uber.org/zap"
 )
 
 type CmdFileMirror struct {
@@ -49,7 +47,6 @@ func (z *CmdFileMirror) Exec(args []string) {
 		z.optFromPath == "" ||
 		z.optToPath == "" {
 
-		//TODO msg.json
 		z.ExecContext.Msg("cmd.file.mirror.err.not_enough_params").TellError()
 		return
 	}
@@ -70,36 +67,14 @@ func (z *CmdFileMirror) Exec(args []string) {
 		return
 	}
 
-	crs := copy_ref.CopyRefSave{
-		OnError: z.DefaultErrorHandler,
-		OnFile: func(file *dbx_file.File) bool {
-			z.ExecContext.Msg("cmd.file.mirror.progress.file.done").WithData(struct {
-				FromPath string
-				ToPath   string
-			}{
-				FromPath: z.optFromPath,
-				ToPath:   file.PathDisplay,
-			}).Tell()
-			return true
-		},
-		OnFolder: func(folder *dbx_file.Folder) bool {
-			z.ExecContext.Msg("cmd.file.mirror.progress.folder.done").WithData(struct {
-				FromPath string
-				ToPath   string
-			}{
-				FromPath: z.optFromPath,
-				ToPath:   folder.PathDisplay,
-			}).Tell()
-			return true
-		},
+	m := copy_ref.Mirror{
+		FromApi:          acFrom,
+		FromPath:         z.optFromPath,
+		FromAccountAlias: z.optFromAccount,
+		ToApi:            acTo,
+		ToPath:           z.optToPath,
+		ToAccountAlias:   z.optToAccount,
+		ExecContext:      z.ExecContext,
 	}
-	crg := copy_ref.CopyRefGet{
-		OnError: z.DefaultErrorHandler,
-		OnEntry: func(ref copy_ref.CopyRef) bool {
-			z.ExecContext.Log().Debug("Trying to copy", zap.String("ref", ref.CopyReference), zap.String("toPath", z.optToPath))
-			crs.Save(acTo, ref, z.optToPath)
-			return true
-		},
-	}
-	crg.Get(acFrom, z.optFromPath)
+	m.Mirror()
 }
