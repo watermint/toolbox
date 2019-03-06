@@ -4,7 +4,9 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_auth"
+	"github.com/watermint/toolbox/model/dbx_file/compare"
 	"github.com/watermint/toolbox/model/dbx_file/copy_ref"
+	"github.com/watermint/toolbox/report"
 )
 
 type CmdFileMirror struct {
@@ -13,6 +15,8 @@ type CmdFileMirror struct {
 	optToAccount   string
 	optFromPath    string
 	optToPath      string
+	optVerify      bool
+	report         report.Factory
 }
 
 func (CmdFileMirror) Name() string {
@@ -28,6 +32,9 @@ func (CmdFileMirror) Usage() func(usage cmd.CommandUsage) {
 }
 
 func (z *CmdFileMirror) FlagConfig(f *flag.FlagSet) {
+	z.report.ExecContext = z.ExecContext
+	z.report.FlagConfig(f)
+
 	descFromAccount := z.ExecContext.Msg("cmd.file.mirror.flag.from_account").Text()
 	f.StringVar(&z.optFromAccount, "from-account", "", descFromAccount)
 
@@ -39,6 +46,9 @@ func (z *CmdFileMirror) FlagConfig(f *flag.FlagSet) {
 
 	descToPath := z.ExecContext.Msg("cmd.file.mirror.flag.to_path").Text()
 	f.StringVar(&z.optToPath, "to-path", "", descToPath)
+
+	descVerify := z.ExecContext.Msg("cmd.file.mirror.flag.verify").Text()
+	f.BoolVar(&z.optVerify, "verify", false, descVerify)
 }
 
 func (z *CmdFileMirror) Exec(args []string) {
@@ -77,4 +87,23 @@ func (z *CmdFileMirror) Exec(args []string) {
 		ExecContext:      z.ExecContext,
 	}
 	m.Mirror()
+
+	if z.optVerify {
+		z.report.Init(z.ExecContext)
+		defer z.report.Close()
+
+		ba := compare.BetweenAccounts{
+			ExecContext:       z.ExecContext,
+			LeftAccountAlias:  z.optFromAccount,
+			LeftPath:          z.optFromPath,
+			LeftApi:           acFrom,
+			RightAccountAlias: z.optToAccount,
+			RightPath:         z.optToPath,
+			RightApi:          acTo,
+			OnDiff: func(diff compare.Diff) {
+				z.report.Report(diff)
+			},
+		}
+		ba.Compare()
+	}
 }
