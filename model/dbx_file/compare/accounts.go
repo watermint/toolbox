@@ -16,11 +16,13 @@ type BetweenAccounts struct {
 	LeftAsMemberId    string
 	LeftAsAdminId     string
 	LeftPath          string
+	LeftPathRoot      interface{}
 	RightApi          *dbx_api.Context
 	RightAccountAlias string
 	RightAsMemberId   string
 	RightAsAdminId    string
 	RightPath         string
+	RightPathRoot     interface{}
 	OnDiff            func(diff Diff)
 }
 
@@ -55,6 +57,7 @@ func (z *BetweenAccounts) compareLevel(path string) int {
 	lp := dbx_file.ListFolder{
 		AsMemberId:                      z.LeftAsMemberId,
 		AsAdminId:                       z.LeftAsAdminId,
+		PathRoot:                        z.LeftPathRoot,
 		IncludeHasExplicitSharedMembers: false,
 		IncludeDeleted:                  false,
 		IncludeMediaInfo:                false,
@@ -77,6 +80,7 @@ func (z *BetweenAccounts) compareLevel(path string) int {
 	rp := dbx_file.ListFolder{
 		AsMemberId:                      z.RightAsMemberId,
 		AsAdminId:                       z.RightAsAdminId,
+		PathRoot:                        z.RightPathRoot,
 		IncludeHasExplicitSharedMembers: false,
 		IncludeDeleted:                  false,
 		IncludeMediaInfo:                false,

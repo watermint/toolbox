@@ -14,6 +14,7 @@ import (
 var (
 	ReqHeaderSelectUser     = "Dropbox-API-Select-User"
 	ReqHeaderSelectAdmin    = "Dropbox-API-Select-Admin"
+	ReqHeaderPathRoot       = "Dropbox-API-Path-Root"
 	ResHeaderRetryAfter     = "Retry-After"
 	ResJsonDotTag           = "\\.tag"
 	DefaultClientTimeout    = time.Duration(60) * time.Second
@@ -22,6 +23,7 @@ var (
 	ErrorBadOrExpiredToken  = 401
 	ErrorAccessError        = 403
 	ErrorEndpointSpecific   = 409
+	ErrorNoPermission       = 422
 	ErrorRateLimit          = 429
 	ErrorSuccess            = 0
 	ErrorTransport          = 1000
@@ -30,6 +32,43 @@ var (
 	ErrorOperationFailed    = 1003
 	ErrorServerError        = 1500
 )
+
+// Data structure for `Dropbox-API-Path-Root: {".tag": "root", "root": "<namespace_id>"}`
+type PathRootRoot struct {
+	Tag         string `json:".tag"`
+	NamespaceId string `json:"root"`
+}
+
+func NewPathRootRoot(nsId string) PathRootRoot {
+	return PathRootRoot{
+		Tag:         "root",
+		NamespaceId: nsId,
+	}
+}
+
+// Data structure for `Dropbox-API-Path-Root: {".tag": "home"}`
+type PathRootHome struct {
+	Tag string `json:".tag"`
+}
+
+func NewPathRootHome() PathRootHome {
+	return PathRootHome{
+		Tag: "home",
+	}
+}
+
+// Data structure for `Dropbox-API-Path-Root: {".tag": "namespace_id", "namespace_id": "<namespace_id>"}`
+type PathRootNamespace struct {
+	Tag         string `json:".tag"`
+	NamespaceId string `json:"namespace_id"`
+}
+
+func NewPathRootNamespace(nsId string) PathRootNamespace {
+	return PathRootNamespace{
+		Tag:         "namespace_id",
+		NamespaceId: nsId,
+	}
+}
 
 func ParseApiError(responseBody string) (ae ApiError) {
 	ae.ErrorTag = gjson.Get(responseBody, "error."+ResJsonDotTag).String()
