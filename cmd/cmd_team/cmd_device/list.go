@@ -11,8 +11,8 @@ import (
 
 type CmdTeamDeviceList struct {
 	*cmd.SimpleCommandlet
-	report     report.Factory
-	deviceType string
+	report        report.Factory
+	optDeviceType string
 }
 
 func (CmdTeamDeviceList) Name() string {
@@ -32,7 +32,7 @@ func (z *CmdTeamDeviceList) FlagConfig(f *flag.FlagSet) {
 	z.report.FlagConfig(f)
 
 	descDeviceType := z.ExecContext.Msg("cmd.team.device.list.flag.device").Text()
-	f.StringVar(&z.deviceType, "device", "", descDeviceType)
+	f.StringVar(&z.optDeviceType, "device", "", descDeviceType)
 }
 
 func (z *CmdTeamDeviceList) Exec(args []string) {
@@ -52,7 +52,7 @@ func (z *CmdTeamDeviceList) Exec(args []string) {
 		},
 	}
 
-	switch z.deviceType {
+	switch z.optDeviceType {
 	case "all":
 		l.IncludeWebSessions = true
 		l.IncludeMobileClients = true

@@ -1,73 +1,26 @@
 package dbx_group
 
 import (
-	"errors"
+	"encoding/json"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/model/dbx_rpc"
 )
 
+const (
+	ManagementTypeUser    = "user_managed"
+	ManagementTypeCompany = "company_managed"
+	ManagementTypeSystem  = "system_managed"
+)
+
 type Group struct {
-	GroupId             string `json:"group_id,omitempty"`
-	GroupName           string `json:"group_name,omitempty"`
-	GroupManagementType string `json:"group_management_type,omitempty"`
-	GroupExternalId     string `json:"group_external_id,omitempty"`
-	MemberCount         int64  `json:"member_count,omitempty"`
-}
-
-func ParseGroup(g gjson.Result) (group *Group, annotation dbx_api.ErrorAnnotation, err error) {
-	groupIdJson := g.Get("group_id")
-
-	if !groupIdJson.Exists() {
-		err = errors.New("required field `group_id` not found")
-		annotation = dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     err,
-		}
-		return
-	}
-
-	group = &Group{
-		GroupId:             groupIdJson.String(),
-		GroupName:           g.Get("group_name").String(),
-		GroupManagementType: g.Get("group_management_type.\\.tag").String(),
-		GroupExternalId:     g.Get("group_external_id").String(),
-		MemberCount:         g.Get("member_count").Int(),
-	}
-	return group, dbx_api.ErrorAnnotation{ErrorType: dbx_api.ErrorSuccess}, nil
-}
-
-type GroupList struct {
-	OnError func(annotation dbx_api.ErrorAnnotation) bool
-	OnEntry func(group *Group) bool
-}
-
-func (a *GroupList) List(c *dbx_api.Context) bool {
-	list := dbx_rpc.RpcList{
-		EndpointList:         "team/groups/list",
-		EndpointListContinue: "team/groups/list/continue",
-		UseHasMore:           true,
-		ResultTag:            "groups",
-		OnError:              a.OnError,
-		OnEntry: func(r gjson.Result) bool {
-			p, ea, _ := ParseGroup(r)
-			if ea.IsSuccess() {
-				if a.OnEntry != nil {
-					return a.OnEntry(p)
-				} else {
-					return true
-				}
-			} else {
-				if a.OnError != nil {
-					a.OnError(ea)
-				}
-				return false
-			}
-		},
-	}
-
-	return list.List(c, nil)
+	Raw                 json.RawMessage `json:"-"`
+	GroupId             string          `path:"group_id" json:"group_id"`
+	GroupName           string          `path:"group_name" json:"group_name"`
+	GroupManagementType string          `path:"group_management_type.\\.tag" json:"group_management_type"`
+	GroupExternalId     string          `path:"group_external_id" json:"group_external_id,omitempty"`
+	MemberCount         int64           `path:"member_count" json:"member_count,omitempty"`
 }
 
 type GroupMember struct {

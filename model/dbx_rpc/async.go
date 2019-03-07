@@ -12,6 +12,7 @@ type AsyncStatus struct {
 	Endpoint   string
 	AsMemberId string
 	AsAdminId  string
+
 	OnError    func(annotation dbx_api.ErrorAnnotation) bool
 	OnComplete func(complete gjson.Result) bool
 }
@@ -21,23 +22,29 @@ func (a *AsyncStatus) Poll(c *dbx_api.Context, res *RpcResponse) bool {
 }
 
 func (a *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobId string) bool {
+	resJson := gjson.Parse(res.Body)
+
 	log := c.Log().With(zap.String("async_job_id", asyncJobId))
 	log.Debug(
 		"handlePoll",
 		zap.String("body", res.Body),
 	)
-	tag := gjson.Get(res.Body, dbx_api.ResJsonDotTag)
+	tag := resJson.Get(dbx_api.ResJsonDotTag)
 
 	if !tag.Exists() {
-		err := errors.New("unexpected data format: `.tag` not found")
-		annotation := dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     err,
-		}
-		if a.OnError != nil {
+		asyncJobId := resJson.Get("async_job_id")
+		if asyncJobId.Exists() {
+			time.Sleep(time.Duration(3) * time.Second)
+			return a.handleAsyncJobId(c, res, asyncJobId.String())
+
+		} else {
+			err := errors.New("unexpected data format: `.tag` not found")
+			annotation := dbx_api.ErrorAnnotation{
+				ErrorType: dbx_api.ErrorUnexpectedDataType,
+				Error:     err,
+			}
 			return a.OnError(annotation)
 		}
-		return false
 	}
 
 	switch tag.String() {

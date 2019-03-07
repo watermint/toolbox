@@ -33,6 +33,9 @@ type RpcRequest struct {
 	NoAuthHeader bool
 	AsMemberId   string
 	AsAdminId    string
+
+	// Dropbox-API-Path-Root header. See https://www.dropbox.com/developers/reference/namespace-guide
+	PathRoot interface{}
 }
 
 func (a *RpcRequest) requestUrl() string {
@@ -46,11 +49,7 @@ func (a *RpcRequest) rpcRequest(c *dbx_api.Context) (req *http.Request, err erro
 	// param
 	requestParam, err := json.Marshal(a.Param)
 	if err != nil {
-		log.Debug(
-			"unable to marshal params",
-			zap.Error(err),
-		)
-
+		log.Debug("unable to marshal params", zap.Error(err))
 		return nil, err
 	}
 	req, err = http.NewRequest("POST", url, bytes.NewReader(requestParam))
@@ -70,6 +69,14 @@ func (a *RpcRequest) rpcRequest(c *dbx_api.Context) (req *http.Request, err erro
 	}
 	if a.AsAdminId != "" {
 		req.Header.Add(dbx_api.ReqHeaderSelectAdmin, a.AsAdminId)
+	}
+	if a.PathRoot != nil {
+		pr, err := json.Marshal(a.PathRoot)
+		if err != nil {
+			log.Debug("unable to marshal path root", zap.Error(err))
+			return nil, err
+		}
+		req.Header.Add(dbx_api.ReqHeaderPathRoot, string(pr))
 	}
 	return
 }
@@ -203,6 +210,13 @@ func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, ea dbx_api.E
 		)
 
 		return annotate(nil, dbx_api.ErrorEndpointSpecific, dbx_api.ParseApiError(bodyString))
+
+	case dbx_api.ErrorNoPermission: // No permission
+		log.Debug(
+			"access error",
+			zap.String("error_body", bodyString),
+		)
+		return annotate(nil, dbx_api.ErrorNoPermission, dbx_api.ParseAccessError(bodyString))
 
 	case dbx_api.ErrorRateLimit: // Rate limit
 		retryAfter := res.Header.Get(dbx_api.ResHeaderRetryAfter)

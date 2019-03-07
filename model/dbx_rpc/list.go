@@ -9,6 +9,7 @@ import (
 type RpcList struct {
 	EndpointList         string
 	EndpointListContinue string
+	PathRoot             interface{}
 	UseHasMore           bool
 	AsMemberId           string
 	AsAdminId            string
@@ -22,6 +23,7 @@ type RpcList struct {
 func (r *RpcList) List(c *dbx_api.Context, arg interface{}) bool {
 	req := RpcRequest{
 		Endpoint:   r.EndpointList,
+		PathRoot:   r.PathRoot,
 		AsAdminId:  r.AsAdminId,
 		AsMemberId: r.AsMemberId,
 		Param:      arg,
@@ -58,10 +60,15 @@ func (r *RpcList) handleResponse(c *dbx_api.Context, res *RpcResponse, et dbx_ap
 	log := c.Log().With(zap.String("endpoint", r.EndpointList))
 
 	if et.IsFailure() {
-		if !r.OnError(et) {
+		if !r.OnError(et) || res == nil {
 			return false
 		}
 		log.Debug("continue list (error handler returns continue)")
+	}
+
+	if res == nil {
+		log.Debug("Response is null")
+		return false
 	}
 
 	if r.OnResponse != nil && !r.OnResponse(res.Body) {
