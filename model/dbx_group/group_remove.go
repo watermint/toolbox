@@ -8,7 +8,8 @@ import (
 )
 
 type Remove struct {
-	OnError func(annotation dbx_api.ErrorAnnotation) bool
+	OnError   func(annotation dbx_api.ErrorAnnotation) bool
+	OnSuccess func()
 }
 
 func (z *Remove) Remove(c *dbx_api.Context, groupId string) bool {
@@ -41,6 +42,7 @@ func (z *Remove) Remove(c *dbx_api.Context, groupId string) bool {
 		},
 	}
 	if as.Poll(c, res) {
+		z.OnSuccess()
 		return true
 	} else {
 		return false
