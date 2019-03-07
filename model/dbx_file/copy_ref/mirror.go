@@ -16,24 +16,32 @@ type Mirror struct {
 	FromAccountAlias string
 	FromAsMemberId   string
 	FromPath         string
+	FromNamespaceId  string
+	FromPathRoot     interface{}
 	ToApi            *dbx_api.Context
 	ToAccountAlias   string
 	ToAsMemberId     string
 	ToPath           string
+	ToNamespaceId    string
+	ToPathRoot       interface{}
 }
 
 func (z *Mirror) handleError(annotation dbx_api.ErrorAnnotation, fromPath, toPath string) bool {
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.err.failed_mirror").WithData(struct {
 		FromPath    string
 		FromAccount string
+		FromNS      string
 		ToPath      string
 		ToAccount   string
+		ToNS        string
 		Error       string
 	}{
 		FromPath:    fromPath,
 		FromAccount: z.FromAccountAlias,
+		FromNS:      z.FromNamespaceId,
 		ToPath:      toPath,
 		ToAccount:   z.ToAccountAlias,
+		ToNS:        z.ToNamespaceId,
 		Error:       annotation.Error.Error(),
 	}).TellError()
 
@@ -44,13 +52,17 @@ func (z *Mirror) progressFile(file *dbx_file.File, fromPath, toPath string) bool
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.file.done").WithData(struct {
 		FromPath    string
 		FromAccount string
+		FromNS      string
 		ToPath      string
 		ToAccount   string
+		ToNS        string
 	}{
 		FromPath:    fromPath,
 		FromAccount: z.FromAccountAlias,
+		FromNS:      z.FromNamespaceId,
 		ToPath:      toPath,
 		ToAccount:   z.ToAccountAlias,
+		ToNS:        z.ToNamespaceId,
 	}).Tell()
 	return true
 }
@@ -59,13 +71,17 @@ func (z *Mirror) progressFolder(folder *dbx_file.Folder, fromPath, toPath string
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.folder.done").WithData(struct {
 		FromPath    string
 		FromAccount string
+		FromNS      string
 		ToPath      string
 		ToAccount   string
+		ToNS        string
 	}{
 		FromPath:    fromPath,
 		FromAccount: z.FromAccountAlias,
+		FromNS:      z.FromNamespaceId,
 		ToPath:      toPath,
 		ToAccount:   z.ToAccountAlias,
+		ToNS:        z.ToNamespaceId,
 	}).Tell()
 	return true
 }
@@ -77,14 +93,18 @@ func (z *Mirror) destToPath(fromPath string) (string, error) {
 		z.ExecContext.Msg("dbx_file.copy_ref.mirror.err.failed_mirror").WithData(struct {
 			FromPath    string
 			FromAccount string
+			FromNS      string
 			ToPath      string
 			ToAccount   string
+			ToNS        string
 			Error       string
 		}{
 			FromPath:    fromPath,
 			FromAccount: z.FromAccountAlias,
+			FromNS:      z.FromNamespaceId,
 			ToPath:      z.ToPath,
 			ToAccount:   z.ToAccountAlias,
+			ToNS:        z.ToNamespaceId,
 			Error:       err.Error(),
 		}).TellError()
 		return "", errors.New("unable to calc relative path")
@@ -102,14 +122,18 @@ func (z *Mirror) destToPath(fromPath string) (string, error) {
 		z.ExecContext.Msg("dbx_file.copy_ref.mirror.err.failed_mirror").WithData(struct {
 			FromPath    string
 			FromAccount string
+			FromNS      string
 			ToPath      string
 			ToAccount   string
+			ToNS        string
 			Error       string
 		}{
 			FromPath:    fromPath,
 			FromAccount: z.FromAccountAlias,
+			FromNS:      z.FromNamespaceId,
 			ToPath:      z.ToPath,
 			ToAccount:   z.ToAccountAlias,
+			ToNS:        z.ToNamespaceId,
 			Error:       err.Error(),
 		}).TellError()
 		return "", err
@@ -134,6 +158,7 @@ func (z *Mirror) mirrorAncestors(fromPath, toPath string) {
 
 	lst := dbx_file.ListFolder{
 		AsMemberId: z.ToAsMemberId,
+		PathRoot:   z.ToPathRoot,
 
 		IncludeMediaInfo:                false,
 		IncludeDeleted:                  false,
@@ -177,6 +202,7 @@ func (z *Mirror) mirrorAncestors(fromPath, toPath string) {
 
 	lsf := dbx_file.ListFolder{
 		AsMemberId: z.FromAsMemberId,
+		PathRoot:   z.FromPathRoot,
 
 		IncludeMediaInfo:                false,
 		IncludeDeleted:                  false,
@@ -279,6 +305,7 @@ func (z *Mirror) handleApiError(ref CopyRef, fromPath, toPath string, apiErr dbx
 func (z *Mirror) onEntry(ref CopyRef, fromPath, toPath string) bool {
 	crs := CopyRefSave{
 		AsMemberId: z.ToAsMemberId,
+		PathRoot:   z.ToPathRoot,
 		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
 			return z.handleError(annotation, fromPath, toPath)
 		},
@@ -321,6 +348,7 @@ func (z *Mirror) doMirror(fromPath, toPath string) {
 
 	crg := CopyRefGet{
 		AsMemberId: z.FromAsMemberId,
+		PathRoot:   z.FromPathRoot,
 		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
 			return z.handleError(annotation, fromPath, toPath)
 		},
@@ -331,8 +359,27 @@ func (z *Mirror) doMirror(fromPath, toPath string) {
 	crg.Get(z.FromApi, fromPath)
 }
 
+func (z *Mirror) updatePathRoot() {
+	if z.FromNamespaceId != "" {
+		z.FromPathRoot = dbx_api.NewPathRootNamespace(z.FromNamespaceId)
+	}
+	if z.ToNamespaceId != "" {
+		z.ToPathRoot = dbx_api.NewPathRootNamespace(z.ToNamespaceId)
+	}
+}
+
 func (z *Mirror) Mirror() {
+	z.updatePathRoot()
+
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.start").Tell()
 	z.doMirror(z.FromPath, z.ToPath)
+	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.done").Tell()
+}
+
+func (z *Mirror) MirrorAncestors() {
+	z.updatePathRoot()
+
+	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.start").Tell()
+	z.mirrorAncestors(z.FromPath, z.ToPath)
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.done").Tell()
 }

@@ -18,6 +18,7 @@ type CopyRef struct {
 
 type CopyRefGet struct {
 	AsMemberId string                                        `json:"-"`
+	PathRoot   interface{}                                   `json:"-"`
 	OnError    func(annotation dbx_api.ErrorAnnotation) bool `json:"-"`
 	OnEntry    func(ref CopyRef) bool                        `json:"-"`
 }
@@ -31,6 +32,7 @@ func (z *CopyRefGet) Get(c *dbx_api.Context, path string) bool {
 	req := dbx_rpc.RpcRequest{
 		AsMemberId: z.AsMemberId,
 		Endpoint:   "files/copy_reference/get",
+		PathRoot:   z.PathRoot,
 		Param:      p,
 	}
 	res, ea, _ := req.Call(c)
@@ -59,6 +61,7 @@ func (z *CopyRefGet) Get(c *dbx_api.Context, path string) bool {
 
 type CopyRefSave struct {
 	AsMemberId string                                        `json:"-"`
+	PathRoot   interface{}                                   `json:"-"`
 	OnError    func(annotation dbx_api.ErrorAnnotation) bool `json:"-"`
 	OnFolder   func(folder *dbx_file.Folder) bool            `json:"-"`
 	OnFile     func(file *dbx_file.File) bool                `json:"-"`
@@ -84,6 +87,7 @@ func (z *CopyRefSave) Save(c *dbx_api.Context, ref CopyRef, path string) error {
 	}
 	req := dbx_rpc.RpcRequest{
 		AsMemberId: z.AsMemberId,
+		PathRoot:   z.PathRoot,
 		Endpoint:   "files/copy_reference/save",
 		Param:      p,
 	}

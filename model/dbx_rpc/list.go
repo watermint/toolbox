@@ -9,6 +9,7 @@ import (
 type RpcList struct {
 	EndpointList         string
 	EndpointListContinue string
+	PathRoot             interface{}
 	UseHasMore           bool
 	AsMemberId           string
 	AsAdminId            string
@@ -22,6 +23,7 @@ type RpcList struct {
 func (r *RpcList) List(c *dbx_api.Context, arg interface{}) bool {
 	req := RpcRequest{
 		Endpoint:   r.EndpointList,
+		PathRoot:   r.PathRoot,
 		AsAdminId:  r.AsAdminId,
 		AsMemberId: r.AsMemberId,
 		Param:      arg,

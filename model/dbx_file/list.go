@@ -10,6 +10,7 @@ import (
 type ListFolder struct {
 	AsMemberId                      string
 	AsAdminId                       string
+	PathRoot                        interface{}
 	IncludeMediaInfo                bool
 	IncludeDeleted                  bool
 	IncludeHasExplicitSharedMembers bool
@@ -22,6 +23,9 @@ type ListFolder struct {
 }
 
 func (l *ListFolder) List(c *dbx_api.Context, path string) bool {
+	if path == "/" {
+		path = ""
+	}
 	type ListParam struct {
 		Path                            string `json:"path"`
 		IncludeMediaInfo                bool   `json:"include_media_info,omitempty"`
@@ -47,6 +51,7 @@ func (l *ListFolder) List(c *dbx_api.Context, path string) bool {
 	list := dbx_rpc.RpcList{
 		AsMemberId:           l.AsMemberId,
 		AsAdminId:            l.AsAdminId,
+		PathRoot:             l.PathRoot,
 		EndpointList:         "files/list_folder",
 		EndpointListContinue: "files/list_folder/continue",
 		UseHasMore:           true,
