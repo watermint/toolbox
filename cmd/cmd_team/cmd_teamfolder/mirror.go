@@ -22,18 +22,19 @@ import (
 
 type CmdTeamTeamFolderMirror struct {
 	*cmd.SimpleCommandlet
-	optFromAccount  string
-	optToAccount    string
-	optVerify       bool
-	report          report.Factory
-	toTeamFolders   map[string]*dbx_teamfolder.TeamFolder
-	fromTeamFolders map[string]*dbx_teamfolder.TeamFolder
-	toTeamAdminId   string
-	fromTeamAdminId string
-	toTempGroupId   string
-	fromFileApi     *dbx_api.Context
-	toFileApi       *dbx_api.Context
-	toMgmtApi       *dbx_api.Context
+	optFromAccount    string
+	optToAccount      string
+	optVerify         bool
+	optAllTeamFolders bool
+	report            report.Factory
+	toTeamFolders     map[string]*dbx_teamfolder.TeamFolder
+	fromTeamFolders   map[string]*dbx_teamfolder.TeamFolder
+	toTeamAdminId     string
+	fromTeamAdminId   string
+	toTempGroupId     string
+	fromFileApi       *dbx_api.Context
+	toFileApi         *dbx_api.Context
+	toMgmtApi         *dbx_api.Context
 }
 
 func (CmdTeamTeamFolderMirror) Name() string {
@@ -60,6 +61,9 @@ func (z *CmdTeamTeamFolderMirror) FlagConfig(f *flag.FlagSet) {
 
 	descVerify := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.verify").Text()
 	f.BoolVar(&z.optVerify, "verify", false, descVerify)
+
+	descAll := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.all").Text()
+	f.BoolVar(&z.optAllTeamFolders, "all", false, descAll)
 }
 
 func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
@@ -69,14 +73,18 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 		z.ExecContext.Msg("cmd.team.teamfolder.mirror.err.not_enough_params").TellError()
 		return
 	}
-	if len(args) < 1 {
+	if len(args) < 1 && !z.optAllTeamFolders {
 		z.ExecContext.Msg("cmd.team.teamfolder.mirror.err.not_enough_arguments").TellError()
 		return
 	}
 	var err error
 
 	// Ask for FROM account authentication
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.prompt.ask_from_account_auth").Tell()
+	z.ExecContext.Msg("cmd.team.teamfolder.mirror.prompt.ask_from_account_auth").WithData(struct {
+		Alias string
+	}{
+		Alias: z.optFromAccount,
+	}).Tell()
 	auFrom := dbx_auth.NewAuth(z.ExecContext, z.optFromAccount)
 	z.fromFileApi, err = auFrom.Auth(dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
@@ -84,7 +92,11 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	}
 
 	// Ask for TO account authentication
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.prompt.ask_to_file_account_auth").Tell()
+	z.ExecContext.Msg("cmd.team.teamfolder.mirror.prompt.ask_to_file_account_auth").WithData(struct {
+		Alias string
+	}{
+		Alias: z.optToAccount,
+	}).Tell()
 	auTo := dbx_auth.NewAuth(z.ExecContext, z.optToAccount)
 	z.toFileApi, err = auTo.Auth(dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
@@ -92,31 +104,67 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	}
 
 	// Ask for TO account authentication
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.prompt.ask_to_mgmt_account_auth").Tell()
+	z.ExecContext.Msg("cmd.team.teamfolder.mirror.prompt.ask_to_mgmt_account_auth").WithData(struct {
+		Alias string
+	}{
+		Alias: z.optToAccount,
+	}).Tell()
 	z.toMgmtApi, err = auTo.Auth(dbx_auth.DropboxTokenBusinessManagement)
 	if err != nil {
 		return
 	}
 
+	// Identify FROM team admin
 	var fromAdminEmail, toAdminEmail string
 	z.fromTeamAdminId, fromAdminEmail, err = z.identifyAdmin(z.fromFileApi)
 	if err != nil {
 		return
 	}
+	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.identified_from_team_admin").WithData(struct {
+		Alias        string
+		TeamMemberId string
+		Email        string
+	}{
+		Alias:        z.optFromAccount,
+		TeamMemberId: z.fromTeamAdminId,
+		Email:        fromAdminEmail,
+	}).Tell()
 	z.ExecContext.Log().Debug("from team admin", zap.String("teamMemberId", z.fromTeamAdminId), zap.String("email", fromAdminEmail))
 
+	// Identify TO team admin
 	z.toTeamAdminId, toAdminEmail, err = z.identifyAdmin(z.toFileApi)
 	if err != nil {
 		return
 	}
+	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.identified_to_team_admin").WithData(struct {
+		Alias        string
+		TeamMemberId string
+		Email        string
+	}{
+		Alias:        z.optFromAccount,
+		TeamMemberId: z.fromTeamAdminId,
+		Email:        fromAdminEmail,
+	}).Tell()
 	z.ExecContext.Log().Debug("to team admin", zap.String("teamMemberId", z.toTeamAdminId), zap.String("email", toAdminEmail))
 
+	// Create temporary group for mirroring
+	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.create_tmp_group").WithData(struct {
+		Alias string
+	}{
+		Alias: z.optToAccount,
+	}).Tell()
 	z.ExecContext.Log().Debug("create temporary group for mirroring")
 	err = z.createTempGroup()
 	if err != nil {
 		return
 	}
 
+	// Adding admin user into temporary group
+	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.add_admin_to_tmp_group").WithData(struct {
+		Email string
+	}{
+		Email: toAdminEmail,
+	}).Tell()
 	z.ExecContext.Log().Debug("adding admin user into temporary group")
 	err = z.addAdminIntoTempGroup()
 	if err != nil {
@@ -131,8 +179,14 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	z.fromTeamFolders = z.listTeamFolders(z.fromFileApi)
 	z.toTeamFolders = z.listTeamFolders(z.toFileApi)
 
-	for _, n := range args {
-		z.mirrorTeamFolder(n)
+	if z.optAllTeamFolders {
+		for n, _ := range z.fromTeamFolders {
+			z.mirrorTeamFolder(n)
+		}
+	} else {
+		for _, n := range args {
+			z.mirrorTeamFolder(n)
+		}
 	}
 
 	// clean up
@@ -144,6 +198,9 @@ func (z *CmdTeamTeamFolderMirror) removeTempGroup() bool {
 		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
 			z.Log().Error("unable to clean up temporary group", zap.String("group_id", z.toTempGroupId), zap.Any("error", annotation))
 			return true
+		},
+		OnSuccess: func() {
+			z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.tmp_group_removed")
 		},
 	}
 	return remove.Remove(z.toMgmtApi, z.toTempGroupId)
@@ -161,6 +218,13 @@ func (z *CmdTeamTeamFolderMirror) createTempGroup() error {
 		OnSuccess: func(group dbx_group.Group) {
 			z.Log().Debug("group created", zap.String("group_id", group.GroupId))
 			z.toTempGroupId = group.GroupId
+			z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.tmp_group_created").WithData(struct {
+				Name  string
+				Alias string
+			}{
+				Name:  group.GroupName,
+				Alias: z.optToAccount,
+			}).Tell()
 		},
 	}
 	return c.Create(z.toMgmtApi, groupName, dbx_group.ManagementTypeCompany)
@@ -181,6 +245,12 @@ func (z *CmdTeamTeamFolderMirror) addAdminIntoTempGroup() error {
 }
 
 func (z *CmdTeamTeamFolderMirror) mirrorTeamFolder(name string) {
+	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.mirroring_team_folder").WithData(struct {
+		Name string
+	}{
+		Name: name,
+	}).Text()
+
 	var err error
 	ftf, e := z.fromTeamFolders[strings.ToLower(name)]
 	if !e {
@@ -288,6 +358,14 @@ func (z *CmdTeamTeamFolderMirror) createTeamFolder(name string, acTo *dbx_api.Co
 			return
 		}
 	}
+
+	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.team_folder_created_on_to_team").WithData(struct {
+		Name  string
+		Alias string
+	}{
+		Name:  name,
+		Alias: z.optToAccount,
+	}).Tell()
 	return
 }
 
