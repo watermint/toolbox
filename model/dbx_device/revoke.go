@@ -6,7 +6,7 @@ import (
 )
 
 type RevokeSession struct {
-	OnError func(annotation dbx_api.ErrorAnnotation) bool `json:"-"`
+	OnError func(err error) bool `json:"-"`
 }
 
 func (z *RevokeSession) WebSession(c *dbx_api.Context, teamMemberId, sessionId string) bool {
@@ -23,12 +23,9 @@ func (z *RevokeSession) WebSession(c *dbx_api.Context, teamMemberId, sessionId s
 		Endpoint: "team/devices/revoke_device_session",
 		Param:    p,
 	}
-	_, ea, _ := req.Call(c)
-	if ea.IsFailure() {
-		if z.OnError != nil {
-			return z.OnError(ea)
-		}
-		return false
+	_, err := req.Call(c)
+	if err != nil {
+		return z.OnError(err)
 	}
 	return true
 }
@@ -49,12 +46,9 @@ func (z *RevokeSession) DesktopClient(c *dbx_api.Context, teamMemberId, sessionI
 		Endpoint: "team/devices/revoke_device_session",
 		Param:    p,
 	}
-	_, ea, _ := req.Call(c)
-	if ea.IsFailure() {
-		if z.OnError != nil {
-			return z.OnError(ea)
-		}
-		return false
+	_, err := req.Call(c)
+	if err != nil {
+		return z.OnError(err)
 	}
 	return true
 }
@@ -73,12 +67,9 @@ func (z *RevokeSession) MobileClient(c *dbx_api.Context, teamMemberId, sessionId
 		Endpoint: "team/devices/revoke_device_session",
 		Param:    p,
 	}
-	_, ea, _ := req.Call(c)
-	if ea.IsFailure() {
-		if z.OnError != nil {
-			return z.OnError(ea)
-		}
-		return false
+	_, err := req.Call(c)
+	if err != nil {
+		return z.OnError(err)
 	}
 	return true
 }

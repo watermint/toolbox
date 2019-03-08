@@ -7,7 +7,7 @@ import (
 )
 
 type MemberRemove struct {
-	OnError   func(annotation dbx_api.ErrorAnnotation) bool
+	OnError   func(err error) bool
 	OnSuccess func(email string) bool
 	OnFailure func(email string, reason dbx_api.ApiError) bool
 }
@@ -46,26 +46,20 @@ func (z *MemberRemove) Remove(c *dbx_api.Context,
 		Endpoint: "team/members/remove",
 		Param:    arg,
 	}
-	res, ea, _ := req.Call(c)
-	if ea.IsFailure() {
-		if z.OnError != nil {
-			return z.OnError(ea)
-		}
-		return false
+	res, err := req.Call(c)
+	if err != nil {
+		return z.OnError(err)
 	}
 	as := dbx_rpc.AsyncStatus{
 		Endpoint: "team/members/remove/job_status/get",
-		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
-			if annotation.ErrorType == dbx_api.ErrorEndpointSpecific {
-				switch e := annotation.Error.(type) {
-				case dbx_api.ApiError:
-					return z.OnFailure(email, e)
+		OnError: func(err error) bool {
+			switch e := err.(type) {
+			case dbx_api.ApiError:
+				return z.OnFailure(email, e)
 
-				default:
-					return z.OnError(annotation)
-				}
+			default:
+				return z.OnError(err)
 			}
-			return z.OnError(annotation)
 		},
 		OnComplete: func(complete gjson.Result) bool {
 			return z.OnSuccess(email)

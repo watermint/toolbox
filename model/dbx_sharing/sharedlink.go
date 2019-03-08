@@ -31,7 +31,7 @@ type SharedLink struct {
 	PermissionAllowDownload      bool   `path:"link_permissions.allow_download" json:"permission_allow_download"`
 }
 
-func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newLInk *SharedLink, annotation dbx_api.ErrorAnnotation, err error) {
+func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newLInk *SharedLink, err error) {
 	link := string(a.Raw)
 	expires := gjson.Get(link, "expires").String()
 	var origTime time.Time
@@ -39,11 +39,7 @@ func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newL
 		var err error
 		origTime, err = time.Parse(dbx_api.DateTimeFormat, expires)
 		if err != nil {
-			annotation = dbx_api.ErrorAnnotation{
-				ErrorType: dbx_api.ErrorUnexpectedDataType,
-				Error:     err,
-			}
-			return nil, annotation, err
+			return nil, err
 		}
 	}
 	if origTime.IsZero() || origTime.After(newExpire) {
@@ -56,10 +52,10 @@ func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newL
 			zap.Time("target_time", newExpire),
 		)
 	}
-	return nil, dbx_api.Success, nil
+	return nil, nil
 }
 
-func (a *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (newLink *SharedLink, annotation dbx_api.ErrorAnnotation, err error) {
+func (a *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (newLink *SharedLink, err error) {
 	url := gjson.Get(string(a.Raw), "url").String()
 
 	type SettingsParam struct {
@@ -82,10 +78,10 @@ func (a *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (n
 		Param:      up,
 		AsMemberId: a.TeamMemberId,
 	}
-	res, ea, err := req.Call(c)
+	res, err := req.Call(c)
 	c.Log().Debug("shared_link_response", zap.String("body", res.Body))
-	if ea.IsFailure() {
-		return nil, ea, err
+	if err != nil {
+		return nil, err
 	}
 
 	c.Log().Debug("shared_link_response", zap.String("body", res.Body))
@@ -93,12 +89,9 @@ func (a *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (n
 	newLink = &SharedLink{}
 	err = c.ParseModel(newLink, gjson.Parse(res.Body))
 	if err == nil {
-		return newLink, dbx_api.Success, nil
+		return newLink, nil
 	} else {
-		return nil, dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     err,
-		}, err
+		return nil, err
 	}
 }
 
@@ -106,7 +99,7 @@ type SharedLinkList struct {
 	Path          string
 	AsMemberId    string
 	AsMemberEmail string
-	OnError       func(annotation dbx_api.ErrorAnnotation) bool
+	OnError       func(err error) bool
 	OnEntry       func(link *SharedLink) bool
 }
 
@@ -125,23 +118,13 @@ func (a *SharedLinkList) List(c *dbx_api.Context) bool {
 		ResultTag:            "links",
 		OnError:              a.OnError,
 		OnEntry: func(link gjson.Result) bool {
-			if a.OnEntry == nil {
-				return true
-			}
-
 			s := SharedLink{}
 			err := c.ParseModel(&s, link)
 			if err == nil {
 				return a.OnEntry(&s)
 			}
 
-			if a.OnError != nil {
-				return a.OnError(dbx_api.ErrorAnnotation{
-					ErrorType: dbx_api.ErrorUnexpectedDataType,
-					Error:     err,
-				})
-			}
-			return false
+			return a.OnError(err)
 		},
 	}
 

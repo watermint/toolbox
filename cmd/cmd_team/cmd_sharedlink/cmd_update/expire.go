@@ -76,9 +76,9 @@ func (z *CmdTeamSharedLinkUpdateExpire) Exec(args []string) {
 				OnError:       z.DefaultErrorHandler,
 				OnEntry: func(link *dbx_sharing.SharedLink) bool {
 					if z.filter.IsAcceptable(link) {
-						newLink, ea, _ := link.UpdateExpire(apiFile, newExpire)
-						if ea.IsFailure() {
-							z.DefaultErrorHandlerIgnoreError(ea)
+						newLink, err := link.UpdateExpire(apiFile, newExpire)
+						if err != nil {
+							z.DefaultErrorHandlerIgnoreError(err)
 							return true
 						}
 						if newLink != nil {

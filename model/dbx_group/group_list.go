@@ -7,7 +7,7 @@ import (
 )
 
 type GroupList struct {
-	OnError func(annotation dbx_api.ErrorAnnotation) bool
+	OnError func(err error) bool
 	OnEntry func(group *Group) bool
 }
 
@@ -22,10 +22,7 @@ func (a *GroupList) List(c *dbx_api.Context) bool {
 			g := &Group{}
 			err := c.ParseModel(g, r)
 			if err != nil {
-				return a.OnError(dbx_api.ErrorAnnotation{
-					ErrorType: dbx_api.ErrorUnexpectedDataType,
-					Error:     err,
-				})
+				return a.OnError(err)
 			}
 			return a.OnEntry(g)
 		},

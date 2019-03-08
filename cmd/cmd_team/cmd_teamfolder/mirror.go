@@ -195,8 +195,8 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 
 func (z *CmdTeamTeamFolderMirror) removeTempGroup() bool {
 	remove := dbx_group.Remove{
-		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
-			z.Log().Error("unable to clean up temporary group", zap.String("group_id", z.toTempGroupId), zap.Any("error", annotation))
+		OnError: func(err error) bool {
+			z.Log().Error("unable to clean up temporary group", zap.String("group_id", z.toTempGroupId), zap.Error(err))
 			return true
 		},
 		OnSuccess: func() {
@@ -211,8 +211,8 @@ func (z *CmdTeamTeamFolderMirror) createTempGroup() error {
 	z.Log().Debug("temporary group name", zap.String("groupName", groupName))
 
 	c := dbx_group.Create{
-		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
-			z.Log().Warn("unable to create temporary group", zap.Any("error", annotation))
+		OnError: func(err error) bool {
+			z.Log().Warn("unable to create temporary group", zap.Error(err))
 			return true
 		},
 		OnSuccess: func(group dbx_group.Group) {
@@ -233,8 +233,8 @@ func (z *CmdTeamTeamFolderMirror) createTempGroup() error {
 func (z *CmdTeamTeamFolderMirror) addAdminIntoTempGroup() error {
 	z.Log().Debug("adding admin", zap.String("group_id", z.toTempGroupId), zap.String("adminId", z.toTeamAdminId))
 	add := group_members.Add{
-		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
-			z.Log().Warn("unable to add admin into temporary group", zap.Any("error", annotation))
+		OnError: func(err error) bool {
+			z.Log().Warn("unable to add admin into temporary group", zap.Error(err))
 			return true
 		},
 		OnSuccess: func(group dbx_group.Group) {
@@ -315,7 +315,7 @@ func (z *CmdTeamTeamFolderMirror) addTempGroupToTeamFolder(tf *dbx_teamfolder.Te
 }
 
 func (z *CmdTeamTeamFolderMirror) identifyAdmin(c *dbx_api.Context) (teamMemberId string, email string, err error) {
-	admin, _, err := dbx_profile.AuthenticatedAdmin(c)
+	admin, err := dbx_profile.AuthenticatedAdmin(c)
 	if err != nil {
 		return "", "", err
 	} else {

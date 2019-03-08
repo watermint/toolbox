@@ -8,7 +8,7 @@ import (
 )
 
 type MembersList struct {
-	OnError func(annotation dbx_api.ErrorAnnotation) bool
+	OnError func(err error) bool
 	OnEntry func(member *dbx_profile.Member) bool
 }
 
@@ -27,12 +27,11 @@ func (a *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
 		ResultTag:            "members",
 		OnError:              a.OnError,
 		OnEntry: func(member gjson.Result) bool {
-			m, ea, _ := dbx_profile.ParseMember(member)
-			if ea.IsSuccess() {
-				return a.OnEntry(m)
-			} else {
-				return a.OnError(ea)
+			m, err := dbx_profile.ParseMember(member)
+			if err != nil {
+				return a.OnError(err)
 			}
+			return a.OnEntry(m)
 		},
 	}
 
@@ -55,13 +54,12 @@ func (a *MembersList) ListAsMap(c *dbx_api.Context, includeRemoved bool) map[str
 		ResultTag:            "members",
 		OnError:              a.OnError,
 		OnEntry: func(member gjson.Result) bool {
-			m, ea, _ := dbx_profile.ParseMember(member)
-			if ea.IsSuccess() {
-				members[m.Profile.Email] = m
-				return true
-			} else {
-				return a.OnError(ea)
+			m, err := dbx_profile.ParseMember(member)
+			if err != nil {
+				return a.OnError(err)
 			}
+			members[m.Profile.Email] = m
+			return true
 		},
 	}
 

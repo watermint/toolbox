@@ -13,7 +13,7 @@ type TeamInfo struct {
 }
 
 type TeamInfoList struct {
-	OnError func(annotation dbx_api.ErrorAnnotation) bool
+	OnError func(err error) bool
 	OnEntry func(info *TeamInfo) bool
 }
 
@@ -21,12 +21,9 @@ func (t *TeamInfoList) List(c *dbx_api.Context) bool {
 	req := dbx_rpc.RpcRequest{
 		Endpoint: "team/get_info",
 	}
-	res, ea, _ := req.Call(c)
-	if ea.IsFailure() {
-		if t.OnError != nil {
-			return t.OnError(ea)
-		}
-		return false
+	res, err := req.Call(c)
+	if err != nil {
+		return t.OnError(err)
 	}
 
 	teamId := gjson.Get(res.Body, "team_id").String()

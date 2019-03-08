@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_ui"
-	"github.com/watermint/toolbox/model/dbx_api"
 	"go.uber.org/zap"
 	"strings"
 )
@@ -25,7 +24,7 @@ type Commandlet interface {
 	Setup(ec *app.ExecContext)
 	Parent() Commandlet
 	Log() *zap.Logger
-	DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool
+	DefaultErrorHandler(err error) bool
 	IsGroup() bool
 }
 
@@ -89,30 +88,24 @@ func (z *SimpleCommandlet) Log() *zap.Logger {
 	return z.ExecContext.Log()
 }
 
-func (z *SimpleCommandlet) DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool {
-	if ea.IsSuccess() {
+func (z *SimpleCommandlet) DefaultErrorHandler(err error) bool {
+	if err != nil {
 		return true
 	}
 
-	z.Log().Error("Default error handler caught an error",
-		zap.String("error_type", ea.ErrorTypeLabel()),
-		zap.String("error_message", ea.UserMessage()),
-	)
-	errorQueue = append(errorQueue, ea)
-	addError(ea)
+	z.Log().Error("Default error handler caught an error", zap.Error(err))
+	errorQueue = append(errorQueue, err)
+	addError(err)
 	return false
 }
 
-func (z *SimpleCommandlet) DefaultErrorHandlerIgnoreError(ea dbx_api.ErrorAnnotation) bool {
-	if ea.IsSuccess() {
+func (z *SimpleCommandlet) DefaultErrorHandlerIgnoreError(err error) bool {
+	if err != nil {
 		return true
 	}
 
-	z.Log().Error("Default error handler caught an error",
-		zap.String("error_type", ea.ErrorTypeLabel()),
-		zap.String("error_message", ea.UserMessage()),
-	)
-	addError(ea)
+	z.Log().Error("Default error handler caught an error", zap.Error(err))
+	addError(err)
 	return true
 }
 
@@ -215,36 +208,29 @@ func (z *CommandletGroup) Exec(args []string) {
 	}
 
 	err := errors.New(fmt.Sprintf("invalid command [%s]", subCmd))
-	ea := dbx_api.ErrorAnnotation{
-		ErrorType: dbx_api.ErrorBadInputParam,
-		Error:     err,
-	}
 	z.PrintUsage(z.ExecContext, z)
-	addError(ea)
+	addError(err)
 }
 
-func (z *CommandletGroup) DefaultErrorHandler(ea dbx_api.ErrorAnnotation) bool {
-	if ea.IsSuccess() {
+func (z *CommandletGroup) DefaultErrorHandler(err error) bool {
+	if err != nil {
 		return true
 	}
 
-	z.Log().Error("Default error handler caught an error",
-		zap.String("error_type", ea.ErrorTypeLabel()),
-		zap.String("error_message", ea.UserMessage()),
-	)
-	errorQueue = append(errorQueue, ea)
-	addError(ea)
+	z.Log().Error("Default error handler caught an error", zap.Error(err))
+	errorQueue = append(errorQueue, err)
+	addError(err)
 	return false
 }
 
 var (
-	errorQueue = make([]dbx_api.ErrorAnnotation, 0)
+	errorQueue = make([]error, 0)
 )
 
-func ErrorQueue() []dbx_api.ErrorAnnotation {
+func ErrorQueue() []error {
 	return errorQueue
 }
 
-func addError(ea dbx_api.ErrorAnnotation) {
-	errorQueue = append(errorQueue, ea)
+func addError(lastErr error) {
+	errorQueue = append(errorQueue, lastErr)
 }
