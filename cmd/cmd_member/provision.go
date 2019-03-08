@@ -17,6 +17,7 @@ type MemberProvision struct {
 	Email     string
 	GivenName string
 	Surname   string
+	NewEmail  string
 }
 
 func (z *MemberProvision) InviteMember(silent bool) *dbx_member.InviteMember {

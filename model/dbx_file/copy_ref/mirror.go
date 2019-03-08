@@ -26,7 +26,7 @@ type Mirror struct {
 	ToPathRoot       interface{}
 }
 
-func (z *Mirror) handleError(annotation dbx_api.ErrorAnnotation, fromPath, toPath string) bool {
+func (z *Mirror) handleError(err error, fromPath, toPath string) bool {
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.err.failed_mirror").WithData(struct {
 		FromPath    string
 		FromAccount string
@@ -42,7 +42,7 @@ func (z *Mirror) handleError(annotation dbx_api.ErrorAnnotation, fromPath, toPat
 		ToPath:      toPath,
 		ToAccount:   z.ToAccountAlias,
 		ToNS:        z.ToNamespaceId,
-		Error:       annotation.Error.Error(),
+		Error:       err.Error(),
 	}).TellError()
 
 	return true
@@ -165,8 +165,8 @@ func (z *Mirror) mirrorAncestors(fromPath, toPath string) {
 		IncludeHasExplicitSharedMembers: false,
 		IncludeMountedFolders:           true,
 
-		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
-			switch e := annotation.Error.(type) {
+		OnError: func(err error) bool {
+			switch e := err.(type) {
 			case dbx_api.ApiError:
 				switch {
 				case strings.HasPrefix(e.ErrorSummary, "path/not_found"):
@@ -174,7 +174,7 @@ func (z *Mirror) mirrorAncestors(fromPath, toPath string) {
 					return false
 				}
 			}
-			z.ExecContext.Log().Debug("other error", zap.Error(annotation.Error))
+			z.ExecContext.Log().Debug("other error", zap.Error(err))
 			return true
 		},
 		OnFile: func(file *dbx_file.File) bool {
@@ -209,8 +209,8 @@ func (z *Mirror) mirrorAncestors(fromPath, toPath string) {
 		IncludeHasExplicitSharedMembers: false,
 		IncludeMountedFolders:           true,
 
-		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
-			return z.handleError(annotation, fromPath, toPath)
+		OnError: func(err error) bool {
+			return z.handleError(err, fromPath, toPath)
 		},
 		OnFolder: func(folder *dbx_file.Folder) bool {
 			if _, e := folders[folder.Name]; e {
@@ -306,8 +306,8 @@ func (z *Mirror) onEntry(ref CopyRef, fromPath, toPath string) bool {
 	crs := CopyRefSave{
 		AsMemberId: z.ToAsMemberId,
 		PathRoot:   z.ToPathRoot,
-		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
-			return z.handleError(annotation, fromPath, toPath)
+		OnError: func(err error) bool {
+			return z.handleError(err, fromPath, toPath)
 		},
 		OnFile: func(file *dbx_file.File) bool {
 			return z.progressFile(file, fromPath, toPath)
@@ -349,8 +349,8 @@ func (z *Mirror) doMirror(fromPath, toPath string) {
 	crg := CopyRefGet{
 		AsMemberId: z.FromAsMemberId,
 		PathRoot:   z.FromPathRoot,
-		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
-			return z.handleError(annotation, fromPath, toPath)
+		OnError: func(err error) bool {
+			return z.handleError(err, fromPath, toPath)
 		},
 		OnEntry: func(ref CopyRef) bool {
 			return z.onEntry(ref, fromPath, toPath)

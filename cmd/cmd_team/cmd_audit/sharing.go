@@ -54,9 +54,9 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 
 	// Identify admin
 	z.ExecContext.Msg("cmd.team.audit.sharing.progress.identify_admin").Tell()
-	admin, ea, _ := dbx_profile.AuthenticatedAdmin(apiFile)
-	if ea.IsFailure() {
-		z.DefaultErrorHandler(ea)
+	admin, err := dbx_profile.AuthenticatedAdmin(apiFile)
+	if err != nil {
+		z.DefaultErrorHandler(err)
 		return
 	}
 	z.ExecContext.Msg("cmd.team.audit.sharing.progress.do_as_admin").WithData(struct {
@@ -407,7 +407,7 @@ func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx
 				return true
 			},
 		}
-		lfm.OnError = func(annotation dbx_api.ErrorAnnotation) bool {
+		lfm.OnError = func(err error) bool {
 			nme := NamespaceMembershipError{
 				NamespaceId:      file.Namespace.TeamMemberId,
 				NamespaceOwnerId: file.Namespace.TeamMemberId,
@@ -438,7 +438,7 @@ func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx
 				zap.String("file_id", file.File.FileId),
 				zap.String("file_path", file.File.PathLower),
 			)
-			return z.DefaultErrorHandler(annotation)
+			return z.DefaultErrorHandler(err)
 		}
 
 		if file.Namespace.TeamMemberId != "" {

@@ -78,6 +78,6 @@ func CmdTestWithTimeout(t *testing.T, g Commandlet, args []string, timeout time.
 
 	eq := ErrorQueue()
 	if len(eq) > 0 {
-		t.Error(eq[0].UserMessage())
+		t.Error(eq[0])
 	}
 }

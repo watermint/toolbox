@@ -32,7 +32,7 @@ type GroupMember struct {
 }
 
 type GroupMemberList struct {
-	OnError func(annotation dbx_api.ErrorAnnotation) bool
+	OnError func(err error) bool
 	OnEntry func(r *GroupMember) bool
 }
 
@@ -60,25 +60,20 @@ func (a *GroupMemberList) List(c *dbx_api.Context, group *Group) bool {
 		OnError:              a.OnError,
 		OnEntry: func(r gjson.Result) bool {
 			accessType := r.Get("access_type\\.tag").String()
-			p, ea, _ := dbx_profile.ParseProfile(r.Get("profile"))
-			if ea.IsSuccess() {
-				if a.OnEntry == nil {
-					return true
-				}
-				gm := &GroupMember{
-					GroupId:      group.GroupId,
-					GroupName:    group.GroupName,
-					TeamMemberId: p.TeamMemberId,
-					AccessType:   accessType,
-					Profile:      p,
-				}
-				return a.OnEntry(gm)
-			} else {
-				if a.OnError != nil {
-					a.OnError(ea)
-				}
+			p, err := dbx_profile.ParseProfile(r.Get("profile"))
+			if err != nil {
+				a.OnError(err)
 				return false
 			}
+
+			gm := &GroupMember{
+				GroupId:      group.GroupId,
+				GroupName:    group.GroupName,
+				TeamMemberId: p.TeamMemberId,
+				AccessType:   accessType,
+				Profile:      p,
+			}
+			return a.OnEntry(gm)
 		},
 	}
 

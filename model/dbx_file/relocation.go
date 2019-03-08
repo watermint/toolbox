@@ -14,11 +14,11 @@ type Relocation struct {
 	AllowOwnershipTransfer bool   `json:"allow_ownership_transfer"`
 	AutoRename             bool   `json:"autorename"`
 
-	AsMemberId string                                        `json:"-"`
-	OnError    func(annotation dbx_api.ErrorAnnotation) bool `json:"-"`
-	OnFolder   func(folder *Folder) bool                     `json:"-"`
-	OnFile     func(file *File) bool                         `json:"-"`
-	OnDelete   func(deleted *Deleted) bool                   `json:"-"`
+	AsMemberId string                      `json:"-"`
+	OnError    func(err error) bool        `json:"-"`
+	OnFolder   func(folder *Folder) bool   `json:"-"`
+	OnFile     func(file *File) bool       `json:"-"`
+	OnDelete   func(deleted *Deleted) bool `json:"-"`
 }
 
 func (z *Relocation) relocation(c *dbx_api.Context, endpoint string) bool {
@@ -34,12 +34,9 @@ func (z *Relocation) relocation(c *dbx_api.Context, endpoint string) bool {
 		Endpoint:   endpoint,
 		Param:      z,
 	}
-	res, ea, _ := req.Call(c)
-	if ea.IsFailure() {
-		if z.OnError != nil {
-			return z.OnError(ea)
-		}
-		return false
+	res, err := req.Call(c)
+	if err != nil {
+		return z.OnError(err)
 	}
 	m := gjson.Get(res.Body, "metadata")
 	if !m.Exists() {
@@ -60,7 +57,7 @@ func (z *Relocation) Move(c *dbx_api.Context) bool {
 type MassRelocation struct {
 	Force      bool
 	AsMemberId string
-	OnError    func(annotation dbx_api.ErrorAnnotation) bool
+	OnError    func(err error) bool
 }
 
 func (z *MassRelocation) Copy(c *dbx_api.Context, src, dest string) bool {

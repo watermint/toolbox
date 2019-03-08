@@ -28,7 +28,7 @@ type NamespaceSize struct {
 type NamespaceSizes struct {
 	Sizes                  map[string]*NamespaceSize
 	ec                     *app.ExecContext
-	OnError                func(annotation dbx_api.ErrorAnnotation) bool
+	OnError                func(err error) bool
 	OptDepth               int
 	OptCachePath           string
 	OptIncludeAppFolder    bool
@@ -206,9 +206,9 @@ func (z *NamespaceSizes) LoadFromCache() bool {
 }
 
 func (z *NamespaceSizes) LoadFromApi(c *dbx_api.Context) bool {
-	admin, ea, _ := dbx_profile.AuthenticatedAdmin(c)
-	if ea.IsFailure() {
-		return z.OnError(ea)
+	admin, err := dbx_profile.AuthenticatedAdmin(c)
+	if err != nil {
+		return z.OnError(err)
 	}
 	cacheWriter := report.Factory{}
 	cacheWriter.ReportPath = z.OptCachePath

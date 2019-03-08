@@ -13,15 +13,15 @@ type AsyncStatus struct {
 	AsMemberId string
 	AsAdminId  string
 
-	OnError    func(annotation dbx_api.ErrorAnnotation) bool
+	OnError    func(err error) bool
 	OnComplete func(complete gjson.Result) bool
 }
 
-func (a *AsyncStatus) Poll(c *dbx_api.Context, res *RpcResponse) bool {
-	return a.handlePoll(c, res, "")
+func (z *AsyncStatus) Poll(c *dbx_api.Context, res *RpcResponse) bool {
+	return z.handlePoll(c, res, "")
 }
 
-func (a *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobId string) bool {
+func (z *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobId string) bool {
 	resJson := gjson.Parse(res.Body)
 
 	log := c.Log().With(zap.String("async_job_id", asyncJobId))
@@ -35,15 +35,11 @@ func (a *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobI
 		asyncJobId := resJson.Get("async_job_id")
 		if asyncJobId.Exists() {
 			time.Sleep(time.Duration(3) * time.Second)
-			return a.handleAsyncJobId(c, res, asyncJobId.String())
+			return z.handleAsyncJobId(c, res, asyncJobId.String())
 
 		} else {
 			err := errors.New("unexpected data format: `.tag` not found")
-			annotation := dbx_api.ErrorAnnotation{
-				ErrorType: dbx_api.ErrorUnexpectedDataType,
-				Error:     err,
-			}
-			return a.OnError(annotation)
+			return z.OnError(err)
 		}
 	}
 
@@ -52,24 +48,24 @@ func (a *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobI
 		log.Debug("Waiting for complete")
 
 		time.Sleep(time.Duration(3) * time.Second)
-		return a.handleAsyncJobId(c, res, "")
+		return z.handleAsyncJobId(c, res, "")
 
 	case "complete":
 		log.Debug("complete")
-		if a.OnComplete != nil {
-			return a.OnComplete(gjson.Get(res.Body, "complete"))
+		if z.OnComplete != nil {
+			return z.OnComplete(gjson.Get(res.Body, "complete"))
 		}
 		return true
 
 	case "in_progress":
 		log.Debug("in_progress")
 		time.Sleep(time.Duration(3) * time.Second)
-		return a.handleAsyncJobId(c, res, asyncJobId)
+		return z.handleAsyncJobId(c, res, asyncJobId)
 
 	case "failed":
 		log.Debug("failed")
 		// TODO Log entire message
-		if a.OnError == nil {
+		if z.OnError == nil {
 			return false
 		}
 
@@ -79,12 +75,7 @@ func (a *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobI
 			reason = "operation failed with unknown reason"
 		}
 		err := errors.New(reason)
-		annotation := dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorEndpointSpecific,
-			Error:     err,
-		}
-
-		return a.OnError(annotation)
+		return z.OnError(err)
 	}
 
 	tag = gjson.Get(res.Body, "error."+dbx_api.ResJsonDotTag)
@@ -93,11 +84,7 @@ func (a *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobI
 			"endpoint specific error",
 			zap.String("error_tag", tag.String()),
 		)
-		annotation := dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorEndpointSpecific,
-			Error:     dbx_api.ParseApiError(res.Body),
-		}
-		return a.OnError(annotation)
+		return z.OnError(dbx_api.ParseApiError(res.Body))
 	}
 
 	c.Log().Debug(
@@ -109,20 +96,13 @@ func (a *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobI
 	return false
 }
 
-func (a *AsyncStatus) handleAsyncJobId(c *dbx_api.Context, res *RpcResponse, asyncJobId string) bool {
+func (z *AsyncStatus) handleAsyncJobId(c *dbx_api.Context, res *RpcResponse, asyncJobId string) bool {
 	if asyncJobId == "" {
 		asyncJobIdTag := gjson.Get(res.Body, "async_job_id")
 
 		if !asyncJobIdTag.Exists() {
 			err := errors.New("unexpected data format: `async_job_id` not found")
-			annotation := dbx_api.ErrorAnnotation{
-				ErrorType: dbx_api.ErrorUnexpectedDataType,
-				Error:     err,
-			}
-			if a.OnError != nil {
-				return a.OnError(annotation)
-			}
-			return false
+			return z.OnError(err)
 		}
 		asyncJobId = asyncJobIdTag.String()
 	}
@@ -135,19 +115,19 @@ func (a *AsyncStatus) handleAsyncJobId(c *dbx_api.Context, res *RpcResponse, asy
 	}
 
 	req := RpcRequest{
-		Endpoint:   a.Endpoint,
+		Endpoint:   z.Endpoint,
 		Param:      p,
-		AsMemberId: a.AsMemberId,
-		AsAdminId:  a.AsAdminId,
+		AsMemberId: z.AsMemberId,
+		AsAdminId:  z.AsAdminId,
 	}
-	res, ea, _ := req.Call(c)
+	res, err := req.Call(c)
 
-	if ea.IsFailure() {
-		if a.OnError != nil {
-			return a.OnError(ea)
+	if err != nil {
+		if z.OnError != nil {
+			return z.OnError(err)
 		}
 		return false
 	}
 
-	return a.handlePoll(c, res, asyncJobId)
+	return z.handlePoll(c, res, asyncJobId)
 }

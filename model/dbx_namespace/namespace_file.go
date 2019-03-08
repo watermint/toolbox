@@ -30,7 +30,7 @@ type ListNamespaceFile struct {
 	OptIncludeMemberFolder bool
 	OptIncludeTeamFolder   bool
 	OptIncludeSharedFolder bool
-	OnError                func(annotation dbx_api.ErrorAnnotation) bool
+	OnError                func(err error) bool
 	OnFolder               func(folder *NamespaceFolder) bool
 	OnFile                 func(file *NamespaceFile) bool
 	OnDelete               func(deleted *NamespaceDeleted) bool

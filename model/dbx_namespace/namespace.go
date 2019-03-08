@@ -16,15 +16,11 @@ type Namespace struct {
 	Namespace     json.RawMessage `json:"namespace"`
 }
 
-func ParseNamespace(n gjson.Result) (namespace *Namespace, annotation dbx_api.ErrorAnnotation, err error) {
+func ParseNamespace(n gjson.Result) (namespace *Namespace, err error) {
 	namespaceId := n.Get("namespace_id")
 	if !namespaceId.Exists() {
 		err = errors.New("required field `namespace_id` not found in the response")
-		annotation = dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     err,
-		}
-		return nil, annotation, err
+		return nil, err
 	}
 
 	ns := &Namespace{
@@ -33,11 +29,11 @@ func ParseNamespace(n gjson.Result) (namespace *Namespace, annotation dbx_api.Er
 		Name:          n.Get("name").String(),
 		Namespace:     json.RawMessage(n.Raw),
 	}
-	return ns, dbx_api.Success, nil
+	return ns, nil
 }
 
 type NamespaceList struct {
-	OnError func(annotation dbx_api.ErrorAnnotation) bool
+	OnError func(err error) bool
 	OnEntry func(namespace *Namespace) bool
 }
 
@@ -49,19 +45,11 @@ func (w *NamespaceList) List(c *dbx_api.Context) bool {
 		ResultTag:            "namespaces",
 		OnError:              w.OnError,
 		OnEntry: func(namespace gjson.Result) bool {
-			n, ea, _ := ParseNamespace(namespace)
-			if ea.IsSuccess() {
-				if w.OnEntry != nil {
-					return w.OnEntry(n)
-				} else {
-					return true
-				}
+			n, err := ParseNamespace(namespace)
+			if err != nil {
+				return w.OnError(err)
 			}
-			if w.OnError != nil {
-				return w.OnError(ea)
-			} else {
-				return false
-			}
+			return w.OnEntry(n)
 		},
 	}
 	return list.List(c, nil)

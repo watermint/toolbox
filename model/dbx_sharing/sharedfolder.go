@@ -18,7 +18,7 @@ const (
 type SharedFolderMembers struct {
 	AsMemberId string
 	AsAdminId  string
-	OnError    func(annotation dbx_api.ErrorAnnotation) bool
+	OnError    func(err error) bool
 	OnUser     func(user *MembershipUser) bool
 	OnGroup    func(group *MembershipGroup) bool
 	OnInvitee  func(invitee *MembershipInvitee) bool
@@ -141,8 +141,8 @@ func (z *AddMembers) AddGroups(sharedFolderId string, groupIds []string, accessL
 		AsMemberId: z.AsMemberId,
 		AsAdminId:  z.AsAdminId,
 	}
-	_, ea, err := req.Call(z.Context)
-	if ea.IsFailure() {
+	_, err := req.Call(z.Context)
+	if err != nil {
 		return err
 	}
 	return nil

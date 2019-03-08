@@ -10,7 +10,7 @@ import (
 )
 
 type Add struct {
-	OnError   func(annotation dbx_api.ErrorAnnotation) bool
+	OnError   func(err error) bool
 	OnSuccess func(group dbx_group.Group)
 }
 
@@ -55,15 +55,15 @@ func (z *Add) AddMembers(c *dbx_api.Context, groupId string, teamMemberIds []str
 		Endpoint: "team/groups/members/add",
 		Param:    p,
 	}
-	res, ea, err := req.Call(c)
-	if ea.IsFailure() {
-		z.OnError(ea)
+	res, err := req.Call(c)
+	if err != nil {
+		z.OnError(err)
 		return err
 	}
 	as := dbx_rpc.AsyncStatus{
 		Endpoint: "team/groups/job_status/get",
-		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
-			c.Log().Error("error", zap.Error(annotation.Error))
+		OnError: func(err error) bool {
+			c.Log().Error("error", zap.Error(err))
 			return true
 		},
 		OnComplete: func(complete gjson.Result) bool {

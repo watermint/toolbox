@@ -17,10 +17,10 @@ type CopyRef struct {
 }
 
 type CopyRefGet struct {
-	AsMemberId string                                        `json:"-"`
-	PathRoot   interface{}                                   `json:"-"`
-	OnError    func(annotation dbx_api.ErrorAnnotation) bool `json:"-"`
-	OnEntry    func(ref CopyRef) bool                        `json:"-"`
+	AsMemberId string                 `json:"-"`
+	PathRoot   interface{}            `json:"-"`
+	OnError    func(err error) bool   `json:"-"`
+	OnEntry    func(ref CopyRef) bool `json:"-"`
 }
 
 func (z *CopyRefGet) Get(c *dbx_api.Context, path string) bool {
@@ -35,36 +35,30 @@ func (z *CopyRefGet) Get(c *dbx_api.Context, path string) bool {
 		PathRoot:   z.PathRoot,
 		Param:      p,
 	}
-	res, ea, _ := req.Call(c)
-	if ea.IsFailure() {
-		return z.OnError(ea)
+	res, err := req.Call(c)
+	if err != nil {
+		return z.OnError(err)
 	}
 	rj := gjson.Parse(res.Body)
 	if !rj.Exists() {
 		c.Log().Debug("unable to parse JSON", zap.String("body", res.Body))
-		return z.OnError(dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     errors.New("unable to parse json data"),
-		})
+		return z.OnError(errors.New("unable to parse json data"))
 	}
 	cr := CopyRef{}
-	err := c.ParseModel(&cr, rj)
+	err = c.ParseModel(&cr, rj)
 	if err != nil {
 		c.Log().Debug("unable to parse model", zap.String("body", res.Body))
-		return z.OnError(dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     err,
-		})
+		return z.OnError(err)
 	}
 	return z.OnEntry(cr)
 }
 
 type CopyRefSave struct {
-	AsMemberId string                                        `json:"-"`
-	PathRoot   interface{}                                   `json:"-"`
-	OnError    func(annotation dbx_api.ErrorAnnotation) bool `json:"-"`
-	OnFolder   func(folder *dbx_file.Folder) bool            `json:"-"`
-	OnFile     func(file *dbx_file.File) bool                `json:"-"`
+	AsMemberId string                             `json:"-"`
+	PathRoot   interface{}                        `json:"-"`
+	OnError    func(err error) bool               `json:"-"`
+	OnFolder   func(folder *dbx_file.Folder) bool `json:"-"`
+	OnFile     func(file *dbx_file.File) bool     `json:"-"`
 }
 
 func (z *CopyRefSave) Save(c *dbx_api.Context, ref CopyRef, path string) error {
@@ -91,29 +85,23 @@ func (z *CopyRefSave) Save(c *dbx_api.Context, ref CopyRef, path string) error {
 		Endpoint:   "files/copy_reference/save",
 		Param:      p,
 	}
-	res, ea, err := req.Call(c)
-	if ea.IsFailure() {
-		z.OnError(ea)
+	res, err := req.Call(c)
+	if err != nil {
+		z.OnError(err)
 		return err
 	}
 	rj := gjson.Parse(res.Body)
 	if !rj.Exists() {
 		err = errors.New("unable to parse json data")
 		c.Log().Debug("unable to parse JSON", zap.String("body", res.Body))
-		z.OnError(dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     err,
-		})
+		z.OnError(err)
 		return err
 	}
 	m := rj.Get("metadata")
 	if !m.Exists() {
 		c.Log().Debug("could not found `metadata`", zap.String("body", res.Body))
 		err = errors.New("unable to parse metadata")
-		z.OnError(dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     err,
-		})
+		z.OnError(err)
 		return err
 	}
 

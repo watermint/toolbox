@@ -2,7 +2,6 @@ package dbx_file
 
 import (
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/model/dbx_api"
 	"go.uber.org/zap"
 	"testing"
 )
@@ -83,8 +82,8 @@ func TestEntryParser_Parse(t *testing.T) {
 
 	ep := EntryParser{
 		Logger: log,
-		OnError: func(annotation dbx_api.ErrorAnnotation) bool {
-			t.Error(annotation.UserMessage())
+		OnError: func(err2 error) bool {
+			t.Error(err2)
 			return false
 		},
 		OnFile: func(file *File) bool {
