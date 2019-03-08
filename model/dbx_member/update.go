@@ -13,7 +13,7 @@ type UpdateMember struct {
 	NewSurname               string `json:"new_surname,omitempty"`
 	NewPersistentId          string `json:"new_persistent_id,omitempty"`
 	NewIsDirectoryRestricted bool   `json:"new_is_directory_restricted,omitempty"`
-	NewEmail                 string `json:"new_email"`
+	NewEmail                 string `json:"new_email,omitempty"`
 }
 
 type MemberUpdate struct {
@@ -33,6 +33,7 @@ func (z *MemberUpdate) Update(c *dbx_api.Context, email string, m *UpdateMember)
 		NewSurname               string   `json:"new_surname,omitempty"`
 		NewPersistentId          string   `json:"new_persistent_id,omitempty"`
 		NewIsDirectoryRestricted bool     `json:"new_is_directory_restricted,omitempty"`
+		NewEmail                 string   `json:"new_email,omitempty"`
 	}
 
 	a := Arg{
@@ -45,6 +46,7 @@ func (z *MemberUpdate) Update(c *dbx_api.Context, email string, m *UpdateMember)
 		NewSurname:               m.NewSurname,
 		NewPersistentId:          m.NewPersistentId,
 		NewIsDirectoryRestricted: m.NewIsDirectoryRestricted,
+		NewEmail:                 m.NewEmail,
 	}
 
 	req := dbx_rpc.RpcRequest{
