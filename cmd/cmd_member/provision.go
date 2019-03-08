@@ -131,6 +131,14 @@ func (z *MembersProvision) loadCsv(filePath string) error {
 		if len(cols) >= 3 {
 			mp.Surname = cols[2]
 		}
+		if len(cols) >= 4 {
+			ne := strings.TrimSpace(cols[3])
+			if len(ne) > 1 {
+				mp.NewEmail = ne
+			} else {
+				z.Logger.Debug("skipped `new_email` col")
+			}
+		}
 
 		// skip
 		if !strings.Contains(mp.Email, "@") {
