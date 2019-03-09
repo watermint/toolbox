@@ -11,12 +11,12 @@ import (
 
 type CmdFileMirror struct {
 	*cmd.SimpleCommandlet
-	optFromAccount string
-	optToAccount   string
-	optFromPath    string
-	optToPath      string
-	optVerify      bool
-	report         report.Factory
+	optSrcAccount string
+	optDstAccount string
+	optSrcPath    string
+	optDstPath    string
+	optVerify     bool
+	report        report.Factory
 }
 
 func (CmdFileMirror) Name() string {
@@ -35,56 +35,56 @@ func (z *CmdFileMirror) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descFromAccount := z.ExecContext.Msg("cmd.file.mirror.flag.from_account").Text()
-	f.StringVar(&z.optFromAccount, "from-account", "", descFromAccount)
+	descFromAccount := z.ExecContext.Msg("cmd.file.mirror.flag.src_account").Text()
+	f.StringVar(&z.optSrcAccount, "src-account", "mirror-src", descFromAccount)
 
-	descToAccount := z.ExecContext.Msg("cmd.file.mirror.flag.to_account").Text()
-	f.StringVar(&z.optToAccount, "to-account", "", descToAccount)
+	descToAccount := z.ExecContext.Msg("cmd.file.mirror.flag.dst_account").Text()
+	f.StringVar(&z.optDstAccount, "dest-account", "mirror-dest", descToAccount)
 
-	descFromPath := z.ExecContext.Msg("cmd.file.mirror.flag.from_path").Text()
-	f.StringVar(&z.optFromPath, "from-path", "", descFromPath)
+	descSrcPath := z.ExecContext.Msg("cmd.file.mirror.flag.src_path").Text()
+	f.StringVar(&z.optSrcPath, "src-path", "", descSrcPath)
 
-	descToPath := z.ExecContext.Msg("cmd.file.mirror.flag.to_path").Text()
-	f.StringVar(&z.optToPath, "to-path", "", descToPath)
+	descDstPath := z.ExecContext.Msg("cmd.file.mirror.flag.dst_path").Text()
+	f.StringVar(&z.optDstPath, "dest-path", "", descDstPath)
 
 	descVerify := z.ExecContext.Msg("cmd.file.mirror.flag.verify").Text()
 	f.BoolVar(&z.optVerify, "verify", false, descVerify)
 }
 
 func (z *CmdFileMirror) Exec(args []string) {
-	if z.optFromAccount == "" ||
-		z.optToAccount == "" ||
-		z.optFromPath == "" ||
-		z.optToPath == "" {
+	if z.optSrcAccount == "" ||
+		z.optDstAccount == "" ||
+		z.optSrcPath == "" ||
+		z.optDstPath == "" {
 
 		z.ExecContext.Msg("cmd.file.mirror.err.not_enough_params").TellError()
 		return
 	}
 
 	// Ask for FROM account authentication
-	z.ExecContext.Msg("cmd.file.mirror.prompt.ask_from_account_auth").Tell()
-	auFrom := dbx_auth.NewAuth(z.ExecContext, z.optFromAccount)
-	acFrom, err := auFrom.Auth(dbx_auth.DropboxTokenFull)
+	z.ExecContext.Msg("cmd.file.mirror.prompt.ask_src_account_auth").Tell()
+	auSrc := dbx_auth.NewAuth(z.ExecContext, z.optSrcAccount)
+	acSrc, err := auSrc.Auth(dbx_auth.DropboxTokenFull)
 	if err != nil {
 		return
 	}
 
 	// Ask for TO account authentication
-	z.ExecContext.Msg("cmd.file.mirror.prompt.ask_to_account_auth").Tell()
-	auTo := dbx_auth.NewAuth(z.ExecContext, z.optToAccount)
-	acTo, err := auTo.Auth(dbx_auth.DropboxTokenFull)
+	z.ExecContext.Msg("cmd.file.mirror.prompt.ask_dst_account_auth").Tell()
+	auDst := dbx_auth.NewAuth(z.ExecContext, z.optDstAccount)
+	acDst, err := auDst.Auth(dbx_auth.DropboxTokenFull)
 	if err != nil {
 		return
 	}
 
 	m := copy_ref.Mirror{
-		FromApi:          acFrom,
-		FromPath:         z.optFromPath,
-		FromAccountAlias: z.optFromAccount,
-		ToApi:            acTo,
-		ToPath:           z.optToPath,
-		ToAccountAlias:   z.optToAccount,
-		ExecContext:      z.ExecContext,
+		SrcApi:          acSrc,
+		SrcPath:         z.optSrcPath,
+		SrcAccountAlias: z.optSrcAccount,
+		DstApi:          acDst,
+		DstPath:         z.optDstPath,
+		DstAccountAlias: z.optDstAccount,
+		ExecContext:     z.ExecContext,
 	}
 	m.Mirror()
 
@@ -94,12 +94,12 @@ func (z *CmdFileMirror) Exec(args []string) {
 
 		ba := compare.BetweenAccounts{
 			ExecContext:       z.ExecContext,
-			LeftAccountAlias:  z.optFromAccount,
-			LeftPath:          z.optFromPath,
-			LeftApi:           acFrom,
-			RightAccountAlias: z.optToAccount,
-			RightPath:         z.optToPath,
-			RightApi:          acTo,
+			LeftAccountAlias:  z.optSrcAccount,
+			LeftPath:          z.optSrcPath,
+			LeftApi:           acSrc,
+			RightAccountAlias: z.optDstAccount,
+			RightPath:         z.optDstPath,
+			RightApi:          acDst,
 			OnDiff: func(diff compare.Diff) {
 				z.report.Report(diff)
 			},

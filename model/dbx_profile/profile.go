@@ -56,10 +56,9 @@ func AuthenticatedAdmin(c *dbx_api.Context) (admin *Profile, err error) {
 	}
 	res, err := req.Call(c)
 	if err != nil {
-		return ParseProfile(gjson.Get(res.Body, "admin_profile"))
-	} else {
-		return
+		return nil, err
 	}
+	return ParseProfile(gjson.Get(res.Body, "admin_profile"))
 }
 
 func CurrentAccount(c *dbx_api.Context) (account *Profile, err error) {
@@ -68,8 +67,7 @@ func CurrentAccount(c *dbx_api.Context) (account *Profile, err error) {
 	}
 	res, err := req.Call(c)
 	if err != nil {
-		return ParseProfile(gjson.Parse(res.Body))
-	} else {
-		return
+		return nil, err
 	}
+	return ParseProfile(gjson.Parse(res.Body))
 }

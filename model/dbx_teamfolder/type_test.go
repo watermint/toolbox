@@ -42,4 +42,7 @@ func TestModelTeamFolder(t *testing.T) {
 	if tf.SyncSetting != "default" {
 		t.Error("invalid")
 	}
+	if tf.Status != "active" {
+		t.Error("invalid")
+	}
 }

@@ -43,5 +43,6 @@ func (z *Create) Create(c *dbx_api.Context, name string) error {
 		z.OnError(err)
 		return err
 	}
+	z.OnSuccess(tf)
 	return nil
 }
