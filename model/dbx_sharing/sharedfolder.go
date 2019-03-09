@@ -92,10 +92,10 @@ type AddMembers struct {
 
 // If you want to add members in team folder, please specify `team_folder_id`
 // That is equals to `shared_folder_id`.
-func (z *AddMembers) AddGroups(sharedFolderId string, groupIds []string, accessLevel string) error {
+func (z *AddMembers) Add(sharedFolderId string, dropboxIds []string, accessLevel string) error {
 	switch accessLevel {
 	case AccessLevelOwner, AccessLevelEditor, AccessLevelViewer, AccessLevelViewerNoComment:
-		z.Context.Log().Debug("adding groups", zap.String("sharedFolderId", sharedFolderId), zap.Strings("groupIds", groupIds), zap.String("access", accessLevel))
+		z.Context.Log().Debug("adding member", zap.String("sharedFolderId", sharedFolderId), zap.Strings("dropboxIds", dropboxIds), zap.String("access", accessLevel))
 
 	default:
 		z.Context.Log().Error("invalid access level", zap.String("access", accessLevel))
@@ -111,7 +111,7 @@ func (z *AddMembers) AddGroups(sharedFolderId string, groupIds []string, accessL
 		AccessLevel string `json:"access_level"`
 	}
 	members := make([]*A, 0)
-	for _, gid := range groupIds {
+	for _, gid := range dropboxIds {
 		members = append(members,
 			&A{
 				AccessLevel: accessLevel,
@@ -137,6 +137,44 @@ func (z *AddMembers) AddGroups(sharedFolderId string, groupIds []string, accessL
 
 	req := dbx_rpc.RpcRequest{
 		Endpoint:   "sharing/add_folder_member",
+		Param:      p,
+		AsMemberId: z.AsMemberId,
+		AsAdminId:  z.AsAdminId,
+	}
+	_, err := req.Call(z.Context)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type RemoveMembers struct {
+	Context    *dbx_api.Context
+	LeaveACopy bool
+	AsMemberId string
+	AsAdminId  string
+}
+
+func (z *RemoveMembers) Remove(sharedFolderId string, dropboxId string) error {
+	type M struct {
+		Tag       string `json:".tag"`
+		DropboxId string `json:"dropbox_id"`
+	}
+	p := struct {
+		SharedFolderId string `json:"shared_folder_id"`
+		Member         M      `json:"member"`
+		LeaveACopy     bool   `json:"leave_a_copy"`
+	}{
+		SharedFolderId: sharedFolderId,
+		Member: M{
+			Tag:       "dropbox_id",
+			DropboxId: dropboxId,
+		},
+		LeaveACopy: z.LeaveACopy,
+	}
+
+	req := dbx_rpc.RpcRequest{
+		Endpoint:   "sharing/remove_folder_member",
 		Param:      p,
 		AsMemberId: z.AsMemberId,
 		AsAdminId:  z.AsAdminId,
