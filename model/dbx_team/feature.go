@@ -13,7 +13,7 @@ type Feature struct {
 }
 
 type FeatureList struct {
-	OnError func(annotation dbx_api.ErrorAnnotation) bool
+	OnError func(err error) bool
 	OnEntry func(feature *Feature) bool
 }
 
@@ -38,11 +38,9 @@ func (w *FeatureList) List(c *dbx_api.Context) bool {
 		Endpoint: "team/features/get_values",
 		Param:    param,
 	}
-	res, ea, _ := req.Call(c)
-	if ea.IsFailure() {
-		if w.OnError != nil {
-			w.OnError(ea)
-		}
+	res, err := req.Call(c)
+	if err != nil {
+		w.OnError(err)
 		return false
 	}
 

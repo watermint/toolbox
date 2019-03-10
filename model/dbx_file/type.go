@@ -42,7 +42,7 @@ type Deleted struct {
 type EntryParser struct {
 	Logger   *zap.Logger
 	log      *zap.Logger
-	OnError  func(annotation dbx_api.ErrorAnnotation) bool
+	OnError  func(err error) bool
 	OnFolder func(folder *Folder) bool
 	OnFile   func(file *File) bool
 	OnDelete func(deleted *Deleted) bool

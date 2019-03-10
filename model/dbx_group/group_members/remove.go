@@ -9,12 +9,12 @@ import (
 	"go.uber.org/zap"
 )
 
-type Add struct {
+type Remove struct {
 	OnError   func(err error) bool
 	OnSuccess func(group dbx_group.Group)
 }
 
-func (z *Add) AddMembers(c *dbx_api.Context, groupId string, teamMemberIds []string) error {
+func (z *Remove) RemoveMembers(c *dbx_api.Context, groupId string, teamMemberIds []string) error {
 	type GS struct {
 		Tag     string `json:".tag"`
 		GroupId string `json:"group_id"`
@@ -23,36 +23,29 @@ func (z *Add) AddMembers(c *dbx_api.Context, groupId string, teamMemberIds []str
 		Tag          string `json:".tag"`
 		TeamMemberId string `json:"team_member_id"`
 	}
-	type M struct {
-		User       U      `json:"user"`
-		AccessType string `json:"access_type"`
-	}
 
-	members := make([]*M, 0)
+	users := make([]*U, 0)
 	for _, m := range teamMemberIds {
-		members = append(members, &M{
-			AccessType: "member",
-			User: U{
-				Tag:          "team_member_id",
-				TeamMemberId: m,
-			},
+		users = append(users, &U{
+			Tag:          "team_member_id",
+			TeamMemberId: m,
 		})
 	}
 	p := struct {
 		Group         GS   `json:"group"`
-		Members       []*M `json:"members"`
+		Users         []*U `json:"users"`
 		ReturnMembers bool `json:"return_members"`
 	}{
 		Group: GS{
 			Tag:     "group_id",
 			GroupId: groupId,
 		},
-		Members:       members,
+		Users:         users,
 		ReturnMembers: false,
 	}
 
 	req := dbx_rpc.RpcRequest{
-		Endpoint: "team/groups/members/add",
+		Endpoint: "team/groups/members/remove",
 		Param:    p,
 	}
 	res, err := req.Call(c)
@@ -74,6 +67,6 @@ func (z *Add) AddMembers(c *dbx_api.Context, groupId string, teamMemberIds []str
 	if as.Poll(c, res) {
 		return nil
 	} else {
-		return errors.New("unable to add members") // TODO: with replace meaningful err
+		return errors.New("unable to remove members") // TODO: with replace meaningful err
 	}
 }

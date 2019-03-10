@@ -9,7 +9,7 @@ import (
 )
 
 type Create struct {
-	OnError   func(annotation dbx_api.ErrorAnnotation) bool
+	OnError   func(err error) bool
 	OnSuccess func(group Group)
 }
 
@@ -34,27 +34,21 @@ func (z *Create) Create(c *dbx_api.Context, name, managementType string) error {
 		Endpoint: "team/groups/create",
 		Param:    p,
 	}
-	res, ea, err := req.Call(c)
-	if ea.IsFailure() {
-		z.OnError(ea)
+	res, err := req.Call(c)
+	if err != nil {
+		z.OnError(err)
 		return err
 	}
 	g := Group{}
 	j := gjson.Parse(res.Body)
 	if !j.Exists() {
 		err = errors.New("unexpected data format")
-		z.OnError(dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     err,
-		})
+		z.OnError(err)
 		return err
 	}
 	err = c.ParseModel(&g, j)
 	if err != nil {
-		z.OnError(dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     err,
-		})
+		z.OnError(err)
 		return err
 	}
 	z.OnSuccess(g)

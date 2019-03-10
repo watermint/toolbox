@@ -184,7 +184,7 @@ func (z *UIAuthenticator) verifyToken(tokenType, token string) error {
 		req := dbx_rpc.RpcRequest{
 			Endpoint: "users/get_current_account",
 		}
-		res, _, err := req.Call(c)
+		res, err := req.Call(c)
 		z.ec.Log().Debug("Verify token(users/get_current_account)", zap.Any("res", res), zap.Error(err))
 		return err
 
@@ -196,7 +196,7 @@ func (z *UIAuthenticator) verifyToken(tokenType, token string) error {
 		req := dbx_rpc.RpcRequest{
 			Endpoint: "team/get_info",
 		}
-		res, _, err := req.Call(c)
+		res, err := req.Call(c)
 		z.ec.Log().Debug("Verify token(team/get_info)", zap.Any("res", res), zap.Error(err))
 		return err
 

@@ -7,7 +7,7 @@ import (
 )
 
 type ListTeamFolder struct {
-	OnError func(annotation dbx_api.ErrorAnnotation) bool
+	OnError func(err error) bool
 	OnEntry func(teamFolder *TeamFolder) bool
 }
 
@@ -22,13 +22,9 @@ func (w *ListTeamFolder) List(c *dbx_api.Context) bool {
 			tf := &TeamFolder{}
 			err := c.ParseModel(tf, folder)
 			if err != nil {
-				return w.OnError(dbx_api.ErrorAnnotation{
-					ErrorType: dbx_api.ErrorUnexpectedDataType,
-					Error:     err,
-				})
-			} else {
-				return w.OnEntry(tf)
+				return w.OnError(err)
 			}
+			return w.OnEntry(tf)
 		},
 	}
 

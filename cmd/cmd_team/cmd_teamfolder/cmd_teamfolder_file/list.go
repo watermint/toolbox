@@ -53,9 +53,9 @@ func (z *CmdTeamTeamFolderFileList) Exec(args []string) {
 		return
 	}
 
-	admin, ea, _ := dbx_profile.AuthenticatedAdmin(apiFile)
-	if ea.IsFailure() {
-		z.DefaultErrorHandler(ea)
+	admin, err := dbx_profile.AuthenticatedAdmin(apiFile)
+	if err != nil {
+		z.DefaultErrorHandler(err)
 		return
 	}
 	z.report.Init(z.ExecContext)

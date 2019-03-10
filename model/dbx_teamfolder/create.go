@@ -9,7 +9,7 @@ import (
 
 type Create struct {
 	SyncSetting string
-	OnError     func(annotation dbx_api.ErrorAnnotation) bool
+	OnError     func(err error) bool
 	OnSuccess   func(teamFolder TeamFolder)
 }
 
@@ -26,28 +26,23 @@ func (z *Create) Create(c *dbx_api.Context, name string) error {
 		Endpoint: "team/team_folder/create",
 		Param:    p,
 	}
-	res, ea, err := req.Call(c)
-	if ea.IsFailure() {
-		z.OnError(ea)
+	res, err := req.Call(c)
+	if err != nil {
+		z.OnError(err)
 		return err
 	}
 	tf := TeamFolder{}
 	j := gjson.Parse(res.Body)
 	if !j.Exists() {
 		err = errors.New("unexpected data format")
-		z.OnError(dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     err,
-		})
+		z.OnError(err)
 		return err
 	}
 	err = c.ParseModel(&tf, j)
 	if err != nil {
-		z.OnError(dbx_api.ErrorAnnotation{
-			ErrorType: dbx_api.ErrorUnexpectedDataType,
-			Error:     err,
-		})
+		z.OnError(err)
 		return err
 	}
+	z.OnSuccess(tf)
 	return nil
 }

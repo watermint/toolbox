@@ -14,7 +14,7 @@ type RpcList struct {
 	AsMemberId           string
 	AsAdminId            string
 	ResultTag            string
-	OnError              func(annotation dbx_api.ErrorAnnotation) bool
+	OnError              func(err error) bool
 	OnResponse           func(body string) bool
 	OnEntry              func(result gjson.Result) bool
 }
@@ -28,9 +28,9 @@ func (r *RpcList) List(c *dbx_api.Context, arg interface{}) bool {
 		AsMemberId: r.AsMemberId,
 		Param:      arg,
 	}
-	res, et, _ := req.Call(c)
+	res, err := req.Call(c)
 
-	if !r.handleResponse(c, res, et) {
+	if !r.handleResponse(c, res, err) {
 		return false
 	}
 	return true
@@ -48,19 +48,19 @@ func (r *RpcList) listContinue(c *dbx_api.Context, cursor string) bool {
 		AsAdminId:  r.AsAdminId,
 		AsMemberId: r.AsMemberId,
 	}
-	res, et, _ := req.Call(c)
+	res, err := req.Call(c)
 
-	if r.handleResponse(c, res, et) {
+	if r.handleResponse(c, res, err) {
 		return false
 	}
 	return true
 }
 
-func (r *RpcList) handleResponse(c *dbx_api.Context, res *RpcResponse, et dbx_api.ErrorAnnotation) bool {
+func (r *RpcList) handleResponse(c *dbx_api.Context, res *RpcResponse, err error) bool {
 	log := c.Log().With(zap.String("endpoint", r.EndpointList))
 
-	if et.IsFailure() {
-		if !r.OnError(et) || res == nil {
+	if err != nil {
+		if !r.OnError(err) || res == nil {
 			return false
 		}
 		log.Debug("continue list (error handler returns continue)")

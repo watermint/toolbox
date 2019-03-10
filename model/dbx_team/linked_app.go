@@ -15,7 +15,7 @@ type LinkedApp struct {
 }
 
 type LinkedAppList struct {
-	OnError func(annotation dbx_api.ErrorAnnotation) bool
+	OnError func(err error) bool
 	OnEntry func(profile *LinkedApp) bool
 }
 

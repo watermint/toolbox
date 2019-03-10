@@ -38,8 +38,8 @@ type Diff struct {
 	RightHash string `json:"right_hash,omitempty"`
 }
 
-func (z *BetweenAccounts) handleError(annotation dbx_api.ErrorAnnotation) bool {
-	z.ExecContext.Log().Debug("ignore errors", zap.Error(annotation.Error))
+func (z *BetweenAccounts) handleError(err error) bool {
+	z.ExecContext.Log().Debug("ignore errors", zap.Error(err))
 	return true
 }
 

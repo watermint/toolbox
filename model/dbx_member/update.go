@@ -13,10 +13,11 @@ type UpdateMember struct {
 	NewSurname               string `json:"new_surname,omitempty"`
 	NewPersistentId          string `json:"new_persistent_id,omitempty"`
 	NewIsDirectoryRestricted bool   `json:"new_is_directory_restricted,omitempty"`
+	NewEmail                 string `json:"new_email,omitempty"`
 }
 
 type MemberUpdate struct {
-	OnError   func(annotation dbx_api.ErrorAnnotation) bool
+	OnError   func(err error) bool
 	OnSuccess func(m *dbx_profile.Member) bool
 }
 
@@ -32,6 +33,7 @@ func (z *MemberUpdate) Update(c *dbx_api.Context, email string, m *UpdateMember)
 		NewSurname               string   `json:"new_surname,omitempty"`
 		NewPersistentId          string   `json:"new_persistent_id,omitempty"`
 		NewIsDirectoryRestricted bool     `json:"new_is_directory_restricted,omitempty"`
+		NewEmail                 string   `json:"new_email,omitempty"`
 	}
 
 	a := Arg{
@@ -44,26 +46,21 @@ func (z *MemberUpdate) Update(c *dbx_api.Context, email string, m *UpdateMember)
 		NewSurname:               m.NewSurname,
 		NewPersistentId:          m.NewPersistentId,
 		NewIsDirectoryRestricted: m.NewIsDirectoryRestricted,
+		NewEmail:                 m.NewEmail,
 	}
 
 	req := dbx_rpc.RpcRequest{
 		Endpoint: "team/members/set_profile",
 		Param:    a,
 	}
-	res, ea, _ := req.Call(c)
-	if ea.IsFailure() {
-		if z.OnError != nil {
-			return z.OnError(ea)
-		}
-		return false
+	res, err := req.Call(c)
+	if err != nil {
+		return z.OnError(err)
 	}
 
-	um, ea, _ := dbx_profile.ParseMember(gjson.Parse(res.Body))
-	if ea.IsFailure() {
-		if z.OnError != nil {
-			return z.OnError(ea)
-		}
-		return false
+	um, err := dbx_profile.ParseMember(gjson.Parse(res.Body))
+	if err != nil {
+		return z.OnError(err)
 	}
 	if z.OnSuccess != nil {
 		return z.OnSuccess(um)

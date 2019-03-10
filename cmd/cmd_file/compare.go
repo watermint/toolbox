@@ -34,10 +34,10 @@ func (z *CmdFileCompare) FlagConfig(f *flag.FlagSet) {
 	z.report.FlagConfig(f)
 
 	descLeftAccount := z.ExecContext.Msg("cmd.file.compare.flag.left_account").Text()
-	f.StringVar(&z.optLeftAccount, "left-account", "", descLeftAccount)
+	f.StringVar(&z.optLeftAccount, "left-account", "compare-left", descLeftAccount)
 
 	descRightAccount := z.ExecContext.Msg("cmd.file.compare.flag.right_account").Text()
-	f.StringVar(&z.optRightAccount, "right-account", "", descRightAccount)
+	f.StringVar(&z.optRightAccount, "right-account", "compare-right", descRightAccount)
 
 	descLeftPath := z.ExecContext.Msg("cmd.file.compare.flag.left_path").Text()
 	f.StringVar(&z.optLeftPath, "left-path", "", descLeftPath)

@@ -14,7 +14,7 @@ type DeviceList struct {
 	IncludeDesktopClients bool `json:"include_desktop_clients"`
 	IncludeMobileClients  bool `json:"include_mobile_clients"`
 
-	OnError   func(annotation dbx_api.ErrorAnnotation) bool `json:"-"`
+	OnError   func(err error) bool                          `json:"-"`
 	OnWeb     func(web *flat_device.WebSession) bool        `json:"-"`
 	OnDesktop func(desktop *flat_device.DesktopClient) bool `json:"-"`
 	OnMobile  func(mobile *flat_device.MobileClient) bool   `json:"-"`

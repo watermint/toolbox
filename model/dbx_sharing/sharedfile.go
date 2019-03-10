@@ -9,7 +9,7 @@ import (
 type SharedFileMembers struct {
 	AsMemberId string
 	AsAdminId  string
-	OnError    func(annotation dbx_api.ErrorAnnotation) bool
+	OnError    func(err error) bool
 	OnUser     func(user *MembershipUser) bool
 	OnGroup    func(group *MembershipGroup) bool
 	OnInvitee  func(invitee *MembershipInvitee) bool
