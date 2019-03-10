@@ -15,6 +15,7 @@ type Metadata struct {
 
 	AsMemberId string                      `json:"-"`
 	AsAdminId  string                      `json:"-"`
+	PathRoot   interface{}                 `json:"-"`
 	OnError    func(err error) bool        `json:"-"`
 	OnFolder   func(folder *Folder) bool   `json:"-"`
 	OnFile     func(file *File) bool       `json:"-"`
@@ -32,6 +33,7 @@ func (z *Metadata) Get(c *dbx_api.Context) bool {
 	req := dbx_rpc.RpcRequest{
 		AsMemberId: z.AsMemberId,
 		AsAdminId:  z.AsAdminId,
+		PathRoot:   z.PathRoot,
 		Endpoint:   "files/get_metadata",
 		Param:      z,
 	}
