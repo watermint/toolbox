@@ -86,8 +86,8 @@ func (z *Mirror) progressFolder(folder *dbx_file.Folder, srcPath, dstPath string
 	return true
 }
 
-func (z *Mirror) destToPath(srcPath string) (string, error) {
-	pathDiff, err := filepath.Rel(strings.ToLower(z.SrcPath), strings.ToLower(srcPath))
+func (z *Mirror) relDstPath(srcPath string) (string, error) {
+	pathDiff, err := filepath.Rel(z.SrcPath, srcPath)
 	if err != nil {
 		z.ExecContext.Log().Debug("unable to calc relative path", zap.String("base", z.SrcPath), zap.String("current", srcPath), zap.Error(err))
 		z.ExecContext.Msg("dbx_file.copy_ref.mirror.err.failed_mirror").WithData(struct {
@@ -146,8 +146,6 @@ func (z *Mirror) destToPath(srcPath string) (string, error) {
 	curToPathDir := filepath.Dir(curDstPath)
 	curDstPath = filepath.ToSlash(filepath.Join(curToPathDir, curToPathBase))
 
-	z.ExecContext.Log().Debug("list `current` dstPath", zap.String("curDstPath", curDstPath), zap.String("pathDiff", pathDiff))
-
 	return curDstPath, nil
 }
 
@@ -156,7 +154,7 @@ func (z *Mirror) mirrorAncestors(srcPath, dstPath string) {
 	files := make(map[string]*dbx_file.File)
 	folders := make(map[string]bool)
 
-	lst := dbx_file.ListFolder{
+	lsDst := dbx_file.ListFolder{
 		AsAdminId: z.DstAsMemberId,
 		PathRoot:  z.DstPathRoot,
 
@@ -170,7 +168,7 @@ func (z *Mirror) mirrorAncestors(srcPath, dstPath string) {
 			case dbx_api.ApiError:
 				switch {
 				case strings.HasPrefix(e.ErrorSummary, "path/not_found"):
-					z.ExecContext.Log().Debug("To path doesn't have this content", zap.Error(e))
+					z.ExecContext.Log().Debug("DST path doesn't have this content", zap.Error(e))
 					return false
 				}
 			}
@@ -190,17 +188,18 @@ func (z *Mirror) mirrorAncestors(srcPath, dstPath string) {
 		},
 	}
 
-	curToPath, err := z.destToPath(srcPath)
+	curDstPath, err := z.relDstPath(srcPath)
 	if err != nil {
+		z.ExecContext.Log().Debug("unable to calc curDstPath", zap.Error(err))
 		return
 	}
 
-	if !lst.List(z.DstApi, curToPath) {
+	if !lsDst.List(z.DstApi, curDstPath) {
 		z.ExecContext.Log().Debug("List folder returns false")
-		return
 	}
 
-	lsf := dbx_file.ListFolder{
+	skipped := make([]string, 0)
+	lsSrc := dbx_file.ListFolder{
 		AsMemberId: z.SrcAsMemberId,
 		PathRoot:   z.SrcPathRoot,
 
@@ -215,14 +214,14 @@ func (z *Mirror) mirrorAncestors(srcPath, dstPath string) {
 		OnFolder: func(folder *dbx_file.Folder) bool {
 			if _, e := folders[folder.Name]; e {
 				z.ExecContext.Log().Debug("Copy ancestors", zap.String("src", folder.PathDisplay), zap.String("dst", dstPath))
-				curToPath, err := z.destToPath(folder.PathDisplay)
+				curToPath, err := z.relDstPath(folder.PathDisplay)
 				if err != nil {
 					return false
 				}
 				z.mirrorAncestors(folder.PathDisplay, curToPath)
 			} else {
 				z.ExecContext.Log().Debug("Copy folder", zap.String("src", folder.PathDisplay), zap.String("dst", dstPath))
-				curToPath, err := z.destToPath(folder.PathDisplay)
+				curToPath, err := z.relDstPath(folder.PathDisplay)
 				if err != nil {
 					return false
 				}
@@ -232,19 +231,19 @@ func (z *Mirror) mirrorAncestors(srcPath, dstPath string) {
 		},
 		OnFile: func(file *dbx_file.File) bool {
 			if tf, e := files[file.Name]; e {
-				z.ExecContext.Log().Debug("File exists on toSide", zap.String("srcPath", file.PathDisplay), zap.String("dstPath", tf.PathDisplay))
 				if tf.ContentHash == file.ContentHash {
-					z.ExecContext.Log().Debug("Skip: same content hash", zap.String("srcPath", file.PathDisplay), zap.String("hash", file.ContentHash))
+					//z.ExecContext.Log().Debug("Skip: same content hash", zap.String("srcPath", file.PathDisplay), zap.String("hash", file.ContentHash))
+					skipped = append(skipped, file.PathDisplay)
 					return true
 				}
 				// otherwise fallback to mirror
 			}
 			z.ExecContext.Log().Debug("Copy ancestor file", zap.String("src", file.PathDisplay), zap.String("dst", dstPath))
-			curToPath, err := z.destToPath(file.PathDisplay)
+			curDstPath, err := z.relDstPath(file.PathDisplay)
 			if err != nil {
 				return false
 			}
-			z.doMirror(file.PathDisplay, curToPath)
+			z.doMirror(file.PathDisplay, curDstPath)
 			return true
 		},
 		OnDelete: func(deleted *dbx_file.Deleted) bool {
@@ -253,8 +252,8 @@ func (z *Mirror) mirrorAncestors(srcPath, dstPath string) {
 			return true
 		},
 	}
-	lsf.List(z.SrcApi, srcPath)
-
+	lsSrc.List(z.SrcApi, srcPath)
+	z.ExecContext.Log().Debug("Skipped files; Reason(Same hash)", zap.Strings("files", skipped))
 }
 
 func (z *Mirror) handleApiError(ref CopyRef, srcPath, dstPath string, apiErr dbx_api.ApiError) bool {
@@ -307,7 +306,8 @@ func (z *Mirror) onEntry(ref CopyRef, srcPath, dstPath string) bool {
 		AsMemberId: z.DstAsMemberId,
 		PathRoot:   z.DstPathRoot,
 		OnError: func(err error) bool {
-			return z.handleError(err, srcPath, dstPath)
+			//return z.handleError(err, srcPath, dstPath)
+			return true
 		},
 		OnFile: func(file *dbx_file.File) bool {
 			return z.progressFile(file, srcPath, dstPath)
@@ -368,8 +368,39 @@ func (z *Mirror) updatePathRoot() {
 	}
 }
 
+func (z *Mirror) verifyGivenPaths() bool {
+	mdSrc := dbx_file.Metadata{
+		Path:                            z.SrcPath,
+		PathRoot:                        z.SrcPathRoot,
+		IncludeMediaInfo:                false,
+		IncludeDeleted:                  false,
+		IncludeHasExplicitSharedMembers: false,
+		AsMemberId:                      z.SrcAsMemberId,
+		OnError: func(err error) bool {
+			z.handleError(err, z.SrcPath, z.DstPath)
+			return false
+		},
+		OnFile: func(file *dbx_file.File) bool {
+			z.ExecContext.Log().Debug("Updating src path into DisplayPath", zap.String("srcPath", z.SrcPath), zap.String("displayPath", file.PathDisplay))
+			z.SrcPath = file.PathDisplay
+			return true
+		},
+		OnFolder: func(folder *dbx_file.Folder) bool {
+			z.ExecContext.Log().Debug("Updating src path into DisplayPath", zap.String("srcPath", z.SrcPath), zap.String("displayPath", folder.PathDisplay))
+			z.SrcPath = folder.PathDisplay
+			return true
+		},
+		OnDelete: func(deleted *dbx_file.Deleted) bool {
+			// ignore
+			return true
+		},
+	}
+	return mdSrc.Get(z.SrcApi)
+}
+
 func (z *Mirror) Mirror() {
 	z.updatePathRoot()
+	z.verifyGivenPaths()
 
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.start").Tell()
 	z.doMirror(z.SrcPath, z.DstPath)
@@ -378,6 +409,7 @@ func (z *Mirror) Mirror() {
 
 func (z *Mirror) MirrorAncestors() {
 	z.updatePathRoot()
+	z.verifyGivenPaths()
 
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.start").Tell()
 	z.mirrorAncestors(z.SrcPath, z.DstPath)
