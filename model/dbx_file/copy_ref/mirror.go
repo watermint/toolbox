@@ -213,14 +213,14 @@ func (z *Mirror) mirrorAncestors(srcPath, dstPath string) {
 		},
 		OnFolder: func(folder *dbx_file.Folder) bool {
 			if _, e := folders[folder.Name]; e {
-				z.ExecContext.Log().Debug("Copy ancestors", zap.String("src", folder.PathDisplay), zap.String("dst", dstPath))
+				z.ExecContext.Log().Debug("Mirror ancestors", zap.String("src", folder.PathDisplay), zap.String("dst", dstPath))
 				curToPath, err := z.relDstPath(folder.PathDisplay)
 				if err != nil {
 					return false
 				}
 				z.mirrorAncestors(folder.PathDisplay, curToPath)
 			} else {
-				z.ExecContext.Log().Debug("Copy folder", zap.String("src", folder.PathDisplay), zap.String("dst", dstPath))
+				z.ExecContext.Log().Debug("Mirror folder", zap.String("src", folder.PathDisplay), zap.String("dst", dstPath))
 				curToPath, err := z.relDstPath(folder.PathDisplay)
 				if err != nil {
 					return false
@@ -238,7 +238,7 @@ func (z *Mirror) mirrorAncestors(srcPath, dstPath string) {
 				}
 				// otherwise fallback to mirror
 			}
-			z.ExecContext.Log().Debug("Copy ancestor file", zap.String("src", file.PathDisplay), zap.String("dst", dstPath))
+			z.ExecContext.Log().Debug("Mirror ancestor file", zap.String("src", file.PathDisplay), zap.String("dst", dstPath))
 			curDstPath, err := z.relDstPath(file.PathDisplay)
 			if err != nil {
 				return false
@@ -260,13 +260,13 @@ func (z *Mirror) handleApiError(ref CopyRef, srcPath, dstPath string, apiErr dbx
 	z.ExecContext.Log().Debug("handle api error", zap.String("src", srcPath), zap.String("dst", dstPath), zap.String("error_tag", apiErr.ErrorSummary))
 	switch {
 	case strings.HasPrefix(apiErr.ErrorSummary, "path/conflict"):
-		// Copy each ancestors
+		// Mirror each ancestors
 		z.ExecContext.Log().Debug("conflict found")
 		z.mirrorAncestors(srcPath, dstPath)
 		return true
 
 	case strings.HasPrefix(apiErr.ErrorSummary, "too_many_files"):
-		// Copy each ancestors
+		// Mirror each ancestors
 		z.ExecContext.Log().Debug("too many files")
 		z.mirrorAncestors(srcPath, dstPath)
 		return true
@@ -369,6 +369,10 @@ func (z *Mirror) updatePathRoot() {
 }
 
 func (z *Mirror) verifyGivenPaths() bool {
+	if z.SrcPath == "/" {
+		return true
+	}
+
 	mdSrc := dbx_file.Metadata{
 		Path:                            z.SrcPath,
 		PathRoot:                        z.SrcPathRoot,
@@ -400,7 +404,9 @@ func (z *Mirror) verifyGivenPaths() bool {
 
 func (z *Mirror) Mirror() {
 	z.updatePathRoot()
-	z.verifyGivenPaths()
+	if !z.verifyGivenPaths() {
+		return
+	}
 
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.start").Tell()
 	z.doMirror(z.SrcPath, z.DstPath)
@@ -409,7 +415,9 @@ func (z *Mirror) Mirror() {
 
 func (z *Mirror) MirrorAncestors() {
 	z.updatePathRoot()
-	z.verifyGivenPaths()
+	if !z.verifyGivenPaths() {
+		return
+	}
 
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.start").Tell()
 	z.mirrorAncestors(z.SrcPath, z.DstPath)
