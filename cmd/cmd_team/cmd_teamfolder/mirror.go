@@ -386,17 +386,17 @@ func (z *CmdTeamTeamFolderMirror) mirrorTeamFolder(name string) {
 
 	if z.optVerify {
 		ba := compare.BetweenAccounts{
-			ExecContext:       z.ExecContext,
-			LeftAsMemberId:    z.srcTeamAdminId,
-			LeftAccountAlias:  z.optSrcTeamAlias,
-			LeftPath:          "/",
-			LeftPathRoot:      dbx_api.NewPathRootNamespace(srcTeamFolder.TeamFolderId),
+			ExecContext:      z.ExecContext,
+			LeftAsMemberId:   z.srcTeamAdminId,
+			LeftAccountAlias: z.optSrcTeamAlias,
+			LeftPath:         "/" + srcTeamFolder.Name,
+			//LeftPathRoot:      dbx_api.NewPathRootNamespace(srcTeamFolder.TeamFolderId),
 			LeftApi:           z.srcFileApi,
 			RightAsMemberId:   z.dstTeamAdminId,
 			RightAccountAlias: z.optDstTeamAlias,
-			RightPath:         "/",
-			RightPathRoot:     dbx_api.NewPathRootNamespace(dstTeamFolder.TeamFolderId),
-			RightApi:          z.dstFileApi,
+			RightPath:         "/" + dstTeamFolder.Name,
+			//RightPathRoot:     dbx_api.NewPathRootNamespace(dstTeamFolder.TeamFolderId),
+			RightApi: z.dstFileApi,
 			OnDiff: func(diff compare.Diff) {
 				z.report.Report(diff)
 			},
