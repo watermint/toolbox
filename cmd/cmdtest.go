@@ -39,10 +39,11 @@ func CmdTestWithTimeout(t *testing.T, g Commandlet, args []string, timeout time.
 	}
 
 	// Finish tests if tokens file not available
-	if !dbx_auth.IsCacheAvailable(ec, "") {
+	if !dbx_auth.IsCacheAvailable(ec, "test_suite") {
 		ec.Log().Info("Skip tests")
 		return
 	}
+	ec.Log().Info("Test with test tokens")
 
 	cmd := func(c chan bool) {
 		ec.Log().Info(

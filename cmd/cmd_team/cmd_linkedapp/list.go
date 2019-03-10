@@ -38,7 +38,7 @@ func (z *CmdMemberLinkedAppList) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descWithEmail := z.ExecContext.Msg("cmd.team.linkedapp.list.flag.with_email").Text()
+	descWithEmail := z.ExecContext.Msg("cmd.team.linkedapp.list.flag.with_email").T()
 	f.BoolVar(&z.OptWithMemberEmail, "with-email", false, descWithEmail)
 }
 

@@ -151,7 +151,7 @@ func (z *CommandletGroup) Usage() func(CommandUsage) {
 	f := func(c CommandUsage) {
 		z.ExecContext.Msg("cmd.common.group.usage.head").WithData(c).Tell()
 		for _, s := range z.SubCommands {
-			t := fmt.Sprintf("  %-12s %s", s.Name(), z.ExecContext.Msg(s.Desc()).Text())
+			t := fmt.Sprintf("  %-12s %s", s.Name(), z.ExecContext.Msg(s.Desc()).T())
 			tm := app_ui.NewTextMessage(t, z.ExecContext.UI(), z.Log())
 			tm.Tell()
 		}

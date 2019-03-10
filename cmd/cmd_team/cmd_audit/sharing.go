@@ -39,7 +39,7 @@ func (z *CmdTeamAuditSharing) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descExpandGroup := z.ExecContext.Msg("cmd.team.audit.sharing.flag.expand_group").Text()
+	descExpandGroup := z.ExecContext.Msg("cmd.team.audit.sharing.flag.expand_group").T()
 	f.BoolVar(&z.optExpandGroup, "expand-group", false, descExpandGroup)
 }
 

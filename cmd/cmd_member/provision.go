@@ -46,7 +46,7 @@ type MembersProvision struct {
 }
 
 func (z *MembersProvision) FlagConfig(f *flag.FlagSet) {
-	descCsv := z.ec.Msg("cmd.member.provision.flag.csv").Text()
+	descCsv := z.ec.Msg("cmd.member.provision.flag.csv").T()
 	f.StringVar(&z.optCsv, "csv", "", descCsv)
 }
 

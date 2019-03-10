@@ -30,7 +30,7 @@ func (z *CmdTeamAuditEvents) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descAccountId := z.ExecContext.Msg("cmd.team.audit.events.flag.account_id").Text()
+	descAccountId := z.ExecContext.Msg("cmd.team.audit.events.flag.account_id").T()
 	f.StringVar(&z.optAccountId, "account-id", "", descAccountId)
 }
 

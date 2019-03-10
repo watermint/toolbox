@@ -31,10 +31,10 @@ func (z *CmdTeamTeamFolderSize) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descOptDepth := z.ExecContext.Msg("cmd.team.teamfolder.size.flag.depth").Text()
+	descOptDepth := z.ExecContext.Msg("cmd.team.teamfolder.size.flag.depth").T()
 	f.IntVar(&z.optDepth, "depth", 2, descOptDepth)
 
-	descUseCached := z.ExecContext.Msg("cmd.team.teamfolder.size.flag.cache").Text()
+	descUseCached := z.ExecContext.Msg("cmd.team.teamfolder.size.flag.cache").T()
 	f.StringVar(&z.optCachePath, "cache", "", descUseCached)
 }
 

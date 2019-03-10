@@ -31,7 +31,7 @@ func (z *CmdTeamDeviceList) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descDeviceType := z.ExecContext.Msg("cmd.team.device.list.flag.device").Text()
+	descDeviceType := z.ExecContext.Msg("cmd.team.device.list.flag.device").T()
 	f.StringVar(&z.optDeviceType, "device", "", descDeviceType)
 }
 

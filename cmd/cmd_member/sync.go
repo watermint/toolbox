@@ -37,7 +37,7 @@ func (z *CmdMemberSync) FlagConfig(f *flag.FlagSet) {
 	z.provision.ec = z.ExecContext
 	z.provision.FlagConfig(f)
 
-	descSilent := z.ExecContext.Msg("cmd.member.sync.flag.silent").Text()
+	descSilent := z.ExecContext.Msg("cmd.member.sync.flag.silent").T()
 	f.BoolVar(&z.optSilent, "silent", false, descSilent)
 
 	// first release includes only invite/update

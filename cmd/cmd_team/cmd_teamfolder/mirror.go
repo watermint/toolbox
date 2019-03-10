@@ -59,16 +59,16 @@ func (z *CmdTeamTeamFolderMirror) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descFromAccount := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.src_account").Text()
+	descFromAccount := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.src_account").T()
 	f.StringVar(&z.optSrcTeamAlias, "src-account", "mirror-src", descFromAccount)
 
-	descToAccount := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.dst_account").Text()
+	descToAccount := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.dst_account").T()
 	f.StringVar(&z.optDstTeamAlias, "dest-account", "mirror-dst", descToAccount)
 
-	descVerify := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.verify").Text()
+	descVerify := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.verify").T()
 	f.BoolVar(&z.optVerify, "verify", false, descVerify)
 
-	descAll := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.all").Text()
+	descAll := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.all").T()
 	f.BoolVar(&z.optAllTeamFolders, "all", false, descAll)
 }
 

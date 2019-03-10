@@ -39,7 +39,7 @@ func (z *CmdTeamNamespaceMemberList) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descExpandGroup := z.ExecContext.Msg("cmd.team.namespace.member.list.flag.expand_group").Text()
+	descExpandGroup := z.ExecContext.Msg("cmd.team.namespace.member.list.flag.expand_group").T()
 	f.BoolVar(&z.optExpandGroup, "expand-group", false, descExpandGroup)
 }
 

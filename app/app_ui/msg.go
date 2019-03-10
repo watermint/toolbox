@@ -25,7 +25,7 @@ type UIMessage interface {
 	WithData(d interface{}) UIMessage
 
 	// Text part of this UIMessage
-	Text() string
+	T() string
 
 	// Tell message
 	Tell()
@@ -221,7 +221,7 @@ func (z *TextMessage) WithData(d interface{}) UIMessage {
 	}
 }
 
-func (z *TextMessage) Text() string {
+func (z *TextMessage) T() string {
 	if z.tmplData != nil {
 		t, err := app_util.CompileTemplate(z.text, z.tmplData)
 		if err != nil {
@@ -292,7 +292,7 @@ func (z *AltMessage) WithData(d interface{}) UIMessage {
 	}
 }
 
-func (z *AltMessage) Text() string {
+func (z *AltMessage) T() string {
 	if z.tmplData != nil {
 		d, err := json.Marshal(z.tmplData)
 		if err == nil {
@@ -394,7 +394,7 @@ func (z *Message) WithArg(a ...interface{}) UIMessage {
 	}
 }
 
-func (z *Message) Text() string {
+func (z *Message) T() string {
 	if z.tmplData != nil {
 		t, err := app_util.CompileTemplate(z.message, z.tmplData)
 		if err != nil {

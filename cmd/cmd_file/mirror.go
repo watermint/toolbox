@@ -35,19 +35,19 @@ func (z *CmdFileMirror) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descFromAccount := z.ExecContext.Msg("cmd.file.mirror.flag.src_account").Text()
+	descFromAccount := z.ExecContext.Msg("cmd.file.mirror.flag.src_account").T()
 	f.StringVar(&z.optSrcAccount, "src-account", "mirror-src", descFromAccount)
 
-	descToAccount := z.ExecContext.Msg("cmd.file.mirror.flag.dst_account").Text()
+	descToAccount := z.ExecContext.Msg("cmd.file.mirror.flag.dst_account").T()
 	f.StringVar(&z.optDstAccount, "dest-account", "mirror-dest", descToAccount)
 
-	descSrcPath := z.ExecContext.Msg("cmd.file.mirror.flag.src_path").Text()
+	descSrcPath := z.ExecContext.Msg("cmd.file.mirror.flag.src_path").T()
 	f.StringVar(&z.optSrcPath, "src-path", "", descSrcPath)
 
-	descDstPath := z.ExecContext.Msg("cmd.file.mirror.flag.dst_path").Text()
+	descDstPath := z.ExecContext.Msg("cmd.file.mirror.flag.dst_path").T()
 	f.StringVar(&z.optDstPath, "dest-path", "", descDstPath)
 
-	descVerify := z.ExecContext.Msg("cmd.file.mirror.flag.verify").Text()
+	descVerify := z.ExecContext.Msg("cmd.file.mirror.flag.verify").T()
 	f.BoolVar(&z.optVerify, "verify", false, descVerify)
 }
 

@@ -30,22 +30,22 @@ func (z *CmdTeamNamespaceFileSize) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descIncludeTeamFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_team_folder").Text()
+	descIncludeTeamFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_team_folder").T()
 	f.BoolVar(&z.nsz.OptIncludeTeamFolder, "include-team-folder", true, descIncludeTeamFolder)
 
-	descIncludeSharedFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_shared_folder").Text()
+	descIncludeSharedFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_shared_folder").T()
 	f.BoolVar(&z.nsz.OptIncludeSharedFolder, "include-shared-folder", true, descIncludeSharedFolder)
 
-	descIncludeAppFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_app_folder").Text()
+	descIncludeAppFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_app_folder").T()
 	f.BoolVar(&z.nsz.OptIncludeAppFolder, "include-app-folder", false, descIncludeAppFolder)
 
-	descIncludeMemberFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_member_folder").Text()
+	descIncludeMemberFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_member_folder").T()
 	f.BoolVar(&z.nsz.OptIncludeMemberFolder, "include-member-folder", false, descIncludeMemberFolder)
 
-	descUseCached := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.cache").Text()
+	descUseCached := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.cache").T()
 	f.StringVar(&z.nsz.OptCachePath, "cache", "", descUseCached)
 
-	descOptDepth := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.depth").Text()
+	descOptDepth := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.depth").T()
 	f.IntVar(&z.nsz.OptDepth, "depth", 2, descOptDepth)
 }
 
