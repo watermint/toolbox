@@ -17,7 +17,7 @@ type FeatureList struct {
 	OnEntry func(feature *Feature) bool
 }
 
-func (w *FeatureList) List(c *dbx_api.Context) bool {
+func (z *FeatureList) List(c *dbx_api.Context) bool {
 	type FeatureTag struct {
 		Tag string `json:".tag"`
 	}
@@ -40,7 +40,7 @@ func (w *FeatureList) List(c *dbx_api.Context) bool {
 	}
 	res, err := req.Call(c)
 	if err != nil {
-		w.OnError(err)
+		z.OnError(err)
 		return false
 	}
 
@@ -52,8 +52,8 @@ func (w *FeatureList) List(c *dbx_api.Context) bool {
 			Feature: feature,
 			Value:   json.RawMessage(v.Raw),
 		}
-		if w.OnEntry != nil {
-			return w.OnEntry(f)
+		if z.OnEntry != nil {
+			return z.OnEntry(f)
 		}
 		return false
 	}

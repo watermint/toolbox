@@ -38,16 +38,16 @@ type RpcRequest struct {
 	PathRoot interface{}
 }
 
-func (a *RpcRequest) requestUrl() string {
-	return fmt.Sprintf("https://%s/2/%s", RpcEndpoint, a.Endpoint)
+func (z *RpcRequest) requestUrl() string {
+	return fmt.Sprintf("https://%s/2/%s", RpcEndpoint, z.Endpoint)
 }
 
-func (a *RpcRequest) rpcRequest(c *dbx_api.Context) (req *http.Request, err error) {
-	url := a.requestUrl()
-	log := c.Log().With(zap.String("endpoint", a.Endpoint))
+func (z *RpcRequest) rpcRequest(c *dbx_api.Context) (req *http.Request, err error) {
+	url := z.requestUrl()
+	log := c.Log().With(zap.String("endpoint", z.Endpoint))
 
 	// param
-	requestParam, err := json.Marshal(a.Param)
+	requestParam, err := json.Marshal(z.Param)
 	if err != nil {
 		log.Debug("unable to marshal params", zap.Error(err))
 		return nil, err
@@ -61,17 +61,17 @@ func (a *RpcRequest) rpcRequest(c *dbx_api.Context) (req *http.Request, err erro
 		return nil, err
 	}
 	req.Header.Add("Content-Type", "application/json")
-	if !a.NoAuthHeader {
+	if !z.NoAuthHeader {
 		req.Header.Add("Authorization", "Bearer "+c.Token)
 	}
-	if a.AsMemberId != "" {
-		req.Header.Add(dbx_api.ReqHeaderSelectUser, a.AsMemberId)
+	if z.AsMemberId != "" {
+		req.Header.Add(dbx_api.ReqHeaderSelectUser, z.AsMemberId)
 	}
-	if a.AsAdminId != "" {
-		req.Header.Add(dbx_api.ReqHeaderSelectAdmin, a.AsAdminId)
+	if z.AsAdminId != "" {
+		req.Header.Add(dbx_api.ReqHeaderSelectAdmin, z.AsAdminId)
 	}
-	if a.PathRoot != nil {
-		pr, err := json.Marshal(a.PathRoot)
+	if z.PathRoot != nil {
+		pr, err := json.Marshal(z.PathRoot)
 		if err != nil {
 			log.Debug("unable to marshal path root", zap.Error(err))
 			return nil, err
@@ -81,7 +81,7 @@ func (a *RpcRequest) rpcRequest(c *dbx_api.Context) (req *http.Request, err erro
 	return
 }
 
-func (a *RpcRequest) ensureRetryOnError(c *dbx_api.Context, lastErr error) (apiRes *RpcResponse, err error) {
+func (z *RpcRequest) ensureRetryOnError(c *dbx_api.Context, lastErr error) (apiRes *RpcResponse, err error) {
 	sameErrorCount := 0
 	if c.LastErrors == nil {
 		c.LastErrors = make([]error, 1)
@@ -111,18 +111,18 @@ func (a *RpcRequest) ensureRetryOnError(c *dbx_api.Context, lastErr error) (apiR
 		zap.Time("retry_after", c.RetryAfter),
 	)
 
-	return a.Call(c)
+	return z.Call(c)
 }
 
-func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, err error) {
+func (z *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, err error) {
 	annotate := func(res *RpcResponse, et int, err error) (*RpcResponse, error) {
 		return res, err
 	}
-	log := c.Log().With(zap.String("endpoint", a.Endpoint))
-	req, err := a.rpcRequest(c)
+	log := c.Log().With(zap.String("endpoint", z.Endpoint))
+	req, err := z.rpcRequest(c)
 	if err != nil {
 		log.Debug("unable to prepare request", zap.Error(err))
-		return annotate(nil, dbx_api.ErrorUnknown, errors.New(fmt.Sprintf("unable to prepare request for [%s]", a.Endpoint)))
+		return annotate(nil, dbx_api.ErrorUnknown, errors.New(fmt.Sprintf("unable to prepare request for [%s]", z.Endpoint)))
 	}
 
 	now := time.Now()
@@ -133,12 +133,12 @@ func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, err error) {
 		time.Sleep(c.RetryAfter.Sub(now))
 	}
 
-	log.Debug("do_request", zap.Any("param", a.Param))
+	log.Debug("do_request", zap.Any("param", z.Param), zap.Any("root", z.Param))
 	res, err := c.Client.Do(req)
 
 	if err != nil {
 		log.Debug("transport error", zap.Error(err))
-		return a.ensureRetryOnError(c, err)
+		return z.ensureRetryOnError(c, err)
 	}
 
 	body, err := ioutil.ReadAll(res.Body)
@@ -227,7 +227,7 @@ func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, err error) {
 		)
 
 		// Retry
-		return a.Call(c)
+		return z.Call(c)
 	}
 
 	if int(res.StatusCode/100) == 5 {
@@ -236,7 +236,7 @@ func (a *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, err error) {
 			zap.Int("status_code", res.StatusCode),
 			zap.String("body", bodyString),
 		)
-		return a.ensureRetryOnError(c, dbx_api.ServerError{StatusCode: res.StatusCode})
+		return z.ensureRetryOnError(c, dbx_api.ServerError{StatusCode: res.StatusCode})
 	}
 
 	log.Debug(

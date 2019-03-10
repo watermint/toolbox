@@ -13,27 +13,27 @@ type SharedLinkFilter struct {
 	FilterByVisibility string
 }
 
-func (s *SharedLinkFilter) FlagConfig(f *flag.FlagSet) {
+func (z *SharedLinkFilter) FlagConfig(f *flag.FlagSet) {
 	descFilterPath := "Filter by file path (default: no filter)"
-	f.StringVar(&s.FilterByPath, "filter-path", "", descFilterPath)
+	f.StringVar(&z.FilterByPath, "filter-path", "", descFilterPath)
 
 	descFilterVisibility := fmt.Sprintf(
 		"Filter by visibility (default: no filter, {%s})",
-		strings.Join(s.SupportedVisibility(), ", "),
+		strings.Join(z.SupportedVisibility(), ", "),
 	)
-	f.StringVar(&s.FilterByVisibility, "filter-visibility", "", descFilterVisibility)
+	f.StringVar(&z.FilterByVisibility, "filter-visibility", "", descFilterVisibility)
 }
 
-func (s *SharedLinkFilter) IsAcceptable(link *dbx_sharing.SharedLink) bool {
+func (z *SharedLinkFilter) IsAcceptable(link *dbx_sharing.SharedLink) bool {
 	result := true
-	if s.FilterByVisibility != "" {
-		if link.PermissionResolvedVisibility != s.FilterByVisibility {
+	if z.FilterByVisibility != "" {
+		if link.PermissionResolvedVisibility != z.FilterByVisibility {
 			result = false
 		}
 	}
 
-	if s.FilterByPath != "" {
-		filterPath := filepath.ToSlash(strings.ToLower(s.FilterByPath))
+	if z.FilterByPath != "" {
+		filterPath := filepath.ToSlash(strings.ToLower(z.FilterByPath))
 
 		if !strings.HasPrefix(link.PathLower, filterPath) {
 			result = false
@@ -42,7 +42,7 @@ func (s *SharedLinkFilter) IsAcceptable(link *dbx_sharing.SharedLink) bool {
 	return result
 }
 
-func (s *SharedLinkFilter) SupportedVisibility() []string {
+func (z *SharedLinkFilter) SupportedVisibility() []string {
 	return []string{
 		"public",
 		"team_only",

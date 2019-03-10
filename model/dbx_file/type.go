@@ -48,77 +48,77 @@ type EntryParser struct {
 	OnDelete func(deleted *Deleted) bool
 }
 
-func (p *EntryParser) Parse(entry gjson.Result) bool {
-	p.log = p.Logger.With(zap.String("parser", "EntryParser"))
+func (z *EntryParser) Parse(entry gjson.Result) bool {
+	z.log = z.Logger.With(zap.String("parser", "EntryParser"))
 
 	tag := entry.Get(dbx_api.ResJsonDotTag)
 	if !tag.Exists() {
 		return dbx_api.ParserError(
 			"`.tag` not found in the entry",
 			entry.Str,
-			p.log,
-			p.OnError,
+			z.log,
+			z.OnError,
 		)
 	}
 
 	switch tag.String() {
 	case "file":
-		return p.parseFile(entry)
+		return z.parseFile(entry)
 
 	case "folder":
-		return p.parseFolder(entry)
+		return z.parseFolder(entry)
 
 	case "deleted":
-		return p.parseDeleted(entry)
+		return z.parseDeleted(entry)
 
 	default:
 		return dbx_api.ParserError(
 			"unknown `.tag` value found in the entry",
 			entry.Str,
-			p.log.With(zap.String("tag", tag.String())),
-			p.OnError,
+			z.log.With(zap.String("tag", tag.String())),
+			z.OnError,
 		)
 	}
 
 	return true
 }
 
-func (p *EntryParser) parseFile(entry gjson.Result) bool {
+func (z *EntryParser) parseFile(entry gjson.Result) bool {
 	f := &File{}
 	if err := json.Unmarshal([]byte(entry.Raw), f); err != nil {
 		dbx_api.ParserError(
 			"unable to unmarshal entry",
 			entry.Str,
-			p.log.With(zap.Error(err)),
-			p.OnError,
+			z.log.With(zap.Error(err)),
+			z.OnError,
 		)
 		return false
 	}
-	return p.OnFile(f)
+	return z.OnFile(f)
 }
-func (p *EntryParser) parseFolder(entry gjson.Result) bool {
+func (z *EntryParser) parseFolder(entry gjson.Result) bool {
 	f := &Folder{}
 	if err := json.Unmarshal([]byte(entry.Raw), f); err != nil {
 		dbx_api.ParserError(
 			"unable to unmarshal entry",
 			entry.Str,
-			p.log.With(zap.Error(err)),
-			p.OnError,
+			z.log.With(zap.Error(err)),
+			z.OnError,
 		)
 		return false
 	}
-	return p.OnFolder(f)
+	return z.OnFolder(f)
 }
-func (p *EntryParser) parseDeleted(entry gjson.Result) bool {
+func (z *EntryParser) parseDeleted(entry gjson.Result) bool {
 	d := &Deleted{}
 	if err := json.Unmarshal([]byte(entry.Raw), d); err != nil {
 		dbx_api.ParserError(
 			"unable to unmarshal entry",
 			entry.Str,
-			p.log.With(zap.Error(err)),
-			p.OnError,
+			z.log.With(zap.Error(err)),
+			z.OnError,
 		)
 		return false
 	}
-	return p.OnDelete(d)
+	return z.OnDelete(d)
 }

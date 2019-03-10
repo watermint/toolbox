@@ -29,15 +29,15 @@ func NewCommands() Commands {
 	}
 }
 
-func (c *Commands) RootCommand() cmd.Commandlet {
-	return c.rootCmd
+func (z *Commands) RootCommand() cmd.Commandlet {
+	return z.rootCmd
 }
 
-func (c *Commands) Exec(ec *app.ExecContext, args []string) {
+func (z *Commands) Exec(ec *app.ExecContext, args []string) {
 	f := flag.NewFlagSet(args[0], flag.ExitOnError)
 	ec.PrepareFlags(f)
-	c.rootCmd.Init(nil)
-	c.rootCmd.FlagConfig(f)
-	c.rootCmd.Setup(ec)
-	c.rootCmd.Exec(args[1:])
+	z.rootCmd.Init(nil)
+	z.rootCmd.FlagConfig(f)
+	z.rootCmd.Setup(ec)
+	z.rootCmd.Exec(args[1:])
 }
