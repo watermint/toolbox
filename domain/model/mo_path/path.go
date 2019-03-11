@@ -17,10 +17,17 @@ type Path interface {
 	// Logical part of the path. That doesn't contain namespace or file/folder id.
 	// Returns `/` if the path point to root.
 	LogicalPath() string
+
+	// Child path
+	ChildPath(name string) Path
 }
 
 type pathImpl struct {
 	path string
+}
+
+func (z *pathImpl) ChildPath(name string) Path {
+	return NewPathDisplay(z.path + "/" + name)
 }
 
 func (z *pathImpl) Namespace() (namespace string, exist bool) {

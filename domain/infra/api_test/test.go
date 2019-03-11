@@ -5,11 +5,16 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_context_impl"
+	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 const (
 	testPeerName = "test_suite"
+)
+
+var (
+	ToolboxTestSuiteFolder = mo_path.NewPath("/toolbox-testsuite")
 )
 
 func DoTestTokenFull(test func(ctx api_context.Context), opts ...api_context.Option) {

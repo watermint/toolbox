@@ -69,7 +69,7 @@ func (z *implRelocation) AutoRename(auto bool) {
 	z.autoRename = auto
 }
 
-func (z *implRelocation) Copy(from, to mo_path.Path) (entry mo_file.Entry, err error) {
+func (z *implRelocation) relocParam(from, to mo_path.Path) interface{} {
 	p := struct {
 		FromPath               string `json:"from_path"`
 		ToPath                 string `json:"to_path"`
@@ -83,6 +83,11 @@ func (z *implRelocation) Copy(from, to mo_path.Path) (entry mo_file.Entry, err e
 		AllowOwnershipTransfer: z.allowOwnershipTransfer,
 		AutoRename:             z.autoRename,
 	}
+	return p
+}
+
+func (z *implRelocation) Copy(from, to mo_path.Path) (entry mo_file.Entry, err error) {
+	p := z.relocParam(from, to)
 	entry = &mo_file.Metadata{}
 	res, err := z.ctx.Request("files/copy_v2").Param(p).Call()
 	if err != nil {
@@ -95,5 +100,14 @@ func (z *implRelocation) Copy(from, to mo_path.Path) (entry mo_file.Entry, err e
 }
 
 func (z *implRelocation) Move(from, to mo_path.Path) (entry mo_file.Entry, err error) {
-	panic("implement me")
+	p := z.relocParam(from, to)
+	entry = &mo_file.Metadata{}
+	res, err := z.ctx.Request("files/move_v2").Param(p).Call()
+	if err != nil {
+		return nil, err
+	}
+	if err = res.ModelWithPath(entry, "metadata"); err != nil {
+		return nil, err
+	}
+	return entry, nil
 }
