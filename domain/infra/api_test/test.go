@@ -33,4 +33,6 @@ func doTest(tokenType string, test func(ctx api_context.Context), opts ...api_co
 	}
 	ctx := api_context_impl.New(ec, api_auth_impl.NewCompatible(dt.Token), opts...)
 	test(ctx)
+
+	ec.Shutdown()
 }

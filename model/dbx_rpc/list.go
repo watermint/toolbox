@@ -30,10 +30,7 @@ func (z *RpcList) List(c *dbx_api.Context, arg interface{}) bool {
 	}
 	res, err := req.Call(c)
 
-	if !z.handleResponse(c, res, err) {
-		return false
-	}
-	return true
+	return z.handleResponse(c, res, err)
 }
 
 func (z *RpcList) listContinue(c *dbx_api.Context, cursor string) bool {
@@ -50,10 +47,7 @@ func (z *RpcList) listContinue(c *dbx_api.Context, cursor string) bool {
 	}
 	res, err := req.Call(c)
 
-	if z.handleResponse(c, res, err) {
-		return false
-	}
-	return true
+	return z.handleResponse(c, res, err)
 }
 
 func (z *RpcList) handleResponse(c *dbx_api.Context, res *RpcResponse, err error) bool {

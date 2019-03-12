@@ -53,7 +53,12 @@ func (z *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobI
 	case "complete":
 		log.Debug("complete")
 		if z.OnComplete != nil {
-			return z.OnComplete(gjson.Get(res.Body, "complete"))
+			cmp := resJson.Get("complete")
+			if cmp.Exists() {
+				return z.OnComplete(cmp)
+			} else {
+				return z.OnComplete(resJson)
+			}
 		}
 		return true
 

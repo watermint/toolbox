@@ -10,9 +10,9 @@ type List interface {
 	Continue(endpoint string) List
 	UseHasMore(use bool) List
 	ResultTag(tag string) List
-	OnFailure(func(err error) error) List
-	OnResponse(func(res api_rpc.Response) error) List
-	OnEntry(func(entry ListEntry) error) List
+	OnFailure(failure func(err error) error) List
+	OnResponse(response func(res api_rpc.Response) error) List
+	OnEntry(entry func(entry ListEntry) error) List
 	Call() (err error)
 }
 

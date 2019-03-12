@@ -18,7 +18,7 @@ func New(ec *app.ExecContext,
 	base api_context.Base,
 	token api_auth.Token) api_rpc.Request {
 
-	ri := requestImpl{
+	ri := RequestImpl{
 		ec:         ec,
 		endpoint:   endpoint,
 		asMemberId: asMemberId,
@@ -29,7 +29,8 @@ func New(ec *app.ExecContext,
 	return &ri
 }
 
-type requestImpl struct {
+// TODO: should be private. (update after migration)
+type RequestImpl struct {
 	ec         *app.ExecContext
 	asMemberId string
 	asAdminId  string
@@ -41,22 +42,26 @@ type requestImpl struct {
 	failure    func(err error) error
 }
 
-func (z *requestImpl) Param(param interface{}) api_rpc.Request {
+func (z *RequestImpl) Param(param interface{}) api_rpc.Request {
 	z.param = param
 	return z
 }
 
-func (z *requestImpl) OnSuccess(success func(res api_rpc.Response) error) api_rpc.Request {
+func (z *RequestImpl) OnSuccess(success func(res api_rpc.Response) error) api_rpc.Request {
 	z.success = success
 	return z
 }
 
-func (z *requestImpl) OnFailure(failure func(err error) error) api_rpc.Request {
+func (z *RequestImpl) OnFailure(failure func(err error) error) api_rpc.Request {
 	z.failure = failure
 	return z
 }
 
-func (z *requestImpl) Call() (res api_rpc.Response, err error) {
+func (z *RequestImpl) DbxApiContext() *dbx_api.Context {
+	return dbx_api.NewContext(z.ec, "api_rpc_impl", z.token.Token())
+}
+
+func (z *RequestImpl) Call() (res api_rpc.Response, err error) {
 	rpc := dbx_rpc.RpcRequest{
 		Endpoint:   z.endpoint,
 		Param:      z.param,
@@ -64,7 +69,7 @@ func (z *requestImpl) Call() (res api_rpc.Response, err error) {
 		AsAdminId:  z.asAdminId,
 		//PathRoot: z.base, TODO: incompatible
 	}
-	ctx := dbx_api.NewContext(z.ec, "api_rpc_impl", z.token.Token())
+	ctx := z.DbxApiContext()
 	dbxRes, err := rpc.Call(ctx)
 	if err != nil {
 		if z.failure != nil {
@@ -80,41 +85,46 @@ func (z *requestImpl) Call() (res api_rpc.Response, err error) {
 }
 
 func newFailureResponse(resErr error) api_rpc.Response {
-	return &responseImpl{
+	return &ResponseImpl{
 		resErr: resErr,
 	}
 }
 
 func newSuccessResponse(dbxRes *dbx_rpc.RpcResponse) api_rpc.Response {
-	return &responseImpl{
+	return &ResponseImpl{
 		dbxRes: dbxRes,
 	}
 }
 
-type responseImpl struct {
+// TODO: should be private
+type ResponseImpl struct {
 	resErr error
 	dbxRes *dbx_rpc.RpcResponse
 }
 
-func (z *responseImpl) Error() error {
+func (z *ResponseImpl) DbxRpcRes() *dbx_rpc.RpcResponse {
+	return z.dbxRes
+}
+
+func (z *ResponseImpl) Error() error {
 	return z.resErr
 }
 
-func (z *responseImpl) StatusCode() int {
+func (z *ResponseImpl) StatusCode() int {
 	if z.dbxRes != nil {
 		return z.dbxRes.StatusCode
 	}
 	return 0
 }
 
-func (z *responseImpl) Body() (body string, err error) {
+func (z *ResponseImpl) Body() (body string, err error) {
 	if z.dbxRes != nil {
 		return z.dbxRes.Body, nil
 	}
 	return "", errors.New("no body")
 }
 
-func (z *responseImpl) Json() (res gjson.Result, err error) {
+func (z *ResponseImpl) Json() (res gjson.Result, err error) {
 	body, err := z.Body()
 	if err != nil {
 		return gjson.Parse(`{}`), err
@@ -125,7 +135,7 @@ func (z *responseImpl) Json() (res gjson.Result, err error) {
 	return gjson.Parse(body), nil
 }
 
-func (z *responseImpl) Model(v interface{}) error {
+func (z *ResponseImpl) Model(v interface{}) error {
 	body, err := z.Body()
 	if err != nil {
 		return err
@@ -133,7 +143,7 @@ func (z *responseImpl) Model(v interface{}) error {
 	return api_parser.ParseModelString(v, body)
 }
 
-func (z *responseImpl) ModelWithPath(v interface{}, path string) error {
+func (z *ResponseImpl) ModelWithPath(v interface{}, path string) error {
 	body, err := z.Body()
 	if err != nil {
 		return err

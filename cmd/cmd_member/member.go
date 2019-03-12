@@ -2,6 +2,7 @@ package cmd_member
 
 import (
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/cmd/cmd_member/cmd_member_update"
 )
 
 func NewCmdMember() cmd.Commandlet {
@@ -24,6 +25,7 @@ func NewCmdMember() cmd.Commandlet {
 			&CmdMemberSync{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
+			cmd_member_update.NewCmdMemberUpdate(),
 		},
 	}
 }

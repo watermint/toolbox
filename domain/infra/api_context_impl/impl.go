@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_list"
+	"github.com/watermint/toolbox/domain/infra/api_list_impl"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"github.com/watermint/toolbox/domain/infra/api_rpc_impl"
 	"go.uber.org/zap"
@@ -78,7 +79,7 @@ func (z *contextImpl) Request(endpoint string) api_rpc.Request {
 }
 
 func (z *contextImpl) List(endpoint string) api_list.List {
-	panic("implement me")
+	return api_list_impl.New(z.ec, z, endpoint, z.asMemberId, z.asAdminId, z.basePath, z.dt)
 }
 
 func (z *contextImpl) Async(endpoint string) api_async.Async {

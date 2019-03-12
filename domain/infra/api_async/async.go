@@ -13,8 +13,6 @@ type Async interface {
 
 type Response interface {
 	Error() error
-	StatusCode() int
-	Body() (body string, err error)
 	Json() (res gjson.Result, err error)
 	Model(v interface{}) error
 	ModelWithPath(v interface{}, path string) error
