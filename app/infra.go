@@ -50,12 +50,14 @@ func NewExecContextForTest() *ExecContext {
 	return ec
 }
 
-func NewExecContext(bx *rice.Box) *ExecContext {
-	ec := &ExecContext{}
+func NewExecContext(bx *rice.Box) (ec *ExecContext, err error) {
+	ec = &ExecContext{}
 	ec.isTest = false
 	ec.resources = bx
-	ec.startup()
-	return ec
+	if err := ec.startup(); err != nil {
+		return nil, err
+	}
+	return ec, nil
 }
 
 func (z *ExecContext) NoCacheToken() bool {
