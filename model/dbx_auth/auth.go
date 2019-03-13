@@ -77,7 +77,7 @@ func (z *CachedAuthenticator) init() {
 func (z *CachedAuthenticator) cacheFile() string {
 	px := sha256.Sum224([]byte(z.peerName))
 	pn := fmt.Sprintf("%x.tokens", px)
-	return z.ec.FileOnWorkPath(pn)
+	return z.ec.FileOnSecretsPath(pn)
 }
 
 func (z *CachedAuthenticator) loadFile() error {

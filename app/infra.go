@@ -92,23 +92,24 @@ func (z *ExecContext) ResourceBytes(path string) ([]byte, error) {
 func (z *ExecContext) FileOnWorkPath(name string) string {
 	return filepath.Join(z.WorkPath, name)
 }
-
-func (z *ExecContext) AuthFile() string {
-	return z.FileOnWorkPath(AppName + ".secret")
+func (z *ExecContext) FileOnSecretsPath(name string) string {
+	return filepath.Join(z.SecretsPath(), name)
 }
 
 func (z *ExecContext) startup() error {
 	z.defaultPeerName = DefaultPeerName
+	z.userInterface = app_ui.NewDefaultCUI()
 	z.setupLoggerConsole()
-	z.setupWorkPath()
+	z.loadMessages()
+	if err := z.setupWorkPath(); err != nil {
+		return err
+	}
 	z.setupLoggerFile()
 	z.logger.Debug("Startup:",
 		zap.String("app", AppName),
 		zap.String("version", AppVersion),
 		zap.String("revision", AppHash),
 	)
-	z.userInterface = app_ui.NewDefaultCUI()
-	z.loadMessages()
 	z.logger.Debug("Startup completed")
 
 	return nil
@@ -182,6 +183,16 @@ func (z *ExecContext) Shutdown() {
 	z.Log().Sync()
 }
 
+func (z *ExecContext) LogsPath() string {
+	return z.FileOnWorkPath("logs")
+}
+func (z *ExecContext) JobsPath() string {
+	return z.FileOnWorkPath("jobs")
+}
+func (z *ExecContext) SecretsPath() string {
+	return z.FileOnWorkPath("secrets")
+}
+
 func (z *ExecContext) DefaultWorkPath() string {
 	u, err := user.Current()
 	if err != nil {
@@ -213,6 +224,44 @@ func (z *ExecContext) PrepareFlags(f *flag.FlagSet) {
 	f.StringVar(&z.lang, "lang", "", descLang)
 }
 
+func (z *ExecContext) setupDirectory(path string) error {
+	failMsg := z.Msg("app.common.infra.err.failed_setup_work_dir")
+	failStruct := struct {
+		Path  string
+		Error string
+	}{
+		Path: path,
+	}
+
+	st, err := os.Stat(path)
+	if err != nil && os.IsNotExist(err) {
+		err = os.MkdirAll(path, 0701)
+		if err != nil {
+			failStruct.Error = err.Error()
+			failMsg.WithData(failStruct).TellError()
+			z.Log().Fatal("Unable to create work directory", zap.String("path", path), zap.Error(err))
+			return err
+		}
+	} else if err != nil {
+		failStruct.Error = err.Error()
+		failMsg.WithData(failStruct).TellError()
+		z.Log().Fatal("Unable to setup work directory", zap.String("path", path), zap.Error(err))
+		return err
+	} else if !st.IsDir() {
+		failStruct.Error = z.Msg("app.common.infra.err.workdir_is_not_a_dir").T()
+		failMsg.WithData(failStruct).TellError()
+		z.Log().Fatal("Unable to setup work directory. It's not a directory", zap.String("path", path))
+		return errors.New("unable to setup work directory")
+	} else if st.Mode()&0700 == 0 {
+		failStruct.Error = z.Msg("app.common.infra.err.workdir_no_permission").T()
+		failMsg.WithData(failStruct).TellError()
+		z.Log().Fatal("Unable to setup work directory. No permission to read/write work directory", zap.String("path", path))
+		return errors.New("unable to setup work directory")
+	}
+
+	return nil
+}
+
 func (z *ExecContext) setupWorkPath() error {
 	if z.WorkPath == "" {
 		z.WorkPath = z.DefaultWorkPath()
@@ -221,42 +270,18 @@ func (z *ExecContext) setupWorkPath() error {
 		)
 	}
 
-	st, err := os.Stat(z.WorkPath)
-	if err != nil && os.IsNotExist(err) {
-		err = os.MkdirAll(z.WorkPath, 0701)
-		if err == nil {
-			z.Log().Info(
-				"Work directory created",
-				zap.String("path", z.WorkPath),
-			)
-		} else {
-			z.Log().Fatal(
-				"Unable to create work directory",
-				zap.String("path", z.WorkPath),
-				zap.Error(err),
-			)
-			return err
-		}
-	} else if err != nil {
-		z.Log().Fatal(
-			"Unable to setup work directory",
-			zap.String("path", z.WorkPath),
-			zap.Error(err),
-		)
-	} else if !st.IsDir() {
-		z.Log().Fatal(
-			"Unable to setup work directory. It's not a directory",
-			zap.String("path", z.WorkPath),
-		)
-		return errors.New("unable to setup work directory")
-	} else if st.Mode()&0700 == 0 {
-		z.Log().Fatal(
-			"Unable to setup work directory. No permission to read/write work directory",
-			zap.String("path", z.WorkPath),
-		)
-		return errors.New("unable to setup work directory")
+	if err := z.setupDirectory(z.WorkPath); err != nil {
+		return err
 	}
-
+	if err := z.setupDirectory(z.JobsPath()); err != nil {
+		return err
+	}
+	if err := z.setupDirectory(z.LogsPath()); err != nil {
+		return err
+	}
+	if err := z.setupDirectory(z.SecretsPath()); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -325,7 +350,7 @@ func (z *ExecContext) setupLoggerConsole() *zap.Logger {
 }
 
 func (z *ExecContext) setupLoggerFile() {
-	logPath := filepath.Join(z.WorkPath, AppName+".log")
+	logPath := filepath.Join(z.LogsPath(), AppName+".log")
 	if z.logFilePath == logPath {
 		z.Log().Debug("Skip setup logger file (path unchanged)",
 			zap.String("path", logPath),
