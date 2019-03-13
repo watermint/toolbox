@@ -9,7 +9,10 @@ import (
 
 func main() {
 	bx := rice.MustFindBox("resources")
-	ec := app.NewExecContext(bx)
+	ec, err := app.NewExecContext(bx)
+	if err != nil {
+		return
+	}
 	cmds := cmd_root.NewCommands()
 	cmds.Exec(ec, os.Args)
 }
