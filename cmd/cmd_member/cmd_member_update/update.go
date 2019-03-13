@@ -6,6 +6,10 @@ func NewCmdMemberUpdate() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "update",
 		CommandDesc: "cmd.member.update.desc",
-		SubCommands: []cmd.Commandlet{},
+		SubCommands: []cmd.Commandlet{
+			&CmdMemberUpdateEmail{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
+		},
 	}
 }

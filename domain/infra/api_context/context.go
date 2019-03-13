@@ -11,6 +11,7 @@ import (
 type Context interface {
 	Log() *zap.Logger
 	Msg(key string) app_ui.UIMessage
+	ErrorMsg(err error) app_ui.UIMessage
 
 	Request(endpoint string) api_rpc.Request
 	List(endpoint string) api_list.List

@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_list_impl"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"github.com/watermint/toolbox/domain/infra/api_rpc_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"go.uber.org/zap"
 	"net/http"
 	"time"
@@ -48,6 +49,39 @@ type contextImpl struct {
 	asMemberId string
 	asAdminId  string
 	basePath   api_context.Base
+}
+
+func (z *contextImpl) ErrorMsg(err error) app_ui.UIMessage {
+	summary := api_util.ErrorSummary(err)
+	if summary == "" {
+		return z.ec.Msg("app.common.api.err.general_error").WithData(struct {
+			Error string
+		}{
+			Error: err.Error(),
+		})
+	} else {
+		errMsgKey := "dbx.err." + summary
+		userMessage := api_util.ErrorUserMessage(err)
+
+		if z.ec.MessageContainer().MsgExists(errMsgKey) {
+			errDesc := z.ec.Msg(errMsgKey).T()
+			return z.ec.Msg("app.common.api.err.api_error").WithData(struct {
+				Tag   string
+				Error string
+			}{
+				Tag:   summary,
+				Error: errDesc,
+			})
+		}
+
+		return z.ec.Msg("app.common.api.err.api_error").WithData(struct {
+			Tag   string
+			Error string
+		}{
+			Tag:   summary,
+			Error: userMessage,
+		})
+	}
 }
 
 func (z *contextImpl) ClientTimeout(second int) {

@@ -198,7 +198,9 @@ func (z *CommandletGroup) Exec(args []string) {
 		}
 
 		if !sc.IsGroup() {
-			z.ExecContext.ApplyFlags()
+			if err := z.ExecContext.ApplyFlags(); err != nil {
+				return
+			}
 		}
 		sc.Exec(remainders)
 		if !sc.IsGroup() {

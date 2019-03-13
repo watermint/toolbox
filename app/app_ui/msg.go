@@ -161,6 +161,22 @@ func (z *UIMessageContainer) Load() {
 	}
 }
 
+func (z *UIMessageContainer) MsgExists(key string) bool {
+	if z.baseMessages == nil {
+		return false
+	}
+	if z.localMessages != nil {
+		if _, e := z.localMessages[key]; e {
+			return true
+		}
+		// fallback to base messages if the message not found in local messages
+	}
+	if _, e := z.baseMessages[key]; e {
+		return true
+	}
+	return false
+}
+
 func (z *UIMessageContainer) Msg(key string) UIMessage {
 	if z.baseMessages == nil {
 		return NewAltMessage(key, z.userInterface)

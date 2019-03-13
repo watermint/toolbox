@@ -54,7 +54,10 @@ func CmdTestWithTimeout(t *testing.T, g Commandlet, args []string, timeout time.
 		ec.PrepareFlags(f)
 		g.Init(nil)
 		g.FlagConfig(f)
-		ec.ApplyFlags()
+		if err := ec.ApplyFlags(); err != nil {
+			t.Error("failed apply flags", err)
+			return
+		}
 		defer ec.Shutdown()
 		g.Setup(ec)
 		g.Exec(args)

@@ -4,13 +4,11 @@ import (
 	"errors"
 	"flag"
 	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/app/app_util"
+	"github.com/watermint/toolbox/app/app_io"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"go.uber.org/zap"
-	"io"
-	"os"
-	"strings"
 )
 
 type MemberProvision struct {
@@ -78,47 +76,8 @@ func (z *MembersProvision) loadArgs(args []string) error {
 }
 
 func (z *MembersProvision) loadCsv(filePath string) error {
-	f, err := os.Open(filePath)
-	if err != nil {
-		z.ec.Msg("cmd.member.provision.err.open_file").WithData(struct {
-			File string
-		}{
-			File: filePath,
-		}).TellError()
-		z.Logger.Warn(
-			"Unable to open file",
-			zap.String("file", filePath),
-			zap.Error(err),
-		)
-		return err
-	}
-	csv := app_util.NewBomAwareCsvReader(f)
-
 	z.Members = make([]*MemberProvision, 0)
-	for {
-		cols, err := csv.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			z.ec.Msg("cmd.member.provision.err.cant_read").WithData(struct {
-				File string
-			}{
-				File: filePath,
-			}).TellError()
-			z.Logger.Warn(
-				"Unable to read CSV file",
-				zap.String("file", filePath),
-				zap.Error(err),
-			)
-			return err
-		}
-		if len(cols) < 1 {
-			z.ec.Msg("cmd.member.provision.err.no_row").Tell()
-			z.Logger.Warn("No column found in the row. Skip")
-			continue
-		}
-
+	loader := app_io.NewCsvLoader(z.ec, filePath).OnRow(func(cols []string) error {
 		mp := &MemberProvision{}
 
 		if len(cols) >= 1 {
@@ -132,11 +91,13 @@ func (z *MembersProvision) loadCsv(filePath string) error {
 		}
 
 		// skip
-		if !strings.Contains(mp.Email, "@") {
-			continue
+		if !api_util.RegexEmail.MatchString(mp.Email) {
+			z.ec.Log().Debug("Skip: Email field does not match to the pattern", zap.Strings("cols", cols))
+			return nil
 		}
 
 		z.Members = append(z.Members, mp)
-	}
-	return nil
+		return nil
+	})
+	return loader.Load()
 }

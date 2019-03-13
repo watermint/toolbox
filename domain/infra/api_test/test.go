@@ -20,6 +20,18 @@ var (
 func DoTestTokenFull(test func(ctx api_context.Context), opts ...api_context.Option) {
 	doTest(dbx_auth.DropboxTokenFull, test, opts...)
 }
+func DoTestBusinessInfo(test func(ctx api_context.Context), opts ...api_context.Option) {
+	doTest(dbx_auth.DropboxTokenBusinessInfo, test, opts...)
+}
+func DoTestBusinessFile(test func(ctx api_context.Context), opts ...api_context.Option) {
+	doTest(dbx_auth.DropboxTokenBusinessFile, test, opts...)
+}
+func DoTestBusinessManagement(test func(ctx api_context.Context), opts ...api_context.Option) {
+	doTest(dbx_auth.DropboxTokenBusinessManagement, test, opts...)
+}
+func DoTestBusinessAudit(test func(ctx api_context.Context), opts ...api_context.Option) {
+	doTest(dbx_auth.DropboxTokenBusinessAudit, test, opts...)
+}
 
 func doTest(tokenType string, test func(ctx api_context.Context), opts ...api_context.Option) {
 	ec := app.NewExecContextForTest()
