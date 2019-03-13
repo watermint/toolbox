@@ -13,16 +13,16 @@ type Diag struct {
 	ExecContext *ExecContext
 }
 
-func (d *Diag) Log() *zap.Logger {
-	return d.ExecContext.Log()
+func (z *Diag) Log() *zap.Logger {
+	return z.ExecContext.Log()
 }
 
-func (d *Diag) Runtime() error {
+func (z *Diag) Runtime() error {
 	hostname, _ := os.Hostname()
 	wd, _ := os.Getwd()
 	usr, _ := user.Current()
 
-	d.Log().Debug(
+	z.Log().Debug(
 		"Runtime",
 		zap.String("os", runtime.GOOS),
 		zap.String("arch", runtime.GOARCH),
@@ -37,11 +37,11 @@ func (d *Diag) Runtime() error {
 		zap.Int("euid", os.Geteuid()),
 		zap.Strings("env", os.Environ()),
 	)
-	d.Log().Debug("Command", zap.Strings("arg", os.Args))
+	z.Log().Debug("Command", zap.Strings("arg", os.Args))
 	return nil
 }
 
-func (d *Diag) Network() error {
+func (z *Diag) Network() error {
 	urls := []string{
 		"https://www.dropbox.com",
 		"https://api.dropboxapi.com",
@@ -50,12 +50,12 @@ func (d *Diag) Network() error {
 	for _, url := range urls {
 		resp, err := http.Head(url)
 		if err != nil {
-			d.Log().Debug(
+			z.Log().Debug(
 				"Network test failed",
 				zap.String("url", url),
 				zap.Error(err),
 			)
-			d.ExecContext.Msg("app.common.diag.network.err.unreachable").WithData(struct {
+			z.ExecContext.Msg("app.common.diag.network.err.unreachable").WithData(struct {
 				Url   string
 				Error string
 			}{
@@ -67,7 +67,7 @@ func (d *Diag) Network() error {
 		}
 
 		if resp.StatusCode >= 400 {
-			d.Log().Debug(
+			z.Log().Debug(
 				"Bad server response",
 				zap.String("url", url),
 				zap.Int("status_code", resp.StatusCode),
@@ -75,7 +75,7 @@ func (d *Diag) Network() error {
 			return errors.New("bad server response")
 		}
 
-		d.Log().Debug(
+		z.Log().Debug(
 			"Network test success",
 			zap.String("url", url),
 			zap.Int("status_code", resp.StatusCode),

@@ -31,8 +31,8 @@ type SharedLink struct {
 	PermissionAllowDownload      bool   `path:"link_permissions.allow_download" json:"permission_allow_download"`
 }
 
-func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newLInk *SharedLink, err error) {
-	link := string(a.Raw)
+func (z *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newLInk *SharedLink, err error) {
+	link := string(z.Raw)
 	expires := gjson.Get(link, "expires").String()
 	var origTime time.Time
 	if expires != "" {
@@ -43,11 +43,11 @@ func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newL
 		}
 	}
 	if origTime.IsZero() || origTime.After(newExpire) {
-		return a.OverwriteExpire(c, newExpire)
+		return z.OverwriteExpire(c, newExpire)
 	} else {
 		c.Log().Debug(
 			"skip updating link",
-			zap.String("shared_link_id", a.SharedLinkId),
+			zap.String("shared_link_id", z.SharedLinkId),
 			zap.Time("orig_time", origTime),
 			zap.Time("target_time", newExpire),
 		)
@@ -55,8 +55,8 @@ func (a *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newL
 	return nil, nil
 }
 
-func (a *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (newLink *SharedLink, err error) {
-	url := gjson.Get(string(a.Raw), "url").String()
+func (z *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (newLink *SharedLink, err error) {
+	url := gjson.Get(string(z.Raw), "url").String()
 
 	type SettingsParam struct {
 		Expires string `json:"expires"`
@@ -76,7 +76,7 @@ func (a *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (n
 	req := dbx_rpc.RpcRequest{
 		Endpoint:   "sharing/modify_shared_link_settings",
 		Param:      up,
-		AsMemberId: a.TeamMemberId,
+		AsMemberId: z.TeamMemberId,
 	}
 	res, err := req.Call(c)
 	c.Log().Debug("shared_link_response", zap.String("body", res.Body))
@@ -103,28 +103,28 @@ type SharedLinkList struct {
 	OnEntry       func(link *SharedLink) bool
 }
 
-func (a *SharedLinkList) List(c *dbx_api.Context) bool {
+func (z *SharedLinkList) List(c *dbx_api.Context) bool {
 	type ListParam struct {
 		Path string `json:"path,omitempty"`
 	}
 	lp := ListParam{
-		Path: a.Path,
+		Path: z.Path,
 	}
 	list := dbx_rpc.RpcList{
 		EndpointList:         "sharing/list_shared_links",
 		EndpointListContinue: "sharing/list_shared_links",
-		AsMemberId:           a.AsMemberId,
+		AsMemberId:           z.AsMemberId,
 		UseHasMore:           false,
 		ResultTag:            "links",
-		OnError:              a.OnError,
+		OnError:              z.OnError,
 		OnEntry: func(link gjson.Result) bool {
 			s := SharedLink{}
 			err := c.ParseModel(&s, link)
 			if err == nil {
-				return a.OnEntry(&s)
+				return z.OnEntry(&s)
 			}
 
-			return a.OnError(err)
+			return z.OnError(err)
 		},
 	}
 

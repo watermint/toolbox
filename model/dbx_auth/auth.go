@@ -51,7 +51,8 @@ func IsCacheAvailable(ec *app.ExecContext, peerName string) bool {
 		peerName: peerName,
 		ec:       ec,
 	}
-	return ca.loadResource() != nil
+	ca.init()
+	return len(ca.tokens) > 4
 }
 
 type Authenticator interface {
@@ -69,9 +70,6 @@ func (z *CachedAuthenticator) init() {
 	z.tokens = make(map[string]string)
 
 	if z.loadFile() == nil {
-		return // return on success
-	}
-	if z.loadResource() == nil {
 		return // return on success
 	}
 }
@@ -94,21 +92,6 @@ func (z *CachedAuthenticator) loadFile() error {
 		z.ec.Log().Debug("unable to read tokens file", zap.String("path", tf), zap.Error(err))
 		return err
 	}
-	err = json.Unmarshal(tb, &z.tokens)
-	if err != nil {
-		z.ec.Log().Debug("unable to unmarshal tokens file", zap.Error(err))
-		return err
-	}
-	return nil
-}
-
-func (z *CachedAuthenticator) loadResource() error {
-	tb, err := z.ec.ResourceBytes(z.peerName + ".tokens")
-	if err != nil {
-		z.ec.Log().Debug("unable to load tokens file", zap.Error(err))
-		return err
-	}
-
 	err = json.Unmarshal(tb, &z.tokens)
 	if err != nil {
 		z.ec.Log().Debug("unable to unmarshal tokens file", zap.Error(err))

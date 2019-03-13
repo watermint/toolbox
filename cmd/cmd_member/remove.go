@@ -29,10 +29,10 @@ func (z *CmdMemberRemove) FlagConfig(f *flag.FlagSet) {
 	z.provision.ec = z.ExecContext
 	z.provision.FlagConfig(f)
 
-	descKeepAccount := z.ExecContext.Msg("cmd.member.remove.flag.keep_account").Text()
+	descKeepAccount := z.ExecContext.Msg("cmd.member.remove.flag.keep_account").T()
 	f.BoolVar(&z.optKeepAccount, "keep-account", false, descKeepAccount)
 
-	descWipeData := z.ExecContext.Msg("cmd.member.remove.flag.wipe_data").Text()
+	descWipeData := z.ExecContext.Msg("cmd.member.remove.flag.wipe_data").T()
 	f.BoolVar(&z.optWipeData, "wipe-data", true, descWipeData)
 }
 

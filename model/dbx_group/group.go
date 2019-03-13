@@ -36,7 +36,7 @@ type GroupMemberList struct {
 	OnEntry func(r *GroupMember) bool
 }
 
-func (a *GroupMemberList) List(c *dbx_api.Context, group *Group) bool {
+func (z *GroupMemberList) List(c *dbx_api.Context, group *Group) bool {
 	type GroupSelector struct {
 		Tag     string `json:".tag"`
 		GroupId string `json:"group_id"`
@@ -57,12 +57,12 @@ func (a *GroupMemberList) List(c *dbx_api.Context, group *Group) bool {
 		EndpointListContinue: "team/groups/members/list/continue",
 		UseHasMore:           true,
 		ResultTag:            "members",
-		OnError:              a.OnError,
+		OnError:              z.OnError,
 		OnEntry: func(r gjson.Result) bool {
 			accessType := r.Get("access_type\\.tag").String()
 			p, err := dbx_profile.ParseProfile(r.Get("profile"))
 			if err != nil {
-				a.OnError(err)
+				z.OnError(err)
 				return false
 			}
 
@@ -73,7 +73,7 @@ func (a *GroupMemberList) List(c *dbx_api.Context, group *Group) bool {
 				AccessType:   accessType,
 				Profile:      p,
 			}
-			return a.OnEntry(gm)
+			return z.OnEntry(gm)
 		},
 	}
 

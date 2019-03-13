@@ -34,22 +34,22 @@ func (z *CmdTeamNamespaceFileList) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descIncludeDeleted := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_deleted").Text()
+	descIncludeDeleted := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_deleted").T()
 	f.BoolVar(&z.namespaceFile.OptIncludeDeleted, "include-deleted", false, descIncludeDeleted)
 
-	descIncludeMediaInfo := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_media_info").Text()
+	descIncludeMediaInfo := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_media_info").T()
 	f.BoolVar(&z.namespaceFile.OptIncludeMediaInfo, "include-media-info", false, descIncludeMediaInfo)
 
-	descIncludeTeamFolder := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_team_folder").Text()
+	descIncludeTeamFolder := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_team_folder").T()
 	f.BoolVar(&z.namespaceFile.OptIncludeTeamFolder, "include-team-folder", true, descIncludeTeamFolder)
 
-	descIncludeSharedFolder := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_shared_folder").Text()
+	descIncludeSharedFolder := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_shared_folder").T()
 	f.BoolVar(&z.namespaceFile.OptIncludeSharedFolder, "include-shared-folder", true, descIncludeSharedFolder)
 
-	descIncludeAppFolder := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_app_folder").Text()
+	descIncludeAppFolder := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_app_folder").T()
 	f.BoolVar(&z.namespaceFile.OptIncludeAppFolder, "include-app-folder", false, descIncludeAppFolder)
 
-	descIncludeMemberFolder := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_member_folder").Text()
+	descIncludeMemberFolder := z.ExecContext.Msg("cmd.team.namespace.file.list.flag.include_member_folder").T()
 	f.BoolVar(&z.namespaceFile.OptIncludeMemberFolder, "include-member-folder", false, descIncludeMemberFolder)
 }
 

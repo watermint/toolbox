@@ -38,7 +38,7 @@ func (z *CmdTeamSharedLinkUpdateExpire) FlagConfig(f *flag.FlagSet) {
 	z.report.FlagConfig(f)
 	z.filter.FlagConfig(f)
 
-	descDays := z.ExecContext.Msg("cmd.team.sharedlink.update.expire.flag.days").Text()
+	descDays := z.ExecContext.Msg("cmd.team.sharedlink.update.expire.flag.days").T()
 	f.IntVar(&z.optDays, "days", 0, descDays)
 }
 

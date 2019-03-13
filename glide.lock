@@ -1,5 +1,5 @@
 hash: fe01ae12af4fc025a3c58d3ca4defe5110bff8573c55616e49acd1e9ca30c544
-updated: 2019-03-05T11:31:12.583449+09:00
+updated: 2019-03-10T22:25:41.803124+09:00
 imports:
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
@@ -51,7 +51,7 @@ imports:
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: e844e0132e93db857c984c24fd4fc86815e43be3
+  version: 10058d7d4faa7dd5ef860cbd31af00903076e7b8
   subpackages:
   - windows
 - name: golang.org/x/text
@@ -61,7 +61,11 @@ imports:
   - encoding/internal
   - encoding/internal/identifier
   - encoding/unicode
+  - internal/language
+  - internal/language/compact
+  - internal/tag
   - internal/utf8internal
+  - language
   - runes
   - transform
   - unicode/norm

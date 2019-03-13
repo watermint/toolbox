@@ -17,13 +17,13 @@ type TeamInfoList struct {
 	OnEntry func(info *TeamInfo) bool
 }
 
-func (t *TeamInfoList) List(c *dbx_api.Context) bool {
+func (z *TeamInfoList) List(c *dbx_api.Context) bool {
 	req := dbx_rpc.RpcRequest{
 		Endpoint: "team/get_info",
 	}
 	res, err := req.Call(c)
 	if err != nil {
-		return t.OnError(err)
+		return z.OnError(err)
 	}
 
 	teamId := gjson.Get(res.Body, "team_id").String()
@@ -32,8 +32,8 @@ func (t *TeamInfoList) List(c *dbx_api.Context) bool {
 		Info:   json.RawMessage(res.Body),
 	}
 
-	if t.OnEntry != nil {
-		return t.OnEntry(team)
+	if z.OnEntry != nil {
+		return z.OnEntry(team)
 	}
 	return true
 }

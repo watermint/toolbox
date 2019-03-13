@@ -19,13 +19,13 @@ type LinkedAppList struct {
 	OnEntry func(profile *LinkedApp) bool
 }
 
-func (a *LinkedAppList) List(c *dbx_api.Context) bool {
+func (z *LinkedAppList) List(c *dbx_api.Context) bool {
 	list := dbx_rpc.RpcList{
 		EndpointList:         "team/linked_apps/list_members_linked_apps",
 		EndpointListContinue: "team/linked_apps/list_members_linked_apps",
 		UseHasMore:           true,
 		ResultTag:            "apps",
-		OnError:              a.OnError,
+		OnError:              z.OnError,
 		OnEntry: func(result gjson.Result) bool {
 			teamMemberId := result.Get("team_member_id").String()
 			apps := result.Get("linked_api_apps")
@@ -43,8 +43,8 @@ func (a *LinkedAppList) List(c *dbx_api.Context) bool {
 					LinkedApiAppId: appId,
 					LinkedApiApp:   json.RawMessage(app.Raw),
 				}
-				if a.OnEntry != nil {
-					if !a.OnEntry(e) {
+				if z.OnEntry != nil {
+					if !z.OnEntry(e) {
 						return false
 					}
 				}

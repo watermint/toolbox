@@ -34,10 +34,10 @@ func (z *CmdTeamTeamFolderFileList) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descIncludeDeleted := z.ExecContext.Msg("cmd.team.teamfolder.file.list.flag.include_deleted").Text()
+	descIncludeDeleted := z.ExecContext.Msg("cmd.team.teamfolder.file.list.flag.include_deleted").T()
 	f.BoolVar(&z.namespaceFile.OptIncludeDeleted, "include-deleted", false, descIncludeDeleted)
 
-	descIncludeMediaInfo := z.ExecContext.Msg("cmd.team.teamfolder.file.list.flag.include_media_info").Text()
+	descIncludeMediaInfo := z.ExecContext.Msg("cmd.team.teamfolder.file.list.flag.include_media_info").T()
 	f.BoolVar(&z.namespaceFile.OptIncludeMediaInfo, "include-media-info", false, descIncludeMediaInfo)
 }
 

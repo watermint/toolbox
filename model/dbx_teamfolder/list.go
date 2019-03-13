@@ -11,20 +11,20 @@ type ListTeamFolder struct {
 	OnEntry func(teamFolder *TeamFolder) bool
 }
 
-func (w *ListTeamFolder) List(c *dbx_api.Context) bool {
+func (z *ListTeamFolder) List(c *dbx_api.Context) bool {
 	list := dbx_rpc.RpcList{
 		EndpointList:         "team/team_folder/list",
 		EndpointListContinue: "team/team_folder/list/continue",
 		UseHasMore:           true,
 		ResultTag:            "team_folders",
-		OnError:              w.OnError,
+		OnError:              z.OnError,
 		OnEntry: func(folder gjson.Result) bool {
 			tf := &TeamFolder{}
 			err := c.ParseModel(tf, folder)
 			if err != nil {
-				return w.OnError(err)
+				return z.OnError(err)
 			}
-			return w.OnEntry(tf)
+			return z.OnEntry(tf)
 		},
 	}
 

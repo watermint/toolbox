@@ -12,7 +12,7 @@ type MembersList struct {
 	OnEntry func(member *dbx_profile.Member) bool
 }
 
-func (a *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
+func (z *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
 	type ListParam struct {
 		IncludeRemoved bool `json:"include_removed"`
 	}
@@ -25,20 +25,20 @@ func (a *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
 		EndpointListContinue: "team/members/list/continue",
 		UseHasMore:           true,
 		ResultTag:            "members",
-		OnError:              a.OnError,
+		OnError:              z.OnError,
 		OnEntry: func(member gjson.Result) bool {
 			m, err := dbx_profile.ParseMember(member)
 			if err != nil {
-				return a.OnError(err)
+				return z.OnError(err)
 			}
-			return a.OnEntry(m)
+			return z.OnEntry(m)
 		},
 	}
 
 	return list.List(c, lp)
 }
 
-func (a *MembersList) ListAsMap(c *dbx_api.Context, includeRemoved bool) map[string]*dbx_profile.Member {
+func (z *MembersList) ListAsMap(c *dbx_api.Context, includeRemoved bool) map[string]*dbx_profile.Member {
 	members := make(map[string]*dbx_profile.Member)
 	type ListParam struct {
 		IncludeRemoved bool `json:"include_removed"`
@@ -52,11 +52,11 @@ func (a *MembersList) ListAsMap(c *dbx_api.Context, includeRemoved bool) map[str
 		EndpointListContinue: "team/members/list/continue",
 		UseHasMore:           true,
 		ResultTag:            "members",
-		OnError:              a.OnError,
+		OnError:              z.OnError,
 		OnEntry: func(member gjson.Result) bool {
 			m, err := dbx_profile.ParseMember(member)
 			if err != nil {
-				return a.OnError(err)
+				return z.OnError(err)
 			}
 			members[m.Profile.Email] = m
 			return true

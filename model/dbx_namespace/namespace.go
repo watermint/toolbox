@@ -37,19 +37,19 @@ type NamespaceList struct {
 	OnEntry func(namespace *Namespace) bool
 }
 
-func (w *NamespaceList) List(c *dbx_api.Context) bool {
+func (z *NamespaceList) List(c *dbx_api.Context) bool {
 	list := dbx_rpc.RpcList{
 		EndpointList:         "team/namespaces/list",
 		EndpointListContinue: "team/namespaces/list/continue",
 		UseHasMore:           true,
 		ResultTag:            "namespaces",
-		OnError:              w.OnError,
+		OnError:              z.OnError,
 		OnEntry: func(namespace gjson.Result) bool {
 			n, err := ParseNamespace(namespace)
 			if err != nil {
-				return w.OnError(err)
+				return z.OnError(err)
 			}
-			return w.OnEntry(n)
+			return z.OnEntry(n)
 		},
 	}
 	return list.List(c, nil)

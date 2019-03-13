@@ -37,7 +37,7 @@ type ListNamespaceFile struct {
 	OnNamespace            func(namespace *Namespace) bool
 }
 
-func (l *ListNamespaceFile) List(c *dbx_api.Context) bool {
+func (z *ListNamespaceFile) List(c *dbx_api.Context) bool {
 	onNamespace := func(namespace *Namespace) bool {
 		log := c.Log().With(
 			zap.String("ns", namespace.NamespaceId),
@@ -45,51 +45,51 @@ func (l *ListNamespaceFile) List(c *dbx_api.Context) bool {
 		)
 		log.Debug("scanning namespace")
 
-		if namespace.NamespaceType == "app_folder" && !l.OptIncludeAppFolder {
+		if namespace.NamespaceType == "app_folder" && !z.OptIncludeAppFolder {
 			log.Debug("Skip")
 			return true
 		}
-		if namespace.NamespaceType == "shared_folder" && !l.OptIncludeSharedFolder {
+		if namespace.NamespaceType == "shared_folder" && !z.OptIncludeSharedFolder {
 			log.Debug("Skip")
 			return true
 		}
-		if namespace.NamespaceType == "team_folder" && !l.OptIncludeTeamFolder {
+		if namespace.NamespaceType == "team_folder" && !z.OptIncludeTeamFolder {
 			log.Debug("Skip")
 			return true
 		}
-		if namespace.NamespaceType == "team_member_folder" && !l.OptIncludeMemberFolder {
+		if namespace.NamespaceType == "team_member_folder" && !z.OptIncludeMemberFolder {
 			log.Debug("Skip")
 			return true
 		}
 
-		if l.OnNamespace != nil {
-			if !l.OnNamespace(namespace) {
+		if z.OnNamespace != nil {
+			if !z.OnNamespace(namespace) {
 				log.Debug("abort process namespace due to `OnNamespace` returned false")
 				return false
 			}
 		}
 		lf := dbx_file.ListFolder{
-			AsAdminId:                       l.AsAdminId,
-			IncludeMediaInfo:                l.OptIncludeMediaInfo,
-			IncludeDeleted:                  l.OptIncludeDeleted,
+			AsAdminId:                       z.AsAdminId,
+			IncludeMediaInfo:                z.OptIncludeMediaInfo,
+			IncludeDeleted:                  z.OptIncludeDeleted,
 			IncludeHasExplicitSharedMembers: true,
 			IncludeMountedFolders:           false,
-			OnError:                         l.OnError,
+			OnError:                         z.OnError,
 		}
 		lf.OnFile = func(file *dbx_file.File) bool {
-			if l.OnFile == nil {
+			if z.OnFile == nil {
 				return true
 			}
 			nf := &NamespaceFile{
 				Namespace: namespace,
 				File:      file,
 			}
-			return l.OnFile(nf)
+			return z.OnFile(nf)
 		}
 		lf.OnFolder = func(folder *dbx_file.Folder) bool {
 			// recursive call
 			lf.List(c, folder.FolderId)
-			if l.OnFolder == nil {
+			if z.OnFolder == nil {
 				return true
 			}
 
@@ -97,10 +97,10 @@ func (l *ListNamespaceFile) List(c *dbx_api.Context) bool {
 				Namespace: namespace,
 				Folder:    folder,
 			}
-			return l.OnFolder(nf)
+			return z.OnFolder(nf)
 		}
 		lf.OnDelete = func(deleted *dbx_file.Deleted) bool {
-			if l.OnDelete == nil {
+			if z.OnDelete == nil {
 				return true
 			}
 
@@ -108,13 +108,13 @@ func (l *ListNamespaceFile) List(c *dbx_api.Context) bool {
 				Namespace: namespace,
 				Deleted:   deleted,
 			}
-			return l.OnDelete(nd)
+			return z.OnDelete(nd)
 		}
 		return lf.List(c, "ns:"+namespace.NamespaceId)
 	}
 
 	nsl := NamespaceList{
-		OnError: l.OnError,
+		OnError: z.OnError,
 		OnEntry: onNamespace,
 	}
 	return nsl.List(c)

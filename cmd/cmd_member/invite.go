@@ -29,7 +29,7 @@ func (z *CmdMemberInvite) Usage() func(cmd.CommandUsage) {
 }
 
 func (z *CmdMemberInvite) FlagConfig(f *flag.FlagSet) {
-	descSilent := z.ExecContext.Msg("cmd.member.invite.flag.silent").Text()
+	descSilent := z.ExecContext.Msg("cmd.member.invite.flag.silent").T()
 	f.BoolVar(&z.optSilent, "silent", false, descSilent)
 
 	z.provision.ec = z.ExecContext

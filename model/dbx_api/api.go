@@ -93,8 +93,8 @@ type ServerError struct {
 	StatusCode int
 }
 
-func (e ServerError) Error() string {
-	return fmt.Sprintf("An error occurred on the Dropbox servers (%d). Check status.dropbox.com for announcements about Dropbox service issues.", e.StatusCode)
+func (z ServerError) Error() string {
+	return fmt.Sprintf("An error occurred on the Dropbox servers (%d). Check status.dropbox.com for announcements about Dropbox service issues.", z.StatusCode)
 }
 
 type ApiError struct {
@@ -106,8 +106,8 @@ type ApiError struct {
 	UserMessageBody   json.RawMessage `json:"user_message,omitempty"`
 }
 
-func (e ApiError) Error() string {
-	return fmt.Sprintf("Endpoint specific error[%s] %s", e.ErrorTag, e.ErrorSummary)
+func (z ApiError) Error() string {
+	return fmt.Sprintf("Endpoint specific error[%s] %s", z.ErrorTag, z.ErrorSummary)
 }
 
 type AccessError struct {
@@ -116,12 +116,12 @@ type AccessError struct {
 	ErrorBody          json.RawMessage `json:"error,omitempty"`
 }
 
-func (a AccessError) Error() string {
-	if a.InvalidAccountType != "" {
-		return a.InvalidAccountType
+func (z AccessError) Error() string {
+	if z.InvalidAccountType != "" {
+		return z.InvalidAccountType
 	}
-	if a.PaperAccessDenied != "" {
-		return a.PaperAccessDenied
+	if z.PaperAccessDenied != "" {
+		return z.PaperAccessDenied
 	}
 	return "The user or team account doesn't have access to the endpoint or feature"
 }
@@ -130,8 +130,8 @@ type ApiErrorRateLimit struct {
 	RetryAfter int
 }
 
-func (e ApiErrorRateLimit) Error() string {
-	return fmt.Sprintf("API Rate limit (retry after %d sec)", e.RetryAfter)
+func (z ApiErrorRateLimit) Error() string {
+	return fmt.Sprintf("API Rate limit (retry after %d sec)", z.RetryAfter)
 }
 
 func RebaseTimeForAPI(t time.Time) time.Time {

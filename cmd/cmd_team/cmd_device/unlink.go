@@ -35,13 +35,13 @@ func (z *CmdTeamDeviceUnlink) Usage() func(usage cmd.CommandUsage) {
 }
 
 func (z *CmdTeamDeviceUnlink) FlagConfig(f *flag.FlagSet) {
-	descStdin := z.ExecContext.Msg("cmd.team.device.unlink.flag.stdin").Text()
+	descStdin := z.ExecContext.Msg("cmd.team.device.unlink.flag.stdin").T()
 	f.BoolVar(&z.optStdin, "stdin", false, descStdin)
 
-	descFile := z.ExecContext.Msg("cmd.team.device.unlink.flag.file").Text()
+	descFile := z.ExecContext.Msg("cmd.team.device.unlink.flag.file").T()
 	f.StringVar(&z.optFile, "file", "", descFile)
 
-	descDeleteOnUnlink := z.ExecContext.Msg("cmd.team.device.unlink.flag.delete_on_unlink").Text()
+	descDeleteOnUnlink := z.ExecContext.Msg("cmd.team.device.unlink.flag.delete_on_unlink").T()
 	f.BoolVar(&z.optDeleteOnUnlink, "delete-on-unlink", true, descDeleteOnUnlink)
 }
 

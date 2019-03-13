@@ -194,22 +194,22 @@ func (z *ExecContext) DefaultWorkPath() string {
 }
 
 func (z *ExecContext) PrepareFlags(f *flag.FlagSet) {
-	//descWork := z.Msg("app.common.flag.work").WithArg(z.DefaultWorkPath()).Text()
+	//descWork := z.Msg("app.common.flag.work").WithArg(z.DefaultWorkPath()).T()
 	//f.StringVar(&z.WorkPath, "work", "", descWork)
 
-	descProxy := z.Msg("app.common.flag.proxy").Text()
+	descProxy := z.Msg("app.common.flag.proxy").T()
 	f.StringVar(&z.Proxy, "proxy", "", descProxy)
 
-	descQuiet := z.Msg("app.common.flag.quiet").Text()
+	descQuiet := z.Msg("app.common.flag.quiet").T()
 	f.BoolVar(&z.Quiet, "quiet", false, descQuiet)
 
-	descAlias := z.Msg("app.common.flag.alias").Text()
+	descAlias := z.Msg("app.common.flag.alias").T()
 	f.StringVar(&z.defaultPeerName, "alias", DefaultPeerName, descAlias)
 
-	descSecure := z.Msg("app.common.flag.secure").Text()
+	descSecure := z.Msg("app.common.flag.secure").T()
 	f.BoolVar(&z.noCacheToken, "secure", false, descSecure)
 
-	descLang := z.Msg("app.common.flag.lang").Text()
+	descLang := z.Msg("app.common.flag.lang").T()
 	f.StringVar(&z.lang, "lang", "", descLang)
 }
 
