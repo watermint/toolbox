@@ -1,7 +1,7 @@
 package report_column
 
 import (
-	"errors"
+	"fmt"
 	"github.com/watermint/toolbox/app"
 	"go.uber.org/zap"
 	"reflect"
@@ -30,7 +30,8 @@ func NewRow(row interface{}, ec *app.ExecContext) Row {
 type Row interface {
 	Name() string
 	Header() []string
-	Values(r interface{}) []string
+	Values(r interface{}) []interface{}
+	ValuesAsString(r interface{}) []string
 }
 
 type rowImpl struct {
@@ -102,51 +103,43 @@ func (z *rowImpl) headerFromType(prefix string, rt reflect.Type) (cols []string)
 	return
 }
 
-func (z *rowImpl) marshal(v reflect.Value) (string, error) {
+func (z *rowImpl) marshal(v reflect.Value) (interface{}, error) {
 	switch v.Kind() {
 	case reflect.Ptr:
 		return z.marshal(v.Elem())
-	case reflect.Bool:
-		return strconv.FormatBool(v.Bool()), nil
-	case reflect.Int:
-		return strconv.FormatInt(v.Int(), 10), nil
-	case reflect.Int8:
-		return strconv.FormatInt(v.Int(), 10), nil
-	case reflect.Int16:
-		return strconv.FormatInt(v.Int(), 10), nil
-	case reflect.Int32:
-		return strconv.FormatInt(v.Int(), 10), nil
-	case reflect.Int64:
-		return strconv.FormatInt(v.Int(), 10), nil
-	case reflect.Uint:
-		return strconv.FormatUint(v.Uint(), 10), nil
-	case reflect.Uint8:
-		return strconv.FormatUint(v.Uint(), 10), nil
-	case reflect.Uint16:
-		return strconv.FormatUint(v.Uint(), 10), nil
-	case reflect.Uint32:
-		return strconv.FormatUint(v.Uint(), 10), nil
-	case reflect.Uint64:
-		return strconv.FormatUint(v.Uint(), 10), nil
-	case reflect.String:
-		return v.String(), nil
+	default:
+		return v.Interface(), nil
 	}
-	return "", errors.New("unsupported type")
 }
 
-func (z *rowImpl) valueForPath(path string, value reflect.Value) string {
-	if !value.IsValid() {
+func (z *rowImpl) valueForPathAsString(path string, value reflect.Value) string {
+	pathValue, e := z.valueForPath(path, value)
+	if !e {
 		return ""
+	}
+	switch v := pathValue.(type) {
+	case bool:
+		return strconv.FormatBool(v)
+	case int, int8, int16, int32, int64:
+		return fmt.Sprintf("%d", v)
+	case uint, uint8, uint16, uint32, uint64:
+		return fmt.Sprintf("%d", v)
+	case float32, float64:
+		return fmt.Sprintf("%f", v)
+	default:
+		return fmt.Sprintf("%v", v)
+	}
+}
+
+func (z *rowImpl) valueForPath(path string, value reflect.Value) (interface{}, bool) {
+	if !value.IsValid() {
+		return nil, false
 	}
 	if value.Type().Kind() == reflect.Ptr {
 		value = value.Elem()
 	}
 	if path == "" {
-		if mv, err := z.marshal(value); err != nil {
-			return ""
-		} else {
-			return mv
-		}
+		return nil, false
 	}
 
 	paths := strings.Split(path, ".")
@@ -158,7 +151,7 @@ func (z *rowImpl) valueForPath(path string, value reflect.Value) string {
 			zap.String("path", path),
 			zap.String("field", p0),
 		)
-		return ""
+		return nil, false
 	}
 
 	vf := value.FieldByName(p0)
@@ -168,7 +161,7 @@ func (z *rowImpl) valueForPath(path string, value reflect.Value) string {
 			zap.String("path", path),
 			zap.String("field", p0),
 		)
-		return ""
+		return nil, false
 	}
 	if vf.Type().Kind() == reflect.Ptr {
 		vf = vf.Elem()
@@ -176,18 +169,28 @@ func (z *rowImpl) valueForPath(path string, value reflect.Value) string {
 	if len(paths) > 1 {
 		return z.valueForPath(strings.Join(paths[1:], "."), vf)
 	}
-	if mv, err := z.marshal(vf); err != nil {
-		return ""
-	} else {
-		return mv
+	mv, err := z.marshal(vf)
+	if err != nil {
+		return nil, false
 	}
+	return mv, true
 }
 
-func (z *rowImpl) Values(value interface{}) []string {
+func (z *rowImpl) ValuesAsString(value interface{}) []string {
 	vals := make([]string, 0)
 	v := reflect.ValueOf(value)
 	for _, c := range z.header {
-		vals = append(vals, z.valueForPath(c, v))
+		vals = append(vals, z.valueForPathAsString(c, v))
+	}
+	return vals
+}
+
+func (z *rowImpl) Values(value interface{}) []interface{} {
+	vals := make([]interface{}, 0)
+	v := reflect.ValueOf(value)
+	for _, c := range z.header {
+		vp, _ := z.valueForPath(c, v)
+		vals = append(vals, vp)
 	}
 	return vals
 }

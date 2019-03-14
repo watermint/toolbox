@@ -20,6 +20,9 @@ type CUI struct {
 	In  io.Reader
 }
 
+func (z *CUI) DebugMode(debug bool) {
+}
+
 func (z *CUI) YesNo() bool {
 	br := bufio.NewReader(z.In)
 	for {
@@ -50,11 +53,6 @@ func (z *CUI) Tell(msg UIMessage) {
 
 func (z *CUI) TellError(msg UIMessage) {
 	fmt.Fprint(z.Out, "ERR: ")
-	fmt.Fprintln(z.Out, msg.T())
-}
-
-func (z *CUI) TellDone(msg UIMessage) {
-	fmt.Fprint(z.Out, "DONE: ")
 	fmt.Fprintln(z.Out, msg.T())
 }
 

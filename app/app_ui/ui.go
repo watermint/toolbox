@@ -1,14 +1,14 @@
 package app_ui
 
 type UI interface {
+	// Switch to debug mode
+	DebugMode(debug bool)
+
 	// Tell message
 	Tell(msg UIMessage)
 
 	// Tell error message
 	TellError(msg UIMessage)
-
-	// Tell done
-	TellDone(msg UIMessage)
 
 	// Tell success
 	TellSuccess(msg UIMessage)

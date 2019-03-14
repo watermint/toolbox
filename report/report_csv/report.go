@@ -46,36 +46,20 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 		if st, err := os.Stat(z.ReportPath); os.IsNotExist(err) {
 			err = os.MkdirAll(z.ReportPath, 0701)
 			if err != nil {
-				z.ec.Log().Error(
-					"Unable to create report path",
-					zap.Error(err),
-					zap.String("path", z.ReportPath),
-				)
+				z.ec.Log().Error("Unable to create report path", zap.Error(err), zap.String("path", z.ReportPath))
 				return nil, csv.NewWriter(z.DefaultWriter), err
 			}
 		} else if err != nil {
-			z.ec.Log().Error(
-				"Unable to acquire information about the path",
-				zap.Error(err),
-				zap.String("path", z.ReportPath),
-			)
+			z.ec.Log().Error("Unable to acquire information about the path", zap.Error(err), zap.String("path", z.ReportPath))
 			return nil, csv.NewWriter(z.DefaultWriter), err
 		} else if !st.IsDir() {
-			z.ec.Log().Error(
-				"Report path is not a directory",
-				zap.Error(err),
-				zap.String("path", z.ReportPath),
-			)
+			z.ec.Log().Error("Report path is not a directory", zap.Error(err), zap.String("path", z.ReportPath))
 			return nil, csv.NewWriter(z.DefaultWriter), nil
 		}
 		filePath := filepath.Join(z.ReportPath, name+".csv")
 		z.ec.Log().Debug("Opening report file", zap.String("path", filePath))
 		if zf, err := os.Create(filePath); err != nil {
-			z.ec.Log().Error(
-				"unable to create report file, fallback to stdout",
-				zap.String("path", filePath),
-				zap.Error(err),
-			)
+			z.ec.Log().Error("unable to create report file, fallback to stdout", zap.String("path", filePath), zap.Error(err))
 			return nil, csv.NewWriter(z.DefaultWriter), nil
 		} else if z.ReportUseBom {
 			return zf, app_util.NewBomAawareCsvWriter(zf), nil
@@ -123,7 +107,7 @@ func (z *CsvReport) Report(row interface{}) error {
 	if err != nil {
 		return err
 	}
-	w.Write(p.Values(row))
+	w.Write(p.ValuesAsString(row))
 
 	return nil
 }
