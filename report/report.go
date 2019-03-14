@@ -3,13 +3,17 @@ package report
 import (
 	"errors"
 	"flag"
+	"fmt"
 	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/app/app_ui"
+	"github.com/watermint/toolbox/app/app_util"
 	"github.com/watermint/toolbox/report/report_csv"
 	"github.com/watermint/toolbox/report/report_json"
 	"github.com/watermint/toolbox/report/report_xlsx"
 	"io"
 	"os"
 	"path/filepath"
+	"runtime"
 )
 
 type Report interface {
@@ -22,6 +26,7 @@ type Factory struct {
 	ExecContext   *app.ExecContext
 	reports       []Report
 	DefaultWriter io.Writer
+	wrapper       *app_util.LineWriter
 	ReportHeader  bool
 	ReportUseBom  bool
 	ReportPath    string
@@ -43,13 +48,27 @@ func (z *Factory) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *Factory) Init(ec *app.ExecContext) error {
+	var consoleWriter io.Writer
+	if runtime.GOOS == "windows" {
+		consoleWriter = os.Stdout
+	} else {
+		z.wrapper = app_util.NewLineWriter(func(line string) error {
+			if line == "" {
+				return nil
+			}
+			app_ui.ColorPrint(os.Stdout, "REPORT\t", app_ui.ColorBlue)
+			fmt.Println(line)
+			return nil
+		})
+		consoleWriter = z.wrapper
+	}
 	if z.DefaultWriter == nil {
 		z.DefaultWriter = os.Stdout
 	}
 	if z.reports == nil {
 		z.reports = make([]Report, 0)
 		z.reports = append(z.reports, &report_json.JsonReport{
-			DefaultWriter: z.DefaultWriter,
+			DefaultWriter: consoleWriter,
 			ReportPath:    "",
 		})
 		z.reports = append(z.reports, &report_json.JsonReport{
@@ -96,6 +115,9 @@ func (z *Factory) Close() {
 	}
 	for _, r := range z.reports {
 		r.Close()
+	}
+	if z.wrapper != nil {
+		z.wrapper.Flush()
 	}
 
 	z.ExecContext.Msg("report.common.done.tell_location").WithData(struct {

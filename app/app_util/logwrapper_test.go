@@ -12,7 +12,7 @@ func TestLogWrapper_Write(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	lw := NewLogWrapper(10, zl)
+	lw := NewLogWrapper(zl)
 	log.SetOutput(lw)
 
 	log.Println("Hello")
@@ -31,6 +31,14 @@ func TestLogWrapper_Write(t *testing.T) {
 		for j := 0; j < i; j++ {
 			q[j] = 'A' + byte(j)
 		}
+		lw.Write(q)
+	}
+	for i := 1; i < 25; i++ {
+		q := make([]byte, 25)
+		for j := 0; j < 25; j++ {
+			q[j] = 'A' + byte(j)
+		}
+		q[25-i] = '\n'
 		lw.Write(q)
 	}
 

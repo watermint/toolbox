@@ -216,6 +216,9 @@ func (z *ExecContext) shutdownCleanup() {
 }
 
 func (z *ExecContext) Shutdown() {
+	if z.logWrapper != nil {
+		z.logWrapper.Flush()
+	}
 	z.Log().Debug("Shutdown")
 	z.Log().Sync()
 	z.shutdownCleanup()
@@ -366,7 +369,7 @@ func (z *ExecContext) SetupHttpProxy(p string) {
 
 func (z *ExecContext) setLogger(logger *zap.Logger) {
 	if z.logWrapper == nil {
-		z.logWrapper = app_util.NewLogWrapper(4096, logger)
+		z.logWrapper = app_util.NewLogWrapper(logger)
 
 		// route default `log` package output into the file
 		log.SetOutput(z.logWrapper)

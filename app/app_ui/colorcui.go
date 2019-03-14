@@ -26,6 +26,10 @@ const (
 	ColorBrightWhite
 )
 
+func ColorPrint(out io.Writer, t string, color int) {
+	fmt.Fprintf(out, "\x1b[%dm%s\x1b[0m", color, t)
+}
+
 func NewColorCUI() UI {
 	return &ColorCUI{
 		Out: os.Stdout,
@@ -48,29 +52,25 @@ func (z *ColorCUI) DebugMode(debug bool) {
 	z.debugMode = debug
 }
 
-func (z *ColorCUI) print(t string, color int) {
-	fmt.Fprintf(z.Out, "\x1b[%dm%s\x1b[0m", color, t)
-}
-
 func (z *ColorCUI) Tell(msg UIMessage) {
 	if z.debugMode {
-		z.print("TELL\t", ColorCyan)
+		ColorPrint(z.Out, "TELL\t", ColorCyan)
 	}
 	fmt.Fprintln(z.Out, msg.T())
 }
 
 func (z *ColorCUI) TellError(msg UIMessage) {
-	z.print("ERROR\t", ColorBrightRed)
+	ColorPrint(z.Out, "ERROR\t", ColorBrightRed)
 	fmt.Fprintln(z.Out, msg.T())
 }
 
 func (z *ColorCUI) TellSuccess(msg UIMessage) {
-	z.print("SUCCESS\t", ColorGreen)
+	ColorPrint(z.Out, "SUCCESS\t", ColorGreen)
 	fmt.Fprintln(z.Out, msg.T())
 }
 
 func (z *ColorCUI) TellFailure(msg UIMessage) {
-	z.print("FAILURE\t", ColorBrightRed)
+	ColorPrint(z.Out, "FAILURE\t", ColorRed)
 	fmt.Fprintln(z.Out, msg.T())
 }
 
