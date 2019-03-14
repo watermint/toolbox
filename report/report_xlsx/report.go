@@ -112,6 +112,8 @@ func (z *XlsxReport) Report(row interface{}) (err error) {
 			z.log().Debug("unable to add sheet", zap.String("name", name), zap.Error(err))
 			return err
 		}
+		z.sheets[name] = sheet
+
 		header := cols.Header()
 		hi := make([]interface{}, len(header))
 		for i := len(header) - 1; i >= 0; i-- {
