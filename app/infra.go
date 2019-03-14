@@ -7,6 +7,7 @@ import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/rapid7/go-get-proxied/proxy"
 	"github.com/watermint/toolbox/app/app_ui"
+	"github.com/watermint/toolbox/app/app_util"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -43,6 +44,7 @@ type ExecContext struct {
 	logFilePath     string
 	lang            string
 	logger          *zap.Logger
+	logWrapper      *app_util.LogWrapper
 	messages        *app_ui.UIMessageContainer
 }
 
@@ -362,6 +364,16 @@ func (z *ExecContext) SetupHttpProxy(p string) {
 	)
 }
 
+func (z *ExecContext) setLogger(logger *zap.Logger) {
+	if z.logWrapper == nil {
+		z.logWrapper = app_util.NewLogWrapper(4096, logger)
+
+		// route default `log` package output into the file
+		log.SetOutput(z.logWrapper)
+	}
+	z.logger = logger
+}
+
 func (z *ExecContext) consoleLoggerCore() zapcore.Core {
 	en := zapcore.EncoderConfig{
 		LevelKey:       "level",
@@ -389,7 +401,7 @@ func (z *ExecContext) consoleLoggerCore() zapcore.Core {
 
 func (z *ExecContext) setupLoggerConsole() *zap.Logger {
 	if z.logger == nil {
-		z.logger = zap.New(z.consoleLoggerCore())
+		z.setLogger(zap.New(z.consoleLoggerCore()))
 	}
 	return z.logger
 }
@@ -417,8 +429,6 @@ func (z *ExecContext) setupLoggerFile() {
 		Compress:   true,
 	})
 
-	// route default `log` package output into the file
-	log.SetOutput(zo)
 	zc := zapcore.NewCore(
 		zapcore.NewJSONEncoder(cfg),
 		zo,
@@ -429,7 +439,7 @@ func (z *ExecContext) setupLoggerFile() {
 		zapcore.NewTee(zc, z.consoleLoggerCore()),
 	).WithOptions(zap.AddCaller())
 
-	z.logger = logger
+	z.setLogger(logger)
 	z.logFilePath = logPath
 }
 
