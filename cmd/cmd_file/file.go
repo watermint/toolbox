@@ -16,6 +16,9 @@ func NewCmdFile() cmd.Commandlet {
 			&CmdFileMirror{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
+			&CmdFileList{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
 		},
 	}
 }
