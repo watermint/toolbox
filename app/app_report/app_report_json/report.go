@@ -1,9 +1,9 @@
-package report_json
+package app_report_json
 
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/report/report_column"
+	"github.com/watermint/toolbox/app/app_report/app_report_column"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -19,7 +19,7 @@ type JsonReport struct {
 }
 
 func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err error) {
-	name := report_column.RowName(row)
+	name := app_report_column.RowName(row)
 	if zw, ok := z.writers[name]; ok {
 		w = zw
 	}

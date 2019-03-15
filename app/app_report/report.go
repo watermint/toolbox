@@ -1,15 +1,15 @@
-package report
+package app_report
 
 import (
 	"errors"
 	"flag"
 	"fmt"
 	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/app/app_report/app_report_csv"
+	"github.com/watermint/toolbox/app/app_report/app_report_json"
+	"github.com/watermint/toolbox/app/app_report/app_report_xlsx"
 	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/app/app_util"
-	"github.com/watermint/toolbox/report/report_csv"
-	"github.com/watermint/toolbox/report/report_json"
-	"github.com/watermint/toolbox/report/report_xlsx"
 	"io"
 	"os"
 	"path/filepath"
@@ -67,21 +67,21 @@ func (z *Factory) Init(ec *app.ExecContext) error {
 	}
 	if z.reports == nil {
 		z.reports = make([]Report, 0)
-		z.reports = append(z.reports, &report_json.JsonReport{
+		z.reports = append(z.reports, &app_report_json.JsonReport{
 			DefaultWriter: consoleWriter,
 			ReportPath:    "",
 		})
-		z.reports = append(z.reports, &report_json.JsonReport{
+		z.reports = append(z.reports, &app_report_json.JsonReport{
 			DefaultWriter: z.DefaultWriter,
 			ReportPath:    z.ReportPath,
 		})
-		z.reports = append(z.reports, &report_csv.CsvReport{
+		z.reports = append(z.reports, &app_report_csv.CsvReport{
 			DefaultWriter: z.DefaultWriter,
 			ReportPath:    z.ReportPath,
 			ReportHeader:  true,
 			ReportUseBom:  false,
 		})
-		z.reports = append(z.reports, &report_xlsx.XlsxReport{
+		z.reports = append(z.reports, &app_report_xlsx.XlsxReport{
 			ReportPath: z.ReportPath,
 		})
 

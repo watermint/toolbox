@@ -3,6 +3,7 @@ package cmd_member_update
 import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_io"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/infra/api_context_impl"
@@ -10,14 +11,13 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 )
 
 type CmdMemberUpdateEmail struct {
 	*cmd.SimpleCommandlet
 	optCsv string
-	report report.Factory
+	report app_report.Factory
 
 	// email address mapping. key is for existing email, value is for new address
 	emailMapping map[string]string

@@ -1,10 +1,10 @@
-package report_csv
+package app_report_csv
 
 import (
 	"encoding/csv"
 	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/app/app_report/app_report_column"
 	"github.com/watermint/toolbox/app/app_util"
-	"github.com/watermint/toolbox/report/report_column"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -19,11 +19,11 @@ type CsvReport struct {
 	DefaultWriter io.Writer
 	files         map[string]*os.File
 	writers       map[string]*csv.Writer
-	parsers       map[string]report_column.Row
+	parsers       map[string]app_report_column.Row
 }
 
-func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p report_column.Row, err error) {
-	name := report_column.RowName(row)
+func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p app_report_column.Row, err error) {
+	name := app_report_column.RowName(row)
 	if zp, ok := z.parsers[name]; ok {
 		p = zp
 	}
@@ -76,7 +76,7 @@ func (z *CsvReport) prepare(row interface{}) (f *os.File, w *csv.Writer, p repor
 	if err != nil {
 		return nil, nil, nil, err
 	}
-	p = report_column.NewRow(row, z.ec)
+	p = app_report_column.NewRow(row, z.ec)
 
 	z.files[name] = f
 	z.writers[name] = w
@@ -97,7 +97,7 @@ func (z *CsvReport) Init(ec *app.ExecContext) error {
 		z.writers = make(map[string]*csv.Writer)
 	}
 	if z.parsers == nil {
-		z.parsers = make(map[string]report_column.Row)
+		z.parsers = make(map[string]app_report_column.Row)
 	}
 	return nil
 }

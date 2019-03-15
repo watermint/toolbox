@@ -1,4 +1,4 @@
-package report_column
+package app_report_column
 
 import (
 	"encoding/json"
@@ -69,7 +69,7 @@ func TestColumnMarshaller_Row2(t *testing.T) {
 		"100",
 		"0000",
 	}
-	vals3 := cz3.Values(m3)
+	vals3 := cz3.ValuesAsString(m3)
 	ec.Log().Info("cols3", zap.Strings("cols", cols3))
 	ec.Log().Info("vals3", zap.Strings("vals", vals3))
 
@@ -106,7 +106,7 @@ func TestColumnMarshaller_Row2(t *testing.T) {
 
 	cz3s := NewRow(m3s, ec)
 	cols3s := cz3s.Header()
-	vals3s := cz3.Values(m3s)
+	vals3s := cz3.ValuesAsString(m3s)
 	ec.Log().Info("cols3", zap.Strings("cols", cols3s))
 	ec.Log().Info("vals3", zap.Strings("vals", vals3s))
 
@@ -117,7 +117,7 @@ func TestColumnMarshaller_Row2(t *testing.T) {
 		t.Error("vals3 didn't match")
 	}
 
-	vals3s = cz3s.Values(m3s)
+	vals3s = cz3s.ValuesAsString(m3s)
 	if !reflect.DeepEqual(expectedVals3s, vals3s) {
 		t.Error("vals3 didn't match")
 	}

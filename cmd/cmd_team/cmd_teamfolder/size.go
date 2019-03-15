@@ -2,17 +2,17 @@ package cmd_teamfolder
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_size"
-	"github.com/watermint/toolbox/report"
 )
 
 type CmdTeamTeamFolderSize struct {
 	*cmd.SimpleCommandlet
 	optDepth     int
 	optCachePath string
-	report       report.Factory
+	report       app_report.Factory
 }
 
 func (CmdTeamTeamFolderSize) Name() string {

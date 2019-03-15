@@ -1,10 +1,10 @@
-package report_xlsx
+package app_report_xlsx
 
 import (
 	"fmt"
 	"github.com/tealeg/xlsx"
 	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/report/report_column"
+	"github.com/watermint/toolbox/app/app_report/app_report_column"
 	"go.uber.org/zap"
 	"path/filepath"
 	"time"
@@ -16,7 +16,7 @@ const (
 
 type XlsxReport struct {
 	ec          *app.ExecContext
-	parsers     map[string]report_column.Row
+	parsers     map[string]app_report_column.Row
 	sheets      map[string]*xlsx.Sheet
 	headerStyle *xlsx.Style
 	dataStyle   *xlsx.Style
@@ -34,7 +34,7 @@ func (z *XlsxReport) Init(ec *app.ExecContext) error {
 		z.sheets = make(map[string]*xlsx.Sheet)
 	}
 	if z.parsers == nil {
-		z.parsers = make(map[string]report_column.Row)
+		z.parsers = make(map[string]app_report_column.Row)
 	}
 	if z.file == nil {
 		z.file = xlsx.NewFile()
@@ -97,11 +97,11 @@ func (z *XlsxReport) appendRow(cols []interface{}, sheet *xlsx.Sheet, style *xls
 }
 
 func (z *XlsxReport) Report(row interface{}) (err error) {
-	name := report_column.RowName(row)
+	name := app_report_column.RowName(row)
 
 	cols, e := z.parsers[name]
 	if !e {
-		cols = report_column.NewRow(row, z.ec)
+		cols = app_report_column.NewRow(row, z.ec)
 		z.parsers[name] = cols
 	}
 

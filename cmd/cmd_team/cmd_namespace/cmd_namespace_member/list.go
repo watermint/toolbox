@@ -3,6 +3,7 @@ package cmd_namespace_member
 import (
 	"flag"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
@@ -10,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/model/dbx_namespace"
 	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/model/dbx_sharing"
-	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 )
 
@@ -18,7 +18,7 @@ type CmdTeamNamespaceMemberList struct {
 	*cmd.SimpleCommandlet
 
 	apiContext     *dbx_api.Context
-	report         report.Factory
+	report         app_report.Factory
 	groupMembers   map[string][]*dbx_group.GroupMember
 	optExpandGroup bool
 }

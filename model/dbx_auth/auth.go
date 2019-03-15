@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_util"
+	"github.com/watermint/toolbox/app/app_zap"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_rpc"
 	"go.uber.org/zap"
@@ -221,9 +222,12 @@ func (z *UIAuthenticator) Auth(tokenType string) (*dbx_api.Context, error) {
 }
 
 func (z *UIAuthenticator) loadKeys() {
-	kb, err := z.ec.ResourceBytes("toolbox.appkeys")
+	kb, err := app_zap.Zap(z.ec)
 	if err != nil {
-		z.ec.Log().Debug("unable to load resource `toolbox.appkeys`", zap.Error(err))
+		kb, err = z.ec.ResourceBytes("toolbox.appkeys")
+		if err != nil {
+			z.ec.Log().Debug("unable to load resource `toolbox.appkeys`", zap.Error(err))
+		}
 		return
 	}
 	err = json.Unmarshal(kb, &z.keys)

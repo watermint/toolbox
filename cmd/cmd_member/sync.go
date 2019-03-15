@@ -2,11 +2,11 @@ package cmd_member
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"github.com/watermint/toolbox/model/dbx_profile"
-	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 )
 
@@ -15,7 +15,7 @@ type CmdMemberSync struct {
 	optRemove string
 	optWipe   bool
 	optSilent bool
-	report    report.Factory
+	report    app_report.Factory
 	provision MembersProvision
 }
 

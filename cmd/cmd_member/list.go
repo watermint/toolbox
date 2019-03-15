@@ -2,12 +2,12 @@ package cmd_member
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"github.com/watermint/toolbox/model/dbx_profile"
-	"github.com/watermint/toolbox/report"
 )
 
 type CmdMemberList struct {
@@ -15,7 +15,7 @@ type CmdMemberList struct {
 
 	optIncludeRemoved bool
 	apiContext        *dbx_api.Context
-	report            report.Factory
+	report            app_report.Factory
 }
 
 func (z *CmdMemberList) Name() string {

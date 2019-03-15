@@ -3,18 +3,18 @@ package cmd_group
 import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_matcher"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/infra/api_context_impl"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 )
 
 type CmdGroupRemove struct {
 	*cmd.SimpleCommandlet
-	report  report.Factory
+	report  app_report.Factory
 	matcher app_matcher.Matcher
 }
 

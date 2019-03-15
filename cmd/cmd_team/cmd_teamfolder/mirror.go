@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
@@ -14,7 +15,6 @@ import (
 	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/model/dbx_sharing"
 	"github.com/watermint/toolbox/model/dbx_teamfolder"
-	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 	"strings"
 	"time"
@@ -28,7 +28,7 @@ type CmdTeamTeamFolderMirror struct {
 	optVerify         bool
 	optAllTeamFolders bool
 
-	report report.Factory
+	report app_report.Factory
 
 	srcTeamFolders map[string]*dbx_teamfolder.TeamFolder
 	srcTeamAdminId string

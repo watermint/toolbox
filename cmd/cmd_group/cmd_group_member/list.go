@@ -2,18 +2,18 @@ package cmd_group_member
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_group"
-	"github.com/watermint/toolbox/report"
 )
 
 type CmdGroupMemberList struct {
 	*cmd.SimpleCommandlet
 
 	apiContext *dbx_api.Context
-	report     report.Factory
+	report     app_report.Factory
 }
 
 func (z *CmdGroupMemberList) Name() string {

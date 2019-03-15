@@ -3,6 +3,7 @@ package cmd_audit
 import (
 	"flag"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
@@ -12,14 +13,13 @@ import (
 	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/model/dbx_sharing"
 	"github.com/watermint/toolbox/model/dbx_team"
-	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 )
 
 type CmdTeamAuditSharing struct {
 	*cmd.SimpleCommandlet
 	groupMembers   map[string][]*dbx_group.GroupMember
-	report         report.Factory
+	report         app_report.Factory
 	optExpandGroup bool
 }
 

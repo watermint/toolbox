@@ -4,10 +4,10 @@ import (
 	"bufio"
 	"encoding/json"
 	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_namespace"
 	"github.com/watermint/toolbox/model/dbx_profile"
-	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -210,7 +210,7 @@ func (z *NamespaceSizes) LoadFromApi(c *dbx_api.Context) bool {
 	if err != nil {
 		return z.OnError(err)
 	}
-	cacheWriter := report.Factory{}
+	cacheWriter := app_report.Factory{}
 	cacheWriter.ReportPath = z.OptCachePath
 	cacheWriter.ReportFormat = "json"
 	cacheWriter.DefaultWriter = ioutil.Discard

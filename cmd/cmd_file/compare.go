@@ -2,15 +2,15 @@ package cmd_file
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_file/compare"
-	"github.com/watermint/toolbox/report"
 )
 
 type CmdFileCompare struct {
 	*cmd.SimpleCommandlet
-	report          report.Factory
+	report          app_report.Factory
 	optLeftAccount  string
 	optLeftPath     string
 	optRightAccount string

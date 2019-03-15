@@ -1,4 +1,4 @@
-package report_column
+package app_report_column
 
 import (
 	"errors"

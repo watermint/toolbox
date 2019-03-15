@@ -12,8 +12,8 @@ func TestCopy(t *testing.T) {
 	api_test.DoTestTokenFull(func(ctx api_context.Context) {
 		r := New(ctx)
 		src := api_test.ToolboxTestSuiteFolder.ChildPath("copy/F0.jpg")
-		name := fmt.Sprintf("copy/copy-%x.jpg", time.Now().Unix())
-		dest := api_test.ToolboxTestSuiteFolder.ChildPath(name)
+		name := fmt.Sprintf("copy-%x.jpg", time.Now().Unix())
+		dest := api_test.ToolboxTestSuiteFolder.ChildPath("copy/" + name)
 
 		entry, err := r.Copy(src, dest)
 		if err != nil {

@@ -2,18 +2,18 @@ package cmd_teamfolder
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_teamfolder"
-	"github.com/watermint/toolbox/report"
 )
 
 type CmdTeamTeamFolderList struct {
 	*cmd.SimpleCommandlet
 
 	apiContext *dbx_api.Context
-	report     report.Factory
+	report     app_report.Factory
 }
 
 func (CmdTeamTeamFolderList) Name() string {
