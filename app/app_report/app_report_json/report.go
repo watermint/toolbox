@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"reflect"
 )
 
 type JsonReport struct {
@@ -16,6 +17,29 @@ type JsonReport struct {
 	DefaultWriter io.Writer
 	files         map[string]*os.File
 	writers       map[string]io.Writer
+}
+
+func (z *JsonReport) findRaw(row interface{}, orig interface{}) interface{} {
+	var rv reflect.Value
+	switch r := row.(type) {
+	case reflect.Value:
+		rv = r
+	default:
+		rv = reflect.ValueOf(row)
+		if rv.Kind() == reflect.Ptr {
+			rv = rv.Elem()
+		}
+	}
+	rt := rv.Type()
+	_, e := rt.FieldByName("Raw")
+	if !e {
+		return orig
+	}
+	rvf := rv.FieldByName("Raw")
+	if rvf.Type().Kind() != reflect.TypeOf(json.RawMessage{}).Kind() {
+		return orig
+	}
+	return rvf.Interface()
 }
 
 func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err error) {
@@ -111,7 +135,8 @@ func (z *JsonReport) Report(row interface{}) error {
 	if err != nil {
 		return err
 	}
-	b, err := json.Marshal(row)
+	r := z.findRaw(row, row)
+	b, err := json.Marshal(r)
 	if err != nil {
 		fn := ""
 		if f != nil {

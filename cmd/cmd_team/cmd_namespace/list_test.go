@@ -23,9 +23,6 @@ func TestCmdTeamNamespaceList_ExecCsv(t *testing.T) {
 		NewCmdTeamNamespace(),
 		[]string{
 			"list",
-			"-report-format",
-			"csv",
-			"-report-header",
 		},
 	)
 }

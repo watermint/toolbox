@@ -4,10 +4,11 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_context_impl"
+	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_member"
-	"github.com/watermint/toolbox/model/dbx_profile"
 )
 
 type CmdMemberList struct {
@@ -40,20 +41,23 @@ func (z *CmdMemberList) FlagConfig(f *flag.FlagSet) {
 
 func (z *CmdMemberList) Exec(args []string) {
 	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiInfo, err := au.Auth(dbx_auth.DropboxTokenBusinessInfo)
+	legacyCtx, err := au.Auth(dbx_auth.DropboxTokenBusinessInfo)
 	if err != nil {
 		return
 	}
+	ctx := api_context_impl.New(z.ExecContext, api_auth_impl.NewCompatible(legacyCtx.Token))
 
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
-	l := dbx_member.MembersList{
-		OnError: z.DefaultErrorHandler,
-		OnEntry: func(member *dbx_profile.Member) bool {
-			z.report.Report(member)
-			return true
-		},
+	svc := sv_member.New(ctx)
+	members, err := svc.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
 	}
-	l.List(apiInfo, z.optIncludeRemoved)
+
+	for _, m := range members {
+		z.report.Report(m)
+	}
 }
