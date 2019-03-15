@@ -37,13 +37,13 @@ func (z *Factory) FlagConfig(f *flag.FlagSet) {
 	descReportPath := z.ExecContext.Msg("report.common.flag.report_path").T()
 	f.StringVar(&z.ReportPath, "report-path", filepath.Join(z.ExecContext.JobsPath(), "reports"), descReportPath)
 
-	//descReportFormat := z.ExecContext.Msg("report.common.flag.report_format").T()
+	//descReportFormat := z.ec.Msg("report.common.flag.report_format").T()
 	//f.StringVar(&z.ReportFormat, "report-format", "json", descReportFormat)
 
-	//descUseBom := z.ExecContext.Msg("report.common.flag.use_bom").T()
+	//descUseBom := z.ec.Msg("report.common.flag.use_bom").T()
 	//f.BoolVar(&z.ReportUseBom, "report-usebom", false, descUseBom)
 
-	//descReportHeader := z.ExecContext.Msg("report.common.flag.with_header").T()
+	//descReportHeader := z.ec.Msg("report.common.flag.with_header").T()
 	//f.BoolVar(&z.ReportHeader, "report-header", true, descReportHeader)
 }
 

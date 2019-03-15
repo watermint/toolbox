@@ -146,7 +146,7 @@ func (z *BetweenAccounts) compareLevel(path string) int {
 	// compare folders left to right
 	for _, lf := range leftFolders {
 		if _, e := rightFolders[strings.ToLower(lf.Name)]; e {
-			// proceed to ancestors
+			// proceed to descendants
 			pd, err := filepath.Rel(strings.ToLower(z.LeftPath), lf.PathLower)
 			if err != nil {
 				z.ExecContext.Log().Warn("unable to calculate relative path", zap.String("leftPathBase", z.LeftPath), zap.String("leftPath", lf.PathLower), zap.Error(err))
@@ -157,7 +157,7 @@ func (z *BetweenAccounts) compareLevel(path string) int {
 				continue
 			}
 
-			z.ExecContext.Log().Debug("proceed into ancestors", zap.String("path", pd))
+			z.ExecContext.Log().Debug("Proceed into descendants", zap.String("path", pd))
 			diffCount += z.compareLevel(pd)
 
 		} else {

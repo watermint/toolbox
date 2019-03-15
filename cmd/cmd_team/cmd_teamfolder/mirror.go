@@ -221,7 +221,7 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	}
 
 	z.report.Init(z.ExecContext)
-	z.report.Close()
+	defer z.report.Close()
 
 	z.srcTeamFolders = z.listTeamFolders(z.srcFileApi)
 	z.dstTeamFolders = z.listTeamFolders(z.dstFileApi)
@@ -382,7 +382,7 @@ func (z *CmdTeamTeamFolderMirror) mirrorTeamFolder(name string) {
 		DstAccountAlias: z.optDstTeamAlias,
 		ExecContext:     z.ExecContext,
 	}
-	m.MirrorAncestors()
+	m.MirrorDescendants()
 
 	if z.optVerify {
 		ba := compare.BetweenAccounts{

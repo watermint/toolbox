@@ -1,6 +1,7 @@
 package report_column
 
 import (
+	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/app"
 	"go.uber.org/zap"
@@ -107,8 +108,18 @@ func (z *rowImpl) marshal(v reflect.Value) (interface{}, error) {
 	switch v.Kind() {
 	case reflect.Ptr:
 		return z.marshal(v.Elem())
+	case reflect.String:
+		return v.String(), nil
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return v.Int(), nil
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		return v.Uint(), nil
+	case reflect.Bool:
+		return v.Bool(), nil
+	case reflect.Float32, reflect.Float64:
+		return v.Float(), nil
 	default:
-		return v.Interface(), nil
+		return nil, errors.New("unsupported kind")
 	}
 }
 
@@ -146,21 +157,13 @@ func (z *rowImpl) valueForPath(path string, value reflect.Value) (interface{}, b
 	p0 := paths[0]
 	vt := value.Type()
 	if _, ok := vt.FieldByName(p0); !ok {
-		z.ec.Log().Debug(
-			"field not found",
-			zap.String("path", path),
-			zap.String("field", p0),
-		)
+		z.ec.Log().Debug("field not found", zap.String("path", path), zap.String("field", p0))
 		return nil, false
 	}
 
 	vf := value.FieldByName(p0)
 	if !vf.IsValid() {
-		z.ec.Log().Debug(
-			"field not found",
-			zap.String("path", path),
-			zap.String("field", p0),
-		)
+		z.ec.Log().Debug("field not found", zap.String("path", path), zap.String("field", p0))
 		return nil, false
 	}
 	if vf.Type().Kind() == reflect.Ptr {

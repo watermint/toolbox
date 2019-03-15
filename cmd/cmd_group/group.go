@@ -14,6 +14,9 @@ func NewCmdGroup() cmd.Commandlet {
 			&CmdGroupList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
+			&CmdGroupRemove{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
 		},
 	}
 }

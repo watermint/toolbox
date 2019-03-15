@@ -23,4 +23,8 @@ type UI interface {
 	// Ask a text. UI ask text as required option but,
 	// a user/client can enter empty string.
 	AskText(msg UIMessage) string
+
+	// Ask confirm proceed operation.
+	// Returns true when the user/client agreed proceed.
+	AskConfirm(msg UIMessage) bool
 }

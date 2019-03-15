@@ -20,14 +20,23 @@ import (
 )
 
 var (
-	AppName    string = "toolbox"
-	AppVersion string = "`dev`"
-	AppHash    string = ""
+	AppName     string = "toolbox"
+	AppVersion  string = "`dev`"
+	AppHash     string = ""
+	rootContext *ExecContext
 )
 
 const (
 	DefaultPeerName = "default"
 )
+
+func Root() *ExecContext {
+	if rootContext == nil {
+		rootContext = NewExecContextForTest()
+		return rootContext
+	}
+	return rootContext
+}
 
 type ExecContext struct {
 	Proxy           string
@@ -109,7 +118,11 @@ func (z *ExecContext) FileOnSecretsPath(name string) string {
 }
 
 func (z *ExecContext) startup() error {
-	z.jobId = fmt.Sprintf(time.Now().Format("20060102150405.000"))
+	if z.isTest {
+		z.jobId = "test-" + fmt.Sprintf(time.Now().Format("20060102-150405.000"))
+	} else {
+		z.jobId = fmt.Sprintf(time.Now().Format("20060102-150405.000"))
+	}
 	z.defaultPeerName = DefaultPeerName
 	if runtime.GOOS == "windows" {
 		z.userInterface = app_ui.NewDefaultCUI()
@@ -128,6 +141,9 @@ func (z *ExecContext) startup() error {
 		zap.String("revision", AppHash),
 	)
 	z.logger.Debug("Startup completed")
+
+	// replace root exec context
+	rootContext = z
 
 	return nil
 }

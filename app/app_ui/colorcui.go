@@ -81,3 +81,7 @@ func (z *ColorCUI) AskRetry(msg UIMessage) bool {
 func (z *ColorCUI) AskText(msg UIMessage) string {
 	return z.cui.AskText(msg)
 }
+
+func (z *ColorCUI) AskConfirm(msg UIMessage) bool {
+	return z.cui.AskConfirm(msg)
+}

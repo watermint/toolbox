@@ -36,12 +36,14 @@ Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 | `file metadata`                 | Report metadata for a file or folder                         |
 | `file mirror`                   | Mirror files/folders into another account                    |
 | `group list`                    | List groups                                                  |
+| `group remove`                  | Remove group(s)                                              |
 | `group member list`             | List group members                                           |
 | `member detach`                 | Convert account into Dropbox Basic                           |
 | `member invite`                 | Invite members                                               |
 | `member list`                   | List members                                                 |
 | `member remove`                 | Remove the member from the team                              |
 | `member sync`                   | Sync member information with provided csv                    |
+| `member update email`           | Update member email address                                  |
 | `team feature`                  | List team feature values                                     |
 | `team info`                     | Team info                                                    |
 | `team audit sharing`            | Export all sharing information across team                   |

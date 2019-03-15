@@ -149,8 +149,8 @@ func (z *Mirror) relDstPath(srcPath string) (string, error) {
 	return curDstPath, nil
 }
 
-func (z *Mirror) mirrorAncestors(srcPath, dstPath string) {
-	// files in ancestor under `dstPath`
+func (z *Mirror) mirrorDescendants(srcPath, dstPath string) {
+	// files in descendants under `dstPath`
 	files := make(map[string]*dbx_file.File)
 	folders := make(map[string]bool)
 
@@ -213,12 +213,12 @@ func (z *Mirror) mirrorAncestors(srcPath, dstPath string) {
 		},
 		OnFolder: func(folder *dbx_file.Folder) bool {
 			if _, e := folders[folder.Name]; e {
-				z.ExecContext.Log().Debug("Mirror ancestors", zap.String("src", folder.PathDisplay), zap.String("dst", dstPath))
+				z.ExecContext.Log().Debug("Mirror descendants", zap.String("src", folder.PathDisplay), zap.String("dst", dstPath))
 				curToPath, err := z.relDstPath(folder.PathDisplay)
 				if err != nil {
 					return false
 				}
-				z.mirrorAncestors(folder.PathDisplay, curToPath)
+				z.mirrorDescendants(folder.PathDisplay, curToPath)
 			} else {
 				z.ExecContext.Log().Debug("Mirror folder", zap.String("src", folder.PathDisplay), zap.String("dst", dstPath))
 				curToPath, err := z.relDstPath(folder.PathDisplay)
@@ -232,13 +232,13 @@ func (z *Mirror) mirrorAncestors(srcPath, dstPath string) {
 		OnFile: func(file *dbx_file.File) bool {
 			if tf, e := files[file.Name]; e {
 				if tf.ContentHash == file.ContentHash {
-					//z.ExecContext.Log().Debug("Skip: same content hash", zap.String("srcPath", file.PathDisplay), zap.String("hash", file.ContentHash))
+					//z.ec.Log().Debug("Skip: same content hash", zap.String("srcPath", file.PathDisplay), zap.String("hash", file.ContentHash))
 					skipped = append(skipped, file.PathDisplay)
 					return true
 				}
 				// otherwise fallback to mirror
 			}
-			z.ExecContext.Log().Debug("Mirror ancestor file", zap.String("src", file.PathDisplay), zap.String("dst", dstPath))
+			z.ExecContext.Log().Debug("Mirror descendants file", zap.String("src", file.PathDisplay), zap.String("dst", dstPath))
 			curDstPath, err := z.relDstPath(file.PathDisplay)
 			if err != nil {
 				return false
@@ -260,15 +260,15 @@ func (z *Mirror) handleApiError(ref CopyRef, srcPath, dstPath string, apiErr dbx
 	z.ExecContext.Log().Debug("handle api error", zap.String("src", srcPath), zap.String("dst", dstPath), zap.String("error_tag", apiErr.ErrorSummary))
 	switch {
 	case strings.HasPrefix(apiErr.ErrorSummary, "path/conflict"):
-		// Mirror each ancestors
+		// Mirror each descendants
 		z.ExecContext.Log().Debug("conflict found")
-		z.mirrorAncestors(srcPath, dstPath)
+		z.mirrorDescendants(srcPath, dstPath)
 		return true
 
 	case strings.HasPrefix(apiErr.ErrorSummary, "too_many_files"):
-		// Mirror each ancestors
+		// Mirror each descendants
 		z.ExecContext.Log().Debug("too many files")
-		z.mirrorAncestors(srcPath, dstPath)
+		z.mirrorDescendants(srcPath, dstPath)
 		return true
 
 	case strings.HasPrefix(apiErr.ErrorSummary, "path/too_many_write_operations"):
@@ -334,7 +334,7 @@ func (z *Mirror) onEntry(ref CopyRef, srcPath, dstPath string) bool {
 }
 
 func (z *Mirror) doMirror(srcPath, dstPath string) {
-	//z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.trying").WithData(struct {
+	//z.ec.Msg("dbx_file.copy_ref.mirror.progress.trying").WithData(struct {
 	//	SrcPath    string
 	//	FromAccount string
 	//	DstPath      string
@@ -413,13 +413,13 @@ func (z *Mirror) Mirror() {
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.done").Tell()
 }
 
-func (z *Mirror) MirrorAncestors() {
+func (z *Mirror) MirrorDescendants() {
 	z.updatePathRoot()
 	if !z.verifyGivenPaths() {
 		return
 	}
 
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.start").Tell()
-	z.mirrorAncestors(z.SrcPath, z.DstPath)
+	z.mirrorDescendants(z.SrcPath, z.DstPath)
 	z.ExecContext.Msg("dbx_file.copy_ref.mirror.progress.done").Tell()
 }

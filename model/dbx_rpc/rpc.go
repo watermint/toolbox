@@ -133,7 +133,7 @@ func (z *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, err error) {
 		time.Sleep(c.RetryAfter.Sub(now))
 	}
 
-	log.Debug("do_request", zap.Any("param", z.Param), zap.Any("root", z.Param))
+	log.Debug("Request", zap.Any("param", z.Param), zap.Any("root", z.Param))
 	res, err := c.Client.Do(req)
 
 	if err != nil {

@@ -46,6 +46,8 @@ type UIMessage interface {
 	// Ask a text. UI ask text as required option but,
 	// a user/client can enter empty string.
 	AskText() string
+
+	AskConfirm() bool
 }
 
 type UIMessageContainer struct {
@@ -279,6 +281,10 @@ func (z *TextMessage) AskText() string {
 	return z.userInterface.AskText(z)
 }
 
+func (z *TextMessage) AskConfirm() bool {
+	return z.userInterface.AskConfirm(z)
+}
+
 type AltMessage struct {
 	key           string
 	args          []interface{}
@@ -344,6 +350,10 @@ func (z *AltMessage) AskText() string {
 	return z.userInterface.AskText(z)
 }
 
+func (z *AltMessage) AskConfirm() bool {
+	return z.userInterface.AskConfirm(z)
+}
+
 type Message struct {
 	message       string
 	args          []interface{}
@@ -374,6 +384,10 @@ func (z *Message) AskRetry() bool {
 
 func (z *Message) AskText() string {
 	return z.userInterface.AskText(z)
+}
+
+func (z *Message) AskConfirm() bool {
+	return z.userInterface.AskConfirm(z)
 }
 
 func (z *Message) WithData(d interface{}) UIMessage {
