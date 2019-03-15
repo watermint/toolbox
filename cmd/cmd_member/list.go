@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
-	"github.com/watermint/toolbox/domain/infra/api_context_impl"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
@@ -40,12 +39,10 @@ func (z *CmdMemberList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdMemberList) Exec(args []string) {
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	legacyCtx, err := au.Auth(dbx_auth.DropboxTokenBusinessInfo)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessInfo)
 	if err != nil {
 		return
 	}
-	ctx := api_context_impl.New(z.ExecContext, api_auth_impl.NewCompatible(legacyCtx.Token))
 
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()

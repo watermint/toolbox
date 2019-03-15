@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
-	"github.com/watermint/toolbox/domain/infra/api_context_impl"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"go.uber.org/zap"
@@ -42,12 +41,10 @@ func (z *CmdGroupRemove) Exec(args []string) {
 		return
 	}
 
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	legacyCtx, err := au.Auth(dbx_auth.DropboxTokenBusinessManagement)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessManagement)
 	if err != nil {
 		return
 	}
-	ctx := api_context_impl.New(z.ExecContext, api_auth_impl.NewCompatible(legacyCtx.Token))
 
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
@@ -55,6 +52,7 @@ func (z *CmdGroupRemove) Exec(args []string) {
 	svc := sv_group.New(ctx)
 	groups, err := svc.List()
 	if err != nil {
+		ctx.ErrorMsg(err).TellError()
 		return
 	}
 
