@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_ui"
 	"go.uber.org/zap"
+	"sort"
 	"strings"
 )
 
@@ -150,8 +151,24 @@ func (z *CommandletGroup) Log() *zap.Logger {
 func (z *CommandletGroup) Usage() func(CommandUsage) {
 	f := func(c CommandUsage) {
 		z.ExecContext.Msg("cmd.common.group.usage.head").WithData(c).Tell()
+		cmds := make(map[string]string)
+		names := make([]string, 0)
+		cmdLen := 0
 		for _, s := range z.SubCommands {
-			t := fmt.Sprintf("  %-12s %s", s.Name(), z.ExecContext.Msg(s.Desc()).T())
+			cmds[s.Name()] = z.ExecContext.Msg(s.Desc()).T()
+			names = append(names, s.Name())
+			if cmdLen < len(s.Name()) {
+				cmdLen = len(s.Name())
+			}
+		}
+		sort.Strings(names)
+		subCmdFmt := fmt.Sprintf("  %%-%ds  %%s", cmdLen+1)
+		for _, n := range names {
+			desc, e := cmds[n]
+			if !e {
+				continue
+			}
+			t := fmt.Sprintf(subCmdFmt, n, desc)
 			tm := app_ui.NewTextMessage(t, z.ExecContext.UI(), z.Log())
 			tm.Tell()
 		}

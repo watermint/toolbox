@@ -45,6 +45,7 @@ Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 | `member remove`                 | Remove the member from the team                              |
 | `member sync`                   | Sync member information with provided csv                    |
 | `member update email`           | Update member email address                                  |
+| `sharedfolder list`             | List shared folders                                          |
 | `team app list`                 | List all applications linked to the team members' accounts   |
 | `team audit events`             | Export activity logs                                         |
 | `team audit sharing`            | Export all sharing information across team                   |

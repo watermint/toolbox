@@ -207,6 +207,8 @@
   "cmd.file.compare.err.not_enough_params": "Params `-left-account`, `-right-account`, `-left-path`, and `-right-path` are required. Please specify those params",
   "cmd.file.compare.prompt.ask_left_account_auth": "Preparing \"left account\"; Please proceed authentication with the \"left account\" if you asked authentication.",
   "cmd.file.compare.prompt.ask_right_account_auth": "Preparing \"right account\"; Please proceed authentication with the \"right account\" if you asked authentication.",
+  "cmd.sharedfolder.desc": "Shared folder operation",
+  "cmd.sharedfolder.list.desc": "List shared folders",
   "dbx_file.copy_ref.mirror.progress.file.done": "File mirrored: `{{.FromAccount}}:ns:{{.FromNS}}:{{.FromPath}}` -> `{{.ToAccount}}:ns:{{.ToNS}}:{{.ToPath}}`",
   "dbx_file.copy_ref.mirror.progress.folder.done": "Folder mirrored: `{{.FromAccount}}:{{.FromNS}}:{{.FromPath}}` -> `{{.ToAccount}}:ns:{{.ToNS}}:{{.ToPath}}`",
   "dbx_file.copy_ref.mirror.progress.trying": "Mirroring: `{{.FromAccount}}:ns::{{.FromNS}}:{{.FromPath}}` -> `{{.ToAccount}}:ns:{{.ToNS}}:{{.ToPath}}`",

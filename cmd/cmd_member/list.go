@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
@@ -14,7 +13,6 @@ type CmdMemberList struct {
 	*cmd.SimpleCommandlet
 
 	optIncludeRemoved bool
-	apiContext        *dbx_api.Context
 	report            app_report.Factory
 }
 
