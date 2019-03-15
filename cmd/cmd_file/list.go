@@ -61,7 +61,15 @@ func (z *CmdFileList) Exec(args []string) {
 		}
 
 		for _, f := range files {
-			z.report.Report(f)
+			if file, e := f.File(); e {
+				z.report.Report(file)
+			}
+			if folder, e := f.Folder(); e {
+				z.report.Report(folder)
+			}
+			if deleted, e := f.Deleted(); e {
+				z.report.Report(deleted)
+			}
 		}
 	}
 }
