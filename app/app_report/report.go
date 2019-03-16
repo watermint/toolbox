@@ -120,9 +120,11 @@ func (z *Factory) Close() {
 		z.wrapper.Flush()
 	}
 
-	z.ExecContext.Msg("report.common.done.tell_location").WithData(struct {
-		Path string
-	}{
-		z.ReportPath,
-	}).TellSuccess()
+	if !z.ExecContext.Quiet {
+		z.ExecContext.Msg("report.common.done.tell_location").WithData(struct {
+			Path string
+		}{
+			z.ReportPath,
+		}).TellSuccess()
+	}
 }

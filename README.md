@@ -46,6 +46,9 @@ Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 | `member sync`                   | Sync member information with provided csv                    |
 | `member update email`           | Update member email address                                  |
 | `sharedfolder list`             | List shared folders                                          |
+| `sharedlink create`             | Create shared link                                           |
+| `sharedlink list`               | List shared links                                            |
+| `sharedlink remove`             | Remove shared link                                           |
 | `team app list`                 | List all applications linked to the team members' accounts   |
 | `team audit events`             | Export activity logs                                         |
 | `team audit sharing`            | Export all sharing information across team                   |
@@ -63,7 +66,6 @@ Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 | `team teamfolder list`          | List all team folder of the team                             |
 | `team teamfolder mirror`        | Mirror team folders into another team                        |
 | `team teamfolder size`          | Calculate size of team folder                                |
-
 ## Authentication
 
 If an executable contains registered application keys, then the executable will ask you an authentication to your Dropbox account or a team.

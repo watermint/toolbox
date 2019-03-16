@@ -50,7 +50,7 @@ func getKey() string {
 }
 
 const (
-	exitCantOpenKey = iota
+	exitCantOpenKey = iota + 1
 	exitCantReadKey
 	exitCantWriteZap
 	exitCantCreateBlock
