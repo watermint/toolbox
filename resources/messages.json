@@ -219,6 +219,7 @@
   "cmd.sharedlink.create.err.not_enough_argument": "Please specify paths to create shared link",
   "cmd.sharedlink.remove.desc": "Remove shared link",
   "cmd.sharedlink.remove.flag.path": "File or folder path to remove shared link",
+  "cmd.sharedlink.remove.flag.recursive": "Attempt to remove the file hierarchy",
   "cmd.sharedlink.remove.err.no_link_found": "No shared links found at the path",
   "cmd.sharedlink.remove.err.not_enough_arguments": "Please specify path to remove shared link",
   "dbx_file.copy_ref.mirror.progress.file.done": "File mirrored: `{{.FromAccount}}:ns:{{.FromNS}}:{{.FromPath}}` -> `{{.ToAccount}}:ns:{{.ToNS}}:{{.ToPath}}`",

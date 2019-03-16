@@ -5,15 +5,20 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"github.com/watermint/toolbox/model/dbx_auth"
+	"go.uber.org/zap"
+	"path/filepath"
+	"strings"
 )
 
 type CmdSharedLinkRemove struct {
 	*cmd.SimpleCommandlet
-	report  app_report.Factory
-	optPath string
+	report       app_report.Factory
+	optPath      string
+	optRecursive bool
 }
 
 func (z *CmdSharedLinkRemove) Name() string {
@@ -34,6 +39,9 @@ func (z *CmdSharedLinkRemove) FlagConfig(f *flag.FlagSet) {
 
 	descPath := z.ExecContext.Msg("cmd.sharedlink.remove.flag.path").T()
 	f.StringVar(&z.optPath, "path", "", descPath)
+
+	descRecursive := z.ExecContext.Msg("cmd.sharedlink.remove.flag.recursive").T()
+	f.BoolVar(&z.optRecursive, "recursive", false, descRecursive)
 }
 
 func (z *CmdSharedLinkRemove) Exec(args []string) {
@@ -50,6 +58,14 @@ func (z *CmdSharedLinkRemove) Exec(args []string) {
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
+	if z.optRecursive {
+		z.removeRecursive(ctx, mo_path.NewPath(z.optPath))
+	} else {
+		z.removePathAt(ctx, mo_path.NewPath(z.optPath))
+	}
+}
+
+func (z *CmdSharedLinkRemove) removePathAt(ctx api_context.Context, path mo_path.Path) {
 	svc := sv_sharedlink.New(ctx)
 	links, err := svc.ListByPath(mo_path.NewPath(z.optPath))
 	if err != nil {
@@ -66,6 +82,39 @@ func (z *CmdSharedLinkRemove) Exec(args []string) {
 			ctx.ErrorMsg(err).TellError()
 			continue
 		}
+		z.report.Report(link)
+	}
+}
+
+func (z *CmdSharedLinkRemove) removeRecursive(ctx api_context.Context, path mo_path.Path) {
+	svc := sv_sharedlink.New(ctx)
+	links, err := svc.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
+	}
+	if len(links) < 1 {
+		z.ExecContext.Msg("cmd.sharedlink.remove.err.no_link_found").TellError()
+		return
+	}
+	for _, link := range links {
+		log := z.ExecContext.Log().With(zap.String("linkPath", link.LinkPathLower()))
+		rel, err := filepath.Rel(strings.ToLower(path.Path()), link.LinkPathLower())
+		if err != nil {
+			log.Debug("Skip", zap.Error(err))
+			continue
+		}
+		if strings.HasPrefix(rel, "..") {
+			log.Debug("Skip")
+			continue
+		}
+		log.Debug("Removing")
+		err = svc.Delete(link)
+		if err != nil {
+			ctx.ErrorMsg(err).TellError()
+			continue
+		}
+		log.Debug("Removed")
 		z.report.Report(link)
 	}
 }
