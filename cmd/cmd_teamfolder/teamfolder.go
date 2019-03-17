@@ -2,24 +2,24 @@ package cmd_teamfolder
 
 import (
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/cmd/cmd_team/cmd_teamfolder/cmd_teamfolder_file"
+	"github.com/watermint/toolbox/cmd/cmd_teamfolder/cmd_teamfolder_file"
 )
 
-func NewCmdTeamTeamFolder() cmd.Commandlet {
+func NewCmdTeamFolder() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "teamfolder",
-		CommandDesc: "cmd.team.teamfolder.desc",
+		CommandDesc: "cmd.teamfolder.desc",
 		SubCommands: []cmd.Commandlet{
-			&CmdTeamTeamFolderList{
+			&CmdTeamFolderList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
-			&CmdTeamTeamFolderSize{
+			&CmdTeamFolderSize{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
-			&CmdTeamTeamFolderMirror{
+			&CmdTeamFolderMirror{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
-			cmd_teamfolder_file.NewCmdTeamTeamFolderFile(),
+			cmd_teamfolder_file.NewCmdTeamFolderFile(),
 		},
 	}
 }

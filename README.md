@@ -64,10 +64,10 @@ Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 | `team namespace member list`    | List all namespace members of the team                       |
 | `team sharedlink list`          | List all shared links of the team members' accounts          |
 | `team sharedlink update expire` | Update all shared link expire date of team members' accounts |
-| `team teamfolder file list`     | List files/folders in all team folders of the team           |
-| `team teamfolder list`          | List all team folder of the team                             |
-| `team teamfolder mirror`        | Mirror team folders into another team                        |
-| `team teamfolder size`          | Calculate size of team folder                                |
+| `teamfolder file list`          | List files/folders in all team folders of the team           |
+| `teamfolder list`               | List all team folder of the team                             |
+| `teamfolder mirror`             | Mirror team folders into another team                        |
+| `teamfolder size`               | Calculate size of team folder                                |
 
 ## Authentication
 

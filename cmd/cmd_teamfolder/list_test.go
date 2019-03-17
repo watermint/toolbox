@@ -7,12 +7,12 @@ import (
 	"testing"
 )
 
-func TestCmdTeamTeamFolderList_Exec(t *testing.T) {
+func TestCmdTeamFolderList_Exec(t *testing.T) {
 	csvFile, err := ioutil.TempFile("", "teamfolder_list")
 	if err != nil {
 		t.Error(err)
 	}
 	defer os.Remove(csvFile.Name())
 
-	cmd.CmdTest(t, NewCmdTeamTeamFolder(), []string{"list", "-report-path", csvFile.Name()})
+	cmd.CmdTest(t, NewCmdTeamFolder(), []string{"list", "-report-path", csvFile.Name()})
 }

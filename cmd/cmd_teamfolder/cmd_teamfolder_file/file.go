@@ -2,12 +2,12 @@ package cmd_teamfolder_file
 
 import "github.com/watermint/toolbox/cmd"
 
-func NewCmdTeamTeamFolderFile() cmd.Commandlet {
+func NewCmdTeamFolderFile() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "file",
-		CommandDesc: "cmd.team.teamfolder.file.desc",
+		CommandDesc: "cmd.teamfolder.file.desc",
 		SubCommands: []cmd.Commandlet{
-			&CmdTeamTeamFolderFileList{
+			&CmdTeamFolderFileList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
 		},

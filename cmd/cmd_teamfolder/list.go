@@ -9,31 +9,31 @@ import (
 	"github.com/watermint/toolbox/model/dbx_teamfolder"
 )
 
-type CmdTeamTeamFolderList struct {
+type CmdTeamFolderList struct {
 	*cmd.SimpleCommandlet
 
 	apiContext *dbx_api.DbxContext
 	report     app_report.Factory
 }
 
-func (CmdTeamTeamFolderList) Name() string {
+func (CmdTeamFolderList) Name() string {
 	return "list"
 }
 
-func (CmdTeamTeamFolderList) Desc() string {
-	return "cmd.team.teamfolder.list.desc"
+func (CmdTeamFolderList) Desc() string {
+	return "cmd.teamfolder.list.desc"
 }
 
-func (CmdTeamTeamFolderList) Usage() func(cmd.CommandUsage) {
+func (CmdTeamFolderList) Usage() func(cmd.CommandUsage) {
 	return nil
 }
 
-func (z *CmdTeamTeamFolderList) FlagConfig(f *flag.FlagSet) {
+func (z *CmdTeamFolderList) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 }
 
-func (z *CmdTeamTeamFolderList) Exec(args []string) {
+func (z *CmdTeamFolderList) Exec(args []string) {
 	au := dbx_auth.NewDefaultAuth(z.ExecContext)
 	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {

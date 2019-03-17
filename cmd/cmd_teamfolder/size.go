@@ -8,37 +8,37 @@ import (
 	"github.com/watermint/toolbox/model/dbx_size"
 )
 
-type CmdTeamTeamFolderSize struct {
+type CmdTeamFolderSize struct {
 	*cmd.SimpleCommandlet
 	optDepth     int
 	optCachePath string
 	report       app_report.Factory
 }
 
-func (CmdTeamTeamFolderSize) Name() string {
+func (CmdTeamFolderSize) Name() string {
 	return "size"
 }
 
-func (CmdTeamTeamFolderSize) Desc() string {
-	return "cmd.team.teamfolder.size.desc"
+func (CmdTeamFolderSize) Desc() string {
+	return "cmd.teamfolder.size.desc"
 }
 
-func (CmdTeamTeamFolderSize) Usage() func(cmd.CommandUsage) {
+func (CmdTeamFolderSize) Usage() func(cmd.CommandUsage) {
 	return nil
 }
 
-func (z *CmdTeamTeamFolderSize) FlagConfig(f *flag.FlagSet) {
+func (z *CmdTeamFolderSize) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descOptDepth := z.ExecContext.Msg("cmd.team.teamfolder.size.flag.depth").T()
+	descOptDepth := z.ExecContext.Msg("cmd.teamfolder.size.flag.depth").T()
 	f.IntVar(&z.optDepth, "depth", 2, descOptDepth)
 
-	descUseCached := z.ExecContext.Msg("cmd.team.teamfolder.size.flag.cache").T()
+	descUseCached := z.ExecContext.Msg("cmd.teamfolder.size.flag.cache").T()
 	f.StringVar(&z.optCachePath, "cache", "", descUseCached)
 }
 
-func (z *CmdTeamTeamFolderSize) Exec(args []string) {
+func (z *CmdTeamFolderSize) Exec(args []string) {
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 

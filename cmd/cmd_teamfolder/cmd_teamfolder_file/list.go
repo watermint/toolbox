@@ -10,7 +10,7 @@ import (
 	"go.uber.org/zap"
 )
 
-type CmdTeamTeamFolderFileList struct {
+type CmdTeamFolderFileList struct {
 	*cmd.SimpleCommandlet
 	optIncludeMediaInfo bool
 	optIncludeDeleted   bool
@@ -18,30 +18,30 @@ type CmdTeamTeamFolderFileList struct {
 	namespaceFile       dbx_namespace.ListNamespaceFile
 }
 
-func (CmdTeamTeamFolderFileList) Name() string {
+func (CmdTeamFolderFileList) Name() string {
 	return "list"
 }
 
-func (CmdTeamTeamFolderFileList) Desc() string {
-	return "cmd.team.teamfolder.file.list.desc"
+func (CmdTeamFolderFileList) Desc() string {
+	return "cmd.teamfolder.file.list.desc"
 }
 
-func (CmdTeamTeamFolderFileList) Usage() func(cmd.CommandUsage) {
+func (CmdTeamFolderFileList) Usage() func(cmd.CommandUsage) {
 	return nil
 }
 
-func (z *CmdTeamTeamFolderFileList) FlagConfig(f *flag.FlagSet) {
+func (z *CmdTeamFolderFileList) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descIncludeDeleted := z.ExecContext.Msg("cmd.team.teamfolder.file.list.flag.include_deleted").T()
+	descIncludeDeleted := z.ExecContext.Msg("cmd.teamfolder.file.list.flag.include_deleted").T()
 	f.BoolVar(&z.namespaceFile.OptIncludeDeleted, "include-deleted", false, descIncludeDeleted)
 
-	descIncludeMediaInfo := z.ExecContext.Msg("cmd.team.teamfolder.file.list.flag.include_media_info").T()
+	descIncludeMediaInfo := z.ExecContext.Msg("cmd.teamfolder.file.list.flag.include_media_info").T()
 	f.BoolVar(&z.namespaceFile.OptIncludeMediaInfo, "include-media-info", false, descIncludeMediaInfo)
 }
 
-func (z *CmdTeamTeamFolderFileList) Exec(args []string) {
+func (z *CmdTeamFolderFileList) Exec(args []string) {
 	z.namespaceFile.OptIncludeMemberFolder = false
 	z.namespaceFile.OptIncludeAppFolder = false
 	z.namespaceFile.OptIncludeTeamFolder = true
@@ -64,7 +64,7 @@ func (z *CmdTeamTeamFolderFileList) Exec(args []string) {
 	z.namespaceFile.AsAdminId = admin.TeamMemberId
 	z.namespaceFile.OnError = z.DefaultErrorHandler
 	z.namespaceFile.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
-		z.ExecContext.Msg("cmd.team.teamfolder.file.list.progress.scan").WithData(struct {
+		z.ExecContext.Msg("cmd.teamfolder.file.list.progress.scan").WithData(struct {
 			Id   string
 			Name string
 		}{

@@ -20,7 +20,7 @@ import (
 	"time"
 )
 
-type CmdTeamTeamFolderMirror struct {
+type CmdTeamFolderMirror struct {
 	*cmd.SimpleCommandlet
 
 	optSrcTeamAlias   string
@@ -43,54 +43,54 @@ type CmdTeamTeamFolderMirror struct {
 	dstMgmtApi     *dbx_api.DbxContext
 }
 
-func (CmdTeamTeamFolderMirror) Name() string {
+func (CmdTeamFolderMirror) Name() string {
 	return "mirror"
 }
 
-func (CmdTeamTeamFolderMirror) Desc() string {
-	return "cmd.team.teamfolder.mirror.desc"
+func (CmdTeamFolderMirror) Desc() string {
+	return "cmd.teamfolder.mirror.desc"
 }
 
-func (CmdTeamTeamFolderMirror) Usage() func(usage cmd.CommandUsage) {
+func (CmdTeamFolderMirror) Usage() func(usage cmd.CommandUsage) {
 	return nil
 }
 
-func (z *CmdTeamTeamFolderMirror) FlagConfig(f *flag.FlagSet) {
+func (z *CmdTeamFolderMirror) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descFromAccount := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.src_account").T()
+	descFromAccount := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.src_account").T()
 	f.StringVar(&z.optSrcTeamAlias, "src-account", "mirror-src", descFromAccount)
 
-	descToAccount := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.dst_account").T()
+	descToAccount := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.dst_account").T()
 	f.StringVar(&z.optDstTeamAlias, "dest-account", "mirror-dst", descToAccount)
 
-	descVerify := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.verify").T()
+	descVerify := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.verify").T()
 	f.BoolVar(&z.optVerify, "verify", false, descVerify)
 
-	descAll := z.ExecContext.Msg("cmd.team.teamfolder.mirror.flag.all").T()
+	descAll := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.all").T()
 	f.BoolVar(&z.optAllTeamFolders, "all", false, descAll)
 }
 
-func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
+func (z *CmdTeamFolderMirror) Exec(args []string) {
 	if z.optSrcTeamAlias == "" ||
 		z.optDstTeamAlias == "" {
 
-		z.ExecContext.Msg("cmd.team.teamfolder.mirror.err.not_enough_params").TellError()
+		z.ExecContext.Msg("cmd.teamfolder.mirror.err.not_enough_params").TellError()
 		return
 	}
 	if z.optSrcTeamAlias == z.optDstTeamAlias {
-		z.ExecContext.Msg("cmd.team.teamfolder.mirror.err.same_team").TellError()
+		z.ExecContext.Msg("cmd.teamfolder.mirror.err.same_team").TellError()
 		return
 	}
 	if len(args) < 1 && !z.optAllTeamFolders {
-		z.ExecContext.Msg("cmd.team.teamfolder.mirror.err.not_enough_arguments").TellError()
+		z.ExecContext.Msg("cmd.teamfolder.mirror.err.not_enough_arguments").TellError()
 		return
 	}
 	var err error
 
 	// Ask for SRC account authentication
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.prompt.ask_src_file_account_auth").WithData(struct {
+	z.ExecContext.Msg("cmd.teamfolder.mirror.prompt.ask_src_file_account_auth").WithData(struct {
 		Alias string
 	}{
 		Alias: z.optSrcTeamAlias,
@@ -102,7 +102,7 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	}
 
 	// Ask for SRC account authentication
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.prompt.ask_src_mgmt_account_auth").WithData(struct {
+	z.ExecContext.Msg("cmd.teamfolder.mirror.prompt.ask_src_mgmt_account_auth").WithData(struct {
 		Alias string
 	}{
 		Alias: z.optSrcTeamAlias,
@@ -113,7 +113,7 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	}
 
 	// Ask for DST account authentication
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.prompt.ask_dst_file_account_auth").WithData(struct {
+	z.ExecContext.Msg("cmd.teamfolder.mirror.prompt.ask_dst_file_account_auth").WithData(struct {
 		Alias string
 	}{
 		Alias: z.optDstTeamAlias,
@@ -125,7 +125,7 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	}
 
 	// Ask for DST account authentication
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.prompt.ask_dst_mgmt_account_auth").WithData(struct {
+	z.ExecContext.Msg("cmd.teamfolder.mirror.prompt.ask_dst_mgmt_account_auth").WithData(struct {
 		Alias string
 	}{
 		Alias: z.optDstTeamAlias,
@@ -141,7 +141,7 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	if err != nil {
 		return
 	}
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.identified_from_team_admin").WithData(struct {
+	z.ExecContext.Msg("cmd.teamfolder.mirror.progress.identified_from_team_admin").WithData(struct {
 		Alias        string
 		TeamMemberId string
 		Email        string
@@ -157,7 +157,7 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	if err != nil {
 		return
 	}
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.identified_to_team_admin").WithData(struct {
+	z.ExecContext.Msg("cmd.teamfolder.mirror.progress.identified_to_team_admin").WithData(struct {
 		Alias        string
 		TeamMemberId string
 		Email        string
@@ -169,7 +169,7 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	z.ExecContext.Log().Debug("to team admin", zap.String("teamMemberId", z.dstTeamAdminId), zap.String("email", dstAdminEmail))
 
 	// Create temporary group for mirroring (SRC)
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.create_tmp_group").WithData(struct {
+	z.ExecContext.Msg("cmd.teamfolder.mirror.progress.create_tmp_group").WithData(struct {
 		Alias string
 	}{
 		Alias: z.optSrcTeamAlias,
@@ -183,7 +183,7 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	defer z.removeTempGroup(z.srcMgmtApi, z.srcTempGroup.GroupId)
 
 	// Adding admin user into temporary group (SRC)
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.add_admin_to_tmp_group").WithData(struct {
+	z.ExecContext.Msg("cmd.teamfolder.mirror.progress.add_admin_to_tmp_group").WithData(struct {
 		Email string
 	}{
 		Email: srcAdminEmail,
@@ -195,7 +195,7 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	}
 
 	// Create temporary group for mirroring (DST)
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.create_tmp_group").WithData(struct {
+	z.ExecContext.Msg("cmd.teamfolder.mirror.progress.create_tmp_group").WithData(struct {
 		Alias string
 	}{
 		Alias: z.optDstTeamAlias,
@@ -209,7 +209,7 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	defer z.removeTempGroup(z.dstMgmtApi, z.dstTempGroup.GroupId)
 
 	// Adding admin user into temporary group (DST)
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.add_admin_to_tmp_group").WithData(struct {
+	z.ExecContext.Msg("cmd.teamfolder.mirror.progress.add_admin_to_tmp_group").WithData(struct {
 		Email string
 	}{
 		Email: dstAdminEmail,
@@ -237,20 +237,20 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	}
 }
 
-func (z *CmdTeamTeamFolderMirror) removeTempGroup(api *dbx_api.DbxContext, groupId string) bool {
+func (z *CmdTeamFolderMirror) removeTempGroup(api *dbx_api.DbxContext, groupId string) bool {
 	remove := dbx_group.Remove{
 		OnError: func(err error) bool {
 			z.Log().Error("unable to clean up temporary group", zap.String("group_id", groupId), zap.Error(err))
 			return true
 		},
 		OnSuccess: func() {
-			z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.tmp_group_removed")
+			z.ExecContext.Msg("cmd.teamfolder.mirror.progress.tmp_group_removed")
 		},
 	}
 	return remove.Remove(api, groupId)
 }
 
-func (z *CmdTeamTeamFolderMirror) createTempGroup(api *dbx_api.DbxContext, alias string) (createdGroup *dbx_group.Group, err error) {
+func (z *CmdTeamFolderMirror) createTempGroup(api *dbx_api.DbxContext, alias string) (createdGroup *dbx_group.Group, err error) {
 	groupName := fmt.Sprintf("%s-teamfolder-mirror-%x", app.AppName, time.Now().Unix())
 	z.Log().Debug("temporary group name", zap.String("groupName", groupName), zap.String("alias", alias))
 
@@ -262,7 +262,7 @@ func (z *CmdTeamTeamFolderMirror) createTempGroup(api *dbx_api.DbxContext, alias
 		OnSuccess: func(group dbx_group.Group) {
 			z.Log().Debug("group created", zap.String("group_id", group.GroupId))
 			createdGroup = &group
-			z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.tmp_group_created").WithData(struct {
+			z.ExecContext.Msg("cmd.teamfolder.mirror.progress.tmp_group_created").WithData(struct {
 				Name  string
 				Alias string
 			}{
@@ -275,7 +275,7 @@ func (z *CmdTeamTeamFolderMirror) createTempGroup(api *dbx_api.DbxContext, alias
 	return
 }
 
-func (z *CmdTeamTeamFolderMirror) addAdminIntoTempGroup(api *dbx_api.DbxContext, groupId, adminId, alias string) error {
+func (z *CmdTeamFolderMirror) addAdminIntoTempGroup(api *dbx_api.DbxContext, groupId, adminId, alias string) error {
 	log := z.Log().With(zap.String("group_id", groupId), zap.String("admin_id", adminId), zap.String("alias", alias))
 	log.Debug("adding admin")
 	add := group_members.Add{
@@ -290,11 +290,11 @@ func (z *CmdTeamTeamFolderMirror) addAdminIntoTempGroup(api *dbx_api.DbxContext,
 	return add.AddMembers(api, groupId, []string{adminId})
 }
 
-func (z *CmdTeamTeamFolderMirror) mirrorTeamFolder(name string) {
+func (z *CmdTeamFolderMirror) mirrorTeamFolder(name string) {
 	var err error
 	srcTeamFolder, e := z.srcTeamFolders[strings.ToLower(name)]
 	if !e {
-		z.ExecContext.Msg("cmd.team.teamfolder.mirror.err.team_folder_not_found").WithData(struct {
+		z.ExecContext.Msg("cmd.teamfolder.mirror.err.team_folder_not_found").WithData(struct {
 			Name string
 		}{
 			Name: name,
@@ -303,7 +303,7 @@ func (z *CmdTeamTeamFolderMirror) mirrorTeamFolder(name string) {
 	}
 
 	if srcTeamFolder.Status != dbx_teamfolder.StatusActive {
-		z.ExecContext.Msg("cmd.team.teamfolder.mirror.prompt.skipped_archived_folder").WithData(struct {
+		z.ExecContext.Msg("cmd.teamfolder.mirror.prompt.skipped_archived_folder").WithData(struct {
 			Name string
 		}{
 			Name: srcTeamFolder.Name,
@@ -311,7 +311,7 @@ func (z *CmdTeamTeamFolderMirror) mirrorTeamFolder(name string) {
 		return
 	}
 
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.mirroring_team_folder").WithData(struct {
+	z.ExecContext.Msg("cmd.teamfolder.mirror.progress.mirroring_team_folder").WithData(struct {
 		Name string
 	}{
 		Name: name,
@@ -405,7 +405,7 @@ func (z *CmdTeamTeamFolderMirror) mirrorTeamFolder(name string) {
 	}
 }
 
-func (z *CmdTeamTeamFolderMirror) identifyAdmin(c *dbx_api.DbxContext) (teamMemberId string, email string, err error) {
+func (z *CmdTeamFolderMirror) identifyAdmin(c *dbx_api.DbxContext) (teamMemberId string, email string, err error) {
 	admin, err := dbx_profile.AuthenticatedAdmin(c)
 	if err != nil {
 		return "", "", err
@@ -413,7 +413,7 @@ func (z *CmdTeamTeamFolderMirror) identifyAdmin(c *dbx_api.DbxContext) (teamMemb
 	return admin.TeamMemberId, admin.Email, nil
 }
 
-func (z *CmdTeamTeamFolderMirror) createTeamFolder(name string, dstApi *dbx_api.DbxContext) (tf *dbx_teamfolder.TeamFolder, err error) {
+func (z *CmdTeamFolderMirror) createTeamFolder(name string, dstApi *dbx_api.DbxContext) (tf *dbx_teamfolder.TeamFolder, err error) {
 	cr := dbx_teamfolder.Create{
 		OnError: z.DefaultErrorHandler,
 		OnSuccess: func(teamFolder dbx_teamfolder.TeamFolder) {
@@ -449,7 +449,7 @@ func (z *CmdTeamTeamFolderMirror) createTeamFolder(name string, dstApi *dbx_api.
 		}
 	}
 
-	z.ExecContext.Msg("cmd.team.teamfolder.mirror.progress.team_folder_created_on_to_team").WithData(struct {
+	z.ExecContext.Msg("cmd.teamfolder.mirror.progress.team_folder_created_on_to_team").WithData(struct {
 		Name  string
 		Alias string
 	}{
@@ -461,7 +461,7 @@ func (z *CmdTeamTeamFolderMirror) createTeamFolder(name string, dstApi *dbx_api.
 	return
 }
 
-func (z *CmdTeamTeamFolderMirror) listTeamFolders(c *dbx_api.DbxContext) map[string]*dbx_teamfolder.TeamFolder {
+func (z *CmdTeamFolderMirror) listTeamFolders(c *dbx_api.DbxContext) map[string]*dbx_teamfolder.TeamFolder {
 	folders := make(map[string]*dbx_teamfolder.TeamFolder)
 
 	l := dbx_teamfolder.ListTeamFolder{

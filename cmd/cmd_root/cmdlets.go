@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/cmd/cmd_sharedfolder"
 	"github.com/watermint/toolbox/cmd/cmd_sharedlink"
 	"github.com/watermint/toolbox/cmd/cmd_team"
+	"github.com/watermint/toolbox/cmd/cmd_teamfolder"
 	"os"
 )
 
@@ -28,6 +29,7 @@ func NewCommands() Commands {
 				cmd_group.NewCmdGroup(),
 				cmd_sharedfolder.NewSharedFolder(),
 				cmd_sharedlink.NewCmdSharedLink(),
+				cmd_teamfolder.NewCmdTeamFolder(),
 			},
 		},
 	}
