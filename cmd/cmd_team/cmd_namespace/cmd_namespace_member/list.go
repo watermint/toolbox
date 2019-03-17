@@ -17,7 +17,7 @@ import (
 type CmdTeamNamespaceMemberList struct {
 	*cmd.SimpleCommandlet
 
-	apiContext     *dbx_api.Context
+	apiContext     *dbx_api.DbxContext
 	report         app_report.Factory
 	groupMembers   map[string][]*dbx_group.GroupMember
 	optExpandGroup bool

@@ -11,7 +11,7 @@ type ListTeamFolder struct {
 	OnEntry func(teamFolder *TeamFolder) bool
 }
 
-func (z *ListTeamFolder) List(c *dbx_api.Context) bool {
+func (z *ListTeamFolder) List(c *dbx_api.DbxContext) bool {
 	list := dbx_rpc.RpcList{
 		EndpointList:         "team/team_folder/list",
 		EndpointListContinue: "team/team_folder/list/continue",

@@ -111,10 +111,24 @@ func TestSharedLink(t *testing.T) {
 		f1.Visibility != "public" {
 		t.Error("invalid")
 	}
+	g1, ok := f1.File()
+	if !ok || g1.Tag != "file" {
+		t.Error("invalid")
+	}
+	if g1.SharedLinkId() != f1.SharedLinkId() {
+		t.Error("invalid")
+	}
 	if f2.SharedLinkId() != "id:xxxxxxxxxxxxxxxxxxxxxx" ||
 		f2.Id != "id:xxxxxxxxxxxxxxxxxxxxxx" ||
 		f2.LinkVisibility() != "public" ||
 		f2.Visibility != "public" {
+		t.Error("invalid")
+	}
+	g2, ok := f2.Folder()
+	if !ok || g2.Tag != "folder" {
+		t.Error("invalid")
+	}
+	if g2.SharedLinkId() != f2.SharedLinkId() {
 		t.Error("invalid")
 	}
 }

@@ -50,7 +50,7 @@ func ParseProfile(p gjson.Result) (profile *Profile, err error) {
 	return profile, nil
 }
 
-func AuthenticatedAdmin(c *dbx_api.Context) (admin *Profile, err error) {
+func AuthenticatedAdmin(c *dbx_api.DbxContext) (admin *Profile, err error) {
 	req := dbx_rpc.RpcRequest{
 		Endpoint: "team/token/get_authenticated_admin",
 	}
@@ -61,7 +61,7 @@ func AuthenticatedAdmin(c *dbx_api.Context) (admin *Profile, err error) {
 	return ParseProfile(gjson.Get(res.Body, "admin_profile"))
 }
 
-func CurrentAccount(c *dbx_api.Context) (account *Profile, err error) {
+func CurrentAccount(c *dbx_api.DbxContext) (account *Profile, err error) {
 	req := dbx_rpc.RpcRequest{
 		Endpoint: "users/get_current_account",
 	}

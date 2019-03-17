@@ -22,7 +22,7 @@ type Metadata struct {
 	OnDelete   func(deleted *Deleted) bool `json:"-"`
 }
 
-func (z *Metadata) Get(c *dbx_api.Context) bool {
+func (z *Metadata) Get(c *dbx_api.DbxContext) bool {
 	ep := EntryParser{
 		Logger:   c.Log(),
 		OnError:  z.OnError,

@@ -19,6 +19,12 @@ func NewCmdFile() cmd.Commandlet {
 			&CmdFileList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
+			&CmdFileCopy{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
+			&CmdFileMove{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
 		},
 	}
 }

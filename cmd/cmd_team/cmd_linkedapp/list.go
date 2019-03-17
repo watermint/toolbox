@@ -15,7 +15,7 @@ import (
 type CmdMemberLinkedAppList struct {
 	*cmd.SimpleCommandlet
 
-	apiContext         *dbx_api.Context
+	apiContext         *dbx_api.DbxContext
 	OptWithMemberEmail bool
 	report             app_report.Factory
 }
@@ -59,7 +59,7 @@ func (z *CmdMemberLinkedAppList) Exec(args []string) {
 	}
 }
 
-func (z *CmdMemberLinkedAppList) plainReport(apiFile *dbx_api.Context) {
+func (z *CmdMemberLinkedAppList) plainReport(apiFile *dbx_api.DbxContext) {
 	l := dbx_team.LinkedAppList{
 		OnError: z.DefaultErrorHandler,
 		OnEntry: func(app *dbx_team.LinkedApp) bool {
@@ -70,7 +70,7 @@ func (z *CmdMemberLinkedAppList) plainReport(apiFile *dbx_api.Context) {
 	l.List(apiFile)
 }
 
-func (z *CmdMemberLinkedAppList) withMemberReport(apiFile *dbx_api.Context) {
+func (z *CmdMemberLinkedAppList) withMemberReport(apiFile *dbx_api.DbxContext) {
 	z.Log().Info("Prepare for expand members")
 	members := make(map[string]*dbx_profile.Member)
 	lm := dbx_member.MembersList{

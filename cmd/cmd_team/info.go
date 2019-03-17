@@ -12,7 +12,7 @@ import (
 type CmdTeamInfo struct {
 	*cmd.SimpleCommandlet
 
-	apiContext *dbx_api.Context
+	apiContext *dbx_api.DbxContext
 	report     app_report.Factory
 }
 

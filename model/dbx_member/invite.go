@@ -42,7 +42,7 @@ type MembersInvite struct {
 	OnFailure func(email string, reason string) bool
 }
 
-func (z *MembersInvite) Invite(c *dbx_api.Context, members []*InviteMember) bool {
+func (z *MembersInvite) Invite(c *dbx_api.DbxContext, members []*InviteMember) bool {
 	chunkSize := 20
 	var batch []*InviteMember
 	for len(members) > 0 {
@@ -61,7 +61,7 @@ func (z *MembersInvite) Invite(c *dbx_api.Context, members []*InviteMember) bool
 	return true
 }
 
-func (z *MembersInvite) handleInvite(c *dbx_api.Context, members []*InviteMember) bool {
+func (z *MembersInvite) handleInvite(c *dbx_api.DbxContext, members []*InviteMember) bool {
 	type NewMembers struct {
 		NewMembers []*InviteMember `json:"new_members"`
 		ForceAsync bool            `json:"force_async"`

@@ -11,13 +11,13 @@ import (
 
 type BetweenAccounts struct {
 	ExecContext       *app.ExecContext
-	LeftApi           *dbx_api.Context
+	LeftApi           *dbx_api.DbxContext
 	LeftAccountAlias  string
 	LeftAsMemberId    string
 	LeftAsAdminId     string
 	LeftPath          string
 	LeftPathRoot      interface{}
-	RightApi          *dbx_api.Context
+	RightApi          *dbx_api.DbxContext
 	RightAccountAlias string
 	RightAsMemberId   string
 	RightAsAdminId    string

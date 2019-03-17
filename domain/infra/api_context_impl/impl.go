@@ -53,6 +53,9 @@ type contextImpl struct {
 }
 
 func (z *contextImpl) ErrorMsg(err error) app_ui.UIMessage {
+	if err == nil {
+		return z.ec.Msg("app.common.api.err.no_error")
+	}
 	summary := api_util.ErrorSummary(err)
 	if summary == "" {
 		return z.ec.Msg("app.common.api.err.general_error").WithData(struct {

@@ -20,7 +20,7 @@ type SharedLink interface {
 type Metadata struct {
 	Raw        json.RawMessage
 	Id         string `path:"id"`
-	Tag        string `path:".tag"`
+	Tag        string `path:"\\.tag"`
 	Url        string `path:"url"`
 	Name       string `path:"name"`
 	Expires    string `path:"expires"`
@@ -81,7 +81,7 @@ func (z *Metadata) LinkVisibility() string {
 type File struct {
 	Raw            json.RawMessage
 	Id             string `path:"id"`
-	Tag            string `path:".tag"`
+	Tag            string `path:"\\.tag"`
 	Url            string `path:"url"`
 	Name           string `path:"name"`
 	ClientModified string `path:"client_modified"`
@@ -132,7 +132,7 @@ func (z *File) Folder() (folder *Folder, ok bool) {
 type Folder struct {
 	Raw        json.RawMessage
 	Id         string `path:"id"`
-	Tag        string `path:".tag"`
+	Tag        string `path:"\\.tag"`
 	Url        string `path:"url"`
 	Name       string `path:"name"`
 	Expires    string `path:"expires"`

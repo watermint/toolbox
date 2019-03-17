@@ -12,7 +12,7 @@ type Remove struct {
 	OnSuccess func()
 }
 
-func (z *Remove) Remove(c *dbx_api.Context, groupId string) bool {
+func (z *Remove) Remove(c *dbx_api.DbxContext, groupId string) bool {
 	p := struct {
 		Tag     string `json:".tag"`
 		GroupId string `json:"group_id"`

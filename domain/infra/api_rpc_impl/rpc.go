@@ -57,7 +57,7 @@ func (z *RequestImpl) OnFailure(failure func(err error) error) api_rpc.Request {
 	return z
 }
 
-func (z *RequestImpl) DbxApiContext() *dbx_api.Context {
+func (z *RequestImpl) DbxApiContext() *dbx_api.DbxContext {
 	return dbx_api.NewContext(z.ec, "api_rpc_impl", z.token.Token())
 }
 

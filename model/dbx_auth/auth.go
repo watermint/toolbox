@@ -57,7 +57,7 @@ func IsCacheAvailable(ec *app.ExecContext, peerName string) bool {
 }
 
 type Authenticator interface {
-	Auth(tokenType string) (*dbx_api.Context, error)
+	Auth(tokenType string) (*dbx_api.DbxContext, error)
 }
 
 type CachedAuthenticator struct {
@@ -121,7 +121,7 @@ func (z *CachedAuthenticator) updateCache(tokenType, token string) {
 	}
 }
 
-func (z *CachedAuthenticator) Auth(tokenType string) (*dbx_api.Context, error) {
+func (z *CachedAuthenticator) Auth(tokenType string) (*dbx_api.DbxContext, error) {
 	if t, e := z.tokens[tokenType]; e {
 		return dbx_api.NewContext(
 			z.ec,
@@ -189,7 +189,7 @@ func (z *UIAuthenticator) verifyToken(tokenType, token string) error {
 	}
 }
 
-func (z *UIAuthenticator) wrapToken(tokenType, token string, err error) (*dbx_api.Context, error) {
+func (z *UIAuthenticator) wrapToken(tokenType, token string, err error) (*dbx_api.DbxContext, error) {
 	if err != nil {
 		return nil, err
 	}
@@ -206,7 +206,7 @@ func (z *UIAuthenticator) wrapToken(tokenType, token string, err error) (*dbx_ap
 	), nil
 }
 
-func (z *UIAuthenticator) Auth(tokenType string) (*dbx_api.Context, error) {
+func (z *UIAuthenticator) Auth(tokenType string) (*dbx_api.DbxContext, error) {
 	if z.ec.IsTest() {
 		return nil, errors.New("test mode")
 	}

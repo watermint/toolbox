@@ -36,7 +36,7 @@ type GroupMemberList struct {
 	OnEntry func(r *GroupMember) bool
 }
 
-func (z *GroupMemberList) List(c *dbx_api.Context, group *Group) bool {
+func (z *GroupMemberList) List(c *dbx_api.DbxContext, group *Group) bool {
 	type GroupSelector struct {
 		Tag     string `json:".tag"`
 		GroupId string `json:"group_id"`

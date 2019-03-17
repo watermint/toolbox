@@ -37,7 +37,7 @@ type ListNamespaceFile struct {
 	OnNamespace            func(namespace *Namespace) bool
 }
 
-func (z *ListNamespaceFile) List(c *dbx_api.Context) bool {
+func (z *ListNamespaceFile) List(c *dbx_api.DbxContext) bool {
 	onNamespace := func(namespace *Namespace) bool {
 		log := c.Log().With(
 			zap.String("ns", namespace.NamespaceId),

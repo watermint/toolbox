@@ -115,7 +115,7 @@ func (z *NamespaceSizes) OnDelete(deleted *dbx_namespace.NamespaceDeleted) bool 
 	return true
 }
 
-func (z *NamespaceSizes) Load(c *dbx_api.Context) bool {
+func (z *NamespaceSizes) Load(c *dbx_api.DbxContext) bool {
 	if z.OptCachePath != "" && z.isCacheFilesAvailable() {
 		z.ec.Log().Info("Calculating size from cache")
 		return z.LoadFromCache()
@@ -205,7 +205,7 @@ func (z *NamespaceSizes) LoadFromCache() bool {
 	return true
 }
 
-func (z *NamespaceSizes) LoadFromApi(c *dbx_api.Context) bool {
+func (z *NamespaceSizes) LoadFromApi(c *dbx_api.DbxContext) bool {
 	admin, err := dbx_profile.AuthenticatedAdmin(c)
 	if err != nil {
 		return z.OnError(err)

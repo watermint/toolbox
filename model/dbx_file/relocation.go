@@ -21,7 +21,7 @@ type Relocation struct {
 	OnDelete   func(deleted *Deleted) bool `json:"-"`
 }
 
-func (z *Relocation) relocation(c *dbx_api.Context, endpoint string) bool {
+func (z *Relocation) relocation(c *dbx_api.DbxContext, endpoint string) bool {
 	ep := EntryParser{
 		Logger:   c.Log().With(zap.String("endpoint", endpoint)),
 		OnError:  z.OnError,
@@ -46,11 +46,11 @@ func (z *Relocation) relocation(c *dbx_api.Context, endpoint string) bool {
 	return ep.Parse(m)
 }
 
-func (z *Relocation) Copy(c *dbx_api.Context) bool {
+func (z *Relocation) Copy(c *dbx_api.DbxContext) bool {
 	return z.relocation(c, "files/copy_v2")
 }
 
-func (z *Relocation) Move(c *dbx_api.Context) bool {
+func (z *Relocation) Move(c *dbx_api.DbxContext) bool {
 	return z.relocation(c, "files/move_v2")
 }
 
@@ -60,14 +60,14 @@ type MassRelocation struct {
 	OnError    func(err error) bool
 }
 
-func (z *MassRelocation) Copy(c *dbx_api.Context, src, dest string) bool {
+func (z *MassRelocation) Copy(c *dbx_api.DbxContext, src, dest string) bool {
 	return z.relocation(c, src, dest, "files/copy_v2")
 }
 
-func (z *MassRelocation) Move(c *dbx_api.Context, src, dest string) bool {
+func (z *MassRelocation) Move(c *dbx_api.DbxContext, src, dest string) bool {
 	return z.relocation(c, src, dest, "files/move_v2")
 }
 
-func (z *MassRelocation) relocation(c *dbx_api.Context, src, dest, endpoint string) bool {
+func (z *MassRelocation) relocation(c *dbx_api.DbxContext, src, dest, endpoint string) bool {
 	panic("implement me!")
 }

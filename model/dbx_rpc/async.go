@@ -17,11 +17,11 @@ type AsyncStatus struct {
 	OnComplete func(complete gjson.Result) bool
 }
 
-func (z *AsyncStatus) Poll(c *dbx_api.Context, res *RpcResponse) bool {
+func (z *AsyncStatus) Poll(c *dbx_api.DbxContext, res *RpcResponse) bool {
 	return z.handlePoll(c, res, "")
 }
 
-func (z *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobId string) bool {
+func (z *AsyncStatus) handlePoll(c *dbx_api.DbxContext, res *RpcResponse, asyncJobId string) bool {
 	resJson := gjson.Parse(res.Body)
 
 	log := c.Log().With(zap.String("async_job_id", asyncJobId))
@@ -91,7 +91,7 @@ func (z *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobI
 	return false
 }
 
-func (z *AsyncStatus) handleAsyncJobId(c *dbx_api.Context, res *RpcResponse, asyncJobId string) bool {
+func (z *AsyncStatus) handleAsyncJobId(c *dbx_api.DbxContext, res *RpcResponse, asyncJobId string) bool {
 	if asyncJobId == "" {
 		asyncJobIdTag := gjson.Get(res.Body, "async_job_id")
 

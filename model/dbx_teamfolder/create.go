@@ -13,7 +13,7 @@ type Create struct {
 	OnSuccess   func(teamFolder TeamFolder)
 }
 
-func (z *Create) Create(c *dbx_api.Context, name string) error {
+func (z *Create) Create(c *dbx_api.DbxContext, name string) error {
 	p := struct {
 		Name        string `json:"name"`
 		SyncSetting string `json:"sync_setting,omitempty"`

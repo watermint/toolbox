@@ -84,7 +84,7 @@ func (z *CmdTeamDeviceUnlink) Exec(args []string) {
 	}
 }
 
-func (z *CmdTeamDeviceUnlink) unlink(c *dbx_api.Context, records io.Reader) {
+func (z *CmdTeamDeviceUnlink) unlink(c *dbx_api.DbxContext, records io.Reader) {
 	type UnlinkRecord struct {
 		Tag          string `json:"tag"`
 		TeamMemberId string `json:"team_member_id"`

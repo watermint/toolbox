@@ -77,8 +77,11 @@ func (z *CmdSharedLinkRemove) removePathAt(ctx api_context.Context, path mo_path
 		return
 	}
 	for _, link := range links {
+		log := z.ExecContext.Log().With(zap.String("linkPath", link.LinkPathLower()))
+		log.Debug("Removing")
 		err := svc.Delete(link)
 		if err != nil {
+			log.Debug("Failed", zap.Error(err))
 			ctx.ErrorMsg(err).TellError()
 			continue
 		}

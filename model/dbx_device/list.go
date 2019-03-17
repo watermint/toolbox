@@ -20,7 +20,7 @@ type DeviceList struct {
 	OnMobile  func(mobile *flat_device.MobileClient) bool   `json:"-"`
 }
 
-func (z *DeviceList) List(c *dbx_api.Context) bool {
+func (z *DeviceList) List(c *dbx_api.DbxContext) bool {
 	list := dbx_rpc.RpcList{
 		EndpointList:         "team/devices/list_members_devices",
 		EndpointListContinue: "team/devices/list_members_devices",

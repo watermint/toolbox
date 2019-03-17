@@ -9,7 +9,7 @@ type RevokeSession struct {
 	OnError func(err error) bool `json:"-"`
 }
 
-func (z *RevokeSession) WebSession(c *dbx_api.Context, teamMemberId, sessionId string) bool {
+func (z *RevokeSession) WebSession(c *dbx_api.DbxContext, teamMemberId, sessionId string) bool {
 	p := struct {
 		Tag          string `json:".tag"`
 		SessionId    string `json:"session_id"`
@@ -30,7 +30,7 @@ func (z *RevokeSession) WebSession(c *dbx_api.Context, teamMemberId, sessionId s
 	return true
 }
 
-func (z *RevokeSession) DesktopClient(c *dbx_api.Context, teamMemberId, sessionId string, deleteOnUnlink bool) bool {
+func (z *RevokeSession) DesktopClient(c *dbx_api.DbxContext, teamMemberId, sessionId string, deleteOnUnlink bool) bool {
 	p := struct {
 		Tag            string `json:".tag"`
 		SessionId      string `json:"session_id"`
@@ -53,7 +53,7 @@ func (z *RevokeSession) DesktopClient(c *dbx_api.Context, teamMemberId, sessionI
 	return true
 }
 
-func (z *RevokeSession) MobileClient(c *dbx_api.Context, teamMemberId, sessionId string) bool {
+func (z *RevokeSession) MobileClient(c *dbx_api.DbxContext, teamMemberId, sessionId string) bool {
 	p := struct {
 		Tag          string `json:".tag"`
 		SessionId    string `json:"session_id"`

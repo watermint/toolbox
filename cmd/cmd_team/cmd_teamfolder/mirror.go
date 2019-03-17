@@ -33,14 +33,14 @@ type CmdTeamTeamFolderMirror struct {
 	srcTeamFolders map[string]*dbx_teamfolder.TeamFolder
 	srcTeamAdminId string
 	srcTempGroup   *dbx_group.Group
-	srcFileApi     *dbx_api.Context
-	srcMgmtApi     *dbx_api.Context
+	srcFileApi     *dbx_api.DbxContext
+	srcMgmtApi     *dbx_api.DbxContext
 
 	dstTeamFolders map[string]*dbx_teamfolder.TeamFolder
 	dstTeamAdminId string
 	dstTempGroup   *dbx_group.Group
-	dstFileApi     *dbx_api.Context
-	dstMgmtApi     *dbx_api.Context
+	dstFileApi     *dbx_api.DbxContext
+	dstMgmtApi     *dbx_api.DbxContext
 }
 
 func (CmdTeamTeamFolderMirror) Name() string {
@@ -237,7 +237,7 @@ func (z *CmdTeamTeamFolderMirror) Exec(args []string) {
 	}
 }
 
-func (z *CmdTeamTeamFolderMirror) removeTempGroup(api *dbx_api.Context, groupId string) bool {
+func (z *CmdTeamTeamFolderMirror) removeTempGroup(api *dbx_api.DbxContext, groupId string) bool {
 	remove := dbx_group.Remove{
 		OnError: func(err error) bool {
 			z.Log().Error("unable to clean up temporary group", zap.String("group_id", groupId), zap.Error(err))
@@ -250,7 +250,7 @@ func (z *CmdTeamTeamFolderMirror) removeTempGroup(api *dbx_api.Context, groupId 
 	return remove.Remove(api, groupId)
 }
 
-func (z *CmdTeamTeamFolderMirror) createTempGroup(api *dbx_api.Context, alias string) (createdGroup *dbx_group.Group, err error) {
+func (z *CmdTeamTeamFolderMirror) createTempGroup(api *dbx_api.DbxContext, alias string) (createdGroup *dbx_group.Group, err error) {
 	groupName := fmt.Sprintf("%s-teamfolder-mirror-%x", app.AppName, time.Now().Unix())
 	z.Log().Debug("temporary group name", zap.String("groupName", groupName), zap.String("alias", alias))
 
@@ -275,7 +275,7 @@ func (z *CmdTeamTeamFolderMirror) createTempGroup(api *dbx_api.Context, alias st
 	return
 }
 
-func (z *CmdTeamTeamFolderMirror) addAdminIntoTempGroup(api *dbx_api.Context, groupId, adminId, alias string) error {
+func (z *CmdTeamTeamFolderMirror) addAdminIntoTempGroup(api *dbx_api.DbxContext, groupId, adminId, alias string) error {
 	log := z.Log().With(zap.String("group_id", groupId), zap.String("admin_id", adminId), zap.String("alias", alias))
 	log.Debug("adding admin")
 	add := group_members.Add{
@@ -405,7 +405,7 @@ func (z *CmdTeamTeamFolderMirror) mirrorTeamFolder(name string) {
 	}
 }
 
-func (z *CmdTeamTeamFolderMirror) identifyAdmin(c *dbx_api.Context) (teamMemberId string, email string, err error) {
+func (z *CmdTeamTeamFolderMirror) identifyAdmin(c *dbx_api.DbxContext) (teamMemberId string, email string, err error) {
 	admin, err := dbx_profile.AuthenticatedAdmin(c)
 	if err != nil {
 		return "", "", err
@@ -413,7 +413,7 @@ func (z *CmdTeamTeamFolderMirror) identifyAdmin(c *dbx_api.Context) (teamMemberI
 	return admin.TeamMemberId, admin.Email, nil
 }
 
-func (z *CmdTeamTeamFolderMirror) createTeamFolder(name string, dstApi *dbx_api.Context) (tf *dbx_teamfolder.TeamFolder, err error) {
+func (z *CmdTeamTeamFolderMirror) createTeamFolder(name string, dstApi *dbx_api.DbxContext) (tf *dbx_teamfolder.TeamFolder, err error) {
 	cr := dbx_teamfolder.Create{
 		OnError: z.DefaultErrorHandler,
 		OnSuccess: func(teamFolder dbx_teamfolder.TeamFolder) {
@@ -461,7 +461,7 @@ func (z *CmdTeamTeamFolderMirror) createTeamFolder(name string, dstApi *dbx_api.
 	return
 }
 
-func (z *CmdTeamTeamFolderMirror) listTeamFolders(c *dbx_api.Context) map[string]*dbx_teamfolder.TeamFolder {
+func (z *CmdTeamTeamFolderMirror) listTeamFolders(c *dbx_api.DbxContext) map[string]*dbx_teamfolder.TeamFolder {
 	folders := make(map[string]*dbx_teamfolder.TeamFolder)
 
 	l := dbx_teamfolder.ListTeamFolder{

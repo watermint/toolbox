@@ -5,7 +5,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func GroupMembers(ctx *dbx_api.Context, log *zap.Logger, handler func(err error) bool) map[string][]*GroupMember {
+func GroupMembers(ctx *dbx_api.DbxContext, log *zap.Logger, handler func(err error) bool) map[string][]*GroupMember {
 	groups := make(map[string][]*GroupMember)
 
 	log.Debug("Expand group")

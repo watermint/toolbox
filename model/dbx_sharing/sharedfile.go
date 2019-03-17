@@ -15,7 +15,7 @@ type SharedFileMembers struct {
 	OnInvitee  func(invitee *MembershipInvitee) bool
 }
 
-func (z *SharedFileMembers) List(c *dbx_api.Context, file string) bool {
+func (z *SharedFileMembers) List(c *dbx_api.DbxContext, file string) bool {
 	type Arg struct {
 		File string `json:"file"`
 	}

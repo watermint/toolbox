@@ -12,13 +12,13 @@ import (
 
 type Mirror struct {
 	ExecContext     *app.ExecContext
-	SrcApi          *dbx_api.Context
+	SrcApi          *dbx_api.DbxContext
 	SrcAccountAlias string
 	SrcAsMemberId   string
 	SrcPath         string
 	SrcNamespaceId  string
 	SrcPathRoot     interface{}
-	DstApi          *dbx_api.Context
+	DstApi          *dbx_api.DbxContext
 	DstAccountAlias string
 	DstAsMemberId   string
 	DstPath         string
