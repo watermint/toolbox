@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/cmd/cmd_auth"
 	"github.com/watermint/toolbox/cmd/cmd_dev"
 	"github.com/watermint/toolbox/cmd/cmd_file"
 	"github.com/watermint/toolbox/cmd/cmd_group"
@@ -33,6 +34,7 @@ func NewCommands() Commands {
 				cmd_sharedlink.NewCmdSharedLink(),
 				cmd_teamfolder.NewCmdTeamFolder(),
 				cmd_dev.NewCmdDev(),
+				cmd_auth.NewCmdAuth(),
 				&cmd_license.CmdLicense{
 					SimpleCommandlet: &cmd.SimpleCommandlet{},
 				},
