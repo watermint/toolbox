@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_list"
 	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/model/mo_profile"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder"
 )
 
@@ -13,6 +14,7 @@ type SharedFolder interface {
 	List() (sf []*mo_sharedfolder.SharedFolder, err error)
 	Leave(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOption) (err error)
 	Resolve(sharedFolderId string) (sf *mo_sharedfolder.SharedFolder, err error)
+	Transfer(sf *mo_sharedfolder.SharedFolder, to TransferTo) (err error)
 }
 
 func New(ctx api_context.Context) SharedFolder {
@@ -21,10 +23,28 @@ func New(ctx api_context.Context) SharedFolder {
 	}
 }
 
+type transferTo struct {
+	dropboxId string
+}
+type TransferTo func(to *transferTo) *transferTo
+
+func ToProfile(p *mo_profile.Profile) TransferTo {
+	return func(to *transferTo) *transferTo {
+		to.dropboxId = p.AccountId
+		return to
+	}
+}
+func ToTeamMemberId(teamMemberId string) TransferTo {
+	return func(to *transferTo) *transferTo {
+		to.dropboxId = teamMemberId
+		return to
+	}
+}
+
 type createOptions struct {
 }
 
-type CreateOption func(opt *createOptions) createOptions
+type CreateOption func(opt *createOptions) *createOptions
 
 type deleteOptions struct {
 	leaveACopy bool
@@ -41,6 +61,25 @@ func LeaveACopy() DeleteOption {
 type sharedFolderImpl struct {
 	ctx   api_context.Context
 	limit int
+}
+
+func (z *sharedFolderImpl) Transfer(sf *mo_sharedfolder.SharedFolder, to TransferTo) (err error) {
+	too := &transferTo{}
+	to(too)
+
+	p := struct {
+		SharedFolderId string `json:"shared_folder_id"`
+		ToDropboxId    string `json:"to_dropbox_id"`
+	}{
+		SharedFolderId: sf.SharedFolderId,
+		ToDropboxId:    too.dropboxId,
+	}
+
+	_, err = z.ctx.Request("sharing/transfer_folder").Param(p).Call()
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (z *sharedFolderImpl) Resolve(sharedFolderId string) (sf *mo_sharedfolder.SharedFolder, err error) {

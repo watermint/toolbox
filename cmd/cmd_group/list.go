@@ -4,8 +4,9 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_group"
 )
 
 type CmdGroupList struct {
@@ -31,21 +32,21 @@ func (z *CmdGroupList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdGroupList) Exec(args []string) {
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiInfo, err := au.Auth(dbx_auth.DropboxTokenBusinessInfo)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessInfo)
 	if err != nil {
 		return
 	}
 
-	z.report.Init(z.ExecContext)
-	defer z.report.Close()
-
-	gl := dbx_group.GroupList{
-		OnError: z.DefaultErrorHandler,
-		OnEntry: func(group *dbx_group.Group) bool {
-			z.report.Report(group)
-			return true
-		},
+	svc := sv_group.New(ctx)
+	groups, err := svc.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
 	}
-	gl.List(apiInfo)
+
+	z.report.Init(z.ExecContext)
+	for _, f := range groups {
+		z.report.Report(f)
+	}
+	z.report.Close()
 }
