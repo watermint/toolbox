@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
-	"github.com/watermint/toolbox/domain/service/sv_relocation"
+	"github.com/watermint/toolbox/domain/service/sv_file_relocation"
 	"go.uber.org/zap"
 )
 
@@ -31,7 +31,7 @@ type relocationImpl struct {
 
 func (z *relocationImpl) Copy(from, to mo_path.Path) (msg app_ui.UIMessage, err error) {
 	return z.relocation(from, to, func(from, to mo_path.Path) (msg app_ui.UIMessage, err error) {
-		svc := sv_relocation.New(z.ctx)
+		svc := sv_file_relocation.New(z.ctx)
 		_, err = svc.Copy(from, to)
 		return z.ctx.ErrorMsg(err), err
 	})
@@ -39,7 +39,7 @@ func (z *relocationImpl) Copy(from, to mo_path.Path) (msg app_ui.UIMessage, err 
 
 func (z *relocationImpl) Move(from, to mo_path.Path) (msg app_ui.UIMessage, err error) {
 	return z.relocation(from, to, func(from, to mo_path.Path) (msg app_ui.UIMessage, err error) {
-		svc := sv_relocation.New(z.ctx)
+		svc := sv_file_relocation.New(z.ctx)
 		_, err = svc.Move(from, to)
 		return z.ctx.ErrorMsg(err), err
 	})

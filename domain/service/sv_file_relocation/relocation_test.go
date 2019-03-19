@@ -1,4 +1,4 @@
-package sv_relocation
+package sv_file_relocation
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package sv_relocation
+package sv_file_relocation
 
 import (
 	"github.com/watermint/toolbox/domain/infra/api_context"

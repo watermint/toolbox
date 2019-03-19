@@ -1,4 +1,4 @@
-package sv_file
+package sv_file_copyref
 
 import (
 	"github.com/watermint/toolbox/domain/model/mo_file"

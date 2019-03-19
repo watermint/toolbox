@@ -38,6 +38,7 @@ Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 | `file metadata`                 | Report metadata for a file or folder                         |
 | `file mirror`                   | Mirror files/folders into another account                    |
 | `file move`                     | Copy files                                                   |
+| `file save`                     | Save the data from a specified URL into a file               |
 | `group list`                    | List groups                                                  |
 | `group member list`             | List group members                                           |
 | `group remove`                  | Remove group                                                 |
