@@ -27,6 +27,7 @@ type Commandlet interface {
 	Log() *zap.Logger
 	DefaultErrorHandler(err error) bool
 	IsGroup() bool
+	IsHidden() bool
 }
 
 type CommandletBase struct {
@@ -67,6 +68,10 @@ type SimpleCommandlet struct {
 	parent      Commandlet
 	logger      *zap.Logger
 	ExecContext *app.ExecContext
+}
+
+func (z *SimpleCommandlet) IsHidden() bool {
+	return false
 }
 
 func (z *SimpleCommandlet) IsGroup() bool {
@@ -120,6 +125,11 @@ type CommandletGroup struct {
 	ExecContext *app.ExecContext
 	CommandName string
 	CommandDesc string
+	Hidden      bool
+}
+
+func (z *CommandletGroup) IsHidden() bool {
+	return z.Hidden
 }
 
 func (z *CommandletGroup) IsGroup() bool {

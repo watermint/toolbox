@@ -2,6 +2,7 @@ package cmd_file
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_assert"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/model/mo_path"
@@ -29,11 +30,11 @@ func (z *CmdFileCopy) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdFileCopy) Exec(args []string) {
-	n := len(args)
-	if n < 2 {
-		z.ExecContext.Msg("cmd.file.copy.err.not_enough_arguments").TellError()
+	if msg, err := app_assert.AssertArgs(z.ExecContext, args, app_assert.MinNArgs(2)); err != nil {
+		msg.TellError()
 		return
 	}
+	n := len(args)
 	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenFull)
 	if err != nil {
 		return

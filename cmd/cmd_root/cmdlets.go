@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/cmd/cmd_file"
 	"github.com/watermint/toolbox/cmd/cmd_group"
+	"github.com/watermint/toolbox/cmd/cmd_license"
 	"github.com/watermint/toolbox/cmd/cmd_member"
 	"github.com/watermint/toolbox/cmd/cmd_sharedfolder"
 	"github.com/watermint/toolbox/cmd/cmd_sharedlink"
@@ -30,6 +31,9 @@ func NewCommands() Commands {
 				cmd_sharedfolder.NewSharedFolder(),
 				cmd_sharedlink.NewCmdSharedLink(),
 				cmd_teamfolder.NewCmdTeamFolder(),
+				&cmd_license.CmdLicense{
+					SimpleCommandlet: &cmd.SimpleCommandlet{},
+				},
 			},
 		},
 	}

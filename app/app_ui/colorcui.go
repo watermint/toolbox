@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"runtime"
 )
 
 const (
@@ -27,7 +28,11 @@ const (
 )
 
 func ColorPrint(out io.Writer, t string, color int) {
-	fmt.Fprintf(out, "\x1b[%dm%s\x1b[0m", color, t)
+	if runtime.GOOS == "windows" {
+		fmt.Fprint(out, t)
+	} else {
+		fmt.Fprintf(out, "\x1b[%dm%s\x1b[0m", color, t)
+	}
 }
 
 func NewColorCUI() UI {

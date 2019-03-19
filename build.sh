@@ -30,7 +30,16 @@ echo BUILD: Start building version: $BUILD_VERSION
 
 cd $PROJECT_ROOT
 
-echo --------------------
+echo BUILD: Preparing license information
+for l in $(find vendor -name LICENSE\*); do
+  pkg=$(dirname $l | sed 's/.\*\/vendor\///')
+  pf=$(echo $pkg | sed 's/\//-/g')
+  jq -Rn "{\"$pkg\":[inputs]}" $l > $BUILD_PATH/$pf.lic
+done
+jq -Rn '{"github.com/watermint/toolbox":[inputs]}' LICENSE.md > $BUILD_PATH/github.com-watermint-toolbox.lic
+jq -s add $BUILD_PATH/*.lic > resources/licenses.json
+
+
 echo BUILD: Building tool
 
 if [ -e "resources/toolbox.appkeys" ]; then

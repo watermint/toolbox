@@ -22,6 +22,9 @@ func (z *CmdDoc) Parse(c cmd.Commandlet) {
 }
 
 func (z *CmdDoc) parse(c cmd.Commandlet, line []string) {
+	if c.IsHidden() {
+		return
+	}
 	w := strings.Join(line, " ")
 	switch x := c.(type) {
 	case *cmd.CommandletGroup:

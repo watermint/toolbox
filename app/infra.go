@@ -29,6 +29,7 @@ var (
 
 const (
 	DefaultPeerName = "default"
+	MsgNoError      = "app.common.api.err.no_error"
 )
 
 func Root() *ExecContext {
