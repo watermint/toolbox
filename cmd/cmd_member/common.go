@@ -1,13 +1,13 @@
 package cmd_member
 
 import (
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/model/dbx_member"
 	"github.com/watermint/toolbox/model/dbx_profile"
-	"github.com/watermint/toolbox/report"
 )
 
 type MemberReport struct {
-	Report report.Report
+	Report app_report.Report
 }
 
 func (z *MemberReport) HandleFailure(email string, reason string) bool {

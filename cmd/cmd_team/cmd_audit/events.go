@@ -2,15 +2,15 @@ package cmd_audit
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_activity"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/report"
 )
 
 type CmdTeamAuditEvents struct {
 	*cmd.SimpleCommandlet
-	report       report.Factory
+	report       app_report.Factory
 	optAccountId string
 }
 

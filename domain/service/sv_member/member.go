@@ -3,9 +3,7 @@ package sv_member
 import (
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_list"
-	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_member"
-	"go.uber.org/zap"
 )
 
 type Member interface {
@@ -83,21 +81,12 @@ func (z *memberImpl) Resolve(teamMemberId string) (member *mo_member.Member, err
 			},
 		},
 	}
-	req := z.ctx.Request("team/members/get_info").Param(p)
-	res, err := req.Call()
-	if err != nil {
-		return nil, err
-	}
 	member = &mo_member.Member{}
-	js, err := res.Json()
+	res, err := z.ctx.Request("team/members/get_info").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
-	if !js.IsArray() {
-		return nil, err
-	}
-	a := js.Array()[0]
-	if err := api_parser.ParseModel(member, a); err != nil {
+	if err := res.ModelArrayFirst(member); err != nil {
 		return nil, err
 	}
 	return member, nil
@@ -121,8 +110,6 @@ func (z *memberImpl) List() (members []*mo_member.Member, err error) {
 		OnEntry(func(entry api_list.ListEntry) error {
 			m := &mo_member.Member{}
 			if err := entry.Model(m); err != nil {
-				j, _ := entry.Json()
-				z.ctx.Log().Error("invalid", zap.Error(err), zap.String("entry", j.Raw))
 				return err
 			}
 			members = append(members, m)

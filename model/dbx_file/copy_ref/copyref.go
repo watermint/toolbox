@@ -23,7 +23,7 @@ type CopyRefGet struct {
 	OnEntry    func(ref CopyRef) bool `json:"-"`
 }
 
-func (z *CopyRefGet) Get(c *dbx_api.Context, path string) bool {
+func (z *CopyRefGet) Get(c *dbx_api.DbxContext, path string) bool {
 	p := struct {
 		Path string `json:"path"`
 	}{
@@ -61,7 +61,7 @@ type CopyRefSave struct {
 	OnFile     func(file *dbx_file.File) bool     `json:"-"`
 }
 
-func (z *CopyRefSave) Save(c *dbx_api.Context, ref CopyRef, path string) error {
+func (z *CopyRefSave) Save(c *dbx_api.DbxContext, ref CopyRef, path string) error {
 	p := struct {
 		CopyReference string `json:"copy_reference"`
 		Path          string `json:"path"`

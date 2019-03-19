@@ -12,6 +12,17 @@ import (
 	"github.com/watermint/toolbox/model/dbx_rpc"
 )
 
+func New(ec *app.ExecContext, ctx api_context.Context, endpoint string, asMemberId, asAdminId string, base api_context.Base, token api_auth.Token) api_async.Async {
+	return &asyncImpl{
+		ec:              ec,
+		ctx:             ctx,
+		requestEndpoint: endpoint,
+		asMemberId:      asMemberId,
+		asAdminId:       asAdminId,
+		base:            base,
+	}
+}
+
 type asyncImpl struct {
 	ctx             api_context.Context
 	ec              *app.ExecContext

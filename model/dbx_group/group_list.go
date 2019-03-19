@@ -11,7 +11,7 @@ type GroupList struct {
 	OnEntry func(group *Group) bool
 }
 
-func (a *GroupList) List(c *dbx_api.Context) bool {
+func (a *GroupList) List(c *dbx_api.DbxContext) bool {
 	list := dbx_rpc.RpcList{
 		EndpointList:         "team/groups/list",
 		EndpointListContinue: "team/groups/list/continue",

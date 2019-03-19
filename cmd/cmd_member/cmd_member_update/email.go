@@ -3,21 +3,20 @@ package cmd_member_update
 import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_io"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
-	"github.com/watermint/toolbox/domain/infra/api_context_impl"
 	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 )
 
 type CmdMemberUpdateEmail struct {
 	*cmd.SimpleCommandlet
 	optCsv string
-	report report.Factory
+	report app_report.Factory
 
 	// email address mapping. key is for existing email, value is for new address
 	emailMapping map[string]string
@@ -76,12 +75,10 @@ func (z *CmdMemberUpdateEmail) Exec(args []string) {
 		return
 	}
 
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiMgmt, err := au.Auth(dbx_auth.DropboxTokenBusinessManagement)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessManagement)
 	if err != nil {
 		return
 	}
-	ctx := api_context_impl.New(z.ExecContext, api_auth_impl.NewCompatible(apiMgmt.Token))
 
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
@@ -89,6 +86,7 @@ func (z *CmdMemberUpdateEmail) Exec(args []string) {
 	svc := sv_member.New(ctx)
 	members, err := svc.List()
 	if err != nil {
+		ctx.ErrorMsg(err).TellError()
 		return
 	}
 

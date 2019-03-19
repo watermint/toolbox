@@ -1,5 +1,5 @@
-hash: fe01ae12af4fc025a3c58d3ca4defe5110bff8573c55616e49acd1e9ca30c544
-updated: 2019-03-10T22:25:41.803124+09:00
+hash: ce4614b78e9e6c9d913e99c2f63026bb8b9e68b5fe9e6f94104e672af880dd64
+updated: 2019-03-14T07:25:39.823345+09:00
 imports:
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
@@ -23,6 +23,8 @@ imports:
   subpackages:
   - proxy
   - winhttp
+- name: github.com/tealeg/xlsx
+  version: 8be35264fa75a1bbe954ce51eba04f273e2c59e5
 - name: github.com/tidwall/gjson
   version: eee0b6226f0d1db2675a176fdfaa8419bcad4ca8
 - name: github.com/tidwall/match
@@ -51,7 +53,7 @@ imports:
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: 10058d7d4faa7dd5ef860cbd31af00903076e7b8
+  version: fead79001313d15903fb4605b4a1b781532cd93e
   subpackages:
   - windows
 - name: golang.org/x/text

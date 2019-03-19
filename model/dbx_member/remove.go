@@ -14,11 +14,11 @@ type MemberRemove struct {
 
 // Detach user. Convert user account from Dropbox Business to
 // Dropbox Basic. Call /members/remove with `keep_account=true`
-func (z *MemberRemove) Detach(c *dbx_api.Context, email string) {
+func (z *MemberRemove) Detach(c *dbx_api.DbxContext, email string) {
 	z.Remove(c, email, false, true)
 }
 
-func (z *MemberRemove) Remove(c *dbx_api.Context,
+func (z *MemberRemove) Remove(c *dbx_api.DbxContext,
 	email string,
 	wipeData bool,
 	keepAccount bool,

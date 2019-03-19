@@ -12,7 +12,7 @@ type MembersList struct {
 	OnEntry func(member *dbx_profile.Member) bool
 }
 
-func (z *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
+func (z *MembersList) List(c *dbx_api.DbxContext, includeRemoved bool) bool {
 	type ListParam struct {
 		IncludeRemoved bool `json:"include_removed"`
 	}
@@ -38,7 +38,7 @@ func (z *MembersList) List(c *dbx_api.Context, includeRemoved bool) bool {
 	return list.List(c, lp)
 }
 
-func (z *MembersList) ListAsMap(c *dbx_api.Context, includeRemoved bool) map[string]*dbx_profile.Member {
+func (z *MembersList) ListAsMap(c *dbx_api.DbxContext, includeRemoved bool) map[string]*dbx_profile.Member {
 	members := make(map[string]*dbx_profile.Member)
 	type ListParam struct {
 		IncludeRemoved bool `json:"include_removed"`

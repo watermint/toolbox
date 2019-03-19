@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/app"
+	"go.uber.org/zap"
 	"reflect"
 	"strings"
 )
@@ -28,6 +30,9 @@ func ParseModel(v interface{}, j gjson.Result) error {
 	vv := reflect.ValueOf(v).Elem()
 	vt := vv.Type()
 
+	log := app.Root().Log().With(zap.String("valueType", vt.Name()))
+	debug := app.Root().IsDebug()
+
 	for i := vt.NumField() - 1; i >= 0; i-- {
 		vtf := vt.Field(i)
 		vvf := vv.Field(i)
@@ -51,6 +56,10 @@ func ParseModel(v interface{}, j gjson.Result) error {
 		jv := j.Get(path)
 		if !jv.Exists() {
 			if required {
+				log.Error("Missing required field", zap.String("field", vtf.Name), zap.String("path", p))
+				if debug {
+					log.Debug("Entry JSON", zap.String("Entry", j.Raw))
+				}
 				return errors.New("missing required field")
 			}
 			continue
@@ -59,34 +68,17 @@ func ParseModel(v interface{}, j gjson.Result) error {
 		switch vtf.Type.Kind() {
 		case reflect.String:
 			vvf.SetString(jv.String())
-		case reflect.Int:
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 			vvf.SetInt(jv.Int())
-		case reflect.Int8:
-			vvf.SetInt(jv.Int())
-		case reflect.Int16:
-			vvf.SetInt(jv.Int())
-		case reflect.Int32:
-			vvf.SetInt(jv.Int())
-		case reflect.Int64:
-			vvf.SetInt(jv.Int())
-		case reflect.Uint:
-			vvf.SetUint(jv.Uint())
-		case reflect.Uint8:
-			vvf.SetUint(jv.Uint())
-		case reflect.Uint16:
-			vvf.SetUint(jv.Uint())
-		case reflect.Uint32:
-			vvf.SetUint(jv.Uint())
-		case reflect.Uint64:
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 			vvf.SetUint(jv.Uint())
 		case reflect.Bool:
 			vvf.SetBool(jv.Bool())
-		case reflect.Float32:
-			vvf.SetFloat(jv.Float())
-		case reflect.Float64:
+		case reflect.Float32, reflect.Float64:
 			vvf.SetFloat(jv.Float())
 
 		default:
+			log.Error("unexpected type found", zap.String("type.kind", vtf.Type.Kind().String()))
 			return errors.New("unexpected type found")
 		}
 	}

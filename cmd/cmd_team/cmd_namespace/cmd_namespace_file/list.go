@@ -2,11 +2,11 @@ package cmd_namespace_file
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_namespace"
 	"github.com/watermint/toolbox/model/dbx_profile"
-	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 )
 
@@ -14,7 +14,7 @@ type CmdTeamNamespaceFileList struct {
 	*cmd.SimpleCommandlet
 	optIncludeMediaInfo bool
 	optIncludeDeleted   bool
-	report              report.Factory
+	report              app_report.Factory
 	namespaceFile       dbx_namespace.ListNamespaceFile
 }
 

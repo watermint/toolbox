@@ -6,8 +6,9 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/app/app_util"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/domain/infra/api_parser"
+	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/model/dbx_member"
-	"github.com/watermint/toolbox/model/dbx_profile"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -50,14 +51,14 @@ func (z *ProvisionTest) PrepareCsv(numAccounts int, pattern string) (*os.File, e
 	return f, nil
 }
 
-func (z *ProvisionTest) ListTestAccounts(t *testing.T) ([]*dbx_profile.Member, error) {
+func (z *ProvisionTest) ListTestAccounts(t *testing.T) ([]*mo_member.Member, error) {
 	memberListPath, err := ioutil.TempDir("", "member_list")
 	if err != nil {
 		t.Error(err)
 		return nil, err
 	}
 
-	members := make([]*dbx_profile.Member, 0)
+	members := make([]*mo_member.Member, 0)
 
 	cmd.CmdTest(t, NewCmdMember(), []string{"list", "-report-path", memberListPath})
 
@@ -79,15 +80,15 @@ func (z *ProvisionTest) ListTestAccounts(t *testing.T) ([]*dbx_profile.Member, e
 			t.Error(err)
 			return nil, err
 		}
-		member := &dbx_profile.Member{}
-		err = json.Unmarshal(line, member)
+		member := &mo_member.Member{}
+		err = api_parser.ParseModelString(member, string(line))
 		if err != nil {
 			t.Error(err)
 			return nil, err
 		}
 
-		if strings.HasSuffix(member.Profile.Email, "@example.com") {
-			z.Logger.Debug("Test member found", zap.String("email", member.Profile.Email))
+		if strings.HasSuffix(member.Email, "@example.com") {
+			z.Logger.Debug("Test member found", zap.String("email", member.Email))
 			members = append(members, member)
 		}
 	}
@@ -105,7 +106,7 @@ func (z *ProvisionTest) CleanTestAccounts(t *testing.T) error {
 			"remove",
 			"-keep-account=false",
 			"-wipe-data=true",
-			m.Profile.Email,
+			m.Email,
 		})
 	}
 	return nil
@@ -217,14 +218,10 @@ func TestCmdMemberInvite(t *testing.T) {
 	// 3.2. verify remote result
 	syncedMembers, err := pt.ListTestAccounts(t)
 	for _, m := range syncedMembers {
-		profile := gjson.ParseBytes(m.Profile.Profile)
-		givenName := profile.Get("name.given_name").String()
-		surname := profile.Get("name.surname").String()
+		givenName := m.GivenName
+		surname := m.Surname
 
-		log.Info(
-			"Test account",
-			zap.String("profile", profile.Raw),
-		)
+		log.Info("Test account", zap.Any("member", m))
 
 		if !strings.HasPrefix(givenName, "invite") {
 			t.Errorf("Unexpected test account surname[%s]", surname)
@@ -337,14 +334,10 @@ func TestCmdMemberSync(t *testing.T) {
 	// 3.3. Sync result validation
 	syncedMembers, err := pt.ListTestAccounts(t)
 	for _, m := range syncedMembers {
-		profile := gjson.ParseBytes(m.Profile.Profile)
-		givenName := profile.Get("name.given_name").String()
-		surname := profile.Get("name.surname").String()
+		givenName := m.GivenName
+		surname := m.Surname
 
-		log.Info(
-			"Test account",
-			zap.String("profile", profile.Raw),
-		)
+		log.Info("Test account", zap.Any("member", m))
 
 		if !strings.HasPrefix(surname, "tbx") {
 			t.Errorf("Unexpected test account surname[%s]", surname)

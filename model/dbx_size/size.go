@@ -4,10 +4,10 @@ import (
 	"bufio"
 	"encoding/json"
 	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_namespace"
 	"github.com/watermint/toolbox/model/dbx_profile"
-	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -115,7 +115,7 @@ func (z *NamespaceSizes) OnDelete(deleted *dbx_namespace.NamespaceDeleted) bool 
 	return true
 }
 
-func (z *NamespaceSizes) Load(c *dbx_api.Context) bool {
+func (z *NamespaceSizes) Load(c *dbx_api.DbxContext) bool {
 	if z.OptCachePath != "" && z.isCacheFilesAvailable() {
 		z.ec.Log().Info("Calculating size from cache")
 		return z.LoadFromCache()
@@ -205,12 +205,12 @@ func (z *NamespaceSizes) LoadFromCache() bool {
 	return true
 }
 
-func (z *NamespaceSizes) LoadFromApi(c *dbx_api.Context) bool {
+func (z *NamespaceSizes) LoadFromApi(c *dbx_api.DbxContext) bool {
 	admin, err := dbx_profile.AuthenticatedAdmin(c)
 	if err != nil {
 		return z.OnError(err)
 	}
-	cacheWriter := report.Factory{}
+	cacheWriter := app_report.Factory{}
 	cacheWriter.ReportPath = z.OptCachePath
 	cacheWriter.ReportFormat = "json"
 	cacheWriter.DefaultWriter = ioutil.Discard

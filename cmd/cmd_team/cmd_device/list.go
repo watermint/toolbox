@@ -2,16 +2,16 @@ package cmd_device
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_device"
 	"github.com/watermint/toolbox/model/dbx_device/flat_device"
-	"github.com/watermint/toolbox/report"
 )
 
 type CmdTeamDeviceList struct {
 	*cmd.SimpleCommandlet
-	report        report.Factory
+	report        app_report.Factory
 	optDeviceType string
 }
 

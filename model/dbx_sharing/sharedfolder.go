@@ -24,7 +24,7 @@ type SharedFolderMembers struct {
 	OnInvitee  func(invitee *MembershipInvitee) bool
 }
 
-func (z *SharedFolderMembers) List(c *dbx_api.Context, sharedFolderId string) bool {
+func (z *SharedFolderMembers) List(c *dbx_api.DbxContext, sharedFolderId string) bool {
 	list := dbx_rpc.RpcList{
 		AsAdminId:            z.AsAdminId,
 		AsMemberId:           z.AsMemberId,
@@ -83,7 +83,7 @@ func (z *SharedFolderMembers) List(c *dbx_api.Context, sharedFolderId string) bo
 }
 
 type AddMembers struct {
-	Context       *dbx_api.Context
+	Context       *dbx_api.DbxContext
 	Quiet         bool
 	CustomMessage string
 	AsMemberId    string
@@ -149,7 +149,7 @@ func (z *AddMembers) Add(sharedFolderId string, dropboxIds []string, accessLevel
 }
 
 type RemoveMembers struct {
-	Context    *dbx_api.Context
+	Context    *dbx_api.DbxContext
 	LeaveACopy bool
 	AsMemberId string
 	AsAdminId  string

@@ -33,9 +33,6 @@ type UIMessage interface {
 	// Tell error message
 	TellError()
 
-	// Tell done
-	TellDone()
-
 	// Tell success
 	TellSuccess()
 
@@ -49,6 +46,8 @@ type UIMessage interface {
 	// Ask a text. UI ask text as required option but,
 	// a user/client can enter empty string.
 	AskText() string
+
+	AskConfirm() bool
 }
 
 type UIMessageContainer struct {
@@ -58,6 +57,7 @@ type UIMessageContainer struct {
 	userInterface UI
 	logger        *zap.Logger
 	isTest        bool
+	isDebug       bool
 	lang          string
 }
 
@@ -265,10 +265,6 @@ func (z *TextMessage) TellError() {
 	z.userInterface.TellError(z)
 }
 
-func (z *TextMessage) TellDone() {
-	z.userInterface.TellDone(z)
-}
-
 func (z *TextMessage) TellSuccess() {
 	z.userInterface.TellSuccess(z)
 }
@@ -283,6 +279,10 @@ func (z *TextMessage) AskRetry() bool {
 
 func (z *TextMessage) AskText() string {
 	return z.userInterface.AskText(z)
+}
+
+func (z *TextMessage) AskConfirm() bool {
+	return z.userInterface.AskConfirm(z)
 }
 
 type AltMessage struct {
@@ -334,10 +334,6 @@ func (z *AltMessage) TellError() {
 	z.userInterface.TellError(z)
 }
 
-func (z *AltMessage) TellDone() {
-	z.userInterface.TellDone(z)
-}
-
 func (z *AltMessage) TellSuccess() {
 	z.userInterface.TellSuccess(z)
 }
@@ -352,6 +348,10 @@ func (z *AltMessage) AskRetry() bool {
 
 func (z *AltMessage) AskText() string {
 	return z.userInterface.AskText(z)
+}
+
+func (z *AltMessage) AskConfirm() bool {
+	return z.userInterface.AskConfirm(z)
 }
 
 type Message struct {
@@ -370,10 +370,6 @@ func (z *Message) TellError() {
 	z.userInterface.TellError(z)
 }
 
-func (z *Message) TellDone() {
-	z.userInterface.TellDone(z)
-}
-
 func (z *Message) TellSuccess() {
 	z.userInterface.TellSuccess(z)
 }
@@ -388,6 +384,10 @@ func (z *Message) AskRetry() bool {
 
 func (z *Message) AskText() string {
 	return z.userInterface.AskText(z)
+}
+
+func (z *Message) AskConfirm() bool {
+	return z.userInterface.AskConfirm(z)
 }
 
 func (z *Message) WithData(d interface{}) UIMessage {

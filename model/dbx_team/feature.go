@@ -17,7 +17,7 @@ type FeatureList struct {
 	OnEntry func(feature *Feature) bool
 }
 
-func (z *FeatureList) List(c *dbx_api.Context) bool {
+func (z *FeatureList) List(c *dbx_api.DbxContext) bool {
 	type FeatureTag struct {
 		Tag string `json:".tag"`
 	}

@@ -37,7 +37,7 @@ type NamespaceList struct {
 	OnEntry func(namespace *Namespace) bool
 }
 
-func (z *NamespaceList) List(c *dbx_api.Context) bool {
+func (z *NamespaceList) List(c *dbx_api.DbxContext) bool {
 	list := dbx_rpc.RpcList{
 		EndpointList:         "team/namespaces/list",
 		EndpointListContinue: "team/namespaces/list/continue",

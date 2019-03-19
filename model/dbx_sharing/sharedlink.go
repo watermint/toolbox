@@ -31,7 +31,7 @@ type SharedLink struct {
 	PermissionAllowDownload      bool   `path:"link_permissions.allow_download" json:"permission_allow_download"`
 }
 
-func (z *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newLInk *SharedLink, err error) {
+func (z *SharedLink) UpdateExpire(c *dbx_api.DbxContext, newExpire time.Time) (newLInk *SharedLink, err error) {
 	link := string(z.Raw)
 	expires := gjson.Get(link, "expires").String()
 	var origTime time.Time
@@ -55,7 +55,7 @@ func (z *SharedLink) UpdateExpire(c *dbx_api.Context, newExpire time.Time) (newL
 	return nil, nil
 }
 
-func (z *SharedLink) OverwriteExpire(c *dbx_api.Context, newExpire time.Time) (newLink *SharedLink, err error) {
+func (z *SharedLink) OverwriteExpire(c *dbx_api.DbxContext, newExpire time.Time) (newLink *SharedLink, err error) {
 	url := gjson.Get(string(z.Raw), "url").String()
 
 	type SettingsParam struct {
@@ -103,7 +103,7 @@ type SharedLinkList struct {
 	OnEntry       func(link *SharedLink) bool
 }
 
-func (z *SharedLinkList) List(c *dbx_api.Context) bool {
+func (z *SharedLinkList) List(c *dbx_api.DbxContext) bool {
 	type ListParam struct {
 		Path string `json:"path,omitempty"`
 	}

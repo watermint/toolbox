@@ -29,25 +29,41 @@ echo --------------------
 echo BUILD: Start building version: $BUILD_VERSION
 
 cd $PROJECT_ROOT
-rice embed-go
 
-echo --------------------
+echo BUILD: Preparing license information
+for l in $(find vendor -name LICENSE\*); do
+  pkg=$(dirname $l | sed 's/.*\/vendor\///')
+  pf=$(echo $pkg | sed 's/\//-/g')
+  jq -Rn "{\"$pkg\":[inputs]}" $l > $BUILD_PATH/$pf.lic
+done
+jq -Rn '{"github.com/watermint/toolbox":[inputs]}' LICENSE.md > $BUILD_PATH/github.com-watermint-toolbox.lic
+jq -s add $BUILD_PATH/*.lic > resources/licenses.json
+
+
 echo BUILD: Building tool
 
 if [ -e "resources/toolbox.appkeys" ]; then
   echo App keys file found. Verify app key file...
-  cat resources/toolbox.appkeys | jq type
+  cat resources/toolbox.appkeys | jq type > /dev/null
   if [[ $? = 0 ]]; then
-    echo valid
+    echo Valid
   else
-    echo invalid. return code: $?
+    echo Invalid. return code: $?
   fi
+
+  go run app/app_zap/app_zap_tool/main.go
+  if [[ $? = 0 ]]; then
+    rm resources/toolbox.appkeys
+  fi
+  TOOLBOX_ZAP=$(cat /tmp/toolbox.zap)
 fi
+rice embed-go
 
 X_APP_NAME="-X github.com/watermint/toolbox/app.AppName=toolbox"
 X_APP_VERSION="-X github.com/watermint/toolbox/app.AppVersion=$BUILD_VERSION"
 X_APP_HASH="-X github.com/watermint/toolbox/app.AppHash=$BUILD_HASH"
-LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH"
+X_APP_ZAP="-X github.com/watermint/toolbox/app.AppZap=$TOOLBOX_ZAP"
+LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_ZAP"
 
 echo Building: Windows
 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-win.exe github.com/watermint/toolbox

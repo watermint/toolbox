@@ -17,7 +17,7 @@ type TeamInfoList struct {
 	OnEntry func(info *TeamInfo) bool
 }
 
-func (z *TeamInfoList) List(c *dbx_api.Context) bool {
+func (z *TeamInfoList) List(c *dbx_api.DbxContext) bool {
 	req := dbx_rpc.RpcRequest{
 		Endpoint: "team/get_info",
 	}

@@ -19,7 +19,7 @@ type LinkedAppList struct {
 	OnEntry func(profile *LinkedApp) bool
 }
 
-func (z *LinkedAppList) List(c *dbx_api.Context) bool {
+func (z *LinkedAppList) List(c *dbx_api.DbxContext) bool {
 	list := dbx_rpc.RpcList{
 		EndpointList:         "team/linked_apps/list_members_linked_apps",
 		EndpointListContinue: "team/linked_apps/list_members_linked_apps",

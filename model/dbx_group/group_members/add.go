@@ -14,7 +14,7 @@ type Add struct {
 	OnSuccess func(group dbx_group.Group)
 }
 
-func (z *Add) AddMembers(c *dbx_api.Context, groupId string, teamMemberIds []string) error {
+func (z *Add) AddMembers(c *dbx_api.DbxContext, groupId string, teamMemberIds []string) error {
 	type GS struct {
 		Tag     string `json:".tag"`
 		GroupId string `json:"group_id"`

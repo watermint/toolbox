@@ -138,7 +138,7 @@ func RebaseTimeForAPI(t time.Time) time.Time {
 	return t.UTC().Round(time.Second)
 }
 
-type Context struct {
+type DbxContext struct {
 	Token      string
 	TokenType  string
 	Client     *http.Client
@@ -147,20 +147,20 @@ type Context struct {
 	ec         *app.ExecContext
 }
 
-func (z *Context) Log() *zap.Logger {
+func (z *DbxContext) Log() *zap.Logger {
 	return z.ec.Log().With(zap.String("token", z.TokenType))
 }
 
-func (z *Context) ParseModel(v interface{}, j gjson.Result) error {
+func (z *DbxContext) ParseModel(v interface{}, j gjson.Result) error {
 	return parseModel(z.Log(), v, j)
 }
 
-func (z *Context) ParseModelJson(v interface{}, raw json.RawMessage) error {
+func (z *DbxContext) ParseModelJson(v interface{}, raw json.RawMessage) error {
 	return parseModelJson(z.Log(), v, raw)
 }
 
-func NewContext(ec *app.ExecContext, tokenType, token string) *Context {
-	return &Context{
+func NewContext(ec *app.ExecContext, tokenType, token string) *DbxContext {
+	return &DbxContext{
 		Token:     token,
 		TokenType: tokenType,
 		Client: &http.Client{

@@ -17,7 +17,7 @@ type Event struct {
 	Raw json.RawMessage
 }
 
-func (z *ActivityLog) Events(c *dbx_api.Context) bool {
+func (z *ActivityLog) Events(c *dbx_api.DbxContext) bool {
 	list := dbx_rpc.RpcList{
 		EndpointList:         "team_log/get_events",
 		EndpointListContinue: "team_log/get_events/continue",

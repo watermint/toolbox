@@ -57,7 +57,7 @@ func (z *RequestImpl) OnFailure(failure func(err error) error) api_rpc.Request {
 	return z
 }
 
-func (z *RequestImpl) DbxApiContext() *dbx_api.Context {
+func (z *RequestImpl) DbxApiContext() *dbx_api.DbxContext {
 	return dbx_api.NewContext(z.ec, "api_rpc_impl", z.token.Token())
 }
 
@@ -114,7 +114,7 @@ func (z *ResponseImpl) StatusCode() int {
 	if z.dbxRes != nil {
 		return z.dbxRes.StatusCode
 	}
-	return 0
+	return -1
 }
 
 func (z *ResponseImpl) Body() (body string, err error) {
@@ -133,6 +133,17 @@ func (z *ResponseImpl) Json() (res gjson.Result, err error) {
 		return gjson.Parse(`{}`), errors.New("not a json data")
 	}
 	return gjson.Parse(body), nil
+}
+
+func (z *ResponseImpl) JsonArrayFirst() (res gjson.Result, err error) {
+	js, err := z.Json()
+	if err != nil {
+		return js, err
+	}
+	if !js.IsArray() {
+		return js, errors.New("response is not an array of JSON")
+	}
+	return js.Array()[0], nil
 }
 
 func (z *ResponseImpl) Model(v interface{}) error {
@@ -156,4 +167,12 @@ func (z *ResponseImpl) ModelWithPath(v interface{}, path string) error {
 		return errors.New("data not found for path")
 	}
 	return api_parser.ParseModel(v, p)
+}
+
+func (z *ResponseImpl) ModelArrayFirst(v interface{}) error {
+	j, err := z.JsonArrayFirst()
+	if err != nil {
+		return err
+	}
+	return api_parser.ParseModel(v, j)
 }

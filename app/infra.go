@@ -7,6 +7,7 @@ import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/rapid7/go-get-proxied/proxy"
 	"github.com/watermint/toolbox/app/app_ui"
+	"github.com/watermint/toolbox/app/app_util"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -15,17 +16,29 @@ import (
 	"os/user"
 	"path/filepath"
 	"runtime"
+	"time"
 )
 
 var (
-	AppName    string = "toolbox"
-	AppVersion string = "`dev`"
-	AppHash    string = ""
+	AppName     string = "toolbox"
+	AppVersion  string = "`dev`"
+	AppHash     string = ""
+	AppZap      string = ""
+	rootContext *ExecContext
 )
 
 const (
 	DefaultPeerName = "default"
+	MsgNoError      = "app.common.api.err.no_error"
 )
+
+func Root() *ExecContext {
+	if rootContext == nil {
+		rootContext = NewExecContextForTest()
+		return rootContext
+	}
+	return rootContext
+}
 
 type ExecContext struct {
 	Proxy           string
@@ -34,18 +47,22 @@ type ExecContext struct {
 	Quiet           bool
 	isTest          bool
 	noCacheToken    bool
+	debugMode       bool
 	defaultPeerName string
+	jobId           string
 	userInterface   app_ui.UI
 	resources       *rice.Box
 	logFilePath     string
 	lang            string
 	logger          *zap.Logger
+	logWrapper      *app_util.LogWrapper
 	messages        *app_ui.UIMessageContainer
 }
 
 func NewExecContextForTest() *ExecContext {
 	ec := &ExecContext{}
 	ec.isTest = true
+	ec.debugMode = true
 	ec.startup()
 	return ec
 }
@@ -70,6 +87,10 @@ func (z *ExecContext) DefaultPeerName() string {
 
 func (z *ExecContext) IsTest() bool {
 	return z.isTest
+}
+
+func (z *ExecContext) IsDebug() bool {
+	return z.debugMode
 }
 
 func (z *ExecContext) UI() app_ui.UI {
@@ -99,8 +120,17 @@ func (z *ExecContext) FileOnSecretsPath(name string) string {
 }
 
 func (z *ExecContext) startup() error {
+	if z.isTest {
+		z.jobId = "test-" + fmt.Sprintf(time.Now().Format("20060102-150405.000"))
+	} else {
+		z.jobId = fmt.Sprintf(time.Now().Format("20060102-150405.000"))
+	}
 	z.defaultPeerName = DefaultPeerName
-	z.userInterface = app_ui.NewDefaultCUI()
+	if runtime.GOOS == "windows" {
+		z.userInterface = app_ui.NewDefaultCUI()
+	} else {
+		z.userInterface = app_ui.NewColorCUI()
+	}
 	z.setupLoggerConsole()
 	z.loadMessages()
 	if err := z.setupWorkPath(); err != nil {
@@ -113,6 +143,9 @@ func (z *ExecContext) startup() error {
 		zap.String("revision", AppHash),
 	)
 	z.logger.Debug("Startup completed")
+
+	// replace root exec context
+	rootContext = z
 
 	return nil
 }
@@ -143,6 +176,11 @@ func (z *ExecContext) applyFlagWorkPath() error {
 	return nil
 }
 
+func (z *ExecContext) applyFlagLogger() error {
+	z.setupLoggerFile()
+	return nil
+}
+
 func (z *ExecContext) applyFlagNetwork() error {
 	z.SetupHttpProxy(z.Proxy)
 	return nil
@@ -155,8 +193,19 @@ func (z *ExecContext) applyLang() error {
 	return nil
 }
 
+func (z *ExecContext) applyDebug() error {
+	z.userInterface.DebugMode(z.debugMode)
+	return nil
+}
+
 func (z *ExecContext) ApplyFlags() error {
+	if err := z.applyDebug(); err != nil {
+		return err
+	}
 	if err := z.applyFlagWorkPath(); err != nil {
+		return err
+	}
+	if err := z.applyFlagLogger(); err != nil {
 		return err
 	}
 	if err := z.applyLang(); err != nil {
@@ -180,16 +229,24 @@ func (z *ExecContext) ApplyFlags() error {
 	return nil
 }
 
+func (z *ExecContext) shutdownCleanup() {
+
+}
+
 func (z *ExecContext) Shutdown() {
+	if z.logWrapper != nil {
+		z.logWrapper.Flush()
+	}
 	z.Log().Debug("Shutdown")
 	z.Log().Sync()
+	z.shutdownCleanup()
 }
 
 func (z *ExecContext) LogsPath() string {
-	return z.FileOnWorkPath("logs")
+	return filepath.Join(z.JobsPath(), "logs")
 }
 func (z *ExecContext) JobsPath() string {
-	return z.FileOnWorkPath("jobs")
+	return z.FileOnWorkPath(filepath.Join("jobs", z.jobId))
 }
 func (z *ExecContext) SecretsPath() string {
 	return z.FileOnWorkPath("secrets")
@@ -209,6 +266,9 @@ func (z *ExecContext) DefaultWorkPath() string {
 func (z *ExecContext) PrepareFlags(f *flag.FlagSet) {
 	//descWork := z.Msg("app.common.flag.work").WithArg(z.DefaultWorkPath()).T()
 	//f.StringVar(&z.WorkPath, "work", "", descWork)
+
+	descDebug := z.Msg("app.common.flag.debug").T()
+	f.BoolVar(&z.debugMode, "debug", false, descDebug)
 
 	descProxy := z.Msg("app.common.flag.proxy").T()
 	f.StringVar(&z.Proxy, "proxy", "", descProxy)
@@ -325,6 +385,16 @@ func (z *ExecContext) SetupHttpProxy(p string) {
 	)
 }
 
+func (z *ExecContext) setLogger(logger *zap.Logger) {
+	if z.logWrapper == nil {
+		z.logWrapper = app_util.NewLogWrapper(logger)
+
+		// route default `log` package output into the file
+		log.SetOutput(z.logWrapper)
+	}
+	z.logger = logger
+}
+
 func (z *ExecContext) consoleLoggerCore() zapcore.Core {
 	en := zapcore.EncoderConfig{
 		LevelKey:       "level",
@@ -337,28 +407,28 @@ func (z *ExecContext) consoleLoggerCore() zapcore.Core {
 		en.EncodeLevel = zapcore.CapitalColorLevelEncoder
 	}
 	zo := zapcore.AddSync(os.Stdout)
+
+	level := zap.InfoLevel
+	if z.debugMode {
+		level = zap.DebugLevel
+	}
+
 	return zapcore.NewCore(
 		zapcore.NewConsoleEncoder(en),
 		zo,
-		zap.InfoLevel,
+		level,
 	)
 }
 
 func (z *ExecContext) setupLoggerConsole() *zap.Logger {
 	if z.logger == nil {
-		z.logger = zap.New(z.consoleLoggerCore())
+		z.setLogger(zap.New(z.consoleLoggerCore()))
 	}
 	return z.logger
 }
 
 func (z *ExecContext) setupLoggerFile() {
 	logPath := filepath.Join(z.LogsPath(), AppName+".log")
-	if z.logFilePath == logPath {
-		z.Log().Debug("Skip setup logger file (path unchanged)",
-			zap.String("path", logPath),
-		)
-		return
-	}
 
 	cfg := zapcore.EncoderConfig{
 		TimeKey:        "time",
@@ -380,8 +450,6 @@ func (z *ExecContext) setupLoggerFile() {
 		Compress:   true,
 	})
 
-	// route default `log` package output into the file
-	log.SetOutput(zo)
 	zc := zapcore.NewCore(
 		zapcore.NewJSONEncoder(cfg),
 		zo,
@@ -392,7 +460,7 @@ func (z *ExecContext) setupLoggerFile() {
 		zapcore.NewTee(zc, z.consoleLoggerCore()),
 	).WithOptions(zap.AddCaller())
 
-	z.logger = logger
+	z.setLogger(logger)
 	z.logFilePath = logPath
 }
 

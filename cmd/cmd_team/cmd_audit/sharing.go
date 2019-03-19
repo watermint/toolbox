@@ -3,6 +3,7 @@ package cmd_audit
 import (
 	"flag"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
@@ -12,14 +13,13 @@ import (
 	"github.com/watermint/toolbox/model/dbx_profile"
 	"github.com/watermint/toolbox/model/dbx_sharing"
 	"github.com/watermint/toolbox/model/dbx_team"
-	"github.com/watermint/toolbox/report"
 	"go.uber.org/zap"
 )
 
 type CmdTeamAuditSharing struct {
 	*cmd.SimpleCommandlet
 	groupMembers   map[string][]*dbx_group.GroupMember
-	report         report.Factory
+	report         app_report.Factory
 	optExpandGroup bool
 }
 
@@ -141,7 +141,7 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 	}
 }
 
-func (z *CmdTeamAuditSharing) reportInfo(c *dbx_api.Context) bool {
+func (z *CmdTeamAuditSharing) reportInfo(c *dbx_api.DbxContext) bool {
 	l := dbx_team.TeamInfoList{
 		OnError: z.DefaultErrorHandler,
 		OnEntry: func(info *dbx_team.TeamInfo) bool {
@@ -152,7 +152,7 @@ func (z *CmdTeamAuditSharing) reportInfo(c *dbx_api.Context) bool {
 	return l.List(c)
 }
 
-func (z *CmdTeamAuditSharing) reportFeature(c *dbx_api.Context) bool {
+func (z *CmdTeamAuditSharing) reportFeature(c *dbx_api.DbxContext) bool {
 	l := dbx_team.FeatureList{
 		OnError: z.DefaultErrorHandler,
 		OnEntry: func(feature *dbx_team.Feature) bool {
@@ -163,7 +163,7 @@ func (z *CmdTeamAuditSharing) reportFeature(c *dbx_api.Context) bool {
 	return l.List(c)
 }
 
-func (z *CmdTeamAuditSharing) reportMember(c *dbx_api.Context) bool {
+func (z *CmdTeamAuditSharing) reportMember(c *dbx_api.DbxContext) bool {
 	l := dbx_member.MembersList{
 		OnError: z.DefaultErrorHandlerIgnoreError,
 		OnEntry: func(member *dbx_profile.Member) bool {
@@ -174,7 +174,7 @@ func (z *CmdTeamAuditSharing) reportMember(c *dbx_api.Context) bool {
 	return l.List(c, true)
 }
 
-func (z *CmdTeamAuditSharing) reportGroup(c *dbx_api.Context) bool {
+func (z *CmdTeamAuditSharing) reportGroup(c *dbx_api.DbxContext) bool {
 	gl := dbx_group.GroupList{
 		OnError: z.DefaultErrorHandler,
 		OnEntry: func(group *dbx_group.Group) bool {
@@ -185,7 +185,7 @@ func (z *CmdTeamAuditSharing) reportGroup(c *dbx_api.Context) bool {
 	return gl.List(c)
 }
 
-func (z *CmdTeamAuditSharing) reportGroupMember(c *dbx_api.Context) bool {
+func (z *CmdTeamAuditSharing) reportGroupMember(c *dbx_api.DbxContext) bool {
 	gl := dbx_group.GroupList{
 		OnError: z.DefaultErrorHandler,
 		OnEntry: func(group *dbx_group.Group) bool {
@@ -205,7 +205,7 @@ func (z *CmdTeamAuditSharing) reportGroupMember(c *dbx_api.Context) bool {
 	return gl.List(c)
 }
 
-func (z *CmdTeamAuditSharing) reportSharedLink(c *dbx_api.Context) bool {
+func (z *CmdTeamAuditSharing) reportSharedLink(c *dbx_api.DbxContext) bool {
 	ml := dbx_member.MembersList{
 		OnError: z.DefaultErrorHandlerIgnoreError,
 		OnEntry: func(member *dbx_profile.Member) bool {
@@ -225,7 +225,7 @@ func (z *CmdTeamAuditSharing) reportSharedLink(c *dbx_api.Context) bool {
 	return ml.List(c, false)
 }
 
-func (z *CmdTeamAuditSharing) reportNamespace(c *dbx_api.Context) bool {
+func (z *CmdTeamAuditSharing) reportNamespace(c *dbx_api.DbxContext) bool {
 	l := dbx_namespace.NamespaceList{
 		OnError: z.DefaultErrorHandler,
 		OnEntry: func(namespace *dbx_namespace.Namespace) bool {
@@ -236,7 +236,7 @@ func (z *CmdTeamAuditSharing) reportNamespace(c *dbx_api.Context) bool {
 	return l.List(c)
 }
 
-func (z *CmdTeamAuditSharing) reportNamespaceMember(c *dbx_api.Context, admin *dbx_profile.Profile) bool {
+func (z *CmdTeamAuditSharing) reportNamespaceMember(c *dbx_api.DbxContext, admin *dbx_profile.Profile) bool {
 	l := dbx_namespace.NamespaceList{
 		OnError: z.DefaultErrorHandler,
 		OnEntry: func(namespace *dbx_namespace.Namespace) bool {
@@ -340,7 +340,7 @@ type NamespaceMembershipError struct {
 	FilePath         string `json:"file_path"`
 }
 
-func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.Context, admin *dbx_profile.Profile) bool {
+func (z *CmdTeamAuditSharing) reportNamespaceFile(c *dbx_api.DbxContext, admin *dbx_profile.Profile) bool {
 	fileSharing := func(file *dbx_namespace.NamespaceFile) bool {
 		lfm := dbx_sharing.SharedFileMembers{
 			OnUser: func(user *dbx_sharing.MembershipUser) bool {

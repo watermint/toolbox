@@ -2,20 +2,18 @@ package cmd_member
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_member"
-	"github.com/watermint/toolbox/model/dbx_profile"
-	"github.com/watermint/toolbox/report"
 )
 
 type CmdMemberList struct {
 	*cmd.SimpleCommandlet
 
 	optIncludeRemoved bool
-	apiContext        *dbx_api.Context
-	report            report.Factory
+	report            app_report.Factory
 }
 
 func (z *CmdMemberList) Name() string {
@@ -39,8 +37,7 @@ func (z *CmdMemberList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdMemberList) Exec(args []string) {
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiInfo, err := au.Auth(dbx_auth.DropboxTokenBusinessInfo)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessInfo)
 	if err != nil {
 		return
 	}
@@ -48,12 +45,14 @@ func (z *CmdMemberList) Exec(args []string) {
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
-	l := dbx_member.MembersList{
-		OnError: z.DefaultErrorHandler,
-		OnEntry: func(member *dbx_profile.Member) bool {
-			z.report.Report(member)
-			return true
-		},
+	svc := sv_member.New(ctx)
+	members, err := svc.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
 	}
-	l.List(apiInfo, z.optIncludeRemoved)
+
+	for _, m := range members {
+		z.report.Report(m)
+	}
 }

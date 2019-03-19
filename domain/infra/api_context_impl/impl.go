@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/domain/infra/api_async"
+	"github.com/watermint/toolbox/domain/infra/api_async_impl"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_list"
@@ -52,6 +53,9 @@ type contextImpl struct {
 }
 
 func (z *contextImpl) ErrorMsg(err error) app_ui.UIMessage {
+	if err == nil {
+		return z.ec.Msg(app.MsgNoError)
+	}
 	summary := api_util.ErrorSummary(err)
 	if summary == "" {
 		return z.ec.Msg("app.common.api.err.general_error").WithData(struct {
@@ -117,5 +121,5 @@ func (z *contextImpl) List(endpoint string) api_list.List {
 }
 
 func (z *contextImpl) Async(endpoint string) api_async.Async {
-	panic("implement me")
+	return api_async_impl.New(z.ec, z, endpoint, z.asMemberId, z.asAdminId, z.basePath, z.dt)
 }

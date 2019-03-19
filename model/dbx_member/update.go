@@ -21,7 +21,7 @@ type MemberUpdate struct {
 	OnSuccess func(m *dbx_profile.Member) bool
 }
 
-func (z *MemberUpdate) Update(c *dbx_api.Context, email string, m *UpdateMember) bool {
+func (z *MemberUpdate) Update(c *dbx_api.DbxContext, email string, m *UpdateMember) bool {
 	type Selector struct {
 		Tag   string `json:".tag"`
 		Email string `json:"email"`

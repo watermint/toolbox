@@ -13,7 +13,7 @@ type Create struct {
 	OnSuccess func(group Group)
 }
 
-func (z *Create) Create(c *dbx_api.Context, name, managementType string) error {
+func (z *Create) Create(c *dbx_api.DbxContext, name, managementType string) error {
 	p := struct {
 		GroupName           string `json:"group_name"`
 		GroupManagementType string `json:"group_management_type"`

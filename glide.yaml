@@ -28,3 +28,5 @@ import:
 - package: github.com/rapid7/go-get-proxied
   version: ^1
 - package: github.com/cloudfoundry-attic/jibber_jabber
+- package: github.com/tealeg/xlsx
+  version: ^1

@@ -2,15 +2,16 @@ package cmd_namespace
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/service/sv_namespace"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_namespace"
-	"github.com/watermint/toolbox/report"
 )
 
 type CmdTeamNamespaceList struct {
 	*cmd.SimpleCommandlet
-	report report.Factory
+	report app_report.Factory
 }
 
 func (CmdTeamNamespaceList) Name() string {
@@ -31,8 +32,7 @@ func (z *CmdTeamNamespaceList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdTeamNamespaceList) Exec(args []string) {
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
 		return
 	}
@@ -40,12 +40,14 @@ func (z *CmdTeamNamespaceList) Exec(args []string) {
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
-	l := dbx_namespace.NamespaceList{
-		OnError: z.DefaultErrorHandler,
-		OnEntry: func(namespace *dbx_namespace.Namespace) bool {
-			z.report.Report(namespace)
-			return true
-		},
+	svc := sv_namespace.New(ctx)
+	namespaces, err := svc.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
 	}
-	l.List(apiFile)
+
+	for _, n := range namespaces {
+		z.report.Report(n)
+	}
 }

@@ -20,7 +20,7 @@ type RpcList struct {
 }
 
 // List and call handlers. Returns true when all operation succeed, otherwise false.
-func (z *RpcList) List(c *dbx_api.Context, arg interface{}) bool {
+func (z *RpcList) List(c *dbx_api.DbxContext, arg interface{}) bool {
 	req := RpcRequest{
 		Endpoint:   z.EndpointList,
 		PathRoot:   z.PathRoot,
@@ -33,7 +33,7 @@ func (z *RpcList) List(c *dbx_api.Context, arg interface{}) bool {
 	return z.handleResponse(c, res, err)
 }
 
-func (z *RpcList) listContinue(c *dbx_api.Context, cursor string) bool {
+func (z *RpcList) listContinue(c *dbx_api.DbxContext, cursor string) bool {
 	type ContinueParam struct {
 		Cursor string `json:"cursor"`
 	}
@@ -50,7 +50,7 @@ func (z *RpcList) listContinue(c *dbx_api.Context, cursor string) bool {
 	return z.handleResponse(c, res, err)
 }
 
-func (z *RpcList) handleResponse(c *dbx_api.Context, res *RpcResponse, err error) bool {
+func (z *RpcList) handleResponse(c *dbx_api.DbxContext, res *RpcResponse, err error) bool {
 	log := c.Log().With(zap.String("endpoint", z.EndpointList))
 
 	if err != nil {
@@ -82,7 +82,7 @@ func (z *RpcList) handleResponse(c *dbx_api.Context, res *RpcResponse, err error
 	return true
 }
 
-func (z *RpcList) handleEntry(c *dbx_api.Context, res *RpcResponse) bool {
+func (z *RpcList) handleEntry(c *dbx_api.DbxContext, res *RpcResponse) bool {
 	if z.OnEntry == nil {
 		return true
 	}
@@ -112,7 +112,7 @@ func (z *RpcList) handleEntry(c *dbx_api.Context, res *RpcResponse) bool {
 	return true
 }
 
-func (z *RpcList) isContinue(c *dbx_api.Context, res *RpcResponse) (cont bool, cursor string) {
+func (z *RpcList) isContinue(c *dbx_api.DbxContext, res *RpcResponse) (cont bool, cursor string) {
 	log := c.Log().With(
 		zap.String("endpoint", z.EndpointList),
 	)

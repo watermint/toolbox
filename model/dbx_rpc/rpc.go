@@ -42,7 +42,7 @@ func (z *RpcRequest) requestUrl() string {
 	return fmt.Sprintf("https://%s/2/%s", RpcEndpoint, z.Endpoint)
 }
 
-func (z *RpcRequest) rpcRequest(c *dbx_api.Context) (req *http.Request, err error) {
+func (z *RpcRequest) rpcRequest(c *dbx_api.DbxContext) (req *http.Request, err error) {
 	url := z.requestUrl()
 	log := c.Log().With(zap.String("endpoint", z.Endpoint))
 
@@ -81,7 +81,7 @@ func (z *RpcRequest) rpcRequest(c *dbx_api.Context) (req *http.Request, err erro
 	return
 }
 
-func (z *RpcRequest) ensureRetryOnError(c *dbx_api.Context, lastErr error) (apiRes *RpcResponse, err error) {
+func (z *RpcRequest) ensureRetryOnError(c *dbx_api.DbxContext, lastErr error) (apiRes *RpcResponse, err error) {
 	sameErrorCount := 0
 	if c.LastErrors == nil {
 		c.LastErrors = make([]error, 1)
@@ -114,7 +114,7 @@ func (z *RpcRequest) ensureRetryOnError(c *dbx_api.Context, lastErr error) (apiR
 	return z.Call(c)
 }
 
-func (z *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, err error) {
+func (z *RpcRequest) Call(c *dbx_api.DbxContext) (apiRes *RpcResponse, err error) {
 	annotate := func(res *RpcResponse, et int, err error) (*RpcResponse, error) {
 		return res, err
 	}
@@ -133,7 +133,7 @@ func (z *RpcRequest) Call(c *dbx_api.Context) (apiRes *RpcResponse, err error) {
 		time.Sleep(c.RetryAfter.Sub(now))
 	}
 
-	log.Debug("do_request", zap.Any("param", z.Param), zap.Any("root", z.Param))
+	log.Debug("Request", zap.Any("param", z.Param), zap.Any("root", z.Param))
 	res, err := c.Client.Do(req)
 
 	if err != nil {

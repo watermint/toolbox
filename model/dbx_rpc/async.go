@@ -17,18 +17,15 @@ type AsyncStatus struct {
 	OnComplete func(complete gjson.Result) bool
 }
 
-func (z *AsyncStatus) Poll(c *dbx_api.Context, res *RpcResponse) bool {
+func (z *AsyncStatus) Poll(c *dbx_api.DbxContext, res *RpcResponse) bool {
 	return z.handlePoll(c, res, "")
 }
 
-func (z *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobId string) bool {
+func (z *AsyncStatus) handlePoll(c *dbx_api.DbxContext, res *RpcResponse, asyncJobId string) bool {
 	resJson := gjson.Parse(res.Body)
 
 	log := c.Log().With(zap.String("async_job_id", asyncJobId))
-	log.Debug(
-		"handlePoll",
-		zap.String("body", res.Body),
-	)
+	log.Debug("Handle poll", zap.String("body", res.Body))
 	tag := resJson.Get(dbx_api.ResJsonDotTag)
 
 	if !tag.Exists() {
@@ -51,7 +48,7 @@ func (z *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobI
 		return z.handleAsyncJobId(c, res, "")
 
 	case "complete":
-		log.Debug("complete")
+		log.Debug("Complete")
 		if z.OnComplete != nil {
 			cmp := resJson.Get("complete")
 			if cmp.Exists() {
@@ -63,12 +60,12 @@ func (z *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobI
 		return true
 
 	case "in_progress":
-		log.Debug("in_progress")
+		log.Debug("In Progress")
 		time.Sleep(time.Duration(3) * time.Second)
 		return z.handleAsyncJobId(c, res, asyncJobId)
 
 	case "failed":
-		log.Debug("failed")
+		log.Debug("Failed")
 		// TODO Log entire message
 		if z.OnError == nil {
 			return false
@@ -85,23 +82,16 @@ func (z *AsyncStatus) handlePoll(c *dbx_api.Context, res *RpcResponse, asyncJobI
 
 	tag = gjson.Get(res.Body, "error."+dbx_api.ResJsonDotTag)
 	if tag.Exists() {
-		log.Debug(
-			"endpoint specific error",
-			zap.String("error_tag", tag.String()),
-		)
+		log.Debug("Endpoint specific error", zap.String("error_tag", tag.String()))
 		return z.OnError(dbx_api.ParseApiError(res.Body))
 	}
 
-	c.Log().Debug(
-		"Unknown error",
-		zap.Int("res_code", res.StatusCode),
-		zap.String("res_body", res.Body),
-	)
+	c.Log().Debug("Unknown error", zap.Int("res_code", res.StatusCode), zap.String("res_body", res.Body))
 
 	return false
 }
 
-func (z *AsyncStatus) handleAsyncJobId(c *dbx_api.Context, res *RpcResponse, asyncJobId string) bool {
+func (z *AsyncStatus) handleAsyncJobId(c *dbx_api.DbxContext, res *RpcResponse, asyncJobId string) bool {
 	if asyncJobId == "" {
 		asyncJobIdTag := gjson.Get(res.Body, "async_job_id")
 

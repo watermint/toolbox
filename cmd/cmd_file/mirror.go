@@ -2,11 +2,11 @@ package cmd_file
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_file/compare"
 	"github.com/watermint/toolbox/model/dbx_file/copy_ref"
-	"github.com/watermint/toolbox/report"
 )
 
 type CmdFileMirror struct {
@@ -16,7 +16,7 @@ type CmdFileMirror struct {
 	optSrcPath    string
 	optDstPath    string
 	optVerify     bool
-	report        report.Factory
+	report        app_report.Factory
 }
 
 func (CmdFileMirror) Name() string {

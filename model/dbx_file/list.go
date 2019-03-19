@@ -22,7 +22,7 @@ type ListFolder struct {
 	OnDelete func(deleted *Deleted) bool
 }
 
-func (l *ListFolder) List(c *dbx_api.Context, path string) bool {
+func (l *ListFolder) List(c *dbx_api.DbxContext, path string) bool {
 	if path == "/" {
 		path = ""
 	}

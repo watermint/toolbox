@@ -20,7 +20,10 @@ type CUI struct {
 	In  io.Reader
 }
 
-func (z *CUI) YesNo() bool {
+func (z *CUI) DebugMode(debug bool) {
+}
+
+func (z *CUI) YesNo(msg string) bool {
 	br := bufio.NewReader(z.In)
 	for {
 		line, _, err := br.ReadLine()
@@ -40,7 +43,7 @@ func (z *CUI) YesNo() bool {
 		}
 
 		// ask again
-		fmt.Fprintln(z.Out, "Retry? (y/n)")
+		fmt.Fprintf(z.Out, msg)
 	}
 }
 
@@ -50,11 +53,6 @@ func (z *CUI) Tell(msg UIMessage) {
 
 func (z *CUI) TellError(msg UIMessage) {
 	fmt.Fprint(z.Out, "ERR: ")
-	fmt.Fprintln(z.Out, msg.T())
-}
-
-func (z *CUI) TellDone(msg UIMessage) {
-	fmt.Fprint(z.Out, "DONE: ")
 	fmt.Fprintln(z.Out, msg.T())
 }
 
@@ -69,9 +67,10 @@ func (z *CUI) TellFailure(msg UIMessage) {
 }
 
 func (z *CUI) AskRetry(msg UIMessage) bool {
+	m := "Retry? (y/n)"
 	fmt.Fprintln(z.Out, msg.T())
-	fmt.Fprintln(z.Out, "Retry? (y/n)")
-	return z.YesNo()
+	fmt.Fprintln(z.Out, m)
+	return z.YesNo(m)
 }
 
 func (z *CUI) AskText(msg UIMessage) string {
@@ -90,4 +89,11 @@ func (z *CUI) AskText(msg UIMessage) string {
 		// ask again
 		fmt.Fprintln(z.Out, msg.T())
 	}
+}
+
+func (z *CUI) AskConfirm(msg UIMessage) bool {
+	m := "? (y/n)"
+	fmt.Fprintln(z.Out, msg.T())
+	fmt.Fprintln(z.Out, m)
+	return z.YesNo(m)
 }

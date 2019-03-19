@@ -2,15 +2,15 @@ package cmd_namespace_file
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/model/dbx_auth"
 	"github.com/watermint/toolbox/model/dbx_size"
-	"github.com/watermint/toolbox/report"
 )
 
 type CmdTeamNamespaceFileSize struct {
 	*cmd.SimpleCommandlet
-	report report.Factory
+	report app_report.Factory
 	nsz    dbx_size.NamespaceSizes
 }
 
