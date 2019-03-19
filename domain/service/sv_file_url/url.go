@@ -29,7 +29,8 @@ func (z *urlImpl) Save(path mo_path.Path, url string) (entry mo_file.Entry, err 
 		Url:  url,
 	}
 
-	entry = &mo_file.Metadata{}
+	meta := &mo_file.Metadata{}
+	entry = meta
 	res, err := z.ctx.Async("files/save_url").
 		Status("files/save_url/check_job_status").
 		Param(p).
@@ -40,5 +41,6 @@ func (z *urlImpl) Save(path mo_path.Path, url string) (entry mo_file.Entry, err 
 	if err = res.Model(entry); err != nil {
 		return nil, err
 	}
+	meta.EntryTag = "file" // overwrite 'complete' tag
 	return entry, nil
 }

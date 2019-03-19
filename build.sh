@@ -32,7 +32,7 @@ cd $PROJECT_ROOT
 
 echo BUILD: Preparing license information
 for l in $(find vendor -name LICENSE\*); do
-  pkg=$(dirname $l | sed 's/.\*\/vendor\///')
+  pkg=$(dirname $l | sed 's/.*\/vendor\///')
   pf=$(echo $pkg | sed 's/\//-/g')
   jq -Rn "{\"$pkg\":[inputs]}" $l > $BUILD_PATH/$pf.lic
 done

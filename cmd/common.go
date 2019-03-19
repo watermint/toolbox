@@ -165,6 +165,9 @@ func (z *CommandletGroup) Usage() func(CommandUsage) {
 		names := make([]string, 0)
 		cmdLen := 0
 		for _, s := range z.SubCommands {
+			if s.IsHidden() {
+				continue
+			}
 			cmds[s.Name()] = z.ExecContext.Msg(s.Desc()).T()
 			names = append(names, s.Name())
 			if cmdLen < len(s.Name()) {
