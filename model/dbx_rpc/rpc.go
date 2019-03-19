@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"go.uber.org/zap"
 	"io/ioutil"
@@ -150,6 +151,10 @@ func (z *RpcRequest) Call(c *dbx_api.DbxContext) (apiRes *RpcResponse, err error
 	res.Body.Close()
 
 	bodyString := string(body)
+
+	if app.Root().IsDebug() {
+		log.Debug("Response", zap.Int("code", res.StatusCode), zap.String("body", bodyString))
+	}
 
 	if res.StatusCode == http.StatusOK {
 		jsonBody := bodyString

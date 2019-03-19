@@ -43,6 +43,7 @@
   "cmd.auth.desc": "Ask for authorisation with Dropbox account",
   "cmd.auth.user.desc": "Ask for authorisation with Dropbox User Full access",
   "cmd.auth.user.success": "Authorised",
+  "cmd.auth.business.desc": "Ask for authorisation with Dropbox Business",
   "cmd.auth.business.file.desc": "Ask for authorisation with Dropbox Business file access",
   "cmd.auth.business.file.success.authorised": "Authorised",
   "cmd.auth.business.info.desc": "Ask for authorisation with Dropbox Business info access",

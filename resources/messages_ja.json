@@ -43,6 +43,7 @@
   "cmd.auth.desc": "Dropboxアカウントへの認証を行います",
   "cmd.auth.user.desc": "Dropboxユーザのフルアクセス認証を行います",
   "cmd.auth.user.success": "認証完了",
+  "cmd.auth.business.desc": "Dropbox Businessへの認証を行います",
   "cmd.auth.business.file.desc": "Dropbox Businessファイルアクセス権限の認証を行います",
   "cmd.auth.business.file.success.authorised": "認証完了",
   "cmd.auth.business.info.desc": "Dropbox Business情報アクセス権限の認証を行います",

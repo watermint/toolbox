@@ -226,13 +226,13 @@ func (z *UIAuthenticator) loadKeys() {
 	if err != nil {
 		kb, err = z.ec.ResourceBytes("toolbox.appkeys")
 		if err != nil {
-			z.ec.Log().Debug("unable to load resource `toolbox.appkeys`", zap.Error(err))
+			z.ec.Log().Debug("Skip loading app keys")
 		}
 		return
 	}
 	err = json.Unmarshal(kb, &z.keys)
 	if err != nil {
-		z.ec.Log().Debug("unable to unmarshal resource `toolbox.appkeys`", zap.Error(err))
+		z.ec.Log().Debug("Skip loading app keys: unable to unmarshal resource", zap.Error(err))
 		return
 	}
 }
