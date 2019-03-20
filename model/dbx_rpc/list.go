@@ -15,7 +15,8 @@ type RpcList struct {
 	AsAdminId            string
 	ResultTag            string
 	OnError              func(err error) bool
-	OnResponse           func(body string) bool
+	OnResponseBody       func(body string) bool
+	OnResponse           func(res *RpcResponse) bool
 	OnEntry              func(result gjson.Result) bool
 }
 
@@ -65,8 +66,12 @@ func (z *RpcList) handleResponse(c *dbx_api.DbxContext, res *RpcResponse, err er
 		return false
 	}
 
-	if z.OnResponse != nil && !z.OnResponse(res.Body) {
-		log.Debug("endpoint handler body returned abort")
+	if z.OnResponseBody != nil && !z.OnResponseBody(res.Body) {
+		log.Debug("OnResponseBody returned abort")
+		return false
+	}
+	if z.OnResponse != nil && !z.OnResponse(res) {
+		log.Debug("OnResponse returned abort")
 		return false
 	}
 

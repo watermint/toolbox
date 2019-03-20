@@ -17,14 +17,11 @@ import (
 	"time"
 )
 
-func New(ec *app.ExecContext, token api_auth.Token, options ...api_context.Option) api_context.Context {
+func New(ec *app.ExecContext, token api_auth.Token) api_context.Context {
 	c := &contextImpl{
 		ec:     ec,
 		dt:     token,
 		client: &http.Client{},
-	}
-	for _, op := range options {
-		op(c)
 	}
 	return c
 }
@@ -50,6 +47,48 @@ type contextImpl struct {
 	asMemberId string
 	asAdminId  string
 	basePath   api_context.Base
+}
+
+func (z *contextImpl) AsMemberId(teamMemberId string) api_context.Context {
+	return &contextImpl{
+		ec:     z.ec,
+		dt:     z.dt,
+		noAuth: z.noAuth,
+		client: &http.Client{
+			Timeout: z.client.Timeout,
+		},
+		asMemberId: teamMemberId,
+		asAdminId:  "",
+		basePath:   z.basePath,
+	}
+}
+
+func (z *contextImpl) AsAdminId(teamMemberId string) api_context.Context {
+	return &contextImpl{
+		ec:     z.ec,
+		dt:     z.dt,
+		noAuth: z.noAuth,
+		client: &http.Client{
+			Timeout: z.client.Timeout,
+		},
+		asMemberId: "",
+		asAdminId:  teamMemberId,
+		basePath:   z.basePath,
+	}
+}
+
+func (z *contextImpl) BasePath(pathRoot api_context.Base) api_context.Context {
+	return &contextImpl{
+		ec:     z.ec,
+		dt:     z.dt,
+		noAuth: z.noAuth,
+		client: &http.Client{
+			Timeout: z.client.Timeout,
+		},
+		asMemberId: z.asMemberId,
+		asAdminId:  z.asAdminId,
+		basePath:   pathRoot,
+	}
 }
 
 func (z *contextImpl) ErrorMsg(err error) app_ui.UIMessage {
@@ -90,18 +129,6 @@ func (z *contextImpl) ErrorMsg(err error) app_ui.UIMessage {
 
 func (z *contextImpl) ClientTimeout(second int) {
 	z.client.Timeout = time.Duration(second) * time.Second
-}
-
-func (z *contextImpl) AsMemberId(teamMemberId string) {
-	z.asMemberId = teamMemberId
-}
-
-func (z *contextImpl) AsAdminId(teamMemberId string) {
-	z.asAdminId = teamMemberId
-}
-
-func (z *contextImpl) BasePath(pathRoot api_context.Base) {
-	z.basePath = pathRoot
 }
 
 func (z *contextImpl) Log() *zap.Logger {

@@ -93,8 +93,14 @@ func (z *listImpl) Call() (err error) {
 			}
 			return false
 		},
-		OnResponse: func(body string) bool {
-			// TODO: impl
+		OnResponse: func(res *dbx_rpc.RpcResponse) bool {
+			if z.onResponse == nil {
+				return true
+			}
+
+			if z.onResponse(api_rpc_impl.NewSuccessResponse(res)) != nil {
+				return false
+			}
 			return true
 		},
 		OnEntry: func(result gjson.Result) bool {

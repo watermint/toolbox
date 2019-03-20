@@ -25,12 +25,17 @@ type Member interface {
 	User() (user *User, e bool)
 	Group() (group *Group, e bool)
 	Invitee() (invitee *Invitee, e bool)
+	EntryRaw() json.RawMessage
 }
 
 type Metadata struct {
 	Raw              json.RawMessage
 	EntryAccessType  string `path:"access_type.\\.tag"`
 	EntryIsInherited bool   `path:"is_inherited"`
+}
+
+func (z *Metadata) EntryRaw() json.RawMessage {
+	return z.Raw
 }
 
 func (z *Metadata) AccessType() string {
@@ -100,6 +105,10 @@ type User struct {
 	TeamMemberId     string `path:"user.team_member_id"`
 }
 
+func (z *User) EntryRaw() json.RawMessage {
+	return z.Raw
+}
+
 func (z *User) AccessType() string {
 	return z.EntryAccessType
 }
@@ -139,6 +148,10 @@ type Group struct {
 	MemberCount         int    `path:"group.member_count"`
 }
 
+func (z *Group) EntryRaw() json.RawMessage {
+	return z.Raw
+}
+
 func (z *Group) AccessType() string {
 	return z.EntryAccessType
 }
@@ -168,6 +181,10 @@ type Invitee struct {
 	EntryAccessType  string `path:"access_type.\\.tag"`
 	EntryIsInherited bool   `path:"is_inherited"`
 	InviteeEmail     string `path:"invitee.email"`
+}
+
+func (z *Invitee) EntryRaw() json.RawMessage {
+	return z.Raw
 }
 
 func (z *Invitee) AccessType() string {

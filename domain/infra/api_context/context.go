@@ -16,13 +16,10 @@ type Context interface {
 	Request(endpoint string) api_rpc.Request
 	List(endpoint string) api_list.List
 	Async(endpoint string) api_async.Async
-}
 
-type ContextOption interface {
-	ClientTimeout(second int)
-	AsMemberId(teamMemberId string)
-	AsAdminId(teamMemberId string)
-	BasePath(pathRoot Base)
+	AsMemberId(teamMemberId string) Context
+	AsAdminId(teamMemberId string) Context
+	BasePath(pathRoot Base) Context
 }
 
 type Base interface {
@@ -37,27 +34,4 @@ type Namespace interface {
 }
 type Home interface {
 	Base
-}
-
-type Option func(co ContextOption)
-
-func ClientTimeout(second int) Option {
-	return func(co ContextOption) {
-		co.ClientTimeout(second)
-	}
-}
-func AsMemberId(teamMemberId string) Option {
-	return func(co ContextOption) {
-		co.AsMemberId(teamMemberId)
-	}
-}
-func AsAdminId(teamMemberId string) Option {
-	return func(co ContextOption) {
-		co.AsAdminId(teamMemberId)
-	}
-}
-func BasePath(pathRoot Base) Option {
-	return func(co ContextOption) {
-		co.BasePath(pathRoot)
-	}
 }

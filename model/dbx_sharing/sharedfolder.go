@@ -32,7 +32,7 @@ func (z *SharedFolderMembers) List(c *dbx_api.DbxContext, sharedFolderId string)
 		EndpointListContinue: "sharing/list_folder_members/continue",
 		UseHasMore:           false,
 		OnError:              z.OnError,
-		OnResponse: func(body string) bool {
+		OnResponseBody: func(body string) bool {
 			users := gjson.Get(body, "users")
 			if z.OnUser != nil && users.Exists() && users.IsArray() {
 				for _, u := range users.Array() {

@@ -17,23 +17,23 @@ var (
 	ToolboxTestSuiteFolder = mo_path.NewPath("/toolbox-testsuite")
 )
 
-func DoTestTokenFull(test func(ctx api_context.Context), opts ...api_context.Option) {
-	doTest(dbx_auth.DropboxTokenFull, test, opts...)
+func DoTestTokenFull(test func(ctx api_context.Context)) {
+	doTest(dbx_auth.DropboxTokenFull, test)
 }
-func DoTestBusinessInfo(test func(ctx api_context.Context), opts ...api_context.Option) {
-	doTest(dbx_auth.DropboxTokenBusinessInfo, test, opts...)
+func DoTestBusinessInfo(test func(ctx api_context.Context)) {
+	doTest(dbx_auth.DropboxTokenBusinessInfo, test)
 }
-func DoTestBusinessFile(test func(ctx api_context.Context), opts ...api_context.Option) {
-	doTest(dbx_auth.DropboxTokenBusinessFile, test, opts...)
+func DoTestBusinessFile(test func(ctx api_context.Context)) {
+	doTest(dbx_auth.DropboxTokenBusinessFile, test)
 }
-func DoTestBusinessManagement(test func(ctx api_context.Context), opts ...api_context.Option) {
-	doTest(dbx_auth.DropboxTokenBusinessManagement, test, opts...)
+func DoTestBusinessManagement(test func(ctx api_context.Context)) {
+	doTest(dbx_auth.DropboxTokenBusinessManagement, test)
 }
-func DoTestBusinessAudit(test func(ctx api_context.Context), opts ...api_context.Option) {
-	doTest(dbx_auth.DropboxTokenBusinessAudit, test, opts...)
+func DoTestBusinessAudit(test func(ctx api_context.Context)) {
+	doTest(dbx_auth.DropboxTokenBusinessAudit, test)
 }
 
-func doTest(tokenType string, test func(ctx api_context.Context), opts ...api_context.Option) {
+func doTest(tokenType string, test func(ctx api_context.Context)) {
 	ec := app.NewExecContextForTest()
 	if !dbx_auth.IsCacheAvailable(ec, testPeerName) {
 		return
@@ -43,7 +43,7 @@ func doTest(tokenType string, test func(ctx api_context.Context), opts ...api_co
 	if err != nil {
 		return
 	}
-	ctx := api_context_impl.New(ec, api_auth_impl.NewCompatible(dt.Token), opts...)
+	ctx := api_context_impl.New(ec, api_auth_impl.NewCompatible(dt.Token))
 	test(ctx)
 
 	ec.Shutdown()

@@ -2,7 +2,6 @@ package mo_group_member
 
 import (
 	"encoding/json"
-	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_group"
@@ -37,31 +36,14 @@ func (z *Member) Profile() mo_profile.Profile {
 }
 
 func NewGroupMember(group *mo_group.Group, member *Member) (gm *GroupMember) {
-	raw := struct {
-		Group  json.RawMessage `json:"group,string"`
-		Member json.RawMessage `json:"member,string"`
-	}{
-		Group:  group.Raw,
-		Member: member.Raw,
-	}
-	r, err := json.Marshal(raw)
-	if err != nil {
-		app.Root().Log().Warn("unable to marshal raw JSON", zap.Error(err))
-		r = json.RawMessage("{}")
-	}
+	raws := make(map[string]json.RawMessage)
+	raws["group"] = group.Raw
+	raws["member"] = member.Raw
+	raw := api_parser.CombineRaw(raws)
 
-	gm = &GroupMember{
-		Raw:                 r,
-		GroupId:             group.GroupId,
-		GroupName:           group.GroupName,
-		GroupManagementType: group.GroupManagementType,
-		AccessType:          member.AccessType,
-		AccountId:           member.AccountId,
-		TeamMemberId:        member.TeamMemberId,
-		Email:               member.Email,
-		Status:              member.Status,
-		Surname:             member.Surname,
-		GivenName:           member.GivenName,
+	gm = &GroupMember{}
+	if err := api_parser.ParseModelRaw(gm, raw); err != nil {
+		app.Root().Log().Error("unable to parse", zap.Error(err))
 	}
 	return gm
 }
@@ -83,14 +65,7 @@ type GroupMember struct {
 
 func (z *GroupMember) Group() (group *mo_group.Group) {
 	group = &mo_group.Group{}
-	j := gjson.ParseBytes(z.Raw)
-	jg := j.Get("group")
-	if !jg.Exists() {
-		app.Root().Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)))
-		// return empty
-		return group
-	}
-	if err := api_parser.ParseModel(group, jg); err != nil {
+	if err := api_parser.ParseModelPathRaw(group, z.Raw, "group"); err != nil {
 		app.Root().Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
 		// return empty
 		return group
@@ -100,17 +75,10 @@ func (z *GroupMember) Group() (group *mo_group.Group) {
 
 func (z *GroupMember) Member() (member *Member) {
 	member = &Member{}
-	j := gjson.ParseBytes(z.Raw)
-	jg := j.Get("member")
-	if !jg.Exists() {
-		app.Root().Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)))
-		// return empty
-		return
-	}
-	if err := api_parser.ParseModel(member, jg); err != nil {
+	if err := api_parser.ParseModelPathRaw(member, z.Raw, "member"); err != nil {
 		app.Root().Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
 		// return empty
-		return
+		return member
 	}
 	return member
 }
