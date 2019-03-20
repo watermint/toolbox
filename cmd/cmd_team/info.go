@@ -4,9 +4,10 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/service/sv_team"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_team"
 )
 
 type CmdTeamInfo struct {
@@ -34,21 +35,18 @@ func (z *CmdTeamInfo) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdTeamInfo) Exec(args []string) {
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiInfo, err := au.Auth(dbx_auth.DropboxTokenBusinessInfo)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessInfo)
 	if err != nil {
+		return
+	}
+	svc := sv_team.New(ctx)
+	info, err := svc.Info()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
 		return
 	}
 
 	z.report.Init(z.ExecContext)
-	defer z.report.Close()
-
-	l := dbx_team.TeamInfoList{
-		OnError: z.DefaultErrorHandler,
-		OnEntry: func(info *dbx_team.TeamInfo) bool {
-			z.report.Report(info)
-			return true
-		},
-	}
-	l.List(apiInfo)
+	z.report.Report(info)
+	z.report.Close()
 }
