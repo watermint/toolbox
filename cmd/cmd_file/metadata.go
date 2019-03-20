@@ -4,8 +4,10 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_file"
 )
 
 type CmdFileMetadata struct {
@@ -33,8 +35,7 @@ func (z *CmdFileMetadata) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdFileMetadata) Exec(args []string) {
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	ac, err := au.Auth(dbx_auth.DropboxTokenFull)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenFull)
 	if err != nil {
 		return
 	}
@@ -42,26 +43,22 @@ func (z *CmdFileMetadata) Exec(args []string) {
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
+	svc := sv_file.NewFiles(ctx)
+
 	for _, p := range args {
-		md := dbx_file.Metadata{
-			Path:                            p,
-			IncludeDeleted:                  true,
-			IncludeHasExplicitSharedMembers: true,
-			IncludeMediaInfo:                true,
-			OnError:                         z.DefaultErrorHandler,
-			OnDelete: func(deleted *dbx_file.Deleted) bool {
-				z.report.Report(deleted)
-				return true
-			},
-			OnFile: func(file *dbx_file.File) bool {
-				z.report.Report(file)
-				return true
-			},
-			OnFolder: func(folder *dbx_file.Folder) bool {
-				z.report.Report(folder)
-				return true
-			},
+		md, err := svc.Resolve(mo_path.NewPath(p))
+		if err != nil {
+			ctx.ErrorMsg(err).TellError()
+			continue
 		}
-		md.Get(ac)
+		if file, e := md.File(); e {
+			z.report.Report(file)
+		}
+		if folder, e := md.Folder(); e {
+			z.report.Report(folder)
+		}
+		if deleted, e := md.Deleted(); e {
+			z.report.Report(deleted)
+		}
 	}
 }
