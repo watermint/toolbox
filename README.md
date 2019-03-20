@@ -55,6 +55,7 @@ Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 | `member sync`                   | Sync member information with provided csv                     |
 | `member update email`           | Update member email address                                   |
 | `sharedfolder list`             | List shared folders                                           |
+| `sharedfolder member list`      | List shared folder member(s)                                  |
 | `sharedlink create`             | Create shared link                                            |
 | `sharedlink list`               | List shared links                                             |
 | `sharedlink remove`             | Remove shared link                                            |

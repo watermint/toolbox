@@ -5,6 +5,7 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
+	"github.com/watermint/toolbox/domain/model/mo_sharedfolder"
 	"go.uber.org/zap"
 )
 
@@ -209,4 +210,36 @@ func (z *Invitee) Group() (group *Group, e bool) {
 
 func (z *Invitee) Invitee() (invitee *Invitee, e bool) {
 	return z, true
+}
+
+type SharedFolderMember struct {
+	Raw                  json.RawMessage
+	SharedFolderId       string `path:"sharedfolder.shared_folder_id"`
+	ParentSharedFolderId string `path:"sharedfolder.parent_shared_folder_id"`
+	Name                 string `path:"sharedfolder.name"`
+	AccessType           string `path:"sharedfolder.access_type.\\.tag"`
+	PathLower            string `path:"sharedfolder.path_lower"`
+	IsInsideTeamFolder   bool   `path:"sharedfolder.is_inside_team_folder"`
+	IsTeamFolder         bool   `path:"sharedfolder.is_team_folder"`
+	EntryAccessType      string `path:"member.access_type.\\.tag"`
+	EntryIsInherited     bool   `path:"member.is_inherited"`
+	AccountId            string `path:"member.user.account_id"`
+	Email                string `path:"member.user.email"`
+	DisplayName          string `path:"member.user.display_name"`
+	GroupName            string `path:"member.group.group_name"`
+	GroupId              string `path:"member.group.group_id"`
+	InviteeEmail         string `path:"member.invitee.email"`
+}
+
+func NewSharedFolderMember(sf *mo_sharedfolder.SharedFolder, m Member) *SharedFolderMember {
+	raws := make(map[string]json.RawMessage)
+	raws["sharedfolder"] = sf.Raw
+	raws["member"] = m.EntryRaw()
+	raw := api_parser.CombineRaw(raws)
+
+	sfm := &SharedFolderMember{}
+	if err := api_parser.ParseModelRaw(sfm, raw); err != nil {
+		app.Root().Log().Error("unable to parse", zap.Error(err))
+	}
+	return sfm
 }

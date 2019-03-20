@@ -239,6 +239,8 @@
   "cmd.file.save.err.not_enough_params": "Params `-path` and `-url` are required. Please specify those params.",
   "cmd.sharedfolder.desc": "Shared folder operation",
   "cmd.sharedfolder.list.desc": "List shared folders",
+  "cmd.sharedfolder.member.desc": "Shared folder member operation",
+  "cmd.sharedfolder.member.list.desc": "List shared folder member(s)",
   "cmd.sharedlink.desc": "Shared link operation",
   "cmd.sharedlink.list.desc": "List shared links",
   "cmd.sharedlink.create.desc": "Create shared link",
