@@ -31,3 +31,19 @@ func (z *Member) Profile() mo_profile.Profile {
 	}
 	return p
 }
+
+func MapByEmail(list []*Member) (members map[string]*Member) {
+	members = make(map[string]*Member)
+	for _, m := range list {
+		members[m.Email] = m
+	}
+	return members
+}
+
+func MapByTeamMemberId(list []*Member) (members map[string]*Member) {
+	members = make(map[string]*Member)
+	for _, m := range list {
+		members[m.TeamMemberId] = m
+	}
+	return members
+}

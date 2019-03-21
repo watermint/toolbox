@@ -2,14 +2,15 @@ package cmd_linkedapp
 
 import (
 	"flag"
-	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/model/mo_linkedapp"
+	"github.com/watermint/toolbox/domain/model/mo_member"
+	"github.com/watermint/toolbox/domain/service/sv_linkedapp"
+	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/model/dbx_api"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_member"
-	"github.com/watermint/toolbox/model/dbx_profile"
-	"github.com/watermint/toolbox/model/dbx_team"
 )
 
 type CmdMemberLinkedAppList struct {
@@ -37,87 +38,41 @@ func (z *CmdMemberLinkedAppList) Usage() func(cmd.CommandUsage) {
 func (z *CmdMemberLinkedAppList) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
-
-	descWithEmail := z.ExecContext.Msg("cmd.team.linkedapp.list.flag.with_email").T()
-	f.BoolVar(&z.OptWithMemberEmail, "with-email", false, descWithEmail)
 }
 
 func (z *CmdMemberLinkedAppList) Exec(args []string) {
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
+		return
+	}
+
+	svm := sv_member.New(ctx)
+	memberList, err := svm.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
+	}
+	members := mo_member.MapByTeamMemberId(memberList)
+
+	sva := sv_linkedapp.New(ctx)
+	apps, err := sva.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
 		return
 	}
 
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
-	if z.OptWithMemberEmail {
-		z.withMemberReport(apiFile)
-	} else {
-		z.plainReport(apiFile)
-	}
-}
+	for _, app := range apps {
+		m := &mo_member.Member{}
+		m.TeamMemberId = app.TeamMemberId
 
-func (z *CmdMemberLinkedAppList) plainReport(apiFile *dbx_api.DbxContext) {
-	l := dbx_team.LinkedAppList{
-		OnError: z.DefaultErrorHandler,
-		OnEntry: func(app *dbx_team.LinkedApp) bool {
-			z.report.Report(app)
-			return true
-		},
-	}
-	l.List(apiFile)
-}
+		if m0, e := members[m.TeamMemberId]; e {
+			m = m0
+		}
 
-func (z *CmdMemberLinkedAppList) withMemberReport(apiFile *dbx_api.DbxContext) {
-	z.Log().Info("Prepare for expand members")
-	members := make(map[string]*dbx_profile.Member)
-	lm := dbx_member.MembersList{
-		OnError: z.DefaultErrorHandlerIgnoreError,
-		OnEntry: func(member *dbx_profile.Member) bool {
-			members[member.Profile.TeamMemberId] = member
-			return true
-		},
+		ma := mo_linkedapp.NewMemberLinkedApp(m, app)
+		z.report.Report(ma)
 	}
-	if !lm.List(apiFile, false) {
-		return
-	}
-
-	z.Log().Info("Listing App information")
-
-	type App struct {
-		TeamMemberId    string `json:"team_member_id"`
-		TeamMemberEmail string `json:"team_member_email"`
-		AppId           string `json:"app_id"`
-		AppName         string `json:"app_name"`
-		Publisher       string `json:"publisher"`
-		PublisherUrl    string `json:"publisher_url"`
-		IsAppFolder     bool   `json:"is_app_folder"`
-		Linked          string `json:"linked"`
-	}
-
-	l := dbx_team.LinkedAppList{
-		OnError: z.DefaultErrorHandler,
-		OnEntry: func(app *dbx_team.LinkedApp) bool {
-			email := ""
-			if m, ok := members[app.TeamMemberId]; ok {
-				email = m.Profile.Email
-			}
-			json := gjson.ParseBytes(app.LinkedApiApp)
-			a := App{
-				TeamMemberId:    app.TeamMemberId,
-				TeamMemberEmail: email,
-				AppId:           app.LinkedApiAppId,
-				AppName:         json.Get("app_name").String(),
-				Publisher:       json.Get("publisher").String(),
-				PublisherUrl:    json.Get("publisher_url").String(),
-				IsAppFolder:     json.Get("is_app_folder").Bool(),
-				Linked:          json.Get("linked").String(),
-			}
-			z.report.Report(a)
-			return true
-		},
-	}
-	l.List(apiFile)
 }
