@@ -2,6 +2,7 @@ package mo_linkedapp
 
 import (
 	"encoding/json"
+	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_member"
@@ -40,8 +41,9 @@ type MemberLinkedApp struct {
 }
 
 func NewMemberLinkedApp(member *mo_member.Member, linkedApp *LinkedApp) (mla *MemberLinkedApp) {
+	prof := gjson.ParseBytes(member.Raw).Get("profile")
 	raws := make(map[string]json.RawMessage)
-	raws["profile"] = member.Profile().Raw
+	raws["profile"] = json.RawMessage(prof.Raw)
 	raws["linked_app"] = linkedApp.Raw
 	raw := api_parser.CombineRaw(raws)
 
