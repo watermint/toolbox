@@ -1,12 +1,9 @@
-package dbx_device
+package mo_device
 
-import (
-	"encoding/json"
-	"testing"
-)
+import "testing"
 
-func TestModelDevice(t *testing.T) {
-	resListMembersDevices := `{
+const (
+	respListDevices = `{
   "devices": [
     {
       "team_member_id": "dbmid:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiQ",
@@ -90,29 +87,8 @@ func TestModelDevice(t *testing.T) {
   ],
   "has_more": false
 }`
+)
 
-	d := Devices{}
-	err := json.Unmarshal([]byte(resListMembersDevices), &d)
-	if err != nil {
-		t.Error(err)
-	}
+func TestDeviceSession(t *testing.T) {
 
-	if d.Devices[0].TeamMemberId != "dbmid:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiQ" {
-		t.Error("invalid")
-	}
-
-	m := d.Devices[1].Mobile()
-	if len(m) != 1 {
-		t.Error("invalid")
-	}
-
-	w := d.Devices[1].Web()
-	if len(w) != 2 {
-		t.Error("invalid")
-	}
-
-	x := d.Devices[1].Desktop()
-	if len(x) != 2 {
-		t.Error("invalid")
-	}
 }

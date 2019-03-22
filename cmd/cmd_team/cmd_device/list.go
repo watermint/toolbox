@@ -4,9 +4,12 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/model/mo_device"
+	"github.com/watermint/toolbox/domain/model/mo_member"
+	"github.com/watermint/toolbox/domain/service/sv_device"
+	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_device"
-	"github.com/watermint/toolbox/model/dbx_device/flat_device"
 )
 
 type CmdTeamDeviceList struct {
@@ -36,56 +39,31 @@ func (z *CmdTeamDeviceList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdTeamDeviceList) Exec(args []string) {
-	l := dbx_device.DeviceList{
-		OnError: z.DefaultErrorHandler,
-		OnDesktop: func(desktop *flat_device.DesktopClient) bool {
-			z.report.Report(desktop)
-			return true
-		},
-		OnMobile: func(mobile *flat_device.MobileClient) bool {
-			z.report.Report(mobile)
-			return true
-		},
-		OnWeb: func(web *flat_device.WebSession) bool {
-			z.report.Report(web)
-			return true
-		},
-	}
-
-	switch z.optDeviceType {
-	case "all":
-		l.IncludeWebSessions = true
-		l.IncludeMobileClients = true
-		l.IncludeDesktopClients = true
-
-	case "mobile":
-		l.IncludeWebSessions = false
-		l.IncludeMobileClients = true
-		l.IncludeDesktopClients = false
-
-	case "web":
-		l.IncludeWebSessions = true
-		l.IncludeMobileClients = false
-		l.IncludeDesktopClients = false
-
-	case "desktop":
-		l.IncludeWebSessions = false
-		l.IncludeMobileClients = false
-		l.IncludeDesktopClients = true
-
-	default:
-		z.ExecContext.Msg("cmd.team.device.list.err.device_type").TellError()
-		return
-	}
-
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessFile)
 	if err != nil {
 		return
 	}
 
+	svm := sv_member.New(ctx)
+	memberList, err := svm.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
+	}
+	members := mo_member.MapByTeamMemberId(memberList)
+
+	svd := sv_device.New(ctx)
+	devices, err := svd.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
+	}
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
-
-	l.List(apiFile)
+	for _, dev := range devices {
+		if member, e := members[dev.EntryTeamMemberId()]; e {
+			md := mo_device.NewMemberSession(member, dev)
+			z.report.Report(md)
+		}
+	}
 }
