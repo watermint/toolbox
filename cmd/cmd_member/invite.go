@@ -2,18 +2,22 @@ package cmd_member
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_io"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
+	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_member"
-	"github.com/watermint/toolbox/model/dbx_profile"
+	"go.uber.org/zap"
+	"strings"
 )
 
 type CmdMemberInvite struct {
 	*cmd.SimpleCommandlet
 	optSilent bool
+	optCsv    string
 	report    app_report.Factory
-	provision MembersProvision
 }
 
 func (z *CmdMemberInvite) Name() string {
@@ -25,60 +29,63 @@ func (z *CmdMemberInvite) Desc() string {
 }
 
 func (z *CmdMemberInvite) Usage() func(cmd.CommandUsage) {
-	return z.provision.Usage()
+	return nil
 }
 
 func (z *CmdMemberInvite) FlagConfig(f *flag.FlagSet) {
 	descSilent := z.ExecContext.Msg("cmd.member.invite.flag.silent").T()
 	f.BoolVar(&z.optSilent, "silent", false, descSilent)
 
-	z.provision.ec = z.ExecContext
-	z.provision.FlagConfig(f)
+	descCsv := z.ExecContext.Msg("cmd.member.invite.flag.csv").T()
+	f.StringVar(&z.optCsv, "csv", "", descCsv)
+
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 }
 
 func (z *CmdMemberInvite) Exec(args []string) {
-	z.provision.Logger = z.Log()
-	err := z.provision.Load(args)
-	if err != nil {
-		z.PrintUsage(z.ExecContext, z)
-		return
-	}
-
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiMgmt, err := au.Auth(dbx_auth.DropboxTokenBusinessManagement)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessManagement)
 	if err != nil {
 		return
 	}
+	svm := sv_member.New(ctx)
 
-	z.report.Init(z.ExecContext)
-	defer z.report.Close()
+	err = app_io.NewCsvLoader(z.ExecContext, z.optCsv).
+		OnRow(func(cols []string) error {
+			if len(cols) < 1 {
+				return nil
+			}
+			email := strings.TrimSpace(cols[0])
+			if !api_util.RegexEmail.MatchString(email) {
+				z.Log().Debug("skip: the data is not looking alike an email address", zap.String("email", email))
+				return nil
+			}
+			opts := make([]sv_member.AddOpt, 0)
+			if len(cols) >= 2 {
+				givenName := cols[1]
+				opts = append(opts, sv_member.AddWithGivenName(givenName))
+			}
+			if len(cols) >= 3 {
+				surname := cols[2]
+				opts = append(opts, sv_member.AddWithSurname(surname))
+			}
+			if z.optSilent {
+				opts = append(opts, sv_member.AddWithoutSendWelcomeEmail())
+			}
 
-	memberReport := MemberReport{
-		Report: &z.report,
+			member, err := svm.Add(email, opts...)
+			if err != nil {
+				ctx.ErrorMsg(err).TellError()
+				z.Log().Warn("Unable to invite", zap.String("email", email), zap.Error(err))
+				return nil
+			}
+			z.report.Report(member)
+
+			return nil
+		}).
+		Load()
+
+	if err != nil {
+		z.Log().Debug("Unable to load", zap.Error(err))
 	}
-
-	members := z.provision.Members
-	invites := make([]*dbx_member.InviteMember, len(members))
-
-	for i, m := range members {
-		invites[i] = m.InviteMember(z.optSilent)
-	}
-
-	mi := dbx_member.MembersInvite{
-		OnError:   z.DefaultErrorHandler,
-		OnFailure: memberReport.HandleFailure,
-		OnSuccess: func(m *dbx_profile.Member) bool {
-			z.report.Report(m)
-			return true
-		},
-	}
-	if !mi.Invite(apiMgmt, invites) {
-		z.ExecContext.Msg("cmd.member.invite.failure_exit").TellError()
-		z.Log().Debug("terminate operation due to error")
-		// quit, in case of the error
-		return
-	}
-
 }
