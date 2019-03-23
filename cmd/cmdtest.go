@@ -4,7 +4,7 @@ import (
 	"context"
 	"flag"
 	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/model/dbx_auth"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -39,7 +39,7 @@ func CmdTestWithTimeout(t *testing.T, g Commandlet, args []string, timeout time.
 	}
 
 	// Finish tests if tokens file not available
-	if !dbx_auth.IsCacheAvailable(ec, "test_suite") {
+	if !api_auth_impl.IsCacheAvailable(ec, "test_suite") {
 		ec.Log().Info("Skip tests")
 		return
 	}

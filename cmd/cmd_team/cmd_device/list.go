@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_device"
 	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdTeamDeviceList struct {
@@ -39,7 +38,7 @@ func (z *CmdTeamDeviceList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdTeamDeviceList) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessFile())
 	if err != nil {
 		return
 	}

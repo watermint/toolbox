@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/service/sv_profile"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdAuthBusinessInfo struct {
@@ -32,7 +31,7 @@ func (z *CmdAuthBusinessInfo) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdAuthBusinessInfo) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessInfo)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessInfo())
 	if err != nil {
 		return
 	}

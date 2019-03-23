@@ -15,16 +15,12 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"github.com/watermint/toolbox/domain/service/sv_team"
-	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_group"
 	"go.uber.org/zap"
 )
 
 type CmdTeamAuditSharing struct {
 	*cmd.SimpleCommandlet
-	groupMembers   map[string][]*dbx_group.GroupMember
-	report         app_report.Factory
-	optExpandGroup bool
+	report app_report.Factory
 }
 
 func (CmdTeamAuditSharing) Name() string {
@@ -45,7 +41,7 @@ func (z *CmdTeamAuditSharing) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdTeamAuditSharing) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessFile())
 	if err != nil {
 		return
 	}

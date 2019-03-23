@@ -2,21 +2,15 @@ package api_list_impl
 
 import (
 	"errors"
-	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_list"
-	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
-	"github.com/watermint/toolbox/domain/infra/api_rpc_impl"
-	"github.com/watermint/toolbox/model/dbx_rpc"
 	"go.uber.org/zap"
 )
 
-func New(ec *app.ExecContext, ctx api_context.Context, endpoint string, asMemberId, asAdminId string, base api_context.Base, token api_auth.Token) api_list.List {
+func New(ctx api_context.Context, endpoint string, asMemberId, asAdminId string, base api_context.PathRoot) api_list.List {
 	return &listImpl{
-		ec:              ec,
 		ctx:             ctx,
 		requestEndpoint: endpoint,
 		asMemberId:      asMemberId,
@@ -27,12 +21,11 @@ func New(ec *app.ExecContext, ctx api_context.Context, endpoint string, asMember
 
 type listImpl struct {
 	ctx              api_context.Context
-	ec               *app.ExecContext
 	asMemberId       string
 	asAdminId        string
-	base             api_context.Base
+	base             api_context.PathRoot
 	param            interface{}
-	token            api_auth.Token
+	token            api_auth.TokenContainer
 	useHasMore       bool
 	resultTag        string
 	requestEndpoint  string
@@ -77,70 +70,119 @@ func (z *listImpl) OnEntry(entry func(entry api_list.ListEntry) error) api_list.
 	return z
 }
 
-func (z *listImpl) Call() (err error) {
-	ls := dbx_rpc.RpcList{
-		EndpointList:         z.requestEndpoint,
-		EndpointListContinue: z.continueEndpoint,
-		//PathRoot: z.base, //TODO: require type change
-		UseHasMore: z.useHasMore,
-		AsMemberId: z.asMemberId,
-		AsAdminId:  z.asAdminId,
-		ResultTag:  z.resultTag,
-		OnError: func(err error) bool {
-			z.ctx.Log().Debug("error", zap.Error(err))
-			if z.onFailure != nil {
-				return z.onFailure(err) != nil
-			}
-			return false
-		},
-		OnResponse: func(res *dbx_rpc.RpcResponse) bool {
-			if z.onResponse == nil {
-				return true
-			}
+func (z *listImpl) handleResponse(endpoint string, res api_rpc.Response, err error) error {
+	log := z.ctx.Log().With(zap.String("endpoint", endpoint))
 
-			if z.onResponse(api_rpc_impl.NewSuccessResponse(res)) != nil {
-				return false
-			}
-			return true
-		},
-		OnEntry: func(result gjson.Result) bool {
-			if z.onEntry != nil {
-				e := &listEntryImpl{
-					entry: result,
-				}
-				if err := z.onEntry(e); err != nil {
-					z.ctx.Log().Debug("onEntry returned error", zap.Error(err))
-					return false
-				}
-				// fall through
-			}
-			return true
-		},
+	if err != nil {
+		if z.onFailure != nil {
+			return z.onFailure(err)
+		}
+		return err
 	}
 
-	rpcReq := z.ctx.Request(z.requestEndpoint).Param(z.param)
-	switch qi := rpcReq.(type) {
-	case *api_rpc_impl.RequestImpl:
-		if !ls.List(qi.DbxApiContext(), z.param) {
-			return errors.New("operation failed")
+	if res == nil {
+		log.Warn("Response is null")
+		return errors.New("response is null")
+	}
+
+	if z.onResponse != nil {
+		if err = z.onResponse(res); err != nil {
+			log.Debug("OnResponseBody returned abort", zap.Error(err))
+			return err
 		}
+	}
+
+	if z.onEntry != nil {
+		if err = z.handleEntry(res); err != nil {
+			return err
+		}
+	}
+
+	if cont, cursor := z.isContinue(res); cont {
+		if err = z.listContinue(cursor); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (z *listImpl) handleEntry(res api_rpc.Response) error {
+	if z.onEntry == nil {
 		return nil
 	}
-	panic("invalid state")
+
+	log := z.ctx.Log().With(zap.String("endpoint", z.requestEndpoint), zap.String("result_tag", z.resultTag))
+	j, err := res.Json()
+	if err != nil {
+		return err
+	}
+
+	results := j.Get(z.resultTag)
+	if !results.Exists() {
+		log.Debug("No result found")
+		return errors.New("no result found")
+	}
+
+	if !results.IsArray() {
+		log.Debug("result was not an array")
+		return errors.New("result was not an array")
+	}
+
+	for _, e := range results.Array() {
+		le := &listEntryImpl{
+			entry: e,
+		}
+		if err = z.onEntry(le); err != nil {
+			log.Debug("handler returned abort")
+			return err
+		}
+	}
+	return nil
 }
 
-type listEntryImpl struct {
-	entry gjson.Result
+func (z *listImpl) isContinue(res api_rpc.Response) (cont bool, cursor string) {
+	log := z.ctx.Log().With(zap.String("endpoint", z.continueEndpoint))
+	j, err := res.Json()
+	if err != nil {
+		return false, ""
+	}
+
+	if z.useHasMore {
+		if j.Get("has_more").Bool() {
+			cursor = j.Get("cursor").String()
+			if cursor != "" {
+				return true, cursor
+			}
+			log.Debug("has_more returned true, but no cursor found in the body")
+			return false, ""
+		} else {
+			return false, ""
+		}
+	}
+
+	cursor = j.Get("cursor").String()
+	if cursor != "" {
+		return true, cursor
+	}
+	return false, ""
 }
 
-func (z *listEntryImpl) Json() (res gjson.Result, err error) {
-	return z.entry, nil
+func (z *listImpl) list() error {
+	res, err := z.ctx.Request(z.requestEndpoint).Param(z.param).Call()
+	return z.handleResponse(z.requestEndpoint, res, err)
 }
 
-func (z *listEntryImpl) Model(v interface{}) error {
-	return api_parser.ParseModel(v, z.entry)
+func (z *listImpl) listContinue(cursor string) error {
+	p := struct {
+		Cursor string `json:"cursor"`
+	}{
+		Cursor: cursor,
+	}
+	res, err := z.ctx.Request(z.continueEndpoint).Param(p).Call()
+
+	return z.handleResponse(z.continueEndpoint, res, err)
 }
 
-func (z *listEntryImpl) ModelWithPath(v interface{}, path string) error {
-	return api_parser.ParseModel(v, z.entry.Get(path))
+func (z *listImpl) Call() (err error) {
+	return z.list()
 }

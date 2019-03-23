@@ -4,10 +4,13 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_namespace"
-	"github.com/watermint/toolbox/model/dbx_profile"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/domain/model/mo_file"
+	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/service/sv_namespace"
+	"github.com/watermint/toolbox/domain/service/sv_profile"
+	"github.com/watermint/toolbox/domain/usecase/uc_file_traverse"
 )
 
 type CmdTeamFolderFileList struct {
@@ -15,7 +18,6 @@ type CmdTeamFolderFileList struct {
 	optIncludeMediaInfo bool
 	optIncludeDeleted   bool
 	report              app_report.Factory
-	namespaceFile       dbx_namespace.ListNamespaceFile
 }
 
 func (CmdTeamFolderFileList) Name() string {
@@ -34,60 +36,51 @@ func (z *CmdTeamFolderFileList) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descIncludeDeleted := z.ExecContext.Msg("cmd.teamfolder.file.list.flag.include_deleted").T()
-	f.BoolVar(&z.namespaceFile.OptIncludeDeleted, "include-deleted", false, descIncludeDeleted)
-
-	descIncludeMediaInfo := z.ExecContext.Msg("cmd.teamfolder.file.list.flag.include_media_info").T()
-	f.BoolVar(&z.namespaceFile.OptIncludeMediaInfo, "include-media-info", false, descIncludeMediaInfo)
+	//descIncludeDeleted := z.ExecContext.Msg("cmd.teamfolder.file.list.flag.include_deleted").T()
+	//f.BoolVar(&z.namespaceFile.OptIncludeDeleted, "include-deleted", false, descIncludeDeleted)
+	//
+	//descIncludeMediaInfo := z.ExecContext.Msg("cmd.teamfolder.file.list.flag.include_media_info").T()
+	//f.BoolVar(&z.namespaceFile.OptIncludeMediaInfo, "include-media-info", false, descIncludeMediaInfo)
 }
 
 func (z *CmdTeamFolderFileList) Exec(args []string) {
-	z.namespaceFile.OptIncludeMemberFolder = false
-	z.namespaceFile.OptIncludeAppFolder = false
-	z.namespaceFile.OptIncludeTeamFolder = true
-	z.namespaceFile.OptIncludeSharedFolder = false
-
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessFile())
 	if err != nil {
 		return
 	}
 
-	admin, err := dbx_profile.AuthenticatedAdmin(apiFile)
+	svt := sv_profile.NewTeam(ctx)
+	admin, err := svt.Admin()
 	if err != nil {
-		z.DefaultErrorHandler(err)
+		ctx.ErrorMsg(err).TellError()
 		return
 	}
-	z.report.Init(z.ExecContext)
-	defer z.report.Close()
+	cta := ctx.AsAdminId(admin.TeamMemberId)
 
-	z.namespaceFile.AsAdminId = admin.TeamMemberId
-	z.namespaceFile.OnError = z.DefaultErrorHandler
-	z.namespaceFile.OnNamespace = func(namespace *dbx_namespace.Namespace) bool {
-		z.ExecContext.Msg("cmd.teamfolder.file.list.progress.scan").WithData(struct {
-			Id   string
-			Name string
-		}{
-			Id:   namespace.NamespaceId,
-			Name: namespace.Name,
+	svn := sv_namespace.New(ctx)
+	namespaces, err := svn.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
+	}
+	if err = z.report.Init(z.ExecContext); err != nil {
+		return
+	}
+
+	for _, namespace := range namespaces {
+		if namespace.NamespaceType != "team_folder" {
+			continue
+		}
+
+		ctn := cta.WithPath(api_context.Namespace(namespace.NamespaceId))
+		uct := uc_file_traverse.New(ctn)
+		err := uct.Traverse(mo_path.NewPath(""), func(entry mo_file.Entry) error {
+			z.report.Report(entry)
+			return nil
 		})
-		z.Log().Info("Scanning team folder",
-			zap.String("namespace_id", namespace.NamespaceId),
-			zap.String("name", namespace.Name),
-		)
-		return true
+		if err != nil {
+			ctx.ErrorMsg(err).TellError()
+			return
+		}
 	}
-	z.namespaceFile.OnFolder = func(folder *dbx_namespace.NamespaceFolder) bool {
-		z.report.Report(folder)
-		return true
-	}
-	z.namespaceFile.OnFile = func(file *dbx_namespace.NamespaceFile) bool {
-		z.report.Report(file)
-		return true
-	}
-	z.namespaceFile.OnDelete = func(deleted *dbx_namespace.NamespaceDeleted) bool {
-		z.report.Report(deleted)
-		return true
-	}
-	z.namespaceFile.List(apiFile)
 }

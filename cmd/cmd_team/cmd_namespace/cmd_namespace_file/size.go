@@ -4,14 +4,18 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_size"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/domain/model/mo_file_size"
+	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/service/sv_namespace"
+	"github.com/watermint/toolbox/domain/usecase/uc_file_size"
 )
 
 type CmdTeamNamespaceFileSize struct {
 	*cmd.SimpleCommandlet
-	report app_report.Factory
-	nsz    dbx_size.NamespaceSizes
+	report   app_report.Factory
+	optDepth int
 }
 
 func (CmdTeamNamespaceFileSize) Name() string {
@@ -30,40 +34,47 @@ func (z *CmdTeamNamespaceFileSize) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descIncludeTeamFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_team_folder").T()
-	f.BoolVar(&z.nsz.OptIncludeTeamFolder, "include-team-folder", true, descIncludeTeamFolder)
-
-	descIncludeSharedFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_shared_folder").T()
-	f.BoolVar(&z.nsz.OptIncludeSharedFolder, "include-shared-folder", true, descIncludeSharedFolder)
-
-	descIncludeAppFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_app_folder").T()
-	f.BoolVar(&z.nsz.OptIncludeAppFolder, "include-app-folder", false, descIncludeAppFolder)
-
-	descIncludeMemberFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_member_folder").T()
-	f.BoolVar(&z.nsz.OptIncludeMemberFolder, "include-member-folder", false, descIncludeMemberFolder)
-
-	descUseCached := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.cache").T()
-	f.StringVar(&z.nsz.OptCachePath, "cache", "", descUseCached)
+	//descIncludeTeamFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_team_folder").T()
+	//f.BoolVar(&z.nsz.OptIncludeTeamFolder, "include-team-folder", true, descIncludeTeamFolder)
+	//
+	//descIncludeSharedFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_shared_folder").T()
+	//f.BoolVar(&z.nsz.OptIncludeSharedFolder, "include-shared-folder", true, descIncludeSharedFolder)
+	//
+	//descIncludeAppFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_app_folder").T()
+	//f.BoolVar(&z.nsz.OptIncludeAppFolder, "include-app-folder", false, descIncludeAppFolder)
+	//
+	//descIncludeMemberFolder := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.include_member_folder").T()
+	//f.BoolVar(&z.nsz.OptIncludeMemberFolder, "include-member-folder", false, descIncludeMemberFolder)
 
 	descOptDepth := z.ExecContext.Msg("cmd.team.namespace.file.size.flag.depth").T()
-	f.IntVar(&z.nsz.OptDepth, "depth", 2, descOptDepth)
+	f.IntVar(&z.optDepth, "depth", 2, descOptDepth)
 }
 
 func (z *CmdTeamNamespaceFileSize) Exec(args []string) {
-	z.report.Init(z.ExecContext)
-	defer z.report.Close()
-
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessFile())
 	if err != nil {
 		return
 	}
+	svn := sv_namespace.New(ctx)
+	namespaces, err := svn.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
+	}
+	z.report.Init(z.ExecContext)
+	defer z.report.Close()
 
-	z.nsz.Init(z.ExecContext)
-	z.nsz.Load(apiFile)
+	for _, namespace := range namespaces {
+		ucs := uc_file_size.New(ctx.WithPath(api_context.Namespace(namespace.NamespaceId)))
+		sizes, err := ucs.Size(mo_path.NewPath("/"), z.optDepth)
+		if err != nil {
+			ctx.ErrorMsg(err).TellError()
+			return
+		}
 
-	z.Log().Info("Reporting result")
-	for _, sz := range z.nsz.Sizes {
-		z.report.Report(sz)
+		for _, size := range sizes {
+			ns := mo_file_size.NewNamespaceSize(namespace, size)
+			z.report.Report(ns)
+		}
 	}
 }

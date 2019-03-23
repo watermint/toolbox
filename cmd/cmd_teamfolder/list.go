@@ -6,15 +6,11 @@ import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
-	"github.com/watermint/toolbox/model/dbx_api"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdTeamFolderList struct {
 	*cmd.SimpleCommandlet
-
-	apiContext *dbx_api.DbxContext
-	report     app_report.Factory
+	report app_report.Factory
 }
 
 func (CmdTeamFolderList) Name() string {
@@ -35,7 +31,7 @@ func (z *CmdTeamFolderList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdTeamFolderList) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessFile())
 	if err != nil {
 		return
 	}

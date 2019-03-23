@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/service/sv_profile"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdAuthUser struct {
@@ -32,7 +31,7 @@ func (z *CmdAuthUser) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdAuthUser) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenFull)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.Full())
 	if err != nil {
 		return
 	}

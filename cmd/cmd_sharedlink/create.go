@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdSharedLinkCreate struct {
@@ -46,7 +45,7 @@ func (z *CmdSharedLinkCreate) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdSharedLinkCreate) Exec(args []string) {
-	opts := make([]sv_sharedlink.CreateOptions, 0)
+	opts := make([]sv_sharedlink.LinkOpt, 0)
 	if z.optExpires != "" {
 		if expires, e := app_time.ParseTimestamp(z.optExpires); e {
 			opts = append(opts, sv_sharedlink.Expires(expires))
@@ -70,7 +69,7 @@ func (z *CmdSharedLinkCreate) Exec(args []string) {
 		return
 	}
 
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenFull)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.Full())
 	if err != nil {
 		return
 	}

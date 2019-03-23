@@ -9,14 +9,11 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_linkedapp"
 	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/model/dbx_api"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdMemberLinkedAppList struct {
 	*cmd.SimpleCommandlet
 
-	apiContext         *dbx_api.DbxContext
 	OptWithMemberEmail bool
 	report             app_report.Factory
 }
@@ -41,7 +38,7 @@ func (z *CmdMemberLinkedAppList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdMemberLinkedAppList) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessFile())
 	if err != nil {
 		return
 	}

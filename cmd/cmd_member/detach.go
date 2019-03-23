@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/model/dbx_auth"
 	"go.uber.org/zap"
 	"strings"
 )
@@ -32,7 +31,7 @@ func (z *CmdMemberDetach) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdMemberDetach) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessManagement)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessManagement())
 	if err != nil {
 		return
 	}

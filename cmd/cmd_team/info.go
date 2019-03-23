@@ -6,15 +6,11 @@ import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/service/sv_team"
-	"github.com/watermint/toolbox/model/dbx_api"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdTeamInfo struct {
 	*cmd.SimpleCommandlet
-
-	apiContext *dbx_api.DbxContext
-	report     app_report.Factory
+	report app_report.Factory
 }
 
 func (CmdTeamInfo) Name() string {
@@ -35,7 +31,7 @@ func (z *CmdTeamInfo) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdTeamInfo) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessInfo)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessInfo())
 	if err != nil {
 		return
 	}

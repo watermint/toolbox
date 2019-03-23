@@ -6,8 +6,7 @@ import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/usecase/uc_relocation"
-	"github.com/watermint/toolbox/model/dbx_auth"
+	"github.com/watermint/toolbox/domain/usecase/uc_file_relocation"
 )
 
 type CmdFileMove struct {
@@ -35,12 +34,12 @@ func (z *CmdFileMove) Exec(args []string) {
 		return
 	}
 	n := len(args)
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenFull)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.Full())
 	if err != nil {
 		return
 	}
 
-	uc := uc_relocation.New(ctx)
+	uc := uc_file_relocation.New(ctx)
 	src := args[:n-1]
 	dst := args[n-1]
 

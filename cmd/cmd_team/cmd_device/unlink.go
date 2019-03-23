@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_device"
 	"github.com/watermint/toolbox/domain/service/sv_device"
-	"github.com/watermint/toolbox/model/dbx_auth"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -53,7 +52,7 @@ func (z *CmdTeamDeviceUnlink) Exec(args []string) {
 		return
 	}
 
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessFile())
 	if err != nil {
 		return
 	}

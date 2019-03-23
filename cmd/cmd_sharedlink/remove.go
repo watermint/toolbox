@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
-	"github.com/watermint/toolbox/model/dbx_auth"
 	"go.uber.org/zap"
 	"path/filepath"
 	"strings"
@@ -50,7 +49,7 @@ func (z *CmdSharedLinkRemove) Exec(args []string) {
 		return
 	}
 
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenFull)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.Full())
 	if err != nil {
 		return
 	}

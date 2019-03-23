@@ -4,29 +4,89 @@ import (
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_context_impl"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
-type Compatible struct {
-	token string
+func Auth(ec *app.ExecContext, opts ...AuthOpt) (ctx api_context.Context, err error) {
+	ao := &authOpts{
+		tokenType: api_auth.DropboxTokenNoAuth,
+		peerName:  ec.DefaultPeerName(),
+	}
+	for _, o := range opts {
+		o(ao)
+	}
+	a := New(ec, opts...)
+	return a.Auth(ao.tokenType)
 }
 
-func (z *Compatible) Token() string {
-	return z.token
+func New(ec *app.ExecContext, opts ...AuthOpt) api_auth.Auth {
+	ao := &authOpts{
+		tokenType: api_auth.DropboxTokenNoAuth,
+		peerName:  ec.DefaultPeerName(),
+	}
+	for _, o := range opts {
+		o(ao)
+	}
+	ua := &UIAuth{
+		ec: ec,
+	}
+	ua.init()
+	ca := &CachedAuth{
+		peerName: ao.peerName,
+		ec:       ec,
+		auth:     ua,
+	}
+	ca.init()
+	return ca
 }
 
-func NewCompatible(token string) api_auth.Token {
-	return &Compatible{
-		token: token,
+func IsCacheAvailable(ec *app.ExecContext, peerName string) bool {
+	ca := &CachedAuth{
+		peerName: peerName,
+		ec:       ec,
+	}
+	ca.init()
+	return len(ca.tokens) > 4
+}
+
+type AuthOpt func(opt *authOpts) *authOpts
+type authOpts struct {
+	peerName  string
+	tokenType string
+}
+
+func PeerName(name string) AuthOpt {
+	return func(opt *authOpts) *authOpts {
+		opt.peerName = name
+		return opt
 	}
 }
-
-func Auth(ec *app.ExecContext, tokenType string) (ctx api_context.Context, err error) {
-	au := dbx_auth.NewDefaultAuth(ec)
-	legacyCtx, err := au.Auth(tokenType)
-	if err != nil {
-		return nil, err
+func Full() AuthOpt {
+	return func(opt *authOpts) *authOpts {
+		opt.tokenType = api_auth.DropboxTokenFull
+		return opt
 	}
-	return api_context_impl.New(ec, NewCompatible(legacyCtx.Token)), nil
+}
+func BusinessFile() AuthOpt {
+	return func(opt *authOpts) *authOpts {
+		opt.tokenType = api_auth.DropboxTokenBusinessFile
+		return opt
+	}
+}
+func BusinessManagement() AuthOpt {
+	return func(opt *authOpts) *authOpts {
+		opt.tokenType = api_auth.DropboxTokenBusinessManagement
+		return opt
+	}
+}
+func BusinessInfo() AuthOpt {
+	return func(opt *authOpts) *authOpts {
+		opt.tokenType = api_auth.DropboxTokenBusinessInfo
+		return opt
+	}
+}
+func BusinessAudit() AuthOpt {
+	return func(opt *authOpts) *authOpts {
+		opt.tokenType = api_auth.DropboxTokenBusinessAudit
+		return opt
+	}
 }

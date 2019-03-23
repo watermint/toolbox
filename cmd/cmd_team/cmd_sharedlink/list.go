@@ -8,15 +8,12 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
-	"github.com/watermint/toolbox/model/dbx_api"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdTeamSharedLinkList struct {
 	*cmd.SimpleCommandlet
 
-	apiContext *dbx_api.DbxContext
-	report     app_report.Factory
+	report app_report.Factory
 	//	filter     cmd.SharedLinkFilter
 }
 
@@ -39,7 +36,7 @@ func (z *CmdTeamSharedLinkList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdTeamSharedLinkList) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessFile())
 	if err != nil {
 		return
 	}

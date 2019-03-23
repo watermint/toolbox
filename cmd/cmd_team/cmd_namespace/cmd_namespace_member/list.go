@@ -9,18 +9,13 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/service/sv_profile"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
-	"github.com/watermint/toolbox/model/dbx_api"
-	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_group"
 	"go.uber.org/zap"
 )
 
 type CmdTeamNamespaceMemberList struct {
 	*cmd.SimpleCommandlet
 
-	apiContext     *dbx_api.DbxContext
 	report         app_report.Factory
-	groupMembers   map[string][]*dbx_group.GroupMember
 	optExpandGroup bool
 }
 
@@ -45,7 +40,7 @@ func (z *CmdTeamNamespaceMemberList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdTeamNamespaceMemberList) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessFile())
 	if err != nil {
 		return
 	}

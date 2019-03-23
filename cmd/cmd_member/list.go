@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdMemberList struct {
@@ -37,7 +36,7 @@ func (z *CmdMemberList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdMemberList) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessInfo)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessInfo())
 	if err != nil {
 		return
 	}

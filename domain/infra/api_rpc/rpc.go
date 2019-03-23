@@ -10,9 +10,6 @@ type Request interface {
 }
 
 type Response interface {
-	// Returns error. Returns nil if a response succeed.
-	Error() error
-
 	// Response code. Returns -1 if a response does not contain status code.
 	StatusCode() int
 

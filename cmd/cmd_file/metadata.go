@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdFileMetadata struct {
@@ -35,7 +34,7 @@ func (z *CmdFileMetadata) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdFileMetadata) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenFull)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.Full())
 	if err != nil {
 		return
 	}

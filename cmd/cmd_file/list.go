@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdFileList struct {
@@ -37,7 +36,7 @@ func (z *CmdFileList) Exec(args []string) {
 		z.ExecContext.Msg("cmd.file.list.err.no_argument").TellError()
 		return
 	}
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenFull)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.Full())
 	if err != nil {
 		return
 	}

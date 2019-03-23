@@ -8,15 +8,11 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
-	"github.com/watermint/toolbox/model/dbx_api"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdGroupMemberList struct {
 	*cmd.SimpleCommandlet
-
-	apiContext *dbx_api.DbxContext
-	report     app_report.Factory
+	report app_report.Factory
 }
 
 func (z *CmdGroupMemberList) Name() string {
@@ -37,7 +33,7 @@ func (z *CmdGroupMemberList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdGroupMemberList) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessInfo)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessInfo())
 	if err != nil {
 		return
 	}
