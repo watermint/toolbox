@@ -14,8 +14,9 @@ node {
         sh 'glide install'
 
         stage('Test')
-        sh 'cd src/github.com/watermint/toolbox'
-        sh 'go list -f \'{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}\' $(glide novendor) | xargs -L 1 sh -c'
-        sh 'gover'
+        dir('src/github.com/watermint/toolbox') {
+            sh 'go list -f \'{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}\' $(glide novendor) | xargs -L 1 sh -c'
+            sh 'gover'
+        }
     }
 }
