@@ -11,10 +11,10 @@ node {
         sh 'go get github.com/modocache/gover'
         sh 'go get github.com/mattn/goveralls'
         sh 'go get github.com/Masterminds/glide'
-        sh 'glide install'
 
         stage('Test')
         dir('src/github.com/watermint/toolbox') {
+            sh 'glide install'
             sh 'go list -f \'{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}\' $(glide novendor) | xargs -L 1 sh -c'
             sh 'gover'
         }

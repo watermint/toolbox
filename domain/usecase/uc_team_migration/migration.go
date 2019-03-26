@@ -16,6 +16,7 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_profile"
+	"github.com/watermint/toolbox/domain/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/service/sv_team"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
@@ -596,6 +597,23 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 	}
 
 	// Preserve shared folders
+	preserveSharedFolders := func() error {
+		// fetch all shared folders of migrating members
+		for _, member := range ctx.Members() {
+			ctxFileOfMember := z.ctxFileSrc.AsMemberId(member.TeamMemberId)
+			folders, err := sv_sharedfolder.New(ctxFileOfMember).List()
+			if err != nil {
+				return err
+			}
+			for _, folder := range folders {
+				ctx.AddSharedFolder(folder)
+			}
+		}
+		return nil
+	}
+	if err = preserveSharedFolders(); err != nil {
+		return err
+	}
 
 	// Preserve team folder permissions
 	panic("implement me")
