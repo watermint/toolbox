@@ -86,7 +86,7 @@ func (z *CmdGroupRemove) Exec(args []string) {
 				}
 			}
 			gl.Debug("Removing group")
-			err := svc.Delete(g.GroupId)
+			err := svc.Remove(g.GroupId)
 			if err != nil {
 				z.ExecContext.Msg("cmd.group.remove.err.unable_to_remove").WithData(struct {
 					GroupName string

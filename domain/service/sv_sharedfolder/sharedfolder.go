@@ -10,7 +10,7 @@ import (
 
 type SharedFolder interface {
 	Create(path mo_path.Path, opts ...CreateOption) (sf *mo_sharedfolder.SharedFolder, err error)
-	Delete(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOption) (err error)
+	Remove(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOption) (err error)
 	List() (sf []*mo_sharedfolder.SharedFolder, err error)
 	Leave(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOption) (err error)
 	Resolve(sharedFolderId string) (sf *mo_sharedfolder.SharedFolder, err error)
@@ -147,7 +147,7 @@ func (z *sharedFolderImpl) Create(path mo_path.Path, opts ...CreateOption) (sf *
 	return sf, nil
 }
 
-func (z *sharedFolderImpl) Delete(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOption) (err error) {
+func (z *sharedFolderImpl) Remove(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOption) (err error) {
 	do := &deleteOptions{}
 	for _, o := range opts {
 		o(do)

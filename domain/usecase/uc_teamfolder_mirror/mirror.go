@@ -509,13 +509,13 @@ func (z *teamFolderImpl) Unmount(ctx Context, scope Scope) (err error) {
 
 func (z *teamFolderImpl) Cleanup(ctx Context) (err error) {
 	// Remove groups
-	errSrc := sv_group.New(z.ctxMgtSrc).Delete(ctx.GroupSrc().GroupId)
+	errSrc := sv_group.New(z.ctxMgtSrc).Remove(ctx.GroupSrc().GroupId)
 	if errSrc != nil {
 		z.log().Warn("SRC: Could not remove group", zap.String("groupName", ctx.GroupSrc().GroupName), zap.Error(errSrc))
 		err = errSrc
 	}
 
-	errDst := sv_group.New(z.ctxMgtDst).Delete(ctx.GroupDst().GroupId)
+	errDst := sv_group.New(z.ctxMgtDst).Remove(ctx.GroupDst().GroupId)
 	if errDst != nil {
 		z.log().Warn("SRC: Could not remove group", zap.String("groupName", ctx.GroupDst().GroupName), zap.Error(errDst))
 		err = errDst

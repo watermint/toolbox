@@ -78,7 +78,7 @@ func (z *CmdSharedLinkRemove) removePathAt(ctx api_context.Context, path mo_path
 	for _, link := range links {
 		log := z.ExecContext.Log().With(zap.String("linkPath", link.LinkPathLower()))
 		log.Debug("Removing")
-		err := svc.Delete(link)
+		err := svc.Remove(link)
 		if err != nil {
 			log.Debug("Failed", zap.Error(err))
 			ctx.ErrorMsg(err).TellError()
@@ -111,7 +111,7 @@ func (z *CmdSharedLinkRemove) removeRecursive(ctx api_context.Context, path mo_p
 			continue
 		}
 		log.Debug("Removing")
-		err = svc.Delete(link)
+		err = svc.Remove(link)
 		if err != nil {
 			ctx.ErrorMsg(err).TellError()
 			continue

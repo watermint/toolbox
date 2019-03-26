@@ -11,7 +11,7 @@ type Group interface {
 	List() (g []*mo_group.Group, err error)
 	CreateUserManaged(name string) (g *mo_group.Group, err error)
 	CreateCompanyManaged(name string) (g *mo_group.Group, err error)
-	Delete(groupId string) error
+	Remove(groupId string) error
 	Update(group *mo_group.Group) (g *mo_group.Group, err error)
 }
 
@@ -67,7 +67,7 @@ func (z *implGroup) CreateUserManaged(name string) (g *mo_group.Group, err error
 	return z.create(name, "user_managed")
 }
 
-func (z *implGroup) Delete(groupId string) error {
+func (z *implGroup) Remove(groupId string) error {
 	p := struct {
 		Tag     string `json:".tag"`
 		GroupId string `json:"group_id"`

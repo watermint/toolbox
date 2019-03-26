@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestSharedLinkImpl_CreateListDelete(t *testing.T) {
+func TestSharedLinkImpl_CreateListRemove(t *testing.T) {
 	api_test.DoTestTokenFull(func(ctx api_context.Context) {
 		svc := New(ctx)
 		src := api_test.ToolboxTestSuiteFolder.ChildPath("copy/F0.jpg")
@@ -19,7 +19,7 @@ func TestSharedLinkImpl_CreateListDelete(t *testing.T) {
 
 		// clean up existing link
 		for _, link := range links {
-			if err := svc.Delete(link); err != nil {
+			if err := svc.Remove(link); err != nil {
 				t.Error(err)
 			}
 		}
@@ -42,7 +42,7 @@ func TestSharedLinkImpl_CreateListDelete(t *testing.T) {
 			}
 
 			// clean up
-			err = svc.Delete(link)
+			err = svc.Remove(link)
 			if err != nil {
 				t.Error(err)
 			}
@@ -66,7 +66,7 @@ func TestSharedLinkImpl_CreateListDelete(t *testing.T) {
 			}
 
 			// clean up
-			err = svc.Delete(link)
+			err = svc.Remove(link)
 			if err != nil {
 				t.Error(err)
 			}
@@ -90,7 +90,7 @@ func TestSharedLinkImpl_CreateListDelete(t *testing.T) {
 			}
 
 			// clean up
-			err = svc.Delete(link)
+			err = svc.Remove(link)
 			if err != nil {
 				t.Error(err)
 			}

@@ -13,7 +13,6 @@ type CmdTeamFolderMirror struct {
 
 	optSrcTeamAlias   string
 	optDstTeamAlias   string
-	optVerify         bool
 	optAllTeamFolders bool
 
 	report app_report.Factory
@@ -40,9 +39,6 @@ func (z *CmdTeamFolderMirror) FlagConfig(f *flag.FlagSet) {
 
 	descToAccount := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.dst_account").T()
 	f.StringVar(&z.optDstTeamAlias, "alias-dest", "mirror-dst", descToAccount)
-
-	descVerify := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.verify").T()
-	f.BoolVar(&z.optVerify, "verify", false, descVerify)
 
 	descAll := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.all").T()
 	f.BoolVar(&z.optAllTeamFolders, "all", false, descAll)

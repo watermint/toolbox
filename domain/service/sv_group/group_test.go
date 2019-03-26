@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func TestImplGroup_CreateDelete(t *testing.T) {
+func TestImplGroup_CreateRemove(t *testing.T) {
 	api_test.DoTestBusinessManagement(func(ctx api_context.Context) {
 		svc := New(ctx)
 		name := fmt.Sprintf("toolbox-test-%x", time.Now().Unix())
@@ -30,7 +30,7 @@ func TestImplGroup_CreateDelete(t *testing.T) {
 			t.Error("invalid")
 		}
 
-		err = svc.Delete(createdGroup.GroupId)
+		err = svc.Remove(createdGroup.GroupId)
 		if err != nil {
 			t.Error(err)
 			return

@@ -10,7 +10,7 @@ import (
 type GroupMember interface {
 	List() (members []*mo_group_member.Member, err error)
 	Add(teamMemberIds []string) (group *mo_group.Group, err error)
-	Delete(teamMemberIds []string) (group *mo_group.Group, err error)
+	Remove(teamMemberIds []string) (group *mo_group.Group, err error)
 }
 
 func New(ctx api_context.Context, group *mo_group.Group) GroupMember {
@@ -118,7 +118,7 @@ func (z *groupMemberImpl) Add(teamMemberIds []string) (group *mo_group.Group, er
 	return group, nil
 }
 
-func (z *groupMemberImpl) Delete(teamMemberIds []string) (group *mo_group.Group, err error) {
+func (z *groupMemberImpl) Remove(teamMemberIds []string) (group *mo_group.Group, err error) {
 	type GS struct {
 		Tag     string `json:".tag"`
 		GroupId string `json:"group_id"`
