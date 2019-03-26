@@ -287,6 +287,7 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 	// Inspect src folders
 	inspectSrcFolders := func() error {
 		var inspectErr error
+		inspectErr = nil
 		for _, pair := range ctx.Pairs() {
 			z.log().Info("SRC: Team folder status",
 				zap.String("id", pair.Src.TeamFolderId),
@@ -336,6 +337,7 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 	// Inspect dest folders
 	inspectDstFolders := func() error {
 		var inspectErr error
+		inspectErr = nil
 		for _, pair := range ctx.Pairs() {
 			if folder := pair.Dst; folder != nil {
 				z.log().Info("DST: Team folder status",
@@ -400,6 +402,7 @@ func (z *teamFolderImpl) Mount(ctx Context, scope Scope) (err error) {
 	// Create team folder if required
 	createIfRequired := func() error {
 		var createErr error
+		createErr = nil
 		svt := sv_teamfolder.New(z.ctxMgtDst)
 		pair := scope.Pair()
 		if pair.Dst == nil {
@@ -420,6 +423,7 @@ func (z *teamFolderImpl) Mount(ctx Context, scope Scope) (err error) {
 	// Attach group to the team folder
 	attachGroupToTeamFolders := func() error {
 		var attachErr error
+		attachErr = nil
 		ctxFileSrcAsAdmin := z.ctxFileSrc.AsAdminId(ctx.AdminSrc().TeamMemberId)
 		ctxFileDstAsAdmin := z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId)
 		svmSrc := sv_sharedfolder_member.NewBySharedFolderId(ctxFileSrcAsAdmin, scope.Pair().Src.TeamFolderId)
@@ -498,6 +502,7 @@ func (z *teamFolderImpl) Unmount(ctx Context, scope Scope) (err error) {
 	// Detach admin from team folder
 	detachGroupFromTeamFolders := func() error {
 		var attachErr error
+		attachErr = nil
 		ctxFileSrcAsAdmin := z.ctxFileSrc.AsAdminId(ctx.AdminSrc().TeamMemberId)
 		ctxFileDstAsAdmin := z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId)
 		svmSrc := sv_sharedfolder_member.NewBySharedFolderId(ctxFileSrcAsAdmin, scope.Pair().Src.TeamFolderId)

@@ -21,7 +21,7 @@ func New(ctx api_context.Context,
 	base api_context.PathRoot,
 	token api_auth.TokenContainer) api_rpc.Caller {
 
-	ri := RequestImpl{
+	ri := CallerImpl{
 		ctx:        ctx,
 		endpoint:   endpoint,
 		asMemberId: asMemberId,
@@ -32,7 +32,7 @@ func New(ctx api_context.Context,
 	return &ri
 }
 
-type RequestImpl struct {
+type CallerImpl struct {
 	ctx        api_context.Context
 	asMemberId string
 	asAdminId  string
@@ -44,11 +44,11 @@ type RequestImpl struct {
 	failure    func(err error) error
 }
 
-func (z *RequestImpl) requestUrl() string {
+func (z *CallerImpl) requestUrl() string {
 	return fmt.Sprintf("https://%s/2/%s", RpcEndpoint, z.endpoint)
 }
 
-func (z *RequestImpl) createRequest() (req api_rpc.Request, err error) {
+func (z *CallerImpl) createRequest() (req api_rpc.Request, err error) {
 	url := z.requestUrl()
 	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint))
 
@@ -76,7 +76,7 @@ func (z *RequestImpl) createRequest() (req api_rpc.Request, err error) {
 	return newPostRequest(z.ctx, url, z.param, headers)
 }
 
-func (z *RequestImpl) ensureRetryOnError(lastErr error) (res api_rpc.Response, err error) {
+func (z *CallerImpl) ensureRetryOnError(lastErr error) (res api_rpc.Response, err error) {
 	switch rc := z.ctx.(type) {
 	case api_context.RetryContext:
 		sameErrorCount := 0
@@ -107,22 +107,22 @@ func (z *RequestImpl) ensureRetryOnError(lastErr error) (res api_rpc.Response, e
 	}
 }
 
-func (z *RequestImpl) Param(param interface{}) api_rpc.Caller {
+func (z *CallerImpl) Param(param interface{}) api_rpc.Caller {
 	z.param = param
 	return z
 }
 
-func (z *RequestImpl) OnSuccess(success func(res api_rpc.Response) error) api_rpc.Caller {
+func (z *CallerImpl) OnSuccess(success func(res api_rpc.Response) error) api_rpc.Caller {
 	z.success = success
 	return z
 }
 
-func (z *RequestImpl) OnFailure(failure func(err error) error) api_rpc.Caller {
+func (z *CallerImpl) OnFailure(failure func(err error) error) api_rpc.Caller {
 	z.failure = failure
 	return z
 }
 
-func (z *RequestImpl) waitForRetryIfRequired() {
+func (z *CallerImpl) waitForRetryIfRequired() {
 	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint))
 
 	switch rc := z.ctx.(type) {
@@ -135,14 +135,14 @@ func (z *RequestImpl) waitForRetryIfRequired() {
 	}
 }
 
-func (z *RequestImpl) handleRetryAfterResponse(retryAfterSec int) bool {
-	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint))
-
+func (z *CallerImpl) handleRetryAfterResponse(retryAfterSec int) bool {
 	switch rc := z.ctx.(type) {
 	case api_context.RetryContext:
 		after := time.Now().Add(time.Duration(retryAfterSec+1) * time.Second)
+		z.ctx.Log().Debug("Retry after", zap.Int("RetryAfterSec", retryAfterSec))
 		rc.UpdateRetryAfter(after)
-		log.Debug("Retry after", zap.Int("RetryAfterSec", retryAfterSec), zap.Time("After", after))
+		z.ctx.Log().Debug("Precaution wait for rate limit", zap.Duration("wait", PrecautionRateLimitWait))
+		time.Sleep(PrecautionRateLimitWait)
 
 		return true
 
@@ -152,7 +152,7 @@ func (z *RequestImpl) handleRetryAfterResponse(retryAfterSec int) bool {
 	}
 }
 
-func (z *RequestImpl) handleResponse(apiResImpl *ResponseImpl) (apiRes api_rpc.Response, err error) {
+func (z *CallerImpl) handleResponse(apiResImpl *ResponseImpl) (apiRes api_rpc.Response, err error) {
 	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint))
 	if app.Root().IsDebug() {
 		log.Debug("Response", zap.Int("code", apiResImpl.resStatusCode), zap.String("body", apiResImpl.resBodyString))
@@ -208,7 +208,7 @@ func (z *RequestImpl) handleResponse(apiResImpl *ResponseImpl) (apiRes api_rpc.R
 	return nil, err
 }
 
-func (z *RequestImpl) Call() (apiRes api_rpc.Response, err error) {
+func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
 	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint))
 	req, err := z.createRequest()
 	if err != nil {

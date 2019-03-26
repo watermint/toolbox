@@ -186,5 +186,9 @@ func (z *filesImpl) handleError(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_pa
 }
 
 func (z *filesImpl) Mirror(pathSrc, pathDst mo_path.Path) (err error) {
-	return z.mirrorCurrent(pathSrc, pathSrc, pathDst, pathDst)
+	if pathSrc.LogicalPath() == "/" {
+		return z.mirrorDescendants(pathSrc, pathSrc, pathDst, pathDst)
+	} else {
+		return z.mirrorCurrent(pathSrc, pathSrc, pathDst, pathDst)
+	}
 }
