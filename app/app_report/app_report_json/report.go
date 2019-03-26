@@ -157,7 +157,7 @@ func (z *JsonReport) Report(row interface{}) error {
 		z.ec.Log().Error("Couldn't write report", zap.Error(err), zap.String("file", fn))
 	}
 	w.Write(buf.Bytes())
-	w.Write([]byte("\n"))
+	//	w.Write([]byte("\n"))
 
 	return nil
 }

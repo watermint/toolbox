@@ -59,8 +59,12 @@ func (z *contextImpl) Token() api_auth.TokenContainer {
 	return z.tokenContainer
 }
 
-func (z *contextImpl) DoRequest(req *http.Request) (code int, header http.Header, body []byte, err error) {
-	res, err := z.client.Do(req)
+func (z *contextImpl) DoRequest(req api_rpc.Request) (code int, header http.Header, body []byte, err error) {
+	httpReq, err := req.Request()
+	if err != nil {
+		return -1, nil, nil, err
+	}
+	res, err := z.client.Do(httpReq)
 	if err != nil {
 		return -1, nil, nil, err
 	}
@@ -189,7 +193,7 @@ func (z *contextImpl) Msg(key string) app_ui.UIMessage {
 	return z.ec.Msg(key)
 }
 
-func (z *contextImpl) Request(endpoint string) api_rpc.Request {
+func (z *contextImpl) Request(endpoint string) api_rpc.Caller {
 	return api_rpc_impl.New(z, endpoint, z.asMemberId, z.asAdminId, z.basePath, z.tokenContainer)
 }
 

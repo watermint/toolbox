@@ -28,6 +28,7 @@ type Factory struct {
 	DefaultWriter io.Writer
 	wrapper       *app_util.LineWriter
 	Path          string
+	Suppress      bool
 }
 
 func (z *Factory) FlagConfig(f *flag.FlagSet) {
@@ -55,10 +56,12 @@ func (z *Factory) Init(ec *app.ExecContext) error {
 	}
 	if z.reports == nil {
 		z.reports = make([]Report, 0)
-		z.reports = append(z.reports, &app_report_json.JsonReport{
-			DefaultWriter: consoleWriter,
-			ReportPath:    "",
-		})
+		if !z.Suppress {
+			z.reports = append(z.reports, &app_report_json.JsonReport{
+				DefaultWriter: consoleWriter,
+				ReportPath:    "",
+			})
+		}
 		z.reports = append(z.reports, &app_report_json.JsonReport{
 			DefaultWriter: z.DefaultWriter,
 			ReportPath:    z.Path,
@@ -108,7 +111,7 @@ func (z *Factory) Close() {
 		z.wrapper.Flush()
 	}
 
-	if !z.ExecContext.Quiet {
+	if !z.ExecContext.Quiet && !z.Suppress {
 		z.ExecContext.Msg("report.common.done.tell_location").WithData(struct {
 			Path string
 		}{

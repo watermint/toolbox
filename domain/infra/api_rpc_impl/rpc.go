@@ -6,10 +6,6 @@ const (
 	RpcEndpoint            = "api.dropboxapi.com"
 	SameErrorRetryCount    = 5
 	SameErrorRetryWait     = time.Duration(60) * time.Second
-	ReqHeaderSelectUser    = "Dropbox-API-Select-User"
-	ReqHeaderSelectAdmin   = "Dropbox-API-Select-Admin"
-	ReqHeaderPathRoot      = "Dropbox-API-Path-Root"
-	ResHeaderRetryAfter    = "Retry-After"
 	ErrorBadInputParam     = 400
 	ErrorBadOrExpiredToken = 401
 	ErrorAccessError       = 403

@@ -202,6 +202,7 @@ func (z *teamFolderImpl) Mirror(ctx Context) (err error) {
 		return err
 	}
 	var lastErr error
+	lastErr = nil
 	if err = z.Bridge(ctx); err != nil {
 		lastErr = err
 	}
@@ -517,6 +518,8 @@ func (z *teamFolderImpl) Unmount(ctx Context, scope Scope) (err error) {
 }
 
 func (z *teamFolderImpl) Cleanup(ctx Context) (err error) {
+	err = nil
+
 	// Remove groups
 	errSrc := sv_group.New(z.ctxMgtSrc).Remove(ctx.GroupSrc().GroupId)
 	if errSrc != nil {

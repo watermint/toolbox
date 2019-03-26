@@ -15,7 +15,7 @@ type Context interface {
 	Msg(key string) app_ui.UIMessage
 	ErrorMsg(err error) app_ui.UIMessage
 
-	Request(endpoint string) api_rpc.Request
+	Request(endpoint string) api_rpc.Caller
 	List(endpoint string) api_list.List
 	Async(endpoint string) api_async.Async
 
@@ -32,7 +32,7 @@ type RetryContext interface {
 }
 
 type ClientContext interface {
-	DoRequest(req *http.Request) (code int, header http.Header, body []byte, err error)
+	DoRequest(req api_rpc.Request) (code int, header http.Header, body []byte, err error)
 }
 
 type PathRoot interface {

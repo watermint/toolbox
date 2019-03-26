@@ -57,10 +57,13 @@ type ExecContext struct {
 	logger          *zap.Logger
 	logWrapper      *app_util.LogWrapper
 	messages        *app_ui.UIMessageContainer
+	values          map[string]interface{}
 }
 
 func NewExecContextForTest() *ExecContext {
-	ec := &ExecContext{}
+	ec := &ExecContext{
+		values: make(map[string]interface{}),
+	}
 	ec.isTest = true
 	ec.debugMode = true
 	ec.startup()
@@ -68,13 +71,24 @@ func NewExecContextForTest() *ExecContext {
 }
 
 func NewExecContext(bx *rice.Box) (ec *ExecContext, err error) {
-	ec = &ExecContext{}
+	ec = &ExecContext{
+		values: make(map[string]interface{}),
+	}
 	ec.isTest = false
 	ec.resources = bx
 	if err := ec.startup(); err != nil {
 		return nil, err
 	}
 	return ec, nil
+}
+
+func (z *ExecContext) SetValue(key string, value interface{}) {
+	z.values[key] = value
+}
+
+func (z *ExecContext) GetValue(key string) (value interface{}, exists bool) {
+	value, exists = z.values[key]
+	return
 }
 
 func (z *ExecContext) NoCacheToken() bool {
