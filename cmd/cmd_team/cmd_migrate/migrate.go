@@ -7,7 +7,7 @@ func NewCmdTeamMigrate() cmd.Commandlet {
 		CommandName: "migrate",
 		CommandDesc: "cmd.team.migrate.desc",
 		SubCommands: []cmd.Commandlet{
-			&CmdTeamMigratePreflight{
+			&CmdTeamMigrateCheck{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
 			&CmdTeamMigrateContent{

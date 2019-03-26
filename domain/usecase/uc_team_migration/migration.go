@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_report"
+	"github.com/watermint/toolbox/app/app_report/app_report_json"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
@@ -90,6 +91,9 @@ type Context interface {
 	// Add namespace
 	AddNamespace(namespace *mo_namespace.Namespace)
 
+	// Add namespace detail
+	AddNamespaceDetail(sharedFolder *mo_sharedfolder.SharedFolder)
+
 	// Add namespace member
 	AddNamespaceMember(namespace *mo_namespace.Namespace, member mo_sharedfolder_member.Member)
 
@@ -123,6 +127,9 @@ type Context interface {
 	// Namespaces of source team
 	Namespaces() (namespaces map[string]*mo_namespace.Namespace)
 
+	// Namespace details of source team
+	NamespaceDetails() (details map[string]*mo_sharedfolder.SharedFolder)
+
 	// Members of namespace
 	NamespaceMembers(namespaceId string) (members []mo_sharedfolder_member.Member)
 
@@ -136,24 +143,51 @@ type Context interface {
 	GroupsOnlyRelated() bool
 }
 
+const (
+	storageTagMembers          = "src_members"
+	storageTagDestGroups       = "dst_groups"
+	storageTagGroups           = "src_groups"
+	storageTagGroupMembers     = "src_group_members"
+	storageTagTeamFolders      = "src_team_folders"
+	storageTagNamespaces       = "src_namespaces"
+	storageTagNamespaceDetails = "src_namespace_details"
+	storageTagSharedFolders    = "src_shared_folders"
+	storageTagNamespaceMembers = "src_namespace_members"
+)
+
 func newContext(ctxExec *app.ExecContext, groupOnlyRelated bool) Context {
-	storage := &app_report.Factory{
-		ExecContext: ctxExec,
-		Path:        filepath.Join(ctxExec.JobsPath(), "state"),
+	storageTags := []string{
+		storageTagMembers,
+		storageTagDestGroups,
+		storageTagGroups,
+		storageTagGroupMembers,
+		storageTagTeamFolders,
+		storageTagNamespaces,
+		storageTagNamespaceDetails,
+		storageTagSharedFolders,
+		storageTagNamespaceMembers,
 	}
-	if err := storage.Init(ctxExec); err != nil {
-		ctxExec.Log().Warn("Unable to store state", zap.Error(err))
+	storages := make(map[string]app_report.Report)
+	for _, tag := range storageTags {
+		s := &app_report_json.JsonReport{
+			ReportPath: filepath.Join(ctxExec.JobsPath(), "state", tag),
+		}
+		if err := s.Init(ctxExec); err != nil {
+			ctxExec.Log().Warn("Unable to store state", zap.String("tag", tag), zap.Error(err))
+		}
+		storages[tag] = s
 	}
 
 	return &contextImpl{
 		ctxExec:           ctxExec,
-		storage:           storage,
+		storages:          storages,
 		members:           make(map[string]*mo_profile.Profile),
 		destGroups:        make(map[string]*mo_group.Group),
 		groups:            make(map[string]*mo_group.Group),
 		groupMembers:      make(map[string][]*mo_group_member.Member),
 		teamFolders:       make(map[string]*mo_teamfolder.TeamFolder),
 		namespaces:        make(map[string]*mo_namespace.Namespace),
+		namespaceDetails:  make(map[string]*mo_sharedfolder.SharedFolder),
 		sharedFolders:     make(map[string]*mo_sharedfolder.SharedFolder),
 		namespaceMember:   make(map[string][]mo_sharedfolder_member.Member),
 		groupsOnlyRelated: groupOnlyRelated,
@@ -163,13 +197,14 @@ func newContext(ctxExec *app.ExecContext, groupOnlyRelated bool) Context {
 type contextImpl struct {
 	ctxExec           *app.ExecContext
 	ctxTeamFolder     uc_teamfolder_mirror.Context
-	storage           app_report.Report
+	storages          map[string]app_report.Report
 	members           map[string]*mo_profile.Profile
 	destGroups        map[string]*mo_group.Group
 	groups            map[string]*mo_group.Group
 	groupMembers      map[string][]*mo_group_member.Member
 	teamFolders       map[string]*mo_teamfolder.TeamFolder
 	namespaces        map[string]*mo_namespace.Namespace
+	namespaceDetails  map[string]*mo_sharedfolder.SharedFolder
 	sharedFolders     map[string]*mo_sharedfolder.SharedFolder
 	namespaceMember   map[string][]mo_sharedfolder_member.Member
 	adminSrc          *mo_profile.Profile
@@ -177,7 +212,25 @@ type contextImpl struct {
 	groupsOnlyRelated bool
 }
 
+func (z *contextImpl) AddNamespaceDetail(sharedFolder *mo_sharedfolder.SharedFolder) {
+	if s, e := z.storages[storageTagNamespaceDetails]; e {
+		s.Report(sharedFolder)
+	} else {
+		z.ctxExec.Log().Error("unable to find storage")
+	}
+	z.namespaceDetails[sharedFolder.SharedFolderId] = sharedFolder
+}
+
+func (z *contextImpl) NamespaceDetails() (details map[string]*mo_sharedfolder.SharedFolder) {
+	return z.namespaceDetails
+}
+
 func (z *contextImpl) AddDestGroup(group *mo_group.Group) {
+	if s, e := z.storages[storageTagDestGroups]; e {
+		s.Report(group)
+	} else {
+		z.ctxExec.Log().Error("unable to find storage")
+	}
 	z.destGroups[group.GroupId] = group
 }
 
@@ -200,7 +253,11 @@ func (z *contextImpl) FilterByMigrationTarget(members []*mo_profile.Profile) (fi
 }
 
 func (z *contextImpl) AddNamespace(namespace *mo_namespace.Namespace) {
-	z.storage.Report(namespace)
+	if s, e := z.storages[storageTagNamespaces]; e {
+		s.Report(namespace)
+	} else {
+		z.ctxExec.Log().Error("unable to find storage")
+	}
 	z.namespaces[namespace.NamespaceId] = namespace
 }
 
@@ -226,17 +283,29 @@ func (z *contextImpl) AdminDst() *mo_profile.Profile {
 }
 
 func (z *contextImpl) AddMember(member *mo_profile.Profile) {
-	z.storage.Report(member)
+	if s, e := z.storages[storageTagMembers]; e {
+		s.Report(member)
+	} else {
+		z.ctxExec.Log().Error("unable to find storage")
+	}
 	z.members[member.TeamMemberId] = member
 }
 
 func (z *contextImpl) AddGroup(group *mo_group.Group) {
-	z.storage.Report(group)
+	if s, e := z.storages[storageTagGroups]; e {
+		s.Report(group)
+	} else {
+		z.ctxExec.Log().Error("unable to find storage")
+	}
 	z.groups[group.GroupId] = group
 }
 
 func (z *contextImpl) AddGroupMember(group *mo_group.Group, member *mo_group_member.Member) {
-	z.storage.Report(mo_group_member.NewGroupMember(group, member))
+	if s, e := z.storages[storageTagGroupMembers]; e {
+		s.Report(mo_group_member.NewGroupMember(group, member))
+	} else {
+		z.ctxExec.Log().Error("unable to find storage")
+	}
 
 	var members []*mo_group_member.Member
 	if mem, e := z.groupMembers[group.GroupId]; !e {
@@ -249,17 +318,30 @@ func (z *contextImpl) AddGroupMember(group *mo_group.Group, member *mo_group_mem
 }
 
 func (z *contextImpl) AddTeamFolder(teamFolder *mo_teamfolder.TeamFolder) {
-	z.storage.Report(teamFolder)
+	if s, e := z.storages[storageTagTeamFolders]; e {
+		s.Report(teamFolder)
+	} else {
+		z.ctxExec.Log().Error("unable to find storage")
+	}
 	z.teamFolders[teamFolder.TeamFolderId] = teamFolder
 }
 
 func (z *contextImpl) AddSharedFolder(sharedFolder *mo_sharedfolder.SharedFolder) {
-	z.storage.Report(sharedFolder)
+	if s, e := z.storages[storageTagSharedFolders]; e {
+		s.Report(sharedFolder)
+	} else {
+		z.ctxExec.Log().Error("unable to find storage")
+	}
+
 	z.sharedFolders[sharedFolder.SharedFolderId] = sharedFolder
 }
 
 func (z *contextImpl) AddNamespaceMember(namespace *mo_namespace.Namespace, member mo_sharedfolder_member.Member) {
-	z.storage.Report(mo_namespace.NewNamespaceMember(namespace, member))
+	if s, e := z.storages[storageTagNamespaceMembers]; e {
+		s.Report(mo_namespace.NewNamespaceMember(namespace, member))
+	} else {
+		z.ctxExec.Log().Error("unable to find storage")
+	}
 
 	var members []mo_sharedfolder_member.Member
 	if mem, e := z.namespaceMember[namespace.NamespaceId]; e {

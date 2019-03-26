@@ -295,7 +295,7 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 				zap.String("status", pair.Src.Status),
 			)
 			if pair.Src.Status != "active" {
-				z.log().Info("SRC: Non active folder found",
+				z.log().Warn("SRC: Non active folder found",
 					zap.String("srcId", pair.Src.TeamFolderId),
 					zap.String("srcName", pair.Src.Name),
 					zap.String("srcStatus", pair.Src.Status),

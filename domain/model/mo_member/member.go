@@ -26,7 +26,7 @@ type Member struct {
 
 func (z *Member) Profile() *mo_profile.Profile {
 	p := &mo_profile.Profile{}
-	if err := api_parser.ParseModelRaw(&p, z.Raw); err != nil {
+	if err := api_parser.ParseModelPathRaw(p, z.Raw, "profile"); err != nil {
 		return &mo_profile.Profile{}
 	}
 	return p
