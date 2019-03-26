@@ -15,8 +15,10 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
+	"github.com/watermint/toolbox/domain/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/service/sv_profile"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder"
+	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/service/sv_team"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
@@ -28,10 +30,13 @@ import (
 type Migration interface {
 	Scope(opts ...ScopeOpt) (ctx Context, err error)
 
-	// Preflight check
+	// Preflight check (inspect, preserve)
 	Preflight(ctx Context) (err error)
 
-	// Do entire migration process.
+	// Mirror team folders
+	Content(ctx Context) (err error)
+
+	// Migration process (inspect, preserve, bridge, transfer, permission, clean up)
 	Migrate(ctx Context) (err error)
 
 	// Inspect team status.
@@ -45,12 +50,6 @@ type Migration interface {
 	// Share all shared folders to destination admin.
 	Bridge(ctx Context) (err error)
 
-	// Mount
-	Mount(ctx Context) (err error)
-
-	// Mirror team folders.
-	Content(ctx Context) (err error)
-
 	// Transfer members.
 	// Convert accounts into Basic, and invite from destination team.
 	Transfer(ctx Context) (err error)
@@ -59,10 +58,6 @@ type Migration interface {
 	// Create groups, invite members to shared folders or nested folders,
 	// leave destination admin from bridged shared folders.
 	Permissions(ctx Context) (err error)
-
-	// Restore state.
-	// Restore mount state.
-	Restore(ctx Context) (err error)
 
 	// Cleanup
 	Cleanup(ctx Context) (err error)
@@ -79,6 +74,9 @@ type Context interface {
 	// Add group which migrate to new team
 	AddGroup(group *mo_group.Group)
 
+	// Add group in destination team
+	AddDestGroup(group *mo_group.Group)
+
 	// Add group member for preserved state.
 	// Given `member` must be listed on `Members` instead of call
 	AddGroupMember(group *mo_group.Group, member *mo_group_member.Member)
@@ -89,8 +87,14 @@ type Context interface {
 	// Add shared folder which migrate to new team
 	AddSharedFolder(sharedFolder *mo_sharedfolder.SharedFolder)
 
+	// Add namespace
+	AddNamespace(namespace *mo_namespace.Namespace)
+
 	// Add namespace member
 	AddNamespaceMember(namespace *mo_namespace.Namespace, member mo_sharedfolder_member.Member)
+
+	// Filter by migration target members
+	FilterByMigrationTarget(members []*mo_profile.Profile) (filtered []*mo_profile.Profile)
 
 	// Get src team admin
 	AdminSrc() *mo_profile.Profile
@@ -104,6 +108,9 @@ type Context interface {
 	// Groups to migrate
 	Groups() (groups map[string]*mo_group.Group)
 
+	// Groups created in destination team
+	DestGroups() (groups map[string]*mo_group.Group)
+
 	// Group members to migrate
 	GroupMembers(group *mo_group.Group) (members []*mo_group_member.Member)
 
@@ -112,6 +119,9 @@ type Context interface {
 
 	// Team folders to migrate
 	TeamFolders() (folders map[string]*mo_teamfolder.TeamFolder)
+
+	// Namespaces of source team
+	Namespaces() (namespaces map[string]*mo_namespace.Namespace)
 
 	// Members of namespace
 	NamespaceMembers(namespaceId string) (members []mo_sharedfolder_member.Member)
@@ -139,9 +149,11 @@ func newContext(ctxExec *app.ExecContext, groupOnlyRelated bool) Context {
 		ctxExec:           ctxExec,
 		storage:           storage,
 		members:           make(map[string]*mo_profile.Profile),
+		destGroups:        make(map[string]*mo_group.Group),
 		groups:            make(map[string]*mo_group.Group),
 		groupMembers:      make(map[string][]*mo_group_member.Member),
 		teamFolders:       make(map[string]*mo_teamfolder.TeamFolder),
+		namespaces:        make(map[string]*mo_namespace.Namespace),
 		sharedFolders:     make(map[string]*mo_sharedfolder.SharedFolder),
 		namespaceMember:   make(map[string][]mo_sharedfolder_member.Member),
 		groupsOnlyRelated: groupOnlyRelated,
@@ -153,14 +165,47 @@ type contextImpl struct {
 	ctxTeamFolder     uc_teamfolder_mirror.Context
 	storage           app_report.Report
 	members           map[string]*mo_profile.Profile
+	destGroups        map[string]*mo_group.Group
 	groups            map[string]*mo_group.Group
 	groupMembers      map[string][]*mo_group_member.Member
 	teamFolders       map[string]*mo_teamfolder.TeamFolder
+	namespaces        map[string]*mo_namespace.Namespace
 	sharedFolders     map[string]*mo_sharedfolder.SharedFolder
 	namespaceMember   map[string][]mo_sharedfolder_member.Member
 	adminSrc          *mo_profile.Profile
 	adminDst          *mo_profile.Profile
 	groupsOnlyRelated bool
+}
+
+func (z *contextImpl) AddDestGroup(group *mo_group.Group) {
+	z.destGroups[group.GroupId] = group
+}
+
+func (z *contextImpl) DestGroups() (groups map[string]*mo_group.Group) {
+	return z.destGroups
+}
+
+func (z *contextImpl) FilterByMigrationTarget(members []*mo_profile.Profile) (filtered []*mo_profile.Profile) {
+	filtered = make([]*mo_profile.Profile, 0)
+
+	for _, member := range members {
+		for _, marked := range z.members {
+			if member.TeamMemberId == marked.TeamMemberId {
+				filtered = append(filtered, member)
+				break
+			}
+		}
+	}
+	return filtered
+}
+
+func (z *contextImpl) AddNamespace(namespace *mo_namespace.Namespace) {
+	z.storage.Report(namespace)
+	z.namespaces[namespace.NamespaceId] = namespace
+}
+
+func (z *contextImpl) Namespaces() (namespaces map[string]*mo_namespace.Namespace) {
+	return z.namespaces
 }
 
 func (z *contextImpl) GroupsOnlyRelated() bool {
@@ -474,11 +519,47 @@ func (z *migrationImpl) Scope(opts ...ScopeOpt) (ctx Context, err error) {
 }
 
 func (z *migrationImpl) Preflight(ctx Context) (err error) {
-	panic("implement me")
+	if err = z.Inspect(ctx); err != nil {
+		return err
+	}
+
+	if err = z.Preserve(ctx); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (z *migrationImpl) Migrate(ctx Context) (err error) {
-	panic("implement me")
+	if err = z.Inspect(ctx); err != nil {
+		return err
+	}
+
+	if err = z.Preserve(ctx); err != nil {
+		return err
+	}
+
+	if err = z.Bridge(ctx); err != nil {
+		return err
+	}
+
+	if err = z.Content(ctx); err != nil {
+		return err
+	}
+
+	if err = z.Transfer(ctx); err != nil {
+		return err
+	}
+
+	if err = z.Permissions(ctx); err != nil {
+		return err
+	}
+
+	if err = z.Cleanup(ctx); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (z *migrationImpl) Inspect(ctx Context) (err error) {
@@ -544,6 +625,12 @@ func (z *migrationImpl) Inspect(ctx Context) (err error) {
 }
 
 func (z *migrationImpl) Preserve(ctx Context) (err error) {
+	// Group to member mapping
+	groupToMembers := make(map[string][]*mo_group_member.Member)
+
+	// All groups
+	allGroups := make(map[string]*mo_group.Group)
+
 	// Preserve group
 	preserveGroups := func() error {
 		groups, err := sv_group.New(z.ctxMgtSrc).List()
@@ -557,6 +644,8 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 			if err != nil {
 				return err
 			}
+			groupToMembers[group.GroupId] = members
+			allGroups[group.GroupId] = group
 
 			// filter into members who migrate to dest team
 			membersDst := make(map[string]*mo_group_member.Member)
@@ -596,8 +685,11 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 		return err
 	}
 
-	// Preserve shared folders
+	// Preserve shared folders & members
 	preserveSharedFolders := func() error {
+		// sharedFolderId to teamMemberId
+		folderToMember := make(map[string]string)
+
 		// fetch all shared folders of migrating members
 		for _, member := range ctx.Members() {
 			ctxFileOfMember := z.ctxFileSrc.AsMemberId(member.TeamMemberId)
@@ -606,7 +698,13 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 				return err
 			}
 			for _, folder := range folders {
-				ctx.AddSharedFolder(folder)
+				// Access type must above `editor`
+				if folder.AccessType != sv_sharedfolder_member.LevelViewer &&
+					folder.AccessType != sv_sharedfolder_member.LevelViewerNoComment {
+					z.log().Debug("Preserve shared folder", zap.String("Id", folder.SharedFolderId), zap.String("Name", folder.Name), zap.String("Access", folder.AccessType))
+					ctx.AddSharedFolder(folder)
+					folderToMember[folder.SharedFolderId] = member.TeamMemberId
+				}
 			}
 		}
 		return nil
@@ -615,28 +713,100 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 		return err
 	}
 
-	// Preserve team folder permissions
-	panic("implement me")
+	// Preserve namespaces
+	preserveNamespaces := func() error {
+		namespaces, err := sv_namespace.New(z.ctxFileSrc).List()
+		if err != nil {
+			return err
+		}
+
+		for _, namespace := range namespaces {
+			ctx.AddNamespace(namespace)
+		}
+
+		return nil
+	}
+	if err = preserveNamespaces(); err != nil {
+		return nil
+	}
+
+	// Preserve namespace members
+	preserveNamespaceMembers := func() error {
+		ctxFileSrcAdmin := z.ctxFileSrc.AsAdminId(ctx.AdminSrc().TeamMemberId)
+		for _, namespace := range ctx.Namespaces() {
+
+			// Skip personal folders
+			if namespace.NamespaceType == "app_folder" ||
+				namespace.NamespaceType == "team_member_folder" {
+				continue
+			}
+
+			members, err := sv_sharedfolder_member.NewBySharedFolderId(ctxFileSrcAdmin, namespace.NamespaceId).List()
+			if err != nil {
+				return err
+			}
+
+			for _, member := range members {
+				ctx.AddNamespaceMember(namespace, member)
+
+				// Preserve group
+				if g, e := member.Group(); e {
+					if gg, ee := allGroups[g.GroupId]; ee {
+						ctx.AddGroup(gg)
+					}
+				}
+			}
+		}
+		return nil
+	}
+	if err = preserveNamespaceMembers(); err != nil {
+		return err
+	}
+
+	// Preserve group members (2nd scan, group appear from namespace members)
+	preserveGroupMembers2ndScan := func() error {
+		targets := ctx.Members()
+		for _, group := range ctx.Groups() {
+			// fetch group members
+			var members []*mo_group_member.Member
+			var e bool
+			if members, e = groupToMembers[group.GroupId]; !e {
+				members, err = sv_group_member.New(z.ctxMgtSrc, group).List()
+				if err != nil {
+					return err
+				}
+			}
+
+			// filter & add group members
+			for _, member := range members {
+				if _, e := targets[member.TeamMemberId]; e {
+					ctx.AddGroupMember(group, member)
+				}
+			}
+		}
+		return nil
+	}
+	if err = preserveGroupMembers2ndScan(); err != nil {
+		return err
+	}
 
 	// Verify any of group already created in dest team or not
+	// But do not block operation
 	verifyDestGroups := func() error {
 		groupsDst, err := sv_group.New(z.ctxMgtDst).List()
 		if err != nil {
 			return err
 		}
 
-		var verifyErr error
-		verifyErr = nil
 		for _, groupSrc := range ctx.Groups() {
 			nameSrcLower := strings.ToLower(groupSrc.GroupName)
 			for _, groupDst := range groupsDst {
 				if strings.ToLower(groupDst.GroupName) == nameSrcLower {
 					z.log().Warn("Group already exists in dest team", zap.String("GroupName", groupSrc.GroupName))
-					verifyErr = errors.New("group already exists")
 				}
 			}
 		}
-		return verifyErr
+		return nil
 	}
 	if err = verifyDestGroups(); err != nil {
 		return err
@@ -646,29 +816,170 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 }
 
 func (z *migrationImpl) Bridge(ctx Context) (err error) {
-	panic("implement me")
-}
+	// bridge team folders
+	if err = z.teamFolderMirror.Bridge(ctx.ContextTeamFolder()); err != nil {
+		return err
+	}
 
-func (z *migrationImpl) Mount(ctx Context) (err error) {
-	panic("implement me")
+	// bridge shared folders
+	bridgeSharedFolders := func() error {
+		folderTargets := ctx.SharedFolders()
+		for _, namespace := range ctx.Namespaces() {
+			// skip team folder
+			if namespace.NamespaceType != "shared_folder" {
+				continue
+			}
+
+			if f, e := folderTargets[namespace.NamespaceId]; e {
+				l := z.log().With(zap.String("SharedFolderId", f.SharedFolderId), zap.String("SharedFolderName", f.Name), zap.String("dstAdminId", ctx.AdminDst().TeamMemberId))
+				l.Debug("Bridge shared folder")
+				var ctxFileAsMember api_context.Context
+				if namespace.TeamMemberId == "" {
+					ctxFileAsMember = z.ctxFileSrc.AsAdminId(ctx.AdminSrc().TeamMemberId)
+				} else {
+					ctxFileAsMember = z.ctxFileSrc.AsMemberId(namespace.TeamMemberId)
+				}
+
+				svc := sv_sharedfolder_member.NewBySharedFolderId(ctxFileAsMember, namespace.TeamMemberId)
+				err = svc.Add(sv_sharedfolder_member.AddByEmail(ctx.AdminDst().Email, sv_sharedfolder_member.LevelEditor), sv_sharedfolder_member.AddCustomMessage(z.ctxExec.Msg("usecase.team.migration.msg.add_shared_folder").T()))
+
+				if err != nil {
+					l.Warn("Unable to bridge shared folder permission", zap.Error(err))
+					return err
+				}
+			}
+		}
+		return nil
+	}
+	if err = bridgeSharedFolders(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (z *migrationImpl) Content(ctx Context) (err error) {
-	panic("implement me")
+	// Mirror team folders
+	if err = z.teamFolderMirror.Mirror(ctx.ContextTeamFolder()); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (z *migrationImpl) Transfer(ctx Context) (err error) {
-	panic("implement me")
+	// Convert accounts into Basic, and invite from new team
+	transferAccounts := func() error {
+		svmSrc := sv_member.New(z.ctxMgtSrc)
+		svmDst := sv_member.New(z.ctxMgtDst)
+		for _, member := range ctx.Members() {
+			l := z.log().With(zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
+			l.Debug("Transferring account")
+
+			ms, err := svmSrc.Resolve(member.TeamMemberId)
+			if err != nil {
+				l.Warn("Unable to resolve existing member", zap.Error(err))
+				continue
+			}
+			err = svmSrc.Remove(ms, sv_member.Downgrade())
+			if err != nil {
+				l.Warn("Unable to downgrade existing member", zap.Error(err))
+				continue
+			}
+
+			_, err = svmDst.Add(member.Email)
+			if err != nil {
+				l.Warn("Unable to downgrade existing member", zap.Error(err))
+				continue
+			}
+
+			// TODO: add role if the member is an admin
+		}
+		return nil
+	}
+	if err = transferAccounts(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (z *migrationImpl) Permissions(ctx Context) (err error) {
-	panic("implement me")
-}
+	// group name (lower) to group mapping
+	groupNameToSrcGroup := make(map[string]*mo_group.Group)
+	groupNameToDstGroup := make(map[string]*mo_group.Group)
+	srcGroupIdToDstGroup := make(map[string]*mo_group.Group)
 
-func (z *migrationImpl) Restore(ctx Context) (err error) {
-	panic("implement me")
+	// create map name to source group
+	sortSourceGroup := func() error {
+		for _, group := range ctx.Groups() {
+			groupNameToSrcGroup[strings.ToLower(group.GroupName)] = group
+		}
+		return nil
+	}
+	if err = sortSourceGroup(); err != nil {
+		return err
+	}
+
+	// fetch destination groups
+	fetchDestGroups := func() error {
+		groups, err := sv_group.New(z.ctxMgtDst).List()
+		if err != nil {
+			return err
+		}
+		for _, group := range groups {
+			ctx.AddDestGroup(group)
+			groupNameToDstGroup[strings.ToLower(group.GroupName)] = group
+		}
+		return nil
+	}
+	if err = fetchDestGroups(); err != nil {
+		return err
+	}
+
+	// create group if not exist
+	createDestGroups := func() error {
+		for n, src := range groupNameToSrcGroup {
+			l := z.log().With(zap.String("groupName", src.GroupName))
+			if _, e := groupNameToDstGroup[n]; !e {
+				l.Debug("Creating group in the dest team")
+				group, err := sv_group.New(z.ctxMgtDst).Create(src.GroupName, sv_group.ManagementType(src.GroupManagementType))
+				if err != nil {
+					l.Warn("Unable to create group in the dest team", zap.Error(err))
+					return err
+				}
+				groupNameToDstGroup[n] = group
+				ctx.AddDestGroup(group)
+			}
+		}
+		return nil
+	}
+	if err = createDestGroups(); err != nil {
+		return err
+	}
+
+	// create map src group id to dst group
+	createSrcGroupIdToDstGroupMap := func() error {
+		for n, src := range groupNameToSrcGroup {
+			if dst, e := groupNameToDstGroup[n]; e {
+				srcGroupIdToDstGroup[src.GroupId] = dst
+			} else {
+				// should not happen
+				z.log().Warn("Unable to find dst group", zap.String("groupName", src.GroupName))
+				return errors.New("unable to find dst group")
+			}
+		}
+		return nil
+	}
+	if err = createSrcGroupIdToDstGroupMap(); err != nil {
+		return err
+	}
+
+	// TODO: add permissions
+
+	return nil
 }
 
 func (z *migrationImpl) Cleanup(ctx Context) (err error) {
-	panic("implement me")
+	return nil
 }

@@ -66,6 +66,9 @@ Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 | `team device unlink`            | Unlink device                                                 |
 | `team feature`                  | List team feature values                                      |
 | `team info`                     | Team info                                                     |
+| `team migrate check`            | Migration step 1 : Preflight check                            |
+| `team migrate content`          | Migration step 2 : Mirror contents                            |
+| `team migrate transfer`         | Migration step 3 : Transfer accounts & permissions            |
 | `team namespace file list`      | List files/folders in all namespaces of the team              |
 | `team namespace file size`      | Calculate size of namespaces                                  |
 | `team namespace list`           | List all namespaces of the team                               |

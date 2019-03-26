@@ -1,4 +1,4 @@
-package cmd_team
+package cmd_migrate
 
 import (
 	"flag"
@@ -8,26 +8,26 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_team_migration"
 )
 
-type CmdTeamMigrate struct {
+type CmdTeamMigrateTransfer struct {
 	*cmd.SimpleCommandlet
 	report          app_report.Factory
 	optSrcTeamAlias string
 	optDstTeamAlias string
 }
 
-func (z *CmdTeamMigrate) Name() string {
-	return "migrate"
+func (z *CmdTeamMigrateTransfer) Name() string {
+	return "transfer"
 }
 
-func (z *CmdTeamMigrate) Desc() string {
-	return "cmd.team.migrate.desc"
+func (z *CmdTeamMigrateTransfer) Desc() string {
+	return "cmd.team.migrate.transfer.desc"
 }
 
-func (z *CmdTeamMigrate) Usage() func(cmd.CommandUsage) {
+func (z *CmdTeamMigrateTransfer) Usage() func(cmd.CommandUsage) {
 	return nil
 }
 
-func (z *CmdTeamMigrate) FlagConfig(f *flag.FlagSet) {
+func (z *CmdTeamMigrateTransfer) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
@@ -38,7 +38,7 @@ func (z *CmdTeamMigrate) FlagConfig(f *flag.FlagSet) {
 	f.StringVar(&z.optDstTeamAlias, "alias-dest", "mirror-dst", descToAccount)
 }
 
-func (z *CmdTeamMigrate) Exec(args []string) {
+func (z *CmdTeamMigrateTransfer) Exec(args []string) {
 	var err error
 
 	// Ask for SRC account authentication

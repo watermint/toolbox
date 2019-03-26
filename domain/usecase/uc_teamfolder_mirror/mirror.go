@@ -371,13 +371,13 @@ func (z *teamFolderImpl) Bridge(ctx Context) (err error) {
 	groupName := fmt.Sprintf("toolbox-teamfolder-mirror-%x", time.Now().Unix())
 
 	// Create groups
-	groupSrc, err := sv_group.New(z.ctxMgtSrc).CreateCompanyManaged(groupName)
+	groupSrc, err := sv_group.New(z.ctxMgtSrc).Create(groupName, sv_group.CompanyManaged())
 	if err != nil {
 		return err
 	}
 	ctx.SetGroups(groupSrc, nil)
 
-	groupDst, err := sv_group.New(z.ctxMgtDst).CreateCompanyManaged(groupName)
+	groupDst, err := sv_group.New(z.ctxMgtDst).Create(groupName, sv_group.CompanyManaged())
 	if err != nil {
 		return err
 	}

@@ -97,6 +97,19 @@ type addOptions struct {
 	customMessage string
 }
 
+func AddQuiet() AddOption {
+	return func(opt *addOptions) *addOptions {
+		opt.quiet = true
+		return opt
+	}
+}
+func AddCustomMessage(message string) AddOption {
+	return func(opt *addOptions) *addOptions {
+		opt.customMessage = message
+		return opt
+	}
+}
+
 type RemoveOption func(opt *removeOptions) *removeOptions
 
 type removeOptions struct {
