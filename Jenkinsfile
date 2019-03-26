@@ -3,11 +3,11 @@ pipeline {
     stages {
         stage('Env') {
             environment {
-                GO_BINARY=go1.12.1.linux-amd64.tar.gz
-                GOPATH=$PWD/go
-                PATH=$PATH:$GOPATH
+                GO_BINARY = "go1.12.1.linux-amd64.tar.gz"
             }
             steps {
+                sh 'export GOPATH=$PWD/go'
+                sh 'export PATH=$PATH:$GOPATH'
                 sh 'if [ ! -d go ]; then mkdir go fi'
                 sh 'if [ ! -e $GO_BINARY ]; then wget https://dl.google.com/go/$GO_BINARY fi'
                 sh 'tar -C $GOPATH -xzf $GO_BINARY'
