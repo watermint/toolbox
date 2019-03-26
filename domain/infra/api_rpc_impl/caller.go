@@ -223,6 +223,9 @@ func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
 		log.Debug("Caller", zap.Any("param", z.param), zap.Any("root", z.base))
 		apiResImpl := &ResponseImpl{}
 		apiResImpl.resStatusCode, apiResImpl.resHeader, apiResImpl.resBody, err = cc.DoRequest(req)
+		if apiResImpl.resBody != nil {
+			apiResImpl.resBodyString = string(apiResImpl.resBody)
+		}
 
 		ca := api_capture.Current()
 		ca.Rpc(req, apiResImpl, err)
@@ -231,7 +234,6 @@ func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
 			log.Debug("Transport error", zap.Error(err))
 			return z.ensureRetryOnError(err)
 		}
-		apiResImpl.resBodyString = string(apiResImpl.resBody)
 
 		return z.handleResponse(apiResImpl)
 	}

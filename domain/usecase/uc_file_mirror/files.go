@@ -141,6 +141,8 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 		}
 	}
 
+	log.Debug("Skipped(Same hash):", zap.Strings("files", skipped))
+
 	return nil
 }
 
@@ -179,8 +181,12 @@ func (z *filesImpl) handleError(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_pa
 		time.Sleep(z.pollInterval)
 		return z.mirrorCurrent(pathOrigSrc, pathSrc, pathOrigDst, pathDst)
 
+	case strings.Contains(errPrefix, "not_found"):
+		log.Debug("Can't copy file", zap.String("src", pathSrc.Path()), zap.String("dst", pathDst.Path()))
+		return nil
+
 	default:
-		log.Debug("Unrecoverable error")
+		log.Debug("Unrecoverable error", zap.String("errPrefix", errPrefix), zap.Error(apiErr))
 		return apiErr
 	}
 }

@@ -8,7 +8,6 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"strings"
 	"time"
 )
 
@@ -84,16 +83,7 @@ func (z *captureImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 	for k, v := range req.Headers() {
 		// Anonymize token
 		if k == api_rpc.ReqHeaderAuthorization {
-			vs := strings.Split(v, " ")
-			if len(vs) < 2 {
-				headers[k] = tokenMatcher.ReplaceAllString(v, "x")
-			} else {
-				v0 := vs[0]                     // Bearer
-				v1 := strings.Join(vs[1:], " ") // Token
-				v2 := tokenMatcher.ReplaceAllString(v1, "x")
-				vt := v0 + " " + v2
-				headers[k] = vt
-			}
+			headers[k] = "Bearer <secret>"
 		} else {
 			headers[k] = v
 		}
