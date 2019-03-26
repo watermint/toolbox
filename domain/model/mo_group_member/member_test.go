@@ -128,7 +128,7 @@ func TestGroupMember_Group(t *testing.T) {
 		reportPath := filepath.Join(ec.JobsPath(), "report")
 		report := app_report.Factory{}
 		report.ExecContext = ec
-		report.ReportPath = reportPath
+		report.Path = reportPath
 		if err := report.Init(ec); err != nil {
 			t.Error(err)
 			return

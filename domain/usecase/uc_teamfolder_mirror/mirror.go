@@ -128,7 +128,7 @@ func (z *mirrorContext) AdminDst() *mo_profile.Profile {
 	return z.adminDst
 }
 
-func NewTeamFolder(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context) TeamFolder {
+func New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context) TeamFolder {
 	return &teamFolderImpl{
 		ctxFileSrc: ctxFileSrc,
 		ctxMgtSrc:  ctxMgtSrc,
@@ -287,12 +287,17 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 	inspectSrcFolders := func() error {
 		var inspectErr error
 		for _, pair := range ctx.Pairs() {
-			z.log().Warn("SRC: Team folder status",
+			z.log().Info("SRC: Team folder status",
 				zap.String("id", pair.Src.TeamFolderId),
 				zap.String("name", pair.Src.Name),
 				zap.String("status", pair.Src.Status),
 			)
 			if pair.Src.Status != "active" {
+				z.log().Info("SRC: Non active folder found",
+					zap.String("srcId", pair.Src.TeamFolderId),
+					zap.String("srcName", pair.Src.Name),
+					zap.String("srcStatus", pair.Src.Status),
+				)
 				inspectErr = errors.New("one or more team folders are not active")
 			}
 		}
@@ -332,7 +337,7 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 		var inspectErr error
 		for _, pair := range ctx.Pairs() {
 			if folder := pair.Dst; folder != nil {
-				z.log().Warn("SRC: Team folder status",
+				z.log().Info("DST: Team folder status",
 					zap.String("srcId", pair.Src.TeamFolderId),
 					zap.String("srcName", pair.Src.Name),
 					zap.String("srcStatus", pair.Src.Status),
@@ -341,6 +346,11 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 					zap.String("dstStatus", folder.Status),
 				)
 				if pair.Dst.Status != "active" {
+					z.log().Info("DST: Non active folder found",
+						zap.String("dstId", folder.TeamFolderId),
+						zap.String("dstName", folder.Name),
+						zap.String("dstStatus", folder.Status),
+					)
 					inspectErr = errors.New("one or more team folders are not active")
 				}
 			}
@@ -372,15 +382,14 @@ func (z *teamFolderImpl) Bridge(ctx Context) (err error) {
 	z.log().Debug("Groups created", zap.String("srcGroupId", groupSrc.GroupId), zap.String("dstGroupId", groupDst.GroupId), zap.String("groupName", groupName))
 
 	// Add admins to groups
-	groupSrc, err = sv_group_member.New(z.ctxMgtSrc, groupSrc).Add([]string{ctx.AdminSrc().TeamMemberId})
+	_, err = sv_group_member.New(z.ctxMgtSrc, groupSrc).Add([]string{ctx.AdminSrc().TeamMemberId})
 	if err != nil {
 		return err
 	}
-	groupDst, err = sv_group_member.New(z.ctxMgtDst, groupDst).Add([]string{ctx.AdminDst().TeamMemberId})
+	_, err = sv_group_member.New(z.ctxMgtDst, groupDst).Add([]string{ctx.AdminDst().TeamMemberId})
 	if err != nil {
 		return err
 	}
-	ctx.SetGroups(groupSrc, groupDst)
 	z.log().Debug("Admins added to groups", zap.String("srcGroupId", groupSrc.GroupId), zap.String("dstGroupId", groupDst.GroupId), zap.String("groupName", groupName))
 
 	return nil

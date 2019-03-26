@@ -1,36 +1,33 @@
-package cmd_teamfolder
+package cmd_team
 
 import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
-	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
+	"github.com/watermint/toolbox/domain/usecase/uc_team_migration"
 )
 
-type CmdTeamFolderMirror struct {
+type CmdTeamMigrate struct {
 	*cmd.SimpleCommandlet
-
-	optSrcTeamAlias   string
-	optDstTeamAlias   string
-	optAllTeamFolders bool
-
-	report app_report.Factory
+	report          app_report.Factory
+	optSrcTeamAlias string
+	optDstTeamAlias string
 }
 
-func (CmdTeamFolderMirror) Name() string {
-	return "mirror"
+func (z *CmdTeamMigrate) Name() string {
+	return "migrate"
 }
 
-func (CmdTeamFolderMirror) Desc() string {
-	return "cmd.teamfolder.mirror.desc"
+func (z *CmdTeamMigrate) Desc() string {
+	return "cmd.team.migrate.desc"
 }
 
-func (CmdTeamFolderMirror) Usage() func(usage cmd.CommandUsage) {
+func (z *CmdTeamMigrate) Usage() func(cmd.CommandUsage) {
 	return nil
 }
 
-func (z *CmdTeamFolderMirror) FlagConfig(f *flag.FlagSet) {
+func (z *CmdTeamMigrate) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
@@ -39,26 +36,9 @@ func (z *CmdTeamFolderMirror) FlagConfig(f *flag.FlagSet) {
 
 	descToAccount := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.dst_account").T()
 	f.StringVar(&z.optDstTeamAlias, "alias-dest", "mirror-dst", descToAccount)
-
-	descAll := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.all").T()
-	f.BoolVar(&z.optAllTeamFolders, "all", false, descAll)
 }
 
-func (z *CmdTeamFolderMirror) Exec(args []string) {
-	if z.optSrcTeamAlias == "" ||
-		z.optDstTeamAlias == "" {
-
-		z.ExecContext.Msg("cmd.teamfolder.mirror.err.not_enough_params").TellError()
-		return
-	}
-	if z.optSrcTeamAlias == z.optDstTeamAlias {
-		z.ExecContext.Msg("cmd.teamfolder.mirror.err.same_team").TellError()
-		return
-	}
-	if len(args) < 1 && !z.optAllTeamFolders {
-		z.ExecContext.Msg("cmd.teamfolder.mirror.err.not_enough_arguments").TellError()
-		return
-	}
+func (z *CmdTeamMigrate) Exec(args []string) {
 	var err error
 
 	// Ask for SRC account authentication
@@ -105,25 +85,13 @@ func (z *CmdTeamFolderMirror) Exec(args []string) {
 		return
 	}
 
-	ucm := uc_teamfolder_mirror.New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst)
-
-	if z.optAllTeamFolders {
-		uc, err := ucm.AllFolderScope()
-		if err != nil {
-			ctxFileSrc.ErrorMsg(err).TellError()
-			return
-		}
-		if err = ucm.Mirror(uc); err != nil {
-			ctxFileSrc.ErrorMsg(err).TellError()
-		}
-	} else {
-		uc, err := ucm.PartialScope(args)
-		if err != nil {
-			ctxFileSrc.ErrorMsg(err).TellError()
-			return
-		}
-		if err = ucm.Mirror(uc); err != nil {
-			ctxFileSrc.ErrorMsg(err).TellError()
-		}
+	ucm := uc_team_migration.New(z.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst)
+	mc, err := ucm.Scope()
+	if err != nil {
+		ctxFileSrc.ErrorMsg(err).TellError()
+		return
+	}
+	if err = ucm.Migrate(mc); err != nil {
+		ctxFileSrc.ErrorMsg(err).TellError()
 	}
 }
