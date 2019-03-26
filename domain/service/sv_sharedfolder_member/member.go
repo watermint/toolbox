@@ -12,6 +12,13 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
 )
 
+const (
+	LevelOwner           = "owner"
+	LevelEditor          = "editor"
+	LevelViewer          = "viewer"
+	LevelViewerNoComment = "viewer_no_comment"
+)
+
 func New(ctx api_context.Context, sf *mo_sharedfolder.SharedFolder) Member {
 	return &memberImpl{
 		ctx:            ctx,
@@ -34,7 +41,7 @@ func NewBySharedFolderId(ctx api_context.Context, sfId string) Member {
 
 type Member interface {
 	List() (member []mo_sharedfolder_member.Member, err error)
-	Add(members []MemberAddOption, opts ...AddOption) (err error)
+	Add(member MemberAddOption, opts ...AddOption) (err error)
 	Remove(member MemberRemoveOption, opts ...RemoveOption) (err error)
 }
 
@@ -213,16 +220,14 @@ func (z *memberImpl) List() (member []mo_sharedfolder_member.Member, err error) 
 	return member, nil
 }
 
-func (z *memberImpl) Add(members []MemberAddOption, opts ...AddOption) (err error) {
+func (z *memberImpl) Add(member MemberAddOption, opts ...AddOption) (err error) {
 	mem := &memberAddOptions{
 		memberEmails:    make(map[string]string),
 		memberDropboxId: make(map[string]string),
 	}
 	ao := &addOptions{}
 
-	for _, m := range members {
-		m(mem)
-	}
+	member(mem)
 	for _, o := range opts {
 		o(ao)
 	}

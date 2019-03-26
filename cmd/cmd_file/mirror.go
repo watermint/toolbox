@@ -80,7 +80,7 @@ func (z *CmdFileMirror) Exec(args []string) {
 	srcPath := mo_path.NewPath(z.optSrcPath)
 	dstPath := mo_path.NewPath(z.optDstPath)
 
-	ucm := uc_file_mirror.NewFiles(ctxSrc, ctxDst)
+	ucm := uc_file_mirror.New(ctxSrc, ctxDst)
 	err = ucm.Mirror(srcPath, dstPath)
 
 	if err != nil {

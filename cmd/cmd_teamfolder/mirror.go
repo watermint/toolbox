@@ -5,8 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
-	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
-	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
+	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
 )
 
 type CmdTeamFolderMirror struct {
@@ -110,29 +109,25 @@ func (z *CmdTeamFolderMirror) Exec(args []string) {
 		return
 	}
 
-	ucm := uc_file_mirror.NewTeamFolder(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst)
+	ucm := uc_teamfolder_mirror.NewTeamFolder(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst)
 
 	if z.optAllTeamFolders {
-		svt := sv_teamfolder.New(ctxFileSrc)
-		folders, err := svt.List()
+		uc, err := ucm.AllFolderScope()
 		if err != nil {
 			ctxFileSrc.ErrorMsg(err).TellError()
 			return
 		}
-		for _, folder := range folders {
-			err := ucm.Mirror(folder.Name)
-			if err != nil {
-				ctxFileSrc.ErrorMsg(err).TellError()
-				return
-			}
+		if err = ucm.Mirror(uc); err != nil {
+			ctxFileSrc.ErrorMsg(err).TellError()
 		}
 	} else {
-		for _, n := range args {
-			err := ucm.Mirror(n)
-			if err != nil {
-				ctxFileSrc.ErrorMsg(err).TellError()
-				return
-			}
+		uc, err := ucm.PartialScope(args)
+		if err != nil {
+			ctxFileSrc.ErrorMsg(err).TellError()
+			return
+		}
+		if err = ucm.Mirror(uc); err != nil {
+			ctxFileSrc.ErrorMsg(err).TellError()
 		}
 	}
 }
