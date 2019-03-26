@@ -202,6 +202,8 @@
   "cmd.teamfolder.mirror.progress.mirroring_team_folder": "Mirroring team folder: {{.Name}}",
   "cmd.teamfolder.mirror.progress.team_folder_created_on_to_team": "Team folder `{{.Name}}` created in the team `{{.Alias}}`",
   "cmd.teamfolder.mirror.progress.tmp_group_removed": "Temporary group removed",
+  "cmd.teamfolder.archive.desc": "Archive team folder(s)",
+  "cmd.teamfolder.permdelete.desc": "Permanently delete team folder(s)",
   "cmd.teamfolder.desc": "Team folder management",
   "cmd.team.feature.desc": "List team feature values",
   "cmd.team.info.desc": "Team info",
