@@ -401,20 +401,18 @@ func (z *teamFolderImpl) Bridge(ctx Context) (err error) {
 func (z *teamFolderImpl) Mount(ctx Context, scope Scope) (err error) {
 	// Create team folder if required
 	createIfRequired := func() error {
-		var createErr error
-		createErr = nil
-		svt := sv_teamfolder.New(z.ctxMgtDst)
+		svt := sv_teamfolder.New(z.ctxFileDst)
 		pair := scope.Pair()
 		if pair.Dst == nil {
 			folder, err := svt.Create(pair.Src.Name)
 			if err != nil {
 				z.log().Warn("DST: Unable to create team folder", zap.String("name", pair.Src.Name), zap.Error(err))
-				createErr = errors.New("could not create one or more team folders in the destination team")
+				return errors.New("could not create one or more team folders in the destination team")
 			}
 			z.log().Debug("DST: Team folder created", zap.String("id", folder.TeamFolderId), zap.String("name", folder.Name))
 			pair.Dst = folder
 		}
-		return createErr
+		return nil
 	}
 	if err := createIfRequired(); err != nil {
 		return err

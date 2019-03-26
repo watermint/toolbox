@@ -46,8 +46,6 @@ func RightPath(path mo_path.Path) CompareOpt {
 type compareImpl struct {
 	ctxLeft  api_context.Context
 	ctxRight api_context.Context
-	svfLeft  sv_file.Files
-	svfRight sv_file.Files
 }
 
 func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
@@ -56,10 +54,13 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 	rightFiles := make(map[string]*mo_file.File)
 	rightFolders := make(map[string]*mo_file.Folder)
 
+	log := z.ctxLeft.Log().With(zap.String("path", path))
+	log.Debug("Compare")
+
 	// Scan left
 	{
 		leftPath := filepath.Join(opts.leftPath, path)
-		entries, err := z.svfLeft.List(mo_path.NewPath(leftPath))
+		entries, err := sv_file.NewFiles(z.ctxLeft).List(mo_path.NewPath(leftPath))
 		if err != nil {
 			return 0, err
 		}
@@ -76,7 +77,7 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 	// Scan right
 	{
 		rightPath := filepath.Join(opts.rightPath, path)
-		entries, err := z.svfRight.List(mo_path.NewPath(rightPath))
+		entries, err := sv_file.NewFiles(z.ctxRight).List(mo_path.NewPath(rightPath))
 		if err != nil {
 			return 0, err
 		}
@@ -148,14 +149,14 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 			// proceed to descendants
 			pd, err := filepath.Rel(strings.ToLower(opts.leftPath), lf.PathLower())
 			if err != nil {
-				z.ctxLeft.Log().Warn("unable to calculate relative path", zap.String("leftPathBase", opts.leftPath), zap.String("leftPath", lf.PathLower()), zap.Error(err))
+				log.Warn("unable to calculate relative path", zap.String("leftPathBase", opts.leftPath), zap.String("leftPath", lf.PathLower()), zap.Error(err))
 				continue
 			}
 			if strings.HasPrefix(pd, "..") {
-				z.ctxLeft.Log().Error("invalid relative path", zap.String("pd", pd), zap.String("zLeftPath", opts.leftPath), zap.String("lfPathLower", lf.PathLower()))
+				log.Error("invalid relative path", zap.String("pd", pd), zap.String("zLeftPath", opts.leftPath), zap.String("lfPathLower", lf.PathLower()))
 				continue
 			}
-			z.ctxLeft.Log().Debug("Proceed into descendants", zap.String("path", pd))
+			log.Debug("Proceed into descendants", zap.String("pathDescendants", pd))
 			dc, err := z.cmpLevel(pd, opts, onDiff)
 			if err != nil {
 				return dc, err

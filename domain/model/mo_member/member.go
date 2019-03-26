@@ -24,10 +24,10 @@ type Member struct {
 	Role            string `path:"role.\\.tag"`
 }
 
-func (z *Member) Profile() mo_profile.Profile {
-	p := mo_profile.Profile{}
+func (z *Member) Profile() *mo_profile.Profile {
+	p := &mo_profile.Profile{}
 	if err := api_parser.ParseModelRaw(&p, z.Raw); err != nil {
-		return mo_profile.Profile{}
+		return &mo_profile.Profile{}
 	}
 	return p
 }

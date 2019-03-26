@@ -20,6 +20,22 @@ func TestPathImpl(t *testing.T) {
 	}
 
 	{
+		p := pathImpl{path: "/world.txt"}
+		if pi := p.Path(); pi != "/world.txt" {
+			t.Error("invalid")
+		}
+		if pi, e := p.Id(); pi != "" || e {
+			t.Error("invalid")
+		}
+		if pi, e := p.Namespace(); pi != "" || e {
+			t.Error("invalid")
+		}
+		if pi := p.LogicalPath(); pi != "/world.txt" {
+			t.Error("invalid")
+		}
+	}
+
+	{
 		p := pathImpl{path: "/hello/world.txt"}
 		if pi := p.Path(); pi != "/hello/world.txt" {
 			t.Error("invalid")
@@ -47,6 +63,22 @@ func TestPathImpl(t *testing.T) {
 			t.Error("invalid")
 		}
 		if pi := p.LogicalPath(); pi != "/" {
+			t.Error("invalid")
+		}
+	}
+
+	{
+		p := pathImpl{path: "id:abc123xyz/world.txt"}
+		if pi := p.Path(); pi != "id:abc123xyz/world.txt" {
+			t.Error("invalid")
+		}
+		if pi, e := p.Id(); pi != "abc123xyz" || !e {
+			t.Error("invalid")
+		}
+		if pi, e := p.Namespace(); pi != "" || e {
+			t.Error("invalid")
+		}
+		if pi := p.LogicalPath(); pi != "/world.txt" {
 			t.Error("invalid")
 		}
 	}

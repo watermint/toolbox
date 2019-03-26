@@ -64,6 +64,7 @@ func (z *filesImpl) dstPathRelToSrc(pathOrigSrc, pathSrc, pathOrigDst mo_path.Pa
 
 func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_path.Path) error {
 	log := z.ctxSrc.Log().With(zap.String("origSrc", pathOrigSrc.Path()), zap.String("src", pathSrc.Path()), zap.String("dst", pathDst.Path()))
+	log.Debug("Start mirroring descendants")
 
 	// dest descendant files, and folders
 	filesDst := make(map[string]*mo_file.File)
@@ -127,12 +128,17 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 		}
 
 		if folderSrc, e := entrySrc.Folder(); e {
+			pathFolderSrc := mo_path.NewPathDisplay(folderSrc.PathDisplay())
+			pathFolderDst, err := z.dstPathRelToSrc(pathOrigSrc, pathFolderSrc, pathOrigDst)
+			if err != nil {
+				return err
+			}
 			if _, e := foldersDst[name]; e {
-				pathFolderSrc := mo_path.NewPathDisplay(folderSrc.PathDisplay())
-				pathFolderDst, err := z.dstPathRelToSrc(pathOrigSrc, pathFolderSrc, pathOrigDst)
-				if err != nil {
-					return err
+				if err = z.mirrorDescendants(pathOrigSrc, pathFolderSrc, pathOrigDst, pathFolderDst); err != nil {
+					log.Debug("Mirror failed", zap.String("folderSrc", pathFolderSrc.Path()), zap.String("folderDst", pathFolderDst.Path()), zap.Error(err))
+					// do not fail on file mirroring
 				}
+			} else {
 				if err = z.mirrorCurrent(pathOrigSrc, pathFolderSrc, pathOrigDst, pathFolderDst); err != nil {
 					log.Debug("Mirror failed", zap.String("folderSrc", pathFolderSrc.Path()), zap.String("folderDst", pathFolderDst.Path()), zap.Error(err))
 					// do not fail on file mirroring
@@ -148,6 +154,8 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 
 func (z *filesImpl) mirrorCurrent(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_path.Path) (err error) {
 	log := z.ctxSrc.Log().With(zap.String("origSrc", pathOrigSrc.Path()), zap.String("src", pathSrc.Path()), zap.String("dst", pathDst.Path()))
+	log.Debug("Start mirroring current path")
+
 	scrSrc := sv_file_copyref.New(z.ctxSrc)
 	metaSrc, ref, expires, err := scrSrc.Resolve(pathSrc)
 	if err != nil {
