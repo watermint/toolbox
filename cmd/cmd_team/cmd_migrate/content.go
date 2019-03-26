@@ -2,6 +2,7 @@ package cmd_migrate
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_io"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
@@ -10,9 +11,15 @@ import (
 
 type CmdTeamMigrateContent struct {
 	*cmd.SimpleCommandlet
-	report          app_report.Factory
-	optSrcTeamAlias string
-	optDstTeamAlias string
+	report               app_report.Factory
+	optSrcTeamAlias      string
+	optDstTeamAlias      string
+	optMembersAll        bool
+	optMembersCsv        string
+	optTeamFoldersAll    bool
+	optTeamFoldersCsv    string
+	optAll               bool
+	optGroupsOnlyRelated bool
 }
 
 func (z *CmdTeamMigrateContent) Name() string {
@@ -36,10 +43,59 @@ func (z *CmdTeamMigrateContent) FlagConfig(f *flag.FlagSet) {
 
 	descToAccount := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.dst_account").T()
 	f.StringVar(&z.optDstTeamAlias, "alias-dest", "mirror-dst", descToAccount)
+
+	descMembersAll := z.ExecContext.Msg("cmd.team.migrate.check.flag.members_all").T()
+	f.BoolVar(&z.optMembersAll, "member-all", false, descMembersAll)
+
+	descMembersCsv := z.ExecContext.Msg("cmd.team.migrate.check.flag.members_csv").T()
+	f.StringVar(&z.optMembersCsv, "member-csv", "", descMembersCsv)
+
+	descTeamFolderAll := z.ExecContext.Msg("cmd.team.migrate.check.flag.teamfolder_all").T()
+	f.BoolVar(&z.optTeamFoldersAll, "teamfolder-all", false, descTeamFolderAll)
+
+	descTeamFolderCsv := z.ExecContext.Msg("cmd.team.migrate.check.flag.teamfolder_csv").T()
+	f.StringVar(&z.optTeamFoldersCsv, "teamfolder-csv", "", descTeamFolderCsv)
+
+	descAll := z.ExecContext.Msg("cmd.team.migrate.check.flag.all").T()
+	f.BoolVar(&z.optAll, "all", false, descAll)
+
+	descGroupsOnlyRelated := z.ExecContext.Msg("cmd.team.migrate.check.flag.groups_only_related").T()
+	f.BoolVar(&z.optGroupsOnlyRelated, "groups-only-related", false, descGroupsOnlyRelated)
+
 }
 
 func (z *CmdTeamMigrateContent) Exec(args []string) {
 	var err error
+
+	teamFolderNames := make([]string, 0)
+	memberEmails := make([]string, 0)
+
+	if z.optTeamFoldersCsv != "" {
+		err = app_io.NewCsvLoader(z.ExecContext, z.optTeamFoldersCsv).
+			OnRow(func(cols []string) error {
+				if len(cols) < 1 {
+					return nil
+				}
+				teamFolderNames = append(teamFolderNames, cols[0])
+				return nil
+			}).Load()
+		if err != nil {
+			return
+		}
+	}
+	if z.optMembersCsv != "" {
+		err = app_io.NewCsvLoader(z.ExecContext, z.optMembersCsv).
+			OnRow(func(cols []string) error {
+				if len(cols) < 1 {
+					return nil
+				}
+				memberEmails = append(memberEmails, cols[0])
+				return nil
+			}).Load()
+		if err != nil {
+			return
+		}
+	}
 
 	// Ask for SRC account authentication
 	z.ExecContext.Msg("cmd.teamfolder.mirror.prompt.ask_src_file_account_auth").WithData(struct {
@@ -85,8 +141,28 @@ func (z *CmdTeamMigrateContent) Exec(args []string) {
 		return
 	}
 
+	opts := make([]uc_team_migration.ScopeOpt, 0)
+	if z.optMembersCsv != "" {
+		opts = append(opts, uc_team_migration.MembersSpecifiedEmail(memberEmails))
+	}
+	if z.optMembersAll {
+		opts = append(opts, uc_team_migration.MembersAllExceptAdmin())
+	}
+	if z.optTeamFoldersCsv != "" {
+		opts = append(opts, uc_team_migration.TeamFoldersSpecifiedName(teamFolderNames))
+	}
+	if z.optTeamFoldersAll {
+		opts = append(opts, uc_team_migration.TeamFoldersAll())
+	}
+	if z.optGroupsOnlyRelated {
+		opts = append(opts, uc_team_migration.GroupsOnlyRelated())
+	}
+	if z.optAll {
+		opts = append(opts, uc_team_migration.MembersAllExceptAdmin(), uc_team_migration.TeamFoldersAll())
+	}
+
 	ucm := uc_team_migration.New(z.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst)
-	mc, err := ucm.Scope()
+	mc, err := ucm.Scope(opts...)
 	if err != nil {
 		ctxFileSrc.ErrorMsg(err).TellError()
 		return

@@ -32,7 +32,7 @@ type TeamFolder interface {
 	PartialScope(names []string) (ctx Context, err error)
 
 	// Mirror
-	Mirror(ctx Context) (err error)
+	Mirror(ctx Context, opts ...MirrorOpt) (err error)
 
 	// Inspect team folder.
 	Inspect(ctx Context) (err error)
@@ -52,8 +52,23 @@ type TeamFolder interface {
 	// Unmount
 	Unmount(ctx Context, scope Scope) (err error)
 
+	// Archive
+	Archive(ctx Context, scope Scope) (err error)
+
 	// Clean up permissions which used for mirroring
 	Cleanup(ctx Context) (err error)
+}
+
+type MirrorOpt func(opt *mirrorOpts) *mirrorOpts
+type mirrorOpts struct {
+	archiveOnSuccess bool
+}
+
+func ArchiveOnSuccess() MirrorOpt {
+	return func(opt *mirrorOpts) *mirrorOpts {
+		opt.archiveOnSuccess = true
+		return opt
+	}
 }
 
 type MirrorPair struct {
@@ -197,7 +212,12 @@ func (z *teamFolderImpl) PartialScope(names []string) (ctx Context, err error) {
 	return
 }
 
-func (z *teamFolderImpl) Mirror(ctx Context) (err error) {
+func (z *teamFolderImpl) Mirror(ctx Context, opts ...MirrorOpt) (err error) {
+	mo := &mirrorOpts{}
+	for _, o := range opts {
+		o(mo)
+	}
+
 	if err = z.Inspect(ctx); err != nil {
 		return err
 	}
@@ -213,15 +233,21 @@ func (z *teamFolderImpl) Mirror(ctx Context) (err error) {
 			lastErr = err
 			continue
 		}
+		archive := false
 		if err = z.Content(ctx, scope); err != nil {
 			lastErr = err
 		} else {
 			if err = z.Verify(ctx, scope); err != nil {
 				lastErr = err
+			} else if mo.archiveOnSuccess {
+				archive = true
 			}
 		}
 		if err = z.Unmount(ctx, scope); err != nil {
 			lastErr = err
+		}
+		if archive {
+
 		}
 	}
 	if err = z.Cleanup(ctx); err != nil {
@@ -514,6 +540,16 @@ func (z *teamFolderImpl) Unmount(ctx Context, scope Scope) (err error) {
 		return nil
 	}
 	if err := detachGroupFromTeamFolders(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (z *teamFolderImpl) Archive(ctx Context, scope Scope) (err error) {
+	z.log().Debug("Archiving team folder", zap.String("name", scope.Pair().Src.Name))
+	svt := sv_teamfolder.New(z.ctxFileSrc)
+	if _, err := svt.Archive(scope.Pair().Src); err != nil {
 		return err
 	}
 

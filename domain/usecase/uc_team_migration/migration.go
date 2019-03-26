@@ -1063,5 +1063,6 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 }
 
 func (z *migrationImpl) Cleanup(ctx Context) (err error) {
+
 	return nil
 }
