@@ -596,7 +596,6 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 	}
 
 	// Preserve shared folders
-	panic("implement me")
 
 	// Preserve team folder permissions
 	panic("implement me")

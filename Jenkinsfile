@@ -4,7 +4,7 @@ node {
     }
     def root = tool name: 'Go 1.12.1', type: 'go'
 
-    withEnv(["GOROOT=${root}", "GOPATH=${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}/", "PATH+GO=${root}/bin"]) {
+    withEnv(["GOROOT=${root}", "GOPATH=${WORKSPACE}", "PATH+GO=${root}/bin"]) {
         env.PATH="${GOPATH}/bin:$PATH"
         stage 'Prepare'
         sh 'go get golang.org/x/tools/cmd/cover'
