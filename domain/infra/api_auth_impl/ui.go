@@ -47,49 +47,38 @@ func (z *UIAuth) appKeys(tokenType string) (key, secret string) {
 	return
 }
 
-func (z *UIAuth) verifyToken(tokenType, token string) error {
-	//c := dbx_api.NewContext(
-	//	z.ec,
-	//	tokenType,
-	//	token,
-	//)
-	//
-	//switch tokenType {
-	//case api_auth.DropboxTokenFull, api_auth.DropboxTokenApp:
-	//
-	//	req := dbx_rpc.RpcRequest{
-	//		Endpoint: "users/get_current_account",
-	//	}
-	//	res, err := req.Call(c)
-	//	z.ec.Log().Debug("Verify token(users/get_current_account)", zap.Any("res", res), zap.Error(err))
-	//	return err
-	//
-	//case api_auth.DropboxTokenBusinessInfo,
-	//	api_auth.DropboxTokenBusinessManagement,
-	//	api_auth.DropboxTokenBusinessFile,
-	//	api_auth.DropboxTokenBusinessAudit:
-	//
-	//	req := dbx_rpc.RpcRequest{
-	//		Endpoint: "team/get_info",
-	//	}
-	//	res, err := req.Call(c)
-	//	z.ec.Log().Debug("Verify token(team/get_info)", zap.Any("res", res), zap.Error(err))
-	//	return err
-	//
-	//default:
-	//	return nil
-	//}
-	panic("implement me")
+func (z *UIAuth) verifyToken(tokenType string, ctx api_context.Context) error {
+	switch tokenType {
+	case api_auth.DropboxTokenFull, api_auth.DropboxTokenApp:
+		_, err := ctx.Request("users/get_current_account").Call()
+		if err != nil {
+			ctx.Log().Debug("Unable to verify token", zap.Error(err))
+			return err
+		}
+		ctx.Log().Debug("Token Verified")
+
+		return nil
+
+	case api_auth.DropboxTokenBusinessInfo,
+		api_auth.DropboxTokenBusinessManagement,
+		api_auth.DropboxTokenBusinessFile,
+		api_auth.DropboxTokenBusinessAudit:
+		_, err := ctx.Request("team/token/get_authenticated_admin").Call()
+		if err != nil {
+			ctx.Log().Debug("Unable to verify token", zap.Error(err))
+			return err
+		}
+		ctx.Log().Debug("Token Verified")
+
+		return nil
+
+	default:
+		return nil
+	}
 }
 
 func (z *UIAuth) wrapToken(tokenType, token string, cause error) (ctx api_context.Context, err error) {
 	if err != nil {
-		return nil, err
-	}
-	err = z.verifyToken(tokenType, token)
-	if err != nil {
-		z.ec.Log().Debug("failed verify token", zap.Error(err))
-		z.ec.Msg("auth.basic.verify.failed").TellError()
 		return nil, err
 	}
 	tc := api_auth.TokenContainer{
@@ -98,6 +87,13 @@ func (z *UIAuth) wrapToken(tokenType, token string, cause error) (ctx api_contex
 		PeerName:  z.peerName,
 	}
 	ctx = api_context_impl.New(z.ec, tc)
+
+	err = z.verifyToken(tokenType, ctx)
+	if err != nil {
+		z.ec.Log().Debug("failed verify token", zap.Error(err))
+		z.ec.Msg("auth.basic.verify.failed").TellError()
+		return nil, err
+	}
 	return ctx, nil
 }
 
