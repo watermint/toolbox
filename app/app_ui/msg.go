@@ -50,6 +50,14 @@ type UIMessage interface {
 	AskConfirm() bool
 }
 
+var (
+	missingResources = make(map[string]bool)
+)
+
+func Missing() map[string]bool {
+	return missingResources
+}
+
 type UIMessageContainer struct {
 	resources     *rice.Box
 	baseMessages  map[string]UIMessage
@@ -193,6 +201,8 @@ func (z *UIMessageContainer) Msg(key string) UIMessage {
 	if !z.isTest {
 		z.logger.Error("resource not found for key", zap.String("key", key))
 	}
+	missingResources[key] = true
+
 	return NewAltMessage(key, z.userInterface)
 }
 

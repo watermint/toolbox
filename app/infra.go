@@ -60,12 +60,31 @@ type ExecContext struct {
 	values          map[string]interface{}
 }
 
-func NewExecContextForTest() *ExecContext {
+type TestOpt func(opt *testOpts) *testOpts
+type testOpts struct {
+	box *rice.Box
+}
+
+func WithBox(box *rice.Box) TestOpt {
+	return func(opt *testOpts) *testOpts {
+		opt.box = box
+		return opt
+	}
+}
+
+func NewExecContextForTest(opts ...TestOpt) *ExecContext {
+	to := &testOpts{
+		box: nil,
+	}
+	for _, o := range opts {
+		o(to)
+	}
 	ec := &ExecContext{
 		values: make(map[string]interface{}),
 	}
 	ec.isTest = true
 	ec.debugMode = true
+	ec.resources = to.box
 	ec.startup()
 	return ec
 }

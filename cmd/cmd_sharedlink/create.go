@@ -40,7 +40,7 @@ func (z *CmdSharedLinkCreate) FlagConfig(f *flag.FlagSet) {
 	descPassword := z.ExecContext.Msg("cmd.sharedlink.create.flag.password").T()
 	f.StringVar(&z.optPassword, "password", "", descPassword)
 
-	descExpires := z.ExecContext.Msg("cmd.sharednlink.create.flag.expires").T()
+	descExpires := z.ExecContext.Msg("cmd.sharedlink.create.flag.expires").T()
 	f.StringVar(&z.optExpires, "expires", "", descExpires)
 }
 

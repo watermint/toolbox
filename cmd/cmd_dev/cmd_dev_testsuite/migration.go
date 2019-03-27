@@ -28,5 +28,15 @@ func (z *CmdDevTestSuiteMigration) FlagConfig(f *flag.FlagSet) {
 	z.report.FlagConfig(f)
 }
 
+const (
+	aliasMigrationTestAdminA01  = "test-migration-a01"
+	aliasMigrationTestMemberA02 = "test-migration-a02"
+	aliasMigrationTestMemberA03 = "test-migration-a03"
+	aliasMigrationTestMemberA04 = "test-migration-a04"
+	aliasMigrationTestMemberI01 = "test-migration-i01"
+	aliasMigrationTestAdminB01  = "test-migration-b01"
+)
+
 func (z *CmdDevTestSuiteMigration) Exec(args []string) {
+
 }
