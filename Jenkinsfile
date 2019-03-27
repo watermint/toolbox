@@ -27,7 +27,7 @@ node {
             }
             dir('src/github.com/watermint/toolbox') {
                 withCredentials([string(credentialsId: 'github.com-watermint-toolbox-goverall-token', variable: 'COVERALLS_TOKEN')]) {
-                    sh '''sh 'goveralls -coverprofile=gover.coverprofile -service=jenkins -v''''
+                    sh '''sh 'goveralls -coverprofile=gover.coverprofile -service=jenkins -v'''
                 }
             }
         }
