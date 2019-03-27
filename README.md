@@ -51,6 +51,7 @@ Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 | `member detach`                 | Convert account into Dropbox Basic                            |
 | `member invite`                 | Invite members                                                |
 | `member list`                   | List members                                                  |
+| `member quota update`           | Update member storage quota                                   |
 | `member remove`                 | Remove the member from the team                               |
 | `member sync`                   | Sync member information with provided csv                     |
 | `member update email`           | Update member email address                                   |

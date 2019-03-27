@@ -644,5 +644,10 @@
   "usecase.relocation.err.unsupported_type": "Error in file/folder type",
   "usecase.team.migration.msg.add_shared_folder": "You have been added to shared folder to keep permission during migration",
   "usecase.team.migration.test.cleanup.confirmation": "Please confirm: the command trying to clean up test data. Please do not run on production environment",
-  "cmd.dev.testsuite.migration.flags.actor_file": "Migration actor list file"
+  "cmd.dev.testsuite.migration.flags.actor_file": "Migration actor list file",
+  "cmd.member.quota.desc": "Member quota management",
+  "cmd.member.quota.update.desc": "Update member storage quota",
+  "cmd.member.quota.update.flag.size": "Quota (GB)",
+  "cmd.member.quota.update.flag.csv": "CSV file path",
+  "cmd.member.quota.update.err.lower_limit": "Quota must larger or equals to 15GB"
 }

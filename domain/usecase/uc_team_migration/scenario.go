@@ -2,12 +2,15 @@ package uc_team_migration
 
 import (
 	"errors"
+	"fmt"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_profile"
+	"github.com/watermint/toolbox/domain/service/sv_sharedfolder"
+	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/service/sv_team"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
@@ -31,6 +34,25 @@ type Actors struct {
 	TeamAMember04 string `json:"team_a_member_04"`
 	TeamBAdmin01  string `json:"team_b_admin_01"`
 	Individual01  string `json:"individual_01"`
+}
+
+func (z *Actors) Emails() []string {
+	return []string{
+		z.TeamAAdmin01,
+		z.TeamAMember02,
+		z.TeamAMember03,
+		z.TeamAMember04,
+		z.TeamBAdmin01,
+		z.Individual01,
+	}
+}
+
+func (z *Actors) Members() []string {
+	return []string{
+		z.TeamAMember02,
+		z.TeamAMember03,
+		z.TeamAMember04,
+	}
 }
 
 func NewScenario(ctxExe *app.ExecContext, actor *Actors) *Scenario {
@@ -92,7 +114,7 @@ func (z *Scenario) Auth() (err error) {
 	}
 
 	z.log().Info("Auth: Individual full", zap.String("admin", z.actors.Individual01))
-	z.ctxTeamAFile, err = api_auth_impl.Auth(z.ctxExec,
+	z.ctxIndividual, err = api_auth_impl.Auth(z.ctxExec,
 		api_auth_impl.PeerName(peerNameActorIndividual01),
 		api_auth_impl.Full(),
 	)
@@ -223,9 +245,66 @@ func (z *Scenario) Cleanup() (err error) {
 	}
 
 	// Remove shared folders
-	//removeSharedFolders := func() error {
-	//
-	//}
+	removeSharedFolders := func(label string, ctx api_context.Context) error {
+		svc := sv_sharedfolder.New(ctx)
+		folders, err := svc.List()
+		if err != nil {
+			return err
+		}
+		z.log().Info("Removing shared folder(s)", zap.String("label", label))
+		for _, folder := range folders {
+			l := z.log().With(zap.String("label", label), zap.String("Id", folder.SharedFolderId), zap.String("Name", folder.Name))
+			if strings.HasPrefix(strings.ToLower(folder.Name), strings.ToLower(testNamePrefix)) {
+				if folder.AccessType == sv_sharedfolder_member.LevelOwner {
+					l.Info("Removing shared folder")
+					err = svc.Remove(folder)
+					if err != nil {
+						l.Warn("Unable to remove shared folder")
+						continue
+					}
+
+				} else {
+					l.Info("Leave from shared folder")
+					err = svc.Leave(folder)
+					if err != nil {
+						l.Warn("Unable to leave from shared folder")
+						continue
+					}
+				}
+			}
+		}
+		return nil
+	}
+	if err = removeSharedFolders("individual01", z.ctxIndividual); err != nil {
+		z.log().Warn("Individual01: Unable to remove shared folder(s), or leave from shared folder(s)")
+	}
+	removeSharedFoldersTeam := func(label string, ctxFile, ctxMgmt api_context.Context) error {
+		members, err := sv_member.New(ctxMgmt).List()
+		if err != nil {
+			return err
+		}
+		for _, member := range members {
+			for _, email := range z.actors.Emails() {
+				if member.Email == email {
+					err = removeSharedFolders(
+						fmt.Sprintf("%s(%s)", label, email),
+						ctxFile.AsMemberId(member.TeamMemberId),
+					)
+					if err != nil {
+						z.log().Warn(label, zap.Error(err))
+					}
+					break
+				}
+			}
+		}
+		return nil
+	}
+	if err = removeSharedFoldersTeam("Team A", z.ctxTeamAFile, z.ctxTeamAMgmt); err != nil {
+		z.log().Warn("Team A: Error occurred on one or more member")
+	}
+	if err = removeSharedFoldersTeam("Team B", z.ctxTeamBFile, z.ctxTeamBMgmt); err != nil {
+		z.log().Warn("Team B: Error occurred on one or more member")
+	}
 
 	// Reverse transfer members if a member already in Team B
 	reverseTransfer := func() error {
@@ -237,13 +316,8 @@ func (z *Scenario) Cleanup() (err error) {
 			return err
 		}
 
-		targetEmails := make([]string, 0)
-		targetEmails = append(targetEmails, strings.ToLower(z.actors.TeamAMember02))
-		targetEmails = append(targetEmails, strings.ToLower(z.actors.TeamAMember03))
-		targetEmails = append(targetEmails, strings.ToLower(z.actors.TeamAMember04))
-
 		for _, member := range members {
-			for _, t := range targetEmails {
+			for _, t := range z.actors.Members() {
 				if strings.ToLower(member.Email) == t {
 					z.log().Info("Downgrading member", zap.String("email", t))
 					err = svcB.Remove(member, sv_member.Downgrade())
@@ -262,6 +336,7 @@ func (z *Scenario) Cleanup() (err error) {
 		}
 		return nil
 	}
+	z.log().Info("Reverse transfer accounts")
 	if err = reverseTransfer(); err != nil {
 		z.log().Warn("Reverse transfer failed")
 	}
