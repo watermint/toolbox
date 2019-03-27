@@ -642,5 +642,7 @@
   "usecase.relocation.err.from_not_found": "Cannot resolve path `{{.FromPath}}",
   "usecase.relocation.err.not_a_folder": "Destination folder `{{.ToPath}}` is not a folder.",
   "usecase.relocation.err.unsupported_type": "Error in file/folder type",
-  "usecase.team.migration.msg.add_shared_folder": "You have been added to shared folder to keep permission during migration"
+  "usecase.team.migration.msg.add_shared_folder": "You have been added to shared folder to keep permission during migration",
+  "usecase.team.migration.test.cleanup.confirmation": "Please confirm: the command trying to clean up test data. Please do not run on production environment",
+  "cmd.dev.testsuite.migration.flags.actor_file": "Migration actor list file"
 }

@@ -24,6 +24,10 @@ import (
 	"time"
 )
 
+const (
+	MirrorGroupNamePrefix = "toolbox-teamfolder-mirror"
+)
+
 type TeamFolder interface {
 	// All team folder scope
 	AllFolderScope() (ctx Context, err error)
@@ -394,7 +398,7 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 }
 
 func (z *teamFolderImpl) Bridge(ctx Context) (err error) {
-	groupName := fmt.Sprintf("toolbox-teamfolder-mirror-%x", time.Now().Unix())
+	groupName := fmt.Sprintf("%s-%x", MirrorGroupNamePrefix, time.Now().Unix())
 
 	// Create groups
 	groupSrc, err := sv_group.New(z.ctxMgtSrc).Create(groupName, sv_group.CompanyManaged())
