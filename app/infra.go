@@ -20,11 +20,12 @@ import (
 )
 
 var (
-	AppName     string = "toolbox"
-	AppVersion  string = "`dev`"
-	AppHash     string = ""
-	AppZap      string = ""
-	rootContext *ExecContext
+	AppName       = "toolbox"
+	AppVersion    = "`dev`"
+	AppHash       = ""
+	AppZap        = ""
+	AppBuilderKey = ""
+	rootContext   *ExecContext
 )
 
 const (

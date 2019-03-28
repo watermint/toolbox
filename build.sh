@@ -63,7 +63,8 @@ X_APP_NAME="-X github.com/watermint/toolbox/app.AppName=toolbox"
 X_APP_VERSION="-X github.com/watermint/toolbox/app.AppVersion=$BUILD_VERSION"
 X_APP_HASH="-X github.com/watermint/toolbox/app.AppHash=$BUILD_HASH"
 X_APP_ZAP="-X github.com/watermint/toolbox/app.AppZap=$TOOLBOX_ZAP"
-LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_ZAP"
+X_APP_BUILDERKEY="-X github.com/watermint/toolbox/app.AppBuilderKey=$TOOLBOX_BUILDERKEY"
+LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY"
 
 echo Building: Windows
 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-win.exe github.com/watermint/toolbox

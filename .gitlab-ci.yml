@@ -8,7 +8,7 @@ build:
   - mkdir dist
   - echo $TOOLBOX_APPKEYS > resources/toolbox.appkeys
   - docker build -t toolbox .
-  - docker run -e TOOLBOX_BUILD_ID=$CI_PIPELINE_IID -e CI_BUILD_REF=$CI_BUILD_REF -e CI_JOB_ID=$CI_JOB_ID -v $PWD/dist:/dist --rm toolbox
+  - docker run -e TOOLBOX_BUILD_ID=$CI_PIPELINE_IID -e CI_BUILD_REF=$CI_BUILD_REF -e CI_JOB_ID=$CI_JOB_ID -e TOOLBOX_BUILDERKEY=$BUILDER_KEY -v $PWD/dist:/dist --rm toolbox
   artifacts:
     paths:
     - $PWD/dist
