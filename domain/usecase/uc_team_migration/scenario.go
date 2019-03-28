@@ -375,7 +375,7 @@ const (
 
 	// Team folder: Sales
 	// Sales (Group: Sales)
-	// +- Sales East (Group Sales East)
+	// +- Sales East (Group: Sales East)
 	// +- Sales West (MemberA04)
 	// Eng (Group: Eng)
 	// +- Eng East (Individual01)
@@ -515,7 +515,7 @@ func (z *Scenario) Create() (err error) {
 
 		err = placeFileOnTheFolder(mo_path.NewPathDisplay(sf.PathLower), cta03)
 		if err != nil {
-			return err
+			z.log().Warn("Unable to place file", zap.Error(err))
 		}
 
 		svm03 := sv_sharedfolder_member.New(cta03, sf)
@@ -605,7 +605,107 @@ func (z *Scenario) Create() (err error) {
 		return err
 	}
 
-	// Create nested folders
+	// Create nested folders, and apply permissions
+	createNestedFolders := func() error {
+		adminA01, err := sv_profile.NewTeam(z.ctxTeamAFile).Admin()
+		if err != nil {
+			return err
+		}
+		cta := z.ctxTeamAFile.AsAdminId(adminA01.TeamMemberId)
+		svs := sv_sharedfolder.New(cta)
+
+		// Team folder: Sales
+		// Sales (Group: Sales)
+		// +- Sales East (Group: Sales East)
+		// +- Sales West (MemberA04)
+		// Eng (Group: Eng)
+		// +- Eng East (Individual01)
+		// +- Eng West
+
+		// Sales Team folder
+		salesFolder, _ := teamFoldersByName[teamFolderSalesName]
+		salesGroup, _ := groupsByName[groupSalesName]
+		salesEastGroup, _ := groupsByName[groupSalesEastName]
+
+		{
+			z.log().Info("Add group to Sales team folder", zap.String("group", salesGroup.GroupName))
+			ssm := sv_sharedfolder_member.NewBySharedFolderId(cta, salesFolder.TeamFolderId)
+			err = ssm.Add(sv_sharedfolder_member.AddByGroup(salesGroup, sv_sharedfolder_member.LevelEditor))
+			if err != nil {
+				z.log().Error("Unable to add group", zap.Error(err))
+			}
+		}
+
+		{
+			z.log().Info("Create nested folder", zap.String("folder", nestedFolderSalesEastName))
+			salesEast, err := svs.Create(mo_path.NewPath("ns:" + salesFolder.TeamFolderId + "/" + nestedFolderSalesEastName))
+			if err != nil {
+				return err
+			}
+			z.log().Info("Add group to nested folder", zap.String("group", salesEastGroup.GroupName))
+			ssm := sv_sharedfolder_member.New(cta, salesEast)
+			err = ssm.Add(sv_sharedfolder_member.AddByGroup(salesEastGroup, sv_sharedfolder_member.LevelEditor))
+			if err != nil {
+				z.log().Error("Unable to add group", zap.Error(err))
+			}
+		}
+
+		{
+			z.log().Info("Create nested folder", zap.String("folder", nestedFolderSalesWestName))
+			salesWest, err := svs.Create(mo_path.NewPath("ns:" + salesFolder.TeamFolderId + "/" + nestedFolderSalesWestName))
+			if err != nil {
+				return err
+			}
+
+			ma04, err := sv_member.New(z.ctxTeamAMgmt).ResolveByEmail(z.actors.TeamAMember04)
+			if err != nil {
+				z.log().Error("Unable to resolve", zap.Error(err))
+				return err
+			}
+
+			z.log().Info("Add member A04 to nested folder", zap.String("member", ma04.Email))
+			ssm := sv_sharedfolder_member.New(cta, salesWest)
+			err = ssm.Add(sv_sharedfolder_member.AddByTeamMemberId(ma04.TeamMemberId, sv_sharedfolder_member.LevelEditor))
+			if err != nil {
+				z.log().Error("Unable to add group", zap.Error(err))
+			}
+		}
+
+		// Eng team folder
+		engFolder, _ := teamFoldersByName[teamFolderEngName]
+		engGroup, _ := groupsByName[groupEngName]
+
+		{
+			z.log().Info("Add group to Eng team folder", zap.String("group", engGroup.GroupName))
+			ssm := sv_sharedfolder_member.NewBySharedFolderId(cta, engFolder.TeamFolderId)
+			err = ssm.Add(sv_sharedfolder_member.AddByGroup(engGroup, sv_sharedfolder_member.LevelEditor))
+			if err != nil {
+				z.log().Error("Unable to add group", zap.Error(err))
+			}
+		}
+
+		{
+			z.log().Info("Create nested folder", zap.String("folder", nestedFolderEngEastName))
+			engEast, err := svs.Create(mo_path.NewPath("ns:" + salesFolder.TeamFolderId + "/" + nestedFolderEngEastName))
+			if err != nil {
+				return err
+			}
+
+			individual01, err := sv_profile.NewProfile(z.ctxIndividual).Current()
+
+			z.log().Info("Add member Individual01 to nested folder", zap.String("member", individual01.Email))
+			ssm := sv_sharedfolder_member.New(cta, engEast)
+			err = ssm.Add(sv_sharedfolder_member.AddByTeamMemberId(individual01.TeamMemberId, sv_sharedfolder_member.LevelEditor))
+			if err != nil {
+				z.log().Error("Unable to add group", zap.Error(err))
+			}
+		}
+
+		return nil
+	}
+	if err = createNestedFolders(); err != nil {
+		return err
+	}
 
 	return nil
 }
