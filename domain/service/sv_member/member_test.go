@@ -66,6 +66,45 @@ func TestMemberImpl_Resolve(t *testing.T) {
 	}
 }
 
+func TestMemberImpl_ResolveByEmail(t *testing.T) {
+	api_test.DoTestBusinessInfo(func(ctx api_context.Context) {
+		svm := New(ctx)
+		members, err := svm.List()
+		if err != nil {
+			t.Error(err)
+		}
+
+		for i, member := range members {
+			if i > 10 {
+				break
+			}
+			m1, err := svm.Resolve(member.TeamMemberId)
+			if err != nil {
+				t.Error(err)
+			}
+			m2, err := svm.ResolveByEmail(member.Email)
+			if err != nil {
+				t.Error(err)
+			}
+
+			if m1.TeamMemberId != member.TeamMemberId ||
+				m2.TeamMemberId != member.TeamMemberId {
+				t.Error("invalid")
+			}
+		}
+
+		_, err = svm.Resolve("dbmid:xxxxxxxxxxxxxx-xxxxxxxx-xxxx-xxxxxx")
+		if err == nil {
+			t.Error("invalid")
+		}
+
+		_, err = svm.ResolveByEmail("non_existent@example.com")
+		if err == nil {
+			t.Error("invalid")
+		}
+	})
+}
+
 func TestMemberImpl_ListResolve(t *testing.T) {
 	api_test.DoTestBusinessInfo(func(ctx api_context.Context) {
 		ls := newTest(ctx)
