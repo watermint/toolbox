@@ -116,6 +116,6 @@ func (z *CmdMemberQuotaUpdate) Exec(args []string) {
 			}
 			setByEmail(cols[0])
 			return nil
-		})
+		}).Load()
 	}
 }

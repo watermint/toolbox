@@ -10,6 +10,9 @@ func NewCmdGroupMember() cmd.Commandlet {
 			&CmdGroupMemberList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
+			&CmdGroupMemberAdd{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
 		},
 	}
 }

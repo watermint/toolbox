@@ -45,6 +45,7 @@ Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
 | `file move`                     | Copy files                                                    |
 | `file save`                     | Save the data from a specified URL into a file                |
 | `group list`                    | List groups                                                   |
+| `group member add`              | Add members into existing groups                              |
 | `group member list`             | List group members                                            |
 | `group remove`                  | Remove group                                                  |
 | `license`                       | Show license information                                      |

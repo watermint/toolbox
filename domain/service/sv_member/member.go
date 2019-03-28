@@ -1,9 +1,12 @@
 package sv_member
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_list"
+	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"github.com/watermint/toolbox/domain/model/mo_member"
+	"go.uber.org/zap"
 )
 
 type Member interface {
@@ -227,11 +230,31 @@ func (z *memberImpl) Resolve(teamMemberId string) (member *mo_member.Member, err
 			},
 		},
 	}
-	member = &mo_member.Member{}
 	res, err := z.ctx.Request("team/members/get_info").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
+	return z.parseOneMember(res)
+}
+
+func (z *memberImpl) parseOneMember(res api_rpc.Response) (member *mo_member.Member, err error) {
+	member = &mo_member.Member{}
+	j, err := res.Json()
+	if err != nil {
+		return nil, err
+	}
+	if !j.IsArray() {
+		return nil, err
+	}
+	a := j.Array()[0]
+
+	// id_not_found response:
+	// {".tag": "id_not_found", "id_not_found": "xxx+xxxxx@xxxxxxxxx.xxx"}
+	if a.Get("id_not_found").Exists() {
+		z.ctx.Log().Debug("`id_not_found`", zap.String("id", a.Get("id_not_found").String()))
+		return nil, errors.New("id not found")
+	}
+
 	if err := res.ModelArrayFirst(member); err != nil {
 		return nil, err
 	}
@@ -248,7 +271,7 @@ func (z *memberImpl) ResolveByEmail(email string) (member *mo_member.Member, err
 	}{
 		Members: []US{
 			{
-				Tag:   "team_member_id",
+				Tag:   "email",
 				Email: email,
 			},
 		},
@@ -258,10 +281,7 @@ func (z *memberImpl) ResolveByEmail(email string) (member *mo_member.Member, err
 	if err != nil {
 		return nil, err
 	}
-	if err := res.ModelArrayFirst(member); err != nil {
-		return nil, err
-	}
-	return member, nil
+	return z.parseOneMember(res)
 }
 
 func (z *memberImpl) List() (members []*mo_member.Member, err error) {

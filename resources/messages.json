@@ -649,5 +649,9 @@
   "cmd.member.quota.update.desc": "Update member storage quota",
   "cmd.member.quota.update.flag.size": "Quota (GB)",
   "cmd.member.quota.update.flag.csv": "CSV file path",
-  "cmd.member.quota.update.err.lower_limit": "Quota must larger or equals to 15GB"
+  "cmd.member.quota.update.err.lower_limit": "Quota must larger or equals to 15GB",
+  "cmd.group.member.add.desc": "Add members into existing groups",
+  "cmd.group.member.add.flag.csv": "CSV file path",
+  "cmd.group.member.add.err.not_enough_flag": "Please specify `-csv` flag",
+  "cmd.group.member.add.reason.group_not_found": "Group not found for name `{{.GroupName}}`"
 }
