@@ -653,5 +653,9 @@
   "cmd.group.member.add.desc": "Add members into existing groups",
   "cmd.group.member.add.flag.csv": "CSV file path",
   "cmd.group.member.add.err.not_enough_flag": "Please specify `-csv` flag",
-  "cmd.group.member.add.reason.group_not_found": "Group not found for name `{{.GroupName}}`"
+  "cmd.group.member.add.reason.group_not_found": "Group not found for name `{{.GroupName}}`",
+  "usecase.team.migration.test.prompt.please_accept_invitation": "Please accept invitation of account email `{{.Email}}`",
+  "cmd.dev.testsuite.clean.desc": "Clean up team migration test suite",
+  "cmd.dev.testsuite.create.desc": "Create team migration test suite",
+  "cmd.dev.testsuite.clean.flags.actor_file": "Actor file path"
 }

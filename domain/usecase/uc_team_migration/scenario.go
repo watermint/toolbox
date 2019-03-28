@@ -6,6 +6,12 @@ import (
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/domain/model/mo_group"
+	"github.com/watermint/toolbox/domain/model/mo_member"
+	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
+	"github.com/watermint/toolbox/domain/service/sv_file"
+	"github.com/watermint/toolbox/domain/service/sv_file_url"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_profile"
@@ -247,6 +253,7 @@ func (z *Scenario) Cleanup() (err error) {
 	// Remove shared folders
 	removeSharedFolders := func(label string, ctx api_context.Context) error {
 		svc := sv_sharedfolder.New(ctx)
+		svf := sv_file.NewFiles(ctx)
 		folders, err := svc.List()
 		if err != nil {
 			return err
@@ -271,8 +278,23 @@ func (z *Scenario) Cleanup() (err error) {
 						continue
 					}
 				}
+
+				if folder.PathLower != "" {
+					path := mo_path.NewPathDisplay(folder.PathLower)
+					f, err := svf.Resolve(path)
+					if err != nil {
+						l.Debug("Path not found", zap.Error(err))
+						continue
+					}
+
+					_, err = svf.Remove(mo_path.NewPathDisplay(f.PathDisplay()))
+					if err != nil {
+						l.Warn("Unable to remove file/folder", zap.String("path", f.PathDisplay()), zap.Error(err))
+					}
+				}
 			}
 		}
+
 		return nil
 	}
 	if err = removeSharedFolders("individual01", z.ctxIndividual); err != nil {
@@ -340,6 +362,250 @@ func (z *Scenario) Cleanup() (err error) {
 	if err = reverseTransfer(); err != nil {
 		z.log().Warn("Reverse transfer failed")
 	}
+
+	return nil
+}
+
+const (
+	// Access: Individual01(owner), MemberA02 (editor)
+	individualSharedFolderName = testNamePrefix + "SF-Prj-Individual"
+
+	// Access: MemberA03(owner), MemberA02(editor), Individual01(editor)
+	teamOwnedSharedFolderName = testNamePrefix + "SF-Prj-Team"
+
+	// Team folder: Sales
+	// Sales (Group: Sales)
+	// +- Sales East (Group Sales East)
+	// +- Sales West (MemberA04)
+	// Eng (Group: Eng)
+	// +- Eng East (Individual01)
+	// +- Eng West
+
+	groupSalesName     = testNamePrefix + "G-Sales"
+	groupSalesEastName = testNamePrefix + "G-Sales-East"
+	groupSalesWestName = testNamePrefix + "G-Sales-West"
+	groupEngName       = testNamePrefix + "G-Eng"
+
+	teamFolderSalesName       = testNamePrefix + "TF-Sales"
+	nestedFolderSalesEastName = testNamePrefix + "NF-Sales-East"
+	nestedFolderSalesWestName = testNamePrefix + "NF-Sales-West"
+	teamFolderEngName         = testNamePrefix + "TF-Eng"
+	nestedFolderEngEastName   = testNamePrefix + "NF-Eng-East"
+	nestedFolderEngWestName   = testNamePrefix + "NF-Eng-West"
+
+	dummyFileUrl  = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	dummyFileName = testNamePrefix + "bootstrap.min.css"
+)
+
+func (z *Scenario) Create() (err error) {
+	// Invite members
+	inviteMembers := func() error {
+		svm := sv_member.New(z.ctxTeamAMgmt)
+		for _, member := range z.actors.Members() {
+			_, err := svm.Add(member)
+			if err != nil {
+				z.log().Warn("Unable to invite member", zap.String("email", member), zap.Error(err))
+			}
+		}
+
+		testees := make(map[string]*mo_member.Member)
+		members, err := svm.List()
+		if err != nil {
+			return err
+		}
+
+		for _, member := range members {
+			for _, email := range z.actors.Members() {
+				if strings.ToLower(member.Email) == email {
+					testees[member.TeamMemberId] = member
+					break
+				}
+			}
+		}
+
+		for _, testee := range testees {
+			switch testee.Status {
+			case "invited":
+				z.ctxExec.Msg("usecase.team.migration.test.prompt.please_accept_invitation").WithData(struct {
+					Email string
+				}{
+					Email: testee.Email,
+				}).AskConfirm()
+
+			case "active":
+				z.log().Debug("Testee is active", zap.String("email", testee.Email))
+
+			default:
+				z.log().Error("Unexpected testee status", zap.String("email", testee.Email), zap.String("status", testee.Status))
+				return errors.New("unexpected testee status")
+			}
+		}
+
+		return nil
+	}
+	if err = inviteMembers(); err != nil {
+		return err
+	}
+
+	// Place files on the folder
+	placeFileOnTheFolder := func(path mo_path.Path, ctx api_context.Context) error {
+		svu := sv_file_url.New(ctx)
+		e, err := svu.Save(path.ChildPath(dummyFileName), dummyFileUrl)
+		if err != nil {
+			z.log().Warn("Failed to create dummy file", zap.Error(err))
+			return err
+		}
+		z.log().Info("Dummy file created", zap.String("path", e.PathDisplay()))
+		return nil
+	}
+
+	// Individual shared folder
+	individualSharedFolder := func() error {
+		z.log().Info("Create individual shared folder", zap.String("name", individualSharedFolderName))
+		svs := sv_sharedfolder.New(z.ctxIndividual)
+		sf, err := svs.Create(mo_path.NewPath("/" + individualSharedFolderName))
+		if err != nil {
+			z.log().Error("Unable to create shared folder", zap.Error(err))
+			return err
+		}
+
+		err = placeFileOnTheFolder(mo_path.NewPathDisplay(sf.PathLower), z.ctxIndividual)
+		if err != nil {
+			return err
+		}
+
+		z.log().Info("Share individual shared folder to MemberA02", zap.String("name", individualSharedFolderName), zap.String("invite", z.actors.TeamAMember02))
+		svm := sv_sharedfolder_member.New(z.ctxIndividual, sf)
+		err = svm.Add(sv_sharedfolder_member.AddByEmail(z.actors.TeamAMember02,
+			sv_sharedfolder_member.LevelEditor))
+		if err != nil {
+			z.log().Error("Unable to share shared folder", zap.Error(err))
+			return err
+		}
+
+		return nil
+	}
+	if err = individualSharedFolder(); err != nil {
+		return err
+	}
+
+	// Team owned shared folder
+	teamOwnedSharedFolder := func() error {
+		l := z.log().With(zap.String("name", teamOwnedSharedFolderName))
+		l.Info("Create team owned shared folder")
+		svm := sv_member.New(z.ctxTeamAMgmt)
+		ma02, err := svm.ResolveByEmail(z.actors.TeamAMember02)
+		if err != nil {
+			l.Error("Unable to resolve", zap.Error(err))
+			return err
+		}
+		ma03, err := svm.ResolveByEmail(z.actors.TeamAMember03)
+		if err != nil {
+			l.Error("Unable to resolve", zap.Error(err))
+			return err
+		}
+
+		cta03 := z.ctxTeamAFile.AsMemberId(ma03.TeamMemberId)
+		svs03 := sv_sharedfolder.New(cta03)
+		sf, err := svs03.Create(mo_path.NewPath("/" + teamOwnedSharedFolderName))
+		if err != nil {
+			l.Error("Unable to create shared folder", zap.Error(err))
+			return err
+		}
+
+		err = placeFileOnTheFolder(mo_path.NewPathDisplay(sf.PathLower), cta03)
+		if err != nil {
+			return err
+		}
+
+		svm03 := sv_sharedfolder_member.New(cta03, sf)
+		l.Info("Share team owned shared folder to MemberA02")
+		err = svm03.Add(sv_sharedfolder_member.AddByEmail(ma02.Email,
+			sv_sharedfolder_member.LevelEditor))
+		if err != nil {
+			z.log().Error("Unable to share shared folder", zap.Error(err))
+			return err
+		}
+
+		l.Info("Share team owned shared folder to Individual")
+		err = svm03.Add(sv_sharedfolder_member.AddByEmail(z.actors.Individual01,
+			sv_sharedfolder_member.LevelEditor))
+		if err != nil {
+			z.log().Error("Unable to share shared folder", zap.Error(err))
+			return err
+		}
+
+		return nil
+	}
+	if err = teamOwnedSharedFolder(); err != nil {
+		return err
+	}
+
+	// Create groups
+	groupsByName := make(map[string]*mo_group.Group)
+	createGroups := func() error {
+		svg := sv_group.New(z.ctxTeamAMgmt)
+		groupNames := []string{
+			groupSalesName,
+			groupSalesEastName,
+			groupSalesWestName,
+			groupEngName,
+		}
+
+		z.log().Info("Create groups")
+		for _, gn := range groupNames {
+			l := z.log().With(zap.String("groupName", gn))
+			l.Info("Create group")
+
+			g, err := svg.Create(gn, sv_group.CompanyManaged())
+			if err != nil {
+				l.Error("Unable to create group", zap.Error(err))
+				return err
+			}
+
+			groupsByName[gn] = g
+		}
+		return nil
+	}
+	if err = createGroups(); err != nil {
+		return err
+	}
+
+	// Create team folders
+	teamFoldersByName := make(map[string]*mo_teamfolder.TeamFolder)
+	createTeamFolders := func() error {
+		svt := sv_teamfolder.New(z.ctxTeamAFile)
+		folderNames := []string{
+			teamFolderSalesName,
+			teamFolderEngName,
+		}
+
+		z.log().Info("Create team folders")
+		for i, fn := range folderNames {
+			l := z.log().With(zap.String("name", fn))
+			l.Info("Create team folder")
+
+			var opt sv_teamfolder.CreateOption
+			if i%2 == 0 {
+				opt = sv_teamfolder.SyncDefault()
+			} else {
+				opt = sv_teamfolder.SyncNoSync()
+			}
+			f, err := svt.Create(fn, opt)
+			if err != nil {
+				l.Error("Unable to create team folder", zap.Error(err))
+				return err
+			}
+			teamFoldersByName[fn] = f
+		}
+		return nil
+	}
+
+	if err = createTeamFolders(); err != nil {
+		return err
+	}
+
+	// Create nested folders
 
 	return nil
 }

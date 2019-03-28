@@ -130,7 +130,10 @@ func (z *teamFolderImpl) Archive(tf *mo_teamfolder.TeamFolder) (teamfolder *mo_t
 		TeamFolderId: tf.TeamFolderId,
 	}
 	teamfolder = &mo_teamfolder.TeamFolder{}
-	res, err := z.ctx.Request("team/team_folder/archive").Param(p).Call()
+	res, err := z.ctx.Async("team/team_folder/archive").
+		Status("team/team_folder/archive/check").
+		Param(p).
+		Call()
 	if err != nil {
 		return nil, err
 	}

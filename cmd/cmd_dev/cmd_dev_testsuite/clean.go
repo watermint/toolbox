@@ -11,33 +11,33 @@ import (
 	"os"
 )
 
-type CmdDevTestSuiteMigration struct {
+type CmdDevTestSuiteClean struct {
 	*cmd.SimpleCommandlet
 	report       app_report.Factory
 	optActorFile string
 }
 
-func (z *CmdDevTestSuiteMigration) Name() string {
-	return "migration"
+func (z *CmdDevTestSuiteClean) Name() string {
+	return "clean"
 }
 
-func (z *CmdDevTestSuiteMigration) Desc() string {
-	return "cmd.dev.testsuite.migration.desc"
+func (z *CmdDevTestSuiteClean) Desc() string {
+	return "cmd.dev.testsuite.clean.desc"
 }
 
-func (z *CmdDevTestSuiteMigration) Usage() func(cmd.CommandUsage) {
+func (z *CmdDevTestSuiteClean) Usage() func(cmd.CommandUsage) {
 	return nil
 }
 
-func (z *CmdDevTestSuiteMigration) FlagConfig(f *flag.FlagSet) {
+func (z *CmdDevTestSuiteClean) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
 
-	descActorFile := z.ExecContext.Msg("cmd.dev.testsuite.migration.flags.actor_file").T()
+	descActorFile := z.ExecContext.Msg("cmd.dev.testsuite.clean.flags.actor_file").T()
 	f.StringVar(&z.optActorFile, "actor-file", "", descActorFile)
 }
 
-func (z *CmdDevTestSuiteMigration) Exec(args []string) {
+func (z *CmdDevTestSuiteClean) Exec(args []string) {
 	f, err := os.Open(z.optActorFile)
 	if err != nil {
 		z.Log().Warn("Unable to open file", zap.String("file", z.optActorFile), zap.Error(err))
