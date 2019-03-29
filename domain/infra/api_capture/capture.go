@@ -21,9 +21,9 @@ type Capture interface {
 
 func Current() Capture {
 	ec := app.Root()
-	if !ec.IsDebug() {
-		return mockImpl{}
-	}
+	//if !ec.IsDebug() {
+	//	return mockImpl{}
+	//}
 
 	if c, e := ec.GetValue(valuePathCapture); e {
 		switch ca := c.(type) {
