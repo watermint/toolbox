@@ -40,7 +40,7 @@ func NewContextNoAuth(ec *app.ExecContext) api_context.Context {
 }
 
 const (
-	maxLastErrors = 100
+	maxLastErrors = 10
 )
 
 type contextImpl struct {
