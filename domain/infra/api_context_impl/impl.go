@@ -89,6 +89,9 @@ func (z *contextImpl) AddError(err error) {
 	if z.lastErrors == nil {
 		z.lastErrors = make([]error, 0)
 	}
+	if err == nil {
+		return
+	}
 	if len(z.lastErrors) > maxLastErrors {
 		z.lastErrors = z.lastErrors[1:]
 	}
@@ -96,7 +99,11 @@ func (z *contextImpl) AddError(err error) {
 }
 
 func (z *contextImpl) LastErrors() []error {
-	return z.lastErrors
+	if z.lastErrors == nil {
+		return make([]error, 0)
+	} else {
+		return z.lastErrors
+	}
 }
 
 func (z *contextImpl) RetryAfter() time.Time {

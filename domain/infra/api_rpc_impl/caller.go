@@ -80,7 +80,7 @@ func (z *CallerImpl) ensureRetryOnError(lastErr error) (res api_rpc.Response, er
 	switch rc := z.ctx.(type) {
 	case api_context.RetryContext:
 		sameErrorCount := 0
-		rc.AddError(err)
+		rc.AddError(lastErr)
 		for _, e := range rc.LastErrors() {
 			if e.Error() == lastErr.Error() {
 				sameErrorCount++
