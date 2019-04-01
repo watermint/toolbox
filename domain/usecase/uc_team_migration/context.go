@@ -135,27 +135,27 @@ func newContext(ctxExec *app.ExecContext) Context {
 }
 
 type contextOpts struct {
-	groupsOnlyRelated bool                `json:"groups_only_related"`
-	adminSrc          *mo_profile.Profile `json:"admin_src"`
-	adminDst          *mo_profile.Profile `json:"admin_dst"`
+	GroupsOnlyRelated bool                `json:"groups_only_related"`
+	AdminSrc          *mo_profile.Profile `json:"admin_src"`
+	AdminDst          *mo_profile.Profile `json:"admin_dst"`
 }
 
 type contextImpl struct {
-	ctxExec       *app.ExecContext             `json:"-"`
-	storages      map[string]app_report.Report `json:"-"`
-	storagePath   string                       `json:"-"`
-	ctxTeamFolder uc_teamfolder_mirror.Context `json:"-"`
+	ctxExec            *app.ExecContext                           `json:"-"`
+	storages           map[string]app_report.Report               `json:"-"`
+	storagePath        string                                     `json:"-"`
+	ctxTeamFolder      uc_teamfolder_mirror.Context               `json:"-"`
+	MapNamespaceMember map[string][]mo_sharedfolder_member.Member `json:"-"`
 
-	MapMembers          map[string]*mo_profile.Profile             `json:"members"`
-	MapDestGroups       map[string]*mo_group.Group                 `json:"dest_groups"`
-	MapGroups           map[string]*mo_group.Group                 `json:"groups"`
-	MapGroupMembers     map[string][]*mo_group_member.Member       `json:"group_members"`
-	MapTeamFolders      map[string]*mo_teamfolder.TeamFolder       `json:"team_folders"`
-	MapNamespaces       map[string]*mo_namespace.Namespace         `json:"namespaces"`
-	MapNamespaceDetails map[string]*mo_sharedfolder.SharedFolder   `json:"namespace_details"`
-	MapSharedFolders    map[string]*mo_sharedfolder.SharedFolder   `json:"shared_folders"`
-	MapNamespaceMember  map[string][]mo_sharedfolder_member.Member `json:"namespace_member"`
-	ContextOpts         *contextOpts                               `json:"context_opts"`
+	MapMembers          map[string]*mo_profile.Profile           `json:"members"`
+	MapDestGroups       map[string]*mo_group.Group               `json:"dest_groups"`
+	MapGroups           map[string]*mo_group.Group               `json:"groups"`
+	MapGroupMembers     map[string][]*mo_group_member.Member     `json:"group_members"`
+	MapTeamFolders      map[string]*mo_teamfolder.TeamFolder     `json:"team_folders"`
+	MapNamespaces       map[string]*mo_namespace.Namespace       `json:"namespaces"`
+	MapNamespaceDetails map[string]*mo_sharedfolder.SharedFolder `json:"namespace_details"`
+	MapSharedFolders    map[string]*mo_sharedfolder.SharedFolder `json:"shared_folders"`
+	ContextOpts         *contextOpts                             `json:"context_opts"`
 }
 
 func (z *contextImpl) init(ec *app.ExecContext) {
@@ -187,33 +187,53 @@ func (z *contextImpl) init(ec *app.ExecContext) {
 }
 
 func (z *contextImpl) StoreState() error {
-	b, err := json.Marshal(z)
-	if err != nil {
-		z.ctxExec.Log().Error("unable to marshal context", zap.Error(err))
-		return err
-	}
-	err = ioutil.WriteFile(filepath.Join(z.storagePath, "context.json"), b, 0644)
-	if err != nil {
-		z.ctxExec.Log().Error("unable to store context", zap.Error(err))
-		return err
-	}
-	tb, err := uc_teamfolder_mirror.MarshalContext(z.ctxTeamFolder)
-	if err != nil {
-		z.ctxExec.Log().Error("unable to marshal team folder mirror context", zap.Error(err))
-		return err
-	}
-	err = ioutil.WriteFile(filepath.Join(z.storagePath, "teamfolder_content.json"), tb, 0644)
-	if err != nil {
-		z.ctxExec.Log().Error("unable to store team folder mirror context", zap.Error(err))
-		return err
+	{
+		b, err := json.Marshal(z)
+		if err != nil {
+			z.ctxExec.Log().Error("unable to marshal context", zap.Error(err))
+			return err
+		}
+		err = ioutil.WriteFile(filepath.Join(z.storagePath, "context.json"), b, 0644)
+		if err != nil {
+			z.ctxExec.Log().Error("unable to store context", zap.Error(err))
+			return err
+		}
 	}
 
-	z.ctxExec.Log().Info("Context preserved", zap.String("path", z.storagePath))
+	// namespace member
+	{
+		bnm, err := json.Marshal(z.MapNamespaceMember)
+		if err != nil {
+			z.ctxExec.Log().Error("unable to marshal context", zap.Error(err))
+			return err
+		}
+		err = ioutil.WriteFile(filepath.Join(z.storagePath, "namespace_member.json"), bnm, 0644)
+		if err != nil {
+			z.ctxExec.Log().Error("unable to store context", zap.Error(err))
+			return err
+		}
+	}
+
+	// team folder
+	{
+		tb, err := uc_teamfolder_mirror.MarshalContext(z.ctxTeamFolder)
+		if err != nil {
+			z.ctxExec.Log().Error("unable to marshal team folder mirror context", zap.Error(err))
+			return err
+		}
+		err = ioutil.WriteFile(filepath.Join(z.storagePath, "teamfolder_content.json"), tb, 0644)
+		if err != nil {
+			z.ctxExec.Log().Error("unable to store team folder mirror context", zap.Error(err))
+			return err
+		}
+
+		z.ctxExec.Log().Info("Context preserved", zap.String("path", z.storagePath))
+	}
 	return nil
 }
 
 func (z *contextImpl) SetGroupsOnlyRelated(onlyRelated bool) {
-	z.ContextOpts.groupsOnlyRelated = onlyRelated
+	z.ContextOpts.GroupsOnlyRelated = onlyRelated
 	if s, e := z.storages[storageTagOptions]; e {
 		s.Report(z.ContextOpts)
 	} else {
@@ -275,12 +295,12 @@ func (z *contextImpl) Namespaces() (namespaces map[string]*mo_namespace.Namespac
 }
 
 func (z *contextImpl) GroupsOnlyRelated() bool {
-	return z.ContextOpts.groupsOnlyRelated
+	return z.ContextOpts.GroupsOnlyRelated
 }
 
 func (z *contextImpl) SetAdmins(src, dst *mo_profile.Profile) {
-	z.ContextOpts.adminSrc = src
-	z.ContextOpts.adminDst = dst
+	z.ContextOpts.AdminSrc = src
+	z.ContextOpts.AdminDst = dst
 	if s, e := z.storages[storageTagOptions]; e {
 		s.Report(z.ContextOpts)
 	} else {
@@ -289,11 +309,11 @@ func (z *contextImpl) SetAdmins(src, dst *mo_profile.Profile) {
 }
 
 func (z *contextImpl) AdminSrc() *mo_profile.Profile {
-	return z.ContextOpts.adminSrc
+	return z.ContextOpts.AdminSrc
 }
 
 func (z *contextImpl) AdminDst() *mo_profile.Profile {
-	return z.ContextOpts.adminDst
+	return z.ContextOpts.AdminDst
 }
 
 func (z *contextImpl) AddMember(member *mo_profile.Profile) {

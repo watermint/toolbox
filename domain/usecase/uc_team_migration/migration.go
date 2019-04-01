@@ -3,10 +3,13 @@ package uc_team_migration
 import (
 	"encoding/json"
 	"errors"
+	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
+	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
@@ -107,28 +110,62 @@ func (z *migrationImpl) Resume(opts ...ResumeOpt) (ctx Context, err error) {
 	for _, o := range opts {
 		o(ro)
 	}
-	b, err := ioutil.ReadFile(filepath.Join(ro.storagePath, "context.json"))
-	if err != nil {
-		z.ctxExec.Log().Error("unable to read stored context", zap.Error(err))
-		return nil, err
-	}
 	ctxImpl := &contextImpl{}
-	err = json.Unmarshal(b, ctxImpl)
-	if err != nil {
-		z.ctxExec.Log().Error("unable to unmarshal context", zap.Error(err))
-		return nil, err
+
+	{
+		b, err := ioutil.ReadFile(filepath.Join(ro.storagePath, "context.json"))
+		if err != nil {
+			z.ctxExec.Log().Error("unable to read stored context", zap.Error(err))
+			return nil, err
+		}
+		err = json.Unmarshal(b, ctxImpl)
+		if err != nil {
+			z.ctxExec.Log().Error("unable to unmarshal context", zap.Error(err))
+			return nil, err
+		}
 	}
-	tb, err := ioutil.ReadFile(filepath.Join(ro.storagePath, "teamfolder_content.json"))
-	if err != nil {
-		z.ctxExec.Log().Error("unable to read stored context", zap.Error(err))
-		return nil, err
+
+	{
+		b, err := ioutil.ReadFile(filepath.Join(ro.storagePath, "namespace_member.json"))
+		if err != nil {
+			z.ctxExec.Log().Error("unable to read stored context", zap.Error(err))
+			return nil, err
+		}
+		j := gjson.ParseBytes(b)
+		ctxImpl.MapNamespaceMember = make(map[string][]mo_sharedfolder_member.Member)
+		if j.Exists() && j.IsObject() {
+			for k, ja := range j.Map() {
+				if ja.IsArray() {
+					var members []mo_sharedfolder_member.Member
+					members = make([]mo_sharedfolder_member.Member, 0)
+					for _, je := range ja.Array() {
+						member := &mo_sharedfolder_member.Metadata{}
+						if err := api_parser.ParseModel(member, je); err != nil {
+							z.log().Error("Unable to parse", zap.Error(err), zap.String("entry", je.Raw))
+							return nil, err
+						}
+						members = append(members, member)
+					}
+					ctxImpl.MapNamespaceMember[k] = members
+				}
+			}
+		}
 	}
-	tmc, err := uc_teamfolder_mirror.UnmarshalContext(tb)
-	if err != nil {
-		z.ctxExec.Log().Error("unable to read stored context", zap.Error(err))
-		return nil, err
+
+	{
+		tb, err := ioutil.ReadFile(filepath.Join(ro.storagePath, "teamfolder_content.json"))
+		if err != nil {
+			z.ctxExec.Log().Error("unable to read stored context", zap.Error(err))
+			return nil, err
+		}
+		tmc, err := uc_teamfolder_mirror.UnmarshalContext(tb)
+		if err != nil {
+			z.ctxExec.Log().Error("unable to read stored context", zap.Error(err))
+			return nil, err
+		}
+		ctxImpl.ctxTeamFolder = tmc
 	}
-	ctxImpl.ctxTeamFolder = tmc
+
 	ctxImpl.storagePath = ro.storagePath
 	ctxImpl.init(ro.ec)
 	z.ctxExec.Log().Info("Context restored", zap.String("path", ro.storagePath))
@@ -412,7 +449,7 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 	allGroups := make(map[string]*mo_group.Group)
 
 	// Preserve group
-	z.log().Info("Preserve: group")
+	z.log().Info("Preserve: group", zap.Bool("onlyRelated", ctx.GroupsOnlyRelated()))
 	preserveGroups := func() error {
 		groups, err := sv_group.New(z.ctxMgtSrc).List()
 		if err != nil {
@@ -442,7 +479,8 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 			migrate := false
 			if ctx.GroupsOnlyRelated() {
 				// ensure any of group member is in migration target members
-				if len(membersDst) > 0 {
+				if len(membersDst) > 0 && group.GroupManagementType != "system_managed" {
+					z.log().Info("Group added because of at least one member associated with the group", zap.String("groupId", group.GroupId), zap.String("groupName", group.GroupName), zap.Int("numberOfMembers", len(membersDst)))
 					migrate = true
 				}
 			} else {
@@ -518,7 +556,6 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 	preserveNamespaceMembers := func() error {
 		ctxFileSrcAdmin := z.ctxFileSrc.AsAdminId(ctx.AdminSrc().TeamMemberId)
 		for _, namespace := range ctx.Namespaces() {
-
 			// Skip personal folders
 			if namespace.NamespaceType == "app_folder" ||
 				namespace.NamespaceType == "team_member_folder" {
@@ -533,17 +570,57 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 			for _, member := range members {
 				ctx.AddNamespaceMember(namespace, member)
 
-				// Preserve group
-				if g, e := member.Group(); e {
-					if gg, ee := allGroups[g.GroupId]; ee {
-						ctx.AddGroup(gg)
+			}
+		}
+		return nil
+	}
+	if err = preserveNamespaceMembers(); err != nil {
+		return err
+	}
+
+	// Preserve group which appear from folder permission
+	z.log().Info("Preserve: group from folder permission")
+	preserveGroupFromPermissionNamespace := func() error {
+		for _, sf := range ctx.NamespaceDetails() {
+			if sf.IsTeamFolder || sf.IsInsideTeamFolder {
+				members := ctx.NamespaceMembers(sf.SharedFolderId)
+				for _, member := range members {
+					// Preserve group
+					if g, e := member.Group(); e {
+						if gg, ee := allGroups[g.GroupId]; ee {
+							z.log().Info("Group added because of at least one folder associated with the group", zap.String("groupId", gg.GroupId), zap.String("groupName", gg.GroupName))
+							ctx.AddGroup(gg)
+						}
 					}
 				}
 			}
 		}
 		return nil
 	}
-	if err = preserveNamespaceMembers(); err != nil {
+	if err = preserveGroupFromPermissionNamespace(); err != nil {
+		return err
+	}
+
+	// Preserve group which appear from folder permission
+	z.log().Info("Preserve: group from shared folder permission")
+	preserveGroupFromPermissionSharedFolder := func() error {
+		for _, sf := range ctx.SharedFolders() {
+			if sf.IsTeamFolder || sf.IsInsideTeamFolder {
+				members := ctx.NamespaceMembers(sf.SharedFolderId)
+				for _, member := range members {
+					// Preserve group
+					if g, e := member.Group(); e {
+						if gg, ee := allGroups[g.GroupId]; ee {
+							z.log().Info("Group added because of at least one folder associated with the group", zap.String("groupId", gg.GroupId), zap.String("groupName", gg.GroupName))
+							ctx.AddGroup(gg)
+						}
+					}
+				}
+			}
+		}
+		return nil
+	}
+	if err = preserveGroupFromPermissionSharedFolder(); err != nil {
 		return err
 	}
 
