@@ -657,5 +657,6 @@
   "usecase.team.migration.test.prompt.please_accept_invitation": "Please accept invitation of account email `{{.Email}}`",
   "cmd.dev.testsuite.clean.desc": "Clean up team migration test suite",
   "cmd.dev.testsuite.create.desc": "Create team migration test suite",
-  "cmd.dev.testsuite.clean.flags.actor_file": "Actor file path"
+  "cmd.dev.testsuite.clean.flags.actor_file": "Actor file path",
+  "cmd.team.migrate.content.flag.resume": "Path to resumed state. Resume from last check process"
 }

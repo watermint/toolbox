@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
@@ -680,20 +681,20 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 		return err
 	}
 
-	isTeamOwnedSharedFolder := func(namespaceId string) (string, bool) {
+	isTeamOwnedSharedFolder := func(namespaceId string) (user *mo_sharedfolder_member.User, exist bool) {
 		members := ctx.NamespaceMembers(namespaceId)
 		for _, member := range members {
 			if member.AccessType() == sv_sharedfolder_member.LevelOwner {
 				if u, e := member.User(); e {
-					return u.TeamMemberId, u.SameTeam
+					return u, u.SameTeam
 				}
 				if g, e := member.Group(); e {
 					z.log().Error("Group should not owner of shared folder", zap.String("groupId", g.GroupId), zap.String("groupName", g.GroupName))
-					return "", false
+					return nil, false
 				}
 			}
 		}
-		return "", false
+		return nil, false
 	}
 
 	// bridge shared folders
@@ -705,8 +706,9 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 			if namespace.NamespaceType != "shared_folder" {
 				continue
 			}
+
 			if f, e := folderTargets[namespace.NamespaceId]; e {
-				ownerId, sameTeam := isTeamOwnedSharedFolder(namespace.NamespaceId)
+				owner, sameTeam := isTeamOwnedSharedFolder(namespace.NamespaceId)
 				if !sameTeam {
 					z.log().Debug("Skip non team owned shared folder", zap.String("namespaceId", namespace.NamespaceId), zap.String("name", namespace.Name))
 					continue
@@ -716,12 +718,18 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 
 				l.Debug("Bridge shared folder")
 				var ctxFileAsMember api_context.Context
-				ctxFileAsMember = z.ctxFileSrc.AsMemberId(ownerId)
+				ctxFileAsMember = z.ctxFileSrc.AsMemberId(owner.TeamMemberId)
 
+				// add
 				svc := sv_sharedfolder_member.NewBySharedFolderId(ctxFileAsMember, namespace.NamespaceId)
 				err = svc.Add(sv_sharedfolder_member.AddByEmail(ctx.AdminDst().Email, sv_sharedfolder_member.LevelEditor), sv_sharedfolder_member.AddCustomMessage(z.ctxExec.Msg("usecase.team.migration.msg.add_shared_folder").T()))
 
 				if err != nil {
+					_, err2 := sv_member.New(z.ctxMgtSrc).ResolveByEmail(owner.Email)
+					if err2 != nil {
+						l.Debug("Skip bridge: assuming the owner already transferred to dest team", zap.String("namespaceId", namespace.NamespaceId), zap.String("name", namespace.Name))
+						continue
+					}
 					l.Warn("Unable to bridge shared folder permission", zap.Error(err))
 					return err
 				}
@@ -769,6 +777,10 @@ func (z *migrationImpl) Transfer(ctx Context) (err error) {
 
 			ms, err := svmSrc.Resolve(member.TeamMemberId)
 			if err != nil {
+				if strings.HasPrefix(api_util.ErrorSummary(err), "id_not_found") {
+					l.Debug("Skip: assuming the user already transferred")
+					continue
+				}
 				l.Warn("Unable to resolve existing member", zap.Error(err))
 				continue
 			}
@@ -882,28 +894,25 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	// restore permission for team folders
 	z.log().Info("Permissions: restore permission of team folders")
 	restorePermissionTeamFolder := func() error {
-		for _, namespace := range ctx.Namespaces() {
-			if namespace.NamespaceType != "team_folder" {
-				continue
-			}
+		for _, tf := range ctx.TeamFolders() {
 
-			z.log().Info("Permissions: restore permission of team folder", zap.String("name", namespace.Name))
-			members := ctx.NamespaceMembers(namespace.NamespaceId)
+			z.log().Info("Permissions: restore permission of team folder", zap.String("name", tf.Name))
+			members := ctx.NamespaceMembers(tf.TeamFolderId)
 			ctf := z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId)
 			for _, member := range members {
 				if srcGrp, e := member.Group(); e {
-					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, namespace.NamespaceId)
+					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, tf.TeamFolderId)
 					if dstGrp, e := srcGroupIdToDstGroup[srcGrp.GroupId]; !e {
 						z.log().Error("Unable to find mapping of src-dst group", zap.String("srcGroup", srcGrp.GroupId), zap.String("srcGroupName", srcGrp.GroupName))
 						return err
 					} else {
 						if err = svm.Add(sv_sharedfolder_member.AddByGroup(dstGrp, member.AccessType())); err != nil {
-							z.log().Error("Unable to add group to team folder", zap.String("teamFolder", namespace.NamespaceId), zap.String("teamFolderName", namespace.Name), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+							z.log().Error("Unable to add group to team folder", zap.String("teamFolder", tf.TeamFolderId), zap.String("teamFolderName", tf.Name), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
 						}
 					}
 				}
 				if u, e := member.User(); e {
-					z.log().Error("Team folder should not have individual sharing member", zap.String("teamFolder", namespace.NamespaceId), zap.String("teamFolderName", namespace.Name), zap.String("member", u.Email))
+					z.log().Error("Team folder should not have individual sharing member", zap.String("teamFolder", tf.TeamFolderId), zap.String("teamFolderName", tf.Name), zap.String("member", u.Email))
 				}
 			}
 		}

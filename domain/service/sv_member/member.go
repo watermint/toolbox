@@ -1,7 +1,7 @@
 package sv_member
 
 import (
-	"errors"
+	"encoding/json"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_list"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
@@ -252,7 +252,11 @@ func (z *memberImpl) parseOneMember(res api_rpc.Response) (member *mo_member.Mem
 	// {".tag": "id_not_found", "id_not_found": "xxx+xxxxx@xxxxxxxxx.xxx"}
 	if a.Get("id_not_found").Exists() {
 		z.ctx.Log().Debug("`id_not_found`", zap.String("id", a.Get("id_not_found").String()))
-		return nil, errors.New("id not found")
+		return nil, api_rpc.ApiError{
+			ErrorTag:     "id_not_found",
+			ErrorSummary: "id_not_found",
+			ErrorBody:    json.RawMessage(`{"error_summary":"id_not_found","error":{".tag":"id_not_found"}}`),
+		}
 	}
 
 	if err := res.ModelArrayFirst(member); err != nil {
