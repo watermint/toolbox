@@ -1,6 +1,7 @@
 package uc_teamfolder_mirror
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/domain/infra/api_context"
@@ -107,6 +108,19 @@ type Context interface {
 	GroupDst() *mo_group.Group
 	AdminSrc() *mo_profile.Profile
 	AdminDst() *mo_profile.Profile
+}
+
+func MarshalContext(c Context) (b []byte, err error) {
+	b, err = json.Marshal(c)
+	return
+}
+func UnmarshalContext(b []byte) (c Context, err error) {
+	mc := &mirrorContext{}
+	err = json.Unmarshal(b, mc)
+	if err != nil {
+		return nil, err
+	}
+	return mc, nil
 }
 
 type mirrorContext struct {

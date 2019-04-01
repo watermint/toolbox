@@ -1,6 +1,7 @@
 package uc_team_migration
 
 import (
+	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_context"
@@ -17,6 +18,8 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
 	"go.uber.org/zap"
+	"io/ioutil"
+	"path/filepath"
 	"strings"
 )
 
@@ -100,7 +103,36 @@ type migrationImpl struct {
 }
 
 func (z *migrationImpl) Resume(opts ...ResumeOpt) (ctx Context, err error) {
-	panic("implement me")
+	ro := &resumeOpts{}
+	for _, o := range opts {
+		o(ro)
+	}
+	b, err := ioutil.ReadFile(filepath.Join(ro.storagePath, "context.json"))
+	if err != nil {
+		z.ctxExec.Log().Error("unable to read stored context", zap.Error(err))
+		return nil, err
+	}
+	ctxImpl := &contextImpl{}
+	err = json.Unmarshal(b, ctxImpl)
+	if err != nil {
+		z.ctxExec.Log().Error("unable to unmarshal context", zap.Error(err))
+		return nil, err
+	}
+	tb, err := ioutil.ReadFile(filepath.Join(ro.storagePath, "teamfolder_content.json"))
+	if err != nil {
+		z.ctxExec.Log().Error("unable to read stored context", zap.Error(err))
+		return nil, err
+	}
+	tmc, err := uc_teamfolder_mirror.UnmarshalContext(tb)
+	if err != nil {
+		z.ctxExec.Log().Error("unable to read stored context", zap.Error(err))
+		return nil, err
+	}
+	ctxImpl.ctxTeamFolder = tmc
+	ctxImpl.storagePath = ro.storagePath
+	ctxImpl.init(ro.ec)
+	z.ctxExec.Log().Info("Context restored", zap.String("path", ro.storagePath))
+	return ctxImpl, nil
 }
 
 func (z *migrationImpl) log() *zap.Logger {

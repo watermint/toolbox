@@ -141,11 +141,11 @@ type contextOpts struct {
 }
 
 type contextImpl struct {
-	ctxExec     *app.ExecContext             `json:"-"`
-	storages    map[string]app_report.Report `json:"-"`
-	storagePath string                       `json:"-"`
+	ctxExec       *app.ExecContext             `json:"-"`
+	storages      map[string]app_report.Report `json:"-"`
+	storagePath   string                       `json:"-"`
+	ctxTeamFolder uc_teamfolder_mirror.Context `json:"-"`
 
-	CtxTeamFolder       uc_teamfolder_mirror.Context               `json:"ctx_team_folder"`
 	MapMembers          map[string]*mo_profile.Profile             `json:"members"`
 	MapDestGroups       map[string]*mo_group.Group                 `json:"dest_groups"`
 	MapGroups           map[string]*mo_group.Group                 `json:"groups"`
@@ -197,6 +197,18 @@ func (z *contextImpl) StoreState() error {
 		z.ctxExec.Log().Error("unable to store context", zap.Error(err))
 		return err
 	}
+	tb, err := uc_teamfolder_mirror.MarshalContext(z.ctxTeamFolder)
+	if err != nil {
+		z.ctxExec.Log().Error("unable to marshal team folder mirror context", zap.Error(err))
+		return err
+	}
+	err = ioutil.WriteFile(filepath.Join(z.storagePath, "teamfolder_content.json"), tb, 0644)
+	if err != nil {
+		z.ctxExec.Log().Error("unable to store team folder mirror context", zap.Error(err))
+		return err
+	}
+
+	z.ctxExec.Log().Info("Context preserved", zap.String("path", z.storagePath))
 	return nil
 }
 
@@ -390,9 +402,9 @@ func (z *contextImpl) NamespaceMembers(namespaceId string) (members []mo_sharedf
 }
 
 func (z *contextImpl) SetContextTeamFolder(ctx uc_teamfolder_mirror.Context) {
-	z.CtxTeamFolder = ctx
+	z.ctxTeamFolder = ctx
 }
 
 func (z *contextImpl) ContextTeamFolder() uc_teamfolder_mirror.Context {
-	return z.CtxTeamFolder
+	return z.ctxTeamFolder
 }
