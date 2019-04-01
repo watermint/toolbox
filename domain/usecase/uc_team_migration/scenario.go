@@ -342,11 +342,27 @@ func (z *Scenario) Cleanup() (err error) {
 			for _, t := range z.actors.Members() {
 				if strings.ToLower(member.Email) == t {
 					z.log().Info("Downgrading member", zap.String("email", t))
-					err = svcB.Remove(member, sv_member.Downgrade())
-					if err != nil {
-						z.log().Warn("Unable to downgrade member", zap.String("email", t))
+					switch member.Status {
+					case "active":
+						err = svcB.Remove(member, sv_member.Downgrade())
+						if err != nil {
+							z.log().Warn("Unable to downgrade member", zap.String("email", t))
+							break
+						}
+
+					case "invited":
+						err = svcB.Remove(member)
+						if err != nil {
+							z.log().Warn("Unable to downgrade member", zap.String("email", t))
+							break
+						}
+
+					default:
+						z.log().Error("Unable to handle unexpected member status", zap.String("email", t), zap.String("status", member.Status))
 						break
+
 					}
+					z.log().Info("Inviting member", zap.String("email", t))
 					_, err = svcA.Add(t)
 					if err != nil {
 						z.log().Warn("Unable to invite member", zap.String("email", t))
