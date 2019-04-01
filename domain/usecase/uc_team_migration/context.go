@@ -15,6 +15,7 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
 	"go.uber.org/zap"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 )
 
@@ -187,6 +188,16 @@ func (z *contextImpl) init(ec *app.ExecContext) {
 }
 
 func (z *contextImpl) StoreState() error {
+	{
+		if _, err := os.Stat(z.storagePath); os.IsNotExist(err) {
+			err := os.MkdirAll(z.storagePath, 0755)
+			if err != nil {
+				z.ctxExec.Log().Error("unable to create state folder", zap.Error(err), zap.String("path", z.storagePath))
+				return err
+			}
+		}
+	}
+
 	{
 		b, err := json.Marshal(z)
 		if err != nil {

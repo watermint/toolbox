@@ -140,7 +140,7 @@ func (z *migrationImpl) Resume(opts ...ResumeOpt) (ctx Context, err error) {
 					members = make([]mo_sharedfolder_member.Member, 0)
 					for _, je := range ja.Array() {
 						member := &mo_sharedfolder_member.Metadata{}
-						if err := api_parser.ParseModel(member, je); err != nil {
+						if err := api_parser.ParseModel(member, je.Get("Raw")); err != nil {
 							z.log().Error("Unable to parse", zap.Error(err), zap.String("entry", je.Raw))
 							return nil, err
 						}
@@ -166,7 +166,6 @@ func (z *migrationImpl) Resume(opts ...ResumeOpt) (ctx Context, err error) {
 		ctxImpl.ctxTeamFolder = tmc
 	}
 
-	ctxImpl.storagePath = ro.storagePath
 	ctxImpl.init(ro.ec)
 	z.ctxExec.Log().Info("Context restored", zap.String("path", ro.storagePath))
 	return ctxImpl, nil
@@ -341,14 +340,6 @@ func (z *migrationImpl) Preflight(ctx Context) (err error) {
 }
 
 func (z *migrationImpl) Migrate(ctx Context) (err error) {
-	if err = z.Inspect(ctx); err != nil {
-		return err
-	}
-
-	if err = z.Preserve(ctx); err != nil {
-		return err
-	}
-
 	if err = z.Bridge(ctx); err != nil {
 		return err
 	}

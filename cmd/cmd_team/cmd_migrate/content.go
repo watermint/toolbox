@@ -20,6 +20,7 @@ type CmdTeamMigrateContent struct {
 	optTeamFoldersCsv    string
 	optAll               bool
 	optGroupsOnlyRelated bool
+	optResume            string
 }
 
 func (z *CmdTeamMigrateContent) Name() string {
@@ -55,6 +56,9 @@ func (z *CmdTeamMigrateContent) FlagConfig(f *flag.FlagSet) {
 
 	descTeamFolderCsv := z.ExecContext.Msg("cmd.team.migrate.check.flag.teamfolder_csv").T()
 	f.StringVar(&z.optTeamFoldersCsv, "teamfolder-csv", "", descTeamFolderCsv)
+
+	descResume := z.ExecContext.Msg("cmd.team.migrate.content.flag.resume").T()
+	f.StringVar(&z.optResume, "resume", "", descResume)
 
 	descAll := z.ExecContext.Msg("cmd.team.migrate.check.flag.all").T()
 	f.BoolVar(&z.optAll, "all", false, descAll)
@@ -141,33 +145,44 @@ func (z *CmdTeamMigrateContent) Exec(args []string) {
 		return
 	}
 
-	opts := make([]uc_team_migration.ScopeOpt, 0)
-	if z.optMembersCsv != "" {
-		opts = append(opts, uc_team_migration.MembersSpecifiedEmail(memberEmails))
-	}
-	if z.optMembersAll {
-		opts = append(opts, uc_team_migration.MembersAllExceptAdmin())
-	}
-	if z.optTeamFoldersCsv != "" {
-		opts = append(opts, uc_team_migration.TeamFoldersSpecifiedName(teamFolderNames))
-	}
-	if z.optTeamFoldersAll {
-		opts = append(opts, uc_team_migration.TeamFoldersAll())
-	}
-	if z.optGroupsOnlyRelated {
-		opts = append(opts, uc_team_migration.GroupsOnlyRelated())
-	}
-	if z.optAll {
-		opts = append(opts, uc_team_migration.MembersAllExceptAdmin(), uc_team_migration.TeamFoldersAll())
-	}
-
 	ucm := uc_team_migration.New(z.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst)
-	mc, err := ucm.Scope(opts...)
-	if err != nil {
-		ctxFileSrc.ErrorMsg(err).TellError()
-		return
-	}
-	if err = ucm.Content(mc); err != nil {
-		ctxFileSrc.ErrorMsg(err).TellError()
+
+	if z.optResume == "" {
+		opts := make([]uc_team_migration.ScopeOpt, 0)
+		if z.optMembersCsv != "" {
+			opts = append(opts, uc_team_migration.MembersSpecifiedEmail(memberEmails))
+		}
+		if z.optMembersAll {
+			opts = append(opts, uc_team_migration.MembersAllExceptAdmin())
+		}
+		if z.optTeamFoldersCsv != "" {
+			opts = append(opts, uc_team_migration.TeamFoldersSpecifiedName(teamFolderNames))
+		}
+		if z.optTeamFoldersAll {
+			opts = append(opts, uc_team_migration.TeamFoldersAll())
+		}
+		if z.optGroupsOnlyRelated {
+			opts = append(opts, uc_team_migration.GroupsOnlyRelated())
+		}
+		if z.optAll {
+			opts = append(opts, uc_team_migration.MembersAllExceptAdmin(), uc_team_migration.TeamFoldersAll())
+		}
+
+		mc, err := ucm.Scope(opts...)
+		if err != nil {
+			ctxFileSrc.ErrorMsg(err).TellError()
+			return
+		}
+		if err = ucm.Content(mc); err != nil {
+			ctxFileSrc.ErrorMsg(err).TellError()
+		}
+	} else {
+		mc, err := ucm.Resume(uc_team_migration.ResumeExecContext(z.ExecContext), uc_team_migration.ResumeFromPath(z.optResume))
+		if err != nil {
+			return
+		}
+		if err = ucm.Content(mc); err != nil {
+			ctxFileSrc.ErrorMsg(err).TellError()
+		}
 	}
 }
