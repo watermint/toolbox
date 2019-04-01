@@ -147,9 +147,13 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 	for lfn, lf := range leftFolders {
 		if _, e := rightFolders[lfn]; e {
 			// proceed to descendants
-			pd, err := filepath.Rel(strings.ToLower(opts.leftPath), lf.PathLower())
+			lp := strings.ToLower(opts.leftPath)
+			if lp == "" {
+				lp = "/"
+			}
+			pd, err := filepath.Rel(lp, lf.PathLower())
 			if err != nil {
-				log.Warn("unable to calculate relative path", zap.String("leftPathBase", opts.leftPath), zap.String("leftPath", lf.PathLower()), zap.Error(err))
+				log.Warn("unable to calculate relative path", zap.String("leftPathBase", lp), zap.String("leftPath", lf.PathLower()), zap.Error(err))
 				continue
 			}
 			if strings.HasPrefix(pd, "..") {

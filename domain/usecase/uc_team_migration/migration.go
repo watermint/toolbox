@@ -63,11 +63,18 @@ type Migration interface {
 type ResumeOpt func(opt *resumeOpts) *resumeOpts
 type resumeOpts struct {
 	storagePath string
+	ec          *app.ExecContext
 }
 
 func ResumeFromPath(path string) ResumeOpt {
 	return func(opt *resumeOpts) *resumeOpts {
 		opt.storagePath = path
+		return opt
+	}
+}
+func ResumeExecContext(ec *app.ExecContext) ResumeOpt {
+	return func(opt *resumeOpts) *resumeOpts {
+		opt.ec = ec
 		return opt
 	}
 }
@@ -108,6 +115,8 @@ func (z *migrationImpl) Scope(opts ...ScopeOpt) (ctx Context, err error) {
 	for _, o := range opts {
 		o(so)
 	}
+
+	z.log().Info("Define scope")
 
 	// Prepare migration context
 	ctx = newContext(z.ctxExec)
@@ -155,6 +164,7 @@ func (z *migrationImpl) Scope(opts ...ScopeOpt) (ctx Context, err error) {
 	}
 
 	// Define scope of members
+	z.log().Info("Define scope: members")
 	allMembers, err := sv_member.New(z.ctxMgtSrc).List()
 	if err != nil {
 		return nil, err
@@ -191,6 +201,7 @@ func (z *migrationImpl) Scope(opts ...ScopeOpt) (ctx Context, err error) {
 	z.log().Debug("Members to migrate", zap.Int("count", len(ctx.Members())))
 
 	// Define scope of team folders
+	z.log().Info("Define scope: team folders")
 	allFolders, err := sv_teamfolder.New(z.ctxFileSrc).List()
 	if err != nil {
 		return nil, err
@@ -223,6 +234,7 @@ func (z *migrationImpl) Scope(opts ...ScopeOpt) (ctx Context, err error) {
 	z.log().Debug("Team folders to migrate", zap.Int("count", len(ctx.TeamFolders())))
 
 	// Team folder mirror
+	z.log().Info("Define scope: mirroring content of team folders")
 	prepTeamFolderMirror := func() error {
 		names := make([]string, 0)
 		for _, f := range ctx.TeamFolders() {
@@ -236,6 +248,11 @@ func (z *migrationImpl) Scope(opts ...ScopeOpt) (ctx Context, err error) {
 		return nil
 	}
 	if err = prepTeamFolderMirror(); err != nil {
+		return nil, err
+	}
+
+	// Store context
+	if err = ctx.StoreState(); err != nil {
 		return nil, err
 	}
 
@@ -288,6 +305,7 @@ func (z *migrationImpl) Migrate(ctx Context) (err error) {
 
 func (z *migrationImpl) Inspect(ctx Context) (err error) {
 	// Inspect team information.
+	z.log().Info("Inspect: team information")
 	inspectTeams := func() error {
 		var inspectErr error
 		inspectErr = nil
@@ -341,7 +359,13 @@ func (z *migrationImpl) Inspect(ctx Context) (err error) {
 	}
 
 	// Inspect team folder mirror
+	z.log().Info("Inspect: team folder mirroring")
 	if err = z.teamFolderMirror.Inspect(ctx.ContextTeamFolder()); err != nil {
+		return err
+	}
+
+	// Store context
+	if err = ctx.StoreState(); err != nil {
 		return err
 	}
 
@@ -356,6 +380,7 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 	allGroups := make(map[string]*mo_group.Group)
 
 	// Preserve group
+	z.log().Info("Preserve: group")
 	preserveGroups := func() error {
 		groups, err := sv_group.New(z.ctxMgtSrc).List()
 		if err != nil {
@@ -410,6 +435,7 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 	}
 
 	// Preserve shared folders & members
+	z.log().Info("Preserve: shared folders & members")
 	preserveSharedFolders := func() error {
 		// sharedFolderId to teamMemberId
 		folderToMember := make(map[string]string)
@@ -438,6 +464,7 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 	}
 
 	// Preserve namespaces
+	z.log().Info("Preserve: namespaces")
 	preserveNamespaces := func() error {
 		namespaces, err := sv_namespace.New(z.ctxFileSrc).List()
 		if err != nil {
@@ -455,6 +482,7 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 	}
 
 	// Preserve namespace members
+	z.log().Info("Preserve: namespace members")
 	preserveNamespaceMembers := func() error {
 		ctxFileSrcAdmin := z.ctxFileSrc.AsAdminId(ctx.AdminSrc().TeamMemberId)
 		for _, namespace := range ctx.Namespaces() {
@@ -488,6 +516,7 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 	}
 
 	// Preserve group members (2nd scan, group appear from namespace members)
+	z.log().Info("Preserve: group members")
 	preserveGroupMembers2ndScan := func() error {
 		targets := ctx.Members()
 		for _, group := range ctx.Groups() {
@@ -516,6 +545,7 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 
 	// Verify any of group already created in dest team or not
 	// But do not block operation
+	z.log().Info("Preserve: verify groups")
 	verifyDestGroups := func() error {
 		groupsDst, err := sv_group.New(z.ctxMgtDst).List()
 		if err != nil {
@@ -536,6 +566,11 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 		return err
 	}
 
+	// Store context
+	if err = ctx.StoreState(); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -545,7 +580,24 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 		return err
 	}
 
+	isTeamOwnedSharedFolder := func(namespaceId string) (string, bool) {
+		members := ctx.NamespaceMembers(namespaceId)
+		for _, member := range members {
+			if member.AccessType() == sv_sharedfolder_member.LevelOwner {
+				if u, e := member.User(); e {
+					return u.TeamMemberId, u.SameTeam
+				}
+				if g, e := member.Group(); e {
+					z.log().Error("Group should not owner of shared folder", zap.String("groupId", g.GroupId), zap.String("groupName", g.GroupName))
+					return "", false
+				}
+			}
+		}
+		return "", false
+	}
+
 	// bridge shared folders
+	z.log().Info("Bridge: shared folders")
 	bridgeSharedFolders := func() error {
 		folderTargets := ctx.SharedFolders()
 		for _, namespace := range ctx.Namespaces() {
@@ -553,18 +605,20 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 			if namespace.NamespaceType != "shared_folder" {
 				continue
 			}
-
 			if f, e := folderTargets[namespace.NamespaceId]; e {
-				l := z.log().With(zap.String("SharedFolderId", f.SharedFolderId), zap.String("SharedFolderName", f.Name), zap.String("dstAdminId", ctx.AdminDst().TeamMemberId))
-				l.Debug("Bridge shared folder")
-				var ctxFileAsMember api_context.Context
-				if namespace.TeamMemberId == "" {
-					ctxFileAsMember = z.ctxFileSrc.AsAdminId(ctx.AdminSrc().TeamMemberId)
-				} else {
-					ctxFileAsMember = z.ctxFileSrc.AsMemberId(namespace.TeamMemberId)
+				ownerId, sameTeam := isTeamOwnedSharedFolder(namespace.NamespaceId)
+				if !sameTeam {
+					z.log().Debug("Skip non team owned shared folder", zap.String("namespaceId", namespace.NamespaceId), zap.String("name", namespace.Name))
+					continue
 				}
 
-				svc := sv_sharedfolder_member.NewBySharedFolderId(ctxFileAsMember, namespace.TeamMemberId)
+				l := z.log().With(zap.String("SharedFolderId", f.SharedFolderId), zap.String("SharedFolderName", f.Name), zap.String("dstAdminId", ctx.AdminDst().TeamMemberId))
+
+				l.Debug("Bridge shared folder")
+				var ctxFileAsMember api_context.Context
+				ctxFileAsMember = z.ctxFileSrc.AsMemberId(ownerId)
+
+				svc := sv_sharedfolder_member.NewBySharedFolderId(ctxFileAsMember, namespace.NamespaceId)
 				err = svc.Add(sv_sharedfolder_member.AddByEmail(ctx.AdminDst().Email, sv_sharedfolder_member.LevelEditor), sv_sharedfolder_member.AddCustomMessage(z.ctxExec.Msg("usecase.team.migration.msg.add_shared_folder").T()))
 
 				if err != nil {
@@ -579,12 +633,23 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 		return err
 	}
 
+	// Store context
+	if err = ctx.StoreState(); err != nil {
+		return err
+	}
+
 	return nil
 }
 
 func (z *migrationImpl) Content(ctx Context) (err error) {
 	// Mirror team folders
+	z.log().Info("Content: mirroring team folder contents")
 	if err = z.teamFolderMirror.Mirror(ctx.ContextTeamFolder()); err != nil {
+		return err
+	}
+
+	// Store context
+	if err = ctx.StoreState(); err != nil {
 		return err
 	}
 
@@ -593,10 +658,12 @@ func (z *migrationImpl) Content(ctx Context) (err error) {
 
 func (z *migrationImpl) Transfer(ctx Context) (err error) {
 	// Convert accounts into Basic, and invite from new team
+	z.log().Info("Transfer: transfer accounts")
 	transferAccounts := func() error {
 		svmSrc := sv_member.New(z.ctxMgtSrc)
 		svmDst := sv_member.New(z.ctxMgtDst)
 		for _, member := range ctx.Members() {
+			z.log().Info("Transfer: transferring member", zap.String("email", member.Email))
 			l := z.log().With(zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
 			l.Debug("Transferring account")
 
@@ -625,6 +692,11 @@ func (z *migrationImpl) Transfer(ctx Context) (err error) {
 		return err
 	}
 
+	// Store context
+	if err = ctx.StoreState(); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -635,6 +707,7 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	srcGroupIdToDstGroup := make(map[string]*mo_group.Group)
 
 	// create map name to source group
+	z.log().Info("Permissions: creating groups")
 	sortSourceGroup := func() error {
 		for _, group := range ctx.Groups() {
 			groupNameToSrcGroup[strings.ToLower(group.GroupName)] = group
@@ -646,6 +719,7 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	}
 
 	// fetch destination groups
+	z.log().Info("Permissions: retrieve destination team groups")
 	fetchDestGroups := func() error {
 		groups, err := sv_group.New(z.ctxMgtDst).List()
 		if err != nil {
@@ -662,10 +736,15 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	}
 
 	// create group if not exist
+	z.log().Info("Permissions: create groups if not exist")
 	createDestGroups := func() error {
 		for n, src := range groupNameToSrcGroup {
 			l := z.log().With(zap.String("groupName", src.GroupName))
 			if _, e := groupNameToDstGroup[n]; !e {
+				if src.GroupManagementType == "system_managed" {
+					l.Debug("Skip system managed group")
+					continue
+				}
 				l.Debug("Creating group in the dest team")
 				group, err := sv_group.New(z.ctxMgtDst).Create(src.GroupName, sv_group.ManagementType(src.GroupManagementType))
 				if err != nil {
@@ -683,6 +762,7 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	}
 
 	// create map src group id to dst group
+	z.log().Info("Permissions: mapping source to destination groups")
 	createSrcGroupIdToDstGroupMap := func() error {
 		for n, src := range groupNameToSrcGroup {
 			if dst, e := groupNameToDstGroup[n]; e {
@@ -699,7 +779,118 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 		return err
 	}
 
-	// TODO: add permissions
+	// restore permission for team folders
+	z.log().Info("Permissions: restore permission of team folders")
+	restorePermissionTeamFolder := func() error {
+		for _, namespace := range ctx.Namespaces() {
+			if namespace.NamespaceType != "team_folder" {
+				continue
+			}
+
+			z.log().Info("Permissions: restore permission of team folder", zap.String("name", namespace.Name))
+			members := ctx.NamespaceMembers(namespace.NamespaceId)
+			ctf := z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId)
+			for _, member := range members {
+				if srcGrp, e := member.Group(); e {
+					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, namespace.NamespaceId)
+					if dstGrp, e := srcGroupIdToDstGroup[srcGrp.GroupId]; !e {
+						z.log().Error("Unable to find mapping of src-dst group", zap.String("srcGroup", srcGrp.GroupId), zap.String("srcGroupName", srcGrp.GroupName))
+						return err
+					} else {
+						if err = svm.Add(sv_sharedfolder_member.AddByGroup(dstGrp, member.AccessType())); err != nil {
+							z.log().Error("Unable to add group to team folder", zap.String("teamFolder", namespace.NamespaceId), zap.String("teamFolderName", namespace.Name), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+						}
+					}
+				}
+				if u, e := member.User(); e {
+					z.log().Error("Team folder should not have individual sharing member", zap.String("teamFolder", namespace.NamespaceId), zap.String("teamFolderName", namespace.Name), zap.String("member", u.Email))
+				}
+			}
+		}
+		return nil
+	}
+	if err = restorePermissionTeamFolder(); err != nil {
+		return err
+	}
+
+	// restore permissions for nested folders
+	z.log().Info("Permissions: restore permission of nested folders")
+	restorePermissionNestedFolder := func() error {
+		for _, folder := range ctx.NamespaceDetails() {
+			if !folder.IsInsideTeamFolder || folder.IsTeamFolder {
+				continue
+			}
+
+			z.log().Info("Permissions: restore permission of nested folder", zap.String("name", folder.Name))
+			members := ctx.NamespaceMembers(folder.SharedFolderId)
+			ctf := z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId)
+			for _, member := range members {
+				if srcGrp, e := member.Group(); e {
+					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
+					if dstGrp, e := srcGroupIdToDstGroup[srcGrp.GroupId]; !e {
+						z.log().Error("Unable to find mapping of src-dst group", zap.String("srcGroup", srcGrp.GroupId), zap.String("srcGroupName", srcGrp.GroupName))
+						return err
+					} else {
+						if err = svm.Add(sv_sharedfolder_member.AddByGroup(dstGrp, member.AccessType())); err != nil {
+							z.log().Error("Unable to add group to nested folder", zap.String("folderId", folder.SharedFolderId), zap.String("folderName", folder.Name), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+						}
+					}
+				}
+				if u, e := member.User(); e {
+					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
+					if err = svm.Add(sv_sharedfolder_member.AddByEmail(u.Email, member.AccessType())); err != nil {
+						z.log().Error("Unable to add member to nested folder", zap.String("folderId", folder.SharedFolderId), zap.String("folderName", folder.Name), zap.String("member", u.Email), zap.Error(err))
+					}
+				}
+			}
+		}
+		return nil
+	}
+	if err = restorePermissionNestedFolder(); err != nil {
+		return err
+	}
+
+	// restore permissions for shared folders
+	z.log().Info("Permissions: restore permission of shared folders")
+	restorePermissionSharedFolder := func() error {
+		for _, folder := range ctx.NamespaceDetails() {
+			if folder.IsInsideTeamFolder || folder.IsTeamFolder {
+				continue
+			}
+
+			z.log().Info("Permissions: restore permission of shared folder", zap.String("name", folder.Name))
+			members := ctx.NamespaceMembers(folder.SharedFolderId)
+			ctf := z.ctxFileDst.AsMemberId(ctx.AdminDst().TeamMemberId)
+			for _, member := range members {
+				if srcGrp, e := member.Group(); e {
+					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
+					if dstGrp, e := srcGroupIdToDstGroup[srcGrp.GroupId]; !e {
+						z.log().Error("Unable to find mapping of src-dst group", zap.String("srcGroup", srcGrp.GroupId), zap.String("srcGroupName", srcGrp.GroupName))
+						return err
+					} else {
+						if err = svm.Add(sv_sharedfolder_member.AddByGroup(dstGrp, member.AccessType())); err != nil {
+							z.log().Error("Unable to add group to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("folderName", folder.Name), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+						}
+					}
+				}
+				if u, e := member.User(); e {
+					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
+					if err = svm.Add(sv_sharedfolder_member.AddByEmail(u.Email, member.AccessType())); err != nil {
+						z.log().Error("Unable to add member to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("folderName", folder.Name), zap.String("member", u.Email), zap.Error(err))
+					}
+				}
+			}
+		}
+		return nil
+	}
+	if err = restorePermissionSharedFolder(); err != nil {
+		return err
+	}
+
+	// Store context
+	if err = ctx.StoreState(); err != nil {
+		return err
+	}
 
 	return nil
 }

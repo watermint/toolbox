@@ -110,41 +110,41 @@ type Context interface {
 }
 
 type mirrorContext struct {
-	pairs    []*MirrorPair
-	groupSrc *mo_group.Group
-	groupDst *mo_group.Group
-	adminSrc *mo_profile.Profile
-	adminDst *mo_profile.Profile
+	MirrorPairs    []*MirrorPair       `json:"pairs"`
+	MirrorGroupSrc *mo_group.Group     `json:"group_src"`
+	MirrorGroupDst *mo_group.Group     `json:"group_dst"`
+	MirrorAdminSrc *mo_profile.Profile `json:"admin_src"`
+	MirrorAdminDst *mo_profile.Profile `json:"admin_dst"`
 }
 
 func (z *mirrorContext) SetGroups(src, dst *mo_group.Group) {
-	z.groupSrc = src
-	z.groupDst = dst
+	z.MirrorGroupSrc = src
+	z.MirrorGroupDst = dst
 }
 
 func (z *mirrorContext) SetAdmins(src, dst *mo_profile.Profile) {
-	z.adminSrc = src
-	z.adminDst = dst
+	z.MirrorAdminSrc = src
+	z.MirrorAdminDst = dst
 }
 
 func (z *mirrorContext) Pairs() (pairs []*MirrorPair) {
-	return z.pairs
+	return z.MirrorPairs
 }
 
 func (z *mirrorContext) GroupSrc() *mo_group.Group {
-	return z.groupSrc
+	return z.MirrorGroupSrc
 }
 
 func (z *mirrorContext) GroupDst() *mo_group.Group {
-	return z.groupDst
+	return z.MirrorGroupDst
 }
 
 func (z *mirrorContext) AdminSrc() *mo_profile.Profile {
-	return z.adminSrc
+	return z.MirrorAdminSrc
 }
 
 func (z *mirrorContext) AdminDst() *mo_profile.Profile {
-	return z.adminDst
+	return z.MirrorAdminDst
 }
 
 func New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context) TeamFolder {
@@ -169,7 +169,7 @@ func (z *teamFolderImpl) log() *zap.Logger {
 
 func (z *teamFolderImpl) AllFolderScope() (ctx Context, err error) {
 	mc := &mirrorContext{
-		pairs: make([]*MirrorPair, 0),
+		MirrorPairs: make([]*MirrorPair, 0),
 	}
 	ctx = mc
 	svt := sv_teamfolder.New(z.ctxFileSrc)
@@ -178,7 +178,7 @@ func (z *teamFolderImpl) AllFolderScope() (ctx Context, err error) {
 		return nil, err
 	}
 	for _, folder := range folders {
-		mc.pairs = append(mc.pairs, &MirrorPair{
+		mc.MirrorPairs = append(mc.MirrorPairs, &MirrorPair{
 			Src: folder,
 			Dst: nil,
 		})
@@ -188,7 +188,7 @@ func (z *teamFolderImpl) AllFolderScope() (ctx Context, err error) {
 
 func (z *teamFolderImpl) PartialScope(names []string) (ctx Context, err error) {
 	mc := &mirrorContext{
-		pairs: make([]*MirrorPair, 0),
+		MirrorPairs: make([]*MirrorPair, 0),
 	}
 	ctx = mc
 	svt := sv_teamfolder.New(z.ctxFileSrc)
@@ -207,7 +207,7 @@ func (z *teamFolderImpl) PartialScope(names []string) (ctx Context, err error) {
 	for _, folder := range folders {
 		fnl := strings.ToLower(folder.Name)
 		if matches(fnl) {
-			mc.pairs = append(mc.pairs, &MirrorPair{
+			mc.MirrorPairs = append(mc.MirrorPairs, &MirrorPair{
 				Src: folder,
 				Dst: nil,
 			})

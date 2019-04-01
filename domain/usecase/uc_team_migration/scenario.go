@@ -686,7 +686,7 @@ func (z *Scenario) Create() (err error) {
 
 		{
 			z.log().Info("Create nested folder", zap.String("folder", nestedFolderEngEastName))
-			engEast, err := svs.Create(mo_path.NewPath("ns:" + salesFolder.TeamFolderId + "/" + nestedFolderEngEastName))
+			engEast, err := svs.Create(mo_path.NewPath("ns:" + engFolder.TeamFolderId + "/" + nestedFolderEngEastName))
 			if err != nil {
 				return err
 			}
@@ -695,9 +695,9 @@ func (z *Scenario) Create() (err error) {
 
 			z.log().Info("Add member Individual01 to nested folder", zap.String("member", individual01.Email))
 			ssm := sv_sharedfolder_member.New(cta, engEast)
-			err = ssm.Add(sv_sharedfolder_member.AddByTeamMemberId(individual01.TeamMemberId, sv_sharedfolder_member.LevelEditor))
+			err = ssm.Add(sv_sharedfolder_member.AddByEmail(individual01.Email, sv_sharedfolder_member.LevelEditor))
 			if err != nil {
-				z.log().Error("Unable to add group", zap.Error(err))
+				z.log().Error("Unable to add member", zap.Error(err))
 			}
 		}
 

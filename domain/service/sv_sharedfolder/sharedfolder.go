@@ -152,11 +152,12 @@ func (z *sharedFolderImpl) Remove(sf *mo_sharedfolder.SharedFolder, opts ...Dele
 	for _, o := range opts {
 		o(do)
 	}
+	sharedFolderId := sf.SharedFolderId
 	p := struct {
 		SharedFolderId string `json:"shared_folder_id"`
 		LeaveACopy     bool   `json:"leave_a_copy,omitempty"`
 	}{
-		SharedFolderId: sf.SharedFolderId,
+		SharedFolderId: sharedFolderId,
 		LeaveACopy:     do.leaveACopy,
 	}
 	sf = &mo_sharedfolder.SharedFolder{}

@@ -1,6 +1,7 @@
 package uc_team_migration
 
 import (
+	"encoding/json"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/app/app_report/app_report_json"
@@ -13,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
 	"go.uber.org/zap"
+	"io/ioutil"
 	"path/filepath"
 )
 
@@ -96,6 +98,9 @@ type Context interface {
 
 	// Whether migrate groups only related to members, or sharing
 	GroupsOnlyRelated() bool
+
+	// Store state
+	StoreState() error
 }
 
 const (
@@ -112,6 +117,48 @@ const (
 )
 
 func newContext(ctxExec *app.ExecContext) Context {
+	ctx := &contextImpl{
+		ctxExec:             ctxExec,
+		MapMembers:          make(map[string]*mo_profile.Profile),
+		MapDestGroups:       make(map[string]*mo_group.Group),
+		MapGroups:           make(map[string]*mo_group.Group),
+		MapGroupMembers:     make(map[string][]*mo_group_member.Member),
+		MapTeamFolders:      make(map[string]*mo_teamfolder.TeamFolder),
+		MapNamespaces:       make(map[string]*mo_namespace.Namespace),
+		MapNamespaceDetails: make(map[string]*mo_sharedfolder.SharedFolder),
+		MapSharedFolders:    make(map[string]*mo_sharedfolder.SharedFolder),
+		MapNamespaceMember:  make(map[string][]mo_sharedfolder_member.Member),
+		ContextOpts:         &contextOpts{},
+	}
+	ctx.init(ctxExec)
+	return ctx
+}
+
+type contextOpts struct {
+	groupsOnlyRelated bool                `json:"groups_only_related"`
+	adminSrc          *mo_profile.Profile `json:"admin_src"`
+	adminDst          *mo_profile.Profile `json:"admin_dst"`
+}
+
+type contextImpl struct {
+	ctxExec     *app.ExecContext             `json:"-"`
+	storages    map[string]app_report.Report `json:"-"`
+	storagePath string                       `json:"-"`
+
+	CtxTeamFolder       uc_teamfolder_mirror.Context               `json:"ctx_team_folder"`
+	MapMembers          map[string]*mo_profile.Profile             `json:"members"`
+	MapDestGroups       map[string]*mo_group.Group                 `json:"dest_groups"`
+	MapGroups           map[string]*mo_group.Group                 `json:"groups"`
+	MapGroupMembers     map[string][]*mo_group_member.Member       `json:"group_members"`
+	MapTeamFolders      map[string]*mo_teamfolder.TeamFolder       `json:"team_folders"`
+	MapNamespaces       map[string]*mo_namespace.Namespace         `json:"namespaces"`
+	MapNamespaceDetails map[string]*mo_sharedfolder.SharedFolder   `json:"namespace_details"`
+	MapSharedFolders    map[string]*mo_sharedfolder.SharedFolder   `json:"shared_folders"`
+	MapNamespaceMember  map[string][]mo_sharedfolder_member.Member `json:"namespace_member"`
+	ContextOpts         *contextOpts                               `json:"context_opts"`
+}
+
+func (z *contextImpl) init(ec *app.ExecContext) {
 	storageTags := []string{
 		storageTagMembers,
 		storageTagDestGroups,
@@ -124,59 +171,39 @@ func newContext(ctxExec *app.ExecContext) Context {
 		storageTagNamespaceMembers,
 		storageTagOptions,
 	}
+	z.storagePath = filepath.Join(ec.JobsPath(), "state")
 	storages := make(map[string]app_report.Report)
 	for _, tag := range storageTags {
 		s := &app_report_json.JsonReport{
-			ReportPath: filepath.Join(ctxExec.JobsPath(), "state", tag),
+			ReportPath: filepath.Join(z.storagePath, tag),
 		}
-		if err := s.Init(ctxExec); err != nil {
-			ctxExec.Log().Warn("Unable to store state", zap.String("tag", tag), zap.Error(err))
+		if err := s.Init(ec); err != nil {
+			ec.Log().Warn("Unable to store state", zap.String("tag", tag), zap.Error(err))
 		}
 		storages[tag] = s
 	}
+	z.storages = storages
+	z.ctxExec = ec
+}
 
-	return &contextImpl{
-		ctxExec:          ctxExec,
-		storages:         storages,
-		members:          make(map[string]*mo_profile.Profile),
-		destGroups:       make(map[string]*mo_group.Group),
-		groups:           make(map[string]*mo_group.Group),
-		groupMembers:     make(map[string][]*mo_group_member.Member),
-		teamFolders:      make(map[string]*mo_teamfolder.TeamFolder),
-		namespaces:       make(map[string]*mo_namespace.Namespace),
-		namespaceDetails: make(map[string]*mo_sharedfolder.SharedFolder),
-		sharedFolders:    make(map[string]*mo_sharedfolder.SharedFolder),
-		namespaceMember:  make(map[string][]mo_sharedfolder_member.Member),
-		contextOpts:      &contextOpts{},
+func (z *contextImpl) StoreState() error {
+	b, err := json.Marshal(z)
+	if err != nil {
+		z.ctxExec.Log().Error("unable to marshal context", zap.Error(err))
+		return err
 	}
-}
-
-type contextOpts struct {
-	groupsOnlyRelated bool                `json:"groups_only_related"`
-	adminSrc          *mo_profile.Profile `json:"admin_src"`
-	adminDst          *mo_profile.Profile `json:"admin_dst"`
-}
-
-type contextImpl struct {
-	ctxExec          *app.ExecContext
-	ctxTeamFolder    uc_teamfolder_mirror.Context
-	storages         map[string]app_report.Report
-	members          map[string]*mo_profile.Profile
-	destGroups       map[string]*mo_group.Group
-	groups           map[string]*mo_group.Group
-	groupMembers     map[string][]*mo_group_member.Member
-	teamFolders      map[string]*mo_teamfolder.TeamFolder
-	namespaces       map[string]*mo_namespace.Namespace
-	namespaceDetails map[string]*mo_sharedfolder.SharedFolder
-	sharedFolders    map[string]*mo_sharedfolder.SharedFolder
-	namespaceMember  map[string][]mo_sharedfolder_member.Member
-	contextOpts      *contextOpts
+	err = ioutil.WriteFile(filepath.Join(z.storagePath, "context.json"), b, 0644)
+	if err != nil {
+		z.ctxExec.Log().Error("unable to store context", zap.Error(err))
+		return err
+	}
+	return nil
 }
 
 func (z *contextImpl) SetGroupsOnlyRelated(onlyRelated bool) {
-	z.contextOpts.groupsOnlyRelated = onlyRelated
+	z.ContextOpts.groupsOnlyRelated = onlyRelated
 	if s, e := z.storages[storageTagOptions]; e {
-		s.Report(z.contextOpts)
+		s.Report(z.ContextOpts)
 	} else {
 		z.ctxExec.Log().Error("unable to find storage")
 	}
@@ -188,11 +215,11 @@ func (z *contextImpl) AddNamespaceDetail(sharedFolder *mo_sharedfolder.SharedFol
 	} else {
 		z.ctxExec.Log().Error("unable to find storage")
 	}
-	z.namespaceDetails[sharedFolder.SharedFolderId] = sharedFolder
+	z.MapNamespaceDetails[sharedFolder.SharedFolderId] = sharedFolder
 }
 
 func (z *contextImpl) NamespaceDetails() (details map[string]*mo_sharedfolder.SharedFolder) {
-	return z.namespaceDetails
+	return z.MapNamespaceDetails
 }
 
 func (z *contextImpl) AddDestGroup(group *mo_group.Group) {
@@ -201,18 +228,18 @@ func (z *contextImpl) AddDestGroup(group *mo_group.Group) {
 	} else {
 		z.ctxExec.Log().Error("unable to find storage")
 	}
-	z.destGroups[group.GroupId] = group
+	z.MapDestGroups[group.GroupId] = group
 }
 
 func (z *contextImpl) DestGroups() (groups map[string]*mo_group.Group) {
-	return z.destGroups
+	return z.MapDestGroups
 }
 
 func (z *contextImpl) FilterByMigrationTarget(members []*mo_profile.Profile) (filtered []*mo_profile.Profile) {
 	filtered = make([]*mo_profile.Profile, 0)
 
 	for _, member := range members {
-		for _, marked := range z.members {
+		for _, marked := range z.MapMembers {
 			if member.TeamMemberId == marked.TeamMemberId {
 				filtered = append(filtered, member)
 				break
@@ -228,33 +255,33 @@ func (z *contextImpl) AddNamespace(namespace *mo_namespace.Namespace) {
 	} else {
 		z.ctxExec.Log().Error("unable to find storage")
 	}
-	z.namespaces[namespace.NamespaceId] = namespace
+	z.MapNamespaces[namespace.NamespaceId] = namespace
 }
 
 func (z *contextImpl) Namespaces() (namespaces map[string]*mo_namespace.Namespace) {
-	return z.namespaces
+	return z.MapNamespaces
 }
 
 func (z *contextImpl) GroupsOnlyRelated() bool {
-	return z.contextOpts.groupsOnlyRelated
+	return z.ContextOpts.groupsOnlyRelated
 }
 
 func (z *contextImpl) SetAdmins(src, dst *mo_profile.Profile) {
-	z.contextOpts.adminSrc = src
-	z.contextOpts.adminDst = dst
+	z.ContextOpts.adminSrc = src
+	z.ContextOpts.adminDst = dst
 	if s, e := z.storages[storageTagOptions]; e {
-		s.Report(z.contextOpts)
+		s.Report(z.ContextOpts)
 	} else {
 		z.ctxExec.Log().Error("unable to find storage")
 	}
 }
 
 func (z *contextImpl) AdminSrc() *mo_profile.Profile {
-	return z.contextOpts.adminSrc
+	return z.ContextOpts.adminSrc
 }
 
 func (z *contextImpl) AdminDst() *mo_profile.Profile {
-	return z.contextOpts.adminDst
+	return z.ContextOpts.adminDst
 }
 
 func (z *contextImpl) AddMember(member *mo_profile.Profile) {
@@ -263,7 +290,7 @@ func (z *contextImpl) AddMember(member *mo_profile.Profile) {
 	} else {
 		z.ctxExec.Log().Error("unable to find storage")
 	}
-	z.members[member.TeamMemberId] = member
+	z.MapMembers[member.TeamMemberId] = member
 }
 
 func (z *contextImpl) AddGroup(group *mo_group.Group) {
@@ -272,7 +299,7 @@ func (z *contextImpl) AddGroup(group *mo_group.Group) {
 	} else {
 		z.ctxExec.Log().Error("unable to find storage")
 	}
-	z.groups[group.GroupId] = group
+	z.MapGroups[group.GroupId] = group
 }
 
 func (z *contextImpl) AddGroupMember(group *mo_group.Group, member *mo_group_member.Member) {
@@ -283,13 +310,13 @@ func (z *contextImpl) AddGroupMember(group *mo_group.Group, member *mo_group_mem
 	}
 
 	var members []*mo_group_member.Member
-	if mem, e := z.groupMembers[group.GroupId]; !e {
+	if mem, e := z.MapGroupMembers[group.GroupId]; !e {
 		members = append(mem, member)
 	} else {
 		members = make([]*mo_group_member.Member, 0)
 		members = append(members, member)
 	}
-	z.groupMembers[group.GroupId] = members
+	z.MapGroupMembers[group.GroupId] = members
 }
 
 func (z *contextImpl) AddTeamFolder(teamFolder *mo_teamfolder.TeamFolder) {
@@ -298,7 +325,7 @@ func (z *contextImpl) AddTeamFolder(teamFolder *mo_teamfolder.TeamFolder) {
 	} else {
 		z.ctxExec.Log().Error("unable to find storage")
 	}
-	z.teamFolders[teamFolder.TeamFolderId] = teamFolder
+	z.MapTeamFolders[teamFolder.TeamFolderId] = teamFolder
 }
 
 func (z *contextImpl) AddSharedFolder(sharedFolder *mo_sharedfolder.SharedFolder) {
@@ -308,7 +335,7 @@ func (z *contextImpl) AddSharedFolder(sharedFolder *mo_sharedfolder.SharedFolder
 		z.ctxExec.Log().Error("unable to find storage")
 	}
 
-	z.sharedFolders[sharedFolder.SharedFolderId] = sharedFolder
+	z.MapSharedFolders[sharedFolder.SharedFolderId] = sharedFolder
 }
 
 func (z *contextImpl) AddNamespaceMember(namespace *mo_namespace.Namespace, member mo_sharedfolder_member.Member) {
@@ -319,25 +346,25 @@ func (z *contextImpl) AddNamespaceMember(namespace *mo_namespace.Namespace, memb
 	}
 
 	var members []mo_sharedfolder_member.Member
-	if mem, e := z.namespaceMember[namespace.NamespaceId]; e {
+	if mem, e := z.MapNamespaceMember[namespace.NamespaceId]; e {
 		members = append(mem, member)
 	} else {
 		members = make([]mo_sharedfolder_member.Member, 0)
 		members = append(members, member)
 	}
-	z.namespaceMember[namespace.NamespaceId] = members
+	z.MapNamespaceMember[namespace.NamespaceId] = members
 }
 
 func (z *contextImpl) Members() (members map[string]*mo_profile.Profile) {
-	return z.members
+	return z.MapMembers
 }
 
 func (z *contextImpl) Groups() (groups map[string]*mo_group.Group) {
-	return z.groups
+	return z.MapGroups
 }
 
 func (z *contextImpl) GroupMembers(group *mo_group.Group) (members []*mo_group_member.Member) {
-	if members, e := z.groupMembers[group.GroupId]; e {
+	if members, e := z.MapGroupMembers[group.GroupId]; e {
 		return members
 	} else {
 		z.ctxExec.Log().Warn("Group members not found", zap.String("groupId", group.GroupId))
@@ -346,15 +373,15 @@ func (z *contextImpl) GroupMembers(group *mo_group.Group) (members []*mo_group_m
 }
 
 func (z *contextImpl) SharedFolders() (folders map[string]*mo_sharedfolder.SharedFolder) {
-	return z.sharedFolders
+	return z.MapSharedFolders
 }
 
 func (z *contextImpl) TeamFolders() (folders map[string]*mo_teamfolder.TeamFolder) {
-	return z.teamFolders
+	return z.MapTeamFolders
 }
 
 func (z *contextImpl) NamespaceMembers(namespaceId string) (members []mo_sharedfolder_member.Member) {
-	if members, e := z.namespaceMember[namespaceId]; e {
+	if members, e := z.MapNamespaceMember[namespaceId]; e {
 		return members
 	} else {
 		z.ctxExec.Log().Warn("Namespace members not found", zap.String("namespaceId", namespaceId))
@@ -363,9 +390,9 @@ func (z *contextImpl) NamespaceMembers(namespaceId string) (members []mo_sharedf
 }
 
 func (z *contextImpl) SetContextTeamFolder(ctx uc_teamfolder_mirror.Context) {
-	z.ctxTeamFolder = ctx
+	z.CtxTeamFolder = ctx
 }
 
 func (z *contextImpl) ContextTeamFolder() uc_teamfolder_mirror.Context {
-	return z.ctxTeamFolder
+	return z.CtxTeamFolder
 }
