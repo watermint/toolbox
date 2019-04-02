@@ -137,19 +137,27 @@ func (z *migrationImpl) Resume(opts ...ResumeOpt) (ctx Context, err error) {
 			return nil, err
 		}
 		j := gjson.ParseBytes(b)
-		ctxImpl.MapNamespaceMember = make(map[string][]mo_sharedfolder_member.Member)
+		ctxImpl.MapNamespaceMember = make(map[string]map[string]mo_sharedfolder_member.Member)
 		if j.Exists() && j.IsObject() {
 			for k, ja := range j.Map() {
 				if ja.IsArray() {
-					var members []mo_sharedfolder_member.Member
-					members = make([]mo_sharedfolder_member.Member, 0)
+					var members map[string]mo_sharedfolder_member.Member
+					members = make(map[string]mo_sharedfolder_member.Member)
 					for _, je := range ja.Array() {
 						member := &mo_sharedfolder_member.Metadata{}
 						if err := api_parser.ParseModel(member, je.Get("Raw")); err != nil {
 							z.log().Error("Unable to parse", zap.Error(err), zap.String("entry", je.Raw))
 							return nil, err
 						}
-						members = append(members, member)
+						if u, e := member.User(); e {
+							members[u.TeamMemberId] = u
+						}
+						if g, e := member.Group(); e {
+							members[g.GroupId] = g
+						}
+						if i, e := member.Invitee(); e {
+							members[i.InviteeEmail] = i
+						}
 					}
 					ctxImpl.MapNamespaceMember[k] = members
 				}

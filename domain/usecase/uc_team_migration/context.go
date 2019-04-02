@@ -74,7 +74,7 @@ type Context interface {
 	DestGroups() (groups map[string]*mo_group.Group)
 
 	// Group members to migrate
-	GroupMembers(group *mo_group.Group) (members []*mo_group_member.Member)
+	GroupMembers(group *mo_group.Group) (members map[string]*mo_group_member.Member)
 
 	// Shared folders to migrate
 	SharedFolders() (folders map[string]*mo_sharedfolder.SharedFolder)
@@ -89,7 +89,7 @@ type Context interface {
 	NamespaceDetails() (details map[string]*mo_sharedfolder.SharedFolder)
 
 	// Members of namespace
-	NamespaceMembers(namespaceId string) (members []mo_sharedfolder_member.Member)
+	NamespaceMembers(namespaceId string) (members map[string]mo_sharedfolder_member.Member)
 
 	// Add nested namespace id and rel path
 	NestedNamespaceIdToRelPath() (paths map[string]string)
@@ -129,12 +129,12 @@ func newContext(ctxExec *app.ExecContext) Context {
 		MapMembers:                    make(map[string]*mo_profile.Profile),
 		MapDestGroups:                 make(map[string]*mo_group.Group),
 		MapGroups:                     make(map[string]*mo_group.Group),
-		MapGroupMembers:               make(map[string][]*mo_group_member.Member),
+		MapGroupMembers:               make(map[string]map[string]*mo_group_member.Member),
 		MapTeamFolders:                make(map[string]*mo_teamfolder.TeamFolder),
 		MapNamespaces:                 make(map[string]*mo_namespace.Namespace),
 		MapNamespaceDetails:           make(map[string]*mo_sharedfolder.SharedFolder),
 		MapSharedFolders:              make(map[string]*mo_sharedfolder.SharedFolder),
-		MapNamespaceMember:            make(map[string][]mo_sharedfolder_member.Member),
+		MapNamespaceMember:            make(map[string]map[string]mo_sharedfolder_member.Member),
 		MapNestedNamespaceIdToRelPath: make(map[string]string),
 		ContextOpts:                   &contextOpts{},
 	}
@@ -149,22 +149,22 @@ type contextOpts struct {
 }
 
 type contextImpl struct {
-	ctxExec            *app.ExecContext                           `json:"-"`
-	storages           map[string]app_report.Report               `json:"-"`
-	storagePath        string                                     `json:"-"`
-	ctxTeamFolder      uc_teamfolder_mirror.Context               `json:"-"`
-	MapNamespaceMember map[string][]mo_sharedfolder_member.Member `json:"-"`
+	ctxExec            *app.ExecContext                                    `json:"-"`
+	storages           map[string]app_report.Report                        `json:"-"`
+	storagePath        string                                              `json:"-"`
+	ctxTeamFolder      uc_teamfolder_mirror.Context                        `json:"-"`
+	MapNamespaceMember map[string]map[string]mo_sharedfolder_member.Member `json:"-"`
 
-	MapMembers                    map[string]*mo_profile.Profile           `json:"members"`
-	MapDestGroups                 map[string]*mo_group.Group               `json:"dest_groups"`
-	MapGroups                     map[string]*mo_group.Group               `json:"groups"`
-	MapGroupMembers               map[string][]*mo_group_member.Member     `json:"group_members"`
-	MapTeamFolders                map[string]*mo_teamfolder.TeamFolder     `json:"team_folders"`
-	MapNamespaces                 map[string]*mo_namespace.Namespace       `json:"namespaces"`
-	MapNamespaceDetails           map[string]*mo_sharedfolder.SharedFolder `json:"namespace_details"`
-	MapSharedFolders              map[string]*mo_sharedfolder.SharedFolder `json:"shared_folders"`
-	MapNestedNamespaceIdToRelPath map[string]string                        `json:"nested_namespace_id_to_rel_path"`
-	ContextOpts                   *contextOpts                             `json:"context_opts"`
+	MapMembers                    map[string]*mo_profile.Profile                `json:"members"`
+	MapDestGroups                 map[string]*mo_group.Group                    `json:"dest_groups"`
+	MapGroups                     map[string]*mo_group.Group                    `json:"groups"`
+	MapGroupMembers               map[string]map[string]*mo_group_member.Member `json:"group_members"`
+	MapTeamFolders                map[string]*mo_teamfolder.TeamFolder          `json:"team_folders"`
+	MapNamespaces                 map[string]*mo_namespace.Namespace            `json:"namespaces"`
+	MapNamespaceDetails           map[string]*mo_sharedfolder.SharedFolder      `json:"namespace_details"`
+	MapSharedFolders              map[string]*mo_sharedfolder.SharedFolder      `json:"shared_folders"`
+	MapNestedNamespaceIdToRelPath map[string]string                             `json:"nested_namespace_id_to_rel_path"`
+	ContextOpts                   *contextOpts                                  `json:"context_opts"`
 }
 
 func (z *contextImpl) init(ec *app.ExecContext) {
@@ -368,13 +368,13 @@ func (z *contextImpl) AddGroupMember(group *mo_group.Group, member *mo_group_mem
 		z.ctxExec.Log().Error("unable to find storage")
 	}
 
-	var members []*mo_group_member.Member
-	if mem, e := z.MapGroupMembers[group.GroupId]; !e {
-		members = append(mem, member)
+	var members map[string]*mo_group_member.Member
+	if mem, e := z.MapGroupMembers[group.GroupId]; e {
+		members = mem
 	} else {
-		members = make([]*mo_group_member.Member, 0)
-		members = append(members, member)
+		members = make(map[string]*mo_group_member.Member)
 	}
+	members[member.TeamMemberId] = member
 	z.MapGroupMembers[group.GroupId] = members
 }
 
@@ -404,13 +404,22 @@ func (z *contextImpl) AddNamespaceMember(namespace *mo_namespace.Namespace, memb
 		z.ctxExec.Log().Error("unable to find storage")
 	}
 
-	var members []mo_sharedfolder_member.Member
+	var members map[string]mo_sharedfolder_member.Member
 	if mem, e := z.MapNamespaceMember[namespace.NamespaceId]; e {
-		members = append(mem, member)
+		members = mem
 	} else {
-		members = make([]mo_sharedfolder_member.Member, 0)
-		members = append(members, member)
+		members = make(map[string]mo_sharedfolder_member.Member)
 	}
+	if u, e := member.User(); e {
+		members[u.TeamMemberId] = u
+	}
+	if g, e := member.Group(); e {
+		members[g.GroupId] = g
+	}
+	if i, e := member.Invitee(); e {
+		members[i.InviteeEmail] = i
+	}
+
 	z.MapNamespaceMember[namespace.NamespaceId] = members
 }
 
@@ -422,12 +431,12 @@ func (z *contextImpl) Groups() (groups map[string]*mo_group.Group) {
 	return z.MapGroups
 }
 
-func (z *contextImpl) GroupMembers(group *mo_group.Group) (members []*mo_group_member.Member) {
+func (z *contextImpl) GroupMembers(group *mo_group.Group) (members map[string]*mo_group_member.Member) {
 	if members, e := z.MapGroupMembers[group.GroupId]; e {
 		return members
 	} else {
 		z.ctxExec.Log().Warn("Group members not found", zap.String("groupId", group.GroupId))
-		return make([]*mo_group_member.Member, 0)
+		return make(map[string]*mo_group_member.Member)
 	}
 }
 
@@ -439,12 +448,12 @@ func (z *contextImpl) TeamFolders() (folders map[string]*mo_teamfolder.TeamFolde
 	return z.MapTeamFolders
 }
 
-func (z *contextImpl) NamespaceMembers(namespaceId string) (members []mo_sharedfolder_member.Member) {
+func (z *contextImpl) NamespaceMembers(namespaceId string) (members map[string]mo_sharedfolder_member.Member) {
 	if members, e := z.MapNamespaceMember[namespaceId]; e {
 		return members
 	} else {
 		z.ctxExec.Log().Warn("Namespace members not found", zap.String("namespaceId", namespaceId))
-		return make([]mo_sharedfolder_member.Member, 0)
+		return make(map[string]mo_sharedfolder_member.Member)
 	}
 }
 
