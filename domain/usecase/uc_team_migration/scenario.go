@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/domain/service/sv_file_url"
 	"github.com/watermint/toolbox/domain/service/sv_group"
+	"github.com/watermint/toolbox/domain/service/sv_group_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_profile"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder"
@@ -389,13 +390,18 @@ const (
 	// Access: MemberA03(owner), MemberA02(editor), Individual01(editor)
 	teamOwnedSharedFolderName = testNamePrefix + "SF-Prj-Team"
 
-	// Team folder: Sales
+	// Team folder:
 	// Sales (Group: Sales)
 	// +- Sales East (Group: Sales East)
 	// +- Sales West (MemberA04)
 	// Eng (Group: Eng)
 	// +- Eng East (Individual01)
 	// +- Eng West
+
+	// Group:
+	// Sales (A02, A03)
+	// Sales-East (A04)
+	// Eng (A04)
 
 	groupSalesName     = testNamePrefix + "G-Sales"
 	groupSalesEastName = testNamePrefix + "G-Sales-East"
@@ -584,6 +590,75 @@ func (z *Scenario) Create() (err error) {
 		return nil
 	}
 	if err = createGroups(); err != nil {
+		return err
+	}
+
+	// Add members to groups
+	addMemberToGroups := func() error {
+		// Sales (A02, A03)
+		// Sales-East (A04)
+		// Eng (A04)
+
+		salesGroup := groupsByName[groupSalesName]
+		salesEastGroup := groupsByName[groupSalesEastName]
+		engGroup := groupsByName[groupEngName]
+
+		svm := sv_member.New(z.ctxTeamAMgmt)
+		ma02, err := svm.ResolveByEmail(z.actors.TeamAMember02)
+		if err != nil {
+			z.log().Error("Unable to resolve", zap.Error(err))
+			return err
+		}
+		ma03, err := svm.ResolveByEmail(z.actors.TeamAMember03)
+		if err != nil {
+			z.log().Error("Unable to resolve", zap.Error(err))
+			return err
+		}
+		ma04, err := svm.ResolveByEmail(z.actors.TeamAMember04)
+		if err != nil {
+			z.log().Error("Unable to resolve", zap.Error(err))
+			return err
+		}
+
+		{
+			l := z.log().With(zap.String("groupName", salesGroup.GroupName), zap.String("member", ma02.Email))
+			l.Info("Adding member to group")
+			_, err = sv_group_member.New(z.ctxTeamAMgmt, salesGroup).Add(sv_group_member.ByTeamMemberId(ma02.TeamMemberId))
+			if err != nil {
+				l.Error("Unable to add", zap.Error(err))
+				return err
+			}
+		}
+		{
+			l := z.log().With(zap.String("groupName", salesGroup.GroupName), zap.String("member", ma03.Email))
+			l.Info("Adding member to group")
+			_, err = sv_group_member.New(z.ctxTeamAMgmt, salesGroup).Add(sv_group_member.ByTeamMemberId(ma03.TeamMemberId))
+			if err != nil {
+				l.Error("Unable to add", zap.Error(err))
+				return err
+			}
+		}
+		{
+			l := z.log().With(zap.String("groupName", salesEastGroup.GroupName), zap.String("member", ma04.Email))
+			l.Info("Adding member to group")
+			_, err = sv_group_member.New(z.ctxTeamAMgmt, salesEastGroup).Add(sv_group_member.ByTeamMemberId(ma04.TeamMemberId))
+			if err != nil {
+				l.Error("Unable to add", zap.Error(err))
+				return err
+			}
+		}
+		{
+			l := z.log().With(zap.String("groupName", engGroup.GroupName), zap.String("member", ma04.Email))
+			l.Info("Adding member to group")
+			_, err = sv_group_member.New(z.ctxTeamAMgmt, engGroup).Add(sv_group_member.ByTeamMemberId(ma04.TeamMemberId))
+			if err != nil {
+				l.Error("Unable to add", zap.Error(err))
+				return err
+			}
+		}
+		return nil
+	}
+	if err = addMemberToGroups(); err != nil {
 		return err
 	}
 

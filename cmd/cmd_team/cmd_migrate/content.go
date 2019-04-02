@@ -173,6 +173,9 @@ func (z *CmdTeamMigrateContent) Exec(args []string) {
 			ctxFileSrc.ErrorMsg(err).TellError()
 			return
 		}
+		if err = ucm.Inspect(mc); err != nil {
+			ctxFileSrc.ErrorMsg(err).TellError()
+		}
 		if err = ucm.Content(mc); err != nil {
 			ctxFileSrc.ErrorMsg(err).TellError()
 		}
@@ -180,6 +183,9 @@ func (z *CmdTeamMigrateContent) Exec(args []string) {
 		mc, err := ucm.Resume(uc_team_migration.ResumeExecContext(z.ExecContext), uc_team_migration.ResumeFromPath(z.optResume))
 		if err != nil {
 			return
+		}
+		if err = ucm.Inspect(mc); err != nil {
+			ctxFileSrc.ErrorMsg(err).TellError()
 		}
 		if err = ucm.Content(mc); err != nil {
 			ctxFileSrc.ErrorMsg(err).TellError()

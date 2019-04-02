@@ -113,7 +113,7 @@ func (z *CmdGroupMemberAdd) Exec(args []string) {
 				msg.TellError()
 				continue
 			} else {
-				_, err := sv_group_member.New(ctx, g).Add([]string{member.TeamMemberId})
+				_, err := sv_group_member.New(ctx, g).Add(sv_group_member.ByTeamMemberId(member.TeamMemberId))
 				if err != nil {
 					switch {
 					case strings.HasPrefix(api_util.ErrorSummary(err), "duplicate_user"):

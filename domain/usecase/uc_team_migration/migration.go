@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
+	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
@@ -342,10 +343,6 @@ func (z *migrationImpl) Preflight(ctx Context) (err error) {
 
 func (z *migrationImpl) Migrate(ctx Context) (err error) {
 	if err = z.Bridge(ctx); err != nil {
-		return err
-	}
-
-	if err = z.Content(ctx); err != nil {
 		return err
 	}
 
@@ -873,6 +870,36 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 		return err
 	}
 
+	// add members to groups
+	z.log().Info("Permissions: add members to groups")
+	addMembersToGroups := func() error {
+		for gn, srcGrp := range groupNameToSrcGroup {
+			dstGrp, e := groupNameToDstGroup[gn]
+			l := z.log().With(zap.String("groupName", gn), zap.String("srcGroupId", srcGrp.GroupId))
+			if !e {
+				l.Error("Unable to find dest group")
+				return errors.New("unable to find dest group")
+			}
+
+			l = l.With(zap.String("dstGroupId", dstGrp.GroupId))
+
+			members := ctx.GroupMembers(srcGrp) // lookup by src group
+			sgm := sv_group_member.New(z.ctxMgtDst, dstGrp)
+			for _, member := range members {
+				l.Info("Adding member to group", zap.String("member", member.Email))
+				_, err = sgm.Add(sv_group_member.ByEmail(member.Email))
+				if err != nil {
+					// do not abort, just log
+					l.Error("Unable to add member to group")
+				}
+			}
+		}
+		return nil
+	}
+	if err = addMembersToGroups(); err != nil {
+		return err
+	}
+
 	// create map src group id to dst group
 	z.log().Info("Permissions: mapping source to destination groups")
 	createSrcGroupIdToDstGroupMap := func() error {
@@ -891,28 +918,49 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 		return err
 	}
 
+	nameToDestTeamFolders := make(map[string]*mo_teamfolder.TeamFolder)
+	createDestTeamFolderMap := func() error {
+		folders, err := sv_teamfolder.New(z.ctxFileDst).List()
+		if err != nil {
+			z.log().Error("Unable to resolve dest team folders", zap.Error(err))
+			return err
+		}
+		for _, folder := range folders {
+			nameToDestTeamFolders[strings.ToLower(folder.Name)] = folder
+		}
+		return nil
+	}
+	if err = createDestTeamFolderMap(); err != nil {
+		return err
+	}
+
 	// restore permission for team folders
 	z.log().Info("Permissions: restore permission of team folders")
 	restorePermissionTeamFolder := func() error {
-		for _, tf := range ctx.TeamFolders() {
-
-			z.log().Info("Permissions: restore permission of team folder", zap.String("name", tf.Name))
-			members := ctx.NamespaceMembers(tf.TeamFolderId)
-			ctf := z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId)
-			for _, member := range members {
-				if srcGrp, e := member.Group(); e {
-					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, tf.TeamFolderId)
-					if dstGrp, e := srcGroupIdToDstGroup[srcGrp.GroupId]; !e {
-						z.log().Error("Unable to find mapping of src-dst group", zap.String("srcGroup", srcGrp.GroupId), zap.String("srcGroupName", srcGrp.GroupName))
-						return err
-					} else {
-						if err = svm.Add(sv_sharedfolder_member.AddByGroup(dstGrp, member.AccessType())); err != nil {
-							z.log().Error("Unable to add group to team folder", zap.String("teamFolder", tf.TeamFolderId), zap.String("teamFolderName", tf.Name), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+		for _, stf := range ctx.TeamFolders() {
+			l := z.log().With(zap.String("teamFolderName", stf.Name), zap.String("srcTeamFolderId", stf.TeamFolderId))
+			// resolve team folder in dst
+			if dtf, e := nameToDestTeamFolders[strings.ToLower(stf.Name)]; !e {
+				l.Error("Unable to find dest team folder")
+			} else {
+				l.Info("Permissions: restore permission of team folder")
+				members := ctx.NamespaceMembers(stf.TeamFolderId)
+				ctf := z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId)
+				for _, member := range members {
+					if srcGrp, e := member.Group(); e {
+						svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, dtf.TeamFolderId)
+						if dstGrp, e := srcGroupIdToDstGroup[srcGrp.GroupId]; !e {
+							l.Error("Unable to find mapping of src-dst group", zap.String("srcGroup", srcGrp.GroupId), zap.String("srcGroupName", srcGrp.GroupName))
+							return err
+						} else {
+							if err = svm.Add(sv_sharedfolder_member.AddByGroup(dstGrp, member.AccessType())); err != nil {
+								l.Error("Unable to add group to team folder", zap.String("destTeamFolderId", dtf.TeamFolderId), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+							}
 						}
 					}
-				}
-				if u, e := member.User(); e {
-					z.log().Error("Team folder should not have individual sharing member", zap.String("teamFolder", tf.TeamFolderId), zap.String("teamFolderName", tf.Name), zap.String("member", u.Email))
+					if u, e := member.User(); e {
+						l.Error("Team folder should not have individual sharing member", zap.String("destTeamFolderId", dtf.TeamFolderId), zap.String("member", u.Email))
+					}
 				}
 			}
 		}

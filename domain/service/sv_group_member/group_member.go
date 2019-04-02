@@ -9,8 +9,30 @@ import (
 
 type GroupMember interface {
 	List() (members []*mo_group_member.Member, err error)
-	Add(teamMemberIds []string) (group *mo_group.Group, err error)
-	Remove(teamMemberIds []string) (group *mo_group.Group, err error)
+	Add(members ...MemberOpt) (group *mo_group.Group, err error)
+	Remove(members ...MemberOpt) (group *mo_group.Group, err error)
+}
+
+type MemberOpt func(opt *memberOpts) *memberOpts
+type memberOpts struct {
+	tag          string
+	teamMemberId string
+	email        string
+}
+
+func ByEmail(email string) MemberOpt {
+	return func(opt *memberOpts) *memberOpts {
+		opt.tag = "email"
+		opt.email = email
+		return opt
+	}
+}
+func ByTeamMemberId(teamMemberId string) MemberOpt {
+	return func(opt *memberOpts) *memberOpts {
+		opt.tag = "team_member_id"
+		opt.teamMemberId = teamMemberId
+		return opt
+	}
 }
 
 func New(ctx api_context.Context, group *mo_group.Group) GroupMember {
@@ -67,27 +89,31 @@ func (z *groupMemberImpl) List() (members []*mo_group_member.Member, err error) 
 	return members, nil
 }
 
-func (z *groupMemberImpl) Add(teamMemberIds []string) (group *mo_group.Group, err error) {
+func (z *groupMemberImpl) Add(members ...MemberOpt) (group *mo_group.Group, err error) {
 	type GS struct {
 		Tag     string `json:".tag"`
 		GroupId string `json:"group_id"`
 	}
 	type U struct {
 		Tag          string `json:".tag"`
-		TeamMemberId string `json:"team_member_id"`
+		TeamMemberId string `json:"team_member_id,omitempty"`
+		Email        string `json:"email,omitempty"`
 	}
 	type M struct {
 		User       U      `json:"user"`
 		AccessType string `json:"access_type"`
 	}
 
-	members := make([]*M, 0)
-	for _, m := range teamMemberIds {
-		members = append(members, &M{
+	mm := make([]*M, 0)
+	for _, m := range members {
+		mo := &memberOpts{}
+		m(mo)
+		mm = append(mm, &M{
 			AccessType: "member",
 			User: U{
-				Tag:          "team_member_id",
-				TeamMemberId: m,
+				Tag:          mo.tag,
+				TeamMemberId: mo.teamMemberId,
+				Email:        mo.email,
 			},
 		})
 	}
@@ -100,7 +126,7 @@ func (z *groupMemberImpl) Add(teamMemberIds []string) (group *mo_group.Group, er
 			Tag:     "group_id",
 			GroupId: z.groupId,
 		},
-		Members:       members,
+		Members:       mm,
 		ReturnMembers: false,
 	}
 
@@ -118,22 +144,27 @@ func (z *groupMemberImpl) Add(teamMemberIds []string) (group *mo_group.Group, er
 	return group, nil
 }
 
-func (z *groupMemberImpl) Remove(teamMemberIds []string) (group *mo_group.Group, err error) {
+func (z *groupMemberImpl) Remove(members ...MemberOpt) (group *mo_group.Group, err error) {
 	type GS struct {
 		Tag     string `json:".tag"`
 		GroupId string `json:"group_id"`
 	}
 	type U struct {
 		Tag          string `json:".tag"`
-		TeamMemberId string `json:"team_member_id"`
+		TeamMemberId string `json:"team_member_id,omitempty"`
+		Email        string `json:"email,omitempty"`
 	}
 	users := make([]*U, 0)
-	for _, m := range teamMemberIds {
+	for _, m := range members {
+		mo := &memberOpts{}
+		m(mo)
 		users = append(users, &U{
-			Tag:          "team_member_id",
-			TeamMemberId: m,
+			Tag:          mo.tag,
+			TeamMemberId: mo.teamMemberId,
+			Email:        mo.email,
 		})
 	}
+
 	p := struct {
 		Group         GS   `json:"group"`
 		Users         []*U `json:"users"`

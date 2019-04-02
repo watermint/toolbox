@@ -429,11 +429,11 @@ func (z *teamFolderImpl) Bridge(ctx Context) (err error) {
 	z.log().Debug("Groups created", zap.String("srcGroupId", groupSrc.GroupId), zap.String("dstGroupId", groupDst.GroupId), zap.String("groupName", groupName))
 
 	// Add admins to groups
-	_, err = sv_group_member.New(z.ctxMgtSrc, groupSrc).Add([]string{ctx.AdminSrc().TeamMemberId})
+	_, err = sv_group_member.New(z.ctxMgtSrc, groupSrc).Add(sv_group_member.ByTeamMemberId(ctx.AdminSrc().TeamMemberId))
 	if err != nil {
 		return err
 	}
-	_, err = sv_group_member.New(z.ctxMgtDst, groupDst).Add([]string{ctx.AdminDst().TeamMemberId})
+	_, err = sv_group_member.New(z.ctxMgtDst, groupDst).Add(sv_group_member.ByTeamMemberId(ctx.AdminDst().TeamMemberId))
 	if err != nil {
 		return err
 	}
