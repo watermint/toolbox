@@ -1,6 +1,7 @@
 package api_util
 
 import (
+	"encoding/json"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"regexp"
 )
@@ -18,6 +19,17 @@ func ErrorSummary(err error) string {
 
 	default:
 		return ""
+	}
+}
+
+// Returns `error_summary` if an error is ApiError. Otherwise return "".
+func ErrorBody(err error) json.RawMessage {
+	switch re := err.(type) {
+	case api_rpc.ApiError:
+		return re.ErrorBody
+
+	default:
+		return nil
 	}
 }
 
