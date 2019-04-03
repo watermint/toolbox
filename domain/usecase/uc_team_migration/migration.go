@@ -140,17 +140,17 @@ func (z *migrationImpl) Resume(opts ...ResumeOpt) (ctx Context, err error) {
 		ctxImpl.MapNamespaceMember = make(map[string]map[string]mo_sharedfolder_member.Member)
 		if j.Exists() && j.IsObject() {
 			for k, ja := range j.Map() {
-				if ja.IsArray() {
+				if ja.IsObject() {
 					var members map[string]mo_sharedfolder_member.Member
 					members = make(map[string]mo_sharedfolder_member.Member)
-					for _, je := range ja.Array() {
+					for _, je := range ja.Map() {
 						member := &mo_sharedfolder_member.Metadata{}
 						if err := api_parser.ParseModel(member, je.Get("Raw")); err != nil {
 							z.log().Error("Unable to parse", zap.Error(err), zap.String("entry", je.Raw))
 							return nil, err
 						}
 						if u, e := member.User(); e {
-							members[u.TeamMemberId] = u
+							members[u.Email] = u
 						}
 						if g, e := member.Group(); e {
 							members[g.GroupId] = g
@@ -695,7 +695,7 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 					sfId := j.Get("sharing_info.shared_folder_id")
 					childPath := path.ChildPath(f.Name())
 					if sfId.Exists() {
-						ctx.AddNestedNamespaceIdToRelPath(sfId.String(), childPath.Path())
+						ctx.AddNestedFolderPath(tf.Name, childPath.Path(), sfId.String())
 					}
 					if err = scanPath(ctf, childPath); err != nil {
 						return err
@@ -942,8 +942,12 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 				l.Info("Adding member to group", zap.String("member", member.Email))
 				_, err = sgm.Add(sv_group_member.ByEmail(member.Email))
 				if err != nil {
-					// do not abort, just log
-					l.Error("Unable to add member to group")
+					if strings.HasPrefix(api_util.ErrorSummary(err), "duplicate_user") {
+						l.Debug("The member already added")
+					} else {
+						l.Error("Unable to add member to group", zap.Error(err))
+						return err
+					}
 				}
 			}
 		}
@@ -1026,7 +1030,6 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	// restore permissions for nested folders
 	z.log().Info("Permissions: restore permission of nested folders")
 	restorePermissionNestedFolder := func() error {
-		nestedToPath := ctx.NestedNamespaceIdToRelPath()
 		dstFolders, err := sv_teamfolder.New(z.ctxFileDst).List()
 		if err != nil {
 			z.log().Error("Unable to retrieve team folders of dest team", zap.Error(err))
@@ -1037,67 +1040,70 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 			nameToDestTeamFolder[strings.ToLower(f.Name)] = f
 		}
 
-		for _, folder := range ctx.NamespaceDetails() {
-			l := z.log().With(zap.String("name", folder.Name))
-			if !folder.IsInsideTeamFolder || folder.IsTeamFolder {
-				continue
-			}
-			relPath, e := nestedToPath[folder.SharedFolderId]
+		for _, srcTeamFolder := range ctx.TeamFolders() {
+			l := z.log().With(zap.String("teamFolderName", srcTeamFolder.Name))
+			dstTeamFolder, e := nameToDestTeamFolder[strings.ToLower(srcTeamFolder.Name)]
 			if !e {
-				z.log().Error("Unable to find relative path of nested folder", zap.String("srcNamespaceId", folder.SharedFolderId))
-				continue
+				l.Warn("Unable to find src-dst team folder map")
+				return errors.New("unable to find src-dst map")
 			}
-			dstFolder, e := nameToDestTeamFolders[strings.ToLower(folder.Name)]
+
+			nestedFolders, e := ctx.NestedFolderPath(srcTeamFolder.Name)
 			if !e {
-				z.log().Error("Unable to map src-dst team folder")
+				l.Info("Nested folders not found for team folder")
 				continue
 			}
 
-			// create nested folder
-			svs := sv_sharedfolder.New(z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId).WithPath(api_context.Namespace(dstFolder.TeamFolderId)))
-			nf, err := svs.Create(mo_path.NewPath(relPath))
-			if err != nil {
-				if strings.Contains(api_util.ErrorSummary(err), "bad_path/already_shared") {
-					z.log().Debug("Skip: already shared")
-					eb := api_util.ErrorBody(err)
-					if eb == nil {
-						z.log().Error("Unable to verify nested folder", zap.Error(err))
-						continue
-					}
-					j := gjson.ParseBytes(eb)
-					badPath := j.Get("bad_path")
-					nf = &mo_sharedfolder.SharedFolder{}
-					if err = api_parser.ParseModel(nf, badPath); err != nil {
-						z.log().Error("Unable to verify netsed folder", zap.Error(err))
-						continue
-					}
-					z.log().Debug("Nested folder", zap.String("namespaceId", nf.SharedFolderId))
+			for relPath, srcNestedFolderId := range nestedFolders {
+				ll := l.With(zap.String("dstTeamFolderId", dstTeamFolder.TeamFolderId), zap.String("relPath", relPath), zap.String("srcNestedFolderId", srcNestedFolderId))
+				ll.Info("Restore permissions of nested folder")
 
-				} else {
-					z.log().Error("Unable to create nested folder", zap.Error(err))
-					continue
-				}
-			}
+				// create nested folder
+				svs := sv_sharedfolder.New(z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId).WithPath(api_context.Namespace(dstTeamFolder.TeamFolderId)))
+				nf, err := svs.Create(mo_path.NewPath(relPath))
+				if err != nil {
+					if strings.Contains(api_util.ErrorSummary(err), "bad_path/already_shared") {
+						ll.Debug("Skip: already shared")
+						eb := api_util.ErrorBody(err)
+						if eb == nil {
+							ll.Error("Unable to verify nested folder", zap.Error(err))
+							continue
+						}
+						j := gjson.ParseBytes(eb)
+						badPath := j.Get("bad_path")
+						nf = &mo_sharedfolder.SharedFolder{}
+						if err = api_parser.ParseModel(nf, badPath); err != nil {
+							ll.Error("Unable to verify nested folder", zap.Error(err))
+							continue
+						}
+						ll.Debug("Nested folder", zap.String("namespaceId", nf.SharedFolderId))
 
-			l.Info("Permissions: restore permission of nested folder")
-			members := ctx.NamespaceMembers(folder.SharedFolderId) // get members from src namespace id
-			ctf := z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId)
-			for _, member := range members {
-				if srcGrp, e := member.Group(); e {
-					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, nf.SharedFolderId) // add member by new nested folder namespace id
-					if dstGrp, e := srcGroupIdToDstGroup[srcGrp.GroupId]; !e {
-						l.Error("Unable to find mapping of src-dst group", zap.String("srcGroup", srcGrp.GroupId), zap.String("srcGroupName", srcGrp.GroupName))
-						return err
 					} else {
-						if err = svm.Add(sv_sharedfolder_member.AddByGroup(dstGrp, member.AccessType())); err != nil {
-							l.Error("Unable to add group to nested folder", zap.String("folderId", nf.SharedFolderId), zap.String("folderName", folder.Name), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+						ll.Error("Unable to create nested folder", zap.Error(err))
+						continue
+					}
+				}
+
+				ll.Info("Permissions: restore permission of nested folder")
+				members := ctx.NamespaceMembers(srcNestedFolderId) // get members from src namespace id
+				ctf := z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId)
+				for _, member := range members {
+					if srcGrp, e := member.Group(); e {
+						svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, nf.SharedFolderId) // add member by new nested folder namespace id
+						if dstGrp, e := srcGroupIdToDstGroup[srcGrp.GroupId]; !e {
+							ll.Error("Unable to find mapping of src-dst group", zap.String("srcGroup", srcGrp.GroupId), zap.String("srcGroupName", srcGrp.GroupName))
+							return err
+						} else {
+							if err = svm.Add(sv_sharedfolder_member.AddByGroup(dstGrp, member.AccessType())); err != nil {
+								ll.Error("Unable to add group to nested folder", zap.String("folderId", nf.SharedFolderId), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+							}
 						}
 					}
-				}
-				if u, e := member.User(); e {
-					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, nf.SharedFolderId)
-					if err = svm.Add(sv_sharedfolder_member.AddByEmail(u.Email, member.AccessType())); err != nil {
-						l.Error("Unable to add member to nested folder", zap.String("folderId", nf.SharedFolderId), zap.String("folderName", folder.Name), zap.String("member", u.Email), zap.Error(err))
+					if u, e := member.User(); e {
+						svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, nf.SharedFolderId)
+						if err = svm.Add(sv_sharedfolder_member.AddByEmail(u.Email, member.AccessType())); err != nil {
+							ll.Error("Unable to add member to nested folder", zap.String("folderId", nf.SharedFolderId), zap.String("member", u.Email), zap.Error(err))
+						}
 					}
 				}
 			}
@@ -1111,8 +1117,9 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	// restore permissions for shared folders
 	z.log().Info("Permissions: restore permission of shared folders")
 	restorePermissionSharedFolder := func() error {
-		for _, folder := range ctx.NamespaceDetails() {
-			if folder.IsInsideTeamFolder || folder.IsTeamFolder {
+		for _, folder := range ctx.SharedFolders() {
+			if folder.IsTeamFolder || folder.IsInsideTeamFolder {
+				z.log().Debug("Skip team folder & nested folder", zap.String("name", folder.Name))
 				continue
 			}
 
