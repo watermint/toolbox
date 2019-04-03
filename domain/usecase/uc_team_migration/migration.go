@@ -723,26 +723,26 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 	return nil
 }
 
+func (z *migrationImpl) isTeamOwnedSharedFolder(ctx Context, namespaceId string) (user *mo_sharedfolder_member.User, exist bool) {
+	members := ctx.NamespaceMembers(namespaceId)
+	for _, member := range members {
+		if member.AccessType() == sv_sharedfolder_member.LevelOwner {
+			if u, e := member.User(); e {
+				return u, u.SameTeam
+			}
+			if g, e := member.Group(); e {
+				z.log().Error("Group should not owner of shared folder", zap.String("groupId", g.GroupId), zap.String("groupName", g.GroupName))
+				return nil, false
+			}
+		}
+	}
+	return nil, false
+}
+
 func (z *migrationImpl) Bridge(ctx Context) (err error) {
 	// bridge team folders
 	if err = z.teamFolderMirror.Bridge(ctx.ContextTeamFolder()); err != nil {
 		return err
-	}
-
-	isTeamOwnedSharedFolder := func(namespaceId string) (user *mo_sharedfolder_member.User, exist bool) {
-		members := ctx.NamespaceMembers(namespaceId)
-		for _, member := range members {
-			if member.AccessType() == sv_sharedfolder_member.LevelOwner {
-				if u, e := member.User(); e {
-					return u, u.SameTeam
-				}
-				if g, e := member.Group(); e {
-					z.log().Error("Group should not owner of shared folder", zap.String("groupId", g.GroupId), zap.String("groupName", g.GroupName))
-					return nil, false
-				}
-			}
-		}
-		return nil, false
 	}
 
 	// bridge shared folders
@@ -756,7 +756,7 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 			}
 
 			if f, e := folderTargets[namespace.NamespaceId]; e {
-				owner, sameTeam := isTeamOwnedSharedFolder(namespace.NamespaceId)
+				owner, sameTeam := z.isTeamOwnedSharedFolder(ctx, namespace.NamespaceId)
 				if !sameTeam {
 					z.log().Debug("Skip non team owned shared folder", zap.String("namespaceId", namespace.NamespaceId), zap.String("name", namespace.Name))
 					continue
@@ -1118,30 +1118,47 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	z.log().Info("Permissions: restore permission of shared folders")
 	restorePermissionSharedFolder := func() error {
 		for _, folder := range ctx.SharedFolders() {
+			l := z.log().With(zap.String("name", folder.Name))
 			if folder.IsTeamFolder || folder.IsInsideTeamFolder {
-				z.log().Debug("Skip team folder & nested folder", zap.String("name", folder.Name))
+				l.Debug("Skip team folder & nested folder")
 				continue
 			}
+			owner, sameTeam := z.isTeamOwnedSharedFolder(ctx, folder.SharedFolderId)
+			if !sameTeam {
+				l.Debug("Skip non team owned folder")
+				continue
+			}
+			ownerMember, err := sv_member.New(z.ctxMgtDst).ResolveByEmail(owner.Email)
+			if err != nil {
+				l.Error("Unable to resolve folder owner user", zap.String("email", owner.Email), zap.Error(err))
+				return err
+			}
 
-			z.log().Info("Permissions: restore permission of shared folder", zap.String("name", folder.Name))
+			l.Info("Permissions: restore permission of shared folder")
+
 			members := ctx.NamespaceMembers(folder.SharedFolderId)
-			ctf := z.ctxFileDst.AsMemberId(ctx.AdminDst().TeamMemberId)
+			ctf := z.ctxFileDst.AsMemberId(ownerMember.TeamMemberId)
 			for _, member := range members {
 				if srcGrp, e := member.Group(); e {
 					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
 					if dstGrp, e := srcGroupIdToDstGroup[srcGrp.GroupId]; !e {
-						z.log().Error("Unable to find mapping of src-dst group", zap.String("srcGroup", srcGrp.GroupId), zap.String("srcGroupName", srcGrp.GroupName))
+						l.Error("Unable to find mapping of src-dst group", zap.String("srcGroup", srcGrp.GroupId), zap.String("srcGroupName", srcGrp.GroupName))
 						return err
 					} else {
 						if err = svm.Add(sv_sharedfolder_member.AddByGroup(dstGrp, member.AccessType())); err != nil {
-							z.log().Error("Unable to add group to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("folderName", folder.Name), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+							l.Error("Unable to add group to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
 						}
 					}
 				}
 				if u, e := member.User(); e {
+					accessType := member.AccessType()
+					if accessType == sv_sharedfolder_member.LevelOwner {
+						accessType = sv_sharedfolder_member.LevelEditor
+					}
+
 					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
-					if err = svm.Add(sv_sharedfolder_member.AddByEmail(u.Email, member.AccessType())); err != nil {
-						z.log().Error("Unable to add member to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("folderName", folder.Name), zap.String("member", u.Email), zap.Error(err))
+					if err = svm.Add(sv_sharedfolder_member.AddByEmail(u.Email, accessType)); err != nil {
+						l.Error("Unable to add member to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("member", u.Email), zap.Error(err))
 					}
 				}
 			}
