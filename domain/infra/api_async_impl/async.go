@@ -2,36 +2,31 @@ package api_async_impl
 
 import (
 	"errors"
-	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_async"
-	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_parser"
-	"github.com/watermint/toolbox/domain/infra/api_rpc_impl"
-	"github.com/watermint/toolbox/model/dbx_rpc"
+	"github.com/watermint/toolbox/domain/infra/api_rpc"
+	"go.uber.org/zap"
+	"time"
 )
 
-func New(ec *app.ExecContext, ctx api_context.Context, endpoint string, asMemberId, asAdminId string, base api_context.Base, token api_auth.Token) api_async.Async {
+func New(ctx api_context.Context, endpoint string, asMemberId, asAdminId string, base api_context.PathRoot) api_async.Async {
 	return &asyncImpl{
-		ec:              ec,
 		ctx:             ctx,
 		requestEndpoint: endpoint,
 		asMemberId:      asMemberId,
 		asAdminId:       asAdminId,
 		base:            base,
+		pollInterval:    time.Duration(3) * time.Second,
 	}
 }
 
 type asyncImpl struct {
 	ctx             api_context.Context
-	ec              *app.ExecContext
 	asMemberId      string
 	asAdminId       string
-	base            api_context.Base
+	base            api_context.PathRoot
 	param           interface{}
-	token           api_auth.Token
-	pollInterval    int
+	pollInterval    time.Duration
 	requestEndpoint string
 	statusEndpoint  string
 	success         func(res api_async.Response) error
@@ -49,7 +44,7 @@ func (z *asyncImpl) Status(endpoint string) api_async.Async {
 }
 
 func (z *asyncImpl) PollInterval(second int) api_async.Async {
-	z.pollInterval = second
+	z.pollInterval = time.Duration(second) * time.Second
 	return z
 }
 
@@ -63,90 +58,149 @@ func (z *asyncImpl) OnFailure(failure func(err error) error) api_async.Async {
 	return z
 }
 
-func (z *asyncImpl) Call() (res api_async.Response, resErr error) {
-	rpcReq := z.ctx.Request(z.requestEndpoint).Param(z.param)
-	rpcRes, err := rpcReq.Call()
+func (z *asyncImpl) poll(res api_rpc.Response) (asyncRes api_async.Response, resErr error) {
+	return z.handlePoll(res, "")
+}
+
+func (z *asyncImpl) handlePoll(res api_rpc.Response, asyncJobId string) (asyncRes api_async.Response, resErr error) {
+	resJson, err := res.Json()
+	if err != nil {
+		return nil, err
+	}
+
+	log := z.ctx.Log().With(zap.String("async_job_id", asyncJobId))
+	log.Debug("Handle poll", zap.String("body", resJson.Raw))
+	tag := resJson.Get("\\.tag")
+
+	if !tag.Exists() {
+		asyncJobId := resJson.Get("async_job_id")
+		if asyncJobId.Exists() {
+			log.Debug("Wait for async", zap.Duration("wait", z.pollInterval))
+			time.Sleep(z.pollInterval)
+			return z.handleAsyncJobId(res, asyncJobId.String())
+
+		} else {
+			err := errors.New("unexpected data format: `.tag` not found")
+			if z.failure != nil {
+				if err := z.failure(err); err != nil {
+					return nil, err
+				}
+				// fall through
+			} else {
+				return nil, err
+			}
+		}
+	}
+
+	switch tag.String() {
+	case "async_job_id":
+		log.Debug("Waiting for complete", zap.Duration("wait", z.pollInterval))
+		return z.handleAsyncJobId(res, "")
+
+	case "complete":
+		log.Debug("Complete")
+		cmp := resJson.Get("complete")
+		if cmp.Exists() {
+			asyncRes = &responseImpl{
+				res:            res,
+				complete:       cmp,
+				completeExists: true,
+			}
+		} else {
+			asyncRes = &responseImpl{
+				res:            res,
+				complete:       resJson,
+				completeExists: false,
+			}
+		}
+		if z.success != nil {
+			if err = z.success(asyncRes); err != nil {
+				return nil, err
+			}
+		}
+		return asyncRes, nil
+
+	case "in_progress":
+		log.Debug("In Progress", zap.Duration("wait", z.pollInterval))
+		time.Sleep(z.pollInterval)
+		return z.handleAsyncJobId(res, asyncJobId)
+
+	case "failed":
+		log.Debug("Failed", zap.String("body", resJson.Raw))
+		if z.failure == nil {
+			return nil, errors.New("failed") // TODO create error type for "failed"
+		}
+
+		reasonTag := resJson.Get("failed")
+		reason := reasonTag.String()
+		if !reasonTag.Exists() {
+			reason = "operation failed with unknown reason"
+		}
+		err := errors.New(reason)
+		if err2 := z.failure(err); err2 != nil {
+			return nil, err2
+		}
+		return nil, err
+	}
+
+	if errorTag := resJson.Get("error.\\.tag"); errorTag.Exists() {
+		log.Debug("Endpoint specific error", zap.String("error_tag", tag.String()))
+		body, _ := res.Body()
+		err = api_rpc.ParseApiError(body)
+		if err2 := z.failure(err); err2 != nil {
+			return nil, err2
+		}
+		return nil, err
+	}
+
+	z.ctx.Log().Debug("Unknown status tag", zap.String("tag", tag.String()), zap.Int("res_code", res.StatusCode()), zap.String("res_body", resJson.Raw))
+	return nil, errors.New("unknown status tag")
+}
+
+func (z *asyncImpl) handleAsyncJobId(res api_rpc.Response, asyncJobId string) (asyncRes api_async.Response, resErr error) {
+	resJson, err := res.Json()
+	if err != nil {
+		return nil, err
+	}
+
+	if asyncJobId == "" {
+		asyncJobIdTag := resJson.Get("async_job_id")
+
+		if !asyncJobIdTag.Exists() {
+			err := errors.New("unexpected data format: `async_job_id` not found")
+			if z.failure != nil {
+				if err2 := z.failure(err); err2 != nil {
+					return nil, err2
+				}
+			}
+			return nil, err
+		}
+		asyncJobId = asyncJobIdTag.String()
+	}
+
+	p := struct {
+		AsyncJobId string `json:"async_job_id"`
+	}{
+		AsyncJobId: asyncJobId,
+	}
+
+	res, err = z.ctx.Request(z.statusEndpoint).Param(p).Call()
 	if err != nil {
 		if z.failure != nil {
-			return newFailureResponse(err), z.failure(err)
-		}
-		return newFailureResponse(err), err
-	}
-	switch ri := rpcRes.(type) {
-	case *api_rpc_impl.ResponseImpl:
-		switch qi := rpcReq.(type) {
-		case *api_rpc_impl.RequestImpl:
-			as := dbx_rpc.AsyncStatus{
-				Endpoint:   z.statusEndpoint,
-				AsMemberId: z.asMemberId,
-				AsAdminId:  z.asAdminId,
-				OnError: func(err error) bool {
-					res = newFailureResponse(err)
-					resErr = err
-
-					if z.failure != nil {
-						resErr = z.failure(err)
-					}
-					return resErr != nil
-				},
-				OnComplete: func(complete gjson.Result) bool {
-					res = newSuccessResponse(ri, complete)
-					if z.success != nil {
-						resErr = z.success(res)
-					}
-					return true
-				},
+			if err2 := z.failure(err); err2 != nil {
+				return nil, err2
 			}
-
-			as.Poll(qi.DbxApiContext(), ri.DbxRpcRes())
-			return res, resErr
 		}
+		return nil, err
 	}
-	panic("invalid response type")
+
+	return z.handlePoll(res, asyncJobId)
 }
 
-func newSuccessResponse(resImpl *api_rpc_impl.ResponseImpl, complete gjson.Result) *responseImpl {
-	return &responseImpl{
-		resImpl:        resImpl,
-		completeExists: true,
-		complete:       complete,
+func (z *asyncImpl) Call() (res api_async.Response, resErr error) {
+	rpcRes, err := z.ctx.Request(z.requestEndpoint).Param(z.param).Call()
+	if err != nil {
+		return nil, err
 	}
-}
-
-func newFailureResponse(err error) *responseImpl {
-	return &responseImpl{
-		resErr: err,
-	}
-}
-
-type responseImpl struct {
-	resErr         error
-	resImpl        *api_rpc_impl.ResponseImpl
-	complete       gjson.Result
-	completeExists bool
-}
-
-func (z *responseImpl) Error() error {
-	return z.resErr
-}
-
-func (z *responseImpl) Json() (res gjson.Result, err error) {
-	if !z.completeExists {
-		return gjson.Parse("{}"), errors.New("no result")
-	}
-	return z.complete, nil
-}
-
-func (z *responseImpl) Model(v interface{}) error {
-	if !z.completeExists {
-		return errors.New("no result")
-	}
-	return api_parser.ParseModel(v, z.complete)
-}
-
-func (z *responseImpl) ModelWithPath(v interface{}, path string) error {
-	if !z.completeExists {
-		return errors.New("no result")
-	}
-	return api_parser.ParseModel(v, z.complete.Get(path))
+	return z.poll(rpcRes)
 }

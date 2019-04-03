@@ -4,16 +4,13 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/model/dbx_api"
-	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_teamfolder"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 )
 
 type CmdTeamFolderList struct {
 	*cmd.SimpleCommandlet
-
-	apiContext *dbx_api.DbxContext
-	report     app_report.Factory
+	report app_report.Factory
 }
 
 func (CmdTeamFolderList) Name() string {
@@ -34,8 +31,7 @@ func (z *CmdTeamFolderList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdTeamFolderList) Exec(args []string) {
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessFile())
 	if err != nil {
 		return
 	}
@@ -43,12 +39,14 @@ func (z *CmdTeamFolderList) Exec(args []string) {
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
-	l := dbx_teamfolder.ListTeamFolder{
-		OnError: z.DefaultErrorHandler,
-		OnEntry: func(teamFolder *dbx_teamfolder.TeamFolder) bool {
-			z.report.Report(teamFolder)
-			return true
-		},
+	svc := sv_teamfolder.New(ctx)
+	folders, err := svc.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
 	}
-	l.List(apiFile)
+
+	for _, f := range folders {
+		z.report.Report(f)
+	}
 }

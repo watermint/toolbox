@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file_url"
-	"github.com/watermint/toolbox/model/dbx_auth"
 )
 
 type CmdFileSave struct {
@@ -46,7 +45,7 @@ func (z *CmdFileSave) Exec(args []string) {
 		return
 	}
 
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenFull)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.Full())
 	if err != nil {
 		return
 	}

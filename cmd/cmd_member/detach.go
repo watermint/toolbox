@@ -2,16 +2,18 @@ package cmd_member
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_io"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/model/dbx_api"
-	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_member"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
+	"github.com/watermint/toolbox/domain/service/sv_member"
 	"go.uber.org/zap"
+	"strings"
 )
 
 type CmdMemberDetach struct {
 	*cmd.SimpleCommandlet
-	provision MembersProvision
+	optCsv string
 }
 
 func (CmdMemberDetach) Name() string {
@@ -21,62 +23,45 @@ func (CmdMemberDetach) Desc() string {
 	return "cmd.member.detach.desc"
 }
 func (z *CmdMemberDetach) Usage() func(cmd.CommandUsage) {
-	return z.provision.Usage()
+	return nil
 }
 func (z *CmdMemberDetach) FlagConfig(f *flag.FlagSet) {
-	z.provision.ec = z.ExecContext
-	z.provision.FlagConfig(f)
+	descCsv := z.ExecContext.Msg("cmd.member.detach.flag.csv").T()
+	f.StringVar(&z.optCsv, "csv", "", descCsv)
 }
 
 func (z *CmdMemberDetach) Exec(args []string) {
-	z.provision.Logger = z.Log()
-	err := z.provision.Load(args)
-	if err != nil {
-		z.PrintUsage(z.ExecContext, z)
-		return
-	}
-
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiMgmt, err := au.Auth(dbx_auth.DropboxTokenBusinessManagement)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessManagement())
 	if err != nil {
 		return
 	}
+	svm := sv_member.New(ctx)
 
-	rm := dbx_member.MemberRemove{
-		OnError: z.DefaultErrorHandler,
-		OnFailure: func(email string, reason dbx_api.ApiError) bool {
-			z.ExecContext.Msg("cmd.member.detach.failure").WithData(struct {
-				Email  string
-				Reason string
-			}{
-				Email:  email,
-				Reason: reason.ErrorTag,
-			}).TellFailure()
+	err = app_io.NewCsvLoader(z.ExecContext, z.optCsv).
+		OnRow(func(cols []string) error {
+			if len(cols) < 1 {
+				return nil
+			}
+			email := strings.TrimSpace(cols[0])
+			if !api_util.RegexEmail.MatchString(email) {
+				z.Log().Debug("skip: the data is not looking alike an email address", zap.String("email", email))
+				return nil
+			}
+			member, err := svm.ResolveByEmail(email)
+			if err != nil {
+				z.Log().Debug("member not found", zap.Error(err))
+				return nil
+			}
+			err = svm.Remove(member, sv_member.Downgrade())
+			if err != nil {
+				z.Log().Debug("unable to detach", zap.Error(err))
+				return nil
+			}
+			return nil
+		}).
+		Load()
 
-			z.Log().Debug(
-				"Unable to detach user",
-				zap.String("email", email),
-				zap.String("reason", reason.ErrorTag),
-			)
-			return true
-		},
-		OnSuccess: func(email string) bool {
-			z.ExecContext.Msg("cmd.member.detach.success").WithData(struct {
-				Email string
-			}{
-				Email: email,
-			}).TellSuccess()
-			z.Log().Debug("User detached", zap.String("email", email))
-			return true
-		},
-	}
-	for _, m := range z.provision.Members {
-		z.ExecContext.Msg("cmd.member.detach.progress").WithData(struct {
-			Email string
-		}{
-			Email: m.Email,
-		}).TellSuccess()
-		z.Log().Debug("Detaching account", zap.String("email", m.Email))
-		rm.Remove(apiMgmt, m.Email, false, true)
+	if err != nil {
+		z.Log().Debug("Unable to load", zap.Error(err))
 	}
 }

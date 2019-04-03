@@ -6,6 +6,8 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_list"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"go.uber.org/zap"
+	"net/http"
+	"time"
 )
 
 type Context interface {
@@ -13,51 +15,62 @@ type Context interface {
 	Msg(key string) app_ui.UIMessage
 	ErrorMsg(err error) app_ui.UIMessage
 
-	Request(endpoint string) api_rpc.Request
+	Request(endpoint string) api_rpc.Caller
 	List(endpoint string) api_list.List
 	Async(endpoint string) api_async.Async
+
+	AsMemberId(teamMemberId string) Context
+	AsAdminId(teamMemberId string) Context
+	WithPath(pathRoot PathRoot) Context
 }
 
-type ContextOption interface {
-	ClientTimeout(second int)
-	AsMemberId(teamMemberId string)
-	AsAdminId(teamMemberId string)
-	BasePath(pathRoot Base)
+type RetryContext interface {
+	AddError(err error)
+	LastErrors() []error
+	RetryAfter() time.Time
+	UpdateRetryAfter(after time.Time)
 }
 
-type Base interface {
-	Value() string
-}
-type Root interface {
-	Base
-}
-type Namespace interface {
-	Base
-	NamespaceId() string
-}
-type Home interface {
-	Base
+type ClientContext interface {
+	DoRequest(req api_rpc.Request) (code int, header http.Header, body []byte, err error)
 }
 
-type Option func(co ContextOption)
+type PathRoot interface {
+	Header() string
+}
 
-func ClientTimeout(second int) Option {
-	return func(co ContextOption) {
-		co.ClientTimeout(second)
-	}
+func Home() PathRoot {
+	return &homePathRoot{Tag: "home"}
 }
-func AsMemberId(teamMemberId string) Option {
-	return func(co ContextOption) {
-		co.AsMemberId(teamMemberId)
-	}
+func Root(namespaceId string) PathRoot {
+	return &rootPathRoot{Tag: "root", Root: namespaceId}
 }
-func AsAdminId(teamMemberId string) Option {
-	return func(co ContextOption) {
-		co.AsAdminId(teamMemberId)
-	}
+func Namespace(namespaceId string) PathRoot {
+	return &namespacePathRoot{Tag: "namespace_id", NamespaceId: namespaceId}
 }
-func BasePath(pathRoot Base) Option {
-	return func(co ContextOption) {
-		co.BasePath(pathRoot)
-	}
+
+type homePathRoot struct {
+	Tag string `json:".tag"`
+}
+
+func (*homePathRoot) Header() string {
+	return "{\".tag\":\"home\"}"
+}
+
+type rootPathRoot struct {
+	Tag  string `json:".tag"`
+	Root string `json:"root"`
+}
+
+func (z rootPathRoot) Header() string {
+	return "{\".tag\":\"root\",\"root\":\"" + z.Root + "\"}"
+}
+
+type namespacePathRoot struct {
+	Tag         string `json:".tag"`
+	NamespaceId string `json:"namespace_id"`
+}
+
+func (z namespacePathRoot) Header() string {
+	return "{\".tag\":\"namespace_id\",\"namespace_id\":\"" + z.NamespaceId + "\"}"
 }

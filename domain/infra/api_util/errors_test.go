@@ -1,7 +1,7 @@
 package api_util
 
 import (
-	"github.com/watermint/toolbox/model/dbx_api"
+	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"strings"
 	"testing"
 )
@@ -177,7 +177,7 @@ var (
 
 func TestErrorSummary(t *testing.T) {
 	for _, e := range errorSummarySamples {
-		ae := dbx_api.ApiError{
+		ae := api_rpc.ApiError{
 			ErrorSummary: e,
 		}
 		re := ErrorSummary(ae)

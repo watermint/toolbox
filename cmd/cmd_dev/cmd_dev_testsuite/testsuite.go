@@ -6,6 +6,13 @@ func NewCmdDevTestSuite() cmd.Commandlet {
 	return &cmd.CommandletGroup{
 		CommandName: "testsuite",
 		CommandDesc: "cmd.dev.testsuite.desc",
-		SubCommands: []cmd.Commandlet{},
+		SubCommands: []cmd.Commandlet{
+			&CmdDevTestSuiteClean{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
+			&CmdDevTestSuiteCreate{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
+		},
 	}
 }

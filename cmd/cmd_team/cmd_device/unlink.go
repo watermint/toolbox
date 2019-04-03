@@ -5,9 +5,10 @@ import (
 	"encoding/json"
 	"flag"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/model/dbx_api"
-	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_device"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/domain/model/mo_device"
+	"github.com/watermint/toolbox/domain/service/sv_device"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -51,15 +52,14 @@ func (z *CmdTeamDeviceUnlink) Exec(args []string) {
 		return
 	}
 
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessFile())
 	if err != nil {
 		return
 	}
 
 	if z.optStdin {
 		z.ExecContext.Log().Debug("Read from STDIN")
-		z.unlink(apiFile, os.Stdin)
+		z.unlink(ctx, os.Stdin)
 
 	} else {
 		z.ExecContext.Log().Debug("Open file", zap.String("path", z.optFile))
@@ -80,21 +80,13 @@ func (z *CmdTeamDeviceUnlink) Exec(args []string) {
 		}
 		defer f.Close()
 
-		z.unlink(apiFile, f)
+		z.unlink(ctx, f)
 	}
 }
 
-func (z *CmdTeamDeviceUnlink) unlink(c *dbx_api.DbxContext, records io.Reader) {
-	type UnlinkRecord struct {
-		Tag          string `json:"tag"`
-		TeamMemberId string `json:"team_member_id"`
-		SessionId    string `json:"session_id"`
-	}
-
+func (z *CmdTeamDeviceUnlink) unlink(ctx api_context.Context, records io.Reader) {
 	br := bufio.NewReaderSize(records, 8192)
-	revoke := dbx_device.RevokeSession{
-		OnError: z.DefaultErrorHandler,
-	}
+	svd := sv_device.New(ctx)
 
 	for {
 		line, _, err := br.ReadLine()
@@ -103,28 +95,18 @@ func (z *CmdTeamDeviceUnlink) unlink(c *dbx_api.DbxContext, records io.Reader) {
 			return
 		}
 
-		ur := UnlinkRecord{}
-		err = json.Unmarshal([]byte(line), &ur)
+		ms := &mo_device.MemberSession{}
+		err = json.Unmarshal([]byte(line), &ms)
 		if err != nil {
 			z.ExecContext.Log().Debug("Unable to unmarshal", zap.Error(err))
 			continue
 		}
 
-		z.ExecContext.Log().Debug("tyring unlink", zap.Any("record", ur))
-		z.ExecContext.Msg("cmd.team.device.unlink.progress.record").WithData(ur).Tell()
+		z.ExecContext.Log().Debug("tyring unlink", zap.Any("record", ms))
+		z.ExecContext.Msg("cmd.team.device.unlink.progress.record").WithData(ms).Tell()
 
-		switch ur.Tag {
-		case "web_session":
-			revoke.WebSession(c, ur.TeamMemberId, ur.SessionId)
-
-		case "desktop_client":
-			revoke.DesktopClient(c, ur.TeamMemberId, ur.SessionId, z.optDeleteOnUnlink)
-
-		case "mobile_client":
-			revoke.MobileClient(c, ur.TeamMemberId, ur.SessionId)
-
-		default:
-			z.ExecContext.Log().Warn("Invalid device type found", zap.String("type", ur.Tag))
+		if err := svd.Revoke(ms.Session()); err != nil {
+			ctx.ErrorMsg(err).TellError()
 		}
 	}
 }

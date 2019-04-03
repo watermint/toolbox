@@ -20,11 +20,12 @@ import (
 )
 
 var (
-	AppName     string = "toolbox"
-	AppVersion  string = "`dev`"
-	AppHash     string = ""
-	AppZap      string = ""
-	rootContext *ExecContext
+	AppName       = "toolbox"
+	AppVersion    = "`dev`"
+	AppHash       = ""
+	AppZap        = ""
+	AppBuilderKey = ""
+	rootContext   *ExecContext
 )
 
 const (
@@ -53,28 +54,62 @@ type ExecContext struct {
 	userInterface   app_ui.UI
 	resources       *rice.Box
 	logFilePath     string
+	testJobsPath    string
 	lang            string
 	logger          *zap.Logger
 	logWrapper      *app_util.LogWrapper
 	messages        *app_ui.UIMessageContainer
+	values          map[string]interface{}
 }
 
-func NewExecContextForTest() *ExecContext {
-	ec := &ExecContext{}
+type TestOpt func(opt *testOpts) *testOpts
+type testOpts struct {
+	box *rice.Box
+}
+
+func WithBox(box *rice.Box) TestOpt {
+	return func(opt *testOpts) *testOpts {
+		opt.box = box
+		return opt
+	}
+}
+
+func NewExecContextForTest(opts ...TestOpt) *ExecContext {
+	to := &testOpts{
+		box: nil,
+	}
+	for _, o := range opts {
+		o(to)
+	}
+	ec := &ExecContext{
+		values: make(map[string]interface{}),
+	}
 	ec.isTest = true
 	ec.debugMode = true
+	ec.resources = to.box
 	ec.startup()
 	return ec
 }
 
 func NewExecContext(bx *rice.Box) (ec *ExecContext, err error) {
-	ec = &ExecContext{}
+	ec = &ExecContext{
+		values: make(map[string]interface{}),
+	}
 	ec.isTest = false
 	ec.resources = bx
 	if err := ec.startup(); err != nil {
 		return nil, err
 	}
 	return ec, nil
+}
+
+func (z *ExecContext) SetValue(key string, value interface{}) {
+	z.values[key] = value
+}
+
+func (z *ExecContext) GetValue(key string) (value interface{}, exists bool) {
+	value, exists = z.values[key]
+	return
 }
 
 func (z *ExecContext) NoCacheToken() bool {
@@ -122,6 +157,7 @@ func (z *ExecContext) FileOnSecretsPath(name string) string {
 func (z *ExecContext) startup() error {
 	if z.isTest {
 		z.jobId = "test-" + fmt.Sprintf(time.Now().Format("20060102-150405.000"))
+		z.testJobsPath = os.TempDir()
 	} else {
 		z.jobId = fmt.Sprintf(time.Now().Format("20060102-150405.000"))
 	}
@@ -143,6 +179,9 @@ func (z *ExecContext) startup() error {
 		zap.String("revision", AppHash),
 	)
 	z.logger.Debug("Startup completed")
+	if z.isTest {
+		z.logger.Info("Jobs path", zap.String("path", z.JobsPath()))
+	}
 
 	// replace root exec context
 	rootContext = z
@@ -246,7 +285,11 @@ func (z *ExecContext) LogsPath() string {
 	return filepath.Join(z.JobsPath(), "logs")
 }
 func (z *ExecContext) JobsPath() string {
-	return z.FileOnWorkPath(filepath.Join("jobs", z.jobId))
+	if z.testJobsPath != "" {
+		return filepath.Join(z.testJobsPath, z.jobId)
+	} else {
+		return z.FileOnWorkPath(filepath.Join("jobs", z.jobId))
+	}
 }
 func (z *ExecContext) SecretsPath() string {
 	return z.FileOnWorkPath("secrets")

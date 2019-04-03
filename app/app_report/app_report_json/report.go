@@ -1,6 +1,7 @@
 package app_report_json
 
 import (
+	"bytes"
 	"encoding/json"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_report/app_report_column"
@@ -19,7 +20,7 @@ type JsonReport struct {
 	writers       map[string]io.Writer
 }
 
-func (z *JsonReport) findRaw(row interface{}, orig interface{}) interface{} {
+func (z *JsonReport) findRaw(row interface{}, orig interface{}) json.RawMessage {
 	var rv reflect.Value
 	switch r := row.(type) {
 	case reflect.Value:
@@ -33,13 +34,13 @@ func (z *JsonReport) findRaw(row interface{}, orig interface{}) interface{} {
 	rt := rv.Type()
 	_, e := rt.FieldByName("Raw")
 	if !e {
-		return orig
+		return nil
 	}
 	rvf := rv.FieldByName("Raw")
 	if rvf.Type().Kind() != reflect.TypeOf(json.RawMessage{}).Kind() {
-		return orig
+		return nil
 	}
-	return rvf.Interface()
+	return rvf.Bytes()
 }
 
 func (z *JsonReport) prepare(row interface{}) (f *os.File, w io.Writer, err error) {
@@ -135,21 +136,28 @@ func (z *JsonReport) Report(row interface{}) error {
 	if err != nil {
 		return err
 	}
-	r := z.findRaw(row, row)
-	b, err := json.Marshal(r)
+	raw := z.findRaw(row, row)
+	if raw != nil {
+		w.Write(raw)
+		w.Write([]byte("\n"))
+
+		return nil
+	}
+
+	buf := &bytes.Buffer{}
+	enc := json.NewEncoder(buf)
+	enc.SetEscapeHTML(false)
+	enc.SetIndent("", "")
+	err = enc.Encode(row)
 	if err != nil {
 		fn := ""
 		if f != nil {
 			fn = f.Name()
 		}
-		z.ec.Log().Error(
-			"Couldn't write report",
-			zap.Error(err),
-			zap.String("file", fn),
-		)
+		z.ec.Log().Error("Couldn't write report", zap.Error(err), zap.String("file", fn))
 	}
-	w.Write(b)
-	w.Write([]byte("\n"))
+	w.Write(buf.Bytes())
+	//	w.Write([]byte("\n"))
 
 	return nil
 }

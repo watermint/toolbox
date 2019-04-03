@@ -4,9 +4,11 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_file/compare"
-	"github.com/watermint/toolbox/model/dbx_file/copy_ref"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/model/mo_file_diff"
+	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/usecase/uc_file_compare"
+	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 )
 
 type CmdFileMirror struct {
@@ -63,47 +65,42 @@ func (z *CmdFileMirror) Exec(args []string) {
 
 	// Ask for FROM account authentication
 	z.ExecContext.Msg("cmd.file.mirror.prompt.ask_src_account_auth").Tell()
-	auSrc := dbx_auth.NewAuth(z.ExecContext, z.optSrcAccount)
-	acSrc, err := auSrc.Auth(dbx_auth.DropboxTokenFull)
+	ctxSrc, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.PeerName(z.optSrcAccount), api_auth_impl.Full())
 	if err != nil {
 		return
 	}
 
 	// Ask for TO account authentication
 	z.ExecContext.Msg("cmd.file.mirror.prompt.ask_dst_account_auth").Tell()
-	auDst := dbx_auth.NewAuth(z.ExecContext, z.optDstAccount)
-	acDst, err := auDst.Auth(dbx_auth.DropboxTokenFull)
+	ctxDst, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.PeerName(z.optDstAccount), api_auth_impl.Full())
 	if err != nil {
 		return
 	}
 
-	m := copy_ref.Mirror{
-		SrcApi:          acSrc,
-		SrcPath:         z.optSrcPath,
-		SrcAccountAlias: z.optSrcAccount,
-		DstApi:          acDst,
-		DstPath:         z.optDstPath,
-		DstAccountAlias: z.optDstAccount,
-		ExecContext:     z.ExecContext,
+	srcPath := mo_path.NewPath(z.optSrcPath)
+	dstPath := mo_path.NewPath(z.optDstPath)
+
+	ucm := uc_file_mirror.New(ctxSrc, ctxDst)
+	err = ucm.Mirror(srcPath, dstPath)
+
+	if err != nil {
+		ctxSrc.ErrorMsg(err).TellError()
+		return
 	}
-	m.Mirror()
 
 	if z.optVerify {
 		z.report.Init(z.ExecContext)
 		defer z.report.Close()
 
-		ba := compare.BetweenAccounts{
-			ExecContext:       z.ExecContext,
-			LeftAccountAlias:  z.optSrcAccount,
-			LeftPath:          z.optSrcPath,
-			LeftApi:           acSrc,
-			RightAccountAlias: z.optDstAccount,
-			RightPath:         z.optDstPath,
-			RightApi:          acDst,
-			OnDiff: func(diff compare.Diff) {
-				z.report.Report(diff)
-			},
+		rep := func(diff mo_file_diff.Diff) error {
+			z.report.Report(diff)
+			return nil
 		}
-		ba.Compare()
+		ucc := uc_file_compare.New(ctxSrc, ctxDst)
+		_, err := ucc.Diff(rep, uc_file_compare.LeftPath(srcPath), uc_file_compare.RightPath(dstPath))
+		if err != nil {
+			ctxSrc.ErrorMsg(err).TellError()
+			return
+		}
 	}
 }

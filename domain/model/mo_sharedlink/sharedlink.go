@@ -2,7 +2,11 @@ package mo_sharedlink
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
+	"github.com/watermint/toolbox/domain/model/mo_member"
+	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
+	"go.uber.org/zap"
 )
 
 type SharedLink interface {
@@ -15,6 +19,7 @@ type SharedLink interface {
 	LinkPathLower() string
 	File() (file *File, ok bool)
 	Folder() (folder *Folder, ok bool)
+	EntryRaw() json.RawMessage
 }
 
 type Metadata struct {
@@ -26,6 +31,10 @@ type Metadata struct {
 	Expires    string `path:"expires"`
 	PathLower  string `path:"path_lower"`
 	Visibility string `path:"link_permissions.resolved_visibility.\\.tag"`
+}
+
+func (z *Metadata) EntryRaw() json.RawMessage {
+	return z.Raw
 }
 
 func (z *Metadata) LinkTag() string {
@@ -93,6 +102,10 @@ type File struct {
 	Visibility     string `path:"link_permissions.resolved_visibility.\\.tag"`
 }
 
+func (z *File) EntryRaw() json.RawMessage {
+	return z.Raw
+}
+
 func (z *File) SharedLinkId() string {
 	return z.Id
 }
@@ -140,6 +153,10 @@ type Folder struct {
 	Visibility string `path:"link_permissions.resolved_visibility.\\.tag"`
 }
 
+func (z *Folder) EntryRaw() json.RawMessage {
+	return z.Raw
+}
+
 func (z *Folder) SharedLinkId() string {
 	return z.Id
 }
@@ -174,4 +191,57 @@ func (z *Folder) File() (file *File, ok bool) {
 
 func (z *Folder) Folder() (folder *Folder, ok bool) {
 	return z, true
+}
+
+type SharedLinkMember struct {
+	Raw          json.RawMessage
+	SharedLinkId string `path:"sharedlink.id"`
+	Tag          string `path:"sharedlink.\\.tag"`
+	Url          string `path:"sharedlink.url"`
+	Name         string `path:"sharedlink.name"`
+	Expires      string `path:"sharedlink.expires"`
+	PathLower    string `path:"sharedlink.path_lower"`
+	Visibility   string `path:"sharedlink.link_permissions.resolved_visibility.\\.tag"`
+	AccessType   string `path:"member.access_type.\\.tag" json:"access_type"`
+	AccountId    string `path:"member.profile.account_id" json:"account_id"`
+	TeamMemberId string `path:"member.profile.team_member_id" json:"team_member_id"`
+	Email        string `path:"member.profile.email" json:"email"`
+	Status       string `path:"member.profile.status.\\.tag" json:"status"`
+	Surname      string `path:"member.profile.name.surname" json:"surname"`
+	GivenName    string `path:"member.profile.name.given_name" json:"given_name"`
+}
+
+func (z *SharedLinkMember) SharedLink() (link SharedLink) {
+	link = &Metadata{}
+	if err := api_parser.ParseModelPathRaw(link, z.Raw, "sharedlink"); err != nil {
+		app.Root().Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
+		// return empty
+		return link
+	}
+	return link
+}
+
+func (z *SharedLinkMember) Member() (member mo_sharedfolder_member.Member) {
+	member = &mo_sharedfolder_member.Metadata{}
+	if err := api_parser.ParseModelPathRaw(member, z.Raw, "member"); err != nil {
+		app.Root().Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
+		// return empty
+		return member
+	}
+	return member
+}
+
+func NewSharedLinkMember(link SharedLink, member *mo_member.Member) (slm *SharedLinkMember) {
+	raws := make(map[string]json.RawMessage)
+	raws["sharedlink"] = link.EntryRaw()
+	raws["member"] = member.Raw
+	raw := api_parser.CombineRaw(raws)
+
+	slm = &SharedLinkMember{}
+	if err := api_parser.ParseModelRaw(slm, raw); err != nil {
+		app.Root().Log().Warn("unexpected data format", zap.Error(err))
+		// return empty
+		return slm
+	}
+	return slm
 }

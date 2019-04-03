@@ -2,12 +2,15 @@ package cmd_member
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_io"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_member"
-	"github.com/watermint/toolbox/model/dbx_profile"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
+	"github.com/watermint/toolbox/domain/model/mo_member"
+	"github.com/watermint/toolbox/domain/service/sv_member"
 	"go.uber.org/zap"
+	"strings"
 )
 
 type CmdMemberSync struct {
@@ -15,8 +18,8 @@ type CmdMemberSync struct {
 	optRemove string
 	optWipe   bool
 	optSilent bool
+	optCsv    string
 	report    app_report.Factory
-	provision MembersProvision
 }
 
 func (z *CmdMemberSync) Name() string {
@@ -28,14 +31,12 @@ func (z *CmdMemberSync) Desc() string {
 }
 
 func (z *CmdMemberSync) Usage() func(cmd.CommandUsage) {
-	return z.provision.Usage()
+	return nil
 }
 
 func (z *CmdMemberSync) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
-	z.provision.ec = z.ExecContext
-	z.provision.FlagConfig(f)
 
 	descSilent := z.ExecContext.Msg("cmd.member.sync.flag.silent").T()
 	f.BoolVar(&z.optSilent, "silent", false, descSilent)
@@ -49,78 +50,71 @@ func (z *CmdMemberSync) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdMemberSync) Exec(args []string) {
-	z.provision.Logger = z.Log()
-	err := z.provision.Load(args)
-	if err != nil {
-		z.PrintUsage(z.ExecContext, z)
-		return
-	}
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiMgmt, err := au.Auth(dbx_auth.DropboxTokenBusinessManagement)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessManagement())
 	if err != nil {
 		return
 	}
+	svm := sv_member.New(ctx)
 
-	z.report.Init(z.ExecContext)
-	defer z.report.Close()
-
-	memberReport := MemberReport{
-		Report: &z.report,
-	}
-
-	ml := dbx_member.MembersList{
-		OnError: z.DefaultErrorHandler,
-	}
-	mu := dbx_member.MemberUpdate{
-		OnError: z.DefaultErrorHandler,
-		OnSuccess: func(m *dbx_profile.Member) bool {
-			z.report.Report(m)
-			return true
-		},
-	}
-	mi := dbx_member.MembersInvite{
-		OnError:   z.DefaultErrorHandlerIgnoreError,
-		OnFailure: memberReport.HandleFailure,
-		OnSuccess: func(m *dbx_profile.Member) bool {
-			z.report.Report(m)
-			return true
-		},
-	}
-	members := ml.ListAsMap(apiMgmt, false)
-	invites := make([]*dbx_member.InviteMember, 0)
-
-	for _, m := range z.provision.Members {
-		if em, ok := members[m.Email]; ok {
-			z.ExecContext.Msg("cmd.member.sync.flag.progress.update").WithData(struct {
-				TeamMemberId string
-				CurrentEmail string
-				NewEmail     string
-				GivenName    string
-				Surname      string
-			}{
-				TeamMemberId: em.Profile.TeamMemberId,
-				CurrentEmail: em.Profile.Email,
-				NewEmail:     m.Email,
-				GivenName:    m.GivenName,
-				Surname:      m.Surname,
-			})
-			z.Log().Info(
-				"Updating member",
-				zap.String("team_member_id", em.Profile.TeamMemberId),
-				zap.String("current_email", em.Profile.Email),
-				zap.String("new_email", m.Email),
-				zap.String("new_given_name", m.GivenName),
-				zap.String("new_surname", m.Surname),
-			)
-			email, um := m.UpdateMember()
-			mu.Update(apiMgmt, email, um)
-		} else {
-			invites = append(
-				invites,
-				m.InviteMember(z.optSilent),
-			)
+	invite := func(email string, cols []string) error {
+		opts := make([]sv_member.AddOpt, 0)
+		if len(cols) >= 2 {
+			givenName := cols[1]
+			opts = append(opts, sv_member.AddWithGivenName(givenName))
 		}
+		if len(cols) >= 3 {
+			surname := cols[2]
+			opts = append(opts, sv_member.AddWithSurname(surname))
+		}
+		if z.optSilent {
+			opts = append(opts, sv_member.AddWithoutSendWelcomeEmail())
+		}
+		member, err := svm.Add(email, opts...)
+		if err != nil {
+			ctx.ErrorMsg(err).TellError()
+			return err
+		}
+		z.report.Report(member)
+		return nil
+	}
+	update := func(member *mo_member.Member, cols []string) error {
+		if len(cols) >= 2 {
+			givenName := cols[1]
+			member.GivenName = givenName
+		}
+		if len(cols) >= 3 {
+			surname := cols[2]
+			member.Surname = surname
+		}
+		updated, err := svm.Update(member)
+		if err != nil {
+			ctx.ErrorMsg(err).TellError()
+			return err
+		}
+		z.report.Report(updated)
+		return nil
 	}
 
-	mi.Invite(apiMgmt, invites)
+	err = app_io.NewCsvLoader(z.ExecContext, z.optCsv).
+		OnRow(func(cols []string) error {
+			if len(cols) < 1 {
+				return nil
+			}
+			email := strings.TrimSpace(cols[0])
+			if !api_util.RegexEmail.MatchString(email) {
+				z.Log().Debug("skip: the data is not looking alike an email address", zap.String("email", email))
+				return nil
+			}
+			member, err := svm.ResolveByEmail(email)
+			if err != nil {
+				return invite(email, cols)
+			} else {
+				return update(member, cols)
+			}
+		}).
+		Load()
+
+	if err != nil {
+		z.Log().Debug("Unable to load", zap.Error(err))
+	}
 }

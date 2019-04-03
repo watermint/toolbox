@@ -84,3 +84,24 @@ func ParseModel(v interface{}, j gjson.Result) error {
 	}
 	return nil
 }
+
+func ParseModelPathRaw(v interface{}, j json.RawMessage, path string) error {
+	if !gjson.ValidBytes(j) {
+		return errors.New("invalid json")
+	}
+	g := gjson.ParseBytes(j)
+	p := g.Get(path)
+	if !p.Exists() {
+		return errors.New("unexpected data format")
+	}
+	return ParseModel(v, p)
+}
+
+func CombineRaw(raws map[string]json.RawMessage) json.RawMessage {
+	b, err := json.Marshal(raws)
+	if err != nil {
+		app.Root().Log().Error("Unable to marshal", zap.Error(err))
+		return json.RawMessage("{}")
+	}
+	return b
+}

@@ -1,6 +1,9 @@
 package cmd_sharedfolder
 
-import "github.com/watermint/toolbox/cmd"
+import (
+	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/cmd/cmd_sharedfolder/cmd_sharedfolder_member"
+)
 
 func NewSharedFolder() cmd.Commandlet {
 	return &cmd.CommandletGroup{
@@ -10,6 +13,7 @@ func NewSharedFolder() cmd.Commandlet {
 			&CmdSharedFolderList{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
+			cmd_sharedfolder_member.NewCmdSharedFolderMember(),
 		},
 	}
 }

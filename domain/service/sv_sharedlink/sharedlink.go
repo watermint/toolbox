@@ -3,49 +3,57 @@ package sv_sharedlink
 import (
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_list"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
-	"github.com/watermint/toolbox/model/dbx_api"
 	"time"
 )
 
 type SharedLink interface {
 	List() (links []mo_sharedlink.SharedLink, err error)
 	ListByPath(path mo_path.Path) (links []mo_sharedlink.SharedLink, err error)
-	Delete(link mo_sharedlink.SharedLink) (err error)
-	Create(path mo_path.Path, opts ...CreateOptions) (link mo_sharedlink.SharedLink, err error)
+	Remove(link mo_sharedlink.SharedLink) (err error)
+	Create(path mo_path.Path, opts ...LinkOpt) (link mo_sharedlink.SharedLink, err error)
+	Update(link mo_sharedlink.SharedLink, opts ...LinkOpt) (updated mo_sharedlink.SharedLink, err error)
 }
 
-type createOption struct {
-	visibility string
-	password   string
-	expires    string
+type linkOptions struct {
+	visibility       string
+	password         string
+	expires          string
+	removeExpiration bool
 }
 
-type CreateOptions func(opt *createOption) *createOption
+type LinkOpt func(opt *linkOptions) *linkOptions
 
-func Public() CreateOptions {
-	return func(opt *createOption) *createOption {
+func Public() LinkOpt {
+	return func(opt *linkOptions) *linkOptions {
 		opt.visibility = "public"
 		return opt
 	}
 }
-func TeamOnly() CreateOptions {
-	return func(opt *createOption) *createOption {
+func TeamOnly() LinkOpt {
+	return func(opt *linkOptions) *linkOptions {
 		opt.visibility = "team_only"
 		return opt
 	}
 }
-func Password(password string) CreateOptions {
-	return func(opt *createOption) *createOption {
+func Password(password string) LinkOpt {
+	return func(opt *linkOptions) *linkOptions {
 		opt.visibility = "password"
 		opt.password = password
 		return opt
 	}
 }
-func Expires(at time.Time) CreateOptions {
-	return func(opt *createOption) *createOption {
-		opt.expires = dbx_api.RebaseTimeForAPI(at).Format(dbx_api.DateTimeFormat)
+func Expires(at time.Time) LinkOpt {
+	return func(opt *linkOptions) *linkOptions {
+		opt.expires = api_util.RebaseAsString(at)
+		return opt
+	}
+}
+func RemoveExpiration() LinkOpt {
+	return func(opt *linkOptions) *linkOptions {
+		opt.removeExpiration = true
 		return opt
 	}
 }
@@ -58,6 +66,41 @@ func New(ctx api_context.Context) SharedLink {
 
 type sharedLinkImpl struct {
 	ctx api_context.Context
+}
+
+func (z *sharedLinkImpl) Update(link mo_sharedlink.SharedLink, opts ...LinkOpt) (updated mo_sharedlink.SharedLink, err error) {
+	opt := &linkOptions{}
+	for _, o := range opts {
+		o(opt)
+	}
+	type S struct {
+		RequestedVisibility string `json:"requested_visibility,omitempty"`
+		LinkPassword        string `json:"link_password,omitempty"`
+		Expires             string `json:"expires,omitempty"`
+	}
+	p := struct {
+		Url              string `json:"url"`
+		Settings         S      `json:"settings"`
+		RemoveExpiration bool   `json:"remove_expiration,omitempty"`
+	}{
+		Url: link.LinkUrl(),
+		Settings: S{
+			RequestedVisibility: opt.visibility,
+			LinkPassword:        opt.password,
+			Expires:             opt.expires,
+		},
+		RemoveExpiration: opt.removeExpiration,
+	}
+
+	link = &mo_sharedlink.Metadata{}
+	res, err := z.ctx.Request("sharing/modify_shared_link_settings").Param(p).Call()
+	if err != nil {
+		return nil, err
+	}
+	if err := res.Model(link); err != nil {
+		return nil, err
+	}
+	return link, nil
 }
 
 func (z *sharedLinkImpl) list(path string) (links []mo_sharedlink.SharedLink, err error) {
@@ -95,7 +138,7 @@ func (z *sharedLinkImpl) ListByPath(path mo_path.Path) (links []mo_sharedlink.Sh
 	return z.list(path.Path())
 }
 
-func (z *sharedLinkImpl) Delete(link mo_sharedlink.SharedLink) (err error) {
+func (z *sharedLinkImpl) Remove(link mo_sharedlink.SharedLink) (err error) {
 	p := struct {
 		Url string `json:"url"`
 	}{
@@ -106,8 +149,8 @@ func (z *sharedLinkImpl) Delete(link mo_sharedlink.SharedLink) (err error) {
 	return err
 }
 
-func (z *sharedLinkImpl) Create(path mo_path.Path, opts ...CreateOptions) (link mo_sharedlink.SharedLink, err error) {
-	opt := &createOption{}
+func (z *sharedLinkImpl) Create(path mo_path.Path, opts ...LinkOpt) (link mo_sharedlink.SharedLink, err error) {
+	opt := &linkOptions{}
 	for _, o := range opts {
 		o(opt)
 	}

@@ -1,7 +1,8 @@
 package api_util
 
 import (
-	"github.com/watermint/toolbox/model/dbx_api"
+	"encoding/json"
+	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"regexp"
 )
 
@@ -12,7 +13,7 @@ var (
 // Returns `error_summary` if an error is ApiError. Otherwise return "".
 func ErrorSummary(err error) string {
 	switch re := err.(type) {
-	case dbx_api.ApiError:
+	case api_rpc.ApiError:
 		es := errorSummaryPostfix.ReplaceAllString(re.ErrorSummary, "")
 		return es
 
@@ -22,9 +23,20 @@ func ErrorSummary(err error) string {
 }
 
 // Returns `error_summary` if an error is ApiError. Otherwise return "".
+func ErrorBody(err error) json.RawMessage {
+	switch re := err.(type) {
+	case api_rpc.ApiError:
+		return re.ErrorBody
+
+	default:
+		return nil
+	}
+}
+
+// Returns `error_summary` if an error is ApiError. Otherwise return "".
 func ErrorTag(err error) string {
 	switch re := err.(type) {
-	case dbx_api.ApiError:
+	case api_rpc.ApiError:
 		return re.ErrorTag
 
 	default:
@@ -35,7 +47,7 @@ func ErrorTag(err error) string {
 // Returns `user_message` if an error is ApiError. Otherwise return Error().
 func ErrorUserMessage(err error) string {
 	switch re := err.(type) {
-	case dbx_api.ApiError:
+	case api_rpc.ApiError:
 		if re.UserMessage == "" {
 			return re.Error()
 		}

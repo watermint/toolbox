@@ -1,18 +1,44 @@
 package api_rpc
 
-import "github.com/tidwall/gjson"
+import (
+	"github.com/tidwall/gjson"
+	"net/http"
+)
 
-type Request interface {
-	Param(param interface{}) Request
-	OnSuccess(func(res Response) error) Request
-	OnFailure(func(err error) error) Request
+const (
+	ReqHeaderContentType   = "Content-Type"
+	ReqHeaderAuthorization = "Authorization"
+	ReqHeaderSelectUser    = "Dropbox-API-Select-User"
+	ReqHeaderSelectAdmin   = "Dropbox-API-Select-Admin"
+	ReqHeaderPathRoot      = "Dropbox-API-Path-Root"
+	ResHeaderRetryAfter    = "Retry-After"
+)
+
+type Caller interface {
+	Param(param interface{}) Caller
+	OnSuccess(func(res Response) error) Caller
+	OnFailure(func(err error) error) Caller
 	Call() (res Response, err error)
 }
 
-type Response interface {
-	// Returns error. Returns nil if a response succeed.
-	Error() error
+type Request interface {
+	// Request param.
+	Param() string
 
+	// Request url.
+	Url() string
+
+	// Headers
+	Headers() map[string]string
+
+	// Method
+	Method() string
+
+	// Request
+	Request() (req *http.Request, err error)
+}
+
+type Response interface {
 	// Response code. Returns -1 if a response does not contain status code.
 	StatusCode() int
 

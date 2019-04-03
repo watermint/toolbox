@@ -4,8 +4,10 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_file/compare"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/model/mo_file_diff"
+	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/usecase/uc_file_compare"
 )
 
 type CmdFileCompare struct {
@@ -34,16 +36,16 @@ func (z *CmdFileCompare) FlagConfig(f *flag.FlagSet) {
 	z.report.FlagConfig(f)
 
 	descLeftAccount := z.ExecContext.Msg("cmd.file.compare.flag.left_account").T()
-	f.StringVar(&z.optLeftAccount, "left-account", "compare-left", descLeftAccount)
+	f.StringVar(&z.optLeftAccount, "alias-left", "compare-left", descLeftAccount)
 
 	descRightAccount := z.ExecContext.Msg("cmd.file.compare.flag.right_account").T()
-	f.StringVar(&z.optRightAccount, "right-account", "compare-right", descRightAccount)
+	f.StringVar(&z.optRightAccount, "alias-right", "compare-right", descRightAccount)
 
 	descLeftPath := z.ExecContext.Msg("cmd.file.compare.flag.left_path").T()
-	f.StringVar(&z.optLeftPath, "left-path", "", descLeftPath)
+	f.StringVar(&z.optLeftPath, "path-left", "", descLeftPath)
 
 	descRightPath := z.ExecContext.Msg("cmd.file.compare.flag.right_path").T()
-	f.StringVar(&z.optRightPath, "right-path", "", descRightPath)
+	f.StringVar(&z.optRightPath, "path-right", "", descRightPath)
 }
 
 func (z *CmdFileCompare) Exec(args []string) {
@@ -58,16 +60,14 @@ func (z *CmdFileCompare) Exec(args []string) {
 
 	// Ask for LEFT account authentication
 	z.ExecContext.Msg("cmd.file.compare.prompt.ask_left_account_auth").Tell()
-	auLeft := dbx_auth.NewAuth(z.ExecContext, z.optLeftAccount)
-	acLeft, err := auLeft.Auth(dbx_auth.DropboxTokenFull)
+	ctxLeft, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.PeerName(z.optLeftAccount), api_auth_impl.Full())
 	if err != nil {
 		return
 	}
 
 	// Ask for RIGHT account authentication
 	z.ExecContext.Msg("cmd.file.compare.prompt.ask_right_account_auth").Tell()
-	auRight := dbx_auth.NewAuth(z.ExecContext, z.optRightAccount)
-	acRight, err := auRight.Auth(dbx_auth.DropboxTokenFull)
+	ctxRight, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.PeerName(z.optRightAccount), api_auth_impl.Full())
 	if err != nil {
 		return
 	}
@@ -75,17 +75,14 @@ func (z *CmdFileCompare) Exec(args []string) {
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
-	ba := compare.BetweenAccounts{
-		ExecContext:       z.ExecContext,
-		LeftAccountAlias:  z.optLeftAccount,
-		LeftPath:          z.optLeftPath,
-		LeftApi:           acLeft,
-		RightAccountAlias: z.optRightAccount,
-		RightPath:         z.optRightPath,
-		RightApi:          acRight,
-		OnDiff: func(diff compare.Diff) {
-			z.report.Report(diff)
-		},
+	diffReport := func(diff mo_file_diff.Diff) error {
+		z.report.Report(diff)
+		return nil
 	}
-	ba.Compare()
+
+	ucc := uc_file_compare.New(ctxLeft, ctxRight)
+	_, _ = ucc.Diff(diffReport,
+		uc_file_compare.LeftPath(mo_path.NewPath(z.optLeftPath)),
+		uc_file_compare.RightPath(mo_path.NewPath(z.optRightPath)),
+	)
 }

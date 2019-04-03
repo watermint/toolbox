@@ -4,21 +4,19 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
-	"github.com/watermint/toolbox/model/dbx_api"
-	"github.com/watermint/toolbox/model/dbx_auth"
-	"github.com/watermint/toolbox/model/dbx_member"
-	"github.com/watermint/toolbox/model/dbx_profile"
-	"github.com/watermint/toolbox/model/dbx_sharing"
+	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
+	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
+	"github.com/watermint/toolbox/domain/service/sv_member"
+	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"time"
 )
 
 type CmdTeamSharedLinkUpdateExpire struct {
 	*cmd.SimpleCommandlet
 
-	apiContext *dbx_api.DbxContext
-	report     app_report.Factory
-	filter     cmd.SharedLinkFilter
-	optDays    int
+	report  app_report.Factory
+	optDays int
 }
 
 func (CmdTeamSharedLinkUpdateExpire) Name() string {
@@ -36,7 +34,6 @@ func (CmdTeamSharedLinkUpdateExpire) Usage() func(cmd.CommandUsage) {
 func (z *CmdTeamSharedLinkUpdateExpire) FlagConfig(f *flag.FlagSet) {
 	z.report.ExecContext = z.ExecContext
 	z.report.FlagConfig(f)
-	z.filter.FlagConfig(f)
 
 	descDays := z.ExecContext.Msg("cmd.team.sharedlink.update.expire.flag.days").T()
 	f.IntVar(&z.optDays, "days", 0, descDays)
@@ -48,56 +45,38 @@ func (z *CmdTeamSharedLinkUpdateExpire) Exec(args []string) {
 		z.Log().Error("Please specify expiration date")
 		return
 	}
-	au := dbx_auth.NewDefaultAuth(z.ExecContext)
-	apiFile, err := au.Auth(dbx_auth.DropboxTokenBusinessFile)
+
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessFile())
 	if err != nil {
 		return
 	}
 
+	svm := sv_member.New(ctx)
+	members, err := svm.List()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
+	}
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
-	type UpdateReport struct {
-		MemberId     string `json:"member_id"`
-		MemberEmail  string `json:"member_email"`
-		SharedLinkId string `json:"shared_link_id"`
-		OldExpires   string `json:"old_expires"`
-		NewExpires   string `json:"new_expires"`
-	}
-
-	newExpire := dbx_api.RebaseTimeForAPI(time.Now().Add(time.Duration(z.optDays*24) * time.Hour))
-	ml := dbx_member.MembersList{
-		OnError: z.DefaultErrorHandler,
-		OnEntry: func(member *dbx_profile.Member) bool {
-
-			sl := dbx_sharing.SharedLinkList{
-				AsMemberId:    member.Profile.TeamMemberId,
-				AsMemberEmail: member.Profile.Email,
-				OnError:       z.DefaultErrorHandler,
-				OnEntry: func(link *dbx_sharing.SharedLink) bool {
-					if z.filter.IsAcceptable(link) {
-						newLink, err := link.UpdateExpire(apiFile, newExpire)
-						if err != nil {
-							z.DefaultErrorHandlerIgnoreError(err)
-							return true
-						}
-						if newLink != nil {
-							ur := UpdateReport{
-								MemberId:     member.Profile.TeamMemberId,
-								MemberEmail:  member.Profile.Email,
-								SharedLinkId: link.SharedLinkId,
-								OldExpires:   link.Expires,
-								NewExpires:   newLink.Expires,
-							}
-							z.report.Report(ur)
-						}
-					}
-					return true
-				},
+	newExpire := api_util.RebaseTime(time.Now().Add(time.Duration(z.optDays*24) * time.Hour))
+	for _, member := range members {
+		mctx := ctx.AsMemberId(member.TeamMemberId)
+		svs := sv_sharedlink.New(mctx)
+		links, err := svs.List()
+		if err != nil {
+			mctx.ErrorMsg(err).TellError()
+			return
+		}
+		for _, link := range links {
+			updated, err := svs.Update(link, sv_sharedlink.Expires(newExpire))
+			if err != nil {
+				mctx.ErrorMsg(err).TellError()
+				return
 			}
-			sl.List(apiFile)
-			return true
-		},
+			slm := mo_sharedlink.NewSharedLinkMember(updated, member)
+			z.report.Report(slm)
+		}
 	}
-	ml.List(apiFile, false)
 }

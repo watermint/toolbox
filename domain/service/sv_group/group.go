@@ -9,23 +9,38 @@ import (
 type Group interface {
 	Resolve(groupId string) (g *mo_group.Group, err error)
 	List() (g []*mo_group.Group, err error)
-	CreateUserManaged(name string) (g *mo_group.Group, err error)
-	CreateCompanyManaged(name string) (g *mo_group.Group, err error)
-	Delete(groupId string) error
+	Create(name string, opt ...CreateOpt) (g *mo_group.Group, err error)
+	Remove(groupId string) error
 	Update(group *mo_group.Group) (g *mo_group.Group, err error)
 }
 
-type GroupOption interface {
+type CreateOpt func(opt *createOpts) *createOpts
+type createOpts struct {
+	mgmtType string
 }
 
-type Option func(option GroupOption)
+func CompanyManaged() CreateOpt {
+	return func(opt *createOpts) *createOpts {
+		opt.mgmtType = "company_managed"
+		return opt
+	}
+}
+func UserManaged() CreateOpt {
+	return func(opt *createOpts) *createOpts {
+		opt.mgmtType = "user_managed"
+		return opt
+	}
+}
+func ManagementType(mgmtType string) CreateOpt {
+	return func(opt *createOpts) *createOpts {
+		opt.mgmtType = mgmtType
+		return opt
+	}
+}
 
-func New(ctx api_context.Context, options ...Option) Group {
+func New(ctx api_context.Context) Group {
 	g := &implGroup{
 		ctx: ctx,
-	}
-	for _, op := range options {
-		op(g)
 	}
 	return g
 }
@@ -35,7 +50,12 @@ type implGroup struct {
 	limit int
 }
 
-func (z *implGroup) create(name, mgmtType string) (g *mo_group.Group, err error) {
+func (z *implGroup) Create(name string, opt ...CreateOpt) (g *mo_group.Group, err error) {
+	co := &createOpts{}
+	for _, o := range opt {
+		o(co)
+	}
+
 	type MT struct {
 		Tag string `json:".tag"`
 	}
@@ -45,7 +65,7 @@ func (z *implGroup) create(name, mgmtType string) (g *mo_group.Group, err error)
 	}{
 		GroupName: name,
 		GroupManagementType: MT{
-			Tag: mgmtType,
+			Tag: co.mgmtType,
 		},
 	}
 	g = &mo_group.Group{}
@@ -59,15 +79,7 @@ func (z *implGroup) create(name, mgmtType string) (g *mo_group.Group, err error)
 	return g, nil
 }
 
-func (z *implGroup) CreateCompanyManaged(name string) (g *mo_group.Group, err error) {
-	return z.create(name, "company_managed")
-}
-
-func (z *implGroup) CreateUserManaged(name string) (g *mo_group.Group, err error) {
-	return z.create(name, "user_managed")
-}
-
-func (z *implGroup) Delete(groupId string) error {
+func (z *implGroup) Remove(groupId string) error {
 	p := struct {
 		Tag     string `json:".tag"`
 		GroupId string `json:"group_id"`

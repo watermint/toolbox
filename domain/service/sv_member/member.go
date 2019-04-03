@@ -1,15 +1,93 @@
 package sv_member
 
 import (
+	"encoding/json"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_list"
+	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"github.com/watermint/toolbox/domain/model/mo_member"
+	"go.uber.org/zap"
 )
 
 type Member interface {
 	Update(member *mo_member.Member) (updated *mo_member.Member, err error)
 	List() (members []*mo_member.Member, err error)
 	Resolve(teamMemberId string) (member *mo_member.Member, err error)
+	ResolveByEmail(email string) (member *mo_member.Member, err error)
+	Add(email string, opts ...AddOpt) (member *mo_member.Member, err error)
+	Remove(member *mo_member.Member, opts ...RemoveOpt) (err error)
+}
+
+type AddOpt func(opt *addOptions) *addOptions
+type addOptions struct {
+	givenName             string
+	surname               string
+	externalId            string
+	sendWelcomeEmail      bool
+	role                  string
+	isDirectoryRestricted bool
+}
+
+func AddWithGivenName(givenName string) AddOpt {
+	return func(opt *addOptions) *addOptions {
+		opt.givenName = givenName
+		return opt
+	}
+}
+func AddWithSurname(surname string) AddOpt {
+	return func(opt *addOptions) *addOptions {
+		opt.surname = surname
+		return opt
+	}
+}
+func AddWithExternalId(externalId string) AddOpt {
+	return func(opt *addOptions) *addOptions {
+		opt.externalId = externalId
+		return opt
+	}
+}
+
+// Use silent provisioning.
+// (required to verify domain first)
+// https://help.dropbox.com/business/domain-verification-invite-enforcement
+func AddWithoutSendWelcomeEmail() AddOpt {
+	return func(opt *addOptions) *addOptions {
+		opt.sendWelcomeEmail = false
+		return opt
+	}
+}
+func AddWithRole(role string) AddOpt {
+	return func(opt *addOptions) *addOptions {
+		opt.role = role
+		return opt
+	}
+}
+func AddWithDirectoryRestricted() AddOpt {
+	return func(opt *addOptions) *addOptions {
+		opt.isDirectoryRestricted = true
+		return opt
+	}
+}
+
+type RemoveOpt func(opt *removeOptions) *removeOptions
+type removeOptions struct {
+	wipeData    bool
+	keepAccount bool
+}
+
+// Downgrade the member to a Basic account.
+func Downgrade() RemoveOpt {
+	return func(opt *removeOptions) *removeOptions {
+		opt.wipeData = false
+		opt.keepAccount = true
+		return opt
+	}
+}
+func RemoveWipeData() RemoveOpt {
+	return func(opt *removeOptions) *removeOptions {
+		opt.wipeData = true
+		return opt
+	}
 }
 
 func New(ctx api_context.Context) Member {
@@ -29,6 +107,77 @@ type memberImpl struct {
 	ctx            api_context.Context
 	includeDeleted bool
 	limit          int
+}
+
+func (z *memberImpl) Add(email string, opts ...AddOpt) (member *mo_member.Member, err error) {
+	ao := &addOptions{}
+	for _, o := range opts {
+		o(ao)
+	}
+	type NM struct {
+		MemberEmail      string `json:"member_email"`
+		MemberGivenName  string `json:"member_given_name,omitempty"`
+		MemberSurname    string `json:"member_surname,omitempty"`
+		MemberExternalId string `json:"member_external_id,omitempty"`
+		SendWelcomeEmail bool   `json:"send_welcome_email,omitempty"`
+		Role             string `json:"role,omitempty"`
+	}
+	p := struct {
+		NewMembers []*NM `json:"new_members"`
+	}{
+		NewMembers: []*NM{
+			{
+				MemberEmail:      email,
+				MemberGivenName:  ao.givenName,
+				MemberSurname:    ao.surname,
+				MemberExternalId: ao.externalId,
+				SendWelcomeEmail: ao.sendWelcomeEmail,
+				Role:             ao.role,
+			},
+		},
+	}
+
+	res, err := z.ctx.Async("team/members/add").
+		Status("team/members/add/job_status/get").
+		Param(p).
+		Call()
+	if err != nil {
+		return nil, err
+	}
+	member = &mo_member.Member{}
+	if err = res.Model(member); err != nil {
+		return nil, err
+	}
+	return member, nil
+}
+
+func (z *memberImpl) Remove(member *mo_member.Member, opts ...RemoveOpt) (err error) {
+	ro := &removeOptions{}
+	for _, o := range opts {
+		o(ro)
+	}
+	type US struct {
+		Tag          string `json:".tag"`
+		TeamMemberId string `json:"team_member_id"`
+	}
+	p := struct {
+		User        US   `json:"user"`
+		WipeData    bool `json:"wipe_data"`
+		KeepAccount bool `json:"keep_account"`
+	}{
+		User: US{
+			Tag:          "team_member_id",
+			TeamMemberId: member.TeamMemberId,
+		},
+		WipeData:    ro.wipeData,
+		KeepAccount: ro.keepAccount,
+	}
+
+	_, err = z.ctx.Async("team/members/remove").
+		Status("team/members/remove/job_status/get").
+		Param(p).
+		Call()
+	return err
 }
 
 func (z *memberImpl) Update(member *mo_member.Member) (updated *mo_member.Member, err error) {
@@ -81,15 +230,62 @@ func (z *memberImpl) Resolve(teamMemberId string) (member *mo_member.Member, err
 			},
 		},
 	}
+	res, err := z.ctx.Request("team/members/get_info").Param(p).Call()
+	if err != nil {
+		return nil, err
+	}
+	return z.parseOneMember(res)
+}
+
+func (z *memberImpl) parseOneMember(res api_rpc.Response) (member *mo_member.Member, err error) {
+	member = &mo_member.Member{}
+	j, err := res.Json()
+	if err != nil {
+		return nil, err
+	}
+	if !j.IsArray() {
+		return nil, err
+	}
+	a := j.Array()[0]
+
+	// id_not_found response:
+	// {".tag": "id_not_found", "id_not_found": "xxx+xxxxx@xxxxxxxxx.xxx"}
+	if a.Get("id_not_found").Exists() {
+		z.ctx.Log().Debug("`id_not_found`", zap.String("id", a.Get("id_not_found").String()))
+		return nil, api_rpc.ApiError{
+			ErrorTag:     "id_not_found",
+			ErrorSummary: "id_not_found",
+			ErrorBody:    json.RawMessage(`{"error_summary":"id_not_found","error":{".tag":"id_not_found"}}`),
+		}
+	}
+
+	if err := res.ModelArrayFirst(member); err != nil {
+		return nil, err
+	}
+	return member, nil
+}
+
+func (z *memberImpl) ResolveByEmail(email string) (member *mo_member.Member, err error) {
+	type US struct {
+		Tag   string `json:".tag"`
+		Email string `json:"email"`
+	}
+	p := struct {
+		Members []US `json:"members"`
+	}{
+		Members: []US{
+			{
+				Tag:   "email",
+				Email: email,
+			},
+		},
+	}
 	member = &mo_member.Member{}
 	res, err := z.ctx.Request("team/members/get_info").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
-	if err := res.ModelArrayFirst(member); err != nil {
-		return nil, err
-	}
-	return member, nil
+	return z.parseOneMember(res)
 }
 
 func (z *memberImpl) List() (members []*mo_member.Member, err error) {

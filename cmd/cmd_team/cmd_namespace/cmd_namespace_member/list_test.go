@@ -24,5 +24,5 @@ func TestCmdTeamNamespaceMemberList_ExpandGroup(t *testing.T) {
 	}
 	defer os.Remove(csvFile.Name())
 
-	cmd.CmdTest(t, NewCmdTeamNamespaceMember(), []string{"list", "-expand-group", "-report-path", csvFile.Name()})
+	cmd.CmdTest(t, NewCmdTeamNamespaceMember(), []string{"list", "-report-path", csvFile.Name()})
 }

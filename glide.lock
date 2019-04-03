@@ -1,5 +1,5 @@
-hash: ce4614b78e9e6c9d913e99c2f63026bb8b9e68b5fe9e6f94104e672af880dd64
-updated: 2019-03-14T07:25:39.823345+09:00
+hash: fa25e7131bdc2795604103ef6e7eb3ab536f1bef521f14617e6a693a895b3ae0
+updated: 2019-03-26T15:35:25.072489+09:00
 imports:
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
@@ -30,7 +30,7 @@ imports:
 - name: github.com/tidwall/match
   version: 1731857f09b1f38450e2c12409748407822dc6be
 - name: github.com/tidwall/pretty
-  version: 65a9db5fad5105a89e17f38adcc9878685be6d78
+  version: 1166b9ac2b65e46a43d8618d30d1554f4652d49b
 - name: go.uber.org/atomic
   version: 1ea20fb1cbb1cc08cbd0d913a96dead89aa18289
 - name: go.uber.org/multierr
@@ -53,7 +53,7 @@ imports:
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: fead79001313d15903fb4605b4a1b781532cd93e
+  version: f49334f85ddcf0f08d7fb6dd7363e9e6d6b777eb
   subpackages:
   - windows
 - name: golang.org/x/text

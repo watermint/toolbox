@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/service/sv_group"
-	"github.com/watermint/toolbox/model/dbx_auth"
 	"go.uber.org/zap"
 )
 
@@ -41,7 +40,7 @@ func (z *CmdGroupRemove) Exec(args []string) {
 		return
 	}
 
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenBusinessManagement)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessManagement())
 	if err != nil {
 		return
 	}
@@ -87,7 +86,7 @@ func (z *CmdGroupRemove) Exec(args []string) {
 				}
 			}
 			gl.Debug("Removing group")
-			err := svc.Delete(g.GroupId)
+			err := svc.Remove(g.GroupId)
 			if err != nil {
 				z.ExecContext.Msg("cmd.group.remove.err.unable_to_remove").WithData(struct {
 					GroupName string

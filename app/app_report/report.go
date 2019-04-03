@@ -27,24 +27,13 @@ type Factory struct {
 	reports       []Report
 	DefaultWriter io.Writer
 	wrapper       *app_util.LineWriter
-	ReportHeader  bool
-	ReportUseBom  bool
-	ReportPath    string
-	ReportFormat  string
+	Path          string
+	Suppress      bool
 }
 
 func (z *Factory) FlagConfig(f *flag.FlagSet) {
 	descReportPath := z.ExecContext.Msg("report.common.flag.report_path").T()
-	f.StringVar(&z.ReportPath, "report-path", filepath.Join(z.ExecContext.JobsPath(), "reports"), descReportPath)
-
-	//descReportFormat := z.ec.Msg("report.common.flag.report_format").T()
-	//f.StringVar(&z.ReportFormat, "report-format", "json", descReportFormat)
-
-	//descUseBom := z.ec.Msg("report.common.flag.use_bom").T()
-	//f.BoolVar(&z.ReportUseBom, "report-usebom", false, descUseBom)
-
-	//descReportHeader := z.ec.Msg("report.common.flag.with_header").T()
-	//f.BoolVar(&z.ReportHeader, "report-header", true, descReportHeader)
+	f.StringVar(&z.Path, "report-path", filepath.Join(z.ExecContext.JobsPath(), "reports"), descReportPath)
 }
 
 func (z *Factory) Init(ec *app.ExecContext) error {
@@ -67,22 +56,24 @@ func (z *Factory) Init(ec *app.ExecContext) error {
 	}
 	if z.reports == nil {
 		z.reports = make([]Report, 0)
-		z.reports = append(z.reports, &app_report_json.JsonReport{
-			DefaultWriter: consoleWriter,
-			ReportPath:    "",
-		})
+		if !z.Suppress {
+			z.reports = append(z.reports, &app_report_json.JsonReport{
+				DefaultWriter: consoleWriter,
+				ReportPath:    "",
+			})
+		}
 		z.reports = append(z.reports, &app_report_json.JsonReport{
 			DefaultWriter: z.DefaultWriter,
-			ReportPath:    z.ReportPath,
+			ReportPath:    z.Path,
 		})
 		z.reports = append(z.reports, &app_report_csv.CsvReport{
 			DefaultWriter: z.DefaultWriter,
-			ReportPath:    z.ReportPath,
+			ReportPath:    z.Path,
 			ReportHeader:  true,
 			ReportUseBom:  false,
 		})
 		z.reports = append(z.reports, &app_report_xlsx.XlsxReport{
-			ReportPath: z.ReportPath,
+			ReportPath: z.Path,
 		})
 
 		for _, r := range z.reports {
@@ -120,11 +111,11 @@ func (z *Factory) Close() {
 		z.wrapper.Flush()
 	}
 
-	if !z.ExecContext.Quiet {
+	if !z.ExecContext.Quiet && !z.Suppress {
 		z.ExecContext.Msg("report.common.done.tell_location").WithData(struct {
 			Path string
 		}{
-			z.ReportPath,
+			z.Path,
 		}).TellSuccess()
 	}
 }

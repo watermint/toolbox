@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
-	"github.com/watermint/toolbox/model/dbx_auth"
 	"go.uber.org/zap"
 	"path/filepath"
 	"strings"
@@ -50,7 +49,7 @@ func (z *CmdSharedLinkRemove) Exec(args []string) {
 		return
 	}
 
-	ctx, err := api_auth_impl.Auth(z.ExecContext, dbx_auth.DropboxTokenFull)
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.Full())
 	if err != nil {
 		return
 	}
@@ -79,7 +78,7 @@ func (z *CmdSharedLinkRemove) removePathAt(ctx api_context.Context, path mo_path
 	for _, link := range links {
 		log := z.ExecContext.Log().With(zap.String("linkPath", link.LinkPathLower()))
 		log.Debug("Removing")
-		err := svc.Delete(link)
+		err := svc.Remove(link)
 		if err != nil {
 			log.Debug("Failed", zap.Error(err))
 			ctx.ErrorMsg(err).TellError()
@@ -112,7 +111,7 @@ func (z *CmdSharedLinkRemove) removeRecursive(ctx api_context.Context, path mo_p
 			continue
 		}
 		log.Debug("Removing")
-		err = svc.Delete(link)
+		err = svc.Remove(link)
 		if err != nil {
 			ctx.ErrorMsg(err).TellError()
 			continue

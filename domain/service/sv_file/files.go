@@ -12,11 +12,13 @@ type Files interface {
 	Resolve(path mo_path.Path) (entry mo_file.Entry, err error)
 	List(path mo_path.Path) (entries []mo_file.Entry, err error)
 
-	Delete(path mo_path.Path) (entry mo_file.Entry, err error)
-	DeleteWithRevision(path mo_path.Path, revision string) (entry mo_file.Entry, err error)
+	Remove(path mo_path.Path, opts ...RemoveOpt) (entry mo_file.Entry, err error)
+}
 
-	PermDelete(path mo_path.Path) (err error)
-	PermDeleteWithRevision(path mo_path.Path, revision string) (err error)
+type RemoveOpt func(opt *removeOpts) *removeOpts
+type removeOpts struct {
+	permanently bool
+	revision    string
 }
 
 func NewFiles(ctx api_context.Context) Files {
@@ -102,18 +104,6 @@ func (z *filesImpl) List(path mo_path.Path) (entries []mo_file.Entry, err error)
 	return entries, nil
 }
 
-func (z *filesImpl) Delete(path mo_path.Path) (entry mo_file.Entry, err error) {
-	panic("implement me")
-}
-
-func (z *filesImpl) DeleteWithRevision(path mo_path.Path, revision string) (entry mo_file.Entry, err error) {
-	panic("implement me")
-}
-
-func (z *filesImpl) PermDelete(path mo_path.Path) (err error) {
-	panic("implement me")
-}
-
-func (z *filesImpl) PermDeleteWithRevision(path mo_path.Path, revision string) (err error) {
+func (z *filesImpl) Remove(path mo_path.Path, opts ...RemoveOpt) (entry mo_file.Entry, err error) {
 	panic("implement me")
 }

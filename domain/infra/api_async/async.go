@@ -12,7 +12,6 @@ type Async interface {
 }
 
 type Response interface {
-	Error() error
 	Json() (res gjson.Result, err error)
 	Model(v interface{}) error
 	ModelWithPath(v interface{}, path string) error
