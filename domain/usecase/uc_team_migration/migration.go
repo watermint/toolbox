@@ -764,7 +764,7 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 
 				l := z.log().With(zap.String("SharedFolderId", f.SharedFolderId), zap.String("SharedFolderName", f.Name), zap.String("dstAdminId", ctx.AdminDst().TeamMemberId))
 
-				l.Debug("Bridge shared folder")
+				l.Info("Bridge shared folder")
 				var ctxFileAsMember api_context.Context
 				ctxFileAsMember = z.ctxFileSrc.AsMemberId(owner.TeamMemberId)
 
@@ -781,6 +781,13 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 					l.Warn("Unable to bridge shared folder permission", zap.Error(err))
 					return err
 				}
+
+				// transfer ownership
+				err = sv_sharedfolder.New(ctxFileAsMember).Transfer(f, sv_sharedfolder.ToAccountId(ctx.AdminDst().AccountId))
+				if err != nil {
+					l.Warn("Unable to transfer ownership to admin", zap.Error(err))
+					return err
+				}
 			}
 		}
 		return nil
@@ -788,8 +795,6 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 	if err = bridgeSharedFolders(); err != nil {
 		return err
 	}
-
-	// Preserve nested team folder structure
 
 	// Store context
 	if err = ctx.StoreState(); err != nil {
@@ -1137,7 +1142,7 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 			l.Info("Permissions: restore permission of shared folder")
 
 			members := ctx.NamespaceMembers(folder.SharedFolderId)
-			ctf := z.ctxFileDst.AsMemberId(ownerMember.TeamMemberId)
+			ctf := z.ctxFileDst.AsMemberId(ctx.AdminDst().TeamMemberId)
 			for _, member := range members {
 				if srcGrp, e := member.Group(); e {
 					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
@@ -1146,7 +1151,7 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 						return err
 					} else {
 						if err = svm.Add(sv_sharedfolder_member.AddByGroup(dstGrp, member.AccessType())); err != nil {
-							l.Error("Unable to add group to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+							l.Warn("Unable to add group to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
 						}
 					}
 				}
@@ -1158,8 +1163,18 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 
 					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
 					if err = svm.Add(sv_sharedfolder_member.AddByEmail(u.Email, accessType)); err != nil {
-						l.Error("Unable to add member to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("member", u.Email), zap.Error(err))
+						l.Warn("Unable to add member to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("member", u.Email), zap.Error(err))
 					}
+				}
+			}
+
+			// transfer ownership
+			err = sv_sharedfolder.New(ctf).Transfer(folder, sv_sharedfolder.ToTeamMemberId(ownerMember.TeamMemberId))
+			if err != nil {
+				if strings.HasPrefix(api_util.ErrorSummary(err), "new_owner_not_a_member") {
+					l.Debug("Unable to restore due to original owner not yet activated", zap.String("originalOwner", ownerMember.Email), zap.Error(err))
+				} else {
+					l.Warn("Unable to restore ownership", zap.String("originalOwner", ownerMember.Email), zap.Error(err))
 				}
 			}
 		}
@@ -1210,12 +1225,16 @@ func (z *migrationImpl) Cleanup(ctx Context) (err error) {
 			if isAdminExist {
 				l.Debug("Admin exists on the folder. Keep admin permission")
 			} else {
-				l.Info("Removing admin user from the folder", zap.String("admin", ctx.AdminDst().Email))
+				l.Info("Clean up permission of the folder", zap.String("admin", ctx.AdminDst().Email))
 				ctf := z.ctxFileDst.AsMemberId(ownerMember.TeamMemberId)
 				svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
 				err = svm.Remove(sv_sharedfolder_member.RemoveByTeamMemberId(ctx.AdminDst().TeamMemberId))
 				if err != nil {
-					l.Error("Unable to remove admin from the folder", zap.String("admin", ctx.AdminDst().Email), zap.Error(err))
+					if strings.HasPrefix(api_util.ErrorSummary(err), "access_error/not_a_member") {
+						l.Debug("Unable to remove admin due to original owner not yet activated", zap.Error(err))
+					} else {
+						l.Warn("Unable to remove admin from the folder", zap.String("admin", ctx.AdminDst().Email), zap.Error(err))
+					}
 				}
 			}
 		}

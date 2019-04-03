@@ -34,6 +34,12 @@ func ToProfile(p *mo_profile.Profile) TransferTo {
 		return to
 	}
 }
+func ToAccountId(accountId string) TransferTo {
+	return func(to *transferTo) *transferTo {
+		to.dropboxId = accountId
+		return to
+	}
+}
 func ToTeamMemberId(teamMemberId string) TransferTo {
 	return func(to *transferTo) *transferTo {
 		to.dropboxId = teamMemberId
@@ -69,7 +75,7 @@ func (z *sharedFolderImpl) Transfer(sf *mo_sharedfolder.SharedFolder, to Transfe
 
 	p := struct {
 		SharedFolderId string `json:"shared_folder_id"`
-		ToDropboxId    string `json:"to_dropbox_id"`
+		ToDropboxId    string `json:"to_dropbox_id,omitempty"`
 	}{
 		SharedFolderId: sf.SharedFolderId,
 		ToDropboxId:    too.dropboxId,
