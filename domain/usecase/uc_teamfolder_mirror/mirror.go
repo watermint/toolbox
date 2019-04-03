@@ -265,7 +265,9 @@ func (z *teamFolderImpl) Mirror(ctx Context, opts ...MirrorOpt) (err error) {
 			lastErr = err
 		}
 		if archive {
-
+			if err = z.Archive(ctx, scope); err != nil {
+				lastErr = err
+			}
 		}
 	}
 	if err = z.Cleanup(ctx); err != nil {

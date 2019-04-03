@@ -740,11 +740,6 @@ func (z *migrationImpl) isTeamOwnedSharedFolder(ctx Context, namespaceId string)
 }
 
 func (z *migrationImpl) Bridge(ctx Context) (err error) {
-	// bridge team folders
-	if err = z.teamFolderMirror.Bridge(ctx.ContextTeamFolder()); err != nil {
-		return err
-	}
-
 	// bridge shared folders
 	z.log().Info("Bridge: shared folders")
 	bridgeSharedFolders := func() error {
