@@ -107,6 +107,12 @@ type Context interface {
 	// Whether migrate groups only related to members, or sharing
 	GroupsOnlyRelated() bool
 
+	// Whether unlink desktop session or not. true for Keep sessions.
+	KeepDesktopSessions() bool
+
+	// Whether unlink desktop session or not. true for Keep sessions.
+	SetKeepDesktopSessions(keep bool)
+
 	// Store state
 	StoreState() error
 }
@@ -144,9 +150,10 @@ func newContext(ctxExec *app.ExecContext) Context {
 }
 
 type contextOpts struct {
-	GroupsOnlyRelated bool                `json:"groups_only_related"`
-	AdminSrc          *mo_profile.Profile `json:"admin_src"`
-	AdminDst          *mo_profile.Profile `json:"admin_dst"`
+	KeepDesktopSessions bool                `json:"keep_desktop_sessions"`
+	GroupsOnlyRelated   bool                `json:"groups_only_related"`
+	AdminSrc            *mo_profile.Profile `json:"admin_src"`
+	AdminDst            *mo_profile.Profile `json:"admin_dst"`
 }
 
 type contextImpl struct {
@@ -166,6 +173,14 @@ type contextImpl struct {
 	MapSharedFolders    map[string]*mo_sharedfolder.SharedFolder      `json:"shared_folders"`
 	MapNestedFolderPath map[string]map[string]string                  `json:"nested_folder_path"`
 	ContextOpts         *contextOpts                                  `json:"context_opts"`
+}
+
+func (z *contextImpl) KeepDesktopSessions() bool {
+	return z.ContextOpts.KeepDesktopSessions
+}
+
+func (z *contextImpl) SetKeepDesktopSessions(keep bool) {
+	z.ContextOpts.KeepDesktopSessions = true
 }
 
 func (z *contextImpl) AddNestedFolderPath(teamFolder, relPath, nestedFolderNamespaceId string) {

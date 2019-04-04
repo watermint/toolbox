@@ -658,5 +658,6 @@
   "cmd.dev.testsuite.clean.desc": "Clean up team migration test suite",
   "cmd.dev.testsuite.create.desc": "Create team migration test suite",
   "cmd.dev.testsuite.clean.flags.actor_file": "Actor file path",
-  "cmd.team.migrate.content.flag.resume": "Path to resumed state. Resume from last check process"
+  "cmd.team.migrate.content.flag.resume": "Path to resumed state. Resume from last check process",
+  "cmd.team.migrate.check.flag.keep_desktop_sessions": "Do not unlink desktop sessions on migration"
 }

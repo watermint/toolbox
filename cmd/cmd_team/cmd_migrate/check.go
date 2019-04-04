@@ -11,15 +11,16 @@ import (
 
 type CmdTeamMigrateCheck struct {
 	*cmd.SimpleCommandlet
-	report               app_report.Factory
-	optSrcTeamAlias      string
-	optDstTeamAlias      string
-	optMembersAll        bool
-	optMembersCsv        string
-	optTeamFoldersAll    bool
-	optTeamFoldersCsv    string
-	optAll               bool
-	optGroupsOnlyRelated bool
+	report                 app_report.Factory
+	optSrcTeamAlias        string
+	optDstTeamAlias        string
+	optMembersAll          bool
+	optMembersCsv          string
+	optTeamFoldersAll      bool
+	optTeamFoldersCsv      string
+	optAll                 bool
+	optGroupsOnlyRelated   bool
+	optKeepDesktopSessions bool
 }
 
 func (z *CmdTeamMigrateCheck) Name() string {
@@ -61,6 +62,9 @@ func (z *CmdTeamMigrateCheck) FlagConfig(f *flag.FlagSet) {
 
 	descGroupsOnlyRelated := z.ExecContext.Msg("cmd.team.migrate.check.flag.groups_only_related").T()
 	f.BoolVar(&z.optGroupsOnlyRelated, "groups-only-related", false, descGroupsOnlyRelated)
+
+	descKeepDesktopSessions := z.ExecContext.Msg("cmd.team.migrate.check.flag.keep_desktop_sessions").T()
+	f.BoolVar(&z.optKeepDesktopSessions, "keep-desktop-sessions", false, descKeepDesktopSessions)
 }
 
 func (z *CmdTeamMigrateCheck) Exec(args []string) {

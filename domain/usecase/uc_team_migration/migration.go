@@ -11,9 +11,11 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/model/mo_profile"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
+	"github.com/watermint/toolbox/domain/service/sv_device"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
@@ -202,6 +204,7 @@ func (z *migrationImpl) Scope(opts ...ScopeOpt) (ctx Context, err error) {
 	// Prepare migration context
 	ctx = newContext(z.ctxExec)
 	ctx.SetGroupsOnlyRelated(so.groupsOnlyRelated)
+	ctx.SetKeepDesktopSessions(so.keepDesktopSessions)
 
 	// validation
 	if so.membersAllExceptAdmin && len(so.membersSpecifiedEmail) > 0 {
@@ -800,6 +803,42 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 }
 
 func (z *migrationImpl) Content(ctx Context) (err error) {
+	// Detach desktop clients of migration target end users to prevent content inconsistency
+	unlinkDesktopClients := func() error {
+		svd := sv_device.New(z.ctxFileSrc)
+		devices, err := svd.List()
+		if err != nil {
+			z.log().Error("Unable to retrieve list of devices of source team", zap.Error(err))
+			return err
+		}
+		sourceMembers := make(map[string]*mo_profile.Profile)
+		for _, member := range ctx.Members() {
+			sourceMembers[member.TeamMemberId] = member
+		}
+		for _, device := range devices {
+			l := z.log().With(zap.String("sessionId", device.SessionId()), zap.String("tag", device.EntryTag()))
+			d, e := device.Desktop()
+			if !e {
+				l.Debug("Skip non desktop sessions")
+				continue
+			}
+			if m, e := sourceMembers[device.EntryTeamMemberId()]; e {
+				l.Info("Unlink Desktop session", zap.String("member", m.Email), zap.String("platform", d.Platform), zap.String("updated", d.Updated))
+				err = svd.Revoke(d, sv_device.DeleteOnUnlink())
+				if err != nil {
+					l.Warn("Unable to unlink desktop session", zap.Error(err))
+				}
+			}
+		}
+		return nil
+	}
+	if !ctx.KeepDesktopSessions() {
+		z.log().Info("Content: unlink desktop clients of members to prevent inconsistency")
+		if err = unlinkDesktopClients(); err != nil {
+			return err
+		}
+	}
+
 	// Mirror team folders
 	z.log().Info("Content: mirroring team folder contents")
 	if err = z.teamFolderMirror.Mirror(ctx.ContextTeamFolder()); err != nil {

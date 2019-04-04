@@ -14,6 +14,13 @@ type Session interface {
 	Revoke(session mo_device.Session, opts ...RevokeOption) (err error)
 }
 
+func DeleteOnUnlink() RevokeOption {
+	return func(opt *revokeOptions) *revokeOptions {
+		opt.deleteOnUnlink = true
+		return opt
+	}
+}
+
 type RevokeOption func(opt *revokeOptions) *revokeOptions
 
 type revokeOptions struct {
