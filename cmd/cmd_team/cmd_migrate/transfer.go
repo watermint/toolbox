@@ -33,10 +33,10 @@ func (z *CmdTeamMigrateTransfer) FlagConfig(f *flag.FlagSet) {
 	z.report.FlagConfig(f)
 
 	descFromAccount := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.src_account").T()
-	f.StringVar(&z.optSrcTeamAlias, "alias-src", "mirror-src", descFromAccount)
+	f.StringVar(&z.optSrcTeamAlias, "alias-src", "migration-src", descFromAccount)
 
 	descToAccount := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.dst_account").T()
-	f.StringVar(&z.optDstTeamAlias, "alias-dest", "mirror-dst", descToAccount)
+	f.StringVar(&z.optDstTeamAlias, "alias-dest", "migration-dst", descToAccount)
 
 	descResume := z.ExecContext.Msg("cmd.team.migrate.content.flag.resume").T()
 	f.StringVar(&z.optResume, "resume", "", descResume)

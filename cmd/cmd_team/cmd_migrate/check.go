@@ -40,10 +40,10 @@ func (z *CmdTeamMigrateCheck) FlagConfig(f *flag.FlagSet) {
 	z.report.FlagConfig(f)
 
 	descFromAccount := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.src_account").T()
-	f.StringVar(&z.optSrcTeamAlias, "alias-src", "mirror-src", descFromAccount)
+	f.StringVar(&z.optSrcTeamAlias, "alias-src", "migration-src", descFromAccount)
 
 	descToAccount := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.dst_account").T()
-	f.StringVar(&z.optDstTeamAlias, "alias-dest", "mirror-dst", descToAccount)
+	f.StringVar(&z.optDstTeamAlias, "alias-dest", "migration-dst", descToAccount)
 
 	descMembersAll := z.ExecContext.Msg("cmd.team.migrate.check.flag.members_all").T()
 	f.BoolVar(&z.optMembersAll, "member-all", false, descMembersAll)
