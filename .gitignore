@@ -4,6 +4,9 @@
 *.tokens
 *.afdesign
 *.appkeys
+*.pem
+*.key
+*.jks
 /.idea
 /build
 /dist

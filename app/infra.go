@@ -16,6 +16,7 @@ import (
 	"os/user"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"time"
 )
 
@@ -296,12 +297,17 @@ func (z *ExecContext) SecretsPath() string {
 }
 
 func (z *ExecContext) DefaultWorkPath() string {
+	for _, e := range os.Environ() {
+		v := strings.Split(e, "=")
+		if v[0] == "TOOLBOX_HOME" && len(v) > 1 {
+			z.Log().Debug("Set work path from $TOOLBOX_HOME", zap.String("home", v[1]))
+			return v[1]
+		}
+	}
+
 	u, err := user.Current()
 	if err != nil {
-		z.Log().Fatal(
-			"Unable to determine current user",
-			zap.Error(err),
-		)
+		z.Log().Fatal("Unable to determine current user", zap.Error(err))
 	}
 	return filepath.Join(u.HomeDir, "."+AppName)
 }
