@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/infra/api_util"
@@ -92,14 +93,15 @@ func ResumeExecContext(ec *app.ExecContext) ResumeOpt {
 	}
 }
 
-func New(ctxExec *app.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context) Migration {
+func New(ctxExec *app.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, report app_report.Report) Migration {
 	return &migrationImpl{
 		ctxExec:          ctxExec,
 		ctxFileSrc:       ctxFileSrc,
 		ctxMgtSrc:        ctxMgtSrc,
 		ctxFileDst:       ctxFileDst,
 		ctxMgtDst:        ctxMgtDst,
-		teamFolderMirror: uc_teamfolder_mirror.New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst),
+		teamFolderMirror: uc_teamfolder_mirror.New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst, report),
+		report:           report,
 	}
 }
 
@@ -110,6 +112,7 @@ type migrationImpl struct {
 	ctxMgtSrc        api_context.Context
 	ctxMgtDst        api_context.Context
 	teamFolderMirror uc_teamfolder_mirror.TeamFolder
+	report           app_report.Report
 }
 
 func (z *migrationImpl) Resume(opts ...ResumeOpt) (ctx Context, err error) {

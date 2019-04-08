@@ -164,7 +164,10 @@ func (z *CmdTeamMigrateCheck) Exec(args []string) {
 		opts = append(opts, uc_team_migration.MembersAllExceptAdmin(), uc_team_migration.TeamFoldersAll())
 	}
 
-	ucm := uc_team_migration.New(z.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst)
+	z.report.Init(z.ExecContext)
+	defer z.report.Close()
+
+	ucm := uc_team_migration.New(z.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst, &z.report)
 	mc, err := ucm.Scope(opts...)
 	if err != nil {
 		ctxFileSrc.ErrorMsg(err).TellError()

@@ -88,7 +88,11 @@ func (z *CmdTeamMigrateTransfer) Exec(args []string) {
 	if err != nil {
 		return
 	}
-	ucm := uc_team_migration.New(z.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst)
+
+	z.report.Init(z.ExecContext)
+	defer z.report.Close()
+
+	ucm := uc_team_migration.New(z.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst, &z.report)
 
 	mc, err := ucm.Resume(uc_team_migration.ResumeExecContext(z.ExecContext), uc_team_migration.ResumeFromPath(z.optResume))
 	if err != nil {
