@@ -349,7 +349,7 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 					zap.String("srcName", pair.Src.Name),
 					zap.String("srcStatus", pair.Src.Status),
 				)
-				inspectErr = errors.New("one or more team folders are not active")
+				//inspectErr = errors.New("one or more team folders are not active")
 			}
 		}
 		return inspectErr
