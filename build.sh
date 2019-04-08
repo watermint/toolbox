@@ -79,7 +79,7 @@ GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUI
 echo --------------------
 echo Testing binary
 
-$BUILD_PATH/tbx-$BUILD_VERSION-linux dev auth appkey
+$BUILD_PATH/tbx-$BUILD_VERSION-linux dev auth appkey -quiet
 if [[ $? = 0 ]]; then
   echo Success: appkey test
 else
