@@ -982,12 +982,12 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	z.log().Info("Permissions: add members to groups")
 	addMembersToGroups := func() error {
 		for gn, srcGrp := range groupNameToSrcGroup {
+			l := z.log().With(zap.String("groupName", gn), zap.String("srcGroupId", srcGrp.GroupId))
 			if srcGrp.GroupManagementType == "system_managed" {
-				z.log().Debug("Skip: system managed group")
+				l.Debug("Skip: system managed group")
 				continue
 			}
 			dstGrp, e := groupNameToDstGroup[gn]
-			l := z.log().With(zap.String("groupName", gn), zap.String("srcGroupId", srcGrp.GroupId))
 			if !e {
 				l.Error("Unable to find dest group")
 				return errors.New("unable to find dest group")
@@ -1024,6 +1024,10 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	z.log().Info("Permissions: mapping source to destination groups")
 	createSrcGroupIdToDstGroupMap := func() error {
 		for n, src := range groupNameToSrcGroup {
+			if src.GroupManagementType == "system_managed" {
+				z.log().Debug("Skip: system managed group", zap.String("groupName", src.GroupName))
+				continue
+			}
 			if dst, e := groupNameToDstGroup[n]; e {
 				srcGroupIdToDstGroup[src.GroupId] = dst
 			} else {
