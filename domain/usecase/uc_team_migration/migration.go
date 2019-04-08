@@ -871,6 +871,11 @@ func (z *migrationImpl) Transfer(ctx Context) (err error) {
 		svmSrc := sv_member.New(z.ctxMgtSrc)
 		svmDst := sv_member.New(z.ctxMgtDst)
 		for _, member := range ctx.Members() {
+			if member.TeamMemberId == ctx.AdminSrc().TeamMemberId {
+				z.log().Debug("Skip admin", zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
+				continue
+			}
+
 			z.log().Info("Transfer: transferring member", zap.String("email", member.Email))
 			l := z.log().With(zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
 			l.Debug("Transferring account")
@@ -989,6 +994,10 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 			members := ctx.GroupMembers(srcGrp) // lookup by src group
 			sgm := sv_group_member.New(z.ctxMgtDst, dstGrp)
 			for _, member := range members {
+				if member.TeamMemberId == ctx.AdminSrc().TeamMemberId {
+					l.Debug("Skip: Admin should not be added", zap.String("member", member.Email))
+					continue
+				}
 				l.Info("Adding member to group", zap.String("member", member.Email))
 				_, err = sgm.Add(sv_group_member.ByEmail(member.Email))
 				if err != nil {
