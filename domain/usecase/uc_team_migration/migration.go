@@ -437,6 +437,20 @@ func (z *migrationImpl) Inspect(ctx Context) (err error) {
 		return err
 	}
 
+	// Inspect members
+	z.log().Info("Inspect: members")
+	inspectMembers := func() error {
+		for _, member := range ctx.Members() {
+			if !member.EmailVerified {
+				z.log().Warn("Inspect: member is not email verified", zap.String("email", member.Email))
+			}
+		}
+		return nil
+	}
+	if err = inspectMembers(); err != nil {
+		return err
+	}
+
 	// Inspect team folder mirror
 	z.log().Info("Inspect: team folder mirroring")
 	if err = z.teamFolderMirror.Inspect(ctx.ContextTeamFolder()); err != nil {
@@ -1195,7 +1209,8 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 				l.Debug("Skip non team owned folder")
 				continue
 			}
-			if owner.TeamMemberId == ctx.AdminSrc().TeamMemberId {
+			if owner.TeamMemberId == ctx.AdminSrc().TeamMemberId ||
+				owner.Email == ctx.AdminSrc().Email {
 				l.Debug("Skip shared folder which owned by src admin")
 				continue
 			}
@@ -1271,6 +1286,11 @@ func (z *migrationImpl) Cleanup(ctx Context) (err error) {
 			owner, sameTeam := z.isTeamOwnedSharedFolder(ctx, folder.SharedFolderId)
 			if !sameTeam {
 				l.Debug("Skip non team owned folder")
+				continue
+			}
+			if owner.TeamMemberId == ctx.AdminSrc().TeamMemberId ||
+				owner.Email == ctx.AdminSrc().Email {
+				l.Debug("Skip shared folder which owned by src admin")
 				continue
 			}
 			ownerMember, err := sv_member.New(z.ctxMgtDst).ResolveByEmail(owner.Email)
