@@ -108,7 +108,7 @@ func (z *CmdTeamFolderMirror) Exec(args []string) {
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
-	ucm := uc_teamfolder_mirror.New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst, z.report)
+	ucm := uc_teamfolder_mirror.New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst, &z.report)
 
 	if z.optAllTeamFolders {
 		uc, err := ucm.AllFolderScope()
