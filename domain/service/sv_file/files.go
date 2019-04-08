@@ -68,6 +68,11 @@ func (z *filesImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, err error) 
 
 func (z *filesImpl) List(path mo_path.Path) (entries []mo_file.Entry, err error) {
 	entries = make([]mo_file.Entry, 0)
+	pp := path.Path()
+	if pp == "/" {
+		pp = ""
+	}
+
 	p := struct {
 		Path                            string `json:"path"`
 		Recursive                       bool   `json:"recursive,omitempty"`
@@ -76,7 +81,7 @@ func (z *filesImpl) List(path mo_path.Path) (entries []mo_file.Entry, err error)
 		IncludeHasExplicitSharedMembers bool   `json:"include_has_explicit_shared_members,omitempty"`
 		Limit                           int    `json:"limit,omitempty"`
 	}{
-		Path:                            path.Path(),
+		Path:                            pp,
 		Recursive:                       z.recursive,
 		IncludeMediaInfo:                z.includeMediaInfo,
 		IncludeDeleted:                  z.includeDeleted,

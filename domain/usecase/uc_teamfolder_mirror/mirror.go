@@ -532,6 +532,7 @@ func (z *teamFolderImpl) Verify(ctx Context, scope Scope) (err error) {
 
 	ucc := uc_file_compare.New(ctxSrc, ctxDst)
 	count, err := ucc.Diff(func(diff mo_file_diff.Diff) error {
+
 		z.log().Warn("Diff", zap.Any("diff", diff))
 		return nil
 	})
