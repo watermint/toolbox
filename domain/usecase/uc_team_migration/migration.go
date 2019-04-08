@@ -982,6 +982,10 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	z.log().Info("Permissions: add members to groups")
 	addMembersToGroups := func() error {
 		for gn, srcGrp := range groupNameToSrcGroup {
+			if srcGrp.GroupManagementType == "system_managed" {
+				z.log().Debug("Skip: system managed group")
+				continue
+			}
 			dstGrp, e := groupNameToDstGroup[gn]
 			l := z.log().With(zap.String("groupName", gn), zap.String("srcGroupId", srcGrp.GroupId))
 			if !e {
