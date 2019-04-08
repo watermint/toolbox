@@ -34,6 +34,11 @@ const (
 	MsgNoError      = "app.common.api.err.no_error"
 )
 
+const (
+	FatalGeneric = iota + 1
+	FatalNoAppKey
+)
+
 func Root() *ExecContext {
 	if rootContext == nil {
 		rootContext = NewExecContextForTest()
@@ -271,6 +276,16 @@ func (z *ExecContext) ApplyFlags() error {
 
 func (z *ExecContext) shutdownCleanup() {
 
+}
+
+func (z *ExecContext) Fatal(code int) {
+	if z.logWrapper != nil {
+		z.logWrapper.Flush()
+	}
+	z.Log().Debug("Shutdown (Fatal)", zap.Int("code", code))
+	z.Log().Sync()
+	z.shutdownCleanup()
+	os.Exit(code)
 }
 
 func (z *ExecContext) Shutdown() {

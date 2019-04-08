@@ -76,6 +76,16 @@ GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUI
 echo Building: Darwin
 GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-macos   github.com/watermint/toolbox
 
+echo --------------------
+echo Testing binary
+
+$BUILD_PATH/tbx-$BUILD_VERSION-linux dev auth appkey
+if [[ $? = 0 ]]; then
+  echo Success: appkey test
+else
+  echo Unable to load app key: code=$?
+  exit $?
+fi
 
 echo --------------------
 echo BUILD: Packaging
