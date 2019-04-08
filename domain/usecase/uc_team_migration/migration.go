@@ -1195,6 +1195,10 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 				l.Debug("Skip non team owned folder")
 				continue
 			}
+			if owner.TeamMemberId == ctx.AdminSrc().TeamMemberId {
+				l.Debug("Skip shared folder which owned by src admin")
+				continue
+			}
 			ownerMember, err := sv_member.New(z.ctxMgtDst).ResolveByEmail(owner.Email)
 			if err != nil {
 				l.Error("Unable to resolve folder owner user", zap.String("email", owner.Email), zap.Error(err))
