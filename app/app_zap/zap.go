@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/app"
 )
 
-func Zap(ec *app.ExecContext) (b []byte, err error) {
+func Unzap(ec *app.ExecContext) (b []byte, err error) {
 	tas, err := ec.ResourceBytes("toolbox.appkeys.secret")
 	if err != nil {
 		return nil, err

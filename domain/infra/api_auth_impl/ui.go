@@ -98,7 +98,7 @@ func (z *UIAuth) wrapToken(tokenType, token string, cause error) (ctx api_contex
 }
 
 func (z *UIAuth) loadKeys() {
-	kb, err := app_zap.Zap(z.ec)
+	kb, err := app_zap.Unzap(z.ec)
 	if err != nil {
 		kb, err = z.ec.ResourceBytes("toolbox.appkeys")
 		if err != nil {
