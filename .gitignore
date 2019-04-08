@@ -1,9 +1,13 @@
 .DS_Store
+.dropbox
 *.iml
 *.secret
 *.tokens
 *.afdesign
 *.appkeys
+*.pem
+*.key
+*.jks
 /.idea
 /build
 /dist

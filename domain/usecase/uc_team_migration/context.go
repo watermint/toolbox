@@ -107,6 +107,12 @@ type Context interface {
 	// Whether migrate groups only related to members, or sharing
 	GroupsOnlyRelated() bool
 
+	// Whether unlink desktop session or not. true for Keep sessions.
+	KeepDesktopSessions() bool
+
+	// Whether unlink desktop session or not. true for Keep sessions.
+	SetKeepDesktopSessions(keep bool)
+
 	// Store state
 	StoreState() error
 }
@@ -144,9 +150,10 @@ func newContext(ctxExec *app.ExecContext) Context {
 }
 
 type contextOpts struct {
-	GroupsOnlyRelated bool                `json:"groups_only_related"`
-	AdminSrc          *mo_profile.Profile `json:"admin_src"`
-	AdminDst          *mo_profile.Profile `json:"admin_dst"`
+	KeepDesktopSessions bool                `json:"keep_desktop_sessions"`
+	GroupsOnlyRelated   bool                `json:"groups_only_related"`
+	AdminSrc            *mo_profile.Profile `json:"admin_src"`
+	AdminDst            *mo_profile.Profile `json:"admin_dst"`
 }
 
 type contextImpl struct {
@@ -168,6 +175,14 @@ type contextImpl struct {
 	ContextOpts         *contextOpts                                  `json:"context_opts"`
 }
 
+func (z *contextImpl) KeepDesktopSessions() bool {
+	return z.ContextOpts.KeepDesktopSessions
+}
+
+func (z *contextImpl) SetKeepDesktopSessions(keep bool) {
+	z.ContextOpts.KeepDesktopSessions = true
+}
+
 func (z *contextImpl) AddNestedFolderPath(teamFolder, relPath, nestedFolderNamespaceId string) {
 	name := strings.ToLower(teamFolder)
 	var ptn map[string]string
@@ -183,7 +198,7 @@ func (z *contextImpl) NestedFolderPath(teamFolderName string) (relPathToNamespac
 	if ptn, e := z.MapNestedFolderPath[strings.ToLower(teamFolderName)]; e {
 		return ptn, true
 	} else {
-		z.ctxExec.Log().Warn("Unable to find nested folder path", zap.String("teamFolderName", teamFolderName))
+		z.ctxExec.Log().Debug("Nested folder path not found", zap.String("teamFolderName", teamFolderName))
 		return nil, false
 	}
 }
@@ -448,7 +463,7 @@ func (z *contextImpl) GroupMembers(group *mo_group.Group) (members map[string]*m
 	if members, e := z.MapGroupMembers[group.GroupId]; e {
 		return members
 	} else {
-		z.ctxExec.Log().Warn("Group members not found", zap.String("groupId", group.GroupId))
+		z.ctxExec.Log().Debug("Group members not found", zap.String("groupId", group.GroupId))
 		return make(map[string]*mo_group_member.Member)
 	}
 }
@@ -465,7 +480,7 @@ func (z *contextImpl) NamespaceMembers(namespaceId string) (members map[string]m
 	if members, e := z.MapNamespaceMember[namespaceId]; e {
 		return members
 	} else {
-		z.ctxExec.Log().Warn("Namespace members not found", zap.String("namespaceId", namespaceId))
+		z.ctxExec.Log().Debug("Namespace members not found", zap.String("namespaceId", namespaceId))
 		return make(map[string]mo_sharedfolder_member.Member)
 	}
 }

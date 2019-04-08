@@ -121,7 +121,7 @@ https://www.dropbox.com/developers/apps
 Enter the generated token:
 ```
 
-The executable store tokens at the file under folder `$HOME/.toolbox/(HASH).secret`. If you don't want to store tokens into the file, then please specify option `-secure`.
+The executable store tokens at the file under folder `$HOME/.toolbox/secrets/(HASH).secret`. If you don't want to store tokens into the file, then please specify option `-secure`.
 
 ## Proxy
 

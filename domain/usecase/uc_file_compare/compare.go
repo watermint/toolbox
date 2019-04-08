@@ -25,20 +25,20 @@ func New(left, right api_context.Context) Compare {
 type CompareOpt func(opt *compareOpt) *compareOpt
 
 type compareOpt struct {
-	leftPath  string
-	rightPath string
+	leftPath  mo_path.Path
+	rightPath mo_path.Path
 }
 
 func LeftPath(path mo_path.Path) CompareOpt {
 	return func(opt *compareOpt) *compareOpt {
-		opt.leftPath = path.Path()
+		opt.leftPath = path
 		return opt
 	}
 }
 
 func RightPath(path mo_path.Path) CompareOpt {
 	return func(opt *compareOpt) *compareOpt {
-		opt.rightPath = path.Path()
+		opt.rightPath = path
 		return opt
 	}
 }
@@ -59,8 +59,8 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 
 	// Scan left
 	{
-		leftPath := filepath.Join(opts.leftPath, path)
-		entries, err := sv_file.NewFiles(z.ctxLeft).List(mo_path.NewPath(leftPath))
+		leftPath := opts.leftPath.ChildPath(path)
+		entries, err := sv_file.NewFiles(z.ctxLeft).List(leftPath)
 		if err != nil {
 			return 0, err
 		}
@@ -76,8 +76,8 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 
 	// Scan right
 	{
-		rightPath := filepath.Join(opts.rightPath, path)
-		entries, err := sv_file.NewFiles(z.ctxRight).List(mo_path.NewPath(rightPath))
+		rightPath := opts.rightPath.ChildPath(path)
+		entries, err := sv_file.NewFiles(z.ctxRight).List(rightPath)
 		if err != nil {
 			return 0, err
 		}
@@ -147,7 +147,7 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 	for lfn, lf := range leftFolders {
 		if _, e := rightFolders[lfn]; e {
 			// proceed to descendants
-			lp := strings.ToLower(opts.leftPath)
+			lp := strings.ToLower(opts.leftPath.Path())
 			if lp == "" {
 				lp = "/"
 			}
@@ -157,7 +157,7 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 				continue
 			}
 			if strings.HasPrefix(pd, "..") {
-				log.Error("invalid relative path", zap.String("pd", pd), zap.String("zLeftPath", opts.leftPath), zap.String("lfPathLower", lf.PathLower()))
+				log.Error("invalid relative path", zap.String("pd", pd), zap.String("zLeftPath", opts.leftPath.Path()), zap.String("lfPathLower", lf.PathLower()))
 				continue
 			}
 			log.Debug("Proceed into descendants", zap.String("pathDescendants", pd))
@@ -198,7 +198,10 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 }
 
 func (z *compareImpl) Diff(onDiff func(diff mo_file_diff.Diff) error, opts ...CompareOpt) (diffCount int, err error) {
-	co := &compareOpt{}
+	co := &compareOpt{
+		leftPath:  mo_path.NewPath(""),
+		rightPath: mo_path.NewPath(""),
+	}
 	for _, o := range opts {
 		o(co)
 	}

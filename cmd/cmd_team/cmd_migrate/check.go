@@ -11,15 +11,16 @@ import (
 
 type CmdTeamMigrateCheck struct {
 	*cmd.SimpleCommandlet
-	report               app_report.Factory
-	optSrcTeamAlias      string
-	optDstTeamAlias      string
-	optMembersAll        bool
-	optMembersCsv        string
-	optTeamFoldersAll    bool
-	optTeamFoldersCsv    string
-	optAll               bool
-	optGroupsOnlyRelated bool
+	report                 app_report.Factory
+	optSrcTeamAlias        string
+	optDstTeamAlias        string
+	optMembersAll          bool
+	optMembersCsv          string
+	optTeamFoldersAll      bool
+	optTeamFoldersCsv      string
+	optAll                 bool
+	optGroupsOnlyRelated   bool
+	optKeepDesktopSessions bool
 }
 
 func (z *CmdTeamMigrateCheck) Name() string {
@@ -39,10 +40,10 @@ func (z *CmdTeamMigrateCheck) FlagConfig(f *flag.FlagSet) {
 	z.report.FlagConfig(f)
 
 	descFromAccount := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.src_account").T()
-	f.StringVar(&z.optSrcTeamAlias, "alias-src", "mirror-src", descFromAccount)
+	f.StringVar(&z.optSrcTeamAlias, "alias-src", "migration-src", descFromAccount)
 
 	descToAccount := z.ExecContext.Msg("cmd.teamfolder.mirror.flag.dst_account").T()
-	f.StringVar(&z.optDstTeamAlias, "alias-dest", "mirror-dst", descToAccount)
+	f.StringVar(&z.optDstTeamAlias, "alias-dest", "migration-dst", descToAccount)
 
 	descMembersAll := z.ExecContext.Msg("cmd.team.migrate.check.flag.members_all").T()
 	f.BoolVar(&z.optMembersAll, "member-all", false, descMembersAll)
@@ -61,6 +62,9 @@ func (z *CmdTeamMigrateCheck) FlagConfig(f *flag.FlagSet) {
 
 	descGroupsOnlyRelated := z.ExecContext.Msg("cmd.team.migrate.check.flag.groups_only_related").T()
 	f.BoolVar(&z.optGroupsOnlyRelated, "groups-only-related", false, descGroupsOnlyRelated)
+
+	descKeepDesktopSessions := z.ExecContext.Msg("cmd.team.migrate.check.flag.keep_desktop_sessions").T()
+	f.BoolVar(&z.optKeepDesktopSessions, "keep-desktop-sessions", false, descKeepDesktopSessions)
 }
 
 func (z *CmdTeamMigrateCheck) Exec(args []string) {
@@ -160,7 +164,10 @@ func (z *CmdTeamMigrateCheck) Exec(args []string) {
 		opts = append(opts, uc_team_migration.MembersAllExceptAdmin(), uc_team_migration.TeamFoldersAll())
 	}
 
-	ucm := uc_team_migration.New(z.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst)
+	z.report.Init(z.ExecContext)
+	defer z.report.Close()
+
+	ucm := uc_team_migration.New(z.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst, &z.report)
 	mc, err := ucm.Scope(opts...)
 	if err != nil {
 		ctxFileSrc.ErrorMsg(err).TellError()

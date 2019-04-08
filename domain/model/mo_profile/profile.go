@@ -6,6 +6,7 @@ type Profile struct {
 	Raw                   json.RawMessage
 	TeamMemberId          string `path:"team_member_id"`
 	Email                 string `path:"email"`
+	EmailVerified         bool   `path:"email_verified"`
 	Status                string `path:"status.\\.tag"`
 	GivenName             string `path:"name.given_name"`
 	Surname               string `path:"name.surname"`

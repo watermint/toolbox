@@ -16,6 +16,7 @@ import (
 	"os/user"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"time"
 )
 
@@ -31,6 +32,11 @@ var (
 const (
 	DefaultPeerName = "default"
 	MsgNoError      = "app.common.api.err.no_error"
+)
+
+const (
+	FatalGeneric = iota + 1
+	FatalNoAppKey
 )
 
 func Root() *ExecContext {
@@ -272,6 +278,16 @@ func (z *ExecContext) shutdownCleanup() {
 
 }
 
+func (z *ExecContext) Fatal(code int) {
+	if z.logWrapper != nil {
+		z.logWrapper.Flush()
+	}
+	z.Log().Debug("Shutdown (Fatal)", zap.Int("code", code))
+	z.Log().Sync()
+	z.shutdownCleanup()
+	os.Exit(code)
+}
+
 func (z *ExecContext) Shutdown() {
 	if z.logWrapper != nil {
 		z.logWrapper.Flush()
@@ -296,12 +312,17 @@ func (z *ExecContext) SecretsPath() string {
 }
 
 func (z *ExecContext) DefaultWorkPath() string {
+	for _, e := range os.Environ() {
+		v := strings.Split(e, "=")
+		if v[0] == "TOOLBOX_HOME" && len(v) > 1 {
+			z.Log().Debug("Set work path from $TOOLBOX_HOME", zap.String("home", v[1]))
+			return v[1]
+		}
+	}
+
 	u, err := user.Current()
 	if err != nil {
-		z.Log().Fatal(
-			"Unable to determine current user",
-			zap.Error(err),
-		)
+		z.Log().Fatal("Unable to determine current user", zap.Error(err))
 	}
 	return filepath.Join(u.HomeDir, "."+AppName)
 }

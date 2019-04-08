@@ -54,6 +54,9 @@ if [ -e "resources/toolbox.appkeys" ]; then
   go run app/app_zap/app_zap_tool/main.go
   if [[ $? = 0 ]]; then
     rm resources/toolbox.appkeys
+  else
+    echo Zap exit with code $?
+    exit $?
   fi
   TOOLBOX_ZAP=$(cat /tmp/toolbox.zap)
 fi
@@ -73,6 +76,16 @@ GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUI
 echo Building: Darwin
 GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-macos   github.com/watermint/toolbox
 
+echo --------------------
+echo Testing binary
+
+$BUILD_PATH/tbx-$BUILD_VERSION-linux dev auth appkey -quiet
+if [[ $? = 0 ]]; then
+  echo Success: appkey test
+else
+  echo Unable to load app key: code=$?
+  exit $?
+fi
 
 echo --------------------
 echo BUILD: Packaging

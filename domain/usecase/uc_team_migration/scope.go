@@ -7,6 +7,7 @@ type scopeOpts struct {
 	teamFoldersAll           bool
 	teamFoldersSpecifiedName []string
 	groupsOnlyRelated        bool
+	keepDesktopSessions      bool
 }
 
 func MembersAllExceptAdmin() ScopeOpt {
@@ -36,6 +37,12 @@ func TeamFoldersSpecifiedName(name []string) ScopeOpt {
 func GroupsOnlyRelated() ScopeOpt {
 	return func(opt *scopeOpts) *scopeOpts {
 		opt.groupsOnlyRelated = true
+		return opt
+	}
+}
+func KeepDesktopSessions() ScopeOpt {
+	return func(opt *scopeOpts) *scopeOpts {
+		opt.keepDesktopSessions = true
 		return opt
 	}
 }

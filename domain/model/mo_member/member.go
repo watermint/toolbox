@@ -10,6 +10,7 @@ type Member struct {
 	Raw             json.RawMessage
 	TeamMemberId    string `path:"profile.team_member_id"`
 	Email           string `path:"profile.email"`
+	EmailVerified   bool   `path:"profile.email_verified"`
 	Status          string `path:"profile.status.\\.tag"`
 	GivenName       string `path:"profile.name.given_name"`
 	Surname         string `path:"profile.name.surname"`

@@ -5,15 +5,18 @@ import (
 	"errors"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/model/mo_profile"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
+	"github.com/watermint/toolbox/domain/service/sv_device"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
@@ -90,14 +93,15 @@ func ResumeExecContext(ec *app.ExecContext) ResumeOpt {
 	}
 }
 
-func New(ctxExec *app.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context) Migration {
+func New(ctxExec *app.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, report app_report.Report) Migration {
 	return &migrationImpl{
 		ctxExec:          ctxExec,
 		ctxFileSrc:       ctxFileSrc,
 		ctxMgtSrc:        ctxMgtSrc,
 		ctxFileDst:       ctxFileDst,
 		ctxMgtDst:        ctxMgtDst,
-		teamFolderMirror: uc_teamfolder_mirror.New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst),
+		teamFolderMirror: uc_teamfolder_mirror.New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst, report),
+		report:           report,
 	}
 }
 
@@ -108,6 +112,7 @@ type migrationImpl struct {
 	ctxMgtSrc        api_context.Context
 	ctxMgtDst        api_context.Context
 	teamFolderMirror uc_teamfolder_mirror.TeamFolder
+	report           app_report.Report
 }
 
 func (z *migrationImpl) Resume(opts ...ResumeOpt) (ctx Context, err error) {
@@ -202,6 +207,7 @@ func (z *migrationImpl) Scope(opts ...ScopeOpt) (ctx Context, err error) {
 	// Prepare migration context
 	ctx = newContext(z.ctxExec)
 	ctx.SetGroupsOnlyRelated(so.groupsOnlyRelated)
+	ctx.SetKeepDesktopSessions(so.keepDesktopSessions)
 
 	// validation
 	if so.membersAllExceptAdmin && len(so.membersSpecifiedEmail) > 0 {
@@ -252,7 +258,11 @@ func (z *migrationImpl) Scope(opts ...ScopeOpt) (ctx Context, err error) {
 	}
 	if so.membersAllExceptAdmin {
 		for _, member := range allMembers {
-			ctx.AddMember(member.Profile())
+			if ctx.AdminSrc().TeamMemberId != member.TeamMemberId {
+				ctx.AddMember(member.Profile())
+			} else {
+				z.log().Debug("Skip admin", zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
+			}
 		}
 	} else if len(so.membersSpecifiedEmail) > 0 {
 		err = nil
@@ -424,6 +434,20 @@ func (z *migrationImpl) Inspect(ctx Context) (err error) {
 		return inspectErr
 	}
 	if err = inspectTeams(); err != nil {
+		return err
+	}
+
+	// Inspect members
+	z.log().Info("Inspect: members")
+	inspectMembers := func() error {
+		for _, member := range ctx.Members() {
+			if !member.EmailVerified {
+				z.log().Warn("Inspect: member is not email verified", zap.String("email", member.Email))
+			}
+		}
+		return nil
+	}
+	if err = inspectMembers(); err != nil {
 		return err
 	}
 
@@ -740,11 +764,6 @@ func (z *migrationImpl) isTeamOwnedSharedFolder(ctx Context, namespaceId string)
 }
 
 func (z *migrationImpl) Bridge(ctx Context) (err error) {
-	// bridge team folders
-	if err = z.teamFolderMirror.Bridge(ctx.ContextTeamFolder()); err != nil {
-		return err
-	}
-
 	// bridge shared folders
 	z.log().Info("Bridge: shared folders")
 	bridgeSharedFolders := func() error {
@@ -761,10 +780,14 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 					z.log().Debug("Skip non team owned shared folder", zap.String("namespaceId", namespace.NamespaceId), zap.String("name", namespace.Name))
 					continue
 				}
+				if owner.TeamMemberId == ctx.AdminSrc().TeamMemberId {
+					z.log().Debug("Skip admin owned shared folder", zap.String("namespaceId", namespace.NamespaceId), zap.String("name", namespace.Name))
+					continue
+				}
 
 				l := z.log().With(zap.String("SharedFolderId", f.SharedFolderId), zap.String("SharedFolderName", f.Name), zap.String("dstAdminId", ctx.AdminDst().TeamMemberId))
 
-				l.Debug("Bridge shared folder")
+				l.Info("Bridge shared folder")
 				var ctxFileAsMember api_context.Context
 				ctxFileAsMember = z.ctxFileSrc.AsMemberId(owner.TeamMemberId)
 
@@ -781,6 +804,13 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 					l.Warn("Unable to bridge shared folder permission", zap.Error(err))
 					return err
 				}
+
+				// transfer ownership
+				err = sv_sharedfolder.New(ctxFileAsMember).Transfer(f, sv_sharedfolder.ToAccountId(ctx.AdminDst().AccountId))
+				if err != nil {
+					l.Warn("Unable to transfer ownership to admin", zap.Error(err))
+					return err
+				}
 			}
 		}
 		return nil
@@ -788,8 +818,6 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 	if err = bridgeSharedFolders(); err != nil {
 		return err
 	}
-
-	// Preserve nested team folder structure
 
 	// Store context
 	if err = ctx.StoreState(); err != nil {
@@ -800,6 +828,42 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 }
 
 func (z *migrationImpl) Content(ctx Context) (err error) {
+	// Detach desktop clients of migration target end users to prevent content inconsistency
+	unlinkDesktopClients := func() error {
+		svd := sv_device.New(z.ctxFileSrc)
+		devices, err := svd.List()
+		if err != nil {
+			z.log().Error("Unable to retrieve list of devices of source team", zap.Error(err))
+			return err
+		}
+		sourceMembers := make(map[string]*mo_profile.Profile)
+		for _, member := range ctx.Members() {
+			sourceMembers[member.TeamMemberId] = member
+		}
+		for _, device := range devices {
+			l := z.log().With(zap.String("sessionId", device.SessionId()), zap.String("tag", device.EntryTag()))
+			d, e := device.Desktop()
+			if !e {
+				l.Debug("Skip non desktop sessions")
+				continue
+			}
+			if m, e := sourceMembers[device.EntryTeamMemberId()]; e {
+				l.Info("Unlink Desktop session", zap.String("member", m.Email), zap.String("platform", d.Platform), zap.String("updated", d.Updated))
+				err = svd.Revoke(d, sv_device.DeleteOnUnlink())
+				if err != nil {
+					l.Warn("Unable to unlink desktop session", zap.Error(err))
+				}
+			}
+		}
+		return nil
+	}
+	if !ctx.KeepDesktopSessions() {
+		z.log().Info("Content: unlink desktop clients of members to prevent inconsistency")
+		if err = unlinkDesktopClients(); err != nil {
+			return err
+		}
+	}
+
 	// Mirror team folders
 	z.log().Info("Content: mirroring team folder contents")
 	if err = z.teamFolderMirror.Mirror(ctx.ContextTeamFolder()); err != nil {
@@ -821,6 +885,11 @@ func (z *migrationImpl) Transfer(ctx Context) (err error) {
 		svmSrc := sv_member.New(z.ctxMgtSrc)
 		svmDst := sv_member.New(z.ctxMgtDst)
 		for _, member := range ctx.Members() {
+			if member.TeamMemberId == ctx.AdminSrc().TeamMemberId {
+				z.log().Debug("Skip admin", zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
+				continue
+			}
+
 			z.log().Info("Transfer: transferring member", zap.String("email", member.Email))
 			l := z.log().With(zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
 			l.Debug("Transferring account")
@@ -927,8 +996,12 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	z.log().Info("Permissions: add members to groups")
 	addMembersToGroups := func() error {
 		for gn, srcGrp := range groupNameToSrcGroup {
-			dstGrp, e := groupNameToDstGroup[gn]
 			l := z.log().With(zap.String("groupName", gn), zap.String("srcGroupId", srcGrp.GroupId))
+			if srcGrp.GroupManagementType == "system_managed" {
+				l.Debug("Skip: system managed group")
+				continue
+			}
+			dstGrp, e := groupNameToDstGroup[gn]
 			if !e {
 				l.Error("Unable to find dest group")
 				return errors.New("unable to find dest group")
@@ -939,6 +1012,10 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 			members := ctx.GroupMembers(srcGrp) // lookup by src group
 			sgm := sv_group_member.New(z.ctxMgtDst, dstGrp)
 			for _, member := range members {
+				if member.TeamMemberId == ctx.AdminSrc().TeamMemberId {
+					l.Debug("Skip: Admin should not be added", zap.String("member", member.Email))
+					continue
+				}
 				l.Info("Adding member to group", zap.String("member", member.Email))
 				_, err = sgm.Add(sv_group_member.ByEmail(member.Email))
 				if err != nil {
@@ -961,6 +1038,10 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 	z.log().Info("Permissions: mapping source to destination groups")
 	createSrcGroupIdToDstGroupMap := func() error {
 		for n, src := range groupNameToSrcGroup {
+			if src.GroupManagementType == "system_managed" {
+				z.log().Debug("Skip: system managed group", zap.String("groupName", src.GroupName))
+				continue
+			}
 			if dst, e := groupNameToDstGroup[n]; e {
 				srcGroupIdToDstGroup[src.GroupId] = dst
 			} else {
@@ -1128,6 +1209,11 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 				l.Debug("Skip non team owned folder")
 				continue
 			}
+			if owner.TeamMemberId == ctx.AdminSrc().TeamMemberId ||
+				owner.Email == ctx.AdminSrc().Email {
+				l.Debug("Skip shared folder which owned by src admin")
+				continue
+			}
 			ownerMember, err := sv_member.New(z.ctxMgtDst).ResolveByEmail(owner.Email)
 			if err != nil {
 				l.Error("Unable to resolve folder owner user", zap.String("email", owner.Email), zap.Error(err))
@@ -1137,7 +1223,7 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 			l.Info("Permissions: restore permission of shared folder")
 
 			members := ctx.NamespaceMembers(folder.SharedFolderId)
-			ctf := z.ctxFileDst.AsMemberId(ownerMember.TeamMemberId)
+			ctf := z.ctxFileDst.AsMemberId(ctx.AdminDst().TeamMemberId)
 			for _, member := range members {
 				if srcGrp, e := member.Group(); e {
 					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
@@ -1146,7 +1232,7 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 						return err
 					} else {
 						if err = svm.Add(sv_sharedfolder_member.AddByGroup(dstGrp, member.AccessType())); err != nil {
-							l.Error("Unable to add group to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+							l.Warn("Unable to add group to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
 						}
 					}
 				}
@@ -1158,8 +1244,18 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 
 					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
 					if err = svm.Add(sv_sharedfolder_member.AddByEmail(u.Email, accessType)); err != nil {
-						l.Error("Unable to add member to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("member", u.Email), zap.Error(err))
+						l.Warn("Unable to add member to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("member", u.Email), zap.Error(err))
 					}
+				}
+			}
+
+			// transfer ownership
+			err = sv_sharedfolder.New(ctf).Transfer(folder, sv_sharedfolder.ToTeamMemberId(ownerMember.TeamMemberId))
+			if err != nil {
+				if strings.HasPrefix(api_util.ErrorSummary(err), "new_owner_not_a_member") {
+					l.Debug("Unable to restore due to original owner not yet activated", zap.String("originalOwner", ownerMember.Email), zap.Error(err))
+				} else {
+					l.Warn("Unable to restore ownership", zap.String("originalOwner", ownerMember.Email), zap.Error(err))
 				}
 			}
 		}
@@ -1192,6 +1288,11 @@ func (z *migrationImpl) Cleanup(ctx Context) (err error) {
 				l.Debug("Skip non team owned folder")
 				continue
 			}
+			if owner.TeamMemberId == ctx.AdminSrc().TeamMemberId ||
+				owner.Email == ctx.AdminSrc().Email {
+				l.Debug("Skip shared folder which owned by src admin")
+				continue
+			}
 			ownerMember, err := sv_member.New(z.ctxMgtDst).ResolveByEmail(owner.Email)
 			if err != nil {
 				l.Error("Unable to resolve folder owner user", zap.String("email", owner.Email), zap.Error(err))
@@ -1210,12 +1311,16 @@ func (z *migrationImpl) Cleanup(ctx Context) (err error) {
 			if isAdminExist {
 				l.Debug("Admin exists on the folder. Keep admin permission")
 			} else {
-				l.Info("Removing admin user from the folder", zap.String("admin", ctx.AdminDst().Email))
+				l.Info("Clean up permission of the folder", zap.String("admin", ctx.AdminDst().Email))
 				ctf := z.ctxFileDst.AsMemberId(ownerMember.TeamMemberId)
 				svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
 				err = svm.Remove(sv_sharedfolder_member.RemoveByTeamMemberId(ctx.AdminDst().TeamMemberId))
 				if err != nil {
-					l.Error("Unable to remove admin from the folder", zap.String("admin", ctx.AdminDst().Email), zap.Error(err))
+					if strings.HasPrefix(api_util.ErrorSummary(err), "access_error/not_a_member") {
+						l.Debug("Unable to remove admin due to original owner not yet activated", zap.Error(err))
+					} else {
+						l.Warn("Unable to remove admin from the folder", zap.String("admin", ctx.AdminDst().Email), zap.Error(err))
+					}
 				}
 			}
 		}
