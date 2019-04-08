@@ -51,9 +51,12 @@ if [ -e "resources/toolbox.appkeys" ]; then
     echo Invalid. return code: $?
   fi
 
-  go run --ldflags "-X github.com/watermint/toolbox/app.AppZap=$TOOLBOX_ZAP" app/app_zap/app_zap_tool/main.go
+  go run app/app_zap/app_zap_tool/main.go
   if [[ $? = 0 ]]; then
     rm resources/toolbox.appkeys
+  else
+    echo Zap exit with code $?
+    exit $?
   fi
   TOOLBOX_ZAP=$(cat /tmp/toolbox.zap)
 fi
