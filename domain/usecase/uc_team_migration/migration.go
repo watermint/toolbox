@@ -258,7 +258,11 @@ func (z *migrationImpl) Scope(opts ...ScopeOpt) (ctx Context, err error) {
 	}
 	if so.membersAllExceptAdmin {
 		for _, member := range allMembers {
-			ctx.AddMember(member.Profile())
+			if ctx.AdminSrc().TeamMemberId != member.TeamMemberId {
+				ctx.AddMember(member.Profile())
+			} else {
+				z.log().Debug("Skip admin", zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
+			}
 		}
 	} else if len(so.membersSpecifiedEmail) > 0 {
 		err = nil
@@ -760,6 +764,10 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 				owner, sameTeam := z.isTeamOwnedSharedFolder(ctx, namespace.NamespaceId)
 				if !sameTeam {
 					z.log().Debug("Skip non team owned shared folder", zap.String("namespaceId", namespace.NamespaceId), zap.String("name", namespace.Name))
+					continue
+				}
+				if owner.TeamMemberId == ctx.AdminSrc().TeamMemberId {
+					z.log().Debug("Skip admin owned shared folder", zap.String("namespaceId", namespace.NamespaceId), zap.String("name", namespace.Name))
 					continue
 				}
 
