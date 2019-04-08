@@ -163,6 +163,9 @@ func (z *CmdTeamMigrateCheck) Exec(args []string) {
 	if z.optAll {
 		opts = append(opts, uc_team_migration.MembersAllExceptAdmin(), uc_team_migration.TeamFoldersAll())
 	}
+	if z.optKeepDesktopSessions {
+		opts = append(opts, uc_team_migration.KeepDesktopSessions())
+	}
 
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()

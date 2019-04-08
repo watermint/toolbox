@@ -180,7 +180,7 @@ func (z *contextImpl) KeepDesktopSessions() bool {
 }
 
 func (z *contextImpl) SetKeepDesktopSessions(keep bool) {
-	z.ContextOpts.KeepDesktopSessions = true
+	z.ContextOpts.KeepDesktopSessions = keep
 }
 
 func (z *contextImpl) AddNestedFolderPath(teamFolder, relPath, nestedFolderNamespaceId string) {
