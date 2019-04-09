@@ -449,12 +449,7 @@ func (z *teamFolderImpl) Bridge(ctx Context) (err error) {
 }
 
 func (z *teamFolderImpl) Mount(ctx Context, scope Scope) (err error) {
-	l := z.log().With(
-		zap.String("folderSrcId", scope.Pair().Src.TeamFolderId),
-		zap.String("folderSrcName", scope.Pair().Src.Name),
-		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
-		zap.String("folderDstName", scope.Pair().Dst.Name),
-	)
+	l := z.log().With(zap.Any("pair", scope.Pair()))
 	l.Info("Mount")
 
 	// Create team folder if required
