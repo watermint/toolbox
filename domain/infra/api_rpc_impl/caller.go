@@ -96,8 +96,9 @@ func (z *CallerImpl) ensureRetryOnError(lastErr error) (res api_rpc.Response, er
 			return nil, err
 		}
 
-		rc.UpdateRetryAfter(time.Now().Add(SameErrorRetryWait))
-		z.ctx.Log().Debug("Retry after", zap.Error(err), zap.Time("retry_after", rc.RetryAfter()))
+		after := time.Now().Add(SameErrorRetryWait)
+		rc.UpdateRetryAfter(after)
+		z.ctx.Log().Debug("Retry after", zap.Error(err), zap.Time("retry_after", after))
 
 		return z.Call()
 
