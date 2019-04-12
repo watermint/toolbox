@@ -301,7 +301,11 @@ func (z *migrationImpl) Scope(opts ...ScopeOpt) (ctx Context, err error) {
 	}
 	if so.teamFoldersAll {
 		for _, folder := range allFolders {
-			ctx.AddTeamFolder(folder)
+			if folder.Status == "active" {
+				ctx.AddTeamFolder(folder)
+			} else {
+				z.log().Warn("Skip mirroring non active team folder", zap.String("name", folder.Name))
+			}
 		}
 	} else if len(so.teamFoldersSpecifiedName) > 0 {
 		err = nil
