@@ -68,11 +68,18 @@ type TeamFolder interface {
 type MirrorOpt func(opt *mirrorOpts) *mirrorOpts
 type mirrorOpts struct {
 	archiveOnSuccess bool
+	skipVerify       bool
 }
 
 func ArchiveOnSuccess() MirrorOpt {
 	return func(opt *mirrorOpts) *mirrorOpts {
 		opt.archiveOnSuccess = true
+		return opt
+	}
+}
+func SkipVerify() MirrorOpt {
+	return func(opt *mirrorOpts) *mirrorOpts {
+		opt.skipVerify = true
 		return opt
 	}
 }
@@ -258,10 +265,15 @@ func (z *teamFolderImpl) Mirror(ctx Context, opts ...MirrorOpt) (err error) {
 		if err = z.Content(ctx, scope); err != nil {
 			lastErr = err
 		} else {
-			if err = z.Verify(ctx, scope); err != nil {
-				lastErr = err
-			} else if mo.archiveOnSuccess {
+			if mo.skipVerify {
+				z.log().Info("Skip verification step")
 				archive = true
+			} else {
+				if err = z.Verify(ctx, scope); err != nil {
+					lastErr = err
+				} else if mo.archiveOnSuccess {
+					archive = true
+				}
 			}
 		}
 		if err = z.Unmount(ctx, scope); err != nil {

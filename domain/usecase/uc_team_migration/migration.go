@@ -868,7 +868,7 @@ func (z *migrationImpl) Content(ctx Context) (err error) {
 
 	// Mirror team folders
 	z.log().Info("Content: mirroring team folder contents")
-	if err = z.teamFolderMirror.Mirror(ctx.ContextTeamFolder()); err != nil {
+	if err = z.teamFolderMirror.Mirror(ctx.ContextTeamFolder(), uc_teamfolder_mirror.SkipVerify()); err != nil {
 		return err
 	}
 
