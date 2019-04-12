@@ -10,9 +10,43 @@ import (
 
 type Files interface {
 	Resolve(path mo_path.Path) (entry mo_file.Entry, err error)
-	List(path mo_path.Path) (entries []mo_file.Entry, err error)
+	List(path mo_path.Path, opts ...ListOpt) (entries []mo_file.Entry, err error)
+	ListChunked(path mo_path.Path, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
 
 	Remove(path mo_path.Path, opts ...RemoveOpt) (entry mo_file.Entry, err error)
+}
+
+type ListOpt func(opt *listOpts) *listOpts
+type listOpts struct {
+	recursive                       bool
+	includeMediaInfo                bool
+	includeDeleted                  bool
+	includeHasExplicitSharedMembers bool
+}
+
+func Recursive() ListOpt {
+	return func(opt *listOpts) *listOpts {
+		opt.recursive = true
+		return opt
+	}
+}
+func IncludeMediaInfo() ListOpt {
+	return func(opt *listOpts) *listOpts {
+		opt.includeMediaInfo = true
+		return opt
+	}
+}
+func IncludeDeleted() ListOpt {
+	return func(opt *listOpts) *listOpts {
+		opt.includeDeleted = true
+		return opt
+	}
+}
+func IncludeHasExplicitSharedMembers() ListOpt {
+	return func(opt *listOpts) *listOpts {
+		opt.includeHasExplicitSharedMembers = true
+		return opt
+	}
 }
 
 type RemoveOpt func(opt *removeOpts) *removeOpts
@@ -35,12 +69,8 @@ func newFilesTest(ctx api_context.Context) Files {
 }
 
 type filesImpl struct {
-	ctx                             api_context.Context
-	recursive                       bool
-	includeMediaInfo                bool
-	includeDeleted                  bool
-	includeHasExplicitSharedMembers bool
-	limit                           int
+	ctx   api_context.Context
+	limit int
 }
 
 func (z *filesImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, err error) {
@@ -50,10 +80,7 @@ func (z *filesImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, err error) 
 		IncludeDeleted                  bool   `json:"include_deleted,omitempty"`
 		IncludeHasExplicitSharedMembers bool   `json:"include_has_explicit_shared_members,omitempty"`
 	}{
-		Path:                            path.Path(),
-		IncludeMediaInfo:                z.includeMediaInfo,
-		IncludeDeleted:                  z.includeDeleted,
-		IncludeHasExplicitSharedMembers: z.includeHasExplicitSharedMembers,
+		Path: path.Path(),
 	}
 	entry = &mo_file.Metadata{}
 	res, err := z.ctx.Request("files/get_metadata").Param(p).Call()
@@ -66,8 +93,23 @@ func (z *filesImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, err error) 
 	return entry, nil
 }
 
-func (z *filesImpl) List(path mo_path.Path) (entries []mo_file.Entry, err error) {
+func (z *filesImpl) List(path mo_path.Path, opts ...ListOpt) (entries []mo_file.Entry, err error) {
 	entries = make([]mo_file.Entry, 0)
+	err = z.ListChunked(path, func(entry mo_file.Entry) {
+		entries = append(entries, entry)
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return entries, nil
+}
+
+func (z *filesImpl) ListChunked(path mo_path.Path, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
+	lo := &listOpts{}
+	for _, o := range opts {
+		o(lo)
+	}
+
 	pp := path.Path()
 	if pp == "/" {
 		pp = ""
@@ -82,10 +124,10 @@ func (z *filesImpl) List(path mo_path.Path) (entries []mo_file.Entry, err error)
 		Limit                           int    `json:"limit,omitempty"`
 	}{
 		Path:                            pp,
-		Recursive:                       z.recursive,
-		IncludeMediaInfo:                z.includeMediaInfo,
-		IncludeDeleted:                  z.includeDeleted,
-		IncludeHasExplicitSharedMembers: z.includeHasExplicitSharedMembers,
+		Recursive:                       lo.recursive,
+		IncludeMediaInfo:                lo.includeMediaInfo,
+		IncludeDeleted:                  lo.includeDeleted,
+		IncludeHasExplicitSharedMembers: lo.includeHasExplicitSharedMembers,
 	}
 
 	req := z.ctx.List("files/list_folder").
@@ -100,13 +142,10 @@ func (z *filesImpl) List(path mo_path.Path) (entries []mo_file.Entry, err error)
 				z.ctx.Log().Error("invalid", zap.Error(err), zap.String("entry", j.Raw))
 				return err
 			}
-			entries = append(entries, e)
+			onEntry(e)
 			return nil
 		})
-	if err := req.Call(); err != nil {
-		return nil, err
-	}
-	return entries, nil
+	return req.Call()
 }
 
 func (z *filesImpl) Remove(path mo_path.Path, opts ...RemoveOpt) (entry mo_file.Entry, err error) {

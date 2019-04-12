@@ -113,6 +113,11 @@ type Context interface {
 	// Whether unlink desktop session or not. true for Keep sessions.
 	SetKeepDesktopSessions(keep bool)
 
+	// Whether transfer shared folder ownership or not
+	DontTransferFolderOwnership() bool
+
+	SetDontTransferFolderOwnership(dont bool)
+
 	// Store state
 	StoreState() error
 }
@@ -150,10 +155,11 @@ func newContext(ctxExec *app.ExecContext) Context {
 }
 
 type contextOpts struct {
-	KeepDesktopSessions bool                `json:"keep_desktop_sessions"`
-	GroupsOnlyRelated   bool                `json:"groups_only_related"`
-	AdminSrc            *mo_profile.Profile `json:"admin_src"`
-	AdminDst            *mo_profile.Profile `json:"admin_dst"`
+	KeepDesktopSessions         bool                `json:"keep_desktop_sessions"`
+	DontTransferFolderOwnership bool                `json:"dont_transfer_folder_ownership"`
+	GroupsOnlyRelated           bool                `json:"groups_only_related"`
+	AdminSrc                    *mo_profile.Profile `json:"admin_src"`
+	AdminDst                    *mo_profile.Profile `json:"admin_dst"`
 }
 
 type contextImpl struct {
@@ -173,6 +179,14 @@ type contextImpl struct {
 	MapSharedFolders    map[string]*mo_sharedfolder.SharedFolder      `json:"shared_folders"`
 	MapNestedFolderPath map[string]map[string]string                  `json:"nested_folder_path"`
 	ContextOpts         *contextOpts                                  `json:"context_opts"`
+}
+
+func (z *contextImpl) DontTransferFolderOwnership() bool {
+	return z.ContextOpts.DontTransferFolderOwnership
+}
+
+func (z *contextImpl) SetDontTransferFolderOwnership(dont bool) {
+	z.ContextOpts.DontTransferFolderOwnership = dont
 }
 
 func (z *contextImpl) KeepDesktopSessions() bool {

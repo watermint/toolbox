@@ -661,5 +661,7 @@
   "cmd.team.migrate.content.flag.resume": "Path to resumed state. Resume from last check process",
   "cmd.team.migrate.check.flag.keep_desktop_sessions": "Do not unlink desktop sessions on migration",
   "cmd.dev.auth.desc": "Auth test command",
-  "cmd.dev.auth.appkey.desc": "App key test command"
+  "cmd.dev.auth.appkey.desc": "App key test command",
+  "cmd.file.list.flag.recursive": "The list folder operation will be applied recursively to all sub-folders and the response will contain contents of all sub-folders",
+  "cmd.team.migrate.check.flag.dont_transfer_ownership": "Don't transfer shared folder ownership on migration"
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/infra/api_util"
+	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/model/mo_path"
@@ -208,6 +209,7 @@ func (z *migrationImpl) Scope(opts ...ScopeOpt) (ctx Context, err error) {
 	ctx = newContext(z.ctxExec)
 	ctx.SetGroupsOnlyRelated(so.groupsOnlyRelated)
 	ctx.SetKeepDesktopSessions(so.keepDesktopSessions)
+	ctx.SetDontTransferFolderOwnership(so.dontTransferFolderOwnership)
 
 	// validation
 	if so.membersAllExceptAdmin && len(so.membersSpecifiedEmail) > 0 {
@@ -708,12 +710,7 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 		var scanPath func(ctf api_context.Context, path mo_path.Path) (err error)
 		scanPath = func(ctf api_context.Context, path mo_path.Path) (err error) {
 			l.Debug("Scanning path", zap.String("path", path.Path()))
-			entries, err := sv_file.NewFiles(ctf).List(path)
-			if err != nil {
-				l.Error("Unable to retrieve file list at path", zap.String("path", path.Path()), zap.Error(err))
-				return err
-			}
-			for _, entry := range entries {
+			err = sv_file.NewFiles(ctf).ListChunked(path, func(entry mo_file.Entry) {
 				if f, e := entry.Folder(); e {
 					j := gjson.ParseBytes(f.Raw)
 					sfId := j.Get("sharing_info.shared_folder_id")
@@ -721,10 +718,11 @@ func (z *migrationImpl) Preserve(ctx Context) (err error) {
 					if sfId.Exists() {
 						ctx.AddNestedFolderPath(tf.Name, childPath.Path(), sfId.String())
 					}
-					if err = scanPath(ctf, childPath); err != nil {
-						return err
-					}
 				}
+			}, sv_file.Recursive())
+			if err != nil {
+				l.Error("Unable to retrieve file list at path", zap.String("path", path.Path()), zap.Error(err))
+				return err
 			}
 			return nil
 		}
@@ -806,10 +804,14 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 				}
 
 				// transfer ownership
-				err = sv_sharedfolder.New(ctxFileAsMember).Transfer(f, sv_sharedfolder.ToAccountId(ctx.AdminDst().AccountId))
-				if err != nil {
-					l.Warn("Unable to transfer ownership to admin", zap.Error(err))
-					return err
+				if ctx.DontTransferFolderOwnership() {
+					l.Debug("Skip transfer ownership")
+				} else {
+					err = sv_sharedfolder.New(ctxFileAsMember).Transfer(f, sv_sharedfolder.ToAccountId(ctx.AdminDst().AccountId))
+					if err != nil {
+						l.Warn("Unable to transfer ownership to admin", zap.Error(err))
+						return err
+					}
 				}
 			}
 		}
@@ -1250,12 +1252,16 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 			}
 
 			// transfer ownership
-			err = sv_sharedfolder.New(ctf).Transfer(folder, sv_sharedfolder.ToTeamMemberId(ownerMember.TeamMemberId))
-			if err != nil {
-				if strings.HasPrefix(api_util.ErrorSummary(err), "new_owner_not_a_member") {
-					l.Debug("Unable to restore due to original owner not yet activated", zap.String("originalOwner", ownerMember.Email), zap.Error(err))
-				} else {
-					l.Warn("Unable to restore ownership", zap.String("originalOwner", ownerMember.Email), zap.Error(err))
+			if ctx.DontTransferFolderOwnership() {
+				l.Debug("Skip transfer ownership")
+			} else {
+				err = sv_sharedfolder.New(ctf).Transfer(folder, sv_sharedfolder.ToTeamMemberId(ownerMember.TeamMemberId))
+				if err != nil {
+					if strings.HasPrefix(api_util.ErrorSummary(err), "new_owner_not_a_member") {
+						l.Debug("Unable to restore due to original owner not yet activated", zap.String("originalOwner", ownerMember.Email), zap.Error(err))
+					} else {
+						l.Warn("Unable to restore ownership", zap.String("originalOwner", ownerMember.Email), zap.Error(err))
+					}
 				}
 			}
 		}
