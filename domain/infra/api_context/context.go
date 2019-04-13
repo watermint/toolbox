@@ -22,6 +22,7 @@ type Context interface {
 	AsMemberId(teamMemberId string) Context
 	AsAdminId(teamMemberId string) Context
 	WithPath(pathRoot PathRoot) Context
+	ResetLastErrors()
 }
 
 type RetryContext interface {

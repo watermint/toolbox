@@ -40,7 +40,7 @@ func NewContextNoAuth(ec *app.ExecContext) api_context.Context {
 }
 
 const (
-	maxLastErrors = 10
+	maxLastErrors = 100
 )
 
 type contextImpl struct {
@@ -53,6 +53,10 @@ type contextImpl struct {
 	basePath       api_context.PathRoot
 	retryAfter     time.Time
 	lastErrors     []error
+}
+
+func (z *contextImpl) ResetLastErrors() {
+	z.lastErrors = make([]error, 0)
 }
 
 func (z *contextImpl) Token() api_auth.TokenContainer {

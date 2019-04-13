@@ -841,8 +841,8 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 func (z *migrationImpl) Content(ctx Context) (err error) {
 	// Detach desktop clients of migration target end users to prevent content inconsistency
 	unlinkDesktopClients := func() error {
-		svd := sv_device.New(z.ctxFileSrc)
-		devices, err := svd.List()
+		z.ctxFileSrc.ResetLastErrors()
+		devices, err := sv_device.New(z.ctxFileSrc).List()
 		if err != nil {
 			z.log().Error("Unable to retrieve list of devices of source team", zap.Error(err))
 			return err
@@ -860,7 +860,8 @@ func (z *migrationImpl) Content(ctx Context) (err error) {
 			}
 			if m, e := sourceMembers[device.EntryTeamMemberId()]; e {
 				l.Info("Unlink Desktop session", zap.String("member", m.Email), zap.String("platform", d.Platform), zap.String("updated", d.Updated))
-				err = svd.Revoke(d, sv_device.DeleteOnUnlink())
+				z.ctxFileSrc.ResetLastErrors()
+				err = sv_device.New(z.ctxFileSrc).Revoke(d, sv_device.DeleteOnUnlink())
 				if err != nil {
 					l.Warn("Unable to unlink desktop session", zap.Error(err))
 				}
