@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_path"
@@ -63,6 +64,9 @@ type TeamFolder interface {
 
 	// Clean up permissions which used for mirroring
 	Cleanup(ctx Context) (err error)
+
+	// Verify scope
+	VerifyScope(ctx Context) (err error)
 }
 
 type MirrorOpt func(opt *mirrorOpts) *mirrorOpts
@@ -238,6 +242,36 @@ func (z *teamFolderImpl) PartialScope(names []string) (ctx Context, err error) {
 		}
 	}
 	return
+}
+
+// Verify scope
+func (z *teamFolderImpl) VerifyScope(ctx Context) (err error) {
+	if err = z.Inspect(ctx); err != nil {
+		return err
+	}
+	var lastErr error
+	lastErr = nil
+	if err = z.Bridge(ctx); err != nil {
+		lastErr = err
+	}
+	for _, pair := range ctx.Pairs() {
+		scope := NewScope(pair)
+
+		if err = z.Mount(ctx, scope); err != nil {
+			lastErr = err
+			continue
+		}
+		if err = z.Verify(ctx, scope); err != nil {
+			lastErr = err
+		}
+		if err = z.Unmount(ctx, scope); err != nil {
+			lastErr = err
+		}
+	}
+	if err = z.Cleanup(ctx); err != nil {
+		lastErr = err
+	}
+	return lastErr
 }
 
 func (z *teamFolderImpl) Mirror(ctx Context, opts ...MirrorOpt) (err error) {
@@ -470,6 +504,10 @@ func (z *teamFolderImpl) Mount(ctx Context, scope Scope) (err error) {
 		if pair.Dst == nil {
 			folder, err := svt.Create(pair.Src.Name, sv_teamfolder.SyncNoSync())
 			if err != nil {
+				if strings.HasPrefix(api_util.ErrorSummary(err), "folder_name_already_used") {
+					l.Debug("Skip: Already created")
+					return nil
+				}
 				l.Warn("DST: Unable to create team folder", zap.String("name", pair.Src.Name), zap.Error(err))
 				return errors.New("could not create one or more team folders in the destination team")
 			}

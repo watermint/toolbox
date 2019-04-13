@@ -11,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_device"
 	"github.com/watermint/toolbox/domain/model/mo_file"
-	"github.com/watermint/toolbox/domain/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/model/mo_path"
@@ -30,7 +29,6 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/service/sv_team"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
-	"github.com/watermint/toolbox/domain/usecase/uc_file_compare"
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
 	"go.uber.org/zap"
 	"io/ioutil"
@@ -1443,62 +1441,8 @@ func (z *migrationImpl) Cleanup(ctx Context) (err error) {
 // Verify content
 func (z *migrationImpl) Verify(ctx Context) (err error) {
 	z.log().Info("Verify team folders")
-	dstFolders, err := sv_teamfolder.New(z.ctxFileDst).List()
-	if err != nil {
-		z.log().Error("Unable to list dest team folders", zap.Error(err))
+	if err = z.teamFolderMirror.VerifyScope(ctx.ContextTeamFolder()); err != nil {
 		return err
-	}
-	dstFoldersByName := make(map[string]*mo_teamfolder.TeamFolder)
-	for _, f := range dstFolders {
-		dstFoldersByName[strings.ToLower(f.Name)] = f
-	}
-
-	verifyContent := func(folder *mo_teamfolder.TeamFolder) error {
-		dstFolder, e := dstFoldersByName[strings.ToLower(folder.Name)]
-		if !e {
-			z.log().Error("Unable to find dst team folder", zap.String("name", folder.Name))
-			return errors.New("unable to find dest team folder")
-		}
-		l := z.log().With(
-			zap.String("folderSrcId", folder.TeamFolderId),
-			zap.String("folderSrcName", folder.Name),
-			zap.String("folderDstId", dstFolder.TeamFolderId),
-			zap.String("folderDstName", dstFolder.Name),
-		)
-
-		ctxSrc := z.ctxFileSrc.
-			AsMemberId(ctx.AdminSrc().TeamMemberId).
-			WithPath(api_context.Namespace(folder.TeamFolderId))
-		ctxDst := z.ctxFileDst.
-			AsMemberId(ctx.AdminDst().TeamMemberId).
-			WithPath(api_context.Namespace(dstFolder.TeamFolderId))
-
-		ucc := uc_file_compare.New(ctxSrc, ctxDst)
-		count, err := ucc.Diff(func(diff mo_file_diff.Diff) error {
-			l.Warn("Diff", zap.Any("diff", diff))
-			z.report.Report(diff)
-			return nil
-		})
-		if err != nil {
-			l.Error("Unable to compare", zap.Error(err))
-			return err
-		}
-		if count > 0 {
-			l.Warn("Diff found", zap.Int("count", count))
-		}
-
-		return nil
-	}
-	var lastErr error
-	lastErr = nil
-	for _, folder := range ctx.TeamFolders() {
-		lastErr = verifyContent(folder)
-		if lastErr != nil {
-			z.log().Warn("Unable to verify content or, inconsistent content found", zap.Error(err))
-		}
-	}
-	if lastErr != nil {
-		return lastErr
 	}
 
 	return nil
