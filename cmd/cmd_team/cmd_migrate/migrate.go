@@ -16,6 +16,9 @@ func NewCmdTeamMigrate() cmd.Commandlet {
 			&CmdTeamMigrateTransfer{
 				SimpleCommandlet: &cmd.SimpleCommandlet{},
 			},
+			&CmdTeamMigrateVerify{
+				SimpleCommandlet: &cmd.SimpleCommandlet{},
+			},
 		},
 	}
 }

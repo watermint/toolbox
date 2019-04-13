@@ -663,5 +663,7 @@
   "cmd.dev.auth.desc": "Auth test command",
   "cmd.dev.auth.appkey.desc": "App key test command",
   "cmd.file.list.flag.recursive": "The list folder operation will be applied recursively to all sub-folders and the response will contain contents of all sub-folders",
-  "cmd.team.migrate.check.flag.dont_transfer_ownership": "Don't transfer shared folder ownership on migration"
+  "cmd.team.migrate.check.flag.dont_transfer_ownership": "Don't transfer shared folder ownership on migration",
+  "cmd.team.migrate.verify.flag.permission_only": "Verify permission only",
+  "cmd.team.migrate.verify.desc": "Verify"
 }

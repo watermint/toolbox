@@ -73,6 +73,9 @@ type Migration interface {
 
 	// Cleanup
 	Cleanup(ctx Context) (err error)
+
+	// Verify
+	Verify(ctx Context) (err error)
 }
 
 type ResumeOpt func(opt *resumeOpts) *resumeOpts
@@ -1318,6 +1321,9 @@ func (z *migrationImpl) Cleanup(ctx Context) (err error) {
 					}
 				}
 			}
+
+			// TODO: Ensure permissions
+
 			if isAdminExist {
 				l.Debug("Admin exists on the folder. Keep admin permission")
 			} else {
@@ -1338,6 +1344,26 @@ func (z *migrationImpl) Cleanup(ctx Context) (err error) {
 	}
 	if err = cleanupPermissionSharedFolder(); err != nil {
 		return nil
+	}
+
+	return nil
+}
+
+// Verify content
+func (z *migrationImpl) Verify(ctx Context) (err error) {
+	verifyContent := func(folder *mo_teamfolder.TeamFolder) error {
+		return nil
+	}
+	var lastErr error
+	lastErr = nil
+	for _, folder := range ctx.TeamFolders() {
+		lastErr = verifyContent(folder)
+		if lastErr != nil {
+			z.log().Warn("Unable to verify content or, inconsistent content found", zap.Error(err))
+		}
+	}
+	if lastErr != nil {
+		return lastErr
 	}
 
 	return nil

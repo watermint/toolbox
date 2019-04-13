@@ -130,7 +130,7 @@ func (z *CallerImpl) waitForRetryIfRequired() {
 	case api_context.RetryContext:
 		now := time.Now()
 		if !rc.RetryAfter().IsZero() && now.Before(rc.RetryAfter()) {
-			log.Debug("Sleep until", zap.Time("retry_after", rc.RetryAfter()))
+			log.Debug("Sleep until", zap.String("retry_after", rc.RetryAfter().String()))
 			time.Sleep(rc.RetryAfter().Sub(now))
 		}
 	}
