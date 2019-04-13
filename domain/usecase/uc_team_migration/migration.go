@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/infra/api_util"
+	"github.com/watermint/toolbox/domain/model/mo_device"
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/model/mo_group"
@@ -841,7 +842,6 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 func (z *migrationImpl) Content(ctx Context) (err error) {
 	// Detach desktop clients of migration target end users to prevent content inconsistency
 	unlinkDesktopClients := func() error {
-		z.ctxFileSrc.ResetLastErrors()
 		devices, err := sv_device.New(z.ctxFileSrc).List()
 		if err != nil {
 			z.log().Error("Unable to retrieve list of devices of source team", zap.Error(err))
@@ -851,6 +851,7 @@ func (z *migrationImpl) Content(ctx Context) (err error) {
 		for _, member := range ctx.Members() {
 			sourceMembers[member.TeamMemberId] = member
 		}
+		retryDevices := make([]*mo_device.Desktop, 0)
 		for _, device := range devices {
 			l := z.log().With(zap.String("sessionId", device.SessionId()), zap.String("tag", device.EntryTag()))
 			d, e := device.Desktop()
@@ -860,13 +861,33 @@ func (z *migrationImpl) Content(ctx Context) (err error) {
 			}
 			if m, e := sourceMembers[device.EntryTeamMemberId()]; e {
 				l.Info("Unlink Desktop session", zap.String("member", m.Email), zap.String("platform", d.Platform), zap.String("updated", d.Updated))
-				z.ctxFileSrc.ResetLastErrors()
-				err = sv_device.New(z.ctxFileSrc).Revoke(d, sv_device.DeleteOnUnlink())
+				err = sv_device.New(z.ctxFileSrc.NoRetryOnError()).Revoke(d, sv_device.DeleteOnUnlink())
 				if err != nil {
-					l.Warn("Unable to unlink desktop session", zap.Error(err))
+					l.Warn("Unable to unlink desktop session, retry later", zap.Error(err))
+					retryDevices = append(retryDevices, d)
 				}
 			}
 		}
+
+		if len(retryDevices) > 0 {
+			for retryCount := 0; retryCount < 10; retryCount++ {
+				moreRetryDevices := make([]*mo_device.Desktop, 0)
+				l := z.log().With(zap.Int("retry", retryCount+1))
+				l.Info("Retry", zap.Int("numDevices", len(retryDevices)))
+				for _, d := range retryDevices {
+					err = sv_device.New(z.ctxFileSrc.NoRetryOnError()).Revoke(d, sv_device.DeleteOnUnlink())
+					if err != nil {
+						l.Warn("Unable to unlink desktop session, retry later", zap.Error(err))
+						moreRetryDevices = append(moreRetryDevices, d)
+					}
+				}
+				if len(moreRetryDevices) < 1 {
+					break
+				}
+				retryDevices = moreRetryDevices
+			}
+		}
+
 		return nil
 	}
 	if !ctx.KeepDesktopSessions() {
