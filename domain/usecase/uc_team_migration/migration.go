@@ -870,7 +870,8 @@ func (z *migrationImpl) Content(ctx Context) (err error) {
 		}
 
 		if len(retryDevices) > 0 {
-			for retryCount := 0; retryCount < 10; retryCount++ {
+			maxRetry := 10
+			for retryCount := 0; retryCount < maxRetry; retryCount++ {
 				moreRetryDevices := make([]*mo_device.Desktop, 0)
 				l := z.log().With(zap.Int("retry", retryCount+1))
 				l.Info("Retry", zap.Int("numDevices", len(retryDevices)))
@@ -885,6 +886,18 @@ func (z *migrationImpl) Content(ctx Context) (err error) {
 					break
 				}
 				retryDevices = moreRetryDevices
+			}
+			if len(retryDevices) > 0 {
+				for _, d := range retryDevices {
+					z.log().Warn("Unable to unlink device",
+						zap.String("sessionId", d.SessionId()),
+						zap.String("teamMemberId", d.EntryTeamMemberId()),
+						zap.String("hostname", d.HostName),
+						zap.String("platform", d.Platform),
+						zap.String("clientType", d.ClientType),
+						zap.String("clientVersion", d.ClientVersion),
+					)
+				}
 			}
 		}
 
