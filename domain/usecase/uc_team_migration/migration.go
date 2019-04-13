@@ -1235,15 +1235,36 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 
 			members := ctx.NamespaceMembers(folder.SharedFolderId)
 			ctf := z.ctxFileDst.AsMemberId(ctx.AdminDst().TeamMemberId)
+			svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
+			dstMembers, err := svm.List()
+			if err != nil {
+				l.Error("Unable to list dst shared folder members", zap.Error(err))
+				return err
+			}
+
 			for _, member := range members {
 				if srcGrp, e := member.Group(); e {
-					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
 					if dstGrp, e := srcGroupIdToDstGroup[srcGrp.GroupId]; !e {
 						l.Error("Unable to find mapping of src-dst group", zap.String("srcGroup", srcGrp.GroupId), zap.String("srcGroupName", srcGrp.GroupName))
 						return err
 					} else {
+						found := false
+						for _, dstMember := range dstMembers {
+							if dg, e := dstMember.Group(); e {
+								if dstGrp.GroupId == dg.GroupId && dstMember.AccessType() == dg.EntryAccessType {
+									l.Debug("Skip: dst group already added to shared folder", zap.String("srcGroup", srcGrp.GroupId), zap.String("dstGroup", dstGrp.GroupId), zap.String("groupName", dstGrp.GroupName), zap.String("accessType", dg.AccessType()))
+									found = true
+									break
+								}
+							}
+						}
+						if found {
+							continue
+						}
+
 						if err = svm.Add(sv_sharedfolder_member.AddByGroup(dstGrp, member.AccessType())); err != nil {
-							l.Warn("Unable to add group to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+							l.Error("Unable to add group to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("dstGroup", dstGrp.GroupId), zap.String("dstGroupName", dstGrp.GroupName), zap.Error(err))
+							return err
 						}
 					}
 				}
@@ -1253,9 +1274,43 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 						accessType = sv_sharedfolder_member.LevelEditor
 					}
 
-					svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
+					found := false
+					for _, dstMember := range dstMembers {
+						if du, e := dstMember.User(); e {
+							if du.Email == u.Email && du.AccessType() == u.AccessType() {
+								l.Debug("Skip: user already added to shared folder", zap.String("user", u.Email), zap.String("accessType", u.AccessType()))
+								found = true
+								break
+							}
+						}
+					}
+					if found {
+						continue
+					}
+
 					if err = svm.Add(sv_sharedfolder_member.AddByEmail(u.Email, accessType)); err != nil {
-						l.Warn("Unable to add member to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("member", u.Email), zap.Error(err))
+						l.Error("Unable to add member to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("member", u.Email), zap.Error(err))
+						return err
+					}
+				}
+				if inv, e := member.Invitee(); e {
+					found := false
+					for _, dstMember := range dstMembers {
+						if di, e := dstMember.Invitee(); e {
+							if di.InviteeEmail == inv.InviteeEmail && di.AccessType() == inv.AccessType() {
+								l.Debug("Skip: invitee already added to shared folder", zap.String("invitee", inv.InviteeEmail), zap.String("accessType", inv.AccessType()))
+								found = true
+								break
+							}
+						}
+					}
+					if found {
+						continue
+					}
+
+					if err = svm.Add(sv_sharedfolder_member.AddByEmail(inv.InviteeEmail, inv.AccessType())); err != nil {
+						l.Error("Unable to add invitee to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("member", inv.InviteeEmail), zap.Error(err))
+						return err
 					}
 				}
 			}
@@ -1289,6 +1344,7 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 }
 
 func (z *migrationImpl) Cleanup(ctx Context) (err error) {
+
 	// Clean up bridge permission
 	z.log().Info("Cleanup: clean up permissions of shared folders")
 	cleanupPermissionSharedFolder := func() error {
@@ -1323,8 +1379,6 @@ func (z *migrationImpl) Cleanup(ctx Context) (err error) {
 					}
 				}
 			}
-
-			// TODO: Ensure permissions
 
 			if isAdminExist {
 				l.Debug("Admin exists on the folder. Keep admin permission")
