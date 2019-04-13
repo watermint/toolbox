@@ -65,7 +65,6 @@ func (z *CmdFileList) Exec(args []string) {
 			}
 			if folder, e := entry.Folder(); e {
 				z.report.Report(folder)
-				listPath(p.ChildPath(folder.Name()).Path())
 			}
 			if deleted, e := entry.Deleted(); e {
 				z.report.Report(deleted)
