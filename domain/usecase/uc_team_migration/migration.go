@@ -868,7 +868,7 @@ func (z *migrationImpl) Content(ctx Context) (err error) {
 		}
 
 		if len(retryDevices) > 0 {
-			maxRetry := 10
+			maxRetry := 3
 			for retryCount := 0; retryCount < maxRetry; retryCount++ {
 				moreRetryDevices := make([]*mo_device.Desktop, 0)
 				l := z.log().With(zap.Int("retry", retryCount+1))
