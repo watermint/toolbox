@@ -267,7 +267,6 @@ func (z *teamFolderImpl) Mirror(ctx Context, opts ...MirrorOpt) (err error) {
 		} else {
 			if mo.skipVerify {
 				z.log().Info("Skip verification step")
-				archive = mo.archiveOnSuccess
 			} else {
 				if err = z.Verify(ctx, scope); err != nil {
 					lastErr = err
