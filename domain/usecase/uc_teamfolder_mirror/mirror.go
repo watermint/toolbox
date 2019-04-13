@@ -468,7 +468,7 @@ func (z *teamFolderImpl) Mount(ctx Context, scope Scope) (err error) {
 		svt := sv_teamfolder.New(z.ctxFileDst)
 		pair := scope.Pair()
 		if pair.Dst == nil {
-			folder, err := svt.Create(pair.Src.Name)
+			folder, err := svt.Create(pair.Src.Name, sv_teamfolder.SyncNoSync())
 			if err != nil {
 				l.Warn("DST: Unable to create team folder", zap.String("name", pair.Src.Name), zap.Error(err))
 				return errors.New("could not create one or more team folders in the destination team")
