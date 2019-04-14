@@ -773,6 +773,7 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 	// bridge shared folders
 	z.log().Info("Bridge: shared folders")
 	bridgeSharedFolders := func() error {
+		failedFolders := make([]*mo_sharedfolder.SharedFolder, 0)
 		folderTargets := ctx.SharedFolders()
 		for _, namespace := range ctx.Namespaces() {
 			// skip team folder
@@ -816,8 +817,8 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 						l.Debug("Skip bridge: assuming the owner already transferred to dest team", zap.String("namespaceId", namespace.NamespaceId), zap.String("name", namespace.Name))
 						continue
 					}
-					l.Warn("Unable to bridge shared folder permission", zap.Error(err))
-					return err
+					l.Error("Unable to bridge shared folder permission", zap.Error(err))
+					failedFolders = append(failedFolders, f)
 				}
 
 				// transfer ownership
@@ -831,6 +832,13 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 					}
 				}
 			}
+		}
+
+		for _, f := range failedFolders {
+			z.log().Warn("Bridge failure folder", zap.Any("folder", f))
+		}
+		if len(failedFolders) > 0 {
+			return errors.New("bridge failed in one or more folders")
 		}
 		return nil
 	}
