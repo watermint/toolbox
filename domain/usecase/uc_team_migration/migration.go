@@ -373,9 +373,9 @@ func (z *migrationImpl) Preflight(ctx Context) (err error) {
 }
 
 func (z *migrationImpl) Migrate(ctx Context) (err error) {
-	if err = z.Bridge(ctx); err != nil {
-		return err
-	}
+	//if err = z.Bridge(ctx); err != nil {
+	//	return err
+	//}
 
 	if err = z.Transfer(ctx); err != nil {
 		return err
