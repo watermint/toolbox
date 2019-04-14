@@ -943,60 +943,63 @@ func (z *migrationImpl) Transfer(ctx Context) (err error) {
 	// Convert accounts into Basic, and invite from new team
 	z.log().Info("Transfer: transfer accounts")
 	transferAccounts := func() error {
-		svmSrc := sv_member.New(z.ctxMgtSrc)
+		svmSrc := sv_member.New(z.ctxMgtSrc.NoRetryOnError())
 		svmDst := sv_member.New(z.ctxMgtDst)
 		failedMembers := make([]*mo_profile.Profile, 0)
-		for _, member := range ctx.Members() {
-			if member.TeamMemberId == ctx.AdminSrc().TeamMemberId {
-				z.log().Debug("Skip admin", zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
-				continue
-			}
-
-			z.log().Info("Transfer: transferring member", zap.String("email", member.Email))
-			l := z.log().With(zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
-			l.Debug("Transferring account")
-
-			ms, err := svmSrc.Resolve(member.TeamMemberId)
-			if err != nil {
-				if strings.HasPrefix(api_util.ErrorSummary(err), "id_not_found") {
-					md, err := svmDst.ResolveByEmail(member.Email)
-					if err != nil {
-						l.Debug("Assume user detached but not yet invited", zap.Error(err))
-						_, err = svmDst.Add(member.Email)
-						if err != nil {
-							l.Warn("Unable to invite member", zap.Error(err))
-							failedMembers = append(failedMembers, member)
-							continue
-						}
-					} else {
-						l.Debug("Skip: the user already transferred", zap.Any("member", md))
-					}
+		for retry := 0; retry < 10; retry++ {
+			for _, member := range ctx.Members() {
+				if member.TeamMemberId == ctx.AdminSrc().TeamMemberId {
+					z.log().Debug("Skip admin", zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
 					continue
 				}
-				l.Warn("Unable to resolve existing member", zap.Error(err))
-				continue
-			}
-			err = svmSrc.Remove(ms, sv_member.Downgrade())
-			if err != nil {
-				l.Warn("Unable to downgrade existing member", zap.Error(err))
-				continue
+
+				z.log().Info("Transfer: transferring member", zap.String("email", member.Email))
+				l := z.log().With(zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
+				l.Debug("Transferring account")
+
+				ms, err := svmSrc.Resolve(member.TeamMemberId)
+				if err != nil {
+					if strings.HasPrefix(api_util.ErrorSummary(err), "id_not_found") {
+						md, err := svmDst.ResolveByEmail(member.Email)
+						if err != nil {
+							l.Debug("Assume user detached but not yet invited", zap.Error(err))
+							_, err = svmDst.Add(member.Email)
+							if err != nil {
+								l.Warn("Unable to invite member", zap.Error(err))
+								failedMembers = append(failedMembers, member)
+								continue
+							}
+						} else {
+							l.Debug("Skip: the user already transferred", zap.Any("member", md))
+						}
+						continue
+					}
+					l.Warn("Unable to resolve existing member", zap.Error(err))
+					continue
+				}
+				err = svmSrc.Remove(ms, sv_member.Downgrade())
+				if err != nil {
+					l.Warn("Unable to downgrade existing member", zap.Error(err))
+					continue
+				}
+
+				_, err = svmDst.Add(member.Email)
+				if err != nil {
+					l.Warn("Unable to downgrade existing member", zap.Error(err))
+					continue
+				}
+
+				// TODO: add role if the member is an admin
 			}
 
-			_, err = svmDst.Add(member.Email)
-			if err != nil {
-				l.Warn("Unable to downgrade existing member", zap.Error(err))
-				continue
+			for _, m := range failedMembers {
+				z.log().Warn("Unable to transfer member", zap.Int("retry", retry), zap.Any("member", m))
 			}
-
-			// TODO: add role if the member is an admin
-		}
-
-		for _, m := range failedMembers {
-			z.log().Warn("Unable to transfer member", zap.Any("member", m))
 		}
 		if len(failedMembers) > 0 {
 			return errors.New("one or more members could not be transferred")
 		}
+
 		return nil
 	}
 	if err = transferAccounts(); err != nil {
