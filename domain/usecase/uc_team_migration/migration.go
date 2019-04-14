@@ -947,6 +947,7 @@ func (z *migrationImpl) Transfer(ctx Context) (err error) {
 		svmDst := sv_member.New(z.ctxMgtDst)
 		failedMembers := make([]*mo_profile.Profile, 0)
 		for retry := 0; retry < 1000; retry++ {
+			failedMembers = make([]*mo_profile.Profile, 0)
 			for _, member := range ctx.Members() {
 				if member.TeamMemberId == ctx.AdminSrc().TeamMemberId {
 					z.log().Debug("Skip admin", zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
@@ -980,12 +981,14 @@ func (z *migrationImpl) Transfer(ctx Context) (err error) {
 				err = svmSrc.Remove(ms, sv_member.Downgrade())
 				if err != nil {
 					l.Warn("Unable to downgrade existing member", zap.Error(err))
+					failedMembers = append(failedMembers, member)
 					continue
 				}
 
 				_, err = svmDst.Add(member.Email)
 				if err != nil {
 					l.Warn("Unable to downgrade existing member", zap.Error(err))
+					failedMembers = append(failedMembers, member)
 					continue
 				}
 
