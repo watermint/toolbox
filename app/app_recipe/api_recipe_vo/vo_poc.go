@@ -21,7 +21,7 @@ func (z *ValueObjectValidator) AssertEmailFormat(email string) {
 
 }
 func AssertEmailFormat(email string) error {
-
+	return nil
 }
 
 type InvalidRowError error
@@ -40,8 +40,6 @@ type ValueObject interface {
 	Validate(t *ValueObjectValidator)
 }
 type Recipe struct {
-	Name  string
-	Usage string
 	Value func() ValueObject
 	Exec  Cook
 }

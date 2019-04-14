@@ -9,12 +9,12 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 )
 
-type FileListVO struct {
+type TeamFolderListVO struct {
 	Recursive    bool
 	NonRecursive bool
 }
 
-func (z *FileListVO) Validate(t *api_recipe_vo.ValueObjectValidator) {
+func (z *TeamFolderListVO) Validate(t *api_recipe_vo.ValueObjectValidator) {
 	if z.Recursive && z.NonRecursive {
 		t.Error("err.inconsistent",
 			api_recipe_msg.P("Recursive", z.Recursive),
@@ -75,95 +75,85 @@ func MemberInviteRowFromCols(cols []string) (row *MemberInviteRow) {
 	return row
 }
 
-func poc() {
-	// Reporting task
-	re := api_recipe_vo.Recipe{
-		Name: "list",
+func TeamFolderList() api_recipe_vo.Cook {
+	return api_recipe_vo.WithBusinessFile(func(rc api_recipe_vo.ApiRecipeContext) error {
+		// TypeAssertionError will be handled by infra
+		fvo := rc.Value().(*TeamFolderListVO)
 
+		folders, err := sv_teamfolder.New(rc.Context()).List()
+		if err != nil {
+			// ApiError will be reported by infra
+			return err
+		}
+
+		for _, folder := range folders {
+			rc.Report().Write(folder)
+		}
+
+		if fvo.Recursive {
+			rc.UI().Info("info.do_recursively")
+			rc.Log().Info("Do Recursively!")
+		}
+		return nil
+	})
+}
+
+func MemberInvite() api_recipe_vo.Cook {
+	return api_recipe_vo.WithBusinessManagement(func(rc api_recipe_vo.ApiRecipeContext) error {
+		mvo := rc.Value().(*MemberInviteVO)
+		svm := sv_member.New(rc.Context())
+
+		return api_recipe_flow.OnRow(mvo.FilePath, MemberInviteRowValidate, func(cols []string) error {
+			m := MemberInviteRowFromCols(cols)
+			opts := make([]sv_member.AddOpt, 0)
+			if m.GivenName != "" {
+				opts = append(opts, sv_member.AddWithGivenName(m.GivenName))
+			}
+			if m.Surname != "" {
+				opts = append(opts, sv_member.AddWithSurname(m.Surname))
+			}
+
+			r, err := svm.Add(m.Email, opts...)
+			switch {
+			case api_recipe_flow.IsErrorPrefix("user_already_on_team", err):
+				rc.Report().Result(api_recipe_report.Skip, m, r, api_recipe_report.DueToError(err))
+				return nil
+
+			case err != nil:
+				rc.Report().Result(api_recipe_report.Failure, m, r, api_recipe_report.DueToError(err))
+				return nil
+
+			default:
+				rc.Report().Result(api_recipe_report.Success, m, r)
+				return nil
+			}
+		})
+	})
+}
+
+func poc() (prefix string, recipes map[string]api_recipe_vo.Recipe) {
+	recipes = make(map[string]api_recipe_vo.Recipe)
+
+	// Reporting task
+	recipes["list"] = api_recipe_vo.Recipe{
 		// give default value
 		Value: func() api_recipe_vo.ValueObject {
-			return &FileListVO{
+			return &TeamFolderListVO{
 				Recursive: false,
 			}
 		},
-		Exec: api_recipe_vo.WithBusinessFile(func(rc api_recipe_vo.ApiRecipeContext) error {
-			// TypeAssertionError will be handled by infra
-			fvo := rc.Value().(*FileListVO)
-
-			folders, err := sv_teamfolder.New(rc.Context()).List()
-			if err != nil {
-				// ApiError will be reported by infra
-				return err
-			}
-
-			for _, folder := range folders {
-				rc.Report().Write(folder)
-			}
-
-			if fvo.Recursive {
-				rc.UI().Info("info.do_recursively")
-				rc.Log().Info("Do Recursively!")
-			}
-			return nil
-		}),
+		Exec: TeamFolderList(),
 	}
 
-	println(re.Usage)
-
 	// Transactional task
-	tr := api_recipe_vo.Recipe{
-		Name: "invite",
-
+	recipes["invite"] = api_recipe_vo.Recipe{
 		// give default value
 		Value: func() api_recipe_vo.ValueObject {
 			return &MemberInviteVO{}
 		},
 
-		Exec: api_recipe_vo.WithBusinessManagement(func(rc api_recipe_vo.ApiRecipeContext) error {
-			mvo := rc.Value().(*MemberInviteVO)
-			svm := sv_member.New(rc.Context())
-
-			return api_recipe_flow.OnRow(mvo.FilePath, MemberInviteRowValidate, func(cols []string) error {
-				m := MemberInviteRowFromCols(cols)
-				opts := make([]sv_member.AddOpt, 0)
-				if m.GivenName != "" {
-					opts = append(opts, sv_member.AddWithGivenName(m.GivenName))
-				}
-				if m.Surname != "" {
-					opts = append(opts, sv_member.AddWithSurname(m.Surname))
-				}
-
-				r, err := svm.Add(m.Email, opts...)
-				switch {
-				case api_recipe_flow.IsErrorPrefix("user_already_on_team", err):
-					rc.Report().Result(
-						api_recipe_report.Skip,
-						m,
-						r,
-						api_recipe_report.DueToError(err),
-					)
-					return nil
-
-				case err != nil:
-					rc.Report().Result(
-						api_recipe_report.Failure,
-						m,
-						r,
-						api_recipe_report.DueToError(err),
-					)
-					return nil
-
-				default:
-					rc.Report().Result(
-						api_recipe_report.Success,
-						m,
-						r,
-					)
-					return nil
-				}
-			})
-		}),
+		Exec: MemberInvite(),
 	}
 
-	println(tr.Name)
+	return "app.team", recipes
 }
