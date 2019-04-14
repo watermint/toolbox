@@ -799,7 +799,7 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 
 				// add
 				svc := sv_sharedfolder_member.NewBySharedFolderId(ctxFileAsMember, namespace.NamespaceId)
-				err = svc.Add(sv_sharedfolder_member.AddByEmail(ctx.AdminDst().Email, sv_sharedfolder_member.LevelEditor), sv_sharedfolder_member.AddCustomMessage(z.ctxExec.Msg("usecase.team.migration.msg.add_shared_folder").T()))
+				err = svc.Add(sv_sharedfolder_member.AddByEmail(ctx.AdminDst().Email, sv_sharedfolder_member.LevelEditor), sv_sharedfolder_member.AddQuiet())
 
 				if err != nil {
 					_, err2 := sv_member.New(z.ctxMgtSrc).ResolveByEmail(owner.Email)
@@ -1100,6 +1100,7 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 		return err
 	}
 
+	// create map of name to dest team folders
 	nameToDestTeamFolders := make(map[string]*mo_teamfolder.TeamFolder)
 	createDestTeamFolderMap := func() error {
 		folders, err := sv_teamfolder.New(z.ctxFileDst).List()
@@ -1113,6 +1114,28 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 		return nil
 	}
 	if err = createDestTeamFolderMap(); err != nil {
+		return err
+	}
+
+	// create team folder if it's not exist
+	z.log().Info("Permission: create team folder(s) if not exist in dest team")
+	createTeamFolderIfNotExist := func() error {
+		for _, stf := range ctx.TeamFolders() {
+			l := z.log().With(zap.String("teamFolderName", stf.Name), zap.String("srcTeamFolderId", stf.TeamFolderId))
+			if _, e := nameToDestTeamFolders[strings.ToLower(stf.Name)]; !e {
+				svt := sv_teamfolder.New(z.ctxFileDst)
+				l.Info("Creating team folder")
+				dtf, err := svt.Create(stf.Name, sv_teamfolder.SyncNoSync())
+				if err != nil {
+					l.Error("Unable to create team folder", zap.Error(err))
+					return err
+				}
+				nameToDestTeamFolders[strings.ToLower(dtf.Name)] = dtf
+			}
+		}
+		return nil
+	}
+	if err = createTeamFolderIfNotExist(); err != nil {
 		return err
 	}
 
