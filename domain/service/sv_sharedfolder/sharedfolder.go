@@ -9,12 +9,13 @@ import (
 )
 
 type SharedFolder interface {
-	Create(path mo_path.Path, opts ...CreateOption) (sf *mo_sharedfolder.SharedFolder, err error)
-	Remove(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOption) (err error)
+	Create(path mo_path.Path, opts ...CreateOpt) (sf *mo_sharedfolder.SharedFolder, err error)
+	Remove(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOpt) (err error)
 	List() (sf []*mo_sharedfolder.SharedFolder, err error)
-	Leave(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOption) (err error)
+	Leave(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOpt) (err error)
 	Resolve(sharedFolderId string) (sf *mo_sharedfolder.SharedFolder, err error)
 	Transfer(sf *mo_sharedfolder.SharedFolder, to TransferTo) (err error)
+	UpdatePolicy(sharedFolderId string, opts ...PolicyOpt) (sf *mo_sharedfolder.SharedFolder, err error)
 }
 
 func New(ctx api_context.Context) SharedFolder {
@@ -47,18 +48,32 @@ func ToTeamMemberId(teamMemberId string) TransferTo {
 	}
 }
 
-type createOptions struct {
+type PolicyOpt func(opt *policyOpts) *policyOpts
+type policyOpts struct {
+	memberPolicy     string
+	aclUpdatePolicy  string
+	sharedLinkPolicy string
 }
 
-type CreateOption func(opt *createOptions) *createOptions
+func MemberPolicy(policy string) PolicyOpt {
+	return func(opt *policyOpts) *policyOpts {
+		opt.memberPolicy = policy
+		return opt
+	}
+}
 
-type deleteOptions struct {
+type createOpts struct {
+}
+
+type CreateOpt func(opt *createOpts) *createOpts
+
+type deleteOpts struct {
 	leaveACopy bool
 }
-type DeleteOption func(opt *deleteOptions) *deleteOptions
+type DeleteOpt func(opt *deleteOpts) *deleteOpts
 
-func LeaveACopy() DeleteOption {
-	return func(opt *deleteOptions) *deleteOptions {
+func LeaveACopy() DeleteOpt {
+	return func(opt *deleteOpts) *deleteOpts {
 		opt.leaveACopy = true
 		return opt
 	}
@@ -67,6 +82,31 @@ func LeaveACopy() DeleteOption {
 type sharedFolderImpl struct {
 	ctx   api_context.Context
 	limit int
+}
+
+func (z *sharedFolderImpl) UpdatePolicy(sharedFolderId string, opts ...PolicyOpt) (sf *mo_sharedfolder.SharedFolder, err error) {
+	po := &policyOpts{}
+	for _, o := range opts {
+		o(po)
+	}
+
+	p := struct {
+		SharedFolderId string `json:"shared_folder_id"`
+		MemberPolicy   string `json:"member_policy,omitempty"`
+	}{
+		SharedFolderId: sharedFolderId,
+		MemberPolicy:   po.memberPolicy,
+	}
+
+	sf = &mo_sharedfolder.SharedFolder{}
+	res, err := z.ctx.Request("sharing/update_folder_policy").Param(p).Call()
+	if err != nil {
+		return nil, err
+	}
+	if err = res.Model(sf); err != nil {
+		return nil, err
+	}
+	return sf, nil
 }
 
 func (z *sharedFolderImpl) Transfer(sf *mo_sharedfolder.SharedFolder, to TransferTo) (err error) {
@@ -106,8 +146,8 @@ func (z *sharedFolderImpl) Resolve(sharedFolderId string) (sf *mo_sharedfolder.S
 	return sf, nil
 }
 
-func (z *sharedFolderImpl) Leave(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOption) (err error) {
-	do := &deleteOptions{}
+func (z *sharedFolderImpl) Leave(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOpt) (err error) {
+	do := &deleteOpts{}
 	for _, o := range opts {
 		o(do)
 	}
@@ -128,8 +168,8 @@ func (z *sharedFolderImpl) Leave(sf *mo_sharedfolder.SharedFolder, opts ...Delet
 	return nil
 }
 
-func (z *sharedFolderImpl) Create(path mo_path.Path, opts ...CreateOption) (sf *mo_sharedfolder.SharedFolder, err error) {
-	co := &createOptions{}
+func (z *sharedFolderImpl) Create(path mo_path.Path, opts ...CreateOpt) (sf *mo_sharedfolder.SharedFolder, err error) {
+	co := &createOpts{}
 	for _, o := range opts {
 		o(co)
 	}
@@ -153,8 +193,8 @@ func (z *sharedFolderImpl) Create(path mo_path.Path, opts ...CreateOption) (sf *
 	return sf, nil
 }
 
-func (z *sharedFolderImpl) Remove(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOption) (err error) {
-	do := &deleteOptions{}
+func (z *sharedFolderImpl) Remove(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOpt) (err error) {
+	do := &deleteOpts{}
 	for _, o := range opts {
 		o(do)
 	}

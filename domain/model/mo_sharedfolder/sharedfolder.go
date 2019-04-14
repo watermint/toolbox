@@ -11,4 +11,5 @@ type SharedFolder struct {
 	PathLower            string `path:"path_lower"`
 	IsInsideTeamFolder   bool   `path:"is_inside_team_folder"`
 	IsTeamFolder         bool   `path:"is_team_folder"`
+	PolicyMember         string `path:"policy.member_policy.\\.tag"`
 }

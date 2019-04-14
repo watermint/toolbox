@@ -797,6 +797,15 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 				var ctxFileAsMember api_context.Context
 				ctxFileAsMember = z.ctxFileSrc.AsMemberId(owner.TeamMemberId)
 
+				if f.PolicyMember == "team" {
+					l.Info("Update member policy from `team` to `anyone`")
+					ssf := sv_sharedfolder.New(ctxFileAsMember)
+					_, err := ssf.UpdatePolicy(f.SharedFolderId, sv_sharedfolder.MemberPolicy("anyone"))
+					if err != nil {
+						l.Warn("Unable to change member policy", zap.Error(err))
+					}
+				}
+
 				// add
 				svc := sv_sharedfolder_member.NewBySharedFolderId(ctxFileAsMember, namespace.NamespaceId)
 				err = svc.Add(sv_sharedfolder_member.AddByEmail(ctx.AdminDst().Email, sv_sharedfolder_member.LevelEditor), sv_sharedfolder_member.AddQuiet())
