@@ -995,6 +995,9 @@ func (z *migrationImpl) Transfer(ctx Context) (err error) {
 			for _, m := range failedMembers {
 				z.log().Warn("Unable to transfer member", zap.Int("retry", retry), zap.Any("member", m))
 			}
+			if len(failedMembers) < 1 {
+				break
+			}
 		}
 		if len(failedMembers) > 0 {
 			return errors.New("one or more members could not be transferred")
