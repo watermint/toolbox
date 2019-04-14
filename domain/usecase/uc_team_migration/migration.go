@@ -946,7 +946,7 @@ func (z *migrationImpl) Transfer(ctx Context) (err error) {
 		svmSrc := sv_member.New(z.ctxMgtSrc.NoRetryOnError())
 		svmDst := sv_member.New(z.ctxMgtDst)
 		failedMembers := make([]*mo_profile.Profile, 0)
-		for retry := 0; retry < 10; retry++ {
+		for retry := 0; retry < 1000; retry++ {
 			for _, member := range ctx.Members() {
 				if member.TeamMemberId == ctx.AdminSrc().TeamMemberId {
 					z.log().Debug("Skip admin", zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
