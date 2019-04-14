@@ -837,9 +837,9 @@ func (z *migrationImpl) Bridge(ctx Context) (err error) {
 		for _, f := range failedFolders {
 			z.log().Warn("Bridge failure folder", zap.Any("folder", f))
 		}
-		if len(failedFolders) > 0 {
-			return errors.New("bridge failed in one or more folders")
-		}
+		//if len(failedFolders) > 0 {
+		//	return errors.New("bridge failed in one or more folders")
+		//}
 		return nil
 	}
 	if err = bridgeSharedFolders(); err != nil {
