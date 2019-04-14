@@ -945,6 +945,7 @@ func (z *migrationImpl) Transfer(ctx Context) (err error) {
 	transferAccounts := func() error {
 		svmSrc := sv_member.New(z.ctxMgtSrc)
 		svmDst := sv_member.New(z.ctxMgtDst)
+		failedMembers := make([]*mo_profile.Profile, 0)
 		for _, member := range ctx.Members() {
 			if member.TeamMemberId == ctx.AdminSrc().TeamMemberId {
 				z.log().Debug("Skip admin", zap.String("teamMemberId", member.TeamMemberId), zap.String("email", member.Email))
@@ -958,7 +959,18 @@ func (z *migrationImpl) Transfer(ctx Context) (err error) {
 			ms, err := svmSrc.Resolve(member.TeamMemberId)
 			if err != nil {
 				if strings.HasPrefix(api_util.ErrorSummary(err), "id_not_found") {
-					l.Debug("Skip: assuming the user already transferred")
+					md, err := svmDst.ResolveByEmail(member.Email)
+					if err != nil {
+						l.Debug("Assume user detached but not yet invited", zap.Error(err))
+						_, err = svmDst.Add(member.Email)
+						if err != nil {
+							l.Warn("Unable to invite member", zap.Error(err))
+							failedMembers = append(failedMembers, member)
+							continue
+						}
+					} else {
+						l.Debug("Skip: the user already transferred", zap.Any("member", md))
+					}
 					continue
 				}
 				l.Warn("Unable to resolve existing member", zap.Error(err))
@@ -977,6 +989,13 @@ func (z *migrationImpl) Transfer(ctx Context) (err error) {
 			}
 
 			// TODO: add role if the member is an admin
+		}
+
+		for _, m := range failedMembers {
+			z.log().Warn("Unable to transfer member", zap.Any("member", m))
+		}
+		if len(failedMembers) > 0 {
+			return errors.New("one or more members could not be transferred")
 		}
 		return nil
 	}
