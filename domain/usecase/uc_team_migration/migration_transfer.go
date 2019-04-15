@@ -2,8 +2,11 @@ package uc_team_migration
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/infra/api_util"
+	"github.com/watermint/toolbox/domain/model/mo_profile"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"go.uber.org/zap"
+	"strings"
 )
 
 func (z *migrationImpl) Transfer(ctx Context) (err error) {
