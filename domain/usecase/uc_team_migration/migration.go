@@ -44,13 +44,25 @@ type Migration interface {
 	// Mirror permissions.
 	// Create groups, invite members to shared folders or nested folders,
 	// leave destination admin from bridged shared folders.
-	Permissions(ctx Context) (err error)
+	Permissions(ctx Context, opts ...PermOpt) (err error)
 
 	// Cleanup
 	Cleanup(ctx Context) (err error)
 
 	// Verify
 	Verify(ctx Context) (err error)
+}
+
+type PermOpt func(opt *permOpts) *permOpts
+type permOpts struct {
+	emailMappings map[string]string
+}
+
+func PermWithEmailMapping(emailMapping map[string]string) PermOpt {
+	return func(opt *permOpts) *permOpts {
+		opt.emailMappings = emailMapping
+		return opt
+	}
 }
 
 type ResumeOpt func(opt *resumeOpts) *resumeOpts

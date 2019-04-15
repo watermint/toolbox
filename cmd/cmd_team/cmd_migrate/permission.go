@@ -2,10 +2,12 @@ package cmd_migrate
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/app/app_io"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/usecase/uc_team_migration"
+	"go.uber.org/zap"
 )
 
 type CmdTeamMigratePermission struct {
@@ -93,16 +95,38 @@ func (z *CmdTeamMigratePermission) Exec(args []string) {
 		return
 	}
 
+	ucm := uc_team_migration.New(z.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst, &z.report)
+
+	opts := make([]uc_team_migration.PermOpt, 0)
+	if z.optMappingCsv != "" {
+		emailMapping := make(map[string]string)
+		err := app_io.NewCsvLoader(z.ExecContext, z.optMappingCsv).OnRow(func(cols []string) error {
+			if len(cols) < 2 {
+				z.Log().Warn("Not enough column in the row", zap.Strings("cols", cols))
+				return nil
+			}
+
+			oldEmail := cols[0]
+			newEmail := cols[1]
+			emailMapping[oldEmail] = newEmail
+
+			z.Log().Info("Mapping", zap.String("oldEmail", oldEmail), zap.String("newEmail", newEmail))
+			return nil
+		}).Load()
+		if err != nil {
+			return
+		}
+		opts = append(opts, uc_team_migration.PermWithEmailMapping(emailMapping))
+	}
+
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
-
-	ucm := uc_team_migration.New(z.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst, &z.report)
 
 	mc, err := ucm.Resume(uc_team_migration.ResumeExecContext(z.ExecContext), uc_team_migration.ResumeFromPath(z.optResume))
 	if err != nil {
 		return
 	}
-	if err = ucm.Permissions(mc); err != nil {
+	if err = ucm.Permissions(mc, opts...); err != nil {
 		ctxFileSrc.ErrorMsg(err).TellError()
 	}
 }

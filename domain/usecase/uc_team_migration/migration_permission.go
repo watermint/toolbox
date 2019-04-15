@@ -1,14 +1,62 @@
 package uc_team_migration
 
 import (
+	"errors"
+	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/infra/api_util"
+	"github.com/watermint/toolbox/domain/model/mo_group"
+	"github.com/watermint/toolbox/domain/model/mo_member"
+	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/model/mo_sharedfolder"
+	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
+	"github.com/watermint/toolbox/domain/service/sv_group"
+	"github.com/watermint/toolbox/domain/service/sv_group_member"
+	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
+	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"go.uber.org/zap"
 	"strings"
 )
 
-func (z *migrationImpl) Permissions(ctx Context) (err error) {
+func (z *migrationImpl) Permissions(ctx Context, opts ...PermOpt) (err error) {
+	// Permission opt
+	po := &permOpts{}
+	for _, o := range opts {
+		o(po)
+	}
+
+	// Resolve dest member by source email
+	resolveDstMember := func(srcEmail string) (m *mo_member.Member, err error) {
+		l := z.log().With(zap.String("srcEmail", srcEmail))
+		targetEmail := ""
+		if po.emailMappings == nil {
+			l.Debug("Use srcEmail as target email")
+			targetEmail = srcEmail
+		} else {
+			if dstEmail, e := po.emailMappings[srcEmail]; e {
+				l.Debug("Use mapped email as target email", zap.String("mappedEmail", dstEmail))
+				targetEmail = dstEmail
+			} else {
+				l.Debug("Not found in mapped email. Use srcEmail as target email")
+				targetEmail = srcEmail
+			}
+		}
+
+		// lookup dst member
+		l = l.With(zap.String("targetEmail", targetEmail))
+		l.Debug("Lookup member")
+		member, err := sv_member.New(z.ctxMgtDst).ResolveByEmail(targetEmail)
+		if err != nil {
+			l.Debug("Unable to lookup member", zap.Error(err))
+			return nil, err
+		}
+
+		return member, nil
+	}
+
 	// group name (lower) to group mapping
 	groupNameToSrcGroup := make(map[string]*mo_group.Group)
 	groupNameToDstGroup := make(map[string]*mo_group.Group)
@@ -93,8 +141,16 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 					l.Debug("Skip: Admin should not be added", zap.String("member", member.Email))
 					continue
 				}
-				l.Info("Adding member to group", zap.String("member", member.Email))
-				_, err = sgm.Add(sv_group_member.ByEmail(member.Email))
+
+				// lookup member in dst
+				dstMember, err := resolveDstMember(member.Email)
+				if err != nil {
+					l.Warn("The member not found in dst team", zap.Error(err))
+					continue
+				}
+
+				l.Info("Adding member to group", zap.Any("member", dstMember))
+				_, err = sgm.Add(sv_group_member.ByEmail(dstMember.Email))
 				if err != nil {
 					if strings.HasPrefix(api_util.ErrorSummary(err), "duplicate_user") {
 						l.Debug("The member already added")
@@ -281,9 +337,35 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 						}
 					}
 					if u, e := member.User(); e {
+						// lookup dst member
+						dstMember, err := resolveDstMember(u.Email)
+						if err != nil {
+							ll.Debug("The member not found. Skip", zap.Error(err))
+							continue
+						}
+
 						svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, nf.SharedFolderId)
-						if err = svm.Add(sv_sharedfolder_member.AddByEmail(u.Email, member.AccessType())); err != nil {
-							ll.Error("Unable to add member to nested folder", zap.String("folderId", nf.SharedFolderId), zap.String("member", u.Email), zap.Error(err))
+						if err = svm.Add(sv_sharedfolder_member.AddByEmail(dstMember.Email, member.AccessType())); err != nil {
+							ll.Error("Unable to add member to nested folder", zap.Any("folder", nf), zap.Any("member", dstMember), zap.Error(err))
+						}
+					}
+					if inv, e := member.Invitee(); e {
+						// lookup dst member
+						dstMember, err := resolveDstMember(inv.InviteeEmail)
+						if err != nil {
+							ll.Debug("The member not found. Invite via inviteeEmail", zap.Any("invitee", inv), zap.Error(err))
+
+							svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, nf.SharedFolderId)
+							if err = svm.Add(sv_sharedfolder_member.AddByEmail(inv.InviteeEmail, member.AccessType())); err != nil {
+								ll.Error("Unable to add member to nested folder", zap.Any("folder", nf), zap.Any("invitee", inv), zap.Error(err))
+							}
+						} else {
+							ll.Debug("Invite via mapped user", zap.Any("invitee", inv), zap.Any("dstMember", dstMember))
+
+							svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, nf.SharedFolderId)
+							if err = svm.Add(sv_sharedfolder_member.AddByEmail(dstMember.Email, member.AccessType())); err != nil {
+								ll.Error("Unable to add member to nested folder", zap.Any("folder", nf), zap.Any("member", dstMember), zap.Error(err))
+							}
 						}
 					}
 				}
@@ -363,11 +445,18 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 						accessType = sv_sharedfolder_member.LevelEditor
 					}
 
+					// lookup dst member
+					dstMember, err := resolveDstMember(u.Email)
+					if err != nil {
+						l.Debug("Skip not found member", zap.Error(err))
+						continue
+					}
+
 					found := false
-					for _, dstMember := range dstMembers {
-						if du, e := dstMember.User(); e {
-							if du.Email == u.Email && du.AccessType() == u.AccessType() {
-								l.Debug("Skip: user already added to shared folder", zap.String("user", u.Email), zap.String("accessType", u.AccessType()))
+					for _, dm := range dstMembers {
+						if du, e := dm.User(); e {
+							if du.Email == dstMember.Email && du.AccessType() == u.AccessType() {
+								l.Debug("Skip: user already added to shared folder", zap.Any("user", u), zap.Any("dstMember", dstMember), zap.String("accessType", u.AccessType()))
 								found = true
 								break
 							}
@@ -377,16 +466,23 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 						continue
 					}
 
-					if err = svm.Add(sv_sharedfolder_member.AddByEmail(u.Email, accessType)); err != nil {
-						l.Error("Unable to add member to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("member", u.Email), zap.Error(err))
+					if err = svm.Add(sv_sharedfolder_member.AddByEmail(dstMember.Email, accessType)); err != nil {
+						l.Error("Unable to add member to shared folder", zap.String("folderId", folder.SharedFolderId), zap.Any("user", u), zap.Any("dstMember", dstMember), zap.Error(err))
 						return err
 					}
 				}
 				if inv, e := member.Invitee(); e {
+					// lookup dst member
+					dstMember, err := resolveDstMember(inv.InviteeEmail)
+					if err != nil {
+						l.Debug("Skip not found member", zap.Error(err))
+						continue
+					}
+
 					found := false
-					for _, dstMember := range dstMembers {
-						if di, e := dstMember.Invitee(); e {
-							if di.InviteeEmail == inv.InviteeEmail && di.AccessType() == inv.AccessType() {
+					for _, dm := range dstMembers {
+						if di, e := dm.Invitee(); e {
+							if di.InviteeEmail == dstMember.Email && di.AccessType() == inv.AccessType() {
 								l.Debug("Skip: invitee already added to shared folder", zap.String("invitee", inv.InviteeEmail), zap.String("accessType", inv.AccessType()))
 								found = true
 								break
@@ -397,7 +493,7 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 						continue
 					}
 
-					if err = svm.Add(sv_sharedfolder_member.AddByEmail(inv.InviteeEmail, inv.AccessType())); err != nil {
+					if err = svm.Add(sv_sharedfolder_member.AddByEmail(dstMember.Email, inv.AccessType())); err != nil {
 						l.Error("Unable to add invitee to shared folder", zap.String("folderId", folder.SharedFolderId), zap.String("member", inv.InviteeEmail), zap.Error(err))
 						return err
 					}
