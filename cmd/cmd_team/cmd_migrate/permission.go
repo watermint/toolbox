@@ -17,7 +17,7 @@ type CmdTeamMigratePermission struct {
 }
 
 func (z *CmdTeamMigratePermission) Name() string {
-	return "Permission"
+	return "permission"
 }
 
 func (z *CmdTeamMigratePermission) Desc() string {
