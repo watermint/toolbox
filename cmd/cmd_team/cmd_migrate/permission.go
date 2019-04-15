@@ -14,6 +14,7 @@ type CmdTeamMigratePermission struct {
 	optSrcTeamAlias string
 	optDstTeamAlias string
 	optResume       string
+	optMappingCsv   string
 }
 
 func (z *CmdTeamMigratePermission) Name() string {
@@ -40,6 +41,9 @@ func (z *CmdTeamMigratePermission) FlagConfig(f *flag.FlagSet) {
 
 	descResume := z.ExecContext.Msg("cmd.team.migrate.content.flag.resume").T()
 	f.StringVar(&z.optResume, "resume", "", descResume)
+
+	descMappingCsv := "Mapping of pre/post migration email addresses of an account"
+	f.StringVar(&z.optMappingCsv, "mapping-csv", "", descMappingCsv)
 }
 
 func (z *CmdTeamMigratePermission) Exec(args []string) {

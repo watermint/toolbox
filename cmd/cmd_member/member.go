@@ -2,6 +2,7 @@ package cmd_member
 
 import (
 	"github.com/watermint/toolbox/cmd"
+	"github.com/watermint/toolbox/cmd/cmd_member/cmd_member_mirror"
 	"github.com/watermint/toolbox/cmd/cmd_member/cmd_member_quota"
 	"github.com/watermint/toolbox/cmd/cmd_member/cmd_member_update"
 )
@@ -28,6 +29,7 @@ func NewCmdMember() cmd.Commandlet {
 			},
 			cmd_member_update.NewCmdMemberUpdate(),
 			cmd_member_quota.NewCmdMemberQuota(),
+			cmd_member_mirror.NewCmdMemberMirror(),
 		},
 	}
 }
