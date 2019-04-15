@@ -228,6 +228,7 @@
   "cmd.team.migrate.verify.desc": "Migration step 4 : Verify",
   "cmd.team.migrate.verify.flag.permission_only": "Verify permission only",
   "cmd.team.migrate.bridge.desc": "Do Bridge step only",
+  "cmd.team.migrate.permission.desc": "Do Permissions step only",
   "cmd.team.namespace.desc": "Team namespace management",
   "cmd.team.namespace.file.desc": "Team namespace file management",
   "cmd.team.namespace.file.list.desc": "List files/folders in all namespaces of the team",

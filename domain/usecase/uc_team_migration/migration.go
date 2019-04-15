@@ -1112,7 +1112,7 @@ func (z *migrationImpl) Permissions(ctx Context) (err error) {
 						l.Debug("The member already added")
 					} else {
 						l.Error("Unable to add member to group", zap.Error(err))
-						return err
+						//return err
 					}
 				}
 			}
