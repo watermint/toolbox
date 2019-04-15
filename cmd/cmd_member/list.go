@@ -36,7 +36,8 @@ func (z *CmdMemberList) FlagConfig(f *flag.FlagSet) {
 }
 
 func (z *CmdMemberList) Exec(args []string) {
-	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessInfo())
+	//	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessInfo())
+	ctx, err := api_auth_impl.Auth(z.ExecContext, api_auth_impl.BusinessManagement())
 	if err != nil {
 		return
 	}
