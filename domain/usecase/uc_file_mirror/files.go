@@ -97,7 +97,11 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 	}
 
 	// skipped files (same hash)
-	skipped := make([]string, 0)
+	type Skip struct {
+		Name   string `json:"name"`
+		Reason string `json:"reason"`
+	}
+	skipped := make([]*Skip, 0)
 
 	// scan src path
 	svfSrc := sv_file.NewFiles(z.ctxSrc)
@@ -110,10 +114,40 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 		name := strings.ToLower(entrySrc.Name())
 		if fileSrc, e := entrySrc.File(); e {
 			if fileDst, e := filesDst[name]; e {
+				// Skip when same hash
 				if fileSrc.ContentHash == fileDst.ContentHash {
-					skipped = append(skipped, fileSrc.PathDisplay())
+					skipped = append(skipped, &Skip{
+						Name:   fileSrc.Name(),
+						Reason: "same_hash",
+					})
 					continue
 				}
+				srcTime, err := api_util.Parse(fileSrc.ServerModified)
+				if err != nil {
+					log.Warn("Unable to determine fileSrc server modified", zap.Any("fileSrc", fileSrc), zap.Error(err))
+					skipped = append(skipped, &Skip{
+						Name:   fileSrc.Name(),
+						Reason: "src_time_err",
+					})
+					continue
+				}
+				dstTime, err := api_util.Parse(fileDst.ServerModified)
+				if err != nil {
+					log.Warn("Unable to determine fileDst server modified", zap.Any("fileDst", fileDst), zap.Error(err))
+					skipped = append(skipped, &Skip{
+						Name:   fileSrc.Name(),
+						Reason: "dst_time_err",
+					})
+					continue
+				}
+				if dstTime.After(srcTime) {
+					skipped = append(skipped, &Skip{
+						Name:   fileSrc.Name(),
+						Reason: "timestamp",
+					})
+					continue
+				}
+
 				// otherwise fall back to mirror
 			}
 			pathFileSrc := mo_path.NewPathDisplay(fileSrc.PathDisplay())
@@ -147,7 +181,7 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 		}
 	}
 
-	log.Debug("Skipped(Same hash):", zap.Strings("files", skipped))
+	log.Debug("Skipped:", zap.Any("files", skipped))
 
 	return nil
 }
