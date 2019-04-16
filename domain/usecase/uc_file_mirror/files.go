@@ -110,7 +110,9 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 		return err
 	}
 
-	for _, entrySrc := range entriesSrc {
+	numEntriesSrc := len(entriesSrc)
+	for i, entrySrc := range entriesSrc {
+		log.Debug("Processing entry", zap.Int("index", i), zap.Int("numEntries", numEntriesSrc), zap.String("entryName", entrySrc.Name()))
 		name := strings.ToLower(entrySrc.Name())
 		if fileSrc, e := entrySrc.File(); e {
 			if fileDst, e := filesDst[name]; e {
