@@ -670,5 +670,7 @@
   "usecase.relocation.err.unsupported_type": "Error in file/folder type",
   "usecase.team.migration.msg.add_shared_folder": "You have been added to shared folder to keep permission during migration",
   "usecase.team.migration.test.cleanup.confirmation": "Please confirm: the command trying to clean up test data. Please do not run on production environment",
-  "usecase.team.migration.test.prompt.please_accept_invitation": "Please accept invitation of account email `{{.Email}}`"
+  "usecase.team.migration.test.prompt.please_accept_invitation": "Please accept invitation of account email `{{.Email}}`",
+  "cmd.member.mirror.desc": "Mirror members",
+  "cmd.member.mirror.files.desc": "Mirror member files"
 }
