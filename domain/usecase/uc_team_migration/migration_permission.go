@@ -396,16 +396,26 @@ func (z *migrationImpl) Permissions(ctx Context, opts ...PermOpt) (err error) {
 				l.Debug("Skip shared folder which owned by src admin")
 				continue
 			}
+			var ctf api_context.Context
 			ownerMember, err := sv_member.New(z.ctxMgtDst).ResolveByEmail(owner.Email)
 			if err != nil {
-				l.Error("Unable to resolve folder owner user", zap.String("email", owner.Email), zap.Error(err))
-				return err
+				l.Debug("Unable to resolve folder owner user in dest team", zap.Any("owner", owner), zap.Error(err))
+
+				// Then try from src team (assuming the user exists in src team because of emailMapping enabled)
+				ownerMember, err = sv_member.New(z.ctxMgtSrc).ResolveByEmail(owner.Email)
+				if err != nil {
+					l.Error("Unable to resolve folder owner in both src, dest team", zap.Any("owner", owner), zap.Error(err))
+					return err
+				}
+				l.Debug("Owner found in src team", zap.Any("ownerMember", ownerMember))
+				ctf = z.ctxFileSrc.AsMemberId(ownerMember.TeamMemberId)
+			} else {
+				ctf = z.ctxFileDst.AsMemberId(ctx.AdminDst().TeamMemberId)
 			}
 
 			l.Info("Permissions: restore permission of shared folder")
 
 			members := ctx.NamespaceMembers(folder.SharedFolderId)
-			ctf := z.ctxFileDst.AsMemberId(ctx.AdminDst().TeamMemberId)
 			svm := sv_sharedfolder_member.NewBySharedFolderId(ctf, folder.SharedFolderId)
 			dstMembers, err := svm.List()
 			if err != nil {
