@@ -53,6 +53,21 @@ type contextImpl struct {
 	basePath       api_context.PathRoot
 	retryAfter     time.Time
 	lastErrors     []error
+	noRetryOnError bool
+}
+
+func (z *contextImpl) IsNoRetry() bool {
+	return z.noRetryOnError
+}
+
+func (z *contextImpl) NoRetryOnError() api_context.Context {
+	c := &contextImpl{
+		ec:             z.ec,
+		tokenContainer: z.tokenContainer,
+		client:         &http.Client{},
+		noRetryOnError: true,
+	}
+	return c
 }
 
 func (z *contextImpl) Token() api_auth.TokenContainer {

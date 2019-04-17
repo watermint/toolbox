@@ -79,6 +79,11 @@ func (z *CallerImpl) createRequest() (req api_rpc.Request, err error) {
 func (z *CallerImpl) ensureRetryOnError(lastErr error) (res api_rpc.Response, err error) {
 	switch rc := z.ctx.(type) {
 	case api_context.RetryContext:
+		if rc.IsNoRetry() {
+			z.ctx.Log().Debug("Abort retry due to NoRetryOnError", zap.Error(lastErr))
+			return nil, lastErr
+		}
+
 		sameErrorCount := 0
 		rc.AddError(lastErr)
 		for _, e := range rc.LastErrors() {
@@ -91,13 +96,14 @@ func (z *CallerImpl) ensureRetryOnError(lastErr error) (res api_rpc.Response, er
 			z.ctx.Log().Debug(
 				"Abort retry due to `same_error_count` exceed threshold",
 				zap.Int("same_error_count", sameErrorCount),
-				zap.Error(err),
+				zap.Error(lastErr),
 			)
-			return nil, err
+			return nil, lastErr
 		}
 
-		rc.UpdateRetryAfter(time.Now().Add(SameErrorRetryWait))
-		z.ctx.Log().Debug("Retry after", zap.Error(err), zap.Time("retry_after", rc.RetryAfter()))
+		after := time.Now().Add(SameErrorRetryWait)
+		rc.UpdateRetryAfter(after)
+		z.ctx.Log().Debug("Retry after", zap.Error(err), zap.String("retry_after", after.String()))
 
 		return z.Call()
 
@@ -129,7 +135,7 @@ func (z *CallerImpl) waitForRetryIfRequired() {
 	case api_context.RetryContext:
 		now := time.Now()
 		if !rc.RetryAfter().IsZero() && now.Before(rc.RetryAfter()) {
-			log.Debug("Sleep until", zap.Time("retry_after", rc.RetryAfter()))
+			log.Debug("Sleep until", zap.String("retry_after", rc.RetryAfter().String()))
 			time.Sleep(rc.RetryAfter().Sub(now))
 		}
 	}

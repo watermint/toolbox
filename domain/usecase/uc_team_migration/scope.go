@@ -2,12 +2,13 @@ package uc_team_migration
 
 type ScopeOpt func(opt *scopeOpts) *scopeOpts
 type scopeOpts struct {
-	membersAllExceptAdmin    bool
-	membersSpecifiedEmail    []string
-	teamFoldersAll           bool
-	teamFoldersSpecifiedName []string
-	groupsOnlyRelated        bool
-	keepDesktopSessions      bool
+	membersAllExceptAdmin       bool
+	membersSpecifiedEmail       []string
+	teamFoldersAll              bool
+	teamFoldersSpecifiedName    []string
+	groupsOnlyRelated           bool
+	keepDesktopSessions         bool
+	dontTransferFolderOwnership bool
 }
 
 func MembersAllExceptAdmin() ScopeOpt {
@@ -43,6 +44,12 @@ func GroupsOnlyRelated() ScopeOpt {
 func KeepDesktopSessions() ScopeOpt {
 	return func(opt *scopeOpts) *scopeOpts {
 		opt.keepDesktopSessions = true
+		return opt
+	}
+}
+func DontTransferFolderOwnership() ScopeOpt {
+	return func(opt *scopeOpts) *scopeOpts {
+		opt.dontTransferFolderOwnership = true
 		return opt
 	}
 }

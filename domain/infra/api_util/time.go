@@ -1,6 +1,9 @@
 package api_util
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 const (
 	DateTimeFormat = "2006-01-02T15:04:05Z"
@@ -12,4 +15,12 @@ func RebaseTime(t time.Time) time.Time {
 
 func RebaseAsString(t time.Time) string {
 	return RebaseTime(t).Format(DateTimeFormat)
+}
+
+func Parse(iso8601 string) (t time.Time, err error) {
+	if iso8601 == "" {
+		return time.Unix(0, 0), errors.New("empty")
+	}
+	t, err = time.Parse(DateTimeFormat, iso8601)
+	return
 }

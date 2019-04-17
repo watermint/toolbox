@@ -506,12 +506,12 @@ func (z *ExecContext) setupLoggerFile() {
 		EncodeDuration: zapcore.StringDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
+
 	zo := zapcore.AddSync(&lumberjack.Logger{
-		Filename:   logPath,
-		MaxSize:    50, // megabytes
-		MaxBackups: 99,
-		MaxAge:     28, // days
-		Compress:   true,
+		Filename: logPath,
+		MaxSize:  50000, // megabytes
+		MaxAge:   28,    // days
+		Compress: true,
 	})
 
 	zc := zapcore.NewCore(

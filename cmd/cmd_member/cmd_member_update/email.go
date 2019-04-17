@@ -14,8 +14,9 @@ import (
 
 type CmdMemberUpdateEmail struct {
 	*cmd.SimpleCommandlet
-	optCsv string
-	report app_report.Factory
+	optCsv              string
+	optUpdateUnverified bool
+	report              app_report.Factory
 
 	// email address mapping. key is for existing email, value is for new address
 	emailMapping map[string]string
@@ -41,6 +42,9 @@ func (z *CmdMemberUpdateEmail) FlagConfig(f *flag.FlagSet) {
 
 	descCsv := z.ExecContext.Msg("cmd.member.update.email.flag.csv").T()
 	f.StringVar(&z.optCsv, "csv", "", descCsv)
+
+	descUpdateUnverified := z.ExecContext.Msg("cmd.member.update.email.flag.update_unverified").T()
+	f.BoolVar(&z.optUpdateUnverified, "dont-update-unverified", false, descUpdateUnverified)
 }
 
 func (z *CmdMemberUpdateEmail) loadMapping() error {
@@ -122,6 +126,20 @@ func (z *CmdMemberUpdateEmail) Exec(args []string) {
 		}
 
 		m.Email = t
+
+		if !m.EmailVerified && !z.optUpdateUnverified {
+			z.Log().Debug("Don't update unverified email")
+			z.ExecContext.Msg("cmd.member.update.email.progress.skipped_unverified").WithData(struct {
+				Email string
+			}{
+				Email: f,
+			}).Tell()
+			r.Result = z.ExecContext.Msg("cmd.member.update.email.report.result.skip").T()
+			r.Reason = z.ExecContext.Msg("cmd.member.update.email.report.reason.member_not_found").T()
+			z.report.Report(r)
+
+			continue
+		}
 
 		_, err := svc.Update(m)
 		if err != nil {

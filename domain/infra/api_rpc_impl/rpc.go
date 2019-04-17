@@ -8,7 +8,7 @@ const (
 	// Threshold of abort retry on error.
 	// Number of same errors happened in last ten errors.
 	// SameErrorRetryCount must less then 10.
-	SameErrorRetryCount     = 8
+	SameErrorRetryCount     = 9
 	SameErrorRetryWait      = time.Duration(30) * time.Second
 	PrecautionRateLimitWait = time.Duration(2) * time.Second
 	ErrorBadInputParam      = 400

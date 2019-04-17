@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_path"
@@ -63,16 +64,26 @@ type TeamFolder interface {
 
 	// Clean up permissions which used for mirroring
 	Cleanup(ctx Context) (err error)
+
+	// Verify scope
+	VerifyScope(ctx Context) (err error)
 }
 
 type MirrorOpt func(opt *mirrorOpts) *mirrorOpts
 type mirrorOpts struct {
 	archiveOnSuccess bool
+	skipVerify       bool
 }
 
 func ArchiveOnSuccess() MirrorOpt {
 	return func(opt *mirrorOpts) *mirrorOpts {
 		opt.archiveOnSuccess = true
+		return opt
+	}
+}
+func SkipVerify() MirrorOpt {
+	return func(opt *mirrorOpts) *mirrorOpts {
+		opt.skipVerify = true
 		return opt
 	}
 }
@@ -233,6 +244,36 @@ func (z *teamFolderImpl) PartialScope(names []string) (ctx Context, err error) {
 	return
 }
 
+// Verify scope
+func (z *teamFolderImpl) VerifyScope(ctx Context) (err error) {
+	if err = z.Inspect(ctx); err != nil {
+		return err
+	}
+	var lastErr error
+	lastErr = nil
+	if err = z.Bridge(ctx); err != nil {
+		lastErr = err
+	}
+	for _, pair := range ctx.Pairs() {
+		scope := NewScope(pair)
+
+		if err = z.Mount(ctx, scope); err != nil {
+			lastErr = err
+			continue
+		}
+		if err = z.Verify(ctx, scope); err != nil {
+			lastErr = err
+		}
+		if err = z.Unmount(ctx, scope); err != nil {
+			lastErr = err
+		}
+	}
+	if err = z.Cleanup(ctx); err != nil {
+		lastErr = err
+	}
+	return lastErr
+}
+
 func (z *teamFolderImpl) Mirror(ctx Context, opts ...MirrorOpt) (err error) {
 	mo := &mirrorOpts{}
 	for _, o := range opts {
@@ -258,10 +299,14 @@ func (z *teamFolderImpl) Mirror(ctx Context, opts ...MirrorOpt) (err error) {
 		if err = z.Content(ctx, scope); err != nil {
 			lastErr = err
 		} else {
-			if err = z.Verify(ctx, scope); err != nil {
-				lastErr = err
-			} else if mo.archiveOnSuccess {
-				archive = true
+			if mo.skipVerify {
+				z.log().Info("Skip verification step")
+			} else {
+				if err = z.Verify(ctx, scope); err != nil {
+					lastErr = err
+				} else if mo.archiveOnSuccess {
+					archive = true
+				}
 			}
 		}
 		if err = z.Unmount(ctx, scope); err != nil {
@@ -449,12 +494,7 @@ func (z *teamFolderImpl) Bridge(ctx Context) (err error) {
 }
 
 func (z *teamFolderImpl) Mount(ctx Context, scope Scope) (err error) {
-	l := z.log().With(
-		zap.String("folderSrcId", scope.Pair().Src.TeamFolderId),
-		zap.String("folderSrcName", scope.Pair().Src.Name),
-		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
-		zap.String("folderDstName", scope.Pair().Dst.Name),
-	)
+	l := z.log().With(zap.Any("pair", scope.Pair()))
 	l.Info("Mount")
 
 	// Create team folder if required
@@ -462,8 +502,12 @@ func (z *teamFolderImpl) Mount(ctx Context, scope Scope) (err error) {
 		svt := sv_teamfolder.New(z.ctxFileDst)
 		pair := scope.Pair()
 		if pair.Dst == nil {
-			folder, err := svt.Create(pair.Src.Name)
+			folder, err := svt.Create(pair.Src.Name, sv_teamfolder.SyncNoSync())
 			if err != nil {
+				if strings.HasPrefix(api_util.ErrorSummary(err), "folder_name_already_used") {
+					l.Debug("Skip: Already created")
+					return nil
+				}
 				l.Warn("DST: Unable to create team folder", zap.String("name", pair.Src.Name), zap.Error(err))
 				return errors.New("could not create one or more team folders in the destination team")
 			}

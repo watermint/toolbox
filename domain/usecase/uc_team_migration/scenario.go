@@ -541,16 +541,23 @@ func (z *Scenario) Create() (err error) {
 		}
 
 		svm03 := sv_sharedfolder_member.New(cta03, sf)
-		l.Info("Share team owned shared folder to MemberA02")
-		err = svm03.Add(sv_sharedfolder_member.AddByEmail(ma02.Email,
+
+		l.Info("Share team owned shared folder to Individual")
+		err = svm03.Add(sv_sharedfolder_member.AddByEmail(z.actors.Individual01,
 			sv_sharedfolder_member.LevelEditor))
 		if err != nil {
 			z.log().Error("Unable to share shared folder", zap.Error(err))
 			return err
 		}
 
-		l.Info("Share team owned shared folder to Individual")
-		err = svm03.Add(sv_sharedfolder_member.AddByEmail(z.actors.Individual01,
+		l.Info("Updating member policy to team only")
+		sf, err = svs03.UpdatePolicy(sf.SharedFolderId, sv_sharedfolder.MemberPolicy("team"))
+		if err != nil {
+			z.log().Warn("Unable to change member policy", zap.Error(err))
+		}
+
+		l.Info("Share team owned shared folder to MemberA02")
+		err = svm03.Add(sv_sharedfolder_member.AddByEmail(ma02.Email,
 			sv_sharedfolder_member.LevelEditor))
 		if err != nil {
 			z.log().Error("Unable to share shared folder", zap.Error(err))

@@ -22,6 +22,7 @@ type Context interface {
 	AsMemberId(teamMemberId string) Context
 	AsAdminId(teamMemberId string) Context
 	WithPath(pathRoot PathRoot) Context
+	NoRetryOnError() Context
 }
 
 type RetryContext interface {
@@ -29,6 +30,7 @@ type RetryContext interface {
 	LastErrors() []error
 	RetryAfter() time.Time
 	UpdateRetryAfter(after time.Time)
+	IsNoRetry() bool
 }
 
 type ClientContext interface {

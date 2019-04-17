@@ -11,16 +11,17 @@ import (
 
 type CmdTeamMigrateCheck struct {
 	*cmd.SimpleCommandlet
-	report                 app_report.Factory
-	optSrcTeamAlias        string
-	optDstTeamAlias        string
-	optMembersAll          bool
-	optMembersCsv          string
-	optTeamFoldersAll      bool
-	optTeamFoldersCsv      string
-	optAll                 bool
-	optGroupsOnlyRelated   bool
-	optKeepDesktopSessions bool
+	report                         app_report.Factory
+	optSrcTeamAlias                string
+	optDstTeamAlias                string
+	optMembersAll                  bool
+	optMembersCsv                  string
+	optTeamFoldersAll              bool
+	optTeamFoldersCsv              string
+	optAll                         bool
+	optGroupsOnlyRelated           bool
+	optKeepDesktopSessions         bool
+	optDontTransferFolderOwnership bool
 }
 
 func (z *CmdTeamMigrateCheck) Name() string {
@@ -65,6 +66,9 @@ func (z *CmdTeamMigrateCheck) FlagConfig(f *flag.FlagSet) {
 
 	descKeepDesktopSessions := z.ExecContext.Msg("cmd.team.migrate.check.flag.keep_desktop_sessions").T()
 	f.BoolVar(&z.optKeepDesktopSessions, "keep-desktop-sessions", false, descKeepDesktopSessions)
+
+	descDontTransferFolderOwnership := z.ExecContext.Msg("cmd.team.migrate.check.flag.dont_transfer_ownership").T()
+	f.BoolVar(&z.optDontTransferFolderOwnership, "dont-transfer-ownership", false, descDontTransferFolderOwnership)
 }
 
 func (z *CmdTeamMigrateCheck) Exec(args []string) {
@@ -162,6 +166,12 @@ func (z *CmdTeamMigrateCheck) Exec(args []string) {
 	}
 	if z.optAll {
 		opts = append(opts, uc_team_migration.MembersAllExceptAdmin(), uc_team_migration.TeamFoldersAll())
+	}
+	if z.optKeepDesktopSessions {
+		opts = append(opts, uc_team_migration.KeepDesktopSessions())
+	}
+	if z.optDontTransferFolderOwnership {
+		opts = append(opts, uc_team_migration.DontTransferFolderOwnership())
 	}
 
 	z.report.Init(z.ExecContext)
