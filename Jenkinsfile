@@ -2,7 +2,7 @@ node {
     dir('src/github.com/watermint/toolbox') {
         checkout scm
     }
-    def root = tool name: 'Go 1.12.2', type: 'go'
+    def root = tool name: 'Go 1.12.4', type: 'go'
 
     withEnv(["GOROOT=${root}", "GOPATH=${WORKSPACE}", "PATH+GO=${root}/bin"]) {
         env.PATH="${GOPATH}/bin:$PATH"
