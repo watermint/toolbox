@@ -103,7 +103,7 @@ func MemberInvite() api_recipe_vo.Cook {
 		mvo := rc.Value().(*MemberInviteVO)
 		svm := sv_member.New(rc.Context())
 
-		return api_recipe_flow.OnRow(mvo.FilePath, MemberInviteRowValidate, func(cols []string) error {
+		return api_recipe_flow.EachRow(mvo.FilePath, MemberInviteRowValidate, func(cols []string) error {
 			m := MemberInviteRowFromCols(cols)
 			opts := make([]sv_member.AddOpt, 0)
 			if m.GivenName != "" {
@@ -116,15 +116,15 @@ func MemberInvite() api_recipe_vo.Cook {
 			r, err := svm.Add(m.Email, opts...)
 			switch {
 			case api_recipe_flow.IsErrorPrefix("user_already_on_team", err):
-				rc.Report().Result(api_recipe_report.Skip, m, r, api_recipe_report.DueToError(err))
+				rc.Report().Result(api_recipe_report.Skip("user already on team"), m, r)
 				return nil
 
 			case err != nil:
-				rc.Report().Result(api_recipe_report.Failure, m, r, api_recipe_report.DueToError(err))
+				rc.Report().Result(api_recipe_report.Failure(err), m, r)
 				return nil
 
 			default:
-				rc.Report().Result(api_recipe_report.Success, m, r)
+				rc.Report().Result(api_recipe_report.Success(), m, r)
 				return nil
 			}
 		})

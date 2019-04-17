@@ -1,7 +1,7 @@
 # toolbox
 
 [![Build Status](https://travis-ci.org/watermint/toolbox.svg?branch=master)](https://travis-ci.org/watermint/toolbox)
-[![Coverage Status](https://coveralls.io/repos/github/watermint/toolbox/badge.svg?branch=master)](https://coveralls.io/github/watermint/toolbox?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/watermint/toolbox/badge.svg?branch=HEAD)](https://coveralls.io/github/watermint/toolbox?branch=HEAD)
 
 Tools for Dropbox and Dropbox Business
 
