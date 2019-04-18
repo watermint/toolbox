@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service"
 	"go.uber.org/zap"
+	"path/filepath"
 	"strings"
 )
 
@@ -40,7 +41,7 @@ func (z *Mount) Do(biz service.Business) error {
 		}
 	}
 
-	if sf.PathLower != strings.ToLower(z.MountPoint) {
+	if filepath.Dir(sf.PathLower) == "/" && sf.PathLower != strings.ToLower(z.MountPoint) {
 		l.Debug("Move mount point")
 		entry, err := biz.RelocationAsMember(user.TeamMemberId).Move(mo_path.NewPath(sf.PathLower), mo_path.NewPath(z.MountPoint))
 		if err != nil {
