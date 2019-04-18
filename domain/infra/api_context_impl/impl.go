@@ -1,6 +1,8 @@
 package api_context_impl
 
 import (
+	"crypto/sha256"
+	"fmt"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/domain/infra/api_async"
@@ -15,6 +17,7 @@ import (
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -56,6 +59,28 @@ type contextImpl struct {
 	noRetryOnError bool
 }
 
+func (z *contextImpl) Hash() string {
+	seeds := []string{
+		"m",
+		z.asMemberId,
+		"a",
+		z.asAdminId,
+		"p",
+		z.tokenContainer.PeerName,
+		"t",
+		z.tokenContainer.Token,
+		"y",
+		z.tokenContainer.TokenType,
+	}
+
+	if z.basePath != nil {
+		seeds = append(seeds, z.basePath.Header())
+	}
+
+	h := sha256.Sum224([]byte(strings.Join(seeds, ",")))
+	return fmt.Sprintf("%x", h)
+}
+
 func (z *contextImpl) IsNoRetry() bool {
 	return z.noRetryOnError
 }
@@ -80,6 +105,7 @@ func (z *contextImpl) DoRequest(req api_rpc.Request) (code int, header http.Head
 		return -1, nil, nil, err
 	}
 	res, err := z.client.Do(httpReq)
+
 	if err != nil {
 		return -1, nil, nil, err
 	}

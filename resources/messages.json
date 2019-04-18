@@ -674,5 +674,8 @@
   "cmd.member.mirror.desc": "Mirror members",
   "cmd.member.mirror.files.desc": "Mirror member files",
   "cmd.dev.log.desc": "Dev: log",
-  "cmd.dev.log.load.desc": "Log load testing"
+  "cmd.dev.log.load.desc": "Log load testing",
+  "cmd.team.bulk.desc": "Bulk operation",
+  "cmd.team.bulk.verify.desc": "Verify bulk operation sequence file",
+  "cmd.team.bulk.exec.desc": "Execute bulk operation"
 }

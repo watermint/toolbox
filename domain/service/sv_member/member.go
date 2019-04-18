@@ -2,11 +2,13 @@ package sv_member
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_list"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"go.uber.org/zap"
+	"strings"
 )
 
 type Member interface {
@@ -96,11 +98,80 @@ func New(ctx api_context.Context) Member {
 	}
 }
 
+func NewCached(ctx api_context.Context) Member {
+	return &cachedMember{
+		impl: &memberImpl{
+			ctx: ctx,
+		},
+	}
+}
+
 func newTest(ctx api_context.Context) Member {
 	return &memberImpl{
 		ctx:   ctx,
 		limit: 3,
 	}
+}
+
+type cachedMember struct {
+	impl    Member
+	members []*mo_member.Member
+}
+
+func (z *cachedMember) Update(member *mo_member.Member) (updated *mo_member.Member, err error) {
+	z.members = nil // invalidate
+	return z.impl.Update(member)
+}
+
+func (z *cachedMember) List() (members []*mo_member.Member, err error) {
+	if z.members == nil {
+		z.members, err = z.impl.List()
+		if err != nil {
+			return nil, err
+		}
+	}
+	return z.members, nil
+}
+
+func (z *cachedMember) Resolve(teamMemberId string) (member *mo_member.Member, err error) {
+	if z.members == nil {
+		z.members, err = z.impl.List()
+		if err != nil {
+			return nil, err
+		}
+	}
+	for _, m := range z.members {
+		if m.TeamMemberId == teamMemberId {
+			return m, nil
+		}
+	}
+	return nil, errors.New("member not found for email")
+}
+
+func (z *cachedMember) ResolveByEmail(email string) (member *mo_member.Member, err error) {
+	if z.members == nil {
+		z.members, err = z.impl.List()
+		if err != nil {
+			return nil, err
+		}
+	}
+	em := strings.ToLower(email)
+	for _, m := range z.members {
+		if strings.ToLower(m.Email) == em {
+			return m, nil
+		}
+	}
+	return nil, errors.New("member not found for email")
+}
+
+func (z *cachedMember) Add(email string, opts ...AddOpt) (member *mo_member.Member, err error) {
+	z.members = nil // invalidate cache
+	return z.impl.Add(email, opts...)
+}
+
+func (z *cachedMember) Remove(member *mo_member.Member, opts ...RemoveOpt) (err error) {
+	z.members = nil // invalidate cache
+	return z.impl.Remove(member, opts...)
 }
 
 type memberImpl struct {
