@@ -75,7 +75,7 @@ func (z *sequenceImpl) backlogPath(runId int) string {
 func (z *sequenceImpl) Load(path string) error {
 	l := z.ec.Log().With(zap.String("filepath", path))
 	z.seqName = fmt.Sprintf("%x", time.Now().Unix())
-	z.seqPath = z.ec.FileOnWorkPath(filepath.Join("sequence", z.seqName))
+	z.seqPath = filepath.Join(z.ec.JobsPath(), "sequence", z.seqName)
 	z.runId = 0
 	if err := os.MkdirAll(z.seqPath, 0755); err != nil {
 		l.Error("Unable to create sequence folder", zap.Error(err))
