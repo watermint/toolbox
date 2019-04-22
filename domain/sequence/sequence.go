@@ -131,7 +131,8 @@ func (z *sequenceImpl) runWithRunId(runId int) (numBacklog int, err error) {
 	l.Info("Run", zap.Int("runId", runId))
 
 	rep := app_report.Factory{
-		Path: filepath.Join(z.seqPath, fmt.Sprintf("%03d", z.runId)),
+		ExecContext: z.ec,
+		Path:        filepath.Join(z.seqPath, fmt.Sprintf("%03d", z.runId)),
 	}
 	if err := rep.Init(z.ec); err != nil {
 		l.Error("Unable to prepare report", zap.Error(err))
