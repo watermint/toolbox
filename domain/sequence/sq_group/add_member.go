@@ -1,9 +1,11 @@
 package sq_group
 
 import (
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/service"
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
 	"go.uber.org/zap"
+	"strings"
 )
 
 type AddMember struct {
@@ -25,8 +27,16 @@ func (z *AddMember) Do(biz service.Business) error {
 	l.Debug("Add member")
 	group, err = biz.GroupMember(group.GroupId).Add(sv_group_member.ByEmail(z.MemberEmail))
 	if err != nil {
-		l.Debug("Unable to add member", zap.Error(err))
-		return err
+		es := api_util.ErrorSummary(err)
+		switch {
+		case strings.HasPrefix(es, "duplicate_user"):
+			l.Debug("Skip duplicated user")
+			return nil
+
+		default:
+			l.Debug("Unable to add member", zap.Error(err))
+			return err
+		}
 	}
 
 	l.Debug("Success")

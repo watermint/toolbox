@@ -82,6 +82,7 @@ func (z *sequenceImpl) Load(path string) error {
 		return err
 	}
 
+	l.Debug("Opening sequence", zap.String("path", z.seqPath))
 	f, err := os.Open(path)
 	if err != nil {
 		l.Error("Unable to open file", zap.Error(err))
@@ -136,7 +137,9 @@ func (z *sequenceImpl) runWithRunId(runId int) (numBacklog int, err error) {
 		l.Error("Unable to prepare report", zap.Error(err))
 		return 0, err
 	}
+	defer rep.Close()
 
+	l.Debug("Opening backlog of runId", zap.String("backlog", z.backlogPath(z.runId)))
 	f, err := os.Open(z.backlogPath(z.runId))
 	if err != nil {
 		l.Error("Unable to open backlog file", zap.Error(err))
@@ -253,7 +256,7 @@ func (z *sequenceImpl) runWithRunId(runId int) (numBacklog int, err error) {
 				enqueuePoison(line)
 				continue
 			}
-			biz, err := service.New(ctxMgmt, ctxFile)
+			biz, err := service.New(ctxMgmt.NoRetryOnError(), ctxFile.NoRetryOnError())
 			if err != nil {
 				enqueuePoison(line)
 				continue
