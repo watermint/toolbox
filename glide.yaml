@@ -28,3 +28,4 @@ import:
 - package: github.com/cloudfoundry-attic/jibber_jabber
 - package: github.com/tealeg/xlsx
   version: ^1
+- package: github.com/iancoleman/strcase

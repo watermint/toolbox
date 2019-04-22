@@ -11,6 +11,6 @@ type UI interface {
 	Info(key string, placeHolders ...api_recipe_msg.PlaceHolder)
 	Error(key string, placeHolders ...api_recipe_msg.PlaceHolder)
 
-	AskWarn(key string, placeHolders ...api_recipe_msg.PlaceHolder) (cont bool, cancel bool)
+	AskCont(key string, placeHolders ...api_recipe_msg.PlaceHolder) (cont bool, cancel bool)
 	AskText(key string, placeHolders ...api_recipe_msg.PlaceHolder) (text string, cancel bool)
 }

@@ -14,7 +14,7 @@ type TeamFolderListVO struct {
 	NonRecursive bool
 }
 
-func (z *TeamFolderListVO) Validate(t *api_recipe_vo.ValueObjectValidator) {
+func (z *TeamFolderListVO) Validate(t *api_recipe_vo.Validator) {
 	if z.Recursive && z.NonRecursive {
 		t.Error("err.inconsistent",
 			api_recipe_msg.P("Recursive", z.Recursive),
@@ -24,18 +24,17 @@ func (z *TeamFolderListVO) Validate(t *api_recipe_vo.ValueObjectValidator) {
 }
 
 type MemberInviteVO struct {
-	FilePath string
+	InviteList api_recipe_flow.RowDataFile
 }
 
-func (z *MemberInviteVO) Validate(t *api_recipe_vo.ValueObjectValidator) {
-	t.AssertFileExists(z.FilePath)
+func (z *MemberInviteVO) Validate(t *api_recipe_vo.Validator) {
 }
 
 type MemberInviteRow struct {
-	Email     string `json:"email"`
-	GivenName string `json:"given_name"`
-	Surname   string `json:"surname"`
-	Groups    string `json:"groups"`
+	Email     string
+	GivenName string
+	Surname   string
+	Groups    string
 }
 
 func MemberInviteRowValidate(cols []string) error {
@@ -92,7 +91,6 @@ func TeamFolderList() api_recipe_vo.Cook {
 
 		if fvo.Recursive {
 			rc.UI().Info("info.do_recursively")
-			rc.Log().Info("Do Recursively!")
 		}
 		return nil
 	})
@@ -103,7 +101,7 @@ func MemberInvite() api_recipe_vo.Cook {
 		mvo := rc.Value().(*MemberInviteVO)
 		svm := sv_member.New(rc.Context())
 
-		return api_recipe_flow.EachRow(mvo.FilePath, MemberInviteRowValidate, func(cols []string) error {
+		return mvo.InviteList.EachRow(MemberInviteRowValidate, func(cols []string) error {
 			m := MemberInviteRowFromCols(cols)
 			opts := make([]sv_member.AddOpt, 0)
 			if m.GivenName != "" {

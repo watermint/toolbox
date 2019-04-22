@@ -1,23 +1,26 @@
 package api_recipe_vo
 
 import (
+	"flag"
+	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/app/app_recipe/api_recipe_msg"
 	"github.com/watermint/toolbox/app/app_recipe/api_recipe_report"
 	"github.com/watermint/toolbox/app/app_recipe/api_recpie_ctl"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"go.uber.org/zap"
+	"reflect"
 )
 
-type ValueObjectValidator struct {
+type Validator struct {
 }
 
-func (z *ValueObjectValidator) Error(key string, placeHolders ...api_recipe_msg.PlaceHolder) {
+func (z *Validator) Error(key string, placeHolders ...api_recipe_msg.PlaceHolder) {
 }
 
-func (z *ValueObjectValidator) AssertFileExists(path string) {
+func (z *Validator) AssertFileExists(path string) {
 
 }
-func (z *ValueObjectValidator) AssertEmailFormat(email string) {
+func (z *Validator) AssertEmailFormat(email string) {
 
 }
 func AssertEmailFormat(email string) error {
@@ -37,7 +40,7 @@ func NoDataRow() NoDataRowError {
 }
 
 type ValueObject interface {
-	Validate(t *ValueObjectValidator)
+	Validate(t *Validator)
 }
 type Recipe struct {
 	Value func() ValueObject
@@ -67,4 +70,30 @@ func WithBusinessFile(exec func(rc ApiRecipeContext) error) Cook {
 
 func WithBusinessManagement(exec func(rc ApiRecipeContext) error) Cook {
 	panic("implement me")
+}
+
+func MakeFlagSet(f *flag.FlagSet, vo interface{}) {
+	vot := reflect.TypeOf(vo)
+	vov := reflect.ValueOf(vo)
+	if vot.Kind() == reflect.Ptr {
+		vot = reflect.ValueOf(vo).Elem().Type()
+		vov = reflect.ValueOf(vo).Elem()
+	}
+
+	if vot.Kind() != reflect.Struct {
+		return
+	}
+
+	nf := vot.NumField()
+	for i := 0; i < nf; i++ {
+		vof := vot.Field(i)
+		vvf := vov.Field(i)
+		kname := strcase.ToKebab(vof.Name)
+
+		switch vof.Type.Kind() {
+		case reflect.Bool:
+			var dv bool
+			f.BoolVar(&dv, kname, vvf.Bool(), vof.Name)
+		}
+	}
 }
