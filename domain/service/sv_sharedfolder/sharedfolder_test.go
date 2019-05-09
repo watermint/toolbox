@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_test"
-	"github.com/watermint/toolbox/domain/infra/api_util"
 	"go.uber.org/zap"
-	"strings"
 	"testing"
 	"time"
 )
@@ -94,11 +92,7 @@ func TestSharedFolderImpl_Create(t *testing.T) {
 
 		err = svc.Remove(sf)
 		if err != nil {
-			if strings.HasPrefix(api_util.ErrorSummary(err), "internal_error") {
-				ctx.Log().Warn("Internal error. Ignored")
-			} else {
-				t.Error("invalid", err)
-			}
+			t.Error("invalid", err)
 		}
 	})
 }
