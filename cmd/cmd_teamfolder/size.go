@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_namespace"
+	"github.com/watermint/toolbox/domain/service/sv_profile"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_size"
 )
 
@@ -43,6 +44,13 @@ func (z *CmdTeamFolderSize) Exec(args []string) {
 	if err != nil {
 		return
 	}
+
+	admin, err := sv_profile.NewTeam(ctx).Admin()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
+	}
+
 	svn := sv_namespace.New(ctx)
 	namespaces, err := svn.List()
 	if err != nil {
@@ -52,12 +60,14 @@ func (z *CmdTeamFolderSize) Exec(args []string) {
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
+	cta := ctx.AsAdminId(admin.TeamMemberId)
+
 	for _, namespace := range namespaces {
 		if namespace.NamespaceType != "team_folder" {
 			continue
 		}
 
-		ucs := uc_file_size.New(ctx.WithPath(api_context.Namespace(namespace.NamespaceId)))
+		ucs := uc_file_size.New(cta.WithPath(api_context.Namespace(namespace.NamespaceId)))
 		sizes, err := ucs.Size(mo_path.NewPath("/"), z.optDepth)
 		if err != nil {
 			ctx.ErrorMsg(err).TellError()
