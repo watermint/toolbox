@@ -1,4 +1,4 @@
-package app_recipe
+package app_recipe_poc
 
 import (
 	"reflect"

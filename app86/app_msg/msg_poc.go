@@ -1,4 +1,4 @@
-package api_recipe_msg
+package app_msg
 
 type PlaceHolder func() *placeHolder
 type placeHolder struct {

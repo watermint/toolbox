@@ -1,4 +1,4 @@
-package api_recipe_vo
+package app_vo
 
 import (
 	"flag"

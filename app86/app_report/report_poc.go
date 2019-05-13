@@ -1,6 +1,8 @@
-package api_recipe_report
+package app_report
 
-import "github.com/watermint/toolbox/app/app_recipe/api_recipe_msg"
+import (
+	"github.com/watermint/toolbox/app86/app_msg"
+)
 
 type Report interface {
 	Write(row interface{}, opts ...WriteOpt)
@@ -13,7 +15,7 @@ type ResultKind func() Result
 
 type Result struct {
 	Kind   string
-	Reason api_recipe_msg.Message
+	Reason app_msg.Message
 }
 
 func Success() ResultKind {

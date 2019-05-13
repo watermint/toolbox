@@ -1,81 +1,29 @@
-package api_recipe_vo
+package app_vo
 
 import (
 	"flag"
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/app/app_recipe/api_recipe_msg"
-	"github.com/watermint/toolbox/app/app_recipe/api_recipe_report"
-	"github.com/watermint/toolbox/app/app_recipe/api_recpie_ctl"
-	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/app86/app_msg"
 	"go.uber.org/zap"
 	"reflect"
 	"runtime"
+	"strings"
 )
 
-type Validator struct {
-}
-
-func (z *Validator) Error(key string, placeHolders ...api_recipe_msg.PlaceHolder) {
-}
-
-func (z *Validator) AssertFileExists(path string) {
-
-}
-func (z *Validator) AssertEmailFormat(email string) {
-
-}
-func AssertEmailFormat(email string) error {
-	return nil
-}
-
-type InvalidRowError error
-
-func InvalidRow(key string, placeHolders ...api_recipe_msg.PlaceHolder) InvalidRowError {
-	return nil
-}
-
-type NoDataRowError error
-
-func NoDataRow() NoDataRowError {
-	return nil
-}
-
 type ValueObject interface {
-	Validate(t *Validator)
-}
-type Recipe struct {
-	Value func() ValueObject
-	Exec  Cook
+	Validate(t Validator)
 }
 
-type Cook interface {
-	Exec(rc RecipeContext) error
-}
-
-type RecipeContext interface {
-	Value() ValueObject
-	Control() api_recpie_ctl.Controller
-	UI() api_recpie_ctl.UI
-	Log() *zap.Logger
-	Report() api_recipe_report.Report
-}
-
-type ApiRecipeContext interface {
-	RecipeContext
-	Context() api_context.Context
-}
-
-func WithBusinessFile(exec func(rc ApiRecipeContext) error) Cook {
-	panic("implement me")
-}
-
-func WithBusinessManagement(exec func(rc ApiRecipeContext) error) Cook {
-	panic("implement me")
+type Validator interface {
+	Invalid(key string, placeHolders ...app_msg.PlaceHolder)
+	AssertFileExists(path string)
+	AssertEmailFormat(email string)
 }
 
 type ValueContainer struct {
-	Values map[string]interface{}
+	PkgName string
+	Values  map[string]interface{}
 }
 
 func NewValueContainer(vo interface{}) *ValueContainer {
@@ -94,6 +42,7 @@ func (z *ValueContainer) From(vo interface{}) {
 		vot = reflect.ValueOf(vo).Elem().Type()
 		vov = reflect.ValueOf(vo).Elem()
 	}
+	z.PkgName = vot.PkgPath()
 
 	if vot.Kind() != reflect.Struct {
 		l.Error("ValueObject is not a struct", zap.String("name", vot.Name()), zap.String("pkg", vot.PkgPath()))
@@ -182,10 +131,17 @@ func (z *ValueContainer) Apply(vo interface{}) {
 	}
 }
 
+func (z *ValueContainer) messageKey(name string) string {
+	pkg := z.PkgName
+	pkg = strings.ReplaceAll(pkg, "github.com/watermint/toolbox/", "")
+	pkg = strings.ReplaceAll(pkg, "/", ".")
+	return pkg + ".flag." + strcase.ToSnake(name)
+}
+
 func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet) {
 	for n, d := range z.Values {
 		kf := strcase.ToKebab(n)
-		desc := n
+		desc := z.messageKey(n)
 
 		switch dv := d.(type) {
 		case *bool:
