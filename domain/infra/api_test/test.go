@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	testPeerName = "test_suite"
+	TestPeerName = "test_suite"
 )
 
 var (
@@ -34,11 +34,11 @@ func DoTestBusinessAudit(test func(ctx api_context.Context)) {
 
 func doTest(tokenType string, test func(ctx api_context.Context)) {
 	ec := app.NewExecContextForTest()
-	if !api_auth_impl.IsCacheAvailable(ec, testPeerName) {
+	if !api_auth_impl.IsCacheAvailable(ec, TestPeerName) {
 		return
 	}
 
-	au := api_auth_impl.New(ec, api_auth_impl.PeerName(testPeerName))
+	au := api_auth_impl.New(ec, api_auth_impl.PeerName(TestPeerName))
 	ctx, err := au.Auth(tokenType)
 	if err != nil {
 		return

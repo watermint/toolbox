@@ -1,13 +1,16 @@
 package sv_group
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_list"
 	"github.com/watermint/toolbox/domain/model/mo_group"
+	"strings"
 )
 
 type Group interface {
 	Resolve(groupId string) (g *mo_group.Group, err error)
+	ResolveByName(groupName string) (g *mo_group.Group, err error)
 	List() (g []*mo_group.Group, err error)
 	Create(name string, opt ...CreateOpt) (g *mo_group.Group, err error)
 	Remove(groupId string) error
@@ -44,10 +47,92 @@ func New(ctx api_context.Context) Group {
 	}
 	return g
 }
+func NewCached(ctx api_context.Context) Group {
+	g := &cachedGroup{
+		impl: &implGroup{
+			ctx: ctx,
+		},
+		groups: nil,
+	}
+	return g
+}
+
+type cachedGroup struct {
+	impl   Group
+	groups []*mo_group.Group
+}
+
+func (z *cachedGroup) Resolve(groupId string) (g *mo_group.Group, err error) {
+	if z.groups == nil {
+		if _, err := z.List(); err != nil {
+			return nil, err
+		}
+	}
+	for _, g := range z.groups {
+		if g.GroupId == groupId {
+			return g, nil
+		}
+	}
+	return nil, errors.New("group not found for id")
+}
+
+func (z *cachedGroup) ResolveByName(groupName string) (g *mo_group.Group, err error) {
+	if z.groups == nil {
+		if _, err := z.List(); err != nil {
+			return nil, err
+		}
+	}
+	gn := strings.ToLower(groupName)
+	for _, g := range z.groups {
+		if strings.ToLower(g.GroupName) == gn {
+			return g, nil
+		}
+	}
+	return nil, errors.New("group not found for name")
+}
+
+func (z *cachedGroup) List() (g []*mo_group.Group, err error) {
+	if z.groups == nil {
+		z.groups, err = z.impl.List()
+		if err != nil {
+			return nil, err
+		}
+	}
+	return z.groups, nil
+}
+
+func (z *cachedGroup) Create(name string, opt ...CreateOpt) (g *mo_group.Group, err error) {
+	z.groups = nil // invalidate cache
+	return z.impl.Create(name, opt...)
+}
+
+func (z *cachedGroup) Remove(groupId string) error {
+	z.groups = nil // invalidate cache
+	return z.impl.Remove(groupId)
+}
+
+func (z *cachedGroup) Update(group *mo_group.Group) (g *mo_group.Group, err error) {
+	z.groups = nil // invalidate cache
+	return z.impl.Update(group)
+}
 
 type implGroup struct {
 	ctx   api_context.Context
 	limit int
+}
+
+func (z *implGroup) ResolveByName(groupName string) (g *mo_group.Group, err error) {
+	groups, err := z.List()
+	if err != nil {
+		return nil, err
+	}
+	gn := strings.ToLower(groupName)
+	for _, g := range groups {
+		if strings.ToLower(g.GroupName) == gn {
+			return g, nil
+		}
+	}
+	return nil, errors.New("group not found")
 }
 
 func (z *implGroup) Create(name string, opt ...CreateOpt) (g *mo_group.Group, err error) {

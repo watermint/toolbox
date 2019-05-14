@@ -38,6 +38,14 @@ func NewBySharedFolderId(ctx api_context.Context, sfId string) Member {
 		sharedFolderId: sfId,
 	}
 }
+func NewCached(ctx api_context.Context, sfId string) Member {
+	return &cachedMember{
+		impl: &memberImpl{
+			ctx:            ctx,
+			sharedFolderId: sfId,
+		},
+	}
+}
 
 type Member interface {
 	List() (member []mo_sharedfolder_member.Member, err error)
@@ -170,6 +178,31 @@ func RemoveByGroupId(groupId string) MemberRemoveOption {
 		opt.memberDropboxId = append(opt.memberDropboxId, groupId)
 		return opt
 	}
+}
+
+type cachedMember struct {
+	impl    Member
+	members []mo_sharedfolder_member.Member
+}
+
+func (z *cachedMember) List() (member []mo_sharedfolder_member.Member, err error) {
+	if z.members == nil {
+		z.members, err = z.impl.List()
+		if err != nil {
+			return nil, err
+		}
+	}
+	return z.members, nil
+}
+
+func (z *cachedMember) Add(member MemberAddOption, opts ...AddOption) (err error) {
+	z.members = nil // invalidate
+	return z.impl.Add(member, opts...)
+}
+
+func (z *cachedMember) Remove(member MemberRemoveOption, opts ...RemoveOption) (err error) {
+	z.members = nil // invalidate
+	return z.impl.Remove(member, opts...)
 }
 
 type memberImpl struct {

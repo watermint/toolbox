@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/app/app_util"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
 	"os"
 	"os/user"
@@ -507,12 +506,13 @@ func (z *ExecContext) setupLoggerFile() {
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
 
-	zo := zapcore.AddSync(&lumberjack.Logger{
-		Filename: logPath,
-		MaxSize:  50000, // megabytes
-		MaxAge:   28,    // days
-		Compress: true,
-	})
+	var zo zapcore.WriteSyncer
+	f, err := os.Create(logPath)
+	if err != nil {
+		zo = zapcore.AddSync(os.Stderr)
+	} else {
+		zo = zapcore.AddSync(f)
+	}
 
 	zc := zapcore.NewCore(
 		zapcore.NewJSONEncoder(cfg),

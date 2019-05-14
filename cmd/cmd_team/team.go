@@ -3,6 +3,7 @@ package cmd_team
 import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/cmd/cmd_team/cmd_audit"
+	"github.com/watermint/toolbox/cmd/cmd_team/cmd_bulk"
 	"github.com/watermint/toolbox/cmd/cmd_team/cmd_device"
 	"github.com/watermint/toolbox/cmd/cmd_team/cmd_linkedapp"
 	"github.com/watermint/toolbox/cmd/cmd_team/cmd_migrate"
@@ -27,6 +28,7 @@ func NewCmdTeam() cmd.Commandlet {
 			cmd_sharedlink.NewCmdTeamSharedLink(),
 			cmd_namespace.NewCmdTeamNamespace(),
 			cmd_migrate.NewCmdTeamMigrate(),
+			cmd_bulk.NewCmdTeamBulk(),
 		},
 	}
 }

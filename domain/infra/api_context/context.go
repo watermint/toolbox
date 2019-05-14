@@ -23,6 +23,7 @@ type Context interface {
 	AsAdminId(teamMemberId string) Context
 	WithPath(pathRoot PathRoot) Context
 	NoRetryOnError() Context
+	Hash() string
 }
 
 type RetryContext interface {

@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_namespace"
+	"github.com/watermint/toolbox/domain/service/sv_profile"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_size"
 )
 
@@ -55,17 +56,27 @@ func (z *CmdTeamNamespaceFileSize) Exec(args []string) {
 	if err != nil {
 		return
 	}
+
+	admin, err := sv_profile.NewTeam(ctx).Admin()
+	if err != nil {
+		ctx.ErrorMsg(err).TellError()
+		return
+	}
+
 	svn := sv_namespace.New(ctx)
 	namespaces, err := svn.List()
 	if err != nil {
 		ctx.ErrorMsg(err).TellError()
 		return
 	}
+
 	z.report.Init(z.ExecContext)
 	defer z.report.Close()
 
+	ctf := ctx.AsAdminId(admin.TeamMemberId)
+
 	for _, namespace := range namespaces {
-		ucs := uc_file_size.New(ctx.WithPath(api_context.Namespace(namespace.NamespaceId)))
+		ucs := uc_file_size.New(ctf.WithPath(api_context.Namespace(namespace.NamespaceId)))
 		sizes, err := ucs.Size(mo_path.NewPath("/"), z.optDepth)
 		if err != nil {
 			ctx.ErrorMsg(err).TellError()

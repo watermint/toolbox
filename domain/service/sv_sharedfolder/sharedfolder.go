@@ -208,7 +208,7 @@ func (z *sharedFolderImpl) Remove(sf *mo_sharedfolder.SharedFolder, opts ...Dele
 	}
 	sf = &mo_sharedfolder.SharedFolder{}
 	_, err = z.ctx.Async("sharing/unshare_folder").
-		Status("sharing/check_share_job_status").
+		Status("sharing/check_job_status").
 		Param(p).Call()
 	if err != nil {
 		return err

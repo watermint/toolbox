@@ -14,8 +14,6 @@ import:
   version: ^1
 - package: go.uber.org/atomic
   version: ^1
-- package: gopkg.in/natefinch/lumberjack.v2
-  version: ^2
 - package: go.uber.org/multierr
   version: ^1
 - package: github.com/GeertJohan/go.rice
@@ -30,3 +28,4 @@ import:
 - package: github.com/cloudfoundry-attic/jibber_jabber
 - package: github.com/tealeg/xlsx
   version: ^1
+- package: github.com/iancoleman/strcase
