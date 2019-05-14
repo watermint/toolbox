@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/domain/sequence"
 	"github.com/watermint/toolbox/domain/sequence/sq_group"
 	"github.com/watermint/toolbox/domain/sequence/sq_sharedfolder"
+	"github.com/watermint/toolbox/domain/sequence/sq_test"
 	"github.com/watermint/toolbox/domain/service"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"go.uber.org/zap"
@@ -23,7 +24,7 @@ import (
 )
 
 func TestCmdTeamBulkExec_Exec(t *testing.T) {
-	sequence.DoTestTeamTask(func(biz service.Business) {
+	sq_test.DoTestTeamTask(func(biz service.Business) {
 		name := fmt.Sprintf("toolbox-test-%x", time.Now().Unix())
 		l := biz.Log()
 

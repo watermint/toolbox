@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/infra/api_test"
 	"github.com/watermint/toolbox/domain/infra/api_util"
-	"github.com/watermint/toolbox/domain/sequence"
+	"github.com/watermint/toolbox/domain/sequence/sq_test"
 	"github.com/watermint/toolbox/domain/service"
 	"go.uber.org/zap"
 	"strings"
@@ -13,7 +13,7 @@ import (
 )
 
 func TestMount_Do(t *testing.T) {
-	sequence.DoTestTeamTask(func(biz service.Business) {
+	sq_test.DoTestTeamTask(func(biz service.Business) {
 		name := fmt.Sprintf("toolbox-test-%x", time.Now().Unix())
 		l := biz.Log().With(zap.String("name", name))
 
