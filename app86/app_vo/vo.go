@@ -16,7 +16,7 @@ type ValueObject interface {
 }
 
 type Validator interface {
-	Invalid(key string, placeHolders ...app_msg.PlaceHolder)
+	Invalid(key string, placeHolders ...app_msg.Param)
 	AssertFileExists(path string)
 	AssertEmailFormat(email string)
 }

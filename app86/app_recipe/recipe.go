@@ -16,7 +16,7 @@ func AssertEmailFormat(email string) error {
 
 type InvalidRowError error
 
-func InvalidRow(key string, placeHolders ...app_msg.PlaceHolder) InvalidRowError {
+func InvalidRow(key string, placeHolders ...app_msg.Param) InvalidRowError {
 	return nil
 }
 
