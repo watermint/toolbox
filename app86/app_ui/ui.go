@@ -5,9 +5,9 @@ import (
 )
 
 type UI interface {
-	Info(key string, placeHolders ...app_msg.PlaceHolder)
-	Error(key string, placeHolders ...app_msg.PlaceHolder)
+	Info(key string, p ...app_msg.Param)
+	Error(key string, p ...app_msg.Param)
 
-	AskCont(key string, placeHolders ...app_msg.PlaceHolder) (cont bool, cancel bool)
-	AskText(key string, placeHolders ...app_msg.PlaceHolder) (text string, cancel bool)
+	AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool)
+	AskText(key string, p ...app_msg.Param) (text string, cancel bool)
 }
