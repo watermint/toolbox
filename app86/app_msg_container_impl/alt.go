@@ -1,4 +1,4 @@
-package app_msg_container
+package app_msg_container_impl
 
 import (
 	"encoding/json"

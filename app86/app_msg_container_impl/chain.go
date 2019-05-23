@@ -1,7 +1,8 @@
-package app_msg_container
+package app_msg_container_impl
 
 import (
 	"github.com/watermint/toolbox/app86/app_msg"
+	"github.com/watermint/toolbox/app86/app_msg_container"
 	"github.com/watermint/toolbox/app86/app_root"
 	"go.uber.org/zap"
 	"golang.org/x/text/language"
@@ -9,7 +10,7 @@ import (
 
 type Chain struct {
 	LangPriority []language.Tag
-	Containers   map[language.Tag]Container
+	Containers   map[language.Tag]app_msg_container.Container
 }
 
 func (z *Chain) Exists(key string) bool {

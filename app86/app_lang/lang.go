@@ -4,6 +4,7 @@ import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/cloudfoundry-attic/jibber_jabber"
 	"github.com/watermint/toolbox/app86/app_msg_container"
+	"github.com/watermint/toolbox/app86/app_msg_container_impl"
 	"github.com/watermint/toolbox/app86/app_root"
 	"go.uber.org/zap"
 	"golang.org/x/text/language"
@@ -30,7 +31,7 @@ func NewContainer(box *rice.Box) app_msg_container.Container {
 	langs = append(langs, language.English)
 
 	for _, lang := range langs {
-		c, err := app_msg_container.NewResource(lang, box)
+		c, err := app_msg_container_impl.NewResource(lang, box)
 		if err != nil {
 			app_root.Log().Error("unable to load message resource", zap.Error(err))
 			app_root.Root.Fatal()
@@ -38,7 +39,7 @@ func NewContainer(box *rice.Box) app_msg_container.Container {
 		cm[lang] = c
 	}
 
-	return &app_msg_container.Chain{
+	return &app_msg_container_impl.Chain{
 		LangPriority: langs,
 		Containers:   cm,
 	}

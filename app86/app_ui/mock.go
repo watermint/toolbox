@@ -2,21 +2,21 @@ package app_ui
 
 import "github.com/watermint/toolbox/app86/app_msg"
 
-type MockUI struct {
+type Mock struct {
 }
 
-func (*MockUI) Info(key string, placeHolders ...app_msg.Param) {
-	panic("implement me")
+func (*Mock) Info(key string, p ...app_msg.Param) {
 }
 
-func (*MockUI) Error(key string, placeHolders ...app_msg.Param) {
-	panic("implement me")
+func (*Mock) Error(key string, p ...app_msg.Param) {
 }
 
-func (*MockUI) AskCont(key string, placeHolders ...app_msg.Param) (cont bool, cancel bool) {
-	panic("implement me")
+// always cancel process
+func (*Mock) AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool) {
+	return false, true
 }
 
-func (*MockUI) AskText(key string, placeHolders ...app_msg.Param) (text string, cancel bool) {
-	panic("implement me")
+// always cancel
+func (*Mock) AskText(key string, p ...app_msg.Param) (text string, cancel bool) {
+	return "", true
 }

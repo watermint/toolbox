@@ -1,4 +1,4 @@
-package app_msg_container
+package app_msg_container_impl
 
 import (
 	"bytes"
@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/app86/app_msg"
+	"github.com/watermint/toolbox/app86/app_msg_container"
 	"github.com/watermint/toolbox/app86/app_root"
 	"go.uber.org/zap"
 	"golang.org/x/text/language"
@@ -56,7 +57,7 @@ func (z *Resource) Compile(m app_msg.Message) string {
 	}
 }
 
-func NewResource(lang language.Tag, box *rice.Box) (c Container, err error) {
+func NewResource(lang language.Tag, box *rice.Box) (c app_msg_container.Container, err error) {
 	l := app_root.Log().With(zap.String("lang", lang.String()))
 
 	resName := "messages.json"
