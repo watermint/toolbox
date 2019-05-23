@@ -105,8 +105,8 @@ func (z *UIMessageContainer) chooseLanguage(bcp47 string) language.Tag {
 
 func (z *UIMessageContainer) loadResource(lang language.Tag) (map[string]UIMessage, error) {
 	resName := "messages.json"
-	if lang != language.English {
-		b, _ := lang.Base()
+	b, _ := lang.Base()
+	if b.String() != "en" {
 		resName = fmt.Sprintf("messages_%s.json", b)
 	}
 	z.logger.Debug("Loading message resource", zap.String("name", resName))
