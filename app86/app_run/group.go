@@ -1,6 +1,7 @@
 package app_run
 
 import (
+	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/app86/app_recipe"
 	"os"
@@ -48,7 +49,7 @@ func (z *Group) Add(r app_recipe.Recipe) {
 }
 
 func (z *Group) Desc() string {
-	key := strings.Join(z.Path, ".") + ".desc"
+	key := "recipe." + strings.Join(z.Path, ".") + ".desc"
 	//TODO: convert into txt resource
 	return key
 }
@@ -62,7 +63,7 @@ func (z *Group) Usage() string {
 	return usage
 }
 
-func (z *Group) PrintIndented(text string) {
+func (z *Group) printIndented(text string) {
 	lines := strings.Split(text, "\n")
 	for _, line := range lines {
 		fmt.Println("  " + line)
@@ -72,12 +73,12 @@ func (z *Group) PrintIndented(text string) {
 func (z *Group) PrintUsage() {
 	fmt.Println(AppHeader())
 	fmt.Println()
-	z.PrintIndented(z.Desc())
+	z.printIndented(z.Desc())
 	fmt.Println()
 
 	usageHeader := "Usage:" // TODO: i18n
 	fmt.Println(usageHeader)
-	z.PrintIndented(z.Usage())
+	z.printIndented(z.Usage())
 	fmt.Println()
 
 	availableHeader := "Available Commands:" // TODO: i18n
@@ -131,6 +132,20 @@ func (z *Group) AvailableCommands() (cmd []string) {
 	return
 }
 
-func (z *Group) Run(args []string) {
-	z.PrintUsage()
+func (z *Group) Select(args []string) (g *Group, r app_recipe.Recipe, remainder []string, err error) {
+	if len(args) < 1 {
+		return z, nil, args, nil
+	}
+	arg := args[0]
+	for k, sg := range z.SubGroups {
+		if arg == k {
+			return sg.Select(args[1:])
+		}
+	}
+	for k, sr := range z.Recipes {
+		if arg == k {
+			return nil, sr, args[1:], nil
+		}
+	}
+	return z, nil, args, errors.New("not found")
 }
