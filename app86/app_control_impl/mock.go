@@ -1,22 +1,30 @@
 package app_control_impl
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/app86/app_control"
+	"github.com/watermint/toolbox/app86/app_log"
+	"github.com/watermint/toolbox/app86/app_msg_container_impl"
 	"github.com/watermint/toolbox/app86/app_ui"
 	"go.uber.org/zap"
 	"os"
 )
 
 func NewMock() app_control.Control {
+	mc := &app_msg_container_impl.Alt{}
 	return &mockControl{
-		logger: newConsoleLogger(),
-		ui:     &app_ui.Mock{},
+		logger: app_log.newConsoleLogger(),
+		ui:     app_ui.NewConsole(mc),
 	}
 }
 
 type mockControl struct {
 	logger *zap.Logger
 	ui     app_ui.UI
+}
+
+func (z *mockControl) Resource(key string) (bin []byte, err error) {
+	return nil, errors.New("no resource on the mock")
 }
 
 func (z *mockControl) Startup(opts ...app_control.StartupOpt) error {

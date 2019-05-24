@@ -1,4 +1,4 @@
-package app_control_impl
+package app_log
 
 import (
 	"go.uber.org/zap"
@@ -7,11 +7,11 @@ import (
 	"runtime"
 )
 
-func newConsoleLogger() *zap.Logger {
-	return zap.New(newConsoleLoggerCore())
+func NewConsoleLogger() *zap.Logger {
+	return zap.New(NewConsoleLoggerCore())
 }
 
-func newConsoleLoggerCore() zapcore.Core {
+func NewConsoleLoggerCore() zapcore.Core {
 	en := zapcore.EncoderConfig{
 		LevelKey:       "level",
 		MessageKey:     "msg",

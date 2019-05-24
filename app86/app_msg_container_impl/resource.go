@@ -34,7 +34,7 @@ func (z *Resource) Compile(m app_msg.Message) string {
 		}
 		t, err := template.New(m.Key()).Parse(msg)
 		if err != nil {
-			app_root.Root.Log().Warn("Unable to compile message",
+			app_root.Log().Warn("Unable to compile message",
 				zap.String("key", m.Key()),
 				zap.String("msg", msg),
 				zap.Error(err),
@@ -44,7 +44,7 @@ func (z *Resource) Compile(m app_msg.Message) string {
 		}
 		var buf bytes.Buffer
 		if err = t.Execute(&buf, params); err != nil {
-			app_root.Root.Log().Warn("Unable to format message",
+			app_root.Log().Warn("Unable to format message",
 				zap.String("key", m.Key()),
 				zap.String("msg", msg),
 				zap.Error(err),
@@ -61,14 +61,13 @@ func NewResource(lang language.Tag, box *rice.Box) (c app_msg_container.Containe
 	l := app_root.Log().With(zap.String("lang", lang.String()))
 
 	resName := "messages.json"
-	if lang != language.English {
-		b, _ := lang.Base()
+	b, _ := lang.Base()
+	if b.String() != "en" {
 		resName = fmt.Sprintf("messages_%s.json", b)
 	}
 	l = l.With(zap.String("name", resName))
 	resData, err := box.Bytes(resName)
 	if err != nil {
-		l.Error("Unable to load resource data", zap.Error(err))
 		return nil, err
 	}
 	resMsgs := make(map[string]string)

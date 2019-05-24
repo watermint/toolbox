@@ -39,3 +39,10 @@ func M(key string, p ...Param) Message {
 		P: p,
 	}
 }
+
+func Raw(text string) Message {
+	return &messageImpl{
+		K: "raw",
+		P: []Param{P("Raw", text)},
+	}
+}

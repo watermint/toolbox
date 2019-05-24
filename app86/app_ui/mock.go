@@ -5,6 +5,16 @@ import "github.com/watermint/toolbox/app86/app_msg"
 type Mock struct {
 }
 
+func (*Mock) Break() {
+}
+
+func (*Mock) Header(key string, p ...app_msg.Param) {
+}
+
+func (*Mock) InfoTable(border bool) Table {
+	panic("mock")
+}
+
 func (*Mock) Info(key string, p ...app_msg.Param) {
 }
 

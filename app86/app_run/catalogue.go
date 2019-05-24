@@ -1,7 +1,10 @@
 package app_run
 
 import (
+	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/app86/app_msg"
 	"github.com/watermint/toolbox/app86/app_recipe"
+	"github.com/watermint/toolbox/app86/app_ui"
 	"github.com/watermint/toolbox/app86/recipe"
 	"github.com/watermint/toolbox/app86/recipe/dev"
 	"github.com/watermint/toolbox/app86/recipe/member"
@@ -14,7 +17,7 @@ const (
 	RecipeBasePackage = "github.com/watermint/toolbox/app86/recipe"
 )
 
-func recipes() []app_recipe.Recipe {
+func Recipes() []app_recipe.Recipe {
 	return []app_recipe.Recipe{
 		&recipe.License{},
 		&dev.Version{},
@@ -23,18 +26,18 @@ func recipes() []app_recipe.Recipe {
 	}
 }
 
-func catalogue() *Group {
+func Catalogue() *Group {
 	root := NewGroup([]string{}, "")
-	for _, r := range recipes() {
+	for _, r := range Recipes() {
 		root.Add(r)
 	}
 	return root
 }
 
-func AppHeader() string {
-	// TODO: Convert it into Message
-	return "{{.AppName}} ({{.AppVersion}})\n" +
-		"Licensed under MIT License. etc, etc"
+func AppHeader(ui app_ui.UI) {
+	ui.Header("run.app.header", app_msg.P("AppVersion", app.AppVersion))
+	ui.Info("run.app.copyright")
+	ui.Info("run.app.license")
 }
 
 func RecipeInfo(basePkg string, r app_recipe.Recipe) (cmdPath []string, cmdName string) {

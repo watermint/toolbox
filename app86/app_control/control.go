@@ -11,6 +11,7 @@ type Control interface {
 	Fatal(opts ...FatalOpt)
 	UI() app_ui.UI
 	Log() *zap.Logger
+	Resource(key string) (bin []byte, err error)
 }
 
 type StartupOpt func(opt *startupOpts) startupOpts

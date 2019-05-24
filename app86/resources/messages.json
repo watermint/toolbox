@@ -1,0 +1,15 @@
+{
+  "raw": "{{.Raw}}",
+  "run.app.header": "toolbox {{.AppVersion}}",
+  "run.app.copyright": "© 2016-2019 Takayuki Okazaki",
+  "run.app.license": "Licensed under open source licenses. Use the `license` command for more detail.",
+  "run.group.usage": "{{.Exec}} {{.Group}} [command]",
+  "run.group.header.usage": "Usage:",
+  "run.group.header.available_commands": "Available Commands:",
+  "recipe.desc": "Tools for Dropbox and Dropbox Business",
+  "recipe.license.desc": "Show license information",
+  "recipe.member.desc": "Dropbox Business team member management",
+  "recipe.member.invite.desc": "Invite member(s)",
+  "recipe.teamfolder.desc": "Dropbox Business team folder management",
+  "recipe.teamfolder.list.desc": "List team folder(s)"
+}

@@ -2,12 +2,12 @@ package app_run
 
 import (
 	"errors"
-	"fmt"
+	"github.com/watermint/toolbox/app86/app_msg"
 	"github.com/watermint/toolbox/app86/app_recipe"
+	"github.com/watermint/toolbox/app86/app_ui"
 	"os"
 	"sort"
 	"strings"
-	"text/tabwriter"
 )
 
 type Group struct {
@@ -48,52 +48,34 @@ func (z *Group) Add(r app_recipe.Recipe) {
 	z.addToPath(path, path, name, r)
 }
 
-func (z *Group) Desc() string {
-	key := "recipe." + strings.Join(z.Path, ".") + ".desc"
-	//TODO: convert into txt resource
-	return key
-}
+func (z *Group) PrintUsage(ui app_ui.UI) {
+	grpDesc := make([]string, 0)
+	grpDesc = append(grpDesc, "recipe")
+	grpDesc = append(grpDesc, z.Path...)
+	grpDesc = append(grpDesc, "desc")
 
-func (z *Group) Usage() string {
-	// TODO: try lookup custom usage
-	//key := strings.Join(z.Path, ".") + ".usage"
+	AppHeader(ui)
+	ui.Break()
+	ui.Info(strings.Join(grpDesc, "."))
+	ui.Break()
 
-	usage := os.Args[0] + " " + strings.Join(z.Path, " ") + " [command]"
+	ui.Header("run.group.header.usage")
+	ui.Info(
+		"run.group.usage",
+		app_msg.P("Exec", os.Args[0]),
+		app_msg.P("Group", strings.Join(z.Path, " ")),
+	)
+	ui.Break()
 
-	return usage
-}
-
-func (z *Group) printIndented(text string) {
-	lines := strings.Split(text, "\n")
-	for _, line := range lines {
-		fmt.Println("  " + line)
-	}
-}
-
-func (z *Group) PrintUsage() {
-	fmt.Println(AppHeader())
-	fmt.Println()
-	z.printIndented(z.Desc())
-	fmt.Println()
-
-	usageHeader := "Usage:" // TODO: i18n
-	fmt.Println(usageHeader)
-	z.printIndented(z.Usage())
-	fmt.Println()
-
-	availableHeader := "Available Commands:" // TODO: i18n
-	fmt.Println(availableHeader)
-	aw := new(tabwriter.Writer)
-	aw.Init(os.Stdout, 0, 2, 1, ' ', 0)
+	ui.Header("run.group.header.available_commands")
+	cmdTable := ui.InfoTable(false)
 	for _, cmd := range z.AvailableCommands() {
-		fmt.Fprintln(aw, "\t"+cmd+"\t"+z.commandDesc(cmd))
+		cmdTable.Row(app_msg.Raw(" "), app_msg.Raw(cmd), z.commandDesc(cmd))
 	}
-	fmt.Fprintln(aw, "  \t")
-	aw.Flush()
-
+	cmdTable.Flush()
 }
 
-func (z *Group) commandDesc(cmd string) string {
+func (z *Group) commandDesc(cmd string) app_msg.Message {
 	keyPath := make([]string, 0)
 	keyPath = append(keyPath, "recipe")
 	keyPath = append(keyPath, z.Path...)
@@ -101,8 +83,7 @@ func (z *Group) commandDesc(cmd string) string {
 	keyPath = append(keyPath, "desc")
 	key := strings.Join(keyPath, ".")
 
-	// TODO:
-	return key
+	return app_msg.M(key)
 }
 
 func (z *Group) IsSecret() bool {
