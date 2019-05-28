@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	rootLogger = app_log.NewConsoleLogger()
+	rootLogger = app_log.NewConsoleLogger(false)
 	logWrapper = app_log.NewLogWrapper(rootLogger)
 )
 

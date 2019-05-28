@@ -20,8 +20,22 @@ type Control interface {
 type StartupOpt func(opt *StartupOpts) *StartupOpts
 type StartupOpts struct {
 	WorkspacePath string
+	Debug         bool
+	Test          bool
 }
 
+func Debug() StartupOpt {
+	return func(opt *StartupOpts) *StartupOpts {
+		opt.Debug = true
+		return opt
+	}
+}
+func Test() StartupOpt {
+	return func(opt *StartupOpts) *StartupOpts {
+		opt.Test = true
+		return opt
+	}
+}
 func Workspace(path string) StartupOpt {
 	return func(opt *StartupOpts) *StartupOpts {
 		opt.WorkspacePath = path

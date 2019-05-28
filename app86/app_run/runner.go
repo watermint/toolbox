@@ -78,10 +78,19 @@ func Run(args []string, bx *rice.Box) {
 	}
 	vc.Apply(vo)
 
+	// Apply common flags
+	// - Quiet
+	if com.Quiet {
+		ui = app_ui.NewQuiet()
+	}
+
 	// Startup
 	so := make([]app_control.StartupOpt, 0)
 	if com.Workspace != "" {
 		so = append(so, app_control.Workspace(com.Workspace))
+	}
+	if com.Debug {
+		so = append(so, app_control.Debug())
 	}
 
 	ctl := app_control_impl.NewControl(ui, bx)
@@ -90,6 +99,11 @@ func Run(args []string, bx *rice.Box) {
 		os.Exit(app_control.FatalStartup)
 	}
 	defer ctl.Shutdown()
+
+	// - Quiet
+	if qui, ok := ui.(*app_ui.Quiet); ok {
+		qui.SetLogger(ctl.Log())
+	}
 
 	// Recover
 	defer func() {
@@ -145,11 +159,11 @@ func Run(args []string, bx *rice.Box) {
 		}
 	}()
 
+	// - Proxy config
+	app_network.SetHttpProxy(com.Proxy, ctl)
+
 	// App Header
 	AppHeader(ui)
-
-	// Proxy config
-	app_network.SetHttpProxy(com.Proxy, ctl)
 
 	// Diagnosis
 	err = app_diag.Runtime(ctl)

@@ -7,11 +7,11 @@ import (
 	"runtime"
 )
 
-func NewConsoleLogger() *zap.Logger {
-	return zap.New(NewConsoleLoggerCore())
+func NewConsoleLogger(debug bool) *zap.Logger {
+	return zap.New(NewConsoleLoggerCore(debug))
 }
 
-func NewConsoleLoggerCore() zapcore.Core {
+func NewConsoleLoggerCore(debug bool) zapcore.Core {
 	en := zapcore.EncoderConfig{
 		LevelKey:       "level",
 		MessageKey:     "msg",
@@ -24,7 +24,12 @@ func NewConsoleLoggerCore() zapcore.Core {
 	}
 	zo := zapcore.AddSync(os.Stdout)
 
-	level := zap.InfoLevel
+	var level zapcore.Level
+	if debug {
+		level = zap.DebugLevel
+	} else {
+		level = zap.InfoLevel
+	}
 
 	return zapcore.NewCore(
 		zapcore.NewConsoleEncoder(en),

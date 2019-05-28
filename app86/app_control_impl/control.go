@@ -49,7 +49,7 @@ func (z *Control) Startup(opts ...app_control.StartupOpt) (err error) {
 		return err
 	}
 
-	z.flc, err = app_log.NewFileLogger(filepath.Join(z.ws.Log()))
+	z.flc, err = app_log.NewFileLogger(filepath.Join(z.ws.Log()), opt.Debug)
 	if err != nil {
 		return err
 	}
