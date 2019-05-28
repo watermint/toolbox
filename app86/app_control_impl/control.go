@@ -54,7 +54,7 @@ func (z *Control) Startup(opts ...app_control.StartupOpt) (err error) {
 		return err
 	}
 	// Overwrite logger
-	app_root.Logger = z.flc.Logger
+	app_root.SetLogger(z.flc.Logger)
 
 	z.Log().Debug("Startup completed")
 
@@ -63,6 +63,7 @@ func (z *Control) Startup(opts ...app_control.StartupOpt) (err error) {
 
 func (z *Control) Shutdown() {
 	z.Log().Debug("Shutdown")
+	app_root.Flush()
 	z.flc.Close()
 }
 
@@ -72,6 +73,7 @@ func (z *Control) Fatal(opts ...app_control.FatalOpt) {
 		o(opt)
 	}
 	z.Log().Debug("Fatal shutdown", zap.Any("opt", opt))
+	app_root.Flush()
 	z.flc.Close()
 
 	if opt.Reason == nil {

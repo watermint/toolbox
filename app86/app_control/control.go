@@ -46,7 +46,12 @@ const (
 	FatalGeneral
 	FatalStartup
 	FatalPanic
+	FatalInterrupted
+	FatalRuntime
+	FatalNetwork
+
+	// Failures
+	FailureGeneral = iota + 1000
 	FailureInvalidCommand
 	FailureInvalidCommandFlags
-	FailureGeneral
 )

@@ -125,7 +125,7 @@ func (z *Group) Select(args []string) (name string, g *Group, r app_recipe.Recip
 	}
 	for k, sr := range z.Recipes {
 		if arg == k {
-			return k, nil, sr, args[1:], nil
+			return k, z, sr, args[1:], nil
 		}
 	}
 	return "", z, nil, args, errors.New("not found")

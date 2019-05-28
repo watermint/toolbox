@@ -20,7 +20,7 @@ const (
 func Recipes() []app_recipe.Recipe {
 	return []app_recipe.Recipe{
 		&recipe.License{},
-		&dev.Version{},
+		&dev.LongRunning{},
 		&member.Invite{},
 		&teamfolder.List{},
 	}
@@ -38,6 +38,7 @@ func AppHeader(ui app_ui.UI) {
 	ui.Header("run.app.header", app_msg.P("AppVersion", app.AppVersion))
 	ui.Info("run.app.copyright")
 	ui.Info("run.app.license")
+	ui.Break()
 }
 
 func RecipeInfo(basePkg string, r app_recipe.Recipe) (cmdPath []string, cmdName string) {
