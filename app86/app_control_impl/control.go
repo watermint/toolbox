@@ -26,6 +26,10 @@ type Control struct {
 	ws  app_workspace.Workspace
 }
 
+func (z *Control) IsTest() bool {
+	return false
+}
+
 func (z *Control) Workspace() app_workspace.Workspace {
 	return z.ws
 }

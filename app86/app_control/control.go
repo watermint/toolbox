@@ -14,6 +14,7 @@ type Control interface {
 	Log() *zap.Logger
 	Resource(key string) (bin []byte, err error)
 	Workspace() app_workspace.Workspace
+	IsTest() bool
 }
 
 type StartupOpt func(opt *StartupOpts) *StartupOpts

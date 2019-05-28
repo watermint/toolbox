@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/app86/app_flow"
 	"github.com/watermint/toolbox/app86/app_msg"
 	"github.com/watermint/toolbox/app86/app_recipe"
+	"github.com/watermint/toolbox/app86/app_recipe_util"
 	"github.com/watermint/toolbox/app86/app_report"
 	"github.com/watermint/toolbox/app86/app_validate"
 	"github.com/watermint/toolbox/app86/app_vo"
@@ -69,7 +70,7 @@ func (z *Invite) Requirement() app_vo.ValueObject {
 }
 
 func (z *Invite) Exec(k app_recipe.Kitchen) error {
-	return app_recipe.WithBusinessManagement(func(ak app_recipe.ApiKitchen) error {
+	return app_recipe_util.WithBusinessManagement(k, func(ak app_recipe_util.ApiKitchen) error {
 		var vo interface{} = ak.Value()
 		mvo := vo.(*InviteVO)
 		svm := sv_member.New(ak.Context())

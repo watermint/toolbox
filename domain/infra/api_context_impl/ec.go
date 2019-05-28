@@ -22,7 +22,7 @@ import (
 )
 
 func New(ec *app.ExecContext, token api_auth.TokenContainer) api_context.Context {
-	c := &contextImpl{
+	c := &ecImpl{
 		ec:             ec,
 		tokenContainer: token,
 		client:         &http.Client{},
@@ -32,7 +32,7 @@ func New(ec *app.ExecContext, token api_auth.TokenContainer) api_context.Context
 
 func NewContextNoAuth(ec *app.ExecContext) api_context.Context {
 	DefaultClientTimeout := time.Duration(60) * time.Second
-	c := contextImpl{
+	c := ecImpl{
 		ec:     ec,
 		noAuth: true,
 		client: &http.Client{
@@ -46,7 +46,7 @@ const (
 	maxLastErrors = 10
 )
 
-type contextImpl struct {
+type ecImpl struct {
 	ec             *app.ExecContext
 	tokenContainer api_auth.TokenContainer
 	noAuth         bool
@@ -59,7 +59,7 @@ type contextImpl struct {
 	noRetryOnError bool
 }
 
-func (z *contextImpl) Hash() string {
+func (z *ecImpl) Hash() string {
 	seeds := []string{
 		"m",
 		z.asMemberId,
@@ -81,12 +81,12 @@ func (z *contextImpl) Hash() string {
 	return fmt.Sprintf("%x", h)
 }
 
-func (z *contextImpl) IsNoRetry() bool {
+func (z *ecImpl) IsNoRetry() bool {
 	return z.noRetryOnError
 }
 
-func (z *contextImpl) NoRetryOnError() api_context.Context {
-	c := &contextImpl{
+func (z *ecImpl) NoRetryOnError() api_context.Context {
+	c := &ecImpl{
 		ec:             z.ec,
 		tokenContainer: z.tokenContainer,
 		client:         &http.Client{},
@@ -95,11 +95,11 @@ func (z *contextImpl) NoRetryOnError() api_context.Context {
 	return c
 }
 
-func (z *contextImpl) Token() api_auth.TokenContainer {
+func (z *ecImpl) Token() api_auth.TokenContainer {
 	return z.tokenContainer
 }
 
-func (z *contextImpl) DoRequest(req api_rpc.Request) (code int, header http.Header, body []byte, err error) {
+func (z *ecImpl) DoRequest(req api_rpc.Request) (code int, header http.Header, body []byte, err error) {
 	httpReq, err := req.Request()
 	if err != nil {
 		return -1, nil, nil, err
@@ -122,11 +122,11 @@ func (z *contextImpl) DoRequest(req api_rpc.Request) (code int, header http.Head
 	return res.StatusCode, res.Header, body, nil
 }
 
-func (z *contextImpl) UpdateRetryAfter(after time.Time) {
+func (z *ecImpl) UpdateRetryAfter(after time.Time) {
 	z.retryAfter = after
 }
 
-func (z *contextImpl) AddError(err error) {
+func (z *ecImpl) AddError(err error) {
 	if z.lastErrors == nil {
 		z.lastErrors = make([]error, 0)
 	}
@@ -139,7 +139,7 @@ func (z *contextImpl) AddError(err error) {
 	z.lastErrors = append(z.lastErrors, err)
 }
 
-func (z *contextImpl) LastErrors() []error {
+func (z *ecImpl) LastErrors() []error {
 	if z.lastErrors == nil {
 		return make([]error, 0)
 	} else {
@@ -147,12 +147,12 @@ func (z *contextImpl) LastErrors() []error {
 	}
 }
 
-func (z *contextImpl) RetryAfter() time.Time {
+func (z *ecImpl) RetryAfter() time.Time {
 	return z.retryAfter
 }
 
-func (z *contextImpl) AsMemberId(teamMemberId string) api_context.Context {
-	return &contextImpl{
+func (z *ecImpl) AsMemberId(teamMemberId string) api_context.Context {
+	return &ecImpl{
 		ec:             z.ec,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
@@ -165,8 +165,8 @@ func (z *contextImpl) AsMemberId(teamMemberId string) api_context.Context {
 	}
 }
 
-func (z *contextImpl) AsAdminId(teamMemberId string) api_context.Context {
-	return &contextImpl{
+func (z *ecImpl) AsAdminId(teamMemberId string) api_context.Context {
+	return &ecImpl{
 		ec:             z.ec,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
@@ -179,8 +179,8 @@ func (z *contextImpl) AsAdminId(teamMemberId string) api_context.Context {
 	}
 }
 
-func (z *contextImpl) WithPath(pathRoot api_context.PathRoot) api_context.Context {
-	return &contextImpl{
+func (z *ecImpl) WithPath(pathRoot api_context.PathRoot) api_context.Context {
+	return &ecImpl{
 		ec:             z.ec,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
@@ -193,7 +193,7 @@ func (z *contextImpl) WithPath(pathRoot api_context.PathRoot) api_context.Contex
 	}
 }
 
-func (z *contextImpl) ErrorMsg(err error) app_ui.UIMessage {
+func (z *ecImpl) ErrorMsg(err error) app_ui.UIMessage {
 	if err == nil {
 		return z.ec.Msg(app.MsgNoError)
 	}
@@ -229,26 +229,26 @@ func (z *contextImpl) ErrorMsg(err error) app_ui.UIMessage {
 	}
 }
 
-func (z *contextImpl) ClientTimeout(second int) {
+func (z *ecImpl) ClientTimeout(second int) {
 	z.client.Timeout = time.Duration(second) * time.Second
 }
 
-func (z *contextImpl) Log() *zap.Logger {
+func (z *ecImpl) Log() *zap.Logger {
 	return z.ec.Log()
 }
 
-func (z *contextImpl) Msg(key string) app_ui.UIMessage {
+func (z *ecImpl) Msg(key string) app_ui.UIMessage {
 	return z.ec.Msg(key)
 }
 
-func (z *contextImpl) Request(endpoint string) api_rpc.Caller {
+func (z *ecImpl) Request(endpoint string) api_rpc.Caller {
 	return api_rpc_impl.New(z, endpoint, z.asMemberId, z.asAdminId, z.basePath, z.tokenContainer)
 }
 
-func (z *contextImpl) List(endpoint string) api_list.List {
+func (z *ecImpl) List(endpoint string) api_list.List {
 	return api_list_impl.New(z, endpoint, z.asMemberId, z.asAdminId, z.basePath)
 }
 
-func (z *contextImpl) Async(endpoint string) api_async.Async {
+func (z *ecImpl) Async(endpoint string) api_async.Async {
 	return api_async_impl.New(z, endpoint, z.asMemberId, z.asAdminId, z.basePath)
 }

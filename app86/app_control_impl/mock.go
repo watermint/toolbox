@@ -26,6 +26,10 @@ type mockControl struct {
 	ws     app_workspace.Workspace
 }
 
+func (z *mockControl) IsTest() bool {
+	return false
+}
+
 func (z *mockControl) Workspace() app_workspace.Workspace {
 	return z.ws
 }

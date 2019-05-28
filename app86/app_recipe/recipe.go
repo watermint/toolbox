@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/app86/app_report"
 	"github.com/watermint/toolbox/app86/app_ui"
 	"github.com/watermint/toolbox/app86/app_vo"
-	"github.com/watermint/toolbox/domain/infra/api_context"
 	"go.uber.org/zap"
 )
 
@@ -27,19 +26,6 @@ type Kitchen interface {
 	Report() app_report.Report
 }
 
-type ApiKitchen interface {
-	Kitchen
-	Context() api_context.Context
-}
-
-func WithBusinessFile(exec func(k ApiKitchen) error) error {
-	panic("implement me")
-}
-
-func WithBusinessManagement(exec func(k ApiKitchen) error) error {
-	panic("implement me")
-}
-
 type kitchenImpl struct {
 	vo  app_vo.ValueObject
 	ctl app_control.Control
@@ -54,11 +40,11 @@ func (z *kitchenImpl) Control() app_control.Control {
 }
 
 func (z *kitchenImpl) UI() app_ui.UI {
-	return z.UI()
+	return z.ctl.UI()
 }
 
 func (z *kitchenImpl) Log() *zap.Logger {
-	return z.Log()
+	return z.ctl.Log()
 }
 
 func (z *kitchenImpl) Report() app_report.Report {

@@ -3,6 +3,7 @@ package teamfolder
 import (
 	"github.com/watermint/toolbox/app86/app_msg"
 	"github.com/watermint/toolbox/app86/app_recipe"
+	"github.com/watermint/toolbox/app86/app_recipe_util"
 	"github.com/watermint/toolbox/app86/app_vo"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 )
@@ -30,8 +31,8 @@ func (z *List) Requirement() app_vo.ValueObject {
 	}
 }
 
-func (z *List) Exec(rc app_recipe.Kitchen) error {
-	return app_recipe.WithBusinessFile(func(rc app_recipe.ApiKitchen) error {
+func (z *List) Exec(k app_recipe.Kitchen) error {
+	return app_recipe_util.WithBusinessFile(k, func(rc app_recipe_util.ApiKitchen) error {
 		// TypeAssertionError will be handled by infra
 		var vo interface{} = rc.Value()
 		fvo := vo.(*ListVO)
