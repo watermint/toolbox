@@ -24,7 +24,7 @@ func NewConsoleLoggerCore() zapcore.Core {
 	}
 	zo := zapcore.AddSync(os.Stdout)
 
-	level := zap.DebugLevel
+	level := zap.InfoLevel
 
 	return zapcore.NewCore(
 		zapcore.NewConsoleEncoder(en),

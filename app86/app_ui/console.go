@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/app86/app_msg"
 	"github.com/watermint/toolbox/app86/app_msg_container"
+	"github.com/watermint/toolbox/app86/app_root"
 	"io"
 	"os"
 	"runtime"
@@ -83,32 +84,40 @@ func (z *console) InfoTable(border bool) Table {
 func (z *console) Info(key string, p ...app_msg.Param) {
 	m := z.Container.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorWhite)
+	app_root.Log().Debug(m)
 }
 
 func (z *console) Error(key string, p ...app_msg.Param) {
 	m := z.Container.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorRed)
+	app_root.Log().Debug(m)
 }
 
 func (z *console) AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool) {
 	msg := z.Container.Compile(app_msg.M(key, p...))
+	app_root.Log().Debug(msg)
 
 	z.colorPrint(msg, ColorCyan)
 	br := bufio.NewReader(z.In)
 	for {
 		line, _, err := br.ReadLine()
 		if err == io.EOF {
+			app_root.Log().Debug("Cancelled")
 			return false, true
 		}
 		ans := strings.ToLower(strings.TrimSpace(string(line)))
 		switch ans {
 		case "y":
+			app_root.Log().Debug("Continue")
 			return true, false
 		case "yes":
+			app_root.Log().Debug("Continue")
 			return true, false
 		case "n":
+			app_root.Log().Debug("Do not continue")
 			return false, false
 		case "no":
+			app_root.Log().Debug("Do not continue")
 			return false, false
 		}
 
@@ -120,15 +129,18 @@ func (z *console) AskCont(key string, p ...app_msg.Param) (cont bool, cancel boo
 func (z *console) AskText(key string, p ...app_msg.Param) (text string, cancel bool) {
 	msg := z.Container.Compile(app_msg.M(key, p...))
 	z.colorPrint(msg, ColorCyan)
+	app_root.Log().Debug(msg)
 
 	br := bufio.NewReader(z.In)
 	for {
 		line, _, err := br.ReadLine()
 		if err == io.EOF {
+			app_root.Log().Debug("Cancelled")
 			return "", true
 		}
 		text := strings.TrimSpace(string(line))
 		if text != "" {
+			app_root.Log().Debug("Text entered")
 			return text, false
 		}
 

@@ -2,6 +2,7 @@ package app_control
 
 import (
 	"github.com/watermint/toolbox/app86/app_ui"
+	"github.com/watermint/toolbox/app86/app_workspace"
 	"go.uber.org/zap"
 )
 
@@ -12,22 +13,39 @@ type Control interface {
 	UI() app_ui.UI
 	Log() *zap.Logger
 	Resource(key string) (bin []byte, err error)
+	Workspace() app_workspace.Workspace
 }
 
-type StartupOpt func(opt *startupOpts) startupOpts
-type startupOpts struct {
+type StartupOpt func(opt *StartupOpts) *StartupOpts
+type StartupOpts struct {
+	WorkspacePath string
 }
 
-type FatalOpt func(opt *fatalOpts) fatalOpts
-type fatalOpts struct {
+func Workspace(path string) StartupOpt {
+	return func(opt *StartupOpts) *StartupOpts {
+		opt.WorkspacePath = path
+		return opt
+	}
 }
 
-type Workspace interface {
-	SecretsPath() string
-	JobPath() string
-	JobId() string
+type FatalOpt func(opt *FatalOpts) *FatalOpts
+type FatalOpts struct {
+	Reason *int
+}
+
+func Reason(reason int) FatalOpt {
+	return func(opt *FatalOpts) *FatalOpts {
+		opt.Reason = &reason
+		return opt
+	}
 }
 
 const (
-	FatalMock = iota + 1
+	Success = iota
+	FatalGeneral
+	FatalStartup
+	FatalPanic
+	FailureInvalidCommand
+	FailureInvalidCommandFlags
+	FailureGeneral
 )

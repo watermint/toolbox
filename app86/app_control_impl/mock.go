@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/app86/app_log"
 	"github.com/watermint/toolbox/app86/app_msg_container_impl"
 	"github.com/watermint/toolbox/app86/app_ui"
+	"github.com/watermint/toolbox/app86/app_workspace"
 	"go.uber.org/zap"
 	"os"
 )
@@ -13,14 +14,20 @@ import (
 func NewMock() app_control.Control {
 	mc := &app_msg_container_impl.Alt{}
 	return &mockControl{
-		logger: app_log.newConsoleLogger(),
+		logger: app_log.NewConsoleLogger(),
 		ui:     app_ui.NewConsole(mc),
+		ws:     app_workspace.NewTempWorkspace(),
 	}
 }
 
 type mockControl struct {
 	logger *zap.Logger
 	ui     app_ui.UI
+	ws     app_workspace.Workspace
+}
+
+func (z *mockControl) Workspace() app_workspace.Workspace {
+	return z.ws
 }
 
 func (z *mockControl) Resource(key string) (bin []byte, err error) {
@@ -40,7 +47,7 @@ func (z *mockControl) Shutdown() {
 func (z *mockControl) Fatal(opts ...app_control.FatalOpt) {
 	z.logger.Debug("Mock fatal", zap.Any("opts", opts))
 	z.logger.Sync()
-	os.Exit(app_control.FatalMock)
+	os.Exit(app_control.FatalGeneral)
 }
 
 func (z *mockControl) UI() app_ui.UI {

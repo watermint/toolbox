@@ -113,9 +113,9 @@ func (z *Group) AvailableCommands() (cmd []string) {
 	return
 }
 
-func (z *Group) Select(args []string) (g *Group, r app_recipe.Recipe, remainder []string, err error) {
+func (z *Group) Select(args []string) (name string, g *Group, r app_recipe.Recipe, remainder []string, err error) {
 	if len(args) < 1 {
-		return z, nil, args, nil
+		return "", z, nil, args, nil
 	}
 	arg := args[0]
 	for k, sg := range z.SubGroups {
@@ -125,8 +125,8 @@ func (z *Group) Select(args []string) (g *Group, r app_recipe.Recipe, remainder 
 	}
 	for k, sr := range z.Recipes {
 		if arg == k {
-			return nil, sr, args[1:], nil
+			return k, nil, sr, args[1:], nil
 		}
 	}
-	return z, nil, args, errors.New("not found")
+	return "", z, nil, args, errors.New("not found")
 }

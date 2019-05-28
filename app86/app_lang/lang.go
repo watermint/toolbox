@@ -20,7 +20,7 @@ var (
 func DetectLang() language.Tag {
 	bcp47, err := jibber_jabber.DetectIETF()
 	if err != nil {
-		//		app_root.Log().Debug("unable to detect language", zap.Error(err))
+		app_root.Log().Debug("unable to detect language", zap.Error(err))
 		return language.English
 	}
 
@@ -37,8 +37,8 @@ func chooseLanguage(bcp47 string) language.Tag {
 		return language.English
 	}
 	m := language.NewMatcher(SupportedLanguages)
-	l, _, _ := m.Match(tag)
-	//	app_root.Log().Debug("detect language", zap.Any("lang", l), zap.String("confidence", c.String()))
+	l, _, c := m.Match(tag)
+	app_root.Log().Debug("detect language", zap.Any("lang", l), zap.String("confidence", c.String()))
 
 	return l
 }

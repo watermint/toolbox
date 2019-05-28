@@ -39,3 +39,35 @@ func WithBusinessFile(exec func(k ApiKitchen) error) error {
 func WithBusinessManagement(exec func(k ApiKitchen) error) error {
 	panic("implement me")
 }
+
+type kitchenImpl struct {
+	vo  app_vo.ValueObject
+	ctl app_control.Control
+}
+
+func (z *kitchenImpl) Value() app_vo.ValueObject {
+	return z.vo
+}
+
+func (z *kitchenImpl) Control() app_control.Control {
+	return z.ctl
+}
+
+func (z *kitchenImpl) UI() app_ui.UI {
+	return z.UI()
+}
+
+func (z *kitchenImpl) Log() *zap.Logger {
+	return z.Log()
+}
+
+func (z *kitchenImpl) Report() app_report.Report {
+	panic("implement me")
+}
+
+func NewKitchen(ctl app_control.Control, vo app_vo.ValueObject) Kitchen {
+	return &kitchenImpl{
+		ctl: ctl,
+		vo:  vo,
+	}
+}

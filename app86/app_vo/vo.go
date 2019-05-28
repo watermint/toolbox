@@ -3,8 +3,8 @@ package app_vo
 import (
 	"flag"
 	"github.com/iancoleman/strcase"
-	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app86/app_msg"
+	"github.com/watermint/toolbox/app86/app_root"
 	"go.uber.org/zap"
 	"reflect"
 	"runtime"
@@ -41,7 +41,7 @@ func NewValueContainer(vo interface{}) *ValueContainer {
 }
 
 func (z *ValueContainer) From(vo interface{}) {
-	l := app.Root().Log()
+	l := app_root.Log()
 	vot := reflect.TypeOf(vo)
 	vov := reflect.ValueOf(vo)
 	if vot.Kind() == reflect.Ptr {
@@ -79,7 +79,7 @@ func (z *ValueContainer) From(vo interface{}) {
 }
 
 func (z *ValueContainer) Apply(vo interface{}) {
-	l := app.Root().Log()
+	l := app_root.Log()
 	defer func() {
 		if r := recover(); r != nil {
 			switch r0 := r.(type) {
@@ -139,7 +139,7 @@ func (z *ValueContainer) Apply(vo interface{}) {
 
 func (z *ValueContainer) messageKey(name string) string {
 	pkg := z.PkgName
-	pkg = strings.ReplaceAll(pkg, "github.com/watermint/toolbox/", "")
+	pkg = strings.ReplaceAll(pkg, "github.com/watermint/toolbox/app86/", "")
 	pkg = strings.ReplaceAll(pkg, "/", ".")
 	return pkg + ".flag." + strcase.ToSnake(name)
 }
