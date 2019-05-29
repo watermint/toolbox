@@ -31,7 +31,13 @@ func NewKc(kitchen app_recipe.Kitchen, opts ...AuthOpt) api_auth.Auth {
 		kitchen: kitchen,
 	}
 	ua.init()
-	return ua
+	ca := &KcCachedAuth{
+		peerName: ao.peerName,
+		kitchen:  kitchen,
+		auth:     ua,
+	}
+	ca.init()
+	return ca
 }
 
 func New(ec *app.ExecContext, opts ...AuthOpt) api_auth.Auth {

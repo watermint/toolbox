@@ -25,6 +25,7 @@ type CommonOpts struct {
 	Debug     bool
 	Proxy     string
 	Quiet     bool
+	Secure    bool
 }
 
 func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
@@ -32,6 +33,7 @@ func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
 	f.BoolVar(&z.Debug, "debug", false, mc.Compile(app_msg.M("run.common.flag.debug")))
 	f.StringVar(&z.Workspace, "proxy", "", mc.Compile(app_msg.M("run.common.flag.proxy")))
 	f.BoolVar(&z.Quiet, "quiet", false, mc.Compile(app_msg.M("run.common.flag.quiet")))
+	f.BoolVar(&z.Secure, "secure", false, mc.Compile(app_msg.M("run.common.flag.secure")))
 }
 
 func Run(args []string, bx *rice.Box) {
@@ -93,7 +95,7 @@ func Run(args []string, bx *rice.Box) {
 		so = append(so, app_control.Debug())
 	}
 
-	ctl := app_control_impl.NewControl(ui, bx, com.Quiet)
+	ctl := app_control_impl.NewControl(ui, bx, com.Quiet, com.Secure)
 	err = ctl.Startup(so...)
 	if err != nil {
 		os.Exit(app_control.FatalStartup)

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/app86/app_root"
 	"go.uber.org/zap"
 	"reflect"
 	"strings"
@@ -30,8 +31,13 @@ func ParseModel(v interface{}, j gjson.Result) error {
 	vv := reflect.ValueOf(v).Elem()
 	vt := vv.Type()
 
-	log := app.Root().Log().With(zap.String("valueType", vt.Name()))
-	debug := app.Root().IsDebug()
+	var l *zap.Logger
+	if app_root.Ready() {
+		l = app_root.Log()
+	} else {
+		l = app.Root().Log()
+	}
+	l = l.With(zap.String("valueType", vt.Name()))
 
 	for i := vt.NumField() - 1; i >= 0; i-- {
 		vtf := vt.Field(i)
@@ -56,10 +62,7 @@ func ParseModel(v interface{}, j gjson.Result) error {
 		jv := j.Get(path)
 		if !jv.Exists() {
 			if required {
-				log.Error("Missing required field", zap.String("field", vtf.Name), zap.String("path", p))
-				if debug {
-					log.Debug("Entry JSON", zap.String("Entry", j.Raw))
-				}
+				l.Error("Missing required field", zap.String("field", vtf.Name), zap.String("path", p))
 				return errors.New("missing required field")
 			}
 			continue
@@ -78,7 +81,7 @@ func ParseModel(v interface{}, j gjson.Result) error {
 			vvf.SetFloat(jv.Float())
 
 		default:
-			log.Error("unexpected type found", zap.String("type.kind", vtf.Type.Kind().String()))
+			l.Error("unexpected type found", zap.String("type.kind", vtf.Type.Kind().String()))
 			return errors.New("unexpected type found")
 		}
 	}

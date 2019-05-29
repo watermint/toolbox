@@ -16,6 +16,7 @@ type Control interface {
 	Workspace() app_workspace.Workspace
 	IsTest() bool
 	IsQuiet() bool
+	IsSecure() bool
 }
 
 type StartupOpt func(opt *StartupOpts) *StartupOpts
@@ -23,8 +24,15 @@ type StartupOpts struct {
 	WorkspacePath string
 	Debug         bool
 	Test          bool
+	Secure        bool
 }
 
+func Secure() StartupOpt {
+	return func(opt *StartupOpts) *StartupOpts {
+		opt.Secure = true
+		return opt
+	}
+}
 func Debug() StartupOpt {
 	return func(opt *StartupOpts) *StartupOpts {
 		opt.Debug = true

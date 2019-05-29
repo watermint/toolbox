@@ -4,7 +4,9 @@ import (
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/app/app_report/app_report_json"
+	"github.com/watermint/toolbox/app86/app_root"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
+	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -19,11 +21,8 @@ type Capture interface {
 	Rpc(req api_rpc.Request, res api_rpc.Response, resErr error)
 }
 
-func Current() Capture {
+func currentExecContext() Capture {
 	ec := app.Root()
-	//if !ec.IsDebug() {
-	//	return mockImpl{}
-	//}
 
 	if c, e := ec.GetValue(valuePathCapture); e {
 		switch ca := c.(type) {
@@ -42,6 +41,19 @@ func Current() Capture {
 	}
 	ec.SetValue(valuePathCapture, ca)
 	return ca
+}
+
+func currentKitchen() Capture {
+	return &kitchenImpl{}
+}
+
+func Current() Capture {
+	cap := app_root.Capture()
+	if cap != nil {
+		return currentKitchen()
+	} else {
+		return currentExecContext()
+	}
 }
 
 type Record struct {
@@ -99,4 +111,48 @@ func (z *captureImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 	}
 
 	z.storage.Report(rec)
+}
+
+type kitchenImpl struct {
+}
+
+func (*kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error) {
+	type Req struct {
+		RequestMethod  string            `json:"method"`
+		RequestUrl     string            `json:"url"`
+		RequestParam   string            `json:"param,omitempty"`
+		RequestHeaders map[string]string `json:"headers"`
+	}
+	type Res struct {
+		ResponseCode  int    `json:"code"`
+		ResponseBody  string `json:"body"`
+		ResponseError string `json:"error,omitempty"`
+	}
+
+	// request
+	rq := Req{}
+	rq.RequestMethod = req.Method()
+	rq.RequestUrl = req.Url()
+	rq.RequestParam = req.Param()
+	headers := make(map[string]string)
+	for k, v := range req.Headers() {
+		// Anonymize token
+		if k == api_rpc.ReqHeaderAuthorization {
+			headers[k] = "Bearer <secret>"
+		} else {
+			headers[k] = v
+		}
+	}
+	rq.RequestHeaders = headers
+
+	// response
+	rs := Res{}
+	rs.ResponseCode = res.StatusCode()
+	resBody, _ := res.Body()
+	rs.ResponseBody = resBody
+	if resErr != nil {
+		rs.ResponseError = resErr.Error()
+	}
+
+	app_root.Capture().Debug("", zap.Any("req", rq), zap.Any("res", rs))
 }

@@ -7,14 +7,25 @@ import (
 )
 
 var (
-	rootLogger = app_log.NewConsoleLogger(false)
-	logWrapper = app_log.NewLogWrapper(rootLogger)
+	rootLogger                = app_log.NewConsoleLogger(false)
+	logWrapper                = app_log.NewLogWrapper(rootLogger)
+	captureLogger *zap.Logger = nil
+	ready                     = false
 )
+
+func Ready() bool {
+	return ready
+}
 
 func SetLogger(logger *zap.Logger) {
 	rootLogger = logger
 	logWrapper = app_log.NewLogWrapper(logger)
 	log.SetOutput(logWrapper)
+	ready = true
+}
+
+func SetCapture(logger *zap.Logger) {
+	captureLogger = logger
 }
 
 func Flush() {
@@ -24,4 +35,8 @@ func Flush() {
 
 func Log() *zap.Logger {
 	return rootLogger
+}
+
+func Capture() *zap.Logger {
+	return captureLogger
 }

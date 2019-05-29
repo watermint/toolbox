@@ -104,8 +104,8 @@ func (z *KitchenAuth) loadKeys() {
 		kb, err = z.kitchen.Control().Resource("toolbox.appkeys")
 		if err != nil {
 			z.kitchen.Log().Debug("Skip loading app keys")
+			return
 		}
-		return
 	}
 	err = json.Unmarshal(kb, &z.keys)
 	if err != nil {

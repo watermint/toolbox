@@ -26,6 +26,10 @@ type mockControl struct {
 	ws     app_workspace.Workspace
 }
 
+func (z *mockControl) IsSecure() bool {
+	return false
+}
+
 func (z *mockControl) IsQuiet() bool {
 	return false
 }

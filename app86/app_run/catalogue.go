@@ -22,6 +22,7 @@ func Recipes() []app_recipe.Recipe {
 		&recipe.License{},
 		&dev.LongRunning{},
 		&member.Invite{},
+		&member.List{},
 		&teamfolder.List{},
 	}
 }

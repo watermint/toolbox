@@ -9,23 +9,29 @@ import (
 	"github.com/watermint/toolbox/app86/app_workspace"
 	"go.uber.org/zap"
 	"os"
-	"path/filepath"
 )
 
-func NewControl(ui app_ui.UI, bx *rice.Box, quiet bool) app_control.Control {
+func NewControl(ui app_ui.UI, bx *rice.Box, quiet bool, secure bool) app_control.Control {
 	return &Control{
-		ui:    ui,
-		box:   bx,
-		quiet: quiet,
+		ui:     ui,
+		box:    bx,
+		quiet:  quiet,
+		secure: secure,
 	}
 }
 
 type Control struct {
-	ui    app_ui.UI
-	flc   *app_log.FileLogContext
-	box   *rice.Box
-	ws    app_workspace.Workspace
-	quiet bool
+	ui     app_ui.UI
+	flc    *app_log.FileLogContext
+	cap    *app_log.CaptureContext
+	box    *rice.Box
+	ws     app_workspace.Workspace
+	quiet  bool
+	secure bool
+}
+
+func (z *Control) IsSecure() bool {
+	return z.secure
 }
 
 func (z *Control) IsQuiet() bool {
@@ -55,12 +61,19 @@ func (z *Control) Startup(opts ...app_control.StartupOpt) (err error) {
 		return err
 	}
 
-	z.flc, err = app_log.NewFileLogger(filepath.Join(z.ws.Log()), opt.Debug)
+	z.flc, err = app_log.NewFileLogger(z.ws.Log(), opt.Debug)
 	if err != nil {
 		return err
 	}
+
+	z.cap, err = app_log.NewCaptureLogger(z.ws.Log())
+	if err != nil {
+		return err
+	}
+
 	// Overwrite logger
 	app_root.SetLogger(z.flc.Logger)
+	app_root.SetCapture(z.cap.Logger)
 
 	z.Log().Debug("Startup completed")
 
@@ -70,6 +83,7 @@ func (z *Control) Startup(opts ...app_control.StartupOpt) (err error) {
 func (z *Control) Shutdown() {
 	z.Log().Debug("Shutdown")
 	app_root.Flush()
+	z.cap.Close()
 	z.flc.Close()
 }
 
@@ -80,6 +94,7 @@ func (z *Control) Fatal(opts ...app_control.FatalOpt) {
 	}
 	z.Log().Debug("Fatal shutdown", zap.Any("opt", opt))
 	app_root.Flush()
+	z.cap.Close()
 	z.flc.Close()
 
 	if opt.Reason == nil {

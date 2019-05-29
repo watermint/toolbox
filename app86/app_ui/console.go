@@ -155,15 +155,13 @@ type consoleTable struct {
 }
 
 func (z *consoleTable) HeaderRaw(h ...string) {
-	r := make([]string, 0)
-	for _, v := range h {
-		if runtime.GOOS == "windows" {
-			r = append(r, fmt.Sprintf("%s", v))
-		} else {
-			r = append(r, fmt.Sprintf("\x1b[1m%s\x1b[0m", v))
-		}
-	}
-	fmt.Fprintln(z.Tab, strings.Join(r, "\t"))
+	var p, q = "", ""
+
+	//if runtime.GOOS != "windows" {
+	//	p = "\x1b[1m"
+	//	q = "\x1b[0m"
+	//}
+	fmt.Fprintln(z.Tab, p+strings.Join(h, "\t")+q)
 }
 
 func (z *consoleTable) RowRaw(m ...string) {
