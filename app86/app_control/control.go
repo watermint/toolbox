@@ -15,6 +15,7 @@ type Control interface {
 	Resource(key string) (bin []byte, err error)
 	Workspace() app_workspace.Workspace
 	IsTest() bool
+	IsQuiet() bool
 }
 
 type StartupOpt func(opt *StartupOpts) *StartupOpts

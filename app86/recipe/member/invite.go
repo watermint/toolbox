@@ -74,6 +74,10 @@ func (z *Invite) Exec(k app_recipe.Kitchen) error {
 		var vo interface{} = ak.Value()
 		mvo := vo.(*InviteVO)
 		svm := sv_member.New(ak.Context())
+		rep, err := ak.Report("invite")
+		if err != nil {
+			return err
+		}
 
 		return mvo.InviteList.EachRow(InviteRowValidate, func(cols []string) error {
 			m := InviteRowFromCols(cols)
@@ -88,15 +92,15 @@ func (z *Invite) Exec(k app_recipe.Kitchen) error {
 			r, err := svm.Add(m.Email, opts...)
 			switch {
 			case app_flow.IsErrorPrefix("user_already_on_team", err):
-				ak.Report().Result(app_report.Skip("user already on team"), m, r)
+				rep.Transaction(app_report.Skip("user already on team"), m, r)
 				return nil
 
 			case err != nil:
-				ak.Report().Result(app_report.Failure(err), m, r)
+				rep.Transaction(app_report.Failure(""), m, r)
 				return nil
 
 			default:
-				ak.Report().Result(app_report.Success(), m, r)
+				rep.Transaction(app_report.Success(), m, r)
 				return nil
 			}
 		})

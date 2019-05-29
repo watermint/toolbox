@@ -55,6 +55,14 @@ type QuietTable struct {
 	log *zap.Logger
 }
 
+func (z *QuietTable) HeaderRaw(h ...string) {
+	z.log.Debug("header", zap.Any("h", h))
+}
+
+func (z *QuietTable) RowRaw(m ...string) {
+	z.log.Debug("row", zap.Any("m", m))
+}
+
 func (z *QuietTable) Header(h ...app_msg.Message) {
 	z.log.Debug("header", zap.Any("h", h))
 }

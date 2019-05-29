@@ -93,7 +93,7 @@ func Run(args []string, bx *rice.Box) {
 		so = append(so, app_control.Debug())
 	}
 
-	ctl := app_control_impl.NewControl(ui, bx)
+	ctl := app_control_impl.NewControl(ui, bx, com.Quiet)
 	err = ctl.Startup(so...)
 	if err != nil {
 		os.Exit(app_control.FatalStartup)

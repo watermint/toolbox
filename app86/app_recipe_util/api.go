@@ -22,6 +22,10 @@ type apiKitchenImpl struct {
 	kitchen app_recipe.Kitchen
 }
 
+func (z *apiKitchenImpl) Report(name string) (r app_report.Report, err error) {
+	return z.kitchen.Report(name)
+}
+
 func (z *apiKitchenImpl) Value() app_vo.ValueObject {
 	return z.kitchen.Value()
 }
@@ -36,10 +40,6 @@ func (z *apiKitchenImpl) UI() app_ui.UI {
 
 func (z *apiKitchenImpl) Log() *zap.Logger {
 	return z.kitchen.Log()
-}
-
-func (z *apiKitchenImpl) Report() app_report.Report {
-	return z.kitchen.Report()
 }
 
 func (z *apiKitchenImpl) Context() api_context.Context {

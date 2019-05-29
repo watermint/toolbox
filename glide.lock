@@ -1,5 +1,5 @@
 hash: d38071aadb2c8127ae88b9b56a8d5c0d4e2ba212f69ee62ac4932d4a00805ca0
-updated: 2019-04-22T09:02:42.816933+09:00
+updated: 2019-05-28T19:45:58.040121+09:00
 imports:
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
@@ -15,9 +15,9 @@ imports:
   subpackages:
   - proto
 - name: github.com/gorilla/mux
-  version: c5c6c98bc25355028a63748a498942a6398ccd22
+  version: ed099d42384823742bba0bf9a72b53b55c9e2e38
 - name: github.com/iancoleman/strcase
-  version: 3605ed457bf7f8caa1371b4fafadadc026673479
+  version: e506e3ef73653e84c592ba44aab577a46678f68c
 - name: github.com/kardianos/osext
   version: ae77be60afb1dcacde03767a8c37337fad28ac14
 - name: github.com/rapid7/go-get-proxied
@@ -34,11 +34,11 @@ imports:
 - name: github.com/tidwall/pretty
   version: 1166b9ac2b65e46a43d8618d30d1554f4652d49b
 - name: go.uber.org/atomic
-  version: 1ea20fb1cbb1cc08cbd0d913a96dead89aa18289
+  version: df976f2515e274675050de7b3f42545de80594fd
 - name: go.uber.org/multierr
   version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
 - name: go.uber.org/zap
-  version: ff33455a0e382e8a81d14dd7c922020b6b5e7982
+  version: 27376062155ad36be76b0f12cf1572a221d3a48c
   subpackages:
   - buffer
   - internal/bufferpool
@@ -55,7 +55,7 @@ imports:
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: e8e3143a4f4a00f1fafef0dd82ba78223281b01b
+  version: adf421d2caf4ffcf74142ff5fb9ee323b21a819e
   subpackages:
   - windows
 - name: golang.org/x/text

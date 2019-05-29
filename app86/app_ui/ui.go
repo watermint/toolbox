@@ -17,6 +17,8 @@ type UI interface {
 
 type Table interface {
 	Header(h ...app_msg.Message)
+	HeaderRaw(h ...string)
 	Row(m ...app_msg.Message)
+	RowRaw(m ...string)
 	Flush()
 }

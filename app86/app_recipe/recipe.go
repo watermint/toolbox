@@ -23,7 +23,7 @@ type Kitchen interface {
 	Control() app_control.Control
 	UI() app_ui.UI
 	Log() *zap.Logger
-	Report() app_report.Report
+	Report(name string) (r app_report.Report, err error)
 }
 
 type kitchenImpl struct {
@@ -47,8 +47,8 @@ func (z *kitchenImpl) Log() *zap.Logger {
 	return z.ctl.Log()
 }
 
-func (z *kitchenImpl) Report() app_report.Report {
-	panic("implement me")
+func (z *kitchenImpl) Report(name string) (r app_report.Report, err error) {
+	return app_report.New(name, z.ctl)
 }
 
 func NewKitchen(ctl app_control.Control, vo app_vo.ValueObject) Kitchen {

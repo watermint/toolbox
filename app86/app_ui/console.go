@@ -74,7 +74,7 @@ func (z *console) Header(key string, p ...app_msg.Param) {
 
 func (z *console) InfoTable(border bool) Table {
 	tw := new(tabwriter.Writer)
-	tw.Init(os.Stdout, 0, 2, 2, ' ', 0)
+	tw.Init(z.Out, 0, 2, 2, ' ', 0)
 	return &consoleTable{
 		Container: z.Container,
 		Tab:       tw,
@@ -154,12 +154,28 @@ type consoleTable struct {
 	Tab       *tabwriter.Writer
 }
 
+func (z *consoleTable) HeaderRaw(h ...string) {
+	r := make([]string, 0)
+	for _, v := range h {
+		if runtime.GOOS == "windows" {
+			r = append(r, fmt.Sprintf("%s", v))
+		} else {
+			r = append(r, fmt.Sprintf("\x1b[1m%s\x1b[0m", v))
+		}
+	}
+	fmt.Fprintln(z.Tab, strings.Join(r, "\t"))
+}
+
+func (z *consoleTable) RowRaw(m ...string) {
+	fmt.Fprintln(z.Tab, strings.Join(m, "\t"))
+}
+
 func (z *consoleTable) Header(h ...app_msg.Message) {
 	headers := make([]string, 0)
 	for _, hdr := range h {
 		headers = append(headers, z.Container.Compile(hdr))
 	}
-	fmt.Fprintln(z.Tab, strings.Join(headers, "\t"))
+	z.HeaderRaw(headers...)
 }
 
 func (z *consoleTable) Row(m ...app_msg.Message) {
@@ -167,7 +183,7 @@ func (z *consoleTable) Row(m ...app_msg.Message) {
 	for _, msg := range m {
 		msgs = append(msgs, z.Container.Compile(msg))
 	}
-	fmt.Fprintln(z.Tab, strings.Join(msgs, "\t"))
+	z.RowRaw(msgs...)
 }
 
 func (z *consoleTable) Flush() {

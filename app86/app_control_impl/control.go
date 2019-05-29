@@ -12,18 +12,24 @@ import (
 	"path/filepath"
 )
 
-func NewControl(ui app_ui.UI, bx *rice.Box) app_control.Control {
+func NewControl(ui app_ui.UI, bx *rice.Box, quiet bool) app_control.Control {
 	return &Control{
-		ui:  ui,
-		box: bx,
+		ui:    ui,
+		box:   bx,
+		quiet: quiet,
 	}
 }
 
 type Control struct {
-	ui  app_ui.UI
-	flc *app_log.FileLogContext
-	box *rice.Box
-	ws  app_workspace.Workspace
+	ui    app_ui.UI
+	flc   *app_log.FileLogContext
+	box   *rice.Box
+	ws    app_workspace.Workspace
+	quiet bool
+}
+
+func (z *Control) IsQuiet() bool {
+	return z.quiet
 }
 
 func (z *Control) IsTest() bool {

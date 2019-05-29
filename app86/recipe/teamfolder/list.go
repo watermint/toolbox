@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/app86/app_recipe_util"
 	"github.com/watermint/toolbox/app86/app_vo"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
+	"go.uber.org/zap"
 )
 
 type ListVO struct {
@@ -43,8 +44,14 @@ func (z *List) Exec(k app_recipe.Kitchen) error {
 			return err
 		}
 
+		rep, err := rc.Report("teamfolder")
+		if err != nil {
+			return err
+		}
+		defer rep.Close()
 		for _, folder := range folders {
-			rc.Report().Write(folder)
+			rc.Log().Debug("Folder", zap.Any("folder", folder))
+			rep.Row(folder)
 		}
 
 		if fvo.Recursive {
