@@ -30,6 +30,15 @@ func New(name string, ctl app_control.Control) (Report, error) {
 		reports = append(reports, js)
 	}
 
+	{
+		xl, err := NewXlsx(name, ctl)
+		if err != nil {
+			closeAll()
+			return nil, err
+		}
+		reports = append(reports, xl)
+	}
+
 	if ctl.IsQuiet() {
 		// Output as JSON on quiet
 		js, err := NewJsonForQuiet(name, ctl)
