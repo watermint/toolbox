@@ -21,7 +21,25 @@ func New(name string, ctl app_control.Control) (Report, error) {
 		reports = append(reports, csv)
 	}
 
-	if !ctl.IsQuiet() {
+	{
+		js, err := NewJson(name, ctl)
+		if err != nil {
+			closeAll()
+			return nil, err
+		}
+		reports = append(reports, js)
+	}
+
+	if ctl.IsQuiet() {
+		// Output as JSON on quiet
+		js, err := NewJsonForQuiet(name, ctl)
+		if err != nil {
+			closeAll()
+			return nil, err
+		}
+		reports = append(reports, js)
+	} else {
+		// Output for UI
 		ui, err := NewUI(name, ctl)
 		if err != nil {
 			closeAll()

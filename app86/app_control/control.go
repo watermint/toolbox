@@ -66,7 +66,8 @@ const (
 	FatalNetwork
 
 	// Failures
-	FailureGeneral = iota + 1000
+	FailureGeneral
 	FailureInvalidCommand
 	FailureInvalidCommandFlags
+	FailureAuthenticationFailedOrCancelled
 )
