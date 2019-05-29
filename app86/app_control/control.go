@@ -25,8 +25,15 @@ type StartupOpts struct {
 	Debug         bool
 	Test          bool
 	Secure        bool
+	RecipeName    string
 }
 
+func RecipeName(name string) StartupOpt {
+	return func(opt *StartupOpts) *StartupOpts {
+		opt.RecipeName = name
+		return opt
+	}
+}
 func Secure() StartupOpt {
 	return func(opt *StartupOpts) *StartupOpts {
 		opt.Secure = true

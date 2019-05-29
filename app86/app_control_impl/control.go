@@ -1,6 +1,7 @@
 package app_control_impl
 
 import (
+	"encoding/json"
 	"github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/app86/app_control"
 	"github.com/watermint/toolbox/app86/app_log"
@@ -9,14 +10,14 @@ import (
 	"github.com/watermint/toolbox/app86/app_workspace"
 	"go.uber.org/zap"
 	"os"
+	"path/filepath"
 )
 
-func NewControl(ui app_ui.UI, bx *rice.Box, quiet bool, secure bool) app_control.Control {
+func NewControl(ui app_ui.UI, bx *rice.Box, quiet bool) app_control.Control {
 	return &Control{
-		ui:     ui,
-		box:    bx,
-		quiet:  quiet,
-		secure: secure,
+		ui:    ui,
+		box:   bx,
+		quiet: quiet,
 	}
 }
 
@@ -55,11 +56,29 @@ func (z *Control) Startup(opts ...app_control.StartupOpt) (err error) {
 	for _, o := range opts {
 		o(opt)
 	}
+	z.secure = opt.Secure
 
 	z.ws, err = app_workspace.NewWorkspace(opt.WorkspacePath)
 	if err != nil {
 		return err
 	}
+
+	rl, err := os.Create(filepath.Join(z.ws.Log(), "recipe.log"))
+	if err != nil {
+		return err
+	}
+	type RecipeLog struct {
+		Name string `json:"name"`
+	}
+	rr := &RecipeLog{
+		Name: opt.RecipeName,
+	}
+	rb, err := json.Marshal(rr)
+	if err != nil {
+		return err
+	}
+	rl.Write(rb)
+	rl.Close()
 
 	z.flc, err = app_log.NewFileLogger(z.ws.Log(), opt.Debug)
 	if err != nil {

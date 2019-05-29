@@ -65,9 +65,10 @@ func Run(args []string, bx *rice.Box) {
 	if cmd != "" {
 		cmdPath = append(cmdPath, cmd)
 	}
+	recipeName := strings.Join(cmdPath, " ")
 
 	vo := rcp.Requirement()
-	f := flag.NewFlagSet(strings.Join(cmdPath, " "), flag.ContinueOnError)
+	f := flag.NewFlagSet(recipeName, flag.ContinueOnError)
 	com := &CommonOpts{}
 	com.SetFlags(f, mc)
 
@@ -94,8 +95,12 @@ func Run(args []string, bx *rice.Box) {
 	if com.Debug {
 		so = append(so, app_control.Debug())
 	}
+	if com.Secure {
+		so = append(so, app_control.Secure())
+	}
+	so = append(so, app_control.RecipeName(recipeName))
 
-	ctl := app_control_impl.NewControl(ui, bx, com.Quiet, com.Secure)
+	ctl := app_control_impl.NewControl(ui, bx, com.Quiet)
 	err = ctl.Startup(so...)
 	if err != nil {
 		os.Exit(app_control.FatalStartup)
