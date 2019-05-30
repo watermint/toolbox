@@ -37,7 +37,7 @@ func xlsxDataStyle() *xlsx.Style {
 	return dataStyle
 }
 
-func NewXlsx(name string, ctl app_control.Control) (r Report, err error) {
+func NewXlsx(name string, row interface{}, ctl app_control.Control) (r Report, err error) {
 	path, err := ctl.Workspace().Descendant(reportPath)
 	if err != nil {
 		return nil, err
@@ -53,11 +53,13 @@ func NewXlsx(name string, ctl app_control.Control) (r Report, err error) {
 	if err != nil {
 		return nil, err
 	}
+	parser := NewColumn(row, ctl)
 	r = &Xlsx{
 		Ctl:      ctl,
 		FilePath: filePath,
 		File:     file,
 		Sheet:    sheet,
+		Parser:   parser,
 	}
 	return r, nil
 }
@@ -67,7 +69,8 @@ type Xlsx struct {
 	FilePath string
 	File     *xlsx.File
 	Sheet    *xlsx.Sheet
-	Parser   Row
+	Parser   Column
+	Index    int
 }
 
 func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
@@ -97,8 +100,7 @@ func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
 }
 
 func (z *Xlsx) Row(row interface{}) {
-	if z.Parser == nil {
-		z.Parser = NewRow(row, z.Ctl)
+	if z.Index == 0 {
 		header := make([]interface{}, 0)
 		for _, h := range z.Parser.Header() {
 			header = append(header, h)
@@ -106,10 +108,7 @@ func (z *Xlsx) Row(row interface{}) {
 		z.addRow(header, xlsxHeaderStyle())
 	}
 	z.addRow(z.Parser.Values(row), xlsxDataStyle())
-}
-
-func (z *Xlsx) Transaction(state State, input interface{}, result interface{}) {
-	z.Row(Transaction{State: state(), Input: input, Result: result})
+	z.Index++
 }
 
 func (z *Xlsx) Flush() {

@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/app86/app_recipe"
 	"github.com/watermint/toolbox/app86/app_recipe_util"
 	"github.com/watermint/toolbox/app86/app_vo"
+	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 )
 
@@ -21,7 +22,7 @@ func (*List) Exec(k app_recipe.Kitchen) error {
 			return err
 		}
 
-		rep, err := ak.Report("member")
+		rep, err := ak.Report("member", &mo_member.Member{})
 		if err != nil {
 			return err
 		}

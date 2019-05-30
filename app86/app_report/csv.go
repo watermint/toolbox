@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-func NewCsv(name string, ctl app_control.Control) (r Report, err error) {
+func NewCsv(name string, row interface{}, ctl app_control.Control) (r Report, err error) {
 	p, err := ctl.Workspace().Descendant(reportPath)
 	if err != nil {
 		return nil, err
@@ -16,10 +16,12 @@ func NewCsv(name string, ctl app_control.Control) (r Report, err error) {
 	if err != nil {
 		return nil, err
 	}
+	parser := NewColumn(row, ctl)
 	r = &Csv{
 		File:   f,
 		Writer: csv.NewWriter(f),
 		Ctl:    ctl,
+		Parser: parser,
 	}
 	return r, nil
 }
@@ -28,19 +30,16 @@ type Csv struct {
 	Ctl    app_control.Control
 	Writer *csv.Writer
 	File   *os.File
-	Parser Row
+	Parser Column
+	Index  int
 }
 
 func (z *Csv) Row(row interface{}) {
-	if z.Parser == nil {
-		z.Parser = NewRow(row, z.Ctl)
+	if z.Index == 0 {
 		z.Writer.Write(z.Parser.Header())
 	}
 	z.Writer.Write(z.Parser.ValuesAsString(row))
-}
-
-func (z *Csv) Transaction(state State, row interface{}, result interface{}) {
-	z.Row(Transaction{State: state(), Input: row, Result: result})
+	z.Index++
 }
 
 func (z *Csv) Flush() {

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"regexp"
+	"strings"
 )
 
 var (
@@ -20,6 +21,10 @@ func ErrorSummary(err error) string {
 	default:
 		return ""
 	}
+}
+
+func ErrorSummaryPrefix(err error, prefix string) bool {
+	return strings.HasPrefix(ErrorSummary(err), prefix)
 }
 
 // Returns `error_summary` if an error is ApiError. Otherwise return "".

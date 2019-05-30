@@ -22,8 +22,8 @@ type apiKitchenImpl struct {
 	kitchen app_recipe.Kitchen
 }
 
-func (z *apiKitchenImpl) Report(name string) (r app_report.Report, err error) {
-	return z.kitchen.Report(name)
+func (z *apiKitchenImpl) Report(name string, row interface{}) (r app_report.Report, err error) {
+	return z.kitchen.Report(name, row)
 }
 
 func (z *apiKitchenImpl) Value() app_vo.ValueObject {

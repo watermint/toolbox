@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app86/app_recipe"
 	"github.com/watermint/toolbox/app86/app_recipe_util"
 	"github.com/watermint/toolbox/app86/app_vo"
+	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"go.uber.org/zap"
 )
@@ -44,7 +45,7 @@ func (z *List) Exec(k app_recipe.Kitchen) error {
 			return err
 		}
 
-		rep, err := rc.Report("teamfolder")
+		rep, err := rc.Report("teamfolder", &mo_teamfolder.TeamFolder{})
 		if err != nil {
 			return err
 		}

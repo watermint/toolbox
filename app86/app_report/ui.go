@@ -5,10 +5,12 @@ import (
 	"github.com/watermint/toolbox/app86/app_ui"
 )
 
-func NewUI(name string, ctl app_control.Control) (Report, error) {
+func NewUI(name string, row interface{}, ctl app_control.Control) (Report, error) {
+	parser := NewColumn(row, ctl)
 	r := &UI{
-		Ctl:   ctl,
-		Table: ctl.UI().InfoTable(false),
+		Ctl:    ctl,
+		Table:  ctl.UI().InfoTable(false),
+		Parser: parser,
 	}
 	return r, nil
 }
@@ -16,19 +18,16 @@ func NewUI(name string, ctl app_control.Control) (Report, error) {
 type UI struct {
 	Ctl    app_control.Control
 	Table  app_ui.Table
-	Parser Row
+	Parser Column
+	Index  int
 }
 
 func (z *UI) Row(row interface{}) {
-	if z.Parser == nil {
-		z.Parser = NewRow(row, z.Ctl)
+	if z.Index == 0 {
 		z.Table.HeaderRaw(z.Parser.Header()...)
 	}
 	z.Table.RowRaw(z.Parser.ValuesAsString(row)...)
-}
-
-func (z *UI) Transaction(state State, input interface{}, result interface{}) {
-	z.Row(Transaction{State: state(), Input: input, Result: result})
+	z.Index++
 }
 
 func (z *UI) Flush() {

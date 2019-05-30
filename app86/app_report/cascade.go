@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/app86/app_control"
 )
 
-func New(name string, ctl app_control.Control) (Report, error) {
+func New(name string, row interface{}, ctl app_control.Control) (Report, error) {
 	reports := make([]Report, 0)
 	closeAll := func() {
 		for _, r := range reports {
@@ -13,7 +13,7 @@ func New(name string, ctl app_control.Control) (Report, error) {
 	}
 
 	{
-		csv, err := NewCsv(name, ctl)
+		csv, err := NewCsv(name, row, ctl)
 		if err != nil {
 			closeAll()
 			return nil, err
@@ -31,7 +31,7 @@ func New(name string, ctl app_control.Control) (Report, error) {
 	}
 
 	{
-		xl, err := NewXlsx(name, ctl)
+		xl, err := NewXlsx(name, row, ctl)
 		if err != nil {
 			closeAll()
 			return nil, err
@@ -49,7 +49,7 @@ func New(name string, ctl app_control.Control) (Report, error) {
 		reports = append(reports, js)
 	} else {
 		// Output for UI
-		ui, err := NewUI(name, ctl)
+		ui, err := NewUI(name, row, ctl)
 		if err != nil {
 			closeAll()
 			return nil, err
@@ -72,12 +72,6 @@ type Cascade struct {
 func (z *Cascade) Row(row interface{}) {
 	for _, r := range z.Reports {
 		r.Row(row)
-	}
-}
-
-func (z *Cascade) Transaction(state State, input interface{}, result interface{}) {
-	for _, r := range z.Reports {
-		r.Transaction(state, input, result)
 	}
 }
 

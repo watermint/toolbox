@@ -85,10 +85,6 @@ func (z *Json) Row(row interface{}) {
 	z.Writer.Write(buf.Bytes())
 }
 
-func (z *Json) Transaction(state State, row interface{}, result interface{}) {
-	z.Row(Transaction{State: state(), Input: row, Result: result})
-}
-
 func (z *Json) Flush() {
 }
 

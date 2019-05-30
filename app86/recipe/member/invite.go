@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/app86/app_report"
 	"github.com/watermint/toolbox/app86/app_validate"
 	"github.com/watermint/toolbox/app86/app_vo"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 )
@@ -75,7 +76,10 @@ func (z *Invite) Exec(k app_recipe.Kitchen) error {
 		var vo interface{} = ak.Value()
 		mvo := vo.(*InviteVO)
 		svm := sv_member.New(ak.Context())
-		rep, err := ak.Report("invite")
+		rep, err := ak.Report(
+			"invite",
+			app_report.TransactionHeader(&InviteRow{}, &mo_member.Member{}),
+		)
 		if err != nil {
 			return err
 		}
@@ -85,7 +89,7 @@ func (z *Invite) Exec(k app_recipe.Kitchen) error {
 			m := InviteRowFromCols(cols)
 			if err = m.Validate(); err != nil {
 				if rowIndex > 0 {
-					rep.Transaction(app_report.Failure(""), m, &mo_member.Member{})
+					rep.Row(app_report.Transaction(app_report.Failure(""), m, &mo_member.Member{}))
 				}
 				return nil
 			}
@@ -99,16 +103,16 @@ func (z *Invite) Exec(k app_recipe.Kitchen) error {
 
 			r, err := svm.Add(m.Email, opts...)
 			switch {
-			case app_flow.IsErrorPrefix("user_already_on_team", err):
-				rep.Transaction(app_report.Skip("user already on team"), m, r)
+			case api_util.ErrorSummaryPrefix(err, "user_already_on_team"):
+				rep.Row(app_report.Transaction(app_report.Skip("user already on team"), m, r))
 				return nil
 
 			case err != nil:
-				rep.Transaction(app_report.Failure(""), m, r)
+				rep.Row(app_report.Transaction(app_report.Failure(""), m, r))
 				return nil
 
 			default:
-				rep.Transaction(app_report.Success(), m, r)
+				rep.Row(app_report.Transaction(app_report.Success(), m, r))
 				return nil
 			}
 		})

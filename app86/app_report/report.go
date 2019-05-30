@@ -2,7 +2,6 @@ package app_report
 
 type Report interface {
 	Row(row interface{})
-	Transaction(state State, input interface{}, result interface{})
 	Flush()
 	Close()
 }
@@ -38,8 +37,26 @@ func Skip(reason string) State {
 	}
 }
 
-type Transaction struct {
-	State  StateContent
+func TransactionHeader(input interface{}, result interface{}) TransactionRow {
+	return TransactionRow{
+		Input:  input,
+		Result: result,
+	}
+}
+
+func Transaction(state State, input interface{}, result interface{}) TransactionRow {
+	s := state()
+	return TransactionRow{
+		Status: s.Kind,
+		Reason: s.Reason,
+		Input:  input,
+		Result: result,
+	}
+}
+
+type TransactionRow struct {
+	Status string
+	Reason string
 	Input  interface{}
 	Result interface{}
 }
