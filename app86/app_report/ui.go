@@ -28,7 +28,7 @@ func (z *UI) Row(row interface{}) {
 }
 
 func (z *UI) Transaction(state State, input interface{}, result interface{}) {
-	z.Row(Transaction{State: state, Input: input, Result: result})
+	z.Row(Transaction{State: state(), Input: input, Result: result})
 }
 
 func (z *UI) Flush() {

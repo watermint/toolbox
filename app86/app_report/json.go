@@ -86,7 +86,7 @@ func (z *Json) Row(row interface{}) {
 }
 
 func (z *Json) Transaction(state State, row interface{}, result interface{}) {
-	z.Row(Transaction{State: state, Input: row, Result: result})
+	z.Row(Transaction{State: state(), Input: row, Result: result})
 }
 
 func (z *Json) Flush() {

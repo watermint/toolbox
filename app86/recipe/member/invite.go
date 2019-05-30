@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/app86/app_report"
 	"github.com/watermint/toolbox/app86/app_validate"
 	"github.com/watermint/toolbox/app86/app_vo"
+	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 )
 
@@ -19,7 +20,7 @@ type InviteRow struct {
 }
 
 type InviteVO struct {
-	InviteList app_flow.RowDataFile
+	File app_flow.RowDataFile
 }
 
 func (z *InviteVO) Validate(t app_vo.Validator) {
@@ -78,9 +79,16 @@ func (z *Invite) Exec(k app_recipe.Kitchen) error {
 		if err != nil {
 			return err
 		}
+		defer rep.Close()
 
-		return mvo.InviteList.EachRow(InviteRowValidate, func(cols []string) error {
+		return mvo.File.EachRow(k.Control(), func(cols []string, rowIndex int) error {
 			m := InviteRowFromCols(cols)
+			if err = m.Validate(); err != nil {
+				if rowIndex > 0 {
+					rep.Transaction(app_report.Failure(""), m, &mo_member.Member{})
+				}
+				return nil
+			}
 			opts := make([]sv_member.AddOpt, 0)
 			if m.GivenName != "" {
 				opts = append(opts, sv_member.AddWithGivenName(m.GivenName))

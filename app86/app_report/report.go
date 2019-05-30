@@ -39,7 +39,7 @@ func Skip(reason string) State {
 }
 
 type Transaction struct {
-	State  State
+	State  StateContent
 	Input  interface{}
 	Result interface{}
 }

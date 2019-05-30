@@ -40,7 +40,7 @@ func (z *Csv) Row(row interface{}) {
 }
 
 func (z *Csv) Transaction(state State, row interface{}, result interface{}) {
-	z.Row(Transaction{State: state, Input: row, Result: result})
+	z.Row(Transaction{State: state(), Input: row, Result: result})
 }
 
 func (z *Csv) Flush() {

@@ -3,6 +3,8 @@ package app_vo
 import (
 	"flag"
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/app86/app_flow"
+	"github.com/watermint/toolbox/app86/app_flow_impl"
 	"github.com/watermint/toolbox/app86/app_msg"
 	"github.com/watermint/toolbox/app86/app_root"
 	"go.uber.org/zap"
@@ -72,8 +74,21 @@ func (z *ValueContainer) From(vo interface{}) {
 		case reflect.String:
 			v := vvf.String()
 			z.Values[kn] = &v
+		case reflect.Interface:
+			switch {
+			case vof.Type.Implements(reflect.TypeOf((*app_flow.RowDataFile)(nil)).Elem()):
+				if !vvf.IsNil() {
+					z.Values[kn] = vvf.Interface()
+				} else {
+					z.Values[kn] = &app_flow_impl.Factory{}
+				}
+
+			default:
+				ll.Warn("Unsupported type", zap.Any("kind", vof.Type.Kind()))
+			}
+
 		default:
-			ll.Debug("Unsupported type", zap.Any("kind", vof.Type.Kind()))
+			ll.Warn("Unsupported type", zap.Any("kind", vof.Type.Kind()))
 		}
 	}
 }
@@ -131,6 +146,18 @@ func (z *ValueContainer) Apply(vo interface{}) {
 			} else {
 				ll.Debug("Unable to find value")
 			}
+		case reflect.Interface:
+			switch {
+			case vof.Type.Implements(reflect.TypeOf((*app_flow.RowDataFile)(nil)).Elem()):
+				if v, e := z.Values[kn]; e {
+					vvf.Set(reflect.ValueOf(v))
+				} else {
+					ll.Debug("Unable to find value")
+				}
+
+			default:
+				ll.Warn("Unsupported type", zap.Any("kind", vof.Type.Kind()))
+			}
 		default:
 			ll.Debug("Not supported type", zap.Any("kind", vof.Type.Kind()))
 		}
@@ -156,6 +183,8 @@ func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet) {
 			f.Int64Var(dv, kf, *dv, desc)
 		case *string:
 			f.StringVar(dv, kf, *dv, desc)
+		case *app_flow_impl.Factory:
+			f.StringVar(&dv.FilePath, kf, dv.FilePath, desc)
 		}
 	}
 }
