@@ -23,6 +23,7 @@ type Member struct {
 	PersistentId    string `path:"profile.persistent_id"`
 	JoinedOn        string `path:"profile.joined_on"`
 	Role            string `path:"role.\\.tag"`
+	Tag             string `path:"\\.tag"`
 }
 
 func (z *Member) Profile() *mo_profile.Profile {

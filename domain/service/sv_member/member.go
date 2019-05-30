@@ -216,7 +216,7 @@ func (z *memberImpl) Add(email string, opts ...AddOpt) (member *mo_member.Member
 		return nil, err
 	}
 	member = &mo_member.Member{}
-	if err = res.Model(member); err != nil {
+	if err = res.ModelWithPath(member, "0"); err != nil {
 		return nil, err
 	}
 	return member, nil

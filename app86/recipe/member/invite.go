@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/app86/app_report"
 	"github.com/watermint/toolbox/app86/app_validate"
 	"github.com/watermint/toolbox/app86/app_vo"
-	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 )
@@ -103,12 +102,12 @@ func (z *Invite) Exec(k app_recipe.Kitchen) error {
 
 			r, err := svm.Add(m.Email, opts...)
 			switch {
-			case api_util.ErrorSummaryPrefix(err, "user_already_on_team"):
-				rep.Row(app_report.Transaction(app_report.Skip("user already on team"), m, r))
+			case err != nil:
+				rep.Row(app_report.Transaction(app_report.Failure(""), m, nil))
 				return nil
 
-			case err != nil:
-				rep.Row(app_report.Transaction(app_report.Failure(""), m, r))
+			case r.Tag == "user_already_on_team":
+				rep.Row(app_report.Transaction(app_report.Skip("user already on team"), m, nil))
 				return nil
 
 			default:
