@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	RecipeBasePackage = "github.com/watermint/toolbox/app86/recipe"
+	RecipeBasePackage = "github.com/watermint/toolbox/atbx/recipe"
 )
 
 func Recipes() []app_recipe.Recipe {

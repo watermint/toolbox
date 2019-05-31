@@ -166,7 +166,7 @@ func (z *ValueContainer) Apply(vo interface{}) {
 
 func (z *ValueContainer) messageKey(name string) string {
 	pkg := z.PkgName
-	pkg = strings.ReplaceAll(pkg, "github.com/watermint/toolbox/app86/", "")
+	pkg = strings.ReplaceAll(pkg, "github.com/watermint/toolbox/atbx/", "")
 	pkg = strings.ReplaceAll(pkg, "/", ".")
 	return pkg + ".flag." + strcase.ToSnake(name)
 }
