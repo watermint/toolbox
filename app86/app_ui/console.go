@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/app86/app_msg"
 	"github.com/watermint/toolbox/app86/app_msg_container"
 	"github.com/watermint/toolbox/app86/app_root"
+	"go.uber.org/zap"
 	"io"
 	"os"
 	"runtime"
@@ -45,6 +46,10 @@ type console struct {
 	Container app_msg_container.Container
 	Out       io.Writer
 	In        io.Reader
+}
+
+func (z *console) Text(key string, p ...app_msg.Param) string {
+	return z.Container.Compile(app_msg.M(key, p...))
 }
 
 func (z *console) Break() {
@@ -140,7 +145,30 @@ func (z *console) AskText(key string, p ...app_msg.Param) (text string, cancel b
 		}
 		text := strings.TrimSpace(string(line))
 		if text != "" {
-			app_root.Log().Debug("Text entered")
+			app_root.Log().Debug("Text entered", zap.String("text", text))
+			return text, false
+		}
+
+		// ask again
+		z.colorPrint(msg, ColorCyan)
+	}
+}
+
+func (z *console) AskSecure(key string, p ...app_msg.Param) (text string, cancel bool) {
+	msg := z.Container.Compile(app_msg.M(key, p...))
+	z.colorPrint(msg, ColorCyan)
+	app_root.Log().Debug(msg)
+
+	br := bufio.NewReader(z.In)
+	for {
+		line, _, err := br.ReadLine()
+		if err == io.EOF {
+			app_root.Log().Debug("Cancelled")
+			return "", true
+		}
+		text := strings.TrimSpace(string(line))
+		if text != "" {
+			app_root.Log().Debug("Secret entered")
 			return text, false
 		}
 

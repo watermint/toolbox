@@ -2,15 +2,21 @@ package app_ui
 
 import (
 	"github.com/watermint/toolbox/app86/app_msg"
+	"github.com/watermint/toolbox/app86/app_msg_container"
 	"go.uber.org/zap"
 )
 
-func NewQuiet() UI {
+func NewQuiet(container app_msg_container.Container) UI {
 	return &Quiet{}
 }
 
 type Quiet struct {
-	log *zap.Logger
+	container app_msg_container.Container
+	log       *zap.Logger
+}
+
+func (z *Quiet) Text(key string, p ...app_msg.Param) string {
+	return z.container.Compile(app_msg.M(key, p...))
 }
 
 func (z *Quiet) SetLogger(log *zap.Logger) {
@@ -37,6 +43,7 @@ func (z *Quiet) Info(key string, p ...app_msg.Param) {
 
 func (z *Quiet) Error(key string, p ...app_msg.Param) {
 	z.log.Debug(key, zap.Any("params", p))
+	z.log.Error(z.container.Compile(app_msg.M(key, p...)))
 }
 
 // always cancel process
@@ -47,6 +54,12 @@ func (z *Quiet) AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool)
 
 // always cancel
 func (z *Quiet) AskText(key string, p ...app_msg.Param) (text string, cancel bool) {
+	z.log.Debug(key, zap.Any("params", p))
+	return "", true
+}
+
+// always cancel
+func (z *Quiet) AskSecure(key string, p ...app_msg.Param) (secure string, cancel bool) {
 	z.log.Debug(key, zap.Any("params", p))
 	return "", true
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/app86/app_report"
 	"github.com/watermint/toolbox/app86/app_validate"
 	"github.com/watermint/toolbox/app86/app_vo"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 )
@@ -24,11 +25,6 @@ type InviteVO struct {
 }
 
 func (z *InviteVO) Validate(t app_vo.Validator) {
-}
-
-func InviteRowValidate(cols []string) error {
-	m := InviteRowFromCols(cols)
-	return m.Validate()
 }
 
 func (z *InviteRow) Validate() (err error) {
@@ -70,6 +66,10 @@ func (z *Invite) Requirement() app_vo.ValueObject {
 	return &InviteVO{}
 }
 
+func (z *Invite) msgFromTag(tag string) app_msg.Message {
+	return app_msg.M("recipe.member.invite.tag." + tag)
+}
+
 func (z *Invite) Exec(k app_recipe.Kitchen) error {
 	return app_recipe_util.WithBusinessManagement(k, func(ak app_recipe_util.ApiKitchen) error {
 		var vo interface{} = ak.Value()
@@ -88,7 +88,11 @@ func (z *Invite) Exec(k app_recipe.Kitchen) error {
 			m := InviteRowFromCols(cols)
 			if err = m.Validate(); err != nil {
 				if rowIndex > 0 {
-					rep.Row(app_report.Transaction(app_report.Failure("invalid data"), m, nil))
+					rep.Failure(
+						app_msg.M("recipe.member.invite.error.invalid_data"),
+						m,
+						nil,
+					)
 				}
 				return nil
 			}
@@ -103,19 +107,19 @@ func (z *Invite) Exec(k app_recipe.Kitchen) error {
 			r, err := svm.Add(m.Email, opts...)
 			switch {
 			case err != nil:
-				rep.Row(app_report.Transaction(app_report.Failure(""), m, nil))
+				rep.Failure(api_util.MsgFromError(err), m, nil)
 				return nil
 
 			case r.Tag == "success":
-				rep.Row(app_report.Transaction(app_report.Success(), m, r))
+				rep.Success(m, r)
 				return nil
 
 			case r.Tag == "user_already_on_team":
-				rep.Row(app_report.Transaction(app_report.Skip(r.Tag), m, nil))
+				rep.Skip(z.msgFromTag(r.Tag), m, nil)
 				return nil
 
 			default:
-				rep.Row(app_report.Transaction(app_report.Failure(r.Tag), m, nil))
+				rep.Failure(z.msgFromTag(r.Tag), m, nil)
 				return nil
 			}
 		})

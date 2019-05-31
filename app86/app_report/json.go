@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/watermint/toolbox/app86/app_control"
+	"github.com/watermint/toolbox/app86/app_msg"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -63,6 +64,32 @@ func (z *Json) findRaw(row interface{}, orig interface{}) json.RawMessage {
 		return nil
 	}
 	return rvf.Bytes()
+}
+
+func (z *Json) Success(input interface{}, result interface{}) {
+	z.Row(TransactionRow{
+		Status: z.Ctl.UI().Text(msgSuccess.Key(), msgSuccess.Params()...),
+		Input:  input,
+		Result: result,
+	})
+}
+
+func (z *Json) Failure(reason app_msg.Message, input interface{}, result interface{}) {
+	z.Row(TransactionRow{
+		Status: z.Ctl.UI().Text(msgFailure.Key(), msgFailure.Params()...),
+		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Input:  input,
+		Result: result,
+	})
+}
+
+func (z *Json) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+	z.Row(TransactionRow{
+		Status: z.Ctl.UI().Text(msgSkip.Key(), msgFailure.Params()...),
+		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Input:  input,
+		Result: result,
+	})
 }
 
 func (z *Json) Row(row interface{}) {

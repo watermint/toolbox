@@ -2,6 +2,7 @@ package app_report
 
 import (
 	"github.com/watermint/toolbox/app86/app_control"
+	"github.com/watermint/toolbox/app86/app_msg"
 	"github.com/watermint/toolbox/app86/app_ui"
 )
 
@@ -20,6 +21,32 @@ type UI struct {
 	Table  app_ui.Table
 	Parser Column
 	Index  int
+}
+
+func (z *UI) Success(input interface{}, result interface{}) {
+	z.Row(TransactionRow{
+		Status: z.Ctl.UI().Text(msgSuccess.Key(), msgSuccess.Params()...),
+		Input:  input,
+		Result: result,
+	})
+}
+
+func (z *UI) Failure(reason app_msg.Message, input interface{}, result interface{}) {
+	z.Row(TransactionRow{
+		Status: z.Ctl.UI().Text(msgFailure.Key(), msgFailure.Params()...),
+		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Input:  input,
+		Result: result,
+	})
+}
+
+func (z *UI) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+	z.Row(TransactionRow{
+		Status: z.Ctl.UI().Text(msgSkip.Key(), msgFailure.Params()...),
+		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Input:  input,
+		Result: result,
+	})
 }
 
 func (z *UI) Row(row interface{}) {

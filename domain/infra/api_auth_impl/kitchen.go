@@ -156,7 +156,7 @@ func (z *KitchenAuth) generatedTokenInstruction(tokenType string) {
 func (z *KitchenAuth) generatedToken(tokenType string) (string, error) {
 	z.generatedTokenInstruction(tokenType)
 	for {
-		code, cancel := z.kitchen.UI().AskText("auth.basic.generated_token2")
+		code, cancel := z.kitchen.UI().AskSecure("auth.basic.generated_token2")
 		if cancel {
 			return "", errors.New("user cancelled")
 		}
@@ -220,7 +220,7 @@ func (z *KitchenAuth) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.To
 
 func (z *KitchenAuth) oauthCode(state string) string {
 	for {
-		code, cancel := z.kitchen.UI().AskText("auth.basic.oauth_seq2")
+		code, cancel := z.kitchen.UI().AskSecure("auth.basic.oauth_seq2")
 		if cancel {
 			return ""
 		}

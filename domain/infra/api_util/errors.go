@@ -2,6 +2,7 @@ package api_util
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/app86/app_msg"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"regexp"
 	"strings"
@@ -60,5 +61,29 @@ func ErrorUserMessage(err error) string {
 
 	default:
 		return re.Error()
+	}
+}
+
+func MsgFromError(err error) app_msg.Message {
+	if err == nil {
+		return app_msg.M("api.error.no_error")
+	}
+	summary := ErrorSummary(err)
+	userMessage := ErrorUserMessage(err)
+	switch {
+	case summary == "" && userMessage != "":
+		return app_msg.M(
+			"api.error.general_error",
+			app_msg.P("Error", userMessage),
+		)
+	case summary == "":
+		return app_msg.M(
+			"api.error.general_error",
+			app_msg.P("Error", err.Error()),
+		)
+
+	default:
+		errMsgKey := "dbx.err." + summary
+		return app_msg.M(errMsgKey)
 	}
 }

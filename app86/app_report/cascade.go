@@ -2,6 +2,7 @@ package app_report
 
 import (
 	"github.com/watermint/toolbox/app86/app_control"
+	"github.com/watermint/toolbox/app86/app_msg"
 )
 
 func New(name string, row interface{}, ctl app_control.Control) (Report, error) {
@@ -67,6 +68,24 @@ func New(name string, row interface{}, ctl app_control.Control) (Report, error) 
 type Cascade struct {
 	Ctl     app_control.Control
 	Reports []Report
+}
+
+func (z *Cascade) Success(input interface{}, result interface{}) {
+	for _, r := range z.Reports {
+		r.Success(input, result)
+	}
+}
+
+func (z *Cascade) Failure(reason app_msg.Message, input interface{}, result interface{}) {
+	for _, r := range z.Reports {
+		r.Failure(reason, input, result)
+	}
+}
+
+func (z *Cascade) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+	for _, r := range z.Reports {
+		r.Skip(reason, input, result)
+	}
 }
 
 func (z *Cascade) Row(row interface{}) {

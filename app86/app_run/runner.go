@@ -84,7 +84,7 @@ func Run(args []string, bx *rice.Box) {
 	// Apply common flags
 	// - Quiet
 	if com.Quiet {
-		ui = app_ui.NewQuiet()
+		ui = app_ui.NewQuiet(mc)
 	}
 
 	// Startup

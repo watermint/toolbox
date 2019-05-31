@@ -10,10 +10,12 @@ type Control interface {
 	Startup(opts ...StartupOpt) error
 	Shutdown()
 	Fatal(opts ...FatalOpt)
+
 	UI() app_ui.UI
 	Log() *zap.Logger
 	Resource(key string) (bin []byte, err error)
 	Workspace() app_workspace.Workspace
+
 	IsTest() bool
 	IsQuiet() bool
 	IsSecure() bool

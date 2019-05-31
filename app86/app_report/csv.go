@@ -3,6 +3,7 @@ package app_report
 import (
 	"encoding/csv"
 	"github.com/watermint/toolbox/app86/app_control"
+	"github.com/watermint/toolbox/app86/app_msg"
 	"os"
 	"path/filepath"
 )
@@ -32,6 +33,32 @@ type Csv struct {
 	File   *os.File
 	Parser Column
 	Index  int
+}
+
+func (z *Csv) Success(input interface{}, result interface{}) {
+	z.Row(TransactionRow{
+		Status: z.Ctl.UI().Text(msgSuccess.Key(), msgSuccess.Params()...),
+		Input:  input,
+		Result: result,
+	})
+}
+
+func (z *Csv) Failure(reason app_msg.Message, input interface{}, result interface{}) {
+	z.Row(TransactionRow{
+		Status: z.Ctl.UI().Text(msgFailure.Key(), msgFailure.Params()...),
+		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Input:  input,
+		Result: result,
+	})
+}
+
+func (z *Csv) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+	z.Row(TransactionRow{
+		Status: z.Ctl.UI().Text(msgSkip.Key(), msgFailure.Params()...),
+		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Input:  input,
+		Result: result,
+	})
 }
 
 func (z *Csv) Row(row interface{}) {

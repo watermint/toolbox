@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/tealeg/xlsx"
 	"github.com/watermint/toolbox/app86/app_control"
+	"github.com/watermint/toolbox/app86/app_msg"
 	"path/filepath"
 	"time"
 )
@@ -97,6 +98,32 @@ func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
 		}
 	}
 	return nil
+}
+
+func (z *Xlsx) Success(input interface{}, result interface{}) {
+	z.Row(TransactionRow{
+		Status: z.Ctl.UI().Text(msgSuccess.Key(), msgSuccess.Params()...),
+		Input:  input,
+		Result: result,
+	})
+}
+
+func (z *Xlsx) Failure(reason app_msg.Message, input interface{}, result interface{}) {
+	z.Row(TransactionRow{
+		Status: z.Ctl.UI().Text(msgFailure.Key(), msgFailure.Params()...),
+		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Input:  input,
+		Result: result,
+	})
+}
+
+func (z *Xlsx) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+	z.Row(TransactionRow{
+		Status: z.Ctl.UI().Text(msgSkip.Key(), msgFailure.Params()...),
+		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Input:  input,
+		Result: result,
+	})
 }
 
 func (z *Xlsx) Row(row interface{}) {
