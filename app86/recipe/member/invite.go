@@ -88,7 +88,7 @@ func (z *Invite) Exec(k app_recipe.Kitchen) error {
 			m := InviteRowFromCols(cols)
 			if err = m.Validate(); err != nil {
 				if rowIndex > 0 {
-					rep.Row(app_report.Transaction(app_report.Failure(""), m, &mo_member.Member{}))
+					rep.Row(app_report.Transaction(app_report.Failure("invalid data"), m, nil))
 				}
 				return nil
 			}
@@ -106,12 +106,16 @@ func (z *Invite) Exec(k app_recipe.Kitchen) error {
 				rep.Row(app_report.Transaction(app_report.Failure(""), m, nil))
 				return nil
 
+			case r.Tag == "success":
+				rep.Row(app_report.Transaction(app_report.Success(), m, r))
+				return nil
+
 			case r.Tag == "user_already_on_team":
-				rep.Row(app_report.Transaction(app_report.Skip("user already on team"), m, nil))
+				rep.Row(app_report.Transaction(app_report.Skip(r.Tag), m, nil))
 				return nil
 
 			default:
-				rep.Row(app_report.Transaction(app_report.Success(), m, r))
+				rep.Row(app_report.Transaction(app_report.Failure(r.Tag), m, nil))
 				return nil
 			}
 		})
