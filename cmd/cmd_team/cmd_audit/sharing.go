@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/service/sv_group"
@@ -75,7 +76,7 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 	{
 		info, err := svt.Info()
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 		z.report.Report(info)
@@ -87,7 +88,7 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 	{
 		features, err := svt.Feature()
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 		z.report.Report(features)
@@ -98,7 +99,7 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 	z.Log().Info("Scanning Team Members")
 	members, err := svm.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 	for _, member := range members {
@@ -112,7 +113,7 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 		svl := sv_sharedlink.New(ctx.AsMemberId(member.TeamMemberId))
 		links, err := svl.List()
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 		for _, link := range links {
@@ -126,7 +127,7 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 	z.Log().Info("Scanning Team Group")
 	groups, err := svg.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 	for _, group := range groups {
@@ -140,7 +141,7 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 		svgm := sv_group_member.New(ctx, group)
 		gms, err := svgm.List()
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 		for _, gm := range gms {
@@ -153,7 +154,7 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 	z.Log().Info("Scanning Namespace")
 	namespaces, err := svn.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 	for _, namespace := range namespaces {
@@ -172,7 +173,7 @@ func (z *CmdTeamAuditSharing) Exec(args []string) {
 		svnm := sv_sharedfolder_member.NewBySharedFolderId(cta, namespace.NamespaceId)
 		mems, err := svnm.List()
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 		for _, mem := range mems {

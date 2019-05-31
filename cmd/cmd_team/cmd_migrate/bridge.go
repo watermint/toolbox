@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/usecase/uc_team_migration"
 )
 
@@ -99,6 +100,6 @@ func (z *CmdTeamMigrateBridge) Exec(args []string) {
 		return
 	}
 	if err = ucm.Bridge(mc); err != nil {
-		ctxFileSrc.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 	}
 }

@@ -74,7 +74,7 @@ func (z *CmdMemberInvite) Exec(args []string) {
 
 			member, err := svm.Add(email, opts...)
 			if err != nil {
-				ctx.ErrorMsg(err).TellError()
+				api_util.UIMsgFromError(err).TellError()
 				z.Log().Warn("Unable to invite", zap.String("email", email), zap.Error(err))
 				return nil
 			}

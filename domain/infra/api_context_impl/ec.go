@@ -4,7 +4,6 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/domain/infra/api_async"
 	"github.com/watermint/toolbox/domain/infra/api_async_impl"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
@@ -13,7 +12,6 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_list_impl"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"github.com/watermint/toolbox/domain/infra/api_rpc_impl"
-	"github.com/watermint/toolbox/domain/infra/api_util"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
@@ -193,52 +191,12 @@ func (z *ecImpl) WithPath(pathRoot api_context.PathRoot) api_context.Context {
 	}
 }
 
-func (z *ecImpl) ErrorMsg(err error) app_ui.UIMessage {
-	if err == nil {
-		return z.ec.Msg(app.MsgNoError)
-	}
-	summary := api_util.ErrorSummary(err)
-	if summary == "" {
-		return z.ec.Msg("app.common.api.err.general_error").WithData(struct {
-			Error string
-		}{
-			Error: err.Error(),
-		})
-	} else {
-		errMsgKey := "dbx.err." + summary
-		userMessage := api_util.ErrorUserMessage(err)
-
-		if z.ec.MessageContainer().MsgExists(errMsgKey) {
-			errDesc := z.ec.Msg(errMsgKey).T()
-			return z.ec.Msg("app.common.api.err.api_error").WithData(struct {
-				Tag   string
-				Error string
-			}{
-				Tag:   summary,
-				Error: errDesc,
-			})
-		}
-
-		return z.ec.Msg("app.common.api.err.api_error").WithData(struct {
-			Tag   string
-			Error string
-		}{
-			Tag:   summary,
-			Error: userMessage,
-		})
-	}
-}
-
 func (z *ecImpl) ClientTimeout(second int) {
 	z.client.Timeout = time.Duration(second) * time.Second
 }
 
 func (z *ecImpl) Log() *zap.Logger {
 	return z.ec.Log()
-}
-
-func (z *ecImpl) Msg(key string) app_ui.UIMessage {
-	return z.ec.Msg(key)
 }
 
 func (z *ecImpl) Request(endpoint string) api_rpc.Caller {

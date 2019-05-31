@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"go.uber.org/zap"
 	"strings"
@@ -41,7 +42,7 @@ func (z *CmdTeamFolderArchive) Exec(args []string) {
 	svt := sv_teamfolder.New(ctx)
 	folders, err := svt.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 
@@ -54,7 +55,7 @@ func (z *CmdTeamFolderArchive) Exec(args []string) {
 				af, err := svt.Archive(folder)
 				if err != nil {
 					z.Log().Warn("Unable to archive team folder", zap.String("name", folder.Name))
-					ctx.ErrorMsg(err).TellError()
+					api_util.UIMsgFromError(err).TellError()
 				} else {
 					z.report.Report(af)
 				}

@@ -54,7 +54,7 @@ func (z *CmdTeamSharedLinkUpdateExpire) Exec(args []string) {
 	svm := sv_member.New(ctx)
 	members, err := svm.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 	z.report.Init(z.ExecContext)
@@ -66,13 +66,13 @@ func (z *CmdTeamSharedLinkUpdateExpire) Exec(args []string) {
 		svs := sv_sharedlink.New(mctx)
 		links, err := svs.List()
 		if err != nil {
-			mctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 		for _, link := range links {
 			updated, err := svs.Update(link, sv_sharedlink.Expires(newExpire))
 			if err != nil {
-				mctx.ErrorMsg(err).TellError()
+				api_util.UIMsgFromError(err).TellError()
 				return
 			}
 			slm := mo_sharedlink.NewSharedLinkMember(updated, member)

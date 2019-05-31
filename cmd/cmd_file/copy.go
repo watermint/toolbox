@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_assert"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_relocation"
 )
@@ -44,9 +45,9 @@ func (z *CmdFileCopy) Exec(args []string) {
 	dst := args[n-1]
 
 	for _, s := range src {
-		msg, err := uc.Copy(mo_path.NewPath(s), mo_path.NewPath(dst))
+		err := uc.Copy(mo_path.NewPath(s), mo_path.NewPath(dst))
 		if err != nil {
-			msg.TellError()
+			api_util.UIMsgFromError(err).TellError()
 			continue
 		}
 	}

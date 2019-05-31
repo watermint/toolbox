@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/service/sv_profile"
@@ -51,14 +52,14 @@ func (z *CmdTeamNamespaceMemberList) Exec(args []string) {
 	svNamespace := sv_namespace.New(ctx)
 	namespaces, err := svNamespace.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 
 	svTeam := sv_profile.NewTeam(ctx)
 	admin, err := svTeam.Admin()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 	adminCtx := ctx.AsAdminId(admin.TeamMemberId)
@@ -72,7 +73,7 @@ func (z *CmdTeamNamespaceMemberList) Exec(args []string) {
 		svMember := sv_sharedfolder_member.NewBySharedFolderId(adminCtx, namespace.NamespaceId)
 		members, err := svMember.List()
 		if err != nil {
-			adminCtx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 

@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_compare"
@@ -84,7 +85,7 @@ func (z *CmdFileMirror) Exec(args []string) {
 	err = ucm.Mirror(srcPath, dstPath)
 
 	if err != nil {
-		ctxSrc.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 
@@ -99,7 +100,7 @@ func (z *CmdFileMirror) Exec(args []string) {
 		ucc := uc_file_compare.New(ctxSrc, ctxDst)
 		_, err := ucc.Diff(rep, uc_file_compare.LeftPath(srcPath), uc_file_compare.RightPath(dstPath))
 		if err != nil {
-			ctxSrc.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 	}

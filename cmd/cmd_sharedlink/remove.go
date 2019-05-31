@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"go.uber.org/zap"
@@ -68,7 +69,7 @@ func (z *CmdSharedLinkRemove) removePathAt(ctx api_context.Context, path mo_path
 	svc := sv_sharedlink.New(ctx)
 	links, err := svc.ListByPath(mo_path.NewPath(z.optPath))
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 	if len(links) < 1 {
@@ -81,7 +82,7 @@ func (z *CmdSharedLinkRemove) removePathAt(ctx api_context.Context, path mo_path
 		err := svc.Remove(link)
 		if err != nil {
 			log.Debug("Failed", zap.Error(err))
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			continue
 		}
 		z.report.Report(link)
@@ -92,7 +93,7 @@ func (z *CmdSharedLinkRemove) removeRecursive(ctx api_context.Context, path mo_p
 	svc := sv_sharedlink.New(ctx)
 	links, err := svc.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 	if len(links) < 1 {
@@ -113,7 +114,7 @@ func (z *CmdSharedLinkRemove) removeRecursive(ctx api_context.Context, path mo_p
 		log.Debug("Removing")
 		err = svc.Remove(link)
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			continue
 		}
 		log.Debug("Removed")

@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
 )
 
@@ -113,20 +114,20 @@ func (z *CmdTeamFolderMirror) Exec(args []string) {
 	if z.optAllTeamFolders {
 		uc, err := ucm.AllFolderScope()
 		if err != nil {
-			ctxFileSrc.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 		if err = ucm.Mirror(uc); err != nil {
-			ctxFileSrc.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 		}
 	} else {
 		uc, err := ucm.PartialScope(args)
 		if err != nil {
-			ctxFileSrc.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 		if err = ucm.Mirror(uc); err != nil {
-			ctxFileSrc.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 		}
 	}
 }

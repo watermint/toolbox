@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
@@ -76,7 +77,7 @@ func (z *CmdFileList) Exec(args []string) {
 				Reason string
 			}{
 				Path:   path,
-				Reason: ctx.ErrorMsg(err).T(),
+				Reason: api_util.UIMsgFromError(err).T(),
 			}).TellError()
 		}
 		return err

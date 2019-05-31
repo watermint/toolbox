@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 )
 
@@ -42,7 +43,7 @@ func (z *CmdTeamFolderList) Exec(args []string) {
 	svc := sv_teamfolder.New(ctx)
 	folders, err := svc.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 

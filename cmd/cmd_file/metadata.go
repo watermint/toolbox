@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 )
@@ -47,7 +48,7 @@ func (z *CmdFileMetadata) Exec(args []string) {
 	for _, p := range args {
 		md, err := svc.Resolve(mo_path.NewPath(p))
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			continue
 		}
 		if file, e := md.File(); e {
