@@ -88,11 +88,7 @@ func (z *Invite) Exec(k app_recipe.Kitchen) error {
 			m := InviteRowFromCols(cols)
 			if err = m.Validate(); err != nil {
 				if rowIndex > 0 {
-					rep.Failure(
-						app_msg.M("recipe.member.invite.error.invalid_data"),
-						m,
-						nil,
-					)
+					rep.Failure(app_report.MsgInvalidData, m, nil)
 				}
 				return nil
 			}

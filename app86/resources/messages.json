@@ -25,6 +25,7 @@
   "report.transaction.success": "Success",
   "report.transaction.failure": "Failure",
   "report.transaction.skip": "Skip",
+  "report.transaction.failure.invalid_data": "Invalid data",
   "auth.basic.failed": "Authentication failed",
   "auth.basic.generated_token1": "1. Visit the MyApp page (you might have to login first):\n\nhttps://www.dropbox.com/developers/apps\n\n2. Proceed with \"Create App\"\n3. Choose \"{{.API}}\"\n4. Choose \"{{.TypeOfAccess}}\"\n5. Enter name of your app\n6. Proceed with \"Create App\"\n7. Hit \"Generate\" button near \"Generated access token\"\n8. Copy generated token\n",
   "auth.basic.generated_token2": "Enter the generated token:",

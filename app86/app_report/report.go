@@ -34,7 +34,8 @@ const (
 )
 
 var (
-	msgSuccess = app_msg.M("report.transaction.success")
-	msgFailure = app_msg.M("report.transaction.failure")
-	msgSkip    = app_msg.M("report.transaction.skip")
+	msgSuccess     = app_msg.M("report.transaction.success")
+	msgFailure     = app_msg.M("report.transaction.failure")
+	msgSkip        = app_msg.M("report.transaction.skip")
+	MsgInvalidData = app_msg.M("report.transaction.failure.invalid_data")
 )
