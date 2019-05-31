@@ -2,7 +2,7 @@ package api_auth_impl
 
 import (
 	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/app86/app_recipe"
+	"github.com/watermint/toolbox/atbx/app_recipe"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 )

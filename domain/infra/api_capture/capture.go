@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/app/app_report/app_report_json"
-	"github.com/watermint/toolbox/app86/app_root"
+	"github.com/watermint/toolbox/atbx/app_root"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"go.uber.org/zap"
 	"os"

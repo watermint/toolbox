@@ -2,7 +2,7 @@ package api_util
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/app86/app_msg"
+	"github.com/watermint/toolbox/atbx/app_msg"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"regexp"
 	"strings"

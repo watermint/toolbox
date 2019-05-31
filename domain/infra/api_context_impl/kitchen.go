@@ -4,7 +4,7 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"github.com/watermint/toolbox/app/app_ui"
-	"github.com/watermint/toolbox/app86/app_recipe"
+	"github.com/watermint/toolbox/atbx/app_recipe"
 	"github.com/watermint/toolbox/domain/infra/api_async"
 	"github.com/watermint/toolbox/domain/infra/api_async_impl"
 	"github.com/watermint/toolbox/domain/infra/api_auth"

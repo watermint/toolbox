@@ -9,7 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/app86/app_recipe"
+	"github.com/watermint/toolbox/atbx/app_recipe"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_context_impl"
