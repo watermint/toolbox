@@ -54,6 +54,10 @@ func WithBusinessManagement(kitchen app_recipe.Kitchen, exec func(k ApiKitchen) 
 	return withToken(kitchen, api_auth.DropboxTokenBusinessManagement, exec)
 }
 
+func WithBusinessInfo(kitchen app_recipe.Kitchen, exec func(k ApiKitchen) error) error {
+	return withToken(kitchen, api_auth.DropboxTokenBusinessInfo, exec)
+}
+
 func withToken(kitchen app_recipe.Kitchen, tokenType string, exec func(k ApiKitchen) error) error {
 	c := api_auth_impl.NewKc(kitchen)
 	ctx, err := c.Auth(tokenType)

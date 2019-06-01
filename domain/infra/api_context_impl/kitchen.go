@@ -3,7 +3,6 @@ package api_context_impl
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/atbx/app_recipe"
 	"github.com/watermint/toolbox/domain/infra/api_async"
 	"github.com/watermint/toolbox/domain/infra/api_async_impl"
@@ -101,14 +100,6 @@ func (z *kcImpl) IsNoRetry() bool {
 
 func (z *kcImpl) Log() *zap.Logger {
 	return z.kitchen.Log()
-}
-
-func (z *kcImpl) Msg(key string) app_ui.UIMessage {
-	panic("implement me")
-}
-
-func (z *kcImpl) ErrorMsg(err error) app_ui.UIMessage {
-	panic("implement me")
 }
 
 func (z *kcImpl) Request(endpoint string) api_rpc.Caller {

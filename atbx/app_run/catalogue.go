@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/atbx/app_ui"
 	"github.com/watermint/toolbox/atbx/recipe"
 	"github.com/watermint/toolbox/atbx/recipe/dev"
+	"github.com/watermint/toolbox/atbx/recipe/group"
 	"github.com/watermint/toolbox/atbx/recipe/member"
 	"github.com/watermint/toolbox/atbx/recipe/teamfolder"
 	"reflect"
@@ -21,6 +22,7 @@ func Recipes() []app_recipe.Recipe {
 	return []app_recipe.Recipe{
 		&recipe.License{},
 		&dev.LongRunning{},
+		&group.List{},
 		&member.Invite{},
 		&member.List{},
 		&teamfolder.List{},
