@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/atbx/app_root"
 	"go.uber.org/zap"
 	"reflect"
@@ -35,7 +34,7 @@ func ParseModel(v interface{}, j gjson.Result) error {
 	if app_root.Ready() {
 		l = app_root.Log()
 	} else {
-		l = app.Root().Log()
+		l = app_root.Log()
 	}
 	l = l.With(zap.String("valueType", vt.Name()))
 
@@ -103,7 +102,7 @@ func ParseModelPathRaw(v interface{}, j json.RawMessage, path string) error {
 func CombineRaw(raws map[string]json.RawMessage) json.RawMessage {
 	b, err := json.Marshal(raws)
 	if err != nil {
-		app.Root().Log().Error("Unable to marshal", zap.Error(err))
+		app_root.Log().Error("Unable to marshal", zap.Error(err))
 		return json.RawMessage("{}")
 	}
 	return b

@@ -24,6 +24,10 @@ func SetLogger(logger *zap.Logger) {
 	ready = true
 }
 
+func SetCompatibleLogger(logger *zap.Logger) {
+	rootLogger = logger
+}
+
 func SetCapture(logger *zap.Logger) {
 	captureLogger = logger
 }

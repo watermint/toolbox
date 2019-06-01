@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_report"
+	"github.com/watermint/toolbox/atbx/app_root"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/sequence/sq_group"
 	"github.com/watermint/toolbox/domain/sequence/sq_sharedfolder"
@@ -314,7 +315,7 @@ type PeerInterTeam struct {
 }
 
 func Parse(jsonString string) (peer interface{}, name string, t Task, err error) {
-	l := app.Root().Log()
+	l := app_root.Log()
 
 	meta := &Metadata{}
 	if err := json.Unmarshal([]byte(jsonString), meta); err != nil {

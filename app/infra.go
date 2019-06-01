@@ -8,6 +8,7 @@ import (
 	"github.com/rapid7/go-get-proxied/proxy"
 	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/app/app_util"
+	"github.com/watermint/toolbox/atbx/app_root"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"log"
@@ -455,6 +456,7 @@ func (z *ExecContext) setLogger(logger *zap.Logger) {
 		// route default `log` package output into the file
 		log.SetOutput(z.logWrapper)
 	}
+	app_root.SetCompatibleLogger(logger)
 	z.logger = logger
 }
 

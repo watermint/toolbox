@@ -2,7 +2,7 @@ package mo_sharedlink
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/app"
+	"github.com/watermint/toolbox/atbx/app_root"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
@@ -214,7 +214,7 @@ type SharedLinkMember struct {
 func (z *SharedLinkMember) SharedLink() (link SharedLink) {
 	link = &Metadata{}
 	if err := api_parser.ParseModelPathRaw(link, z.Raw, "sharedlink"); err != nil {
-		app.Root().Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
+		app_root.Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
 		// return empty
 		return link
 	}
@@ -224,7 +224,7 @@ func (z *SharedLinkMember) SharedLink() (link SharedLink) {
 func (z *SharedLinkMember) Member() (member mo_sharedfolder_member.Member) {
 	member = &mo_sharedfolder_member.Metadata{}
 	if err := api_parser.ParseModelPathRaw(member, z.Raw, "member"); err != nil {
-		app.Root().Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
+		app_root.Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
 		// return empty
 		return member
 	}
@@ -239,7 +239,7 @@ func NewSharedLinkMember(link SharedLink, member *mo_member.Member) (slm *Shared
 
 	slm = &SharedLinkMember{}
 	if err := api_parser.ParseModelRaw(slm, raw); err != nil {
-		app.Root().Log().Warn("unexpected data format", zap.Error(err))
+		app_root.Log().Warn("unexpected data format", zap.Error(err))
 		// return empty
 		return slm
 	}
