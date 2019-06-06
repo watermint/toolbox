@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/atbx/app_root"
+	"github.com/watermint/toolbox/experimental/app_root"
 	"go.uber.org/zap"
 	"reflect"
 	"strings"

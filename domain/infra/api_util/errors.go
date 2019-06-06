@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/app/app_ui"
-	"github.com/watermint/toolbox/atbx/app_msg"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
+	"github.com/watermint/toolbox/experimental/app_msg"
 	"regexp"
 	"strings"
 )

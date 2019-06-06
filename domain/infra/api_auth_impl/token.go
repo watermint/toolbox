@@ -2,9 +2,9 @@ package api_auth_impl
 
 import (
 	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/atbx/app_recipe"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/experimental/app_recipe"
 )
 
 func Auth(ec *app.ExecContext, opts ...AuthOpt) (ctx api_context.Context, err error) {

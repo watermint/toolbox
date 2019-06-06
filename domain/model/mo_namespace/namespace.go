@@ -2,9 +2,9 @@ package mo_namespace
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/atbx/app_root"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
+	"github.com/watermint/toolbox/experimental/app_root"
 	"go.uber.org/zap"
 )
 

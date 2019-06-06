@@ -8,7 +8,7 @@ import (
 	"github.com/rapid7/go-get-proxied/proxy"
 	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/app/app_util"
-	"github.com/watermint/toolbox/atbx/app_root"
+	"github.com/watermint/toolbox/experimental/app_root"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"log"
