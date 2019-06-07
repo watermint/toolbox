@@ -87,8 +87,8 @@ func Run(args []string, bx *rice.Box) {
 		ui = app_ui.NewQuiet(mc)
 	}
 
-	// Startup
-	so := make([]app_control.StartupOpt, 0)
+	// Up
+	so := make([]app_control.UpOpt, 0)
 	if com.Workspace != "" {
 		so = append(so, app_control.Workspace(com.Workspace))
 	}
@@ -100,12 +100,12 @@ func Run(args []string, bx *rice.Box) {
 	}
 	so = append(so, app_control.RecipeName(recipeName))
 
-	ctl := app_control_impl.NewControl(ui, bx, com.Quiet)
-	err = ctl.Startup(so...)
+	ctl := app_control_impl.NewSingle(ui, bx, com.Quiet)
+	err = ctl.Up(so...)
 	if err != nil {
 		os.Exit(app_control.FatalStartup)
 	}
-	defer ctl.Shutdown()
+	defer ctl.Down()
 
 	// - Quiet
 	if qui, ok := ui.(*app_ui.Quiet); ok {
@@ -130,7 +130,7 @@ func Run(args []string, bx *rice.Box) {
 			}
 			ctl.UI().Error("run.error.panic", app_msg.P("Reason", err))
 			ctl.UI().Error("run.error.panic.instruction", app_msg.P("JobPath", ctl.Workspace().Job()))
-			ctl.Fatal(app_control.Reason(app_control.FatalPanic))
+			ctl.Abort(app_control.Reason(app_control.FatalPanic))
 		}
 	}()
 
@@ -159,7 +159,7 @@ func Run(args []string, bx *rice.Box) {
 			}
 			ctl.UI().Error("run.error.interrupted")
 			ctl.UI().Error("run.error.interrupted.instruction", app_msg.P("JobPath", ctl.Workspace().Job()))
-			ctl.Fatal(app_control.Reason(app_control.FatalInterrupted))
+			ctl.Abort(app_control.Reason(app_control.FatalInterrupted))
 
 			// in case the controller didn't fire exit..
 			os.Exit(app_control.FatalInterrupted)
@@ -175,11 +175,11 @@ func Run(args []string, bx *rice.Box) {
 	// Diagnosis
 	err = app_diag.Runtime(ctl)
 	if err != nil {
-		ctl.Fatal(app_control.Reason(app_control.FatalRuntime))
+		ctl.Abort(app_control.Reason(app_control.FatalRuntime))
 	}
 	err = app_diag.Network(ctl)
 	if err != nil {
-		ctl.Fatal(app_control.Reason(app_control.FatalNetwork))
+		ctl.Abort(app_control.Reason(app_control.FatalNetwork))
 	}
 
 	// Run

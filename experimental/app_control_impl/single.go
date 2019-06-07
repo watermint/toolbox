@@ -13,15 +13,15 @@ import (
 	"path/filepath"
 )
 
-func NewControl(ui app_ui.UI, bx *rice.Box, quiet bool) app_control.Control {
-	return &Control{
+func NewSingle(ui app_ui.UI, bx *rice.Box, quiet bool) app_control.Control {
+	return &Single{
 		ui:    ui,
 		box:   bx,
 		quiet: quiet,
 	}
 }
 
-type Control struct {
+type Single struct {
 	ui     app_ui.UI
 	flc    *app_log.FileLogContext
 	cap    *app_log.CaptureContext
@@ -31,34 +31,34 @@ type Control struct {
 	secure bool
 }
 
-func (z *Control) IsSecure() bool {
+func (z *Single) IsSecure() bool {
 	return z.secure
 }
 
-func (z *Control) IsQuiet() bool {
+func (z *Single) IsQuiet() bool {
 	return z.quiet
 }
 
-func (z *Control) IsTest() bool {
+func (z *Single) IsTest() bool {
 	return false
 }
 
-func (z *Control) Workspace() app_workspace.Workspace {
+func (z *Single) Workspace() app_workspace.Workspace {
 	return z.ws
 }
 
-func (z *Control) Resource(key string) (bin []byte, err error) {
+func (z *Single) Resource(key string) (bin []byte, err error) {
 	return z.box.Bytes(key)
 }
 
-func (z *Control) Startup(opts ...app_control.StartupOpt) (err error) {
-	opt := &app_control.StartupOpts{}
+func (z *Single) Up(opts ...app_control.UpOpt) (err error) {
+	opt := &app_control.UpOpts{}
 	for _, o := range opts {
 		o(opt)
 	}
 	z.secure = opt.Secure
 
-	z.ws, err = app_workspace.NewWorkspace(opt.WorkspacePath)
+	z.ws, err = app_workspace.NewSingleUser(opt.WorkspacePath)
 	if err != nil {
 		return err
 	}
@@ -94,24 +94,24 @@ func (z *Control) Startup(opts ...app_control.StartupOpt) (err error) {
 	app_root.SetLogger(z.flc.Logger)
 	app_root.SetCapture(z.cap.Logger)
 
-	z.Log().Debug("Startup completed")
+	z.Log().Debug("Up completed")
 
 	return nil
 }
 
-func (z *Control) Shutdown() {
-	z.Log().Debug("Shutdown")
+func (z *Single) Down() {
+	z.Log().Debug("Down")
 	app_root.Flush()
 	z.cap.Close()
 	z.flc.Close()
 }
 
-func (z *Control) Fatal(opts ...app_control.FatalOpt) {
-	opt := &app_control.FatalOpts{}
+func (z *Single) Abort(opts ...app_control.AbortOpt) {
+	opt := &app_control.AbortOpts{}
 	for _, o := range opts {
 		o(opt)
 	}
-	z.Log().Debug("Fatal shutdown", zap.Any("opt", opt))
+	z.Log().Debug("Abort shutdown", zap.Any("opt", opt))
 	app_root.Flush()
 	z.cap.Close()
 	z.flc.Close()
@@ -123,10 +123,10 @@ func (z *Control) Fatal(opts ...app_control.FatalOpt) {
 	}
 }
 
-func (z *Control) UI() app_ui.UI {
+func (z *Single) UI() app_ui.UI {
 	return z.ui
 }
 
-func (z *Control) Log() *zap.Logger {
+func (z *Single) Log() *zap.Logger {
 	return z.flc.Logger
 }

@@ -179,12 +179,12 @@ func (z *ExecContext) startup() error {
 		return err
 	}
 	z.setupLoggerFile()
-	z.logger.Debug("Startup:",
+	z.logger.Debug("Up:",
 		zap.String("app", AppName),
 		zap.String("version", AppVersion),
 		zap.String("revision", AppHash),
 	)
-	z.logger.Debug("Startup completed")
+	z.logger.Debug("Up completed")
 	if z.isTest {
 		z.logger.Info("Jobs path", zap.String("path", z.JobsPath()))
 	}
@@ -282,7 +282,7 @@ func (z *ExecContext) Fatal(code int) {
 	if z.logWrapper != nil {
 		z.logWrapper.Flush()
 	}
-	z.Log().Debug("Shutdown (Fatal)", zap.Int("code", code))
+	z.Log().Debug("Down (Abort)", zap.Int("code", code))
 	z.Log().Sync()
 	z.shutdownCleanup()
 	os.Exit(code)
@@ -292,7 +292,7 @@ func (z *ExecContext) Shutdown() {
 	if z.logWrapper != nil {
 		z.logWrapper.Flush()
 	}
-	z.Log().Debug("Shutdown")
+	z.Log().Debug("Down")
 	z.Log().Sync()
 	z.shutdownCleanup()
 }

@@ -63,7 +63,7 @@ func withToken(kitchen app_recipe.Kitchen, tokenType string, exec func(k ApiKitc
 	ctx, err := c.Auth(tokenType)
 	if err != nil {
 
-		kitchen.Control().Fatal(app_control.Reason(app_control.FailureAuthenticationFailedOrCancelled))
+		kitchen.Control().Abort(app_control.Reason(app_control.FailureAuthenticationFailedOrCancelled))
 	}
 	ak := &apiKitchenImpl{
 		ctx:     ctx,

@@ -29,3 +29,5 @@ import:
 - package: github.com/tealeg/xlsx
   version: ^1
 - package: github.com/iancoleman/strcase
+- package: github.com/gin-gonic/gin
+  version: ^1.4.0

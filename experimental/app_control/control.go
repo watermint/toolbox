@@ -7,9 +7,9 @@ import (
 )
 
 type Control interface {
-	Startup(opts ...StartupOpt) error
-	Shutdown()
-	Fatal(opts ...FatalOpt)
+	Up(opts ...UpOpt) error
+	Down()
+	Abort(opts ...AbortOpt)
 
 	UI() app_ui.UI
 	Log() *zap.Logger
@@ -21,8 +21,8 @@ type Control interface {
 	IsSecure() bool
 }
 
-type StartupOpt func(opt *StartupOpts) *StartupOpts
-type StartupOpts struct {
+type UpOpt func(opt *UpOpts) *UpOpts
+type UpOpts struct {
 	WorkspacePath string
 	Debug         bool
 	Test          bool
@@ -30,44 +30,44 @@ type StartupOpts struct {
 	RecipeName    string
 }
 
-func RecipeName(name string) StartupOpt {
-	return func(opt *StartupOpts) *StartupOpts {
+func RecipeName(name string) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
 		opt.RecipeName = name
 		return opt
 	}
 }
-func Secure() StartupOpt {
-	return func(opt *StartupOpts) *StartupOpts {
+func Secure() UpOpt {
+	return func(opt *UpOpts) *UpOpts {
 		opt.Secure = true
 		return opt
 	}
 }
-func Debug() StartupOpt {
-	return func(opt *StartupOpts) *StartupOpts {
+func Debug() UpOpt {
+	return func(opt *UpOpts) *UpOpts {
 		opt.Debug = true
 		return opt
 	}
 }
-func Test() StartupOpt {
-	return func(opt *StartupOpts) *StartupOpts {
+func Test() UpOpt {
+	return func(opt *UpOpts) *UpOpts {
 		opt.Test = true
 		return opt
 	}
 }
-func Workspace(path string) StartupOpt {
-	return func(opt *StartupOpts) *StartupOpts {
+func Workspace(path string) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
 		opt.WorkspacePath = path
 		return opt
 	}
 }
 
-type FatalOpt func(opt *FatalOpts) *FatalOpts
-type FatalOpts struct {
+type AbortOpt func(opt *AbortOpts) *AbortOpts
+type AbortOpts struct {
 	Reason *int
 }
 
-func Reason(reason int) FatalOpt {
-	return func(opt *FatalOpts) *FatalOpts {
+func Reason(reason int) AbortOpt {
+	return func(opt *AbortOpts) *AbortOpts {
 		opt.Reason = &reason
 		return opt
 	}

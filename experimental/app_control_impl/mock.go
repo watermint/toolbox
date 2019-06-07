@@ -46,17 +46,17 @@ func (z *mockControl) Resource(key string) (bin []byte, err error) {
 	return nil, errors.New("no resource on the mock")
 }
 
-func (z *mockControl) Startup(opts ...app_control.StartupOpt) error {
+func (z *mockControl) Up(opts ...app_control.UpOpt) error {
 	z.logger.Debug("Mock startup")
 	return nil
 }
 
-func (z *mockControl) Shutdown() {
+func (z *mockControl) Down() {
 	z.logger.Debug("Mock shutdown")
 	z.logger.Sync()
 }
 
-func (z *mockControl) Fatal(opts ...app_control.FatalOpt) {
+func (z *mockControl) Abort(opts ...app_control.AbortOpt) {
 	z.logger.Debug("Mock fatal", zap.Any("opts", opts))
 	z.logger.Sync()
 	os.Exit(app_control.FatalGeneral)
