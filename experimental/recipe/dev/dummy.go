@@ -17,8 +17,9 @@ import (
 )
 
 type DummyVO struct {
-	Path string
-	Dest string
+	Path     string
+	Dest     string
+	MaxEntry int
 }
 
 func (*DummyVO) Validate(t app_vo.Validator) {
@@ -48,6 +49,7 @@ func (z *Dummy) Exec(k app_recipe.Kitchen) error {
 	}
 	defer f.Close()
 	br := bufio.NewReader(f)
+	entries := 0
 
 	for {
 		line, _, err := br.ReadLine()
@@ -69,6 +71,12 @@ func (z *Dummy) Exec(k app_recipe.Kitchen) error {
 
 		if err = z.create(k, dvo.Dest, de); err != nil {
 			return err
+		}
+
+		entries++
+		if dvo.MaxEntry != 0 && entries >= dvo.MaxEntry {
+			l.Info("Suspend", zap.Int("entries", entries))
+			return nil
 		}
 	}
 }
