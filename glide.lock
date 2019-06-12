@@ -1,5 +1,5 @@
-hash: 174ba0740a70d181cbff93d4ea95b9fa65f0ffc56223c5cd6622cd0acb574577
-updated: 2019-06-06T20:33:40.867344+09:00
+hash: 942d0cd5e9bd7e710ad93aa5acef823f25535171f8740b48de74df18937ba4d2
+updated: 2019-06-08T13:40:01.349843+09:00
 imports:
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
@@ -10,6 +10,8 @@ imports:
   subpackages:
   - embedded
   - rice
+- name: github.com/gin-contrib/zap
+  version: 3cc18cd8fce3ca00df79ca44f73fed1ed5d1fe2f
 - name: github.com/gin-gonic/gin
   version: b75d67cd51eb53c3c3a2fc406524c940021ffbda
 - name: github.com/golang/protobuf
@@ -57,7 +59,7 @@ imports:
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: 4c4f7f33c9ed00de01c4c741d2177abfcfe19307
+  version: 83eebf71338e4ab31b265a5813543f156af28886
   subpackages:
   - windows
 - name: golang.org/x/text

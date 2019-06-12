@@ -100,7 +100,7 @@ func Run(args []string, bx *rice.Box) {
 	}
 	so = append(so, app_control.RecipeName(recipeName))
 
-	ctl := app_control_impl.NewSingle(ui, bx, com.Quiet)
+	ctl := app_control_impl.NewSingle(ui, bx, mc, com.Quiet)
 	err = ctl.Up(so...)
 	if err != nil {
 		os.Exit(app_control.FatalStartup)

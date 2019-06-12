@@ -18,6 +18,11 @@ type SecretRecipe interface {
 	Hidden()
 }
 
+// Console only recipe will not be listed in web console.
+type ConsoleRecipe interface {
+	Console()
+}
+
 type Kitchen interface {
 	Value() app_vo.ValueObject
 	Control() app_control.Control

@@ -5,6 +5,7 @@ import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/experimental/app_control"
 	"github.com/watermint/toolbox/experimental/app_log"
+	"github.com/watermint/toolbox/experimental/app_msg_container"
 	"github.com/watermint/toolbox/experimental/app_root"
 	"github.com/watermint/toolbox/experimental/app_ui"
 	"github.com/watermint/toolbox/experimental/app_workspace"
@@ -13,10 +14,11 @@ import (
 	"path/filepath"
 )
 
-func NewSingle(ui app_ui.UI, bx *rice.Box, quiet bool) app_control.Control {
+func NewSingle(ui app_ui.UI, bx *rice.Box, mc app_msg_container.Container, quiet bool) app_control.Control {
 	return &Single{
 		ui:    ui,
 		box:   bx,
+		mc:    mc,
 		quiet: quiet,
 	}
 }
@@ -26,6 +28,7 @@ type Single struct {
 	flc    *app_log.FileLogContext
 	cap    *app_log.CaptureContext
 	box    *rice.Box
+	mc     app_msg_container.Container
 	ws     app_workspace.Workspace
 	quiet  bool
 	secure bool
@@ -129,4 +132,8 @@ func (z *Single) UI() app_ui.UI {
 
 func (z *Single) Log() *zap.Logger {
 	return z.flc.Logger
+}
+
+func (z *Single) Capture() *zap.Logger {
+	return z.cap.Logger
 }

@@ -31,6 +31,10 @@ type RetryContext interface {
 	IsNoRetry() bool
 }
 
+type CaptureContext interface {
+	Capture() *zap.Logger
+}
+
 type ClientContext interface {
 	DoRequest(req api_rpc.Request) (code int, header http.Header, body []byte, err error)
 }

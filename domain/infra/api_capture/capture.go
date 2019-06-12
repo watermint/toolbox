@@ -43,14 +43,16 @@ func currentExecContext() Capture {
 	return ca
 }
 
-func currentKitchen() Capture {
-	return &kitchenImpl{}
+func currentKitchen(cap *zap.Logger) Capture {
+	return &kitchenImpl{
+		capture: cap,
+	}
 }
 
 func Current() Capture {
 	cap := app_root.Capture()
 	if cap != nil {
-		return currentKitchen()
+		return currentKitchen(cap)
 	} else {
 		return currentExecContext()
 	}
@@ -113,10 +115,17 @@ func (z *captureImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 	z.storage.Report(rec)
 }
 
-type kitchenImpl struct {
+func NewCapture(cap *zap.Logger) Capture {
+	return &kitchenImpl{
+		capture: cap,
+	}
 }
 
-func (*kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error) {
+type kitchenImpl struct {
+	capture *zap.Logger
+}
+
+func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error) {
 	type Req struct {
 		RequestMethod  string            `json:"method"`
 		RequestUrl     string            `json:"url"`
@@ -154,5 +163,5 @@ func (*kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error)
 		rs.ResponseError = resErr.Error()
 	}
 
-	app_root.Capture().Debug("", zap.Any("req", rq), zap.Any("res", rs))
+	z.capture.Debug("", zap.Any("req", rq), zap.Any("res", rs))
 }

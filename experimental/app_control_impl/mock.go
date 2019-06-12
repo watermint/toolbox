@@ -16,7 +16,7 @@ func NewMock() app_control.Control {
 	return &mockControl{
 		logger: app_log.NewConsoleLogger(false),
 		ui:     app_ui.NewConsole(mc),
-		ws:     app_workspace.NewTempWorkspace(),
+		ws:     app_workspace.NewTempAppWorkspace(),
 	}
 }
 
@@ -24,6 +24,10 @@ type mockControl struct {
 	logger *zap.Logger
 	ui     app_ui.UI
 	ws     app_workspace.Workspace
+}
+
+func (z *mockControl) Capture() *zap.Logger {
+	return z.logger
 }
 
 func (z *mockControl) IsSecure() bool {

@@ -42,6 +42,10 @@ type kcImpl struct {
 	noRetryOnError bool
 }
 
+func (z *kcImpl) Capture() *zap.Logger {
+	return z.kitchen.Control().Capture()
+}
+
 func (z *kcImpl) DoRequest(req api_rpc.Request) (code int, header http.Header, body []byte, err error) {
 	httpReq, err := req.Request()
 	if err != nil {

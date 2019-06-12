@@ -232,8 +232,13 @@ func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
 			apiResImpl.resBodyString = string(apiResImpl.resBody)
 		}
 
-		ca := api_capture.Current()
-		ca.Rpc(req, apiResImpl, err)
+		var cp api_capture.Capture
+		if cac, ok := cc.(api_context.CaptureContext); ok {
+			cp = api_capture.NewCapture(cac.Capture())
+		} else {
+			cp = api_capture.Current()
+		}
+		cp.Rpc(req, apiResImpl, err)
 
 		if err != nil {
 			log.Debug("Transport error", zap.Error(err))

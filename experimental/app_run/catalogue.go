@@ -22,10 +22,12 @@ func Recipes() []app_recipe.Recipe {
 	return []app_recipe.Recipe{
 		&recipe.License{},
 		&dev.LongRunning{},
+		&dev.Dummy{},
 		&group.List{},
 		&member.Invite{},
 		&member.List{},
 		&teamfolder.List{},
+		&recipe.Web{},
 	}
 }
 

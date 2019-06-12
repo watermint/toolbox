@@ -13,12 +13,19 @@ type Control interface {
 
 	UI() app_ui.UI
 	Log() *zap.Logger
+	Capture() *zap.Logger
 	Resource(key string) (bin []byte, err error)
 	Workspace() app_workspace.Workspace
 
 	IsTest() bool
 	IsQuiet() bool
 	IsSecure() bool
+}
+
+type ControlLauncher interface {
+	Control
+
+	NewControl(user app_workspace.MultiUser) Control
 }
 
 type UpOpt func(opt *UpOpts) *UpOpts
