@@ -124,7 +124,7 @@ func (z *Dummy) anonPath(path string) string {
 	for _, p := range pp {
 		qq = append(qq, z.anonymize(p))
 	}
-	return strings.Join(qq, "/")
+	return filepath.Join(qq...)
 }
 
 func (z *Dummy) anonFileName(name string) string {
