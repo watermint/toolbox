@@ -86,7 +86,7 @@ func (z *Dummy) create(k app_recipe.Kitchen, base string, de *DummyEntry) error 
 
 	switch de.Tag {
 	case "file":
-		dir := z.anonPath(filepath.Dir(de.PathDisplay))
+		dir := z.anonPath(filepath.ToSlash(filepath.Dir(de.PathDisplay)))
 		name := z.anonFileName(filepath.Base(de.PathDisplay))
 		path := filepath.Join(dir, name)
 		l.Debug("File", zap.String("file", path))
