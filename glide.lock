@@ -1,29 +1,43 @@
 hash: 942d0cd5e9bd7e710ad93aa5acef823f25535171f8740b48de74df18937ba4d2
-updated: 2019-06-08T13:40:01.349843+09:00
+updated: 2019-06-19T15:49:47.564019+09:00
 imports:
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
 - name: github.com/daaku/go.zipexe
-  version: a5fe2436ffcb3236e175e5149162b41cd28bd27d
+  version: 74d766ac1dde7458348221869a7d1e7e5fa0597e
 - name: github.com/GeertJohan/go.rice
-  version: c02ca9a983da5807ddf7d796784928f5be4afd09
+  version: c880e3cd4dd81db36b423e83dc0aeea4dca93774
   subpackages:
   - embedded
   - rice
+- name: github.com/gin-contrib/sse
+  version: 54d8467d122d380a14768b6b4e5cd7ca4755938f
 - name: github.com/gin-contrib/zap
   version: 3cc18cd8fce3ca00df79ca44f73fed1ed5d1fe2f
 - name: github.com/gin-gonic/gin
   version: b75d67cd51eb53c3c3a2fc406524c940021ffbda
+  subpackages:
+  - binding
+  - internal/json
+  - render
 - name: github.com/golang/protobuf
-  version: 951a149f90371fb8858c6c979d03bb2583611052
+  version: b285ee9cfc6c881bb20c0d8dc73370ea9b9ec90f
   subpackages:
   - proto
 - name: github.com/gorilla/mux
   version: ed099d42384823742bba0bf9a72b53b55c9e2e38
 - name: github.com/iancoleman/strcase
   version: e506e3ef73653e84c592ba44aab577a46678f68c
+- name: github.com/json-iterator/go
+  version: 0039f4ac3d5680243e7d0650c581e7ec0885ef5a
 - name: github.com/kardianos/osext
-  version: ae77be60afb1dcacde03767a8c37337fad28ac14
+  version: 2bc1f35cddc0cc527b4bc3dce8578fc2a6c11384
+- name: github.com/mattn/go-isatty
+  version: 1311e847b0cb909da63b5fecfb5370aa66236465
+- name: github.com/modern-go/concurrent
+  version: bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94
+- name: github.com/modern-go/reflect2
+  version: 94122c33edd36123c84d5368cfb2b69df93a0ec8
 - name: github.com/rapid7/go-get-proxied
   version: 16249a544090ff549b357cfc72bccf76fc5a8b8d
   subpackages:
@@ -34,9 +48,13 @@ imports:
 - name: github.com/tidwall/gjson
   version: eee0b6226f0d1db2675a176fdfaa8419bcad4ca8
 - name: github.com/tidwall/match
-  version: 1731857f09b1f38450e2c12409748407822dc6be
+  version: 33827db735fff6510490d69a8622612558a557ed
 - name: github.com/tidwall/pretty
   version: 1166b9ac2b65e46a43d8618d30d1554f4652d49b
+- name: github.com/ugorji/go
+  version: 7865e43e776b01f708871ba4d37a9ed1d3353bfd
+  subpackages:
+  - codec
 - name: go.uber.org/atomic
   version: df976f2515e274675050de7b3f42545de80594fd
 - name: go.uber.org/multierr
@@ -50,20 +68,21 @@ imports:
   - internal/exit
   - zapcore
 - name: golang.org/x/net
-  version: 03003ca0c849e57b6ea29a4bab8d3cb6e4d568fe
+  version: b5b0513f8c1bb7c1e3e6f168fba117131fe2614a
   subpackages:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: f42d05182288abf10faef86d16c0d07b8d40ea2d
+  version: 0f29369cfe4552d0e4bcddc57cc75f4d7e672a33
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: 83eebf71338e4ab31b265a5813543f156af28886
+  version: 516e3c20635fbe39539f7ed361a15c51fec29cd8
   subpackages:
+  - unix
   - windows
 - name: golang.org/x/text
-  version: 6f44c5a2ea40ee3593d98cdcc905cc1fdaa660e2
+  version: 342b2e1fbaa52c93f31447ad2c6abc048c63e475
   subpackages:
   - encoding
   - encoding/internal
@@ -78,7 +97,7 @@ imports:
   - transform
   - unicode/norm
 - name: google.golang.org/appengine
-  version: 4a4468ece617fc8205e99368fa2200e9d1fad421
+  version: b2f4a3cf3c67576a2ee09e1fe62656a5086ce880
   subpackages:
   - internal
   - internal/base
@@ -87,4 +106,8 @@ imports:
   - internal/remote_api
   - internal/urlfetch
   - urlfetch
+- name: gopkg.in/go-playground/validator.v8
+  version: 5f1438d3fca68893a817e4a66806cea46a9e4ebf
+- name: gopkg.in/yaml.v2
+  version: 51d6538a90f86fe93ac480b35f37b2be17fef232
 testImports: []

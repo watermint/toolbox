@@ -1,15 +1,15 @@
-package app_flow_impl
+package app_file_impl
 
 import (
 	"encoding/csv"
 	"github.com/watermint/toolbox/experimental/app_control"
-	"github.com/watermint/toolbox/experimental/app_flow"
+	"github.com/watermint/toolbox/experimental/app_file"
 	"github.com/watermint/toolbox/experimental/app_msg"
 	"io"
 	"os"
 )
 
-func NewCsv(filePath string, ctl app_control.Control) (app_flow.RowDataFile, error) {
+func NewCsv(filePath string, ctl app_control.Control) (app_file.RowDataFile, error) {
 	f, err := os.Open(filePath)
 	if err != nil {
 		ctl.UI().Error("flow.error.unable_to_read",

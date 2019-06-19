@@ -31,6 +31,7 @@ type ControlLauncher interface {
 type UpOpt func(opt *UpOpts) *UpOpts
 type UpOpts struct {
 	WorkspacePath string
+	Workspace     app_workspace.Workspace
 	Debug         bool
 	Test          bool
 	Secure        bool
@@ -61,9 +62,15 @@ func Test() UpOpt {
 		return opt
 	}
 }
-func Workspace(path string) UpOpt {
+func WorkspacePath(path string) UpOpt {
 	return func(opt *UpOpts) *UpOpts {
 		opt.WorkspacePath = path
+		return opt
+	}
+}
+func Workspace(ws app_workspace.Workspace) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
+		opt.Workspace = ws
 		return opt
 	}
 }

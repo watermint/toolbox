@@ -1,4 +1,4 @@
-package kite_user
+package app_user
 
 import (
 	"crypto/rand"

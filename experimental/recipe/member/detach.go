@@ -3,7 +3,7 @@ package member
 import (
 	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/experimental/app_flow"
+	"github.com/watermint/toolbox/experimental/app_file"
 	"github.com/watermint/toolbox/experimental/app_recipe"
 	"github.com/watermint/toolbox/experimental/app_recipe_util"
 	"github.com/watermint/toolbox/experimental/app_report"
@@ -31,7 +31,7 @@ func DetachRowFromCols(cols []string) (row *DetachRow) {
 }
 
 type DetachVO struct {
-	File app_flow.RowDataFile
+	File app_file.RowDataFile
 }
 
 func (*DetachVO) Validate(t app_vo.Validator) {

@@ -1,4 +1,4 @@
-package kite_user
+package app_user
 
 import "github.com/watermint/toolbox/experimental/app_workspace"
 

@@ -90,7 +90,7 @@ func Run(args []string, bx *rice.Box) {
 	// Up
 	so := make([]app_control.UpOpt, 0)
 	if com.Workspace != "" {
-		so = append(so, app_control.Workspace(com.Workspace))
+		so = append(so, app_control.WorkspacePath(com.Workspace))
 	}
 	if com.Debug {
 		so = append(so, app_control.Debug())

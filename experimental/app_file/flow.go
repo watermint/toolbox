@@ -1,10 +1,6 @@
-package app_flow
+package app_file
 
 import "github.com/watermint/toolbox/experimental/app_control"
-
-func IsErrorPrefix(prefix string, err error) bool {
-	return false
-}
 
 type RowDataFile interface {
 	EachRow(ctl app_control.Control, exec func(cols []string, rowIndex int) error) error

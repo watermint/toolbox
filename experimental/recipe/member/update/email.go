@@ -1,13 +1,13 @@
 package update
 
 import (
-	"github.com/watermint/toolbox/experimental/app_flow"
+	"github.com/watermint/toolbox/experimental/app_file"
 	"github.com/watermint/toolbox/experimental/app_recipe"
 	"github.com/watermint/toolbox/experimental/app_vo"
 )
 
 type EmailVO struct {
-	File                 app_flow.RowDataFile
+	File                 app_file.RowDataFile
 	DontUpdateUnverified bool
 }
 

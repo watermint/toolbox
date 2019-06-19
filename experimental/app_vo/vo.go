@@ -3,8 +3,8 @@ package app_vo
 import (
 	"flag"
 	"github.com/iancoleman/strcase"
-	"github.com/watermint/toolbox/experimental/app_flow"
-	"github.com/watermint/toolbox/experimental/app_flow_impl"
+	"github.com/watermint/toolbox/experimental/app_file"
+	"github.com/watermint/toolbox/experimental/app_file_impl"
 	"github.com/watermint/toolbox/experimental/app_msg"
 	"github.com/watermint/toolbox/experimental/app_root"
 	"go.uber.org/zap"
@@ -76,11 +76,11 @@ func (z *ValueContainer) From(vo interface{}) {
 			z.Values[kn] = &v
 		case reflect.Interface:
 			switch {
-			case vof.Type.Implements(reflect.TypeOf((*app_flow.RowDataFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*app_file.RowDataFile)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = &app_flow_impl.Factory{}
+					z.Values[kn] = &app_file_impl.Factory{}
 				}
 
 			default:
@@ -148,7 +148,7 @@ func (z *ValueContainer) Apply(vo interface{}) {
 			}
 		case reflect.Interface:
 			switch {
-			case vof.Type.Implements(reflect.TypeOf((*app_flow.RowDataFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*app_file.RowDataFile)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
@@ -183,7 +183,7 @@ func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet) {
 			f.Int64Var(dv, kf, *dv, desc)
 		case *string:
 			f.StringVar(dv, kf, *dv, desc)
-		case *app_flow_impl.Factory:
+		case *app_file_impl.Factory:
 			f.StringVar(&dv.FilePath, kf, dv.FilePath, desc)
 		}
 	}

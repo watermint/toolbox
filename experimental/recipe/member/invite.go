@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/experimental/app_flow"
+	"github.com/watermint/toolbox/experimental/app_file"
 	"github.com/watermint/toolbox/experimental/app_msg"
 	"github.com/watermint/toolbox/experimental/app_recipe"
 	"github.com/watermint/toolbox/experimental/app_recipe_util"
@@ -21,7 +21,7 @@ type InviteRow struct {
 }
 
 type InviteVO struct {
-	File app_flow.RowDataFile
+	File app_file.RowDataFile
 }
 
 func (z *InviteVO) Validate(t app_vo.Validator) {
