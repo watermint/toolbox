@@ -43,5 +43,7 @@
   "recipe.member.invite.tag.user_on_another_team": "User is already on another team",
   "recipe.teamfolder.desc": "Team folder management (Dropbox Business)",
   "recipe.teamfolder.list.desc": "List team folder(s)",
-  "recipe.web.desc": "Launch web console"
+  "recipe.web.desc": "Launch web console",
+  "web.error.forbidden": "Forbidden (invalid credential)",
+  "web.home.message": "Welcome {{.User}}"
 }
