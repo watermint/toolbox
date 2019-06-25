@@ -6,32 +6,60 @@ import (
 	"github.com/watermint/toolbox/experimental/app_control"
 	"github.com/watermint/toolbox/experimental/app_log"
 	"github.com/watermint/toolbox/experimental/app_msg_container"
+	"github.com/watermint/toolbox/experimental/app_recipe"
 	"github.com/watermint/toolbox/experimental/app_root"
+	"github.com/watermint/toolbox/experimental/app_template"
+	"github.com/watermint/toolbox/experimental/app_template_impl"
 	"github.com/watermint/toolbox/experimental/app_ui"
 	"github.com/watermint/toolbox/experimental/app_workspace"
 	"go.uber.org/zap"
+	"net/http"
 	"os"
 	"path/filepath"
 )
 
-func NewSingle(ui app_ui.UI, bx *rice.Box, mc app_msg_container.Container, quiet bool) app_control.Control {
+func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, catalogue []app_recipe.Recipe) app_control.Control {
 	return &Single{
-		ui:    ui,
-		box:   bx,
-		mc:    mc,
-		quiet: quiet,
+		ui:        ui,
+		box:       bx,
+		web:       web,
+		mc:        mc,
+		quiet:     quiet,
+		catalogue: catalogue,
 	}
 }
 
 type Single struct {
-	ui     app_ui.UI
-	flc    *app_log.FileLogContext
-	cap    *app_log.CaptureContext
-	box    *rice.Box
-	mc     app_msg_container.Container
-	ws     app_workspace.Workspace
-	quiet  bool
-	secure bool
+	ui        app_ui.UI
+	flc       *app_log.FileLogContext
+	cap       *app_log.CaptureContext
+	box       *rice.Box
+	web       *rice.Box
+	mc        app_msg_container.Container
+	ws        app_workspace.Workspace
+	quiet     bool
+	secure    bool
+	catalogue []app_recipe.Recipe
+}
+
+func (z *Single) Catalogue() []app_recipe.Recipe {
+	return z.catalogue
+}
+
+func (z *Single) NewControl(user app_workspace.MultiUser) app_control.Control {
+	panic("implement me")
+}
+
+func (z *Single) Template() app_template.Template {
+	return app_template_impl.NewDev(z.HttpFileSystem(), z)
+}
+
+func (z *Single) HttpFileSystem() http.FileSystem {
+	return z.web.HTTPBox()
+}
+
+func (z *Single) IsProduction() bool {
+	return isProduction()
 }
 
 func (z *Single) IsSecure() bool {

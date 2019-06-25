@@ -44,6 +44,11 @@
   "recipe.teamfolder.desc": "Team folder management (Dropbox Business)",
   "recipe.teamfolder.list.desc": "List team folder(s)",
   "recipe.web.desc": "Launch web console",
-  "web.error.forbidden": "Forbidden (invalid credential)",
+  "web.error.notfound.header": "Not found",
+  "web.error.notfound.detail": "Page not found.",
+  "web.error.forbidden.header": "Forbidden",
+  "web.error.forbidden.detail": "Invalid credential. Please login through the given url.",
+  "web.error.server.header": "Server error",
+  "web.error.server.detail": "Please see logs for more detail.",
   "web.home.message": "Welcome {{.User}}"
 }

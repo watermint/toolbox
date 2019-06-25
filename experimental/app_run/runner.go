@@ -6,10 +6,11 @@ import (
 	"github.com/watermint/toolbox/experimental/app_control"
 	"github.com/watermint/toolbox/experimental/app_control_impl"
 	"github.com/watermint/toolbox/experimental/app_diag"
+	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"github.com/watermint/toolbox/experimental/app_msg"
 	"github.com/watermint/toolbox/experimental/app_msg_container"
 	"github.com/watermint/toolbox/experimental/app_network"
-	"github.com/watermint/toolbox/experimental/app_recipe"
+	"github.com/watermint/toolbox/experimental/app_recipe_group"
 	"github.com/watermint/toolbox/experimental/app_ui"
 	"github.com/watermint/toolbox/experimental/app_vo"
 	"go.uber.org/zap"
@@ -36,7 +37,7 @@ func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
 	f.BoolVar(&z.Secure, "secure", false, mc.Compile(app_msg.M("run.common.flag.secure")))
 }
 
-func Run(args []string, bx *rice.Box) {
+func Run(args []string, bx, web *rice.Box) {
 	// Initialize resources
 	mc := NewContainer(bx)
 	ui := app_ui.NewConsole(mc)
@@ -100,7 +101,7 @@ func Run(args []string, bx *rice.Box) {
 	}
 	so = append(so, app_control.RecipeName(recipeName))
 
-	ctl := app_control_impl.NewSingle(ui, bx, mc, com.Quiet)
+	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, Recipes())
 	err = ctl.Up(so...)
 	if err != nil {
 		os.Exit(app_control.FatalStartup)
@@ -170,7 +171,7 @@ func Run(args []string, bx *rice.Box) {
 	app_network.SetHttpProxy(com.Proxy, ctl)
 
 	// App Header
-	AppHeader(ui)
+	app_recipe_group.AppHeader(ui)
 
 	// Diagnosis
 	err = app_diag.Runtime(ctl)
@@ -184,7 +185,7 @@ func Run(args []string, bx *rice.Box) {
 
 	// Run
 	ctl.Log().Debug("Run recipe", zap.Any("vo", vo))
-	k := app_recipe.NewKitchen(ctl, vo)
+	k := app_kitchen.NewKitchen(ctl, vo)
 	err = rcp.Exec(k)
 	if err != nil {
 		os.Exit(app_control.FailureGeneral)

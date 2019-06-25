@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_context_impl"
-	"github.com/watermint/toolbox/experimental/app_recipe"
+	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -23,7 +23,7 @@ import (
 type KcCachedAuth struct {
 	peerName string
 	tokens   map[string]string
-	kitchen  app_recipe.Kitchen
+	kitchen  app_kitchen.Kitchen
 	auth     api_auth.Auth
 }
 

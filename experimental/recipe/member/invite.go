@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/experimental/app_file"
+	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"github.com/watermint/toolbox/experimental/app_msg"
-	"github.com/watermint/toolbox/experimental/app_recipe"
 	"github.com/watermint/toolbox/experimental/app_recipe_util"
 	"github.com/watermint/toolbox/experimental/app_report"
 	"github.com/watermint/toolbox/experimental/app_validate"
@@ -70,7 +70,7 @@ func (z *Invite) msgFromTag(tag string) app_msg.Message {
 	return app_msg.M("recipe.member.invite.tag." + tag)
 }
 
-func (z *Invite) Exec(k app_recipe.Kitchen) error {
+func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 	return app_recipe_util.WithBusinessManagement(k, func(ak app_recipe_util.ApiKitchen) error {
 		var vo interface{} = ak.Value()
 		mvo := vo.(*InviteVO)

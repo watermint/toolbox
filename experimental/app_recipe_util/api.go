@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/experimental/app_control"
-	"github.com/watermint/toolbox/experimental/app_recipe"
+	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"github.com/watermint/toolbox/experimental/app_report"
 	"github.com/watermint/toolbox/experimental/app_ui"
 	"github.com/watermint/toolbox/experimental/app_vo"
@@ -13,13 +13,13 @@ import (
 )
 
 type ApiKitchen interface {
-	app_recipe.Kitchen
+	app_kitchen.Kitchen
 	Context() api_context.Context
 }
 
 type apiKitchenImpl struct {
 	ctx     api_context.Context
-	kitchen app_recipe.Kitchen
+	kitchen app_kitchen.Kitchen
 }
 
 func (z *apiKitchenImpl) Report(name string, row interface{}) (r app_report.Report, err error) {
@@ -46,19 +46,19 @@ func (z *apiKitchenImpl) Context() api_context.Context {
 	return z.ctx
 }
 
-func WithBusinessFile(kitchen app_recipe.Kitchen, exec func(k ApiKitchen) error) error {
+func WithBusinessFile(kitchen app_kitchen.Kitchen, exec func(k ApiKitchen) error) error {
 	return withToken(kitchen, api_auth.DropboxTokenBusinessFile, exec)
 }
 
-func WithBusinessManagement(kitchen app_recipe.Kitchen, exec func(k ApiKitchen) error) error {
+func WithBusinessManagement(kitchen app_kitchen.Kitchen, exec func(k ApiKitchen) error) error {
 	return withToken(kitchen, api_auth.DropboxTokenBusinessManagement, exec)
 }
 
-func WithBusinessInfo(kitchen app_recipe.Kitchen, exec func(k ApiKitchen) error) error {
+func WithBusinessInfo(kitchen app_kitchen.Kitchen, exec func(k ApiKitchen) error) error {
 	return withToken(kitchen, api_auth.DropboxTokenBusinessInfo, exec)
 }
 
-func withToken(kitchen app_recipe.Kitchen, tokenType string, exec func(k ApiKitchen) error) error {
+func withToken(kitchen app_kitchen.Kitchen, tokenType string, exec func(k ApiKitchen) error) error {
 	c := api_auth_impl.NewKc(kitchen)
 	ctx, err := c.Auth(tokenType)
 	if err != nil {

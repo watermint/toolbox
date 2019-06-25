@@ -8,8 +8,8 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_context_impl"
+	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"github.com/watermint/toolbox/experimental/app_msg"
-	"github.com/watermint/toolbox/experimental/app_recipe"
 	"github.com/watermint/toolbox/experimental/app_zap"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
@@ -17,7 +17,7 @@ import (
 )
 
 type KitchenAuth struct {
-	kitchen  app_recipe.Kitchen
+	kitchen  app_kitchen.Kitchen
 	peerName string
 	keys     map[string]string
 }

@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/experimental/app_file"
-	"github.com/watermint/toolbox/experimental/app_recipe"
+	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"github.com/watermint/toolbox/experimental/app_recipe_util"
 	"github.com/watermint/toolbox/experimental/app_report"
 	"github.com/watermint/toolbox/experimental/app_validate"
@@ -44,7 +44,7 @@ func (z *Detach) Requirement() app_vo.ValueObject {
 	return &DetachVO{}
 }
 
-func (*Detach) Exec(k app_recipe.Kitchen) error {
+func (*Detach) Exec(k app_kitchen.Kitchen) error {
 	return app_recipe_util.WithBusinessManagement(k, func(ak app_recipe_util.ApiKitchen) error {
 		var vo interface{} = ak.Value()
 		mvo := vo.(*DetachVO)

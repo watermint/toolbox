@@ -1,9 +1,11 @@
 package app_control
 
 import (
+	"github.com/watermint/toolbox/experimental/app_template"
 	"github.com/watermint/toolbox/experimental/app_ui"
 	"github.com/watermint/toolbox/experimental/app_workspace"
 	"go.uber.org/zap"
+	"net/http"
 )
 
 type Control interface {
@@ -17,15 +19,15 @@ type Control interface {
 	Resource(key string) (bin []byte, err error)
 	Workspace() app_workspace.Workspace
 
+	IsProduction() bool
 	IsTest() bool
 	IsQuiet() bool
 	IsSecure() bool
 }
 
-type ControlLauncher interface {
-	Control
-
-	NewControl(user app_workspace.MultiUser) Control
+type ControlHttpFileSystem interface {
+	HttpFileSystem() http.FileSystem
+	Template() app_template.Template
 }
 
 type UpOpt func(opt *UpOpts) *UpOpts
@@ -95,6 +97,7 @@ const (
 	FatalInterrupted
 	FatalRuntime
 	FatalNetwork
+	FatalResourceUnavailable
 
 	// Failures
 	FailureGeneral

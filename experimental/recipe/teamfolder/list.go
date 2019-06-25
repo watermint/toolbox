@@ -3,8 +3,8 @@ package teamfolder
 import (
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
+	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"github.com/watermint/toolbox/experimental/app_msg"
-	"github.com/watermint/toolbox/experimental/app_recipe"
 	"github.com/watermint/toolbox/experimental/app_recipe_util"
 	"github.com/watermint/toolbox/experimental/app_vo"
 	"go.uber.org/zap"
@@ -33,7 +33,7 @@ func (z *List) Requirement() app_vo.ValueObject {
 	}
 }
 
-func (z *List) Exec(k app_recipe.Kitchen) error {
+func (z *List) Exec(k app_kitchen.Kitchen) error {
 	return app_recipe_util.WithBusinessFile(k, func(rc app_recipe_util.ApiKitchen) error {
 		// TypeAssertionError will be handled by infra
 		var vo interface{} = rc.Value()

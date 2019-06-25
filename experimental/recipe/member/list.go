@@ -3,7 +3,7 @@ package member
 import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/experimental/app_recipe"
+	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"github.com/watermint/toolbox/experimental/app_recipe_util"
 	"github.com/watermint/toolbox/experimental/app_vo"
 )
@@ -15,7 +15,7 @@ func (*List) Requirement() app_vo.ValueObject {
 	return &app_vo.EmptyValueObject{}
 }
 
-func (*List) Exec(k app_recipe.Kitchen) error {
+func (*List) Exec(k app_kitchen.Kitchen) error {
 	return app_recipe_util.WithBusinessInfo(k, func(ak app_recipe_util.ApiKitchen) error {
 		members, err := sv_member.New(ak.Context()).List()
 		if err != nil {

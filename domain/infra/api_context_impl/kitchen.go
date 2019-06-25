@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_list_impl"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"github.com/watermint/toolbox/domain/infra/api_rpc_impl"
-	"github.com/watermint/toolbox/experimental/app_recipe"
+	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
@@ -19,7 +19,7 @@ import (
 	"time"
 )
 
-func NewKC(kitchen app_recipe.Kitchen, token api_auth.TokenContainer) api_context.Context {
+func NewKC(kitchen app_kitchen.Kitchen, token api_auth.TokenContainer) api_context.Context {
 	c := &kcImpl{
 		kitchen:        kitchen,
 		tokenContainer: token,
@@ -30,7 +30,7 @@ func NewKC(kitchen app_recipe.Kitchen, token api_auth.TokenContainer) api_contex
 }
 
 type kcImpl struct {
-	kitchen        app_recipe.Kitchen
+	kitchen        app_kitchen.Kitchen
 	client         *http.Client
 	tokenContainer api_auth.TokenContainer
 	noAuth         bool

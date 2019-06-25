@@ -80,7 +80,7 @@ func (z *localUser) fromFile() (hash string, err error) {
 
 func (z *localUser) generate() (hash string, err error) {
 	l := app_root.Log()
-	b := make([]byte, 16)
+	b := make([]byte, 40)
 	_, err = rand.Read(b)
 	if err != nil {
 		l.Debug("Unable to generate", zap.Error(err))

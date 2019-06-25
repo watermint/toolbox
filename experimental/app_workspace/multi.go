@@ -71,7 +71,7 @@ func (z *multiUser) Secrets() string {
 }
 
 func (z *multiUser) setup() error {
-	_, err := getOrCreate(z.userHash)
+	_, err := getOrCreate(z.UserHome())
 	if err != nil {
 		return err
 	}

@@ -80,6 +80,10 @@ func (z *Multi) Workspace() app_workspace.Workspace {
 	return z.ws
 }
 
+func (z *Multi) IsProduction() bool {
+	return isProduction()
+}
+
 func (z *Multi) IsTest() bool {
 	return false
 }

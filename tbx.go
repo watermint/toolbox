@@ -12,7 +12,9 @@ func main() {
 	switch {
 	case len(os.Args) > 1 && os.Args[1] == "experimental":
 		bx := rice.MustFindBox("experimental/resources")
-		app_run.Run(os.Args[2:], bx)
+		web := rice.MustFindBox("experimental/web")
+
+		app_run.Run(os.Args[2:], bx, web)
 
 	default:
 		bx := rice.MustFindBox("resources")

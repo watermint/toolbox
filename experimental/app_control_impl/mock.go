@@ -26,6 +26,10 @@ type mockControl struct {
 	ws     app_workspace.Workspace
 }
 
+func (z *mockControl) IsProduction() bool {
+	return isProduction()
+}
+
 func (z *mockControl) Capture() *zap.Logger {
 	return z.logger
 }

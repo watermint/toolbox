@@ -6,7 +6,7 @@ import (
 	"encoding/base32"
 	"encoding/json"
 	"errors"
-	"github.com/watermint/toolbox/experimental/app_recipe"
+	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"github.com/watermint/toolbox/experimental/app_vo"
 	"go.uber.org/zap"
 	"io"
@@ -37,7 +37,7 @@ func (z *Dummy) Requirement() app_vo.ValueObject {
 	return &DummyVO{}
 }
 
-func (z *Dummy) Exec(k app_recipe.Kitchen) error {
+func (z *Dummy) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	dvo := vo.(*DummyVO)
 	l := k.Log().With(zap.String("path", dvo.Path))
@@ -81,7 +81,7 @@ func (z *Dummy) Exec(k app_recipe.Kitchen) error {
 	}
 }
 
-func (z *Dummy) create(k app_recipe.Kitchen, base string, de *DummyEntry) error {
+func (z *Dummy) create(k app_kitchen.Kitchen, base string, de *DummyEntry) error {
 	l := k.Log()
 
 	switch de.Tag {
