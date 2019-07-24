@@ -33,6 +33,9 @@ type DummyEntry struct {
 type Dummy struct {
 }
 
+func (z *Dummy) Hidden() {
+}
+
 func (z *Dummy) Requirement() app_vo.ValueObject {
 	return &DummyVO{}
 }

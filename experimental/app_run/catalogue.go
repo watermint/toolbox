@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/experimental/recipe/dev"
 	"github.com/watermint/toolbox/experimental/recipe/group"
 	"github.com/watermint/toolbox/experimental/recipe/member"
+	"github.com/watermint/toolbox/experimental/recipe/member/update"
 	"github.com/watermint/toolbox/experimental/recipe/teamfolder"
 )
 
@@ -18,6 +19,7 @@ func Recipes() []app_recipe.Recipe {
 		&group.List{},
 		&member.Invite{},
 		&member.List{},
+		&update.Email{},
 		&teamfolder.List{},
 		&recipe.Web{},
 	}

@@ -50,5 +50,7 @@
   "web.error.forbidden.detail": "Invalid credential. Please login through the given url.",
   "web.error.server.header": "Server error",
   "web.error.server.detail": "Please see logs for more detail.",
+  "web.error.command_not_found.header": "Command not found",
+  "web.error.command_not_found.detail": "Please retry from catalogue.",
   "web.home.message": "Welcome {{.User}}"
 }

@@ -2,6 +2,9 @@
 
 {{define "content"}}
 <h1 class="display-1">Catalogue</h1>
+
+{{.Cmd}}
+
 <p class="lead">{{.Detail}}</p>
 <div class="album">
     <div class="row">
@@ -13,7 +16,7 @@
                     <p class="card-text">
                         {{.Description}}
                     </p>
-                    <a class="btn btn-primary" href="#">Detail</a>
+                    <a class="btn btn-primary" href="{{.Uri}}">Detail</a>
                 </div>
             </div>
         </div>

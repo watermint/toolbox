@@ -6,23 +6,29 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
 	"github.com/watermint/toolbox/experimental/app_control"
+	"github.com/watermint/toolbox/experimental/app_control_launcher"
 	"github.com/watermint/toolbox/experimental/app_kitchen"
+	"github.com/watermint/toolbox/experimental/app_recipe"
+	"github.com/watermint/toolbox/experimental/app_recipe_group"
 	"github.com/watermint/toolbox/experimental/app_template"
 	"github.com/watermint/toolbox/experimental/app_user"
 	"github.com/watermint/toolbox/experimental/app_vo"
 	"go.uber.org/zap"
 	"net/http"
+	"sort"
+	"strings"
 	"time"
 )
 
 const (
-	webPort            = 7800
-	webUserHashCookie  = "user_hash"
-	webPathRoot        = "/"
-	webPathLogin       = "/login"
-	webPathHome        = "/home"
-	webPathForbidden   = "/error/forbidden"
-	webPathServerError = "/error/server"
+	webPort                = 7800
+	webUserHashCookie      = "user_hash"
+	webPathRoot            = "/"
+	webPathLogin           = "/login"
+	webPathHome            = "/home"
+	webPathForbidden       = "/error/forbidden"
+	webPathServerError     = "/error/server"
+	webPathCommandNotFound = "/error/command_not_found"
 )
 
 type WebVO struct {
@@ -63,6 +69,7 @@ func (z *Web) Exec(k app_kitchen.Kitchen) error {
 	hfs := k.Control().(app_control.ControlHttpFileSystem)
 	htp := hfs.Template()
 	htr := htp.(render.HTMLRender)
+	cl := k.Control().(app_control_launcher.ControlLauncher)
 
 	g := gin.New()
 	g.Use(ginzap.Ginzap(l, time.RFC3339, true))
@@ -73,6 +80,7 @@ func (z *Web) Exec(k app_kitchen.Kitchen) error {
 	wh := &WebHandler{
 		Kitchen:  k,
 		Template: htp,
+		Launcher: cl,
 	}
 	wh.Setup(g)
 
@@ -88,6 +96,7 @@ func (z *Web) Exec(k app_kitchen.Kitchen) error {
 type WebHandler struct {
 	Kitchen  app_kitchen.Kitchen
 	Template app_template.Template
+	Launcher app_control_launcher.ControlLauncher
 }
 
 func (z *WebHandler) Setup(g *gin.Engine) {
@@ -95,11 +104,15 @@ func (z *WebHandler) Setup(g *gin.Engine) {
 
 	g.GET(webPathForbidden, z.Forbidden)
 	g.GET(webPathServerError, z.ServerError)
+	g.GET(webPathCommandNotFound, z.CommandNotFound)
+
 	g.NoRoute(z.NotFound)
 	z.Template.Define("error", "layout/layout.html", "pages/error.html")
 
 	g.GET(webPathHome, z.Home)
-	z.Template.Define(webPathHome, "layout/layout.html", "pages/catalogue.html")
+	g.GET(webPathHome+"/:command", z.Home)
+	z.Template.Define("home-catalogue", "layout/layout.html", "pages/catalogue.html")
+	z.Template.Define("home-recipe", "layout/layout.html", "pages/recipe.html")
 
 	g.GET(webPathRoot, z.Instruction)
 	z.Template.Define(webPathRoot, "layout/layout.html", "pages/home.html")
@@ -149,6 +162,16 @@ func (z *WebHandler) ServerError(g *gin.Context) {
 		},
 	)
 }
+func (z *WebHandler) CommandNotFound(g *gin.Context) {
+	g.HTML(
+		http.StatusBadRequest,
+		"error",
+		gin.H{
+			"Header": z.Kitchen.UI().Text("web.error.command_not_found.header"),
+			"Detail": z.Kitchen.UI().Text("web.error.command_not_found.detail"),
+		},
+	)
+}
 
 func (z *WebHandler) Forbidden(g *gin.Context) {
 	g.HTML(
@@ -172,28 +195,90 @@ func (z *WebHandler) Instruction(g *gin.Context) {
 
 func (z *WebHandler) Home(g *gin.Context) {
 	z.withUser(g, func(g *gin.Context, user app_user.User) {
-		g.HTML(
-			http.StatusOK,
-			webPathHome,
-			gin.H{"Jobs": []gin.H{
-				{
-					"Title":       "member remove",
-					"Description": "Remove members",
+		recipes := z.Launcher.Catalogue()
+		root := app_recipe_group.NewGroup([]string{}, "")
+		for _, r := range recipes {
+			root.Add(r)
+		}
+
+		cmd := g.Param("command")
+		cmdPath := strings.Split(cmd, "-")
+		_, grp, rcp, _, err := root.Select(cmdPath)
+
+		if cmd == "" {
+			grp = root
+			rcp = nil
+			err = nil
+		}
+
+		switch {
+		case err != nil:
+			g.Redirect(http.StatusTemporaryRedirect, webPathCommandNotFound)
+
+		case rcp != nil:
+			g.HTML(
+				http.StatusOK,
+				"home-recipe",
+				gin.H{
+					"Detail": cmd,
 				},
-				{
-					"Title":       "member update",
-					"Description": "Update members",
+			)
+
+		case grp != nil:
+			cmds := make([]string, 0)
+			dict := make(map[string]gin.H)
+			jobs := make([]gin.H, 0)
+
+			for _, g := range grp.SubGroups {
+				if g.IsSecret() {
+					continue
+				}
+
+				path := make([]string, 0)
+				path = append(path, grp.Path...)
+				path = append(path, g.Name)
+
+				dict[g.Name] = gin.H{
+					"Title":       g.Name,
+					"Description": z.Kitchen.UI().Text(grp.CommandDesc(g.Name).Key()),
+					"Uri":         webPathHome + "/" + strings.Join(path, "-"),
+				}
+			}
+			for name, r := range grp.Recipes {
+				_, ok := r.(app_recipe.SecretRecipe)
+				if ok {
+					continue
+				}
+
+				path := make([]string, 0)
+				path = append(path, grp.Path...)
+				path = append(path, name)
+
+				dict[name] = gin.H{
+					"Title":       name,
+					"Description": z.Kitchen.UI().Text(grp.CommandDesc(name).Key()),
+					"Uri":         webPathHome + "/" + strings.Join(path, "-"),
+				}
+			}
+
+			for k := range dict {
+				cmds = append(cmds, k)
+			}
+			sort.Strings(cmds)
+			for _, c := range cmds {
+				jobs = append(jobs, dict[c])
+			}
+
+			g.HTML(
+				http.StatusOK,
+				"home-catalogue",
+				gin.H{
+					"Detail": cmd,
+					"Jobs":   jobs,
 				},
-				{
-					"Title":       "member detach",
-					"Description": "Detach members",
-				},
-				{
-					"Title":       "member invite",
-					"Description": "Invite members",
-				},
-			}},
-		)
+			)
+		}
+
 	})
 }
 

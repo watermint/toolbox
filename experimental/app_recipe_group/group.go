@@ -100,12 +100,12 @@ func (z *Group) PrintUsage(ui app_ui.UI) {
 	ui.Header("run.group.header.available_commands")
 	cmdTable := ui.InfoTable(false)
 	for _, cmd := range z.AvailableCommands() {
-		cmdTable.Row(app_msg.Raw(" "), app_msg.Raw(cmd), z.commandDesc(cmd))
+		cmdTable.Row(app_msg.Raw(" "), app_msg.Raw(cmd), z.CommandDesc(cmd))
 	}
 	cmdTable.Flush()
 }
 
-func (z *Group) commandDesc(cmd string) app_msg.Message {
+func (z *Group) CommandDesc(cmd string) app_msg.Message {
 	keyPath := make([]string, 0)
 	keyPath = append(keyPath, "recipe")
 	keyPath = append(keyPath, z.Path...)

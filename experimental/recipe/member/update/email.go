@@ -2,7 +2,7 @@ package update
 
 import (
 	"github.com/watermint/toolbox/experimental/app_file"
-	"github.com/watermint/toolbox/experimental/app_recipe"
+	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"github.com/watermint/toolbox/experimental/app_vo"
 )
 
@@ -18,6 +18,6 @@ func (z *Email) Requirement() app_vo.ValueObject {
 	panic("implement me")
 }
 
-func (z *Email) Exec(k app_recipe.Kitchen) error {
+func (z *Email) Exec(k app_kitchen.Kitchen) error {
 	panic("implement me")
 }
