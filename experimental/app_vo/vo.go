@@ -164,7 +164,7 @@ func (z *ValueContainer) Apply(vo interface{}) {
 	}
 }
 
-func (z *ValueContainer) messageKey(name string) string {
+func (z *ValueContainer) MessageKey(name string) string {
 	pkg := z.PkgName
 	pkg = strings.ReplaceAll(pkg, "github.com/watermint/toolbox/experimental/", "")
 	pkg = strings.ReplaceAll(pkg, "/", ".")
@@ -174,7 +174,7 @@ func (z *ValueContainer) messageKey(name string) string {
 func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet) {
 	for n, d := range z.Values {
 		kf := strcase.ToKebab(n)
-		desc := z.messageKey(n)
+		desc := z.MessageKey(n)
 
 		switch dv := d.(type) {
 		case *bool:

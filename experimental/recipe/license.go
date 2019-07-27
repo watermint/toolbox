@@ -8,6 +8,9 @@ import (
 type License struct {
 }
 
+func (*License) Console() {
+}
+
 func (*License) Requirement() app_vo.ValueObject {
 	return &app_vo.EmptyValueObject{}
 }

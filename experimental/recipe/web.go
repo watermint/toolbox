@@ -198,6 +198,15 @@ func (z *WebHandler) Home(g *gin.Context) {
 		recipes := z.Launcher.Catalogue()
 		root := app_recipe_group.NewGroup([]string{}, "")
 		for _, r := range recipes {
+			_, ok := r.(app_recipe.SecretRecipe)
+			if ok {
+				continue
+			}
+			_, ok = r.(app_recipe.ConsoleRecipe)
+			if ok {
+				continue
+			}
+
 			root.Add(r)
 		}
 
@@ -216,70 +225,85 @@ func (z *WebHandler) Home(g *gin.Context) {
 			g.Redirect(http.StatusTemporaryRedirect, webPathCommandNotFound)
 
 		case rcp != nil:
-			g.HTML(
-				http.StatusOK,
-				"home-recipe",
-				gin.H{
-					"Detail": cmd,
-				},
-			)
+			// TODO: Breadcrumb list
+			z.renderRecipe(g, cmd, rcp)
 
 		case grp != nil:
-			cmds := make([]string, 0)
-			dict := make(map[string]gin.H)
-			jobs := make([]gin.H, 0)
+			// TODO: Breadcrumb list
+			z.renderCatalogue(g, cmd, grp)
+		}
+	})
+}
 
-			for _, g := range grp.SubGroups {
-				if g.IsSecret() {
-					continue
-				}
+func (z *WebHandler) renderRecipe(g *gin.Context, cmd string, rcp app_recipe.Recipe) {
+	var vo interface{} = rcp.Requirement()
+	vc := app_vo.NewValueContainer(vo)
 
-				path := make([]string, 0)
-				path = append(path, grp.Path...)
-				path = append(path, g.Name)
+	keys := make([]string, 0)
+	for k := range vc.Values {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
 
-				dict[g.Name] = gin.H{
-					"Title":       g.Name,
-					"Description": z.Kitchen.UI().Text(grp.CommandDesc(g.Name).Key()),
-					"Uri":         webPathHome + "/" + strings.Join(path, "-"),
-				}
-			}
-			for name, r := range grp.Recipes {
-				_, ok := r.(app_recipe.SecretRecipe)
-				if ok {
-					continue
-				}
+	g.HTML(
+		http.StatusOK,
+		"home-recipe",
+		gin.H{
+			"Recipe": cmd,
+			"Keys":   keys,
+			"Values": vc.Values,
+		},
+	)
+}
 
-				path := make([]string, 0)
-				path = append(path, grp.Path...)
-				path = append(path, name)
+func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe_group.Group) {
+	cmds := make([]string, 0)
+	dict := make(map[string]gin.H)
+	jobs := make([]gin.H, 0)
 
-				dict[name] = gin.H{
-					"Title":       name,
-					"Description": z.Kitchen.UI().Text(grp.CommandDesc(name).Key()),
-					"Uri":         webPathHome + "/" + strings.Join(path, "-"),
-				}
-			}
-
-			for k := range dict {
-				cmds = append(cmds, k)
-			}
-			sort.Strings(cmds)
-			for _, c := range cmds {
-				jobs = append(jobs, dict[c])
-			}
-
-			g.HTML(
-				http.StatusOK,
-				"home-catalogue",
-				gin.H{
-					"Detail": cmd,
-					"Jobs":   jobs,
-				},
-			)
+	for _, g := range grp.SubGroups {
+		if g.IsSecret() {
+			continue
 		}
 
-	})
+		path := make([]string, 0)
+		path = append(path, grp.Path...)
+		path = append(path, g.Name)
+
+		dict[g.Name] = gin.H{
+			"Title":       g.Name,
+			"Description": z.Kitchen.UI().Text(grp.CommandDesc(g.Name).Key()),
+			"Uri":         webPathHome + "/" + strings.Join(path, "-"),
+		}
+	}
+	for name := range grp.Recipes {
+		path := make([]string, 0)
+		path = append(path, grp.Path...)
+		path = append(path, name)
+
+		dict[name] = gin.H{
+			"Title":       name,
+			"Description": z.Kitchen.UI().Text(grp.CommandDesc(name).Key()),
+			"Uri":         webPathHome + "/" + strings.Join(path, "-"),
+		}
+	}
+
+	for k := range dict {
+		cmds = append(cmds, k)
+	}
+	sort.Strings(cmds)
+	for _, c := range cmds {
+		jobs = append(jobs, dict[c])
+	}
+
+	g.HTML(
+		http.StatusOK,
+		"home-catalogue",
+		gin.H{
+			"Detail": cmd,
+			"Jobs":   jobs,
+		},
+	)
 }
 
 func (z *WebHandler) withUser(g *gin.Context, f func(g *gin.Context, user app_user.User)) {
