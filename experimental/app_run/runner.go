@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/experimental/app_network"
 	"github.com/watermint/toolbox/experimental/app_recipe_group"
 	"github.com/watermint/toolbox/experimental/app_ui"
-	"github.com/watermint/toolbox/experimental/app_vo"
+	"github.com/watermint/toolbox/experimental/app_vo_impl"
 	"go.uber.org/zap"
 	"os"
 	"os/signal"
@@ -73,7 +73,7 @@ func Run(args []string, bx, web *rice.Box) {
 	com := &CommonOpts{}
 	com.SetFlags(f, mc)
 
-	vc := app_vo.NewValueContainer(vo)
+	vc := app_vo_impl.NewValueContainer(vo)
 	vc.MakeFlagSet(f)
 
 	err = f.Parse(rem)

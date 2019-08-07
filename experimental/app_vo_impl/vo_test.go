@@ -1,4 +1,4 @@
-package app_vo
+package app_vo_impl
 
 import (
 	"flag"

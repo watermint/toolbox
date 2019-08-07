@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/experimental/app_template"
 	"github.com/watermint/toolbox/experimental/app_user"
 	"github.com/watermint/toolbox/experimental/app_vo"
+	"github.com/watermint/toolbox/experimental/app_vo_impl"
 	"go.uber.org/zap"
 	"net/http"
 	"sort"
@@ -237,7 +238,7 @@ func (z *WebHandler) Home(g *gin.Context) {
 
 func (z *WebHandler) renderRecipe(g *gin.Context, cmd string, rcp app_recipe.Recipe) {
 	var vo interface{} = rcp.Requirement()
-	vc := app_vo.NewValueContainer(vo)
+	vc := app_vo_impl.NewValueContainer(vo)
 
 	keys := make([]string, 0)
 	for k := range vc.Values {
