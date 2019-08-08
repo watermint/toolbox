@@ -15,6 +15,10 @@ type Quiet struct {
 	log       *zap.Logger
 }
 
+func (z *Quiet) OpenArtifact(path string) {
+	z.log.Debug("Open artifact", zap.String("path", path))
+}
+
 func (z *Quiet) Text(key string, p ...app_msg.Param) string {
 	return z.container.Compile(app_msg.M(key, p...))
 }

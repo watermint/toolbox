@@ -3,6 +3,7 @@ package app_ui
 import (
 	"bufio"
 	"fmt"
+	"github.com/skratchdot/open-golang/open"
 	"github.com/watermint/toolbox/experimental/app_msg"
 	"github.com/watermint/toolbox/experimental/app_msg_container"
 	"github.com/watermint/toolbox/experimental/app_root"
@@ -46,6 +47,14 @@ type console struct {
 	Container app_msg_container.Container
 	Out       io.Writer
 	In        io.Reader
+}
+
+func (z *console) OpenArtifact(path string) {
+	z.Info("run.console.open_artifact", app_msg.P("Path", path))
+	err := open.Start(path)
+	if err != nil {
+		z.Error("run.console.open_artifact.error", app_msg.P("Error", err))
+	}
 }
 
 func (z *console) Text(key string, p ...app_msg.Param) string {

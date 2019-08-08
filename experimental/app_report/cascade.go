@@ -104,4 +104,10 @@ func (z *Cascade) Close() {
 	for _, r := range z.Reports {
 		r.Close()
 	}
+
+	p, err := z.Ctl.Workspace().Descendant(reportPath)
+	if err != nil {
+		return
+	}
+	z.Ctl.UI().OpenArtifact(p)
 }

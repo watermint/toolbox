@@ -15,6 +15,8 @@ type UI interface {
 	AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool)
 	AskText(key string, p ...app_msg.Param) (text string, cancel bool)
 	AskSecure(key string, p ...app_msg.Param) (secure string, cancel bool)
+
+	OpenArtifact(path string)
 }
 
 type Table interface {

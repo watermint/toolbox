@@ -18,6 +18,8 @@
   "run.network.progress.testing": "Testing network connection...",
   "run.network.progress.testing.done": "Done",
   "run.network.error.unreachable": "Network unreachable to `{{.Url}}`.\nPlease ensure your network connection or proxy configuration.\nPlease specify `-proxy` option if your machine is under proxy or firewall.\n\nError:\n{{.Error}}",
+  "run.console.open_artifact": "Opening artifact at {{.Path}}",
+  "run.console.open_artifact.error": "Failed to open folder: {{.Error}}",
   "flow.error.no_file_path": "No file specified",
   "flow.error.file_not_found": "File not found at path `{{.Path}}`",
   "flow.error.unable_to_read": "Unable to read file at path `{{.Path}}` with error {{.Error}}",

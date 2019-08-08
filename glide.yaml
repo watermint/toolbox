@@ -32,3 +32,6 @@ import:
 - package: github.com/gin-gonic/gin
   version: ^1.4.0
 - package: github.com/gin-contrib/zap
+- package: github.com/skratchdot/open-golang
+  subpackages:
+  - open
