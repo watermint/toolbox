@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/experimental/app_kitchen"
 )
 
 func Auth(ec *app.ExecContext, opts ...AuthOpt) (ctx api_context.Context, err error) {
@@ -18,6 +19,27 @@ func Auth(ec *app.ExecContext, opts ...AuthOpt) (ctx api_context.Context, err er
 	return a.Auth(ao.tokenType)
 }
 
+func NewKc(kitchen app_kitchen.Kitchen, opts ...AuthOpt) api_auth.Auth {
+	ao := &authOpts{
+		tokenType: api_auth.DropboxTokenNoAuth,
+		peerName:  "default",
+	}
+	for _, o := range opts {
+		o(ao)
+	}
+	ua := &KitchenAuth{
+		kitchen: kitchen,
+	}
+	ua.init()
+	ca := &KcCachedAuth{
+		peerName: ao.peerName,
+		kitchen:  kitchen,
+		auth:     ua,
+	}
+	ca.init()
+	return ca
+}
+
 func New(ec *app.ExecContext, opts ...AuthOpt) api_auth.Auth {
 	ao := &authOpts{
 		tokenType: api_auth.DropboxTokenNoAuth,
@@ -26,11 +48,11 @@ func New(ec *app.ExecContext, opts ...AuthOpt) api_auth.Auth {
 	for _, o := range opts {
 		o(ao)
 	}
-	ua := &UIAuth{
+	ua := &ECAuth{
 		ec: ec,
 	}
 	ua.init()
-	ca := &CachedAuth{
+	ca := &EcCachedAuth{
 		peerName: ao.peerName,
 		ec:       ec,
 		auth:     ua,
@@ -40,7 +62,7 @@ func New(ec *app.ExecContext, opts ...AuthOpt) api_auth.Auth {
 }
 
 func IsCacheAvailable(ec *app.ExecContext, peerName string) bool {
-	ca := &CachedAuth{
+	ca := &EcCachedAuth{
 		peerName: peerName,
 		ec:       ec,
 	}

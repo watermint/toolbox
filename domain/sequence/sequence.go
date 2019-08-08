@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/domain/sequence/sq_group"
 	"github.com/watermint/toolbox/domain/sequence/sq_sharedfolder"
 	"github.com/watermint/toolbox/domain/service"
+	"github.com/watermint/toolbox/experimental/app_root"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -314,7 +315,7 @@ type PeerInterTeam struct {
 }
 
 func Parse(jsonString string) (peer interface{}, name string, t Task, err error) {
-	l := app.Root().Log()
+	l := app_root.Log()
 
 	meta := &Metadata{}
 	if err := json.Unmarshal([]byte(jsonString), meta); err != nil {

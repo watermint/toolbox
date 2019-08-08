@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
@@ -44,7 +45,7 @@ func (z *CmdSharedFolderMemberList) Exec(args []string) {
 	svNamespace := sv_sharedfolder.New(ctx)
 	folders, err := svNamespace.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 
@@ -52,7 +53,7 @@ func (z *CmdSharedFolderMemberList) Exec(args []string) {
 		svMember := sv_sharedfolder_member.New(ctx, folder)
 		members, err := svMember.List()
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 

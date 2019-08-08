@@ -1,7 +1,7 @@
 FROM jenkins/jenkins:lts
 
 USER root
-ENV GO_BINARY=go1.12.4.linux-amd64.tar.gz
+ENV GO_BINARY=go1.12.5.linux-amd64.tar.gz
 
 RUN apt-get update && apt-get install -y gcc
 RUN wget https://dl.google.com/go/$GO_BINARY

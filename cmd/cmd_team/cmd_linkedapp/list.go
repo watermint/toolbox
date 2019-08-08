@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_linkedapp"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_linkedapp"
@@ -46,7 +47,7 @@ func (z *CmdMemberLinkedAppList) Exec(args []string) {
 	svm := sv_member.New(ctx)
 	memberList, err := svm.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 	members := mo_member.MapByTeamMemberId(memberList)
@@ -54,7 +55,7 @@ func (z *CmdMemberLinkedAppList) Exec(args []string) {
 	sva := sv_linkedapp.New(ctx)
 	apps, err := sva.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 

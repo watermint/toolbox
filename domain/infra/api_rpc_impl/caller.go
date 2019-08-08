@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_capture"
 	"github.com/watermint/toolbox/domain/infra/api_context"
@@ -160,9 +159,9 @@ func (z *CallerImpl) handleRetryAfterResponse(retryAfterSec int) bool {
 
 func (z *CallerImpl) handleResponse(apiResImpl *ResponseImpl) (apiRes api_rpc.Response, err error) {
 	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint))
-	if app.Root().IsDebug() {
-		log.Debug("Response", zap.Int("code", apiResImpl.resStatusCode), zap.String("body", apiResImpl.resBodyString))
-	}
+	//if app.Root().IsDebug() {
+	//	log.Debug("Response", zap.Int("code", apiResImpl.resStatusCode), zap.String("body", apiResImpl.resBodyString))
+	//}
 
 	switch apiResImpl.resStatusCode {
 	case http.StatusOK:
@@ -233,8 +232,13 @@ func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
 			apiResImpl.resBodyString = string(apiResImpl.resBody)
 		}
 
-		ca := api_capture.Current()
-		ca.Rpc(req, apiResImpl, err)
+		var cp api_capture.Capture
+		if cac, ok := cc.(api_context.CaptureContext); ok {
+			cp = api_capture.NewCapture(cac.Capture())
+		} else {
+			cp = api_capture.Current()
+		}
+		cp.Rpc(req, apiResImpl, err)
 
 		if err != nil {
 			log.Debug("Transport error", zap.Error(err))

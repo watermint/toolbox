@@ -2,9 +2,9 @@ package mo_namespace
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
+	"github.com/watermint/toolbox/experimental/app_root"
 	"go.uber.org/zap"
 )
 
@@ -24,7 +24,7 @@ func NewNamespaceMember(namespace *Namespace, member mo_sharedfolder_member.Memb
 
 	nm = &NamespaceMember{}
 	if err := api_parser.ParseModelRaw(nm, raw); err != nil {
-		app.Root().Log().Error("unable to parse", zap.Error(err))
+		app_root.Log().Error("unable to parse", zap.Error(err))
 	}
 	return nm
 }
@@ -48,7 +48,7 @@ type NamespaceMember struct {
 func (z *NamespaceMember) Namespace() (namespace *Namespace) {
 	namespace = &Namespace{}
 	if err := api_parser.ParseModelPathRaw(namespace, z.Raw, "namespace"); err != nil {
-		app.Root().Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
+		app_root.Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
 		// return empty
 		return namespace
 	}
@@ -58,7 +58,7 @@ func (z *NamespaceMember) Namespace() (namespace *Namespace) {
 func (z *NamespaceMember) Member() (member mo_sharedfolder_member.Member) {
 	member = &mo_sharedfolder_member.Metadata{}
 	if err := api_parser.ParseModelPathRaw(member, z.Raw, "member"); err != nil {
-		app.Root().Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
+		app_root.Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
 		// return empty
 		return member
 	}

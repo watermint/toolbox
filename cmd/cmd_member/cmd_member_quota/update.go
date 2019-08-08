@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_member_quota"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_member_quota"
@@ -73,7 +74,7 @@ func (z *CmdMemberQuotaUpdate) Exec(args []string) {
 			z.report.Report(&Report{
 				Email:  email,
 				Result: "failure",
-				Reason: ctx.ErrorMsg(err).T(),
+				Reason: api_util.UIMsgFromError(err).T(),
 			})
 			return err
 		}
@@ -91,7 +92,7 @@ func (z *CmdMemberQuotaUpdate) Exec(args []string) {
 				Email:       email,
 				DisplayName: m.DisplayName,
 				Result:      "failure",
-				Reason:      ctx.ErrorMsg(err).T(),
+				Reason:      api_util.UIMsgFromError(err).T(),
 			})
 			return err
 		}

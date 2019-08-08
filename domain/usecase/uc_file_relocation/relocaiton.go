@@ -2,7 +2,6 @@ package uc_file_relocation
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_path"
@@ -13,10 +12,10 @@ import (
 
 type Relocation interface {
 	// options: allow_shared_folder, allow_ownership_transfer, auto_rename
-	Copy(from, to mo_path.Path) (msg app_ui.UIMessage, err error)
+	Copy(from, to mo_path.Path) (err error)
 
 	// options: allow_shared_folder, allow_ownership_transfer, auto_rename
-	Move(from, to mo_path.Path) (msg app_ui.UIMessage, err error)
+	Move(from, to mo_path.Path) (err error)
 }
 
 func New(ctx api_context.Context) Relocation {
@@ -29,24 +28,24 @@ type relocationImpl struct {
 	ctx api_context.Context
 }
 
-func (z *relocationImpl) Copy(from, to mo_path.Path) (msg app_ui.UIMessage, err error) {
-	return z.relocation(from, to, func(from, to mo_path.Path) (msg app_ui.UIMessage, err error) {
+func (z *relocationImpl) Copy(from, to mo_path.Path) (err error) {
+	return z.relocation(from, to, func(from, to mo_path.Path) (err error) {
 		svc := sv_file_relocation.New(z.ctx)
 		_, err = svc.Copy(from, to)
-		return z.ctx.ErrorMsg(err), err
+		return err
 	})
 }
 
-func (z *relocationImpl) Move(from, to mo_path.Path) (msg app_ui.UIMessage, err error) {
-	return z.relocation(from, to, func(from, to mo_path.Path) (msg app_ui.UIMessage, err error) {
+func (z *relocationImpl) Move(from, to mo_path.Path) (err error) {
+	return z.relocation(from, to, func(from, to mo_path.Path) (err error) {
 		svc := sv_file_relocation.New(z.ctx)
 		_, err = svc.Move(from, to)
-		return z.ctx.ErrorMsg(err), err
+		return err
 	})
 }
 
 func (z *relocationImpl) relocation(from, to mo_path.Path,
-	reloc func(from, to mo_path.Path) (msg app_ui.UIMessage, err error)) (msg app_ui.UIMessage, err error) {
+	reloc func(from, to mo_path.Path) (err error)) (err error) {
 	log := z.ctx.Log().With(zap.String("from", from.Path()), zap.String("to", to.Path()))
 
 	svc := sv_file.NewFiles(z.ctx)
@@ -54,12 +53,7 @@ func (z *relocationImpl) relocation(from, to mo_path.Path,
 	fromEntry, err := svc.Resolve(from)
 	if err != nil {
 		log.Debug("Cannot resolve from", zap.Error(err))
-		msg := z.ctx.Msg("usecase.relocation.err.from_not_found").WithData(struct {
-			FromPath string
-		}{
-			FromPath: from.Path(),
-		})
-		return msg, err
+		return err
 	}
 	var fromToTag string
 	if to.LogicalPath() == "/" {
@@ -91,14 +85,9 @@ func (z *relocationImpl) relocation(from, to mo_path.Path,
 
 	case "folder-file":
 		log.Debug("Not a folder")
-		msg = z.ctx.Msg("usecase.relocation.err.not_a_folder").WithData(struct {
-			ToPath string
-		}{
-			ToPath: to.Path(),
-		})
-		return msg, errors.New("not a folder")
+		return errors.New("not a folder")
 
 	default:
-		return z.ctx.Msg("usecase.relocation.err.unsupported_type"), errors.New("unsupported file/folder type")
+		return errors.New("unsupported file/folder type")
 	}
 }

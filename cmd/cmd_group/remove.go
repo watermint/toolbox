@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"go.uber.org/zap"
 )
@@ -51,7 +52,7 @@ func (z *CmdGroupRemove) Exec(args []string) {
 	svc := sv_group.New(ctx)
 	groups, err := svc.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 
@@ -93,11 +94,11 @@ func (z *CmdGroupRemove) Exec(args []string) {
 					Error     string
 				}{
 					GroupName: g.GroupName,
-					Error:     ctx.ErrorMsg(err).T(),
+					Error:     api_util.UIMsgFromError(err).T(),
 				}).TellFailure()
 
 				rr.Result = z.ExecContext.Msg("cmd.group.remove.report.failure").T()
-				rr.Reason = ctx.ErrorMsg(err).T()
+				rr.Reason = api_util.UIMsgFromError(err).T()
 				z.report.Report(rr)
 				continue
 			}

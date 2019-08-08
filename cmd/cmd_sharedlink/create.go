@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/app/app_time"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 )
@@ -82,7 +83,7 @@ func (z *CmdSharedLinkCreate) Exec(args []string) {
 	for _, p := range args {
 		link, err := svc.Create(mo_path.NewPath(p), opts...)
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			continue
 		}
 		z.report.Report(link)

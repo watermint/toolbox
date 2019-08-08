@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
@@ -44,7 +45,7 @@ func (z *CmdTeamSharedLinkList) Exec(args []string) {
 	svm := sv_member.New(ctx)
 	members, err := svm.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 	z.report.Init(z.ExecContext)
@@ -55,7 +56,7 @@ func (z *CmdTeamSharedLinkList) Exec(args []string) {
 		svs := sv_sharedlink.New(mctx)
 		links, err := svs.List()
 		if err != nil {
-			mctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 		for _, link := range links {

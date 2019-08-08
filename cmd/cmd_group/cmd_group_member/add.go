@@ -56,7 +56,7 @@ func (z *CmdGroupMemberAdd) Exec(args []string) {
 	groupsByName := make(map[string]*mo_group.Group)
 	groups, err := sv_group.New(ctx).List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 	for _, group := range groups {
@@ -90,9 +90,9 @@ func (z *CmdGroupMemberAdd) Exec(args []string) {
 			z.report.Report(&Report{
 				Email:  email,
 				Result: "failure",
-				Reason: ctx.ErrorMsg(err).T(),
+				Reason: api_util.UIMsgFromError(err).T(),
 			})
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return nil
 		}
 
@@ -124,7 +124,7 @@ func (z *CmdGroupMemberAdd) Exec(args []string) {
 							GroupId:      g.GroupId,
 							GroupName:    g.GroupName,
 							Result:       "skip",
-							Reason:       ctx.ErrorMsg(err).T(),
+							Reason:       api_util.UIMsgFromError(err).T(),
 						})
 
 					default:
@@ -135,9 +135,9 @@ func (z *CmdGroupMemberAdd) Exec(args []string) {
 							GroupId:      g.GroupId,
 							GroupName:    g.GroupName,
 							Result:       "failure",
-							Reason:       ctx.ErrorMsg(err).T(),
+							Reason:       api_util.UIMsgFromError(err).T(),
 						})
-						ctx.ErrorMsg(err).TellError()
+						api_util.UIMsgFromError(err).TellError()
 
 					}
 				} else {
@@ -155,6 +155,6 @@ func (z *CmdGroupMemberAdd) Exec(args []string) {
 		return nil
 	}).Load()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 	}
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_namespace"
@@ -64,7 +65,7 @@ func (z *CmdTeamNamespaceFileList) Exec(args []string) {
 	svt := sv_profile.NewTeam(ctx)
 	admin, err := svt.Admin()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 	cta := ctx.AsAdminId(admin.TeamMemberId)
@@ -72,7 +73,7 @@ func (z *CmdTeamNamespaceFileList) Exec(args []string) {
 	svn := sv_namespace.New(ctx)
 	namespaces, err := svn.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 	if err := z.report.Init(z.ExecContext); err != nil {
@@ -87,7 +88,7 @@ func (z *CmdTeamNamespaceFileList) Exec(args []string) {
 			return nil
 		})
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 	}

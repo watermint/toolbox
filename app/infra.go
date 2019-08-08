@@ -8,6 +8,7 @@ import (
 	"github.com/rapid7/go-get-proxied/proxy"
 	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/app/app_util"
+	"github.com/watermint/toolbox/experimental/app_root"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"log"
@@ -178,12 +179,12 @@ func (z *ExecContext) startup() error {
 		return err
 	}
 	z.setupLoggerFile()
-	z.logger.Debug("Startup:",
+	z.logger.Debug("Up:",
 		zap.String("app", AppName),
 		zap.String("version", AppVersion),
 		zap.String("revision", AppHash),
 	)
-	z.logger.Debug("Startup completed")
+	z.logger.Debug("Up completed")
 	if z.isTest {
 		z.logger.Info("Jobs path", zap.String("path", z.JobsPath()))
 	}
@@ -281,7 +282,7 @@ func (z *ExecContext) Fatal(code int) {
 	if z.logWrapper != nil {
 		z.logWrapper.Flush()
 	}
-	z.Log().Debug("Shutdown (Fatal)", zap.Int("code", code))
+	z.Log().Debug("Down (Abort)", zap.Int("code", code))
 	z.Log().Sync()
 	z.shutdownCleanup()
 	os.Exit(code)
@@ -291,7 +292,7 @@ func (z *ExecContext) Shutdown() {
 	if z.logWrapper != nil {
 		z.logWrapper.Flush()
 	}
-	z.Log().Debug("Shutdown")
+	z.Log().Debug("Down")
 	z.Log().Sync()
 	z.shutdownCleanup()
 }
@@ -455,6 +456,7 @@ func (z *ExecContext) setLogger(logger *zap.Logger) {
 		// route default `log` package output into the file
 		log.SetOutput(z.logWrapper)
 	}
+	app_root.SetCompatibleLogger(logger)
 	z.logger = logger
 }
 

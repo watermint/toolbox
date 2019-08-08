@@ -1,7 +1,6 @@
 package api_context
 
 import (
-	"github.com/watermint/toolbox/app/app_ui"
 	"github.com/watermint/toolbox/domain/infra/api_async"
 	"github.com/watermint/toolbox/domain/infra/api_list"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
@@ -12,8 +11,6 @@ import (
 
 type Context interface {
 	Log() *zap.Logger
-	Msg(key string) app_ui.UIMessage
-	ErrorMsg(err error) app_ui.UIMessage
 
 	Request(endpoint string) api_rpc.Caller
 	List(endpoint string) api_list.List
@@ -32,6 +29,10 @@ type RetryContext interface {
 	RetryAfter() time.Time
 	UpdateRetryAfter(after time.Time)
 	IsNoRetry() bool
+}
+
+type CaptureContext interface {
+	Capture() *zap.Logger
 }
 
 type ClientContext interface {

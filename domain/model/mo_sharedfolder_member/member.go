@@ -3,9 +3,9 @@ package mo_sharedfolder_member
 import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder"
+	"github.com/watermint/toolbox/experimental/app_root"
 	"go.uber.org/zap"
 )
 
@@ -58,7 +58,7 @@ func (z *Metadata) MemberType() string {
 	if j.Get("invitee").Exists() {
 		return MemberTypeInvitee
 	}
-	app.Root().Log().Warn("Unknown member type", zap.String("entry", string(z.Raw)))
+	app_root.Log().Warn("Unknown member type", zap.String("entry", string(z.Raw)))
 	return ""
 }
 
@@ -239,7 +239,7 @@ func NewSharedFolderMember(sf *mo_sharedfolder.SharedFolder, m Member) *SharedFo
 
 	sfm := &SharedFolderMember{}
 	if err := api_parser.ParseModelRaw(sfm, raw); err != nil {
-		app.Root().Log().Error("unable to parse", zap.Error(err))
+		app_root.Log().Error("unable to parse", zap.Error(err))
 	}
 	return sfm
 }

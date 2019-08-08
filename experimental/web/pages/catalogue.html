@@ -1,0 +1,27 @@
+{{define "title"}}Catalogue{{end}}
+
+{{define "content"}}
+<h1 class="display-1">Catalogue</h1>
+
+{{.Cmd}}
+
+<p class="lead">{{.Detail}}</p>
+<div class="album">
+    <div class="row">
+        {{range .Jobs}}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">{{.Title}}</h3>
+                    <p class="card-text">
+                        {{.Description}}
+                    </p>
+                    <a class="btn btn-primary" href="{{.Uri}}">Detail</a>
+                </div>
+            </div>
+        </div>
+        {{end}}
+    </div>
+</div>
+
+{{end}}

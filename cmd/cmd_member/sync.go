@@ -71,7 +71,7 @@ func (z *CmdMemberSync) Exec(args []string) {
 		}
 		member, err := svm.Add(email, opts...)
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return err
 		}
 		z.report.Report(member)
@@ -88,7 +88,7 @@ func (z *CmdMemberSync) Exec(args []string) {
 		}
 		updated, err := svm.Update(member)
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return err
 		}
 		z.report.Report(updated)

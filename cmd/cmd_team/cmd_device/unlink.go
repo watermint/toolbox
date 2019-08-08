@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/infra/api_context"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_device"
 	"github.com/watermint/toolbox/domain/service/sv_device"
 	"go.uber.org/zap"
@@ -106,7 +107,7 @@ func (z *CmdTeamDeviceUnlink) unlink(ctx api_context.Context, records io.Reader)
 		z.ExecContext.Msg("cmd.team.device.unlink.progress.record").WithData(ms).Tell()
 
 		if err := svd.Revoke(ms.Session()); err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 		}
 	}
 }

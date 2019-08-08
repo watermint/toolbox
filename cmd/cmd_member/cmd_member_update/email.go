@@ -89,7 +89,7 @@ func (z *CmdMemberUpdateEmail) Exec(args []string) {
 	svc := sv_member.New(ctx)
 	members, err := svc.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 
@@ -151,10 +151,10 @@ func (z *CmdMemberUpdateEmail) Exec(args []string) {
 			}{
 				From:  f,
 				To:    t,
-				Error: ctx.ErrorMsg(err).T(),
+				Error: api_util.UIMsgFromError(err).T(),
 			}).TellFailure()
 			r.Result = z.ExecContext.Msg("cmd.member.update.email.report.result.failure").T()
-			r.Reason = ctx.ErrorMsg(err).T()
+			r.Reason = api_util.UIMsgFromError(err).T()
 			z.report.Report(r)
 			continue
 		}

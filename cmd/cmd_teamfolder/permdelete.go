@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"go.uber.org/zap"
 	"strings"
@@ -37,7 +38,7 @@ func (z *CmdTeamFolderPermDelete) Exec(args []string) {
 	svt := sv_teamfolder.New(ctx)
 	folders, err := svt.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 
@@ -48,7 +49,7 @@ func (z *CmdTeamFolderPermDelete) Exec(args []string) {
 				err := svt.PermDelete(folder)
 				if err != nil {
 					z.Log().Warn("Unable to delete team folder", zap.String("name", folder.Name))
-					ctx.ErrorMsg(err).TellError()
+					api_util.UIMsgFromError(err).TellError()
 				}
 			}
 		}

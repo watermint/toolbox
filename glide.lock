@@ -1,44 +1,70 @@
-hash: d38071aadb2c8127ae88b9b56a8d5c0d4e2ba212f69ee62ac4932d4a00805ca0
-updated: 2019-04-22T09:02:42.816933+09:00
+hash: ad992741219dc661ed03aba3bf4119d6910e93e65695d7608234bd030bd2cb02
+updated: 2019-08-08T14:40:57.990078+09:00
 imports:
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
 - name: github.com/daaku/go.zipexe
-  version: a5fe2436ffcb3236e175e5149162b41cd28bd27d
+  version: 74d766ac1dde7458348221869a7d1e7e5fa0597e
 - name: github.com/GeertJohan/go.rice
-  version: c02ca9a983da5807ddf7d796784928f5be4afd09
+  version: c880e3cd4dd81db36b423e83dc0aeea4dca93774
   subpackages:
   - embedded
   - rice
+- name: github.com/gin-contrib/sse
+  version: 54d8467d122d380a14768b6b4e5cd7ca4755938f
+- name: github.com/gin-contrib/zap
+  version: 3cc18cd8fce3ca00df79ca44f73fed1ed5d1fe2f
+- name: github.com/gin-gonic/gin
+  version: b75d67cd51eb53c3c3a2fc406524c940021ffbda
+  subpackages:
+  - binding
+  - internal/json
+  - render
 - name: github.com/golang/protobuf
-  version: 951a149f90371fb8858c6c979d03bb2583611052
+  version: 4c88cc3f1a34ffade77b79abc53335d1e511f25b
   subpackages:
   - proto
 - name: github.com/gorilla/mux
-  version: c5c6c98bc25355028a63748a498942a6398ccd22
+  version: 00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15
 - name: github.com/iancoleman/strcase
-  version: 3605ed457bf7f8caa1371b4fafadadc026673479
+  version: e506e3ef73653e84c592ba44aab577a46678f68c
+- name: github.com/json-iterator/go
+  version: 27518f6661eba504be5a7a9a9f6d9460d892ade3
 - name: github.com/kardianos/osext
-  version: ae77be60afb1dcacde03767a8c37337fad28ac14
+  version: 2bc1f35cddc0cc527b4bc3dce8578fc2a6c11384
+- name: github.com/mattn/go-isatty
+  version: da60ac76bf7019a8b005f8dd1ad9d1a0e6434155
+- name: github.com/modern-go/concurrent
+  version: bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94
+- name: github.com/modern-go/reflect2
+  version: 94122c33edd36123c84d5368cfb2b69df93a0ec8
 - name: github.com/rapid7/go-get-proxied
   version: 16249a544090ff549b357cfc72bccf76fc5a8b8d
   subpackages:
   - proxy
   - winhttp
+- name: github.com/skratchdot/open-golang
+  version: 79abb63cd66e41cb1473e26d11ebdcd68b04c8e5
+  subpackages:
+  - open
 - name: github.com/tealeg/xlsx
   version: 8be35264fa75a1bbe954ce51eba04f273e2c59e5
 - name: github.com/tidwall/gjson
-  version: eee0b6226f0d1db2675a176fdfaa8419bcad4ca8
+  version: c5e72cdf74dff23857243dd662c465b810891c21
 - name: github.com/tidwall/match
-  version: 1731857f09b1f38450e2c12409748407822dc6be
+  version: 33827db735fff6510490d69a8622612558a557ed
 - name: github.com/tidwall/pretty
   version: 1166b9ac2b65e46a43d8618d30d1554f4652d49b
+- name: github.com/ugorji/go
+  version: e118e2d506a6b252f6b85f2e2f2ac1bfed82f1b8
+  subpackages:
+  - codec
 - name: go.uber.org/atomic
-  version: 1ea20fb1cbb1cc08cbd0d913a96dead89aa18289
+  version: df976f2515e274675050de7b3f42545de80594fd
 - name: go.uber.org/multierr
   version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
 - name: go.uber.org/zap
-  version: ff33455a0e382e8a81d14dd7c922020b6b5e7982
+  version: 27376062155ad36be76b0f12cf1572a221d3a48c
   subpackages:
   - buffer
   - internal/bufferpool
@@ -46,20 +72,21 @@ imports:
   - internal/exit
   - zapcore
 - name: golang.org/x/net
-  version: 03003ca0c849e57b6ea29a4bab8d3cb6e4d568fe
+  version: ca1201d0de80cfde86cb01aea620983605dfe99b
   subpackages:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: f42d05182288abf10faef86d16c0d07b8d40ea2d
+  version: 0f29369cfe4552d0e4bcddc57cc75f4d7e672a33
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: e8e3143a4f4a00f1fafef0dd82ba78223281b01b
+  version: 51ab0e2deafac1f46c46ad59cf0921be2f180c3d
   subpackages:
+  - unix
   - windows
 - name: golang.org/x/text
-  version: 6f44c5a2ea40ee3593d98cdcc905cc1fdaa660e2
+  version: 342b2e1fbaa52c93f31447ad2c6abc048c63e475
   subpackages:
   - encoding
   - encoding/internal
@@ -74,7 +101,7 @@ imports:
   - transform
   - unicode/norm
 - name: google.golang.org/appengine
-  version: 4a4468ece617fc8205e99368fa2200e9d1fad421
+  version: fb139bde60fa77cede04f226b4d5a3cf68dcce27
   subpackages:
   - internal
   - internal/base
@@ -83,4 +110,8 @@ imports:
   - internal/remote_api
   - internal/urlfetch
   - urlfetch
+- name: gopkg.in/go-playground/validator.v8
+  version: 5f1438d3fca68893a817e4a66806cea46a9e4ebf
+- name: gopkg.in/yaml.v2
+  version: 51d6538a90f86fe93ac480b35f37b2be17fef232
 testImports: []

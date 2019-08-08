@@ -3,6 +3,7 @@ package sv_file_url
 import (
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_test"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"go.uber.org/zap"
 	"strings"
 	"testing"
@@ -18,7 +19,7 @@ func TestUrlImpl_Save(t *testing.T) {
 		path := api_test.ToolboxTestSuiteFolder.ChildPath("save_url").ChildPath("f0.png")
 		entry, err := svc.Save(path, DummyImageUrl)
 		if err != nil {
-			t.Error(ctx.ErrorMsg(err).T())
+			t.Error(api_util.UIMsgFromError(err).T())
 			return
 		}
 		if entry.Tag() != "file" {

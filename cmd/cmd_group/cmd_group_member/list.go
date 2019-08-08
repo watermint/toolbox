@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/app/app_report"
 	"github.com/watermint/toolbox/cmd"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
+	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
@@ -40,7 +41,7 @@ func (z *CmdGroupMemberList) Exec(args []string) {
 	gsv := sv_group.New(ctx)
 	groups, err := gsv.List()
 	if err != nil {
-		ctx.ErrorMsg(err).TellError()
+		api_util.UIMsgFromError(err).TellError()
 		return
 	}
 
@@ -51,7 +52,7 @@ func (z *CmdGroupMemberList) Exec(args []string) {
 		msv := sv_group_member.New(ctx, group)
 		members, err := msv.List()
 		if err != nil {
-			ctx.ErrorMsg(err).TellError()
+			api_util.UIMsgFromError(err).TellError()
 			return
 		}
 		for _, m := range members {
