@@ -58,6 +58,7 @@ if [ -e "resources/toolbox.appkeys" ]; then
     echo Zap exit with code $?
     exit $?
   fi
+  cp resources/toolbox.appkeys.secret experimental/resources
   TOOLBOX_ZAP=$(cat /tmp/toolbox.zap)
 fi
 rice embed-go
