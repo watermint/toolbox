@@ -23,6 +23,24 @@ func NewConnBusinessInfo() *ConnBusinessInfo {
 	}
 }
 
+func NewConnBusinessAudit() *ConnBusinessAudit {
+	return &ConnBusinessAudit{
+		PeerName: DefaultPeerName,
+	}
+}
+
+func NewConnBusinessFile() *ConnBusinessFile {
+	return &ConnBusinessFile{
+		PeerName: DefaultPeerName,
+	}
+}
+
+func NewConnUserFile() *ConnUserFile {
+	return &ConnUserFile{
+		PeerName: DefaultPeerName,
+	}
+}
+
 func connect(tokenType, peerName string, kitchen app_kitchen.Kitchen) (ctx api_context.Context, err error) {
 	c := api_auth_impl.NewKc(kitchen, api_auth_impl.PeerName(peerName))
 	ctx, err = c.Auth(tokenType)

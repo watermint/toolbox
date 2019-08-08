@@ -82,6 +82,27 @@ func (z *ValueContainer) From(vo interface{}) {
 					z.Values[kn] = app_conn_impl.NewConnBusinessInfo()
 				}
 
+			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessAudit)(nil)).Elem()):
+				if !vvf.IsNil() {
+					z.Values[kn] = vvf.Interface()
+				} else {
+					z.Values[kn] = app_conn_impl.NewConnBusinessAudit()
+				}
+
+			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessFile)(nil)).Elem()):
+				if !vvf.IsNil() {
+					z.Values[kn] = vvf.Interface()
+				} else {
+					z.Values[kn] = app_conn_impl.NewConnBusinessFile()
+				}
+
+			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnUserFile)(nil)).Elem()):
+				if !vvf.IsNil() {
+					z.Values[kn] = vvf.Interface()
+				} else {
+					z.Values[kn] = app_conn_impl.NewConnUserFile()
+				}
+
 			default:
 				ll.Warn("Unsupported type", zap.Any("kind", vof.Type.Kind()))
 			}
@@ -168,6 +189,27 @@ func (z *ValueContainer) Apply(vo interface{}) {
 					ll.Debug("unable to find value")
 				}
 
+			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessFile)(nil)).Elem()):
+				if v, e := z.Values[kn]; e {
+					vvf.Set(reflect.ValueOf(v))
+				} else {
+					ll.Debug("unable to find value")
+				}
+
+			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessAudit)(nil)).Elem()):
+				if v, e := z.Values[kn]; e {
+					vvf.Set(reflect.ValueOf(v))
+				} else {
+					ll.Debug("unable to find value")
+				}
+
+			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnUserFile)(nil)).Elem()):
+				if v, e := z.Values[kn]; e {
+					vvf.Set(reflect.ValueOf(v))
+				} else {
+					ll.Debug("unable to find value")
+				}
+
 			default:
 				ll.Warn("Unsupported type", zap.Any("kind", vof.Type.Kind()))
 			}
@@ -199,6 +241,14 @@ func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet) {
 		case *app_file_impl.Factory:
 			f.StringVar(&dv.FilePath, kf, dv.FilePath, desc)
 		case *app_conn_impl.ConnBusinessMgmt:
+			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)
+		case *app_conn_impl.ConnBusinessInfo:
+			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)
+		case *app_conn_impl.ConnBusinessAudit:
+			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)
+		case *app_conn_impl.ConnBusinessFile:
+			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)
+		case *app_conn_impl.ConnUserFile:
 			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)
 		}
 	}
