@@ -178,9 +178,11 @@ func Run(args []string, bx, web *rice.Box) {
 	if err != nil {
 		ctl.Abort(app_control.Reason(app_control.FatalRuntime))
 	}
-	err = app_diag.Network(ctl)
-	if err != nil {
-		ctl.Abort(app_control.Reason(app_control.FatalNetwork))
+	if ctl.IsProduction() {
+		err = app_diag.Network(ctl)
+		if err != nil {
+			ctl.Abort(app_control.Reason(app_control.FatalNetwork))
+		}
 	}
 
 	// Run

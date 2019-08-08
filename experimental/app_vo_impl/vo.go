@@ -68,11 +68,18 @@ func (z *ValueContainer) From(vo interface{}) {
 					z.Values[kn] = &app_file_impl.Factory{}
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((app_conn.ConnBusinessMgmt)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessMgmt)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = &app_conn_impl.ConnBusinessMgmt{}
+					z.Values[kn] = app_conn_impl.NewConnBusinessMgmt()
+				}
+
+			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessInfo)(nil)).Elem()):
+				if !vvf.IsNil() {
+					z.Values[kn] = vvf.Interface()
+				} else {
+					z.Values[kn] = app_conn_impl.NewConnBusinessInfo()
 				}
 
 			default:
@@ -148,6 +155,13 @@ func (z *ValueContainer) Apply(vo interface{}) {
 				}
 
 			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessMgmt)(nil)).Elem()):
+				if v, e := z.Values[kn]; e {
+					vvf.Set(reflect.ValueOf(v))
+				} else {
+					ll.Debug("unable to find value")
+				}
+
+			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessInfo)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {

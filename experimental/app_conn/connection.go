@@ -6,7 +6,7 @@ import (
 )
 
 type ConnDropboxApi interface {
-	Context(kitchen app_kitchen.Kitchen) (ctx api_context.Context, err error)
+	Connect(kitchen app_kitchen.Kitchen) (ctx api_context.Context, err error)
 }
 
 type ConnUserFile interface {
