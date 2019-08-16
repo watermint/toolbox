@@ -139,11 +139,13 @@ func (z *WebHandler) setupUrls(g *gin.Engine) {
 
 	g.GET(webPathHome, z.Home)
 	g.GET(webPathHome+"/:command", z.Home)
+	g.POST(webPathHome+"/:command", z.Home)
 	g.GET(webPathHome+"/:command/:tokenType", z.Home)
 	g.GET("param", z.renderRecipeParam)
 	z.Template.Define("home-catalogue", "layout/layout.html", "pages/catalogue.html")
 	z.Template.Define("home-recipe-conn", "layout/layout.html", "pages/recipe_conn.html")
 	z.Template.Define("home-recipe-param", "layout/layout.html", "pages/recipe_param.html")
+	z.Template.Define("home-recipe-run", "layout/layout.html", "pages/recipe_run.html")
 
 	g.GET(webPathRoot, z.Instruction)
 	z.Template.Define(webPathRoot, "layout/layout.html", "pages/home.html")
@@ -384,6 +386,7 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe
 			z.renderRecipeParam(g)
 		} else {
 			// TODO forward to confirm & run
+			z.renderRecipeRun(g, cmd, rcp, user, uc)
 		}
 		return
 	}
@@ -423,11 +426,52 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe
 }
 
 func (z *WebHandler) renderRecipeParam(g *gin.Context) {
+
 	g.HTML(
 		http.StatusOK,
 		"home-recipe-param",
 		gin.H{
 			"Recipe": "sharedfolder-list",
+		},
+	)
+}
+
+func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp app_recipe.Recipe, user app_user.User, uc app_control.Control) {
+	l := z.control.Log().With(zap.String("cmd", cmd))
+	reqConns, _, _ := z.recipeRequirements(rcp)
+
+	selectedConns := g.PostFormMap("Conn")
+	listConns := make([]string, 0)
+	connDesc := make(map[string]string)
+	connSuppl := make(map[string]string)
+
+	for connName, tokenType := range reqConns {
+		listConns = append(listConns, connName)
+		conns, err := z.auth(user, uc).List(tokenType)
+		if err != nil {
+			l.Debug("Unable to list connections", zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		}
+		for _, c := range conns {
+			if c.PeerName == selectedConns[connName] {
+				connDesc[connName] = c.Description
+				connSuppl[connName] = c.Supplemental
+				break
+			}
+		}
+	}
+	sort.Strings(listConns)
+
+	g.HTML(
+		http.StatusOK,
+		"home-recipe-run",
+		gin.H{
+			"Recipe":        cmd,
+			"Conns":         listConns,
+			"ConnsSelected": selectedConns,
+			"ConnDesc":      connDesc,
+			"ConnSuppl":     connSuppl,
 		},
 	)
 }

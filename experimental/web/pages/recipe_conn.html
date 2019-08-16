@@ -1,39 +1,50 @@
+
 {{define "title"}}{{.Recipe}}: Connect{{end}}
-
 {{define "content"}}
+    {{ $recipe := .Recipe }}
+    {{ $desc := .ExistingConnDesc }}
+    {{ $suppl := .ExistingConnSuppl }}
+    {{ $currentConn := .CurrentConn }}
+    {{ $selectedConn := .SelectedConns }}
     <div class="text-center">
-        <h1 class="display-1 mb-5">{{.Recipe}}</h1>
+    <h1 class="display-1 mb-5">{{ $recipe }}</h1>
 
-        <h2 class="mb-5">Connect</h2>
+    <h2 class="mb-5">Connect</h2>
 
-        <div class="container col-md-6">
-            <div class="alert alert-info text-left" role="alert">
-                <h4>{{.CurrentConnTypeHeader}}</h4>
-                {{.CurrentConnTypeDetail}}
-            </div>
-
-            {{ $desc := .ExistingConnDesc }}
-            {{ $suppl := .ExistingConnSuppl }}
-            {{range $peerName := .ExistingConns}}
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h3 class="card-title">{{index $desc $peerName}}</h3>
-                        <p class="card-text">{{index $suppl $peerName}}</p>
-                        <form action="">
-
-                        </form>
-                        <a class="btn btn-primary" href="">Next</a>
-                    </div>
-                </div>
-            {{end}}
-
-            <button id="newConnection" type="button" class="btn btn-lg btn-block btn-secondary">New connection</button>
-            <script>
-                $("#newConnection").click(function () {
-                    uri = "/connect/start?command={{.Recipe}}&tokenType={{.CurrentConnType}}";
-                    window.open(uri, "newConnection")
-                })
-            </script>
+    <div class="container col-md-6">
+        <div class="alert alert-info text-left" role="alert">
+            <h4>{{.CurrentConnTypeHeader}}</h4>
+            {{.CurrentConnTypeDetail}}
         </div>
+
+        {{range $peerName := .ExistingConns}}
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title">{{index $desc $peerName}}</h3>
+                <p class="card-text">{{index $suppl $peerName}}</p>
+                <form action="/home/{{$recipe}}" id="form-{{$peerName}}" method="post">
+                    {{ range $k, $v := $selectedConn }}
+                    <input type="hidden" name="Conn[{{ $k }}]" value="{{ $v }}"/>
+                    {{ end }}
+                    <input type="hidden" name="Conn[{{ $currentConn }}]" value="{{ $peerName }}"/>
+                    <button id="next-{{ $peerName}}" class="btn btn-primary">Next</button>
+                    <script type="application/javascript">
+                        $("#next-{{$peerName}}").click(function () {
+                            $("#form-{{$peerName}}").submit();
+                        })
+                    </script>
+                </form>
+            </div>
+        </div>
+        {{end}}
+
+        <button id="newConnection" type="button" class="btn btn-lg btn-block btn-secondary">New connection</button>
+        <script type="application/javascript">
+            $("#newConnection").click(function () {
+                uri = "/connect/start?command={{.Recipe}}&tokenType={{.CurrentConnType}}";
+                window.open(uri, "newConnection")
+            })
+        </script>
     </div>
+</div>
 {{end}}
