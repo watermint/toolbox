@@ -14,6 +14,14 @@ import (
 	"text/template"
 )
 
+func MustGenerateRandomString(size int) string {
+	r, err := GenerateRandomString(size)
+	if err != nil {
+		panic(err)
+	}
+	return r
+}
+
 // size: length of the string
 func GenerateRandomString(size int) (string, error) {
 	if size < 1 {

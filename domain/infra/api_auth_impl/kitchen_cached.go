@@ -24,7 +24,7 @@ type KcCachedAuth struct {
 	peerName string
 	tokens   map[string]string
 	kitchen  app_kitchen.Kitchen
-	auth     api_auth.Auth
+	auth     api_auth.Console
 }
 
 func (z *KcCachedAuth) Auth(tokenType string) (ctx api_context.Context, err error) {
@@ -34,6 +34,9 @@ func (z *KcCachedAuth) Auth(tokenType string) (ctx api_context.Context, err erro
 			TokenType: tokenType,
 		}
 		return api_context_impl.NewKC(z.kitchen, tc), nil
+	}
+	if z.auth == nil {
+		return nil, errors.New("no authentication method")
 	}
 	if ctx, err = z.auth.Auth(tokenType); err != nil {
 		return nil, err

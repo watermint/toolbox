@@ -36,6 +36,7 @@ func (*List) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
+	// Write report
 	rep, err := k.Report("sharedfolder", &mo_sharedfolder.SharedFolder{})
 	if err != nil {
 		return err

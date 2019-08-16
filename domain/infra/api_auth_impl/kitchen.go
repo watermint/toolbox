@@ -2,7 +2,6 @@ package api_auth_impl
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/app/app_util"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
@@ -10,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_context_impl"
 	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"github.com/watermint/toolbox/experimental/app_msg"
-	"github.com/watermint/toolbox/experimental/app_zap"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"strings"
@@ -18,8 +16,8 @@ import (
 
 type KitchenAuth struct {
 	kitchen  app_kitchen.Kitchen
+	app      api_auth.App
 	peerName string
-	keys     map[string]string
 }
 
 func (z *KitchenAuth) Auth(tokenType string) (ctx api_context.Context, err error) {
@@ -27,7 +25,7 @@ func (z *KitchenAuth) Auth(tokenType string) (ctx api_context.Context, err error
 		return nil, errors.New("test mode")
 	}
 
-	key, secret := z.appKeys(tokenType)
+	key, secret := z.app.AppKey(tokenType)
 	if key == "" || secret == "" {
 		t, err := z.authGenerated(tokenType)
 		return z.wrapToken(tokenType, t, err)
@@ -37,49 +35,8 @@ func (z *KitchenAuth) Auth(tokenType string) (ctx api_context.Context, err error
 	}
 }
 
-func (z *KitchenAuth) appKeys(tokenType string) (key, secret string) {
-	var e bool
-	if key, e = z.keys[tokenType+".key"]; !e {
-		return "", ""
-	}
-	if secret, e = z.keys[tokenType+".secret"]; !e {
-		return "", ""
-	}
-	return
-}
-
-func (z *KitchenAuth) verifyToken(tokenType string, ctx api_context.Context) error {
-	switch tokenType {
-	case api_auth.DropboxTokenFull, api_auth.DropboxTokenApp:
-		_, err := ctx.Request("users/get_current_account").Call()
-		if err != nil {
-			ctx.Log().Debug("Unable to verify token", zap.Error(err))
-			return err
-		}
-		ctx.Log().Debug("Token Verified")
-
-		return nil
-
-	case api_auth.DropboxTokenBusinessInfo,
-		api_auth.DropboxTokenBusinessManagement,
-		api_auth.DropboxTokenBusinessFile,
-		api_auth.DropboxTokenBusinessAudit:
-		_, err := ctx.Request("team/token/get_authenticated_admin").Call()
-		if err != nil {
-			ctx.Log().Debug("Unable to verify token", zap.Error(err))
-			return err
-		}
-		ctx.Log().Debug("Token Verified")
-
-		return nil
-
-	default:
-		return nil
-	}
-}
-
 func (z *KitchenAuth) wrapToken(tokenType, token string, cause error) (ctx api_context.Context, err error) {
-	if err != nil {
+	if cause != nil {
 		return nil, err
 	}
 	tc := api_auth.TokenContainer{
@@ -89,7 +46,7 @@ func (z *KitchenAuth) wrapToken(tokenType, token string, cause error) (ctx api_c
 	}
 	ctx = api_context_impl.NewKC(z.kitchen, tc)
 
-	err = z.verifyToken(tokenType, ctx)
+	_, err = VerifyToken(tokenType, ctx)
 	if err != nil {
 		z.kitchen.Log().Debug("failed verify token", zap.Error(err))
 		z.kitchen.UI().Error("auth.basic.verify.failed")
@@ -98,25 +55,8 @@ func (z *KitchenAuth) wrapToken(tokenType, token string, cause error) (ctx api_c
 	return ctx, nil
 }
 
-func (z *KitchenAuth) loadKeys() {
-	kb, err := app_zap.Unzap(z.kitchen.Control())
-	if err != nil {
-		kb, err = z.kitchen.Control().Resource("toolbox.appkeys")
-		if err != nil {
-			z.kitchen.Log().Debug("Skip loading app keys")
-			return
-		}
-	}
-	err = json.Unmarshal(kb, &z.keys)
-	if err != nil {
-		z.kitchen.Log().Debug("Skip loading app keys: unable to unmarshal resource", zap.Error(err))
-		return
-	}
-}
-
 func (z *KitchenAuth) init() {
-	z.keys = make(map[string]string)
-	z.loadKeys()
+	z.app = NewApp(z.kitchen)
 }
 
 func (z *KitchenAuth) generatedTokenInstruction(tokenType string) {
@@ -190,23 +130,6 @@ func (z *KitchenAuth) oauthStart(tokenType string) (string, error) {
 	return tok.AccessToken, nil
 }
 
-func (z *KitchenAuth) oauthEndpoint() *oauth2.Endpoint {
-	return &oauth2.Endpoint{
-		AuthURL:  "https://www.dropbox.com/oauth2/authorize",
-		TokenURL: "https://api.dropboxapi.com/oauth2/token",
-	}
-}
-
-func (z *KitchenAuth) oauthConfig(tokenType string) *oauth2.Config {
-	key, secret := z.appKeys(tokenType)
-	return &oauth2.Config{
-		ClientID:     key,
-		ClientSecret: secret,
-		Scopes:       []string{},
-		Endpoint:     *z.oauthEndpoint(),
-	}
-}
-
 func (z *KitchenAuth) oauthUrl(cfg *oauth2.Config, state string) string {
 	return cfg.AuthCodeURL(
 		state,
@@ -232,7 +155,7 @@ func (z *KitchenAuth) oauthCode(state string) string {
 }
 
 func (z *KitchenAuth) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
-	cfg := z.oauthConfig(tokenType)
+	cfg := z.app.Config(tokenType)
 	url := z.oauthUrl(cfg, state)
 
 	z.kitchen.UI().Info("auth.basic.oauth_seq1", app_msg.P("Url", url))

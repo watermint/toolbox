@@ -1,0 +1,31 @@
+{{define "title"}}{{.Recipe}}: Params{{end}}
+
+{{define "content"}}
+    <div class="text-center">
+        <h1 class="display-1 mb-5">{{.Recipe}}</h1>
+
+        <h2 class="mb-5">Run Parameters</h2>
+        <div class="container col-md-6">
+
+            <ul class="list-group mb-4">
+                <li class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                        <input id="param-Recursive" class="custom-control-input" type="checkbox"/>
+                        <label for="param-Recursive" class="custom-control-label">Recursive</label>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Path</span>
+                        </div>
+                        <input id="param-Path" class="form-control" type="text"/>
+                    </div>
+                </li>
+            </ul>
+
+            <button type="button" class="btn btn-lg btn-block btn-primary">Next</button>
+
+        </div>
+    </div>
+{{end}}

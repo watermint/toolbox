@@ -19,7 +19,7 @@ func Auth(ec *app.ExecContext, opts ...AuthOpt) (ctx api_context.Context, err er
 	return a.Auth(ao.tokenType)
 }
 
-func NewKc(kitchen app_kitchen.Kitchen, opts ...AuthOpt) api_auth.Auth {
+func NewKc(kitchen app_kitchen.Kitchen, opts ...AuthOpt) api_auth.Console {
 	ao := &authOpts{
 		tokenType: api_auth.DropboxTokenNoAuth,
 		peerName:  "default",
@@ -40,7 +40,7 @@ func NewKc(kitchen app_kitchen.Kitchen, opts ...AuthOpt) api_auth.Auth {
 	return ca
 }
 
-func New(ec *app.ExecContext, opts ...AuthOpt) api_auth.Auth {
+func New(ec *app.ExecContext, opts ...AuthOpt) api_auth.Console {
 	ao := &authOpts{
 		tokenType: api_auth.DropboxTokenNoAuth,
 		peerName:  ec.DefaultPeerName(),
