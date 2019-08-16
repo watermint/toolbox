@@ -10,6 +10,16 @@ import (
 	"go.uber.org/zap"
 )
 
+func NewMulti(ws app_workspace.Workspace, ui app_ui.UI, bx *rice.Box, mc app_msg_container.Container, quiet bool) app_control.Control {
+	return &Multi{
+		ws:    ws,
+		ui:    ui,
+		box:   bx,
+		mc:    mc,
+		quiet: quiet,
+	}
+}
+
 type Multi struct {
 	ui     app_ui.UI
 	flc    *app_log.FileLogContext
@@ -27,7 +37,9 @@ func (z *Multi) Up(opts ...app_control.UpOpt) (err error) {
 		o(opt)
 	}
 	z.secure = opt.Secure
-	z.ws = opt.Workspace
+	if z.ws == nil {
+		z.ws = opt.Workspace
+	}
 
 	z.flc, err = app_log.NewFileLogger(z.ws.Log(), opt.Debug)
 	if err != nil {

@@ -114,11 +114,11 @@ type WebHandler struct {
 	authForUser map[string]api_auth.Web
 }
 
-func (z *WebHandler) auth(user app_user.User) api_auth.Web {
+func (z *WebHandler) auth(user app_user.User, uc app_control.Control) api_auth.Web {
 	if a, ok := z.authForUser[user.UserHash()]; ok {
 		return a
 	} else {
-		a = api_auth_impl.NewWeb(z.control)
+		a = api_auth_impl.NewWeb(uc)
 		z.authForUser[user.UserHash()] = a
 		return a
 	}
@@ -300,11 +300,11 @@ func (z *WebHandler) Instruction(g *gin.Context) {
 }
 
 func (z *WebHandler) connectStart(g *gin.Context) {
-	z.withUser(g, func(g *gin.Context, user app_user.User) {
+	z.withUser(g, func(g *gin.Context, user app_user.User, uc app_control.Control) {
 		//cmd := g.Query("command")
 		tokenType := g.Query("tokenType")
 		redirectUrl := z.BaseUrl + webPathConnectAuth
-		_, url, err := z.auth(user).New(tokenType, redirectUrl)
+		_, url, err := z.auth(user, uc).New(tokenType, redirectUrl)
 		if err != nil {
 			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
 			return
@@ -314,11 +314,11 @@ func (z *WebHandler) connectStart(g *gin.Context) {
 }
 
 func (z *WebHandler) connectAuth(g *gin.Context) {
-	z.withUser(g, func(g *gin.Context, user app_user.User) {
+	z.withUser(g, func(g *gin.Context, user app_user.User, uc app_control.Control) {
 		state := g.Query("state")
 		code := g.Query("code")
 
-		_, _, err := z.auth(user).Auth(state, code)
+		_, _, err := z.auth(user, uc).Auth(state, code)
 		if err != nil {
 			g.Redirect(http.StatusTemporaryRedirect, webPathAuthFailed)
 		} else {
@@ -328,7 +328,7 @@ func (z *WebHandler) connectAuth(g *gin.Context) {
 }
 
 func (z *WebHandler) Home(g *gin.Context) {
-	z.withUser(g, func(g *gin.Context, user app_user.User) {
+	z.withUser(g, func(g *gin.Context, user app_user.User, uc app_control.Control) {
 		cmd := g.Param("command")
 		grp, rcp, err := z.findRecipe(cmd)
 
@@ -338,7 +338,7 @@ func (z *WebHandler) Home(g *gin.Context) {
 
 		case rcp != nil:
 			// TODO: Breadcrumb list
-			z.renderRecipeConn(g, cmd, rcp, user)
+			z.renderRecipeConn(g, cmd, rcp, user, uc)
 
 		case grp != nil:
 			// TODO: Breadcrumb list
@@ -347,7 +347,7 @@ func (z *WebHandler) Home(g *gin.Context) {
 	})
 }
 
-func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe.Recipe, user app_user.User) {
+func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe.Recipe, user app_user.User, uc app_control.Control) {
 	l := z.control.Log().With(zap.String("cmd", cmd))
 	reqConns, reqParams, _ := z.recipeRequirements(rcp)
 	selectedConns := g.PostFormMap("Conn")
@@ -376,7 +376,7 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe
 		return
 	}
 
-	existingConns, err := z.auth(user).List(nextConnType)
+	existingConns, err := z.auth(user, uc).List(nextConnType)
 	if err != nil {
 		l.Debug("Unable to list connections", zap.Error(err))
 		g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
@@ -465,21 +465,34 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe
 	)
 }
 
-func (z *WebHandler) withUser(g *gin.Context, f func(g *gin.Context, user app_user.User)) {
+func (z *WebHandler) withUser(g *gin.Context, f func(g *gin.Context, user app_user.User, uc app_control.Control)) {
+	l := z.control.Log()
+
 	hash, err := g.Cookie(webUserHashCookie)
 	if err != nil {
+		l.Debug("No cookie access")
 		g.Redirect(http.StatusTemporaryRedirect, webPathForbidden)
 		return
 	}
+	l.With(zap.String("UserHash", hash))
 	repo, err := app_user.SingleUserRepository(z.control.Workspace())
 	if err != nil {
+		l.Debug("Unable to prepare user repo", zap.Error(err))
 		g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
 		return
 	}
 	user, err := repo.Resolve(hash)
 	if err != nil {
+		l.Debug("Unable to resolve user by hash", zap.Error(err))
 		g.Redirect(http.StatusTemporaryRedirect, webPathForbidden)
 		return
 	}
-	f(g, user)
+	uc, err := z.control.(app_control_launcher.ControlLauncher).NewControl(user.Workspace())
+	if err != nil {
+		l.Debug("Unable to create new control for the user", zap.Error(err))
+		g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+		return
+	}
+
+	f(g, user, uc)
 }

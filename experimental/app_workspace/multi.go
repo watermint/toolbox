@@ -22,8 +22,7 @@ func NewMultiApp(home string) (Application, error) {
 
 func NewMultiUser(app Application, userHash string) (MultiUser, error) {
 	mu := &multiUser{
-		app:      app,
-		userHash: userHash,
+		home: filepath.Join(app.Home(), nameUser, userHash),
 	}
 	err := mu.setup()
 	if err != nil {
@@ -32,7 +31,7 @@ func NewMultiUser(app Application, userHash string) (MultiUser, error) {
 	return mu, nil
 }
 
-func NewMultiJob(user MultiUser) (Job, error) {
+func NewMultiJob(user MultiUser) (Workspace, error) {
 	mj := &multiJob{
 		user:  user,
 		jobId: NewJobId(),
@@ -58,12 +57,11 @@ func (z *multiApp) setup() error {
 }
 
 type multiUser struct {
-	app      Application
-	userHash string
+	home string
 }
 
 func (z *multiUser) UserHome() string {
-	return filepath.Join(z.app.Home(), nameUser, z.userHash)
+	return z.home
 }
 
 func (z *multiUser) Secrets() string {
@@ -85,6 +83,14 @@ func (z *multiUser) setup() error {
 type multiJob struct {
 	user  MultiUser
 	jobId string
+}
+
+func (z *multiJob) Home() string {
+	return z.user.UserHome()
+}
+
+func (z *multiJob) Secrets() string {
+	return z.user.Secrets()
 }
 
 func (z *multiJob) Job() string {

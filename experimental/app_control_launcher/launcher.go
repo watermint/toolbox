@@ -8,5 +8,5 @@ import (
 
 type ControlLauncher interface {
 	Catalogue() []app_recipe.Recipe
-	NewControl(user app_workspace.MultiUser) app_control.Control
+	NewControl(user app_workspace.MultiUser) (ctl app_control.Control, err error)
 }
