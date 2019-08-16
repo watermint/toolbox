@@ -21,7 +21,16 @@ if [ ! -d $DIST_PATH ]; then
   mkdir -p $DIST_PATH
 fi
 if [ "$TOOLBOX_BUILD_ID"x = ""x ]; then
-  TOOLBOX_BUILD_ID=0.0
+  # Circle CI
+  if [ "$CIRCLE_BUILD_NUM"x != ""x ]; then
+    TOOLBOX_BUILD_ID=$CIRCLE_BUILD_NUM
+
+  # Gitlab
+  elif [ "$CI_PIPELINE_IID" ]; then
+    TOOLBOX_BUILD_ID=$CI_PIPELINE_IID
+  else
+    TOOLBOX_BUILD_ID=0.0
+  fi
 fi
 BUILD_VERSION=$BUILD_MAJOR_VERSION.$TOOLBOX_BUILD_ID
 

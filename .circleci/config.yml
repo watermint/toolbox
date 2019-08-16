@@ -12,7 +12,6 @@ jobs:
       - run: glide install
       - run: go test $(glide novendor)
       - run: echo "$TOOLBOX_APPKEYS" > resources/toolbox.appkeys
-      - run: export TOOLBOX_BUILD_ID=$CIRCLE_BUILD_NUM
       - run: ./build.sh
       - store_artifacts:
           path: /go/src/github.com/watermint/toolbox/dist
