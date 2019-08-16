@@ -60,6 +60,9 @@ if [ -e "resources/toolbox.appkeys" ]; then
   fi
   cp resources/toolbox.appkeys.secret experimental/resources
   TOOLBOX_ZAP=$(cat /tmp/toolbox.zap)
+else
+  echo ERR: No app key file found
+  exit 1
 fi
 rice embed-go
 
