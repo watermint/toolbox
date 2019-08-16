@@ -32,8 +32,10 @@ const (
 	webPathHome            = "/home"
 	webPathConnectStart    = "/connect/start"
 	webPathConnectAuth     = "/connect/auth"
+	webPathConnectFinish   = "/connect/finish"
 	webPathForbidden       = "/error/forbidden"
 	webPathServerError     = "/error/server"
+	webPathAuthFailed      = "/error/auth_failed"
 	webPathCommandNotFound = "/error/command_not_found"
 )
 
@@ -86,15 +88,15 @@ func (z *Web) Exec(k app_kitchen.Kitchen) error {
 	baseUrl := fmt.Sprintf("http://localhost:%d", wvo.Port)
 
 	wh := &WebHandler{
-		Kitchen:  k,
-		Template: htp,
-		Launcher: cl,
-		Auth:     api_auth_impl.NewWeb(k),
-		BaseUrl:  baseUrl,
+		control:     k.Control(),
+		Template:    htp,
+		Launcher:    cl,
+		BaseUrl:     baseUrl,
+		authForUser: make(map[string]api_auth.Web),
 	}
 	wh.Setup(g)
 
-	loginUrl := baseUrl + webPathLogin + ru.UserHash()
+	loginUrl := baseUrl + webPathLogin + "/" + ru.UserHash()
 
 	k.Log().Info("Login url", zap.String("url", loginUrl))
 
@@ -104,12 +106,22 @@ func (z *Web) Exec(k app_kitchen.Kitchen) error {
 }
 
 type WebHandler struct {
-	Kitchen  app_kitchen.Kitchen
-	Template app_template.Template
-	Launcher app_control_launcher.ControlLauncher
-	Auth     api_auth.Web
-	BaseUrl  string
-	Root     *app_recipe_group.Group
+	control     app_control.Control
+	Template    app_template.Template
+	Launcher    app_control_launcher.ControlLauncher
+	BaseUrl     string
+	Root        *app_recipe_group.Group
+	authForUser map[string]api_auth.Web
+}
+
+func (z *WebHandler) auth(user app_user.User) api_auth.Web {
+	if a, ok := z.authForUser[user.UserHash()]; ok {
+		return a
+	} else {
+		a = api_auth_impl.NewWeb(z.control)
+		z.authForUser[user.UserHash()] = a
+		return a
+	}
 }
 
 func (z *WebHandler) setupUrls(g *gin.Engine) {
@@ -120,11 +132,13 @@ func (z *WebHandler) setupUrls(g *gin.Engine) {
 	g.GET(webPathForbidden, z.Forbidden)
 	g.GET(webPathServerError, z.ServerError)
 	g.GET(webPathCommandNotFound, z.CommandNotFound)
+	g.GET(webPathAuthFailed, z.AuthFailed)
 
 	g.NoRoute(z.NotFound)
 	z.Template.Define("error", "layout/layout.html", "pages/error.html")
 
 	g.GET(webPathHome, z.Home)
+	g.GET(webPathHome+"/:command", z.Home)
 	g.GET(webPathHome+"/:command/:tokenType", z.Home)
 	g.GET("param", z.renderRecipeParam)
 	z.Template.Define("home-catalogue", "layout/layout.html", "pages/catalogue.html")
@@ -134,7 +148,8 @@ func (z *WebHandler) setupUrls(g *gin.Engine) {
 	g.GET(webPathRoot, z.Instruction)
 	z.Template.Define(webPathRoot, "layout/layout.html", "pages/home.html")
 
-	g.GET(webPathConnectStart+"/:command", z.connectStart)
+	g.GET(webPathConnectStart, z.connectStart)
+	g.GET(webPathConnectAuth, z.connectAuth)
 }
 
 func (z *WebHandler) setupCatalogue() {
@@ -166,6 +181,33 @@ func (z *WebHandler) findRecipe(cmd string) (grp *app_recipe_group.Group, rcp ap
 	return
 }
 
+func (z *WebHandler) recipeRequirements(rcp app_recipe.Recipe) (conns map[string]string, paramTypes map[string]string, paramDefaults map[string]interface{}) {
+	conns = make(map[string]string)
+	paramTypes = make(map[string]string)
+	paramDefaults = make(map[string]interface{})
+
+	var vo interface{} = rcp.Requirement()
+	vc := app_vo_impl.NewValueContainer(vo)
+
+	for k, v := range vc.Values {
+		if d, ok := v.(bool); ok {
+			paramTypes[k] = "bool"
+			paramDefaults[k] = d
+		} else if _, ok := v.(app_conn.ConnBusinessInfo); ok {
+			conns[k] = api_auth.DropboxTokenBusinessInfo
+		} else if _, ok := v.(app_conn.ConnBusinessFile); ok {
+			conns[k] = api_auth.DropboxTokenBusinessFile
+		} else if _, ok := v.(app_conn.ConnBusinessAudit); ok {
+			conns[k] = api_auth.DropboxTokenBusinessAudit
+		} else if _, ok := v.(app_conn.ConnBusinessMgmt); ok {
+			conns[k] = api_auth.DropboxTokenBusinessManagement
+		} else if _, ok := v.(app_conn.ConnUserFile); ok {
+			conns[k] = api_auth.DropboxTokenFull
+		}
+	}
+	return
+}
+
 func (z *WebHandler) Setup(g *gin.Engine) {
 	z.setupCatalogue()
 	z.setupUrls(g)
@@ -173,7 +215,7 @@ func (z *WebHandler) Setup(g *gin.Engine) {
 
 func (z *WebHandler) Login(g *gin.Context) {
 	hash := g.Param("user_hash")
-	repo, err := app_user.SingleUserRepository(z.Kitchen.Control().Workspace())
+	repo, err := app_user.SingleUserRepository(z.control.Workspace())
 	if err != nil {
 		g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
 	}
@@ -199,8 +241,8 @@ func (z *WebHandler) NotFound(g *gin.Context) {
 		http.StatusNotFound,
 		"error",
 		gin.H{
-			"Header": z.Kitchen.UI().Text("web.error.notfound.header"),
-			"Detail": z.Kitchen.UI().Text("web.error.notfound.detail"),
+			"Header": z.control.UI().Text("web.error.notfound.header"),
+			"Detail": z.control.UI().Text("web.error.notfound.detail"),
 		},
 	)
 }
@@ -210,8 +252,8 @@ func (z *WebHandler) ServerError(g *gin.Context) {
 		http.StatusInternalServerError,
 		"error",
 		gin.H{
-			"Header": z.Kitchen.UI().Text("web.error.server.header"),
-			"Detail": z.Kitchen.UI().Text("web.error.server.detail"),
+			"Header": z.control.UI().Text("web.error.server.header"),
+			"Detail": z.control.UI().Text("web.error.server.detail"),
 		},
 	)
 }
@@ -220,8 +262,19 @@ func (z *WebHandler) CommandNotFound(g *gin.Context) {
 		http.StatusBadRequest,
 		"error",
 		gin.H{
-			"Header": z.Kitchen.UI().Text("web.error.command_not_found.header"),
-			"Detail": z.Kitchen.UI().Text("web.error.command_not_found.detail"),
+			"Header": z.control.UI().Text("web.error.command_not_found.header"),
+			"Detail": z.control.UI().Text("web.error.command_not_found.detail"),
+		},
+	)
+}
+
+func (z *WebHandler) AuthFailed(g *gin.Context) {
+	g.HTML(
+		http.StatusOK,
+		"error",
+		gin.H{
+			"Header": z.control.UI().Text("web.error.auth_failed.header"),
+			"Detail": z.control.UI().Text("web.error.auth_failed.detail"),
 		},
 	)
 }
@@ -231,8 +284,8 @@ func (z *WebHandler) Forbidden(g *gin.Context) {
 		http.StatusForbidden,
 		webPathServerError,
 		gin.H{
-			"Header": z.Kitchen.UI().Text("web.error.forbidden.header"),
-			"Detail": z.Kitchen.UI().Text("web.error.forbidden.detail"),
+			"Header": z.control.UI().Text("web.error.forbidden.header"),
+			"Detail": z.control.UI().Text("web.error.forbidden.detail"),
 		},
 	)
 }
@@ -248,15 +301,29 @@ func (z *WebHandler) Instruction(g *gin.Context) {
 
 func (z *WebHandler) connectStart(g *gin.Context) {
 	z.withUser(g, func(g *gin.Context, user app_user.User) {
-		cmd := g.Param("command")
-		tokenType := g.Param("tokenType")
-		redirectUrl := z.BaseUrl + webPathConnectAuth + "/" + cmd
-		_, url, err := z.Auth.New(tokenType, redirectUrl)
+		//cmd := g.Query("command")
+		tokenType := g.Query("tokenType")
+		redirectUrl := z.BaseUrl + webPathConnectAuth
+		_, url, err := z.auth(user).New(tokenType, redirectUrl)
 		if err != nil {
 			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
 			return
 		}
 		g.Redirect(http.StatusTemporaryRedirect, url)
+	})
+}
+
+func (z *WebHandler) connectAuth(g *gin.Context) {
+	z.withUser(g, func(g *gin.Context, user app_user.User) {
+		state := g.Query("state")
+		code := g.Query("code")
+
+		_, _, err := z.auth(user).Auth(state, code)
+		if err != nil {
+			g.Redirect(http.StatusTemporaryRedirect, webPathAuthFailed)
+		} else {
+			g.Redirect(http.StatusTemporaryRedirect, webPathConnectFinish)
+		}
 	})
 }
 
@@ -271,7 +338,7 @@ func (z *WebHandler) Home(g *gin.Context) {
 
 		case rcp != nil:
 			// TODO: Breadcrumb list
-			z.renderRecipeConn(g, cmd, rcp)
+			z.renderRecipeConn(g, cmd, rcp, user)
 
 		case grp != nil:
 			// TODO: Breadcrumb list
@@ -280,36 +347,60 @@ func (z *WebHandler) Home(g *gin.Context) {
 	})
 }
 
-func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe.Recipe) {
-	var vo interface{} = rcp.Requirement()
-	vc := app_vo_impl.NewValueContainer(vo)
+func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe.Recipe, user app_user.User) {
+	l := z.control.Log().With(zap.String("cmd", cmd))
+	reqConns, reqParams, _ := z.recipeRequirements(rcp)
+	selectedConns := g.PostFormMap("Conn")
+	orderedConnName := make([]string, 0)
+	var nextConnName, nextConnType = "", ""
 
-	conns := make([]string, 0)
-	keys := make([]string, 0)
-	types := make(map[string]string)
+	for k := range reqConns {
+		orderedConnName = append(orderedConnName, k)
+	}
+	sort.Strings(orderedConnName)
 
-	for k, v := range vc.Values {
-		if _, ok := v.(bool); ok {
-			keys = append(keys, k)
-			types[k] = "bool"
-		}
-		if _, ok := v.(app_conn.ConnBusinessInfo); ok {
-			conns = append(conns, k)
-			z.Kitchen.Log().Debug("Business_Info")
-			types[k] = "business_info"
+	for _, k := range orderedConnName {
+		if v, ok := selectedConns[k]; !ok || v == "" {
+			nextConnName = k
+			nextConnType = reqConns[k]
 		}
 	}
-	sort.Strings(keys)
+
+	if nextConnName == "" { // no more required conns
+		if len(reqParams) > 0 {
+			// TODO forward to param rendering
+			z.renderRecipeParam(g)
+		} else {
+			// TODO forward to confirm & run
+		}
+		return
+	}
+
+	existingConns, err := z.auth(user).List(nextConnType)
+	if err != nil {
+		l.Debug("Unable to list connections", zap.Error(err))
+		g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+		return
+	}
+	listConns := make([]string, 0)
+	connDesc := make(map[string]string)
+
+	for _, e := range existingConns {
+		listConns = append(listConns, e.PeerName)
+		connDesc[e.PeerName] = e.Description
+	}
+	sort.Strings(listConns)
 
 	g.HTML(
 		http.StatusOK,
 		"home-recipe-conn",
 		gin.H{
-			"Recipe": cmd,
-			"Keys":   keys,
-			"Conns":  conns,
-			"Types":  types,
-			"Values": vc.Values,
+			"Recipe":           cmd,
+			"ExistingConns":    listConns,
+			"ExistingConnDesc": connDesc,
+			"SelectedConns":    selectedConns,
+			"CurrentConn":      nextConnName,
+			"CurrentConnType":  nextConnType,
 		},
 	)
 }
@@ -340,7 +431,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe
 
 		dict[g.Name] = gin.H{
 			"Title":       g.Name,
-			"Description": z.Kitchen.UI().Text(grp.CommandDesc(g.Name).Key()),
+			"Description": z.control.UI().Text(grp.CommandDesc(g.Name).Key()),
 			"Uri":         webPathHome + "/" + strings.Join(path, "-"),
 		}
 	}
@@ -351,7 +442,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe
 
 		dict[name] = gin.H{
 			"Title":       name,
-			"Description": z.Kitchen.UI().Text(grp.CommandDesc(name).Key()),
+			"Description": z.control.UI().Text(grp.CommandDesc(name).Key()),
 			"Uri":         webPathHome + "/" + strings.Join(path, "-"),
 		}
 	}
@@ -380,7 +471,7 @@ func (z *WebHandler) withUser(g *gin.Context, f func(g *gin.Context, user app_us
 		g.Redirect(http.StatusTemporaryRedirect, webPathForbidden)
 		return
 	}
-	repo, err := app_user.SingleUserRepository(z.Kitchen.Control().Workspace())
+	repo, err := app_user.SingleUserRepository(z.control.Workspace())
 	if err != nil {
 		g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
 		return

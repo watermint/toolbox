@@ -42,12 +42,12 @@ type Single struct {
 	catalogue []app_recipe.Recipe
 }
 
-func (z *Single) Catalogue() []app_recipe.Recipe {
-	return z.catalogue
+func (z *Single) NewControl(user app_workspace.MultiUser) app_control.Control {
+
 }
 
-func (z *Single) NewControl(user app_workspace.MultiUser) app_control.Control {
-	panic("implement me")
+func (z *Single) Catalogue() []app_recipe.Recipe {
+	return z.catalogue
 }
 
 func (z *Single) Template() app_template.Template {

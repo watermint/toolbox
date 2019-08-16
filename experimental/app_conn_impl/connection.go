@@ -42,7 +42,7 @@ func NewConnUserFile() *ConnUserFile {
 }
 
 func connect(tokenType, peerName string, kitchen app_kitchen.Kitchen) (ctx api_context.Context, err error) {
-	c := api_auth_impl.NewKc(kitchen, api_auth_impl.PeerName(peerName))
+	c := api_auth_impl.NewKc(kitchen.Control(), api_auth_impl.PeerName(peerName))
 	ctx, err = c.Auth(tokenType)
 	return
 }

@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/app"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/experimental/app_kitchen"
+	"github.com/watermint/toolbox/experimental/app_control"
 )
 
 func Auth(ec *app.ExecContext, opts ...AuthOpt) (ctx api_context.Context, err error) {
@@ -19,7 +19,7 @@ func Auth(ec *app.ExecContext, opts ...AuthOpt) (ctx api_context.Context, err er
 	return a.Auth(ao.tokenType)
 }
 
-func NewKc(kitchen app_kitchen.Kitchen, opts ...AuthOpt) api_auth.Console {
+func NewKc(control app_control.Control, opts ...AuthOpt) api_auth.Console {
 	ao := &authOpts{
 		tokenType: api_auth.DropboxTokenNoAuth,
 		peerName:  "default",
@@ -28,12 +28,12 @@ func NewKc(kitchen app_kitchen.Kitchen, opts ...AuthOpt) api_auth.Console {
 		o(ao)
 	}
 	ua := &KitchenAuth{
-		kitchen: kitchen,
+		control: control,
 	}
 	ua.init()
 	ca := &KcCachedAuth{
 		peerName: ao.peerName,
-		kitchen:  kitchen,
+		control:  control,
 		auth:     ua,
 	}
 	ca.init()

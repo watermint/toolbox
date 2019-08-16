@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_context_impl"
-	"github.com/watermint/toolbox/experimental/app_kitchen"
+	"github.com/watermint/toolbox/experimental/app_control"
 	"github.com/watermint/toolbox/experimental/app_msg"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
@@ -15,13 +15,13 @@ import (
 )
 
 type KitchenAuth struct {
-	kitchen  app_kitchen.Kitchen
+	control  app_control.Control
 	app      api_auth.App
 	peerName string
 }
 
 func (z *KitchenAuth) Auth(tokenType string) (ctx api_context.Context, err error) {
-	if z.kitchen.Control().IsTest() {
+	if z.control.IsTest() {
 		return nil, errors.New("test mode")
 	}
 
@@ -44,19 +44,19 @@ func (z *KitchenAuth) wrapToken(tokenType, token string, cause error) (ctx api_c
 		TokenType: tokenType,
 		PeerName:  z.peerName,
 	}
-	ctx = api_context_impl.NewKC(z.kitchen, tc)
+	ctx = api_context_impl.NewKC(z.control, tc)
 
 	_, err = VerifyToken(tokenType, ctx)
 	if err != nil {
-		z.kitchen.Log().Debug("failed verify token", zap.Error(err))
-		z.kitchen.UI().Error("auth.basic.verify.failed")
+		z.control.Log().Debug("failed verify token", zap.Error(err))
+		z.control.UI().Error("auth.basic.verify.failed")
 		return nil, err
 	}
 	return ctx, nil
 }
 
 func (z *KitchenAuth) init() {
-	z.app = NewApp(z.kitchen)
+	z.app = NewApp(z.control)
 }
 
 func (z *KitchenAuth) generatedTokenInstruction(tokenType string) {
@@ -83,10 +83,10 @@ func (z *KitchenAuth) generatedTokenInstruction(tokenType string) {
 		api = "Dropbox Business API"
 		toa = "Team member management"
 	default:
-		z.kitchen.Log().Fatal("Undefined token type", zap.String("type", tokenType))
+		z.control.Log().Fatal("Undefined token type", zap.String("type", tokenType))
 	}
 
-	z.kitchen.UI().Info(
+	z.control.UI().Info(
 		"auth.basic.generated_token1",
 		app_msg.P("API", api),
 		app_msg.P("TypeOfAccess", toa),
@@ -96,7 +96,7 @@ func (z *KitchenAuth) generatedTokenInstruction(tokenType string) {
 func (z *KitchenAuth) generatedToken(tokenType string) (string, error) {
 	z.generatedTokenInstruction(tokenType)
 	for {
-		code, cancel := z.kitchen.UI().AskSecure("auth.basic.generated_token2")
+		code, cancel := z.control.UI().AskSecure("auth.basic.generated_token2")
 		if cancel {
 			return "", errors.New("user cancelled")
 		}
@@ -108,13 +108,13 @@ func (z *KitchenAuth) generatedToken(tokenType string) (string, error) {
 }
 
 func (z *KitchenAuth) authGenerated(tokenType string) (string, error) {
-	z.kitchen.Log().Debug("No appKey/appSecret found. Try asking 'Generate Token'")
+	z.control.Log().Debug("No appKey/appSecret found. Try asking 'Generate Token'")
 	tok, err := z.generatedToken(tokenType)
 	return tok, err
 }
 
 func (z *KitchenAuth) oauthStart(tokenType string) (string, error) {
-	l := z.kitchen.Log()
+	l := z.control.Log()
 	l.Debug("Start OAuth sequence")
 	state, err := app_util.GenerateRandomString(8)
 	if err != nil {
@@ -143,7 +143,7 @@ func (z *KitchenAuth) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.To
 
 func (z *KitchenAuth) oauthCode(state string) string {
 	for {
-		code, cancel := z.kitchen.UI().AskSecure("auth.basic.oauth_seq2")
+		code, cancel := z.control.UI().AskSecure("auth.basic.oauth_seq2")
 		if cancel {
 			return ""
 		}
@@ -158,7 +158,7 @@ func (z *KitchenAuth) oauthAskCode(tokenType, state string) (*oauth2.Token, erro
 	cfg := z.app.Config(tokenType)
 	url := z.oauthUrl(cfg, state)
 
-	z.kitchen.UI().Info("auth.basic.oauth_seq1", app_msg.P("Url", url))
+	z.control.UI().Info("auth.basic.oauth_seq1", app_msg.P("Url", url))
 
 	code := z.oauthCode(state)
 

@@ -59,7 +59,7 @@ func WithBusinessInfo(kitchen app_kitchen.Kitchen, exec func(k ApiKitchen) error
 }
 
 func withToken(kitchen app_kitchen.Kitchen, tokenType string, exec func(k ApiKitchen) error) error {
-	c := api_auth_impl.NewKc(kitchen)
+	c := api_auth_impl.NewKc(kitchen.Control())
 	ctx, err := c.Auth(tokenType)
 	if err != nil {
 
