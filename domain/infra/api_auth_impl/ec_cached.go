@@ -22,7 +22,7 @@ type EcCachedAuth struct {
 	peerName string
 	tokens   map[string]string
 	ec       *app.ExecContext
-	auth     api_auth.Auth
+	auth     api_auth.Console
 }
 
 func (z *EcCachedAuth) Auth(tokenType string) (ctx api_context.Context, err error) {

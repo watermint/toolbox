@@ -1,0 +1,55 @@
+{{define "title"}}{{.Recipe}}: Connect{{end}}
+
+{{define "content"}}
+    <div class="text-center">
+        <h1 class="display-1 mb-5">{{.Recipe}}</h1>
+
+        <h2 class="mb-5">Connect Dropbox Business</h2>
+
+        <div class="container col-md-6">
+            <!--
+            <div class="alert alert-info text-left" role="alert">
+                <h4>Full Dropbox Access</h4>
+                Access to all files and folders in a user's Dropbox
+            </div>
+            <div class="alert alert-info text-left" role="alert">
+                <h4>Dropbox Business (Info)</h4>
+                Information about the team and aggregate usage data
+            </div>
+            <div class="alert alert-info text-left" role="alert">
+                <h4>Dropbox Business (Auditing)</h4>
+                Team information, plus the team's detailed activity log
+            </div>
+            <div class="alert alert-info text-left" role="alert">
+                <h4>Dropbox Business (File access)</h4>
+                Team information and auditing, plus the ability to perform any action as any team member
+            </div>
+            -->
+            <div class="alert alert-info text-left" role="alert">
+                <h4>Dropbox Business (Management)</h4>
+                Team information, plus the ability to add, edit, and delete team members
+            </div>
+
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Developer Inc</h3>
+                    <p class="card-text">
+                        10 License(s), 8 Provisioned
+                    </p>
+                    <a class="btn btn-primary" href="{{.Uri}}">Next</a>
+                </div>
+            </div>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Example Inc</h3>
+                    <p class="card-text">
+                        20 License(s), 8 Provisioned
+                    </p>
+                    <a class="btn btn-primary" href="{{.Uri}}">Next</a>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-lg btn-block btn-secondary">New connection</button>
+        </div>
+    </div>
+{{end}}

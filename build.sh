@@ -21,7 +21,16 @@ if [ ! -d $DIST_PATH ]; then
   mkdir -p $DIST_PATH
 fi
 if [ "$TOOLBOX_BUILD_ID"x = ""x ]; then
-  TOOLBOX_BUILD_ID=0.0
+  # Circle CI
+  if [ "$CIRCLE_BUILD_NUM"x != ""x ]; then
+    TOOLBOX_BUILD_ID=2.$CIRCLE_BUILD_NUM
+
+  # Gitlab
+  elif [ "$CI_PIPELINE_IID" ]; then
+    TOOLBOX_BUILD_ID=1.$CI_PIPELINE_IID
+  else
+    TOOLBOX_BUILD_ID=0.0
+  fi
 fi
 BUILD_VERSION=$BUILD_MAJOR_VERSION.$TOOLBOX_BUILD_ID
 
@@ -58,7 +67,11 @@ if [ -e "resources/toolbox.appkeys" ]; then
     echo Zap exit with code $?
     exit $?
   fi
+  cp resources/toolbox.appkeys.secret experimental/resources
   TOOLBOX_ZAP=$(cat /tmp/toolbox.zap)
+else
+  echo ERR: No app key file found
+  exit 1
 fi
 rice embed-go
 

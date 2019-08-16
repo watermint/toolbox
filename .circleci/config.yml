@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.12
+    working_directory: /go/src/github.com/watermint/toolbox
+    steps:
+      - checkout
+      - run: go get github.com/Masterminds/glide
+      - run: go get github.com/GeertJohan/go.rice
+      - run: go get github.com/GeertJohan/go.rice/rice
+      - run: glide install
+      - run: go test $(glide novendor)
+      - run: echo "$TOOLBOX_APPKEYS" > resources/toolbox.appkeys
+      - run: ./build.sh
+      - store_artifacts:
+          path: /go/src/github.com/watermint/toolbox/dist
