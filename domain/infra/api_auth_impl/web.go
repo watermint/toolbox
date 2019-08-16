@@ -123,12 +123,13 @@ func (z *Web) Auth(state, code string) (peerName string, ctx api_context.Context
 	}
 	ctx = api_context_impl.NewKC(z.control, tc)
 
-	desc, err := VerifyToken(session.TokenType, ctx)
+	desc, suppl, err := VerifyToken(session.TokenType, ctx)
 	if err != nil {
 		l.Debug("Verification failed", zap.Error(err))
 		return "", nil, err
 	}
 	tc.Description = desc
+	tc.Supplemental = suppl
 
 	z.sessionTokens[state] = token.AccessToken
 	z.updateDatabase(tc)

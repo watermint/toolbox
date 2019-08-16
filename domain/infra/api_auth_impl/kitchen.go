@@ -46,7 +46,7 @@ func (z *KitchenAuth) wrapToken(tokenType, token string, cause error) (ctx api_c
 	}
 	ctx = api_context_impl.NewKC(z.control, tc)
 
-	_, err = VerifyToken(tokenType, ctx)
+	_, _, err = VerifyToken(tokenType, ctx)
 	if err != nil {
 		z.control.Log().Debug("failed verify token", zap.Error(err))
 		z.control.UI().Error("auth.basic.verify.failed")

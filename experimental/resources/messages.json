@@ -59,5 +59,15 @@
   "web.error.server.detail": "Please see logs for more detail.",
   "web.error.command_not_found.header": "Command not found",
   "web.error.command_not_found.detail": "Please retry from catalogue.",
+  "web.conn.business_info.header": "Dropbox Business (Info access)",
+  "web.conn.business_info.detail": "Information about the team and aggregate usage data",
+  "web.conn.business_file.header": "Dropbox Business (File access)",
+  "web.conn.business_file.detail": "Team information and auditing, plus the ability to perform any action as any team member",
+  "web.conn.business_management.header": "Dropbox Business (Management)",
+  "web.conn.business_management.detail": "Team information, plus the ability to add, edit, and delete team members",
+  "web.conn.business_audit.header": "Dropbox Business (Auditing)",
+  "web.conn.business_audit.detail": "Team information, plus the team's detailed activity log",
+  "web.conn.user_full.header": "Full Dropbox Access",
+  "web.conn.user_full.detail": "Access to all files and folders in individual user's Dropbox",
   "web.home.message": "Welcome {{.User}}"
 }

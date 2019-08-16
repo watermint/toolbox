@@ -150,6 +150,8 @@ func (z *WebHandler) setupUrls(g *gin.Engine) {
 
 	g.GET(webPathConnectStart, z.connectStart)
 	g.GET(webPathConnectAuth, z.connectAuth)
+	g.GET(webPathConnectFinish, z.connectFinish)
+	z.Template.Define(webPathConnectFinish, "layout/layout.html", "pages/recipe_conn_finish.html")
 }
 
 func (z *WebHandler) setupCatalogue() {
@@ -327,6 +329,16 @@ func (z *WebHandler) connectAuth(g *gin.Context) {
 	})
 }
 
+func (z *WebHandler) connectFinish(g *gin.Context) {
+	z.withUser(g, func(g *gin.Context, user app_user.User, uc app_control.Control) {
+		g.HTML(
+			http.StatusOK,
+			webPathConnectFinish,
+			gin.H{},
+		)
+	})
+}
+
 func (z *WebHandler) Home(g *gin.Context) {
 	z.withUser(g, func(g *gin.Context, user app_user.User, uc app_control.Control) {
 		cmd := g.Param("command")
@@ -384,10 +396,12 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe
 	}
 	listConns := make([]string, 0)
 	connDesc := make(map[string]string)
+	connSuppl := make(map[string]string)
 
 	for _, e := range existingConns {
 		listConns = append(listConns, e.PeerName)
 		connDesc[e.PeerName] = e.Description
+		connSuppl[e.PeerName] = e.Supplemental
 	}
 	sort.Strings(listConns)
 
@@ -395,12 +409,15 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe
 		http.StatusOK,
 		"home-recipe-conn",
 		gin.H{
-			"Recipe":           cmd,
-			"ExistingConns":    listConns,
-			"ExistingConnDesc": connDesc,
-			"SelectedConns":    selectedConns,
-			"CurrentConn":      nextConnName,
-			"CurrentConnType":  nextConnType,
+			"Recipe":                cmd,
+			"ExistingConns":         listConns,
+			"ExistingConnDesc":      connDesc,
+			"ExistingConnSuppl":     connSuppl,
+			"SelectedConns":         selectedConns,
+			"CurrentConn":           nextConnName,
+			"CurrentConnType":       nextConnType,
+			"CurrentConnTypeHeader": z.control.UI().Text("web.conn." + nextConnType + ".header"),
+			"CurrentConnTypeDetail": z.control.UI().Text("web.conn." + nextConnType + ".detail"),
 		},
 	)
 }
