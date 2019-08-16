@@ -25,7 +25,7 @@ func (z *CaptureContext) Close() {
 }
 
 func NewCaptureLogger(path string) (cc *CaptureContext, err error) {
-	logPath := filepath.Join(path, "capture.log.gz")
+	logPath := filepath.Join(path, "capture.log")
 	cfg := zapcore.EncoderConfig{
 		TimeKey:        "time",
 		NameKey:        "name",

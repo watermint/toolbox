@@ -16,10 +16,11 @@ const (
 )
 
 type TokenContainer struct {
-	Token       string
-	TokenType   string
-	PeerName    string
-	Description string
+	Token        string
+	TokenType    string
+	PeerName     string
+	Description  string
+	Supplemental string
 }
 
 type TokenContext interface {

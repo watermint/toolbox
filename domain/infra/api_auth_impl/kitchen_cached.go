@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_context_impl"
-	"github.com/watermint/toolbox/experimental/app_kitchen"
+	"github.com/watermint/toolbox/experimental/app_control"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -23,7 +23,7 @@ import (
 type KcCachedAuth struct {
 	peerName string
 	tokens   map[string]string
-	kitchen  app_kitchen.Kitchen
+	control  app_control.Control
 	auth     api_auth.Console
 }
 
@@ -33,7 +33,7 @@ func (z *KcCachedAuth) Auth(tokenType string) (ctx api_context.Context, err erro
 			Token:     tok,
 			TokenType: tokenType,
 		}
-		return api_context_impl.NewKC(z.kitchen, tc), nil
+		return api_context_impl.NewKC(z.control, tc), nil
 	}
 	if z.auth == nil {
 		return nil, errors.New("no authentication method")
@@ -57,7 +57,7 @@ func (z *KcCachedAuth) init() {
 func (z *KcCachedAuth) cacheFile(kind string) string {
 	px := sha256.Sum224([]byte(z.peerName))
 	pn := fmt.Sprintf("%x.%s", px, kind)
-	return filepath.Join(z.kitchen.Control().Workspace().Secrets(), pn)
+	return filepath.Join(z.control.Workspace().Secrets(), pn)
 }
 
 func (z *KcCachedAuth) compatibleCachedFile() string {
@@ -69,7 +69,7 @@ func (z *KcCachedAuth) secureCachedFile() string {
 func (z *KcCachedAuth) loadBytes(tb []byte) error {
 	err := json.Unmarshal(tb, &z.tokens)
 	if err != nil {
-		z.kitchen.Log().Debug("unable to unmarshal tokens file", zap.Error(err))
+		z.control.Log().Debug("unable to unmarshal tokens file", zap.Error(err))
 		return err
 	}
 	return nil
@@ -92,10 +92,10 @@ func (z *KcCachedAuth) loadCompatibleFile() (exists bool, err error) {
 		//z.ec.Log().Debug("token file not found", zap.String("path", tf))
 		return false, err
 	}
-	z.kitchen.Log().Debug("Loading token file", zap.String("file", tf))
+	z.control.Log().Debug("Loading token file", zap.String("file", tf))
 	tb, err := ioutil.ReadFile(tf)
 	if err != nil {
-		z.kitchen.Log().Debug("unable to read tokens file", zap.String("path", tf), zap.Error(err))
+		z.control.Log().Debug("unable to read tokens file", zap.String("path", tf), zap.Error(err))
 		return false, err
 	}
 	return true, z.loadBytes(tb)
@@ -103,11 +103,11 @@ func (z *KcCachedAuth) loadCompatibleFile() (exists bool, err error) {
 
 func (z *KcCachedAuth) loadSecureFile() (exists bool, err error) {
 	if app.AppBuilderKey == "" {
-		z.kitchen.Log().Debug("Use compatible token file in dev mode")
+		z.control.Log().Debug("Use compatible token file in dev mode")
 		return false, errors.New("dev mode")
 	}
 	tf := z.secureCachedFile()
-	z.kitchen.Log().Debug("Loading token file", zap.String("file", tf))
+	z.control.Log().Debug("Loading token file", zap.String("file", tf))
 	_, err = os.Stat(tf)
 	if os.IsNotExist(err) {
 		//z.ec.Log().Debug("token file not found", zap.String("path", tf))
@@ -115,7 +115,7 @@ func (z *KcCachedAuth) loadSecureFile() (exists bool, err error) {
 	}
 	tb, err := ioutil.ReadFile(tf)
 	if err != nil {
-		z.kitchen.Log().Debug("unable to read tokens file", zap.String("path", tf), zap.Error(err))
+		z.control.Log().Debug("unable to read tokens file", zap.String("path", tf), zap.Error(err))
 		return false, err
 	}
 
@@ -145,7 +145,7 @@ func (z *KcCachedAuth) updateCompatible(tb []byte) error {
 	tf := z.compatibleCachedFile()
 	err := ioutil.WriteFile(tf, tb, 0600)
 	if err != nil {
-		z.kitchen.Log().Debug("unable to write tokens into file", zap.Error(err))
+		z.control.Log().Debug("unable to write tokens into file", zap.Error(err))
 		return err
 	}
 	return nil
@@ -173,7 +173,7 @@ func (z *KcCachedAuth) updateSecure(tb []byte) error {
 	tf := z.secureCachedFile()
 	err = ioutil.WriteFile(tf, sealed, 0600)
 	if err != nil {
-		z.kitchen.Log().Debug("unable to write tokens into file", zap.Error(err))
+		z.control.Log().Debug("unable to write tokens into file", zap.Error(err))
 		return err
 	}
 	return nil
@@ -181,7 +181,7 @@ func (z *KcCachedAuth) updateSecure(tb []byte) error {
 
 func (z *KcCachedAuth) updateCache(tokenType string, ctx api_context.Context) {
 	// Do not store tokens into file
-	if z.kitchen.Control().IsSecure() {
+	if z.control.IsSecure() {
 		return
 	}
 
@@ -190,7 +190,7 @@ func (z *KcCachedAuth) updateCache(tokenType string, ctx api_context.Context) {
 		z.tokens[tokenType] = tc.Token().Token
 		tb, err := json.Marshal(z.tokens)
 		if err != nil {
-			z.kitchen.Log().Debug("unable to marshal tokens", zap.Error(err))
+			z.control.Log().Debug("unable to marshal tokens", zap.Error(err))
 			return
 		}
 		if app.AppBuilderKey == "" {

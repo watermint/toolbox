@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_list_impl"
 	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"github.com/watermint/toolbox/domain/infra/api_rpc_impl"
-	"github.com/watermint/toolbox/experimental/app_kitchen"
+	"github.com/watermint/toolbox/experimental/app_control"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
@@ -19,9 +19,9 @@ import (
 	"time"
 )
 
-func NewKC(kitchen app_kitchen.Kitchen, token api_auth.TokenContainer) api_context.Context {
+func NewKC(control app_control.Control, token api_auth.TokenContainer) api_context.Context {
 	c := &kcImpl{
-		kitchen:        kitchen,
+		control:        control,
 		tokenContainer: token,
 		client:         &http.Client{},
 		noRetryOnError: false,
@@ -30,7 +30,7 @@ func NewKC(kitchen app_kitchen.Kitchen, token api_auth.TokenContainer) api_conte
 }
 
 type kcImpl struct {
-	kitchen        app_kitchen.Kitchen
+	control        app_control.Control
 	client         *http.Client
 	tokenContainer api_auth.TokenContainer
 	noAuth         bool
@@ -43,7 +43,7 @@ type kcImpl struct {
 }
 
 func (z *kcImpl) Capture() *zap.Logger {
-	return z.kitchen.Control().Capture()
+	return z.control.Capture()
 }
 
 func (z *kcImpl) DoRequest(req api_rpc.Request) (code int, header http.Header, body []byte, err error) {
@@ -103,7 +103,7 @@ func (z *kcImpl) IsNoRetry() bool {
 }
 
 func (z *kcImpl) Log() *zap.Logger {
-	return z.kitchen.Log()
+	return z.control.Log()
 }
 
 func (z *kcImpl) Request(endpoint string) api_rpc.Caller {
@@ -120,7 +120,7 @@ func (z *kcImpl) Async(endpoint string) api_async.Async {
 
 func (z *kcImpl) AsMemberId(teamMemberId string) api_context.Context {
 	return &kcImpl{
-		kitchen:        z.kitchen,
+		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
 		client: &http.Client{
@@ -134,7 +134,7 @@ func (z *kcImpl) AsMemberId(teamMemberId string) api_context.Context {
 
 func (z *kcImpl) AsAdminId(teamMemberId string) api_context.Context {
 	return &kcImpl{
-		kitchen:        z.kitchen,
+		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
 		client: &http.Client{
@@ -149,7 +149,7 @@ func (z *kcImpl) AsAdminId(teamMemberId string) api_context.Context {
 
 func (z *kcImpl) WithPath(pathRoot api_context.PathRoot) api_context.Context {
 	return &kcImpl{
-		kitchen:        z.kitchen,
+		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
 		client: &http.Client{
@@ -164,7 +164,7 @@ func (z *kcImpl) WithPath(pathRoot api_context.PathRoot) api_context.Context {
 
 func (z *kcImpl) NoRetryOnError() api_context.Context {
 	return &kcImpl{
-		kitchen:        z.kitchen,
+		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
 		client: &http.Client{

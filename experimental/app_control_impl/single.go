@@ -37,17 +37,33 @@ type Single struct {
 	web       *rice.Box
 	mc        app_msg_container.Container
 	ws        app_workspace.Workspace
+	opts      *app_control.UpOpts
 	quiet     bool
-	secure    bool
 	catalogue []app_recipe.Recipe
+}
+
+func (z *Single) NewControl(user app_workspace.MultiUser) (ctl app_control.Control, err error) {
+	ws, err := app_workspace.NewMultiJob(user)
+	ctl = NewMulti(ws, z.ui, z.box, z.mc, z.quiet)
+	opts := make([]app_control.UpOpt, 0)
+	if z.opts.Debug {
+		opts = append(opts, app_control.Debug())
+	}
+	if z.opts.Test {
+		opts = append(opts, app_control.Test())
+	}
+	if z.opts.Secure {
+		opts = append(opts, app_control.Secure())
+	}
+	err = ctl.Up(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ctl, nil
 }
 
 func (z *Single) Catalogue() []app_recipe.Recipe {
 	return z.catalogue
-}
-
-func (z *Single) NewControl(user app_workspace.MultiUser) app_control.Control {
-	panic("implement me")
 }
 
 func (z *Single) Template() app_template.Template {
@@ -63,7 +79,7 @@ func (z *Single) IsProduction() bool {
 }
 
 func (z *Single) IsSecure() bool {
-	return z.secure
+	return z.opts.Secure
 }
 
 func (z *Single) IsQuiet() bool {
@@ -82,14 +98,8 @@ func (z *Single) Resource(key string) (bin []byte, err error) {
 	return z.box.Bytes(key)
 }
 
-func (z *Single) Up(opts ...app_control.UpOpt) (err error) {
-	opt := &app_control.UpOpts{}
-	for _, o := range opts {
-		o(opt)
-	}
-	z.secure = opt.Secure
-
-	z.ws, err = app_workspace.NewSingleUser(opt.WorkspacePath)
+func (z *Single) upWithHome(homePath string) (err error) {
+	z.ws, err = app_workspace.NewSingleUser(homePath)
 	if err != nil {
 		return err
 	}
@@ -102,7 +112,7 @@ func (z *Single) Up(opts ...app_control.UpOpt) (err error) {
 		Name string `json:"name"`
 	}
 	rr := &RecipeLog{
-		Name: opt.RecipeName,
+		Name: z.opts.RecipeName,
 	}
 	rb, err := json.Marshal(rr)
 	if err != nil {
@@ -111,7 +121,7 @@ func (z *Single) Up(opts ...app_control.UpOpt) (err error) {
 	rl.Write(rb)
 	rl.Close()
 
-	z.flc, err = app_log.NewFileLogger(z.ws.Log(), opt.Debug)
+	z.flc, err = app_log.NewFileLogger(z.ws.Log(), z.opts.Debug)
 	if err != nil {
 		return err
 	}
@@ -128,6 +138,15 @@ func (z *Single) Up(opts ...app_control.UpOpt) (err error) {
 	z.Log().Debug("Up completed")
 
 	return nil
+}
+
+func (z *Single) Up(opts ...app_control.UpOpt) (err error) {
+	z.opts = &app_control.UpOpts{}
+	for _, o := range opts {
+		o(z.opts)
+	}
+
+	return z.upWithHome(z.opts.WorkspacePath)
 }
 
 func (z *Single) Down() {

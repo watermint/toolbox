@@ -1,0 +1,12 @@
+{{define "title"}}Authentication finished{{end}}
+
+{{define "content"}}
+    <div class="text-center">
+        <h1>Connected!</h1>
+        <button id="close" type="button" class="btn btn-lg btn-block btn-secondary">Close</button>
+        <script>
+            window.opener.location.reload();
+            window.close();
+        </script>
+    </div>
+{{end}}

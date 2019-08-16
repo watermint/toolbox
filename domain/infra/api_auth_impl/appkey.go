@@ -3,15 +3,15 @@ package api_auth_impl
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
-	"github.com/watermint/toolbox/experimental/app_kitchen"
+	"github.com/watermint/toolbox/experimental/app_control"
 	"github.com/watermint/toolbox/experimental/app_zap"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 )
 
-func NewApp(kitchen app_kitchen.Kitchen) api_auth.App {
+func NewApp(control app_control.Control) api_auth.App {
 	a := &App{
-		kitchen: kitchen,
+		control: control,
 		keys:    make(map[string]string),
 	}
 	a.loadKeys()
@@ -19,8 +19,8 @@ func NewApp(kitchen app_kitchen.Kitchen) api_auth.App {
 }
 
 type App struct {
-	kitchen  app_kitchen.Kitchen
-	keys map[string]string
+	control app_control.Control
+	keys    map[string]string
 }
 
 func (z *App) Config(tokenType string) *oauth2.Config {
@@ -45,17 +45,17 @@ func (z *App) AppKey(tokenType string) (key, secret string) {
 }
 
 func (z *App) loadKeys() {
-	kb, err := app_zap.Unzap(z.kitchen.Control())
+	kb, err := app_zap.Unzap(z.control)
 	if err != nil {
-		kb, err = z.kitchen.Control().Resource("toolbox.appkeys")
+		kb, err = z.control.Resource("toolbox.appkeys")
 		if err != nil {
-			z.kitchen.Log().Debug("Skip loading app keys")
+			z.control.Log().Debug("Skip loading app keys")
 			return
 		}
 	}
 	err = json.Unmarshal(kb, &z.keys)
 	if err != nil {
-		z.kitchen.Log().Debug("Skip loading app keys: unable to unmarshal resource", zap.Error(err))
+		z.control.Log().Debug("Skip loading app keys: unable to unmarshal resource", zap.Error(err))
 		return
 	}
 }

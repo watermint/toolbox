@@ -13,7 +13,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_context_impl"
-	"github.com/watermint/toolbox/experimental/app_kitchen"
+	"github.com/watermint/toolbox/experimental/app_control"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"io"
@@ -23,10 +23,10 @@ import (
 	"sync"
 )
 
-func NewWeb(kitchen app_kitchen.Kitchen) api_auth.Web {
+func NewWeb(control app_control.Control) api_auth.Web {
 	w := &Web{
-		kitchen:       kitchen,
-		app:           NewApp(kitchen),
+		control:       control,
+		app:           NewApp(control),
 		sessions:      map[string]WebAuthSession{},
 		sessionTokens: map[string]string{},
 	}
@@ -40,7 +40,7 @@ type WebAuthSession struct {
 }
 
 type Web struct {
-	kitchen       app_kitchen.Kitchen
+	control       app_control.Control
 	app           api_auth.App
 	sessions      map[string]WebAuthSession
 	sessionTokens map[string]string
@@ -58,7 +58,7 @@ func (z *Web) New(tokenType, redirectUrl string) (state, url string, err error) 
 
 	peerName := z.generatePeerName()
 
-	l := z.kitchen.Log().With(
+	l := z.control.Log().With(
 		zap.String("peerName", peerName),
 		zap.String("tokenType", tokenType),
 	)
@@ -84,6 +84,7 @@ func (z *Web) New(tokenType, redirectUrl string) (state, url string, err error) 
 	cfg := z.app.Config(tokenType)
 	url = cfg.AuthCodeURL(
 		state,
+		oauth2.SetAuthURLParam("client_id", cfg.ClientID),
 		oauth2.SetAuthURLParam("response_type", "code"),
 		oauth2.SetAuthURLParam("redirect_uri", redirectUrl),
 	)
@@ -95,7 +96,7 @@ func (z *Web) Auth(state, code string) (peerName string, ctx api_context.Context
 	z.sessionLock.Lock()
 	defer z.sessionLock.Unlock()
 
-	l := z.kitchen.Log().With(
+	l := z.control.Log().With(
 		zap.String("peerName", peerName),
 		zap.String("state", state),
 	)
@@ -108,6 +109,7 @@ func (z *Web) Auth(state, code string) (peerName string, ctx api_context.Context
 	}
 
 	cfg := z.app.Config(session.TokenType)
+	cfg.RedirectURL = session.RedirectUrl
 	token, err := cfg.Exchange(context.Background(), code)
 	if err != nil {
 		l.Debug("Auth failed", zap.Error(err))
@@ -119,14 +121,15 @@ func (z *Web) Auth(state, code string) (peerName string, ctx api_context.Context
 		TokenType: session.TokenType,
 		PeerName:  session.PeerName,
 	}
-	ctx = api_context_impl.NewKC(z.kitchen, tc)
+	ctx = api_context_impl.NewKC(z.control, tc)
 
-	desc, err := VerifyToken(session.TokenType, ctx)
+	desc, suppl, err := VerifyToken(session.TokenType, ctx)
 	if err != nil {
 		l.Debug("Verification failed", zap.Error(err))
 		return "", nil, err
 	}
 	tc.Description = desc
+	tc.Supplemental = suppl
 
 	z.sessionTokens[state] = token.AccessToken
 	z.updateDatabase(tc)
@@ -143,23 +146,23 @@ func (z *Web) Get(state string) (peerName string, ctx api_context.Context, err e
 				TokenType: c.TokenType,
 				PeerName:  c.PeerName,
 			}
-			ctx = api_context_impl.NewKC(z.kitchen, tc)
+			ctx = api_context_impl.NewKC(z.control, tc)
 
 			return c.PeerName, ctx, nil
 		}
 	}
-	z.kitchen.Log().Debug("State not found", zap.String("state", state))
+	z.control.Log().Debug("State not found", zap.String("state", state))
 	return "", nil, errors.New("state not found")
 }
 
 func (z *Web) List(tokenType string) (token []api_auth.TokenContainer, err error) {
 	token = make([]api_auth.TokenContainer, 0)
 	tf := z.databaseFile(tokenType)
-	l := z.kitchen.Log().With(zap.String("tokenType", tokenType))
+	l := z.control.Log().With(zap.String("tokenType", tokenType))
 
 	_, err = os.Stat(tf)
 	if os.IsNotExist(err) {
-		return
+		return token, nil
 	}
 	tb, err := ioutil.ReadFile(tf)
 	if err != nil {
@@ -202,7 +205,7 @@ func (z *Web) databaseKey() []byte {
 }
 
 func (z *Web) databaseFile(tokenType string) string {
-	p := z.kitchen.Control().Workspace().Secrets()
+	p := z.control.Workspace().Secrets()
 	return filepath.Join(p, tokenType+".t")
 }
 
@@ -210,7 +213,7 @@ func (z *Web) updateDatabase(tc api_auth.TokenContainer) {
 	z.databaseLock.Lock()
 	defer z.databaseLock.Unlock()
 
-	l := z.kitchen.Log()
+	l := z.control.Log()
 
 	tokens, err := z.List(tc.TokenType)
 	if err != nil {
@@ -245,7 +248,7 @@ func (z *Web) updateDatabase(tc api_auth.TokenContainer) {
 	tf := z.databaseFile(tc.TokenType)
 	err = ioutil.WriteFile(tf, sealed, 0600)
 	if err != nil {
-		z.kitchen.Log().Debug("unable to write tokens into file", zap.Error(err))
+		l.Debug("unable to write tokens into file", zap.Error(err))
 		return
 	}
 }
