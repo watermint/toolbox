@@ -1,10 +1,13 @@
 package app_conn_impl
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/experimental/app_kitchen"
+	"github.com/watermint/toolbox/domain/infra/api_context_impl"
+	"github.com/watermint/toolbox/experimental/app_control"
+	"go.uber.org/zap"
 )
 
 const (
@@ -41,18 +44,42 @@ func NewConnUserFile() *ConnUserFile {
 	}
 }
 
-func connect(tokenType, peerName string, kitchen app_kitchen.Kitchen) (ctx api_context.Context, err error) {
-	c := api_auth_impl.NewKc(kitchen.Control(), api_auth_impl.PeerName(peerName))
-	ctx, err = c.Auth(tokenType)
-	return
+func connect(tokenType, peerName string, control app_control.Control) (ctx api_context.Context, err error) {
+	l := control.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
+	switch {
+	case control.UI().IsConsole():
+		l.Debug("Connect through console UI")
+		c := api_auth_impl.NewKc(control, api_auth_impl.PeerName(peerName))
+		ctx, err = c.Auth(tokenType)
+		return
+
+	case control.UI().IsWeb():
+		l.Debug("Connect through web UI")
+		a := api_auth_impl.NewWeb(control)
+		tokens, err := a.List(tokenType)
+		if err != nil {
+			return nil, err
+		}
+		for _, t := range tokens {
+			if t.PeerName == peerName {
+				c := api_context_impl.NewKC(control, t)
+				return c, nil
+			}
+		}
+		l.Debug("No peer found in existing connection")
+		return nil, errors.New("no peer found")
+	}
+
+	l.Debug("Unsupported UI type")
+	return nil, errors.New("unsupported UI type")
 }
 
 type ConnBusinessMgmt struct {
 	PeerName string
 }
 
-func (z *ConnBusinessMgmt) Connect(kitchen app_kitchen.Kitchen) (ctx api_context.Context, err error) {
-	return connect(api_auth.DropboxTokenBusinessManagement, z.PeerName, kitchen)
+func (z *ConnBusinessMgmt) Connect(control app_control.Control) (ctx api_context.Context, err error) {
+	return connect(api_auth.DropboxTokenBusinessManagement, z.PeerName, control)
 }
 
 func (*ConnBusinessMgmt) IsBusinessMgmt() {
@@ -65,8 +92,8 @@ type ConnBusinessInfo struct {
 func (z *ConnBusinessInfo) IsBusinessInfo() {
 }
 
-func (z *ConnBusinessInfo) Connect(kitchen app_kitchen.Kitchen) (ctx api_context.Context, err error) {
-	return connect(api_auth.DropboxTokenBusinessInfo, z.PeerName, kitchen)
+func (z *ConnBusinessInfo) Connect(control app_control.Control) (ctx api_context.Context, err error) {
+	return connect(api_auth.DropboxTokenBusinessInfo, z.PeerName, control)
 }
 
 type ConnBusinessFile struct {
@@ -76,8 +103,8 @@ type ConnBusinessFile struct {
 func (z *ConnBusinessFile) IsBusinessFile() {
 }
 
-func (z *ConnBusinessFile) Connect(kitchen app_kitchen.Kitchen) (ctx api_context.Context, err error) {
-	return connect(api_auth.DropboxTokenBusinessFile, z.PeerName, kitchen)
+func (z *ConnBusinessFile) Connect(control app_control.Control) (ctx api_context.Context, err error) {
+	return connect(api_auth.DropboxTokenBusinessFile, z.PeerName, control)
 }
 
 type ConnBusinessAudit struct {
@@ -87,8 +114,8 @@ type ConnBusinessAudit struct {
 func (z *ConnBusinessAudit) IsBusinessAudit() {
 }
 
-func (z *ConnBusinessAudit) Connect(kitchen app_kitchen.Kitchen) (ctx api_context.Context, err error) {
-	return connect(api_auth.DropboxTokenBusinessAudit, z.PeerName, kitchen)
+func (z *ConnBusinessAudit) Connect(control app_control.Control) (ctx api_context.Context, err error) {
+	return connect(api_auth.DropboxTokenBusinessAudit, z.PeerName, control)
 }
 
 type ConnUserFile struct {
@@ -98,6 +125,6 @@ type ConnUserFile struct {
 func (z *ConnUserFile) IsUserFile() {
 }
 
-func (z *ConnUserFile) Connect(kitchen app_kitchen.Kitchen) (ctx api_context.Context, err error) {
-	return connect(api_auth.DropboxTokenFull, z.PeerName, kitchen)
+func (z *ConnUserFile) Connect(control app_control.Control) (ctx api_context.Context, err error) {
+	return connect(api_auth.DropboxTokenFull, z.PeerName, control)
 }

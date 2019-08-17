@@ -25,7 +25,7 @@ func (*List) Requirement() app_vo.ValueObject {
 func (*List) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	lvo := vo.(*ListVO)
-	connInfo, err := lvo.PeerName.Connect(k)
+	connInfo, err := lvo.PeerName.Connect(k.Control())
 	if err != nil {
 		return err
 	}

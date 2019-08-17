@@ -15,6 +15,14 @@ type Quiet struct {
 	log       *zap.Logger
 }
 
+func (z *Quiet) IsConsole() bool {
+	return false
+}
+
+func (z *Quiet) IsWeb() bool {
+	return false
+}
+
 func (z *Quiet) OpenArtifact(path string) {
 	z.log.Debug("Open artifact", zap.String("path", path))
 }

@@ -17,6 +17,8 @@ type UI interface {
 	AskSecure(key string, p ...app_msg.Param) (secure string, cancel bool)
 
 	OpenArtifact(path string)
+	IsConsole() bool
+	IsWeb() bool
 }
 
 type Table interface {
