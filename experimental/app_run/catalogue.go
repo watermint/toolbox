@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/experimental/recipe"
 	"github.com/watermint/toolbox/experimental/recipe/dev"
 	"github.com/watermint/toolbox/experimental/recipe/group"
+	groupmember "github.com/watermint/toolbox/experimental/recipe/group/member"
 	"github.com/watermint/toolbox/experimental/recipe/member"
 	memberupdate "github.com/watermint/toolbox/experimental/recipe/member/update"
 	"github.com/watermint/toolbox/experimental/recipe/sharedfolder"
@@ -19,6 +20,7 @@ func Recipes() []app_recipe.Recipe {
 		&dev.LongRunning{},
 		&dev.Dummy{},
 		&group.List{},
+		&groupmember.List{},
 		&member.Invite{},
 		&member.List{},
 		&memberupdate.Email{},

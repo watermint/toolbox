@@ -2,6 +2,7 @@ package recipe
 
 import (
 	"bufio"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	ginzap "github.com/gin-contrib/zap"
@@ -23,6 +24,7 @@ import (
 	"github.com/watermint/toolbox/experimental/app_vo"
 	"github.com/watermint/toolbox/experimental/app_vo_impl"
 	"go.uber.org/zap"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -139,6 +141,9 @@ func (z *Web) jobRunner(ctl app_control.Control, jc <-chan *webJobRun) {
 		}
 		l.Debug("Closing log file")
 		job.uiLogFile.Close()
+
+		l.Debug("Job spin down")
+		job.uc.Down()
 
 		l.Debug("The job finished")
 	}
@@ -480,8 +485,13 @@ func (z *WebHandler) Run(g *gin.Context) {
 		}
 
 		linkForLocalFile := func(path string) string {
-			//return fmt.Sprintf("%s%s", z.BaseUrl, webPathJobArtifact, )
-			return fmt.Sprintf("file://%s", path)
+			rel, err := filepath.Rel(uc.Workspace().Job(), path)
+			if err != nil {
+				l.Warn("Unable to calc rel path", zap.Error(err))
+				return ""
+			}
+			p := base64.URLEncoding.EncodeToString([]byte(rel))
+			return fmt.Sprintf("%s/%s/%s/%s", webPathJobArtifact, cmd, uc.Workspace().JobId(), p)
 		}
 
 		wui := app_ui.NewWeb(uc.UI(), wuiLog, linkForLocalFile)
@@ -555,7 +565,45 @@ func (z *WebHandler) Job(g *gin.Context) {
 }
 
 func (z *WebHandler) Artifact(g *gin.Context) {
+	z.withUser(g, func(g *gin.Context, user app_user.User, uc app_control.Control) {
+		jobId := g.Param("jobId")
+		artifactName := g.Param("artifactName")
 
+		l := z.control.Log().With(zap.String("jobId", jobId), zap.String("artifactName", artifactName))
+
+		rel, err := base64.URLEncoding.DecodeString(artifactName)
+		if err != nil {
+			l.Warn("Unable to decode artifact name", zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		}
+		relPath := string(rel)
+
+		path := filepath.Join(uc.Workspace().Home(), "jobs", jobId, relPath)
+		l.Debug("Artifact path", zap.String("path", path))
+
+		contentType := "application/octet-stream"
+		switch strings.ToLower(filepath.Ext(relPath)) {
+		case ".xlsx":
+			contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+		case ".csv":
+			contentType = "text/csv"
+		case ".json":
+			contentType = "application/json"
+		}
+
+		data, err := ioutil.ReadFile(path)
+		if err != nil {
+			l.Warn("Unable to load binary", zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		}
+
+		fileName := filepath.Base(relPath)
+
+		g.Header("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", fileName))
+		g.Data(http.StatusOK, contentType, data)
+	})
 }
 
 func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe.Recipe, user app_user.User, uc app_control.Control) {
