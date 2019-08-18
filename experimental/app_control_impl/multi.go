@@ -31,6 +31,19 @@ type Multi struct {
 	secure bool
 }
 
+func (z *Multi) WithNewUI(ui app_ui.UI) app_control.Control {
+	return &Multi{
+		ui:     ui,
+		flc:    z.flc,
+		cap:    z.cap,
+		box:    z.box,
+		mc:     z.mc,
+		ws:     z.ws,
+		quiet:  z.quiet,
+		secure: z.secure,
+	}
+}
+
 func (z *Multi) Up(opts ...app_control.UpOpt) (err error) {
 	opt := &app_control.UpOpts{}
 	for _, o := range opts {

@@ -94,7 +94,7 @@ func (z *multiJob) Secrets() string {
 }
 
 func (z *multiJob) Job() string {
-	return filepath.Join(z.user.UserHome(), nameJobs)
+	return filepath.Join(z.user.UserHome(), nameJobs, z.JobId())
 }
 
 func (z *multiJob) JobId() string {
@@ -102,7 +102,7 @@ func (z *multiJob) JobId() string {
 }
 
 func (z *multiJob) Log() string {
-	return filepath.Join(z.Job(), nameLogs, z.JobId())
+	return filepath.Join(z.Job(), nameLogs)
 }
 
 func (z *multiJob) Descendant(name string) (path string, err error) {

@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/infra/api_context_impl"
+	"github.com/watermint/toolbox/experimental/app_conn"
 	"github.com/watermint/toolbox/experimental/app_control"
 	"go.uber.org/zap"
 )
@@ -14,25 +15,25 @@ const (
 	DefaultPeerName = "default"
 )
 
-func NewConnBusinessMgmt() *ConnBusinessMgmt {
+func NewConnBusinessMgmt() app_conn.ConnBusinessMgmt {
 	return &ConnBusinessMgmt{
 		PeerName: DefaultPeerName,
 	}
 }
 
-func NewConnBusinessInfo() *ConnBusinessInfo {
+func NewConnBusinessInfo() app_conn.ConnBusinessInfo {
 	return &ConnBusinessInfo{
 		PeerName: DefaultPeerName,
 	}
 }
 
-func NewConnBusinessAudit() *ConnBusinessAudit {
+func NewConnBusinessAudit() app_conn.ConnBusinessAudit {
 	return &ConnBusinessAudit{
 		PeerName: DefaultPeerName,
 	}
 }
 
-func NewConnBusinessFile() *ConnBusinessFile {
+func NewConnBusinessFile() app_conn.ConnBusinessFile {
 	return &ConnBusinessFile{
 		PeerName: DefaultPeerName,
 	}

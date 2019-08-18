@@ -1,0 +1,54 @@
+{{define "title"}}Job: {{.Recipe}} {{end}}
+
+{{define "content"}}
+    {{$recipe := .Recipe}}
+    {{$logs := .Logs}}
+
+    <h1 class="display-1 mb-5">{{ $recipe }}</h1>
+
+    <div class="container text-left">
+        {{range $log := $logs }}
+            {{with (eq $log.Tag "header")}}
+                <h2>{{$log.Message}}</h2>
+            {{end}}
+            {{with (eq $log.Tag "info")}}
+                <div>{{$log.Message}}</div>
+            {{end}}
+            {{with (eq $log.Tag "table_start")}}
+                <div class="overflow-auto">
+                <table class="table">
+            {{end}}
+            {{with (eq $log.Tag "table_finish")}}
+                </table>
+                </div>
+            {{end}}
+            {{with (eq $log.Tag "table_header")}}
+                <tr>
+                    {{range $c := $log.Cols}}
+                        <th>{{$c}}</th>
+                    {{end}}
+                </tr>
+            {{end}}
+            {{with (eq $log.Tag "table_row")}}
+                <tr>
+                    {{range $c := $log.Cols}}
+                        <td>{{$c}}</td>
+                    {{end}}
+                </tr>
+            {{end}}
+            {{with (eq $log.Tag "table_finish")}}
+                <hr/>
+            {{end}}
+            {{with (eq $log.Tag "artifact_xlsx")}}
+                <div><i class="fas fa-file-excel"></i> <a href="{{$log.Link}}">{{$log.LinkName}}</a></div>
+            {{end}}
+            {{with (eq $log.Tag "artifact_csv")}}
+                <div><i class="fas fa-file-csv"></i> <a href="{{$log.Link}}">{{$log.LinkName}}</a></div>
+            {{end}}
+            {{with (eq $log.Tag "artifact_json")}}
+                <div><i class="fas fa-file-code"></i> <a href="{{$log.Link}}">{{$log.LinkName}}</a></div>
+            {{end}}
+        {{end}}
+    </div>
+
+{{end}}

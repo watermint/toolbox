@@ -3,9 +3,9 @@ package member
 import (
 	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/service/sv_member"
+	"github.com/watermint/toolbox/experimental/app_conn"
 	"github.com/watermint/toolbox/experimental/app_file"
 	"github.com/watermint/toolbox/experimental/app_kitchen"
-	"github.com/watermint/toolbox/experimental/app_recipe_util"
 	"github.com/watermint/toolbox/experimental/app_report"
 	"github.com/watermint/toolbox/experimental/app_validate"
 	"github.com/watermint/toolbox/experimental/app_vo"
@@ -31,7 +31,8 @@ func DetachRowFromCols(cols []string) (row *DetachRow) {
 }
 
 type DetachVO struct {
-	File app_file.RowDataFile
+	File     app_file.RowDataFile
+	PeerName app_conn.ConnBusinessMgmt
 }
 
 func (*DetachVO) Validate(t app_vo.Validator) {
@@ -45,39 +46,43 @@ func (z *Detach) Requirement() app_vo.ValueObject {
 }
 
 func (*Detach) Exec(k app_kitchen.Kitchen) error {
-	return app_recipe_util.WithBusinessManagement(k, func(ak app_recipe_util.ApiKitchen) error {
-		var vo interface{} = ak.Value()
-		mvo := vo.(*DetachVO)
-		svm := sv_member.New(ak.Context())
-		rep, err := ak.Report(
-			"detach",
-			app_report.TransactionHeader(&DetachRow{}, nil),
-		)
-		if err != nil {
-			return err
-		}
-		defer rep.Close()
+	var vo interface{} = k.Value()
+	mvo := vo.(*DetachVO)
 
-		return mvo.File.EachRow(k.Control(), func(cols []string, rowIndex int) error {
-			m := DetachRowFromCols(cols)
-			if err = m.Validate(); err != nil {
-				if rowIndex > 0 {
-					rep.Failure(app_report.MsgInvalidData, m, nil)
-				}
-				return nil
-			}
-			mem, err := svm.ResolveByEmail(m.Email)
-			if err != nil {
-				rep.Failure(api_util.MsgFromError(err), m, nil)
-				return nil
-			}
-			err = svm.Remove(mem, sv_member.Downgrade())
-			if err != nil {
-				rep.Failure(api_util.MsgFromError(err), m, nil)
-			} else {
-				rep.Success(m, nil)
+	connMgmt, err := mvo.PeerName.Connect(k.Control())
+	if err != nil {
+		return err
+	}
+
+	svm := sv_member.New(connMgmt)
+	rep, err := k.Report(
+		"detach",
+		app_report.TransactionHeader(&DetachRow{}, nil),
+	)
+	if err != nil {
+		return err
+	}
+	defer rep.Close()
+
+	return mvo.File.EachRow(k.Control(), func(cols []string, rowIndex int) error {
+		m := DetachRowFromCols(cols)
+		if err = m.Validate(); err != nil {
+			if rowIndex > 0 {
+				rep.Failure(app_report.MsgInvalidData, m, nil)
 			}
 			return nil
-		})
+		}
+		mem, err := svm.ResolveByEmail(m.Email)
+		if err != nil {
+			rep.Failure(api_util.MsgFromError(err), m, nil)
+			return nil
+		}
+		err = svm.Remove(mem, sv_member.Downgrade())
+		if err != nil {
+			rep.Failure(api_util.MsgFromError(err), m, nil)
+		} else {
+			rep.Success(m, nil)
+		}
+		return nil
 	})
 }

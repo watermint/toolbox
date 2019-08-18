@@ -3,7 +3,6 @@ package app_ui
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/experimental/app_msg"
-	"github.com/watermint/toolbox/experimental/app_msg_container"
 	"github.com/watermint/toolbox/experimental/app_root"
 	"go.uber.org/zap"
 	"io"
@@ -13,18 +12,27 @@ import (
 )
 
 type WebUILog struct {
-	Tag     string
-	Message string
-	Cols    []string
-	Link    string
+	Tag      string
+	Message  string
+	Cols     []string
+	Link     string
+	LinkName string
 }
 
 type LinkForLocalFile func(path string) string
 
+func NewWeb(baseUI UI, out io.Writer, llf LinkForLocalFile) UI {
+	return &Web{
+		baseUI: baseUI,
+		out:    out,
+		llf:    llf,
+	}
+}
+
 type Web struct {
-	mc  app_msg_container.Container
-	out io.Writer
-	llf LinkForLocalFile
+	baseUI UI
+	out    io.Writer
+	llf    LinkForLocalFile
 }
 
 const (
@@ -39,7 +47,7 @@ const (
 	WebTagAskCont      = "ask_cont"
 	WebTagAskText      = "ask_text"
 	WebTagAskSecure    = "ask_secure"
-	WebTagArtifactXlsx = "artifact_xslx"
+	WebTagArtifactXlsx = "artifact_xlsx"
 	WebTagArtifactCsv  = "artifact_csv"
 	WebTagArtifactJson = "artifact_json"
 )
@@ -79,8 +87,8 @@ func (z *Web) Info(key string, p ...app_msg.Param) {
 
 func (z *Web) InfoTable(border bool) Table {
 	t := &WebTable{
-		mc: z.mc,
-		w:  z,
+		baseUI: z.baseUI,
+		w:      z,
 	}
 	z.uiLog(&WebUILog{
 		Tag: WebTagTableStart,
@@ -102,7 +110,7 @@ func (z *Web) Break() {
 }
 
 func (z *Web) Text(key string, p ...app_msg.Param) string {
-	return z.mc.Compile(app_msg.M(key, p...))
+	return z.baseUI.Text(key, p...)
 }
 
 func (z *Web) AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool) {
@@ -130,20 +138,23 @@ func (z *Web) OpenArtifact(path string) {
 		switch strings.ToLower(e) {
 		case ".xlsx":
 			z.uiLog(&WebUILog{
-				Tag:  WebTagArtifactXlsx,
-				Link: z.llf(filepath.Join(path, f.Name())),
+				Tag:      WebTagArtifactXlsx,
+				Link:     z.llf(filepath.Join(path, f.Name())),
+				LinkName: f.Name(),
 			})
 
 		case ".csv":
 			z.uiLog(&WebUILog{
-				Tag:  WebTagArtifactCsv,
-				Link: z.llf(filepath.Join(path, f.Name())),
+				Tag:      WebTagArtifactCsv,
+				Link:     z.llf(filepath.Join(path, f.Name())),
+				LinkName: f.Name(),
 			})
 
 		case ".json":
 			z.uiLog(&WebUILog{
-				Tag:  WebTagArtifactJson,
-				Link: z.llf(filepath.Join(path, f.Name())),
+				Tag:      WebTagArtifactJson,
+				Link:     z.llf(filepath.Join(path, f.Name())),
+				LinkName: f.Name(),
 			})
 
 		default:
@@ -161,14 +172,14 @@ func (z *Web) IsWeb() bool {
 }
 
 type WebTable struct {
-	mc app_msg_container.Container
-	w  *Web
+	baseUI UI
+	w      *Web
 }
 
 func (z *WebTable) Header(h ...app_msg.Message) {
 	cols := make([]string, 0)
 	for _, c := range h {
-		cols = append(cols, z.mc.Compile(c))
+		cols = append(cols, z.baseUI.Text(c.Key(), c.Params()...))
 	}
 	z.w.uiLog(&WebUILog{
 		Tag:  WebTagTableHeader,
@@ -190,7 +201,7 @@ func (z *WebTable) HeaderRaw(h ...string) {
 func (z *WebTable) Row(m ...app_msg.Message) {
 	cols := make([]string, 0)
 	for _, c := range m {
-		cols = append(cols, z.mc.Compile(c))
+		cols = append(cols, z.baseUI.Text(c.Key(), c.Params()...))
 	}
 	z.w.uiLog(&WebUILog{
 		Tag:  WebTagTableRow,

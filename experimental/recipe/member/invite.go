@@ -4,10 +4,10 @@ import (
 	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
+	"github.com/watermint/toolbox/experimental/app_conn"
 	"github.com/watermint/toolbox/experimental/app_file"
 	"github.com/watermint/toolbox/experimental/app_kitchen"
 	"github.com/watermint/toolbox/experimental/app_msg"
-	"github.com/watermint/toolbox/experimental/app_recipe_util"
 	"github.com/watermint/toolbox/experimental/app_report"
 	"github.com/watermint/toolbox/experimental/app_validate"
 	"github.com/watermint/toolbox/experimental/app_vo"
@@ -21,7 +21,8 @@ type InviteRow struct {
 }
 
 type InviteVO struct {
-	File app_file.RowDataFile
+	File     app_file.RowDataFile
+	PeerName app_conn.ConnBusinessMgmt
 }
 
 func (z *InviteVO) Validate(t app_vo.Validator) {
@@ -71,53 +72,57 @@ func (z *Invite) msgFromTag(tag string) app_msg.Message {
 }
 
 func (z *Invite) Exec(k app_kitchen.Kitchen) error {
-	return app_recipe_util.WithBusinessManagement(k, func(ak app_recipe_util.ApiKitchen) error {
-		var vo interface{} = ak.Value()
-		mvo := vo.(*InviteVO)
-		svm := sv_member.New(ak.Context())
-		rep, err := ak.Report(
-			"invite",
-			app_report.TransactionHeader(&InviteRow{}, &mo_member.Member{}),
-		)
-		if err != nil {
-			return err
+	var vo interface{} = k.Value()
+	mvo := vo.(*InviteVO)
+
+	connMgmt, err := mvo.PeerName.Connect(k.Control())
+	if err != nil {
+		return err
+	}
+
+	svm := sv_member.New(connMgmt)
+	rep, err := k.Report(
+		"invite",
+		app_report.TransactionHeader(&InviteRow{}, &mo_member.Member{}),
+	)
+	if err != nil {
+		return err
+	}
+	defer rep.Close()
+
+	return mvo.File.EachRow(k.Control(), func(cols []string, rowIndex int) error {
+		m := InviteRowFromCols(cols)
+		if err = m.Validate(); err != nil {
+			if rowIndex > 0 {
+				rep.Failure(app_report.MsgInvalidData, m, nil)
+			}
+			return nil
 		}
-		defer rep.Close()
+		opts := make([]sv_member.AddOpt, 0)
+		if m.GivenName != "" {
+			opts = append(opts, sv_member.AddWithGivenName(m.GivenName))
+		}
+		if m.Surname != "" {
+			opts = append(opts, sv_member.AddWithSurname(m.Surname))
+		}
 
-		return mvo.File.EachRow(k.Control(), func(cols []string, rowIndex int) error {
-			m := InviteRowFromCols(cols)
-			if err = m.Validate(); err != nil {
-				if rowIndex > 0 {
-					rep.Failure(app_report.MsgInvalidData, m, nil)
-				}
-				return nil
-			}
-			opts := make([]sv_member.AddOpt, 0)
-			if m.GivenName != "" {
-				opts = append(opts, sv_member.AddWithGivenName(m.GivenName))
-			}
-			if m.Surname != "" {
-				opts = append(opts, sv_member.AddWithSurname(m.Surname))
-			}
+		r, err := svm.Add(m.Email, opts...)
+		switch {
+		case err != nil:
+			rep.Failure(api_util.MsgFromError(err), m, nil)
+			return nil
 
-			r, err := svm.Add(m.Email, opts...)
-			switch {
-			case err != nil:
-				rep.Failure(api_util.MsgFromError(err), m, nil)
-				return nil
+		case r.Tag == "success":
+			rep.Success(m, r)
+			return nil
 
-			case r.Tag == "success":
-				rep.Success(m, r)
-				return nil
+		case r.Tag == "user_already_on_team":
+			rep.Skip(z.msgFromTag(r.Tag), m, nil)
+			return nil
 
-			case r.Tag == "user_already_on_team":
-				rep.Skip(z.msgFromTag(r.Tag), m, nil)
-				return nil
-
-			default:
-				rep.Failure(z.msgFromTag(r.Tag), m, nil)
-				return nil
-			}
-		})
+		default:
+			rep.Failure(z.msgFromTag(r.Tag), m, nil)
+			return nil
+		}
 	})
 }
