@@ -8,6 +8,7 @@ import (
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
+	"github.com/skratchdot/open-golang/open"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/experimental/app_conn"
@@ -126,6 +127,10 @@ func (z *Web) Exec(k app_kitchen.Kitchen) error {
 	k.Log().Info("Login url", zap.String("url", loginUrl))
 
 	_ = g.Run(fmt.Sprintf(":%d", wvo.Port))
+
+	time.Sleep(2 * time.Second)
+
+	open.Start(loginUrl)
 
 	return nil
 }
@@ -579,8 +584,14 @@ func (z *WebHandler) Artifact(g *gin.Context) {
 		}
 		relPath := string(rel)
 
-		path := filepath.Join(uc.Workspace().Home(), "jobs", jobId, relPath)
-		l.Debug("Artifact path", zap.String("path", path))
+		jobPath := filepath.Join(uc.Workspace().Home(), "jobs", jobId)
+		path := filepath.Join(jobPath, relPath)
+		l.Debug("Artifact path", zap.String("path", path), zap.String("jobPath", jobPath))
+		if !strings.HasPrefix(filepath.Clean(path), jobPath) {
+			l.Warn("Look like malicious path", zap.String("path", filepath.Clean(path)), zap.String("jobPath", jobPath))
+			g.Data(http.StatusNoContent, "application/octet-stream", []byte{})
+			return
+		}
 
 		contentType := "application/octet-stream"
 		switch strings.ToLower(filepath.Ext(relPath)) {
