@@ -24,6 +24,7 @@ import (
 	"github.com/watermint/toolbox/experimental/app_user"
 	"github.com/watermint/toolbox/experimental/app_vo"
 	"github.com/watermint/toolbox/experimental/app_vo_impl"
+	"github.com/watermint/toolbox/experimental/app_workspace"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
@@ -111,12 +112,13 @@ func (z *Web) Exec(k app_kitchen.Kitchen) error {
 	jobChan := make(chan *webJobRun)
 
 	wh := &WebHandler{
-		control:     k.Control(),
-		Template:    htp,
-		Launcher:    cl,
-		BaseUrl:     baseUrl,
-		authForUser: make(map[string]api_auth.Web),
-		jobChan:     jobChan,
+		control:        k.Control(),
+		Template:       htp,
+		Launcher:       cl,
+		BaseUrl:        baseUrl,
+		authForUser:    make(map[string]api_auth.Web),
+		controlForUser: make(map[string]app_control.Control),
+		jobChan:        jobChan,
 	}
 	wh.Setup(g)
 
@@ -155,13 +157,14 @@ func (z *Web) jobRunner(ctl app_control.Control, jc <-chan *webJobRun) {
 }
 
 type WebHandler struct {
-	control     app_control.Control
-	Template    app_template.Template
-	Launcher    app_control_launcher.ControlLauncher
-	BaseUrl     string
-	Root        *app_recipe_group.Group
-	authForUser map[string]api_auth.Web
-	jobChan     chan *webJobRun
+	control        app_control.Control
+	Template       app_template.Template
+	Launcher       app_control_launcher.ControlLauncher
+	BaseUrl        string
+	Root           *app_recipe_group.Group
+	authForUser    map[string]api_auth.Web
+	controlForUser map[string]app_control.Control
+	jobChan        chan *webJobRun
 }
 
 func (z *WebHandler) auth(user app_user.User, uc app_control.Control) api_auth.Web {
@@ -480,7 +483,14 @@ func (z *WebHandler) Run(g *gin.Context) {
 
 		vc.Apply(vo)
 
-		wuiLogPath := filepath.Join(uc.Workspace().Log(), "webui.log")
+		jws, err := app_workspace.NewMultiJob(user.Workspace())
+		if err != nil {
+			l.Debug("Unable to create new Job workspace", zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		}
+
+		wuiLogPath := filepath.Join(jws.Log(), "webui.log")
 		l.Debug("Create web ui log file", zap.String("path", wuiLogPath))
 		wuiLog, err := os.Create(wuiLogPath)
 		if err != nil {
@@ -490,7 +500,7 @@ func (z *WebHandler) Run(g *gin.Context) {
 		}
 
 		linkForLocalFile := func(path string) string {
-			rel, err := filepath.Rel(uc.Workspace().Job(), path)
+			rel, err := filepath.Rel(jws.Job(), path)
 			if err != nil {
 				l.Warn("Unable to calc rel path", zap.Error(err))
 				return ""
@@ -505,10 +515,15 @@ func (z *WebHandler) Run(g *gin.Context) {
 			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
 			return
 		} else {
-			juc := muc.WithNewUI(wui)
+			juc, err := muc.Fork(wui, jws)
+			if err != nil {
+				l.Debug("Unable to fork control for new job", zap.Error(err))
+				g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+				return
+			}
 			wj := &webJobRun{
 				name:      cmd,
-				jobId:     juc.Workspace().JobId(),
+				jobId:     jws.JobId(),
 				recipe:    rcp,
 				vo:        vo.(app_vo.ValueObject),
 				uc:        juc,
@@ -804,11 +819,16 @@ func (z *WebHandler) withUser(g *gin.Context, f func(g *gin.Context, user app_us
 		g.Redirect(http.StatusTemporaryRedirect, webPathForbidden)
 		return
 	}
-	uc, err := z.control.(app_control_launcher.ControlLauncher).NewControl(user.Workspace())
-	if err != nil {
-		l.Debug("Unable to create new control for the user", zap.Error(err))
-		g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
-		return
+
+	uc, ok := z.controlForUser[hash]
+	if !ok {
+		uc, err = z.control.(app_control_launcher.ControlLauncher).NewControl(user.Workspace())
+		if err != nil {
+			l.Debug("Unable to create new control for the user", zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		}
+		z.controlForUser[hash] = uc
 	}
 
 	f(g, user, uc)

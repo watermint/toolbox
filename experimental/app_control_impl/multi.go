@@ -31,16 +31,28 @@ type Multi struct {
 	secure bool
 }
 
-func (z *Multi) WithNewUI(ui app_ui.UI) app_control.Control {
-	return &Multi{
+func (z *Multi) Fork(ui app_ui.UI, ws app_workspace.Workspace) (ctl app_control.Control, err error) {
+	ctl = &Multi{
 		ui:     ui,
 		flc:    z.flc,
 		cap:    z.cap,
 		box:    z.box,
 		mc:     z.mc,
-		ws:     z.ws,
+		ws:     ws,
 		quiet:  z.quiet,
 		secure: z.secure,
+	}
+
+	opts := make([]app_control.UpOpt, 0)
+	if z.secure {
+		opts = append(opts, app_control.Secure())
+	}
+	err = ctl.Up(opts...)
+
+	if err != nil {
+		return nil, err
+	} else {
+		return ctl, nil
 	}
 }
 
