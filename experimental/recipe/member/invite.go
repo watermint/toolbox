@@ -63,6 +63,9 @@ func InviteRowFromCols(cols []string) (row *InviteRow) {
 type Invite struct {
 }
 
+func (z *Invite) Console() {
+}
+
 func (z *Invite) Requirement() app_vo.ValueObject {
 	return &InviteVO{}
 }
