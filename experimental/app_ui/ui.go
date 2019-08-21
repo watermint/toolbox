@@ -17,6 +17,9 @@ type UI interface {
 	AskSecure(key string, p ...app_msg.Param) (secure string, cancel bool)
 
 	OpenArtifact(path string)
+	Success(key string, p ...app_msg.Param)
+	Failure(key string, p ...app_msg.Param)
+
 	IsConsole() bool
 	IsWeb() bool
 }

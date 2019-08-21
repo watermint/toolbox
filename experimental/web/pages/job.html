@@ -39,6 +39,9 @@
             {{with (eq $log.Tag "table_finish")}}
                 <hr/>
             {{end}}
+            {{with (eq $log.Tag "artifact_header")}}
+                <h2>Result:</h2>
+            {{end}}
             {{with (eq $log.Tag "artifact_xlsx")}}
                 <div><i class="fas fa-file-excel"></i> <a href="{{$log.Link}}">{{$log.LinkName}}</a></div>
             {{end}}
@@ -47,6 +50,12 @@
             {{end}}
             {{with (eq $log.Tag "artifact_json")}}
                 <div><i class="fas fa-file-code"></i> <a href="{{$log.Link}}">{{$log.LinkName}}</a></div>
+            {{end}}
+            {{with (eq $log.Tag "result_success")}}
+                <div class="alert alert-success mt-5" role="alert">{{$log.Message}}</div>
+            {{end}}
+            {{with (eq $log.Tag "result_failure")}}
+                <div class="alert alert-danger mt-5" role="alert">{{$log.Message}}</div>
             {{end}}
         {{end}}
     </div>

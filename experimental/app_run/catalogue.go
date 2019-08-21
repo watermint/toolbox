@@ -21,6 +21,7 @@ func Recipes() []app_recipe.Recipe {
 		&group.List{},
 		&groupmember.List{},
 		&member.Invite{},
+		&member.Detach{},
 		&member.List{},
 		&teamfolder.List{},
 		&sharedfolder.List{},

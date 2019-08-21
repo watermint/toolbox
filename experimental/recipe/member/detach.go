@@ -31,14 +31,18 @@ func DetachRowFromCols(cols []string) (row *DetachRow) {
 }
 
 type DetachVO struct {
-	File     app_file.RowDataFile
-	PeerName app_conn.ConnBusinessMgmt
+	File             app_file.RowDataFile
+	PeerName         app_conn.ConnBusinessMgmt
+	RetainTeamShares bool
 }
 
 func (*DetachVO) Validate(t app_vo.Validator) {
 }
 
 type Detach struct {
+}
+
+func (z *Detach) Console() {
 }
 
 func (z *Detach) Requirement() app_vo.ValueObject {
@@ -77,7 +81,12 @@ func (*Detach) Exec(k app_kitchen.Kitchen) error {
 			rep.Failure(api_util.MsgFromError(err), m, nil)
 			return nil
 		}
-		err = svm.Remove(mem, sv_member.Downgrade())
+		ros := make([]sv_member.RemoveOpt, 0)
+		ros = append(ros, sv_member.Downgrade())
+		if mvo.RetainTeamShares {
+			ros = append(ros, sv_member.RetainTeamShares())
+		}
+		err = svm.Remove(mem, ros...)
 		if err != nil {
 			rep.Failure(api_util.MsgFromError(err), m, nil)
 		} else {

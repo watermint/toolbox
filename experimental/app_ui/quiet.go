@@ -15,6 +15,14 @@ type Quiet struct {
 	log       *zap.Logger
 }
 
+func (z *Quiet) Success(key string, p ...app_msg.Param) {
+	z.log.Debug(key, zap.Any("params", p))
+}
+
+func (z *Quiet) Failure(key string, p ...app_msg.Param) {
+	z.log.Debug(key, zap.Any("params", p))
+}
+
 func (z *Quiet) IsConsole() bool {
 	return false
 }

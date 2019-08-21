@@ -72,5 +72,7 @@
   "web.conn.business_audit.detail": "Team information, plus the team's detailed activity log",
   "web.conn.user_full.header": "Full Dropbox Access",
   "web.conn.user_full.detail": "Access to all files and folders in individual user's Dropbox",
+  "web.job.result.success": "Success",
+  "web.job.result.failure": "Failure (error: {{.Error}})",
   "web.home.message": "Welcome {{.User}}"
 }

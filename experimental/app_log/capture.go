@@ -1,7 +1,6 @@
 package app_log
 
 import (
-	"compress/gzip"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
@@ -11,14 +10,9 @@ import (
 type CaptureContext struct {
 	Logger *zap.Logger
 	File   *os.File
-	Writer *gzip.Writer
 }
 
 func (z *CaptureContext) Close() {
-	if z.Writer != nil {
-		z.Writer.Flush()
-		z.Writer.Close()
-	}
 	if z.File != nil {
 		z.File.Close()
 	}
@@ -38,8 +32,7 @@ func NewCaptureLogger(path string) (cc *CaptureContext, err error) {
 	if err != nil {
 		return nil, err
 	}
-	g := gzip.NewWriter(f)
-	zo = zapcore.AddSync(g)
+	zo = zapcore.AddSync(f)
 
 	fileLoggerCore := zapcore.NewCore(
 		zapcore.NewJSONEncoder(cfg),
@@ -56,7 +49,6 @@ func NewCaptureLogger(path string) (cc *CaptureContext, err error) {
 	cc = &CaptureContext{
 		Logger: logger,
 		File:   f,
-		Writer: g,
 	}
 	return cc, nil
 }

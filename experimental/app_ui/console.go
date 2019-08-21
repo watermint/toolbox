@@ -115,6 +115,18 @@ func (z *console) Error(key string, p ...app_msg.Param) {
 	app_root.Log().Debug(m)
 }
 
+func (z *console) Success(key string, p ...app_msg.Param) {
+	m := z.mc.Compile(app_msg.M(key, p...))
+	z.colorPrint(m, ColorGreen)
+	app_root.Log().Debug(m)
+}
+
+func (z *console) Failure(key string, p ...app_msg.Param) {
+	m := z.mc.Compile(app_msg.M(key, p...))
+	z.colorPrint(m, ColorRed)
+	app_root.Log().Debug(m)
+}
+
 func (z *console) AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool) {
 	msg := z.mc.Compile(app_msg.M(key, p...))
 	app_root.Log().Debug(msg)

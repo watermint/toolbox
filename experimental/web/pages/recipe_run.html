@@ -15,7 +15,7 @@
         </div>
 
         <form action="/run/{{$recipe}}" method="post" id="run">
-            <h2 class="mb-5">Connections</h2>
+            <h2>Connections</h2>
             <div class="container col-md-6">
                 {{range $connName := $conns }}
                     <input type="hidden" name="Conn[{{$connName}}]" value="{{index $connsSelected $connName}}"/>

@@ -36,20 +36,23 @@ type Web struct {
 }
 
 const (
-	WebTagHeader       = "header"
-	WebTagInfo         = "info"
-	WebTagTableStart   = "table_start"
-	WebTagTableHeader  = "table_header"
-	WebTagTableRow     = "table_row"
-	WebTagTableFinish  = "table_finish"
-	WebTagError        = "error"
-	WebTagBreak        = "break"
-	WebTagAskCont      = "ask_cont"
-	WebTagAskText      = "ask_text"
-	WebTagAskSecure    = "ask_secure"
-	WebTagArtifactXlsx = "artifact_xlsx"
-	WebTagArtifactCsv  = "artifact_csv"
-	WebTagArtifactJson = "artifact_json"
+	WebTagHeader         = "header"
+	WebTagInfo           = "info"
+	WebTagTableStart     = "table_start"
+	WebTagTableHeader    = "table_header"
+	WebTagTableRow       = "table_row"
+	WebTagTableFinish    = "table_finish"
+	WebTagError          = "error"
+	WebTagBreak          = "break"
+	WebTagAskCont        = "ask_cont"
+	WebTagAskText        = "ask_text"
+	WebTagAskSecure      = "ask_secure"
+	WebTagArtifactHeader = "artifact_header"
+	WebTagArtifactXlsx   = "artifact_xlsx"
+	WebTagArtifactCsv    = "artifact_csv"
+	WebTagArtifactJson   = "artifact_json"
+	WebTagResultSuccess  = "result_success"
+	WebTagResultFailure  = "result_failure"
 )
 
 func (z *Web) uiLog(w *WebUILog) {
@@ -69,6 +72,20 @@ func (z *Web) uiLog(w *WebUILog) {
 		l.Warn("Unable to write UI message", zap.Error(err))
 		return
 	}
+}
+
+func (z *Web) Success(key string, p ...app_msg.Param) {
+	z.uiLog(&WebUILog{
+		Tag:     WebTagResultSuccess,
+		Message: z.Text(key, p...),
+	})
+}
+
+func (z *Web) Failure(key string, p ...app_msg.Param) {
+	z.uiLog(&WebUILog{
+		Tag:     WebTagResultFailure,
+		Message: z.Text(key, p...),
+	})
 }
 
 func (z *Web) Header(key string, p ...app_msg.Param) {
@@ -132,6 +149,9 @@ func (z *Web) OpenArtifact(path string) {
 		l.Warn("Unable to read path", zap.Error(err), zap.String("path", path))
 		return
 	}
+	z.uiLog(&WebUILog{
+		Tag: WebTagArtifactHeader,
+	})
 
 	for _, f := range files {
 		e := filepath.Ext(f.Name())

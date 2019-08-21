@@ -17,6 +17,7 @@ import (
 	"github.com/watermint/toolbox/experimental/app_control_impl"
 	"github.com/watermint/toolbox/experimental/app_control_launcher"
 	"github.com/watermint/toolbox/experimental/app_kitchen"
+	"github.com/watermint/toolbox/experimental/app_msg"
 	"github.com/watermint/toolbox/experimental/app_recipe"
 	"github.com/watermint/toolbox/experimental/app_recipe_group"
 	"github.com/watermint/toolbox/experimental/app_template"
@@ -145,6 +146,9 @@ func (z *Web) jobRunner(ctl app_control.Control, jc <-chan *webJobRun) {
 		err := job.recipe.Exec(k)
 		if err != nil {
 			l.Error("Unable to finish the job", zap.Error(err))
+			job.uc.UI().Failure("web.job.result.failure", app_msg.P("Error", err.Error()))
+		} else {
+			job.uc.UI().Success("web.job.result.success")
 		}
 		l.Debug("Closing log file")
 		job.uiLogFile.Close()
