@@ -53,6 +53,7 @@ const (
 	WebTagArtifactJson   = "artifact_json"
 	WebTagResultSuccess  = "result_success"
 	WebTagResultFailure  = "result_failure"
+	WebTagRefresh        = "refresh"
 )
 
 func (z *Web) uiLog(w *WebUILog) {
@@ -107,9 +108,6 @@ func (z *Web) InfoTable(border bool) Table {
 		baseUI: z.baseUI,
 		w:      z,
 	}
-	z.uiLog(&WebUILog{
-		Tag: WebTagTableStart,
-	})
 	return t
 }
 
@@ -241,7 +239,4 @@ func (z *WebTable) RowRaw(m ...string) {
 }
 
 func (z *WebTable) Flush() {
-	z.w.uiLog(&WebUILog{
-		Tag: WebTagTableFinish,
-	})
 }

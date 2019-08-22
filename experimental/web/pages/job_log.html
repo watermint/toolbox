@@ -1,0 +1,58 @@
+{{range $log := .Logs }}
+    {{with (eq $log.Tag "header")}}
+        <h2>{{$log.Message}}</h2>
+    {{end}}
+    {{with (eq $log.Tag "info")}}
+        <div>{{$log.Message}}</div>
+    {{end}}
+    {{with (eq $log.Tag "table_start")}}
+        <div class="overflow-auto">
+        <table class="table">
+    {{end}}
+    {{with (eq $log.Tag "table_finish")}}
+        </table>
+        </div>
+    {{end}}
+    {{with (eq $log.Tag "table_header")}}
+        <tr>
+            {{range $c := $log.Cols}}
+                <th>{{$c}}</th>
+            {{end}}
+        </tr>
+    {{end}}
+    {{with (eq $log.Tag "table_row")}}
+        <tr>
+            {{range $c := $log.Cols}}
+                <td>{{$c}}</td>
+            {{end}}
+        </tr>
+    {{end}}
+    {{with (eq $log.Tag "table_finish")}}
+        <hr/>
+    {{end}}
+    {{with (eq $log.Tag "artifact_header")}}
+        <h2>Result:</h2>
+    {{end}}
+    {{with (eq $log.Tag "artifact_xlsx")}}
+        <div><i class="fas fa-file-excel"></i> <a href="{{$log.Link}}">{{$log.LinkName}}</a></div>
+    {{end}}
+    {{with (eq $log.Tag "artifact_csv")}}
+        <div><i class="fas fa-file-csv"></i> <a href="{{$log.Link}}">{{$log.LinkName}}</a></div>
+    {{end}}
+    {{with (eq $log.Tag "artifact_json")}}
+        <div><i class="fas fa-file-code"></i> <a href="{{$log.Link}}">{{$log.LinkName}}</a></div>
+    {{end}}
+    {{with (eq $log.Tag "result_success")}}
+        <div class="alert alert-success mt-5" role="alert">{{$log.Message}}</div>
+    {{end}}
+    {{with (eq $log.Tag "result_failure")}}
+        <div class="alert alert-danger mt-5" role="alert">{{$log.Message}}</div>
+    {{end}}
+    {{with (eq $log.Tag "refresh")}}
+        <script type="application/javascript">
+            $(function (){
+                setTimeout(refresh,1000);
+            })
+        </script>
+    {{end}}
+{{end}}

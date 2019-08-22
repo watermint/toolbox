@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/experimental/app_conn"
 	"github.com/watermint/toolbox/experimental/app_kitchen"
-	"github.com/watermint/toolbox/experimental/app_msg"
 	"github.com/watermint/toolbox/experimental/app_vo"
 	"go.uber.org/zap"
 )
@@ -45,10 +44,10 @@ func (*List) Exec(k app_kitchen.Kitchen) error {
 	defer rep.Close()
 
 	for _, folder := range folders {
-		k.UI().Info("recipe.sharedfolder.member.list.progress.scan",
-			app_msg.P("Folder", folder.Name),
-			app_msg.P("FolderId", folder.SharedFolderId),
-		)
+		//k.UI().Info("recipe.sharedfolder.member.list.progress.scan",
+		//	app_msg.P("Folder", folder.Name),
+		//	app_msg.P("FolderId", folder.SharedFolderId),
+		//)
 		k.Log().Debug("Scanning folder", zap.Any("folder", folder))
 		members, err := sv_sharedfolder_member.New(conn, folder).List()
 		if err != nil {

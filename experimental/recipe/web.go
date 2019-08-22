@@ -205,8 +205,9 @@ func (z *WebHandler) setupUrls(g *gin.Engine) {
 	z.Template.Define("home-recipe-run", "layout/layout.html", "pages/recipe_run.html")
 
 	g.POST(webPathRun+"/:command", z.Run)
-	g.POST(webPathJob+"/:command/:jobId", z.Job)
-	z.Template.Define(webPathJob, "layout/layout.html", "pages/job.html")
+	g.GET(webPathJob+"/:command/:jobId", z.Job)
+	z.Template.Define(webPathRun, "layout/layout.html", "pages/job.html")
+	z.Template.Define(webPathJob, "pages/job_log.html")
 
 	g.GET(webPathJobArtifact+"/:command/:jobId/:artifactName", z.Artifact)
 
@@ -536,9 +537,13 @@ func (z *WebHandler) Run(g *gin.Context) {
 			l.Debug("Enqueue Job", zap.String("name", cmd), zap.String("jobId", wj.jobId))
 			z.jobChan <- wj
 
-			g.Redirect(
-				http.StatusTemporaryRedirect,
-				webPathJob+"/"+cmd+"/"+wj.jobId,
+			g.HTML(
+				http.StatusOK,
+				webPathRun,
+				gin.H{
+					"Recipe": cmd,
+					"JobId":  wj.jobId,
+				},
 			)
 		}
 
@@ -564,17 +569,43 @@ func (z *WebHandler) Job(g *gin.Context) {
 		logs := make([]*app_ui.WebUILog, 0)
 
 		s := bufio.NewScanner(logFile)
+		inTable := false
+		isFinished := false
 		for s.Scan() {
 			line := s.Bytes()
 			wl := &app_ui.WebUILog{}
 			if err = json.Unmarshal(line, wl); err != nil {
 				l.Warn("Unable to unmarshal line, skip", zap.Error(err), zap.String("line", s.Text()))
 			} else {
+				switch {
+				case strings.HasPrefix(wl.Tag, "table") && !inTable:
+					// insert start tag
+					logs = append(logs, &app_ui.WebUILog{
+						Tag: app_ui.WebTagTableStart,
+					})
+					inTable = true
+				case !strings.HasPrefix(wl.Tag, "table") && inTable:
+					// insert finish tag
+					logs = append(logs, &app_ui.WebUILog{
+						Tag: app_ui.WebTagTableFinish,
+					})
+					inTable = false
+				case wl.Tag == app_ui.WebTagResultSuccess:
+					isFinished = true
+				case wl.Tag == app_ui.WebTagResultFailure:
+					isFinished = true
+				}
 				logs = append(logs, wl)
 			}
 		}
 		if s.Err() != nil {
 			l.Warn("There is an error on read log", zap.Error(err))
+		}
+		if !isFinished {
+			// insert refresh tag
+			logs = append(logs, &app_ui.WebUILog{
+				Tag: app_ui.WebTagRefresh,
+			})
 		}
 
 		g.HTML(
