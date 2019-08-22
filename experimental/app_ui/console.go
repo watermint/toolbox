@@ -37,16 +37,24 @@ const (
 
 func NewConsole(mc app_msg_container.Container) UI {
 	return &console{
-		Container: mc,
-		Out:       os.Stdout,
-		In:        os.Stdin,
+		mc:  mc,
+		out: os.Stdout,
+		in:  os.Stdin,
 	}
 }
 
 type console struct {
-	Container app_msg_container.Container
-	Out       io.Writer
-	In        io.Reader
+	mc  app_msg_container.Container
+	out io.Writer
+	in  io.Reader
+}
+
+func (z *console) IsConsole() bool {
+	return true
+}
+
+func (z *console) IsWeb() bool {
+	return false
 }
 
 func (z *console) OpenArtifact(path string) {
@@ -58,61 +66,73 @@ func (z *console) OpenArtifact(path string) {
 }
 
 func (z *console) Text(key string, p ...app_msg.Param) string {
-	return z.Container.Compile(app_msg.M(key, p...))
+	return z.mc.Compile(app_msg.M(key, p...))
 }
 
 func (z *console) Break() {
-	fmt.Fprintln(z.Out)
+	fmt.Fprintln(z.out)
 }
 
 func (z *console) colorPrint(t string, color int) {
 	if runtime.GOOS == "windows" {
-		fmt.Fprintf(z.Out, "%s\n", t)
+		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
-		fmt.Fprintf(z.Out, "\x1b[%dm%s\x1b[0m\n", color, t)
+		fmt.Fprintf(z.out, "\x1b[%dm%s\x1b[0m\n", color, t)
 	}
 }
 
 func (z *console) boldPrint(t string) {
 	if runtime.GOOS == "windows" {
-		fmt.Fprintf(z.Out, "%s\n", t)
+		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
-		fmt.Fprintf(z.Out, "\x1b[1m%s\x1b[0m\n", t)
+		fmt.Fprintf(z.out, "\x1b[1m%s\x1b[0m\n", t)
 	}
 }
 
 func (z *console) Header(key string, p ...app_msg.Param) {
-	m := z.Container.Compile(app_msg.M(key, p...))
+	m := z.mc.Compile(app_msg.M(key, p...))
 	z.boldPrint(m)
 }
 
 func (z *console) InfoTable(border bool) Table {
 	tw := new(tabwriter.Writer)
-	tw.Init(z.Out, 0, 2, 2, ' ', 0)
+	tw.Init(z.out, 0, 2, 2, ' ', 0)
 	return &consoleTable{
-		Container: z.Container,
+		Container: z.mc,
 		Tab:       tw,
 	}
 }
 
 func (z *console) Info(key string, p ...app_msg.Param) {
-	m := z.Container.Compile(app_msg.M(key, p...))
+	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorWhite)
 	app_root.Log().Debug(m)
 }
 
 func (z *console) Error(key string, p ...app_msg.Param) {
-	m := z.Container.Compile(app_msg.M(key, p...))
+	m := z.mc.Compile(app_msg.M(key, p...))
+	z.colorPrint(m, ColorRed)
+	app_root.Log().Debug(m)
+}
+
+func (z *console) Success(key string, p ...app_msg.Param) {
+	m := z.mc.Compile(app_msg.M(key, p...))
+	z.colorPrint(m, ColorGreen)
+	app_root.Log().Debug(m)
+}
+
+func (z *console) Failure(key string, p ...app_msg.Param) {
+	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorRed)
 	app_root.Log().Debug(m)
 }
 
 func (z *console) AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool) {
-	msg := z.Container.Compile(app_msg.M(key, p...))
+	msg := z.mc.Compile(app_msg.M(key, p...))
 	app_root.Log().Debug(msg)
 
 	z.colorPrint(msg, ColorCyan)
-	br := bufio.NewReader(z.In)
+	br := bufio.NewReader(z.in)
 	for {
 		line, _, err := br.ReadLine()
 		if err == io.EOF {
@@ -141,11 +161,11 @@ func (z *console) AskCont(key string, p ...app_msg.Param) (cont bool, cancel boo
 }
 
 func (z *console) AskText(key string, p ...app_msg.Param) (text string, cancel bool) {
-	msg := z.Container.Compile(app_msg.M(key, p...))
+	msg := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(msg, ColorCyan)
 	app_root.Log().Debug(msg)
 
-	br := bufio.NewReader(z.In)
+	br := bufio.NewReader(z.in)
 	for {
 		line, _, err := br.ReadLine()
 		if err == io.EOF {
@@ -164,11 +184,11 @@ func (z *console) AskText(key string, p ...app_msg.Param) (text string, cancel b
 }
 
 func (z *console) AskSecure(key string, p ...app_msg.Param) (text string, cancel bool) {
-	msg := z.Container.Compile(app_msg.M(key, p...))
+	msg := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(msg, ColorCyan)
 	app_root.Log().Debug(msg)
 
-	br := bufio.NewReader(z.In)
+	br := bufio.NewReader(z.in)
 	for {
 		line, _, err := br.ReadLine()
 		if err == io.EOF {

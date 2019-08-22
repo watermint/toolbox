@@ -1,24 +1,36 @@
 package recipe
 
 import (
+	"bufio"
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
+	"github.com/skratchdot/open-golang/open"
 	"github.com/watermint/toolbox/domain/infra/api_auth"
 	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/experimental/app_conn"
+	"github.com/watermint/toolbox/experimental/app_conn_impl"
 	"github.com/watermint/toolbox/experimental/app_control"
+	"github.com/watermint/toolbox/experimental/app_control_impl"
 	"github.com/watermint/toolbox/experimental/app_control_launcher"
 	"github.com/watermint/toolbox/experimental/app_kitchen"
+	"github.com/watermint/toolbox/experimental/app_msg"
 	"github.com/watermint/toolbox/experimental/app_recipe"
 	"github.com/watermint/toolbox/experimental/app_recipe_group"
 	"github.com/watermint/toolbox/experimental/app_template"
+	"github.com/watermint/toolbox/experimental/app_ui"
 	"github.com/watermint/toolbox/experimental/app_user"
 	"github.com/watermint/toolbox/experimental/app_vo"
 	"github.com/watermint/toolbox/experimental/app_vo_impl"
+	"github.com/watermint/toolbox/experimental/app_workspace"
 	"go.uber.org/zap"
+	"io/ioutil"
 	"net/http"
+	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 	"time"
@@ -33,11 +45,23 @@ const (
 	webPathConnectStart    = "/connect/start"
 	webPathConnectAuth     = "/connect/auth"
 	webPathConnectFinish   = "/connect/finish"
+	webPathRun             = "/run"
+	webPathJob             = "/job"
+	webPathJobArtifact     = "/artifact"
 	webPathForbidden       = "/error/forbidden"
 	webPathServerError     = "/error/server"
 	webPathAuthFailed      = "/error/auth_failed"
 	webPathCommandNotFound = "/error/command_not_found"
 )
+
+type webJobRun struct {
+	name      string
+	jobId     string
+	recipe    app_recipe.Recipe
+	vo        app_vo.ValueObject
+	uc        app_control.Control
+	uiLogFile *os.File
+}
 
 type WebVO struct {
 	Port int
@@ -86,15 +110,20 @@ func (z *Web) Exec(k app_kitchen.Kitchen) error {
 	g.HTMLRender = htr
 
 	baseUrl := fmt.Sprintf("http://localhost:%d", wvo.Port)
+	jobChan := make(chan *webJobRun)
 
 	wh := &WebHandler{
-		control:     k.Control(),
-		Template:    htp,
-		Launcher:    cl,
-		BaseUrl:     baseUrl,
-		authForUser: make(map[string]api_auth.Web),
+		control:        k.Control(),
+		Template:       htp,
+		Launcher:       cl,
+		BaseUrl:        baseUrl,
+		authForUser:    make(map[string]api_auth.Web),
+		controlForUser: make(map[string]app_control.Control),
+		jobChan:        jobChan,
 	}
 	wh.Setup(g)
+
+	go z.jobRunner(k.Control(), jobChan)
 
 	loginUrl := baseUrl + webPathLogin + "/" + ru.UserHash()
 
@@ -102,16 +131,44 @@ func (z *Web) Exec(k app_kitchen.Kitchen) error {
 
 	_ = g.Run(fmt.Sprintf(":%d", wvo.Port))
 
+	time.Sleep(2 * time.Second)
+
+	open.Start(loginUrl)
+
 	return nil
 }
 
+func (z *Web) jobRunner(ctl app_control.Control, jc <-chan *webJobRun) {
+	for job := range jc {
+		l := ctl.Log().With(zap.String("name", job.name), zap.String("jobId", job.jobId))
+		l.Debug("Start a new job")
+		k := app_kitchen.NewKitchen(job.uc, job.vo)
+		err := job.recipe.Exec(k)
+		if err != nil {
+			l.Error("Unable to finish the job", zap.Error(err))
+			job.uc.UI().Failure("web.job.result.failure", app_msg.P("Error", err.Error()))
+		} else {
+			job.uc.UI().Success("web.job.result.success")
+		}
+		l.Debug("Closing log file")
+		job.uiLogFile.Close()
+
+		l.Debug("Job spin down")
+		job.uc.Down()
+
+		l.Debug("The job finished")
+	}
+}
+
 type WebHandler struct {
-	control     app_control.Control
-	Template    app_template.Template
-	Launcher    app_control_launcher.ControlLauncher
-	BaseUrl     string
-	Root        *app_recipe_group.Group
-	authForUser map[string]api_auth.Web
+	control        app_control.Control
+	Template       app_template.Template
+	Launcher       app_control_launcher.ControlLauncher
+	BaseUrl        string
+	Root           *app_recipe_group.Group
+	authForUser    map[string]api_auth.Web
+	controlForUser map[string]app_control.Control
+	jobChan        chan *webJobRun
 }
 
 func (z *WebHandler) auth(user app_user.User, uc app_control.Control) api_auth.Web {
@@ -139,11 +196,20 @@ func (z *WebHandler) setupUrls(g *gin.Engine) {
 
 	g.GET(webPathHome, z.Home)
 	g.GET(webPathHome+"/:command", z.Home)
+	g.POST(webPathHome+"/:command", z.Home)
 	g.GET(webPathHome+"/:command/:tokenType", z.Home)
 	g.GET("param", z.renderRecipeParam)
 	z.Template.Define("home-catalogue", "layout/layout.html", "pages/catalogue.html")
 	z.Template.Define("home-recipe-conn", "layout/layout.html", "pages/recipe_conn.html")
 	z.Template.Define("home-recipe-param", "layout/layout.html", "pages/recipe_param.html")
+	z.Template.Define("home-recipe-run", "layout/layout.html", "pages/recipe_run.html")
+
+	g.POST(webPathRun+"/:command", z.Run)
+	g.GET(webPathJob+"/:command/:jobId", z.Job)
+	z.Template.Define(webPathRun, "layout/layout.html", "pages/job.html")
+	z.Template.Define(webPathJob, "pages/job_log.html")
+
+	g.GET(webPathJobArtifact+"/:command/:jobId/:artifactName", z.Artifact)
 
 	g.GET(webPathRoot, z.Instruction)
 	z.Template.Define(webPathRoot, "layout/layout.html", "pages/home.html")
@@ -359,6 +425,248 @@ func (z *WebHandler) Home(g *gin.Context) {
 	})
 }
 
+func (z *WebHandler) Run(g *gin.Context) {
+	z.withUser(g, func(g *gin.Context, user app_user.User, uc app_control.Control) {
+		cmd := g.Param("command")
+		l := z.control.Log().With(zap.String("cmd", cmd))
+		_, rcp, err := z.findRecipe(cmd)
+		if rcp == nil || err != nil {
+			l.Debug("Invalid run request", zap.String("Cmd", cmd))
+			g.Redirect(http.StatusTemporaryRedirect, webPathCommandNotFound)
+			return
+		}
+		selectedConns := g.PostFormMap("Conn")
+
+		var vo interface{} = rcp.Requirement()
+		vc := app_vo_impl.NewValueContainer(vo)
+
+		for k, v := range vc.Values {
+			if d, ok := v.(bool); ok {
+				vc.Values[k] = d
+			} else if _, ok := v.(app_conn.ConnBusinessInfo); ok {
+				if pn, ok := selectedConns[k]; ok {
+					vc.Values[k] = &app_conn_impl.ConnBusinessInfo{
+						PeerName: pn,
+					}
+				} else {
+					l.Debug("Unable to find required conn", zap.String("key", k))
+				}
+			} else if _, ok := v.(app_conn.ConnBusinessFile); ok {
+				if pn, ok := selectedConns[k]; ok {
+					vc.Values[k] = &app_conn_impl.ConnBusinessFile{
+						PeerName: pn,
+					}
+				} else {
+					l.Debug("Unable to find required conn", zap.String("key", k))
+				}
+			} else if _, ok := v.(app_conn.ConnBusinessAudit); ok {
+				if pn, ok := selectedConns[k]; ok {
+					vc.Values[k] = &app_conn_impl.ConnBusinessAudit{
+						PeerName: pn,
+					}
+				} else {
+					l.Debug("Unable to find required conn", zap.String("key", k))
+				}
+			} else if _, ok := v.(app_conn.ConnBusinessMgmt); ok {
+				if pn, ok := selectedConns[k]; ok {
+					vc.Values[k] = &app_conn_impl.ConnBusinessMgmt{
+						PeerName: pn,
+					}
+				} else {
+					l.Debug("Unable to find required conn", zap.String("key", k))
+				}
+			} else if _, ok := v.(app_conn.ConnUserFile); ok {
+				if pn, ok := selectedConns[k]; ok {
+					vc.Values[k] = &app_conn_impl.ConnUserFile{
+						PeerName: pn,
+					}
+				} else {
+					l.Debug("Unable to find required conn", zap.String("key", k))
+				}
+			}
+		}
+
+		vc.Apply(vo)
+
+		jws, err := app_workspace.NewMultiJob(user.Workspace())
+		if err != nil {
+			l.Debug("Unable to create new Job workspace", zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		}
+
+		wuiLogPath := filepath.Join(jws.Log(), "webui.log")
+		l.Debug("Create web ui log file", zap.String("path", wuiLogPath))
+		wuiLog, err := os.Create(wuiLogPath)
+		if err != nil {
+			l.Debug("Unable to create web ui log file", zap.String("path", wuiLogPath), zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		}
+
+		linkForLocalFile := func(path string) string {
+			rel, err := filepath.Rel(jws.Job(), path)
+			if err != nil {
+				l.Warn("Unable to calc rel path", zap.Error(err))
+				return ""
+			}
+			p := base64.URLEncoding.EncodeToString([]byte(rel))
+			return fmt.Sprintf("%s/%s/%s/%s", webPathJobArtifact, cmd, uc.Workspace().JobId(), p)
+		}
+
+		wui := app_ui.NewWeb(uc.UI(), wuiLog, linkForLocalFile)
+		if muc, ok := uc.(*app_control_impl.Multi); !ok {
+			l.Debug("Control was not expected impl.")
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		} else {
+			juc, err := muc.Fork(wui, jws)
+			if err != nil {
+				l.Debug("Unable to fork control for new job", zap.Error(err))
+				g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+				return
+			}
+			wj := &webJobRun{
+				name:      cmd,
+				jobId:     jws.JobId(),
+				recipe:    rcp,
+				vo:        vo.(app_vo.ValueObject),
+				uc:        juc,
+				uiLogFile: wuiLog,
+			}
+			l.Debug("Enqueue Job", zap.String("name", cmd), zap.String("jobId", wj.jobId))
+			z.jobChan <- wj
+
+			g.HTML(
+				http.StatusOK,
+				webPathRun,
+				gin.H{
+					"Recipe": cmd,
+					"JobId":  wj.jobId,
+				},
+			)
+		}
+
+	})
+}
+
+func (z *WebHandler) Job(g *gin.Context) {
+	z.withUser(g, func(g *gin.Context, user app_user.User, uc app_control.Control) {
+		cmd := g.Param("command")
+		jobId := g.Param("jobId")
+		l := z.control.Log().With(zap.String("jobId", jobId), zap.String("cmd", cmd))
+
+		jobPath := filepath.Join(user.Workspace().UserHome(), "jobs", jobId)
+		logPath := filepath.Join(jobPath, "logs", "webui.log")
+		logFile, err := os.Open(logPath)
+		if err != nil {
+			l.Debug("Unable to open file", zap.Error(err), zap.String("logPath", logPath))
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		}
+		defer logFile.Close()
+
+		logs := make([]*app_ui.WebUILog, 0)
+
+		s := bufio.NewScanner(logFile)
+		inTable := false
+		isFinished := false
+		for s.Scan() {
+			line := s.Bytes()
+			wl := &app_ui.WebUILog{}
+			if err = json.Unmarshal(line, wl); err != nil {
+				l.Warn("Unable to unmarshal line, skip", zap.Error(err), zap.String("line", s.Text()))
+			} else {
+				switch {
+				case strings.HasPrefix(wl.Tag, "table") && !inTable:
+					// insert start tag
+					logs = append(logs, &app_ui.WebUILog{
+						Tag: app_ui.WebTagTableStart,
+					})
+					inTable = true
+				case !strings.HasPrefix(wl.Tag, "table") && inTable:
+					// insert finish tag
+					logs = append(logs, &app_ui.WebUILog{
+						Tag: app_ui.WebTagTableFinish,
+					})
+					inTable = false
+				case wl.Tag == app_ui.WebTagResultSuccess:
+					isFinished = true
+				case wl.Tag == app_ui.WebTagResultFailure:
+					isFinished = true
+				}
+				logs = append(logs, wl)
+			}
+		}
+		if s.Err() != nil {
+			l.Warn("There is an error on read log", zap.Error(err))
+		}
+		if !isFinished {
+			// insert refresh tag
+			logs = append(logs, &app_ui.WebUILog{
+				Tag: app_ui.WebTagRefresh,
+			})
+		}
+
+		g.HTML(
+			http.StatusOK,
+			webPathJob,
+			gin.H{
+				"Recipe": cmd,
+				"Logs":   logs,
+			},
+		)
+	})
+}
+
+func (z *WebHandler) Artifact(g *gin.Context) {
+	z.withUser(g, func(g *gin.Context, user app_user.User, uc app_control.Control) {
+		jobId := g.Param("jobId")
+		artifactName := g.Param("artifactName")
+
+		l := z.control.Log().With(zap.String("jobId", jobId), zap.String("artifactName", artifactName))
+
+		rel, err := base64.URLEncoding.DecodeString(artifactName)
+		if err != nil {
+			l.Warn("Unable to decode artifact name", zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		}
+		relPath := string(rel)
+
+		jobPath := filepath.Join(uc.Workspace().Home(), "jobs", jobId)
+		path := filepath.Join(jobPath, relPath)
+		l.Debug("Artifact path", zap.String("path", path), zap.String("jobPath", jobPath))
+		if !strings.HasPrefix(filepath.Clean(path), jobPath) {
+			l.Warn("Look like malicious path", zap.String("path", filepath.Clean(path)), zap.String("jobPath", jobPath))
+			g.Data(http.StatusNoContent, "application/octet-stream", []byte{})
+			return
+		}
+
+		contentType := "application/octet-stream"
+		switch strings.ToLower(filepath.Ext(relPath)) {
+		case ".xlsx":
+			contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+		case ".csv":
+			contentType = "text/csv"
+		case ".json":
+			contentType = "application/json"
+		}
+
+		data, err := ioutil.ReadFile(path)
+		if err != nil {
+			l.Warn("Unable to load binary", zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		}
+
+		fileName := filepath.Base(relPath)
+
+		g.Header("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", fileName))
+		g.Data(http.StatusOK, contentType, data)
+	})
+}
+
 func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe.Recipe, user app_user.User, uc app_control.Control) {
 	l := z.control.Log().With(zap.String("cmd", cmd))
 	reqConns, reqParams, _ := z.recipeRequirements(rcp)
@@ -384,6 +692,7 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe
 			z.renderRecipeParam(g)
 		} else {
 			// TODO forward to confirm & run
+			z.renderRecipeRun(g, cmd, rcp, user, uc)
 		}
 		return
 	}
@@ -423,11 +732,52 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe
 }
 
 func (z *WebHandler) renderRecipeParam(g *gin.Context) {
+
 	g.HTML(
 		http.StatusOK,
 		"home-recipe-param",
 		gin.H{
 			"Recipe": "sharedfolder-list",
+		},
+	)
+}
+
+func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp app_recipe.Recipe, user app_user.User, uc app_control.Control) {
+	l := z.control.Log().With(zap.String("cmd", cmd))
+	reqConns, _, _ := z.recipeRequirements(rcp)
+
+	selectedConns := g.PostFormMap("Conn")
+	listConns := make([]string, 0)
+	connDesc := make(map[string]string)
+	connSuppl := make(map[string]string)
+
+	for connName, tokenType := range reqConns {
+		listConns = append(listConns, connName)
+		conns, err := z.auth(user, uc).List(tokenType)
+		if err != nil {
+			l.Debug("Unable to list connections", zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		}
+		for _, c := range conns {
+			if c.PeerName == selectedConns[connName] {
+				connDesc[connName] = c.Description
+				connSuppl[connName] = c.Supplemental
+				break
+			}
+		}
+	}
+	sort.Strings(listConns)
+
+	g.HTML(
+		http.StatusOK,
+		"home-recipe-run",
+		gin.H{
+			"Recipe":        cmd,
+			"Conns":         listConns,
+			"ConnsSelected": selectedConns,
+			"ConnDesc":      connDesc,
+			"ConnSuppl":     connSuppl,
 		},
 	)
 }
@@ -504,11 +854,16 @@ func (z *WebHandler) withUser(g *gin.Context, f func(g *gin.Context, user app_us
 		g.Redirect(http.StatusTemporaryRedirect, webPathForbidden)
 		return
 	}
-	uc, err := z.control.(app_control_launcher.ControlLauncher).NewControl(user.Workspace())
-	if err != nil {
-		l.Debug("Unable to create new control for the user", zap.Error(err))
-		g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
-		return
+
+	uc, ok := z.controlForUser[hash]
+	if !ok {
+		uc, err = z.control.(app_control_launcher.ControlLauncher).NewControl(user.Workspace())
+		if err != nil {
+			l.Debug("Unable to create new control for the user", zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, webPathServerError)
+			return
+		}
+		z.controlForUser[hash] = uc
 	}
 
 	f(g, user, uc)

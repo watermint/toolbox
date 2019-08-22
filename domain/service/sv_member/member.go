@@ -73,8 +73,9 @@ func AddWithDirectoryRestricted() AddOpt {
 
 type RemoveOpt func(opt *removeOptions) *removeOptions
 type removeOptions struct {
-	wipeData    bool
-	keepAccount bool
+	wipeData         bool
+	keepAccount      bool
+	retainTeamShares bool
 }
 
 // Downgrade the member to a Basic account.
@@ -88,6 +89,12 @@ func Downgrade() RemoveOpt {
 func RemoveWipeData() RemoveOpt {
 	return func(opt *removeOptions) *removeOptions {
 		opt.wipeData = true
+		return opt
+	}
+}
+func RetainTeamShares() RemoveOpt {
+	return func(opt *removeOptions) *removeOptions {
+		opt.retainTeamShares = true
 		return opt
 	}
 }
@@ -232,16 +239,18 @@ func (z *memberImpl) Remove(member *mo_member.Member, opts ...RemoveOpt) (err er
 		TeamMemberId string `json:"team_member_id"`
 	}
 	p := struct {
-		User        US   `json:"user"`
-		WipeData    bool `json:"wipe_data"`
-		KeepAccount bool `json:"keep_account"`
+		User             US   `json:"user"`
+		WipeData         bool `json:"wipe_data"`
+		KeepAccount      bool `json:"keep_account"`
+		RetainTeamShares bool `json:"retain_team_shares"`
 	}{
 		User: US{
 			Tag:          "team_member_id",
 			TeamMemberId: member.TeamMemberId,
 		},
-		WipeData:    ro.wipeData,
-		KeepAccount: ro.keepAccount,
+		WipeData:         ro.wipeData,
+		KeepAccount:      ro.keepAccount,
+		RetainTeamShares: ro.retainTeamShares,
 	}
 
 	_, err = z.ctx.Async("team/members/remove").

@@ -2,11 +2,11 @@ package app_conn
 
 import (
 	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/experimental/app_kitchen"
+	"github.com/watermint/toolbox/experimental/app_control"
 )
 
 type ConnDropboxApi interface {
-	Connect(kitchen app_kitchen.Kitchen) (ctx api_context.Context, err error)
+	Connect(control app_control.Control) (ctx api_context.Context, err error)
 }
 
 type ConnUserFile interface {

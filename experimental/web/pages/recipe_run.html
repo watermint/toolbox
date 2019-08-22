@@ -1,0 +1,42 @@
+{{define "title"}}{{ .Recipe }}: Confirm{{end}}
+
+{{define "content"}}
+    {{ $recipe := .Recipe }}
+    {{ $conns := .Conns }}
+    {{ $connsSelected := .ConnsSelected }}
+    {{ $connDesc := .ConnDesc }}
+    {{ $connSuppl := .ConnSuppl}}
+    <div class="text-center">
+        <h1 class="display-1 mb-5"><i class="fas fa-angle-double-right"></i> {{$recipe}}</h1>
+        <div class="container col-md-6 mb-5">
+            <div class="alert alert-info text-left" role="alert">
+                Please verify connection and parameters.
+            </div>
+        </div>
+
+        <form action="/run/{{$recipe}}" method="post" id="run">
+            <h2>Connections</h2>
+            <div class="container col-md-6">
+                {{range $connName := $conns }}
+                    <input type="hidden" name="Conn[{{$connName}}]" value="{{index $connsSelected $connName}}"/>
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h3 class="card-title">{{index $connDesc $connName}}</h3>
+                            <p class="card-text">{{index $connSuppl $connName}}</p>
+                        </div>
+                    </div>
+                {{end}}
+            </div>
+
+            <div class="container col-md-6">
+                <button id="run" type="button" class="btn btn-lg btn-block btn-primary">Run</button>
+            </div>
+        </form>
+        <script type="application/javascript">
+            $("#run").click(function () {
+                $("#run").submit();
+            })
+        </script>
+
+    </div>
+{{end}}

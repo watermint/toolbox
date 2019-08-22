@@ -3,61 +3,51 @@ package teamfolder
 import (
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
+	"github.com/watermint/toolbox/experimental/app_conn"
 	"github.com/watermint/toolbox/experimental/app_kitchen"
-	"github.com/watermint/toolbox/experimental/app_msg"
-	"github.com/watermint/toolbox/experimental/app_recipe_util"
 	"github.com/watermint/toolbox/experimental/app_vo"
 	"go.uber.org/zap"
 )
 
 type ListVO struct {
-	Recursive    bool
-	NonRecursive bool
+	PeerName app_conn.ConnBusinessFile
 }
 
 func (z *ListVO) Validate(t app_vo.Validator) {
-	if z.Recursive && z.NonRecursive {
-		t.Invalid("err.inconsistent",
-			app_msg.P("Recursive", z.Recursive),
-			app_msg.P("NonRecursive", z.NonRecursive),
-		)
-	}
 }
 
 type List struct {
 }
 
 func (z *List) Requirement() app_vo.ValueObject {
-	return &ListVO{
-		Recursive: false,
-	}
+	return &ListVO{}
 }
 
 func (z *List) Exec(k app_kitchen.Kitchen) error {
-	return app_recipe_util.WithBusinessFile(k, func(rc app_recipe_util.ApiKitchen) error {
-		// TypeAssertionError will be handled by infra
-		var vo interface{} = rc.Value()
-		fvo := vo.(*ListVO)
+	// TypeAssertionError will be handled by infra
+	var vo interface{} = k.Value()
+	fvo := vo.(*ListVO)
 
-		folders, err := sv_teamfolder.New(rc.Context()).List()
-		if err != nil {
-			// ApiError will be reported by infra
-			return err
-		}
+	connFile, err := fvo.PeerName.Connect(k.Control())
+	if err != nil {
+		return err
+	}
 
-		rep, err := rc.Report("teamfolder", &mo_teamfolder.TeamFolder{})
-		if err != nil {
-			return err
-		}
-		defer rep.Close()
-		for _, folder := range folders {
-			rc.Log().Debug("Folder", zap.Any("folder", folder))
-			rep.Row(folder)
-		}
+	folders, err := sv_teamfolder.New(connFile).List()
+	if err != nil {
+		// ApiError will be reported by infra
+		return err
+	}
 
-		if fvo.Recursive {
-			rc.UI().Info("info.do_recursively")
-		}
-		return nil
-	})
+	rep, err := k.Report("teamfolder", &mo_teamfolder.TeamFolder{})
+	if err != nil {
+		return err
+	}
+	defer rep.Close()
+	for _, folder := range folders {
+		k.Log().Debug("Folder", zap.Any("folder", folder))
+		rep.Row(folder)
+	}
+
+	return nil
 }
