@@ -100,6 +100,13 @@ else
   echo Unable to load app key: code=$?
   exit $?
 fi
+$BUILD_PATH/tbx-$BUILD_VERSION-linux experimental dev quality
+if [[ $? = 0 ]]; then
+  echo Success: quality test
+else
+  echo Unable to pass binary quality test: code=$?
+  exit $?
+fi
 
 echo --------------------
 echo BUILD: Packaging

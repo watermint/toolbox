@@ -16,7 +16,7 @@ import (
 func Recipes() []app_recipe.Recipe {
 	return []app_recipe.Recipe{
 		&recipe.License{},
-		&dev.LongRunning{},
+		&dev.Quality{},
 		&dev.Dummy{},
 		&group.List{},
 		&groupmember.List{},
