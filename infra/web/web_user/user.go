@@ -1,4 +1,4 @@
-package app_user
+package web_user
 
 import "github.com/watermint/toolbox/infra/control/app_workspace"
 
