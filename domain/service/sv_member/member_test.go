@@ -2,10 +2,10 @@ package sv_member
 
 import (
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_parser"
-	"github.com/watermint/toolbox/domain/infra/api_test"
 	"github.com/watermint/toolbox/domain/model/mo_member"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/infra/api/api_test"
 	"strings"
 	"testing"
 )

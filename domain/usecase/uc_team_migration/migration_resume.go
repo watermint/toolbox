@@ -3,9 +3,9 @@ package uc_team_migration
 import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
+	"github.com/watermint/toolbox/infra/api/api_parser"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"path/filepath"

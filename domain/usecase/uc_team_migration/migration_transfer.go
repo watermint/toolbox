@@ -2,9 +2,9 @@ package uc_team_migration
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_profile"
 	"github.com/watermint/toolbox/domain/service/sv_member"
+	"github.com/watermint/toolbox/infra/api/api_util"
 	"go.uber.org/zap"
 	"strings"
 )

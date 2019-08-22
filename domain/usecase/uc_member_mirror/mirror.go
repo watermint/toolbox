@@ -1,12 +1,12 @@
 package uc_member_mirror
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
+	"github.com/watermint/toolbox/infra/api/api_context"
 	"go.uber.org/zap"
 	"path/filepath"
 	"strings"

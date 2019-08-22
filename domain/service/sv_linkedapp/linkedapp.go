@@ -1,10 +1,10 @@
 package sv_linkedapp
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_list"
-	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_linkedapp"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
 type LinkedApp interface {

@@ -1,10 +1,10 @@
 package uc_file_size
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
+	"github.com/watermint/toolbox/infra/api/api_context"
 )
 
 type Scale interface {

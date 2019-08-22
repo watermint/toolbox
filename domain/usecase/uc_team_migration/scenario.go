@@ -3,9 +3,6 @@ package uc_team_migration
 import (
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
-	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/model/mo_path"
@@ -21,6 +18,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_team"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	app2 "github.com/watermint/toolbox/legacy/app"
 	"go.uber.org/zap"
 	"strings"
 )
@@ -62,7 +62,7 @@ func (z *Actors) Members() []string {
 	}
 }
 
-func NewScenario(ctxExe *app.ExecContext, actor *Actors) *Scenario {
+func NewScenario(ctxExe *app2.ExecContext, actor *Actors) *Scenario {
 	return &Scenario{
 		ctxExec: ctxExe,
 		actors:  actor,
@@ -70,7 +70,7 @@ func NewScenario(ctxExe *app.ExecContext, actor *Actors) *Scenario {
 }
 
 type Scenario struct {
-	ctxExec       *app.ExecContext
+	ctxExec       *app2.ExecContext
 	ctxTeamAFile  api_context.Context
 	ctxTeamAMgmt  api_context.Context
 	ctxTeamBFile  api_context.Context

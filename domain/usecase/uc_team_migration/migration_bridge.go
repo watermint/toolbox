@@ -1,11 +1,11 @@
 package uc_team_migration
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
+	"github.com/watermint/toolbox/infra/api/api_context"
 	"go.uber.org/zap"
 )
 

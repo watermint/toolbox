@@ -5,13 +5,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/app/app_report"
-	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
 	"github.com/watermint/toolbox/domain/sequence/sq_group"
 	"github.com/watermint/toolbox/domain/sequence/sq_sharedfolder"
 	"github.com/watermint/toolbox/domain/service"
-	"github.com/watermint/toolbox/experimental/app_root"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/control/app_root"
+	app2 "github.com/watermint/toolbox/legacy/app"
+	"github.com/watermint/toolbox/legacy/app/app_report"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -55,14 +55,14 @@ func MaxRetry(max int) RunOpt {
 	}
 }
 
-func New(ec *app.ExecContext) Sequence {
+func New(ec *app2.ExecContext) Sequence {
 	return &sequenceImpl{
 		ec: ec,
 	}
 }
 
 type sequenceImpl struct {
-	ec      *app.ExecContext
+	ec      *app2.ExecContext
 	seqPath string
 	seqName string
 	runId   int

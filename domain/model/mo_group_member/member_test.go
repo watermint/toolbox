@@ -2,9 +2,9 @@ package mo_group_member
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/app/app_report"
-	"github.com/watermint/toolbox/domain/infra/api_parser"
+	"github.com/watermint/toolbox/infra/api/api_parser"
+	app2 "github.com/watermint/toolbox/legacy/app"
+	"github.com/watermint/toolbox/legacy/app/app_report"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -124,7 +124,7 @@ func TestGroupMember_Group(t *testing.T) {
 
 	// round trip test 2 : report
 	{
-		ec := app.NewExecContextForTest()
+		ec := app2.NewExecContextForTest()
 		reportPath := filepath.Join(ec.JobsPath(), "report")
 		report := app_report.Factory{}
 		report.ExecContext = ec

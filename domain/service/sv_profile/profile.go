@@ -1,8 +1,8 @@
 package sv_profile
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_profile"
+	"github.com/watermint/toolbox/infra/api/api_context"
 )
 
 type Profile interface {

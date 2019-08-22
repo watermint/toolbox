@@ -1,9 +1,9 @@
 package sv_file_url
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_test"
-	"github.com/watermint/toolbox/domain/infra/api_util"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/infra/api/api_util"
 	"go.uber.org/zap"
 	"strings"
 	"testing"

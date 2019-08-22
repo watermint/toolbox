@@ -2,9 +2,9 @@ package sv_team
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_team"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_parser"
 	"go.uber.org/zap"
 )
 

@@ -2,9 +2,6 @@ package uc_team_migration
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/app/app_report"
-	"github.com/watermint/toolbox/app/app_report/app_report_json"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/model/mo_namespace"
@@ -13,6 +10,9 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
+	app2 "github.com/watermint/toolbox/legacy/app"
+	"github.com/watermint/toolbox/legacy/app/app_report"
+	"github.com/watermint/toolbox/legacy/app/app_report/app_report_json"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
@@ -135,7 +135,7 @@ const (
 	storageTagOptions          = "options"
 )
 
-func newContext(ctxExec *app.ExecContext) Context {
+func newContext(ctxExec *app2.ExecContext) Context {
 	ctx := &contextImpl{
 		ctxExec:             ctxExec,
 		MapMembers:          make(map[string]*mo_profile.Profile),
@@ -163,7 +163,7 @@ type contextOpts struct {
 }
 
 type contextImpl struct {
-	ctxExec            *app.ExecContext                                    `json:"-"`
+	ctxExec            *app2.ExecContext                                   `json:"-"`
 	storages           map[string]app_report.Report                        `json:"-"`
 	storagePath        string                                              `json:"-"`
 	ctxTeamFolder      uc_teamfolder_mirror.Context                        `json:"-"`
@@ -217,7 +217,7 @@ func (z *contextImpl) NestedFolderPath(teamFolderName string) (relPathToNamespac
 	}
 }
 
-func (z *contextImpl) init(ec *app.ExecContext) {
+func (z *contextImpl) init(ec *app2.ExecContext) {
 	storageTags := []string{
 		storageTagMembers,
 		storageTagDestGroups,

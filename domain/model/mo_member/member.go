@@ -2,8 +2,8 @@ package mo_member
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_profile"
+	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
 type Member struct {

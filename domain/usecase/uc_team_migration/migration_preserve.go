@@ -2,7 +2,6 @@ package uc_team_migration
 
 import (
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
@@ -14,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
+	"github.com/watermint/toolbox/infra/api/api_context"
 	"go.uber.org/zap"
 	"strings"
 )

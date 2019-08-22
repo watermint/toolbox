@@ -1,12 +1,12 @@
 package uc_team_migration
 
 import (
-	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/app/app_report"
-	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	app2 "github.com/watermint/toolbox/legacy/app"
+	"github.com/watermint/toolbox/legacy/app/app_report"
 	"go.uber.org/zap"
 )
 
@@ -68,7 +68,7 @@ func PermWithEmailMapping(emailMapping map[string]string) PermOpt {
 type ResumeOpt func(opt *resumeOpts) *resumeOpts
 type resumeOpts struct {
 	storagePath string
-	ec          *app.ExecContext
+	ec          *app2.ExecContext
 }
 
 func ResumeFromPath(path string) ResumeOpt {
@@ -77,14 +77,14 @@ func ResumeFromPath(path string) ResumeOpt {
 		return opt
 	}
 }
-func ResumeExecContext(ec *app.ExecContext) ResumeOpt {
+func ResumeExecContext(ec *app2.ExecContext) ResumeOpt {
 	return func(opt *resumeOpts) *resumeOpts {
 		opt.ec = ec
 		return opt
 	}
 }
 
-func New(ctxExec *app.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, report app_report.Report) Migration {
+func New(ctxExec *app2.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, report app_report.Report) Migration {
 	return &migrationImpl{
 		ctxExec:          ctxExec,
 		ctxFileSrc:       ctxFileSrc,
@@ -97,7 +97,7 @@ func New(ctxExec *app.ExecContext, ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst 
 }
 
 type migrationImpl struct {
-	ctxExec          *app.ExecContext
+	ctxExec          *app2.ExecContext
 	ctxFileSrc       api_context.Context
 	ctxFileDst       api_context.Context
 	ctxMgtSrc        api_context.Context

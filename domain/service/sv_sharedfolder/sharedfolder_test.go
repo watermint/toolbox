@@ -2,8 +2,8 @@ package sv_sharedfolder
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_test"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_test"
 	"go.uber.org/zap"
 	"testing"
 	"time"

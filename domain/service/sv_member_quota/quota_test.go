@@ -1,11 +1,11 @@
 package sv_member_quota
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_test"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/model/mo_member_quota"
 	"github.com/watermint/toolbox/domain/service/sv_member"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_test"
 	"testing"
 )
 

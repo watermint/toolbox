@@ -47,6 +47,7 @@ for l in $(find vendor -name LICENSE\*); do
 done
 jq -Rn '{"github.com/watermint/toolbox":[inputs]}' LICENSE.md > $BUILD_PATH/github.com-watermint-toolbox.lic
 jq -s add $BUILD_PATH/*.lic > resources/licenses.json
+cp resources/licenses.json legacy/resources
 
 
 echo BUILD: Building tool
@@ -60,14 +61,14 @@ if [ -e "resources/toolbox.appkeys" ]; then
     echo Invalid. return code: $?
   fi
 
-  go run app/app_zap/app_zap_tool/main.go
+  go run infra/security/sc_zap_tool/main.go
   if [[ $? = 0 ]]; then
     rm resources/toolbox.appkeys
   else
     echo Zap exit with code $?
     exit $?
   fi
-  cp resources/toolbox.appkeys.secret experimental/resources
+  cp resources/toolbox.appkeys.secret legacy/resources
   TOOLBOX_ZAP=$(cat /tmp/toolbox.zap)
 else
   echo ERR: No app key file found
@@ -75,11 +76,11 @@ else
 fi
 rice embed-go
 
-X_APP_NAME="-X github.com/watermint/toolbox/app.AppName=toolbox"
-X_APP_VERSION="-X github.com/watermint/toolbox/app.AppVersion=$BUILD_VERSION"
-X_APP_HASH="-X github.com/watermint/toolbox/app.AppHash=$BUILD_HASH"
-X_APP_ZAP="-X github.com/watermint/toolbox/app.AppZap=$TOOLBOX_ZAP"
-X_APP_BUILDERKEY="-X github.com/watermint/toolbox/app.AppBuilderKey=$TOOLBOX_BUILDERKEY"
+X_APP_NAME="-X github.com/watermint/toolbox/infra/app.Name=toolbox"
+X_APP_VERSION="-X github.com/watermint/toolbox/infra/app.Version=$BUILD_VERSION"
+X_APP_HASH="-X github.com/watermint/toolbox/infra/app.Hash=$BUILD_HASH"
+X_APP_ZAP="-X github.com/watermint/toolbox/infra/app.Zap=$TOOLBOX_ZAP"
+X_APP_BUILDERKEY="-X github.com/watermint/toolbox/infra/app.BuilderKey=$TOOLBOX_BUILDERKEY"
 LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY"
 
 echo Building: Windows
