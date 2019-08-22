@@ -1,5 +1,5 @@
-hash: ad992741219dc661ed03aba3bf4119d6910e93e65695d7608234bd030bd2cb02
-updated: 2019-08-08T14:40:57.990078+09:00
+hash: c6a25beb658e268ad4ea4fb7cc1e355a41bedaf301574e309af3488e6cc3de26
+updated: 2019-08-22T13:51:42.911169-07:00
 imports:
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
@@ -33,7 +33,7 @@ imports:
 - name: github.com/kardianos/osext
   version: 2bc1f35cddc0cc527b4bc3dce8578fc2a6c11384
 - name: github.com/mattn/go-isatty
-  version: da60ac76bf7019a8b005f8dd1ad9d1a0e6434155
+  version: bf9a1dea1961e1d831824fb135332bfb8c10e8b8
 - name: github.com/modern-go/concurrent
   version: bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94
 - name: github.com/modern-go/reflect2
@@ -56,7 +56,7 @@ imports:
 - name: github.com/tidwall/pretty
   version: 1166b9ac2b65e46a43d8618d30d1554f4652d49b
 - name: github.com/ugorji/go
-  version: e118e2d506a6b252f6b85f2e2f2ac1bfed82f1b8
+  version: 42bc974514ff101a54c6b72a0e4dee29d96c0b26
   subpackages:
   - codec
 - name: go.uber.org/atomic
@@ -72,7 +72,7 @@ imports:
   - internal/exit
   - zapcore
 - name: golang.org/x/net
-  version: ca1201d0de80cfde86cb01aea620983605dfe99b
+  version: 74dc4d7220e7acc4e100824340f3e66577424772
   subpackages:
   - context
   - context/ctxhttp
@@ -81,7 +81,7 @@ imports:
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: 51ab0e2deafac1f46c46ad59cf0921be2f180c3d
+  version: fde4db37ae7ad8191b03d30d27f258b5291ae4e3
   subpackages:
   - unix
   - windows
