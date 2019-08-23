@@ -10,12 +10,12 @@ import (
 )
 
 func Suite(ctl app_control.Control) {
-	resourceCheck(ctl)
-	zapCheck(ctl)
-	licenseCheck(ctl)
+	checkResource(ctl)
+	checkZap(ctl)
+	checkLicense(ctl)
 }
 
-func resourceCheck(ctl app_control.Control) {
+func checkResource(ctl app_control.Control) {
 	l := ctl.Log()
 	if app.Hash == "" {
 		l.Error("Hash is empty")
@@ -34,7 +34,7 @@ func resourceCheck(ctl app_control.Control) {
 	}
 }
 
-func zapCheck(ctl app_control.Control) {
+func checkZap(ctl app_control.Control) {
 	l := ctl.Log()
 	b, err := sc_zap.Unzap(ctl)
 	if err != nil {
@@ -51,7 +51,7 @@ func zapCheck(ctl app_control.Control) {
 	}
 }
 
-func licenseCheck(ctl app_control.Control) {
+func checkLicense(ctl app_control.Control) {
 	l := ctl.Log()
 	_, _, err := recipe.LoadLicense(ctl)
 	if err != nil {

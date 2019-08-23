@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  prep:
     docker:
       - image: circleci/golang:1.12
     working_directory: /go/src/github.com/watermint/toolbox
@@ -14,6 +14,15 @@ jobs:
       - run: go get github.com/modocache/gover
       - run: go get github.com/mattn/goveralls
       - run: glide install
+      - save_cache:
+          - key: tbx-{{ .Environment.CIRCLE_SHA1 }}
+          - paths:
+              - ~/tbx-build
+
+  test:
+    steps:
+      - restore_cache:
+          -  tbx-{{ .Environment.CIRCLE_SHA1 }}
       - run: go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' $(glide novendor) | xargs -L 1 sh -c
       - run: gover
       - run: goveralls -coverprofile=gover.coverprofile -service=circle-ci -v

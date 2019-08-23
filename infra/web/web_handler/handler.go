@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
@@ -46,7 +47,14 @@ const (
 	WebPathServerError     = "/error/server"
 	WebPathAuthFailed      = "/error/auth_failed"
 	WebPathCommandNotFound = "/error/command_not_found"
+	WebPathStatus          = "/status"
 )
+
+type Status struct {
+	AppName    string `json:"app_name"`
+	AppVersion string `json:"app_version"`
+	AppHash    string `json:"app_hash"`
+}
 
 func NewHanlder(ctl app_control.Control,
 	tmpl app_template.Template,
@@ -123,6 +131,8 @@ func (z *WebHandler) setupUrls(g *gin.Engine) {
 	g.GET(WebPathConnectAuth, z.connectAuth)
 	g.GET(WebPathConnectFinish, z.connectFinish)
 	z.Template.Define(WebPathConnectFinish, "layout/layout.html", "pages/recipe_conn_finish.html")
+
+	g.GET(WebPathStatus, z.Status)
 }
 
 func (z *WebHandler) setupCatalogue() {
@@ -184,6 +194,17 @@ func (z *WebHandler) recipeRequirements(rcp app_recipe.Recipe) (conns map[string
 func (z *WebHandler) Setup(g *gin.Engine) {
 	z.setupCatalogue()
 	z.setupUrls(g)
+}
+
+func (z *WebHandler) Status(g *gin.Context) {
+	g.JSON(
+		http.StatusOK,
+		&Status{
+			AppName:    app.Name,
+			AppVersion: app.Version,
+			AppHash:    app.Hash,
+		},
+	)
 }
 
 func (z *WebHandler) Login(g *gin.Context) {
