@@ -415,7 +415,7 @@ func (z *WebHandler) Run(g *gin.Context) {
 				return ""
 			}
 			p := base64.URLEncoding.EncodeToString([]byte(rel))
-			return fmt.Sprintf("%s/%s/%s/%s", WebPathJobArtifact, cmd, uc.Workspace().JobId(), p)
+			return fmt.Sprintf("%s/%s/%s/%s", WebPathJobArtifact, cmd, jws.JobId(), p)
 		}
 
 		wui := app_ui.NewWeb(uc.UI(), wuiLog, linkForLocalFile)
@@ -462,6 +462,9 @@ func (z *WebHandler) Job(g *gin.Context) {
 
 		jobPath := filepath.Join(user.Workspace().UserHome(), "jobs", jobId)
 		logPath := filepath.Join(jobPath, "logs", "webui.log")
+
+		l.Debug("Opening log", zap.String("logPath", logPath))
+
 		logFile, err := os.Open(logPath)
 		if err != nil {
 			l.Debug("Unable to open file", zap.Error(err), zap.String("logPath", logPath))
