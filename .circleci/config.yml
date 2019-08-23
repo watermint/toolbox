@@ -20,6 +20,8 @@ jobs:
               - ~/tbx-build
 
   test:
+    docker:
+      - image: circleci/golang:1.12
     steps:
       - restore_cache:
           -  tbx-{{ .Environment.CIRCLE_SHA1 }}
