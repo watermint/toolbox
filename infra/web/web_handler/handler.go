@@ -477,6 +477,7 @@ func (z *WebHandler) Job(g *gin.Context) {
 
 		s := bufio.NewScanner(logFile)
 		inTable := false
+		currentTableId := ""
 		isFinished := false
 		for s.Scan() {
 			line := s.Bytes()
@@ -488,15 +489,19 @@ func (z *WebHandler) Job(g *gin.Context) {
 				case strings.HasPrefix(wl.Tag, "table") && !inTable:
 					// insert start tag
 					logs = append(logs, &app_ui.WebUILog{
-						Tag: app_ui.WebTagTableStart,
+						Tag:     app_ui.WebTagTableStart,
+						TableId: wl.TableId,
 					})
 					inTable = true
+					currentTableId = wl.TableId
 				case !strings.HasPrefix(wl.Tag, "table") && inTable:
 					// insert finish tag
 					logs = append(logs, &app_ui.WebUILog{
-						Tag: app_ui.WebTagTableFinish,
+						Tag:     app_ui.WebTagTableFinish,
+						TableId: currentTableId,
 					})
 					inTable = false
+					currentTableId = ""
 				case wl.Tag == app_ui.WebTagResultSuccess:
 					isFinished = true
 				case wl.Tag == app_ui.WebTagResultFailure:

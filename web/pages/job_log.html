@@ -6,29 +6,23 @@
         <div>{{$log.Message}}</div>
     {{end}}
     {{with (eq $log.Tag "table_start")}}
-        <div class="overflow-auto">
-        <table class="table">
-    {{end}}
-    {{with (eq $log.Tag "table_finish")}}
-        </table>
+        <h2>{{$log.TableId}}</h2>
+        <div class="overflow-auto mb-4 mt-4">
+            <table class="table" id="{{$log.TableId}}">
+                <thead id="{{$log.TableId}}_head"></thead>
+                <tbody id="{{$log.TableId}}_body"></tbody>
+            </table>
         </div>
     {{end}}
     {{with (eq $log.Tag "table_header")}}
-        <tr>
-            {{range $c := $log.TableCols}}
-                <th>{{$c}}</th>
-            {{end}}
-        </tr>
+        <script type="application/javascript">
+            $("#{{$log.TableId}}_head").append("<tr>{{range $c := $log.TableCols}} <th>{{$c}}</th>{{end}}</tr>")
+        </script>
     {{end}}
     {{with (eq $log.Tag "table_row")}}
-        <tr>
-            {{range $c := $log.TableCols}}
-                <td>{{$c}}</td>
-            {{end}}
-        </tr>
-    {{end}}
-    {{with (eq $log.Tag "table_finish")}}
-        <hr/>
+        <script type="application/javascript">
+            $("#{{$log.TableId}}_head").append("<tr>{{range $c := $log.TableCols}} <td>{{$c}}</td>{{end}}</tr>")
+        </script>
     {{end}}
     {{with (eq $log.Tag "artifact_header")}}
         <h2>Result:</h2>
@@ -50,11 +44,13 @@
     {{end}}
     {{with (eq $log.Tag "refresh")}}
         <div class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%">Processing...</div>
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
+                 aria-valuemin="0" aria-valuemax="100" style="width: 100%">Processing...
+            </div>
         </div>
         <script type="application/javascript">
-            $(function (){
-                setTimeout(refresh,1000);
+            $(function () {
+                setTimeout(refresh, 1000);
             })
         </script>
     {{end}}
