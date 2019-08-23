@@ -598,7 +598,6 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe
 			// TODO forward to param rendering
 			z.renderRecipeParam(g)
 		} else {
-			// TODO forward to confirm & run
 			z.renderRecipeRun(g, cmd, rcp, user, uc)
 		}
 		return

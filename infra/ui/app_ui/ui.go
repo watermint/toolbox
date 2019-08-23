@@ -7,7 +7,7 @@ import (
 type UI interface {
 	Header(key string, p ...app_msg.Param)
 	Info(key string, p ...app_msg.Param)
-	InfoTable(border bool) Table
+	InfoTable(name string) Table
 	Error(key string, p ...app_msg.Param)
 	Break()
 	Text(key string, p ...app_msg.Param) string

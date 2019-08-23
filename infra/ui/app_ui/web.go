@@ -12,11 +12,12 @@ import (
 )
 
 type WebUILog struct {
-	Tag      string
-	Message  string
-	Cols     []string
-	Link     string
-	LinkName string
+	Tag       string
+	Message   string
+	TableId   string
+	TableCols []string
+	Link      string
+	LinkLabel string
 }
 
 type LinkForLocalFile func(path string) string
@@ -103,10 +104,11 @@ func (z *Web) Info(key string, p ...app_msg.Param) {
 	})
 }
 
-func (z *Web) InfoTable(border bool) Table {
+func (z *Web) InfoTable(name string) Table {
 	t := &WebTable{
-		baseUI: z.baseUI,
-		w:      z,
+		baseUI:    z.baseUI,
+		tableName: name,
+		w:         z,
 	}
 	return t
 }
@@ -156,23 +158,23 @@ func (z *Web) OpenArtifact(path string) {
 		switch strings.ToLower(e) {
 		case ".xlsx":
 			z.uiLog(&WebUILog{
-				Tag:      WebTagArtifactXlsx,
-				Link:     z.llf(filepath.Join(path, f.Name())),
-				LinkName: f.Name(),
+				Tag:       WebTagArtifactXlsx,
+				Link:      z.llf(filepath.Join(path, f.Name())),
+				LinkLabel: f.Name(),
 			})
 
 		case ".csv":
 			z.uiLog(&WebUILog{
-				Tag:      WebTagArtifactCsv,
-				Link:     z.llf(filepath.Join(path, f.Name())),
-				LinkName: f.Name(),
+				Tag:       WebTagArtifactCsv,
+				Link:      z.llf(filepath.Join(path, f.Name())),
+				LinkLabel: f.Name(),
 			})
 
 		case ".json":
 			z.uiLog(&WebUILog{
-				Tag:      WebTagArtifactJson,
-				Link:     z.llf(filepath.Join(path, f.Name())),
-				LinkName: f.Name(),
+				Tag:       WebTagArtifactJson,
+				Link:      z.llf(filepath.Join(path, f.Name())),
+				LinkLabel: f.Name(),
 			})
 
 		default:
@@ -190,8 +192,9 @@ func (z *Web) IsWeb() bool {
 }
 
 type WebTable struct {
-	baseUI UI
-	w      *Web
+	baseUI    UI
+	tableName string
+	w         *Web
 }
 
 func (z *WebTable) Header(h ...app_msg.Message) {
@@ -200,8 +203,9 @@ func (z *WebTable) Header(h ...app_msg.Message) {
 		cols = append(cols, z.baseUI.Text(c.Key(), c.Params()...))
 	}
 	z.w.uiLog(&WebUILog{
-		Tag:  WebTagTableHeader,
-		Cols: cols,
+		Tag:       WebTagTableHeader,
+		TableId:   z.tableName,
+		TableCols: cols,
 	})
 }
 
@@ -211,8 +215,9 @@ func (z *WebTable) HeaderRaw(h ...string) {
 		cols = append(cols, c)
 	}
 	z.w.uiLog(&WebUILog{
-		Tag:  WebTagTableHeader,
-		Cols: cols,
+		Tag:       WebTagTableHeader,
+		TableId:   z.tableName,
+		TableCols: cols,
 	})
 }
 
@@ -222,8 +227,9 @@ func (z *WebTable) Row(m ...app_msg.Message) {
 		cols = append(cols, z.baseUI.Text(c.Key(), c.Params()...))
 	}
 	z.w.uiLog(&WebUILog{
-		Tag:  WebTagTableRow,
-		Cols: cols,
+		Tag:       WebTagTableRow,
+		TableId:   z.tableName,
+		TableCols: cols,
 	})
 }
 
@@ -233,8 +239,9 @@ func (z *WebTable) RowRaw(m ...string) {
 		cols = append(cols, c)
 	}
 	z.w.uiLog(&WebUILog{
-		Tag:  WebTagTableRow,
-		Cols: cols,
+		Tag:       WebTagTableRow,
+		TableId:   z.tableName,
+		TableCols: cols,
 	})
 }
 

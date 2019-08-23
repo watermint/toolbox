@@ -51,7 +51,7 @@ func (z *Quiet) Header(key string, p ...app_msg.Param) {
 	z.log.Debug(key, zap.Any("params", p))
 }
 
-func (z *Quiet) InfoTable(border bool) Table {
+func (z *Quiet) InfoTable(name string) Table {
 	return &QuietTable{
 		log: z.log,
 	}

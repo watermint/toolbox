@@ -2,6 +2,7 @@ package app_control_impl
 
 import (
 	rice "github.com/GeertJohan/go.rice"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -75,8 +76,15 @@ func (z *Multi) Up(opts ...app_control.UpOpt) (err error) {
 	if err != nil {
 		return err
 	}
+	name := app.Name
+	ver := app.Version
+	hash := app.Hash
 
-	z.Log().Debug("Up completed")
+	z.Log().Debug("Up completed",
+		zap.String("name", name),
+		zap.String("ver", ver),
+		zap.String("hash", hash),
+	)
 
 	return nil
 }

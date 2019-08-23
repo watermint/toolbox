@@ -3,6 +3,7 @@ package app_control_impl
 import (
 	"encoding/json"
 	"github.com/GeertJohan/go.rice"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -135,7 +136,15 @@ func (z *Single) upWithHome(homePath string) (err error) {
 	app_root.SetLogger(z.flc.Logger)
 	app_root.SetCapture(z.cap.Logger)
 
-	z.Log().Debug("Up completed")
+	name := app.Name
+	ver := app.Version
+	hash := app.Hash
+
+	z.Log().Debug("Up completed",
+		zap.String("name", name),
+		zap.String("ver", ver),
+		zap.String("hash", hash),
+	)
 
 	return nil
 }

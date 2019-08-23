@@ -10,7 +10,7 @@ func NewUI(name string, row interface{}, ctl app_control.Control) (Report, error
 	parser := NewColumn(row, ctl)
 	r := &UI{
 		Ctl:    ctl,
-		Table:  ctl.UI().InfoTable(false),
+		Table:  ctl.UI().InfoTable(name),
 		Parser: parser,
 	}
 	return r, nil

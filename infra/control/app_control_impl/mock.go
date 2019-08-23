@@ -2,6 +2,7 @@ package app_control_impl
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -55,7 +56,16 @@ func (z *mockControl) Resource(key string) (bin []byte, err error) {
 }
 
 func (z *mockControl) Up(opts ...app_control.UpOpt) error {
-	z.logger.Debug("Mock startup")
+	name := app.Name
+	ver := app.Version
+	hash := app.Hash
+
+	z.logger.Debug("Mock startup",
+		zap.String("name", name),
+		zap.String("ver", ver),
+		zap.String("hash", hash),
+	)
+
 	return nil
 }
 

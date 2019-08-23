@@ -94,7 +94,7 @@ func (z *console) Header(key string, p ...app_msg.Param) {
 	z.boldPrint(m)
 }
 
-func (z *console) InfoTable(border bool) Table {
+func (z *console) InfoTable(name string) Table {
 	tw := new(tabwriter.Writer)
 	tw.Init(z.out, 0, 2, 2, ' ', 0)
 	return &consoleTable{

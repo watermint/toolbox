@@ -98,7 +98,7 @@ func (z *Group) PrintUsage(ui app_ui.UI) {
 	ui.Break()
 
 	ui.Header("run.group.header.available_commands")
-	cmdTable := ui.InfoTable(false)
+	cmdTable := ui.InfoTable("usage")
 	for _, cmd := range z.AvailableCommands() {
 		cmdTable.Row(app_msg.Raw(" "), app_msg.Raw(cmd), z.CommandDesc(cmd))
 	}
