@@ -15,14 +15,14 @@
     {{end}}
     {{with (eq $log.Tag "table_header")}}
         <tr>
-            {{range $c := $log.Cols}}
+            {{range $c := $log.TableCols}}
                 <th>{{$c}}</th>
             {{end}}
         </tr>
     {{end}}
     {{with (eq $log.Tag "table_row")}}
         <tr>
-            {{range $c := $log.Cols}}
+            {{range $c := $log.TableCols}}
                 <td>{{$c}}</td>
             {{end}}
         </tr>
@@ -34,13 +34,13 @@
         <h2>Result:</h2>
     {{end}}
     {{with (eq $log.Tag "artifact_xlsx")}}
-        <div><i class="fas fa-file-excel"></i> <a href="{{$log.Link}}">{{$log.LinkName}}</a></div>
+        <div><i class="fas fa-file-excel"></i> <a href="{{$log.Link}}">{{$log.LinkLabel}}</a></div>
     {{end}}
     {{with (eq $log.Tag "artifact_csv")}}
-        <div><i class="fas fa-file-csv"></i> <a href="{{$log.Link}}">{{$log.LinkName}}</a></div>
+        <div><i class="fas fa-file-csv"></i> <a href="{{$log.Link}}">{{$log.LinkLabel}}</a></div>
     {{end}}
     {{with (eq $log.Tag "artifact_json")}}
-        <div><i class="fas fa-file-code"></i> <a href="{{$log.Link}}">{{$log.LinkName}}</a></div>
+        <div><i class="fas fa-file-code"></i> <a href="{{$log.Link}}">{{$log.LinkLabel}}</a></div>
     {{end}}
     {{with (eq $log.Tag "result_success")}}
         <div class="alert alert-success mt-5" role="alert">{{$log.Message}}</div>
