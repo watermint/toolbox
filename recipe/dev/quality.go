@@ -11,7 +11,7 @@ type Quality struct {
 }
 
 func (z *Quality) Test(c app_control.Control) error {
-	return z.Exec(app_kitchen.NewKitchen(c, &app_vo.EmptyValueObject{}))
+	return nil
 }
 
 func (z *Quality) Hidden() {
