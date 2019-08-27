@@ -11,9 +11,6 @@ func NewCmdGroup() cmd2.Commandlet {
 		CommandDesc: "cmd.group.desc",
 		SubCommands: []cmd2.Commandlet{
 			cmd_group_member2.NewCmdGroupMember(),
-			&CmdGroupList{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			&CmdGroupRemove{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},

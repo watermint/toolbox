@@ -10,9 +10,6 @@ func NewCmdTeamSharedLink() cmd2.Commandlet {
 		CommandName: "sharedlink",
 		CommandDesc: "cmd.team.sharedlink.desc",
 		SubCommands: []cmd2.Commandlet{
-			&CmdTeamSharedLinkList{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			cmd_update2.NewCmdMemberSharedLinkUpdate(),
 		},
 	}

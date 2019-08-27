@@ -10,9 +10,6 @@ func NewCmdTeamFolder() cmd2.Commandlet {
 		CommandName: "teamfolder",
 		CommandDesc: "cmd.teamfolder.desc",
 		SubCommands: []cmd2.Commandlet{
-			&CmdTeamFolderList{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			&CmdTeamFolderSize{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},

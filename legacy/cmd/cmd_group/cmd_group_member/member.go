@@ -9,9 +9,6 @@ func NewCmdGroupMember() cmd2.Commandlet {
 		CommandName: "member",
 		CommandDesc: "cmd.group.member.desc",
 		SubCommands: []cmd2.Commandlet{
-			&CmdGroupMemberList{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			&CmdGroupMemberAdd{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},

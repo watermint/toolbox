@@ -22,8 +22,7 @@ import (
 )
 
 const (
-	EndToEndPeer = "default"
-	//EndToEndPeer = "end_to_end_test"
+	EndToEndPeer = "end_to_end_test"
 )
 
 func ApplyTestPeers(ctl app_control.Control, vo app_vo.ValueObject) bool {

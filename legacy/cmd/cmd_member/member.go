@@ -12,9 +12,6 @@ func NewCmdMember() cmd2.Commandlet {
 		CommandName: "member",
 		CommandDesc: "cmd.member.desc",
 		SubCommands: []cmd2.Commandlet{
-			&CmdMemberList{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			&CmdMemberInvite{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},

@@ -16,12 +16,6 @@ func NewCmdTeam() cmd2.Commandlet {
 		CommandName: "team",
 		CommandDesc: "cmd.team.desc",
 		SubCommands: []cmd2.Commandlet{
-			&CmdTeamInfo{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
-			&CmdTeamFeature{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			cmd_audit2.NewCmdTeamAudit(),
 			cmd_device2.NewCmdTeamDevice(),
 			cmd_linkedapp2.NewCmdMemberLinkedApp(),

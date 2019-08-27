@@ -9,20 +9,20 @@ import (
 )
 
 func main() {
-	switch {
-	case len(os.Args) > 1 && os.Args[1] == "experimental":
-		bx := rice.MustFindBox("resources")
-		web := rice.MustFindBox("web")
+	bx := rice.MustFindBox("resources")
+	web := rice.MustFindBox("web")
 
-		app_run.Run(os.Args[2:], bx, web)
-
-	default:
-		bx := rice.MustFindBox("legacy/resources")
-		ec, err := app2.NewExecContext(bx)
-		if err != nil {
-			return
-		}
-		cmds := cmd_root.NewCommands()
-		cmds.Exec(ec, os.Args)
+	if found := app_run.Run(os.Args[1:], bx, web); !found {
+		legacy()
 	}
+}
+
+func legacy() {
+	bx := rice.MustFindBox("legacy/resources")
+	ec, err := app2.NewExecContext(bx)
+	if err != nil {
+		return
+	}
+	cmds := cmd_root.NewCommands()
+	cmds.Exec(ec, os.Args)
 }

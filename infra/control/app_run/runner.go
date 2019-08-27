@@ -38,7 +38,7 @@ func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
 	f.BoolVar(&z.Secure, "secure", false, mc.Compile(app_msg.M("run.common.flag.secure")))
 }
 
-func Run(args []string, bx, web *rice.Box) {
+func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Initialize resources
 	mc := app_run_impl.NewContainer(bx)
 	ui := app_ui.NewConsole(mc, false)
@@ -55,6 +55,7 @@ func Run(args []string, bx, web *rice.Box) {
 			cat.PrintUsage(ui)
 		}
 		os.Exit(app_control.FailureInvalidCommand)
+		return false
 
 	case rcp == nil:
 		grp.PrintUsage(ui)
@@ -193,4 +194,5 @@ func Run(args []string, bx, web *rice.Box) {
 	if err != nil {
 		os.Exit(app_control.FailureGeneral)
 	}
+	return true
 }
