@@ -20,14 +20,14 @@ import (
 	"path/filepath"
 )
 
-type KcCachedAuth struct {
+type CcCachedAuth struct {
 	peerName string
 	tokens   map[string]string
 	control  app_control.Control
 	auth     api_auth.Console
 }
 
-func (z *KcCachedAuth) Auth(tokenType string) (ctx api_context.Context, err error) {
+func (z *CcCachedAuth) Auth(tokenType string) (ctx api_context.Context, err error) {
 	if tok, e := z.tokens[tokenType]; e {
 		tc := api_auth.TokenContainer{
 			Token:     tok,
@@ -46,7 +46,7 @@ func (z *KcCachedAuth) Auth(tokenType string) (ctx api_context.Context, err erro
 	}
 }
 
-func (z *KcCachedAuth) init() {
+func (z *CcCachedAuth) init() {
 	z.tokens = make(map[string]string)
 
 	if z.loadFile() == nil {
@@ -54,19 +54,19 @@ func (z *KcCachedAuth) init() {
 	}
 }
 
-func (z *KcCachedAuth) cacheFile(kind string) string {
+func (z *CcCachedAuth) cacheFile(kind string) string {
 	px := sha256.Sum224([]byte(z.peerName))
 	pn := fmt.Sprintf("%x.%s", px, kind)
 	return filepath.Join(z.control.Workspace().Secrets(), pn)
 }
 
-func (z *KcCachedAuth) compatibleCachedFile() string {
+func (z *CcCachedAuth) compatibleCachedFile() string {
 	return z.cacheFile("tokens")
 }
-func (z *KcCachedAuth) secureCachedFile() string {
+func (z *CcCachedAuth) secureCachedFile() string {
 	return z.cacheFile("t")
 }
-func (z *KcCachedAuth) loadBytes(tb []byte) error {
+func (z *CcCachedAuth) loadBytes(tb []byte) error {
 	err := json.Unmarshal(tb, &z.tokens)
 	if err != nil {
 		z.control.Log().Debug("unable to unmarshal tokens file", zap.Error(err))
@@ -75,7 +75,7 @@ func (z *KcCachedAuth) loadBytes(tb []byte) error {
 	return nil
 }
 
-func (z *KcCachedAuth) loadFile() error {
+func (z *CcCachedAuth) loadFile() error {
 	if ex, err := z.loadCompatibleFile(); err == nil {
 		return nil
 	} else if !ex && app.BuilderKey != "" {
@@ -85,7 +85,7 @@ func (z *KcCachedAuth) loadFile() error {
 	return nil
 }
 
-func (z *KcCachedAuth) loadCompatibleFile() (exists bool, err error) {
+func (z *CcCachedAuth) loadCompatibleFile() (exists bool, err error) {
 	tf := z.compatibleCachedFile()
 	_, err = os.Stat(tf)
 	if os.IsNotExist(err) {
@@ -101,7 +101,7 @@ func (z *KcCachedAuth) loadCompatibleFile() (exists bool, err error) {
 	return true, z.loadBytes(tb)
 }
 
-func (z *KcCachedAuth) loadSecureFile() (exists bool, err error) {
+func (z *CcCachedAuth) loadSecureFile() (exists bool, err error) {
 	if app.BuilderKey == "" {
 		z.control.Log().Debug("Use compatible token file in dev mode")
 		return false, errors.New("dev mode")
@@ -141,7 +141,7 @@ func (z *KcCachedAuth) loadSecureFile() (exists bool, err error) {
 	return true, z.loadBytes(v)
 }
 
-func (z *KcCachedAuth) updateCompatible(tb []byte) error {
+func (z *CcCachedAuth) updateCompatible(tb []byte) error {
 	tf := z.compatibleCachedFile()
 	err := ioutil.WriteFile(tf, tb, 0600)
 	if err != nil {
@@ -151,7 +151,7 @@ func (z *KcCachedAuth) updateCompatible(tb []byte) error {
 	return nil
 }
 
-func (z *KcCachedAuth) updateSecure(tb []byte) error {
+func (z *CcCachedAuth) updateSecure(tb []byte) error {
 	key := []byte(app.BuilderKey + app.Name)
 	key32 := sha256.Sum224([]byte(key))
 	kb := make([]byte, 32)
@@ -179,7 +179,7 @@ func (z *KcCachedAuth) updateSecure(tb []byte) error {
 	return nil
 }
 
-func (z *KcCachedAuth) updateCache(tokenType string, ctx api_context.Context) {
+func (z *CcCachedAuth) updateCache(tokenType string, ctx api_context.Context) {
 	// Do not store tokens into file
 	if z.control.IsSecure() {
 		return

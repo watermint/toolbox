@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
@@ -22,9 +23,6 @@ type InviteRow struct {
 type InviteVO struct {
 	File     app_file.RowDataFile
 	PeerName app_conn.ConnBusinessMgmt
-}
-
-func (z *InviteVO) Validate(t app_vo.Validator) {
 }
 
 func (z *InviteRow) Validate() (err error) {
@@ -48,6 +46,10 @@ func InviteRowFromCols(cols []string) (row *InviteRow) {
 }
 
 type Invite struct {
+}
+
+func (z *Invite) Test(c app_control.Control) error {
+	return nil
 }
 
 func (z *Invite) Console() {

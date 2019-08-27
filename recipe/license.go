@@ -14,6 +14,10 @@ import (
 type License struct {
 }
 
+func (license *License) Test(c app_control.Control) error {
+	return nil
+}
+
 func (*License) Requirement() app_vo.ValueObject {
 	return &app_vo.EmptyValueObject{}
 }

@@ -1,11 +1,14 @@
 package sharedlink
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
+	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 )
 
@@ -13,10 +16,26 @@ type ListVO struct {
 	PeerName app_conn.ConnBusinessFile
 }
 
-func (*ListVO) Validate(t app_vo.Validator) {
+type List struct {
 }
 
-type List struct {
+func (z *List) Test(c app_control.Control) error {
+	lvo := &ListVO{}
+	if !app_test.ApplyTestPeers(c, lvo) {
+		return nil
+	}
+	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+		return err
+	}
+	return app_test.TestRows(c, "sharedlink", func(cols map[string]string) error {
+		if _, ok := cols["SharedLinkId"]; !ok {
+			return errors.New("`SharedLinkId` is not found")
+		}
+		if _, ok := cols["team_member_id"]; !ok {
+			return errors.New("`team_member_id` is not found")
+		}
+		return nil
+	})
 }
 
 func (*List) Requirement() app_vo.ValueObject {

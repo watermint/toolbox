@@ -15,11 +15,11 @@ func Auth(ec *app2.ExecContext, opts ...AuthOpt) (ctx api_context.Context, err e
 	for _, o := range opts {
 		o(ao)
 	}
-	a := New(ec, opts...)
+	a := NewLegacy(ec, opts...)
 	return a.Auth(ao.tokenType)
 }
 
-func NewKc(control app_control.Control, opts ...AuthOpt) api_auth.Console {
+func New(control app_control.Control, opts ...AuthOpt) api_auth.Console {
 	ao := &authOpts{
 		tokenType: api_auth.DropboxTokenNoAuth,
 		peerName:  "default",
@@ -27,11 +27,11 @@ func NewKc(control app_control.Control, opts ...AuthOpt) api_auth.Console {
 	for _, o := range opts {
 		o(ao)
 	}
-	ua := &KitchenAuth{
+	ua := &CcAuth{
 		control: control,
 	}
 	ua.init()
-	ca := &KcCachedAuth{
+	ca := &CcCachedAuth{
 		peerName: ao.peerName,
 		control:  control,
 		auth:     ua,
@@ -40,7 +40,23 @@ func NewKc(control app_control.Control, opts ...AuthOpt) api_auth.Console {
 	return ca
 }
 
-func New(ec *app2.ExecContext, opts ...AuthOpt) api_auth.Console {
+func NewCached(control app_control.Control, opts ...AuthOpt) api_auth.Console {
+	ao := &authOpts{
+		tokenType: api_auth.DropboxTokenNoAuth,
+		peerName:  "default",
+	}
+	for _, o := range opts {
+		o(ao)
+	}
+	ca := &CcCachedAuth{
+		peerName: ao.peerName,
+		control:  control,
+	}
+	ca.init()
+	return ca
+}
+
+func NewLegacy(ec *app2.ExecContext, opts ...AuthOpt) api_auth.Console {
 	ao := &authOpts{
 		tokenType: api_auth.DropboxTokenNoAuth,
 		peerName:  ec.DefaultPeerName(),

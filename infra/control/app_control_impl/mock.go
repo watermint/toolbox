@@ -16,7 +16,7 @@ func NewMock() app_control.Control {
 	mc := &app_msg_container_impl.Alt{}
 	return &mockControl{
 		logger: app_log.NewConsoleLogger(false),
-		ui:     app_ui.NewConsole(mc),
+		ui:     app_ui.NewConsole(mc, false),
 		ws:     app_workspace.NewTempAppWorkspace(),
 	}
 }

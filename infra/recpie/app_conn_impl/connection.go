@@ -48,9 +48,15 @@ func NewConnUserFile() *ConnUserFile {
 func connect(tokenType, peerName string, control app_control.Control) (ctx api_context.Context, err error) {
 	l := control.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
 	switch {
+	case control.IsTest():
+		l.Debug("Connect for testing")
+		c := api_auth_impl.NewCached(control, api_auth_impl.PeerName(peerName))
+		ctx, err = c.Auth(tokenType)
+		return
+
 	case control.UI().IsConsole():
 		l.Debug("Connect through console UI")
-		c := api_auth_impl.NewKc(control, api_auth_impl.PeerName(peerName))
+		c := api_auth_impl.New(control, api_auth_impl.PeerName(peerName))
 		ctx, err = c.Auth(tokenType)
 		return
 

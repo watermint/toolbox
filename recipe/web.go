@@ -25,10 +25,11 @@ type WebVO struct {
 	Port int
 }
 
-func (z *WebVO) Validate(t app_vo.Validator) {
+type Web struct {
 }
 
-type Web struct {
+func (z *Web) Test(c app_control.Control) error {
+	return nil
 }
 
 func (z *Web) Console() {

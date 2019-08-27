@@ -3,6 +3,7 @@ package member
 import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
@@ -32,10 +33,11 @@ type DetachVO struct {
 	RetainTeamShares bool
 }
 
-func (*DetachVO) Validate(t app_vo.Validator) {
+type Detach struct {
 }
 
-type Detach struct {
+func (z *Detach) Test(c app_control.Control) error {
+	return nil
 }
 
 func (z *Detach) Console() {

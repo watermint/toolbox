@@ -5,6 +5,7 @@ import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_run_impl"
 	"github.com/watermint/toolbox/infra/network/app_diag"
 	"github.com/watermint/toolbox/infra/network/app_network"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
@@ -39,8 +40,8 @@ func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
 
 func Run(args []string, bx, web *rice.Box) {
 	// Initialize resources
-	mc := NewContainer(bx)
-	ui := app_ui.NewConsole(mc)
+	mc := app_run_impl.NewContainer(bx)
+	ui := app_ui.NewConsole(mc, false)
 	cat := Catalogue()
 
 	// Select recipe or group

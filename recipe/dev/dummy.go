@@ -6,6 +6,7 @@ import (
 	"encoding/base32"
 	"encoding/json"
 	"errors"
+	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"go.uber.org/zap"
@@ -22,15 +23,16 @@ type DummyVO struct {
 	MaxEntry int
 }
 
-func (*DummyVO) Validate(t app_vo.Validator) {
-}
-
 type DummyEntry struct {
 	Tag         string `json:".tag"`
 	PathDisplay string `json:"path_display"`
 }
 
 type Dummy struct {
+}
+
+func (z *Dummy) Test(c app_control.Control) error {
+	return nil
 }
 
 func (z *Dummy) Hidden() {

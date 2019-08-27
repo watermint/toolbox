@@ -1,4 +1,4 @@
-package app_run
+package app_run_impl
 
 import (
 	rice "github.com/GeertJohan/go.rice"

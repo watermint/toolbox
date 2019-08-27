@@ -1,6 +1,7 @@
 package dev
 
 import (
+	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/quality"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
@@ -9,14 +10,18 @@ import (
 type Quality struct {
 }
 
-func (*Quality) Hidden() {
+func (z *Quality) Test(c app_control.Control) error {
+	return z.Exec(app_kitchen.NewKitchen(c, &app_vo.EmptyValueObject{}))
 }
 
-func (*Quality) Requirement() app_vo.ValueObject {
+func (z *Quality) Hidden() {
+}
+
+func (z *Quality) Requirement() app_vo.ValueObject {
 	return &app_vo.EmptyValueObject{}
 }
 
-func (*Quality) Exec(k app_kitchen.Kitchen) error {
+func (z *Quality) Exec(k app_kitchen.Kitchen) error {
 	quality.Suite(k.Control())
 	return nil
 }

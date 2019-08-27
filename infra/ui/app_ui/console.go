@@ -35,18 +35,20 @@ const (
 	ColorBrightWhite
 )
 
-func NewConsole(mc app_msg_container.Container) UI {
+func NewConsole(mc app_msg_container.Container, testMode bool) UI {
 	return &console{
-		mc:  mc,
-		out: os.Stdout,
-		in:  os.Stdin,
+		mc:       mc,
+		out:      os.Stdout,
+		in:       os.Stdin,
+		testMode: testMode,
 	}
 }
 
 type console struct {
-	mc  app_msg_container.Container
-	out io.Writer
-	in  io.Reader
+	mc       app_msg_container.Container
+	out      io.Writer
+	in       io.Reader
+	testMode bool
 }
 
 func (z *console) IsConsole() bool {
@@ -59,6 +61,10 @@ func (z *console) IsWeb() bool {
 
 func (z *console) OpenArtifact(path string) {
 	z.Info("run.console.open_artifact", app_msg.P("Path", path))
+	if z.testMode {
+		return
+	}
+
 	err := open.Start(path)
 	if err != nil {
 		z.Error("run.console.open_artifact.error", app_msg.P("Error", err))

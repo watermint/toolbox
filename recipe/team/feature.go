@@ -1,10 +1,13 @@
 package team
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_team"
 	"github.com/watermint/toolbox/domain/service/sv_team"
+	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 )
 
@@ -12,10 +15,23 @@ type FeatureVO struct {
 	PeerName app_conn.ConnBusinessInfo
 }
 
-func (*FeatureVO) Validate(t app_vo.Validator) {
+type Feature struct {
 }
 
-type Feature struct {
+func (z *Feature) Test(c app_control.Control) error {
+	lvo := &FeatureVO{}
+	if !app_test.ApplyTestPeers(c, lvo) {
+		return nil
+	}
+	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+		return err
+	}
+	return app_test.TestRows(c, "feature", func(cols map[string]string) error {
+		if _, ok := cols["UploadApiRateLimit"]; !ok {
+			return errors.New("`UploadApiRateLimit` is not found")
+		}
+		return nil
+	})
 }
 
 func (*Feature) Requirement() app_vo.ValueObject {

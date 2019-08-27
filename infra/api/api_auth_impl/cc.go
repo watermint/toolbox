@@ -14,13 +14,13 @@ import (
 	"strings"
 )
 
-type KitchenAuth struct {
+type CcAuth struct {
 	control  app_control.Control
 	app      api_auth.App
 	peerName string
 }
 
-func (z *KitchenAuth) Auth(tokenType string) (ctx api_context.Context, err error) {
+func (z *CcAuth) Auth(tokenType string) (ctx api_context.Context, err error) {
 	if z.control.IsTest() {
 		return nil, errors.New("test mode")
 	}
@@ -35,7 +35,7 @@ func (z *KitchenAuth) Auth(tokenType string) (ctx api_context.Context, err error
 	}
 }
 
-func (z *KitchenAuth) wrapToken(tokenType, token string, cause error) (ctx api_context.Context, err error) {
+func (z *CcAuth) wrapToken(tokenType, token string, cause error) (ctx api_context.Context, err error) {
 	if cause != nil {
 		return nil, err
 	}
@@ -55,11 +55,11 @@ func (z *KitchenAuth) wrapToken(tokenType, token string, cause error) (ctx api_c
 	return ctx, nil
 }
 
-func (z *KitchenAuth) init() {
+func (z *CcAuth) init() {
 	z.app = NewApp(z.control)
 }
 
-func (z *KitchenAuth) generatedTokenInstruction(tokenType string) {
+func (z *CcAuth) generatedTokenInstruction(tokenType string) {
 	api := ""
 	toa := ""
 
@@ -93,7 +93,7 @@ func (z *KitchenAuth) generatedTokenInstruction(tokenType string) {
 	)
 }
 
-func (z *KitchenAuth) generatedToken(tokenType string) (string, error) {
+func (z *CcAuth) generatedToken(tokenType string) (string, error) {
 	z.generatedTokenInstruction(tokenType)
 	for {
 		code, cancel := z.control.UI().AskSecure("auth.basic.generated_token2")
@@ -107,13 +107,13 @@ func (z *KitchenAuth) generatedToken(tokenType string) (string, error) {
 	}
 }
 
-func (z *KitchenAuth) authGenerated(tokenType string) (string, error) {
+func (z *CcAuth) authGenerated(tokenType string) (string, error) {
 	z.control.Log().Debug("No appKey/appSecret found. Try asking 'Generate Token'")
 	tok, err := z.generatedToken(tokenType)
 	return tok, err
 }
 
-func (z *KitchenAuth) oauthStart(tokenType string) (string, error) {
+func (z *CcAuth) oauthStart(tokenType string) (string, error) {
 	l := z.control.Log()
 	l.Debug("Start OAuth sequence")
 	state, err := sc_random.GenerateRandomString(8)
@@ -130,18 +130,18 @@ func (z *KitchenAuth) oauthStart(tokenType string) (string, error) {
 	return tok.AccessToken, nil
 }
 
-func (z *KitchenAuth) oauthUrl(cfg *oauth2.Config, state string) string {
+func (z *CcAuth) oauthUrl(cfg *oauth2.Config, state string) string {
 	return cfg.AuthCodeURL(
 		state,
 		oauth2.SetAuthURLParam("response_type", "code"),
 	)
 }
 
-func (z *KitchenAuth) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.Token, error) {
+func (z *CcAuth) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.Token, error) {
 	return cfg.Exchange(context.Background(), code)
 }
 
-func (z *KitchenAuth) oauthCode(state string) string {
+func (z *CcAuth) oauthCode(state string) string {
 	for {
 		code, cancel := z.control.UI().AskSecure("auth.basic.oauth_seq2")
 		if cancel {
@@ -154,7 +154,7 @@ func (z *KitchenAuth) oauthCode(state string) string {
 	}
 }
 
-func (z *KitchenAuth) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
+func (z *CcAuth) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
 	cfg := z.app.Config(tokenType)
 	url := z.oauthUrl(cfg, state)
 

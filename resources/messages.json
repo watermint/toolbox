@@ -40,6 +40,7 @@
   "recipe.group.list.desc": "List group(s)",
   "recipe.group.member.desc": "Group member",
   "recipe.group.member.list.desc": "List members of groups",
+  "recipe.group.member.list.progress.scan": "Scanning: {{.Group}}",
   "recipe.license.desc": "Show license information",
   "recipe.member.desc": "Team member management (Dropbox Business)",
   "recipe.member.list.desc": "List team member(s)",

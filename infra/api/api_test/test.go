@@ -38,7 +38,7 @@ func doTest(tokenType string, test func(ctx api_context.Context)) {
 		return
 	}
 
-	au := api_auth_impl.New(ec, api_auth_impl.PeerName(TestPeerName))
+	au := api_auth_impl.NewLegacy(ec, api_auth_impl.PeerName(TestPeerName))
 	ctx, err := au.Auth(tokenType)
 	if err != nil {
 		return
