@@ -19,8 +19,8 @@ import (
 	"time"
 )
 
-func NewKC(control app_control.Control, token api_auth.TokenContainer) api_context.Context {
-	c := &kcImpl{
+func New(control app_control.Control, token api_auth.TokenContainer) api_context.Context {
+	c := &ccImpl{
 		control:        control,
 		tokenContainer: token,
 		client:         &http.Client{},
@@ -29,7 +29,7 @@ func NewKC(control app_control.Control, token api_auth.TokenContainer) api_conte
 	return c
 }
 
-type kcImpl struct {
+type ccImpl struct {
 	control        app_control.Control
 	client         *http.Client
 	tokenContainer api_auth.TokenContainer
@@ -42,11 +42,15 @@ type kcImpl struct {
 	noRetryOnError bool
 }
 
-func (z *kcImpl) Capture() *zap.Logger {
+func (z *ccImpl) Token() api_auth.TokenContainer {
+	return z.tokenContainer
+}
+
+func (z *ccImpl) Capture() *zap.Logger {
 	return z.control.Capture()
 }
 
-func (z *kcImpl) DoRequest(req api_rpc.Request) (code int, header http.Header, body []byte, err error) {
+func (z *ccImpl) DoRequest(req api_rpc.Request) (code int, header http.Header, body []byte, err error) {
 	httpReq, err := req.Request()
 	if err != nil {
 		return -1, nil, nil, err
@@ -69,7 +73,7 @@ func (z *kcImpl) DoRequest(req api_rpc.Request) (code int, header http.Header, b
 	return res.StatusCode, res.Header, body, nil
 }
 
-func (z *kcImpl) AddError(err error) {
+func (z *ccImpl) AddError(err error) {
 	if z.lastErrors == nil {
 		z.lastErrors = make([]error, 0)
 	}
@@ -82,7 +86,7 @@ func (z *kcImpl) AddError(err error) {
 	z.lastErrors = append(z.lastErrors, err)
 }
 
-func (z *kcImpl) LastErrors() []error {
+func (z *ccImpl) LastErrors() []error {
 	if z.lastErrors == nil {
 		return make([]error, 0)
 	} else {
@@ -90,36 +94,36 @@ func (z *kcImpl) LastErrors() []error {
 	}
 }
 
-func (z *kcImpl) RetryAfter() time.Time {
+func (z *ccImpl) RetryAfter() time.Time {
 	return z.retryAfter
 }
 
-func (z *kcImpl) UpdateRetryAfter(after time.Time) {
+func (z *ccImpl) UpdateRetryAfter(after time.Time) {
 	z.retryAfter = after
 }
 
-func (z *kcImpl) IsNoRetry() bool {
+func (z *ccImpl) IsNoRetry() bool {
 	return z.noRetryOnError
 }
 
-func (z *kcImpl) Log() *zap.Logger {
+func (z *ccImpl) Log() *zap.Logger {
 	return z.control.Log()
 }
 
-func (z *kcImpl) Request(endpoint string) api_rpc.Caller {
+func (z *ccImpl) Request(endpoint string) api_rpc.Caller {
 	return api_rpc_impl.New(z, endpoint, z.asMemberId, z.asAdminId, z.basePath, z.tokenContainer)
 }
 
-func (z *kcImpl) List(endpoint string) api_list.List {
+func (z *ccImpl) List(endpoint string) api_list.List {
 	return api_list_impl.New(z, endpoint, z.asMemberId, z.asAdminId, z.basePath)
 }
 
-func (z *kcImpl) Async(endpoint string) api_async.Async {
+func (z *ccImpl) Async(endpoint string) api_async.Async {
 	return api_async_impl.New(z, endpoint, z.asMemberId, z.asAdminId, z.basePath)
 }
 
-func (z *kcImpl) AsMemberId(teamMemberId string) api_context.Context {
-	return &kcImpl{
+func (z *ccImpl) AsMemberId(teamMemberId string) api_context.Context {
+	return &ccImpl{
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
@@ -132,8 +136,8 @@ func (z *kcImpl) AsMemberId(teamMemberId string) api_context.Context {
 	}
 }
 
-func (z *kcImpl) AsAdminId(teamMemberId string) api_context.Context {
-	return &kcImpl{
+func (z *ccImpl) AsAdminId(teamMemberId string) api_context.Context {
+	return &ccImpl{
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
@@ -147,8 +151,8 @@ func (z *kcImpl) AsAdminId(teamMemberId string) api_context.Context {
 	}
 }
 
-func (z *kcImpl) WithPath(pathRoot api_context.PathRoot) api_context.Context {
-	return &kcImpl{
+func (z *ccImpl) WithPath(pathRoot api_context.PathRoot) api_context.Context {
+	return &ccImpl{
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
@@ -162,8 +166,8 @@ func (z *kcImpl) WithPath(pathRoot api_context.PathRoot) api_context.Context {
 	}
 }
 
-func (z *kcImpl) NoRetryOnError() api_context.Context {
-	return &kcImpl{
+func (z *ccImpl) NoRetryOnError() api_context.Context {
+	return &ccImpl{
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
@@ -177,7 +181,7 @@ func (z *kcImpl) NoRetryOnError() api_context.Context {
 	}
 }
 
-func (z *kcImpl) Hash() string {
+func (z *ccImpl) Hash() string {
 	seeds := []string{
 		"m",
 		z.asMemberId,

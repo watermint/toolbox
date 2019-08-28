@@ -87,7 +87,7 @@ func (z *ECAuth) wrapToken(tokenType, token string, cause error) (ctx api_contex
 		TokenType: tokenType,
 		PeerName:  z.peerName,
 	}
-	ctx = api_context_impl.New(z.ec, tc)
+	ctx = api_context_impl.NewLegacy(z.ec, tc)
 
 	err = z.verifyToken(tokenType, ctx)
 	if err != nil {

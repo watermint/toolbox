@@ -121,7 +121,7 @@ func (z *Web) Auth(state, code string) (peerName string, ctx api_context.Context
 		TokenType: session.TokenType,
 		PeerName:  session.PeerName,
 	}
-	ctx = api_context_impl.NewKC(z.control, tc)
+	ctx = api_context_impl.New(z.control, tc)
 
 	desc, suppl, err := VerifyToken(session.TokenType, ctx)
 	if err != nil {
@@ -146,7 +146,7 @@ func (z *Web) Get(state string) (peerName string, ctx api_context.Context, err e
 				TokenType: c.TokenType,
 				PeerName:  c.PeerName,
 			}
-			ctx = api_context_impl.NewKC(z.control, tc)
+			ctx = api_context_impl.New(z.control, tc)
 
 			return c.PeerName, ctx, nil
 		}

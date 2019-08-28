@@ -69,7 +69,7 @@ func connect(tokenType, peerName string, control app_control.Control) (ctx api_c
 		}
 		for _, t := range tokens {
 			if t.PeerName == peerName {
-				c := api_context_impl.NewKC(control, t)
+				c := api_context_impl.New(control, t)
 				return c, nil
 			}
 		}

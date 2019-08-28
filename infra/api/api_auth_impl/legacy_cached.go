@@ -32,7 +32,7 @@ func (z *EcCachedAuth) Auth(tokenType string) (ctx api_context.Context, err erro
 			Token:     tok,
 			TokenType: tokenType,
 		}
-		return api_context_impl.New(z.ec, tc), nil
+		return api_context_impl.NewLegacy(z.ec, tc), nil
 	}
 	if ctx, err = z.auth.Auth(tokenType); err != nil {
 		return nil, err

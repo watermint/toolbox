@@ -44,7 +44,7 @@ func (z *CcAuth) wrapToken(tokenType, token string, cause error) (ctx api_contex
 		TokenType: tokenType,
 		PeerName:  z.peerName,
 	}
-	ctx = api_context_impl.NewKC(z.control, tc)
+	ctx = api_context_impl.New(z.control, tc)
 
 	_, _, err = VerifyToken(tokenType, ctx)
 	if err != nil {

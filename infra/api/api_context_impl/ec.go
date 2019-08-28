@@ -19,7 +19,7 @@ import (
 	"time"
 )
 
-func New(ec *app2.ExecContext, token api_auth.TokenContainer) api_context.Context {
+func NewLegacy(ec *app2.ExecContext, token api_auth.TokenContainer) api_context.Context {
 	c := &ecImpl{
 		ec:             ec,
 		tokenContainer: token,
