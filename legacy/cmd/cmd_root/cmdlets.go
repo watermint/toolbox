@@ -4,7 +4,6 @@ import (
 	"flag"
 	app2 "github.com/watermint/toolbox/legacy/app"
 	cmd2 "github.com/watermint/toolbox/legacy/cmd"
-	cmd_auth2 "github.com/watermint/toolbox/legacy/cmd/cmd_auth"
 	cmd_dev2 "github.com/watermint/toolbox/legacy/cmd/cmd_dev"
 	cmd_file2 "github.com/watermint/toolbox/legacy/cmd/cmd_file"
 	cmd_group2 "github.com/watermint/toolbox/legacy/cmd/cmd_group"
@@ -34,7 +33,6 @@ func NewCommands() Commands {
 				cmd_sharedlink2.NewCmdSharedLink(),
 				cmd_teamfolder2.NewCmdTeamFolder(),
 				cmd_dev2.NewCmdDev(),
-				cmd_auth2.NewCmdAuth(),
 				&cmd_license2.CmdLicense{
 					SimpleCommandlet: &cmd2.SimpleCommandlet{},
 				},

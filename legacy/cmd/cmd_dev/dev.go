@@ -3,7 +3,6 @@ package cmd_dev
 import (
 	cmd2 "github.com/watermint/toolbox/legacy/cmd"
 	cmd_dev_auth2 "github.com/watermint/toolbox/legacy/cmd/cmd_dev/cmd_dev_auth"
-	cmd_dev_log2 "github.com/watermint/toolbox/legacy/cmd/cmd_dev/cmd_dev_log"
 	cmd_dev_testsuite2 "github.com/watermint/toolbox/legacy/cmd/cmd_dev/cmd_dev_testsuite"
 )
 
@@ -18,7 +17,6 @@ func NewCmdDev() cmd2.Commandlet {
 			},
 			cmd_dev_testsuite2.NewCmdDevTestSuite(),
 			cmd_dev_auth2.NewCmdDevAuth(),
-			cmd_dev_log2.NewCmdDevLog(),
 		},
 	}
 }
