@@ -44,7 +44,9 @@ func (z *Detach) Console() {
 }
 
 func (z *Detach) Requirement() app_vo.ValueObject {
-	return &DetachVO{}
+	return &DetachVO{
+		RetainTeamShares: true,
+	}
 }
 
 func (*Detach) Exec(k app_kitchen.Kitchen) error {
