@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run: mkdir -p $HOME/.toolbox/secrets
       - run: echo "$TOOLBOX_APPKEYS" > resources/toolbox.appkeys
-      - run: echo "$TOOLBOX_ENDTOEND" > $HOME/.toolbox/secrets/6600b0a53d04619d6b05ff732d085379de327fc52ba2283ae91d0fd9.tokens
+      - run: echo "$TOOLBOX_ENDTOEND" > $HOME/.toolbox/secrets/end_to_end_test.tokens
       - run: go get github.com/Masterminds/glide
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice

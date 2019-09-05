@@ -59,17 +59,21 @@ func (z *CcCachedAuth) init() {
 	}
 }
 
-func (z *CcCachedAuth) cacheFile(kind string) string {
-	px := sha256.Sum224([]byte(z.peerName))
-	pn := fmt.Sprintf("%x.%s", px, kind)
-	return filepath.Join(z.control.Workspace().Secrets(), pn)
+func (z *CcCachedAuth) cacheFile(kind string, compatible bool) string {
+	if compatible {
+		return filepath.Join(z.control.Workspace().Secrets(), z.peerName+"."+kind)
+	} else {
+		px := sha256.Sum224([]byte(z.peerName + app.BuilderKey + app.Name))
+		pn := fmt.Sprintf("%x.%s", px, kind)
+		return filepath.Join(z.control.Workspace().Secrets(), pn)
+	}
 }
 
 func (z *CcCachedAuth) compatibleCachedFile() string {
-	return z.cacheFile("tokens")
+	return z.cacheFile("tokens", true)
 }
 func (z *CcCachedAuth) secureCachedFile() string {
-	return z.cacheFile("t")
+	return z.cacheFile("t", false)
 }
 func (z *CcCachedAuth) loadBytes(tb []byte) error {
 	err := json.Unmarshal(tb, &z.tokens)
