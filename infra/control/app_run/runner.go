@@ -49,12 +49,12 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 
 	switch {
 	case err != nil:
-		if grp != nil {
-			grp.PrintUsage(ui)
-		} else {
-			cat.PrintUsage(ui)
-		}
-		os.Exit(app_control.FailureInvalidCommand)
+		//if grp != nil {
+		//	grp.PrintUsage(ui)
+		//} else {
+		//	cat.PrintUsage(ui)
+		//}
+		//os.Exit(app_control.FailureInvalidCommand)
 		return false
 
 	case rcp == nil:

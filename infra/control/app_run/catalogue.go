@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/recipe/sharedlink"
 	"github.com/watermint/toolbox/recipe/team"
 	teamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
+	teamsharedlinkcap "github.com/watermint/toolbox/recipe/team/sharedlink/cap"
 	"github.com/watermint/toolbox/recipe/teamfolder"
 )
 
@@ -30,6 +31,7 @@ func Recipes() []app_recipe.Recipe {
 		&team.Info{},
 		&team.Feature{},
 		&teamsharedlink.List{},
+		&teamsharedlinkcap.Expiry{},
 		&teamfolder.List{},
 		&sharedlink.List{},
 		&sharedfolder.List{},
