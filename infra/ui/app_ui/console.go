@@ -115,8 +115,9 @@ func (z *console) InfoTable(name string) Table {
 	tw := new(tabwriter.Writer)
 	tw.Init(z.out, 0, 2, 2, ' ', 0)
 	return &consoleTable{
-		Container: z.mc,
-		Tab:       tw,
+		mc:  z.mc,
+		tab: tw,
+		qm:  z.qm,
 	}
 }
 
@@ -231,8 +232,9 @@ func (z *console) AskSecure(key string, p ...app_msg.Param) (text string, cancel
 }
 
 type consoleTable struct {
-	Container app_msg_container.Container
-	Tab       *tabwriter.Writer
+	mc  app_msg_container.Container
+	tab *tabwriter.Writer
+	qm  qt_control.Message
 }
 
 func (z *consoleTable) HeaderRaw(h ...string) {
@@ -242,29 +244,36 @@ func (z *consoleTable) HeaderRaw(h ...string) {
 	//	p = "\x1b[1m"
 	//	q = "\x1b[0m"
 	//}
-	fmt.Fprintln(z.Tab, p+strings.Join(h, "\t")+q)
+	fmt.Fprintln(z.tab, p+strings.Join(h, "\t")+q)
 }
 
 func (z *consoleTable) RowRaw(m ...string) {
-	fmt.Fprintln(z.Tab, strings.Join(m, "\t"))
+	fmt.Fprintln(z.tab, strings.Join(m, "\t"))
 }
 
 func (z *consoleTable) Header(h ...app_msg.Message) {
 	headers := make([]string, 0)
 	for _, hdr := range h {
-		headers = append(headers, z.Container.Compile(hdr))
+		headers = append(headers, z.mc.Compile(hdr))
 	}
 	z.HeaderRaw(headers...)
+}
+
+func (z *consoleTable) validateMessage(m app_msg.Message) {
+	if !z.mc.Exists(m.Key()) {
+		z.qm.NotFound(m.Key())
+	}
 }
 
 func (z *consoleTable) Row(m ...app_msg.Message) {
 	msgs := make([]string, 0)
 	for _, msg := range m {
-		msgs = append(msgs, z.Container.Compile(msg))
+		z.validateMessage(msg)
+		msgs = append(msgs, z.mc.Compile(msg))
 	}
 	z.RowRaw(msgs...)
 }
 
 func (z *consoleTable) Flush() {
-	z.Tab.Flush()
+	z.tab.Flush()
 }

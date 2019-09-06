@@ -23,12 +23,12 @@ func AppHeader(ui app_ui.UI) {
 	ui.Break()
 }
 
-func RecipeInfo(basePkg string, r app_recipe.Recipe) (cmdPath []string, cmdName string) {
+func RecipeInfo(r app_recipe.Recipe) (cmdPath []string, cmdName string) {
 	cmdPath = make([]string, 0)
 
 	rt := reflect.ValueOf(r).Elem().Type()
 	pkg := rt.PkgPath()
-	pkg = strings.ReplaceAll(pkg, basePkg, "")
+	pkg = strings.ReplaceAll(pkg, RecipeBasePackage, "")
 	if strings.HasPrefix(pkg, "/") {
 		pkg = pkg[1:]
 	}
@@ -51,7 +51,6 @@ type Group struct {
 func NewGroup(path []string, name string) *Group {
 	return &Group{
 		Name:      name,
-		BasePkg:   RecipeBasePackage,
 		Path:      path,
 		Recipes:   make(map[string]app_recipe.Recipe),
 		SubGroups: make(map[string]*Group),
@@ -73,7 +72,7 @@ func (z *Group) addToPath(fullPath []string, relPath []string, name string, r ap
 }
 
 func (z *Group) Add(r app_recipe.Recipe) {
-	path, name := RecipeInfo(z.BasePkg, r)
+	path, name := RecipeInfo(r)
 
 	z.addToPath(path, path, name, r)
 }

@@ -1,23 +1,20 @@
 package app_run
 
 import (
+	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
+	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"testing"
 )
 
 func TestCatalogue(t *testing.T) {
-	//c := Catalogue()
+	_, _, _, ui := app_test.TestResources(t)
+	testGroup(Catalogue(), ui)
+}
 
-	//args := []string{"member", "l"}
-	//g, _, _, err := c.Select(args)
-	//switch {
-	//case err != nil:
-	//	if g != nil {
-	//		g.PrintUsage()
-	//	} else {
-	//		c.PrintUsage()
-	//	}
-	//
-	//case g != nil:
-	//	g.PrintUsage()
-	//}
+func testGroup(g *app_recipe_group.Group, ui app_ui.UI) {
+	g.PrintUsage(ui)
+	for _, sg := range g.SubGroups {
+		testGroup(sg, ui)
+	}
 }

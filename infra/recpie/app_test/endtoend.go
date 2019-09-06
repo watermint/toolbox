@@ -14,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"io"
@@ -82,12 +83,17 @@ func ApplyTestPeers(ctl app_control.Control, vo app_vo.ValueObject) bool {
 	return true
 }
 
-func TestRecipe(t *testing.T, re app_recipe.Recipe) {
-	bx := rice.MustFindBox("../../../resources")
-	web := rice.MustFindBox("../../../web")
+func TestResources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {
+	bx = rice.MustFindBox("../../../resources")
+	web = rice.MustFindBox("../../../web")
 
-	mc := app_run_impl.NewContainer(bx)
-	ui := app_ui.NewConsole(mc, qt_control_impl.NewMessageTest(t), true)
+	mc = app_run_impl.NewContainer(bx)
+	ui = app_ui.NewConsole(mc, qt_control_impl.NewMessageTest(t), true)
+	return
+}
+
+func TestRecipe(t *testing.T, re app_recipe.Recipe) {
+	bx, web, mc, ui := TestResources(t)
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, make([]app_recipe.Recipe, 0))
 	err := ctl.Up(app_control.Test())
