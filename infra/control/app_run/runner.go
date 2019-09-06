@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_run_impl"
 	"github.com/watermint/toolbox/infra/network/app_diag"
 	"github.com/watermint/toolbox/infra/network/app_network"
+	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
@@ -41,7 +42,7 @@ func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
 func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Initialize resources
 	mc := app_run_impl.NewContainer(bx)
-	ui := app_ui.NewConsole(mc, false)
+	ui := app_ui.NewConsole(mc, qt_control_impl.NewMessageMock(), false)
 	cat := Catalogue()
 
 	// Select recipe or group

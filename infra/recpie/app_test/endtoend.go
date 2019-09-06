@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_run_impl"
+	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
@@ -86,7 +87,7 @@ func TestRecipe(t *testing.T, re app_recipe.Recipe) {
 	web := rice.MustFindBox("../../../web")
 
 	mc := app_run_impl.NewContainer(bx)
-	ui := app_ui.NewConsole(mc, true)
+	ui := app_ui.NewConsole(mc, qt_control_impl.NewMessageTest(t), true)
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, make([]app_recipe.Recipe, 0))
 	err := ctl.Up(app_control.Test())

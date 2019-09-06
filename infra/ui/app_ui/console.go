@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/skratchdot/open-golang/open"
 	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/quality/qt_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"go.uber.org/zap"
@@ -35,12 +36,13 @@ const (
 	ColorBrightWhite
 )
 
-func NewConsole(mc app_msg_container.Container, testMode bool) UI {
+func NewConsole(mc app_msg_container.Container, qm qt_control.Message, testMode bool) UI {
 	return &console{
 		mc:       mc,
 		out:      os.Stdout,
 		in:       os.Stdin,
 		testMode: testMode,
+		qm:       qm,
 	}
 }
 
@@ -49,6 +51,7 @@ type console struct {
 	out      io.Writer
 	in       io.Reader
 	testMode bool
+	qm       qt_control.Message
 }
 
 func (z *console) IsConsole() bool {
@@ -71,7 +74,14 @@ func (z *console) OpenArtifact(path string) {
 	}
 }
 
+func (z *console) verifyKey(key string) {
+	if !z.mc.Exists(key) {
+		z.qm.NotFound(key)
+	}
+}
+
 func (z *console) Text(key string, p ...app_msg.Param) string {
+	z.verifyKey(key)
 	return z.mc.Compile(app_msg.M(key, p...))
 }
 
@@ -96,6 +106,7 @@ func (z *console) boldPrint(t string) {
 }
 
 func (z *console) Header(key string, p ...app_msg.Param) {
+	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.boldPrint(m)
 }
@@ -110,30 +121,35 @@ func (z *console) InfoTable(name string) Table {
 }
 
 func (z *console) Info(key string, p ...app_msg.Param) {
+	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorWhite)
 	app_root.Log().Debug(m)
 }
 
 func (z *console) Error(key string, p ...app_msg.Param) {
+	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorRed)
 	app_root.Log().Debug(m)
 }
 
 func (z *console) Success(key string, p ...app_msg.Param) {
+	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorGreen)
 	app_root.Log().Debug(m)
 }
 
 func (z *console) Failure(key string, p ...app_msg.Param) {
+	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorRed)
 	app_root.Log().Debug(m)
 }
 
 func (z *console) AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool) {
+	z.verifyKey(key)
 	msg := z.mc.Compile(app_msg.M(key, p...))
 	app_root.Log().Debug(msg)
 
@@ -167,6 +183,7 @@ func (z *console) AskCont(key string, p ...app_msg.Param) (cont bool, cancel boo
 }
 
 func (z *console) AskText(key string, p ...app_msg.Param) (text string, cancel bool) {
+	z.verifyKey(key)
 	msg := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(msg, ColorCyan)
 	app_root.Log().Debug(msg)
@@ -190,6 +207,7 @@ func (z *console) AskText(key string, p ...app_msg.Param) (text string, cancel b
 }
 
 func (z *console) AskSecure(key string, p ...app_msg.Param) (text string, cancel bool) {
+	z.verifyKey(key)
 	msg := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(msg, ColorCyan)
 	app_root.Log().Debug(msg)

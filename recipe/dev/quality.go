@@ -2,7 +2,7 @@ package dev
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality"
+	"github.com/watermint/toolbox/infra/quality/qt_runtime"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 )
@@ -22,6 +22,6 @@ func (z *Quality) Requirement() app_vo.ValueObject {
 }
 
 func (z *Quality) Exec(k app_kitchen.Kitchen) error {
-	quality.Suite(k.Control())
+	qt_runtime.Suite(k.Control())
 	return nil
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
+	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -16,7 +17,7 @@ func NewMock() app_control.Control {
 	mc := &app_msg_container_impl.Alt{}
 	return &mockControl{
 		logger: app_log.NewConsoleLogger(false),
-		ui:     app_ui.NewConsole(mc, false),
+		ui:     app_ui.NewConsole(mc, qt_control_impl.NewMessageMock(), false),
 		ws:     app_workspace.NewTempAppWorkspace(),
 	}
 }

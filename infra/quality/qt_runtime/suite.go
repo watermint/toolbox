@@ -1,4 +1,4 @@
-package quality
+package qt_runtime
 
 import (
 	"encoding/json"

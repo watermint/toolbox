@@ -98,6 +98,8 @@ func (z *DevFileSystem) Render(name string, d ...app_template.D) string {
 		l.Error("Unable to execute template", zap.Error(err))
 		return ""
 	}
+
+	// Unable to solve dependencies..
 	//m := minify.New()
 	//m.AddFunc("text/html", html.Minify)
 	//h, err := m.String("text/html", doc.String())
@@ -105,5 +107,6 @@ func (z *DevFileSystem) Render(name string, d ...app_template.D) string {
 	//	l.Warn("Unable to minify result", zap.Error(err))
 	//	return doc.String()
 	//}
+	//return h
 	return doc.String()
 }
