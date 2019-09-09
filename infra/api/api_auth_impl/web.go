@@ -8,6 +8,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_context_impl"
@@ -206,7 +207,10 @@ func (z *Web) databaseKey() []byte {
 
 func (z *Web) databaseFile(tokenType string) string {
 	p := z.control.Workspace().Secrets()
-	return filepath.Join(p, tokenType+".t")
+	px := sha256.Sum224([]byte(tokenType + app.BuilderKey + app.Name))
+	pn := fmt.Sprintf("%x.t", px)
+
+	return filepath.Join(p, pn)
 }
 
 func (z *Web) updateDatabase(tc api_auth.TokenContainer) {
