@@ -10,7 +10,7 @@ Tools for Dropbox and Dropbox Business
 
 `tbx` have various features. Run without an option for a list of supported commands and options.
 Released package contains binaries for each operating system.
- ach binary are named like `tbx-[version]-[os]`. e.g. if the binary is for Windows, then the name is like `tbx-41.2.0.0-win.exe`.
+ ach binary are named like `tbx-[version]-[os]`. e.g. if the binary is for Windows, then the name is like `tbx-51.2.35-win.exe`.
 
 You can see available commands and options by running executable without arguments like below.
 

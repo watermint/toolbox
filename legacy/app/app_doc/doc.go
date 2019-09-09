@@ -17,11 +17,11 @@ func (z *CmdDoc) Init() {
 	z.docs = make(map[string]string)
 }
 
-func (z *CmdDoc) Parse(c cmd.Commandlet) {
-	z.parse(c, []string{})
+func (z *CmdDoc) ParseLegacy(c cmd.Commandlet) {
+	z.parseLegacyCmd(c, []string{})
 }
 
-func (z *CmdDoc) parse(c cmd.Commandlet, line []string) {
+func (z *CmdDoc) parseLegacyCmd(c cmd.Commandlet, line []string) {
 	if c.IsHidden() {
 		return
 	}
@@ -33,7 +33,7 @@ func (z *CmdDoc) parse(c cmd.Commandlet, line []string) {
 		copy(sl, line)
 		for _, y := range x.SubCommands {
 			sl[q] = y.Name()
-			z.parse(y, sl)
+			z.parseLegacyCmd(y, sl)
 		}
 
 	default:

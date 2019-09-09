@@ -56,7 +56,7 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 		fmt.Fprintln(tw, "|"+strings.Join(cols, "\t"))
 	}
 
-	row("Recipe", "Description")
+	row("commands", "description")
 	for _, name := range names {
 		row("`"+name+"`", book[name])
 	}

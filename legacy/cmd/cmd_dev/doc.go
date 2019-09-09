@@ -38,6 +38,6 @@ func (z *CmdDevDoc) Exec(args []string) {
 
 	d := app_doc.CmdDoc{ExecContext: z.ExecContext}
 	d.Init()
-	d.Parse(root)
+	d.ParseLegacy(root)
 	d.Markdown()
 }
