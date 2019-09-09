@@ -3,10 +3,10 @@ package sv_member
 import (
 	"encoding/json"
 	"errors"
-	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_list"
-	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"github.com/watermint/toolbox/domain/model/mo_member"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/infra/api/api_rpc"
 	"go.uber.org/zap"
 	"strings"
 )

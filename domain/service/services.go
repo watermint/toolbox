@@ -2,7 +2,6 @@ package service
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_profile"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/domain/service/sv_file_relocation"
@@ -13,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_mount"
+	"github.com/watermint/toolbox/infra/api/api_context"
 	"go.uber.org/zap"
 )
 

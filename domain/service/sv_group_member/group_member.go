@@ -1,10 +1,10 @@
 package sv_group_member
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_list"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_list"
 )
 
 type GroupMember interface {

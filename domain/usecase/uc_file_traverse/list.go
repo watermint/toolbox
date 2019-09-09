@@ -1,10 +1,10 @@
 package uc_file_traverse
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_context"
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
+	"github.com/watermint/toolbox/infra/api/api_context"
 )
 
 // Recursive file list

@@ -2,14 +2,14 @@ package sv_sharedfolder_member
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_parser"
-	"github.com/watermint/toolbox/domain/infra/api_rpc"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_profile"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/infra/api/api_rpc"
 )
 
 const (

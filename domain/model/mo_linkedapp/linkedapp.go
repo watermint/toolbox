@@ -3,9 +3,9 @@ package mo_linkedapp
 import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_member"
-	"github.com/watermint/toolbox/experimental/app_root"
+	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
 )
 

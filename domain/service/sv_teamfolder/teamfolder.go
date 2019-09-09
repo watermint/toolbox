@@ -1,9 +1,9 @@
 package sv_teamfolder
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_list"
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_list"
 )
 
 type TeamFolder interface {

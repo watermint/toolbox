@@ -1,9 +1,9 @@
 package sv_sharedfolder_mount
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_list"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_list"
 )
 
 type Mount interface {

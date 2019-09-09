@@ -1,0 +1,57 @@
+{{range $log := .Logs }}
+    {{with (eq $log.Tag "header")}}
+        <h2>{{$log.Message}}</h2>
+    {{end}}
+    {{with (eq $log.Tag "info")}}
+        <div>{{$log.Message}}</div>
+    {{end}}
+    {{with (eq $log.Tag "table_start")}}
+        <h2>{{$log.TableId}}</h2>
+        <div class="overflow-auto mb-4 mt-4">
+            <table class="table" id="{{$log.TableId}}">
+                <thead id="{{$log.TableId}}_head"></thead>
+                <tbody id="{{$log.TableId}}_body"></tbody>
+            </table>
+        </div>
+    {{end}}
+    {{with (eq $log.Tag "table_header")}}
+        <script type="application/javascript">
+            $("#{{$log.TableId}}_head").append("<tr>{{range $c := $log.TableCols}} <th>{{$c}}</th>{{end}}</tr>")
+        </script>
+    {{end}}
+    {{with (eq $log.Tag "table_row")}}
+        <script type="application/javascript">
+            $("#{{$log.TableId}}_head").append("<tr>{{range $c := $log.TableCols}} <td>{{$c}}</td>{{end}}</tr>")
+        </script>
+    {{end}}
+    {{with (eq $log.Tag "artifact_header")}}
+        <h2>Result:</h2>
+    {{end}}
+    {{with (eq $log.Tag "artifact_xlsx")}}
+        <div><i class="fas fa-file-excel"></i> <a href="{{$log.Link}}">{{$log.LinkLabel}}</a></div>
+    {{end}}
+    {{with (eq $log.Tag "artifact_csv")}}
+        <div><i class="fas fa-file-csv"></i> <a href="{{$log.Link}}">{{$log.LinkLabel}}</a></div>
+    {{end}}
+    {{with (eq $log.Tag "artifact_json")}}
+        <div><i class="fas fa-file-code"></i> <a href="{{$log.Link}}">{{$log.LinkLabel}}</a></div>
+    {{end}}
+    {{with (eq $log.Tag "result_success")}}
+        <div class="alert alert-success mt-5" role="alert">{{$log.Message}}</div>
+    {{end}}
+    {{with (eq $log.Tag "result_failure")}}
+        <div class="alert alert-danger mt-5" role="alert">{{$log.Message}}</div>
+    {{end}}
+    {{with (eq $log.Tag "refresh")}}
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
+                 aria-valuemin="0" aria-valuemax="100" style="width: 100%">Processing...
+            </div>
+        </div>
+        <script type="application/javascript">
+            $(function () {
+                setTimeout(refresh, 1000);
+            })
+        </script>
+    {{end}}
+{{end}}

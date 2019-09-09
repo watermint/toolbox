@@ -2,12 +2,12 @@ package sq_sharedfolder
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/domain/infra/api_test"
-	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/sequence/sq_test"
 	"github.com/watermint/toolbox/domain/service"
+	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/infra/api/api_util"
 	"go.uber.org/zap"
 	"strings"
 	"testing"

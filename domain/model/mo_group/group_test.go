@@ -1,7 +1,7 @@
 package mo_group
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_parser"
+	"github.com/watermint/toolbox/infra/api/api_parser"
 	"testing"
 )
 

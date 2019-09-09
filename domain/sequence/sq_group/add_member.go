@@ -1,9 +1,9 @@
 package sq_group
 
 import (
-	"github.com/watermint/toolbox/domain/infra/api_util"
 	"github.com/watermint/toolbox/domain/service"
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
+	"github.com/watermint/toolbox/infra/api/api_util"
 	"go.uber.org/zap"
 	"strings"
 )

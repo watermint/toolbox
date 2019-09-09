@@ -2,10 +2,10 @@ package sv_device
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/infra/api_context"
-	"github.com/watermint/toolbox/domain/infra/api_list"
-	"github.com/watermint/toolbox/domain/infra/api_parser"
 	"github.com/watermint/toolbox/domain/model/mo_device"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/infra/api/api_parser"
 	"go.uber.org/zap"
 )
 

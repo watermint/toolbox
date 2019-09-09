@@ -1,15 +1,15 @@
 package sq_test
 
 import (
-	"github.com/watermint/toolbox/app"
-	"github.com/watermint/toolbox/domain/infra/api_auth_impl"
-	"github.com/watermint/toolbox/domain/infra/api_test"
 	"github.com/watermint/toolbox/domain/service"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/api/api_test"
+	app2 "github.com/watermint/toolbox/legacy/app"
 )
 
 func DoTestTeamTask(test func(biz service.Business)) {
 	peerName := api_test.TestPeerName
-	ec := app.NewExecContextForTest()
+	ec := app2.NewExecContextForTest()
 	defer ec.Shutdown()
 	if !api_auth_impl.IsCacheAvailable(ec, peerName) {
 		return
