@@ -8,25 +8,25 @@ Tools for Dropbox and Dropbox Business
 
 # Usage
 
-`tbx` have various features. Run without an option for a list of supported recipe and options.
+`tbx` have various features. Run without an option for a list of supported commands and options.
 Released package contains binaries for each operating system.
  ach binary are named like `tbx-[version]-[os]`. e.g. if the binary is for Windows, then the name is like `tbx-41.2.0.0-win.exe`.
 
-You can see available recipes and options by running executable without arguments like below.
+You can see available commands and options by running executable without arguments like below.
 
 ```bash
 % ./tbx-51.2.35-macos
 toolbox 51.2.35
 © 2016-2019 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` recipe for more detail.
+Licensed under open source licenses. Use the `license` command for more detail.
 
 
 Tools for Dropbox and Dropbox Business
 
 Usage:
-./tbx-51.2.35-macos  [recipe]
+./tbx-51.2.35-macos  [command]
 
-Available recipes:
+Available commands:
    group         Group management (Dropbox Business)
    license       Show license information
    member        Team member management (Dropbox Business)
@@ -37,9 +37,9 @@ Available recipes:
    web           Launch web console
 ```
 
-## Recipes
+## Commands
 
-|recipe                       |description                                                  | 
+|command                      |description                                                  | 
 |-----------------------------|-------------------------------------------------------------|
 |`group list`                 |List group(s)                                                | 
 |`group member list`          |List members of groups                                       | 
@@ -58,11 +58,11 @@ Available recipes:
 |`teamfolder list`            |List team folder(s)                                          | 
 |`web`                        |Launch web console (experimental)                            | 
 
-## Legacy recipes
+## Legacy commands
 
-Below recipes are still available but no longer maintained.
+Below commands are still available but no longer maintained.
 
-| recipe                       | description                                        |
+| command                      | description                                        |
 |------------------------------|----------------------------------------------------|
 | `file compare`               | Compare files between two accounts                 |
 | `file copy`                  | Copy files                                         |
