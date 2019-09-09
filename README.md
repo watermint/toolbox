@@ -9,81 +9,90 @@ Tools for Dropbox and Dropbox Business
 # Usage
 
 `tbx` have various features. Run without an option for a list of supported commands and options.
-Released package contains binaries for each operating system. Each binary are named like `tbx-[version]-[os]`. e.g. if the binary is for Windows, then the name is like `tbx-41.2.0.0-win.exe`.
+Released package contains binaries for each operating system.
+ ach binary are named like `tbx-[version]-[os]`. e.g. if the binary is for Windows, then the name is like `tbx-41.2.0.0-win.exe`.
 
-You can see available commands and options by running executable without arguments like below.
+You can see available recipes and options by running executable without arguments like below.
 
 ```bash
-% ./tbx-41.2.0.0-mac
+% ./tbx-51.2.35-macos
+toolbox 51.2.35
+© 2016-2019 Takayuki Okazaki
+Licensed under open source licenses. Use the `license` command for more detail.
 
-Usage: 
-./tbx-41.2.0.0-mac COMMAND
 
-Available commands:
-  file         File operation
-  team         Dropbox Business Team management
-  member       Dropbox Business member management
-  group        Dropbox Business group management
-  
+Tools for Dropbox and Dropbox Business
 
-Run './tbx-41.2.0.0-mac COMMAND' for more information on a command.
+Usage:
+./tbx-51.2.35-macos  [command]
+
+Available Commands:
+   group         Group management (Dropbox Business)
+   license       Show license information
+   member        Team member management (Dropbox Business)
+   sharedfolder  Shared folder
+   sharedlink    Shared Link of Personal account
+   team          Dropbox Business Team
+   teamfolder    Team folder management (Dropbox Business)
+   web           Launch web console
 ```
 
-## Available commands
+## Recipes
 
-| command                         | description                                                   |
-|---------------------------------|---------------------------------------------------------------|
-| `auth business audit`           | Ask for authorisation with Dropbox Business audit access      |
-| `auth business file`            | Ask for authorisation with Dropbox Business file access       |
-| `auth business info`            | Ask for authorisation with Dropbox Business info access       |
-| `auth business management`      | Ask for authorisation with Dropbox Business management access |
-| `auth user`                     | Ask for authorisation with Dropbox User Full access           |
-| `file compare`                  | Compare files between two accounts                            |
-| `file copy`                     | Copy files                                                    |
-| `file list`                     | List files/folders                                            |
-| `file metadata`                 | Report metadata for a file or folder                          |
-| `file mirror`                   | Mirror files/folders into another account                     |
-| `file move`                     | Copy files                                                    |
-| `file save`                     | Save the data from a specified URL into a file                |
-| `group list`                    | List groups                                                   |
-| `group member add`              | Add members into existing groups                              |
-| `group member list`             | List group members                                            |
-| `group remove`                  | Remove group                                                  |
-| `license`                       | Show license information                                      |
-| `member detach`                 | Convert account into Dropbox Basic                            |
-| `member invite`                 | Invite members                                                |
-| `member list`                   | List members                                                  |
-| `member quota update`           | Update member storage quota                                   |
-| `member remove`                 | Remove the member from the team                               |
-| `member sync`                   | Sync member information with provided csv                     |
-| `member update email`           | Update member email address                                   |
-| `sharedfolder list`             | List shared folders                                           |
-| `sharedfolder member list`      | List shared folder member(s)                                  |
-| `sharedlink create`             | Create shared link                                            |
-| `sharedlink list`               | List shared links                                             |
-| `sharedlink remove`             | Remove shared link                                            |
-| `team app list`                 | List all applications linked to the team members' accounts    |
-| `team audit events`             | Export activity logs                                          |
-| `team audit sharing`            | Export all sharing information across team                    |
-| `team device list`              | List devices or web sessions of the team                      |
-| `team device unlink`            | Unlink device                                                 |
-| `team feature`                  | List team feature values                                      |
-| `team info`                     | Team info                                                     |
-| `team migrate check`            | Migration step 1 : Preflight check                            |
-| `team migrate content`          | Migration step 2 : Mirror contents                            |
-| `team migrate transfer`         | Migration step 3 : Transfer accounts & permissions            |
-| `team namespace file list`      | List files/folders in all namespaces of the team              |
-| `team namespace file size`      | Calculate size of namespaces                                  |
-| `team namespace list`           | List all namespaces of the team                               |
-| `team namespace member list`    | List all namespace members of the team                        |
-| `team sharedlink list`          | List all shared links of the team members' accounts           |
-| `team sharedlink update expire` | Update all shared link expire date of team members' accounts  |
-| `teamfolder archive`            | Archive team folder(s)                                        |
-| `teamfolder file list`          | List files/folders in all team folders of the team            |
-| `teamfolder list`               | List all team folder of the team                              |
-| `teamfolder mirror`             | Mirror team folders into another team                         |
-| `teamfolder permdelete`         | Permanently delete team folder(s)                             |
-| `teamfolder size`               | Calculate size of team folder                                 |
+|recipe                       |description                                                  | 
+|-----------------------------|-------------------------------------------------------------|
+|`group list`                 |List group(s)                                                | 
+|`group member list`          |List members of groups                                       | 
+|`license`                    |Show license information                                     | 
+|`member detach`              |Convert Dropbox Business accounts to Basic account           | 
+|`member invite`              |Invite member(s)                                             | 
+|`member list`                |List team member(s)                                          | 
+|`sharedfolder list`          |List shared folder(s)                                        | 
+|`sharedfolder member list`   |List shared folder member(s)                                 | 
+|`sharedlink list`            |List of shared link(s)                                       | 
+|`team feature`               |Team feature                                                 | 
+|`team info`                  |Team information                                             | 
+|`team linkedapp list`        |List linked applications                                     | 
+|`team sharedlink cap expiry` |Force expiration date of public shared links within the team | 
+|`team sharedlink list`       |List of shared link(s)                                       | 
+|`teamfolder list`            |List team folder(s)                                          | 
+|`web`                        |Launch web console (experimental)                            | 
+
+## Legacy recipes
+
+Below recipes are still available but no longer maintained.
+
+| recipe                       | description                                        |
+|------------------------------|----------------------------------------------------|
+| `file compare`               | Compare files between two accounts                 |
+| `file copy`                  | Copy files                                         |
+| `file list`                  | List files/folders                                 |
+| `file metadata`              | Report metadata for a file or folder               |
+| `file mirror`                | Mirror files/folders into another account          |
+| `file move`                  | Copy files                                         |
+| `file save`                  | Save the data from a specified URL into a file     |
+| `group member add`           | Add members into existing groups                   |
+| `group remove`               | Remove group                                       |
+| `member mirror files`        | Mirror member files                                |
+| `member quota update`        | Update member storage quota                        |
+| `member remove`              | Remove the member from the team                    |
+| `member sync`                | Sync member information with provided csv          |
+| `member update email`        | Update member email address                        |
+| `sharedlink create`          | Create shared link                                 |
+| `sharedlink remove`          | Remove shared link                                 |
+| `team audit events`          | Export activity logs                               |
+| `team audit sharing`         | Export all sharing information across team         |
+| `team device list`           | List devices or web sessions of the team           |
+| `team device unlink`         | Unlink device                                      |
+| `team namespace file list`   | List files/folders in all namespaces of the team   |
+| `team namespace file size`   | Calculate size of namespaces                       |
+| `team namespace list`        | List all namespaces of the team                    |
+| `team namespace member list` | List all namespace members of the team             |
+| `teamfolder archive`         | Archive team folder(s)                             |
+| `teamfolder file list`       | List files/folders in all team folders of the team |
+| `teamfolder mirror`          | Mirror team folders into another team              |
+| `teamfolder permdelete`      | Permanently delete team folder(s)                  |
+| `teamfolder size`            | Calculate size of team folder                      |
 
 ## Authentication
 
@@ -91,8 +100,13 @@ If an executable contains registered application keys, then the executable will 
 Please open the provided URL, then paste authorisation code.
 
 ```
-toolbox (version `dev`)
-Licensed under MIT License. See https://github.com/watermint/toolbox for more detail
+toolbox 51.2.35
+© 2016-2019 Takayuki Okazaki
+Licensed under open source licenses. Use the `license` command for more detail.
+
+Testing network connection...
+Done
+
 1. Visit the URL for the auth dialog:
 
 https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx

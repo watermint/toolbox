@@ -46,7 +46,7 @@
   "recipe.team.sharedlink.list.desc": "List of shared link(s)",
   "recipe.teamfolder.desc": "Team folder management (Dropbox Business)",
   "recipe.teamfolder.list.desc": "List team folder(s)",
-  "recipe.web.desc": "Launch web console",
+  "recipe.web.desc": "Launch web console (experimental)",
   "report.transaction.failure": "Failure",
   "report.transaction.failure.invalid_data": "Invalid data",
   "report.transaction.skip": "Skip",

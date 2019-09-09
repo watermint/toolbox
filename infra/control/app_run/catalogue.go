@@ -24,6 +24,7 @@ func Recipes() []app_recipe.Recipe {
 		&dev.Quality{},
 		&dev.Dummy{},
 		&dev.EndToEnd{},
+		&dev.Doc{},
 		&group.List{},
 		&groupmember.List{},
 		&member.Invite{},

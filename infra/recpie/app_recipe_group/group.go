@@ -7,13 +7,8 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"os"
-	"reflect"
 	"sort"
 	"strings"
-)
-
-const (
-	RecipeBasePackage = "github.com/watermint/toolbox/recipe"
 )
 
 func AppHeader(ui app_ui.UI) {
@@ -21,23 +16,6 @@ func AppHeader(ui app_ui.UI) {
 	ui.Info("run.app.copyright")
 	ui.Info("run.app.license")
 	ui.Break()
-}
-
-func RecipeInfo(r app_recipe.Recipe) (cmdPath []string, cmdName string) {
-	cmdPath = make([]string, 0)
-
-	rt := reflect.ValueOf(r).Elem().Type()
-	pkg := rt.PkgPath()
-	pkg = strings.ReplaceAll(pkg, RecipeBasePackage, "")
-	if strings.HasPrefix(pkg, "/") {
-		pkg = pkg[1:]
-	}
-	if pkg != "" {
-		cmdPath = append(cmdPath, strings.Split(pkg, "/")...)
-	}
-	name := rt.Name()
-
-	return cmdPath, strings.ToLower(name)
 }
 
 type Group struct {
@@ -72,7 +50,7 @@ func (z *Group) addToPath(fullPath []string, relPath []string, name string, r ap
 }
 
 func (z *Group) Add(r app_recipe.Recipe) {
-	path, name := RecipeInfo(r)
+	path, name := app_recipe.Path(r)
 
 	z.addToPath(path, path, name, r)
 }

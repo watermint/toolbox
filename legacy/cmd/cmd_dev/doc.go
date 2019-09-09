@@ -11,7 +11,7 @@ type CmdDevDoc struct {
 }
 
 func (z *CmdDevDoc) Name() string {
-	return "doc"
+	return "legacydoc"
 }
 
 func (z *CmdDevDoc) Desc() string {
