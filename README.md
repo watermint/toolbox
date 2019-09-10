@@ -9,14 +9,11 @@ Tools for Dropbox and Dropbox Business
 # Usage
 
 `tbx` have various features. Run without an option for a list of supported commands and options.
-Released package contains binaries for each operating system.
- ach binary are named like `tbx-[version]-[os]`. e.g. if the binary is for Windows, then the name is like `tbx-51.2.35-win.exe`.
-
 You can see available commands and options by running executable without arguments like below.
 
 ```bash
-% ./tbx-51.2.35-macos
-toolbox 51.2.35
+% ./tbx
+toolbox 52.2.43
 © 2016-2019 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
@@ -24,7 +21,7 @@ Licensed under open source licenses. Use the `license` command for more detail.
 Tools for Dropbox and Dropbox Business
 
 Usage:
-./tbx-51.2.35-macos  [command]
+./tbx  [command]
 
 Available commands:
    group         Group management (Dropbox Business)
@@ -100,7 +97,7 @@ If an executable contains registered application keys, then the executable will 
 Please open the provided URL, then paste authorisation code.
 
 ```
-toolbox 51.2.35
+toolbox 52.2.43
 © 2016-2019 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 

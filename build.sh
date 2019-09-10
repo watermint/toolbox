@@ -11,13 +11,12 @@ else
   DIST_PATH=/dist
 fi
 
-PLATFORMS=(win mac linux)
 BUILD_MAJOR_VERSION=$(cat $PROJECT_ROOT/version)
 BUILD_HASH=$(cd $PROJECT_ROOT && git rev-parse HEAD)
 
 if [ ! -d $BUILD_PATH ]; then
   mkdir -p $BUILD_PATH
-  for p in $PLATFORMS; do
+  for p in win mac linux; do
     mkdir -p $BUILD_PATH/$p
   done
 fi
@@ -114,7 +113,8 @@ fi
 
 echo --------------------
 echo BUILD: Packaging
-for p in $PLATFORM; do
+for p in win mac linux; do
+  echo BUILD: Packaging $p
   cp LICENSE.md $BUILD_PATH/"$p"/LICENSE.txt
   cp README.md  $BUILD_PATH/"$p"/README.txt
   ( cd $BUILD_PATH/"$p" && zip -9 -r $DIST_PATH/tbx-"$BUILD_VERSION"-"$p".zip . )
