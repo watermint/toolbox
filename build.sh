@@ -117,5 +117,5 @@ echo BUILD: Packaging
 for p in $PLATFORM; do
   cp LICENSE.md $BUILD_PATH/"$p"/LICENSE.txt
   cp README.md  $BUILD_PATH/"$p"/README.txt
-  ( cd $BUILD_PATH/"$p" && zip -9 -r $DIST_PATH/tbx-"$BUILD_VERSION"-"$p".zip tbx* )
+  ( cd $BUILD_PATH/"$p" && zip -9 -r $DIST_PATH/tbx-"$BUILD_VERSION"-"$p".zip . )
 done
