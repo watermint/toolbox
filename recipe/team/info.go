@@ -23,8 +23,8 @@ func (z *Info) Test(c app_control.Control) error {
 		return err
 	}
 	return app_test.TestRows(c, "info", func(cols map[string]string) error {
-		if _, ok := cols["TeamId"]; !ok {
-			return errors.New("`TeamId` is not found")
+		if _, ok := cols["team_id"]; !ok {
+			return errors.New("`team_id` is not found")
 		}
 		return nil
 	})

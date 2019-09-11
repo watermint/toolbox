@@ -27,8 +27,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return app_test.TestRows(c, "sharedlink", func(cols map[string]string) error {
-		if _, ok := cols["Id"]; !ok {
-			return errors.New("`Id` is not found")
+		if _, ok := cols["id"]; !ok {
+			return errors.New("`id` is not found")
 		}
 		return nil
 	})

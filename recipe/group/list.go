@@ -27,7 +27,7 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return app_test.TestRows(c, "group", func(cols map[string]string) error {
-		if _, ok := cols["GroupId"]; !ok {
+		if _, ok := cols["group_id"]; !ok {
 			return errors.New("group_id is not found")
 		}
 		return nil
