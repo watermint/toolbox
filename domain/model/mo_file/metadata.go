@@ -8,10 +8,10 @@ import (
 
 type Metadata struct {
 	Raw              json.RawMessage
-	EntryTag         string `path:"\\.tag"`
-	EntryName        string `path:"name"`
-	EntryPathDisplay string `path:"path_display"`
-	EntryPathLower   string `path:"path_lower"`
+	EntryTag         string `path:"\\.tag" json:"tag"`
+	EntryName        string `path:"name" json:"name"`
+	EntryPathDisplay string `path:"path_display" json:"path_display"`
+	EntryPathLower   string `path:"path_lower" json:"path_lower"`
 }
 
 func (z *Metadata) Tag() string {

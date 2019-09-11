@@ -42,16 +42,16 @@ type Metadata struct {
 	// Pseudo field for identify type of session.
 	// This field is not appear in API definition.
 	// "web_session", "desktop_client", or "mobile_client".
-	Tag string `path:"-"`
+	Tag string `path:"-" json:"tag"`
 
 	// Pseudo field for identify member.
 	// This field should appear parent of session data.
-	TeamMemberId string `path:"-"`
-	Id           string `path:"session_id"`
-	IpAddress    string `path:"ip_address"`
-	Country      string `path:"country"`
-	Created      string `path:"created"`
-	Updated      string `path:"updated"`
+	TeamMemberId string `path:"-" json:"team_member_id"`
+	Id           string `path:"session_id" json:"id"`
+	IpAddress    string `path:"ip_address" json:"ip_address"`
+	Country      string `path:"country" json:"country"`
+	Created      string `path:"created" json:"created"`
+	Updated      string `path:"updated" json:"updated"`
 }
 
 func (z *Metadata) EntryTeamMemberId() string {
@@ -134,21 +134,21 @@ type Web struct {
 	// Pseudo field for identify type of session.
 	// This field is not appear in API definition.
 	// "web_session", "desktop_client", or "mobile_client".
-	Tag string `path:"-"`
+	Tag string `path:"-" json:"tag"`
 
 	// Pseudo field for identify member.
 	// This field should appear parent of session data.
-	TeamMemberId string `path:"-"`
+	TeamMemberId string `path:"-" json:"team_member_id"`
 
-	Id        string `path:"session_id"`
-	UserAgent string `path:"user_agent"`
-	Os        string `path:"os"`
-	Browser   string `path:"browser"`
-	IpAddress string `path:"ip_address"`
-	Country   string `path:"country"`
-	Created   string `path:"created"`
-	Updated   string `path:"updated"`
-	Expires   string `path:"expires"`
+	Id        string `path:"session_id" json:"id"`
+	UserAgent string `path:"user_agent" json:"user_agent"`
+	Os        string `path:"os" json:"os"`
+	Browser   string `path:"browser" json:"browser"`
+	IpAddress string `path:"ip_address" json:"ip_address"`
+	Country   string `path:"country" json:"country"`
+	Created   string `path:"created" json:"created"`
+	Updated   string `path:"updated" json:"updated"`
+	Expires   string `path:"expires" json:"expires"`
 }
 
 func (z *Web) EntryTeamMemberId() string {
@@ -200,22 +200,22 @@ type Desktop struct {
 	// Pseudo field for identify type of session.
 	// This field is not appear in API definition.
 	// "web_session", "desktop_client", or "mobile_client".
-	Tag string `path:"-"`
+	Tag string `path:"-" json:"tag"`
 
 	// Pseudo field for identify member.
 	// This field should appear parent of session data.
-	TeamMemberId string `path:"-"`
+	TeamMemberId string `path:"-" json:"team_member_id"`
 
-	Id                        string `path:"session_id"`
-	HostName                  string `path:"host_name"`
-	ClientType                string `path:"client_type.\\.tag"`
-	ClientVersion             string `path:"client_version"`
-	Platform                  string `path:"platform"`
-	IsDeleteOnUnlinkSupported bool   `path:"is_delete_on_unlink_supported"`
-	IpAddress                 string `path:"ip_address"`
-	Country                   string `path:"country"`
-	Created                   string `path:"created"`
-	Updated                   string `path:"updated"`
+	Id                        string `path:"session_id" json:"id"`
+	HostName                  string `path:"host_name" json:"host_name"`
+	ClientType                string `path:"client_type.\\.tag" json:"client_type"`
+	ClientVersion             string `path:"client_version" json:"client_version"`
+	Platform                  string `path:"platform" json:"platform"`
+	IsDeleteOnUnlinkSupported bool   `path:"is_delete_on_unlink_supported" json:"is_delete_on_unlink_supported"`
+	IpAddress                 string `path:"ip_address" json:"ip_address"`
+	Country                   string `path:"country" json:"country"`
+	Created                   string `path:"created" json:"created"`
+	Updated                   string `path:"updated" json:"updated"`
 }
 
 func (z *Desktop) EntryTeamMemberId() string {
@@ -267,22 +267,22 @@ type Mobile struct {
 	// Pseudo field for identify type of session.
 	// This field is not appear in API definition.
 	// "web_session", "desktop_client", or "mobile_client".
-	Tag string `path:"-"`
+	Tag string `path:"-" json:"tag"`
 
 	// Pseudo field for identify member.
 	// This field should appear parent of session data.
-	TeamMemberId string `path:"-"`
+	TeamMemberId string `path:"-" json:"team_member_id"`
 
-	Id            string `path:"session_id"`
-	DeviceName    string `path:"device_name"`
-	ClientType    string `path:"client_type.\\.tag"`
-	IpAddress     string `path:"ip_address"`
-	Country       string `path:"country"`
-	Created       string `path:"created"`
-	Updated       string `path:"updated"`
-	ClientVersion string `path:"client_version"`
-	OsVersion     string `path:"os_version"`
-	LastCarrier   string `path:"last_carrier"`
+	Id            string `path:"session_id" json:"id"`
+	DeviceName    string `path:"device_name" json:"device_name"`
+	ClientType    string `path:"client_type.\\.tag" json:"client_type"`
+	IpAddress     string `path:"ip_address" json:"ip_address"`
+	Country       string `path:"country" json:"country"`
+	Created       string `path:"created" json:"created"`
+	Updated       string `path:"updated" json:"updated"`
+	ClientVersion string `path:"client_version" json:"client_version"`
+	OsVersion     string `path:"os_version" json:"os_version"`
+	LastCarrier   string `path:"last_carrier" json:"last_carrier"`
 }
 
 func (z *Mobile) EntryTeamMemberId() string {
@@ -331,34 +331,34 @@ func (z *Mobile) SessionCountry() string {
 
 type MemberSession struct {
 	Raw                       json.RawMessage
-	TeamMemberId              string `path:"profile.team_member_id"`
-	Email                     string `path:"profile.email"`
-	Status                    string `path:"profile.status.\\.tag"`
-	GivenName                 string `path:"profile.name.given_name"`
-	Surname                   string `path:"profile.name.surname"`
-	FamiliarName              string `path:"profile.name.familiar_name"`
-	DisplayName               string `path:"profile.name.display_name"`
-	AbbreviatedName           string `path:"profile.name.abbreviated_name"`
-	ExternalId                string `path:"profile.external_id"`
-	AccountId                 string `path:"profile.account_id"`
-	DeviceTag                 string `path:"device_tag"`
-	Id                        string `path:"session.session_id"`
-	UserAgent                 string `path:"session.user_agent"`
-	Os                        string `path:"session.os"`
-	Browser                   string `path:"session.browser"`
-	IpAddress                 string `path:"session.ip_address"`
-	Country                   string `path:"session.country"`
-	Created                   string `path:"session.created"`
-	Updated                   string `path:"session.updated"`
-	Expires                   string `path:"session.expires"`
-	HostName                  string `path:"session.host_name"`
-	ClientType                string `path:"session.client_type.\\.tag"`
-	ClientVersion             string `path:"session.client_version"`
-	Platform                  string `path:"session.platform"`
-	IsDeleteOnUnlinkSupported bool   `path:"session.is_delete_on_unlink_supported"`
-	DeviceName                string `path:"session.device_name"`
-	OsVersion                 string `path:"session.os_version"`
-	LastCarrier               string `path:"session.last_carrier"`
+	TeamMemberId              string `path:"profile.team_member_id" json:"team_member_id"`
+	Email                     string `path:"profile.email" json:"email"`
+	Status                    string `path:"profile.status.\\.tag" json:"status"`
+	GivenName                 string `path:"profile.name.given_name" json:"given_name"`
+	Surname                   string `path:"profile.name.surname" json:"surname"`
+	FamiliarName              string `path:"profile.name.familiar_name" json:"familiar_name"`
+	DisplayName               string `path:"profile.name.display_name" json:"display_name"`
+	AbbreviatedName           string `path:"profile.name.abbreviated_name" json:"abbreviated_name"`
+	ExternalId                string `path:"profile.external_id" json:"external_id"`
+	AccountId                 string `path:"profile.account_id" json:"account_id"`
+	DeviceTag                 string `path:"device_tag" json:"device_tag"`
+	Id                        string `path:"session.session_id" json:"id"`
+	UserAgent                 string `path:"session.user_agent" json:"user_agent"`
+	Os                        string `path:"session.os" json:"os"`
+	Browser                   string `path:"session.browser" json:"browser"`
+	IpAddress                 string `path:"session.ip_address" json:"ip_address"`
+	Country                   string `path:"session.country" json:"country"`
+	Created                   string `path:"session.created" json:"created"`
+	Updated                   string `path:"session.updated" json:"updated"`
+	Expires                   string `path:"session.expires" json:"expires"`
+	HostName                  string `path:"session.host_name" json:"host_name"`
+	ClientType                string `path:"session.client_type.\\.tag" json:"client_type"`
+	ClientVersion             string `path:"session.client_version" json:"client_version"`
+	Platform                  string `path:"session.platform" json:"platform"`
+	IsDeleteOnUnlinkSupported bool   `path:"session.is_delete_on_unlink_supported" json:"is_delete_on_unlink_supported"`
+	DeviceName                string `path:"session.device_name" json:"device_name"`
+	OsVersion                 string `path:"session.os_version" json:"os_version"`
+	LastCarrier               string `path:"session.last_carrier" json:"last_carrier"`
 }
 
 func (z *MemberSession) Session() Session {

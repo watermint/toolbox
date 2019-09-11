@@ -31,8 +31,8 @@ type Member interface {
 
 type Metadata struct {
 	Raw              json.RawMessage
-	EntryAccessType  string `path:"access_type.\\.tag"`
-	EntryIsInherited bool   `path:"is_inherited"`
+	EntryAccessType  string `path:"access_type.\\.tag" json:"access_type"`
+	EntryIsInherited bool   `path:"is_inherited" json:"is_inherited"`
 }
 
 func (z *Metadata) EntryRaw() json.RawMessage {
@@ -97,13 +97,13 @@ func (z *Metadata) Invitee() (invitee *Invitee, e bool) {
 
 type User struct {
 	Raw              json.RawMessage
-	EntryAccessType  string `path:"access_type.\\.tag"`
-	EntryIsInherited bool   `path:"is_inherited"`
-	AccountId        string `path:"user.account_id"`
-	Email            string `path:"user.email"`
-	DisplayName      string `path:"user.display_name"`
-	SameTeam         bool   `path:"user.same_team"`
-	TeamMemberId     string `path:"user.team_member_id"`
+	EntryAccessType  string `path:"access_type.\\.tag" json:"access_type"`
+	EntryIsInherited bool   `path:"is_inherited" json:"is_inherited"`
+	AccountId        string `path:"user.account_id" json:"account_id"`
+	Email            string `path:"user.email" json:"email"`
+	DisplayName      string `path:"user.display_name" json:"display_name"`
+	SameTeam         bool   `path:"user.same_team" json:"same_team"`
+	TeamMemberId     string `path:"user.team_member_id" json:"team_member_id"`
 }
 
 func (z *User) EntryRaw() json.RawMessage {
@@ -136,17 +136,17 @@ func (z *User) Invitee() (invitee *Invitee, e bool) {
 
 type Group struct {
 	Raw                 json.RawMessage
-	EntryAccessType     string `path:"access_type.\\.tag"`
-	EntryIsInherited    bool   `path:"is_inherited"`
-	GroupName           string `path:"group.group_name"`
-	GroupId             string `path:"group.group_id"`
-	GroupManagementType string `path:"group.group_management_type.\\.tag"`
-	GroupType           string `path:"group.group_type.\\.tag"`
-	IsMember            bool   `path:"group.is_member"`
-	IsOwner             bool   `path:"group.is_owner"`
-	SameTeam            bool   `path:"group.same_team"`
-	GroupExternalId     string `path:"group.group_external_id"`
-	MemberCount         int    `path:"group.member_count"`
+	EntryAccessType     string `path:"access_type.\\.tag" json:"access_type"`
+	EntryIsInherited    bool   `path:"is_inherited" json:"is_inherited"`
+	GroupName           string `path:"group.group_name" json:"group_name"`
+	GroupId             string `path:"group.group_id" json:"group_id"`
+	GroupManagementType string `path:"group.group_management_type.\\.tag" json:"group_management_type"`
+	GroupType           string `path:"group.group_type.\\.tag" json:"group_type"`
+	IsMember            bool   `path:"group.is_member" json:"is_member"`
+	IsOwner             bool   `path:"group.is_owner" json:"is_owner"`
+	SameTeam            bool   `path:"group.same_team" json:"same_team"`
+	GroupExternalId     string `path:"group.group_external_id" json:"group_external_id"`
+	MemberCount         int    `path:"group.member_count" json:"member_count"`
 }
 
 func (z *Group) EntryRaw() json.RawMessage {
@@ -179,9 +179,9 @@ func (z *Group) Invitee() (invitee *Invitee, e bool) {
 
 type Invitee struct {
 	Raw              json.RawMessage
-	EntryAccessType  string `path:"access_type.\\.tag"`
-	EntryIsInherited bool   `path:"is_inherited"`
-	InviteeEmail     string `path:"invitee.email"`
+	EntryAccessType  string `path:"access_type.\\.tag" json:"access_type"`
+	EntryIsInherited bool   `path:"is_inherited" json:"is_inherited"`
+	InviteeEmail     string `path:"invitee.email" json:"invitee_email"`
 }
 
 func (z *Invitee) EntryRaw() json.RawMessage {
@@ -214,21 +214,21 @@ func (z *Invitee) Invitee() (invitee *Invitee, e bool) {
 
 type SharedFolderMember struct {
 	Raw                  json.RawMessage
-	SharedFolderId       string `path:"sharedfolder.shared_folder_id"`
-	ParentSharedFolderId string `path:"sharedfolder.parent_shared_folder_id"`
-	Name                 string `path:"sharedfolder.name"`
-	AccessType           string `path:"sharedfolder.access_type.\\.tag"`
-	PathLower            string `path:"sharedfolder.path_lower"`
-	IsInsideTeamFolder   bool   `path:"sharedfolder.is_inside_team_folder"`
-	IsTeamFolder         bool   `path:"sharedfolder.is_team_folder"`
-	EntryAccessType      string `path:"member.access_type.\\.tag"`
-	EntryIsInherited     bool   `path:"member.is_inherited"`
-	AccountId            string `path:"member.user.account_id"`
-	Email                string `path:"member.user.email"`
-	DisplayName          string `path:"member.user.display_name"`
-	GroupName            string `path:"member.group.group_name"`
-	GroupId              string `path:"member.group.group_id"`
-	InviteeEmail         string `path:"member.invitee.email"`
+	SharedFolderId       string `path:"sharedfolder.shared_folder_id" json:"shared_folder_id"`
+	ParentSharedFolderId string `path:"sharedfolder.parent_shared_folder_id" json:"parent_shared_folder_id"`
+	Name                 string `path:"sharedfolder.name" json:"name"`
+	AccessType           string `path:"sharedfolder.access_type.\\.tag" json:"access_type"`
+	PathLower            string `path:"sharedfolder.path_lower" json:"path_lower"`
+	IsInsideTeamFolder   bool   `path:"sharedfolder.is_inside_team_folder" json:"is_inside_team_folder"`
+	IsTeamFolder         bool   `path:"sharedfolder.is_team_folder" json:"is_team_folder"`
+	EntryAccessType      string `path:"member.access_type.\\.tag" json:"entry_access_type"`
+	EntryIsInherited     bool   `path:"member.is_inherited" json:"entry_is_inherited"`
+	AccountId            string `path:"member.user.account_id" json:"account_id"`
+	Email                string `path:"member.user.email" json:"email"`
+	DisplayName          string `path:"member.user.display_name" json:"display_name"`
+	GroupName            string `path:"member.group.group_name" json:"group_name"`
+	GroupId              string `path:"member.group.group_id" json:"group_id"`
+	InviteeEmail         string `path:"member.invitee.email" json:"invitee_email"`
 }
 
 func NewSharedFolderMember(sf *mo_sharedfolder.SharedFolder, m Member) *SharedFolderMember {

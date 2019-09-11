@@ -7,13 +7,13 @@ import (
 
 type Folder struct {
 	Raw                       json.RawMessage
-	Id                        string `path:"id"`
-	EntryTag                  string `path:"\\.tag"`
-	EntryName                 string `path:"name"`
-	EntryPathLower            string `path:"path_lower"`
-	EntryPathDisplay          string `path:"path_display"`
-	EntrySharedFolderId       string `path:"sharing_info.shared_folder_id"`
-	EntryParentSharedFolderId string `path:"sharing_info.parent_shared_folder_id"`
+	Id                        string `path:"id" json:"id"`
+	EntryTag                  string `path:"\\.tag" json:"tag"`
+	EntryName                 string `path:"name" json:"name"`
+	EntryPathLower            string `path:"path_lower" json:"path_lower"`
+	EntryPathDisplay          string `path:"path_display" json:"path_display"`
+	EntrySharedFolderId       string `path:"sharing_info.shared_folder_id" json:"shared_folder_id"`
+	EntryParentSharedFolderId string `path:"sharing_info.parent_shared_folder_id" json:"parent_shared_folder_id"`
 }
 
 func (z *Folder) Tag() string {

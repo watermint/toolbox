@@ -7,10 +7,10 @@ import (
 
 type Deleted struct {
 	Raw              json.RawMessage
-	EntryTag         string `path:"\\.tag"`
-	EntryName        string `path:"name"`
-	EntryPathLower   string `path:"path_lower"`
-	EntryPathDisplay string `path:"path_display"`
+	EntryTag         string `path:"\\.tag" json:"tag"`
+	EntryName        string `path:"name" json:"name"`
+	EntryPathLower   string `path:"path_lower" json:"path_lower"`
+	EntryPathDisplay string `path:"path_display" json:"path_display"`
 }
 
 func (z *Deleted) Tag() string {
