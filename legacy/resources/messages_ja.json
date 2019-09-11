@@ -1,5 +1,5 @@
 {
-  "app.common.name": "toolbox (version {{.Version}})",
+  "app.common.name": "watermint toolbox (version {{.Version}})",
   "app.common.license": "オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.",
   "app.common.copyright": "Copyright © 2016-2019 Takayuki Okazaki",
   "app.common.flag.proxy": "HTTP\/HTTPS プロクシ (ホスト名:ポート番号)",

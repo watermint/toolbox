@@ -103,19 +103,20 @@ else
   echo Unable to load app key: code=$?
   exit $?
 fi
-$BUILD_PATH/linux/tbx dev quality
+$BUILD_PATH/linux/tbx dev quality -quiet
 if [[ $? = 0 ]]; then
   echo Success: quality test
 else
   echo Unable to pass binary quality test: code=$?
   exit $?
 fi
+$BUILD_PATH/linux/tbx license -quiet > $BUILD_PATH/LICENSE.txt
 
 echo --------------------
 echo BUILD: Packaging
 for p in win mac linux; do
   echo BUILD: Packaging $p
-  cp LICENSE.md $BUILD_PATH/"$p"/LICENSE.txt
+  cp $BUILD_PATH/LICENSE.txt $BUILD_PATH/"$p"/
   cp README.md  $BUILD_PATH/"$p"/README.txt
   ( cd $BUILD_PATH/"$p" && zip -9 -r $DIST_PATH/tbx-"$BUILD_VERSION"-"$p".zip . )
 done

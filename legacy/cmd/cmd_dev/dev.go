@@ -11,9 +11,6 @@ func NewCmdDev() cmd2.Commandlet {
 		CommandDesc: "cmd.dev.desc",
 		Hidden:      true,
 		SubCommands: []cmd2.Commandlet{
-			&CmdDevDoc{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			cmd_dev_auth2.NewCmdDevAuth(),
 		},
 	}

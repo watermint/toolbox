@@ -27,7 +27,7 @@
   "app.common.matcher.flag.interactive": "Request confirmation before attempting to operate each entry",
   "app.common.matcher.flag.regex": "Matches target name that matches given regular expression",
   "app.common.matcher.flag.starts_with": "Matches target name starts with given string",
-  "app.common.name": "toolbox (version {{.Version}})",
+  "app.common.name": "watermint toolbox (version {{.Version}})",
   "auth.basic.failed": "Authentication failed",
   "auth.basic.generated_token1": "1. Visit the MyApp page (you might have to login first):\n\nhttps://www.dropbox.com/developers/apps\n\n2. Proceed with \"Create App\"\n3. Choose \"{{.API}}\"\n4. Choose \"{{.TypeOfAccess}}\"\n5. Enter name of your app\n6. Proceed with \"Create App\"\n7. Hit \"Generate\" button near \"Generated access token\"\n8. Copy generated token\n",
   "auth.basic.generated_token2": "Enter the generated token:",

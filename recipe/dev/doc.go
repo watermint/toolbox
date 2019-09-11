@@ -1,16 +1,18 @@
 package dev
 
 import (
-	"fmt"
+	"errors"
+	rice "github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/recpie/app_doc"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/legacy/app"
+	"github.com/watermint/toolbox/legacy/cmd/cmd_root"
 	"os"
-	"sort"
 	"strings"
-	"text/tabwriter"
 )
 
 type Doc struct {
@@ -27,10 +29,25 @@ func (z *Doc) Requirement() app_vo.ValueObject {
 }
 
 func (z *Doc) Exec(k app_kitchen.Kitchen) error {
+	book := make(map[string]string)
+
+	// Loading legacy commands
+	bx := rice.MustFindBox("../../legacy/resources")
+	ec, err := app.NewExecContext(bx)
+	if err != nil {
+		return errors.New("unable to load legacy resources")
+	}
+
+	legacyRoot := cmd_root.NewCommands()
+	legacy := app_doc.LegacyCommands(legacyRoot.RootCommand(), ec)
+
+	for k, v := range legacy {
+		book[k] = v
+	}
+
+	// Loading modern commands
 	cl := k.Control().(app_control_launcher.ControlLauncher)
 	recpies := cl.Catalogue()
-	book := make(map[string]string)
-	names := make([]string, 0)
 
 	for _, r := range recpies {
 		if _, ok := r.(app_recipe.SecretRecipe); ok {
@@ -42,25 +59,9 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 		q := strings.Join(p, " ")
 
 		book[q] = k.UI().Text(app_recipe.Desc(r).Key())
-		names = append(names, q)
-	}
-	sort.Strings(names)
-
-	tw := new(tabwriter.Writer)
-	tw.Init(os.Stdout, 0, 2, 1, ' ', tabwriter.Debug)
-
-	row := func(col ...string) {
-		cols := make([]string, 0)
-		cols = append(cols, col...)
-		cols = append(cols, " ")
-		fmt.Fprintln(tw, "|"+strings.Join(cols, "\t"))
 	}
 
-	row("commands", "description")
-	for _, name := range names {
-		row("`"+name+"`", book[name])
-	}
-	tw.Flush()
+	app_doc.PrintMarkdown(os.Stdout, "command", "description", book)
 
 	return nil
 }
