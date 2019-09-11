@@ -47,7 +47,7 @@ func (z *columnReflectImpl) supportedType(k reflect.Kind) bool {
 	return true
 }
 
-func (z *columnReflectImpl) parseHeader(row interface{}) []string {
+func (z *columnReflectImpl) Parse(row interface{}) []string {
 	return z.headerFromType("", z.typeOf(row))
 }
 

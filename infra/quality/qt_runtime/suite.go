@@ -53,7 +53,7 @@ func checkZap(ctl app_control.Control) {
 
 func checkLicense(ctl app_control.Control) {
 	l := ctl.Log()
-	_, _, err := recipe.LoadLicense(ctl)
+	_, _, _, err := recipe.LoadLicense(ctl)
 	if err != nil {
 		l.Error("Unable to load license", zap.Error(err))
 		ctl.Abort(app_control.Reason(app_control.FatalResourceUnavailable))

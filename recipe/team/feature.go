@@ -27,8 +27,8 @@ func (z *Feature) Test(c app_control.Control) error {
 		return err
 	}
 	return app_test.TestRows(c, "feature", func(cols map[string]string) error {
-		if _, ok := cols["UploadApiRateLimit"]; !ok {
-			return errors.New("`UploadApiRateLimit` is not found")
+		if _, ok := cols["upload_api_rate_limit"]; !ok {
+			return errors.New("`upload_api_rate_limit` is not found")
 		}
 		return nil
 	})

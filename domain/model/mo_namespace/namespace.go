@@ -10,10 +10,10 @@ import (
 
 type Namespace struct {
 	Raw           json.RawMessage
-	Name          string `path:"name"`
-	NamespaceId   string `path:"namespace_id"`
-	NamespaceType string `path:"namespace_type.\\.tag"`
-	TeamMemberId  string `path:"team_member_id"`
+	Name          string `path:"name" json:"name"`
+	NamespaceId   string `path:"namespace_id" json:"namespace_id"`
+	NamespaceType string `path:"namespace_type.\\.tag" json:"namespace_type"`
+	TeamMemberId  string `path:"team_member_id" json:"team_member_id"`
 }
 
 func NewNamespaceMember(namespace *Namespace, member mo_sharedfolder_member.Member) (nm *NamespaceMember) {
@@ -31,18 +31,18 @@ func NewNamespaceMember(namespace *Namespace, member mo_sharedfolder_member.Memb
 
 type NamespaceMember struct {
 	Raw              json.RawMessage
-	NamespaceName    string `path:"namespace.name"`
-	NamespaceId      string `path:"namespace.namespace_id"`
-	NamespaceType    string `path:"namespace.namespace_type.\\.tag"`
-	TeamMemberId     string `path:"namespace.team_member_id"`
-	EntryAccessType  string `path:"member.access_type.\\.tag"`
-	EntryIsInherited bool   `path:"member.is_inherited"`
-	AccountId        string `path:"member.user.account_id"`
-	Email            string `path:"member.user.email"`
-	DisplayName      string `path:"member.user.display_name"`
-	GroupName        string `path:"member.group.group_name"`
-	GroupId          string `path:"member.group.group_id"`
-	InviteeEmail     string `path:"member.invitee.email"`
+	NamespaceName    string `path:"namespace.name" json:"namespace_name"`
+	NamespaceId      string `path:"namespace.namespace_id" json:"namespace_id"`
+	NamespaceType    string `path:"namespace.namespace_type.\\.tag" json:"namespace_type"`
+	TeamMemberId     string `path:"namespace.team_member_id" json:"team_member_id"`
+	EntryAccessType  string `path:"member.access_type.\\.tag" json:"entry_access_type"`
+	EntryIsInherited bool   `path:"member.is_inherited" json:"entry_is_inherited"`
+	AccountId        string `path:"member.user.account_id" json:"account_id"`
+	Email            string `path:"member.user.email" json:"email"`
+	DisplayName      string `path:"member.user.display_name" json:"display_name"`
+	GroupName        string `path:"member.group.group_name" json:"group_name"`
+	GroupId          string `path:"member.group.group_id" json:"group_id"`
+	InviteeEmail     string `path:"member.invitee.email" json:"invitee_email"`
 }
 
 func (z *NamespaceMember) Namespace() (namespace *Namespace) {

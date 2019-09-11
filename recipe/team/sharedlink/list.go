@@ -28,8 +28,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return app_test.TestRows(c, "sharedlink", func(cols map[string]string) error {
-		if _, ok := cols["SharedLinkId"]; !ok {
-			return errors.New("`SharedLinkId` is not found")
+		if _, ok := cols["shared_link_id"]; !ok {
+			return errors.New("`shared_link_id` is not found")
 		}
 		if _, ok := cols["team_member_id"]; !ok {
 			return errors.New("`team_member_id` is not found")

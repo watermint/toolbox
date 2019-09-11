@@ -28,8 +28,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return app_test.TestRows(c, "teamfolder", func(cols map[string]string) error {
-		if _, ok := cols["TeamFolderId"]; !ok {
-			return errors.New("`TeamFolderId` is not found")
+		if _, ok := cols["team_folder_id"]; !ok {
+			return errors.New("`team_folder_id` is not found")
 		}
 		return nil
 	})

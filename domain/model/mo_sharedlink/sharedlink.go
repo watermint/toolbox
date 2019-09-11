@@ -195,14 +195,13 @@ func (z *Folder) Folder() (folder *Folder, ok bool) {
 
 type SharedLinkMember struct {
 	Raw          json.RawMessage
-	SharedLinkId string `path:"sharedlink.id"`
-	Tag          string `path:"sharedlink.\\.tag"`
-	Url          string `path:"sharedlink.url"`
-	Name         string `path:"sharedlink.name"`
-	Expires      string `path:"sharedlink.expires"`
-	PathLower    string `path:"sharedlink.path_lower"`
-	Visibility   string `path:"sharedlink.link_permissions.resolved_visibility.\\.tag"`
-	AccessType   string `path:"member.access_type.\\.tag" json:"access_type"`
+	SharedLinkId string `path:"sharedlink.id" json:"shared_link_id"`
+	Tag          string `path:"sharedlink.\\.tag" json:"tag"`
+	Url          string `path:"sharedlink.url" json:"url"`
+	Name         string `path:"sharedlink.name" json:"name"`
+	Expires      string `path:"sharedlink.expires" json:"expires"`
+	PathLower    string `path:"sharedlink.path_lower" json:"path_lower"`
+	Visibility   string `path:"sharedlink.link_permissions.resolved_visibility.\\.tag" json:"visibility"`
 	AccountId    string `path:"member.profile.account_id" json:"account_id"`
 	TeamMemberId string `path:"member.profile.team_member_id" json:"team_member_id"`
 	Email        string `path:"member.profile.email" json:"email"`

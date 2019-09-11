@@ -27,7 +27,7 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return app_test.TestRows(c, "member", func(cols map[string]string) error {
-		if _, ok := cols["Email"]; !ok {
+		if _, ok := cols["email"]; !ok {
 			return errors.New("email is not found")
 		}
 		return nil

@@ -7,16 +7,16 @@ import (
 
 type File struct {
 	Raw              json.RawMessage
-	EntryTag         string `path:"\\.tag"`
-	EntryName        string `path:"name"`
-	EntryPathLower   string `path:"path_lower"`
-	EntryPathDisplay string `path:"path_display"`
-	Id               string `path:"id"`
-	ClientModified   string `path:"client_modified"`
-	ServerModified   string `path:"server_modified"`
-	Revision         string `path:"rev"`
-	Size             int64  `path:"size"`
-	ContentHash      string `path:"content_hash"`
+	EntryTag         string `path:"\\.tag" json:"tag"`
+	EntryName        string `path:"name" json:"name"`
+	EntryPathLower   string `path:"path_lower" json:"path_lower"`
+	EntryPathDisplay string `path:"path_display" json:"path_display"`
+	Id               string `path:"id" json:"id"`
+	ClientModified   string `path:"client_modified" json:"client_modified"`
+	ServerModified   string `path:"server_modified" json:"server_modified"`
+	Revision         string `path:"rev" json:"revision"`
+	Size             int64  `path:"size" json:"size"`
+	ContentHash      string `path:"content_hash" json:"content_hash"`
 }
 
 func (z *File) Tag() string {

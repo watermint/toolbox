@@ -16,6 +16,9 @@ BUILD_HASH=$(cd $PROJECT_ROOT && git rev-parse HEAD)
 
 if [ ! -d $BUILD_PATH ]; then
   mkdir -p $BUILD_PATH
+  for p in win mac linux; do
+    mkdir -p $BUILD_PATH/$p
+  done
 fi
 if [ ! -d $DIST_PATH ]; then
   mkdir -p $DIST_PATH
@@ -84,30 +87,36 @@ X_APP_BUILDERKEY="-X github.com/watermint/toolbox/infra/app.BuilderKey=$TOOLBOX_
 LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY"
 
 echo Building: Windows
-GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-win.exe github.com/watermint/toolbox
+GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
 echo Building: Linux
-GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-linux   github.com/watermint/toolbox
+GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/linux/tbx   github.com/watermint/toolbox
 echo Building: Darwin
-GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/tbx-$BUILD_VERSION-macos   github.com/watermint/toolbox
+GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/mac/tbx     github.com/watermint/toolbox
 
 echo --------------------
 echo Testing binary
 
-$BUILD_PATH/tbx-$BUILD_VERSION-linux dev auth appkey -quiet
+$BUILD_PATH/linux/tbx dev auth appkey -quiet
 if [[ $? = 0 ]]; then
   echo Success: appkey test
 else
   echo Unable to load app key: code=$?
   exit $?
 fi
-$BUILD_PATH/tbx-$BUILD_VERSION-linux experimental dev quality
+$BUILD_PATH/linux/tbx dev quality -quiet
 if [[ $? = 0 ]]; then
   echo Success: quality test
 else
   echo Unable to pass binary quality test: code=$?
   exit $?
 fi
+$BUILD_PATH/linux/tbx license -quiet > $BUILD_PATH/LICENSE.txt
 
 echo --------------------
 echo BUILD: Packaging
-( cd $BUILD_PATH && zip -9 -r $DIST_PATH/tbx-$BUILD_VERSION.zip tbx-* )
+for p in win mac linux; do
+  echo BUILD: Packaging $p
+  cp $BUILD_PATH/LICENSE.txt $BUILD_PATH/"$p"/
+  cp README.md  $BUILD_PATH/"$p"/README.txt
+  ( cd $BUILD_PATH/"$p" && zip -9 -r $DIST_PATH/tbx-"$BUILD_VERSION"-"$p".zip . )
+done

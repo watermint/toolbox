@@ -7,7 +7,7 @@ import (
 )
 
 func NewQuiet(container app_msg_container.Container) UI {
-	return &Quiet{}
+	return &Quiet{container: container}
 }
 
 type Quiet struct {
@@ -63,7 +63,6 @@ func (z *Quiet) Info(key string, p ...app_msg.Param) {
 
 func (z *Quiet) Error(key string, p ...app_msg.Param) {
 	z.log.Debug(key, zap.Any("params", p))
-	z.log.Error(z.container.Compile(app_msg.M(key, p...)))
 }
 
 // always cancel process
