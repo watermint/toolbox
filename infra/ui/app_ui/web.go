@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"strings"
+	"sync"
 )
 
 type WebUILog struct {
@@ -34,6 +35,7 @@ type Web struct {
 	baseUI UI
 	out    io.Writer
 	llf    LinkForLocalFile
+	mutex  sync.Mutex
 }
 
 const (
@@ -58,6 +60,9 @@ const (
 )
 
 func (z *Web) uiLog(w *WebUILog) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	l := app_root.Log()
 	j, err := json.Marshal(w)
 	if err != nil {

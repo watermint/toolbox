@@ -10,12 +10,13 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"sync"
 )
 
 func NewJsonForQuiet(name string, ctl app_control.Control) (r Report, err error) {
 	r = &Json{
-		Writer: os.Stdout,
-		Ctl:    ctl,
+		w:   os.Stdout,
+		ctl: ctl,
 	}
 	return r, nil
 }
@@ -30,17 +31,18 @@ func NewJson(name string, ctl app_control.Control) (r Report, err error) {
 		return nil, err
 	}
 	r = &Json{
-		File:   f,
-		Writer: f,
-		Ctl:    ctl,
+		file: f,
+		w:    f,
+		ctl:  ctl,
 	}
 	return r, nil
 }
 
 type Json struct {
-	File   *os.File
-	Writer io.Writer
-	Ctl    app_control.Control
+	file  *os.File
+	w     io.Writer
+	ctl   app_control.Control
+	mutex sync.Mutex
 }
 
 func (z *Json) findRaw(row interface{}, orig interface{}) json.RawMessage {
@@ -68,7 +70,7 @@ func (z *Json) findRaw(row interface{}, orig interface{}) json.RawMessage {
 
 func (z *Json) Success(input interface{}, result interface{}) {
 	z.Row(TransactionRow{
-		Status: z.Ctl.UI().Text(msgSuccess.Key(), msgSuccess.Params()...),
+		Status: z.ctl.UI().Text(msgSuccess.Key(), msgSuccess.Params()...),
 		Input:  input,
 		Result: result,
 	})
@@ -76,8 +78,8 @@ func (z *Json) Success(input interface{}, result interface{}) {
 
 func (z *Json) Failure(reason app_msg.Message, input interface{}, result interface{}) {
 	z.Row(TransactionRow{
-		Status: z.Ctl.UI().Text(msgFailure.Key(), msgFailure.Params()...),
-		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Status: z.ctl.UI().Text(msgFailure.Key(), msgFailure.Params()...),
+		Reason: z.ctl.UI().Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
 	})
@@ -85,18 +87,21 @@ func (z *Json) Failure(reason app_msg.Message, input interface{}, result interfa
 
 func (z *Json) Skip(reason app_msg.Message, input interface{}, result interface{}) {
 	z.Row(TransactionRow{
-		Status: z.Ctl.UI().Text(msgSkip.Key(), msgFailure.Params()...),
-		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Status: z.ctl.UI().Text(msgSkip.Key(), msgFailure.Params()...),
+		Reason: z.ctl.UI().Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
 	})
 }
 
 func (z *Json) Row(row interface{}) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	raw := z.findRaw(row, row)
 	if raw != nil {
-		z.Writer.Write(raw)
-		z.Writer.Write([]byte("\n"))
+		z.w.Write(raw)
+		z.w.Write([]byte("\n"))
 		return
 	}
 
@@ -106,17 +111,17 @@ func (z *Json) Row(row interface{}) {
 	enc.SetIndent("", "")
 	err := enc.Encode(row)
 	if err != nil {
-		z.Ctl.Log().Debug("Unable to unmarshal", zap.Error(err))
+		z.ctl.Log().Debug("Unable to unmarshal", zap.Error(err))
 		return
 	}
-	z.Writer.Write(buf.Bytes())
+	z.w.Write(buf.Bytes())
 }
 
 func (z *Json) Flush() {
 }
 
 func (z *Json) Close() {
-	if z.File != nil {
-		z.File.Close()
+	if z.file != nil {
+		z.file.Close()
 	}
 }

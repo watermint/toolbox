@@ -13,6 +13,7 @@ import (
 	"os"
 	"runtime"
 	"strings"
+	"sync"
 	"text/tabwriter"
 )
 
@@ -52,6 +53,7 @@ type console struct {
 	in       io.Reader
 	testMode bool
 	qm       qt_control.Message
+	mutex    sync.Mutex
 }
 
 func (z *console) IsConsole() bool {
@@ -86,10 +88,16 @@ func (z *console) Text(key string, p ...app_msg.Param) string {
 }
 
 func (z *console) Break() {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	fmt.Fprintln(z.out)
 }
 
 func (z *console) colorPrint(t string, color int) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	if runtime.GOOS == "windows" {
 		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
@@ -98,6 +106,9 @@ func (z *console) colorPrint(t string, color int) {
 }
 
 func (z *console) boldPrint(t string) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	if runtime.GOOS == "windows" {
 		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
@@ -232,12 +243,16 @@ func (z *console) AskSecure(key string, p ...app_msg.Param) (text string, cancel
 }
 
 type consoleTable struct {
-	mc  app_msg_container.Container
-	tab *tabwriter.Writer
-	qm  qt_control.Message
+	mc    app_msg_container.Container
+	tab   *tabwriter.Writer
+	qm    qt_control.Message
+	mutex sync.Mutex
 }
 
 func (z *consoleTable) HeaderRaw(h ...string) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	var p, q = "", ""
 
 	//if runtime.GOOS != "windows" {
@@ -248,6 +263,9 @@ func (z *consoleTable) HeaderRaw(h ...string) {
 }
 
 func (z *consoleTable) RowRaw(m ...string) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	fmt.Fprintln(z.tab, strings.Join(m, "\t"))
 }
 
@@ -275,5 +293,8 @@ func (z *consoleTable) Row(m ...app_msg.Message) {
 }
 
 func (z *consoleTable) Flush() {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	z.tab.Flush()
 }

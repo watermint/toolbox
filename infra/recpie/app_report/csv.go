@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"os"
 	"path/filepath"
+	"sync"
 )
 
 func NewCsv(name string, row interface{}, ctl app_control.Control) (r Report, err error) {
@@ -19,25 +20,26 @@ func NewCsv(name string, row interface{}, ctl app_control.Control) (r Report, er
 	}
 	parser := NewColumn(row, ctl)
 	r = &Csv{
-		File:   f,
-		Writer: csv.NewWriter(f),
-		Ctl:    ctl,
-		Parser: parser,
+		file:   f,
+		w:      csv.NewWriter(f),
+		ctl:    ctl,
+		parser: parser,
 	}
 	return r, nil
 }
 
 type Csv struct {
-	Ctl    app_control.Control
-	Writer *csv.Writer
-	File   *os.File
-	Parser Column
-	Index  int
+	ctl    app_control.Control
+	w      *csv.Writer
+	file   *os.File
+	mutex  sync.Mutex
+	parser Column
+	index  int
 }
 
 func (z *Csv) Success(input interface{}, result interface{}) {
 	z.Row(TransactionRow{
-		Status: z.Ctl.UI().Text(msgSuccess.Key(), msgSuccess.Params()...),
+		Status: z.ctl.UI().Text(msgSuccess.Key(), msgSuccess.Params()...),
 		Input:  input,
 		Result: result,
 	})
@@ -45,8 +47,8 @@ func (z *Csv) Success(input interface{}, result interface{}) {
 
 func (z *Csv) Failure(reason app_msg.Message, input interface{}, result interface{}) {
 	z.Row(TransactionRow{
-		Status: z.Ctl.UI().Text(msgFailure.Key(), msgFailure.Params()...),
-		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Status: z.ctl.UI().Text(msgFailure.Key(), msgFailure.Params()...),
+		Reason: z.ctl.UI().Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
 	})
@@ -54,30 +56,33 @@ func (z *Csv) Failure(reason app_msg.Message, input interface{}, result interfac
 
 func (z *Csv) Skip(reason app_msg.Message, input interface{}, result interface{}) {
 	z.Row(TransactionRow{
-		Status: z.Ctl.UI().Text(msgSkip.Key(), msgFailure.Params()...),
-		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Status: z.ctl.UI().Text(msgSkip.Key(), msgFailure.Params()...),
+		Reason: z.ctl.UI().Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
 	})
 }
 
 func (z *Csv) Row(row interface{}) {
-	if z.Index == 0 {
-		z.Writer.Write(z.Parser.Header())
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
+	if z.index == 0 {
+		z.w.Write(z.parser.Header())
 	}
-	z.Writer.Write(z.Parser.ValuesAsString(row))
-	z.Index++
+	z.w.Write(z.parser.ValuesAsString(row))
+	z.index++
 }
 
 func (z *Csv) Flush() {
-	z.Writer.Flush()
-	z.File.Sync()
+	z.w.Flush()
+	z.file.Sync()
 }
 
 func (z *Csv) Close() {
-	if z.File != nil {
+	if z.file != nil {
 		z.Flush()
-		z.File.Close()
-		z.File = nil
+		z.file.Close()
+		z.file = nil
 	}
 }
