@@ -1,6 +1,7 @@
 package app_recipe
 
 import (
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
@@ -10,7 +11,7 @@ import (
 )
 
 const (
-	BasePackage = "github.com/watermint/toolbox/recipe"
+	BasePackage = app.Pkg + "/recipe"
 )
 
 type Recipe interface {

@@ -15,27 +15,37 @@ import (
 
 type Resource struct {
 	Messages map[string]string
+	Prefix   string
+}
+
+func (z *Resource) WithPrefix(prefix string) app_msg_container.Container {
+	return &Resource{
+		Messages: z.Messages,
+		Prefix:   prefix,
+	}
 }
 
 func (z *Resource) Exists(key string) bool {
-	_, ok := z.Messages[key]
+	_, ok := z.Messages[keyWithPrefix(z.Prefix, key)]
 	return ok
 }
 
 func (z *Resource) Compile(m app_msg.Message) string {
-	if msg, ok := z.Messages[m.Key()]; !ok {
+	key := keyWithPrefix(z.Prefix, m.Key())
+	if msg, ok := z.Messages[key]; !ok {
 		c := Alt{}
 		return c.Compile(m)
 	} else {
 		params := make(map[string]interface{})
 		for _, p := range m.Params() {
-			param := p()
-			params[param.Key] = param.Value
+			for k, v := range p {
+				params[k] = v
+			}
 		}
-		t, err := template.New(m.Key()).Parse(msg)
+		t, err := template.New(key).Parse(msg)
 		if err != nil {
 			app_root.Log().Warn("Unable to compile message",
-				zap.String("key", m.Key()),
+				zap.String("key", key),
 				zap.String("msg", msg),
 				zap.Error(err),
 			)
@@ -45,7 +55,7 @@ func (z *Resource) Compile(m app_msg.Message) string {
 		var buf bytes.Buffer
 		if err = t.Execute(&buf, params); err != nil {
 			app_root.Log().Warn("Unable to format message",
-				zap.String("key", m.Key()),
+				zap.String("key", key),
 				zap.String("msg", msg),
 				zap.Error(err),
 			)

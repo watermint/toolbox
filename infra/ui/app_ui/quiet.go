@@ -13,13 +13,23 @@ func NewQuiet(container app_msg_container.Container) UI {
 type Quiet struct {
 	container app_msg_container.Container
 	log       *zap.Logger
+	prefix    string
 }
 
-func (z *Quiet) Success(key string, p ...app_msg.Param) {
+func (z *Quiet) As(prefix interface{}) UI {
+	p := prefixFor(prefix)
+	return &Quiet{
+		container: z.container.WithPrefix(p),
+		log:       z.log,
+		prefix:    p,
+	}
+}
+
+func (z *Quiet) Success(key string, p ...app_msg.P) {
 	z.log.Debug(key, zap.Any("params", p))
 }
 
-func (z *Quiet) Failure(key string, p ...app_msg.Param) {
+func (z *Quiet) Failure(key string, p ...app_msg.P) {
 	z.log.Debug(key, zap.Any("params", p))
 }
 
@@ -35,7 +45,7 @@ func (z *Quiet) OpenArtifact(path string) {
 	z.log.Debug("Open artifact", zap.String("path", path))
 }
 
-func (z *Quiet) Text(key string, p ...app_msg.Param) string {
+func (z *Quiet) Text(key string, p ...app_msg.P) string {
 	return z.container.Compile(app_msg.M(key, p...))
 }
 
@@ -47,7 +57,7 @@ func (z *Quiet) Break() {
 	z.log.Debug("Break")
 }
 
-func (z *Quiet) Header(key string, p ...app_msg.Param) {
+func (z *Quiet) Header(key string, p ...app_msg.P) {
 	z.log.Debug(key, zap.Any("params", p))
 }
 
@@ -57,28 +67,28 @@ func (z *Quiet) InfoTable(name string) Table {
 	}
 }
 
-func (z *Quiet) Info(key string, p ...app_msg.Param) {
+func (z *Quiet) Info(key string, p ...app_msg.P) {
 	z.log.Debug(key, zap.Any("params", p))
 }
 
-func (z *Quiet) Error(key string, p ...app_msg.Param) {
+func (z *Quiet) Error(key string, p ...app_msg.P) {
 	z.log.Debug(key, zap.Any("params", p))
 }
 
 // always cancel process
-func (z *Quiet) AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool) {
+func (z *Quiet) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	z.log.Debug(key, zap.Any("params", p))
 	return false, true
 }
 
 // always cancel
-func (z *Quiet) AskText(key string, p ...app_msg.Param) (text string, cancel bool) {
+func (z *Quiet) AskText(key string, p ...app_msg.P) (text string, cancel bool) {
 	z.log.Debug(key, zap.Any("params", p))
 	return "", true
 }
 
 // always cancel
-func (z *Quiet) AskSecure(key string, p ...app_msg.Param) (secure string, cancel bool) {
+func (z *Quiet) AskSecure(key string, p ...app_msg.P) (secure string, cancel bool) {
 	z.log.Debug(key, zap.Any("params", p))
 	return "", true
 }

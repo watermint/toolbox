@@ -34,7 +34,7 @@ func NewContainer(box *rice.Box) app_msg_container.Container {
 		panic("At least one message resource required")
 	}
 
-	return &app_msg_container_impl.Chain{
+	return &app_msg_container_impl.Multilingual{
 		LangPriority: langs,
 		Containers:   cm,
 	}

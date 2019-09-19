@@ -20,6 +20,7 @@ type WebJobRun struct {
 }
 
 func Runner(ctl app_control.Control, jc <-chan *WebJobRun) {
+	ui := ctl.UI(nil)
 	for job := range jc {
 		l := ctl.Log().With(zap.String("name", job.Name), zap.String("jobId", job.JobId))
 		l.Debug("Start a new job")
@@ -27,9 +28,9 @@ func Runner(ctl app_control.Control, jc <-chan *WebJobRun) {
 		err := job.Recipe.Exec(k)
 		if err != nil {
 			l.Error("Unable to finish the job", zap.Error(err))
-			job.UC.UI().Failure("web.job.result.failure", app_msg.P("Error", err.Error()))
+			ui.Failure("web.job.result.failure", app_msg.P{"Error": err.Error()})
 		} else {
-			job.UC.UI().Success("web.job.result.success")
+			ui.Success("web.job.result.success")
 		}
 		l.Debug("Closing log file")
 		job.UiLogFile.Close()

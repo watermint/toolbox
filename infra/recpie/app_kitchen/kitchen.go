@@ -11,7 +11,7 @@ import (
 type Kitchen interface {
 	Value() app_vo.ValueObject
 	Control() app_control.Control
-	UI() app_ui.UI
+	UI(prefix interface{}) app_ui.UI
 	Log() *zap.Logger
 	Report(name string, row interface{}) (r app_report.Report, err error)
 }
@@ -29,8 +29,8 @@ func (z *kitchenImpl) Control() app_control.Control {
 	return z.ctl
 }
 
-func (z *kitchenImpl) UI() app_ui.UI {
-	return z.ctl.UI()
+func (z *kitchenImpl) UI(prefix interface{}) app_ui.UI {
+	return z.ctl.UI(prefix)
 }
 
 func (z *kitchenImpl) Log() *zap.Logger {

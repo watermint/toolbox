@@ -29,7 +29,7 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return app_test.TestRows(c, "sharedfolder_member", func(cols map[string]string) error {
-		if _, ok := cols["Email"]; !ok {
+		if _, ok := cols["email"]; !ok {
 			return errors.New("email is not found")
 		}
 		return nil
@@ -60,7 +60,7 @@ func (*List) Exec(k app_kitchen.Kitchen) error {
 	defer rep.Close()
 
 	for _, folder := range folders {
-		//k.UI().Info("recipe.sharedfolder.member.list.progress.scan",
+		//k.UI().Info("progress.scan",
 		//	app_msg.P("Folder", folder.Name),
 		//	app_msg.P("FolderId", folder.SharedFolderId),
 		//)

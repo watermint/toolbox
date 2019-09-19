@@ -54,6 +54,20 @@ type console struct {
 	testMode bool
 	qm       qt_control.Message
 	mutex    sync.Mutex
+	prefix   string
+}
+
+func (z *console) As(pkg interface{}) UI {
+	p := prefixFor(pkg)
+	return &console{
+		mc:       z.mc.WithPrefix(p),
+		out:      z.out,
+		in:       z.in,
+		testMode: z.testMode,
+		qm:       z.qm,
+		mutex:    sync.Mutex{},
+		prefix:   p,
+	}
 }
 
 func (z *console) IsConsole() bool {
@@ -65,14 +79,14 @@ func (z *console) IsWeb() bool {
 }
 
 func (z *console) OpenArtifact(path string) {
-	z.Info("run.console.open_artifact", app_msg.P("Path", path))
+	z.Info("run.console.open_artifact", app_msg.P{"Path": path})
 	if z.testMode {
 		return
 	}
 
 	err := open.Start(path)
 	if err != nil {
-		z.Error("run.console.open_artifact.error", app_msg.P("Error", err))
+		z.Error("run.console.open_artifact.error", app_msg.P{"Error": err})
 	}
 }
 
@@ -82,7 +96,7 @@ func (z *console) verifyKey(key string) {
 	}
 }
 
-func (z *console) Text(key string, p ...app_msg.Param) string {
+func (z *console) Text(key string, p ...app_msg.P) string {
 	z.verifyKey(key)
 	return z.mc.Compile(app_msg.M(key, p...))
 }
@@ -116,7 +130,7 @@ func (z *console) boldPrint(t string) {
 	}
 }
 
-func (z *console) Header(key string, p ...app_msg.Param) {
+func (z *console) Header(key string, p ...app_msg.P) {
 	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.boldPrint(m)
@@ -132,35 +146,35 @@ func (z *console) InfoTable(name string) Table {
 	}
 }
 
-func (z *console) Info(key string, p ...app_msg.Param) {
+func (z *console) Info(key string, p ...app_msg.P) {
 	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorWhite)
 	app_root.Log().Debug(m)
 }
 
-func (z *console) Error(key string, p ...app_msg.Param) {
+func (z *console) Error(key string, p ...app_msg.P) {
 	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorRed)
 	app_root.Log().Debug(m)
 }
 
-func (z *console) Success(key string, p ...app_msg.Param) {
+func (z *console) Success(key string, p ...app_msg.P) {
 	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorGreen)
 	app_root.Log().Debug(m)
 }
 
-func (z *console) Failure(key string, p ...app_msg.Param) {
+func (z *console) Failure(key string, p ...app_msg.P) {
 	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorRed)
 	app_root.Log().Debug(m)
 }
 
-func (z *console) AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool) {
+func (z *console) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	z.verifyKey(key)
 	msg := z.mc.Compile(app_msg.M(key, p...))
 	app_root.Log().Debug(msg)
@@ -194,7 +208,7 @@ func (z *console) AskCont(key string, p ...app_msg.Param) (cont bool, cancel boo
 	}
 }
 
-func (z *console) AskText(key string, p ...app_msg.Param) (text string, cancel bool) {
+func (z *console) AskText(key string, p ...app_msg.P) (text string, cancel bool) {
 	z.verifyKey(key)
 	msg := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(msg, ColorCyan)
@@ -218,7 +232,7 @@ func (z *console) AskText(key string, p ...app_msg.Param) (text string, cancel b
 	}
 }
 
-func (z *console) AskSecure(key string, p ...app_msg.Param) (text string, cancel bool) {
+func (z *console) AskSecure(key string, p ...app_msg.P) (text string, cancel bool) {
 	z.verifyKey(key)
 	msg := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(msg, ColorCyan)

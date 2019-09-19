@@ -132,8 +132,9 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 					zap.Int("Line", line),
 				)
 			}
-			ctl.UI().Error("run.error.panic", app_msg.P("Reason", err))
-			ctl.UI().Error("run.error.panic.instruction", app_msg.P("JobPath", ctl.Workspace().Job()))
+			ui := ctl.UI(nil)
+			ui.Error("run.error.panic", app_msg.P{"Reason": err})
+			ui.Error("run.error.panic.instruction", app_msg.P{"JobPath": ctl.Workspace().Job()})
 			ctl.Abort(app_control.Reason(app_control.FatalPanic))
 		}
 	}()
@@ -161,8 +162,9 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 					break
 				}
 			}
-			ctl.UI().Error("run.error.interrupted")
-			ctl.UI().Error("run.error.interrupted.instruction", app_msg.P("JobPath", ctl.Workspace().Job()))
+			ui := ctl.UI(nil)
+			ui.Error("run.error.interrupted")
+			ui.Error("run.error.interrupted.instruction", app_msg.P{"JobPath": ctl.Workspace().Job()})
 			ctl.Abort(app_control.Reason(app_control.FatalInterrupted))
 
 			// in case the controller didn't fire exit..

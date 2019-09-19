@@ -103,26 +103,29 @@ func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
 }
 
 func (z *Xlsx) Success(input interface{}, result interface{}) {
+	ui := z.ctl.UI(nil)
 	z.Row(TransactionRow{
-		Status: z.ctl.UI().Text(msgSuccess.Key(), msgSuccess.Params()...),
+		Status: ui.Text(msgSuccess.Key(), msgSuccess.Params()...),
 		Input:  input,
 		Result: result,
 	})
 }
 
 func (z *Xlsx) Failure(reason app_msg.Message, input interface{}, result interface{}) {
+	ui := z.ctl.UI(nil)
 	z.Row(TransactionRow{
-		Status: z.ctl.UI().Text(msgFailure.Key(), msgFailure.Params()...),
-		Reason: z.ctl.UI().Text(reason.Key(), reason.Params()...),
+		Status: ui.Text(msgFailure.Key(), msgFailure.Params()...),
+		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
 	})
 }
 
 func (z *Xlsx) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+	ui := z.ctl.UI(nil)
 	z.Row(TransactionRow{
-		Status: z.ctl.UI().Text(msgSkip.Key(), msgFailure.Params()...),
-		Reason: z.ctl.UI().Text(reason.Key(), reason.Params()...),
+		Status: ui.Text(msgSkip.Key(), msgFailure.Params()...),
+		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
 	})

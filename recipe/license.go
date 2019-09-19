@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
@@ -15,7 +16,7 @@ import (
 type License struct {
 }
 
-func (license *License) Test(c app_control.Control) error {
+func (z *License) Test(c app_control.Control) error {
 	return nil
 }
 
@@ -23,7 +24,8 @@ func (*License) Requirement() app_vo.ValueObject {
 	return &app_vo.EmptyValueObject{}
 }
 
-func (*License) Exec(k app_kitchen.Kitchen) error {
+func (z *License) Exec(k app_kitchen.Kitchen) error {
+	ui := k.UI(z)
 	tbxLicense, otherLicenses, order, err := LoadLicense(k.Control())
 	if err != nil {
 		return err
@@ -33,9 +35,9 @@ func (*License) Exec(k app_kitchen.Kitchen) error {
 		fmt.Println(line)
 	}
 	fmt.Printf("\n\n")
-	fmt.Println(k.UI().Text("recipe.license.third_party_notice.head"))
+	fmt.Println(ui.Text("third_party_notice.head"))
 	fmt.Printf("\n")
-	fmt.Println(k.UI().Text("recipe.license.third_party_notice.body"))
+	fmt.Println(ui.Text("third_party_notice.body"))
 	fmt.Printf("\n")
 
 	for _, pkg := range order {
@@ -56,10 +58,6 @@ func (*License) Exec(k app_kitchen.Kitchen) error {
 	return nil
 }
 
-const (
-	TbxPkg = "github.com/watermint/toolbox"
-)
-
 func LoadLicense(ctl app_control.Control) (tbxLicense []string, otherLicenses map[string][]string, order []string, err error) {
 	l := ctl.Log()
 	lic, err := ctl.Resource("licenses.json")
@@ -73,13 +71,13 @@ func LoadLicense(ctl app_control.Control) (tbxLicense []string, otherLicenses ma
 		return nil, nil, nil, err
 	}
 
-	if _, ok := licenses[TbxPkg]; !ok {
+	if _, ok := licenses[app.Pkg]; !ok {
 		l.Error("toolbox license not found")
 		return nil, nil, nil, errors.New("toolbox license not found")
 	}
 
 	for pkg, ll := range licenses {
-		if pkg == TbxPkg {
+		if pkg == app.Pkg {
 			tbxLicense = ll
 		} else {
 			otherLicenses[pkg] = ll
@@ -88,7 +86,7 @@ func LoadLicense(ctl app_control.Control) (tbxLicense []string, otherLicenses ma
 
 	deps := make([]string, 0)
 	for pkg := range otherLicenses {
-		if pkg != TbxPkg {
+		if pkg != app.Pkg {
 			deps = append(deps, pkg)
 		}
 	}

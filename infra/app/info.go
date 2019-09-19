@@ -7,3 +7,7 @@ var (
 	Zap        = ""
 	BuilderKey = ""
 )
+
+const (
+	Pkg = "github.com/watermint/toolbox"
+)

@@ -8,12 +8,26 @@ import (
 	"golang.org/x/text/language"
 )
 
-type Chain struct {
+type Multilingual struct {
 	LangPriority []language.Tag
 	Containers   map[language.Tag]app_msg_container.Container
+	Prefix       string
 }
 
-func (z *Chain) Exists(key string) bool {
+func (z *Multilingual) WithPrefix(prefix string) app_msg_container.Container {
+	containers := make(map[language.Tag]app_msg_container.Container)
+	for k, c := range z.Containers {
+		containers[k] = c.WithPrefix(prefix)
+	}
+
+	return &Multilingual{
+		LangPriority: z.LangPriority,
+		Containers:   containers,
+		Prefix:       prefix,
+	}
+}
+
+func (z *Multilingual) Exists(key string) bool {
 	for _, lang := range z.LangPriority {
 		if c, ok := z.Containers[lang]; ok {
 			if c.Exists(key) {
@@ -24,7 +38,7 @@ func (z *Chain) Exists(key string) bool {
 	return false
 }
 
-func (z *Chain) Compile(m app_msg.Message) string {
+func (z *Multilingual) Compile(m app_msg.Message) string {
 	for _, lang := range z.LangPriority {
 		if c, ok := z.Containers[lang]; ok {
 			if c.Exists(m.Key()) {
@@ -32,7 +46,10 @@ func (z *Chain) Compile(m app_msg.Message) string {
 			}
 		}
 	}
-	app_root.Log().Warn("Unable to find message resource", zap.String("key", m.Key()))
+	app_root.Log().Warn("Unable to find message resource",
+		zap.String("prefix", z.Prefix),
+		zap.String("key", m.Key()),
+	)
 
 	alt := Alt{}
 	return alt.Compile(m)

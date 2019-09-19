@@ -4,9 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 )
 
 type Alt struct {
+}
+
+func (z *Alt) WithPrefix(prefix string) app_msg_container.Container {
+	return z
 }
 
 func (Alt) Exists(key string) bool {
@@ -16,8 +21,9 @@ func (Alt) Exists(key string) bool {
 func (Alt) Compile(m app_msg.Message) string {
 	params := make(map[string]interface{})
 	for _, p := range m.Params() {
-		param := p()
-		params[param.Key] = param.Value
+		for k, v := range p {
+			params[k] = v
+		}
 	}
 
 	alt := struct {

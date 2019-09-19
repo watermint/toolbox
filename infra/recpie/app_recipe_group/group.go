@@ -12,7 +12,7 @@ import (
 )
 
 func AppHeader(ui app_ui.UI) {
-	ui.Header("run.app.header", app_msg.P("AppVersion", app.Version))
+	ui.Header("run.app.header", app_msg.P{"AppVersion": app.Version})
 	ui.Info("run.app.copyright")
 	ui.Info("run.app.license")
 	ui.Break()
@@ -69,8 +69,10 @@ func (z *Group) PrintUsage(ui app_ui.UI) {
 	ui.Header("run.group.header.usage")
 	ui.Info(
 		"run.group.usage",
-		app_msg.P("Exec", os.Args[0]),
-		app_msg.P("Group", strings.Join(z.Path, " ")),
+		app_msg.P{
+			"Exec":  os.Args[0],
+			"Group": strings.Join(z.Path, " "),
+		},
 	)
 	ui.Break()
 

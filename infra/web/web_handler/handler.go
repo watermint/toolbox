@@ -231,55 +231,60 @@ func (z *WebHandler) Login(g *gin.Context) {
 }
 
 func (z *WebHandler) NotFound(g *gin.Context) {
+	ui := z.Control.UI(nil)
 	g.HTML(
 		http.StatusNotFound,
 		"error",
 		gin.H{
-			"Header": z.Control.UI().Text("web.error.notfound.header"),
-			"Detail": z.Control.UI().Text("web.error.notfound.detail"),
+			"Header": ui.Text("web.error.notfound.header"),
+			"Detail": ui.Text("web.error.notfound.detail"),
 		},
 	)
 }
 
 func (z *WebHandler) ServerError(g *gin.Context) {
+	ui := z.Control.UI(nil)
 	g.HTML(
 		http.StatusInternalServerError,
 		"error",
 		gin.H{
-			"Header": z.Control.UI().Text("web.error.server.header"),
-			"Detail": z.Control.UI().Text("web.error.server.detail"),
+			"Header": ui.Text("web.error.server.header"),
+			"Detail": ui.Text("web.error.server.detail"),
 		},
 	)
 }
 func (z *WebHandler) CommandNotFound(g *gin.Context) {
+	ui := z.Control.UI(nil)
 	g.HTML(
 		http.StatusBadRequest,
 		"error",
 		gin.H{
-			"Header": z.Control.UI().Text("web.error.command_not_found.header"),
-			"Detail": z.Control.UI().Text("web.error.command_not_found.detail"),
+			"Header": ui.Text("web.error.command_not_found.header"),
+			"Detail": ui.Text("web.error.command_not_found.detail"),
 		},
 	)
 }
 
 func (z *WebHandler) AuthFailed(g *gin.Context) {
+	ui := z.Control.UI(nil)
 	g.HTML(
 		http.StatusOK,
 		"error",
 		gin.H{
-			"Header": z.Control.UI().Text("web.error.auth_failed.header"),
-			"Detail": z.Control.UI().Text("web.error.auth_failed.detail"),
+			"Header": ui.Text("web.error.auth_failed.header"),
+			"Detail": ui.Text("web.error.auth_failed.detail"),
 		},
 	)
 }
 
 func (z *WebHandler) Forbidden(g *gin.Context) {
+	ui := z.Control.UI(nil)
 	g.HTML(
 		http.StatusForbidden,
 		WebPathServerError,
 		gin.H{
-			"Header": z.Control.UI().Text("web.error.forbidden.header"),
-			"Detail": z.Control.UI().Text("web.error.forbidden.detail"),
+			"Header": ui.Text("web.error.forbidden.header"),
+			"Detail": ui.Text("web.error.forbidden.detail"),
 		},
 	)
 }
@@ -439,7 +444,7 @@ func (z *WebHandler) Run(g *gin.Context) {
 			return fmt.Sprintf("%s/%s/%s/%s", WebPathJobArtifact, cmd, jws.JobId(), p)
 		}
 
-		wui := app_ui.NewWeb(uc.UI(), wuiLog, linkForLocalFile)
+		wui := app_ui.NewWeb(uc.UI(nil), wuiLog, linkForLocalFile)
 		if muc, ok := uc.(*app_control_impl.Multi); !ok {
 			l.Debug("Control was not expected impl.")
 			g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
@@ -646,6 +651,7 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe
 	}
 	sort.Strings(listConns)
 
+	ui := z.Control.UI(nil)
 	g.HTML(
 		http.StatusOK,
 		"home-recipe-conn",
@@ -657,8 +663,8 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe
 			"SelectedConns":         selectedConns,
 			"CurrentConn":           nextConnName,
 			"CurrentConnType":       nextConnType,
-			"CurrentConnTypeHeader": z.Control.UI().Text("web.conn." + nextConnType + ".header"),
-			"CurrentConnTypeDetail": z.Control.UI().Text("web.conn." + nextConnType + ".detail"),
+			"CurrentConnTypeHeader": ui.Text("web.conn." + nextConnType + ".header"),
+			"CurrentConnTypeDetail": ui.Text("web.conn." + nextConnType + ".detail"),
 		},
 	)
 }
@@ -718,6 +724,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe
 	cmds := make([]string, 0)
 	dict := make(map[string]gin.H)
 	jobs := make([]gin.H, 0)
+	ui := z.Control.UI(nil)
 
 	for _, g := range grp.SubGroups {
 		if g.IsSecret() {
@@ -730,7 +737,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe
 
 		dict[g.Name] = gin.H{
 			"Title":       g.Name,
-			"Description": z.Control.UI().Text(grp.CommandDesc(g.Name).Key()),
+			"Description": ui.Text(grp.CommandDesc(g.Name).Key()),
 			"Uri":         WebPathHome + "/" + strings.Join(path, "-"),
 		}
 	}
@@ -741,7 +748,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe
 
 		dict[name] = gin.H{
 			"Title":       name,
-			"Description": z.Control.UI().Text(grp.CommandDesc(name).Key()),
+			"Description": ui.Text(grp.CommandDesc(name).Key()),
 			"Uri":         WebPathHome + "/" + strings.Join(path, "-"),
 		}
 	}

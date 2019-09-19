@@ -9,9 +9,10 @@ import (
 
 func NewUI(name string, row interface{}, ctl app_control.Control) (Report, error) {
 	parser := NewColumn(row, ctl)
+	ui := ctl.UI(nil)
 	r := &UI{
 		ctl:    ctl,
-		table:  ctl.UI().InfoTable(name),
+		table:  ui.InfoTable(name),
 		parser: parser,
 	}
 	return r, nil
@@ -26,26 +27,29 @@ type UI struct {
 }
 
 func (z *UI) Success(input interface{}, result interface{}) {
+	ui := z.ctl.UI(nil)
 	z.Row(TransactionRow{
-		Status: z.ctl.UI().Text(msgSuccess.Key(), msgSuccess.Params()...),
+		Status: ui.Text(msgSuccess.Key(), msgSuccess.Params()...),
 		Input:  input,
 		Result: result,
 	})
 }
 
 func (z *UI) Failure(reason app_msg.Message, input interface{}, result interface{}) {
+	ui := z.ctl.UI(nil)
 	z.Row(TransactionRow{
-		Status: z.ctl.UI().Text(msgFailure.Key(), msgFailure.Params()...),
-		Reason: z.ctl.UI().Text(reason.Key(), reason.Params()...),
+		Status: ui.Text(msgFailure.Key(), msgFailure.Params()...),
+		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
 	})
 }
 
 func (z *UI) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+	ui := z.ctl.UI(nil)
 	z.Row(TransactionRow{
-		Status: z.ctl.UI().Text(msgSkip.Key(), msgFailure.Params()...),
-		Reason: z.ctl.UI().Text(reason.Key(), reason.Params()...),
+		Status: ui.Text(msgSkip.Key(), msgFailure.Params()...),
+		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
 	})

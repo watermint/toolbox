@@ -105,8 +105,8 @@ func (z *Multi) Abort(opts ...app_control.AbortOpt) {
 	z.flc.Close()
 }
 
-func (z *Multi) UI() app_ui.UI {
-	return z.ui
+func (z *Multi) UI(prefix interface{}) app_ui.UI {
+	return z.ui.As(prefix)
 }
 
 func (z *Multi) Log() *zap.Logger {

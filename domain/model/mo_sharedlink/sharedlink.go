@@ -24,13 +24,13 @@ type SharedLink interface {
 
 type Metadata struct {
 	Raw        json.RawMessage
-	Id         string `path:"id"`
-	Tag        string `path:"\\.tag"`
-	Url        string `path:"url"`
-	Name       string `path:"name"`
-	Expires    string `path:"expires"`
-	PathLower  string `path:"path_lower"`
-	Visibility string `path:"link_permissions.resolved_visibility.\\.tag"`
+	Id         string `path:"id" json:"id"`
+	Tag        string `path:"\\.tag" json:"tag"`
+	Url        string `path:"url" json:"url"`
+	Name       string `path:"name" json:"name"`
+	Expires    string `path:"expires" json:"expires"`
+	PathLower  string `path:"path_lower" json:"path_lower"`
+	Visibility string `path:"link_permissions.resolved_visibility.\\.tag" json:"visibility"`
 }
 
 func (z *Metadata) EntryRaw() json.RawMessage {

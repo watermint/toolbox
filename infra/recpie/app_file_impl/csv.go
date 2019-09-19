@@ -10,11 +10,14 @@ import (
 )
 
 func NewCsv(filePath string, ctl app_control.Control) (app_file.RowDataFile, error) {
+	ui := ctl.UI(nil)
 	f, err := os.Open(filePath)
 	if err != nil {
-		ctl.UI().Error("flow.error.unable_to_read",
-			app_msg.P("Path", filePath),
-			app_msg.P("Error", err),
+		ui.Error("flow.error.unable_to_read",
+			app_msg.P{
+				"Path":  filePath,
+				"Error": err,
+			},
 		)
 		return nil, err
 	}
@@ -36,6 +39,7 @@ type CsvDataFile struct {
 }
 
 func (z *CsvDataFile) EachRow(ctl app_control.Control, exec func(cols []string, rowIndex int) error) error {
+	ui := ctl.UI(nil)
 	defer z.File.Close()
 	for i := 0; ; i++ {
 		cols, err := z.Reader.Read()
@@ -44,9 +48,11 @@ func (z *CsvDataFile) EachRow(ctl app_control.Control, exec func(cols []string, 
 			return nil
 
 		case err != nil:
-			ctl.UI().Error("flow.error.unable_to_read",
-				app_msg.P("Path", z.FilePath),
-				app_msg.P("Error", err),
+			ui.Error("flow.error.unable_to_read",
+				app_msg.P{
+					"Path":  z.FilePath,
+					"Error": err,
+				},
 			)
 			return err
 

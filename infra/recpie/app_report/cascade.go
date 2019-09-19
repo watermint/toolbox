@@ -101,6 +101,7 @@ func (z *Cascade) Flush() {
 }
 
 func (z *Cascade) Close() {
+	ui := z.Ctl.UI(nil)
 	for _, r := range z.Reports {
 		r.Close()
 	}
@@ -109,5 +110,5 @@ func (z *Cascade) Close() {
 	if err != nil {
 		return
 	}
-	z.Ctl.UI().OpenArtifact(p)
+	ui.OpenArtifact(p)
 }

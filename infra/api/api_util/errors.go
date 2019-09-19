@@ -76,12 +76,12 @@ func MsgFromError(err error) app_msg.Message {
 	case summary == "" && userMessage != "":
 		return app_msg.M(
 			"api.error.general_error",
-			app_msg.P("Error", userMessage),
+			app_msg.P{"Error": userMessage},
 		)
 	case summary == "":
 		return app_msg.M(
 			"api.error.general_error",
-			app_msg.P("Error", err.Error()),
+			app_msg.P{"Error": err.Error()},
 		)
 
 	default:
