@@ -39,6 +39,8 @@
   "recipe.team.info.desc": "Team information",
   "recipe.team.linkedapp.desc": "Linked application",
   "recipe.team.linkedapp.list.desc": "List linked applications",
+  "recipe.team.filerequest.desc": "File requests for team",
+  "recipe.team.filerequest.list.desc": "List all file requests in the team",
   "recipe.team.sharedlink.cap.desc": "Update shared links",
   "recipe.team.sharedlink.cap.expiry.desc": "Force expiration date of public shared links within the team",
   "recipe.team.sharedlink.cap.expiry.err.days_should_not_negative": "`days` option should not be negative",

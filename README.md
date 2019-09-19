@@ -78,6 +78,7 @@ Available commands:
 | `team device list`           | List devices or web sessions of the team                     |
 | `team device unlink`         | Unlink device                                                |
 | `team feature`               | Team feature                                                 |
+| `team filerequest list`      | List all file requests in the team                           |
 | `team info`                  | Team information                                             |
 | `team linkedapp list`        | List linked applications                                     |
 | `team namespace file list`   | List files/folders in all namespaces of the team             |
