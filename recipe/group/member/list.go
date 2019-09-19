@@ -65,7 +65,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 	defer rep.Close()
 
 	for _, group := range groups {
-		ui.Info("recipe.group.member.progress.scan", app_msg.P{"Group": group.GroupName})
+		ui.Info("recipe.group.member.list.progress.scan", app_msg.P{"Group": group.GroupName})
 
 		msv := sv_group_member.New(connInfo, group)
 		members, err := msv.List()
