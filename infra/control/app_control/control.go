@@ -13,7 +13,7 @@ type Control interface {
 	Down()
 	Abort(opts ...AbortOpt)
 
-	UI(prefix interface{}) app_ui.UI
+	UI() app_ui.UI
 	Log() *zap.Logger
 	Capture() *zap.Logger
 	Resource(key string) (bin []byte, err error)

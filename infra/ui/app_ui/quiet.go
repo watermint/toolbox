@@ -16,15 +16,6 @@ type Quiet struct {
 	prefix    string
 }
 
-func (z *Quiet) As(prefix interface{}) UI {
-	p := prefixFor(prefix)
-	return &Quiet{
-		container: z.container.WithPrefix(p),
-		log:       z.log,
-		prefix:    p,
-	}
-}
-
 func (z *Quiet) Success(key string, p ...app_msg.P) {
 	z.log.Debug(key, zap.Any("params", p))
 }

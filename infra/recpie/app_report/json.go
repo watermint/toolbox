@@ -69,7 +69,7 @@ func (z *Json) findRaw(row interface{}, orig interface{}) json.RawMessage {
 }
 
 func (z *Json) Success(input interface{}, result interface{}) {
-	ui := z.ctl.UI(nil)
+	ui := z.ctl.UI()
 	z.Row(TransactionRow{
 		Status: ui.Text(msgSuccess.Key(), msgSuccess.Params()...),
 		Input:  input,
@@ -78,7 +78,7 @@ func (z *Json) Success(input interface{}, result interface{}) {
 }
 
 func (z *Json) Failure(reason app_msg.Message, input interface{}, result interface{}) {
-	ui := z.ctl.UI(nil)
+	ui := z.ctl.UI()
 	z.Row(TransactionRow{
 		Status: ui.Text(msgFailure.Key(), msgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
@@ -88,7 +88,7 @@ func (z *Json) Failure(reason app_msg.Message, input interface{}, result interfa
 }
 
 func (z *Json) Skip(reason app_msg.Message, input interface{}, result interface{}) {
-	ui := z.ctl.UI(nil)
+	ui := z.ctl.UI()
 	z.Row(TransactionRow{
 		Status: ui.Text(msgSkip.Key(), msgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),

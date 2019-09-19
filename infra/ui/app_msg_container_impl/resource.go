@@ -15,23 +15,15 @@ import (
 
 type Resource struct {
 	Messages map[string]string
-	Prefix   string
-}
-
-func (z *Resource) WithPrefix(prefix string) app_msg_container.Container {
-	return &Resource{
-		Messages: z.Messages,
-		Prefix:   prefix,
-	}
 }
 
 func (z *Resource) Exists(key string) bool {
-	_, ok := z.Messages[keyWithPrefix(z.Prefix, key)]
+	_, ok := z.Messages[key]
 	return ok
 }
 
 func (z *Resource) Compile(m app_msg.Message) string {
-	key := keyWithPrefix(z.Prefix, m.Key())
+	key := m.Key()
 	if msg, ok := z.Messages[key]; !ok {
 		c := Alt{}
 		return c.Compile(m)

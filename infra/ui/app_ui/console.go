@@ -54,20 +54,6 @@ type console struct {
 	testMode bool
 	qm       qt_control.Message
 	mutex    sync.Mutex
-	prefix   string
-}
-
-func (z *console) As(pkg interface{}) UI {
-	p := prefixFor(pkg)
-	return &console{
-		mc:       z.mc.WithPrefix(p),
-		out:      z.out,
-		in:       z.in,
-		testMode: z.testMode,
-		qm:       z.qm,
-		mutex:    sync.Mutex{},
-		prefix:   p,
-	}
 }
 
 func (z *console) IsConsole() bool {

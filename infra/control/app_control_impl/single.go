@@ -182,8 +182,8 @@ func (z *Single) Abort(opts ...app_control.AbortOpt) {
 	}
 }
 
-func (z *Single) UI(prefix interface{}) app_ui.UI {
-	return z.ui.As(prefix)
+func (z *Single) UI() app_ui.UI {
+	return z.ui
 }
 
 func (z *Single) Log() *zap.Logger {

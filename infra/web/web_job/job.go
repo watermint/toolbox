@@ -20,7 +20,7 @@ type WebJobRun struct {
 }
 
 func Runner(ctl app_control.Control, jc <-chan *WebJobRun) {
-	ui := ctl.UI(nil)
+	ui := ctl.UI()
 	for job := range jc {
 		l := ctl.Log().With(zap.String("name", job.Name), zap.String("jobId", job.JobId))
 		l.Debug("Start a new job")

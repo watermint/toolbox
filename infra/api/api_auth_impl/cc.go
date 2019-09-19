@@ -36,7 +36,7 @@ func (z *CcAuth) Auth(tokenType string) (ctx api_context.Context, err error) {
 }
 
 func (z *CcAuth) wrapToken(tokenType, token string, cause error) (ctx api_context.Context, err error) {
-	ui := z.control.UI(nil)
+	ui := z.control.UI()
 	if cause != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func (z *CcAuth) init() {
 }
 
 func (z *CcAuth) generatedTokenInstruction(tokenType string) {
-	ui := z.control.UI(nil)
+	ui := z.control.UI()
 	api := ""
 	toa := ""
 
@@ -98,7 +98,7 @@ func (z *CcAuth) generatedTokenInstruction(tokenType string) {
 }
 
 func (z *CcAuth) generatedToken(tokenType string) (string, error) {
-	ui := z.control.UI(nil)
+	ui := z.control.UI()
 	z.generatedTokenInstruction(tokenType)
 	for {
 		code, cancel := ui.AskSecure("auth.basic.generated_token2")
@@ -147,7 +147,7 @@ func (z *CcAuth) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.Token, 
 }
 
 func (z *CcAuth) oauthCode(state string) string {
-	ui := z.control.UI(nil)
+	ui := z.control.UI()
 	for {
 		code, cancel := ui.AskSecure("auth.basic.oauth_seq2")
 		if cancel {
@@ -161,7 +161,7 @@ func (z *CcAuth) oauthCode(state string) string {
 }
 
 func (z *CcAuth) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
-	ui := z.control.UI(nil)
+	ui := z.control.UI()
 	cfg := z.app.Config(tokenType)
 	url := z.oauthUrl(cfg, state)
 

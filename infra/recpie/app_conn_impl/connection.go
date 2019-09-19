@@ -47,7 +47,7 @@ func NewConnUserFile() *ConnUserFile {
 
 func connect(tokenType, peerName string, control app_control.Control) (ctx api_context.Context, err error) {
 	l := control.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
-	ui := control.UI(nil)
+	ui := control.UI()
 
 	switch {
 	case control.IsTest():

@@ -231,7 +231,7 @@ func (z *WebHandler) Login(g *gin.Context) {
 }
 
 func (z *WebHandler) NotFound(g *gin.Context) {
-	ui := z.Control.UI(nil)
+	ui := z.Control.UI()
 	g.HTML(
 		http.StatusNotFound,
 		"error",
@@ -243,7 +243,7 @@ func (z *WebHandler) NotFound(g *gin.Context) {
 }
 
 func (z *WebHandler) ServerError(g *gin.Context) {
-	ui := z.Control.UI(nil)
+	ui := z.Control.UI()
 	g.HTML(
 		http.StatusInternalServerError,
 		"error",
@@ -254,7 +254,7 @@ func (z *WebHandler) ServerError(g *gin.Context) {
 	)
 }
 func (z *WebHandler) CommandNotFound(g *gin.Context) {
-	ui := z.Control.UI(nil)
+	ui := z.Control.UI()
 	g.HTML(
 		http.StatusBadRequest,
 		"error",
@@ -266,7 +266,7 @@ func (z *WebHandler) CommandNotFound(g *gin.Context) {
 }
 
 func (z *WebHandler) AuthFailed(g *gin.Context) {
-	ui := z.Control.UI(nil)
+	ui := z.Control.UI()
 	g.HTML(
 		http.StatusOK,
 		"error",
@@ -278,7 +278,7 @@ func (z *WebHandler) AuthFailed(g *gin.Context) {
 }
 
 func (z *WebHandler) Forbidden(g *gin.Context) {
-	ui := z.Control.UI(nil)
+	ui := z.Control.UI()
 	g.HTML(
 		http.StatusForbidden,
 		WebPathServerError,
@@ -444,7 +444,7 @@ func (z *WebHandler) Run(g *gin.Context) {
 			return fmt.Sprintf("%s/%s/%s/%s", WebPathJobArtifact, cmd, jws.JobId(), p)
 		}
 
-		wui := app_ui.NewWeb(uc.UI(nil), wuiLog, linkForLocalFile)
+		wui := app_ui.NewWeb(uc.UI(), wuiLog, linkForLocalFile)
 		if muc, ok := uc.(*app_control_impl.Multi); !ok {
 			l.Debug("Control was not expected impl.")
 			g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
@@ -651,7 +651,7 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe
 	}
 	sort.Strings(listConns)
 
-	ui := z.Control.UI(nil)
+	ui := z.Control.UI()
 	g.HTML(
 		http.StatusOK,
 		"home-recipe-conn",
@@ -724,7 +724,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe
 	cmds := make([]string, 0)
 	dict := make(map[string]gin.H)
 	jobs := make([]gin.H, 0)
-	ui := z.Control.UI(nil)
+	ui := z.Control.UI()
 
 	for _, g := range grp.SubGroups {
 		if g.IsSecret() {

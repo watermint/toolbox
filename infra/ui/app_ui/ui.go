@@ -22,8 +22,6 @@ type UI interface {
 
 	IsConsole() bool
 	IsWeb() bool
-
-	As(prefix interface{}) UI
 }
 
 type Table interface {

@@ -9,7 +9,7 @@ import (
 
 func NewUI(name string, row interface{}, ctl app_control.Control) (Report, error) {
 	parser := NewColumn(row, ctl)
-	ui := ctl.UI(nil)
+	ui := ctl.UI()
 	r := &UI{
 		ctl:    ctl,
 		table:  ui.InfoTable(name),
@@ -27,7 +27,7 @@ type UI struct {
 }
 
 func (z *UI) Success(input interface{}, result interface{}) {
-	ui := z.ctl.UI(nil)
+	ui := z.ctl.UI()
 	z.Row(TransactionRow{
 		Status: ui.Text(msgSuccess.Key(), msgSuccess.Params()...),
 		Input:  input,
@@ -36,7 +36,7 @@ func (z *UI) Success(input interface{}, result interface{}) {
 }
 
 func (z *UI) Failure(reason app_msg.Message, input interface{}, result interface{}) {
-	ui := z.ctl.UI(nil)
+	ui := z.ctl.UI()
 	z.Row(TransactionRow{
 		Status: ui.Text(msgFailure.Key(), msgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
@@ -46,7 +46,7 @@ func (z *UI) Failure(reason app_msg.Message, input interface{}, result interface
 }
 
 func (z *UI) Skip(reason app_msg.Message, input interface{}, result interface{}) {
-	ui := z.ctl.UI(nil)
+	ui := z.ctl.UI()
 	z.Row(TransactionRow{
 		Status: ui.Text(msgSkip.Key(), msgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),

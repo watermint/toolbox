@@ -38,15 +38,6 @@ type Web struct {
 	mutex  sync.Mutex
 }
 
-func (z *Web) As(prefix interface{}) UI {
-	return &Web{
-		baseUI: z.baseUI.As(prefix),
-		out:    z.out,
-		llf:    z.llf,
-		mutex:  sync.Mutex{},
-	}
-}
-
 const (
 	WebTagHeader         = "header"
 	WebTagInfo           = "info"

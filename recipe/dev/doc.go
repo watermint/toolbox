@@ -49,7 +49,7 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 	cl := k.Control().(app_control_launcher.ControlLauncher)
 	recpies := cl.Catalogue()
 
-	ui := k.UI(nil)
+	ui := k.UI()
 	for _, r := range recpies {
 		if _, ok := r.(app_recipe.SecretRecipe); ok {
 			continue

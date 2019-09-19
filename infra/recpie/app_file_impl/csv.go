@@ -10,7 +10,7 @@ import (
 )
 
 func NewCsv(filePath string, ctl app_control.Control) (app_file.RowDataFile, error) {
-	ui := ctl.UI(nil)
+	ui := ctl.UI()
 	f, err := os.Open(filePath)
 	if err != nil {
 		ui.Error("flow.error.unable_to_read",
@@ -39,7 +39,7 @@ type CsvDataFile struct {
 }
 
 func (z *CsvDataFile) EachRow(ctl app_control.Control, exec func(cols []string, rowIndex int) error) error {
-	ui := ctl.UI(nil)
+	ui := ctl.UI()
 	defer z.File.Close()
 	for i := 0; ; i++ {
 		cols, err := z.Reader.Read()

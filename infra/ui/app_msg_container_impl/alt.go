@@ -4,14 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 )
 
 type Alt struct {
-}
-
-func (z *Alt) WithPrefix(prefix string) app_msg_container.Container {
-	return z
 }
 
 func (Alt) Exists(key string) bool {

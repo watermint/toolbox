@@ -25,7 +25,7 @@ func (*License) Requirement() app_vo.ValueObject {
 }
 
 func (z *License) Exec(k app_kitchen.Kitchen) error {
-	ui := k.UI(z)
+	ui := k.UI()
 	tbxLicense, otherLicenses, order, err := LoadLicense(k.Control())
 	if err != nil {
 		return err
@@ -35,9 +35,9 @@ func (z *License) Exec(k app_kitchen.Kitchen) error {
 		fmt.Println(line)
 	}
 	fmt.Printf("\n\n")
-	fmt.Println(ui.Text("third_party_notice.head"))
+	fmt.Println(ui.Text("recipe.license.third_party_notice.head"))
 	fmt.Printf("\n")
-	fmt.Println(ui.Text("third_party_notice.body"))
+	fmt.Println(ui.Text("recipe.license.third_party_notice.body"))
 	fmt.Printf("\n")
 
 	for _, pkg := range order {

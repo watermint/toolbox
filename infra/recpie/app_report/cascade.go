@@ -101,7 +101,7 @@ func (z *Cascade) Flush() {
 }
 
 func (z *Cascade) Close() {
-	ui := z.Ctl.UI(nil)
+	ui := z.Ctl.UI()
 	for _, r := range z.Reports {
 		r.Close()
 	}

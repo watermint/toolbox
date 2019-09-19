@@ -14,7 +14,7 @@ func Network(ctl app_control.Control) error {
 		"https://api.dropboxapi.com",
 	}
 	l := ctl.Log()
-	ui := ctl.UI(nil)
+	ui := ctl.UI()
 	ui.Info("run.network.progress.testing")
 
 	for _, url := range urls {

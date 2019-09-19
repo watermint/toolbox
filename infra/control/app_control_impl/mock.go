@@ -81,8 +81,8 @@ func (z *mockControl) Abort(opts ...app_control.AbortOpt) {
 	os.Exit(app_control.FatalGeneral)
 }
 
-func (z *mockControl) UI(prefix interface{}) app_ui.UI {
-	return z.ui.As(prefix)
+func (z *mockControl) UI() app_ui.UI {
+	return z.ui
 }
 
 func (z *mockControl) Log() *zap.Logger {

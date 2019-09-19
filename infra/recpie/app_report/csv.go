@@ -38,7 +38,7 @@ type Csv struct {
 }
 
 func (z *Csv) Success(input interface{}, result interface{}) {
-	ui := z.ctl.UI(nil)
+	ui := z.ctl.UI()
 	z.Row(TransactionRow{
 		Status: ui.Text(msgSuccess.Key(), msgSuccess.Params()...),
 		Input:  input,
@@ -47,7 +47,7 @@ func (z *Csv) Success(input interface{}, result interface{}) {
 }
 
 func (z *Csv) Failure(reason app_msg.Message, input interface{}, result interface{}) {
-	ui := z.ctl.UI(nil)
+	ui := z.ctl.UI()
 	z.Row(TransactionRow{
 		Status: ui.Text(msgFailure.Key(), msgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
@@ -57,7 +57,7 @@ func (z *Csv) Failure(reason app_msg.Message, input interface{}, result interfac
 }
 
 func (z *Csv) Skip(reason app_msg.Message, input interface{}, result interface{}) {
-	ui := z.ctl.UI(nil)
+	ui := z.ctl.UI()
 	z.Row(TransactionRow{
 		Status: ui.Text(msgSkip.Key(), msgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),

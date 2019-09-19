@@ -13,7 +13,7 @@ type Factory struct {
 }
 
 func (z *Factory) EachRow(ctl app_control.Control, exec func(cols []string, rowIndex int) error) error {
-	ui := ctl.UI(nil)
+	ui := ctl.UI()
 	if z.FilePath == "" {
 		ui.Error("flow.error.no_file_path")
 		return errors.New("please specify data file")

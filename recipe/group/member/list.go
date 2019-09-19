@@ -44,7 +44,7 @@ func (*List) Requirement() app_vo.ValueObject {
 }
 
 func (z *List) Exec(k app_kitchen.Kitchen) error {
-	ui := k.UI(z)
+	ui := k.UI()
 	var vo interface{} = k.Value()
 	lvo := vo.(*ListVO)
 	connInfo, err := lvo.PeerName.Connect(k.Control())
@@ -65,7 +65,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 	defer rep.Close()
 
 	for _, group := range groups {
-		ui.Info("progress.scan", app_msg.P{"Group": group.GroupName})
+		ui.Info("recipe.group.member.progress.scan", app_msg.P{"Group": group.GroupName})
 
 		msv := sv_group_member.New(connInfo, group)
 		members, err := msv.List()
