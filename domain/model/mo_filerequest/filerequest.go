@@ -21,6 +21,14 @@ type FileRequest struct {
 	DeadlineAllowLateUploads string `path:"deadline.allow_late_uploads.\\.tag" json:"deadline_allow_late_uploads"`
 }
 
+func (z *FileRequest) IsSame(other *FileRequest) bool {
+	return z.Title == other.Title &&
+		z.Destination == other.Destination &&
+		z.IsOpen == other.IsOpen &&
+		z.Deadline == other.Deadline &&
+		z.DeadlineAllowLateUploads == other.DeadlineAllowLateUploads
+}
+
 type MemberFileRequest struct {
 	Raw                      json.RawMessage
 	AccountId                string `path:"member.profile.account_id" json:"account_id"`

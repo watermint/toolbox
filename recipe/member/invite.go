@@ -21,7 +21,7 @@ type InviteRow struct {
 }
 
 type InviteVO struct {
-	File     app_file.RowDataFile
+	File     app_file.ColDataFile
 	PeerName app_conn.ConnBusinessMgmt
 }
 

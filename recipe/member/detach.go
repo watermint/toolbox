@@ -28,7 +28,7 @@ func DetachRowFromCols(cols []string) (row *DetachRow) {
 }
 
 type DetachVO struct {
-	File             app_file.RowDataFile
+	File             app_file.ColDataFile
 	PeerName         app_conn.ConnBusinessMgmt
 	RetainTeamShares bool
 }

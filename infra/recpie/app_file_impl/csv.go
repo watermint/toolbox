@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-func NewCsv(filePath string, ctl app_control.Control) (app_file.RowDataFile, error) {
+func NewCsv(filePath string, ctl app_control.Control) (app_file.ColDataFile, error) {
 	ui := ctl.UI()
 	f, err := os.Open(filePath)
 	if err != nil {

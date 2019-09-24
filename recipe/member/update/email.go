@@ -7,7 +7,7 @@ import (
 )
 
 type EmailVO struct {
-	File                 app_file.RowDataFile
+	File                 app_file.ColDataFile
 	DontUpdateUnverified bool
 }
 

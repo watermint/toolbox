@@ -61,7 +61,7 @@ func (z *ValueContainer) From(vo interface{}) {
 			z.Values[kn] = &v
 		case reflect.Interface:
 			switch {
-			case vof.Type.Implements(reflect.TypeOf((*app_file.RowDataFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*app_file.ColDataFile)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
@@ -168,7 +168,7 @@ func (z *ValueContainer) Apply(vo interface{}) {
 			}
 		case reflect.Interface:
 			switch {
-			case vof.Type.Implements(reflect.TypeOf((*app_file.RowDataFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*app_file.ColDataFile)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
