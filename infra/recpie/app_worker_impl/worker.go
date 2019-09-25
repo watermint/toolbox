@@ -7,12 +7,14 @@ import (
 	"sync"
 )
 
-func NewQueue(ctl app_control.Control) app_worker.Queue {
-	return &Queue{
+func NewQueue(ctl app_control.Control, concurrency int) app_worker.Queue {
+	q := &Queue{
 		ctl: ctl,
 		wg:  sync.WaitGroup{},
 		q:   make(chan app_worker.Worker),
 	}
+	q.launch(concurrency)
+	return q
 }
 
 type Queue struct {
@@ -30,23 +32,24 @@ func (z *Queue) dequeue(id int) {
 		jobId++
 
 		ll.Debug("Run work")
-		if err := w(z.ctl); err != nil {
-			ll.Debug("Work finished with error", zap.Error(err))
+		if err := w(); err != nil {
+			ll.Debug("FAILURE: Work finished with error", zap.Error(err))
 		} else {
-			ll.Debug("Work SUCCESS")
+			ll.Debug("SUCCESS: Done")
 		}
 		z.wg.Done()
 	}
 	l.Debug("Shutdown")
 }
 
-func (z *Queue) Launch(concurrency int) {
+func (z *Queue) launch(concurrency int) {
 	l := z.ctl.Log()
 	if concurrency < 1 {
-		l.Error("Concurrency must grater than 1", zap.Int("concurrency", concurrency))
-		z.ctl.Abort(app_control.Reason(app_control.FatalPanic))
+		l.Debug("Concurrency must positive number, use 1 as default", zap.Int("concurrency", concurrency))
+		concurrency = 1
 	}
 
+	l.Debug("Launch workers", zap.Int("concurrency", concurrency))
 	for i := 0; i < concurrency; i++ {
 		go z.dequeue(i)
 	}
@@ -59,4 +62,5 @@ func (z *Queue) Enqueue(w app_worker.Worker) {
 
 func (z *Queue) Wait() {
 	z.wg.Wait()
+	close(z.q)
 }

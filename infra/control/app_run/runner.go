@@ -24,11 +24,12 @@ import (
 )
 
 type CommonOpts struct {
-	Workspace string
-	Debug     bool
-	Proxy     string
-	Quiet     bool
-	Secure    bool
+	Workspace   string
+	Debug       bool
+	Proxy       string
+	Quiet       bool
+	Secure      bool
+	Concurrency int
 }
 
 func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
@@ -37,6 +38,7 @@ func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
 	f.StringVar(&z.Workspace, "proxy", "", mc.Compile(app_msg.M("run.common.flag.proxy")))
 	f.BoolVar(&z.Quiet, "quiet", false, mc.Compile(app_msg.M("run.common.flag.quiet")))
 	f.BoolVar(&z.Secure, "secure", false, mc.Compile(app_msg.M("run.common.flag.secure")))
+	f.IntVar(&z.Concurrency, "concurrency", runtime.NumCPU(), mc.Compile(app_msg.M("run.common.flag.concurrency")))
 }
 
 func Run(args []string, bx, web *rice.Box) (found bool) {
@@ -102,6 +104,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	if com.Secure {
 		so = append(so, app_control.Secure())
 	}
+	so = append(so, app_control.Concurrency(com.Concurrency))
 	so = append(so, app_control.RecipeName(recipeName))
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, Recipes())

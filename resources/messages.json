@@ -66,6 +66,7 @@
   "run.common.flag.quiet": "Suppress non error messages, and make output readable by machine (JSON format)",
   "run.common.flag.secure": "Do not store tokens into a file",
   "run.common.flag.workspace": "Workspace path",
+  "run.common.flag.concurrency": "Maximum concurrency for running operation",
   "run.console.open_artifact": "Opening artifact at {{.Path}}",
   "run.console.open_artifact.error": "Failed to open folder: {{.Error}}",
   "run.error.interrupted": "Interrupted",

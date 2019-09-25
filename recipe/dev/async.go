@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/recpie/app_worker_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -35,9 +34,6 @@ func (z *Async) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	q := app_worker_impl.NewQueue(k.Control())
-	q.Launch(4)
-
 	gsv := sv_group.New(connInfo)
 	groups, err := gsv.List()
 	if err != nil {
@@ -50,8 +46,9 @@ func (z *Async) Exec(k app_kitchen.Kitchen) error {
 	}
 	defer rep.Close()
 
+	q := k.NewQueue()
 	for _, group := range groups {
-		q.Enqueue(func(ctl app_control.Control) error {
+		q.Enqueue(func() error {
 			ui.Info("recipe.group.member.list.progress.scan", app_msg.P{"Group": group.GroupName})
 
 			msv := sv_group_member.New(connInfo, group)
