@@ -64,6 +64,7 @@ Available commands:
 | `member invite`              | Invite member(s)                                             |
 | `member list`                | List team member(s)                                          |
 | `member mirror files`        | Mirror member files                                          |
+| `member quota list`          | List team member quota                                       |
 | `member quota update`        | Update member storage quota                                  |
 | `member remove`              | Remove the member from the team                              |
 | `member sync`                | Sync member information with provided csv                    |
