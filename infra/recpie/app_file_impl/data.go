@@ -128,7 +128,6 @@ func (z *CsvData) header(cols []string) error {
 			f := v.Elem().FieldByName(fieldName)
 			if !f.IsValid() || !f.CanSet() {
 				l.Debug("Invalid column",
-					zap.Bool("isZero", f.IsZero()),
 					zap.Bool("isValid", f.IsValid()),
 					zap.Bool("canSet", f.CanSet()),
 				)
@@ -147,7 +146,6 @@ func (z *CsvData) header(cols []string) error {
 			f := v.Elem().FieldByName(fieldName)
 			if !f.IsValid() || !f.CanSet() {
 				l.Debug("Invalid column",
-					zap.Bool("isZero", f.IsZero()),
 					zap.Bool("isValid", f.IsValid()),
 					zap.Bool("canSet", f.CanSet()),
 				)
