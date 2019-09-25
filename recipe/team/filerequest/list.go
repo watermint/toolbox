@@ -3,20 +3,45 @@ package filerequest
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_filerequest"
+	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_filerequest"
 	"github.com/watermint/toolbox/domain/service/sv_member"
+	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
-
-type List struct {
-}
 
 type ListVO struct {
 	PeerName app_conn.ConnBusinessFile
+}
+
+type ListWorker struct {
+	member *mo_member.Member
+	conn   api_context.Context
+	rep    app_report.Report
+	ctl    app_control.Control
+}
+
+func (z *ListWorker) Exec() error {
+	z.ctl.UI().Info("recipe.team.filerequest.list.scan", app_msg.P{"MemberEmail": z.member.Email})
+	mc := z.conn.AsMemberId(z.member.TeamMemberId)
+	reqs, err := sv_filerequest.New(mc).List()
+	if err != nil {
+		return err
+	}
+	for _, req := range reqs {
+		fm := mo_filerequest.NewMemberFileRequest(req, z.member)
+		z.rep.Row(fm)
+	}
+	return nil
+}
+
+type List struct {
 }
 
 func (z *List) Requirement() app_vo.ValueObject {
@@ -43,17 +68,17 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 	}
 	defer rep.Close()
 
+	q := k.NewQueue()
 	for _, member := range members {
-		mc := conn.AsMemberId(member.TeamMemberId)
-		reqs, err := sv_filerequest.New(mc).List()
-		if err != nil {
-			return err
-		}
-		for _, req := range reqs {
-			fm := mo_filerequest.NewMemberFileRequest(req, member)
-			rep.Row(fm)
-		}
+		q.Enqueue(&ListWorker{
+			member: member,
+			conn:   conn,
+			rep:    rep,
+			ctl:    k.Control(),
+		})
 	}
+	q.Wait()
+
 	return nil
 }
 

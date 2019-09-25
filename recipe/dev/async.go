@@ -36,10 +36,13 @@ func (z *AsyncVO) reportName() string {
 }
 
 type AsyncWorker struct {
+	// job context
 	group *mo_group.Group
-	ctl   app_control.Control
-	conn  api_context.Context
-	rep   app_report.Report
+
+	// recipe's context
+	ctl  app_control.Control
+	conn api_context.Context
+	rep  app_report.Report
 }
 
 func (z *AsyncWorker) Exec() error {
@@ -89,6 +92,9 @@ func (z *Async) Exec(k app_kitchen.Kitchen) error {
 	defer rep.Close()
 
 	q := k.NewQueue()
+
+	// Launch additional routines (because only single routine running when the recipe
+	// run through test
 	qq := q.(*app_worker_impl.Queue)
 	qq.Launch(4)
 
