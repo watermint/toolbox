@@ -24,6 +24,19 @@ type Deadline struct {
 	AllowLateUploads string `json:"allow_late_uploads,omitempty"`
 }
 
+func OptDeadline(deadline string) UpdateOpt {
+	return func(opts *UpdateOpts) *UpdateOpts {
+		opts.Deadline = deadline
+		return opts
+	}
+}
+func OptAllowLateUploads(tag string) UpdateOpt {
+	return func(opts *UpdateOpts) *UpdateOpts {
+		opts.DeadlineAllowLateUploads = tag
+		return opts
+	}
+}
+
 func New(ctx api_context.Context) FileRequest {
 	return &fileRequestImpl{
 		ctx: ctx,
