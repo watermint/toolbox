@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	app2 "github.com/watermint/toolbox/legacy/app"
-	app_report_column2 "github.com/watermint/toolbox/legacy/app/app_report/app_report_column"
+	app_report_column2 "github.com/watermint/toolbox/legacy/app/app_report_legacy/app_report_column"
 	"go.uber.org/zap"
 	"io"
 	"os"

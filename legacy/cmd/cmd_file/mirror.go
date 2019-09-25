@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/api/api_util"
-	"github.com/watermint/toolbox/legacy/app/app_report"
+	"github.com/watermint/toolbox/legacy/app/app_report_legacy"
 	cmd2 "github.com/watermint/toolbox/legacy/cmd"
 )
 
@@ -19,7 +19,7 @@ type CmdFileMirror struct {
 	optSrcPath    string
 	optDstPath    string
 	optVerify     bool
-	report        app_report.Factory
+	report        app_report_legacy.Factory
 }
 
 func (CmdFileMirror) Name() string {

@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/api/api_util"
-	"github.com/watermint/toolbox/legacy/app/app_report"
+	"github.com/watermint/toolbox/legacy/app/app_report_legacy"
 	cmd2 "github.com/watermint/toolbox/legacy/cmd"
 )
 
@@ -16,7 +16,7 @@ type CmdTeamFolderMirror struct {
 	optDstTeamAlias   string
 	optAllTeamFolders bool
 
-	report app_report.Factory
+	report app_report_legacy.Factory
 }
 
 func (CmdTeamFolderMirror) Name() string {

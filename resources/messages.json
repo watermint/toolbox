@@ -52,6 +52,7 @@
   "recipe.team.sharedlink.cap.expiry.err.please_specify_days_or_at": "Please specify `days` option or `at` option",
   "recipe.team.sharedlink.desc": "Shared link of entire team",
   "recipe.team.sharedlink.list.desc": "List of shared link(s)",
+  "recipe.team.sharedlink.list.scan": "Scanning member: {{.MemberEmail}}",
   "recipe.teamfolder.desc": "Team folder management (Dropbox Business)",
   "recipe.teamfolder.list.desc": "List team folder(s)",
   "recipe.web.desc": "Launch web console (experimental)",

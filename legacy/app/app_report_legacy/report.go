@@ -1,4 +1,4 @@
-package app_report
+package app_report_legacy
 
 import (
 	"errors"
@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/infra/util/ut_log"
 	app2 "github.com/watermint/toolbox/legacy/app"
-	app_report_csv2 "github.com/watermint/toolbox/legacy/app/app_report/app_report_csv"
-	app_report_json2 "github.com/watermint/toolbox/legacy/app/app_report/app_report_json"
-	app_report_xlsx2 "github.com/watermint/toolbox/legacy/app/app_report/app_report_xlsx"
+	app_report_csv2 "github.com/watermint/toolbox/legacy/app/app_report_legacy/app_report_csv"
+	app_report_json2 "github.com/watermint/toolbox/legacy/app/app_report_legacy/app_report_json"
+	app_report_xlsx2 "github.com/watermint/toolbox/legacy/app/app_report_legacy/app_report_xlsx"
 	"github.com/watermint/toolbox/legacy/app/app_ui"
 	"io"
 	"os"

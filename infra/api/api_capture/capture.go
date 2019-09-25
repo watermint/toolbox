@@ -4,8 +4,8 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_rpc"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	app2 "github.com/watermint/toolbox/legacy/app"
-	"github.com/watermint/toolbox/legacy/app/app_report"
-	"github.com/watermint/toolbox/legacy/app/app_report/app_report_json"
+	"github.com/watermint/toolbox/legacy/app/app_report_legacy"
+	"github.com/watermint/toolbox/legacy/app/app_report_legacy/app_report_json"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -82,7 +82,7 @@ var (
 )
 
 type captureImpl struct {
-	storage app_report.Report
+	storage app_report_legacy.Report
 }
 
 func (z *captureImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error, latency int64) {

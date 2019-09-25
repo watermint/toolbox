@@ -8,14 +8,14 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/legacy/app/app_io"
-	"github.com/watermint/toolbox/legacy/app/app_report"
+	"github.com/watermint/toolbox/legacy/app/app_report_legacy"
 	cmd2 "github.com/watermint/toolbox/legacy/cmd"
 	"go.uber.org/zap"
 )
 
 type CmdMemberQuotaUpdate struct {
 	*cmd2.SimpleCommandlet
-	report  app_report.Factory
+	report  app_report_legacy.Factory
 	optSize int
 	optCsv  string
 }

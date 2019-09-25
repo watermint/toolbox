@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	app2 "github.com/watermint/toolbox/legacy/app"
-	"github.com/watermint/toolbox/legacy/app/app_report"
+	"github.com/watermint/toolbox/legacy/app/app_report_legacy"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -126,7 +126,7 @@ func TestGroupMember_Group(t *testing.T) {
 	{
 		ec := app2.NewExecContextForTest()
 		reportPath := filepath.Join(ec.JobsPath(), "report")
-		report := app_report.Factory{}
+		report := app_report_legacy.Factory{}
 		report.ExecContext = ec
 		report.Path = reportPath
 		if err := report.Init(ec); err != nil {
