@@ -61,11 +61,11 @@ func (z *ValueContainer) From(vo interface{}) {
 			z.Values[kn] = &v
 		case reflect.Interface:
 			switch {
-			case vof.Type.Implements(reflect.TypeOf((*app_file.ColDataFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*app_file.Data)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = &app_file_impl.Factory{}
+					z.Values[kn] = app_file_impl.NewData()
 				}
 
 			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessMgmt)(nil)).Elem()):
@@ -168,7 +168,7 @@ func (z *ValueContainer) Apply(vo interface{}) {
 			}
 		case reflect.Interface:
 			switch {
-			case vof.Type.Implements(reflect.TypeOf((*app_file.ColDataFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*app_file.Data)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
@@ -238,7 +238,7 @@ func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet) {
 			f.Int64Var(dv, kf, *dv, desc)
 		case *string:
 			f.StringVar(dv, kf, *dv, desc)
-		case *app_file_impl.Factory:
+		case *app_file_impl.CsvData:
 			f.StringVar(&dv.FilePath, kf, dv.FilePath, desc)
 		case *app_conn_impl.ConnBusinessMgmt:
 			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)

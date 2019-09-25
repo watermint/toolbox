@@ -1,14 +1,8 @@
 package app_file
 
-import (
-	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/infra/control/app_control"
-)
+import "github.com/watermint/toolbox/infra/control/app_control"
 
-type ColDataFile interface {
-	EachRow(ctl app_control.Control, exec func(cols []string, rowIndex int) error) error
-}
-
-type JsonDataFile interface {
-	EachRow(ctl app_control.Control, exec func(j gjson.Result, rowIndex int) error) error
+type Data interface {
+	Model(ctl app_control.Control, m interface{}) error
+	EachRow(exec func(m interface{}, rowIndex int) error) error
 }
