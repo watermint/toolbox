@@ -118,5 +118,6 @@ for p in win mac linux; do
   echo BUILD: Packaging $p
   cp $BUILD_PATH/LICENSE.txt $BUILD_PATH/"$p"/
   cp README.md  $BUILD_PATH/"$p"/README.txt
-  ( cd $BUILD_PATH/"$p" && zip -9 -r $DIST_PATH/tbx-"$BUILD_VERSION"-"$p".zip . )
+  ( cd $BUILD_PATH/"$p" && zip -9 -r $BUILD_PATH/tbx-"$BUILD_VERSION"-"$p".zip . )
 done
+( cd $BUILD_PATH && zip -0 *.zip $DIST_PATH/tbx-"$BUILD_VERSION".zip )

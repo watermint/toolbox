@@ -19,6 +19,6 @@ jobs:
       - run: go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' $(glide novendor) | xargs -L 1 sh -c
       - run: gover
       - run: goveralls -coverprofile=gover.coverprofile -service=circle-ci -v
-      - run: PROJECT_ROOT=/go/src/github.com/watermint/toolbox ./build.sh
+      - run: ./build.sh
       - store_artifacts:
-          path: /dist
+          path: /go/src/github.com/watermint/toolbox/dist
