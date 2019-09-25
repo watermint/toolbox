@@ -120,4 +120,4 @@ for p in win mac linux; do
   cp README.md  $BUILD_PATH/"$p"/README.txt
   ( cd $BUILD_PATH/"$p" && zip -9 -r $BUILD_PATH/tbx-"$BUILD_VERSION"-"$p".zip . )
 done
-( cd $BUILD_PATH && zip -0 *.zip $DIST_PATH/tbx-"$BUILD_VERSION".zip )
+( cd $BUILD_PATH && zip -0 $DIST_PATH/tbx-"$BUILD_VERSION".zip *.zip )
