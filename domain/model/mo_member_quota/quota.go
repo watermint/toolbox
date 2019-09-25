@@ -19,24 +19,24 @@ func (z *Quota) IsUnlimited() bool {
 }
 
 type MemberQuota struct {
-	Raw             json.RawMessage
-	TeamMemberId    string `path:"member.profile.team_member_id" json:"team_member_id"`
-	Email           string `path:"member.profile.email" json:"email"`
-	EmailVerified   bool   `path:"member.profile.email_verified" json:"email_verified"`
-	Status          string `path:"member.profile.status.\\.tag" json:"status"`
-	GivenName       string `path:"member.profile.name.given_name" json:"given_name"`
-	Surname         string `path:"member.profile.name.surname" json:"surname"`
-	FamiliarName    string `path:"member.profile.name.familiar_name" json:"familiar_name"`
-	DisplayName     string `path:"member.profile.name.display_name" json:"display_name"`
-	AbbreviatedName string `path:"member.profile.name.abbreviated_name" json:"abbreviated_name"`
-	MemberFolderId  string `path:"member.profile.member_folder_id" json:"member_folder_id"`
-	ExternalId      string `path:"member.profile.external_id" json:"external_id"`
-	AccountId       string `path:"member.profile.account_id" json:"account_id"`
-	PersistentId    string `path:"member.profile.persistent_id" json:"persistent_id"`
-	JoinedOn        string `path:"member.profile.joined_on" json:"joined_on"`
-	Role            string `path:"member.role.\\.tag" json:"role"`
-	Tag             string `path:"member.\\.tag" json:"tag"`
-	Quota           int    `path:"quota.quota_gb" json:"quota"`
+	Raw json.RawMessage
+	//TeamMemberId    string `path:"member.profile.team_member_id" json:"team_member_id"`
+	Email string `path:"member.profile.email" json:"email"`
+	//EmailVerified   bool   `path:"member.profile.email_verified" json:"email_verified"`
+	//Status          string `path:"member.profile.status.\\.tag" json:"status"`
+	//GivenName       string `path:"member.profile.name.given_name" json:"given_name"`
+	//Surname         string `path:"member.profile.name.surname" json:"surname"`
+	//FamiliarName    string `path:"member.profile.name.familiar_name" json:"familiar_name"`
+	//DisplayName     string `path:"member.profile.name.display_name" json:"display_name"`
+	//AbbreviatedName string `path:"member.profile.name.abbreviated_name" json:"abbreviated_name"`
+	//MemberFolderId  string `path:"member.profile.member_folder_id" json:"member_folder_id"`
+	//ExternalId      string `path:"member.profile.external_id" json:"external_id"`
+	//AccountId       string `path:"member.profile.account_id" json:"account_id"`
+	//PersistentId    string `path:"member.profile.persistent_id" json:"persistent_id"`
+	//JoinedOn        string `path:"member.profile.joined_on" json:"joined_on"`
+	//Role            string `path:"member.role.\\.tag" json:"role"`
+	//Tag             string `path:"member.\\.tag" json:"tag"`
+	Quota int `path:"quota.quota_gb" json:"quota"`
 }
 
 func NewMemberQuota(member *mo_member.Member, quota *Quota) (mq *MemberQuota) {
