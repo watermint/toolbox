@@ -1,12 +1,20 @@
 package dev
 
 import (
-	"fmt"
+	"github.com/watermint/toolbox/domain/model/mo_group_member"
+	"github.com/watermint/toolbox/domain/service/sv_group"
+	"github.com/watermint/toolbox/domain/service/sv_group_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"sync"
+	"github.com/watermint/toolbox/infra/recpie/app_worker_impl"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
+
+type AsyncVO struct {
+	PeerName app_conn.ConnBusinessMgmt
+}
 
 type Async struct {
 }
@@ -15,36 +23,50 @@ func (z *Async) Hidden() {
 }
 
 func (z *Async) Requirement() app_vo.ValueObject {
-	return &app_vo.EmptyValueObject{}
+	return &AsyncVO{}
 }
 
 func (z *Async) Exec(k app_kitchen.Kitchen) error {
-	type Report struct {
-		Worker int `json:"worker"`
-		Job    int `json:"job"`
+	ui := k.UI()
+	var vo interface{} = k.Value()
+	lvo := vo.(*AsyncVO)
+	connInfo, err := lvo.PeerName.Connect(k.Control())
+	if err != nil {
+		return err
 	}
 
-	wg := sync.WaitGroup{}
-	rep, err := k.Report("async", &Report{})
+	q := app_worker_impl.NewQueue(k.Control())
+	q.Launch(4)
+
+	gsv := sv_group.New(connInfo)
+	groups, err := gsv.List()
+	if err != nil {
+		return err
+	}
+
+	rep, err := k.Report("group_member", &mo_group_member.GroupMember{})
 	if err != nil {
 		return err
 	}
 	defer rep.Close()
 
-	concurrency := 8
+	for _, group := range groups {
+		q.Enqueue(func(ctl app_control.Control) error {
+			ui.Info("recipe.group.member.list.progress.scan", app_msg.P{"Group": group.GroupName})
 
-	for i := 0; i < concurrency; i++ {
-		wg.Add(1)
-		go func(id int) {
-			for j := 0; j < 10000; j++ {
-				k.Log().Debug(fmt.Sprintf("[Worker %d] Job %d", id, j))
-				rep.Row(&Report{i, j})
+			msv := sv_group_member.New(connInfo, group)
+			members, err := msv.List()
+			if err != nil {
+				return err
 			}
-			wg.Done()
-		}(i)
+			for _, m := range members {
+				row := mo_group_member.NewGroupMember(group, m)
+				rep.Row(row)
+			}
+			return nil
+		})
 	}
-
-	wg.Wait()
+	q.Wait()
 
 	return nil
 }
