@@ -7,6 +7,7 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p $HOME/.toolbox/secrets
+      - run: export PROJECT_ROOT=/go/src/github.com/watermint/toolbox
       - run: echo "$TOOLBOX_APPKEYS" > resources/toolbox.appkeys
       - run: echo "$TOOLBOX_ENDTOEND" > $HOME/.toolbox/secrets/end_to_end_test.tokens
       - run: go get github.com/Masterminds/glide
@@ -21,4 +22,4 @@ jobs:
       - run: goveralls -coverprofile=gover.coverprofile -service=circle-ci -v
       - run: ./build.sh
       - store_artifacts:
-          path: /go/src/github.com/watermint/toolbox/dist
+          path: /dist
