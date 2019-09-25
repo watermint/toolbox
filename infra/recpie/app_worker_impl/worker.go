@@ -3,6 +3,7 @@ package app_worker_impl
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_worker"
+	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"go.uber.org/zap"
 	"sync"
 )
@@ -13,7 +14,7 @@ func NewQueue(ctl app_control.Control, concurrency int) app_worker.Queue {
 		wg:  sync.WaitGroup{},
 		q:   make(chan app_worker.Worker),
 	}
-	q.launch(concurrency)
+	q.Launch(concurrency)
 	return q
 }
 
@@ -23,8 +24,8 @@ type Queue struct {
 	q   chan app_worker.Worker
 }
 
-func (z *Queue) dequeue(id int) {
-	l := z.ctl.Log().With(zap.Int("Worker", id))
+func (z *Queue) dequeue() {
+	l := z.ctl.Log().With(zap.String("Routine", ut_runtime.GetGoRoutineName()))
 	jobId := 0
 
 	for w := range z.q {
@@ -32,7 +33,7 @@ func (z *Queue) dequeue(id int) {
 		jobId++
 
 		ll.Debug("Run work")
-		if err := w(); err != nil {
+		if err := w.Exec(); err != nil {
 			ll.Debug("FAILURE: Work finished with error", zap.Error(err))
 		} else {
 			ll.Debug("SUCCESS: Done")
@@ -42,16 +43,16 @@ func (z *Queue) dequeue(id int) {
 	l.Debug("Shutdown")
 }
 
-func (z *Queue) launch(concurrency int) {
+func (z *Queue) Launch(concurrency int) {
 	l := z.ctl.Log()
 	if concurrency < 1 {
-		l.Debug("Concurrency must positive number, use 1 as default", zap.Int("concurrency", concurrency))
+		l.Debug("RunConcurrently must positive number, use 1 as default", zap.Int("concurrency", concurrency))
 		concurrency = 1
 	}
 
 	l.Debug("Launch workers", zap.Int("concurrency", concurrency))
 	for i := 0; i < concurrency; i++ {
-		go z.dequeue(i)
+		go z.dequeue()
 	}
 }
 

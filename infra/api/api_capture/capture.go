@@ -18,7 +18,7 @@ const (
 )
 
 type Capture interface {
-	Rpc(req api_rpc.Request, res api_rpc.Response, resErr error)
+	Rpc(req api_rpc.Request, res api_rpc.Response, resErr error, latency int64)
 }
 
 func currentExecContext() Capture {
@@ -67,12 +67,13 @@ type Record struct {
 	ResponseCode   int               `json:"response_code"`
 	ResponseBody   string            `json:"response_body"`
 	ResponseError  string            `json:"response_error,omitempty"`
+	Latency        int64             `json:"latency"`
 }
 
 type mockImpl struct {
 }
 
-func (mockImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error) {
+func (mockImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error, latency int64) {
 	// ignore
 }
 
@@ -84,7 +85,7 @@ type captureImpl struct {
 	storage app_report.Report
 }
 
-func (z *captureImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error) {
+func (z *captureImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error, latency int64) {
 	rec := Record{
 		Timestamp: time.Now(),
 	}
@@ -108,6 +109,7 @@ func (z *captureImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 	rec.ResponseCode = res.StatusCode()
 	resBody, _ := res.Body()
 	rec.ResponseBody = resBody
+	rec.Latency = latency
 	if resErr != nil {
 		rec.ResponseError = resErr.Error()
 	}
@@ -125,7 +127,7 @@ type kitchenImpl struct {
 	capture *zap.Logger
 }
 
-func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error) {
+func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error, latency int64) {
 	type Req struct {
 		RequestMethod  string            `json:"method"`
 		RequestUrl     string            `json:"url"`
@@ -163,5 +165,5 @@ func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 		rs.ResponseError = resErr.Error()
 	}
 
-	z.capture.Debug("", zap.Any("req", rq), zap.Any("res", rs))
+	z.capture.Debug("", zap.Any("req", rq), zap.Any("res", rs), zap.Int64("latency", latency))
 }

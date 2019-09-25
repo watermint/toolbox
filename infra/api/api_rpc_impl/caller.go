@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_capture"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_rpc"
+	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"go.uber.org/zap"
 	"net/http"
 	"strconv"
@@ -49,7 +50,7 @@ func (z *CallerImpl) requestUrl() string {
 
 func (z *CallerImpl) createRequest() (req api_rpc.Request, err error) {
 	url := z.requestUrl()
-	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint))
+	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint), zap.String("Routine", ut_runtime.GetGoRoutineName()))
 
 	headers := make(map[string]string)
 
@@ -76,10 +77,11 @@ func (z *CallerImpl) createRequest() (req api_rpc.Request, err error) {
 }
 
 func (z *CallerImpl) ensureRetryOnError(lastErr error) (res api_rpc.Response, err error) {
+	l := z.ctx.Log().With(zap.String("Routine", ut_runtime.GetGoRoutineName()))
 	switch rc := z.ctx.(type) {
 	case api_context.RetryContext:
 		if rc.IsNoRetry() {
-			z.ctx.Log().Debug("Abort retry due to NoRetryOnError", zap.Error(lastErr))
+			l.Debug("Abort retry due to NoRetryOnError", zap.Error(lastErr))
 			return nil, lastErr
 		}
 
@@ -92,7 +94,7 @@ func (z *CallerImpl) ensureRetryOnError(lastErr error) (res api_rpc.Response, er
 		}
 
 		if sameErrorCount >= SameErrorRetryCount {
-			z.ctx.Log().Debug(
+			l.Debug(
 				"Abort retry due to `same_error_count` exceed threshold",
 				zap.Int("same_error_count", sameErrorCount),
 				zap.Error(lastErr),
@@ -102,12 +104,12 @@ func (z *CallerImpl) ensureRetryOnError(lastErr error) (res api_rpc.Response, er
 
 		after := time.Now().Add(SameErrorRetryWait)
 		rc.UpdateRetryAfter(after)
-		z.ctx.Log().Debug("Retry after", zap.Error(err), zap.String("retry_after", after.String()))
+		l.Debug("Retry after", zap.Error(err), zap.String("retry_after", after.String()))
 
 		return z.Call()
 
 	default:
-		z.ctx.Log().Debug("No retry context")
+		l.Debug("No retry context")
 		return z.Call()
 	}
 }
@@ -158,7 +160,7 @@ func (z *CallerImpl) handleRetryAfterResponse(retryAfterSec int) bool {
 }
 
 func (z *CallerImpl) handleResponse(apiResImpl *ResponseImpl) (apiRes api_rpc.Response, err error) {
-	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint))
+	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint), zap.String("Routine", ut_runtime.GetGoRoutineName()))
 	//if app.Root().IsDebug() {
 	//	log.Debug("Response", zap.Int("code", apiResImpl.resStatusCode), zap.String("body", apiResImpl.resBodyString))
 	//}
@@ -214,7 +216,7 @@ func (z *CallerImpl) handleResponse(apiResImpl *ResponseImpl) (apiRes api_rpc.Re
 }
 
 func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
-	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint))
+	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint), zap.String("Routine", ut_runtime.GetGoRoutineName()))
 	req, err := z.createRequest()
 	if err != nil {
 		log.Warn("Unable to prepare HTTP Caller", zap.Error(err))
@@ -226,8 +228,10 @@ func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
 	switch cc := z.ctx.(type) {
 	case api_context.ClientContext:
 		log.Debug("Caller", zap.Any("param", z.param), zap.Any("root", z.base))
+		callStart := time.Now()
 		apiResImpl := &ResponseImpl{}
 		apiResImpl.resStatusCode, apiResImpl.resHeader, apiResImpl.resBody, err = cc.DoRequest(req)
+		callEnd := time.Now()
 		if apiResImpl.resBody != nil {
 			apiResImpl.resBodyString = string(apiResImpl.resBody)
 		}
@@ -238,7 +242,7 @@ func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
 		} else {
 			cp = api_capture.Current()
 		}
-		cp.Rpc(req, apiResImpl, err)
+		cp.Rpc(req, apiResImpl, err, callEnd.UnixNano()-callStart.UnixNano())
 
 		if err != nil {
 			log.Debug("Transport error", zap.Error(err))

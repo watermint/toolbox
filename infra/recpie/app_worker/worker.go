@@ -1,6 +1,8 @@
 package app_worker
 
-type Worker func() error
+type Worker interface {
+	Exec() error
+}
 
 type Queue interface {
 	Enqueue(w Worker)
