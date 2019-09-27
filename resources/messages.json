@@ -57,6 +57,8 @@
   "recipe.team.sharedlink.cap.expiry.err.days_should_not_negative": "`days` option should not be negative",
   "recipe.team.sharedlink.cap.expiry.err.invalid_date_time_format_for_at_option": "Invalid date/time format for `at` option",
   "recipe.team.sharedlink.cap.expiry.err.please_specify_days_or_at": "Please specify `days` option or `at` option",
+  "recipe.team.device.desc": "Team member's devices",
+  "recipe.team.device.list.desc": "List all devices/sessions in the team",
   "recipe.team.sharedlink.desc": "Shared link of entire team",
   "recipe.team.sharedlink.list.desc": "List of shared link(s)",
   "recipe.team.sharedlink.list.scan": "Scanning member: {{.MemberEmail}}",

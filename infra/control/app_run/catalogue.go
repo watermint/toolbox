@@ -13,6 +13,7 @@ import (
 	sharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
 	"github.com/watermint/toolbox/recipe/sharedlink"
 	"github.com/watermint/toolbox/recipe/team"
+	teamdevice "github.com/watermint/toolbox/recipe/team/device"
 	teamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
 	teamlinkedapp "github.com/watermint/toolbox/recipe/team/linkedapp"
 	teamnamespace "github.com/watermint/toolbox/recipe/team/namespace"
@@ -38,6 +39,7 @@ func Recipes() []app_recipe.Recipe {
 		&memberquota.List{},
 		&team.Info{},
 		&team.Feature{},
+		&teamdevice.List{},
 		&teamfilerequest.List{},
 		&teamlinkedapp.List{},
 		&teamnamespace.List{},
