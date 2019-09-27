@@ -42,6 +42,7 @@ func Recipes() []app_recipe.Recipe {
 		&memberquota.List{},
 		&team.Info{},
 		&team.Feature{},
+		&team.Diagnosis{},
 		&teamdevice.List{},
 		&teamfilerequest.List{},
 		&teamlinkedapp.List{},

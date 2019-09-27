@@ -46,6 +46,7 @@
   "recipe.team.desc": "Dropbox Business Team",
   "recipe.team.feature.desc": "Team feature",
   "recipe.team.info.desc": "Team information",
+  "recipe.team.diagnosis.desc": "Dump team information",
   "recipe.team.linkedapp.desc": "Linked application",
   "recipe.team.linkedapp.list.desc": "List linked applications",
   "recipe.team.filerequest.desc": "File requests for team",

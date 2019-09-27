@@ -9,9 +9,6 @@ func NewCmdTeamAudit() cmd2.Commandlet {
 		CommandName: "audit",
 		CommandDesc: "cmd.team.audit.desc",
 		SubCommands: []cmd2.Commandlet{
-			&CmdTeamAuditSharing{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			&CmdTeamAuditEvents{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},
