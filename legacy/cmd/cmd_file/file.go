@@ -12,9 +12,6 @@ func NewCmdFile() cmd2.Commandlet {
 			&CmdFileCompare{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},
-			&CmdFileMetadata{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			&CmdFileMirror{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},
