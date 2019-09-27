@@ -45,6 +45,7 @@ func Recipes() []app_recipe.Recipe {
 		&teamlinkedapp.List{},
 		&teamnamespace.List{},
 		&teamnamespacefile.List{},
+		&teamnamespacefile.Size{},
 		&teamnamespacemember.List{},
 		&teamsharedlink.List{},
 		&teamsharedlinkcap.Expiry{},
