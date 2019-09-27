@@ -13,6 +13,8 @@
   "raw": "{{.Raw}}",
   "recipe.desc": "Tools for Dropbox and Dropbox Business",
   "recipe.dev.desc": "Development recipes",
+  "recipe.file.desc": "File operation",
+  "recipe.file.list.desc": "List files and folders",
   "recipe.group.desc": "Group management (Dropbox Business)",
   "recipe.group.list.desc": "List group(s)",
   "recipe.group.member.desc": "Group member",

@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
 	"github.com/watermint/toolbox/recipe"
 	"github.com/watermint/toolbox/recipe/dev"
+	"github.com/watermint/toolbox/recipe/file"
 	"github.com/watermint/toolbox/recipe/group"
 	groupmember "github.com/watermint/toolbox/recipe/group/member"
 	"github.com/watermint/toolbox/recipe/member"
@@ -32,6 +33,7 @@ func Recipes() []app_recipe.Recipe {
 		&dev.EndToEnd{},
 		&dev.Doc{},
 		&dev.Async{},
+		&file.List{},
 		&group.List{},
 		&groupmember.List{},
 		&member.Invite{},
