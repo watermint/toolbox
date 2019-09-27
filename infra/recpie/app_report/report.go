@@ -30,7 +30,7 @@ type TransactionRow struct {
 }
 
 const (
-	reportPath = "reports"
+	ReportPath = "reports"
 )
 
 var (

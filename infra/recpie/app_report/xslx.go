@@ -40,7 +40,7 @@ func xlsxDataStyle() *xlsx.Style {
 }
 
 func NewXlsx(name string, row interface{}, ctl app_control.Control) (r Report, err error) {
-	path, err := ctl.Workspace().Descendant(reportPath)
+	path, err := ctl.Workspace().Descendant(ReportPath)
 	if err != nil {
 		return nil, err
 	}

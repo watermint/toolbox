@@ -10,7 +10,7 @@ import (
 )
 
 func NewCsv(name string, row interface{}, ctl app_control.Control) (r Report, err error) {
-	p, err := ctl.Workspace().Descendant(reportPath)
+	p, err := ctl.Workspace().Descendant(ReportPath)
 	if err != nil {
 		return nil, err
 	}

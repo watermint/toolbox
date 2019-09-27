@@ -106,7 +106,7 @@ func (z *Cascade) Close() {
 		r.Close()
 	}
 
-	p, err := z.Ctl.Workspace().Descendant(reportPath)
+	p, err := z.Ctl.Workspace().Descendant(ReportPath)
 	if err != nil {
 		return
 	}

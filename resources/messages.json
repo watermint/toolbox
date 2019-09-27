@@ -87,6 +87,7 @@
   "run.error.interrupted.instruction": "Logs and reports are stored at: {{.JobPath}}",
   "run.error.panic": "Fatal error: Reason:{{.Reason}}",
   "run.error.panic.instruction": "Logs and reports are stored at: {{.JobPath}}",
+  "run.error.recipe.failed": "Operation failed with an error: {{.Error}}",
   "run.group.header.available_commands": "Available commands:",
   "run.group.header.usage": "Usage:",
   "run.group.usage": "{{.Exec}} {{.Group}} [command]",

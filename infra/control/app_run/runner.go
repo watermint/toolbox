@@ -198,6 +198,8 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	k := app_kitchen.NewKitchen(ctl, vo)
 	err = rcp.Exec(k)
 	if err != nil {
+		ctl.Log().Debug("Recipe failed with error", zap.Error(err))
+		ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
 		os.Exit(app_control.FailureGeneral)
 	}
 	return true

@@ -54,7 +54,7 @@ func (z *Expiry) Exec(k app_kitchen.Kitchen) error {
 	default:
 		var valid bool
 		if newExpiry, valid = ut_time.ParseTimestamp(evo.At); !valid {
-			l.Error("Invalid date/time format for at option", zap.String("evo.At", evo.At))
+			l.Debug("Invalid date/time format for at option", zap.String("evo.At", evo.At))
 			ui.Error("recipe.team.sharedlink.cap.expiry.err.invalid_date_time_format_for_at_option")
 			return errors.New("invalid date/time format for `at`")
 		}
