@@ -65,7 +65,8 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 
 func (z *List) Test(c app_control.Control) error {
 	lvo := &ListVO{
-		Path: "",
+		Path:      "",
+		Recursive: false,
 	}
 	if !app_test.ApplyTestPeers(c, lvo) {
 		return nil
