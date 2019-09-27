@@ -64,6 +64,7 @@
   "recipe.team.sharedlink.list.scan": "Scanning member: {{.MemberEmail}}",
   "recipe.team.namespace.desc": "Namespaces of the team",
   "recipe.team.namespace.list.desc": "List all namespaces of the team",
+  "recipe.team.namespace.file.desc": "Team namespace file management",
   "recipe.team.namespace.file.list.desc": "List all files and folders of the team namespaces",
   "recipe.team.namespace.file.list.scan": "Scanning files: {{.NamespaceName}} ({{.NamespaceId}})",
   "recipe.team.namespace.file.list.err.scan_failed": "Failed to scan namespace: {{.NamespaceName}} ({{.NamespaceId}}), caused by an error: {{.Error}}",
