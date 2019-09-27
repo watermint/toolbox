@@ -24,7 +24,7 @@ type ListVO struct {
 
 type ListWorker struct {
 	member *mo_member.Member
-	conn   api_context.Context
+	ctx    api_context.Context
 	rep    app_report.Report
 	ctl    app_control.Control
 }
@@ -35,7 +35,7 @@ func (z *ListWorker) Exec() error {
 	z.ctl.UI().Info("recipe.member.quota.list.scan", app_msg.P{"MemberEmail": z.member.Email})
 	l.Debug("Scan member", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Member", z.member))
 
-	q, err := sv_member_quota.NewQuota(z.conn).Resolve(z.member.TeamMemberId)
+	q, err := sv_member_quota.NewQuota(z.ctx).Resolve(z.member.TeamMemberId)
 	if err != nil {
 		return err
 	}
@@ -74,7 +74,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 	for _, member := range members {
 		q.Enqueue(&ListWorker{
 			member: member,
-			conn:   conn,
+			ctx:    conn,
 			rep:    rep,
 			ctl:    k.Control(),
 		})
