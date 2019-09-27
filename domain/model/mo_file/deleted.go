@@ -44,3 +44,7 @@ func (z *Deleted) Folder() (*Folder, bool) {
 func (z *Deleted) Deleted() (*Deleted, bool) {
 	return z, true
 }
+
+func (z *Deleted) Concrete() *ConcreteEntry {
+	return newConcreteEntry(z.Raw)
+}

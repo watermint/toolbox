@@ -55,3 +55,7 @@ func (z *Folder) SharedFolderId() string {
 func (z *Folder) ParentSharedFolderId() string {
 	return z.EntryParentSharedFolderId
 }
+
+func (z *Folder) Concrete() *ConcreteEntry {
+	return newConcreteEntry(z.Raw)
+}

@@ -9,9 +9,6 @@ func NewCmdTeamNamespaceFile() cmd2.Commandlet {
 		CommandName: "file",
 		CommandDesc: "cmd.team.namespace.file.desc",
 		SubCommands: []cmd2.Commandlet{
-			&CmdTeamNamespaceFileList{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			&CmdTeamNamespaceFileSize{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},

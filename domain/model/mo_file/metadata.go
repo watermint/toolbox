@@ -66,3 +66,7 @@ func (z *Metadata) Deleted() (*Deleted, bool) {
 	}
 	return d, true
 }
+
+func (z *Metadata) Concrete() *ConcreteEntry {
+	return newConcreteEntry(z.Raw)
+}

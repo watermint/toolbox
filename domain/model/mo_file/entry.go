@@ -1,6 +1,12 @@
 package mo_file
 
-import "github.com/watermint/toolbox/domain/model/mo_path"
+import (
+	"encoding/json"
+	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/infra/control/app_root"
+	"go.uber.org/zap"
+)
 
 type Entry interface {
 	// Tag for the entry. `file`, `folder`, or `deleted`.
@@ -26,4 +32,33 @@ type Entry interface {
 
 	// Returns Deleted, return nil & false if an entry is not a Deleted.
 	Deleted() (*Deleted, bool)
+
+	// Returns concrete entry
+	Concrete() *ConcreteEntry
+}
+
+type ConcreteEntry struct {
+	Raw                  json.RawMessage
+	Id                   string `path:"id" json:"id"`
+	Tag                  string `path:"\\.tag" json:"tag"`
+	Name                 string `path:"name" json:"name"`
+	PathLower            string `path:"path_lower" json:"path_lower"`
+	PathDisplay          string `path:"path_display" json:"path_display"`
+	ClientModified       string `path:"client_modified" json:"client_modified"`
+	ServerModified       string `path:"server_modified" json:"server_modified"`
+	Revision             string `path:"rev" json:"revision"`
+	Size                 int64  `path:"size" json:"size"`
+	ContentHash          string `path:"content_hash" json:"content_hash"`
+	SharedFolderId       string `path:"sharing_info.shared_folder_id" json:"shared_folder_id"`
+	ParentSharedFolderId string `path:"sharing_info.parent_shared_folder_id" json:"parent_shared_folder_id"`
+}
+
+func newConcreteEntry(raw json.RawMessage) *ConcreteEntry {
+	ce := &ConcreteEntry{}
+	if err := api_parser.ParseModelRaw(ce, raw); err != nil {
+		app_root.Log().Debug("Unable to parse json", zap.Error(err), zap.ByteString("raw", raw))
+		return ce
+	}
+	ce.Raw = raw
+	return ce
 }

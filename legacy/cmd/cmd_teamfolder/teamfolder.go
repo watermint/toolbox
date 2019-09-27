@@ -2,7 +2,6 @@ package cmd_teamfolder
 
 import (
 	cmd2 "github.com/watermint/toolbox/legacy/cmd"
-	cmd_teamfolder_file2 "github.com/watermint/toolbox/legacy/cmd/cmd_teamfolder/cmd_teamfolder_file"
 )
 
 func NewCmdTeamFolder() cmd2.Commandlet {
@@ -22,7 +21,6 @@ func NewCmdTeamFolder() cmd2.Commandlet {
 			&CmdTeamFolderPermDelete{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},
-			cmd_teamfolder_file2.NewCmdTeamFolderFile(),
 		},
 	}
 }

@@ -17,6 +17,7 @@ import (
 	teamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
 	teamlinkedapp "github.com/watermint/toolbox/recipe/team/linkedapp"
 	teamnamespace "github.com/watermint/toolbox/recipe/team/namespace"
+	teamnamespacefile "github.com/watermint/toolbox/recipe/team/namespace/file"
 	teamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
 	teamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
 	teamsharedlinkcap "github.com/watermint/toolbox/recipe/team/sharedlink/cap"
@@ -43,6 +44,7 @@ func Recipes() []app_recipe.Recipe {
 		&teamfilerequest.List{},
 		&teamlinkedapp.List{},
 		&teamnamespace.List{},
+		&teamnamespacefile.List{},
 		&teamnamespacemember.List{},
 		&teamsharedlink.List{},
 		&teamsharedlinkcap.Expiry{},
