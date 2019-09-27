@@ -40,6 +40,7 @@ func Recipes() []app_recipe.Recipe {
 		&member.Detach{},
 		&member.List{},
 		&memberquota.List{},
+		&team.Activity{},
 		&team.Info{},
 		&team.Feature{},
 		&team.Diagnosis{},
