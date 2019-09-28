@@ -1,4 +1,4 @@
-package dev
+package test
 
 import (
 	"github.com/watermint/toolbox/infra/recpie/app_test"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestQuality_Exec(t *testing.T) {
-	app_test.TestRecipe(t, &Quality{})
+	app_test.TestRecipe(t, &Resources{})
 }

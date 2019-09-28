@@ -103,11 +103,11 @@ else
   echo Unable to load app key: code=$?
   exit $?
 fi
-$BUILD_PATH/linux/tbx dev quality -quiet
+$BUILD_PATH/linux/tbx dev test resources -quiet
 if [[ $? = 0 ]]; then
-  echo Success: quality test
+  echo Success: resources test
 else
-  echo Unable to pass binary quality test: code=$?
+  echo Unable to pass binary resources test: code=$?
   exit $?
 fi
 $BUILD_PATH/linux/tbx license -quiet > $BUILD_PATH/LICENSE.txt

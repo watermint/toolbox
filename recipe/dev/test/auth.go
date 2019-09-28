@@ -1,4 +1,4 @@
-package dev
+package test
 
 import (
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 )
 
-type EndToEndTestVO struct {
+type AuthVO struct {
 	Full  app_conn.ConnUserFile
 	Info  app_conn.ConnBusinessInfo
 	File  app_conn.ConnBusinessFile
@@ -18,17 +18,17 @@ type EndToEndTestVO struct {
 	Mgmt  app_conn.ConnBusinessMgmt
 }
 
-type EndToEnd struct {
+type Auth struct {
 }
 
-func (z *EndToEnd) Hidden() {
+func (z *Auth) Hidden() {
 }
 
-func (z *EndToEnd) Console() {
+func (z *Auth) Console() {
 }
 
-func (z *EndToEnd) Requirement() app_vo.ValueObject {
-	return &EndToEndTestVO{
+func (z *Auth) Requirement() app_vo.ValueObject {
+	return &AuthVO{
 		Full:  &app_conn_impl.ConnUserFile{PeerName: app_test.EndToEndPeer},
 		Info:  &app_conn_impl.ConnBusinessInfo{PeerName: app_test.EndToEndPeer},
 		File:  &app_conn_impl.ConnBusinessFile{PeerName: app_test.EndToEndPeer},
@@ -37,9 +37,9 @@ func (z *EndToEnd) Requirement() app_vo.ValueObject {
 	}
 }
 
-func (z *EndToEnd) Exec(k app_kitchen.Kitchen) error {
+func (z *Auth) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
-	evo := vo.(*EndToEndTestVO)
+	evo := vo.(*AuthVO)
 	l := k.Log()
 	l.Info("Please proceed auth for `User Full`")
 	if _, err := evo.Full.Connect(k.Control()); err != nil {
@@ -67,6 +67,6 @@ func (z *EndToEnd) Exec(k app_kitchen.Kitchen) error {
 	return nil
 }
 
-func (z *EndToEnd) Test(c app_control.Control) error {
+func (z *Auth) Test(c app_control.Control) error {
 	return nil
 }

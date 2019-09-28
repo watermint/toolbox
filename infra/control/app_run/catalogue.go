@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
 	"github.com/watermint/toolbox/recipe"
 	"github.com/watermint/toolbox/recipe/dev"
+	devtest "github.com/watermint/toolbox/recipe/dev/test"
 	"github.com/watermint/toolbox/recipe/file"
 	"github.com/watermint/toolbox/recipe/group"
 	groupmember "github.com/watermint/toolbox/recipe/group/member"
@@ -27,25 +28,31 @@ import (
 
 func Recipes() []app_recipe.Recipe {
 	return []app_recipe.Recipe{
-		&recipe.License{},
-		&dev.Quality{},
-		&dev.Dummy{},
-		&dev.EndToEnd{},
-		&dev.Doc{},
 		&dev.Async{},
+		&dev.Doc{},
+		&dev.Dummy{},
+		&devtest.Auth{},
+		&devtest.Resources{},
+		&devtest.Recipe{},
 		&file.List{},
 		&group.List{},
 		&groupmember.List{},
-		&member.Invite{},
 		&member.Detach{},
+		&member.Invite{},
 		&member.List{},
 		&memberquota.List{},
+		&recipe.License{},
+		&recipe.Web{},
+		&sharedfolder.List{},
+		&sharedfoldermember.List{},
+		&sharedlink.List{},
 		&team.Activity{},
-		&team.Info{},
-		&team.Feature{},
 		&team.Diagnosis{},
+		&team.Feature{},
+		&team.Info{},
 		&teamdevice.List{},
 		&teamfilerequest.List{},
+		&teamfolder.List{},
 		&teamlinkedapp.List{},
 		&teamnamespace.List{},
 		&teamnamespacefile.List{},
@@ -53,11 +60,6 @@ func Recipes() []app_recipe.Recipe {
 		&teamnamespacemember.List{},
 		&teamsharedlink.List{},
 		&teamsharedlinkcap.Expiry{},
-		&teamfolder.List{},
-		&sharedlink.List{},
-		&sharedfolder.List{},
-		&sharedfoldermember.List{},
-		&recipe.Web{},
 	}
 }
 

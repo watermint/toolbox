@@ -1,4 +1,4 @@
-package dev
+package test
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -7,21 +7,21 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 )
 
-type Quality struct {
+type Resources struct {
 }
 
-func (z *Quality) Test(c app_control.Control) error {
+func (z *Resources) Test(c app_control.Control) error {
 	return nil
 }
 
-func (z *Quality) Hidden() {
+func (z *Resources) Hidden() {
 }
 
-func (z *Quality) Requirement() app_vo.ValueObject {
+func (z *Resources) Requirement() app_vo.ValueObject {
 	return &app_vo.EmptyValueObject{}
 }
 
-func (z *Quality) Exec(k app_kitchen.Kitchen) error {
+func (z *Resources) Exec(k app_kitchen.Kitchen) error {
 	qt_runtime.Suite(k.Control())
 	return nil
 }
