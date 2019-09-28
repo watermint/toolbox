@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_file_impl"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"reflect"
 	"runtime"
@@ -35,7 +36,7 @@ func (z *ValueContainer) From(vo interface{}) {
 		vot = reflect.ValueOf(vo).Elem().Type()
 		vov = reflect.ValueOf(vo).Elem()
 	}
-	z.PkgName = vot.PkgPath()
+	z.PkgName = vot.PkgPath() + "." + strcase.ToSnake(vot.Name())
 
 	if vot.Kind() != reflect.Struct {
 		l.Error("ValueObject is not a struct", zap.String("name", vot.Name()), zap.String("pkg", vot.PkgPath()))
@@ -226,10 +227,10 @@ func (z *ValueContainer) MessageKey(name string) string {
 	return pkg + ".flag." + strcase.ToSnake(name)
 }
 
-func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet) {
+func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
 	for n, d := range z.Values {
 		kf := strcase.ToKebab(n)
-		desc := z.MessageKey(n)
+		desc := ui.Text(z.MessageKey(n))
 
 		switch dv := d.(type) {
 		case *bool:

@@ -16,9 +16,9 @@ import (
 )
 
 type ExpiryVO struct {
-	PeerName app_conn.ConnBusinessFile
-	Days     int
-	At       string
+	Peer app_conn.ConnBusinessFile
+	Days int
+	At   string
 }
 
 type Expiry struct{}
@@ -68,7 +68,7 @@ func (z *Expiry) Exec(k app_kitchen.Kitchen) error {
 	}
 	defer rep.Close()
 
-	conn, err := evo.PeerName.Connect(k.Control())
+	conn, err := evo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

@@ -14,7 +14,7 @@ import (
 )
 
 type ActivityVO struct {
-	PeerName  app_conn.ConnBusinessAudit
+	Peer      app_conn.ConnBusinessAudit
 	StartTime string
 	EndTime   string
 	Category  string
@@ -30,7 +30,7 @@ func (z *Activity) Requirement() app_vo.ValueObject {
 func (z *Activity) Exec(k app_kitchen.Kitchen) error {
 	vo := k.Value().(*ActivityVO)
 
-	ctx, err := vo.PeerName.Connect(k.Control())
+	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

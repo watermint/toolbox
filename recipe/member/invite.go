@@ -29,8 +29,8 @@ func (z *InviteRow) Validate() error {
 }
 
 type InviteVO struct {
-	File     app_file.Data
-	PeerName app_conn.ConnBusinessMgmt
+	File app_file.Data
+	Peer app_conn.ConnBusinessMgmt
 }
 
 type Invite struct {
@@ -55,7 +55,7 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	mvo := vo.(*InviteVO)
 
-	connMgmt, err := mvo.PeerName.Connect(k.Control())
+	connMgmt, err := mvo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

@@ -13,7 +13,7 @@ import (
 )
 
 type ListVO struct {
-	PeerName         app_conn.ConnUserFile
+	Peer             app_conn.ConnUserFile
 	Path             string
 	Recursive        bool
 	IncludeDeleted   bool
@@ -30,7 +30,7 @@ func (z *List) Requirement() app_vo.ValueObject {
 func (z *List) Exec(k app_kitchen.Kitchen) error {
 	vo := k.Value().(*ListVO)
 
-	ctx, err := vo.PeerName.Connect(k.Control())
+	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

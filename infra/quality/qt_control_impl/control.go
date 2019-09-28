@@ -2,6 +2,7 @@ package qt_control_impl
 
 import (
 	"github.com/watermint/toolbox/infra/quality/qt_control"
+	"strings"
 	"testing"
 )
 
@@ -18,7 +19,11 @@ type messageTest struct {
 }
 
 func (z *messageTest) NotFound(key string) {
-	z.t.Errorf("Message not found for key [%s]", key)
+	if strings.HasSuffix(key, ".peer") {
+		z.t.Errorf("[Message not found, but suggested value] \"%s\":\"%s\"", key, "Account alias")
+	} else {
+		z.t.Errorf("[Message not found for key] \"%s\":\"\"", key)
+	}
 }
 
 type messageMock struct {

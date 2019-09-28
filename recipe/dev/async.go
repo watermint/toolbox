@@ -24,7 +24,7 @@ import (
 
 type AsyncVO struct {
 	RunConcurrently bool
-	PeerName        app_conn.ConnBusinessInfo
+	Peer            app_conn.ConnBusinessInfo
 }
 
 func (z *AsyncVO) reportName() string {
@@ -74,7 +74,7 @@ func (z *Async) Requirement() app_vo.ValueObject {
 func (z *Async) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	lvo := vo.(*AsyncVO)
-	connInfo, err := lvo.PeerName.Connect(k.Control())
+	connInfo, err := lvo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

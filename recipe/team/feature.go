@@ -12,7 +12,7 @@ import (
 )
 
 type FeatureVO struct {
-	PeerName app_conn.ConnBusinessInfo
+	Peer app_conn.ConnBusinessInfo
 }
 
 type Feature struct {
@@ -41,7 +41,7 @@ func (*Feature) Requirement() app_vo.ValueObject {
 func (*Feature) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	lvo := vo.(*FeatureVO)
-	conn, err := lvo.PeerName.Connect(k.Control())
+	conn, err := lvo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

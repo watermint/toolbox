@@ -17,8 +17,8 @@ import (
 )
 
 type CloneVO struct {
-	File     app_file.Data
-	PeerName app_conn.ConnBusinessFile
+	File app_file.Data
+	Peer app_conn.ConnBusinessFile
 }
 
 type Clone struct {
@@ -34,7 +34,7 @@ func (z *Clone) Requirement() app_vo.ValueObject {
 func (z *Clone) Exec(k app_kitchen.Kitchen) error {
 	cvo := k.Value().(*CloneVO)
 
-	conn, err := cvo.PeerName.Connect(k.Control())
+	conn, err := cvo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

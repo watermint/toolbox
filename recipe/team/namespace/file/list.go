@@ -20,7 +20,7 @@ import (
 )
 
 type ListVO struct {
-	PeerName            app_conn.ConnBusinessFile
+	Peer                app_conn.ConnBusinessFile
 	IncludeMediaInfo    bool
 	IncludeDeleted      bool
 	IncludeSharedFolder bool
@@ -90,7 +90,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 	l := k.Log()
 	vo := k.Value().(*ListVO)
 
-	ctx, err := vo.PeerName.Connect(k.Control())
+	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

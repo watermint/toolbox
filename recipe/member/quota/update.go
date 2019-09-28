@@ -18,8 +18,8 @@ import (
 )
 
 type UpdateVO struct {
-	PeerName app_conn.ConnBusinessMgmt
-	File     app_file.Data
+	Peer app_conn.ConnBusinessMgmt
+	File app_file.Data
 }
 
 type UpdateWorker struct {
@@ -75,7 +75,7 @@ func (z *Update) Requirement() app_vo.ValueObject {
 func (z *Update) Exec(k app_kitchen.Kitchen) error {
 	vo := k.Value().(*UpdateVO)
 
-	ctx, err := vo.PeerName.Connect(k.Control())
+	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

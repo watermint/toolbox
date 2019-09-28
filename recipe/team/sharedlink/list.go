@@ -17,7 +17,7 @@ import (
 )
 
 type ListVO struct {
-	PeerName app_conn.ConnBusinessFile
+	Peer app_conn.ConnBusinessFile
 }
 
 type ListWorker struct {
@@ -51,7 +51,7 @@ func (*List) Requirement() app_vo.ValueObject {
 func (*List) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	lvo := vo.(*ListVO)
-	conn, err := lvo.PeerName.Connect(k.Control())
+	conn, err := lvo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

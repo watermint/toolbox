@@ -21,7 +21,7 @@ func (z *DetachRow) Validate() (err error) {
 
 type DetachVO struct {
 	File             app_file.Data
-	PeerName         app_conn.ConnBusinessMgmt
+	Peer             app_conn.ConnBusinessMgmt
 	RetainTeamShares bool
 }
 
@@ -45,7 +45,7 @@ func (*Detach) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	mvo := vo.(*DetachVO)
 
-	connMgmt, err := mvo.PeerName.Connect(k.Control())
+	connMgmt, err := mvo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

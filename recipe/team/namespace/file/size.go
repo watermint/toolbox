@@ -20,7 +20,7 @@ import (
 )
 
 type SizeVO struct {
-	PeerName            app_conn.ConnBusinessFile
+	Peer                app_conn.ConnBusinessFile
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
 	Name                string
@@ -82,7 +82,7 @@ func (z *Size) Exec(k app_kitchen.Kitchen) error {
 	l := k.Log()
 	vo := k.Value().(*SizeVO)
 
-	ctx, err := vo.PeerName.Connect(k.Control())
+	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

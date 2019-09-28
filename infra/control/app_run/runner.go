@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/network/app_network"
 	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -39,6 +40,10 @@ func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
 	f.BoolVar(&z.Quiet, "quiet", false, mc.Compile(app_msg.M("run.common.flag.quiet")))
 	f.BoolVar(&z.Secure, "secure", false, mc.Compile(app_msg.M("run.common.flag.secure")))
 	f.IntVar(&z.Concurrency, "concurrency", runtime.NumCPU(), mc.Compile(app_msg.M("run.common.flag.concurrency")))
+}
+
+func printUsage(rcp app_recipe.Recipe, grp *app_recipe_group.Group) {
+
 }
 
 func Run(args []string, bx, web *rice.Box) (found bool) {
@@ -79,10 +84,12 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	com.SetFlags(f, mc)
 
 	vc := app_vo_impl.NewValueContainer(vo)
-	vc.MakeFlagSet(f)
+	vc.MakeFlagSet(f, ui)
 
 	err = f.Parse(rem)
-	if err != nil {
+	rem2 := f.Args()
+	if err != nil || (len(rem2) > 0 && rem2[0] == "help") {
+		grp.PrintRecipeUsage(ui, rcp, f)
 		os.Exit(app_control.FailureInvalidCommandFlags)
 	}
 	vc.Apply(vo)
