@@ -50,7 +50,9 @@ func (z *Recipe) Exec(k app_kitchen.Kitchen) error {
 				ll.Error("Error", zap.Error(err))
 				return err
 			}
+			ll.Info("Recipe test success")
 		}
+		l.Info("All tests passed without error")
 
 	case vo.Recipe != "":
 		for _, r := range cat {
@@ -66,6 +68,7 @@ func (z *Recipe) Exec(k app_kitchen.Kitchen) error {
 				ll.Error("Error", zap.Error(err))
 				return err
 			} else {
+				ll.Info("Recipe test success")
 				return nil
 			}
 		}
