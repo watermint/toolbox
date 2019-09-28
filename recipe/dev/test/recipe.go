@@ -40,6 +40,10 @@ func (z *Recipe) Exec(k app_kitchen.Kitchen) error {
 		for _, r := range cat {
 			path, name := app_recipe.Path(r)
 			ll := l.With(zap.Strings("path", path), zap.String("name", name))
+			if _, ok := r.(app_recipe.SecretRecipe); ok {
+				ll.Info("Skip secret recipe")
+				continue
+			}
 			ll.Info("Testing: ")
 
 			if err := r.Test(k.Control()); err != nil {
