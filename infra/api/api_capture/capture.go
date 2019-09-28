@@ -1,6 +1,7 @@
 package api_capture
 
 import (
+	"encoding/json"
 	"github.com/watermint/toolbox/infra/api/api_rpc"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	app2 "github.com/watermint/toolbox/legacy/app"
@@ -60,13 +61,13 @@ func Current() Capture {
 
 type Record struct {
 	Timestamp      time.Time         `json:"timestamp"`
-	RequestMethod  string            `json:"request_method"`
-	RequestUrl     string            `json:"request_url"`
-	RequestParam   string            `json:"request_param,omitempty"`
-	RequestHeaders map[string]string `json:"request_headers"`
-	ResponseCode   int               `json:"response_code"`
-	ResponseBody   string            `json:"response_body"`
-	ResponseError  string            `json:"response_error,omitempty"`
+	RequestMethod  string            `json:"req_method"`
+	RequestUrl     string            `json:"req_url"`
+	RequestParam   string            `json:"req_param,omitempty"`
+	RequestHeaders map[string]string `json:"req_headers"`
+	ResponseCode   int               `json:"res_code"`
+	ResponseBody   string            `json:"res_body,omitempty"`
+	ResponseError  string            `json:"res_error,omitempty"`
 	Latency        int64             `json:"latency"`
 }
 
@@ -135,9 +136,10 @@ func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 		RequestHeaders map[string]string `json:"headers"`
 	}
 	type Res struct {
-		ResponseCode  int    `json:"code"`
-		ResponseBody  string `json:"body"`
-		ResponseError string `json:"error,omitempty"`
+		ResponseCode  int             `json:"code"`
+		ResponseBody  string          `json:"body,omitempty"`
+		ResponseJson  json.RawMessage `json:"json,omitempty"`
+		ResponseError string          `json:"error,omitempty"`
 	}
 
 	// request
@@ -160,7 +162,11 @@ func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 	rs := Res{}
 	rs.ResponseCode = res.StatusCode()
 	resBody, _ := res.Body()
-	rs.ResponseBody = resBody
+	if resBody[0] == '[' || resBody[0] == '{' {
+		rs.ResponseJson = []byte(resBody)
+	} else {
+		rs.ResponseBody = resBody
+	}
 	if resErr != nil {
 		rs.ResponseError = resErr.Error()
 	}
