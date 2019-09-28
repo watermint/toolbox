@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/network/app_network"
 	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -24,11 +25,12 @@ import (
 )
 
 type CommonOpts struct {
-	Workspace string
-	Debug     bool
-	Proxy     string
-	Quiet     bool
-	Secure    bool
+	Workspace   string
+	Debug       bool
+	Proxy       string
+	Quiet       bool
+	Secure      bool
+	Concurrency int
 }
 
 func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
@@ -37,6 +39,11 @@ func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
 	f.StringVar(&z.Workspace, "proxy", "", mc.Compile(app_msg.M("run.common.flag.proxy")))
 	f.BoolVar(&z.Quiet, "quiet", false, mc.Compile(app_msg.M("run.common.flag.quiet")))
 	f.BoolVar(&z.Secure, "secure", false, mc.Compile(app_msg.M("run.common.flag.secure")))
+	f.IntVar(&z.Concurrency, "concurrency", runtime.NumCPU(), mc.Compile(app_msg.M("run.common.flag.concurrency")))
+}
+
+func printUsage(rcp app_recipe.Recipe, grp *app_recipe_group.Group) {
+
 }
 
 func Run(args []string, bx, web *rice.Box) (found bool) {
@@ -77,10 +84,12 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	com.SetFlags(f, mc)
 
 	vc := app_vo_impl.NewValueContainer(vo)
-	vc.MakeFlagSet(f)
+	vc.MakeFlagSet(f, ui)
 
 	err = f.Parse(rem)
-	if err != nil {
+	rem2 := f.Args()
+	if err != nil || (len(rem2) > 0 && rem2[0] == "help") {
+		grp.PrintRecipeUsage(ui, rcp, f)
 		os.Exit(app_control.FailureInvalidCommandFlags)
 	}
 	vc.Apply(vo)
@@ -102,6 +111,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	if com.Secure {
 		so = append(so, app_control.Secure())
 	}
+	so = append(so, app_control.Concurrency(com.Concurrency))
 	so = append(so, app_control.RecipeName(recipeName))
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, Recipes())
@@ -132,8 +142,9 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 					zap.Int("Line", line),
 				)
 			}
-			ctl.UI().Error("run.error.panic", app_msg.P("Reason", err))
-			ctl.UI().Error("run.error.panic.instruction", app_msg.P("JobPath", ctl.Workspace().Job()))
+			ui := ctl.UI()
+			ui.Error("run.error.panic", app_msg.P{"Reason": err})
+			ui.Error("run.error.panic.instruction", app_msg.P{"JobPath": ctl.Workspace().Job()})
 			ctl.Abort(app_control.Reason(app_control.FatalPanic))
 		}
 	}()
@@ -161,8 +172,9 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 					break
 				}
 			}
-			ctl.UI().Error("run.error.interrupted")
-			ctl.UI().Error("run.error.interrupted.instruction", app_msg.P("JobPath", ctl.Workspace().Job()))
+			ui := ctl.UI()
+			ui.Error("run.error.interrupted")
+			ui.Error("run.error.interrupted.instruction", app_msg.P{"JobPath": ctl.Workspace().Job()})
 			ctl.Abort(app_control.Reason(app_control.FatalInterrupted))
 
 			// in case the controller didn't fire exit..
@@ -193,6 +205,8 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	k := app_kitchen.NewKitchen(ctl, vo)
 	err = rcp.Exec(k)
 	if err != nil {
+		ctl.Log().Debug("Recipe failed with error", zap.Error(err))
+		ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
 		os.Exit(app_control.FailureGeneral)
 	}
 	return true

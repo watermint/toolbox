@@ -1,11 +1,12 @@
 package api_capture
 
 import (
+	"encoding/json"
 	"github.com/watermint/toolbox/infra/api/api_rpc"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	app2 "github.com/watermint/toolbox/legacy/app"
-	"github.com/watermint/toolbox/legacy/app/app_report"
-	"github.com/watermint/toolbox/legacy/app/app_report/app_report_json"
+	"github.com/watermint/toolbox/legacy/app/app_report_legacy"
+	"github.com/watermint/toolbox/legacy/app/app_report_legacy/app_report_json"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -18,7 +19,7 @@ const (
 )
 
 type Capture interface {
-	Rpc(req api_rpc.Request, res api_rpc.Response, resErr error)
+	Rpc(req api_rpc.Request, res api_rpc.Response, resErr error, latency int64)
 }
 
 func currentExecContext() Capture {
@@ -60,19 +61,20 @@ func Current() Capture {
 
 type Record struct {
 	Timestamp      time.Time         `json:"timestamp"`
-	RequestMethod  string            `json:"request_method"`
-	RequestUrl     string            `json:"request_url"`
-	RequestParam   string            `json:"request_param,omitempty"`
-	RequestHeaders map[string]string `json:"request_headers"`
-	ResponseCode   int               `json:"response_code"`
-	ResponseBody   string            `json:"response_body"`
-	ResponseError  string            `json:"response_error,omitempty"`
+	RequestMethod  string            `json:"req_method"`
+	RequestUrl     string            `json:"req_url"`
+	RequestParam   string            `json:"req_param,omitempty"`
+	RequestHeaders map[string]string `json:"req_headers"`
+	ResponseCode   int               `json:"res_code"`
+	ResponseBody   string            `json:"res_body,omitempty"`
+	ResponseError  string            `json:"res_error,omitempty"`
+	Latency        int64             `json:"latency"`
 }
 
 type mockImpl struct {
 }
 
-func (mockImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error) {
+func (mockImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error, latency int64) {
 	// ignore
 }
 
@@ -81,10 +83,10 @@ var (
 )
 
 type captureImpl struct {
-	storage app_report.Report
+	storage app_report_legacy.Report
 }
 
-func (z *captureImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error) {
+func (z *captureImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error, latency int64) {
 	rec := Record{
 		Timestamp: time.Now(),
 	}
@@ -108,6 +110,7 @@ func (z *captureImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 	rec.ResponseCode = res.StatusCode()
 	resBody, _ := res.Body()
 	rec.ResponseBody = resBody
+	rec.Latency = latency
 	if resErr != nil {
 		rec.ResponseError = resErr.Error()
 	}
@@ -125,7 +128,7 @@ type kitchenImpl struct {
 	capture *zap.Logger
 }
 
-func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error) {
+func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error, latency int64) {
 	type Req struct {
 		RequestMethod  string            `json:"method"`
 		RequestUrl     string            `json:"url"`
@@ -133,9 +136,10 @@ func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 		RequestHeaders map[string]string `json:"headers"`
 	}
 	type Res struct {
-		ResponseCode  int    `json:"code"`
-		ResponseBody  string `json:"body"`
-		ResponseError string `json:"error,omitempty"`
+		ResponseCode  int             `json:"code"`
+		ResponseBody  string          `json:"body,omitempty"`
+		ResponseJson  json.RawMessage `json:"json,omitempty"`
+		ResponseError string          `json:"error,omitempty"`
 	}
 
 	// request
@@ -158,10 +162,14 @@ func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 	rs := Res{}
 	rs.ResponseCode = res.StatusCode()
 	resBody, _ := res.Body()
-	rs.ResponseBody = resBody
+	if resBody[0] == '[' || resBody[0] == '{' {
+		rs.ResponseJson = []byte(resBody)
+	} else {
+		rs.ResponseBody = resBody
+	}
 	if resErr != nil {
 		rs.ResponseError = resErr.Error()
 	}
 
-	z.capture.Debug("", zap.Any("req", rq), zap.Any("res", rs))
+	z.capture.Debug("", zap.Any("req", rq), zap.Any("res", rs), zap.Int64("latency", latency))
 }

@@ -64,6 +64,7 @@ Available commands:
 | `member invite`              | Invite member(s)                                             |
 | `member list`                | List team member(s)                                          |
 | `member mirror files`        | Mirror member files                                          |
+| `member quota list`          | List team member quota                                       |
 | `member quota update`        | Update member storage quota                                  |
 | `member remove`              | Remove the member from the team                              |
 | `member sync`                | Sync member information with provided csv                    |
@@ -78,6 +79,7 @@ Available commands:
 | `team device list`           | List devices or web sessions of the team                     |
 | `team device unlink`         | Unlink device                                                |
 | `team feature`               | Team feature                                                 |
+| `team filerequest list`      | List all file requests in the team                           |
 | `team info`                  | Team information                                             |
 | `team linkedapp list`        | List linked applications                                     |
 | `team namespace file list`   | List files/folders in all namespaces of the team             |

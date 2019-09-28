@@ -31,7 +31,7 @@ func (z *Info) Test(c app_control.Control) error {
 }
 
 type InfoVO struct {
-	PeerName app_conn.ConnBusinessInfo
+	Peer app_conn.ConnBusinessInfo
 }
 
 func (Info) Requirement() app_vo.ValueObject {
@@ -41,7 +41,7 @@ func (Info) Requirement() app_vo.ValueObject {
 func (Info) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	lvo := vo.(*InfoVO)
-	conn, err := lvo.PeerName.Connect(k.Control())
+	conn, err := lvo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}

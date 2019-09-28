@@ -21,7 +21,7 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
-	"github.com/watermint/toolbox/legacy/app/app_report"
+	"github.com/watermint/toolbox/legacy/app/app_report_legacy"
 	"go.uber.org/zap"
 	"strings"
 	"time"
@@ -173,7 +173,7 @@ func (z *mirrorContext) AdminDst() *mo_profile.Profile {
 	return z.MirrorAdminDst
 }
 
-func New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, report app_report.Report) TeamFolder {
+func New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, report app_report_legacy.Report) TeamFolder {
 	return &teamFolderImpl{
 		ctxFileSrc: ctxFileSrc,
 		ctxMgtSrc:  ctxMgtSrc,
@@ -188,7 +188,7 @@ type teamFolderImpl struct {
 	ctxFileDst api_context.Context
 	ctxMgtSrc  api_context.Context
 	ctxMgtDst  api_context.Context
-	report     app_report.Report
+	report     app_report_legacy.Report
 }
 
 func (z *teamFolderImpl) log() *zap.Logger {

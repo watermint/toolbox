@@ -1,7 +1,9 @@
 package app_recipe_group
 
 import (
+	"bytes"
 	"errors"
+	"flag"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -12,7 +14,7 @@ import (
 )
 
 func AppHeader(ui app_ui.UI) {
-	ui.Header("run.app.header", app_msg.P("AppVersion", app.Version))
+	ui.Header("run.app.header", app_msg.P{"AppVersion": app.Version})
 	ui.Info("run.app.copyright")
 	ui.Info("run.app.license")
 	ui.Break()
@@ -55,22 +57,51 @@ func (z *Group) Add(r app_recipe.Recipe) {
 	z.addToPath(path, path, name, r)
 }
 
+func (z *Group) usageHeader(ui app_ui.UI, desc string) {
+	AppHeader(ui)
+	ui.Break()
+	ui.Info(desc)
+	ui.Break()
+}
+
+func (z *Group) PrintRecipeUsage(ui app_ui.UI, rcp app_recipe.Recipe, f *flag.FlagSet) {
+	path, name := app_recipe.Path(rcp)
+	z.usageHeader(ui, app_recipe.Desc(rcp).Key())
+
+	ui.Header("run.recipe.header.usage")
+	ui.Info(
+		"run.recipe.usage",
+		app_msg.P{
+			"Exec":   os.Args[0],
+			"Recipe": strings.Join(append(path, name), " "),
+		},
+	)
+
+	ui.Break()
+	ui.Header("run.recipe.header.available_flags")
+
+	buf := new(bytes.Buffer)
+	f.SetOutput(buf)
+	f.PrintDefaults()
+	ui.Info("raw", app_msg.P{"Raw": buf.String()})
+	ui.Break()
+}
+
 func (z *Group) PrintUsage(ui app_ui.UI) {
 	grpDesc := make([]string, 0)
 	grpDesc = append(grpDesc, "recipe")
 	grpDesc = append(grpDesc, z.Path...)
 	grpDesc = append(grpDesc, "desc")
 
-	AppHeader(ui)
-	ui.Break()
-	ui.Info(strings.Join(grpDesc, "."))
-	ui.Break()
+	z.usageHeader(ui, strings.Join(grpDesc, "."))
 
 	ui.Header("run.group.header.usage")
 	ui.Info(
 		"run.group.usage",
-		app_msg.P("Exec", os.Args[0]),
-		app_msg.P("Group", strings.Join(z.Path, " ")),
+		app_msg.P{
+			"Exec":  os.Args[0],
+			"Group": strings.Join(z.Path, " "),
+		},
 	)
 	ui.Break()
 

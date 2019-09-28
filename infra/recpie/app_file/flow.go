@@ -2,6 +2,7 @@ package app_file
 
 import "github.com/watermint/toolbox/infra/control/app_control"
 
-type RowDataFile interface {
-	EachRow(ctl app_control.Control, exec func(cols []string, rowIndex int) error) error
+type Data interface {
+	Model(ctl app_control.Control, m interface{}) error
+	EachRow(exec func(m interface{}, rowIndex int) error) error
 }

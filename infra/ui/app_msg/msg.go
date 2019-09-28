@@ -1,39 +1,26 @@
 package app_msg
 
-type Param func() *ParamContainer
-type ParamContainer struct {
-	Key   string
-	Value interface{}
-}
-
-func P(key string, value interface{}) Param {
-	return func() *ParamContainer {
-		ph := &ParamContainer{}
-		ph.Key = key
-		ph.Value = value
-		return ph
-	}
-}
+type P map[string]interface{}
 
 type Message interface {
 	Key() string
-	Params() []Param
+	Params() []P
 }
 
 type messageImpl struct {
 	K string
-	P []Param
+	P []P
 }
 
 func (z *messageImpl) Key() string {
 	return z.K
 }
 
-func (z *messageImpl) Params() []Param {
+func (z *messageImpl) Params() []P {
 	return z.P
 }
 
-func M(key string, p ...Param) Message {
+func M(key string, p ...P) Message {
 	return &messageImpl{
 		K: key,
 		P: p,
@@ -43,6 +30,10 @@ func M(key string, p ...Param) Message {
 func Raw(text string) Message {
 	return &messageImpl{
 		K: "raw",
-		P: []Param{P("Raw", text)},
+		P: []P{
+			{
+				"Raw": text,
+			},
+		},
 	}
 }

@@ -24,7 +24,8 @@ import (
 )
 
 const (
-	EndToEndPeer = "end_to_end_test"
+	EndToEndPeer       = "end_to_end_test"
+	TestTeamFolderName = "watermint-toolbox-test"
 )
 
 func ApplyTestPeers(ctl app_control.Control, vo app_vo.ValueObject) bool {
@@ -92,7 +93,7 @@ func TestResources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Contai
 	return
 }
 
-func TestRecipe(t *testing.T, re app_recipe.Recipe) {
+func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	bx, web, mc, ui := TestResources(t)
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, make([]app_recipe.Recipe, 0))
@@ -102,9 +103,15 @@ func TestRecipe(t *testing.T, re app_recipe.Recipe) {
 	}
 	defer ctl.Down()
 
-	if err := re.Test(ctl); err != nil {
-		t.Error("test failed", err)
-	}
+	twc(ctl)
+}
+
+func TestRecipe(t *testing.T, re app_recipe.Recipe) {
+	TestWithControl(t, func(ctl app_control.Control) {
+		if err := re.Test(ctl); err != nil {
+			t.Error("test failed", err)
+		}
+	})
 }
 
 type RowTester func(cols map[string]string) error

@@ -36,6 +36,7 @@ func (z *CcAuth) Auth(tokenType string) (ctx api_context.Context, err error) {
 }
 
 func (z *CcAuth) wrapToken(tokenType, token string, cause error) (ctx api_context.Context, err error) {
+	ui := z.control.UI()
 	if cause != nil {
 		return nil, err
 	}
@@ -49,7 +50,7 @@ func (z *CcAuth) wrapToken(tokenType, token string, cause error) (ctx api_contex
 	_, _, err = VerifyToken(tokenType, ctx)
 	if err != nil {
 		z.control.Log().Debug("failed verify token", zap.Error(err))
-		z.control.UI().Error("auth.basic.verify.failed")
+		ui.Error("auth.basic.verify.failed")
 		return nil, err
 	}
 	return ctx, nil
@@ -60,6 +61,7 @@ func (z *CcAuth) init() {
 }
 
 func (z *CcAuth) generatedTokenInstruction(tokenType string) {
+	ui := z.control.UI()
 	api := ""
 	toa := ""
 
@@ -86,17 +88,20 @@ func (z *CcAuth) generatedTokenInstruction(tokenType string) {
 		z.control.Log().Fatal("Undefined token type", zap.String("type", tokenType))
 	}
 
-	z.control.UI().Info(
+	ui.Info(
 		"auth.basic.generated_token1",
-		app_msg.P("API", api),
-		app_msg.P("TypeOfAccess", toa),
+		app_msg.P{
+			"API":          api,
+			"TypeOfAccess": toa,
+		},
 	)
 }
 
 func (z *CcAuth) generatedToken(tokenType string) (string, error) {
+	ui := z.control.UI()
 	z.generatedTokenInstruction(tokenType)
 	for {
-		code, cancel := z.control.UI().AskSecure("auth.basic.generated_token2")
+		code, cancel := ui.AskSecure("auth.basic.generated_token2")
 		if cancel {
 			return "", errors.New("user cancelled")
 		}
@@ -142,8 +147,9 @@ func (z *CcAuth) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.Token, 
 }
 
 func (z *CcAuth) oauthCode(state string) string {
+	ui := z.control.UI()
 	for {
-		code, cancel := z.control.UI().AskSecure("auth.basic.oauth_seq2")
+		code, cancel := ui.AskSecure("auth.basic.oauth_seq2")
 		if cancel {
 			return ""
 		}
@@ -155,10 +161,11 @@ func (z *CcAuth) oauthCode(state string) string {
 }
 
 func (z *CcAuth) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
+	ui := z.control.UI()
 	cfg := z.app.Config(tokenType)
 	url := z.oauthUrl(cfg, state)
 
-	z.control.UI().Info("auth.basic.oauth_seq1", app_msg.P("Url", url))
+	ui.Info("auth.basic.oauth_seq1", app_msg.P{"Url": url})
 
 	code := z.oauthCode(state)
 

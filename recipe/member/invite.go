@@ -1,6 +1,7 @@
 package member
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_util"
@@ -20,29 +21,16 @@ type InviteRow struct {
 	Groups    string
 }
 
-type InviteVO struct {
-	File     app_file.RowDataFile
-	PeerName app_conn.ConnBusinessMgmt
-}
-
-func (z *InviteRow) Validate() (err error) {
+func (z *InviteRow) Validate() error {
+	if z.Email == "" {
+		return errors.New("email is required")
+	}
 	return nil
 }
 
-func InviteRowFromCols(cols []string) (row *InviteRow) {
-	row = &InviteRow{}
-
-	switch {
-	case len(cols) < 1:
-		return row
-	case len(cols) < 2:
-		row.Email = cols[0]
-	case len(cols) < 4:
-		row.Email, row.GivenName, row.Surname = cols[0], cols[1], cols[2]
-	default:
-		row.Email, row.GivenName, row.Surname, row.Groups = cols[0], cols[1], cols[2], cols[3]
-	}
-	return row
+type InviteVO struct {
+	File app_file.Data
+	Peer app_conn.ConnBusinessMgmt
 }
 
 type Invite struct {
@@ -67,7 +55,7 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	mvo := vo.(*InviteVO)
 
-	connMgmt, err := mvo.PeerName.Connect(k.Control())
+	connMgmt, err := mvo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}
@@ -82,8 +70,12 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 	}
 	defer rep.Close()
 
-	return mvo.File.EachRow(k.Control(), func(cols []string, rowIndex int) error {
-		m := InviteRowFromCols(cols)
+	if err := mvo.File.Model(k.Control(), &InviteRow{}); err != nil {
+		return err
+	}
+
+	return mvo.File.EachRow(func(row interface{}, rowIndex int) error {
+		m := row.(*InviteRow)
 		if err = m.Validate(); err != nil {
 			if rowIndex > 0 {
 				rep.Failure(app_report.MsgInvalidData, m, nil)

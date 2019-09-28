@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_file_impl"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"reflect"
 	"runtime"
@@ -35,7 +36,7 @@ func (z *ValueContainer) From(vo interface{}) {
 		vot = reflect.ValueOf(vo).Elem().Type()
 		vov = reflect.ValueOf(vo).Elem()
 	}
-	z.PkgName = vot.PkgPath()
+	z.PkgName = vot.PkgPath() + "." + strcase.ToSnake(vot.Name())
 
 	if vot.Kind() != reflect.Struct {
 		l.Error("ValueObject is not a struct", zap.String("name", vot.Name()), zap.String("pkg", vot.PkgPath()))
@@ -61,11 +62,11 @@ func (z *ValueContainer) From(vo interface{}) {
 			z.Values[kn] = &v
 		case reflect.Interface:
 			switch {
-			case vof.Type.Implements(reflect.TypeOf((*app_file.RowDataFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*app_file.Data)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = &app_file_impl.Factory{}
+					z.Values[kn] = app_file_impl.NewData()
 				}
 
 			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessMgmt)(nil)).Elem()):
@@ -168,7 +169,7 @@ func (z *ValueContainer) Apply(vo interface{}) {
 			}
 		case reflect.Interface:
 			switch {
-			case vof.Type.Implements(reflect.TypeOf((*app_file.RowDataFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*app_file.Data)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
@@ -226,10 +227,10 @@ func (z *ValueContainer) MessageKey(name string) string {
 	return pkg + ".flag." + strcase.ToSnake(name)
 }
 
-func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet) {
+func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
 	for n, d := range z.Values {
 		kf := strcase.ToKebab(n)
-		desc := z.MessageKey(n)
+		desc := ui.Text(z.MessageKey(n))
 
 		switch dv := d.(type) {
 		case *bool:
@@ -238,7 +239,7 @@ func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet) {
 			f.Int64Var(dv, kf, *dv, desc)
 		case *string:
 			f.StringVar(dv, kf, *dv, desc)
-		case *app_file_impl.Factory:
+		case *app_file_impl.CsvData:
 			f.StringVar(&dv.FilePath, kf, dv.FilePath, desc)
 		case *app_conn_impl.ConnBusinessMgmt:
 			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)

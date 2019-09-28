@@ -50,3 +50,7 @@ func (z *File) Folder() (*Folder, bool) {
 func (z *File) Deleted() (*Deleted, bool) {
 	return nil, false
 }
+
+func (z *File) Concrete() *ConcreteEntry {
+	return newConcreteEntry(z.Raw)
+}

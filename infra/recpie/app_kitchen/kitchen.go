@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/app_worker"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 )
@@ -14,11 +15,16 @@ type Kitchen interface {
 	UI() app_ui.UI
 	Log() *zap.Logger
 	Report(name string, row interface{}) (r app_report.Report, err error)
+	NewQueue() app_worker.Queue
 }
 
 type kitchenImpl struct {
 	vo  app_vo.ValueObject
 	ctl app_control.Control
+}
+
+func (z *kitchenImpl) NewQueue() app_worker.Queue {
+	return z.ctl.NewQueue()
 }
 
 func (z *kitchenImpl) Value() app_vo.ValueObject {

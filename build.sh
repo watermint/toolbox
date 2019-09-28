@@ -103,11 +103,11 @@ else
   echo Unable to load app key: code=$?
   exit $?
 fi
-$BUILD_PATH/linux/tbx dev quality -quiet
+$BUILD_PATH/linux/tbx dev test resources -quiet
 if [[ $? = 0 ]]; then
-  echo Success: quality test
+  echo Success: resources test
 else
-  echo Unable to pass binary quality test: code=$?
+  echo Unable to pass binary resources test: code=$?
   exit $?
 fi
 $BUILD_PATH/linux/tbx license -quiet > $BUILD_PATH/LICENSE.txt
@@ -118,5 +118,10 @@ for p in win mac linux; do
   echo BUILD: Packaging $p
   cp $BUILD_PATH/LICENSE.txt $BUILD_PATH/"$p"/
   cp README.md  $BUILD_PATH/"$p"/README.txt
-  ( cd $BUILD_PATH/"$p" && zip -9 -r $DIST_PATH/tbx-"$BUILD_VERSION"-"$p".zip . )
+  ( cd $BUILD_PATH/"$p" && zip -9 -r $BUILD_PATH/tbx-"$BUILD_VERSION"-"$p".zip . )
 done
+( cd $BUILD_PATH && zip -0 $DIST_PATH/tbx-"$BUILD_VERSION".zip *.zip )
+
+if [ ""x != "$CIRCLE_BUILD_URL"x ]; then
+  echo Artifact: "$CIRCLE_BUILD_URL"/"$CIRCLE_NODE_INDEX"/$DIST_PATH/tbx-"$BUILD_VERSION".zip
+fi

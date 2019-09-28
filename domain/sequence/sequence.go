@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	app2 "github.com/watermint/toolbox/legacy/app"
-	"github.com/watermint/toolbox/legacy/app/app_report"
+	"github.com/watermint/toolbox/legacy/app/app_report_legacy"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -130,7 +130,7 @@ func (z *sequenceImpl) runWithRunId(runId int) (numBacklog int, err error) {
 	l := z.ec.Log()
 	l.Info("Run", zap.Int("runId", runId))
 
-	rep := app_report.Factory{
+	rep := app_report_legacy.Factory{
 		ExecContext: z.ec,
 		Path:        filepath.Join(z.seqPath, fmt.Sprintf("%03d", z.runId)),
 	}

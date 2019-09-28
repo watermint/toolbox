@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"strings"
+	"sync"
 )
 
 type WebUILog struct {
@@ -34,6 +35,7 @@ type Web struct {
 	baseUI UI
 	out    io.Writer
 	llf    LinkForLocalFile
+	mutex  sync.Mutex
 }
 
 const (
@@ -58,6 +60,9 @@ const (
 )
 
 func (z *Web) uiLog(w *WebUILog) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	l := app_root.Log()
 	j, err := json.Marshal(w)
 	if err != nil {
@@ -76,28 +81,28 @@ func (z *Web) uiLog(w *WebUILog) {
 	}
 }
 
-func (z *Web) Success(key string, p ...app_msg.Param) {
+func (z *Web) Success(key string, p ...app_msg.P) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagResultSuccess,
 		Message: z.Text(key, p...),
 	})
 }
 
-func (z *Web) Failure(key string, p ...app_msg.Param) {
+func (z *Web) Failure(key string, p ...app_msg.P) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagResultFailure,
 		Message: z.Text(key, p...),
 	})
 }
 
-func (z *Web) Header(key string, p ...app_msg.Param) {
+func (z *Web) Header(key string, p ...app_msg.P) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagHeader,
 		Message: z.Text(key, p...),
 	})
 }
 
-func (z *Web) Info(key string, p ...app_msg.Param) {
+func (z *Web) Info(key string, p ...app_msg.P) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagInfo,
 		Message: z.Text(key, p...),
@@ -113,7 +118,7 @@ func (z *Web) InfoTable(name string) Table {
 	return t
 }
 
-func (z *Web) Error(key string, p ...app_msg.Param) {
+func (z *Web) Error(key string, p ...app_msg.P) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagError,
 		Message: z.Text(key, p...),
@@ -126,19 +131,19 @@ func (z *Web) Break() {
 	})
 }
 
-func (z *Web) Text(key string, p ...app_msg.Param) string {
+func (z *Web) Text(key string, p ...app_msg.P) string {
 	return z.baseUI.Text(key, p...)
 }
 
-func (z *Web) AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool) {
+func (z *Web) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	panic("not supported")
 }
 
-func (z *Web) AskText(key string, p ...app_msg.Param) (text string, cancel bool) {
+func (z *Web) AskText(key string, p ...app_msg.P) (text string, cancel bool) {
 	panic("not supported")
 }
 
-func (z *Web) AskSecure(key string, p ...app_msg.Param) (secure string, cancel bool) {
+func (z *Web) AskSecure(key string, p ...app_msg.P) (secure string, cancel bool) {
 	panic("not supported")
 }
 

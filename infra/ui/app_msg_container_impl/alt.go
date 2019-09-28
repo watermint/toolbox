@@ -16,8 +16,9 @@ func (Alt) Exists(key string) bool {
 func (Alt) Compile(m app_msg.Message) string {
 	params := make(map[string]interface{})
 	for _, p := range m.Params() {
-		param := p()
-		params[param.Key] = param.Value
+		for k, v := range p {
+			params[k] = v
+		}
 	}
 
 	alt := struct {

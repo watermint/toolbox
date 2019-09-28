@@ -9,6 +9,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
+	"github.com/watermint/toolbox/infra/recpie/app_worker"
+	"github.com/watermint/toolbox/infra/recpie/app_worker_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_template"
 	"github.com/watermint/toolbox/infra/ui/app_template_impl"
@@ -61,6 +63,10 @@ func (z *Single) NewControl(user app_workspace.MultiUser) (ctl app_control.Contr
 		return nil, err
 	}
 	return ctl, nil
+}
+
+func (z *Single) NewQueue() app_worker.Queue {
+	return app_worker_impl.NewQueue(z, z.opts.Concurrency)
 }
 
 func (z *Single) Catalogue() []app_recipe.Recipe {
@@ -154,7 +160,6 @@ func (z *Single) Up(opts ...app_control.UpOpt) (err error) {
 	for _, o := range opts {
 		o(z.opts)
 	}
-
 	return z.upWithHome(z.opts.WorkspacePath)
 }
 

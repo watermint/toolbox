@@ -16,6 +16,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -23,7 +24,6 @@ func New(control app_control.Control, token api_auth.TokenContainer) api_context
 	c := &ccImpl{
 		control:        control,
 		tokenContainer: token,
-		client:         &http.Client{},
 		noRetryOnError: false,
 	}
 	return c
@@ -31,7 +31,6 @@ func New(control app_control.Control, token api_auth.TokenContainer) api_context
 
 type ccImpl struct {
 	control        app_control.Control
-	client         *http.Client
 	tokenContainer api_auth.TokenContainer
 	noAuth         bool
 	asMemberId     string
@@ -39,6 +38,7 @@ type ccImpl struct {
 	basePath       api_context.PathRoot
 	retryAfter     time.Time
 	lastErrors     []error
+	lastErrorMutex sync.Mutex
 	noRetryOnError bool
 }
 
@@ -55,7 +55,8 @@ func (z *ccImpl) DoRequest(req api_rpc.Request) (code int, header http.Header, b
 	if err != nil {
 		return -1, nil, nil, err
 	}
-	res, err := z.client.Do(httpReq)
+	client := &http.Client{}
+	res, err := client.Do(httpReq)
 
 	if err != nil {
 		return -1, nil, nil, err
@@ -74,6 +75,9 @@ func (z *ccImpl) DoRequest(req api_rpc.Request) (code int, header http.Header, b
 }
 
 func (z *ccImpl) AddError(err error) {
+	z.lastErrorMutex.Lock()
+	defer z.lastErrorMutex.Unlock()
+
 	if z.lastErrors == nil {
 		z.lastErrors = make([]error, 0)
 	}
@@ -127,12 +131,9 @@ func (z *ccImpl) AsMemberId(teamMemberId string) api_context.Context {
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
-		client: &http.Client{
-			Timeout: z.client.Timeout,
-		},
-		asMemberId: teamMemberId,
-		asAdminId:  "",
-		basePath:   z.basePath,
+		asMemberId:     teamMemberId,
+		asAdminId:      "",
+		basePath:       z.basePath,
 	}
 }
 
@@ -141,9 +142,6 @@ func (z *ccImpl) AsAdminId(teamMemberId string) api_context.Context {
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
-		client: &http.Client{
-			Timeout: z.client.Timeout,
-		},
 		noRetryOnError: z.noRetryOnError,
 		asMemberId:     "",
 		asAdminId:      teamMemberId,
@@ -156,9 +154,6 @@ func (z *ccImpl) WithPath(pathRoot api_context.PathRoot) api_context.Context {
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
-		client: &http.Client{
-			Timeout: z.client.Timeout,
-		},
 		noRetryOnError: z.noRetryOnError,
 		asMemberId:     z.asMemberId,
 		asAdminId:      z.asAdminId,
@@ -171,9 +166,6 @@ func (z *ccImpl) NoRetryOnError() api_context.Context {
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
-		client: &http.Client{
-			Timeout: z.client.Timeout,
-		},
 		noRetryOnError: true,
 		asMemberId:     z.asMemberId,
 		asAdminId:      z.asAdminId,

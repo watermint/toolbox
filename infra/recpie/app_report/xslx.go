@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"path/filepath"
+	"sync"
 	"time"
 )
 
@@ -39,7 +40,7 @@ func xlsxDataStyle() *xlsx.Style {
 }
 
 func NewXlsx(name string, row interface{}, ctl app_control.Control) (r Report, err error) {
-	path, err := ctl.Workspace().Descendant(reportPath)
+	path, err := ctl.Workspace().Descendant(ReportPath)
 	if err != nil {
 		return nil, err
 	}
@@ -56,26 +57,27 @@ func NewXlsx(name string, row interface{}, ctl app_control.Control) (r Report, e
 	}
 	parser := NewColumn(row, ctl)
 	r = &Xlsx{
-		Ctl:      ctl,
-		FilePath: filePath,
-		File:     file,
-		Sheet:    sheet,
-		Parser:   parser,
+		ctl:      ctl,
+		filePath: filePath,
+		file:     file,
+		sheet:    sheet,
+		parser:   parser,
 	}
 	return r, nil
 }
 
 type Xlsx struct {
-	Ctl      app_control.Control
-	FilePath string
-	File     *xlsx.File
-	Sheet    *xlsx.Sheet
-	Parser   Column
-	Index    int
+	ctl      app_control.Control
+	filePath string
+	file     *xlsx.File
+	sheet    *xlsx.Sheet
+	parser   Column
+	index    int
+	mutex    sync.Mutex
 }
 
 func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
-	row := z.Sheet.AddRow()
+	row := z.sheet.AddRow()
 	for _, col := range cols {
 		cell := row.AddCell()
 		cell.SetStyle(style)
@@ -101,47 +103,53 @@ func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
 }
 
 func (z *Xlsx) Success(input interface{}, result interface{}) {
+	ui := z.ctl.UI()
 	z.Row(TransactionRow{
-		Status: z.Ctl.UI().Text(msgSuccess.Key(), msgSuccess.Params()...),
+		Status: ui.Text(msgSuccess.Key(), msgSuccess.Params()...),
 		Input:  input,
 		Result: result,
 	})
 }
 
 func (z *Xlsx) Failure(reason app_msg.Message, input interface{}, result interface{}) {
+	ui := z.ctl.UI()
 	z.Row(TransactionRow{
-		Status: z.Ctl.UI().Text(msgFailure.Key(), msgFailure.Params()...),
-		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Status: ui.Text(msgFailure.Key(), msgFailure.Params()...),
+		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
 	})
 }
 
 func (z *Xlsx) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+	ui := z.ctl.UI()
 	z.Row(TransactionRow{
-		Status: z.Ctl.UI().Text(msgSkip.Key(), msgFailure.Params()...),
-		Reason: z.Ctl.UI().Text(reason.Key(), reason.Params()...),
+		Status: ui.Text(msgSkip.Key(), msgFailure.Params()...),
+		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
 	})
 }
 
 func (z *Xlsx) Row(row interface{}) {
-	if z.Index == 0 {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
+	if z.index == 0 {
 		header := make([]interface{}, 0)
-		for _, h := range z.Parser.Header() {
+		for _, h := range z.parser.Header() {
 			header = append(header, h)
 		}
 		z.addRow(header, xlsxHeaderStyle())
 	}
-	z.addRow(z.Parser.Values(row), xlsxDataStyle())
-	z.Index++
+	z.addRow(z.parser.Values(row), xlsxDataStyle())
+	z.index++
 }
 
 func (z *Xlsx) Flush() {
-	z.File.Save(z.FilePath)
+	z.file.Save(z.filePath)
 }
 
 func (z *Xlsx) Close() {
-	z.File.Save(z.FilePath)
+	z.file.Save(z.filePath)
 }

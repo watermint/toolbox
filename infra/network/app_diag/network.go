@@ -14,17 +14,19 @@ func Network(ctl app_control.Control) error {
 		"https://api.dropboxapi.com",
 	}
 	l := ctl.Log()
-
-	ctl.UI().Info("run.network.progress.testing")
+	ui := ctl.UI()
+	ui.Info("run.network.progress.testing")
 
 	for _, url := range urls {
 		resp, err := http.Head(url)
 		ll := l.With(zap.String("Url", url))
 		if err != nil {
 			ll.Debug("Network test failed", zap.Error(err))
-			ctl.UI().Error("run.network.error.unreachable",
-				app_msg.P("Url", url),
-				app_msg.P("Error", err),
+			ui.Error("run.network.error.unreachable",
+				app_msg.P{
+					"Url":   url,
+					"Error": err,
+				},
 			)
 			return err
 		}
@@ -36,8 +38,8 @@ func Network(ctl app_control.Control) error {
 
 		ll.Debug("Network test success", zap.Int("status_code", resp.StatusCode))
 	}
-	ctl.UI().Info("run.network.progress.testing.done")
-	ctl.UI().Break()
+	ui.Info("run.network.progress.testing.done")
+	ui.Break()
 
 	return nil
 }

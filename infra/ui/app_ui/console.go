@@ -13,6 +13,7 @@ import (
 	"os"
 	"runtime"
 	"strings"
+	"sync"
 	"text/tabwriter"
 )
 
@@ -52,6 +53,7 @@ type console struct {
 	in       io.Reader
 	testMode bool
 	qm       qt_control.Message
+	mutex    sync.Mutex
 }
 
 func (z *console) IsConsole() bool {
@@ -63,14 +65,14 @@ func (z *console) IsWeb() bool {
 }
 
 func (z *console) OpenArtifact(path string) {
-	z.Info("run.console.open_artifact", app_msg.P("Path", path))
+	z.Info("run.console.open_artifact", app_msg.P{"Path": path})
 	if z.testMode {
 		return
 	}
 
 	err := open.Start(path)
 	if err != nil {
-		z.Error("run.console.open_artifact.error", app_msg.P("Error", err))
+		z.Error("run.console.open_artifact.error", app_msg.P{"Error": err})
 	}
 }
 
@@ -80,16 +82,22 @@ func (z *console) verifyKey(key string) {
 	}
 }
 
-func (z *console) Text(key string, p ...app_msg.Param) string {
+func (z *console) Text(key string, p ...app_msg.P) string {
 	z.verifyKey(key)
 	return z.mc.Compile(app_msg.M(key, p...))
 }
 
 func (z *console) Break() {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	fmt.Fprintln(z.out)
 }
 
 func (z *console) colorPrint(t string, color int) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	if runtime.GOOS == "windows" {
 		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
@@ -98,6 +106,9 @@ func (z *console) colorPrint(t string, color int) {
 }
 
 func (z *console) boldPrint(t string) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	if runtime.GOOS == "windows" {
 		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
@@ -105,7 +116,7 @@ func (z *console) boldPrint(t string) {
 	}
 }
 
-func (z *console) Header(key string, p ...app_msg.Param) {
+func (z *console) Header(key string, p ...app_msg.P) {
 	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.boldPrint(m)
@@ -121,35 +132,35 @@ func (z *console) InfoTable(name string) Table {
 	}
 }
 
-func (z *console) Info(key string, p ...app_msg.Param) {
+func (z *console) Info(key string, p ...app_msg.P) {
 	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorWhite)
 	app_root.Log().Debug(m)
 }
 
-func (z *console) Error(key string, p ...app_msg.Param) {
+func (z *console) Error(key string, p ...app_msg.P) {
 	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorRed)
 	app_root.Log().Debug(m)
 }
 
-func (z *console) Success(key string, p ...app_msg.Param) {
+func (z *console) Success(key string, p ...app_msg.P) {
 	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorGreen)
 	app_root.Log().Debug(m)
 }
 
-func (z *console) Failure(key string, p ...app_msg.Param) {
+func (z *console) Failure(key string, p ...app_msg.P) {
 	z.verifyKey(key)
 	m := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(m, ColorRed)
 	app_root.Log().Debug(m)
 }
 
-func (z *console) AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool) {
+func (z *console) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	z.verifyKey(key)
 	msg := z.mc.Compile(app_msg.M(key, p...))
 	app_root.Log().Debug(msg)
@@ -183,7 +194,7 @@ func (z *console) AskCont(key string, p ...app_msg.Param) (cont bool, cancel boo
 	}
 }
 
-func (z *console) AskText(key string, p ...app_msg.Param) (text string, cancel bool) {
+func (z *console) AskText(key string, p ...app_msg.P) (text string, cancel bool) {
 	z.verifyKey(key)
 	msg := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(msg, ColorCyan)
@@ -207,7 +218,7 @@ func (z *console) AskText(key string, p ...app_msg.Param) (text string, cancel b
 	}
 }
 
-func (z *console) AskSecure(key string, p ...app_msg.Param) (text string, cancel bool) {
+func (z *console) AskSecure(key string, p ...app_msg.P) (text string, cancel bool) {
 	z.verifyKey(key)
 	msg := z.mc.Compile(app_msg.M(key, p...))
 	z.colorPrint(msg, ColorCyan)
@@ -232,12 +243,16 @@ func (z *console) AskSecure(key string, p ...app_msg.Param) (text string, cancel
 }
 
 type consoleTable struct {
-	mc  app_msg_container.Container
-	tab *tabwriter.Writer
-	qm  qt_control.Message
+	mc    app_msg_container.Container
+	tab   *tabwriter.Writer
+	qm    qt_control.Message
+	mutex sync.Mutex
 }
 
 func (z *consoleTable) HeaderRaw(h ...string) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	var p, q = "", ""
 
 	//if runtime.GOOS != "windows" {
@@ -248,6 +263,9 @@ func (z *consoleTable) HeaderRaw(h ...string) {
 }
 
 func (z *consoleTable) RowRaw(m ...string) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	fmt.Fprintln(z.tab, strings.Join(m, "\t"))
 }
 
@@ -275,5 +293,8 @@ func (z *consoleTable) Row(m ...app_msg.Message) {
 }
 
 func (z *consoleTable) Flush() {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	z.tab.Flush()
 }

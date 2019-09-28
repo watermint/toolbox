@@ -101,13 +101,14 @@ func (z *Cascade) Flush() {
 }
 
 func (z *Cascade) Close() {
+	ui := z.Ctl.UI()
 	for _, r := range z.Reports {
 		r.Close()
 	}
 
-	p, err := z.Ctl.Workspace().Descendant(reportPath)
+	p, err := z.Ctl.Workspace().Descendant(ReportPath)
 	if err != nil {
 		return
 	}
-	z.Ctl.UI().OpenArtifact(p)
+	ui.OpenArtifact(p)
 }

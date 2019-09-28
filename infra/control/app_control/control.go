@@ -2,6 +2,7 @@ package app_control
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_workspace"
+	"github.com/watermint/toolbox/infra/recpie/app_worker"
 	"github.com/watermint/toolbox/infra/ui/app_template"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -23,6 +24,7 @@ type Control interface {
 	IsTest() bool
 	IsQuiet() bool
 	IsSecure() bool
+	NewQueue() app_worker.Queue
 }
 
 type ControlHttpFileSystem interface {
@@ -38,8 +40,15 @@ type UpOpts struct {
 	Test          bool
 	Secure        bool
 	RecipeName    string
+	Concurrency   int
 }
 
+func Concurrency(c int) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
+		opt.Concurrency = c
+		return opt
+	}
+}
 func RecipeName(name string) UpOpt {
 	return func(opt *UpOpts) *UpOpts {
 		opt.RecipeName = name

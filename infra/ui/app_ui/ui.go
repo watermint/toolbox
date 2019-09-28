@@ -5,20 +5,20 @@ import (
 )
 
 type UI interface {
-	Header(key string, p ...app_msg.Param)
-	Info(key string, p ...app_msg.Param)
+	Header(key string, p ...app_msg.P)
+	Info(key string, p ...app_msg.P)
 	InfoTable(name string) Table
-	Error(key string, p ...app_msg.Param)
+	Error(key string, p ...app_msg.P)
 	Break()
-	Text(key string, p ...app_msg.Param) string
+	Text(key string, p ...app_msg.P) string
 
-	AskCont(key string, p ...app_msg.Param) (cont bool, cancel bool)
-	AskText(key string, p ...app_msg.Param) (text string, cancel bool)
-	AskSecure(key string, p ...app_msg.Param) (secure string, cancel bool)
+	AskCont(key string, p ...app_msg.P) (cont bool, cancel bool)
+	AskText(key string, p ...app_msg.P) (text string, cancel bool)
+	AskSecure(key string, p ...app_msg.P) (secure string, cancel bool)
 
 	OpenArtifact(path string)
-	Success(key string, p ...app_msg.Param)
-	Failure(key string, p ...app_msg.Param)
+	Success(key string, p ...app_msg.P)
+	Failure(key string, p ...app_msg.P)
 
 	IsConsole() bool
 	IsWeb() bool

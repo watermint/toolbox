@@ -2,6 +2,7 @@ package mo_namespace
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -63,4 +64,34 @@ func (z *NamespaceMember) Member() (member mo_sharedfolder_member.Member) {
 		return member
 	}
 	return member
+}
+
+type NamespaceEntry struct {
+	Raw                  json.RawMessage
+	NamespaceId          string `path:"namespace.namespace_id" json:"namespace_id"`
+	NamespaceName        string `path:"namespace.name" json:"namespace_name"`
+	Id                   string `path:"entry.id" json:"id"`
+	Tag                  string `path:"entry.\\.tag" json:"tag"`
+	Name                 string `path:"entry.name" json:"name"`
+	PathDisplay          string `path:"entry.path_display" json:"path_display"`
+	ClientModified       string `path:"entry.client_modified" json:"client_modified"`
+	ServerModified       string `path:"entry.server_modified" json:"server_modified"`
+	Revision             string `path:"entry.rev" json:"revision"`
+	Size                 int64  `path:"entry.size" json:"size"`
+	ContentHash          string `path:"entry.content_hash" json:"content_hash"`
+	SharedFolderId       string `path:"entry.sharing_info.shared_folder_id" json:"shared_folder_id"`
+	ParentSharedFolderId string `path:"entry.sharing_info.parent_shared_folder_id" json:"parent_shared_folder_id"`
+}
+
+func NewNamespaceEntry(namespace *Namespace, entry *mo_file.ConcreteEntry) (ne *NamespaceEntry) {
+	raws := make(map[string]json.RawMessage)
+	raws["namespace"] = namespace.Raw
+	raws["entry"] = entry.Raw
+	raw := api_parser.CombineRaw(raws)
+
+	ne = &NamespaceEntry{}
+	if err := api_parser.ParseModelRaw(ne, raw); err != nil {
+		app_root.Log().Error("unable to parse", zap.Error(err))
+	}
+	return ne
 }

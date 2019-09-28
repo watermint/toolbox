@@ -7,6 +7,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
+	"github.com/watermint/toolbox/infra/recpie/app_worker"
+	"github.com/watermint/toolbox/infra/recpie/app_worker_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -26,6 +28,10 @@ type mockControl struct {
 	logger *zap.Logger
 	ui     app_ui.UI
 	ws     app_workspace.Workspace
+}
+
+func (z *mockControl) NewQueue() app_worker.Queue {
+	return app_worker_impl.NewQueue(z, 1)
 }
 
 func (z *mockControl) IsProduction() bool {

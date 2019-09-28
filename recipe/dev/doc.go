@@ -49,6 +49,7 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 	cl := k.Control().(app_control_launcher.ControlLauncher)
 	recpies := cl.Catalogue()
 
+	ui := k.UI()
 	for _, r := range recpies {
 		if _, ok := r.(app_recipe.SecretRecipe); ok {
 			continue
@@ -58,7 +59,7 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 		p = append(p, n)
 		q := strings.Join(p, " ")
 
-		book[q] = k.UI().Text(app_recipe.Desc(r).Key())
+		book[q] = ui.Text(app_recipe.Desc(r).Key())
 	}
 
 	app_doc.PrintMarkdown(os.Stdout, "command", "description", book)

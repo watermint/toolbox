@@ -19,17 +19,9 @@ func (z *DetachRow) Validate() (err error) {
 	return nil
 }
 
-func DetachRowFromCols(cols []string) (row *DetachRow) {
-	row = &DetachRow{}
-	if len(cols) > 0 {
-		row.Email = cols[0]
-	}
-	return
-}
-
 type DetachVO struct {
-	File             app_file.RowDataFile
-	PeerName         app_conn.ConnBusinessMgmt
+	File             app_file.Data
+	Peer             app_conn.ConnBusinessMgmt
 	RetainTeamShares bool
 }
 
@@ -53,7 +45,7 @@ func (*Detach) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	mvo := vo.(*DetachVO)
 
-	connMgmt, err := mvo.PeerName.Connect(k.Control())
+	connMgmt, err := mvo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}
@@ -68,8 +60,12 @@ func (*Detach) Exec(k app_kitchen.Kitchen) error {
 	}
 	defer rep.Close()
 
-	return mvo.File.EachRow(k.Control(), func(cols []string, rowIndex int) error {
-		m := DetachRowFromCols(cols)
+	if err := mvo.File.Model(k.Control(), &DetachRow{}); err != nil {
+		return err
+	}
+
+	return mvo.File.EachRow(func(mod interface{}, rowIndex int) error {
+		m := mod.(*InviteRow)
 		if err = m.Validate(); err != nil {
 			if rowIndex > 0 {
 				rep.Failure(app_report.MsgInvalidData, m, nil)
