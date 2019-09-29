@@ -3,7 +3,6 @@ package cmd_member
 import (
 	cmd2 "github.com/watermint/toolbox/legacy/cmd"
 	cmd_member_mirror2 "github.com/watermint/toolbox/legacy/cmd/cmd_member/cmd_member_mirror"
-	cmd_member_update2 "github.com/watermint/toolbox/legacy/cmd/cmd_member/cmd_member_update"
 )
 
 func NewCmdMember() cmd2.Commandlet {
@@ -17,7 +16,6 @@ func NewCmdMember() cmd2.Commandlet {
 			&CmdMemberSync{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},
-			cmd_member_update2.NewCmdMemberUpdate(),
 			cmd_member_mirror2.NewCmdMemberMirror(),
 		},
 	}

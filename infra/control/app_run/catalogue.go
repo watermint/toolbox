@@ -11,6 +11,7 @@ import (
 	groupmember "github.com/watermint/toolbox/recipe/group/member"
 	"github.com/watermint/toolbox/recipe/member"
 	memberquota "github.com/watermint/toolbox/recipe/member/quota"
+	memberupdate "github.com/watermint/toolbox/recipe/member/update"
 	"github.com/watermint/toolbox/recipe/sharedfolder"
 	sharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
 	"github.com/watermint/toolbox/recipe/sharedlink"
@@ -41,6 +42,7 @@ func Recipes() []app_recipe.Recipe {
 		&member.Invite{},
 		&member.List{},
 		&memberquota.List{},
+		&memberupdate.Email{},
 		&recipe.License{},
 		&recipe.Web{},
 		&sharedfolder.List{},
