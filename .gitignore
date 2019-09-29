@@ -14,4 +14,5 @@
 /vendor
 /resources/*.tokens
 /resources/*.appkeys
-/test/resource_dev.json
+/test/dev
+
