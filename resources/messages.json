@@ -31,6 +31,7 @@
   "recipe.dev.test.recipe_vo.flag.all":"Test all recipes",
   "recipe.dev.test.recipe_vo.flag.recipe":"Recipe name to test",
   "recipe.dev.test.recipe.desc":"Test recipe",
+  "recipe.dev.test.recipe_vo.flag.resource": "Test resource file path",
   "recipe.dev.test.resources.desc":"Binary quality test",
   "recipe.file.desc": "File operation",
   "recipe.file.list_vo.flag.include_deleted":"Include deleted files",

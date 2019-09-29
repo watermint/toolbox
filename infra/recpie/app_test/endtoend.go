@@ -118,9 +118,7 @@ type RowTester func(cols map[string]string) error
 
 func TestRows(ctl app_control.Control, reportName string, tester RowTester) error {
 	l := ctl.Log().With(zap.String("reportName", reportName))
-	job := ctl.Workspace().Job()
-	rep := filepath.Join(job, "reports")
-	csvFile := filepath.Join(rep, reportName+".csv")
+	csvFile := filepath.Join(ctl.Workspace().Report(), reportName+".csv")
 
 	l.Debug("Start loading report", zap.String("csvFile", csvFile))
 

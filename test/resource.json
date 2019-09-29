@@ -1,0 +1,18 @@
+{
+  "member": {
+    "update": {
+      "email": [
+        {
+          "from": "",
+          "to": "",
+          "exists": true
+        },
+        {
+          "from": "",
+          "to": "",
+          "exists": false
+        }
+      ]
+    }
+  }
+}

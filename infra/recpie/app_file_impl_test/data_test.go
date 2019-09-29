@@ -66,8 +66,7 @@ func TestCsvData_EachRow(t *testing.T) {
 		}
 		rep.Close()
 
-		repPath := filepath.Join(ctl.Workspace().Job(), "reports")
-		repFile := filepath.Join(repPath, "data_row.csv")
+		repFile := filepath.Join(ctl.Workspace().Report(), "data_row.csv")
 
 		// fieldName
 		{

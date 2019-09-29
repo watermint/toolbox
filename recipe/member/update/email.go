@@ -1,19 +1,28 @@
 package update
 
 import (
+	"bufio"
+	"encoding/csv"
 	"errors"
+	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
+	"github.com/watermint/toolbox/infra/recpie/app_file_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_report"
+	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
+	"os"
+	"path/filepath"
 )
 
 type EmailVO struct {
@@ -121,7 +130,7 @@ func (z *Email) Exec(k app_kitchen.Kitchen) error {
 			rep.Failure(app_msg.M("recipe.member.quota.update.err.not_found", app_msg.P{
 				"Email": row.FromEmail,
 			}), row, nil)
-			return errors.New("member not found for given email address")
+			return nil
 		}
 
 		if !member.EmailVerified && vo.DontUpdateUnverified {
@@ -146,5 +155,172 @@ func (z *Email) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Email) Test(c app_control.Control) error {
-	return nil
+	l := c.Log()
+	res, found := c.TestResource(app_recipe.Key(z))
+	if !found || !res.IsArray() {
+		l.Debug("SKIP: Test resource not found")
+		return nil
+	}
+	vo := &EmailVO{}
+	if !app_test.ApplyTestPeers(c, vo) {
+		l.Debug("Skip test")
+		return nil
+	}
+
+	pair := make(map[string]string)
+	noExist := make(map[string]bool)
+
+	for _, row := range res.Array() {
+		from := row.Get("from").String()
+		to := row.Get("to").String()
+		exists := row.Get("exists").Bool()
+
+		if !api_util.RegexEmail.MatchString(from) || !api_util.RegexEmail.MatchString(to) {
+			l.Error("from or to email address unmatched to email address format", zap.String("from", from), zap.String("to", to))
+			return errors.New("invalid input")
+		}
+		pair[from] = to
+		noExist[from] = !exists
+	}
+
+	createCsv := func(path string, reverse bool) error {
+		l.Info("Create test file", zap.String("path", path))
+		f, err := os.Create(path)
+		if err != nil {
+			l.Debug("Unable to create test file", zap.Error(err))
+			return err
+		}
+		cw := csv.NewWriter(f)
+		if err := cw.Write([]string{"from_email", "to_email"}); err != nil {
+			return err
+		}
+
+		for k, v := range pair {
+			if reverse {
+				if err := cw.Write([]string{v, k}); err != nil {
+					return err
+				}
+			} else {
+				if err := cw.Write([]string{k, v}); err != nil {
+					return err
+				}
+			}
+		}
+		cw.Flush()
+		return f.Close()
+	}
+
+	pathForward := filepath.Join(c.Workspace().Test(), "testdata_forward.csv")
+	pathBackward := filepath.Join(c.Workspace().Test(), "testdata_backward.csv")
+
+	if err := createCsv(pathForward, false); err != nil {
+		l.Error("Unable to create test file", zap.String("pathForward", pathForward), zap.Error(err))
+		return err
+	}
+	if err := createCsv(pathBackward, true); err != nil {
+		l.Error("Unable to create test file", zap.String("pathForward", pathForward), zap.Error(err))
+		return err
+	}
+
+	var lastErr error
+
+	preserveReport := func(suffix string) error {
+		repPath := c.Workspace().Report() + suffix
+		err := os.Rename(c.Workspace().Report(), repPath)
+		if err != nil {
+			l.Warn("Unable to preserve forward report", zap.Error(err))
+			repPath = c.Workspace().Report()
+		}
+
+		// create alt report folder
+		err = os.MkdirAll(c.Workspace().Report(), 0701)
+		if err != nil {
+			l.Error("Unable to create workspace path", zap.Error(err))
+			return err
+		}
+		return nil
+	}
+
+	scanReport := func() {
+		resultPath := filepath.Join(c.Workspace().Report(), "update.json")
+		resultFile, err := os.Open(resultPath)
+		if err != nil {
+			l.Warn("Unable to open", zap.Error(err))
+		} else {
+			scanner := bufio.NewScanner(resultFile)
+			for scanner.Scan() {
+				row := gjson.Parse(scanner.Text())
+
+				status := row.Get("Status").String()
+				reason := row.Get("Reason").String()
+				inputFrom := row.Get("Input.from_email").String()
+				inputTo := row.Get("Input.to_email").String()
+				resultEmail := row.Get("Result.email").String()
+
+				ll := l.With(
+					zap.String("status", status),
+					zap.String("inputFrom", inputFrom),
+					zap.String("inputTo", inputTo),
+					zap.String("resultEmail", resultEmail),
+					zap.String("reason", reason),
+				)
+				isNonExistent := noExist[inputFrom] || noExist[inputTo]
+
+				ll.Info("Data file row", zap.Bool("isNonExist", isNonExistent))
+
+				switch {
+				case status == "Failure" && isNonExistent:
+					ll.Info("Successfully failed for non existent")
+				case status == "Failure":
+					ll.Warn("Unexpected failure")
+					lastErr = errors.New("unexpected failure")
+				case status == "Success" && isNonExistent:
+					ll.Warn("Unexpected failure")
+					lastErr = errors.New("unexpected failure")
+				case status == "Success":
+					if inputTo == resultEmail {
+						ll.Info("Successfully changed for non existent")
+					} else {
+						ll.Warn("Email address unchanged")
+						lastErr = errors.New("email address unchanged")
+					}
+				default:
+					ll.Warn("Unexpected status")
+					lastErr = errors.New("unexpected status")
+				}
+			}
+		}
+	}
+
+	// forward
+	{
+		vo.DontUpdateUnverified = false
+		vo.File = app_file_impl.NewTestData(pathForward)
+
+		lastErr = z.Exec(app_kitchen.NewKitchen(c, vo))
+		if lastErr != nil {
+			l.Warn("Error in forward operation")
+		}
+		scanReport()
+		if err := preserveReport("_forward"); err != nil {
+			return err
+		}
+	}
+
+	// backward
+	{
+		vo.DontUpdateUnverified = false
+		vo.File = app_file_impl.NewTestData(pathBackward)
+
+		lastErr = z.Exec(app_kitchen.NewKitchen(c, vo))
+		if lastErr != nil {
+			l.Warn("Error in backward operation")
+		}
+		scanReport()
+		if err := preserveReport("_backward"); err != nil {
+			return err
+		}
+	}
+
+	return lastErr
 }

@@ -139,7 +139,7 @@ func (z *Async) Test(c app_control.Control) error {
 	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
-	singleReportPath := filepath.Join(c.Workspace().Job(), "reports", lvo.reportName()+".csv")
+	singleReportPath := filepath.Join(c.Workspace().Report(), lvo.reportName()+".csv")
 
 	// Concurrent operation:
 	l.Info("Running multi thread operation")
@@ -147,7 +147,7 @@ func (z *Async) Test(c app_control.Control) error {
 	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
-	concurrentReportPath := filepath.Join(c.Workspace().Job(), "reports", lvo.reportName()+".csv")
+	concurrentReportPath := filepath.Join(c.Workspace().Report(), lvo.reportName()+".csv")
 
 	singleReport := make([]string, 0)
 	{

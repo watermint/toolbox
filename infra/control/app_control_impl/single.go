@@ -3,6 +3,7 @@ package app_control_impl
 import (
 	"encoding/json"
 	"github.com/GeertJohan/go.rice"
+	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_log"
@@ -23,26 +24,28 @@ import (
 
 func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, catalogue []app_recipe.Recipe) app_control.Control {
 	return &Single{
-		ui:        ui,
-		box:       bx,
-		web:       web,
-		mc:        mc,
-		quiet:     quiet,
-		catalogue: catalogue,
+		ui:           ui,
+		box:          bx,
+		web:          web,
+		mc:           mc,
+		quiet:        quiet,
+		catalogue:    catalogue,
+		testResource: gjson.Parse("{}"),
 	}
 }
 
 type Single struct {
-	ui        app_ui.UI
-	flc       *app_log.FileLogContext
-	cap       *app_log.CaptureContext
-	box       *rice.Box
-	web       *rice.Box
-	mc        app_msg_container.Container
-	ws        app_workspace.Workspace
-	opts      *app_control.UpOpts
-	quiet     bool
-	catalogue []app_recipe.Recipe
+	ui           app_ui.UI
+	flc          *app_log.FileLogContext
+	cap          *app_log.CaptureContext
+	box          *rice.Box
+	web          *rice.Box
+	mc           app_msg_container.Container
+	ws           app_workspace.Workspace
+	opts         *app_control.UpOpts
+	quiet        bool
+	catalogue    []app_recipe.Recipe
+	testResource gjson.Result
 }
 
 func (z *Single) NewControl(user app_workspace.MultiUser) (ctl app_control.Control, err error) {
@@ -54,6 +57,31 @@ func (z *Single) NewControl(user app_workspace.MultiUser) (ctl app_control.Contr
 	}
 	if z.opts.Test {
 		opts = append(opts, app_control.Test())
+	}
+	if z.opts.Secure {
+		opts = append(opts, app_control.Secure())
+	}
+	err = ctl.Up(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ctl, nil
+}
+
+func (z *Single) NewTestControl(testResource gjson.Result) (ctl app_control.Control, err error) {
+	ctl = &Single{
+		ui:           z.ui,
+		box:          z.box,
+		web:          z.web,
+		mc:           z.mc,
+		quiet:        z.quiet,
+		catalogue:    z.catalogue,
+		testResource: testResource,
+	}
+	opts := make([]app_control.UpOpt, 0)
+	opts = append(opts, app_control.Test())
+	if z.opts.Debug {
+		opts = append(opts, app_control.Debug())
 	}
 	if z.opts.Secure {
 		opts = append(opts, app_control.Secure())
@@ -197,4 +225,9 @@ func (z *Single) Log() *zap.Logger {
 
 func (z *Single) Capture() *zap.Logger {
 	return z.cap.Logger
+}
+
+func (z *Single) TestResource(key string) (data gjson.Result, found bool) {
+	data = z.testResource.Get(key)
+	return data, data.Exists()
 }
