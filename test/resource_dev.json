@@ -3,13 +3,18 @@
     "update": {
       "email": [
         {
-          "from": "",
-          "to": "",
+          "from": "dbx+ma03@watermint.org",
+          "to": "dbx+ma03a@watermint.org",
           "exists": true
         },
         {
-          "from": "",
-          "to": "",
+          "from": "dbx+ma04@watermint.org",
+          "to": "dbx+ma04a@watermint.org",
+          "exists": true
+        },
+        {
+          "from": "dbx+noexistent@watermint.org",
+          "to": "dbx+noexistent2@watermint.org",
           "exists": false
         }
       ]
