@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Prepare for release
 
+mkdir -p $HOME/.toolbox/secrets
+echo "$TOOLBOX_APPKEYS" > resources/toolbox.appkeys
+echo "$TOOLBOX_ENDTOEND" > $HOME/.toolbox/secrets/end_to_end_test.tokens
+
 #if [ x"master" != x"$CIRCLE_BRANCH" ]; then
 #  echo Skip release testing: current branch "$CIRCLE_BRANCH"
 #  exit 0
