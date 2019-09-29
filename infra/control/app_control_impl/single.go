@@ -80,12 +80,6 @@ func (z *Single) NewTestControl(testResource gjson.Result) (ctl app_control.Cont
 	}
 	opts := make([]app_control.UpOpt, 0)
 	opts = append(opts, app_control.Test())
-	if z.opts.Debug {
-		opts = append(opts, app_control.Debug())
-	}
-	if z.opts.Secure {
-		opts = append(opts, app_control.Secure())
-	}
 	err = ctl.Up(opts...)
 	if err != nil {
 		return nil, err
