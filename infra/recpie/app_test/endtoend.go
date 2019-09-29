@@ -84,7 +84,7 @@ func ApplyTestPeers(ctl app_control.Control, vo app_vo.ValueObject) bool {
 	return true
 }
 
-func TestResources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {
+func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {
 	bx = rice.MustFindBox("../../../resources")
 	web = rice.MustFindBox("../../../web")
 
@@ -94,7 +94,7 @@ func TestResources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Contai
 }
 
 func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
-	bx, web, mc, ui := TestResources(t)
+	bx, web, mc, ui := Resources(t)
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, make([]app_recipe.Recipe, 0))
 	err := ctl.Up(app_control.Test())
