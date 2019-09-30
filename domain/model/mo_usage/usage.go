@@ -21,14 +21,15 @@ type Usage struct {
 
 type MemberUsage struct {
 	Raw        json.RawMessage
-	Email      string `path:"member.profile.email" json:"email"`
-	Used       uint64 `path:"usage.used" json:"used"`
-	Allocation string `path:"usage.allocation.\\.tag" json:"allocation"`
-	Allocated  uint64 `path:"usage.allocation.allocated" json:"allocated"`
-	//TeamUsed                          uint64 `path:"usage.allocation.used" json:"team_used"`
-	//TeamUserWithinTeamSpaceAllocated  uint64 `path:"usage.allocation.user_within_team_space_allocated" json:"team_user_within_team_space_allocated"`
-	//TeamUserWithinTeamSpaceLimitType  string `path:"usage.allocation.user_within_team_space_limit_type.\\.tag" json:"team_user_within_team_space_limit_type"`
-	//TeamUserWithinTeamSpaceUsedCached uint64 `path:"usage.allocation.user_within_team_space_used_cached" json:"team_user_within_team_space_used_cached"`
+	Email      string  `path:"member.profile.email" json:"email"`
+	UsedGB     float64 `path:"usage.used" json:"used_gb"`
+	UsedBytes  uint64  `path:"usage.used" json:"used_bytes"`
+	Allocation string  `path:"usage.allocation.\\.tag" json:"allocation"`
+	Allocated  uint64  `path:"usage.allocation.allocated" json:"allocated"`
+	//TeamUsed                          uint64  `path:"usage.allocation.used" json:"team_used"`
+	//TeamUserWithinTeamSpaceAllocated  uint64  `path:"usage.allocation.user_within_team_space_allocated" json:"team_user_within_team_space_allocated"`
+	//TeamUserWithinTeamSpaceLimitType  string  `path:"usage.allocation.user_within_team_space_limit_type.\\.tag" json:"team_user_within_team_space_limit_type"`
+	//TeamUserWithinTeamSpaceUsedCached uint64  `path:"usage.allocation.user_within_team_space_used_cached" json:"team_user_within_team_space_used_cached"`
 }
 
 func NewMemberUsage(member *mo_member.Member, usage *Usage) (mu *MemberUsage) {
@@ -43,5 +44,6 @@ func NewMemberUsage(member *mo_member.Member, usage *Usage) (mu *MemberUsage) {
 		// return empty
 		return mu
 	}
+	mu.UsedGB = float64(mu.UsedBytes) / 1_000_000_000.0
 	return mu
 }
