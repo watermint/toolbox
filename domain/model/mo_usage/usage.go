@@ -44,6 +44,6 @@ func NewMemberUsage(member *mo_member.Member, usage *Usage) (mu *MemberUsage) {
 		// return empty
 		return mu
 	}
-	mu.UsedGB = float64(mu.UsedBytes) / 1_000_000_000.0
+	mu.UsedGB = float64(mu.UsedBytes) / 1_073_741_824.0
 	return mu
 }
