@@ -42,6 +42,7 @@ func Recipes() []app_recipe.Recipe {
 		&member.Invite{},
 		&member.List{},
 		&memberquota.List{},
+		&memberquota.Usage{},
 		&memberupdate.Email{},
 		&recipe.License{},
 		&recipe.Web{},
