@@ -98,8 +98,8 @@ func (z *Usage) Test(c app_control.Control) error {
 		if _, ok := cols["email"]; !ok {
 			return errors.New("`email` is not found")
 		}
-		if _, ok := cols["used"]; !ok {
-			return errors.New("`used` is not found")
+		if _, ok := cols["used_bytes"]; !ok {
+			return errors.New("`used_bytes` is not found")
 		}
 		return nil
 	})
