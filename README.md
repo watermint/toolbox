@@ -50,50 +50,44 @@ Available commands:
 |------------------------------|--------------------------------------------------------------|
 | `file compare`               | Compare files between two accounts                           |
 | `file copy`                  | Copy files                                                   |
-| `file list`                  | List files/folders                                           |
-| `file metadata`              | Report metadata for a file or folder                         |
+| `file list`                  | List files and folders                                       |
 | `file mirror`                | Mirror files/folders into another account                    |
 | `file move`                  | Copy files                                                   |
 | `file save`                  | Save the data from a specified URL into a file               |
 | `group list`                 | List group(s)                                                |
-| `group member add`           | Add members into existing groups                             |
 | `group member list`          | List members of groups                                       |
-| `group remove`               | Remove group                                                 |
 | `license`                    | Show license information                                     |
 | `member detach`              | Convert Dropbox Business accounts to Basic account           |
 | `member invite`              | Invite member(s)                                             |
 | `member list`                | List team member(s)                                          |
 | `member mirror files`        | Mirror member files                                          |
 | `member quota list`          | List team member quota                                       |
-| `member quota update`        | Update member storage quota                                  |
+| `member quota usage`         | List team member storage usage                               |
 | `member remove`              | Remove the member from the team                              |
 | `member sync`                | Sync member information with provided csv                    |
-| `member update email`        | Update member email address                                  |
+| `member update email`        | Member email operation                                       |
 | `sharedfolder list`          | List shared folder(s)                                        |
 | `sharedfolder member list`   | List shared folder member(s)                                 |
 | `sharedlink create`          | Create shared link                                           |
 | `sharedlink list`            | List of shared link(s)                                       |
 | `sharedlink remove`          | Remove shared link                                           |
-| `team audit events`          | Export activity logs                                         |
-| `team audit sharing`         | Export all sharing information across team                   |
-| `team device list`           | List devices or web sessions of the team                     |
+| `team activity`              | Team activity log                                            |
+| `team device list`           | List all devices/sessions in the team                        |
 | `team device unlink`         | Unlink device                                                |
 | `team feature`               | Team feature                                                 |
 | `team filerequest list`      | List all file requests in the team                           |
 | `team info`                  | Team information                                             |
 | `team linkedapp list`        | List linked applications                                     |
-| `team namespace file list`   | List files/folders in all namespaces of the team             |
-| `team namespace file size`   | Calculate size of namespaces                                 |
+| `team namespace file list`   | List all files and folders of the team namespaces            |
+| `team namespace file size`   | List all files and folders of the team namespaces            |
 | `team namespace list`        | List all namespaces of the team                              |
-| `team namespace member list` | List all namespace members of the team                       |
+| `team namespace member list` | List members of shared folders and team folders in the team  |
 | `team sharedlink cap expiry` | Force expiration date of public shared links within the team |
 | `team sharedlink list`       | List of shared link(s)                                       |
 | `teamfolder archive`         | Archive team folder(s)                                       |
-| `teamfolder file list`       | List files/folders in all team folders of the team           |
 | `teamfolder list`            | List team folder(s)                                          |
 | `teamfolder mirror`          | Mirror team folders into another team                        |
 | `teamfolder permdelete`      | Permanently delete team folder(s)                            |
-| `teamfolder size`            | Calculate size of team folder                                |
 | `web`                        | Launch web console (experimental)                            |
 
 ## Authentication

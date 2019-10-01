@@ -6,7 +6,6 @@ import (
 	cmd2 "github.com/watermint/toolbox/legacy/cmd"
 	cmd_dev2 "github.com/watermint/toolbox/legacy/cmd/cmd_dev"
 	cmd_file2 "github.com/watermint/toolbox/legacy/cmd/cmd_file"
-	cmd_group2 "github.com/watermint/toolbox/legacy/cmd/cmd_group"
 	cmd_member2 "github.com/watermint/toolbox/legacy/cmd/cmd_member"
 	cmd_sharedlink2 "github.com/watermint/toolbox/legacy/cmd/cmd_sharedlink"
 	cmd_team2 "github.com/watermint/toolbox/legacy/cmd/cmd_team"
@@ -26,7 +25,6 @@ func NewCommands() Commands {
 				cmd_file2.NewCmdFile(),
 				cmd_team2.NewCmdTeam(),
 				cmd_member2.NewCmdMember(),
-				cmd_group2.NewCmdGroup(),
 				cmd_sharedlink2.NewCmdSharedLink(),
 				cmd_teamfolder2.NewCmdTeamFolder(),
 				cmd_dev2.NewCmdDev(),
