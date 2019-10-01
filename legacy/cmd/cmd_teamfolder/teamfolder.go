@@ -12,9 +12,6 @@ func NewCmdTeamFolder() cmd2.Commandlet {
 			&CmdTeamFolderMirror{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},
-			&CmdTeamFolderArchive{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			&CmdTeamFolderPermDelete{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},

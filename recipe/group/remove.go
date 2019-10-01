@@ -20,6 +20,9 @@ type RemoveVO struct {
 type Remove struct {
 }
 
+func (z *Remove) Console() {
+}
+
 func (z *Remove) Requirement() app_vo.ValueObject {
 	return &RemoveVO{}
 }
