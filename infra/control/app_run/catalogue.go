@@ -58,6 +58,7 @@ func Recipes() []app_recipe.Recipe {
 		&teamfilerequest.List{},
 		&teamfolder.List{},
 		&teamfolder.Archive{},
+		&teamfolder.PermDelete{},
 		&teamlinkedapp.List{},
 		&teamnamespace.List{},
 		&teamnamespacefile.List{},
