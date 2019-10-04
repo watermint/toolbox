@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/recipe/dev"
 	devtest "github.com/watermint/toolbox/recipe/dev/test"
 	"github.com/watermint/toolbox/recipe/file"
+	filecompare "github.com/watermint/toolbox/recipe/file/compare"
 	"github.com/watermint/toolbox/recipe/group"
 	groupmember "github.com/watermint/toolbox/recipe/group/member"
 	"github.com/watermint/toolbox/recipe/member"
@@ -36,6 +37,7 @@ func Recipes() []app_recipe.Recipe {
 		&devtest.Resources{},
 		&devtest.Recipe{},
 		&file.List{},
+		&filecompare.Account{},
 		&group.List{},
 		&group.Remove{},
 		&groupmember.List{},

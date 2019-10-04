@@ -9,9 +9,6 @@ func NewCmdFile() cmd2.Commandlet {
 		CommandName: "file",
 		CommandDesc: "cmd.file.desc",
 		SubCommands: []cmd2.Commandlet{
-			&CmdFileCompare{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			&CmdFileMirror{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},

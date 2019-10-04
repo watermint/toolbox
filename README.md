@@ -48,7 +48,7 @@ Available commands:
 
 | command                      | description                                                  |
 |------------------------------|--------------------------------------------------------------|
-| `file compare`               | Compare files between two accounts                           |
+| `file compare account`       | Compare files of two account                                 |
 | `file copy`                  | Copy files                                                   |
 | `file list`                  | List files and folders                                       |
 | `file mirror`                | Mirror files/folders into another account                    |
@@ -74,7 +74,7 @@ Available commands:
 | `sharedlink remove`          | Remove shared link                                           |
 | `team activity`              | Team activity log                                            |
 | `team device list`           | List all devices/sessions in the team                        |
-| `team device unlink`         | Unlink device                                                |
+| `team device unlink`         | Unlink device sessions                                       |
 | `team feature`               | Team feature                                                 |
 | `team filerequest list`      | List all file requests in the team                           |
 | `team info`                  | Team information                                             |
