@@ -40,6 +40,7 @@ func Recipes() []app_recipe.Recipe {
 		&file.List{},
 		&file.Copy{},
 		&file.Move{},
+		&file.Replication{},
 		&fileimport.Url{},
 		&filecompare.Account{},
 		&group.List{},

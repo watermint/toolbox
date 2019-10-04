@@ -50,10 +50,10 @@ Available commands:
 |------------------------------|--------------------------------------------------------------|
 | `file compare account`       | Compare files of two account                                 |
 | `file copy`                  | Copy files                                                   |
+| `file import url`            | Import file from the URL                                     |
 | `file list`                  | List files and folders                                       |
-| `file mirror`                | Mirror files/folders into another account                    |
-| `file move`                  | Copy files                                                   |
-| `file save`                  | Save the data from a specified URL into a file               |
+| `file move`                  | Move files                                                   |
+| `file replication`           | Replicate file content to the other account                  |
 | `group list`                 | List group(s)                                                |
 | `group member list`          | List members of groups                                       |
 | `group remove`               | Remove group                                                 |
