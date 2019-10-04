@@ -55,6 +55,7 @@ func Recipes() []app_recipe.Recipe {
 		&team.Feature{},
 		&team.Info{},
 		&teamdevice.List{},
+		&teamdevice.Unlink{},
 		&teamfilerequest.List{},
 		&teamfolder.List{},
 		&teamfolder.Archive{},
