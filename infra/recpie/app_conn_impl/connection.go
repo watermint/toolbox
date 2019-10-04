@@ -87,6 +87,10 @@ type ConnBusinessMgmt struct {
 	PeerName string
 }
 
+func (z *ConnBusinessMgmt) Name() string {
+	return z.PeerName
+}
+
 func (z *ConnBusinessMgmt) Connect(control app_control.Control) (ctx api_context.Context, err error) {
 	return connect(api_auth.DropboxTokenBusinessManagement, z.PeerName, control)
 }
@@ -96,6 +100,10 @@ func (*ConnBusinessMgmt) IsBusinessMgmt() {
 
 type ConnBusinessInfo struct {
 	PeerName string
+}
+
+func (z *ConnBusinessInfo) Name() string {
+	return z.PeerName
 }
 
 func (z *ConnBusinessInfo) IsBusinessInfo() {
@@ -109,6 +117,10 @@ type ConnBusinessFile struct {
 	PeerName string
 }
 
+func (z *ConnBusinessFile) Name() string {
+	return z.PeerName
+}
+
 func (z *ConnBusinessFile) IsBusinessFile() {
 }
 
@@ -120,6 +132,10 @@ type ConnBusinessAudit struct {
 	PeerName string
 }
 
+func (z *ConnBusinessAudit) Name() string {
+	return z.PeerName
+}
+
 func (z *ConnBusinessAudit) IsBusinessAudit() {
 }
 
@@ -129,6 +145,10 @@ func (z *ConnBusinessAudit) Connect(control app_control.Control) (ctx api_contex
 
 type ConnUserFile struct {
 	PeerName string
+}
+
+func (z *ConnUserFile) Name() string {
+	return z.Name()
 }
 
 func (z *ConnUserFile) IsUserFile() {

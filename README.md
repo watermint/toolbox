@@ -56,6 +56,7 @@ Available commands:
 | `file save`                  | Save the data from a specified URL into a file               |
 | `group list`                 | List group(s)                                                |
 | `group member list`          | List members of groups                                       |
+| `group remove`               | Remove group                                                 |
 | `license`                    | Show license information                                     |
 | `member detach`              | Convert Dropbox Business accounts to Basic account           |
 | `member invite`              | Invite member(s)                                             |
@@ -84,10 +85,10 @@ Available commands:
 | `team namespace member list` | List members of shared folders and team folders in the team  |
 | `team sharedlink cap expiry` | Force expiration date of public shared links within the team |
 | `team sharedlink list`       | List of shared link(s)                                       |
-| `teamfolder archive`         | Archive team folder(s)                                       |
+| `teamfolder archive`         | Archive team folder                                          |
 | `teamfolder list`            | List team folder(s)                                          |
-| `teamfolder mirror`          | Mirror team folders into another team                        |
-| `teamfolder permdelete`      | Permanently delete team folder(s)                            |
+| `teamfolder permdelete`      | Permanently delete team folder                               |
+| `teamfolder replication`     | Replicate a team folder to the other team                    |
 | `web`                        | Launch web console (experimental)                            |
 
 ## Authentication
