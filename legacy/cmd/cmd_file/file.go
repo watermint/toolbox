@@ -12,9 +12,6 @@ func NewCmdFile() cmd2.Commandlet {
 			&CmdFileMirror{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},
-			&CmdFileSave{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 		},
 	}
 }
