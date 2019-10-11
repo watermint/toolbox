@@ -242,6 +242,7 @@
   "run.common.flag.workspace": "Workspace path",
   "run.console.open_artifact.error": "Failed to open folder: {{.Error}}",
   "run.console.open_artifact": "Opening artifact at {{.Path}}",
+  "run.console.large_report": "{{.Num}} records. Please see report file for more detail.",
   "run.error.interrupted.instruction": "Logs and reports are stored at: {{.JobPath}}",
   "run.error.interrupted": "Interrupted",
   "run.error.panic.instruction": "Logs and reports are stored at: {{.JobPath}}",

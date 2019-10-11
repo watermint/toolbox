@@ -37,6 +37,10 @@ const (
 	ColorBrightWhite
 )
 
+const (
+	consoleNumRowsThreshold = 500
+)
+
 func NewConsole(mc app_msg_container.Container, qm qt_control.Message, testMode bool) UI {
 	return &console{
 		mc:       mc,
@@ -129,6 +133,7 @@ func (z *console) InfoTable(name string) Table {
 		mc:  z.mc,
 		tab: tw,
 		qm:  z.qm,
+		ui:  z,
 	}
 }
 
@@ -243,10 +248,12 @@ func (z *console) AskSecure(key string, p ...app_msg.P) (text string, cancel boo
 }
 
 type consoleTable struct {
-	mc    app_msg_container.Container
-	tab   *tabwriter.Writer
-	qm    qt_control.Message
-	mutex sync.Mutex
+	mc      app_msg_container.Container
+	tab     *tabwriter.Writer
+	qm      qt_control.Message
+	mutex   sync.Mutex
+	numRows int
+	ui      UI
 }
 
 func (z *consoleTable) HeaderRaw(h ...string) {
@@ -266,7 +273,10 @@ func (z *consoleTable) RowRaw(m ...string) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	fmt.Fprintln(z.tab, strings.Join(m, "\t"))
+	z.numRows++
+	if z.numRows <= consoleNumRowsThreshold {
+		fmt.Fprintln(z.tab, strings.Join(m, "\t"))
+	}
 }
 
 func (z *consoleTable) Header(h ...app_msg.Message) {
@@ -297,4 +307,9 @@ func (z *consoleTable) Flush() {
 	defer z.mutex.Unlock()
 
 	z.tab.Flush()
+	if z.numRows >= consoleNumRowsThreshold {
+		z.ui.Info("run.console.large_report", app_msg.P{
+			"Num": z.numRows,
+		})
+	}
 }
