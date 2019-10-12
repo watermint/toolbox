@@ -52,6 +52,7 @@ Available commands:
 | `file copy`                  | Copy files                                                   |
 | `file import url`            | Import file from the URL                                     |
 | `file list`                  | List files and folders                                       |
+| `file merge`                 | Merge paths                                                  |
 | `file move`                  | Move files                                                   |
 | `file replication`           | Replicate file content to the other account                  |
 | `group list`                 | List group(s)                                                |

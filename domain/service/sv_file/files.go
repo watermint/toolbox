@@ -51,8 +51,14 @@ func IncludeHasExplicitSharedMembers() ListOpt {
 
 type RemoveOpt func(opt *removeOpts) *removeOpts
 type removeOpts struct {
-	permanently bool
-	revision    string
+	revision string
+}
+
+func RemoveRevision(revision string) RemoveOpt {
+	return func(opt *removeOpts) *removeOpts {
+		opt.revision = revision
+		return opt
+	}
 }
 
 func NewFiles(ctx api_context.Context) Files {
@@ -80,7 +86,10 @@ func (z *filesImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, err error) 
 		IncludeDeleted                  bool   `json:"include_deleted,omitempty"`
 		IncludeHasExplicitSharedMembers bool   `json:"include_has_explicit_shared_members,omitempty"`
 	}{
-		Path: path.Path(),
+		Path:                            path.Path(),
+		IncludeHasExplicitSharedMembers: true,
+		IncludeMediaInfo:                true,
+		IncludeDeleted:                  false,
 	}
 	entry = &mo_file.Metadata{}
 	res, err := z.ctx.Request("files/get_metadata").Param(p).Call()
@@ -149,5 +158,26 @@ func (z *filesImpl) ListChunked(path mo_path.Path, onEntry func(entry mo_file.En
 }
 
 func (z *filesImpl) Remove(path mo_path.Path, opts ...RemoveOpt) (entry mo_file.Entry, err error) {
-	panic("implement me")
+	opt := &removeOpts{}
+	for _, o := range opts {
+		o(opt)
+	}
+
+	p := struct {
+		Path      string `json:"path"`
+		ParentRev string `json:"parent_rev,omitempty"`
+	}{
+		Path:      path.Path(),
+		ParentRev: opt.revision,
+	}
+
+	entry = &mo_file.Metadata{}
+	res, err := z.ctx.Request("files/delete_v2").Param(p).Call()
+	if err != nil {
+		return nil, err
+	}
+	if err := res.Model(entry); err != nil {
+		return nil, err
+	}
+	return entry, nil
 }
