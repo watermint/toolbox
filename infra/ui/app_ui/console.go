@@ -130,10 +130,11 @@ func (z *console) InfoTable(name string) Table {
 	tw := new(tabwriter.Writer)
 	tw.Init(z.out, 0, 2, 2, ' ', 0)
 	return &consoleTable{
-		mc:  z.mc,
-		tab: tw,
-		qm:  z.qm,
-		ui:  z,
+		mc:   z.mc,
+		tab:  tw,
+		qm:   z.qm,
+		name: name,
+		ui:   z,
 	}
 }
 
@@ -253,6 +254,7 @@ type consoleTable struct {
 	qm      qt_control.Message
 	mutex   sync.Mutex
 	numRows int
+	name    string
 	ui      UI
 }
 
@@ -276,6 +278,12 @@ func (z *consoleTable) RowRaw(m ...string) {
 	z.numRows++
 	if z.numRows <= consoleNumRowsThreshold {
 		fmt.Fprintln(z.tab, strings.Join(m, "\t"))
+	}
+	if z.numRows%consoleNumRowsThreshold == 0 {
+		z.ui.Info("run.console.progress", app_msg.P{
+			"Label":    z.name,
+			"Progress": z.numRows,
+		})
 	}
 }
 
