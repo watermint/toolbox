@@ -50,6 +50,7 @@ Available commands:
 |------------------------------|--------------------------------------------------------------|
 | `file compare account`       | Compare files of two account                                 |
 | `file copy`                  | Copy files                                                   |
+| `file import batch url`      | Batch import files from url                                  |
 | `file import url`            | Import file from the URL                                     |
 | `file list`                  | List files and folders                                       |
 | `file merge`                 | Merge paths                                                  |

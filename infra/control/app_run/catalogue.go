@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/recipe/file"
 	filecompare "github.com/watermint/toolbox/recipe/file/compare"
 	fileimport "github.com/watermint/toolbox/recipe/file/import"
+	fileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
 	"github.com/watermint/toolbox/recipe/group"
 	groupmember "github.com/watermint/toolbox/recipe/group/member"
 	"github.com/watermint/toolbox/recipe/member"
@@ -44,6 +45,7 @@ func Recipes() []app_recipe.Recipe {
 		&file.Replication{},
 		&filecompare.Account{},
 		&fileimport.Url{},
+		&fileimportbatch.Url{},
 		&group.List{},
 		&group.Remove{},
 		&groupmember.List{},
