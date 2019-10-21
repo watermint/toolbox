@@ -52,6 +52,7 @@ func Recipes() []app_recipe.Recipe {
 		&member.Detach{},
 		&member.Invite{},
 		&member.List{},
+		&member.Replication{},
 		&member.Remove{},
 		&memberquota.List{},
 		&memberquota.Usage{},
