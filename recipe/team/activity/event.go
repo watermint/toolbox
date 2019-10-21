@@ -64,7 +64,7 @@ func (z *Event) Test(c app_control.Control) error {
 	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
-	return app_test.TestRows(c, "activity", func(cols map[string]string) error {
+	return app_test.TestRows(c, "event", func(cols map[string]string) error {
 		if _, ok := cols["timestamp"]; !ok {
 			return errors.New("`timestamp` is not found")
 		}

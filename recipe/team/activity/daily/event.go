@@ -1,17 +1,13 @@
 package daily
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_activity"
 	"github.com/watermint/toolbox/domain/service/sv_activity"
-	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/util/ut_time"
-	"time"
 )
 
 type EventVO struct {
@@ -67,20 +63,5 @@ func (z *Event) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Event) Test(c app_control.Control) error {
-	lvo := &EventVO{
-		StartDate: api_util.RebaseAsString(time.Now().Add(-10 * time.Minute)),
-		Category:  "logins",
-	}
-	if !app_test.ApplyTestPeers(c, lvo) {
-		return nil
-	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
-		return err
-	}
-	return app_test.TestRows(c, "activity", func(cols map[string]string) error {
-		if _, ok := cols["timestamp"]; !ok {
-			return errors.New("`timestamp` is not found")
-		}
-		return nil
-	})
+	return nil
 }

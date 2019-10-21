@@ -26,7 +26,11 @@ fi
 if [ "$TOOLBOX_BUILD_ID"x = ""x ]; then
   # Circle CI
   if [ "$CIRCLE_BUILD_NUM"x != ""x ]; then
-    TOOLBOX_BUILD_ID=2.$CIRCLE_BUILD_NUM
+    if [ "$CIRCLE_BRANCH"x = "master"x ]; then
+      TOOLBOX_BUILD_ID=4.$CIRCLE_BUILD_NUM
+    else
+      TOOLBOX_BUILD_ID=2.$CIRCLE_BUILD_NUM
+    fi
 
   # Gitlab
   elif [ "$CI_PIPELINE_IID" ]; then
