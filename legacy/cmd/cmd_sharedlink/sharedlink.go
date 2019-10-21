@@ -9,9 +9,6 @@ func NewCmdSharedLink() cmd2.Commandlet {
 		CommandName: "sharedlink",
 		CommandDesc: "cmd.sharedlink.desc",
 		SubCommands: []cmd2.Commandlet{
-			&CmdSharedLinkCreate{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			&CmdSharedLinkRemove{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},
