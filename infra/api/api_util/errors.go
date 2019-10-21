@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/infra/api/api_rpc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	app2 "github.com/watermint/toolbox/legacy/app"
-	"github.com/watermint/toolbox/legacy/app/app_ui"
 	"regexp"
 	"strings"
 )
@@ -87,42 +85,5 @@ func MsgFromError(err error) app_msg.Message {
 	default:
 		errMsgKey := "dbx.err." + summary
 		return app_msg.M(errMsgKey)
-	}
-}
-
-func UIMsgFromError(err error) app_ui.UIMessage {
-	ec := app2.Root()
-	if err == nil {
-		return ec.Msg(app2.MsgNoError)
-	}
-	summary := ErrorSummary(err)
-	if summary == "" {
-		return ec.Msg("app.common.api.err.general_error").WithData(struct {
-			Error string
-		}{
-			Error: err.Error(),
-		})
-	} else {
-		errMsgKey := "dbx.err." + summary
-		userMessage := ErrorUserMessage(err)
-
-		if ec.MessageContainer().MsgExists(errMsgKey) {
-			errDesc := app2.Root().Msg(errMsgKey).T()
-			return ec.Msg("app.common.api.err.api_error").WithData(struct {
-				Tag   string
-				Error string
-			}{
-				Tag:   summary,
-				Error: errDesc,
-			})
-		}
-
-		return ec.Msg("app.common.api.err.api_error").WithData(struct {
-			Tag   string
-			Error string
-		}{
-			Tag:   summary,
-			Error: userMessage,
-		})
 	}
 }

@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/legacy/app"
+	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
 	url2 "net/url"
 	"path/filepath"
@@ -24,7 +24,7 @@ func New(ctx api_context.Context) Url {
 func PathWithName(base mo_path.Path, url string) (path mo_path.Path) {
 	u, err := url2.Parse(url)
 	if err != nil {
-		app.Root().Log().Debug("Unable to parse url", zap.Error(err), zap.String("url", url))
+		app_root.Log().Debug("Unable to parse url", zap.Error(err), zap.String("url", url))
 		n := filepath.Base(url)
 		return base.ChildPath(n)
 	}

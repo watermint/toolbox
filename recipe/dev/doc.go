@@ -1,16 +1,12 @@
 package dev
 
 import (
-	"errors"
-	rice "github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recpie/app_doc"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/legacy/app"
-	"github.com/watermint/toolbox/legacy/cmd/cmd_root"
 	"os"
 	"strings"
 )
@@ -31,21 +27,6 @@ func (z *Doc) Requirement() app_vo.ValueObject {
 func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 	book := make(map[string]string)
 
-	// Loading legacy commands
-	bx := rice.MustFindBox("../../legacy/resources")
-	ec, err := app.NewExecContext(bx)
-	if err != nil {
-		return errors.New("unable to load legacy resources")
-	}
-
-	legacyRoot := cmd_root.NewCommands()
-	legacy := app_doc.LegacyCommands(legacyRoot.RootCommand(), ec)
-
-	for k, v := range legacy {
-		book[k] = v
-	}
-
-	// Loading modern commands
 	cl := k.Control().(app_control_launcher.ControlLauncher)
 	recpies := cl.Catalogue()
 

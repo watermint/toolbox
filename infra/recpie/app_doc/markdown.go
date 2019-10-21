@@ -2,8 +2,6 @@ package app_doc
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/legacy/app"
-	"github.com/watermint/toolbox/legacy/cmd"
 	"io"
 	"sort"
 	"strings"
@@ -38,33 +36,4 @@ func PrintMarkdown(out io.Writer, headKey, headValue string, values map[string]s
 			fmt.Fprintln(out)
 		}
 	}
-}
-
-func LegacyCommands(c cmd.Commandlet, ec *app.ExecContext) map[string]string {
-	return parseLegacyCmd(c, []string{}, ec)
-}
-
-func parseLegacyCmd(c cmd.Commandlet, line []string, ec *app.ExecContext) map[string]string {
-	docs := make(map[string]string)
-	if c.IsHidden() {
-		return docs
-	}
-	w := strings.Join(line, " ")
-	switch x := c.(type) {
-	case *cmd.CommandletGroup:
-		q := len(line)
-		sl := make([]string, q+1)
-		copy(sl, line)
-		for _, y := range x.SubCommands {
-			sl[q] = y.Name()
-			d := parseLegacyCmd(y, sl, ec)
-			for k, v := range d {
-				docs[k] = v
-			}
-		}
-
-	default:
-		docs[w] = ec.Msg(x.Desc()).T()
-	}
-	return docs
 }

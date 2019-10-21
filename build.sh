@@ -96,13 +96,6 @@ GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/mac/tbx 
 echo --------------------
 echo Testing binary
 
-$BUILD_PATH/linux/tbx dev auth appkey -quiet
-if [[ $? = 0 ]]; then
-  echo Success: appkey test
-else
-  echo Unable to load app key: code=$?
-  exit $?
-fi
 $BUILD_PATH/linux/tbx dev test resources -quiet
 if [[ $? = 0 ]]; then
   echo Success: resources test

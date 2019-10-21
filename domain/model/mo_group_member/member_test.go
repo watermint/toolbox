@@ -3,11 +3,6 @@ package mo_group_member
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	app2 "github.com/watermint/toolbox/legacy/app"
-	"github.com/watermint/toolbox/legacy/app/app_report_legacy"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 	"testing"
 )
 
@@ -122,49 +117,49 @@ func TestGroupMember_Group(t *testing.T) {
 		}
 	}
 
-	// round trip test 2 : report
-	{
-		ec := app2.NewExecContextForTest()
-		reportPath := filepath.Join(ec.JobsPath(), "report")
-		report := app_report_legacy.Factory{}
-		report.ExecContext = ec
-		report.Path = reportPath
-		if err := report.Init(ec); err != nil {
-			t.Error(err)
-			return
-		}
-		if err := report.Report(gm); err != nil {
-			t.Error(err)
-			return
-		}
-		report.Close()
-
-		rp := filepath.Join(reportPath, "GroupMember.json")
-		rf, err := os.Open(rp)
-		if err != nil {
-			t.Error(err)
-			return
-		}
-		defer rf.Close()
-		jb1, err := ioutil.ReadAll(rf)
-		if err != nil {
-			t.Error(err)
-			return
-		}
-
-		gm2 := &GroupMember{}
-		if err := api_parser.ParseModelRaw(gm2, jb1); err != nil {
-			t.Error(err)
-		}
-		if gm2.GroupId != gm2.Group().GroupId || gm2.GroupId == "" {
-			t.Error("invalid")
-		}
-		if gm2.TeamMemberId != gm2.Member().TeamMemberId || gm2.TeamMemberId == "" {
-			t.Error("invalid")
-		}
-		if gm2.GroupName != gm2.Group().GroupName || gm2.GroupName != "営業部" {
-			t.Error("invalid")
-		}
-	}
+	//// round trip test 2 : report
+	//{
+	//	ec := app2.NewExecContextForTest()
+	//	reportPath := filepath.Join(ec.JobsPath(), "report")
+	//	report := app_report_legacy.Factory{}
+	//	report.ExecContext = ec
+	//	report.Path = reportPath
+	//	if err := report.Init(ec); err != nil {
+	//		t.Error(err)
+	//		return
+	//	}
+	//	if err := report.Report(gm); err != nil {
+	//		t.Error(err)
+	//		return
+	//	}
+	//	report.Close()
+	//
+	//	rp := filepath.Join(reportPath, "GroupMember.json")
+	//	rf, err := os.Open(rp)
+	//	if err != nil {
+	//		t.Error(err)
+	//		return
+	//	}
+	//	defer rf.Close()
+	//	jb1, err := ioutil.ReadAll(rf)
+	//	if err != nil {
+	//		t.Error(err)
+	//		return
+	//	}
+	//
+	//	gm2 := &GroupMember{}
+	//	if err := api_parser.ParseModelRaw(gm2, jb1); err != nil {
+	//		t.Error(err)
+	//	}
+	//	if gm2.GroupId != gm2.Group().GroupId || gm2.GroupId == "" {
+	//		t.Error("invalid")
+	//	}
+	//	if gm2.TeamMemberId != gm2.Member().TeamMemberId || gm2.TeamMemberId == "" {
+	//		t.Error("invalid")
+	//	}
+	//	if gm2.GroupName != gm2.Group().GroupName || gm2.GroupName != "営業部" {
+	//		t.Error("invalid")
+	//	}
+	//}
 
 }
