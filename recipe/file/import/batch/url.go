@@ -1,6 +1,7 @@
 package batch
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file_url"
@@ -17,6 +18,7 @@ import (
 type UrlVO struct {
 	Peer app_conn.ConnUserFile
 	Data app_file.Data
+	Path string
 }
 
 type UrlRow struct {
@@ -34,12 +36,14 @@ type UrlWorker struct {
 
 func (z *UrlWorker) Exec() error {
 	ui := z.ctl.UI()
+
+	path := sv_file_url.PathWithName(mo_path.NewPath(z.path), z.url)
 	ui.Info("recipe.file.import.batch.url.progress", app_msg.P{
 		"Url":  z.url,
-		"Path": z.path,
+		"Path": path.Path(),
 	})
 
-	entry, err := sv_file_url.New(z.ctx).Save(mo_path.NewPath(z.path), z.url)
+	entry, err := sv_file_url.New(z.ctx).Save(path, z.url)
 	if err != nil {
 		return err
 	}
@@ -57,6 +61,7 @@ func (z *Url) Requirement() app_vo.ValueObject {
 
 func (z *Url) Exec(k app_kitchen.Kitchen) error {
 	vo := k.Value().(*UrlVO)
+	ui := k.UI()
 
 	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
@@ -76,9 +81,20 @@ func (z *Url) Exec(k app_kitchen.Kitchen) error {
 	q := k.NewQueue()
 	err = vo.Data.EachRow(func(m interface{}, rowIndex int) error {
 		r := m.(*UrlRow)
+		var path string
+		switch {
+		case r.Path != "":
+			path = r.Path
+		case vo.Path != "":
+			path = vo.Path
+		default:
+			ui.Error("recipe.file.import.batch.url.err.path_missing")
+			return errors.New("no path to save")
+		}
+
 		q.Enqueue(&UrlWorker{
 			url:  r.Url,
-			path: r.Path,
+			path: path,
 			ctx:  ctx,
 			ctl:  k.Control(),
 			rep:  rep,
@@ -86,7 +102,7 @@ func (z *Url) Exec(k app_kitchen.Kitchen) error {
 		return nil
 	})
 	q.Wait()
-	return nil
+	return err
 }
 
 func (z *Url) Test(c app_control.Control) error {

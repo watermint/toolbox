@@ -4,6 +4,10 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/legacy/app"
+	"go.uber.org/zap"
+	url2 "net/url"
+	"path/filepath"
 )
 
 type Url interface {
@@ -14,6 +18,17 @@ func New(ctx api_context.Context) Url {
 	return &urlImpl{
 		ctx: ctx,
 	}
+}
+
+// Path with filename that parsed from the URL.
+func PathWithName(base mo_path.Path, url string) (path mo_path.Path) {
+	u, err := url2.Parse(url)
+	if err != nil {
+		app.Root().Log().Debug("Unable to parse url", zap.Error(err), zap.String("url", url))
+		n := filepath.Base(url)
+		return base.ChildPath(n)
+	}
+	return base.ChildPath(filepath.Base(u.Path))
 }
 
 type urlImpl struct {
