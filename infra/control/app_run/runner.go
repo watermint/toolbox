@@ -5,6 +5,7 @@ import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_run_impl"
 	"github.com/watermint/toolbox/infra/network/app_diag"
 	"github.com/watermint/toolbox/infra/network/app_network"
@@ -209,5 +210,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 		ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
 		os.Exit(app_control.FailureGeneral)
 	}
+	app_root.FlushSuccessShutdownHook()
+
 	return true
 }

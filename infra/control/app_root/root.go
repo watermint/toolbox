@@ -4,13 +4,18 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"go.uber.org/zap"
 	"log"
+	"sync"
 )
 
+type Hook func()
+
 var (
-	rootLogger                = app_log.NewConsoleLogger(false)
-	logWrapper                = app_log.NewLogWrapper(rootLogger)
-	captureLogger *zap.Logger = nil
-	ready                     = false
+	rootLogger                           = app_log.NewConsoleLogger(false)
+	logWrapper                           = app_log.NewLogWrapper(rootLogger)
+	captureLogger            *zap.Logger = nil
+	ready                                = false
+	successShutdownHook                  = make([]Hook, 0)
+	successShutdownHookMutex             = sync.Mutex{}
 )
 
 func Ready() bool {
@@ -43,4 +48,20 @@ func Log() *zap.Logger {
 
 func Capture() *zap.Logger {
 	return captureLogger
+}
+
+func AddSuccessShutdownHook(hook Hook) {
+	successShutdownHookMutex.Lock()
+	defer successShutdownHookMutex.Unlock()
+	successShutdownHook = append(successShutdownHook, hook)
+}
+
+func FlushSuccessShutdownHook() {
+	successShutdownHookMutex.Lock()
+	defer successShutdownHookMutex.Unlock()
+
+	for _, h := range successShutdownHook {
+		h()
+	}
+	successShutdownHook = make([]Hook, 0)
 }

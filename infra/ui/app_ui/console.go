@@ -10,7 +10,9 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"go.uber.org/zap"
 	"io"
+	"io/ioutil"
 	"os"
+	"path/filepath"
 	"runtime"
 	"strings"
 	"sync"
@@ -52,12 +54,13 @@ func NewConsole(mc app_msg_container.Container, qm qt_control.Message, testMode 
 }
 
 type console struct {
-	mc       app_msg_container.Container
-	out      io.Writer
-	in       io.Reader
-	testMode bool
-	qm       qt_control.Message
-	mutex    sync.Mutex
+	mc               app_msg_container.Container
+	out              io.Writer
+	in               io.Reader
+	testMode         bool
+	qm               qt_control.Message
+	mutex            sync.Mutex
+	openArtifactOnce sync.Once
 }
 
 func (z *console) IsConsole() bool {
@@ -69,15 +72,40 @@ func (z *console) IsWeb() bool {
 }
 
 func (z *console) OpenArtifact(path string) {
-	z.Info("run.console.open_artifact", app_msg.P{"Path": path})
+	l := app_root.Log()
+
 	if z.testMode {
 		return
 	}
 
-	err := open.Start(path)
-	if err != nil {
-		z.Error("run.console.open_artifact.error", app_msg.P{"Error": err})
-	}
+	z.openArtifactOnce.Do(func() {
+		app_root.AddSuccessShutdownHook(func() {
+			files, err := ioutil.ReadDir(path)
+			if err != nil {
+				l.Debug("Unable to read path", zap.Error(err), zap.String("path", path))
+				return
+			}
+			for _, f := range files {
+				e := filepath.Ext(f.Name())
+				switch strings.ToLower(e) {
+				case ".xlsx", ".csv", ".json":
+					z.Info("run.console.point_artifact", app_msg.P{
+						"Path": filepath.Join(path, f.Name()),
+					})
+
+				default:
+					l.Debug("unsupported extension", zap.String("name", f.Name()))
+				}
+			}
+
+			z.Info("run.console.open_artifact", app_msg.P{"Path": path})
+			l.Debug("Register success shutdown hook", zap.String("path", path))
+			err = open.Start(path)
+			if err != nil {
+				z.Error("run.console.open_artifact.error", app_msg.P{"Error": err})
+			}
+		})
+	})
 }
 
 func (z *console) verifyKey(key string) {

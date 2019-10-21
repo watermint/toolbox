@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
 )
 
@@ -26,6 +27,7 @@ func (z *Event) Requirement() app_vo.ValueObject {
 
 func (z *Event) Exec(k app_kitchen.Kitchen) error {
 	vo := k.Value().(*EventVO)
+	ui := k.UI()
 
 	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
@@ -40,6 +42,11 @@ func (z *Event) Exec(k app_kitchen.Kitchen) error {
 	for _, d := range dr {
 		st, _ := ut_time.ParseTimestamp(d.Start)
 		stDate := st.Format("2006-01-02")
+
+		ui.Info("recipe.team.activity.daily.event.progress", app_msg.P{
+			"Start": d.Start,
+			"End":   d.End,
+		})
 
 		rep, err := k.Report("event"+stDate, &mo_activity.Event{})
 		if err != nil {
