@@ -50,7 +50,6 @@ for l in $(find vendor -name LICENSE\*); do
 done
 jq -Rn '{"github.com/watermint/toolbox":[inputs]}' LICENSE.md > $BUILD_PATH/github.com-watermint-toolbox.lic
 jq -s add $BUILD_PATH/*.lic > resources/licenses.json
-cp resources/licenses.json legacy/resources
 
 
 echo BUILD: Building tool
@@ -71,7 +70,6 @@ if [ -e "resources/toolbox.appkeys" ]; then
     echo Zap exit with code $?
     exit $?
   fi
-  cp resources/toolbox.appkeys.secret legacy/resources
   TOOLBOX_ZAP=$(cat /tmp/toolbox.zap)
 else
   echo ERR: No app key file found
