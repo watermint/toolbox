@@ -11,69 +11,60 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 )
 
-type DetachRow struct {
+type RemoveRow struct {
 	Email string
 }
 
-func (z *DetachRow) Validate() (err error) {
-	return nil
+type RemoveVO struct {
+	File     app_file.Data
+	Peer     app_conn.ConnBusinessMgmt
+	WipeData bool
 }
 
-type DetachVO struct {
-	File             app_file.Data
-	Peer             app_conn.ConnBusinessMgmt
-	RetainTeamShares bool
+type Remove struct {
 }
 
-type Detach struct {
+func (z *Remove) Console() {
 }
 
-func (z *Detach) Test(c app_control.Control) error {
-	return nil
-}
-
-func (z *Detach) Console() {
-}
-
-func (z *Detach) Requirement() app_vo.ValueObject {
-	return &DetachVO{
-		RetainTeamShares: true,
+func (z *Remove) Requirement() app_vo.ValueObject {
+	return &RemoveVO{
+		WipeData: true,
 	}
 }
 
-func (*Detach) Exec(k app_kitchen.Kitchen) error {
-	mvo := k.Value().(*DetachVO)
+func (z *Remove) Exec(k app_kitchen.Kitchen) error {
+	vo := k.Value().(*RemoveVO)
 
-	ctx, err := mvo.Peer.Connect(k.Control())
+	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}
 
 	svm := sv_member.New(ctx)
 	rep, err := k.Report(
-		"detach",
-		app_report.TransactionHeader(&DetachRow{}, nil),
+		"remove",
+		app_report.TransactionHeader(&RemoveRow{}, nil),
 	)
 	if err != nil {
 		return err
 	}
 	defer rep.Close()
 
-	if err := mvo.File.Model(k.Control(), &DetachRow{}); err != nil {
+	if err := vo.File.Model(k.Control(), &RemoveRow{}); err != nil {
 		return err
 	}
 
-	return mvo.File.EachRow(func(mod interface{}, rowIndex int) error {
-		m := mod.(*DetachRow)
+	return vo.File.EachRow(func(mod interface{}, rowIndex int) error {
+		m := mod.(*RemoveRow)
 		mem, err := svm.ResolveByEmail(m.Email)
 		if err != nil {
 			rep.Failure(api_util.MsgFromError(err), m, nil)
 			return nil
 		}
 		ros := make([]sv_member.RemoveOpt, 0)
-		ros = append(ros, sv_member.Downgrade())
-		if mvo.RetainTeamShares {
-			ros = append(ros, sv_member.RetainTeamShares())
+		if vo.WipeData {
+			ros = append(ros, sv_member.RemoveWipeData())
 		}
 		err = svm.Remove(mem, ros...)
 		if err != nil {
@@ -83,4 +74,8 @@ func (*Detach) Exec(k app_kitchen.Kitchen) error {
 		}
 		return nil
 	})
+}
+
+func (z *Remove) Test(c app_control.Control) error {
+	return nil
 }

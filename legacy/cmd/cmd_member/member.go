@@ -10,9 +10,6 @@ func NewCmdMember() cmd2.Commandlet {
 		CommandName: "member",
 		CommandDesc: "cmd.member.desc",
 		SubCommands: []cmd2.Commandlet{
-			&CmdMemberRemove{
-				SimpleCommandlet: &cmd2.SimpleCommandlet{},
-			},
 			&CmdMemberSync{
 				SimpleCommandlet: &cmd2.SimpleCommandlet{},
 			},
