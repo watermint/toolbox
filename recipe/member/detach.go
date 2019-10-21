@@ -42,15 +42,14 @@ func (z *Detach) Requirement() app_vo.ValueObject {
 }
 
 func (*Detach) Exec(k app_kitchen.Kitchen) error {
-	var vo interface{} = k.Value()
-	mvo := vo.(*DetachVO)
+	mvo := k.Value().(*DetachVO)
 
-	connMgmt, err := mvo.Peer.Connect(k.Control())
+	ctx, err := mvo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}
 
-	svm := sv_member.New(connMgmt)
+	svm := sv_member.New(ctx)
 	rep, err := k.Report(
 		"detach",
 		app_report.TransactionHeader(&DetachRow{}, nil),
@@ -65,13 +64,7 @@ func (*Detach) Exec(k app_kitchen.Kitchen) error {
 	}
 
 	return mvo.File.EachRow(func(mod interface{}, rowIndex int) error {
-		m := mod.(*InviteRow)
-		if err = m.Validate(); err != nil {
-			if rowIndex > 0 {
-				rep.Failure(app_report.MsgInvalidData, m, nil)
-			}
-			return nil
-		}
+		m := mod.(*DetachRow)
 		mem, err := svm.ResolveByEmail(m.Email)
 		if err != nil {
 			rep.Failure(api_util.MsgFromError(err), m, nil)

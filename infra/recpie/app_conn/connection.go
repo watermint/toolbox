@@ -7,6 +7,7 @@ import (
 
 type ConnDropboxApi interface {
 	Connect(control app_control.Control) (ctx api_context.Context, err error)
+	Name() string
 }
 
 type ConnUserFile interface {

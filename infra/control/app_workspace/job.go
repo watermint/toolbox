@@ -10,6 +10,12 @@ type Job interface {
 	// Log path for job
 	Log() string
 
+	// Test
+	Test() string
+
+	// Report path for job
+	Report() string
+
 	// Create or get child folder of job folder
 	Descendant(name string) (path string, err error)
 }

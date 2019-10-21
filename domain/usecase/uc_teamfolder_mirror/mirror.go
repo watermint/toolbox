@@ -21,7 +21,8 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
-	"github.com/watermint/toolbox/legacy/app/app_report_legacy"
+	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"strings"
 	"time"
@@ -173,13 +174,13 @@ func (z *mirrorContext) AdminDst() *mo_profile.Profile {
 	return z.MirrorAdminDst
 }
 
-func New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, report app_report_legacy.Report) TeamFolder {
+func New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, k app_kitchen.Kitchen) TeamFolder {
 	return &teamFolderImpl{
 		ctxFileSrc: ctxFileSrc,
 		ctxMgtSrc:  ctxMgtSrc,
 		ctxFileDst: ctxFileDst,
 		ctxMgtDst:  ctxMgtDst,
-		report:     report,
+		kitchen:    k,
 	}
 }
 
@@ -188,11 +189,11 @@ type teamFolderImpl struct {
 	ctxFileDst api_context.Context
 	ctxMgtSrc  api_context.Context
 	ctxMgtDst  api_context.Context
-	report     app_report_legacy.Report
+	kitchen    app_kitchen.Kitchen
 }
 
 func (z *teamFolderImpl) log() *zap.Logger {
-	return z.ctxFileSrc.Log()
+	return z.kitchen.Log()
 }
 
 func (z *teamFolderImpl) AllFolderScope() (ctx Context, err error) {
@@ -593,6 +594,14 @@ func (z *teamFolderImpl) Verify(ctx Context, scope Scope) (err error) {
 		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
 		zap.String("folderDstName", scope.Pair().Dst.Name),
 	)
+	rep, err := z.kitchen.Report("diff", &mo_file_diff.Diff{})
+	if err != nil {
+		z.kitchen.UI().Error("usecase.uc_teamfolder_mirror.err.unable_to_create_diff_report", app_msg.P{
+			"Error": err.Error(),
+		})
+		return err
+	}
+	defer rep.Close()
 
 	l.Info("Verify: comparing source and destination")
 
@@ -606,7 +615,7 @@ func (z *teamFolderImpl) Verify(ctx Context, scope Scope) (err error) {
 	ucc := uc_file_compare.New(ctxSrc, ctxDst)
 	count, err := ucc.Diff(func(diff mo_file_diff.Diff) error {
 		l.Warn("Diff", zap.Any("diff", diff))
-		z.report.Report(diff)
+		rep.Row(&diff)
 		return nil
 	})
 

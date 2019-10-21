@@ -5,15 +5,14 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	app2 "github.com/watermint/toolbox/legacy/app"
-)
-
-const (
-	TestPeerName = "test_suite"
+	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"go.uber.org/zap"
 )
 
 var (
 	ToolboxTestSuiteFolder = mo_path.NewPath("/toolbox-testsuite")
+	legacyTestsEnabled     = false
 )
 
 func DoTestTokenFull(test func(ctx api_context.Context)) {
@@ -33,16 +32,17 @@ func DoTestBusinessAudit(test func(ctx api_context.Context)) {
 }
 
 func doTest(tokenType string, test func(ctx api_context.Context)) {
-	ec := app2.NewExecContextForTest()
-	if !api_auth_impl.IsCacheAvailable(ec, TestPeerName) {
-		return
-	}
+	app_test.TestWithControl(nil, func(ctl app_control.Control) {
+		l := ctl.Log()
+		a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(app_test.EndToEndPeer))
+		ctx, err := a.Auth(tokenType)
+		if err != nil {
+			l.Info("Skip test", zap.Error(err))
+			return
+		}
 
-	au := api_auth_impl.NewLegacy(ec, api_auth_impl.PeerName(TestPeerName))
-	ctx, err := au.Auth(tokenType)
-	if err != nil {
-		return
-	}
-	test(ctx)
-	ec.Shutdown()
+		if legacyTestsEnabled {
+			test(ctx)
+		}
+	})
 }

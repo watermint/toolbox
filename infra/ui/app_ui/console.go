@@ -10,7 +10,9 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"go.uber.org/zap"
 	"io"
+	"io/ioutil"
 	"os"
+	"path/filepath"
 	"runtime"
 	"strings"
 	"sync"
@@ -37,6 +39,10 @@ const (
 	ColorBrightWhite
 )
 
+const (
+	consoleNumRowsThreshold = 500
+)
+
 func NewConsole(mc app_msg_container.Container, qm qt_control.Message, testMode bool) UI {
 	return &console{
 		mc:       mc,
@@ -48,12 +54,13 @@ func NewConsole(mc app_msg_container.Container, qm qt_control.Message, testMode 
 }
 
 type console struct {
-	mc       app_msg_container.Container
-	out      io.Writer
-	in       io.Reader
-	testMode bool
-	qm       qt_control.Message
-	mutex    sync.Mutex
+	mc               app_msg_container.Container
+	out              io.Writer
+	in               io.Reader
+	testMode         bool
+	qm               qt_control.Message
+	mutex            sync.Mutex
+	openArtifactOnce sync.Once
 }
 
 func (z *console) IsConsole() bool {
@@ -65,15 +72,40 @@ func (z *console) IsWeb() bool {
 }
 
 func (z *console) OpenArtifact(path string) {
-	z.Info("run.console.open_artifact", app_msg.P{"Path": path})
+	l := app_root.Log()
+
 	if z.testMode {
 		return
 	}
 
-	err := open.Start(path)
-	if err != nil {
-		z.Error("run.console.open_artifact.error", app_msg.P{"Error": err})
-	}
+	z.openArtifactOnce.Do(func() {
+		app_root.AddSuccessShutdownHook(func() {
+			files, err := ioutil.ReadDir(path)
+			if err != nil {
+				l.Debug("Unable to read path", zap.Error(err), zap.String("path", path))
+				return
+			}
+			for _, f := range files {
+				e := filepath.Ext(f.Name())
+				switch strings.ToLower(e) {
+				case ".xlsx", ".csv", ".json":
+					z.Info("run.console.point_artifact", app_msg.P{
+						"Path": filepath.Join(path, f.Name()),
+					})
+
+				default:
+					l.Debug("unsupported extension", zap.String("name", f.Name()))
+				}
+			}
+
+			z.Info("run.console.open_artifact", app_msg.P{"Path": path})
+			l.Debug("Register success shutdown hook", zap.String("path", path))
+			err = open.Start(path)
+			if err != nil {
+				z.Error("run.console.open_artifact.error", app_msg.P{"Error": err})
+			}
+		})
+	})
 }
 
 func (z *console) verifyKey(key string) {
@@ -126,9 +158,11 @@ func (z *console) InfoTable(name string) Table {
 	tw := new(tabwriter.Writer)
 	tw.Init(z.out, 0, 2, 2, ' ', 0)
 	return &consoleTable{
-		mc:  z.mc,
-		tab: tw,
-		qm:  z.qm,
+		mc:   z.mc,
+		tab:  tw,
+		qm:   z.qm,
+		name: name,
+		ui:   z,
 	}
 }
 
@@ -243,10 +277,13 @@ func (z *console) AskSecure(key string, p ...app_msg.P) (text string, cancel boo
 }
 
 type consoleTable struct {
-	mc    app_msg_container.Container
-	tab   *tabwriter.Writer
-	qm    qt_control.Message
-	mutex sync.Mutex
+	mc      app_msg_container.Container
+	tab     *tabwriter.Writer
+	qm      qt_control.Message
+	mutex   sync.Mutex
+	numRows int
+	name    string
+	ui      UI
 }
 
 func (z *consoleTable) HeaderRaw(h ...string) {
@@ -266,7 +303,16 @@ func (z *consoleTable) RowRaw(m ...string) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	fmt.Fprintln(z.tab, strings.Join(m, "\t"))
+	z.numRows++
+	if z.numRows <= consoleNumRowsThreshold {
+		fmt.Fprintln(z.tab, strings.Join(m, "\t"))
+	}
+	if z.numRows%consoleNumRowsThreshold == 0 {
+		z.ui.Info("run.console.progress", app_msg.P{
+			"Label":    z.name,
+			"Progress": z.numRows,
+		})
+	}
 }
 
 func (z *consoleTable) Header(h ...app_msg.Message) {
@@ -297,4 +343,9 @@ func (z *consoleTable) Flush() {
 	defer z.mutex.Unlock()
 
 	z.tab.Flush()
+	if z.numRows >= consoleNumRowsThreshold {
+		z.ui.Info("run.console.large_report", app_msg.P{
+			"Num": z.numRows,
+		})
+	}
 }

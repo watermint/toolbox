@@ -1,6 +1,10 @@
 package app_workspace
 
-import "path/filepath"
+import (
+	"github.com/watermint/toolbox/infra/control/app_root"
+	"go.uber.org/zap"
+	"path/filepath"
+)
 
 func NewMultiApp(home string) (Application, error) {
 	if home == "" {
@@ -85,6 +89,15 @@ type multiJob struct {
 	jobId string
 }
 
+func (z *multiJob) Test() string {
+	t, err := z.Descendant(nameTest)
+	if err != nil {
+		app_root.Log().Error("Unable to create test folder", zap.Error(err))
+		t = filepath.Join(z.Job(), nameTest)
+	}
+	return t
+}
+
 func (z *multiJob) Home() string {
 	return z.user.UserHome()
 }
@@ -101,6 +114,10 @@ func (z *multiJob) JobId() string {
 	return z.jobId
 }
 
+func (z *multiJob) Report() string {
+	return filepath.Join(z.Job(), nameReport)
+}
+
 func (z *multiJob) Log() string {
 	return filepath.Join(z.Job(), nameLogs)
 }
@@ -115,6 +132,10 @@ func (z *multiJob) setup() error {
 		return err
 	}
 	_, err = getOrCreate(z.Log())
+	if err != nil {
+		return err
+	}
+	_, err = getOrCreate(z.Report())
 	if err != nil {
 		return err
 	}

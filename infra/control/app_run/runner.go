@@ -5,6 +5,7 @@ import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_run_impl"
 	"github.com/watermint/toolbox/infra/network/app_diag"
 	"github.com/watermint/toolbox/infra/network/app_network"
@@ -36,7 +37,7 @@ type CommonOpts struct {
 func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
 	f.StringVar(&z.Workspace, "workspace", "", mc.Compile(app_msg.M("run.common.flag.workspace")))
 	f.BoolVar(&z.Debug, "debug", false, mc.Compile(app_msg.M("run.common.flag.debug")))
-	f.StringVar(&z.Workspace, "proxy", "", mc.Compile(app_msg.M("run.common.flag.proxy")))
+	f.StringVar(&z.Proxy, "proxy", "", mc.Compile(app_msg.M("run.common.flag.proxy")))
 	f.BoolVar(&z.Quiet, "quiet", false, mc.Compile(app_msg.M("run.common.flag.quiet")))
 	f.BoolVar(&z.Secure, "secure", false, mc.Compile(app_msg.M("run.common.flag.secure")))
 	f.IntVar(&z.Concurrency, "concurrency", runtime.NumCPU(), mc.Compile(app_msg.M("run.common.flag.concurrency")))
@@ -209,5 +210,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 		ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
 		os.Exit(app_control.FailureGeneral)
 	}
+	app_root.FlushSuccessShutdownHook()
+
 	return true
 }

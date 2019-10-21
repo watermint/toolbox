@@ -2,6 +2,7 @@ package app_control_impl
 
 import (
 	"errors"
+	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_log"
@@ -28,6 +29,10 @@ type mockControl struct {
 	logger *zap.Logger
 	ui     app_ui.UI
 	ws     app_workspace.Workspace
+}
+
+func (z *mockControl) TestResource(key string) (data gjson.Result, found bool) {
+	return gjson.Parse("{}"), false
 }
 
 func (z *mockControl) NewQueue() app_worker.Queue {

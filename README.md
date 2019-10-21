@@ -21,9 +21,9 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 `tbx` have various features. Run without an option for a list of supported commands and options.
 You can see available commands and options by running executable without arguments like below.
 
-```bash
+```
 % ./tbx
-toolbox 52.2.43
+watermint toolbox xx.x.xxx
 © 2016-2019 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
@@ -31,9 +31,10 @@ Licensed under open source licenses. Use the `license` command for more detail.
 Tools for Dropbox and Dropbox Business
 
 Usage:
-./tbx  [command]
+./tbx  command
 
 Available commands:
+   file          File operation
    group         Group management (Dropbox Business)
    license       Show license information
    member        Team member management (Dropbox Business)
@@ -41,60 +42,58 @@ Available commands:
    sharedlink    Shared Link of Personal account
    team          Dropbox Business Team
    teamfolder    Team folder management (Dropbox Business)
-   web           Launch web console
+   web           Launch web console (experimental)
 ```
 
 ## Commands
 
-| command                      | description                                                  |
-|------------------------------|--------------------------------------------------------------|
-| `file compare`               | Compare files between two accounts                           |
-| `file copy`                  | Copy files                                                   |
-| `file list`                  | List files/folders                                           |
-| `file metadata`              | Report metadata for a file or folder                         |
-| `file mirror`                | Mirror files/folders into another account                    |
-| `file move`                  | Copy files                                                   |
-| `file save`                  | Save the data from a specified URL into a file               |
-| `group list`                 | List group(s)                                                |
-| `group member add`           | Add members into existing groups                             |
-| `group member list`          | List members of groups                                       |
-| `group remove`               | Remove group                                                 |
-| `license`                    | Show license information                                     |
-| `member detach`              | Convert Dropbox Business accounts to Basic account           |
-| `member invite`              | Invite member(s)                                             |
-| `member list`                | List team member(s)                                          |
-| `member mirror files`        | Mirror member files                                          |
-| `member quota list`          | List team member quota                                       |
-| `member quota update`        | Update member storage quota                                  |
-| `member remove`              | Remove the member from the team                              |
-| `member sync`                | Sync member information with provided csv                    |
-| `member update email`        | Update member email address                                  |
-| `sharedfolder list`          | List shared folder(s)                                        |
-| `sharedfolder member list`   | List shared folder member(s)                                 |
-| `sharedlink create`          | Create shared link                                           |
-| `sharedlink list`            | List of shared link(s)                                       |
-| `sharedlink remove`          | Remove shared link                                           |
-| `team audit events`          | Export activity logs                                         |
-| `team audit sharing`         | Export all sharing information across team                   |
-| `team device list`           | List devices or web sessions of the team                     |
-| `team device unlink`         | Unlink device                                                |
-| `team feature`               | Team feature                                                 |
-| `team filerequest list`      | List all file requests in the team                           |
-| `team info`                  | Team information                                             |
-| `team linkedapp list`        | List linked applications                                     |
-| `team namespace file list`   | List files/folders in all namespaces of the team             |
-| `team namespace file size`   | Calculate size of namespaces                                 |
-| `team namespace list`        | List all namespaces of the team                              |
-| `team namespace member list` | List all namespace members of the team                       |
-| `team sharedlink cap expiry` | Force expiration date of public shared links within the team |
-| `team sharedlink list`       | List of shared link(s)                                       |
-| `teamfolder archive`         | Archive team folder(s)                                       |
-| `teamfolder file list`       | List files/folders in all team folders of the team           |
-| `teamfolder list`            | List team folder(s)                                          |
-| `teamfolder mirror`          | Mirror team folders into another team                        |
-| `teamfolder permdelete`      | Permanently delete team folder(s)                            |
-| `teamfolder size`            | Calculate size of team folder                                |
-| `web`                        | Launch web console (experimental)                            |
+| command                      | description                                                   |
+|------------------------------|---------------------------------------------------------------|
+| `file compare account`       | Compare files of two account                                  |
+| `file copy`                  | Copy files                                                    |
+| `file import batch url`      | Batch import files from URL                                   |
+| `file import url`            | Import file from the URL                                      |
+| `file list`                  | List files and folders                                        |
+| `file merge`                 | Merge paths                                                   |
+| `file move`                  | Move files                                                    |
+| `file replication`           | Replicate file content to the other account                   |
+| `group list`                 | List group(s)                                                 |
+| `group member list`          | List members of groups                                        |
+| `group remove`               | Remove group                                                  |
+| `license`                    | Show license information                                      |
+| `member detach`              | Convert Dropbox Business accounts to a Basic account          |
+| `member invite`              | Invite member(s)                                              |
+| `member list`                | List team member(s)                                           |
+| `member quota list`          | List team member quota                                        |
+| `member quota usage`         | List team member storage usage                                |
+| `member remove`              | Remove members                                                |
+| `member update email`        | Member email operation                                        |
+| `member update profile`      | Update member profile                                         |
+| `sharedfolder list`          | List shared folder(s)                                         |
+| `sharedfolder member list`   | List shared folder member(s)                                  |
+| `sharedlink create`          | Create shared link                                            |
+| `sharedlink list`            | List of shared link(s)                                        |
+| `sharedlink remove`          | Remove shared links                                           |
+| `team activity daily event`  | Report activities by day                                      |
+| `team activity event`        | Event log                                                     |
+| `team device list`           | List all devices/sessions in the team                         |
+| `team device unlink`         | Unlink device sessions                                        |
+| `team feature`               | Team feature                                                  |
+| `team filerequest list`      | List all file requests in the team                            |
+| `team info`                  | Team information                                              |
+| `team linkedapp list`        | List linked applications                                      |
+| `team namespace file list`   | List all files and folders of the team namespaces             |
+| `team namespace file size`   | List all files and folders of the team namespaces             |
+| `team namespace list`        | List all namespaces of the team                               |
+| `team namespace member list` | List members of shared folders and team folders in the team   |
+| `team sharedlink cap expiry` | Update expiration date of public shared links within the team |
+| `team sharedlink list`       | List of shared links                                          |
+| `teamfolder archive`         | Archive team folder                                           |
+| `teamfolder list`            | List team folder(s)                                           |
+| `teamfolder permdelete`      | Permanently delete team folder                                |
+| `teamfolder replication`     | Replicate a team folder to the other team                     |
+| `web`                        | Launch web console (experimental)                             |
+
 
 ## Authentication
 
@@ -102,7 +101,7 @@ If an executable contains registered application keys, then the executable will 
 Please open the provided URL, then paste authorisation code.
 
 ```
-toolbox 52.2.43
+toolbox xx.x.xxx
 © 2016-2019 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 

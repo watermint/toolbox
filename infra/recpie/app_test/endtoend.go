@@ -3,10 +3,12 @@ package app_test
 import (
 	"encoding/csv"
 	rice "github.com/GeertJohan/go.rice"
+	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_run_impl"
 	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
@@ -18,6 +20,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -84,7 +87,7 @@ func ApplyTestPeers(ctl app_control.Control, vo app_vo.ValueObject) bool {
 	return true
 }
 
-func TestResources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {
+func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {
 	bx = rice.MustFindBox("../../../resources")
 	web = rice.MustFindBox("../../../web")
 
@@ -93,10 +96,38 @@ func TestResources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Contai
 	return
 }
 
+func findTestResource() (resource gjson.Result, found bool) {
+	l := app_root.Log()
+	p, found := os.LookupEnv("TOOLBOX_TESTRESOURCE")
+	if !found {
+		return gjson.Parse("{}"), false
+	}
+	l = l.With(zap.String("path", p))
+	b, err := ioutil.ReadFile(p)
+	if err != nil {
+		l.Debug("unable to read file", zap.Error(err))
+		return gjson.Parse("{}"), false
+	}
+	if !gjson.ValidBytes(b) {
+		l.Debug("invalid file content", zap.ByteString("resource", b))
+		return gjson.Parse("{}"), false
+	}
+	return gjson.ParseBytes(b), true
+}
+
 func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
-	bx, web, mc, ui := TestResources(t)
+	bx, web, mc, ui := Resources(t)
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, make([]app_recipe.Recipe, 0))
+	cs := ctl.(*app_control_impl.Single)
+	if res, found := findTestResource(); found {
+		var err error
+		ctl, err = cs.NewTestControl(res)
+		if err != nil {
+			t.Error("Unable to create new test control", err)
+			return
+		}
+	}
 	err := ctl.Up(app_control.Test())
 	if err != nil {
 		os.Exit(app_control.FatalStartup)
@@ -118,9 +149,7 @@ type RowTester func(cols map[string]string) error
 
 func TestRows(ctl app_control.Control, reportName string, tester RowTester) error {
 	l := ctl.Log().With(zap.String("reportName", reportName))
-	job := ctl.Workspace().Job()
-	rep := filepath.Join(job, "reports")
-	csvFile := filepath.Join(rep, reportName+".csv")
+	csvFile := filepath.Join(ctl.Workspace().Report(), reportName+".csv")
 
 	l.Debug("Start loading report", zap.String("csvFile", csvFile))
 

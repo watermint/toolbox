@@ -11,7 +11,7 @@ import (
 )
 
 func TestCatalogue(t *testing.T) {
-	_, _, _, ui := app_test.TestResources(t)
+	_, _, _, ui := app_test.Resources(t)
 	testGroup(Catalogue(), ui)
 }
 

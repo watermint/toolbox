@@ -4,18 +4,19 @@ import (
 	"encoding/csv"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 	"sync"
 )
 
 func NewCsv(name string, row interface{}, ctl app_control.Control) (r Report, err error) {
-	p, err := ctl.Workspace().Descendant(ReportPath)
+	l := ctl.Log()
+	p := filepath.Join(ctl.Workspace().Report(), name+".csv")
+	l.Debug("Create new csv report", zap.String("path", p))
+	f, err := os.Create(p)
 	if err != nil {
-		return nil, err
-	}
-	f, err := os.Create(filepath.Join(p, name+".csv"))
-	if err != nil {
+		l.Error("Unable to create file", zap.String("path", p), zap.Error(err))
 		return nil, err
 	}
 	parser := NewColumn(row, ctl)

@@ -1,6 +1,7 @@
 package app_control
 
 import (
+	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recpie/app_worker"
 	"github.com/watermint/toolbox/infra/ui/app_template"
@@ -18,6 +19,7 @@ type Control interface {
 	Log() *zap.Logger
 	Capture() *zap.Logger
 	Resource(key string) (bin []byte, err error)
+	TestResource(key string) (data gjson.Result, found bool)
 	Workspace() app_workspace.Workspace
 
 	IsProduction() bool

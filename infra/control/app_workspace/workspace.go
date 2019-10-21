@@ -23,6 +23,8 @@ const (
 	nameUser    = "user"
 	nameJobs    = "jobs"
 	nameLogs    = "logs"
+	nameReport  = "report"
+	nameTest    = "test"
 )
 
 func NewJobId() string {

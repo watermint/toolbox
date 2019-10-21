@@ -29,10 +29,6 @@ type TransactionRow struct {
 	Result interface{}
 }
 
-const (
-	ReportPath = "reports"
-)
-
 var (
 	msgSuccess     = app_msg.M("report.transaction.success")
 	msgFailure     = app_msg.M("report.transaction.failure")

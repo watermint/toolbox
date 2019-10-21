@@ -18,6 +18,12 @@ func NewData() app_file.Data {
 	return &CsvData{}
 }
 
+func NewTestData(path string) app_file.Data {
+	return &CsvData{
+		FilePath: path,
+	}
+}
+
 type CsvData struct {
 	FilePath         string
 	file             *os.File

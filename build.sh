@@ -11,8 +11,8 @@ else
   DIST_PATH=/dist
 fi
 
-BUILD_MAJOR_VERSION=$(cat $PROJECT_ROOT/version)
-BUILD_HASH=$(cd $PROJECT_ROOT && git rev-parse HEAD)
+BUILD_MAJOR_VERSION=$(cat "$PROJECT_ROOT"/version)
+BUILD_HASH=$(cd "$PROJECT_ROOT" && git rev-parse HEAD)
 
 if [ ! -d $BUILD_PATH ]; then
   mkdir -p $BUILD_PATH
@@ -26,7 +26,11 @@ fi
 if [ "$TOOLBOX_BUILD_ID"x = ""x ]; then
   # Circle CI
   if [ "$CIRCLE_BUILD_NUM"x != ""x ]; then
-    TOOLBOX_BUILD_ID=2.$CIRCLE_BUILD_NUM
+    if [ "$CIRCLE_BRANCH"x = "master"x ]; then
+      TOOLBOX_BUILD_ID=4.$CIRCLE_BUILD_NUM
+    else
+      TOOLBOX_BUILD_ID=2.$CIRCLE_BUILD_NUM
+    fi
 
   # Gitlab
   elif [ "$CI_PIPELINE_IID" ]; then
@@ -40,7 +44,7 @@ BUILD_VERSION=$BUILD_MAJOR_VERSION.$TOOLBOX_BUILD_ID
 echo --------------------
 echo BUILD: Start building version: $BUILD_VERSION
 
-cd $PROJECT_ROOT
+cd "$PROJECT_ROOT"
 
 echo BUILD: Preparing license information
 for l in $(find vendor -name LICENSE\*); do
@@ -50,7 +54,6 @@ for l in $(find vendor -name LICENSE\*); do
 done
 jq -Rn '{"github.com/watermint/toolbox":[inputs]}' LICENSE.md > $BUILD_PATH/github.com-watermint-toolbox.lic
 jq -s add $BUILD_PATH/*.lic > resources/licenses.json
-cp resources/licenses.json legacy/resources
 
 
 echo BUILD: Building tool
@@ -71,7 +74,6 @@ if [ -e "resources/toolbox.appkeys" ]; then
     echo Zap exit with code $?
     exit $?
   fi
-  cp resources/toolbox.appkeys.secret legacy/resources
   TOOLBOX_ZAP=$(cat /tmp/toolbox.zap)
 else
   echo ERR: No app key file found
@@ -96,13 +98,6 @@ GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/mac/tbx 
 echo --------------------
 echo Testing binary
 
-$BUILD_PATH/linux/tbx dev auth appkey -quiet
-if [[ $? = 0 ]]; then
-  echo Success: appkey test
-else
-  echo Unable to load app key: code=$?
-  exit $?
-fi
 $BUILD_PATH/linux/tbx dev test resources -quiet
 if [[ $? = 0 ]]; then
   echo Success: resources test

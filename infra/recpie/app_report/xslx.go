@@ -5,6 +5,7 @@ import (
 	"github.com/tealeg/xlsx"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"go.uber.org/zap"
 	"path/filepath"
 	"sync"
 	"time"
@@ -40,19 +41,18 @@ func xlsxDataStyle() *xlsx.Style {
 }
 
 func NewXlsx(name string, row interface{}, ctl app_control.Control) (r Report, err error) {
-	path, err := ctl.Workspace().Descendant(ReportPath)
-	if err != nil {
-		return nil, err
-	}
-	filePath := filepath.Join(path, name+".xlsx")
-
+	l := ctl.Log().With(zap.String("name", name))
+	filePath := filepath.Join(ctl.Workspace().Report(), name+".xlsx")
 	file := xlsx.NewFile()
+	l.Debug("Create xlsx report", zap.String("filePath", filePath))
 	sheet, err := file.AddSheet(name)
 	if err != nil {
+		l.Debug("Unable to add sheet", zap.Error(err))
 		return nil, err
 	}
 	err = file.Save(filePath)
 	if err != nil {
+		l.Debug("Unable to save sheets", zap.Error(err))
 		return nil, err
 	}
 	parser := NewColumn(row, ctl)

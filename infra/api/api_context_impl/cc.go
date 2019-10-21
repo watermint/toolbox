@@ -20,6 +20,10 @@ import (
 	"time"
 )
 
+const (
+	maxLastErrors = 10
+)
+
 func New(control app_control.Control, token api_auth.TokenContainer) api_context.Context {
 	c := &ccImpl{
 		control:        control,
@@ -30,16 +34,17 @@ func New(control app_control.Control, token api_auth.TokenContainer) api_context
 }
 
 type ccImpl struct {
-	control        app_control.Control
-	tokenContainer api_auth.TokenContainer
-	noAuth         bool
-	asMemberId     string
-	asAdminId      string
-	basePath       api_context.PathRoot
-	retryAfter     time.Time
-	lastErrors     []error
-	lastErrorMutex sync.Mutex
-	noRetryOnError bool
+	control         app_control.Control
+	tokenContainer  api_auth.TokenContainer
+	noAuth          bool
+	asMemberId      string
+	asAdminId       string
+	basePath        api_context.PathRoot
+	retryAfter      time.Time
+	retryAfterMutex sync.Mutex
+	lastErrors      []error
+	lastErrorMutex  sync.Mutex
+	noRetryOnError  bool
 }
 
 func (z *ccImpl) Token() api_auth.TokenContainer {
@@ -103,7 +108,12 @@ func (z *ccImpl) RetryAfter() time.Time {
 }
 
 func (z *ccImpl) UpdateRetryAfter(after time.Time) {
-	z.retryAfter = after
+	z.retryAfterMutex.Lock()
+	defer z.retryAfterMutex.Unlock()
+
+	if z.retryAfter.Before(after) {
+		z.retryAfter = after
+	}
 }
 
 func (z *ccImpl) IsNoRetry() bool {

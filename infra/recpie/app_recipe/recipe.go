@@ -56,3 +56,8 @@ func Path(r Recipe) (path []string, name string) {
 	}
 	return path, strings.ToLower(rt.Name())
 }
+
+func Key(r Recipe) string {
+	path, name := Path(r)
+	return strings.Join(append(path, name), ".")
+}

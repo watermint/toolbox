@@ -22,12 +22,12 @@ func NewJsonForQuiet(name string, ctl app_control.Control) (r Report, err error)
 }
 
 func NewJson(name string, ctl app_control.Control) (r Report, err error) {
-	p, err := ctl.Workspace().Descendant(ReportPath)
+	l := ctl.Log()
+	p := filepath.Join(ctl.Workspace().Report(), name+".json")
+	l.Debug("Create new csv report", zap.String("path", p))
+	f, err := os.Create(p)
 	if err != nil {
-		return nil, err
-	}
-	f, err := os.Create(filepath.Join(p, name+".json"))
-	if err != nil {
+		l.Error("Unable to create file", zap.String("path", p), zap.Error(err))
 		return nil, err
 	}
 	r = &Json{

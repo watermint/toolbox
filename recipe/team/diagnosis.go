@@ -126,6 +126,20 @@ func (z *Diagnosis) Exec(k app_kitchen.Kitchen) error {
 	}
 
 	{
+		l.Info("Scanning member usage")
+		r := memberquota.Usage{}
+		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &memberquota.UsageVO{
+			Peer: &app_conn_impl.ConnBusinessFile{
+				PeerName: pn,
+			},
+		}))
+		if err != nil {
+			l.Error("`member quota usage` failed", zap.Error(err))
+			return err
+		}
+	}
+
+	{
 		l.Info("Scanning devices")
 		r := teamdevice.List{}
 		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &teamdevice.ListVO{

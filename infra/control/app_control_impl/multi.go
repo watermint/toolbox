@@ -2,6 +2,7 @@ package app_control_impl
 
 import (
 	rice "github.com/GeertJohan/go.rice"
+	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_log"
@@ -32,6 +33,10 @@ type Multi struct {
 	ws     app_workspace.Workspace
 	quiet  bool
 	secure bool
+}
+
+func (z *Multi) TestResource(key string) (data gjson.Result, found bool) {
+	return gjson.Parse("{}"), false
 }
 
 func (z *Multi) NewQueue() app_worker.Queue {
