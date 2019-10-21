@@ -20,6 +20,17 @@ type SharedLink interface {
 	File() (file *File, ok bool)
 	Folder() (folder *Folder, ok bool)
 	EntryRaw() json.RawMessage
+	Metadata() *Metadata
+}
+
+func newMetadata(raw json.RawMessage) *Metadata {
+	ce := &Metadata{}
+	if err := api_parser.ParseModelRaw(ce, raw); err != nil {
+		app_root.Log().Debug("Unable to parse json", zap.Error(err), zap.ByteString("raw", raw))
+		return ce
+	}
+	ce.Raw = raw
+	return ce
 }
 
 type Metadata struct {
@@ -31,6 +42,10 @@ type Metadata struct {
 	Expires    string `path:"expires" json:"expires"`
 	PathLower  string `path:"path_lower" json:"path_lower"`
 	Visibility string `path:"link_permissions.resolved_visibility.\\.tag" json:"visibility"`
+}
+
+func (z *Metadata) Metadata() *Metadata {
+	return z
 }
 
 func (z *Metadata) EntryRaw() json.RawMessage {
@@ -102,6 +117,10 @@ type File struct {
 	Visibility     string `path:"link_permissions.resolved_visibility.\\.tag"`
 }
 
+func (z *File) Metadata() *Metadata {
+	return newMetadata(z.Raw)
+}
+
 func (z *File) EntryRaw() json.RawMessage {
 	return z.Raw
 }
@@ -151,6 +170,10 @@ type Folder struct {
 	Expires    string `path:"expires"`
 	PathLower  string `path:"path_lower"`
 	Visibility string `path:"link_permissions.resolved_visibility.\\.tag"`
+}
+
+func (z *Folder) Metadata() *Metadata {
+	return newMetadata(z.Raw)
 }
 
 func (z *Folder) EntryRaw() json.RawMessage {

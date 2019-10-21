@@ -66,21 +66,13 @@ func (z *Create) Exec(k app_kitchen.Kitchen) error {
 		"Url": link.LinkUrl(),
 	})
 
-	if file, ok := link.File(); ok {
-		rep, err := k.Report("shared_link", &mo_sharedlink.File{})
-		if err != nil {
-			return err
-		}
-		rep.Row(file)
-		rep.Close()
-	} else {
-		rep, err := k.Report("shared_link", &mo_sharedlink.Folder{})
-		if err != nil {
-			return err
-		}
-		rep.Row(file)
-		rep.Close()
+	rep, err := k.Report("shared_link", &mo_sharedlink.Metadata{})
+	if err != nil {
+		return err
 	}
+	rep.Row(link.Metadata())
+	rep.Close()
+
 	return nil
 }
 
