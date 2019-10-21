@@ -18,7 +18,6 @@ type InviteRow struct {
 	Email     string
 	GivenName string
 	Surname   string
-	Groups    string
 }
 
 func (z *InviteRow) Validate() error {

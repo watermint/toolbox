@@ -57,6 +57,7 @@ func Recipes() []app_recipe.Recipe {
 		&memberquota.List{},
 		&memberquota.Usage{},
 		&memberupdate.Email{},
+		&memberupdate.Profile{},
 		&recipe.License{},
 		&recipe.Web{},
 		&sharedfolder.List{},

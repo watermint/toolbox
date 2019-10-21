@@ -5,7 +5,6 @@ import (
 	app2 "github.com/watermint/toolbox/legacy/app"
 	cmd2 "github.com/watermint/toolbox/legacy/cmd"
 	cmd_dev2 "github.com/watermint/toolbox/legacy/cmd/cmd_dev"
-	cmd_member2 "github.com/watermint/toolbox/legacy/cmd/cmd_member"
 	"os"
 )
 
@@ -18,7 +17,6 @@ func NewCommands() Commands {
 		rootCmd: &cmd2.CommandletGroup{
 			CommandName: os.Args[0],
 			SubCommands: []cmd2.Commandlet{
-				cmd_member2.NewCmdMember(),
 				cmd_dev2.NewCmdDev(),
 			},
 		},
