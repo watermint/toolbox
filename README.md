@@ -21,9 +21,9 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 `tbx` have various features. Run without an option for a list of supported commands and options.
 You can see available commands and options by running executable without arguments like below.
 
-```bash
+```
 % ./tbx
-toolbox 52.2.43
+watermint toolbox xx.x.xxx
 © 2016-2019 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
@@ -31,9 +31,10 @@ Licensed under open source licenses. Use the `license` command for more detail.
 Tools for Dropbox and Dropbox Business
 
 Usage:
-./tbx  [command]
+./tbx  command
 
 Available commands:
+   file          File operation
    group         Group management (Dropbox Business)
    license       Show license information
    member        Team member management (Dropbox Business)
@@ -41,7 +42,7 @@ Available commands:
    sharedlink    Shared Link of Personal account
    team          Dropbox Business Team
    teamfolder    Team folder management (Dropbox Business)
-   web           Launch web console
+   web           Launch web console (experimental)
 ```
 
 ## Commands
@@ -66,7 +67,6 @@ Available commands:
 | `member quota list`          | List team member quota                                        |
 | `member quota usage`         | List team member storage usage                                |
 | `member remove`              | Remove members                                                |
-| `member sync`                | Sync member information with provided csv                     |
 | `member update email`        | Member email operation                                        |
 | `member update profile`      | Update member profile                                         |
 | `sharedfolder list`          | List shared folder(s)                                         |
@@ -93,13 +93,14 @@ Available commands:
 | `teamfolder replication`     | Replicate a team folder to the other team                     |
 | `web`                        | Launch web console (experimental)                             |
 
+
 ## Authentication
 
 If an executable contains registered application keys, then the executable will ask you an authentication to your Dropbox account or a team.
 Please open the provided URL, then paste authorisation code.
 
 ```
-toolbox 52.2.43
+toolbox xx.x.xxx
 © 2016-2019 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 

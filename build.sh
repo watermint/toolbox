@@ -11,8 +11,8 @@ else
   DIST_PATH=/dist
 fi
 
-BUILD_MAJOR_VERSION=$(cat $PROJECT_ROOT/version)
-BUILD_HASH=$(cd $PROJECT_ROOT && git rev-parse HEAD)
+BUILD_MAJOR_VERSION=$(cat "$PROJECT_ROOT"/version)
+BUILD_HASH=$(cd "$PROJECT_ROOT" && git rev-parse HEAD)
 
 if [ ! -d $BUILD_PATH ]; then
   mkdir -p $BUILD_PATH
@@ -40,7 +40,7 @@ BUILD_VERSION=$BUILD_MAJOR_VERSION.$TOOLBOX_BUILD_ID
 echo --------------------
 echo BUILD: Start building version: $BUILD_VERSION
 
-cd $PROJECT_ROOT
+cd "$PROJECT_ROOT"
 
 echo BUILD: Preparing license information
 for l in $(find vendor -name LICENSE\*); do
