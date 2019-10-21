@@ -68,9 +68,11 @@ func (z *NamespaceMember) Member() (member mo_sharedfolder_member.Member) {
 
 type NamespaceEntry struct {
 	Raw                  json.RawMessage
+	NamespaceType        string `path:"namespace.namespace_type.\\.tag" json:"namespace_type"`
 	NamespaceId          string `path:"namespace.namespace_id" json:"namespace_id"`
 	NamespaceName        string `path:"namespace.name" json:"namespace_name"`
-	Id                   string `path:"entry.id" json:"id"`
+	NamespaceMemberEmail string `json:"namespace_member_email"`
+	Id                   string `path:"entry.id" json:"file_id"`
 	Tag                  string `path:"entry.\\.tag" json:"tag"`
 	Name                 string `path:"entry.name" json:"name"`
 	PathDisplay          string `path:"entry.path_display" json:"path_display"`

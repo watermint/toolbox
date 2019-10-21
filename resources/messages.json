@@ -220,6 +220,7 @@
   "recipe.team.namespace.file.desc": "Team namespace file management",
   "recipe.team.namespace.file.list_vo.flag.include_deleted": "If true, deleted file or folder will be returned",
   "recipe.team.namespace.file.list_vo.flag.include_media_info": "If true, media info is set for photo and video in json report",
+  "recipe.team.namespace.file.list_vo.flag.include_member_folder": "If true, include team member folders",
   "recipe.team.namespace.file.list_vo.flag.include_shared_folder": "If true, include shared folders",
   "recipe.team.namespace.file.list_vo.flag.include_team_folder": "If true, include team folders",
   "recipe.team.namespace.file.list_vo.flag.name": "List only for the folder matched to the name",

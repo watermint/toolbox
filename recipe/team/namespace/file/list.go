@@ -3,9 +3,11 @@ package file
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_file"
+	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
+	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/service/sv_profile"
 	"github.com/watermint/toolbox/infra/api/api_context"
@@ -23,17 +25,19 @@ type ListVO struct {
 	Peer                app_conn.ConnBusinessFile
 	IncludeMediaInfo    bool
 	IncludeDeleted      bool
+	IncludeMemberFolder bool
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
 	Name                string
 }
 
 type ListWorker struct {
-	namespace *mo_namespace.Namespace
-	ctx       api_context.Context
-	ctl       app_control.Control
-	rep       app_report.Report
-	vo        *ListVO
+	namespace  *mo_namespace.Namespace
+	idToMember map[string]*mo_member.Member
+	ctx        api_context.Context
+	ctl        app_control.Control
+	rep        app_report.Report
+	vo         *ListVO
 }
 
 func (z *ListWorker) Exec() error {
@@ -59,7 +63,11 @@ func (z *ListWorker) Exec() error {
 	opts = append(opts, sv_file.Recursive())
 
 	err := sv_file.NewFiles(ctn).ListChunked(mo_path.NewPath(""), func(entry mo_file.Entry) {
-		z.rep.Row(mo_namespace.NewNamespaceEntry(z.namespace, entry.Concrete()))
+		ne := mo_namespace.NewNamespaceEntry(z.namespace, entry.Concrete())
+		if m, e := z.idToMember[z.namespace.TeamMemberId]; e {
+			ne.NamespaceMemberEmail = m.Email
+		}
+		z.rep.Row(ne)
 	}, opts...)
 
 	if err != nil {
@@ -83,6 +91,7 @@ func (z *List) Requirement() app_vo.ValueObject {
 	return &ListVO{
 		IncludeTeamFolder:   true,
 		IncludeSharedFolder: true,
+		IncludeMemberFolder: false,
 	}
 }
 
@@ -100,6 +109,12 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 	l.Debug("Run as admin", zap.Any("admin", admin))
+
+	members, err := sv_member.New(ctx).List()
+	if err != nil {
+		return err
+	}
+	idToMember := mo_member.MapByTeamMemberId(members)
 
 	namespaces, err := sv_namespace.New(ctx).List()
 	if err != nil {
@@ -122,6 +137,10 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 			process = true
 		case vo.IncludeSharedFolder && namespace.NamespaceType == "shared_folder":
 			process = true
+		case vo.IncludeMemberFolder && namespace.NamespaceType == "team_member_folder":
+			process = true
+		case vo.IncludeMemberFolder && namespace.NamespaceType == "app_folder":
+			process = true
 		}
 		if !process {
 			l.Debug("Skip", zap.Any("namespace", namespace))
@@ -133,11 +152,12 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 		}
 
 		q.Enqueue(&ListWorker{
-			namespace: namespace,
-			ctx:       cta,
-			rep:       rep,
-			vo:        vo,
-			ctl:       k.Control(),
+			namespace:  namespace,
+			idToMember: idToMember,
+			ctx:        cta,
+			rep:        rep,
+			vo:         vo,
+			ctl:        k.Control(),
 		})
 	}
 	q.Wait()
