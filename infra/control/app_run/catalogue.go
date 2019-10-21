@@ -19,6 +19,8 @@ import (
 	sharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
 	"github.com/watermint/toolbox/recipe/sharedlink"
 	"github.com/watermint/toolbox/recipe/team"
+	teamactivity "github.com/watermint/toolbox/recipe/team/activity"
+	teamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
 	teamdevice "github.com/watermint/toolbox/recipe/team/device"
 	teamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
 	teamlinkedapp "github.com/watermint/toolbox/recipe/team/linkedapp"
@@ -65,10 +67,11 @@ func Recipes() []app_recipe.Recipe {
 		&sharedlink.Create{},
 		&sharedlink.List{},
 		&sharedlink.Remove{},
-		&team.Activity{},
 		&team.Diagnosis{},
 		&team.Feature{},
 		&team.Info{},
+		&teamactivity.Event{},
+		&teamactivitydaily.Event{},
 		&teamdevice.List{},
 		&teamdevice.Unlink{},
 		&teamfilerequest.List{},

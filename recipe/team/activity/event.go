@@ -1,4 +1,4 @@
-package team
+package activity
 
 import (
 	"errors"
@@ -13,29 +13,29 @@ import (
 	"time"
 )
 
-type ActivityVO struct {
+type EventVO struct {
 	Peer      app_conn.ConnBusinessAudit
 	StartTime string
 	EndTime   string
 	Category  string
 }
 
-type Activity struct {
+type Event struct {
 }
 
-func (z *Activity) Requirement() app_vo.ValueObject {
-	return &ActivityVO{}
+func (z *Event) Requirement() app_vo.ValueObject {
+	return &EventVO{}
 }
 
-func (z *Activity) Exec(k app_kitchen.Kitchen) error {
-	vo := k.Value().(*ActivityVO)
+func (z *Event) Exec(k app_kitchen.Kitchen) error {
+	vo := k.Value().(*EventVO)
 
 	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}
 
-	rep, err := k.Report("activity", &mo_activity.Event{})
+	rep, err := k.Report("event", &mo_activity.Event{})
 	if err != nil {
 		return err
 	}
@@ -53,8 +53,8 @@ func (z *Activity) Exec(k app_kitchen.Kitchen) error {
 	)
 }
 
-func (z *Activity) Test(c app_control.Control) error {
-	lvo := &ActivityVO{
+func (z *Event) Test(c app_control.Control) error {
+	lvo := &EventVO{
 		StartTime: api_util.RebaseAsString(time.Now().Add(-10 * time.Minute)),
 		Category:  "logins",
 	}

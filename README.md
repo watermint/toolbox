@@ -74,7 +74,8 @@ Available commands:
 | `sharedlink create`          | Create shared link                                            |
 | `sharedlink list`            | List of shared link(s)                                        |
 | `sharedlink remove`          | Remove shared links                                           |
-| `team activity`              | Team activity log                                             |
+| `team activity daily event`  | Report activities by day                                      |
+| `team activity event`        | Event log                                                     |
 | `team device list`           | List all devices/sessions in the team                         |
 | `team device unlink`         | Unlink device sessions                                        |
 | `team feature`               | Team feature                                                  |

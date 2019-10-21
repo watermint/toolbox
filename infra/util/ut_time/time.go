@@ -1,6 +1,10 @@
 package ut_time
 
-import "time"
+import (
+	"errors"
+	"github.com/watermint/toolbox/infra/api/api_util"
+	"time"
+)
 
 // Parse timestamp from command line input. This function supports multiple time format
 func ParseTimestamp(ts string) (p time.Time, valid bool) {
@@ -29,4 +33,44 @@ func ParseTimestamp(ts string) (p time.Time, valid bool) {
 	}
 
 	return time.Unix(0, 0), false
+}
+
+type DayRange struct {
+	Start string
+	End   string
+}
+
+func Daily(start, end string) ([]*DayRange, error) {
+	dr := make([]*DayRange, 0)
+	startTime, ok := ParseTimestamp(start)
+	if !ok {
+		return nil, errors.New("start date is required")
+	}
+	endTime, ok := ParseTimestamp(end)
+	if !ok {
+		endTime = time.Now()
+	}
+
+	if endTime.Before(startTime) {
+		return nil, errors.New("end date is before start date")
+	}
+
+	p := time.Date(startTime.Year(), startTime.Month(), startTime.Day(), 0, 0, 0, 0, startTime.Location())
+	p = p.Add(24 * time.Hour)
+	q := startTime
+
+	for endTime.After(p) {
+		dr = append(dr, &DayRange{
+			Start: api_util.RebaseAsString(q),
+			End:   api_util.RebaseAsString(p),
+		})
+		q = p
+		p = p.Add(24 * time.Hour)
+	}
+	dr = append(dr, &DayRange{
+		Start: api_util.RebaseAsString(q),
+		End:   api_util.RebaseAsString(endTime),
+	})
+
+	return dr, nil
 }

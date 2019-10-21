@@ -1,4 +1,4 @@
-package team
+package activity
 
 import (
 	"github.com/watermint/toolbox/infra/recpie/app_test"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestActivity_Exec(t *testing.T) {
-	app_test.TestRecipe(t, &Activity{})
+	app_test.TestRecipe(t, &Event{})
 }
