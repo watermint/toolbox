@@ -52,7 +52,7 @@ If an executable contains registered application keys, then the executable will 
 Please open the provided URL, then paste authorisation code.
 
 ```
-toolbox xx.x.xxx
+watermint toolbox xx.x.xxx
 © 2016-2019 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 

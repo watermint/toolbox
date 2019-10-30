@@ -96,7 +96,7 @@ echo Building: Darwin
 GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/mac/tbx     github.com/watermint/toolbox
 
 echo --------------------
-echo Testing binary
+echo BUILD: Testing binary
 
 $BUILD_PATH/linux/tbx dev test resources -quiet
 if [[ $? = 0 ]]; then
@@ -105,7 +105,11 @@ else
   echo Unable to pass binary resources test: code=$?
   exit $?
 fi
-$BUILD_PATH/linux/tbx license -quiet > $BUILD_PATH/LICENSE.txt
+
+echo --------------------
+echo BUILD: Generating documents
+
+$BUILD_PATH/linux/tbx license -quiet                            > $BUILD_PATH/LICENSE.txt
 $BUILD_PATH/linux/tbx dev doc -filename README.txt -badge=false > $BUILD_PATH/README.txt
 
 echo --------------------

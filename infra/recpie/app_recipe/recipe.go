@@ -30,13 +30,13 @@ type ConsoleRecipe interface {
 	Console()
 }
 
-func Desc(r Recipe) app_msg.Message {
+func Title(r Recipe) app_msg.Message {
 	path, name := Path(r)
 	keyPath := make([]string, 0)
 	keyPath = append(keyPath, "recipe")
 	keyPath = append(keyPath, path...)
 	keyPath = append(keyPath, name)
-	keyPath = append(keyPath, "desc")
+	keyPath = append(keyPath, "title")
 	key := strings.Join(keyPath, ".")
 
 	return app_msg.M(key)

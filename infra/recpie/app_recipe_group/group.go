@@ -66,7 +66,7 @@ func (z *Group) usageHeader(ui app_ui.UI, desc string) {
 
 func (z *Group) PrintRecipeUsage(ui app_ui.UI, rcp app_recipe.Recipe, f *flag.FlagSet) {
 	path, name := app_recipe.Path(rcp)
-	z.usageHeader(ui, app_recipe.Desc(rcp).Key())
+	z.usageHeader(ui, app_recipe.Title(rcp).Key())
 
 	ui.Header("run.recipe.header.usage")
 	ui.Info(
@@ -91,7 +91,7 @@ func (z *Group) PrintUsage(ui app_ui.UI) {
 	grpDesc := make([]string, 0)
 	grpDesc = append(grpDesc, "recipe")
 	grpDesc = append(grpDesc, z.Path...)
-	grpDesc = append(grpDesc, "desc")
+	grpDesc = append(grpDesc, "title")
 
 	z.usageHeader(ui, strings.Join(grpDesc, "."))
 
@@ -108,17 +108,17 @@ func (z *Group) PrintUsage(ui app_ui.UI) {
 	ui.Header("run.group.header.available_commands")
 	cmdTable := ui.InfoTable("usage")
 	for _, cmd := range z.AvailableCommands() {
-		cmdTable.Row(app_msg.Raw(" "), app_msg.Raw(cmd), z.CommandDesc(cmd))
+		cmdTable.Row(app_msg.Raw(" "), app_msg.Raw(cmd), z.CommandTitle(cmd))
 	}
 	cmdTable.Flush()
 }
 
-func (z *Group) CommandDesc(cmd string) app_msg.Message {
+func (z *Group) CommandTitle(cmd string) app_msg.Message {
 	keyPath := make([]string, 0)
 	keyPath = append(keyPath, "recipe")
 	keyPath = append(keyPath, z.Path...)
 	keyPath = append(keyPath, cmd)
-	keyPath = append(keyPath, "desc")
+	keyPath = append(keyPath, "title")
 	key := strings.Join(keyPath, ".")
 
 	return app_msg.M(key)

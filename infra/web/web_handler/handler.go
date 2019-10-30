@@ -737,7 +737,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe
 
 		dict[g.Name] = gin.H{
 			"Title":       g.Name,
-			"Description": ui.Text(grp.CommandDesc(g.Name).Key()),
+			"Description": ui.Text(grp.CommandTitle(g.Name).Key()),
 			"Uri":         WebPathHome + "/" + strings.Join(path, "-"),
 		}
 	}
@@ -748,7 +748,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe
 
 		dict[name] = gin.H{
 			"Title":       name,
-			"Description": ui.Text(grp.CommandDesc(name).Key()),
+			"Description": ui.Text(grp.CommandTitle(name).Key()),
 			"Uri":         WebPathHome + "/" + strings.Join(path, "-"),
 		}
 	}

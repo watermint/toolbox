@@ -59,7 +59,7 @@ func (z *Doc) commands(k app_kitchen.Kitchen) string {
 		p = append(p, n)
 		q := strings.Join(p, " ")
 
-		book[q] = ui.Text(app_recipe.Desc(r).Key())
+		book[q] = ui.Text(app_recipe.Title(r).Key())
 	}
 
 	var b bytes.Buffer

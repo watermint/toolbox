@@ -1,4 +1,4 @@
-package cap
+package update
 
 import (
 	"github.com/watermint/toolbox/infra/recpie/app_test"
