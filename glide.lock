@@ -1,6 +1,8 @@
-hash: ad992741219dc661ed03aba3bf4119d6910e93e65695d7608234bd030bd2cb02
-updated: 2019-09-06T00:49:00.880325+09:00
+hash: 854f508259a8832bcef39493bfad81a82b4679db766a8ce9715693cdd4407784
+updated: 2019-10-30T19:21:18.796766+09:00
 imports:
+- name: github.com/BurntSushi/toml
+  version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
 - name: github.com/daaku/go.zipexe
@@ -13,7 +15,7 @@ imports:
 - name: github.com/gin-contrib/sse
   version: 43f0f29dbd2b3f0feeebff91fd9cda22db296938
 - name: github.com/gin-contrib/zap
-  version: 3cc18cd8fce3ca00df79ca44f73fed1ed5d1fe2f
+  version: f473495929dba2798c0f8694afc1fb4c0349821f
 - name: github.com/gin-gonic/gin
   version: b75d67cd51eb53c3c3a2fc406524c940021ffbda
   subpackages:
@@ -29,15 +31,17 @@ imports:
 - name: github.com/iancoleman/strcase
   version: e506e3ef73653e84c592ba44aab577a46678f68c
 - name: github.com/json-iterator/go
-  version: 27518f6661eba504be5a7a9a9f6d9460d892ade3
+  version: dc11f49689fd1c9a6de20749def70bd889bf0d42
 - name: github.com/kardianos/osext
   version: ae77be60afb1dcacde03767a8c37337fad28ac14
 - name: github.com/mattn/go-isatty
-  version: bf9a1dea1961e1d831824fb135332bfb8c10e8b8
+  version: 0e9ddb7c0c0aef74fa25eaba4141e6b5ab7aca2a
 - name: github.com/modern-go/concurrent
   version: bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94
 - name: github.com/modern-go/reflect2
   version: 94122c33edd36123c84d5368cfb2b69df93a0ec8
+- name: github.com/pkg/profile
+  version: f6fe06335df110bcf1ed6d4e852b760bfc15beee
 - name: github.com/rapid7/go-get-proxied
   version: 16249a544090ff549b357cfc72bccf76fc5a8b8d
   subpackages:
@@ -48,7 +52,7 @@ imports:
   subpackages:
   - open
 - name: github.com/tealeg/xlsx
-  version: 8be35264fa75a1bbe954ce51eba04f273e2c59e5
+  version: 1b556911422e5b0f499a31ddc028ccc5ad288d4c
 - name: github.com/tidwall/gjson
   version: c5e72cdf74dff23857243dd662c465b810891c21
 - name: github.com/tidwall/match
@@ -60,17 +64,25 @@ imports:
   subpackages:
   - codec
 - name: go.uber.org/atomic
-  version: df976f2515e274675050de7b3f42545de80594fd
+  version: 9dc4df04d0d1c39369750a9f6c32c39560672089
 - name: go.uber.org/multierr
-  version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
+  version: c3fc3d02ec864719d8e25be2d7dde1e35a36aa27
+- name: go.uber.org/tools
+  version: 2cfd321de3ee5d5f8a5fda2521d1703478334d98
+  subpackages:
+  - update-license
 - name: go.uber.org/zap
-  version: 27376062155ad36be76b0f12cf1572a221d3a48c
+  version: a6015e13fab9b744d96085308ce4e8f11bad1996
   subpackages:
   - buffer
   - internal/bufferpool
   - internal/color
   - internal/exit
   - zapcore
+- name: golang.org/x/lint
+  version: 16217165b5de779cb6a5e4fc81fa9c1166fda457
+  subpackages:
+  - golint
 - name: golang.org/x/net
   version: 03003ca0c849e57b6ea29a4bab8d3cb6e4d568fe
   subpackages:
@@ -81,7 +93,7 @@ imports:
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: 749cb33beabd9aa6d3178e3de05bcc914f70b2bf
+  version: f43be2a4598cf3a47be9f94f0c28197ed9eae611
   subpackages:
   - unix
   - windows
@@ -100,6 +112,26 @@ imports:
   - runes
   - transform
   - unicode/norm
+- name: golang.org/x/tools
+  version: 86caa796c7ab0e32b908c5ebd5748faedd06c1da
+  subpackages:
+  - go/analysis
+  - go/analysis/passes/inspect
+  - go/ast/astutil
+  - go/ast/inspector
+  - go/buildutil
+  - go/gcexportdata
+  - go/internal/cgo
+  - go/internal/gcimporter
+  - go/internal/packagesdriver
+  - go/loader
+  - go/packages
+  - go/types/objectpath
+  - go/types/typeutil
+  - internal/fastwalk
+  - internal/gopathwalk
+  - internal/semver
+  - internal/span
 - name: google.golang.org/appengine
   version: 4a4468ece617fc8205e99368fa2200e9d1fad421
   subpackages:
@@ -113,5 +145,37 @@ imports:
 - name: gopkg.in/go-playground/validator.v8
   version: 5f1438d3fca68893a817e4a66806cea46a9e4ebf
 - name: gopkg.in/yaml.v2
-  version: 51d6538a90f86fe93ac480b35f37b2be17fef232
+  version: f221b8435cfb71e54062f6c6e99e9ade30b124d5
+- name: honnef.co/go/tools
+  version: f51cd49dbadb98d60043a445a177e72f0cc62e6b
+  subpackages:
+  - arg
+  - cmd/staticcheck
+  - code
+  - config
+  - deprecated
+  - edit
+  - facts
+  - functions
+  - go/types/typeutil
+  - internal/cache
+  - internal/passes/buildir
+  - internal/renameio
+  - internal/robustio
+  - internal/sharedcheck
+  - ir
+  - ir/irutil
+  - lint
+  - lint/lintdsl
+  - lint/lintutil
+  - lint/lintutil/format
+  - loader
+  - pattern
+  - printf
+  - report
+  - simple
+  - staticcheck
+  - stylecheck
+  - unused
+  - version
 testImports: []

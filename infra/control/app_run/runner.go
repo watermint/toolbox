@@ -3,6 +3,7 @@ package app_run
 import (
 	"flag"
 	"github.com/GeertJohan/go.rice"
+	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -96,6 +97,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	vc.Apply(vo)
 
 	// Apply common flags
+
 	// - Quiet
 	if com.Quiet {
 		ui = app_ui.NewQuiet(mc)
@@ -199,6 +201,11 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 		if err != nil {
 			ctl.Abort(app_control.Reason(app_control.FatalNetwork))
 		}
+	}
+
+	// Apply profiler
+	if com.Debug {
+		defer profile.Start(profile.MemProfile).Stop()
 	}
 
 	// Run

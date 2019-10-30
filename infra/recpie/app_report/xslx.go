@@ -13,6 +13,7 @@ import (
 
 const (
 	xlsxThemeColor = "ff548235"
+	xlsxMaxRows    = 10000
 )
 
 func xlsxHeaderStyle() *xlsx.Style {
@@ -41,39 +42,96 @@ func xlsxDataStyle() *xlsx.Style {
 }
 
 func NewXlsx(name string, row interface{}, ctl app_control.Control) (r Report, err error) {
-	l := ctl.Log().With(zap.String("name", name))
-	filePath := filepath.Join(ctl.Workspace().Report(), name+".xlsx")
-	file := xlsx.NewFile()
-	l.Debug("Create xlsx report", zap.String("filePath", filePath))
-	sheet, err := file.AddSheet(name)
-	if err != nil {
-		l.Debug("Unable to add sheet", zap.Error(err))
-		return nil, err
-	}
-	err = file.Save(filePath)
-	if err != nil {
-		l.Debug("Unable to save sheets", zap.Error(err))
-		return nil, err
-	}
 	parser := NewColumn(row, ctl)
-	r = &Xlsx{
-		ctl:      ctl,
-		filePath: filePath,
-		file:     file,
-		sheet:    sheet,
-		parser:   parser,
+	x := &Xlsx{
+		fileAvailable: false,
+		name:          name,
+		ctl:           ctl,
+		parser:        parser,
 	}
-	return r, nil
+	if err = x.open(); err != nil {
+		return nil, err
+	}
+	return x, nil
 }
 
 type Xlsx struct {
-	ctl      app_control.Control
-	filePath string
-	file     *xlsx.File
-	sheet    *xlsx.Sheet
-	parser   Column
-	index    int
-	mutex    sync.Mutex
+	ctl           app_control.Control
+	name          string
+	omitError     bool
+	rotateFailed  bool
+	filePath      string
+	fileAvailable bool
+	file          *xlsx.File
+	sheet         *xlsx.Sheet
+	parser        Column
+	index         int
+	fileIndex     int
+	mutex         sync.Mutex
+}
+
+func (z *Xlsx) rotate() {
+	l := z.ctl.Log()
+
+	// Ignore once rotate failed
+	if z.rotateFailed {
+		return
+	}
+
+	l.Debug("Rotate", zap.Int("fileIndex", z.fileIndex))
+
+	// rotate
+	if err := z.open(); err != nil {
+		if !z.omitError {
+			z.ctl.UI().Error("report.xlsx.unable_to_open", app_msg.P{
+				"Path":  z.filePath,
+				"Error": err.Error(),
+			})
+			z.omitError = true
+		}
+		z.rotateFailed = true
+	}
+}
+
+func (z *Xlsx) open() (err error) {
+	l := z.ctl.Log()
+	if z.fileAvailable {
+		if err = z.file.Save(z.filePath); err != nil {
+			l.Debug("Unable to save file", zap.Error(err), zap.String("path", z.filePath))
+			return err
+		}
+	}
+
+	z.fileAvailable = false
+
+	name := z.name
+	if z.fileIndex != 0 {
+		name = fmt.Sprintf("%s_%04d", z.name, z.fileIndex)
+	}
+
+	l = l.With(zap.String("name", name))
+
+	z.filePath = filepath.Join(z.ctl.Workspace().Report(), name+".xlsx")
+	file := xlsx.NewFile()
+	l.Debug("Create xlsx report", zap.String("filePath", z.filePath))
+	sheet, err := file.AddSheet(name)
+	if err != nil {
+		l.Debug("Unable to add sheet", zap.Error(err))
+		return err
+	}
+	err = file.Save(z.filePath)
+	if err != nil {
+		l.Debug("Unable to save sheets", zap.Error(err))
+		return err
+	}
+
+	z.fileAvailable = true
+	z.file = file
+	z.sheet = sheet
+	z.fileIndex++
+	z.index = 0
+
+	return nil
 }
 
 func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
@@ -135,6 +193,10 @@ func (z *Xlsx) Row(row interface{}) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
+	if !z.fileAvailable {
+		return
+	}
+
 	if z.index == 0 {
 		header := make([]interface{}, 0)
 		for _, h := range z.parser.Header() {
@@ -144,12 +206,24 @@ func (z *Xlsx) Row(row interface{}) {
 	}
 	z.addRow(z.parser.Values(row), xlsxDataStyle())
 	z.index++
+
+	if z.index > xlsxMaxRows {
+		z.rotate()
+	}
 }
 
 func (z *Xlsx) Flush() {
+	if !z.fileAvailable {
+		return
+	}
+
 	z.file.Save(z.filePath)
 }
 
 func (z *Xlsx) Close() {
+	if !z.fileAvailable {
+		return
+	}
+
 	z.file.Save(z.filePath)
 }

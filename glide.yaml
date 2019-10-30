@@ -35,3 +35,5 @@ import:
 - package: github.com/skratchdot/open-golang
   subpackages:
   - open
+- package: github.com/pkg/profile
+  version: ^1.3.0
