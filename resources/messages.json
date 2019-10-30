@@ -17,6 +17,8 @@
   "recipe.dev.async.desc": "Async framework test",
   "recipe.dev.desc": "Development recipes",
   "recipe.dev.doc.desc": "Document generator",
+  "recipe.dev.doc_vo.flag.filename": "Filename",
+  "recipe.dev.doc_vo.flag.badge": "Include badges of build status",
   "recipe.dev.dummy_vo.flag.dest": "Dummy file destination",
   "recipe.dev.dummy_vo.flag.max_entry": "Maximum entries",
   "recipe.dev.dummy_vo.flag.path": "Path to dummy entry file",
