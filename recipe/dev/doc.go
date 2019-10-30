@@ -15,6 +15,19 @@ import (
 	"strings"
 )
 
+const (
+	badges = `
+[![CircleCI](https://circleci.com/gh/watermint/toolbox.svg?style=svg)](https://circleci.com/gh/watermint/toolbox)
+[![Coverage Status](https://coveralls.io/repos/github/watermint/toolbox/badge.svg)](https://coveralls.io/github/watermint/toolbox)
+[![Go Report Card](https://goreportcard.com/badge/github.com/watermint/toolbox)](https://goreportcard.com/report/github.com/watermint/toolbox)
+`
+)
+
+type DocVO struct {
+	Badge    bool
+	Filename string
+}
+
 type Doc struct {
 }
 
@@ -25,7 +38,10 @@ func (z *Doc) Hidden() {
 }
 
 func (z *Doc) Requirement() app_vo.ValueObject {
-	return &app_vo.EmptyValueObject{}
+	return &DocVO{
+		Badge:    true,
+		Filename: "README.md",
+	}
 }
 
 func (z *Doc) commands(k app_kitchen.Kitchen) string {
@@ -55,6 +71,7 @@ func (z *Doc) commands(k app_kitchen.Kitchen) string {
 }
 
 func (z *Doc) Exec(k app_kitchen.Kitchen) error {
+	vo := k.Value().(*DocVO)
 	commands := z.commands(k)
 
 	readmeBytes, err := ioutil.ReadFile("doc/README.tmpl.md")
@@ -66,15 +83,22 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 	if err != nil {
 		return err
 	}
-	readmeFile, err := os.Create("README.md")
+	readmeFile, err := os.Create(vo.Filename)
 	if err != nil {
 		return err
 	}
 	defer readmeFile.Close()
 
-	err = tmpl.Execute(readmeFile, map[string]interface{}{
-		"Commands": commands,
-	})
+	params := make(map[string]interface{})
+	params["Commands"] = commands
+
+	if vo.Badge {
+		params["Badges"] = badges
+	} else {
+		params["Badges"] = ""
+	}
+
+	err = tmpl.Execute(readmeFile, params)
 	if err != nil {
 		return err
 	}
