@@ -37,12 +37,12 @@ func (z *Expiry) Exec(k app_kitchen.Kitchen) error {
 	var newExpiry time.Time
 	if evo.Days > 0 && evo.At != "" {
 		l.Debug("Both Days/At specified", zap.Int("evo.Days", evo.Days), zap.String("evo.At", evo.At))
-		ui.Error("recipe.team.sharedlink.cap.expiry.err.please_specify_days_or_at")
+		ui.Error("recipe.team.sharedlink.update.expiry.err.please_specify_days_or_at")
 		return errors.New("please specify days or at")
 	}
 	if evo.Days < 0 {
 		l.Debug("Days options should not be negative", zap.Int("evo.Days", evo.Days))
-		ui.Error("recipe.team.sharedlink.cap.expiry.err.days_should_not_negative")
+		ui.Error("recipe.team.sharedlink.update.expiry.err.days_should_not_negative")
 		return errors.New("days should not be negative")
 	}
 
@@ -55,7 +55,7 @@ func (z *Expiry) Exec(k app_kitchen.Kitchen) error {
 		var valid bool
 		if newExpiry, valid = ut_time.ParseTimestamp(evo.At); !valid {
 			l.Debug("Invalid date/time format for at option", zap.String("evo.At", evo.At))
-			ui.Error("recipe.team.sharedlink.cap.expiry.err.invalid_date_time_format_for_at_option")
+			ui.Error("recipe.team.sharedlink.update.expiry.err.invalid_date_time_format_for_at_option")
 			return errors.New("invalid date/time format for `at`")
 		}
 	}
