@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"go.uber.org/zap"
@@ -32,7 +33,7 @@ type Dummy struct {
 }
 
 func (z *Dummy) Test(c app_control.Control) error {
-	return nil
+	return qt_test.NoTestRequired()
 }
 
 func (z *Dummy) Hidden() {

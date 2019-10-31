@@ -3,6 +3,7 @@ package test
 import (
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
@@ -68,5 +69,5 @@ func (z *Auth) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Auth) Test(c app_control.Control) error {
-	return nil
+	return qt_test.HumanInteractionRequired()
 }

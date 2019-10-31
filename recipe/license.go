@@ -17,7 +17,7 @@ type License struct {
 }
 
 func (z *License) Test(c app_control.Control) error {
-	return nil
+	return z.Exec(app_kitchen.NewKitchen(c, &app_vo.EmptyValueObject{}))
 }
 
 func (*License) Requirement() app_vo.ValueObject {

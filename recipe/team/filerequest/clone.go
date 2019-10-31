@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_filerequest"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
@@ -96,5 +97,5 @@ func (z *Clone) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Clone) Test(c app_control.Control) error {
-	return nil
+	return qt_test.HumanInteractionRequired()
 }

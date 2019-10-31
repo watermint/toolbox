@@ -11,7 +11,7 @@ type Resources struct {
 }
 
 func (z *Resources) Test(c app_control.Control) error {
-	return nil
+	return z.Exec(app_kitchen.NewKitchen(c, &app_vo.EmptyValueObject{}))
 }
 
 func (z *Resources) Hidden() {

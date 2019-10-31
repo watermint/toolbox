@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
@@ -36,7 +37,7 @@ type Invite struct {
 }
 
 func (z *Invite) Test(c app_control.Control) error {
-	return nil
+	return qt_test.HumanInteractionRequired()
 }
 
 func (z *Invite) Console() {

@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_file_impl"
@@ -159,12 +160,12 @@ func (z *Email) Test(c app_control.Control) error {
 	res, found := c.TestResource(app_recipe.Key(z))
 	if !found || !res.IsArray() {
 		l.Debug("SKIP: Test resource not found")
-		return nil
+		return qt_test.NotEnoughResource()
 	}
 	vo := &EmailVO{}
 	if !app_test.ApplyTestPeers(c, vo) {
 		l.Debug("Skip test")
-		return nil
+		return qt_test.NotEnoughResource()
 	}
 
 	pair := make(map[string]string)

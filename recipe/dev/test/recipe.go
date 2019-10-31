@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
@@ -107,5 +108,5 @@ func (z *Recipe) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Recipe) Test(c app_control.Control) error {
-	return nil
+	return qt_test.NoTestRequired()
 }

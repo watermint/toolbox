@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_run_impl"
 	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
@@ -139,8 +140,29 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 
 func TestRecipe(t *testing.T, re app_recipe.Recipe) {
 	TestWithControl(t, func(ctl app_control.Control) {
-		if err := re.Test(ctl); err != nil {
-			t.Error("test failed", err)
+		l := ctl.Log()
+		l.Debug("Start testing")
+
+		err := re.Test(ctl)
+		if err == nil {
+			return
+		}
+
+		switch err.(type) {
+		case *qt_test.ErrorNoTestRequired:
+			l.Info("Skip: No test required for this recipe")
+
+		case *qt_test.ErrorHumanInteractionRequired:
+			l.Info("Skip: Human interaction required for this test")
+
+		case *qt_test.ErrorNotEnoughResource:
+			l.Info("Skip: Not enough resource")
+
+		case *qt_test.ErrorImplementMe:
+			l.Warn("Test is not implemented for this recipe")
+
+		default:
+			t.Error(err)
 		}
 	})
 }

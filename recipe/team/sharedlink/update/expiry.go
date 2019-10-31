@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
@@ -143,5 +144,5 @@ func (z *Expiry) Test(c app_control.Control) error {
 	if err := z.Exec(app_kitchen.NewKitchen(c, &ExpiryVO{At: "Invalid time format"})); err == nil {
 		return errors.New("invalid time format should not be accepted")
 	}
-	return nil
+	return qt_test.ImplementMe()
 }

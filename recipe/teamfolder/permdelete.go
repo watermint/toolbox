@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
@@ -84,7 +85,7 @@ func (z *PermDelete) Exec(k app_kitchen.Kitchen) error {
 func (z *PermDelete) Test(c app_control.Control) error {
 	vo := &PermDeleteVO{}
 	if !app_test.ApplyTestPeers(c, vo) {
-		return nil
+		return qt_test.HumanInteractionRequired()
 	}
 
 	// should fail
