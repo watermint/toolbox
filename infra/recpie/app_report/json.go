@@ -120,9 +120,6 @@ func (z *Json) Row(row interface{}) {
 	z.w.Write(buf.Bytes())
 }
 
-func (z *Json) Flush() {
-}
-
 func (z *Json) Close() {
 	if z.file != nil {
 		z.file.Close()

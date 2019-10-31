@@ -94,12 +94,6 @@ func (z *Cascade) Row(row interface{}) {
 	}
 }
 
-func (z *Cascade) Flush() {
-	for _, r := range z.Reports {
-		r.Flush()
-	}
-}
-
 func (z *Cascade) Close() {
 	ui := z.Ctl.UI()
 	for _, r := range z.Reports {

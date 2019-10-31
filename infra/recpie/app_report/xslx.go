@@ -59,6 +59,7 @@ type Xlsx struct {
 	ctl           app_control.Control
 	name          string
 	omitError     bool
+	rotateCount   int
 	rotateFailed  bool
 	filePath      string
 	fileAvailable bool
@@ -78,7 +79,7 @@ func (z *Xlsx) rotate() {
 		return
 	}
 
-	l.Debug("Rotate", zap.Int("fileIndex", z.fileIndex))
+	l.Debug("Rotate xlsx report", zap.Int("fileIndex", z.fileIndex))
 
 	// rotate
 	if err := z.open(); err != nil {
@@ -91,13 +92,18 @@ func (z *Xlsx) rotate() {
 		}
 		z.rotateFailed = true
 	}
+	z.rotateCount++
 }
 
 func (z *Xlsx) open() (err error) {
 	l := z.ctl.Log()
 	if z.fileAvailable {
-		if err = z.file.Save(z.filePath); err != nil {
-			l.Debug("Unable to save file", zap.Error(err), zap.String("path", z.filePath))
+		path := z.filePath
+		if z.rotateCount == 0 {
+			path = filepath.Join(z.ctl.Workspace().Report(), z.name+"_0000.xlsx")
+		}
+		if err = z.file.Save(path); err != nil {
+			l.Debug("Unable to save file", zap.Error(err), zap.String("path", path))
 			return err
 		}
 	}
@@ -108,20 +114,14 @@ func (z *Xlsx) open() (err error) {
 	if z.fileIndex != 0 {
 		name = fmt.Sprintf("%s_%04d", z.name, z.fileIndex)
 	}
-
 	l = l.With(zap.String("name", name))
-
 	z.filePath = filepath.Join(z.ctl.Workspace().Report(), name+".xlsx")
+
 	file := xlsx.NewFile()
 	l.Debug("Create xlsx report", zap.String("filePath", z.filePath))
 	sheet, err := file.AddSheet(name)
 	if err != nil {
 		l.Debug("Unable to add sheet", zap.Error(err))
-		return err
-	}
-	err = file.Save(z.filePath)
-	if err != nil {
-		l.Debug("Unable to save sheets", zap.Error(err))
 		return err
 	}
 
@@ -210,14 +210,6 @@ func (z *Xlsx) Row(row interface{}) {
 	if z.index > xlsxMaxRows {
 		z.rotate()
 	}
-}
-
-func (z *Xlsx) Flush() {
-	if !z.fileAvailable {
-		return
-	}
-
-	z.file.Save(z.filePath)
 }
 
 func (z *Xlsx) Close() {

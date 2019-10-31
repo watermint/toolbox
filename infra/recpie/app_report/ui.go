@@ -66,10 +66,6 @@ func (z *UI) Row(row interface{}) {
 	z.index++
 }
 
-func (z *UI) Flush() {
-	z.table.Flush()
-}
-
 func (z *UI) Close() {
 	z.table.Flush()
 }

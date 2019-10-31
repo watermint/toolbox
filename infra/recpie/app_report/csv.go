@@ -78,14 +78,14 @@ func (z *Csv) Row(row interface{}) {
 	z.index++
 }
 
-func (z *Csv) Flush() {
+func (z *Csv) flush() {
 	z.w.Flush()
 	z.file.Sync()
 }
 
 func (z *Csv) Close() {
 	if z.file != nil {
-		z.Flush()
+		z.flush()
 		z.file.Close()
 		z.file = nil
 	}

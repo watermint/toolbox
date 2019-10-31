@@ -11,7 +11,6 @@ type Report interface {
 	Failure(reason app_msg.Message, input interface{}, result interface{})
 	Skip(reason app_msg.Message, input interface{}, result interface{})
 
-	Flush()
 	Close()
 }
 
