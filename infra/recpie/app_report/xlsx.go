@@ -13,7 +13,7 @@ import (
 
 const (
 	xlsxThemeColor = "ff548235"
-	xlsxMaxRows    = 10000
+	XlsxMaxRows    = 10000
 )
 
 func xlsxHeaderStyle() *xlsx.Style {
@@ -119,7 +119,7 @@ func (z *Xlsx) open() (err error) {
 
 	file := xlsx.NewFile()
 	l.Debug("Create xlsx report", zap.String("filePath", z.filePath))
-	sheet, err := file.AddSheet(name)
+	sheet, err := file.AddSheet(z.name)
 	if err != nil {
 		l.Debug("Unable to add sheet", zap.Error(err))
 		return err
@@ -207,7 +207,7 @@ func (z *Xlsx) Row(row interface{}) {
 	z.addRow(z.parser.Values(row), xlsxDataStyle())
 	z.index++
 
-	if z.index > xlsxMaxRows {
+	if z.index > XlsxMaxRows {
 		z.rotate()
 	}
 }
@@ -216,6 +216,7 @@ func (z *Xlsx) Close() {
 	if !z.fileAvailable {
 		return
 	}
-
-	z.file.Save(z.filePath)
+	if z.index > 0 {
+		z.file.Save(z.filePath)
+	}
 }
