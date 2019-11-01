@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"go.uber.org/zap"
 	"html/template"
 	"io/ioutil"
 	"os"
@@ -72,8 +73,10 @@ func (z *Doc) commands(k app_kitchen.Kitchen) string {
 
 func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 	vo := k.Value().(*DocVO)
+	l := k.Log()
 	commands := z.commands(k)
 
+	l.Info("Generating README", zap.String("file", vo.Filename))
 	readmeBytes, err := ioutil.ReadFile("doc/README.tmpl.md")
 	if err != nil {
 		return err

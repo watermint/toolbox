@@ -12,27 +12,27 @@ import (
 	"go.uber.org/zap"
 )
 
-type RemoveVO struct {
+type DeleteVO struct {
 	Peer app_conn.ConnBusinessMgmt
 	Name string
 }
 
-type Remove struct {
+type Delete struct {
 }
 
-func (z *Remove) Console() {
+func (z *Delete) Console() {
 }
 
-func (z *Remove) Requirement() app_vo.ValueObject {
-	return &RemoveVO{}
+func (z *Delete) Requirement() app_vo.ValueObject {
+	return &DeleteVO{}
 }
 
-func (z *Remove) Exec(k app_kitchen.Kitchen) error {
+func (z *Delete) Exec(k app_kitchen.Kitchen) error {
 	ui := k.UI()
-	vo := k.Value().(*RemoveVO)
+	vo := k.Value().(*DeleteVO)
 
 	if vo.Name == "" {
-		ui.Error("recipe.group.remove.err.missing_option.name")
+		ui.Error("recipe.group.delete.err.missing_option.name")
 		return errors.New("missing required option")
 	}
 
@@ -43,7 +43,7 @@ func (z *Remove) Exec(k app_kitchen.Kitchen) error {
 
 	group, err := sv_group.New(ctx).ResolveByName(vo.Name)
 	if err != nil {
-		ui.Error("recipe.group.remove.err.unable_to_resolve_group",
+		ui.Error("recipe.group.delete.err.unable_to_resolve_group",
 			app_msg.P{
 				"Error": err.Error(),
 			})
@@ -53,20 +53,20 @@ func (z *Remove) Exec(k app_kitchen.Kitchen) error {
 
 	err = sv_group.New(ctx).Remove(group.GroupId)
 	if err != nil {
-		ui.Error("recipe.group.remove.err.unable_to_remove_group", app_msg.P{
+		ui.Error("recipe.group.delete.err.unable_to_remove_group", app_msg.P{
 			"Error": err.Error(),
 		})
 		return err
 	}
-	ui.Success("recipe.group.remove.success.removed", app_msg.P{
+	ui.Success("recipe.group.delete.success.removed", app_msg.P{
 		"GroupName":      group.GroupName,
 		"ManagementType": group.GroupManagementType,
 	})
 	return nil
 }
 
-func (z *Remove) Test(c app_control.Control) error {
-	vo := &RemoveVO{}
+func (z *Delete) Test(c app_control.Control) error {
+	vo := &DeleteVO{}
 	if !app_test.ApplyTestPeers(c, vo) {
 		return nil
 	}

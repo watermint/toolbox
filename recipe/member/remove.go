@@ -12,30 +12,30 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 )
 
-type RemoveRow struct {
+type DeleteRow struct {
 	Email string
 }
 
-type RemoveVO struct {
+type DeleteVO struct {
 	File     app_file.Data
 	Peer     app_conn.ConnBusinessMgmt
 	WipeData bool
 }
 
-type Remove struct {
+type Delete struct {
 }
 
-func (z *Remove) Console() {
+func (z *Delete) Console() {
 }
 
-func (z *Remove) Requirement() app_vo.ValueObject {
-	return &RemoveVO{
+func (z *Delete) Requirement() app_vo.ValueObject {
+	return &DeleteVO{
 		WipeData: true,
 	}
 }
 
-func (z *Remove) Exec(k app_kitchen.Kitchen) error {
-	vo := k.Value().(*RemoveVO)
+func (z *Delete) Exec(k app_kitchen.Kitchen) error {
+	vo := k.Value().(*DeleteVO)
 
 	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
@@ -44,20 +44,20 @@ func (z *Remove) Exec(k app_kitchen.Kitchen) error {
 
 	svm := sv_member.New(ctx)
 	rep, err := k.Report(
-		"remove",
-		app_report.TransactionHeader(&RemoveRow{}, nil),
+		"delete",
+		app_report.TransactionHeader(&DeleteRow{}, nil),
 	)
 	if err != nil {
 		return err
 	}
 	defer rep.Close()
 
-	if err := vo.File.Model(k.Control(), &RemoveRow{}); err != nil {
+	if err := vo.File.Model(k.Control(), &DeleteRow{}); err != nil {
 		return err
 	}
 
 	return vo.File.EachRow(func(mod interface{}, rowIndex int) error {
-		m := mod.(*RemoveRow)
+		m := mod.(*DeleteRow)
 		mem, err := svm.ResolveByEmail(m.Email)
 		if err != nil {
 			rep.Failure(api_util.MsgFromError(err), m, nil)
@@ -77,6 +77,6 @@ func (z *Remove) Exec(k app_kitchen.Kitchen) error {
 	})
 }
 
-func (z *Remove) Test(c app_control.Control) error {
+func (z *Delete) Test(c app_control.Control) error {
 	return qt_test.HumanInteractionRequired()
 }

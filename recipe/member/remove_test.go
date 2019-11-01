@@ -6,5 +6,5 @@ import (
 )
 
 func TestRemove_Exec(t *testing.T) {
-	app_test.TestRecipe(t, &Remove{})
+	app_test.TestRecipe(t, &Delete{})
 }

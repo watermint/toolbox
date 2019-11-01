@@ -58,16 +58,16 @@ Available commands:
 | `file merge`                    | Merge paths                                                   |
 | `file move`                     | Move files                                                    |
 | `file replication`              | Replicate file content to the other account                   |
+| `group delete`                  | Delete group                                                  |
 | `group list`                    | List group(s)                                                 |
 | `group member list`             | List members of groups                                        |
-| `group remove`                  | Remove group                                                  |
 | `license`                       | Show license information                                      |
+| `member delete`                 | Delete members                                                |
 | `member detach`                 | Convert Dropbox Business accounts to a Basic account          |
 | `member invite`                 | Invite member(s)                                              |
 | `member list`                   | List team member(s)                                           |
 | `member quota list`             | List team member quota                                        |
 | `member quota usage`            | List team member storage usage                                |
-| `member remove`                 | Remove members                                                |
 | `member update email`           | Member email operation                                        |
 | `member update profile`         | Update member profile                                         |
 | `sharedfolder list`             | List shared folder(s)                                         |
