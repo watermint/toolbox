@@ -7,8 +7,8 @@ import (
 	"sync"
 )
 
-func NewUI(name string, row interface{}, ctl app_control.Control) (Report, error) {
-	parser := NewColumn(row, ctl)
+func NewUI(name string, row interface{}, ctl app_control.Control, opts ...ReportOpt) (Report, error) {
+	parser := NewColumn(row, ctl, opts...)
 	ui := ctl.UI()
 	r := &UI{
 		ctl:    ctl,

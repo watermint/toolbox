@@ -10,6 +10,7 @@ import (
 
 type columnJsonImpl struct {
 	header []string
+	opts   *ReportOpts
 	ctl    app_control.Control
 }
 
@@ -38,7 +39,10 @@ func (z *columnJsonImpl) Parse(r interface{}) error {
 				parse(value, prefix+key.String()+".")
 				return true
 			default:
-				z.header = append(z.header, prefix+key.String())
+				colName := prefix + key.String()
+				if !z.opts.IsHiddenColumn(colName) {
+					z.header = append(z.header, colName)
+				}
 				return true
 			}
 		})

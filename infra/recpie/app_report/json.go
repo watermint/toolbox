@@ -21,7 +21,7 @@ func NewJsonForQuiet(name string, ctl app_control.Control) (r Report, err error)
 	return r, nil
 }
 
-func NewJson(name string, ctl app_control.Control) (r Report, err error) {
+func NewJson(name string, ctl app_control.Control, opts ...ReportOpt) (r Report, err error) {
 	l := ctl.Log()
 	p := filepath.Join(ctl.Workspace().Report(), name+".json")
 	l.Debug("Create new csv report", zap.String("path", p))

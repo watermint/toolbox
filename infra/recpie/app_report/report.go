@@ -2,6 +2,40 @@ package app_report
 
 import "github.com/watermint/toolbox/infra/ui/app_msg"
 
+type ReportOpt func(o *ReportOpts) *ReportOpts
+type ReportOpts struct {
+	HiddenColumns  map[string]bool
+	ShowAllColumns bool
+}
+
+func (z *ReportOpts) IsHiddenColumn(name string) bool {
+	if z.ShowAllColumns {
+		return false
+	}
+	if z.HiddenColumns == nil {
+		return false
+	}
+	_, ok := z.HiddenColumns[name]
+	return ok
+}
+
+func ShowAllColumns(enabled bool) ReportOpt {
+	return func(o *ReportOpts) *ReportOpts {
+		o.ShowAllColumns = enabled
+		return o
+	}
+}
+
+func HideColumns(col []string) ReportOpt {
+	return func(o *ReportOpts) *ReportOpts {
+		o.HiddenColumns = make(map[string]bool)
+		for _, c := range col {
+			o.HiddenColumns[c] = true
+		}
+		return o
+	}
+}
+
 type Report interface {
 	// Report data row
 	Row(row interface{})

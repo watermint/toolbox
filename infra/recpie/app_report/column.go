@@ -4,9 +4,14 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
-func NewColumn(row interface{}, ctl app_control.Control) Column {
+func NewColumn(row interface{}, ctl app_control.Control, opts ...ReportOpt) Column {
+	ro := &ReportOpts{}
+	for _, opt := range opts {
+		opt(ro)
+	}
 	ri := &columnJsonImpl{
-		ctl: ctl,
+		ctl:  ctl,
+		opts: ro,
 	}
 	_ = ri.Parse(row)
 

@@ -20,6 +20,7 @@ import (
 
 type ListVO struct {
 	Peer app_conn.ConnBusinessFile
+	All  bool
 }
 
 type ListWorker struct {
@@ -79,7 +80,16 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 
 	cta := ctx.AsAdminId(admin.TeamMemberId)
 
-	rep, err := k.Report("namespace_member", &mo_namespace.NamespaceMember{})
+	rep, err := k.Report("namespace_member",
+		&mo_namespace.NamespaceMember{},
+		app_report.HideColumns([]string{
+			"account_id",
+			"group_id",
+			"namespace_team_member_id",
+			"team_member_id",
+		}),
+		app_report.ShowAllColumns(vo.All),
+	)
 	if err != nil {
 		return err
 	}

@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
-func New(name string, row interface{}, ctl app_control.Control) (Report, error) {
+func New(name string, row interface{}, ctl app_control.Control, opts ...ReportOpt) (Report, error) {
 	reports := make([]Report, 0)
 	closeAll := func() {
 		for _, r := range reports {
@@ -14,7 +14,7 @@ func New(name string, row interface{}, ctl app_control.Control) (Report, error) 
 	}
 
 	{
-		csv, err := NewCsv(name, row, ctl)
+		csv, err := NewCsv(name, row, ctl, opts...)
 		if err != nil {
 			closeAll()
 			return nil, err
@@ -23,7 +23,7 @@ func New(name string, row interface{}, ctl app_control.Control) (Report, error) 
 	}
 
 	{
-		js, err := NewJson(name, ctl)
+		js, err := NewJson(name, ctl, opts...)
 		if err != nil {
 			closeAll()
 			return nil, err
@@ -32,7 +32,7 @@ func New(name string, row interface{}, ctl app_control.Control) (Report, error) 
 	}
 
 	{
-		xl, err := NewXlsx(name, row, ctl)
+		xl, err := NewXlsx(name, row, ctl, opts...)
 		if err != nil {
 			closeAll()
 			return nil, err
@@ -50,7 +50,7 @@ func New(name string, row interface{}, ctl app_control.Control) (Report, error) 
 		reports = append(reports, js)
 	} else {
 		// Output for UI
-		ui, err := NewUI(name, row, ctl)
+		ui, err := NewUI(name, row, ctl, opts...)
 		if err != nil {
 			closeAll()
 			return nil, err
