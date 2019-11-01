@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
@@ -56,5 +57,15 @@ func (z *Url) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Url) Test(c app_control.Control) error {
-	return qt_test.ImplementMe()
+	vo := &UrlVO{
+		Path: "/" + app_test.TestTeamFolderName + "/file-import-url",
+		Url:  "https://dummyimage.com/10x10/000/fff",
+	}
+	if !app_test.ApplyTestPeers(c, vo) {
+		return qt_test.NotEnoughResource()
+	}
+	if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
+		return err
+	}
+	return nil
 }

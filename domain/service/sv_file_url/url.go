@@ -28,6 +28,9 @@ func PathWithName(base mo_path.Path, url string) (path mo_path.Path) {
 		n := filepath.Base(url)
 		return base.ChildPath(n)
 	}
+	if u.Path == "" {
+		return base
+	}
 	return base.ChildPath(filepath.Base(u.Path))
 }
 
