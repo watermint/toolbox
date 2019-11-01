@@ -19,8 +19,8 @@ import (
 )
 
 type ListVO struct {
-	Peer app_conn.ConnBusinessFile
-	All  bool
+	Peer       app_conn.ConnBusinessFile
+	AllColumns bool
 }
 
 type ListWorker struct {
@@ -88,7 +88,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 			"namespace_team_member_id",
 			"team_member_id",
 		}),
-		app_report.ShowAllColumns(vo.All),
+		app_report.ShowAllColumns(vo.AllColumns),
 	)
 	if err != nil {
 		return err

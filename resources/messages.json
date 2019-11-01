@@ -237,7 +237,7 @@
   "recipe.team.namespace.file.title": "Team namespace file management",
   "recipe.team.namespace.list_vo.flag.peer": "Account alias",
   "recipe.team.namespace.list.title": "List all namespaces of the team",
-  "recipe.team.namespace.member.list_vo.flag.all": "Show all columns",
+  "recipe.team.namespace.member.list_vo.flag.all_columns": "Show all columns",
   "recipe.team.namespace.member.list_vo.flag.peer": "Account alias",
   "recipe.team.namespace.member.list.scan": "Scanning member: {{.NamespaceName}} ({{.NamespaceId}})",
   "recipe.team.namespace.member.list.title": "List members of shared folders and team folders in the team",
