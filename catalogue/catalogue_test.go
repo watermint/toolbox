@@ -1,4 +1,4 @@
-package app_run
+package catalogue
 
 import (
 	"flag"

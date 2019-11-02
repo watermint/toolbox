@@ -1,4 +1,4 @@
-package app_run
+package catalogue
 
 import (
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"

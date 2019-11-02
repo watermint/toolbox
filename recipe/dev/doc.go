@@ -5,11 +5,12 @@ import (
 	"bytes"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recpie/app_doc"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/util/ut_doc"
 	"go.uber.org/zap"
 	"html/template"
 	"io/ioutil"
@@ -70,19 +71,19 @@ func (z *Doc) commands(k app_kitchen.Kitchen) string {
 
 	var b bytes.Buffer
 	w := bufio.NewWriter(&b)
-	app_doc.PrintMarkdown(w, "command", "description", book)
+	ut_doc.PrintMarkdown(w, "command", "description", book)
 	w.Flush()
 
 	return b.String()
 }
 
-func (z *Doc) Exec(k app_kitchen.Kitchen) error {
+func (z *Doc) reaadme(k app_kitchen.Kitchen) error {
 	vo := k.Value().(*DocVO)
 	l := k.Log()
 	commands := z.commands(k)
 
 	l.Info("Generating README", zap.String("file", vo.Filename))
-	readmeBytes, err := ioutil.ReadFile("doc/README.tmpl.md")
+	readmeBytes, err := ioutil.ReadFile("doc/tmpl/README.tmpl.md")
 	if err != nil {
 		return err
 	}
@@ -106,8 +107,11 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 		params["Badges"] = ""
 	}
 
-	err = tmpl.Execute(readmeFile, params)
-	if err != nil {
+	return tmpl.Execute(readmeFile, params)
+}
+
+func (z *Doc) Exec(k app_kitchen.Kitchen) error {
+	if err := z.reaadme(k); err != nil {
 		return err
 	}
 
@@ -115,5 +119,5 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Doc) Test(c app_control.Control) error {
-	return z.Exec(app_kitchen.NewKitchen(c, &app_vo.EmptyValueObject{}))
+	return qt_test.NoTestRequired()
 }

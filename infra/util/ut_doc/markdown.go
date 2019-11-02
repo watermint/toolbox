@@ -1,4 +1,4 @@
-package app_doc
+package ut_doc
 
 import (
 	"fmt"

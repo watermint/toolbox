@@ -4,19 +4,19 @@ import (
 	"flag"
 	"github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
+	"github.com/watermint/toolbox/catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_run_impl"
 	"github.com/watermint/toolbox/infra/network/app_diag"
 	"github.com/watermint/toolbox/infra/network/app_network"
 	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"os"
@@ -26,33 +26,11 @@ import (
 	"syscall"
 )
 
-type CommonOpts struct {
-	Workspace   string
-	Debug       bool
-	Proxy       string
-	Quiet       bool
-	Secure      bool
-	Concurrency int
-}
-
-func (z *CommonOpts) SetFlags(f *flag.FlagSet, mc app_msg_container.Container) {
-	f.StringVar(&z.Workspace, "workspace", "", mc.Compile(app_msg.M("run.common.flag.workspace")))
-	f.BoolVar(&z.Debug, "debug", false, mc.Compile(app_msg.M("run.common.flag.debug")))
-	f.StringVar(&z.Proxy, "proxy", "", mc.Compile(app_msg.M("run.common.flag.proxy")))
-	f.BoolVar(&z.Quiet, "quiet", false, mc.Compile(app_msg.M("run.common.flag.quiet")))
-	f.BoolVar(&z.Secure, "secure", false, mc.Compile(app_msg.M("run.common.flag.secure")))
-	f.IntVar(&z.Concurrency, "concurrency", runtime.NumCPU(), mc.Compile(app_msg.M("run.common.flag.concurrency")))
-}
-
-func printUsage(rcp app_recipe.Recipe, grp *app_recipe_group.Group) {
-
-}
-
 func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Initialize resources
 	mc := app_run_impl.NewContainer(bx)
 	ui := app_ui.NewConsole(mc, qt_control_impl.NewMessageMock(), false)
-	cat := Catalogue()
+	cat := catalogue.Catalogue()
 
 	// Select recipe or group
 	cmd, grp, rcp, rem, err := cat.Select(args)
@@ -82,8 +60,17 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 
 	vo := rcp.Requirement()
 	f := flag.NewFlagSet(recipeName, flag.ContinueOnError)
-	com := &CommonOpts{}
-	com.SetFlags(f, mc)
+	com := &app_opt.CommonOpts{
+		Workspace:   "",
+		Debug:       false,
+		Proxy:       "",
+		Quiet:       false,
+		Secure:      false,
+		Concurrency: runtime.NumCPU(),
+	}
+
+	cvc := app_vo_impl.NewValueContainer(com)
+	cvc.MakeFlagSet(f, ui)
 
 	vc := app_vo_impl.NewValueContainer(vo)
 	vc.MakeFlagSet(f, ui)
@@ -95,6 +82,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 		os.Exit(app_control.FailureInvalidCommandFlags)
 	}
 	vc.Apply(vo)
+	cvc.Apply(com)
 
 	// Apply common flags
 
@@ -117,7 +105,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	so = append(so, app_control.Concurrency(com.Concurrency))
 	so = append(so, app_control.RecipeName(recipeName))
 
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, Recipes())
+	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.Recipes())
 	err = ctl.Up(so...)
 	if err != nil {
 		os.Exit(app_control.FatalStartup)

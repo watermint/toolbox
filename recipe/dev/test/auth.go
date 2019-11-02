@@ -74,5 +74,5 @@ func (z *Auth) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Auth) Test(c app_control.Control) error {
-	return qt_test.HumanInteractionRequired()
+	return qt_test.NoTestRequired()
 }
