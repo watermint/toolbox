@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/recipe/group"
 	groupmember "github.com/watermint/toolbox/recipe/group/member"
 	"github.com/watermint/toolbox/recipe/member"
@@ -29,6 +30,10 @@ type DiagnosisVO struct {
 }
 
 type Diagnosis struct {
+}
+
+func (z *Diagnosis) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Diagnosis) Hidden() {

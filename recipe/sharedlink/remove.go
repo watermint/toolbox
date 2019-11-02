@@ -9,8 +9,10 @@ import (
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"path/filepath"
@@ -23,7 +25,17 @@ type RemoveVO struct {
 	Recursive bool
 }
 
+const (
+	reportRemove = "link"
+)
+
 type Remove struct {
+}
+
+func (z *Remove) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportRemove, rp_model.TransactionHeader(&mo_sharedlink.Metadata{}, nil)),
+	}
 }
 
 func (z *Remove) Console() {
@@ -60,7 +72,7 @@ func (z *Remove) removePathAt(k app_kitchen.Kitchen, ctx api_context.Context, pa
 		})
 		return nil
 	}
-	rep, err := k.Report("link", app_report.TransactionHeader(&mo_sharedlink.Metadata{}, nil))
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportRemove)
 	if err != nil {
 		return err
 	}
@@ -100,7 +112,7 @@ func (z *Remove) removeRecursive(k app_kitchen.Kitchen, ctx api_context.Context,
 		})
 		return nil
 	}
-	rep, err := k.Report("link", app_report.TransactionHeader(&mo_sharedlink.Metadata{}, nil))
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportRemove)
 	if err != nil {
 		return err
 	}

@@ -10,6 +10,8 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -20,7 +22,17 @@ type ReplicationVO struct {
 	DstPath string
 }
 
+const (
+	reportReplication = "replication_diff"
+)
+
 type Replication struct {
+}
+
+func (z *Replication) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportReplication, &mo_file_diff.Diff{}),
+	}
 }
 
 func (z *Replication) Console() {
@@ -53,7 +65,7 @@ func (z *Replication) Exec(k app_kitchen.Kitchen) error {
 	if err != nil {
 		return err
 	}
-	rep, err := k.Report("replication_diff", &mo_file_diff.Diff{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportReplication)
 	if err != nil {
 		return err
 	}

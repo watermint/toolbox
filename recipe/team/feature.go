@@ -10,13 +10,25 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 )
 
 type FeatureVO struct {
 	Peer app_conn.ConnBusinessInfo
 }
 
+const (
+	reportFeature = "feature"
+)
+
 type Feature struct {
+}
+
+func (z *Feature) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportFeature, &mo_team.Feature{}),
+	}
 }
 
 func (z *Feature) Test(c app_control.Control) error {
@@ -35,11 +47,11 @@ func (z *Feature) Test(c app_control.Control) error {
 	})
 }
 
-func (*Feature) Requirement() app_vo.ValueObject {
+func (z *Feature) Requirement() app_vo.ValueObject {
 	return &FeatureVO{}
 }
 
-func (*Feature) Exec(k app_kitchen.Kitchen) error {
+func (z *Feature) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	lvo := vo.(*FeatureVO)
 	conn, err := lvo.Peer.Connect(k.Control())
@@ -48,7 +60,7 @@ func (*Feature) Exec(k app_kitchen.Kitchen) error {
 	}
 
 	// Write report
-	rep, err := k.Report("feature", &mo_team.Feature{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportFeature)
 	if err != nil {
 		return err
 	}

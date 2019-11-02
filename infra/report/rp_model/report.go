@@ -1,4 +1,4 @@
-package app_report
+package rp_model
 
 import "github.com/watermint/toolbox/infra/ui/app_msg"
 
@@ -6,6 +6,7 @@ type ReportOpt func(o *ReportOpts) *ReportOpts
 type ReportOpts struct {
 	HiddenColumns  map[string]bool
 	ShowAllColumns bool
+	ReportSuffix   string
 }
 
 func (z *ReportOpts) IsHiddenColumn(name string) bool {
@@ -19,6 +20,13 @@ func (z *ReportOpts) IsHiddenColumn(name string) bool {
 	return ok
 }
 
+func Suffix(suffix string) ReportOpt {
+	return func(o *ReportOpts) *ReportOpts {
+		o.ReportSuffix = suffix
+		return o
+	}
+}
+
 func ShowAllColumns(enabled bool) ReportOpt {
 	return func(o *ReportOpts) *ReportOpts {
 		o.ShowAllColumns = enabled
@@ -26,7 +34,7 @@ func ShowAllColumns(enabled bool) ReportOpt {
 	}
 }
 
-func HideColumns(col []string) ReportOpt {
+func HiddenColumns(col []string) ReportOpt {
 	return func(o *ReportOpts) *ReportOpts {
 		o.HiddenColumns = make(map[string]bool)
 		for _, c := range col {
@@ -63,8 +71,8 @@ type TransactionRow struct {
 }
 
 var (
-	msgSuccess     = app_msg.M("report.transaction.success")
-	msgFailure     = app_msg.M("report.transaction.failure")
-	msgSkip        = app_msg.M("report.transaction.skip")
+	MsgSuccess     = app_msg.M("report.transaction.success")
+	MsgFailure     = app_msg.M("report.transaction.failure")
+	MsgSkip        = app_msg.M("report.transaction.skip")
 	MsgInvalidData = app_msg.M("report.transaction.failure.invalid_data")
 )

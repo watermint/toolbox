@@ -6,9 +6,14 @@ import (
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 )
 
 type Resources struct {
+}
+
+func (z *Resources) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Resources) Test(c app_control.Control) error {

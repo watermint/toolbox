@@ -1,13 +1,14 @@
-package app_report
+package rp_model_impl
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"sync"
 )
 
-func NewUI(name string, row interface{}, ctl app_control.Control, opts ...ReportOpt) (Report, error) {
+func NewUI(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (rp_model.Report, error) {
 	parser := NewColumn(row, ctl, opts...)
 	ui := ctl.UI()
 	r := &UI{
@@ -28,8 +29,8 @@ type UI struct {
 
 func (z *UI) Success(input interface{}, result interface{}) {
 	ui := z.ctl.UI()
-	z.Row(TransactionRow{
-		Status: ui.Text(msgSuccess.Key(), msgSuccess.Params()...),
+	z.Row(rp_model.TransactionRow{
+		Status: ui.Text(rp_model.MsgSuccess.Key(), rp_model.MsgSuccess.Params()...),
 		Input:  input,
 		Result: result,
 	})
@@ -37,8 +38,8 @@ func (z *UI) Success(input interface{}, result interface{}) {
 
 func (z *UI) Failure(reason app_msg.Message, input interface{}, result interface{}) {
 	ui := z.ctl.UI()
-	z.Row(TransactionRow{
-		Status: ui.Text(msgFailure.Key(), msgFailure.Params()...),
+	z.Row(rp_model.TransactionRow{
+		Status: ui.Text(rp_model.MsgFailure.Key(), rp_model.MsgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
@@ -47,8 +48,8 @@ func (z *UI) Failure(reason app_msg.Message, input interface{}, result interface
 
 func (z *UI) Skip(reason app_msg.Message, input interface{}, result interface{}) {
 	ui := z.ctl.UI()
-	z.Row(TransactionRow{
-		Status: ui.Text(msgSkip.Key(), msgFailure.Params()...),
+	z.Row(rp_model.TransactionRow{
+		Status: ui.Text(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,

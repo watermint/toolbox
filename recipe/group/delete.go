@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 )
@@ -18,6 +19,10 @@ type DeleteVO struct {
 }
 
 type Delete struct {
+}
+
+func (z *Delete) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Delete) Console() {

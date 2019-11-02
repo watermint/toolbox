@@ -10,6 +10,8 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
 )
@@ -22,7 +24,17 @@ type CreateVO struct {
 	Expires  string
 }
 
+const (
+	reportCreate = "shared_link"
+)
+
 type Create struct {
+}
+
+func (z *Create) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportCreate, &mo_sharedlink.Metadata{}),
+	}
 }
 
 func (z *Create) Console() {
@@ -67,7 +79,7 @@ func (z *Create) Exec(k app_kitchen.Kitchen) error {
 		"Url": link.LinkUrl(),
 	})
 
-	rep, err := k.Report("shared_link", &mo_sharedlink.Metadata{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportCreate)
 	if err != nil {
 		return err
 	}

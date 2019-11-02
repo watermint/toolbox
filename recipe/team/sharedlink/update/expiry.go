@@ -11,6 +11,8 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/util/ut_time"
 	"go.uber.org/zap"
 	"time"
@@ -22,7 +24,18 @@ type ExpiryVO struct {
 	At   string
 }
 
-type Expiry struct{}
+const (
+	reportExpiry = "updated_sharedlink"
+)
+
+type Expiry struct {
+}
+
+func (z Expiry) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportExpiry, &mo_sharedlink.SharedLinkMember{}),
+	}
+}
 
 func (z Expiry) Console() {
 }
@@ -63,7 +76,7 @@ func (z *Expiry) Exec(k app_kitchen.Kitchen) error {
 
 	l = l.With(zap.String("newExpiry", newExpiry.String()))
 
-	rep, err := k.Report("updated_sharedlink", &mo_sharedlink.SharedLinkMember{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportExpiry)
 	if err != nil {
 		return err
 	}

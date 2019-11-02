@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"strings"
@@ -21,6 +22,10 @@ type ArchiveVO struct {
 }
 
 type Archive struct {
+}
+
+func (z *Archive) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Archive) Console() {

@@ -1,8 +1,9 @@
-package app_report
+package rp_model_impl
 
 import (
 	"encoding/csv"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"os"
@@ -10,7 +11,7 @@ import (
 	"sync"
 )
 
-func NewCsv(name string, row interface{}, ctl app_control.Control, opts ...ReportOpt) (r Report, err error) {
+func NewCsv(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.Report, err error) {
 	l := ctl.Log()
 	p := filepath.Join(ctl.Workspace().Report(), name+".csv")
 	l.Debug("Create new csv report", zap.String("path", p))
@@ -40,8 +41,8 @@ type Csv struct {
 
 func (z *Csv) Success(input interface{}, result interface{}) {
 	ui := z.ctl.UI()
-	z.Row(TransactionRow{
-		Status: ui.Text(msgSuccess.Key(), msgSuccess.Params()...),
+	z.Row(rp_model.TransactionRow{
+		Status: ui.Text(rp_model.MsgSuccess.Key(), rp_model.MsgSuccess.Params()...),
 		Input:  input,
 		Result: result,
 	})
@@ -49,8 +50,8 @@ func (z *Csv) Success(input interface{}, result interface{}) {
 
 func (z *Csv) Failure(reason app_msg.Message, input interface{}, result interface{}) {
 	ui := z.ctl.UI()
-	z.Row(TransactionRow{
-		Status: ui.Text(msgFailure.Key(), msgFailure.Params()...),
+	z.Row(rp_model.TransactionRow{
+		Status: ui.Text(rp_model.MsgFailure.Key(), rp_model.MsgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
@@ -59,8 +60,8 @@ func (z *Csv) Failure(reason app_msg.Message, input interface{}, result interfac
 
 func (z *Csv) Skip(reason app_msg.Message, input interface{}, result interface{}) {
 	ui := z.ctl.UI()
-	z.Row(TransactionRow{
-		Status: ui.Text(msgSkip.Key(), msgFailure.Params()...),
+	z.Row(rp_model.TransactionRow{
+		Status: ui.Text(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,

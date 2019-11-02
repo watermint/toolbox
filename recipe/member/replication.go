@@ -8,8 +8,10 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -24,7 +26,17 @@ type ReplicationVO struct {
 	File app_file.Data
 }
 
+const (
+	reportReplication = "replication"
+)
+
 type Replication struct {
+}
+
+func (z *Replication) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportReplication, rp_model.TransactionHeader(&ReplicationRow{}, nil)),
+	}
 }
 
 func (z *Replication) Hidden() {
@@ -57,7 +69,7 @@ func (z *Replication) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report("replication", app_report.TransactionHeader(&ReplicationRow{}, nil))
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportReplication)
 	if err != nil {
 		return err
 	}

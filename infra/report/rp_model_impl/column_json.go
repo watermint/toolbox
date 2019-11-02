@@ -1,16 +1,17 @@
-package app_report
+package rp_model_impl
 
 import (
 	"encoding/json"
 	"errors"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"go.uber.org/zap"
 )
 
 type columnJsonImpl struct {
 	header []string
-	opts   *ReportOpts
+	opts   *rp_model.ReportOpts
 	ctl    app_control.Control
 }
 

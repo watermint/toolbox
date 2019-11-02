@@ -11,8 +11,10 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"strings"
 )
@@ -22,7 +24,19 @@ type CloneVO struct {
 	Peer app_conn.ConnBusinessFile
 }
 
+const (
+	reportClone = "clone"
+)
+
 type Clone struct {
+}
+
+func (z *Clone) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportClone, rp_model.TransactionHeader(
+			&mo_filerequest.MemberFileRequest{},
+			&mo_filerequest.MemberFileRequest{})),
+	}
 }
 
 func (z *Clone) Hidden() {
@@ -47,10 +61,7 @@ func (z *Clone) Exec(k app_kitchen.Kitchen) error {
 	emailToMember := mo_member.MapByEmail(members)
 
 	// Write report
-	rep, err := k.Report("clone",
-		app_report.TransactionHeader(
-			&mo_filerequest.MemberFileRequest{},
-			&mo_filerequest.MemberFileRequest{}))
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportClone)
 	if err != nil {
 		return err
 	}
@@ -63,7 +74,7 @@ func (z *Clone) Exec(k app_kitchen.Kitchen) error {
 	return cvo.File.EachRow(func(m interface{}, rowIndex int) error {
 		fm := m.(*mo_filerequest.MemberFileRequest)
 		if fm.Email == "" || fm.Destination == "" || fm.Title == "" {
-			rep.Failure(app_report.MsgInvalidData, fm, nil)
+			rep.Failure(rp_model.MsgInvalidData, fm, nil)
 			return nil
 		}
 		member, ok := emailToMember[strings.ToLower(fm.Email)]

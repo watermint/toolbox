@@ -10,8 +10,10 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -33,7 +35,17 @@ type InviteVO struct {
 	Peer app_conn.ConnBusinessMgmt
 }
 
+const (
+	reportInvite = "invite"
+)
+
 type Invite struct {
+}
+
+func (z *Invite) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportInvite, rp_model.TransactionHeader(&InviteRow{}, &mo_member.Member{})),
+	}
 }
 
 func (z *Invite) Test(c app_control.Control) error {
@@ -61,10 +73,7 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 	}
 
 	svm := sv_member.New(connMgmt)
-	rep, err := k.Report(
-		"invite",
-		app_report.TransactionHeader(&InviteRow{}, &mo_member.Member{}),
-	)
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportInvite)
 	if err != nil {
 		return err
 	}
@@ -78,7 +87,7 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 		m := row.(*InviteRow)
 		if err = m.Validate(); err != nil {
 			if rowIndex > 0 {
-				rep.Failure(app_report.MsgInvalidData, m, nil)
+				rep.Failure(rp_model.MsgInvalidData, m, nil)
 			}
 			return nil
 		}

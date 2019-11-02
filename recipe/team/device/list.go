@@ -12,13 +12,25 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 )
 
 type ListVO struct {
 	Peer app_conn.ConnBusinessFile
 }
 
+const (
+	reportList = "device"
+)
+
 type List struct {
+}
+
+func (z *List) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportList, &mo_device.MemberSession{}),
+	}
 }
 
 func (z *List) Requirement() app_vo.ValueObject {
@@ -43,7 +55,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report("device", &mo_device.MemberSession{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportList)
 	if err != nil {
 		return err
 	}

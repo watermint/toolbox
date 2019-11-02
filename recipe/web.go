@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/web/web_handler"
 	"github.com/watermint/toolbox/infra/web/web_job"
 	"github.com/watermint/toolbox/infra/web/web_user"
@@ -27,6 +28,10 @@ type WebVO struct {
 }
 
 type Web struct {
+}
+
+func (z *Web) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Web) Test(c app_control.Control) error {

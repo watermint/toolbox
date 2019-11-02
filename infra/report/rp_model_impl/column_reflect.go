@@ -1,4 +1,4 @@
-package app_report
+package rp_model_impl
 
 import (
 	"errors"

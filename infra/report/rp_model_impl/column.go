@@ -1,11 +1,12 @@
-package app_report
+package rp_model_impl
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 )
 
-func NewColumn(row interface{}, ctl app_control.Control, opts ...ReportOpt) Column {
-	ro := &ReportOpts{}
+func NewColumn(row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) Column {
+	ro := &rp_model.ReportOpts{}
 	for _, opt := range opts {
 		opt(ro)
 	}

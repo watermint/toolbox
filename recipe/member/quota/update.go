@@ -11,8 +11,10 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"go.uber.org/zap"
@@ -29,7 +31,7 @@ type UpdateWorker struct {
 
 	ctl app_control.Control
 	ctx api_context.Context
-	rep app_report.Report
+	rep rp_model.Report
 }
 
 func (z *UpdateWorker) Exec() error {
@@ -63,7 +65,20 @@ func (z *UpdateWorker) Exec() error {
 	return nil
 }
 
+const (
+	reportUpdate = "quota_update"
+)
+
 type Update struct {
+}
+
+func (z *Update) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportUpdate, rp_model.TransactionHeader(
+			&mo_member_quota.MemberQuota{},
+			&mo_member_quota.MemberQuota{},
+		)),
+	}
 }
 
 func (z *Update) Console() {
@@ -87,12 +102,7 @@ func (z *Update) Exec(k app_kitchen.Kitchen) error {
 	}
 	emailToMember := mo_member.MapByEmail(members)
 
-	rep, err := k.Report("quota_update",
-		app_report.TransactionHeader(
-			&mo_member_quota.MemberQuota{},
-			&mo_member_quota.MemberQuota{},
-		),
-	)
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportUpdate)
 	if err != nil {
 		return err
 	}

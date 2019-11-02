@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -30,6 +31,10 @@ type DummyEntry struct {
 }
 
 type Dummy struct {
+}
+
+func (z *Dummy) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Dummy) Test(c app_control.Control) error {

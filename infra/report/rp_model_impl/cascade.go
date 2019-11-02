@@ -1,12 +1,19 @@
-package app_report
+package rp_model_impl
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
-func New(name string, row interface{}, ctl app_control.Control, opts ...ReportOpt) (Report, error) {
-	reports := make([]Report, 0)
+func New(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (rp_model.Report, error) {
+	ro := &rp_model.ReportOpts{}
+	for _, o := range opts {
+		o(ro)
+	}
+	reportName := name + ro.ReportSuffix
+
+	reports := make([]rp_model.Report, 0)
 	closeAll := func() {
 		for _, r := range reports {
 			r.Close()
@@ -14,7 +21,7 @@ func New(name string, row interface{}, ctl app_control.Control, opts ...ReportOp
 	}
 
 	{
-		csv, err := NewCsv(name, row, ctl, opts...)
+		csv, err := NewCsv(reportName, row, ctl, opts...)
 		if err != nil {
 			closeAll()
 			return nil, err
@@ -23,7 +30,7 @@ func New(name string, row interface{}, ctl app_control.Control, opts ...ReportOp
 	}
 
 	{
-		js, err := NewJson(name, ctl, opts...)
+		js, err := NewJson(reportName, ctl, opts...)
 		if err != nil {
 			closeAll()
 			return nil, err
@@ -32,7 +39,7 @@ func New(name string, row interface{}, ctl app_control.Control, opts ...ReportOp
 	}
 
 	{
-		xl, err := NewXlsx(name, row, ctl, opts...)
+		xl, err := NewXlsx(reportName, row, ctl, opts...)
 		if err != nil {
 			closeAll()
 			return nil, err
@@ -42,7 +49,7 @@ func New(name string, row interface{}, ctl app_control.Control, opts ...ReportOp
 
 	if ctl.IsQuiet() {
 		// Output as JSON on quiet
-		js, err := NewJsonForQuiet(name, ctl)
+		js, err := NewJsonForQuiet(reportName, ctl)
 		if err != nil {
 			closeAll()
 			return nil, err
@@ -50,7 +57,7 @@ func New(name string, row interface{}, ctl app_control.Control, opts ...ReportOp
 		reports = append(reports, js)
 	} else {
 		// Output for UI
-		ui, err := NewUI(name, row, ctl, opts...)
+		ui, err := NewUI(reportName, row, ctl, opts...)
 		if err != nil {
 			closeAll()
 			return nil, err
@@ -67,7 +74,7 @@ func New(name string, row interface{}, ctl app_control.Control, opts ...ReportOp
 
 type Cascade struct {
 	Ctl     app_control.Control
-	Reports []Report
+	Reports []rp_model.Report
 }
 
 func (z *Cascade) Success(input interface{}, result interface{}) {

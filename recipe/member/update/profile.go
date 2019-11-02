@@ -9,8 +9,10 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -25,7 +27,17 @@ type ProfileVO struct {
 	Peer app_conn.ConnBusinessMgmt
 }
 
+const (
+	reportProfile = "update_profile"
+)
+
 type Profile struct {
+}
+
+func (z *Profile) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportProfile, rp_model.TransactionHeader(&ProfileRow{}, &mo_member.Member{})),
+	}
 }
 
 func (z *Profile) Test(c app_control.Control) error {
@@ -58,10 +70,7 @@ func (z *Profile) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report(
-		"update_profile",
-		app_report.TransactionHeader(&ProfileRow{}, &mo_member.Member{}),
-	)
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportProfile)
 	if err != nil {
 		return err
 	}

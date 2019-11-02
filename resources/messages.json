@@ -288,6 +288,8 @@
   "report.transaction.failure": "Failure",
   "report.transaction.skip": "Skip",
   "report.transaction.success": "Success",
+  "report.empty_spec.desc": "Empty report",
+  "report.empty_spec.desc_column": "No spec defined for the column `{{.Column}}`",
   "report.xlsx.unable_to_open": "xlsx Report: Unable to create report file `{{.Path}}` with an error: {{.Error}}",
   "run.app.copyright": "© 2016-2019 Takayuki Okazaki",
   "run.app.header": "watermint toolbox {{.AppVersion}}",

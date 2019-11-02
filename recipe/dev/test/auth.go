@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 )
 
 type AuthVO struct {
@@ -20,6 +21,10 @@ type AuthVO struct {
 }
 
 type Auth struct {
+}
+
+func (z *Auth) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Auth) Hidden() {

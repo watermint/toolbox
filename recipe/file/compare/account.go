@@ -9,6 +9,8 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -19,7 +21,17 @@ type AccountVO struct {
 	RightPath string
 }
 
+const (
+	reportAccount = "diff"
+)
+
 type Account struct {
+}
+
+func (z *Account) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportAccount, &mo_file_diff.Diff{}),
+	}
 }
 
 func (z *Account) Console() {
@@ -45,7 +57,7 @@ func (z *Account) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report("diff", &mo_file_diff.Diff{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportAccount)
 	if err != nil {
 		return err
 	}

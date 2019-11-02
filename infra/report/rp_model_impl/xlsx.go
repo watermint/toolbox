@@ -1,9 +1,10 @@
-package app_report
+package rp_model_impl
 
 import (
 	"fmt"
 	"github.com/tealeg/xlsx"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"path/filepath"
@@ -41,7 +42,7 @@ func xlsxDataStyle() *xlsx.Style {
 	return dataStyle
 }
 
-func NewXlsx(name string, row interface{}, ctl app_control.Control, opts ...ReportOpt) (r Report, err error) {
+func NewXlsx(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.Report, err error) {
 	parser := NewColumn(row, ctl, opts...)
 	x := &Xlsx{
 		fileAvailable: false,
@@ -162,8 +163,8 @@ func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
 
 func (z *Xlsx) Success(input interface{}, result interface{}) {
 	ui := z.ctl.UI()
-	z.Row(TransactionRow{
-		Status: ui.Text(msgSuccess.Key(), msgSuccess.Params()...),
+	z.Row(rp_model.TransactionRow{
+		Status: ui.Text(rp_model.MsgSuccess.Key(), rp_model.MsgSuccess.Params()...),
 		Input:  input,
 		Result: result,
 	})
@@ -171,8 +172,8 @@ func (z *Xlsx) Success(input interface{}, result interface{}) {
 
 func (z *Xlsx) Failure(reason app_msg.Message, input interface{}, result interface{}) {
 	ui := z.ctl.UI()
-	z.Row(TransactionRow{
-		Status: ui.Text(msgFailure.Key(), msgFailure.Params()...),
+	z.Row(rp_model.TransactionRow{
+		Status: ui.Text(rp_model.MsgFailure.Key(), rp_model.MsgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
@@ -181,8 +182,8 @@ func (z *Xlsx) Failure(reason app_msg.Message, input interface{}, result interfa
 
 func (z *Xlsx) Skip(reason app_msg.Message, input interface{}, result interface{}) {
 	ui := z.ctl.UI()
-	z.Row(TransactionRow{
-		Status: ui.Text(msgSkip.Key(), msgFailure.Params()...),
+	z.Row(rp_model.TransactionRow{
+		Status: ui.Text(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,

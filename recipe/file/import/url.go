@@ -10,6 +10,8 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -19,7 +21,17 @@ type UrlVO struct {
 	Url  string
 }
 
+const (
+	urlReport = "import_url"
+)
+
 type Url struct {
+}
+
+func (z *Url) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(urlReport, &mo_file.ConcreteEntry{}),
+	}
 }
 
 func (z *Url) Console() {
@@ -37,7 +49,7 @@ func (z *Url) Exec(k app_kitchen.Kitchen) error {
 	if err != nil {
 		return err
 	}
-	rep, err := k.Report("import_url", &mo_file.ConcreteEntry{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(urlReport)
 	if err != nil {
 		return err
 	}

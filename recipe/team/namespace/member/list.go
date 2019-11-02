@@ -11,9 +11,11 @@ import (
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 )
@@ -26,7 +28,7 @@ type ListVO struct {
 type ListWorker struct {
 	namespace *mo_namespace.Namespace
 	ctx       api_context.Context // should be with admin team member id.
-	rep       app_report.Report
+	rep       rp_model.Report
 	ctl       app_control.Control
 }
 
@@ -51,7 +53,25 @@ func (z *ListWorker) Exec() error {
 	return nil
 }
 
+const (
+	listReportNamespaceMember = "namespace_member"
+)
+
 type List struct {
+}
+
+func (z *List) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(listReportNamespaceMember,
+			&mo_namespace.NamespaceMember{},
+			rp_model.HiddenColumns([]string{
+				"account_id",
+				"group_id",
+				"namespace_team_member_id",
+				"team_member_id",
+			}),
+		),
+	}
 }
 
 func (z *List) Requirement() app_vo.ValueObject {
@@ -80,16 +100,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 
 	cta := ctx.AsAdminId(admin.TeamMemberId)
 
-	rep, err := k.Report("namespace_member",
-		&mo_namespace.NamespaceMember{},
-		app_report.HideColumns([]string{
-			"account_id",
-			"group_id",
-			"namespace_team_member_id",
-			"team_member_id",
-		}),
-		app_report.ShowAllColumns(vo.AllColumns),
-	)
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(listReportNamespaceMember)
 	if err != nil {
 		return err
 	}

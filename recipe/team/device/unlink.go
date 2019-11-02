@@ -9,8 +9,10 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -22,7 +24,7 @@ type UnlinkVO struct {
 
 type UnlinkWorker struct {
 	session *mo_device.MemberSession
-	rep     app_report.Report
+	rep     rp_model.Report
 	ctx     api_context.Context
 	ctl     app_control.Control
 }
@@ -46,7 +48,18 @@ func (z *UnlinkWorker) Exec() error {
 	return nil
 }
 
+const (
+	reportUnlink = "unlink"
+)
+
 type Unlink struct {
+}
+
+func (z *Unlink) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportUnlink,
+			rp_model.TransactionHeader(&mo_device.MemberSession{}, nil)),
+	}
 }
 
 func (z *Unlink) Console() {
@@ -68,7 +81,7 @@ func (z *Unlink) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report("unlink", app_report.TransactionHeader(&mo_device.MemberSession{}, nil))
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportUnlink)
 	if err != nil {
 		return err
 	}

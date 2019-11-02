@@ -15,9 +15,11 @@ import (
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 )
@@ -37,7 +39,7 @@ type ListWorker struct {
 	idToMember map[string]*mo_member.Member
 	ctx        api_context.Context
 	ctl        app_control.Control
-	rep        app_report.Report
+	rep        rp_model.Report
 	vo         *ListVO
 }
 
@@ -85,7 +87,17 @@ func (z *ListWorker) Exec() error {
 	return nil
 }
 
+const (
+	reportList = "namespace_file"
+)
+
 type List struct {
+}
+
+func (z *List) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportList, &mo_namespace.NamespaceEntry{}),
+	}
 }
 
 func (z *List) Requirement() app_vo.ValueObject {
@@ -124,7 +136,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 
 	cta := ctx.AsAdminId(admin.TeamMemberId)
 
-	rep, err := k.Report("namespace_file", &mo_namespace.NamespaceEntry{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportList)
 	if err != nil {
 		return err
 	}

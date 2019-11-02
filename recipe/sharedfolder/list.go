@@ -10,13 +10,25 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 )
 
 type ListVO struct {
 	Peer app_conn.ConnUserFile
 }
 
+const (
+	reportList = "sharedfolder"
+)
+
 type List struct {
+}
+
+func (z *List) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportList, &mo_sharedfolder.SharedFolder{}),
+	}
 }
 
 func (z *List) Test(c app_control.Control) error {
@@ -39,7 +51,7 @@ func (*List) Requirement() app_vo.ValueObject {
 	return &ListVO{}
 }
 
-func (*List) Exec(k app_kitchen.Kitchen) error {
+func (z *List) Exec(k app_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	lvo := vo.(*ListVO)
 	conn, err := lvo.Peer.Connect(k.Control())
@@ -54,7 +66,7 @@ func (*List) Exec(k app_kitchen.Kitchen) error {
 	}
 
 	// Write report
-	rep, err := k.Report("sharedfolder", &mo_sharedfolder.SharedFolder{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportList)
 	if err != nil {
 		return err
 	}

@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 )
 
 type CopyVO struct {
@@ -17,6 +18,10 @@ type CopyVO struct {
 }
 
 type Copy struct {
+}
+
+func (z *Copy) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Copy) Console() {

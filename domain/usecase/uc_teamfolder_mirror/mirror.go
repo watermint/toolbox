@@ -22,6 +22,8 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"strings"
@@ -30,7 +32,14 @@ import (
 
 const (
 	MirrorGroupNamePrefix = "toolbox-teamfolder-mirror"
+	ReportVerify          = "diff"
 )
+
+func ReportSpec() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(ReportVerify, &mo_file_diff.Diff{}),
+	}
+}
 
 type TeamFolder interface {
 	// All team folder scope
@@ -174,22 +183,24 @@ func (z *mirrorContext) AdminDst() *mo_profile.Profile {
 	return z.MirrorAdminDst
 }
 
-func New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, k app_kitchen.Kitchen) TeamFolder {
+func New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, k app_kitchen.Kitchen, rs *rp_spec_impl.Specs) TeamFolder {
 	return &teamFolderImpl{
-		ctxFileSrc: ctxFileSrc,
-		ctxMgtSrc:  ctxMgtSrc,
-		ctxFileDst: ctxFileDst,
-		ctxMgtDst:  ctxMgtDst,
-		kitchen:    k,
+		ctxFileSrc:  ctxFileSrc,
+		ctxMgtSrc:   ctxMgtSrc,
+		ctxFileDst:  ctxFileDst,
+		ctxMgtDst:   ctxMgtDst,
+		kitchen:     k,
+		reportSpecs: rs,
 	}
 }
 
 type teamFolderImpl struct {
-	ctxFileSrc api_context.Context
-	ctxFileDst api_context.Context
-	ctxMgtSrc  api_context.Context
-	ctxMgtDst  api_context.Context
-	kitchen    app_kitchen.Kitchen
+	ctxFileSrc  api_context.Context
+	ctxFileDst  api_context.Context
+	ctxMgtSrc   api_context.Context
+	ctxMgtDst   api_context.Context
+	kitchen     app_kitchen.Kitchen
+	reportSpecs *rp_spec_impl.Specs
 }
 
 func (z *teamFolderImpl) log() *zap.Logger {
@@ -594,7 +605,7 @@ func (z *teamFolderImpl) Verify(ctx Context, scope Scope) (err error) {
 		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
 		zap.String("folderDstName", scope.Pair().Dst.Name),
 	)
-	rep, err := z.kitchen.Report("diff", &mo_file_diff.Diff{})
+	rep, err := z.reportSpecs.Open(ReportVerify)
 	if err != nil {
 		z.kitchen.UI().Error("usecase.uc_teamfolder_mirror.err.unable_to_create_diff_report", app_msg.P{
 			"Error": err.Error(),

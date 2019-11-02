@@ -8,12 +8,17 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"go.uber.org/zap"
 	"sort"
 	"strings"
 )
 
 type License struct {
+}
+
+func (z *License) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *License) Test(c app_control.Control) error {

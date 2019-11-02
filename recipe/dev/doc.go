@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"go.uber.org/zap"
 	"html/template"
 	"io/ioutil"
@@ -30,6 +31,10 @@ type DocVO struct {
 }
 
 type Doc struct {
+}
+
+func (z *Doc) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Doc) Console() {

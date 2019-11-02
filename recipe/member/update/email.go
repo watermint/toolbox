@@ -17,9 +17,11 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_file_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"os"
@@ -42,7 +44,7 @@ type EmailWorker struct {
 	vo          *EmailVO
 	member      *mo_member.Member
 	ctx         api_context.Context
-	rep         app_report.Report
+	rep         rp_model.Report
 	ctl         app_control.Control
 }
 
@@ -80,7 +82,17 @@ func (z *EmailWorker) Exec() error {
 	return nil
 }
 
+const (
+	reportEmail = "update"
+)
+
 type Email struct {
+}
+
+func (z *Email) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportEmail, rp_model.TransactionHeader(&EmailRow{}, &mo_member.Member{})),
+	}
 }
 
 func (z *Email) Requirement() app_vo.ValueObject {
@@ -108,7 +120,7 @@ func (z *Email) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report("update", app_report.TransactionHeader(&EmailRow{}, &mo_member.Member{}))
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportEmail)
 	if err != nil {
 		return err
 	}

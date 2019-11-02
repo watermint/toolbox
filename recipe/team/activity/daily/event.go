@@ -8,6 +8,9 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
 )
@@ -19,7 +22,17 @@ type EventVO struct {
 	Category  string
 }
 
+const (
+	reportEvent = "event"
+)
+
 type Event struct {
+}
+
+func (z *Event) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportEvent, &mo_activity.Event{}),
+	}
 }
 
 func (z *Event) Requirement() app_vo.ValueObject {
@@ -49,7 +62,7 @@ func (z *Event) Exec(k app_kitchen.Kitchen) error {
 			"End":   d.End,
 		})
 
-		rep, err := k.Report("event"+stDate, &mo_activity.Event{})
+		rep, err := rp_spec_impl.New(z, k.Control()).Open(reportEvent, rp_model.Suffix(stDate))
 		if err != nil {
 			return err
 		}

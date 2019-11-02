@@ -5,8 +5,9 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"reflect"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"strings"
 )
 
@@ -18,6 +19,7 @@ type Recipe interface {
 	Requirement() app_vo.ValueObject
 	Exec(k app_kitchen.Kitchen) error
 	Test(c app_control.Control) error
+	Reports() []rp_spec.ReportSpec
 }
 
 // SecretRecipe will not be listed in available commands.
@@ -43,21 +45,9 @@ func Title(r Recipe) app_msg.Message {
 }
 
 func Path(r Recipe) (path []string, name string) {
-	path = make([]string, 0)
-
-	rt := reflect.ValueOf(r).Elem().Type()
-	pkg := rt.PkgPath()
-	pkg = strings.ReplaceAll(pkg, BasePackage, "")
-	if strings.HasPrefix(pkg, "/") {
-		pkg = pkg[1:]
-	}
-	if pkg != "" {
-		path = append(path, strings.Split(pkg, "/")...)
-	}
-	return path, strings.ToLower(rt.Name())
+	return ut_reflect.Path(BasePackage, r)
 }
 
 func Key(r Recipe) string {
-	path, name := Path(r)
-	return strings.Join(append(path, name), ".")
+	return ut_reflect.Key(BasePackage, r)
 }

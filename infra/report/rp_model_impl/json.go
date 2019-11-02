@@ -1,9 +1,10 @@
-package app_report
+package rp_model_impl
 
 import (
 	"bytes"
 	"encoding/json"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"io"
@@ -13,7 +14,7 @@ import (
 	"sync"
 )
 
-func NewJsonForQuiet(name string, ctl app_control.Control) (r Report, err error) {
+func NewJsonForQuiet(name string, ctl app_control.Control) (r rp_model.Report, err error) {
 	r = &Json{
 		w:   os.Stdout,
 		ctl: ctl,
@@ -21,7 +22,7 @@ func NewJsonForQuiet(name string, ctl app_control.Control) (r Report, err error)
 	return r, nil
 }
 
-func NewJson(name string, ctl app_control.Control, opts ...ReportOpt) (r Report, err error) {
+func NewJson(name string, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.Report, err error) {
 	l := ctl.Log()
 	p := filepath.Join(ctl.Workspace().Report(), name+".json")
 	l.Debug("Create new csv report", zap.String("path", p))
@@ -70,8 +71,8 @@ func (z *Json) findRaw(row interface{}, orig interface{}) json.RawMessage {
 
 func (z *Json) Success(input interface{}, result interface{}) {
 	ui := z.ctl.UI()
-	z.Row(TransactionRow{
-		Status: ui.Text(msgSuccess.Key(), msgSuccess.Params()...),
+	z.Row(rp_model.TransactionRow{
+		Status: ui.Text(rp_model.MsgSuccess.Key(), rp_model.MsgSuccess.Params()...),
 		Input:  input,
 		Result: result,
 	})
@@ -79,8 +80,8 @@ func (z *Json) Success(input interface{}, result interface{}) {
 
 func (z *Json) Failure(reason app_msg.Message, input interface{}, result interface{}) {
 	ui := z.ctl.UI()
-	z.Row(TransactionRow{
-		Status: ui.Text(msgFailure.Key(), msgFailure.Params()...),
+	z.Row(rp_model.TransactionRow{
+		Status: ui.Text(rp_model.MsgFailure.Key(), rp_model.MsgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,
@@ -89,8 +90,8 @@ func (z *Json) Failure(reason app_msg.Message, input interface{}, result interfa
 
 func (z *Json) Skip(reason app_msg.Message, input interface{}, result interface{}) {
 	ui := z.ctl.UI()
-	z.Row(TransactionRow{
-		Status: ui.Text(msgSkip.Key(), msgFailure.Params()...),
+	z.Row(rp_model.TransactionRow{
+		Status: ui.Text(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
 		Result: result,

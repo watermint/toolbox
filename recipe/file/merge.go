@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 )
 
 type MergeVO struct {
@@ -20,6 +21,10 @@ type MergeVO struct {
 }
 
 type Merge struct {
+}
+
+func (z *Merge) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Merge) Console() {

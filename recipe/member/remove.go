@@ -8,8 +8,10 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 )
 
 type DeleteRow struct {
@@ -22,7 +24,17 @@ type DeleteVO struct {
 	WipeData bool
 }
 
+const (
+	reportDelete = "delete"
+)
+
 type Delete struct {
+}
+
+func (z *Delete) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportDelete, rp_model.TransactionHeader(&DeleteRow{}, nil)),
+	}
 }
 
 func (z *Delete) Console() {
@@ -43,10 +55,7 @@ func (z *Delete) Exec(k app_kitchen.Kitchen) error {
 	}
 
 	svm := sv_member.New(ctx)
-	rep, err := k.Report(
-		"delete",
-		app_report.TransactionHeader(&DeleteRow{}, nil),
-	)
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportDelete)
 	if err != nil {
 		return err
 	}

@@ -10,6 +10,8 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"go.uber.org/zap"
 )
 
@@ -17,7 +19,17 @@ type ListVO struct {
 	Peer app_conn.ConnBusinessFile
 }
 
+const (
+	reportList = "teamfolder"
+)
+
 type List struct {
+}
+
+func (z *List) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportList, &mo_teamfolder.TeamFolder{}),
+	}
 }
 
 func (z *List) Test(c app_control.Control) error {
@@ -56,7 +68,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report("teamfolder", &mo_teamfolder.TeamFolder{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportList)
 	if err != nil {
 		return err
 	}
