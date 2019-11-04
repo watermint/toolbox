@@ -10,12 +10,12 @@ const (
 
 type Diff struct {
 	DiffType  string `json:"diff_type"`
-	LeftPath  string `json:"left_path,omitempty"`
-	LeftKind  string `json:"left_kind,omitempty"`
-	LeftSize  *int64 `json:"left_size,omitempty"`
-	LeftHash  string `json:"left_hash,omitempty"`
-	RightPath string `json:"right_path,omitempty"`
-	RightKind string `json:"right_kind,omitempty"`
-	RightSize *int64 `json:"right_size,omitempty"`
-	RightHash string `json:"right_hash,omitempty"`
+	LeftPath  string `json:"left_path"`
+	LeftKind  string `json:"left_kind"`
+	LeftSize  *int64 `json:"left_size"`
+	LeftHash  string `json:"left_hash"`
+	RightPath string `json:"right_path"`
+	RightKind string `json:"right_kind"`
+	RightSize *int64 `json:"right_size"`
+	RightHash string `json:"right_hash"`
 }

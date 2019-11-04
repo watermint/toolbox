@@ -60,14 +60,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 
 	vo := rcp.Requirement()
 	f := flag.NewFlagSet(recipeName, flag.ContinueOnError)
-	com := &app_opt.CommonOpts{
-		Workspace:   "",
-		Debug:       false,
-		Proxy:       "",
-		Quiet:       false,
-		Secure:      false,
-		Concurrency: runtime.NumCPU(),
-	}
+	com := app_opt.NewDefaultCommonOpts()
 
 	cvc := app_vo_impl.NewValueContainer(com)
 	cvc.MakeFlagSet(f, ui)
@@ -121,7 +114,15 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	defer func() {
 		err := recover()
 		if err != nil {
-			ctl.Log().Debug("Recovery from panic")
+			l := ctl.Log()
+			l.Debug("Recovery from panic")
+			l.Error(ctl.UI().Text("run.error.panic"),
+				zap.Any("error", err),
+			)
+			l.Error(ctl.UI().Text("run.error.panic.instruction"),
+				zap.String("JobPath", ctl.Workspace().Job()),
+			)
+
 			for depth := 0; ; depth++ {
 				_, file, line, ok := runtime.Caller(depth)
 				if !ok {
@@ -133,9 +134,6 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 					zap.Int("Line", line),
 				)
 			}
-			ui := ctl.UI()
-			ui.Error("run.error.panic", app_msg.P{"Reason": err})
-			ui.Error("run.error.panic.instruction", app_msg.P{"JobPath": ctl.Workspace().Job()})
 			ctl.Abort(app_control.Reason(app_control.FatalPanic))
 		}
 	}()
@@ -197,7 +195,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	}
 
 	// Run
-	ctl.Log().Debug("Run recipe", zap.Any("vo", vo))
+	ctl.Log().Debug("Run recipe", zap.Any("vo", vo), zap.Any("common", com))
 	k := app_kitchen.NewKitchen(ctl, vo)
 	err = rcp.Exec(k)
 	if err != nil {

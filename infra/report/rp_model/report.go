@@ -56,18 +56,18 @@ type Report interface {
 	Close()
 }
 
-func TransactionHeader(input interface{}, result interface{}) TransactionRow {
-	return TransactionRow{
+func TransactionHeader(input interface{}, result interface{}) *TransactionRow {
+	return &TransactionRow{
 		Input:  input,
 		Result: result,
 	}
 }
 
 type TransactionRow struct {
-	Status string
-	Reason string
-	Input  interface{}
-	Result interface{}
+	Status string      `json:"status"`
+	Reason string      `json:"reason"`
+	Input  interface{} `json:"input"`
+	Result interface{} `json:"result"`
 }
 
 var (

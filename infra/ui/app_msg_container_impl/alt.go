@@ -9,6 +9,10 @@ import (
 type Alt struct {
 }
 
+func (alt Alt) Text(key string) string {
+	return fmt.Sprintf("Key[%s]", key)
+}
+
 func (Alt) Exists(key string) bool {
 	return false
 }

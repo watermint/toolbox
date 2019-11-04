@@ -17,9 +17,9 @@ import (
 )
 
 type ProfileRow struct {
-	Email     string
-	GivenName string
-	Surname   string
+	Email     string `json:"email"`
+	GivenName string `json:"given_name"`
+	Surname   string `json:"surname"`
 }
 
 type ProfileVO struct {

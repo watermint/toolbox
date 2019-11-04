@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"go.uber.org/zap"
 )
@@ -12,17 +12,17 @@ import (
 type columnJsonImpl struct {
 	header []string
 	opts   *rp_model.ReportOpts
-	ctl    app_control.Control
 }
 
 func (z *columnJsonImpl) Parse(r interface{}) error {
+	l := app_root.Log()
 	b, err := json.Marshal(r)
 	if err != nil {
-		z.ctl.Log().Debug("Unable to marshal", zap.Error(err))
+		l.Debug("Unable to marshal", zap.Error(err))
 		return err
 	}
 	if !gjson.ValidBytes(b) {
-		z.ctl.Log().Debug("Invalid JSON sequence")
+		l.Debug("Invalid JSON sequence")
 		return errors.New("invalid row data format found")
 	}
 	s := gjson.ParseBytes(b)
@@ -59,13 +59,14 @@ func (z *columnJsonImpl) Header() []string {
 }
 
 func (z *columnJsonImpl) Values(r interface{}) []interface{} {
+	l := app_root.Log()
 	b, err := json.Marshal(r)
 	if err != nil {
-		z.ctl.Log().Debug("Unable to marshal", zap.Error(err))
+		l.Debug("Unable to marshal", zap.Error(err))
 		return make([]interface{}, 0)
 	}
 	if !gjson.ValidBytes(b) {
-		z.ctl.Log().Debug("Invalid JSON sequence")
+		l.Debug("Invalid JSON sequence")
 		return make([]interface{}, 0)
 	}
 	s := gjson.ParseBytes(b)
@@ -78,13 +79,14 @@ func (z *columnJsonImpl) Values(r interface{}) []interface{} {
 }
 
 func (z *columnJsonImpl) ValuesAsString(r interface{}) []string {
+	l := app_root.Log()
 	b, err := json.Marshal(r)
 	if err != nil {
-		z.ctl.Log().Debug("Unable to marshal", zap.Error(err))
+		l.Debug("Unable to marshal", zap.Error(err))
 		return make([]string, 0)
 	}
 	if !gjson.ValidBytes(b) {
-		z.ctl.Log().Debug("Invalid JSON sequence")
+		l.Debug("Invalid JSON sequence")
 		return make([]string, 0)
 	}
 	s := gjson.ParseBytes(b)

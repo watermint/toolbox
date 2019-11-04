@@ -48,6 +48,10 @@ type Single struct {
 	testResource gjson.Result
 }
 
+func (z *Single) Messages() app_msg_container.Container {
+	return z.mc
+}
+
 func (z *Single) NewControl(user app_workspace.MultiUser) (ctl app_control.Control, err error) {
 	ws, err := app_workspace.NewMultiJob(user)
 	ctl = NewMulti(ws, z.ui, z.box, z.mc, z.quiet)

@@ -1,22 +1,21 @@
 # watermint toolbox
 {{.Badges}}
 
-Tools for Dropbox and Dropbox Business.
+{{ msg "doc.readme.title" }}
 
-# Licensing & Disclaimers
+# {{ msg "doc.readme.head.license" }}
 
-watermint toolbox is licensed under the MIT license. Please see LICENSE.md or LICENSE.txt for more detail.
+{{ msg "doc.readme.body.license" }}
 
-Please carefully note:
+{{ msg "doc.readme.body.license_note" }}
 
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
-# Usage
+# {{ msg "doc.readme.head.usage" }}
 
-`tbx` have various features. Run without an option for a list of supported commands and options.
-You can see available commands and options by running executable without arguments like below.
+{{ msg "doc.readme.body.usage" }}
 
 ```
 % ./tbx
@@ -42,14 +41,13 @@ Available commands:
    web           Launch web console (experimental)
 ```
 
-## Commands
+## {{ msg "doc.readme.head.commands" }}
 
 {{.Commands}}
 
-## Authentication
+## {{ msg "doc.readme.head.authentication" }}
 
-If an executable contains registered application keys, then the executable will ask you an authentication to your Dropbox account or a team.
-Please open the provided URL, then paste authorisation code.
+{{ msg "doc.readme.body.authentication" }}
 
 ```
 watermint toolbox xx.x.xxx
@@ -68,9 +66,8 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Enter the authorisation code
 ```
 
-The executable store tokens at the file under folder `$HOME/.toolbox/secrets/(HASH).secret`. If you don't want to store tokens into the file, then please specify option `-secure`.
+{{ msg "doc.readme.body.authentication_token_file" }}
 
-## Proxy
+## {{ msg "doc.readme.head.proxy" }}
 
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add `-proxy` option, like `-proxy hostname:port`.
-Currently, the executable doesn't support proxies which require authentication.
+{{ msg "doc.readme.body.proxy" }}

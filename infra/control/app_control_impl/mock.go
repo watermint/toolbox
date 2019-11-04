@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_worker"
 	"github.com/watermint/toolbox/infra/recpie/app_worker_impl"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -29,6 +30,10 @@ type mockControl struct {
 	logger *zap.Logger
 	ui     app_ui.UI
 	ws     app_workspace.Workspace
+}
+
+func (z *mockControl) Messages() app_msg_container.Container {
+	return &app_msg_container_impl.Alt{}
 }
 
 func (z *mockControl) TestResource(key string) (data gjson.Result, found bool) {

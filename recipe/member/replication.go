@@ -16,8 +16,8 @@ import (
 )
 
 type ReplicationRow struct {
-	SrcEmail string
-	DstEmail string
+	SrcEmail string `json:"src_email"`
+	DstEmail string `json:"dst_email"`
 }
 
 type ReplicationVO struct {

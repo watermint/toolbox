@@ -15,7 +15,7 @@ import (
 )
 
 type DetachRow struct {
-	Email string
+	Email string `json:"email"`
 }
 
 func (z *DetachRow) Validate() (err error) {

@@ -17,6 +17,15 @@ type Resource struct {
 	Messages map[string]string
 }
 
+func (z *Resource) Text(key string) string {
+	if msg, ok := z.Messages[key]; !ok {
+		c := Alt{}
+		return c.Text(key)
+	} else {
+		return msg
+	}
+}
+
 func (z *Resource) Exists(key string) bool {
 	_, ok := z.Messages[key]
 	return ok

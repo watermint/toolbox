@@ -35,6 +35,10 @@ type Multi struct {
 	secure bool
 }
 
+func (z *Multi) Messages() app_msg_container.Container {
+	return z.mc
+}
+
 func (z *Multi) TestResource(key string) (data gjson.Result, found bool) {
 	return gjson.Parse("{}"), false
 }

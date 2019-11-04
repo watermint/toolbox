@@ -56,7 +56,7 @@ func (z *Specs) Spec(name string) rp_spec.ReportSpec {
 }
 
 func Spec(name string, row interface{}, opt ...rp_model.ReportOpt) rp_spec.ReportSpec {
-	return &ReportSpec{
+	return &reportSpec{
 		name: name,
 		row:  row,
 		opts: opt,
@@ -94,39 +94,81 @@ func (e EmptySpec) Open(opts ...rp_model.ReportOpt) (rp_model.Report, error) {
 	return nil, errors.New("no report spec")
 }
 
-type ReportSpec struct {
-	name string
-	row  interface{}
-	opts []rp_model.ReportOpt
+type reportSpec struct {
+	name    string
+	row     interface{}
+	opts    []rp_model.ReportOpt
+	cols    []string
+	colDesc map[string]app_msg.Message
 }
 
-func (z *ReportSpec) Open(opts ...rp_model.ReportOpt) (rp_model.Report, error) {
+func (z *reportSpec) Open(opts ...rp_model.ReportOpt) (rp_model.Report, error) {
 	return nil, errors.New("not enough resource")
 }
 
-func (z *ReportSpec) Options() []rp_model.ReportOpt {
+func (z *reportSpec) Options() []rp_model.ReportOpt {
 	return z.opts
 }
 
-func (z *ReportSpec) Name() string {
+func (z *reportSpec) Name() string {
 	return z.name
 }
 
-func (z *ReportSpec) Row() interface{} {
+func (z *reportSpec) Row() interface{} {
 	return z.row
 }
 
-func (z *ReportSpec) Desc() app_msg.Message {
-	key := ut_reflect.Key(app.Pkg, z.row)
-	return app_msg.M(key + ".desc")
+func (z *reportSpec) Desc() app_msg.Message {
+	key := ut_reflect.Key(app.Pkg, z.row) + ".desc"
+	return app_msg.M(key)
 }
 
-func (z *ReportSpec) Columns() []string {
-	panic("implement me")
+func (z *reportSpec) prepModel() {
+	z.colDesc = make(map[string]app_msg.Message)
+
+	cm := func(m interface{}, base string) []string {
+		if m == nil {
+			return []string{}
+		}
+		model := rp_model_impl.NewColumn(m, z.opts...)
+		cols := model.Header()
+		keyBase := ut_reflect.Key(app.Pkg, m)
+		for _, col := range cols {
+			z.colDesc[base+col] = app_msg.M(keyBase + "." + col + ".desc")
+		}
+		colsWithBase := make([]string, 0)
+		for _, c := range cols {
+			colsWithBase = append(colsWithBase, base+c)
+		}
+		return colsWithBase
+	}
+
+	switch row := z.row.(type) {
+	case *rp_model.TransactionRow:
+		cols := make([]string, 0)
+		cols = append(cols, "status")
+		cols = append(cols, "reason")
+		cols = append(cols, cm(row.Input, "input.")...)
+		cols = append(cols, cm(row.Result, "result.")...)
+		z.cols = cols
+
+		z.colDesc["status"] = app_msg.M("infra.report.rp_model.transactionrow.status")
+		z.colDesc["reason"] = app_msg.M("infra.report.rp_model.transactionrow.reason")
+
+	default:
+		z.cols = cm(z.row, "")
+	}
 }
 
-func (z *ReportSpec) ColumnDesc(col string) app_msg.Message {
-	panic("implement me")
+func (z *reportSpec) Columns() []string {
+	if z.cols == nil {
+		z.prepModel()
+	}
+	return z.cols
+}
+
+func (z *reportSpec) ColumnDesc(col string) app_msg.Message {
+	return z.colDesc[col]
 }
 
 type ReportSpecWithControl struct {

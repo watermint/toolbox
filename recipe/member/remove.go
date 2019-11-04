@@ -15,7 +15,7 @@ import (
 )
 
 type DeleteRow struct {
-	Email string
+	Email string `json:"email"`
 }
 
 type DeleteVO struct {

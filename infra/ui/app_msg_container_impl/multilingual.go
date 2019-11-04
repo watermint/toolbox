@@ -13,6 +13,22 @@ type Multilingual struct {
 	Containers   map[language.Tag]app_msg_container.Container
 }
 
+func (z *Multilingual) Text(key string) string {
+	for _, lang := range z.LangPriority {
+		if c, ok := z.Containers[lang]; ok {
+			if c.Exists(key) {
+				return c.Text(key)
+			}
+		}
+	}
+	app_root.Log().Warn("Unable to find message resource",
+		zap.String("key", key),
+	)
+
+	alt := Alt{}
+	return alt.Text(key)
+}
+
 func (z *Multilingual) Exists(key string) bool {
 	for _, lang := range z.LangPriority {
 		if c, ok := z.Containers[lang]; ok {

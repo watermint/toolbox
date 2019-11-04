@@ -20,7 +20,7 @@ func NewCsv(name string, row interface{}, ctl app_control.Control, opts ...rp_mo
 		l.Error("Unable to create file", zap.String("path", p), zap.Error(err))
 		return nil, err
 	}
-	parser := NewColumn(row, ctl, opts...)
+	parser := NewColumn(row, opts...)
 	r = &Csv{
 		file:   f,
 		w:      csv.NewWriter(f),

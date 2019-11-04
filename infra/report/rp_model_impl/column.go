@@ -1,17 +1,15 @@
 package rp_model_impl
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 )
 
-func NewColumn(row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) Column {
+func NewColumn(row interface{}, opts ...rp_model.ReportOpt) Column {
 	ro := &rp_model.ReportOpts{}
 	for _, opt := range opts {
 		opt(ro)
 	}
 	ri := &columnJsonImpl{
-		ctl:  ctl,
 		opts: ro,
 	}
 	_ = ri.Parse(row)

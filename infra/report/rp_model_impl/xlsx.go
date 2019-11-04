@@ -43,7 +43,7 @@ func xlsxDataStyle() *xlsx.Style {
 }
 
 func NewXlsx(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.Report, err error) {
-	parser := NewColumn(row, ctl, opts...)
+	parser := NewColumn(row, opts...)
 	x := &Xlsx{
 		fileAvailable: false,
 		name:          name,

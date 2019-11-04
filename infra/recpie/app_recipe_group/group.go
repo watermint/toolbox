@@ -5,6 +5,7 @@ import (
 	"errors"
 	"flag"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/recpie/app_doc"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -85,6 +86,8 @@ func (z *Group) PrintRecipeUsage(ui app_ui.UI, rcp app_recipe.Recipe, f *flag.Fl
 	f.PrintDefaults()
 	ui.Info("raw", app_msg.P{"Raw": buf.String()})
 	ui.Break()
+
+	app_doc.ReportSpec(ui, rcp)
 }
 
 func (z *Group) PrintUsage(ui app_ui.UI) {
