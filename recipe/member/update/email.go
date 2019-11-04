@@ -264,11 +264,11 @@ func (z *Email) Test(c app_control.Control) error {
 			for scanner.Scan() {
 				row := gjson.Parse(scanner.Text())
 
-				status := row.Get("Status").String()
-				reason := row.Get("Reason").String()
-				inputFrom := row.Get("Input.from_email").String()
-				inputTo := row.Get("Input.to_email").String()
-				resultEmail := row.Get("Result.email").String()
+				status := row.Get("status").String()
+				reason := row.Get("reason").String()
+				inputFrom := row.Get("input.from_email").String()
+				inputTo := row.Get("input.to_email").String()
+				resultEmail := row.Get("result.email").String()
 
 				ll := l.With(
 					zap.String("status", status),
