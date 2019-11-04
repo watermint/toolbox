@@ -105,24 +105,23 @@ If you missed command line output, please see path below.
 
 
 
-## diff 
+## Report: diff 
 
-Command result report files are generated in `diff.csv`, `diff.xlsx` and `diff.json` format.
-Report in `.xlsx` format will be split into several chunks like `diff_0000.xlsx`, `diff_0001.xlsx`, and `diff_0002.xlsx`.   
+Report files are generated in `diff.csv`, `diff.xlsx` and `diff.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`...   
 
-| Column     | Description |
-|------------|-------------|
-| diff_type  |             |
-| left_path  |             |
-| left_kind  |             |
-| left_size  |             |
-| left_hash  |             |
-| right_path |             |
-| right_kind |             |
-| right_size |             |
-| right_hash |             |
-
-
+| Column     | Description                                                                                                                                                                            |
+|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| diff_type  | Type of difference. `file_content_diff`: different content hash, `{left|right}_file_missing`: left or right file missing, `{left|right}_folder_missing`: left or right folder missing. |
+| left_path  | path of left                                                                                                                                                                           |
+| left_kind  | folder or file                                                                                                                                                                         |
+| left_size  | size of left file                                                                                                                                                                      |
+| left_hash  | Content hash of left file                                                                                                                                                              |
+| right_path | path of right                                                                                                                                                                          |
+| right_kind | folder of file                                                                                                                                                                         |
+| right_size | size of right file                                                                                                                                                                     |
+| right_hash | Content hash of right file                                                                                                                                                             |
 
 
 

@@ -106,24 +106,23 @@ If you missed command line output, please see path below.
 
 
 
-## namespace_size 
+## Report: namespace_size 
 
-Command result report files are generated in `namespace_size.csv`, `namespace_size.xlsx` and `namespace_size.json` format.
-Report in `.xlsx` format will be split into several chunks like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, and `namespace_size_0002.xlsx`.   
+Report files are generated in `namespace_size.csv`, `namespace_size.xlsx` and `namespace_size.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
-| Column               | Description |
-|----------------------|-------------|
-| namespace_name       |             |
-| namespace_id         |             |
-| namespace_type       |             |
-| owner_team_member_id |             |
-| path                 |             |
-| count_file           |             |
-| count_folder         |             |
-| count_descendant     |             |
-| size                 |             |
-
-
+| Column               | Description                                                                                |
+|----------------------|--------------------------------------------------------------------------------------------|
+| namespace_name       | The name of this namespace                                                                 |
+| namespace_id         | The ID of this namespace.                                                                  |
+| namespace_type       | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
+| owner_team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
+| path                 | Path to the folder                                                                         |
+| count_file           | Number of files under the folder                                                           |
+| count_folder         | Number of folders under the folder                                                         |
+| count_descendant     | Number of files and folders under the folder                                               |
+| size                 | Size of the folder                                                                         |
 
 
 

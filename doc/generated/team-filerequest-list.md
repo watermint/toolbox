@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## file_request 
+## Report: file_request 
 
-Command result report files are generated in `file_request.csv`, `file_request.xlsx` and `file_request.json` format.
-Report in `.xlsx` format will be split into several chunks like `file_request_0000.xlsx`, `file_request_0001.xlsx`, and `file_request_0002.xlsx`.   
+Report files are generated in `file_request.csv`, `file_request.xlsx` and `file_request.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`...   
 
 | Column                      | Description |
 |-----------------------------|-------------|
@@ -124,8 +125,6 @@ Report in `.xlsx` format will be split into several chunks like `file_request_00
 | destination                 |             |
 | deadline                    |             |
 | deadline_allow_late_uploads |             |
-
-
 
 
 

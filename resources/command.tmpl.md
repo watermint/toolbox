@@ -91,13 +91,12 @@ If you missed command line output, please see path below.
 
 {{ $reports := .Reports }}
 {{ range $name := .ReportNames }}
-## {{ $name }} 
+## Report: {{ $name }} 
 
-Command result report files are generated in `{{$name}}.csv`, `{{$name}}.xlsx` and `{{$name}}.json` format.
-Report in `.xlsx` format will be split into several chunks like `{{$name}}_0000.xlsx`, `{{$name}}_0001.xlsx`, and `{{$name}}_0002.xlsx`.   
+Report files are generated in `{{$name}}.csv`, `{{$name}}.xlsx` and `{{$name}}.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `{{$name}}_0000.xlsx`, `{{$name}}_0001.xlsx`, `{{$name}}_0002.xlsx`...   
 
 {{ index $reports $name }}
-
-{{ end }}
-
+{{end}}
 {{end}}

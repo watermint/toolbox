@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## usage 
+## Report: usage 
 
-Command result report files are generated in `usage.csv`, `usage.xlsx` and `usage.json` format.
-Report in `.xlsx` format will be split into several chunks like `usage_0000.xlsx`, `usage_0001.xlsx`, and `usage_0002.xlsx`.   
+Report files are generated in `usage.csv`, `usage.xlsx` and `usage.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   
 
 | Column     | Description |
 |------------|-------------|
@@ -114,8 +115,6 @@ Report in `.xlsx` format will be split into several chunks like `usage_0000.xlsx
 | used_bytes |             |
 | allocation |             |
 | allocated  |             |
-
-
 
 
 

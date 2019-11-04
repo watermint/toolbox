@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## sharedlink 
+## Report: sharedlink 
 
-Command result report files are generated in `sharedlink.csv`, `sharedlink.xlsx` and `sharedlink.json` format.
-Report in `.xlsx` format will be split into several chunks like `sharedlink_0000.xlsx`, `sharedlink_0001.xlsx`, and `sharedlink_0002.xlsx`.   
+Report files are generated in `sharedlink.csv`, `sharedlink.xlsx` and `sharedlink.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `sharedlink_0000.xlsx`, `sharedlink_0001.xlsx`, `sharedlink_0002.xlsx`...   
 
 | Column     | Description |
 |------------|-------------|
@@ -116,8 +117,6 @@ Report in `.xlsx` format will be split into several chunks like `sharedlink_0000
 | expires    |             |
 | path_lower |             |
 | visibility |             |
-
-
 
 
 

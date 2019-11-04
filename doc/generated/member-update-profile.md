@@ -103,10 +103,11 @@ If you missed command line output, please see path below.
 
 
 
-## update_profile 
+## Report: update_profile 
 
-Command result report files are generated in `update_profile.csv`, `update_profile.xlsx` and `update_profile.json` format.
-Report in `.xlsx` format will be split into several chunks like `update_profile_0000.xlsx`, `update_profile_0001.xlsx`, and `update_profile_0002.xlsx`.   
+Report files are generated in `update_profile.csv`, `update_profile.xlsx` and `update_profile.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `update_profile_0000.xlsx`, `update_profile_0001.xlsx`, `update_profile_0002.xlsx`...   
 
 | Column                  | Description |
 |-------------------------|-------------|
@@ -131,8 +132,6 @@ Report in `.xlsx` format will be split into several chunks like `update_profile_
 | result.joined_on        |             |
 | result.role             |             |
 | result.tag              |             |
-
-
 
 
 

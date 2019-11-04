@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## sharedfolder_member 
+## Report: sharedfolder_member 
 
-Command result report files are generated in `sharedfolder_member.csv`, `sharedfolder_member.xlsx` and `sharedfolder_member.json` format.
-Report in `.xlsx` format will be split into several chunks like `sharedfolder_member_0000.xlsx`, `sharedfolder_member_0001.xlsx`, and `sharedfolder_member_0002.xlsx`.   
+Report files are generated in `sharedfolder_member.csv`, `sharedfolder_member.xlsx` and `sharedfolder_member.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `sharedfolder_member_0000.xlsx`, `sharedfolder_member_0001.xlsx`, `sharedfolder_member_0002.xlsx`...   
 
 | Column                  | Description |
 |-------------------------|-------------|
@@ -124,8 +125,6 @@ Report in `.xlsx` format will be split into several chunks like `sharedfolder_me
 | group_name              |             |
 | group_id                |             |
 | invitee_email           |             |
-
-
 
 
 

@@ -105,19 +105,18 @@ If you missed command line output, please see path below.
 
 
 
-## event 
+## Report: event 
 
-Command result report files are generated in `event.csv`, `event.xlsx` and `event.json` format.
-Report in `.xlsx` format will be split into several chunks like `event_0000.xlsx`, `event_0001.xlsx`, and `event_0002.xlsx`.   
+Report files are generated in `event.csv`, `event.xlsx` and `event.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`...   
 
 | Column          | Description                                     |
 |-----------------|-------------------------------------------------|
-| timestamp       |                                                 |
+| timestamp       | Timestamp of the event                          |
 | event_category  | Filter the returned events to a single category |
-| event_type      |                                                 |
+| event_type      | Type of the event                               |
 | event_type_desc | The particular type of action taken             |
-
-
 
 
 

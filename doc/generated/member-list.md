@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## member 
+## Report: member 
 
-Command result report files are generated in `member.csv`, `member.xlsx` and `member.json` format.
-Report in `.xlsx` format will be split into several chunks like `member_0000.xlsx`, `member_0001.xlsx`, and `member_0002.xlsx`.   
+Report files are generated in `member.csv`, `member.xlsx` and `member.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
 
 | Column           | Description |
 |------------------|-------------|
@@ -125,8 +126,6 @@ Report in `.xlsx` format will be split into several chunks like `member_0000.xls
 | joined_on        |             |
 | role             |             |
 | tag              |             |
-
-
 
 
 

@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## sharedfolder 
+## Report: sharedfolder 
 
-Command result report files are generated in `sharedfolder.csv`, `sharedfolder.xlsx` and `sharedfolder.json` format.
-Report in `.xlsx` format will be split into several chunks like `sharedfolder_0000.xlsx`, `sharedfolder_0001.xlsx`, and `sharedfolder_0002.xlsx`.   
+Report files are generated in `sharedfolder.csv`, `sharedfolder.xlsx` and `sharedfolder.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `sharedfolder_0000.xlsx`, `sharedfolder_0001.xlsx`, `sharedfolder_0002.xlsx`...   
 
 | Column                  | Description |
 |-------------------------|-------------|
@@ -117,8 +118,6 @@ Report in `.xlsx` format will be split into several chunks like `sharedfolder_00
 | is_inside_team_folder   |             |
 | is_team_folder          |             |
 | policy_member           |             |
-
-
 
 
 

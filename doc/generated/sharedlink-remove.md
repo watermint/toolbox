@@ -104,10 +104,11 @@ If you missed command line output, please see path below.
 
 
 
-## link 
+## Report: link 
 
-Command result report files are generated in `link.csv`, `link.xlsx` and `link.json` format.
-Report in `.xlsx` format will be split into several chunks like `link_0000.xlsx`, `link_0001.xlsx`, and `link_0002.xlsx`.   
+Report files are generated in `link.csv`, `link.xlsx` and `link.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `link_0000.xlsx`, `link_0001.xlsx`, `link_0002.xlsx`...   
 
 | Column           | Description |
 |------------------|-------------|
@@ -120,8 +121,6 @@ Report in `.xlsx` format will be split into several chunks like `link_0000.xlsx`
 | input.expires    |             |
 | input.path_lower |             |
 | input.visibility |             |
-
-
 
 
 

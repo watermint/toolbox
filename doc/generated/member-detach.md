@@ -104,18 +104,17 @@ If you missed command line output, please see path below.
 
 
 
-## detach 
+## Report: detach 
 
-Command result report files are generated in `detach.csv`, `detach.xlsx` and `detach.json` format.
-Report in `.xlsx` format will be split into several chunks like `detach_0000.xlsx`, `detach_0001.xlsx`, and `detach_0002.xlsx`.   
+Report files are generated in `detach.csv`, `detach.xlsx` and `detach.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `detach_0000.xlsx`, `detach_0001.xlsx`, `detach_0002.xlsx`...   
 
 | Column      | Description |
 |-------------|-------------|
 | status      |             |
 | reason      |             |
 | input.email |             |
-
-
 
 
 

@@ -104,18 +104,17 @@ If you missed command line output, please see path below.
 
 
 
-## delete 
+## Report: delete 
 
-Command result report files are generated in `delete.csv`, `delete.xlsx` and `delete.json` format.
-Report in `.xlsx` format will be split into several chunks like `delete_0000.xlsx`, `delete_0001.xlsx`, and `delete_0002.xlsx`.   
+Report files are generated in `delete.csv`, `delete.xlsx` and `delete.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `delete_0000.xlsx`, `delete_0001.xlsx`, `delete_0002.xlsx`...   
 
 | Column      | Description |
 |-------------|-------------|
 | status      |             |
 | reason      |             |
 | input.email |             |
-
-
 
 
 

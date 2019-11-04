@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## info 
+## Report: info 
 
-Command result report files are generated in `info.csv`, `info.xlsx` and `info.json` format.
-Report in `.xlsx` format will be split into several chunks like `info_0000.xlsx`, `info_0001.xlsx`, and `info_0002.xlsx`.   
+Report files are generated in `info.csv`, `info.xlsx` and `info.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
 
 | Column                      | Description |
 |-----------------------------|-------------|
@@ -118,8 +119,6 @@ Report in `.xlsx` format will be split into several chunks like `info_0000.xlsx`
 | policy_shared_link_create   |             |
 | policy_emm_state            |             |
 | policy_office_add_in        |             |
-
-
 
 
 

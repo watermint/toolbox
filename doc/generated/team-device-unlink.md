@@ -104,45 +104,44 @@ If you missed command line output, please see path below.
 
 
 
-## unlink 
+## Report: unlink 
 
-Command result report files are generated in `unlink.csv`, `unlink.xlsx` and `unlink.json` format.
-Report in `.xlsx` format will be split into several chunks like `unlink_0000.xlsx`, `unlink_0001.xlsx`, and `unlink_0002.xlsx`.   
+Report files are generated in `unlink.csv`, `unlink.xlsx` and `unlink.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `unlink_0000.xlsx`, `unlink_0001.xlsx`, `unlink_0002.xlsx`...   
 
-| Column                              | Description |
-|-------------------------------------|-------------|
-| status                              |             |
-| reason                              |             |
-| input.team_member_id                |             |
-| input.email                         |             |
-| input.status                        |             |
-| input.given_name                    |             |
-| input.surname                       |             |
-| input.familiar_name                 |             |
-| input.display_name                  |             |
-| input.abbreviated_name              |             |
-| input.external_id                   |             |
-| input.account_id                    |             |
-| input.device_tag                    |             |
-| input.id                            |             |
-| input.user_agent                    |             |
-| input.os                            |             |
-| input.browser                       |             |
-| input.ip_address                    |             |
-| input.country                       |             |
-| input.created                       |             |
-| input.updated                       |             |
-| input.expires                       |             |
-| input.host_name                     |             |
-| input.client_type                   |             |
-| input.client_version                |             |
-| input.platform                      |             |
-| input.is_delete_on_unlink_supported |             |
-| input.device_name                   |             |
-| input.os_version                    |             |
-| input.last_carrier                  |             |
-
-
+| Column                              | Description                                                                          |
+|-------------------------------------|--------------------------------------------------------------------------------------|
+| status                              |                                                                                      |
+| reason                              |                                                                                      |
+| input.team_member_id                | ID of user as a member of a team.                                                    |
+| input.email                         | Email address of user.                                                               |
+| input.status                        | The user's status as a member of a specific team. (active/invited/suspended/removed) |
+| input.given_name                    | Also known as a first name                                                           |
+| input.surname                       | Also known as a last name or family name.                                            |
+| input.familiar_name                 | Locale-dependent name                                                                |
+| input.display_name                  | A name that can be used directly to represent the name of a user's Dropbox account.  |
+| input.abbreviated_name              | An abbreviated form of the person's name.                                            |
+| input.external_id                   | External ID that a team can attach to the user.                                      |
+| input.account_id                    |  A user's account identifier.                                                        |
+| input.device_tag                    | Type of the session (web_session, desktop_client, or mobile_client)                  |
+| input.id                            | The session id.                                                                      |
+| input.user_agent                    | Information on the hosting device.                                                   |
+| input.os                            | Information on the hosting operating system                                          |
+| input.browser                       | Information on the browser used for this web session.                                |
+| input.ip_address                    | The IP address of the last activity from this session.                               |
+| input.country                       | The country from which the last activity from this session was made.                 |
+| input.created                       | The time this session was created.                                                   |
+| input.updated                       | The time of the last activity from this session.                                     |
+| input.expires                       | The time this session expires                                                        |
+| input.host_name                     | Name of the hosting desktop.                                                         |
+| input.client_type                   | The Dropbox desktop client type (windows, mac, or linux)                             |
+| input.client_version                | The Dropbox client version.                                                          |
+| input.platform                      | Information on the hosting platform.                                                 |
+| input.is_delete_on_unlink_supported | Whether it's possible to delete all of the account files upon unlinking.             |
+| input.device_name                   | The device name.                                                                     |
+| input.os_version                    | The hosting OS version.                                                              |
+| input.last_carrier                  | Last carrier used by the device.                                                     |
 
 
 

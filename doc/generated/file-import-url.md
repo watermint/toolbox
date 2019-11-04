@@ -104,10 +104,11 @@ If you missed command line output, please see path below.
 
 
 
-## import_url 
+## Report: import_url 
 
-Command result report files are generated in `import_url.csv`, `import_url.xlsx` and `import_url.json` format.
-Report in `.xlsx` format will be split into several chunks like `import_url_0000.xlsx`, `import_url_0001.xlsx`, and `import_url_0002.xlsx`.   
+Report files are generated in `import_url.csv`, `import_url.xlsx` and `import_url.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `import_url_0000.xlsx`, `import_url_0001.xlsx`, `import_url_0002.xlsx`...   
 
 | Column                  | Description |
 |-------------------------|-------------|
@@ -123,8 +124,6 @@ Report in `.xlsx` format will be split into several chunks like `import_url_0000
 | content_hash            |             |
 | shared_folder_id        |             |
 | parent_shared_folder_id |             |
-
-
 
 
 

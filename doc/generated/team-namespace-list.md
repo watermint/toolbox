@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## namespace 
+## Report: namespace 
 
-Command result report files are generated in `namespace.csv`, `namespace.xlsx` and `namespace.json` format.
-Report in `.xlsx` format will be split into several chunks like `namespace_0000.xlsx`, `namespace_0001.xlsx`, and `namespace_0002.xlsx`.   
+Report files are generated in `namespace.csv`, `namespace.xlsx` and `namespace.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
 
 | Column         | Description |
 |----------------|-------------|
@@ -113,8 +114,6 @@ Report in `.xlsx` format will be split into several chunks like `namespace_0000.
 | namespace_id   |             |
 | namespace_type |             |
 | team_member_id |             |
-
-
 
 
 

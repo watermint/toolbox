@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## linked_app 
+## Report: linked_app 
 
-Command result report files are generated in `linked_app.csv`, `linked_app.xlsx` and `linked_app.json` format.
-Report in `.xlsx` format will be split into several chunks like `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, and `linked_app_0002.xlsx`.   
+Report files are generated in `linked_app.csv`, `linked_app.xlsx` and `linked_app.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
 
 | Column           | Description |
 |------------------|-------------|
@@ -125,8 +126,6 @@ Report in `.xlsx` format will be split into several chunks like `linked_app_0000
 | publisher        |             |
 | publisher_url    |             |
 | linked           |             |
-
-
 
 
 

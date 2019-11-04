@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## teamfolder 
+## Report: teamfolder 
 
-Command result report files are generated in `teamfolder.csv`, `teamfolder.xlsx` and `teamfolder.json` format.
-Report in `.xlsx` format will be split into several chunks like `teamfolder_0000.xlsx`, `teamfolder_0001.xlsx`, and `teamfolder_0002.xlsx`.   
+Report files are generated in `teamfolder.csv`, `teamfolder.xlsx` and `teamfolder.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `teamfolder_0000.xlsx`, `teamfolder_0001.xlsx`, `teamfolder_0002.xlsx`...   
 
 | Column                 | Description |
 |------------------------|-------------|
@@ -114,8 +115,6 @@ Report in `.xlsx` format will be split into several chunks like `teamfolder_0000
 | status                 |             |
 | is_team_shared_dropbox |             |
 | sync_setting           |             |
-
-
 
 
 

@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## group 
+## Report: group 
 
-Command result report files are generated in `group.csv`, `group.xlsx` and `group.json` format.
-Report in `.xlsx` format will be split into several chunks like `group_0000.xlsx`, `group_0001.xlsx`, and `group_0002.xlsx`.   
+Report files are generated in `group.csv`, `group.xlsx` and `group.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...   
 
 | Column                | Description |
 |-----------------------|-------------|
@@ -114,8 +115,6 @@ Report in `.xlsx` format will be split into several chunks like `group_0000.xlsx
 | group_management_type |             |
 | group_external_id     |             |
 | member_count          |             |
-
-
 
 
 

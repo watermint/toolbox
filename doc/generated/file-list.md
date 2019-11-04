@@ -106,10 +106,11 @@ If you missed command line output, please see path below.
 
 
 
-## file 
+## Report: file 
 
-Command result report files are generated in `file.csv`, `file.xlsx` and `file.json` format.
-Report in `.xlsx` format will be split into several chunks like `file_0000.xlsx`, `file_0001.xlsx`, and `file_0002.xlsx`.   
+Report files are generated in `file.csv`, `file.xlsx` and `file.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `file_0000.xlsx`, `file_0001.xlsx`, `file_0002.xlsx`...   
 
 | Column                  | Description |
 |-------------------------|-------------|
@@ -125,8 +126,6 @@ Report in `.xlsx` format will be split into several chunks like `file_0000.xlsx`
 | content_hash            |             |
 | shared_folder_id        |             |
 | parent_shared_folder_id |             |
-
-
 
 
 

@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## feature 
+## Report: feature 
 
-Command result report files are generated in `feature.csv`, `feature.xlsx` and `feature.json` format.
-Report in `.xlsx` format will be split into several chunks like `feature_0000.xlsx`, `feature_0001.xlsx`, and `feature_0002.xlsx`.   
+Report files are generated in `feature.csv`, `feature.xlsx` and `feature.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...   
 
 | Column                      | Description |
 |-----------------------------|-------------|
@@ -114,8 +115,6 @@ Report in `.xlsx` format will be split into several chunks like `feature_0000.xl
 | has_team_shared_dropbox     |             |
 | has_team_file_events        |             |
 | has_team_selective_sync     |             |
-
-
 
 
 

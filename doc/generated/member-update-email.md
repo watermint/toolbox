@@ -104,10 +104,11 @@ If you missed command line output, please see path below.
 
 
 
-## update 
+## Report: update 
 
-Command result report files are generated in `update.csv`, `update.xlsx` and `update.json` format.
-Report in `.xlsx` format will be split into several chunks like `update_0000.xlsx`, `update_0001.xlsx`, and `update_0002.xlsx`.   
+Report files are generated in `update.csv`, `update.xlsx` and `update.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `update_0000.xlsx`, `update_0001.xlsx`, `update_0002.xlsx`...   
 
 | Column                  | Description |
 |-------------------------|-------------|
@@ -131,8 +132,6 @@ Report in `.xlsx` format will be split into several chunks like `update_0000.xls
 | result.joined_on        |             |
 | result.role             |             |
 | result.tag              |             |
-
-
 
 
 

@@ -102,17 +102,16 @@ If you missed command line output, please see path below.
 
 
 
-## member_quota 
+## Report: member_quota 
 
-Command result report files are generated in `member_quota.csv`, `member_quota.xlsx` and `member_quota.json` format.
-Report in `.xlsx` format will be split into several chunks like `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, and `member_quota_0002.xlsx`.   
+Report files are generated in `member_quota.csv`, `member_quota.xlsx` and `member_quota.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`...   
 
 | Column | Description |
 |--------|-------------|
 | email  |             |
 | quota  |             |
-
-
 
 
 

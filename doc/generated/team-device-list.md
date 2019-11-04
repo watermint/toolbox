@@ -102,43 +102,42 @@ If you missed command line output, please see path below.
 
 
 
-## device 
+## Report: device 
 
-Command result report files are generated in `device.csv`, `device.xlsx` and `device.json` format.
-Report in `.xlsx` format will be split into several chunks like `device_0000.xlsx`, `device_0001.xlsx`, and `device_0002.xlsx`.   
+Report files are generated in `device.csv`, `device.xlsx` and `device.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...   
 
-| Column                        | Description |
-|-------------------------------|-------------|
-| team_member_id                |             |
-| email                         |             |
-| status                        |             |
-| given_name                    |             |
-| surname                       |             |
-| familiar_name                 |             |
-| display_name                  |             |
-| abbreviated_name              |             |
-| external_id                   |             |
-| account_id                    |             |
-| device_tag                    |             |
-| id                            |             |
-| user_agent                    |             |
-| os                            |             |
-| browser                       |             |
-| ip_address                    |             |
-| country                       |             |
-| created                       |             |
-| updated                       |             |
-| expires                       |             |
-| host_name                     |             |
-| client_type                   |             |
-| client_version                |             |
-| platform                      |             |
-| is_delete_on_unlink_supported |             |
-| device_name                   |             |
-| os_version                    |             |
-| last_carrier                  |             |
-
-
+| Column                        | Description                                                                          |
+|-------------------------------|--------------------------------------------------------------------------------------|
+| team_member_id                | ID of user as a member of a team.                                                    |
+| email                         | Email address of user.                                                               |
+| status                        | The user's status as a member of a specific team. (active/invited/suspended/removed) |
+| given_name                    | Also known as a first name                                                           |
+| surname                       | Also known as a last name or family name.                                            |
+| familiar_name                 | Locale-dependent name                                                                |
+| display_name                  | A name that can be used directly to represent the name of a user's Dropbox account.  |
+| abbreviated_name              | An abbreviated form of the person's name.                                            |
+| external_id                   | External ID that a team can attach to the user.                                      |
+| account_id                    |  A user's account identifier.                                                        |
+| device_tag                    | Type of the session (web_session, desktop_client, or mobile_client)                  |
+| id                            | The session id.                                                                      |
+| user_agent                    | Information on the hosting device.                                                   |
+| os                            | Information on the hosting operating system                                          |
+| browser                       | Information on the browser used for this web session.                                |
+| ip_address                    | The IP address of the last activity from this session.                               |
+| country                       | The country from which the last activity from this session was made.                 |
+| created                       | The time this session was created.                                                   |
+| updated                       | The time of the last activity from this session.                                     |
+| expires                       | The time this session expires                                                        |
+| host_name                     | Name of the hosting desktop.                                                         |
+| client_type                   | The Dropbox desktop client type (windows, mac, or linux)                             |
+| client_version                | The Dropbox client version.                                                          |
+| platform                      | Information on the hosting platform.                                                 |
+| is_delete_on_unlink_supported | Whether it's possible to delete all of the account files upon unlinking.             |
+| device_name                   | The device name.                                                                     |
+| os_version                    | The hosting OS version.                                                              |
+| last_carrier                  | Last carrier used by the device.                                                     |
 
 
 

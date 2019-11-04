@@ -102,10 +102,11 @@ If you missed command line output, please see path below.
 
 
 
-## group_member 
+## Report: group_member 
 
-Command result report files are generated in `group_member.csv`, `group_member.xlsx` and `group_member.json` format.
-Report in `.xlsx` format will be split into several chunks like `group_member_0000.xlsx`, `group_member_0001.xlsx`, and `group_member_0002.xlsx`.   
+Report files are generated in `group_member.csv`, `group_member.xlsx` and `group_member.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`...   
 
 | Column                | Description |
 |-----------------------|-------------|
@@ -119,8 +120,6 @@ Report in `.xlsx` format will be split into several chunks like `group_member_00
 | status                |             |
 | surname               |             |
 | given_name            |             |
-
-
 
 
 
