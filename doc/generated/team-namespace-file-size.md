@@ -46,25 +46,25 @@ $HOME/Desktop/tbx team namespace file size
 
 ## Options
 
-| Option                 | Description                                                       | Default   |
-|------------------------|-------------------------------------------------------------------|-----------|
-| -depth                 | Report entry for all files and directories depth directories deep | 2         |
-| -include-shared-folder | If true, include shared folders                                   | true      |
-| -include-team-folder   | If true, include team folders                                     | true      |
-| -name                  | List only for the folder matched to the name                      |           |
-| -peer                  | Account alias                                                     | {default} |
+| Option                   | Description                                                       | Default   |
+|--------------------------|-------------------------------------------------------------------|-----------|
+| `-depth`                 | Report entry for all files and directories depth directories deep | 2         |
+| `-include-shared-folder` | If true, include shared folders                                   | true      |
+| `-include-team-folder`   | If true, include team folders                                     | true      |
+| `-name`                  | List only for the folder matched to the name                      |           |
+| `-peer`                  | Account alias                                                     | {default} |
 
 
 Common options:
 
-| Option       | Description                                                                      | Default              |
-|--------------|----------------------------------------------------------------------------------|----------------------|
-| -concurrency | Maximum concurrency for running operation                                        | Number of processors |
-| -debug       | Enable debug mode                                                                | false                |
-| -proxy       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| -quiet       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| -secure      | Do not store tokens into a file                                                  | false                |
-| -workspace   | Workspace path                                                                   |                      |
+| Option         | Description                                                                      | Default              |
+|----------------|----------------------------------------------------------------------------------|----------------------|
+| `-concurrency` | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`       | Enable debug mode                                                                | false                |
+| `-proxy`       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`      | Do not store tokens into a file                                                  | false                |
+| `-workspace`   | Workspace path                                                                   |                      |
 
 
 ## Authentication

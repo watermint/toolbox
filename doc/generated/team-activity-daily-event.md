@@ -46,24 +46,24 @@ $HOME/Desktop/tbx team activity daily event
 
 ## Options
 
-| Option      | Description    | Default   |
-|-------------|----------------|-----------|
-| -category   | Event category |           |
-| -end-date   | End date       |           |
-| -peer       | Account alias  | {default} |
-| -start-date | Start date     |           |
+| Option        | Description    | Default   |
+|---------------|----------------|-----------|
+| `-category`   | Event category |           |
+| `-end-date`   | End date       |           |
+| `-peer`       | Account alias  | {default} |
+| `-start-date` | Start date     |           |
 
 
 Common options:
 
-| Option       | Description                                                                      | Default              |
-|--------------|----------------------------------------------------------------------------------|----------------------|
-| -concurrency | Maximum concurrency for running operation                                        | Number of processors |
-| -debug       | Enable debug mode                                                                | false                |
-| -proxy       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| -quiet       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| -secure      | Do not store tokens into a file                                                  | false                |
-| -workspace   | Workspace path                                                                   |                      |
+| Option         | Description                                                                      | Default              |
+|----------------|----------------------------------------------------------------------------------|----------------------|
+| `-concurrency` | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`       | Enable debug mode                                                                | false                |
+| `-proxy`       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`      | Do not store tokens into a file                                                  | false                |
+| `-workspace`   | Workspace path                                                                   |                      |
 
 
 ## Authentication

@@ -46,23 +46,23 @@ $HOME/Desktop/tbx file import url
 
 ## Options
 
-| Option | Description    | Default   |
-|--------|----------------|-----------|
-| -path  | Path to import |           |
-| -peer  | Account alias  | {default} |
-| -url   | URL            |           |
+| Option  | Description    | Default   |
+|---------|----------------|-----------|
+| `-path` | Path to import |           |
+| `-peer` | Account alias  | {default} |
+| `-url`  | URL            |           |
 
 
 Common options:
 
-| Option       | Description                                                                      | Default              |
-|--------------|----------------------------------------------------------------------------------|----------------------|
-| -concurrency | Maximum concurrency for running operation                                        | Number of processors |
-| -debug       | Enable debug mode                                                                | false                |
-| -proxy       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| -quiet       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| -secure      | Do not store tokens into a file                                                  | false                |
-| -workspace   | Workspace path                                                                   |                      |
+| Option         | Description                                                                      | Default              |
+|----------------|----------------------------------------------------------------------------------|----------------------|
+| `-concurrency` | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`       | Enable debug mode                                                                | false                |
+| `-proxy`       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`      | Do not store tokens into a file                                                  | false                |
+| `-workspace`   | Workspace path                                                                   |                      |
 
 
 ## Authentication

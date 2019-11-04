@@ -46,23 +46,23 @@ $HOME/Desktop/tbx member update email
 
 ## Options
 
-| Option                  | Description                                          | Default                                                      |
-|-------------------------|------------------------------------------------------|--------------------------------------------------------------|
-| -dont-update-unverified | Do not update an account which didn't verified email | true                                                         |
-| -file                   | Data file                                            | { <nil> <nil> <nil> <nil> <nil> map[] map[] false  [] <nil>} |
-| -peer                   | Account alias                                        | {default}                                                    |
+| Option                    | Description                                          | Default                                                      |
+|---------------------------|------------------------------------------------------|--------------------------------------------------------------|
+| `-dont-update-unverified` | Do not update an account which didn't verified email | true                                                         |
+| `-file`                   | Data file                                            | { <nil> <nil> <nil> <nil> <nil> map[] map[] false  [] <nil>} |
+| `-peer`                   | Account alias                                        | {default}                                                    |
 
 
 Common options:
 
-| Option       | Description                                                                      | Default              |
-|--------------|----------------------------------------------------------------------------------|----------------------|
-| -concurrency | Maximum concurrency for running operation                                        | Number of processors |
-| -debug       | Enable debug mode                                                                | false                |
-| -proxy       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| -quiet       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| -secure      | Do not store tokens into a file                                                  | false                |
-| -workspace   | Workspace path                                                                   |                      |
+| Option         | Description                                                                      | Default              |
+|----------------|----------------------------------------------------------------------------------|----------------------|
+| `-concurrency` | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`       | Enable debug mode                                                                | false                |
+| `-proxy`       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`      | Do not store tokens into a file                                                  | false                |
+| `-workspace`   | Workspace path                                                                   |                      |
 
 
 ## Authentication

@@ -46,26 +46,26 @@ $HOME/Desktop/tbx file merge
 
 ## Options
 
-| Option                 | Description                                                                             | Default   |
-|------------------------|-----------------------------------------------------------------------------------------|-----------|
-| -dry-run               | Dry run                                                                                 | true      |
-| -from                  | Path for merge                                                                          |           |
-| -keep-empty-folder     | Keep empty folder after merge                                                           | false     |
-| -peer                  | Account alias                                                                           | {default} |
-| -to                    | Path to merge                                                                           |           |
-| -within-same-namespace | Do not cross namespace. That is for preserve sharing permission including a shared link | false     |
+| Option                   | Description                                                                             | Default   |
+|--------------------------|-----------------------------------------------------------------------------------------|-----------|
+| `-dry-run`               | Dry run                                                                                 | true      |
+| `-from`                  | Path for merge                                                                          |           |
+| `-keep-empty-folder`     | Keep empty folder after merge                                                           | false     |
+| `-peer`                  | Account alias                                                                           | {default} |
+| `-to`                    | Path to merge                                                                           |           |
+| `-within-same-namespace` | Do not cross namespace. That is for preserve sharing permission including a shared link | false     |
 
 
 Common options:
 
-| Option       | Description                                                                      | Default              |
-|--------------|----------------------------------------------------------------------------------|----------------------|
-| -concurrency | Maximum concurrency for running operation                                        | Number of processors |
-| -debug       | Enable debug mode                                                                | false                |
-| -proxy       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| -quiet       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| -secure      | Do not store tokens into a file                                                  | false                |
-| -workspace   | Workspace path                                                                   |                      |
+| Option         | Description                                                                      | Default              |
+|----------------|----------------------------------------------------------------------------------|----------------------|
+| `-concurrency` | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`       | Enable debug mode                                                                | false                |
+| `-proxy`       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`      | Do not store tokens into a file                                                  | false                |
+| `-workspace`   | Workspace path                                                                   |                      |
 
 
 ## Authentication

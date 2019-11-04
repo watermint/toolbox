@@ -46,24 +46,24 @@ If you want to compare different path in same account, please specify same alias
 
 ## Options
 
-| Option      | Description                        | Default   |
-|-------------|------------------------------------|-----------|
-| -left       | Account alias (left)               | {default} |
-| -left-path  | The path from account root (left)  |           |
-| -right      | Account alias (right)              | {default} |
-| -right-path | The path from account root (right) |           |
+| Option        | Description                        | Default   |
+|---------------|------------------------------------|-----------|
+| `-left`       | Account alias (left)               | {default} |
+| `-left-path`  | The path from account root (left)  |           |
+| `-right`      | Account alias (right)              | {default} |
+| `-right-path` | The path from account root (right) |           |
 
 
 Common options:
 
-| Option       | Description                                                                      | Default              |
-|--------------|----------------------------------------------------------------------------------|----------------------|
-| -concurrency | Maximum concurrency for running operation                                        | Number of processors |
-| -debug       | Enable debug mode                                                                | false                |
-| -proxy       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| -quiet       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| -secure      | Do not store tokens into a file                                                  | false                |
-| -workspace   | Workspace path                                                                   |                      |
+| Option         | Description                                                                      | Default              |
+|----------------|----------------------------------------------------------------------------------|----------------------|
+| `-concurrency` | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`       | Enable debug mode                                                                | false                |
+| `-proxy`       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`      | Do not store tokens into a file                                                  | false                |
+| `-workspace`   | Workspace path                                                                   |                      |
 
 
 ## Authentication

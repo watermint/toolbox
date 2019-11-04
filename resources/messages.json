@@ -30,7 +30,7 @@
   "recipe.dev.doc.options.header.option": "Option",
   "recipe.dev.doc.options.header.description": "Description",
   "recipe.dev.doc.options.header.default": "Default",
-  "recipe.dev.doc.options.body.option": "-{{.Option}}",
+  "recipe.dev.doc.options.body.option": "`-{{.Option}}`",
   "recipe.dev.doc.report.header.name": "Column",
   "recipe.dev.doc.report.header.description": "Description",
   "recipe.dev.dummy_vo.flag.dest": "Dummy file destination",
