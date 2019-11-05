@@ -44,30 +44,3 @@ Available commands:
 ## {{ msg "doc.readme.head.commands" }}
 
 {{.Commands}}
-
-## {{ msg "doc.readme.head.authentication" }}
-
-{{ msg "doc.readme.body.authentication" }}
-
-```
-watermint toolbox xx.x.xxx
-© 2016-2019 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
-
-Testing network connection...
-Done
-
-1. Visit the URL for the auth dialog:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
-```
-
-{{ msg "doc.readme.body.authentication_token_file" }}
-
-## {{ msg "doc.readme.head.proxy" }}
-
-{{ msg "doc.readme.body.proxy" }}

@@ -94,34 +94,3 @@ Available commands:
 | [teamfolder replication](doc/generated/teamfolder-replication.md)               | Replicate a team folder to the other team                     |
 | [web](doc/generated/web.md)                                                     | Launch web console (experimental)                             |
 
-## Authentication
-
-If an executable contains registered application keys,
-then the executable will ask you an authentication to your Dropbox account or a team.
-Please open the provided URL, then paste authorisation code.
-
-```
-watermint toolbox xx.x.xxx
-© 2016-2019 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
-
-Testing network connection...
-Done
-
-1. Visit the URL for the auth dialog:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
-```
-
-The executable store tokens at the file under folder `$HOME/.toolbox/secrets/(HASH).secret`.
-If you don't want to store tokens into the file, then please specify option `-secure`.
-
-## Network configuration: Proxy
-
-The executable automatically detects your proxy configuration from the environment.
-However, if you got an error or you want to specify explicitly, please add `-proxy` option, like `-proxy hostname:port`.
-Currently, the executable doesn't support proxies which require authentication.
