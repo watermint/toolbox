@@ -108,12 +108,12 @@ Report files are generated in `namespace.csv`, `namespace.xlsx` and `namespace.j
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
 
-| Column         | Description |
-|----------------|-------------|
-| name           |             |
-| namespace_id   |             |
-| namespace_type |             |
-| team_member_id |             |
+| Column         | Description                                                                                |
+|----------------|--------------------------------------------------------------------------------------------|
+| name           | The name of this namespace                                                                 |
+| namespace_id   | The ID of this namespace.                                                                  |
+| namespace_type | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
+| team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
 
 
 

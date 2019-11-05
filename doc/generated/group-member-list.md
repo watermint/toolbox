@@ -108,18 +108,18 @@ Report files are generated in `group_member.csv`, `group_member.xlsx` and `group
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`...   
 
-| Column                | Description |
-|-----------------------|-------------|
-| group_id              |             |
-| group_name            |             |
-| group_management_type |             |
-| access_type           |             |
-| account_id            |             |
-| team_member_id        |             |
-| email                 |             |
-| status                |             |
-| surname               |             |
-| given_name            |             |
+| Column                | Description                                                                           |
+|-----------------------|---------------------------------------------------------------------------------------|
+| group_id              | A group's identifier                                                                  |
+| group_name            | Name of a group.                                                                      |
+| group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
+| access_type           | The role that the user has in the group (member/owner)                                |
+| account_id            | A user's account identifier                                                           |
+| team_member_id        | ID of user as a member of a team.                                                     |
+| email                 | Email address of user.                                                                |
+| status                | The user's status as a member of a specific team. (active/invited/suspended/removed)  |
+| surname               | Also known as a last name or family name.                                             |
+| given_name            | Also known as a first name                                                            |
 
 
 

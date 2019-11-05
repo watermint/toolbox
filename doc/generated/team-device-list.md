@@ -119,7 +119,7 @@ like `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...
 | display_name                  | A name that can be used directly to represent the name of a user's Dropbox account.  |
 | abbreviated_name              | An abbreviated form of the person's name.                                            |
 | external_id                   | External ID that a team can attach to the user.                                      |
-| account_id                    |  A user's account identifier.                                                        |
+| account_id                    | A user's account identifier.                                                         |
 | device_tag                    | Type of the session (web_session, desktop_client, or mobile_client)                  |
 | id                            | The session id.                                                                      |
 | user_agent                    | Information on the hosting device.                                                   |

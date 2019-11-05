@@ -114,23 +114,23 @@ Report files are generated in `namespace_file.csv`, `namespace_file.xlsx` and `n
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
 
-| Column                  | Description |
-|-------------------------|-------------|
-| namespace_type          |             |
-| namespace_id            |             |
-| namespace_name          |             |
-| namespace_member_email  |             |
-| file_id                 |             |
-| tag                     |             |
-| name                    |             |
-| path_display            |             |
-| client_modified         |             |
-| server_modified         |             |
-| revision                |             |
-| size                    |             |
-| content_hash            |             |
-| shared_folder_id        |             |
-| parent_shared_folder_id |             |
+| Column                  | Description                                                                                            |
+|-------------------------|--------------------------------------------------------------------------------------------------------|
+| namespace_type          | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)             |
+| namespace_id            | The ID of this namespace.                                                                              |
+| namespace_name          | The name of this namespace                                                                             |
+| namespace_member_email  | If this is a team member or app folder, the email address of the owning team member.                   |
+| file_id                 | A unique identifier for the file.                                                                      |
+| tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| name                    | The last component of the path (including extension).                                                  |
+| path_display            | The cased path to be used for display purposes only.                                                   |
+| client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| server_modified         | The last time the file was modified on Dropbox.                                                        |
+| revision                | A unique identifier for the current revision of a file.                                                |
+| size                    | The file size in bytes.                                                                                |
+| content_hash            | A hash of the file content.                                                                            |
+| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
+| parent_shared_folder_id | Set if the folder is contained by a shared folder.                                                     |
 
 
 

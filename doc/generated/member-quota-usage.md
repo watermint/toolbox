@@ -108,13 +108,13 @@ Report files are generated in `usage.csv`, `usage.xlsx` and `usage.json` format.
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   
 
-| Column     | Description |
-|------------|-------------|
-| email      |             |
-| used_gb    |             |
-| used_bytes |             |
-| allocation |             |
-| allocated  |             |
+| Column     | Description                                              |
+|------------|----------------------------------------------------------|
+| email      | Email address of the account                             |
+| used_gb    | The user's total space usage (in GB, 1GB = 1024 MB).     |
+| used_bytes | The user's total space usage (bytes).                    |
+| allocation | The user's space allocation (individual, or team)        |
+| allocated  | The total space allocated to the user's account (bytes). |
 
 
 

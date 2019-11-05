@@ -108,10 +108,10 @@ Report files are generated in `member_quota.csv`, `member_quota.xlsx` and `membe
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`...   
 
-| Column | Description |
-|--------|-------------|
-| email  |             |
-| quota  |             |
+| Column | Description                                                                 |
+|--------|-----------------------------------------------------------------------------|
+| email  | Email address of user.                                                      |
+| quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
 
 
 

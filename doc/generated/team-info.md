@@ -108,17 +108,17 @@ Report files are generated in `info.csv`, `info.xlsx` and `info.json` format.
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
 
-| Column                      | Description |
-|-----------------------------|-------------|
-| name                        |             |
-| team_id                     |             |
-| num_licensed_users          |             |
-| num_provisioned_users       |             |
-| policy_shared_folder_member |             |
-| policy_shared_folder_join   |             |
-| policy_shared_link_create   |             |
-| policy_emm_state            |             |
-| policy_office_add_in        |             |
+| Column                      | Description                                                                                                   |
+|-----------------------------|---------------------------------------------------------------------------------------------------------------|
+| name                        | The name of the team                                                                                          |
+| team_id                     | The ID of the team.                                                                                           |
+| num_licensed_users          | The number of licenses available to the team.                                                                 |
+| num_provisioned_users       | The number of accounts that have been invited or are already active members of the team.                      |
+| policy_shared_folder_member | Which shared folders team members can join (from_team_only, or from_anyone)                                   |
+| policy_shared_folder_join   | Who can join folders shared by team members (team, or anyone)                                                 |
+| policy_shared_link_create   | Who can view shared links owned by team members (default_public, default_team_only, or team_only)             |
+| policy_emm_state            | This describes the Enterprise Mobility Management (EMM) state for this team (disabled, optional, or required) |
+| policy_office_add_in        | The admin policy around the Dropbox Office Add-In for this team (disabled, or enabled)                        |
 
 
 

@@ -110,17 +110,17 @@ Report files are generated in `link.csv`, `link.xlsx` and `link.json` format.
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `link_0000.xlsx`, `link_0001.xlsx`, `link_0002.xlsx`...   
 
-| Column           | Description |
-|------------------|-------------|
-| status           |             |
-| reason           |             |
-| input.id         |             |
-| input.tag        |             |
-| input.url        |             |
-| input.name       |             |
-| input.expires    |             |
-| input.path_lower |             |
-| input.visibility |             |
+| Column           | Description                                                                                                                                                                                                             |
+|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status           | Status of the operation                                                                                                                                                                                                 |
+| reason           | Reason of failure or skipped operation                                                                                                                                                                                  |
+| input.id         | A unique identifier for the linked file or folder                                                                                                                                                                       |
+| input.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
+| input.url        | URL of the shared link.                                                                                                                                                                                                 |
+| input.name       | The linked file name (including extension).                                                                                                                                                                             |
+| input.expires    | Expiration time, if set.                                                                                                                                                                                                |
+| input.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| input.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
 
 
 

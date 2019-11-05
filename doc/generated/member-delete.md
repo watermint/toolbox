@@ -110,11 +110,11 @@ Report files are generated in `delete.csv`, `delete.xlsx` and `delete.json` form
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `delete_0000.xlsx`, `delete_0001.xlsx`, `delete_0002.xlsx`...   
 
-| Column      | Description |
-|-------------|-------------|
-| status      |             |
-| reason      |             |
-| input.email |             |
+| Column      | Description                            |
+|-------------|----------------------------------------|
+| status      | Status of the operation                |
+| reason      | Reason of failure or skipped operation |
+| input.email | Email address of the account           |
 
 
 

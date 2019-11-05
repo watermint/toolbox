@@ -108,16 +108,16 @@ Report files are generated in `sharedfolder.csv`, `sharedfolder.xlsx` and `share
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `sharedfolder_0000.xlsx`, `sharedfolder_0001.xlsx`, `sharedfolder_0002.xlsx`...   
 
-| Column                  | Description |
-|-------------------------|-------------|
-| shared_folder_id        |             |
-| parent_shared_folder_id |             |
-| name                    |             |
-| access_type             |             |
-| path_lower              |             |
-| is_inside_team_folder   |             |
-| is_team_folder          |             |
-| policy_member           |             |
+| Column                  | Description                                                                                                             |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| shared_folder_id        | The ID of the shared folder.                                                                                            |
+| parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
+| name                    | The name of the this shared folder.                                                                                     |
+| access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
+| path_lower              | The lower-cased full path of this shared folder.                                                                        |
+| is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
+| is_team_folder          | Whether this folder is a team folder.                                                                                   |
+| policy_member           | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                                |
 
 
 

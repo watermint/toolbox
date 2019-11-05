@@ -108,23 +108,23 @@ Report files are generated in `file_request.csv`, `file_request.xlsx` and `file_
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`...   
 
-| Column                      | Description |
-|-----------------------------|-------------|
-| account_id                  |             |
-| team_member_id              |             |
-| email                       |             |
-| status                      |             |
-| surname                     |             |
-| given_name                  |             |
-| file_request_id             |             |
-| url                         |             |
-| title                       |             |
-| created                     |             |
-| is_open                     |             |
-| file_count                  |             |
-| destination                 |             |
-| deadline                    |             |
-| deadline_allow_late_uploads |             |
+| Column                      | Description                                                                   |
+|-----------------------------|-------------------------------------------------------------------------------|
+| account_id                  | Account ID of this file request owner.                                        |
+| team_member_id              | ID of file request owner user as a member of a team                           |
+| email                       | Email address of this file request owner.                                     |
+| status                      | The user status of this file request owner (active/invited/suspended/removed) |
+| surname                     | Surname of this file request owner.                                           |
+| given_name                  | Given name of this file request owner.                                        |
+| file_request_id             | The ID of the file request.                                                   |
+| url                         | The URL of the file request.                                                  |
+| title                       | The title of the file request.                                                |
+| created                     | When this file request was created.                                           |
+| is_open                     | Whether or not the file request is open.                                      |
+| file_count                  | The number of files this file request has received.                           |
+| destination                 | The path of the folder in the Dropbox where uploaded files will be sent       |
+| deadline                    | The deadline for this file request.                                           |
+| deadline_allow_late_uploads | If set, allow uploads after the deadline has passed                           |
 
 
 

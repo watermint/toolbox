@@ -108,13 +108,13 @@ Report files are generated in `group.csv`, `group.xlsx` and `group.json` format.
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...   
 
-| Column                | Description |
-|-----------------------|-------------|
-| group_name            |             |
-| group_id              |             |
-| group_management_type |             |
-| group_external_id     |             |
-| member_count          |             |
+| Column                | Description                                                                           |
+|-----------------------|---------------------------------------------------------------------------------------|
+| group_name            | Name of a group                                                                       |
+| group_id              | A group's identifier                                                                  |
+| group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
+| group_external_id     |  External ID of group. This is an arbitrary ID that an admin can attach to a group.   |
+| member_count          | The number of members in the group.                                                   |
 
 
 

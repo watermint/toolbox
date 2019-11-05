@@ -110,20 +110,20 @@ Report files are generated in `import_url.csv`, `import_url.xlsx` and `import_ur
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `import_url_0000.xlsx`, `import_url_0001.xlsx`, `import_url_0002.xlsx`...   
 
-| Column                  | Description |
-|-------------------------|-------------|
-| id                      |             |
-| tag                     |             |
-| name                    |             |
-| path_lower              |             |
-| path_display            |             |
-| client_modified         |             |
-| server_modified         |             |
-| revision                |             |
-| size                    |             |
-| content_hash            |             |
-| shared_folder_id        |             |
-| parent_shared_folder_id |             |
+| Column                  | Description                                                                                            |
+|-------------------------|--------------------------------------------------------------------------------------------------------|
+| id                      | A unique identifier for the file.                                                                      |
+| tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| name                    | The last component of the path (including extension).                                                  |
+| path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
+| path_display            | The cased path to be used for display purposes only.                                                   |
+| client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| server_modified         | The last time the file was modified on Dropbox.                                                        |
+| revision                | A unique identifier for the current revision of a file.                                                |
+| size                    | The file size in bytes.                                                                                |
+| content_hash            | A hash of the file content.                                                                            |
+| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
+| parent_shared_folder_id |                                                                                                        |
 
 
 

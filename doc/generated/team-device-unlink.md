@@ -112,8 +112,8 @@ like `unlink_0000.xlsx`, `unlink_0001.xlsx`, `unlink_0002.xlsx`...
 
 | Column                              | Description                                                                          |
 |-------------------------------------|--------------------------------------------------------------------------------------|
-| status                              |                                                                                      |
-| reason                              |                                                                                      |
+| status                              | Status of the operation                                                              |
+| reason                              | Reason of failure or skipped operation                                               |
 | input.team_member_id                | ID of user as a member of a team.                                                    |
 | input.email                         | Email address of user.                                                               |
 | input.status                        | The user's status as a member of a specific team. (active/invited/suspended/removed) |
@@ -123,7 +123,7 @@ like `unlink_0000.xlsx`, `unlink_0001.xlsx`, `unlink_0002.xlsx`...
 | input.display_name                  | A name that can be used directly to represent the name of a user's Dropbox account.  |
 | input.abbreviated_name              | An abbreviated form of the person's name.                                            |
 | input.external_id                   | External ID that a team can attach to the user.                                      |
-| input.account_id                    |  A user's account identifier.                                                        |
+| input.account_id                    | A user's account identifier.                                                         |
 | input.device_tag                    | Type of the session (web_session, desktop_client, or mobile_client)                  |
 | input.id                            | The session id.                                                                      |
 | input.user_agent                    | Information on the hosting device.                                                   |

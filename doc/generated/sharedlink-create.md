@@ -112,15 +112,15 @@ Report files are generated in `shared_link.csv`, `shared_link.xlsx` and `shared_
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
 
-| Column     | Description |
-|------------|-------------|
-| id         |             |
-| tag        |             |
-| url        |             |
-| name       |             |
-| expires    |             |
-| path_lower |             |
-| visibility |             |
+| Column     | Description                                                                                                                                                                                                             |
+|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id         | A unique identifier for the linked file or folder                                                                                                                                                                       |
+| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
+| url        | URL of the shared link.                                                                                                                                                                                                 |
+| name       | The linked file name (including extension).                                                                                                                                                                             |
+| expires    | Expiration time, if set.                                                                                                                                                                                                |
+| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
 
 
 

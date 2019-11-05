@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 )
@@ -27,7 +28,11 @@ type List struct {
 
 func (z *List) Reports() []rp_spec.ReportSpec {
 	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportList, &mo_member.Member{}),
+		rp_spec_impl.Spec(
+			reportList,
+			&mo_member.Member{},
+			rp_model.HiddenColumns("tag"),
+		),
 	}
 }
 

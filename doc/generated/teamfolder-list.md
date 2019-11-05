@@ -108,13 +108,13 @@ Report files are generated in `teamfolder.csv`, `teamfolder.xlsx` and `teamfolde
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `teamfolder_0000.xlsx`, `teamfolder_0001.xlsx`, `teamfolder_0002.xlsx`...   
 
-| Column                 | Description |
-|------------------------|-------------|
-| team_folder_id         |             |
-| name                   |             |
-| status                 |             |
-| is_team_shared_dropbox |             |
-| sync_setting           |             |
+| Column                 | Description                                                                                |
+|------------------------|--------------------------------------------------------------------------------------------|
+| team_folder_id         | The ID of the team folder.                                                                 |
+| name                   | The name of the team folder.                                                               |
+| status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
+| is_team_shared_dropbox |                                                                                            |
+| sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
 
 
 

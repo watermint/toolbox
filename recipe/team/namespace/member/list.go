@@ -64,12 +64,12 @@ func (z *List) Reports() []rp_spec.ReportSpec {
 	return []rp_spec.ReportSpec{
 		rp_spec_impl.Spec(listReportNamespaceMember,
 			&mo_namespace.NamespaceMember{},
-			rp_model.HiddenColumns([]string{
+			rp_model.HiddenColumns(
 				"account_id",
 				"group_id",
 				"namespace_team_member_id",
 				"team_member_id",
-			}),
+			),
 		),
 	}
 }

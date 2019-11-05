@@ -108,13 +108,13 @@ Report files are generated in `feature.csv`, `feature.xlsx` and `feature.json` f
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...   
 
-| Column                      | Description |
-|-----------------------------|-------------|
-| upload_api_rate_limit       |             |
-| upload_api_rate_limit_count |             |
-| has_team_shared_dropbox     |             |
-| has_team_file_events        |             |
-| has_team_selective_sync     |             |
+| Column                      | Description                                       |
+|-----------------------------|---------------------------------------------------|
+| upload_api_rate_limit       | The number of upload API calls allowed per month. |
+| upload_api_rate_limit_count | The number of upload API called this month.       |
+| has_team_shared_dropbox     | Does this team have a shared team root.           |
+| has_team_file_events        | Does this team have file events.                  |
+| has_team_selective_sync     | Does this team have team selective sync enabled.  |
 
 
 

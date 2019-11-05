@@ -109,17 +109,17 @@ Report files are generated in `namespace_member.csv`, `namespace_member.xlsx` an
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`...   
 
-| Column             | Description |
-|--------------------|-------------|
-| namespace_name     |             |
-| namespace_id       |             |
-| namespace_type     |             |
-| entry_access_type  |             |
-| entry_is_inherited |             |
-| email              |             |
-| display_name       |             |
-| group_name         |             |
-| invitee_email      |             |
+| Column             | Description                                                                                               |
+|--------------------|-----------------------------------------------------------------------------------------------------------|
+| namespace_name     | The name of this namespace                                                                                |
+| namespace_id       | The ID of this namespace.                                                                                 |
+| namespace_type     | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)                |
+| entry_access_type  | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
+| entry_is_inherited | True if the member has access from a parent folder                                                        |
+| email              | Email address of user.                                                                                    |
+| display_name       | Type of the session (web_session, desktop_client, or mobile_client)                                       |
+| group_name         | Name of the group                                                                                         |
+| invitee_email      | Email address of invitee for this folder                                                                  |
 
 
 
