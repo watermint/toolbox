@@ -32,14 +32,16 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file merge 
+.\tbx.exe file merge -from /from/path -to /path/to -dry-run=false
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file merge 
+$HOME/Desktop/tbx file merge -from /from/path -to /path/to -dry-run=false
 ```
+
+Please run without `-dry-run=false` to verify integrity of expected result.
 
 ## Options
 

@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file import url 
+.\tbx.exe file import url -url URL -path /path/to/import
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file import url 
+$HOME/Desktop/tbx file import url -url URL -path /path/to/import
 ```
 
 ## Options

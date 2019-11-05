@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file list 
+.\tbx.exe file list -path /path
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file list 
+$HOME/Desktop/tbx file list -path /path
 ```
 
 ## Options

@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file copy 
+.\tbx.exe file copy -src /SRC/PATH -dst /DST/PATH
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file copy 
+$HOME/Desktop/tbx file copy -src /SRC/PATH -dst /DST/PATH
 ```
 
 ## Options
