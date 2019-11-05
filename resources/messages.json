@@ -6,6 +6,7 @@
   "auth.basic.oauth_seq2": "Enter the authorisation code",
   "auth.basic.user_cancelled": "User cancelled operation",
   "auth.basic.verify.failed": "Unable to verify token, or invalid token. Please retry",
+  "auth.failed_or_cancelled": "Authentication failed or cancelled: {{.Cause}}",
   "flow.error.file_not_found": "File not found at path `{{.Path}}`",
   "flow.error.no_file_path": "No file specified",
   "flow.error.not_a_file": "Not a file `{{.Path}}`",

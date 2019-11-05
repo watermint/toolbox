@@ -25,7 +25,7 @@ func (z *Quiet) Failure(key string, p ...app_msg.P) {
 }
 
 func (z *Quiet) IsConsole() bool {
-	return false
+	return true
 }
 
 func (z *Quiet) IsWeb() bool {
@@ -71,6 +71,7 @@ func (z *Quiet) Info(key string, p ...app_msg.P) {
 
 func (z *Quiet) Error(key string, p ...app_msg.P) {
 	z.log.Debug(key, zap.Any("params", p))
+	z.log.Error(z.container.Compile(app_msg.M(key, p...)))
 }
 
 // always cancel process
