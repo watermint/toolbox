@@ -7,6 +7,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/control/app_opt"
+	"github.com/watermint/toolbox/infra/recpie/app_conn"
+	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
@@ -148,7 +150,42 @@ func (z *Doc) readme(k app_kitchen.Kitchen) error {
 	return tmpl.Execute(out, params)
 }
 
+func (z *Doc) authScopes(vo app_vo.ValueObject, k app_kitchen.Kitchen) (scopes []string, usePersonal, useBusiness bool) {
+	l := k.Log()
+	scopes = make([]string, 0)
+	sc := make(map[string]bool)
+
+	vc := app_vo_impl.NewValueContainer(vo)
+	for _, v := range vc.Values {
+		switch v0 := v.(type) {
+		case app_conn.ConnBusinessInfo:
+			l.Debug("business info", zap.Any("v0", v0))
+			sc["business_info"] = true
+			useBusiness = true
+		case app_conn.ConnBusinessMgmt:
+			sc["business_mgmt"] = true
+			useBusiness = true
+		case app_conn.ConnBusinessFile:
+			sc["business_file"] = true
+			useBusiness = true
+		case app_conn.ConnBusinessAudit:
+			sc["business_audit"] = true
+			useBusiness = true
+		case app_conn.ConnUserFile:
+			sc["user_file"] = true
+			usePersonal = true
+		}
+	}
+	for s := range sc {
+		scopes = append(scopes, s)
+	}
+	sort.Strings(scopes)
+
+	return scopes, usePersonal, useBusiness
+}
+
 func (z *Doc) optionsTable(vo app_vo.ValueObject, k app_kitchen.Kitchen) string {
+	l := k.Log()
 	var b bytes.Buffer
 	w := bufio.NewWriter(&b)
 	mc := k.Control().Messages()
@@ -163,6 +200,11 @@ func (z *Doc) optionsTable(vo app_vo.ValueObject, k app_kitchen.Kitchen) string 
 	)
 
 	vc := app_vo_impl.NewValueContainer(vo)
+
+	if len(vc.Values) < 1 {
+		return ""
+	}
+
 	keys := make([]string, 0)
 	for k := range vc.Values {
 		keys = append(keys, k)
@@ -172,6 +214,12 @@ func (z *Doc) optionsTable(vo app_vo.ValueObject, k app_kitchen.Kitchen) string 
 	for _, k := range keys {
 		vk := vc.MessageKey(k)
 		vd := vc.Values[k]
+		switch v := vd.(type) {
+		case app_file.Data:
+			l.Debug("Data file", zap.Any("v", v))
+			vd = ""
+		}
+
 		vkd := vk + ".default"
 		if mc.Exists(vkd) {
 			vd = mc.Text(vkd)
@@ -244,6 +292,8 @@ func (z *Doc) commandManual(r app_recipe.Recipe, k app_kitchen.Kitchen) error {
 		return err
 	}
 
+	authScopes, usePersonal, useBusiness := z.authScopes(r.Requirement(), k)
+
 	params := make(map[string]interface{})
 	params["Command"] = command
 	params["CommandTitle"] = ui.Text(app_recipe.Title(r).Key())
@@ -252,6 +302,10 @@ func (z *Doc) commandManual(r app_recipe.Recipe, k app_kitchen.Kitchen) error {
 	params["CommandNote"] = msgOrEmpty(app_recipe.RecipeMessage(r, "cli.note"))
 	params["Options"] = z.optionsTable(r.Requirement(), k)
 	params["CommonOptions"] = z.optionsTable(app_opt.NewDefaultCommonOpts(), k)
+	params["UseAuth"] = len(authScopes) > 0
+	params["UseAuthPersonal"] = usePersonal
+	params["UseAuthBusiness"] = useBusiness
+	params["AuthScopes"] = authScopes
 
 	reportNames := make([]string, 0)
 	reports := make(map[string]string, 0)

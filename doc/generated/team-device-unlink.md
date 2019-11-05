@@ -4,6 +4,7 @@ Unlink device sessions
 
 
 
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -19,9 +20,11 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
+* Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations
 
-* Individual account token: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
-* Business token: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations
+This command use following access type(s) during the operation:
+* Dropbox Business File access
+
 
 # Usage
 
@@ -46,11 +49,11 @@ $HOME/Desktop/tbx team device unlink
 
 ## Options
 
-| Option              | Description            | Default                                                      |
-|---------------------|------------------------|--------------------------------------------------------------|
-| `-delete-on-unlink` | Delete files on unlink | false                                                        |
-| `-file`             | Data file              | { <nil> <nil> <nil> <nil> <nil> map[] map[] false  [] <nil>} |
-| `-peer`             | Account alias          | {default}                                                    |
+| Option              | Description            | Default   |
+|---------------------|------------------------|-----------|
+| `-delete-on-unlink` | Delete files on unlink | false     |
+| `-file`             | Data file              |           |
+| `-peer`             | Account alias          | {default} |
 
 
 Common options:
@@ -63,6 +66,7 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
+
 
 
 ## Authentication
@@ -88,6 +92,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 3. Copy the authorisation code:
 Enter the authorisation code
 ```
+
 
 
 # Result
