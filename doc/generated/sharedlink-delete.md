@@ -1,4 +1,4 @@
-# sharedlink remove 
+# sharedlink delete 
 
 Remove shared links
 
@@ -33,13 +33,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe sharedlink remove 
+.\tbx.exe sharedlink delete 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx sharedlink remove 
+$HOME/Desktop/tbx sharedlink delete 
 ```
 
 

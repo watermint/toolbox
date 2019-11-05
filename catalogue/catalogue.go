@@ -66,7 +66,7 @@ func Recipes() []app_recipe.Recipe {
 		&sharedfoldermember.List{},
 		&sharedlink.Create{},
 		&sharedlink.List{},
-		&sharedlink.Remove{},
+		&sharedlink.Delete{},
 		&team.Diagnosis{},
 		&team.Feature{},
 		&team.Info{},

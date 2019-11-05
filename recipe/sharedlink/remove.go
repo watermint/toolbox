@@ -19,34 +19,34 @@ import (
 	"strings"
 )
 
-type RemoveVO struct {
+type DeleteVO struct {
 	Peer      app_conn.ConnUserFile
 	Path      string
 	Recursive bool
 }
 
 const (
-	reportRemove = "link"
+	reportDelete = "link"
 )
 
-type Remove struct {
+type Delete struct {
 }
 
-func (z *Remove) Reports() []rp_spec.ReportSpec {
+func (z *Delete) Reports() []rp_spec.ReportSpec {
 	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportRemove, rp_model.TransactionHeader(&mo_sharedlink.Metadata{}, nil)),
+		rp_spec_impl.Spec(reportDelete, rp_model.TransactionHeader(&mo_sharedlink.Metadata{}, nil)),
 	}
 }
 
-func (z *Remove) Console() {
+func (z *Delete) Console() {
 }
 
-func (z *Remove) Requirement() app_vo.ValueObject {
-	return &RemoveVO{}
+func (z *Delete) Requirement() app_vo.ValueObject {
+	return &DeleteVO{}
 }
 
-func (z *Remove) Exec(k app_kitchen.Kitchen) error {
-	vo := k.Value().(*RemoveVO)
+func (z *Delete) Exec(k app_kitchen.Kitchen) error {
+	vo := k.Value().(*DeleteVO)
 	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
@@ -59,7 +59,7 @@ func (z *Remove) Exec(k app_kitchen.Kitchen) error {
 	}
 }
 
-func (z *Remove) removePathAt(k app_kitchen.Kitchen, ctx api_context.Context, path string) error {
+func (z *Delete) removePathAt(k app_kitchen.Kitchen, ctx api_context.Context, path string) error {
 	ui := k.UI()
 	l := k.Log()
 	links, err := sv_sharedlink.New(ctx).ListByPath(mo_path.NewPath(path))
@@ -67,12 +67,12 @@ func (z *Remove) removePathAt(k app_kitchen.Kitchen, ctx api_context.Context, pa
 		return err
 	}
 	if len(links) < 1 {
-		ui.Info("recipe.sharedlink.remove.info.no_links_at_the_path", app_msg.P{
+		ui.Info("recipe.sharedlink.delete.info.no_links_at_the_path", app_msg.P{
 			"Path": path,
 		})
 		return nil
 	}
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportRemove)
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportDelete)
 	if err != nil {
 		return err
 	}
@@ -80,14 +80,14 @@ func (z *Remove) removePathAt(k app_kitchen.Kitchen, ctx api_context.Context, pa
 
 	var lastErr error
 	for _, link := range links {
-		ui.Info("recipe.sharedlink.remove.progress", app_msg.P{
+		ui.Info("recipe.sharedlink.delete.progress", app_msg.P{
 			"Url":  link.LinkUrl(),
 			"Path": link.LinkPathLower(),
 		})
 		err = sv_sharedlink.New(ctx).Remove(link)
 		if err != nil {
 			l.Debug("Unable to remove link", zap.Error(err), zap.Any("link", link))
-			msg := app_msg.M("recipe.sharedlink.remove.err.unable_to_remove", app_msg.P{
+			msg := app_msg.M("recipe.sharedlink.delete.err.unable_to_remove", app_msg.P{
 				"Error": err.Error(),
 			})
 			rep.Failure(msg, link, nil)
@@ -99,7 +99,7 @@ func (z *Remove) removePathAt(k app_kitchen.Kitchen, ctx api_context.Context, pa
 	return lastErr
 }
 
-func (z *Remove) removeRecursive(k app_kitchen.Kitchen, ctx api_context.Context, path string) error {
+func (z *Delete) removeRecursive(k app_kitchen.Kitchen, ctx api_context.Context, path string) error {
 	ui := k.UI()
 	l := k.Log().With(zap.String("path", path))
 	links, err := sv_sharedlink.New(ctx).List()
@@ -107,12 +107,12 @@ func (z *Remove) removeRecursive(k app_kitchen.Kitchen, ctx api_context.Context,
 		return err
 	}
 	if len(links) < 1 {
-		ui.Info("recipe.sharedlink.remove.info.no_links_at_the_path", app_msg.P{
+		ui.Info("recipe.sharedlink.delete.info.no_links_at_the_path", app_msg.P{
 			"Path": path,
 		})
 		return nil
 	}
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportRemove)
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportDelete)
 	if err != nil {
 		return err
 	}
@@ -131,14 +131,14 @@ func (z *Remove) removeRecursive(k app_kitchen.Kitchen, ctx api_context.Context,
 			continue
 		}
 
-		ui.Info("recipe.sharedlink.remove.progress", app_msg.P{
+		ui.Info("recipe.sharedlink.delete.progress", app_msg.P{
 			"Url":  link.LinkUrl(),
 			"Path": link.LinkPathLower(),
 		})
 		err = sv_sharedlink.New(ctx).Remove(link)
 		if err != nil {
 			l.Debug("Unable to remove link", zap.Error(err), zap.Any("link", link))
-			msg := app_msg.M("recipe.sharedlink.remove.err.unable_to_remove", app_msg.P{
+			msg := app_msg.M("recipe.sharedlink.delete.err.unable_to_remove", app_msg.P{
 				"Error": err.Error(),
 			})
 			rep.Failure(msg, link, nil)
@@ -150,6 +150,6 @@ func (z *Remove) removeRecursive(k app_kitchen.Kitchen, ctx api_context.Context,
 	return lastErr
 }
 
-func (z *Remove) Test(c app_control.Control) error {
+func (z *Delete) Test(c app_control.Control) error {
 	return qt_test.ImplementMe()
 }

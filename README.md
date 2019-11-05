@@ -74,8 +74,8 @@ Available commands:
 | sharedfolder list             | List shared folder(s)                                         |
 | sharedfolder member list      | List shared folder member(s)                                  |
 | sharedlink create             | Create shared link                                            |
+| sharedlink delete             | Remove shared links                                           |
 | sharedlink list               | List of shared link(s)                                        |
-| sharedlink remove             | Remove shared links                                           |
 | team activity daily event     | Report activities by day                                      |
 | team activity event           | Event log                                                     |
 | team device list              | List all devices/sessions in the team                         |

@@ -131,7 +131,7 @@ like `update_0000.xlsx`, `update_0001.xlsx`, `update_0002.xlsx`...
 | result.persistent_id    | Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication. |
 | result.joined_on        | The date and time the user joined as a member of a specific team.                                                    |
 | result.role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
-| result.tag              | {"key":"domain.model.mo_member.member.tag.desc","params":{}}                                                         |
+| result.tag              | Operation tag                                                                                                        |
 
 
 
