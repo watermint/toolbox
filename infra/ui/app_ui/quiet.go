@@ -40,6 +40,13 @@ func (z *Quiet) Text(key string, p ...app_msg.P) string {
 	return z.container.Compile(app_msg.M(key, p...))
 }
 
+func (z *Quiet) TextOrEmpty(key string, p ...app_msg.P) string {
+	if z.container.Exists(key) {
+		return z.container.Compile(app_msg.M(key, p...))
+	} else {
+		return ""
+	}
+}
 func (z *Quiet) SetLogger(log *zap.Logger) {
 	z.log = log
 }

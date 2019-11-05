@@ -11,6 +11,7 @@ type UI interface {
 	Error(key string, p ...app_msg.P)
 	Break()
 	Text(key string, p ...app_msg.P) string
+	TextOrEmpty(key string, p ...app_msg.P) string
 
 	AskCont(key string, p ...app_msg.P) (cont bool, cancel bool)
 	AskText(key string, p ...app_msg.P) (text string, cancel bool)

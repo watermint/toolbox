@@ -135,6 +135,10 @@ func (z *Web) Text(key string, p ...app_msg.P) string {
 	return z.baseUI.Text(key, p...)
 }
 
+func (z *Web) TextOrEmpty(key string, p ...app_msg.P) string {
+	return z.baseUI.TextOrEmpty(key, p...)
+}
+
 func (z *Web) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	panic("not supported")
 }

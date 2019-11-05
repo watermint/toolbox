@@ -69,12 +69,15 @@ func (z *Group) PrintRecipeUsage(ui app_ui.UI, rcp app_recipe.Recipe, f *flag.Fl
 	path, name := app_recipe.Path(rcp)
 	z.usageHeader(ui, app_recipe.Title(rcp).Key())
 
+	recipeCliArgs := app_recipe.RecipeMessage(rcp, ".cli.args")
+
 	ui.Header("run.recipe.header.usage")
 	ui.Info(
 		"run.recipe.usage",
 		app_msg.P{
 			"Exec":   os.Args[0],
 			"Recipe": strings.Join(append(path, name), " "),
+			"Args":   ui.TextOrEmpty(recipeCliArgs.Key()),
 		},
 	)
 

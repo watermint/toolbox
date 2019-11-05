@@ -335,7 +335,7 @@
   "run.network.progress.testing": "Testing network connection...",
   "run.recipe.header.available_flags": "Available options:",
   "run.recipe.header.usage": "Usage:",
-  "run.recipe.usage": "{{.Exec}} {{.Recipe}} [option...]",
+  "run.recipe.usage": "{{.Exec}} {{.Recipe}} [option...] {{.Args}}",
   "usecase.uc_file_merge.move_file": "Move file from `{{.FromPath}}` to `{{.ToPath}}`",
   "usecase.uc_file_merge.move_folder": "Move folder from `{{.FromPath}}` to `{{.ToPath}}`",
   "usecase.uc_file_merge.remove_duplicated_file": "Remove duplicated file: {{.FromPath}}",

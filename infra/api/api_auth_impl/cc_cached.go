@@ -85,9 +85,9 @@ func (z *CcCachedAuth) loadBytes(tb []byte) error {
 }
 
 func (z *CcCachedAuth) loadFile() error {
-	if ex, err := z.loadCompatibleFile(); err == nil {
+	if _, err := z.loadCompatibleFile(); err == nil {
 		return nil
-	} else if !ex && app.BuilderKey != "" {
+	} else if app.BuilderKey != "" {
 		_, err := z.loadSecureFile()
 		return err
 	}

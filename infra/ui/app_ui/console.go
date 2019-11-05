@@ -119,6 +119,14 @@ func (z *console) Text(key string, p ...app_msg.P) string {
 	return z.mc.Compile(app_msg.M(key, p...))
 }
 
+func (z *console) TextOrEmpty(key string, p ...app_msg.P) string {
+	if z.mc.Exists(key) {
+		return z.mc.Compile(app_msg.M(key, p...))
+	} else {
+		return ""
+	}
+}
+
 func (z *console) Break() {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()

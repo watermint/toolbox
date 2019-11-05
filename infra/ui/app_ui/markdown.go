@@ -67,6 +67,14 @@ func (z *Markdown) Text(key string, p ...app_msg.P) string {
 	return z.Text(key, p...)
 }
 
+func (z *Markdown) TextOrEmpty(key string, p ...app_msg.P) string {
+	if z.mc.Exists(key) {
+		return z.mc.Compile(app_msg.M(key, p...))
+	} else {
+		return ""
+	}
+}
+
 func (z *Markdown) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	return false, true
 }
