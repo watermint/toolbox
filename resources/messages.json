@@ -24,6 +24,7 @@
   "recipe.dev.doc_vo.flag.badge": "Include badges of build status",
   "recipe.dev.doc_vo.flag.filename": "Filename",
   "recipe.dev.doc_vo.flag.test": "Test mode",
+  "recipe.dev.doc_vo.flag.markdown_readme": "Generate README as markdown format",
   "recipe.dev.doc.title": "Document generator",
   "recipe.dev.doc.commands.header.command": "Command",
   "recipe.dev.doc.commands.header.description": "Description",

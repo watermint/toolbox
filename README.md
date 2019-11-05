@@ -47,52 +47,52 @@ Available commands:
 
 ## Commands
 
-| Command                       | Description                                                   |
-|-------------------------------|---------------------------------------------------------------|
-| file compare account          | Compare files of two accounts                                 |
-| file copy                     | Copy files                                                    |
-| file import batch url         | Batch import files from URL                                   |
-| file import url               | Import file from the URL                                      |
-| file list                     | List files and folders                                        |
-| file merge                    | Merge paths                                                   |
-| file move                     | Move files                                                    |
-| file replication              | Replicate file content to the other account                   |
-| group delete                  | Delete group                                                  |
-| group list                    | List group(s)                                                 |
-| group member list             | List members of groups                                        |
-| license                       | Show license information                                      |
-| member delete                 | Delete members                                                |
-| member detach                 | Convert Dropbox Business accounts to a Basic account          |
-| member invite                 | Invite member(s)                                              |
-| member list                   | List team member(s)                                           |
-| member quota list             | List team member quota                                        |
-| member quota usage            | List team member storage usage                                |
-| member update email           | Member email operation                                        |
-| member update profile         | Update member profile                                         |
-| sharedfolder list             | List shared folder(s)                                         |
-| sharedfolder member list      | List shared folder member(s)                                  |
-| sharedlink create             | Create shared link                                            |
-| sharedlink delete             | Remove shared links                                           |
-| sharedlink list               | List of shared link(s)                                        |
-| team activity daily event     | Report activities by day                                      |
-| team activity event           | Event log                                                     |
-| team device list              | List all devices/sessions in the team                         |
-| team device unlink            | Unlink device sessions                                        |
-| team feature                  | Team feature                                                  |
-| team filerequest list         | List all file requests in the team                            |
-| team info                     | Team information                                              |
-| team linkedapp list           | List linked applications                                      |
-| team namespace file list      | List all files and folders of the team namespaces             |
-| team namespace file size      | List all files and folders of the team namespaces             |
-| team namespace list           | List all namespaces of the team                               |
-| team namespace member list    | List members of shared folders and team folders in the team   |
-| team sharedlink list          | List of shared links                                          |
-| team sharedlink update expiry | Update expiration date of public shared links within the team |
-| teamfolder archive            | Archive team folder                                           |
-| teamfolder list               | List team folder(s)                                           |
-| teamfolder permdelete         | Permanently delete team folder                                |
-| teamfolder replication        | Replicate a team folder to the other team                     |
-| web                           | Launch web console (experimental)                             |
+| Command                                                                         | Description                                                   |
+|---------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [file compare account](doc/generated/file-compare-account.md)                   | Compare files of two accounts                                 |
+| [file copy](doc/generated/file-copy.md)                                         | Copy files                                                    |
+| [file import batch url](doc/generated/file-import-batch-url.md)                 | Batch import files from URL                                   |
+| [file import url](doc/generated/file-import-url.md)                             | Import file from the URL                                      |
+| [file list](doc/generated/file-list.md)                                         | List files and folders                                        |
+| [file merge](doc/generated/file-merge.md)                                       | Merge paths                                                   |
+| [file move](doc/generated/file-move.md)                                         | Move files                                                    |
+| [file replication](doc/generated/file-replication.md)                           | Replicate file content to the other account                   |
+| [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |
+| [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
+| [group member list](doc/generated/group-member-list.md)                         | List members of groups                                        |
+| [license](doc/generated/license.md)                                             | Show license information                                      |
+| [member delete](doc/generated/member-delete.md)                                 | Delete members                                                |
+| [member detach](doc/generated/member-detach.md)                                 | Convert Dropbox Business accounts to a Basic account          |
+| [member invite](doc/generated/member-invite.md)                                 | Invite member(s)                                              |
+| [member list](doc/generated/member-list.md)                                     | List team member(s)                                           |
+| [member quota list](doc/generated/member-quota-list.md)                         | List team member quota                                        |
+| [member quota usage](doc/generated/member-quota-usage.md)                       | List team member storage usage                                |
+| [member update email](doc/generated/member-update-email.md)                     | Member email operation                                        |
+| [member update profile](doc/generated/member-update-profile.md)                 | Update member profile                                         |
+| [sharedfolder list](doc/generated/sharedfolder-list.md)                         | List shared folder(s)                                         |
+| [sharedfolder member list](doc/generated/sharedfolder-member-list.md)           | List shared folder member(s)                                  |
+| [sharedlink create](doc/generated/sharedlink-create.md)                         | Create shared link                                            |
+| [sharedlink delete](doc/generated/sharedlink-delete.md)                         | Remove shared links                                           |
+| [sharedlink list](doc/generated/sharedlink-list.md)                             | List of shared link(s)                                        |
+| [team activity daily event](doc/generated/team-activity-daily-event.md)         | Report activities by day                                      |
+| [team activity event](doc/generated/team-activity-event.md)                     | Event log                                                     |
+| [team device list](doc/generated/team-device-list.md)                           | List all devices/sessions in the team                         |
+| [team device unlink](doc/generated/team-device-unlink.md)                       | Unlink device sessions                                        |
+| [team feature](doc/generated/team-feature.md)                                   | Team feature                                                  |
+| [team filerequest list](doc/generated/team-filerequest-list.md)                 | List all file requests in the team                            |
+| [team info](doc/generated/team-info.md)                                         | Team information                                              |
+| [team linkedapp list](doc/generated/team-linkedapp-list.md)                     | List linked applications                                      |
+| [team namespace file list](doc/generated/team-namespace-file-list.md)           | List all files and folders of the team namespaces             |
+| [team namespace file size](doc/generated/team-namespace-file-size.md)           | List all files and folders of the team namespaces             |
+| [team namespace list](doc/generated/team-namespace-list.md)                     | List all namespaces of the team                               |
+| [team namespace member list](doc/generated/team-namespace-member-list.md)       | List members of shared folders and team folders in the team   |
+| [team sharedlink list](doc/generated/team-sharedlink-list.md)                   | List of shared links                                          |
+| [team sharedlink update expiry](doc/generated/team-sharedlink-update-expiry.md) | Update expiration date of public shared links within the team |
+| [teamfolder archive](doc/generated/teamfolder-archive.md)                       | Archive team folder                                           |
+| [teamfolder list](doc/generated/teamfolder-list.md)                             | List team folder(s)                                           |
+| [teamfolder permdelete](doc/generated/teamfolder-permdelete.md)                 | Permanently delete team folder                                |
+| [teamfolder replication](doc/generated/teamfolder-replication.md)               | Replicate a team folder to the other team                     |
+| [web](doc/generated/web.md)                                                     | Launch web console (experimental)                             |
 
 ## Authentication
 

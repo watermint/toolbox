@@ -33,9 +33,10 @@ const (
 )
 
 type DocVO struct {
-	Test     bool
-	Badge    bool
-	Filename string
+	Test           bool
+	Badge          bool
+	MarkdownReadme bool
+	Filename       string
 }
 
 type Doc struct {
@@ -59,7 +60,7 @@ func (z *Doc) Requirement() app_vo.ValueObject {
 	}
 }
 
-func (z *Doc) commands(k app_kitchen.Kitchen) string {
+func (z *Doc) commands(k app_kitchen.Kitchen, markdown bool) string {
 	book := make(map[string]string)
 	keys := make([]string, 0)
 	cl := k.Control().(app_control_launcher.ControlLauncher)
@@ -83,13 +84,18 @@ func (z *Doc) commands(k app_kitchen.Kitchen) string {
 
 	mui := app_ui.NewMarkdown(k.Control().Messages(), w, false)
 	mt := mui.InfoTable("Commands")
+
 	mt.Header(
 		app_msg.M("recipe.dev.doc.commands.header.command"),
 		app_msg.M("recipe.dev.doc.commands.header.description"),
 	)
 	sort.Strings(keys)
 	for _, k := range keys {
-		mt.RowRaw(k, book[k])
+		c := k
+		if markdown {
+			c = "[" + k + "](" + "doc/generated/" + strings.Replace(k, " ", "-", -1) + ".md)"
+		}
+		mt.RowRaw(c, book[k])
 	}
 
 	mt.Flush()
@@ -112,10 +118,10 @@ func (z *Doc) funcMap(k app_kitchen.Kitchen) template.FuncMap {
 	}
 }
 
-func (z *Doc) readme(k app_kitchen.Kitchen) error {
+func (z *Doc) readme(k app_kitchen.Kitchen, markdown bool) error {
 	vo := k.Value().(*DocVO)
 	l := k.Log()
-	commands := z.commands(k)
+	commands := z.commands(k, markdown)
 
 	l.Info("Generating README", zap.String("file", vo.Filename))
 	readmeBytes, err := k.Control().Resource("README.tmpl.md")
@@ -348,8 +354,9 @@ func (z *Doc) commandManuals(k app_kitchen.Kitchen) error {
 }
 
 func (z *Doc) Exec(k app_kitchen.Kitchen) error {
+	vo := k.Value().(*DocVO)
 	l := k.Log()
-	if err := z.readme(k); err != nil {
+	if err := z.readme(k, vo.MarkdownReadme); err != nil {
 		l.Error("Failed to generate README", zap.Error(err))
 		return err
 	}
