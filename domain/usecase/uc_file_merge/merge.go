@@ -65,6 +65,14 @@ type mergeImpl struct {
 
 func (z *mergeImpl) doOperation(msg app_msg.Message, op func() error) error {
 	l := z.k.Log()
+	msgParam := make([]app_msg.P, 0)
+	msgParam = append(msgParam, msg.Params()...)
+	if z.opts.DryRun {
+		msgParam = append(msgParam, app_msg.P{
+			"DryRun": "DryRun: ",
+		})
+	}
+
 	z.k.UI().Info(msg.Key(), msg.Params()...)
 	if !z.opts.DryRun {
 		return op()
