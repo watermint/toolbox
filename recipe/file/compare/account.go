@@ -61,7 +61,7 @@ func (z *Account) Exec(k app_kitchen.Kitchen) error {
 	if err != nil {
 		return err
 	}
-	rep.Close()
+	defer rep.Close()
 
 	diff := func(diff mo_file_diff.Diff) error {
 		rep.Row(&diff)

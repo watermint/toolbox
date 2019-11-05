@@ -73,8 +73,9 @@ func New(name string, row interface{}, ctl app_control.Control, opts ...rp_model
 }
 
 type Cascade struct {
-	Ctl     app_control.Control
-	Reports []rp_model.Report
+	Ctl      app_control.Control
+	Reports  []rp_model.Report
+	isClosed bool
 }
 
 func (z *Cascade) Success(input interface{}, result interface{}) {
@@ -96,6 +97,10 @@ func (z *Cascade) Skip(reason app_msg.Message, input interface{}, result interfa
 }
 
 func (z *Cascade) Row(row interface{}) {
+	if z.isClosed {
+		z.Ctl.Log().Error("The report already closed")
+	}
+
 	for _, r := range z.Reports {
 		r.Row(row)
 	}
@@ -109,4 +114,5 @@ func (z *Cascade) Close() {
 
 	p := z.Ctl.Workspace().Report()
 	ui.OpenArtifact(p)
+	z.isClosed = true
 }
