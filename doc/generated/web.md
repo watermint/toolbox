@@ -2,10 +2,6 @@
 
 Launch web console (experimental)
 
-
-
-
-
 # Usage
 
 This document uses the Desktop folder for command example. 
@@ -25,14 +21,11 @@ macOS, Linux:
 $HOME/Desktop/tbx web 
 ```
 
-
-
 ## Options
 
 | Option  | Description | Default |
 |---------|-------------|---------|
 | `-port` | Port number | 7800    |
-
 
 Common options:
 
@@ -44,8 +37,4 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
-
-
-
-
 

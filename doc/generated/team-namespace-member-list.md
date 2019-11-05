@@ -2,9 +2,6 @@
 
 List members of shared folders and team folders in the team
 
-
-
-
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -25,7 +22,6 @@ Please see below help article for more detail:
 This command use following access type(s) during the operation:
 * Dropbox Business File access
 
-
 # Usage
 
 This document uses the Desktop folder for command example. 
@@ -45,15 +41,12 @@ macOS, Linux:
 $HOME/Desktop/tbx team namespace member list 
 ```
 
-
-
 ## Options
 
 | Option         | Description      | Default   |
 |----------------|------------------|-----------|
 | `-all-columns` | Show all columns | false     |
 | `-peer`        | Account alias    | {default} |
-
 
 Common options:
 
@@ -65,8 +58,6 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
-
-
 
 ## Authentication
 
@@ -92,8 +83,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Enter the authorisation code
 ```
 
-
-
 # Result
 
 Report file path will be displayed last line of the command line output.
@@ -105,8 +94,6 @@ If you missed command line output, please see path below.
 | Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-
 
 ## Report: namespace_member 
 
@@ -125,6 +112,4 @@ like `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_memb
 | display_name       | Type of the session (web_session, desktop_client, or mobile_client)                                       |
 | group_name         | Name of the group                                                                                         |
 | invitee_email      | Email address of invitee for this folder                                                                  |
-
-
 

@@ -2,9 +2,6 @@
 
 List team member quota
 
-
-
-
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -25,7 +22,6 @@ Please see below help article for more detail:
 This command use following access type(s) during the operation:
 * Dropbox Business management
 
-
 # Usage
 
 This document uses the Desktop folder for command example. 
@@ -45,14 +41,11 @@ macOS, Linux:
 $HOME/Desktop/tbx member quota list 
 ```
 
-
-
 ## Options
 
 | Option  | Description   | Default   |
 |---------|---------------|-----------|
 | `-peer` | Account alias | {default} |
-
 
 Common options:
 
@@ -64,8 +57,6 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
-
-
 
 ## Authentication
 
@@ -91,8 +82,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Enter the authorisation code
 ```
 
-
-
 # Result
 
 Report file path will be displayed last line of the command line output.
@@ -105,8 +94,6 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-
-
 ## Report: member_quota 
 
 Report files are generated in `member_quota.csv`, `member_quota.xlsx` and `member_quota.json` format.
@@ -117,6 +104,4 @@ like `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx
 |--------|-----------------------------------------------------------------------------|
 | email  | Email address of user.                                                      |
 | quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
-
-
 

@@ -2,9 +2,6 @@
 
 Import file from the URL
 
-
-
-
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -25,7 +22,6 @@ Please see below help article for more detail:
 This command use following access type(s) during the operation:
 * Dropbox Full access
 
-
 # Usage
 
 This document uses the Desktop folder for command example. 
@@ -45,8 +41,6 @@ macOS, Linux:
 $HOME/Desktop/tbx file import url 
 ```
 
-
-
 ## Options
 
 | Option  | Description    | Default   |
@@ -54,7 +48,6 @@ $HOME/Desktop/tbx file import url
 | `-path` | Path to import |           |
 | `-peer` | Account alias  | {default} |
 | `-url`  | URL            |           |
-
 
 Common options:
 
@@ -66,8 +59,6 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
-
-
 
 ## Authentication
 
@@ -93,8 +84,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Enter the authorisation code
 ```
 
-
-
 # Result
 
 Report file path will be displayed last line of the command line output.
@@ -106,8 +95,6 @@ If you missed command line output, please see path below.
 | Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-
 
 ## Report: import_url 
 
@@ -129,6 +116,4 @@ like `import_url_0000.xlsx`, `import_url_0001.xlsx`, `import_url_0002.xlsx`...
 | content_hash            | A hash of the file content.                                                                            |
 | shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
 | parent_shared_folder_id |                                                                                                        |
-
-
 

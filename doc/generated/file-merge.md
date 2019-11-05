@@ -2,9 +2,6 @@
 
 Merge paths
 
-
-
-
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -25,7 +22,6 @@ Please see below help article for more detail:
 This command use following access type(s) during the operation:
 * Dropbox Full access
 
-
 # Usage
 
 This document uses the Desktop folder for command example. 
@@ -45,8 +41,6 @@ macOS, Linux:
 $HOME/Desktop/tbx file merge 
 ```
 
-
-
 ## Options
 
 | Option                   | Description                                                                             | Default   |
@@ -58,7 +52,6 @@ $HOME/Desktop/tbx file merge
 | `-to`                    | Path to merge                                                                           |           |
 | `-within-same-namespace` | Do not cross namespace. That is for preserve sharing permission including a shared link | false     |
 
-
 Common options:
 
 | Option         | Description                                                                      | Default              |
@@ -69,8 +62,6 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
-
-
 
 ## Authentication
 
@@ -95,6 +86,4 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 3. Copy the authorisation code:
 Enter the authorisation code
 ```
-
-
 

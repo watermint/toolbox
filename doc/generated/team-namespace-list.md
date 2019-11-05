@@ -2,9 +2,6 @@
 
 List all namespaces of the team
 
-
-
-
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -25,7 +22,6 @@ Please see below help article for more detail:
 This command use following access type(s) during the operation:
 * Dropbox Business File access
 
-
 # Usage
 
 This document uses the Desktop folder for command example. 
@@ -45,14 +41,11 @@ macOS, Linux:
 $HOME/Desktop/tbx team namespace list 
 ```
 
-
-
 ## Options
 
 | Option  | Description   | Default   |
 |---------|---------------|-----------|
 | `-peer` | Account alias | {default} |
-
 
 Common options:
 
@@ -64,8 +57,6 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
-
-
 
 ## Authentication
 
@@ -91,8 +82,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Enter the authorisation code
 ```
 
-
-
 # Result
 
 Report file path will be displayed last line of the command line output.
@@ -104,8 +93,6 @@ If you missed command line output, please see path below.
 | Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-
 
 ## Report: namespace 
 
@@ -119,6 +106,4 @@ like `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...
 | namespace_id   | The ID of this namespace.                                                                  |
 | namespace_type | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
 | team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
-
-
 

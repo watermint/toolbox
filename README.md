@@ -4,7 +4,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/watermint/toolbox/badge.svg)](https://coveralls.io/github/watermint/toolbox)
 [![Go Report Card](https://goreportcard.com/badge/github.com/watermint/toolbox)](https://goreportcard.com/report/github.com/watermint/toolbox)
 
-
 Tools for Dropbox and Dropbox Business.
 
 # Licensing & Disclaimers
@@ -28,7 +27,6 @@ You can see available commands and options by running executable without argumen
 watermint toolbox xx.x.xxx
 © 2016-2019 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
-
 
 Tools for Dropbox and Dropbox Business
 
@@ -95,7 +93,6 @@ Available commands:
 | teamfolder permdelete         | Permanently delete team folder                                |
 | teamfolder replication        | Replicate a team folder to the other team                     |
 | web                           | Launch web console (experimental)                             |
-
 
 ## Authentication
 

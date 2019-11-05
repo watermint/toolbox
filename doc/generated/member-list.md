@@ -2,9 +2,6 @@
 
 List team member(s)
 
-
-
-
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -25,7 +22,6 @@ Please see below help article for more detail:
 This command use following access type(s) during the operation:
 * Dropbox Business Information access
 
-
 # Usage
 
 This document uses the Desktop folder for command example. 
@@ -45,14 +41,11 @@ macOS, Linux:
 $HOME/Desktop/tbx member list 
 ```
 
-
-
 ## Options
 
 | Option  | Description   | Default   |
 |---------|---------------|-----------|
 | `-peer` | Account alias | {default} |
-
 
 Common options:
 
@@ -64,8 +57,6 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
-
-
 
 ## Authentication
 
@@ -91,8 +82,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Enter the authorisation code
 ```
 
-
-
 # Result
 
 Report file path will be displayed last line of the command line output.
@@ -104,8 +93,6 @@ If you missed command line output, please see path below.
 | Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-
 
 ## Report: member 
 
@@ -130,6 +117,4 @@ like `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...
 | persistent_id    | Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication. |
 | joined_on        | The date and time the user joined as a member of a specific team.                                                    |
 | role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
-
-
 

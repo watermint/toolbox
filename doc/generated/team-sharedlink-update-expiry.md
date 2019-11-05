@@ -2,9 +2,6 @@
 
 Update expiration date of public shared links within the team
 
-
-
-
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -25,7 +22,6 @@ Please see below help article for more detail:
 This command use following access type(s) during the operation:
 * Dropbox Business File access
 
-
 # Usage
 
 This document uses the Desktop folder for command example. 
@@ -45,8 +41,6 @@ macOS, Linux:
 $HOME/Desktop/tbx team sharedlink update expiry 
 ```
 
-
-
 ## Options
 
 | Option  | Description                     | Default   |
@@ -54,7 +48,6 @@ $HOME/Desktop/tbx team sharedlink update expiry
 | `-at`   | New expiration date and time    |           |
 | `-days` | Days to the new expiration date | 0         |
 | `-peer` | Account alias                   | {default} |
-
 
 Common options:
 
@@ -66,8 +59,6 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
-
-
 
 ## Authentication
 
@@ -93,8 +84,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Enter the authorisation code
 ```
 
-
-
 # Result
 
 Report file path will be displayed last line of the command line output.
@@ -106,8 +95,6 @@ If you missed command line output, please see path below.
 | Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-
 
 ## Report: updated_sharedlink 
 
@@ -130,6 +117,4 @@ like `updated_sharedlink_0000.xlsx`, `updated_sharedlink_0001.xlsx`, `updated_sh
 | status         | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
 | surname        | Surname of the link owner                                                                                                                                                                                               |
 | given_name     | Given name of the link owner                                                                                                                                                                                            |
-
-
 

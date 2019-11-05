@@ -2,9 +2,6 @@
 
 Update member profile
 
-
-
-
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -25,7 +22,6 @@ Please see below help article for more detail:
 This command use following access type(s) during the operation:
 * Dropbox Business management
 
-
 # Usage
 
 This document uses the Desktop folder for command example. 
@@ -45,15 +41,12 @@ macOS, Linux:
 $HOME/Desktop/tbx member update profile 
 ```
 
-
-
 ## Options
 
 | Option  | Description   | Default   |
 |---------|---------------|-----------|
 | `-file` | Data file     |           |
 | `-peer` | Account alias | {default} |
-
 
 Common options:
 
@@ -65,8 +58,6 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
-
-
 
 ## Authentication
 
@@ -92,8 +83,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Enter the authorisation code
 ```
 
-
-
 # Result
 
 Report file path will be displayed last line of the command line output.
@@ -105,8 +94,6 @@ If you missed command line output, please see path below.
 | Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-
 
 ## Report: update_profile 
 
@@ -137,6 +124,4 @@ like `update_profile_0000.xlsx`, `update_profile_0001.xlsx`, `update_profile_000
 | result.joined_on        | The date and time the user joined as a member of a specific team.                                                    |
 | result.role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
 | result.tag              | Operation tag                                                                                                        |
-
-
 

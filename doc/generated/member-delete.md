@@ -2,9 +2,6 @@
 
 Delete members
 
-
-
-
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -25,7 +22,6 @@ Please see below help article for more detail:
 This command use following access type(s) during the operation:
 * Dropbox Business management
 
-
 # Usage
 
 This document uses the Desktop folder for command example. 
@@ -45,8 +41,6 @@ macOS, Linux:
 $HOME/Desktop/tbx member delete 
 ```
 
-
-
 ## Options
 
 | Option       | Description                                                                  | Default   |
@@ -54,7 +48,6 @@ $HOME/Desktop/tbx member delete
 | `-file`      | Data file                                                                    |           |
 | `-peer`      | Account alias                                                                | {default} |
 | `-wipe-data` | If true, controls if the user's data will be deleted on their linked devices | true      |
-
 
 Common options:
 
@@ -66,8 +59,6 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
-
-
 
 ## Authentication
 
@@ -93,8 +84,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Enter the authorisation code
 ```
 
-
-
 # Result
 
 Report file path will be displayed last line of the command line output.
@@ -107,8 +96,6 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-
-
 ## Report: delete 
 
 Report files are generated in `delete.csv`, `delete.xlsx` and `delete.json` format.
@@ -120,6 +107,4 @@ like `delete_0000.xlsx`, `delete_0001.xlsx`, `delete_0002.xlsx`...
 | status      | Status of the operation                |
 | reason      | Reason of failure or skipped operation |
 | input.email | Email address of the account           |
-
-
 

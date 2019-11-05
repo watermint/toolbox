@@ -2,9 +2,6 @@
 
 Report activities by day
 
-
-
-
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -25,7 +22,6 @@ Please see below help article for more detail:
 This command use following access type(s) during the operation:
 * Dropbox Business Auditing
 
-
 # Usage
 
 This document uses the Desktop folder for command example. 
@@ -45,8 +41,6 @@ macOS, Linux:
 $HOME/Desktop/tbx team activity daily event 
 ```
 
-
-
 ## Options
 
 | Option        | Description    | Default   |
@@ -55,7 +49,6 @@ $HOME/Desktop/tbx team activity daily event
 | `-end-date`   | End date       |           |
 | `-peer`       | Account alias  | {default} |
 | `-start-date` | Start date     |           |
-
 
 Common options:
 
@@ -67,8 +60,6 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
-
-
 
 ## Authentication
 
@@ -94,8 +85,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Enter the authorisation code
 ```
 
-
-
 # Result
 
 Report file path will be displayed last line of the command line output.
@@ -107,8 +96,6 @@ If you missed command line output, please see path below.
 | Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-
 
 ## Report: event 
 
@@ -122,6 +109,4 @@ like `event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`...
 | event_category  | Filter the returned events to a single category |
 | event_type      | Type of the event                               |
 | event_type_desc | The particular type of action taken             |
-
-
 

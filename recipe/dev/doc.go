@@ -16,6 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/infra/util/ut_doc"
 	"go.uber.org/zap"
 	"os"
 	"sort"
@@ -147,7 +148,7 @@ func (z *Doc) readme(k app_kitchen.Kitchen) error {
 		params["Badges"] = ""
 	}
 
-	return tmpl.Execute(out, params)
+	return tmpl.Execute(ut_doc.NewRemoveRedundantLinesWriter(out), params)
 }
 
 func (z *Doc) authScopes(vo app_vo.ValueObject, k app_kitchen.Kitchen) (scopes []string, usePersonal, useBusiness bool) {
@@ -327,7 +328,7 @@ func (z *Doc) commandManual(r app_recipe.Recipe, k app_kitchen.Kitchen) error {
 			return err
 		}
 	}
-	return tmpl.Execute(out, params)
+	return tmpl.Execute(ut_doc.NewRemoveRedundantLinesWriter(out), params)
 }
 
 func (z *Doc) commandManuals(k app_kitchen.Kitchen) error {

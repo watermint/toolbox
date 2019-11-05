@@ -2,9 +2,6 @@
 
 Create shared link
 
-
-
-
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -25,7 +22,6 @@ Please see below help article for more detail:
 This command use following access type(s) during the operation:
 * Dropbox Full access
 
-
 # Usage
 
 This document uses the Desktop folder for command example. 
@@ -45,8 +41,6 @@ macOS, Linux:
 $HOME/Desktop/tbx sharedlink create 
 ```
 
-
-
 ## Options
 
 | Option       | Description                             | Default   |
@@ -56,7 +50,6 @@ $HOME/Desktop/tbx sharedlink create
 | `-path`      | Path                                    |           |
 | `-peer`      | Account alias                           | {default} |
 | `-team-only` | Link is accessible only by team members | false     |
-
 
 Common options:
 
@@ -68,8 +61,6 @@ Common options:
 | `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`      | Do not store tokens into a file                                                  | false                |
 | `-workspace`   | Workspace path                                                                   |                      |
-
-
 
 ## Authentication
 
@@ -95,8 +86,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Enter the authorisation code
 ```
 
-
-
 # Result
 
 Report file path will be displayed last line of the command line output.
@@ -108,8 +97,6 @@ If you missed command line output, please see path below.
 | Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-
 
 ## Report: shared_link 
 
@@ -126,6 +113,4 @@ like `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`..
 | expires    | Expiration time, if set.                                                                                                                                                                                                |
 | path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
 | visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-
-
 
