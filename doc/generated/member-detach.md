@@ -32,22 +32,22 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe member detach 
+.\tbx.exe member detach -file /path/to/data/file.csv
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx member detach 
+$HOME/Desktop/tbx member detach -file /path/to/data/file.csv
 ```
 
 ## Options
 
-| Option                | Description                             | Default   |
-|-----------------------|-----------------------------------------|-----------|
-| `-file`               | Data file                               |           |
-| `-peer`               | Account alias                           | {default} |
-| `-retain-team-shares` | True for retaining shared folder access | true      |
+| Option                | Description                                                  | Default   |
+|-----------------------|--------------------------------------------------------------|-----------|
+| `-file`               | Data file                                                    |           |
+| `-peer`               | Account alias                                                | {default} |
+| `-revoke-team-shares` | True for revoke shared folder access which owned by the team | false     |
 
 Common options:
 

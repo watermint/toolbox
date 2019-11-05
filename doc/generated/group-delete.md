@@ -2,6 +2,8 @@
 
 Delete group
 
+This command does not confirm whether the group used in existing folders
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -32,13 +34,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe group delete 
+.\tbx.exe group delete -name GROUP_NAME
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx group delete 
+$HOME/Desktop/tbx group delete -name GROUP_NAME
 ```
 
 ## Options

@@ -32,20 +32,20 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe sharedlink create 
+.\tbx.exe sharedlink create -path /path/to/share
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx sharedlink create 
+$HOME/Desktop/tbx sharedlink create -path /path/to/share
 ```
 
 ## Options
 
 | Option       | Description                             | Default   |
 |--------------|-----------------------------------------|-----------|
-| `-expires`   | Expiration time of the shared link      |           |
+| `-expires`   | Expiration date/time of the shared link |           |
 | `-password`  | Password                                |           |
 | `-path`      | Path                                    |           |
 | `-peer`      | Account alias                           | {default} |

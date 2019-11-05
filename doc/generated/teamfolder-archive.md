@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe teamfolder archive 
+.\tbx.exe teamfolder archive -name TEAMFOLDER_NAME
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx teamfolder archive 
+$HOME/Desktop/tbx teamfolder archive -name TEAMFOLDER_NAME
 ```
 
 ## Options

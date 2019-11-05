@@ -2,6 +2,8 @@
 
 Remove shared links
 
+This command will delete shared links based on the path in the Dropbox
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -32,13 +34,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe sharedlink delete 
+.\tbx.exe sharedlink delete -path /path/to/delete
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx sharedlink delete 
+$HOME/Desktop/tbx sharedlink delete -path /path/to/delete
 ```
 
 ## Options

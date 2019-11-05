@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe teamfolder permdelete 
+.\tbx.exe teamfolder permdelete -name TEAMFOLDER_NAME
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx teamfolder permdelete 
+$HOME/Desktop/tbx teamfolder permdelete -name TEAMFOLDER_NAME
 ```
 
 ## Options

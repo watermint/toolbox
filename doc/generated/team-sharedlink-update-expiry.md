@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe team sharedlink update expiry 
+.\tbx.exe team sharedlink update expiry -days 28
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx team sharedlink update expiry 
+$HOME/Desktop/tbx team sharedlink update expiry -days 28
 ```
 
 ## Options

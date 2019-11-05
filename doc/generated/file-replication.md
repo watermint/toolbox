@@ -2,6 +2,8 @@
 
 Replicate file content to the other account
 
+This command will replicate files/folders. But it does not include sharing permissions. The command replicates only for folder contents of given path.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -32,13 +34,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file replication 
+.\tbx.exe file replication -src source -src-path /path/src -dst dest -dst-path /path/dest
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file replication 
+$HOME/Desktop/tbx file replication -src source -src-path /path/src -dst dest -dst-path /path/dest
 ```
 
 ## Options

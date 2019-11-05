@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe member delete 
+.\tbx.exe member delete -file /path/to/data/file.csv
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx member delete 
+$HOME/Desktop/tbx member delete -file /path/to/data/file.csv
 ```
 
 ## Options

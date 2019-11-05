@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe member invite 
+.\tbx.exe member invite -file /path/to/data/file.csv
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx member invite 
+$HOME/Desktop/tbx member invite -file /path/to/data/file.csv
 ```
 
 ## Options

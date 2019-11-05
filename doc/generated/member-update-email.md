@@ -32,22 +32,22 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe member update email 
+.\tbx.exe member update email -file /path/to/data/file.csv
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx member update email 
+$HOME/Desktop/tbx member update email -file /path/to/data/file.csv
 ```
 
 ## Options
 
-| Option                    | Description                                          | Default   |
-|---------------------------|------------------------------------------------------|-----------|
-| `-dont-update-unverified` | Do not update an account which didn't verified email | true      |
-| `-file`                   | Data file                                            |           |
-| `-peer`                   | Account alias                                        | {default} |
+| Option               | Description                                                                                                                                | Default   |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `-file`              | Data file                                                                                                                                  |           |
+| `-peer`              | Account alias                                                                                                                              | {default} |
+| `-update-unverified` | Update an account which didn't verified email. If an account email unverified, email address change may affect lose invitation to folders. | false     |
 
 Common options:
 

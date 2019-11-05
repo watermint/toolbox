@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe member update profile 
+.\tbx.exe member update profile -file /path/to/data/file.csv
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx member update profile 
+$HOME/Desktop/tbx member update profile -file /path/to/data/file.csv
 ```
 
 ## Options

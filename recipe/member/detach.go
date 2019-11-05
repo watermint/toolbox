@@ -25,7 +25,7 @@ func (z *DetachRow) Validate() (err error) {
 type DetachVO struct {
 	File             app_file.Data
 	Peer             app_conn.ConnBusinessMgmt
-	RetainTeamShares bool
+	RevokeTeamShares bool
 }
 
 const (
@@ -50,7 +50,7 @@ func (z *Detach) Console() {
 
 func (z *Detach) Requirement() app_vo.ValueObject {
 	return &DetachVO{
-		RetainTeamShares: true,
+		RevokeTeamShares: false,
 	}
 }
 
@@ -82,7 +82,7 @@ func (z *Detach) Exec(k app_kitchen.Kitchen) error {
 		}
 		ros := make([]sv_member.RemoveOpt, 0)
 		ros = append(ros, sv_member.Downgrade())
-		if mvo.RetainTeamShares {
+		if !mvo.RevokeTeamShares {
 			ros = append(ros, sv_member.RetainTeamShares())
 		}
 		err = svm.Remove(mem, ros...)

@@ -29,9 +29,9 @@ import (
 )
 
 type EmailVO struct {
-	Peer                 app_conn.ConnBusinessMgmt
-	File                 app_file.Data
-	DontUpdateUnverified bool
+	Peer             app_conn.ConnBusinessMgmt
+	File             app_file.Data
+	UpdateUnverified bool
 }
 
 type EmailRow struct {
@@ -97,7 +97,7 @@ func (z *Email) Reports() []rp_spec.ReportSpec {
 
 func (z *Email) Requirement() app_vo.ValueObject {
 	return &EmailVO{
-		DontUpdateUnverified: true,
+		UpdateUnverified: false,
 	}
 }
 
@@ -146,7 +146,7 @@ func (z *Email) Exec(k app_kitchen.Kitchen) error {
 			return nil
 		}
 
-		if !member.EmailVerified && vo.DontUpdateUnverified {
+		if !member.EmailVerified && !vo.UpdateUnverified {
 			ll.Debug("Do not update unverified email")
 			rep.Skip(app_msg.M("recipe.member.quota.update.skip.unverified_email"), row, nil)
 			return nil
@@ -307,7 +307,7 @@ func (z *Email) Test(c app_control.Control) error {
 
 	// forward
 	{
-		vo.DontUpdateUnverified = false
+		vo.UpdateUnverified = true
 		vo.File = app_file_impl.NewTestData(pathForward)
 
 		lastErr = z.Exec(app_kitchen.NewKitchen(c, vo))
@@ -322,7 +322,7 @@ func (z *Email) Test(c app_control.Control) error {
 
 	// backward
 	{
-		vo.DontUpdateUnverified = false
+		vo.UpdateUnverified = true
 		vo.File = app_file_impl.NewTestData(pathBackward)
 
 		lastErr = z.Exec(app_kitchen.NewKitchen(c, vo))

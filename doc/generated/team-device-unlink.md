@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe team device unlink 
+.\tbx.exe team device unlink -file /path/to/data/file.csv
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx team device unlink 
+$HOME/Desktop/tbx team device unlink -file /path/to/data/file.csv
 ```
 
 ## Options

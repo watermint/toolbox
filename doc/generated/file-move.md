@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file move 
+.\tbx.exe file move -src /SRC/PATH -dst /DST/PATH
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file move 
+$HOME/Desktop/tbx file move -src /SRC/PATH -dst /DST/PATH
 ```
 
 ## Options
