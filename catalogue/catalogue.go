@@ -37,6 +37,7 @@ func Recipes() []app_recipe.Recipe {
 		&dev.Async{},
 		&dev.Doc{},
 		&dev.Dummy{},
+		&dev.Preflight{},
 		&devtest.Auth{},
 		&devtest.Recipe{},
 		&devtest.Resources{},

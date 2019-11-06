@@ -7,13 +7,12 @@ import (
 )
 
 func NewQuiet(container app_msg_container.Container) UI {
-	return &Quiet{container: container}
+	return &Quiet{mc: container}
 }
 
 type Quiet struct {
-	container app_msg_container.Container
-	log       *zap.Logger
-	prefix    string
+	mc  app_msg_container.Container
+	log *zap.Logger
 }
 
 func (z *Quiet) Success(key string, p ...app_msg.P) {
@@ -37,12 +36,12 @@ func (z *Quiet) OpenArtifact(path string) {
 }
 
 func (z *Quiet) Text(key string, p ...app_msg.P) string {
-	return z.container.Compile(app_msg.M(key, p...))
+	return z.mc.Compile(app_msg.M(key, p...))
 }
 
 func (z *Quiet) TextOrEmpty(key string, p ...app_msg.P) string {
-	if z.container.Exists(key) {
-		return z.container.Compile(app_msg.M(key, p...))
+	if z.mc.Exists(key) {
+		return z.mc.Compile(app_msg.M(key, p...))
 	} else {
 		return ""
 	}
@@ -71,7 +70,7 @@ func (z *Quiet) Info(key string, p ...app_msg.P) {
 
 func (z *Quiet) Error(key string, p ...app_msg.P) {
 	z.log.Debug(key, zap.Any("params", p))
-	z.log.Error(z.container.Compile(app_msg.M(key, p...)))
+	z.log.Error(z.mc.Compile(app_msg.M(key, p...)))
 }
 
 // always cancel process

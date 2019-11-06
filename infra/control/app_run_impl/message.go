@@ -14,7 +14,7 @@ func NewContainer(box *rice.Box) app_msg_container.Container {
 	cm := make(map[language.Tag]app_msg_container.Container)
 	langs := make([]language.Tag, 0)
 
-	usrLang := app_lang.DetectLang()
+	usrLang := app_lang.Detect()
 	if usrLang != language.English {
 		langs = append(langs, usrLang)
 	}

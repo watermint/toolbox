@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/GeertJohan/go.rice"
+	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -68,7 +69,7 @@ func (z *Resource) Compile(m app_msg.Message) string {
 	}
 }
 
-func NewResource(lang language.Tag, box *rice.Box) (c app_msg_container.Container, err error) {
+func newFromBytes(lang language.Tag, loader func(name string) ([]byte, error)) (c app_msg_container.Container, err error) {
 	l := app_root.Log().With(zap.String("lang", lang.String()))
 
 	resName := "messages.json"
@@ -77,7 +78,7 @@ func NewResource(lang language.Tag, box *rice.Box) (c app_msg_container.Containe
 		resName = fmt.Sprintf("messages_%s.json", b)
 	}
 	l = l.With(zap.String("name", resName))
-	resData, err := box.Bytes(resName)
+	resData, err := loader(resName)
 	if err != nil {
 		return nil, err
 	}
@@ -90,4 +91,16 @@ func NewResource(lang language.Tag, box *rice.Box) (c app_msg_container.Containe
 	return &Resource{
 		Messages: resMsgs,
 	}, nil
+}
+
+func New(lang language.Tag, ctl app_control.Control) (c app_msg_container.Container, err error) {
+	return newFromBytes(lang, func(name string) (i []byte, e error) {
+		return ctl.Resource(name)
+	})
+}
+
+func NewResource(lang language.Tag, box *rice.Box) (c app_msg_container.Container, err error) {
+	return newFromBytes(lang, func(name string) (i []byte, e error) {
+		return box.Bytes(name)
+	})
 }

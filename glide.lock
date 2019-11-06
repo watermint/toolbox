@@ -1,14 +1,14 @@
-hash: 854f508259a8832bcef39493bfad81a82b4679db766a8ce9715693cdd4407784
-updated: 2019-10-30T19:21:18.796766+09:00
+hash: 2ceca35d4d8f0d2b44fd421f1f045896c1968fbe96ef9e2cc246e5d710b4ac3b
+updated: 2019-11-06T16:50:20.563457+09:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
 - name: github.com/daaku/go.zipexe
-  version: a5fe2436ffcb3236e175e5149162b41cd28bd27d
+  version: 74d766ac1dde7458348221869a7d1e7e5fa0597e
 - name: github.com/GeertJohan/go.rice
-  version: c02ca9a983da5807ddf7d796784928f5be4afd09
+  version: d954009f7238df62c766980934c8ea7f161d0e59
   subpackages:
   - embedded
   - rice
@@ -23,7 +23,7 @@ imports:
   - internal/json
   - render
 - name: github.com/golang/protobuf
-  version: 951a149f90371fb8858c6c979d03bb2583611052
+  version: ed6926b37a637426117ccab59282c3839528a700
   subpackages:
   - proto
 - name: github.com/gorilla/mux
@@ -33,7 +33,7 @@ imports:
 - name: github.com/json-iterator/go
   version: dc11f49689fd1c9a6de20749def70bd889bf0d42
 - name: github.com/kardianos/osext
-  version: ae77be60afb1dcacde03767a8c37337fad28ac14
+  version: 2bc1f35cddc0cc527b4bc3dce8578fc2a6c11384
 - name: github.com/mattn/go-isatty
   version: 0e9ddb7c0c0aef74fa25eaba4141e6b5ab7aca2a
 - name: github.com/modern-go/concurrent
@@ -54,9 +54,9 @@ imports:
 - name: github.com/tealeg/xlsx
   version: 1b556911422e5b0f499a31ddc028ccc5ad288d4c
 - name: github.com/tidwall/gjson
-  version: c5e72cdf74dff23857243dd662c465b810891c21
+  version: c34bf81952c067718854115564f8e55978be5e1d
 - name: github.com/tidwall/match
-  version: 1731857f09b1f38450e2c12409748407822dc6be
+  version: 33827db735fff6510490d69a8622612558a557ed
 - name: github.com/tidwall/pretty
   version: 1166b9ac2b65e46a43d8618d30d1554f4652d49b
 - name: github.com/ugorji/go
@@ -66,7 +66,7 @@ imports:
 - name: go.uber.org/atomic
   version: 9dc4df04d0d1c39369750a9f6c32c39560672089
 - name: go.uber.org/multierr
-  version: c3fc3d02ec864719d8e25be2d7dde1e35a36aa27
+  version: 824d08f79702fe5f54aca8400aa0d754318786e7
 - name: go.uber.org/tools
   version: 2cfd321de3ee5d5f8a5fda2521d1703478334d98
   subpackages:
@@ -84,21 +84,21 @@ imports:
   subpackages:
   - golint
 - name: golang.org/x/net
-  version: 03003ca0c849e57b6ea29a4bab8d3cb6e4d568fe
+  version: a882066a44e04a21d46e51451c71e131344e830e
   subpackages:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: f42d05182288abf10faef86d16c0d07b8d40ea2d
+  version: 0f29369cfe4552d0e4bcddc57cc75f4d7e672a33
   subpackages:
   - internal
 - name: golang.org/x/sys
-  version: f43be2a4598cf3a47be9f94f0c28197ed9eae611
+  version: c1f44814a5cd81a6d1cb589ef1e528bc5d305e07
   subpackages:
   - unix
   - windows
 - name: golang.org/x/text
-  version: 6f44c5a2ea40ee3593d98cdcc905cc1fdaa660e2
+  version: 4b67af870c6ffd08258ef1202f371aebccaf7b68
   subpackages:
   - encoding
   - encoding/internal
@@ -112,8 +112,9 @@ imports:
   - runes
   - transform
   - unicode/norm
+  - width
 - name: golang.org/x/tools
-  version: 86caa796c7ab0e32b908c5ebd5748faedd06c1da
+  version: 689d0f08e67ae0c77c260e137ac6a3729498c92f
   subpackages:
   - go/analysis
   - go/analysis/passes/inspect
@@ -133,7 +134,7 @@ imports:
   - internal/semver
   - internal/span
 - name: google.golang.org/appengine
-  version: 4a4468ece617fc8205e99368fa2200e9d1fad421
+  version: 16bce7d3dc4e458f2f6f56a1349cbbfcdc8a8fdf
   subpackages:
   - internal
   - internal/base
@@ -145,7 +146,7 @@ imports:
 - name: gopkg.in/go-playground/validator.v8
   version: 5f1438d3fca68893a817e4a66806cea46a9e4ebf
 - name: gopkg.in/yaml.v2
-  version: f221b8435cfb71e54062f6c6e99e9ade30b124d5
+  version: f90ceb4f409096b60e2e9076b38b304b8246e5fa
 - name: honnef.co/go/tools
   version: f51cd49dbadb98d60043a445a177e72f0cc62e6b
   subpackages:

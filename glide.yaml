@@ -7,6 +7,7 @@ import:
 - package: golang.org/x/text
   subpackages:
   - unicode/norm
+  - width
 - package: github.com/tidwall/match
 - package: go.uber.org/zap
   version: ^1

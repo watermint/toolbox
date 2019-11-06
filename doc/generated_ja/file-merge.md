@@ -1,6 +1,6 @@
 # file merge 
 
-Merge paths
+フォルダを統合します
 
 # Security
 
@@ -41,29 +41,29 @@ macOS, Linux:
 $HOME/Desktop/tbx file merge -from /from/path -to /path/to
 ```
 
-Please add `-dry-run=false` option after verify integrity of expected result.
+期待する結果と整合性があうことを確認できたら`-dry-run=false` オプションを追加して実行してください
 
 ## Options
 
-| Option                   | Description                                                                             | Default   |
-|--------------------------|-----------------------------------------------------------------------------------------|-----------|
-| `-dry-run`               | Dry run                                                                                 | true      |
-| `-from`                  | Path for merge                                                                          |           |
-| `-keep-empty-folder`     | Keep empty folder after merge                                                           | false     |
-| `-peer`                  | Account alias                                                                           | {default} |
-| `-to`                    | Path to merge                                                                           |           |
-| `-within-same-namespace` | Do not cross namespace. That is for preserve sharing permission including a shared link | false     |
+| オプション               | 説明                                                                                            | デフォルト |
+|--------------------------|-------------------------------------------------------------------------------------------------|------------|
+| `-dry-run`               | リハーサルを行います                                                                            | true       |
+| `-from`                  | 統合するパス                                                                                    |            |
+| `-keep-empty-folder`     | 統合後に空となったフォルダを維持する                                                            | false      |
+| `-peer`                  | アカウントの別名                                                                                | {default}  |
+| `-to`                    | 統合するパス                                                                                    |            |
+| `-within-same-namespace` | ネームスペースを超えないように制御します. これは共有リンクを含む共有権限設定を維持するためです. | false      |
 
 Common options:
 
-| Option         | Description                                                                      | Default              |
-|----------------|----------------------------------------------------------------------------------|----------------------|
-| `-concurrency` | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`       | Enable debug mode                                                                | false                |
-| `-proxy`       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`      | Do not store tokens into a file                                                  | false                |
-| `-workspace`   | Workspace path                                                                   |                      |
+| オプション     | 説明                                                                | デフォルト     |
+|----------------|---------------------------------------------------------------------|----------------|
+| `-concurrency` | 指定した並列度で並列処理を行います                                  | プロセッサー数 |
+| `-debug`       | デバッグモードを有効にする                                          | false          |
+| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                           |                |
+| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します | false          |
+| `-secure`      | トークンをファイルに保存しません                                    | false          |
+| `-workspace`   | ワークスペースへのパス                                              |                |
 
 ## Authentication
 

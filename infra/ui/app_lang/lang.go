@@ -17,17 +17,17 @@ var (
 	}
 )
 
-func DetectLang() language.Tag {
+func Detect() language.Tag {
 	bcp47, err := jibber_jabber.DetectIETF()
 	if err != nil {
 		app_root.Log().Debug("unable to detect language", zap.Error(err))
 		return language.English
 	}
 
-	return chooseLanguage(bcp47)
+	return Select(bcp47)
 }
 
-func chooseLanguage(bcp47 string) language.Tag {
+func Select(bcp47 string) language.Tag {
 	if bcp47 == "" {
 		return language.English
 	}

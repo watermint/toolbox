@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/util/ut_math"
+	"github.com/watermint/toolbox/infra/util/ut_string"
 	"go.uber.org/zap"
 	"io"
 	"strings"
@@ -165,21 +166,24 @@ func (z *markdownTable) Flush() {
 	cols := make([]int, numCols)
 
 	for i, c := range z.header {
-		cols[i] = len(c)
+		cols[i] = ut_string.Width(c)
 	}
 
 	for _, row := range z.rows {
 		rowNumCols := ut_math.MinInt(len(row), numCols)
 		for i := 0; i < rowNumCols; i++ {
-			cols[i] = ut_math.MaxInt(cols[i], len(row[i]))
+			cols[i] = ut_math.MaxInt(cols[i], ut_string.Width(row[i]))
 		}
 	}
 
 	printCols := func(row []string) {
 		fmt.Fprintf(z.out, "|")
 		for i, c := range row {
-			fmtCol := " %-" + fmt.Sprintf("%d", cols[i]) + "s |"
-			fmt.Fprintf(z.out, fmtCol, c)
+			padding := ut_math.MaxInt(cols[i]-ut_string.Width(c), 0)
+			fmt.Fprint(z.out, " ")
+			fmt.Fprint(z.out, c)
+			fmt.Fprint(z.out, strings.Repeat(" ", padding))
+			fmt.Fprint(z.out, " |")
 		}
 		fmt.Fprintf(z.out, "\n")
 	}

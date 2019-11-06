@@ -53,6 +53,29 @@ func NewConsole(mc app_msg_container.Container, qm qt_control.Message, testMode 
 	}
 }
 
+func CloneConsole(ui UI, mc app_msg_container.Container) UI {
+	switch u := ui.(type) {
+	case *console:
+		return &console{
+			mc:       mc,
+			out:      u.out,
+			in:       u.in,
+			testMode: u.testMode,
+			qm:       u.qm,
+		}
+
+	case *Quiet:
+		return &Quiet{
+			mc:  mc,
+			log: u.log,
+		}
+
+	default:
+		app_root.Log().Error("Unsupported UI type")
+		panic("unsupported UI type")
+	}
+}
+
 type console struct {
 	mc               app_msg_container.Container
 	out              io.Writer

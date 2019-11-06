@@ -48,6 +48,24 @@ type Single struct {
 	testResource gjson.Result
 }
 
+func (z *Single) With(mc app_msg_container.Container) app_control.Control {
+	ui := app_ui.CloneConsole(z.ui, mc)
+
+	return &Single{
+		ui:           ui,
+		flc:          z.flc,
+		cap:          z.cap,
+		box:          z.box,
+		web:          z.web,
+		mc:           mc,
+		ws:           z.ws,
+		opts:         z.opts,
+		quiet:        z.quiet,
+		catalogue:    z.catalogue,
+		testResource: z.testResource,
+	}
+}
+
 func (z *Single) Messages() app_msg_container.Container {
 	return z.mc
 }
