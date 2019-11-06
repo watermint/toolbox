@@ -57,8 +57,8 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 		ctl = wc.With(mc)
 	}
 
-	rme := ut_doc.NewReadme(ctl, vo.Filename, vo.Badge, vo.Test, vo.MarkdownReadme)
-	cmd := ut_doc.NewCommand(ctl /**/, vo.CommandPath, vo.Test)
+	rme := ut_doc.NewReadme(ctl, vo.Filename, vo.Badge, vo.Test, vo.MarkdownReadme, vo.CommandPath)
+	cmd := ut_doc.NewCommand(ctl, vo.CommandPath, vo.Test)
 	if err := rme.Generate(); err != nil {
 		l.Error("Failed to generate README", zap.Error(err))
 		return err

@@ -22,22 +22,25 @@ func NewReadme(
 	badge bool,
 	toStdout bool,
 	markdown bool,
+	commandPath string,
 ) *Readme {
 	return &Readme{
-		filename: filename,
-		badge:    badge,
-		toStdout: toStdout,
-		markdown: markdown,
-		ctl:      ctl,
+		filename:    filename,
+		badge:       badge,
+		toStdout:    toStdout,
+		markdown:    markdown,
+		ctl:         ctl,
+		commandPath: commandPath,
 	}
 }
 
 type Readme struct {
-	filename string
-	badge    bool
-	toStdout bool
-	markdown bool
-	ctl      app_control.Control
+	filename    string
+	badge       bool
+	toStdout    bool
+	markdown    bool
+	commandPath string
+	ctl         app_control.Control
 }
 
 func (z *Readme) commands() string {
@@ -73,7 +76,7 @@ func (z *Readme) commands() string {
 	for _, k := range keys {
 		c := k
 		if z.markdown {
-			c = "[" + k + "](" + "doc/generated/" + strings.Replace(k, " ", "-", -1) + ".md)"
+			c = "[" + k + "](" + z.commandPath + strings.Replace(k, " ", "-", -1) + ".md)"
 		}
 		mt.RowRaw(c, book[k])
 	}
