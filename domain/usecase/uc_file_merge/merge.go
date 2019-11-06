@@ -73,7 +73,7 @@ func (z *mergeImpl) doOperation(msg app_msg.Message, op func() error) error {
 		})
 	}
 
-	z.k.UI().Info(msg.Key(), msg.Params()...)
+	z.k.UI().Info(msg.Key(), msgParam...)
 	if !z.opts.DryRun {
 		return op()
 	}
