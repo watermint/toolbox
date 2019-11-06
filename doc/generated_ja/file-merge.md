@@ -41,6 +41,16 @@ macOS, Linux:
 $HOME/Desktop/tbx file merge -from /from/path -to /path/to
 ```
 
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
+Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue.
+Then please proceed "System Preference", then open "Security & Privacy",
+select "General" tab. You may find the message like:
+
+> "tbx" was blocked from use because it is not from an identified developer.
+
+And you may find the button "Allow Anyway". Please hit the button with your risk.
+At second run, please hit button "Open" on the dialogue.
+
 期待する結果と整合性があうことを確認できたら`-dry-run=false` オプションを追加して実行してください
 
 ## Options

@@ -41,6 +41,16 @@ macOS, Linux:
 $HOME/Desktop/tbx file compare account -left left -left-path /path/to/compare -right right -right-path /path/to/compare
 ```
 
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
+Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue.
+Then please proceed "System Preference", then open "Security & Privacy",
+select "General" tab. You may find the message like:
+
+> "tbx" was blocked from use because it is not from an identified developer.
+
+And you may find the button "Allow Anyway". Please hit the button with your risk.
+At second run, please hit button "Open" on the dialogue.
+
 If you want to compare different path in same account, please specify same alias name to `-left` and `-right`.
 
 ## Options

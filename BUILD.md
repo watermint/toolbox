@@ -61,3 +61,12 @@ For example, keys for recipes and their value objects are automatically mapped b
 their type package name, type name, and field names.
 If there a recipe named `file/Copy.go`, and the value object `file/CopyVO`. Then those names are
 mapped into `file.copy.<key>`, and `file.copy_vo.<key>`.
+
+## Before commit
+
+Please run command `dev preflight` to ensure all message resources and documents are available.
+
+```bash
+$ cd /path/to/PROJECT_ROOT
+$ go run tbx.go dev preflight
+``` 
