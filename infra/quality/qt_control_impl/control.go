@@ -6,19 +6,35 @@ import (
 	"testing"
 )
 
-func NewMessageMock() qt_control.Message {
-	return &messageMock{}
+func NewMessageMemory() qt_control.Message {
+	return &messageMemory{
+		missing: make(map[string]bool),
+	}
 }
 
 func NewMessageTest(t *testing.T) qt_control.Message {
-	return &messageTest{t: t}
+	return &messageTest{
+		t:       t,
+		missing: make(map[string]bool),
+	}
 }
 
 type messageTest struct {
-	t *testing.T
+	missing map[string]bool
+	t       *testing.T
+	n       int
+}
+
+func (z *messageTest) Missing() []string {
+	m := make([]string, 0)
+	for k := range z.missing {
+		m = append(m, k)
+	}
+	return m
 }
 
 func (z *messageTest) NotFound(key string) {
+	z.n++
 	if strings.HasSuffix(key, ".peer") {
 		z.t.Errorf("[Message not found, but suggested value] \"%s\":\"%s\"", key, "Account alias")
 	} else {
@@ -26,9 +42,18 @@ func (z *messageTest) NotFound(key string) {
 	}
 }
 
-type messageMock struct {
+type messageMemory struct {
+	missing map[string]bool
 }
 
-func (z *messageMock) NotFound(key string) {
-	// nop
+func (z *messageMemory) Missing() []string {
+	m := make([]string, 0)
+	for k := range z.missing {
+		m = append(m, k)
+	}
+	return m
+}
+
+func (z *messageMemory) NotFound(key string) {
+	z.missing[key] = true
 }

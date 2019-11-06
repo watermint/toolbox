@@ -2,15 +2,41 @@ package app_msg_container_impl
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/quality/qt_control"
+	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"go.uber.org/zap"
 	"golang.org/x/text/language"
 )
 
+func NewMultilingual(langs []language.Tag, containers map[language.Tag]app_msg_container.Container) app_msg_container.Container {
+	return &Multilingual{
+		LangPriority: langs,
+		Containers:   containers,
+		qm:           qt_control_impl.NewMessageMemory(),
+	}
+}
+
 type Multilingual struct {
 	LangPriority []language.Tag
 	Containers   map[language.Tag]app_msg_container.Container
+	qm           qt_control.Message
+}
+
+func (z *Multilingual) Verify(key string) {
+	for _, lang := range z.LangPriority {
+		if c, ok := z.Containers[lang]; ok {
+			if c.Exists(key) {
+				return
+			}
+		}
+	}
+	z.qm.NotFound(key)
+}
+
+func (z *Multilingual) MissingKeys() []string {
+	return z.qm.Missing()
 }
 
 func (z *Multilingual) Text(key string) string {
@@ -24,7 +50,6 @@ func (z *Multilingual) Text(key string) string {
 	app_root.Log().Warn("Unable to find message resource",
 		zap.String("key", key),
 	)
-
 	alt := Alt{}
 	return alt.Text(key)
 }

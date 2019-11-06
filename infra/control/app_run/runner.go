@@ -29,7 +29,7 @@ import (
 func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Initialize resources
 	mc := app_run_impl.NewContainer(bx)
-	ui := app_ui.NewConsole(mc, qt_control_impl.NewMessageMock(), false)
+	ui := app_ui.NewConsole(mc, qt_control_impl.NewMessageMemory(), false)
 	cat := catalogue.Catalogue()
 
 	// Select recipe or group

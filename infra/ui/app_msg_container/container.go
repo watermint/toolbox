@@ -7,3 +7,8 @@ type Container interface {
 	Compile(m app_msg.Message) string
 	Text(key string) string
 }
+
+type Quality interface {
+	Verify(key string)
+	MissingKeys() []string
+}

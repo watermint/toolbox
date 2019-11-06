@@ -2,6 +2,7 @@ package dev
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_messages"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
@@ -72,5 +73,7 @@ func (z *Preflight) Exec(k app_kitchen.Kitchen) error {
 			return err
 		}
 	}
-	return nil
+
+	l.Info("Verify message resources")
+	return qt_messages.VerifyMessages(k.Control())
 }
