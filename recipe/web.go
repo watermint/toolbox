@@ -16,6 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/web/web_job"
 	"github.com/watermint/toolbox/infra/web/web_user"
 	"go.uber.org/zap"
+	"sync"
 	"time"
 )
 
@@ -92,11 +93,20 @@ func (z *Web) Exec(k app_kitchen.Kitchen) error {
 
 	k.Log().Info("Login url", zap.String("url", loginUrl))
 
-	_ = g.Run(fmt.Sprintf(":%d", wvo.Port))
+	wg := sync.WaitGroup{}
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
+		err = g.Run(fmt.Sprintf(":%d", wvo.Port))
+		if err != nil {
+			k.Log().Error("Unable to start", zap.Error(err))
+		}
+	}()
 
 	time.Sleep(2 * time.Second)
-
+	k.Log().Info("Trying open browser")
 	open.Start(loginUrl)
+	wg.Wait()
 
 	return nil
 }
