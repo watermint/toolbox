@@ -5,6 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
+	"go.uber.org/zap"
+	"io"
 	"os"
 	"path/filepath"
 )
@@ -102,6 +104,9 @@ func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.Path, mode st
 }
 
 func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.Path, filePath string, mode string, revision string) (entry mo_file.Entry, err error) {
+	l := z.ctx.Log().With(zap.String("filePath", filePath), zap.Int64("size", info.Size()))
+	l.Debug("Uploading file")
+
 	r, err := os.Open(filePath)
 	if err != nil {
 		return nil, err
@@ -119,5 +124,74 @@ func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.Path, fileP
 }
 
 func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, filePath string, mode string, revision string) (entry mo_file.Entry, err error) {
-	panic("not yet")
+	l := z.ctx.Log().With(zap.String("filePath", filePath), zap.Int64("size", info.Size()))
+
+	total := info.Size()
+	var written int64
+	f, err := os.Open(filePath)
+	if err != nil {
+		return nil, err
+	}
+	r := io.LimitReader(f, z.uo.ChunkSize)
+
+	type sessionId struct {
+		SessionId string `json:"session_id"`
+	}
+	type cursorInfo struct {
+		SessionId string `json:"session_id"`
+		Offset    int64  `json:"offset"`
+	}
+	type appendInfo struct {
+		Cursor *cursorInfo `json:"cursor"`
+	}
+	type commitInfo struct {
+		Cursor *cursorInfo   `json:"cursor"`
+		Commit *uploadParams `json:"commit"`
+	}
+
+	l.Debug("Upload session start")
+	res, err := z.ctx.Upload("files/files/upload_session/start").Content(r).Call()
+	if err != nil {
+		return nil, err
+	}
+	sid := &sessionId{}
+	if err := res.Model(sid); err != nil {
+		return nil, err
+	}
+	written += z.uo.ChunkSize
+	l = l.With(zap.String("sessionId", sid.SessionId))
+
+	for (total - written) > z.uo.ChunkSize {
+		l.Debug("Append chunk", zap.Int64("written", written))
+		ai := &appendInfo{
+			Cursor: &cursorInfo{
+				SessionId: sid.SessionId,
+				Offset:    written,
+			},
+		}
+		r = io.LimitReader(f, z.uo.ChunkSize)
+		_, err := z.ctx.Upload("files/upload_session/append_v2").Param(ai).Content(r).Call()
+		if err != nil {
+			return nil, err
+		}
+		written += z.uo.ChunkSize
+	}
+
+	l.Debug("Finish")
+	ci := &commitInfo{
+		Cursor: &cursorInfo{
+			SessionId: sid.SessionId,
+			Offset:    written,
+		},
+		Commit: z.makeParams(info, destPath, mode, revision),
+	}
+	res, err = z.ctx.Upload("files/upload_session/finish").Param(ci).Content(f).Call()
+	if err != nil {
+		return nil, err
+	}
+	entry = &mo_file.Metadata{}
+	if err := res.Model(entry); err != nil {
+		return nil, err
+	}
+	return entry, nil
 }

@@ -53,11 +53,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option          | Description              | Default   |
-|-----------------|--------------------------|-----------|
-| `-dropbox-path` | Destination Dropbox path |           |
-| `-local-path`   | Local file path          |           |
-| `-peer`         | Account alias            | {default} |
+| Option          | Description                | Default   |
+|-----------------|----------------------------|-----------|
+| `-dropbox-path` | Destination Dropbox path   |           |
+| `-local-path`   | Local file path            |           |
+| `-overwrite`    | Overwrite existing file(s) | false     |
+| `-peer`         | Account alias              | {default} |
 
 Common options:
 

@@ -77,6 +77,7 @@
   "recipe.file.upload_vo.flag.peer": "Account alias",
   "recipe.file.upload_vo.flag.local_path": "Local file path",
   "recipe.file.upload_vo.flag.dropbox_path": "Destination Dropbox path",
+  "recipe.file.upload_vo.flag.overwrite": "Overwrite existing file(s)",
   "recipe.file.import.batch.title": "Batch import files",
   "recipe.file.import.batch.url_vo.flag.data": "Data file",
   "recipe.file.import.batch.url_vo.flag.path": "Path to import",

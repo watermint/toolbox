@@ -1,6 +1,7 @@
 package file
 
 import (
+	"context"
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file_content"
@@ -10,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"os"
@@ -19,11 +21,20 @@ type UploadVO struct {
 	Peer        app_conn.ConnUserFile
 	LocalPath   string
 	DropboxPath string
+	Overwrite   bool
 }
 
 const (
 	reportUpload = "uploaded"
 )
+
+type UploadWorker struct {
+	basePath  string
+	file      string
+	ctx       context.Context
+	rep       rp_model.Report
+	overwrite bool
+}
 
 type Upload struct {
 }
@@ -44,9 +55,17 @@ func (z *Upload) Exec(k app_kitchen.Kitchen) error {
 	}
 	defer rep.Close()
 
-	entry, err := sv_file_content.NewUpload(ctx).Add(mo_path.NewPath(vo.DropboxPath), vo.LocalPath)
-	if err != nil {
-		return err
+	var entry mo_file.Entry
+	if vo.Overwrite {
+		entry, err = sv_file_content.NewUpload(ctx).Overwrite(mo_path.NewPath(vo.DropboxPath), vo.LocalPath)
+		if err != nil {
+			return err
+		}
+	} else {
+		entry, err = sv_file_content.NewUpload(ctx).Add(mo_path.NewPath(vo.DropboxPath), vo.LocalPath)
+		if err != nil {
+			return err
+		}
 	}
 	rep.Row(entry.Concrete())
 
@@ -70,6 +89,7 @@ func (z *Upload) Test(c app_control.Control) error {
 	vo := &UploadVO{
 		LocalPath:   file,
 		DropboxPath: "/" + app_test.TestTeamFolderName,
+		Overwrite:   true,
 	}
 	if !app_test.ApplyTestPeers(c, vo) {
 		return qt_test.NotEnoughResource()

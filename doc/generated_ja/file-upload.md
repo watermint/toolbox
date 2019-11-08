@@ -57,6 +57,7 @@ At second run, please hit button "Open" on the dialogue.
 |-----------------|---------------------------------------------------------------|------------|
 | `-dropbox-path` | {"key":"recipe.file.upload_vo.flag.dropbox_path","params":{}} |            |
 | `-local-path`   | {"key":"recipe.file.upload_vo.flag.local_path","params":{}}   |            |
+| `-overwrite`    | {"key":"recipe.file.upload_vo.flag.overwrite","params":{}}    | false      |
 | `-peer`         | {"key":"recipe.file.upload_vo.flag.peer","params":{}}         | {default}  |
 
 Common options:
