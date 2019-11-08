@@ -40,6 +40,12 @@ func NewUpload(ctx api_context.Context, opts ...UploadOpt) Upload {
 		uo:  uo,
 	}
 }
+func ChunkSize(chunkSize int64) UploadOpt {
+	return func(o *UploadOpts) *UploadOpts {
+		o.ChunkSize = chunkSize
+		return o
+	}
+}
 
 type uploadImpl struct {
 	ctx api_context.Context
@@ -70,25 +76,25 @@ func (z *uploadImpl) upload(destPath mo_path.Path, filePath string, mode string,
 	}
 }
 
-type uploadParamMode struct {
+type UploadParamMode struct {
 	Tag    string `json:".tag"`
 	Update string `json:"update,omitempty"`
 }
 
-type uploadParams struct {
+type UploadParams struct {
 	Path           string           `json:"path"`
-	Mode           *uploadParamMode `json:"mode"`
+	Mode           *UploadParamMode `json:"mode"`
 	Mute           bool             `json:"mute"`
 	ClientModified string           `json:"client_modified"`
 	Autorename     bool             `json:"autorename"`
 }
 
-func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.Path, mode string, revision string) *uploadParams {
-	upm := &uploadParamMode{
+func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.Path, mode string, revision string) *UploadParams {
+	upm := &UploadParamMode{
 		Tag:    mode,
 		Update: "",
 	}
-	up := &uploadParams{
+	up := &UploadParams{
 		Path:           destPath.ChildPath(filepath.Base(info.Name())).Path(),
 		Mode:           upm,
 		Mute:           false,
@@ -134,37 +140,39 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 	}
 	r := io.LimitReader(f, z.uo.ChunkSize)
 
-	type sessionId struct {
+	type SessionId struct {
 		SessionId string `json:"session_id"`
 	}
-	type cursorInfo struct {
+	type CursorInfo struct {
 		SessionId string `json:"session_id"`
 		Offset    int64  `json:"offset"`
 	}
-	type appendInfo struct {
-		Cursor *cursorInfo `json:"cursor"`
+	type AppendInfo struct {
+		Cursor *CursorInfo `json:"cursor"`
 	}
-	type commitInfo struct {
-		Cursor *cursorInfo   `json:"cursor"`
-		Commit *uploadParams `json:"commit"`
+	type CommitInfo struct {
+		Cursor *CursorInfo   `json:"cursor"`
+		Commit *UploadParams `json:"commit"`
 	}
 
 	l.Debug("Upload session start")
-	res, err := z.ctx.Upload("files/files/upload_session/start").Content(r).Call()
+	res, err := z.ctx.Upload("files/upload_session/start").Content(r).Call()
 	if err != nil {
 		return nil, err
 	}
-	sid := &sessionId{}
-	if err := res.Model(sid); err != nil {
+	sid := &SessionId{}
+	if j, err := res.Json(); err != nil {
 		return nil, err
+	} else {
+		sid.SessionId = j.Get("session_id").String()
 	}
 	written += z.uo.ChunkSize
 	l = l.With(zap.String("sessionId", sid.SessionId))
 
 	for (total - written) > z.uo.ChunkSize {
 		l.Debug("Append chunk", zap.Int64("written", written))
-		ai := &appendInfo{
-			Cursor: &cursorInfo{
+		ai := &AppendInfo{
+			Cursor: &CursorInfo{
 				SessionId: sid.SessionId,
 				Offset:    written,
 			},
@@ -178,8 +186,8 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 	}
 
 	l.Debug("Finish")
-	ci := &commitInfo{
-		Cursor: &cursorInfo{
+	ci := &CommitInfo{
+		Cursor: &CursorInfo{
 			SessionId: sid.SessionId,
 			Offset:    written,
 		},

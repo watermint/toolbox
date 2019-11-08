@@ -55,6 +55,7 @@ At second run, please hit button "Open" on the dialogue.
 
 | Option          | Description                | Default   |
 |-----------------|----------------------------|-----------|
+| `-chunk-size`   | Upload chunk size in MB    | 150       |
 | `-dropbox-path` | Destination Dropbox path   |           |
 | `-local-path`   | Local file path            |           |
 | `-overwrite`    | Overwrite existing file(s) | false     |

@@ -55,6 +55,7 @@ At second run, please hit button "Open" on the dialogue.
 
 | オプション      | 説明                                                          | デフォルト |
 |-----------------|---------------------------------------------------------------|------------|
+| `-chunk-size`   | {"key":"recipe.file.upload_vo.flag.chunk_size","params":{}}   | 150        |
 | `-dropbox-path` | {"key":"recipe.file.upload_vo.flag.dropbox_path","params":{}} |            |
 | `-local-path`   | {"key":"recipe.file.upload_vo.flag.local_path","params":{}}   |            |
 | `-overwrite`    | {"key":"recipe.file.upload_vo.flag.overwrite","params":{}}    | false      |

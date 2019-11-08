@@ -22,6 +22,7 @@ type UploadVO struct {
 	LocalPath   string
 	DropboxPath string
 	Overwrite   bool
+	ChunkSize   int
 }
 
 const (
@@ -40,7 +41,9 @@ type Upload struct {
 }
 
 func (z *Upload) Requirement() app_vo.ValueObject {
-	return &UploadVO{}
+	return &UploadVO{
+		ChunkSize: 150 * 1024,
+	}
 }
 
 func (z *Upload) Exec(k app_kitchen.Kitchen) error {
@@ -55,14 +58,16 @@ func (z *Upload) Exec(k app_kitchen.Kitchen) error {
 	}
 	defer rep.Close()
 
+	up := sv_file_content.NewUpload(ctx, sv_file_content.ChunkSize(int64(vo.ChunkSize*1024)))
+
 	var entry mo_file.Entry
 	if vo.Overwrite {
-		entry, err = sv_file_content.NewUpload(ctx).Overwrite(mo_path.NewPath(vo.DropboxPath), vo.LocalPath)
+		entry, err = up.Overwrite(mo_path.NewPath(vo.DropboxPath), vo.LocalPath)
 		if err != nil {
 			return err
 		}
 	} else {
-		entry, err = sv_file_content.NewUpload(ctx).Add(mo_path.NewPath(vo.DropboxPath), vo.LocalPath)
+		entry, err = up.Add(mo_path.NewPath(vo.DropboxPath), vo.LocalPath)
 		if err != nil {
 			return err
 		}
@@ -86,15 +91,37 @@ func (z *Upload) Test(c app_control.Control) error {
 		l.Warn("No file to upload")
 		return qt_test.NotEnoughResource()
 	}
-	vo := &UploadVO{
-		LocalPath:   file,
-		DropboxPath: "/" + app_test.TestTeamFolderName,
-		Overwrite:   true,
+
+	{
+		vo := &UploadVO{
+			LocalPath:   file,
+			DropboxPath: "/" + app_test.TestTeamFolderName,
+			Overwrite:   true,
+		}
+		if !app_test.ApplyTestPeers(c, vo) {
+			return qt_test.NotEnoughResource()
+		}
+		if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
+			return err
+		}
 	}
-	if !app_test.ApplyTestPeers(c, vo) {
-		return qt_test.NotEnoughResource()
+
+	// Chunked
+	{
+		vo := &UploadVO{
+			LocalPath:   file,
+			DropboxPath: "/" + app_test.TestTeamFolderName,
+			Overwrite:   true,
+			ChunkSize:   1,
+		}
+		if !app_test.ApplyTestPeers(c, vo) {
+			return qt_test.NotEnoughResource()
+		}
+		if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
+			return err
+		}
 	}
-	return z.Exec(app_kitchen.NewKitchen(c, vo))
+	return nil
 }
 
 func (z *Upload) Reports() []rp_spec.ReportSpec {
