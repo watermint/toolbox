@@ -78,6 +78,7 @@ type uploadParams struct {
 	Mode           *uploadParamMode `json:"mode"`
 	Mute           bool             `json:"mute"`
 	ClientModified string           `json:"client_modified"`
+	Autorename     bool             `json:"autorename"`
 }
 
 func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.Path, mode string, revision string) *uploadParams {
@@ -85,16 +86,19 @@ func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.Path, mode st
 		Tag:    mode,
 		Update: "",
 	}
-	if mode == "update" && revision != "" {
-		upm.Update = revision
-	}
-
-	return &uploadParams{
+	up := &uploadParams{
 		Path:           destPath.ChildPath(filepath.Base(info.Name())).Path(),
 		Mode:           upm,
 		Mute:           false,
 		ClientModified: api_util.RebaseAsString(info.ModTime()),
 	}
+	switch mode {
+	case "update":
+		upm.Update = revision
+	case "add":
+		up.Autorename = true
+	}
+	return up
 }
 
 func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.Path, filePath string, mode string, revision string) (entry mo_file.Entry, err error) {
