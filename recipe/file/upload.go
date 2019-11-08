@@ -98,6 +98,9 @@ func (z *UploadWorker) Exec() (err error) {
 type Upload struct {
 }
 
+func (z *Upload) Console() {
+}
+
 func (z *Upload) Requirement() app_vo.ValueObject {
 	return &UploadVO{
 		ChunkSize: 150 * 1024,
