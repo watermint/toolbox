@@ -55,7 +55,7 @@ At second run, please hit button "Open" on the dialogue.
 
 | Option          | Description                | Default   |
 |-----------------|----------------------------|-----------|
-| `-chunk-size`   | Upload chunk size in MB    | 150       |
+| `-chunk-size`   | Upload chunk size in KB    | 153600    |
 | `-dropbox-path` | Destination Dropbox path   |           |
 | `-local-path`   | Local file path            |           |
 | `-overwrite`    | Overwrite existing file(s) | false     |
@@ -121,18 +121,21 @@ Report files are generated in `uploaded.csv`, `uploaded.xlsx` and `uploaded.json
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
 
-| Column                  | Description                                                                                            |
-|-------------------------|--------------------------------------------------------------------------------------------------------|
-| id                      | A unique identifier for the file.                                                                      |
-| tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name                    | The last component of the path (including extension).                                                  |
-| path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| path_display            | The cased path to be used for display purposes only.                                                   |
-| client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified         | The last time the file was modified on Dropbox.                                                        |
-| revision                | A unique identifier for the current revision of a file.                                                |
-| size                    | The file size in bytes.                                                                                |
-| content_hash            | A hash of the file content.                                                                            |
-| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| parent_shared_folder_id |                                                                                                        |
+| Column                         | Description                                                                                            |
+|--------------------------------|--------------------------------------------------------------------------------------------------------|
+| status                         | Status of the operation                                                                                |
+| reason                         | Reason of failure or skipped operation                                                                 |
+| input.file                     | Local file path                                                                                        |
+| result.id                      | A unique identifier for the file.                                                                      |
+| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| result.name                    | The last component of the path (including extension).                                                  |
+| result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
+| result.path_display            | The cased path to be used for display purposes only.                                                   |
+| result.client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| result.server_modified         | The last time the file was modified on Dropbox.                                                        |
+| result.revision                | A unique identifier for the current revision of a file.                                                |
+| result.size                    | The file size in bytes.                                                                                |
+| result.content_hash            | A hash of the file content.                                                                            |
+| result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
+| result.parent_shared_folder_id |                                                                                                        |
 

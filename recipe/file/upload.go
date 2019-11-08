@@ -1,7 +1,7 @@
 package file
 
 import (
-	"context"
+	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file_content"
@@ -14,7 +14,12 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"go.uber.org/zap"
+	"io/ioutil"
 	"os"
+	"path/filepath"
+	"strings"
 )
 
 type UploadVO struct {
@@ -30,11 +35,64 @@ const (
 )
 
 type UploadWorker struct {
-	basePath  string
-	file      string
-	ctx       context.Context
-	rep       rp_model.Report
-	overwrite bool
+	dropboxBasePath string
+	localBasePath   string
+	localFilePath   string
+	ctl             app_control.Control
+	up              sv_file_content.Upload
+	rep             rp_model.Report
+	overwrite       bool
+}
+
+type UploadRow struct {
+	File string `json:"file"`
+}
+
+func (z *UploadWorker) Exec() (err error) {
+	ui := z.ctl.UI()
+	ui.Info("recipe.file.upload.progress", app_msg.P{
+		"File": z.localFilePath,
+	})
+	l := z.ctl.Log().With(
+		zap.String("dropboxBasePath", z.dropboxBasePath),
+		zap.String("localBasePath", z.localBasePath),
+		zap.String("localFilePath", z.localFilePath),
+	)
+
+	rel, err := filepath.Rel(z.localBasePath, filepath.Dir(z.localFilePath))
+	if err != nil {
+		l.Debug("unable to calculate rel path", zap.Error(err))
+		z.rep.Failure(app_msg.M("recipe.file.upload.err.invalid_path"), &UploadRow{File: z.localFilePath}, nil)
+		return err
+	}
+	dp := mo_path.NewPath(z.dropboxBasePath)
+	switch {
+	case rel == ".":
+		l.Debug("upload to base path")
+	case strings.HasPrefix(rel, ".."):
+		l.Debug("invalid rel path", zap.String("rel", rel))
+		z.rep.Failure(app_msg.M("recipe.file.upload.err.invalid_path"), &UploadRow{File: z.localFilePath}, nil)
+		return errors.New("invalid rel path")
+	default:
+		dp = dp.ChildPath(filepath.ToSlash(rel))
+	}
+
+	var entry mo_file.Entry
+	if z.overwrite {
+		entry, err = z.up.Overwrite(dp, z.localFilePath)
+		if err != nil {
+			z.rep.Failure(app_msg.M("recipe.file.upload.err.failed_upload"), &UploadRow{File: z.localFilePath}, nil)
+			return err
+		}
+	} else {
+		entry, err = z.up.Add(dp, z.localFilePath)
+		if err != nil {
+			z.rep.Failure(app_msg.M("recipe.file.upload.err.failed_upload"), &UploadRow{File: z.localFilePath}, nil)
+			return err
+		}
+	}
+	z.rep.Success(&UploadRow{File: z.localFilePath}, entry.Concrete())
+	return nil
 }
 
 type Upload struct {
@@ -59,22 +117,56 @@ func (z *Upload) Exec(k app_kitchen.Kitchen) error {
 	defer rep.Close()
 
 	up := sv_file_content.NewUpload(ctx, sv_file_content.ChunkSize(int64(vo.ChunkSize*1024)))
+	q := k.NewQueue()
 
-	var entry mo_file.Entry
-	if vo.Overwrite {
-		entry, err = up.Overwrite(mo_path.NewPath(vo.DropboxPath), vo.LocalPath)
-		if err != nil {
-			return err
-		}
-	} else {
-		entry, err = up.Add(mo_path.NewPath(vo.DropboxPath), vo.LocalPath)
-		if err != nil {
-			return err
-		}
+	info, err := os.Lstat(vo.LocalPath)
+	if err != nil {
+		return err
 	}
-	rep.Row(entry.Concrete())
 
-	return nil
+	var scanFolder func(path string) error
+	scanFolder = func(path string) error {
+		entries, err := ioutil.ReadDir(path)
+		if err != nil {
+			return err
+		}
+		var lastErr error
+		for _, e := range entries {
+			if e.IsDir() {
+				lastErr = scanFolder(e.Name())
+			} else {
+				q.Enqueue(&UploadWorker{
+					dropboxBasePath: vo.DropboxPath,
+					localBasePath:   vo.LocalPath,
+					localFilePath:   filepath.Join(path, e.Name()),
+					ctl:             k.Control(),
+					up:              up,
+					rep:             rep,
+					overwrite:       vo.Overwrite,
+				})
+			}
+		}
+		return lastErr
+	}
+
+	var lastErr error
+	if info.IsDir() {
+		lastErr = scanFolder(vo.LocalPath)
+	} else {
+		q.Enqueue(&UploadWorker{
+			dropboxBasePath: vo.DropboxPath,
+			localBasePath:   vo.LocalPath,
+			localFilePath:   vo.LocalPath,
+			ctl:             k.Control(),
+			up:              up,
+			rep:             rep,
+			overwrite:       vo.Overwrite,
+		})
+	}
+
+	q.Wait()
+
+	return lastErr
 }
 
 func (z *Upload) Test(c app_control.Control) error {
@@ -126,6 +218,12 @@ func (z *Upload) Test(c app_control.Control) error {
 
 func (z *Upload) Reports() []rp_spec.ReportSpec {
 	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportUpload, &mo_file.ConcreteEntry{}),
+		rp_spec_impl.Spec(
+			reportUpload,
+			rp_model.TransactionHeader(&UploadRow{}, &mo_file.ConcreteEntry{}),
+			rp_model.HiddenColumns(
+				"result.id",
+				"result.tag",
+			)),
 	}
 }
