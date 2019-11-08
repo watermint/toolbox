@@ -68,6 +68,7 @@ Common options:
 
 | Option         | Description                                                                      | Default              |
 |----------------|----------------------------------------------------------------------------------|----------------------|
+| `-bandwidth`   | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
 | `-concurrency` | Maximum concurrency for running operation                                        | Number of processors |
 | `-debug`       | Enable debug mode                                                                | false                |
 | `-proxy`       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |

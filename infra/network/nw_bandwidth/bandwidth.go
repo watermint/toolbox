@@ -2,6 +2,8 @@ package nw_bandwidth
 
 import (
 	"github.com/watermint/bwlimit"
+	"github.com/watermint/toolbox/infra/control/app_root"
+	"go.uber.org/zap"
 	"io"
 )
 
@@ -11,6 +13,7 @@ var (
 
 // Set bandwidth limit in Kilo Bytes per second.
 func SetBandwidth(kps int) {
+	app_root.Log().Debug("Bandwidth limit", zap.Int("kbs", kps))
 	throttle.SetRateLimit(kps * 1024)
 }
 

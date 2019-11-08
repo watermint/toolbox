@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_run_impl"
+	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/network/nw_diag"
 	"github.com/watermint/toolbox/infra/network/nw_proxy"
 	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
@@ -187,6 +188,9 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 			ctl.Abort(app_control.Reason(app_control.FatalNetwork))
 		}
 	}
+
+	// Set bandwidth
+	nw_bandwidth.SetBandwidth(com.Bandwidth)
 
 	// Apply profiler
 	if com.Debug {

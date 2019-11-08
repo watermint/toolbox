@@ -39,14 +39,15 @@ At second run, please hit button "Open" on the dialogue.
 
 Common options:
 
-| オプション     | 説明                                                                | デフォルト     |
-|----------------|---------------------------------------------------------------------|----------------|
-| `-concurrency` | 指定した並列度で並列処理を行います                                  | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                          | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                           |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します | false          |
-| `-secure`      | トークンをファイルに保存しません                                    | false          |
-| `-workspace`   | ワークスペースへのパス                                              |                |
+| オプション     | 説明                                                                   | デフォルト     |
+|----------------|------------------------------------------------------------------------|----------------|
+| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
+| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
+| `-debug`       | デバッグモードを有効にする                                             | false          |
+| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
+| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
+| `-secure`      | トークンをファイルに保存しません                                       | false          |
+| `-workspace`   | ワークスペースへのパス                                                 |                |
 
 ## Network configuration: Proxy
 
