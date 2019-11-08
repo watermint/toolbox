@@ -57,6 +57,7 @@ Available commands:
 | [file merge](doc/generated_ja/file-merge.md)                                       | フォルダを統合します                                           |
 | [file move](doc/generated_ja/file-move.md)                                         | ファイルを移動します                                           |
 | [file replication](doc/generated_ja/file-replication.md)                           | ファイルコンテンツを他のアカウントに複製します                 |
+| [file upload](doc/generated_ja/file-upload.md)                                     | {"key":"recipe.file.upload.title","params":{}}                 |
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                           |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                 |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                     |

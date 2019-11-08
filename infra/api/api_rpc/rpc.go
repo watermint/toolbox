@@ -2,6 +2,7 @@ package api_rpc
 
 import (
 	"github.com/tidwall/gjson"
+	"io"
 	"net/http"
 )
 
@@ -11,6 +12,7 @@ const (
 	ReqHeaderSelectUser    = "Dropbox-API-Select-User"
 	ReqHeaderSelectAdmin   = "Dropbox-API-Select-Admin"
 	ReqHeaderPathRoot      = "Dropbox-API-Path-Root"
+	ReqHeaderArg           = "Dropbox-API-Arg"
 	ResHeaderRetryAfter    = "Retry-After"
 )
 
@@ -19,6 +21,7 @@ type Caller interface {
 	OnSuccess(func(res Response) error) Caller
 	OnFailure(func(err error) error) Caller
 	Call() (res Response, err error)
+	Upload(r io.Reader) (res Response, err error)
 }
 
 type Request interface {
@@ -36,6 +39,9 @@ type Request interface {
 
 	// Request
 	Request() (req *http.Request, err error)
+
+	// Upload request
+	Upload(r io.Reader) (req *http.Request, err error)
 }
 
 type Response interface {

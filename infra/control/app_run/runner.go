@@ -10,8 +10,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_run_impl"
-	"github.com/watermint/toolbox/infra/network/app_diag"
-	"github.com/watermint/toolbox/infra/network/app_network"
+	"github.com/watermint/toolbox/infra/network/nw_diag"
+	"github.com/watermint/toolbox/infra/network/nw_proxy"
 	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
@@ -171,18 +171,18 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	}()
 
 	// - Proxy config
-	app_network.SetHttpProxy(com.Proxy, ctl)
+	nw_proxy.SetHttpProxy(com.Proxy, ctl)
 
 	// App Header
 	app_recipe_group.AppHeader(ui)
 
 	// Diagnosis
-	err = app_diag.Runtime(ctl)
+	err = nw_diag.Runtime(ctl)
 	if err != nil {
 		ctl.Abort(app_control.Reason(app_control.FatalRuntime))
 	}
 	if ctl.IsProduction() {
-		err = app_diag.Network(ctl)
+		err = nw_diag.Network(ctl)
 		if err != nil {
 			ctl.Abort(app_control.Reason(app_control.FatalNetwork))
 		}

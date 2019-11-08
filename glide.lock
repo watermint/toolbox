@@ -1,5 +1,5 @@
-hash: 2ceca35d4d8f0d2b44fd421f1f045896c1968fbe96ef9e2cc246e5d710b4ac3b
-updated: 2019-11-06T16:50:20.563457+09:00
+hash: 19524594dc380783cc8caffeceade6db8b1e4ca06ca44d9d9a1b93289322e7fb
+updated: 2019-11-07T11:26:56.561729+09:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
@@ -63,6 +63,8 @@ imports:
   version: 42bc974514ff101a54c6b72a0e4dee29d96c0b26
   subpackages:
   - codec
+- name: github.com/watermint/bwlimit
+  version: 8152079585508d4cb67950578277091bb233641b
 - name: go.uber.org/atomic
   version: 9dc4df04d0d1c39369750a9f6c32c39560672089
 - name: go.uber.org/multierr
@@ -114,7 +116,7 @@ imports:
   - unicode/norm
   - width
 - name: golang.org/x/tools
-  version: 689d0f08e67ae0c77c260e137ac6a3729498c92f
+  version: f79515f338230420deefba76e168cfd29f52942d
   subpackages:
   - go/analysis
   - go/analysis/passes/inspect

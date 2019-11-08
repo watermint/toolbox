@@ -1,4 +1,4 @@
-package app_diag
+package nw_diag
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"

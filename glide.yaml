@@ -38,3 +38,5 @@ import:
   - open
 - package: github.com/pkg/profile
   version: ^1.3.0
+- package: github.com/watermint/bwlimit
+  version: ^1.0.3

@@ -57,6 +57,7 @@ Available commands:
 | [file merge](doc/generated/file-merge.md)                                       | Merge paths                                                   |
 | [file move](doc/generated/file-move.md)                                         | Move files                                                    |
 | [file replication](doc/generated/file-replication.md)                           | Replicate file content to the other account                   |
+| [file upload](doc/generated/file-upload.md)                                     | Upload file                                                   |
 | [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |
 | [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
 | [group member list](doc/generated/group-member-list.md)                         | List members of groups                                        |

@@ -1,4 +1,4 @@
-package app_network
+package nw_proxy
 
 import (
 	"fmt"
