@@ -3,7 +3,7 @@ package compare
 import (
 	"github.com/watermint/toolbox/domain/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/usecase/uc_file_compare"
+	"github.com/watermint/toolbox/domain/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
@@ -68,11 +68,8 @@ func (z *Account) Exec(k app_kitchen.Kitchen) error {
 		return nil
 	}
 
-	ucc := uc_file_compare.New(ctxLeft, ctxRight)
-	count, err := ucc.Diff(diff,
-		uc_file_compare.LeftPath(mo_path.NewPath(vo.LeftPath)),
-		uc_file_compare.RightPath(mo_path.NewPath(vo.RightPath)),
-	)
+	ucc := uc_compare_paths.New(ctxLeft, ctxRight)
+	count, err := ucc.Diff(mo_path.NewPath(vo.LeftPath), mo_path.NewPath(vo.RightPath), diff)
 	if err != nil {
 		return err
 	}

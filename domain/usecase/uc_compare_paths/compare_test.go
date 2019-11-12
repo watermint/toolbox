@@ -1,4 +1,4 @@
-package uc_file_compare
+package uc_compare_paths
 
 import (
 	"github.com/watermint/toolbox/domain/model/mo_file_diff"

@@ -48,6 +48,7 @@ func Recipes() []app_recipe.Recipe {
 		&file.Replication{},
 		&file.Upload{},
 		&filecompare.Account{},
+		&filecompare.Local{},
 		&fileimport.Url{},
 		&fileimportbatch.Url{},
 		&group.List{},

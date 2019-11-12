@@ -50,6 +50,7 @@ Available commands:
 | Command                                                                         | Description                                                   |
 |---------------------------------------------------------------------------------|---------------------------------------------------------------|
 | [file compare account](doc/generated/file-compare-account.md)                   | Compare files of two accounts                                 |
+| [file compare local](doc/generated/file-compare-local.md)                       | Compare local folders and Dropbox folders                     |
 | [file copy](doc/generated/file-copy.md)                                         | Copy files                                                    |
 | [file import batch url](doc/generated/file-import-batch-url.md)                 | Batch import files from URL                                   |
 | [file import url](doc/generated/file-import-url.md)                             | Import file from the URL                                      |

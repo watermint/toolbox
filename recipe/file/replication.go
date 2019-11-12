@@ -3,7 +3,7 @@ package file
 import (
 	"github.com/watermint/toolbox/domain/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/usecase/uc_file_compare"
+	"github.com/watermint/toolbox/domain/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/quality/qt_test"
@@ -75,11 +75,7 @@ func (z *Replication) Exec(k app_kitchen.Kitchen) error {
 		rep.Row(&d)
 		return nil
 	}
-	count, err := uc_file_compare.New(ctxSrc, ctxDst).Diff(
-		diff,
-		uc_file_compare.LeftPath(srcPath),
-		uc_file_compare.RightPath(dstPath),
-	)
+	count, err := uc_compare_paths.New(ctxSrc, ctxDst).Diff(srcPath, dstPath, diff)
 	ui.Info("recipe.file.replication.done", app_msg.P{
 		"DiffCount": count,
 	})

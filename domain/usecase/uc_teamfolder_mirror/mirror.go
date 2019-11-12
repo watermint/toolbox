@@ -17,7 +17,7 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/service/sv_team"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
-	"github.com/watermint/toolbox/domain/usecase/uc_file_compare"
+	"github.com/watermint/toolbox/domain/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
@@ -623,12 +623,14 @@ func (z *teamFolderImpl) Verify(ctx Context, scope Scope) (err error) {
 		AsMemberId(ctx.AdminDst().TeamMemberId).
 		WithPath(api_context.Namespace(scope.Pair().Dst.TeamFolderId))
 
-	ucc := uc_file_compare.New(ctxSrc, ctxDst)
-	count, err := ucc.Diff(func(diff mo_file_diff.Diff) error {
-		l.Warn("Diff", zap.Any("diff", diff))
-		rep.Row(&diff)
-		return nil
-	})
+	ucc := uc_compare_paths.New(ctxSrc, ctxDst)
+	count, err := ucc.Diff(
+		mo_path.NewPath(""), mo_path.NewPath(""),
+		func(diff mo_file_diff.Diff) error {
+			l.Warn("Diff", zap.Any("diff", diff))
+			rep.Row(&diff)
+			return nil
+		})
 
 	if count > 0 {
 		return errors.New("one or more files differ between source and destination folder")

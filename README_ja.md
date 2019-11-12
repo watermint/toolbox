@@ -50,6 +50,7 @@ Available commands:
 | コマンド                                                                           | 説明                                                           |
 |------------------------------------------------------------------------------------|----------------------------------------------------------------|
 | [file compare account](doc/generated_ja/file-compare-account.md)                   | 二つのアカウントのファイルを比較します                         |
+| [file compare local](doc/generated_ja/file-compare-local.md)                       | {"key":"recipe.file.compare.local.title","params":{}}          |
 | [file copy](doc/generated_ja/file-copy.md)                                         | ファイルをコピーします                                         |
 | [file import batch url](doc/generated_ja/file-import-batch-url.md)                 | URLからファイルを一括インポートします                          |
 | [file import url](doc/generated_ja/file-import-url.md)                             | URLからファイルをインポートします                              |

@@ -1,4 +1,4 @@
-package uc_file_compare
+package uc_compare_paths
 
 import (
 	"github.com/watermint/toolbox/domain/model/mo_file"
@@ -12,56 +12,48 @@ import (
 )
 
 type Compare interface {
-	Diff(onDiff func(diff mo_file_diff.Diff) error, opts ...CompareOpt) (diffCount int, err error)
+	Diff(leftPath mo_path.Path, rightPath mo_path.Path, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
 }
 
-func New(left, right api_context.Context) Compare {
+func New(left, right api_context.Context, opts ...CompareOpt) Compare {
+	co := &CompareOpts{}
+	for _, o := range opts {
+		o(co)
+	}
+
 	return &compareImpl{
 		ctxLeft:  left,
 		ctxRight: right,
+		opts:     co,
 	}
 }
 
-type CompareOpt func(opt *compareOpt) *compareOpt
+type CompareOpt func(opt *CompareOpts) *CompareOpts
 
-type compareOpt struct {
-	leftPath  mo_path.Path
-	rightPath mo_path.Path
-}
-
-func LeftPath(path mo_path.Path) CompareOpt {
-	return func(opt *compareOpt) *compareOpt {
-		opt.leftPath = path
-		return opt
-	}
-}
-
-func RightPath(path mo_path.Path) CompareOpt {
-	return func(opt *compareOpt) *compareOpt {
-		opt.rightPath = path
-		return opt
-	}
+type CompareOpts struct {
 }
 
 type compareImpl struct {
 	ctxLeft  api_context.Context
 	ctxRight api_context.Context
+	opts     *CompareOpts
 }
 
-func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
+func (z *compareImpl) cmpLevel(left, right mo_path.Path, path string, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
 	leftFiles := make(map[string]*mo_file.File)
 	leftFolders := make(map[string]*mo_file.Folder)
 	rightFiles := make(map[string]*mo_file.File)
 	rightFolders := make(map[string]*mo_file.Folder)
 
-	log := z.ctxLeft.Log().With(zap.String("path", path))
-	log.Debug("Compare")
+	l := z.ctxLeft.Log().With(zap.String("path", path))
 
 	// Scan left
 	{
-		leftPath := opts.leftPath.ChildPath(path)
+		l.Debug("Scan left")
+		leftPath := left.ChildPath(path)
 		entries, err := sv_file.NewFiles(z.ctxLeft).List(leftPath)
 		if err != nil {
+			l.Debug("unable to list left path", zap.Error(err))
 			return 0, err
 		}
 		for _, entry := range entries {
@@ -76,9 +68,11 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 
 	// Scan right
 	{
-		rightPath := opts.rightPath.ChildPath(path)
+		l.Debug("Scan right")
+		rightPath := right.ChildPath(path)
 		entries, err := sv_file.NewFiles(z.ctxRight).List(rightPath)
 		if err != nil {
+			l.Debug("unable to list right path", zap.Error(err))
 			return 0, err
 		}
 		for _, entry := range entries {
@@ -92,6 +86,7 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 	}
 
 	// compare files left to right
+	l.Debug("Compare files left to right")
 	for lfn, lf := range leftFiles {
 		if rf, e := rightFiles[lfn]; e {
 			if lf.ContentHash != rf.ContentHash {
@@ -121,12 +116,14 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 			}
 			diffCount++
 			if err := onDiff(diff); err != nil {
+				l.Debug("onDiff returned an error", zap.Error(err))
 				return diffCount, err
 			}
 		}
 	}
 
 	// compare files right to left
+	l.Debug("Compare files right to left")
 	for rfn, rf := range rightFiles {
 		if _, e := leftFiles[rfn]; !e {
 			diff := mo_file_diff.Diff{
@@ -138,30 +135,32 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 			}
 			diffCount++
 			if err := onDiff(diff); err != nil {
+				l.Debug("onDiff returned an error", zap.Error(err))
 				return diffCount, err
 			}
 		}
 	}
 
 	// compare folders left to right
+	l.Debug("Compare folders left to right")
 	for lfn, lf := range leftFolders {
 		if _, e := rightFolders[lfn]; e {
 			// proceed to descendants
-			lp := strings.ToLower(opts.leftPath.Path())
+			lp := strings.ToLower(left.Path())
 			if lp == "" {
 				lp = "/"
 			}
 			pd, err := filepath.Rel(lp, lf.PathLower())
 			if err != nil {
-				log.Warn("unable to calculate relative path", zap.String("leftPathBase", lp), zap.String("leftPath", lf.PathLower()), zap.Error(err))
+				l.Warn("unable to calculate relative path", zap.String("leftPathBase", lp), zap.String("leftPath", lf.PathLower()), zap.Error(err))
 				continue
 			}
 			if strings.HasPrefix(pd, "..") {
-				log.Error("invalid relative path", zap.String("pd", pd), zap.String("zLeftPath", opts.leftPath.Path()), zap.String("lfPathLower", lf.PathLower()))
+				l.Error("invalid relative path", zap.String("pd", pd), zap.String("zLeftPath", left.Path()), zap.String("lfPathLower", lf.PathLower()))
 				continue
 			}
-			log.Debug("Proceed into descendants", zap.String("pathDescendants", pd))
-			dc, err := z.cmpLevel(pd, opts, onDiff)
+			l.Debug("Proceed into descendants", zap.String("pathDescendants", pd))
+			dc, err := z.cmpLevel(left, right, pd, onDiff)
 			if err != nil {
 				return dc, err
 			}
@@ -174,12 +173,14 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 			}
 			diffCount++
 			if err := onDiff(diff); err != nil {
+				l.Debug("onDiff returned an error", zap.Error(err))
 				return diffCount, err
 			}
 		}
 	}
 
 	// compare folders right to left
+	l.Debug("Compare folders right to left")
 	for rfn, rf := range rightFolders {
 		if _, e := leftFolders[rfn]; !e {
 			diff := mo_file_diff.Diff{
@@ -189,23 +190,16 @@ func (z *compareImpl) cmpLevel(path string, opts *compareOpt, onDiff func(diff m
 			}
 			diffCount++
 			if err := onDiff(diff); err != nil {
+				l.Debug("onDiff returned an error", zap.Error(err))
 				return diffCount, err
 			}
 		}
 	}
 
+	l.Debug("Completed", zap.Int("diffCount", diffCount))
 	return diffCount, nil
 }
 
-func (z *compareImpl) Diff(onDiff func(diff mo_file_diff.Diff) error, opts ...CompareOpt) (diffCount int, err error) {
-	co := &compareOpt{
-		leftPath:  mo_path.NewPath(""),
-		rightPath: mo_path.NewPath(""),
-	}
-	for _, o := range opts {
-		o(co)
-	}
-	diffCount = 0
-
-	return z.cmpLevel("", co, onDiff)
+func (z *compareImpl) Diff(leftPath mo_path.Path, rightPath mo_path.Path, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
+	return z.cmpLevel(leftPath, rightPath, "", onDiff)
 }
