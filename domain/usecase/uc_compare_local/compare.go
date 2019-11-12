@@ -202,8 +202,12 @@ func (z *compareImpl) cmpLevel(local string, dropbox mo_path.Path, path string, 
 			}
 			diffCount += dc
 		} else {
+			dt := mo_file_diff.DiffFolderMissingRight
+			if strings.ToLower(name) == ".dropbox.cache" {
+				dt = mo_file_diff.DiffSkipped
+			}
 			diff := mo_file_diff.Diff{
-				DiffType: mo_file_diff.DiffFolderMissingRight,
+				DiffType: dt,
 				LeftPath: lfp,
 				LeftKind: "folder",
 			}
