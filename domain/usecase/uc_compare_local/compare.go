@@ -61,6 +61,13 @@ func (z *compareImpl) cmpLevel(local string, dropbox mo_path.Path, path string, 
 			return filepath.Join(local, path, info.Name())
 		}
 	}
+	relPath := func(info os.FileInfo) string {
+		if path == "" {
+			return info.Name()
+		} else {
+			return filepath.Join(path, info.Name())
+		}
+	}
 
 	z.ui.Info("usecase.uc_compare_local.scan_folder", app_msg.P{
 		"Path": path,
@@ -194,8 +201,9 @@ func (z *compareImpl) cmpLevel(local string, dropbox mo_path.Path, path string, 
 		lfp := localPath(lf)
 		if _, e := dropboxFolders[name]; e {
 			// proceed to descendants
-			l.Debug("Proceed to descendants", zap.String("lfp", lfp))
-			dc, err := z.cmpLevel(local, dropbox, lfp, onDiff)
+			rp := relPath(lf)
+			l.Debug("Proceed to descendants", zap.String("rp", rp))
+			dc, err := z.cmpLevel(local, dropbox, rp, onDiff)
 			if err != nil {
 				l.Debug("Descendant returned an error", zap.Error(err))
 				return diffCount + dc, err
