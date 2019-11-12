@@ -75,7 +75,7 @@ func (z *Replication) Exec(k app_kitchen.Kitchen) error {
 		rep.Row(&d)
 		return nil
 	}
-	count, err := uc_compare_paths.New(ctxSrc, ctxDst).Diff(srcPath, dstPath, diff)
+	count, err := uc_compare_paths.New(ctxSrc, ctxDst, k.UI()).Diff(srcPath, dstPath, diff)
 	ui.Info("recipe.file.replication.done", app_msg.P{
 		"DiffCount": count,
 	})

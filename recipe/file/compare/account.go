@@ -68,7 +68,7 @@ func (z *Account) Exec(k app_kitchen.Kitchen) error {
 		return nil
 	}
 
-	ucc := uc_compare_paths.New(ctxLeft, ctxRight)
+	ucc := uc_compare_paths.New(ctxLeft, ctxRight, k.UI())
 	count, err := ucc.Diff(mo_path.NewPath(vo.LeftPath), mo_path.NewPath(vo.RightPath), diff)
 	if err != nil {
 		return err

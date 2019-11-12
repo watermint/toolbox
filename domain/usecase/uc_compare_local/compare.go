@@ -7,6 +7,8 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
@@ -23,7 +25,7 @@ type CompareOpts struct {
 	ForceCalcLocalHash bool
 }
 
-func New(ctx api_context.Context, opts ...CompareOpt) Compare {
+func New(ctx api_context.Context, ui app_ui.UI, opts ...CompareOpt) Compare {
 	co := &CompareOpts{}
 	for _, o := range opts {
 		o(co)
@@ -36,6 +38,7 @@ func New(ctx api_context.Context, opts ...CompareOpt) Compare {
 
 type compareImpl struct {
 	ctx  api_context.Context
+	ui   app_ui.UI
 	opts *CompareOpts
 }
 
@@ -57,6 +60,10 @@ func (z *compareImpl) cmpLevel(local string, dropbox mo_path.Path, path string, 
 			return filepath.Join(local, path, info.Name())
 		}
 	}
+
+	z.ui.Info("usecase.uc_compare_local.scan_folder", app_msg.P{
+		"Path": path,
+	})
 
 	// Scan local
 	{
@@ -186,6 +193,7 @@ func (z *compareImpl) cmpLevel(local string, dropbox mo_path.Path, path string, 
 		lfp := localPath(lf)
 		if _, e := dropboxFolders[name]; e {
 			// proceed to descendants
+			l.Debug("Proceed to descendants", zap.String("lfp", lfp))
 			dc, err := z.cmpLevel(local, dropbox, lfp, onDiff)
 			if err != nil {
 				l.Debug("Descendant returned an error", zap.Error(err))

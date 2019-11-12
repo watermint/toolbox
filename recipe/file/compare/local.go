@@ -51,7 +51,7 @@ func (z *Local) Exec(k app_kitchen.Kitchen) error {
 		return nil
 	}
 
-	ucl := uc_compare_local.New(ctx)
+	ucl := uc_compare_local.New(ctx, k.UI())
 	count, err := ucl.Diff(vo.LocalPath, mo_path.NewPath(vo.DropboxPath), diff)
 	if err != nil {
 		return err

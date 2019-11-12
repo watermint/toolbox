@@ -6,6 +6,8 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"path/filepath"
 	"strings"
@@ -15,7 +17,7 @@ type Compare interface {
 	Diff(leftPath mo_path.Path, rightPath mo_path.Path, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
 }
 
-func New(left, right api_context.Context, opts ...CompareOpt) Compare {
+func New(left, right api_context.Context, ui app_ui.UI, opts ...CompareOpt) Compare {
 	co := &CompareOpts{}
 	for _, o := range opts {
 		o(co)
@@ -25,6 +27,7 @@ func New(left, right api_context.Context, opts ...CompareOpt) Compare {
 		ctxLeft:  left,
 		ctxRight: right,
 		opts:     co,
+		ui:       ui,
 	}
 }
 
@@ -37,6 +40,7 @@ type compareImpl struct {
 	ctxLeft  api_context.Context
 	ctxRight api_context.Context
 	opts     *CompareOpts
+	ui       app_ui.UI
 }
 
 func (z *compareImpl) cmpLevel(left, right mo_path.Path, path string, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
@@ -46,6 +50,10 @@ func (z *compareImpl) cmpLevel(left, right mo_path.Path, path string, onDiff fun
 	rightFolders := make(map[string]*mo_file.Folder)
 
 	l := z.ctxLeft.Log().With(zap.String("path", path))
+
+	z.ui.Info("usecase.uc_compare_paths.scan_folder", app_msg.P{
+		"Path": path,
+	})
 
 	// Scan left
 	{

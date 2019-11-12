@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"testing"
 )
@@ -43,6 +44,7 @@ func TestCompareImpl_Diff(t *testing.T) {
 			ucc := New(
 				ctx.WithPath(api_context.Namespace(tf1.SharedFolderId())),
 				ctx.WithPath(api_context.Namespace(tf1.SharedFolderId())),
+				app_ui.NewDummy(),
 			)
 			count, err := ucc.Diff(mo_path.NewPath(""), mo_path.NewPath(""), func(diff mo_file_diff.Diff) error {
 				t.Error(diff)
@@ -59,6 +61,7 @@ func TestCompareImpl_Diff(t *testing.T) {
 			ucc := New(
 				ctx,
 				ctx,
+				app_ui.NewDummy(),
 			)
 			count, err := ucc.Diff(tf1Path, tf1Path, func(diff mo_file_diff.Diff) error {
 				t.Error(diff)
@@ -75,6 +78,7 @@ func TestCompareImpl_Diff(t *testing.T) {
 			ucc := New(
 				ctx.WithPath(api_context.Namespace(tf2.SharedFolderId())),
 				ctx.WithPath(api_context.Namespace(tf2.SharedFolderId())),
+				app_ui.NewDummy(),
 			)
 			count, err := ucc.Diff(mo_path.NewPath(""), mo_path.NewPath(""), func(diff mo_file_diff.Diff) error {
 				t.Error(diff)
@@ -91,6 +95,7 @@ func TestCompareImpl_Diff(t *testing.T) {
 			ucc := New(
 				ctx.WithPath(api_context.Namespace(tf1.SharedFolderId())),
 				ctx.WithPath(api_context.Namespace(tf2.SharedFolderId())),
+				app_ui.NewDummy(),
 			)
 			count, err := ucc.Diff(mo_path.NewPath(""), mo_path.NewPath(""), func(diff mo_file_diff.Diff) error {
 				ctx.Log().Debug("diff", zap.Any("diff", diff))
@@ -107,6 +112,7 @@ func TestCompareImpl_Diff(t *testing.T) {
 			ucc := New(
 				ctx,
 				ctx,
+				app_ui.NewDummy(),
 			)
 			count, err := ucc.Diff(tf2Path, tf1Path, func(diff mo_file_diff.Diff) error {
 				ctx.Log().Debug("diff", zap.Any("diff", diff))

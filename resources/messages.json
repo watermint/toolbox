@@ -383,6 +383,8 @@
   "run.recipe.header.available_flags": "Available options:",
   "run.recipe.header.usage": "Usage:",
   "run.recipe.usage": "{{.Exec}} {{.Recipe}} [option...] {{.Args}}",
+  "usecase.uc_compare_local.scan_folder": "Scanning folder: {{.Path}}",
+  "usecase.uc_compare_paths.scan_folder": "Scanning folder: {{.Path}}",
   "usecase.uc_file_merge.move_file": "{{.DryRun}}Move file from `{{.FromPath}}` to `{{.ToPath}}`",
   "usecase.uc_file_merge.move_folder": "{{.DryRun}}Move folder from `{{.FromPath}}` to `{{.ToPath}}`",
   "usecase.uc_file_merge.remove_duplicated_file": "{{.DryRun}}Remove duplicated file: {{.FromPath}}",

@@ -623,7 +623,7 @@ func (z *teamFolderImpl) Verify(ctx Context, scope Scope) (err error) {
 		AsMemberId(ctx.AdminDst().TeamMemberId).
 		WithPath(api_context.Namespace(scope.Pair().Dst.TeamFolderId))
 
-	ucc := uc_compare_paths.New(ctxSrc, ctxDst)
+	ucc := uc_compare_paths.New(ctxSrc, ctxDst, z.kitchen.UI())
 	count, err := ucc.Diff(
 		mo_path.NewPath(""), mo_path.NewPath(""),
 		func(diff mo_file_diff.Diff) error {
