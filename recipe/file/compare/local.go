@@ -21,7 +21,8 @@ type LocalVO struct {
 }
 
 const (
-	reportLocal = "diff"
+	reportLocalDiff = "diff"
+	reportLocalSkip = "skip"
 )
 
 type Local struct {
@@ -40,14 +41,24 @@ func (z *Local) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportLocal)
+	repDiff, err := rp_spec_impl.New(z, k.Control()).Open(reportLocalDiff)
 	if err != nil {
 		return err
 	}
-	defer rep.Close()
+	defer repDiff.Close()
+	repSkip, err := rp_spec_impl.New(z, k.Control()).Open(reportLocalSkip)
+	if err != nil {
+		return err
+	}
+	defer repSkip.Close()
 
 	diff := func(diff mo_file_diff.Diff) error {
-		rep.Row(&diff)
+		switch diff.DiffType {
+		case mo_file_diff.DiffSkipped:
+			repSkip.Row(&diff)
+		default:
+			repDiff.Row(&diff)
+		}
 		return nil
 	}
 
@@ -68,6 +79,7 @@ func (z *Local) Test(c app_control.Control) error {
 
 func (z *Local) Reports() []rp_spec.ReportSpec {
 	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportLocal, &mo_file_diff.Diff{}),
+		rp_spec_impl.Spec(reportLocalDiff, &mo_file_diff.Diff{}),
+		rp_spec_impl.Spec(reportLocalSkip, &mo_file_diff.Diff{}),
 	}
 }
