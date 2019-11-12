@@ -80,7 +80,7 @@ func (z *compareImpl) cmpLevel(local string, dropbox mo_path.Path, path string, 
 	// Scan dropbox
 	{
 		l.Debug("Scan dropbox")
-		dropboxPath := dropbox.ChildPath(path)
+		dropboxPath := dropbox.ChildPath(filepath.ToSlash(path))
 		entries, err := sv_file.NewFiles(z.ctx).List(dropboxPath)
 		if err != nil {
 			l.Debug("unable to list dropbox path", zap.Error(err))
