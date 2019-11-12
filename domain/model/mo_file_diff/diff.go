@@ -6,6 +6,7 @@ const (
 	DiffFileMissingRight   = "right_file_missing"
 	DiffFolderMissingLeft  = "left_folder_missing"
 	DiffFolderMissingRight = "right_folder_missing"
+	DiffSkipped            = "skipped"
 )
 
 type Diff struct {

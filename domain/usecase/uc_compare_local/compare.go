@@ -142,9 +142,13 @@ func (z *compareImpl) cmpLevel(local string, dropbox mo_path.Path, path string, 
 			if z.opts.ForceCalcLocalHash {
 				hash = calcHash(lfp)
 			}
+			dt := mo_file_diff.DiffFileMissingRight
+			if api_util.IsFileNameIgnored(lfp) {
+				dt = mo_file_diff.DiffSkipped
+			}
 
 			diff := mo_file_diff.Diff{
-				DiffType: mo_file_diff.DiffFileMissingRight,
+				DiffType: dt,
 				LeftPath: lfp,
 				LeftKind: "file",
 				LeftSize: &lsz,
