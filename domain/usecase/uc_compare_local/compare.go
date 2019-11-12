@@ -33,6 +33,7 @@ func New(ctx api_context.Context, ui app_ui.UI, opts ...CompareOpt) Compare {
 	return &compareImpl{
 		ctx:  ctx,
 		opts: co,
+		ui:   ui,
 	}
 }
 
