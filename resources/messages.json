@@ -82,6 +82,7 @@
   "recipe.file.upload.progress": "Uploading: {{.File}}",
   "recipe.file.upload.err.invalid_path": "Invalid Path",
   "recipe.file.upload.err.failed_upload": "Upload failed",
+  "recipe.file.upload.cli.args": "-local-path /PATH/TO/UPLOAD -dropbox-path /DROPBOX/PATH",
   "recipe.file.import.batch.title": "Batch import files",
   "recipe.file.import.batch.url_vo.flag.data": "Data file",
   "recipe.file.import.batch.url_vo.flag.path": "Path to import",

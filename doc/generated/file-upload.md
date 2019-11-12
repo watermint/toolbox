@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file upload 
+.\tbx.exe file upload -local-path /PATH/TO/UPLOAD -dropbox-path /DROPBOX/PATH
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file upload 
+$HOME/Desktop/tbx file upload -local-path /PATH/TO/UPLOAD -dropbox-path /DROPBOX/PATH
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.

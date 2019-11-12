@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file_content"
+	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
@@ -135,13 +136,17 @@ func (z *Upload) Exec(k app_kitchen.Kitchen) error {
 		}
 		var lastErr error
 		for _, e := range entries {
+			p := filepath.Join(path, e.Name())
+			if api_util.IsFileNameIgnored(p) {
+				continue
+			}
 			if e.IsDir() {
 				lastErr = scanFolder(e.Name())
 			} else {
 				q.Enqueue(&UploadWorker{
 					dropboxBasePath: vo.DropboxPath,
 					localBasePath:   vo.LocalPath,
-					localFilePath:   filepath.Join(path, e.Name()),
+					localFilePath:   p,
 					ctl:             k.Control(),
 					up:              up,
 					rep:             rep,
