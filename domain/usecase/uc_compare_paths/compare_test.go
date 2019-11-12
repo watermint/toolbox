@@ -2,6 +2,7 @@ package uc_compare_paths
 
 import (
 	"github.com/watermint/toolbox/domain/model/mo_file_diff"
+	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_test"
@@ -43,7 +44,7 @@ func TestCompareImpl_Diff(t *testing.T) {
 				ctx.WithPath(api_context.Namespace(tf1.SharedFolderId())),
 				ctx.WithPath(api_context.Namespace(tf1.SharedFolderId())),
 			)
-			count, err := ucc.Diff(func(diff mo_file_diff.Diff) error {
+			count, err := ucc.Diff(mo_path.NewPath(""), mo_path.NewPath(""), func(diff mo_file_diff.Diff) error {
 				t.Error(diff)
 				return nil
 			})
@@ -59,10 +60,10 @@ func TestCompareImpl_Diff(t *testing.T) {
 				ctx,
 				ctx,
 			)
-			count, err := ucc.Diff(func(diff mo_file_diff.Diff) error {
+			count, err := ucc.Diff(tf1Path, tf1Path, func(diff mo_file_diff.Diff) error {
 				t.Error(diff)
 				return nil
-			}, LeftPath(tf1Path), RightPath(tf1Path))
+			})
 			if count > 0 || err != nil {
 				t.Error(count, err)
 			}
@@ -75,7 +76,7 @@ func TestCompareImpl_Diff(t *testing.T) {
 				ctx.WithPath(api_context.Namespace(tf2.SharedFolderId())),
 				ctx.WithPath(api_context.Namespace(tf2.SharedFolderId())),
 			)
-			count, err := ucc.Diff(func(diff mo_file_diff.Diff) error {
+			count, err := ucc.Diff(mo_path.NewPath(""), mo_path.NewPath(""), func(diff mo_file_diff.Diff) error {
 				t.Error(diff)
 				return nil
 			})
@@ -91,7 +92,7 @@ func TestCompareImpl_Diff(t *testing.T) {
 				ctx.WithPath(api_context.Namespace(tf1.SharedFolderId())),
 				ctx.WithPath(api_context.Namespace(tf2.SharedFolderId())),
 			)
-			count, err := ucc.Diff(func(diff mo_file_diff.Diff) error {
+			count, err := ucc.Diff(mo_path.NewPath(""), mo_path.NewPath(""), func(diff mo_file_diff.Diff) error {
 				ctx.Log().Debug("diff", zap.Any("diff", diff))
 				return nil
 			})
@@ -107,10 +108,10 @@ func TestCompareImpl_Diff(t *testing.T) {
 				ctx,
 				ctx,
 			)
-			count, err := ucc.Diff(func(diff mo_file_diff.Diff) error {
+			count, err := ucc.Diff(tf2Path, tf1Path, func(diff mo_file_diff.Diff) error {
 				ctx.Log().Debug("diff", zap.Any("diff", diff))
 				return nil
-			}, LeftPath(tf2Path), RightPath(tf1Path))
+			})
 			if count != 2 || err != nil {
 				t.Error(count, err)
 			}
