@@ -68,6 +68,7 @@ Available commands:
 | [member invite](doc/generated/member-invite.md)                                 | Invite member(s)                                              |
 | [member list](doc/generated/member-list.md)                                     | List team member(s)                                           |
 | [member quota list](doc/generated/member-quota-list.md)                         | List team member quota                                        |
+| [member quota update](doc/generated/member-quota-update.md)                     | Update team member quota                                      |
 | [member quota usage](doc/generated/member-quota-usage.md)                       | List team member storage usage                                |
 | [member update email](doc/generated/member-update-email.md)                     | Member email operation                                        |
 | [member update profile](doc/generated/member-update-profile.md)                 | Update member profile                                         |

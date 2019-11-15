@@ -68,6 +68,7 @@ Available commands:
 | [member invite](doc/generated_ja/member-invite.md)                                 | メンバーを招待します                                           |
 | [member list](doc/generated_ja/member-list.md)                                     | チームメンバーの一覧                                           |
 | [member quota list](doc/generated_ja/member-quota-list.md)                         | メンバーの容量制限情報を一覧します                             |
+| [member quota update](doc/generated_ja/member-quota-update.md)                     | チームメンバーの容量制限を変更                                 |
 | [member quota usage](doc/generated_ja/member-quota-usage.md)                       | チームメンバーのストレージ利用状況を取得                       |
 | [member update email](doc/generated_ja/member-update-email.md)                     | メンバーのメールアドレス処理                                   |
 | [member update profile](doc/generated_ja/member-update-profile.md)                 | メンバーのプロフィール変更                                     |

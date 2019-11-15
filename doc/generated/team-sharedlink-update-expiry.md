@@ -120,21 +120,18 @@ Report files are generated in `skipped_sharedlink.csv`, `skipped_sharedlink.xlsx
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `skipped_sharedlink_0000.xlsx`, `skipped_sharedlink_0001.xlsx`, `skipped_sharedlink_0002.xlsx`...   
 
-| Column         | Description                                                                                                                                                                                                             |
-|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| shared_link_id | A unique identifier for the linked file or folder                                                                                                                                                                       |
-| tag            | Entry type (file, or folder)                                                                                                                                                                                            |
-| url            | URL of the shared link.                                                                                                                                                                                                 |
-| name           | The linked file name (including extension).                                                                                                                                                                             |
-| expires        | Expiration time, if set.                                                                                                                                                                                                |
-| path_lower     | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| visibility     | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| account_id     | A user's account identifier.                                                                                                                                                                                            |
-| team_member_id | ID of user as a member of a team.                                                                                                                                                                                       |
-| email          | Email address of user.                                                                                                                                                                                                  |
-| status         | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
-| surname        | Surname of the link owner                                                                                                                                                                                               |
-| given_name     | Given name of the link owner                                                                                                                                                                                            |
+| Column     | Description                                                                                                                                                                                                             |
+|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
+| url        | URL of the shared link.                                                                                                                                                                                                 |
+| name       | The linked file name (including extension).                                                                                                                                                                             |
+| expires    | Expiration time, if set.                                                                                                                                                                                                |
+| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| email      | Email address of user.                                                                                                                                                                                                  |
+| status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
+| surname    | Surname of the link owner                                                                                                                                                                                               |
+| given_name | Given name of the link owner                                                                                                                                                                                            |
 
 ## Report: updated_sharedlink 
 

@@ -60,6 +60,7 @@ func Recipes() []app_recipe.Recipe {
 		&member.Replication{},
 		&member.Delete{},
 		&memberquota.List{},
+		&memberquota.Update{},
 		&memberquota.Usage{},
 		&memberupdate.Email{},
 		&memberupdate.Profile{},

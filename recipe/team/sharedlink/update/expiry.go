@@ -168,7 +168,12 @@ func (z Expiry) Reports() []rp_spec.ReportSpec {
 				"input.shared_link_id",
 				"input.account_id",
 				"input.team_member_id",
+				"result.tag",
 				"result.id",
+				"result.url",
+				"result.name",
+				"result.path_lower",
+				"result.visibility",
 			),
 		),
 	}

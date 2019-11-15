@@ -177,6 +177,8 @@
   "recipe.member.quota.list.scan": "Scanning member: {{.MemberEmail}}",
   "recipe.member.quota.list.title": "List team member quota",
   "recipe.member.quota.title": "Member quota management",
+  "recipe.member.quota.update_vo.flag.file": "Data file",
+  "recipe.member.quota.update_vo.flag.peer": "Account alias",
   "recipe.member.quota.update.err.cannot_update": "Unable to update quota due to error: {{.Error}}",
   "recipe.member.quota.update.err.member_not_found_for_email": "Member not found for given email: {{.Email}}",
   "recipe.member.quota.update.err.not_found": "A member not found for the email address: {{.Email}}",
