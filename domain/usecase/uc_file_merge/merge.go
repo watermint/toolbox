@@ -67,11 +67,13 @@ func (z *mergeImpl) doOperation(msg app_msg.Message, op func() error) error {
 	l := z.k.Log()
 	msgParam := make([]app_msg.P, 0)
 	msgParam = append(msgParam, msg.Params()...)
+	dryRunIndicator := ""
 	if z.opts.DryRun {
-		msgParam = append(msgParam, app_msg.P{
-			"DryRun": "DryRun: ",
-		})
+		dryRunIndicator = "DryRun: "
 	}
+	msgParam = append(msgParam, app_msg.P{
+		"DryRun": dryRunIndicator,
+	})
 
 	z.k.UI().Info(msg.Key(), msgParam...)
 	if !z.opts.DryRun {
