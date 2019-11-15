@@ -20,7 +20,7 @@ Please see below help article for more detail:
 * Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations
 
 This command use following access type(s) during the operation:
-* Dropbox Business management
+* Dropbox Business File access
 
 # Usage
 

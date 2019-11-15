@@ -131,3 +131,21 @@ like `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`...
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
+## Report: skip 
+
+Report files are generated in `skip.csv`, `skip.xlsx` and `skip.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...   
+
+| Column     | Description                                                                                                                                                                            |
+|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| diff_type  | Type of difference. `file_content_diff`: different content hash, `{left|right}_file_missing`: left or right file missing, `{left|right}_folder_missing`: left or right folder missing. |
+| left_path  | path of left                                                                                                                                                                           |
+| left_kind  | folder or file                                                                                                                                                                         |
+| left_size  | size of left file                                                                                                                                                                      |
+| left_hash  | Content hash of left file                                                                                                                                                              |
+| right_path | path of right                                                                                                                                                                          |
+| right_kind | folder of file                                                                                                                                                                         |
+| right_size | size of right file                                                                                                                                                                     |
+| right_hash | Content hash of right file                                                                                                                                                             |
+

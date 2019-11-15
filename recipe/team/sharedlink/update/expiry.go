@@ -2,30 +2,148 @@ package update
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
+	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
 	"go.uber.org/zap"
 	"time"
 )
 
 type ExpiryVO struct {
-	Peer app_conn.ConnBusinessFile
-	Days int
-	At   string
+	Peer       app_conn.ConnBusinessFile
+	Days       int
+	At         string
+	Visibility string
+}
+
+type ExpiryScanWorker struct {
+	k          app_kitchen.Kitchen
+	ctl        app_control.Control
+	ctx        api_context.Context
+	rep        rp_model.Report
+	repSkipped rp_model.Report
+	member     *mo_member.Member
+	newExpiry  time.Time
+	visibility string
+}
+
+func (z *ExpiryScanWorker) Exec() error {
+	ui := z.ctl.UI()
+	l := z.ctl.Log().With(zap.Any("member", z.member))
+
+	l.Debug("Scanning member shared links")
+	ui.Info("recipe.team.sharedlink.update.expiry.scan", app_msg.P{"MemberEmail": z.member.Email})
+
+	ctxMember := z.ctx.AsMemberId(z.member.TeamMemberId)
+	links, err := sv_sharedlink.New(ctxMember).List()
+	if err != nil {
+		l.Debug("Unable to scan shared link", zap.Error(err))
+		ui.ErrorM(api_util.MsgFromError(err))
+		return err
+	}
+
+	q := z.k.NewQueue()
+
+	for _, link := range links {
+		ll := l.With(zap.Any("link", link))
+		if link.LinkVisibility() != z.visibility {
+			ll.Debug("Skip link", zap.String("targetVisibility", z.visibility))
+			z.repSkipped.Row(mo_sharedlink.NewSharedLinkMember(link, z.member))
+			continue
+		}
+
+		update := false
+
+		switch {
+		case link.LinkExpires() == "":
+			ll.Debug("The link doesn't have expiration")
+			update = true
+
+		default:
+			le, v := ut_time.ParseTimestamp(link.LinkExpires())
+			if !v {
+				ll.Warn("Invalid timestamp format from API response")
+				continue
+			}
+
+			if le.IsZero() || le.After(z.newExpiry) {
+				ll.Debug("The link have long or no expiration")
+				update = true
+			}
+		}
+
+		if !update {
+			z.repSkipped.Row(mo_sharedlink.NewSharedLinkMember(link, z.member))
+			ll.Debug("Skip")
+			continue
+		}
+
+		q.Enqueue(&ExpiryWorker{
+			ctl:       z.ctl,
+			ctx:       ctxMember,
+			rep:       z.rep,
+			member:    z.member,
+			link:      link,
+			newExpiry: z.newExpiry,
+		})
+	}
+	q.Wait()
+
+	return nil
+}
+
+type ExpiryWorker struct {
+	ctl       app_control.Control
+	ctx       api_context.Context
+	rep       rp_model.Report
+	member    *mo_member.Member
+	link      mo_sharedlink.SharedLink
+	newExpiry time.Time
+}
+
+func (z *ExpiryWorker) Exec() error {
+	ui := z.ctl.UI()
+	l := z.ctl.Log().With(zap.Any("link", z.link.Metadata()))
+
+	ui.Info("recipe.team.sharedlink.update.expiry.updating", app_msg.P{
+		"MemberEmail":   z.member.Email,
+		"Url":           z.link.LinkUrl(),
+		"CurrentExpiry": z.link.LinkExpires(),
+		"NewExpiry":     api_util.RebaseAsString(z.newExpiry),
+	})
+
+	updated, err := sv_sharedlink.New(z.ctx).Update(z.link, sv_sharedlink.Expires(z.newExpiry))
+	if err != nil {
+		l.Debug("Unable to update expiration")
+		z.rep.Failure(api_util.MsgFromError(err), mo_sharedlink.NewSharedLinkMember(z.link, z.member), nil)
+		return err
+	}
+
+	l.Debug("Updated", zap.Any("updated", updated))
+	z.rep.Success(
+		mo_sharedlink.NewSharedLinkMember(z.link, z.member),
+		updated,
+	)
+
+	return nil
 }
 
 const (
-	reportExpiry = "updated_sharedlink"
+	reportExpiryUpdated = "updated_sharedlink"
+	reportExpirySkipped = "skipped_sharedlink"
 )
 
 type Expiry struct {
@@ -33,7 +151,26 @@ type Expiry struct {
 
 func (z Expiry) Reports() []rp_spec.ReportSpec {
 	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportExpiry, &mo_sharedlink.SharedLinkMember{}),
+		rp_spec_impl.Spec(reportExpirySkipped,
+			&mo_sharedlink.SharedLinkMember{},
+			rp_model.HiddenColumns(
+				"shared_link_id",
+				"account_id",
+				"team_member_id",
+			),
+		),
+		rp_spec_impl.Spec(reportExpiryUpdated,
+			rp_model.TransactionHeader(
+				&mo_sharedlink.SharedLinkMember{},
+				&mo_sharedlink.Metadata{},
+			),
+			rp_model.HiddenColumns(
+				"input.shared_link_id",
+				"input.account_id",
+				"input.team_member_id",
+				"result.id",
+			),
+		),
 	}
 }
 
@@ -41,7 +178,9 @@ func (z Expiry) Console() {
 }
 
 func (z *Expiry) Requirement() app_vo.ValueObject {
-	return &ExpiryVO{}
+	return &ExpiryVO{
+		Visibility: "public",
+	}
 }
 
 func (z *Expiry) Exec(k app_kitchen.Kitchen) error {
@@ -76,73 +215,43 @@ func (z *Expiry) Exec(k app_kitchen.Kitchen) error {
 
 	l = l.With(zap.String("newExpiry", newExpiry.String()))
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportExpiry)
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportExpiryUpdated)
 	if err != nil {
 		return err
 	}
 	defer rep.Close()
+	repSkipped, err := rp_spec_impl.New(z, k.Control()).Open(reportExpirySkipped)
+	if err != nil {
+		return err
+	}
+	defer repSkipped.Close()
 
-	conn, err := evo.Peer.Connect(k.Control())
+	ctx, err := evo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}
 
-	members, err := sv_member.New(conn).List()
+	members, err := sv_member.New(ctx).List()
 	if err != nil {
 		return err
 	}
 
-	// TODO: move below logic to uc_* package
+	q := k.NewQueue()
+
 	for _, member := range members {
-		l.Debug("Scanning member shared links", zap.Any("member", member))
-
-		connMember := conn.AsMemberId(member.TeamMemberId)
-		links, err := sv_sharedlink.New(connMember).List()
-		if err != nil {
-			return err
-		}
-
-		for _, link := range links {
-			ll := l.With(zap.Any("link", link))
-			if link.LinkVisibility() != "public" {
-				ll.Debug("Skip non public link")
-				continue
-			}
-
-			update := false
-
-			switch {
-			case link.LinkExpires() == "":
-				ll.Debug("The link doesn't have expiration")
-				update = true
-
-			default:
-				le, v := ut_time.ParseTimestamp(link.LinkExpires())
-				if !v {
-					ll.Warn("Invalid timestamp format from API response")
-					continue
-				}
-
-				if le.IsZero() || le.After(newExpiry) {
-					ll.Debug("The link have long or no expiration")
-					update = true
-				}
-			}
-
-			if !update {
-				ll.Debug("Skip")
-				continue
-			}
-
-			updated, err := sv_sharedlink.New(connMember).Update(link, sv_sharedlink.Expires(newExpiry))
-			if err != nil {
-				ll.Warn("Unable to update expiration")
-				continue
-			}
-			ll.Debug("Updated", zap.Any("updated", updated))
-			rep.Row(mo_sharedlink.NewSharedLinkMember(updated, member))
-		}
+		q.Enqueue(&ExpiryScanWorker{
+			k:          k,
+			ctl:        k.Control(),
+			ctx:        ctx,
+			rep:        rep,
+			repSkipped: repSkipped,
+			member:     member,
+			newExpiry:  newExpiry,
+			visibility: evo.Visibility,
+		})
 	}
+	q.Wait()
+
 	return nil
 }
 

@@ -17,6 +17,7 @@ func ErrorSummary(err error) string {
 	switch re := err.(type) {
 	case api_rpc.ApiError:
 		es := errorSummaryPostfix.ReplaceAllString(re.ErrorSummary, "")
+		es = strings.ReplaceAll(es, "/", "")
 		return es
 
 	default:

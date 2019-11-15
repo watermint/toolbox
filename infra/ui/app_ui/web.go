@@ -81,6 +81,14 @@ func (z *Web) uiLog(w *WebUILog) {
 	}
 }
 
+func (z *Web) InfoM(m app_msg.Message) {
+	z.Info(m.Key(), m.Params()...)
+}
+
+func (z *Web) ErrorM(m app_msg.Message) {
+	z.Error(m.Key(), m.Params()...)
+}
+
 func (z *Web) Success(key string, p ...app_msg.P) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagResultSuccess,

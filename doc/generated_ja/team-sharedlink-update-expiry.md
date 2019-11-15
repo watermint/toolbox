@@ -53,11 +53,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明                     | デフォルト |
-|------------|--------------------------|------------|
-| `-at`      | 新しい有効期限の日時     |            |
-| `-days`    | 新しい有効期限までの日時 | 0          |
-| `-peer`    | アカウントの別名         | {default}  |
+| オプション    | 説明                                                                          | デフォルト |
+|---------------|-------------------------------------------------------------------------------|------------|
+| `-at`         | 新しい有効期限の日時                                                          |            |
+| `-days`       | 新しい有効期限までの日時                                                      | 0          |
+| `-peer`       | アカウントの別名                                                              | {default}  |
+| `-visibility` | {"key":"recipe.team.sharedlink.update.expiry_vo.flag.visibility","params":{}} | public     |
 
 Common options:
 
@@ -113,11 +114,11 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: updated_sharedlink 
+## Report: skipped_sharedlink 
 
-Report files are generated in `updated_sharedlink.csv`, `updated_sharedlink.xlsx` and `updated_sharedlink.json` format.
+Report files are generated in `skipped_sharedlink.csv`, `skipped_sharedlink.xlsx` and `skipped_sharedlink.json` format.
 In case of a report become large, report in `.xlsx` format will be split into several chunks
-like `updated_sharedlink_0000.xlsx`, `updated_sharedlink_0001.xlsx`, `updated_sharedlink_0002.xlsx`...   
+like `skipped_sharedlink_0000.xlsx`, `skipped_sharedlink_0001.xlsx`, `skipped_sharedlink_0002.xlsx`...   
 
 | 列             | 説明                                                                                                                                                                                                                    |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -134,4 +135,35 @@ like `updated_sharedlink_0000.xlsx`, `updated_sharedlink_0001.xlsx`, `updated_sh
 | status         | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
 | surname        | Surname of the link owner                                                                                                                                                                                               |
 | given_name     | Given name of the link owner                                                                                                                                                                                            |
+
+## Report: updated_sharedlink 
+
+Report files are generated in `updated_sharedlink.csv`, `updated_sharedlink.xlsx` and `updated_sharedlink.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `updated_sharedlink_0000.xlsx`, `updated_sharedlink_0001.xlsx`, `updated_sharedlink_0002.xlsx`...   
+
+| 列                   | 説明                                                                                                                                                                                                                    |
+|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status               | Status of the operation                                                                                                                                                                                                 |
+| reason               | Reason of failure or skipped operation                                                                                                                                                                                  |
+| input.shared_link_id | A unique identifier for the linked file or folder                                                                                                                                                                       |
+| input.tag            | Entry type (file, or folder)                                                                                                                                                                                            |
+| input.url            | URL of the shared link.                                                                                                                                                                                                 |
+| input.name           | The linked file name (including extension).                                                                                                                                                                             |
+| input.expires        | Expiration time, if set.                                                                                                                                                                                                |
+| input.path_lower     | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| input.visibility     | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| input.account_id     | A user's account identifier.                                                                                                                                                                                            |
+| input.team_member_id | ID of user as a member of a team.                                                                                                                                                                                       |
+| input.email          | Email address of user.                                                                                                                                                                                                  |
+| input.status         | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
+| input.surname        | Surname of the link owner                                                                                                                                                                                               |
+| input.given_name     | Given name of the link owner                                                                                                                                                                                            |
+| result.id            | A unique identifier for the linked file or folder                                                                                                                                                                       |
+| result.tag           | Entry type (file, or folder)                                                                                                                                                                                            |
+| result.url           | URL of the shared link.                                                                                                                                                                                                 |
+| result.name          | The linked file name (including extension).                                                                                                                                                                             |
+| result.expires       | Expiration time, if set.                                                                                                                                                                                                |
+| result.path_lower    | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| result.visibility    | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
 

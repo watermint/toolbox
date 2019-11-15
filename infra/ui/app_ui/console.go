@@ -86,6 +86,14 @@ type console struct {
 	openArtifactOnce sync.Once
 }
 
+func (z *console) InfoM(m app_msg.Message) {
+	z.Info(m.Key(), m.Params()...)
+}
+
+func (z *console) ErrorM(m app_msg.Message) {
+	z.Error(m.Key(), m.Params()...)
+}
+
 func (z *console) IsConsole() bool {
 	return true
 }

@@ -27,6 +27,14 @@ type Markdown struct {
 	ignoreMissing bool
 }
 
+func (z *Markdown) InfoM(m app_msg.Message) {
+	z.Info(m.Key(), m.Params()...)
+}
+
+func (z *Markdown) ErrorM(m app_msg.Message) {
+	z.Error(m.Key(), m.Params()...)
+}
+
 func (z *Markdown) print(tmpl, key string, p ...app_msg.P) {
 	if z.ignoreMissing {
 		if !z.mc.Exists(key) {

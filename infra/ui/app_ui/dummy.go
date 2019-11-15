@@ -13,6 +13,12 @@ func NewDummy() UI {
 type Dummy struct {
 }
 
+func (z *Dummy) InfoM(m app_msg.Message) {
+}
+
+func (z *Dummy) ErrorM(m app_msg.Message) {
+}
+
 func (z *Dummy) Header(key string, p ...app_msg.P) {
 }
 

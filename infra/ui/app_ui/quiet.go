@@ -20,6 +20,14 @@ type Quiet struct {
 	log *zap.Logger
 }
 
+func (z *Quiet) InfoM(m app_msg.Message) {
+	z.Info(m.Key(), m.Params()...)
+}
+
+func (z *Quiet) ErrorM(m app_msg.Message) {
+	z.Error(m.Key(), m.Params()...)
+}
+
 func (z *Quiet) Success(key string, p ...app_msg.P) {
 	z.mq.Verify(key)
 	z.log.Debug(key, zap.Any("params", p))
