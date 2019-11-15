@@ -261,7 +261,7 @@
   "recipe.team.device.unlink_vo.flag.file": "Data file",
   "recipe.team.device.unlink_vo.flag.peer": "Account alias",
   "recipe.team.device.unlink.err.unable_to_unlink": "Unable to unlink session: {{.Error}}",
-  "recipe.team.device.unlink.progress": "Unlink session; Member: {{.Member}}, Type: {{.SessionType}}, SessionId: {{.SessionId}",
+  "recipe.team.device.unlink.progress": "Unlink session; Member: {{.Member}}, Type: {{.SessionType}}, SessionId: {{.SessionId}}",
   "recipe.team.device.unlink.title": "Unlink device sessions",
   "recipe.team.device.unlink.cli.args": "-file /path/to/data/file.csv",
   "recipe.team.diagnosis_vo.flag.include_file_list": "Include namespace files",

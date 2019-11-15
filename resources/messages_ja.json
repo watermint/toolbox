@@ -237,7 +237,7 @@
   "recipe.team.device.unlink_vo.flag.file": "データファイル",
   "recipe.team.device.unlink_vo.flag.peer": "アカウントの別名",
   "recipe.team.device.unlink.err.unable_to_unlink": "セッションがリンク解除できませんでした: {{.Error}}",
-  "recipe.team.device.unlink.progress": "セッションを解除; メンバー: {{.Member}}, タイプ: {{.SessionType}}, セッションID: {{.SessionId}",
+  "recipe.team.device.unlink.progress": "セッションを解除; メンバー: {{.Member}}, タイプ: {{.SessionType}}, セッションID: {{.SessionId}}",
   "recipe.team.device.unlink.title": "デバイスのセッションを解除します",
   "recipe.team.device.unlink.cli.args": "-file \/path\/to\/data\/file.csv",
   "recipe.team.diagnosis_vo.flag.include_file_list": "ネームスペースのファイルを含める",

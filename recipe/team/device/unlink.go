@@ -37,7 +37,12 @@ func (z *UnlinkWorker) Exec() error {
 		"SessionId":   z.session.Id,
 	})
 
-	err := sv_device.New(z.ctx).Revoke(z.session.Session())
+	s := &mo_device.Metadata{
+		Tag:          z.session.DeviceTag,
+		TeamMemberId: z.session.TeamMemberId,
+		Id:           z.session.Id,
+	}
+	err := sv_device.New(z.ctx).Revoke(s)
 	if err != nil {
 		z.rep.Failure(err, z.session)
 		return err
