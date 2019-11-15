@@ -17,7 +17,7 @@ import (
 )
 
 type PermDeleteVO struct {
-	Peer app_conn.ConnBusinessMgmt
+	Peer app_conn.ConnBusinessFile
 	Name string
 }
 
