@@ -53,10 +53,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description   | Default   |
-|---------|---------------|-----------|
-| `-file` | Data file     |           |
-| `-peer` | Account alias | {default} |
+| Option           | Description                                                            | Default   |
+|------------------|------------------------------------------------------------------------|-----------|
+| `-file`          | Data file                                                              |           |
+| `-peer`          | Account alias                                                          | {default} |
+| `-silent-invite` | Do not send welcome email (requires SSO + domain verification instead) | false     |
 
 Common options:
 

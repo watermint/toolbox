@@ -53,10 +53,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-file`    | データファイル   |            |
-| `-peer`    | アカウントの別名 | {default}  |
+| オプション       | 説明                                                             | デフォルト |
+|------------------|------------------------------------------------------------------|------------|
+| `-file`          | データファイル                                                   |            |
+| `-peer`          | アカウントの別名                                                 | {default}  |
+| `-silent-invite` | {"key":"recipe.member.invite_vo.flag.silent_invite","params":{}} | false      |
 
 Common options:
 

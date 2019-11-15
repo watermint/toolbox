@@ -31,8 +31,9 @@ func (z *InviteRow) Validate() error {
 }
 
 type InviteVO struct {
-	File app_file.Data
-	Peer app_conn.ConnBusinessMgmt
+	File         app_file.Data
+	Peer         app_conn.ConnBusinessMgmt
+	SilentInvite bool
 }
 
 const (
@@ -97,6 +98,9 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 		}
 		if m.Surname != "" {
 			opts = append(opts, sv_member.AddWithSurname(m.Surname))
+		}
+		if mvo.SilentInvite {
+			opts = append(opts, sv_member.AddWithoutSendWelcomeEmail())
 		}
 
 		r, err := svm.Add(m.Email, opts...)
