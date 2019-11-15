@@ -3,20 +3,22 @@ package update
 import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
 type ProfileRow struct {
-	Email     string
-	GivenName string
-	Surname   string
+	Email     string `json:"email"`
+	GivenName string `json:"given_name"`
+	Surname   string `json:"surname"`
 }
 
 type ProfileVO struct {
@@ -24,11 +26,21 @@ type ProfileVO struct {
 	Peer app_conn.ConnBusinessMgmt
 }
 
+const (
+	reportProfile = "update_profile"
+)
+
 type Profile struct {
 }
 
+func (z *Profile) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportProfile, rp_model.TransactionHeader(&ProfileRow{}, &mo_member.Member{})),
+	}
+}
+
 func (z *Profile) Test(c app_control.Control) error {
-	return nil
+	return qt_test.HumanInteractionRequired()
 }
 
 func (z *Profile) Console() {
@@ -57,10 +69,7 @@ func (z *Profile) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report(
-		"update_profile",
-		app_report.TransactionHeader(&ProfileRow{}, &mo_member.Member{}),
-	)
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportProfile)
 	if err != nil {
 		return err
 	}
@@ -90,7 +99,7 @@ func (z *Profile) Exec(k app_kitchen.Kitchen) error {
 		r, err := sv_member.New(ctx).Update(member)
 		switch {
 		case err != nil:
-			rep.Failure(api_util.MsgFromError(err), m, nil)
+			rep.Failure(err, m)
 			return err
 
 		default:

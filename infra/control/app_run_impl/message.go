@@ -14,7 +14,7 @@ func NewContainer(box *rice.Box) app_msg_container.Container {
 	cm := make(map[language.Tag]app_msg_container.Container)
 	langs := make([]language.Tag, 0)
 
-	usrLang := app_lang.DetectLang()
+	usrLang := app_lang.Detect()
 	if usrLang != language.English {
 		langs = append(langs, usrLang)
 	}
@@ -34,8 +34,8 @@ func NewContainer(box *rice.Box) app_msg_container.Container {
 		panic("At least one message resource required")
 	}
 
-	return &app_msg_container_impl.Multilingual{
-		LangPriority: langs,
-		Containers:   cm,
-	}
+	return app_msg_container_impl.NewMultilingual(
+		langs,
+		cm,
+	)
 }

@@ -3,9 +3,12 @@ package teamfolder
 import (
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 )
 
 type ReplicationVO struct {
@@ -17,6 +20,10 @@ type ReplicationVO struct {
 }
 
 type Replication struct {
+}
+
+func (z *Replication) Reports() []rp_spec.ReportSpec {
+	return uc_teamfolder_mirror.ReportSpec()
 }
 
 func (z *Replication) Console() {
@@ -51,7 +58,8 @@ func (z *Replication) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	ucm := uc_teamfolder_mirror.New(ctxFileSrc, ctxMgmtSrc, ctxFileDst, ctxMgmtDst, k)
+	rs := rp_spec_impl.New(z, k.Control())
+	ucm := uc_teamfolder_mirror.New(ctxFileSrc, ctxMgmtSrc, ctxFileDst, ctxMgmtDst, k, rs)
 	uc, err := ucm.PartialScope([]string{vo.Name})
 	if err != nil {
 		return err
@@ -67,5 +75,5 @@ func (z *Replication) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Replication) Test(c app_control.Control) error {
-	return nil
+	return qt_test.HumanInteractionRequired()
 }

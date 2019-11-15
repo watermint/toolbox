@@ -6,10 +6,13 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_activity"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"time"
 )
 
@@ -20,7 +23,17 @@ type EventVO struct {
 	Category  string
 }
 
+const (
+	reportEvent = "event"
+)
+
 type Event struct {
+}
+
+func (z *Event) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportEvent, &mo_activity.Event{}),
+	}
 }
 
 func (z *Event) Requirement() app_vo.ValueObject {
@@ -35,7 +48,7 @@ func (z *Event) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report("event", &mo_activity.Event{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportEvent)
 	if err != nil {
 		return err
 	}
@@ -59,7 +72,7 @@ func (z *Event) Test(c app_control.Control) error {
 		Category:  "logins",
 	}
 	if !app_test.ApplyTestPeers(c, lvo) {
-		return nil
+		return qt_test.NotEnoughResource()
 	}
 	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err

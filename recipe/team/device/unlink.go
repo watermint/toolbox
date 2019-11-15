@@ -5,11 +5,14 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_device"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -21,7 +24,7 @@ type UnlinkVO struct {
 
 type UnlinkWorker struct {
 	session *mo_device.MemberSession
-	rep     app_report.Report
+	rep     rp_model.Report
 	ctx     api_context.Context
 	ctl     app_control.Control
 }
@@ -34,18 +37,32 @@ func (z *UnlinkWorker) Exec() error {
 		"SessionId":   z.session.Id,
 	})
 
-	err := sv_device.New(z.ctx).Revoke(z.session.Session())
+	s := &mo_device.Metadata{
+		Tag:          z.session.DeviceTag,
+		TeamMemberId: z.session.TeamMemberId,
+		Id:           z.session.Id,
+	}
+	err := sv_device.New(z.ctx).Revoke(s)
 	if err != nil {
-		z.rep.Failure(app_msg.M("recipe.team.device.unlink.err.unable_to_unlink", app_msg.P{
-			"Error": err.Error(),
-		}), z.session, nil)
+		z.rep.Failure(err, z.session)
 		return err
 	}
 	z.rep.Success(z.session, nil)
 	return nil
 }
 
+const (
+	reportUnlink = "unlink"
+)
+
 type Unlink struct {
+}
+
+func (z *Unlink) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportUnlink,
+			rp_model.TransactionHeader(&mo_device.MemberSession{}, nil)),
+	}
 }
 
 func (z *Unlink) Console() {
@@ -67,7 +84,7 @@ func (z *Unlink) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report("unlink", app_report.TransactionHeader(&mo_device.MemberSession{}, nil))
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportUnlink)
 	if err != nil {
 		return err
 	}
@@ -88,5 +105,5 @@ func (z *Unlink) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Unlink) Test(c app_control.Control) error {
-	return nil
+	return qt_test.HumanInteractionRequired()
 }

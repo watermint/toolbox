@@ -3,12 +3,15 @@ package file
 import (
 	"github.com/watermint/toolbox/domain/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/usecase/uc_file_compare"
+	"github.com/watermint/toolbox/domain/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -19,7 +22,17 @@ type ReplicationVO struct {
 	DstPath string
 }
 
+const (
+	reportReplication = "replication_diff"
+)
+
 type Replication struct {
+}
+
+func (z *Replication) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportReplication, &mo_file_diff.Diff{}),
+	}
 }
 
 func (z *Replication) Console() {
@@ -52,7 +65,7 @@ func (z *Replication) Exec(k app_kitchen.Kitchen) error {
 	if err != nil {
 		return err
 	}
-	rep, err := k.Report("replication_diff", &mo_file_diff.Diff{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportReplication)
 	if err != nil {
 		return err
 	}
@@ -62,11 +75,7 @@ func (z *Replication) Exec(k app_kitchen.Kitchen) error {
 		rep.Row(&d)
 		return nil
 	}
-	count, err := uc_file_compare.New(ctxSrc, ctxDst).Diff(
-		diff,
-		uc_file_compare.LeftPath(srcPath),
-		uc_file_compare.RightPath(dstPath),
-	)
+	count, err := uc_compare_paths.New(ctxSrc, ctxDst, k.UI()).Diff(srcPath, dstPath, diff)
 	ui.Info("recipe.file.replication.done", app_msg.P{
 		"DiffCount": count,
 	})
@@ -77,5 +86,5 @@ func (z *Replication) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Replication) Test(c app_control.Control) error {
-	return nil
+	return qt_test.ImplementMe()
 }

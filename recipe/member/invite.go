@@ -4,20 +4,22 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
 type InviteRow struct {
-	Email     string
-	GivenName string
-	Surname   string
+	Email     string `json:"email"`
+	GivenName string `json:"given_name"`
+	Surname   string `json:"surname"`
 }
 
 func (z *InviteRow) Validate() error {
@@ -28,15 +30,26 @@ func (z *InviteRow) Validate() error {
 }
 
 type InviteVO struct {
-	File app_file.Data
-	Peer app_conn.ConnBusinessMgmt
+	File         app_file.Data
+	Peer         app_conn.ConnBusinessMgmt
+	SilentInvite bool
 }
+
+const (
+	reportInvite = "invite"
+)
 
 type Invite struct {
 }
 
+func (z *Invite) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportInvite, rp_model.TransactionHeader(&InviteRow{}, &mo_member.Member{})),
+	}
+}
+
 func (z *Invite) Test(c app_control.Control) error {
-	return nil
+	return qt_test.HumanInteractionRequired()
 }
 
 func (z *Invite) Console() {
@@ -60,10 +73,7 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 	}
 
 	svm := sv_member.New(connMgmt)
-	rep, err := k.Report(
-		"invite",
-		app_report.TransactionHeader(&InviteRow{}, &mo_member.Member{}),
-	)
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportInvite)
 	if err != nil {
 		return err
 	}
@@ -77,7 +87,7 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 		m := row.(*InviteRow)
 		if err = m.Validate(); err != nil {
 			if rowIndex > 0 {
-				rep.Failure(app_report.MsgInvalidData, m, nil)
+				rep.Failure(err, m)
 			}
 			return nil
 		}
@@ -88,11 +98,14 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 		if m.Surname != "" {
 			opts = append(opts, sv_member.AddWithSurname(m.Surname))
 		}
+		if mvo.SilentInvite {
+			opts = append(opts, sv_member.AddWithoutSendWelcomeEmail())
+		}
 
 		r, err := svm.Add(m.Email, opts...)
 		switch {
 		case err != nil:
-			rep.Failure(api_util.MsgFromError(err), m, nil)
+			rep.Failure(err, m)
 			return nil
 
 		case r.Tag == "success":
@@ -104,7 +117,8 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 			return nil
 
 		default:
-			rep.Failure(z.msgFromTag(r.Tag), m, nil)
+			// TODO: i18n
+			rep.Failure(errors.New("failure due to "+r.Tag), m)
 			return nil
 		}
 	})

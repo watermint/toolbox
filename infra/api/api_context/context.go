@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_async"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_rpc"
+	"github.com/watermint/toolbox/infra/api/api_upload"
 	"go.uber.org/zap"
 	"net/http"
 	"time"
@@ -15,6 +16,7 @@ type Context interface {
 	Request(endpoint string) api_rpc.Caller
 	List(endpoint string) api_list.List
 	Async(endpoint string) api_async.Async
+	Upload(endpoint string) api_upload.Upload
 
 	AsMemberId(teamMemberId string) Context
 	AsAdminId(teamMemberId string) Context
@@ -36,7 +38,7 @@ type CaptureContext interface {
 }
 
 type ClientContext interface {
-	DoRequest(req api_rpc.Request) (code int, header http.Header, body []byte, err error)
+	DoRequest(req *http.Request) (code int, header http.Header, body []byte, err error)
 }
 
 type PathRoot interface {

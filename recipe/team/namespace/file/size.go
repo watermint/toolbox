@@ -10,11 +10,14 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_size"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 )
@@ -31,7 +34,7 @@ type SizeWorker struct {
 	namespace *mo_namespace.Namespace
 	ctx       api_context.Context
 	ctl       app_control.Control
-	rep       app_report.Report
+	rep       rp_model.Report
 	vo        *SizeVO
 }
 
@@ -67,7 +70,17 @@ func (z *SizeWorker) Exec() error {
 	return nil
 }
 
+const (
+	reportSize = "namespace_size"
+)
+
 type Size struct {
+}
+
+func (z *Size) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportSize, &mo_file_size.NamespaceSize{}),
+	}
 }
 
 func (z *Size) Requirement() app_vo.ValueObject {
@@ -100,7 +113,7 @@ func (z *Size) Exec(k app_kitchen.Kitchen) error {
 
 	cta := ctx.AsAdminId(admin.TeamMemberId)
 
-	rep, err := k.Report("namespace_size", &mo_file_size.NamespaceSize{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportSize)
 	if err != nil {
 		return err
 	}
@@ -141,7 +154,7 @@ func (z *Size) Test(c app_control.Control) error {
 		Name: app_test.TestTeamFolderName,
 	}
 	if !app_test.ApplyTestPeers(c, lvo) {
-		return nil
+		return qt_test.NotEnoughResource()
 	}
 	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err

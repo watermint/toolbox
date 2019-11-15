@@ -3,6 +3,7 @@ package app_vo_impl
 import (
 	"flag"
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
@@ -222,7 +223,7 @@ func (z *ValueContainer) Apply(vo interface{}) {
 
 func (z *ValueContainer) MessageKey(name string) string {
 	pkg := z.PkgName
-	pkg = strings.ReplaceAll(pkg, "github.com/watermint/toolbox/", "")
+	pkg = strings.ReplaceAll(pkg, app.Pkg+"/", "")
 	pkg = strings.ReplaceAll(pkg, "/", ".")
 	return pkg + ".flag." + strcase.ToSnake(name)
 }

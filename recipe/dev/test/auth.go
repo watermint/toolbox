@@ -3,11 +3,13 @@ package test
 import (
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 )
 
 type AuthVO struct {
@@ -19,6 +21,10 @@ type AuthVO struct {
 }
 
 type Auth struct {
+}
+
+func (z *Auth) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Auth) Hidden() {
@@ -68,5 +74,5 @@ func (z *Auth) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Auth) Test(c app_control.Control) error {
-	return nil
+	return qt_test.NoTestRequired()
 }

@@ -38,7 +38,10 @@ func (z *CcAuth) Auth(tokenType string) (ctx api_context.Context, err error) {
 func (z *CcAuth) wrapToken(tokenType, token string, cause error) (ctx api_context.Context, err error) {
 	ui := z.control.UI()
 	if cause != nil {
-		return nil, err
+		ui.Error("auth.failed_or_cancelled", app_msg.P{
+			"Cause": cause.Error(),
+		})
+		return nil, cause
 	}
 	tc := api_auth.TokenContainer{
 		Token:     token,
@@ -129,7 +132,7 @@ func (z *CcAuth) oauthStart(tokenType string) (string, error) {
 
 	tok, err := z.oauthAskCode(tokenType, state)
 	if err != nil {
-		l.Error("Authentication failed due to the error", zap.Error(err))
+		l.Debug("Authentication failed due to the error", zap.Error(err))
 		return "", err
 	}
 	return tok.AccessToken, nil
@@ -168,6 +171,9 @@ func (z *CcAuth) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
 	ui.Info("auth.basic.oauth_seq1", app_msg.P{"Url": url})
 
 	code := z.oauthCode(state)
+	if code == "" {
+		return nil, errors.New("user might cancelled auth sequence, or quiet mode (require pre-authentication)")
+	}
 
 	return z.oauthExchange(cfg, code)
 }

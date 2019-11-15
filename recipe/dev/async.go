@@ -9,12 +9,15 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/recpie/app_worker_impl"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"go.uber.org/zap"
 	"os"
@@ -27,11 +30,16 @@ type AsyncVO struct {
 	Peer            app_conn.ConnBusinessInfo
 }
 
+const (
+	reportAsyncConcurrent = "concurrent"
+	reportAsyncSingle     = "single_thread"
+)
+
 func (z *AsyncVO) reportName() string {
 	if z.RunConcurrently {
-		return "concurrent"
+		return reportAsyncConcurrent
 	} else {
-		return "single_thread"
+		return reportAsyncSingle
 	}
 }
 
@@ -42,7 +50,7 @@ type AsyncWorker struct {
 	// recipe's context
 	ctl  app_control.Control
 	conn api_context.Context
-	rep  app_report.Report
+	rep  rp_model.Report
 }
 
 func (z *AsyncWorker) Exec() error {
@@ -62,6 +70,13 @@ func (z *AsyncWorker) Exec() error {
 }
 
 type Async struct {
+}
+
+func (z *Async) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportAsyncConcurrent, &mo_group_member.GroupMember{}),
+		rp_spec_impl.Spec(reportAsyncSingle, &mo_group_member.GroupMember{}),
+	}
 }
 
 func (z *Async) Hidden() {
@@ -85,7 +100,7 @@ func (z *Async) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report(lvo.reportName(), &mo_group_member.GroupMember{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(lvo.reportName())
 	if err != nil {
 		return err
 	}
@@ -128,7 +143,7 @@ func (z *Async) Exec(k app_kitchen.Kitchen) error {
 func (z *Async) Test(c app_control.Control) error {
 	lvo := &AsyncVO{}
 	if !app_test.ApplyTestPeers(c, lvo) {
-		return nil
+		return qt_test.NotEnoughResource()
 	}
 
 	l := c.Log()

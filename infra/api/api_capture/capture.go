@@ -95,7 +95,9 @@ func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 	rs := Res{}
 	rs.ResponseCode = res.StatusCode()
 	resBody, _ := res.Body()
-	if resBody[0] == '[' || resBody[0] == '{' {
+	if len(resBody) == 0 {
+		rs.ResponseBody = ""
+	} else if resBody[0] == '[' || resBody[0] == '{' {
 		rs.ResponseJson = []byte(resBody)
 	} else {
 		rs.ResponseBody = resBody

@@ -11,14 +11,17 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_file_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"os"
@@ -26,9 +29,9 @@ import (
 )
 
 type EmailVO struct {
-	Peer                 app_conn.ConnBusinessMgmt
-	File                 app_file.Data
-	DontUpdateUnverified bool
+	Peer             app_conn.ConnBusinessMgmt
+	File             app_file.Data
+	UpdateUnverified bool
 }
 
 type EmailRow struct {
@@ -41,7 +44,7 @@ type EmailWorker struct {
 	vo          *EmailVO
 	member      *mo_member.Member
 	ctx         api_context.Context
-	rep         app_report.Report
+	rep         rp_model.Report
 	ctl         app_control.Control
 }
 
@@ -58,7 +61,7 @@ func (z *EmailWorker) Exec() error {
 	newEmail := &mo_member.Member{}
 	if err := api_parser.ParseModelRaw(newEmail, z.member.Raw); err != nil {
 		l.Debug("Unable to clone member data", zap.Error(err))
-		z.rep.Failure(app_msg.M("recipe.member.update.email.err.internal_error_clone"), z.transaction, nil)
+		z.rep.Failure(err, z.transaction)
 		return err
 	}
 
@@ -66,12 +69,7 @@ func (z *EmailWorker) Exec() error {
 	newMember, err := sv_member.New(z.ctx).Update(newEmail)
 	if err != nil {
 		l.Debug("API returned an error", zap.Error(err))
-		z.rep.Failure(app_msg.M("recipe.member.update.email.err.api_error",
-			app_msg.P{
-				"Error": err.Error(),
-			}),
-			z.transaction,
-			nil)
+		z.rep.Failure(err, z.transaction)
 		return err
 	}
 
@@ -79,12 +77,22 @@ func (z *EmailWorker) Exec() error {
 	return nil
 }
 
+const (
+	reportEmail = "update"
+)
+
 type Email struct {
+}
+
+func (z *Email) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportEmail, rp_model.TransactionHeader(&EmailRow{}, &mo_member.Member{})),
+	}
 }
 
 func (z *Email) Requirement() app_vo.ValueObject {
 	return &EmailVO{
-		DontUpdateUnverified: true,
+		UpdateUnverified: false,
 	}
 }
 
@@ -107,7 +115,7 @@ func (z *Email) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report("update", app_report.TransactionHeader(&EmailRow{}, &mo_member.Member{}))
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportEmail)
 	if err != nil {
 		return err
 	}
@@ -127,13 +135,11 @@ func (z *Email) Exec(k app_kitchen.Kitchen) error {
 		member, ok := emailToMember[row.FromEmail]
 		if !ok {
 			ll.Debug("Member not found for email")
-			rep.Failure(app_msg.M("recipe.member.quota.update.err.not_found", app_msg.P{
-				"Email": row.FromEmail,
-			}), row, nil)
+			rep.Failure(&rp_model.NotFound{Id: row.FromEmail}, row)
 			return nil
 		}
 
-		if !member.EmailVerified && vo.DontUpdateUnverified {
+		if !member.EmailVerified && !vo.UpdateUnverified {
 			ll.Debug("Do not update unverified email")
 			rep.Skip(app_msg.M("recipe.member.quota.update.skip.unverified_email"), row, nil)
 			return nil
@@ -159,12 +165,12 @@ func (z *Email) Test(c app_control.Control) error {
 	res, found := c.TestResource(app_recipe.Key(z))
 	if !found || !res.IsArray() {
 		l.Debug("SKIP: Test resource not found")
-		return nil
+		return qt_test.NotEnoughResource()
 	}
 	vo := &EmailVO{}
 	if !app_test.ApplyTestPeers(c, vo) {
 		l.Debug("Skip test")
-		return nil
+		return qt_test.NotEnoughResource()
 	}
 
 	pair := make(map[string]string)
@@ -251,11 +257,11 @@ func (z *Email) Test(c app_control.Control) error {
 			for scanner.Scan() {
 				row := gjson.Parse(scanner.Text())
 
-				status := row.Get("Status").String()
-				reason := row.Get("Reason").String()
-				inputFrom := row.Get("Input.from_email").String()
-				inputTo := row.Get("Input.to_email").String()
-				resultEmail := row.Get("Result.email").String()
+				status := row.Get("status").String()
+				reason := row.Get("reason").String()
+				inputFrom := row.Get("input.from_email").String()
+				inputTo := row.Get("input.to_email").String()
+				resultEmail := row.Get("result.email").String()
 
 				ll := l.With(
 					zap.String("status", status),
@@ -294,7 +300,7 @@ func (z *Email) Test(c app_control.Control) error {
 
 	// forward
 	{
-		vo.DontUpdateUnverified = false
+		vo.UpdateUnverified = true
 		vo.File = app_file_impl.NewTestData(pathForward)
 
 		lastErr = z.Exec(app_kitchen.NewKitchen(c, vo))
@@ -309,7 +315,7 @@ func (z *Email) Test(c app_control.Control) error {
 
 	// backward
 	{
-		vo.DontUpdateUnverified = false
+		vo.UpdateUnverified = true
 		vo.File = app_file_impl.NewTestData(pathBackward)
 
 		lastErr = z.Exec(app_kitchen.NewKitchen(c, vo))

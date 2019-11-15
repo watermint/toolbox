@@ -3,7 +3,8 @@ package api_rpc_impl
 import "time"
 
 const (
-	RpcEndpoint = "api.dropboxapi.com"
+	RpcEndpoint     = "api.dropboxapi.com"
+	ContentEndpoint = "content.dropboxapi.com"
 
 	// Threshold of abort retry on error.
 	// Number of same errors happened in last ten errors.

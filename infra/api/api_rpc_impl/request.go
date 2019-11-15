@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_rpc"
 	"go.uber.org/zap"
+	"io"
 	"net/http"
 )
 
@@ -35,6 +36,19 @@ func (z *requestImpl) Headers() map[string]string {
 
 func (z *requestImpl) Method() string {
 	return z.method
+}
+
+func (z *requestImpl) Upload(r io.Reader) (req *http.Request, err error) {
+	req, err = http.NewRequest(z.method, z.url, r)
+	if err != nil {
+		z.log().Debug("Unable create request", zap.Error(err))
+		return nil, err
+	}
+	for h, v := range z.headers {
+		req.Header.Add(h, v)
+	}
+
+	return req, nil
 }
 
 func (z *requestImpl) Request() (req *http.Request, err error) {

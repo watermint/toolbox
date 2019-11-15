@@ -8,12 +8,15 @@ import (
 	"github.com/skratchdot/open-golang/open"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/web/web_handler"
 	"github.com/watermint/toolbox/infra/web/web_job"
 	"github.com/watermint/toolbox/infra/web/web_user"
 	"go.uber.org/zap"
+	"sync"
 	"time"
 )
 
@@ -28,8 +31,12 @@ type WebVO struct {
 type Web struct {
 }
 
+func (z *Web) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
+}
+
 func (z *Web) Test(c app_control.Control) error {
-	return nil
+	return qt_test.HumanInteractionRequired()
 }
 
 func (z *Web) Console() {
@@ -86,11 +93,20 @@ func (z *Web) Exec(k app_kitchen.Kitchen) error {
 
 	k.Log().Info("Login url", zap.String("url", loginUrl))
 
-	_ = g.Run(fmt.Sprintf(":%d", wvo.Port))
+	wg := sync.WaitGroup{}
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
+		err = g.Run(fmt.Sprintf(":%d", wvo.Port))
+		if err != nil {
+			k.Log().Error("Unable to start", zap.Error(err))
+		}
+	}()
 
 	time.Sleep(2 * time.Second)
-
+	k.Log().Info("Trying open browser")
 	open.Start(loginUrl)
+	wg.Wait()
 
 	return nil
 }

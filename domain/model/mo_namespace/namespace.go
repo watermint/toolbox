@@ -31,19 +31,20 @@ func NewNamespaceMember(namespace *Namespace, member mo_sharedfolder_member.Memb
 }
 
 type NamespaceMember struct {
-	Raw              json.RawMessage
-	NamespaceName    string `path:"namespace.name" json:"namespace_name"`
-	NamespaceId      string `path:"namespace.namespace_id" json:"namespace_id"`
-	NamespaceType    string `path:"namespace.namespace_type.\\.tag" json:"namespace_type"`
-	TeamMemberId     string `path:"namespace.team_member_id" json:"team_member_id"`
-	EntryAccessType  string `path:"member.access_type.\\.tag" json:"entry_access_type"`
-	EntryIsInherited bool   `path:"member.is_inherited" json:"entry_is_inherited"`
-	AccountId        string `path:"member.user.account_id" json:"account_id"`
-	Email            string `path:"member.user.email" json:"email"`
-	DisplayName      string `path:"member.user.display_name" json:"display_name"`
-	GroupName        string `path:"member.group.group_name" json:"group_name"`
-	GroupId          string `path:"member.group.group_id" json:"group_id"`
-	InviteeEmail     string `path:"member.invitee.email" json:"invitee_email"`
+	Raw                   json.RawMessage
+	NamespaceName         string `path:"namespace.name" json:"namespace_name"`
+	NamespaceId           string `path:"namespace.namespace_id" json:"namespace_id"`
+	NamespaceType         string `path:"namespace.namespace_type.\\.tag" json:"namespace_type"`
+	NamespaceTeamMemberId string `path:"namespace.team_member_id" json:"namespace_team_member_id"`
+	EntryAccessType       string `path:"member.access_type.\\.tag" json:"entry_access_type"`
+	EntryIsInherited      bool   `path:"member.is_inherited" json:"entry_is_inherited"`
+	AccountId             string `path:"member.user.account_id" json:"account_id"`
+	TeamMemberId          string `path:"member.user.team_member_id" json:"team_member_id"`
+	Email                 string `path:"member.user.email" json:"email"`
+	DisplayName           string `path:"member.user.display_name" json:"display_name"`
+	GroupName             string `path:"member.group.group_name" json:"group_name"`
+	GroupId               string `path:"member.group.group_id" json:"group_id"`
+	InviteeEmail          string `path:"member.invitee.email" json:"invitee_email"`
 }
 
 func (z *NamespaceMember) Namespace() (namespace *Namespace) {
@@ -68,9 +69,11 @@ func (z *NamespaceMember) Member() (member mo_sharedfolder_member.Member) {
 
 type NamespaceEntry struct {
 	Raw                  json.RawMessage
+	NamespaceType        string `path:"namespace.namespace_type.\\.tag" json:"namespace_type"`
 	NamespaceId          string `path:"namespace.namespace_id" json:"namespace_id"`
 	NamespaceName        string `path:"namespace.name" json:"namespace_name"`
-	Id                   string `path:"entry.id" json:"id"`
+	NamespaceMemberEmail string `json:"namespace_member_email"`
+	Id                   string `path:"entry.id" json:"file_id"`
 	Tag                  string `path:"entry.\\.tag" json:"tag"`
 	Name                 string `path:"entry.name" json:"name"`
 	PathDisplay          string `path:"entry.path_display" json:"path_display"`

@@ -6,17 +6,30 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_linkedapp"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 )
 
 type ListVO struct {
 	Peer app_conn.ConnBusinessFile
 }
 
+const (
+	reportList = "linked_app"
+)
+
 type List struct {
+}
+
+func (z *List) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportList, &mo_linkedapp.MemberLinkedApp{}),
+	}
 }
 
 func (z *List) Requirement() app_vo.ValueObject {
@@ -36,7 +49,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 	}
 	members := mo_member.MapByTeamMemberId(memberList)
 
-	rep, err := k.Report("linkedapp", &mo_linkedapp.MemberLinkedApp{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportList)
 	if err != nil {
 		return err
 	}
@@ -64,7 +77,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 func (z *List) Test(c app_control.Control) error {
 	lvo := &ListVO{}
 	if !app_test.ApplyTestPeers(c, lvo) {
-		return nil
+		return qt_test.NotEnoughResource()
 	}
 	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err

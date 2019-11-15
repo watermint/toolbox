@@ -53,6 +53,29 @@ func NewConsole(mc app_msg_container.Container, qm qt_control.Message, testMode 
 	}
 }
 
+func CloneConsole(ui UI, mc app_msg_container.Container) UI {
+	switch u := ui.(type) {
+	case *console:
+		return &console{
+			mc:       mc,
+			out:      u.out,
+			in:       u.in,
+			testMode: u.testMode,
+			qm:       u.qm,
+		}
+
+	case *Quiet:
+		return &Quiet{
+			mc:  mc,
+			log: u.log,
+		}
+
+	default:
+		app_root.Log().Error("Unsupported UI type")
+		panic("unsupported UI type")
+	}
+}
+
 type console struct {
 	mc               app_msg_container.Container
 	out              io.Writer
@@ -61,6 +84,14 @@ type console struct {
 	qm               qt_control.Message
 	mutex            sync.Mutex
 	openArtifactOnce sync.Once
+}
+
+func (z *console) InfoM(m app_msg.Message) {
+	z.Info(m.Key(), m.Params()...)
+}
+
+func (z *console) ErrorM(m app_msg.Message) {
+	z.Error(m.Key(), m.Params()...)
 }
 
 func (z *console) IsConsole() bool {
@@ -117,6 +148,14 @@ func (z *console) verifyKey(key string) {
 func (z *console) Text(key string, p ...app_msg.P) string {
 	z.verifyKey(key)
 	return z.mc.Compile(app_msg.M(key, p...))
+}
+
+func (z *console) TextOrEmpty(key string, p ...app_msg.P) string {
+	if z.mc.Exists(key) {
+		return z.mc.Compile(app_msg.M(key, p...))
+	} else {
+		return ""
+	}
 }
 
 func (z *console) Break() {

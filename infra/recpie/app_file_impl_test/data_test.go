@@ -3,8 +3,8 @@ package app_file_impl_test
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_file_impl"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"github.com/watermint/toolbox/infra/report/rp_model_impl"
 	"path/filepath"
 	"testing"
 )
@@ -56,7 +56,7 @@ func TestCsvData_EachRow(t *testing.T) {
 			Verified: true,
 		})
 
-		rep, err := app_report.New("data_row", &DataRow{}, ctl)
+		rep, err := rp_model_impl.New("data_row", &DataRow{}, ctl)
 		if err != nil {
 			t.Error(err)
 			return

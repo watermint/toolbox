@@ -188,7 +188,9 @@ type memberImpl struct {
 }
 
 func (z *memberImpl) Add(email string, opts ...AddOpt) (member *mo_member.Member, err error) {
-	ao := &addOptions{}
+	ao := &addOptions{
+		sendWelcomeEmail: true,
+	}
 	for _, o := range opts {
 		o(ao)
 	}
@@ -197,7 +199,7 @@ func (z *memberImpl) Add(email string, opts ...AddOpt) (member *mo_member.Member
 		MemberGivenName  string `json:"member_given_name,omitempty"`
 		MemberSurname    string `json:"member_surname,omitempty"`
 		MemberExternalId string `json:"member_external_id,omitempty"`
-		SendWelcomeEmail bool   `json:"send_welcome_email,omitempty"`
+		SendWelcomeEmail bool   `json:"send_welcome_email"`
 		Role             string `json:"role,omitempty"`
 	}
 	p := struct {

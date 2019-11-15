@@ -11,6 +11,8 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_list_impl"
 	"github.com/watermint/toolbox/infra/api/api_rpc"
 	"github.com/watermint/toolbox/infra/api/api_rpc_impl"
+	"github.com/watermint/toolbox/infra/api/api_upload"
+	"github.com/watermint/toolbox/infra/api/api_upload_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"go.uber.org/zap"
 	"io/ioutil"
@@ -55,13 +57,9 @@ func (z *ccImpl) Capture() *zap.Logger {
 	return z.control.Capture()
 }
 
-func (z *ccImpl) DoRequest(req api_rpc.Request) (code int, header http.Header, body []byte, err error) {
-	httpReq, err := req.Request()
-	if err != nil {
-		return -1, nil, nil, err
-	}
+func (z *ccImpl) DoRequest(req *http.Request) (code int, header http.Header, body []byte, err error) {
 	client := &http.Client{}
-	res, err := client.Do(httpReq)
+	res, err := client.Do(req)
 
 	if err != nil {
 		return -1, nil, nil, err
@@ -134,6 +132,10 @@ func (z *ccImpl) List(endpoint string) api_list.List {
 
 func (z *ccImpl) Async(endpoint string) api_async.Async {
 	return api_async_impl.New(z, endpoint, z.asMemberId, z.asAdminId, z.basePath)
+}
+
+func (z *ccImpl) Upload(endpoint string) api_upload.Upload {
+	return api_upload_impl.New(z, endpoint)
 }
 
 func (z *ccImpl) AsMemberId(teamMemberId string) api_context.Context {

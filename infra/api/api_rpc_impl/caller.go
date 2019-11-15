@@ -8,8 +8,10 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_capture"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_rpc"
+	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"go.uber.org/zap"
+	"io"
 	"net/http"
 	"strconv"
 	"time"
@@ -44,17 +46,20 @@ type CallerImpl struct {
 	failure    func(err error) error
 }
 
-func (z *CallerImpl) requestUrl() string {
+func (z *CallerImpl) rpcRequestUrl() string {
 	return fmt.Sprintf("https://%s/2/%s", RpcEndpoint, z.endpoint)
 }
 
-func (z *CallerImpl) createRequest() (req api_rpc.Request, err error) {
-	url := z.requestUrl()
+func (z *CallerImpl) contentRequestUrl() string {
+	return fmt.Sprintf("https://%s/2/%s", ContentEndpoint, z.endpoint)
+}
+
+func (z *CallerImpl) createRequest(url string, contentType string, arg interface{}) (req api_rpc.Request, err error) {
 	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint), zap.String("Routine", ut_runtime.GetGoRoutineName()))
 
 	headers := make(map[string]string)
 
-	headers[api_rpc.ReqHeaderContentType] = "application/json"
+	headers[api_rpc.ReqHeaderContentType] = contentType
 	if z.token.TokenType != api_auth.DropboxTokenNoAuth {
 		headers[api_rpc.ReqHeaderAuthorization] = "Bearer " + z.token.Token
 	}
@@ -71,6 +76,14 @@ func (z *CallerImpl) createRequest() (req api_rpc.Request, err error) {
 			return nil, err
 		}
 		headers[api_rpc.ReqHeaderPathRoot] = string(pr)
+	}
+	if arg != nil {
+		p, err := json.Marshal(arg)
+		if err != nil {
+			z.ctx.Log().Debug("Unable to marshal params", zap.Error(err))
+			return nil, err
+		}
+		headers[api_rpc.ReqHeaderArg] = string(p)
 	}
 
 	return newPostRequest(z.ctx, url, z.param, headers)
@@ -216,8 +229,36 @@ func (z *CallerImpl) handleResponse(apiResImpl *ResponseImpl) (apiRes api_rpc.Re
 }
 
 func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
+	return z.doCall(func() (api_rpc.Request, *http.Request, error) {
+		r, err := z.createRequest(z.rpcRequestUrl(), "application/json", nil)
+		if err != nil {
+			return nil, nil, err
+		}
+		hr, err := r.Request()
+		if err != nil {
+			return nil, nil, err
+		}
+		return r, hr, nil
+	})
+}
+
+func (z *CallerImpl) Upload(r io.Reader) (res api_rpc.Response, err error) {
+	return z.doCall(func() (api_rpc.Request, *http.Request, error) {
+		rq, err := z.createRequest(z.contentRequestUrl(), "application/octet-stream", z.param)
+		if err != nil {
+			return nil, nil, err
+		}
+		hr, err := rq.Upload(nw_bandwidth.WrapReader(r))
+		if err != nil {
+			return nil, nil, err
+		}
+		return rq, hr, nil
+	})
+}
+
+func (z *CallerImpl) doCall(mkReq func() (api_rpc.Request, *http.Request, error)) (apiRes api_rpc.Response, err error) {
 	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint), zap.String("Routine", ut_runtime.GetGoRoutineName()))
-	req, err := z.createRequest()
+	req, httpReq, err := mkReq()
 	if err != nil {
 		log.Warn("Unable to prepare HTTP Caller", zap.Error(err))
 		return nil, errors.New(fmt.Sprintf("unable to prepare request for [%s]", z.endpoint))
@@ -230,7 +271,7 @@ func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
 		log.Debug("Caller", zap.Any("param", z.param), zap.Any("root", z.base))
 		callStart := time.Now()
 		apiResImpl := &ResponseImpl{}
-		apiResImpl.resStatusCode, apiResImpl.resHeader, apiResImpl.resBody, err = cc.DoRequest(req)
+		apiResImpl.resStatusCode, apiResImpl.resHeader, apiResImpl.resBody, err = cc.DoRequest(httpReq)
 		callEnd := time.Now()
 		if apiResImpl.resBody != nil {
 			apiResImpl.resBodyString = string(apiResImpl.resBody)

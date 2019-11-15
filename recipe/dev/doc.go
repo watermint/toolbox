@@ -1,21 +1,31 @@
 package dev
 
 import (
-	"bufio"
-	"bytes"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recpie/app_doc"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"html/template"
-	"io/ioutil"
-	"os"
-	"strings"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/ui/app_lang"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
+	"github.com/watermint/toolbox/infra/util/ut_doc"
+	"go.uber.org/zap"
 )
 
+type DocVO struct {
+	Test           bool
+	Badge          bool
+	MarkdownReadme bool
+	Lang           string
+	Filename       string
+	CommandPath    string
+}
+
 type Doc struct {
+}
+
+func (z *Doc) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Doc) Console() {
@@ -25,57 +35,36 @@ func (z *Doc) Hidden() {
 }
 
 func (z *Doc) Requirement() app_vo.ValueObject {
-	return &app_vo.EmptyValueObject{}
-}
-
-func (z *Doc) commands(k app_kitchen.Kitchen) string {
-	book := make(map[string]string)
-	cl := k.Control().(app_control_launcher.ControlLauncher)
-	recipes := cl.Catalogue()
-
-	ui := k.UI()
-	for _, r := range recipes {
-		if _, ok := r.(app_recipe.SecretRecipe); ok {
-			continue
-		}
-
-		p, n := app_recipe.Path(r)
-		p = append(p, n)
-		q := strings.Join(p, " ")
-
-		book[q] = ui.Text(app_recipe.Desc(r).Key())
+	return &DocVO{
+		Test:        false,
+		Badge:       true,
+		Filename:    "README.md",
+		CommandPath: "doc/generated/",
 	}
-
-	var b bytes.Buffer
-	w := bufio.NewWriter(&b)
-	app_doc.PrintMarkdown(w, "command", "description", book)
-	w.Flush()
-
-	return b.String()
 }
 
 func (z *Doc) Exec(k app_kitchen.Kitchen) error {
-	commands := z.commands(k)
+	vo := k.Value().(*DocVO)
+	l := k.Log()
+	ctl := k.Control()
 
-	readmeBytes, err := ioutil.ReadFile("doc/README.tmpl.md")
-	if err != nil {
-		return err
+	if vo.Lang != "" {
+		wc := ctl.(app_control_launcher.WithMessageContainer)
+		mc, err := app_msg_container_impl.New(app_lang.Select(vo.Lang), ctl)
+		if err != nil {
+			return err
+		}
+		ctl = wc.With(mc)
 	}
 
-	tmpl, err := template.New("README").Parse(string(readmeBytes))
-	if err != nil {
+	rme := ut_doc.NewReadme(ctl, vo.Filename, vo.Badge, vo.Test, vo.MarkdownReadme, vo.CommandPath)
+	cmd := ut_doc.NewCommand(ctl, vo.CommandPath, vo.Test)
+	if err := rme.Generate(); err != nil {
+		l.Error("Failed to generate README", zap.Error(err))
 		return err
 	}
-	readmeFile, err := os.Create("README.md")
-	if err != nil {
-		return err
-	}
-	defer readmeFile.Close()
-
-	err = tmpl.Execute(readmeFile, map[string]interface{}{
-		"Commands": commands,
-	})
-	if err != nil {
+	if err := cmd.GenerateAll(); err != nil {
+		l.Error("Failed to generate command manuals", zap.Error(err))
 		return err
 	}
 
@@ -83,5 +72,9 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Doc) Test(c app_control.Control) error {
-	return z.Exec(app_kitchen.NewKitchen(c, &app_vo.EmptyValueObject{}))
+	return z.Exec(app_kitchen.NewKitchen(c, &DocVO{
+		Test:     true,
+		Badge:    false,
+		Filename: "",
+	}))
 }

@@ -7,11 +7,14 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file_url"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -31,7 +34,7 @@ type UrlWorker struct {
 	path string
 	ctx  api_context.Context
 	ctl  app_control.Control
-	rep  app_report.Report
+	rep  rp_model.Report
 }
 
 func (z *UrlWorker) Exec() error {
@@ -52,7 +55,17 @@ func (z *UrlWorker) Exec() error {
 	return nil
 }
 
+const (
+	reportUrl = "import_url"
+)
+
 type Url struct {
+}
+
+func (z *Url) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportUrl, &mo_file.ConcreteEntry{}),
+	}
 }
 
 func (z *Url) Requirement() app_vo.ValueObject {
@@ -67,7 +80,7 @@ func (z *Url) Exec(k app_kitchen.Kitchen) error {
 	if err != nil {
 		return err
 	}
-	rep, err := k.Report("import_url", &mo_file.ConcreteEntry{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportUrl)
 	if err != nil {
 		return err
 	}
@@ -106,5 +119,5 @@ func (z *Url) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Url) Test(c app_control.Control) error {
-	return nil
+	return qt_test.ImplementMe()
 }

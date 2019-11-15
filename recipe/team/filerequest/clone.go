@@ -7,12 +7,14 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_filerequest"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"strings"
 )
 
@@ -21,7 +23,19 @@ type CloneVO struct {
 	Peer app_conn.ConnBusinessFile
 }
 
+const (
+	reportClone = "clone"
+)
+
 type Clone struct {
+}
+
+func (z *Clone) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportClone, rp_model.TransactionHeader(
+			&mo_filerequest.MemberFileRequest{},
+			&mo_filerequest.MemberFileRequest{})),
+	}
 }
 
 func (z *Clone) Hidden() {
@@ -46,10 +60,7 @@ func (z *Clone) Exec(k app_kitchen.Kitchen) error {
 	emailToMember := mo_member.MapByEmail(members)
 
 	// Write report
-	rep, err := k.Report("clone",
-		app_report.TransactionHeader(
-			&mo_filerequest.MemberFileRequest{},
-			&mo_filerequest.MemberFileRequest{}))
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportClone)
 	if err != nil {
 		return err
 	}
@@ -62,13 +73,12 @@ func (z *Clone) Exec(k app_kitchen.Kitchen) error {
 	return cvo.File.EachRow(func(m interface{}, rowIndex int) error {
 		fm := m.(*mo_filerequest.MemberFileRequest)
 		if fm.Email == "" || fm.Destination == "" || fm.Title == "" {
-			rep.Failure(app_report.MsgInvalidData, fm, nil)
+			rep.Failure(&rp_model.InvalidData{}, fm)
 			return nil
 		}
 		member, ok := emailToMember[strings.ToLower(fm.Email)]
 		if !ok {
-			rep.Failure(app_msg.M("recipe.team.filerequest.clone.err.no_member_found_for_email"),
-				fm, nil)
+			rep.Failure(&rp_model.NotFound{Id: fm.Email}, fm)
 			return nil
 		}
 
@@ -85,9 +95,7 @@ func (z *Clone) Exec(k app_kitchen.Kitchen) error {
 			opts...,
 		)
 		if err != nil {
-			rep.Failure(app_msg.M("recipe.team.filerequest.clone.err.cannot_create"),
-				fm, nil)
-			return nil
+			rep.Failure(err, fm)
 		} else {
 			rep.Success(fm, req)
 		}
@@ -96,5 +104,5 @@ func (z *Clone) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Clone) Test(c app_control.Control) error {
-	return nil
+	return qt_test.HumanInteractionRequired()
 }

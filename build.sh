@@ -96,7 +96,7 @@ echo Building: Darwin
 GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/mac/tbx     github.com/watermint/toolbox
 
 echo --------------------
-echo Testing binary
+echo BUILD: Testing binary
 
 $BUILD_PATH/linux/tbx dev test resources -quiet
 if [[ $? = 0 ]]; then
@@ -105,14 +105,19 @@ else
   echo Unable to pass binary resources test: code=$?
   exit $?
 fi
-$BUILD_PATH/linux/tbx license -quiet > $BUILD_PATH/LICENSE.txt
+
+echo --------------------
+echo BUILD: Generating documents
+
+$BUILD_PATH/linux/tbx license -quiet                            > $BUILD_PATH/LICENSE.txt
+$BUILD_PATH/linux/tbx dev doc -filename README.txt -badge=false > $BUILD_PATH/README.txt
 
 echo --------------------
 echo BUILD: Packaging
 for p in win mac linux; do
   echo BUILD: Packaging $p
   cp $BUILD_PATH/LICENSE.txt $BUILD_PATH/"$p"/
-  cp README.md  $BUILD_PATH/"$p"/README.txt
+  cp README.txt  $BUILD_PATH/"$p"/README.txt
   ( cd $BUILD_PATH/"$p" && zip -9 -r $BUILD_PATH/tbx-"$BUILD_VERSION"-"$p".zip . )
 done
 ( cd $BUILD_PATH && zip -0 $DIST_PATH/tbx-"$BUILD_VERSION".zip *.zip )

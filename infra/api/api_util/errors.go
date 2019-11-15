@@ -17,6 +17,7 @@ func ErrorSummary(err error) string {
 	switch re := err.(type) {
 	case api_rpc.ApiError:
 		es := errorSummaryPostfix.ReplaceAllString(re.ErrorSummary, "")
+		es = strings.ReplaceAll(es, "/", "")
 		return es
 
 	default:
@@ -73,12 +74,12 @@ func MsgFromError(err error) app_msg.Message {
 	switch {
 	case summary == "" && userMessage != "":
 		return app_msg.M(
-			"api.error.general_error",
+			"dbx.err.general_error",
 			app_msg.P{"Error": userMessage},
 		)
 	case summary == "":
 		return app_msg.M(
-			"api.error.general_error",
+			"dbx.err.general_error",
 			app_msg.P{"Error": err.Error()},
 		)
 

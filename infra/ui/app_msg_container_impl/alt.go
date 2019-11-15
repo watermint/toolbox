@@ -9,6 +9,17 @@ import (
 type Alt struct {
 }
 
+func (alt Alt) Verify(key string) {
+}
+
+func (alt Alt) MissingKeys() []string {
+	return []string{}
+}
+
+func (alt Alt) Text(key string) string {
+	return fmt.Sprintf("Key[%s]", key)
+}
+
 func (Alt) Exists(key string) bool {
 	return false
 }

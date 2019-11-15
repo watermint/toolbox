@@ -3,18 +3,23 @@ package file
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_file"
+	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
+	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/service/sv_profile"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 )
@@ -23,17 +28,19 @@ type ListVO struct {
 	Peer                app_conn.ConnBusinessFile
 	IncludeMediaInfo    bool
 	IncludeDeleted      bool
+	IncludeMemberFolder bool
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
 	Name                string
 }
 
 type ListWorker struct {
-	namespace *mo_namespace.Namespace
-	ctx       api_context.Context
-	ctl       app_control.Control
-	rep       app_report.Report
-	vo        *ListVO
+	namespace  *mo_namespace.Namespace
+	idToMember map[string]*mo_member.Member
+	ctx        api_context.Context
+	ctl        app_control.Control
+	rep        rp_model.Report
+	vo         *ListVO
 }
 
 func (z *ListWorker) Exec() error {
@@ -59,7 +66,11 @@ func (z *ListWorker) Exec() error {
 	opts = append(opts, sv_file.Recursive())
 
 	err := sv_file.NewFiles(ctn).ListChunked(mo_path.NewPath(""), func(entry mo_file.Entry) {
-		z.rep.Row(mo_namespace.NewNamespaceEntry(z.namespace, entry.Concrete()))
+		ne := mo_namespace.NewNamespaceEntry(z.namespace, entry.Concrete())
+		if m, e := z.idToMember[z.namespace.TeamMemberId]; e {
+			ne.NamespaceMemberEmail = m.Email
+		}
+		z.rep.Row(ne)
 	}, opts...)
 
 	if err != nil {
@@ -76,13 +87,24 @@ func (z *ListWorker) Exec() error {
 	return nil
 }
 
+const (
+	reportList = "namespace_file"
+)
+
 type List struct {
+}
+
+func (z *List) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportList, &mo_namespace.NamespaceEntry{}),
+	}
 }
 
 func (z *List) Requirement() app_vo.ValueObject {
 	return &ListVO{
 		IncludeTeamFolder:   true,
 		IncludeSharedFolder: true,
+		IncludeMemberFolder: false,
 	}
 }
 
@@ -101,6 +123,12 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 	}
 	l.Debug("Run as admin", zap.Any("admin", admin))
 
+	members, err := sv_member.New(ctx).List()
+	if err != nil {
+		return err
+	}
+	idToMember := mo_member.MapByTeamMemberId(members)
+
 	namespaces, err := sv_namespace.New(ctx).List()
 	if err != nil {
 		return err
@@ -108,7 +136,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 
 	cta := ctx.AsAdminId(admin.TeamMemberId)
 
-	rep, err := k.Report("namespace_file", &mo_namespace.NamespaceEntry{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportList)
 	if err != nil {
 		return err
 	}
@@ -122,6 +150,10 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 			process = true
 		case vo.IncludeSharedFolder && namespace.NamespaceType == "shared_folder":
 			process = true
+		case vo.IncludeMemberFolder && namespace.NamespaceType == "team_member_folder":
+			process = true
+		case vo.IncludeMemberFolder && namespace.NamespaceType == "app_folder":
+			process = true
 		}
 		if !process {
 			l.Debug("Skip", zap.Any("namespace", namespace))
@@ -133,11 +165,12 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 		}
 
 		q.Enqueue(&ListWorker{
-			namespace: namespace,
-			ctx:       cta,
-			rep:       rep,
-			vo:        vo,
-			ctl:       k.Control(),
+			namespace:  namespace,
+			idToMember: idToMember,
+			ctx:        cta,
+			rep:        rep,
+			vo:         vo,
+			ctl:        k.Control(),
 		})
 	}
 	q.Wait()
@@ -149,7 +182,7 @@ func (z *List) Test(c app_control.Control) error {
 		Name: app_test.TestTeamFolderName,
 	}
 	if !app_test.ApplyTestPeers(c, lvo) {
-		return nil
+		return qt_test.NotEnoughResource()
 	}
 	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err

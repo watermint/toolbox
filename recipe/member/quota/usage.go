@@ -8,11 +8,14 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_usage"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 )
@@ -25,7 +28,7 @@ type UsageWorker struct {
 	member *mo_member.Member
 	ctx    api_context.Context
 	ctl    app_control.Control
-	rep    app_report.Report
+	rep    rp_model.Report
 }
 
 func (z *UsageWorker) Exec() error {
@@ -47,7 +50,17 @@ func (z *UsageWorker) Exec() error {
 	return nil
 }
 
+const (
+	reportUsage = "usage"
+)
+
 type Usage struct {
+}
+
+func (z *Usage) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{
+		rp_spec_impl.Spec(reportUsage, &mo_usage.MemberUsage{}),
+	}
 }
 
 func (z *Usage) Requirement() app_vo.ValueObject {
@@ -67,7 +80,7 @@ func (z *Usage) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	rep, err := k.Report("usage", &mo_usage.MemberUsage{})
+	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportUsage)
 	if err != nil {
 		return err
 	}
@@ -89,7 +102,7 @@ func (z *Usage) Exec(k app_kitchen.Kitchen) error {
 func (z *Usage) Test(c app_control.Control) error {
 	vo := &UsageVO{}
 	if !app_test.ApplyTestPeers(c, vo) {
-		return nil
+		return qt_test.NotEnoughResource()
 	}
 	if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
 		return err

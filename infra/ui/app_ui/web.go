@@ -81,6 +81,14 @@ func (z *Web) uiLog(w *WebUILog) {
 	}
 }
 
+func (z *Web) InfoM(m app_msg.Message) {
+	z.Info(m.Key(), m.Params()...)
+}
+
+func (z *Web) ErrorM(m app_msg.Message) {
+	z.Error(m.Key(), m.Params()...)
+}
+
 func (z *Web) Success(key string, p ...app_msg.P) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagResultSuccess,
@@ -133,6 +141,10 @@ func (z *Web) Break() {
 
 func (z *Web) Text(key string, p ...app_msg.P) string {
 	return z.baseUI.Text(key, p...)
+}
+
+func (z *Web) TextOrEmpty(key string, p ...app_msg.P) string {
+	return z.baseUI.TextOrEmpty(key, p...)
 }
 
 func (z *Web) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {

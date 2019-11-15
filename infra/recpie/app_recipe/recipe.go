@@ -5,8 +5,9 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"reflect"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"strings"
 )
 
@@ -18,6 +19,7 @@ type Recipe interface {
 	Requirement() app_vo.ValueObject
 	Exec(k app_kitchen.Kitchen) error
 	Test(c app_control.Control) error
+	Reports() []rp_spec.ReportSpec
 }
 
 // SecretRecipe will not be listed in available commands.
@@ -30,34 +32,29 @@ type ConsoleRecipe interface {
 	Console()
 }
 
-func Desc(r Recipe) app_msg.Message {
+func RecipeMessage(r Recipe, suffix string) app_msg.Message {
 	path, name := Path(r)
 	keyPath := make([]string, 0)
 	keyPath = append(keyPath, "recipe")
 	keyPath = append(keyPath, path...)
 	keyPath = append(keyPath, name)
-	keyPath = append(keyPath, "desc")
+	keyPath = append(keyPath, suffix)
 	key := strings.Join(keyPath, ".")
-
 	return app_msg.M(key)
 }
 
-func Path(r Recipe) (path []string, name string) {
-	path = make([]string, 0)
+func Title(r Recipe) app_msg.Message {
+	return RecipeMessage(r, "title")
+}
 
-	rt := reflect.ValueOf(r).Elem().Type()
-	pkg := rt.PkgPath()
-	pkg = strings.ReplaceAll(pkg, BasePackage, "")
-	if strings.HasPrefix(pkg, "/") {
-		pkg = pkg[1:]
-	}
-	if pkg != "" {
-		path = append(path, strings.Split(pkg, "/")...)
-	}
-	return path, strings.ToLower(rt.Name())
+func Desc(r Recipe) app_msg.Message {
+	return RecipeMessage(r, "desc")
+}
+
+func Path(r Recipe) (path []string, name string) {
+	return ut_reflect.Path(BasePackage, r)
 }
 
 func Key(r Recipe) string {
-	path, name := Path(r)
-	return strings.Join(append(path, name), ".")
+	return ut_reflect.Key(BasePackage, r)
 }

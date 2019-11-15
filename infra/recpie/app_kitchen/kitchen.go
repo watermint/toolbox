@@ -2,7 +2,6 @@ package app_kitchen
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_report"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/recpie/app_worker"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -14,7 +13,6 @@ type Kitchen interface {
 	Control() app_control.Control
 	UI() app_ui.UI
 	Log() *zap.Logger
-	Report(name string, row interface{}) (r app_report.Report, err error)
 	NewQueue() app_worker.Queue
 }
 
@@ -41,10 +39,6 @@ func (z *kitchenImpl) UI() app_ui.UI {
 
 func (z *kitchenImpl) Log() *zap.Logger {
 	return z.ctl.Log()
-}
-
-func (z *kitchenImpl) Report(name string, row interface{}) (r app_report.Report, err error) {
-	return app_report.New(name, row, z.ctl)
 }
 
 func NewKitchen(ctl app_control.Control, vo app_vo.ValueObject) Kitchen {

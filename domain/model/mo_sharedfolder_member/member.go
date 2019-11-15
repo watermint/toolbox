@@ -217,12 +217,11 @@ type SharedFolderMember struct {
 	SharedFolderId       string `path:"sharedfolder.shared_folder_id" json:"shared_folder_id"`
 	ParentSharedFolderId string `path:"sharedfolder.parent_shared_folder_id" json:"parent_shared_folder_id"`
 	Name                 string `path:"sharedfolder.name" json:"name"`
-	AccessType           string `path:"sharedfolder.access_type.\\.tag" json:"access_type"`
 	PathLower            string `path:"sharedfolder.path_lower" json:"path_lower"`
 	IsInsideTeamFolder   bool   `path:"sharedfolder.is_inside_team_folder" json:"is_inside_team_folder"`
 	IsTeamFolder         bool   `path:"sharedfolder.is_team_folder" json:"is_team_folder"`
-	EntryAccessType      string `path:"member.access_type.\\.tag" json:"entry_access_type"`
-	EntryIsInherited     bool   `path:"member.is_inherited" json:"entry_is_inherited"`
+	AccessType           string `path:"member.access_type.\\.tag" json:"access_type"`
+	IsInherited          bool   `path:"member.is_inherited" json:"is_inherited"`
 	AccountId            string `path:"member.user.account_id" json:"account_id"`
 	Email                string `path:"member.user.email" json:"email"`
 	DisplayName          string `path:"member.user.display_name" json:"display_name"`

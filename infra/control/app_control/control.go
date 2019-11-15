@@ -4,6 +4,7 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recpie/app_worker"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_template"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -21,6 +22,7 @@ type Control interface {
 	Resource(key string) (bin []byte, err error)
 	TestResource(key string) (data gjson.Result, found bool)
 	Workspace() app_workspace.Workspace
+	Messages() app_msg_container.Container
 
 	IsProduction() bool
 	IsTest() bool

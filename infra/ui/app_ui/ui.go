@@ -7,10 +7,13 @@ import (
 type UI interface {
 	Header(key string, p ...app_msg.P)
 	Info(key string, p ...app_msg.P)
+	InfoM(m app_msg.Message)
 	InfoTable(name string) Table
 	Error(key string, p ...app_msg.P)
+	ErrorM(m app_msg.Message)
 	Break()
 	Text(key string, p ...app_msg.P) string
+	TextOrEmpty(key string, p ...app_msg.P) string
 
 	AskCont(key string, p ...app_msg.P) (cont bool, cancel bool)
 	AskText(key string, p ...app_msg.P) (text string, cancel bool)

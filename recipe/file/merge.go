@@ -4,9 +4,11 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_merge"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
 )
 
 type MergeVO struct {
@@ -19,6 +21,10 @@ type MergeVO struct {
 }
 
 type Merge struct {
+}
+
+func (z *Merge) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }
 
 func (z *Merge) Console() {
@@ -56,5 +62,5 @@ func (z *Merge) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Merge) Test(c app_control.Control) error {
-	return nil
+	return qt_test.ImplementMe()
 }
