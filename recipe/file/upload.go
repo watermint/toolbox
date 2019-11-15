@@ -63,7 +63,7 @@ func (z *UploadWorker) Exec() (err error) {
 	rel, err := filepath.Rel(z.localBasePath, filepath.Dir(z.localFilePath))
 	if err != nil {
 		l.Debug("unable to calculate rel path", zap.Error(err))
-		z.rep.Failure(app_msg.M("recipe.file.upload.err.invalid_path"), &UploadRow{File: z.localFilePath}, nil)
+		z.rep.Failure(err, &UploadRow{File: z.localFilePath})
 		return err
 	}
 	dp := mo_path.NewPath(z.dropboxBasePath)
@@ -72,7 +72,7 @@ func (z *UploadWorker) Exec() (err error) {
 		l.Debug("upload to base path")
 	case strings.HasPrefix(rel, ".."):
 		l.Debug("invalid rel path", zap.String("rel", rel))
-		z.rep.Failure(app_msg.M("recipe.file.upload.err.invalid_path"), &UploadRow{File: z.localFilePath}, nil)
+		z.rep.Failure(errors.New("invalid path"), &UploadRow{File: z.localFilePath})
 		return errors.New("invalid rel path")
 	default:
 		dp = dp.ChildPath(filepath.ToSlash(rel))
@@ -82,13 +82,13 @@ func (z *UploadWorker) Exec() (err error) {
 	if z.overwrite {
 		entry, err = z.up.Overwrite(dp, z.localFilePath)
 		if err != nil {
-			z.rep.Failure(app_msg.M("recipe.file.upload.err.failed_upload"), &UploadRow{File: z.localFilePath}, nil)
+			z.rep.Failure(err, &UploadRow{File: z.localFilePath})
 			return err
 		}
 	} else {
 		entry, err = z.up.Add(dp, z.localFilePath)
 		if err != nil {
-			z.rep.Failure(app_msg.M("recipe.file.upload.err.failed_upload"), &UploadRow{File: z.localFilePath}, nil)
+			z.rep.Failure(err, &UploadRow{File: z.localFilePath})
 			return err
 		}
 	}

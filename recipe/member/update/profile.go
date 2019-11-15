@@ -3,7 +3,6 @@ package update
 import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
@@ -100,7 +99,7 @@ func (z *Profile) Exec(k app_kitchen.Kitchen) error {
 		r, err := sv_member.New(ctx).Update(member)
 		switch {
 		case err != nil:
-			rep.Failure(api_util.MsgFromError(err), m, nil)
+			rep.Failure(err, m)
 			return err
 
 		default:

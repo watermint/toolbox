@@ -170,14 +170,8 @@ func (z *Xlsx) Success(input interface{}, result interface{}) {
 	})
 }
 
-func (z *Xlsx) Failure(reason app_msg.Message, input interface{}, result interface{}) {
-	ui := z.ctl.UI()
-	z.Row(rp_model.TransactionRow{
-		Status: ui.Text(rp_model.MsgFailure.Key(), rp_model.MsgFailure.Params()...),
-		Reason: ui.Text(reason.Key(), reason.Params()...),
-		Input:  input,
-		Result: result,
-	})
+func (z *Xlsx) Failure(err error, input interface{}) {
+	z.Row(rowForFailure(z.ctl.UI(), err, input))
 }
 
 func (z *Xlsx) Skip(reason app_msg.Message, input interface{}, result interface{}) {

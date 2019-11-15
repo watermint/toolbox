@@ -78,14 +78,8 @@ func (z *Json) Success(input interface{}, result interface{}) {
 	})
 }
 
-func (z *Json) Failure(reason app_msg.Message, input interface{}, result interface{}) {
-	ui := z.ctl.UI()
-	z.Row(rp_model.TransactionRow{
-		Status: ui.Text(rp_model.MsgFailure.Key(), rp_model.MsgFailure.Params()...),
-		Reason: ui.Text(reason.Key(), reason.Params()...),
-		Input:  input,
-		Result: result,
-	})
+func (z *Json) Failure(err error, input interface{}) {
+	z.Row(rowForFailure(z.ctl.UI(), err, input))
 }
 
 func (z *Json) Skip(reason app_msg.Message, input interface{}, result interface{}) {

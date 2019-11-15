@@ -128,7 +128,7 @@ func (z *ExpiryWorker) Exec() error {
 	updated, err := sv_sharedlink.New(z.ctx).Update(z.link, sv_sharedlink.Expires(z.newExpiry))
 	if err != nil {
 		l.Debug("Unable to update expiration")
-		z.rep.Failure(api_util.MsgFromError(err), mo_sharedlink.NewSharedLinkMember(z.link, z.member), nil)
+		z.rep.Failure(err, mo_sharedlink.NewSharedLinkMember(z.link, z.member))
 		return err
 	}
 

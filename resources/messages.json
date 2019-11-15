@@ -660,6 +660,7 @@
   "recipe.member.update.profilerow.email.desc": "Email address of the account",
   "recipe.member.update.profilerow.given_name.desc": "Given name of the account",
   "recipe.member.update.profilerow.surname.desc": "Surname of the account",
+  "dbx.err.general_error": "Error: {{.Error}}",
   "dbx.err.access_denied": "You are not allowed to do this job.",
   "dbx.err.access_error/inside_osx_package": "A Mac OS X package can't be shared this way. Use a shared link instead.",
   "dbx.err.access_error/inside_public_folder": "A file inside a public folder can't be shared this way. Use a public link instead.",
@@ -1016,5 +1017,6 @@
   "dbx.err.user_unrecoverable": "The user is not recoverable.",
   "dbx.err.users_not_found": "These users were not found in Dropbox.",
   "dbx.err.users_not_in_team": "At least one of the users is not part of your team.",
+  "dbx.err.id_not_found": "ID not found",
   "dbx.err.validation_error": "There was an error validating the request. For example, the title was invalid, or there were disallowed characters in the destination path."
 }

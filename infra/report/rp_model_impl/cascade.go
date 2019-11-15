@@ -84,9 +84,9 @@ func (z *Cascade) Success(input interface{}, result interface{}) {
 	}
 }
 
-func (z *Cascade) Failure(reason app_msg.Message, input interface{}, result interface{}) {
+func (z *Cascade) Failure(err error, input interface{}) {
 	for _, r := range z.Reports {
-		r.Failure(reason, input, result)
+		r.Failure(err, input)
 	}
 }
 

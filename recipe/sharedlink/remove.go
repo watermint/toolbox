@@ -87,10 +87,7 @@ func (z *Delete) removePathAt(k app_kitchen.Kitchen, ctx api_context.Context, pa
 		err = sv_sharedlink.New(ctx).Remove(link)
 		if err != nil {
 			l.Debug("Unable to remove link", zap.Error(err), zap.Any("link", link))
-			msg := app_msg.M("recipe.sharedlink.delete.err.unable_to_remove", app_msg.P{
-				"Error": err.Error(),
-			})
-			rep.Failure(msg, link, nil)
+			rep.Failure(err, link)
 			lastErr = err
 		} else {
 			rep.Success(link, nil)
@@ -138,10 +135,7 @@ func (z *Delete) removeRecursive(k app_kitchen.Kitchen, ctx api_context.Context,
 		err = sv_sharedlink.New(ctx).Remove(link)
 		if err != nil {
 			l.Debug("Unable to remove link", zap.Error(err), zap.Any("link", link))
-			msg := app_msg.M("recipe.sharedlink.delete.err.unable_to_remove", app_msg.P{
-				"Error": err.Error(),
-			})
-			rep.Failure(msg, link, nil)
+			rep.Failure(err, link)
 			lastErr = err
 		} else {
 			rep.Success(link, nil)

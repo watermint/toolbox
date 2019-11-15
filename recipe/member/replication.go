@@ -2,7 +2,6 @@ package member
 
 import (
 	"github.com/watermint/toolbox/domain/usecase/uc_member_mirror"
-	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
@@ -84,7 +83,7 @@ func (z *Replication) Exec(k app_kitchen.Kitchen) error {
 		})
 		err = uc_member_mirror.New(src, dst).Mirror(row.SrcEmail, row.DstEmail)
 		if err != nil {
-			rep.Failure(api_util.MsgFromError(err), row, nil)
+			rep.Failure(err, row)
 			return err
 		}
 		rep.Success(row, nil)

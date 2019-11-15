@@ -50,7 +50,7 @@ type Report interface {
 
 	// Report transaction result
 	Success(input interface{}, result interface{})
-	Failure(reason app_msg.Message, input interface{}, result interface{})
+	Failure(err error, input interface{})
 	Skip(reason app_msg.Message, input interface{}, result interface{})
 
 	Close()
@@ -76,3 +76,18 @@ var (
 	MsgSkip        = app_msg.M("report.transaction.skip")
 	MsgInvalidData = app_msg.M("report.transaction.failure.invalid_data")
 )
+
+type NotFound struct {
+	Id string
+}
+
+func (z *NotFound) Error() string {
+	return "entry not found for id: " + z.Id
+}
+
+type InvalidData struct {
+}
+
+func (z *InvalidData) Error() string {
+	return "invalid data"
+}

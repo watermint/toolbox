@@ -61,7 +61,7 @@ func (z *EmailWorker) Exec() error {
 	newEmail := &mo_member.Member{}
 	if err := api_parser.ParseModelRaw(newEmail, z.member.Raw); err != nil {
 		l.Debug("Unable to clone member data", zap.Error(err))
-		z.rep.Failure(app_msg.M("recipe.member.update.email.err.internal_error_clone"), z.transaction, nil)
+		z.rep.Failure(err, z.transaction)
 		return err
 	}
 
@@ -69,12 +69,7 @@ func (z *EmailWorker) Exec() error {
 	newMember, err := sv_member.New(z.ctx).Update(newEmail)
 	if err != nil {
 		l.Debug("API returned an error", zap.Error(err))
-		z.rep.Failure(app_msg.M("recipe.member.update.email.err.api_error",
-			app_msg.P{
-				"Error": err.Error(),
-			}),
-			z.transaction,
-			nil)
+		z.rep.Failure(err, z.transaction)
 		return err
 	}
 
@@ -140,9 +135,7 @@ func (z *Email) Exec(k app_kitchen.Kitchen) error {
 		member, ok := emailToMember[row.FromEmail]
 		if !ok {
 			ll.Debug("Member not found for email")
-			rep.Failure(app_msg.M("recipe.member.quota.update.err.not_found", app_msg.P{
-				"Email": row.FromEmail,
-			}), row, nil)
+			rep.Failure(&rp_model.NotFound{Id: row.FromEmail}, row)
 			return nil
 		}
 

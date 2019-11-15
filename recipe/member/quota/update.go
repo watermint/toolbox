@@ -54,11 +54,7 @@ func (z *UpdateWorker) Exec() error {
 
 	newQuota, err := sv_member_quota.NewQuota(z.ctx).Update(q)
 	if err != nil {
-		z.rep.Failure(
-			app_msg.M("recipe.member.quota.update.err.cannot_update", app_msg.P{"Error": err.Error()}),
-			in,
-			nil,
-		)
+		z.rep.Failure(err, in)
 	} else {
 		z.rep.Success(in, mo_member_quota.NewMemberQuota(z.member, newQuota))
 	}
@@ -118,12 +114,7 @@ func (z *Update) Exec(k app_kitchen.Kitchen) error {
 		mq := m.(*mo_member_quota.MemberQuota)
 		member, ok := emailToMember[mq.Email]
 		if !ok {
-			rep.Failure(
-				app_msg.M("recipe.member.quota.update.err.member_not_found_for_email",
-					app_msg.P{"Email": mq.Email}),
-				mq,
-				nil,
-			)
+			rep.Failure(&rp_model.NotFound{Id: mq.Email}, mq)
 			return nil
 		}
 

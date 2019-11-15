@@ -15,7 +15,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"strings"
 )
 
@@ -74,13 +73,12 @@ func (z *Clone) Exec(k app_kitchen.Kitchen) error {
 	return cvo.File.EachRow(func(m interface{}, rowIndex int) error {
 		fm := m.(*mo_filerequest.MemberFileRequest)
 		if fm.Email == "" || fm.Destination == "" || fm.Title == "" {
-			rep.Failure(rp_model.MsgInvalidData, fm, nil)
+			rep.Failure(&rp_model.InvalidData{}, fm)
 			return nil
 		}
 		member, ok := emailToMember[strings.ToLower(fm.Email)]
 		if !ok {
-			rep.Failure(app_msg.M("recipe.team.filerequest.clone.err.no_member_found_for_email"),
-				fm, nil)
+			rep.Failure(&rp_model.NotFound{Id: fm.Email}, fm)
 			return nil
 		}
 
@@ -97,9 +95,7 @@ func (z *Clone) Exec(k app_kitchen.Kitchen) error {
 			opts...,
 		)
 		if err != nil {
-			rep.Failure(app_msg.M("recipe.team.filerequest.clone.err.cannot_create"),
-				fm, nil)
-			return nil
+			rep.Failure(err, fm)
 		} else {
 			rep.Success(fm, req)
 		}

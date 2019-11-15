@@ -39,9 +39,7 @@ func (z *UnlinkWorker) Exec() error {
 
 	err := sv_device.New(z.ctx).Revoke(z.session.Session())
 	if err != nil {
-		z.rep.Failure(app_msg.M("recipe.team.device.unlink.err.unable_to_unlink", app_msg.P{
-			"Error": err.Error(),
-		}), z.session, nil)
+		z.rep.Failure(err, z.session)
 		return err
 	}
 	z.rep.Success(z.session, nil)

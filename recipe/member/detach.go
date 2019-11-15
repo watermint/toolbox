@@ -2,7 +2,6 @@ package member
 
 import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
@@ -77,7 +76,7 @@ func (z *Detach) Exec(k app_kitchen.Kitchen) error {
 		m := mod.(*DetachRow)
 		mem, err := svm.ResolveByEmail(m.Email)
 		if err != nil {
-			rep.Failure(api_util.MsgFromError(err), m, nil)
+			rep.Failure(err, m)
 			return nil
 		}
 		ros := make([]sv_member.RemoveOpt, 0)
@@ -87,7 +86,7 @@ func (z *Detach) Exec(k app_kitchen.Kitchen) error {
 		}
 		err = svm.Remove(mem, ros...)
 		if err != nil {
-			rep.Failure(api_util.MsgFromError(err), m, nil)
+			rep.Failure(err, m)
 		} else {
 			rep.Success(m, nil)
 		}
