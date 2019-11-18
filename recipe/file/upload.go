@@ -4,7 +4,9 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/domain/service/sv_file_content"
+	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/quality/qt_test"
@@ -39,6 +41,7 @@ type UploadWorker struct {
 	dropboxBasePath string
 	localBasePath   string
 	localFilePath   string
+	ctx             api_context.Context
 	ctl             app_control.Control
 	up              sv_file_content.Upload
 	rep             rp_model.Report
@@ -54,6 +57,7 @@ func (z *UploadWorker) Exec() (err error) {
 	ui.Info("recipe.file.upload.progress", app_msg.P{
 		"File": z.localFilePath,
 	})
+	upRow := &UploadRow{File: z.localFilePath}
 	l := z.ctl.Log().With(
 		zap.String("dropboxBasePath", z.dropboxBasePath),
 		zap.String("localBasePath", z.localBasePath),
@@ -63,7 +67,7 @@ func (z *UploadWorker) Exec() (err error) {
 	rel, err := filepath.Rel(z.localBasePath, filepath.Dir(z.localFilePath))
 	if err != nil {
 		l.Debug("unable to calculate rel path", zap.Error(err))
-		z.rep.Failure(err, &UploadRow{File: z.localFilePath})
+		z.rep.Failure(err, upRow)
 		return err
 	}
 	dp := mo_path.NewPath(z.dropboxBasePath)
@@ -77,22 +81,45 @@ func (z *UploadWorker) Exec() (err error) {
 	default:
 		dp = dp.ChildPath(filepath.ToSlash(rel))
 	}
+	info, err := os.Lstat(z.localFilePath)
+	if err != nil {
+		z.rep.Failure(err, upRow)
+		return err
+	}
+
+	meta, err := sv_file.NewFiles(z.ctx).Resolve(sv_file_content.UploadPath(dp, info))
+	if err != nil {
+		l.Debug("Unable to resolve path", zap.Error(err))
+	} else {
+		f := meta.Concrete()
+		if f.Size == info.Size() {
+			hash, err := api_util.ContentHash(z.localFilePath)
+			if err != nil {
+				z.rep.Failure(err, upRow)
+				return err
+			}
+			if f.ContentHash == hash {
+				z.rep.Skip(app_msg.M("recipe.file.upload.skip.file_exists"), upRow)
+				return nil
+			}
+		}
+	}
 
 	var entry mo_file.Entry
 	if z.overwrite {
 		entry, err = z.up.Overwrite(dp, z.localFilePath)
 		if err != nil {
-			z.rep.Failure(err, &UploadRow{File: z.localFilePath})
+			z.rep.Failure(err, upRow)
 			return err
 		}
 	} else {
 		entry, err = z.up.Add(dp, z.localFilePath)
 		if err != nil {
-			z.rep.Failure(err, &UploadRow{File: z.localFilePath})
+			z.rep.Failure(err, upRow)
 			return err
 		}
 	}
-	z.rep.Success(&UploadRow{File: z.localFilePath}, entry.Concrete())
+	z.rep.Success(upRow, entry.Concrete())
 	return nil
 }
 
@@ -148,6 +175,7 @@ func (z *Upload) Exec(k app_kitchen.Kitchen) error {
 					localBasePath:   vo.LocalPath,
 					localFilePath:   p,
 					ctl:             k.Control(),
+					ctx:             ctx,
 					up:              up,
 					rep:             rep,
 					overwrite:       vo.Overwrite,

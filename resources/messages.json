@@ -86,6 +86,7 @@
   "recipe.file.upload_vo.flag.overwrite": "Overwrite existing file(s)",
   "recipe.file.upload_vo.flag.chunk_size": "Upload chunk size in KB",
   "recipe.file.upload.progress": "Uploading: {{.File}}",
+  "recipe.file.upload.skip.file_exists": "Same file found in Dropbox",
   "recipe.file.upload.err.invalid_path": "Invalid Path",
   "recipe.file.upload.err.failed_upload": "Upload failed",
   "recipe.file.upload.cli.args": "-local-path /PATH/TO/UPLOAD -dropbox-path /DROPBOX/PATH",

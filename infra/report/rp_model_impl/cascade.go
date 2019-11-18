@@ -90,9 +90,9 @@ func (z *Cascade) Failure(err error, input interface{}) {
 	}
 }
 
-func (z *Cascade) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+func (z *Cascade) Skip(reason app_msg.Message, input interface{}) {
 	for _, r := range z.Reports {
-		r.Skip(reason, input, result)
+		r.Skip(reason, input)
 	}
 }
 

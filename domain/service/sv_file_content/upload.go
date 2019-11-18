@@ -89,13 +89,17 @@ type UploadParams struct {
 	Autorename     bool             `json:"autorename"`
 }
 
+func UploadPath(destPath mo_path.Path, f os.FileInfo) mo_path.Path {
+	return destPath.ChildPath(filepath.Base(f.Name()))
+}
+
 func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.Path, mode string, revision string) *UploadParams {
 	upm := &UploadParamMode{
 		Tag:    mode,
 		Update: "",
 	}
 	up := &UploadParams{
-		Path:           destPath.ChildPath(filepath.Base(info.Name())).Path(),
+		Path:           UploadPath(destPath, info).Path(),
 		Mode:           upm,
 		Mute:           false,
 		ClientModified: api_util.RebaseAsString(info.ModTime()),

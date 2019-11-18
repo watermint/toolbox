@@ -51,7 +51,7 @@ type Report interface {
 	// Report transaction result
 	Success(input interface{}, result interface{})
 	Failure(err error, input interface{})
-	Skip(reason app_msg.Message, input interface{}, result interface{})
+	Skip(reason app_msg.Message, input interface{})
 
 	Close()
 }

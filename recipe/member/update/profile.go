@@ -82,7 +82,7 @@ func (z *Profile) Exec(k app_kitchen.Kitchen) error {
 			msg := app_msg.M("recipe.member.update.profile.err.member_not_found", app_msg.P{
 				"Email": m.Email,
 			})
-			rep.Skip(msg, m, nil)
+			rep.Skip(msg, m)
 			return nil
 		}
 

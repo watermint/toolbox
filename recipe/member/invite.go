@@ -113,7 +113,7 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 			return nil
 
 		case r.Tag == "user_already_on_team":
-			rep.Skip(z.msgFromTag(r.Tag), m, nil)
+			rep.Skip(z.msgFromTag(r.Tag), m)
 			return nil
 
 		default:

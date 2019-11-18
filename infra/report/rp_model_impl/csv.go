@@ -52,13 +52,13 @@ func (z *Csv) Failure(err error, input interface{}) {
 	z.Row(rowForFailure(z.ctl.UI(), err, input))
 }
 
-func (z *Csv) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+func (z *Csv) Skip(reason app_msg.Message, input interface{}) {
 	ui := z.ctl.UI()
 	z.Row(rp_model.TransactionRow{
 		Status: ui.Text(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
-		Result: result,
+		Result: nil,
 	})
 }
 

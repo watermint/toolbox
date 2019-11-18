@@ -128,7 +128,7 @@ func (z *Email) Exec(k app_kitchen.Kitchen) error {
 
 		if row.FromEmail == row.ToEmail {
 			ll.Debug("Skip")
-			rep.Skip(app_msg.M("recipe.member.quota.update.skip.same_from_to_email"), row, nil)
+			rep.Skip(app_msg.M("recipe.member.quota.update.skip.same_from_to_email"), row)
 			return nil
 		}
 
@@ -141,7 +141,7 @@ func (z *Email) Exec(k app_kitchen.Kitchen) error {
 
 		if !member.EmailVerified && !vo.UpdateUnverified {
 			ll.Debug("Do not update unverified email")
-			rep.Skip(app_msg.M("recipe.member.quota.update.skip.unverified_email"), row, nil)
+			rep.Skip(app_msg.M("recipe.member.quota.update.skip.unverified_email"), row)
 			return nil
 		}
 
