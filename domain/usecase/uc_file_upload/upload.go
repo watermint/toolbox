@@ -247,6 +247,8 @@ type uploadImpl struct {
 }
 
 func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (summary *UploadSummary, err error) {
+	l := z.k.Log().With(zap.String("localPath", localPath), zap.String("dropboxPath", dropboxPath), zap.Bool("estimate", estimate))
+	l.Debug("execute")
 	repUpload, err := z.specs.Open(reportUpload)
 	if err != nil {
 		return nil, err
@@ -272,24 +274,51 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 
 	info, err := os.Lstat(localPath)
 	if err != nil {
+		l.Debug("Unable to fetch info", zap.Error(err))
 		return nil, err
+	}
+
+	createFolder := func(path string) error {
+		ll := l.With(zap.String("path", path))
+		ll.Debug("Create folder")
+		// TODO: Implement for `sync up`
+
+		return nil
 	}
 
 	var scanFolder func(path string) error
 	scanFolder = func(path string) error {
+		ll := l.With(zap.String("path", path))
+		ll.Debug("Scanning folder")
 		entries, err := ioutil.ReadDir(path)
 		if err != nil {
+			ll.Debug("Unable to read dir", zap.Error(err))
 			return err
 		}
+		numEntriesProceed := 0
 		var lastErr error
 		for _, e := range entries {
 			p := filepath.Join(path, e.Name())
 			if api_util.IsFileNameIgnored(p) {
+				ll.Debug("Ignore file", zap.String("p", p))
+				var ps int64 = 0
+				pi, err := os.Lstat(p)
+				if err == nil {
+					ps = pi.Size()
+				}
+				repSkip.Skip(
+					app_msg.M("usecase.uc_file_upload.skip.dont_sync"),
+					UploadRow{
+						File: p,
+						Size: ps,
+					})
 				continue
 			}
+			numEntriesProceed++
 			if e.IsDir() {
 				lastErr = scanFolder(e.Name())
 			} else {
+				ll.Debug("Enqueue", zap.String("p", p))
 				q.Enqueue(&UploadWorker{
 					dropboxBasePath: dropboxPath,
 					localBasePath:   localPath,
@@ -304,6 +333,11 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 					status:          status,
 				})
 			}
+		}
+		l.Debug("folder scan finished", zap.Int("numEntriesProceed", numEntriesProceed), zap.Error(lastErr))
+		if numEntriesProceed == 0 && z.opts.CreateFolder {
+			l.Debug("Create folder for empty folder")
+			return createFolder(path)
 		}
 		return lastErr
 	}

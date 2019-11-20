@@ -10,6 +10,8 @@ import (
 	filecompare "github.com/watermint/toolbox/recipe/file/compare"
 	fileimport "github.com/watermint/toolbox/recipe/file/import"
 	fileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
+	filesync "github.com/watermint/toolbox/recipe/file/sync"
+	filesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
 	"github.com/watermint/toolbox/recipe/group"
 	groupmember "github.com/watermint/toolbox/recipe/group/member"
 	"github.com/watermint/toolbox/recipe/member"
@@ -51,6 +53,8 @@ func Recipes() []app_recipe.Recipe {
 		&filecompare.Local{},
 		&fileimport.Url{},
 		&fileimportbatch.Url{},
+		&filesync.Up{},
+		&filesyncpreflight.Up{},
 		&group.List{},
 		&group.Delete{},
 		&groupmember.List{},

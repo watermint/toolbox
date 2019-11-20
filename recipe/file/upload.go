@@ -21,14 +21,6 @@ type UploadVO struct {
 	ChunkSize   int
 }
 
-const (
-	reportUpload = "uploaded"
-)
-
-type UploadRow struct {
-	File string `json:"file"`
-}
-
 type Upload struct {
 }
 
