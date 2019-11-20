@@ -53,22 +53,22 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明                                                          | デフォルト |
-|------------|---------------------------------------------------------------|------------|
-| `-file`    | {"key":"recipe.member.quota.update_vo.flag.file","params":{}} |            |
-| `-peer`    | {"key":"recipe.member.quota.update_vo.flag.peer","params":{}} | {default}  |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-file`    | データファイル   |            |
+| `-peer`    | アカウントの別名 | {default}  |
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション     | 説明                                                                                             | デフォルト     |
+|----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency` | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`       | デバッグモードを有効にする                                                                       | false          |
+| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`      | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`   | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -118,12 +118,12 @@ Report files are generated in `quota_update.csv`, `quota_update.xlsx` and `quota
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `quota_update_0000.xlsx`, `quota_update_0001.xlsx`, `quota_update_0002.xlsx`...   
 
-| 列           | 説明                                                                        |
-|--------------|-----------------------------------------------------------------------------|
-| status       | Status of the operation                                                     |
-| reason       | Reason of failure or skipped operation                                      |
-| input.email  | Email address of user.                                                      |
-| input.quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
-| result.email | Email address of user.                                                      |
-| result.quota | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
+| 列           | 説明                                                                |
+|--------------|---------------------------------------------------------------------|
+| status       | Status of the operation                                             |
+| reason       | Reason of failure or skipped operation                              |
+| input.email  | ユーザーのメールアドレス                                            |
+| input.quota  | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
+| result.email | ユーザーのメールアドレス                                            |
+| result.quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
 

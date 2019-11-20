@@ -50,7 +50,7 @@ Available commands:
 | コマンド                                                                           | 説明                                                           |
 |------------------------------------------------------------------------------------|----------------------------------------------------------------|
 | [file compare account](doc/generated_ja/file-compare-account.md)                   | 二つのアカウントのファイルを比較します                         |
-| [file compare local](doc/generated_ja/file-compare-local.md)                       | {"key":"recipe.file.compare.local.title","params":{}}          |
+| [file compare local](doc/generated_ja/file-compare-local.md)                       | ローカルフォルダとDropboxフォルダの内容を比較します            |
 | [file copy](doc/generated_ja/file-copy.md)                                         | ファイルをコピーします                                         |
 | [file import batch url](doc/generated_ja/file-import-batch-url.md)                 | URLからファイルを一括インポートします                          |
 | [file import url](doc/generated_ja/file-import-url.md)                             | URLからファイルをインポートします                              |
@@ -58,9 +58,9 @@ Available commands:
 | [file merge](doc/generated_ja/file-merge.md)                                       | フォルダを統合します                                           |
 | [file move](doc/generated_ja/file-move.md)                                         | ファイルを移動します                                           |
 | [file replication](doc/generated_ja/file-replication.md)                           | ファイルコンテンツを他のアカウントに複製します                 |
-| [file sync preflight up](doc/generated_ja/file-sync-preflight-up.md)               | {"key":"recipe.file.sync.preflight.up.title","params":{}}      |
-| [file sync up](doc/generated_ja/file-sync-up.md)                                   | {"key":"recipe.file.sync.up.title","params":{}}                |
-| [file upload](doc/generated_ja/file-upload.md)                                     | {"key":"recipe.file.upload.title","params":{}}                 |
+| [file sync preflight up](doc/generated_ja/file-sync-preflight-up.md)               | 上り方向同期のための事前チェックを実施します                   |
+| [file sync up](doc/generated_ja/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                  |
+| [file upload](doc/generated_ja/file-upload.md)                                     | ファイルのアップロード                                         |
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                           |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                 |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                     |

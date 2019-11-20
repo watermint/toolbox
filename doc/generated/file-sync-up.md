@@ -136,7 +136,7 @@ like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...
 | result.size                    | The file size in bytes.                                                                                |
 | result.content_hash            | A hash of the file content.                                                                            |
 | result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| result.parent_shared_folder_id |                                                                                                        |
+| result.parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
 
 ## Report: summary 
 
@@ -175,5 +175,5 @@ like `upload_0000.xlsx`, `upload_0001.xlsx`, `upload_0002.xlsx`...
 | result.size                    | The file size in bytes.                                                                                |
 | result.content_hash            | A hash of the file content.                                                                            |
 | result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| result.parent_shared_folder_id |                                                                                                        |
+| result.parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
 

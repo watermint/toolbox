@@ -494,7 +494,7 @@
   "domain.model.mo_file.concreteentry.content_hash.desc": "A hash of the file content.",
   "domain.model.mo_file.concreteentry.id.desc": "A unique identifier for the file.",
   "domain.model.mo_file.concreteentry.name.desc": "The last component of the path (including extension).",
-  "domain.model.mo_file.concreteentry.parent_shared_folder_id.desc": "",
+  "domain.model.mo_file.concreteentry.parent_shared_folder_id.desc": "ID of shared folder that holds this file.",
   "domain.model.mo_file.concreteentry.path_display.desc": "The cased path to be used for display purposes only.",
   "domain.model.mo_file.concreteentry.path_lower.desc": "The lowercased full path in the user's Dropbox. This always starts with a slash.",
   "domain.model.mo_file.concreteentry.revision.desc": "A unique identifier for the current revision of a file.",

@@ -64,15 +64,15 @@ At second run, please hit button "Open" on the dialogue.
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション     | 説明                                                                                             | デフォルト     |
+|----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency` | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`       | デバッグモードを有効にする                                                                       | false          |
+| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`      | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`   | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -122,15 +122,15 @@ Report files are generated in `diff.csv`, `diff.xlsx` and `diff.json` format.
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`...   
 
-| 列         | 説明                                                                                                                                                                                   |
-|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| diff_type  | Type of difference. `file_content_diff`: different content hash, `{left|right}_file_missing`: left or right file missing, `{left|right}_folder_missing`: left or right folder missing. |
-| left_path  | path of left                                                                                                                                                                           |
-| left_kind  | folder or file                                                                                                                                                                         |
-| left_size  | size of left file                                                                                                                                                                      |
-| left_hash  | Content hash of left file                                                                                                                                                              |
-| right_path | path of right                                                                                                                                                                          |
-| right_kind | folder of file                                                                                                                                                                         |
-| right_size | size of right file                                                                                                                                                                     |
-| right_hash | Content hash of right file                                                                                                                                                             |
+| 列         | 説明                                                                                                                                                                                           |
+|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| diff_type  | 差分のタイプ`file_content_diff`: コンテンツハッシュの差分, `{left|right}_file_missing`: 左または右のファイルが見つからない, `{left|right}_folder_missing`: 左または右のフォルダが見つからない. |
+| left_path  | 左のパス                                                                                                                                                                                       |
+| left_kind  | フォルダまたはファイル                                                                                                                                                                         |
+| left_size  | 左ファイルのサイズ                                                                                                                                                                             |
+| left_hash  | 左ファイルのコンテンツハッシュ                                                                                                                                                                 |
+| right_path | 右のパス                                                                                                                                                                                       |
+| right_kind | フォルダまたはファイル                                                                                                                                                                         |
+| right_size | 右ファイルのサイズ                                                                                                                                                                             |
+| right_hash | 右ファイルのコンテンツハッシュ                                                                                                                                                                 |
 

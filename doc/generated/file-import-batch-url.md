@@ -132,5 +132,5 @@ like `import_url_0000.xlsx`, `import_url_0001.xlsx`, `import_url_0002.xlsx`...
 | size                    | The file size in bytes.                                                                                |
 | content_hash            | A hash of the file content.                                                                            |
 | shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| parent_shared_folder_id |                                                                                                        |
+| parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
 

@@ -59,15 +59,15 @@ At second run, please hit button "Open" on the dialogue.
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション     | 説明                                                                                             | デフォルト     |
+|----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency` | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`       | デバッグモードを有効にする                                                                       | false          |
+| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`      | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`   | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -117,10 +117,10 @@ Report files are generated in `namespace.csv`, `namespace.xlsx` and `namespace.j
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
 
-| 列             | 説明                                                                                       |
-|----------------|--------------------------------------------------------------------------------------------|
-| name           | The name of this namespace                                                                 |
-| namespace_id   | The ID of this namespace.                                                                  |
-| namespace_type | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
-| team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
+| 列             | 説明                                                                                   |
+|----------------|----------------------------------------------------------------------------------------|
+| name           | 名前空間の名称                                                                         |
+| namespace_id   | 名前空間ID                                                                             |
+| namespace_type | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
+| team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
 

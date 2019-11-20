@@ -1,6 +1,6 @@
 # file sync preflight up 
 
-{"key":"recipe.file.sync.preflight.up.title","params":{}}
+上り方向同期のための事前チェックを実施します
 
 # Security
 
@@ -53,23 +53,23 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション      | 説明                                                                     | デフォルト |
-|-----------------|--------------------------------------------------------------------------|------------|
-| `-dropbox-path` | {"key":"recipe.file.sync.preflight.up_vo.flag.dropbox_path","params":{}} |            |
-| `-local-path`   | {"key":"recipe.file.sync.preflight.up_vo.flag.local_path","params":{}}   |            |
-| `-peer`         | {"key":"recipe.file.sync.preflight.up_vo.flag.peer","params":{}}         | {default}  |
+| オプション      | 説明                   | デフォルト |
+|-----------------|------------------------|------------|
+| `-dropbox-path` | 転送先のDropboxパス    |            |
+| `-local-path`   | ローカルファイルのパス |            |
+| `-peer`         | アカウントの別名       | {default}  |
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション     | 説明                                                                                             | デフォルト     |
+|----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency` | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`       | デバッグモードを有効にする                                                                       | false          |
+| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`      | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`   | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -119,24 +119,24 @@ Report files are generated in `skip.csv`, `skip.xlsx` and `skip.json` format.
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...   
 
-| 列                             | 説明                                                                                                   |
-|--------------------------------|--------------------------------------------------------------------------------------------------------|
-| status                         | Status of the operation                                                                                |
-| reason                         | Reason of failure or skipped operation                                                                 |
-| input.file                     | {"key":"domain.usecase.uc_file_upload.uploadrow.file.desc","params":{}}                                |
-| input.size                     | {"key":"domain.usecase.uc_file_upload.uploadrow.size.desc","params":{}}                                |
-| result.id                      | A unique identifier for the file.                                                                      |
-| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.name                    | The last component of the path (including extension).                                                  |
-| result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| result.path_display            | The cased path to be used for display purposes only.                                                   |
-| result.client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified         | The last time the file was modified on Dropbox.                                                        |
-| result.revision                | A unique identifier for the current revision of a file.                                                |
-| result.size                    | The file size in bytes.                                                                                |
-| result.content_hash            | A hash of the file content.                                                                            |
-| result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| result.parent_shared_folder_id |                                                                                                        |
+| 列                             | 説明                                                                                       |
+|--------------------------------|--------------------------------------------------------------------------------------------|
+| status                         | Status of the operation                                                                    |
+| reason                         | Reason of failure or skipped operation                                                     |
+| input.file                     | ローカルファイルのパス                                                                     |
+| input.size                     | Local file size                                                                            |
+| result.id                      | ファイルへの一意なID                                                                       |
+| result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
+| result.name                    | 名称                                                                                       |
+| result.path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
+| result.path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
+| result.client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
+| result.server_modified         | Dropbox上で最後に更新された日時                                                            |
+| result.revision                | ファイルの現在バージョンの一意な識別子                                                     |
+| result.size                    | ファイルサイズ(バイト単位)                                                                 |
+| result.content_hash            | ファイルコンテンツのハッシュ                                                               |
+| result.shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
+| result.parent_shared_folder_id |                                                                                            |
 
 ## Report: summary 
 
@@ -144,13 +144,13 @@ Report files are generated in `summary.csv`, `summary.xlsx` and `summary.json` f
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
 
-| 列               | 説明                                                                                    |
-|------------------|-----------------------------------------------------------------------------------------|
-| num_bytes        | {"key":"domain.usecase.uc_file_upload.uploadsummary.num_bytes.desc","params":{}}        |
-| num_files_error  | {"key":"domain.usecase.uc_file_upload.uploadsummary.num_files_error.desc","params":{}}  |
-| num_files_upload | {"key":"domain.usecase.uc_file_upload.uploadsummary.num_files_upload.desc","params":{}} |
-| num_files_skip   | {"key":"domain.usecase.uc_file_upload.uploadsummary.num_files_skip.desc","params":{}}   |
-| num_api_call     | {"key":"domain.usecase.uc_file_upload.uploadsummary.num_api_call.desc","params":{}}     |
+| 列               | 説明                                                |
+|------------------|-----------------------------------------------------|
+| num_bytes        | Total upload size (Bytes)                           |
+| num_files_error  | The number of files failed or got an error.         |
+| num_files_upload | The number of files uploaded or to upload.          |
+| num_files_skip   | The number of files skipped or to skip.             |
+| num_api_call     | The number of estimated upload API call for upload. |
 
 ## Report: upload 
 
@@ -158,22 +158,22 @@ Report files are generated in `upload.csv`, `upload.xlsx` and `upload.json` form
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `upload_0000.xlsx`, `upload_0001.xlsx`, `upload_0002.xlsx`...   
 
-| 列                             | 説明                                                                                                   |
-|--------------------------------|--------------------------------------------------------------------------------------------------------|
-| status                         | Status of the operation                                                                                |
-| reason                         | Reason of failure or skipped operation                                                                 |
-| input.file                     | {"key":"domain.usecase.uc_file_upload.uploadrow.file.desc","params":{}}                                |
-| input.size                     | {"key":"domain.usecase.uc_file_upload.uploadrow.size.desc","params":{}}                                |
-| result.id                      | A unique identifier for the file.                                                                      |
-| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.name                    | The last component of the path (including extension).                                                  |
-| result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| result.path_display            | The cased path to be used for display purposes only.                                                   |
-| result.client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified         | The last time the file was modified on Dropbox.                                                        |
-| result.revision                | A unique identifier for the current revision of a file.                                                |
-| result.size                    | The file size in bytes.                                                                                |
-| result.content_hash            | A hash of the file content.                                                                            |
-| result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| result.parent_shared_folder_id |                                                                                                        |
+| 列                             | 説明                                                                                       |
+|--------------------------------|--------------------------------------------------------------------------------------------|
+| status                         | Status of the operation                                                                    |
+| reason                         | Reason of failure or skipped operation                                                     |
+| input.file                     | ローカルファイルのパス                                                                     |
+| input.size                     | Local file size                                                                            |
+| result.id                      | ファイルへの一意なID                                                                       |
+| result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
+| result.name                    | 名称                                                                                       |
+| result.path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
+| result.path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
+| result.client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
+| result.server_modified         | Dropbox上で最後に更新された日時                                                            |
+| result.revision                | ファイルの現在バージョンの一意な識別子                                                     |
+| result.size                    | ファイルサイズ(バイト単位)                                                                 |
+| result.content_hash            | ファイルコンテンツのハッシュ                                                               |
+| result.shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
+| result.parent_shared_folder_id |                                                                                            |
 
