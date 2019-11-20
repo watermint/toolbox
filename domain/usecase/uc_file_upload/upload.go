@@ -209,8 +209,8 @@ func (z *UploadWorker) Exec() (err error) {
 	}
 
 	if z.estimateOnly {
+		z.status.upload(info.Size(), z.opts.ChunkSize)
 		l.Debug("Skip upload (estimate only)")
-		z.repUpload.Success(upRow, nil)
 		return nil
 	}
 
@@ -306,6 +306,7 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 				if err == nil {
 					ps = pi.Size()
 				}
+				status.skip()
 				repSkip.Skip(
 					app_msg.M("usecase.uc_file_upload.skip.dont_sync"),
 					UploadRow{
