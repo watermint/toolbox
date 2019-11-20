@@ -42,7 +42,7 @@ func (z *Up) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Up) Test(c app_control.Control) error {
-	return qt_recipe.ImplementMe()
+	return qt_recipe.ScenarioTest()
 }
 
 func (z *Up) Reports() []rp_spec.ReportSpec {

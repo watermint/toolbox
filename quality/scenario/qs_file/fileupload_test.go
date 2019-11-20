@@ -8,6 +8,8 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/file"
+	filesync "github.com/watermint/toolbox/recipe/file/sync"
+	filesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
@@ -30,6 +32,12 @@ func TestFileUploadScenario(t *testing.T) {
 	vFile["アイウ/エオ.txt"] = "エオ"
 	vFile["a-b-c/time.txt"] = time.Now().String()
 
+	vIgnore := make(map[string]string)
+	vIgnore[".DS_Store"] = "ignore-dsstore"
+	vIgnore["987/~$abc"] = "ignore-abc"
+	vIgnore["a-b-c/.~abc"] = "ignore-dot-tilde"
+	vIgnore["~123.tmp"] = "ignore-123"
+
 	// Empty folders
 	vFolder := make(map[string]bool)
 	vFolder["987"] = true
@@ -50,7 +58,7 @@ func TestFileUploadScenario(t *testing.T) {
 
 	testContent := func(ctl app_control.Control, reportName, localBase, dbxBase string) {
 		found := make(map[string]bool)
-		qt_recipe.TestRows(ctl, reportName, func(cols map[string]string) error {
+		contentErr := qt_recipe.TestRows(ctl, reportName, func(cols map[string]string) error {
 			r, err := filepath.Rel(localBase, cols["input.file"])
 			if err != nil {
 				l.Debug("unable to calc rel path", zap.Error(err))
@@ -70,8 +78,32 @@ func TestFileUploadScenario(t *testing.T) {
 
 			return nil
 		})
+		if contentErr != nil {
+			t.Error(contentErr)
+		}
 
 		for f := range vFile {
+			if _, ok := found[f]; !ok {
+				l.Error("File missing", zap.String("file", f))
+				t.Error("missing file")
+			}
+		}
+	}
+	testSkip := func(ctl app_control.Control, reportName, localBase string) {
+		found := make(map[string]bool)
+		skipErr := qt_recipe.TestRows(ctl, reportName, func(cols map[string]string) error {
+			r, err := filepath.Rel(localBase, cols["input.file"])
+			if err != nil {
+				l.Debug("unable to calc rel path", zap.Error(err))
+				return err
+			}
+			found[r] = true
+			return nil
+		})
+		if skipErr != nil {
+			t.Error(skipErr)
+		}
+		for f := range vIgnore {
 			if _, ok := found[f]; !ok {
 				l.Error("File missing", zap.String("file", f))
 				t.Error("missing file")
@@ -93,6 +125,13 @@ func TestFileUploadScenario(t *testing.T) {
 	// Create test files
 	{
 		for f, c := range vFile {
+			if err := ioutil.WriteFile(filepath.Join(localBase, f), []byte(c), 0644); err != nil {
+				l.Error("Unable to create file", zap.Error(err), zap.String("f", f))
+				t.Error(err)
+				return
+			}
+		}
+		for f, c := range vIgnore {
 			if err := ioutil.WriteFile(filepath.Join(localBase, f), []byte(c), 0644); err != nil {
 				l.Error("Unable to create file", zap.Error(err), zap.String("f", f))
 				t.Error(err)
@@ -122,5 +161,50 @@ func TestFileUploadScenario(t *testing.T) {
 		}
 
 		testContent(fc, "upload", localBase, dbxBase+"/file-upload")
+		testSkip(fc, "skip", localBase)
+	})
+
+	// `file sync up`
+	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+		fc, err := app_control_impl.Fork(ctl, "file-sync-up")
+		if err != nil {
+			return
+		}
+		vo := &filesync.UpVO{
+			LocalPath:   localBase,
+			DropboxPath: dbxBase + "/file-sync-up",
+		}
+		r := filesync.Up{}
+		if !qt_recipe.ApplyTestPeers(fc, vo) {
+			l.Warn("Skip: No conn resource")
+			return
+		}
+		if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+			t.Error(err)
+		}
+
+		testContent(fc, "upload", localBase, dbxBase+"/file-sync-up")
+		testSkip(fc, "skip", localBase)
+	})
+
+	// `file sync preflight up`
+	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+		fc, err := app_control_impl.Fork(ctl, "file-sync-preflight-up")
+		if err != nil {
+			return
+		}
+		vo := &filesyncpreflight.UpVO{
+			LocalPath:   localBase,
+			DropboxPath: dbxBase + "/file-sync-preflight-up",
+		}
+		r := filesyncpreflight.Up{}
+		if !qt_recipe.ApplyTestPeers(fc, vo) {
+			l.Warn("Skip: No conn resource")
+			return
+		}
+		if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+			t.Error(err)
+		}
+		testSkip(fc, "skip", localBase)
 	})
 }

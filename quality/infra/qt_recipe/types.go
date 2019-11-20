@@ -22,6 +22,17 @@ func (z *ErrorNoTestRequired) Error() string {
 	return "no test required"
 }
 
+func ScenarioTest() error {
+	return &ErrorScenarioTest{}
+}
+
+type ErrorScenarioTest struct {
+}
+
+func (z *ErrorScenarioTest) Error() string {
+	return "scenario test"
+}
+
 func ImplementMe() error {
 	return &ErrorImplementMe{}
 }

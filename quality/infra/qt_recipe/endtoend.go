@@ -158,6 +158,9 @@ func TestRecipe(t *testing.T, re app_recipe.Recipe) {
 		case *ErrorNotEnoughResource:
 			l.Info("Skip: Not enough resource")
 
+		case *ErrorScenarioTest:
+			l.Info("Skip: Implemented as scenario test")
+
 		case *ErrorImplementMe:
 			l.Warn("Test is not implemented for this recipe")
 
