@@ -115,17 +115,57 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: uploaded 
+## Report: skip 
 
-Report files are generated in `uploaded.csv`, `uploaded.xlsx` and `uploaded.json` format.
+Report files are generated in `skip.csv`, `skip.xlsx` and `skip.json` format.
 In case of a report become large, report in `.xlsx` format will be split into several chunks
-like `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
+like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...   
 
 | Column                         | Description                                                                                            |
 |--------------------------------|--------------------------------------------------------------------------------------------------------|
 | status                         | Status of the operation                                                                                |
 | reason                         | Reason of failure or skipped operation                                                                 |
 | input.file                     | Local file path                                                                                        |
+| input.size                     | Local file size                                                                                        |
+| result.id                      | A unique identifier for the file.                                                                      |
+| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| result.name                    | The last component of the path (including extension).                                                  |
+| result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
+| result.path_display            | The cased path to be used for display purposes only.                                                   |
+| result.client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| result.server_modified         | The last time the file was modified on Dropbox.                                                        |
+| result.revision                | A unique identifier for the current revision of a file.                                                |
+| result.size                    | The file size in bytes.                                                                                |
+| result.content_hash            | A hash of the file content.                                                                            |
+| result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
+| result.parent_shared_folder_id |                                                                                                        |
+
+## Report: summary 
+
+Report files are generated in `summary.csv`, `summary.xlsx` and `summary.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
+
+| Column           | Description                                         |
+|------------------|-----------------------------------------------------|
+| num_bytes        | Total upload size (Bytes)                           |
+| num_files_error  | The number of files failed or got an error.         |
+| num_files_upload | The number of files uploaded or to upload.          |
+| num_files_skip   | The number of files skipped or to skip.             |
+| num_api_call     | The number of estimated upload API call for upload. |
+
+## Report: upload 
+
+Report files are generated in `upload.csv`, `upload.xlsx` and `upload.json` format.
+In case of a report become large, report in `.xlsx` format will be split into several chunks
+like `upload_0000.xlsx`, `upload_0001.xlsx`, `upload_0002.xlsx`...   
+
+| Column                         | Description                                                                                            |
+|--------------------------------|--------------------------------------------------------------------------------------------------------|
+| status                         | Status of the operation                                                                                |
+| reason                         | Reason of failure or skipped operation                                                                 |
+| input.file                     | Local file path                                                                                        |
+| input.size                     | Local file size                                                                                        |
 | result.id                      | A unique identifier for the file.                                                                      |
 | result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
 | result.name                    | The last component of the path (including extension).                                                  |
