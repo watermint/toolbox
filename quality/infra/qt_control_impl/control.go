@@ -1,7 +1,7 @@
 package qt_control_impl
 
 import (
-	"github.com/watermint/toolbox/infra/quality/qt_control"
+	"github.com/watermint/toolbox/quality/infra/qt_control"
 	"strings"
 	"testing"
 )

@@ -2,10 +2,10 @@ package app_msg_container_impl
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/quality/qt_control"
-	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
+	"github.com/watermint/toolbox/quality/infra/qt_control"
+	"github.com/watermint/toolbox/quality/infra/qt_control_impl"
 	"go.uber.org/zap"
 	"golang.org/x/text/language"
 )

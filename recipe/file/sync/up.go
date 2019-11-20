@@ -3,12 +3,12 @@ package sync
 import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_upload"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type UpVO struct {
@@ -42,7 +42,7 @@ func (z *Up) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Up) Test(c app_control.Control) error {
-	return qt_test.ImplementMe()
+	return qt_recipe.ImplementMe()
 }
 
 func (z *Up) Reports() []rp_spec.ReportSpec {

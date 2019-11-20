@@ -12,6 +12,11 @@ type ControlLauncher interface {
 	NewControl(user app_workspace.MultiUser) (ctl app_control.Control, err error)
 }
 
+// Fork control: create workspace with name under existing control
+type ControlFork interface {
+	Fork(name string) (ctl app_control.Control, err error)
+}
+
 type WithMessageContainer interface {
 	With(mc app_msg_container.Container) app_control.Control
 }

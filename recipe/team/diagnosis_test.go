@@ -1,10 +1,10 @@
 package team
 
 import (
-	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
 func TestDiagnosis_Exec(t *testing.T) {
-	app_test.TestRecipe(t, &Diagnosis{})
+	qt_recipe.TestRecipe(t, &Diagnosis{})
 }

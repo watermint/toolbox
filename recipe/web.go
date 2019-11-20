@@ -8,13 +8,13 @@ import (
 	"github.com/skratchdot/open-golang/open"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/web/web_handler"
 	"github.com/watermint/toolbox/infra/web/web_job"
 	"github.com/watermint/toolbox/infra/web/web_user"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"sync"
 	"time"
@@ -36,7 +36,7 @@ func (z *Web) Reports() []rp_spec.ReportSpec {
 }
 
 func (z *Web) Test(c app_control.Control) error {
-	return qt_test.HumanInteractionRequired()
+	return qt_recipe.HumanInteractionRequired()
 }
 
 func (z *Web) Console() {

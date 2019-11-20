@@ -1,6 +1,7 @@
 package api_rpc_impl
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -12,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"go.uber.org/zap"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 	"time"
@@ -44,6 +46,7 @@ type CallerImpl struct {
 	endpoint   string
 	success    func(res api_rpc.Response) error
 	failure    func(err error) error
+	upload     []byte
 }
 
 func (z *CallerImpl) rpcRequestUrl() string {
@@ -228,7 +231,7 @@ func (z *CallerImpl) handleResponse(apiResImpl *ResponseImpl) (apiRes api_rpc.Re
 	return nil, err
 }
 
-func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
+func (z *CallerImpl) dispatchCall() (apiRes api_rpc.Response, err error) {
 	return z.doCall(func() (api_rpc.Request, *http.Request, error) {
 		r, err := z.createRequest(z.rpcRequestUrl(), "application/json", nil)
 		if err != nil {
@@ -242,13 +245,21 @@ func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
 	})
 }
 
-func (z *CallerImpl) Upload(r io.Reader) (res api_rpc.Response, err error) {
+func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
+	if z.upload != nil {
+		return z.uploadCall()
+	} else {
+		return z.dispatchCall()
+	}
+}
+
+func (z *CallerImpl) uploadCall() (res api_rpc.Response, err error) {
 	return z.doCall(func() (api_rpc.Request, *http.Request, error) {
 		rq, err := z.createRequest(z.contentRequestUrl(), "application/octet-stream", z.param)
 		if err != nil {
 			return nil, nil, err
 		}
-		hr, err := rq.Upload(nw_bandwidth.WrapReader(r))
+		hr, err := rq.Upload(nw_bandwidth.WrapReader(bytes.NewReader(z.upload)))
 		if err != nil {
 			return nil, nil, err
 		}
@@ -256,11 +267,23 @@ func (z *CallerImpl) Upload(r io.Reader) (res api_rpc.Response, err error) {
 	})
 }
 
+func (z *CallerImpl) Upload(r io.Reader) (res api_rpc.Response, err error) {
+	l := z.ctx.Log()
+	z.upload, err = ioutil.ReadAll(r)
+	if err != nil {
+		l.Debug("Unable to read", zap.Error(err))
+		return nil, err
+	}
+
+	return z.uploadCall()
+}
+
 func (z *CallerImpl) doCall(mkReq func() (api_rpc.Request, *http.Request, error)) (apiRes api_rpc.Response, err error) {
-	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint), zap.String("Routine", ut_runtime.GetGoRoutineName()))
+	l := z.ctx.Log().With(zap.String("endpoint", z.endpoint), zap.String("Routine", ut_runtime.GetGoRoutineName()))
+	l.Debug("doCall: Make request")
 	req, httpReq, err := mkReq()
 	if err != nil {
-		log.Warn("Unable to prepare HTTP Caller", zap.Error(err))
+		l.Warn("Unable to prepare HTTP Caller", zap.Error(err))
 		return nil, errors.New(fmt.Sprintf("unable to prepare request for [%s]", z.endpoint))
 	}
 
@@ -268,7 +291,7 @@ func (z *CallerImpl) doCall(mkReq func() (api_rpc.Request, *http.Request, error)
 
 	switch cc := z.ctx.(type) {
 	case api_context.ClientContext:
-		log.Debug("Caller", zap.Any("param", z.param), zap.Any("root", z.base))
+		l.Debug("Caller", zap.String("url", req.Url()), zap.Any("param", z.param), zap.Any("root", z.base))
 		callStart := time.Now()
 		apiResImpl := &ResponseImpl{}
 		apiResImpl.resStatusCode, apiResImpl.resHeader, apiResImpl.resBody, err = cc.DoRequest(httpReq)
@@ -286,13 +309,13 @@ func (z *CallerImpl) doCall(mkReq func() (api_rpc.Request, *http.Request, error)
 		cp.Rpc(req, apiResImpl, err, callEnd.UnixNano()-callStart.UnixNano())
 
 		if err != nil {
-			log.Debug("Transport error", zap.Error(err))
+			l.Debug("Transport error", zap.Error(err))
 			return z.ensureRetryOnError(err)
 		}
 
 		return z.handleResponse(apiResImpl)
 	}
 
-	log.Warn("No client available")
+	l.Warn("No client available")
 	return nil, errors.New("no client available")
 }

@@ -1,4 +1,4 @@
-package qt_test
+package qt_recipe
 
 func HumanInteractionRequired() error {
 	return &ErrorHumanInteractionRequired{}

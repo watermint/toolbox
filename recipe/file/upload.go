@@ -3,13 +3,12 @@ package file
 import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_upload"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"os"
 )
 
@@ -64,17 +63,17 @@ func (z *Upload) Test(c app_control.Control) error {
 	}
 	if file == "" {
 		l.Warn("No file to upload")
-		return qt_test.NotEnoughResource()
+		return qt_recipe.NotEnoughResource()
 	}
 
 	{
 		vo := &UploadVO{
 			LocalPath:   file,
-			DropboxPath: "/" + app_test.TestTeamFolderName,
+			DropboxPath: "/" + qt_recipe.TestTeamFolderName,
 			Overwrite:   true,
 		}
-		if !app_test.ApplyTestPeers(c, vo) {
-			return qt_test.NotEnoughResource()
+		if !qt_recipe.ApplyTestPeers(c, vo) {
+			return qt_recipe.NotEnoughResource()
 		}
 		if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
 			return err
@@ -85,12 +84,12 @@ func (z *Upload) Test(c app_control.Control) error {
 	{
 		vo := &UploadVO{
 			LocalPath:   file,
-			DropboxPath: "/" + app_test.TestTeamFolderName,
+			DropboxPath: "/" + qt_recipe.TestTeamFolderName,
 			Overwrite:   true,
 			ChunkSize:   1,
 		}
-		if !app_test.ApplyTestPeers(c, vo) {
-			return qt_test.NotEnoughResource()
+		if !qt_recipe.ApplyTestPeers(c, vo) {
+			return qt_recipe.NotEnoughResource()
 		}
 		if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
 			return err

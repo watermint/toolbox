@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
@@ -14,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"path/filepath"
 	"strings"
@@ -145,5 +145,5 @@ func (z *Delete) removeRecursive(k app_kitchen.Kitchen, ctx api_context.Context,
 }
 
 func (z *Delete) Test(c app_control.Control) error {
-	return qt_test.ImplementMe()
+	return qt_recipe.ImplementMe()
 }

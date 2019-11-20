@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/tealeg/xlsx"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/report/rp_model_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"path/filepath"
 	"testing"
 )
@@ -16,7 +16,7 @@ func TestXlsx_Rotate(t *testing.T) {
 		Value string `json:"value"`
 	}
 
-	app_test.TestWithControl(t, func(ctl app_control.Control) {
+	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		name := "xlsx_less_than_threshold"
 		x, err := rp_model_impl.NewXlsx(name, &Data{}, ctl)
 		if err != nil {
@@ -53,7 +53,7 @@ func TestXlsx_Rotate(t *testing.T) {
 		}
 	})
 
-	app_test.TestWithControl(t, func(ctl app_control.Control) {
+	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		name := "xlsx_equals_to_threshold"
 		x, err := rp_model_impl.NewXlsx(name, &Data{}, ctl)
 		if err != nil {
@@ -100,7 +100,7 @@ func TestXlsx_Rotate(t *testing.T) {
 		}
 	})
 
-	app_test.TestWithControl(t, func(ctl app_control.Control) {
+	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		name := "xlsx_rotate"
 		x, err := rp_model_impl.NewXlsx(name, &Data{}, ctl)
 		if err != nil {

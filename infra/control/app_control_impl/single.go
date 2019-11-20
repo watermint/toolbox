@@ -2,10 +2,12 @@ package app_control_impl
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/GeertJohan/go.rice"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -20,6 +22,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"runtime"
 )
 
 func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, catalogue []app_recipe.Recipe) app_control.Control {
@@ -46,6 +49,35 @@ type Single struct {
 	quiet        bool
 	catalogue    []app_recipe.Recipe
 	testResource gjson.Result
+}
+
+func Fork(ctl app_control.Control, name string) (app_control.Control, error) {
+	if fc, ok := ctl.(app_control_launcher.ControlFork); ok {
+		return fc.Fork(name)
+	}
+	return nil, errors.New("fork is not supported on this control")
+}
+
+func (z *Single) Fork(name string) (ctl app_control.Control, err error) {
+	ws, err := app_workspace.Fork(z.ws, name)
+	if err != nil {
+		return nil, err
+	}
+	s := &Single{
+		ui:           z.ui,
+		box:          z.box,
+		web:          z.web,
+		mc:           z.mc,
+		ws:           ws,
+		opts:         z.opts,
+		quiet:        z.quiet,
+		catalogue:    z.catalogue,
+		testResource: z.testResource,
+	}
+	if err := s.upWithWorkspace(ws); err != nil {
+		return nil, err
+	}
+	return s, nil
 }
 
 func (z *Single) With(mc app_msg_container.Container) app_control.Control {
@@ -102,6 +134,7 @@ func (z *Single) NewTestControl(testResource gjson.Result) (ctl app_control.Cont
 	}
 	opts := make([]app_control.UpOpt, 0)
 	opts = append(opts, app_control.Test())
+	opts = append(opts, app_control.Concurrency(runtime.NumCPU()))
 	err = ctl.Up(opts...)
 	if err != nil {
 		return nil, err
@@ -149,12 +182,7 @@ func (z *Single) Resource(key string) (bin []byte, err error) {
 	return z.box.Bytes(key)
 }
 
-func (z *Single) upWithHome(homePath string) (err error) {
-	z.ws, err = app_workspace.NewSingleUser(homePath)
-	if err != nil {
-		return err
-	}
-
+func (z *Single) upWithWorkspace(ws app_workspace.Workspace) (err error) {
 	rl, err := os.Create(filepath.Join(z.ws.Log(), "recipe.log"))
 	if err != nil {
 		return err
@@ -197,6 +225,14 @@ func (z *Single) upWithHome(homePath string) (err error) {
 	)
 
 	return nil
+}
+
+func (z *Single) upWithHome(homePath string) (err error) {
+	z.ws, err = app_workspace.NewSingleUser(homePath)
+	if err != nil {
+		return err
+	}
+	return z.upWithWorkspace(z.ws)
 }
 
 func (z *Single) Up(opts ...app_control.UpOpt) (err error) {

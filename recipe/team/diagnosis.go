@@ -2,13 +2,12 @@ package team
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/group"
 	groupmember "github.com/watermint/toolbox/recipe/group/member"
 	"github.com/watermint/toolbox/recipe/member"
@@ -264,8 +263,8 @@ func (z *Diagnosis) Test(c app_control.Control) error {
 	lvo := &DiagnosisVO{
 		IncludeFileList: false,
 	}
-	if !app_test.ApplyTestPeers(c, lvo) {
-		return qt_test.NotEnoughResource()
+	if !qt_recipe.ApplyTestPeers(c, lvo) {
+		return qt_recipe.NotEnoughResource()
 	}
 	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err

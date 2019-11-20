@@ -6,10 +6,10 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
 
@@ -72,7 +72,7 @@ func (z *Delete) Exec(k app_kitchen.Kitchen) error {
 
 func (z *Delete) Test(c app_control.Control) error {
 	vo := &DeleteVO{}
-	if !app_test.ApplyTestPeers(c, vo) {
+	if !qt_recipe.ApplyTestPeers(c, vo) {
 		return nil
 	}
 

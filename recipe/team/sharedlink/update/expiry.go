@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
@@ -18,6 +17,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"time"
 )
@@ -271,5 +271,5 @@ func (z *Expiry) Test(c app_control.Control) error {
 	if err := z.Exec(app_kitchen.NewKitchen(c, &ExpiryVO{At: "Invalid time format"})); err == nil {
 		return errors.New("invalid time format should not be accepted")
 	}
-	return qt_test.ImplementMe()
+	return qt_recipe.ImplementMe()
 }

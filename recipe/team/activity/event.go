@@ -6,13 +6,12 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_activity"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"time"
 )
 
@@ -71,13 +70,13 @@ func (z *Event) Test(c app_control.Control) error {
 		StartTime: api_util.RebaseAsString(time.Now().Add(-10 * time.Minute)),
 		Category:  "logins",
 	}
-	if !app_test.ApplyTestPeers(c, lvo) {
-		return qt_test.NotEnoughResource()
+	if !qt_recipe.ApplyTestPeers(c, lvo) {
+		return qt_recipe.NotEnoughResource()
 	}
 	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
-	return app_test.TestRows(c, "event", func(cols map[string]string) error {
+	return qt_recipe.TestRows(c, "event", func(cols map[string]string) error {
 		if _, ok := cols["timestamp"]; !ok {
 			return errors.New("`timestamp` is not found")
 		}

@@ -1,4 +1,4 @@
-package app_test
+package qt_recipe
 
 import (
 	"encoding/csv"
@@ -10,8 +10,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_run_impl"
-	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
@@ -19,11 +17,13 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/quality/infra/qt_control_impl"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 )
 
@@ -129,7 +129,7 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 			return
 		}
 	}
-	err := ctl.Up(app_control.Test())
+	err := ctl.Up(app_control.Test(), app_control.Concurrency(runtime.NumCPU()))
 	if err != nil {
 		os.Exit(app_control.FatalStartup)
 	}
@@ -149,16 +149,16 @@ func TestRecipe(t *testing.T, re app_recipe.Recipe) {
 		}
 
 		switch err.(type) {
-		case *qt_test.ErrorNoTestRequired:
+		case *ErrorNoTestRequired:
 			l.Info("Skip: No test required for this recipe")
 
-		case *qt_test.ErrorHumanInteractionRequired:
+		case *ErrorHumanInteractionRequired:
 			l.Info("Skip: Human interaction required for this test")
 
-		case *qt_test.ErrorNotEnoughResource:
+		case *ErrorNotEnoughResource:
 			l.Info("Skip: Not enough resource")
 
-		case *qt_test.ErrorImplementMe:
+		case *ErrorImplementMe:
 			l.Warn("Test is not implemented for this recipe")
 
 		default:

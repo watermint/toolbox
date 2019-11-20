@@ -1,10 +1,10 @@
 package dev
 
 import (
-	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
 func TestDummy_Exec(t *testing.T) {
-	app_test.TestRecipe(t, &Dummy{})
+	qt_recipe.TestRecipe(t, &Dummy{})
 }

@@ -317,7 +317,7 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 			}
 			numEntriesProceed++
 			if e.IsDir() {
-				lastErr = scanFolder(e.Name())
+				lastErr = scanFolder(filepath.Join(path, e.Name()))
 			} else {
 				ll.Debug("Enqueue", zap.String("p", p))
 				q.Enqueue(&UploadWorker{

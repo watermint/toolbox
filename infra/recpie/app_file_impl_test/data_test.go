@@ -3,8 +3,8 @@ package app_file_impl_test
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_file_impl"
-	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/report/rp_model_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"path/filepath"
 	"testing"
 )
@@ -35,7 +35,7 @@ func TestCsvData_EachRow(t *testing.T) {
 		Quota    int
 	}
 
-	app_test.TestWithControl(t, func(ctl app_control.Control) {
+	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		dataRows := make([]*DataRow, 0)
 		dataRows = append(dataRows, &DataRow{
 			Name:     "John",
