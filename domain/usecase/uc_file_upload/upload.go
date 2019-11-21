@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/domain/service/sv_file_content"
+	"github.com/watermint/toolbox/domain/service/sv_file_folder"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -196,7 +197,6 @@ func (z *UploadWorker) Exec() (err error) {
 				return err
 			}
 			if f.ContentHash == hash {
-
 				ui.Info("usecase.uc_file_upload.progress.skip", app_msg.P{
 					"File": z.localFilePath,
 				})
@@ -280,8 +280,25 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 
 	createFolder := func(path string) error {
 		ll := l.With(zap.String("path", path))
+		ll.Debug("Prepare create folder")
+		rel, err := filepath.Rel(localPath, path)
+		if err != nil {
+			l.Debug("unable to calculate rel path", zap.Error(err))
+			repUpload.Failure(err, &UploadRow{File: path})
+			status.error()
+			return err
+		}
+		folderPath := mo_path.NewPath(dropboxPath).ChildPath(filepath.ToSlash(rel))
+		ll = ll.With(zap.String("folderPath", folderPath.Path()))
 		ll.Debug("Create folder")
-		// TODO: Implement for `sync up`
+
+		entry, err := sv_file_folder.New(z.ctx).Create(folderPath)
+		if err != nil {
+			ll.Debug("Unable to create folder", zap.Error(err))
+			repUpload.Failure(err, &UploadRow{File: path})
+			return err
+		}
+		repUpload.Success(&UploadRow{File: path}, entry.Concrete())
 
 		return nil
 	}

@@ -35,7 +35,7 @@ func TestFileUploadScenario(t *testing.T) {
 	vIgnore := make(map[string]string)
 	vIgnore[".DS_Store"] = "ignore-dsstore"
 	vIgnore["987/~$abc"] = "ignore-abc"
-	vIgnore["a-b-c/.~abc"] = "ignore-dot-tilde"
+	vIgnore["d-e-f/.~abc"] = "ignore-dot-tilde"
 	vIgnore["~123.tmp"] = "ignore-123"
 
 	// Empty folders
@@ -59,6 +59,10 @@ func TestFileUploadScenario(t *testing.T) {
 	testContent := func(ctl app_control.Control, reportName, localBase, dbxBase string) {
 		found := make(map[string]bool)
 		contentErr := qt_recipe.TestRows(ctl, reportName, func(cols map[string]string) error {
+			if cols["result.content_hash"] == "" {
+				l.Debug("ignore folder")
+				return nil
+			}
 			r, err := filepath.Rel(localBase, cols["input.file"])
 			if err != nil {
 				l.Debug("unable to calc rel path", zap.Error(err))
@@ -140,71 +144,73 @@ func TestFileUploadScenario(t *testing.T) {
 		}
 	}
 
-	// `file upload`
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
-		fc, err := app_control_impl.Fork(ctl, "file-upload")
-		if err != nil {
-			return
-		}
-		vo := &file.UploadVO{
-			LocalPath:   localBase,
-			DropboxPath: dbxBase + "/file-upload",
-			Overwrite:   false,
-		}
-		r := file.Upload{}
-		if !qt_recipe.ApplyTestPeers(fc, vo) {
-			l.Warn("Skip: No conn resource")
-			return
-		}
-		if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
-			t.Error(err)
+		// `file upload`
+		{
+			fc, err := app_control_impl.Fork(ctl, "file-upload")
+			if err != nil {
+				return
+			}
+			vo := &file.UploadVO{
+				LocalPath:   localBase,
+				DropboxPath: dbxBase + "/file-upload",
+				Overwrite:   false,
+			}
+			r := file.Upload{}
+			if !qt_recipe.ApplyTestPeers(fc, vo) {
+				l.Warn("Skip: No conn resource")
+				return
+			}
+			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+				t.Error(err)
+			}
+
+			testContent(fc, "upload", localBase, dbxBase+"/file-upload")
+			testSkip(fc, "skip", localBase)
 		}
 
-		testContent(fc, "upload", localBase, dbxBase+"/file-upload")
-		testSkip(fc, "skip", localBase)
-	})
+		// `file sync up`
+		{
+			fc, err := app_control_impl.Fork(ctl, "file-sync-up")
+			if err != nil {
+				return
+			}
+			vo := &filesync.UpVO{
+				LocalPath:   localBase,
+				DropboxPath: dbxBase + "/file-sync-up",
+			}
+			r := filesync.Up{}
+			if !qt_recipe.ApplyTestPeers(fc, vo) {
+				l.Warn("Skip: No conn resource")
+				return
+			}
+			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+				t.Error(err)
+			}
 
-	// `file sync up`
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
-		fc, err := app_control_impl.Fork(ctl, "file-sync-up")
-		if err != nil {
-			return
-		}
-		vo := &filesync.UpVO{
-			LocalPath:   localBase,
-			DropboxPath: dbxBase + "/file-sync-up",
-		}
-		r := filesync.Up{}
-		if !qt_recipe.ApplyTestPeers(fc, vo) {
-			l.Warn("Skip: No conn resource")
-			return
-		}
-		if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
-			t.Error(err)
+			testContent(fc, "upload", localBase, dbxBase+"/file-sync-up")
+			testSkip(fc, "skip", localBase)
 		}
 
-		testContent(fc, "upload", localBase, dbxBase+"/file-sync-up")
-		testSkip(fc, "skip", localBase)
-	})
-
-	// `file sync preflight up`
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
-		fc, err := app_control_impl.Fork(ctl, "file-sync-preflight-up")
-		if err != nil {
-			return
+		// `file sync preflight up`
+		{
+			fc, err := app_control_impl.Fork(ctl, "file-sync-preflight-up")
+			if err != nil {
+				return
+			}
+			vo := &filesyncpreflight.UpVO{
+				LocalPath:   localBase,
+				DropboxPath: dbxBase + "/file-sync-preflight-up",
+			}
+			r := filesyncpreflight.Up{}
+			if !qt_recipe.ApplyTestPeers(fc, vo) {
+				l.Warn("Skip: No conn resource")
+				return
+			}
+			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+				t.Error(err)
+			}
+			testSkip(fc, "skip", localBase)
 		}
-		vo := &filesyncpreflight.UpVO{
-			LocalPath:   localBase,
-			DropboxPath: dbxBase + "/file-sync-preflight-up",
-		}
-		r := filesyncpreflight.Up{}
-		if !qt_recipe.ApplyTestPeers(fc, vo) {
-			l.Warn("Skip: No conn resource")
-			return
-		}
-		if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
-			t.Error(err)
-		}
-		testSkip(fc, "skip", localBase)
 	})
 }
