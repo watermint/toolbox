@@ -12,6 +12,16 @@
           "to": "",
           "exists": false
         }
+      ],
+      "externalid": [
+        {
+          "email": "",
+          "external_id":""
+        },
+        {
+          "email": "",
+          "external_id":""
+        }
       ]
     }
   }

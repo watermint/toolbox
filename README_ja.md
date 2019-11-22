@@ -74,6 +74,7 @@ Available commands:
 | [member quota update](doc/generated_ja/member-quota-update.md)                     | チームメンバーの容量制限を変更                                 |
 | [member quota usage](doc/generated_ja/member-quota-usage.md)                       | チームメンバーのストレージ利用状況を取得                       |
 | [member update email](doc/generated_ja/member-update-email.md)                     | メンバーのメールアドレス処理                                   |
+| [member update externalid](doc/generated_ja/member-update-externalid.md)           | {"key":"recipe.member.update.externalid.title","params":{}}    |
 | [member update profile](doc/generated_ja/member-update-profile.md)                 | メンバーのプロフィール変更                                     |
 | [sharedfolder list](doc/generated_ja/sharedfolder-list.md)                         | 共有フォルダの一覧                                             |
 | [sharedfolder member list](doc/generated_ja/sharedfolder-member-list.md)           | 共有フォルダのメンバーを一覧します                             |

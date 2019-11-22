@@ -74,6 +74,7 @@ Available commands:
 | [member quota update](doc/generated/member-quota-update.md)                     | Update team member quota                                      |
 | [member quota usage](doc/generated/member-quota-usage.md)                       | List team member storage usage                                |
 | [member update email](doc/generated/member-update-email.md)                     | Member email operation                                        |
+| [member update externalid](doc/generated/member-update-externalid.md)           | Update External ID of team members                            |
 | [member update profile](doc/generated/member-update-profile.md)                 | Update member profile                                         |
 | [sharedfolder list](doc/generated/sharedfolder-list.md)                         | List shared folder(s)                                         |
 | [sharedfolder member list](doc/generated/sharedfolder-member-list.md)           | List shared folder member(s)                                  |

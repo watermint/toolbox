@@ -234,7 +234,7 @@ func TestFileUploadScenario(t *testing.T) {
 			//TODO: verify content
 		}
 
-		// `file copy`
+		// `file move`
 		{
 			fc, err := app_control_impl.Fork(ctl, "file-copy")
 			if err != nil {
