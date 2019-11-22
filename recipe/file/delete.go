@@ -2,7 +2,7 @@ package file
 
 import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/usecase/uc_file_relocation"
+	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
@@ -11,37 +11,39 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
-type MoveVO struct {
+type DeleteVO struct {
 	Peer app_conn.ConnUserFile
-	Src  string
-	Dst  string
+	Path string
 }
 
-type Move struct {
+type Delete struct {
 }
 
-func (z *Move) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{}
+func (z *Delete) Console() {
 }
 
-func (z *Move) Console() {
+func (z *Delete) Requirement() app_vo.ValueObject {
+	return &DeleteVO{}
 }
 
-func (z *Move) Requirement() app_vo.ValueObject {
-	return &MoveVO{}
-}
-
-func (z *Move) Exec(k app_kitchen.Kitchen) error {
-	vo := k.Value().(*MoveVO)
+func (z *Delete) Exec(k app_kitchen.Kitchen) error {
+	vo := k.Value().(*DeleteVO)
 	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}
 
-	uc := uc_file_relocation.New(ctx)
-	return uc.Move(mo_path.NewPath(vo.Src), mo_path.NewPath(vo.Dst))
+	_, err = sv_file.NewFiles(ctx).Remove(mo_path.NewPath(vo.Path))
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-func (z *Move) Test(c app_control.Control) error {
+func (z *Delete) Test(c app_control.Control) error {
 	return qt_recipe.ScenarioTest()
+}
+
+func (z *Delete) Reports() []rp_spec.ReportSpec {
+	return []rp_spec.ReportSpec{}
 }

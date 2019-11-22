@@ -43,5 +43,5 @@ func (z *Copy) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Copy) Test(c app_control.Control) error {
-	return qt_recipe.ImplementMe()
+	return qt_recipe.ScenarioTest()
 }

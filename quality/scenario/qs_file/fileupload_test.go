@@ -212,5 +212,67 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			testSkip(fc, "skip", localBase)
 		}
+
+		// `file copy`
+		{
+			fc, err := app_control_impl.Fork(ctl, "file-copy")
+			if err != nil {
+				return
+			}
+			vo := &file.CopyVO{
+				Src: dbxBase + "/file-sync-up",
+				Dst: dbxBase + "/file-copy",
+			}
+			r := file.Copy{}
+			if !qt_recipe.ApplyTestPeers(fc, vo) {
+				l.Warn("Skip: No conn resource")
+				return
+			}
+			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+				t.Error(err)
+			}
+			//TODO: verify content
+		}
+
+		// `file copy`
+		{
+			fc, err := app_control_impl.Fork(ctl, "file-copy")
+			if err != nil {
+				return
+			}
+			vo := &file.MoveVO{
+				Src: dbxBase + "/file-copy",
+				Dst: dbxBase + "/file-move",
+			}
+			r := file.Move{}
+			if !qt_recipe.ApplyTestPeers(fc, vo) {
+				l.Warn("Skip: No conn resource")
+				return
+			}
+			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+				t.Error(err)
+			}
+			//TODO: verify content
+		}
+
+		// `file delete`
+		{
+			fc, err := app_control_impl.Fork(ctl, "file-delete")
+			if err != nil {
+				return
+			}
+			vo := &file.DeleteVO{
+				Path: dbxBase,
+			}
+			r := file.Delete{}
+			if !qt_recipe.ApplyTestPeers(fc, vo) {
+				l.Warn("Skip: No conn resource")
+				return
+			}
+			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+				t.Error(err)
+			}
+			// TODO: verify deletion
+		}
 	})
 }

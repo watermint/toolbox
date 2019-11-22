@@ -52,6 +52,7 @@ Available commands:
 | [file compare account](doc/generated_ja/file-compare-account.md)                   | 二つのアカウントのファイルを比較します                         |
 | [file compare local](doc/generated_ja/file-compare-local.md)                       | ローカルフォルダとDropboxフォルダの内容を比較します            |
 | [file copy](doc/generated_ja/file-copy.md)                                         | ファイルをコピーします                                         |
+| [file delete](doc/generated_ja/file-delete.md)                                     | {"key":"recipe.file.delete.title","params":{}}                 |
 | [file import batch url](doc/generated_ja/file-import-batch-url.md)                 | URLからファイルを一括インポートします                          |
 | [file import url](doc/generated_ja/file-import-url.md)                             | URLからファイルをインポートします                              |
 | [file list](doc/generated_ja/file-list.md)                                         | ファイルとフォルダを一覧します                                 |

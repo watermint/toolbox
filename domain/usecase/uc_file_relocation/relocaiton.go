@@ -68,6 +68,7 @@ func (z *relocationImpl) relocation(from, to mo_path.Path,
 				return reloc(from, to)
 			}
 			l.Debug("Invalid path to relocate, or restricted", zap.Error(err))
+			return err
 		}
 		fromToTag = fromEntry.Tag() + "-" + toEntry.Tag()
 		l = l.With(zap.String("fromTag", fromEntry.Tag()), zap.String("toTag", toEntry.Tag()))
