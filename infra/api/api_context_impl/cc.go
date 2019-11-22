@@ -18,8 +18,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
-	"sync"
-	"time"
 )
 
 const (
@@ -36,17 +34,13 @@ func New(control app_control.Control, token api_auth.TokenContainer) api_context
 }
 
 type ccImpl struct {
-	control         app_control.Control
-	tokenContainer  api_auth.TokenContainer
-	noAuth          bool
-	asMemberId      string
-	asAdminId       string
-	basePath        api_context.PathRoot
-	retryAfter      time.Time
-	retryAfterMutex sync.Mutex
-	lastErrors      []error
-	lastErrorMutex  sync.Mutex
-	noRetryOnError  bool
+	control        app_control.Control
+	tokenContainer api_auth.TokenContainer
+	noAuth         bool
+	asMemberId     string
+	asAdminId      string
+	basePath       api_context.PathRoot
+	noRetryOnError bool
 }
 
 func (z *ccImpl) Token() api_auth.TokenContainer {
@@ -75,43 +69,6 @@ func (z *ccImpl) DoRequest(req *http.Request) (code int, header http.Header, bod
 		// fall through
 	}
 	return res.StatusCode, res.Header, body, nil
-}
-
-func (z *ccImpl) AddError(err error) {
-	z.lastErrorMutex.Lock()
-	defer z.lastErrorMutex.Unlock()
-
-	if z.lastErrors == nil {
-		z.lastErrors = make([]error, 0)
-	}
-	if err == nil {
-		return
-	}
-	if len(z.lastErrors) > maxLastErrors {
-		z.lastErrors = z.lastErrors[1:]
-	}
-	z.lastErrors = append(z.lastErrors, err)
-}
-
-func (z *ccImpl) LastErrors() []error {
-	if z.lastErrors == nil {
-		return make([]error, 0)
-	} else {
-		return z.lastErrors
-	}
-}
-
-func (z *ccImpl) RetryAfter() time.Time {
-	return z.retryAfter
-}
-
-func (z *ccImpl) UpdateRetryAfter(after time.Time) {
-	z.retryAfterMutex.Lock()
-	defer z.retryAfterMutex.Unlock()
-
-	if z.retryAfter.Before(after) {
-		z.retryAfter = after
-	}
 }
 
 func (z *ccImpl) IsNoRetry() bool {

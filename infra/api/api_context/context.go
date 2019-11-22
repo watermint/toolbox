@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_upload"
 	"go.uber.org/zap"
 	"net/http"
-	"time"
 )
 
 type Context interface {
@@ -26,10 +25,6 @@ type Context interface {
 }
 
 type RetryContext interface {
-	AddError(err error)
-	LastErrors() []error
-	RetryAfter() time.Time
-	UpdateRetryAfter(after time.Time)
 	IsNoRetry() bool
 }
 

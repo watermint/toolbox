@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_rpc"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
+	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"go.uber.org/zap"
 	"io"
@@ -36,6 +37,7 @@ func New(ctx api_context.Context,
 	return &ri
 }
 
+// Stateful object
 type CallerImpl struct {
 	ctx        api_context.Context
 	asMemberId string
@@ -101,26 +103,12 @@ func (z *CallerImpl) ensureRetryOnError(lastErr error) (res api_rpc.Response, er
 			return nil, lastErr
 		}
 
-		sameErrorCount := 0
-		rc.AddError(lastErr)
-		for _, e := range rc.LastErrors() {
-			if e.Error() == lastErr.Error() {
-				sameErrorCount++
-			}
-		}
-
-		if sameErrorCount >= SameErrorRetryCount {
-			l.Debug(
-				"Abort retry due to `same_error_count` exceed threshold",
-				zap.Int("same_error_count", sameErrorCount),
-				zap.Error(lastErr),
-			)
+		// Add lastErr and wait if required
+		abort := nw_ratelimit.AddError(z.ctx.Hash(), z.endpoint, lastErr)
+		if abort {
+			l.Debug("Abort retry due to rateLimit", zap.Error(lastErr))
 			return nil, lastErr
 		}
-
-		after := time.Now().Add(SameErrorRetryWait)
-		rc.UpdateRetryAfter(after)
-		l.Debug("Retry after", zap.Error(err), zap.String("retry_after", after.String()))
 
 		return z.Call()
 
@@ -145,27 +133,12 @@ func (z *CallerImpl) OnFailure(failure func(err error) error) api_rpc.Caller {
 	return z
 }
 
-func (z *CallerImpl) waitForRetryIfRequired() {
-	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint))
-
-	switch rc := z.ctx.(type) {
-	case api_context.RetryContext:
-		now := time.Now()
-		if !rc.RetryAfter().IsZero() && now.Before(rc.RetryAfter()) {
-			log.Debug("Sleep until", zap.String("retry_after", rc.RetryAfter().String()))
-			time.Sleep(rc.RetryAfter().Sub(now))
-		}
-	}
-}
-
 func (z *CallerImpl) handleRetryAfterResponse(retryAfterSec int) bool {
 	switch rc := z.ctx.(type) {
 	case api_context.RetryContext:
 		after := time.Now().Add(time.Duration(retryAfterSec+1) * time.Second)
-		z.ctx.Log().Debug("Retry after", zap.Int("RetryAfterSec", retryAfterSec))
-		rc.UpdateRetryAfter(after)
-		z.ctx.Log().Debug("Precaution wait for rate limit", zap.Duration("wait", PrecautionRateLimitWait))
-		time.Sleep(PrecautionRateLimitWait)
+		z.ctx.Log().Debug("Retry after", zap.Int("RetryAfterSec", retryAfterSec), zap.Bool("noRetry", rc.IsNoRetry()))
+		nw_ratelimit.UpdateRetryAfter(z.ctx.Hash(), z.endpoint, after)
 
 		return true
 
@@ -231,7 +204,7 @@ func (z *CallerImpl) handleResponse(apiResImpl *ResponseImpl) (apiRes api_rpc.Re
 	return nil, err
 }
 
-func (z *CallerImpl) dispatchCall() (apiRes api_rpc.Response, err error) {
+func (z *CallerImpl) rpcCall() (apiRes api_rpc.Response, err error) {
 	return z.doCall(func() (api_rpc.Request, *http.Request, error) {
 		r, err := z.createRequest(z.rpcRequestUrl(), "application/json", nil)
 		if err != nil {
@@ -249,7 +222,7 @@ func (z *CallerImpl) Call() (apiRes api_rpc.Response, err error) {
 	if z.upload != nil {
 		return z.uploadCall()
 	} else {
-		return z.dispatchCall()
+		return z.rpcCall()
 	}
 }
 
@@ -287,7 +260,7 @@ func (z *CallerImpl) doCall(mkReq func() (api_rpc.Request, *http.Request, error)
 		return nil, errors.New(fmt.Sprintf("unable to prepare request for [%s]", z.endpoint))
 	}
 
-	z.waitForRetryIfRequired()
+	nw_ratelimit.WaitIfRequired(z.ctx.Hash(), z.endpoint)
 
 	switch cc := z.ctx.(type) {
 	case api_context.ClientContext:
