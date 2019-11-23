@@ -74,7 +74,7 @@ func (z *Local) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Local) Test(c app_control.Control) error {
-	return qt_recipe.ImplementMe()
+	return qt_recipe.ScenarioTest()
 }
 
 func (z *Local) Reports() []rp_spec.ReportSpec {

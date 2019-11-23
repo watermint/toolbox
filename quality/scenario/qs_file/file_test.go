@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/file"
+	filecompare "github.com/watermint/toolbox/recipe/file/compare"
 	filesync "github.com/watermint/toolbox/recipe/file/sync"
 	filesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
 	"go.uber.org/zap"
@@ -192,6 +193,27 @@ func TestFileUploadScenario(t *testing.T) {
 			testSkip(fc, "skip", localBase)
 		}
 
+		// `file compare local`
+		{
+			fc, err := app_control_impl.Fork(ctl, "file-compare-local")
+			if err != nil {
+				return
+			}
+			vo := &filecompare.LocalVO{
+				LocalPath:   localBase,
+				DropboxPath: dbxBase + "/file-sync-up",
+			}
+			r := filecompare.Local{}
+			if !qt_recipe.ApplyTestPeers(fc, vo) {
+				l.Warn("Skip: No conn resource")
+				return
+			}
+			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+				t.Error(err)
+			}
+			// TODO: verify result
+		}
+
 		// `file sync preflight up`
 		{
 			fc, err := app_control_impl.Fork(ctl, "file-sync-preflight-up")
@@ -236,7 +258,7 @@ func TestFileUploadScenario(t *testing.T) {
 
 		// `file move`
 		{
-			fc, err := app_control_impl.Fork(ctl, "file-copy")
+			fc, err := app_control_impl.Fork(ctl, "file-move")
 			if err != nil {
 				return
 			}
@@ -245,6 +267,28 @@ func TestFileUploadScenario(t *testing.T) {
 				Dst: dbxBase + "/file-move",
 			}
 			r := file.Move{}
+			if !qt_recipe.ApplyTestPeers(fc, vo) {
+				l.Warn("Skip: No conn resource")
+				return
+			}
+			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+				t.Error(err)
+			}
+			//TODO: verify content
+		}
+
+		// `file copy`
+		{
+			fc, err := app_control_impl.Fork(ctl, "file-merge")
+			if err != nil {
+				return
+			}
+			vo := &file.MergeVO{
+				From:   dbxBase + "/file-sync-up",
+				To:     dbxBase + "/file-move",
+				DryRun: false,
+			}
+			r := file.Merge{}
 			if !qt_recipe.ApplyTestPeers(fc, vo) {
 				l.Warn("Skip: No conn resource")
 				return
