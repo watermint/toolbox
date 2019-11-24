@@ -1,14 +1,14 @@
-hash: 19524594dc380783cc8caffeceade6db8b1e4ca06ca44d9d9a1b93289322e7fb
-updated: 2019-11-07T11:26:56.561729+09:00
+hash: cbb00611021fe0b3230e1b4deb8bf0a594ba9d9fad913a419a1d569b5ace8a89
+updated: 2019-11-23T22:52:58.042832+09:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
 - name: github.com/daaku/go.zipexe
-  version: 74d766ac1dde7458348221869a7d1e7e5fa0597e
+  version: a5fe2436ffcb3236e175e5149162b41cd28bd27d
 - name: github.com/GeertJohan/go.rice
-  version: d954009f7238df62c766980934c8ea7f161d0e59
+  version: c02ca9a983da5807ddf7d796784928f5be4afd09
   subpackages:
   - embedded
   - rice
@@ -23,25 +23,25 @@ imports:
   - internal/json
   - render
 - name: github.com/golang/protobuf
-  version: ed6926b37a637426117ccab59282c3839528a700
+  version: 951a149f90371fb8858c6c979d03bb2583611052
   subpackages:
   - proto
 - name: github.com/gorilla/mux
   version: 00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15
 - name: github.com/iancoleman/strcase
-  version: e506e3ef73653e84c592ba44aab577a46678f68c
+  version: 16388991a33441046539eb716cff4d294d556c70
 - name: github.com/json-iterator/go
-  version: dc11f49689fd1c9a6de20749def70bd889bf0d42
+  version: 44a7e7340d23d2e5d5d942966eb683436c027da0
 - name: github.com/kardianos/osext
-  version: 2bc1f35cddc0cc527b4bc3dce8578fc2a6c11384
+  version: ae77be60afb1dcacde03767a8c37337fad28ac14
 - name: github.com/mattn/go-isatty
-  version: 0e9ddb7c0c0aef74fa25eaba4141e6b5ab7aca2a
+  version: 2a2f0ea997f99becfd8423e4f337d171753fe685
 - name: github.com/modern-go/concurrent
   version: bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94
 - name: github.com/modern-go/reflect2
   version: 94122c33edd36123c84d5368cfb2b69df93a0ec8
 - name: github.com/pkg/profile
-  version: f6fe06335df110bcf1ed6d4e852b760bfc15beee
+  version: acd64d450fd45fb2afa41f833f3788c8a7797219
 - name: github.com/rapid7/go-get-proxied
   version: 16249a544090ff549b357cfc72bccf76fc5a8b8d
   subpackages:
@@ -54,9 +54,9 @@ imports:
 - name: github.com/tealeg/xlsx
   version: 1b556911422e5b0f499a31ddc028ccc5ad288d4c
 - name: github.com/tidwall/gjson
-  version: c34bf81952c067718854115564f8e55978be5e1d
+  version: 5c2e4b382486589dad7478130a364ee2fa6a068b
 - name: github.com/tidwall/match
-  version: 33827db735fff6510490d69a8622612558a557ed
+  version: 1731857f09b1f38450e2c12409748407822dc6be
 - name: github.com/tidwall/pretty
   version: 1166b9ac2b65e46a43d8618d30d1554f4652d49b
 - name: github.com/ugorji/go
@@ -66,7 +66,7 @@ imports:
 - name: github.com/watermint/bwlimit
   version: 8152079585508d4cb67950578277091bb233641b
 - name: go.uber.org/atomic
-  version: 9dc4df04d0d1c39369750a9f6c32c39560672089
+  version: 40ae6a40a970ef4cdbffa7b24b280e316db8accc
 - name: go.uber.org/multierr
   version: 824d08f79702fe5f54aca8400aa0d754318786e7
 - name: go.uber.org/tools
@@ -74,7 +74,7 @@ imports:
   subpackages:
   - update-license
 - name: go.uber.org/zap
-  version: a6015e13fab9b744d96085308ce4e8f11bad1996
+  version: 33e58d4d0120aa28d4df84cd244838c490846c9d
   subpackages:
   - buffer
   - internal/bufferpool
@@ -86,21 +86,25 @@ imports:
   subpackages:
   - golint
 - name: golang.org/x/net
-  version: a882066a44e04a21d46e51451c71e131344e830e
+  version: 03003ca0c849e57b6ea29a4bab8d3cb6e4d568fe
   subpackages:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: 0f29369cfe4552d0e4bcddc57cc75f4d7e672a33
+  version: f42d05182288abf10faef86d16c0d07b8d40ea2d
   subpackages:
   - internal
+- name: golang.org/x/sync
+  version: cd5d95a43a6e21273425c7ae415d3df9ea832eeb
+  subpackages:
+  - semaphore
 - name: golang.org/x/sys
-  version: c1f44814a5cd81a6d1cb589ef1e528bc5d305e07
+  version: bd437916bb0eb726b873ee8e9b2dcf212d32e2fd
   subpackages:
   - unix
   - windows
 - name: golang.org/x/text
-  version: 4b67af870c6ffd08258ef1202f371aebccaf7b68
+  version: 6f44c5a2ea40ee3593d98cdcc905cc1fdaa660e2
   subpackages:
   - encoding
   - encoding/internal
@@ -116,7 +120,7 @@ imports:
   - unicode/norm
   - width
 - name: golang.org/x/tools
-  version: f79515f338230420deefba76e168cfd29f52942d
+  version: 2a6ccf25d769ccc6c0b364ff440915b10af1e3cf
   subpackages:
   - go/analysis
   - go/analysis/passes/inspect
@@ -136,7 +140,7 @@ imports:
   - internal/semver
   - internal/span
 - name: google.golang.org/appengine
-  version: 16bce7d3dc4e458f2f6f56a1349cbbfcdc8a8fdf
+  version: 4a4468ece617fc8205e99368fa2200e9d1fad421
   subpackages:
   - internal
   - internal/base
@@ -148,9 +152,9 @@ imports:
 - name: gopkg.in/go-playground/validator.v8
   version: 5f1438d3fca68893a817e4a66806cea46a9e4ebf
 - name: gopkg.in/yaml.v2
-  version: f90ceb4f409096b60e2e9076b38b304b8246e5fa
+  version: 1f64d6156d11335c3f22d9330b0ad14fc1e789ce
 - name: honnef.co/go/tools
-  version: f51cd49dbadb98d60043a445a177e72f0cc62e6b
+  version: dfe37feaecf7b73ce53f4fb8fa347265a77c6c4b
   subpackages:
   - arg
   - cmd/staticcheck

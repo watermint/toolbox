@@ -1,6 +1,8 @@
 package mo_file_size
 
-import "github.com/watermint/toolbox/domain/model/mo_namespace"
+import (
+	"github.com/watermint/toolbox/domain/model/mo_namespace"
+)
 
 type Size struct {
 	Path            string `json:"path"`
@@ -10,9 +12,9 @@ type Size struct {
 	Size            int64  `json:"size"`
 }
 
-func (z Size) Plus(s Size) Size {
+func (z Size) Plus(path string, s Size) Size {
 	return Size{
-		Path:            z.Path,
+		Path:            path,
 		CountFile:       z.CountFile + s.CountFile,
 		CountFolder:     z.CountFolder + s.CountFolder,
 		CountDescendant: z.CountDescendant + s.CountDescendant,

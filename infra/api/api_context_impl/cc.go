@@ -14,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_upload"
 	"github.com/watermint/toolbox/infra/api/api_upload_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/network/nw_concurrency"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
@@ -53,7 +54,9 @@ func (z *ccImpl) Capture() *zap.Logger {
 
 func (z *ccImpl) DoRequest(req *http.Request) (code int, header http.Header, body []byte, err error) {
 	client := &http.Client{}
+	nw_concurrency.Start()
 	res, err := client.Do(req)
+	nw_concurrency.End()
 
 	if err != nil {
 		return -1, nil, nil, err

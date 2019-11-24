@@ -25,6 +25,8 @@ type SizeVO struct {
 	Peer                app_conn.ConnBusinessFile
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
+	IncludeMemberFolder bool
+	IncludeAppFolder    bool
 	Name                string
 	Depth               int
 }
@@ -35,6 +37,7 @@ type SizeWorker struct {
 	ctl       app_control.Control
 	rep       rp_model.Report
 	vo        *SizeVO
+	k         app_kitchen.Kitchen
 }
 
 func (z *SizeWorker) Exec() error {
@@ -49,24 +52,27 @@ func (z *SizeWorker) Exec() error {
 
 	ctn := z.ctx.WithPath(api_context.Namespace(z.namespace.NamespaceId))
 
-	sizes, err := uc_file_size.New(ctn).Size(mo_path.NewPath("/"), z.vo.Depth)
-	if err != nil {
-		l.Debug("Unable to traverse", zap.Error(err))
-		ui.Error("recipe.team.namespace.file.size.err.scan_failed",
-			app_msg.P{
-				"NamespaceName": z.namespace.Name,
-				"NamespaceId":   z.namespace.NamespaceId,
-				"Error":         err.Error(),
-			},
-		)
-		return err
+	var lastErr error
+	sizes, errs := uc_file_size.New(ctn, z.k).Size(mo_path.NewPath("/"), z.vo.Depth)
+
+	for p, size := range sizes {
+		if err, ok := errs[p]; ok {
+			l.Debug("Unable to traverse", zap.Error(err))
+			ui.Error("recipe.team.namespace.file.size.err.scan_failed",
+				app_msg.P{
+					"NamespaceName": z.namespace.Name,
+					"NamespaceId":   z.namespace.NamespaceId,
+					"Error":         err.Error(),
+				},
+			)
+			lastErr = err
+			z.rep.Failure(err, z.namespace)
+		} else {
+			z.rep.Success(z.namespace, mo_file_size.NewNamespaceSize(z.namespace, size))
+		}
 	}
 
-	for _, size := range sizes {
-		z.rep.Row(mo_file_size.NewNamespaceSize(z.namespace, size))
-	}
-
-	return nil
+	return lastErr
 }
 
 const (
@@ -78,7 +84,19 @@ type Size struct {
 
 func (z *Size) Reports() []rp_spec.ReportSpec {
 	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportSize, &mo_file_size.NamespaceSize{}),
+		rp_spec_impl.Spec(
+			reportSize,
+			rp_model.TransactionHeader(
+				&mo_namespace.Namespace{},
+				&mo_file_size.NamespaceSize{},
+			),
+			rp_model.HiddenColumns(
+				"result.namespace_name",
+				"result.namespace_id",
+				"result.namespace_type",
+				"result.owner_team_member_id",
+			),
+		),
 	}
 }
 
@@ -86,13 +104,17 @@ func (z *Size) Requirement() app_vo.ValueObject {
 	return &SizeVO{
 		IncludeSharedFolder: true,
 		IncludeTeamFolder:   true,
-		Depth:               2,
+		Depth:               1,
 	}
 }
 
 func (z *Size) Exec(k app_kitchen.Kitchen) error {
 	l := k.Log()
 	vo := k.Value().(*SizeVO)
+
+	if vo.Depth < 1 {
+		return errors.New("depth should grater than 1")
+	}
 
 	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
@@ -126,6 +148,10 @@ func (z *Size) Exec(k app_kitchen.Kitchen) error {
 			process = true
 		case vo.IncludeSharedFolder && namespace.NamespaceType == "shared_folder":
 			process = true
+		case vo.IncludeMemberFolder && namespace.NamespaceType == "team_member_folder":
+			process = true
+		case vo.IncludeAppFolder && namespace.NamespaceType == "app_folder":
+			process = true
 		}
 		if !process {
 			l.Debug("Skip", zap.Any("namespace", namespace))
@@ -137,6 +163,7 @@ func (z *Size) Exec(k app_kitchen.Kitchen) error {
 		}
 
 		q.Enqueue(&SizeWorker{
+			k:         k,
 			namespace: namespace,
 			ctx:       cta,
 			rep:       rep,
@@ -150,7 +177,8 @@ func (z *Size) Exec(k app_kitchen.Kitchen) error {
 
 func (z *Size) Test(c app_control.Control) error {
 	lvo := &SizeVO{
-		Name: qt_recipe.TestTeamFolderName,
+		Name:              qt_recipe.TestTeamFolderName,
+		IncludeTeamFolder: false,
 	}
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
 		return qt_recipe.NotEnoughResource()
@@ -159,10 +187,10 @@ func (z *Size) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "namespace_size", func(cols map[string]string) error {
-		if _, ok := cols["namespace_id"]; !ok {
+		if _, ok := cols["input.namespace_id"]; !ok {
 			return errors.New("`namespace_id` is not found")
 		}
-		if _, ok := cols["size"]; !ok {
+		if _, ok := cols["result.size"]; !ok {
 			return errors.New("`size` is not found")
 		}
 		return nil

@@ -55,7 +55,9 @@ At second run, please hit button "Open" on the dialogue.
 
 | Option                   | Description                                                       | Default   |
 |--------------------------|-------------------------------------------------------------------|-----------|
-| `-depth`                 | Report entry for all files and directories depth directories deep | 2         |
+| `-depth`                 | Report entry for all files and directories depth directories deep | 1         |
+| `-include-app-folder`    | If true, include app folders                                      | false     |
+| `-include-member-folder` | if true, include team member folders                              | false     |
 | `-include-shared-folder` | If true, include shared folders                                   | true      |
 | `-include-team-folder`   | If true, include team folders                                     | true      |
 | `-name`                  | List only for the folder matched to the name                      |           |
@@ -121,15 +123,21 @@ Report files are generated in `namespace_size.csv`, `namespace_size.xlsx` and `n
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
-| Column               | Description                                                                                |
-|----------------------|--------------------------------------------------------------------------------------------|
-| namespace_name       | The name of this namespace                                                                 |
-| namespace_id         | The ID of this namespace.                                                                  |
-| namespace_type       | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
-| owner_team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
-| path                 | Path to the folder                                                                         |
-| count_file           | Number of files under the folder                                                           |
-| count_folder         | Number of folders under the folder                                                         |
-| count_descendant     | Number of files and folders under the folder                                               |
-| size                 | Size of the folder                                                                         |
+| Column                      | Description                                                                                |
+|-----------------------------|--------------------------------------------------------------------------------------------|
+| status                      | Status of the operation                                                                    |
+| reason                      | Reason of failure or skipped operation                                                     |
+| input.name                  | The name of this namespace                                                                 |
+| input.namespace_id          | The ID of this namespace.                                                                  |
+| input.namespace_type        | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
+| input.team_member_id        | If this is a team member or app folder, the ID of the owning team member.                  |
+| result.namespace_name       | The name of this namespace                                                                 |
+| result.namespace_id         | The ID of this namespace.                                                                  |
+| result.namespace_type       | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
+| result.owner_team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
+| result.path                 | Path to the folder                                                                         |
+| result.count_file           | Number of files under the folder                                                           |
+| result.count_folder         | Number of folders under the folder                                                         |
+| result.count_descendant     | Number of files and folders under the folder                                               |
+| result.size                 | Size of the folder                                                                         |
 

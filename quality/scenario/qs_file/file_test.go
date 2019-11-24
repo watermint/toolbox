@@ -277,7 +277,7 @@ func TestFileUploadScenario(t *testing.T) {
 			//TODO: verify content
 		}
 
-		// `file copy`
+		// `file merge`
 		{
 			fc, err := app_control_impl.Fork(ctl, "file-merge")
 			if err != nil {

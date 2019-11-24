@@ -44,7 +44,7 @@ type LimitState interface {
 	// Update retry after, if Retry-After header present in the response
 	UpdateRetryAfter(hash, endpoint string, retryAfter time.Time)
 
-	// Wait if required. Waits for Retry-After.
+	// Wait if required. Waits for Max(Retry-After, RetryActionWait).
 	WaitIfRequired(hash, endpoint string)
 }
 
@@ -191,6 +191,7 @@ func (z *limitStateImpl) AddError(hash, endpoint string, err error) (abort bool)
 		zap.Bool("purgeLastError", purgeLastError),
 		zap.String("wait", wait.String()),
 	)
+	z.UpdateRetryAfter(hash, endpoint, time.Now().Add(wait))
 	time.Sleep(wait)
 
 	return abort
@@ -218,7 +219,7 @@ func (z *limitStateImpl) WaitIfRequired(hash, endpoint string) {
 	if ok {
 		dur := retryAfter.Sub(time.Now())
 		if dur > 0 {
-			l.Debug("Waiting for Retry-After",
+			l.Debug("Waiting",
 				zap.String("retryAfter", retryAfter.String()),
 				zap.String("duration", dur.String()),
 			)

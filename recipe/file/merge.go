@@ -62,5 +62,5 @@ func (z *Merge) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Merge) Test(c app_control.Control) error {
-	return qt_recipe.ImplementMe()
+	return qt_recipe.ScenarioTest()
 }

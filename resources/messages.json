@@ -312,6 +312,8 @@
   "recipe.team.namespace.file.size_vo.flag.depth": "Report entry for all files and directories depth directories deep",
   "recipe.team.namespace.file.size_vo.flag.include_shared_folder": "If true, include shared folders",
   "recipe.team.namespace.file.size_vo.flag.include_team_folder": "If true, include team folders",
+  "recipe.team.namespace.file.size_vo.flag.include_app_folder": "If true, include app folders",
+  "recipe.team.namespace.file.size_vo.flag.include_member_folder": "if true, include team member folders",
   "recipe.team.namespace.file.size_vo.flag.name": "List only for the folder matched to the name",
   "recipe.team.namespace.file.size_vo.flag.peer": "Account alias",
   "recipe.team.namespace.file.size.err.scan_failed": "Failed to scan namespace: {{.NamespaceName}} ({{.NamespaceId}}), caused by an error: {{.Error}}",

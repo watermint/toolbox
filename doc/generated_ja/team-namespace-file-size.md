@@ -53,13 +53,15 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション               | 説明                                             | デフォルト |
-|--------------------------|--------------------------------------------------|------------|
-| `-depth`                 | フォルダ階層数の指定                             | 2          |
-| `-include-shared-folder` | 指定された場合、共有フォルダを含めます           | true       |
-| `-include-team-folder`   | 指定された場合、チームフォルダを含めます         | true       |
-| `-name`                  | 指定された名前に一致するフォルダのみを一覧します |            |
-| `-peer`                  | アカウントの別名                                 | {default}  |
+| オプション               | 説明                                                                                | デフォルト |
+|--------------------------|-------------------------------------------------------------------------------------|------------|
+| `-depth`                 | フォルダ階層数の指定                                                                | 1          |
+| `-include-app-folder`    | {"key":"recipe.team.namespace.file.size_vo.flag.include_app_folder","params":{}}    | false      |
+| `-include-member-folder` | {"key":"recipe.team.namespace.file.size_vo.flag.include_member_folder","params":{}} | false      |
+| `-include-shared-folder` | 指定された場合、共有フォルダを含めます                                              | true       |
+| `-include-team-folder`   | 指定された場合、チームフォルダを含めます                                            | true       |
+| `-name`                  | 指定された名前に一致するフォルダのみを一覧します                                    |            |
+| `-peer`                  | アカウントの別名                                                                    | {default}  |
 
 Common options:
 
@@ -121,15 +123,21 @@ Report files are generated in `namespace_size.csv`, `namespace_size.xlsx` and `n
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
-| 列                   | 説明                                                                                   |
-|----------------------|----------------------------------------------------------------------------------------|
-| namespace_name       | 名前空間の名称                                                                         |
-| namespace_id         | 名前空間ID                                                                             |
-| namespace_type       | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| owner_team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
-| path                 | フォルダへのパス                                                                       |
-| count_file           | このフォルダに含まれるファイル数                                                       |
-| count_folder         | このフォルダに含まれるフォルダ数                                                       |
-| count_descendant     | このフォルダに含まれるファイル・フォルダ数                                             |
-| size                 | フォルダのサイズ                                                                       |
+| 列                          | 説明                                                                                   |
+|-----------------------------|----------------------------------------------------------------------------------------|
+| status                      | Status of the operation                                                                |
+| reason                      | Reason of failure or skipped operation                                                 |
+| input.name                  | 名前空間の名称                                                                         |
+| input.namespace_id          | 名前空間ID                                                                             |
+| input.namespace_type        | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
+| input.team_member_id        | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
+| result.namespace_name       | 名前空間の名称                                                                         |
+| result.namespace_id         | 名前空間ID                                                                             |
+| result.namespace_type       | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
+| result.owner_team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
+| result.path                 | フォルダへのパス                                                                       |
+| result.count_file           | このフォルダに含まれるファイル数                                                       |
+| result.count_folder         | このフォルダに含まれるフォルダ数                                                       |
+| result.count_descendant     | このフォルダに含まれるファイル・フォルダ数                                             |
+| result.size                 | フォルダのサイズ                                                                       |
 

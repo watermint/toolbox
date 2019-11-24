@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_run_impl"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
+	"github.com/watermint/toolbox/infra/network/nw_concurrency"
 	"github.com/watermint/toolbox/infra/network/nw_diag"
 	"github.com/watermint/toolbox/infra/network/nw_proxy"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
@@ -191,10 +192,14 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 
 	// Set bandwidth
 	nw_bandwidth.SetBandwidth(com.Bandwidth)
+	nw_concurrency.SetConcurrency(com.Concurrency)
 
 	// Apply profiler
 	if com.Debug {
-		defer profile.Start(profile.MemProfile).Stop()
+		defer profile.Start(
+			profile.ProfilePath(ctl.Workspace().Log()),
+			profile.MemProfile,
+		).Stop()
 	}
 
 	// Run

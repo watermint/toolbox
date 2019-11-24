@@ -26,6 +26,10 @@ type pathImpl struct {
 	path string
 }
 
+func (z *pathImpl) String() string {
+	return z.path
+}
+
 func (z *pathImpl) ChildPath(name string) Path {
 	return NewPathDisplay(z.path + "/" + name)
 }

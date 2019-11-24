@@ -17,6 +17,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -149,7 +150,7 @@ func (z *CallerImpl) handleRetryAfterResponse(retryAfterSec int) bool {
 }
 
 func (z *CallerImpl) handleResponse(apiResImpl *ResponseImpl) (apiRes api_rpc.Response, err error) {
-	log := z.ctx.Log().With(zap.String("endpoint", z.endpoint), zap.String("Routine", ut_runtime.GetGoRoutineName()))
+	l := z.ctx.Log().With(zap.String("endpoint", z.endpoint), zap.String("Routine", ut_runtime.GetGoRoutineName()))
 	//if app.Root().IsDebug() {
 	//	log.Debug("Response", zap.Int("code", apiResImpl.resStatusCode), zap.String("body", apiResImpl.resBodyString))
 	//}
@@ -159,34 +160,43 @@ func (z *CallerImpl) handleResponse(apiResImpl *ResponseImpl) (apiRes api_rpc.Re
 		return apiResImpl, nil
 
 	case ErrorBadInputParam: // Bad input param
-		log.Debug("Bad input param", zap.String("Error", apiResImpl.resBodyString))
+		// In case of the server returned unexpected HTML response
+		// Response body should be plain text
+		if strings.HasPrefix(apiResImpl.resBodyString, "<!DOCTYPE html>") {
+			l.Debug("Bad response from server, assume that can retry", zap.String("response", apiResImpl.resBodyString))
+
+			// add error & retry
+			nw_ratelimit.AddError(z.ctx.Hash(), z.endpoint, errors.New("bad response from server: res_code 400 with html body"))
+			return z.Call()
+		}
+		l.Debug("Bad input param", zap.String("Error", apiResImpl.resBodyString))
 		return nil, api_rpc.ParseApiError(apiResImpl.resBodyString)
 
 	case ErrorBadOrExpiredToken: // Bad or expired token
-		log.Debug("Bad or expired token", zap.String("Error", apiResImpl.resBodyString))
+		l.Debug("Bad or expired token", zap.String("Error", apiResImpl.resBodyString))
 		return nil, api_rpc.ParseApiError(apiResImpl.resBodyString)
 
 	case ErrorAccessError: // Access Error
-		log.Debug("Access Error", zap.String("Error", apiResImpl.resBodyString))
+		l.Debug("Access Error", zap.String("Error", apiResImpl.resBodyString))
 		return nil, api_rpc.ParseAccessError(apiResImpl.resBodyString)
 
 	case ErrorEndpointSpecific: // Endpoint specific
-		log.Debug("Endpoint specific error", zap.String("Error", apiResImpl.resBodyString))
+		l.Debug("Endpoint specific error", zap.String("Error", apiResImpl.resBodyString))
 		return nil, api_rpc.ParseApiError(apiResImpl.resBodyString)
 
 	case ErrorNoPermission: // No permission
-		log.Debug("No Permission", zap.String("Error", apiResImpl.resBodyString))
+		l.Debug("No Permission", zap.String("Error", apiResImpl.resBodyString))
 		return nil, api_rpc.ParseAccessError(apiResImpl.resBodyString)
 
 	case ErrorRateLimit: // Rate limit
 		retryAfter := apiResImpl.resHeader.Get(api_rpc.ResHeaderRetryAfter)
 		retryAfterSec, err := strconv.Atoi(retryAfter)
 		if err != nil {
-			log.Debug("Unable to parse header for RateLimit", zap.String("header", retryAfter), zap.Error(err))
+			l.Debug("Unable to parse header for RateLimit", zap.String("header", retryAfter), zap.Error(err))
 			return nil, errors.New("unknown retry param")
 		}
 
-		log.Debug("Rate limit", zap.Int("retryAfterSec", retryAfterSec))
+		l.Debug("Rate limit", zap.Int("retryAfterSec", retryAfterSec))
 		if z.handleRetryAfterResponse(retryAfterSec) {
 			// Retry
 			return z.Call()
@@ -196,11 +206,11 @@ func (z *CallerImpl) handleResponse(apiResImpl *ResponseImpl) (apiRes api_rpc.Re
 	}
 
 	if int(apiResImpl.resStatusCode/100) == 5 {
-		log.Debug("server error", zap.Int("status_code", apiResImpl.resStatusCode), zap.String("body", apiResImpl.resBodyString))
+		l.Debug("server error", zap.Int("status_code", apiResImpl.resStatusCode), zap.String("body", apiResImpl.resBodyString))
 		return z.ensureRetryOnError(api_rpc.ServerError{StatusCode: apiResImpl.resStatusCode})
 	}
 
-	log.Warn("Unknown or server error", zap.Int("Code", apiResImpl.resStatusCode), zap.String("Body", apiResImpl.resBodyString))
+	l.Warn("Unknown or server error", zap.Int("Code", apiResImpl.resStatusCode), zap.String("Body", apiResImpl.resBodyString))
 	return nil, err
 }
 
