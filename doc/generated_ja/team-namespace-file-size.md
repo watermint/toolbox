@@ -140,4 +140,5 @@ like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_000
 | result.count_folder         | このフォルダに含まれるフォルダ数                                                       |
 | result.count_descendant     | このフォルダに含まれるファイル・フォルダ数                                             |
 | result.size                 | フォルダのサイズ                                                                       |
+| result.api_complexity       | {"key":"domain.model.mo_file_size.namespacesize.api_complexity.desc","params":{}}      |
 

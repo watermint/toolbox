@@ -179,6 +179,7 @@ func (z *Size) Test(c app_control.Control) error {
 	lvo := &SizeVO{
 		Name:              qt_recipe.TestTeamFolderName,
 		IncludeTeamFolder: false,
+		Depth:             1,
 	}
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
 		return qt_recipe.NotEnoughResource()

@@ -10,6 +10,10 @@ import (
 	"sync"
 )
 
+const (
+	apiComplexityThreshold = 10_000
+)
+
 type Scale interface {
 	Size(path mo_path.Path, depth int) (sizes map[mo_path.Path]mo_file_size.Size, errors map[mo_path.Path]error)
 }
@@ -90,6 +94,14 @@ func (z *scaleWorker) Exec() error {
 		}
 		return err
 	}
+	numEntries := len(entries)
+
+	if numEntries >= apiComplexityThreshold {
+		current.ApiComplexity = int64(numEntries)
+	} else {
+		current.ApiComplexity = 1
+	}
+
 	q := z.k.NewQueue()
 	for _, entry := range entries {
 		current.CountDescendant++

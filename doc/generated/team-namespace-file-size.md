@@ -140,4 +140,5 @@ like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_000
 | result.count_folder         | Number of folders under the folder                                                         |
 | result.count_descendant     | Number of files and folders under the folder                                               |
 | result.size                 | Size of the folder                                                                         |
+| result.api_complexity       | Folder complexity index for API operations                                                 |
 

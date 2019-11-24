@@ -503,6 +503,7 @@
   "domain.model.mo_file_size.namespacesize.owner_team_member_id.desc": "If this is a team member or app folder, the ID of the owning team member.",
   "domain.model.mo_file_size.namespacesize.path.desc": "Path to the folder",
   "domain.model.mo_file_size.namespacesize.size.desc": "Size of the folder",
+  "domain.model.mo_file_size.namespacesize.api_complexity.desc": "Folder complexity index for API operations",
   "domain.model.mo_file.concreteentry.client_modified.desc": "For files, this is the modification time set by the desktop client when the file was added to Dropbox.",
   "domain.model.mo_file.concreteentry.content_hash.desc": "A hash of the file content.",
   "domain.model.mo_file.concreteentry.id.desc": "A unique identifier for the file.",
