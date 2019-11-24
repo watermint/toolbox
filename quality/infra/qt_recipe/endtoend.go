@@ -3,6 +3,7 @@ package qt_recipe
 import (
 	"encoding/csv"
 	rice "github.com/GeertJohan/go.rice"
+	"github.com/pkg/profile"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
@@ -142,8 +143,15 @@ func TestRecipe(t *testing.T, re app_recipe.Recipe) {
 	TestWithControl(t, func(ctl app_control.Control) {
 		l := ctl.Log()
 		l.Debug("Start testing")
+		pr := profile.Start(
+			profile.ProfilePath(ctl.Workspace().Log()),
+			profile.MemProfile,
+		)
 
 		err := re.Test(ctl)
+
+		pr.Stop()
+
 		if err == nil {
 			return
 		}
