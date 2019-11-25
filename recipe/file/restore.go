@@ -131,7 +131,7 @@ func (z *Restore) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Restore) Test(c app_control.Control) error {
-	return qt_recipe.ScenarioTest()
+	return qt_recipe.ImplementMe()
 }
 
 func (z *Restore) Reports() []rp_spec.ReportSpec {
