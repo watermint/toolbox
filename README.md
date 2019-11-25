@@ -59,6 +59,7 @@ Available commands:
 | [file merge](doc/generated/file-merge.md)                                       | Merge paths                                                   |
 | [file move](doc/generated/file-move.md)                                         | Move files                                                    |
 | [file replication](doc/generated/file-replication.md)                           | Replicate file content to the other account                   |
+| [file restore](doc/generated/file-restore.md)                                   | Restore files under given path (experimental)                 |
 | [file sync preflight up](doc/generated/file-sync-preflight-up.md)               | Upstream sync preflight check                                 |
 | [file sync up](doc/generated/file-sync-up.md)                                   | Upstream sync with Dropbox                                    |
 | [file upload](doc/generated/file-upload.md)                                     | Upload file                                                   |

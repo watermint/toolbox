@@ -59,6 +59,7 @@ Available commands:
 | [file merge](doc/generated_ja/file-merge.md)                                       | フォルダを統合します                                           |
 | [file move](doc/generated_ja/file-move.md)                                         | ファイルを移動します                                           |
 | [file replication](doc/generated_ja/file-replication.md)                           | ファイルコンテンツを他のアカウントに複製します                 |
+| [file restore](doc/generated_ja/file-restore.md)                                   | {"key":"recipe.file.restore.title","params":{}}                |
 | [file sync preflight up](doc/generated_ja/file-sync-preflight-up.md)               | 上り方向同期のための事前チェックを実施します                   |
 | [file sync up](doc/generated_ja/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                  |
 | [file upload](doc/generated_ja/file-upload.md)                                     | ファイルのアップロード                                         |

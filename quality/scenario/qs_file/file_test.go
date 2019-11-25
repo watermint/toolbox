@@ -277,6 +277,46 @@ func TestFileUploadScenario(t *testing.T) {
 			//TODO: verify content
 		}
 
+		// `file delete`
+		{
+			fc, err := app_control_impl.Fork(ctl, "file-delete")
+			if err != nil {
+				return
+			}
+			vo := &file.DeleteVO{
+				Path: dbxBase + "/file-move/987",
+			}
+			r := file.Delete{}
+			if !qt_recipe.ApplyTestPeers(fc, vo) {
+				l.Warn("Skip: No conn resource")
+				return
+			}
+			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+				t.Error(err)
+			}
+			// TODO: verify deletion
+		}
+
+		// `file restore`
+		{
+			fc, err := app_control_impl.Fork(ctl, "file-restore")
+			if err != nil {
+				return
+			}
+			vo := &file.RestoreVO{
+				Path: dbxBase + "/file-move",
+			}
+			r := file.Restore{}
+			if !qt_recipe.ApplyTestPeers(fc, vo) {
+				l.Warn("Skip: No conn resource")
+				return
+			}
+			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+				t.Error(err)
+			}
+			// TODO: verify deletion
+		}
+
 		// `file merge`
 		{
 			fc, err := app_control_impl.Fork(ctl, "file-merge")
@@ -299,9 +339,9 @@ func TestFileUploadScenario(t *testing.T) {
 			//TODO: verify content
 		}
 
-		// `file delete`
+		// `file delete` for clean up
 		{
-			fc, err := app_control_impl.Fork(ctl, "file-delete")
+			fc, err := app_control_impl.Fork(ctl, "file-delete-clean-up")
 			if err != nil {
 				return
 			}

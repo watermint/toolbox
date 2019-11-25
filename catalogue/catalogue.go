@@ -49,6 +49,7 @@ func Recipes() []app_recipe.Recipe {
 		&file.Merge{},
 		&file.Move{},
 		&file.Replication{},
+		&file.Restore{},
 		&file.Upload{},
 		&filecompare.Account{},
 		&filecompare.Local{},

@@ -14,6 +14,7 @@ const (
 	LastErrorRecycleTimeMultiplier = 100
 	ShortWait                      = 3 * time.Second
 	LongWait                       = 1 * time.Minute
+	LongWaitAlertThreshold         = 3 * time.Minute
 )
 
 const (
@@ -218,6 +219,9 @@ func (z *limitStateImpl) WaitIfRequired(hash, endpoint string) {
 
 	if ok {
 		dur := retryAfter.Sub(time.Now())
+		if dur > LongWaitAlertThreshold {
+			l.Warn("Waiting for server rate limit", zap.String("duration", dur.String()))
+		}
 		if dur > 0 {
 			l.Debug("Waiting",
 				zap.String("retryAfter", retryAfter.String()),
