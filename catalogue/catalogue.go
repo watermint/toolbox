@@ -45,6 +45,7 @@ func Recipes() []app_recipe.Recipe {
 		&devtest.Resources{},
 		&file.Copy{},
 		&file.Delete{},
+		&file.Download{},
 		&file.List{},
 		&file.Merge{},
 		&file.Move{},

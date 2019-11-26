@@ -125,7 +125,7 @@ func (z retryImpl) Call(ctx api_context.Context, req api_request.Request) (res a
 		return nil, api_error.ParseAccessError(res.ResultString())
 
 	case api_response.ErrorRateLimit: // Rate limit
-		retryAfter := res.Header(api_request.ResHeaderRetryAfter)
+		retryAfter := res.Header(api_response.ResHeaderRetryAfter)
 		retryAfterSec, err := strconv.Atoi(retryAfter)
 		if err != nil {
 			l.Debug("Unable to parse header for RateLimit",

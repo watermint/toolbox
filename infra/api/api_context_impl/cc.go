@@ -16,6 +16,7 @@ import (
 	"io"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 const (
@@ -39,6 +40,8 @@ type ccImpl struct {
 	asAdminId      string
 	basePath       api_context.PathRoot
 	noRetryOnError bool
+	hashComputed   string
+	hashMutex      sync.Mutex
 }
 
 func (z *ccImpl) Token() api_auth.TokenContainer {
@@ -81,6 +84,17 @@ func (z *ccImpl) Upload(endpoint string, content io.Reader) api_request.Request 
 		z,
 		endpoint,
 		content,
+		z.asMemberId,
+		z.asAdminId,
+		z.basePath,
+		z.tokenContainer,
+	)
+}
+
+func (z *ccImpl) Download(endpoint string) api_request.Request {
+	return api_request_impl.NewDownloadRequest(
+		z,
+		endpoint,
 		z.asMemberId,
 		z.asAdminId,
 		z.basePath,
@@ -137,6 +151,12 @@ func (z *ccImpl) NoRetryOnError() api_context.Context {
 }
 
 func (z *ccImpl) Hash() string {
+	z.hashMutex.Lock()
+	defer z.hashMutex.Unlock()
+
+	if z.hashComputed != "" {
+		return z.hashComputed
+	}
 	seeds := []string{
 		"m",
 		z.asMemberId,
@@ -157,5 +177,6 @@ func (z *ccImpl) Hash() string {
 	}
 
 	h := sha256.Sum224([]byte(strings.Join(seeds, ",")))
-	return fmt.Sprintf("%x", h)
+	z.hashComputed = fmt.Sprintf("%x", h)
+	return z.hashComputed
 }

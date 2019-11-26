@@ -15,6 +15,7 @@ type Context interface {
 	List(endpoint string) api_list.List
 	Async(endpoint string) api_async.Async
 	Upload(endpoint string, content io.Reader) api_request.Request
+	Download(endpoint string) api_request.Request
 
 	AsMemberId(teamMemberId string) Context
 	AsAdminId(teamMemberId string) Context

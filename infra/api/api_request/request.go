@@ -12,11 +12,10 @@ const (
 	ReqHeaderSelectAdmin   = "Dropbox-API-Select-Admin"
 	ReqHeaderPathRoot      = "Dropbox-API-Path-Root"
 	ReqHeaderArg           = "Dropbox-API-Arg"
-	ResHeaderRetryAfter    = "Retry-After"
 )
 
 type Request interface {
-	// Request param as string.
+	// Request param as string. Might be empty string until Make call.
 	ParamString() string
 
 	// Param
@@ -28,13 +27,13 @@ type Request interface {
 	// Endpoint.
 	Endpoint() string
 
-	// Request url.
+	// Request url. Might be empty string until Make call.
 	Url() string
 
-	// Headers
+	// Headers. Might be empty map until Make call.
 	Headers() map[string]string
 
-	// Method
+	// Method. Might be empty string until Make call.
 	Method() string
 
 	// Make request

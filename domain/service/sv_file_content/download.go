@@ -1,12 +1,50 @@
 package sv_file_content
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
-	"io"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"go.uber.org/zap"
+	"os"
 )
 
 type Download interface {
-	Download(path mo_path.Path, out io.Writer) (entry mo_file.Entry, err error)
-	Url(path mo_path.Path) (entry mo_file.Entry, url string, err error)
+	Download(path mo_path.Path) (entry mo_file.Entry, localPath string, err error)
+}
+
+func NewDownload(ctx api_context.Context) Download {
+	return &downloadImpl{ctx: ctx}
+}
+
+type downloadImpl struct {
+	ctx api_context.Context
+}
+
+func (z *downloadImpl) Download(path mo_path.Path) (entry mo_file.Entry, localPath string, err error) {
+	l := z.ctx.Log()
+	p := struct {
+		Path string `json:"path"`
+	}{
+		Path: path.Path(),
+	}
+
+	res, err := z.ctx.Download("files/download").Param(p).Call()
+	if err != nil {
+		return nil, "", err
+	}
+	if !res.IsContentDownloaded() {
+		return nil, "", errors.New("content was not downloaded")
+	}
+	entry = &mo_file.Metadata{}
+	if err := res.Model(entry); err != nil {
+		// Try remove downloaded file
+		if removeErr := os.Remove(res.ContentFilePath()); removeErr != nil {
+			l.Debug("Unable to remove downloaded file", zap.Error(err), zap.String("path", res.ContentFilePath()))
+			// fall through
+		}
+
+		return nil, "", err
+	}
+	return entry, res.ContentFilePath(), nil
 }
