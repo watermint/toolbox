@@ -18,6 +18,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/infra/util/ut_memory"
 	"github.com/watermint/toolbox/quality/infra/qt_control_impl"
 	"go.uber.org/zap"
 	"io"
@@ -151,6 +152,7 @@ func TestRecipe(t *testing.T, re app_recipe.Recipe) {
 		err := re.Test(ctl)
 
 		pr.Stop()
+		ut_memory.DumpStats(l)
 
 		if err == nil {
 			return

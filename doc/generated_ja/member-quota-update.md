@@ -120,8 +120,8 @@ like `quota_update_0000.xlsx`, `quota_update_0001.xlsx`, `quota_update_0002.xlsx
 
 | 列           | 説明                                                                |
 |--------------|---------------------------------------------------------------------|
-| status       | Status of the operation                                             |
-| reason       | Reason of failure or skipped operation                              |
+| status       | 処理の状態                                                          |
+| reason       | 失敗またはスキップの理由                                            |
 | input.email  | ユーザーのメールアドレス                                            |
 | input.quota  | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
 | result.email | ユーザーのメールアドレス                                            |

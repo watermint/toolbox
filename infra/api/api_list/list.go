@@ -2,7 +2,7 @@ package api_list
 
 import (
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/infra/api/api_rpc"
+	"github.com/watermint/toolbox/infra/api/api_response"
 )
 
 type List interface {
@@ -11,7 +11,7 @@ type List interface {
 	UseHasMore(use bool) List
 	ResultTag(tag string) List
 	OnFailure(failure func(err error) error) List
-	OnResponse(response func(res api_rpc.Response) error) List
+	OnResponse(response func(res api_response.Response) error) List
 	OnEntry(entry func(entry ListEntry) error) List
 	Call() (err error)
 }

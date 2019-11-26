@@ -1,26 +1,76 @@
-package api_rpc_impl
+package api_response_impl
 
 import (
 	"errors"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
+	"io/ioutil"
 	"net/http"
 )
 
+func New(ctx api_context.Context, res *http.Response) (api_response.Response, error) {
+	l := ctx.Log()
+	rr := &ResponseImpl{
+		res: res,
+	}
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		l.Debug("Unable to read body", zap.Error(err))
+		return nil, err
+	}
+	rr.resBody = body
+
+	if body == nil {
+		rr.resBodyString = ""
+	} else {
+		rr.resBodyString = string(body)
+	}
+
+	return rr, nil
+}
+
 type ResponseImpl struct {
-	resHeader     http.Header
+	res           *http.Response
 	resBody       []byte
 	resBodyString string
-	resStatusCode int
+}
+
+func (z *ResponseImpl) Headers() map[string]string {
+	hdrs := make(map[string]string)
+	for k := range z.res.Header {
+		hdrs[k] = z.res.Header.Get(k)
+	}
+	return hdrs
+}
+
+func (z *ResponseImpl) IsContentDownloaded() bool {
+	panic("implement me")
+}
+
+func (z *ResponseImpl) ContentFilePath() string {
+	panic("implement me")
+}
+
+func (z *ResponseImpl) Header(key string) string {
+	return z.res.Header.Get(key)
+}
+
+func (z *ResponseImpl) ResultString() string {
+	if z.resBody == nil {
+		return ""
+	}
+	return z.resBodyString
 }
 
 func (z *ResponseImpl) StatusCode() int {
-	return z.resStatusCode
+	return z.res.StatusCode
 }
 
-func (z *ResponseImpl) Body() (body string, err error) {
+func (z *ResponseImpl) Result() (body string, err error) {
 	if z.resBody == nil {
 		return "", errors.New("no body")
 	}
@@ -28,7 +78,7 @@ func (z *ResponseImpl) Body() (body string, err error) {
 }
 
 func (z *ResponseImpl) Json() (res gjson.Result, err error) {
-	body, err := z.Body()
+	body, err := z.Result()
 	if err != nil {
 		app_root.Log().Debug("Response does not have body", zap.Error(err))
 		return gjson.Parse(`{}`), err
@@ -53,7 +103,7 @@ func (z *ResponseImpl) JsonArrayFirst() (res gjson.Result, err error) {
 }
 
 func (z *ResponseImpl) Model(v interface{}) error {
-	body, err := z.Body()
+	body, err := z.Result()
 	if err != nil {
 		return err
 	}

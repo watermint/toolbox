@@ -121,10 +121,10 @@ like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...
 
 | 列                             | 説明                                                                                       |
 |--------------------------------|--------------------------------------------------------------------------------------------|
-| status                         | Status of the operation                                                                    |
-| reason                         | Reason of failure or skipped operation                                                     |
+| status                         | 処理の状態                                                                                 |
+| reason                         | 失敗またはスキップの理由                                                                   |
 | input.file                     | ローカルファイルのパス                                                                     |
-| input.size                     | Local file size                                                                            |
+| input.size                     | ローカルファイルのサイズ                                                                   |
 | result.id                      | ファイルへの一意なID                                                                       |
 | result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
 | result.name                    | 名称                                                                                       |
@@ -136,7 +136,7 @@ like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...
 | result.size                    | ファイルサイズ(バイト単位)                                                                 |
 | result.content_hash            | ファイルコンテンツのハッシュ                                                               |
 | result.shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| result.parent_shared_folder_id |                                                                                            |
+| result.parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
 
 ## Report: summary 
 
@@ -144,13 +144,13 @@ Report files are generated in `summary.csv`, `summary.xlsx` and `summary.json` f
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
 
-| 列               | 説明                                                |
-|------------------|-----------------------------------------------------|
-| num_bytes        | Total upload size (Bytes)                           |
-| num_files_error  | The number of files failed or got an error.         |
-| num_files_upload | The number of files uploaded or to upload.          |
-| num_files_skip   | The number of files skipped or to skip.             |
-| num_api_call     | The number of estimated upload API call for upload. |
+| 列               | 説明                                             |
+|------------------|--------------------------------------------------|
+| num_bytes        | 合計アップロードサイズ (バイト)                  |
+| num_files_error  | 失敗またはエラーが発生したファイル数.            |
+| num_files_upload | アップロード済みまたはアップロード対象ファイル数 |
+| num_files_skip   | スキップ対象またはスキップ予定のファイル数       |
+| num_api_call     | この処理によって消費される見積アップロードAPI数  |
 
 ## Report: upload 
 
@@ -160,10 +160,10 @@ like `upload_0000.xlsx`, `upload_0001.xlsx`, `upload_0002.xlsx`...
 
 | 列                             | 説明                                                                                       |
 |--------------------------------|--------------------------------------------------------------------------------------------|
-| status                         | Status of the operation                                                                    |
-| reason                         | Reason of failure or skipped operation                                                     |
+| status                         | 処理の状態                                                                                 |
+| reason                         | 失敗またはスキップの理由                                                                   |
 | input.file                     | ローカルファイルのパス                                                                     |
-| input.size                     | Local file size                                                                            |
+| input.size                     | ローカルファイルのサイズ                                                                   |
 | result.id                      | ファイルへの一意なID                                                                       |
 | result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
 | result.name                    | 名称                                                                                       |
@@ -175,5 +175,5 @@ like `upload_0000.xlsx`, `upload_0001.xlsx`, `upload_0002.xlsx`...
 | result.size                    | ファイルサイズ(バイト単位)                                                                 |
 | result.content_hash            | ファイルコンテンツのハッシュ                                                               |
 | result.shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| result.parent_shared_folder_id |                                                                                            |
+| result.parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
 

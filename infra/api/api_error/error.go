@@ -1,4 +1,4 @@
-package api_rpc
+package api_error
 
 import (
 	"encoding/json"

@@ -37,7 +37,7 @@ func (z *exceptionsImpl) Add(teamMemberId string) (err error) {
 			},
 		},
 	}
-	_, err = z.ctx.Request("team/member_space_limits/excluded_users/add").Param(p).Call()
+	_, err = z.ctx.Rpc("team/member_space_limits/excluded_users/add").Param(p).Call()
 	return err
 }
 
@@ -56,7 +56,7 @@ func (z *exceptionsImpl) Remove(teamMemberId string) (err error) {
 			},
 		},
 	}
-	_, err = z.ctx.Request("team/member_space_limits/excluded_users/remove").Param(p).Call()
+	_, err = z.ctx.Rpc("team/member_space_limits/excluded_users/remove").Param(p).Call()
 	return err
 }
 

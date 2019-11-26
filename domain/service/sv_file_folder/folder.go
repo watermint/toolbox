@@ -31,7 +31,7 @@ func (z *folderImpl) Create(path mo_path.Path) (entry mo_file.Entry, err error) 
 		Autorename: false,
 	}
 	entry = &mo_file.Folder{}
-	res, err := z.ctx.Request("files/create_folder_v2").Param(p).Call()
+	res, err := z.ctx.Rpc("files/create_folder_v2").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

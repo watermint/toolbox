@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file compare account -left left -left-path /path/to/compare -right right -right-path /path/to/compare
+.\tbx.exe file compare account -left left -left-path /比較対象パス -right right -right-path /比較対象パス
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file compare account -left left -left-path /path/to/compare -right right -right-path /path/to/compare
+$HOME/Desktop/tbx file compare account -left left -left-path /比較対象パス -right right -right-path /比較対象パス
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.

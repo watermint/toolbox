@@ -1,7 +1,7 @@
 package api_util
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_rpc"
+	"github.com/watermint/toolbox/infra/api/api_error"
 	"strings"
 	"testing"
 )
@@ -177,7 +177,7 @@ var (
 
 func TestErrorSummary(t *testing.T) {
 	for _, e := range errorSummarySamples {
-		ae := api_rpc.ApiError{
+		ae := api_error.ApiError{
 			ErrorSummary: e,
 		}
 		re := ErrorSummary(ae)

@@ -3,37 +3,29 @@ package api_context
 import (
 	"github.com/watermint/toolbox/infra/api/api_async"
 	"github.com/watermint/toolbox/infra/api/api_list"
-	"github.com/watermint/toolbox/infra/api/api_rpc"
-	"github.com/watermint/toolbox/infra/api/api_upload"
+	"github.com/watermint/toolbox/infra/api/api_request"
 	"go.uber.org/zap"
-	"net/http"
+	"io"
 )
 
 type Context interface {
 	Log() *zap.Logger
 
-	Request(endpoint string) api_rpc.Caller
+	Rpc(endpoint string) api_request.Request
 	List(endpoint string) api_list.List
 	Async(endpoint string) api_async.Async
-	Upload(endpoint string) api_upload.Upload
+	Upload(endpoint string, content io.Reader) api_request.Request
 
 	AsMemberId(teamMemberId string) Context
 	AsAdminId(teamMemberId string) Context
 	WithPath(pathRoot PathRoot) Context
 	NoRetryOnError() Context
-	Hash() string
-}
-
-type RetryContext interface {
 	IsNoRetry() bool
+	Hash() string
 }
 
 type CaptureContext interface {
 	Capture() *zap.Logger
-}
-
-type ClientContext interface {
-	DoRequest(req *http.Request) (code int, header http.Header, body []byte, err error)
 }
 
 type PathRoot interface {

@@ -4,7 +4,8 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/infra/api/api_async"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_rpc"
+	"github.com/watermint/toolbox/infra/api/api_error"
+	"github.com/watermint/toolbox/infra/api/api_response"
 	"go.uber.org/zap"
 	"time"
 )
@@ -58,11 +59,11 @@ func (z *asyncImpl) OnFailure(failure func(err error) error) api_async.Async {
 	return z
 }
 
-func (z *asyncImpl) poll(res api_rpc.Response) (asyncRes api_async.Response, resErr error) {
+func (z *asyncImpl) poll(res api_response.Response) (asyncRes api_async.Response, resErr error) {
 	return z.handlePoll(res, "")
 }
 
-func (z *asyncImpl) handlePoll(res api_rpc.Response, asyncJobId string) (asyncRes api_async.Response, resErr error) {
+func (z *asyncImpl) handlePoll(res api_response.Response, asyncJobId string) (asyncRes api_async.Response, resErr error) {
 	resJson, err := res.Json()
 	if err != nil {
 		return nil, err
@@ -145,8 +146,8 @@ func (z *asyncImpl) handlePoll(res api_rpc.Response, asyncJobId string) (asyncRe
 
 	if errorTag := resJson.Get("error.\\.tag"); errorTag.Exists() {
 		log.Debug("Endpoint specific error", zap.String("error_tag", tag.String()))
-		body, _ := res.Body()
-		err = api_rpc.ParseApiError(body)
+		body, _ := res.Result()
+		err = api_error.ParseApiError(body)
 		if err2 := z.failure(err); err2 != nil {
 			return nil, err2
 		}
@@ -157,7 +158,7 @@ func (z *asyncImpl) handlePoll(res api_rpc.Response, asyncJobId string) (asyncRe
 	return nil, errors.New("unknown status tag")
 }
 
-func (z *asyncImpl) handleAsyncJobId(res api_rpc.Response, asyncJobId string) (asyncRes api_async.Response, resErr error) {
+func (z *asyncImpl) handleAsyncJobId(res api_response.Response, asyncJobId string) (asyncRes api_async.Response, resErr error) {
 	resJson, err := res.Json()
 	if err != nil {
 		return nil, err
@@ -184,7 +185,7 @@ func (z *asyncImpl) handleAsyncJobId(res api_rpc.Response, asyncJobId string) (a
 		AsyncJobId: asyncJobId,
 	}
 
-	res, err = z.ctx.Request(z.statusEndpoint).Param(p).Call()
+	res, err = z.ctx.Rpc(z.statusEndpoint).Param(p).Call()
 	if err != nil {
 		if z.failure != nil {
 			if err2 := z.failure(err); err2 != nil {
@@ -198,7 +199,7 @@ func (z *asyncImpl) handleAsyncJobId(res api_rpc.Response, asyncJobId string) (a
 }
 
 func (z *asyncImpl) Call() (res api_async.Response, resErr error) {
-	rpcRes, err := z.ctx.Request(z.requestEndpoint).Param(z.param).Call()
+	rpcRes, err := z.ctx.Rpc(z.requestEndpoint).Param(z.param).Call()
 	if err != nil {
 		return nil, err
 	}

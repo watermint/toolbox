@@ -37,7 +37,7 @@ func (z *quotaImpl) Remove(teamMemberId string) (err error) {
 		},
 	}
 
-	_, err = z.ctx.Request("team/member_space_limits/remove_custom_quota").Param(p).Call()
+	_, err = z.ctx.Rpc("team/member_space_limits/remove_custom_quota").Param(p).Call()
 	return err
 }
 
@@ -58,7 +58,7 @@ func (z *quotaImpl) Resolve(teamMemberId string) (quota *mo_member_quota.Quota, 
 	}
 
 	quota = &mo_member_quota.Quota{}
-	res, err := z.ctx.Request("team/member_space_limits/get_custom_quota").Param(p).Call()
+	res, err := z.ctx.Rpc("team/member_space_limits/get_custom_quota").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ func (z *quotaImpl) Update(quota *mo_member_quota.Quota) (updated *mo_member_quo
 	}
 
 	quota = &mo_member_quota.Quota{}
-	res, err := z.ctx.Request("team/member_space_limits/set_custom_quota").Param(p).Call()
+	res, err := z.ctx.Rpc("team/member_space_limits/set_custom_quota").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

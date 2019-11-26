@@ -65,7 +65,7 @@ func (z *fileRequestImpl) Create(title string, destination mo_path.Path, opts ..
 		},
 	}
 	fr := &mo_filerequest.FileRequest{}
-	res, err := z.ctx.Request("file_requests/create").Param(co).Call()
+	res, err := z.ctx.Rpc("file_requests/create").Param(co).Call()
 	if err != nil {
 		return nil, err
 	}

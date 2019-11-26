@@ -134,5 +134,5 @@ like `file_0000.xlsx`, `file_0001.xlsx`, `file_0002.xlsx`...
 | size                    | ファイルサイズ(バイト単位)                                                                 |
 | content_hash            | ファイルコンテンツのハッシュ                                                               |
 | shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| parent_shared_folder_id |                                                                                            |
+| parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
 

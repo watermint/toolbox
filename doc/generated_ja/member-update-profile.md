@@ -120,9 +120,9 @@ like `update_profile_0000.xlsx`, `update_profile_0001.xlsx`, `update_profile_000
 
 | 列                      | 説明                                                                                            |
 |-------------------------|-------------------------------------------------------------------------------------------------|
-| status                  | Status of the operation                                                                         |
-| reason                  | Reason of failure or skipped operation                                                          |
-| input.email             | Email address of the account                                                                    |
+| status                  | 処理の状態                                                                                      |
+| reason                  | 失敗またはスキップの理由                                                                        |
+| input.email             | アカウントのメールアドレス                                                                      |
 | input.given_name        | Given name of the account                                                                       |
 | input.surname           | Surname of the account                                                                          |
 | result.team_member_id   | チームにおけるメンバーのID                                                                      |

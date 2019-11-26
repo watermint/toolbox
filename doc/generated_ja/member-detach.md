@@ -119,9 +119,9 @@ Report files are generated in `detach.csv`, `detach.xlsx` and `detach.json` form
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `detach_0000.xlsx`, `detach_0001.xlsx`, `detach_0002.xlsx`...   
 
-| 列          | 説明                                   |
-|-------------|----------------------------------------|
-| status      | Status of the operation                |
-| reason      | Reason of failure or skipped operation |
-| input.email | Email address of the account           |
+| 列          | 説明                       |
+|-------------|----------------------------|
+| status      | 処理の状態                 |
+| reason      | 失敗またはスキップの理由   |
+| input.email | アカウントのメールアドレス |
 

@@ -53,15 +53,15 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション               | 説明                                                                                | デフォルト |
-|--------------------------|-------------------------------------------------------------------------------------|------------|
-| `-depth`                 | フォルダ階層数の指定                                                                | 1          |
-| `-include-app-folder`    | {"key":"recipe.team.namespace.file.size_vo.flag.include_app_folder","params":{}}    | false      |
-| `-include-member-folder` | {"key":"recipe.team.namespace.file.size_vo.flag.include_member_folder","params":{}} | false      |
-| `-include-shared-folder` | 指定された場合、共有フォルダを含めます                                              | true       |
-| `-include-team-folder`   | 指定された場合、チームフォルダを含めます                                            | true       |
-| `-name`                  | 指定された名前に一致するフォルダのみを一覧します                                    |            |
-| `-peer`                  | アカウントの別名                                                                    | {default}  |
+| オプション               | 説明                                             | デフォルト |
+|--------------------------|--------------------------------------------------|------------|
+| `-depth`                 | フォルダ階層数の指定                             | 1          |
+| `-include-app-folder`    | Trueの場合、アプリフォルダを含めます             | false      |
+| `-include-member-folder` | Trueの場合、チームメンバーフォルダを含めます     | false      |
+| `-include-shared-folder` | Trueの場合、共有フォルダを含めます               | true       |
+| `-include-team-folder`   | Trueの場合、チームフォルダを含めます             | true       |
+| `-name`                  | 指定された名前に一致するフォルダのみを一覧します |            |
+| `-peer`                  | アカウントの別名                                 | {default}  |
 
 Common options:
 
@@ -125,8 +125,8 @@ like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_000
 
 | 列                          | 説明                                                                                   |
 |-----------------------------|----------------------------------------------------------------------------------------|
-| status                      | Status of the operation                                                                |
-| reason                      | Reason of failure or skipped operation                                                 |
+| status                      | 処理の状態                                                                             |
+| reason                      | 失敗またはスキップの理由                                                               |
 | input.name                  | 名前空間の名称                                                                         |
 | input.namespace_id          | 名前空間ID                                                                             |
 | input.namespace_type        | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
@@ -140,5 +140,5 @@ like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_000
 | result.count_folder         | このフォルダに含まれるフォルダ数                                                       |
 | result.count_descendant     | このフォルダに含まれるファイル・フォルダ数                                             |
 | result.size                 | フォルダのサイズ                                                                       |
-| result.api_complexity       | {"key":"domain.model.mo_file_size.namespacesize.api_complexity.desc","params":{}}      |
+| result.api_complexity       | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
 

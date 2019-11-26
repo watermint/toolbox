@@ -121,8 +121,8 @@ like `unlink_0000.xlsx`, `unlink_0001.xlsx`, `unlink_0002.xlsx`...
 
 | 列                                  | 説明                                                                   |
 |-------------------------------------|------------------------------------------------------------------------|
-| status                              | Status of the operation                                                |
-| reason                              | Reason of failure or skipped operation                                 |
+| status                              | 処理の状態                                                             |
+| reason                              | 失敗またはスキップの理由                                               |
 | input.team_member_id                | チームにおけるメンバーのID                                             |
 | input.email                         | ユーザーのメールアドレス                                               |
 | input.status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   |

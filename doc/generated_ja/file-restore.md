@@ -1,6 +1,6 @@
 # file restore 
 
-{"key":"recipe.file.restore.title","params":{}}
+指定されたパス以下のファイルを復元します (実験的)
 
 # Security
 
@@ -53,10 +53,10 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明                                                   | デフォルト |
-|------------|--------------------------------------------------------|------------|
-| `-path`    | {"key":"recipe.file.restore_vo.flag.path","params":{}} |            |
-| `-peer`    | {"key":"recipe.file.restore_vo.flag.peer","params":{}} | {default}  |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-path`    | パス             |            |
+| `-peer`    | アカウントの別名 | {default}  |
 
 Common options:
 
@@ -120,9 +120,9 @@ like `restore_0000.xlsx`, `restore_0001.xlsx`, `restore_0002.xlsx`...
 
 | 列                             | 説明                                                                                       |
 |--------------------------------|--------------------------------------------------------------------------------------------|
-| status                         | Status of the operation                                                                    |
-| reason                         | Reason of failure or skipped operation                                                     |
-| input.path                     | {"key":"recipe.file.restoretarget.path.desc","params":{}}                                  |
+| status                         | 処理の状態                                                                                 |
+| reason                         | 失敗またはスキップの理由                                                                   |
+| input.path                     | パス                                                                                       |
 | result.id                      | ファイルへの一意なID                                                                       |
 | result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
 | result.name                    | 名称                                                                                       |
@@ -134,5 +134,5 @@ like `restore_0000.xlsx`, `restore_0001.xlsx`, `restore_0002.xlsx`...
 | result.size                    | ファイルサイズ(バイト単位)                                                                 |
 | result.content_hash            | ファイルコンテンツのハッシュ                                                               |
 | result.shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| result.parent_shared_folder_id |                                                                                            |
+| result.parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
 

@@ -1,31 +1,28 @@
-package api_capture
+package nw_capture
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/infra/api/api_rpc"
+	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
 	"regexp"
 	"time"
 )
 
-const (
-	valuePathCapture = "api_capture.Capture"
-)
-
 type Capture interface {
-	Rpc(req api_rpc.Request, res api_rpc.Response, resErr error, latency int64)
+	Rpc(req api_request.Request, res api_response.Response, resErr error, latency int64)
 }
 
-func currentKitchen(cap *zap.Logger) Capture {
-	return &kitchenImpl{
+func currentImpl(cap *zap.Logger) Capture {
+	return &captureImpl{
 		capture: cap,
 	}
 }
 
 func Current() Capture {
 	cap := app_root.Capture()
-	return currentKitchen(cap)
+	return currentImpl(cap)
 }
 
 type Record struct {
@@ -43,7 +40,7 @@ type Record struct {
 type mockImpl struct {
 }
 
-func (mockImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error, latency int64) {
+func (mockImpl) Rpc(req api_request.Request, res api_response.Response, resErr error, latency int64) {
 	// ignore
 }
 
@@ -52,16 +49,16 @@ var (
 )
 
 func NewCapture(cap *zap.Logger) Capture {
-	return &kitchenImpl{
+	return &captureImpl{
 		capture: cap,
 	}
 }
 
-type kitchenImpl struct {
+type captureImpl struct {
 	capture *zap.Logger
 }
 
-func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr error, latency int64) {
+func (z *captureImpl) Rpc(req api_request.Request, res api_response.Response, resErr error, latency int64) {
 	type Req struct {
 		RequestMethod  string            `json:"method"`
 		RequestUrl     string            `json:"url"`
@@ -69,32 +66,32 @@ func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 		RequestHeaders map[string]string `json:"headers"`
 	}
 	type Res struct {
-		ResponseCode  int             `json:"code"`
-		ResponseBody  string          `json:"body,omitempty"`
-		ResponseJson  json.RawMessage `json:"json,omitempty"`
-		ResponseError string          `json:"error,omitempty"`
+		ResponseCode    int               `json:"code"`
+		ResponseBody    string            `json:"body,omitempty"`
+		ResponseHeaders map[string]string `json:"headers"`
+		ResponseJson    json.RawMessage   `json:"json,omitempty"`
+		ResponseError   string            `json:"error,omitempty"`
 	}
 
 	// request
 	rq := Req{}
 	rq.RequestMethod = req.Method()
 	rq.RequestUrl = req.Url()
-	rq.RequestParam = req.Param()
-	headers := make(map[string]string)
+	rq.RequestParam = req.ParamString()
+	rq.RequestHeaders = make(map[string]string)
 	for k, v := range req.Headers() {
 		// Anonymize token
-		if k == api_rpc.ReqHeaderAuthorization {
-			headers[k] = "Bearer <secret>"
+		if k == api_request.ReqHeaderAuthorization {
+			rq.RequestHeaders[k] = "Bearer <secret>"
 		} else {
-			headers[k] = v
+			rq.RequestHeaders[k] = v
 		}
 	}
-	rq.RequestHeaders = headers
 
 	// response
 	rs := Res{}
 	rs.ResponseCode = res.StatusCode()
-	resBody, _ := res.Body()
+	resBody, _ := res.Result()
 	if len(resBody) == 0 {
 		rs.ResponseBody = ""
 	} else if resBody[0] == '[' || resBody[0] == '{' {
@@ -105,6 +102,11 @@ func (z *kitchenImpl) Rpc(req api_rpc.Request, res api_rpc.Response, resErr erro
 	if resErr != nil {
 		rs.ResponseError = resErr.Error()
 	}
+	rs.ResponseHeaders = res.Headers()
 
-	z.capture.Debug("", zap.Any("req", rq), zap.Any("res", rs), zap.Int64("latency", latency))
+	z.capture.Debug("",
+		zap.Any("req", rq),
+		zap.Any("res", rs),
+		zap.Int64("latency", latency),
+	)
 }

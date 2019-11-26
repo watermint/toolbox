@@ -50,7 +50,7 @@ func (z *revisionImpl) doList(path mo_path.Path, mode string) (revs *mo_file_rev
 		Limit: z.opts.Limit,
 	}
 	revs = &mo_file_revision.Revisions{}
-	res, err := z.ctx.Request("files/list_revisions").Param(p).Call()
+	res, err := z.ctx.Rpc("files/list_revisions").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

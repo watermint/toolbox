@@ -53,12 +53,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション    | 説明                     | デフォルト |
-|---------------|--------------------------|------------|
-| `-at`         | 新しい有効期限の日時     |            |
-| `-days`       | 新しい有効期限までの日時 | 0          |
-| `-peer`       | アカウントの別名         | {default}  |
-| `-visibility` | Target link visibility   | public     |
+| オプション    | 説明                       | デフォルト |
+|---------------|----------------------------|------------|
+| `-at`         | 新しい有効期限の日時       |            |
+| `-days`       | 新しい有効期限までの日時   | 0          |
+| `-peer`       | アカウントの別名           | {default}  |
+| `-visibility` | 対象となるリンクの公開範囲 | public     |
 
 Common options:
 
@@ -141,8 +141,8 @@ like `updated_sharedlink_0000.xlsx`, `updated_sharedlink_0001.xlsx`, `updated_sh
 
 | 列                   | 説明                                                                 |
 |----------------------|----------------------------------------------------------------------|
-| status               | Status of the operation                                              |
-| reason               | Reason of failure or skipped operation                               |
+| status               | 処理の状態                                                           |
+| reason               | 失敗またはスキップの理由                                             |
 | input.shared_link_id | ファイルまたはフォルダへのリンクのID                                 |
 | input.tag            | エントリーの種別 (file, または folder)                               |
 | input.url            | 共有リンクのURL.                                                     |

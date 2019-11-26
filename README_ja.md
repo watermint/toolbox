@@ -2,7 +2,6 @@
 
 [![CircleCI](https://circleci.com/gh/watermint/toolbox.svg?style=svg)](https://circleci.com/gh/watermint/toolbox)
 [![Coverage Status](https://coveralls.io/repos/github/watermint/toolbox/badge.svg)](https://coveralls.io/github/watermint/toolbox)
-[![Go Report Card](https://goreportcard.com/badge/github.com/watermint/toolbox)](https://goreportcard.com/report/github.com/watermint/toolbox)
 
 DropboxおよびDropbox Business向けのツールセット
 
@@ -52,14 +51,14 @@ Available commands:
 | [file compare account](doc/generated_ja/file-compare-account.md)                   | 二つのアカウントのファイルを比較します                         |
 | [file compare local](doc/generated_ja/file-compare-local.md)                       | ローカルフォルダとDropboxフォルダの内容を比較します            |
 | [file copy](doc/generated_ja/file-copy.md)                                         | ファイルをコピーします                                         |
-| [file delete](doc/generated_ja/file-delete.md)                                     | {"key":"recipe.file.delete.title","params":{}}                 |
+| [file delete](doc/generated_ja/file-delete.md)                                     | ファイルまたはフォルダは削除します.                            |
 | [file import batch url](doc/generated_ja/file-import-batch-url.md)                 | URLからファイルを一括インポートします                          |
 | [file import url](doc/generated_ja/file-import-url.md)                             | URLからファイルをインポートします                              |
 | [file list](doc/generated_ja/file-list.md)                                         | ファイルとフォルダを一覧します                                 |
 | [file merge](doc/generated_ja/file-merge.md)                                       | フォルダを統合します                                           |
 | [file move](doc/generated_ja/file-move.md)                                         | ファイルを移動します                                           |
 | [file replication](doc/generated_ja/file-replication.md)                           | ファイルコンテンツを他のアカウントに複製します                 |
-| [file restore](doc/generated_ja/file-restore.md)                                   | {"key":"recipe.file.restore.title","params":{}}                |
+| [file restore](doc/generated_ja/file-restore.md)                                   | 指定されたパス以下のファイルを復元します (実験的)              |
 | [file sync preflight up](doc/generated_ja/file-sync-preflight-up.md)               | 上り方向同期のための事前チェックを実施します                   |
 | [file sync up](doc/generated_ja/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                  |
 | [file upload](doc/generated_ja/file-upload.md)                                     | ファイルのアップロード                                         |
@@ -75,7 +74,7 @@ Available commands:
 | [member quota update](doc/generated_ja/member-quota-update.md)                     | チームメンバーの容量制限を変更                                 |
 | [member quota usage](doc/generated_ja/member-quota-usage.md)                       | チームメンバーのストレージ利用状況を取得                       |
 | [member update email](doc/generated_ja/member-update-email.md)                     | メンバーのメールアドレス処理                                   |
-| [member update externalid](doc/generated_ja/member-update-externalid.md)           | {"key":"recipe.member.update.externalid.title","params":{}}    |
+| [member update externalid](doc/generated_ja/member-update-externalid.md)           | チームメンバーのExternal IDを更新します.                       |
 | [member update profile](doc/generated_ja/member-update-profile.md)                 | メンバーのプロフィール変更                                     |
 | [sharedfolder list](doc/generated_ja/sharedfolder-list.md)                         | 共有フォルダの一覧                                             |
 | [sharedfolder member list](doc/generated_ja/sharedfolder-member-list.md)           | 共有フォルダのメンバーを一覧します                             |

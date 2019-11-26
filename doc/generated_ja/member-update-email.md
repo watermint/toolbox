@@ -121,8 +121,8 @@ like `update_0000.xlsx`, `update_0001.xlsx`, `update_0002.xlsx`...
 
 | 列                      | 説明                                                                                            |
 |-------------------------|-------------------------------------------------------------------------------------------------|
-| status                  | Status of the operation                                                                         |
-| reason                  | Reason of failure or skipped operation                                                          |
+| status                  | 処理の状態                                                                                      |
+| reason                  | 失敗またはスキップの理由                                                                        |
 | input.from_email        | Current Email address                                                                           |
 | input.to_email          | New Email address                                                                               |
 | result.team_member_id   | チームにおけるメンバーのID                                                                      |

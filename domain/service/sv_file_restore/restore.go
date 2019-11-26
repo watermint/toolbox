@@ -29,7 +29,7 @@ func (z *restoreImpl) Restore(path mo_path.Path, rev string) (entry mo_file.Entr
 		Rev:  rev,
 	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Request("files/restore").Param(p).Call()
+	res, err := z.ctx.Rpc("files/restore").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

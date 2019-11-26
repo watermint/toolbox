@@ -119,9 +119,9 @@ Report files are generated in `delete.csv`, `delete.xlsx` and `delete.json` form
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `delete_0000.xlsx`, `delete_0001.xlsx`, `delete_0002.xlsx`...   
 
-| 列          | 説明                                   |
-|-------------|----------------------------------------|
-| status      | Status of the operation                |
-| reason      | Reason of failure or skipped operation |
-| input.email | Email address of the account           |
+| 列          | 説明                       |
+|-------------|----------------------------|
+| status      | 処理の状態                 |
+| reason      | 失敗またはスキップの理由   |
+| input.email | アカウントのメールアドレス |
 

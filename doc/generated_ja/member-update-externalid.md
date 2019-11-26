@@ -1,6 +1,6 @@
 # member update externalid 
 
-{"key":"recipe.member.update.externalid.title","params":{}}
+チームメンバーのExternal IDを更新します.
 
 # Security
 
@@ -53,10 +53,10 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明                                                                | デフォルト |
-|------------|---------------------------------------------------------------------|------------|
-| `-file`    | {"key":"recipe.member.update.external_id_vo.flag.file","params":{}} |            |
-| `-peer`    | {"key":"recipe.member.update.external_id_vo.flag.peer","params":{}} | {default}  |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-file`    | データファイル   |            |
+| `-peer`    | アカウントの別名 | {default}  |
 
 Common options:
 
@@ -120,10 +120,10 @@ like `external_id_0000.xlsx`, `external_id_0001.xlsx`, `external_id_0002.xlsx`..
 
 | 列                      | 説明                                                                                            |
 |-------------------------|-------------------------------------------------------------------------------------------------|
-| status                  | Status of the operation                                                                         |
-| reason                  | Reason of failure or skipped operation                                                          |
-| input.email             | {"key":"recipe.member.update.externalidrow.email.desc","params":{}}                             |
-| input.external_id       | {"key":"recipe.member.update.externalidrow.external_id.desc","params":{}}                       |
+| status                  | 処理の状態                                                                                      |
+| reason                  | 失敗またはスキップの理由                                                                        |
+| input.email             | チームメンバーのメールアドレス                                                                  |
+| input.external_id       | チームメンバーのExternal ID                                                                     |
 | result.team_member_id   | チームにおけるメンバーのID                                                                      |
 | result.email            | ユーザーのメールアドレス                                                                        |
 | result.email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |

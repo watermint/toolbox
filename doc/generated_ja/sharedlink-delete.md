@@ -123,8 +123,8 @@ like `link_0000.xlsx`, `link_0001.xlsx`, `link_0002.xlsx`...
 
 | 列               | 説明                                   |
 |------------------|----------------------------------------|
-| status           | Status of the operation                |
-| reason           | Reason of failure or skipped operation |
+| status           | 処理の状態                             |
+| reason           | 失敗またはスキップの理由               |
 | input.id         | ファイルまたはフォルダへのリンクのID   |
 | input.tag        | エントリーの種別 (file, または folder) |
 | input.url        | 共有リンクのURL.                       |

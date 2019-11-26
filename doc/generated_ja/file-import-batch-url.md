@@ -132,5 +132,5 @@ like `import_url_0000.xlsx`, `import_url_0001.xlsx`, `import_url_0002.xlsx`...
 | size                    | ファイルサイズ(バイト単位)                                                                 |
 | content_hash            | ファイルコンテンツのハッシュ                                                               |
 | shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| parent_shared_folder_id |                                                                                            |
+| parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
 

@@ -119,7 +119,7 @@ like `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...
 
 | 列         | 説明                                                     |
 |------------|----------------------------------------------------------|
-| email      | Email address of the account                             |
+| email      | アカウントのメールアドレス                               |
 | used_gb    | The user's total space usage (in GB, 1GB = 1024 MB).     |
 | used_bytes | The user's total space usage (bytes).                    |
 | allocation | The user's space allocation (individual, or team)        |

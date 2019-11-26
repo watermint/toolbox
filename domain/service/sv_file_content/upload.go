@@ -121,8 +121,8 @@ func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.Path, fileP
 	if err != nil {
 		return nil, err
 	}
-	res, err := z.ctx.Upload("files/upload").
-		Param(z.makeParams(info, destPath, mode, revision)).Content(r).Call()
+	res, err := z.ctx.Upload("files/upload", r).
+		Param(z.makeParams(info, destPath, mode, revision)).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -160,7 +160,7 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 	}
 
 	l.Debug("Upload session start")
-	res, err := z.ctx.Upload("files/upload_session/start").Content(r).Call()
+	res, err := z.ctx.Upload("files/upload_session/start", r).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -182,7 +182,7 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 			},
 		}
 		r = io.LimitReader(f, z.uo.ChunkSize)
-		_, err := z.ctx.Upload("files/upload_session/append_v2").Param(ai).Content(r).Call()
+		_, err := z.ctx.Upload("files/upload_session/append_v2", r).Param(ai).Call()
 		if err != nil {
 			return nil, err
 		}
@@ -197,7 +197,7 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 		},
 		Commit: z.makeParams(info, destPath, mode, revision),
 	}
-	res, err = z.ctx.Upload("files/upload_session/finish").Param(ci).Content(f).Call()
+	res, err = z.ctx.Upload("files/upload_session/finish", f).Param(ci).Call()
 	if err != nil {
 		return nil, err
 	}

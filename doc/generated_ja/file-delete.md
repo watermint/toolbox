@@ -1,6 +1,6 @@
 # file delete 
 
-{"key":"recipe.file.delete.title","params":{}}
+ファイルまたはフォルダは削除します.
 
 # Security
 
@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file delete 
+.\tbx.exe file delete -path /PATH/TO/DELETE
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file delete 
+$HOME/Desktop/tbx file delete -path /PATH/TO/DELETE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
@@ -53,10 +53,10 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明                                                  | デフォルト |
-|------------|-------------------------------------------------------|------------|
-| `-path`    | {"key":"recipe.file.delete_vo.flag.path","params":{}} |            |
-| `-peer`    | {"key":"recipe.file.delete_vo.flag.peer","params":{}} | {default}  |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-path`    | 削除対象のパス   |            |
+| `-peer`    | アカウントの別名 | {default}  |
 
 Common options:
 
