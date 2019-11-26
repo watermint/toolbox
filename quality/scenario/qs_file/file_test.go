@@ -235,6 +235,27 @@ func TestFileUploadScenario(t *testing.T) {
 			testSkip(fc, "skip", localBase)
 		}
 
+		// `file list`
+		{
+			fc, err := app_control_impl.Fork(ctl, "file-list")
+			if err != nil {
+				return
+			}
+			vo := &file.ListVO{
+				Path:      dbxBase + "/file-sync-up",
+				Recursive: true,
+			}
+			r := file.List{}
+			if !qt_recipe.ApplyTestPeers(fc, vo) {
+				l.Warn("Skip: No conn resource")
+				return
+			}
+			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+				t.Error(err)
+			}
+			//TODO: verify content
+		}
+
 		// `file copy`
 		{
 			fc, err := app_control_impl.Fork(ctl, "file-copy")
@@ -308,14 +329,14 @@ func TestFileUploadScenario(t *testing.T) {
 			vo := &file.DeleteVO{
 				Path: dbxBase,
 			}
-			r := file.Delete{}
+			//r := file.Delete{}
 			if !qt_recipe.ApplyTestPeers(fc, vo) {
 				l.Warn("Skip: No conn resource")
 				return
 			}
-			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
-				t.Error(err)
-			}
+			//if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+			//	t.Error(err)
+			//}
 			// TODO: verify deletion
 		}
 	})

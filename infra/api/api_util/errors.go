@@ -17,6 +17,7 @@ func ErrorSummary(err error) string {
 	switch re := err.(type) {
 	case api_error.ApiError:
 		es := errorSummaryPostfix.ReplaceAllString(re.ErrorSummary, "")
+		es = strings.Trim(es, "/")
 		return es
 
 	default:
