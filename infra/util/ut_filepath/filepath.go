@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
-	"golang.org/x/tools/go/ssa/interp/testdata/src/runtime"
+	"runtime"
 	"unicode"
 )
 

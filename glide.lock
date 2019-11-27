@@ -141,7 +141,6 @@ imports:
   - go/internal/packagesdriver
   - go/loader
   - go/packages
-  - go/ssa/interp/testdata/src/runtime
   - go/types/objectpath
   - go/types/typeutil
   - internal/fastwalk
