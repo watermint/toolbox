@@ -24,8 +24,8 @@ import (
 )
 
 type DiagnosisVO struct {
-	Peer            app_conn.ConnBusinessFile
-	IncludeFileList bool
+	Peer app_conn.ConnBusinessFile
+	All  bool
 }
 
 type Diagnosis struct {
@@ -242,17 +242,41 @@ func (z *Diagnosis) Exec(k app_kitchen.Kitchen) error {
 		}
 	}
 
-	if vo.IncludeFileList {
+	if vo.All {
 		l.Info("Scanning namespace file list")
-		r := namespacefile.List{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &namespacefile.ListVO{
-			Peer: &app_conn_impl.ConnBusinessFile{
-				PeerName: pn,
-			},
-		}))
-		if err != nil {
-			l.Error("`team sharedlink list` failed", zap.Error(err))
-			return err
+		{
+			r := namespacefile.List{}
+			err := r.Exec(app_kitchen.NewKitchen(k.Control(), &namespacefile.ListVO{
+				Peer: &app_conn_impl.ConnBusinessFile{
+					PeerName: pn,
+				},
+				IncludeMemberFolder: true,
+				IncludeDeleted:      true,
+				IncludeSharedFolder: true,
+				IncludeMediaInfo:    true,
+			}))
+			if err != nil {
+				l.Error("`team sharedlink list` failed", zap.Error(err))
+				return err
+			}
+		}
+
+		l.Info("Scanning namespace file size")
+		{
+			r := namespacefile.Size{}
+			err := r.Exec(app_kitchen.NewKitchen(k.Control(), &namespacefile.SizeVO{
+				Peer: &app_conn_impl.ConnBusinessFile{
+					PeerName: pn,
+				},
+				IncludeMemberFolder: true,
+				IncludeSharedFolder: true,
+				IncludeTeamFolder:   true,
+				IncludeAppFolder:    true,
+			}))
+			if err != nil {
+				l.Error("`team sharedlink list` failed", zap.Error(err))
+				return err
+			}
 		}
 	}
 
@@ -261,7 +285,7 @@ func (z *Diagnosis) Exec(k app_kitchen.Kitchen) error {
 
 func (z *Diagnosis) Test(c app_control.Control) error {
 	lvo := &DiagnosisVO{
-		IncludeFileList: false,
+		All: false,
 	}
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
 		return qt_recipe.NotEnoughResource()

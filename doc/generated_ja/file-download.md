@@ -1,6 +1,6 @@
 # file download 
 
-{"key":"recipe.file.download.title","params":{}}
+Download a file from Dropbox (experimental)
 
 # Security
 
@@ -53,11 +53,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション      | 説明                                                            | デフォルト |
-|-----------------|-----------------------------------------------------------------|------------|
-| `-dropbox-path` | {"key":"recipe.file.download_vo.flag.dropbox_path","params":{}} |            |
-| `-local-path`   | {"key":"recipe.file.download_vo.flag.local_path","params":{}}   |            |
-| `-peer`         | {"key":"recipe.file.download_vo.flag.peer","params":{}}         | {default}  |
+| オプション      | 説明                   | デフォルト |
+|-----------------|------------------------|------------|
+| `-dropbox-path` | File path to download  |            |
+| `-local-path`   | Local path to download |            |
+| `-peer`         | アカウントの別名       | {default}  |
 
 Common options:
 

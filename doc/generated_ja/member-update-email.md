@@ -123,8 +123,8 @@ like `update_0000.xlsx`, `update_0001.xlsx`, `update_0002.xlsx`...
 |-------------------------|-------------------------------------------------------------------------------------------------|
 | status                  | 処理の状態                                                                                      |
 | reason                  | 失敗またはスキップの理由                                                                        |
-| input.from_email        | Current Email address                                                                           |
-| input.to_email          | New Email address                                                                               |
+| input.from_email        | 現在のメールアドレス                                                                            |
+| input.to_email          | 新しいメールアドレス                                                                            |
 | result.team_member_id   | チームにおけるメンバーのID                                                                      |
 | result.email            | ユーザーのメールアドレス                                                                        |
 | result.email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |

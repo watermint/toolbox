@@ -124,8 +124,8 @@ like `invite_0000.xlsx`, `invite_0001.xlsx`, `invite_0002.xlsx`...
 | status                  | 処理の状態                                                                                      |
 | reason                  | 失敗またはスキップの理由                                                                        |
 | input.email             | アカウントのメールアドレス                                                                      |
-| input.given_name        | Given name of the account                                                                       |
-| input.surname           | Surname of the account                                                                          |
+| input.given_name        | アカウントの名前                                                                                |
+| input.surname           | アカウントの名字                                                                                |
 | result.team_member_id   | チームにおけるメンバーのID                                                                      |
 | result.email            | ユーザーのメールアドレス                                                                        |
 | result.email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
