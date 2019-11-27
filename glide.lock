@@ -1,5 +1,5 @@
 hash: cbb00611021fe0b3230e1b4deb8bf0a594ba9d9fad913a419a1d569b5ace8a89
-updated: 2019-11-23T22:52:58.042832+09:00
+updated: 2019-11-27T21:34:51.58728+09:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
@@ -17,11 +17,17 @@ imports:
 - name: github.com/gin-contrib/zap
   version: f473495929dba2798c0f8694afc1fb4c0349821f
 - name: github.com/gin-gonic/gin
-  version: b75d67cd51eb53c3c3a2fc406524c940021ffbda
+  version: 15ced05c5316609bce5b43389f8e3f06102a8b18
   subpackages:
   - binding
   - internal/json
   - render
+- name: github.com/go-playground/locales
+  version: 9f105231d3a5f6877a2bf8321dfa15ea6f844b1b
+  subpackages:
+  - currency
+- name: github.com/go-playground/universal-translator
+  version: f87b1403479a348651dbf5f07f5cc6e5fcf07008
 - name: github.com/golang/protobuf
   version: 951a149f90371fb8858c6c979d03bb2583611052
   subpackages:
@@ -34,6 +40,8 @@ imports:
   version: 44a7e7340d23d2e5d5d942966eb683436c027da0
 - name: github.com/kardianos/osext
   version: ae77be60afb1dcacde03767a8c37337fad28ac14
+- name: github.com/leodido/go-urn
+  version: a0f5013415294bb94553821ace21a1a74c0298cc
 - name: github.com/mattn/go-isatty
   version: 2a2f0ea997f99becfd8423e4f337d171753fe685
 - name: github.com/modern-go/concurrent
@@ -82,7 +90,7 @@ imports:
   - internal/exit
   - zapcore
 - name: golang.org/x/lint
-  version: 16217165b5de779cb6a5e4fc81fa9c1166fda457
+  version: fdd1cda4f05fd1fd86124f0ef9ce31a0b72c8448
   subpackages:
   - golint
 - name: golang.org/x/net
@@ -99,7 +107,7 @@ imports:
   subpackages:
   - semaphore
 - name: golang.org/x/sys
-  version: bd437916bb0eb726b873ee8e9b2dcf212d32e2fd
+  version: 63cb32ae39b28d6bb8e7e215c1fc39dd80dcdb02
   subpackages:
   - unix
   - windows
@@ -120,7 +128,7 @@ imports:
   - unicode/norm
   - width
 - name: golang.org/x/tools
-  version: 2a6ccf25d769ccc6c0b364ff440915b10af1e3cf
+  version: 724660f1afeb500e4880815f8718ea830aafb0f2
   subpackages:
   - go/analysis
   - go/analysis/passes/inspect
@@ -133,6 +141,7 @@ imports:
   - go/internal/packagesdriver
   - go/loader
   - go/packages
+  - go/ssa/interp/testdata/src/runtime
   - go/types/objectpath
   - go/types/typeutil
   - internal/fastwalk
@@ -149,8 +158,8 @@ imports:
   - internal/remote_api
   - internal/urlfetch
   - urlfetch
-- name: gopkg.in/go-playground/validator.v8
-  version: 5f1438d3fca68893a817e4a66806cea46a9e4ebf
+- name: gopkg.in/go-playground/validator.v9
+  version: bde478f9466b5371375581708adf1b77acd08b72
 - name: gopkg.in/yaml.v2
   version: 1f64d6156d11335c3f22d9330b0ad14fc1e789ce
 - name: honnef.co/go/tools

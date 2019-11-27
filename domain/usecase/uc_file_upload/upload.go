@@ -15,6 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"math"
@@ -157,7 +158,7 @@ func (z *UploadWorker) Exec() (err error) {
 	)
 	l.Debug("Prepare upload")
 
-	rel, err := filepath.Rel(z.localBasePath, filepath.Dir(z.localFilePath))
+	rel, err := ut_filepath.Rel(z.localBasePath, filepath.Dir(z.localFilePath))
 	if err != nil {
 		l.Debug("unable to calculate rel path", zap.Error(err))
 		z.repUpload.Failure(err, upRow)
@@ -281,15 +282,20 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 	createFolder := func(path string) error {
 		ll := l.With(zap.String("path", path))
 		ll.Debug("Prepare create folder")
-		rel, err := filepath.Rel(localPath, path)
+		rel, err := ut_filepath.Rel(localPath, path)
 		if err != nil {
 			l.Debug("unable to calculate rel path", zap.Error(err))
 			repUpload.Failure(err, &UploadRow{File: path})
 			status.error()
 			return err
 		}
+		if rel == "." {
+			ll.Debug("Skip")
+			return nil
+		}
+
 		folderPath := mo_path.NewPath(dropboxPath).ChildPath(filepath.ToSlash(rel))
-		ll = ll.With(zap.String("folderPath", folderPath.Path()))
+		ll = ll.With(zap.String("folderPath", folderPath.Path()), zap.String("rel", rel))
 		ll.Debug("Create folder")
 
 		entry, err := sv_file_folder.New(z.ctx).Create(folderPath)
