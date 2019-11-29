@@ -186,6 +186,9 @@ func (z *User) Reports() []rp_spec.ReportSpec {
 				&UserIn{},
 				&UserSummary{},
 			),
+			rp_model.HiddenColumns(
+				"result.user", // duplicated to `input.user`
+			),
 		),
 	}
 }
