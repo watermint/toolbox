@@ -167,7 +167,7 @@ func (z *User) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, reportEventUserSummary, func(cols map[string]string) error {
-		if _, ok := cols["logins"]; !ok {
+		if _, ok := cols["result.logins"]; !ok {
 			return errors.New("`logins` is not found")
 		}
 		return nil

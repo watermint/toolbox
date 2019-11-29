@@ -18,6 +18,12 @@ import (
 
 func New(ctx api_context.Context, res *http.Response) (api_response.Response, error) {
 	l := ctx.Log()
+
+	if res == nil {
+		l.Debug("Null response")
+		return nil, errors.New("no response found")
+	}
+
 	rr := &ResponseImpl{
 		res:                    res,
 		resBody:                nil,
@@ -26,7 +32,10 @@ func New(ctx api_context.Context, res *http.Response) (api_response.Response, er
 		resIsContentDownloaded: false,
 	}
 
-	result := res.Header.Get(api_response.ResHeaderApiResult)
+	result := ""
+	if res.Header != nil {
+		result = res.Header.Get(api_response.ResHeaderApiResult)
+	}
 	if result != "" {
 		resFile, err := ioutil.TempFile("", ctx.Hash())
 		if err != nil {
