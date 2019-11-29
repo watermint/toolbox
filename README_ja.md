@@ -84,6 +84,7 @@ Available commands:
 | [sharedlink list](doc/generated_ja/sharedlink-list.md)                             | 共有リンクの一覧                                               |
 | [team activity daily event](doc/generated_ja/team-activity-daily-event.md)         | アクティビティーを1日ごとに取得します                          |
 | [team activity event](doc/generated_ja/team-activity-event.md)                     | イベントログ                                                   |
+| [team activity user](doc/generated_ja/team-activity-user.md)                       | {"key":"recipe.team.activity.user.title","params":{}}          |
 | [team device list](doc/generated_ja/team-device-list.md)                           | チーム内全てのデバイス/セッションを一覧します                  |
 | [team device unlink](doc/generated_ja/team-device-unlink.md)                       | デバイスのセッションを解除します                               |
 | [team feature](doc/generated_ja/team-feature.md)                                   | チームの機能を出力します                                       |

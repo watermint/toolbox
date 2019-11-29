@@ -120,7 +120,11 @@ func (z *Xlsx) open() (err error) {
 
 	file := xlsx.NewFile()
 	l.Debug("Create xlsx report", zap.String("filePath", z.filePath))
-	sheet, err := file.AddSheet(z.name)
+	sheetName := z.name
+	if len(sheetName) >= 31 {
+		sheetName = sheetName[:30]
+	}
+	sheet, err := file.AddSheet(sheetName)
 	if err != nil {
 		l.Debug("Unable to add sheet", zap.Error(err))
 		return err

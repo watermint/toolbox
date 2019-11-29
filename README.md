@@ -84,6 +84,7 @@ Available commands:
 | [sharedlink list](doc/generated/sharedlink-list.md)                             | List of shared link(s)                                        |
 | [team activity daily event](doc/generated/team-activity-daily-event.md)         | Report activities by day                                      |
 | [team activity event](doc/generated/team-activity-event.md)                     | Event log                                                     |
+| [team activity user](doc/generated/team-activity-user.md)                       | Activities log per user                                       |
 | [team device list](doc/generated/team-device-list.md)                           | List all devices/sessions in the team                         |
 | [team device unlink](doc/generated/team-device-unlink.md)                       | Unlink device sessions                                        |
 | [team feature](doc/generated/team-feature.md)                                   | Team feature                                                  |
