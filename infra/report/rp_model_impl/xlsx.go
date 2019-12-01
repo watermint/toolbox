@@ -120,7 +120,7 @@ func (z *Xlsx) open() (err error) {
 
 	file := xlsx.NewFile()
 	l.Debug("Create xlsx report", zap.String("filePath", z.filePath))
-	sheetName := name
+	sheetName := z.name
 	if len(sheetName) >= 31 {
 		sheetName = sheetName[:30]
 	}

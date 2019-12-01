@@ -88,7 +88,7 @@ func (z *Csv) Close() {
 		z.flush()
 		z.file.Close()
 
-		if z.index < 1 {
+		if z.index < 1 && z.ctl.IsProduction() {
 			z.ctl.Log().Debug("Try removing empty report file", zap.String("path", z.path))
 			err := os.Remove(z.path)
 			z.ctl.Log().Debug("Removed or had an error (ignore)", zap.String("path", z.path), zap.Error(err))
