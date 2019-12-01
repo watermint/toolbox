@@ -3,16 +3,28 @@ package _import
 import (
 	"context"
 	"crypto/sha256"
+	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/service/sv_desktop"
 	"github.com/watermint/toolbox/domain/service/sv_file"
+	"github.com/watermint/toolbox/domain/service/sv_file_folder"
+	"github.com/watermint/toolbox/domain/service/sv_file_relocation"
+	"github.com/watermint/toolbox/domain/service/sv_profile"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_upload"
 	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/recpie/app_worker"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/scenario/qs_file"
 	"go.uber.org/zap"
 	"golang.org/x/sync/semaphore"
 	"io"
@@ -22,23 +34,30 @@ import (
 	"strings"
 	"sync"
 	"sync/atomic"
+	"time"
 )
 
 type ViaAppVO struct {
-	Peer            app_conn.ConnUserFile
-	DestDropboxPath string
-	LocalPath       string
+	Peer              app_conn.ConnUserFile
+	DestDropboxPath   string
+	LocalPath         string
+	PseudoDesktopPath string
 }
 
 const (
-	queueSize = 1000
+	viaAppQueueSize          = 1000
+	viaAppWatchInterval      = 10 * time.Second
+	viaAppReportLocalScanner = "local_scanner"
+	viaAppReportDbxScanner   = "dbx_scanner"
+	viaAppReportCopier       = "copier"
+	viaAppReportMover        = "mover"
 )
 
 var (
-	semLocalScanner = semaphore.NewWeighted(queueSize)
-	semDbxScanner   = semaphore.NewWeighted(queueSize)
-	semCopier       = semaphore.NewWeighted(queueSize)
-	semMover        = semaphore.NewWeighted(queueSize)
+	semLocalScanner = semaphore.NewWeighted(viaAppQueueSize)
+	semDbxScanner   = semaphore.NewWeighted(viaAppQueueSize)
+	semCopier       = semaphore.NewWeighted(viaAppQueueSize)
+	semMover        = semaphore.NewWeighted(viaAppQueueSize)
 )
 
 type ViaAppAccount struct {
@@ -154,17 +173,22 @@ type ViaAppCopierTransaction struct {
 	LocalWorkCopyPath string `json:"local_work_copy_path"`
 }
 
+type ViaAppMoverInput struct {
+	DbxFileName string `json:"dbx_file_name"`
+}
+
 func (z *ViaAppLocalScannerWorker) Exec() error {
 	l := z.ctx.Log().With(zap.String("curLocalPath", z.curLocalPath))
 	defer semLocalScanner.Release(1)
 	defer z.st.ReleaseBacklog()
+	lsIn := &ViaAppLocalScannerInput{Path: z.curLocalPath}
 
 	l.Debug("Scanning local path")
 
 	entries, err := ioutil.ReadDir(z.curLocalPath)
 	if err != nil {
 		l.Debug("Unable to read dir", zap.Error(err))
-		z.reps.repLocalScanner.Failure(err, &ViaAppLocalScannerInput{Path: z.curLocalPath})
+		z.reps.repLocalScanner.Failure(err, lsIn)
 		return err
 	}
 
@@ -196,6 +220,7 @@ func (z *ViaAppLocalScannerWorker) Exec() error {
 	}
 
 	l.Debug("Enqueue to dbx scanner", zap.Int("numFiles", len(files)))
+	z.reps.repLocalScanner.Success(lsIn, nil)
 	viaAppEnqueueDbxScanner(
 		z.k,
 		z.ctx,
@@ -257,11 +282,12 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 	l := z.ctx.Log().With(zap.String("curLocalPath", z.curLocalPath))
 	defer semDbxScanner.Release(1)
 	defer z.st.ReleaseBacklog()
+	dsIn := &ViaAppDbxScannerInput{Path: z.curLocalPath}
 
 	rel, err := ut_filepath.Rel(z.vo.LocalPath, z.curLocalPath)
 	if err != nil {
 		l.Error("Invalid local path", zap.Error(err))
-		z.reps.repDbxScanner.Failure(err, &ViaAppDbxScannerInput{Path: z.curLocalPath})
+		z.reps.repDbxScanner.Failure(err, dsIn)
 		return err
 	}
 	dbxPath := mo_path.NewPath(z.vo.DestDropboxPath)
@@ -273,7 +299,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 	entries, err := sv_file.NewFiles(z.ctx).List(dbxPath)
 	if err != nil {
 		l.Error("Failed to scan dbx path", zap.Error(err))
-		z.reps.repDbxScanner.Failure(err, &ViaAppDbxScannerInput{Path: z.curLocalPath})
+		z.reps.repDbxScanner.Failure(err, dsIn)
 		return err
 	}
 
@@ -321,6 +347,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 			z.st,
 			copyIn,
 		)
+		z.reps.repDbxScanner.Success(dsIn, copyIn)
 	}
 	return nil
 }
@@ -407,7 +434,416 @@ func (z *ViaAppCopierWorker) Exec() error {
 	}
 	dst.Close()
 
+	// Update hash
+	l.Debug("Update hash mapping")
+	z.htr.Set(workCopyName, z.copyIn.DbxFilePath)
+
 	l.Debug("Copy finished", zap.Int64("writtenBytes", writtenBytes))
 	z.reps.repCopier.Success(z.copyIn, &ViaAppCopierTransaction{LocalWorkCopyPath: workCopyPath})
 	return nil
+}
+
+func viaAppEnqueueMover(
+	k app_kitchen.Kitchen,
+	ctx api_context.Context,
+	htr *ViaAppHashToRel,
+	vo *ViaAppVO,
+	qs *ViaAppQueues,
+	reps *ViaAppReports,
+	st *ViaAppStates,
+	moveIn *ViaAppMoverInput,
+) {
+	l := ctx.Log()
+	l.Debug("Trying enqueue to mover queue")
+
+	if err := semMover.Acquire(context.Background(), 1); err != nil {
+		l.Error("Unable to acquire semaphore", zap.Error(err))
+		return
+	}
+
+	st.AddBacklog()
+	qs.qCopier.Enqueue(&ViaAppMoverWorker{
+		k:      k,
+		ctx:    ctx,
+		htr:    htr,
+		vo:     vo,
+		qs:     qs,
+		reps:   reps,
+		st:     st,
+		moveIn: moveIn,
+	})
+}
+
+type ViaAppMoverWorker struct {
+	k      app_kitchen.Kitchen
+	ctx    api_context.Context
+	htr    *ViaAppHashToRel
+	vo     *ViaAppVO
+	qs     *ViaAppQueues
+	reps   *ViaAppReports
+	st     *ViaAppStates
+	moveIn *ViaAppMoverInput
+}
+
+func (z *ViaAppMoverWorker) Exec() error {
+	defer semMover.Release(1)
+
+	dbxDestPath, exist := z.htr.Get(z.moveIn.DbxFileName)
+	l := z.ctx.Log().With(
+		zap.Any("moveIn", z.moveIn),
+		zap.String("dbxDestPath", dbxDestPath),
+	)
+	if !exist {
+		l.Debug("Mapping not found")
+		err := errors.New("path mapping not found")
+		z.reps.repMover.Failure(err, z.moveIn)
+		return err
+	}
+	defer z.st.ReleaseBacklog()
+
+	l.Debug("Moving from work to dest")
+	src := z.st.DbxWorkPath.ChildPath(z.moveIn.DbxFileName)
+	dst := mo_path.NewPath(dbxDestPath)
+
+	movedEntry, err := sv_file_relocation.New(z.ctx).Move(src, dst)
+	if err != nil {
+		l.Debug("Unable to move", zap.Error(err))
+		z.reps.repMover.Failure(err, z.moveIn)
+		return err
+	}
+
+	l.Debug("Removing hash from the map")
+	z.htr.Delete(z.moveIn.DbxFileName)
+
+	z.reps.repMover.Success(z.moveIn, movedEntry.Concrete())
+	return nil
+}
+
+type ViaAppWatcher struct {
+	k    app_kitchen.Kitchen
+	ctx  api_context.Context
+	htr  *ViaAppHashToRel
+	vo   *ViaAppVO
+	qs   *ViaAppQueues
+	reps *ViaAppReports
+	st   *ViaAppStates
+}
+
+func (z *ViaAppWatcher) Watch() {
+	l := z.k.Log()
+	for {
+		time.Sleep(viaAppWatchInterval)
+		l.Debug("Watching loop", zap.Int64("backlogs", z.st.Backlogs))
+		if z.st.Backlogs < 1 {
+			l.Debug("No more backlogs")
+			return
+		}
+
+		entries, err := sv_file.NewFiles(z.ctx).List(z.st.DbxWorkPath)
+		if err != nil {
+			l.Debug("Unable to list work path", zap.Error(err))
+			continue
+		}
+
+		for _, entry := range entries {
+			l.Debug("Enqueue entry", zap.Any("entry", entry))
+			viaAppEnqueueMover(
+				z.k,
+				z.ctx,
+				z.htr,
+				z.vo,
+				z.qs,
+				z.reps,
+				z.st,
+				&ViaAppMoverInput{DbxFileName: entry.Name()},
+			)
+		}
+	}
+}
+
+type ViaApp struct {
+}
+
+func (ViaApp) Hidden() {
+}
+
+func (ViaApp) Console() {
+}
+
+func (z *ViaApp) Requirement() app_vo.ValueObject {
+	return &ViaAppVO{}
+}
+
+func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
+	vo := k.Value().(*ViaAppVO)
+	l := k.Log()
+
+	ctx, err := vo.Peer.Connect(k.Control())
+	if err != nil {
+		return err
+	}
+	profile, err := sv_profile.NewProfile(ctx).Current()
+	if err != nil {
+		return err
+	}
+
+	workPathRel := "toolbox-" + time.Now().Format("2006-01-02T15-04-05")
+	dbxWorkPath := mo_path.NewPath("/" + workPathRel)
+	dbxWorkFolder, err := sv_file_folder.New(ctx).Create(dbxWorkPath)
+	if err != nil {
+		return err
+	}
+	l.Debug("Work path created", zap.Any("workFolder", dbxWorkFolder))
+
+	desktopPath := ""
+	if vo.PseudoDesktopPath != "" {
+		desktopPath = vo.PseudoDesktopPath
+	} else {
+		personal, business, err := sv_desktop.New().Lookup()
+		if err != nil {
+			l.Debug("Unable to find desktop path")
+			return err
+		}
+		switch {
+		case personal != nil && profile.AccountType != "business":
+			l.Debug("User personal account", zap.Any("personal", personal), zap.String("accountType", profile.AccountType))
+			desktopPath = personal.Path
+		case business != nil && profile.AccountType == "business":
+			l.Debug("User business account", zap.Any("personal", personal), zap.String("accountType", profile.AccountType))
+			desktopPath = business.Path
+		default:
+			l.Warn("Account type mismatch or the desktop client does not linked to appropriate account")
+			return errors.New("invalid account type")
+		}
+	}
+
+	dpInfo, err := os.Lstat(desktopPath)
+	if err != nil {
+		l.Debug("Unable to retrieve desktop path info", zap.Error(err))
+		return err
+	}
+
+	if !dpInfo.IsDir() {
+		l.Warn("Given Dropbox Desktop path is not a directory", zap.String("path", desktopPath))
+		return errors.New("desktop path is not a directory")
+	}
+
+	repSpecs := rp_spec_impl.New(z, k.Control())
+	reps := &ViaAppReports{}
+	reps.repLocalScanner, err = repSpecs.Open(viaAppReportLocalScanner)
+	if err != nil {
+		return err
+	}
+	defer reps.repLocalScanner.Close()
+
+	reps.repDbxScanner, err = repSpecs.Open(viaAppReportDbxScanner)
+	if err != nil {
+		return err
+	}
+	defer reps.repDbxScanner.Close()
+
+	reps.repCopier, err = repSpecs.Open(viaAppReportCopier)
+	if err != nil {
+		return err
+	}
+	defer reps.repCopier.Close()
+
+	reps.repMover, err = repSpecs.Open(viaAppReportMover)
+	if err != nil {
+		return err
+	}
+	defer reps.repMover.Close()
+
+	desktopWorkPath := filepath.Join(desktopPath, workPathRel)
+	pseudoDesktop := &ViaAppPseudoDesktop{
+		desktopPath:     desktopPath,
+		desktopWorkPath: desktopWorkPath,
+		dbxWorkPath:     dbxWorkPath,
+		ctx:             ctx,
+		specs:           repSpecs,
+		k:               k,
+	}
+
+	if vo.PseudoDesktopPath != "" {
+		err := os.MkdirAll(desktopWorkPath, 0755)
+		if err != nil {
+			l.Debug("Unable to create folder", zap.Error(err))
+			return err
+		}
+		go pseudoDesktop.Run()
+	}
+
+	htr := &ViaAppHashToRel{
+		htr: make(map[string]string),
+	}
+
+	qs := &ViaAppQueues{
+		qLocalScanner: k.NewQueue(),
+		qDbxScanner:   k.NewQueue(),
+		qCopier:       k.NewQueue(),
+		qMover:        k.NewQueue(),
+	}
+
+	st := &ViaAppStates{
+		DbxWorkPath:     dbxWorkPath,
+		DesktopPath:     desktopPath,
+		DesktopWorkPath: desktopWorkPath,
+		Backlogs:        0,
+	}
+
+	watcher := ViaAppWatcher{
+		k:    k,
+		ctx:  ctx,
+		htr:  htr,
+		vo:   vo,
+		qs:   qs,
+		reps: reps,
+		st:   st,
+	}
+
+	l.Debug("Enqueue local scanner")
+	viaAppEnqueueLocalScanner(
+		k,
+		ctx,
+		htr,
+		vo,
+		qs,
+		reps,
+		st,
+		vo.LocalPath,
+	)
+
+	l.Debug("Launch watcher")
+	go watcher.Watch()
+
+	l.Debug("Waiting for qLocalScanner")
+	qs.qLocalScanner.Wait()
+	l.Debug("Waiting for qDbxScanner")
+	qs.qDbxScanner.Wait()
+	l.Debug("Waiting for qCopier")
+	qs.qCopier.Wait()
+	l.Debug("Waiting for qMover")
+	qs.qMover.Wait()
+
+	return nil
+}
+
+func (z *ViaApp) Test(c app_control.Control) error {
+	l := c.Log()
+	vo := &ViaAppVO{}
+	if !qt_recipe.ApplyTestPeers(c, vo) {
+		return qt_recipe.NotEnoughResource()
+	}
+
+	scenario := qs_file.Scenario{}
+	if err := scenario.Create(); err != nil {
+		return err
+	}
+	vo.LocalPath = scenario.LocalPath
+
+	pseudoDesktop, err := ioutil.TempDir("", "pseudo-desktop")
+	if err != nil {
+		l.Error("unable to create temp dir", zap.Error(err))
+		return err
+	}
+	vo.PseudoDesktopPath = pseudoDesktop
+	vo.DestDropboxPath = "/" + qt_recipe.TestTeamFolderName + "/" + time.Now().Format("2006-01-02T15-04-05")
+
+	if err = z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (z *ViaApp) Reports() []rp_spec.ReportSpec {
+	reps := make([]rp_spec.ReportSpec, 0)
+	reps = append(reps,
+		rp_spec_impl.Spec(
+			viaAppReportLocalScanner,
+			rp_model.TransactionHeader(&ViaAppLocalScannerInput{}, nil),
+		),
+		rp_spec_impl.Spec(
+			viaAppReportDbxScanner,
+			rp_model.TransactionHeader(&ViaAppDbxScannerInput{}, &ViaAppCopierInput{}),
+		),
+		rp_spec_impl.Spec(
+			viaAppReportCopier,
+			rp_model.TransactionHeader(&ViaAppCopierInput{}, &ViaAppCopierTransaction{}),
+		),
+		rp_spec_impl.Spec(
+			viaAppReportMover,
+			rp_model.TransactionHeader(&ViaAppMoverInput{}, &mo_file.ConcreteEntry{}),
+		),
+	)
+	reps = append(reps, uc_file_upload.UploadReports()...)
+	return reps
+}
+
+type ViaAppPseudoDesktop struct {
+	desktopPath     string
+	desktopWorkPath string
+	dbxWorkPath     mo_path.Path
+	ctx             api_context.Context
+	specs           *rp_spec_impl.Specs
+	k               app_kitchen.Kitchen
+}
+
+func (z *ViaAppPseudoDesktop) Run() {
+	l := z.k.Log()
+	up := uc_file_upload.New(z.ctx, z.specs, z.k)
+
+	dbxToLocalSync := func() {
+		dbxEntries, err := sv_file.NewFiles(z.ctx).List(z.dbxWorkPath)
+		if err != nil {
+			l.Debug("Unable to list folder", zap.Error(err))
+			z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
+		}
+
+		localEntries, err := ioutil.ReadDir(z.desktopWorkPath)
+		if err != nil {
+			l.Debug("Unable to list folder", zap.Error(err))
+			z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
+		}
+
+		for _, de := range dbxEntries {
+			dn := strings.ToLower(de.Name())
+			for _, le := range localEntries {
+				ln := strings.ToLower(le.Name())
+				if dn == ln {
+					err := os.Remove(filepath.Join(z.desktopWorkPath, le.Name()))
+					if err != nil {
+						l.Debug("Unable to remove", zap.Error(err), zap.Any("localEntry", le), zap.Any("dropboxEntry", de))
+						z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
+					}
+					break
+				}
+			}
+		}
+	}
+
+	localToDbxSync := func() {
+		localEntries, err := ioutil.ReadDir(z.desktopWorkPath)
+		if err != nil {
+			l.Debug("Unable to list folder", zap.Error(err))
+			z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
+		}
+
+		if len(localEntries) < 1 {
+			l.Debug("No entry found")
+			return
+		}
+		summary, err := up.Upload(z.desktopWorkPath, z.dbxWorkPath.Path())
+		if err != nil {
+			l.Debug("Unable to upload")
+			z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
+		}
+		l.Debug("Uploaded", zap.Any("summary", summary))
+	}
+
+	for {
+		time.Sleep(5 * time.Second)
+		dbxToLocalSync()
+		localToDbxSync()
+	}
 }

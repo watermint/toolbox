@@ -55,6 +55,7 @@ func Recipes() []app_recipe.Recipe {
 		&filecompare.Account{},
 		&filecompare.Local{},
 		&fileimport.Url{},
+		&fileimport.ViaApp{},
 		&fileimportbatch.Url{},
 		&filesync.Up{},
 		&filesyncpreflight.Up{},

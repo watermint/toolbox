@@ -12,8 +12,6 @@ import (
 	filesync "github.com/watermint/toolbox/recipe/file/sync"
 	filesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
 	"go.uber.org/zap"
-	"io/ioutil"
-	"os"
 	"path/filepath"
 	"testing"
 	"time"
@@ -21,40 +19,12 @@ import (
 
 func TestFileUploadScenario(t *testing.T) {
 	l := app_root.Log()
-
-	// path -> content
-	vFile := make(map[string]string)
-	vFile["123.txt"] = "123"
-	vFile["abc.txt"] = "abc"
-	vFile["あいう.txt"] = "あいう"
-	vFile["time.txt"] = time.Now().String()
-	vFile["987/654.txt"] = "654"
-	vFile["zyx/wvu.txt"] = "wvu"
-	vFile["アイウ/エオ.txt"] = "エオ"
-	vFile["a-b-c/time.txt"] = time.Now().String()
-
-	vIgnore := make(map[string]string)
-	vIgnore[".DS_Store"] = "ignore-dsstore"
-	vIgnore["987/~$abc"] = "ignore-abc"
-	vIgnore["d-e-f/.~abc"] = "ignore-dot-tilde"
-	vIgnore["~123.tmp"] = "ignore-123"
-
-	// Empty folders
-	vFolder := make(map[string]bool)
-	vFolder["987"] = true
-	vFolder["zyx"] = true
-	vFolder["アイウ"] = true
-	vFolder["a-b-c"] = true
-	vFolder["d-e-f"] = true
-	vFolder["1-2-3"] = true
-	vFolder["g-h-i/j-k-l"] = true
-
-	localBase, err := ioutil.TempDir("", "file-upload-scenario")
-	if err != nil {
-		l.Error("unable to create temp dir", zap.Error(err))
+	scenario := &Scenario{}
+	if err := scenario.Create(); err != nil {
 		t.Error(err)
 		return
 	}
+
 	dbxBase := "/" + qt_recipe.TestTeamFolderName + "/" + time.Now().Format("2006-01-02T15-04-05")
 
 	testContent := func(ctl app_control.Control, reportName, localBase, dbxBase string) {
@@ -87,7 +57,7 @@ func TestFileUploadScenario(t *testing.T) {
 			t.Error(contentErr)
 		}
 
-		for f := range vFile {
+		for f := range scenario.Files {
 			if _, ok := found[f]; !ok {
 				l.Error("File missing", zap.String("file", f))
 				t.Error("missing file")
@@ -108,39 +78,10 @@ func TestFileUploadScenario(t *testing.T) {
 		if skipErr != nil {
 			t.Error(skipErr)
 		}
-		for f := range vIgnore {
+		for f := range scenario.Ignore {
 			if _, ok := found[f]; !ok {
 				l.Error("File missing", zap.String("file", f))
 				t.Error("missing file")
-			}
-		}
-	}
-
-	// Create test folders
-	{
-		for f := range vFolder {
-			if err := os.MkdirAll(filepath.Join(localBase, f), 0755); err != nil {
-				l.Error("Unable to create folder", zap.Error(err), zap.String("f", f))
-				t.Error(err)
-				return
-			}
-		}
-	}
-
-	// Create test files
-	{
-		for f, c := range vFile {
-			if err := ioutil.WriteFile(filepath.Join(localBase, f), []byte(c), 0644); err != nil {
-				l.Error("Unable to create file", zap.Error(err), zap.String("f", f))
-				t.Error(err)
-				return
-			}
-		}
-		for f, c := range vIgnore {
-			if err := ioutil.WriteFile(filepath.Join(localBase, f), []byte(c), 0644); err != nil {
-				l.Error("Unable to create file", zap.Error(err), zap.String("f", f))
-				t.Error(err)
-				return
 			}
 		}
 	}
@@ -153,7 +94,7 @@ func TestFileUploadScenario(t *testing.T) {
 				return
 			}
 			vo := &file.UploadVO{
-				LocalPath:   localBase,
+				LocalPath:   scenario.LocalPath,
 				DropboxPath: dbxBase + "/file-upload",
 				Overwrite:   false,
 			}
@@ -166,8 +107,8 @@ func TestFileUploadScenario(t *testing.T) {
 				t.Error(err)
 			}
 
-			testContent(fc, "upload", localBase, dbxBase+"/file-upload")
-			testSkip(fc, "skip", localBase)
+			testContent(fc, "upload", scenario.LocalPath, dbxBase+"/file-upload")
+			testSkip(fc, "skip", scenario.LocalPath)
 		}
 
 		// `file sync up`
@@ -177,7 +118,7 @@ func TestFileUploadScenario(t *testing.T) {
 				return
 			}
 			vo := &filesync.UpVO{
-				LocalPath:   localBase,
+				LocalPath:   scenario.LocalPath,
 				DropboxPath: dbxBase + "/file-sync-up",
 			}
 			r := filesync.Up{}
@@ -189,8 +130,8 @@ func TestFileUploadScenario(t *testing.T) {
 				t.Error(err)
 			}
 
-			testContent(fc, "upload", localBase, dbxBase+"/file-sync-up")
-			testSkip(fc, "skip", localBase)
+			testContent(fc, "upload", scenario.LocalPath, dbxBase+"/file-sync-up")
+			testSkip(fc, "skip", scenario.LocalPath)
 		}
 
 		// `file compare local`
@@ -200,7 +141,7 @@ func TestFileUploadScenario(t *testing.T) {
 				return
 			}
 			vo := &filecompare.LocalVO{
-				LocalPath:   localBase,
+				LocalPath:   scenario.LocalPath,
 				DropboxPath: dbxBase + "/file-sync-up",
 			}
 			r := filecompare.Local{}
@@ -221,7 +162,7 @@ func TestFileUploadScenario(t *testing.T) {
 				return
 			}
 			vo := &filesyncpreflight.UpVO{
-				LocalPath:   localBase,
+				LocalPath:   scenario.LocalPath,
 				DropboxPath: dbxBase + "/file-sync-preflight-up",
 			}
 			r := filesyncpreflight.Up{}
@@ -232,7 +173,7 @@ func TestFileUploadScenario(t *testing.T) {
 			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
 				t.Error(err)
 			}
-			testSkip(fc, "skip", localBase)
+			testSkip(fc, "skip", scenario.LocalPath)
 		}
 
 		// `file list`
