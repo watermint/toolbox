@@ -6,9 +6,8 @@ const (
 )
 
 type Desktop struct {
-	DropboxType      string `json:"-"`
-	Path             string `json:"path"`
-	Host             int64  `json:"host"`
-	IsTeam           bool   `json:"is_team"`
-	SubscriptionType string `json:"subscription_type"`
+	Path             string `path:"path" json:"path"`
+	Host             int64  `path:"host" json:"host"`
+	IsTeam           bool   `path:"is_team" json:"is_team"`
+	SubscriptionType string `path:"subscription_type" json:"subscription_type"`
 }

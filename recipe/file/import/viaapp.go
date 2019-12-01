@@ -880,7 +880,7 @@ func (z *ViaAppPseudoDesktop) Run() {
 	}
 
 	for {
-		time.Sleep(5 * time.Second)
+		time.Sleep(10 * time.Second)
 		dbxToLocalSync()
 		localToDbxSync()
 		if z.st.Backlogs < 1 {
