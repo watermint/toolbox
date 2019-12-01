@@ -14,7 +14,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_profile"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_upload"
 	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
@@ -69,21 +71,27 @@ type ViaAppHashToRel struct {
 }
 
 func (z *ViaAppHashToRel) Set(hash, rel string) {
+	l := app_root.Log()
+	l.Debug("Set", zap.String("hash", hash), zap.String("rel", rel))
 	z.htrMutex.Lock()
 	z.htr[hash] = rel
 	z.htrMutex.Unlock()
 }
 
 func (z *ViaAppHashToRel) Delete(hash string) {
+	l := app_root.Log()
+	l.Debug("Delete", zap.String("hash", hash))
 	z.htrMutex.Lock()
 	delete(z.htr, hash)
 	z.htrMutex.Unlock()
 }
 
 func (z *ViaAppHashToRel) Get(hash string) (string, bool) {
+	l := app_root.Log()
 	z.htrMutex.Lock()
 	defer z.htrMutex.Unlock()
 	r, ok := z.htr[hash]
+	l.Debug("Get", zap.String("hash", hash), zap.String("rel", r), zap.Bool("ok", ok))
 	return r, ok
 }
 
@@ -92,13 +100,21 @@ type ViaAppStates struct {
 	DesktopPath     string
 	DesktopWorkPath string
 	Backlogs        int64
+	backlogMutex    sync.Mutex
 }
 
 func (z *ViaAppStates) AddBacklog() {
+	z.backlogMutex.Lock()
+	defer z.backlogMutex.Unlock()
 	atomic.AddInt64(&z.Backlogs, 1)
 }
 func (z *ViaAppStates) ReleaseBacklog() {
-	atomic.AddInt64(&z.Backlogs, -1)
+	z.backlogMutex.Lock()
+	defer z.backlogMutex.Unlock()
+
+	if z.Backlogs > 0 {
+		atomic.AddInt64(&z.Backlogs, -1)
+	}
 }
 
 type ViaAppReports struct {
@@ -209,8 +225,12 @@ func (z *ViaAppLocalScannerWorker) Exec() error {
 				p,
 			)
 		} else {
-			l.Debug("Enqueue file", zap.Any("file", e))
-			files = append(files, e)
+			if api_util.IsFileNameIgnored(e.Name()) {
+				l.Debug("Ignore file", zap.Any("file", e))
+			} else {
+				l.Debug("Enqueue file", zap.Any("file", e))
+				files = append(files, e)
+			}
 		}
 	}
 
@@ -295,12 +315,16 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 		dbxPath = dbxPath.ChildPath(rel)
 	}
 
-	l.Debug("Scanning dbx path", zap.String("dbxPath", dbxPath.Path()))
+	l.Info("Scanning dbx path", zap.String("dbxPath", dbxPath.Path()))
 	entries, err := sv_file.NewFiles(z.ctx).List(dbxPath)
 	if err != nil {
-		l.Error("Failed to scan dbx path", zap.Error(err))
-		z.reps.repDbxScanner.Failure(err, dsIn)
-		return err
+		if api_util.ErrorSummaryPrefix(err, "path/not_found") {
+			l.Debug("Path not found in dest dropbox path")
+			entries = make([]mo_file.Entry, 0)
+		} else {
+			l.Error("Failed to scan dbx path", zap.Error(err))
+			return err
+		}
 	}
 
 	requireUpdate := make(map[string]bool)
@@ -398,6 +422,10 @@ func (z *ViaAppCopierWorker) Exec() error {
 	defer semCopier.Release(1)
 	defer z.st.ReleaseBacklog()
 
+	if z.copyIn.DbxFilePath == "" {
+		return errors.New("empty dbx file path")
+	}
+
 	workCopyName := fmt.Sprintf("%x", sha256.Sum256([]byte(z.copyIn.DbxFilePath)))
 	workCopyPath := filepath.Join(z.st.DesktopWorkPath, workCopyName)
 
@@ -406,7 +434,8 @@ func (z *ViaAppCopierWorker) Exec() error {
 		zap.String("workCopyName", workCopyName),
 		zap.String("workCopyPath", workCopyPath),
 	)
-	l.Debug("Copying from local to work")
+
+	l.Info("Copying from local to work")
 
 	l.Debug("Open source file")
 	src, err := os.Open(z.copyIn.LocalFilePath)
@@ -437,6 +466,7 @@ func (z *ViaAppCopierWorker) Exec() error {
 	// Update hash
 	l.Debug("Update hash mapping")
 	z.htr.Set(workCopyName, z.copyIn.DbxFilePath)
+	z.st.AddBacklog()
 
 	l.Debug("Copy finished", zap.Int64("writtenBytes", writtenBytes))
 	z.reps.repCopier.Success(z.copyIn, &ViaAppCopierTransaction{LocalWorkCopyPath: workCopyPath})
@@ -461,8 +491,7 @@ func viaAppEnqueueMover(
 		return
 	}
 
-	st.AddBacklog()
-	qs.qCopier.Enqueue(&ViaAppMoverWorker{
+	qs.qMover.Enqueue(&ViaAppMoverWorker{
 		k:      k,
 		ctx:    ctx,
 		htr:    htr,
@@ -494,14 +523,14 @@ func (z *ViaAppMoverWorker) Exec() error {
 		zap.String("dbxDestPath", dbxDestPath),
 	)
 	if !exist {
-		l.Debug("Mapping not found")
+		l.Warn("Mapping not found")
 		err := errors.New("path mapping not found")
 		z.reps.repMover.Failure(err, z.moveIn)
 		return err
 	}
 	defer z.st.ReleaseBacklog()
 
-	l.Debug("Moving from work to dest")
+	l.Info("Moving from work to dest")
 	src := z.st.DbxWorkPath.ChildPath(z.moveIn.DbxFileName)
 	dst := mo_path.NewPath(dbxDestPath)
 
@@ -527,6 +556,7 @@ type ViaAppWatcher struct {
 	qs   *ViaAppQueues
 	reps *ViaAppReports
 	st   *ViaAppStates
+	wg   sync.WaitGroup
 }
 
 func (z *ViaAppWatcher) Watch() {
@@ -534,10 +564,6 @@ func (z *ViaAppWatcher) Watch() {
 	for {
 		time.Sleep(viaAppWatchInterval)
 		l.Debug("Watching loop", zap.Int64("backlogs", z.st.Backlogs))
-		if z.st.Backlogs < 1 {
-			l.Debug("No more backlogs")
-			return
-		}
 
 		entries, err := sv_file.NewFiles(z.ctx).List(z.st.DbxWorkPath)
 		if err != nil {
@@ -546,7 +572,7 @@ func (z *ViaAppWatcher) Watch() {
 		}
 
 		for _, entry := range entries {
-			l.Debug("Enqueue entry", zap.Any("entry", entry))
+			l.Info("Enqueue entry", zap.Any("entry", entry))
 			viaAppEnqueueMover(
 				z.k,
 				z.ctx,
@@ -557,6 +583,12 @@ func (z *ViaAppWatcher) Watch() {
 				z.st,
 				&ViaAppMoverInput{DbxFileName: entry.Name()},
 			)
+		}
+
+		if z.st.Backlogs < 1 {
+			l.Debug("No more backlogs")
+			z.wg.Done()
+			return
 		}
 	}
 }
@@ -587,7 +619,7 @@ func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 
-	workPathRel := "toolbox-" + time.Now().Format("2006-01-02T15-04-05")
+	workPathRel := "tbx-file-import-viaapp/" + time.Now().Format("2006-01-02T15-04-05")
 	dbxWorkPath := mo_path.NewPath("/" + workPathRel)
 	dbxWorkFolder, err := sv_file_folder.New(ctx).Create(dbxWorkPath)
 	if err != nil {
@@ -655,23 +687,6 @@ func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
 	defer reps.repMover.Close()
 
 	desktopWorkPath := filepath.Join(desktopPath, workPathRel)
-	pseudoDesktop := &ViaAppPseudoDesktop{
-		desktopPath:     desktopPath,
-		desktopWorkPath: desktopWorkPath,
-		dbxWorkPath:     dbxWorkPath,
-		ctx:             ctx,
-		specs:           repSpecs,
-		k:               k,
-	}
-
-	if vo.PseudoDesktopPath != "" {
-		err := os.MkdirAll(desktopWorkPath, 0755)
-		if err != nil {
-			l.Debug("Unable to create folder", zap.Error(err))
-			return err
-		}
-		go pseudoDesktop.Run()
-	}
 
 	htr := &ViaAppHashToRel{
 		htr: make(map[string]string),
@@ -701,6 +716,26 @@ func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
 		st:   st,
 	}
 
+	pseudoDesktop := &ViaAppPseudoDesktop{
+		desktopPath:     desktopPath,
+		desktopWorkPath: desktopWorkPath,
+		dbxWorkPath:     dbxWorkPath,
+		ctx:             ctx,
+		specs:           repSpecs,
+		k:               k,
+		st:              st,
+	}
+
+	if vo.PseudoDesktopPath != "" {
+		l.Debug("Run pseudo desktop")
+		err := os.MkdirAll(desktopWorkPath, 0755)
+		if err != nil {
+			l.Debug("Unable to create folder", zap.Error(err))
+			return err
+		}
+		go pseudoDesktop.Run()
+	}
+
 	l.Debug("Enqueue local scanner")
 	viaAppEnqueueLocalScanner(
 		k,
@@ -714,7 +749,9 @@ func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
 	)
 
 	l.Debug("Launch watcher")
+	watcher.wg.Add(1)
 	go watcher.Watch()
+	watcher.wg.Wait()
 
 	l.Debug("Waiting for qLocalScanner")
 	qs.qLocalScanner.Wait()
@@ -786,6 +823,7 @@ type ViaAppPseudoDesktop struct {
 	dbxWorkPath     mo_path.Path
 	ctx             api_context.Context
 	specs           *rp_spec_impl.Specs
+	st              *ViaAppStates
 	k               app_kitchen.Kitchen
 }
 
@@ -845,5 +883,9 @@ func (z *ViaAppPseudoDesktop) Run() {
 		time.Sleep(5 * time.Second)
 		dbxToLocalSync()
 		localToDbxSync()
+		if z.st.Backlogs < 1 {
+			l.Debug("Finished")
+			return
+		}
 	}
 }
