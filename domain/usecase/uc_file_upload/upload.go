@@ -45,6 +45,108 @@ func New(ctx api_context.Context, specs *rp_spec_impl.Specs, k app_kitchen.Kitch
 	}
 }
 
+type Comparator interface {
+	Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error)
+}
+
+type SizeComparator struct {
+	l *zap.Logger
+}
+
+func (z SizeComparator) Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
+	l := z.l.With(zap.String("localPath", localPath), zap.String("dbxPath", dbxEntry.PathDisplay()))
+	if f, ok := dbxEntry.File(); ok {
+		if f.Size == localFile.Size() {
+			l.Debug("Same file size", zap.Int64("size", localFile.Size()))
+			return true, nil
+		}
+		l.Debug("Size diff found", zap.Int64("localFileSize", localFile.Size()), zap.Int64("dbxFileSize", f.Size))
+		return true, nil
+	}
+	l.Debug("Fallback")
+	return false, nil
+}
+
+type TimeComparator struct {
+	l *zap.Logger
+}
+
+func (z TimeComparator) Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
+	l := z.l.With(zap.String("localPath", localPath), zap.String("dbxPath", dbxEntry.PathDisplay()))
+	if f, ok := dbxEntry.File(); ok {
+		lt := localFile.ModTime()
+		dt, err := api_util.Parse(f.ClientModified)
+		if err != nil {
+			l.Debug("Unable to parse client modified", zap.Error(err))
+			return false, err
+		}
+		if lt.Equal(dt) {
+			l.Debug("Same modified time", zap.String("clientModified", dt.String()))
+			return true, nil
+		}
+		l.Debug("Modified time diff found",
+			zap.String("localModTime", lt.String()),
+			zap.String("dbxModTime", dt.String()),
+		)
+		return false, nil
+	}
+
+	l.Debug("Fallback")
+	return false, nil
+}
+
+type HashComparator struct {
+	l *zap.Logger
+}
+
+func (z HashComparator) Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
+	l := z.l.With(zap.String("localPath", localPath), zap.String("dbxPath", dbxEntry.PathDisplay()))
+	if f, ok := dbxEntry.File(); ok {
+		lch, err := api_util.ContentHash(localPath)
+		if err != nil {
+			l.Debug("Unable to calc local file content hash", zap.Error(err))
+			return false, err
+		}
+		if lch == f.ContentHash {
+			l.Debug("Same content hash", zap.String("hash", f.ContentHash))
+			return true, nil
+		}
+
+		l.Debug("Content hash diff found",
+			zap.String("localFileHash", lch),
+			zap.String("dbxFileHash", f.ContentHash),
+		)
+		return false, nil
+	}
+
+	l.Debug("Fallback")
+	return false, nil
+}
+
+// Returns true if it determined as same file
+func Compare(l *zap.Logger, localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
+	sc := &SizeComparator{l: l}
+	tc := &TimeComparator{l: l}
+	hc := &HashComparator{l: l}
+
+	eq, err := sc.Compare(localPath, localFile, dbxEntry)
+	if err != nil || !eq {
+		return eq, err
+	}
+	eq, err = tc.Compare(localPath, localFile, dbxEntry)
+	if err != nil {
+		return eq, err
+	}
+	// determine as true, if same size & time
+	if eq {
+		return true, nil
+	}
+
+	// otherwise, compare content hash
+	eq, err = hc.Compare(localPath, localFile, dbxEntry)
+	return eq, err
+}
+
 type UploadOpt func(o *UploadOpts) *UploadOpts
 type UploadOpts struct {
 	Overwrite    bool
@@ -138,6 +240,7 @@ type UploadWorker struct {
 	dropboxBasePath string
 	localBasePath   string
 	localFilePath   string
+	dbxEntry        mo_file.Entry
 	ctx             api_context.Context
 	ctl             app_control.Control
 	up              sv_file_content.Upload
@@ -177,6 +280,7 @@ func (z *UploadWorker) Exec() (err error) {
 	default:
 		dp = dp.ChildPath(filepath.ToSlash(rel))
 	}
+
 	info, err := os.Lstat(z.localFilePath)
 	if err != nil {
 		z.repUpload.Failure(err, upRow)
@@ -185,27 +289,22 @@ func (z *UploadWorker) Exec() (err error) {
 	}
 	upRow.Size = info.Size()
 
-	meta, err := sv_file.NewFiles(z.ctx).Resolve(sv_file_content.UploadPath(dp, info))
-	if err != nil {
-		l.Debug("Unable to resolve path", zap.Error(err))
-	} else {
-		f := meta.Concrete()
-		if f.Size == info.Size() {
-			hash, err := api_util.ContentHash(z.localFilePath)
-			if err != nil {
-				z.repUpload.Failure(err, upRow)
-				z.status.error()
-				return err
-			}
-			if f.ContentHash == hash {
-				ui.Info("usecase.uc_file_upload.progress.skip", app_msg.P{
-					"File": z.localFilePath,
-				})
+	// Verify proceed
+	if z.dbxEntry != nil {
+		same, err := Compare(l, z.localFilePath, info, z.dbxEntry)
+		if err != nil {
+			z.repUpload.Failure(err, upRow)
+			z.status.error()
+			return err
+		}
+		if same {
+			ui.Info("usecase.uc_file_upload.progress.skip", app_msg.P{
+				"File": z.localFilePath,
+			})
 
-				z.repSkip.Skip(app_msg.M("usecase.uc_file_upload.skip.file_exists"), upRow)
-				z.status.skip()
-				return nil
-			}
+			z.repSkip.Skip(app_msg.M("usecase.uc_file_upload.skip.file_exists"), upRow)
+			z.status.skip()
+			return nil
 		}
 	}
 
@@ -313,14 +412,27 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 	scanFolder = func(path string) error {
 		ll := l.With(zap.String("path", path))
 		ll.Debug("Scanning folder")
-		entries, err := ioutil.ReadDir(path)
+		localEntries, err := ioutil.ReadDir(path)
 		if err != nil {
 			ll.Debug("Unable to read dir", zap.Error(err))
 			return err
 		}
+		dbxPath := mo_path.NewPath(dropboxPath).ChildPath(filepath.ToSlash(path))
+		dbxEntries, err := sv_file.NewFiles(z.ctx).List(dbxPath)
+		if err != nil {
+			if api_util.ErrorSummaryPrefix(err, "path/not_found") {
+				ll.Debug("Dropbox entry not found", zap.String("dbxPath", dbxPath.Path()), zap.Error(err))
+				dbxEntries = make([]mo_file.Entry, 0)
+			} else {
+				ll.Debug("Unable to read Dropbox entries", zap.String("dbxPath", dbxPath.Path()), zap.Error(err))
+				return err
+			}
+		}
+		dbxEntryByName := mo_file.MapByNameLower(dbxEntries)
+
 		numEntriesProceed := 0
 		var lastErr error
-		for _, e := range entries {
+		for _, e := range localEntries {
 			p := filepath.Join(path, e.Name())
 			if api_util.IsFileNameIgnored(p) {
 				ll.Debug("Ignore file", zap.String("p", p))
@@ -342,11 +454,13 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 			if e.IsDir() {
 				lastErr = scanFolder(filepath.Join(path, e.Name()))
 			} else {
+				dbxEntry := dbxEntryByName[strings.ToLower(e.Name())]
 				ll.Debug("Enqueue", zap.String("p", p))
 				q.Enqueue(&UploadWorker{
 					dropboxBasePath: dropboxPath,
 					localBasePath:   localPath,
 					localFilePath:   p,
+					dbxEntry:        dbxEntry,
 					ctx:             z.ctx,
 					ctl:             z.k.Control(),
 					up:              up,

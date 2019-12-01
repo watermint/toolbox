@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
+	"strings"
 )
 
 type Entry interface {
@@ -61,4 +62,12 @@ func newConcreteEntry(raw json.RawMessage) *ConcreteEntry {
 	}
 	ce.Raw = raw
 	return ce
+}
+
+func MapByNameLower(entries []Entry) map[string]Entry {
+	mte := make(map[string]Entry)
+	for _, entry := range entries {
+		mte[strings.ToLower(entry.Name())] = entry
+	}
+	return mte
 }

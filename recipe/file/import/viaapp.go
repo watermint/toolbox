@@ -4,11 +4,10 @@ import (
 	"context"
 	"crypto/sha256"
 	"fmt"
-	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
+	"github.com/watermint/toolbox/domain/usecase/uc_file_upload"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_worker"
@@ -287,65 +286,14 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 		nameToLocal[ln] = f
 	}
 
-	compareFile := func(name string, lf os.FileInfo, df *mo_file.File) {
-		lfp := filepath.Join(z.curLocalPath, lf.Name())
-		ll := l.With(
-			zap.String("localFilePath", lfp),
-			zap.Int64("localFileSize", lf.Size()),
-			zap.String("dbxFileContentHash", df.ContentHash),
-			zap.Int64("dbxFileSize", df.Size),
-		)
-
-		if lf.Size() != df.Size {
-			ll.Debug("Size difference found, leave mark as copy")
-			requireUpdate[name] = true
-			return
-		}
-
-		lt := lf.ModTime()
-		dt, err := api_util.Parse(df.ClientModified)
-		if err != nil {
-			l.Debug("Unable to parse client modified time", zap.Error(err), zap.String("clientModified", df.ClientModified))
-		} else {
-			l.Debug("Compare time",
-				zap.String("localFileTime", lt.String()),
-				zap.String("dbxFileTime", dt.String()),
-			)
-			if lt.Equal(dt) {
-				l.Debug("Skip copying (same mod time)")
-				requireUpdate[name] = false
-				return
-			}
-		}
-
-		lch, err := api_util.ContentHash(lfp)
-		if err != nil {
-			l.Debug("Cannot compute hash, but leave mark as copy", zap.Error(err))
-			requireUpdate[name] = true
-			return
-
-		} else {
-			l.Debug("Computed hash of local file",
-				zap.String("localFileContentHash", lch),
-			)
-
-			if lch == df.ContentHash {
-				l.Debug("Skip copying (same content)")
-				requireUpdate[name] = false
-				return
-
-			}
-
-			l.Debug("Content diff found, leave mark as copy")
-			requireUpdate[name] = true
-		}
-	}
-
 	for _, entry := range entries {
 		if f, e := entry.File(); e {
 			en := strings.ToLower(f.Name())
 			if lf, ok := nameToLocal[en]; !ok {
-				compareFile(en, lf, f)
+				same, _ := uc_file_upload.Compare(l, filepath.Join(z.curLocalPath, lf.Name()), lf, f)
+				if same {
+					requireUpdate[en] = false
+				}
 			}
 		}
 	}
