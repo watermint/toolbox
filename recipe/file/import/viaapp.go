@@ -68,6 +68,24 @@ type ViaAppAccount struct {
 type ViaAppHashToRel struct {
 	htr      map[string]string
 	htrMutex sync.Mutex
+	proceed  map[string]bool
+}
+
+func (z *ViaAppHashToRel) Proceed(hash string) {
+	l := app_root.Log()
+	l.Debug("Proceed", zap.String("hash", hash))
+	z.htrMutex.Lock()
+	z.proceed[hash] = true
+	z.htrMutex.Unlock()
+}
+
+func (z *ViaAppHashToRel) IsProceed(hash string) bool {
+	l := app_root.Log()
+	z.htrMutex.Lock()
+	defer z.htrMutex.Unlock()
+	_, ok := z.proceed[hash]
+	l.Debug("IsProceed", zap.String("hash", hash), zap.Bool("ok", ok))
+	return ok
 }
 
 func (z *ViaAppHashToRel) Set(hash, rel string) {
@@ -352,6 +370,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 		lf := nameToLocal[name]
 
 		if !update {
+			l.Debug("Skip updating file", zap.String("name", name))
 			continue
 		}
 
@@ -485,6 +504,7 @@ func viaAppEnqueueMover(
 ) {
 	l := ctx.Log()
 	l.Debug("Trying enqueue to mover queue")
+	htr.Proceed(moveIn.DbxFileName)
 
 	if err := semMover.Acquire(context.Background(), 1); err != nil {
 		l.Error("Unable to acquire semaphore", zap.Error(err))
@@ -572,6 +592,11 @@ func (z *ViaAppWatcher) Watch() {
 		}
 
 		for _, entry := range entries {
+			if z.htr.IsProceed(entry.Name()) {
+				l.Debug("The entry is already queued", zap.String("entryName", entry.Name()))
+				continue
+			}
+
 			l.Info("Enqueue entry", zap.Any("entry", entry))
 			viaAppEnqueueMover(
 				z.k,
@@ -693,7 +718,8 @@ func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
 	}
 
 	htr := &ViaAppHashToRel{
-		htr: make(map[string]string),
+		htr:     make(map[string]string),
+		proceed: make(map[string]bool),
 	}
 
 	qs := &ViaAppQueues{
