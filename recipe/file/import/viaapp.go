@@ -687,6 +687,10 @@ func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
 	defer reps.repMover.Close()
 
 	desktopWorkPath := filepath.Join(desktopPath, workPathRel)
+	if err := os.MkdirAll(desktopWorkPath, 0755); err != nil {
+		l.Debug("Unable to create folder", zap.Error(err))
+		return err
+	}
 
 	htr := &ViaAppHashToRel{
 		htr: make(map[string]string),
@@ -728,11 +732,6 @@ func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
 
 	if vo.PseudoDesktopPath != "" {
 		l.Debug("Run pseudo desktop")
-		err := os.MkdirAll(desktopWorkPath, 0755)
-		if err != nil {
-			l.Debug("Unable to create folder", zap.Error(err))
-			return err
-		}
 		go pseudoDesktop.Run()
 	}
 
