@@ -68,6 +68,7 @@ func (z *UserWorker) Exec() error {
 		z.repSummary.Failure(err, userIn)
 		return err
 	}
+	defer rep.Close()
 
 	ui.Info("recipe.team.activity.user.progress.scan_user", app_msg.P{
 		"User": userIn.User,

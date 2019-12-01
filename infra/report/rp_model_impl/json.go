@@ -32,6 +32,7 @@ func NewJson(name string, ctl app_control.Control, opts ...rp_model.ReportOpt) (
 		return nil, err
 	}
 	r = &Json{
+		path: p,
 		file: f,
 		w:    f,
 		ctl:  ctl,
@@ -40,10 +41,12 @@ func NewJson(name string, ctl app_control.Control, opts ...rp_model.ReportOpt) (
 }
 
 type Json struct {
+	path  string
 	file  *os.File
 	w     io.Writer
 	ctl   app_control.Control
 	mutex sync.Mutex
+	index int
 }
 
 func (z *Json) findRaw(row interface{}, orig interface{}) json.RawMessage {
@@ -95,6 +98,7 @@ func (z *Json) Skip(reason app_msg.Message, input interface{}) {
 func (z *Json) Row(row interface{}) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
+	z.index++
 
 	raw := z.findRaw(row, row)
 	if raw != nil {
@@ -116,7 +120,17 @@ func (z *Json) Row(row interface{}) {
 }
 
 func (z *Json) Close() {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	if z.file != nil {
 		z.file.Close()
+
+		if z.index < 1 {
+			z.ctl.Log().Debug("Try removing empty report file", zap.String("path", z.path))
+			err := os.Remove(z.path)
+			z.ctl.Log().Debug("Removed or had an error (ignore)", zap.String("path", z.path), zap.Error(err))
+		}
+		z.file = nil
 	}
 }
