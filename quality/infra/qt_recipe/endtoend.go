@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_run_impl"
+	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
@@ -140,6 +141,7 @@ func findTestResource() (resource gjson.Result, found bool) {
 }
 
 func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
+	nw_ratelimit.SetTestMode(true)
 	bx, web, mc, ui := Resources(t)
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, make([]app_recipe.Recipe, 0))
@@ -162,6 +164,7 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 }
 
 func TestRecipe(t *testing.T, re app_recipe.Recipe) {
+	nw_ratelimit.SetTestMode(true)
 	TestWithControl(t, func(ctl app_control.Control) {
 		l := ctl.Log()
 		l.Debug("Start testing")

@@ -25,8 +25,12 @@ const (
 
 var (
 	rateLimitState = newLimitState()
+	isTest         = false
 )
 
+func SetTestMode(enabled bool) {
+	isTest = enabled
+}
 func AddError(hash, endpoint string, err error) (abort bool) {
 	return rateLimitState.AddError(hash, endpoint, err)
 }
@@ -221,6 +225,9 @@ func (z *limitStateImpl) WaitIfRequired(hash, endpoint string) {
 		dur := retryAfter.Sub(time.Now())
 		if dur > LongWaitAlertThreshold {
 			l.Warn("Waiting for server rate limit", zap.String("duration", dur.String()))
+			if isTest {
+				panic("server rate limit exceeds threshold")
+			}
 		}
 		if dur > 0 {
 			l.Debug("Waiting",
