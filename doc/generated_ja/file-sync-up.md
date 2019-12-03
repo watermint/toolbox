@@ -53,11 +53,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション      | 説明                   | デフォルト |
-|-----------------|------------------------|------------|
-| `-dropbox-path` | 転送先のDropboxパス    |            |
-| `-local-path`   | ローカルファイルのパス |            |
-| `-peer`         | アカウントの別名       | {default}  |
+| オプション      | 説明                                                         | デフォルト |
+|-----------------|--------------------------------------------------------------|------------|
+| `-chunk-size`   | {"key":"recipe.file.sync.up_vo.flag.chunk_size","params":{}} | 153600     |
+| `-dropbox-path` | 転送先のDropboxパス                                          |            |
+| `-local-path`   | ローカルファイルのパス                                       |            |
+| `-peer`         | アカウントの別名                                             | {default}  |
 
 Common options:
 

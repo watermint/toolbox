@@ -369,6 +369,7 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 
 	status := &UploadStatus{}
 
+	l.Debug("upload", zap.Int("chunkSize", z.opts.ChunkSize))
 	up := sv_file_content.NewUpload(z.ctx, sv_file_content.ChunkSize(int64(z.opts.ChunkSize)))
 	q := z.k.NewQueue()
 

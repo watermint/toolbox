@@ -55,6 +55,7 @@ At second run, please hit button "Open" on the dialogue.
 
 | Option          | Description              | Default   |
 |-----------------|--------------------------|-----------|
+| `-chunk-size`   | Upload chunk size in KB  | 153600    |
 | `-dropbox-path` | Destination Dropbox path |           |
 | `-local-path`   | Local file path          |           |
 | `-peer`         | Account alias            | {default} |

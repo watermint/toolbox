@@ -142,7 +142,6 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 	if err != nil {
 		return nil, err
 	}
-	r := io.LimitReader(f, z.uo.ChunkSize)
 
 	type SessionId struct {
 		SessionId string `json:"session_id"`
@@ -160,6 +159,7 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 	}
 
 	l.Debug("Upload session start")
+	r := io.LimitReader(f, z.uo.ChunkSize)
 	res, err := z.ctx.Upload("files/upload_session/start", r).Call()
 	if err != nil {
 		return nil, err
