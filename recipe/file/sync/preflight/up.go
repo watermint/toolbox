@@ -34,7 +34,7 @@ func (z *Up) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k,
-		uc_file_upload.ChunkSize(150*1024),
+		uc_file_upload.ChunkSizeKb(150*1024),
 		uc_file_upload.Overwrite())
 
 	_, err = up.Estimate(vo.LocalPath, vo.DropboxPath)

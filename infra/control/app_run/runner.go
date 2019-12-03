@@ -215,7 +215,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	}
 
 	// Set bandwidth
-	nw_bandwidth.SetBandwidth(com.Bandwidth)
+	nw_bandwidth.SetBandwidth(com.BandwidthKb)
 	nw_concurrency.SetConcurrency(com.Concurrency)
 
 	// Apply profiler

@@ -32,7 +32,7 @@ type Upload interface {
 
 func New(ctx api_context.Context, specs *rp_spec_impl.Specs, k app_kitchen.Kitchen, opt ...UploadOpt) Upload {
 	opts := &UploadOpts{
-		ChunkSize: 150 * 1_048_576,
+		ChunkSizeKb: 150 * 1_048_576,
 	}
 	for _, o := range opt {
 		o(opts)
@@ -150,13 +150,13 @@ func Compare(l *zap.Logger, localPath string, localFile os.FileInfo, dbxEntry mo
 type UploadOpt func(o *UploadOpts) *UploadOpts
 type UploadOpts struct {
 	Overwrite    bool
-	ChunkSize    int
+	ChunkSizeKb  int
 	CreateFolder bool
 }
 
-func ChunkSize(size int) UploadOpt {
+func ChunkSizeKb(size int) UploadOpt {
 	return func(o *UploadOpts) *UploadOpts {
-		o.ChunkSize = size
+		o.ChunkSizeKb = size
 		return o
 	}
 }
@@ -309,7 +309,7 @@ func (z *UploadWorker) Exec() (err error) {
 	}
 
 	if z.estimateOnly {
-		z.status.upload(info.Size(), z.opts.ChunkSize)
+		z.status.upload(info.Size(), z.opts.ChunkSizeKb)
 		l.Debug("Skip upload (estimate only)")
 		return nil
 	}
@@ -335,7 +335,7 @@ func (z *UploadWorker) Exec() (err error) {
 		}
 	}
 	z.repUpload.Success(upRow, entry.Concrete())
-	z.status.upload(info.Size(), z.opts.ChunkSize)
+	z.status.upload(info.Size(), z.opts.ChunkSizeKb)
 	return nil
 }
 
@@ -369,8 +369,8 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 
 	status := &UploadStatus{}
 
-	l.Debug("upload", zap.Int("chunkSize", z.opts.ChunkSize))
-	up := sv_file_content.NewUpload(z.ctx, sv_file_content.ChunkSize(int64(z.opts.ChunkSize)))
+	l.Debug("upload", zap.Int("chunkSize", z.opts.ChunkSizeKb))
+	up := sv_file_content.NewUpload(z.ctx, sv_file_content.ChunkSizeKb(z.opts.ChunkSizeKb))
 	q := z.k.NewQueue()
 
 	info, err := os.Lstat(localPath)

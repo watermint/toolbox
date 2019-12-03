@@ -15,7 +15,7 @@ type UpVO struct {
 	Peer        app_conn.ConnUserFile
 	LocalPath   string
 	DropboxPath string
-	ChunkSize   int
+	ChunkSizeKb int
 }
 
 type Up struct {
@@ -26,7 +26,7 @@ func (z *Up) Console() {
 
 func (z *Up) Requirement() app_vo.ValueObject {
 	return &UpVO{
-		ChunkSize: 150 * 1024,
+		ChunkSizeKb: 150 * 1024,
 	}
 }
 
@@ -37,7 +37,7 @@ func (z *Up) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k,
-		uc_file_upload.ChunkSize(vo.ChunkSize*1024),
+		uc_file_upload.ChunkSizeKb(vo.ChunkSizeKb),
 		uc_file_upload.CreateFolder(),
 		uc_file_upload.Overwrite())
 

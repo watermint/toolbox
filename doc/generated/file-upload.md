@@ -53,25 +53,25 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option          | Description                | Default   |
-|-----------------|----------------------------|-----------|
-| `-chunk-size`   | Upload chunk size in KB    | 153600    |
-| `-dropbox-path` | Destination Dropbox path   |           |
-| `-local-path`   | Local file path            |           |
-| `-overwrite`    | Overwrite existing file(s) | false     |
-| `-peer`         | Account alias              | {default} |
+| Option           | Description                | Default   |
+|------------------|----------------------------|-----------|
+| `-chunk-size-kb` | Upload chunk size in KB    | 153600    |
+| `-dropbox-path`  | Destination Dropbox path   |           |
+| `-local-path`    | Local file path            |           |
+| `-overwrite`     | Overwrite existing file(s) | false     |
+| `-peer`          | Account alias              | {default} |
 
 Common options:
 
-| Option         | Description                                                                      | Default              |
-|----------------|----------------------------------------------------------------------------------|----------------------|
-| `-bandwidth`   | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency` | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`       | Enable debug mode                                                                | false                |
-| `-proxy`       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`      | Do not store tokens into a file                                                  | false                |
-| `-workspace`   | Workspace path                                                                   |                      |
+| Option          | Description                                                                      | Default              |
+|-----------------|----------------------------------------------------------------------------------|----------------------|
+| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
+| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`        | Enable debug mode                                                                | false                |
+| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`       | Do not store tokens into a file                                                  | false                |
+| `-workspace`    | Workspace path                                                                   |                      |
 
 ## Authentication
 

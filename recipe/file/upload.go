@@ -17,7 +17,7 @@ type UploadVO struct {
 	LocalPath   string
 	DropboxPath string
 	Overwrite   bool
-	ChunkSize   int
+	ChunkSizeKb int
 }
 
 type Upload struct {
@@ -28,7 +28,7 @@ func (z *Upload) Console() {
 
 func (z *Upload) Requirement() app_vo.ValueObject {
 	return &UploadVO{
-		ChunkSize: 150 * 1024,
+		ChunkSizeKb: 150 * 1024,
 	}
 }
 
@@ -39,8 +39,8 @@ func (z *Upload) Exec(k app_kitchen.Kitchen) error {
 		return err
 	}
 	opts := make([]uc_file_upload.UploadOpt, 0)
-	if vo.ChunkSize > 0 {
-		opts = append(opts, uc_file_upload.ChunkSize(vo.ChunkSize*1024))
+	if vo.ChunkSizeKb > 0 {
+		opts = append(opts, uc_file_upload.ChunkSizeKb(vo.ChunkSizeKb*1024))
 	}
 	if vo.Overwrite {
 		opts = append(opts, uc_file_upload.Overwrite())
@@ -86,7 +86,7 @@ func (z *Upload) Test(c app_control.Control) error {
 			LocalPath:   file,
 			DropboxPath: "/" + qt_recipe.TestTeamFolderName,
 			Overwrite:   true,
-			ChunkSize:   1,
+			ChunkSizeKb: 1,
 		}
 		if !qt_recipe.ApplyTestPeers(c, vo) {
 			return qt_recipe.NotEnoughResource()

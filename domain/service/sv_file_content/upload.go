@@ -24,7 +24,7 @@ type UploadOpts struct {
 }
 
 const (
-	DefaultChunkSize = 150 * 1048576
+	DefaultChunkSize = 150 * 1_048_576
 )
 
 func NewUpload(ctx api_context.Context, opts ...UploadOpt) Upload {
@@ -40,9 +40,9 @@ func NewUpload(ctx api_context.Context, opts ...UploadOpt) Upload {
 		uo:  uo,
 	}
 }
-func ChunkSize(chunkSize int64) UploadOpt {
+func ChunkSizeKb(chunkSizeKb int) UploadOpt {
 	return func(o *UploadOpts) *UploadOpts {
-		o.ChunkSize = chunkSize
+		o.ChunkSize = int64(chunkSizeKb * 1024)
 		return o
 	}
 }
