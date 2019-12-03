@@ -1,10 +1,12 @@
 package app_run
 
 import (
+	"bytes"
 	"flag"
 	"github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/catalogue"
+	"github.com/watermint/toolbox/domain/service/sv_desktop"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_opt"
@@ -27,6 +29,7 @@ import (
 	"runtime"
 	"strings"
 	"syscall"
+	"text/template"
 )
 
 func Run(args []string, bx, web *rice.Box) (found bool) {
@@ -89,7 +92,27 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Up
 	so := make([]app_control.UpOpt, 0)
 	if com.Workspace != "" {
-		so = append(so, app_control.WorkspacePath(com.Workspace))
+		personalPath, businessPath := "", ""
+		personal, business, _ := sv_desktop.New().Lookup()
+		if personal != nil {
+			personalPath = personal.Path
+		}
+		if business != nil {
+			businessPath = business.Path
+		}
+		wsPath := com.Workspace
+		wsPathTmpl, err := template.New("path").Parse(com.Workspace)
+		if err == nil && (personalPath != "" || businessPath != "") {
+			var wsPathBuf bytes.Buffer
+			err = wsPathTmpl.Execute(&wsPathBuf, map[string]string{
+				"DropboxPersonal": personalPath,
+				"DropboxBusiness": businessPath,
+			})
+			if err == nil {
+				wsPath = wsPathBuf.String()
+			}
+		}
+		so = append(so, app_control.WorkspacePath(wsPath))
 	}
 	if com.Debug {
 		so = append(so, app_control.Debug())
