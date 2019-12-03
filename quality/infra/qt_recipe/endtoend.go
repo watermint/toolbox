@@ -27,6 +27,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"testing"
 )
 
@@ -39,6 +40,12 @@ const (
 func ApplyConn(v interface{}, c app_control.Control) (conn app_conn.ConnDropboxApi, found bool) {
 	l := c.Log()
 	a := api_auth_impl.NewCached(c, api_auth_impl.PeerName(EndToEndPeer))
+	if p, found := os.LookupEnv("TOOLBOX_SKIPENDTOENDTEST"); found {
+		if b, _ := strconv.ParseBool(p); b {
+			l.Info("Skip end to end test")
+			return nil, true
+		}
+	}
 
 	if _, ok := v.(app_conn.ConnBusinessInfo); ok {
 		if _, err := a.Auth(api_auth.DropboxTokenBusinessInfo); err != nil {
