@@ -1,12 +1,10 @@
 package app_run
 
 import (
-	"bytes"
 	"flag"
 	"github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/catalogue"
-	"github.com/watermint/toolbox/domain/service/sv_desktop"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_opt"
@@ -21,6 +19,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
 	"github.com/watermint/toolbox/quality/infra/qt_control_impl"
 	"go.uber.org/zap"
@@ -29,7 +28,6 @@ import (
 	"runtime"
 	"strings"
 	"syscall"
-	"text/template"
 )
 
 func Run(args []string, bx, web *rice.Box) (found bool) {
@@ -92,25 +90,12 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Up
 	so := make([]app_control.UpOpt, 0)
 	if com.Workspace != "" {
-		personalPath, businessPath := "", ""
-		personal, business, _ := sv_desktop.New().Lookup()
-		if personal != nil {
-			personalPath = personal.Path
-		}
-		if business != nil {
-			businessPath = business.Path
-		}
-		wsPath := com.Workspace
-		wsPathTmpl, err := template.New("path").Parse(com.Workspace)
-		if err == nil && (personalPath != "" || businessPath != "") {
-			var wsPathBuf bytes.Buffer
-			err = wsPathTmpl.Execute(&wsPathBuf, map[string]string{
-				"DropboxPersonal": personalPath,
-				"DropboxBusiness": businessPath,
+		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace)
+		if err != nil {
+			ui.Error("run.error.unable_to_format_path", app_msg.P{
+				"Error": err.Error(),
 			})
-			if err == nil {
-				wsPath = wsPathBuf.String()
-			}
+			os.Exit(app_control.FailureInvalidCommandFlags)
 		}
 		so = append(so, app_control.WorkspacePath(wsPath))
 	}

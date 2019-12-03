@@ -1,6 +1,9 @@
 package ut_filepath
 
-import "testing"
+import (
+	"os/user"
+	"testing"
+)
 
 func TestRel(t *testing.T) {
 	// Success
@@ -79,4 +82,34 @@ func TestRel(t *testing.T) {
 		isWindows = false
 	}
 
+}
+
+func TestFormatPathWithPredefinedVariables(t *testing.T) {
+	u, err := user.Current()
+	if err == nil {
+		p, err := FormatPathWithPredefinedVariables("{{.Home}}/test")
+		if err != nil {
+			t.Error(err)
+		}
+		if p != u.HomeDir+"/test" {
+			t.Error(p)
+		}
+	}
+
+	{
+		p, err := FormatPathWithPredefinedVariables("/home/someone/.toolbox")
+		if err != nil {
+			t.Error()
+		}
+		if p != "/home/someone/.toolbox" {
+			t.Error(p)
+		}
+	}
+
+	{
+		_, err := FormatPathWithPredefinedVariables("{{.AlwaysErrorForTest}}/test")
+		if err == nil {
+			t.Error("should raise error")
+		}
+	}
 }

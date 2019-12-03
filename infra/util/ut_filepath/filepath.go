@@ -1,10 +1,15 @@
 package ut_filepath
 
 import (
+	"bytes"
 	"errors"
+	"github.com/watermint/toolbox/domain/service/sv_desktop"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
+	"os/user"
 	"runtime"
+	"strings"
+	"text/template"
 	"unicode"
 )
 
@@ -78,4 +83,72 @@ func Rel(basePath, targetPath string) (rel string, err error) {
 		return string(tpr[bl+1:]), nil
 	}
 	return "", errors.New(errMsg)
+}
+
+type FormatError struct {
+	Reason string
+	Key    string
+}
+
+func (z *FormatError) Error() string {
+	return z.String()
+}
+func (z *FormatError) String() string {
+	return "{{." + z.Key + "}}: " + z.Reason
+}
+
+// Format path if a path contains pattern like `{{.DropboxPersonal}}`.
+func FormatPathWithPredefinedVariables(path string) (string, error) {
+	predefined := make(map[string]func() (string, error))
+	predefined["DropboxPersonal"] = func() (s string, e error) {
+		p, _, _ := sv_desktop.New().Lookup()
+		if p != nil {
+			return p.Path, nil
+		}
+		return "", errors.New("personal dropbox desktop folder not found")
+	}
+	predefined["DropboxBusiness"] = func() (s string, e error) {
+		_, p, _ := sv_desktop.New().Lookup()
+		if p != nil {
+			return p.Path, nil
+		}
+		return "", errors.New("business dropbox desktop folder not found")
+	}
+	predefined["Home"] = func() (s string, e error) {
+		u, err := user.Current()
+		if err == nil {
+			return u.HomeDir, nil
+		}
+		return "", errors.New("unable to retrieve current user home")
+	}
+	predefined["AlwaysErrorForTest"] = func() (s string, e error) {
+		return "", errors.New("always error")
+	}
+	data := make(map[string]string)
+
+	for k, vf := range predefined {
+		ptn := "{{." + k + "}}"
+		if strings.Index(path, ptn) >= 0 {
+			v, err := vf()
+			if err != nil {
+				return "", &FormatError{
+					Reason: err.Error(),
+					Key:    k,
+				}
+			}
+			data[k] = v
+		}
+	}
+
+	var buf bytes.Buffer
+	pathTmpl, err := template.New("path").Parse(path)
+	if err != nil {
+		return "", err
+	}
+
+	err = pathTmpl.Execute(&buf, data)
+	if err != nil {
+		return "", err
+	}
+	return buf.String(), nil
 }
