@@ -34,52 +34,73 @@ const (
 	TestTeamFolderName = "watermint-toolbox-test"
 )
 
+// Returns conn if v & end to end peer exist. found = true when v is an interface of app_conn.ConnDropboxAPI
+func ApplyConn(v interface{}, c app_control.Control) (conn app_conn.ConnDropboxApi, found bool) {
+	l := c.Log()
+	a := api_auth_impl.NewCached(c, api_auth_impl.PeerName(EndToEndPeer))
+
+	if _, ok := v.(app_conn.ConnBusinessInfo); ok {
+		if _, err := a.Auth(api_auth.DropboxTokenBusinessInfo); err != nil {
+			l.Info("BusinessInfo: Skip end to end test")
+			return nil, true
+		}
+		return &app_conn_impl.ConnBusinessInfo{
+			PeerName: EndToEndPeer,
+		}, true
+	}
+
+	if _, ok := v.(app_conn.ConnBusinessFile); ok {
+		if _, err := a.Auth(api_auth.DropboxTokenBusinessFile); err != nil {
+			l.Info("BusinessFile: Skip end to end test")
+			return nil, true
+		}
+		return &app_conn_impl.ConnBusinessFile{
+			PeerName: EndToEndPeer,
+		}, true
+	}
+	if _, ok := v.(app_conn.ConnBusinessAudit); ok {
+		if _, err := a.Auth(api_auth.DropboxTokenBusinessAudit); err != nil {
+			l.Info("BusinessAudit: Skip end to end test")
+			return nil, true
+		}
+		return &app_conn_impl.ConnBusinessAudit{
+			PeerName: EndToEndPeer,
+		}, true
+	}
+	if _, ok := v.(app_conn.ConnBusinessMgmt); ok {
+		if _, err := a.Auth(api_auth.DropboxTokenBusinessManagement); err != nil {
+			l.Info("BusinessManagement: Skip end to end test")
+			return nil, true
+		}
+		return &app_conn_impl.ConnBusinessMgmt{
+			PeerName: EndToEndPeer,
+		}, true
+	}
+	if _, ok := v.(app_conn.ConnUserFile); ok {
+		if _, err := a.Auth(api_auth.DropboxTokenFull); err != nil {
+			l.Info("UserFull: Skip end to end test")
+			return nil, true
+		}
+		return &app_conn_impl.ConnUserFile{
+			PeerName: EndToEndPeer,
+		}, true
+	}
+
+	return nil, false
+}
+
 func ApplyTestPeers(ctl app_control.Control, vo app_vo.ValueObject) bool {
 	l := ctl.Log()
 	l.Debug("Prepare for applying test peers")
-	a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(EndToEndPeer))
 
 	vc := app_vo_impl.NewValueContainer(vo)
 	for k, v := range vc.Values {
-		if _, ok := v.(app_conn.ConnBusinessInfo); ok {
-			if _, err := a.Auth(api_auth.DropboxTokenBusinessInfo); err != nil {
-				l.Info("BusinessInfo: Skip end to end test", zap.String("k", k))
+		if conn, found := ApplyConn(v, ctl); found {
+			l.Debug("Conn found for key", zap.String("k", k), zap.Bool("connApplied", conn != nil))
+			if conn == nil {
 				return false
-			}
-			vc.Values[k] = &app_conn_impl.ConnBusinessInfo{
-				PeerName: EndToEndPeer,
-			}
-		} else if _, ok := v.(app_conn.ConnBusinessFile); ok {
-			if _, err := a.Auth(api_auth.DropboxTokenBusinessFile); err != nil {
-				l.Info("BusinessFile: Skip end to end test", zap.String("k", k))
-				return false
-			}
-			vc.Values[k] = &app_conn_impl.ConnBusinessFile{
-				PeerName: EndToEndPeer,
-			}
-		} else if _, ok := v.(app_conn.ConnBusinessAudit); ok {
-			if _, err := a.Auth(api_auth.DropboxTokenBusinessAudit); err != nil {
-				l.Info("BusinessAudit: Skip end to end test", zap.String("k", k))
-				return false
-			}
-			vc.Values[k] = &app_conn_impl.ConnBusinessAudit{
-				PeerName: EndToEndPeer,
-			}
-		} else if _, ok := v.(app_conn.ConnBusinessMgmt); ok {
-			if _, err := a.Auth(api_auth.DropboxTokenBusinessManagement); err != nil {
-				l.Info("BusinessManagement: Skip end to end test", zap.String("k", k))
-				return false
-			}
-			vc.Values[k] = &app_conn_impl.ConnBusinessMgmt{
-				PeerName: EndToEndPeer,
-			}
-		} else if _, ok := v.(app_conn.ConnUserFile); ok {
-			if _, err := a.Auth(api_auth.DropboxTokenFull); err != nil {
-				l.Info("UserFull: Skip end to end test", zap.String("k", k))
-				return false
-			}
-			vc.Values[k] = &app_conn_impl.ConnUserFile{
-				PeerName: EndToEndPeer,
+			} else {
+				vc.Values[k] = conn
 			}
 		}
 	}

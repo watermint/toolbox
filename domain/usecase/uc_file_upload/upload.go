@@ -74,7 +74,7 @@ type TimeComparator struct {
 func (z TimeComparator) Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
 	l := z.l.With(zap.String("localPath", localPath), zap.String("dbxPath", dbxEntry.PathDisplay()))
 	if f, ok := dbxEntry.File(); ok {
-		lt := localFile.ModTime()
+		lt := api_util.RebaseTime(localFile.ModTime())
 		dt, err := api_util.Parse(f.ClientModified)
 		if err != nil {
 			l.Debug("Unable to parse client modified", zap.Error(err))
@@ -399,9 +399,14 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 
 		entry, err := sv_file_folder.New(z.ctx).Create(folderPath)
 		if err != nil {
-			ll.Debug("Unable to create folder", zap.Error(err))
-			repUpload.Failure(err, &UploadRow{File: path})
-			return err
+			if api_util.ErrorSummaryPrefix(err, "path/conflict/folder") {
+				ll.Debug("The folder already exist, ignore it", zap.Error(err))
+				return nil
+			} else {
+				ll.Debug("Unable to create folder", zap.Error(err))
+				repUpload.Failure(err, &UploadRow{File: path})
+				return err
+			}
 		}
 		repUpload.Success(&UploadRow{File: path}, entry.Concrete())
 
@@ -417,7 +422,17 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 			ll.Debug("Unable to read dir", zap.Error(err))
 			return err
 		}
-		dbxPath := mo_path.NewPath(dropboxPath).ChildPath(filepath.ToSlash(path))
+		localPathRel, err := ut_filepath.Rel(localPath, path)
+		if err != nil {
+			ll.Debug("Unable to calc rel path", zap.Error(err))
+			return err
+		}
+
+		dbxPath := mo_path.NewPath(dropboxPath)
+		if localPathRel != "." {
+			dbxPath = dbxPath.ChildPath(filepath.ToSlash(localPathRel))
+		}
+
 		dbxEntries, err := sv_file.NewFiles(z.ctx).List(dbxPath)
 		if err != nil {
 			if api_util.ErrorSummaryPrefix(err, "path/not_found") {

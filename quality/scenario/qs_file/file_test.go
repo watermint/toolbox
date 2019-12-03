@@ -1,6 +1,7 @@
 package qs_file
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
@@ -131,6 +132,33 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 
 			testContent(fc, "upload", scenario.LocalPath, dbxBase+"/file-sync-up")
+			testSkip(fc, "skip", scenario.LocalPath)
+		}
+
+		// `file sync up`: should skip uploading for all files
+		{
+			fc, err := app_control_impl.Fork(ctl, "file-sync-up-dup")
+			if err != nil {
+				return
+			}
+			vo := &filesync.UpVO{
+				LocalPath:   scenario.LocalPath,
+				DropboxPath: dbxBase + "/file-sync-up",
+			}
+			r := filesync.Up{}
+			if !qt_recipe.ApplyTestPeers(fc, vo) {
+				l.Warn("Skip: No conn resource")
+				return
+			}
+			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+				t.Error(err)
+			}
+
+			qt_recipe.TestRows(fc, "upload", func(cols map[string]string) error {
+				t.Error("upload should not contain on 2nd run")
+				return errors.New("upload should not contain rows")
+			})
+
 			testSkip(fc, "skip", scenario.LocalPath)
 		}
 
