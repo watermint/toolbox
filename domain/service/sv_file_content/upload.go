@@ -9,6 +9,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"sync"
 )
 
 type Upload interface {
@@ -24,7 +25,12 @@ type UploadOpts struct {
 }
 
 const (
-	DefaultChunkSize = 150 * 1_048_576
+	MaxChunkSize     = 150 * 1_048_576 // 150MB
+	DefaultChunkSize = MaxChunkSize
+)
+
+var (
+	warnExceededChunkSize = sync.Once{}
 )
 
 func NewUpload(ctx api_context.Context, opts ...UploadOpt) Upload {
@@ -34,6 +40,12 @@ func NewUpload(ctx api_context.Context, opts ...UploadOpt) Upload {
 	}
 	for _, o := range opts {
 		o(uo)
+	}
+	if uo.ChunkSize > MaxChunkSize {
+		warnExceededChunkSize.Do(func() {
+			ctx.Log().Warn("Chunk size exceed maximum size, chunk size will be adjusted to maximum size", zap.Int64("givenChunkSize", uo.ChunkSize))
+		})
+		uo.ChunkSize = MaxChunkSize
 	}
 	return &uploadImpl{
 		ctx: ctx,
