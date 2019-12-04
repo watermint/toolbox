@@ -499,6 +499,19 @@ func (z *ViaAppCopierWorker) Exec() error {
 		return err
 	}
 
+	l.Debug("Updating mod time", zap.String("srcModTime", srcInfo.ModTime().String()))
+	err = os.Chtimes(workCopyPath, time.Now(), srcInfo.ModTime())
+	if err != nil {
+		l.Debug("Unable to modify modTime", zap.Error(err))
+		z.reps.repCopier.Failure(err, z.copyIn)
+		// try delete dst file
+		if err = os.Remove(workCopyPath); err != nil {
+			l.Debug("Unable to clean up file on error", zap.Error(err))
+			// fall through
+		}
+		return err
+	}
+
 	// Update hash
 	l.Debug("Update hash mapping")
 	z.htr.Set(workCopyName, z.copyIn.DbxFilePath)
