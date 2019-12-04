@@ -40,7 +40,7 @@ func (z *Upload) Exec(k app_kitchen.Kitchen) error {
 	}
 	opts := make([]uc_file_upload.UploadOpt, 0)
 	if vo.ChunkSizeKb > 0 {
-		opts = append(opts, uc_file_upload.ChunkSizeKb(vo.ChunkSizeKb*1024))
+		opts = append(opts, uc_file_upload.ChunkSizeKb(vo.ChunkSizeKb))
 	}
 	if vo.Overwrite {
 		opts = append(opts, uc_file_upload.Overwrite())

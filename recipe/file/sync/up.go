@@ -12,10 +12,11 @@ import (
 )
 
 type UpVO struct {
-	Peer        app_conn.ConnUserFile
-	LocalPath   string
-	DropboxPath string
-	ChunkSizeKb int
+	Peer              app_conn.ConnUserFile
+	LocalPath         string
+	DropboxPath       string
+	ExcludeFolderName string
+	ChunkSizeKb       int
 }
 
 type Up struct {
@@ -39,6 +40,7 @@ func (z *Up) Exec(k app_kitchen.Kitchen) error {
 	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k,
 		uc_file_upload.ChunkSizeKb(vo.ChunkSizeKb),
 		uc_file_upload.CreateFolder(),
+		uc_file_upload.ExcludeFolderName(vo.ExcludeFolderName),
 		uc_file_upload.Overwrite())
 
 	_, err = up.Upload(vo.LocalPath, vo.DropboxPath)

@@ -32,7 +32,7 @@ type Upload interface {
 
 func New(ctx api_context.Context, specs *rp_spec_impl.Specs, k app_kitchen.Kitchen, opt ...UploadOpt) Upload {
 	opts := &UploadOpts{
-		ChunkSizeKb: 150 * 1_048_576,
+		ChunkSizeKb: 150 * 1024,
 	}
 	for _, o := range opt {
 		o(opts)
@@ -152,8 +152,17 @@ type UploadOpts struct {
 	Overwrite    bool
 	ChunkSizeKb  int
 	CreateFolder bool
+
+	// TODO: should be extended for multiple folder name patterns
+	ExcludeFolderName string
 }
 
+func ExcludeFolderName(folderName string) UploadOpt {
+	return func(o *UploadOpts) *UploadOpts {
+		o.ExcludeFolderName = folderName
+		return o
+	}
+}
 func ChunkSizeKb(size int) UploadOpt {
 	return func(o *UploadOpts) *UploadOpts {
 		o.ChunkSizeKb = size
@@ -417,6 +426,13 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 	var scanFolder func(path string) error
 	scanFolder = func(path string) error {
 		ll := l.With(zap.String("path", path))
+
+		nameLower := strings.ToLower(filepath.Base(path))
+		if strings.ToLower(z.opts.ExcludeFolderName) == nameLower {
+			ll.Debug("Skip folder by rule")
+			return nil
+		}
+
 		ll.Debug("Scanning folder")
 		localEntries, err := ioutil.ReadDir(path)
 		if err != nil {
