@@ -357,7 +357,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 	for _, entry := range entries {
 		if f, e := entry.File(); e {
 			en := strings.ToLower(f.Name())
-			if lf, ok := nameToLocal[en]; !ok {
+			if lf, ok := nameToLocal[en]; ok {
 				same, _ := uc_file_upload.Compare(l, filepath.Join(z.curLocalPath, lf.Name()), lf, f)
 				if same {
 					requireUpdate[en] = false
