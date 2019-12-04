@@ -456,6 +456,13 @@ func (z *ViaAppCopierWorker) Exec() error {
 
 	l.Info("Copying from local to work")
 
+	srcInfo, err := os.Lstat(z.copyIn.LocalFilePath)
+	if err != nil {
+		l.Debug("Unable to retrieve local src file info", zap.Error(err))
+		z.reps.repCopier.Failure(err, z.copyIn)
+		return err
+	}
+
 	l.Debug("Open source file")
 	src, err := os.Open(z.copyIn.LocalFilePath)
 	if err != nil {
@@ -474,13 +481,23 @@ func (z *ViaAppCopierWorker) Exec() error {
 	}
 
 	l.Debug("Copy")
-	writtenBytes, err := io.Copy(src, dst)
+	writtenBytes, err := io.Copy(dst, src)
 	if err != nil {
 		l.Debug("Unable to copy", zap.Error(err))
 		z.reps.repCopier.Failure(err, z.copyIn)
 		return err
 	}
 	dst.Close()
+
+	if srcInfo.Size() != writtenBytes {
+		l.Debug("Written bytes mismatched to src file size",
+			zap.Int64("srcFileSize", srcInfo.Size()),
+			zap.Int64("writtenBytes", writtenBytes),
+		)
+		err = errors.New("written size mismatch")
+		z.reps.repCopier.Failure(err, z.copyIn)
+		return err
+	}
 
 	// Update hash
 	l.Debug("Update hash mapping")
