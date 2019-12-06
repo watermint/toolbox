@@ -125,6 +125,7 @@
   "recipe.file.sync.up_vo.flag.local_path": "Local file path",
   "recipe.file.sync.up_vo.flag.dropbox_path": "Destination Dropbox path",
   "recipe.file.sync.up_vo.flag.chunk_size_kb": "Upload chunk size in KB",
+  "recipe.file.sync.up_vo.flag.exclude_folder_name": "Exclude folders with specified name",
   "recipe.file.sync.title": "Sync files with Dropbox",
   "recipe.file.sync.up.title": "Upstream sync with Dropbox",
   "recipe.file.sync.preflight.up.title": "Upstream sync preflight check",

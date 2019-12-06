@@ -3,7 +3,21 @@ package ut_memory
 import (
 	"go.uber.org/zap"
 	"runtime"
+	"time"
 )
+
+const (
+	reportInterval = 1 * time.Minute
+)
+
+func LaunchReporting(l *zap.Logger) {
+	go func() {
+		for {
+			time.Sleep(reportInterval)
+			DumpStats(l)
+		}
+	}()
+}
 
 func DumpStats(l *zap.Logger) {
 	var mem runtime.MemStats

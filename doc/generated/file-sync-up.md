@@ -53,12 +53,13 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option           | Description              | Default   |
-|------------------|--------------------------|-----------|
-| `-chunk-size-kb` | Upload chunk size in KB  | 153600    |
-| `-dropbox-path`  | Destination Dropbox path |           |
-| `-local-path`    | Local file path          |           |
-| `-peer`          | Account alias            | {default} |
+| Option                 | Description                         | Default   |
+|------------------------|-------------------------------------|-----------|
+| `-chunk-size-kb`       | Upload chunk size in KB             | 153600    |
+| `-dropbox-path`        | Destination Dropbox path            |           |
+| `-exclude-folder-name` | Exclude folders with specified name |           |
+| `-local-path`          | Local file path                     |           |
+| `-peer`                | Account alias                       | {default} |
 
 Common options:
 

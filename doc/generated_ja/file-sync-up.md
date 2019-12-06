@@ -53,12 +53,13 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション       | 説明                                                            | デフォルト |
-|------------------|-----------------------------------------------------------------|------------|
-| `-chunk-size-kb` | {"key":"recipe.file.sync.up_vo.flag.chunk_size_kb","params":{}} | 153600     |
-| `-dropbox-path`  | 転送先のDropboxパス                                             |            |
-| `-local-path`    | ローカルファイルのパス                                          |            |
-| `-peer`          | アカウントの別名                                                | {default}  |
+| オプション             | 説明                                                                  | デフォルト |
+|------------------------|-----------------------------------------------------------------------|------------|
+| `-chunk-size-kb`       | {"key":"recipe.file.sync.up_vo.flag.chunk_size_kb","params":{}}       | 153600     |
+| `-dropbox-path`        | 転送先のDropboxパス                                                   |            |
+| `-exclude-folder-name` | {"key":"recipe.file.sync.up_vo.flag.exclude_folder_name","params":{}} |            |
+| `-local-path`          | ローカルファイルのパス                                                |            |
+| `-peer`                | アカウントの別名                                                      | {default}  |
 
 Common options:
 
