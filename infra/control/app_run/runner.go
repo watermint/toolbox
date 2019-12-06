@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/network/nw_concurrency"
 	"github.com/watermint/toolbox/infra/network/nw_diag"
+	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"github.com/watermint/toolbox/infra/network/nw_proxy"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
@@ -199,6 +200,9 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 		}
 	}
 
+	// Network monitor
+	nw_monitor.LaunchReporting(ui)
+
 	// Set bandwidth
 	nw_bandwidth.SetBandwidth(com.BandwidthKb)
 	nw_concurrency.SetConcurrency(com.Concurrency)
@@ -216,7 +220,9 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	k := app_kitchen.NewKitchen(ctl, vo)
 	err = rcp.Exec(k)
 
+	// Dump stats
 	ut_memory.DumpStats(ctl.Log())
+	nw_monitor.DumpStats(ctl.Log())
 
 	if err != nil {
 		ctl.Log().Error("Recipe failed with an error", zap.Error(err))

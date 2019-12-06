@@ -69,7 +69,7 @@ func (z retryImpl) Call(ctx api_context.Context, req api_request.Request) (res a
 	hRes, latency, err := nw_client.Call(ctx.Hash(), req.Endpoint(), hReq)
 
 	// Make response
-	res, err = api_response_impl.New(ctx, hRes)
+	res, err = api_response_impl.New(ctx, hReq, hRes)
 	if err != nil {
 		l.Debug("Unable to make http response", zap.Error(err))
 		return nil, err

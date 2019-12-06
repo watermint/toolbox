@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
+	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -16,8 +17,9 @@ import (
 	"time"
 )
 
-func New(ctx api_context.Context, res *http.Response) (api_response.Response, error) {
+func New(ctx api_context.Context, req *http.Request, res *http.Response) (api_response.Response, error) {
 	l := ctx.Log()
+	defer nw_monitor.Log(req, res)
 
 	if res == nil {
 		l.Debug("Null response")
@@ -77,6 +79,7 @@ func New(ctx api_context.Context, res *http.Response) (api_response.Response, er
 		rr.resFilePath = resFile.Name()
 		rr.resBodyString = result
 		rr.resBody = []byte(result)
+		res.ContentLength = loadedLength
 
 		return rr, nil
 
@@ -87,6 +90,7 @@ func New(ctx api_context.Context, res *http.Response) (api_response.Response, er
 			return nil, err
 		}
 		rr.resBody = body
+		res.ContentLength = int64(len(body))
 
 		if body == nil {
 			rr.resBodyString = ""

@@ -448,6 +448,7 @@
   "run.network.error.unreachable": "Network unreachable to `{{.Url}}`.\nPlease ensure your network connection or proxy configuration.\nPlease specify `-proxy` option if your machine is under proxy or firewall.\n\nError:\n{{.Error}}",
   "run.network.progress.testing.done": "Done",
   "run.network.progress.testing": "Testing network connection...",
+  "run.network.progress.stats": "Network stats: {{.CallPerMin}} call per min, Sent {{.ReqKps}} kps, Received {{.ResKps}} kps",
   "run.recipe.header.available_flags": "Available options:",
   "run.recipe.header.usage": "Usage:",
   "run.recipe.usage": "{{.Exec}} {{.Recipe}} [option...] {{.Args}}",

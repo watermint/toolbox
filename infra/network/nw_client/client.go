@@ -38,30 +38,4 @@ func Call(hash, endpoint string, req *http.Request) (res *http.Response, latency
 		return nil, latency, err
 	}
 	return res, latency, nil
-	//
-	//if err != nil {
-	//	return &RpcResponse{
-	//		Code:    ErrorTransport,
-	//		Latency: latency,
-	//	}, err
-	//}
-	//body, err := ioutil.ReadAll(res.Body)
-	//if err != nil {
-	//	l.Debug("Unable to read body", zap.Error(err))
-	//	return &RpcResponse{
-	//		Code:    ErrorUnableToReadBody,
-	//		Latency: latency,
-	//	}, err
-	//}
-	//if err = res.Body.Close(); err != nil {
-	//	l.Debug("Unable to close body", zap.Error(err))
-	//	// fall through
-	//}
-	//return &RpcResponse{
-	//	Code:          res.StatusCode,
-	//	Header:        res.Header,
-	//	ContentLength: res.ContentLength,
-	//	Body:          body,
-	//	Latency:       latency,
-	//}, nil
 }

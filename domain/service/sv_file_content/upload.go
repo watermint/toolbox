@@ -52,6 +52,7 @@ func NewUpload(ctx api_context.Context, opts ...UploadOpt) Upload {
 		uo:  uo,
 	}
 }
+
 func ChunkSizeKb(chunkSizeKb int) UploadOpt {
 	return func(o *UploadOpts) *UploadOpts {
 		o.ChunkSize = int64(chunkSizeKb * 1024)
