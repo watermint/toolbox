@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/control/app_run_impl"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/network/nw_concurrency"
 	"github.com/watermint/toolbox/infra/network/nw_diag"
@@ -19,6 +18,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
@@ -33,7 +33,7 @@ import (
 
 func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Initialize resources
-	mc := app_run_impl.NewContainer(bx)
+	mc := app_msg_container_impl.NewContainer(bx)
 	ui := app_ui.NewConsole(mc, qt_control_impl.NewMessageMemory(), false)
 	cat := catalogue.Catalogue()
 
@@ -108,6 +108,8 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	}
 	so = append(so, app_control.Concurrency(com.Concurrency))
 	so = append(so, app_control.RecipeName(recipeName))
+	so = append(so, app_control.CommonOptions(cvc.Serialize()))
+	so = append(so, app_control.RecipeOptions(vc.Serialize()))
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.Recipes())
 	err = ctl.Up(so...)

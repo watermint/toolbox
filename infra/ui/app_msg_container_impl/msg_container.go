@@ -1,11 +1,10 @@
-package app_run_impl
+package app_msg_container_impl
 
 import (
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"go.uber.org/zap"
 	"golang.org/x/text/language"
 )
@@ -22,7 +21,7 @@ func NewContainer(box *rice.Box) app_msg_container.Container {
 	var lastErr error = nil
 
 	for _, lang := range langs {
-		c, err := app_msg_container_impl.NewResource(lang, box)
+		c, err := NewResource(lang, box)
 		if err != nil {
 			lastErr = err
 			continue
@@ -34,7 +33,7 @@ func NewContainer(box *rice.Box) app_msg_container.Container {
 		panic("At least one message resource required")
 	}
 
-	return app_msg_container_impl.NewMultilingual(
+	return NewMultilingual(
 		langs,
 		cm,
 	)

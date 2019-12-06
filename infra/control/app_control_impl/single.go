@@ -188,10 +188,14 @@ func (z *Single) upWithWorkspace(ws app_workspace.Workspace) (err error) {
 		return err
 	}
 	type RecipeLog struct {
-		Name string `json:"name"`
+		Name        string                 `json:"name"`
+		ValueObject map[string]interface{} `json:"value_object"`
+		CommonOpts  map[string]interface{} `json:"common_opts"`
 	}
 	rr := &RecipeLog{
-		Name: z.opts.RecipeName,
+		Name:        z.opts.RecipeName,
+		ValueObject: z.opts.RecipeOptions,
+		CommonOpts:  z.opts.CommonOptions,
 	}
 	rb, err := json.Marshal(rr)
 	if err != nil {

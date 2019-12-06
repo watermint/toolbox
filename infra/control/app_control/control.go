@@ -44,6 +44,8 @@ type UpOpts struct {
 	Test          bool
 	Secure        bool
 	RecipeName    string
+	RecipeOptions map[string]interface{}
+	CommonOptions map[string]interface{}
 	Concurrency   int
 }
 
@@ -56,6 +58,18 @@ func Concurrency(c int) UpOpt {
 func RecipeName(name string) UpOpt {
 	return func(opt *UpOpts) *UpOpts {
 		opt.RecipeName = name
+		return opt
+	}
+}
+func RecipeOptions(vo map[string]interface{}) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
+		opt.RecipeOptions = vo
+		return opt
+	}
+}
+func CommonOptions(vo map[string]interface{}) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
+		opt.CommonOptions = vo
 		return opt
 	}
 }

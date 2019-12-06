@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/control/app_run_impl"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
@@ -18,6 +17,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
 	"github.com/watermint/toolbox/quality/infra/qt_control_impl"
@@ -123,7 +123,7 @@ func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container,
 	bx = rice.MustFindBox("../../../resources")
 	web = rice.MustFindBox("../../../web")
 
-	mc = app_run_impl.NewContainer(bx)
+	mc = app_msg_container_impl.NewContainer(bx)
 	ui = app_ui.NewConsole(mc, qt_control_impl.NewMessageTest(t), true)
 	return
 }
