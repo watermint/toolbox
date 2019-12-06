@@ -63,6 +63,7 @@ type Req struct {
 	RequestUrl     string            `json:"url"`
 	RequestParam   string            `json:"param,omitempty"`
 	RequestHeaders map[string]string `json:"headers"`
+	ContentLength  int64             `json:"content_length"`
 }
 
 func (z *Req) Apply(req api_request.Request) {
@@ -70,6 +71,7 @@ func (z *Req) Apply(req api_request.Request) {
 	z.RequestUrl = req.Url()
 	z.RequestParam = req.ParamString()
 	z.RequestHeaders = make(map[string]string)
+	z.ContentLength = req.ContentLength()
 	for k, v := range req.Headers() {
 		// Anonymize token
 		if k == api_request.ReqHeaderAuthorization {
@@ -86,10 +88,12 @@ type Res struct {
 	ResponseHeaders map[string]string `json:"headers"`
 	ResponseJson    json.RawMessage   `json:"json,omitempty"`
 	ResponseError   string            `json:"error,omitempty"`
+	ContentLength   int64             `json:"content_length"`
 }
 
 func (z *Res) Apply(res api_response.Response, resErr error) {
 	z.ResponseCode = res.StatusCode()
+	z.ContentLength = res.ContentLength()
 	resBody, _ := res.Result()
 	if len(resBody) == 0 {
 		z.ResponseBody = ""

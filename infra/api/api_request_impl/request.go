@@ -97,6 +97,10 @@ type badRequest struct {
 	err error
 }
 
+func (z *badRequest) ContentLength() int64 {
+	return 0
+}
+
 func (z *badRequest) ParamString() string {
 	return ""
 }

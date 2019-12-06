@@ -36,6 +36,9 @@ type Request interface {
 	// Method. Might be empty string until Make call.
 	Method() string
 
+	// Content length. Might be zero until Make call.
+	ContentLength() int64
+
 	// Make request
 	Make() (req *http.Request, err error)
 }

@@ -12,30 +12,36 @@ import (
 )
 
 type downloadRequestImpl struct {
-	ctx         api_context.Context
-	dbxReq      *dbxRequest
-	paramString string
-	param       interface{}
-	endpoint    string
-	url         string
-	headers     map[string]string
-	method      string
+	ctx           api_context.Context
+	dbxReq        *dbxRequest
+	paramString   string
+	param         interface{}
+	endpoint      string
+	url           string
+	headers       map[string]string
+	method        string
+	contentLength int64
 }
 
 func (z *downloadRequestImpl) ParamString() string {
 	return z.paramString
 }
 
+func (z *downloadRequestImpl) ContentLength() int64 {
+	return z.contentLength
+}
+
 func (z *downloadRequestImpl) Param(p interface{}) api_request.Request {
 	return &downloadRequestImpl{
-		ctx:         z.ctx,
-		dbxReq:      z.dbxReq,
-		paramString: "",
-		param:       p,
-		endpoint:    z.endpoint,
-		url:         z.url,
-		headers:     z.headers,
-		method:      z.method,
+		ctx:           z.ctx,
+		dbxReq:        z.dbxReq,
+		paramString:   "",
+		param:         p,
+		endpoint:      z.endpoint,
+		url:           z.url,
+		headers:       z.headers,
+		method:        z.method,
+		contentLength: z.contentLength,
 	}
 }
 
@@ -82,6 +88,7 @@ func (z *downloadRequestImpl) Make() (req *http.Request, err error) {
 	}
 	req.Header.Add(api_request.ReqHeaderContentType, "application/octet-stream")
 	req.Header.Add(api_request.ReqHeaderArg, z.paramString)
+	z.contentLength = 0
 
 	z.headers = make(map[string]string)
 	for k := range req.Header {

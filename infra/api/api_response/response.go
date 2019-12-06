@@ -23,6 +23,9 @@ type Response interface {
 	// Returns body string.
 	ResultString() string
 
+	// Content length.
+	ContentLength() int64
+
 	// True if the content stored in the file
 	IsContentDownloaded() bool
 

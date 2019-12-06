@@ -13,28 +13,30 @@ import (
 )
 
 type uploadRequestImpl struct {
-	ctx         api_context.Context
-	dbxReq      *dbxRequest
-	paramString string
-	param       interface{}
-	endpoint    string
-	url         string
-	headers     map[string]string
-	method      string
-	uploadBytes []byte
+	ctx           api_context.Context
+	dbxReq        *dbxRequest
+	paramString   string
+	param         interface{}
+	endpoint      string
+	url           string
+	headers       map[string]string
+	method        string
+	uploadBytes   []byte
+	contentLength int64
 }
 
 func (z *uploadRequestImpl) Param(p interface{}) api_request.Request {
 	return &uploadRequestImpl{
-		ctx:         z.ctx,
-		dbxReq:      z.dbxReq,
-		paramString: "",
-		param:       p,
-		endpoint:    z.endpoint,
-		url:         z.url,
-		headers:     z.headers,
-		method:      z.method,
-		uploadBytes: z.uploadBytes,
+		ctx:           z.ctx,
+		dbxReq:        z.dbxReq,
+		paramString:   "",
+		param:         p,
+		endpoint:      z.endpoint,
+		url:           z.url,
+		headers:       z.headers,
+		method:        z.method,
+		uploadBytes:   z.uploadBytes,
+		contentLength: z.contentLength,
 	}
 }
 
@@ -44,6 +46,10 @@ func (z *uploadRequestImpl) Call() (res api_response.Response, err error) {
 
 func (z *uploadRequestImpl) Endpoint() string {
 	return z.endpoint
+}
+
+func (z *uploadRequestImpl) ContentLength() int64 {
+	return z.contentLength
 }
 
 func (z *uploadRequestImpl) ParamString() string {
@@ -84,6 +90,7 @@ func (z *uploadRequestImpl) Make() (req *http.Request, err error) {
 	req.Header.Add(api_request.ReqHeaderContentType, "application/octet-stream")
 	req.Header.Add(api_request.ReqHeaderArg, z.paramString)
 
+	z.contentLength = int64(len(z.uploadBytes))
 	z.headers = make(map[string]string)
 	for k := range req.Header {
 		z.headers[k] = req.Header.Get(k)

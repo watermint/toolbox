@@ -80,6 +80,7 @@ func New(ctx api_context.Context, req *http.Request, res *http.Response) (api_re
 		rr.resBodyString = result
 		rr.resBody = []byte(result)
 		res.ContentLength = loadedLength
+		rr.resContentLength = loadedLength
 
 		return rr, nil
 
@@ -91,6 +92,7 @@ func New(ctx api_context.Context, req *http.Request, res *http.Response) (api_re
 		}
 		rr.resBody = body
 		res.ContentLength = int64(len(body))
+		rr.resContentLength = res.ContentLength
 
 		if body == nil {
 			rr.resBodyString = ""
@@ -108,6 +110,11 @@ type ResponseImpl struct {
 	resBodyString          string
 	resFilePath            string
 	resIsContentDownloaded bool
+	resContentLength       int64
+}
+
+func (z *ResponseImpl) ContentLength() int64 {
+	return z.resContentLength
 }
 
 func (z *ResponseImpl) Headers() map[string]string {

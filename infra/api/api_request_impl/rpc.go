@@ -12,26 +12,28 @@ import (
 )
 
 type rpcRequestImpl struct {
-	ctx         api_context.Context
-	dbxReq      *dbxRequest
-	paramString string
-	param       interface{}
-	url         string
-	endpoint    string
-	headers     map[string]string
-	method      string
+	ctx           api_context.Context
+	dbxReq        *dbxRequest
+	paramString   string
+	param         interface{}
+	url           string
+	endpoint      string
+	headers       map[string]string
+	method        string
+	contentLength int64
 }
 
 func (z *rpcRequestImpl) Param(p interface{}) api_request.Request {
 	return &rpcRequestImpl{
-		ctx:         z.ctx,
-		dbxReq:      z.dbxReq,
-		paramString: "",
-		param:       p,
-		url:         z.url,
-		endpoint:    z.endpoint,
-		headers:     z.headers,
-		method:      z.method,
+		ctx:           z.ctx,
+		dbxReq:        z.dbxReq,
+		paramString:   "",
+		param:         p,
+		url:           z.url,
+		endpoint:      z.endpoint,
+		headers:       z.headers,
+		method:        z.method,
+		contentLength: z.contentLength,
 	}
 }
 
@@ -41,6 +43,10 @@ func (z *rpcRequestImpl) Call() (res api_response.Response, err error) {
 
 func (z *rpcRequestImpl) Endpoint() string {
 	return z.endpoint
+}
+
+func (z *rpcRequestImpl) ContentLength() int64 {
+	return z.contentLength
 }
 
 func (z *rpcRequestImpl) ParamString() string {
@@ -81,6 +87,7 @@ func (z *rpcRequestImpl) Make() (req *http.Request, err error) {
 		return nil, err
 	}
 	req.Header.Add(api_request.ReqHeaderContentType, "application/json")
+	z.contentLength = int64(len(p))
 	z.headers = make(map[string]string)
 	for k := range req.Header {
 		z.headers[k] = req.Header.Get(k)
