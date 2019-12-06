@@ -201,7 +201,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	}
 
 	// Launch monitor
-	nw_monitor.LaunchReporting(ui)
+	nw_monitor.LaunchReporting(ui, ctl.Log())
 	ut_memory.LaunchReporting(ctl.Log())
 
 	// Set bandwidth

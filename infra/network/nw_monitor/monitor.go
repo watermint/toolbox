@@ -29,18 +29,21 @@ type Averager interface {
 }
 
 const (
-	reportInterval = 5 * time.Minute
+	monitorIntervalMins = 5
+	reportInterval      = monitorIntervalMins * time.Minute
 )
 
 var (
-	mon = newTimeSeries(5)
+	mon   = newTimeSeries(monitorIntervalMins)
+	total = &counterImpl{}
 )
 
 func Log(req *http.Request, res *http.Response) {
 	mon.Log(req, res)
+	total.Log(req, res)
 }
 
-func LaunchReporting(ui app_ui.UI) {
+func LaunchReporting(ui app_ui.UI, l *zap.Logger) {
 	go func() {
 		for {
 			time.Sleep(reportInterval)
@@ -50,6 +53,20 @@ func LaunchReporting(ui app_ui.UI) {
 				"ReqKps":     fmt.Sprintf("%.2f", float64(qps)/1024.0),
 				"ResKps":     fmt.Sprintf("%.2f", float64(sps)/1024.0),
 			})
+
+			tcc, tql, tsl := total.Summary()
+			cc, ql, sl := mon.Summary()
+			l.Debug("Network stats",
+				zap.Int64("CallPerMin", cpm),
+				zap.Int64("ReqBytesPerSec", qps),
+				zap.Int64("ResBytesPerSec", sps),
+				zap.Int64("IntervalCallCount", cc),
+				zap.Int64("IntervalReqContentLen", ql),
+				zap.Int64("IntervalResContentLen", sl),
+				zap.Int64("TotalCallCount", tcc),
+				zap.Int64("TotalReqContentLen", tql),
+				zap.Int64("TotalResContentLen", tsl),
+			)
 		}
 	}()
 }

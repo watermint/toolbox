@@ -65,6 +65,13 @@ func (z retryImpl) Call(ctx api_context.Context, req api_request.Request) (res a
 		return nil, err
 	}
 
+	var cp nw_capture.Capture
+	if cac, ok := ctx.(api_context.CaptureContext); ok {
+		cp = nw_capture.NewCapture(cac.Capture())
+	} else {
+		cp = nw_capture.Current()
+	}
+
 	// Call
 	hRes, latency, err := nw_client.Call(ctx.Hash(), req.Endpoint(), hReq)
 
@@ -72,19 +79,10 @@ func (z retryImpl) Call(ctx api_context.Context, req api_request.Request) (res a
 	res, err = api_response_impl.New(ctx, hReq, hRes)
 	if err != nil {
 		l.Debug("Unable to make http response", zap.Error(err))
+		cp.NoResponse(req, err, latency.Nanoseconds())
 		return nil, err
 	}
-
-	// Capture
-	{
-		var cp nw_capture.Capture
-		if cac, ok := ctx.(api_context.CaptureContext); ok {
-			cp = nw_capture.NewCapture(cac.Capture())
-		} else {
-			cp = nw_capture.Current()
-		}
-		cp.Rpc(req, res, err, latency.Nanoseconds())
-	}
+	cp.WithResponse(req, res, err, latency.Nanoseconds())
 
 	if err != nil {
 		return retryOnError(err)
