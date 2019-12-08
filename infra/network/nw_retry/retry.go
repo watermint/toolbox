@@ -18,6 +18,10 @@ import (
 	"time"
 )
 
+const (
+	retryIntervalSecOnNoRetryAfterParam = 10
+)
+
 // Stateless
 type Retry interface {
 	Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error)
@@ -130,7 +134,8 @@ func (z retryImpl) Call(ctx api_context.Context, req api_request.Request) (res a
 				zap.String("header", retryAfter),
 				zap.Error(err),
 			)
-			return nil, errors.New("unknown retry param")
+			retryAfterSec = retryIntervalSecOnNoRetryAfterParam
+			// fall through
 		}
 
 		after := time.Now().Add(time.Duration(retryAfterSec+1) * time.Second)

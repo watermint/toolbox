@@ -28,14 +28,14 @@ func (z *Scenario) Create() (err error) {
 	}
 
 	z.Files = make(map[string]string)
-	z.Files["123.txt"] = "123"
-	z.Files["abc.txt"] = "abc"
-	z.Files["あいう.txt"] = "あいう"
+	//z.Files["123.txt"] = "123"
+	//z.Files["abc.txt"] = "abc"
+	//z.Files["あいう.txt"] = "あいう"
 	z.Files["time.txt"] = time.Now().String()
-	z.Files["987/654.txt"] = "654"
-	z.Files["zyx/wvu.txt"] = "wvu"
-	z.Files["アイウ/エオ.txt"] = "エオ"
-	z.Files["a-b-c/time.txt"] = time.Now().String()
+	//z.Files["987/654.txt"] = "654"
+	//z.Files["zyx/wvu.txt"] = "wvu"
+	z.Files["アイウ/エオ.txt"] = time.Now().String()
+	//	z.Files["a-b-c/time.txt"] = time.Now().String()
 
 	z.Ignore = make(map[string]string)
 	z.Ignore[".DS_Store"] = "ignore-dsstore"
