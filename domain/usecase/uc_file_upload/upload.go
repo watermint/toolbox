@@ -23,6 +23,11 @@ import (
 	"path/filepath"
 	"strings"
 	"sync/atomic"
+	"time"
+)
+
+const (
+	statusReportInterval = 10 * time.Second
 )
 
 type Upload interface {
@@ -188,11 +193,13 @@ type UploadRow struct {
 }
 
 type UploadSummary struct {
-	NumBytes       int64 `json:"num_bytes"`
-	NumFilesError  int64 `json:"num_files_error"`
-	NumFilesUpload int64 `json:"num_files_upload"`
-	NumFilesSkip   int64 `json:"num_files_skip"`
-	NumApiCall     int64 `json:"num_api_call"`
+	UploadStart    time.Time `json:"upload_start"`
+	UploadEnd      time.Time `json:"upload_end"`
+	NumBytes       int64     `json:"num_bytes"`
+	NumFilesError  int64     `json:"num_files_error"`
+	NumFilesUpload int64     `json:"num_files_upload"`
+	NumFilesSkip   int64     `json:"num_files_skip"`
+	NumApiCall     int64     `json:"num_api_call"`
 }
 
 const (
@@ -307,9 +314,9 @@ func (z *UploadWorker) Exec() (err error) {
 			return err
 		}
 		if same {
-			ui.Info("usecase.uc_file_upload.progress.skip", app_msg.P{
-				"File": z.localFilePath,
-			})
+			//ui.Info("usecase.uc_file_upload.progress.skip", app_msg.P{
+			//	"File": z.localFilePath,
+			//})
 
 			z.repSkip.Skip(app_msg.M("usecase.uc_file_upload.skip.file_exists"), upRow)
 			z.status.skip()
@@ -376,7 +383,29 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 	}
 	defer repSummary.Close()
 
-	status := &UploadStatus{}
+	status := &UploadStatus{
+		summary: UploadSummary{
+			UploadStart: time.Now(),
+		},
+	}
+
+	go func() {
+		for {
+			time.Sleep(statusReportInterval)
+
+			dur := time.Now().Sub(status.summary.UploadStart) / time.Second
+			kps := status.summary.NumBytes / int64(dur) / 1024
+
+			z.k.UI().Info("usecase.uc_file_upload.progress.summary", app_msg.P{
+				"NumFileUpload": status.summary.NumFilesUpload,
+				"NumFileSkip":   status.summary.NumFilesSkip,
+				"NumFileError":  status.summary.NumFilesError,
+				"NumBytes":      status.summary.NumBytes / 1_048_576,
+				"Kps":           kps,
+				"NumApiCall":    status.summary.NumApiCall,
+			})
+		}
+	}()
 
 	l.Debug("upload", zap.Int("chunkSize", z.opts.ChunkSizeKb))
 	up := sv_file_content.NewUpload(z.ctx, sv_file_content.ChunkSizeKb(z.opts.ChunkSizeKb))
@@ -533,6 +562,7 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 
 	q.Wait()
 
+	status.summary.UploadEnd = time.Now()
 	repSummary.Row(&status.summary)
 	return &status.summary, lastErr
 }

@@ -84,7 +84,7 @@ func (z retryImpl) Call(ctx api_context.Context, req api_request.Request) (res a
 	if err != nil {
 		l.Debug("Unable to make http response", zap.Error(err))
 		cp.NoResponse(req, err, latency.Nanoseconds())
-		return nil, err
+		return retryOnError(err)
 	}
 	cp.WithResponse(req, res, err, latency.Nanoseconds())
 
@@ -130,7 +130,7 @@ func (z retryImpl) Call(ctx api_context.Context, req api_request.Request) (res a
 		retryAfter := res.Header(api_response.ResHeaderRetryAfter)
 		retryAfterSec, err := strconv.Atoi(retryAfter)
 		if err != nil {
-			l.Debug("Unable to parse header for RateLimit",
+			l.Debug("Unable to parse header for RateLimit, retry with predefined interval",
 				zap.String("header", retryAfter),
 				zap.Error(err),
 			)
