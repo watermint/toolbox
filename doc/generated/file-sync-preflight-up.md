@@ -146,6 +146,8 @@ like `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...
 
 | Column           | Description                                         |
 |------------------|-----------------------------------------------------|
+| upload_start     | Time of start uploading                             |
+| upload_end       | Time of finish uploading                            |
 | num_bytes        | Total upload size (Bytes)                           |
 | num_files_error  | The number of files failed or got an error.         |
 | num_files_upload | The number of files uploaded or to upload.          |

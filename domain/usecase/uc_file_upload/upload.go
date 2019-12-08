@@ -27,7 +27,7 @@ import (
 )
 
 const (
-	statusReportInterval = 10 * time.Second
+	statusReportInterval = 15 * time.Second
 )
 
 type Upload interface {
@@ -397,6 +397,7 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 			kps := status.summary.NumBytes / int64(dur) / 1024
 
 			z.k.UI().Info("usecase.uc_file_upload.progress.summary", app_msg.P{
+				"Time":          time.Now().Truncate(time.Second).String(),
 				"NumFileUpload": status.summary.NumFilesUpload,
 				"NumFileSkip":   status.summary.NumFilesSkip,
 				"NumFileError":  status.summary.NumFilesError,

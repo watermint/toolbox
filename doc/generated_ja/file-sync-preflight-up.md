@@ -144,13 +144,15 @@ Report files are generated in `summary.csv`, `summary.xlsx` and `summary.json` f
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
 
-| 列               | 説明                                             |
-|------------------|--------------------------------------------------|
-| num_bytes        | 合計アップロードサイズ (バイト)                  |
-| num_files_error  | 失敗またはエラーが発生したファイル数.            |
-| num_files_upload | アップロード済みまたはアップロード対象ファイル数 |
-| num_files_skip   | スキップ対象またはスキップ予定のファイル数       |
-| num_api_call     | この処理によって消費される見積アップロードAPI数  |
+| 列               | 説明                                                                                |
+|------------------|-------------------------------------------------------------------------------------|
+| upload_start     | {"key":"domain.usecase.uc_file_upload.uploadsummary.upload_start.desc","params":{}} |
+| upload_end       | {"key":"domain.usecase.uc_file_upload.uploadsummary.upload_end.desc","params":{}}   |
+| num_bytes        | 合計アップロードサイズ (バイト)                                                     |
+| num_files_error  | 失敗またはエラーが発生したファイル数.                                               |
+| num_files_upload | アップロード済みまたはアップロード対象ファイル数                                    |
+| num_files_skip   | スキップ対象またはスキップ予定のファイル数                                          |
+| num_api_call     | この処理によって消費される見積アップロードAPI数                                     |
 
 ## Report: upload 
 
