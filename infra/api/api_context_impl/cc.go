@@ -12,8 +12,8 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_request_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
-	"io"
 	"strconv"
 	"strings"
 	"sync"
@@ -79,7 +79,7 @@ func (z *ccImpl) Async(endpoint string) api_async.Async {
 	return api_async_impl.New(z, endpoint, z.asMemberId, z.asAdminId, z.basePath)
 }
 
-func (z *ccImpl) Upload(endpoint string, content io.Reader) api_request.Request {
+func (z *ccImpl) Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request {
 	return api_request_impl.NewUploadRequest(
 		z,
 		endpoint,

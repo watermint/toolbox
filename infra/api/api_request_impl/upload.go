@@ -1,13 +1,13 @@
 package api_request_impl
 
 import (
-	"bytes"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/network/nw_retry"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"net/http"
 )
@@ -21,7 +21,7 @@ type uploadRequestImpl struct {
 	url           string
 	headers       map[string]string
 	method        string
-	uploadBytes   []byte
+	content       ut_io.ReadRewinder
 	contentLength int64
 }
 
@@ -35,7 +35,7 @@ func (z *uploadRequestImpl) Param(p interface{}) api_request.Request {
 		url:           z.url,
 		headers:       z.headers,
 		method:        z.method,
-		uploadBytes:   z.uploadBytes,
+		content:       z.content,
 		contentLength: z.contentLength,
 	}
 }
@@ -73,7 +73,11 @@ func (z *uploadRequestImpl) Make() (req *http.Request, err error) {
 	z.url = ContentRequestUrl(z.endpoint)
 	z.method = "POST"
 
-	req, err = http.NewRequest(z.method, z.url, nw_bandwidth.WrapReader(bytes.NewReader(z.uploadBytes)))
+	if err = z.content.Rewind(); err != nil {
+		l.Debug("Unable to rewind", zap.Error(err))
+		return nil, err
+	}
+	req, err = http.NewRequest(z.method, z.url, nw_bandwidth.WrapReader(z.content))
 	if err != nil {
 		l.Debug("Unable create request", zap.Error(err))
 		return nil, err
@@ -90,7 +94,7 @@ func (z *uploadRequestImpl) Make() (req *http.Request, err error) {
 	req.Header.Add(api_request.ReqHeaderContentType, "application/octet-stream")
 	req.Header.Add(api_request.ReqHeaderArg, z.paramString)
 
-	z.contentLength = int64(len(z.uploadBytes))
+	z.contentLength = z.content.Length()
 	z.headers = make(map[string]string)
 	for k := range req.Header {
 		z.headers[k] = req.Header.Get(k)

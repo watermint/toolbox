@@ -3,7 +3,7 @@ package api_response
 import "github.com/tidwall/gjson"
 
 const (
-	ResHeaderRetryAfter    = "Retry-After"
+	ResHeaderRetryAfter    = "Rewind-After"
 	ResHeaderApiResult     = "Dropbox-API-Result"
 	ErrorBadInputParam     = 400
 	ErrorBadOrExpiredToken = 401

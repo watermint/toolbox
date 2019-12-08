@@ -134,7 +134,7 @@ func (z retryImpl) Call(ctx api_context.Context, req api_request.Request) (res a
 		}
 
 		after := time.Now().Add(time.Duration(retryAfterSec+1) * time.Second)
-		l.Debug("Retry after",
+		l.Debug("Rewind after",
 			zap.Int("RetryAfterSec", retryAfterSec),
 			zap.String("RetryAfter", after.String()),
 			zap.Bool("NoRetry", ctx.IsNoRetry()),

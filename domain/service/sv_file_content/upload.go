@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
-	"io"
 	"os"
 	"path/filepath"
 	"sync"
@@ -134,7 +134,13 @@ func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.Path, fileP
 	if err != nil {
 		return nil, err
 	}
-	res, err := z.ctx.Upload("files/upload", r).
+	rr, err := ut_io.NewReadRewinder(r, 0)
+	if err != nil {
+		l.Debug("Unable to create read rewinder", zap.Error(err))
+		return nil, err
+	}
+
+	res, err := z.ctx.Upload("files/upload", rr).
 		Param(z.makeParams(info, destPath, mode, revision)).Call()
 	if err != nil {
 		return nil, err
@@ -172,7 +178,11 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 	}
 
 	l.Debug("Upload session start")
-	r := io.LimitReader(f, z.uo.ChunkSize)
+	r, err := ut_io.NewReadRewinderWithLimit(f, 0, z.uo.ChunkSize)
+	if err != nil {
+		l.Debug("Unable to create read rewinder", zap.Error(err))
+		return nil, err
+	}
 	res, err := z.ctx.Upload("files/upload_session/start", r).Call()
 	if err != nil {
 		return nil, err
@@ -194,8 +204,12 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 				Offset:    written,
 			},
 		}
-		r = io.LimitReader(f, z.uo.ChunkSize)
-		_, err := z.ctx.Upload("files/upload_session/append_v2", r).Param(ai).Call()
+		r, err := ut_io.NewReadRewinderWithLimit(f, written, z.uo.ChunkSize)
+		if err != nil {
+			l.Debug("Unable to create read rewinder", zap.Error(err))
+			return nil, err
+		}
+		_, err = z.ctx.Upload("files/upload_session/append_v2", r).Param(ai).Call()
 		if err != nil {
 			return nil, err
 		}
@@ -210,7 +224,12 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 		},
 		Commit: z.makeParams(info, destPath, mode, revision),
 	}
-	res, err = z.ctx.Upload("files/upload_session/finish", f).Param(ci).Call()
+	r, err = ut_io.NewReadRewinderWithLimit(f, written, z.uo.ChunkSize)
+	if err != nil {
+		l.Debug("Unable to create read rewinder", zap.Error(err))
+		return nil, err
+	}
+	res, err = z.ctx.Upload("files/upload_session/finish", r).Param(ci).Call()
 	if err != nil {
 		return nil, err
 	}

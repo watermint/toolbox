@@ -8,9 +8,8 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
-	"io"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -67,17 +66,10 @@ func NewDownloadRequest(ctx api_context.Context,
 
 func NewUploadRequest(ctx api_context.Context,
 	endpoint string,
-	content io.Reader,
+	content ut_io.ReadRewinder,
 	asMemberId, asAdminId string,
 	base api_context.PathRoot,
 	token api_auth.TokenContainer) api_request.Request {
-
-	l := app_root.Log()
-	upload, err := ioutil.ReadAll(content)
-	if err != nil {
-		l.Debug("Unable to read", zap.Error(err))
-		return &badRequest{err: err}
-	}
 
 	req := &uploadRequestImpl{
 		ctx:      ctx,
@@ -88,7 +80,7 @@ func NewUploadRequest(ctx api_context.Context,
 			base:       base,
 			token:      token,
 		},
-		uploadBytes: upload,
+		content: content,
 	}
 	return req
 }

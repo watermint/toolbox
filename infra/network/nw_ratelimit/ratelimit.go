@@ -46,10 +46,10 @@ type LimitState interface {
 	// When abort == true, recommend abort retry loop if certain threshold exceed by given err.
 	AddError(hash, endpoint string, err error) (abort bool)
 
-	// Update retry after, if Retry-After header present in the response
+	// Update retry after, if Rewind-After header present in the response
 	UpdateRetryAfter(hash, endpoint string, retryAfter time.Time)
 
-	// Wait if required. Waits for Max(Retry-After, RetryActionWait).
+	// Wait if required. Waits for Max(Rewind-After, RetryActionWait).
 	WaitIfRequired(hash, endpoint string)
 }
 

@@ -41,7 +41,7 @@ import (
 
 type ViaAppVO struct {
 	Peer              app_conn.ConnUserFile
-	DestDropboxPath   string
+	DropboxPath       string
 	LocalPath         string
 	PseudoDesktopPath string
 }
@@ -328,7 +328,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 		z.reps.repDbxScanner.Failure(err, dsIn)
 		return err
 	}
-	dbxPath := mo_path.NewPath(z.vo.DestDropboxPath)
+	dbxPath := mo_path.NewPath(z.vo.DropboxPath)
 	if rel != "." {
 		dbxPath = dbxPath.ChildPath(rel)
 	}
@@ -839,7 +839,7 @@ func (z *ViaApp) Test(c app_control.Control) error {
 		return err
 	}
 	vo.PseudoDesktopPath = pseudoDesktop
-	vo.DestDropboxPath = "/" + qt_recipe.TestTeamFolderName + "/" + time.Now().Format("2006-01-02T15-04-05")
+	vo.DropboxPath = "/" + qt_recipe.TestTeamFolderName + "/" + time.Now().Format("2006-01-02T15-04-05")
 
 	if err = z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
 		return err

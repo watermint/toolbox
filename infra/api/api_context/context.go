@@ -4,8 +4,8 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_async"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
-	"io"
 )
 
 type Context interface {
@@ -14,7 +14,7 @@ type Context interface {
 	Rpc(endpoint string) api_request.Request
 	List(endpoint string) api_list.List
 	Async(endpoint string) api_async.Async
-	Upload(endpoint string, content io.Reader) api_request.Request
+	Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request
 	Download(endpoint string) api_request.Request
 
 	AsMemberId(teamMemberId string) Context
