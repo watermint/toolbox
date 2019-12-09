@@ -1,10 +1,10 @@
 package file
 
 import (
-	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
 func TestMerge_Exec(t *testing.T) {
-	app_test.TestRecipe(t, &Merge{})
+	qt_recipe.TestRecipe(t, &Merge{})
 }

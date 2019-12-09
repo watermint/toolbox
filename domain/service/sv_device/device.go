@@ -135,6 +135,6 @@ func (z *sessionImpl) Revoke(session mo_device.Session, opts ...RevokeOption) (e
 		DeleteOnUnlink: ro.deleteOnUnlink,
 	}
 
-	_, err = z.ctx.Request("team/devices/revoke_device_session").Param(p).Call()
+	_, err = z.ctx.Rpc("team/devices/revoke_device_session").Param(p).Call()
 	return err
 }

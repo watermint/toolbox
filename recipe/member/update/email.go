@@ -11,18 +11,17 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_file_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -128,7 +127,7 @@ func (z *Email) Exec(k app_kitchen.Kitchen) error {
 
 		if row.FromEmail == row.ToEmail {
 			ll.Debug("Skip")
-			rep.Skip(app_msg.M("recipe.member.quota.update.skip.same_from_to_email"), row, nil)
+			rep.Skip(app_msg.M("recipe.member.quota.update.skip.same_from_to_email"), row)
 			return nil
 		}
 
@@ -141,7 +140,7 @@ func (z *Email) Exec(k app_kitchen.Kitchen) error {
 
 		if !member.EmailVerified && !vo.UpdateUnverified {
 			ll.Debug("Do not update unverified email")
-			rep.Skip(app_msg.M("recipe.member.quota.update.skip.unverified_email"), row, nil)
+			rep.Skip(app_msg.M("recipe.member.quota.update.skip.unverified_email"), row)
 			return nil
 		}
 
@@ -165,12 +164,12 @@ func (z *Email) Test(c app_control.Control) error {
 	res, found := c.TestResource(app_recipe.Key(z))
 	if !found || !res.IsArray() {
 		l.Debug("SKIP: Test resource not found")
-		return qt_test.NotEnoughResource()
+		return qt_recipe.NotEnoughResource()
 	}
 	vo := &EmailVO{}
-	if !app_test.ApplyTestPeers(c, vo) {
+	if !qt_recipe.ApplyTestPeers(c, vo) {
 		l.Debug("Skip test")
-		return qt_test.NotEnoughResource()
+		return qt_recipe.NotEnoughResource()
 	}
 
 	pair := make(map[string]string)

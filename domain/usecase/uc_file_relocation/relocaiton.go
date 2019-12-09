@@ -62,12 +62,14 @@ func (z *relocationImpl) relocation(from, to mo_path.Path,
 	} else {
 		toEntry, err := svc.Resolve(to)
 		if err != nil {
-			switch api_util.ErrorSummary(err) {
+			es := api_util.ErrorSummary(err)
+			switch es {
 			case "path/not_found":
 				l.Debug("To not found. Do relocate", zap.Error(err))
 				return reloc(from, to)
 			}
-			l.Debug("Invalid path to relocate, or restricted", zap.Error(err))
+			l.Debug("Invalid path to relocate, or restricted", zap.Error(err), zap.String("summary", es))
+			return err
 		}
 		fromToTag = fromEntry.Tag() + "-" + toEntry.Tag()
 		l = l.With(zap.String("fromTag", fromEntry.Tag()), zap.String("toTag", toEntry.Tag()))

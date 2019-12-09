@@ -16,6 +16,7 @@ type Profile struct {
 	MemberFolderId        string `path:"member_folder_id" json:"member_folder_id"`
 	ExternalId            string `path:"external_id" json:"external_id"`
 	AccountId             string `path:"account_id" json:"account_id"`
+	AccountType           string `path:"account_type.\\.tag" json:"account_type"`
 	JoinedOn              string `path:"joined_on" json:"joined_on"`
 	IsDirectoryRestricted bool   `path:"is_directory_restricted" json:"is_directory_restricted"`
 }

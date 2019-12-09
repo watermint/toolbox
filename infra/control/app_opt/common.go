@@ -9,7 +9,8 @@ type CommonOpts struct {
 	Quiet       bool
 	Secure      bool
 	Concurrency int
-	Bandwidth   int
+	BandwidthKb int
+	LowMemory   bool
 }
 
 func NewDefaultCommonOpts() *CommonOpts {
@@ -19,7 +20,8 @@ func NewDefaultCommonOpts() *CommonOpts {
 		Proxy:       "",
 		Quiet:       false,
 		Secure:      false,
-		Bandwidth:   0,
+		BandwidthKb: 0,
 		Concurrency: runtime.NumCPU(),
+		LowMemory:   false,
 	}
 }

@@ -28,6 +28,8 @@ type Control interface {
 	IsTest() bool
 	IsQuiet() bool
 	IsSecure() bool
+	IsLowMemory() bool
+
 	NewQueue() app_worker.Queue
 }
 
@@ -44,9 +46,18 @@ type UpOpts struct {
 	Test          bool
 	Secure        bool
 	RecipeName    string
+	RecipeOptions map[string]interface{}
+	CommonOptions map[string]interface{}
 	Concurrency   int
+	LowMemory     bool
 }
 
+func LowMemory(enabled bool) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
+		opt.LowMemory = enabled
+		return opt
+	}
+}
 func Concurrency(c int) UpOpt {
 	return func(opt *UpOpts) *UpOpts {
 		opt.Concurrency = c
@@ -56,6 +67,18 @@ func Concurrency(c int) UpOpt {
 func RecipeName(name string) UpOpt {
 	return func(opt *UpOpts) *UpOpts {
 		opt.RecipeName = name
+		return opt
+	}
+}
+func RecipeOptions(vo map[string]interface{}) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
+		opt.RecipeOptions = vo
+		return opt
+	}
+}
+func CommonOptions(vo map[string]interface{}) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
+		opt.CommonOptions = vo
 		return opt
 	}
 }

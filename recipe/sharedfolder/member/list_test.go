@@ -1,10 +1,10 @@
 package member
 
 import (
-	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
 func TestList_Exec(t *testing.T) {
-	app_test.TestRecipe(t, &List{})
+	qt_recipe.TestRecipe(t, &List{})
 }

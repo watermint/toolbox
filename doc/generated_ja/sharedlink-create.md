@@ -63,15 +63,16 @@ At second run, please hit button "Open" on the dialogue.
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -117,17 +118,18 @@ If you missed command line output, please see path below.
 
 ## Report: shared_link 
 
-Report files are generated in `shared_link.csv`, `shared_link.xlsx` and `shared_link.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `shared_link.csv`, `shared_link.xlsx` and `shared_link.json`.
+But if you run with `-low-memory` option, the command will generate only `shared_link.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
 
-| 列         | 説明                                                                                                                                                                                                                    |
-|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id         | A unique identifier for the linked file or folder                                                                                                                                                                       |
-| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| url        | URL of the shared link.                                                                                                                                                                                                 |
-| name       | The linked file name (including extension).                                                                                                                                                                             |
-| expires    | Expiration time, if set.                                                                                                                                                                                                |
-| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| 列         | 説明                                   |
+|------------|----------------------------------------|
+| id         | ファイルまたはフォルダへのリンクのID   |
+| tag        | エントリーの種別 (file, または folder) |
+| url        | 共有リンクのURL.                       |
+| name       | リンク先ファイル名称                   |
+| expires    | 有効期限 (設定されている場合)          |
+| path_lower | パス (すべて小文字に変換).             |
+| visibility | 共有リンクの開示範囲                   |
 

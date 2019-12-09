@@ -31,7 +31,7 @@ type profileImpl struct {
 
 func (z *profileImpl) Current() (profile *mo_profile.Profile, err error) {
 	profile = &mo_profile.Profile{}
-	res, err := z.ctx.Request("users/get_current_account").Call()
+	res, err := z.ctx.Rpc("users/get_current_account").Call()
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ type teamImpl struct {
 
 func (z *teamImpl) Admin() (profile *mo_profile.Profile, err error) {
 	profile = &mo_profile.Profile{}
-	res, err := z.ctx.Request("team/token/get_authenticated_admin").Call()
+	res, err := z.ctx.Rpc("team/token/get_authenticated_admin").Call()
 	if err != nil {
 		return nil, err
 	}

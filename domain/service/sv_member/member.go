@@ -5,8 +5,9 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_error"
 	"github.com/watermint/toolbox/infra/api/api_list"
-	"github.com/watermint/toolbox/infra/api/api_rpc"
+	"github.com/watermint/toolbox/infra/api/api_response"
 	"go.uber.org/zap"
 	"strings"
 )
@@ -285,7 +286,7 @@ func (z *memberImpl) Update(member *mo_member.Member) (updated *mo_member.Member
 		NewSurname:      member.Surname,
 		NewPersistentId: member.PersistentId,
 	}
-	req := z.ctx.Request("team/members/set_profile").Param(p)
+	req := z.ctx.Rpc("team/members/set_profile").Param(p)
 	res, err := req.Call()
 	if err != nil {
 		return nil, err
@@ -312,14 +313,14 @@ func (z *memberImpl) Resolve(teamMemberId string) (member *mo_member.Member, err
 			},
 		},
 	}
-	res, err := z.ctx.Request("team/members/get_info").Param(p).Call()
+	res, err := z.ctx.Rpc("team/members/get_info").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
 	return z.parseOneMember(res)
 }
 
-func (z *memberImpl) parseOneMember(res api_rpc.Response) (member *mo_member.Member, err error) {
+func (z *memberImpl) parseOneMember(res api_response.Response) (member *mo_member.Member, err error) {
 	member = &mo_member.Member{}
 	j, err := res.Json()
 	if err != nil {
@@ -334,7 +335,7 @@ func (z *memberImpl) parseOneMember(res api_rpc.Response) (member *mo_member.Mem
 	// {".tag": "id_not_found", "id_not_found": "xxx+xxxxx@xxxxxxxxx.xxx"}
 	if a.Get("id_not_found").Exists() {
 		z.ctx.Log().Debug("`id_not_found`", zap.String("id", a.Get("id_not_found").String()))
-		return nil, api_rpc.ApiError{
+		return nil, api_error.ApiError{
 			ErrorTag:     "id_not_found",
 			ErrorSummary: "id_not_found",
 			ErrorBody:    json.RawMessage(`{"error_summary":"id_not_found","error":{".tag":"id_not_found"}}`),
@@ -363,7 +364,7 @@ func (z *memberImpl) ResolveByEmail(email string) (member *mo_member.Member, err
 		},
 	}
 	member = &mo_member.Member{}
-	res, err := z.ctx.Request("team/members/get_info").Param(p).Call()
+	res, err := z.ctx.Rpc("team/members/get_info").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

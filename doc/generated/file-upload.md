@@ -53,25 +53,26 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option          | Description                | Default   |
-|-----------------|----------------------------|-----------|
-| `-chunk-size`   | Upload chunk size in KB    | 153600    |
-| `-dropbox-path` | Destination Dropbox path   |           |
-| `-local-path`   | Local file path            |           |
-| `-overwrite`    | Overwrite existing file(s) | false     |
-| `-peer`         | Account alias              | {default} |
+| Option           | Description                | Default   |
+|------------------|----------------------------|-----------|
+| `-chunk-size-kb` | Upload chunk size in KB    | 153600    |
+| `-dropbox-path`  | Destination Dropbox path   |           |
+| `-local-path`    | Local file path            |           |
+| `-overwrite`     | Overwrite existing file(s) | false     |
+| `-peer`          | Account alias              | {default} |
 
 Common options:
 
-| Option         | Description                                                                      | Default              |
-|----------------|----------------------------------------------------------------------------------|----------------------|
-| `-bandwidth`   | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency` | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`       | Enable debug mode                                                                | false                |
-| `-proxy`       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`      | Do not store tokens into a file                                                  | false                |
-| `-workspace`   | Workspace path                                                                   |                      |
+| Option          | Description                                                                      | Default              |
+|-----------------|----------------------------------------------------------------------------------|----------------------|
+| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
+| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`        | Enable debug mode                                                                | false                |
+| `-low-memory`   | Low memory footprint mode                                                        | false                |
+| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`       | Do not store tokens into a file                                                  | false                |
+| `-workspace`    | Workspace path                                                                   |                      |
 
 ## Authentication
 
@@ -115,17 +116,19 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: uploaded 
+## Report: skip 
 
-Report files are generated in `uploaded.csv`, `uploaded.xlsx` and `uploaded.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
-like `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
+Report files are generated in three formats, `skip.csv`, `skip.xlsx` and `skip.json`.
+But if you run with `-low-memory` option, the command will generate only `skip.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
+like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...   
 
 | Column                         | Description                                                                                            |
 |--------------------------------|--------------------------------------------------------------------------------------------------------|
 | status                         | Status of the operation                                                                                |
 | reason                         | Reason of failure or skipped operation                                                                 |
 | input.file                     | Local file path                                                                                        |
+| input.size                     | Local file size                                                                                        |
 | result.id                      | A unique identifier for the file.                                                                      |
 | result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
 | result.name                    | The last component of the path (including extension).                                                  |
@@ -137,5 +140,48 @@ like `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...
 | result.size                    | The file size in bytes.                                                                                |
 | result.content_hash            | A hash of the file content.                                                                            |
 | result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| result.parent_shared_folder_id |                                                                                                        |
+| result.parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
+
+## Report: summary 
+
+Report files are generated in three formats, `summary.csv`, `summary.xlsx` and `summary.json`.
+But if you run with `-low-memory` option, the command will generate only `summary.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
+like `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
+
+| Column           | Description                                         |
+|------------------|-----------------------------------------------------|
+| upload_start     | Time of start uploading                             |
+| upload_end       | Time of finish uploading                            |
+| num_bytes        | Total upload size (Bytes)                           |
+| num_files_error  | The number of files failed or got an error.         |
+| num_files_upload | The number of files uploaded or to upload.          |
+| num_files_skip   | The number of files skipped or to skip.             |
+| num_api_call     | The number of estimated upload API call for upload. |
+
+## Report: upload 
+
+Report files are generated in three formats, `upload.csv`, `upload.xlsx` and `upload.json`.
+But if you run with `-low-memory` option, the command will generate only `upload.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
+like `upload_0000.xlsx`, `upload_0001.xlsx`, `upload_0002.xlsx`...   
+
+| Column                         | Description                                                                                            |
+|--------------------------------|--------------------------------------------------------------------------------------------------------|
+| status                         | Status of the operation                                                                                |
+| reason                         | Reason of failure or skipped operation                                                                 |
+| input.file                     | Local file path                                                                                        |
+| input.size                     | Local file size                                                                                        |
+| result.id                      | A unique identifier for the file.                                                                      |
+| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| result.name                    | The last component of the path (including extension).                                                  |
+| result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
+| result.path_display            | The cased path to be used for display purposes only.                                                   |
+| result.client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| result.server_modified         | The last time the file was modified on Dropbox.                                                        |
+| result.revision                | A unique identifier for the current revision of a file.                                                |
+| result.size                    | The file size in bytes.                                                                                |
+| result.content_hash            | A hash of the file content.                                                                            |
+| result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
+| result.parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
 

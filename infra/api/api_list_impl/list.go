@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
-	"github.com/watermint/toolbox/infra/api/api_rpc"
+	"github.com/watermint/toolbox/infra/api/api_response"
 	"go.uber.org/zap"
 )
 
@@ -31,7 +31,7 @@ type listImpl struct {
 	requestEndpoint  string
 	continueEndpoint string
 	onEntry          func(res api_list.ListEntry) error
-	onResponse       func(res api_rpc.Response) error
+	onResponse       func(res api_response.Response) error
 	onFailure        func(err error) error
 }
 
@@ -60,7 +60,7 @@ func (z *listImpl) OnFailure(failure func(err error) error) api_list.List {
 	return z
 }
 
-func (z *listImpl) OnResponse(response func(res api_rpc.Response) error) api_list.List {
+func (z *listImpl) OnResponse(response func(res api_response.Response) error) api_list.List {
 	z.onResponse = response
 	return z
 }
@@ -70,7 +70,7 @@ func (z *listImpl) OnEntry(entry func(entry api_list.ListEntry) error) api_list.
 	return z
 }
 
-func (z *listImpl) handleResponse(endpoint string, res api_rpc.Response, err error) error {
+func (z *listImpl) handleResponse(endpoint string, res api_response.Response, err error) error {
 	log := z.ctx.Log().With(zap.String("endpoint", endpoint))
 
 	if err != nil {
@@ -106,7 +106,7 @@ func (z *listImpl) handleResponse(endpoint string, res api_rpc.Response, err err
 	return nil
 }
 
-func (z *listImpl) handleEntry(res api_rpc.Response) error {
+func (z *listImpl) handleEntry(res api_response.Response) error {
 	if z.onEntry == nil {
 		return nil
 	}
@@ -140,7 +140,7 @@ func (z *listImpl) handleEntry(res api_rpc.Response) error {
 	return nil
 }
 
-func (z *listImpl) isContinue(res api_rpc.Response) (cont bool, cursor string) {
+func (z *listImpl) isContinue(res api_response.Response) (cont bool, cursor string) {
 	log := z.ctx.Log().With(zap.String("endpoint", z.continueEndpoint))
 	j, err := res.Json()
 	if err != nil {
@@ -168,7 +168,7 @@ func (z *listImpl) isContinue(res api_rpc.Response) (cont bool, cursor string) {
 }
 
 func (z *listImpl) list() error {
-	res, err := z.ctx.Request(z.requestEndpoint).Param(z.param).Call()
+	res, err := z.ctx.Rpc(z.requestEndpoint).Param(z.param).Call()
 	return z.handleResponse(z.requestEndpoint, res, err)
 }
 
@@ -178,7 +178,7 @@ func (z *listImpl) listContinue(cursor string) error {
 	}{
 		Cursor: cursor,
 	}
-	res, err := z.ctx.Request(z.continueEndpoint).Param(p).Call()
+	res, err := z.ctx.Rpc(z.continueEndpoint).Param(p).Call()
 
 	return z.handleResponse(z.continueEndpoint, res, err)
 }

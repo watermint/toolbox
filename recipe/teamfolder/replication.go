@@ -3,12 +3,12 @@ package teamfolder
 import (
 	"github.com/watermint/toolbox/domain/usecase/uc_teamfolder_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type ReplicationVO struct {
@@ -75,5 +75,5 @@ func (z *Replication) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Replication) Test(c app_control.Control) error {
-	return qt_test.HumanInteractionRequired()
+	return qt_recipe.HumanInteractionRequired()
 }

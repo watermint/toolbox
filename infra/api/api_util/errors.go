@@ -2,7 +2,7 @@ package api_util
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/infra/api/api_rpc"
+	"github.com/watermint/toolbox/infra/api/api_error"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"regexp"
 	"strings"
@@ -15,9 +15,9 @@ var (
 // Returns `error_summary` if an error is ApiError. Otherwise return "".
 func ErrorSummary(err error) string {
 	switch re := err.(type) {
-	case api_rpc.ApiError:
+	case api_error.ApiError:
 		es := errorSummaryPostfix.ReplaceAllString(re.ErrorSummary, "")
-		es = strings.ReplaceAll(es, "/", "")
+		es = strings.Trim(es, "/")
 		return es
 
 	default:
@@ -32,7 +32,7 @@ func ErrorSummaryPrefix(err error, prefix string) bool {
 // Returns `error_summary` if an error is ApiError. Otherwise return "".
 func ErrorBody(err error) json.RawMessage {
 	switch re := err.(type) {
-	case api_rpc.ApiError:
+	case api_error.ApiError:
 		return re.ErrorBody
 
 	default:
@@ -43,7 +43,7 @@ func ErrorBody(err error) json.RawMessage {
 // Returns `error_summary` if an error is ApiError. Otherwise return "".
 func ErrorTag(err error) string {
 	switch re := err.(type) {
-	case api_rpc.ApiError:
+	case api_error.ApiError:
 		return re.ErrorTag
 
 	default:
@@ -54,7 +54,7 @@ func ErrorTag(err error) string {
 // Returns `user_message` if an error is ApiError. Otherwise return Error().
 func ErrorUserMessage(err error) string {
 	switch re := err.(type) {
-	case api_rpc.ApiError:
+	case api_error.ApiError:
 		if re.UserMessage == "" {
 			return re.Error()
 		}

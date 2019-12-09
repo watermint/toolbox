@@ -20,7 +20,7 @@ func DropboxOAuthEndpoint() oauth2.Endpoint {
 func VerifyToken(tokenType string, ctx api_context.Context) (desc, suppl string, err error) {
 	switch tokenType {
 	case api_auth.DropboxTokenFull, api_auth.DropboxTokenApp:
-		p, err := ctx.Request("users/get_current_account").Call()
+		p, err := ctx.Rpc("users/get_current_account").Call()
 		if err != nil {
 			ctx.Log().Debug("Unable to verify token", zap.Error(err))
 			return "", "", err
@@ -41,7 +41,7 @@ func VerifyToken(tokenType string, ctx api_context.Context) (desc, suppl string,
 		api_auth.DropboxTokenBusinessManagement,
 		api_auth.DropboxTokenBusinessFile,
 		api_auth.DropboxTokenBusinessAudit:
-		p, err := ctx.Request("team/get_info").Call()
+		p, err := ctx.Rpc("team/get_info").Call()
 		if err != nil {
 			ctx.Log().Debug("Unable to verify token", zap.Error(err))
 			return "", "", err

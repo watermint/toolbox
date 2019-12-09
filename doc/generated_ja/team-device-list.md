@@ -59,15 +59,16 @@ At second run, please hit button "Open" on the dialogue.
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -113,38 +114,39 @@ If you missed command line output, please see path below.
 
 ## Report: device 
 
-Report files are generated in `device.csv`, `device.xlsx` and `device.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `device.csv`, `device.xlsx` and `device.json`.
+But if you run with `-low-memory` option, the command will generate only `device.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...   
 
-| 列                            | 説明                                                                                 |
-|-------------------------------|--------------------------------------------------------------------------------------|
-| team_member_id                | ID of user as a member of a team.                                                    |
-| email                         | Email address of user.                                                               |
-| status                        | The user's status as a member of a specific team. (active/invited/suspended/removed) |
-| given_name                    | Also known as a first name                                                           |
-| surname                       | Also known as a last name or family name.                                            |
-| familiar_name                 | Locale-dependent name                                                                |
-| display_name                  | A name that can be used directly to represent the name of a user's Dropbox account.  |
-| abbreviated_name              | An abbreviated form of the person's name.                                            |
-| external_id                   | External ID that a team can attach to the user.                                      |
-| account_id                    | A user's account identifier.                                                         |
-| device_tag                    | Type of the session (web_session, desktop_client, or mobile_client)                  |
-| id                            | The session id.                                                                      |
-| user_agent                    | Information on the hosting device.                                                   |
-| os                            | Information on the hosting operating system                                          |
-| browser                       | Information on the browser used for this web session.                                |
-| ip_address                    | The IP address of the last activity from this session.                               |
-| country                       | The country from which the last activity from this session was made.                 |
-| created                       | The time this session was created.                                                   |
-| updated                       | The time of the last activity from this session.                                     |
-| expires                       | The time this session expires                                                        |
-| host_name                     | Name of the hosting desktop.                                                         |
-| client_type                   | The Dropbox desktop client type (windows, mac, or linux)                             |
-| client_version                | The Dropbox client version.                                                          |
-| platform                      | Information on the hosting platform.                                                 |
-| is_delete_on_unlink_supported | Whether it's possible to delete all of the account files upon unlinking.             |
-| device_name                   | The device name.                                                                     |
-| os_version                    | The hosting OS version.                                                              |
-| last_carrier                  | Last carrier used by the device.                                                     |
+| 列                            | 説明                                                                   |
+|-------------------------------|------------------------------------------------------------------------|
+| team_member_id                | チームにおけるメンバーのID                                             |
+| email                         | ユーザーのメールアドレス                                               |
+| status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   |
+| given_name                    | 名                                                                     |
+| surname                       | 名字                                                                   |
+| familiar_name                 | ロケール依存の名前                                                     |
+| display_name                  | ユーザーのDropboxアカウントの表示名称                                  |
+| abbreviated_name              | ユーザーの省略名称                                                     |
+| external_id                   | このユーザーに関連づけられた外部ID                                     |
+| account_id                    | ユーザーのアカウントID                                                 |
+| device_tag                    | セッションのタイプ (web_session, desktop_client, または mobile_client) |
+| id                            | セッションID                                                           |
+| user_agent                    | ホストデバイスの情報                                                   |
+| os                            | ホストOSの情報                                                         |
+| browser                       | Webセッションのブラウザ情報                                            |
+| ip_address                    | このセッションの昨秋アクティビティのIPアドレス                         |
+| country                       | このセッションの最終アクティビティの国                                 |
+| created                       | セッションが作成された日時                                             |
+| updated                       | このセッションの最終アクティビティの日時                               |
+| expires                       | このセッションが失効する日時                                           |
+| host_name                     | デスクトップホストの名称                                               |
+| client_type                   | Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)        |
+| client_version                | Dropboxクライアントバージョン                                          |
+| platform                      | ホストプラットホームの情報                                             |
+| is_delete_on_unlink_supported | アカウントのファイルをリンク解除時に削除を試みます                     |
+| device_name                   | デバイス名                                                             |
+| os_version                    | ホストOSのバージョン                                                   |
+| last_carrier                  | このデバイスで利用された最後のキャリア                                 |
 

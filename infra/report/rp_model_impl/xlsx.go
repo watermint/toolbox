@@ -13,8 +13,9 @@ import (
 )
 
 const (
-	xlsxThemeColor = "ff548235"
-	XlsxMaxRows    = 10000
+	xlsxThemeColor      = "ff548235"
+	XlsxMaxRows         = 10000
+	XlsxMaxMemoryTarget = 4 * 1_048_576 // 4MB
 )
 
 func xlsxHeaderStyle() *xlsx.Style {
@@ -57,19 +58,20 @@ func NewXlsx(name string, row interface{}, ctl app_control.Control, opts ...rp_m
 }
 
 type Xlsx struct {
-	ctl           app_control.Control
-	name          string
-	omitError     bool
-	rotateCount   int
-	rotateFailed  bool
-	filePath      string
-	fileAvailable bool
-	file          *xlsx.File
-	sheet         *xlsx.Sheet
-	parser        Column
-	index         int
-	fileIndex     int
-	mutex         sync.Mutex
+	ctl            app_control.Control
+	name           string
+	omitError      bool
+	rotateCount    int
+	rotateFailed   bool
+	filePath       string
+	fileAvailable  bool
+	file           *xlsx.File
+	sheet          *xlsx.Sheet
+	parser         Column
+	index          int
+	fileIndex      int
+	mutex          sync.Mutex
+	estMemoryUsage int64
 }
 
 func (z *Xlsx) rotate() {
@@ -120,7 +122,11 @@ func (z *Xlsx) open() (err error) {
 
 	file := xlsx.NewFile()
 	l.Debug("Create xlsx report", zap.String("filePath", z.filePath))
-	sheet, err := file.AddSheet(z.name)
+	sheetName := z.name
+	if len(sheetName) >= 31 {
+		sheetName = sheetName[:30]
+	}
+	sheet, err := file.AddSheet(sheetName)
 	if err != nil {
 		l.Debug("Unable to add sheet", zap.Error(err))
 		return err
@@ -131,11 +137,13 @@ func (z *Xlsx) open() (err error) {
 	z.sheet = sheet
 	z.fileIndex++
 	z.index = 0
+	z.estMemoryUsage = 0
 
 	return nil
 }
 
 func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
+	rowSize := 0
 	row := z.sheet.AddRow()
 	for _, col := range cols {
 		cell := row.AddCell()
@@ -157,7 +165,9 @@ func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
 		default:
 			cell.SetValue(c)
 		}
+		rowSize += len(cell.String())
 	}
+	z.estMemoryUsage += int64(rowSize)
 	return nil
 }
 
@@ -174,13 +184,13 @@ func (z *Xlsx) Failure(err error, input interface{}) {
 	z.Row(rowForFailure(z.ctl.UI(), err, input))
 }
 
-func (z *Xlsx) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+func (z *Xlsx) Skip(reason app_msg.Message, input interface{}) {
 	ui := z.ctl.UI()
 	z.Row(rp_model.TransactionRow{
 		Status: ui.Text(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
-		Result: result,
+		Result: nil,
 	})
 }
 
@@ -202,7 +212,7 @@ func (z *Xlsx) Row(row interface{}) {
 	z.addRow(z.parser.Values(row), xlsxDataStyle())
 	z.index++
 
-	if z.index > XlsxMaxRows {
+	if z.index > XlsxMaxRows || z.estMemoryUsage > XlsxMaxMemoryTarget {
 		z.rotate()
 	}
 }

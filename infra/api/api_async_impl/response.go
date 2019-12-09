@@ -4,11 +4,11 @@ import (
 	"errors"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/api/api_rpc"
+	"github.com/watermint/toolbox/infra/api/api_response"
 )
 
 type responseImpl struct {
-	res            api_rpc.Response
+	res            api_response.Response
 	complete       gjson.Result
 	completeExists bool
 }

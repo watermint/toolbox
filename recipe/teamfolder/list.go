@@ -5,13 +5,12 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
 
@@ -34,13 +33,13 @@ func (z *List) Reports() []rp_spec.ReportSpec {
 
 func (z *List) Test(c app_control.Control) error {
 	lvo := &ListVO{}
-	if !app_test.ApplyTestPeers(c, lvo) {
-		return qt_test.NotEnoughResource()
+	if !qt_recipe.ApplyTestPeers(c, lvo) {
+		return qt_recipe.NotEnoughResource()
 	}
 	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
-	return app_test.TestRows(c, "teamfolder", func(cols map[string]string) error {
+	return qt_recipe.TestRows(c, "teamfolder", func(cols map[string]string) error {
 		if _, ok := cols["team_folder_id"]; !ok {
 			return errors.New("`team_folder_id` is not found")
 		}

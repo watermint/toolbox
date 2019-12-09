@@ -92,7 +92,7 @@ func (z *filesImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, err error) 
 		IncludeDeleted:                  false,
 	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Request("files/get_metadata").Param(p).Call()
+	res, err := z.ctx.Rpc("files/get_metadata").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -172,7 +172,7 @@ func (z *filesImpl) Remove(path mo_path.Path, opts ...RemoveOpt) (entry mo_file.
 	}
 
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Request("files/delete_v2").Param(p).Call()
+	res, err := z.ctx.Rpc("files/delete_v2").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

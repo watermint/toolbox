@@ -1,6 +1,8 @@
 package mo_file_size
 
-import "github.com/watermint/toolbox/domain/model/mo_namespace"
+import (
+	"github.com/watermint/toolbox/domain/model/mo_namespace"
+)
 
 type Size struct {
 	Path            string `json:"path"`
@@ -8,14 +10,16 @@ type Size struct {
 	CountFolder     int64  `json:"count_folder"`
 	CountDescendant int64  `json:"count_descendant"`
 	Size            int64  `json:"size"`
+	ApiComplexity   int64  `json:"api_complexity"`
 }
 
-func (z Size) Plus(s Size) Size {
+func (z Size) Plus(path string, s Size) Size {
 	return Size{
-		Path:            z.Path,
+		Path:            path,
 		CountFile:       z.CountFile + s.CountFile,
 		CountFolder:     z.CountFolder + s.CountFolder,
 		CountDescendant: z.CountDescendant + s.CountDescendant,
+		ApiComplexity:   z.ApiComplexity + s.ApiComplexity,
 		Size:            z.Size + s.Size,
 	}
 }
@@ -30,6 +34,7 @@ type NamespaceSize struct {
 	CountFolder       int64  `json:"count_folder"`
 	CountDescendant   int64  `json:"count_descendant"`
 	Size              int64  `json:"size"`
+	ApiComplexity     int64  `json:"api_complexity"`
 }
 
 func NewNamespaceSize(namespace *mo_namespace.Namespace, size Size) *NamespaceSize {
@@ -43,5 +48,6 @@ func NewNamespaceSize(namespace *mo_namespace.Namespace, size Size) *NamespaceSi
 		CountFolder:       size.CountFolder,
 		CountDescendant:   size.CountDescendant,
 		Size:              size.Size,
+		ApiComplexity:     size.ApiComplexity,
 	}
 }

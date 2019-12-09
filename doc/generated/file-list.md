@@ -63,15 +63,16 @@ At second run, please hit button "Open" on the dialogue.
 
 Common options:
 
-| Option         | Description                                                                      | Default              |
-|----------------|----------------------------------------------------------------------------------|----------------------|
-| `-bandwidth`   | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency` | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`       | Enable debug mode                                                                | false                |
-| `-proxy`       | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`       | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`      | Do not store tokens into a file                                                  | false                |
-| `-workspace`   | Workspace path                                                                   |                      |
+| Option          | Description                                                                      | Default              |
+|-----------------|----------------------------------------------------------------------------------|----------------------|
+| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
+| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`        | Enable debug mode                                                                | false                |
+| `-low-memory`   | Low memory footprint mode                                                        | false                |
+| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`       | Do not store tokens into a file                                                  | false                |
+| `-workspace`    | Workspace path                                                                   |                      |
 
 ## Authentication
 
@@ -117,8 +118,9 @@ If you missed command line output, please see path below.
 
 ## Report: file 
 
-Report files are generated in `file.csv`, `file.xlsx` and `file.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `file.csv`, `file.xlsx` and `file.json`.
+But if you run with `-low-memory` option, the command will generate only `file.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `file_0000.xlsx`, `file_0001.xlsx`, `file_0002.xlsx`...   
 
 | Column                  | Description                                                                                            |
@@ -134,5 +136,5 @@ like `file_0000.xlsx`, `file_0001.xlsx`, `file_0002.xlsx`...
 | size                    | The file size in bytes.                                                                                |
 | content_hash            | A hash of the file content.                                                                            |
 | shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| parent_shared_folder_id |                                                                                                        |
+| parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
 

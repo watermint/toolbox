@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/api/api_rpc"
+	"github.com/watermint/toolbox/infra/api/api_response"
 )
 
 const (
@@ -223,7 +223,7 @@ func (z *memberImpl) List() (member []mo_sharedfolder_member.Member, err error) 
 		Continue("sharing/list_folder_members/continue").
 		Param(p).
 		UseHasMore(false).
-		OnResponse(func(res api_rpc.Response) error {
+		OnResponse(func(res api_response.Response) error {
 			j, err := res.Json()
 			if err != nil {
 				return err
@@ -318,7 +318,7 @@ func (z *memberImpl) Add(member MemberAddOption, opts ...AddOption) (err error) 
 		CustomMessage:  ao.customMessage,
 	}
 
-	_, err = z.ctx.Request("sharing/add_folder_member").Param(p).Call()
+	_, err = z.ctx.Rpc("sharing/add_folder_member").Param(p).Call()
 	if err != nil {
 		return err
 	}

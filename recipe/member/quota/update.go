@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_member_quota"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
@@ -17,6 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
 
@@ -133,5 +133,5 @@ func (z *Update) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Update) Test(c app_control.Control) error {
-	return qt_test.HumanInteractionRequired()
+	return qt_recipe.HumanInteractionRequired()
 }

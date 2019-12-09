@@ -31,7 +31,7 @@ func (z *copyRefImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, ref, expi
 		Path: path.Path(),
 	}
 
-	res, err := z.ctx.Request("files/copy_reference/get").Param(p).Call()
+	res, err := z.ctx.Rpc("files/copy_reference/get").Param(p).Call()
 	if err != nil {
 		return
 	}
@@ -59,7 +59,7 @@ func (z *copyRefImpl) Save(path mo_path.Path, ref string) (entry mo_file.Entry, 
 	}
 
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Request("files/copy_reference/save").Param(p).Call()
+	res, err := z.ctx.Rpc("files/copy_reference/save").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

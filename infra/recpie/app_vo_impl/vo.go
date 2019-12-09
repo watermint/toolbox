@@ -255,3 +255,30 @@ func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
 		}
 	}
 }
+
+func (z ValueContainer) Serialize() map[string]interface{} {
+	s := make(map[string]interface{})
+	for n, d := range z.Values {
+		switch dv := d.(type) {
+		case *bool:
+			s[n] = *dv
+		case *int64:
+			s[n] = *dv
+		case *string:
+			s[n] = *dv
+		case *app_file_impl.CsvData:
+			s[n] = dv.FilePath
+		case *app_conn_impl.ConnBusinessMgmt:
+			s[n] = dv.PeerName
+		case *app_conn_impl.ConnBusinessInfo:
+			s[n] = dv.PeerName
+		case *app_conn_impl.ConnBusinessAudit:
+			s[n] = dv.PeerName
+		case *app_conn_impl.ConnBusinessFile:
+			s[n] = dv.PeerName
+		case *app_conn_impl.ConnUserFile:
+			s[n] = dv.PeerName
+		}
+	}
+	return s
+}

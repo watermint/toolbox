@@ -7,9 +7,11 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_lang"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/util/ut_doc"
 	"go.uber.org/zap"
+	"golang.org/x/text/language"
 )
 
 type DocVO struct {
@@ -50,11 +52,23 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 
 	if vo.Lang != "" {
 		wc := ctl.(app_control_launcher.WithMessageContainer)
-		mc, err := app_msg_container_impl.New(app_lang.Select(vo.Lang), ctl)
-		if err != nil {
-			return err
+		langPriority := make([]language.Tag, 0)
+		ul := app_lang.Select(vo.Lang)
+		if ul != language.English {
+			langPriority = append(langPriority, ul)
 		}
-		ctl = wc.With(mc)
+		langPriority = append(langPriority, language.English)
+		langContainers := make(map[language.Tag]app_msg_container.Container)
+
+		for _, lang := range langPriority {
+			mc, err := app_msg_container_impl.New(lang, ctl)
+			if err != nil {
+				return err
+			}
+			langContainers[lang] = mc
+		}
+
+		ctl = wc.With(app_msg_container_impl.NewMultilingual(langPriority, langContainers))
 	}
 
 	rme := ut_doc.NewReadme(ctl, vo.Filename, vo.Badge, vo.Test, vo.MarkdownReadme, vo.CommandPath)

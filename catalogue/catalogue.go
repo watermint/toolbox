@@ -10,6 +10,8 @@ import (
 	filecompare "github.com/watermint/toolbox/recipe/file/compare"
 	fileimport "github.com/watermint/toolbox/recipe/file/import"
 	fileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
+	filesync "github.com/watermint/toolbox/recipe/file/sync"
+	filesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
 	"github.com/watermint/toolbox/recipe/group"
 	groupmember "github.com/watermint/toolbox/recipe/group/member"
 	"github.com/watermint/toolbox/recipe/member"
@@ -22,6 +24,7 @@ import (
 	teamactivity "github.com/watermint/toolbox/recipe/team/activity"
 	teamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
 	teamdevice "github.com/watermint/toolbox/recipe/team/device"
+	teamdiag "github.com/watermint/toolbox/recipe/team/diag"
 	teamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
 	teamlinkedapp "github.com/watermint/toolbox/recipe/team/linkedapp"
 	teamnamespace "github.com/watermint/toolbox/recipe/team/namespace"
@@ -42,15 +45,21 @@ func Recipes() []app_recipe.Recipe {
 		&devtest.Recipe{},
 		&devtest.Resources{},
 		&file.Copy{},
+		&file.Delete{},
+		&file.Download{},
 		&file.List{},
 		&file.Merge{},
 		&file.Move{},
 		&file.Replication{},
+		&file.Restore{},
 		&file.Upload{},
 		&filecompare.Account{},
 		&filecompare.Local{},
 		&fileimport.Url{},
+		&fileimport.ViaApp{},
 		&fileimportbatch.Url{},
+		&filesync.Up{},
+		&filesyncpreflight.Up{},
 		&group.List{},
 		&group.Delete{},
 		&groupmember.List{},
@@ -63,6 +72,7 @@ func Recipes() []app_recipe.Recipe {
 		&memberquota.Update{},
 		&memberquota.Usage{},
 		&memberupdate.Email{},
+		&memberupdate.ExternalId{},
 		&memberupdate.Profile{},
 		&recipe.License{},
 		&recipe.Web{},
@@ -71,10 +81,12 @@ func Recipes() []app_recipe.Recipe {
 		&sharedlink.Create{},
 		&sharedlink.List{},
 		&sharedlink.Delete{},
-		&team.Diagnosis{},
 		&team.Feature{},
 		&team.Info{},
+		&teamdiag.Explorer{},
+		&teamdiag.Path{},
 		&teamactivity.Event{},
+		&teamactivity.User{},
 		&teamactivitydaily.Event{},
 		&teamdevice.List{},
 		&teamdevice.Unlink{},

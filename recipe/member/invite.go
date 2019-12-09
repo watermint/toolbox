@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
@@ -14,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type InviteRow struct {
@@ -49,7 +49,7 @@ func (z *Invite) Reports() []rp_spec.ReportSpec {
 }
 
 func (z *Invite) Test(c app_control.Control) error {
-	return qt_test.HumanInteractionRequired()
+	return qt_recipe.HumanInteractionRequired()
 }
 
 func (z *Invite) Console() {
@@ -113,7 +113,7 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 			return nil
 
 		case r.Tag == "user_already_on_team":
-			rep.Skip(z.msgFromTag(r.Tag), m, nil)
+			rep.Skip(z.msgFromTag(r.Tag), m)
 			return nil
 
 		default:

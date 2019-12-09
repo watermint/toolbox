@@ -1,10 +1,10 @@
 package device
 
 import (
-	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
 func TestUnlink_Exec(t *testing.T) {
-	app_test.TestRecipe(t, &Unlink{})
+	qt_recipe.TestRecipe(t, &Unlink{})
 }

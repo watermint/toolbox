@@ -154,7 +154,7 @@ func (z *implGroup) Create(name string, opt ...CreateOpt) (g *mo_group.Group, er
 		},
 	}
 	g = &mo_group.Group{}
-	res, err := z.ctx.Request("team/groups/create").Param(p).Call()
+	res, err := z.ctx.Rpc("team/groups/create").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -217,7 +217,7 @@ func (z *implGroup) Resolve(groupId string) (g *mo_group.Group, err error) {
 		GroupIds: []string{groupId},
 	}
 	g = &mo_group.Group{}
-	res, err := z.ctx.Request("team/groups/get_info").Param(p).Call()
+	res, err := z.ctx.Rpc("team/groups/get_info").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

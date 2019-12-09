@@ -59,15 +59,16 @@ At second run, please hit button "Open" on the dialogue.
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -113,20 +114,21 @@ If you missed command line output, please see path below.
 
 ## Report: group_member 
 
-Report files are generated in `group_member.csv`, `group_member.xlsx` and `group_member.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `group_member.csv`, `group_member.xlsx` and `group_member.json`.
+But if you run with `-low-memory` option, the command will generate only `group_member.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`...   
 
-| 列                    | 説明                                                                                  |
-|-----------------------|---------------------------------------------------------------------------------------|
-| group_id              | A group's identifier                                                                  |
-| group_name            | Name of a group.                                                                      |
-| group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
-| access_type           | The role that the user has in the group (member/owner)                                |
-| account_id            | A user's account identifier                                                           |
-| team_member_id        | ID of user as a member of a team.                                                     |
-| email                 | Email address of user.                                                                |
-| status                | The user's status as a member of a specific team. (active/invited/suspended/removed)  |
-| surname               | Also known as a last name or family name.                                             |
-| given_name            | Also known as a first name                                                            |
+| 列                    | 説明                                                                                    |
+|-----------------------|-----------------------------------------------------------------------------------------|
+| group_id              | グループID                                                                              |
+| group_name            | グループ名称                                                                            |
+| group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
+| access_type           | グループにおけるユーザーの役割 (member/owner)                                           |
+| account_id            | ユーザーアカウントのID                                                                  |
+| team_member_id        | チームにおけるメンバーのID                                                              |
+| email                 | ユーザーのメールアドレス                                                                |
+| status                | チームにおけるメンバーのステータス(active/invited/suspended/removed)                    |
+| surname               | 名字                                                                                    |
+| given_name            | 名                                                                                      |
 

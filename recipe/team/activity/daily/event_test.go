@@ -1,10 +1,10 @@
 package daily
 
 import (
-	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
 func TestEvent_Exec(t *testing.T) {
-	app_test.TestRecipe(t, &Event{})
+	qt_recipe.TestRecipe(t, &Event{})
 }

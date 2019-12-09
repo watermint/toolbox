@@ -59,15 +59,16 @@ At second run, please hit button "Open" on the dialogue.
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -113,15 +114,16 @@ If you missed command line output, please see path below.
 
 ## Report: info 
 
-Report files are generated in `info.csv`, `info.xlsx` and `info.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `info.csv`, `info.xlsx` and `info.json`.
+But if you run with `-low-memory` option, the command will generate only `info.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
 
 | 列                          | 説明                                                                                                          |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------|
-| name                        | The name of the team                                                                                          |
+| name                        | チームの名称                                                                                                  |
 | team_id                     | The ID of the team.                                                                                           |
-| num_licensed_users          | The number of licenses available to the team.                                                                 |
+| num_licensed_users          | このチームで利用可能なライセンス数                                                                            |
 | num_provisioned_users       | The number of accounts that have been invited or are already active members of the team.                      |
 | policy_shared_folder_member | Which shared folders team members can join (from_team_only, or from_anyone)                                   |
 | policy_shared_folder_join   | Who can join folders shared by team members (team, or anyone)                                                 |

@@ -61,15 +61,16 @@ At second run, please hit button "Open" on the dialogue.
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -115,40 +116,41 @@ If you missed command line output, please see path below.
 
 ## Report: unlink 
 
-Report files are generated in `unlink.csv`, `unlink.xlsx` and `unlink.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `unlink.csv`, `unlink.xlsx` and `unlink.json`.
+But if you run with `-low-memory` option, the command will generate only `unlink.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `unlink_0000.xlsx`, `unlink_0001.xlsx`, `unlink_0002.xlsx`...   
 
-| 列                                  | 説明                                                                                 |
-|-------------------------------------|--------------------------------------------------------------------------------------|
-| status                              | Status of the operation                                                              |
-| reason                              | Reason of failure or skipped operation                                               |
-| input.team_member_id                | ID of user as a member of a team.                                                    |
-| input.email                         | Email address of user.                                                               |
-| input.status                        | The user's status as a member of a specific team. (active/invited/suspended/removed) |
-| input.given_name                    | Also known as a first name                                                           |
-| input.surname                       | Also known as a last name or family name.                                            |
-| input.familiar_name                 | Locale-dependent name                                                                |
-| input.display_name                  | A name that can be used directly to represent the name of a user's Dropbox account.  |
-| input.abbreviated_name              | An abbreviated form of the person's name.                                            |
-| input.external_id                   | External ID that a team can attach to the user.                                      |
-| input.account_id                    | A user's account identifier.                                                         |
-| input.device_tag                    | Type of the session (web_session, desktop_client, or mobile_client)                  |
-| input.id                            | The session id.                                                                      |
-| input.user_agent                    | Information on the hosting device.                                                   |
-| input.os                            | Information on the hosting operating system                                          |
-| input.browser                       | Information on the browser used for this web session.                                |
-| input.ip_address                    | The IP address of the last activity from this session.                               |
-| input.country                       | The country from which the last activity from this session was made.                 |
-| input.created                       | The time this session was created.                                                   |
-| input.updated                       | The time of the last activity from this session.                                     |
-| input.expires                       | The time this session expires                                                        |
-| input.host_name                     | Name of the hosting desktop.                                                         |
-| input.client_type                   | The Dropbox desktop client type (windows, mac, or linux)                             |
-| input.client_version                | The Dropbox client version.                                                          |
-| input.platform                      | Information on the hosting platform.                                                 |
-| input.is_delete_on_unlink_supported | Whether it's possible to delete all of the account files upon unlinking.             |
-| input.device_name                   | The device name.                                                                     |
-| input.os_version                    | The hosting OS version.                                                              |
-| input.last_carrier                  | Last carrier used by the device.                                                     |
+| 列                                  | 説明                                                                   |
+|-------------------------------------|------------------------------------------------------------------------|
+| status                              | 処理の状態                                                             |
+| reason                              | 失敗またはスキップの理由                                               |
+| input.team_member_id                | チームにおけるメンバーのID                                             |
+| input.email                         | ユーザーのメールアドレス                                               |
+| input.status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   |
+| input.given_name                    | 名                                                                     |
+| input.surname                       | 名字                                                                   |
+| input.familiar_name                 | ロケール依存の名前                                                     |
+| input.display_name                  | ユーザーのDropboxアカウントの表示名称                                  |
+| input.abbreviated_name              | ユーザーの省略名称                                                     |
+| input.external_id                   | このユーザーに関連づけられた外部ID                                     |
+| input.account_id                    | ユーザーのアカウントID                                                 |
+| input.device_tag                    | セッションのタイプ (web_session, desktop_client, または mobile_client) |
+| input.id                            | セッションID                                                           |
+| input.user_agent                    | ホストデバイスの情報                                                   |
+| input.os                            | ホストOSの情報                                                         |
+| input.browser                       | Webセッションのブラウザ情報                                            |
+| input.ip_address                    | このセッションの昨秋アクティビティのIPアドレス                         |
+| input.country                       | このセッションの最終アクティビティの国                                 |
+| input.created                       | セッションが作成された日時                                             |
+| input.updated                       | このセッションの最終アクティビティの日時                               |
+| input.expires                       | このセッションが失効する日時                                           |
+| input.host_name                     | デスクトップホストの名称                                               |
+| input.client_type                   | Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)        |
+| input.client_version                | Dropboxクライアントバージョン                                          |
+| input.platform                      | ホストプラットホームの情報                                             |
+| input.is_delete_on_unlink_supported | アカウントのファイルをリンク解除時に削除を試みます                     |
+| input.device_name                   | デバイス名                                                             |
+| input.os_version                    | ホストOSのバージョン                                                   |
+| input.last_carrier                  | このデバイスで利用された最後のキャリア                                 |
 

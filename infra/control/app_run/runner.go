@@ -9,16 +9,20 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/control/app_run_impl"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
+	"github.com/watermint/toolbox/infra/network/nw_concurrency"
 	"github.com/watermint/toolbox/infra/network/nw_diag"
+	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"github.com/watermint/toolbox/infra/network/nw_proxy"
-	"github.com/watermint/toolbox/infra/quality/qt_control_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/infra/util/ut_filepath"
+	"github.com/watermint/toolbox/infra/util/ut_memory"
+	"github.com/watermint/toolbox/quality/infra/qt_control_impl"
 	"go.uber.org/zap"
 	"os"
 	"os/signal"
@@ -29,7 +33,7 @@ import (
 
 func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Initialize resources
-	mc := app_run_impl.NewContainer(bx)
+	mc := app_msg_container_impl.NewContainer(bx)
 	ui := app_ui.NewConsole(mc, qt_control_impl.NewMessageMemory(), false)
 	cat := catalogue.Catalogue()
 
@@ -87,7 +91,14 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Up
 	so := make([]app_control.UpOpt, 0)
 	if com.Workspace != "" {
-		so = append(so, app_control.WorkspacePath(com.Workspace))
+		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace)
+		if err != nil {
+			ui.Error("run.error.unable_to_format_path", app_msg.P{
+				"Error": err.Error(),
+			})
+			os.Exit(app_control.FailureInvalidCommandFlags)
+		}
+		so = append(so, app_control.WorkspacePath(wsPath))
 	}
 	if com.Debug {
 		so = append(so, app_control.Debug())
@@ -95,8 +106,11 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	if com.Secure {
 		so = append(so, app_control.Secure())
 	}
+	so = append(so, app_control.LowMemory(com.LowMemory))
 	so = append(so, app_control.Concurrency(com.Concurrency))
 	so = append(so, app_control.RecipeName(recipeName))
+	so = append(so, app_control.CommonOptions(cvc.Serialize()))
+	so = append(so, app_control.RecipeOptions(vc.Serialize()))
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.Recipes())
 	err = ctl.Up(so...)
@@ -189,18 +203,31 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 		}
 	}
 
+	// Launch monitor
+	nw_monitor.LaunchReporting(ui, ctl.Log())
+	ut_memory.LaunchReporting(ctl.Log())
+
 	// Set bandwidth
-	nw_bandwidth.SetBandwidth(com.Bandwidth)
+	nw_bandwidth.SetBandwidth(com.BandwidthKb)
+	nw_concurrency.SetConcurrency(com.Concurrency)
 
 	// Apply profiler
 	if com.Debug {
-		defer profile.Start(profile.MemProfile).Stop()
+		defer profile.Start(
+			profile.ProfilePath(ctl.Workspace().Log()),
+			profile.MemProfile,
+		).Stop()
 	}
 
 	// Run
 	ctl.Log().Debug("Run recipe", zap.Any("vo", vo), zap.Any("common", com))
 	k := app_kitchen.NewKitchen(ctl, vo)
 	err = rcp.Exec(k)
+
+	// Dump stats
+	ut_memory.DumpStats(ctl.Log())
+	nw_monitor.DumpStats(ctl.Log())
+
 	if err != nil {
 		ctl.Log().Error("Recipe failed with an error", zap.Error(err))
 		ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})

@@ -1,6 +1,6 @@
 # file upload 
 
-{"key":"recipe.file.upload.title","params":{}}
+ファイルのアップロード
 
 # Security
 
@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file upload 
+.\tbx.exe file upload -local-path /PATH/TO/UPLOAD -dropbox-path /DROPBOX/PATH
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file upload 
+$HOME/Desktop/tbx file upload -local-path /PATH/TO/UPLOAD -dropbox-path /DROPBOX/PATH
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
@@ -53,25 +53,26 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション      | 説明                                                          | デフォルト |
-|-----------------|---------------------------------------------------------------|------------|
-| `-chunk-size`   | {"key":"recipe.file.upload_vo.flag.chunk_size","params":{}}   | 153600     |
-| `-dropbox-path` | {"key":"recipe.file.upload_vo.flag.dropbox_path","params":{}} |            |
-| `-local-path`   | {"key":"recipe.file.upload_vo.flag.local_path","params":{}}   |            |
-| `-overwrite`    | {"key":"recipe.file.upload_vo.flag.overwrite","params":{}}    | false      |
-| `-peer`         | {"key":"recipe.file.upload_vo.flag.peer","params":{}}         | {default}  |
+| オプション       | 説明                         | デフォルト |
+|------------------|------------------------------|------------|
+| `-chunk-size-kb` | Upload chunk size in KB      | 153600     |
+| `-dropbox-path`  | 転送先のDropboxパス          |            |
+| `-local-path`    | ローカルファイルのパス       |            |
+| `-overwrite`     | 既存のファイルを上書きします | false      |
+| `-peer`          | アカウントの別名             | {default}  |
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -115,27 +116,72 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: uploaded 
+## Report: skip 
 
-Report files are generated in `uploaded.csv`, `uploaded.xlsx` and `uploaded.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
-like `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
+Report files are generated in three formats, `skip.csv`, `skip.xlsx` and `skip.json`.
+But if you run with `-low-memory` option, the command will generate only `skip.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
+like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...   
 
-| 列                             | 説明                                                                                                   |
-|--------------------------------|--------------------------------------------------------------------------------------------------------|
-| status                         | Status of the operation                                                                                |
-| reason                         | Reason of failure or skipped operation                                                                 |
-| input.file                     | {"key":"recipe.file.uploadrow.file.desc","params":{}}                                                  |
-| result.id                      | A unique identifier for the file.                                                                      |
-| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.name                    | The last component of the path (including extension).                                                  |
-| result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| result.path_display            | The cased path to be used for display purposes only.                                                   |
-| result.client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified         | The last time the file was modified on Dropbox.                                                        |
-| result.revision                | A unique identifier for the current revision of a file.                                                |
-| result.size                    | The file size in bytes.                                                                                |
-| result.content_hash            | A hash of the file content.                                                                            |
-| result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| result.parent_shared_folder_id |                                                                                                        |
+| 列                             | 説明                                                                                       |
+|--------------------------------|--------------------------------------------------------------------------------------------|
+| status                         | 処理の状態                                                                                 |
+| reason                         | 失敗またはスキップの理由                                                                   |
+| input.file                     | ローカルファイルのパス                                                                     |
+| input.size                     | ローカルファイルのサイズ                                                                   |
+| result.id                      | ファイルへの一意なID                                                                       |
+| result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
+| result.name                    | 名称                                                                                       |
+| result.path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
+| result.path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
+| result.client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
+| result.server_modified         | Dropbox上で最後に更新された日時                                                            |
+| result.revision                | ファイルの現在バージョンの一意な識別子                                                     |
+| result.size                    | ファイルサイズ(バイト単位)                                                                 |
+| result.content_hash            | ファイルコンテンツのハッシュ                                                               |
+| result.shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
+| result.parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
+
+## Report: summary 
+
+Report files are generated in three formats, `summary.csv`, `summary.xlsx` and `summary.json`.
+But if you run with `-low-memory` option, the command will generate only `summary.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
+like `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
+
+| 列               | 説明                                             |
+|------------------|--------------------------------------------------|
+| upload_start     | Time of start uploading                          |
+| upload_end       | Time of finish uploading                         |
+| num_bytes        | 合計アップロードサイズ (バイト)                  |
+| num_files_error  | 失敗またはエラーが発生したファイル数.            |
+| num_files_upload | アップロード済みまたはアップロード対象ファイル数 |
+| num_files_skip   | スキップ対象またはスキップ予定のファイル数       |
+| num_api_call     | この処理によって消費される見積アップロードAPI数  |
+
+## Report: upload 
+
+Report files are generated in three formats, `upload.csv`, `upload.xlsx` and `upload.json`.
+But if you run with `-low-memory` option, the command will generate only `upload.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
+like `upload_0000.xlsx`, `upload_0001.xlsx`, `upload_0002.xlsx`...   
+
+| 列                             | 説明                                                                                       |
+|--------------------------------|--------------------------------------------------------------------------------------------|
+| status                         | 処理の状態                                                                                 |
+| reason                         | 失敗またはスキップの理由                                                                   |
+| input.file                     | ローカルファイルのパス                                                                     |
+| input.size                     | ローカルファイルのサイズ                                                                   |
+| result.id                      | ファイルへの一意なID                                                                       |
+| result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
+| result.name                    | 名称                                                                                       |
+| result.path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
+| result.path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
+| result.client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
+| result.server_modified         | Dropbox上で最後に更新された日時                                                            |
+| result.revision                | ファイルの現在バージョンの一意な識別子                                                     |
+| result.size                    | ファイルサイズ(バイト単位)                                                                 |
+| result.content_hash            | ファイルコンテンツのハッシュ                                                               |
+| result.shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
+| result.parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
 

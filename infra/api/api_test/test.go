@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
 
@@ -32,9 +32,9 @@ func DoTestBusinessAudit(test func(ctx api_context.Context)) {
 }
 
 func doTest(tokenType string, test func(ctx api_context.Context)) {
-	app_test.TestWithControl(nil, func(ctl app_control.Control) {
+	qt_recipe.TestWithControl(nil, func(ctl app_control.Control) {
 		l := ctl.Log()
-		a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(app_test.EndToEndPeer))
+		a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(qt_recipe.EndToEndPeer))
 		ctx, err := a.Auth(tokenType)
 		if err != nil {
 			l.Info("Skip test", zap.Error(err))

@@ -5,10 +5,11 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
-	"io"
 	"os"
 	"path/filepath"
+	"sync"
 )
 
 type Upload interface {
@@ -24,7 +25,12 @@ type UploadOpts struct {
 }
 
 const (
-	DefaultChunkSize = 150 * 1048576
+	MaxChunkSize     = 150 * 1_048_576 // 150MB
+	DefaultChunkSize = MaxChunkSize
+)
+
+var (
+	warnExceededChunkSize = sync.Once{}
 )
 
 func NewUpload(ctx api_context.Context, opts ...UploadOpt) Upload {
@@ -35,14 +41,25 @@ func NewUpload(ctx api_context.Context, opts ...UploadOpt) Upload {
 	for _, o := range opts {
 		o(uo)
 	}
+	if uo.ChunkSize < 1 {
+		ctx.Log().Debug("Zero or negative chunk size. Fallback to max chunk size", zap.Int64("givenChunkSize", uo.ChunkSize))
+		uo.ChunkSize = MaxChunkSize
+	}
+	if uo.ChunkSize > MaxChunkSize {
+		warnExceededChunkSize.Do(func() {
+			ctx.Log().Warn("Chunk size exceed maximum size, chunk size will be adjusted to maximum size", zap.Int64("givenChunkSize", uo.ChunkSize))
+		})
+		uo.ChunkSize = MaxChunkSize
+	}
 	return &uploadImpl{
 		ctx: ctx,
 		uo:  uo,
 	}
 }
-func ChunkSize(chunkSize int64) UploadOpt {
+
+func ChunkSizeKb(chunkSizeKb int) UploadOpt {
 	return func(o *UploadOpts) *UploadOpts {
-		o.ChunkSize = chunkSize
+		o.ChunkSize = int64(chunkSizeKb * 1024)
 		return o
 	}
 }
@@ -89,13 +106,17 @@ type UploadParams struct {
 	Autorename     bool             `json:"autorename"`
 }
 
+func UploadPath(destPath mo_path.Path, f os.FileInfo) mo_path.Path {
+	return destPath.ChildPath(filepath.Base(f.Name()))
+}
+
 func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.Path, mode string, revision string) *UploadParams {
 	upm := &UploadParamMode{
 		Tag:    mode,
 		Update: "",
 	}
 	up := &UploadParams{
-		Path:           destPath.ChildPath(filepath.Base(info.Name())).Path(),
+		Path:           UploadPath(destPath, info).Path(),
 		Mode:           upm,
 		Mute:           false,
 		ClientModified: api_util.RebaseAsString(info.ModTime()),
@@ -117,8 +138,14 @@ func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.Path, fileP
 	if err != nil {
 		return nil, err
 	}
-	res, err := z.ctx.Upload("files/upload").
-		Param(z.makeParams(info, destPath, mode, revision)).Content(r).Call()
+	rr, err := ut_io.NewReadRewinder(r, 0)
+	if err != nil {
+		l.Debug("Unable to create read rewinder", zap.Error(err))
+		return nil, err
+	}
+
+	res, err := z.ctx.Upload("files/upload", rr).
+		Param(z.makeParams(info, destPath, mode, revision)).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +165,6 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 	if err != nil {
 		return nil, err
 	}
-	r := io.LimitReader(f, z.uo.ChunkSize)
 
 	type SessionId struct {
 		SessionId string `json:"session_id"`
@@ -156,7 +182,12 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 	}
 
 	l.Debug("Upload session start")
-	res, err := z.ctx.Upload("files/upload_session/start").Content(r).Call()
+	r, err := ut_io.NewReadRewinderWithLimit(f, 0, z.uo.ChunkSize)
+	if err != nil {
+		l.Debug("Unable to create read rewinder", zap.Error(err))
+		return nil, err
+	}
+	res, err := z.ctx.Upload("files/upload_session/start", r).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -177,8 +208,12 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 				Offset:    written,
 			},
 		}
-		r = io.LimitReader(f, z.uo.ChunkSize)
-		_, err := z.ctx.Upload("files/upload_session/append_v2").Param(ai).Content(r).Call()
+		r, err := ut_io.NewReadRewinderWithLimit(f, written, z.uo.ChunkSize)
+		if err != nil {
+			l.Debug("Unable to create read rewinder", zap.Error(err))
+			return nil, err
+		}
+		_, err = z.ctx.Upload("files/upload_session/append_v2", r).Param(ai).Call()
 		if err != nil {
 			return nil, err
 		}
@@ -193,7 +228,12 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, file
 		},
 		Commit: z.makeParams(info, destPath, mode, revision),
 	}
-	res, err = z.ctx.Upload("files/upload_session/finish").Param(ci).Content(f).Call()
+	r, err = ut_io.NewReadRewinderWithLimit(f, written, z.uo.ChunkSize)
+	if err != nil {
+		l.Debug("Unable to create read rewinder", zap.Error(err))
+		return nil, err
+	}
+	res, err = z.ctx.Upload("files/upload_session/finish", r).Param(ci).Call()
 	if err != nil {
 		return nil, err
 	}

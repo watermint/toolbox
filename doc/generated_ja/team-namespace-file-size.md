@@ -55,23 +55,26 @@ At second run, please hit button "Open" on the dialogue.
 
 | オプション               | 説明                                             | デフォルト |
 |--------------------------|--------------------------------------------------|------------|
-| `-depth`                 | フォルダ階層数の指定                             | 2          |
-| `-include-shared-folder` | 指定された場合、共有フォルダを含めます           | true       |
-| `-include-team-folder`   | 指定された場合、チームフォルダを含めます         | true       |
+| `-depth`                 | フォルダ階層数の指定                             | 1          |
+| `-include-app-folder`    | Trueの場合、アプリフォルダを含めます             | false      |
+| `-include-member-folder` | Trueの場合、チームメンバーフォルダを含めます     | false      |
+| `-include-shared-folder` | Trueの場合、共有フォルダを含めます               | true       |
+| `-include-team-folder`   | Trueの場合、チームフォルダを含めます             | true       |
 | `-name`                  | 指定された名前に一致するフォルダのみを一覧します |            |
 | `-peer`                  | アカウントの別名                                 | {default}  |
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -117,19 +120,27 @@ If you missed command line output, please see path below.
 
 ## Report: namespace_size 
 
-Report files are generated in `namespace_size.csv`, `namespace_size.xlsx` and `namespace_size.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `namespace_size.csv`, `namespace_size.xlsx` and `namespace_size.json`.
+But if you run with `-low-memory` option, the command will generate only `namespace_size.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
-| 列                   | 説明                                                                                       |
-|----------------------|--------------------------------------------------------------------------------------------|
-| namespace_name       | The name of this namespace                                                                 |
-| namespace_id         | The ID of this namespace.                                                                  |
-| namespace_type       | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
-| owner_team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
-| path                 | Path to the folder                                                                         |
-| count_file           | Number of files under the folder                                                           |
-| count_folder         | Number of folders under the folder                                                         |
-| count_descendant     | Number of files and folders under the folder                                               |
-| size                 | Size of the folder                                                                         |
+| 列                          | 説明                                                                                   |
+|-----------------------------|----------------------------------------------------------------------------------------|
+| status                      | 処理の状態                                                                             |
+| reason                      | 失敗またはスキップの理由                                                               |
+| input.name                  | 名前空間の名称                                                                         |
+| input.namespace_id          | 名前空間ID                                                                             |
+| input.namespace_type        | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
+| input.team_member_id        | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
+| result.namespace_name       | 名前空間の名称                                                                         |
+| result.namespace_id         | 名前空間ID                                                                             |
+| result.namespace_type       | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
+| result.owner_team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
+| result.path                 | フォルダへのパス                                                                       |
+| result.count_file           | このフォルダに含まれるファイル数                                                       |
+| result.count_folder         | このフォルダに含まれるフォルダ数                                                       |
+| result.count_descendant     | このフォルダに含まれるファイル・フォルダ数                                             |
+| result.size                 | フォルダのサイズ                                                                       |
+| result.api_complexity       | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
 

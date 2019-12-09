@@ -1,10 +1,10 @@
 package batch
 
 import (
-	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
 func TestUrl_Exec(t *testing.T) {
-	app_test.TestRecipe(t, &Url{})
+	qt_recipe.TestRecipe(t, &Url{})
 }

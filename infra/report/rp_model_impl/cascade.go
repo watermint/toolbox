@@ -20,7 +20,7 @@ func New(name string, row interface{}, ctl app_control.Control, opts ...rp_model
 		}
 	}
 
-	{
+	if !ctl.IsLowMemory() {
 		csv, err := NewCsv(reportName, row, ctl, opts...)
 		if err != nil {
 			closeAll()
@@ -38,7 +38,7 @@ func New(name string, row interface{}, ctl app_control.Control, opts ...rp_model
 		reports = append(reports, js)
 	}
 
-	{
+	if !ctl.IsLowMemory() {
 		xl, err := NewXlsx(reportName, row, ctl, opts...)
 		if err != nil {
 			closeAll()
@@ -55,7 +55,7 @@ func New(name string, row interface{}, ctl app_control.Control, opts ...rp_model
 			return nil, err
 		}
 		reports = append(reports, js)
-	} else {
+	} else if !ctl.IsLowMemory() {
 		// Output for UI
 		ui, err := NewUI(reportName, row, ctl, opts...)
 		if err != nil {
@@ -90,9 +90,9 @@ func (z *Cascade) Failure(err error, input interface{}) {
 	}
 }
 
-func (z *Cascade) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+func (z *Cascade) Skip(reason app_msg.Message, input interface{}) {
 	for _, r := range z.Reports {
-		r.Skip(reason, input, result)
+		r.Skip(reason, input)
 	}
 }
 

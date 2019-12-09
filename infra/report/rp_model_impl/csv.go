@@ -22,6 +22,7 @@ func NewCsv(name string, row interface{}, ctl app_control.Control, opts ...rp_mo
 	}
 	parser := NewColumn(row, opts...)
 	r = &Csv{
+		path:   p,
 		file:   f,
 		w:      csv.NewWriter(f),
 		ctl:    ctl,
@@ -31,6 +32,7 @@ func NewCsv(name string, row interface{}, ctl app_control.Control, opts ...rp_mo
 }
 
 type Csv struct {
+	path   string
 	ctl    app_control.Control
 	w      *csv.Writer
 	file   *os.File
@@ -52,13 +54,13 @@ func (z *Csv) Failure(err error, input interface{}) {
 	z.Row(rowForFailure(z.ctl.UI(), err, input))
 }
 
-func (z *Csv) Skip(reason app_msg.Message, input interface{}, result interface{}) {
+func (z *Csv) Skip(reason app_msg.Message, input interface{}) {
 	ui := z.ctl.UI()
 	z.Row(rp_model.TransactionRow{
 		Status: ui.Text(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
 		Reason: ui.Text(reason.Key(), reason.Params()...),
 		Input:  input,
-		Result: result,
+		Result: nil,
 	})
 }
 
@@ -79,9 +81,19 @@ func (z *Csv) flush() {
 }
 
 func (z *Csv) Close() {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	if z.file != nil {
 		z.flush()
 		z.file.Close()
+
+		if z.index < 1 && z.ctl.IsProduction() {
+			z.ctl.Log().Debug("Try removing empty report file", zap.String("path", z.path))
+			err := os.Remove(z.path)
+			z.ctl.Log().Debug("Removed or had an error (ignore)", zap.String("path", z.path), zap.Error(err))
+		}
+
 		z.file = nil
 	}
 }

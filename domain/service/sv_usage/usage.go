@@ -20,7 +20,7 @@ type usageImpl struct {
 }
 
 func (z *usageImpl) Resolve() (usage *mo_usage.Usage, err error) {
-	res, err := z.ctx.Request("users/get_space_usage").Call()
+	res, err := z.ctx.Rpc("users/get_space_usage").Call()
 	if err != nil {
 		return nil, err
 	}

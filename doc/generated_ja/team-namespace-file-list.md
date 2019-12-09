@@ -58,22 +58,23 @@ At second run, please hit button "Open" on the dialogue.
 | `-include-deleted`       | 指定された場合、削除済みのファイルやフォルダが含めます                     | false      |
 | `-include-media-info`    | 指定された場合、JSONレポートに写真や動画ファイルへのメデイア情報を含めます | false      |
 | `-include-member-folder` | 指定された場合、チームメンバーのフォルダを含めます                         | false      |
-| `-include-shared-folder` | 指定された場合、共有フォルダを含めます                                     | true       |
-| `-include-team-folder`   | 指定された場合、チームフォルダを含めます                                   | true       |
+| `-include-shared-folder` | Trueの場合、共有フォルダを含めます                                         | true       |
+| `-include-team-folder`   | Trueの場合、チームフォルダを含めます                                       | true       |
 | `-name`                  | 指定された名前に一致するフォルダのみを一覧します                           |            |
 | `-peer`                  | アカウントの別名                                                           | {default}  |
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -119,25 +120,26 @@ If you missed command line output, please see path below.
 
 ## Report: namespace_file 
 
-Report files are generated in `namespace_file.csv`, `namespace_file.xlsx` and `namespace_file.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `namespace_file.csv`, `namespace_file.xlsx` and `namespace_file.json`.
+But if you run with `-low-memory` option, the command will generate only `namespace_file.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
 
-| 列                      | 説明                                                                                                   |
-|-------------------------|--------------------------------------------------------------------------------------------------------|
-| namespace_type          | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)             |
-| namespace_id            | The ID of this namespace.                                                                              |
-| namespace_name          | The name of this namespace                                                                             |
-| namespace_member_email  | If this is a team member or app folder, the email address of the owning team member.                   |
-| file_id                 | A unique identifier for the file.                                                                      |
-| tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name                    | The last component of the path (including extension).                                                  |
-| path_display            | The cased path to be used for display purposes only.                                                   |
-| client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified         | The last time the file was modified on Dropbox.                                                        |
-| revision                | A unique identifier for the current revision of a file.                                                |
-| size                    | The file size in bytes.                                                                                |
-| content_hash            | A hash of the file content.                                                                            |
-| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| parent_shared_folder_id | Set if the folder is contained by a shared folder.                                                     |
+| 列                      | 説明                                                                                            |
+|-------------------------|-------------------------------------------------------------------------------------------------|
+| namespace_type          | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)          |
+| namespace_id            | 名前空間ID                                                                                      |
+| namespace_name          | 名前空間の名称                                                                                  |
+| namespace_member_email  | これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス. |
+| file_id                 | ファイルへの一意なID                                                                            |
+| tag                     | エントリーの種別`file`, `folder`, または `deleted`                                              |
+| name                    | 名称                                                                                            |
+| path_display            | パス (表示目的で大文字小文字を区別する).                                                        |
+| client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                    |
+| server_modified         | Dropbox上で最後に更新された日時                                                                 |
+| revision                | ファイルの現在バージョンの一意な識別子                                                          |
+| size                    | ファイルサイズ(バイト単位)                                                                      |
+| content_hash            | ファイルコンテンツのハッシュ                                                                    |
+| shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。      |
+| parent_shared_folder_id | 設定されている場合、共有フォルダに内包されています.                                             |
 

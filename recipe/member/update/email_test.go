@@ -1,10 +1,10 @@
 package update
 
 import (
-	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
 func TestEmail_Exec(t *testing.T) {
-	app_test.TestRecipe(t, &Email{})
+	qt_recipe.TestRecipe(t, &Email{})
 }

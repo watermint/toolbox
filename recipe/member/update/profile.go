@@ -4,7 +4,6 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/quality/qt_test"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
@@ -13,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type ProfileRow struct {
@@ -40,7 +40,7 @@ func (z *Profile) Reports() []rp_spec.ReportSpec {
 }
 
 func (z *Profile) Test(c app_control.Control) error {
-	return qt_test.HumanInteractionRequired()
+	return qt_recipe.HumanInteractionRequired()
 }
 
 func (z *Profile) Console() {
@@ -82,7 +82,7 @@ func (z *Profile) Exec(k app_kitchen.Kitchen) error {
 			msg := app_msg.M("recipe.member.update.profile.err.member_not_found", app_msg.P{
 				"Email": m.Email,
 			})
-			rep.Skip(msg, m, nil)
+			rep.Skip(msg, m)
 			return nil
 		}
 

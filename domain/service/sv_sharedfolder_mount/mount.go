@@ -51,7 +51,7 @@ func (z *mountImpl) Mount(sf *mo_sharedfolder.SharedFolder) (mount *mo_sharedfol
 	}
 
 	mount = &mo_sharedfolder.SharedFolder{}
-	res, err := z.ctx.Request("sharing/mount_folder").Param(p).Call()
+	res, err := z.ctx.Rpc("sharing/mount_folder").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (z *mountImpl) Unmount(sf *mo_sharedfolder.SharedFolder) (err error) {
 	}{
 		SharedFolderId: sf.SharedFolderId,
 	}
-	_, err = z.ctx.Request("sharing/unmount_folder").Param(p).Call()
+	_, err = z.ctx.Rpc("sharing/unmount_folder").Param(p).Call()
 	if err != nil {
 		return err
 	}

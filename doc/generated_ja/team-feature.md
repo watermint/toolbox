@@ -59,15 +59,16 @@ At second run, please hit button "Open" on the dialogue.
 
 Common options:
 
-| オプション     | 説明                                                                   | デフォルト     |
-|----------------|------------------------------------------------------------------------|----------------|
-| `-bandwidth`   | {"key":"infra.control.app_opt.common_opts.flag.bandwidth","params":{}} | 0              |
-| `-concurrency` | 指定した並列度で並列処理を行います                                     | プロセッサー数 |
-| `-debug`       | デバッグモードを有効にする                                             | false          |
-| `-proxy`       | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                              |                |
-| `-quiet`       | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します    | false          |
-| `-secure`      | トークンをファイルに保存しません                                       | false          |
-| `-workspace`   | ワークスペースへのパス                                                 |                |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -113,15 +114,16 @@ If you missed command line output, please see path below.
 
 ## Report: feature 
 
-Report files are generated in `feature.csv`, `feature.xlsx` and `feature.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `feature.csv`, `feature.xlsx` and `feature.json`.
+But if you run with `-low-memory` option, the command will generate only `feature.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...   
 
-| 列                          | 説明                                              |
-|-----------------------------|---------------------------------------------------|
-| upload_api_rate_limit       | The number of upload API calls allowed per month. |
-| upload_api_rate_limit_count | The number of upload API called this month.       |
-| has_team_shared_dropbox     | Does this team have a shared team root.           |
-| has_team_file_events        | Does this team have file events.                  |
-| has_team_selective_sync     | Does this team have team selective sync enabled.  |
+| 列                          | 説明                                                   |
+|-----------------------------|--------------------------------------------------------|
+| upload_api_rate_limit       | 毎月利用可能なアップロードAPIコール回数                |
+| upload_api_rate_limit_count | この月に利用されたアップロードAPIコール回数            |
+| has_team_shared_dropbox     | このチームが共有されたチームルートを持っているかどうか |
+| has_team_file_events        | このチームがファイルイベント機能を持っているかどうか   |
+| has_team_selective_sync     | このチームがチーム選択型同期を有効化しているかどうか   |
 

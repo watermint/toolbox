@@ -1,8 +1,7 @@
 # watermint toolbox
 
-[![CircleCI](https://circleci.com/gh/watermint/toolbox.svg?style=svg)](https://circleci.com/gh/watermint/toolbox)
+[![CircleCI](https://circleci.com/gh/watermint/toolbox.svg?style=shield)](https://circleci.com/gh/watermint/toolbox)
 [![Coverage Status](https://coveralls.io/repos/github/watermint/toolbox/badge.svg)](https://coveralls.io/github/watermint/toolbox)
-[![Go Report Card](https://goreportcard.com/badge/github.com/watermint/toolbox)](https://goreportcard.com/report/github.com/watermint/toolbox)
 
 Tools for Dropbox and Dropbox Business.
 
@@ -52,12 +51,17 @@ Available commands:
 | [file compare account](doc/generated/file-compare-account.md)                   | Compare files of two accounts                                 |
 | [file compare local](doc/generated/file-compare-local.md)                       | Compare local folders and Dropbox folders                     |
 | [file copy](doc/generated/file-copy.md)                                         | Copy files                                                    |
+| [file delete](doc/generated/file-delete.md)                                     | Delete file or folder                                         |
+| [file download](doc/generated/file-download.md)                                 | Download a file from Dropbox (experimental)                   |
 | [file import batch url](doc/generated/file-import-batch-url.md)                 | Batch import files from URL                                   |
 | [file import url](doc/generated/file-import-url.md)                             | Import file from the URL                                      |
 | [file list](doc/generated/file-list.md)                                         | List files and folders                                        |
 | [file merge](doc/generated/file-merge.md)                                       | Merge paths                                                   |
 | [file move](doc/generated/file-move.md)                                         | Move files                                                    |
 | [file replication](doc/generated/file-replication.md)                           | Replicate file content to the other account                   |
+| [file restore](doc/generated/file-restore.md)                                   | Restore files under given path (experimental)                 |
+| [file sync preflight up](doc/generated/file-sync-preflight-up.md)               | Upstream sync preflight check                                 |
+| [file sync up](doc/generated/file-sync-up.md)                                   | Upstream sync with Dropbox                                    |
 | [file upload](doc/generated/file-upload.md)                                     | Upload file                                                   |
 | [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |
 | [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
@@ -71,6 +75,7 @@ Available commands:
 | [member quota update](doc/generated/member-quota-update.md)                     | Update team member quota                                      |
 | [member quota usage](doc/generated/member-quota-usage.md)                       | List team member storage usage                                |
 | [member update email](doc/generated/member-update-email.md)                     | Member email operation                                        |
+| [member update externalid](doc/generated/member-update-externalid.md)           | Update External ID of team members                            |
 | [member update profile](doc/generated/member-update-profile.md)                 | Update member profile                                         |
 | [sharedfolder list](doc/generated/sharedfolder-list.md)                         | List shared folder(s)                                         |
 | [sharedfolder member list](doc/generated/sharedfolder-member-list.md)           | List shared folder member(s)                                  |
@@ -79,8 +84,10 @@ Available commands:
 | [sharedlink list](doc/generated/sharedlink-list.md)                             | List of shared link(s)                                        |
 | [team activity daily event](doc/generated/team-activity-daily-event.md)         | Report activities by day                                      |
 | [team activity event](doc/generated/team-activity-event.md)                     | Event log                                                     |
+| [team activity user](doc/generated/team-activity-user.md)                       | Activities log per user                                       |
 | [team device list](doc/generated/team-device-list.md)                           | List all devices/sessions in the team                         |
 | [team device unlink](doc/generated/team-device-unlink.md)                       | Unlink device sessions                                        |
+| [team diag explorer](doc/generated/team-diag-explorer.md)                       | Report while team information                                 |
 | [team feature](doc/generated/team-feature.md)                                   | Team feature                                                  |
 | [team filerequest list](doc/generated/team-filerequest-list.md)                 | List all file requests in the team                            |
 | [team info](doc/generated/team-info.md)                                         | Team information                                              |

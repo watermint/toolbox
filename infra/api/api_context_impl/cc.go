@@ -9,17 +9,14 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_list_impl"
-	"github.com/watermint/toolbox/infra/api/api_rpc"
-	"github.com/watermint/toolbox/infra/api/api_rpc_impl"
-	"github.com/watermint/toolbox/infra/api/api_upload"
-	"github.com/watermint/toolbox/infra/api/api_upload_impl"
+	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/infra/api/api_request_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
-	"io/ioutil"
-	"net/http"
+	"strconv"
 	"strings"
 	"sync"
-	"time"
 )
 
 const (
@@ -36,17 +33,15 @@ func New(control app_control.Control, token api_auth.TokenContainer) api_context
 }
 
 type ccImpl struct {
-	control         app_control.Control
-	tokenContainer  api_auth.TokenContainer
-	noAuth          bool
-	asMemberId      string
-	asAdminId       string
-	basePath        api_context.PathRoot
-	retryAfter      time.Time
-	retryAfterMutex sync.Mutex
-	lastErrors      []error
-	lastErrorMutex  sync.Mutex
-	noRetryOnError  bool
+	control        app_control.Control
+	tokenContainer api_auth.TokenContainer
+	noAuth         bool
+	asMemberId     string
+	asAdminId      string
+	basePath       api_context.PathRoot
+	noRetryOnError bool
+	hashComputed   string
+	hashMutex      sync.Mutex
 }
 
 func (z *ccImpl) Token() api_auth.TokenContainer {
@@ -57,63 +52,6 @@ func (z *ccImpl) Capture() *zap.Logger {
 	return z.control.Capture()
 }
 
-func (z *ccImpl) DoRequest(req *http.Request) (code int, header http.Header, body []byte, err error) {
-	client := &http.Client{}
-	res, err := client.Do(req)
-
-	if err != nil {
-		return -1, nil, nil, err
-	}
-	body, err = ioutil.ReadAll(res.Body)
-	if err != nil {
-		// Do not retry
-		z.Log().Debug("Unable to read body", zap.Error(err))
-		return -1, nil, nil, err
-	}
-	if err = res.Body.Close(); err != nil {
-		z.Log().Debug("Unable to close body", zap.Error(err))
-		// fall through
-	}
-	return res.StatusCode, res.Header, body, nil
-}
-
-func (z *ccImpl) AddError(err error) {
-	z.lastErrorMutex.Lock()
-	defer z.lastErrorMutex.Unlock()
-
-	if z.lastErrors == nil {
-		z.lastErrors = make([]error, 0)
-	}
-	if err == nil {
-		return
-	}
-	if len(z.lastErrors) > maxLastErrors {
-		z.lastErrors = z.lastErrors[1:]
-	}
-	z.lastErrors = append(z.lastErrors, err)
-}
-
-func (z *ccImpl) LastErrors() []error {
-	if z.lastErrors == nil {
-		return make([]error, 0)
-	} else {
-		return z.lastErrors
-	}
-}
-
-func (z *ccImpl) RetryAfter() time.Time {
-	return z.retryAfter
-}
-
-func (z *ccImpl) UpdateRetryAfter(after time.Time) {
-	z.retryAfterMutex.Lock()
-	defer z.retryAfterMutex.Unlock()
-
-	if z.retryAfter.Before(after) {
-		z.retryAfter = after
-	}
-}
-
 func (z *ccImpl) IsNoRetry() bool {
 	return z.noRetryOnError
 }
@@ -122,8 +60,15 @@ func (z *ccImpl) Log() *zap.Logger {
 	return z.control.Log()
 }
 
-func (z *ccImpl) Request(endpoint string) api_rpc.Caller {
-	return api_rpc_impl.New(z, endpoint, z.asMemberId, z.asAdminId, z.basePath, z.tokenContainer)
+func (z *ccImpl) Rpc(endpoint string) api_request.Request {
+	return api_request_impl.NewPpcRequest(
+		z,
+		endpoint,
+		z.asMemberId,
+		z.asAdminId,
+		z.basePath,
+		z.tokenContainer,
+	)
 }
 
 func (z *ccImpl) List(endpoint string) api_list.List {
@@ -134,8 +79,27 @@ func (z *ccImpl) Async(endpoint string) api_async.Async {
 	return api_async_impl.New(z, endpoint, z.asMemberId, z.asAdminId, z.basePath)
 }
 
-func (z *ccImpl) Upload(endpoint string) api_upload.Upload {
-	return api_upload_impl.New(z, endpoint)
+func (z *ccImpl) Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request {
+	return api_request_impl.NewUploadRequest(
+		z,
+		endpoint,
+		content,
+		z.asMemberId,
+		z.asAdminId,
+		z.basePath,
+		z.tokenContainer,
+	)
+}
+
+func (z *ccImpl) Download(endpoint string) api_request.Request {
+	return api_request_impl.NewDownloadRequest(
+		z,
+		endpoint,
+		z.asMemberId,
+		z.asAdminId,
+		z.basePath,
+		z.tokenContainer,
+	)
 }
 
 func (z *ccImpl) AsMemberId(teamMemberId string) api_context.Context {
@@ -143,6 +107,7 @@ func (z *ccImpl) AsMemberId(teamMemberId string) api_context.Context {
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
 		noAuth:         z.noAuth,
+		noRetryOnError: z.noRetryOnError,
 		asMemberId:     teamMemberId,
 		asAdminId:      "",
 		basePath:       z.basePath,
@@ -186,6 +151,12 @@ func (z *ccImpl) NoRetryOnError() api_context.Context {
 }
 
 func (z *ccImpl) Hash() string {
+	z.hashMutex.Lock()
+	defer z.hashMutex.Unlock()
+
+	if z.hashComputed != "" {
+		return z.hashComputed
+	}
 	seeds := []string{
 		"m",
 		z.asMemberId,
@@ -197,6 +168,8 @@ func (z *ccImpl) Hash() string {
 		z.tokenContainer.Token,
 		"y",
 		z.tokenContainer.TokenType,
+		"n",
+		strconv.FormatBool(z.noRetryOnError),
 	}
 
 	if z.basePath != nil {
@@ -204,5 +177,6 @@ func (z *ccImpl) Hash() string {
 	}
 
 	h := sha256.Sum224([]byte(strings.Join(seeds, ",")))
-	return fmt.Sprintf("%x", h)
+	z.hashComputed = fmt.Sprintf("%x", h)
+	return z.hashComputed
 }

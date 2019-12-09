@@ -1,10 +1,10 @@
 package quota
 
 import (
-	"github.com/watermint/toolbox/infra/recpie/app_test"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
 func TestUsage_Exec(t *testing.T) {
-	app_test.TestRecipe(t, &Usage{})
+	qt_recipe.TestRecipe(t, &Usage{})
 }

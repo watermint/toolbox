@@ -4,14 +4,14 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
-	"github.com/watermint/toolbox/infra/recpie/app_test"
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
 func TestCatalogue(t *testing.T) {
-	_, _, _, ui := app_test.Resources(t)
+	_, _, _, ui := qt_recipe.Resources(t)
 	testGroup(Catalogue(), ui)
 }
 
