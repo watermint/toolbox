@@ -32,6 +32,10 @@ type mockControl struct {
 	ws     app_workspace.Workspace
 }
 
+func (z *mockControl) IsLowMemory() bool {
+	return false
+}
+
 func (z *mockControl) Messages() app_msg_container.Container {
 	return &app_msg_container_impl.Alt{}
 }

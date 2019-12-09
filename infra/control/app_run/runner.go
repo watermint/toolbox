@@ -106,6 +106,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	if com.Secure {
 		so = append(so, app_control.Secure())
 	}
+	so = append(so, app_control.LowMemory(com.LowMemory))
 	so = append(so, app_control.Concurrency(com.Concurrency))
 	so = append(so, app_control.RecipeName(recipeName))
 	so = append(so, app_control.CommonOptions(cvc.Serialize()))

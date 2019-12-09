@@ -19,6 +19,7 @@
   "infra.control.app_opt.common_opts.flag.secure": "Do not store tokens into a file",
   "infra.control.app_opt.common_opts.flag.bandwidth_kb": "Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited",
   "infra.control.app_opt.common_opts.flag.workspace": "Workspace path",
+  "infra.control.app_opt.common_opts.flag.low_memory": "Low memory footprint mode",
   "raw": "{{.Raw}}",
   "recipe.dev.async_vo.flag.peer": "Account alias",
   "recipe.dev.async_vo.flag.run_concurrently": "run concurrently",

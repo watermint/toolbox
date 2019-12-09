@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	reportInterval = 1 * time.Minute
+	reportInterval = 5 * time.Second
 )
 
 func LaunchReporting(l *zap.Logger) {

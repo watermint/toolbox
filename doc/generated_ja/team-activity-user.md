@@ -1,6 +1,6 @@
 # team activity user 
 
-{"key":"recipe.team.activity.user.title","params":{}}
+Activities log per user
 
 # Security
 
@@ -53,12 +53,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション    | 説明                                                               | デフォルト |
-|---------------|--------------------------------------------------------------------|------------|
-| `-category`   | {"key":"recipe.team.activity.user_vo.flag.category","params":{}}   |            |
-| `-end-time`   | {"key":"recipe.team.activity.user_vo.flag.end_time","params":{}}   |            |
-| `-peer`       | {"key":"recipe.team.activity.user_vo.flag.peer","params":{}}       | {default}  |
-| `-start-time` | {"key":"recipe.team.activity.user_vo.flag.start_time","params":{}} |            |
+| オプション    | 説明                                                                     | デフォルト |
+|---------------|--------------------------------------------------------------------------|------------|
+| `-category`   | Filter the returned events to a single category. This field is optional. |            |
+| `-end-time`   | Ending time (exclusive).                                                 |            |
+| `-peer`       | Account alias                                                            | {default}  |
+| `-start-time` | Starting time (inclusive)                                                |            |
 
 Common options:
 
@@ -67,6 +67,7 @@ Common options:
 | `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
 | `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
 | `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
 | `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
 | `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
@@ -133,16 +134,16 @@ Report files are generated in `user_summary.csv`, `user_summary.xlsx` and `user_
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `user_summary_0000.xlsx`, `user_summary_0001.xlsx`, `user_summary_0002.xlsx`...   
 
-| 列                     | 説明                                                                        |
-|------------------------|-----------------------------------------------------------------------------|
-| status                 | 処理の状態                                                                  |
-| reason                 | 失敗またはスキップの理由                                                    |
-| input.user             | {"key":"recipe.team.activity.userin.user.desc","params":{}}                 |
-| result.user            | {"key":"recipe.team.activity.usersummary.user.desc","params":{}}            |
-| result.logins          | {"key":"recipe.team.activity.usersummary.logins.desc","params":{}}          |
-| result.devices         | {"key":"recipe.team.activity.usersummary.devices.desc","params":{}}         |
-| result.sharing         | {"key":"recipe.team.activity.usersummary.sharing.desc","params":{}}         |
-| result.file_operations | {"key":"recipe.team.activity.usersummary.file_operations.desc","params":{}} |
-| result.paper           | {"key":"recipe.team.activity.usersummary.paper.desc","params":{}}           |
-| result.others          | {"key":"recipe.team.activity.usersummary.others.desc","params":{}}          |
+| 列                     | 説明                                |
+|------------------------|-------------------------------------|
+| status                 | 処理の状態                          |
+| reason                 | 失敗またはスキップの理由            |
+| input.user             | User email address                  |
+| result.user            | User email address                  |
+| result.logins          | Number of login activities          |
+| result.devices         | Number of device activities         |
+| result.sharing         | Number of sharing activities        |
+| result.file_operations | Number of file operation activities |
+| result.paper           | Number of activities of Paper       |
+| result.others          | Number of other category activities |
 

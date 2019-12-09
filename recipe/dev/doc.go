@@ -61,7 +61,7 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 		langContainers := make(map[language.Tag]app_msg_container.Container)
 
 		for _, lang := range langPriority {
-			mc, err := app_msg_container_impl.New(ul, ctl)
+			mc, err := app_msg_container_impl.New(lang, ctl)
 			if err != nil {
 				return err
 			}

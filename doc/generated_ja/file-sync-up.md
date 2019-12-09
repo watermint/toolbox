@@ -53,13 +53,13 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション             | 説明                                                                  | デフォルト |
-|------------------------|-----------------------------------------------------------------------|------------|
-| `-chunk-size-kb`       | {"key":"recipe.file.sync.up_vo.flag.chunk_size_kb","params":{}}       | 153600     |
-| `-dropbox-path`        | 転送先のDropboxパス                                                   |            |
-| `-exclude-folder-name` | {"key":"recipe.file.sync.up_vo.flag.exclude_folder_name","params":{}} |            |
-| `-local-path`          | ローカルファイルのパス                                                |            |
-| `-peer`                | アカウントの別名                                                      | {default}  |
+| オプション             | 説明                                | デフォルト |
+|------------------------|-------------------------------------|------------|
+| `-chunk-size-kb`       | Upload chunk size in KB             | 153600     |
+| `-dropbox-path`        | 転送先のDropboxパス                 |            |
+| `-exclude-folder-name` | Exclude folders with specified name |            |
+| `-local-path`          | ローカルファイルのパス              |            |
+| `-peer`                | アカウントの別名                    | {default}  |
 
 Common options:
 
@@ -68,6 +68,7 @@ Common options:
 | `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
 | `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
 | `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
 | `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
 | `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
@@ -146,15 +147,15 @@ Report files are generated in `summary.csv`, `summary.xlsx` and `summary.json` f
 In case of a report become large, report in `.xlsx` format will be split into several chunks
 like `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
 
-| 列               | 説明                                                                                |
-|------------------|-------------------------------------------------------------------------------------|
-| upload_start     | {"key":"domain.usecase.uc_file_upload.uploadsummary.upload_start.desc","params":{}} |
-| upload_end       | {"key":"domain.usecase.uc_file_upload.uploadsummary.upload_end.desc","params":{}}   |
-| num_bytes        | 合計アップロードサイズ (バイト)                                                     |
-| num_files_error  | 失敗またはエラーが発生したファイル数.                                               |
-| num_files_upload | アップロード済みまたはアップロード対象ファイル数                                    |
-| num_files_skip   | スキップ対象またはスキップ予定のファイル数                                          |
-| num_api_call     | この処理によって消費される見積アップロードAPI数                                     |
+| 列               | 説明                                             |
+|------------------|--------------------------------------------------|
+| upload_start     | Time of start uploading                          |
+| upload_end       | Time of finish uploading                         |
+| num_bytes        | 合計アップロードサイズ (バイト)                  |
+| num_files_error  | 失敗またはエラーが発生したファイル数.            |
+| num_files_upload | アップロード済みまたはアップロード対象ファイル数 |
+| num_files_skip   | スキップ対象またはスキップ予定のファイル数       |
+| num_api_call     | この処理によって消費される見積アップロードAPI数  |
 
 ## Report: upload 
 

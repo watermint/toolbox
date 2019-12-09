@@ -51,6 +51,10 @@ type Single struct {
 	testResource gjson.Result
 }
 
+func (z *Single) IsLowMemory() bool {
+	return z.opts.LowMemory
+}
+
 func Fork(ctl app_control.Control, name string) (app_control.Control, error) {
 	if fc, ok := ctl.(app_control_launcher.ControlFork); ok {
 		return fc.Fork(name)

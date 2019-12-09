@@ -394,6 +394,10 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 			time.Sleep(statusReportInterval)
 
 			dur := time.Now().Sub(status.summary.UploadStart) / time.Second
+			if dur == 0 {
+				continue
+			}
+
 			kps := status.summary.NumBytes / int64(dur) / 1024
 
 			z.k.UI().Info("usecase.uc_file_upload.progress.summary", app_msg.P{

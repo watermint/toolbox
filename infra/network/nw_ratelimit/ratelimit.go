@@ -14,7 +14,7 @@ const (
 	LastErrorRecycleTimeMultiplier = 100
 	ShortWait                      = 3 * time.Second
 	LongWait                       = 1 * time.Minute
-	LongWaitAlertThreshold         = 3 * time.Minute
+	LongWaitAlertThreshold         = 5 * time.Minute
 )
 
 const (

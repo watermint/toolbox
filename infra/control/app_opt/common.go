@@ -10,6 +10,7 @@ type CommonOpts struct {
 	Secure      bool
 	Concurrency int
 	BandwidthKb int
+	LowMemory   bool
 }
 
 func NewDefaultCommonOpts() *CommonOpts {
@@ -21,5 +22,6 @@ func NewDefaultCommonOpts() *CommonOpts {
 		Secure:      false,
 		BandwidthKb: 0,
 		Concurrency: runtime.NumCPU(),
+		LowMemory:   false,
 	}
 }
