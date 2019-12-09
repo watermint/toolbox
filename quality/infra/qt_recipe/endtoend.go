@@ -20,7 +20,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
-	"github.com/watermint/toolbox/quality/infra/qt_control_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -124,7 +124,7 @@ func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container,
 	web = rice.MustFindBox("../../../web")
 
 	mc = app_msg_container_impl.NewContainer(bx)
-	ui = app_ui.NewConsole(mc, qt_control_impl.NewMessageTest(t), true)
+	ui = app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageTest(t), true)
 	return
 }
 

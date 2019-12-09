@@ -4,8 +4,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
-	"github.com/watermint/toolbox/quality/infra/qt_control_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
 	"golang.org/x/text/language"
 )
@@ -14,14 +14,14 @@ func NewMultilingual(langs []language.Tag, containers map[language.Tag]app_msg_c
 	return &Multilingual{
 		LangPriority: langs,
 		Containers:   containers,
-		qm:           qt_control_impl.NewMessageMemory(),
+		qm:           qt_missingmsg_impl.NewMessageMemory(),
 	}
 }
 
 type Multilingual struct {
 	LangPriority []language.Tag
 	Containers   map[language.Tag]app_msg_container.Container
-	qm           qt_control.Message
+	qm           qt_missingmsg.Message
 }
 
 func (z *Multilingual) Verify(key string) {

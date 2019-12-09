@@ -1,4 +1,4 @@
-package qt_control
+package qt_missingmsg
 
 type Message interface {
 	NotFound(key string)

@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -43,7 +43,7 @@ const (
 	consoleNumRowsThreshold = 500
 )
 
-func NewConsole(mc app_msg_container.Container, qm qt_control.Message, testMode bool) UI {
+func NewConsole(mc app_msg_container.Container, qm qt_missingmsg.Message, testMode bool) UI {
 	return &console{
 		mc:       mc,
 		out:      os.Stdout,
@@ -81,7 +81,7 @@ type console struct {
 	out              io.Writer
 	in               io.Reader
 	testMode         bool
-	qm               qt_control.Message
+	qm               qt_missingmsg.Message
 	mutex            sync.Mutex
 	openArtifactOnce sync.Once
 }
@@ -318,7 +318,7 @@ func (z *console) AskSecure(key string, p ...app_msg.P) (text string, cancel boo
 type consoleTable struct {
 	mc      app_msg_container.Container
 	tab     *tabwriter.Writer
-	qm      qt_control.Message
+	qm      qt_missingmsg.Message
 	mutex   sync.Mutex
 	numRows int
 	name    string

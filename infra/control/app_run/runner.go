@@ -22,7 +22,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
-	"github.com/watermint/toolbox/quality/infra/qt_control_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
 	"os"
 	"os/signal"
@@ -34,7 +34,7 @@ import (
 func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Initialize resources
 	mc := app_msg_container_impl.NewContainer(bx)
-	ui := app_ui.NewConsole(mc, qt_control_impl.NewMessageMemory(), false)
+	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
 	cat := catalogue.Catalogue()
 
 	// Select recipe or group

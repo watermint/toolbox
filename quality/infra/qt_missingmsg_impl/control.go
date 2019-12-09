@@ -1,18 +1,18 @@
-package qt_control_impl
+package qt_missingmsg_impl
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_control"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 	"strings"
 	"testing"
 )
 
-func NewMessageMemory() qt_control.Message {
+func NewMessageMemory() qt_missingmsg.Message {
 	return &messageMemory{
 		missing: make(map[string]bool),
 	}
 }
 
-func NewMessageTest(t *testing.T) qt_control.Message {
+func NewMessageTest(t *testing.T) qt_missingmsg.Message {
 	return &messageTest{
 		t:       t,
 		missing: make(map[string]bool),

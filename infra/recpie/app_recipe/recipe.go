@@ -22,6 +22,9 @@ type Recipe interface {
 	Reports() []rp_spec.ReportSpec
 }
 
+type Spec interface {
+}
+
 // SecretRecipe will not be listed in available commands.
 type SecretRecipe interface {
 	Hidden()
