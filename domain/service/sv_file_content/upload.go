@@ -41,6 +41,10 @@ func NewUpload(ctx api_context.Context, opts ...UploadOpt) Upload {
 	for _, o := range opts {
 		o(uo)
 	}
+	if uo.ChunkSize < 1 {
+		ctx.Log().Debug("Zero or negative chunk size. Fallback to max chunk size", zap.Int64("givenChunkSize", uo.ChunkSize))
+		uo.ChunkSize = MaxChunkSize
+	}
 	if uo.ChunkSize > MaxChunkSize {
 		warnExceededChunkSize.Do(func() {
 			ctx.Log().Warn("Chunk size exceed maximum size, chunk size will be adjusted to maximum size", zap.Int64("givenChunkSize", uo.ChunkSize))

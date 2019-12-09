@@ -84,6 +84,7 @@ func Recipes() []app_recipe.Recipe {
 		&team.Feature{},
 		&team.Info{},
 		&teamdiag.Explorer{},
+		&teamdiag.Path{},
 		&teamactivity.Event{},
 		&teamactivity.User{},
 		&teamactivitydaily.Event{},

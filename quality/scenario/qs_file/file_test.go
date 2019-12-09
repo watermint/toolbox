@@ -112,8 +112,6 @@ func TestFileUploadScenario(t *testing.T) {
 			testSkip(fc, "skip", scenario.LocalPath)
 		}
 
-		time.Sleep(5 * time.Second)
-
 		// `file sync up`
 		{
 			fc, err := app_control_impl.Fork(ctl, "file-sync-up")
@@ -136,8 +134,6 @@ func TestFileUploadScenario(t *testing.T) {
 			testContent(fc, "upload", scenario.LocalPath, dbxBase+"/file-sync-up")
 			testSkip(fc, "skip", scenario.LocalPath)
 		}
-
-		time.Sleep(5 * time.Second)
 
 		// `file sync up`: should skip uploading for all files
 		{
@@ -166,8 +162,6 @@ func TestFileUploadScenario(t *testing.T) {
 			testSkip(fc, "skip", scenario.LocalPath)
 		}
 
-		time.Sleep(5 * time.Second)
-
 		// `file compare local`
 		{
 			fc, err := app_control_impl.Fork(ctl, "file-compare-local")
@@ -188,8 +182,6 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			// TODO: verify result
 		}
-
-		time.Sleep(5 * time.Second)
 
 		// `file sync preflight up`
 		{
@@ -212,8 +204,6 @@ func TestFileUploadScenario(t *testing.T) {
 			testSkip(fc, "skip", scenario.LocalPath)
 		}
 
-		time.Sleep(5 * time.Second)
-
 		// `file list`
 		{
 			fc, err := app_control_impl.Fork(ctl, "file-list")
@@ -234,8 +224,6 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			//TODO: verify content
 		}
-
-		time.Sleep(5 * time.Second)
 
 		// `file copy`
 		{
@@ -258,8 +246,6 @@ func TestFileUploadScenario(t *testing.T) {
 			//TODO: verify content
 		}
 
-		time.Sleep(5 * time.Second)
-
 		// `file move`
 		{
 			fc, err := app_control_impl.Fork(ctl, "file-move")
@@ -280,8 +266,6 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			//TODO: verify content
 		}
-
-		time.Sleep(5 * time.Second)
 
 		// `file merge`
 		{
@@ -304,7 +288,6 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			//TODO: verify content
 		}
-		time.Sleep(5 * time.Second)
 
 		// `file delete` for clean up
 		{
