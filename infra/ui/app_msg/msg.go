@@ -3,8 +3,6 @@ package app_msg
 import (
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/app"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
 	"reflect"
 	"strings"
 )
@@ -61,15 +59,7 @@ func Raw(text string) Message {
 	}
 }
 
-func Apply(mo MessageObject) {
-	l := app_root.Log()
-
-	mot := reflect.TypeOf(mo)
-	mov := reflect.ValueOf(mo)
-	if mot.Kind() == reflect.Ptr {
-		mot = reflect.ValueOf(mo).Elem().Type()
-		mov = reflect.ValueOf(mo).Elem()
-	}
+func applyReflect(mot reflect.Type, mov reflect.Value) {
 	base := mot.PkgPath() + "." + strcase.ToSnake(mot.Name())
 	base = strings.ReplaceAll(base, app.Pkg+"/", "")
 	base = strings.ReplaceAll(base, "/", ".")
@@ -82,10 +72,25 @@ func Apply(mo MessageObject) {
 
 		switch {
 		case mof.Type.Implements(reflect.TypeOf((*Message)(nil)).Elem()):
-			l.Debug("Set key", zap.String("key", kn))
 			mvf.Set(reflect.ValueOf(&messageImpl{
 				K: base + "." + strcase.ToSnake(kn),
 			}))
+
+		case mof.Type.Kind() == reflect.Ptr && mof.Type.Elem().Kind() == reflect.Struct:
+			v := reflect.New(mvf.Type().Elem())
+			applyReflect(v.Elem().Type(), v.Elem())
+			mvf.Set(v)
 		}
 	}
+}
+
+func Apply(mo MessageObject) {
+	mot := reflect.TypeOf(mo)
+	mov := reflect.ValueOf(mo)
+	if mot.Kind() == reflect.Ptr {
+		mot = reflect.ValueOf(mo).Elem().Type()
+		mov = reflect.ValueOf(mo).Elem()
+	}
+
+	applyReflect(mot, mov)
 }

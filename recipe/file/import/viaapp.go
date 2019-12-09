@@ -24,6 +24,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/quality/scenario/qs_file"
@@ -44,6 +45,10 @@ type ViaAppVO struct {
 	DropboxPath       string
 	LocalPath         string
 	PseudoDesktopPath string
+}
+
+type ViaAppMO struct {
+	ScanLocalPath app_msg.Message
 }
 
 const (
