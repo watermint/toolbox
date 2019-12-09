@@ -115,8 +115,9 @@ If you missed command line output, please see path below.
 
 ## Report: quota_update 
 
-Report files are generated in `quota_update.csv`, `quota_update.xlsx` and `quota_update.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `quota_update.csv`, `quota_update.xlsx` and `quota_update.json`.
+But if you run with `-low-memory` option, the command will generate only `quota_update.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `quota_update_0000.xlsx`, `quota_update_0001.xlsx`, `quota_update_0002.xlsx`...   
 
 | 列           | 説明                                                                |

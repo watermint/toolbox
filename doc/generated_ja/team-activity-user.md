@@ -117,8 +117,9 @@ If you missed command line output, please see path below.
 
 ## Report: user_activity 
 
-Report files are generated in `user_activity.csv`, `user_activity.xlsx` and `user_activity.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `user_activity.csv`, `user_activity.xlsx` and `user_activity.json`.
+But if you run with `-low-memory` option, the command will generate only `user_activity.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `user_activity_0000.xlsx`, `user_activity_0001.xlsx`, `user_activity_0002.xlsx`...   
 
 | 列              | 説明                                       |
@@ -130,8 +131,9 @@ like `user_activity_0000.xlsx`, `user_activity_0001.xlsx`, `user_activity_0002.x
 
 ## Report: user_summary 
 
-Report files are generated in `user_summary.csv`, `user_summary.xlsx` and `user_summary.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `user_summary.csv`, `user_summary.xlsx` and `user_summary.json`.
+But if you run with `-low-memory` option, the command will generate only `user_summary.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `user_summary_0000.xlsx`, `user_summary_0001.xlsx`, `user_summary_0002.xlsx`...   
 
 | 列                     | 説明                                |

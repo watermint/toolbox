@@ -114,8 +114,9 @@ If you missed command line output, please see path below.
 
 ## Report: namespace 
 
-Report files are generated in `namespace.csv`, `namespace.xlsx` and `namespace.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `namespace.csv`, `namespace.xlsx` and `namespace.json`.
+But if you run with `-low-memory` option, the command will generate only `namespace.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
 
 | 列             | 説明                                                                                   |

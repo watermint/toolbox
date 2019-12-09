@@ -116,8 +116,9 @@ If you missed command line output, please see path below.
 
 ## Report: update 
 
-Report files are generated in `update.csv`, `update.xlsx` and `update.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `update.csv`, `update.xlsx` and `update.json`.
+But if you run with `-low-memory` option, the command will generate only `update.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `update_0000.xlsx`, `update_0001.xlsx`, `update_0002.xlsx`...   
 
 | 列                      | 説明                                                                                            |

@@ -118,8 +118,9 @@ If you missed command line output, please see path below.
 
 ## Report: shared_link 
 
-Report files are generated in `shared_link.csv`, `shared_link.xlsx` and `shared_link.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `shared_link.csv`, `shared_link.xlsx` and `shared_link.json`.
+But if you run with `-low-memory` option, the command will generate only `shared_link.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
 
 | Column     | Description                                                                                                                                                                                                             |

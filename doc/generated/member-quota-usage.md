@@ -114,8 +114,9 @@ If you missed command line output, please see path below.
 
 ## Report: usage 
 
-Report files are generated in `usage.csv`, `usage.xlsx` and `usage.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `usage.csv`, `usage.xlsx` and `usage.json`.
+But if you run with `-low-memory` option, the command will generate only `usage.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   
 
 | Column     | Description                                              |

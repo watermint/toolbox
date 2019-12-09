@@ -119,8 +119,9 @@ If you missed command line output, please see path below.
 
 ## Report: replication_diff 
 
-Report files are generated in `replication_diff.csv`, `replication_diff.xlsx` and `replication_diff.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `replication_diff.csv`, `replication_diff.xlsx` and `replication_diff.json`.
+But if you run with `-low-memory` option, the command will generate only `replication_diff.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `replication_diff_0000.xlsx`, `replication_diff_0001.xlsx`, `replication_diff_0002.xlsx`...   
 
 | 列         | 説明                                                                                                                                                                                           |

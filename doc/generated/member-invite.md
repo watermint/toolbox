@@ -116,8 +116,9 @@ If you missed command line output, please see path below.
 
 ## Report: invite 
 
-Report files are generated in `invite.csv`, `invite.xlsx` and `invite.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `invite.csv`, `invite.xlsx` and `invite.json`.
+But if you run with `-low-memory` option, the command will generate only `invite.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `invite_0000.xlsx`, `invite_0001.xlsx`, `invite_0002.xlsx`...   
 
 | Column                  | Description                                                                                                          |

@@ -115,8 +115,9 @@ If you missed command line output, please see path below.
 
 ## Report: restore 
 
-Report files are generated in `restore.csv`, `restore.xlsx` and `restore.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `restore.csv`, `restore.xlsx` and `restore.json`.
+But if you run with `-low-memory` option, the command will generate only `restore.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `restore_0000.xlsx`, `restore_0001.xlsx`, `restore_0002.xlsx`...   
 
 | 列                             | 説明                                                                                       |

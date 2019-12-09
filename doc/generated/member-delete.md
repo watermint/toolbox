@@ -116,8 +116,9 @@ If you missed command line output, please see path below.
 
 ## Report: delete 
 
-Report files are generated in `delete.csv`, `delete.xlsx` and `delete.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `delete.csv`, `delete.xlsx` and `delete.json`.
+But if you run with `-low-memory` option, the command will generate only `delete.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `delete_0000.xlsx`, `delete_0001.xlsx`, `delete_0002.xlsx`...   
 
 | Column      | Description                            |

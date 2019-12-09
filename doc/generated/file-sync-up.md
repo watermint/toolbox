@@ -118,8 +118,9 @@ If you missed command line output, please see path below.
 
 ## Report: skip 
 
-Report files are generated in `skip.csv`, `skip.xlsx` and `skip.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `skip.csv`, `skip.xlsx` and `skip.json`.
+But if you run with `-low-memory` option, the command will generate only `skip.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...   
 
 | Column                         | Description                                                                                            |
@@ -143,8 +144,9 @@ like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...
 
 ## Report: summary 
 
-Report files are generated in `summary.csv`, `summary.xlsx` and `summary.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `summary.csv`, `summary.xlsx` and `summary.json`.
+But if you run with `-low-memory` option, the command will generate only `summary.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
 
 | Column           | Description                                         |
@@ -159,8 +161,9 @@ like `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...
 
 ## Report: upload 
 
-Report files are generated in `upload.csv`, `upload.xlsx` and `upload.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `upload.csv`, `upload.xlsx` and `upload.json`.
+But if you run with `-low-memory` option, the command will generate only `upload.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `upload_0000.xlsx`, `upload_0001.xlsx`, `upload_0002.xlsx`...   
 
 | Column                         | Description                                                                                            |

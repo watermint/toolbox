@@ -114,8 +114,9 @@ If you missed command line output, please see path below.
 
 ## Report: info 
 
-Report files are generated in `info.csv`, `info.xlsx` and `info.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `info.csv`, `info.xlsx` and `info.json`.
+But if you run with `-low-memory` option, the command will generate only `info.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
 
 | 列                          | 説明                                                                                                          |

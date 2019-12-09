@@ -114,8 +114,9 @@ If you missed command line output, please see path below.
 
 ## Report: device 
 
-Report files are generated in `device.csv`, `device.xlsx` and `device.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `device.csv`, `device.xlsx` and `device.json`.
+But if you run with `-low-memory` option, the command will generate only `device.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...   
 
 | Column                        | Description                                                                          |

@@ -116,8 +116,9 @@ If you missed command line output, please see path below.
 
 ## Report: unlink 
 
-Report files are generated in `unlink.csv`, `unlink.xlsx` and `unlink.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `unlink.csv`, `unlink.xlsx` and `unlink.json`.
+But if you run with `-low-memory` option, the command will generate only `unlink.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `unlink_0000.xlsx`, `unlink_0001.xlsx`, `unlink_0002.xlsx`...   
 
 | Column                              | Description                                                                          |

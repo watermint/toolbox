@@ -114,8 +114,9 @@ If you missed command line output, please see path below.
 
 ## Report: linked_app 
 
-Report files are generated in `linked_app.csv`, `linked_app.xlsx` and `linked_app.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `linked_app.csv`, `linked_app.xlsx` and `linked_app.json`.
+But if you run with `-low-memory` option, the command will generate only `linked_app.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
 
 | 列               | 説明                                                                 |

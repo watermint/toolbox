@@ -120,8 +120,9 @@ If you missed command line output, please see path below.
 
 ## Report: namespace_size 
 
-Report files are generated in `namespace_size.csv`, `namespace_size.xlsx` and `namespace_size.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `namespace_size.csv`, `namespace_size.xlsx` and `namespace_size.json`.
+But if you run with `-low-memory` option, the command will generate only `namespace_size.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
 | Column                      | Description                                                                                |

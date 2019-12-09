@@ -114,8 +114,9 @@ If you missed command line output, please see path below.
 
 ## Report: group 
 
-Report files are generated in `group.csv`, `group.xlsx` and `group.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `group.csv`, `group.xlsx` and `group.json`.
+But if you run with `-low-memory` option, the command will generate only `group.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...   
 
 | Column                | Description                                                                           |

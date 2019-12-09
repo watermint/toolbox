@@ -117,8 +117,9 @@ If you missed command line output, please see path below.
 
 ## Report: event 
 
-Report files are generated in `event.csv`, `event.xlsx` and `event.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `event.csv`, `event.xlsx` and `event.json`.
+But if you run with `-low-memory` option, the command will generate only `event.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`...   
 
 | Column          | Description                                     |

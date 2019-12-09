@@ -114,8 +114,9 @@ If you missed command line output, please see path below.
 
 ## Report: feature 
 
-Report files are generated in `feature.csv`, `feature.xlsx` and `feature.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `feature.csv`, `feature.xlsx` and `feature.json`.
+But if you run with `-low-memory` option, the command will generate only `feature.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...   
 
 | Column                      | Description                                       |

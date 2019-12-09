@@ -114,8 +114,9 @@ If you missed command line output, please see path below.
 
 ## Report: teamfolder 
 
-Report files are generated in `teamfolder.csv`, `teamfolder.xlsx` and `teamfolder.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `teamfolder.csv`, `teamfolder.xlsx` and `teamfolder.json`.
+But if you run with `-low-memory` option, the command will generate only `teamfolder.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `teamfolder_0000.xlsx`, `teamfolder_0001.xlsx`, `teamfolder_0002.xlsx`...   
 
 | Column                 | Description                                                                                |

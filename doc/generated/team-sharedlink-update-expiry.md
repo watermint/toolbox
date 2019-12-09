@@ -117,8 +117,9 @@ If you missed command line output, please see path below.
 
 ## Report: skipped_sharedlink 
 
-Report files are generated in `skipped_sharedlink.csv`, `skipped_sharedlink.xlsx` and `skipped_sharedlink.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `skipped_sharedlink.csv`, `skipped_sharedlink.xlsx` and `skipped_sharedlink.json`.
+But if you run with `-low-memory` option, the command will generate only `skipped_sharedlink.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `skipped_sharedlink_0000.xlsx`, `skipped_sharedlink_0001.xlsx`, `skipped_sharedlink_0002.xlsx`...   
 
 | Column     | Description                                                                                                                                                                                                             |
@@ -136,8 +137,9 @@ like `skipped_sharedlink_0000.xlsx`, `skipped_sharedlink_0001.xlsx`, `skipped_sh
 
 ## Report: updated_sharedlink 
 
-Report files are generated in `updated_sharedlink.csv`, `updated_sharedlink.xlsx` and `updated_sharedlink.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `updated_sharedlink.csv`, `updated_sharedlink.xlsx` and `updated_sharedlink.json`.
+But if you run with `-low-memory` option, the command will generate only `updated_sharedlink.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `updated_sharedlink_0000.xlsx`, `updated_sharedlink_0001.xlsx`, `updated_sharedlink_0002.xlsx`...   
 
 | Column               | Description                                                                                                                                                                                                             |

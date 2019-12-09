@@ -13,8 +13,9 @@ import (
 )
 
 const (
-	xlsxThemeColor = "ff548235"
-	XlsxMaxRows    = 10000
+	xlsxThemeColor      = "ff548235"
+	XlsxMaxRows         = 10000
+	XlsxMaxMemoryTarget = 4 * 1_048_576 // 4MB
 )
 
 func xlsxHeaderStyle() *xlsx.Style {
@@ -57,19 +58,20 @@ func NewXlsx(name string, row interface{}, ctl app_control.Control, opts ...rp_m
 }
 
 type Xlsx struct {
-	ctl           app_control.Control
-	name          string
-	omitError     bool
-	rotateCount   int
-	rotateFailed  bool
-	filePath      string
-	fileAvailable bool
-	file          *xlsx.File
-	sheet         *xlsx.Sheet
-	parser        Column
-	index         int
-	fileIndex     int
-	mutex         sync.Mutex
+	ctl            app_control.Control
+	name           string
+	omitError      bool
+	rotateCount    int
+	rotateFailed   bool
+	filePath       string
+	fileAvailable  bool
+	file           *xlsx.File
+	sheet          *xlsx.Sheet
+	parser         Column
+	index          int
+	fileIndex      int
+	mutex          sync.Mutex
+	estMemoryUsage int64
 }
 
 func (z *Xlsx) rotate() {
@@ -135,11 +137,13 @@ func (z *Xlsx) open() (err error) {
 	z.sheet = sheet
 	z.fileIndex++
 	z.index = 0
+	z.estMemoryUsage = 0
 
 	return nil
 }
 
 func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
+	rowSize := 0
 	row := z.sheet.AddRow()
 	for _, col := range cols {
 		cell := row.AddCell()
@@ -161,7 +165,9 @@ func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
 		default:
 			cell.SetValue(c)
 		}
+		rowSize += len(cell.String())
 	}
+	z.estMemoryUsage += int64(rowSize)
 	return nil
 }
 
@@ -206,7 +212,7 @@ func (z *Xlsx) Row(row interface{}) {
 	z.addRow(z.parser.Values(row), xlsxDataStyle())
 	z.index++
 
-	if z.index > XlsxMaxRows {
+	if z.index > XlsxMaxRows || z.estMemoryUsage > XlsxMaxMemoryTarget {
 		z.rotate()
 	}
 }

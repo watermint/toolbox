@@ -116,8 +116,9 @@ If you missed command line output, please see path below.
 
 ## Report: diff 
 
-Report files are generated in `diff.csv`, `diff.xlsx` and `diff.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `diff.csv`, `diff.xlsx` and `diff.json`.
+But if you run with `-low-memory` option, the command will generate only `diff.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`...   
 
 | 列         | 説明                                                                                                                                                                                           |
@@ -134,8 +135,9 @@ like `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`...
 
 ## Report: skip 
 
-Report files are generated in `skip.csv`, `skip.xlsx` and `skip.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `skip.csv`, `skip.xlsx` and `skip.json`.
+But if you run with `-low-memory` option, the command will generate only `skip.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...   
 
 | 列         | 説明                                                                                                                                                                                           |

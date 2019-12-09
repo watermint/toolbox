@@ -115,8 +115,9 @@ If you missed command line output, please see path below.
 
 ## Report: update_profile 
 
-Report files are generated in `update_profile.csv`, `update_profile.xlsx` and `update_profile.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `update_profile.csv`, `update_profile.xlsx` and `update_profile.json`.
+But if you run with `-low-memory` option, the command will generate only `update_profile.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `update_profile_0000.xlsx`, `update_profile_0001.xlsx`, `update_profile_0002.xlsx`...   
 
 | 列                      | 説明                                                                                            |

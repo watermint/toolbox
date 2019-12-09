@@ -115,8 +115,9 @@ If you missed command line output, please see path below.
 
 ## Report: external_id 
 
-Report files are generated in `external_id.csv`, `external_id.xlsx` and `external_id.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `external_id.csv`, `external_id.xlsx` and `external_id.json`.
+But if you run with `-low-memory` option, the command will generate only `external_id.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `external_id_0000.xlsx`, `external_id_0001.xlsx`, `external_id_0002.xlsx`...   
 
 | 列                      | 説明                                                                                            |

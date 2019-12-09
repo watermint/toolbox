@@ -114,8 +114,9 @@ If you missed command line output, please see path below.
 
 ## Report: sharedfolder_member 
 
-Report files are generated in `sharedfolder_member.csv`, `sharedfolder_member.xlsx` and `sharedfolder_member.json` format.
-In case of a report become large, report in `.xlsx` format will be split into several chunks
+Report files are generated in three formats, `sharedfolder_member.csv`, `sharedfolder_member.xlsx` and `sharedfolder_member.json`.
+But if you run with `-low-memory` option, the command will generate only `sharedfolder_member.json}}` report.
+In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `sharedfolder_member_0000.xlsx`, `sharedfolder_member_0001.xlsx`, `sharedfolder_member_0002.xlsx`...   
 
 | Column                  | Description                                                                                                             |
