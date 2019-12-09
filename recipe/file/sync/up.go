@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
@@ -17,6 +18,10 @@ type UpVO struct {
 	DropboxPath       string
 	ExcludeFolderName string
 	ChunkSizeKb       int
+}
+
+type UpMO struct {
+	Upload *uc_file_upload.UploadMO
 }
 
 type Up struct {
@@ -37,7 +42,8 @@ func (z *Up) Exec(k app_kitchen.Kitchen) error {
 	if err != nil {
 		return err
 	}
-	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k,
+	mo := app_msg.Apply(&UpMO{}).(*UpMO)
+	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k, mo.Upload,
 		uc_file_upload.ChunkSizeKb(vo.ChunkSizeKb),
 		uc_file_upload.CreateFolder(),
 		uc_file_upload.ExcludeFolderName(vo.ExcludeFolderName),

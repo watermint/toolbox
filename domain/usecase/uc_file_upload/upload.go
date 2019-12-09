@@ -35,7 +35,12 @@ type Upload interface {
 	Estimate(localPath string, dropboxPath string) (summary *UploadSummary, err error)
 }
 
-func New(ctx api_context.Context, specs *rp_spec_impl.Specs, k app_kitchen.Kitchen, opt ...UploadOpt) Upload {
+type UploadMO struct {
+	ProgressUpload  app_msg.Message
+	ProgressSummary app_msg.Message
+}
+
+func New(ctx api_context.Context, specs *rp_spec_impl.Specs, k app_kitchen.Kitchen, mo *UploadMO, opt ...UploadOpt) Upload {
 	opts := &UploadOpts{
 		ChunkSizeKb: 150 * 1024,
 	}
@@ -46,6 +51,7 @@ func New(ctx api_context.Context, specs *rp_spec_impl.Specs, k app_kitchen.Kitch
 		ctx:   ctx,
 		specs: specs,
 		opts:  opts,
+		mo:    mo,
 		k:     k,
 	}
 }
@@ -260,6 +266,7 @@ type UploadWorker struct {
 	ctx             api_context.Context
 	ctl             app_control.Control
 	up              sv_file_content.Upload
+	mo              *UploadMO
 	estimateOnly    bool
 	repUpload       rp_model.Report
 	repSkip         rp_model.Report
@@ -330,9 +337,7 @@ func (z *UploadWorker) Exec() (err error) {
 		return nil
 	}
 
-	ui.Info("usecase.uc_file_upload.progress.upload", app_msg.P{
-		"File": z.localFilePath,
-	})
+	ui.InfoM(z.mo.ProgressUpload.With("File", z.localFilePath))
 
 	var entry mo_file.Entry
 	if z.opts.Overwrite {
@@ -359,6 +364,7 @@ type uploadImpl struct {
 	ctx   api_context.Context
 	specs *rp_spec_impl.Specs
 	opts  *UploadOpts
+	mo    *UploadMO
 	k     app_kitchen.Kitchen
 }
 
@@ -400,15 +406,14 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 
 			kps := status.summary.NumBytes / int64(dur) / 1024
 
-			z.k.UI().Info("usecase.uc_file_upload.progress.summary", app_msg.P{
-				"Time":          time.Now().Truncate(time.Second).Format("15:04:05"),
-				"NumFileUpload": status.summary.NumFilesUpload,
-				"NumFileSkip":   status.summary.NumFilesSkip,
-				"NumFileError":  status.summary.NumFilesError,
-				"NumBytes":      status.summary.NumBytes / 1_048_576,
-				"Kps":           kps,
-				"NumApiCall":    status.summary.NumApiCall,
-			})
+			z.k.UI().InfoM(z.mo.ProgressSummary.
+				With("Time", time.Now().Truncate(time.Second).Format("15:04:05")).
+				With("NumFileUpload", status.summary.NumFilesUpload).
+				With("NumFileSkip", status.summary.NumFilesSkip).
+				With("NumFileError", status.summary.NumFilesError).
+				With("NumBytes", status.summary.NumBytes/1_048_576).
+				With("Kps", kps).
+				With("NumApiCall", status.summary.NumApiCall))
 		}
 	}()
 
@@ -530,6 +535,7 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 					ctx:             z.ctx,
 					ctl:             z.k.Control(),
 					up:              up,
+					mo:              z.mo,
 					estimateOnly:    estimate,
 					repUpload:       repUpload,
 					repSkip:         repSkip,
@@ -557,6 +563,7 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 			ctx:             z.ctx,
 			ctl:             z.k.Control(),
 			up:              up,
+			mo:              z.mo,
 			estimateOnly:    estimate,
 			repUpload:       repUpload,
 			repSkip:         repSkip,

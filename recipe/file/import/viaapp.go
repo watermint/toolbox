@@ -889,7 +889,7 @@ type ViaAppPseudoDesktop struct {
 
 func (z *ViaAppPseudoDesktop) Run() {
 	l := z.k.Log()
-	up := uc_file_upload.New(z.ctx, z.specs, z.k)
+	up := uc_file_upload.New(z.ctx, z.specs, z.k, app_msg.Apply(&uc_file_upload.UploadMO{}).(*uc_file_upload.UploadMO))
 
 	dbxToLocalSync := func() {
 		dbxEntries, err := sv_file.NewFiles(z.ctx).List(z.dbxWorkPath)

@@ -84,7 +84,7 @@ func applyReflect(mot reflect.Type, mov reflect.Value) {
 	}
 }
 
-func Apply(mo MessageObject) {
+func Apply(mo MessageObject) MessageObject {
 	mot := reflect.TypeOf(mo)
 	mov := reflect.ValueOf(mo)
 	if mot.Kind() == reflect.Ptr {
@@ -93,4 +93,6 @@ func Apply(mo MessageObject) {
 	}
 
 	applyReflect(mot, mov)
+
+	return mo
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"os"
 )
@@ -21,6 +22,9 @@ type UploadVO struct {
 }
 
 type Upload struct {
+}
+type UploadMO struct {
+	Upload *uc_file_upload.UploadMO
 }
 
 func (z *Upload) Console() {
@@ -46,7 +50,8 @@ func (z *Upload) Exec(k app_kitchen.Kitchen) error {
 		opts = append(opts, uc_file_upload.Overwrite())
 	}
 
-	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k, opts...)
+	mo := app_msg.Apply(&UploadMO{}).(*UploadMO)
+	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k, mo.Upload, opts...)
 	_, err = up.Upload(vo.LocalPath, vo.DropboxPath)
 	return err
 }
