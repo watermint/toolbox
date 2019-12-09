@@ -1,4 +1,4 @@
-package team
+package diag
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -12,6 +12,7 @@ import (
 	groupmember "github.com/watermint/toolbox/recipe/group/member"
 	"github.com/watermint/toolbox/recipe/member"
 	memberquota "github.com/watermint/toolbox/recipe/member/quota"
+	"github.com/watermint/toolbox/recipe/team"
 	teamdevice "github.com/watermint/toolbox/recipe/team/device"
 	teamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
 	teamlinkedapp "github.com/watermint/toolbox/recipe/team/linkedapp"
@@ -23,33 +24,33 @@ import (
 	"go.uber.org/zap"
 )
 
-type DiagnosisVO struct {
+type ExplorerVO struct {
 	Peer app_conn.ConnBusinessFile
 	All  bool
 }
 
-type Diagnosis struct {
+type Explorer struct {
 }
 
-func (z *Diagnosis) Reports() []rp_spec.ReportSpec {
+func (z *Explorer) Console() {
+}
+
+func (z *Explorer) Reports() []rp_spec.ReportSpec {
 	return []rp_spec.ReportSpec{}
 }
 
-func (z *Diagnosis) Hidden() {
+func (z *Explorer) Requirement() app_vo.ValueObject {
+	return &ExplorerVO{}
 }
 
-func (z *Diagnosis) Requirement() app_vo.ValueObject {
-	return &DiagnosisVO{}
-}
-
-func (z *Diagnosis) Exec(k app_kitchen.Kitchen) error {
-	vo := k.Value().(*DiagnosisVO)
+func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
+	vo := k.Value().(*ExplorerVO)
 	l := k.Log()
 	pn := vo.Peer.(*app_conn_impl.ConnBusinessFile).PeerName
 	{
 		l.Info("Scanning info")
-		r := Info{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &InfoVO{
+		r := team.Info{}
+		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &team.InfoVO{
 			Peer: &app_conn_impl.ConnBusinessInfo{
 				PeerName: pn,
 			},
@@ -62,8 +63,8 @@ func (z *Diagnosis) Exec(k app_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning feature")
-		r := Feature{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &FeatureVO{
+		r := team.Feature{}
+		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &team.FeatureVO{
 			Peer: &app_conn_impl.ConnBusinessInfo{
 				PeerName: pn,
 			},
@@ -283,8 +284,8 @@ func (z *Diagnosis) Exec(k app_kitchen.Kitchen) error {
 	return nil
 }
 
-func (z *Diagnosis) Test(c app_control.Control) error {
-	lvo := &DiagnosisVO{
+func (z *Explorer) Test(c app_control.Control) error {
+	lvo := &ExplorerVO{
 		All: false,
 	}
 	if !qt_recipe.ApplyTestPeers(c, lvo) {

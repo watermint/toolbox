@@ -24,6 +24,7 @@ import (
 	teamactivity "github.com/watermint/toolbox/recipe/team/activity"
 	teamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
 	teamdevice "github.com/watermint/toolbox/recipe/team/device"
+	teamdiag "github.com/watermint/toolbox/recipe/team/diag"
 	teamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
 	teamlinkedapp "github.com/watermint/toolbox/recipe/team/linkedapp"
 	teamnamespace "github.com/watermint/toolbox/recipe/team/namespace"
@@ -80,9 +81,9 @@ func Recipes() []app_recipe.Recipe {
 		&sharedlink.Create{},
 		&sharedlink.List{},
 		&sharedlink.Delete{},
-		&team.Diagnosis{},
 		&team.Feature{},
 		&team.Info{},
+		&teamdiag.Explorer{},
 		&teamactivity.Event{},
 		&teamactivity.User{},
 		&teamactivitydaily.Event{},

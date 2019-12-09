@@ -87,6 +87,7 @@ Available commands:
 | [team activity user](doc/generated/team-activity-user.md)                       | Activities log per user                                       |
 | [team device list](doc/generated/team-device-list.md)                           | List all devices/sessions in the team                         |
 | [team device unlink](doc/generated/team-device-unlink.md)                       | Unlink device sessions                                        |
+| [team diag explorer](doc/generated/team-diag-explorer.md)                       | Report while team information                                 |
 | [team feature](doc/generated/team-feature.md)                                   | Team feature                                                  |
 | [team filerequest list](doc/generated/team-filerequest-list.md)                 | List all file requests in the team                            |
 | [team info](doc/generated/team-info.md)                                         | Team information                                              |
