@@ -170,6 +170,33 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	twc(ctl)
 }
 
+func RecipeError(l *zap.Logger, err error) error {
+	switch err.(type) {
+	case *ErrorNoTestRequired:
+		l.Info("Skip: No test required for this recipe")
+		return nil
+
+	case *ErrorHumanInteractionRequired:
+		l.Info("Skip: Human interaction required for this test")
+		return nil
+
+	case *ErrorNotEnoughResource:
+		l.Info("Skip: Not enough resource")
+		return nil
+
+	case *ErrorScenarioTest:
+		l.Info("Skip: Implemented as scenario test")
+		return nil
+
+	case *ErrorImplementMe:
+		l.Warn("Test is not implemented for this recipe")
+		return nil
+
+	default:
+		return err
+	}
+}
+
 func TestRecipe(t *testing.T, re app_recipe.Recipe) {
 	nw_ratelimit.SetTestMode(true)
 	TestWithControl(t, func(ctl app_control.Control) {
@@ -189,24 +216,8 @@ func TestRecipe(t *testing.T, re app_recipe.Recipe) {
 			return
 		}
 
-		switch err.(type) {
-		case *ErrorNoTestRequired:
-			l.Info("Skip: No test required for this recipe")
-
-		case *ErrorHumanInteractionRequired:
-			l.Info("Skip: Human interaction required for this test")
-
-		case *ErrorNotEnoughResource:
-			l.Info("Skip: Not enough resource")
-
-		case *ErrorScenarioTest:
-			l.Info("Skip: Implemented as scenario test")
-
-		case *ErrorImplementMe:
-			l.Warn("Test is not implemented for this recipe")
-
-		default:
-			t.Error(err)
+		if re := RecipeError(l, err); re != nil {
+			t.Error(re)
 		}
 	})
 }
