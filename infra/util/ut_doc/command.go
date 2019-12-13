@@ -7,8 +7,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/control/app_opt"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
@@ -101,8 +101,8 @@ func (z *Commands) optionsTable(vo app_vo.ValueObject) string {
 		vk := vc.MessageKey(k)
 		vd := vc.Values[k]
 		switch v := vd.(type) {
-		case app_file.Data:
-			l.Debug("Data file", zap.Any("v", v))
+		case fd_file.Feed:
+			l.Debug("Feed file", zap.Any("v", v))
 			vd = ""
 		}
 

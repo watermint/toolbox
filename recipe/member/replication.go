@@ -3,8 +3,8 @@ package member
 import (
 	"github.com/watermint/toolbox/domain/usecase/uc_member_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -22,7 +22,7 @@ type ReplicationRow struct {
 type ReplicationVO struct {
 	Src  app_conn.ConnBusinessFile
 	Dst  app_conn.ConnBusinessFile
-	File app_file.Data
+	File fd_file.Feed
 }
 
 const (

@@ -7,9 +7,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_file"
-	"github.com/watermint/toolbox/infra/recpie/app_file_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
@@ -26,7 +26,7 @@ import (
 
 type ExternalIdVO struct {
 	Peer app_conn.ConnBusinessMgmt
-	File app_file.Data
+	File fd_file.Feed
 }
 
 type ExternalIdRow struct {
@@ -137,7 +137,7 @@ func (z *ExternalId) Test(c app_control.Control) error {
 
 	// test
 	{
-		vo.File = app_file_impl.NewTestData(dataFile)
+		vo.File = fd_file_impl.NewTestData(dataFile)
 		lastErr := z.Exec(app_kitchen.NewKitchen(c, vo))
 
 		qt_recipe.TestRows(c, reportExternalId, func(cols map[string]string) error {

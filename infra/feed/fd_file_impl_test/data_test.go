@@ -2,7 +2,7 @@ package app_file_impl_test
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_file_impl"
+	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	"github.com/watermint/toolbox/infra/report/rp_model_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"path/filepath"
@@ -70,7 +70,7 @@ func TestCsvData_EachRow(t *testing.T) {
 
 		// fieldName
 		{
-			cd := app_file_impl.CsvData{
+			cd := fd_file_impl.CsvData{
 				FilePath: repFile,
 			}
 			if err := cd.Model(ctl, &DataRow{}); err != nil {
@@ -104,7 +104,7 @@ func TestCsvData_EachRow(t *testing.T) {
 
 		// order
 		{
-			cd := app_file_impl.CsvData{
+			cd := fd_file_impl.CsvData{
 				FilePath: repFile,
 			}
 			if err := cd.Model(ctl, &DataRow2{}); err != nil {
@@ -138,7 +138,7 @@ func TestCsvData_EachRow(t *testing.T) {
 
 		// missing field
 		{
-			cd := app_file_impl.CsvData{
+			cd := fd_file_impl.CsvData{
 				FilePath: repFile,
 			}
 			if err := cd.Model(ctl, &DataRowMissingField{}); err != nil {
@@ -169,7 +169,7 @@ func TestCsvData_EachRow(t *testing.T) {
 
 		// more field
 		{
-			cd := app_file_impl.CsvData{
+			cd := fd_file_impl.CsvData{
 				FilePath: repFile,
 			}
 			if err := cd.Model(ctl, &DataRowMoreField{}); err != nil {

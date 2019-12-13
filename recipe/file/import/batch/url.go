@@ -7,8 +7,8 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file_url"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -20,7 +20,7 @@ import (
 
 type UrlVO struct {
 	Peer app_conn.ConnUserFile
-	Data app_file.Data
+	Data fd_file.Feed
 	Path string
 }
 

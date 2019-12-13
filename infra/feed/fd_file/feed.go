@@ -1,8 +1,11 @@
-package app_file
+package fd_file
 
 import "github.com/watermint/toolbox/infra/control/app_control"
 
-type Data interface {
+type Feed interface {
 	Model(ctl app_control.Control, m interface{}) error
 	EachRow(exec func(m interface{}, rowIndex int) error) error
+}
+
+type FeedObject interface {
 }

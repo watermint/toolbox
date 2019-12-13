@@ -40,7 +40,9 @@ type UploadMO struct {
 	ProgressSummary app_msg.Message
 }
 
-func New(ctx api_context.Context, specs *rp_spec_impl.Specs, k app_kitchen.Kitchen, mo *UploadMO, opt ...UploadOpt) Upload {
+func New(ctx api_context.Context, specs *rp_spec_impl.Specs, k app_kitchen.Kitchen, opt ...UploadOpt) Upload {
+	mo := &UploadMO{}
+	app_msg.Apply(mo)
 	opts := &UploadOpts{
 		ChunkSizeKb: 150 * 1024,
 	}
@@ -301,7 +303,7 @@ func (z *UploadWorker) Exec() (err error) {
 		z.status.error()
 		return errors.New("invalid rel path")
 	default:
-		dp = dp.ChildPath(filepath.ToSlash(rel))
+		dp = dp.ChildPath(rel)
 	}
 
 	info, err := os.Lstat(z.localFilePath)
@@ -442,7 +444,7 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 			return nil
 		}
 
-		folderPath := mo_path.NewPath(dropboxPath).ChildPath(filepath.ToSlash(rel))
+		folderPath := mo_path.NewPath(dropboxPath).ChildPath(rel)
 		ll = ll.With(zap.String("folderPath", folderPath.Path()), zap.String("rel", rel))
 		ll.Debug("Create folder")
 
@@ -486,7 +488,7 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 
 		dbxPath := mo_path.NewPath(dropboxPath)
 		if localPathRel != "." {
-			dbxPath = dbxPath.ChildPath(filepath.ToSlash(localPathRel))
+			dbxPath = dbxPath.ChildPath(localPathRel)
 		}
 
 		dbxEntries, err := sv_file.NewFiles(z.ctx).List(dbxPath)

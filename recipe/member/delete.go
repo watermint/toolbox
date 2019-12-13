@@ -3,8 +3,8 @@ package member
 import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -18,7 +18,7 @@ type DeleteRow struct {
 }
 
 type DeleteVO struct {
-	File     app_file.Data
+	File     fd_file.Feed
 	Peer     app_conn.ConnBusinessMgmt
 	WipeData bool
 }

@@ -1,11 +1,11 @@
-package app_file_impl
+package fd_file_impl
 
 import (
 	"encoding/csv"
 	"errors"
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_file"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"io"
@@ -14,11 +14,15 @@ import (
 	"strconv"
 )
 
-func NewData() app_file.Data {
+func Apply(ctl app_control.Control, fo fd_file.FeedObject) fd_file.FeedObject {
+	panic("implement me")
+}
+
+func NewData() fd_file.Feed {
 	return &CsvData{}
 }
 
-func NewTestData(path string) app_file.Data {
+func NewTestData(path string) fd_file.Feed {
 	return &CsvData{
 		FilePath: path,
 	}
@@ -97,7 +101,7 @@ func (z *CsvData) header(cols []string) error {
 		}
 	}
 	l = l.With(zap.String("mode", z.mode))
-	l.Debug("Data injection mode")
+	l.Debug("Feed injection mode")
 
 	fieldSet := func(v reflect.Value, s string) error {
 		switch v.Kind() {

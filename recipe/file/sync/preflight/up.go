@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
@@ -16,10 +15,6 @@ type UpVO struct {
 	Peer        app_conn.ConnUserFile
 	LocalPath   string
 	DropboxPath string
-}
-
-type UpMO struct {
-	Upload *uc_file_upload.UploadMO
 }
 
 type Up struct {
@@ -38,8 +33,7 @@ func (z *Up) Exec(k app_kitchen.Kitchen) error {
 	if err != nil {
 		return err
 	}
-	mo := app_msg.Apply(&UpMO{}).(*UpMO)
-	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k, mo.Upload,
+	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k,
 		uc_file_upload.ChunkSizeKb(150*1024),
 		uc_file_upload.Overwrite())
 

@@ -172,7 +172,7 @@ func (z *mergeImpl) moveFile(from *mo_file.File) error {
 	}
 
 	fp := mo_path.NewPathDisplay(from.PathDisplay())
-	tp := z.to.ChildPath(filepath.Join(filepath.Dir(p), from.Name()))
+	tp := z.to.ChildPath(filepath.Dir(p), from.Name())
 	l.Debug("move file")
 	m := app_msg.M("usecase.uc_file_merge.move_file",
 		app_msg.P{
@@ -206,7 +206,7 @@ func (z *mergeImpl) moveFolder(from *mo_file.Folder) error {
 		return errors.New("invalid relative path")
 	}
 	fp := mo_path.NewPathDisplay(from.PathDisplay())
-	tp := z.to.ChildPath(filepath.Join(filepath.Dir(p), from.Name()))
+	tp := z.to.ChildPath(filepath.Dir(p), from.Name())
 
 	l = l.With(zap.String("toPath", tp.Path()))
 

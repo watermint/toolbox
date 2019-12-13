@@ -7,8 +7,8 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_member_quota"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -22,7 +22,7 @@ import (
 
 type UpdateVO struct {
 	Peer app_conn.ConnBusinessMgmt
-	File app_file.Data
+	File fd_file.Feed
 }
 
 type UpdateWorker struct {

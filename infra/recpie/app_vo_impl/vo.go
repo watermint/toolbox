@@ -5,10 +5,10 @@ import (
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	"github.com/watermint/toolbox/infra/recpie/app_conn"
 	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
-	"github.com/watermint/toolbox/infra/recpie/app_file"
-	"github.com/watermint/toolbox/infra/recpie/app_file_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"reflect"
@@ -63,11 +63,11 @@ func (z *ValueContainer) From(vo interface{}) {
 			z.Values[kn] = &v
 		case reflect.Interface:
 			switch {
-			case vof.Type.Implements(reflect.TypeOf((*app_file.Data)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*fd_file.Feed)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = app_file_impl.NewData()
+					z.Values[kn] = fd_file_impl.NewData()
 				}
 
 			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessMgmt)(nil)).Elem()):
@@ -170,7 +170,7 @@ func (z *ValueContainer) Apply(vo interface{}) {
 			}
 		case reflect.Interface:
 			switch {
-			case vof.Type.Implements(reflect.TypeOf((*app_file.Data)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*fd_file.Feed)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
@@ -240,7 +240,7 @@ func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
 			f.Int64Var(dv, kf, *dv, desc)
 		case *string:
 			f.StringVar(dv, kf, *dv, desc)
-		case *app_file_impl.CsvData:
+		case *fd_file_impl.CsvData:
 			f.StringVar(&dv.FilePath, kf, dv.FilePath, desc)
 		case *app_conn_impl.ConnBusinessMgmt:
 			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)
@@ -266,7 +266,7 @@ func (z ValueContainer) Serialize() map[string]interface{} {
 			s[n] = *dv
 		case *string:
 			s[n] = *dv
-		case *app_file_impl.CsvData:
+		case *fd_file_impl.CsvData:
 			s[n] = dv.FilePath
 		case *app_conn_impl.ConnBusinessMgmt:
 			s[n] = dv.PeerName

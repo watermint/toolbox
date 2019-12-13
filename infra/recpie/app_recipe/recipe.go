@@ -3,6 +3,7 @@ package app_recipe
 import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
@@ -16,13 +17,17 @@ const (
 )
 
 type Recipe interface {
-	Requirement() app_vo.ValueObject
 	Exec(k app_kitchen.Kitchen) error
 	Test(c app_control.Control) error
+	Requirement() app_vo.ValueObject
 	Reports() []rp_spec.ReportSpec
 }
 
-type Spec interface {
+type Spec struct {
+	Messages app_msg.MessageObject
+	Values   app_vo.ValueObject
+	Reports  rp_spec.ReportObject
+	Feeds    fd_file.FeedObject
 }
 
 // SecretRecipe will not be listed in available commands.

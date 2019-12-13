@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/infra/recpie/app_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
@@ -20,12 +19,28 @@ type UpVO struct {
 	ChunkSizeKb       int
 }
 
-type UpMO struct {
-	Upload *uc_file_upload.UploadMO
+type Up struct {
+	//Peer              app_conn.ConnUserFile
+	//LocalPath         string
+	//DropboxPath       string
+	//ExcludeFolderName string
+	//ChunkSizeKb       int
+	//Excludes          fd_file.Feed
+	//UploadMO          *uc_file_upload.UploadMO
+	//Upload            rp_spec.ReportSpec
 }
 
-type Up struct {
-}
+//func (z *Up) Init() {
+//	z.Upload = rp_spec_impl.Spec(
+//		"",
+//		rp_model.TransactionHeader(&uc_file_upload.UploadRow{}, &mo_file.ConcreteEntry{}),
+//		rp_model.HiddenColumns(
+//			"result.id",
+//			"result.tag",
+//		),
+//	)
+//	z.ChunkSizeKb = 150 * 1024
+//}
 
 func (z *Up) Console() {
 }
@@ -42,8 +57,7 @@ func (z *Up) Exec(k app_kitchen.Kitchen) error {
 	if err != nil {
 		return err
 	}
-	mo := app_msg.Apply(&UpMO{}).(*UpMO)
-	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k, mo.Upload,
+	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k,
 		uc_file_upload.ChunkSizeKb(vo.ChunkSizeKb),
 		uc_file_upload.CreateFolder(),
 		uc_file_upload.ExcludeFolderName(vo.ExcludeFolderName),
