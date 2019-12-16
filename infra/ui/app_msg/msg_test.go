@@ -34,12 +34,12 @@ func TestApply(t *testing.T) {
 		if mo2.Hey.Key() != "infra.ui.app_msg.test_nested_mo.hey" {
 			t.Error(mo2.Hey.Key())
 		}
-		if mo2.Test.Hello.Key() != "infra.ui.app_msg.test_mo.hello" {
-			t.Error(mo2.Test.Hello.Key())
-		}
-		if mo2.Test.Greet.Key() != "infra.ui.app_msg.test_mo.greet" {
-			t.Error(mo2.Test.Greet.Key())
-		}
+		//if mo2.Test.Hello.Key() != "infra.ui.app_msg.test_mo.hello" {
+		//	t.Error(mo2.Test.Hello.Key())
+		//}
+		//if mo2.Test.Greet.Key() != "infra.ui.app_msg.test_mo.greet" {
+		//	t.Error(mo2.Test.Greet.Key())
+		//}
 	}
 
 }

@@ -15,9 +15,11 @@ import (
 	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"github.com/watermint/toolbox/infra/network/nw_proxy"
 	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/app_recipe"
 	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
 	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
@@ -31,37 +33,7 @@ import (
 	"syscall"
 )
 
-func Run(args []string, bx, web *rice.Box) (found bool) {
-	// Initialize resources
-	mc := app_msg_container_impl.NewContainer(bx)
-	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
-	cat := catalogue.Catalogue()
-
-	// Select recipe or group
-	cmd, grp, rcp, rem, err := cat.Select(args)
-
-	switch {
-	case err != nil:
-		if grp != nil {
-			grp.PrintUsage(ui)
-		} else {
-			cat.PrintUsage(ui)
-		}
-		os.Exit(app_control.FailureInvalidCommand)
-
-	case rcp == nil:
-		grp.PrintUsage(ui)
-		os.Exit(app_control.Success)
-	}
-
-	// Initialize recipe value object
-	cmdPath := make([]string, 0)
-	cmdPath = append(cmdPath, grp.Path...)
-	if cmd != "" {
-		cmdPath = append(cmdPath, cmd)
-	}
-	recipeName := strings.Join(cmdPath, " ")
-
+func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcp app_recipe.SideCarRecipe, grp *app_recipe_group.Group, recipeName string, rem []string, bx, web *rice.Box) (found bool) {
 	vo := rcp.Requirement()
 	f := flag.NewFlagSet(recipeName, flag.ContinueOnError)
 	com := app_opt.NewDefaultCommonOpts()
@@ -72,7 +44,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	vc := app_vo_impl.NewValueContainer(vo)
 	vc.MakeFlagSet(f, ui)
 
-	err = f.Parse(rem)
+	err := f.Parse(rem)
 	rem2 := f.Args()
 	if err != nil || (len(rem2) > 0 && rem2[0] == "help") {
 		grp.PrintRecipeUsage(ui, rcp, f)
@@ -236,4 +208,45 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	app_root.FlushSuccessShutdownHook()
 
 	return true
+}
+
+func Run(args []string, bx, web *rice.Box) (found bool) {
+	// Initialize resources
+	mc := app_msg_container_impl.NewContainer(bx)
+	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
+	cat := catalogue.Catalogue()
+
+	// Select recipe or group
+	cmd, grp, rcp, rem, err := cat.Select(args)
+
+	switch {
+	case err != nil:
+		if grp != nil {
+			grp.PrintUsage(ui)
+		} else {
+			cat.PrintUsage(ui)
+		}
+		os.Exit(app_control.FailureInvalidCommand)
+
+	case rcp == nil:
+		grp.PrintUsage(ui)
+		os.Exit(app_control.Success)
+	}
+
+	// Initialize recipe value object
+	cmdPath := make([]string, 0)
+	cmdPath = append(cmdPath, grp.Path...)
+	if cmd != "" {
+		cmdPath = append(cmdPath, cmd)
+	}
+	recipeName := strings.Join(cmdPath, " ")
+
+	switch r := rcp.(type) {
+	case app_recipe.SideCarRecipe:
+		return runSideCarRecipe(mc, ui, r, grp, recipeName, rem, bx, web)
+
+	default:
+		os.Exit(app_control.FailureGeneral)
+	}
+	return false
 }

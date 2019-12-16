@@ -14,10 +14,6 @@ import (
 	"strconv"
 )
 
-func Apply(ctl app_control.Control, fo fd_file.FeedObject) fd_file.FeedObject {
-	panic("implement me")
-}
-
 func NewData() fd_file.Feed {
 	return &CsvData{}
 }

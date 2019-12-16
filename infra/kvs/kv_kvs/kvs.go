@@ -23,5 +23,7 @@ type Kvs interface {
 	Nested(key string) (kvs Kvs, err error)
 	DeleteNested(key string) error
 
+	NextSequence() (uint64, error)
+
 	Cursor() kv_cursor.Cursor
 }

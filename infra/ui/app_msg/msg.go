@@ -15,9 +15,6 @@ type Message interface {
 	With(key string, value interface{}) Message
 }
 
-type MessageObject interface {
-}
-
 type messageImpl struct {
 	K string
 	P []P
@@ -76,15 +73,15 @@ func applyReflect(mot reflect.Type, mov reflect.Value) {
 				K: base + "." + strcase.ToSnake(kn),
 			}))
 
-		case mof.Type.Kind() == reflect.Ptr && mof.Type.Elem().Kind() == reflect.Struct:
-			v := reflect.New(mvf.Type().Elem())
-			applyReflect(v.Elem().Type(), v.Elem())
-			mvf.Set(v)
+			//case mof.Type.Kind() == reflect.Ptr && mof.Type.Elem().Kind() == reflect.Struct:
+			//	v := reflect.New(mvf.Type().Elem())
+			//	applyReflect(v.Elem().Type(), v.Elem())
+			//	mvf.Set(v)
 		}
 	}
 }
 
-func Apply(mo MessageObject) MessageObject {
+func Apply(mo interface{}) interface{} {
 	mot := reflect.TypeOf(mo)
 	mov := reflect.ValueOf(mo)
 	if mot.Kind() == reflect.Ptr {
@@ -93,6 +90,5 @@ func Apply(mo MessageObject) MessageObject {
 	}
 
 	applyReflect(mot, mov)
-
 	return mo
 }

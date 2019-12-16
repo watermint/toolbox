@@ -164,7 +164,7 @@ func (z *WebHandler) findRecipe(cmd string) (grp *app_recipe_group.Group, rcp ap
 	return
 }
 
-func (z *WebHandler) recipeRequirements(rcp app_recipe.Recipe) (conns map[string]string, paramTypes map[string]string, paramDefaults map[string]interface{}) {
+func (z *WebHandler) recipeRequirements(rcp app_recipe.SideCarRecipe) (conns map[string]string, paramTypes map[string]string, paramDefaults map[string]interface{}) {
 	conns = make(map[string]string)
 	paramTypes = make(map[string]string)
 	paramDefaults = make(map[string]interface{})
@@ -346,7 +346,10 @@ func (z *WebHandler) Home(g *gin.Context) {
 
 		case rcp != nil:
 			// TODO: Breadcrumb list
-			z.renderRecipeConn(g, cmd, rcp, user, uc)
+			switch scr := rcp.(type) {
+			case app_recipe.SideCarRecipe:
+				z.renderRecipeConn(g, cmd, scr, user, uc)
+			}
 
 		case grp != nil:
 			// TODO: Breadcrumb list
@@ -367,116 +370,118 @@ func (z *WebHandler) Run(g *gin.Context) {
 		}
 		selectedConns := g.PostFormMap("Conn")
 
-		var vo interface{} = rcp.Requirement()
-		vc := app_vo_impl.NewValueContainer(vo)
+		switch scr := rcp.(type) {
+		case app_recipe.SideCarRecipe:
+			var vo interface{} = scr.Requirement()
+			vc := app_vo_impl.NewValueContainer(vo)
 
-		for k, v := range vc.Values {
-			if d, ok := v.(bool); ok {
-				vc.Values[k] = d
-			} else if _, ok := v.(app_conn.ConnBusinessInfo); ok {
-				if pn, ok := selectedConns[k]; ok {
-					vc.Values[k] = &app_conn_impl.ConnBusinessInfo{
-						PeerName: pn,
+			for k, v := range vc.Values {
+				if d, ok := v.(bool); ok {
+					vc.Values[k] = d
+				} else if _, ok := v.(app_conn.ConnBusinessInfo); ok {
+					if pn, ok := selectedConns[k]; ok {
+						vc.Values[k] = &app_conn_impl.ConnBusinessInfo{
+							PeerName: pn,
+						}
+					} else {
+						l.Debug("Unable to find required conn", zap.String("key", k))
 					}
-				} else {
-					l.Debug("Unable to find required conn", zap.String("key", k))
-				}
-			} else if _, ok := v.(app_conn.ConnBusinessFile); ok {
-				if pn, ok := selectedConns[k]; ok {
-					vc.Values[k] = &app_conn_impl.ConnBusinessFile{
-						PeerName: pn,
+				} else if _, ok := v.(app_conn.ConnBusinessFile); ok {
+					if pn, ok := selectedConns[k]; ok {
+						vc.Values[k] = &app_conn_impl.ConnBusinessFile{
+							PeerName: pn,
+						}
+					} else {
+						l.Debug("Unable to find required conn", zap.String("key", k))
 					}
-				} else {
-					l.Debug("Unable to find required conn", zap.String("key", k))
-				}
-			} else if _, ok := v.(app_conn.ConnBusinessAudit); ok {
-				if pn, ok := selectedConns[k]; ok {
-					vc.Values[k] = &app_conn_impl.ConnBusinessAudit{
-						PeerName: pn,
+				} else if _, ok := v.(app_conn.ConnBusinessAudit); ok {
+					if pn, ok := selectedConns[k]; ok {
+						vc.Values[k] = &app_conn_impl.ConnBusinessAudit{
+							PeerName: pn,
+						}
+					} else {
+						l.Debug("Unable to find required conn", zap.String("key", k))
 					}
-				} else {
-					l.Debug("Unable to find required conn", zap.String("key", k))
-				}
-			} else if _, ok := v.(app_conn.ConnBusinessMgmt); ok {
-				if pn, ok := selectedConns[k]; ok {
-					vc.Values[k] = &app_conn_impl.ConnBusinessMgmt{
-						PeerName: pn,
+				} else if _, ok := v.(app_conn.ConnBusinessMgmt); ok {
+					if pn, ok := selectedConns[k]; ok {
+						vc.Values[k] = &app_conn_impl.ConnBusinessMgmt{
+							PeerName: pn,
+						}
+					} else {
+						l.Debug("Unable to find required conn", zap.String("key", k))
 					}
-				} else {
-					l.Debug("Unable to find required conn", zap.String("key", k))
-				}
-			} else if _, ok := v.(app_conn.ConnUserFile); ok {
-				if pn, ok := selectedConns[k]; ok {
-					vc.Values[k] = &app_conn_impl.ConnUserFile{
-						PeerName: pn,
+				} else if _, ok := v.(app_conn.ConnUserFile); ok {
+					if pn, ok := selectedConns[k]; ok {
+						vc.Values[k] = &app_conn_impl.ConnUserFile{
+							PeerName: pn,
+						}
+					} else {
+						l.Debug("Unable to find required conn", zap.String("key", k))
 					}
-				} else {
-					l.Debug("Unable to find required conn", zap.String("key", k))
 				}
 			}
-		}
 
-		vc.Apply(vo)
+			vc.Apply(vo)
 
-		jws, err := app_workspace.NewMultiJob(user.Workspace())
-		if err != nil {
-			l.Debug("Unable to create new Job workspace", zap.Error(err))
-			g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
-			return
-		}
-
-		wuiLogPath := filepath.Join(jws.Log(), "webui.log")
-		l.Debug("Create web ui log file", zap.String("path", wuiLogPath))
-		wuiLog, err := os.Create(wuiLogPath)
-		if err != nil {
-			l.Debug("Unable to create web ui log file", zap.String("path", wuiLogPath), zap.Error(err))
-			g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
-			return
-		}
-
-		linkForLocalFile := func(path string) string {
-			rel, err := filepath.Rel(jws.Job(), path)
+			jws, err := app_workspace.NewMultiJob(user.Workspace())
 			if err != nil {
-				l.Warn("Unable to calc rel path", zap.Error(err))
-				return ""
-			}
-			p := base64.URLEncoding.EncodeToString([]byte(rel))
-			return fmt.Sprintf("%s/%s/%s/%s", WebPathJobArtifact, cmd, jws.JobId(), p)
-		}
-
-		wui := app_ui.NewWeb(uc.UI(), wuiLog, linkForLocalFile)
-		if muc, ok := uc.(*app_control_impl.Multi); !ok {
-			l.Debug("Control was not expected impl.")
-			g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
-			return
-		} else {
-			juc, err := muc.Fork(wui, jws)
-			if err != nil {
-				l.Debug("Unable to fork control for new job", zap.Error(err))
+				l.Debug("Unable to create new Job workspace", zap.Error(err))
 				g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
 				return
 			}
-			wj := &web_job.WebJobRun{
-				Name:      cmd,
-				JobId:     jws.JobId(),
-				Recipe:    rcp,
-				VO:        vo.(app_vo.ValueObject),
-				UC:        juc,
-				UiLogFile: wuiLog,
+
+			wuiLogPath := filepath.Join(jws.Log(), "webui.log")
+			l.Debug("Create web ui log file", zap.String("path", wuiLogPath))
+			wuiLog, err := os.Create(wuiLogPath)
+			if err != nil {
+				l.Debug("Unable to create web ui log file", zap.String("path", wuiLogPath), zap.Error(err))
+				g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
+				return
 			}
-			l.Debug("Enqueue Job", zap.String("name", cmd), zap.String("jobId", wj.JobId))
-			z.JobChan <- wj
 
-			g.HTML(
-				http.StatusOK,
-				WebPathRun,
-				gin.H{
-					"Recipe": cmd,
-					"JobId":  wj.JobId,
-				},
-			)
+			linkForLocalFile := func(path string) string {
+				rel, err := filepath.Rel(jws.Job(), path)
+				if err != nil {
+					l.Warn("Unable to calc rel path", zap.Error(err))
+					return ""
+				}
+				p := base64.URLEncoding.EncodeToString([]byte(rel))
+				return fmt.Sprintf("%s/%s/%s/%s", WebPathJobArtifact, cmd, jws.JobId(), p)
+			}
+
+			wui := app_ui.NewWeb(uc.UI(), wuiLog, linkForLocalFile)
+			if muc, ok := uc.(*app_control_impl.Multi); !ok {
+				l.Debug("Control was not expected impl.")
+				g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
+				return
+			} else {
+				juc, err := muc.Fork(wui, jws)
+				if err != nil {
+					l.Debug("Unable to fork control for new job", zap.Error(err))
+					g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
+					return
+				}
+				wj := &web_job.WebJobRun{
+					Name:      cmd,
+					JobId:     jws.JobId(),
+					Recipe:    rcp,
+					VO:        vo.(app_vo.ValueObject),
+					UC:        juc,
+					UiLogFile: wuiLog,
+				}
+				l.Debug("Enqueue Job", zap.String("name", cmd), zap.String("jobId", wj.JobId))
+				z.JobChan <- wj
+
+				g.HTML(
+					http.StatusOK,
+					WebPathRun,
+					gin.H{
+						"Recipe": cmd,
+						"JobId":  wj.JobId,
+					},
+				)
+			}
 		}
-
 	})
 }
 
@@ -605,7 +610,7 @@ func (z *WebHandler) Artifact(g *gin.Context) {
 	})
 }
 
-func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe.Recipe, user web_user.User, uc app_control.Control) {
+func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe.SideCarRecipe, user web_user.User, uc app_control.Control) {
 	l := z.Control.Log().With(zap.String("cmd", cmd))
 	reqConns, reqParams, _ := z.recipeRequirements(rcp)
 	selectedConns := g.PostFormMap("Conn")
@@ -680,7 +685,7 @@ func (z *WebHandler) renderRecipeParam(g *gin.Context) {
 	)
 }
 
-func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp app_recipe.Recipe, user web_user.User, uc app_control.Control) {
+func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp app_recipe.SideCarRecipe, user web_user.User, uc app_control.Control) {
 	l := z.Control.Log().With(zap.String("cmd", cmd))
 	reqConns, _, _ := z.recipeRequirements(rcp)
 

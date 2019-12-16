@@ -148,7 +148,7 @@ func (z *Commands) reportTable(rs rp_spec.ReportSpec) string {
 	return b.String()
 }
 
-func (z *Commands) Generate(r app_recipe.Recipe) error {
+func (z *Commands) Generate(r app_recipe.SideCarRecipe) error {
 	l := z.ctl.Log()
 	ui := z.ctl.UI()
 	mc := z.ctl.Messages()
@@ -224,8 +224,11 @@ func (z *Commands) GenerateAll() error {
 			continue
 		}
 
-		if err := z.Generate(r); err != nil {
-			return err
+		switch re := r.(type) {
+		case app_recipe.SideCarRecipe:
+			if err := z.Generate(re); err != nil {
+				return err
+			}
 		}
 	}
 	return nil

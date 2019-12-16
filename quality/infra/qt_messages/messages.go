@@ -48,9 +48,12 @@ func verifyGroup(g *app_recipe_group.Group, ui app_ui.UI) {
 }
 
 func verifyRecipe(g *app_recipe_group.Group, r app_recipe.Recipe, ui app_ui.UI) {
-	vo := r.Requirement()
-	f := flag.NewFlagSet("", flag.ContinueOnError)
-	vc := app_vo_impl.NewValueContainer(vo)
-	vc.MakeFlagSet(f, ui)
-	g.PrintRecipeUsage(ui, r, f)
+	switch re := r.(type) {
+	case app_recipe.SideCarRecipe:
+		vo := re.Requirement()
+		f := flag.NewFlagSet("", flag.ContinueOnError)
+		vc := app_vo_impl.NewValueContainer(vo)
+		vc.MakeFlagSet(f, ui)
+		g.PrintRecipeUsage(ui, re, f)
+	}
 }

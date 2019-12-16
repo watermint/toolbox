@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
-func ReportSpec(ui app_ui.UI, r app_recipe.Recipe) {
+func ReportSpec(ui app_ui.UI, r app_recipe.SideCarRecipe) {
 	specs := r.Reports()
 	if len(specs) < 1 {
 		return

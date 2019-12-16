@@ -25,6 +25,10 @@ type bboltWrapper struct {
 	bucket *bbolt.Bucket
 }
 
+func (z *bboltWrapper) NextSequence() (uint64, error) {
+	return z.bucket.NextSequence()
+}
+
 func (z *bboltWrapper) Nested(key string) (kvs kv_kvs.Kvs, err error) {
 	l := z.ctl.Log()
 	b := z.bucket.Bucket([]byte(key))

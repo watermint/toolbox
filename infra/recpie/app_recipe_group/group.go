@@ -65,7 +65,7 @@ func (z *Group) usageHeader(ui app_ui.UI, desc string) {
 	ui.Break()
 }
 
-func (z *Group) PrintRecipeUsage(ui app_ui.UI, rcp app_recipe.Recipe, f *flag.FlagSet) {
+func (z *Group) PrintRecipeUsage(ui app_ui.UI, rcp app_recipe.SideCarRecipe, f *flag.FlagSet) {
 	path, name := app_recipe.Path(rcp)
 	z.usageHeader(ui, app_recipe.Title(rcp).Key())
 

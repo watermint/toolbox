@@ -14,6 +14,3 @@ type ReportSpec interface {
 	Options() []rp_model.ReportOpt
 	Open(opts ...rp_model.ReportOpt) (rp_model.Report, error)
 }
-
-type ReportObject interface {
-}

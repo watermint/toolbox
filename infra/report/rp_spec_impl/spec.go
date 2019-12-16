@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_reflect"
 )
 
-func New(recipe app_recipe.Recipe, ctl app_control.Control) *Specs {
+func New(recipe app_recipe.SideCarRecipe, ctl app_control.Control) *Specs {
 	specs := make(map[string]rp_spec.ReportSpec)
 	for _, rs := range recipe.Reports() {
 		specs[rs.Name()] = rs
