@@ -26,9 +26,12 @@ func testGroup(g *rc_group.Group, ui app_ui.UI) {
 }
 
 func testRecipe(g *rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
-	vo := r.Requirement()
-	f := flag.NewFlagSet("", flag.ContinueOnError)
-	vc := rc_vo_impl.NewValueContainer(vo)
-	vc.MakeFlagSet(f, ui)
-	g.PrintRecipeUsage(ui, r, f)
+	switch scr := r.(type) {
+	case rc_recipe.SideCarRecipe:
+		vo := scr.Requirement()
+		f := flag.NewFlagSet("", flag.ContinueOnError)
+		vc := rc_vo_impl.NewValueContainer(vo)
+		vc.MakeFlagSet(f, ui)
+		g.PrintRecipeUsage(ui, r, f)
+	}
 }
