@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recpie/rc_group"
 	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -48,12 +48,13 @@ func verifyGroup(g *rc_group.Group, ui app_ui.UI) {
 }
 
 func verifyRecipe(g *rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
-	switch re := r.(type) {
-	case rc_recipe.SideCarRecipe:
-		vo := re.Requirement()
-		f := flag.NewFlagSet("", flag.ContinueOnError)
-		vc := rc_vo_impl.NewValueContainer(vo)
-		vc.MakeFlagSet(f, ui)
-		g.PrintRecipeUsage(ui, re, f)
+	f := flag.NewFlagSet("", flag.ContinueOnError)
+
+	spec := rc_spec.New(r)
+	if spec == nil {
+		// skip
+		return
 	}
+	spec.SetFlags(f, ui)
+	g.PrintRecipeUsage(ui, spec, f)
 }

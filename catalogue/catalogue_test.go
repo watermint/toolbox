@@ -4,7 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/infra/recpie/rc_group"
 	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
@@ -26,12 +26,12 @@ func testGroup(g *rc_group.Group, ui app_ui.UI) {
 }
 
 func testRecipe(g *rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
-	switch scr := r.(type) {
-	case rc_recipe.SideCarRecipe:
-		vo := scr.Requirement()
-		f := flag.NewFlagSet("", flag.ContinueOnError)
-		vc := rc_vo_impl.NewValueContainer(vo)
-		vc.MakeFlagSet(f, ui)
-		g.PrintRecipeUsage(ui, r, f)
+	f := flag.NewFlagSet("", flag.ContinueOnError)
+	spec := rc_spec.New(r)
+	if spec == nil {
+		// skip
+		return
 	}
+	spec.SetFlags(f, ui)
+	g.PrintRecipeUsage(ui, spec, f)
 }

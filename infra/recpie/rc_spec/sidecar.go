@@ -1,12 +1,16 @@
 package rc_spec
 
 import (
+	"flag"
+	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
 	"github.com/watermint/toolbox/infra/recpie/rc_vo_impl"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"sort"
 	"strings"
 )
@@ -20,6 +24,7 @@ func newSideCar(scr rc_recipe.SideCarRecipe) rc_recipe.Spec {
 	return &SpecSideCar{
 		scr:             scr,
 		scv:             newSideCarValue(vc),
+		vc:              vc,
 		name:            name,
 		cliPath:         cliPath,
 		connUsePersonal: usePersonal,
@@ -77,8 +82,13 @@ func authScopes(vc *rc_vo_impl.ValueContainer) (scopes []string, usePersonal, us
 }
 
 type SpecSideCarValue struct {
+	scr       rc_recipe.SideCarRecipe
 	vc        *rc_vo_impl.ValueContainer
 	valueKeys []string
+}
+
+func (z *SpecSideCarValue) SetFlags(f *flag.FlagSet, ui app_ui.UI) {
+	z.vc.MakeFlagSet(f, ui)
 }
 
 func (z *SpecSideCarValue) ValueNames() []string {
@@ -105,11 +115,26 @@ func (z *SpecSideCarValue) ValueCustomDefault(name string) app_msg.MessageOption
 type SpecSideCar struct {
 	scr             rc_recipe.SideCarRecipe
 	scv             rc_recipe.SpecValue
+	vc              *rc_vo_impl.ValueContainer
 	name            string
 	cliPath         string
 	connUsePersonal bool
 	connUseBusiness bool
 	connScopes      []string
+}
+
+func (z *SpecSideCar) SerializeValues() map[string]interface{} {
+	return z.vc.Serialize()
+}
+
+func (z *SpecSideCar) ApplyValues(ctl app_control.Control) (r rc_recipe.Recipe, k rc_kitchen.Kitchen) {
+	vo := z.scr.Requirement()
+	z.vc.Apply(vo)
+	return z.scr, rc_kitchen.NewKitchen(ctl, vo)
+}
+
+func (z *SpecSideCar) SetFlags(f *flag.FlagSet, ui app_ui.UI) {
+	z.scv.SetFlags(f, ui)
 }
 
 func (z *SpecSideCar) Name() string {

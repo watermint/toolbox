@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
-	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/network/nw_concurrency"
@@ -15,9 +14,8 @@ import (
 	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"github.com/watermint/toolbox/infra/network/nw_proxy"
 	"github.com/watermint/toolbox/infra/recpie/rc_group"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
@@ -29,28 +27,23 @@ import (
 	"os"
 	"os/signal"
 	"runtime"
-	"strings"
 	"syscall"
 )
 
-func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcp rc_recipe.SideCarRecipe, grp *rc_group.Group, recipeName string, rem []string, bx, web *rice.Box) (found bool) {
-	vo := rcp.Requirement()
-	f := flag.NewFlagSet(recipeName, flag.ContinueOnError)
-	com := app_opt.NewDefaultCommonOpts()
+func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.Spec, grp *rc_group.Group, rem []string, bx, web *rice.Box) (found bool) {
+	comSpec, com, cvc := rc_spec.NewCommonValue()
 
-	cvc := rc_vo_impl.NewValueContainer(com)
-	cvc.MakeFlagSet(f, ui)
+	f := flag.NewFlagSet(rcpSpec.CliPath(), flag.ContinueOnError)
 
-	vc := rc_vo_impl.NewValueContainer(vo)
-	vc.MakeFlagSet(f, ui)
+	comSpec.SetFlags(f, ui)
+	rcpSpec.SetFlags(f, ui)
 
 	err := f.Parse(rem)
 	rem2 := f.Args()
 	if err != nil || (len(rem2) > 0 && rem2[0] == "help") {
-		grp.PrintRecipeUsage(ui, rcp, f)
+		grp.PrintRecipeUsage(ui, rcpSpec, f)
 		os.Exit(app_control.FailureInvalidCommandFlags)
 	}
-	vc.Apply(vo)
 	cvc.Apply(com)
 
 	// Apply common flags
@@ -80,9 +73,9 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcp rc_recip
 	}
 	so = append(so, app_control.LowMemory(com.LowMemory))
 	so = append(so, app_control.Concurrency(com.Concurrency))
-	so = append(so, app_control.RecipeName(recipeName))
+	so = append(so, app_control.RecipeName(rcpSpec.CliPath()))
 	so = append(so, app_control.CommonOptions(cvc.Serialize()))
-	so = append(so, app_control.RecipeOptions(vc.Serialize()))
+	so = append(so, app_control.RecipeOptions(rcpSpec.SerializeValues()))
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.Recipes())
 	err = ctl.Up(so...)
@@ -192,9 +185,11 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcp rc_recip
 	}
 
 	// Run
-	ctl.Log().Debug("Run recipe", zap.Any("vo", vo), zap.Any("common", com))
-	k := rc_kitchen.NewKitchen(ctl, vo)
-	err = rcp.Exec(k)
+	ctl.Log().Debug("Run recipe", zap.Any("vo", rcpSpec.SerializeValues()), zap.Any("common", com))
+	{
+		r, k := rcpSpec.ApplyValues(ctl)
+		err = r.Exec(k)
+	}
 
 	// Dump stats
 	ut_memory.DumpStats(ctl.Log())
@@ -217,7 +212,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	cat := catalogue.Catalogue()
 
 	// Select recipe or group
-	cmd, grp, rcp, rem, err := cat.Select(args)
+	_, grp, rcp, rem, err := cat.Select(args)
 
 	switch {
 	case err != nil:
@@ -233,20 +228,11 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 		os.Exit(app_control.Success)
 	}
 
-	// Initialize recipe value object
-	cmdPath := make([]string, 0)
-	cmdPath = append(cmdPath, grp.Path...)
-	if cmd != "" {
-		cmdPath = append(cmdPath, cmd)
+	spec := rc_spec.New(rcp)
+	if spec == nil {
+		ui.Error("run.error.recipe_spec_not_found")
+		return false
 	}
-	recipeName := strings.Join(cmdPath, " ")
 
-	switch r := rcp.(type) {
-	case rc_recipe.SideCarRecipe:
-		return runSideCarRecipe(mc, ui, r, grp, recipeName, rem, bx, web)
-
-	default:
-		os.Exit(app_control.FailureGeneral)
-	}
-	return false
+	return runSideCarRecipe(mc, ui, spec, grp, rem, bx, web)
 }

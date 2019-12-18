@@ -16,8 +16,8 @@ func New(rcp rc_recipe.Recipe) rc_recipe.Spec {
 	}
 }
 
-func NewCommonValue() rc_recipe.SpecValue {
-	co := app_opt.NewDefaultCommonOpts()
-	vc := rc_vo_impl.NewValueContainer(co)
-	return newSideCarValue(vc)
+func NewCommonValue() (sv rc_recipe.SpecValue, co *app_opt.CommonOpts, vc *rc_vo_impl.ValueContainer) {
+	co = app_opt.NewDefaultCommonOpts()
+	vc = rc_vo_impl.NewValueContainer(co)
+	return newSideCarValue(vc), co, vc
 }

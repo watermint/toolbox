@@ -117,6 +117,7 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 		l.Error("Unable to compile template", zap.Error(err))
 		return err
 	}
+	commonSpec, _, _ := rc_spec.NewCommonValue()
 
 	params := make(map[string]interface{})
 	params["Command"] = spec.CliPath()
@@ -125,7 +126,7 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 	params["CommandArgs"] = ui.TextOrEmpty(spec.CliArgs().Key())
 	params["CommandNote"] = ui.TextOrEmpty(spec.CliNote().Key())
 	params["Options"] = z.optionsTable(spec)
-	params["CommonOptions"] = z.optionsTable(rc_spec.NewCommonValue())
+	params["CommonOptions"] = z.optionsTable(commonSpec)
 	params["UseAuth"] = len(spec.ConnScopes()) > 0
 	params["UseAuthPersonal"] = spec.ConnUsePersonal()
 	params["UseAuthBusiness"] = spec.ConnUseBusiness()

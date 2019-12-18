@@ -5,7 +5,6 @@ import (
 	"errors"
 	"flag"
 	"github.com/watermint/toolbox/infra/app"
-	"github.com/watermint/toolbox/infra/recpie/rc_doc"
 	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
 	"github.com/watermint/toolbox/infra/recpie/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -66,35 +65,27 @@ func (z *Group) usageHeader(ui app_ui.UI, desc string) {
 	ui.Break()
 }
 
-func (z *Group) PrintRecipeUsage(ui app_ui.UI, rcp rc_recipe.Recipe, f *flag.FlagSet) {
-	switch scr := rcp.(type) {
-	case rc_recipe.SideCarRecipe:
-		path, name := rc_spec.Path(scr)
-		z.usageHeader(ui, rc_spec.Title(scr).Key())
+func (z *Group) PrintRecipeUsage(ui app_ui.UI, spec rc_recipe.Spec, f *flag.FlagSet) {
+	z.usageHeader(ui, spec.Title().Key())
 
-		recipeCliArgs := rc_spec.RecipeMessage(scr, ".cli.args")
+	ui.Header("run.recipe.header.usage")
+	ui.Info(
+		"run.recipe.usage",
+		app_msg.P{
+			"Exec":   os.Args[0],
+			"Recipe": spec.CliPath(),
+			"Args":   ui.TextOrEmpty(spec.CliArgs().Key()),
+		},
+	)
 
-		ui.Header("run.recipe.header.usage")
-		ui.Info(
-			"run.recipe.usage",
-			app_msg.P{
-				"Exec":   os.Args[0],
-				"Recipe": strings.Join(append(path, name), " "),
-				"Args":   ui.TextOrEmpty(recipeCliArgs.Key()),
-			},
-		)
+	ui.Break()
+	ui.Header("run.recipe.header.available_flags")
 
-		ui.Break()
-		ui.Header("run.recipe.header.available_flags")
-
-		buf := new(bytes.Buffer)
-		f.SetOutput(buf)
-		f.PrintDefaults()
-		ui.Info("raw", app_msg.P{"Raw": buf.String()})
-		ui.Break()
-
-		rc_doc.ReportSpec(ui, scr)
-	}
+	buf := new(bytes.Buffer)
+	f.SetOutput(buf)
+	f.PrintDefaults()
+	ui.Info("raw", app_msg.P{"Raw": buf.String()})
+	ui.Break()
 }
 
 func (z *Group) PrintUsage(ui app_ui.UI) {

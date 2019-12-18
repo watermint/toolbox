@@ -1,12 +1,14 @@
 package rc_recipe
 
 import (
+	"flag"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 const (
@@ -51,6 +53,9 @@ type SpecValue interface {
 
 	// Customized value default for the name
 	ValueCustomDefault(name string) app_msg.MessageOptional
+
+	// Configure CLI flags
+	SetFlags(f *flag.FlagSet, ui app_ui.UI)
 }
 
 type Spec interface {
@@ -85,4 +90,10 @@ type Spec interface {
 
 	// Returns array of scope of connections to Dropbox account(s)
 	ConnScopes() []string
+
+	// Apply values to the new recipe instance
+	ApplyValues(ctl app_control.Control) (rcp Recipe, k rc_kitchen.Kitchen)
+
+	// Serialize values
+	SerializeValues() map[string]interface{}
 }

@@ -446,6 +446,7 @@
   "run.console.progress": "{{.Label}}: Processing {{.Progress}} records",
   "run.error.interrupted.instruction": "Logs and reports are stored at: {{.JobPath}}",
   "run.error.interrupted": "Interrupted",
+  "run.error.recipe_spec_not_found": "Recipe specification not found",
   "run.error.unable_to_format_path": "Unable to format path with given variables: {{.Error}}",
   "run.error.panic.instruction": "Please see logs and reports for more detail",
   "run.error.panic": "The program finished with a fatal error",
