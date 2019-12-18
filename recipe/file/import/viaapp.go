@@ -17,10 +17,10 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/recpie/app_worker"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_worker"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -41,7 +41,7 @@ import (
 )
 
 type ViaAppVO struct {
-	Peer              app_conn.ConnUserFile
+	Peer              rc_conn.ConnUserFile
 	DropboxPath       string
 	LocalPath         string
 	PseudoDesktopPath string
@@ -148,14 +148,14 @@ type ViaAppReports struct {
 }
 
 type ViaAppQueues struct {
-	qLocalScanner app_worker.Queue
-	qDbxScanner   app_worker.Queue
-	qCopier       app_worker.Queue
-	qMover        app_worker.Queue
+	qLocalScanner rc_worker.Queue
+	qDbxScanner   rc_worker.Queue
+	qCopier       rc_worker.Queue
+	qMover        rc_worker.Queue
 }
 
 type ViaAppLocalScannerWorker struct {
-	k            app_kitchen.Kitchen
+	k            rc_kitchen.Kitchen
 	ctx          api_context.Context
 	htr          *ViaAppHashToRel
 	vo           *ViaAppVO
@@ -165,7 +165,7 @@ type ViaAppLocalScannerWorker struct {
 	curLocalPath string
 }
 
-func viaAppEnqueueLocalScanner(k app_kitchen.Kitchen,
+func viaAppEnqueueLocalScanner(k rc_kitchen.Kitchen,
 	ctx api_context.Context,
 	htr *ViaAppHashToRel,
 	vo *ViaAppVO,
@@ -278,7 +278,7 @@ func (z *ViaAppLocalScannerWorker) Exec() error {
 	return nil
 }
 
-func viaAppEnqueueDbxScanner(k app_kitchen.Kitchen,
+func viaAppEnqueueDbxScanner(k rc_kitchen.Kitchen,
 	ctx api_context.Context,
 	htr *ViaAppHashToRel,
 	vo *ViaAppVO,
@@ -310,7 +310,7 @@ func viaAppEnqueueDbxScanner(k app_kitchen.Kitchen,
 }
 
 type ViaAppDbxScannerWorker struct {
-	k            app_kitchen.Kitchen
+	k            rc_kitchen.Kitchen
 	ctx          api_context.Context
 	htr          *ViaAppHashToRel
 	vo           *ViaAppVO
@@ -401,7 +401,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 }
 
 func viaAppEnqueueCopier(
-	k app_kitchen.Kitchen,
+	k rc_kitchen.Kitchen,
 	ctx api_context.Context,
 	htr *ViaAppHashToRel,
 	vo *ViaAppVO,
@@ -432,7 +432,7 @@ func viaAppEnqueueCopier(
 }
 
 type ViaAppCopierWorker struct {
-	k      app_kitchen.Kitchen
+	k      rc_kitchen.Kitchen
 	ctx    api_context.Context
 	htr    *ViaAppHashToRel
 	vo     *ViaAppVO
@@ -528,7 +528,7 @@ func (z *ViaAppCopierWorker) Exec() error {
 }
 
 func viaAppEnqueueMover(
-	k app_kitchen.Kitchen,
+	k rc_kitchen.Kitchen,
 	ctx api_context.Context,
 	htr *ViaAppHashToRel,
 	vo *ViaAppVO,
@@ -559,7 +559,7 @@ func viaAppEnqueueMover(
 }
 
 type ViaAppMoverWorker struct {
-	k      app_kitchen.Kitchen
+	k      rc_kitchen.Kitchen
 	ctx    api_context.Context
 	htr    *ViaAppHashToRel
 	vo     *ViaAppVO
@@ -604,7 +604,7 @@ func (z *ViaAppMoverWorker) Exec() error {
 }
 
 type ViaAppWatcher struct {
-	k    app_kitchen.Kitchen
+	k    rc_kitchen.Kitchen
 	ctx  api_context.Context
 	htr  *ViaAppHashToRel
 	vo   *ViaAppVO
@@ -662,11 +662,11 @@ func (ViaApp) Hidden() {
 func (ViaApp) Console() {
 }
 
-func (z *ViaApp) Requirement() app_vo.ValueObject {
+func (z *ViaApp) Requirement() rc_vo.ValueObject {
 	return &ViaAppVO{}
 }
 
-func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
+func (z *ViaApp) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*ViaAppVO)
 	l := k.Log()
 
@@ -846,7 +846,7 @@ func (z *ViaApp) Test(c app_control.Control) error {
 	vo.PseudoDesktopPath = pseudoDesktop
 	vo.DropboxPath = "/" + qt_recipe.TestTeamFolderName + "/" + time.Now().Format("2006-01-02T15-04-05")
 
-	if err = z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
+	if err = z.Exec(rc_kitchen.NewKitchen(c, vo)); err != nil {
 		return err
 	}
 
@@ -884,7 +884,7 @@ type ViaAppPseudoDesktop struct {
 	ctx             api_context.Context
 	specs           *rp_spec_impl.Specs
 	st              *ViaAppStates
-	k               app_kitchen.Kitchen
+	k               rc_kitchen.Kitchen
 }
 
 func (z *ViaAppPseudoDesktop) Run() {

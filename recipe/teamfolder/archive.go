@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -16,7 +16,7 @@ import (
 )
 
 type ArchiveVO struct {
-	Peer app_conn.ConnBusinessFile
+	Peer rc_conn.ConnBusinessFile
 	Name string
 }
 
@@ -30,11 +30,11 @@ func (z *Archive) Reports() []rp_spec.ReportSpec {
 func (z *Archive) Console() {
 }
 
-func (z *Archive) Requirement() app_vo.ValueObject {
+func (z *Archive) Requirement() rc_vo.ValueObject {
 	return &ArchiveVO{}
 }
 
-func (z *Archive) Exec(k app_kitchen.Kitchen) error {
+func (z *Archive) Exec(k rc_kitchen.Kitchen) error {
 	ui := k.UI()
 	vo := k.Value().(*ArchiveVO)
 
@@ -95,13 +95,13 @@ func (z *Archive) Test(c app_control.Control) error {
 	// should fail
 	{
 		vo.Name = ""
-		if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err == nil {
+		if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err == nil {
 			return errors.New("empty name should fail")
 		}
 	}
 	{
 		vo.Name = "No existent"
-		if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err == nil {
+		if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err == nil {
 			return errors.New("non exist team folder name should fail")
 		}
 	}

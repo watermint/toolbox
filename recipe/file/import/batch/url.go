@@ -8,9 +8,9 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -19,7 +19,7 @@ import (
 )
 
 type UrlVO struct {
-	Peer app_conn.ConnUserFile
+	Peer rc_conn.ConnUserFile
 	Data fd_file.Feed
 	Path string
 }
@@ -68,11 +68,11 @@ func (z *Url) Reports() []rp_spec.ReportSpec {
 	}
 }
 
-func (z *Url) Requirement() app_vo.ValueObject {
+func (z *Url) Requirement() rc_vo.ValueObject {
 	return &UrlVO{}
 }
 
-func (z *Url) Exec(k app_kitchen.Kitchen) error {
+func (z *Url) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*UrlVO)
 	ui := k.UI()
 

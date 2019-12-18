@@ -7,8 +7,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/infra/recpie/app_worker"
-	"github.com/watermint/toolbox/infra/recpie/app_worker_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_worker"
+	"github.com/watermint/toolbox/infra/recpie/rc_worker_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -44,8 +44,8 @@ func (z *mockControl) TestResource(key string) (data gjson.Result, found bool) {
 	return gjson.Parse("{}"), false
 }
 
-func (z *mockControl) NewQueue() app_worker.Queue {
-	return app_worker_impl.NewQueue(z, 1)
+func (z *mockControl) NewQueue() rc_worker.Queue {
+	return rc_worker_impl.NewQueue(z, 1)
 }
 
 func (z *mockControl) IsProduction() bool {

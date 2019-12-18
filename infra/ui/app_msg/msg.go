@@ -13,6 +13,12 @@ type Message interface {
 	Key() string
 	Params() []P
 	With(key string, value interface{}) Message
+	AsOptional() MessageOptional
+}
+
+type MessageOptional interface {
+	Message
+	Optional()
 }
 
 type messageImpl struct {
@@ -30,11 +36,51 @@ func (z *messageImpl) With(key string, value interface{}) Message {
 	}
 }
 
+func (z *messageImpl) AsOptional() MessageOptional {
+	return &messageOptionalImpl{
+		K: z.K,
+		P: z.P,
+	}
+}
+
 func (z *messageImpl) Key() string {
 	return z.K
 }
 
 func (z *messageImpl) Params() []P {
+	return z.P
+}
+
+type messageOptionalImpl struct {
+	K string
+	P []P
+}
+
+func (z *messageOptionalImpl) Optional() {
+}
+
+func (z *messageOptionalImpl) AsOptional() MessageOptional {
+	return &messageOptionalImpl{
+		K: z.K,
+		P: z.P,
+	}
+}
+
+func (z *messageOptionalImpl) With(key string, value interface{}) Message {
+	np := make([]P, 0)
+	np = append(np, P{key: value})
+	np = append(np, z.P...)
+	return &messageOptionalImpl{
+		K: z.K,
+		P: np,
+	}
+}
+
+func (z *messageOptionalImpl) Key() string {
+	return z.K
+}
+
+func (z *messageOptionalImpl) Params() []P {
 	return z.P
 }
 

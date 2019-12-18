@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/file"
 	filecompare "github.com/watermint/toolbox/recipe/file/compare"
@@ -104,7 +104,7 @@ func TestFileUploadScenario(t *testing.T) {
 				l.Warn("Skip: No conn resource")
 				return
 			}
-			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
 				t.Error(err)
 			}
 
@@ -127,7 +127,7 @@ func TestFileUploadScenario(t *testing.T) {
 				l.Warn("Skip: No conn resource")
 				return
 			}
-			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
 				t.Error(err)
 			}
 
@@ -150,7 +150,7 @@ func TestFileUploadScenario(t *testing.T) {
 				l.Warn("Skip: No conn resource")
 				return
 			}
-			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
 				t.Error(err)
 			}
 
@@ -177,7 +177,7 @@ func TestFileUploadScenario(t *testing.T) {
 				l.Warn("Skip: No conn resource")
 				return
 			}
-			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
 				t.Error(err)
 			}
 			// TODO: verify result
@@ -198,7 +198,7 @@ func TestFileUploadScenario(t *testing.T) {
 				l.Warn("Skip: No conn resource")
 				return
 			}
-			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
 				t.Error(err)
 			}
 			testSkip(fc, "skip", scenario.LocalPath)
@@ -219,7 +219,7 @@ func TestFileUploadScenario(t *testing.T) {
 				l.Warn("Skip: No conn resource")
 				return
 			}
-			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
 				t.Error(err)
 			}
 			//TODO: verify content
@@ -240,7 +240,7 @@ func TestFileUploadScenario(t *testing.T) {
 				l.Warn("Skip: No conn resource")
 				return
 			}
-			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
 				t.Error(err)
 			}
 			//TODO: verify content
@@ -261,7 +261,7 @@ func TestFileUploadScenario(t *testing.T) {
 				l.Warn("Skip: No conn resource")
 				return
 			}
-			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
 				t.Error(err)
 			}
 			//TODO: verify content
@@ -283,7 +283,7 @@ func TestFileUploadScenario(t *testing.T) {
 				l.Warn("Skip: No conn resource")
 				return
 			}
-			if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
+			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
 				t.Error(err)
 			}
 			//TODO: verify content

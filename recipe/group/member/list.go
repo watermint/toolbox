@@ -8,9 +8,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -21,7 +21,7 @@ import (
 )
 
 type ListVO struct {
-	Peer app_conn.ConnBusinessInfo
+	Peer rc_conn.ConnBusinessInfo
 }
 
 type ListWorker struct {
@@ -65,11 +65,11 @@ func (z *List) Reports() []rp_spec.ReportSpec {
 	}
 }
 
-func (*List) Requirement() app_vo.ValueObject {
+func (*List) Requirement() rc_vo.ValueObject {
 	return &ListVO{}
 }
 
-func (z *List) Exec(k app_kitchen.Kitchen) error {
+func (z *List) Exec(k rc_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	lvo := vo.(*ListVO)
 	connInfo, err := lvo.Peer.Connect(k.Control())
@@ -109,7 +109,7 @@ func (z *List) Test(c app_control.Control) error {
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
 		return qt_recipe.NotEnoughResource()
 	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "group_member", func(cols map[string]string) error {

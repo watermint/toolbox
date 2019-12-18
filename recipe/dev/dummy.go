@@ -7,8 +7,8 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
@@ -44,11 +44,11 @@ func (z *Dummy) Test(c app_control.Control) error {
 func (z *Dummy) Hidden() {
 }
 
-func (z *Dummy) Requirement() app_vo.ValueObject {
+func (z *Dummy) Requirement() rc_vo.ValueObject {
 	return &DummyVO{}
 }
 
-func (z *Dummy) Exec(k app_kitchen.Kitchen) error {
+func (z *Dummy) Exec(k rc_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	dvo := vo.(*DummyVO)
 	l := k.Log().With(zap.String("path", dvo.Path))
@@ -92,7 +92,7 @@ func (z *Dummy) Exec(k app_kitchen.Kitchen) error {
 	}
 }
 
-func (z *Dummy) create(k app_kitchen.Kitchen, base string, de *DummyEntry) error {
+func (z *Dummy) create(k rc_kitchen.Kitchen, base string, de *DummyEntry) error {
 	l := k.Log()
 
 	switch de.Tag {

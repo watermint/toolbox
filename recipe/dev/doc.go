@@ -3,8 +3,8 @@ package dev
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -36,7 +36,7 @@ func (z *Doc) Console() {
 func (z *Doc) Hidden() {
 }
 
-func (z *Doc) Requirement() app_vo.ValueObject {
+func (z *Doc) Requirement() rc_vo.ValueObject {
 	return &DocVO{
 		Test:        false,
 		Badge:       true,
@@ -45,7 +45,7 @@ func (z *Doc) Requirement() app_vo.ValueObject {
 	}
 }
 
-func (z *Doc) Exec(k app_kitchen.Kitchen) error {
+func (z *Doc) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*DocVO)
 	l := k.Log()
 	ctl := k.Control()
@@ -86,7 +86,7 @@ func (z *Doc) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Doc) Test(c app_control.Control) error {
-	return z.Exec(app_kitchen.NewKitchen(c, &DocVO{
+	return z.Exec(rc_kitchen.NewKitchen(c, &DocVO{
 		Test:     true,
 		Badge:    false,
 		Filename: "",

@@ -1,4 +1,4 @@
-package app_vo
+package rc_vo
 
 type ValueObject interface {
 }

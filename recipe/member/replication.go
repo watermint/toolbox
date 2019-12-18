@@ -4,9 +4,9 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_member_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -20,8 +20,8 @@ type ReplicationRow struct {
 }
 
 type ReplicationVO struct {
-	Src  app_conn.ConnBusinessFile
-	Dst  app_conn.ConnBusinessFile
+	Src  rc_conn.ConnBusinessFile
+	Dst  rc_conn.ConnBusinessFile
 	File fd_file.Feed
 }
 
@@ -44,11 +44,11 @@ func (z *Replication) Hidden() {
 func (z *Replication) Console() {
 }
 
-func (z *Replication) Requirement() app_vo.ValueObject {
+func (z *Replication) Requirement() rc_vo.ValueObject {
 	return &ReplicationVO{}
 }
 
-func (z *Replication) Exec(k app_kitchen.Kitchen) error {
+func (z *Replication) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*ReplicationVO)
 	ui := k.UI()
 

@@ -1,4 +1,4 @@
-package app_conn_impl
+package rc_conn_impl
 
 import (
 	"errors"
@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_context_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
 	"go.uber.org/zap"
 )
 
@@ -15,25 +15,25 @@ const (
 	DefaultPeerName = "default"
 )
 
-func NewConnBusinessMgmt() app_conn.ConnBusinessMgmt {
+func NewConnBusinessMgmt() rc_conn.ConnBusinessMgmt {
 	return &ConnBusinessMgmt{
 		PeerName: DefaultPeerName,
 	}
 }
 
-func NewConnBusinessInfo() app_conn.ConnBusinessInfo {
+func NewConnBusinessInfo() rc_conn.ConnBusinessInfo {
 	return &ConnBusinessInfo{
 		PeerName: DefaultPeerName,
 	}
 }
 
-func NewConnBusinessAudit() app_conn.ConnBusinessAudit {
+func NewConnBusinessAudit() rc_conn.ConnBusinessAudit {
 	return &ConnBusinessAudit{
 		PeerName: DefaultPeerName,
 	}
 }
 
-func NewConnBusinessFile() app_conn.ConnBusinessFile {
+func NewConnBusinessFile() rc_conn.ConnBusinessFile {
 	return &ConnBusinessFile{
 		PeerName: DefaultPeerName,
 	}

@@ -9,10 +9,10 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/recpie/app_worker_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_worker_impl"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -26,7 +26,7 @@ import (
 
 type AsyncVO struct {
 	RunConcurrently bool
-	Peer            app_conn.ConnBusinessInfo
+	Peer            rc_conn.ConnBusinessInfo
 }
 
 const (
@@ -81,11 +81,11 @@ func (z *Async) Reports() []rp_spec.ReportSpec {
 func (z *Async) Hidden() {
 }
 
-func (z *Async) Requirement() app_vo.ValueObject {
+func (z *Async) Requirement() rc_vo.ValueObject {
 	return &AsyncVO{}
 }
 
-func (z *Async) Exec(k app_kitchen.Kitchen) error {
+func (z *Async) Exec(k rc_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	lvo := vo.(*AsyncVO)
 	connInfo, err := lvo.Peer.Connect(k.Control())
@@ -109,7 +109,7 @@ func (z *Async) Exec(k app_kitchen.Kitchen) error {
 
 	// Launch additional routines (because only single routine running when the recipe
 	// run through test
-	qq := q.(*app_worker_impl.Queue)
+	qq := q.(*rc_worker_impl.Queue)
 	qq.Launch(4)
 
 	for _, group := range groups {
@@ -150,7 +150,7 @@ func (z *Async) Test(c app_control.Control) error {
 	// Non concurrent operation:
 	l.Info("Running single thread operation")
 	lvo.RunConcurrently = false
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
 	singleReportPath := filepath.Join(c.Workspace().Report(), lvo.reportName()+".csv")
@@ -158,7 +158,7 @@ func (z *Async) Test(c app_control.Control) error {
 	// Concurrent operation:
 	l.Info("Running multi thread operation")
 	lvo.RunConcurrently = true
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
 	concurrentReportPath := filepath.Join(c.Workspace().Report(), lvo.reportName()+".csv")

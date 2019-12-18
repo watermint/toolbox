@@ -4,15 +4,15 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_merge"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type MergeVO struct {
-	Peer                app_conn.ConnUserFile
+	Peer                rc_conn.ConnUserFile
 	From                string
 	To                  string
 	DryRun              bool
@@ -30,7 +30,7 @@ func (z *Merge) Reports() []rp_spec.ReportSpec {
 func (z *Merge) Console() {
 }
 
-func (z *Merge) Requirement() app_vo.ValueObject {
+func (z *Merge) Requirement() rc_vo.ValueObject {
 	return &MergeVO{
 		DryRun:              true,
 		KeepEmptyFolder:     false,
@@ -38,7 +38,7 @@ func (z *Merge) Requirement() app_vo.ValueObject {
 	}
 }
 
-func (z *Merge) Exec(k app_kitchen.Kitchen) error {
+func (z *Merge) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*MergeVO)
 
 	ctx, err := vo.Peer.Connect(k.Control())

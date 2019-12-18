@@ -9,10 +9,10 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_spec"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -25,7 +25,7 @@ import (
 )
 
 type ExternalIdVO struct {
-	Peer app_conn.ConnBusinessMgmt
+	Peer rc_conn.ConnBusinessMgmt
 	File fd_file.Feed
 }
 
@@ -44,11 +44,11 @@ type ExternalId struct {
 func (z *ExternalId) Console() {
 }
 
-func (z *ExternalId) Requirement() app_vo.ValueObject {
+func (z *ExternalId) Requirement() rc_vo.ValueObject {
 	return &ExternalIdVO{}
 }
 
-func (z *ExternalId) Exec(k app_kitchen.Kitchen) error {
+func (z *ExternalId) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*ExternalIdVO)
 	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
@@ -93,7 +93,7 @@ func (z *ExternalId) Exec(k app_kitchen.Kitchen) error {
 
 func (z *ExternalId) Test(c app_control.Control) error {
 	l := c.Log()
-	res, found := c.TestResource(app_recipe.Key(z))
+	res, found := c.TestResource(rc_spec.Key(z))
 	if !found || !res.IsArray() {
 		l.Debug("SKIP: Test resource not found")
 		return qt_recipe.NotEnoughResource()
@@ -138,7 +138,7 @@ func (z *ExternalId) Test(c app_control.Control) error {
 	// test
 	{
 		vo.File = fd_file_impl.NewTestData(dataFile)
-		lastErr := z.Exec(app_kitchen.NewKitchen(c, vo))
+		lastErr := z.Exec(rc_kitchen.NewKitchen(c, vo))
 
 		qt_recipe.TestRows(c, reportExternalId, func(cols map[string]string) error {
 			email := cols["email"]

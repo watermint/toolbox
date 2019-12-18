@@ -2,8 +2,8 @@ package kvs
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 )
 
@@ -18,7 +18,7 @@ func (z *Dump) Hidden() {
 	panic("implement me")
 }
 
-func (z *Dump) Exec(k app_kitchen.Kitchen) error {
+func (z *Dump) Exec(k rc_kitchen.Kitchen) error {
 	panic("implement me")
 }
 
@@ -26,7 +26,7 @@ func (z *Dump) Test(c app_control.Control) error {
 	panic("implement me")
 }
 
-func (z *Dump) Requirement() app_vo.ValueObject {
+func (z *Dump) Requirement() rc_vo.ValueObject {
 	panic("implement me")
 }
 

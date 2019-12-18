@@ -8,9 +8,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_usage"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -20,7 +20,7 @@ import (
 )
 
 type UsageVO struct {
-	Peer app_conn.ConnBusinessFile
+	Peer rc_conn.ConnBusinessFile
 }
 
 type UsageWorker struct {
@@ -62,11 +62,11 @@ func (z *Usage) Reports() []rp_spec.ReportSpec {
 	}
 }
 
-func (z *Usage) Requirement() app_vo.ValueObject {
+func (z *Usage) Requirement() rc_vo.ValueObject {
 	return &UsageVO{}
 }
 
-func (z *Usage) Exec(k app_kitchen.Kitchen) error {
+func (z *Usage) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*UsageVO)
 
 	ctx, err := vo.Peer.Connect(k.Control())
@@ -103,7 +103,7 @@ func (z *Usage) Test(c app_control.Control) error {
 	if !qt_recipe.ApplyTestPeers(c, vo) {
 		return qt_recipe.NotEnoughResource()
 	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "usage", func(cols map[string]string) error {

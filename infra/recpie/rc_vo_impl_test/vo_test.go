@@ -2,7 +2,7 @@ package app_vo_impl_test
 
 import (
 	"flag"
-	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"testing"
@@ -25,7 +25,7 @@ func TestMakeFlagSet(t *testing.T) {
 	f := flag.NewFlagSet("test", flag.ContinueOnError)
 
 	ui := app_ui.NewQuiet(app_msg_container_impl.Alt{})
-	vc := app_vo_impl.NewValueContainer(vo)
+	vc := rc_vo_impl.NewValueContainer(vo)
 	vc.MakeFlagSet(f, ui)
 
 	err := f.Parse([]string{"-recursive", "-non-recursive=false", "-depth", "4", "-filter", "haystack"})

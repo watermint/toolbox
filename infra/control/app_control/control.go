@@ -3,7 +3,7 @@ package app_control
 import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/infra/recpie/app_worker"
+	"github.com/watermint/toolbox/infra/recpie/rc_worker"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_template"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -30,7 +30,7 @@ type Control interface {
 	IsSecure() bool
 	IsLowMemory() bool
 
-	NewQueue() app_worker.Queue
+	NewQueue() rc_worker.Queue
 }
 
 type ControlHttpFileSystem interface {

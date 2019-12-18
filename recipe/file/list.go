@@ -6,16 +6,16 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type ListVO struct {
-	Peer             app_conn.ConnUserFile
+	Peer             rc_conn.ConnUserFile
 	Path             string
 	Recursive        bool
 	IncludeDeleted   bool
@@ -35,11 +35,11 @@ func (z *List) Reports() []rp_spec.ReportSpec {
 	}
 }
 
-func (z *List) Requirement() app_vo.ValueObject {
+func (z *List) Requirement() rc_vo.ValueObject {
 	return &ListVO{}
 }
 
-func (z *List) Exec(k app_kitchen.Kitchen) error {
+func (z *List) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*ListVO)
 
 	ctx, err := vo.Peer.Connect(k.Control())
@@ -83,7 +83,7 @@ func (z *List) Test(c app_control.Control) error {
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
 		return qt_recipe.NotEnoughResource()
 	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "file", func(cols map[string]string) error {

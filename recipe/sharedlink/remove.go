@@ -6,9 +6,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -20,7 +20,7 @@ import (
 )
 
 type DeleteVO struct {
-	Peer      app_conn.ConnUserFile
+	Peer      rc_conn.ConnUserFile
 	Path      string
 	Recursive bool
 }
@@ -41,11 +41,11 @@ func (z *Delete) Reports() []rp_spec.ReportSpec {
 func (z *Delete) Console() {
 }
 
-func (z *Delete) Requirement() app_vo.ValueObject {
+func (z *Delete) Requirement() rc_vo.ValueObject {
 	return &DeleteVO{}
 }
 
-func (z *Delete) Exec(k app_kitchen.Kitchen) error {
+func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*DeleteVO)
 	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
@@ -59,7 +59,7 @@ func (z *Delete) Exec(k app_kitchen.Kitchen) error {
 	}
 }
 
-func (z *Delete) removePathAt(k app_kitchen.Kitchen, ctx api_context.Context, path string) error {
+func (z *Delete) removePathAt(k rc_kitchen.Kitchen, ctx api_context.Context, path string) error {
 	ui := k.UI()
 	l := k.Log()
 	links, err := sv_sharedlink.New(ctx).ListByPath(mo_path.NewPath(path))
@@ -96,7 +96,7 @@ func (z *Delete) removePathAt(k app_kitchen.Kitchen, ctx api_context.Context, pa
 	return lastErr
 }
 
-func (z *Delete) removeRecursive(k app_kitchen.Kitchen, ctx api_context.Context, path string) error {
+func (z *Delete) removeRecursive(k rc_kitchen.Kitchen, ctx api_context.Context, path string) error {
 	ui := k.UI()
 	l := k.Log().With(zap.String("path", path))
 	links, err := sv_sharedlink.New(ctx).List()

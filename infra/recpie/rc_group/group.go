@@ -1,12 +1,13 @@
-package app_recipe_group
+package rc_group
 
 import (
 	"bytes"
 	"errors"
 	"flag"
 	"github.com/watermint/toolbox/infra/app"
-	"github.com/watermint/toolbox/infra/recpie/app_doc"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
+	"github.com/watermint/toolbox/infra/recpie/rc_doc"
+	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
+	"github.com/watermint/toolbox/infra/recpie/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"os"
@@ -25,7 +26,7 @@ type Group struct {
 	Name      string
 	BasePkg   string
 	Path      []string
-	Recipes   map[string]app_recipe.Recipe
+	Recipes   map[string]rc_recipe.Recipe
 	SubGroups map[string]*Group
 }
 
@@ -33,12 +34,12 @@ func NewGroup(path []string, name string) *Group {
 	return &Group{
 		Name:      name,
 		Path:      path,
-		Recipes:   make(map[string]app_recipe.Recipe),
+		Recipes:   make(map[string]rc_recipe.Recipe),
 		SubGroups: make(map[string]*Group),
 	}
 }
 
-func (z *Group) addToPath(fullPath []string, relPath []string, name string, r app_recipe.Recipe) {
+func (z *Group) addToPath(fullPath []string, relPath []string, name string, r rc_recipe.Recipe) {
 	if len(relPath) > 0 {
 		p0 := relPath[0]
 		sg, ok := z.SubGroups[p0]
@@ -52,8 +53,8 @@ func (z *Group) addToPath(fullPath []string, relPath []string, name string, r ap
 	}
 }
 
-func (z *Group) Add(r app_recipe.Recipe) {
-	path, name := app_recipe.Path(r)
+func (z *Group) Add(r rc_recipe.Recipe) {
+	path, name := rc_spec.Path(r)
 
 	z.addToPath(path, path, name, r)
 }
@@ -65,32 +66,35 @@ func (z *Group) usageHeader(ui app_ui.UI, desc string) {
 	ui.Break()
 }
 
-func (z *Group) PrintRecipeUsage(ui app_ui.UI, rcp app_recipe.SideCarRecipe, f *flag.FlagSet) {
-	path, name := app_recipe.Path(rcp)
-	z.usageHeader(ui, app_recipe.Title(rcp).Key())
+func (z *Group) PrintRecipeUsage(ui app_ui.UI, rcp rc_recipe.Recipe, f *flag.FlagSet) {
+	switch scr := rcp.(type) {
+	case rc_recipe.SideCarRecipe:
+		path, name := rc_spec.Path(scr)
+		z.usageHeader(ui, rc_spec.Title(scr).Key())
 
-	recipeCliArgs := app_recipe.RecipeMessage(rcp, ".cli.args")
+		recipeCliArgs := rc_spec.RecipeMessage(scr, ".cli.args")
 
-	ui.Header("run.recipe.header.usage")
-	ui.Info(
-		"run.recipe.usage",
-		app_msg.P{
-			"Exec":   os.Args[0],
-			"Recipe": strings.Join(append(path, name), " "),
-			"Args":   ui.TextOrEmpty(recipeCliArgs.Key()),
-		},
-	)
+		ui.Header("run.recipe.header.usage")
+		ui.Info(
+			"run.recipe.usage",
+			app_msg.P{
+				"Exec":   os.Args[0],
+				"Recipe": strings.Join(append(path, name), " "),
+				"Args":   ui.TextOrEmpty(recipeCliArgs.Key()),
+			},
+		)
 
-	ui.Break()
-	ui.Header("run.recipe.header.available_flags")
+		ui.Break()
+		ui.Header("run.recipe.header.available_flags")
 
-	buf := new(bytes.Buffer)
-	f.SetOutput(buf)
-	f.PrintDefaults()
-	ui.Info("raw", app_msg.P{"Raw": buf.String()})
-	ui.Break()
+		buf := new(bytes.Buffer)
+		f.SetOutput(buf)
+		f.PrintDefaults()
+		ui.Info("raw", app_msg.P{"Raw": buf.String()})
+		ui.Break()
 
-	app_doc.ReportSpec(ui, rcp)
+		rc_doc.ReportSpec(ui, scr)
+	}
 }
 
 func (z *Group) PrintUsage(ui app_ui.UI) {
@@ -132,7 +136,7 @@ func (z *Group) CommandTitle(cmd string) app_msg.Message {
 
 func (z *Group) IsSecret() bool {
 	for _, r := range z.Recipes {
-		_, ok := r.(app_recipe.SecretRecipe)
+		_, ok := r.(rc_recipe.SecretRecipe)
 		if !ok {
 			return false
 		}
@@ -148,7 +152,7 @@ func (z *Group) AvailableCommands() (cmd []string) {
 		}
 	}
 	for n, r := range z.Recipes {
-		_, ok := r.(app_recipe.SecretRecipe)
+		_, ok := r.(rc_recipe.SecretRecipe)
 		if !ok {
 			cmd = append(cmd, n)
 		}
@@ -157,7 +161,7 @@ func (z *Group) AvailableCommands() (cmd []string) {
 	return
 }
 
-func (z *Group) Select(args []string) (name string, g *Group, r app_recipe.Recipe, remainder []string, err error) {
+func (z *Group) Select(args []string) (name string, g *Group, r rc_recipe.Recipe, remainder []string, err error) {
 	if len(args) < 1 {
 		return "", z, nil, args, nil
 	}

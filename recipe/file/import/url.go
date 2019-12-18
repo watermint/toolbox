@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file_url"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -15,7 +15,7 @@ import (
 )
 
 type UrlVO struct {
-	Peer app_conn.ConnUserFile
+	Peer rc_conn.ConnUserFile
 	Path string
 	Url  string
 }
@@ -36,11 +36,11 @@ func (z *Url) Reports() []rp_spec.ReportSpec {
 func (z *Url) Console() {
 }
 
-func (z *Url) Requirement() app_vo.ValueObject {
+func (z *Url) Requirement() rc_vo.ValueObject {
 	return &UrlVO{}
 }
 
-func (z *Url) Exec(k app_kitchen.Kitchen) error {
+func (z *Url) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*UrlVO)
 	ui := k.UI()
 
@@ -75,7 +75,7 @@ func (z *Url) Test(c app_control.Control) error {
 	if !qt_recipe.ApplyTestPeers(c, vo) {
 		return qt_recipe.NotEnoughResource()
 	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err != nil {
 		return err
 	}
 	return nil

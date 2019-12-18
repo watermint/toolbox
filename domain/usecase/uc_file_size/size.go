@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
 	"go.uber.org/zap"
 	"sync"
 )
@@ -18,7 +18,7 @@ type Scale interface {
 	Size(path mo_path.Path, depth int) (sizes map[mo_path.Path]mo_file_size.Size, errors map[mo_path.Path]error)
 }
 
-func New(ctx api_context.Context, k app_kitchen.Kitchen) Scale {
+func New(ctx api_context.Context, k rc_kitchen.Kitchen) Scale {
 	return &scaleImpl{
 		ctx: ctx,
 		k:   k,
@@ -66,7 +66,7 @@ func (z *sizeDict) add(path mo_path.Path, size mo_file_size.Size) {
 }
 
 type scaleWorker struct {
-	k        app_kitchen.Kitchen
+	k        rc_kitchen.Kitchen
 	ctx      api_context.Context
 	svc      sv_file.Files
 	keyPaths []mo_path.Path
@@ -149,7 +149,7 @@ func (z *scaleWorker) Exec() error {
 }
 
 type scaleImpl struct {
-	k   app_kitchen.Kitchen
+	k   rc_kitchen.Kitchen
 	ctx api_context.Context
 }
 

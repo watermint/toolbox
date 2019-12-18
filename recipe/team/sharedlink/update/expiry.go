@@ -9,9 +9,9 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -23,14 +23,14 @@ import (
 )
 
 type ExpiryVO struct {
-	Peer       app_conn.ConnBusinessFile
+	Peer       rc_conn.ConnBusinessFile
 	Days       int
 	At         string
 	Visibility string
 }
 
 type ExpiryScanWorker struct {
-	k          app_kitchen.Kitchen
+	k          rc_kitchen.Kitchen
 	ctl        app_control.Control
 	ctx        api_context.Context
 	rep        rp_model.Report
@@ -182,13 +182,13 @@ func (z Expiry) Reports() []rp_spec.ReportSpec {
 func (z Expiry) Console() {
 }
 
-func (z *Expiry) Requirement() app_vo.ValueObject {
+func (z *Expiry) Requirement() rc_vo.ValueObject {
 	return &ExpiryVO{
 		Visibility: "public",
 	}
 }
 
-func (z *Expiry) Exec(k app_kitchen.Kitchen) error {
+func (z *Expiry) Exec(k rc_kitchen.Kitchen) error {
 	ui := k.UI()
 	l := k.Log()
 	evo := k.Value().(*ExpiryVO)
@@ -262,13 +262,13 @@ func (z *Expiry) Exec(k app_kitchen.Kitchen) error {
 
 func (z *Expiry) Test(c app_control.Control) error {
 	// should fail
-	if err := z.Exec(app_kitchen.NewKitchen(c, &ExpiryVO{Days: 1, At: "2019-09-05T01:02:03Z"})); err == nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, &ExpiryVO{Days: 1, At: "2019-09-05T01:02:03Z"})); err == nil {
 		return errors.New("days and at should not be accepted same time")
 	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, &ExpiryVO{Days: -1})); err == nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, &ExpiryVO{Days: -1})); err == nil {
 		return errors.New("negative days should not be accepted")
 	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, &ExpiryVO{At: "Invalid time format"})); err == nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, &ExpiryVO{At: "Invalid time format"})); err == nil {
 		return errors.New("invalid time format should not be accepted")
 	}
 	return qt_recipe.ImplementMe()

@@ -8,8 +8,8 @@ import (
 	"github.com/skratchdot/open-golang/open"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/web/web_handler"
 	"github.com/watermint/toolbox/infra/web/web_job"
@@ -42,13 +42,13 @@ func (z *Web) Test(c app_control.Control) error {
 func (z *Web) Console() {
 }
 
-func (z *Web) Requirement() app_vo.ValueObject {
+func (z *Web) Requirement() rc_vo.ValueObject {
 	return &WebVO{
 		Port: webPort,
 	}
 }
 
-func (z *Web) Exec(k app_kitchen.Kitchen) error {
+func (z *Web) Exec(k rc_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	wvo := vo.(*WebVO)
 

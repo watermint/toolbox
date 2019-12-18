@@ -4,9 +4,9 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_activity"
 	"github.com/watermint/toolbox/domain/service/sv_activity"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -16,7 +16,7 @@ import (
 )
 
 type EventVO struct {
-	Peer      app_conn.ConnBusinessAudit
+	Peer      rc_conn.ConnBusinessAudit
 	StartDate string
 	EndDate   string
 	Category  string
@@ -35,11 +35,11 @@ func (z *Event) Reports() []rp_spec.ReportSpec {
 	}
 }
 
-func (z *Event) Requirement() app_vo.ValueObject {
+func (z *Event) Requirement() rc_vo.ValueObject {
 	return &EventVO{}
 }
 
-func (z *Event) Exec(k app_kitchen.Kitchen) error {
+func (z *Event) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*EventVO)
 	ui := k.UI()
 

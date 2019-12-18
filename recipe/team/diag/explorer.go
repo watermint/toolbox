@@ -2,10 +2,10 @@ package diag
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/group"
@@ -25,7 +25,7 @@ import (
 )
 
 type ExplorerVO struct {
-	Peer app_conn.ConnBusinessFile
+	Peer rc_conn.ConnBusinessFile
 	All  bool
 }
 
@@ -39,19 +39,19 @@ func (z *Explorer) Reports() []rp_spec.ReportSpec {
 	return []rp_spec.ReportSpec{}
 }
 
-func (z *Explorer) Requirement() app_vo.ValueObject {
+func (z *Explorer) Requirement() rc_vo.ValueObject {
 	return &ExplorerVO{}
 }
 
-func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
+func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*ExplorerVO)
 	l := k.Log()
-	pn := vo.Peer.(*app_conn_impl.ConnBusinessFile).PeerName
+	pn := vo.Peer.(*rc_conn_impl.ConnBusinessFile).PeerName
 	{
 		l.Info("Scanning info")
 		r := team.Info{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &team.InfoVO{
-			Peer: &app_conn_impl.ConnBusinessInfo{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &team.InfoVO{
+			Peer: &rc_conn_impl.ConnBusinessInfo{
 				PeerName: pn,
 			},
 		}))
@@ -64,8 +64,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning feature")
 		r := team.Feature{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &team.FeatureVO{
-			Peer: &app_conn_impl.ConnBusinessInfo{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &team.FeatureVO{
+			Peer: &rc_conn_impl.ConnBusinessInfo{
 				PeerName: pn,
 			},
 		}))
@@ -78,8 +78,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning group")
 		r := group.List{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &group.ListVO{
-			Peer: &app_conn_impl.ConnBusinessInfo{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &group.ListVO{
+			Peer: &rc_conn_impl.ConnBusinessInfo{
 				PeerName: pn,
 			},
 		}))
@@ -92,8 +92,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning group members")
 		r := groupmember.List{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &groupmember.ListVO{
-			Peer: &app_conn_impl.ConnBusinessInfo{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &groupmember.ListVO{
+			Peer: &rc_conn_impl.ConnBusinessInfo{
 				PeerName: pn,
 			},
 		}))
@@ -106,8 +106,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning members")
 		r := member.List{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &member.ListVO{
-			Peer: &app_conn_impl.ConnBusinessInfo{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &member.ListVO{
+			Peer: &rc_conn_impl.ConnBusinessInfo{
 				PeerName: pn,
 			},
 		}))
@@ -120,8 +120,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning member quota")
 		r := memberquota.List{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &memberquota.ListVO{
-			Peer: &app_conn_impl.ConnBusinessMgmt{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &memberquota.ListVO{
+			Peer: &rc_conn_impl.ConnBusinessMgmt{
 				PeerName: pn,
 			},
 		}))
@@ -134,8 +134,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning member usage")
 		r := memberquota.Usage{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &memberquota.UsageVO{
-			Peer: &app_conn_impl.ConnBusinessFile{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &memberquota.UsageVO{
+			Peer: &rc_conn_impl.ConnBusinessFile{
 				PeerName: pn,
 			},
 		}))
@@ -148,8 +148,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning devices")
 		r := teamdevice.List{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &teamdevice.ListVO{
-			Peer: &app_conn_impl.ConnBusinessFile{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &teamdevice.ListVO{
+			Peer: &rc_conn_impl.ConnBusinessFile{
 				PeerName: pn,
 			},
 		}))
@@ -162,8 +162,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning file requests")
 		r := teamfilerequest.List{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &teamfilerequest.ListVO{
-			Peer: &app_conn_impl.ConnBusinessFile{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &teamfilerequest.ListVO{
+			Peer: &rc_conn_impl.ConnBusinessFile{
 				PeerName: pn,
 			},
 		}))
@@ -176,8 +176,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning linked apps")
 		r := teamlinkedapp.List{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &teamlinkedapp.ListVO{
-			Peer: &app_conn_impl.ConnBusinessFile{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &teamlinkedapp.ListVO{
+			Peer: &rc_conn_impl.ConnBusinessFile{
 				PeerName: pn,
 			},
 		}))
@@ -190,8 +190,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning team folders")
 		r := teamfolder.List{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &teamfolder.ListVO{
-			Peer: &app_conn_impl.ConnBusinessFile{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &teamfolder.ListVO{
+			Peer: &rc_conn_impl.ConnBusinessFile{
 				PeerName: pn,
 			},
 		}))
@@ -204,8 +204,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning namespaces")
 		r := namespace.List{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &namespace.ListVO{
-			Peer: &app_conn_impl.ConnBusinessFile{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &namespace.ListVO{
+			Peer: &rc_conn_impl.ConnBusinessFile{
 				PeerName: pn,
 			},
 		}))
@@ -218,8 +218,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning namespace members")
 		r := namespacemember.List{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &namespacemember.ListVO{
-			Peer: &app_conn_impl.ConnBusinessFile{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &namespacemember.ListVO{
+			Peer: &rc_conn_impl.ConnBusinessFile{
 				PeerName: pn,
 			},
 		}))
@@ -232,8 +232,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 	{
 		l.Info("Scanning shared links")
 		r := teamsharedlink.List{}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), &teamsharedlink.ListVO{
-			Peer: &app_conn_impl.ConnBusinessFile{
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &teamsharedlink.ListVO{
+			Peer: &rc_conn_impl.ConnBusinessFile{
 				PeerName: pn,
 			},
 		}))
@@ -247,8 +247,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 		l.Info("Scanning namespace file list")
 		{
 			r := namespacefile.List{}
-			err := r.Exec(app_kitchen.NewKitchen(k.Control(), &namespacefile.ListVO{
-				Peer: &app_conn_impl.ConnBusinessFile{
+			err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &namespacefile.ListVO{
+				Peer: &rc_conn_impl.ConnBusinessFile{
 					PeerName: pn,
 				},
 				IncludeMemberFolder: true,
@@ -265,8 +265,8 @@ func (z *Explorer) Exec(k app_kitchen.Kitchen) error {
 		l.Info("Scanning namespace file size")
 		{
 			r := namespacefile.Size{}
-			err := r.Exec(app_kitchen.NewKitchen(k.Control(), &namespacefile.SizeVO{
-				Peer: &app_conn_impl.ConnBusinessFile{
+			err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &namespacefile.SizeVO{
+				Peer: &rc_conn_impl.ConnBusinessFile{
 					PeerName: pn,
 				},
 				IncludeMemberFolder: true,
@@ -291,7 +291,7 @@ func (z *Explorer) Test(c app_control.Control) error {
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
 		return qt_recipe.NotEnoughResource()
 	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
 	return nil

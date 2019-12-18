@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -15,8 +15,8 @@ import (
 )
 
 type AccountVO struct {
-	Left      app_conn.ConnUserFile
-	Right     app_conn.ConnUserFile
+	Left      rc_conn.ConnUserFile
+	Right     rc_conn.ConnUserFile
 	LeftPath  string
 	RightPath string
 }
@@ -37,11 +37,11 @@ func (z *Account) Reports() []rp_spec.ReportSpec {
 func (z *Account) Console() {
 }
 
-func (z *Account) Requirement() app_vo.ValueObject {
+func (z *Account) Requirement() rc_vo.ValueObject {
 	return &AccountVO{}
 }
 
-func (z *Account) Exec(k app_kitchen.Kitchen) error {
+func (z *Account) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*AccountVO)
 	ui := k.UI()
 

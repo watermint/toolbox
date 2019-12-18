@@ -3,15 +3,12 @@ package ut_doc
 import (
 	"bufio"
 	"bytes"
+	"errors"
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/control/app_opt"
-	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
+	"github.com/watermint/toolbox/infra/recpie/rc_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -36,42 +33,7 @@ type Commands struct {
 	path     string
 }
 
-func (z *Commands) authScopes(vo app_vo.ValueObject) (scopes []string, usePersonal, useBusiness bool) {
-	l := z.ctl.Log()
-	scopes = make([]string, 0)
-	sc := make(map[string]bool)
-
-	vc := app_vo_impl.NewValueContainer(vo)
-	for _, v := range vc.Values {
-		switch v0 := v.(type) {
-		case app_conn.ConnBusinessInfo:
-			l.Debug("business info", zap.Any("v0", v0))
-			sc["business_info"] = true
-			useBusiness = true
-		case app_conn.ConnBusinessMgmt:
-			sc["business_mgmt"] = true
-			useBusiness = true
-		case app_conn.ConnBusinessFile:
-			sc["business_file"] = true
-			useBusiness = true
-		case app_conn.ConnBusinessAudit:
-			sc["business_audit"] = true
-			useBusiness = true
-		case app_conn.ConnUserFile:
-			sc["user_file"] = true
-			usePersonal = true
-		}
-	}
-	for s := range sc {
-		scopes = append(scopes, s)
-	}
-	sort.Strings(scopes)
-
-	return scopes, usePersonal, useBusiness
-}
-
-func (z *Commands) optionsTable(vo app_vo.ValueObject) string {
-	l := z.ctl.Log()
+func (z *Commands) optionsTable(spec rc_recipe.SpecValue) string {
 	var b bytes.Buffer
 	w := bufio.NewWriter(&b)
 	mc := z.ctl.Messages()
@@ -85,34 +47,20 @@ func (z *Commands) optionsTable(vo app_vo.ValueObject) string {
 		app_msg.M("recipe.dev.doc.options.header.default"),
 	)
 
-	vc := app_vo_impl.NewValueContainer(vo)
-
-	if len(vc.Values) < 1 {
+	if len(spec.ValueNames()) < 1 {
 		return ""
 	}
 
-	keys := make([]string, 0)
-	for k := range vc.Values {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
-
-	for _, k := range keys {
-		vk := vc.MessageKey(k)
-		vd := vc.Values[k]
-		switch v := vd.(type) {
-		case fd_file.Feed:
-			l.Debug("Feed file", zap.Any("v", v))
-			vd = ""
+	for _, k := range spec.ValueNames() {
+		vd := spec.ValueDefault(k)
+		vkd := spec.ValueCustomDefault(k)
+		if mc.Exists(vkd.Key()) {
+			vd = mc.Text(vkd.Key())
 		}
 
-		vkd := vk + ".default"
-		if mc.Exists(vkd) {
-			vd = mc.Text(vkd)
-		}
 		mt.Row(
 			app_msg.M("recipe.dev.doc.options.body.option", app_msg.P{"Option": strcase.ToKebab(k)}),
-			app_msg.M(vc.MessageKey(k)),
+			spec.ValueDesc(k),
 			app_msg.M("raw", app_msg.P{"Raw": vd}),
 		)
 	}
@@ -148,53 +96,44 @@ func (z *Commands) reportTable(rs rp_spec.ReportSpec) string {
 	return b.String()
 }
 
-func (z *Commands) Generate(r app_recipe.SideCarRecipe) error {
+func (z *Commands) Generate(r rc_recipe.Recipe) error {
+	spec := rc_spec.New(r)
+	if spec == nil {
+		return errors.New("no spec defined for the recipe")
+	}
+
 	l := z.ctl.Log()
 	ui := z.ctl.UI()
-	mc := z.ctl.Messages()
 
-	path, name := app_recipe.Path(r)
-	path = append(path, name)
-	command := strings.Join(path, " ")
-
-	l.Info("Generating command manual", zap.String("command", command))
-
-	msgOrEmpty := func(m app_msg.Message) string {
-		if mc.Exists(m.Key()) {
-			return mc.Compile(m)
-		}
-		return ""
-	}
+	l.Info("Generating command manual", zap.String("command", spec.CliPath()))
 
 	tmplBytes, err := z.ctl.Resource("command.tmpl.md")
 	if err != nil {
 		l.Error("Template not found", zap.Error(err))
 		return err
 	}
-	tmpl, err := template.New(command).Funcs(msgFuncMap(z.ctl, z.toStdout)).Parse(string(tmplBytes))
+	tmpl, err := template.New(spec.CliPath()).Funcs(msgFuncMap(z.ctl, z.toStdout)).Parse(string(tmplBytes))
 	if err != nil {
 		l.Error("Unable to compile template", zap.Error(err))
 		return err
 	}
 
-	authScopes, usePersonal, useBusiness := z.authScopes(r.Requirement())
-
 	params := make(map[string]interface{})
-	params["Command"] = command
-	params["CommandTitle"] = ui.Text(app_recipe.Title(r).Key())
-	params["CommandDesc"] = msgOrEmpty(app_recipe.Desc(r))
-	params["CommandArgs"] = msgOrEmpty(app_recipe.RecipeMessage(r, "cli.args"))
-	params["CommandNote"] = msgOrEmpty(app_recipe.RecipeMessage(r, "cli.note"))
-	params["Options"] = z.optionsTable(r.Requirement())
-	params["CommonOptions"] = z.optionsTable(app_opt.NewDefaultCommonOpts())
-	params["UseAuth"] = len(authScopes) > 0
-	params["UseAuthPersonal"] = usePersonal
-	params["UseAuthBusiness"] = useBusiness
-	params["AuthScopes"] = authScopes
+	params["Command"] = spec.CliPath()
+	params["CommandTitle"] = ui.Text(spec.Title().Key())
+	params["CommandDesc"] = ui.TextOrEmpty(spec.Desc().Key())
+	params["CommandArgs"] = ui.TextOrEmpty(spec.CliArgs().Key())
+	params["CommandNote"] = ui.TextOrEmpty(spec.CliNote().Key())
+	params["Options"] = z.optionsTable(spec)
+	params["CommonOptions"] = z.optionsTable(rc_spec.NewCommonValue())
+	params["UseAuth"] = len(spec.ConnScopes()) > 0
+	params["UseAuthPersonal"] = spec.ConnUsePersonal()
+	params["UseAuthBusiness"] = spec.ConnUseBusiness()
+	params["AuthScopes"] = spec.ConnScopes()
 
 	reportNames := make([]string, 0)
 	reports := make(map[string]string, 0)
-	for _, rs := range r.Reports() {
+	for _, rs := range spec.Reports() {
 		reportNames = append(reportNames, rs.Name())
 		reports[rs.Name()] = z.reportTable(rs)
 	}
@@ -205,7 +144,7 @@ func (z *Commands) Generate(r app_recipe.SideCarRecipe) error {
 
 	out := os.Stdout
 	if !z.toStdout {
-		outPath := z.path + strings.Join(path, "-") + ".md"
+		outPath := z.path + strings.ReplaceAll(spec.CliPath(), " ", "-") + ".md"
 		out, err = os.Create(outPath)
 		if err != nil {
 			l.Error("Unable to create file", zap.Error(err), zap.String("outPath", outPath))
@@ -220,12 +159,12 @@ func (z *Commands) GenerateAll() error {
 	recipes := cl.Catalogue()
 
 	for _, r := range recipes {
-		if _, ok := r.(app_recipe.SecretRecipe); ok {
+		if _, ok := r.(rc_recipe.SecretRecipe); ok {
 			continue
 		}
 
 		switch re := r.(type) {
-		case app_recipe.SideCarRecipe:
+		case rc_recipe.SideCarRecipe:
 			if err := z.Generate(re); err != nil {
 				return err
 			}

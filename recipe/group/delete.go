@@ -4,9 +4,9 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -14,7 +14,7 @@ import (
 )
 
 type DeleteVO struct {
-	Peer app_conn.ConnBusinessMgmt
+	Peer rc_conn.ConnBusinessMgmt
 	Name string
 }
 
@@ -28,11 +28,11 @@ func (z *Delete) Reports() []rp_spec.ReportSpec {
 func (z *Delete) Console() {
 }
 
-func (z *Delete) Requirement() app_vo.ValueObject {
+func (z *Delete) Requirement() rc_vo.ValueObject {
 	return &DeleteVO{}
 }
 
-func (z *Delete) Exec(k app_kitchen.Kitchen) error {
+func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
 	ui := k.UI()
 	vo := k.Value().(*DeleteVO)
 
@@ -79,13 +79,13 @@ func (z *Delete) Test(c app_control.Control) error {
 	// should fail
 	{
 		vo.Name = ""
-		if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err == nil {
+		if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err == nil {
 			return errors.New("empty name should fail")
 		}
 	}
 	{
 		vo.Name = "No existent"
-		if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err == nil {
+		if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err == nil {
 			return errors.New("non exist group name should fail")
 		}
 	}

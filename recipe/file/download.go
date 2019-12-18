@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file_content"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -17,7 +17,7 @@ import (
 )
 
 type DownloadVO struct {
-	Peer        app_conn.ConnUserFile
+	Peer        rc_conn.ConnUserFile
 	DropboxPath string
 	LocalPath   string
 }
@@ -32,11 +32,11 @@ type Download struct {
 func (z *Download) Console() {
 }
 
-func (z *Download) Requirement() app_vo.ValueObject {
+func (z *Download) Requirement() rc_vo.ValueObject {
 	return &DownloadVO{}
 }
 
-func (z *Download) Exec(k app_kitchen.Kitchen) error {
+func (z *Download) Exec(k rc_kitchen.Kitchen) error {
 	l := k.Log()
 	vo := k.Value().(*DownloadVO)
 	ctx, err := vo.Peer.Connect(k.Control())

@@ -14,10 +14,10 @@ import (
 	"github.com/watermint/toolbox/infra/network/nw_diag"
 	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"github.com/watermint/toolbox/infra/network/nw_proxy"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
-	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_group"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
@@ -33,15 +33,15 @@ import (
 	"syscall"
 )
 
-func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcp app_recipe.SideCarRecipe, grp *app_recipe_group.Group, recipeName string, rem []string, bx, web *rice.Box) (found bool) {
+func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcp rc_recipe.SideCarRecipe, grp *rc_group.Group, recipeName string, rem []string, bx, web *rice.Box) (found bool) {
 	vo := rcp.Requirement()
 	f := flag.NewFlagSet(recipeName, flag.ContinueOnError)
 	com := app_opt.NewDefaultCommonOpts()
 
-	cvc := app_vo_impl.NewValueContainer(com)
+	cvc := rc_vo_impl.NewValueContainer(com)
 	cvc.MakeFlagSet(f, ui)
 
-	vc := app_vo_impl.NewValueContainer(vo)
+	vc := rc_vo_impl.NewValueContainer(vo)
 	vc.MakeFlagSet(f, ui)
 
 	err := f.Parse(rem)
@@ -161,7 +161,7 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcp app_reci
 	nw_proxy.SetHttpProxy(com.Proxy, ctl)
 
 	// App Header
-	app_recipe_group.AppHeader(ui)
+	rc_group.AppHeader(ui)
 
 	// Diagnosis
 	err = nw_diag.Runtime(ctl)
@@ -193,7 +193,7 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcp app_reci
 
 	// Run
 	ctl.Log().Debug("Run recipe", zap.Any("vo", vo), zap.Any("common", com))
-	k := app_kitchen.NewKitchen(ctl, vo)
+	k := rc_kitchen.NewKitchen(ctl, vo)
 	err = rcp.Exec(k)
 
 	// Dump stats
@@ -242,7 +242,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	recipeName := strings.Join(cmdPath, " ")
 
 	switch r := rcp.(type) {
-	case app_recipe.SideCarRecipe:
+	case rc_recipe.SideCarRecipe:
 		return runSideCarRecipe(mc, ui, r, grp, recipeName, rem, bx, web)
 
 	default:

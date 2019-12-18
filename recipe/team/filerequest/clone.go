@@ -8,9 +8,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -20,7 +20,7 @@ import (
 
 type CloneVO struct {
 	File fd_file.Feed
-	Peer app_conn.ConnBusinessFile
+	Peer rc_conn.ConnBusinessFile
 }
 
 const (
@@ -41,11 +41,11 @@ func (z *Clone) Reports() []rp_spec.ReportSpec {
 func (z *Clone) Hidden() {
 }
 
-func (z *Clone) Requirement() app_vo.ValueObject {
+func (z *Clone) Requirement() rc_vo.ValueObject {
 	return &CloneVO{}
 }
 
-func (z *Clone) Exec(k app_kitchen.Kitchen) error {
+func (z *Clone) Exec(k rc_kitchen.Kitchen) error {
 	cvo := k.Value().(*CloneVO)
 
 	conn, err := cvo.Peer.Connect(k.Control())

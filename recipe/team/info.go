@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_team"
 	"github.com/watermint/toolbox/domain/service/sv_team"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -31,7 +31,7 @@ func (z *Info) Test(c app_control.Control) error {
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
 		return qt_recipe.NotEnoughResource()
 	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "info", func(cols map[string]string) error {
@@ -43,14 +43,14 @@ func (z *Info) Test(c app_control.Control) error {
 }
 
 type InfoVO struct {
-	Peer app_conn.ConnBusinessInfo
+	Peer rc_conn.ConnBusinessInfo
 }
 
-func (z *Info) Requirement() app_vo.ValueObject {
+func (z *Info) Requirement() rc_vo.ValueObject {
 	return &InfoVO{}
 }
 
-func (z *Info) Exec(k app_kitchen.Kitchen) error {
+func (z *Info) Exec(k rc_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	lvo := vo.(*InfoVO)
 	conn, err := lvo.Peer.Connect(k.Control())

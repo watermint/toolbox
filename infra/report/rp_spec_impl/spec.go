@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
+	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_model_impl"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_reflect"
 )
 
-func New(recipe app_recipe.SideCarRecipe, ctl app_control.Control) *Specs {
+func New(recipe rc_recipe.SideCarRecipe, ctl app_control.Control) *Specs {
 	specs := make(map[string]rp_spec.ReportSpec)
 	for _, rs := range recipe.Reports() {
 		specs[rs.Name()] = rs
@@ -27,7 +27,7 @@ func New(recipe app_recipe.SideCarRecipe, ctl app_control.Control) *Specs {
 }
 
 type Specs struct {
-	recipe app_recipe.Recipe
+	recipe rc_recipe.Recipe
 	ctl    app_control.Control
 	specs  map[string]rp_spec.ReportSpec
 }

@@ -6,9 +6,9 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -19,7 +19,7 @@ import (
 type UnlinkVO struct {
 	DeleteOnUnlink bool
 	File           fd_file.Feed
-	Peer           app_conn.ConnBusinessFile
+	Peer           rc_conn.ConnBusinessFile
 }
 
 type UnlinkWorker struct {
@@ -68,11 +68,11 @@ func (z *Unlink) Reports() []rp_spec.ReportSpec {
 func (z *Unlink) Console() {
 }
 
-func (z *Unlink) Requirement() app_vo.ValueObject {
+func (z *Unlink) Requirement() rc_vo.ValueObject {
 	return &UnlinkVO{}
 }
 
-func (z *Unlink) Exec(k app_kitchen.Kitchen) error {
+func (z *Unlink) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*UnlinkVO)
 	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {

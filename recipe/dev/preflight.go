@@ -2,8 +2,8 @@ package dev
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"go.uber.org/zap"
@@ -22,21 +22,21 @@ func (z *Preflight) Hidden() {
 func (z *Preflight) Console() {
 }
 
-func (z *Preflight) Requirement() app_vo.ValueObject {
+func (z *Preflight) Requirement() rc_vo.ValueObject {
 	return &PreflightVO{
 		Test: false,
 	}
 }
 
 func (z *Preflight) Test(c app_control.Control) error {
-	return z.Exec(app_kitchen.NewKitchen(c, &PreflightVO{Test: true}))
+	return z.Exec(rc_kitchen.NewKitchen(c, &PreflightVO{Test: true}))
 }
 
 func (z *Preflight) Reports() []rp_spec.ReportSpec {
 	return []rp_spec.ReportSpec{}
 }
 
-func (z *Preflight) Exec(k app_kitchen.Kitchen) error {
+func (z *Preflight) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*PreflightVO)
 	l := k.Log()
 	{
@@ -50,7 +50,7 @@ func (z *Preflight) Exec(k app_kitchen.Kitchen) error {
 			Filename:       "README.md",
 			CommandPath:    "doc/generated/",
 		}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), rv))
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), rv))
 		if err != nil {
 			l.Error("Failed to generate documents", zap.Error(err))
 			return err
@@ -67,7 +67,7 @@ func (z *Preflight) Exec(k app_kitchen.Kitchen) error {
 			Filename:       "README_ja.md",
 			CommandPath:    "doc/generated_ja/",
 		}
-		err := r.Exec(app_kitchen.NewKitchen(k.Control(), rv))
+		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), rv))
 		if err != nil {
 			l.Error("Failed to generate documents", zap.Error(err))
 			return err

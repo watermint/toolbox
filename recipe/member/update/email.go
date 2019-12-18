@@ -13,10 +13,10 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_spec"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -28,7 +28,7 @@ import (
 )
 
 type EmailVO struct {
-	Peer             app_conn.ConnBusinessMgmt
+	Peer             rc_conn.ConnBusinessMgmt
 	File             fd_file.Feed
 	UpdateUnverified bool
 }
@@ -89,13 +89,13 @@ func (z *Email) Reports() []rp_spec.ReportSpec {
 	}
 }
 
-func (z *Email) Requirement() app_vo.ValueObject {
+func (z *Email) Requirement() rc_vo.ValueObject {
 	return &EmailVO{
 		UpdateUnverified: false,
 	}
 }
 
-func (z *Email) Exec(k app_kitchen.Kitchen) error {
+func (z *Email) Exec(k rc_kitchen.Kitchen) error {
 	l := k.Log()
 	vo := k.Value().(*EmailVO)
 	ctx, err := vo.Peer.Connect(k.Control())
@@ -161,7 +161,7 @@ func (z *Email) Exec(k app_kitchen.Kitchen) error {
 
 func (z *Email) Test(c app_control.Control) error {
 	l := c.Log()
-	res, found := c.TestResource(app_recipe.Key(z))
+	res, found := c.TestResource(rc_spec.Key(z))
 	if !found || !res.IsArray() {
 		l.Debug("SKIP: Test resource not found")
 		return qt_recipe.NotEnoughResource()
@@ -302,7 +302,7 @@ func (z *Email) Test(c app_control.Control) error {
 		vo.UpdateUnverified = true
 		vo.File = fd_file_impl.NewTestData(pathForward)
 
-		lastErr = z.Exec(app_kitchen.NewKitchen(c, vo))
+		lastErr = z.Exec(rc_kitchen.NewKitchen(c, vo))
 		if lastErr != nil {
 			l.Warn("Error in forward operation")
 		}
@@ -317,7 +317,7 @@ func (z *Email) Test(c app_control.Control) error {
 		vo.UpdateUnverified = true
 		vo.File = fd_file_impl.NewTestData(pathBackward)
 
-		lastErr = z.Exec(app_kitchen.NewKitchen(c, vo))
+		lastErr = z.Exec(rc_kitchen.NewKitchen(c, vo))
 		if lastErr != nil {
 			l.Warn("Error in backward operation")
 		}

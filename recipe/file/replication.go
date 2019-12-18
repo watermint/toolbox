@@ -6,9 +6,9 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -16,8 +16,8 @@ import (
 )
 
 type ReplicationVO struct {
-	Src     app_conn.ConnUserFile
-	Dst     app_conn.ConnUserFile
+	Src     rc_conn.ConnUserFile
+	Dst     rc_conn.ConnUserFile
 	SrcPath string
 	DstPath string
 }
@@ -38,11 +38,11 @@ func (z *Replication) Reports() []rp_spec.ReportSpec {
 func (z *Replication) Console() {
 }
 
-func (z *Replication) Requirement() app_vo.ValueObject {
+func (z *Replication) Requirement() rc_vo.ValueObject {
 	return &ReplicationVO{}
 }
 
-func (z *Replication) Exec(k app_kitchen.Kitchen) error {
+func (z *Replication) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*ReplicationVO)
 	ui := k.UI()
 

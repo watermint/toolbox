@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
@@ -26,11 +26,11 @@ func (z *License) Test(c app_control.Control) error {
 	return qt_recipe.NoTestRequired()
 }
 
-func (*License) Requirement() app_vo.ValueObject {
-	return &app_vo.EmptyValueObject{}
+func (*License) Requirement() rc_vo.ValueObject {
+	return &rc_vo.EmptyValueObject{}
 }
 
-func (z *License) Exec(k app_kitchen.Kitchen) error {
+func (z *License) Exec(k rc_kitchen.Kitchen) error {
 	ui := k.UI()
 	tbxLicense, otherLicenses, order, err := LoadLicense(k.Control())
 	if err != nil {

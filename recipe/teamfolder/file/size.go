@@ -2,15 +2,15 @@ package file
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/recipe/team/namespace/file"
 )
 
 type Size struct {
 }
 
-func (z *Size) Requirement() app_vo.ValueObject {
+func (z *Size) Requirement() rc_vo.ValueObject {
 	return &file.SizeVO{
 		IncludeSharedFolder: false,
 		IncludeTeamFolder:   true,
@@ -18,7 +18,7 @@ func (z *Size) Requirement() app_vo.ValueObject {
 	}
 }
 
-func (z *Size) Exec(k app_kitchen.Kitchen) error {
+func (z *Size) Exec(k rc_kitchen.Kitchen) error {
 	fs := file.Size{}
 	return fs.Exec(k)
 }

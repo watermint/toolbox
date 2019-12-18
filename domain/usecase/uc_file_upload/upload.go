@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -40,7 +40,7 @@ type UploadMO struct {
 	ProgressSummary app_msg.Message
 }
 
-func New(ctx api_context.Context, specs *rp_spec_impl.Specs, k app_kitchen.Kitchen, opt ...UploadOpt) Upload {
+func New(ctx api_context.Context, specs *rp_spec_impl.Specs, k rc_kitchen.Kitchen, opt ...UploadOpt) Upload {
 	mo := &UploadMO{}
 	app_msg.Apply(mo)
 	opts := &UploadOpts{
@@ -367,7 +367,7 @@ type uploadImpl struct {
 	specs *rp_spec_impl.Specs
 	opts  *UploadOpts
 	mo    *UploadMO
-	k     app_kitchen.Kitchen
+	k     rc_kitchen.Kitchen
 }
 
 func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (summary *UploadSummary, err error) {

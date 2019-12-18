@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file_relocation"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_relocation"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"path/filepath"
@@ -20,7 +20,7 @@ type Merge interface {
 	Merge(from, to mo_path.Path, opts ...MergeOpt) error
 }
 
-func New(ctx api_context.Context, k app_kitchen.Kitchen) Merge {
+func New(ctx api_context.Context, k rc_kitchen.Kitchen) Merge {
 	return &mergeImpl{
 		ctx: ctx,
 		k:   k,
@@ -55,7 +55,7 @@ func ClearEmptyFolder() MergeOpt {
 
 type mergeImpl struct {
 	ctx       api_context.Context
-	k         app_kitchen.Kitchen
+	k         rc_kitchen.Kitchen
 	from      mo_path.Path
 	fromEntry mo_file.Entry
 	to        mo_path.Path

@@ -6,9 +6,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_activity"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/util/ut_time"
@@ -18,7 +18,7 @@ import (
 )
 
 type EventVO struct {
-	Peer      app_conn.ConnBusinessAudit
+	Peer      rc_conn.ConnBusinessAudit
 	StartTime string
 	EndTime   string
 	Category  string
@@ -37,11 +37,11 @@ func (z *Event) Reports() []rp_spec.ReportSpec {
 	}
 }
 
-func (z *Event) Requirement() app_vo.ValueObject {
+func (z *Event) Requirement() rc_vo.ValueObject {
 	return &EventVO{}
 }
 
-func (z *Event) Exec(k app_kitchen.Kitchen) error {
+func (z *Event) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*EventVO)
 	l := k.Log()
 
@@ -95,7 +95,7 @@ func (z *Event) Test(c app_control.Control) error {
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
 		return qt_recipe.NotEnoughResource()
 	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "event", func(cols map[string]string) error {

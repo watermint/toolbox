@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_mount"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -16,8 +16,8 @@ import (
 )
 
 type PathVO struct {
-	PeerFile    app_conn.ConnBusinessFile
-	PeerAudit   app_conn.ConnBusinessFile
+	PeerFile    rc_conn.ConnBusinessFile
+	PeerAudit   rc_conn.ConnBusinessFile
 	MemberEmail string
 	Path        string
 }
@@ -31,11 +31,11 @@ func (z *Path) Hidden() {
 func (z *Path) Console() {
 }
 
-func (z *Path) Requirement() app_vo.ValueObject {
+func (z *Path) Requirement() rc_vo.ValueObject {
 	return &PathVO{}
 }
 
-func (z *Path) Exec(k app_kitchen.Kitchen) error {
+func (z *Path) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*PathVO)
 	l := k.Log()
 	cf, err := vo.PeerFile.Connect(k.Control())

@@ -1,18 +1,18 @@
-package app_worker_impl
+package rc_worker_impl
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_worker"
+	"github.com/watermint/toolbox/infra/recpie/rc_worker"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"go.uber.org/zap"
 	"sync"
 )
 
-func NewQueue(ctl app_control.Control, concurrency int) app_worker.Queue {
+func NewQueue(ctl app_control.Control, concurrency int) rc_worker.Queue {
 	q := &Queue{
 		ctl: ctl,
 		wg:  sync.WaitGroup{},
-		q:   make(chan app_worker.Worker),
+		q:   make(chan rc_worker.Worker),
 	}
 	q.Launch(concurrency)
 	return q
@@ -21,7 +21,7 @@ func NewQueue(ctl app_control.Control, concurrency int) app_worker.Queue {
 type Queue struct {
 	ctl         app_control.Control
 	wg          sync.WaitGroup
-	q           chan app_worker.Worker
+	q           chan rc_worker.Worker
 	numWorker   int
 	maxWorker   int
 	workerMutex sync.Mutex
@@ -59,7 +59,7 @@ func (z *Queue) Launch(concurrency int) {
 	go z.dequeue()
 }
 
-func (z *Queue) Enqueue(w app_worker.Worker) {
+func (z *Queue) Enqueue(w rc_worker.Worker) {
 	l := z.ctl.Log().With(zap.String("Routine", ut_runtime.GetGoRoutineName()))
 
 	z.workerMutex.Lock()

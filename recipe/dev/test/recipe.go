@@ -6,9 +6,10 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
+	"github.com/watermint/toolbox/infra/recpie/rc_spec"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
@@ -34,11 +35,11 @@ func (z *Recipe) Console() {
 func (z *Recipe) Hidden() {
 }
 
-func (z *Recipe) Requirement() app_vo.ValueObject {
+func (z *Recipe) Requirement() rc_vo.ValueObject {
 	return &RecipeVO{}
 }
 
-func (z *Recipe) Exec(k app_kitchen.Kitchen) error {
+func (z *Recipe) Exec(k rc_kitchen.Kitchen) error {
 	cl := k.Control().(app_control_launcher.ControlLauncher)
 	cat := cl.Catalogue()
 	l := k.Log()
@@ -69,9 +70,9 @@ func (z *Recipe) Exec(k app_kitchen.Kitchen) error {
 	switch {
 	case vo.All:
 		for _, r := range cat {
-			path, name := app_recipe.Path(r)
+			path, name := rc_spec.Path(r)
 			ll := l.With(zap.Strings("path", path), zap.String("name", name))
-			if _, ok := r.(app_recipe.SecretRecipe); ok {
+			if _, ok := r.(rc_recipe.SecretRecipe); ok {
 				ll.Info("Skip secret recipe")
 				continue
 			}
@@ -87,7 +88,7 @@ func (z *Recipe) Exec(k app_kitchen.Kitchen) error {
 
 	case vo.Recipe != "":
 		for _, r := range cat {
-			p := app_recipe.Key(r)
+			p := rc_spec.Key(r)
 			if p != vo.Recipe {
 				continue
 			}

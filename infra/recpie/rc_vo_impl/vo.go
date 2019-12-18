@@ -1,4 +1,4 @@
-package app_vo_impl
+package rc_vo_impl
 
 import (
 	"flag"
@@ -7,8 +7,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"reflect"
@@ -70,39 +70,39 @@ func (z *ValueContainer) From(vo interface{}) {
 					z.Values[kn] = fd_file_impl.NewData()
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessMgmt)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessMgmt)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = app_conn_impl.NewConnBusinessMgmt()
+					z.Values[kn] = rc_conn_impl.NewConnBusinessMgmt()
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessInfo)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessInfo)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = app_conn_impl.NewConnBusinessInfo()
+					z.Values[kn] = rc_conn_impl.NewConnBusinessInfo()
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessAudit)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessAudit)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = app_conn_impl.NewConnBusinessAudit()
+					z.Values[kn] = rc_conn_impl.NewConnBusinessAudit()
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessFile)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = app_conn_impl.NewConnBusinessFile()
+					z.Values[kn] = rc_conn_impl.NewConnBusinessFile()
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnUserFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnUserFile)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = app_conn_impl.NewConnUserFile()
+					z.Values[kn] = rc_conn_impl.NewConnUserFile()
 				}
 
 			default:
@@ -177,35 +177,35 @@ func (z *ValueContainer) Apply(vo interface{}) {
 					ll.Debug("Unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessMgmt)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessMgmt)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessInfo)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessInfo)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessFile)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnBusinessAudit)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessAudit)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*app_conn.ConnUserFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnUserFile)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
@@ -242,15 +242,15 @@ func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
 			f.StringVar(dv, kf, *dv, desc)
 		case *fd_file_impl.CsvData:
 			f.StringVar(&dv.FilePath, kf, dv.FilePath, desc)
-		case *app_conn_impl.ConnBusinessMgmt:
+		case *rc_conn_impl.ConnBusinessMgmt:
 			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)
-		case *app_conn_impl.ConnBusinessInfo:
+		case *rc_conn_impl.ConnBusinessInfo:
 			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)
-		case *app_conn_impl.ConnBusinessAudit:
+		case *rc_conn_impl.ConnBusinessAudit:
 			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)
-		case *app_conn_impl.ConnBusinessFile:
+		case *rc_conn_impl.ConnBusinessFile:
 			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)
-		case *app_conn_impl.ConnUserFile:
+		case *rc_conn_impl.ConnUserFile:
 			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)
 		}
 	}
@@ -268,15 +268,15 @@ func (z ValueContainer) Serialize() map[string]interface{} {
 			s[n] = *dv
 		case *fd_file_impl.CsvData:
 			s[n] = dv.FilePath
-		case *app_conn_impl.ConnBusinessMgmt:
+		case *rc_conn_impl.ConnBusinessMgmt:
 			s[n] = dv.PeerName
-		case *app_conn_impl.ConnBusinessInfo:
+		case *rc_conn_impl.ConnBusinessInfo:
 			s[n] = dv.PeerName
-		case *app_conn_impl.ConnBusinessAudit:
+		case *rc_conn_impl.ConnBusinessAudit:
 			s[n] = dv.PeerName
-		case *app_conn_impl.ConnBusinessFile:
+		case *rc_conn_impl.ConnBusinessFile:
 			s[n] = dv.PeerName
-		case *app_conn_impl.ConnUserFile:
+		case *rc_conn_impl.ConnUserFile:
 			s[n] = dv.PeerName
 		}
 	}

@@ -1,8 +1,8 @@
 package catalogue
 
 import (
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
+	"github.com/watermint/toolbox/infra/recpie/rc_group"
+	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
 	"github.com/watermint/toolbox/recipe"
 	"github.com/watermint/toolbox/recipe/dev"
 	devtest "github.com/watermint/toolbox/recipe/dev/test"
@@ -35,8 +35,8 @@ import (
 	"github.com/watermint/toolbox/recipe/teamfolder"
 )
 
-func Recipes() []app_recipe.Recipe {
-	return []app_recipe.Recipe{
+func Recipes() []rc_recipe.Recipe {
+	return []rc_recipe.Recipe{
 		&dev.Async{},
 		&dev.Doc{},
 		&dev.Dummy{},
@@ -105,8 +105,8 @@ func Recipes() []app_recipe.Recipe {
 	}
 }
 
-func Catalogue() *app_recipe_group.Group {
-	root := app_recipe_group.NewGroup([]string{}, "")
+func Catalogue() *rc_group.Group {
+	root := rc_group.NewGroup([]string{}, "")
 	for _, r := range Recipes() {
 		root.Add(r)
 	}

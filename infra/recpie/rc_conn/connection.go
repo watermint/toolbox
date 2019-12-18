@@ -1,4 +1,4 @@
-package app_conn
+package rc_conn
 
 import (
 	"github.com/watermint/toolbox/infra/api/api_context"

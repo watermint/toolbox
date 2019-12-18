@@ -11,11 +11,11 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -37,7 +37,7 @@ const (
 )
 
 // Returns conn if v & end to end peer exist. found = true when v is an interface of app_conn.ConnDropboxAPI
-func ApplyConn(v interface{}, c app_control.Control) (conn app_conn.ConnDropboxApi, found bool) {
+func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.ConnDropboxApi, found bool) {
 	l := c.Log()
 	a := api_auth_impl.NewCached(c, api_auth_impl.PeerName(EndToEndPeer))
 	if p, found := os.LookupEnv("TOOLBOX_SKIPENDTOENDTEST"); found {
@@ -47,49 +47,49 @@ func ApplyConn(v interface{}, c app_control.Control) (conn app_conn.ConnDropboxA
 		}
 	}
 
-	if _, ok := v.(app_conn.ConnBusinessInfo); ok {
+	if _, ok := v.(rc_conn.ConnBusinessInfo); ok {
 		if _, err := a.Auth(api_auth.DropboxTokenBusinessInfo); err != nil {
 			l.Info("BusinessInfo: Skip end to end test")
 			return nil, true
 		}
-		return &app_conn_impl.ConnBusinessInfo{
+		return &rc_conn_impl.ConnBusinessInfo{
 			PeerName: EndToEndPeer,
 		}, true
 	}
 
-	if _, ok := v.(app_conn.ConnBusinessFile); ok {
+	if _, ok := v.(rc_conn.ConnBusinessFile); ok {
 		if _, err := a.Auth(api_auth.DropboxTokenBusinessFile); err != nil {
 			l.Info("BusinessFile: Skip end to end test")
 			return nil, true
 		}
-		return &app_conn_impl.ConnBusinessFile{
+		return &rc_conn_impl.ConnBusinessFile{
 			PeerName: EndToEndPeer,
 		}, true
 	}
-	if _, ok := v.(app_conn.ConnBusinessAudit); ok {
+	if _, ok := v.(rc_conn.ConnBusinessAudit); ok {
 		if _, err := a.Auth(api_auth.DropboxTokenBusinessAudit); err != nil {
 			l.Info("BusinessAudit: Skip end to end test")
 			return nil, true
 		}
-		return &app_conn_impl.ConnBusinessAudit{
+		return &rc_conn_impl.ConnBusinessAudit{
 			PeerName: EndToEndPeer,
 		}, true
 	}
-	if _, ok := v.(app_conn.ConnBusinessMgmt); ok {
+	if _, ok := v.(rc_conn.ConnBusinessMgmt); ok {
 		if _, err := a.Auth(api_auth.DropboxTokenBusinessManagement); err != nil {
 			l.Info("BusinessManagement: Skip end to end test")
 			return nil, true
 		}
-		return &app_conn_impl.ConnBusinessMgmt{
+		return &rc_conn_impl.ConnBusinessMgmt{
 			PeerName: EndToEndPeer,
 		}, true
 	}
-	if _, ok := v.(app_conn.ConnUserFile); ok {
+	if _, ok := v.(rc_conn.ConnUserFile); ok {
 		if _, err := a.Auth(api_auth.DropboxTokenFull); err != nil {
 			l.Info("UserFull: Skip end to end test")
 			return nil, true
 		}
-		return &app_conn_impl.ConnUserFile{
+		return &rc_conn_impl.ConnUserFile{
 			PeerName: EndToEndPeer,
 		}, true
 	}
@@ -97,11 +97,11 @@ func ApplyConn(v interface{}, c app_control.Control) (conn app_conn.ConnDropboxA
 	return nil, false
 }
 
-func ApplyTestPeers(ctl app_control.Control, vo app_vo.ValueObject) bool {
+func ApplyTestPeers(ctl app_control.Control, vo rc_vo.ValueObject) bool {
 	l := ctl.Log()
 	l.Debug("Prepare for applying test peers")
 
-	vc := app_vo_impl.NewValueContainer(vo)
+	vc := rc_vo_impl.NewValueContainer(vo)
 	for k, v := range vc.Values {
 		if conn, found := ApplyConn(v, ctl); found {
 			l.Debug("Conn found for key", zap.String("k", k), zap.Bool("connApplied", conn != nil))
@@ -151,7 +151,7 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	bx, web, mc, ui := Resources(t)
 
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, make([]app_recipe.Recipe, 0))
+	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, make([]rc_recipe.Recipe, 0))
 	cs := ctl.(*app_control_impl.Single)
 	if res, found := findTestResource(); found {
 		var err error
@@ -197,7 +197,7 @@ func RecipeError(l *zap.Logger, err error) error {
 	}
 }
 
-func TestRecipe(t *testing.T, re app_recipe.Recipe) {
+func TestRecipe(t *testing.T, re rc_recipe.Recipe) {
 	nw_ratelimit.SetTestMode(true)
 	TestWithControl(t, func(ctl app_control.Control) {
 		l := ctl.Log()

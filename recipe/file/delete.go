@@ -5,16 +5,16 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type DeleteVO struct {
-	Peer app_conn.ConnUserFile
+	Peer rc_conn.ConnUserFile
 	Path string
 }
 
@@ -24,11 +24,11 @@ type Delete struct {
 func (z *Delete) Console() {
 }
 
-func (z *Delete) Requirement() app_vo.ValueObject {
+func (z *Delete) Requirement() rc_vo.ValueObject {
 	return &DeleteVO{}
 }
 
-func (z *Delete) Exec(k app_kitchen.Kitchen) error {
+func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*DeleteVO)
 	ui := k.UI()
 	ctx, err := vo.Peer.Connect(k.Control())

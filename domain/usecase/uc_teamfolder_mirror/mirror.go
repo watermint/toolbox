@@ -21,7 +21,7 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -183,7 +183,7 @@ func (z *mirrorContext) AdminDst() *mo_profile.Profile {
 	return z.MirrorAdminDst
 }
 
-func New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, k app_kitchen.Kitchen, rs *rp_spec_impl.Specs) TeamFolder {
+func New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, k rc_kitchen.Kitchen, rs *rp_spec_impl.Specs) TeamFolder {
 	return &teamFolderImpl{
 		ctxFileSrc:  ctxFileSrc,
 		ctxMgtSrc:   ctxMgtSrc,
@@ -199,7 +199,7 @@ type teamFolderImpl struct {
 	ctxFileDst  api_context.Context
 	ctxMgtSrc   api_context.Context
 	ctxMgtDst   api_context.Context
-	kitchen     app_kitchen.Kitchen
+	kitchen     rc_kitchen.Kitchen
 	reportSpecs *rp_spec_impl.Specs
 }
 

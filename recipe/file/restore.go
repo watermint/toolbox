@@ -9,9 +9,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file_revision"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -21,12 +21,12 @@ import (
 )
 
 type RestoreVO struct {
-	Peer app_conn.ConnUserFile
+	Peer rc_conn.ConnUserFile
 	Path string
 }
 
 type RestoreWorker struct {
-	k    app_kitchen.Kitchen
+	k    rc_kitchen.Kitchen
 	ctx  api_context.Context
 	rep  rp_model.Report
 	path mo_path.Path
@@ -83,11 +83,11 @@ type Restore struct {
 func (z *Restore) Console() {
 }
 
-func (z *Restore) Requirement() app_vo.ValueObject {
+func (z *Restore) Requirement() rc_vo.ValueObject {
 	return &RestoreVO{}
 }
 
-func (z *Restore) Exec(k app_kitchen.Kitchen) error {
+func (z *Restore) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*RestoreVO)
 	ui := k.UI()
 	ctx, err := vo.Peer.Connect(k.Control())

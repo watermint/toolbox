@@ -1,31 +1,31 @@
-package app_kitchen
+package rc_kitchen
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/recpie/app_worker"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_worker"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 )
 
 type Kitchen interface {
-	Value() app_vo.ValueObject
+	Value() rc_vo.ValueObject
 	Control() app_control.Control
 	UI() app_ui.UI
 	Log() *zap.Logger
-	NewQueue() app_worker.Queue
+	NewQueue() rc_worker.Queue
 }
 
 type kitchenImpl struct {
-	vo  app_vo.ValueObject
+	vo  rc_vo.ValueObject
 	ctl app_control.Control
 }
 
-func (z *kitchenImpl) NewQueue() app_worker.Queue {
+func (z *kitchenImpl) NewQueue() rc_worker.Queue {
 	return z.ctl.NewQueue()
 }
 
-func (z *kitchenImpl) Value() app_vo.ValueObject {
+func (z *kitchenImpl) Value() rc_vo.ValueObject {
 	return z.vo
 }
 
@@ -41,7 +41,7 @@ func (z *kitchenImpl) Log() *zap.Logger {
 	return z.ctl.Log()
 }
 
-func NewKitchen(ctl app_control.Control, vo app_vo.ValueObject) Kitchen {
+func NewKitchen(ctl app_control.Control, vo rc_vo.ValueObject) Kitchen {
 	return &kitchenImpl{
 		ctl: ctl,
 		vo:  vo,

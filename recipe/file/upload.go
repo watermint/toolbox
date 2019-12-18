@@ -3,9 +3,9 @@ package file
 import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_upload"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -13,7 +13,7 @@ import (
 )
 
 type UploadVO struct {
-	Peer        app_conn.ConnUserFile
+	Peer        rc_conn.ConnUserFile
 	LocalPath   string
 	DropboxPath string
 	Overwrite   bool
@@ -30,13 +30,13 @@ type UploadMO struct {
 func (z *Upload) Console() {
 }
 
-func (z *Upload) Requirement() app_vo.ValueObject {
+func (z *Upload) Requirement() rc_vo.ValueObject {
 	return &UploadVO{
 		ChunkSizeKb: 150 * 1024,
 	}
 }
 
-func (z *Upload) Exec(k app_kitchen.Kitchen) error {
+func (z *Upload) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*UploadVO)
 	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
@@ -79,7 +79,7 @@ func (z *Upload) Test(c app_control.Control) error {
 		if !qt_recipe.ApplyTestPeers(c, vo) {
 			return qt_recipe.NotEnoughResource()
 		}
-		if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
+		if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err != nil {
 			return err
 		}
 	}
@@ -95,7 +95,7 @@ func (z *Upload) Test(c app_control.Control) error {
 		if !qt_recipe.ApplyTestPeers(c, vo) {
 			return qt_recipe.NotEnoughResource()
 		}
-		if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
+		if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err != nil {
 			return err
 		}
 	}

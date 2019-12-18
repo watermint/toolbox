@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -23,7 +23,7 @@ type ProfileRow struct {
 
 type ProfileVO struct {
 	File fd_file.Feed
-	Peer app_conn.ConnBusinessMgmt
+	Peer rc_conn.ConnBusinessMgmt
 }
 
 const (
@@ -46,11 +46,11 @@ func (z *Profile) Test(c app_control.Control) error {
 func (z *Profile) Console() {
 }
 
-func (z *Profile) Requirement() app_vo.ValueObject {
+func (z *Profile) Requirement() rc_vo.ValueObject {
 	return &ProfileVO{}
 }
 
-func (z *Profile) Exec(k app_kitchen.Kitchen) error {
+func (z *Profile) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*ProfileVO)
 	ui := k.UI()
 

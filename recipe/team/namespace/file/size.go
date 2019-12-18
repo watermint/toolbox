@@ -10,9 +10,9 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_size"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -22,7 +22,7 @@ import (
 )
 
 type SizeVO struct {
-	Peer                app_conn.ConnBusinessFile
+	Peer                rc_conn.ConnBusinessFile
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
 	IncludeMemberFolder bool
@@ -37,7 +37,7 @@ type SizeWorker struct {
 	ctl       app_control.Control
 	rep       rp_model.Report
 	vo        *SizeVO
-	k         app_kitchen.Kitchen
+	k         rc_kitchen.Kitchen
 }
 
 func (z *SizeWorker) Exec() error {
@@ -100,7 +100,7 @@ func (z *Size) Reports() []rp_spec.ReportSpec {
 	}
 }
 
-func (z *Size) Requirement() app_vo.ValueObject {
+func (z *Size) Requirement() rc_vo.ValueObject {
 	return &SizeVO{
 		IncludeSharedFolder: true,
 		IncludeTeamFolder:   true,
@@ -108,7 +108,7 @@ func (z *Size) Requirement() app_vo.ValueObject {
 	}
 }
 
-func (z *Size) Exec(k app_kitchen.Kitchen) error {
+func (z *Size) Exec(k rc_kitchen.Kitchen) error {
 	l := k.Log()
 	vo := k.Value().(*SizeVO)
 
@@ -184,7 +184,7 @@ func (z *Size) Test(c app_control.Control) error {
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
 		return qt_recipe.NotEnoughResource()
 	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "namespace_size", func(cols map[string]string) error {

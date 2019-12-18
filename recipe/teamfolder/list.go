@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -15,7 +15,7 @@ import (
 )
 
 type ListVO struct {
-	Peer app_conn.ConnBusinessFile
+	Peer rc_conn.ConnBusinessFile
 }
 
 const (
@@ -36,7 +36,7 @@ func (z *List) Test(c app_control.Control) error {
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
 		return qt_recipe.NotEnoughResource()
 	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "teamfolder", func(cols map[string]string) error {
@@ -47,11 +47,11 @@ func (z *List) Test(c app_control.Control) error {
 	})
 }
 
-func (z *List) Requirement() app_vo.ValueObject {
+func (z *List) Requirement() rc_vo.ValueObject {
 	return &ListVO{}
 }
 
-func (z *List) Exec(k app_kitchen.Kitchen) error {
+func (z *List) Exec(k rc_kitchen.Kitchen) error {
 	// TypeAssertionError will be handled by infra
 	var vo interface{} = k.Value()
 	fvo := vo.(*ListVO)

@@ -6,9 +6,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -31,7 +31,7 @@ func (z *InviteRow) Validate() error {
 
 type InviteVO struct {
 	File         fd_file.Feed
-	Peer         app_conn.ConnBusinessMgmt
+	Peer         rc_conn.ConnBusinessMgmt
 	SilentInvite bool
 }
 
@@ -55,7 +55,7 @@ func (z *Invite) Test(c app_control.Control) error {
 func (z *Invite) Console() {
 }
 
-func (z *Invite) Requirement() app_vo.ValueObject {
+func (z *Invite) Requirement() rc_vo.ValueObject {
 	return &InviteVO{}
 }
 
@@ -63,7 +63,7 @@ func (z *Invite) msgFromTag(tag string) app_msg.Message {
 	return app_msg.M("recipe.member.invite.tag." + tag)
 }
 
-func (z *Invite) Exec(k app_kitchen.Kitchen) error {
+func (z *Invite) Exec(k rc_kitchen.Kitchen) error {
 	var vo interface{} = k.Value()
 	mvo := vo.(*InviteVO)
 

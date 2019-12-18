@@ -11,9 +11,9 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_worker"
-	"github.com/watermint/toolbox/infra/recpie/app_worker_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
+	"github.com/watermint/toolbox/infra/recpie/rc_worker"
+	"github.com/watermint/toolbox/infra/recpie/rc_worker_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_template"
 	"github.com/watermint/toolbox/infra/ui/app_template_impl"
@@ -25,7 +25,7 @@ import (
 	"runtime"
 )
 
-func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, catalogue []app_recipe.Recipe) app_control.Control {
+func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, catalogue []rc_recipe.Recipe) app_control.Control {
 	return &Single{
 		ui:           ui,
 		box:          bx,
@@ -47,7 +47,7 @@ type Single struct {
 	ws           app_workspace.Workspace
 	opts         *app_control.UpOpts
 	quiet        bool
-	catalogue    []app_recipe.Recipe
+	catalogue    []rc_recipe.Recipe
 	testResource gjson.Result
 }
 
@@ -146,11 +146,11 @@ func (z *Single) NewTestControl(testResource gjson.Result) (ctl app_control.Cont
 	return ctl, nil
 }
 
-func (z *Single) NewQueue() app_worker.Queue {
-	return app_worker_impl.NewQueue(z, z.opts.Concurrency)
+func (z *Single) NewQueue() rc_worker.Queue {
+	return rc_worker_impl.NewQueue(z, z.opts.Concurrency)
 }
 
-func (z *Single) Catalogue() []app_recipe.Recipe {
+func (z *Single) Catalogue() []rc_recipe.Recipe {
 	return z.catalogue
 }
 

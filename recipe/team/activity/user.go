@@ -9,9 +9,9 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recpie/rc_conn"
+	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -24,7 +24,7 @@ import (
 )
 
 type UserVO struct {
-	Peer      app_conn.ConnBusinessAudit
+	Peer      rc_conn.ConnBusinessAudit
 	StartTime string
 	EndTime   string
 	Category  string
@@ -50,7 +50,7 @@ type UserIn struct {
 }
 
 type UserWorker struct {
-	k          app_kitchen.Kitchen
+	k          rc_kitchen.Kitchen
 	ctx        api_context.Context
 	reps       *rp_spec_impl.Specs
 	repSummary rp_model.Report
@@ -119,11 +119,11 @@ type User struct {
 func (z *User) Console() {
 }
 
-func (z *User) Requirement() app_vo.ValueObject {
+func (z *User) Requirement() rc_vo.ValueObject {
 	return &UserVO{}
 }
 
-func (z *User) Exec(k app_kitchen.Kitchen) error {
+func (z *User) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*UserVO)
 	l := k.Log()
 
@@ -185,7 +185,7 @@ func (z *User) Test(c app_control.Control) error {
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
 		return qt_recipe.NotEnoughResource()
 	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, reportEventUserSummary, func(cols map[string]string) error {

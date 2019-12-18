@@ -5,9 +5,9 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
-	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
+	"github.com/watermint/toolbox/infra/recpie/rc_group"
+	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
+	"github.com/watermint/toolbox/infra/recpie/rc_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -15,7 +15,7 @@ import (
 
 func VerifyMessages(ctl app_control.Control) error {
 	cl := ctl.(app_control_launcher.ControlLauncher)
-	root := app_recipe_group.NewGroup([]string{}, "")
+	root := rc_group.NewGroup([]string{}, "")
 	for _, r := range cl.Catalogue() {
 		root.Add(r)
 	}
@@ -37,7 +37,7 @@ func VerifyMessages(ctl app_control.Control) error {
 	return nil
 }
 
-func verifyGroup(g *app_recipe_group.Group, ui app_ui.UI) {
+func verifyGroup(g *rc_group.Group, ui app_ui.UI) {
 	g.PrintUsage(ui)
 	for _, sg := range g.SubGroups {
 		verifyGroup(sg, ui)
@@ -47,12 +47,12 @@ func verifyGroup(g *app_recipe_group.Group, ui app_ui.UI) {
 	}
 }
 
-func verifyRecipe(g *app_recipe_group.Group, r app_recipe.Recipe, ui app_ui.UI) {
+func verifyRecipe(g *rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
 	switch re := r.(type) {
-	case app_recipe.SideCarRecipe:
+	case rc_recipe.SideCarRecipe:
 		vo := re.Requirement()
 		f := flag.NewFlagSet("", flag.ContinueOnError)
-		vc := app_vo_impl.NewValueContainer(vo)
+		vc := rc_vo_impl.NewValueContainer(vo)
 		vc.MakeFlagSet(f, ui)
 		g.PrintRecipeUsage(ui, re, f)
 	}
