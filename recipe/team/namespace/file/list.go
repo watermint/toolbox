@@ -12,9 +12,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_profile"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/rc_conn"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -64,7 +64,7 @@ func (z *ListWorker) Exec() error {
 	opts = append(opts, sv_file.IncludeHasExplicitSharedMembers())
 	opts = append(opts, sv_file.Recursive())
 
-	err := sv_file.NewFiles(ctn).ListChunked(mo_path.NewPath(""), func(entry mo_file.Entry) {
+	err := sv_file.NewFiles(ctn).ListChunked(mo_path.NewDropboxPath(""), func(entry mo_file.Entry) {
 		ne := mo_namespace.NewNamespaceEntry(z.namespace, entry.Concrete())
 		if m, e := z.idToMember[z.namespace.TeamMemberId]; e {
 			ne.NamespaceMemberEmail = m.Email

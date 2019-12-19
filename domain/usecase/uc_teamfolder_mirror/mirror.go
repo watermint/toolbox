@@ -21,7 +21,7 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -561,7 +561,7 @@ func (z *teamFolderImpl) Mount(ctx Context, scope Scope) (err error) {
 		if mount.PathLower == "" {
 			return errors.New("the folder is not mounted on the account")
 		}
-		_, ensureErr = sv_file.NewFiles(ctx.AsMemberId(admin.TeamMemberId)).List(mo_path.NewPath(mount.PathLower))
+		_, ensureErr = sv_file.NewFiles(ctx.AsMemberId(admin.TeamMemberId)).List(mo_path.NewDropboxPath(mount.PathLower))
 		if ensureErr != nil {
 			return ensureErr
 		}
@@ -595,7 +595,7 @@ func (z *teamFolderImpl) Content(ctx Context, scope Scope) (err error) {
 		WithPath(api_context.Namespace(scope.Pair().Dst.TeamFolderId))
 
 	ucm := uc_file_mirror.New(ctxSrc, ctxDst)
-	return ucm.Mirror(mo_path.NewPath("/"), mo_path.NewPath("/"))
+	return ucm.Mirror(mo_path.NewDropboxPath("/"), mo_path.NewDropboxPath("/"))
 }
 
 func (z *teamFolderImpl) Verify(ctx Context, scope Scope) (err error) {
@@ -625,7 +625,7 @@ func (z *teamFolderImpl) Verify(ctx Context, scope Scope) (err error) {
 
 	ucc := uc_compare_paths.New(ctxSrc, ctxDst, z.kitchen.UI())
 	count, err := ucc.Diff(
-		mo_path.NewPath(""), mo_path.NewPath(""),
+		mo_path.NewDropboxPath(""), mo_path.NewDropboxPath(""),
 		func(diff mo_file_diff.Diff) error {
 			l.Warn("Diff", zap.Any("diff", diff))
 			rep.Row(&diff)

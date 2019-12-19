@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	ToolboxTestSuiteFolder = mo_path.NewPath("/toolbox-testsuite")
+	ToolboxTestSuiteFolder = mo_path.NewDropboxPath("/toolbox-testsuite")
 	legacyTestsEnabled     = false
 )
 

@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file_relocation"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_relocation"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"path/filepath"
@@ -17,7 +17,7 @@ import (
 )
 
 type Merge interface {
-	Merge(from, to mo_path.Path, opts ...MergeOpt) error
+	Merge(from, to mo_path.DropboxPath, opts ...MergeOpt) error
 }
 
 func New(ctx api_context.Context, k rc_kitchen.Kitchen) Merge {
@@ -56,9 +56,9 @@ func ClearEmptyFolder() MergeOpt {
 type mergeImpl struct {
 	ctx       api_context.Context
 	k         rc_kitchen.Kitchen
-	from      mo_path.Path
+	from      mo_path.DropboxPath
 	fromEntry mo_file.Entry
-	to        mo_path.Path
+	to        mo_path.DropboxPath
 	toEntry   mo_file.Entry
 	opts      *MergeOpts
 }
@@ -382,7 +382,7 @@ func (z *mergeImpl) merge(path string) error {
 	return lastErr
 }
 
-func (z *mergeImpl) Merge(from, to mo_path.Path, opts ...MergeOpt) (err error) {
+func (z *mergeImpl) Merge(from, to mo_path.DropboxPath, opts ...MergeOpt) (err error) {
 	z.opts = &MergeOpts{}
 	for _, o := range opts {
 		o(z.opts)

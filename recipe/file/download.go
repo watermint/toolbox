@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file_content"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/rc_conn"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -50,7 +50,7 @@ func (z *Download) Exec(k rc_kitchen.Kitchen) error {
 	}
 	defer rep.Close()
 
-	entry, f, err := sv_file_content.NewDownload(ctx).Download(mo_path.NewPath(vo.DropboxPath))
+	entry, f, err := sv_file_content.NewDownload(ctx).Download(mo_path.NewDropboxPath(vo.DropboxPath))
 	if err != nil {
 		return err
 	}

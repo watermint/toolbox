@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/rc_conn"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -36,8 +36,8 @@ func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
 		return err
 	}
 
-	var delete func(path mo_path.Path) error
-	delete = func(path mo_path.Path) error {
+	var delete func(path mo_path.DropboxPath) error
+	delete = func(path mo_path.DropboxPath) error {
 		ui.Info("recipe.file.delete.progress.deleting", app_msg.P{
 			"Path": path.Path(),
 		})
@@ -66,7 +66,7 @@ func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
 		}
 	}
 
-	return delete(mo_path.NewPath(vo.Path))
+	return delete(mo_path.NewDropboxPath(vo.Path))
 }
 
 func (z *Delete) Test(c app_control.Control) error {

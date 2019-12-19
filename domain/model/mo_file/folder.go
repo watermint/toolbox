@@ -32,7 +32,7 @@ func (z *Folder) PathLower() string {
 	return z.EntryPathLower
 }
 
-func (z *Folder) Path() mo_path.Path {
+func (z *Folder) Path() mo_path.DropboxPath {
 	return mo_path.NewPathDisplay(z.EntryPathDisplay)
 }
 

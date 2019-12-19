@@ -2,13 +2,14 @@ package rc_kitchen
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo"
-	"github.com/watermint/toolbox/infra/recpie/rc_worker"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 )
 
 type Kitchen interface {
+	// Deprecated:
 	Value() rc_vo.ValueObject
 	Control() app_control.Control
 	UI() app_ui.UI

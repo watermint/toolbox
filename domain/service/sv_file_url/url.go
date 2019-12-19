@@ -11,7 +11,7 @@ import (
 )
 
 type Url interface {
-	Save(path mo_path.Path, url string) (entry mo_file.Entry, err error)
+	Save(path mo_path.DropboxPath, url string) (entry mo_file.Entry, err error)
 }
 
 func New(ctx api_context.Context) Url {
@@ -21,7 +21,7 @@ func New(ctx api_context.Context) Url {
 }
 
 // Path with filename that parsed from the URL.
-func PathWithName(base mo_path.Path, url string) (path mo_path.Path) {
+func PathWithName(base mo_path.DropboxPath, url string) (path mo_path.DropboxPath) {
 	u, err := url2.Parse(url)
 	if err != nil {
 		app_root.Log().Debug("Unable to parse url", zap.Error(err), zap.String("url", url))
@@ -38,7 +38,7 @@ type urlImpl struct {
 	ctx api_context.Context
 }
 
-func (z *urlImpl) Save(path mo_path.Path, url string) (entry mo_file.Entry, err error) {
+func (z *urlImpl) Save(path mo_path.DropboxPath, url string) (entry mo_file.Entry, err error) {
 	p := struct {
 		Path string `json:"path"`
 		Url  string `json:"url"`

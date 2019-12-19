@@ -6,9 +6,9 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/rc_conn"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -65,7 +65,7 @@ func (z *List) Exec(k rc_kitchen.Kitchen) error {
 	}
 	defer rep.Close()
 
-	err = sv_file.NewFiles(ctx).ListChunked(mo_path.NewPath(vo.Path), func(entry mo_file.Entry) {
+	err = sv_file.NewFiles(ctx).ListChunked(mo_path.NewDropboxPath(vo.Path), func(entry mo_file.Entry) {
 		rep.Row(entry.Concrete())
 	}, opts...)
 	if err != nil {

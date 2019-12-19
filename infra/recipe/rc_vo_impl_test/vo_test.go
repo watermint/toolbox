@@ -2,7 +2,7 @@ package app_vo_impl_test
 
 import (
 	"flag"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"testing"

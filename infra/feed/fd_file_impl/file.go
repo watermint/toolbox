@@ -14,16 +14,19 @@ import (
 	"strconv"
 )
 
-func NewData() fd_file.Feed {
+// Deprecated:
+func NewData() fd_file.ModelFile {
 	return &CsvData{}
 }
 
-func NewTestData(path string) fd_file.Feed {
+// Deprecated:
+func NewTestData(path string) fd_file.ModelFile {
 	return &CsvData{
 		FilePath: path,
 	}
 }
 
+// Deprecated:
 type CsvData struct {
 	FilePath         string
 	file             *os.File

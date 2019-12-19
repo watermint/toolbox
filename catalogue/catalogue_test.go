@@ -2,9 +2,9 @@ package catalogue
 
 import (
 	"flag"
-	"github.com/watermint/toolbox/infra/recpie/rc_group"
-	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
-	"github.com/watermint/toolbox/infra/recpie/rc_spec"
+	"github.com/watermint/toolbox/infra/recipe/rc_group"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"

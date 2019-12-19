@@ -9,7 +9,7 @@ import (
 type Folder interface {
 	// `files/create_folder`
 	// options: auto_rename
-	Create(path mo_path.Path) (entry mo_file.Entry, err error)
+	Create(path mo_path.DropboxPath) (entry mo_file.Entry, err error)
 }
 
 func New(ctx api_context.Context) Folder {
@@ -22,7 +22,7 @@ type folderImpl struct {
 	ctx api_context.Context
 }
 
-func (z *folderImpl) Create(path mo_path.Path) (entry mo_file.Entry, err error) {
+func (z *folderImpl) Create(path mo_path.DropboxPath) (entry mo_file.Entry, err error) {
 	p := struct {
 		Path       string `json:"path"`
 		Autorename bool   `json:"autorename"`

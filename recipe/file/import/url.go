@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file_url"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/rc_conn"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -54,7 +54,7 @@ func (z *Url) Exec(k rc_kitchen.Kitchen) error {
 	}
 	defer rep.Close()
 
-	path := sv_file_url.PathWithName(mo_path.NewPath(vo.Path), vo.Url)
+	path := sv_file_url.PathWithName(mo_path.NewDropboxPath(vo.Path), vo.Url)
 	ui.Info("recipe.file.import.url.progress", app_msg.P{
 		"Path": path.Path(),
 		"Url":  vo.Url,

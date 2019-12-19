@@ -1,14 +1,16 @@
-package rc_vo_impl
+package rc_value
 
 import (
 	"flag"
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
-	"github.com/watermint/toolbox/infra/recpie/rc_conn"
-	"github.com/watermint/toolbox/infra/recpie/rc_conn_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"reflect"
@@ -16,20 +18,20 @@ import (
 	"strings"
 )
 
-type ValueContainer struct {
+func NewValueRepository(r interface{}) *ValueRepository {
+	vc := &ValueRepository{
+		Values: make(map[string]interface{}),
+	}
+	vc.From(r)
+	return vc
+}
+
+type ValueRepository struct {
 	PkgName string
 	Values  map[string]interface{}
 }
 
-func NewValueContainer(vo interface{}) *ValueContainer {
-	vc := &ValueContainer{
-		Values: make(map[string]interface{}),
-	}
-	vc.From(vo)
-	return vc
-}
-
-func (z *ValueContainer) From(vo interface{}) {
+func (z *ValueRepository) From(vo interface{}) {
 	l := app_root.Log()
 	vot := reflect.TypeOf(vo)
 	vov := reflect.ValueOf(vo)
@@ -63,11 +65,20 @@ func (z *ValueContainer) From(vo interface{}) {
 			z.Values[kn] = &v
 		case reflect.Interface:
 			switch {
-			case vof.Type.Implements(reflect.TypeOf((*fd_file.Feed)(nil)).Elem()):
+			//case vof.Type.Implements(reflect.TypeOf((*fd_file.RowFeed)(nil)).Elem()):
+			//	if !vvf.IsNil() {
+			//		z.Values[kn] = vvf.Interface()
+			//	} else {
+			//		z.Values[kn] = fd_file_impl.NewData()
+			//	}
+			case vof.Type.Implements(reflect.TypeOf((*app_msg.Message)(nil)).Elem()):
+				l.Debug("Message", zap.String("name", vof.Name))
+
+			case vof.Type.Implements(reflect.TypeOf((*mo_time.Time)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = fd_file_impl.NewData()
+					z.Values[kn] = &mo_time.TimeImpl{}
 				}
 
 			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessMgmt)(nil)).Elem()):
@@ -115,7 +126,7 @@ func (z *ValueContainer) From(vo interface{}) {
 	}
 }
 
-func (z *ValueContainer) Apply(vo interface{}) {
+func (z *ValueRepository) Apply(vo interface{}) {
 	l := app_root.Log()
 	defer func() {
 		if r := recover(); r != nil {
@@ -170,7 +181,17 @@ func (z *ValueContainer) Apply(vo interface{}) {
 			}
 		case reflect.Interface:
 			switch {
-			case vof.Type.Implements(reflect.TypeOf((*fd_file.Feed)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*app_msg.Message)(nil)).Elem()):
+				l.Debug("Message", zap.String("name", vof.Name))
+
+			case vof.Type.Implements(reflect.TypeOf((*mo_time.Time)(nil)).Elem()):
+				if v, e := z.Values[kn]; e {
+					vvf.Set(reflect.ValueOf(v))
+				} else {
+					ll.Debug("Unable to find value")
+				}
+
+			case vof.Type.Implements(reflect.TypeOf((*fd_file.ModelFile)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
@@ -221,14 +242,14 @@ func (z *ValueContainer) Apply(vo interface{}) {
 	}
 }
 
-func (z *ValueContainer) MessageKey(name string) string {
+func (z *ValueRepository) MessageKey(name string) string {
 	pkg := z.PkgName
 	pkg = strings.ReplaceAll(pkg, app.Pkg+"/", "")
 	pkg = strings.ReplaceAll(pkg, "/", ".")
 	return pkg + ".flag." + strcase.ToSnake(name)
 }
 
-func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
+func (z *ValueRepository) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
 	for n, d := range z.Values {
 		kf := strcase.ToKebab(n)
 		desc := ui.Text(z.MessageKey(n))
@@ -240,6 +261,8 @@ func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
 			f.Int64Var(dv, kf, *dv, desc)
 		case *string:
 			f.StringVar(dv, kf, *dv, desc)
+		case *mo_time.TimeImpl:
+			f.StringVar(&dv.DateTime, kf, dv.DateTime, desc)
 		case *fd_file_impl.CsvData:
 			f.StringVar(&dv.FilePath, kf, dv.FilePath, desc)
 		case *rc_conn_impl.ConnBusinessMgmt:
@@ -256,7 +279,7 @@ func (z *ValueContainer) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
 	}
 }
 
-func (z ValueContainer) Serialize() map[string]interface{} {
+func (z ValueRepository) Serialize() map[string]interface{} {
 	s := make(map[string]interface{})
 	for n, d := range z.Values {
 		switch dv := d.(type) {
@@ -266,6 +289,8 @@ func (z ValueContainer) Serialize() map[string]interface{} {
 			s[n] = *dv
 		case *string:
 			s[n] = *dv
+		case *mo_time.TimeImpl:
+			s[n] = dv.DateTime
 		case *fd_file_impl.CsvData:
 			s[n] = dv.FilePath
 		case *rc_conn_impl.ConnBusinessMgmt:

@@ -15,7 +15,7 @@ import (
 )
 
 type Files interface {
-	Mirror(pathSrc, pathDst mo_path.Path) (err error)
+	Mirror(pathSrc, pathDst mo_path.DropboxPath) (err error)
 }
 
 func New(ctxSrc, ctxDst api_context.Context) Files {
@@ -36,7 +36,7 @@ func (z *filesImpl) report(metaSrc, metaDst mo_file.Entry) {
 	z.ctxSrc.Log().Debug("Mirror complete", zap.String("src", metaSrc.PathDisplay()), zap.String("dst", metaDst.PathDisplay()))
 }
 
-func (z *filesImpl) dstPathRelToSrc(pathOrigSrc, pathSrc, pathOrigDst mo_path.Path) (relDst mo_path.Path, err error) {
+func (z *filesImpl) dstPathRelToSrc(pathOrigSrc, pathSrc, pathOrigDst mo_path.DropboxPath) (relDst mo_path.DropboxPath, err error) {
 	log := z.ctxSrc.Log().With(zap.String("origSrc", pathOrigSrc.Path()), zap.String("src", pathSrc.Path()), zap.String("origDst", pathOrigDst.Path()))
 
 	pathDiff, err := filepath.Rel(pathOrigSrc.LogicalPath(), pathSrc.LogicalPath())
@@ -62,7 +62,7 @@ func (z *filesImpl) dstPathRelToSrc(pathOrigSrc, pathSrc, pathOrigDst mo_path.Pa
 	return relDst, nil
 }
 
-func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_path.Path) error {
+func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_path.DropboxPath) error {
 	log := z.ctxSrc.Log().With(zap.String("origSrc", pathOrigSrc.Path()), zap.String("src", pathSrc.Path()), zap.String("dst", pathDst.Path()))
 	log.Debug("Start mirroring descendants")
 
@@ -188,7 +188,7 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 	return nil
 }
 
-func (z *filesImpl) mirrorCurrent(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_path.Path) (err error) {
+func (z *filesImpl) mirrorCurrent(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_path.DropboxPath) (err error) {
 	log := z.ctxSrc.Log().With(zap.String("origSrc", pathOrigSrc.Path()), zap.String("src", pathSrc.Path()), zap.String("dst", pathDst.Path()))
 	log.Debug("Start mirroring current path")
 
@@ -211,7 +211,7 @@ func (z *filesImpl) mirrorCurrent(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_
 	return nil
 }
 
-func (z *filesImpl) handleError(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_path.Path, apiErr error) error {
+func (z *filesImpl) handleError(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_path.DropboxPath, apiErr error) error {
 	errPrefix := api_util.ErrorSummary(apiErr)
 	log := z.ctxSrc.Log().With(zap.String("origSrc", pathOrigSrc.Path()), zap.String("src", pathSrc.Path()), zap.String("dst", pathDst.Path()), zap.String("errorPrefix", errPrefix))
 	switch {
@@ -235,7 +235,7 @@ func (z *filesImpl) handleError(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_pa
 	}
 }
 
-func (z *filesImpl) Mirror(pathSrc, pathDst mo_path.Path) (err error) {
+func (z *filesImpl) Mirror(pathSrc, pathDst mo_path.DropboxPath) (err error) {
 	if pathSrc.LogicalPath() == "/" {
 		return z.mirrorDescendants(pathSrc, pathSrc, pathDst, pathDst)
 	} else {

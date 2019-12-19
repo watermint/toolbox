@@ -4,10 +4,10 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recpie/rc_conn"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo_impl"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -19,7 +19,7 @@ func newSideCar(scr rc_recipe.SideCarRecipe) rc_recipe.Spec {
 	path, name := Path(scr)
 	cliPath := strings.Join(append(path, name), " ")
 	vc := rc_vo_impl.NewValueContainer(scr.Requirement())
-	scopes, usePersonal, useBusiness := authScopes(vc)
+	scopes, usePersonal, useBusiness := authScopesFromVc(vc)
 
 	return &SpecSideCar{
 		scr:             scr,
@@ -45,7 +45,7 @@ func newSideCarValue(vc *rc_vo_impl.ValueContainer) rc_recipe.SpecValue {
 	}
 }
 
-func authScopes(vc *rc_vo_impl.ValueContainer) (scopes []string, usePersonal, useBusiness bool) {
+func authScopesFromVc(vc *rc_vo_impl.ValueContainer) (scopes []string, usePersonal, useBusiness bool) {
 	scopes = make([]string, 0)
 	sc := make(map[string]bool)
 
@@ -101,7 +101,7 @@ func (z *SpecSideCarValue) ValueDesc(name string) app_msg.Message {
 
 func (z *SpecSideCarValue) ValueDefault(name string) interface{} {
 	switch d := z.vc.Values[name].(type) {
-	case fd_file.Feed:
+	case fd_file.ModelFile:
 		return ""
 	default:
 		return d
@@ -121,6 +121,10 @@ type SpecSideCar struct {
 	connUsePersonal bool
 	connUseBusiness bool
 	connScopes      []string
+}
+
+func (z *SpecSideCar) Feeds() map[string]fd_file.RowFeed {
+	return map[string]fd_file.RowFeed{}
 }
 
 func (z *SpecSideCar) SerializeValues() map[string]interface{} {

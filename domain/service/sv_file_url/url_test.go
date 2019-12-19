@@ -35,7 +35,7 @@ func TestUrlImpl_Save(t *testing.T) {
 }
 
 func TestPathWithName(t *testing.T) {
-	base := mo_path.NewPath("/Test/Path")
+	base := mo_path.NewDropboxPath("/Test/Path")
 
 	// regular url
 	{

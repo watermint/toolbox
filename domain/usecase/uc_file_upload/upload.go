@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -293,7 +293,7 @@ func (z *UploadWorker) Exec() (err error) {
 		z.status.error()
 		return err
 	}
-	dp := mo_path.NewPath(z.dropboxBasePath)
+	dp := mo_path.NewDropboxPath(z.dropboxBasePath)
 	switch {
 	case rel == ".":
 		l.Debug("upload to base path")
@@ -444,7 +444,7 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 			return nil
 		}
 
-		folderPath := mo_path.NewPath(dropboxPath).ChildPath(rel)
+		folderPath := mo_path.NewDropboxPath(dropboxPath).ChildPath(rel)
 		ll = ll.With(zap.String("folderPath", folderPath.Path()), zap.String("rel", rel))
 		ll.Debug("Create folder")
 
@@ -486,7 +486,7 @@ func (z *uploadImpl) exec(localPath string, dropboxPath string, estimate bool) (
 			return err
 		}
 
-		dbxPath := mo_path.NewPath(dropboxPath)
+		dbxPath := mo_path.NewDropboxPath(dropboxPath)
 		if localPathRel != "." {
 			dbxPath = dbxPath.ChildPath(localPathRel)
 		}

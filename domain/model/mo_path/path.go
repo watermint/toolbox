@@ -6,6 +6,26 @@ import (
 )
 
 type Path interface {
+	Path() string
+}
+
+type FileSystemPath interface {
+	Path
+}
+
+func NewFileSystemPath(path string) FileSystemPath {
+	return &fileSystemPathImpl{path: filepath.Clean(path)}
+}
+
+type fileSystemPathImpl struct {
+	path string
+}
+
+func (z *fileSystemPathImpl) Path() string {
+	return z.path
+}
+
+type DropboxPath interface {
 	// Path format for Dropbox API
 	Path() string
 
@@ -20,16 +40,16 @@ type Path interface {
 	LogicalPath() string
 
 	// Child path
-	ChildPath(elem ...string) Path
+	ChildPath(elem ...string) DropboxPath
 }
 
-type pathImpl struct {
+type dropboxPathImpl struct {
 	ns   string
 	id   string
 	path string
 }
 
-func (z *pathImpl) String() string {
+func (z *dropboxPathImpl) String() string {
 	switch {
 	case z.ns != "":
 		// root of the namespace
@@ -52,40 +72,40 @@ func (z *pathImpl) String() string {
 	}
 }
 
-func (z *pathImpl) ChildPath(elem ...string) Path {
+func (z *dropboxPathImpl) ChildPath(elem ...string) DropboxPath {
 	a := make([]string, 0)
 	a = append(a, z.path)
 	a = append(a, elem...)
 
-	return &pathImpl{
+	return &dropboxPathImpl{
 		ns:   z.ns,
 		id:   z.id,
 		path: filepath.ToSlash(filepath.Join(a...)),
 	}
 }
 
-func (z *pathImpl) Namespace() (namespace string, exist bool) {
+func (z *dropboxPathImpl) Namespace() (namespace string, exist bool) {
 	return z.ns, z.ns != ""
 }
 
-func (z *pathImpl) Id() (id string, exist bool) {
+func (z *dropboxPathImpl) Id() (id string, exist bool) {
 	return z.id, z.id != ""
 }
 
-func (z *pathImpl) LogicalPath() string {
+func (z *dropboxPathImpl) LogicalPath() string {
 	if z.path == "" {
 		return "/"
 	}
 	return z.path
 }
 
-func (z *pathImpl) Path() string {
+func (z *dropboxPathImpl) Path() string {
 	return z.String()
 }
 
 // Create new `Path` instance.
 // Windows style paths are automatically replaced for API.
-func NewPath(path string) Path {
+func NewDropboxPath(path string) DropboxPath {
 	ps1 := strings.Split(path, "\\")
 	ps2 := strings.Join(ps1, "/")
 	ps3 := strings.ReplaceAll(ps2, "//", "/")
@@ -118,7 +138,7 @@ func NewPath(path string) Path {
 		}
 	}
 
-	return &pathImpl{
+	return &dropboxPathImpl{
 		ns:   ns,
 		id:   id,
 		path: pe,
@@ -126,6 +146,6 @@ func NewPath(path string) Path {
 }
 
 // Create new `Path` instance. No validation & modification
-func NewPathDisplay(path string) Path {
-	return &pathImpl{path: path}
+func NewPathDisplay(path string) DropboxPath {
+	return &dropboxPathImpl{path: path}
 }

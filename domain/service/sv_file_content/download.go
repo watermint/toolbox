@@ -10,7 +10,7 @@ import (
 )
 
 type Download interface {
-	Download(path mo_path.Path) (entry mo_file.Entry, localPath string, err error)
+	Download(path mo_path.DropboxPath) (entry mo_file.Entry, localPath string, err error)
 }
 
 func NewDownload(ctx api_context.Context) Download {
@@ -21,7 +21,7 @@ type downloadImpl struct {
 	ctx api_context.Context
 }
 
-func (z *downloadImpl) Download(path mo_path.Path) (entry mo_file.Entry, localPath string, err error) {
+func (z *downloadImpl) Download(path mo_path.DropboxPath) (entry mo_file.Entry, localPath string, err error) {
 	l := z.ctx.Log()
 	p := struct {
 		Path string `json:"path"`

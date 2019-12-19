@@ -7,8 +7,8 @@ import (
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
-	"github.com/watermint/toolbox/infra/recpie/rc_spec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -163,12 +163,8 @@ func (z *Commands) GenerateAll() error {
 		if _, ok := r.(rc_recipe.SecretRecipe); ok {
 			continue
 		}
-
-		switch re := r.(type) {
-		case rc_recipe.SideCarRecipe:
-			if err := z.Generate(re); err != nil {
-				return err
-			}
+		if err := z.Generate(r); err != nil {
+			return err
 		}
 	}
 	return nil

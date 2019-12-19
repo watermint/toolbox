@@ -11,9 +11,9 @@ import (
 
 type SharedLink interface {
 	List() (links []mo_sharedlink.SharedLink, err error)
-	ListByPath(path mo_path.Path) (links []mo_sharedlink.SharedLink, err error)
+	ListByPath(path mo_path.DropboxPath) (links []mo_sharedlink.SharedLink, err error)
 	Remove(link mo_sharedlink.SharedLink) (err error)
-	Create(path mo_path.Path, opts ...LinkOpt) (link mo_sharedlink.SharedLink, err error)
+	Create(path mo_path.DropboxPath, opts ...LinkOpt) (link mo_sharedlink.SharedLink, err error)
 	Update(link mo_sharedlink.SharedLink, opts ...LinkOpt) (updated mo_sharedlink.SharedLink, err error)
 }
 
@@ -134,7 +134,7 @@ func (z *sharedLinkImpl) List() (links []mo_sharedlink.SharedLink, err error) {
 	return z.list("")
 }
 
-func (z *sharedLinkImpl) ListByPath(path mo_path.Path) (links []mo_sharedlink.SharedLink, err error) {
+func (z *sharedLinkImpl) ListByPath(path mo_path.DropboxPath) (links []mo_sharedlink.SharedLink, err error) {
 	return z.list(path.Path())
 }
 
@@ -149,7 +149,7 @@ func (z *sharedLinkImpl) Remove(link mo_sharedlink.SharedLink) (err error) {
 	return err
 }
 
-func (z *sharedLinkImpl) Create(path mo_path.Path, opts ...LinkOpt) (link mo_sharedlink.SharedLink, err error) {
+func (z *sharedLinkImpl) Create(path mo_path.DropboxPath, opts ...LinkOpt) (link mo_sharedlink.SharedLink, err error) {
 	opt := &linkOptions{}
 	for _, o := range opts {
 		o(opt)

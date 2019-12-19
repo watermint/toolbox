@@ -17,7 +17,7 @@ import (
 )
 
 type Compare interface {
-	Diff(localPath string, dropboxPath mo_path.Path, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
+	Diff(localPath string, dropboxPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
 }
 
 type CompareOpt func(o *CompareOpts) *CompareOpts
@@ -43,7 +43,7 @@ type compareImpl struct {
 	opts *CompareOpts
 }
 
-func (z *compareImpl) cmpLevel(local string, dropbox mo_path.Path, path string, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
+func (z *compareImpl) cmpLevel(local string, dropbox mo_path.DropboxPath, path string, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
 	localFiles := make(map[string]os.FileInfo)
 	localFolders := make(map[string]os.FileInfo)
 	dropboxFiles := make(map[string]*mo_file.File)
@@ -247,6 +247,6 @@ func (z *compareImpl) cmpLevel(local string, dropbox mo_path.Path, path string, 
 	return diffCount, nil
 }
 
-func (z *compareImpl) Diff(localPath string, dropboxPath mo_path.Path, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
+func (z *compareImpl) Diff(localPath string, dropboxPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
 	return z.cmpLevel(localPath, dropboxPath, "", onDiff)
 }

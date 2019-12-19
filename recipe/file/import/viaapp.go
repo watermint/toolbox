@@ -17,10 +17,10 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/recpie/rc_conn"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo"
-	"github.com/watermint/toolbox/infra/recpie/rc_worker"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -119,7 +119,7 @@ func (z *ViaAppHashToRel) Get(hash string) (string, bool) {
 }
 
 type ViaAppStates struct {
-	DbxWorkPath     mo_path.Path
+	DbxWorkPath     mo_path.DropboxPath
 	DesktopPath     string
 	DesktopWorkPath string
 	Backlogs        int64
@@ -333,7 +333,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 		z.reps.repDbxScanner.Failure(err, dsIn)
 		return err
 	}
-	dbxPath := mo_path.NewPath(z.vo.DropboxPath)
+	dbxPath := mo_path.NewDropboxPath(z.vo.DropboxPath)
 	if rel != "." {
 		dbxPath = dbxPath.ChildPath(rel)
 	}
@@ -587,7 +587,7 @@ func (z *ViaAppMoverWorker) Exec() error {
 
 	l.Info("Moving from work to dest")
 	src := z.st.DbxWorkPath.ChildPath(z.moveIn.DbxFileName)
-	dst := mo_path.NewPath(dbxDestPath)
+	dst := mo_path.NewDropboxPath(dbxDestPath)
 
 	movedEntry, err := sv_file_relocation.New(z.ctx).Move(src, dst)
 	if err != nil {
@@ -680,7 +680,7 @@ func (z *ViaApp) Exec(k rc_kitchen.Kitchen) error {
 	}
 
 	workPathRel := "tbx-file-import-viaapp/" + time.Now().Format("2006-01-02T15-04-05")
-	dbxWorkPath := mo_path.NewPath("/" + workPathRel)
+	dbxWorkPath := mo_path.NewDropboxPath("/" + workPathRel)
 	dbxWorkFolder, err := sv_file_folder.New(ctx).Create(dbxWorkPath)
 	if err != nil {
 		return err
@@ -880,7 +880,7 @@ func (z *ViaApp) Reports() []rp_spec.ReportSpec {
 type ViaAppPseudoDesktop struct {
 	desktopPath     string
 	desktopWorkPath string
-	dbxWorkPath     mo_path.Path
+	dbxWorkPath     mo_path.DropboxPath
 	ctx             api_context.Context
 	specs           *rp_spec_impl.Specs
 	st              *ViaAppStates

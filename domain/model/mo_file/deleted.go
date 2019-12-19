@@ -29,7 +29,7 @@ func (z *Deleted) PathLower() string {
 	return z.EntryPathLower
 }
 
-func (z *Deleted) Path() mo_path.Path {
+func (z *Deleted) Path() mo_path.DropboxPath {
 	return mo_path.NewPathDisplay(z.EntryPathDisplay)
 }
 

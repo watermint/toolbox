@@ -2,14 +2,17 @@ package rc_spec
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_opt"
-	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo_impl"
 )
 
 func New(rcp rc_recipe.Recipe) rc_recipe.Spec {
 	switch scr := rcp.(type) {
 	case rc_recipe.SideCarRecipe:
 		return newSideCar(scr)
+
+	case rc_recipe.SelfContainedRecipe:
+		return newSelfContained(scr)
 
 	default:
 		return nil

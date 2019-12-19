@@ -1,8 +1,8 @@
 package catalogue
 
 import (
-	"github.com/watermint/toolbox/infra/recpie/rc_group"
-	"github.com/watermint/toolbox/infra/recpie/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_group"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/recipe"
 	"github.com/watermint/toolbox/recipe/dev"
 	devtest "github.com/watermint/toolbox/recipe/dev/test"

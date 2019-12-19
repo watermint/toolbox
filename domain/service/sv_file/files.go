@@ -9,11 +9,11 @@ import (
 )
 
 type Files interface {
-	Resolve(path mo_path.Path) (entry mo_file.Entry, err error)
-	List(path mo_path.Path, opts ...ListOpt) (entries []mo_file.Entry, err error)
-	ListChunked(path mo_path.Path, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
+	Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err error)
+	List(path mo_path.DropboxPath, opts ...ListOpt) (entries []mo_file.Entry, err error)
+	ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
 
-	Remove(path mo_path.Path, opts ...RemoveOpt) (entry mo_file.Entry, err error)
+	Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry mo_file.Entry, err error)
 }
 
 type ListOpt func(opt *listOpts) *listOpts
@@ -79,7 +79,7 @@ type filesImpl struct {
 	limit int
 }
 
-func (z *filesImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, err error) {
+func (z *filesImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err error) {
 	p := struct {
 		Path                            string `json:"path"`
 		IncludeMediaInfo                bool   `json:"include_media_info,omitempty"`
@@ -102,7 +102,7 @@ func (z *filesImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, err error) 
 	return entry, nil
 }
 
-func (z *filesImpl) List(path mo_path.Path, opts ...ListOpt) (entries []mo_file.Entry, err error) {
+func (z *filesImpl) List(path mo_path.DropboxPath, opts ...ListOpt) (entries []mo_file.Entry, err error) {
 	entries = make([]mo_file.Entry, 0)
 	err = z.ListChunked(path, func(entry mo_file.Entry) {
 		entries = append(entries, entry)
@@ -113,7 +113,7 @@ func (z *filesImpl) List(path mo_path.Path, opts ...ListOpt) (entries []mo_file.
 	return entries, nil
 }
 
-func (z *filesImpl) ListChunked(path mo_path.Path, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
+func (z *filesImpl) ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
 	lo := &listOpts{}
 	for _, o := range opts {
 		o(lo)
@@ -157,7 +157,7 @@ func (z *filesImpl) ListChunked(path mo_path.Path, onEntry func(entry mo_file.En
 	return req.Call()
 }
 
-func (z *filesImpl) Remove(path mo_path.Path, opts ...RemoveOpt) (entry mo_file.Entry, err error) {
+func (z *filesImpl) Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry mo_file.Entry, err error) {
 	opt := &removeOpts{}
 	for _, o := range opts {
 		o(opt)

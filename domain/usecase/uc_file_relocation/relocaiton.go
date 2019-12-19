@@ -12,10 +12,10 @@ import (
 
 type Relocation interface {
 	// options: allow_shared_folder, allow_ownership_transfer, auto_rename
-	Copy(from, to mo_path.Path) (err error)
+	Copy(from, to mo_path.DropboxPath) (err error)
 
 	// options: allow_shared_folder, allow_ownership_transfer, auto_rename
-	Move(from, to mo_path.Path) (err error)
+	Move(from, to mo_path.DropboxPath) (err error)
 }
 
 func New(ctx api_context.Context) Relocation {
@@ -28,24 +28,24 @@ type relocationImpl struct {
 	ctx api_context.Context
 }
 
-func (z *relocationImpl) Copy(from, to mo_path.Path) (err error) {
-	return z.relocation(from, to, func(from, to mo_path.Path) (err error) {
+func (z *relocationImpl) Copy(from, to mo_path.DropboxPath) (err error) {
+	return z.relocation(from, to, func(from, to mo_path.DropboxPath) (err error) {
 		svc := sv_file_relocation.New(z.ctx)
 		_, err = svc.Copy(from, to)
 		return err
 	})
 }
 
-func (z *relocationImpl) Move(from, to mo_path.Path) (err error) {
-	return z.relocation(from, to, func(from, to mo_path.Path) (err error) {
+func (z *relocationImpl) Move(from, to mo_path.DropboxPath) (err error) {
+	return z.relocation(from, to, func(from, to mo_path.DropboxPath) (err error) {
 		svc := sv_file_relocation.New(z.ctx)
 		_, err = svc.Move(from, to)
 		return err
 	})
 }
 
-func (z *relocationImpl) relocation(from, to mo_path.Path,
-	reloc func(from, to mo_path.Path) (err error)) (err error) {
+func (z *relocationImpl) relocation(from, to mo_path.DropboxPath,
+	reloc func(from, to mo_path.DropboxPath) (err error)) (err error) {
 	l := z.ctx.Log().With(zap.String("from", from.Path()), zap.String("to", to.Path()))
 
 	svc := sv_file.NewFiles(z.ctx)

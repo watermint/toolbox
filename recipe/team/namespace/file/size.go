@@ -10,9 +10,9 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_size"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/rc_conn"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -53,7 +53,7 @@ func (z *SizeWorker) Exec() error {
 	ctn := z.ctx.WithPath(api_context.Namespace(z.namespace.NamespaceId))
 
 	var lastErr error
-	sizes, errs := uc_file_size.New(ctn, z.k).Size(mo_path.NewPath("/"), z.vo.Depth)
+	sizes, errs := uc_file_size.New(ctn, z.k).Size(mo_path.NewDropboxPath("/"), z.vo.Depth)
 
 	for p, size := range sizes {
 		if err, ok := errs[p]; ok {

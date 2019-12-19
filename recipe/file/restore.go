@@ -9,9 +9,9 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file_revision"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/rc_conn"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -29,7 +29,7 @@ type RestoreWorker struct {
 	k    rc_kitchen.Kitchen
 	ctx  api_context.Context
 	rep  rp_model.Report
-	path mo_path.Path
+	path mo_path.DropboxPath
 }
 
 type RestoreTarget struct {
@@ -116,7 +116,7 @@ func (z *Restore) Exec(k rc_kitchen.Kitchen) error {
 	}
 
 	lastErr := sv_file.NewFiles(ctx).ListChunked(
-		mo_path.NewPath(vo.Path),
+		mo_path.NewDropboxPath(vo.Path),
 		handler,
 		sv_file.IncludeDeleted(),
 		sv_file.Recursive(),

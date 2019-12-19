@@ -14,7 +14,7 @@ import (
 )
 
 type Compare interface {
-	Diff(leftPath mo_path.Path, rightPath mo_path.Path, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
+	Diff(leftPath mo_path.DropboxPath, rightPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
 }
 
 func New(left, right api_context.Context, ui app_ui.UI, opts ...CompareOpt) Compare {
@@ -43,7 +43,7 @@ type compareImpl struct {
 	ui       app_ui.UI
 }
 
-func (z *compareImpl) cmpLevel(left, right mo_path.Path, path string, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
+func (z *compareImpl) cmpLevel(left, right mo_path.DropboxPath, path string, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
 	leftFiles := make(map[string]*mo_file.File)
 	leftFolders := make(map[string]*mo_file.Folder)
 	rightFiles := make(map[string]*mo_file.File)
@@ -208,6 +208,6 @@ func (z *compareImpl) cmpLevel(left, right mo_path.Path, path string, onDiff fun
 	return diffCount, nil
 }
 
-func (z *compareImpl) Diff(leftPath mo_path.Path, rightPath mo_path.Path, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
+func (z *compareImpl) Diff(leftPath mo_path.DropboxPath, rightPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
 	return z.cmpLevel(leftPath, rightPath, "", onDiff)
 }

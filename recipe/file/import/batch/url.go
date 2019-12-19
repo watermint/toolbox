@@ -8,9 +8,9 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recpie/rc_conn"
-	"github.com/watermint/toolbox/infra/recpie/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
@@ -20,7 +20,7 @@ import (
 
 type UrlVO struct {
 	Peer rc_conn.ConnUserFile
-	Data fd_file.Feed
+	Data fd_file.ModelFile
 	Path string
 }
 
@@ -40,7 +40,7 @@ type UrlWorker struct {
 func (z *UrlWorker) Exec() error {
 	ui := z.ctl.UI()
 
-	path := sv_file_url.PathWithName(mo_path.NewPath(z.path), z.url)
+	path := sv_file_url.PathWithName(mo_path.NewDropboxPath(z.path), z.url)
 	ui.Info("recipe.file.import.batch.url.progress", app_msg.P{
 		"Url":  z.url,
 		"Path": path.Path(),

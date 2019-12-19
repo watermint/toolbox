@@ -9,7 +9,7 @@ import (
 
 type FileRequest interface {
 	List() (requests []*mo_filerequest.FileRequest, err error)
-	Create(title string, destination mo_path.Path, opts ...UpdateOpt) (req *mo_filerequest.FileRequest, err error)
+	Create(title string, destination mo_path.DropboxPath, opts ...UpdateOpt) (req *mo_filerequest.FileRequest, err error)
 }
 
 type UpdateOpt func(opts *UpdateOpts) *UpdateOpts
@@ -47,7 +47,7 @@ type fileRequestImpl struct {
 	ctx api_context.Context
 }
 
-func (z *fileRequestImpl) Create(title string, destination mo_path.Path, opts ...UpdateOpt) (req *mo_filerequest.FileRequest, err error) {
+func (z *fileRequestImpl) Create(title string, destination mo_path.DropboxPath, opts ...UpdateOpt) (req *mo_filerequest.FileRequest, err error) {
 	uo := &UpdateOpts{}
 	for _, opt := range opts {
 		opt(uo)
