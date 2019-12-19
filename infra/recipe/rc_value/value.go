@@ -3,6 +3,7 @@ package rc_value
 import (
 	"flag"
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -14,7 +15,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"reflect"
-	"runtime"
 	"strings"
 )
 
@@ -29,6 +29,10 @@ func NewValueRepository(r interface{}) *ValueRepository {
 type ValueRepository struct {
 	PkgName string
 	Values  map[string]interface{}
+}
+
+type ValueDropboxPath struct {
+	Path string
 }
 
 func (z *ValueRepository) From(vo interface{}) {
@@ -81,6 +85,13 @@ func (z *ValueRepository) From(vo interface{}) {
 					z.Values[kn] = &mo_time.TimeImpl{}
 				}
 
+			case vof.Type.Implements(reflect.TypeOf((*mo_path.DropboxPath)(nil)).Elem()):
+				if !vvf.IsNil() {
+					z.Values[kn] = vvf.Interface()
+				} else {
+					z.Values[kn] = &ValueDropboxPath{}
+				}
+
 			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessMgmt)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
@@ -128,16 +139,16 @@ func (z *ValueRepository) From(vo interface{}) {
 
 func (z *ValueRepository) Apply(vo interface{}) {
 	l := app_root.Log()
-	defer func() {
-		if r := recover(); r != nil {
-			switch r0 := r.(type) {
-			case *runtime.TypeAssertionError:
-				l.Debug("Unable to convert type", zap.Error(r0))
-			default:
-				l.Debug("Unexpected error", zap.Any("r", r))
-			}
-		}
-	}()
+	//defer func() {
+	//	if r := recover(); r != nil {
+	//		switch r0 := r.(type) {
+	//		case *runtime.TypeAssertionError:
+	//			l.Debug("Unable to convert type", zap.Error(r0))
+	//		default:
+	//			l.Debug("Unexpected error", zap.Any("r", r))
+	//		}
+	//	}
+	//}()
 
 	vot := reflect.TypeOf(vo)
 	vov := reflect.ValueOf(vo)
@@ -187,6 +198,14 @@ func (z *ValueRepository) Apply(vo interface{}) {
 			case vof.Type.Implements(reflect.TypeOf((*mo_time.Time)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
+				} else {
+					ll.Debug("Unable to find value")
+				}
+
+			case vof.Type.Implements(reflect.TypeOf((*mo_path.DropboxPath)(nil)).Elem()):
+				if v, e := z.Values[kn]; e {
+					dbxPath := v.(*ValueDropboxPath)
+					vvf.Set(reflect.ValueOf(mo_path.NewDropboxPath(dbxPath.Path)))
 				} else {
 					ll.Debug("Unable to find value")
 				}
@@ -263,6 +282,8 @@ func (z *ValueRepository) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
 			f.StringVar(dv, kf, *dv, desc)
 		case *mo_time.TimeImpl:
 			f.StringVar(&dv.DateTime, kf, dv.DateTime, desc)
+		case *ValueDropboxPath:
+			f.StringVar(&dv.Path, kf, dv.Path, desc)
 		case *fd_file_impl.CsvData:
 			f.StringVar(&dv.FilePath, kf, dv.FilePath, desc)
 		case *rc_conn_impl.ConnBusinessMgmt:
@@ -291,6 +312,8 @@ func (z ValueRepository) Serialize() map[string]interface{} {
 			s[n] = *dv
 		case *mo_time.TimeImpl:
 			s[n] = dv.DateTime
+		case *ValueDropboxPath:
+			s[n] = dv.Path
 		case *fd_file_impl.CsvData:
 			s[n] = dv.FilePath
 		case *rc_conn_impl.ConnBusinessMgmt:

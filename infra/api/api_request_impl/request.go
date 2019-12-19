@@ -15,11 +15,12 @@ import (
 
 const (
 	RpcEndpoint     = "api.dropboxapi.com"
+	NotifyEndpoint  = "notify.dropboxapi.com"
 	ContentEndpoint = "content.dropboxapi.com"
 )
 
-func RpcRequestUrl(endpoint string) string {
-	return fmt.Sprintf("https://%s/2/%s", RpcEndpoint, endpoint)
+func RpcRequestUrl(base, endpoint string) string {
+	return fmt.Sprintf("https://%s/2/%s", base, endpoint)
 }
 
 func ContentRequestUrl(endpoint string) string {
@@ -30,11 +31,13 @@ func NewPpcRequest(ctx api_context.Context,
 	endpoint string,
 	asMemberId, asAdminId string,
 	base api_context.PathRoot,
-	token api_auth.TokenContainer) api_request.Request {
+	token api_auth.TokenContainer,
+	endpointBase string) api_request.Request {
 
 	req := &rpcRequestImpl{
-		ctx:      ctx,
-		endpoint: endpoint,
+		ctx:          ctx,
+		endpoint:     endpoint,
+		endpointBase: endpointBase,
 		dbxReq: &dbxRequest{
 			asMemberId: asMemberId,
 			asAdminId:  asAdminId,

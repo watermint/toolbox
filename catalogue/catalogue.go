@@ -53,6 +53,7 @@ func Recipes() []rc_recipe.Recipe {
 		&file.Replication{},
 		&file.Restore{},
 		&file.Upload{},
+		&file.Watch{},
 		&filecompare.Account{},
 		&filecompare.Local{},
 		&fileimport.Url{},

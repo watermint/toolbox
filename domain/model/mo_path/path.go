@@ -68,7 +68,11 @@ func (z *dropboxPathImpl) String() string {
 		return "id:" + z.id + z.path
 
 	default:
-		return z.path
+		if z.path == "/" {
+			return ""
+		} else {
+			return z.path
+		}
 	}
 }
 

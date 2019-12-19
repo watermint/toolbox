@@ -63,6 +63,7 @@ Available commands:
 | [file sync preflight up](doc/generated/file-sync-preflight-up.md)               | Upstream sync preflight check                                 |
 | [file sync up](doc/generated/file-sync-up.md)                                   | Upstream sync with Dropbox                                    |
 | [file upload](doc/generated/file-upload.md)                                     | Upload file                                                   |
+| [file watch](doc/generated/file-watch.md)                                       | Watch file activities                                         |
 | [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |
 | [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
 | [group member list](doc/generated/group-member-list.md)                         | List members of groups                                        |

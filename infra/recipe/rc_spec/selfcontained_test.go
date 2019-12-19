@@ -3,6 +3,7 @@ package rc_spec
 import (
 	"errors"
 	"flag"
+	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
@@ -14,6 +15,7 @@ import (
 type SelfContainedTestRecipe struct {
 	ProgressStart app_msg.Message
 	Start         mo_time.Time
+	DbxPath       mo_path.DropboxPath
 	Enabled       bool
 	Limit         int
 	Name          string
@@ -28,6 +30,9 @@ func (z *SelfContainedTestRecipe) Exec(k rc_kitchen.Kitchen) error {
 	}
 	if z.Limit != 20 {
 		return errors.New("limit != 20")
+	}
+	if z.DbxPath.Path() != "/dropbox" {
+		return errors.New("!= /dropbox")
 	}
 	if z.Name != "hey" {
 		return errors.New("!= hey")
@@ -57,6 +62,7 @@ func TestSpecSelfContained_ApplyValues(t *testing.T) {
 			"-limit", "20",
 			"-name", "hey",
 			"-start", "2010-11-12T13:14:15Z",
+			"-dbx-path", "/dropbox",
 		})
 		if err != nil {
 			t.Error(err)
