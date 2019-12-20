@@ -131,10 +131,10 @@ func (z *SpecSideCar) SerializeValues() map[string]interface{} {
 	return z.vc.Serialize()
 }
 
-func (z *SpecSideCar) ApplyValues(ctl app_control.Control) (r rc_recipe.Recipe, k rc_kitchen.Kitchen) {
+func (z *SpecSideCar) ApplyValues(ctl app_control.Control) (r rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
 	vo := z.scr.Requirement()
 	z.vc.Apply(vo)
-	return z.scr, rc_kitchen.NewKitchen(ctl, vo)
+	return z.scr, rc_kitchen.NewKitchen(ctl, vo), nil
 }
 
 func (z *SpecSideCar) SetFlags(f *flag.FlagSet, ui app_ui.UI) {

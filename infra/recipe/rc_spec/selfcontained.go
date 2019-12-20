@@ -20,7 +20,12 @@ func newSelfContained(scr rc_recipe.SelfContainedRecipe) rc_recipe.Spec {
 	path, name := Path(scr)
 	cliPath := strings.Join(append(path, name), " ")
 
-	vr := rc_value.NewValueRepository(scr)
+	vr := rc_value.NewValueRepository()
+	if err := vr.Init(scr); err != nil {
+		return nil
+	}
+
+	scr.Init()
 	scopes, usePersonal, useBusiness := authScopesFromVr(vr)
 
 	keys := make([]string, 0)
@@ -184,13 +189,17 @@ func (z *specSelfContained) ConnScopes() []string {
 	return z.connScopes
 }
 
-func (z *specSelfContained) ApplyValues(ctl app_control.Control) (rcp rc_recipe.Recipe, k rc_kitchen.Kitchen) {
+func (z *specSelfContained) ApplyValues(ctl app_control.Control) (rcp rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
 	rt := reflect.TypeOf(z.scr).Elem()
 	newScr := reflect.New(rt).Interface().(rc_recipe.SelfContainedRecipe)
-	newScr.Init()
-	z.vr.Apply(newScr)
+	newVr := z.vr.Fork()
+	err = newVr.Apply(newScr, ctl)
+	if err != nil {
+		return nil, nil, err
+	}
+
 	app_msg.Apply(newScr)
-	return newScr, rc_kitchen.NewKitchen(ctl, newScr)
+	return newScr, rc_kitchen.NewKitchen(ctl, newScr), nil
 }
 
 func (z *specSelfContained) SerializeValues() map[string]interface{} {

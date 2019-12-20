@@ -1,11 +1,13 @@
 package rc_value
 
 import (
+	"errors"
 	"flag"
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
@@ -18,11 +20,10 @@ import (
 	"strings"
 )
 
-func NewValueRepository(r interface{}) *ValueRepository {
+func NewValueRepository() *ValueRepository {
 	vc := &ValueRepository{
 		Values: make(map[string]interface{}),
 	}
-	vc.From(r)
 	return vc
 }
 
@@ -31,24 +32,53 @@ type ValueRepository struct {
 	Values  map[string]interface{}
 }
 
+type ValueTime struct {
+	Time string
+}
+
 type ValueDropboxPath struct {
 	Path string
 }
 
-func (z *ValueRepository) From(vo interface{}) {
+func (z *ValueRepository) Fork() *ValueRepository {
+	vals := make(map[string]interface{})
+	for k, v := range z.Values {
+		switch vv := v.(type) {
+		case *ValueTime:
+			vals[k] = &ValueTime{Time: vv.Time}
+		case *ValueDropboxPath:
+			vals[k] = &ValueDropboxPath{Path: vv.Path}
+		case *fd_file_impl.RowFeed:
+			rf := &fd_file_impl.RowFeed{FilePath: vv.FilePath}
+			rf.SetModel(vv.Model())
+			vals[k] = rf
+		default:
+			vals[k] = v
+		}
+	}
+	return &ValueRepository{
+		PkgName: z.PkgName,
+		Values:  vals,
+	}
+}
+
+func (z *ValueRepository) Init(vo interface{}) error {
 	l := app_root.Log()
+
 	vot := reflect.TypeOf(vo)
 	vov := reflect.ValueOf(vo)
+
+	// follow pointer
 	if vot.Kind() == reflect.Ptr {
 		vot = reflect.ValueOf(vo).Elem().Type()
 		vov = reflect.ValueOf(vo).Elem()
 	}
-	z.PkgName = vot.PkgPath() + "." + strcase.ToSnake(vot.Name())
 
 	if vot.Kind() != reflect.Struct {
 		l.Error("ValueObject is not a struct", zap.String("name", vot.Name()), zap.String("pkg", vot.PkgPath()))
-		return
+		return errors.New("given obj is not a struct")
 	}
+	z.PkgName = vot.PkgPath() + "." + strcase.ToSnake(vot.Name())
 
 	nf := vot.NumField()
 	for i := 0; i < nf; i++ {
@@ -69,76 +99,45 @@ func (z *ValueRepository) From(vo interface{}) {
 			z.Values[kn] = &v
 		case reflect.Interface:
 			switch {
-			//case vof.Type.Implements(reflect.TypeOf((*fd_file.RowFeed)(nil)).Elem()):
-			//	if !vvf.IsNil() {
-			//		z.Values[kn] = vvf.Interface()
-			//	} else {
-			//		z.Values[kn] = fd_file_impl.NewData()
-			//	}
-			case vof.Type.Implements(reflect.TypeOf((*app_msg.Message)(nil)).Elem()):
-				l.Debug("Message", zap.String("name", vof.Name))
-
 			case vof.Type.Implements(reflect.TypeOf((*mo_time.Time)(nil)).Elem()):
-				if !vvf.IsNil() {
-					z.Values[kn] = vvf.Interface()
-				} else {
-					z.Values[kn] = &mo_time.TimeImpl{}
-				}
+				ll.Debug("init mo_time.Time instance")
+				vvf.Set(reflect.ValueOf(mo_time.Zero()))
+				z.Values[kn] = &ValueTime{}
 
 			case vof.Type.Implements(reflect.TypeOf((*mo_path.DropboxPath)(nil)).Elem()):
-				if !vvf.IsNil() {
-					z.Values[kn] = vvf.Interface()
-				} else {
-					z.Values[kn] = &ValueDropboxPath{}
-				}
+				ll.Debug("init mo_path.DropboxPath instance")
+				vvf.Set(reflect.ValueOf(mo_path.NewDropboxPath("")))
+				z.Values[kn] = &ValueDropboxPath{}
+
+			case vof.Type.Implements(reflect.TypeOf((*fd_file.RowFeed)(nil)).Elem()):
+				ll.Debug("init fd_file.RowFeed instance")
+				fd := &fd_file_impl.RowFeed{}
+				vvf.Set(reflect.ValueOf(fd))
+				z.Values[kn] = fd
 
 			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessMgmt)(nil)).Elem()):
-				if !vvf.IsNil() {
-					z.Values[kn] = vvf.Interface()
-				} else {
-					z.Values[kn] = rc_conn_impl.NewConnBusinessMgmt()
-				}
+				z.Values[kn] = rc_conn_impl.NewConnBusinessMgmt()
 
 			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessInfo)(nil)).Elem()):
-				if !vvf.IsNil() {
-					z.Values[kn] = vvf.Interface()
-				} else {
-					z.Values[kn] = rc_conn_impl.NewConnBusinessInfo()
-				}
+				z.Values[kn] = rc_conn_impl.NewConnBusinessInfo()
 
 			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessAudit)(nil)).Elem()):
-				if !vvf.IsNil() {
-					z.Values[kn] = vvf.Interface()
-				} else {
-					z.Values[kn] = rc_conn_impl.NewConnBusinessAudit()
-				}
+				z.Values[kn] = rc_conn_impl.NewConnBusinessAudit()
 
 			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessFile)(nil)).Elem()):
-				if !vvf.IsNil() {
-					z.Values[kn] = vvf.Interface()
-				} else {
-					z.Values[kn] = rc_conn_impl.NewConnBusinessFile()
-				}
+				z.Values[kn] = rc_conn_impl.NewConnBusinessFile()
 
 			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnUserFile)(nil)).Elem()):
-				if !vvf.IsNil() {
-					z.Values[kn] = vvf.Interface()
-				} else {
-					z.Values[kn] = rc_conn_impl.NewConnUserFile()
-				}
-
-			default:
-				ll.Warn("Unsupported type", zap.Any("kind", vof.Type.Kind()))
+				z.Values[kn] = rc_conn_impl.NewConnUserFile()
 			}
-
-		default:
-			ll.Warn("Unsupported type", zap.Any("kind", vof.Type.Kind()))
 		}
 	}
+	return nil
 }
 
-func (z *ValueRepository) Apply(vo interface{}) {
+func (z *ValueRepository) Apply(vo interface{}, ctl app_control.Control) error {
 	l := app_root.Log()
+	ui := ctl.UI()
 	//defer func() {
 	//	if r := recover(); r != nil {
 	//		switch r0 := r.(type) {
@@ -161,7 +160,7 @@ func (z *ValueRepository) Apply(vo interface{}) {
 
 	if vot.Kind() != reflect.Struct {
 		l.Error("ValueObject is not a struct", zap.String("name", vot.Name()), zap.String("pkg", vot.PkgPath()))
-		return
+		return errors.New("given obj is not a struct")
 	}
 
 	nf := vot.NumField()
@@ -197,7 +196,22 @@ func (z *ValueRepository) Apply(vo interface{}) {
 
 			case vof.Type.Implements(reflect.TypeOf((*mo_time.Time)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
-					vvf.Set(reflect.ValueOf(v))
+					vt := v.(*ValueTime)
+					if vt.Time == "" {
+						ui.Error("infra.recipe.rc_value.value.error.mo_time.empty_time", app_msg.P{
+							"Key": kn,
+						})
+						return errors.New("please specify date/time")
+					}
+					t, err := mo_time.New(vt.Time)
+					if err != nil {
+						ui.Error("infra.recipe.rc_value.value.error.mo_time.invalid_time_format", app_msg.P{
+							"Key":  kn,
+							"Time": vt.Time,
+						})
+						return err
+					}
+					vvf.Set(reflect.ValueOf(t))
 				} else {
 					ll.Debug("Unable to find value")
 				}
@@ -210,8 +224,12 @@ func (z *ValueRepository) Apply(vo interface{}) {
 					ll.Debug("Unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*fd_file.ModelFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*fd_file.RowFeed)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
+					rf := v.(fd_file.RowFeed)
+					if err := rf.ApplyModel(ctl); err != nil {
+						return err
+					}
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("Unable to find value")
@@ -259,6 +277,7 @@ func (z *ValueRepository) Apply(vo interface{}) {
 			ll.Debug("Not supported type", zap.Any("kind", vof.Type.Kind()))
 		}
 	}
+	return nil
 }
 
 func (z *ValueRepository) MessageKey(name string) string {
@@ -280,11 +299,11 @@ func (z *ValueRepository) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
 			f.Int64Var(dv, kf, *dv, desc)
 		case *string:
 			f.StringVar(dv, kf, *dv, desc)
-		case *mo_time.TimeImpl:
-			f.StringVar(&dv.DateTime, kf, dv.DateTime, desc)
+		case *ValueTime:
+			f.StringVar(&dv.Time, kf, dv.Time, desc)
 		case *ValueDropboxPath:
 			f.StringVar(&dv.Path, kf, dv.Path, desc)
-		case *fd_file_impl.CsvData:
+		case *fd_file_impl.RowFeed:
 			f.StringVar(&dv.FilePath, kf, dv.FilePath, desc)
 		case *rc_conn_impl.ConnBusinessMgmt:
 			f.StringVar(&dv.PeerName, kf, dv.PeerName, desc)
@@ -310,11 +329,11 @@ func (z ValueRepository) Serialize() map[string]interface{} {
 			s[n] = *dv
 		case *string:
 			s[n] = *dv
-		case *mo_time.TimeImpl:
-			s[n] = dv.DateTime
+		case *ValueTime:
+			s[n] = dv.Time
 		case *ValueDropboxPath:
 			s[n] = dv.Path
-		case *fd_file_impl.CsvData:
+		case *fd_file_impl.RowFeed:
 			s[n] = dv.FilePath
 		case *rc_conn_impl.ConnBusinessMgmt:
 			s[n] = dv.PeerName

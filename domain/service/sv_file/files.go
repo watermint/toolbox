@@ -3,7 +3,6 @@ package sv_file
 import (
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/service/sv_profile"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"go.uber.org/zap"
@@ -108,7 +107,6 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 	type LongPoll struct {
 		Changes bool `path:"changes"  json:"changes"`
 	}
-	sv_profile.NewProfile(z.ctx).Current()
 
 	res, err := z.ctx.Rpc("files/list_folder/get_latest_cursor").Param(p).Call()
 	if err != nil {

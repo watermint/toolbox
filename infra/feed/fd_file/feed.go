@@ -9,7 +9,10 @@ type Rows interface {
 // Row feed interface for SelfContainedRecipe
 type RowFeed interface {
 	Rows
-	Model(m interface{})
+	SetModel(m interface{})
+
+	Model() interface{}
+	ApplyModel(ctl app_control.Control) error
 }
 
 // File interface for SideCarRecipe

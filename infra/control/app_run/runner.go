@@ -187,7 +187,12 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 	// Run
 	ctl.Log().Debug("Run recipe", zap.Any("vo", rcpSpec.SerializeValues()), zap.Any("common", com))
 	{
-		r, k := rcpSpec.ApplyValues(ctl)
+		r, k, err := rcpSpec.ApplyValues(ctl)
+		if err != nil {
+			ctl.Log().Debug("Unable to apply values to the recipe", zap.Error(err))
+			ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
+			os.Exit(app_control.FailureGeneral)
+		}
 		err = r.Exec(k)
 	}
 

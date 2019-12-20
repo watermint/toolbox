@@ -6,16 +6,25 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"io/ioutil"
+	"path/filepath"
 	"testing"
 )
+
+type SelfContainedTestRow struct {
+	Email string `json:"email"`
+	Quota int    `json:"quota"`
+}
 
 type SelfContainedTestRecipe struct {
 	ProgressStart app_msg.Message
 	Start         mo_time.Time
 	DbxPath       mo_path.DropboxPath
+	CustomQuota   fd_file.RowFeed
 	Enabled       bool
 	Limit         int
 	Name          string
@@ -40,6 +49,15 @@ func (z *SelfContainedTestRecipe) Exec(k rc_kitchen.Kitchen) error {
 	if z.Start.Iso8601() != "2010-11-12T13:14:15Z" {
 		return errors.New("!= 2010-11-12T13:14:15Z")
 	}
+	if err := z.CustomQuota.EachRow(func(m interface{}, rowIndex int) error {
+		row := m.(*SelfContainedTestRow)
+		if row.Email != "orange@example.com" {
+			return errors.New("!= orange@example.com")
+		}
+		return nil
+	}); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -49,6 +67,7 @@ func (z *SelfContainedTestRecipe) Test(c app_control.Control) error {
 
 func (z *SelfContainedTestRecipe) Init() {
 	z.Limit = 10
+	z.CustomQuota.SetModel(&SelfContainedTestRow{})
 }
 
 func TestSpecSelfContained_ApplyValues(t *testing.T) {
@@ -56,13 +75,26 @@ func TestSpecSelfContained_ApplyValues(t *testing.T) {
 		scr := &SelfContainedTestRecipe{}
 		spec := newSelfContained(scr)
 
+		feedDir, err := ioutil.TempDir("", "feed")
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		feedPath := filepath.Join(feedDir, "fd_feed.csv")
+		err = ioutil.WriteFile(feedPath, []byte("orange@example.com,10"), 0600)
+		if err != nil {
+			t.Error(err)
+			return
+		}
+
 		f := flag.NewFlagSet("test", flag.ContinueOnError)
 		spec.SetFlags(f, ctl.UI())
-		err := f.Parse([]string{"-enabled",
+		err = f.Parse([]string{"-enabled",
 			"-limit", "20",
 			"-name", "hey",
 			"-start", "2010-11-12T13:14:15Z",
 			"-dbx-path", "/dropbox",
+			"-custom-quota", feedPath,
 		})
 		if err != nil {
 			t.Error(err)
@@ -70,7 +102,11 @@ func TestSpecSelfContained_ApplyValues(t *testing.T) {
 		}
 
 		{
-			rcp, k := spec.ApplyValues(ctl)
+			rcp, k, err := spec.ApplyValues(ctl)
+			if err != nil {
+				t.Error(err)
+				return
+			}
 			if err = rcp.Exec(k); err != nil {
 				t.Error(err)
 			}
