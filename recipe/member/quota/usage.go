@@ -27,7 +27,7 @@ type UsageWorker struct {
 	member *mo_member.Member
 	ctx    api_context.Context
 	ctl    app_control.Control
-	rep    rp_model.Report
+	rep    rp_model.SideCarReport
 }
 
 func (z *UsageWorker) Exec() error {

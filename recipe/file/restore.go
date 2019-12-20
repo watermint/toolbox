@@ -28,7 +28,7 @@ type RestoreVO struct {
 type RestoreWorker struct {
 	k    rc_kitchen.Kitchen
 	ctx  api_context.Context
-	rep  rp_model.Report
+	rep  rp_model.SideCarReport
 	path mo_path.DropboxPath
 }
 

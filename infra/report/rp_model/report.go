@@ -44,7 +44,8 @@ func HiddenColumns(col ...string) ReportOpt {
 	}
 }
 
-type Report interface {
+// Deprecated:
+type SideCarReport interface {
 	// Report data row
 	Row(row interface{})
 
@@ -56,6 +57,28 @@ type Report interface {
 	Close()
 }
 
+type Report interface {
+	Open(opts ...ReportOpt) error
+
+	// Close report, close should not raise exception when the report already closed.
+	Close()
+}
+
+type RowReport interface {
+	Report
+	Row(row interface{})
+	Model(row interface{}, opts ...ReportOpt)
+}
+
+type TransactionReport interface {
+	Report
+	Success(input interface{}, result interface{})
+	Failure(err error, input interface{})
+	Skip(reason app_msg.Message, input interface{})
+	Model(input interface{}, result interface{}, opts ...ReportOpt)
+}
+
+// Deprecated:
 func TransactionHeader(input interface{}, result interface{}) *TransactionRow {
 	return &TransactionRow{
 		Input:  input,
@@ -77,6 +100,7 @@ var (
 	MsgInvalidData = app_msg.M("report.transaction.failure.invalid_data")
 )
 
+// Deprecated:
 type NotFound struct {
 	Id string
 }
@@ -85,6 +109,7 @@ func (z *NotFound) Error() string {
 	return "entry not found for id: " + z.Id
 }
 
+// Deprecated:
 type InvalidData struct {
 }
 

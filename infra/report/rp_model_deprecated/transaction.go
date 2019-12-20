@@ -1,4 +1,4 @@
-package rp_model_impl
+package rp_model_deprecated
 
 import (
 	"github.com/watermint/toolbox/infra/api/api_util"

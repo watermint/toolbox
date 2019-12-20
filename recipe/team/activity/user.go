@@ -53,7 +53,7 @@ type UserWorker struct {
 	k          rc_kitchen.Kitchen
 	ctx        api_context.Context
 	reps       *rp_spec_impl.Specs
-	repSummary rp_model.Report
+	repSummary rp_model.SideCarReport
 	user       *mo_member.Member
 	vo         *UserVO
 }

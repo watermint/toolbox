@@ -12,5 +12,5 @@ type ReportSpec interface {
 	Columns() []string
 	ColumnDesc(col string) app_msg.Message
 	Options() []rp_model.ReportOpt
-	Open(opts ...rp_model.ReportOpt) (rp_model.Report, error)
+	Open(opts ...rp_model.ReportOpt) (rp_model.SideCarReport, error)
 }

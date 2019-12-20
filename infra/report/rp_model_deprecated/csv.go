@@ -1,4 +1,4 @@
-package rp_model_impl
+package rp_model_deprecated
 
 import (
 	"encoding/csv"
@@ -11,7 +11,7 @@ import (
 	"sync"
 )
 
-func NewCsv(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.Report, err error) {
+func NewCsv(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.SideCarReport, err error) {
 	l := ctl.Log()
 	p := filepath.Join(ctl.Workspace().Report(), name+".csv")
 	l.Debug("Create new csv report", zap.String("path", p))

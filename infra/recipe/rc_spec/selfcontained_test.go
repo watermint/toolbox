@@ -3,11 +3,13 @@ package rc_spec
 import (
 	"errors"
 	"flag"
+	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"io/ioutil"
@@ -28,6 +30,8 @@ type SelfContainedTestRecipe struct {
 	Enabled       bool
 	Limit         int
 	Name          string
+	OperLog       rp_model.TransactionReport
+	DataReport    rp_model.RowReport
 }
 
 func (z *SelfContainedTestRecipe) Exec(k rc_kitchen.Kitchen) error {
@@ -49,15 +53,26 @@ func (z *SelfContainedTestRecipe) Exec(k rc_kitchen.Kitchen) error {
 	if z.Start.Iso8601() != "2010-11-12T13:14:15Z" {
 		return errors.New("!= 2010-11-12T13:14:15Z")
 	}
+	err := z.OperLog.Open()
+	if err != nil {
+		return err
+	}
+	err = z.DataReport.Open()
+	if err != nil {
+		return err
+	}
 	if err := z.CustomQuota.EachRow(func(m interface{}, rowIndex int) error {
 		row := m.(*SelfContainedTestRow)
 		if row.Email != "orange@example.com" {
 			return errors.New("!= orange@example.com")
 		}
+		z.OperLog.Success(row, nil)
+		z.DataReport.Row(row)
 		return nil
 	}); err != nil {
 		return err
 	}
+
 	return nil
 }
 
@@ -68,6 +83,8 @@ func (z *SelfContainedTestRecipe) Test(c app_control.Control) error {
 func (z *SelfContainedTestRecipe) Init() {
 	z.Limit = 10
 	z.CustomQuota.SetModel(&SelfContainedTestRow{})
+	z.OperLog.Model(&SelfContainedTestRow{}, &mo_file.ConcreteEntry{})
+	z.DataReport.Model(&mo_file.ConcreteEntry{})
 }
 
 func TestSpecSelfContained_ApplyValues(t *testing.T) {

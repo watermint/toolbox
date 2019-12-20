@@ -13,6 +13,8 @@ import (
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
+	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_model_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -115,6 +117,18 @@ func (z *ValueRepository) Init(vo interface{}) error {
 				vvf.Set(reflect.ValueOf(fd))
 				z.Values[kn] = fd
 
+			case vof.Type.Implements(reflect.TypeOf((*rp_model.RowReport)(nil)).Elem()):
+				ll.Debug("init rp_model.RowReport instance")
+				rr := rp_model_impl.NewRowReport(kn)
+				vvf.Set(reflect.ValueOf(rr))
+				z.Values[kn] = rr
+
+			case vof.Type.Implements(reflect.TypeOf((*rp_model.TransactionReport)(nil)).Elem()):
+				ll.Debug("init rp_model.TransactionReport instance")
+				rr := rp_model_impl.NewTransactionReport(kn)
+				vvf.Set(reflect.ValueOf(rr))
+				z.Values[kn] = rr
+
 			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessMgmt)(nil)).Elem()):
 				z.Values[kn] = rc_conn_impl.NewConnBusinessMgmt()
 
@@ -191,6 +205,14 @@ func (z *ValueRepository) Apply(vo interface{}, ctl app_control.Control) error {
 			}
 		case reflect.Interface:
 			switch {
+			case vof.Type.Implements(reflect.TypeOf((*rp_model.RowReport)(nil)).Elem()):
+				rr := z.Values[kn].(*rp_model_impl.RowReport)
+				vvf.Set(reflect.ValueOf(rr.Fork()))
+
+			case vof.Type.Implements(reflect.TypeOf((*rp_model.TransactionReport)(nil)).Elem()):
+				rr := z.Values[kn].(*rp_model_impl.TransactionReport)
+				vvf.Set(reflect.ValueOf(rr.Fork()))
+
 			case vof.Type.Implements(reflect.TypeOf((*app_msg.Message)(nil)).Elem()):
 				l.Debug("Message", zap.String("name", vof.Name))
 

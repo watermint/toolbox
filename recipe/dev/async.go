@@ -49,7 +49,7 @@ type AsyncWorker struct {
 	// recipe's context
 	ctl  app_control.Control
 	conn api_context.Context
-	rep  rp_model.Report
+	rep  rp_model.SideCarReport
 }
 
 func (z *AsyncWorker) Exec() error {

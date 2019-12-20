@@ -1,4 +1,4 @@
-package rp_model_impl
+package rp_model_deprecated
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -8,7 +8,7 @@ import (
 	"sync"
 )
 
-func NewUI(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (rp_model.Report, error) {
+func NewUI(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (rp_model.SideCarReport, error) {
 	parser := NewColumn(row, opts...)
 	ui := ctl.UI()
 	r := &UI{

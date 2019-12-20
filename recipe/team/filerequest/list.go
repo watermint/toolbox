@@ -25,7 +25,7 @@ type ListVO struct {
 type ListWorker struct {
 	member *mo_member.Member
 	conn   api_context.Context
-	rep    rp_model.Report
+	rep    rp_model.SideCarReport
 	ctl    app_control.Control
 }
 

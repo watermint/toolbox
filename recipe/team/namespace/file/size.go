@@ -35,7 +35,7 @@ type SizeWorker struct {
 	namespace *mo_namespace.Namespace
 	ctx       api_context.Context
 	ctl       app_control.Control
-	rep       rp_model.Report
+	rep       rp_model.SideCarReport
 	vo        *SizeVO
 	k         rc_kitchen.Kitchen
 }

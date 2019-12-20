@@ -270,8 +270,8 @@ type UploadWorker struct {
 	up              sv_file_content.Upload
 	mo              *UploadMO
 	estimateOnly    bool
-	repUpload       rp_model.Report
-	repSkip         rp_model.Report
+	repUpload       rp_model.SideCarReport
+	repSkip         rp_model.SideCarReport
 	opts            *UploadOpts
 	status          *UploadStatus
 }

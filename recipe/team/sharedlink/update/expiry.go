@@ -33,8 +33,8 @@ type ExpiryScanWorker struct {
 	k          rc_kitchen.Kitchen
 	ctl        app_control.Control
 	ctx        api_context.Context
-	rep        rp_model.Report
-	repSkipped rp_model.Report
+	rep        rp_model.SideCarReport
+	repSkipped rp_model.SideCarReport
 	member     *mo_member.Member
 	newExpiry  time.Time
 	visibility string
@@ -108,7 +108,7 @@ func (z *ExpiryScanWorker) Exec() error {
 type ExpiryWorker struct {
 	ctl       app_control.Control
 	ctx       api_context.Context
-	rep       rp_model.Report
+	rep       rp_model.SideCarReport
 	member    *mo_member.Member
 	link      mo_sharedlink.SharedLink
 	newExpiry time.Time

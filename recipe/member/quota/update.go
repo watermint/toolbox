@@ -31,7 +31,7 @@ type UpdateWorker struct {
 
 	ctl app_control.Control
 	ctx api_context.Context
-	rep rp_model.Report
+	rep rp_model.SideCarReport
 }
 
 func (z *UpdateWorker) Exec() error {

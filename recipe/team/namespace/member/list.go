@@ -27,7 +27,7 @@ type ListVO struct {
 type ListWorker struct {
 	namespace *mo_namespace.Namespace
 	ctx       api_context.Context // should be with admin team member id.
-	rep       rp_model.Report
+	rep       rp_model.SideCarReport
 	ctl       app_control.Control
 }
 

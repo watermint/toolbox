@@ -43,7 +43,7 @@ type EmailWorker struct {
 	vo          *EmailVO
 	member      *mo_member.Member
 	ctx         api_context.Context
-	rep         rp_model.Report
+	rep         rp_model.SideCarReport
 	ctl         app_control.Control
 }
 

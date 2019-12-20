@@ -1,4 +1,4 @@
-package rp_model_impl
+package rp_model_deprecated
 
 import (
 	"encoding/json"

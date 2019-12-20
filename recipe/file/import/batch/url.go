@@ -34,7 +34,7 @@ type UrlWorker struct {
 	path string
 	ctx  api_context.Context
 	ctl  app_control.Control
-	rep  rp_model.Report
+	rep  rp_model.SideCarReport
 }
 
 func (z *UrlWorker) Exec() error {

@@ -3,7 +3,7 @@ package app_file_impl_test
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
-	"github.com/watermint/toolbox/infra/report/rp_model_impl"
+	"github.com/watermint/toolbox/infra/report/rp_model_deprecated"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"path/filepath"
 	"testing"
@@ -56,7 +56,7 @@ func TestCsvData_EachRow(t *testing.T) {
 			Verified: true,
 		})
 
-		rep, err := rp_model_impl.New("data_row", &DataRow{}, ctl)
+		rep, err := rp_model_deprecated.New("data_row", &DataRow{}, ctl)
 		if err != nil {
 			t.Error(err)
 			return

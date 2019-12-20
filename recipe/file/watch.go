@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/report/rp_model_impl"
+	"github.com/watermint/toolbox/infra/report/rp_model_deprecated"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
@@ -26,7 +26,7 @@ func (z *Watch) Exec(k rc_kitchen.Kitchen) error {
 	if z.Recursive {
 		opts = append(opts, sv_file.Recursive())
 	}
-	rep, _ := rp_model_impl.NewJsonForQuiet("entries", k.Control())
+	rep, _ := rp_model_deprecated.NewJsonForQuiet("entries", k.Control())
 
 	return sv_file.NewFiles(ctx).Poll(z.Path, func(entry mo_file.Entry) {
 		rep.Row(entry.Concrete())

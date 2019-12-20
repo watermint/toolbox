@@ -27,6 +27,8 @@
   "infra.recipe.rc_spec.self_contained_test_recipe.flag.start": "<TestValue>",
   "infra.recipe.rc_spec.self_contained_test_recipe.flag.dbx_path": "<TestValue>",
   "infra.recipe.rc_spec.self_contained_test_recipe.flag.custom_quota":"<TestValue>",
+  "infra.recipe.rc_spec.self_contained_test_recipe.flag.oper_log":"<TestValue>",
+  "infra.recipe.rc_spec.self_contained_test_recipe.flag.data_report":"<TestValue>",
   "raw": "{{.Raw}}",
   "recipe.dev.async_vo.flag.peer": "Account alias",
   "recipe.dev.async_vo.flag.run_concurrently": "run concurrently",

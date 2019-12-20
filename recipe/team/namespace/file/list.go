@@ -38,7 +38,7 @@ type ListWorker struct {
 	idToMember map[string]*mo_member.Member
 	ctx        api_context.Context
 	ctl        app_control.Control
-	rep        rp_model.Report
+	rep        rp_model.SideCarReport
 	vo         *ListVO
 }
 

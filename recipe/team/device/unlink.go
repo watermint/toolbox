@@ -24,7 +24,7 @@ type UnlinkVO struct {
 
 type UnlinkWorker struct {
 	session *mo_device.MemberSession
-	rep     rp_model.Report
+	rep     rp_model.SideCarReport
 	ctx     api_context.Context
 	ctl     app_control.Control
 }

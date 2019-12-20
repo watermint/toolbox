@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_model_impl"
+	"github.com/watermint/toolbox/infra/report/rp_model_deprecated"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_reflect"
@@ -32,7 +32,7 @@ type Specs struct {
 	specs  map[string]rp_spec.ReportSpec
 }
 
-func (z *Specs) Open(name string, opt ...rp_model.ReportOpt) (rep rp_model.Report, err error) {
+func (z *Specs) Open(name string, opt ...rp_model.ReportOpt) (rep rp_model.SideCarReport, err error) {
 	if rs, ok := z.specs[name]; ok {
 		opts := make([]rp_model.ReportOpt, 0)
 		if rs.Options() != nil {
@@ -41,7 +41,7 @@ func (z *Specs) Open(name string, opt ...rp_model.ReportOpt) (rep rp_model.Repor
 		if opt != nil {
 			opts = append(opts, opt...)
 		}
-		return rp_model_impl.New(rs.Name(), rs.Row(), z.ctl, opts...)
+		return rp_model_deprecated.New(rs.Name(), rs.Row(), z.ctl, opts...)
 	}
 
 	return nil, errors.New("report specification not found")
@@ -90,7 +90,7 @@ func (e EmptySpec) Options() []rp_model.ReportOpt {
 	return []rp_model.ReportOpt{}
 }
 
-func (e EmptySpec) Open(opts ...rp_model.ReportOpt) (rp_model.Report, error) {
+func (e EmptySpec) Open(opts ...rp_model.ReportOpt) (rp_model.SideCarReport, error) {
 	return nil, errors.New("no report spec")
 }
 
@@ -102,7 +102,7 @@ type reportSpec struct {
 	colDesc map[string]app_msg.Message
 }
 
-func (z *reportSpec) Open(opts ...rp_model.ReportOpt) (rp_model.Report, error) {
+func (z *reportSpec) Open(opts ...rp_model.ReportOpt) (rp_model.SideCarReport, error) {
 	return nil, errors.New("not enough resource")
 }
 
@@ -130,7 +130,7 @@ func (z *reportSpec) prepModel() {
 		if m == nil {
 			return []string{}
 		}
-		model := rp_model_impl.NewColumn(m, z.opts...)
+		model := rp_model_deprecated.NewColumn(m, z.opts...)
 		cols := model.Header()
 		keyBase := ut_reflect.Key(app.Pkg, m)
 		for _, col := range cols {
@@ -200,7 +200,7 @@ func (z *ReportSpecWithControl) Options() []rp_model.ReportOpt {
 	return z.spec.Options()
 }
 
-func (z *ReportSpecWithControl) Open(opts ...rp_model.ReportOpt) (rp_model.Report, error) {
+func (z *ReportSpecWithControl) Open(opts ...rp_model.ReportOpt) (rp_model.SideCarReport, error) {
 	ros := make([]rp_model.ReportOpt, 0)
 	if z.spec.Options() != nil {
 		ros = append(ros, z.spec.Options()...)
@@ -208,5 +208,5 @@ func (z *ReportSpecWithControl) Open(opts ...rp_model.ReportOpt) (rp_model.Repor
 	if opts != nil {
 		ros = append(ros, opts...)
 	}
-	return rp_model_impl.New(z.Name(), z.Row(), z.ctl, opts...)
+	return rp_model_deprecated.New(z.Name(), z.Row(), z.ctl, opts...)
 }

@@ -1,4 +1,4 @@
-package rp_model_impl
+package rp_model_deprecated
 
 import (
 	"fmt"
@@ -43,7 +43,7 @@ func xlsxDataStyle() *xlsx.Style {
 	return dataStyle
 }
 
-func NewXlsx(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.Report, err error) {
+func NewXlsx(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.SideCarReport, err error) {
 	parser := NewColumn(row, opts...)
 	x := &Xlsx{
 		fileAvailable: false,

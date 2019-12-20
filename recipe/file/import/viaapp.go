@@ -141,10 +141,10 @@ func (z *ViaAppStates) ReleaseBacklog() {
 }
 
 type ViaAppReports struct {
-	repLocalScanner rp_model.Report
-	repDbxScanner   rp_model.Report
-	repCopier       rp_model.Report
-	repMover        rp_model.Report
+	repLocalScanner rp_model.SideCarReport
+	repDbxScanner   rp_model.SideCarReport
+	repCopier       rp_model.SideCarReport
+	repMover        rp_model.SideCarReport
 }
 
 type ViaAppQueues struct {
