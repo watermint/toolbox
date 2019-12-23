@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 )
 
+// Deprecated:
 func NewColumn(row interface{}, opts ...rp_model.ReportOpt) Column {
 	ro := &rp_model.ReportOpts{}
 	for _, opt := range opts {
@@ -17,6 +18,7 @@ func NewColumn(row interface{}, opts ...rp_model.ReportOpt) Column {
 	return ri
 }
 
+// Deprecated:
 type Column interface {
 	Header() []string
 	Values(r interface{}) []interface{}

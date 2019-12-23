@@ -15,7 +15,7 @@ import (
 func New(recipe rc_recipe.SideCarRecipe, ctl app_control.Control) *Specs {
 	specs := make(map[string]rp_spec.ReportSpec)
 	for _, rs := range recipe.Reports() {
-		specs[rs.Name()] = rs
+		specs[rs.Name()] = rs.(rp_spec.ReportSpec)
 	}
 
 	s := &Specs{

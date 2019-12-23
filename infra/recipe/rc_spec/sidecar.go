@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_vo_impl"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"sort"
@@ -161,8 +161,12 @@ func (z *SpecSideCar) CliNote() app_msg.MessageOptional {
 	return RecipeMessage(z.scr, "cli.note").AsOptional()
 }
 
-func (z *SpecSideCar) Reports() []rp_spec.ReportSpec {
-	return z.scr.Reports()
+func (z *SpecSideCar) Reports() []rp_model.Spec {
+	specs := make([]rp_model.Spec, 0)
+	for _, s := range z.scr.Reports() {
+		specs = append(specs, s)
+	}
+	return specs
 }
 
 func (z *SpecSideCar) CliPath() string {

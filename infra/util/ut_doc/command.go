@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -70,7 +70,7 @@ func (z *Commands) optionsTable(spec rc_recipe.SpecValue) string {
 	return b.String()
 }
 
-func (z *Commands) reportTable(rs rp_spec.ReportSpec) string {
+func (z *Commands) reportTable(rs rp_model.Spec) string {
 	var b bytes.Buffer
 	w := bufio.NewWriter(&b)
 	mc := z.ctl.Messages()

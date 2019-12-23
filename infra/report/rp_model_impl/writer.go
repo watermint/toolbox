@@ -34,6 +34,10 @@ type RowReport struct {
 	opts  []rp_model.ReportOpt
 }
 
+func (z *RowReport) Spec() rp_model.Spec {
+	return newSpec(z.name, z.model, z.opts)
+}
+
 func (z *RowReport) Fork(ctl app_control.Control) rp_model.RowReport {
 	return &RowReport{
 		name:  z.name,
@@ -73,6 +77,10 @@ type TransactionReport struct {
 	w     Writer
 	model interface{}
 	opts  []rp_model.ReportOpt
+}
+
+func (z *TransactionReport) Spec() rp_model.Spec {
+	return newSpec(z.name, z.model, z.opts)
 }
 
 func (z *TransactionReport) Fork(ctl app_control.Control) rp_model.TransactionReport {

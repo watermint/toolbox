@@ -59,6 +59,7 @@ type SideCarReport interface {
 
 type Report interface {
 	Open(opts ...ReportOpt) error
+	Spec() Spec
 
 	// Close report, close should not raise exception when the report already closed.
 	Close()

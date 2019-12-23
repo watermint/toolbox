@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_value"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"reflect"
@@ -169,8 +169,12 @@ func (z *specSelfContained) CliNote() app_msg.MessageOptional {
 	return RecipeMessage(z.scr, "cli.note").AsOptional()
 }
 
-func (z *specSelfContained) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{}
+func (z *specSelfContained) Reports() []rp_model.Spec {
+	rs := make([]rp_model.Spec, 0)
+	for _, r := range z.vr.Reports {
+		rs = append(rs, r.Spec())
+	}
+	return rs
 }
 
 func (z *specSelfContained) Feeds() map[string]fd_file.RowFeed {

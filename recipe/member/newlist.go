@@ -42,5 +42,5 @@ func (z *Newlist) Test(c app_control.Control) error {
 }
 
 func (z *Newlist) Init() {
-	z.MemberList.Model(&mo_member.Member{})
+	z.MemberList.Model(&mo_member.Member{}, rp_model.HiddenColumns("persistent_id"))
 }

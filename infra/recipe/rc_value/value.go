@@ -131,13 +131,13 @@ func (z *ValueRepository) Init(vo interface{}) error {
 
 			case vof.Type.Implements(reflect.TypeOf((*rp_model.RowReport)(nil)).Elem()):
 				ll.Debug("init rp_model.RowReport instance")
-				rr := rp_model_impl.NewRowReport(kn)
+				rr := rp_model_impl.NewRowReport(strcase.ToSnake(kn))
 				vvf.Set(reflect.ValueOf(rr))
 				z.Reports[kn] = rr
 
 			case vof.Type.Implements(reflect.TypeOf((*rp_model.TransactionReport)(nil)).Elem()):
 				ll.Debug("init rp_model.TransactionReport instance")
-				rr := rp_model_impl.NewTransactionReport(kn)
+				rr := rp_model_impl.NewTransactionReport(strcase.ToSnake(kn))
 				vvf.Set(reflect.ValueOf(rr))
 				z.Reports[kn] = rr
 
