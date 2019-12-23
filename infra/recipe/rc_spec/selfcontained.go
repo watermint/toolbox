@@ -192,7 +192,7 @@ func (z *specSelfContained) ConnScopes() []string {
 func (z *specSelfContained) ApplyValues(ctl app_control.Control) (rcp rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
 	rt := reflect.TypeOf(z.scr).Elem()
 	newScr := reflect.New(rt).Interface().(rc_recipe.SelfContainedRecipe)
-	newVr := z.vr.Fork()
+	newVr := z.vr.Fork(ctl)
 	err = newVr.Apply(newScr, ctl)
 	if err != nil {
 		return nil, nil, err

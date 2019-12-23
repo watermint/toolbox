@@ -41,7 +41,7 @@ func (z *Specs) Open(name string, opt ...rp_model.ReportOpt) (rep rp_model.SideC
 		if opt != nil {
 			opts = append(opts, opt...)
 		}
-		return rp_model_deprecated.New(rs.Name(), rs.Row(), z.ctl, opts...)
+		return rp_model_deprecated.New(rs.Name(), rs.Model(), z.ctl, opts...)
 	}
 
 	return nil, errors.New("report specification not found")
@@ -70,7 +70,7 @@ func (e EmptySpec) Name() string {
 	return ""
 }
 
-func (e EmptySpec) Row() interface{} {
+func (e EmptySpec) Model() interface{} {
 	return struct{}{}
 }
 
@@ -114,7 +114,7 @@ func (z *reportSpec) Name() string {
 	return z.name
 }
 
-func (z *reportSpec) Row() interface{} {
+func (z *reportSpec) Model() interface{} {
 	return z.row
 }
 
@@ -180,8 +180,8 @@ func (z *ReportSpecWithControl) Name() string {
 	return z.spec.Name()
 }
 
-func (z *ReportSpecWithControl) Row() interface{} {
-	return z.spec.Row()
+func (z *ReportSpecWithControl) Model() interface{} {
+	return z.spec.Model()
 }
 
 func (z *ReportSpecWithControl) Desc() app_msg.Message {
@@ -208,5 +208,5 @@ func (z *ReportSpecWithControl) Open(opts ...rp_model.ReportOpt) (rp_model.SideC
 	if opts != nil {
 		ros = append(ros, opts...)
 	}
-	return rp_model_deprecated.New(z.Name(), z.Row(), z.ctl, opts...)
+	return rp_model_deprecated.New(z.Name(), z.Model(), z.ctl, opts...)
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
+// Deprecated:
 func New(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (rp_model.SideCarReport, error) {
 	ro := &rp_model.ReportOpts{}
 	for _, o := range opts {
@@ -72,6 +73,7 @@ func New(name string, row interface{}, ctl app_control.Control, opts ...rp_model
 	return r, nil
 }
 
+// Deprecated:
 type Cascade struct {
 	Ctl      app_control.Control
 	Reports  []rp_model.SideCarReport

@@ -14,13 +14,14 @@ import (
 )
 
 type jsonWriter struct {
-	name  string
-	index int
-	path  string
-	file  *os.File
-	w     io.Writer
-	mutex sync.Mutex
-	ctl   app_control.Control
+	name     string
+	index    int
+	path     string
+	toStdout bool
+	file     *os.File
+	w        io.Writer
+	mutex    sync.Mutex
+	ctl      app_control.Control
 }
 
 func (z *jsonWriter) Name() string {
@@ -29,20 +30,21 @@ func (z *jsonWriter) Name() string {
 
 func (z *jsonWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) (err error) {
 	z.ctl = ctl
-	if z.path == "" {
+	if z.toStdout {
 		z.w = os.Stdout
 		return nil
 	}
 	l := ctl.Log()
 
-	p := filepath.Join(ctl.Workspace().Report(), z.Name()+".json")
-	l = l.With(zap.String("path", p))
+	z.path = filepath.Join(ctl.Workspace().Report(), z.Name()+".json")
+	l = l.With(zap.String("path", z.path))
 	l.Debug("Create new json report")
-	z.file, err = os.Create(p)
+	z.file, err = os.Create(z.path)
 	if err != nil {
 		l.Error("Unable to create file", zap.Error(err))
 		return err
 	}
+	z.w = z.file
 	return nil
 }
 

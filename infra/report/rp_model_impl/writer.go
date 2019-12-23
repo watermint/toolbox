@@ -34,10 +34,10 @@ type RowReport struct {
 	opts  []rp_model.ReportOpt
 }
 
-func (z *RowReport) Fork() rp_model.RowReport {
+func (z *RowReport) Fork(ctl app_control.Control) rp_model.RowReport {
 	return &RowReport{
 		name:  z.name,
-		ctl:   z.ctl,
+		ctl:   ctl,
 		w:     nil, // clear writers on fork
 		model: z.model,
 		opts:  z.opts,
@@ -75,10 +75,10 @@ type TransactionReport struct {
 	opts  []rp_model.ReportOpt
 }
 
-func (z *TransactionReport) Fork() rp_model.TransactionReport {
+func (z *TransactionReport) Fork(ctl app_control.Control) rp_model.TransactionReport {
 	return &TransactionReport{
 		name:  z.name,
-		ctl:   z.ctl,
+		ctl:   ctl,
 		w:     nil, // clear writers on fork
 		model: z.model,
 		opts:  z.opts,

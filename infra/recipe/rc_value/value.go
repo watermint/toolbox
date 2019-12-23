@@ -24,7 +24,8 @@ import (
 
 func NewValueRepository() *ValueRepository {
 	vc := &ValueRepository{
-		Values: make(map[string]interface{}),
+		Values:  make(map[string]interface{}),
+		Reports: make(map[string]rp_model.Report),
 	}
 	return vc
 }
@@ -32,6 +33,7 @@ func NewValueRepository() *ValueRepository {
 type ValueRepository struct {
 	PkgName string
 	Values  map[string]interface{}
+	Reports map[string]rp_model.Report
 }
 
 type ValueTime struct {
@@ -42,8 +44,9 @@ type ValueDropboxPath struct {
 	Path string
 }
 
-func (z *ValueRepository) Fork() *ValueRepository {
+func (z *ValueRepository) Fork(ctl app_control.Control) *ValueRepository {
 	vals := make(map[string]interface{})
+	reps := make(map[string]rp_model.Report)
 	for k, v := range z.Values {
 		switch vv := v.(type) {
 		case *ValueTime:
@@ -58,9 +61,18 @@ func (z *ValueRepository) Fork() *ValueRepository {
 			vals[k] = v
 		}
 	}
+	for k, v := range z.Reports {
+		switch vv := v.(type) {
+		case *rp_model_impl.RowReport:
+			reps[k] = vv.Fork(ctl)
+		case *rp_model_impl.TransactionReport:
+			reps[k] = vv.Fork(ctl)
+		}
+	}
 	return &ValueRepository{
 		PkgName: z.PkgName,
 		Values:  vals,
+		Reports: reps,
 	}
 }
 
@@ -121,13 +133,13 @@ func (z *ValueRepository) Init(vo interface{}) error {
 				ll.Debug("init rp_model.RowReport instance")
 				rr := rp_model_impl.NewRowReport(kn)
 				vvf.Set(reflect.ValueOf(rr))
-				z.Values[kn] = rr
+				z.Reports[kn] = rr
 
 			case vof.Type.Implements(reflect.TypeOf((*rp_model.TransactionReport)(nil)).Elem()):
 				ll.Debug("init rp_model.TransactionReport instance")
 				rr := rp_model_impl.NewTransactionReport(kn)
 				vvf.Set(reflect.ValueOf(rr))
-				z.Values[kn] = rr
+				z.Reports[kn] = rr
 
 			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessMgmt)(nil)).Elem()):
 				z.Values[kn] = rc_conn_impl.NewConnBusinessMgmt()
@@ -206,12 +218,12 @@ func (z *ValueRepository) Apply(vo interface{}, ctl app_control.Control) error {
 		case reflect.Interface:
 			switch {
 			case vof.Type.Implements(reflect.TypeOf((*rp_model.RowReport)(nil)).Elem()):
-				rr := z.Values[kn].(*rp_model_impl.RowReport)
-				vvf.Set(reflect.ValueOf(rr.Fork()))
+				rr := z.Reports[kn].(*rp_model_impl.RowReport)
+				vvf.Set(reflect.ValueOf(rr.Fork(ctl)))
 
 			case vof.Type.Implements(reflect.TypeOf((*rp_model.TransactionReport)(nil)).Elem()):
-				rr := z.Values[kn].(*rp_model_impl.TransactionReport)
-				vvf.Set(reflect.ValueOf(rr.Fork()))
+				rr := z.Reports[kn].(*rp_model_impl.TransactionReport)
+				vvf.Set(reflect.ValueOf(rr.Fork(ctl)))
 
 			case vof.Type.Implements(reflect.TypeOf((*app_msg.Message)(nil)).Elem()):
 				l.Debug("Message", zap.String("name", vof.Name))

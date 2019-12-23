@@ -78,6 +78,15 @@ type TransactionReport interface {
 	Model(input interface{}, result interface{}, opts ...ReportOpt)
 }
 
+type Spec interface {
+	Name() string
+	Model() interface{}
+	Desc() app_msg.Message
+	Columns() []string
+	ColumnDesc(col string) app_msg.Message
+	Options() []ReportOpt
+}
+
 // Deprecated:
 func TransactionHeader(input interface{}, result interface{}) *TransactionRow {
 	return &TransactionRow{

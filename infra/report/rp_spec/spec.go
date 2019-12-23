@@ -2,15 +2,12 @@ package rp_spec
 
 import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
+// Deprecated:
 type ReportSpec interface {
-	Name() string
-	Row() interface{}
-	Desc() app_msg.Message
-	Columns() []string
-	ColumnDesc(col string) app_msg.Message
-	Options() []rp_model.ReportOpt
+	rp_model.Spec
+
+	// Deprecated:
 	Open(opts ...rp_model.ReportOpt) (rp_model.SideCarReport, error)
 }

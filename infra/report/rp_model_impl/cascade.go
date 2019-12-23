@@ -6,11 +6,16 @@ import (
 )
 
 func newCascade(name string, ctl app_control.Control) Writer {
+	writers := make([]Writer, 0)
+	writers = append(writers, &jsonWriter{name: name, ctl: ctl, toStdout: false})
+
+	if ctl.IsQuiet() {
+		writers = append(writers, &jsonWriter{name: name, ctl: ctl, toStdout: true})
+	}
+
 	return &cascadeWriter{
-		name: name,
-		writers: []Writer{
-			&jsonWriter{name: name, ctl: ctl},
-		},
+		name:    name,
+		writers: writers,
 	}
 }
 

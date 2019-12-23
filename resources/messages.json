@@ -268,6 +268,8 @@
   "recipe.member.update.profile.title": "Update member profile",
   "recipe.member.update.profile.cli.args": "-file /path/to/data/file.csv",
   "recipe.member.update.title": "Bulk update email address",
+  "recipe.member.newlist.title": "Member list (experimental)",
+  "recipe.member.newlist.flag.peer": "Account alias",
   "recipe.sharedfolder.list_vo.flag.peer": "Account alias",
   "recipe.sharedfolder.list.title": "List shared folder(s)",
   "recipe.sharedfolder.member.list_vo.flag.peer": "Account alias",

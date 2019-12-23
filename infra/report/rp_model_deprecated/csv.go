@@ -11,6 +11,7 @@ import (
 	"sync"
 )
 
+// Deprecated:
 func NewCsv(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.SideCarReport, err error) {
 	l := ctl.Log()
 	p := filepath.Join(ctl.Workspace().Report(), name+".csv")

@@ -8,6 +8,7 @@ import (
 	"sync"
 )
 
+// Deprecated:
 func NewUI(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (rp_model.SideCarReport, error) {
 	parser := NewColumn(row, opts...)
 	ui := ctl.UI()
@@ -19,6 +20,7 @@ func NewUI(name string, row interface{}, ctl app_control.Control, opts ...rp_mod
 	return r, nil
 }
 
+// Deprecated:
 type UI struct {
 	ctl    app_control.Control
 	table  app_ui.Table

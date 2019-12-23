@@ -43,6 +43,7 @@ func xlsxDataStyle() *xlsx.Style {
 	return dataStyle
 }
 
+// Deprecated:
 func NewXlsx(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.SideCarReport, err error) {
 	parser := NewColumn(row, opts...)
 	x := &Xlsx{

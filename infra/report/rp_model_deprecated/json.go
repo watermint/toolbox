@@ -14,6 +14,7 @@ import (
 	"sync"
 )
 
+// Deprecated:
 func NewJsonForQuiet(name string, ctl app_control.Control) (r rp_model.SideCarReport, err error) {
 	r = &Json{
 		w:   os.Stdout,
@@ -22,6 +23,7 @@ func NewJsonForQuiet(name string, ctl app_control.Control) (r rp_model.SideCarRe
 	return r, nil
 }
 
+// Deprecated:
 func NewJson(name string, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.SideCarReport, err error) {
 	l := ctl.Log()
 	p := filepath.Join(ctl.Workspace().Report(), name+".json")
@@ -40,6 +42,7 @@ func NewJson(name string, ctl app_control.Control, opts ...rp_model.ReportOpt) (
 	return r, nil
 }
 
+// Deprecated:
 type Json struct {
 	path  string
 	file  *os.File
