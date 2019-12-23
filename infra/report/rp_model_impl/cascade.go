@@ -7,21 +7,30 @@ import (
 
 func newCascade(name string, ctl app_control.Control) Writer {
 	writers := make([]Writer, 0)
-	writers = append(writers, &jsonWriter{name: name, ctl: ctl, toStdout: false})
 
+	writers = append(writers, newJsonWriter(name, ctl, false))
+	if !ctl.IsLowMemory() {
+		writers = append(writers, newCsvWriter(name, ctl))
+		writers = append(writers, newXlsxWriter(name, ctl))
+	}
 	if ctl.IsQuiet() {
-		writers = append(writers, &jsonWriter{name: name, ctl: ctl, toStdout: true})
+		writers = append(writers, newJsonWriter(name, ctl, true))
+	} else {
+		writers = append(writers, newUIWriter(name, ctl))
 	}
 
 	return &cascadeWriter{
+		ctl:     ctl,
 		name:    name,
 		writers: writers,
 	}
 }
 
 type cascadeWriter struct {
-	name    string
-	writers []Writer
+	ctl      app_control.Control
+	name     string
+	writers  []Writer
+	isClosed bool
 }
 
 func (z cascadeWriter) Name() string {
@@ -39,6 +48,10 @@ func (z cascadeWriter) Open(ctl app_control.Control, model interface{}, opts ...
 }
 
 func (z *cascadeWriter) Row(r interface{}) {
+	if z.isClosed {
+		return
+	}
+
 	for _, w := range z.writers {
 		w.Row(r)
 	}
@@ -48,4 +61,9 @@ func (z *cascadeWriter) Close() {
 	for _, w := range z.writers {
 		w.Close()
 	}
+
+	p := z.ctl.Workspace().Report()
+	ui := z.ctl.UI()
+	ui.OpenArtifact(p)
+	z.isClosed = true
 }

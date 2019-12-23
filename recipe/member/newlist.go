@@ -25,6 +25,7 @@ func (z *Newlist) Exec(k rc_kitchen.Kitchen) error {
 	if err = z.MemberList.Open(); err != nil {
 		return err
 	}
+	defer z.MemberList.Close()
 
 	members, err := sv_member.New(ctx).List()
 	if err != nil {

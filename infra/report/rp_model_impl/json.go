@@ -13,6 +13,14 @@ import (
 	"sync"
 )
 
+func newJsonWriter(name string, ctl app_control.Control, toStdout bool) Writer {
+	return &jsonWriter{
+		name:     name,
+		toStdout: toStdout,
+		ctl:      ctl,
+	}
+}
+
 type jsonWriter struct {
 	name     string
 	index    int
