@@ -90,32 +90,34 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 	}
 
 	// Recover
-	defer func() {
-		err := recover()
-		if err != nil {
-			l := ctl.Log()
-			l.Debug("Recovery from panic")
-			l.Error(ctl.UI().Text("run.error.panic"),
-				zap.Any("error", err),
-			)
-			l.Error(ctl.UI().Text("run.error.panic.instruction"),
-				zap.String("JobPath", ctl.Workspace().Job()),
-			)
-
-			for depth := 0; ; depth++ {
-				_, file, line, ok := runtime.Caller(depth)
-				if !ok {
-					break
-				}
-				ctl.Log().Debug("Trace",
-					zap.Int("Depth", depth),
-					zap.String("File", file),
-					zap.Int("Line", line),
+	if ctl.IsProduction() {
+		defer func() {
+			err := recover()
+			if err != nil {
+				l := ctl.Log()
+				l.Debug("Recovery from panic")
+				l.Error(ctl.UI().Text("run.error.panic"),
+					zap.Any("error", err),
 				)
+				l.Error(ctl.UI().Text("run.error.panic.instruction"),
+					zap.String("JobPath", ctl.Workspace().Job()),
+				)
+
+				for depth := 0; ; depth++ {
+					_, file, line, ok := runtime.Caller(depth)
+					if !ok {
+						break
+					}
+					ctl.Log().Debug("Trace",
+						zap.Int("Depth", depth),
+						zap.String("File", file),
+						zap.Int("Line", line),
+					)
+				}
+				ctl.Abort(app_control.Reason(app_control.FatalPanic))
 			}
-			ctl.Abort(app_control.Reason(app_control.FatalPanic))
-		}
-	}()
+		}()
+	}
 
 	// Trap signals
 	sig := make(chan os.Signal, 1)

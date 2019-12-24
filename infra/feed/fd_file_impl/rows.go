@@ -5,6 +5,8 @@ import (
 	"errors"
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"io"
@@ -13,6 +15,12 @@ import (
 	"strconv"
 )
 
+func NewRowFeed(name string) fd_file.RowFeed {
+	return &RowFeed{
+		name: name,
+	}
+}
+
 type RowFeed struct {
 	FilePath         string
 	file             *os.File
@@ -20,20 +28,75 @@ type RowFeed struct {
 	ctl              app_control.Control
 	md               interface{}
 	mt               reflect.Type
+	name             string
 	orderToFieldName map[int]string
 	fieldNameToOrder map[string]int
 	modelReady       bool
 	mode             string
 	headers          []string
+	fields           []string
 	colIndexToField  func(ci int, v reflect.Value, s string) error
+}
+
+func (z *RowFeed) Fork() fd_file.RowFeed {
+	rf := &RowFeed{
+		FilePath: z.FilePath,
+		name:     z.name,
+		md:       z.md,
+	}
+	rf.applyModelInternal()
+	return rf
+}
+
+func (z *RowFeed) Spec() fd_file.Spec {
+	return newSpec(z)
 }
 
 func (z *RowFeed) SetModel(m interface{}) {
 	z.md = m
+	z.applyModelInternal()
 }
 
 func (z *RowFeed) Model() interface{} {
 	return z.md
+}
+
+func (z *RowFeed) applyModelInternal() {
+	l := app_root.Log()
+	if z.md == nil {
+		l.Debug("No model defined")
+		return
+	}
+
+	z.mt = reflect.TypeOf(z.md).Elem()
+	z.orderToFieldName = make(map[int]string)
+	z.fieldNameToOrder = make(map[string]int)
+	z.fields = make([]string, 0)
+
+	ord := 0
+
+	appendField := func(f reflect.StructField) {
+		z.fields = append(z.fields, strcase.ToSnake(f.Name))
+		z.fieldNameToOrder[f.Name] = ord
+		z.fieldNameToOrder[strcase.ToSnake(f.Name)] = ord
+		z.fieldNameToOrder[strcase.ToCamel(f.Name)] = ord
+		z.orderToFieldName[ord] = f.Name
+		ord++
+	}
+
+	for i := 0; i < z.mt.NumField(); i++ {
+		f := z.mt.Field(i)
+		switch f.Type.Kind() {
+		case reflect.Bool:
+			appendField(f)
+		case reflect.Int:
+			appendField(f)
+		case reflect.String:
+			appendField(f)
+		}
+	}
+
+	z.modelReady = true
 }
 
 func (z *RowFeed) ApplyModel(ctl app_control.Control) error {
@@ -56,33 +119,8 @@ func (z *RowFeed) ApplyModel(ctl app_control.Control) error {
 		return err
 	}
 	z.reader = csv.NewReader(z.file)
-	z.mt = reflect.TypeOf(z.md).Elem()
-	z.orderToFieldName = make(map[int]string)
-	z.fieldNameToOrder = make(map[string]int)
+	z.applyModelInternal()
 
-	ord := 0
-
-	appendField := func(f reflect.StructField) {
-		z.fieldNameToOrder[f.Name] = ord
-		z.fieldNameToOrder[strcase.ToSnake(f.Name)] = ord
-		z.fieldNameToOrder[strcase.ToCamel(f.Name)] = ord
-		z.orderToFieldName[ord] = f.Name
-		ord++
-	}
-
-	for i := 0; i < z.mt.NumField(); i++ {
-		f := z.mt.Field(i)
-		switch f.Type.Kind() {
-		case reflect.Bool:
-			appendField(f)
-		case reflect.Int:
-			appendField(f)
-		case reflect.String:
-			appendField(f)
-		}
-	}
-
-	z.modelReady = true
 	return nil
 }
 

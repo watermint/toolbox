@@ -123,8 +123,8 @@ type SpecSideCar struct {
 	connScopes      []string
 }
 
-func (z *SpecSideCar) Feeds() map[string]fd_file.RowFeed {
-	return map[string]fd_file.RowFeed{}
+func (z *SpecSideCar) Feeds() map[string]fd_file.Spec {
+	return map[string]fd_file.Spec{}
 }
 
 func (z *SpecSideCar) SerializeValues() map[string]interface{} {

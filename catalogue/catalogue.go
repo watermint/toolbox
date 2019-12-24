@@ -36,7 +36,7 @@ import (
 )
 
 func Recipes() []rc_recipe.Recipe {
-	return []rc_recipe.Recipe{
+	cat := []rc_recipe.Recipe{
 		&dev.Async{},
 		&dev.Doc{},
 		&dev.Dummy{},
@@ -105,6 +105,7 @@ func Recipes() []rc_recipe.Recipe {
 		&teamsharedlink.List{},
 		&teamsharedlinkupdate.Expiry{},
 	}
+	return cat
 }
 
 func Catalogue() *rc_group.Group {

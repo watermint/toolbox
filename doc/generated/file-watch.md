@@ -1,6 +1,6 @@
-# member delete 
+# file watch 
 
-Delete members
+Watch file activities
 
 # Security
 
@@ -17,10 +17,10 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations
+* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Business management
+* Dropbox Full access
 
 # Usage
 
@@ -32,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe member delete -file /path/to/data/file.csv
+.\tbx.exe file watch 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx member delete -file /path/to/data/file.csv
+$HOME/Desktop/tbx file watch 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
@@ -53,11 +53,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option       | Description                                                                  | Default   |
-|--------------|------------------------------------------------------------------------------|-----------|
-| `-file`      | Data file                                                                    |           |
-| `-peer`      | Account alias                                                                | {default} |
-| `-wipe-data` | If true, controls if the user's data will be deleted on their linked devices | false     |
+| Option       | Description            | Default   |
+|--------------|------------------------|-----------|
+| `-path`      | Path to watch          | {}        |
+| `-peer`      | Account alias          | {default} |
+| `-recursive` | Watch path recursively | false     |
 
 Common options:
 
@@ -71,22 +71,6 @@ Common options:
 | `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`       | Do not store tokens into a file                                                  | false                |
 | `-workspace`    | Workspace path                                                                   |                      |
-
-# File formats
-
-## Format: file 
-
-| Column | Description                  | Value example    |
-|--------|------------------------------|------------------|
-| email  | Email address of the account | john@example.com |
-
-The first line is a header line. The program will accept file without the header.
-
-```csv
-email
-john@example.com
-
-```
 
 ## Authentication
 
@@ -117,29 +101,4 @@ Enter the authorisation code
 The executable automatically detects your proxy configuration from the environment.
 However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port.
 Currently, the executable doesn't support proxies which require authentication.
-
-# Result
-
-Report file path will be displayed last line of the command line output.
-If you missed command line output, please see path below.
-[job-id] will be the date/time of the run. Please see the latest job-id.
-
-| OS      | Path                                                                                                      |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-## Report: operation_log 
-
-Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
-But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
-
-| Column      | Description                            |
-|-------------|----------------------------------------|
-| status      | Status of the operation                |
-| reason      | Reason of failure or skipped operation |
-| input.email | Email address of the account           |
 

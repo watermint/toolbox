@@ -72,7 +72,6 @@ Available commands:
 | [member detach](doc/generated/member-detach.md)                                 | Convert Dropbox Business accounts to a Basic account          |
 | [member invite](doc/generated/member-invite.md)                                 | Invite member(s)                                              |
 | [member list](doc/generated/member-list.md)                                     | List team member(s)                                           |
-| [member newlist](doc/generated/member-newlist.md)                               | Member list (experimental)                                    |
 | [member quota list](doc/generated/member-quota-list.md)                         | List team member quota                                        |
 | [member quota update](doc/generated/member-quota-update.md)                     | Update team member quota                                      |
 | [member quota usage](doc/generated/member-quota-usage.md)                       | List team member storage usage                                |

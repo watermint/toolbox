@@ -38,3 +38,36 @@ func ReportSpec(ui app_ui.UI, r rc_recipe.Recipe) {
 		ui.Break()
 	}
 }
+
+func FeedSpec(ui app_ui.UI, r rc_recipe.Recipe) {
+	rcpSpec := rc_spec.New(r)
+	specs := rcpSpec.Feeds()
+
+	if len(specs) < 1 {
+		return
+	}
+
+	ui.Header("feed.recipe.head")
+
+	for _, spec := range specs {
+		ui.Break()
+		ui.Header("feed.recipe.head_report", app_msg.P{"Name": spec.Name()})
+
+		cols := spec.Columns()
+		t := ui.InfoTable(spec.Name())
+
+		t.Header(
+			app_msg.M("feed.recipe.col_head.name"),
+			app_msg.M("feed.recipe.col_head.desc"),
+			app_msg.M("feed.recipe.col_head.example"),
+		)
+		for _, col := range cols {
+			t.Row(
+				app_msg.M("raw", app_msg.P{"Raw": col}),
+				spec.ColumnDesc(col),
+			)
+		}
+		t.Flush()
+		ui.Break()
+	}
+}

@@ -30,18 +30,41 @@ func NewValueRepository() *ValueRepository {
 	return vc
 }
 
-type ValueRepository struct {
-	PkgName string
-	Values  map[string]interface{}
-	Reports map[string]rp_model.Report
-}
-
 type ValueTime struct {
 	Time string
 }
 
 type ValueDropboxPath struct {
 	Path string
+}
+
+type ValueRepository struct {
+	PkgName string
+	Values  map[string]interface{}
+	Reports map[string]rp_model.Report
+}
+
+func (z *ValueRepository) Feeds() map[string]fd_file.RowFeed {
+	feeds := make(map[string]fd_file.RowFeed)
+	for _, v := range z.Values {
+		switch vv := v.(type) {
+		case *fd_file_impl.RowFeed:
+			feeds[vv.Spec().Name()] = vv
+		}
+	}
+	return feeds
+}
+
+func (z *ValueRepository) FeedSpecs() map[string]fd_file.Spec {
+	feeds := make(map[string]fd_file.Spec)
+	for _, v := range z.Values {
+		switch vv := v.(type) {
+		case *fd_file_impl.RowFeed:
+			spec := vv.Spec()
+			feeds[spec.Name()] = spec
+		}
+	}
+	return feeds
 }
 
 func (z *ValueRepository) Fork(ctl app_control.Control) *ValueRepository {
@@ -54,9 +77,7 @@ func (z *ValueRepository) Fork(ctl app_control.Control) *ValueRepository {
 		case *ValueDropboxPath:
 			vals[k] = &ValueDropboxPath{Path: vv.Path}
 		case *fd_file_impl.RowFeed:
-			rf := &fd_file_impl.RowFeed{FilePath: vv.FilePath}
-			rf.SetModel(vv.Model())
-			vals[k] = rf
+			vals[k] = vv.Fork()
 		default:
 			vals[k] = v
 		}
@@ -125,7 +146,7 @@ func (z *ValueRepository) Init(vo interface{}) error {
 
 			case vof.Type.Implements(reflect.TypeOf((*fd_file.RowFeed)(nil)).Elem()):
 				ll.Debug("init fd_file.RowFeed instance")
-				fd := &fd_file_impl.RowFeed{}
+				fd := fd_file_impl.NewRowFeed(strcase.ToSnake(kn))
 				vvf.Set(reflect.ValueOf(fd))
 				z.Values[kn] = fd
 

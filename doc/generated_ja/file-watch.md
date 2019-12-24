@@ -1,10 +1,7 @@
-# {{.Command}} 
+# file watch 
 
-{{.CommandTitle}}
+Watch file activities
 
-{{.CommandDesc}}
-
-{{if .UseAuth}}
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -20,11 +17,10 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-{{ if .UseAuthPersonal }}* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps{{end}}{{ if .UseAuthBusiness }}* Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations{{end}}
+* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-{{ range $scope := .AuthScopes }}{{ with (eq $scope "business_info")}}* Dropbox Business Information access{{end}}{{ with (eq $scope "business_file")}}* Dropbox Business File access{{end}}{{ with (eq $scope "business_mgmt")}}* Dropbox Business management{{end}}{{ with (eq $scope "business_audit")}}* Dropbox Business Auditing{{end}}{{ with (eq $scope "user_file")}}* Dropbox Full access{{end}}{{end}}
-{{end}}
+* Dropbox Full access
 
 # Usage
 
@@ -36,13 +32,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe {{.Command}} {{.CommandArgs}}
+.\tbx.exe file watch 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx {{.Command}} {{.CommandArgs}}
+$HOME/Desktop/tbx file watch 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
@@ -55,35 +51,27 @@ select "General" tab. You may find the message like:
 And you may find the button "Allow Anyway". Please hit the button with your risk.
 At second run, please hit button "Open" on the dialogue.
 
-{{.CommandNote}}
-
 ## Options
 
-{{.Options}}
+| オプション   | 説明                   | デフォルト |
+|--------------|------------------------|------------|
+| `-path`      | Path to watch          | {}         |
+| `-peer`      | Account alias          | {default}  |
+| `-recursive` | Watch path recursively | false      |
 
 Common options:
 
-{{.CommonOptions}}
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
-{{if .FeedAvailable }}
-# File formats
-
-{{ $feeds := .Feeds }}
-{{ $feedSamples := .FeedSamples }}
-{{ range $name := .FeedNames }}
-## Format: {{ $name }} 
-
-{{ index $feeds $name }}
-
-The first line is a header line. The program will accept file without the header.
-
-```csv
-{{ index $feedSamples $name }}
-```
-{{end}}
-{{end}}
-
-{{if .UseAuth}}
 ## Authentication
 
 For the first run, `toolbox` will ask you an authentication with your Dropbox account. 
@@ -107,7 +95,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 3. Copy the authorisation code:
 Enter the authorisation code
 ```
-{{end}}
 
 ## Network configuration: Proxy
 
@@ -115,28 +102,3 @@ The executable automatically detects your proxy configuration from the environme
 However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port.
 Currently, the executable doesn't support proxies which require authentication.
 
-{{if .ReportAvailable }}
-# Result
-
-Report file path will be displayed last line of the command line output.
-If you missed command line output, please see path below.
-[job-id] will be the date/time of the run. Please see the latest job-id.
-
-| OS      | Path                                                                                                      |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-{{ $reports := .Reports }}
-{{ range $name := .ReportNames }}
-## Report: {{ $name }} 
-
-Report files are generated in three formats, `{{$name}}.csv`, `{{$name}}.xlsx` and `{{$name}}.json`.
-But if you run with `-low-memory` option, the command will generate only `{{$name}}.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `{{$name}}_0000.xlsx`, `{{$name}}_0001.xlsx`, `{{$name}}_0002.xlsx`...   
-
-{{ index $reports $name }}
-{{end}}
-{{end}}

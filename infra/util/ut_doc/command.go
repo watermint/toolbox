@@ -3,10 +3,12 @@ package ut_doc
 import (
 	"bufio"
 	"bytes"
+	"encoding/csv"
 	"errors"
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -96,6 +98,53 @@ func (z *Commands) reportTable(rs rp_model.Spec) string {
 	return b.String()
 }
 
+func (z *Commands) feedTable(spec fd_file.Spec) string {
+	var b bytes.Buffer
+	w := bufio.NewWriter(&b)
+	mc := z.ctl.Messages()
+
+	mui := app_ui.NewMarkdown(mc, w, false)
+	mt := mui.InfoTable(spec.Name())
+
+	mt.Header(
+		app_msg.M("recipe.dev.doc.feed.header.name"),
+		app_msg.M("recipe.dev.doc.feed.header.description"),
+		app_msg.M("recipe.dev.doc.feed.header.example"),
+	)
+
+	cols := spec.Columns()
+	for _, col := range cols {
+		mt.Row(
+			app_msg.Raw(col),
+			spec.ColumnDesc(col),
+			spec.ColumnExample(col),
+		)
+	}
+
+	mt.Flush()
+	w.Flush()
+	return b.String()
+}
+
+func (z *Commands) feedSample(spec fd_file.Spec) string {
+	var b bytes.Buffer
+	w := bufio.NewWriter(&b)
+	cw := csv.NewWriter(w)
+	ui := z.ctl.UI()
+
+	cols := spec.Columns()
+	cw.Write(spec.Columns())
+
+	exRow := make([]string, 0)
+	for _, col := range cols {
+		exRow = append(exRow, ui.Text(spec.ColumnExample(col).Key()))
+	}
+	cw.Write(exRow)
+	cw.Flush()
+	w.Flush()
+	return b.String()
+}
+
 func (z *Commands) Generate(r rc_recipe.Recipe) error {
 	spec := rc_spec.New(r)
 	if spec == nil {
@@ -131,6 +180,20 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 	params["UseAuthPersonal"] = spec.ConnUsePersonal()
 	params["UseAuthBusiness"] = spec.ConnUseBusiness()
 	params["AuthScopes"] = spec.ConnScopes()
+
+	feedNames := make([]string, 0)
+	feeds := make(map[string]string, 0)
+	feedSamples := make(map[string]string, 0)
+	for _, fd := range spec.Feeds() {
+		feedNames = append(feedNames, fd.Name())
+		feeds[fd.Name()] = z.feedTable(fd)
+		feedSamples[fd.Name()] = z.feedSample(fd)
+	}
+	sort.Strings(feedNames)
+	params["FeedNames"] = feedNames
+	params["Feeds"] = feeds
+	params["FeedSamples"] = feedSamples
+	params["FeedAvailable"] = len(feedNames) > 0
 
 	reportNames := make([]string, 0)
 	reports := make(map[string]string, 0)

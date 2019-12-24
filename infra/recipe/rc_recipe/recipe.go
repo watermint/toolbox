@@ -86,7 +86,7 @@ type Spec interface {
 	Reports() []rp_model.Spec
 
 	// Spec of feeds
-	Feeds() map[string]fd_file.RowFeed
+	Feeds() map[string]fd_file.Spec
 
 	// True if this recipe use connection to the Dropbox Personal account
 	ConnUsePersonal() bool

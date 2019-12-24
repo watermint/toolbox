@@ -134,7 +134,12 @@ func (z *specSelfContained) ValueDesc(name string) app_msg.Message {
 }
 
 func (z *specSelfContained) ValueDefault(name string) interface{} {
-	return z.scv.ValueDefault(name)
+	switch v := z.scv.ValueDefault(name).(type) {
+	case fd_file.RowFeed:
+		return ""
+	default:
+		return v
+	}
 }
 
 func (z *specSelfContained) ValueCustomDefault(name string) app_msg.MessageOptional {
@@ -177,8 +182,8 @@ func (z *specSelfContained) Reports() []rp_model.Spec {
 	return rs
 }
 
-func (z *specSelfContained) Feeds() map[string]fd_file.RowFeed {
-	return map[string]fd_file.RowFeed{}
+func (z *specSelfContained) Feeds() map[string]fd_file.Spec {
+	return z.vr.FeedSpecs()
 }
 
 func (z *specSelfContained) ConnUsePersonal() bool {

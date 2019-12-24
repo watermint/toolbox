@@ -53,11 +53,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション   | 説明                                                                   | デフォルト |
-|--------------|------------------------------------------------------------------------|------------|
-| `-file`      | データファイル                                                         |            |
-| `-peer`      | アカウントの別名                                                       | {default}  |
-| `-wipe-data` | 指定した場合にはユーザーのデータがリンクされたデバイスから削除されます | true       |
+| オプション   | 説明                                                                         | デフォルト |
+|--------------|------------------------------------------------------------------------------|------------|
+| `-file`      | Data file                                                                    |            |
+| `-peer`      | Account alias                                                                | {default}  |
+| `-wipe-data` | If true, controls if the user's data will be deleted on their linked devices | true       |
 
 Common options:
 
@@ -71,6 +71,22 @@ Common options:
 | `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
 | `-workspace`    | ワークスペースへのパス                                                                           |                |
+
+# File formats
+
+## Format: file 
+
+| Column | Description                | Value example    |
+|--------|----------------------------|------------------|
+| email  | アカウントのメールアドレス | john@example.com |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+email
+john@example.com
+
+```
 
 ## Authentication
 
@@ -114,12 +130,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: delete 
+## Report: operation_log 
 
-Report files are generated in three formats, `delete.csv`, `delete.xlsx` and `delete.json`.
-But if you run with `-low-memory` option, the command will generate only `delete.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `delete_0000.xlsx`, `delete_0001.xlsx`, `delete_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
 | 列          | 説明                       |
 |-------------|----------------------------|
