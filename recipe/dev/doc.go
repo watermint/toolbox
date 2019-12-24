@@ -1,6 +1,7 @@
 package dev
 
 import (
+	"fmt"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
@@ -12,6 +13,8 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_doc"
 	"go.uber.org/zap"
 	"golang.org/x/text/language"
+	"sort"
+	"strings"
 )
 
 type DocVO struct {
@@ -82,6 +85,17 @@ func (z *Doc) Exec(k rc_kitchen.Kitchen) error {
 		return err
 	}
 
+	qm := ctl.Messages().(app_msg_container.Quality)
+	missing := qm.MissingKeys()
+	if len(missing) > 0 {
+		suggested := make([]string, 0)
+		for _, k := range missing {
+			l.Error("Key missing", zap.String("key", k))
+			suggested = append(suggested, "\""+k+"\":\"\",")
+		}
+		sort.Strings(suggested)
+		fmt.Println(strings.Join(suggested, "\n"))
+	}
 	return nil
 }
 

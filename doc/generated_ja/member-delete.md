@@ -85,7 +85,6 @@ The first line is a header line. The program will accept file without the header
 ```csv
 email
 john@example.com
-
 ```
 
 ## Authentication

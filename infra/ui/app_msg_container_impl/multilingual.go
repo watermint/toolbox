@@ -73,6 +73,7 @@ func (z *Multilingual) Compile(m app_msg.Message) string {
 			}
 		}
 	}
+	z.qm.NotFound(m.Key())
 	app_root.Log().Warn("Unable to find message resource",
 		zap.String("key", m.Key()),
 	)

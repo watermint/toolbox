@@ -78,8 +78,7 @@ Common options:
 The first line is a header line. The program will accept file without the header.
 
 ```csv
-{{ index $feedSamples $name }}
-```
+{{ index $feedSamples $name }}```
 {{end}}
 {{end}}
 

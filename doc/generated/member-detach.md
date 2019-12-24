@@ -72,6 +72,21 @@ Common options:
 | `-secure`       | Do not store tokens into a file                                                  | false                |
 | `-workspace`    | Workspace path                                                                   |                      |
 
+# File formats
+
+## Format: file 
+
+| Column | Description                  | Value example    |
+|--------|------------------------------|------------------|
+| email  | Email address of the account | john@example.com |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+email
+john@example.com
+```
+
 ## Authentication
 
 For the first run, `toolbox` will ask you an authentication with your Dropbox account. 
@@ -114,12 +129,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: detach 
+## Report: operation_log 
 
-Report files are generated in three formats, `detach.csv`, `detach.xlsx` and `detach.json`.
-But if you run with `-low-memory` option, the command will generate only `detach.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `detach_0000.xlsx`, `detach_0001.xlsx`, `detach_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
 | Column      | Description                            |
 |-------------|----------------------------------------|

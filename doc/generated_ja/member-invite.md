@@ -53,11 +53,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション       | 説明                                                         | デフォルト |
-|------------------|--------------------------------------------------------------|------------|
-| `-file`          | データファイル                                               |            |
-| `-peer`          | アカウントの別名                                             | {default}  |
-| `-silent-invite` | ウエルカムメールを送信しません (SSOとドメイン確認が必要です) | false      |
+| オプション       | 説明                                                                   | デフォルト |
+|------------------|------------------------------------------------------------------------|------------|
+| `-file`          | Data file                                                              |            |
+| `-peer`          | Account alias                                                          | {default}  |
+| `-silent-invite` | Do not send welcome email (requires SSO + domain verification instead) | false      |
 
 Common options:
 
@@ -71,6 +71,23 @@ Common options:
 | `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
 | `-workspace`    | ワークスペースへのパス                                                                           |                |
+
+# File formats
+
+## Format: file 
+
+| Column     | Description                | Value example    |
+|------------|----------------------------|------------------|
+| email      | アカウントのメールアドレス | john@example.com |
+| given_name | アカウントの名前           | John             |
+| surname    | アカウントの名字           | Smith            |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+email,given_name,surname
+john@example.com,John,Smith
+```
 
 ## Authentication
 
@@ -114,12 +131,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: invite 
+## Report: operation_log 
 
-Report files are generated in three formats, `invite.csv`, `invite.xlsx` and `invite.json`.
-But if you run with `-low-memory` option, the command will generate only `invite.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `invite_0000.xlsx`, `invite_0001.xlsx`, `invite_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
 | 列                      | 説明                                                                                            |
 |-------------------------|-------------------------------------------------------------------------------------------------|
