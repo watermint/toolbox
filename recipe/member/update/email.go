@@ -16,22 +16,13 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 )
-
-type EmailVO struct {
-	Peer             rc_conn.ConnBusinessMgmt
-	File             fd_file.ModelFile
-	UpdateUnverified bool
-}
 
 type EmailRow struct {
 	FromEmail string `json:"from_email"`
@@ -40,10 +31,9 @@ type EmailRow struct {
 
 type EmailWorker struct {
 	transaction *EmailRow
-	vo          *EmailVO
 	member      *mo_member.Member
 	ctx         api_context.Context
-	rep         rp_model.SideCarReport
+	rep         rp_model.TransactionReport
 	ctl         app_control.Control
 }
 
@@ -81,24 +71,20 @@ const (
 )
 
 type Email struct {
+	Peer             rc_conn.ConnBusinessMgmt
+	File             fd_file.RowFeed
+	UpdateUnverified bool
+	OperationLog     rp_model.TransactionReport
 }
 
-func (z *Email) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportEmail, rp_model.TransactionHeader(&EmailRow{}, &mo_member.Member{})),
-	}
-}
-
-func (z *Email) Requirement() rc_vo.ValueObject {
-	return &EmailVO{
-		UpdateUnverified: false,
-	}
+func (z *Email) Init() {
+	z.File.SetModel(&EmailRow{})
+	z.OperationLog.Model(&EmailRow{}, &mo_member.Member{})
 }
 
 func (z *Email) Exec(k rc_kitchen.Kitchen) error {
 	l := k.Log()
-	vo := k.Value().(*EmailVO)
-	ctx, err := vo.Peer.Connect(k.Control())
+	ctx, err := z.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}
@@ -109,47 +95,41 @@ func (z *Email) Exec(k rc_kitchen.Kitchen) error {
 	}
 	emailToMember := mo_member.MapByEmail(members)
 
-	err = vo.File.Model(k.Control(), &EmailRow{})
+	err = z.OperationLog.Open()
 	if err != nil {
 		return err
 	}
-
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportEmail)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
+	defer z.OperationLog.Close()
 
 	q := k.NewQueue()
-	err = vo.File.EachRow(func(m interface{}, rowIndex int) error {
+	err = z.File.EachRow(func(m interface{}, rowIndex int) error {
 		row := m.(*EmailRow)
 		ll := l.With(zap.Any("row", row))
 
 		if row.FromEmail == row.ToEmail {
 			ll.Debug("Skip")
-			rep.Skip(app_msg.M("recipe.member.quota.update.skip.same_from_to_email"), row)
+			z.OperationLog.Skip(app_msg.M("recipe.member.quota.update.skip.same_from_to_email"), row)
 			return nil
 		}
 
 		member, ok := emailToMember[row.FromEmail]
 		if !ok {
 			ll.Debug("Member not found for email")
-			rep.Failure(&rp_model.NotFound{Id: row.FromEmail}, row)
+			z.OperationLog.Failure(&rp_model.NotFound{Id: row.FromEmail}, row)
 			return nil
 		}
 
-		if !member.EmailVerified && !vo.UpdateUnverified {
+		if !member.EmailVerified && !z.UpdateUnverified {
 			ll.Debug("Do not update unverified email")
-			rep.Skip(app_msg.M("recipe.member.quota.update.skip.unverified_email"), row)
+			z.OperationLog.Skip(app_msg.M("recipe.member.quota.update.skip.unverified_email"), row)
 			return nil
 		}
 
 		q.Enqueue(&EmailWorker{
 			transaction: row,
-			vo:          vo,
 			member:      member,
 			ctx:         ctx,
-			rep:         rep,
+			rep:         z.OperationLog,
 			ctl:         k.Control(),
 		})
 
@@ -166,8 +146,7 @@ func (z *Email) Test(c app_control.Control) error {
 		l.Debug("SKIP: Test resource not found")
 		return qt_recipe.NotEnoughResource()
 	}
-	vo := &EmailVO{}
-	if !qt_recipe.ApplyTestPeers(c, vo) {
+	if !qt_recipe.ApplyTestPeers(c, z) {
 		l.Debug("Skip test")
 		return qt_recipe.NotEnoughResource()
 	}
@@ -299,10 +278,12 @@ func (z *Email) Test(c app_control.Control) error {
 
 	// forward
 	{
-		vo.UpdateUnverified = true
-		vo.File = fd_file_impl.NewTestData(pathForward)
+		z.UpdateUnverified = true
+		rf := z.File.(*fd_file_impl.RowFeed)
+		rf.ForkForTest(pathForward)
+		z.File = rf
 
-		lastErr = z.Exec(rc_kitchen.NewKitchen(c, vo))
+		lastErr = z.Exec(rc_kitchen.NewKitchen(c, z))
 		if lastErr != nil {
 			l.Warn("Error in forward operation")
 		}
@@ -314,10 +295,12 @@ func (z *Email) Test(c app_control.Control) error {
 
 	// backward
 	{
-		vo.UpdateUnverified = true
-		vo.File = fd_file_impl.NewTestData(pathBackward)
+		z.UpdateUnverified = true
+		rf := z.File.(*fd_file_impl.RowFeed)
+		rf.ForkForTest(pathBackward)
+		z.File = rf
 
-		lastErr = z.Exec(rc_kitchen.NewKitchen(c, vo))
+		lastErr = z.Exec(rc_kitchen.NewKitchen(c, z))
 		if lastErr != nil {
 			l.Warn("Error in backward operation")
 		}

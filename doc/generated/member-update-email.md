@@ -72,6 +72,22 @@ Common options:
 | `-secure`       | Do not store tokens into a file                                                  | false                |
 | `-workspace`    | Workspace path                                                                   |                      |
 
+# File formats
+
+## Format: file 
+
+| Column     | Description           | Value example          |
+|------------|-----------------------|------------------------|
+| from_email | Current Email address | john@example.com       |
+| to_email   | New Email address     | john.smith@example.net |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+from_email,to_email
+john@example.com,john.smith@example.net
+```
+
 ## Authentication
 
 For the first run, `toolbox` will ask you an authentication with your Dropbox account. 
@@ -114,12 +130,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: update 
+## Report: operation_log 
 
-Report files are generated in three formats, `update.csv`, `update.xlsx` and `update.json`.
-But if you run with `-low-memory` option, the command will generate only `update.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `update_0000.xlsx`, `update_0001.xlsx`, `update_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
 | Column                  | Description                                                                                                          |
 |-------------------------|----------------------------------------------------------------------------------------------------------------------|

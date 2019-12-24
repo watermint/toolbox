@@ -38,6 +38,13 @@ type RowFeed struct {
 	colIndexToField  func(ci int, v reflect.Value, s string) error
 }
 
+func (z *RowFeed) ForkForTest(path string) fd_file.RowFeed {
+	f := z.Fork()
+	rf := f.(*RowFeed)
+	rf.FilePath = path
+	return rf
+}
+
 func (z *RowFeed) Fork() fd_file.RowFeed {
 	rf := &RowFeed{
 		FilePath: z.FilePath,

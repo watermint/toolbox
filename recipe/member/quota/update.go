@@ -10,20 +10,12 @@ import (
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
-
-type UpdateVO struct {
-	Peer rc_conn.ConnBusinessMgmt
-	File fd_file.ModelFile
-}
 
 type UpdateWorker struct {
 	member *mo_member.Member
@@ -31,7 +23,7 @@ type UpdateWorker struct {
 
 	ctl app_control.Control
 	ctx api_context.Context
-	rep rp_model.SideCarReport
+	rep rp_model.TransactionReport
 }
 
 func (z *UpdateWorker) Exec() error {
@@ -61,33 +53,22 @@ func (z *UpdateWorker) Exec() error {
 	return nil
 }
 
-const (
-	reportUpdate = "quota_update"
-)
-
 type Update struct {
+	Peer         rc_conn.ConnBusinessMgmt
+	File         fd_file.RowFeed
+	OperationLog rp_model.TransactionReport
 }
 
-func (z *Update) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportUpdate, rp_model.TransactionHeader(
-			&mo_member_quota.MemberQuota{},
-			&mo_member_quota.MemberQuota{},
-		)),
-	}
+func (z *Update) Init() {
+	z.File.SetModel(&mo_member_quota.MemberQuota{})
+	z.OperationLog.Model(&mo_member_quota.MemberQuota{}, &mo_member_quota.MemberQuota{})
 }
 
 func (z *Update) Console() {
 }
 
-func (z *Update) Requirement() rc_vo.ValueObject {
-	return &UpdateVO{}
-}
-
 func (z *Update) Exec(k rc_kitchen.Kitchen) error {
-	vo := k.Value().(*UpdateVO)
-
-	ctx, err := vo.Peer.Connect(k.Control())
+	ctx, err := z.Peer.Connect(k.Control())
 	if err != nil {
 		return err
 	}
@@ -98,23 +79,19 @@ func (z *Update) Exec(k rc_kitchen.Kitchen) error {
 	}
 	emailToMember := mo_member.MapByEmail(members)
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportUpdate)
+	err = z.OperationLog.Open()
 	if err != nil {
 		return err
 	}
-	defer rep.Close()
-
-	if err := vo.File.Model(k.Control(), &mo_member_quota.MemberQuota{}); err != nil {
-		return err
-	}
+	defer z.OperationLog.Close()
 
 	q := k.NewQueue()
 
-	vo.File.EachRow(func(m interface{}, rowIndex int) error {
+	err = z.File.EachRow(func(m interface{}, rowIndex int) error {
 		mq := m.(*mo_member_quota.MemberQuota)
 		member, ok := emailToMember[mq.Email]
 		if !ok {
-			rep.Failure(&rp_model.NotFound{Id: mq.Email}, mq)
+			z.OperationLog.Failure(&rp_model.NotFound{Id: mq.Email}, mq)
 			return nil
 		}
 
@@ -123,13 +100,13 @@ func (z *Update) Exec(k rc_kitchen.Kitchen) error {
 			quota:  mq.Quota,
 			ctl:    k.Control(),
 			ctx:    ctx,
-			rep:    rep,
+			rep:    z.OperationLog,
 		})
 		return nil
 	})
 	q.Wait()
 
-	return nil
+	return err
 }
 
 func (z *Update) Test(c app_control.Control) error {
