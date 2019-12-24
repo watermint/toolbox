@@ -12,9 +12,10 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -278,14 +279,13 @@ func (z *Email) Test(c app_control.Control) error {
 
 	// forward
 	{
-		z.UpdateUnverified = true
-		fd := fd_file_impl.NewRowFeed("file").(*fd_file_impl.RowFeed)
-		fd.FilePath = pathForward
-		z.File = fd
-
-		lastErr = z.Exec(rc_kitchen.NewKitchen(c, z))
+		lastErr = rc_exec.Exec(c, &Email{}, func(r rc_recipe.Recipe) {
+			rr := r.(*Email)
+			rr.UpdateUnverified = true
+			rr.File.SetFileName(pathForward)
+		})
 		if lastErr != nil {
-			l.Warn("Error in forward operation")
+			l.Warn("Error in backward operation")
 		}
 		scanReport()
 		if err := preserveReport("_forward"); err != nil {
@@ -295,12 +295,11 @@ func (z *Email) Test(c app_control.Control) error {
 
 	// backward
 	{
-		z.UpdateUnverified = true
-		fd := fd_file_impl.NewRowFeed("file").(*fd_file_impl.RowFeed)
-		fd.FilePath = pathBackward
-		z.File = fd
-
-		lastErr = z.Exec(rc_kitchen.NewKitchen(c, z))
+		lastErr = rc_exec.Exec(c, &Email{}, func(r rc_recipe.Recipe) {
+			rr := r.(*Email)
+			rr.UpdateUnverified = true
+			rr.File.SetFileName(pathBackward)
+		})
 		if lastErr != nil {
 			l.Warn("Error in backward operation")
 		}

@@ -3,7 +3,9 @@ package dev
 import (
 	"fmt"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"go.uber.org/zap"
@@ -34,16 +36,15 @@ func (z *Preflight) Exec(k rc_kitchen.Kitchen) error {
 	l := k.Log()
 	{
 		l.Info("Generating English documents")
-		r := Doc{}
-		rv := &DocVO{
-			Test:           z.TestMode,
-			Badge:          true,
-			MarkdownReadme: true,
-			Lang:           "",
-			Filename:       "README.md",
-			CommandPath:    "doc/generated/",
-		}
-		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), rv))
+		err := rc_exec.Exec(k.Control(), &Doc{}, func(r rc_recipe.Recipe) {
+			rr := r.(*Doc)
+			rr.TestMode = z.TestMode
+			rr.Badge = true
+			rr.MarkdownReadme = true
+			rr.Lang = ""
+			rr.Filename = "README.md"
+			rr.CommandPath = "doc/generated/"
+		})
 		if err != nil {
 			l.Error("Failed to generate documents", zap.Error(err))
 			return err
@@ -51,16 +52,15 @@ func (z *Preflight) Exec(k rc_kitchen.Kitchen) error {
 	}
 	{
 		l.Info("Generating Japanese documents")
-		r := Doc{}
-		rv := &DocVO{
-			Test:           z.TestMode,
-			Badge:          true,
-			MarkdownReadme: true,
-			Lang:           "ja",
-			Filename:       "README_ja.md",
-			CommandPath:    "doc/generated_ja/",
-		}
-		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), rv))
+		err := rc_exec.Exec(k.Control(), &Doc{}, func(r rc_recipe.Recipe) {
+			rr := r.(*Doc)
+			rr.TestMode = z.TestMode
+			rr.Badge = true
+			rr.MarkdownReadme = true
+			rr.Lang = "ja"
+			rr.Filename = "README_ja.md"
+			rr.CommandPath = "doc/generated_ja/"
+		})
 		if err != nil {
 			l.Error("Failed to generate documents", zap.Error(err))
 			return err

@@ -59,6 +59,10 @@ func (z *RowFeed) Spec() fd_file.Spec {
 	return newSpec(z)
 }
 
+func (z *RowFeed) SetFileName(filePath string) {
+	z.FilePath = filePath
+}
+
 func (z *RowFeed) SetModel(m interface{}) {
 	z.md = m
 	z.applyModelInternal()

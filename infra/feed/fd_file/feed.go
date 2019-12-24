@@ -13,6 +13,7 @@ type Rows interface {
 type RowFeed interface {
 	Rows
 	SetModel(m interface{})
+	SetFileName(filePath string)
 
 	Model() interface{}
 	ApplyModel(ctl app_control.Control) error
