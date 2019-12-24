@@ -64,6 +64,8 @@ func (z *RowFeed) ApplyModel(ctl app_control.Control) error {
 
 	appendField := func(f reflect.StructField) {
 		z.fieldNameToOrder[f.Name] = ord
+		z.fieldNameToOrder[strcase.ToSnake(f.Name)] = ord
+		z.fieldNameToOrder[strcase.ToCamel(f.Name)] = ord
 		z.orderToFieldName[ord] = f.Name
 		ord++
 	}
@@ -84,13 +86,13 @@ func (z *RowFeed) ApplyModel(ctl app_control.Control) error {
 	return nil
 }
 
-func (z *RowFeed) header(cols []string) error {
+func (z *RowFeed) header(cols []string) (consumeLine bool, err error) {
 	l := z.ctl.Log()
 	l.Debug("Parse header", zap.Strings("cols", cols))
 
 	z.headers = make([]string, len(cols))
 	for i, col := range cols {
-		z.headers[i] = strcase.ToCamel(col)
+		z.headers[i] = strcase.ToSnake(col)
 	}
 	z.mode = "fieldName"
 	for _, col := range cols {
@@ -133,7 +135,7 @@ func (z *RowFeed) header(cols []string) error {
 				return nil // ignore error
 			}
 			fieldName := z.headers[ci]
-			f := v.Elem().FieldByName(fieldName)
+			f := v.Elem().FieldByName(strcase.ToCamel(fieldName))
 			if !f.IsValid() || !f.CanSet() {
 				l.Debug("Invalid column",
 					zap.Bool("isValid", f.IsValid()),
@@ -143,6 +145,7 @@ func (z *RowFeed) header(cols []string) error {
 			}
 			return fieldSet(f, s)
 		}
+		return true, nil
 
 	case "order":
 		z.colIndexToField = func(ci int, v reflect.Value, s string) error {
@@ -161,8 +164,11 @@ func (z *RowFeed) header(cols []string) error {
 			}
 			return fieldSet(f, s)
 		}
+		return false, nil
+
+	default:
+		return false, errors.New("unexpected row mode")
 	}
-	return nil
 }
 
 func (z *RowFeed) row(cols []string) (m interface{}, err error) {
@@ -182,6 +188,17 @@ func (z *RowFeed) EachRow(exec func(m interface{}, rowIndex int) error) error {
 		return errors.New("model is not ready")
 	}
 	defer z.file.Close()
+
+	consumeRow := func(cols []string, rowIndex int) error {
+		m, err := z.row(cols)
+		if err != nil {
+			return err
+		}
+		if err := exec(m, rowIndex); err != nil {
+			return err
+		}
+		return nil
+	}
 	for ri := 0; ; ri++ {
 		cols, err := z.reader.Read()
 		switch {
@@ -198,16 +215,16 @@ func (z *RowFeed) EachRow(exec func(m interface{}, rowIndex int) error) error {
 			return err
 
 		case ri == 0:
-			if err := z.header(cols); err != nil {
+			if consume, err := z.header(cols); err != nil {
 				return err
+			} else if !consume {
+				if err := consumeRow(cols, ri); err != nil {
+					return err
+				}
 			}
 
 		default:
-			m, err := z.row(cols)
-			if err != nil {
-				return err
-			}
-			if err := exec(m, ri); err != nil {
+			if err := consumeRow(cols, ri); err != nil {
 				return err
 			}
 		}
