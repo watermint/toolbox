@@ -279,9 +279,9 @@ func (z *Email) Test(c app_control.Control) error {
 	// forward
 	{
 		z.UpdateUnverified = true
-		rf := z.File.(*fd_file_impl.RowFeed)
-		rf.ForkForTest(pathForward)
-		z.File = rf
+		fd := fd_file_impl.NewRowFeed("file").(*fd_file_impl.RowFeed)
+		fd.FilePath = pathForward
+		z.File = fd
 
 		lastErr = z.Exec(rc_kitchen.NewKitchen(c, z))
 		if lastErr != nil {
@@ -296,9 +296,9 @@ func (z *Email) Test(c app_control.Control) error {
 	// backward
 	{
 		z.UpdateUnverified = true
-		rf := z.File.(*fd_file_impl.RowFeed)
-		rf.ForkForTest(pathBackward)
-		z.File = rf
+		fd := fd_file_impl.NewRowFeed("file").(*fd_file_impl.RowFeed)
+		fd.FilePath = pathBackward
+		z.File = fd
 
 		lastErr = z.Exec(rc_kitchen.NewKitchen(c, z))
 		if lastErr != nil {

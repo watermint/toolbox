@@ -221,14 +221,27 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 func (z *Commands) GenerateAll() error {
 	cl := z.ctl.(app_control_launcher.ControlLauncher)
 	recipes := cl.Catalogue()
+	l := z.ctl.Log()
+
+	numSecret := 0
+	numSelfContained := 0
+	numSideCar := 0
 
 	for _, r := range recipes {
 		if _, ok := r.(rc_recipe.SecretRecipe); ok {
+			numSecret++
 			continue
+		}
+		if _, ok := r.(rc_recipe.SelfContainedRecipe); ok {
+			numSelfContained++
+		}
+		if _, ok := r.(rc_recipe.SideCarRecipe); ok {
+			numSideCar++
 		}
 		if err := z.Generate(r); err != nil {
 			return err
 		}
 	}
+	l.Info("Recipes", zap.Int("SecretRecipes", numSecret), zap.Int("SideCarRecipe", numSideCar), zap.Int("SelfContainedRecipe", numSelfContained))
 	return nil
 }
