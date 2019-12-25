@@ -13,7 +13,7 @@ import (
 )
 
 type UploadVO struct {
-	Peer        rc_conn.ConnUserFile
+	Peer        rc_conn.OldConnUserFile
 	LocalPath   string
 	DropboxPath string
 	Overwrite   bool

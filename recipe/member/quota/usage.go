@@ -20,7 +20,7 @@ import (
 )
 
 type UsageVO struct {
-	Peer rc_conn.ConnBusinessFile
+	Peer rc_conn.OldConnBusinessFile
 }
 
 type UsageWorker struct {

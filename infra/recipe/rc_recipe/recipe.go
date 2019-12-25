@@ -31,7 +31,7 @@ type SideCarRecipe interface {
 
 type SelfContainedRecipe interface {
 	Recipe
-	Init()
+	Preset()
 }
 
 // SecretRecipe will not be listed in available commands.
@@ -98,8 +98,10 @@ type Spec interface {
 	ConnScopes() []string
 
 	// Apply values to the new recipe instance
-	ApplyValues(ctl app_control.Control) (rcp Recipe, k rc_kitchen.Kitchen, err error)
+	ApplyValues(ctl app_control.Control, custom func(r Recipe)) (rcp Recipe, k rc_kitchen.Kitchen, err error)
 
 	// Serialize values
 	SerializeValues() map[string]interface{}
 }
+
+func NoCustomValues(r Recipe) {}

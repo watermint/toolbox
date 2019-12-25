@@ -12,7 +12,7 @@ import (
 )
 
 type MoveVO struct {
-	Peer rc_conn.ConnUserFile
+	Peer rc_conn.OldConnUserFile
 	Src  string
 	Dst  string
 }

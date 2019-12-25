@@ -17,7 +17,7 @@ import (
 )
 
 type DownloadVO struct {
-	Peer        rc_conn.ConnUserFile
+	Peer        rc_conn.OldConnUserFile
 	DropboxPath string
 	LocalPath   string
 }

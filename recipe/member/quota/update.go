@@ -54,12 +54,12 @@ func (z *UpdateWorker) Exec() error {
 }
 
 type Update struct {
-	Peer         rc_conn.ConnBusinessMgmt
+	Peer         rc_conn.OldConnBusinessMgmt
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
 }
 
-func (z *Update) Init() {
+func (z *Update) Preset() {
 	z.File.SetModel(&mo_member_quota.MemberQuota{})
 	z.OperationLog.Model(&mo_member_quota.MemberQuota{}, &mo_member_quota.MemberQuota{})
 }

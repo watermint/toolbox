@@ -12,10 +12,10 @@ import (
 )
 
 type ReplicationVO struct {
-	SrcFile rc_conn.ConnBusinessFile
-	SrcMgmt rc_conn.ConnBusinessMgmt
-	DstFile rc_conn.ConnBusinessFile
-	DstMgmt rc_conn.ConnBusinessMgmt
+	SrcFile rc_conn.OldConnBusinessFile
+	SrcMgmt rc_conn.OldConnBusinessMgmt
+	DstFile rc_conn.OldConnBusinessFile
+	DstMgmt rc_conn.OldConnBusinessMgmt
 	Name    string
 }
 

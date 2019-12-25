@@ -16,8 +16,8 @@ import (
 )
 
 type PathVO struct {
-	PeerFile    rc_conn.ConnBusinessFile
-	PeerAudit   rc_conn.ConnBusinessFile
+	PeerFile    rc_conn.OldConnBusinessFile
+	PeerAudit   rc_conn.OldConnBusinessFile
 	MemberEmail string
 	Path        string
 }

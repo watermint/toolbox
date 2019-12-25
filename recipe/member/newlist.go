@@ -10,7 +10,7 @@ import (
 )
 
 type Newlist struct {
-	Peer       rc_conn.ConnBusinessInfo
+	Peer       rc_conn.OldConnBusinessInfo
 	MemberList rp_model.RowReport
 }
 
@@ -38,10 +38,10 @@ func (z *Newlist) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *Newlist) Test(c app_control.Control) error {
-	z.Init()
+	z.Preset()
 	return z.Exec(rc_kitchen.NewKitchen(c, z))
 }
 
-func (z *Newlist) Init() {
-	z.MemberList.Model(&mo_member.Member{}, rp_model.HiddenColumns("persistent_id"))
+func (z *Newlist) Preset() {
+	z.MemberList.SetModel(&mo_member.Member{}, rp_model.HiddenColumns("persistent_id"))
 }

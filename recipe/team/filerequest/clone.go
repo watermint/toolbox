@@ -20,7 +20,7 @@ import (
 
 type CloneVO struct {
 	File fd_file.ModelFile
-	Peer rc_conn.ConnBusinessFile
+	Peer rc_conn.OldConnBusinessFile
 }
 
 const (

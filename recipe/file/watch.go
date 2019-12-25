@@ -12,7 +12,7 @@ import (
 )
 
 type Watch struct {
-	Peer      rc_conn.ConnUserFile
+	Peer      rc_conn.OldConnUserFile
 	Path      mo_path.DropboxPath
 	Recursive bool
 }
@@ -37,5 +37,5 @@ func (z *Watch) Test(c app_control.Control) error {
 	return qt_recipe.NoTestRequired()
 }
 
-func (z *Watch) Init() {
+func (z *Watch) Preset() {
 }

@@ -6,8 +6,13 @@ import (
 )
 
 type ConnDropboxApi interface {
-	Connect(control app_control.Control) (ctx api_context.Context, err error)
 	Name() string
+	Context() api_context.Context
+	Connect(ctl app_control.Control) (err error)
+	SetName(name string)
+	ScopeLabel() string
+	IsPersonal() bool
+	IsBusiness() bool
 }
 
 type ConnUserFile interface {

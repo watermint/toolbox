@@ -51,7 +51,7 @@ func (z *RowFeed) Fork() fd_file.RowFeed {
 		name:     z.name,
 		md:       z.md,
 	}
-	rf.applyModelInternal()
+	rf.applyModel()
 	return rf
 }
 
@@ -59,20 +59,20 @@ func (z *RowFeed) Spec() fd_file.Spec {
 	return newSpec(z)
 }
 
-func (z *RowFeed) SetFileName(filePath string) {
+func (z *RowFeed) SetFilePath(filePath string) {
 	z.FilePath = filePath
 }
 
 func (z *RowFeed) SetModel(m interface{}) {
 	z.md = m
-	z.applyModelInternal()
+	z.applyModel()
 }
 
 func (z *RowFeed) Model() interface{} {
 	return z.md
 }
 
-func (z *RowFeed) applyModelInternal() {
+func (z *RowFeed) applyModel() {
 	l := app_root.Log()
 	if z.md == nil {
 		l.Debug("No model defined")
@@ -110,7 +110,7 @@ func (z *RowFeed) applyModelInternal() {
 	z.modelReady = true
 }
 
-func (z *RowFeed) ApplyModel(ctl app_control.Control) error {
+func (z *RowFeed) Open(ctl app_control.Control) error {
 	z.ctl = ctl
 	l := ctl.Log()
 	ui := ctl.UI()
@@ -130,7 +130,7 @@ func (z *RowFeed) ApplyModel(ctl app_control.Control) error {
 		return err
 	}
 	z.reader = csv.NewReader(z.file)
-	z.applyModelInternal()
+	z.applyModel()
 
 	return nil
 }

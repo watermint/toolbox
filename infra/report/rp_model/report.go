@@ -68,7 +68,7 @@ type Report interface {
 type RowReport interface {
 	Report
 	Row(row interface{})
-	Model(row interface{}, opts ...ReportOpt)
+	SetModel(row interface{}, opts ...ReportOpt)
 }
 
 type TransactionReport interface {

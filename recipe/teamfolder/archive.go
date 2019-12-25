@@ -16,7 +16,7 @@ import (
 )
 
 type ArchiveVO struct {
-	Peer rc_conn.ConnBusinessFile
+	Peer rc_conn.OldConnBusinessFile
 	Name string
 }
 

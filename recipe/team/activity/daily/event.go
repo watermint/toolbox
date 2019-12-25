@@ -16,7 +16,7 @@ import (
 )
 
 type EventVO struct {
-	Peer      rc_conn.ConnBusinessAudit
+	Peer      rc_conn.OldConnBusinessAudit
 	StartDate string
 	EndDate   string
 	Category  string

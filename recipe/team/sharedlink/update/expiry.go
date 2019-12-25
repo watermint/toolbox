@@ -23,7 +23,7 @@ import (
 )
 
 type ExpiryVO struct {
-	Peer       rc_conn.ConnBusinessFile
+	Peer       rc_conn.OldConnBusinessFile
 	Days       int
 	At         string
 	Visibility string

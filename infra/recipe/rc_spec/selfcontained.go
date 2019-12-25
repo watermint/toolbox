@@ -25,7 +25,7 @@ func newSelfContained(scr rc_recipe.SelfContainedRecipe) rc_recipe.Spec {
 		return nil
 	}
 
-	scr.Init()
+	scr.Preset()
 	scopes, usePersonal, useBusiness := authScopesFromVr(vr)
 
 	keys := make([]string, 0)
@@ -52,29 +52,29 @@ func newSelfContained(scr rc_recipe.SelfContainedRecipe) rc_recipe.Spec {
 	}
 }
 
-func authScopesFromVr(vr *rc_value.ValueRepository) (scopes []string, usePersonal, useBusiness bool) {
+func authScopesFromVr(vr *rc_value.ValueRepositoryImpl) (scopes []string, usePersonal, useBusiness bool) {
 	scopes = make([]string, 0)
 	sc := make(map[string]bool)
 
 	for _, v := range vr.Values {
 		switch v0 := v.(type) {
-		case rc_conn.ConnBusinessInfo:
+		case rc_conn.OldConnBusinessInfo:
 			sc["business_info"] = true
 			useBusiness = true
 			v0.IsBusinessInfo()
-		case rc_conn.ConnBusinessMgmt:
+		case rc_conn.OldConnBusinessMgmt:
 			sc["business_mgmt"] = true
 			useBusiness = true
 			v0.IsBusinessMgmt()
-		case rc_conn.ConnBusinessFile:
+		case rc_conn.OldConnBusinessFile:
 			sc["business_file"] = true
 			useBusiness = true
 			v0.IsBusinessFile()
-		case rc_conn.ConnBusinessAudit:
+		case rc_conn.OldConnBusinessAudit:
 			sc["business_audit"] = true
 			useBusiness = true
 			v0.IsBusinessAudit()
-		case rc_conn.ConnUserFile:
+		case rc_conn.OldConnUserFile:
 			sc["user_file"] = true
 			usePersonal = true
 			v0.IsUserFile()
@@ -90,7 +90,7 @@ func authScopesFromVr(vr *rc_value.ValueRepository) (scopes []string, usePersona
 
 type specValueSelfContained struct {
 	scr  rc_recipe.SelfContainedRecipe
-	vr   *rc_value.ValueRepository
+	vr   *rc_value.ValueRepositoryImpl
 	keys []string
 }
 
@@ -111,13 +111,13 @@ func (z *specValueSelfContained) ValueCustomDefault(name string) app_msg.Message
 }
 
 func (z *specValueSelfContained) SetFlags(f *flag.FlagSet, ui app_ui.UI) {
-	z.vr.MakeFlagSet(f, ui)
+	z.vr.ApplyFlags(f, ui)
 }
 
 type specSelfContained struct {
 	scv             rc_recipe.SpecValue
 	scr             rc_recipe.SelfContainedRecipe
-	vr              *rc_value.ValueRepository
+	vr              *rc_value.ValueRepositoryImpl
 	name            string
 	cliPath         string
 	connUsePersonal bool
@@ -198,10 +198,16 @@ func (z *specSelfContained) ConnScopes() []string {
 	return z.connScopes
 }
 
-func (z *specSelfContained) ApplyValues(ctl app_control.Control) (rcp rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
+func (z *specSelfContained) ApplyValues(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (rcp rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
 	rt := reflect.TypeOf(z.scr).Elem()
 	newScr := reflect.New(rt).Interface().(rc_recipe.SelfContainedRecipe)
 	newVr := z.vr.Fork(ctl)
+	//err = newVr.Init(newScr)
+	//if err != nil {
+	//	return nil, nil, err
+	//}
+	newScr.Preset()
+	custom(newScr)
 	err = newVr.Apply(newScr, ctl)
 	if err != nil {
 		return nil, nil, err

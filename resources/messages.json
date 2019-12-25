@@ -952,7 +952,6 @@
   "dbx.err.paper_access_denied/not_paper_user": "The provided user has not used Paper yet.",
   "dbx.err.paper_access_denied/paper_disabled": "Paper is disabled.",
   "dbx.err.param_cannot_be_empty": "Parameter new_email cannot be empty.",
-  "dbx.err.path": "",
   "dbx.err.path/conflict/file": "There's a file in the way.",
   "dbx.err.path/conflict/file_ancestor": "There's a file at an ancestor path, so we couldn't create the required parent folders.",
   "dbx.err.path/conflict/folder": "There's a folder in the way.",

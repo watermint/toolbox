@@ -15,7 +15,7 @@ import (
 )
 
 type ListVO struct {
-	Peer             rc_conn.ConnUserFile
+	Peer             rc_conn.OldConnUserFile
 	Path             string
 	Recursive        bool
 	IncludeDeleted   bool

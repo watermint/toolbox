@@ -13,7 +13,7 @@ func Exec(ctl app_control.Control, r rc_recipe.Recipe, custom func(r rc_recipe.R
 	if spec == nil {
 		return errors.New("no spec found")
 	}
-	scr, _, err := spec.ApplyValues(ctl)
+	scr, _, err := spec.ApplyValues(ctl, custom)
 	if err != nil {
 		return err
 	}

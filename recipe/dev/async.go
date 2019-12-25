@@ -26,7 +26,7 @@ import (
 
 type AsyncVO struct {
 	RunConcurrently bool
-	Peer            rc_conn.ConnBusinessInfo
+	Peer            rc_conn.OldConnBusinessInfo
 }
 
 const (

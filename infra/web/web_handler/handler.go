@@ -180,15 +180,15 @@ func (z *WebHandler) recipeRequirements(rcp rc_recipe.SideCarRecipe) (conns map[
 		if d, ok := v.(bool); ok {
 			paramTypes[k] = "bool"
 			paramDefaults[k] = d
-		} else if _, ok := v.(rc_conn.ConnBusinessInfo); ok {
+		} else if _, ok := v.(rc_conn.OldConnBusinessInfo); ok {
 			conns[k] = api_auth.DropboxTokenBusinessInfo
-		} else if _, ok := v.(rc_conn.ConnBusinessFile); ok {
+		} else if _, ok := v.(rc_conn.OldConnBusinessFile); ok {
 			conns[k] = api_auth.DropboxTokenBusinessFile
-		} else if _, ok := v.(rc_conn.ConnBusinessAudit); ok {
+		} else if _, ok := v.(rc_conn.OldConnBusinessAudit); ok {
 			conns[k] = api_auth.DropboxTokenBusinessAudit
-		} else if _, ok := v.(rc_conn.ConnBusinessMgmt); ok {
+		} else if _, ok := v.(rc_conn.OldConnBusinessMgmt); ok {
 			conns[k] = api_auth.DropboxTokenBusinessManagement
-		} else if _, ok := v.(rc_conn.ConnUserFile); ok {
+		} else if _, ok := v.(rc_conn.OldConnUserFile); ok {
 			conns[k] = api_auth.DropboxTokenFull
 		}
 	}
@@ -382,7 +382,7 @@ func (z *WebHandler) Run(g *gin.Context) {
 			for k, v := range vc.Values {
 				if d, ok := v.(bool); ok {
 					vc.Values[k] = d
-				} else if _, ok := v.(rc_conn.ConnBusinessInfo); ok {
+				} else if _, ok := v.(rc_conn.OldConnBusinessInfo); ok {
 					if pn, ok := selectedConns[k]; ok {
 						vc.Values[k] = &rc_conn_impl.ConnBusinessInfo{
 							PeerName: pn,
@@ -390,7 +390,7 @@ func (z *WebHandler) Run(g *gin.Context) {
 					} else {
 						l.Debug("Unable to find required conn", zap.String("key", k))
 					}
-				} else if _, ok := v.(rc_conn.ConnBusinessFile); ok {
+				} else if _, ok := v.(rc_conn.OldConnBusinessFile); ok {
 					if pn, ok := selectedConns[k]; ok {
 						vc.Values[k] = &rc_conn_impl.ConnBusinessFile{
 							PeerName: pn,
@@ -398,7 +398,7 @@ func (z *WebHandler) Run(g *gin.Context) {
 					} else {
 						l.Debug("Unable to find required conn", zap.String("key", k))
 					}
-				} else if _, ok := v.(rc_conn.ConnBusinessAudit); ok {
+				} else if _, ok := v.(rc_conn.OldConnBusinessAudit); ok {
 					if pn, ok := selectedConns[k]; ok {
 						vc.Values[k] = &rc_conn_impl.ConnBusinessAudit{
 							PeerName: pn,
@@ -406,7 +406,7 @@ func (z *WebHandler) Run(g *gin.Context) {
 					} else {
 						l.Debug("Unable to find required conn", zap.String("key", k))
 					}
-				} else if _, ok := v.(rc_conn.ConnBusinessMgmt); ok {
+				} else if _, ok := v.(rc_conn.OldConnBusinessMgmt); ok {
 					if pn, ok := selectedConns[k]; ok {
 						vc.Values[k] = &rc_conn_impl.ConnBusinessMgmt{
 							PeerName: pn,
@@ -414,7 +414,7 @@ func (z *WebHandler) Run(g *gin.Context) {
 					} else {
 						l.Debug("Unable to find required conn", zap.String("key", k))
 					}
-				} else if _, ok := v.(rc_conn.ConnUserFile); ok {
+				} else if _, ok := v.(rc_conn.OldConnUserFile); ok {
 					if pn, ok := selectedConns[k]; ok {
 						vc.Values[k] = &rc_conn_impl.ConnUserFile{
 							PeerName: pn,

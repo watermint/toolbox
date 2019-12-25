@@ -22,29 +22,33 @@ import (
 	"strings"
 )
 
-func NewValueRepository() *ValueRepository {
-	vc := &ValueRepository{
+// Deprecated
+func NewValueRepository() *ValueRepositoryImpl {
+	vc := &ValueRepositoryImpl{
 		Values:  make(map[string]interface{}),
 		Reports: make(map[string]rp_model.Report),
 	}
 	return vc
 }
 
+// Deprecated:
 type ValueTime struct {
 	Time string
 }
 
+// Deprecated:
 type ValueDropboxPath struct {
 	Path string
 }
 
-type ValueRepository struct {
+// Deprecated:
+type ValueRepositoryImpl struct {
 	PkgName string
 	Values  map[string]interface{}
 	Reports map[string]rp_model.Report
 }
 
-func (z *ValueRepository) Feeds() map[string]fd_file.RowFeed {
+func (z *ValueRepositoryImpl) Feeds() map[string]fd_file.RowFeed {
 	feeds := make(map[string]fd_file.RowFeed)
 	for _, v := range z.Values {
 		switch vv := v.(type) {
@@ -55,7 +59,7 @@ func (z *ValueRepository) Feeds() map[string]fd_file.RowFeed {
 	return feeds
 }
 
-func (z *ValueRepository) FeedSpecs() map[string]fd_file.Spec {
+func (z *ValueRepositoryImpl) FeedSpecs() map[string]fd_file.Spec {
 	feeds := make(map[string]fd_file.Spec)
 	for _, v := range z.Values {
 		switch vv := v.(type) {
@@ -67,7 +71,7 @@ func (z *ValueRepository) FeedSpecs() map[string]fd_file.Spec {
 	return feeds
 }
 
-func (z *ValueRepository) Fork(ctl app_control.Control) *ValueRepository {
+func (z *ValueRepositoryImpl) Fork(ctl app_control.Control) *ValueRepositoryImpl {
 	vals := make(map[string]interface{})
 	reps := make(map[string]rp_model.Report)
 	for k, v := range z.Values {
@@ -90,14 +94,14 @@ func (z *ValueRepository) Fork(ctl app_control.Control) *ValueRepository {
 			reps[k] = vv.Fork(ctl)
 		}
 	}
-	return &ValueRepository{
+	return &ValueRepositoryImpl{
 		PkgName: z.PkgName,
 		Values:  vals,
 		Reports: reps,
 	}
 }
 
-func (z *ValueRepository) Init(vo interface{}) error {
+func (z *ValueRepositoryImpl) Init(vo interface{}) error {
 	l := app_root.Log()
 
 	vot := reflect.TypeOf(vo)
@@ -162,39 +166,29 @@ func (z *ValueRepository) Init(vo interface{}) error {
 				vvf.Set(reflect.ValueOf(rr))
 				z.Reports[kn] = rr
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessMgmt)(nil)).Elem()):
-				z.Values[kn] = rc_conn_impl.NewConnBusinessMgmt()
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessMgmt)(nil)).Elem()):
+				z.Values[kn] = rc_conn_impl.NewOldConnBusinessMgmt()
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessInfo)(nil)).Elem()):
-				z.Values[kn] = rc_conn_impl.NewConnBusinessInfo()
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessInfo)(nil)).Elem()):
+				z.Values[kn] = rc_conn_impl.NewOldConnBusinessInfo()
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessAudit)(nil)).Elem()):
-				z.Values[kn] = rc_conn_impl.NewConnBusinessAudit()
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessAudit)(nil)).Elem()):
+				z.Values[kn] = rc_conn_impl.NewOldConnBusinessAudit()
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessFile)(nil)).Elem()):
-				z.Values[kn] = rc_conn_impl.NewConnBusinessFile()
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessFile)(nil)).Elem()):
+				z.Values[kn] = rc_conn_impl.NewOldConnBusinessFile()
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnUserFile)(nil)).Elem()):
-				z.Values[kn] = rc_conn_impl.NewConnUserFile()
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnUserFile)(nil)).Elem()):
+				z.Values[kn] = rc_conn_impl.NewOldConnUserFile()
 			}
 		}
 	}
 	return nil
 }
 
-func (z *ValueRepository) Apply(vo interface{}, ctl app_control.Control) error {
+func (z *ValueRepositoryImpl) Apply(vo interface{}, ctl app_control.Control) error {
 	l := app_root.Log()
 	ui := ctl.UI()
-	//defer func() {
-	//	if r := recover(); r != nil {
-	//		switch r0 := r.(type) {
-	//		case *runtime.TypeAssertionError:
-	//			l.Debug("Unable to convert type", zap.Error(r0))
-	//		default:
-	//			l.Debug("Unexpected error", zap.Any("r", r))
-	//		}
-	//	}
-	//}()
 
 	vot := reflect.TypeOf(vo)
 	vov := reflect.ValueOf(vo)
@@ -252,16 +246,21 @@ func (z *ValueRepository) Apply(vo interface{}, ctl app_control.Control) error {
 			case vof.Type.Implements(reflect.TypeOf((*mo_time.Time)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vt := v.(*ValueTime)
+					// TODO: no validation here, extract this for new function just for preparing to run.
+					// Sequence might be:
+					// 1. Init() / Fork()
+					// 2. Apply(r)         -- should not return any error, just set Vr state to the object
+					// 3. Prepare(r) error -- should return error for validation/opening resources
 					if vt.Time == "" {
 						ui.Error("infra.recipe.rc_value.value.error.mo_time.empty_time", app_msg.P{
-							"Key": kn,
+							"Key": strcase.ToSnake(kn),
 						})
 						return errors.New("please specify date/time")
 					}
 					t, err := mo_time.New(vt.Time)
 					if err != nil {
 						ui.Error("infra.recipe.rc_value.value.error.mo_time.invalid_time_format", app_msg.P{
-							"Key":  kn,
+							"Key":  strcase.ToSnake(kn),
 							"Time": vt.Time,
 						})
 						return err
@@ -282,7 +281,7 @@ func (z *ValueRepository) Apply(vo interface{}, ctl app_control.Control) error {
 			case vof.Type.Implements(reflect.TypeOf((*fd_file.RowFeed)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					rf := v.(fd_file.RowFeed)
-					if err := rf.ApplyModel(ctl); err != nil {
+					if err := rf.Open(ctl); err != nil {
 						return err
 					}
 					vvf.Set(reflect.ValueOf(v))
@@ -290,35 +289,35 @@ func (z *ValueRepository) Apply(vo interface{}, ctl app_control.Control) error {
 					ll.Debug("Unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessMgmt)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessMgmt)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessInfo)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessInfo)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessFile)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessAudit)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessAudit)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnUserFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnUserFile)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
@@ -335,14 +334,14 @@ func (z *ValueRepository) Apply(vo interface{}, ctl app_control.Control) error {
 	return nil
 }
 
-func (z *ValueRepository) MessageKey(name string) string {
+func (z *ValueRepositoryImpl) MessageKey(name string) string {
 	pkg := z.PkgName
 	pkg = strings.ReplaceAll(pkg, app.Pkg+"/", "")
 	pkg = strings.ReplaceAll(pkg, "/", ".")
 	return pkg + ".flag." + strcase.ToSnake(name)
 }
 
-func (z *ValueRepository) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
+func (z *ValueRepositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
 	for n, d := range z.Values {
 		kf := strcase.ToKebab(n)
 		desc := ui.Text(z.MessageKey(n))
@@ -374,7 +373,7 @@ func (z *ValueRepository) MakeFlagSet(f *flag.FlagSet, ui app_ui.UI) {
 	}
 }
 
-func (z ValueRepository) Serialize() map[string]interface{} {
+func (z ValueRepositoryImpl) Serialize() map[string]interface{} {
 	s := make(map[string]interface{})
 	for n, d := range z.Values {
 		switch dv := d.(type) {

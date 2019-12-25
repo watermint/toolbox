@@ -17,7 +17,7 @@ import (
 )
 
 type CreateVO struct {
-	Peer     rc_conn.ConnUserFile
+	Peer     rc_conn.OldConnUserFile
 	Path     string
 	TeamOnly bool
 	Password string

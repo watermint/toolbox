@@ -17,7 +17,7 @@ type Preflight struct {
 	TestMode bool
 }
 
-func (z *Preflight) Init() {
+func (z *Preflight) Preset() {
 	z.TestMode = false
 }
 

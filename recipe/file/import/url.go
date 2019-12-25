@@ -15,7 +15,7 @@ import (
 )
 
 type UrlVO struct {
-	Peer rc_conn.ConnUserFile
+	Peer rc_conn.OldConnUserFile
 	Path string
 	Url  string
 }

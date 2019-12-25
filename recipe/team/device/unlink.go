@@ -19,7 +19,7 @@ import (
 type UnlinkVO struct {
 	DeleteOnUnlink bool
 	File           fd_file.ModelFile
-	Peer           rc_conn.ConnBusinessFile
+	Peer           rc_conn.OldConnBusinessFile
 }
 
 type UnlinkWorker struct {

@@ -19,7 +19,7 @@ import (
 )
 
 type ListVO struct {
-	Peer rc_conn.ConnBusinessFile
+	Peer rc_conn.OldConnBusinessFile
 }
 
 type ListWorker struct {

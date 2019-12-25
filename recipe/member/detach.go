@@ -16,12 +16,12 @@ type DetachRow struct {
 
 type Detach struct {
 	File             fd_file.RowFeed
-	Peer             rc_conn.ConnBusinessMgmt
+	Peer             rc_conn.OldConnBusinessMgmt
 	RevokeTeamShares bool
 	OperationLog     rp_model.TransactionReport
 }
 
-func (z *Detach) Init() {
+func (z *Detach) Preset() {
 	z.RevokeTeamShares = false
 	z.File.SetModel(&DetachRow{})
 	z.OperationLog.Model(&DetachRow{}, nil)

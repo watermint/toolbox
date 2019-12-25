@@ -37,7 +37,7 @@ func (z *Doc) Console() {
 func (z *Doc) Hidden() {
 }
 
-func (z *Doc) Init() {
+func (z *Doc) Preset() {
 	z.TestMode = false
 	z.Badge = true
 	z.Filename = "README.md"

@@ -14,7 +14,7 @@ import (
 )
 
 type DeleteVO struct {
-	Peer rc_conn.ConnUserFile
+	Peer rc_conn.OldConnUserFile
 	Path string
 }
 

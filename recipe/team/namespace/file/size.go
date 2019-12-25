@@ -22,7 +22,7 @@ import (
 )
 
 type SizeVO struct {
-	Peer                rc_conn.ConnBusinessFile
+	Peer                rc_conn.OldConnBusinessFile
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
 	IncludeMemberFolder bool

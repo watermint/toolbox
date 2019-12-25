@@ -66,7 +66,7 @@ func (z *RowReport) Row(row interface{}) {
 	z.w.Row(row)
 }
 
-func (z *RowReport) Model(row interface{}, opts ...rp_model.ReportOpt) {
+func (z *RowReport) SetModel(row interface{}, opts ...rp_model.ReportOpt) {
 	z.model = row
 	z.opts = opts
 }

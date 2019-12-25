@@ -72,13 +72,13 @@ const (
 )
 
 type Email struct {
-	Peer             rc_conn.ConnBusinessMgmt
+	Peer             rc_conn.OldConnBusinessMgmt
 	File             fd_file.RowFeed
 	UpdateUnverified bool
 	OperationLog     rp_model.TransactionReport
 }
 
-func (z *Email) Init() {
+func (z *Email) Preset() {
 	z.File.SetModel(&EmailRow{})
 	z.OperationLog.Model(&EmailRow{}, &mo_member.Member{})
 }
@@ -282,7 +282,7 @@ func (z *Email) Test(c app_control.Control) error {
 		lastErr = rc_exec.Exec(c, &Email{}, func(r rc_recipe.Recipe) {
 			rr := r.(*Email)
 			rr.UpdateUnverified = true
-			rr.File.SetFileName(pathForward)
+			rr.File.SetFilePath(pathForward)
 		})
 		if lastErr != nil {
 			l.Warn("Error in backward operation")
@@ -298,7 +298,7 @@ func (z *Email) Test(c app_control.Control) error {
 		lastErr = rc_exec.Exec(c, &Email{}, func(r rc_recipe.Recipe) {
 			rr := r.(*Email)
 			rr.UpdateUnverified = true
-			rr.File.SetFileName(pathBackward)
+			rr.File.SetFilePath(pathBackward)
 		})
 		if lastErr != nil {
 			l.Warn("Error in backward operation")

@@ -21,7 +21,7 @@ import (
 )
 
 type ListVO struct {
-	Peer rc_conn.ConnBusinessMgmt
+	Peer rc_conn.OldConnBusinessMgmt
 }
 
 type ListWorker struct {

@@ -16,8 +16,8 @@ import (
 )
 
 type ReplicationVO struct {
-	Src     rc_conn.ConnUserFile
-	Dst     rc_conn.ConnUserFile
+	Src     rc_conn.OldConnUserFile
+	Dst     rc_conn.OldConnUserFile
 	SrcPath string
 	DstPath string
 }

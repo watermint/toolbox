@@ -20,8 +20,8 @@ type ReplicationRow struct {
 }
 
 type ReplicationVO struct {
-	Src  rc_conn.ConnBusinessFile
-	Dst  rc_conn.ConnBusinessFile
+	Src  rc_conn.OldConnBusinessFile
+	Dst  rc_conn.OldConnBusinessFile
 	File fd_file.ModelFile
 }
 

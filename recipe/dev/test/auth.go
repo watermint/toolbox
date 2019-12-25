@@ -12,11 +12,11 @@ import (
 )
 
 type AuthVO struct {
-	Full  rc_conn.ConnUserFile
-	Info  rc_conn.ConnBusinessInfo
-	File  rc_conn.ConnBusinessFile
-	Audit rc_conn.ConnBusinessAudit
-	Mgmt  rc_conn.ConnBusinessMgmt
+	Full  rc_conn.OldConnUserFile
+	Info  rc_conn.OldConnBusinessInfo
+	File  rc_conn.OldConnBusinessFile
+	Audit rc_conn.OldConnBusinessAudit
+	Mgmt  rc_conn.OldConnBusinessMgmt
 }
 
 type Auth struct {

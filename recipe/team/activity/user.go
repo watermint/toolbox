@@ -24,7 +24,7 @@ import (
 )
 
 type UserVO struct {
-	Peer      rc_conn.ConnBusinessAudit
+	Peer      rc_conn.OldConnBusinessAudit
 	StartTime string
 	EndTime   string
 	Category  string

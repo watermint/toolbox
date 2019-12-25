@@ -14,7 +14,7 @@ import (
 )
 
 type DeleteVO struct {
-	Peer rc_conn.ConnBusinessMgmt
+	Peer rc_conn.OldConnBusinessMgmt
 	Name string
 }
 

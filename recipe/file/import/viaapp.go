@@ -41,7 +41,7 @@ import (
 )
 
 type ViaAppVO struct {
-	Peer              rc_conn.ConnUserFile
+	Peer              rc_conn.OldConnUserFile
 	DropboxPath       string
 	LocalPath         string
 	PseudoDesktopPath string

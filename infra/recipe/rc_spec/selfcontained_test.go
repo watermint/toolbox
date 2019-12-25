@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -80,11 +81,11 @@ func (z *SelfContainedTestRecipe) Test(c app_control.Control) error {
 	return qt_recipe.NoTestRequired()
 }
 
-func (z *SelfContainedTestRecipe) Init() {
+func (z *SelfContainedTestRecipe) Preset() {
 	z.Limit = 10
 	z.CustomQuota.SetModel(&SelfContainedTestRow{})
 	z.OperLog.Model(&SelfContainedTestRow{}, &mo_file.ConcreteEntry{})
-	z.DataReport.Model(&mo_file.ConcreteEntry{})
+	z.DataReport.SetModel(&mo_file.ConcreteEntry{})
 }
 
 func TestSpecSelfContained_ApplyValues(t *testing.T) {
@@ -119,7 +120,7 @@ func TestSpecSelfContained_ApplyValues(t *testing.T) {
 		}
 
 		{
-			rcp, k, err := spec.ApplyValues(ctl)
+			rcp, k, err := spec.ApplyValues(ctl, rc_recipe.NoCustomValues)
 			if err != nil {
 				t.Error(err)
 				return

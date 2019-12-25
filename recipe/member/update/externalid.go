@@ -25,7 +25,7 @@ import (
 )
 
 type ExternalIdVO struct {
-	Peer rc_conn.ConnBusinessMgmt
+	Peer rc_conn.OldConnBusinessMgmt
 	File fd_file.ModelFile
 }
 

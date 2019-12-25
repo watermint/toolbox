@@ -35,12 +35,12 @@ const (
 
 type Invite struct {
 	File         fd_file.RowFeed
-	Peer         rc_conn.ConnBusinessMgmt
+	Peer         rc_conn.OldConnBusinessMgmt
 	OperationLog rp_model.TransactionReport
 	SilentInvite bool
 }
 
-func (z *Invite) Init() {
+func (z *Invite) Preset() {
 	z.File.SetModel(&InviteRow{})
 	z.OperationLog.Model(&InviteRow{}, &mo_member.Member{})
 }

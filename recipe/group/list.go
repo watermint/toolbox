@@ -14,7 +14,7 @@ import (
 )
 
 type ListVO struct {
-	Peer rc_conn.ConnBusinessInfo
+	Peer rc_conn.OldConnBusinessInfo
 }
 
 const (

@@ -72,39 +72,39 @@ func (z *ValueContainer) From(vo interface{}) {
 					z.Values[kn] = fd_file_impl.NewData()
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessMgmt)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessMgmt)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = rc_conn_impl.NewConnBusinessMgmt()
+					z.Values[kn] = rc_conn_impl.NewOldConnBusinessMgmt()
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessInfo)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessInfo)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = rc_conn_impl.NewConnBusinessInfo()
+					z.Values[kn] = rc_conn_impl.NewOldConnBusinessInfo()
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessAudit)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessAudit)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = rc_conn_impl.NewConnBusinessAudit()
+					z.Values[kn] = rc_conn_impl.NewOldConnBusinessAudit()
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessFile)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = rc_conn_impl.NewConnBusinessFile()
+					z.Values[kn] = rc_conn_impl.NewOldConnBusinessFile()
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnUserFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnUserFile)(nil)).Elem()):
 				if !vvf.IsNil() {
 					z.Values[kn] = vvf.Interface()
 				} else {
-					z.Values[kn] = rc_conn_impl.NewConnUserFile()
+					z.Values[kn] = rc_conn_impl.NewOldConnUserFile()
 				}
 
 			default:
@@ -179,35 +179,35 @@ func (z *ValueContainer) Apply(vo interface{}) {
 					ll.Debug("Unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessMgmt)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessMgmt)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessInfo)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessInfo)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessFile)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnBusinessAudit)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnBusinessAudit)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {
 					ll.Debug("unable to find value")
 				}
 
-			case vof.Type.Implements(reflect.TypeOf((*rc_conn.ConnUserFile)(nil)).Elem()):
+			case vof.Type.Implements(reflect.TypeOf((*rc_conn.OldConnUserFile)(nil)).Elem()):
 				if v, e := z.Values[kn]; e {
 					vvf.Set(reflect.ValueOf(v))
 				} else {

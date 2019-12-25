@@ -12,7 +12,7 @@ import (
 )
 
 type MergeVO struct {
-	Peer                rc_conn.ConnUserFile
+	Peer                rc_conn.OldConnUserFile
 	From                string
 	To                  string
 	DryRun              bool

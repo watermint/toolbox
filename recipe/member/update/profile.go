@@ -23,7 +23,7 @@ type ProfileRow struct {
 
 type ProfileVO struct {
 	File fd_file.ModelFile
-	Peer rc_conn.ConnBusinessMgmt
+	Peer rc_conn.OldConnBusinessMgmt
 }
 
 const (

@@ -15,8 +15,8 @@ import (
 )
 
 type AccountVO struct {
-	Left      rc_conn.ConnUserFile
-	Right     rc_conn.ConnUserFile
+	Left      rc_conn.OldConnUserFile
+	Right     rc_conn.OldConnUserFile
 	LeftPath  string
 	RightPath string
 }

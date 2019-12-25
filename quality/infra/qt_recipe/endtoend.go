@@ -37,7 +37,7 @@ const (
 )
 
 // Returns conn if v & end to end peer exist. found = true when v is an interface of app_conn.ConnDropboxAPI
-func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.ConnDropboxApi, found bool) {
+func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.OldConnDropboxApi, found bool) {
 	l := c.Log()
 	a := api_auth_impl.NewCached(c, api_auth_impl.PeerName(EndToEndPeer))
 	if p, found := os.LookupEnv("TOOLBOX_SKIPENDTOENDTEST"); found {
@@ -47,7 +47,7 @@ func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.ConnDropboxAp
 		}
 	}
 
-	if _, ok := v.(rc_conn.ConnBusinessInfo); ok {
+	if _, ok := v.(rc_conn.OldConnBusinessInfo); ok {
 		if _, err := a.Auth(api_auth.DropboxTokenBusinessInfo); err != nil {
 			l.Info("BusinessInfo: Skip end to end test")
 			return nil, true
@@ -57,7 +57,7 @@ func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.ConnDropboxAp
 		}, true
 	}
 
-	if _, ok := v.(rc_conn.ConnBusinessFile); ok {
+	if _, ok := v.(rc_conn.OldConnBusinessFile); ok {
 		if _, err := a.Auth(api_auth.DropboxTokenBusinessFile); err != nil {
 			l.Info("BusinessFile: Skip end to end test")
 			return nil, true
@@ -66,7 +66,7 @@ func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.ConnDropboxAp
 			PeerName: EndToEndPeer,
 		}, true
 	}
-	if _, ok := v.(rc_conn.ConnBusinessAudit); ok {
+	if _, ok := v.(rc_conn.OldConnBusinessAudit); ok {
 		if _, err := a.Auth(api_auth.DropboxTokenBusinessAudit); err != nil {
 			l.Info("BusinessAudit: Skip end to end test")
 			return nil, true
@@ -75,7 +75,7 @@ func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.ConnDropboxAp
 			PeerName: EndToEndPeer,
 		}, true
 	}
-	if _, ok := v.(rc_conn.ConnBusinessMgmt); ok {
+	if _, ok := v.(rc_conn.OldConnBusinessMgmt); ok {
 		if _, err := a.Auth(api_auth.DropboxTokenBusinessManagement); err != nil {
 			l.Info("BusinessManagement: Skip end to end test")
 			return nil, true
@@ -84,7 +84,7 @@ func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.ConnDropboxAp
 			PeerName: EndToEndPeer,
 		}, true
 	}
-	if _, ok := v.(rc_conn.ConnUserFile); ok {
+	if _, ok := v.(rc_conn.OldConnUserFile); ok {
 		if _, err := a.Auth(api_auth.DropboxTokenFull); err != nil {
 			l.Info("UserFull: Skip end to end test")
 			return nil, true

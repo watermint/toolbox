@@ -51,23 +51,23 @@ func authScopesFromVc(vc *rc_vo_impl.ValueContainer) (scopes []string, usePerson
 
 	for _, v := range vc.Values {
 		switch v0 := v.(type) {
-		case rc_conn.ConnBusinessInfo:
+		case rc_conn.OldConnBusinessInfo:
 			sc["business_info"] = true
 			useBusiness = true
 			v0.IsBusinessInfo()
-		case rc_conn.ConnBusinessMgmt:
+		case rc_conn.OldConnBusinessMgmt:
 			sc["business_mgmt"] = true
 			useBusiness = true
 			v0.IsBusinessMgmt()
-		case rc_conn.ConnBusinessFile:
+		case rc_conn.OldConnBusinessFile:
 			sc["business_file"] = true
 			useBusiness = true
 			v0.IsBusinessFile()
-		case rc_conn.ConnBusinessAudit:
+		case rc_conn.OldConnBusinessAudit:
 			sc["business_audit"] = true
 			useBusiness = true
 			v0.IsBusinessAudit()
-		case rc_conn.ConnUserFile:
+		case rc_conn.OldConnUserFile:
 			sc["user_file"] = true
 			usePersonal = true
 			v0.IsUserFile()
@@ -131,7 +131,7 @@ func (z *SpecSideCar) SerializeValues() map[string]interface{} {
 	return z.vc.Serialize()
 }
 
-func (z *SpecSideCar) ApplyValues(ctl app_control.Control) (r rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
+func (z *SpecSideCar) ApplyValues(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (r rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
 	vo := z.scr.Requirement()
 	z.vc.Apply(vo)
 	return z.scr, rc_kitchen.NewKitchen(ctl, vo), nil

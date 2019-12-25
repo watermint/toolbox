@@ -43,7 +43,7 @@ func (z *Info) Test(c app_control.Control) error {
 }
 
 type InfoVO struct {
-	Peer rc_conn.ConnBusinessInfo
+	Peer rc_conn.OldConnBusinessInfo
 }
 
 func (z *Info) Requirement() rc_vo.ValueObject {

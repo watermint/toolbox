@@ -1,88 +1,48 @@
 package rc_conn_impl
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_context_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"go.uber.org/zap"
 )
 
-const (
-	DefaultPeerName = "default"
-)
-
-func NewConnBusinessMgmt() rc_conn.ConnBusinessMgmt {
+// Deprecated:
+func NewOldConnBusinessMgmt() rc_conn.OldConnBusinessMgmt {
 	return &ConnBusinessMgmt{
 		PeerName: DefaultPeerName,
 	}
 }
 
-func NewConnBusinessInfo() rc_conn.ConnBusinessInfo {
+// Deprecated:
+func NewOldConnBusinessInfo() rc_conn.OldConnBusinessInfo {
 	return &ConnBusinessInfo{
 		PeerName: DefaultPeerName,
 	}
 }
 
-func NewConnBusinessAudit() rc_conn.ConnBusinessAudit {
+// Deprecated:
+func NewOldConnBusinessAudit() rc_conn.OldConnBusinessAudit {
 	return &ConnBusinessAudit{
 		PeerName: DefaultPeerName,
 	}
 }
 
-func NewConnBusinessFile() rc_conn.ConnBusinessFile {
+// Deprecated:
+func NewOldConnBusinessFile() rc_conn.OldConnBusinessFile {
 	return &ConnBusinessFile{
 		PeerName: DefaultPeerName,
 	}
 }
 
-func NewConnUserFile() *ConnUserFile {
+// Deprecated:
+func NewOldConnUserFile() *ConnUserFile {
 	return &ConnUserFile{
 		PeerName: DefaultPeerName,
 	}
 }
 
-func connect(tokenType, peerName string, control app_control.Control) (ctx api_context.Context, err error) {
-	l := control.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
-	ui := control.UI()
-
-	switch {
-	case control.IsTest():
-		l.Debug("Connect for testing")
-		c := api_auth_impl.NewCached(control, api_auth_impl.PeerName(peerName))
-		ctx, err = c.Auth(tokenType)
-		return
-
-	case ui.IsConsole():
-		l.Debug("Connect through console UI")
-		c := api_auth_impl.New(control, api_auth_impl.PeerName(peerName))
-		ctx, err = c.Auth(tokenType)
-		return
-
-	case ui.IsWeb():
-		l.Debug("Connect through web UI")
-		a := api_auth_impl.NewWeb(control)
-		tokens, err := a.List(tokenType)
-		if err != nil {
-			return nil, err
-		}
-		for _, t := range tokens {
-			if t.PeerName == peerName {
-				c := api_context_impl.New(control, t)
-				return c, nil
-			}
-		}
-		l.Debug("No peer found in existing connection")
-		return nil, errors.New("no peer found")
-	}
-
-	l.Debug("Unsupported UI type")
-	return nil, errors.New("unsupported UI type")
-}
-
+// Deprecated:
 type ConnBusinessMgmt struct {
 	PeerName string
 }
@@ -98,6 +58,7 @@ func (z *ConnBusinessMgmt) Connect(control app_control.Control) (ctx api_context
 func (*ConnBusinessMgmt) IsBusinessMgmt() {
 }
 
+// Deprecated:
 type ConnBusinessInfo struct {
 	PeerName string
 }
@@ -113,6 +74,7 @@ func (z *ConnBusinessInfo) Connect(control app_control.Control) (ctx api_context
 	return connect(api_auth.DropboxTokenBusinessInfo, z.PeerName, control)
 }
 
+// Deprecated:
 type ConnBusinessFile struct {
 	PeerName string
 }
@@ -128,6 +90,7 @@ func (z *ConnBusinessFile) Connect(control app_control.Control) (ctx api_context
 	return connect(api_auth.DropboxTokenBusinessFile, z.PeerName, control)
 }
 
+// Deprecated:
 type ConnBusinessAudit struct {
 	PeerName string
 }
@@ -143,6 +106,7 @@ func (z *ConnBusinessAudit) Connect(control app_control.Control) (ctx api_contex
 	return connect(api_auth.DropboxTokenBusinessAudit, z.PeerName, control)
 }
 
+// Deprecated:
 type ConnUserFile struct {
 	PeerName string
 }

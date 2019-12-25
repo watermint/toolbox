@@ -16,12 +16,12 @@ type DeleteRow struct {
 
 type Delete struct {
 	File         fd_file.RowFeed
-	Peer         rc_conn.ConnBusinessMgmt
+	Peer         rc_conn.OldConnBusinessMgmt
 	WipeData     bool
 	OperationLog rp_model.TransactionReport
 }
 
-func (z *Delete) Init() {
+func (z *Delete) Preset() {
 	z.WipeData = true
 	z.File.SetModel(&DeleteRow{})
 	z.OperationLog.Model(&DeleteRow{}, nil)

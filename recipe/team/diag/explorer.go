@@ -25,7 +25,7 @@ import (
 )
 
 type ExplorerVO struct {
-	Peer rc_conn.ConnBusinessFile
+	Peer rc_conn.OldConnBusinessFile
 	All  bool
 }
 
