@@ -2,7 +2,6 @@ package qt_recipe
 
 import (
 	"encoding/csv"
-	"errors"
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	"github.com/tidwall/gjson"
@@ -21,6 +20,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
 	"io"
@@ -28,34 +28,18 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
-	"strconv"
 	"testing"
 )
 
 const (
-	EndToEndPeer        = "end_to_end_test"
-	EndToEndTestSkipEnv = "TOOLBOX_SKIPENDTOENDTEST"
-	TestTeamFolderName  = "watermint-toolbox-test"
+	TestTeamFolderName = "watermint-toolbox-test"
 )
-
-var (
-	ErrorSkipEndToEndTest = errors.New("skip end to end test")
-)
-
-func IsSkipEndToEndTest() bool {
-	if p, found := os.LookupEnv(EndToEndTestSkipEnv); found {
-		if b, _ := strconv.ParseBool(p); b {
-			return true
-		}
-	}
-	return false
-}
 
 // Returns conn if v & end to end peer exist. found = true when v is an interface of app_conn.ConnDropboxAPI
 func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.OldConnDropboxApi, found bool) {
 	l := c.Log()
-	a := api_auth_impl.NewCached(c, api_auth_impl.PeerName(EndToEndPeer))
-	if IsSkipEndToEndTest() {
+	a := api_auth_impl.NewCached(c, api_auth_impl.PeerName(qt_endtoend.EndToEndPeer))
+	if qt_endtoend.IsSkipEndToEndTest() {
 		l.Info("Skip end to end test")
 		return nil, true
 	}
@@ -66,7 +50,7 @@ func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.OldConnDropbo
 			return nil, true
 		}
 		return &rc_conn_impl.ConnBusinessInfo{
-			PeerName: EndToEndPeer,
+			PeerName: qt_endtoend.EndToEndPeer,
 		}, true
 	}
 
@@ -76,7 +60,7 @@ func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.OldConnDropbo
 			return nil, true
 		}
 		return &rc_conn_impl.ConnBusinessFile{
-			PeerName: EndToEndPeer,
+			PeerName: qt_endtoend.EndToEndPeer,
 		}, true
 	}
 	if _, ok := v.(rc_conn.OldConnBusinessAudit); ok {
@@ -85,7 +69,7 @@ func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.OldConnDropbo
 			return nil, true
 		}
 		return &rc_conn_impl.ConnBusinessAudit{
-			PeerName: EndToEndPeer,
+			PeerName: qt_endtoend.EndToEndPeer,
 		}, true
 	}
 	if _, ok := v.(rc_conn.OldConnBusinessMgmt); ok {
@@ -94,7 +78,7 @@ func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.OldConnDropbo
 			return nil, true
 		}
 		return &rc_conn_impl.ConnBusinessMgmt{
-			PeerName: EndToEndPeer,
+			PeerName: qt_endtoend.EndToEndPeer,
 		}, true
 	}
 	if _, ok := v.(rc_conn.OldConnUserFile); ok {
@@ -103,7 +87,7 @@ func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.OldConnDropbo
 			return nil, true
 		}
 		return &rc_conn_impl.ConnUserFile{
-			PeerName: EndToEndPeer,
+			PeerName: qt_endtoend.EndToEndPeer,
 		}, true
 	}
 
@@ -185,23 +169,23 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 
 func RecipeError(l *zap.Logger, err error) error {
 	switch err.(type) {
-	case *ErrorNoTestRequired:
+	case *qt_endtoend.ErrorNoTestRequired:
 		l.Info("Skip: No test required for this recipe")
 		return nil
 
-	case *ErrorHumanInteractionRequired:
+	case *qt_endtoend.ErrorHumanInteractionRequired:
 		l.Info("Skip: Human interaction required for this test")
 		return nil
 
-	case *ErrorNotEnoughResource:
+	case *qt_endtoend.ErrorNotEnoughResource:
 		l.Info("Skip: Not enough resource")
 		return nil
 
-	case *ErrorScenarioTest:
+	case *qt_endtoend.ErrorScenarioTest:
 		l.Info("Skip: Implemented as scenario test")
 		return nil
 
-	case *ErrorImplementMe:
+	case *qt_endtoend.ErrorImplementMe:
 		l.Warn("Test is not implemented for this recipe")
 		return nil
 

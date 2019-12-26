@@ -17,6 +17,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
@@ -182,7 +183,7 @@ func (z *Size) Test(c app_control.Control) error {
 		Depth:             1,
 	}
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
-		return qt_recipe.NotEnoughResource()
+		return qt_endtoend.NotEnoughResource()
 	}
 	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err

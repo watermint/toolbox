@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 type AuthVO struct {
@@ -34,11 +34,11 @@ func (z *Auth) Console() {
 
 func (z *Auth) Requirement() rc_vo.ValueObject {
 	return &AuthVO{
-		Full:  &rc_conn_impl.ConnUserFile{PeerName: qt_recipe.EndToEndPeer},
-		Info:  &rc_conn_impl.ConnBusinessInfo{PeerName: qt_recipe.EndToEndPeer},
-		File:  &rc_conn_impl.ConnBusinessFile{PeerName: qt_recipe.EndToEndPeer},
-		Audit: &rc_conn_impl.ConnBusinessAudit{PeerName: qt_recipe.EndToEndPeer},
-		Mgmt:  &rc_conn_impl.ConnBusinessMgmt{PeerName: qt_recipe.EndToEndPeer},
+		Full:  &rc_conn_impl.ConnUserFile{PeerName: qt_endtoend.EndToEndPeer},
+		Info:  &rc_conn_impl.ConnBusinessInfo{PeerName: qt_endtoend.EndToEndPeer},
+		File:  &rc_conn_impl.ConnBusinessFile{PeerName: qt_endtoend.EndToEndPeer},
+		Audit: &rc_conn_impl.ConnBusinessAudit{PeerName: qt_endtoend.EndToEndPeer},
+		Mgmt:  &rc_conn_impl.ConnBusinessMgmt{PeerName: qt_endtoend.EndToEndPeer},
 	}
 }
 
@@ -66,12 +66,12 @@ func (z *Auth) Exec(k rc_kitchen.Kitchen) error {
 	if _, err := evo.Audit.Connect(k.Control()); err != nil {
 		return err
 	}
-	if err := api_auth_impl.CreateCompatible(k.Control(), qt_recipe.EndToEndPeer); err != nil {
+	if err := api_auth_impl.CreateCompatible(k.Control(), qt_endtoend.EndToEndPeer); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (z *Auth) Test(c app_control.Control) error {
-	return qt_recipe.NoTestRequired()
+	return qt_endtoend.NoTestRequired()
 }

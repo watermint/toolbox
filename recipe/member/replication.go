@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 type ReplicationRow struct {
@@ -92,5 +92,5 @@ func (z *Replication) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *Replication) Test(c app_control.Control) error {
-	return qt_recipe.HumanInteractionRequired()
+	return qt_endtoend.HumanInteractionRequired()
 }

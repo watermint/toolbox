@@ -8,7 +8,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -32,7 +32,7 @@ func (z *Dummy) Preset() {
 }
 
 func (z *Dummy) Test(c app_control.Control) error {
-	return qt_recipe.NoTestRequired()
+	return qt_endtoend.NoTestRequired()
 }
 
 func (z *Dummy) Hidden() {

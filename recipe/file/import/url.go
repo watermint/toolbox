@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
@@ -73,7 +74,7 @@ func (z *Url) Test(c app_control.Control) error {
 		Url:  "https://dummyimage.com/10x10/000/fff",
 	}
 	if !qt_recipe.ApplyTestPeers(c, vo) {
-		return qt_recipe.NotEnoughResource()
+		return qt_endtoend.NotEnoughResource()
 	}
 	if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err != nil {
 		return err

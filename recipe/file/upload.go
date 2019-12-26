@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"os"
 )
@@ -67,7 +68,7 @@ func (z *Upload) Test(c app_control.Control) error {
 	}
 	if file == "" {
 		l.Warn("No file to upload")
-		return qt_recipe.NotEnoughResource()
+		return qt_endtoend.NotEnoughResource()
 	}
 
 	{
@@ -77,7 +78,7 @@ func (z *Upload) Test(c app_control.Control) error {
 			Overwrite:   true,
 		}
 		if !qt_recipe.ApplyTestPeers(c, vo) {
-			return qt_recipe.NotEnoughResource()
+			return qt_endtoend.NotEnoughResource()
 		}
 		if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err != nil {
 			return err
@@ -93,7 +94,7 @@ func (z *Upload) Test(c app_control.Control) error {
 			ChunkSizeKb: 1,
 		}
 		if !qt_recipe.ApplyTestPeers(c, vo) {
-			return qt_recipe.NotEnoughResource()
+			return qt_endtoend.NotEnoughResource()
 		}
 		if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err != nil {
 			return err

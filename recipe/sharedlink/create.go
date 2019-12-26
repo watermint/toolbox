@@ -13,7 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 type CreateVO struct {
@@ -90,5 +90,5 @@ func (z *Create) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *Create) Test(c app_control.Control) error {
-	return qt_recipe.ImplementMe()
+	return qt_endtoend.ImplementMe()
 }

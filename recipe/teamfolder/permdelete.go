@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"strings"
@@ -89,7 +90,7 @@ func (z *Permdelete) Exec(k rc_kitchen.Kitchen) error {
 func (z *Permdelete) Test(c app_control.Control) error {
 	vo := &PermDeleteVO{}
 	if !qt_recipe.ApplyTestPeers(c, vo) {
-		return qt_recipe.HumanInteractionRequired()
+		return qt_endtoend.HumanInteractionRequired()
 	}
 
 	// should fail

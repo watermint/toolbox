@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 type DeleteVO struct {
@@ -70,7 +70,7 @@ func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *Delete) Test(c app_control.Control) error {
-	return qt_recipe.ScenarioTest()
+	return qt_endtoend.ScenarioTest()
 }
 
 func (z *Delete) Reports() []rp_spec.ReportSpec {

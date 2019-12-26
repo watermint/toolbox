@@ -26,6 +26,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/quality/scenario/qs_file"
 	"go.uber.org/zap"
@@ -829,7 +830,7 @@ func (z *ViaApp) Test(c app_control.Control) error {
 	l := c.Log()
 	vo := &ViaAppVO{}
 	if !qt_recipe.ApplyTestPeers(c, vo) {
-		return qt_recipe.NotEnoughResource()
+		return qt_endtoend.NotEnoughResource()
 	}
 
 	scenario := qs_file.Scenario{}

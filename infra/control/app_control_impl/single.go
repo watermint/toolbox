@@ -175,7 +175,7 @@ func (z *Single) IsQuiet() bool {
 }
 
 func (z *Single) IsTest() bool {
-	return false
+	return z.opts.Test
 }
 
 func (z *Single) Workspace() app_workspace.Workspace {

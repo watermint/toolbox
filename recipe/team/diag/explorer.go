@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/group"
 	groupmember "github.com/watermint/toolbox/recipe/group/member"
@@ -289,7 +290,7 @@ func (z *Explorer) Test(c app_control.Control) error {
 		All: false,
 	}
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
-		return qt_recipe.NotEnoughResource()
+		return qt_endtoend.NotEnoughResource()
 	}
 	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err

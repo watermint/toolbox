@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_context_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 )
 
@@ -19,9 +20,21 @@ func connect(tokenType, peerName string, ctl app_control.Control) (ctx api_conte
 	switch {
 	case ctl.IsTest():
 		l.Debug("Connect for testing")
-		c := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(peerName))
-		ctx, err = c.Auth(tokenType)
-		return
+		if qt_endtoend.IsSkipEndToEndTest() {
+			return nil, qt_endtoend.ErrorSkipEndToEndTest
+		}
+		a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(peerName))
+		if c, err := a.Auth(tokenType); err == nil {
+			return c, nil
+		}
+
+		// fallback to end to end peer
+		a = api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(qt_endtoend.EndToEndPeer))
+		if c, err := a.Auth(tokenType); err == nil {
+			return c, nil
+		} else {
+			return nil, qt_endtoend.NotEnoughResource()
+		}
 
 	case ui.IsConsole():
 		l.Debug("Connect through console UI")

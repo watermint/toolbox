@@ -17,6 +17,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"os"
@@ -96,12 +97,12 @@ func (z *Externalid) Test(c app_control.Control) error {
 	res, found := c.TestResource(rc_recipe.Key(z))
 	if !found || !res.IsArray() {
 		l.Debug("SKIP: Test resource not found")
-		return qt_recipe.NotEnoughResource()
+		return qt_endtoend.NotEnoughResource()
 	}
 	vo := &ExternalIdVO{}
 	if !qt_recipe.ApplyTestPeers(c, vo) {
 		l.Debug("Skip test")
-		return qt_recipe.NotEnoughResource()
+		return qt_endtoend.NotEnoughResource()
 	}
 	pair := make(map[string]string)
 	for _, row := range res.Array() {

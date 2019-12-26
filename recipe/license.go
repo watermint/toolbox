@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"sort"
 	"strings"
@@ -23,7 +23,7 @@ func (z *License) Reports() []rp_spec.ReportSpec {
 }
 
 func (z *License) Test(c app_control.Control) error {
-	return qt_recipe.NoTestRequired()
+	return qt_endtoend.NoTestRequired()
 }
 
 func (*License) Requirement() rc_vo.ValueObject {

@@ -16,7 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 )
 
@@ -131,7 +131,7 @@ func (z *Restore) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *Restore) Test(c app_control.Control) error {
-	return qt_recipe.ImplementMe()
+	return qt_endtoend.ImplementMe()
 }
 
 func (z *Restore) Reports() []rp_spec.ReportSpec {

@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
 )
 
@@ -17,7 +17,7 @@ func (z *Resources) Reports() []rp_spec.ReportSpec {
 }
 
 func (z *Resources) Test(c app_control.Control) error {
-	return qt_recipe.NoTestRequired()
+	return qt_endtoend.NoTestRequired()
 }
 
 func (z *Resources) Hidden() {

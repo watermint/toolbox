@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"io/ioutil"
 	"path/filepath"
@@ -78,7 +79,7 @@ func (z *SelfContainedTestRecipe) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *SelfContainedTestRecipe) Test(c app_control.Control) error {
-	return qt_recipe.NoTestRequired()
+	return qt_endtoend.NoTestRequired()
 }
 
 func (z *SelfContainedTestRecipe) Preset() {
@@ -130,7 +131,7 @@ func TestSpecSelfContained_ApplyValues(t *testing.T) {
 			}
 			if err = rcp.Test(ctl); err != nil {
 				switch e := err.(type) {
-				case *qt_recipe.ErrorNoTestRequired:
+				case *qt_endtoend.ErrorNoTestRequired:
 					ctl.Log().Debug("ok")
 				default:
 					t.Error(e)

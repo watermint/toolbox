@@ -18,6 +18,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_mailaddr"
 	"github.com/watermint/toolbox/infra/util/ut_time"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"time"
@@ -183,7 +184,7 @@ func (z *User) Test(c app_control.Control) error {
 		StartTime: api_util.RebaseAsString(time.Now().Add(-10 * time.Minute)),
 	}
 	if !qt_recipe.ApplyTestPeers(c, lvo) {
-		return qt_recipe.NotEnoughResource()
+		return qt_endtoend.NotEnoughResource()
 	}
 	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
 		return err

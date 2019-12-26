@@ -14,7 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/web/web_handler"
 	"github.com/watermint/toolbox/infra/web/web_job"
 	"github.com/watermint/toolbox/infra/web/web_user"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"sync"
 	"time"
@@ -36,7 +36,7 @@ func (z *Web) Reports() []rp_spec.ReportSpec {
 }
 
 func (z *Web) Test(c app_control.Control) error {
-	return qt_recipe.HumanInteractionRequired()
+	return qt_endtoend.HumanInteractionRequired()
 }
 
 func (z *Web) Console() {

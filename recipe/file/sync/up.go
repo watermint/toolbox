@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 type UpVO struct {
@@ -68,7 +68,7 @@ func (z *Up) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *Up) Test(c app_control.Control) error {
-	return qt_recipe.ScenarioTest()
+	return qt_endtoend.ScenarioTest()
 }
 
 func (z *Up) Reports() []rp_spec.ReportSpec {

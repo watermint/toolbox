@@ -18,7 +18,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -139,7 +139,7 @@ func (z *Email) Test(c app_control.Control) error {
 	res, found := c.TestResource(key)
 	if !found || !res.IsArray() {
 		l.Debug("SKIP: Test resource not found")
-		return qt_recipe.NotEnoughResource()
+		return qt_endtoend.NotEnoughResource()
 	}
 
 	pair := make(map[string]string)

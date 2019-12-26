@@ -1,6 +1,7 @@
 package batch
 
 import (
+	"encoding/csv"
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
@@ -9,10 +10,14 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"os"
+	"path/filepath"
 )
 
 type UrlRow struct {
@@ -102,5 +107,24 @@ func (z *Url) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *Url) Test(c app_control.Control) error {
-	return qt_recipe.ImplementMe()
+	testFilePath := filepath.Join(c.Workspace().Test(), "batch.csv")
+	testFile, err := os.Create(testFilePath)
+	if err != nil {
+		return err
+	}
+	testCsv := csv.NewWriter(testFile)
+	testCsv.Write([]string{"https://dummyimage.com/10x10/000/fff", "/" + qt_recipe.TestTeamFolderName + "/file-import-batch-url/fff.png"})
+	testCsv.Write([]string{"https://dummyimage.com/10x10/000/eee", "/" + qt_recipe.TestTeamFolderName + "/file-import-batch-url/eee.png"})
+	testCsv.Flush()
+	testFile.Close()
+
+	err = rc_exec.Exec(c, &Url{}, func(r rc_recipe.Recipe) {
+		ru := r.(*Url)
+		ru.File.SetFilePath(testFilePath)
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

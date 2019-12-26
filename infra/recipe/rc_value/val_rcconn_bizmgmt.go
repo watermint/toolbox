@@ -1,12 +1,10 @@
 package rc_value
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"reflect"
 )
 
@@ -46,22 +44,6 @@ func (z *ValueRcConnBusinessMgmt) Apply() (v interface{}) {
 }
 
 func (z *ValueRcConnBusinessMgmt) SpinUp(ctl app_control.Control) error {
-	if ctl.IsTest() {
-		if qt_recipe.IsSkipEndToEndTest() {
-			return qt_recipe.ErrorSkipEndToEndTest
-		}
-		a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(z.peerName))
-		if _, err := a.Auth(z.conn.ScopeLabel()); err != nil {
-			a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(qt_recipe.EndToEndPeer))
-			if _, err := a.Auth(z.conn.ScopeLabel()); err != nil {
-				return qt_recipe.NotEnoughResource()
-			} else {
-				z.peerName = qt_recipe.EndToEndPeer
-				z.conn.SetPeerName(qt_recipe.EndToEndPeer)
-			}
-		}
-	}
-
 	return z.conn.Connect(ctl)
 }
 
