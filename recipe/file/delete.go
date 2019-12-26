@@ -7,41 +7,28 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
-type DeleteVO struct {
-	Peer rc_conn.OldConnUserFile
-	Path string
-}
-
 type Delete struct {
+	Peer rc_conn.ConnUserFile
+	Path mo_path.DropboxPath
 }
 
-func (z *Delete) Console() {
-}
-
-func (z *Delete) Requirement() rc_vo.ValueObject {
-	return &DeleteVO{}
+func (z *Delete) Preset() {
 }
 
 func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
-	vo := k.Value().(*DeleteVO)
 	ui := k.UI()
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
+	ctx := z.Peer.Context()
 
 	var delete func(path mo_path.DropboxPath) error
 	delete = func(path mo_path.DropboxPath) error {
 		ui.Info("recipe.file.delete.progress.deleting", app_msg.P{
 			"Path": path.Path(),
 		})
-		_, err = sv_file.NewFiles(ctx).Remove(path)
+		_, err := sv_file.NewFiles(ctx).Remove(path)
 		if err == nil {
 			return nil
 		}
@@ -66,13 +53,9 @@ func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
 		}
 	}
 
-	return delete(mo_path.NewDropboxPath(vo.Path))
+	return delete(z.Path)
 }
 
 func (z *Delete) Test(c app_control.Control) error {
 	return qt_endtoend.ScenarioTest()
-}
-
-func (z *Delete) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{}
 }

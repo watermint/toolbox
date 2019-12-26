@@ -4,7 +4,9 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -78,12 +80,10 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning group")
-		r := group.List{}
-		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &group.ListVO{
-			Peer: &rc_conn_impl.ConnBusinessInfo{
-				PeerName: pn,
-			},
-		}))
+		err := rc_exec.Exec(k.Control(), &group.List{}, func(r rc_recipe.Recipe) {
+			rc := r.(*group.List)
+			rc.Peer.SetPeerName(pn)
+		})
 		if err != nil {
 			l.Error("`group list` failed", zap.Error(err))
 			return err
@@ -92,12 +92,10 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning group members")
-		r := groupmember.List{}
-		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &groupmember.ListVO{
-			Peer: &rc_conn_impl.ConnBusinessInfo{
-				PeerName: pn,
-			},
-		}))
+		err := rc_exec.Exec(k.Control(), &groupmember.List{}, func(r rc_recipe.Recipe) {
+			rc := r.(*groupmember.List)
+			rc.Peer.SetPeerName(pn)
+		})
 		if err != nil {
 			l.Error("`group member list` failed", zap.Error(err))
 			return err
@@ -106,12 +104,10 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning members")
-		r := member.List{}
-		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &member.ListVO{
-			Peer: &rc_conn_impl.ConnBusinessInfo{
-				PeerName: pn,
-			},
-		}))
+		err := rc_exec.Exec(k.Control(), &member.List{}, func(r rc_recipe.Recipe) {
+			rc := r.(*member.List)
+			rc.Peer.SetPeerName(pn)
+		})
 		if err != nil {
 			l.Error("`member list` failed", zap.Error(err))
 			return err
@@ -120,12 +116,10 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning member quota")
-		r := memberquota.List{}
-		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &memberquota.ListVO{
-			Peer: &rc_conn_impl.ConnBusinessMgmt{
-				PeerName: pn,
-			},
-		}))
+		err := rc_exec.Exec(k.Control(), &memberquota.List{}, func(r rc_recipe.Recipe) {
+			rc := r.(*memberquota.List)
+			rc.Peer.SetPeerName(pn)
+		})
 		if err != nil {
 			l.Error("`member quota list` failed", zap.Error(err))
 			return err
@@ -134,12 +128,10 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning member usage")
-		r := memberquota.Usage{}
-		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &memberquota.UsageVO{
-			Peer: &rc_conn_impl.ConnBusinessFile{
-				PeerName: pn,
-			},
-		}))
+		err := rc_exec.Exec(k.Control(), &memberquota.Usage{}, func(r rc_recipe.Recipe) {
+			rc := r.(*memberquota.Usage)
+			rc.Peer.SetPeerName(pn)
+		})
 		if err != nil {
 			l.Error("`member quota usage` failed", zap.Error(err))
 			return err

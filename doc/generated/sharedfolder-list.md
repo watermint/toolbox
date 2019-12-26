@@ -20,7 +20,6 @@ Please see below help article for more detail:
 * Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -53,9 +52,9 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description   | Default   |
-|---------|---------------|-----------|
-| `-peer` | Account alias | {default} |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-peer` | Account alias | default |
 
 Common options:
 
@@ -112,12 +111,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: sharedfolder 
+## Report: shared_folder 
 
-Report files are generated in three formats, `sharedfolder.csv`, `sharedfolder.xlsx` and `sharedfolder.json`.
-But if you run with `-low-memory` option, the command will generate only `sharedfolder.json}}` report.
+Report files are generated in three formats, `shared_folder.csv`, `shared_folder.xlsx` and `shared_folder.json`.
+But if you run with `-low-memory` option, the command will generate only `shared_folder.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `sharedfolder_0000.xlsx`, `sharedfolder_0001.xlsx`, `sharedfolder_0002.xlsx`...   
+like `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`...   
 
 | Column                  | Description                                                                                                             |
 |-------------------------|-------------------------------------------------------------------------------------------------------------------------|

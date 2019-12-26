@@ -9,26 +9,23 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
 
 type UsageVO struct {
-	Peer rc_conn.OldConnBusinessFile
 }
 
 type UsageWorker struct {
 	member *mo_member.Member
 	ctx    api_context.Context
 	ctl    app_control.Control
-	rep    rp_model.SideCarReport
+	rep    rp_model.RowReport
 }
 
 func (z *UsageWorker) Exec() error {
@@ -50,49 +47,32 @@ func (z *UsageWorker) Exec() error {
 	return nil
 }
 
-const (
-	reportUsage = "usage"
-)
-
 type Usage struct {
+	Peer  rc_conn.ConnBusinessFile
+	Usage rp_model.RowReport
 }
 
-func (z *Usage) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportUsage, &mo_usage.MemberUsage{}),
-	}
-}
-
-func (z *Usage) Requirement() rc_vo.ValueObject {
-	return &UsageVO{}
+func (z *Usage) Preset() {
+	z.Usage.SetModel(&mo_usage.MemberUsage{})
 }
 
 func (z *Usage) Exec(k rc_kitchen.Kitchen) error {
-	vo := k.Value().(*UsageVO)
-
-	ctx, err := vo.Peer.Connect(k.Control())
+	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
 	}
 
-	members, err := sv_member.New(ctx).List()
-	if err != nil {
+	if err := z.Usage.Open(); err != nil {
 		return err
 	}
-
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportUsage)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
 
 	q := k.NewQueue()
 	for _, member := range members {
 		q.Enqueue(&UsageWorker{
 			member: member,
-			ctx:    ctx,
+			ctx:    z.Peer.Context(),
 			ctl:    k.Control(),
-			rep:    rep,
+			rep:    z.Usage,
 		})
 	}
 	q.Wait()
@@ -100,11 +80,7 @@ func (z *Usage) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *Usage) Test(c app_control.Control) error {
-	vo := &UsageVO{}
-	if !qt_recipe.ApplyTestPeers(c, vo) {
-		return qt_endtoend.NotEnoughResource()
-	}
-	if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err != nil {
+	if err := rc_exec.Exec(c, &Usage{}, rc_recipe.NoCustomValues); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "usage", func(cols map[string]string) error {

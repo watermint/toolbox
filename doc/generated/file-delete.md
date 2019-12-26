@@ -20,7 +20,6 @@ Please see below help article for more detail:
 * Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -53,10 +52,10 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description    | Default   |
-|---------|----------------|-----------|
-| `-path` | Path to delete |           |
-| `-peer` | Account alias  | {default} |
+| Option  | Description    | Default |
+|---------|----------------|---------|
+| `-path` | Path to delete |         |
+| `-peer` | Account alias  | default |
 
 Common options:
 

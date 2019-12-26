@@ -7,75 +7,56 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 )
 
-type DownloadVO struct {
-	Peer        rc_conn.OldConnUserFile
-	DropboxPath string
-	LocalPath   string
-}
-
 const (
 	reportDownload = "download"
 )
 
 type Download struct {
+	Peer         rc_conn.ConnUserFile
+	DropboxPath  mo_path.DropboxPath
+	LocalPath    mo_path.FileSystemPath
+	OperationLog rp_model.RowReport
+}
+
+func (z *Download) Preset() {
+	z.OperationLog.SetModel(&mo_file.ConcreteEntry{})
 }
 
 func (z *Download) Console() {
 }
 
-func (z *Download) Requirement() rc_vo.ValueObject {
-	return &DownloadVO{}
-}
-
 func (z *Download) Exec(k rc_kitchen.Kitchen) error {
 	l := k.Log()
-	vo := k.Value().(*DownloadVO)
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
+	ctx := z.Peer.Context()
+
+	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportDownload)
+	entry, f, err := sv_file_content.NewDownload(ctx).Download(z.DropboxPath)
 	if err != nil {
 		return err
 	}
-	defer rep.Close()
-
-	entry, f, err := sv_file_content.NewDownload(ctx).Download(mo_path.NewDropboxPath(vo.DropboxPath))
-	if err != nil {
-		return err
-	}
-	if err := os.Rename(f, filepath.Join(vo.LocalPath, entry.Name())); err != nil {
+	if err := os.Rename(f, filepath.Join(z.LocalPath.Path(), entry.Name())); err != nil {
 		l.Debug("Unable to move file to specified path",
 			zap.Error(err),
 			zap.String("downloaded", f),
-			zap.String("destination", vo.LocalPath),
+			zap.String("destination", z.LocalPath.Path()),
 		)
 		return err
 	}
 
-	rep.Row(entry.Concrete())
+	z.OperationLog.Row(entry.Concrete())
 	return nil
 }
 
 func (z *Download) Test(c app_control.Control) error {
 	return qt_endtoend.ImplementMe()
-}
-
-func (z *Download) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(
-			reportDownload,
-			&mo_file.ConcreteEntry{},
-		),
-	}
 }

@@ -26,13 +26,6 @@ func (z *InviteRow) Validate() error {
 	return nil
 }
 
-type InviteVO struct {
-}
-
-const (
-	reportInvite = "invite"
-)
-
 type Invite struct {
 	File         fd_file.RowFeed
 	Peer         rc_conn.ConnBusinessMgmt

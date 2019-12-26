@@ -20,7 +20,6 @@ Please see below help article for more detail:
 * Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -53,13 +52,13 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option                | Description               | Default   |
-|-----------------------|---------------------------|-----------|
-| `-include-deleted`    | Include deleted files     | false     |
-| `-include-media-info` | Include media information | false     |
-| `-path`               | Path                      |           |
-| `-peer`               | Account alias             | {default} |
-| `-recursive`          | List recursively          | false     |
+| Option                | Description               | Default |
+|-----------------------|---------------------------|---------|
+| `-include-deleted`    | Include deleted files     | false   |
+| `-include-media-info` | Include media information | false   |
+| `-path`               | Path                      |         |
+| `-peer`               | Account alias             | default |
+| `-recursive`          | List recursively          | false   |
 
 Common options:
 
@@ -116,12 +115,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: file 
+## Report: file_list 
 
-Report files are generated in three formats, `file.csv`, `file.xlsx` and `file.json`.
-But if you run with `-low-memory` option, the command will generate only `file.json}}` report.
+Report files are generated in three formats, `file_list.csv`, `file_list.xlsx` and `file_list.json`.
+But if you run with `-low-memory` option, the command will generate only `file_list.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `file_0000.xlsx`, `file_0001.xlsx`, `file_0002.xlsx`...   
+like `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`...   
 
 | Column                  | Description                                                                                            |
 |-------------------------|--------------------------------------------------------------------------------------------------------|

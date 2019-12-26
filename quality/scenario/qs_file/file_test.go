@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/file"
@@ -192,16 +191,12 @@ func TestFileUploadScenario(t *testing.T) {
 			if err != nil {
 				return
 			}
-			vo := &file.ListVO{
-				Path:      dbxBase + "/file-sync-up",
-				Recursive: true,
-			}
-			r := file.List{}
-			if !qt_recipe.ApplyTestPeers(fc, vo) {
-				l.Warn("Skip: No conn resource")
-				return
-			}
-			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
+			err = rc_exec.Exec(fc, &file.List{}, func(r rc_recipe.Recipe) {
+				rc := r.(*file.List)
+				rc.Path = mo_path.NewDropboxPath(dbxBase + "/file-sync-up")
+				rc.Recursive = true
+			})
+			if err != nil {
 				t.Error(err)
 			}
 			//TODO: verify content
@@ -213,16 +208,12 @@ func TestFileUploadScenario(t *testing.T) {
 			if err != nil {
 				return
 			}
-			vo := &file.CopyVO{
-				Src: dbxBase + "/file-sync-up",
-				Dst: dbxBase + "/file-copy",
-			}
-			r := file.Copy{}
-			if !qt_recipe.ApplyTestPeers(fc, vo) {
-				l.Warn("Skip: No conn resource")
-				return
-			}
-			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
+			err = rc_exec.Exec(fc, &file.Copy{}, func(r rc_recipe.Recipe) {
+				rc := r.(*file.Copy)
+				rc.Src = mo_path.NewDropboxPath(dbxBase + "/file-sync-up")
+				rc.Dst = mo_path.NewDropboxPath(dbxBase + "/file-copy")
+			})
+			if err != nil {
 				t.Error(err)
 			}
 			//TODO: verify content
@@ -234,16 +225,12 @@ func TestFileUploadScenario(t *testing.T) {
 			if err != nil {
 				return
 			}
-			vo := &file.MoveVO{
-				Src: dbxBase + "/file-copy",
-				Dst: dbxBase + "/file-move",
-			}
-			r := file.Move{}
-			if !qt_recipe.ApplyTestPeers(fc, vo) {
-				l.Warn("Skip: No conn resource")
-				return
-			}
-			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
+			err = rc_exec.Exec(fc, &file.Move{}, func(r rc_recipe.Recipe) {
+				rc := r.(*file.Move)
+				rc.Src = mo_path.NewDropboxPath(dbxBase + "/file-copy")
+				rc.Dst = mo_path.NewDropboxPath(dbxBase + "/file-move")
+			})
+			if err != nil {
 				t.Error(err)
 			}
 			//TODO: verify content
@@ -255,17 +242,13 @@ func TestFileUploadScenario(t *testing.T) {
 			if err != nil {
 				return
 			}
-			vo := &file.MergeVO{
-				From:   dbxBase + "/file-sync-up",
-				To:     dbxBase + "/file-move",
-				DryRun: false,
-			}
-			r := file.Merge{}
-			if !qt_recipe.ApplyTestPeers(fc, vo) {
-				l.Warn("Skip: No conn resource")
-				return
-			}
-			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
+			err = rc_exec.Exec(fc, &file.Merge{}, func(r rc_recipe.Recipe) {
+				rc := r.(*file.Merge)
+				rc.From = mo_path.NewDropboxPath(dbxBase + "/file-sync-up")
+				rc.To = mo_path.NewDropboxPath(dbxBase + "/file-move")
+				rc.DryRun = false
+			})
+			if err != nil {
 				t.Error(err)
 			}
 			//TODO: verify content
@@ -277,17 +260,13 @@ func TestFileUploadScenario(t *testing.T) {
 			if err != nil {
 				return
 			}
-			vo := &file.DeleteVO{
-				Path: dbxBase,
+			err = rc_exec.Exec(fc, &file.Delete{}, func(r rc_recipe.Recipe) {
+				rc := r.(*file.Delete)
+				rc.Path = mo_path.NewDropboxPath(dbxBase)
+			})
+			if err != nil {
+				t.Error(err)
 			}
-			//r := file.Delete{}
-			if !qt_recipe.ApplyTestPeers(fc, vo) {
-				l.Warn("Skip: No conn resource")
-				return
-			}
-			//if err := r.Exec(app_kitchen.NewKitchen(fc, vo)); err != nil {
-			//	t.Error(err)
-			//}
 			// TODO: verify deletion
 		}
 	})

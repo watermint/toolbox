@@ -31,6 +31,7 @@ type SelfContainedTestRecipe struct {
 	CustomQuota   fd_file.RowFeed
 	Enabled       bool
 	Limit         int
+	Limit2        int
 	Name          string
 	OperLog       rp_model.TransactionReport
 	DataReport    rp_model.RowReport
@@ -45,6 +46,9 @@ func (z *SelfContainedTestRecipe) Exec(k rc_kitchen.Kitchen) error {
 	}
 	if z.Limit != 20 {
 		return errors.New("limit != 20")
+	}
+	if z.Limit2 != 30 {
+		return errors.New("limit != 30")
 	}
 	if z.DbxPath.Path() != "/dropbox" {
 		return errors.New("!= /dropbox")
@@ -84,6 +88,7 @@ func (z *SelfContainedTestRecipe) Test(c app_control.Control) error {
 
 func (z *SelfContainedTestRecipe) Preset() {
 	z.Limit = 10
+	z.Limit2 = 30
 	z.CustomQuota.SetModel(&SelfContainedTestRow{})
 	z.OperLog.SetModel(&SelfContainedTestRow{}, &mo_file.ConcreteEntry{})
 	z.DataReport.SetModel(&mo_file.ConcreteEntry{})

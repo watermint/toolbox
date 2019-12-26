@@ -8,14 +8,11 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -25,69 +22,52 @@ import (
 	"time"
 )
 
-type ExternalIdVO struct {
-	Peer rc_conn.OldConnBusinessMgmt
-	File fd_file.ModelFile
-}
-
 type ExternalIdRow struct {
 	Email      string `json:"email"`
 	ExternalId string `json:"external_id"`
 }
 
-const (
-	reportExternalId = "external_id"
-)
-
 type Externalid struct {
+	Peer         rc_conn.ConnBusinessMgmt
+	File         fd_file.RowFeed
+	OperationLog rp_model.TransactionReport
+}
+
+func (z *Externalid) Preset() {
+	z.File.SetModel(&ExternalIdRow{})
+	z.OperationLog.SetModel(&ExternalIdRow{}, &mo_member.Member{})
 }
 
 func (z *Externalid) Console() {
 }
 
-func (z *Externalid) Requirement() rc_vo.ValueObject {
-	return &ExternalIdVO{}
-}
-
 func (z *Externalid) Exec(k rc_kitchen.Kitchen) error {
-	vo := k.Value().(*ExternalIdVO)
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
-
-	if err := vo.File.Model(k.Control(), &ExternalIdRow{}); err != nil {
-		return err
-	}
-
-	members, err := sv_member.New(ctx).List()
+	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
 	}
 	emailToMember := mo_member.MapByEmail(members)
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportExternalId)
-	if err != nil {
+	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
-	defer rep.Close()
 
-	return vo.File.EachRow(func(m interface{}, rowIndex int) error {
+	return z.File.EachRow(func(m interface{}, rowIndex int) error {
 		row := m.(*ExternalIdRow)
 
 		mem, ok := emailToMember[row.Email]
 		if !ok {
-			rep.Skip(app_msg.M("recipe.member.update.externalid.skip.not_found"), m)
+			z.OperationLog.Skip(app_msg.M("recipe.member.update.externalid.skip.not_found"), m)
 			return nil
 		}
 
 		mem.ExternalId = row.ExternalId
-		updated, err := sv_member.New(ctx).Update(mem)
+		updated, err := sv_member.New(z.Peer.Context()).Update(mem)
 		if err != nil {
-			rep.Failure(err, row)
+			z.OperationLog.Failure(err, row)
 			return err
 		}
-		rep.Success(row, updated)
+		z.OperationLog.Success(row, updated)
 		return nil
 	})
 }
@@ -99,11 +79,7 @@ func (z *Externalid) Test(c app_control.Control) error {
 		l.Debug("SKIP: Test resource not found")
 		return qt_endtoend.NotEnoughResource()
 	}
-	vo := &ExternalIdVO{}
-	if !qt_recipe.ApplyTestPeers(c, vo) {
-		l.Debug("Skip test")
-		return qt_endtoend.NotEnoughResource()
-	}
+
 	pair := make(map[string]string)
 	for _, row := range res.Array() {
 		email := row.Get("email").String()
@@ -138,10 +114,12 @@ func (z *Externalid) Test(c app_control.Control) error {
 
 	// test
 	{
-		vo.File = fd_file_impl.NewTestData(dataFile)
-		lastErr := z.Exec(rc_kitchen.NewKitchen(c, vo))
+		lastErr := rc_exec.Exec(c, &Externalid{}, func(r rc_recipe.Recipe) {
+			rc := r.(*Externalid)
+			rc.File.SetFilePath(dataFile)
+		})
 
-		qt_recipe.TestRows(c, reportExternalId, func(cols map[string]string) error {
+		qt_recipe.TestRows(c, "operation_log", func(cols map[string]string) error {
 			email := cols["email"]
 			extid := cols["external_id"]
 			if pair[email] != extid {
@@ -150,14 +128,5 @@ func (z *Externalid) Test(c app_control.Control) error {
 			return nil
 		})
 		return lastErr
-	}
-}
-
-func (z *Externalid) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(
-			reportExternalId,
-			rp_model.TransactionHeader(&ExternalIdRow{}, &mo_member.Member{}),
-		),
 	}
 }

@@ -68,7 +68,6 @@ func Recipes() []rc_recipe.Recipe {
 		&recipemember.Detach{},
 		&recipemember.Invite{},
 		&recipemember.List{},
-		&recipemember.Newlist{},
 		&recipemember.Replication{},
 		&recipemember.Delete{},
 		&recipememberquota.List{},

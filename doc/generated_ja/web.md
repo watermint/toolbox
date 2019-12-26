@@ -33,9 +33,9 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明       | デフォルト |
-|------------|------------|------------|
-| `-port`    | ポート番号 | 7800       |
+| オプション | 説明        | デフォルト |
+|------------|-------------|------------|
+| `-port`    | Port number | 7800       |
 
 Common options:
 

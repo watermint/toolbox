@@ -20,7 +20,6 @@ Please see below help article for more detail:
 * Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -53,10 +52,10 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-path`    | パス             |            |
-| `-peer`    | アカウントの別名 | {default}  |
+| オプション | 説明          | デフォルト |
+|------------|---------------|------------|
+| `-path`    | Path          |            |
+| `-peer`    | Account alias | default    |
 
 Common options:
 
@@ -113,12 +112,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: restore 
+## Report: operation_log 
 
-Report files are generated in three formats, `restore.csv`, `restore.xlsx` and `restore.json`.
-But if you run with `-low-memory` option, the command will generate only `restore.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `restore_0000.xlsx`, `restore_0001.xlsx`, `restore_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
 | 列                             | 説明                                                                                       |
 |--------------------------------|--------------------------------------------------------------------------------------------|

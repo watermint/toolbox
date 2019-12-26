@@ -20,7 +20,6 @@ Please see below help article for more detail:
 * Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -53,11 +52,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option          | Description            | Default   |
-|-----------------|------------------------|-----------|
-| `-dropbox-path` | File path to download  |           |
-| `-local-path`   | Local path to download |           |
-| `-peer`         | Account alias          | {default} |
+| Option          | Description            | Default |
+|-----------------|------------------------|---------|
+| `-dropbox-path` | File path to download  |         |
+| `-local-path`   | Local path to download |         |
+| `-peer`         | Account alias          | default |
 
 Common options:
 
@@ -114,12 +113,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: download 
+## Report: operation_log 
 
-Report files are generated in three formats, `download.csv`, `download.xlsx` and `download.json`.
-But if you run with `-low-memory` option, the command will generate only `download.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `download_0000.xlsx`, `download_0001.xlsx`, `download_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
 | Column                  | Description                                                                                            |
 |-------------------------|--------------------------------------------------------------------------------------------------------|

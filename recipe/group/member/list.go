@@ -9,21 +9,15 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
-
-type ListVO struct {
-	Peer rc_conn.OldConnBusinessInfo
-}
 
 type ListWorker struct {
 	// job context
@@ -32,7 +26,7 @@ type ListWorker struct {
 	// recipe's context
 	ctl  app_control.Control
 	conn api_context.Context
-	rep  rp_model.SideCarReport
+	rep  rp_model.RowReport
 }
 
 func (z *ListWorker) Exec() error {
@@ -58,45 +52,32 @@ const (
 )
 
 type List struct {
+	Peer        rc_conn.ConnBusinessInfo
+	GroupMember rp_model.RowReport
 }
 
-func (z *List) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportList, &mo_group_member.GroupMember{}),
-	}
-}
-
-func (*List) Requirement() rc_vo.ValueObject {
-	return &ListVO{}
+func (z *List) Preset() {
+	z.GroupMember.SetModel(&mo_group_member.GroupMember{})
 }
 
 func (z *List) Exec(k rc_kitchen.Kitchen) error {
-	var vo interface{} = k.Value()
-	lvo := vo.(*ListVO)
-	connInfo, err := lvo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
-
-	gsv := sv_group.New(connInfo)
+	gsv := sv_group.New(z.Peer.Context())
 	groups, err := gsv.List()
 	if err != nil {
 		return err
 	}
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportList)
-	if err != nil {
+	if err := z.GroupMember.Open(); err != nil {
 		return err
 	}
-	defer rep.Close()
 
 	q := k.NewQueue()
 	for _, group := range groups {
 		w := &ListWorker{
 			group: group,
 			ctl:   k.Control(),
-			conn:  connInfo,
-			rep:   rep,
+			conn:  z.Peer.Context(),
+			rep:   z.GroupMember,
 		}
 		q.Enqueue(w)
 	}
@@ -106,11 +87,7 @@ func (z *List) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *List) Test(c app_control.Control) error {
-	lvo := &ListVO{}
-	if !qt_recipe.ApplyTestPeers(c, lvo) {
-		return qt_endtoend.NotEnoughResource()
-	}
-	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "group_member", func(cols map[string]string) error {

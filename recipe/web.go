@@ -9,8 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/web/web_handler"
 	"github.com/watermint/toolbox/infra/web/web_job"
 	"github.com/watermint/toolbox/infra/web/web_user"
@@ -24,15 +22,12 @@ const (
 	webPort = 7800
 )
 
-type WebVO struct {
+type Web struct {
 	Port int
 }
 
-type Web struct {
-}
-
-func (z *Web) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{}
+func (z *Web) Preset() {
+	z.Port = webPort
 }
 
 func (z *Web) Test(c app_control.Control) error {
@@ -42,16 +37,7 @@ func (z *Web) Test(c app_control.Control) error {
 func (z *Web) Console() {
 }
 
-func (z *Web) Requirement() rc_vo.ValueObject {
-	return &WebVO{
-		Port: webPort,
-	}
-}
-
 func (z *Web) Exec(k rc_kitchen.Kitchen) error {
-	var vo interface{} = k.Value()
-	wvo := vo.(*WebVO)
-
 	l := k.Log()
 	repo, err := web_user.SingleUserRepository(k.Control().Workspace())
 	if err != nil {
@@ -75,7 +61,7 @@ func (z *Web) Exec(k rc_kitchen.Kitchen) error {
 	//g.StaticFS("/assets", hfs.HttpFileSystem())
 	g.HTMLRender = htr
 
-	baseUrl := fmt.Sprintf("http://localhost:%d", wvo.Port)
+	baseUrl := fmt.Sprintf("http://localhost:%d", z.Port)
 	jobChan := make(chan *web_job.WebJobRun)
 
 	wh := web_handler.NewHanlder(
@@ -97,7 +83,7 @@ func (z *Web) Exec(k rc_kitchen.Kitchen) error {
 	go func() {
 		wg.Add(1)
 		defer wg.Done()
-		err = g.Run(fmt.Sprintf(":%d", wvo.Port))
+		err = g.Run(fmt.Sprintf(":%d", z.Port))
 		if err != nil {
 			k.Log().Error("Unable to start", zap.Error(err))
 		}

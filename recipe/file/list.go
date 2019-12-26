@@ -7,67 +7,47 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
-type ListVO struct {
-	Peer             rc_conn.OldConnUserFile
-	Path             string
+type List struct {
+	Peer             rc_conn.ConnUserFile
+	Path             mo_path.DropboxPath
 	Recursive        bool
 	IncludeDeleted   bool
 	IncludeMediaInfo bool
+	FileList         rp_model.RowReport
 }
 
-const (
-	reportList = "file"
-)
-
-type List struct {
-}
-
-func (z *List) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportList, &mo_file.ConcreteEntry{}),
-	}
-}
-
-func (z *List) Requirement() rc_vo.ValueObject {
-	return &ListVO{}
+func (z *List) Preset() {
+	z.FileList.SetModel(&mo_file.ConcreteEntry{})
 }
 
 func (z *List) Exec(k rc_kitchen.Kitchen) error {
-	vo := k.Value().(*ListVO)
-
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
+	ctx := z.Peer.Context()
 
 	opts := make([]sv_file.ListOpt, 0)
-	if vo.IncludeDeleted {
+	if z.IncludeDeleted {
 		opts = append(opts, sv_file.IncludeDeleted())
 	}
-	if vo.IncludeMediaInfo {
+	if z.IncludeMediaInfo {
 		opts = append(opts, sv_file.IncludeMediaInfo())
 	}
-	if vo.Recursive {
+	if z.Recursive {
 		opts = append(opts, sv_file.Recursive())
 	}
 	opts = append(opts, sv_file.IncludeHasExplicitSharedMembers())
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportList)
-	if err != nil {
+	if err := z.FileList.Open(); err != nil {
 		return err
 	}
-	defer rep.Close()
 
-	err = sv_file.NewFiles(ctx).ListChunked(mo_path.NewDropboxPath(vo.Path), func(entry mo_file.Entry) {
-		rep.Row(entry.Concrete())
+	err := sv_file.NewFiles(ctx).ListChunked(z.Path, func(entry mo_file.Entry) {
+		z.FileList.Row(entry.Concrete())
 	}, opts...)
 	if err != nil {
 		k.Log().Debug("Failed to list files")
@@ -77,17 +57,15 @@ func (z *List) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *List) Test(c app_control.Control) error {
-	lvo := &ListVO{
-		Path:      "",
-		Recursive: false,
-	}
-	if !qt_recipe.ApplyTestPeers(c, lvo) {
-		return qt_endtoend.NotEnoughResource()
-	}
-	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
+	err := rc_exec.Exec(c, &List{}, func(r rc_recipe.Recipe) {
+		r0 := r.(*List)
+		r0.Path = mo_path.NewDropboxPath("")
+		r0.Recursive = false
+	})
+	if err != nil {
 		return err
 	}
-	return qt_recipe.TestRows(c, "file", func(cols map[string]string) error {
+	return qt_recipe.TestRows(c, "file_list", func(cols map[string]string) error {
 		if _, ok := cols["id"]; !ok {
 			return errors.New("`id` is not found")
 		}

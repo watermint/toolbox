@@ -53,9 +53,9 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description   | Default   |
-|---------|---------------|-----------|
-| `-peer` | Account alias | {default} |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-peer` | Account alias | default |
 
 Common options:
 

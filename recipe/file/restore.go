@@ -11,24 +11,16 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 )
 
-type RestoreVO struct {
-	Peer rc_conn.OldConnUserFile
-	Path string
-}
-
 type RestoreWorker struct {
 	k    rc_kitchen.Kitchen
 	ctx  api_context.Context
-	rep  rp_model.SideCarReport
+	rep  rp_model.TransactionReport
 	path mo_path.DropboxPath
 }
 
@@ -78,28 +70,25 @@ const (
 )
 
 type Restore struct {
+	Peer         rc_conn.ConnUserFile
+	Path         mo_path.DropboxPath
+	OperationLog rp_model.TransactionReport
+}
+
+func (z *Restore) Preset() {
+	z.OperationLog.SetModel(&RestoreTarget{}, &mo_file.ConcreteEntry{})
 }
 
 func (z *Restore) Console() {
 }
 
-func (z *Restore) Requirement() rc_vo.ValueObject {
-	return &RestoreVO{}
-}
-
 func (z *Restore) Exec(k rc_kitchen.Kitchen) error {
-	vo := k.Value().(*RestoreVO)
 	ui := k.UI()
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
+	ctx := z.Peer.Context()
+	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportRestore)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
 	q := k.NewQueue()
 
 	count := 0
@@ -110,13 +99,13 @@ func (z *Restore) Exec(k rc_kitchen.Kitchen) error {
 				k:    k,
 				ctx:  ctx,
 				path: f.Path(),
-				rep:  rep,
+				rep:  z.OperationLog,
 			})
 		}
 	}
 
 	lastErr := sv_file.NewFiles(ctx).ListChunked(
-		mo_path.NewDropboxPath(vo.Path),
+		z.Path,
 		handler,
 		sv_file.IncludeDeleted(),
 		sv_file.Recursive(),
@@ -132,15 +121,4 @@ func (z *Restore) Exec(k rc_kitchen.Kitchen) error {
 
 func (z *Restore) Test(c app_control.Control) error {
 	return qt_endtoend.ImplementMe()
-}
-
-func (z *Restore) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportRestore,
-			rp_model.TransactionHeader(
-				&RestoreTarget{},
-				&mo_file.ConcreteEntry{},
-			),
-		),
-	}
 }

@@ -22,7 +22,6 @@ Please see below help article for more detail:
 * Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -55,12 +54,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション  | 説明                    | デフォルト |
-|-------------|-------------------------|------------|
-| `-dst`      | アカウントの別名 (宛先) | {default}  |
-| `-dst-path` | 宛先のパス              |            |
-| `-src`      | アカウントの別名 (元)   | {default}  |
-| `-src-path` | 元のパス                |            |
+| オプション  | 説明                         | デフォルト |
+|-------------|------------------------------|------------|
+| `-dst`      | Account alias (destionation) | default    |
+| `-dst-path` | Destination path             |            |
+| `-src`      | Account alias (source)       | default    |
+| `-src-path` | Source path                  |            |
 
 Common options:
 

@@ -7,8 +7,6 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"sort"
@@ -18,16 +16,11 @@ import (
 type License struct {
 }
 
-func (z *License) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{}
+func (z *License) Preset() {
 }
 
 func (z *License) Test(c app_control.Control) error {
 	return qt_endtoend.NoTestRequired()
-}
-
-func (*License) Requirement() rc_vo.ValueObject {
-	return &rc_vo.EmptyValueObject{}
 }
 
 func (z *License) Exec(k rc_kitchen.Kitchen) error {
