@@ -8,13 +8,13 @@ import (
 func newCascade(name string, ctl app_control.Control) Writer {
 	writers := make([]Writer, 0)
 
-	writers = append(writers, newJsonWriter(name, ctl, false))
+	writers = append(writers, NewJsonWriter(name, ctl, false))
 	if !ctl.IsLowMemory() {
 		writers = append(writers, newCsvWriter(name, ctl))
 		writers = append(writers, newXlsxWriter(name, ctl))
 	}
 	if ctl.IsQuiet() {
-		writers = append(writers, newJsonWriter(name, ctl, true))
+		writers = append(writers, NewJsonWriter(name, ctl, true))
 	} else {
 		writers = append(writers, newUIWriter(name, ctl))
 	}

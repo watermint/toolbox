@@ -105,6 +105,16 @@ func Recipes() []rc_recipe.Recipe {
 		&teamsharedlink.List{},
 		&teamsharedlinkupdate.Expiry{},
 	}
+	//newCat := make([]rc_recipe.Recipe, 0)
+	//for _, r := range cat {
+	//	if scr, ok := r.(rc_recipe.SelfContainedRecipe); ok {
+	//		if _, ok := r.(rc_recipe.SecretRecipe); ok {
+	//			continue
+	//		}
+	//		newCat = append(newCat, scr)
+	//	}
+	//}
+	//return newCat
 	return cat
 }
 

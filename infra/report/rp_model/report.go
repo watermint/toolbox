@@ -76,7 +76,7 @@ type TransactionReport interface {
 	Success(input interface{}, result interface{})
 	Failure(err error, input interface{})
 	Skip(reason app_msg.Message, input interface{})
-	Model(input interface{}, result interface{}, opts ...ReportOpt)
+	SetModel(input interface{}, result interface{}, opts ...ReportOpt)
 }
 
 type Spec interface {

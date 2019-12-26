@@ -10,14 +10,25 @@ import (
 )
 
 func newValueFdFileRowFeed(name string) Value {
-	v := &ValueFdFileRowFeed{}
+	v := &ValueFdFileRowFeed{name: name}
 	v.rf = fd_file_impl.NewRowFeed(name)
 	return v
 }
 
 type ValueFdFileRowFeed struct {
+	name string
 	rf   fd_file.RowFeed
 	path string
+}
+
+func (z *ValueFdFileRowFeed) Fork(ctl app_control.Control) Value {
+	v := &ValueFdFileRowFeed{}
+	v.name = z.name
+	v.path = z.path
+	v.rf = fd_file_impl.NewRowFeed(z.name)
+	v.rf.SetModel(z.rf.Model())
+	v.rf.SetFilePath(z.path)
+	return v
 }
 
 func (z *ValueFdFileRowFeed) Accept(t reflect.Type, name string) Value {

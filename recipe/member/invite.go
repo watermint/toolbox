@@ -35,14 +35,14 @@ const (
 
 type Invite struct {
 	File         fd_file.RowFeed
-	Peer         rc_conn.OldConnBusinessMgmt
+	Peer         rc_conn.ConnBusinessMgmt
 	OperationLog rp_model.TransactionReport
 	SilentInvite bool
 }
 
 func (z *Invite) Preset() {
 	z.File.SetModel(&InviteRow{})
-	z.OperationLog.Model(&InviteRow{}, &mo_member.Member{})
+	z.OperationLog.SetModel(&InviteRow{}, &mo_member.Member{})
 }
 
 func (z *Invite) Test(c app_control.Control) error {
@@ -57,17 +57,13 @@ func (z *Invite) msgFromTag(tag string) app_msg.Message {
 }
 
 func (z *Invite) Exec(k rc_kitchen.Kitchen) error {
-	ctx, err := z.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
+	ctx := z.Peer.Context()
 
 	svm := sv_member.New(ctx)
-	err = z.OperationLog.Open()
+	err := z.OperationLog.Open()
 	if err != nil {
 		return err
 	}
-	defer z.OperationLog.Close()
 
 	return z.File.EachRow(func(row interface{}, rowIndex int) error {
 		m := row.(*InviteRow)

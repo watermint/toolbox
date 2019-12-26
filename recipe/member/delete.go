@@ -16,7 +16,7 @@ type DeleteRow struct {
 
 type Delete struct {
 	File         fd_file.RowFeed
-	Peer         rc_conn.OldConnBusinessMgmt
+	Peer         rc_conn.ConnBusinessMgmt
 	WipeData     bool
 	OperationLog rp_model.TransactionReport
 }
@@ -24,24 +24,20 @@ type Delete struct {
 func (z *Delete) Preset() {
 	z.WipeData = true
 	z.File.SetModel(&DeleteRow{})
-	z.OperationLog.Model(&DeleteRow{}, nil)
+	z.OperationLog.SetModel(&DeleteRow{}, nil)
 }
 
 func (z *Delete) Console() {
 }
 
 func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
-	ctx, err := z.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
+	ctx := z.Peer.Context()
 
 	svm := sv_member.New(ctx)
-	err = z.OperationLog.Open()
+	err := z.OperationLog.Open()
 	if err != nil {
 		return err
 	}
-	defer z.OperationLog.Close()
 
 	return z.File.EachRow(func(mod interface{}, rowIndex int) error {
 		m := mod.(*DeleteRow)

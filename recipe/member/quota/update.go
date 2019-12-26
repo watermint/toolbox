@@ -54,24 +54,21 @@ func (z *UpdateWorker) Exec() error {
 }
 
 type Update struct {
-	Peer         rc_conn.OldConnBusinessMgmt
+	Peer         rc_conn.ConnBusinessMgmt
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
 }
 
 func (z *Update) Preset() {
 	z.File.SetModel(&mo_member_quota.MemberQuota{})
-	z.OperationLog.Model(&mo_member_quota.MemberQuota{}, &mo_member_quota.MemberQuota{})
+	z.OperationLog.SetModel(&mo_member_quota.MemberQuota{}, &mo_member_quota.MemberQuota{})
 }
 
 func (z *Update) Console() {
 }
 
 func (z *Update) Exec(k rc_kitchen.Kitchen) error {
-	ctx, err := z.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
+	ctx := z.Peer.Context()
 
 	members, err := sv_member.New(ctx).List()
 	if err != nil {
@@ -83,7 +80,6 @@ func (z *Update) Exec(k rc_kitchen.Kitchen) error {
 	if err != nil {
 		return err
 	}
-	defer z.OperationLog.Close()
 
 	q := k.NewQueue()
 

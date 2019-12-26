@@ -13,7 +13,7 @@ import (
 	"sync"
 )
 
-func newJsonWriter(name string, ctl app_control.Control, toStdout bool) Writer {
+func NewJsonWriter(name string, ctl app_control.Control, toStdout bool) Writer {
 	return &jsonWriter{
 		name:     name,
 		toStdout: toStdout,

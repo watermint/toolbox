@@ -118,11 +118,6 @@ func applyReflect(mot reflect.Type, mov reflect.Value) {
 			mvf.Set(reflect.ValueOf(&messageImpl{
 				K: base + "." + strcase.ToSnake(kn),
 			}))
-
-			//case mof.Type.Kind() == reflect.Ptr && mof.Type.Elem().Kind() == reflect.Struct:
-			//	v := reflect.New(mvf.Type().Elem())
-			//	applyReflect(v.Elem().Type(), v.Elem())
-			//	mvf.Set(v)
 		}
 	}
 }

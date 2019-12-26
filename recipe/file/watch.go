@@ -7,29 +7,30 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/report/rp_model_deprecated"
+	"github.com/watermint/toolbox/infra/report/rp_model_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type Watch struct {
-	Peer      rc_conn.OldConnUserFile
+	Peer      rc_conn.ConnUserFile
 	Path      mo_path.DropboxPath
 	Recursive bool
 }
 
 func (z *Watch) Exec(k rc_kitchen.Kitchen) error {
-	ctx, err := z.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
+	ctx := z.Peer.Context()
 	opts := make([]sv_file.ListOpt, 0)
 	if z.Recursive {
 		opts = append(opts, sv_file.Recursive())
 	}
-	rep, _ := rp_model_deprecated.NewJsonForQuiet("entries", k.Control())
+	w := rp_model_impl.NewJsonWriter("entries", k.Control(), true)
+	if err := w.Open(k.Control(), &mo_file.ConcreteEntry{}); err != nil {
+		return err
+	}
+	defer w.Close()
 
 	return sv_file.NewFiles(ctx).Poll(z.Path, func(entry mo_file.Entry) {
-		rep.Row(entry.Concrete())
+		w.Row(entry.Concrete())
 	}, opts...)
 }
 

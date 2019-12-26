@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -21,29 +22,38 @@ type Repository interface {
 	// Returns reports that will created by the recipe
 	Reports() map[string]rp_model.Report
 
+	// Returns reports that will created by the recipe
+	ReportSpecs() map[string]rp_model.Spec
+
+	// List of fields
+	FieldNames() []string
+
+	// Field value
+	FieldValue(name string) interface{}
+
 	// Returns connections that requested by the recipe
 	Conns() map[string]rc_conn.ConnDropboxApi
 
-	// Initialize given object & this value repository
-	Init()
-
 	// Fork this value repository
-	Fork(ctl app_control.Control)
+	Fork(ctl app_control.Control) Repository
 
 	// Apply values in the repository to the
-	Apply()
+	Apply() rc_recipe.Recipe
 
 	// Prepare values for run recipe
-	SpinUp(ctl app_control.Control) error
+	SpinUp(ctl app_control.Control) (rc_recipe.Recipe, error)
 
 	// Spin down value
-	SpinDown() error
+	SpinDown(ctl app_control.Control) error
 
 	// Apply flag set
 	ApplyFlags(f *flag.FlagSet, ui app_ui.UI)
 
 	// Description of the field
-	FlagFieldDesc(name string) app_msg.Message
+	FieldDesc(name string) app_msg.Message
+
+	// Custom description for default value
+	FieldCustomDefault(name string) app_msg.MessageOptional
 
 	// Serialize values for debug
 	Debug() map[string]interface{}
@@ -53,6 +63,9 @@ type Value interface {
 	// Returns forked instance when the type is acceptable
 	// Otherwise returns nil
 	Accept(t reflect.Type, name string) Value
+
+	// Fork this value
+	Fork(ctl app_control.Control) Value
 
 	// Return value reference of the instance
 	Bind() interface{}

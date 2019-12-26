@@ -9,26 +9,34 @@ import (
 	"reflect"
 )
 
-func newValueRcConnBusinessInfo(name string) Value {
-	v := &ValueRcConnBusinessInfo{name: name}
-	v.conn = rc_conn_impl.NewConnBusinessInfo(name)
+func newValueRcConnBusinessInfo(peerName string) Value {
+	v := &ValueRcConnBusinessInfo{peerName: peerName}
+	v.conn = rc_conn_impl.NewConnBusinessInfo(peerName)
 	return v
 }
 
 type ValueRcConnBusinessInfo struct {
-	conn rc_conn.ConnBusinessInfo
-	name string
+	conn     rc_conn.ConnBusinessInfo
+	peerName string
+}
+
+func (z *ValueRcConnBusinessInfo) Fork(ctl app_control.Control) Value {
+	v := &ValueRcConnBusinessInfo{}
+	v.peerName = z.peerName
+	v.conn = rc_conn_impl.NewConnBusinessInfo(z.peerName)
+	v.conn.SetName(z.peerName)
+	return v
 }
 
 func (z *ValueRcConnBusinessInfo) Accept(t reflect.Type, name string) Value {
 	if t.Implements(reflect.TypeOf((*rc_conn.ConnBusinessInfo)(nil)).Elem()) {
-		return newValueRpModelRowReport(name)
+		return newValueRcConnBusinessInfo(z.peerName)
 	}
 	return nil
 }
 
 func (z *ValueRcConnBusinessInfo) Bind() interface{} {
-	return &z.name
+	return &z.peerName
 }
 
 func (z *ValueRcConnBusinessInfo) Init() (v interface{}) {
@@ -36,7 +44,7 @@ func (z *ValueRcConnBusinessInfo) Init() (v interface{}) {
 }
 
 func (z *ValueRcConnBusinessInfo) Apply() (v interface{}) {
-	z.conn.SetName(z.name)
+	z.conn.SetName(z.peerName)
 	return z.conn
 }
 
@@ -62,7 +70,7 @@ func (z *ValueRcConnBusinessInfo) IsConn() (conn rc_conn.ConnDropboxApi, valid b
 
 func (z *ValueRcConnBusinessInfo) Debug() interface{} {
 	return map[string]string{
-		"peerName": z.name,
+		"peerName": z.peerName,
 		"scope":    z.conn.ScopeLabel(),
 	}
 }

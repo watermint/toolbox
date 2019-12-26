@@ -16,7 +16,7 @@ type DetachRow struct {
 
 type Detach struct {
 	File             fd_file.RowFeed
-	Peer             rc_conn.OldConnBusinessMgmt
+	Peer             rc_conn.ConnBusinessMgmt
 	RevokeTeamShares bool
 	OperationLog     rp_model.TransactionReport
 }
@@ -24,7 +24,7 @@ type Detach struct {
 func (z *Detach) Preset() {
 	z.RevokeTeamShares = false
 	z.File.SetModel(&DetachRow{})
-	z.OperationLog.Model(&DetachRow{}, nil)
+	z.OperationLog.SetModel(&DetachRow{}, nil)
 }
 
 func (z *Detach) Test(c app_control.Control) error {
@@ -35,17 +35,13 @@ func (z *Detach) Console() {
 }
 
 func (z *Detach) Exec(k rc_kitchen.Kitchen) error {
-	ctx, err := z.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
+	ctx := z.Peer.Context()
 
 	svm := sv_member.New(ctx)
-	err = z.OperationLog.Open()
+	err := z.OperationLog.Open()
 	if err != nil {
 		return err
 	}
-	defer z.OperationLog.Close()
 
 	return z.File.EachRow(func(mod interface{}, rowIndex int) error {
 		m := mod.(*DetachRow)

@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 )
 
-func newConnUserFile(name string) rc_conn.ConnUserFile {
+func NewConnUserFile(name string) rc_conn.ConnUserFile {
 	return &connUserFile{name: name}
 }
 

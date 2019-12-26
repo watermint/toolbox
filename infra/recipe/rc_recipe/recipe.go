@@ -101,7 +101,10 @@ type Spec interface {
 	ApplyValues(ctl app_control.Control, custom func(r Recipe)) (rcp Recipe, k rc_kitchen.Kitchen, err error)
 
 	// Serialize values
-	SerializeValues() map[string]interface{}
+	Debug() map[string]interface{}
+
+	// SpinDown
+	SpinDown(ctl app_control.Control) error
 }
 
 func NoCustomValues(r Recipe) {}

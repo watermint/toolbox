@@ -38,6 +38,10 @@ func (z *RowReport) Spec() rp_model.Spec {
 	return newSpec(z.name, z.model, z.opts)
 }
 
+func (z *RowReport) SetCtl(ctl app_control.Control) {
+	z.ctl = ctl
+}
+
 func (z *RowReport) Fork(ctl app_control.Control) rp_model.RowReport {
 	return &RowReport{
 		name:  z.name,
@@ -59,7 +63,9 @@ func (z *RowReport) Open(opts ...rp_model.ReportOpt) error {
 }
 
 func (z *RowReport) Close() {
-	z.w.Close()
+	if z.w != nil {
+		z.w.Close()
+	}
 }
 
 func (z *RowReport) Row(row interface{}) {
@@ -83,6 +89,10 @@ func (z *TransactionReport) Spec() rp_model.Spec {
 	return newSpec(z.name, z.model, z.opts)
 }
 
+func (z *TransactionReport) SetCtl(ctl app_control.Control) {
+	z.ctl = ctl
+}
+
 func (z *TransactionReport) Fork(ctl app_control.Control) rp_model.TransactionReport {
 	return &TransactionReport{
 		name:  z.name,
@@ -104,7 +114,9 @@ func (z *TransactionReport) Open(opts ...rp_model.ReportOpt) error {
 }
 
 func (z *TransactionReport) Close() {
-	z.w.Close()
+	if z.w != nil {
+		z.w.Close()
+	}
 }
 
 func (z *TransactionReport) Success(input interface{}, result interface{}) {
@@ -144,7 +156,7 @@ func (z *TransactionReport) Skip(reason app_msg.Message, input interface{}) {
 	})
 }
 
-func (z *TransactionReport) Model(input interface{}, result interface{}, opts ...rp_model.ReportOpt) {
+func (z *TransactionReport) SetModel(input interface{}, result interface{}, opts ...rp_model.ReportOpt) {
 	z.model = &rp_model.TransactionRow{Input: input, Result: result}
 	z.opts = opts
 }

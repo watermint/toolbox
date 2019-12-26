@@ -10,7 +10,7 @@ import (
 )
 
 type Newlist struct {
-	Peer       rc_conn.OldConnBusinessInfo
+	Peer       rc_conn.ConnBusinessInfo
 	MemberList rp_model.RowReport
 }
 
@@ -18,14 +18,11 @@ func (z *Newlist) Hidden() {
 }
 
 func (z *Newlist) Exec(k rc_kitchen.Kitchen) error {
-	ctx, err := z.Peer.Connect(k.Control())
-	if err != nil {
+	ctx := z.Peer.Context()
+
+	if err := z.MemberList.Open(); err != nil {
 		return err
 	}
-	if err = z.MemberList.Open(); err != nil {
-		return err
-	}
-	defer z.MemberList.Close()
 
 	members, err := sv_member.New(ctx).List()
 	if err != nil {

@@ -10,13 +10,22 @@ import (
 )
 
 func newValueRpModelRowReport(name string) Value {
-	v := &ValueRpModelRowReport{}
+	v := &ValueRpModelRowReport{name: name}
 	v.rep = rp_model_impl.NewRowReport(name)
 	return v
 }
 
 type ValueRpModelRowReport struct {
-	rep *rp_model_impl.RowReport
+	name string
+	rep  *rp_model_impl.RowReport
+}
+
+func (z *ValueRpModelRowReport) Fork(ctl app_control.Control) Value {
+	v := &ValueRpModelRowReport{}
+	v.name = z.name
+	v.rep = rp_model_impl.NewRowReport(z.name)
+	v.rep.SetModel(z.rep.Spec().Model(), z.rep.Spec().Options()...)
+	return v
 }
 
 func (z *ValueRpModelRowReport) Accept(t reflect.Type, name string) Value {
@@ -40,6 +49,7 @@ func (z *ValueRpModelRowReport) Apply() (v interface{}) {
 
 func (z *ValueRpModelRowReport) SpinUp(ctl app_control.Control) error {
 	// Report will not automatically open
+	z.rep.SetCtl(ctl)
 	return nil
 }
 

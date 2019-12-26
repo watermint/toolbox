@@ -67,12 +67,8 @@ func (z *EmailWorker) Exec() error {
 	return nil
 }
 
-const (
-	reportEmail = "update"
-)
-
 type Email struct {
-	Peer             rc_conn.OldConnBusinessMgmt
+	Peer             rc_conn.ConnBusinessMgmt
 	File             fd_file.RowFeed
 	UpdateUnverified bool
 	OperationLog     rp_model.TransactionReport
@@ -80,15 +76,12 @@ type Email struct {
 
 func (z *Email) Preset() {
 	z.File.SetModel(&EmailRow{})
-	z.OperationLog.Model(&EmailRow{}, &mo_member.Member{})
+	z.OperationLog.SetModel(&EmailRow{}, &mo_member.Member{})
 }
 
 func (z *Email) Exec(k rc_kitchen.Kitchen) error {
 	l := k.Log()
-	ctx, err := z.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
+	ctx := z.Peer.Context()
 
 	members, err := sv_member.New(ctx).List()
 	if err != nil {
@@ -100,7 +93,6 @@ func (z *Email) Exec(k rc_kitchen.Kitchen) error {
 	if err != nil {
 		return err
 	}
-	defer z.OperationLog.Close()
 
 	q := k.NewQueue()
 	err = z.File.EachRow(func(m interface{}, rowIndex int) error {

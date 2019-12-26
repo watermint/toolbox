@@ -84,14 +84,14 @@ func (z *SelfContainedTestRecipe) Test(c app_control.Control) error {
 func (z *SelfContainedTestRecipe) Preset() {
 	z.Limit = 10
 	z.CustomQuota.SetModel(&SelfContainedTestRow{})
-	z.OperLog.Model(&SelfContainedTestRow{}, &mo_file.ConcreteEntry{})
+	z.OperLog.SetModel(&SelfContainedTestRow{}, &mo_file.ConcreteEntry{})
 	z.DataReport.SetModel(&mo_file.ConcreteEntry{})
 }
 
 func TestSpecSelfContained_ApplyValues(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		scr := &SelfContainedTestRecipe{}
-		spec := newSelfContained(scr)
+		spec := newOldSelfContained(scr)
 
 		feedDir, err := ioutil.TempDir("", "feed")
 		if err != nil {

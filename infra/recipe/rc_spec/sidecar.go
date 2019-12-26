@@ -123,11 +123,15 @@ type SpecSideCar struct {
 	connScopes      []string
 }
 
+func (z *SpecSideCar) SpinDown(ctl app_control.Control) error {
+	return nil
+}
+
 func (z *SpecSideCar) Feeds() map[string]fd_file.Spec {
 	return map[string]fd_file.Spec{}
 }
 
-func (z *SpecSideCar) SerializeValues() map[string]interface{} {
+func (z *SpecSideCar) Debug() map[string]interface{} {
 	return z.vc.Serialize()
 }
 

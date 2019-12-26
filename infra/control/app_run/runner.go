@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/network/nw_diag"
 	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"github.com/watermint/toolbox/infra/network/nw_proxy"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
@@ -75,7 +76,7 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 	so = append(so, app_control.Concurrency(com.Concurrency))
 	so = append(so, app_control.RecipeName(rcpSpec.CliPath()))
 	so = append(so, app_control.CommonOptions(cvc.Serialize()))
-	so = append(so, app_control.RecipeOptions(rcpSpec.SerializeValues()))
+	so = append(so, app_control.RecipeOptions(rcpSpec.Debug()))
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.Recipes())
 	err = ctl.Up(so...)
@@ -187,15 +188,14 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 	}
 
 	// Run
-	ctl.Log().Debug("Run recipe", zap.Any("vo", rcpSpec.SerializeValues()), zap.Any("common", com))
+	ctl.Log().Debug("Run recipe", zap.Any("vo", rcpSpec.Debug()), zap.Any("common", com))
 	{
-		r, k, err := rcpSpec.ApplyValues(ctl, rc_recipe.NoCustomValues)
+		err = rc_exec.ExecSpec(ctl, rcpSpec, rc_recipe.NoCustomValues)
 		if err != nil {
 			ctl.Log().Debug("Unable to apply values to the recipe", zap.Error(err))
 			ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
 			os.Exit(app_control.FailureGeneral)
 		}
-		err = r.Exec(k)
 	}
 
 	// Dump stats

@@ -16,6 +16,12 @@ type ValueBool struct {
 	v bool
 }
 
+func (z *ValueBool) Fork(ctl app_control.Control) Value {
+	v := newValueBool().(*ValueBool)
+	v.v = z.v
+	return v
+}
+
 func (z *ValueBool) Accept(t reflect.Type, name string) Value {
 	if t.Kind() == reflect.Bool {
 		return newValueBool()
