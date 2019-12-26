@@ -29,6 +29,7 @@ var (
 		newValueMoTimeTime(""),
 		newValueMoPathDropboxPath(""),
 		newValueMoPathFileSystemPath(""),
+		newValueRcRecipeRecipe("", nil),
 		newValueRcConnBusinessInfo(rc_conn_impl.DefaultPeerName),
 		newValueRcConnBusinessMgmt(rc_conn_impl.DefaultPeerName),
 		newValueRcConnBusinessFile(rc_conn_impl.DefaultPeerName),
@@ -197,18 +198,21 @@ func (z *repositoryImpl) Reports() map[string]rp_model.Report {
 				reps[k] = rep
 			}
 		}
+		if vr, ok := v.(ValueReports); ok {
+			reps0 := vr.Reports()
+			for k0, v0 := range reps0 {
+				reps[k0] = v0
+			}
+		}
 	}
+
 	return reps
 }
 
 func (z *repositoryImpl) ReportSpecs() map[string]rp_model.Spec {
 	reps := make(map[string]rp_model.Spec)
-	for k, v := range z.values {
-		if vr, ok := v.(ValueReport); ok {
-			if rep, ok := vr.Report(); ok {
-				reps[k] = rep.Spec()
-			}
-		}
+	for k, r := range z.Reports() {
+		reps[k] = r.Spec()
 	}
 	return reps
 }

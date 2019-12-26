@@ -103,6 +103,13 @@ type ValueReport interface {
 	Report() (report rp_model.Report, valid bool)
 }
 
+type ValueReports interface {
+	Value
+
+	// Returns reports that used by this value
+	Reports() map[string]rp_model.Report
+}
+
 type ValueConn interface {
 	Value
 

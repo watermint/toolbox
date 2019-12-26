@@ -25,6 +25,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/util/ut_filecompare"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -364,7 +365,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 		if f, e := entry.File(); e {
 			en := strings.ToLower(f.Name())
 			if lf, ok := nameToLocal[en]; ok {
-				same, _ := uc_file_upload.Compare(l, filepath.Join(z.curLocalPath, lf.Name()), lf, f)
+				same, _ := ut_filecompare.Compare(l, filepath.Join(z.curLocalPath, lf.Name()), lf, f)
 				if same {
 					requireUpdate[en] = false
 				}

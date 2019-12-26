@@ -13,6 +13,15 @@ import (
 func TestCatalogue(t *testing.T) {
 	_, _, _, ui := qt_recipe.Resources(t)
 	testGroup(Catalogue(), ui)
+	for _, r := range Ingredients() {
+		spec := rc_spec.New(r)
+		if spec == nil {
+			continue
+		}
+		for _, m := range spec.Messages() {
+			ui.InfoM(m)
+		}
+	}
 }
 
 func testGroup(g *rc_group.Group, ui app_ui.UI) {
