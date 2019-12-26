@@ -124,8 +124,8 @@ like `external_id_0000.xlsx`, `external_id_0001.xlsx`, `external_id_0002.xlsx`..
 |-------------------------|-------------------------------------------------------------------------------------------------|
 | status                  | 処理の状態                                                                                      |
 | reason                  | 失敗またはスキップの理由                                                                        |
-| input.email             | Email address of team members                                                                   |
-| input.external_id       | External ID of team members                                                                     |
+| input.email             | チームメンバーのメールアドレス                                                                  |
+| input.external_id       | チームメンバーのExternal ID                                                                     |
 | result.team_member_id   | チームにおけるメンバーのID                                                                      |
 | result.email            | ユーザーのメールアドレス                                                                        |
 | result.email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |

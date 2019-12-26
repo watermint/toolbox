@@ -54,12 +54,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション    | 説明                               | デフォルト |
-|---------------|------------------------------------|------------|
-| `-left`       | Account alias (left)               | default    |
-| `-left-path`  | The path from account root (left)  |            |
-| `-right`      | Account alias (right)              | default    |
-| `-right-path` | The path from account root (right) |            |
+| オプション    | 説明                              | デフォルト |
+|---------------|-----------------------------------|------------|
+| `-left`       | アカウントの別名 (左)             | default    |
+| `-left-path`  | アカウントのルートからのパス (左) |            |
+| `-right`      | アカウントの別名 (右)             | default    |
+| `-right-path` | アカウントのルートからのパス (右) |            |
 
 Common options:
 

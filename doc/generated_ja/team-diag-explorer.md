@@ -56,7 +56,7 @@ At second run, please hit button "Open" on the dialogue.
 | オプション | 説明                       | デフォルト |
 |------------|----------------------------|------------|
 | `-all`     | Include additional reports | false      |
-| `-peer`    | Account alias              | {default}  |
+| `-peer`    | アカウントの別名           | {default}  |
 
 Common options:
 

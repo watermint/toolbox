@@ -52,11 +52,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション            | 説明                                                         | デフォルト |
-|-----------------------|--------------------------------------------------------------|------------|
-| `-file`               | Data file                                                    |            |
-| `-peer`               | Account alias                                                | default    |
-| `-revoke-team-shares` | True for revoke shared folder access which owned by the team | false      |
+| オプション            | 説明                                                                                 | デフォルト |
+|-----------------------|--------------------------------------------------------------------------------------|------------|
+| `-file`               | データファイル                                                                       |            |
+| `-peer`               | アカウントの別名                                                                     | default    |
+| `-revoke-team-shares` | 指定した場合にはユーザーからチームが保有する共有フォルダからのアクセス権を剥奪します | false      |
 
 Common options:
 
@@ -75,9 +75,9 @@ Common options:
 
 ## Format: File 
 
-| Column | Description                  | Value example    |
-|--------|------------------------------|------------------|
-| email  | Email address of the account | john@example.com |
+| 列    | 説明                       | Value example    |
+|-------|----------------------------|------------------|
+| email | アカウントのメールアドレス | john@example.com |
 
 The first line is a header line. The program will accept file without the header.
 
@@ -135,9 +135,9 @@ But if you run with `-low-memory` option, the command will generate only `operat
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列          | 説明                         |
-|-------------|------------------------------|
-| status      | 処理の状態                   |
-| reason      | 失敗またはスキップの理由     |
-| input.email | Email address of the account |
+| 列          | 説明                       |
+|-------------|----------------------------|
+| status      | 処理の状態                 |
+| reason      | 失敗またはスキップの理由   |
+| input.email | アカウントのメールアドレス |
 

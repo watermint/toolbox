@@ -120,15 +120,15 @@ But if you run with `-low-memory` option, the command will generate only `namesp
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`...   
 
-| 列                 | 説明                                                                                                      |
-|--------------------|-----------------------------------------------------------------------------------------------------------|
-| namespace_name     | The name of this namespace                                                                                |
-| namespace_id       | The ID of this namespace.                                                                                 |
-| namespace_type     | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)                |
-| entry_access_type  | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
-| entry_is_inherited | True if the member has access from a parent folder                                                        |
-| email              | Email address of user.                                                                                    |
-| display_name       | Type of the session (web_session, desktop_client, or mobile_client)                                       |
-| group_name         | Name of the group                                                                                         |
-| invitee_email      | Email address of invitee for this folder                                                                  |
+| 列                 | 説明                                                                                                 |
+|--------------------|------------------------------------------------------------------------------------------------------|
+| namespace_name     | 名前空間の名称                                                                                       |
+| namespace_id       | 名前空間ID                                                                                           |
+| namespace_type     | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)               |
+| entry_access_type  | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
+| entry_is_inherited | メンバーのアクセス権限が上位フォルダから継承されている場合true                                       |
+| email              | ユーザーのメールアドレス                                                                             |
+| display_name       | セッションのタイプ (web_session, desktop_client, または mobile_client)                               |
+| group_name         | グループ名称                                                                                         |
+| invitee_email      | このフォルダに招待されたメールアドレス                                                               |
 

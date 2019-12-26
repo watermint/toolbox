@@ -52,11 +52,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション      | 説明          | デフォルト |
-|-----------------|---------------|------------|
-| `-dropbox-path` | Dropbox path  |            |
-| `-local-path`   | Local path    |            |
-| `-peer`         | Account alias | default    |
+| オプション      | 説明             | デフォルト |
+|-----------------|------------------|------------|
+| `-dropbox-path` | Dropbox上のパス  |            |
+| `-local-path`   | ローカルパス     |            |
+| `-peer`         | アカウントの別名 | default    |
 
 Common options:
 

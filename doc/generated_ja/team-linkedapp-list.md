@@ -119,22 +119,22 @@ But if you run with `-low-memory` option, the command will generate only `linked
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
 
-| 列               | 説明                                                                                 |
-|------------------|--------------------------------------------------------------------------------------|
-| team_member_id   | ID of user as a member of a team.                                                    |
-| email            | Email address of user.                                                               |
-| status           | The user's status as a member of a specific team. (active/invited/suspended/removed) |
-| given_name       | Also known as a first name                                                           |
-| surname          | Also known as a last name or family name.                                            |
-| familiar_name    | Locale-dependent name                                                                |
-| display_name     | A name that can be used directly to represent the name of a user's Dropbox account.  |
-| abbreviated_name | An abbreviated form of the person's name.                                            |
-| external_id      | External ID that a team can attach to the user.                                      |
-| account_id       | A user's account identifier.                                                         |
-| app_id           | The application unique id.                                                           |
-| app_name         | The application name.                                                                |
-| is_app_folder    | Whether the linked application uses a dedicated folder.                              |
-| publisher        | The publisher's URL.                                                                 |
-| publisher_url    | The application publisher name.                                                      |
-| linked           | The time this application was linked                                                 |
+| 列               | 説明                                                                 |
+|------------------|----------------------------------------------------------------------|
+| team_member_id   | チームにおけるメンバーのID                                           |
+| email            | ユーザーのメールアドレス                                             |
+| status           | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
+| given_name       | 名                                                                   |
+| surname          | 名字                                                                 |
+| familiar_name    | ロケール依存の名前                                                   |
+| display_name     | ユーザーのDropboxアカウントの表示名称                                |
+| abbreviated_name | ユーザーの省略名称                                                   |
+| external_id      | このユーザーに関連づけられた外部ID                                   |
+| account_id       | ユーザーのアカウントID                                               |
+| app_id           | アプリケーションの固有ID                                             |
+| app_name         | アプリケーション名称                                                 |
+| is_app_folder    | アプリケーションが専用フォルダにリンクするかどうか                   |
+| publisher        | パブリッシャーのURL                                                  |
+| publisher_url    | アプリケーションパブリッシャーの名前                                 |
+| linked           | アプリケーションがリンクされた日時                                   |
 

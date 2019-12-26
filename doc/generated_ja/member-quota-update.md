@@ -52,10 +52,10 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-file`    | Data file     |            |
-| `-peer`    | Account alias | default    |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-file`    | データファイル   |            |
+| `-peer`    | アカウントの別名 | default    |
 
 Common options:
 
@@ -74,10 +74,10 @@ Common options:
 
 ## Format: File 
 
-| Column | Description                                                                 | Value example    |
-|--------|-----------------------------------------------------------------------------|------------------|
-| email  | Email address of user.                                                      | john@example.com |
-| quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. | 50               |
+| 列    | 説明                                                                | Value example    |
+|-------|---------------------------------------------------------------------|------------------|
+| email | ユーザーのメールアドレス                                            | john@example.com |
+| quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. | 50               |
 
 The first line is a header line. The program will accept file without the header.
 
@@ -135,12 +135,12 @@ But if you run with `-low-memory` option, the command will generate only `operat
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列           | 説明                                                                        |
-|--------------|-----------------------------------------------------------------------------|
-| status       | 処理の状態                                                                  |
-| reason       | 失敗またはスキップの理由                                                    |
-| input.email  | Email address of user.                                                      |
-| input.quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
-| result.email | Email address of user.                                                      |
-| result.quota | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
+| 列           | 説明                                                                |
+|--------------|---------------------------------------------------------------------|
+| status       | 処理の状態                                                          |
+| reason       | 失敗またはスキップの理由                                            |
+| input.email  | ユーザーのメールアドレス                                            |
+| input.quota  | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
+| result.email | ユーザーのメールアドレス                                            |
+| result.quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
 

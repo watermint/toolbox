@@ -55,7 +55,7 @@ At second run, please hit button "Open" on the dialogue.
 | オプション   | 説明                   | デフォルト |
 |--------------|------------------------|------------|
 | `-path`      | Path to watch          |            |
-| `-peer`      | Account alias          | default    |
+| `-peer`      | アカウントの別名       | default    |
 | `-recursive` | Watch path recursively | false      |
 
 Common options:

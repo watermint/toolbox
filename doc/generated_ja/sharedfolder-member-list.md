@@ -119,20 +119,20 @@ But if you run with `-low-memory` option, the command will generate only `shared
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `sharedfolder_member_0000.xlsx`, `sharedfolder_member_0001.xlsx`, `sharedfolder_member_0002.xlsx`...   
 
-| 列                      | 説明                                                                                                                    |
-|-------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| shared_folder_id        | The ID of the shared folder.                                                                                            |
-| parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
-| name                    | The name of the this shared folder.                                                                                     |
-| path_lower              | The lower-cased full path of this shared folder.                                                                        |
-| is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
-| is_team_folder          | Whether this folder is a team folder.                                                                                   |
-| access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
-| is_inherited            | True if the member has access from a parent folder                                                                      |
-| account_id              | A user's account identifier.                                                                                            |
-| email                   | Email address of user.                                                                                                  |
-| display_name            | A name that can be used directly to represent the name of a user's Dropbox account.                                     |
-| group_name              | Name of a group                                                                                                         |
-| group_id                | A group's identifier                                                                                                    |
-| invitee_email           | Email address of invitee for this folder                                                                                |
+| 列                      | 説明                                                                                                 |
+|-------------------------|------------------------------------------------------------------------------------------------------|
+| shared_folder_id        | 共有フォルダのID                                                                                     |
+| parent_shared_folder_id | 親共有フォルダのID. このフィールドはフォルダが他の共有フォルダに含まれる場合のみ設定されます.        |
+| name                    | 共有フォルダの名称                                                                                   |
+| path_lower              | 共有フォルダのフルパス(小文字に変換済み).                                                            |
+| is_inside_team_folder   | フォルダがチームフォルダに内包されているかどうか                                                     |
+| is_team_folder          | このフォルダがチームフォルダであるかどうか                                                           |
+| access_type             | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
+| is_inherited            | メンバーのアクセス権限が上位フォルダから継承されている場合true                                       |
+| account_id              | ユーザーのアカウントID                                                                               |
+| email                   | ユーザーのメールアドレス                                                                             |
+| display_name            | ユーザーのDropboxアカウントの表示名称                                                                |
+| group_name              | グループ名称                                                                                         |
+| group_id                | グループID                                                                                           |
+| invitee_email           | このフォルダに招待されたメールアドレス                                                               |
 

@@ -52,11 +52,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション           | 説明                                                                                                                                       | デフォルト |
-|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-file`              | Data file                                                                                                                                  |            |
-| `-peer`              | Account alias                                                                                                                              | default    |
-| `-update-unverified` | Update an account which didn't verified email. If an account email unverified, email address change may affect lose invitation to folders. | false      |
+| オプション           | 説明                                                                                                                                                  | デフォルト |
+|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-file`              | データファイル                                                                                                                                        |            |
+| `-peer`              | アカウントの別名                                                                                                                                      | default    |
+| `-update-unverified` | アカウントのメールアドレスが確認されていない場合でも変更する. アカウントのメールアドレスが確認されていない場合、フォルダへの招待を失う場合があります. | false      |
 
 Common options:
 
@@ -75,10 +75,10 @@ Common options:
 
 ## Format: File 
 
-| Column     | Description           | Value example          |
-|------------|-----------------------|------------------------|
-| from_email | Current Email address | john@example.com       |
-| to_email   | New Email address     | john.smith@example.net |
+| 列         | 説明                 | Value example          |
+|------------|----------------------|------------------------|
+| from_email | 現在のメールアドレス | john@example.com       |
+| to_email   | 新しいメールアドレス | john.smith@example.net |
 
 The first line is a header line. The program will accept file without the header.
 
@@ -140,8 +140,8 @@ like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.x
 |-------------------------|-------------------------------------------------------------------------------------------------|
 | status                  | 処理の状態                                                                                      |
 | reason                  | 失敗またはスキップの理由                                                                        |
-| input.from_email        | Current Email address                                                                           |
-| input.to_email          | New Email address                                                                               |
+| input.from_email        | 現在のメールアドレス                                                                            |
+| input.to_email          | 新しいメールアドレス                                                                            |
 | result.team_member_id   | チームにおけるメンバーのID                                                                      |
 | result.email            | ユーザーのメールアドレス                                                                        |
 | result.email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
