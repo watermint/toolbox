@@ -34,4 +34,8 @@ func testRecipe(g *rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
 	}
 	spec.SetFlags(f, ui)
 	g.PrintRecipeUsage(ui, spec, f)
+
+	for _, m := range spec.Messages() {
+		ui.InfoM(m)
+	}
 }

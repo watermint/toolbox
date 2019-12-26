@@ -85,7 +85,7 @@ func (z *specValueSelfContained) CliNote() app_msg.MessageOptional {
 }
 
 func (z *specValueSelfContained) Messages() []app_msg.Message {
-	panic("implement me")
+	return z.repo.Messages()
 }
 
 func (z *specValueSelfContained) Reports() []rp_model.Spec {

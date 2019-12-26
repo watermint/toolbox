@@ -509,6 +509,8 @@
   "recipe.member.replicationrow.dst_email.desc": "Destination account's email address",
   "recipe.member.replicationrow.src_email.desc": "Source account's email address",
   "recipe.member.title": "Team member management (Dropbox Business)",
+  "recipe.member.update.email.skip_same_from_to_email": "Same from address and to address",
+  "recipe.member.update.email.skip_unverified_email": "Skip unverified email address account",
   "recipe.member.update.email.cli.args": "-file /path/to/data/file.csv",
   "recipe.member.update.email.err.api_error": "Unable to update email address; Reason: {{.Error}}",
   "recipe.member.update.email.err.internal_error_clone": "Unable to process",
