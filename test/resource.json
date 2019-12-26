@@ -1,28 +1,30 @@
 {
-  "member": {
-    "update": {
-      "email": [
-        {
-          "from": "",
-          "to": "",
-          "exists": true
-        },
-        {
-          "from": "",
-          "to": "",
-          "exists": false
-        }
-      ],
-      "externalid": [
-        {
-          "email": "",
-          "external_id":""
-        },
-        {
-          "email": "",
-          "external_id":""
-        }
-      ]
+  "recipe": {
+    "member": {
+      "update": {
+        "email": [
+          {
+            "from": "",
+            "to": "",
+            "exists": true
+          },
+          {
+            "from": "",
+            "to": "",
+            "exists": false
+          }
+        ],
+        "externalid": [
+          {
+            "email": "",
+            "external_id":""
+          },
+          {
+            "email": "",
+            "external_id":""
+          }
+        ]
+      }
     }
   }
 }

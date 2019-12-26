@@ -135,7 +135,8 @@ func (z *Email) Exec(k rc_kitchen.Kitchen) error {
 
 func (z *Email) Test(c app_control.Control) error {
 	l := c.Log()
-	res, found := c.TestResource(rc_recipe.Key(z))
+	key := rc_recipe.Key(z)
+	res, found := c.TestResource(key)
 	if !found || !res.IsArray() {
 		l.Debug("SKIP: Test resource not found")
 		return qt_recipe.NotEnoughResource()
