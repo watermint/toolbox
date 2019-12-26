@@ -17,10 +17,9 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
+* Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -32,13 +31,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file import batch url -data /path/to/data/file -path /path/to/import
+.\tbx.exe file import batch url -file /path/to/data/file -path /path/to/import
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file import batch url -data /path/to/data/file -path /path/to/import
+$HOME/Desktop/tbx file import batch url -file /path/to/data/file -path /path/to/import
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
@@ -53,11 +52,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description    | Default   |
-|---------|----------------|-----------|
-| `-data` | Data file      |           |
-| `-path` | Path to import |           |
-| `-peer` | Account alias  | {default} |
+| Option  | Description    | Default |
+|---------|----------------|---------|
+| `-file` | Data file      |         |
+| `-path` | Path to import |         |
+| `-peer` | Account alias  | default |
 
 Common options:
 
@@ -71,6 +70,22 @@ Common options:
 | `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`       | Do not store tokens into a file                                                  | false                |
 | `-workspace`    | Workspace path                                                                   |                      |
+
+# File formats
+
+## Format: File 
+
+| Column | Description                                                             | Value example                     |
+|--------|-------------------------------------------------------------------------|-----------------------------------|
+| url    | Url to download                                                         | http://example.com/2019/12/26.zip |
+| path   | Path to store file (use path given by `-path` when the record is empty) | /backup/2019-12-16.zip            |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+url,path
+http://example.com/2019/12/26.zip,/backup/2019-12-16.zip
+```
 
 ## Authentication
 
@@ -114,25 +129,29 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: import_url 
+## Report: operation_log 
 
-Report files are generated in three formats, `import_url.csv`, `import_url.xlsx` and `import_url.json`.
-But if you run with `-low-memory` option, the command will generate only `import_url.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `import_url_0000.xlsx`, `import_url_0001.xlsx`, `import_url_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| Column                  | Description                                                                                            |
-|-------------------------|--------------------------------------------------------------------------------------------------------|
-| id                      | A unique identifier for the file.                                                                      |
-| tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name                    | The last component of the path (including extension).                                                  |
-| path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| path_display            | The cased path to be used for display purposes only.                                                   |
-| client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified         | The last time the file was modified on Dropbox.                                                        |
-| revision                | A unique identifier for the current revision of a file.                                                |
-| size                    | The file size in bytes.                                                                                |
-| content_hash            | A hash of the file content.                                                                            |
-| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
+| Column                         | Description                                                                                            |
+|--------------------------------|--------------------------------------------------------------------------------------------------------|
+| status                         | Status of the operation                                                                                |
+| reason                         | Reason of failure or skipped operation                                                                 |
+| input.url                      | Url to download                                                                                        |
+| input.path                     | Path to store file (use path given by `-path` when the record is empty)                                |
+| result.id                      | A unique identifier for the file.                                                                      |
+| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| result.name                    | The last component of the path (including extension).                                                  |
+| result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
+| result.path_display            | The cased path to be used for display purposes only.                                                   |
+| result.client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| result.server_modified         | The last time the file was modified on Dropbox.                                                        |
+| result.revision                | A unique identifier for the current revision of a file.                                                |
+| result.size                    | The file size in bytes.                                                                                |
+| result.content_hash            | A hash of the file content.                                                                            |
+| result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
+| result.parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
 

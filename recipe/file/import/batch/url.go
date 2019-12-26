@@ -10,47 +10,38 @@ import (
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
-type UrlVO struct {
-	Peer rc_conn.OldConnUserFile
-	Data fd_file.ModelFile
-	Path string
-}
-
 type UrlRow struct {
-	Url  string
-	Path string
+	Url  string `json:"url"`
+	Path string `json:"path"`
 }
 
 type UrlWorker struct {
-	url  string
-	path string
-	ctx  api_context.Context
-	ctl  app_control.Control
-	rep  rp_model.SideCarReport
+	row *UrlRow
+	ctx api_context.Context
+	ctl app_control.Control
+	rep rp_model.TransactionReport
 }
 
 func (z *UrlWorker) Exec() error {
 	ui := z.ctl.UI()
 
-	path := sv_file_url.PathWithName(mo_path.NewDropboxPath(z.path), z.url)
+	path := sv_file_url.PathWithName(mo_path.NewDropboxPath(z.row.Path), z.row.Url)
 	ui.Info("recipe.file.import.batch.url.progress", app_msg.P{
-		"Url":  z.url,
+		"Url":  z.row.Url,
 		"Path": path.Path(),
 	})
 
-	entry, err := sv_file_url.New(z.ctx).Save(path, z.url)
+	entry, err := sv_file_url.New(z.ctx).Save(path, z.row.Url)
 	if err != nil {
+		z.rep.Failure(err, z.row)
 		return err
 	}
-	z.rep.Row(entry.Concrete())
+	z.rep.Success(z.row, entry.Concrete())
 
 	return nil
 }
@@ -60,57 +51,49 @@ const (
 )
 
 type Url struct {
+	Peer            rc_conn.ConnUserFile
+	File            fd_file.RowFeed
+	Path            string
+	OperationLog    rp_model.TransactionReport
+	SkipPathMissing app_msg.Message
 }
 
-func (z *Url) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportUrl, &mo_file.ConcreteEntry{}),
-	}
-}
-
-func (z *Url) Requirement() rc_vo.ValueObject {
-	return &UrlVO{}
+func (z *Url) Preset() {
+	z.OperationLog.SetModel(&UrlRow{}, &mo_file.ConcreteEntry{})
+	z.File.SetModel(&UrlRow{})
 }
 
 func (z *Url) Exec(k rc_kitchen.Kitchen) error {
-	vo := k.Value().(*UrlVO)
 	ui := k.UI()
+	ctx := z.Peer.Context()
 
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportUrl)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
-
-	err = vo.Data.Model(k.Control(), &UrlRow{})
-	if err != nil {
+	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
 	q := k.NewQueue()
-	err = vo.Data.EachRow(func(m interface{}, rowIndex int) error {
+	err := z.File.EachRow(func(m interface{}, rowIndex int) error {
 		r := m.(*UrlRow)
 		var path string
 		switch {
 		case r.Path != "":
 			path = r.Path
-		case vo.Path != "":
-			path = vo.Path
+		case z.Path != "":
+			path = z.Path
 		default:
+			z.OperationLog.Skip(z.SkipPathMissing, r)
 			ui.Error("recipe.file.import.batch.url.err.path_missing")
 			return errors.New("no path to save")
 		}
 
 		q.Enqueue(&UrlWorker{
-			url:  r.Url,
-			path: path,
-			ctx:  ctx,
-			ctl:  k.Control(),
-			rep:  rep,
+			row: &UrlRow{
+				Url:  r.Url,
+				Path: path,
+			},
+			ctx: ctx,
+			ctl: k.Control(),
+			rep: z.OperationLog,
 		})
 		return nil
 	})

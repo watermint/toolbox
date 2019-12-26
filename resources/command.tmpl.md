@@ -20,7 +20,7 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-{{ if .UseAuthPersonal }}* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps{{end}}{{ if .UseAuthBusiness }}* Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations{{end}}
+{{ if .UseAuthPersonal }}* Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps{{end}}{{ if .UseAuthBusiness }}* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations{{end}}
 
 This command use following access type(s) during the operation:
 {{ range $scope := .AuthScopes }}{{ with (eq $scope "business_info")}}* Dropbox Business Information access{{end}}{{ with (eq $scope "business_file")}}* Dropbox Business File access{{end}}{{ with (eq $scope "business_mgmt")}}* Dropbox Business management{{end}}{{ with (eq $scope "business_audit")}}* Dropbox Business Auditing{{end}}{{ with (eq $scope "user_file")}}* Dropbox Full access{{end}}{{end}}
