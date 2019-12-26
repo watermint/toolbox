@@ -38,7 +38,7 @@ func (z *ValueRcConnBusinessMgmt) Init() (v interface{}) {
 	return z.conn
 }
 
-func (z *ValueRcConnBusinessMgmt) Apply() (v interface{}) {
+func (z *ValueRcConnBusinessMgmt) Apply(v0 interface{}) (v interface{}) {
 	z.conn.SetPeerName(z.peerName)
 	return z.conn
 }

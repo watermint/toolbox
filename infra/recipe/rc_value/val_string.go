@@ -35,7 +35,8 @@ func (z *ValueString) Init() (v interface{}) {
 	return z.v
 }
 
-func (z *ValueString) Apply() (v interface{}) {
+func (z *ValueString) Apply(v0 interface{}) (v interface{}) {
+	z.v = v0.(string)
 	return z.v
 }
 

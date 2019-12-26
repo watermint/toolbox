@@ -38,7 +38,7 @@ func (z *ValueMoPathFileSystemPath) Init() (v interface{}) {
 	return z.path
 }
 
-func (z *ValueMoPathFileSystemPath) Apply() (v interface{}) {
+func (z *ValueMoPathFileSystemPath) Apply(v0 interface{}) (v interface{}) {
 	z.path = mo_path.NewFileSystemPath(z.filePath)
 	return z.path
 }

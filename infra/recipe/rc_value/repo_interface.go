@@ -70,8 +70,9 @@ type Value interface {
 	// Initialize instance, and returns the instance to set
 	Init() (v interface{})
 
-	// Apply internal state (bind'ed value) to the instance
-	Apply() (v interface{})
+	// Apply internal state (bind'ed value) to the instance.
+	// v0 is the current value of the recipe instance.
+	Apply(v0 interface{}) (v interface{})
 
 	// Debug information
 	Debug() interface{}

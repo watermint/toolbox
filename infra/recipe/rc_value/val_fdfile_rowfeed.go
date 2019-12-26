@@ -39,7 +39,7 @@ func (z *ValueFdFileRowFeed) Init() (v interface{}) {
 	return z.rf
 }
 
-func (z *ValueFdFileRowFeed) Apply() (v interface{}) {
+func (z *ValueFdFileRowFeed) Apply(v0 interface{}) (v interface{}) {
 	z.rf.SetFilePath(z.path)
 	return z.rf
 }

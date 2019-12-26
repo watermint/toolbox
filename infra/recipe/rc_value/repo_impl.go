@@ -150,7 +150,12 @@ func (z *repositoryImpl) FieldValueText(name string) string {
 	if cv, ok := v.(ValueCustomValueText); ok {
 		return cv.ValueText()
 	} else {
-		return fmt.Sprintf("%v", v.Apply())
+		fv, ok := z.fieldValue[name]
+		if !ok {
+			return ""
+		}
+		av := v.Apply(fv.Interface())
+		return fmt.Sprintf("%v", av)
 	}
 }
 
@@ -219,18 +224,20 @@ func (z *repositoryImpl) ReportSpecs() map[string]rp_model.Spec {
 
 func (z *repositoryImpl) Apply() rc_recipe.Recipe {
 	for k, v := range z.values {
-		av := v.Apply()
-		if fv, ok := z.fieldValue[k]; ok && av != nil {
-			switch fv.Type().Kind() {
-			case reflect.Bool:
-				fv.SetBool(av.(bool))
-			case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-				fv.SetInt(av.(int64))
-			case reflect.String:
-				fv.SetString(av.(string))
-			default:
-				fv.Set(reflect.ValueOf(av))
-			}
+		fv, ok := z.fieldValue[k]
+		if !ok {
+			continue
+		}
+		av := v.Apply(fv.Interface())
+		switch fv.Type().Kind() {
+		case reflect.Bool:
+			fv.SetBool(av.(bool))
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			fv.SetInt(av.(int64))
+		case reflect.String:
+			fv.SetString(av.(string))
+		default:
+			fv.Set(reflect.ValueOf(av))
 		}
 	}
 	return z.rcp

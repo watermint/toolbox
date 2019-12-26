@@ -46,7 +46,7 @@ func (z *ValueRcRecipeRecipe) Init() (v interface{}) {
 	return z.recipe
 }
 
-func (z *ValueRcRecipeRecipe) Apply() (v interface{}) {
+func (z *ValueRcRecipeRecipe) Apply(v0 interface{}) (v interface{}) {
 	return z.recipe
 }
 

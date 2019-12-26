@@ -38,7 +38,7 @@ func (z *ValueMoPathDropboxPath) Init() (v interface{}) {
 	return z.path
 }
 
-func (z *ValueMoPathDropboxPath) Apply() (v interface{}) {
+func (z *ValueMoPathDropboxPath) Apply(v0 interface{}) (v interface{}) {
 	z.path = mo_path.NewDropboxPath(z.filePath)
 	return z.path
 }

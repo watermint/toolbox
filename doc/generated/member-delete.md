@@ -56,7 +56,7 @@ At second run, please hit button "Open" on the dialogue.
 |--------------|------------------------------------------------------------------------------|---------|
 | `-file`      | Data file                                                                    |         |
 | `-peer`      | Account alias                                                                | default |
-| `-wipe-data` | If true, controls if the user's data will be deleted on their linked devices | false   |
+| `-wipe-data` | If true, controls if the user's data will be deleted on their linked devices | true    |
 
 Common options:
 

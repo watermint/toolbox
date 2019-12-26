@@ -29,7 +29,8 @@ func (z *ValueBool) Init() (v interface{}) {
 	return z.v
 }
 
-func (z *ValueBool) Apply() (v interface{}) {
+func (z *ValueBool) Apply(v0 interface{}) (v interface{}) {
+	z.v = v0.(bool)
 	return z.v
 }
 

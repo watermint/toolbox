@@ -36,7 +36,7 @@ func (z *ValueRpModelRowReport) Init() (v interface{}) {
 	return z.rep
 }
 
-func (z *ValueRpModelRowReport) Apply() (v interface{}) {
+func (z *ValueRpModelRowReport) Apply(v0 interface{}) (v interface{}) {
 	return z.rep
 }
 

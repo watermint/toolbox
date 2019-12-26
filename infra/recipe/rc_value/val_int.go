@@ -29,7 +29,21 @@ func (z *ValueInt) Init() (v interface{}) {
 	return z.v
 }
 
-func (z *ValueInt) Apply() (v interface{}) {
+func (z *ValueInt) Apply(v0 interface{}) (v interface{}) {
+	switch v1 := v0.(type) {
+	case int:
+		z.v = int64(v1)
+	case int8:
+		z.v = int64(v1)
+	case int16:
+		z.v = int64(v1)
+	case int32:
+		z.v = int64(v1)
+	case int64:
+		z.v = v1
+	default:
+		// nop
+	}
 	return z.v
 }
 

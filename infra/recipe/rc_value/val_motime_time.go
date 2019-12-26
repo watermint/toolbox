@@ -38,7 +38,7 @@ func (z *ValueMoTimeTime) Init() (v interface{}) {
 	return z.time
 }
 
-func (z *ValueMoTimeTime) Apply() (v interface{}) {
+func (z *ValueMoTimeTime) Apply(v0 interface{}) (v interface{}) {
 	return z.time
 }
 
