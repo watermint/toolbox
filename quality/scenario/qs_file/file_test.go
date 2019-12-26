@@ -107,8 +107,8 @@ func TestFileUploadScenario(t *testing.T) {
 				t.Error(err)
 			}
 
-			testContent(fc, "upload", scenario.LocalPath, dbxBase+"/file-upload")
-			testSkip(fc, "skip", scenario.LocalPath)
+			testContent(fc, "uploaded", scenario.LocalPath, dbxBase+"/file-upload")
+			testSkip(fc, "skipped", scenario.LocalPath)
 		}
 
 		// `file sync up`
@@ -126,8 +126,8 @@ func TestFileUploadScenario(t *testing.T) {
 				t.Error(err)
 			}
 
-			testContent(fc, "upload", scenario.LocalPath, dbxBase+"/file-sync-up")
-			testSkip(fc, "skip", scenario.LocalPath)
+			testContent(fc, "uploaded", scenario.LocalPath, dbxBase+"/file-sync-up")
+			testSkip(fc, "skipped", scenario.LocalPath)
 		}
 
 		// `file sync up`: should skip uploading for all files
@@ -149,7 +149,7 @@ func TestFileUploadScenario(t *testing.T) {
 				return errors.New("upload should not contain rows")
 			})
 
-			testSkip(fc, "skip", scenario.LocalPath)
+			testSkip(fc, "skipped", scenario.LocalPath)
 		}
 
 		// `file compare local`
@@ -183,7 +183,7 @@ func TestFileUploadScenario(t *testing.T) {
 			if err != nil {
 				t.Error(err)
 			}
-			testSkip(fc, "skip", scenario.LocalPath)
+			testSkip(fc, "skipped", scenario.LocalPath)
 		}
 
 		// `file list`

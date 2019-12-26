@@ -29,8 +29,11 @@ func (z *ValueBool) Init() (v interface{}) {
 	return z.v
 }
 
-func (z *ValueBool) Apply(v0 interface{}) (v interface{}) {
+func (z *ValueBool) ApplyPreset(v0 interface{}) {
 	z.v = v0.(bool)
+}
+
+func (z *ValueBool) Apply() (v interface{}) {
 	return z.v
 }
 

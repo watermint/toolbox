@@ -38,7 +38,14 @@ func (z *ValueMoTimeTime) Init() (v interface{}) {
 	return z.time
 }
 
-func (z *ValueMoTimeTime) Apply(v0 interface{}) (v interface{}) {
+func (z *ValueMoTimeTime) ApplyPreset(v0 interface{}) {
+	z.time = v0.(mo_time.Time)
+	if !z.time.IsZero() {
+		z.dateTime = z.time.String()
+	}
+}
+
+func (z *ValueMoTimeTime) Apply() (v interface{}) {
 	return z.time
 }
 

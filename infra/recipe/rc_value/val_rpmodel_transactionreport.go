@@ -36,7 +36,11 @@ func (z *ValueRpModelTransactionReport) Init() (v interface{}) {
 	return z.rep
 }
 
-func (z *ValueRpModelTransactionReport) Apply(v0 interface{}) (v interface{}) {
+func (z *ValueRpModelTransactionReport) ApplyPreset(v0 interface{}) {
+	z.rep = v0.(*rp_model_impl.TransactionReport)
+}
+
+func (z *ValueRpModelTransactionReport) Apply() (v interface{}) {
 	return z.rep
 }
 

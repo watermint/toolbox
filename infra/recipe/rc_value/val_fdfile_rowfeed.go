@@ -39,7 +39,12 @@ func (z *ValueFdFileRowFeed) Init() (v interface{}) {
 	return z.rf
 }
 
-func (z *ValueFdFileRowFeed) Apply(v0 interface{}) (v interface{}) {
+func (z *ValueFdFileRowFeed) ApplyPreset(v0 interface{}) {
+	z.rf = v0.(fd_file.RowFeed)
+	z.path = z.rf.FilePath()
+}
+
+func (z *ValueFdFileRowFeed) Apply() (v interface{}) {
 	z.rf.SetFilePath(z.path)
 	return z.rf
 }

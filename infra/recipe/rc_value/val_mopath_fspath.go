@@ -38,7 +38,12 @@ func (z *ValueMoPathFileSystemPath) Init() (v interface{}) {
 	return z.path
 }
 
-func (z *ValueMoPathFileSystemPath) Apply(v0 interface{}) (v interface{}) {
+func (z *ValueMoPathFileSystemPath) ApplyPreset(v0 interface{}) {
+	z.path = v0.(mo_path.FileSystemPath)
+	z.filePath = z.path.Path()
+}
+
+func (z *ValueMoPathFileSystemPath) Apply() (v interface{}) {
 	z.path = mo_path.NewFileSystemPath(z.filePath)
 	return z.path
 }

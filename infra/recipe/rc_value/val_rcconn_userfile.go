@@ -38,7 +38,12 @@ func (z *ValueRcConnUserFile) Init() (v interface{}) {
 	return z.conn
 }
 
-func (z *ValueRcConnUserFile) Apply(v0 interface{}) (v interface{}) {
+func (z *ValueRcConnUserFile) ApplyPreset(v0 interface{}) {
+	z.conn = v0.(rc_conn.ConnUserFile)
+	z.peerName = z.conn.Name()
+}
+
+func (z *ValueRcConnUserFile) Apply() (v interface{}) {
 	z.conn.SetPeerName(z.peerName)
 	return z.conn
 }

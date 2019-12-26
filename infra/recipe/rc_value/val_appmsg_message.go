@@ -32,7 +32,11 @@ func (z *ValueAppMsgMessage) Init() (v interface{}) {
 	return z.msg
 }
 
-func (z *ValueAppMsgMessage) Apply(v0 interface{}) (v interface{}) {
+func (z *ValueAppMsgMessage) ApplyPreset(v0 interface{}) {
+	z.msg = v0.(app_msg.Message)
+}
+
+func (z *ValueAppMsgMessage) Apply() (v interface{}) {
 	return z.msg
 }
 

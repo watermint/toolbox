@@ -22,7 +22,7 @@ func NewRowFeed(name string) fd_file.RowFeed {
 }
 
 type RowFeed struct {
-	FilePath         string
+	filePath         string
 	file             *os.File
 	reader           *csv.Reader
 	ctl              app_control.Control
@@ -38,16 +38,20 @@ type RowFeed struct {
 	colIndexToField  func(ci int, v reflect.Value, s string) error
 }
 
+func (z *RowFeed) FilePath() string {
+	return z.filePath
+}
+
 func (z *RowFeed) ForkForTest(path string) fd_file.RowFeed {
 	f := z.Fork()
 	rf := f.(*RowFeed)
-	rf.FilePath = path
+	rf.filePath = path
 	return rf
 }
 
 func (z *RowFeed) Fork() fd_file.RowFeed {
 	rf := &RowFeed{
-		FilePath: z.FilePath,
+		filePath: z.filePath,
 		name:     z.name,
 		md:       z.md,
 	}
@@ -60,7 +64,7 @@ func (z *RowFeed) Spec() fd_file.Spec {
 }
 
 func (z *RowFeed) SetFilePath(filePath string) {
-	z.FilePath = filePath
+	z.filePath = filePath
 }
 
 func (z *RowFeed) SetModel(m interface{}) {
@@ -119,11 +123,11 @@ func (z *RowFeed) Open(ctl app_control.Control) error {
 		return errors.New("no model defined")
 	}
 	var err error
-	z.file, err = os.Open(z.FilePath)
+	z.file, err = os.Open(z.filePath)
 	if err != nil {
 		ui.Error("flow.error.unable_to_read",
 			app_msg.P{
-				"Path":  z.FilePath,
+				"Path":  z.filePath,
 				"Error": err,
 			},
 		)
@@ -257,7 +261,7 @@ func (z *RowFeed) EachRow(exec func(m interface{}, rowIndex int) error) error {
 		case err != nil:
 			ui.Error("flow.error.unable_to_read",
 				app_msg.P{
-					"Path":  z.FilePath,
+					"Path":  z.filePath,
 					"Error": err,
 				},
 			)

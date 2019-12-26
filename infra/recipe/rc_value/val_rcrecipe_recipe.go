@@ -46,7 +46,12 @@ func (z *ValueRcRecipeRecipe) Init() (v interface{}) {
 	return z.recipe
 }
 
-func (z *ValueRcRecipeRecipe) Apply(v0 interface{}) (v interface{}) {
+func (z *ValueRcRecipeRecipe) ApplyPreset(v0 interface{}) {
+	z.recipe = v0.(rc_recipe.Recipe)
+	z.recipeType = reflect.TypeOf(z.recipe).Elem()
+}
+
+func (z *ValueRcRecipeRecipe) Apply() (v interface{}) {
 	return z.recipe
 }
 

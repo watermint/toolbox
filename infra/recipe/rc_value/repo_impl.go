@@ -107,6 +107,14 @@ func NewRepository(scr rc_recipe.Recipe) Repository {
 
 	rcp.Preset()
 
+	// Apply preset values
+	for k, v := range vals {
+		f := fieldValue[k]
+		v.ApplyPreset(f.Interface())
+	}
+
+	// TODO: require write back to repo vals at this point
+
 	return &repositoryImpl{
 		values:     vals,
 		rcp:        rcp,
@@ -150,11 +158,7 @@ func (z *repositoryImpl) FieldValueText(name string) string {
 	if cv, ok := v.(ValueCustomValueText); ok {
 		return cv.ValueText()
 	} else {
-		fv, ok := z.fieldValue[name]
-		if !ok {
-			return ""
-		}
-		av := v.Apply(fv.Interface())
+		av := v.Apply()
 		return fmt.Sprintf("%v", av)
 	}
 }
@@ -228,7 +232,7 @@ func (z *repositoryImpl) Apply() rc_recipe.Recipe {
 		if !ok {
 			continue
 		}
-		av := v.Apply(fv.Interface())
+		av := v.Apply()
 		switch fv.Type().Kind() {
 		case reflect.Bool:
 			fv.SetBool(av.(bool))

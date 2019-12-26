@@ -14,6 +14,7 @@ type RowFeed interface {
 	Rows
 	SetModel(m interface{})
 	SetFilePath(filePath string)
+	FilePath() string
 
 	Model() interface{}
 	Open(ctl app_control.Control) error

@@ -29,7 +29,7 @@ func (z *ValueInt) Init() (v interface{}) {
 	return z.v
 }
 
-func (z *ValueInt) Apply(v0 interface{}) (v interface{}) {
+func (z *ValueInt) ApplyPreset(v0 interface{}) {
 	switch v1 := v0.(type) {
 	case int:
 		z.v = int64(v1)
@@ -44,6 +44,9 @@ func (z *ValueInt) Apply(v0 interface{}) (v interface{}) {
 	default:
 		// nop
 	}
+}
+
+func (z *ValueInt) Apply() interface{} {
 	return z.v
 }
 
