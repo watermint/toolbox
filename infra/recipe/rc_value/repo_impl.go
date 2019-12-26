@@ -16,6 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"reflect"
+	"sort"
 	"strings"
 )
 
@@ -138,6 +139,7 @@ func (z *repositoryImpl) FieldNames() []string {
 			names = append(names, k)
 		}
 	}
+	sort.Strings(names)
 	return names
 }
 

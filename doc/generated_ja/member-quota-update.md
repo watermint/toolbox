@@ -54,8 +54,8 @@ At second run, please hit button "Open" on the dialogue.
 
 | オプション | 説明          | デフォルト |
 |------------|---------------|------------|
-| `-peer`    | Account alias | default    |
 | `-file`    | Data file     |            |
+| `-peer`    | Account alias | default    |
 
 Common options:
 
