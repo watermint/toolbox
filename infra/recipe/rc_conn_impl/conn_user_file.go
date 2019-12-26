@@ -16,7 +16,7 @@ type connUserFile struct {
 	ctx  api_context.Context
 }
 
-func (z *connUserFile) SetName(name string) {
+func (z *connUserFile) SetPeerName(name string) {
 	z.name = name
 }
 

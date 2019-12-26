@@ -41,7 +41,7 @@ func (z *ValueRcConnBusinessMgmt) Init() (v interface{}) {
 }
 
 func (z *ValueRcConnBusinessMgmt) Apply() (v interface{}) {
-	z.conn.SetName(z.peerName)
+	z.conn.SetPeerName(z.peerName)
 	return z.conn
 }
 
@@ -52,9 +52,16 @@ func (z *ValueRcConnBusinessMgmt) SpinUp(ctl app_control.Control) error {
 		}
 		a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(z.peerName))
 		if _, err := a.Auth(z.conn.ScopeLabel()); err != nil {
-			return err
+			a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(qt_recipe.EndToEndPeer))
+			if _, err := a.Auth(z.conn.ScopeLabel()); err != nil {
+				return err
+			} else {
+				z.peerName = qt_recipe.EndToEndPeer
+				z.conn.SetPeerName(qt_recipe.EndToEndPeer)
+			}
 		}
 	}
+
 	return z.conn.Connect(ctl)
 }
 

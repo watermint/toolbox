@@ -9,7 +9,7 @@ type ConnDropboxApi interface {
 	Name() string
 	Context() api_context.Context
 	Connect(ctl app_control.Control) (err error)
-	SetName(name string)
+	SetPeerName(name string)
 	ScopeLabel() string
 	IsPersonal() bool
 	IsBusiness() bool

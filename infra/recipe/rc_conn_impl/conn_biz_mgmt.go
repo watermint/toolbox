@@ -28,7 +28,7 @@ func (z connBusinessMgmt) IsBusiness() bool {
 	return true
 }
 
-func (z connBusinessMgmt) SetName(name string) {
+func (z connBusinessMgmt) SetPeerName(name string) {
 	z.name = name
 }
 
