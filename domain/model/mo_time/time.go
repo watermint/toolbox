@@ -19,7 +19,7 @@ var (
 )
 
 func Zero() (tm Time) {
-	return &timeImpl{time: time.Time{}}
+	return &TimeImpl{time: time.Time{}}
 }
 
 func New(t string) (tm Time, err error) {
@@ -27,25 +27,34 @@ func New(t string) (tm Time, err error) {
 	if !valid {
 		return nil, InvalidTimeFormat
 	}
-	return &timeImpl{time: ts}, nil
+	return &TimeImpl{time: ts}, nil
 }
 
-type timeImpl struct {
+type TimeImpl struct {
 	time time.Time
 }
 
-func (z *timeImpl) IsZero() bool {
+func (z *TimeImpl) IsZero() bool {
 	return z.time.IsZero()
 }
 
-func (z *timeImpl) Time() time.Time {
+func (z *TimeImpl) Time() time.Time {
 	return z.time
 }
 
-func (z *timeImpl) Iso8601() string {
+func (z *TimeImpl) Iso8601() string {
 	return api_util.RebaseAsString(z.time)
 }
 
-func (z *timeImpl) String() string {
+func (z *TimeImpl) String() string {
 	return z.Iso8601()
+}
+
+func (z *TimeImpl) UpdateTime(dateTime string) error {
+	ts, valid := ut_time.ParseTimestamp(dateTime)
+	if !valid {
+		return InvalidTimeFormat
+	}
+	z.time = ts
+	return nil
 }

@@ -87,7 +87,16 @@ func NewRepository(scr rc_recipe.Recipe) Repository {
 			vi := vot.Init()
 			if vi != nil {
 				ll.Debug("Set initial value", zap.Any("valueInstance", vi))
-				rvf.Set(reflect.ValueOf(vi))
+				switch rtf.Type.Kind() {
+				case reflect.Bool:
+					rvf.SetBool(vi.(bool))
+				case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+					rvf.SetInt(vi.(int64))
+				case reflect.String:
+					rvf.SetString(vi.(string))
+				default:
+					rvf.Set(reflect.ValueOf(vi))
+				}
 			}
 		} else {
 			ll.Debug("Non value type")
@@ -179,7 +188,16 @@ func (z *repositoryImpl) Apply() rc_recipe.Recipe {
 	for k, v := range z.values {
 		av := v.Apply()
 		if fv, ok := z.fieldValue[k]; ok && av != nil {
-			fv.Set(reflect.ValueOf(av))
+			switch fv.Type().Kind() {
+			case reflect.Bool:
+				fv.SetBool(av.(bool))
+			case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+				fv.SetInt(av.(int64))
+			case reflect.String:
+				fv.SetString(av.(string))
+			default:
+				fv.Set(reflect.ValueOf(av))
+			}
 		}
 	}
 	return z.rcp

@@ -17,7 +17,7 @@ type ValueString struct {
 }
 
 func (z *ValueString) Accept(t reflect.Type, name string) Value {
-	if t.Kind() == reflect.Struct {
+	if t.Kind() == reflect.String {
 		return newValueString()
 	}
 	return nil

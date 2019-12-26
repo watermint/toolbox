@@ -48,8 +48,8 @@ func (z *ValueMoTimeTime) Debug() interface{} {
 }
 
 func (z *ValueMoTimeTime) SpinUp(ctl app_control.Control) (err error) {
-	z.time, err = mo_time.New(z.dateTime)
-	if err != nil {
+	ti := z.time.(*mo_time.TimeImpl)
+	if err = ti.UpdateTime(z.dateTime); err != nil {
 		return err
 	}
 	return nil

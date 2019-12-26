@@ -91,7 +91,7 @@ func (z *SelfContainedTestRecipe) Preset() {
 func TestSpecSelfContained_ApplyValues(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		scr := &SelfContainedTestRecipe{}
-		spec := newOldSelfContained(scr)
+		spec := newSelfContained(scr)
 
 		feedDir, err := ioutil.TempDir("", "feed")
 		if err != nil {

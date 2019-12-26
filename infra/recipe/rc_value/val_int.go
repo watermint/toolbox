@@ -13,7 +13,7 @@ func newValueInt() Value {
 }
 
 type ValueInt struct {
-	v int
+	v int64
 }
 
 func (z *ValueInt) Accept(t reflect.Type, name string) Value {
