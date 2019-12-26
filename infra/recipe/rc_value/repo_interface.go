@@ -34,9 +34,6 @@ type Repository interface {
 	// Returns connections that requested by the recipe
 	Conns() map[string]rc_conn.ConnDropboxApi
 
-	// Fork this value repository
-	Fork(ctl app_control.Control) Repository
-
 	// Apply values in the repository to the
 	Apply() rc_recipe.Recipe
 
@@ -63,9 +60,6 @@ type Value interface {
 	// Returns forked instance when the type is acceptable
 	// Otherwise returns nil
 	Accept(t reflect.Type, name string) Value
-
-	// Fork this value
-	Fork(ctl app_control.Control) Value
 
 	// Return value reference of the instance
 	Bind() interface{}

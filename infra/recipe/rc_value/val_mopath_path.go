@@ -28,14 +28,6 @@ func (z *ValueMoPathPath) Accept(t reflect.Type, name string) Value {
 	return nil
 }
 
-func (z *ValueMoPathPath) Fork(ctl app_control.Control) Value {
-	v := &ValueMoPathPath{}
-	v.name = z.name
-	v.filePath = z.filePath
-	v.path = mo_path.NewDropboxPath(z.filePath)
-	return v
-}
-
 func (z *ValueMoPathPath) Bind() interface{} {
 	return &z.filePath
 }

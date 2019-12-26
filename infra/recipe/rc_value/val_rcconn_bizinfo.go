@@ -20,14 +20,6 @@ type ValueRcConnBusinessInfo struct {
 	peerName string
 }
 
-func (z *ValueRcConnBusinessInfo) Fork(ctl app_control.Control) Value {
-	v := &ValueRcConnBusinessInfo{}
-	v.peerName = z.peerName
-	v.conn = rc_conn_impl.NewConnBusinessInfo(z.peerName)
-	v.conn.SetName(z.peerName)
-	return v
-}
-
 func (z *ValueRcConnBusinessInfo) Accept(t reflect.Type, name string) Value {
 	if t.Implements(reflect.TypeOf((*rc_conn.ConnBusinessInfo)(nil)).Elem()) {
 		return newValueRcConnBusinessInfo(z.peerName)

@@ -20,14 +20,6 @@ type ValueRpModelRowReport struct {
 	rep  *rp_model_impl.RowReport
 }
 
-func (z *ValueRpModelRowReport) Fork(ctl app_control.Control) Value {
-	v := &ValueRpModelRowReport{}
-	v.name = z.name
-	v.rep = rp_model_impl.NewRowReport(z.name)
-	v.rep.SetModel(z.rep.Spec().Model(), z.rep.Spec().Options()...)
-	return v
-}
-
 func (z *ValueRpModelRowReport) Accept(t reflect.Type, name string) Value {
 	if t.Implements(reflect.TypeOf((*rp_model.RowReport)(nil)).Elem()) {
 		return newValueRpModelRowReport(name)

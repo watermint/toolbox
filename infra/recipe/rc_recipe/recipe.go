@@ -98,7 +98,7 @@ type Spec interface {
 	ConnScopes() []string
 
 	// Apply values to the new recipe instance
-	ApplyValues(ctl app_control.Control, custom func(r Recipe)) (rcp Recipe, k rc_kitchen.Kitchen, err error)
+	SpinUp(ctl app_control.Control, custom func(r Recipe)) (rcp Recipe, k rc_kitchen.Kitchen, err error)
 
 	// Serialize values
 	Debug() map[string]interface{}

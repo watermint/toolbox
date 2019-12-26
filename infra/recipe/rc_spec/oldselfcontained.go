@@ -206,7 +206,7 @@ func (z *specOldSelfContained) ConnScopes() []string {
 	return z.connScopes
 }
 
-func (z *specOldSelfContained) ApplyValues(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (rcp rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
+func (z *specOldSelfContained) SpinUp(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (rcp rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
 	rt := reflect.TypeOf(z.scr).Elem()
 	newScr := reflect.New(rt).Interface().(rc_recipe.SelfContainedRecipe)
 	newVr := z.vr.Fork(ctl)

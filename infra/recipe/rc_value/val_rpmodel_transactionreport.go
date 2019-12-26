@@ -20,16 +20,6 @@ type ValueRpModelTransactionReport struct {
 	rep  *rp_model_impl.TransactionReport
 }
 
-func (z *ValueRpModelTransactionReport) Fork(ctl app_control.Control) Value {
-	v := &ValueRpModelTransactionReport{}
-	v.name = z.name
-	v.rep = rp_model_impl.NewTransactionReport(z.name)
-	if m, ok := z.rep.Spec().Model().(*rp_model.TransactionRow); ok {
-		v.rep.SetModel(m.Input, m.Result, z.rep.Spec().Options()...)
-	}
-	return v
-}
-
 func (z *ValueRpModelTransactionReport) Accept(t reflect.Type, name string) Value {
 	if t.Implements(reflect.TypeOf((*rp_model.TransactionReport)(nil)).Elem()) {
 		return newValueRpModelTransactionReport(name)

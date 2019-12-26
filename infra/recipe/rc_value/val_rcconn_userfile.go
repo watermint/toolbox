@@ -20,14 +20,6 @@ type ValueRcConnUserFile struct {
 	peerName string
 }
 
-func (z *ValueRcConnUserFile) Fork(ctl app_control.Control) Value {
-	v := &ValueRcConnUserFile{}
-	v.peerName = z.peerName
-	v.conn = rc_conn_impl.NewConnUserFile(z.peerName)
-	v.conn.SetName(z.peerName)
-	return v
-}
-
 func (z *ValueRcConnUserFile) Accept(t reflect.Type, name string) Value {
 	if t.Implements(reflect.TypeOf((*rc_conn.ConnUserFile)(nil)).Elem()) {
 		return newValueRcConnUserFile(z.peerName)

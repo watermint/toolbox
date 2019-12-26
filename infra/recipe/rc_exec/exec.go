@@ -3,7 +3,6 @@ package rc_exec
 import (
 	"errors"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"go.uber.org/zap"
@@ -20,13 +19,14 @@ func ExecSpec(ctl app_control.Control, spec rc_recipe.Spec, custom func(r rc_rec
 		return errors.New("no spec found")
 	}
 	l = l.With(zap.String("cliPath", spec.CliPath()))
-	scr, _, err := spec.ApplyValues(ctl, custom)
+	scr, k, err := spec.SpinUp(ctl, custom)
 	if err != nil {
 		return err
 	}
-	defer func() {
-		err = spec.SpinDown(ctl)
-		l.Debug("Spin down failed", zap.Error(err))
-	}()
-	return scr.Exec(rc_kitchen.NewKitchen(ctl, scr))
+
+	rcpErr := scr.Exec(k)
+	if err = spec.SpinDown(ctl); err != nil {
+		l.Debug("Spin down error", zap.Error(err))
+	}
+	return rcpErr
 }

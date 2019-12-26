@@ -135,7 +135,7 @@ func (z *SpecSideCar) Debug() map[string]interface{} {
 	return z.vc.Serialize()
 }
 
-func (z *SpecSideCar) ApplyValues(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (r rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
+func (z *SpecSideCar) SpinUp(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (r rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
 	vo := z.scr.Requirement()
 	z.vc.Apply(vo)
 	return z.scr, rc_kitchen.NewKitchen(ctl, vo), nil

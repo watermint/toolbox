@@ -21,16 +21,6 @@ type ValueFdFileRowFeed struct {
 	path string
 }
 
-func (z *ValueFdFileRowFeed) Fork(ctl app_control.Control) Value {
-	v := &ValueFdFileRowFeed{}
-	v.name = z.name
-	v.path = z.path
-	v.rf = fd_file_impl.NewRowFeed(z.name)
-	v.rf.SetModel(z.rf.Model())
-	v.rf.SetFilePath(z.path)
-	return v
-}
-
 func (z *ValueFdFileRowFeed) Accept(t reflect.Type, name string) Value {
 	if t.Implements(reflect.TypeOf((*fd_file.RowFeed)(nil)).Elem()) {
 		return newValueFdFileRowFeed(name)

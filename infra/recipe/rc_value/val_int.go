@@ -23,12 +23,6 @@ func (z *ValueInt) Accept(t reflect.Type, name string) Value {
 	return nil
 }
 
-func (z *ValueInt) Fork(ctl app_control.Control) Value {
-	v := &ValueInt{}
-	v.v = z.v
-	return v
-}
-
 func (z *ValueInt) Bind() interface{} {
 	return &z.v
 }

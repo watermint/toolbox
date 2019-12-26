@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"go.uber.org/zap"
 	"reflect"
 )
 
@@ -27,21 +26,6 @@ func (z *ValueMoTimeTime) Accept(t reflect.Type, name string) Value {
 		return newValueMoTimeTime(name)
 	}
 	return nil
-}
-
-func (z *ValueMoTimeTime) Fork(ctl app_control.Control) Value {
-	l := ctl.Log().With(zap.String("name", z.name))
-	var err error
-	v := &ValueMoTimeTime{}
-	v.name = z.name
-	v.dateTime = z.dateTime
-	v.time, err = mo_time.New(z.dateTime)
-	if err != nil {
-		// fallback to zero. the error should raised on SpinUp()
-		l.Debug("Unable to set time, fallback to zero", zap.Error(err))
-		v.time = mo_time.Zero()
-	}
-	return v
 }
 
 func (z *ValueMoTimeTime) Bind() interface{} {

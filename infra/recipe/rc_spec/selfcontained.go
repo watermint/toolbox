@@ -1,7 +1,6 @@
 package rc_spec
 
 import (
-	"errors"
 	"flag"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -130,16 +129,11 @@ func (z *specValueSelfContained) ConnScopes() []string {
 	return scopes
 }
 
-func (z *specValueSelfContained) ApplyValues(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (rcp rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
+func (z *specValueSelfContained) SpinUp(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (rcp rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
 	l := ctl.Log().With(zap.String("name", z.name))
-	repo := z.repo.Fork(ctl)
-	if repo == nil {
-		l.Debug("unable to fork recipe repository")
-		return nil, nil, errors.New("unable to fork recipe")
-	}
-	rcp = repo.Apply()
+	rcp = z.repo.Apply()
 	custom(rcp)
-	_, err = repo.SpinUp(ctl)
+	_, err = z.repo.SpinUp(ctl)
 	if err != nil {
 		l.Debug("Unable to spin up", zap.Error(err))
 		return nil, nil, err

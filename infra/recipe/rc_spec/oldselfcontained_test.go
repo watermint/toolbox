@@ -120,7 +120,7 @@ func TestSpecSelfContained_ApplyValues(t *testing.T) {
 		}
 
 		{
-			rcp, k, err := spec.ApplyValues(ctl, rc_recipe.NoCustomValues)
+			rcp, k, err := spec.SpinUp(ctl, rc_recipe.NoCustomValues)
 			if err != nil {
 				t.Error(err)
 				return

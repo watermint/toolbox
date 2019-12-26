@@ -175,15 +175,6 @@ func (z *repositoryImpl) ReportSpecs() map[string]rp_model.Spec {
 	return reps
 }
 
-func (z *repositoryImpl) Fork(ctl app_control.Control) Repository {
-	rep := NewRepository(z.rcp).(*repositoryImpl)
-	for k, v := range z.values {
-		rep.values[k] = v.Fork(ctl)
-	}
-	rep.Apply()
-	return rep
-}
-
 func (z *repositoryImpl) Apply() rc_recipe.Recipe {
 	for k, v := range z.values {
 		av := v.Apply()

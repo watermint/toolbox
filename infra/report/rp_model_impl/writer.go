@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"sync"
 )
 
 type Writer interface {
@@ -32,6 +33,7 @@ type RowReport struct {
 	w     Writer
 	model interface{}
 	opts  []rp_model.ReportOpt
+	mutex sync.Mutex
 }
 
 func (z *RowReport) Spec() rp_model.Spec {
@@ -53,6 +55,9 @@ func (z *RowReport) Fork(ctl app_control.Control) rp_model.RowReport {
 }
 
 func (z *RowReport) Open(opts ...rp_model.ReportOpt) error {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	if z.w == nil {
 		z.w = newCascade(z.name, z.ctl)
 	}
@@ -63,12 +68,19 @@ func (z *RowReport) Open(opts ...rp_model.ReportOpt) error {
 }
 
 func (z *RowReport) Close() {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	if z.w != nil {
 		z.w.Close()
+		z.w = nil
 	}
 }
 
 func (z *RowReport) Row(row interface{}) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	z.w.Row(row)
 }
 
@@ -83,6 +95,7 @@ type TransactionReport struct {
 	w     Writer
 	model interface{}
 	opts  []rp_model.ReportOpt
+	mutex sync.Mutex
 }
 
 func (z *TransactionReport) Spec() rp_model.Spec {
@@ -104,6 +117,9 @@ func (z *TransactionReport) Fork(ctl app_control.Control) rp_model.TransactionRe
 }
 
 func (z *TransactionReport) Open(opts ...rp_model.ReportOpt) error {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	if z.w == nil {
 		z.w = newCascade(z.name, z.ctl)
 	}
@@ -114,12 +130,19 @@ func (z *TransactionReport) Open(opts ...rp_model.ReportOpt) error {
 }
 
 func (z *TransactionReport) Close() {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	if z.w != nil {
 		z.w.Close()
+		z.w = nil
 	}
 }
 
 func (z *TransactionReport) Success(input interface{}, result interface{}) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	ui := z.ctl.UI()
 	z.w.Row(&rp_model.TransactionRow{
 		Status: ui.Text(rp_model.MsgSuccess.Key(), rp_model.MsgSuccess.Params()...),
@@ -129,6 +152,9 @@ func (z *TransactionReport) Success(input interface{}, result interface{}) {
 }
 
 func (z *TransactionReport) Failure(err error, input interface{}) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	ui := z.ctl.UI()
 	reason := api_util.MsgFromError(err)
 	if ui.TextOrEmpty(reason.Key()) == "" {
@@ -147,6 +173,9 @@ func (z *TransactionReport) Failure(err error, input interface{}) {
 }
 
 func (z *TransactionReport) Skip(reason app_msg.Message, input interface{}) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	ui := z.ctl.UI()
 	z.w.Row(&rp_model.TransactionRow{
 		Status: ui.Text(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
