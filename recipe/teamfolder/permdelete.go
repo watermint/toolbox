@@ -20,21 +20,21 @@ type PermDeleteVO struct {
 	Name string
 }
 
-type PermDelete struct {
+type Permdelete struct {
 }
 
-func (z *PermDelete) Reports() []rp_spec.ReportSpec {
+func (z *Permdelete) Reports() []rp_spec.ReportSpec {
 	return []rp_spec.ReportSpec{}
 }
 
-func (z *PermDelete) Console() {
+func (z *Permdelete) Console() {
 }
 
-func (z *PermDelete) Requirement() rc_vo.ValueObject {
+func (z *Permdelete) Requirement() rc_vo.ValueObject {
 	return &PermDeleteVO{}
 }
 
-func (z *PermDelete) Exec(k rc_kitchen.Kitchen) error {
+func (z *Permdelete) Exec(k rc_kitchen.Kitchen) error {
 	ui := k.UI()
 	vo := k.Value().(*PermDeleteVO)
 
@@ -86,7 +86,7 @@ func (z *PermDelete) Exec(k rc_kitchen.Kitchen) error {
 	return nil
 }
 
-func (z *PermDelete) Test(c app_control.Control) error {
+func (z *Permdelete) Test(c app_control.Control) error {
 	vo := &PermDeleteVO{}
 	if !qt_recipe.ApplyTestPeers(c, vo) {
 		return qt_recipe.HumanInteractionRequired()

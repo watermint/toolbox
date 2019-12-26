@@ -54,9 +54,9 @@ At second run, please hit button "Open" on the dialogue.
 
 | Option                | Description                                                  | Default |
 |-----------------------|--------------------------------------------------------------|---------|
+| `-peer`               | Account alias                                                | default |
 | `-revoke-team-shares` | True for revoke shared folder access which owned by the team | false   |
 | `-file`               | Data file                                                    |         |
-| `-peer`               | Account alias                                                | default |
 
 Common options:
 

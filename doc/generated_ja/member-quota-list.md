@@ -119,8 +119,8 @@ But if you run with `-low-memory` option, the command will generate only `member
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`...   
 
-| 列    | 説明                                                                |
-|-------|---------------------------------------------------------------------|
-| email | ユーザーのメールアドレス                                            |
-| quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
+| 列    | 説明                                                                        |
+|-------|-----------------------------------------------------------------------------|
+| email | Email address of user.                                                      |
+| quota | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
 

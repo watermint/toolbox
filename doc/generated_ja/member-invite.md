@@ -75,11 +75,11 @@ Common options:
 
 ## Format: File 
 
-| Column     | Description                | Value example    |
-|------------|----------------------------|------------------|
-| email      | アカウントのメールアドレス | john@example.com |
-| given_name | アカウントの名前           | John             |
-| surname    | アカウントの名字           | Smith            |
+| Column     | Description                  | Value example    |
+|------------|------------------------------|------------------|
+| email      | Email address of the account | john@example.com |
+| given_name | Given name of the account    | John             |
+| surname    | Surname of the account       | Smith            |
 
 The first line is a header line. The program will accept file without the header.
 
@@ -141,9 +141,9 @@ like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.x
 |-------------------------|-------------------------------------------------------------------------------------------------|
 | status                  | 処理の状態                                                                                      |
 | reason                  | 失敗またはスキップの理由                                                                        |
-| input.email             | アカウントのメールアドレス                                                                      |
-| input.given_name        | アカウントの名前                                                                                |
-| input.surname           | アカウントの名字                                                                                |
+| input.email             | Email address of the account                                                                    |
+| input.given_name        | Given name of the account                                                                       |
+| input.surname           | Surname of the account                                                                          |
 | result.team_member_id   | チームにおけるメンバーのID                                                                      |
 | result.email            | ユーザーのメールアドレス                                                                        |
 | result.email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |

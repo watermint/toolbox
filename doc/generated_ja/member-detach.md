@@ -75,9 +75,9 @@ Common options:
 
 ## Format: File 
 
-| Column | Description                | Value example    |
-|--------|----------------------------|------------------|
-| email  | アカウントのメールアドレス | john@example.com |
+| Column | Description                  | Value example    |
+|--------|------------------------------|------------------|
+| email  | Email address of the account | john@example.com |
 
 The first line is a header line. The program will accept file without the header.
 
@@ -135,9 +135,9 @@ But if you run with `-low-memory` option, the command will generate only `operat
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列          | 説明                       |
-|-------------|----------------------------|
-| status      | 処理の状態                 |
-| reason      | 失敗またはスキップの理由   |
-| input.email | アカウントのメールアドレス |
+| 列          | 説明                         |
+|-------------|------------------------------|
+| status      | 処理の状態                   |
+| reason      | 失敗またはスキップの理由     |
+| input.email | Email address of the account |
 

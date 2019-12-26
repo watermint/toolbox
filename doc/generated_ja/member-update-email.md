@@ -75,10 +75,10 @@ Common options:
 
 ## Format: File 
 
-| Column     | Description          | Value example          |
-|------------|----------------------|------------------------|
-| from_email | 現在のメールアドレス | john@example.com       |
-| to_email   | 新しいメールアドレス | john.smith@example.net |
+| Column     | Description           | Value example          |
+|------------|-----------------------|------------------------|
+| from_email | Current Email address | john@example.com       |
+| to_email   | New Email address     | john.smith@example.net |
 
 The first line is a header line. The program will accept file without the header.
 
@@ -140,8 +140,8 @@ like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.x
 |-------------------------|-------------------------------------------------------------------------------------------------|
 | status                  | 処理の状態                                                                                      |
 | reason                  | 失敗またはスキップの理由                                                                        |
-| input.from_email        | 現在のメールアドレス                                                                            |
-| input.to_email          | 新しいメールアドレス                                                                            |
+| input.from_email        | Current Email address                                                                           |
+| input.to_email          | New Email address                                                                               |
 | result.team_member_id   | チームにおけるメンバーのID                                                                      |
 | result.email            | ユーザーのメールアドレス                                                                        |
 | result.email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |

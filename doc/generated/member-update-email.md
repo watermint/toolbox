@@ -54,9 +54,9 @@ At second run, please hit button "Open" on the dialogue.
 
 | Option               | Description                                                                                                                                | Default |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `-peer`              | Account alias                                                                                                                              | default |
 | `-file`              | Data file                                                                                                                                  |         |
 | `-update-unverified` | Update an account which didn't verified email. If an account email unverified, email address change may affect lose invitation to folders. | false   |
-| `-peer`              | Account alias                                                                                                                              | default |
 
 Common options:
 

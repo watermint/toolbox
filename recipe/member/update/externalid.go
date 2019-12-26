@@ -38,17 +38,17 @@ const (
 	reportExternalId = "external_id"
 )
 
-type ExternalId struct {
+type Externalid struct {
 }
 
-func (z *ExternalId) Console() {
+func (z *Externalid) Console() {
 }
 
-func (z *ExternalId) Requirement() rc_vo.ValueObject {
+func (z *Externalid) Requirement() rc_vo.ValueObject {
 	return &ExternalIdVO{}
 }
 
-func (z *ExternalId) Exec(k rc_kitchen.Kitchen) error {
+func (z *Externalid) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*ExternalIdVO)
 	ctx, err := vo.Peer.Connect(k.Control())
 	if err != nil {
@@ -91,7 +91,7 @@ func (z *ExternalId) Exec(k rc_kitchen.Kitchen) error {
 	})
 }
 
-func (z *ExternalId) Test(c app_control.Control) error {
+func (z *Externalid) Test(c app_control.Control) error {
 	l := c.Log()
 	res, found := c.TestResource(rc_recipe.Key(z))
 	if !found || !res.IsArray() {
@@ -152,7 +152,7 @@ func (z *ExternalId) Test(c app_control.Control) error {
 	}
 }
 
-func (z *ExternalId) Reports() []rp_spec.ReportSpec {
+func (z *Externalid) Reports() []rp_spec.ReportSpec {
 	return []rp_spec.ReportSpec{
 		rp_spec_impl.Spec(
 			reportExternalId,

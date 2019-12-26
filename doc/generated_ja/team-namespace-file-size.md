@@ -125,22 +125,22 @@ But if you run with `-low-memory` option, the command will generate only `namesp
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
-| 列                          | 説明                                                                                   |
-|-----------------------------|----------------------------------------------------------------------------------------|
-| status                      | 処理の状態                                                                             |
-| reason                      | 失敗またはスキップの理由                                                               |
-| input.name                  | 名前空間の名称                                                                         |
-| input.namespace_id          | 名前空間ID                                                                             |
-| input.namespace_type        | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| input.team_member_id        | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
-| result.namespace_name       | 名前空間の名称                                                                         |
-| result.namespace_id         | 名前空間ID                                                                             |
-| result.namespace_type       | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| result.owner_team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
-| result.path                 | フォルダへのパス                                                                       |
-| result.count_file           | このフォルダに含まれるファイル数                                                       |
-| result.count_folder         | このフォルダに含まれるフォルダ数                                                       |
-| result.count_descendant     | このフォルダに含まれるファイル・フォルダ数                                             |
-| result.size                 | フォルダのサイズ                                                                       |
-| result.api_complexity       | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
+| 列                          | 説明                                                                                       |
+|-----------------------------|--------------------------------------------------------------------------------------------|
+| status                      | 処理の状態                                                                                 |
+| reason                      | 失敗またはスキップの理由                                                                   |
+| input.name                  | 名前空間の名称                                                                             |
+| input.namespace_id          | 名前空間ID                                                                                 |
+| input.namespace_type        | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)     |
+| input.team_member_id        | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID               |
+| result.namespace_name       | The name of this namespace                                                                 |
+| result.namespace_id         | The ID of this namespace.                                                                  |
+| result.namespace_type       | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
+| result.owner_team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
+| result.path                 | Path to the folder                                                                         |
+| result.count_file           | Number of files under the folder                                                           |
+| result.count_folder         | Number of folders under the folder                                                         |
+| result.count_descendant     | Number of files and folders under the folder                                               |
+| result.size                 | Size of the folder                                                                         |
+| result.api_complexity       | Folder complexity index for API operations                                                 |
 

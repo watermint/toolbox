@@ -125,21 +125,21 @@ But if you run with `-low-memory` option, the command will generate only `namesp
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
 
-| 列                      | 説明                                                                                            |
-|-------------------------|-------------------------------------------------------------------------------------------------|
-| namespace_type          | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)          |
-| namespace_id            | 名前空間ID                                                                                      |
-| namespace_name          | 名前空間の名称                                                                                  |
-| namespace_member_email  | これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス. |
-| file_id                 | ファイルへの一意なID                                                                            |
-| tag                     | エントリーの種別`file`, `folder`, または `deleted`                                              |
-| name                    | 名称                                                                                            |
-| path_display            | パス (表示目的で大文字小文字を区別する).                                                        |
-| client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                    |
-| server_modified         | Dropbox上で最後に更新された日時                                                                 |
-| revision                | ファイルの現在バージョンの一意な識別子                                                          |
-| size                    | ファイルサイズ(バイト単位)                                                                      |
-| content_hash            | ファイルコンテンツのハッシュ                                                                    |
-| shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。      |
-| parent_shared_folder_id | 設定されている場合、共有フォルダに内包されています.                                             |
+| 列                      | 説明                                                                                                   |
+|-------------------------|--------------------------------------------------------------------------------------------------------|
+| namespace_type          | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)             |
+| namespace_id            | The ID of this namespace.                                                                              |
+| namespace_name          | The name of this namespace                                                                             |
+| namespace_member_email  | If this is a team member or app folder, the email address of the owning team member.                   |
+| file_id                 | A unique identifier for the file.                                                                      |
+| tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| name                    | The last component of the path (including extension).                                                  |
+| path_display            | The cased path to be used for display purposes only.                                                   |
+| client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| server_modified         | The last time the file was modified on Dropbox.                                                        |
+| revision                | A unique identifier for the current revision of a file.                                                |
+| size                    | The file size in bytes.                                                                                |
+| content_hash            | A hash of the file content.                                                                            |
+| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
+| parent_shared_folder_id | Set if the folder is contained by a shared folder.                                                     |
 

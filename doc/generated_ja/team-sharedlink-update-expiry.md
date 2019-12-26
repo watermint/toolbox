@@ -122,18 +122,18 @@ But if you run with `-low-memory` option, the command will generate only `skippe
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `skipped_sharedlink_0000.xlsx`, `skipped_sharedlink_0001.xlsx`, `skipped_sharedlink_0002.xlsx`...   
 
-| 列         | 説明                                                                 |
-|------------|----------------------------------------------------------------------|
-| tag        | エントリーの種別 (file, または folder)                               |
-| url        | 共有リンクのURL.                                                     |
-| name       | リンク先ファイル名称                                                 |
-| expires    | 有効期限 (設定されている場合)                                        |
-| path_lower | パス (すべて小文字に変換).                                           |
-| visibility | 共有リンクの開示範囲                                                 |
-| email      | ユーザーのメールアドレス                                             |
-| status     | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
-| surname    | リンク所有者の名字                                                   |
-| given_name | リンク所有者の名                                                     |
+| 列         | 説明                                                                                                                                                                                                                    |
+|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
+| url        | URL of the shared link.                                                                                                                                                                                                 |
+| name       | The linked file name (including extension).                                                                                                                                                                             |
+| expires    | Expiration time, if set.                                                                                                                                                                                                |
+| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| email      | Email address of user.                                                                                                                                                                                                  |
+| status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
+| surname    | Surname of the link owner                                                                                                                                                                                               |
+| given_name | Given name of the link owner                                                                                                                                                                                            |
 
 ## Report: updated_sharedlink 
 
@@ -142,28 +142,28 @@ But if you run with `-low-memory` option, the command will generate only `update
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `updated_sharedlink_0000.xlsx`, `updated_sharedlink_0001.xlsx`, `updated_sharedlink_0002.xlsx`...   
 
-| 列                   | 説明                                                                 |
-|----------------------|----------------------------------------------------------------------|
-| status               | 処理の状態                                                           |
-| reason               | 失敗またはスキップの理由                                             |
-| input.shared_link_id | ファイルまたはフォルダへのリンクのID                                 |
-| input.tag            | エントリーの種別 (file, または folder)                               |
-| input.url            | 共有リンクのURL.                                                     |
-| input.name           | リンク先ファイル名称                                                 |
-| input.expires        | 有効期限 (設定されている場合)                                        |
-| input.path_lower     | パス (すべて小文字に変換).                                           |
-| input.visibility     | 共有リンクの開示範囲                                                 |
-| input.account_id     | ユーザーのアカウントID                                               |
-| input.team_member_id | チームにおけるメンバーのID                                           |
-| input.email          | ユーザーのメールアドレス                                             |
-| input.status         | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
-| input.surname        | リンク所有者の名字                                                   |
-| input.given_name     | リンク所有者の名                                                     |
-| result.id            | ファイルまたはフォルダへのリンクのID                                 |
-| result.tag           | エントリーの種別 (file, または folder)                               |
-| result.url           | 共有リンクのURL.                                                     |
-| result.name          | リンク先ファイル名称                                                 |
-| result.expires       | 有効期限 (設定されている場合)                                        |
-| result.path_lower    | パス (すべて小文字に変換).                                           |
-| result.visibility    | 共有リンクの開示範囲                                                 |
+| 列                   | 説明                                                                                                                                                                                                                    |
+|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status               | 処理の状態                                                                                                                                                                                                              |
+| reason               | 失敗またはスキップの理由                                                                                                                                                                                                |
+| input.shared_link_id | A unique identifier for the linked file or folder                                                                                                                                                                       |
+| input.tag            | Entry type (file, or folder)                                                                                                                                                                                            |
+| input.url            | URL of the shared link.                                                                                                                                                                                                 |
+| input.name           | The linked file name (including extension).                                                                                                                                                                             |
+| input.expires        | Expiration time, if set.                                                                                                                                                                                                |
+| input.path_lower     | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| input.visibility     | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| input.account_id     | A user's account identifier.                                                                                                                                                                                            |
+| input.team_member_id | ID of user as a member of a team.                                                                                                                                                                                       |
+| input.email          | Email address of user.                                                                                                                                                                                                  |
+| input.status         | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
+| input.surname        | Surname of the link owner                                                                                                                                                                                               |
+| input.given_name     | Given name of the link owner                                                                                                                                                                                            |
+| result.id            | ファイルまたはフォルダへのリンクのID                                                                                                                                                                                    |
+| result.tag           | エントリーの種別 (file, または folder)                                                                                                                                                                                  |
+| result.url           | 共有リンクのURL.                                                                                                                                                                                                        |
+| result.name          | リンク先ファイル名称                                                                                                                                                                                                    |
+| result.expires       | 有効期限 (設定されている場合)                                                                                                                                                                                           |
+| result.path_lower    | パス (すべて小文字に変換).                                                                                                                                                                                              |
+| result.visibility    | 共有リンクの開示範囲                                                                                                                                                                                                    |
 
