@@ -8,8 +8,6 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"io"
@@ -19,22 +17,18 @@ import (
 	"unicode/utf8"
 )
 
-type DummyVO struct {
-	Path     string
-	Dest     string
-	MaxEntry int
-}
-
 type DummyEntry struct {
 	Tag         string `json:".tag"`
 	PathDisplay string `json:"path_display"`
 }
 
 type Dummy struct {
+	Path     string
+	Dest     string
+	MaxEntry int
 }
 
-func (z *Dummy) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{}
+func (z *Dummy) Preset() {
 }
 
 func (z *Dummy) Test(c app_control.Control) error {
@@ -44,16 +38,10 @@ func (z *Dummy) Test(c app_control.Control) error {
 func (z *Dummy) Hidden() {
 }
 
-func (z *Dummy) Requirement() rc_vo.ValueObject {
-	return &DummyVO{}
-}
-
 func (z *Dummy) Exec(k rc_kitchen.Kitchen) error {
-	var vo interface{} = k.Value()
-	dvo := vo.(*DummyVO)
-	l := k.Log().With(zap.String("path", dvo.Path))
+	l := k.Log().With(zap.String("path", z.Path))
 
-	f, err := os.Open(dvo.Path)
+	f, err := os.Open(z.Path)
 	if err != nil {
 		l.Error("Unable to open file", zap.Error(err))
 		return err
@@ -80,12 +68,12 @@ func (z *Dummy) Exec(k rc_kitchen.Kitchen) error {
 			return err
 		}
 
-		if err = z.create(k, dvo.Dest, de); err != nil {
+		if err = z.create(k, z.Dest, de); err != nil {
 			return err
 		}
 
 		entries++
-		if dvo.MaxEntry != 0 && entries >= dvo.MaxEntry {
+		if z.MaxEntry != 0 && entries >= z.MaxEntry {
 			l.Info("Suspend", zap.Int("entries", entries))
 			return nil
 		}

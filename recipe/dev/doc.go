@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
@@ -25,10 +24,6 @@ type Doc struct {
 	Lang           string
 	Filename       string
 	CommandPath    string
-}
-
-func (z *Doc) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{}
 }
 
 func (z *Doc) Console() {

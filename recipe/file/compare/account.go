@@ -7,75 +7,54 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
-type AccountVO struct {
-	Left      rc_conn.OldConnUserFile
-	Right     rc_conn.OldConnUserFile
+type Account struct {
+	Left      rc_conn.ConnUserFile
+	Right     rc_conn.ConnUserFile
 	LeftPath  string
 	RightPath string
+	Diff      rp_model.RowReport
+	ConnLeft  app_msg.Message
+	ConnRight app_msg.Message
+	Success   app_msg.Message
 }
 
-const (
-	reportAccount = "diff"
-)
-
-type Account struct {
-}
-
-func (z *Account) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportAccount, &mo_file_diff.Diff{}),
-	}
+func (z *Account) Preset() {
+	z.Diff.SetModel(&mo_file_diff.Diff{})
 }
 
 func (z *Account) Console() {
 }
 
-func (z *Account) Requirement() rc_vo.ValueObject {
-	return &AccountVO{}
-}
-
 func (z *Account) Exec(k rc_kitchen.Kitchen) error {
-	vo := k.Value().(*AccountVO)
 	ui := k.UI()
 
-	ui.Info("recipe.file.compare.account.conn_left")
-	ctxLeft, err := vo.Left.Connect(k.Control())
-	if err != nil {
-		return err
-	}
+	ui.InfoM(z.ConnLeft)
+	ctxLeft := z.Left.Context()
 
-	ui.Info("recipe.file.compare.account.conn_right")
-	ctxRight, err := vo.Right.Connect(k.Control())
-	if err != nil {
-		return err
-	}
+	ui.InfoM(z.ConnRight)
+	ctxRight := z.Right.Context()
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportAccount)
+	err := z.Diff.Open()
 	if err != nil {
 		return err
 	}
-	defer rep.Close()
 
 	diff := func(diff mo_file_diff.Diff) error {
-		rep.Row(&diff)
+		z.Diff.Row(&diff)
 		return nil
 	}
 
 	ucc := uc_compare_paths.New(ctxLeft, ctxRight, k.UI())
-	count, err := ucc.Diff(mo_path.NewDropboxPath(vo.LeftPath), mo_path.NewDropboxPath(vo.RightPath), diff)
+	count, err := ucc.Diff(mo_path.NewDropboxPath(z.LeftPath), mo_path.NewDropboxPath(z.RightPath), diff)
 	if err != nil {
 		return err
 	}
-	ui.Info("recipe.file.compare.account.success", app_msg.P{
-		"DiffCount": count,
-	})
+	ui.InfoM(z.Success.With("DiffCount", count))
 	return nil
 }
 

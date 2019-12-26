@@ -54,7 +54,7 @@ func (z *ValueRcConnBusinessInfo) SpinUp(ctl app_control.Control) error {
 		if _, err := a.Auth(z.conn.ScopeLabel()); err != nil {
 			a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(qt_recipe.EndToEndPeer))
 			if _, err := a.Auth(z.conn.ScopeLabel()); err != nil {
-				return err
+				return qt_recipe.NotEnoughResource()
 			} else {
 				z.peerName = qt_recipe.EndToEndPeer
 				z.conn.SetPeerName(qt_recipe.EndToEndPeer)

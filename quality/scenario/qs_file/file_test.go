@@ -2,11 +2,14 @@ package qs_file
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/file"
 	filecompare "github.com/watermint/toolbox/recipe/file/compare"
@@ -168,16 +171,12 @@ func TestFileUploadScenario(t *testing.T) {
 			if err != nil {
 				return
 			}
-			vo := &filecompare.LocalVO{
-				LocalPath:   scenario.LocalPath,
-				DropboxPath: dbxBase + "/file-sync-up",
-			}
-			r := filecompare.Local{}
-			if !qt_recipe.ApplyTestPeers(fc, vo) {
-				l.Warn("Skip: No conn resource")
-				return
-			}
-			if err := r.Exec(rc_kitchen.NewKitchen(fc, vo)); err != nil {
+			err = rc_exec.Exec(fc, &filecompare.Local{}, func(r rc_recipe.Recipe) {
+				rc := r.(*filecompare.Local)
+				rc.DropboxPath = mo_path.NewDropboxPath(dbxBase).ChildPath("/file-sync-up")
+				rc.LocalPath = mo_path.NewFileSystemPath(scenario.LocalPath)
+			})
+			if err != nil {
 				t.Error(err)
 			}
 			// TODO: verify result

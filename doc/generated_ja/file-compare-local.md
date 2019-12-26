@@ -20,7 +20,6 @@ Please see below help article for more detail:
 * Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -53,11 +52,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション      | 説明             | デフォルト |
-|-----------------|------------------|------------|
-| `-dropbox-path` | Dropbox上のパス  |            |
-| `-local-path`   | ローカルパス     |            |
-| `-peer`         | アカウントの別名 | {default}  |
+| オプション      | 説明          | デフォルト |
+|-----------------|---------------|------------|
+| `-dropbox-path` | Dropbox path  |            |
+| `-local-path`   | Local path    |            |
+| `-peer`         | Account alias | default    |
 
 Common options:
 
