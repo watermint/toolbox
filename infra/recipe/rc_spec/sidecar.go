@@ -16,7 +16,7 @@ import (
 )
 
 func newSideCar(scr rc_recipe.SideCarRecipe) rc_recipe.Spec {
-	path, name := Path(scr)
+	path, name := rc_recipe.Path(scr)
 	cliPath := strings.Join(append(path, name), " ")
 	vc := rc_vo_impl.NewValueContainer(scr.Requirement())
 	scopes, usePersonal, useBusiness := authScopesFromVc(vc)
@@ -123,6 +123,10 @@ type SpecSideCar struct {
 	connScopes      []string
 }
 
+func (z *SpecSideCar) Messages() []app_msg.Message {
+	return []app_msg.Message{}
+}
+
 func (z *SpecSideCar) SpinDown(ctl app_control.Control) error {
 	return nil
 }
@@ -150,19 +154,19 @@ func (z *SpecSideCar) Name() string {
 }
 
 func (z *SpecSideCar) Title() app_msg.Message {
-	return Title(z.scr)
+	return rc_recipe.Title(z.scr)
 }
 
 func (z *SpecSideCar) Desc() app_msg.MessageOptional {
-	return Desc(z.scr).AsOptional()
+	return rc_recipe.Desc(z.scr).AsOptional()
 }
 
 func (z *SpecSideCar) CliArgs() app_msg.MessageOptional {
-	return RecipeMessage(z.scr, "cli.args").AsOptional()
+	return rc_recipe.RecipeMessage(z.scr, "cli.args").AsOptional()
 }
 
 func (z *SpecSideCar) CliNote() app_msg.MessageOptional {
-	return RecipeMessage(z.scr, "cli.note").AsOptional()
+	return rc_recipe.RecipeMessage(z.scr, "cli.note").AsOptional()
 }
 
 func (z *SpecSideCar) Reports() []rp_model.Spec {

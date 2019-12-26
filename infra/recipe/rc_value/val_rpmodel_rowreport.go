@@ -1,17 +1,18 @@
 package rc_value
 
 import (
+	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_model_impl"
 	"reflect"
 )
 
 func newValueRpModelRowReport(name string) Value {
-	v := &ValueRpModelRowReport{name: name}
-	v.rep = rp_model_impl.NewRowReport(name)
+	n := strcase.ToSnake(name)
+	v := &ValueRpModelRowReport{name: n}
+	v.rep = rp_model_impl.NewRowReport(n)
 	return v
 }
 
@@ -20,7 +21,7 @@ type ValueRpModelRowReport struct {
 	rep  *rp_model_impl.RowReport
 }
 
-func (z *ValueRpModelRowReport) Accept(t reflect.Type, name string) Value {
+func (z *ValueRpModelRowReport) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
 	if t.Implements(reflect.TypeOf((*rp_model.RowReport)(nil)).Elem()) {
 		return newValueRpModelRowReport(name)
 	}
@@ -54,14 +55,6 @@ func (z *ValueRpModelRowReport) Debug() interface{} {
 	return nil
 }
 
-func (z *ValueRpModelRowReport) IsFeed() (feed fd_file.RowFeed, valid bool) {
-	return nil, false
-}
-
-func (z *ValueRpModelRowReport) IsReport() (report rp_model.Report, valid bool) {
+func (z *ValueRpModelRowReport) Report() (report rp_model.Report, valid bool) {
 	return z.rep, true
-}
-
-func (z *ValueRpModelRowReport) IsConn() (conn rc_conn.ConnDropboxApi, valid bool) {
-	return nil, false
 }

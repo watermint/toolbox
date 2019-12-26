@@ -6,7 +6,6 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"os"
@@ -53,7 +52,7 @@ func (z *Group) addToPath(fullPath []string, relPath []string, name string, r rc
 }
 
 func (z *Group) Add(r rc_recipe.Recipe) {
-	path, name := rc_spec.Path(r)
+	path, name := rc_recipe.Path(r)
 
 	z.addToPath(path, path, name, r)
 }

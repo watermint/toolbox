@@ -16,7 +16,7 @@ import (
 )
 
 func newSelfContained(scr rc_recipe.SelfContainedRecipe) rc_recipe.Spec {
-	path, name := Path(scr)
+	path, name := rc_recipe.Path(scr)
 	cliPath := strings.Join(append(path, name), " ")
 
 	repo := rc_value.NewRepository(scr)
@@ -49,7 +49,7 @@ func (z *specValueSelfContained) ValueDesc(name string) app_msg.Message {
 }
 
 func (z *specValueSelfContained) ValueDefault(name string) interface{} {
-	return z.repo.FieldValue(name)
+	return z.repo.FieldValueText(name)
 }
 
 func (z *specValueSelfContained) ValueCustomDefault(name string) app_msg.MessageOptional {
@@ -65,11 +65,11 @@ func (z *specValueSelfContained) Name() string {
 }
 
 func (z *specValueSelfContained) Title() app_msg.Message {
-	return Title(z.scr)
+	return rc_recipe.Title(z.scr)
 }
 
 func (z *specValueSelfContained) Desc() app_msg.MessageOptional {
-	return Desc(z.scr).AsOptional()
+	return rc_recipe.Desc(z.scr).AsOptional()
 }
 
 func (z *specValueSelfContained) CliPath() string {
@@ -77,11 +77,15 @@ func (z *specValueSelfContained) CliPath() string {
 }
 
 func (z *specValueSelfContained) CliArgs() app_msg.MessageOptional {
-	return RecipeMessage(z.scr, "cli.args").AsOptional()
+	return rc_recipe.RecipeMessage(z.scr, "cli.args").AsOptional()
 }
 
 func (z *specValueSelfContained) CliNote() app_msg.MessageOptional {
-	return RecipeMessage(z.scr, "cli.note").AsOptional()
+	return rc_recipe.RecipeMessage(z.scr, "cli.note").AsOptional()
+}
+
+func (z *specValueSelfContained) Messages() []app_msg.Message {
+	panic("implement me")
 }
 
 func (z *specValueSelfContained) Reports() []rp_model.Spec {

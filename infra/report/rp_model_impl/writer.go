@@ -126,6 +126,7 @@ func (z *TransactionReport) Open(opts ...rp_model.ReportOpt) error {
 	allOpts := make([]rp_model.ReportOpt, 0)
 	allOpts = append(allOpts, z.opts...)
 	allOpts = append(allOpts, opts...)
+	allOpts = append(allOpts, rp_model.HiddenColumns("status_tag"))
 	return z.w.Open(z.ctl, z.model, allOpts...)
 }
 
@@ -145,9 +146,10 @@ func (z *TransactionReport) Success(input interface{}, result interface{}) {
 
 	ui := z.ctl.UI()
 	z.w.Row(&rp_model.TransactionRow{
-		Status: ui.Text(rp_model.MsgSuccess.Key(), rp_model.MsgSuccess.Params()...),
-		Input:  input,
-		Result: result,
+		Status:    ui.Text(rp_model.MsgSuccess.Key(), rp_model.MsgSuccess.Params()...),
+		StatusTag: rp_model.StatusTagSuccess,
+		Input:     input,
+		Result:    result,
 	})
 }
 
@@ -165,10 +167,11 @@ func (z *TransactionReport) Failure(err error, input interface{}) {
 		reason = app_msg.M("dbx.err.general_error", app_msg.P{"Error": summary})
 	}
 	z.w.Row(&rp_model.TransactionRow{
-		Status: ui.Text(rp_model.MsgFailure.Key(), rp_model.MsgFailure.Params()...),
-		Reason: ui.Text(reason.Key(), reason.Params()...),
-		Input:  input,
-		Result: nil,
+		Status:    ui.Text(rp_model.MsgFailure.Key(), rp_model.MsgFailure.Params()...),
+		StatusTag: rp_model.StatusTagFailure,
+		Reason:    ui.Text(reason.Key(), reason.Params()...),
+		Input:     input,
+		Result:    nil,
 	})
 }
 
@@ -178,10 +181,11 @@ func (z *TransactionReport) Skip(reason app_msg.Message, input interface{}) {
 
 	ui := z.ctl.UI()
 	z.w.Row(&rp_model.TransactionRow{
-		Status: ui.Text(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
-		Reason: ui.Text(reason.Key(), reason.Params()...),
-		Input:  input,
-		Result: nil,
+		Status:    ui.Text(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
+		StatusTag: rp_model.StatusTagSkip,
+		Reason:    ui.Text(reason.Key(), reason.Params()...),
+		Input:     input,
+		Result:    nil,
 	})
 }
 

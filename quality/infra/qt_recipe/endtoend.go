@@ -2,6 +2,7 @@ package qt_recipe
 
 import (
 	"encoding/csv"
+	"errors"
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	"github.com/tidwall/gjson"
@@ -32,19 +33,31 @@ import (
 )
 
 const (
-	EndToEndPeer       = "end_to_end_test"
-	TestTeamFolderName = "watermint-toolbox-test"
+	EndToEndPeer        = "end_to_end_test"
+	EndToEndTestSkipEnv = "TOOLBOX_SKIPENDTOENDTEST"
+	TestTeamFolderName  = "watermint-toolbox-test"
 )
+
+var (
+	ErrorSkipEndToEndTest = errors.New("skip end to end test")
+)
+
+func IsSkipEndToEndTest() bool {
+	if p, found := os.LookupEnv(EndToEndTestSkipEnv); found {
+		if b, _ := strconv.ParseBool(p); b {
+			return true
+		}
+	}
+	return false
+}
 
 // Returns conn if v & end to end peer exist. found = true when v is an interface of app_conn.ConnDropboxAPI
 func ApplyConn(v interface{}, c app_control.Control) (conn rc_conn.OldConnDropboxApi, found bool) {
 	l := c.Log()
 	a := api_auth_impl.NewCached(c, api_auth_impl.PeerName(EndToEndPeer))
-	if p, found := os.LookupEnv("TOOLBOX_SKIPENDTOENDTEST"); found {
-		if b, _ := strconv.ParseBool(p); b {
-			l.Info("Skip end to end test")
-			return nil, true
-		}
+	if IsSkipEndToEndTest() {
+		l.Info("Skip end to end test")
+		return nil, true
 	}
 
 	if _, ok := v.(rc_conn.OldConnBusinessInfo); ok {

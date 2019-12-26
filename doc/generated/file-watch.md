@@ -20,7 +20,6 @@ Please see below help article for more detail:
 * Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -53,11 +52,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option       | Description            | Default   |
-|--------------|------------------------|-----------|
-| `-path`      | Path to watch          | {}        |
-| `-peer`      | Account alias          | {default} |
-| `-recursive` | Watch path recursively | false     |
+| Option       | Description            | Default |
+|--------------|------------------------|---------|
+| `-peer`      | Account alias          | default |
+| `-path`      | Path to watch          |         |
+| `-recursive` | Watch path recursively | false   |
 
 Common options:
 

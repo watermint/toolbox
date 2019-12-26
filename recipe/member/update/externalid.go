@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_spec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
@@ -93,7 +93,7 @@ func (z *ExternalId) Exec(k rc_kitchen.Kitchen) error {
 
 func (z *ExternalId) Test(c app_control.Control) error {
 	l := c.Log()
-	res, found := c.TestResource(rc_spec.Key(z))
+	res, found := c.TestResource(rc_recipe.Key(z))
 	if !found || !res.IsArray() {
 		l.Debug("SKIP: Test resource not found")
 		return qt_recipe.NotEnoughResource()

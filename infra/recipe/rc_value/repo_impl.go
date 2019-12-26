@@ -2,6 +2,7 @@ package rc_value
 
 import (
 	"flag"
+	"fmt"
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -23,6 +24,7 @@ var (
 		newValueBool(),
 		newValueInt(),
 		newValueString(),
+		newValueAppMsgMessage("", app_msg.Raw("")),
 		newValueMoTimeTime(""),
 		newValueMoPathPath(""),
 		newValueRcConnBusinessInfo(rc_conn_impl.DefaultPeerName),
@@ -38,9 +40,9 @@ var (
 
 // Find value of type.
 // Returns nil when the value type is not supported
-func valueOfType(t reflect.Type, name string) Value {
+func valueOfType(t reflect.Type, r rc_recipe.Recipe, name string) Value {
 	for _, vt := range valueTypes {
-		if v := vt.Accept(t, name); v != nil {
+		if v := vt.Accept(t, r, name); v != nil {
 			return v
 		}
 	}
@@ -64,9 +66,6 @@ func NewRepository(scr rc_recipe.Recipe) Repository {
 		return nil
 	}
 
-	// Apply messages
-	app_msg.Apply(rcp)
-
 	vals := make(map[string]Value)
 	fieldValue := make(map[string]reflect.Value)
 	rcpName := rt.PkgPath() + "." + strcase.ToSnake(rt.Name())
@@ -78,7 +77,7 @@ func NewRepository(scr rc_recipe.Recipe) Repository {
 		fn := rtf.Name
 		ll := l.With(zap.String("fieldName", fn))
 
-		vot := valueOfType(rtf.Type, fn)
+		vot := valueOfType(rtf.Type, rcp, fn)
 		if vot != nil {
 			ll.Debug("Set value", zap.Any("debug", vot.Debug()))
 			vals[fn] = vot
@@ -120,6 +119,18 @@ type repositoryImpl struct {
 	fieldValue map[string]reflect.Value
 }
 
+func (z *repositoryImpl) Messages() []app_msg.Message {
+	msgs := make([]app_msg.Message, 0)
+	for _, v := range z.values {
+		if vm, ok := v.(ValueMessage); ok {
+			if m, ok := vm.Message(); ok {
+				msgs = append(msgs, m)
+			}
+		}
+	}
+	return msgs
+}
+
 func (z *repositoryImpl) FieldNames() []string {
 	names := make([]string, 0)
 	for k, v := range z.values {
@@ -130,15 +141,22 @@ func (z *repositoryImpl) FieldNames() []string {
 	return names
 }
 
-func (z *repositoryImpl) FieldValue(name string) interface{} {
-	return z.values[name].Apply()
+func (z *repositoryImpl) FieldValueText(name string) string {
+	v := z.values[name]
+	if cv, ok := v.(ValueCustomValueText); ok {
+		return cv.ValueText()
+	} else {
+		return fmt.Sprintf("%v", v.Apply())
+	}
 }
 
 func (z *repositoryImpl) Conns() map[string]rc_conn.ConnDropboxApi {
 	conns := make(map[string]rc_conn.ConnDropboxApi)
 	for k, v := range z.values {
-		if conn, ok := v.IsConn(); ok {
-			conns[k] = conn
+		if vc, ok := v.(ValueConn); ok {
+			if conn, ok := vc.Conn(); ok {
+				conns[k] = conn
+			}
 		}
 	}
 	return conns
@@ -147,8 +165,10 @@ func (z *repositoryImpl) Conns() map[string]rc_conn.ConnDropboxApi {
 func (z *repositoryImpl) Feeds() map[string]fd_file.RowFeed {
 	feeds := make(map[string]fd_file.RowFeed)
 	for k, v := range z.values {
-		if feed, ok := v.IsFeed(); ok {
-			feeds[k] = feed
+		if vf, ok := v.(ValueFeed); ok {
+			if feed, ok := vf.Feed(); ok {
+				feeds[k] = feed
+			}
 		}
 	}
 	return feeds
@@ -157,8 +177,10 @@ func (z *repositoryImpl) Feeds() map[string]fd_file.RowFeed {
 func (z *repositoryImpl) FeedSpecs() map[string]fd_file.Spec {
 	feeds := make(map[string]fd_file.Spec)
 	for k, v := range z.values {
-		if feed, ok := v.IsFeed(); ok {
-			feeds[k] = feed.Spec()
+		if vf, ok := v.(ValueFeed); ok {
+			if feed, ok := vf.Feed(); ok {
+				feeds[k] = feed.Spec()
+			}
 		}
 	}
 	return feeds
@@ -167,8 +189,10 @@ func (z *repositoryImpl) FeedSpecs() map[string]fd_file.Spec {
 func (z *repositoryImpl) Reports() map[string]rp_model.Report {
 	reps := make(map[string]rp_model.Report)
 	for k, v := range z.values {
-		if rep, ok := v.IsReport(); ok {
-			reps[k] = rep
+		if vr, ok := v.(ValueReport); ok {
+			if rep, ok := vr.Report(); ok {
+				reps[k] = rep
+			}
 		}
 	}
 	return reps
@@ -177,8 +201,10 @@ func (z *repositoryImpl) Reports() map[string]rp_model.Report {
 func (z *repositoryImpl) ReportSpecs() map[string]rp_model.Spec {
 	reps := make(map[string]rp_model.Spec)
 	for k, v := range z.values {
-		if rep, ok := v.IsReport(); ok {
-			reps[k] = rep.Spec()
+		if vr, ok := v.(ValueReport); ok {
+			if rep, ok := vr.Report(); ok {
+				reps[k] = rep.Spec()
+			}
 		}
 	}
 	return reps

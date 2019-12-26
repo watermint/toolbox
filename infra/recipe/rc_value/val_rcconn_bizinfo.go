@@ -1,11 +1,12 @@
 package rc_value
 
 import (
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
-	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"reflect"
 )
 
@@ -20,7 +21,11 @@ type ValueRcConnBusinessInfo struct {
 	peerName string
 }
 
-func (z *ValueRcConnBusinessInfo) Accept(t reflect.Type, name string) Value {
+func (z *ValueRcConnBusinessInfo) ValueText() string {
+	return z.peerName
+}
+
+func (z *ValueRcConnBusinessInfo) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
 	if t.Implements(reflect.TypeOf((*rc_conn.ConnBusinessInfo)(nil)).Elem()) {
 		return newValueRcConnBusinessInfo(z.peerName)
 	}
@@ -41,6 +46,15 @@ func (z *ValueRcConnBusinessInfo) Apply() (v interface{}) {
 }
 
 func (z *ValueRcConnBusinessInfo) SpinUp(ctl app_control.Control) error {
+	if ctl.IsTest() {
+		if qt_recipe.IsSkipEndToEndTest() {
+			return qt_recipe.ErrorSkipEndToEndTest
+		}
+		a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(z.peerName))
+		if _, err := a.Auth(z.conn.ScopeLabel()); err != nil {
+			return err
+		}
+	}
 	return z.conn.Connect(ctl)
 }
 
@@ -48,15 +62,7 @@ func (z *ValueRcConnBusinessInfo) SpinDown(ctl app_control.Control) error {
 	return nil
 }
 
-func (z *ValueRcConnBusinessInfo) IsFeed() (feed fd_file.RowFeed, valid bool) {
-	return nil, false
-}
-
-func (z *ValueRcConnBusinessInfo) IsReport() (report rp_model.Report, valid bool) {
-	return nil, false
-}
-
-func (z *ValueRcConnBusinessInfo) IsConn() (conn rc_conn.ConnDropboxApi, valid bool) {
+func (z *ValueRcConnBusinessInfo) Conn() (conn rc_conn.ConnDropboxApi, valid bool) {
 	return z.conn, true
 }
 

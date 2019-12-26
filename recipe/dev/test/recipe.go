@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -70,7 +69,7 @@ func (z *Recipe) Exec(k rc_kitchen.Kitchen) error {
 	switch {
 	case vo.All:
 		for _, r := range cat {
-			path, name := rc_spec.Path(r)
+			path, name := rc_recipe.Path(r)
 			ll := l.With(zap.Strings("path", path), zap.String("name", name))
 			if _, ok := r.(rc_recipe.SecretRecipe); ok {
 				ll.Info("Skip secret recipe")
@@ -88,7 +87,7 @@ func (z *Recipe) Exec(k rc_kitchen.Kitchen) error {
 
 	case vo.Recipe != "":
 		for _, r := range cat {
-			p := rc_spec.Key(r)
+			p := rc_recipe.Key(r)
 			if p != vo.Recipe {
 				continue
 			}

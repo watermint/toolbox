@@ -97,11 +97,18 @@ func TransactionHeader(input interface{}, result interface{}) *TransactionRow {
 }
 
 type TransactionRow struct {
-	Status string      `json:"status"`
-	Reason string      `json:"reason"`
-	Input  interface{} `json:"input"`
-	Result interface{} `json:"result"`
+	Status    string      `json:"status"`
+	StatusTag string      `json:"status_tag"`
+	Reason    string      `json:"reason"`
+	Input     interface{} `json:"input"`
+	Result    interface{} `json:"result"`
 }
+
+const (
+	StatusTagSuccess = "success"
+	StatusTagFailure = "failure"
+	StatusTagSkip    = "skip"
+)
 
 var (
 	MsgSuccess     = app_msg.M("report.transaction.success")

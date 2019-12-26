@@ -2,9 +2,7 @@ package rc_value
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
 )
 
@@ -16,7 +14,7 @@ type ValueBool struct {
 	v bool
 }
 
-func (z *ValueBool) Accept(t reflect.Type, name string) Value {
+func (z *ValueBool) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
 	if t.Kind() == reflect.Bool {
 		return newValueBool()
 	}
@@ -41,18 +39,6 @@ func (z *ValueBool) SpinUp(ctl app_control.Control) error {
 
 func (z *ValueBool) SpinDown(ctl app_control.Control) error {
 	return nil
-}
-
-func (z *ValueBool) IsFeed() (feed fd_file.RowFeed, valid bool) {
-	return nil, false
-}
-
-func (z *ValueBool) IsReport() (report rp_model.Report, valid bool) {
-	return nil, false
-}
-
-func (z *ValueBool) IsConn() (conn rc_conn.ConnDropboxApi, valid bool) {
-	return nil, false
 }
 
 func (z *ValueBool) Debug() interface{} {

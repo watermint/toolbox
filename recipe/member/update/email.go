@@ -16,7 +16,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -68,10 +67,12 @@ func (z *EmailWorker) Exec() error {
 }
 
 type Email struct {
-	Peer             rc_conn.ConnBusinessMgmt
-	File             fd_file.RowFeed
-	UpdateUnverified bool
-	OperationLog     rp_model.TransactionReport
+	Peer                rc_conn.ConnBusinessMgmt
+	File                fd_file.RowFeed
+	UpdateUnverified    bool
+	OperationLog        rp_model.TransactionReport
+	SkipSameFromToEmail app_msg.Message
+	SkipUnverifiedEmail app_msg.Message
 }
 
 func (z *Email) Preset() {
@@ -101,20 +102,20 @@ func (z *Email) Exec(k rc_kitchen.Kitchen) error {
 
 		if row.FromEmail == row.ToEmail {
 			ll.Debug("Skip")
-			z.OperationLog.Skip(app_msg.M("recipe.member.quota.update.skip.same_from_to_email"), row)
+			z.OperationLog.Skip(z.SkipSameFromToEmail, row)
 			return nil
 		}
 
 		member, ok := emailToMember[row.FromEmail]
 		if !ok {
 			ll.Debug("Member not found for email")
-			z.OperationLog.Failure(&rp_model.NotFound{Id: row.FromEmail}, row)
+			z.OperationLog.Failure(errors.New("member not found for email"), row)
 			return nil
 		}
 
 		if !member.EmailVerified && !z.UpdateUnverified {
 			ll.Debug("Do not update unverified email")
-			z.OperationLog.Skip(app_msg.M("recipe.member.quota.update.skip.unverified_email"), row)
+			z.OperationLog.Skip(z.SkipUnverifiedEmail, row)
 			return nil
 		}
 
@@ -134,13 +135,9 @@ func (z *Email) Exec(k rc_kitchen.Kitchen) error {
 
 func (z *Email) Test(c app_control.Control) error {
 	l := c.Log()
-	res, found := c.TestResource(rc_spec.Key(z))
+	res, found := c.TestResource(rc_recipe.Key(z))
 	if !found || !res.IsArray() {
 		l.Debug("SKIP: Test resource not found")
-		return qt_recipe.NotEnoughResource()
-	}
-	if !qt_recipe.ApplyTestPeers(c, z) {
-		l.Debug("Skip test")
 		return qt_recipe.NotEnoughResource()
 	}
 
@@ -219,7 +216,7 @@ func (z *Email) Test(c app_control.Control) error {
 	}
 
 	scanReport := func() {
-		resultPath := filepath.Join(c.Workspace().Report(), "update.json")
+		resultPath := filepath.Join(c.Workspace().Report(), "operation_log.json")
 		resultFile, err := os.Open(resultPath)
 		if err != nil {
 			l.Warn("Unable to open", zap.Error(err))
@@ -228,7 +225,7 @@ func (z *Email) Test(c app_control.Control) error {
 			for scanner.Scan() {
 				row := gjson.Parse(scanner.Text())
 
-				status := row.Get("status").String()
+				status := row.Get("status_tag").String()
 				reason := row.Get("reason").String()
 				inputFrom := row.Get("input.from_email").String()
 				inputTo := row.Get("input.to_email").String()
@@ -246,15 +243,15 @@ func (z *Email) Test(c app_control.Control) error {
 				ll.Info("Feed file row", zap.Bool("isNonExist", isNonExistent))
 
 				switch {
-				case status == "Failure" && isNonExistent:
+				case status == rp_model.StatusTagFailure && isNonExistent:
 					ll.Info("Successfully failed for non existent")
-				case status == "Failure":
+				case status == rp_model.StatusTagFailure:
 					ll.Warn("Unexpected failure")
 					lastErr = errors.New("unexpected failure")
-				case status == "Success" && isNonExistent:
+				case status == rp_model.StatusTagSuccess && isNonExistent:
 					ll.Warn("Unexpected failure")
 					lastErr = errors.New("unexpected failure")
-				case status == "Success":
+				case status == rp_model.StatusTagSuccess:
 					if inputTo == resultEmail {
 						ll.Info("Successfully changed for non existent")
 					} else {

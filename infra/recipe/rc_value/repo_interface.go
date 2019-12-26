@@ -25,11 +25,14 @@ type Repository interface {
 	// Returns reports that will created by the recipe
 	ReportSpecs() map[string]rp_model.Spec
 
+	// Messages used by the recipe
+	Messages() []app_msg.Message
+
 	// List of fields
 	FieldNames() []string
 
-	// Field value
-	FieldValue(name string) interface{}
+	// Text representation of the field value
+	FieldValueText(name string) string
 
 	// Returns connections that requested by the recipe
 	Conns() map[string]rc_conn.ConnDropboxApi
@@ -59,7 +62,7 @@ type Repository interface {
 type Value interface {
 	// Returns forked instance when the type is acceptable
 	// Otherwise returns nil
-	Accept(t reflect.Type, name string) Value
+	Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value
 
 	// Return value reference of the instance
 	Bind() interface{}
@@ -78,13 +81,38 @@ type Value interface {
 
 	// Spin down after run
 	SpinDown(ctl app_control.Control) error
+}
 
-	// True when the value is type of feed, and returns instance of the feed
-	IsFeed() (feed fd_file.RowFeed, valid bool)
+type ValueCustomValueText interface {
+	Value
 
-	// True when the value is type of report, and returns instance of the report
-	IsReport() (report rp_model.Report, valid bool)
+	ValueText() string
+}
 
-	// True when the value is type of connection, and return instance of the connection
-	IsConn() (conn rc_conn.ConnDropboxApi, valid bool)
+type ValueFeed interface {
+	Value
+
+	// True when the value is type of feed, and returns the instance of the feed
+	Feed() (feed fd_file.RowFeed, valid bool)
+}
+
+type ValueReport interface {
+	Value
+
+	// True when the value is type of report, and returns the instance of the report
+	Report() (report rp_model.Report, valid bool)
+}
+
+type ValueConn interface {
+	Value
+
+	// True when the value is type of connection, and return the instance of the connection
+	Conn() (conn rc_conn.ConnDropboxApi, valid bool)
+}
+
+type ValueMessage interface {
+	Value
+
+	// True when the value is type of message, and return the instance eof the conection
+	Message() (msg app_msg.Message, valid bool)
 }

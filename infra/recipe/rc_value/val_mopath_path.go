@@ -3,9 +3,7 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
 )
 
@@ -21,7 +19,11 @@ type ValueMoPathPath struct {
 	path     mo_path.DropboxPath
 }
 
-func (z *ValueMoPathPath) Accept(t reflect.Type, name string) Value {
+func (z *ValueMoPathPath) ValueText() string {
+	return z.filePath
+}
+
+func (z *ValueMoPathPath) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
 	if t.Implements(reflect.TypeOf((*mo_path.Path)(nil)).Elem()) {
 		return newValueMoPathPath(name)
 	}
@@ -53,16 +55,4 @@ func (z *ValueMoPathPath) SpinUp(ctl app_control.Control) error {
 
 func (z *ValueMoPathPath) SpinDown(ctl app_control.Control) error {
 	return nil
-}
-
-func (z *ValueMoPathPath) IsFeed() (feed fd_file.RowFeed, valid bool) {
-	return nil, false
-}
-
-func (z *ValueMoPathPath) IsReport() (report rp_model.Report, valid bool) {
-	return nil, false
-}
-
-func (z *ValueMoPathPath) IsConn() (conn rc_conn.ConnDropboxApi, valid bool) {
-	return nil, false
 }

@@ -88,6 +88,9 @@ type Spec interface {
 	// Spec of feeds
 	Feeds() map[string]fd_file.Spec
 
+	// Messages used by this recipe
+	Messages() []app_msg.Message
+
 	// True if this recipe use connection to the Dropbox Personal account
 	ConnUsePersonal() bool
 

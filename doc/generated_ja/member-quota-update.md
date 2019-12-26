@@ -20,7 +20,6 @@ Please see below help article for more detail:
 * Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations
 
 This command use following access type(s) during the operation:
-* Dropbox Business management
 
 # Usage
 
@@ -55,8 +54,8 @@ At second run, please hit button "Open" on the dialogue.
 
 | オプション | 説明          | デフォルト |
 |------------|---------------|------------|
+| `-peer`    | Account alias | default    |
 | `-file`    | Data file     |            |
-| `-peer`    | Account alias | {default}  |
 
 Common options:
 
@@ -73,7 +72,7 @@ Common options:
 
 # File formats
 
-## Format: file 
+## Format: File 
 
 | Column | Description                                                         | Value example    |
 |--------|---------------------------------------------------------------------|------------------|

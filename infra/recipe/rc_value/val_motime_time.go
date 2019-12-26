@@ -3,9 +3,7 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
 )
 
@@ -21,7 +19,11 @@ type ValueMoTimeTime struct {
 	time     mo_time.Time
 }
 
-func (z *ValueMoTimeTime) Accept(t reflect.Type, name string) Value {
+func (z *ValueMoTimeTime) ValueText() string {
+	return z.dateTime
+}
+
+func (z *ValueMoTimeTime) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
 	if t.Implements(reflect.TypeOf((*mo_time.Time)(nil)).Elem()) {
 		return newValueMoTimeTime(name)
 	}
@@ -57,16 +59,4 @@ func (z *ValueMoTimeTime) SpinUp(ctl app_control.Control) (err error) {
 
 func (z *ValueMoTimeTime) SpinDown(ctl app_control.Control) error {
 	return nil
-}
-
-func (z *ValueMoTimeTime) IsFeed() (feed fd_file.RowFeed, valid bool) {
-	return nil, false
-}
-
-func (z *ValueMoTimeTime) IsReport() (report rp_model.Report, valid bool) {
-	return nil, false
-}
-
-func (z *ValueMoTimeTime) IsConn() (conn rc_conn.ConnDropboxApi, valid bool) {
-	return nil, false
 }

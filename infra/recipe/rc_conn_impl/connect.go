@@ -13,33 +13,32 @@ const (
 	DefaultPeerName = "default"
 )
 
-func connect(tokenType, peerName string, control app_control.Control) (ctx api_context.Context, err error) {
-	l := control.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
-	ui := control.UI()
-
+func connect(tokenType, peerName string, ctl app_control.Control) (ctx api_context.Context, err error) {
+	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
+	ui := ctl.UI()
 	switch {
-	case control.IsTest():
+	case ctl.IsTest():
 		l.Debug("Connect for testing")
-		c := api_auth_impl.NewCached(control, api_auth_impl.PeerName(peerName))
+		c := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(peerName))
 		ctx, err = c.Auth(tokenType)
 		return
 
 	case ui.IsConsole():
 		l.Debug("Connect through console UI")
-		c := api_auth_impl.New(control, api_auth_impl.PeerName(peerName))
+		c := api_auth_impl.New(ctl, api_auth_impl.PeerName(peerName))
 		ctx, err = c.Auth(tokenType)
 		return
 
 	case ui.IsWeb():
 		l.Debug("Connect through web UI")
-		a := api_auth_impl.NewWeb(control)
+		a := api_auth_impl.NewWeb(ctl)
 		tokens, err := a.List(tokenType)
 		if err != nil {
 			return nil, err
 		}
 		for _, t := range tokens {
 			if t.PeerName == peerName {
-				c := api_context_impl.New(control, t)
+				c := api_context_impl.New(ctl, t)
 				return c, nil
 			}
 		}

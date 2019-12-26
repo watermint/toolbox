@@ -4,8 +4,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
 )
 
@@ -21,7 +20,11 @@ type ValueFdFileRowFeed struct {
 	path string
 }
 
-func (z *ValueFdFileRowFeed) Accept(t reflect.Type, name string) Value {
+func (z *ValueFdFileRowFeed) ValueText() string {
+	return z.path
+}
+
+func (z *ValueFdFileRowFeed) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
 	if t.Implements(reflect.TypeOf((*fd_file.RowFeed)(nil)).Elem()) {
 		return newValueFdFileRowFeed(name)
 	}
@@ -55,14 +58,6 @@ func (z *ValueFdFileRowFeed) SpinDown(ctl app_control.Control) error {
 	return nil
 }
 
-func (z *ValueFdFileRowFeed) IsFeed() (feed fd_file.RowFeed, valid bool) {
+func (z *ValueFdFileRowFeed) Feed() (feed fd_file.RowFeed, valid bool) {
 	return z.rf, true
-}
-
-func (z *ValueFdFileRowFeed) IsReport() (report rp_model.Report, valid bool) {
-	return nil, false
-}
-
-func (z *ValueFdFileRowFeed) IsConn() (conn rc_conn.ConnDropboxApi, valid bool) {
-	return nil, false
 }
