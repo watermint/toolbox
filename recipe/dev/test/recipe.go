@@ -8,25 +8,19 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"io/ioutil"
 )
 
-type RecipeVO struct {
+type Recipe struct {
 	All      bool
 	Recipe   string
 	Resource string
 }
 
-type Recipe struct {
-}
-
-func (z *Recipe) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{}
+func (z *Recipe) Preset() {
 }
 
 func (z *Recipe) Console() {
@@ -35,21 +29,16 @@ func (z *Recipe) Console() {
 func (z *Recipe) Hidden() {
 }
 
-func (z *Recipe) Requirement() rc_vo.ValueObject {
-	return &RecipeVO{}
-}
-
 func (z *Recipe) Exec(k rc_kitchen.Kitchen) error {
 	cl := k.Control().(app_control_launcher.ControlLauncher)
 	cat := cl.Catalogue()
 	l := k.Log()
-	vo := k.Value().(*RecipeVO)
 
 	testResource := gjson.Parse("{}")
 
-	if vo.Resource != "" {
-		ll := l.With(zap.String("resource", vo.Resource))
-		b, err := ioutil.ReadFile(vo.Resource)
+	if z.Resource != "" {
+		ll := l.With(zap.String("resource", z.Resource))
+		b, err := ioutil.ReadFile(z.Resource)
 		if err != nil {
 			ll.Error("Unable to read resource file", zap.Error(err))
 			return err
@@ -68,7 +57,7 @@ func (z *Recipe) Exec(k rc_kitchen.Kitchen) error {
 	}
 
 	switch {
-	case vo.All:
+	case z.All:
 		for _, r := range cat {
 			path, name := rc_recipe.Path(r)
 			ll := l.With(zap.Strings("path", path), zap.String("name", name))
@@ -86,10 +75,10 @@ func (z *Recipe) Exec(k rc_kitchen.Kitchen) error {
 		}
 		l.Info("All tests passed without error")
 
-	case vo.Recipe != "":
+	case z.Recipe != "":
 		for _, r := range cat {
 			p := rc_recipe.Key(r)
-			if p != vo.Recipe {
+			if p != z.Recipe {
 				continue
 			}
 			ll := l.With(zap.String("recipeKey", p))
@@ -103,7 +92,7 @@ func (z *Recipe) Exec(k rc_kitchen.Kitchen) error {
 				return nil
 			}
 		}
-		l.Error("recipe not found", zap.String("vo.Recipe", vo.Recipe))
+		l.Error("recipe not found", zap.String("vo.Recipe", z.Recipe))
 		return errors.New("recipe not found")
 
 	default:
