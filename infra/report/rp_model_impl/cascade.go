@@ -11,7 +11,7 @@ func newCascade(name string, ctl app_control.Control) Writer {
 	writers = append(writers, NewJsonWriter(name, ctl, false))
 	if !ctl.IsLowMemory() {
 		writers = append(writers, newCsvWriter(name, ctl))
-		writers = append(writers, newXlsxWriter(name, ctl))
+		writers = append(writers, NewXlsxWriter(name, ctl))
 	}
 	if ctl.IsQuiet() {
 		writers = append(writers, NewJsonWriter(name, ctl, true))

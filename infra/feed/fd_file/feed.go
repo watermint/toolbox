@@ -28,10 +28,3 @@ type Spec interface {
 	ColumnDesc(col string) app_msg.Message
 	ColumnExample(col string) app_msg.Message
 }
-
-// File interface for SideCarRecipe
-// Deprecated: use RowFeed
-type ModelFile interface {
-	Rows
-	Model(ctl app_control.Control, m interface{}) error
-}

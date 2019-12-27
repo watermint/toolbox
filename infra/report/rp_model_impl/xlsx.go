@@ -43,7 +43,7 @@ func xlsxDataStyle() *xlsx.Style {
 	return dataStyle
 }
 
-func newXlsxWriter(name string, ctl app_control.Control) Writer {
+func NewXlsxWriter(name string, ctl app_control.Control) Writer {
 	return &xlsxWriter{
 		name: name,
 		ctl:  ctl,
