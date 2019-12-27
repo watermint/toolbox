@@ -1,6 +1,6 @@
 # team filerequest list 
 
-List all file requests in the team
+チームないのファイルリクエストを一覧します
 
 # Security
 
@@ -53,22 +53,22 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description   | Default   |
-|---------|---------------|-----------|
-| `-peer` | Account alias | {default} |
+| オプション | 説明          | デフォルト |
+|------------|---------------|------------|
+| `-peer`    | Account alias | default    |
 
 Common options:
 
-| Option          | Description                                                                      | Default              |
-|-----------------|----------------------------------------------------------------------------------|----------------------|
-| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`        | Enable debug mode                                                                | false                |
-| `-low-memory`   | Low memory footprint mode                                                        | false                |
-| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`       | Do not store tokens into a file                                                  | false                |
-| `-workspace`    | Workspace path                                                                   |                      |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -119,21 +119,21 @@ But if you run with `-low-memory` option, the command will generate only `file_r
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`...   
 
-| Column                      | Description                                                                   |
-|-----------------------------|-------------------------------------------------------------------------------|
-| account_id                  | Account ID of this file request owner.                                        |
-| team_member_id              | ID of file request owner user as a member of a team                           |
-| email                       | Email address of this file request owner.                                     |
-| status                      | The user status of this file request owner (active/invited/suspended/removed) |
-| surname                     | Surname of this file request owner.                                           |
-| given_name                  | Given name of this file request owner.                                        |
-| file_request_id             | The ID of the file request.                                                   |
-| url                         | The URL of the file request.                                                  |
-| title                       | The title of the file request.                                                |
-| created                     | When this file request was created.                                           |
-| is_open                     | Whether or not the file request is open.                                      |
-| file_count                  | The number of files this file request has received.                           |
-| destination                 | The path of the folder in the Dropbox where uploaded files will be sent       |
-| deadline                    | The deadline for this file request.                                           |
-| deadline_allow_late_uploads | If set, allow uploads after the deadline has passed                           |
+| 列                          | 説明                                                                      |
+|-----------------------------|---------------------------------------------------------------------------|
+| account_id                  | ファイルリクエスト所有者のアカウントID                                    |
+| team_member_id              | ファイルリクエスト所有者のチームメンバーとしてのID                        |
+| email                       | ファイルリクエスト所有者のメールアドレス                                  |
+| status                      | ファイルリクエスト所有者ユーザーの状態 (active/invited/suspended/removed) |
+| surname                     | ファイルリクエスト所有者の名字                                            |
+| given_name                  | ファイルリクエスト所有者の名                                              |
+| file_request_id             | ファイルリクエストID                                                      |
+| url                         | ファイルリクエストのURL                                                   |
+| title                       | ファイルリクエストのタイトル                                              |
+| created                     | このファイルリクエストが作成された日時                                    |
+| is_open                     | このファイルリクエストがオープンしているかどうか                          |
+| file_count                  | このファイルリクエストが受け取ったファイル数                              |
+| destination                 | アップロードされたファイルが置かれるDropboxフォルダのパス                 |
+| deadline                    | ファイルリクエストの締め切り.                                             |
+| deadline_allow_late_uploads | 設定されている場合、締め切りを超えてもアップロードが許可されている        |
 

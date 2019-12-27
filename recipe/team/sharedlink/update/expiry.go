@@ -10,11 +10,10 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -22,19 +21,12 @@ import (
 	"time"
 )
 
-type ExpiryVO struct {
-	Peer       rc_conn.OldConnBusinessFile
-	Days       int
-	At         string
-	Visibility string
-}
-
 type ExpiryScanWorker struct {
 	k          rc_kitchen.Kitchen
 	ctl        app_control.Control
 	ctx        api_context.Context
-	rep        rp_model.SideCarReport
-	repSkipped rp_model.SideCarReport
+	rep        rp_model.TransactionReport
+	repSkipped rp_model.RowReport
 	member     *mo_member.Member
 	newExpiry  time.Time
 	visibility string
@@ -108,7 +100,7 @@ func (z *ExpiryScanWorker) Exec() error {
 type ExpiryWorker struct {
 	ctl       app_control.Control
 	ctx       api_context.Context
-	rep       rp_model.SideCarReport
+	rep       rp_model.TransactionReport
 	member    *mo_member.Member
 	link      mo_sharedlink.SharedLink
 	newExpiry time.Time
@@ -147,72 +139,61 @@ const (
 )
 
 type Expiry struct {
+	Peer       rc_conn.ConnBusinessFile
+	Days       int
+	At         string
+	Visibility string
+	Updated    rp_model.TransactionReport
+	Skipped    rp_model.RowReport
 }
 
-func (z Expiry) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportExpirySkipped,
-			&mo_sharedlink.SharedLinkMember{},
-			rp_model.HiddenColumns(
-				"shared_link_id",
-				"account_id",
-				"team_member_id",
-			),
-		),
-		rp_spec_impl.Spec(reportExpiryUpdated,
-			rp_model.TransactionHeader(
-				&mo_sharedlink.SharedLinkMember{},
-				&mo_sharedlink.Metadata{},
-			),
-			rp_model.HiddenColumns(
-				"input.shared_link_id",
-				"input.account_id",
-				"input.team_member_id",
-				"result.tag",
-				"result.id",
-				"result.url",
-				"result.name",
-				"result.path_lower",
-				"result.visibility",
-			),
-		),
-	}
+func (z *Expiry) Preset() {
+	z.Visibility = "public"
+	z.Skipped.SetModel(&mo_sharedlink.SharedLinkMember{}, rp_model.HiddenColumns(
+		"shared_link_id",
+		"account_id",
+		"team_member_id",
+	))
+	z.Updated.SetModel(&mo_sharedlink.SharedLinkMember{}, &mo_sharedlink.Metadata{}, rp_model.HiddenColumns(
+		"input.shared_link_id",
+		"input.account_id",
+		"input.team_member_id",
+		"result.tag",
+		"result.id",
+		"result.url",
+		"result.name",
+		"result.path_lower",
+		"result.visibility",
+	))
 }
 
 func (z Expiry) Console() {
 }
 
-func (z *Expiry) Requirement() rc_vo.ValueObject {
-	return &ExpiryVO{
-		Visibility: "public",
-	}
-}
-
 func (z *Expiry) Exec(k rc_kitchen.Kitchen) error {
 	ui := k.UI()
 	l := k.Log()
-	evo := k.Value().(*ExpiryVO)
 	var newExpiry time.Time
-	if evo.Days > 0 && evo.At != "" {
-		l.Debug("Both Days/At specified", zap.Int("evo.Days", evo.Days), zap.String("evo.At", evo.At))
+	if z.Days > 0 && z.At != "" {
+		l.Debug("Both Days/At specified", zap.Int("evo.Days", z.Days), zap.String("evo.At", z.At))
 		ui.Error("recipe.team.sharedlink.update.expiry.err.please_specify_days_or_at")
 		return errors.New("please specify days or at")
 	}
-	if evo.Days < 0 {
-		l.Debug("Days options should not be negative", zap.Int("evo.Days", evo.Days))
+	if z.Days < 0 {
+		l.Debug("Days options should not be negative", zap.Int("evo.Days", z.Days))
 		ui.Error("recipe.team.sharedlink.update.expiry.err.days_should_not_negative")
 		return errors.New("days should not be negative")
 	}
 
 	switch {
-	case evo.Days > 0:
-		newExpiry = api_util.RebaseTime(time.Now().Add(time.Duration(evo.Days*24) * time.Hour))
-		l.Debug("New expiry", zap.Int("evo.Days", evo.Days), zap.String("newExpiry", newExpiry.String()))
+	case z.Days > 0:
+		newExpiry = api_util.RebaseTime(time.Now().Add(time.Duration(z.Days*24) * time.Hour))
+		l.Debug("New expiry", zap.Int("evo.Days", z.Days), zap.String("newExpiry", newExpiry.String()))
 
 	default:
 		var valid bool
-		if newExpiry, valid = ut_time.ParseTimestamp(evo.At); !valid {
-			l.Debug("Invalid date/time format for at option", zap.String("evo.At", evo.At))
+		if newExpiry, valid = ut_time.ParseTimestamp(z.At); !valid {
+			l.Debug("Invalid date/time format for at option", zap.String("evo.At", z.At))
 			ui.Error("recipe.team.sharedlink.update.expiry.err.invalid_date_time_format_for_at_option")
 			return errors.New("invalid date/time format for `at`")
 		}
@@ -220,23 +201,14 @@ func (z *Expiry) Exec(k rc_kitchen.Kitchen) error {
 
 	l = l.With(zap.String("newExpiry", newExpiry.String()))
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportExpiryUpdated)
-	if err != nil {
+	if err := z.Updated.Open(); err != nil {
 		return err
 	}
-	defer rep.Close()
-	repSkipped, err := rp_spec_impl.New(z, k.Control()).Open(reportExpirySkipped)
-	if err != nil {
-		return err
-	}
-	defer repSkipped.Close()
-
-	ctx, err := evo.Peer.Connect(k.Control())
-	if err != nil {
+	if err := z.Skipped.Open(); err != nil {
 		return err
 	}
 
-	members, err := sv_member.New(ctx).List()
+	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
 	}
@@ -247,12 +219,12 @@ func (z *Expiry) Exec(k rc_kitchen.Kitchen) error {
 		q.Enqueue(&ExpiryScanWorker{
 			k:          k,
 			ctl:        k.Control(),
-			ctx:        ctx,
-			rep:        rep,
-			repSkipped: repSkipped,
+			ctx:        z.Peer.Context(),
+			rep:        z.Updated,
+			repSkipped: z.Skipped,
 			member:     member,
 			newExpiry:  newExpiry,
-			visibility: evo.Visibility,
+			visibility: z.Visibility,
 		})
 	}
 	q.Wait()
@@ -262,14 +234,35 @@ func (z *Expiry) Exec(k rc_kitchen.Kitchen) error {
 
 func (z *Expiry) Test(c app_control.Control) error {
 	// should fail
-	if err := z.Exec(rc_kitchen.NewKitchen(c, &ExpiryVO{Days: 1, At: "2019-09-05T01:02:03Z"})); err == nil {
-		return errors.New("days and at should not be accepted same time")
+	{
+		err := rc_exec.Exec(c, &Expiry{}, func(r rc_recipe.Recipe) {
+			rc := r.(*Expiry)
+			rc.Days = 1
+			rc.At = "2019-09-05T01:02:03Z"
+		})
+		if err == nil {
+			return errors.New("days and at should not be accepted same time")
+		}
 	}
-	if err := z.Exec(rc_kitchen.NewKitchen(c, &ExpiryVO{Days: -1})); err == nil {
-		return errors.New("negative days should not be accepted")
+
+	{
+		err := rc_exec.Exec(c, &Expiry{}, func(r rc_recipe.Recipe) {
+			rc := r.(*Expiry)
+			rc.Days = -1
+		})
+		if err == nil {
+			return errors.New("negative days should not be accepted")
+		}
 	}
-	if err := z.Exec(rc_kitchen.NewKitchen(c, &ExpiryVO{At: "Invalid time format"})); err == nil {
-		return errors.New("invalid time format should not be accepted")
+
+	{
+		err := rc_exec.Exec(c, &Expiry{}, func(r rc_recipe.Recipe) {
+			rc := r.(*Expiry)
+			rc.At = "Invalid time format"
+		})
+		if err == nil {
+			return errors.New("negative days should not be accepted")
+		}
 	}
 	return qt_endtoend.ImplementMe()
 }

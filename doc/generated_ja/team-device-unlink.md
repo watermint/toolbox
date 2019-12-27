@@ -53,11 +53,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション          | 説明                                       | デフォルト |
-|---------------------|--------------------------------------------|------------|
-| `-delete-on-unlink` | デバイスリンク解除時にファイルを削除します | false      |
-| `-file`             | データファイル                             |            |
-| `-peer`             | アカウントの別名                           | {default}  |
+| オプション          | 説明                   | デフォルト |
+|---------------------|------------------------|------------|
+| `-delete-on-unlink` | Delete files on unlink | false      |
+| `-file`             | Data file              |            |
+| `-peer`             | Account alias          | default    |
 
 Common options:
 
@@ -71,6 +71,48 @@ Common options:
 | `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
 | `-workspace`    | ワークスペースへのパス                                                                           |                |
+
+# File formats
+
+## Format: File 
+
+| 列                            | 説明                                                                   | Value example                              |
+|-------------------------------|------------------------------------------------------------------------|--------------------------------------------|
+| team_member_id                | チームにおけるメンバーのID                                             | dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  |
+| email                         | ユーザーのメールアドレス                                               | john.smith@example.com                     |
+| status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   | active                                     |
+| given_name                    | 名                                                                     | John                                       |
+| surname                       | 名字                                                                   | Smith                                      |
+| familiar_name                 | ロケール依存の名前                                                     | John Smith                                 |
+| display_name                  | ユーザーのDropboxアカウントの表示名称                                  | John Smith                                 |
+| abbreviated_name              | ユーザーの省略名称                                                     | JS                                         |
+| external_id                   | このユーザーに関連づけられた外部ID                                     |                                            |
+| account_id                    | ユーザーのアカウントID                                                 | dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   |
+| device_tag                    | セッションのタイプ (web_session, desktop_client, または mobile_client) | desktop_client                             |
+| id                            | セッションID                                                           | dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |
+| user_agent                    | ホストデバイスの情報                                                   |                                            |
+| os                            | ホストOSの情報                                                         |                                            |
+| browser                       | Webセッションのブラウザ情報                                            |                                            |
+| ip_address                    | このセッションの昨秋アクティビティのIPアドレス                         | xx.xxx.x.xxx                               |
+| country                       | このセッションの最終アクティビティの国                                 | United States                              |
+| created                       | セッションが作成された日時                                             | 2019-09-20T23:47:33Z                       |
+| updated                       | このセッションの最終アクティビティの日時                               | 2019-10-25T04:42:16Z                       |
+| expires                       | このセッションが失効する日時                                           |                                            |
+| host_name                     | デスクトップホストの名称                                               | nihonbashi                                 |
+| client_type                   | Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)        | windows                                    |
+| client_version                | Dropboxクライアントバージョン                                          | 83.4.152                                   |
+| platform                      | ホストプラットホームの情報                                             | Windows 10 1903                            |
+| is_delete_on_unlink_supported | アカウントのファイルをリンク解除時に削除を試みます                     | TRUE                                       |
+| device_name                   | デバイス名                                                             |                                            |
+| os_version                    | ホストOSのバージョン                                                   |                                            |
+| last_carrier                  | このデバイスで利用された最後のキャリア                                 |                                            |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+team_member_id,email,status,given_name,surname,familiar_name,display_name,abbreviated_name,external_id,account_id,device_tag,id,user_agent,os,browser,ip_address,country,created,updated,expires,host_name,client_type,client_version,platform,is_delete_on_unlink_supported,device_name,os_version,last_carrier
+dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john.smith@example.com,active,John,Smith,John Smith,John Smith,JS,,dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,desktop_client,dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,,,,xx.xxx.x.xxx,United States,2019-09-20T23:47:33Z,2019-10-25T04:42:16Z,,nihonbashi,windows,83.4.152,Windows 10 1903,TRUE,,,
+```
 
 ## Authentication
 
@@ -114,12 +156,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: unlink 
+## Report: operation_log 
 
-Report files are generated in three formats, `unlink.csv`, `unlink.xlsx` and `unlink.json`.
-But if you run with `-low-memory` option, the command will generate only `unlink.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `unlink_0000.xlsx`, `unlink_0001.xlsx`, `unlink_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
 | 列                                  | 説明                                                                   |
 |-------------------------------------|------------------------------------------------------------------------|

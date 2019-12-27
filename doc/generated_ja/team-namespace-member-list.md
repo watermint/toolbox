@@ -53,10 +53,10 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション     | 説明                     | デフォルト |
-|----------------|--------------------------|------------|
-| `-all-columns` | 全てのカラムを表示します | false      |
-| `-peer`        | アカウントの別名         | {default}  |
+| オプション     | 説明             | デフォルト |
+|----------------|------------------|------------|
+| `-all-columns` | Show all columns | false      |
+| `-peer`        | Account alias    | default    |
 
 Common options:
 

@@ -87,7 +87,6 @@ func Recipes() []rc_recipe.Recipe {
 		&recipeteam.Feature{},
 		&recipeteam.Info{},
 		&recipeteamdiag.Explorer{},
-		&recipeteamdiag.Path{},
 		&recipeteamactivity.Event{},
 		&recipeteamactivity.User{},
 		&recipeteamactivitydaily.Event{},

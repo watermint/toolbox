@@ -1,6 +1,7 @@
 package filerequest
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/model/mo_path"
@@ -10,75 +11,45 @@ import (
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"strings"
 )
 
-type CloneVO struct {
-	File fd_file.ModelFile
-	Peer rc_conn.OldConnBusinessFile
-}
-
-const (
-	reportClone = "clone"
-)
-
 type Clone struct {
+	File         fd_file.RowFeed
+	Peer         rc_conn.ConnBusinessFile
+	OperationLog rp_model.TransactionReport
 }
 
-func (z *Clone) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportClone, rp_model.TransactionHeader(
-			&mo_filerequest.MemberFileRequest{},
-			&mo_filerequest.MemberFileRequest{})),
-	}
+func (z *Clone) Preset() {
+	z.File.SetModel(&mo_filerequest.MemberFileRequest{})
+	z.OperationLog.SetModel(&mo_filerequest.MemberFileRequest{}, &mo_filerequest.MemberFileRequest{})
 }
 
 func (z *Clone) Hidden() {
 }
 
-func (z *Clone) Requirement() rc_vo.ValueObject {
-	return &CloneVO{}
-}
-
 func (z *Clone) Exec(k rc_kitchen.Kitchen) error {
-	cvo := k.Value().(*CloneVO)
-
-	conn, err := cvo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
-
-	members, err := sv_member.New(conn).List()
+	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
 	}
 	emailToMember := mo_member.MapByEmail(members)
 
-	// Write report
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportClone)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
-
-	if err := cvo.File.Model(k.Control(), &mo_filerequest.MemberFileRequest{}); err != nil {
+	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
-	return cvo.File.EachRow(func(m interface{}, rowIndex int) error {
+	return z.File.EachRow(func(m interface{}, rowIndex int) error {
 		fm := m.(*mo_filerequest.MemberFileRequest)
 		if fm.Email == "" || fm.Destination == "" || fm.Title == "" {
-			rep.Failure(&rp_model.InvalidData{}, fm)
+			z.OperationLog.Failure(errors.New("invalid data"), fm)
 			return nil
 		}
 		member, ok := emailToMember[strings.ToLower(fm.Email)]
 		if !ok {
-			rep.Failure(&rp_model.NotFound{Id: fm.Email}, fm)
+			z.OperationLog.Failure(errors.New("entry not found for the id"), fm)
 			return nil
 		}
 
@@ -89,15 +60,15 @@ func (z *Clone) Exec(k rc_kitchen.Kitchen) error {
 		if fm.DeadlineAllowLateUploads != "" {
 			opts = append(opts, sv_filerequest.OptAllowLateUploads(fm.DeadlineAllowLateUploads))
 		}
-		req, err := sv_filerequest.New(conn.AsMemberId(member.TeamMemberId)).Create(
+		req, err := sv_filerequest.New(z.Peer.Context().AsMemberId(member.TeamMemberId)).Create(
 			fm.Title,
 			mo_path.NewDropboxPath(fm.Destination),
 			opts...,
 		)
 		if err != nil {
-			rep.Failure(err, fm)
+			z.OperationLog.Failure(err, fm)
 		} else {
-			rep.Success(fm, req)
+			z.OperationLog.Success(fm, req)
 		}
 		return nil
 	})

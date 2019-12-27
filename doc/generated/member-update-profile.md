@@ -1,6 +1,6 @@
 # member update profile 
 
-Update member profile
+メンバーのプロフィール変更
 
 # Security
 
@@ -52,33 +52,33 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-file` | Data file     |         |
-| `-peer` | Account alias | default |
+| オプション | 説明          | デフォルト |
+|------------|---------------|------------|
+| `-file`    | Data file     |            |
+| `-peer`    | Account alias | default    |
 
 Common options:
 
-| Option          | Description                                                                      | Default              |
-|-----------------|----------------------------------------------------------------------------------|----------------------|
-| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`        | Enable debug mode                                                                | false                |
-| `-low-memory`   | Low memory footprint mode                                                        | false                |
-| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`       | Do not store tokens into a file                                                  | false                |
-| `-workspace`    | Workspace path                                                                   |                      |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 # File formats
 
 ## Format: File 
 
-| Column     | Description                  | Value example    |
-|------------|------------------------------|------------------|
-| email      | Email address of the account | john@example.com |
-| given_name | Given name of the account    | John             |
-| surname    | Surname of the account       | Smith            |
+| 列         | 説明                       | Value example    |
+|------------|----------------------------|------------------|
+| email      | アカウントのメールアドレス | john@example.com |
+| given_name | アカウントの名前           | John             |
+| surname    | アカウントの名字           | Smith            |
 
 The first line is a header line. The program will accept file without the header.
 
@@ -136,27 +136,27 @@ But if you run with `-low-memory` option, the command will generate only `operat
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| Column                  | Description                                                                                                          |
-|-------------------------|----------------------------------------------------------------------------------------------------------------------|
-| status                  | Status of the operation                                                                                              |
-| reason                  | Reason of failure or skipped operation                                                                               |
-| input.email             | Email address of the account                                                                                         |
-| input.given_name        | Given name of the account                                                                                            |
-| input.surname           | Surname of the account                                                                                               |
-| result.team_member_id   | ID of user as a member of a team.                                                                                    |
-| result.email            | Email address of user.                                                                                               |
-| result.email_verified   | Is true if the user's email is verified to be owned by the user.                                                     |
-| result.status           | The user's status as a member of a specific team. (active/invited/suspended/removed)                                 |
-| result.given_name       | Also known as a first name                                                                                           |
-| result.surname          | Also known as a last name or family name.                                                                            |
-| result.familiar_name    | Locale-dependent name                                                                                                |
-| result.display_name     | A name that can be used directly to represent the name of a user's Dropbox account.                                  |
-| result.abbreviated_name | An abbreviated form of the person's name.                                                                            |
-| result.member_folder_id | The namespace id of the user's root folder.                                                                          |
-| result.external_id      | External ID that a team can attach to the user.                                                                      |
-| result.account_id       | A user's account identifier.                                                                                         |
-| result.persistent_id    | Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication. |
-| result.joined_on        | The date and time the user joined as a member of a specific team.                                                    |
-| result.role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
-| result.tag              | Operation tag                                                                                                        |
+| 列                      | 説明                                                                                            |
+|-------------------------|-------------------------------------------------------------------------------------------------|
+| status                  | 処理の状態                                                                                      |
+| reason                  | 失敗またはスキップの理由                                                                        |
+| input.email             | アカウントのメールアドレス                                                                      |
+| input.given_name        | アカウントの名前                                                                                |
+| input.surname           | アカウントの名字                                                                                |
+| result.team_member_id   | チームにおけるメンバーのID                                                                      |
+| result.email            | ユーザーのメールアドレス                                                                        |
+| result.email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
+| result.status           | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
+| result.given_name       | 名                                                                                              |
+| result.surname          | 名字                                                                                            |
+| result.familiar_name    | ロケール依存の名前                                                                              |
+| result.display_name     | ユーザーのDropboxアカウントの表示名称                                                           |
+| result.abbreviated_name | ユーザーの省略名称                                                                              |
+| result.member_folder_id | ユーザールートフォルダの名前空間ID.                                                             |
+| result.external_id      | このユーザーに関連づけられた外部ID                                                              |
+| result.account_id       | ユーザーのアカウントID                                                                          |
+| result.persistent_id    | ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです.                             |
+| result.joined_on        | メンバーがチームに参加した日時.                                                                 |
+| result.role             | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
+| result.tag              | 処理のタグ                                                                                      |
 

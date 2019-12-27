@@ -1,6 +1,6 @@
 # file compare local 
 
-Compare local folders and Dropbox folders
+ローカルフォルダとDropboxフォルダの内容を比較します
 
 # Security
 
@@ -52,24 +52,24 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option          | Description   | Default |
-|-----------------|---------------|---------|
-| `-dropbox-path` | Dropbox path  |         |
-| `-local-path`   | Local path    |         |
-| `-peer`         | Account alias | default |
+| オプション      | 説明             | デフォルト |
+|-----------------|------------------|------------|
+| `-dropbox-path` | Dropbox上のパス  |            |
+| `-local-path`   | ローカルパス     |            |
+| `-peer`         | アカウントの別名 | default    |
 
 Common options:
 
-| Option          | Description                                                                      | Default              |
-|-----------------|----------------------------------------------------------------------------------|----------------------|
-| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`        | Enable debug mode                                                                | false                |
-| `-low-memory`   | Low memory footprint mode                                                        | false                |
-| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`       | Do not store tokens into a file                                                  | false                |
-| `-workspace`    | Workspace path                                                                   |                      |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -120,17 +120,17 @@ But if you run with `-low-memory` option, the command will generate only `diff.j
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`...   
 
-| Column     | Description                                                                                                                                                                            |
-|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| diff_type  | Type of difference. `file_content_diff`: different content hash, `{left|right}_file_missing`: left or right file missing, `{left|right}_folder_missing`: left or right folder missing. |
-| left_path  | path of left                                                                                                                                                                           |
-| left_kind  | folder or file                                                                                                                                                                         |
-| left_size  | size of left file                                                                                                                                                                      |
-| left_hash  | Content hash of left file                                                                                                                                                              |
-| right_path | path of right                                                                                                                                                                          |
-| right_kind | folder of file                                                                                                                                                                         |
-| right_size | size of right file                                                                                                                                                                     |
-| right_hash | Content hash of right file                                                                                                                                                             |
+| 列         | 説明                                                                                                                                                                                           |
+|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| diff_type  | 差分のタイプ`file_content_diff`: コンテンツハッシュの差分, `{left|right}_file_missing`: 左または右のファイルが見つからない, `{left|right}_folder_missing`: 左または右のフォルダが見つからない. |
+| left_path  | 左のパス                                                                                                                                                                                       |
+| left_kind  | フォルダまたはファイル                                                                                                                                                                         |
+| left_size  | 左ファイルのサイズ                                                                                                                                                                             |
+| left_hash  | 左ファイルのコンテンツハッシュ                                                                                                                                                                 |
+| right_path | 右のパス                                                                                                                                                                                       |
+| right_kind | フォルダまたはファイル                                                                                                                                                                         |
+| right_size | 右ファイルのサイズ                                                                                                                                                                             |
+| right_hash | 右ファイルのコンテンツハッシュ                                                                                                                                                                 |
 
 ## Report: skip 
 
@@ -139,15 +139,15 @@ But if you run with `-low-memory` option, the command will generate only `skip.j
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...   
 
-| Column     | Description                                                                                                                                                                            |
-|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| diff_type  | Type of difference. `file_content_diff`: different content hash, `{left|right}_file_missing`: left or right file missing, `{left|right}_folder_missing`: left or right folder missing. |
-| left_path  | path of left                                                                                                                                                                           |
-| left_kind  | folder or file                                                                                                                                                                         |
-| left_size  | size of left file                                                                                                                                                                      |
-| left_hash  | Content hash of left file                                                                                                                                                              |
-| right_path | path of right                                                                                                                                                                          |
-| right_kind | folder of file                                                                                                                                                                         |
-| right_size | size of right file                                                                                                                                                                     |
-| right_hash | Content hash of right file                                                                                                                                                             |
+| 列         | 説明                                                                                                                                                                                           |
+|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| diff_type  | 差分のタイプ`file_content_diff`: コンテンツハッシュの差分, `{left|right}_file_missing`: 左または右のファイルが見つからない, `{left|right}_folder_missing`: 左または右のフォルダが見つからない. |
+| left_path  | 左のパス                                                                                                                                                                                       |
+| left_kind  | フォルダまたはファイル                                                                                                                                                                         |
+| left_size  | 左ファイルのサイズ                                                                                                                                                                             |
+| left_hash  | 左ファイルのコンテンツハッシュ                                                                                                                                                                 |
+| right_path | 右のパス                                                                                                                                                                                       |
+| right_kind | フォルダまたはファイル                                                                                                                                                                         |
+| right_size | 右ファイルのサイズ                                                                                                                                                                             |
+| right_hash | 右ファイルのコンテンツハッシュ                                                                                                                                                                 |
 

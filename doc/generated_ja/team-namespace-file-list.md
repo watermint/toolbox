@@ -53,15 +53,15 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション               | 説明                                                                       | デフォルト |
-|--------------------------|----------------------------------------------------------------------------|------------|
-| `-include-deleted`       | 指定された場合、削除済みのファイルやフォルダが含めます                     | false      |
-| `-include-media-info`    | 指定された場合、JSONレポートに写真や動画ファイルへのメデイア情報を含めます | false      |
-| `-include-member-folder` | 指定された場合、チームメンバーのフォルダを含めます                         | false      |
-| `-include-shared-folder` | Trueの場合、共有フォルダを含めます                                         | true       |
-| `-include-team-folder`   | Trueの場合、チームフォルダを含めます                                       | true       |
-| `-name`                  | 指定された名前に一致するフォルダのみを一覧します                           |            |
-| `-peer`                  | アカウントの別名                                                           | {default}  |
+| オプション               | 説明                                                          | デフォルト |
+|--------------------------|---------------------------------------------------------------|------------|
+| `-include-deleted`       | If true, deleted file or folder will be returned              | false      |
+| `-include-media-info`    | If true, media info is set for photo and video in json report | false      |
+| `-include-member-folder` | If true, include team member folders                          | false      |
+| `-include-shared-folder` | If true, include shared folders                               | true       |
+| `-include-team-folder`   | If true, include team folders                                 | true       |
+| `-name`                  | List only for the folder matched to the name                  |            |
+| `-peer`                  | Account alias                                                 | default    |
 
 Common options:
 

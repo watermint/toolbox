@@ -1,6 +1,6 @@
 # sharedfolder list 
 
-List shared folder(s)
+共有フォルダの一覧
 
 # Security
 
@@ -52,22 +52,22 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
+| オプション | 説明          | デフォルト |
+|------------|---------------|------------|
+| `-peer`    | Account alias | default    |
 
 Common options:
 
-| Option          | Description                                                                      | Default              |
-|-----------------|----------------------------------------------------------------------------------|----------------------|
-| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`        | Enable debug mode                                                                | false                |
-| `-low-memory`   | Low memory footprint mode                                                        | false                |
-| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`       | Do not store tokens into a file                                                  | false                |
-| `-workspace`    | Workspace path                                                                   |                      |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -118,14 +118,14 @@ But if you run with `-low-memory` option, the command will generate only `shared
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`...   
 
-| Column                  | Description                                                                                                             |
-|-------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| shared_folder_id        | The ID of the shared folder.                                                                                            |
-| parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
-| name                    | The name of the this shared folder.                                                                                     |
-| access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
-| path_lower              | The lower-cased full path of this shared folder.                                                                        |
-| is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
-| is_team_folder          | Whether this folder is a team folder.                                                                                   |
-| policy_member           | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                                |
+| 列                      | 説明                                                                                                 |
+|-------------------------|------------------------------------------------------------------------------------------------------|
+| shared_folder_id        | 共有フォルダのID                                                                                     |
+| parent_shared_folder_id | 親共有フォルダのID. このフィールドはフォルダが他の共有フォルダに含まれる場合のみ設定されます.        |
+| name                    | 共有フォルダの名称                                                                                   |
+| access_type             | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
+| path_lower              | 共有フォルダのフルパス(小文字に変換済み).                                                            |
+| is_inside_team_folder   | フォルダがチームフォルダに内包されているかどうか                                                     |
+| is_team_folder          | このフォルダがチームフォルダであるかどうか                                                           |
+| policy_member           | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
 

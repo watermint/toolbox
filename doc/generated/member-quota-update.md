@@ -1,6 +1,6 @@
 # member quota update 
 
-Update team member quota
+チームメンバーの容量制限を変更
 
 # Security
 
@@ -52,32 +52,32 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-file` | Data file     |         |
-| `-peer` | Account alias | default |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-file`    | データファイル   |            |
+| `-peer`    | アカウントの別名 | default    |
 
 Common options:
 
-| Option          | Description                                                                      | Default              |
-|-----------------|----------------------------------------------------------------------------------|----------------------|
-| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`        | Enable debug mode                                                                | false                |
-| `-low-memory`   | Low memory footprint mode                                                        | false                |
-| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`       | Do not store tokens into a file                                                  | false                |
-| `-workspace`    | Workspace path                                                                   |                      |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 # File formats
 
 ## Format: File 
 
-| Column | Description                                                                 | Value example    |
-|--------|-----------------------------------------------------------------------------|------------------|
-| email  | Email address of user.                                                      | john@example.com |
-| quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. | 50               |
+| 列    | 説明                                                                | Value example    |
+|-------|---------------------------------------------------------------------|------------------|
+| email | ユーザーのメールアドレス                                            | john@example.com |
+| quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. | 50               |
 
 The first line is a header line. The program will accept file without the header.
 
@@ -135,12 +135,12 @@ But if you run with `-low-memory` option, the command will generate only `operat
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| Column       | Description                                                                 |
-|--------------|-----------------------------------------------------------------------------|
-| status       | Status of the operation                                                     |
-| reason       | Reason of failure or skipped operation                                      |
-| input.email  | Email address of user.                                                      |
-| input.quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
-| result.email | Email address of user.                                                      |
-| result.quota | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
+| 列           | 説明                                                                |
+|--------------|---------------------------------------------------------------------|
+| status       | 処理の状態                                                          |
+| reason       | 失敗またはスキップの理由                                            |
+| input.email  | ユーザーのメールアドレス                                            |
+| input.quota  | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
+| result.email | ユーザーのメールアドレス                                            |
+| result.quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
 

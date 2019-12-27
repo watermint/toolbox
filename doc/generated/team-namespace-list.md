@@ -1,6 +1,6 @@
 # team namespace list 
 
-List all namespaces of the team
+チーム内すべての名前空間を一覧
 
 # Security
 
@@ -53,22 +53,22 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description   | Default   |
-|---------|---------------|-----------|
-| `-peer` | Account alias | {default} |
+| オプション | 説明          | デフォルト |
+|------------|---------------|------------|
+| `-peer`    | Account alias | default    |
 
 Common options:
 
-| Option          | Description                                                                      | Default              |
-|-----------------|----------------------------------------------------------------------------------|----------------------|
-| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`        | Enable debug mode                                                                | false                |
-| `-low-memory`   | Low memory footprint mode                                                        | false                |
-| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`       | Do not store tokens into a file                                                  | false                |
-| `-workspace`    | Workspace path                                                                   |                      |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -119,10 +119,10 @@ But if you run with `-low-memory` option, the command will generate only `namesp
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
 
-| Column         | Description                                                                                |
-|----------------|--------------------------------------------------------------------------------------------|
-| name           | The name of this namespace                                                                 |
-| namespace_id   | The ID of this namespace.                                                                  |
-| namespace_type | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
-| team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
+| 列             | 説明                                                                                   |
+|----------------|----------------------------------------------------------------------------------------|
+| name           | 名前空間の名称                                                                         |
+| namespace_id   | 名前空間ID                                                                             |
+| namespace_type | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
+| team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
 

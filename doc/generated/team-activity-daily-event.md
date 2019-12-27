@@ -1,6 +1,6 @@
 # team activity daily event 
 
-Report activities by day
+アクティビティーを1日ごとに取得します
 
 # Security
 
@@ -53,25 +53,25 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option        | Description    | Default |
-|---------------|----------------|---------|
-| `-category`   | Event category |         |
-| `-end-date`   | End date       |         |
-| `-peer`       | Account alias  | default |
-| `-start-date` | Start date     |         |
+| オプション    | 説明           | デフォルト |
+|---------------|----------------|------------|
+| `-category`   | Event category |            |
+| `-end-date`   | End date       |            |
+| `-peer`       | Account alias  | default    |
+| `-start-date` | Start date     |            |
 
 Common options:
 
-| Option          | Description                                                                      | Default              |
-|-----------------|----------------------------------------------------------------------------------|----------------------|
-| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`        | Enable debug mode                                                                | false                |
-| `-low-memory`   | Low memory footprint mode                                                        | false                |
-| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`       | Do not store tokens into a file                                                  | false                |
-| `-workspace`    | Workspace path                                                                   |                      |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -122,10 +122,10 @@ But if you run with `-low-memory` option, the command will generate only `event.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`...   
 
-| Column          | Description                                     |
-|-----------------|-------------------------------------------------|
-| timestamp       | Timestamp of the event                          |
-| event_category  | Filter the returned events to a single category |
-| event_type      | Type of the event                               |
-| event_type_desc | The particular type of action taken             |
+| 列              | 説明                                       |
+|-----------------|--------------------------------------------|
+| timestamp       | イベントのタイムスタンプ                   |
+| event_category  | ひとつのイベントカテゴリでフィルターします |
+| event_type      | イベントのタイプ                           |
+| event_type_desc | 特定タイプのアクション                     |
 

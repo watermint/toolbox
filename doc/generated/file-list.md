@@ -1,6 +1,6 @@
 # file list 
 
-List files and folders
+ファイルとフォルダを一覧します
 
 # Security
 
@@ -52,26 +52,26 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option                | Description               | Default |
-|-----------------------|---------------------------|---------|
-| `-include-deleted`    | Include deleted files     | false   |
-| `-include-media-info` | Include media information | false   |
-| `-path`               | Path                      |         |
-| `-peer`               | Account alias             | default |
-| `-recursive`          | List recursively          | false   |
+| オプション            | 説明                      | デフォルト |
+|-----------------------|---------------------------|------------|
+| `-include-deleted`    | Include deleted files     | false      |
+| `-include-media-info` | Include media information | false      |
+| `-path`               | Path                      |            |
+| `-peer`               | Account alias             | default    |
+| `-recursive`          | List recursively          | false      |
 
 Common options:
 
-| Option          | Description                                                                      | Default              |
-|-----------------|----------------------------------------------------------------------------------|----------------------|
-| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`        | Enable debug mode                                                                | false                |
-| `-low-memory`   | Low memory footprint mode                                                        | false                |
-| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`       | Do not store tokens into a file                                                  | false                |
-| `-workspace`    | Workspace path                                                                   |                      |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -122,18 +122,18 @@ But if you run with `-low-memory` option, the command will generate only `file_l
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`...   
 
-| Column                  | Description                                                                                            |
-|-------------------------|--------------------------------------------------------------------------------------------------------|
-| id                      | A unique identifier for the file.                                                                      |
-| tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name                    | The last component of the path (including extension).                                                  |
-| path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| path_display            | The cased path to be used for display purposes only.                                                   |
-| client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified         | The last time the file was modified on Dropbox.                                                        |
-| revision                | A unique identifier for the current revision of a file.                                                |
-| size                    | The file size in bytes.                                                                                |
-| content_hash            | A hash of the file content.                                                                            |
-| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
+| 列                      | 説明                                                                                       |
+|-------------------------|--------------------------------------------------------------------------------------------|
+| id                      | ファイルへの一意なID                                                                       |
+| tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
+| name                    | 名称                                                                                       |
+| path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
+| path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
+| client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
+| server_modified         | Dropbox上で最後に更新された日時                                                            |
+| revision                | ファイルの現在バージョンの一意な識別子                                                     |
+| size                    | ファイルサイズ(バイト単位)                                                                 |
+| content_hash            | ファイルコンテンツのハッシュ                                                               |
+| shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
+| parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
 

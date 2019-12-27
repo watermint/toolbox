@@ -1,6 +1,6 @@
 # team linkedapp list 
 
-List linked applications
+リンク済みアプリを一覧
 
 # Security
 
@@ -53,22 +53,22 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description   | Default   |
-|---------|---------------|-----------|
-| `-peer` | Account alias | {default} |
+| オプション | 説明          | デフォルト |
+|------------|---------------|------------|
+| `-peer`    | Account alias | default    |
 
 Common options:
 
-| Option          | Description                                                                      | Default              |
-|-----------------|----------------------------------------------------------------------------------|----------------------|
-| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`        | Enable debug mode                                                                | false                |
-| `-low-memory`   | Low memory footprint mode                                                        | false                |
-| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`       | Do not store tokens into a file                                                  | false                |
-| `-workspace`    | Workspace path                                                                   |                      |
+| オプション      | 説明                                                                                             | デフォルト     |
+|-----------------|--------------------------------------------------------------------------------------------------|----------------|
+| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
+| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
+| `-debug`        | デバッグモードを有効にする                                                                       | false          |
+| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
+| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
+| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
+| `-workspace`    | ワークスペースへのパス                                                                           |                |
 
 ## Authentication
 
@@ -119,22 +119,22 @@ But if you run with `-low-memory` option, the command will generate only `linked
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
 
-| Column           | Description                                                                          |
-|------------------|--------------------------------------------------------------------------------------|
-| team_member_id   | ID of user as a member of a team.                                                    |
-| email            | Email address of user.                                                               |
-| status           | The user's status as a member of a specific team. (active/invited/suspended/removed) |
-| given_name       | Also known as a first name                                                           |
-| surname          | Also known as a last name or family name.                                            |
-| familiar_name    | Locale-dependent name                                                                |
-| display_name     | A name that can be used directly to represent the name of a user's Dropbox account.  |
-| abbreviated_name | An abbreviated form of the person's name.                                            |
-| external_id      | External ID that a team can attach to the user.                                      |
-| account_id       | A user's account identifier.                                                         |
-| app_id           | The application unique id.                                                           |
-| app_name         | The application name.                                                                |
-| is_app_folder    | Whether the linked application uses a dedicated folder.                              |
-| publisher        | The publisher's URL.                                                                 |
-| publisher_url    | The application publisher name.                                                      |
-| linked           | The time this application was linked                                                 |
+| 列               | 説明                                                                 |
+|------------------|----------------------------------------------------------------------|
+| team_member_id   | チームにおけるメンバーのID                                           |
+| email            | ユーザーのメールアドレス                                             |
+| status           | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
+| given_name       | 名                                                                   |
+| surname          | 名字                                                                 |
+| familiar_name    | ロケール依存の名前                                                   |
+| display_name     | ユーザーのDropboxアカウントの表示名称                                |
+| abbreviated_name | ユーザーの省略名称                                                   |
+| external_id      | このユーザーに関連づけられた外部ID                                   |
+| account_id       | ユーザーのアカウントID                                               |
+| app_id           | アプリケーションの固有ID                                             |
+| app_name         | アプリケーション名称                                                 |
+| is_app_folder    | アプリケーションが専用フォルダにリンクするかどうか                   |
+| publisher        | パブリッシャーのURL                                                  |
+| publisher_url    | アプリケーションパブリッシャーの名前                                 |
+| linked           | アプリケーションがリンクされた日時                                   |
 

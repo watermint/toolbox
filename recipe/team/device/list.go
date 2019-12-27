@@ -8,74 +8,50 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
-type ListVO struct {
-	Peer rc_conn.OldConnBusinessFile
-}
-
-const (
-	reportList = "device"
-)
-
 type List struct {
+	Peer   rc_conn.ConnBusinessFile
+	Device rp_model.RowReport
 }
 
-func (z *List) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportList, &mo_device.MemberSession{}),
-	}
-}
-
-func (z *List) Requirement() rc_vo.ValueObject {
-	return &ListVO{}
+func (z *List) Preset() {
+	z.Device.SetModel(&mo_device.MemberSession{})
 }
 
 func (z *List) Exec(k rc_kitchen.Kitchen) error {
-	lvo := k.Value().(*ListVO)
-	ctx, err := lvo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
 
-	memberList, err := sv_member.New(ctx).List()
+	memberList, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
 	}
 	members := mo_member.MapByTeamMemberId(memberList)
 
-	sessions, err := sv_device.New(ctx).List()
-	if err != nil {
+	if err := z.Device.Open(); err != nil {
 		return err
 	}
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportList)
+	sessions, err := sv_device.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
 	}
-	defer rep.Close()
 
 	for _, session := range sessions {
 		if m, e := members[session.EntryTeamMemberId()]; e {
 			ma := mo_device.NewMemberSession(m, session)
-			rep.Row(ma)
+			z.Device.Row(ma)
 		}
 	}
 	return nil
 }
 
 func (z *List) Test(c app_control.Control) error {
-	lvo := &ListVO{}
-	if !qt_recipe.ApplyTestPeers(c, lvo) {
-		return qt_endtoend.NotEnoughResource()
-	}
-	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "device", func(cols map[string]string) error {

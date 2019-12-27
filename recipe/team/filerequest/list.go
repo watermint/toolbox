@@ -9,24 +9,18 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
-
-type ListVO struct {
-	Peer rc_conn.OldConnBusinessFile
-}
 
 type ListWorker struct {
 	member *mo_member.Member
 	conn   api_context.Context
-	rep    rp_model.SideCarReport
+	rep    rp_model.RowReport
 	ctl    app_control.Control
 }
 
@@ -44,49 +38,31 @@ func (z *ListWorker) Exec() error {
 	return nil
 }
 
-const (
-	reportList = "file_request"
-)
-
 type List struct {
+	Peer        rc_conn.ConnBusinessFile
+	FileRequest rp_model.RowReport
 }
 
-func (z *List) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportList, &mo_filerequest.MemberFileRequest{}),
-	}
-}
-
-func (z *List) Requirement() rc_vo.ValueObject {
-	return &ListVO{}
+func (z *List) Preset() {
+	z.FileRequest.SetModel(&mo_filerequest.MemberFileRequest{})
 }
 
 func (z *List) Exec(k rc_kitchen.Kitchen) error {
-	var vo interface{} = k.Value()
-	lvo := vo.(*ListVO)
-	conn, err := lvo.Peer.Connect(k.Control())
+	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
 	}
 
-	members, err := sv_member.New(conn).List()
-	if err != nil {
+	if err := z.FileRequest.Open(); err != nil {
 		return err
 	}
-
-	// Write report
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportList)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
 
 	q := k.NewQueue()
 	for _, member := range members {
 		q.Enqueue(&ListWorker{
 			member: member,
-			conn:   conn,
-			rep:    rep,
+			conn:   z.Peer.Context(),
+			rep:    z.FileRequest,
 			ctl:    k.Control(),
 		})
 	}
@@ -96,11 +72,7 @@ func (z *List) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *List) Test(c app_control.Control) error {
-	lvo := &ListVO{}
-	if !qt_recipe.ApplyTestPeers(c, lvo) {
-		return qt_endtoend.NotEnoughResource()
-	}
-	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "file_request", func(cols map[string]string) error {

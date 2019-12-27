@@ -8,23 +8,17 @@ import (
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 type UnlinkVO struct {
-	DeleteOnUnlink bool
-	File           fd_file.ModelFile
-	Peer           rc_conn.OldConnBusinessFile
 }
 
 type UnlinkWorker struct {
 	session *mo_device.MemberSession
-	rep     rp_model.SideCarReport
+	rep     rp_model.TransactionReport
 	ctx     api_context.Context
 	ctl     app_control.Control
 }
@@ -56,52 +50,37 @@ const (
 )
 
 type Unlink struct {
+	DeleteOnUnlink bool
+	File           fd_file.RowFeed
+	Peer           rc_conn.ConnBusinessFile
+	OperationLog   rp_model.TransactionReport
 }
 
-func (z *Unlink) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportUnlink,
-			rp_model.TransactionHeader(&mo_device.MemberSession{}, nil)),
-	}
+func (z *Unlink) Preset() {
+	z.File.SetModel(&mo_device.MemberSession{})
+	z.OperationLog.SetModel(&mo_device.MemberSession{}, nil)
 }
 
 func (z *Unlink) Console() {
 }
 
-func (z *Unlink) Requirement() rc_vo.ValueObject {
-	return &UnlinkVO{}
-}
-
 func (z *Unlink) Exec(k rc_kitchen.Kitchen) error {
-	vo := k.Value().(*UnlinkVO)
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
+	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
-
-	err = vo.File.Model(k.Control(), &mo_device.MemberSession{})
-	if err != nil {
-		return err
-	}
-
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportUnlink)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
 
 	q := k.NewQueue()
-	err = vo.File.EachRow(func(m interface{}, rowIndex int) error {
+	err := z.File.EachRow(func(m interface{}, rowIndex int) error {
 		q.Enqueue(&UnlinkWorker{
 			session: m.(*mo_device.MemberSession),
-			rep:     rep,
-			ctx:     ctx,
+			rep:     z.OperationLog,
+			ctx:     z.Peer.Context(),
 			ctl:     k.Control(),
 		})
 		return nil
 	})
 	q.Wait()
-	return nil
+	return err
 }
 
 func (z *Unlink) Test(c app_control.Control) error {
