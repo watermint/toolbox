@@ -56,9 +56,9 @@ If you want to compare different path in same account, please specify same alias
 
 | Option        | Description                        | Default |
 |---------------|------------------------------------|---------|
-| `-left`       | Account alias (left)               | default |
+| `-left`       | Account alias (left)               | left    |
 | `-left-path`  | The path from account root (left)  |         |
-| `-right`      | Account alias (right)              | default |
+| `-right`      | Account alias (right)              | right   |
 | `-right-path` | The path from account root (right) |         |
 
 Common options:

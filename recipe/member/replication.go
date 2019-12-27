@@ -26,6 +26,8 @@ type Replication struct {
 func (z *Replication) Preset() {
 	z.File.SetModel(&ReplicationRow{})
 	z.OperationLog.SetModel(&ReplicationRow{}, nil)
+	z.Src.SetPeerName("src")
+	z.Dst.SetPeerName("dst")
 }
 
 func (z *Replication) Hidden() {

@@ -33,9 +33,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description      | Default |
-|---------|------------------|---------|
-| `-name` | Team folder name |         |
+| Option           | Description                    | Default |
+|------------------|--------------------------------|---------|
+| `-dst-peer-name` | Destination team account alias | dst     |
+| `-name`          | Team folder name               |         |
+| `-src-peer-name` | Source team account alias      | src     |
 
 Common options:
 

@@ -15,8 +15,8 @@ import (
 type Account struct {
 	Left      rc_conn.ConnUserFile
 	Right     rc_conn.ConnUserFile
-	LeftPath  string
-	RightPath string
+	LeftPath  mo_path.DropboxPath
+	RightPath mo_path.DropboxPath
 	Diff      rp_model.RowReport
 	ConnLeft  app_msg.Message
 	ConnRight app_msg.Message
@@ -25,6 +25,8 @@ type Account struct {
 
 func (z *Account) Preset() {
 	z.Diff.SetModel(&mo_file_diff.Diff{})
+	z.Left.SetPeerName("left")
+	z.Right.SetPeerName("right")
 }
 
 func (z *Account) Console() {
@@ -50,7 +52,7 @@ func (z *Account) Exec(k rc_kitchen.Kitchen) error {
 	}
 
 	ucc := uc_compare_paths.New(ctxLeft, ctxRight, k.UI())
-	count, err := ucc.Diff(mo_path.NewDropboxPath(z.LeftPath), mo_path.NewDropboxPath(z.RightPath), diff)
+	count, err := ucc.Diff(z.LeftPath, z.RightPath, diff)
 	if err != nil {
 		return err
 	}

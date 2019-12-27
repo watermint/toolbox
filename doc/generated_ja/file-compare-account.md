@@ -56,9 +56,9 @@ At second run, please hit button "Open" on the dialogue.
 
 | オプション    | 説明                              | デフォルト |
 |---------------|-----------------------------------|------------|
-| `-left`       | アカウントの別名 (左)             | default    |
+| `-left`       | アカウントの別名 (左)             | left       |
 | `-left-path`  | アカウントのルートからのパス (左) |            |
-| `-right`      | アカウントの別名 (右)             | default    |
+| `-right`      | アカウントの別名 (右)             | right      |
 | `-right-path` | アカウントのルートからのパス (右) |            |
 
 Common options:

@@ -12,9 +12,13 @@ import (
 type Replication struct {
 	Name        string
 	Replication *teamfolder.Replication
+	SrcPeerName string
+	DstPeerName string
 }
 
 func (z *Replication) Preset() {
+	z.SrcPeerName = "src"
+	z.DstPeerName = "dst"
 }
 
 func (z *Replication) Console() {
@@ -24,6 +28,10 @@ func (z *Replication) Exec(k rc_kitchen.Kitchen) error {
 	return rc_exec.Exec(k.Control(), &teamfolder.Replication{}, func(r rc_recipe.Recipe) {
 		rc := r.(*teamfolder.Replication)
 		rc.TargetNames = []string{z.Name}
+		rc.SrcFile.SetPeerName(z.SrcPeerName)
+		rc.SrcMgmt.SetPeerName(z.SrcPeerName)
+		rc.DstFile.SetPeerName(z.DstPeerName)
+		rc.DstMgmt.SetPeerName(z.DstPeerName)
 	})
 }
 

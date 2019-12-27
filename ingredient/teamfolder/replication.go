@@ -210,6 +210,10 @@ func (z *Replication) Test(c app_control.Control) error {
 
 func (z *Replication) Preset() {
 	z.Verification.SetModel(&mo_file_diff.Diff{})
+	z.SrcFile.SetPeerName("src")
+	z.SrcMgmt.SetPeerName("src")
+	z.DstFile.SetPeerName("dst")
+	z.DstMgmt.SetPeerName("dst")
 }
 
 func (z *Replication) AllFolderScope() (ctx Context, err error) {

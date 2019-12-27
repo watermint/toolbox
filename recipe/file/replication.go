@@ -23,6 +23,8 @@ type Replication struct {
 
 func (z *Replication) Preset() {
 	z.ReplicationDiff.SetModel(&mo_file_diff.Diff{})
+	z.Src.SetPeerName("src")
+	z.Dst.SetPeerName("dst")
 }
 
 func (z *Replication) Console() {

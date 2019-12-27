@@ -56,9 +56,9 @@ At second run, please hit button "Open" on the dialogue.
 
 | Option      | Description                  | Default |
 |-------------|------------------------------|---------|
-| `-dst`      | Account alias (destionation) | default |
+| `-dst`      | Account alias (destionation) | dst     |
 | `-dst-path` | Destination path             |         |
-| `-src`      | Account alias (source)       | default |
+| `-src`      | Account alias (source)       | src     |
 | `-src-path` | Source path                  |         |
 
 Common options:

@@ -724,6 +724,8 @@
   "recipe.teamfolder.permdelete.err.unable_to_resolve_teamfolder": "Unable to resolve a team folder by an error: {{.Error}}",
   "recipe.teamfolder.permdelete.success.permdeleted": "Team folder permdeleted; Team folder name: {{.TeamFolderName}}",
   "recipe.teamfolder.permdelete.title": "Permanently delete team folder",
+  "recipe.teamfolder.replication.flag.dst_peer_name": "Destination team account alias",
+  "recipe.teamfolder.replication.flag.src_peer_name": "Source team account alias",
   "recipe.teamfolder.replication_vo.flag.dst_file": "Destination team; team file access",
   "recipe.teamfolder.replication_vo.flag.dst_mgmt": "Destination team; team management",
   "recipe.teamfolder.replication.flag.name": "Team folder name",
