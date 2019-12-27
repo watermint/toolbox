@@ -1,4 +1,4 @@
-package uc_teamfolder_mirror
+package teamfolder
 
 import (
 	"encoding/json"
@@ -21,10 +21,12 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"strings"
 	"time"
@@ -32,16 +34,9 @@ import (
 
 const (
 	MirrorGroupNamePrefix = "toolbox-teamfolder-mirror"
-	ReportVerify          = "diff"
 )
 
-func ReportSpec() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(ReportVerify, &mo_file_diff.Diff{}),
-	}
-}
-
-type TeamFolder interface {
+type Replicator interface {
 	// All team folder scope
 	AllFolderScope() (ctx Context, err error)
 
@@ -183,36 +178,46 @@ func (z *mirrorContext) AdminDst() *mo_profile.Profile {
 	return z.MirrorAdminDst
 }
 
-func New(ctxFileSrc, ctxMgtSrc, ctxFileDst, ctxMgtDst api_context.Context, k rc_kitchen.Kitchen, rs *rp_spec_impl.Specs) TeamFolder {
-	return &teamFolderImpl{
-		ctxFileSrc:  ctxFileSrc,
-		ctxMgtSrc:   ctxMgtSrc,
-		ctxFileDst:  ctxFileDst,
-		ctxMgtDst:   ctxMgtDst,
-		kitchen:     k,
-		reportSpecs: rs,
+type Replication struct {
+	TargetNames  []string
+	TargetAll    bool
+	Verification rp_model.RowReport
+	SrcFile      rc_conn.ConnBusinessFile
+	SrcMgmt      rc_conn.ConnBusinessMgmt
+	DstFile      rc_conn.ConnBusinessFile
+	DstMgmt      rc_conn.ConnBusinessMgmt
+}
+
+func (z *Replication) Exec(k rc_kitchen.Kitchen) (err error) {
+	var ctx Context
+	if z.TargetAll {
+		ctx, err = z.AllFolderScope()
+		if err != nil {
+			return err
+		}
+	} else {
+		ctx, err = z.PartialScope(z.TargetNames)
+		if err != nil {
+			return err
+		}
 	}
+	return z.Mirror(k, ctx)
 }
 
-type teamFolderImpl struct {
-	ctxFileSrc  api_context.Context
-	ctxFileDst  api_context.Context
-	ctxMgtSrc   api_context.Context
-	ctxMgtDst   api_context.Context
-	kitchen     rc_kitchen.Kitchen
-	reportSpecs *rp_spec_impl.Specs
+func (z *Replication) Test(c app_control.Control) error {
+	return qt_endtoend.HumanInteractionRequired()
 }
 
-func (z *teamFolderImpl) log() *zap.Logger {
-	return z.kitchen.Log()
+func (z *Replication) Preset() {
+	z.Verification.SetModel(&mo_file_diff.Diff{})
 }
 
-func (z *teamFolderImpl) AllFolderScope() (ctx Context, err error) {
+func (z *Replication) AllFolderScope() (ctx Context, err error) {
 	mc := &mirrorContext{
 		MirrorPairs: make([]*MirrorPair, 0),
 	}
 	ctx = mc
-	svt := sv_teamfolder.New(z.ctxFileSrc)
+	svt := sv_teamfolder.New(z.SrcFile.Context())
 	folders, err := svt.List()
 	if err != nil {
 		return nil, err
@@ -226,12 +231,12 @@ func (z *teamFolderImpl) AllFolderScope() (ctx Context, err error) {
 	return
 }
 
-func (z *teamFolderImpl) PartialScope(names []string) (ctx Context, err error) {
+func (z *Replication) PartialScope(names []string) (ctx Context, err error) {
 	mc := &mirrorContext{
 		MirrorPairs: make([]*MirrorPair, 0),
 	}
 	ctx = mc
-	svt := sv_teamfolder.New(z.ctxFileSrc)
+	svt := sv_teamfolder.New(z.SrcFile.Context())
 	folders, err := svt.List()
 	if err != nil {
 		return nil, err
@@ -257,97 +262,99 @@ func (z *teamFolderImpl) PartialScope(names []string) (ctx Context, err error) {
 }
 
 // Verify scope
-func (z *teamFolderImpl) VerifyScope(ctx Context) (err error) {
-	if err = z.Inspect(ctx); err != nil {
+func (z *Replication) VerifyScope(k rc_kitchen.Kitchen, ctx Context) (err error) {
+	if err = z.Inspect(k, ctx); err != nil {
 		return err
 	}
 	var lastErr error
 	lastErr = nil
-	if err = z.Bridge(ctx); err != nil {
+	if err = z.Bridge(k, ctx); err != nil {
 		lastErr = err
 	}
 	for _, pair := range ctx.Pairs() {
 		scope := NewScope(pair)
 
-		if err = z.Mount(ctx, scope); err != nil {
+		if err = z.Mount(k, ctx, scope); err != nil {
 			lastErr = err
 			continue
 		}
-		if err = z.Verify(ctx, scope); err != nil {
+		if err = z.Verify(k, ctx, scope); err != nil {
 			lastErr = err
 		}
-		if err = z.Unmount(ctx, scope); err != nil {
+		if err = z.Unmount(k, ctx, scope); err != nil {
 			lastErr = err
 		}
 	}
-	if err = z.Cleanup(ctx); err != nil {
+	if err = z.Cleanup(k, ctx); err != nil {
 		lastErr = err
 	}
 	return lastErr
 }
 
-func (z *teamFolderImpl) Mirror(ctx Context, opts ...MirrorOpt) (err error) {
+func (z *Replication) Mirror(k rc_kitchen.Kitchen, ctx Context, opts ...MirrorOpt) (err error) {
+	l := k.Log()
 	mo := &mirrorOpts{}
 	for _, o := range opts {
 		o(mo)
 	}
 
-	if err = z.Inspect(ctx); err != nil {
+	if err = z.Inspect(k, ctx); err != nil {
 		return err
 	}
 	var lastErr error
 	lastErr = nil
-	if err = z.Bridge(ctx); err != nil {
+	if err = z.Bridge(k, ctx); err != nil {
 		lastErr = err
 	}
 	for _, pair := range ctx.Pairs() {
 		scope := NewScope(pair)
 
-		if err = z.Mount(ctx, scope); err != nil {
+		if err = z.Mount(k, ctx, scope); err != nil {
 			lastErr = err
 			continue
 		}
 		archive := false
-		if err = z.Content(ctx, scope); err != nil {
+		if err = z.Content(k, ctx, scope); err != nil {
 			lastErr = err
 		} else {
 			if mo.skipVerify {
-				z.log().Info("Skip verification step")
+				l.Info("Skip verification step")
 			} else {
-				if err = z.Verify(ctx, scope); err != nil {
+				if err = z.Verify(k, ctx, scope); err != nil {
 					lastErr = err
 				} else if mo.archiveOnSuccess {
 					archive = true
 				}
 			}
 		}
-		if err = z.Unmount(ctx, scope); err != nil {
+		if err = z.Unmount(k, ctx, scope); err != nil {
 			lastErr = err
 		}
 		if archive {
-			if err = z.Archive(ctx, scope); err != nil {
+			if err = z.Archive(k, ctx, scope); err != nil {
 				lastErr = err
 			}
 		}
 	}
-	if err = z.Cleanup(ctx); err != nil {
+	if err = z.Cleanup(k, ctx); err != nil {
 		lastErr = err
 	}
 	return lastErr
 }
 
-func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
+func (z *Replication) Inspect(k rc_kitchen.Kitchen, ctx Context) (err error) {
+	l := k.Log()
 	// Identify admins
 	identifyAdmins := func() error {
-		adminSrc, err := sv_profile.NewTeam(z.ctxMgtSrc).Admin()
+		adminSrc, err := sv_profile.NewTeam(z.SrcMgmt.Context()).Admin()
 		if err != nil {
 			return err
 		}
-		adminDst, err := sv_profile.NewTeam(z.ctxMgtDst).Admin()
+		adminDst, err := sv_profile.NewTeam(z.DstMgmt.Context()).Admin()
 		if err != nil {
 			return err
 		}
-		z.log().Debug("Admins identified",
+		l.Debug("Admins identified",
 			zap.String("srcId", adminSrc.TeamMemberId),
 			zap.String("srcEmail", adminSrc.Email),
 			zap.String("dstId", adminDst.TeamMemberId),
@@ -362,15 +369,15 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 
 	// Inspect team information.
 	inspectTeams := func() error {
-		infoSrc, err := sv_team.New(z.ctxMgtSrc).Info()
+		infoSrc, err := sv_team.New(z.SrcMgmt.Context()).Info()
 		if err != nil {
 			return err
 		}
-		infoDst, err := sv_team.New(z.ctxMgtDst).Info()
+		infoDst, err := sv_team.New(z.DstMgmt.Context()).Info()
 		if err != nil {
 			return err
 		}
-		z.log().Debug("Team info",
+		l.Debug("Team info",
 			zap.String("srcId", infoSrc.TeamId),
 			zap.String("srcName", infoSrc.Name),
 			zap.Int("srcLicenses", infoSrc.NumLicensedUsers),
@@ -381,7 +388,7 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 			zap.Int("dstProvisioned", infoDst.NumProvisionedUsers),
 		)
 		if infoSrc.TeamId == infoDst.TeamId {
-			z.log().Warn("Source and destination team are the same team.")
+			l.Warn("Source and destination team are the same team.")
 			return errors.New("source and destination teams are the same team")
 		}
 		return nil
@@ -395,13 +402,13 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 		var inspectErr error
 		inspectErr = nil
 		for _, pair := range ctx.Pairs() {
-			z.log().Info("SRC: Team folder status",
+			l.Info("SRC: Team folder status",
 				zap.String("id", pair.Src.TeamFolderId),
 				zap.String("name", pair.Src.Name),
 				zap.String("status", pair.Src.Status),
 			)
 			if pair.Src.Status != "active" {
-				z.log().Warn("SRC: Non active folder found",
+				l.Warn("SRC: Non active folder found",
 					zap.String("srcId", pair.Src.TeamFolderId),
 					zap.String("srcName", pair.Src.Name),
 					zap.String("srcStatus", pair.Src.Status),
@@ -416,7 +423,7 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 	}
 
 	// retrieve destination folders
-	svt := sv_teamfolder.New(z.ctxFileDst)
+	svt := sv_teamfolder.New(z.DstFile.Context())
 	folders, err := svt.List()
 	if err != nil {
 		return err
@@ -446,7 +453,7 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 		inspectErr = nil
 		for _, pair := range ctx.Pairs() {
 			if folder := pair.Dst; folder != nil {
-				z.log().Info("DST: Team folder status",
+				l.Info("DST: Team folder status",
 					zap.String("srcId", pair.Src.TeamFolderId),
 					zap.String("srcName", pair.Src.Name),
 					zap.String("srcStatus", pair.Src.Status),
@@ -455,7 +462,7 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 					zap.String("dstStatus", folder.Status),
 				)
 				if pair.Dst.Status != "active" {
-					z.log().Info("DST: Non active folder found",
+					l.Info("DST: Non active folder found",
 						zap.String("dstId", folder.TeamFolderId),
 						zap.String("dstName", folder.Name),
 						zap.String("dstStatus", folder.Status),
@@ -473,45 +480,46 @@ func (z *teamFolderImpl) Inspect(ctx Context) (err error) {
 	return nil
 }
 
-func (z *teamFolderImpl) Bridge(ctx Context) (err error) {
+func (z *Replication) Bridge(k rc_kitchen.Kitchen, ctx Context) (err error) {
+	l := k.Log()
 	groupName := fmt.Sprintf("%s-%x", MirrorGroupNamePrefix, time.Now().Unix())
-	z.log().Info("Bridge", zap.String("groupName", groupName))
+	l.Info("Bridge", zap.String("groupName", groupName))
 
 	// Create groups
-	groupSrc, err := sv_group.New(z.ctxMgtSrc).Create(groupName, sv_group.CompanyManaged())
+	groupSrc, err := sv_group.New(z.SrcMgmt.Context()).Create(groupName, sv_group.CompanyManaged())
 	if err != nil {
 		return err
 	}
 	ctx.SetGroups(groupSrc, nil)
 
-	groupDst, err := sv_group.New(z.ctxMgtDst).Create(groupName, sv_group.CompanyManaged())
+	groupDst, err := sv_group.New(z.DstMgmt.Context()).Create(groupName, sv_group.CompanyManaged())
 	if err != nil {
 		return err
 	}
 	ctx.SetGroups(groupSrc, groupDst)
-	z.log().Debug("Groups created", zap.String("srcGroupId", groupSrc.GroupId), zap.String("dstGroupId", groupDst.GroupId), zap.String("groupName", groupName))
+	l.Debug("Groups created", zap.String("srcGroupId", groupSrc.GroupId), zap.String("dstGroupId", groupDst.GroupId), zap.String("groupName", groupName))
 
 	// Add admins to groups
-	_, err = sv_group_member.New(z.ctxMgtSrc, groupSrc).Add(sv_group_member.ByTeamMemberId(ctx.AdminSrc().TeamMemberId))
+	_, err = sv_group_member.New(z.SrcMgmt.Context(), groupSrc).Add(sv_group_member.ByTeamMemberId(ctx.AdminSrc().TeamMemberId))
 	if err != nil {
 		return err
 	}
-	_, err = sv_group_member.New(z.ctxMgtDst, groupDst).Add(sv_group_member.ByTeamMemberId(ctx.AdminDst().TeamMemberId))
+	_, err = sv_group_member.New(z.DstMgmt.Context(), groupDst).Add(sv_group_member.ByTeamMemberId(ctx.AdminDst().TeamMemberId))
 	if err != nil {
 		return err
 	}
-	z.log().Debug("Admins added to groups", zap.String("srcGroupId", groupSrc.GroupId), zap.String("dstGroupId", groupDst.GroupId), zap.String("groupName", groupName))
+	l.Debug("Admins added to groups", zap.String("srcGroupId", groupSrc.GroupId), zap.String("dstGroupId", groupDst.GroupId), zap.String("groupName", groupName))
 
 	return nil
 }
 
-func (z *teamFolderImpl) Mount(ctx Context, scope Scope) (err error) {
-	l := z.log().With(zap.Any("pair", scope.Pair()))
+func (z *Replication) Mount(k rc_kitchen.Kitchen, ctx Context, scope Scope) (err error) {
+	l := k.Log().With(zap.Any("pair", scope.Pair()))
 	l.Info("Mount")
 
 	// Create team folder if required
 	createIfRequired := func() error {
-		svt := sv_teamfolder.New(z.ctxFileDst)
+		svt := sv_teamfolder.New(z.DstFile.Context())
 		pair := scope.Pair()
 		if pair.Dst == nil {
 			folder, err := svt.Create(pair.Src.Name, sv_teamfolder.SyncNoSync())
@@ -536,10 +544,10 @@ func (z *teamFolderImpl) Mount(ctx Context, scope Scope) (err error) {
 	attachGroupToTeamFolders := func() error {
 		var attachErr error
 		attachErr = nil
-		ctxFileSrcAsAdmin := z.ctxFileSrc.AsAdminId(ctx.AdminSrc().TeamMemberId)
-		ctxFileDstAsAdmin := z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId)
-		svmSrc := sv_sharedfolder_member.NewBySharedFolderId(ctxFileSrcAsAdmin, scope.Pair().Src.TeamFolderId)
-		svmDst := sv_sharedfolder_member.NewBySharedFolderId(ctxFileDstAsAdmin, scope.Pair().Dst.TeamFolderId)
+		srcFileAsAdmin := z.SrcFile.Context().AsAdminId(ctx.AdminSrc().TeamMemberId)
+		dstFileAsAdmin := z.DstFile.Context().AsAdminId(ctx.AdminDst().TeamMemberId)
+		svmSrc := sv_sharedfolder_member.NewBySharedFolderId(srcFileAsAdmin, scope.Pair().Src.TeamFolderId)
+		svmDst := sv_sharedfolder_member.NewBySharedFolderId(dstFileAsAdmin, scope.Pair().Dst.TeamFolderId)
 		if attachErr = svmSrc.Add(sv_sharedfolder_member.AddByGroup(ctx.GroupSrc(), sv_sharedfolder_member.LevelEditor)); err != nil {
 			return attachErr
 		}
@@ -567,19 +575,19 @@ func (z *teamFolderImpl) Mount(ctx Context, scope Scope) (err error) {
 		}
 		return nil
 	}
-	if err := ensureAccess(ctx.AdminSrc(), z.ctxFileSrc, scope.Pair().Src); err != nil {
+	if err := ensureAccess(ctx.AdminSrc(), z.SrcFile.Context(), scope.Pair().Src); err != nil {
 		l.Warn("Could not access to src team folder", zap.String("srcName", scope.Pair().Src.Name))
 		return err
 	}
-	if err := ensureAccess(ctx.AdminDst(), z.ctxFileDst, scope.Pair().Dst); err != nil {
+	if err := ensureAccess(ctx.AdminDst(), z.DstFile.Context(), scope.Pair().Dst); err != nil {
 		l.Warn("Could not access to src team folder", zap.String("dstName", scope.Pair().Dst.Name))
 		return err
 	}
 	return nil
 }
 
-func (z *teamFolderImpl) Content(ctx Context, scope Scope) (err error) {
-	l := z.log().With(
+func (z *Replication) Content(k rc_kitchen.Kitchen, ctx Context, scope Scope) (err error) {
+	l := k.Log().With(
 		zap.String("folderSrcId", scope.Pair().Src.TeamFolderId),
 		zap.String("folderSrcName", scope.Pair().Src.Name),
 		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
@@ -587,10 +595,10 @@ func (z *teamFolderImpl) Content(ctx Context, scope Scope) (err error) {
 	)
 	l.Info("Mirroring content")
 
-	ctxSrc := z.ctxFileSrc.
+	ctxSrc := z.SrcFile.Context().
 		AsMemberId(ctx.AdminSrc().TeamMemberId).
 		WithPath(api_context.Namespace(scope.Pair().Src.TeamFolderId))
-	ctxDst := z.ctxFileDst.
+	ctxDst := z.DstFile.Context().
 		AsMemberId(ctx.AdminDst().TeamMemberId).
 		WithPath(api_context.Namespace(scope.Pair().Dst.TeamFolderId))
 
@@ -598,37 +606,35 @@ func (z *teamFolderImpl) Content(ctx Context, scope Scope) (err error) {
 	return ucm.Mirror(mo_path.NewDropboxPath("/"), mo_path.NewDropboxPath("/"))
 }
 
-func (z *teamFolderImpl) Verify(ctx Context, scope Scope) (err error) {
-	l := z.log().With(
+func (z *Replication) Verify(k rc_kitchen.Kitchen, ctx Context, scope Scope) (err error) {
+	l := k.Log().With(
 		zap.String("folderSrcId", scope.Pair().Src.TeamFolderId),
 		zap.String("folderSrcName", scope.Pair().Src.Name),
 		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
 		zap.String("folderDstName", scope.Pair().Dst.Name),
 	)
-	rep, err := z.reportSpecs.Open(ReportVerify)
-	if err != nil {
-		z.kitchen.UI().Error("usecase.uc_teamfolder_mirror.err.unable_to_create_diff_report", app_msg.P{
+	if err := z.Verification.Open(); err != nil {
+		k.UI().Error("usecase.uc_teamfolder_mirror.err.unable_to_create_diff_report", app_msg.P{
 			"Error": err.Error(),
 		})
 		return err
 	}
-	defer rep.Close()
 
 	l.Info("Verify: comparing source and destination")
 
-	ctxSrc := z.ctxFileSrc.
+	ctxSrc := z.SrcFile.Context().
 		AsMemberId(ctx.AdminSrc().TeamMemberId).
 		WithPath(api_context.Namespace(scope.Pair().Src.TeamFolderId))
-	ctxDst := z.ctxFileDst.
+	ctxDst := z.DstFile.Context().
 		AsMemberId(ctx.AdminDst().TeamMemberId).
 		WithPath(api_context.Namespace(scope.Pair().Dst.TeamFolderId))
 
-	ucc := uc_compare_paths.New(ctxSrc, ctxDst, z.kitchen.UI())
+	ucc := uc_compare_paths.New(ctxSrc, ctxDst, k.UI())
 	count, err := ucc.Diff(
 		mo_path.NewDropboxPath(""), mo_path.NewDropboxPath(""),
 		func(diff mo_file_diff.Diff) error {
 			l.Warn("Diff", zap.Any("diff", diff))
-			rep.Row(&diff)
+			z.Verification.Row(&diff)
 			return nil
 		})
 
@@ -638,8 +644,8 @@ func (z *teamFolderImpl) Verify(ctx Context, scope Scope) (err error) {
 	return nil
 }
 
-func (z *teamFolderImpl) Unmount(ctx Context, scope Scope) (err error) {
-	l := z.log().With(
+func (z *Replication) Unmount(k rc_kitchen.Kitchen, ctx Context, scope Scope) (err error) {
+	l := k.Log().With(
 		zap.String("folderSrcId", scope.Pair().Src.TeamFolderId),
 		zap.String("folderSrcName", scope.Pair().Src.Name),
 		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
@@ -651,10 +657,10 @@ func (z *teamFolderImpl) Unmount(ctx Context, scope Scope) (err error) {
 	detachGroupFromTeamFolders := func() error {
 		var attachErr error
 		attachErr = nil
-		ctxFileSrcAsAdmin := z.ctxFileSrc.AsAdminId(ctx.AdminSrc().TeamMemberId)
-		ctxFileDstAsAdmin := z.ctxFileDst.AsAdminId(ctx.AdminDst().TeamMemberId)
-		svmSrc := sv_sharedfolder_member.NewBySharedFolderId(ctxFileSrcAsAdmin, scope.Pair().Src.TeamFolderId)
-		svmDst := sv_sharedfolder_member.NewBySharedFolderId(ctxFileDstAsAdmin, scope.Pair().Dst.TeamFolderId)
+		srcFileAsAdmin := z.SrcFile.Context().AsAdminId(ctx.AdminSrc().TeamMemberId)
+		dstFileAsAdmin := z.DstFile.Context().AsAdminId(ctx.AdminDst().TeamMemberId)
+		svmSrc := sv_sharedfolder_member.NewBySharedFolderId(srcFileAsAdmin, scope.Pair().Src.TeamFolderId)
+		svmDst := sv_sharedfolder_member.NewBySharedFolderId(dstFileAsAdmin, scope.Pair().Dst.TeamFolderId)
 		if attachErr = svmSrc.Remove(sv_sharedfolder_member.RemoveByGroup(ctx.GroupSrc())); err != nil {
 			return attachErr
 		}
@@ -670,9 +676,10 @@ func (z *teamFolderImpl) Unmount(ctx Context, scope Scope) (err error) {
 	return nil
 }
 
-func (z *teamFolderImpl) Archive(ctx Context, scope Scope) (err error) {
-	z.log().Info("Archive: Archiving team folder", zap.String("name", scope.Pair().Src.Name))
-	svt := sv_teamfolder.New(z.ctxFileSrc)
+func (z *Replication) Archive(k rc_kitchen.Kitchen, ctx Context, scope Scope) (err error) {
+	l := k.Log()
+	l.Info("Archive: Archiving team folder", zap.String("name", scope.Pair().Src.Name))
+	svt := sv_teamfolder.New(z.SrcFile.Context())
 	if _, err := svt.Archive(scope.Pair().Src); err != nil {
 		return err
 	}
@@ -680,22 +687,23 @@ func (z *teamFolderImpl) Archive(ctx Context, scope Scope) (err error) {
 	return nil
 }
 
-func (z *teamFolderImpl) Cleanup(ctx Context) (err error) {
-	z.log().Info("Cleanup")
+func (z *Replication) Cleanup(k rc_kitchen.Kitchen, ctx Context) (err error) {
+	l := k.Log()
+	l.Info("Cleanup")
 	err = nil
 
 	// Remove groups
-	z.log().Info("Cleanup: Remove temporary group (source)", zap.String("name", ctx.GroupSrc().GroupName))
-	errSrc := sv_group.New(z.ctxMgtSrc).Remove(ctx.GroupSrc().GroupId)
+	l.Info("Cleanup: Remove temporary group (source)", zap.String("name", ctx.GroupSrc().GroupName))
+	errSrc := sv_group.New(z.SrcMgmt.Context()).Remove(ctx.GroupSrc().GroupId)
 	if errSrc != nil {
-		z.log().Warn("SRC: Could not remove group", zap.String("groupName", ctx.GroupSrc().GroupName), zap.Error(errSrc))
+		l.Warn("SRC: Could not remove group", zap.String("groupName", ctx.GroupSrc().GroupName), zap.Error(errSrc))
 		err = errSrc
 	}
 
-	z.log().Info("Cleanup: Remove temporary group (dest)", zap.String("name", ctx.GroupDst().GroupName))
-	errDst := sv_group.New(z.ctxMgtDst).Remove(ctx.GroupDst().GroupId)
+	l.Info("Cleanup: Remove temporary group (dest)", zap.String("name", ctx.GroupDst().GroupName))
+	errDst := sv_group.New(z.DstMgmt.Context()).Remove(ctx.GroupDst().GroupId)
 	if errDst != nil {
-		z.log().Warn("SRC: Could not remove group", zap.String("groupName", ctx.GroupDst().GroupName), zap.Error(errDst))
+		l.Warn("SRC: Could not remove group", zap.String("groupName", ctx.GroupDst().GroupName), zap.Error(errDst))
 		err = errDst
 	}
 

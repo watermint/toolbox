@@ -55,8 +55,8 @@ At second run, please hit button "Open" on the dialogue.
 
 | オプション | 説明             | デフォルト |
 |------------|------------------|------------|
-| `-name`    | チームフォルダ名 |            |
-| `-peer`    | アカウントの別名 | {default}  |
+| `-name`    | Team folder name |            |
+| `-peer`    | Account alias    | default    |
 
 Common options:
 

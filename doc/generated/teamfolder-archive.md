@@ -53,10 +53,10 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description      | Default   |
-|---------|------------------|-----------|
-| `-name` | Team folder name |           |
-| `-peer` | Account alias    | {default} |
+| Option  | Description      | Default |
+|---------|------------------|---------|
+| `-name` | Team folder name |         |
+| `-peer` | Account alias    | default |
 
 Common options:
 

@@ -6,50 +6,34 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"strings"
 )
 
-type PermDeleteVO struct {
-	Peer rc_conn.OldConnBusinessFile
+type Permdelete struct {
+	Peer rc_conn.ConnBusinessFile
 	Name string
 }
 
-type Permdelete struct {
-}
-
-func (z *Permdelete) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{}
+func (z *Permdelete) Preset() {
 }
 
 func (z *Permdelete) Console() {
 }
 
-func (z *Permdelete) Requirement() rc_vo.ValueObject {
-	return &PermDeleteVO{}
-}
-
 func (z *Permdelete) Exec(k rc_kitchen.Kitchen) error {
 	ui := k.UI()
-	vo := k.Value().(*PermDeleteVO)
 
-	if vo.Name == "" {
+	if z.Name == "" {
 		ui.Error("recipe.teamfolder.permdelete.err.missing_option.name")
 		return errors.New("missing required option")
 	}
 
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
-
-	teamfolders, err := sv_teamfolder.New(ctx).List()
+	teamfolders, err := sv_teamfolder.New(z.Peer.Context()).List()
 	if err != nil {
 		ui.Error("recipe.teamfolder.permdelete.err.unable_to_resolve_teamfolder",
 			app_msg.P{
@@ -59,7 +43,7 @@ func (z *Permdelete) Exec(k rc_kitchen.Kitchen) error {
 	}
 	var teamfolder *mo_teamfolder.TeamFolder
 	for _, tf := range teamfolders {
-		if strings.ToLower(vo.Name) == strings.ToLower(tf.Name) {
+		if strings.ToLower(z.Name) == strings.ToLower(tf.Name) {
 			teamfolder = tf
 			break
 		}
@@ -74,7 +58,7 @@ func (z *Permdelete) Exec(k rc_kitchen.Kitchen) error {
 
 	k.Log().Debug("Archiving team folder", zap.Any("teamfolder", teamfolder))
 
-	err = sv_teamfolder.New(ctx).PermDelete(teamfolder)
+	err = sv_teamfolder.New(z.Peer.Context()).PermDelete(teamfolder)
 	if err != nil {
 		ui.Error("recipe.teamfolder.permdelete.err.unable_to_remove_teamfolder", app_msg.P{
 			"Error": err.Error(),
@@ -88,21 +72,22 @@ func (z *Permdelete) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *Permdelete) Test(c app_control.Control) error {
-	vo := &PermDeleteVO{}
-	if !qt_recipe.ApplyTestPeers(c, vo) {
-		return qt_endtoend.HumanInteractionRequired()
-	}
-
 	// should fail
 	{
-		vo.Name = ""
-		if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err == nil {
+		err := rc_exec.Exec(c, &Permdelete{}, func(r rc_recipe.Recipe) {
+			rc := r.(*Permdelete)
+			rc.Name = ""
+		})
+		if err == nil {
 			return errors.New("empty name should fail")
 		}
 	}
 	{
-		vo.Name = "No existent"
-		if err := z.Exec(rc_kitchen.NewKitchen(c, vo)); err == nil {
+		err := rc_exec.Exec(c, &Permdelete{}, func(r rc_recipe.Recipe) {
+			rc := r.(*Permdelete)
+			rc.Name = "No existent"
+		})
+		if err == nil {
 			return errors.New("non exist team folder name should fail")
 		}
 	}

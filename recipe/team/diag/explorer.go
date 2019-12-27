@@ -182,12 +182,10 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning team folders")
-		r := teamfolder.List{}
-		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &teamfolder.ListVO{
-			Peer: &rc_conn_impl.ConnBusinessFile{
-				PeerName: pn,
-			},
-		}))
+		err := rc_exec.Exec(k.Control(), &teamfolder.List{}, func(r rc_recipe.Recipe) {
+			rc := r.(*teamfolder.List)
+			rc.Peer.SetPeerName(pn)
+		})
 		if err != nil {
 			l.Error("`teamfolder list` failed", zap.Error(err))
 			return err

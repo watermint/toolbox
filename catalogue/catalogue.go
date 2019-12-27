@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	ingredientfile "github.com/watermint/toolbox/ingredient/file"
+	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/recipe"
 	recipedev "github.com/watermint/toolbox/recipe/dev"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
@@ -111,6 +112,7 @@ func Recipes() []rc_recipe.Recipe {
 func Ingredients() []rc_recipe.Recipe {
 	cat := []rc_recipe.Recipe{
 		&ingredientfile.Upload{},
+		&ingredientteamfolder.Replication{},
 	}
 	return cat
 }
