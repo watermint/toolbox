@@ -10,30 +10,16 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_mailaddr"
 	"github.com/watermint/toolbox/infra/util/ut_time"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"time"
-)
-
-type UserVO struct {
-	Peer      rc_conn.OldConnBusinessAudit
-	StartTime string
-	EndTime   string
-	Category  string
-}
-
-const (
-	reportEventUser        = "user_activity"
-	reportEventUserSummary = "user_summary"
 )
 
 type UserSummary struct {
@@ -53,17 +39,20 @@ type UserIn struct {
 type UserWorker struct {
 	k          rc_kitchen.Kitchen
 	ctx        api_context.Context
-	reps       *rp_spec_impl.Specs
-	repSummary rp_model.SideCarReport
+	reps       rp_model.RowReport
+	repSummary rp_model.TransactionReport
 	user       *mo_member.Member
-	vo         *UserVO
+	StartTime  string
+	EndTime    string
+	Category   string
 }
 
 func (z *UserWorker) Exec() error {
 	userIn := &UserIn{User: z.user.Email}
 	ui := z.k.UI()
 	l := z.k.Log().With(zap.Any("userIn", userIn))
-	rep, err := z.reps.Open(reportEventUser, rp_model.Suffix("-"+ut_mailaddr.EscapeSpecial(z.user.Email, "_")))
+
+	rep, err := z.reps.OpenNew(rp_model.Suffix("-" + ut_mailaddr.EscapeSpecial(z.user.Email, "_")))
 	if err != nil {
 		l.Debug("unable to create report", zap.Error(err))
 		z.repSummary.Failure(err, userIn)
@@ -100,9 +89,9 @@ func (z *UserWorker) Exec() error {
 	}
 
 	err = sv_activity.New(z.ctx).List(handler,
-		sv_activity.StartTime(z.vo.StartTime),
-		sv_activity.EndTime(z.vo.EndTime),
-		sv_activity.Category(z.vo.Category),
+		sv_activity.StartTime(z.StartTime),
+		sv_activity.EndTime(z.EndTime),
+		sv_activity.Category(z.Category),
 		sv_activity.AccountId(z.user.AccountId),
 	)
 	if err != nil {
@@ -115,50 +104,51 @@ func (z *UserWorker) Exec() error {
 }
 
 type User struct {
+	Peer        rc_conn.ConnBusinessAudit
+	StartTime   string
+	EndTime     string
+	Category    string
+	User        rp_model.RowReport
+	UserSummary rp_model.TransactionReport
+}
+
+func (z *User) Preset() {
+	z.User.SetModel(&mo_activity.Event{})
+	z.UserSummary.SetModel(&UserIn{}, &UserSummary{}, rp_model.HiddenColumns(
+		"result.user", // duplicated to `input.user`
+	))
 }
 
 func (z *User) Console() {
 }
 
-func (z *User) Requirement() rc_vo.ValueObject {
-	return &UserVO{}
-}
-
 func (z *User) Exec(k rc_kitchen.Kitchen) error {
-	vo := k.Value().(*UserVO)
 	l := k.Log()
 
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
-	if vo.StartTime != "" {
-		if t, ok := ut_time.ParseTimestamp(vo.StartTime); ok {
-			l.Debug("Rebase StartTime", zap.String("startTime", vo.StartTime))
-			vo.StartTime = api_util.RebaseAsString(t)
-			l.Debug("Rebased StartTime", zap.String("startTime", vo.StartTime))
+	if z.StartTime != "" {
+		if t, ok := ut_time.ParseTimestamp(z.StartTime); ok {
+			l.Debug("Rebase StartTime", zap.String("startTime", z.StartTime))
+			z.StartTime = api_util.RebaseAsString(t)
+			l.Debug("Rebased StartTime", zap.String("startTime", z.StartTime))
 		} else {
 			return errors.New("invalid date/time format for -start-date")
 		}
 	}
-	if vo.EndTime != "" {
-		if t, ok := ut_time.ParseTimestamp(vo.EndTime); ok {
-			l.Debug("Rebase EndTime", zap.String("endTime", vo.StartTime))
-			vo.StartTime = api_util.RebaseAsString(t)
-			l.Debug("Rebased EndTime", zap.String("endTime", vo.StartTime))
+	if z.EndTime != "" {
+		if t, ok := ut_time.ParseTimestamp(z.EndTime); ok {
+			l.Debug("Rebase EndTime", zap.String("endTime", z.StartTime))
+			z.StartTime = api_util.RebaseAsString(t)
+			l.Debug("Rebased EndTime", zap.String("endTime", z.StartTime))
 		} else {
 			return errors.New("invalid date/time format for -end-date")
 		}
 	}
 
-	reps := rp_spec_impl.New(z, k.Control())
-	repSummary, err := reps.Open(reportEventUserSummary)
-	if err != nil {
+	if err := z.UserSummary.Open(); err != nil {
 		return err
 	}
-	defer repSummary.Close()
 
-	members, err := sv_member.New(ctx).List()
+	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
 	}
@@ -167,11 +157,13 @@ func (z *User) Exec(k rc_kitchen.Kitchen) error {
 	for _, member := range members {
 		q.Enqueue(&UserWorker{
 			k:          k,
-			ctx:        ctx,
-			reps:       reps,
-			repSummary: repSummary,
+			ctx:        z.Peer.Context(),
+			reps:       z.User,
+			repSummary: z.UserSummary,
 			user:       member,
-			vo:         vo,
+			StartTime:  z.StartTime,
+			EndTime:    z.EndTime,
+			Category:   z.Category,
 		})
 	}
 	q.Wait()
@@ -180,38 +172,17 @@ func (z *User) Exec(k rc_kitchen.Kitchen) error {
 }
 
 func (z *User) Test(c app_control.Control) error {
-	lvo := &UserVO{
-		StartTime: api_util.RebaseAsString(time.Now().Add(-10 * time.Minute)),
-	}
-	if !qt_recipe.ApplyTestPeers(c, lvo) {
-		return qt_endtoend.NotEnoughResource()
-	}
-	if err := z.Exec(rc_kitchen.NewKitchen(c, lvo)); err != nil {
+	err := rc_exec.Exec(c, &User{}, func(r rc_recipe.Recipe) {
+		rc := r.(*User)
+		rc.StartTime = api_util.RebaseAsString(time.Now().Add(-10 * time.Minute))
+	})
+	if err != nil {
 		return err
 	}
-	return qt_recipe.TestRows(c, reportEventUserSummary, func(cols map[string]string) error {
+	return qt_recipe.TestRows(c, "user_summary", func(cols map[string]string) error {
 		if _, ok := cols["result.logins"]; !ok {
 			return errors.New("`logins` is not found")
 		}
 		return nil
 	})
-}
-
-func (z *User) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(
-			reportEventUser,
-			&mo_activity.Event{},
-		),
-		rp_spec_impl.Spec(
-			reportEventUserSummary,
-			rp_model.TransactionHeader(
-				&UserIn{},
-				&UserSummary{},
-			),
-			rp_model.HiddenColumns(
-				"result.user", // duplicated to `input.user`
-			),
-		),
-	}
 }

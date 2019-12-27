@@ -53,12 +53,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option        | Description                                                              | Default   |
-|---------------|--------------------------------------------------------------------------|-----------|
-| `-category`   | Filter the returned events to a single category. This field is optional. |           |
-| `-end-time`   | Ending time (exclusive).                                                 |           |
-| `-peer`       | Account alias                                                            | {default} |
-| `-start-time` | Starting time (inclusive)                                                |           |
+| Option        | Description                                                              | Default |
+|---------------|--------------------------------------------------------------------------|---------|
+| `-category`   | Filter the returned events to a single category. This field is optional. |         |
+| `-end-time`   | Ending time (exclusive).                                                 |         |
+| `-peer`       | Account alias                                                            | default |
+| `-start-time` | Starting time (inclusive)                                                |         |
 
 Common options:
 
@@ -115,12 +115,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: user_activity 
+## Report: user 
 
-Report files are generated in three formats, `user_activity.csv`, `user_activity.xlsx` and `user_activity.json`.
-But if you run with `-low-memory` option, the command will generate only `user_activity.json}}` report.
+Report files are generated in three formats, `user.csv`, `user.xlsx` and `user.json`.
+But if you run with `-low-memory` option, the command will generate only `user.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `user_activity_0000.xlsx`, `user_activity_0001.xlsx`, `user_activity_0002.xlsx`...   
+like `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`...   
 
 | Column          | Description                                     |
 |-----------------|-------------------------------------------------|
