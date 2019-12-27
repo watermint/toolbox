@@ -3,9 +3,11 @@ package dev
 import (
 	"fmt"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"go.uber.org/zap"
@@ -64,6 +66,31 @@ func (z *Preflight) Exec(k rc_kitchen.Kitchen) error {
 		if err != nil {
 			l.Error("Failed to generate documents", zap.Error(err))
 			return err
+		}
+	}
+
+	{
+		cl := k.Control().(app_control_launcher.ControlLauncher)
+		l.Info("Verify recipes")
+		for _, r := range cl.Catalogue() {
+			spec := rc_spec.New(r)
+			if spec == nil {
+				continue
+			}
+			for _, m := range spec.Messages() {
+				l.Debug("message", zap.String("key", m.Key()), zap.String("text", k.UI().Text(m.Key())))
+			}
+		}
+
+		l.Info("Verify ingredients")
+		for _, r := range cl.Ingredients() {
+			spec := rc_spec.New(r)
+			if spec == nil {
+				continue
+			}
+			for _, m := range spec.Messages() {
+				l.Debug("message", zap.String("key", m.Key()), zap.String("text", k.UI().Text(m.Key())))
+			}
 		}
 	}
 

@@ -78,7 +78,7 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 	so = append(so, app_control.CommonOptions(cvc.Serialize()))
 	so = append(so, app_control.RecipeOptions(rcpSpec.Debug()))
 
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.Recipes())
+	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.Recipes(), catalogue.Ingredients())
 	err = ctl.Up(so...)
 	if err != nil {
 		os.Exit(app_control.FatalStartup)

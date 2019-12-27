@@ -9,6 +9,7 @@ import (
 
 type ControlLauncher interface {
 	Catalogue() []rc_recipe.Recipe
+	Ingredients() []rc_recipe.Recipe
 	NewControl(user app_workspace.MultiUser) (ctl app_control.Control, err error)
 }
 

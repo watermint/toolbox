@@ -25,7 +25,7 @@ import (
 	"runtime"
 )
 
-func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, catalogue []rc_recipe.Recipe) app_control.Control {
+func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, catalogue, ingredients []rc_recipe.Recipe) app_control.Control {
 	return &Single{
 		ui:           ui,
 		box:          bx,
@@ -33,6 +33,7 @@ func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, 
 		mc:           mc,
 		quiet:        quiet,
 		catalogue:    catalogue,
+		ingredients:  ingredients,
 		testResource: gjson.Parse("{}"),
 	}
 }
@@ -48,7 +49,12 @@ type Single struct {
 	opts         *app_control.UpOpts
 	quiet        bool
 	catalogue    []rc_recipe.Recipe
+	ingredients  []rc_recipe.Recipe
 	testResource gjson.Result
+}
+
+func (z *Single) Ingredients() []rc_recipe.Recipe {
+	return z.ingredients
 }
 
 func (z *Single) IsLowMemory() bool {
