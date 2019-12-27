@@ -2,28 +2,33 @@ package file
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/recipe/team/namespace/file"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	namespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 type Size struct {
+	Peer     rc_conn.ConnBusinessFile
+	FileSize *namespacefile.Size
+	Depth    int
 }
 
-func (z *Size) Requirement() rc_vo.ValueObject {
-	return &file.SizeVO{
-		IncludeSharedFolder: false,
-		IncludeTeamFolder:   true,
-		Depth:               2,
-	}
+func (z *Size) Preset() {
+	z.Depth = 1
 }
 
 func (z *Size) Exec(k rc_kitchen.Kitchen) error {
-	fs := file.Size{}
-	return fs.Exec(k)
+	return rc_exec.Exec(k.Control(), z.FileSize, func(r rc_recipe.Recipe) {
+		rc := r.(*namespacefile.Size)
+		rc.IncludeSharedFolder = false
+		rc.IncludeTeamFolder = false
+		rc.Depth = z.Depth
+	})
 }
 
 func (z *Size) Test(c app_control.Control) error {
-	fs := file.Size{}
-	return fs.Test(c)
+	return qt_endtoend.NoTestRequired()
 }

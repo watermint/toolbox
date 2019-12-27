@@ -100,6 +100,8 @@ Available commands:
 | [team sharedlink list](doc/generated_ja/team-sharedlink-list.md)                   | 共有リンクの一覧                                               |
 | [team sharedlink update expiry](doc/generated_ja/team-sharedlink-update-expiry.md) | チーム内の公開されている共有リンクについて有効期限を更新します |
 | [teamfolder archive](doc/generated_ja/teamfolder-archive.md)                       | チームフォルダのアーカイブ                                     |
+| [teamfolder file list](doc/generated_ja/teamfolder-file-list.md)                   | List files in team folders                                     |
+| [teamfolder file size](doc/generated_ja/teamfolder-file-size.md)                   | Calculate size of team folders                                 |
 | [teamfolder list](doc/generated_ja/teamfolder-list.md)                             | チームフォルダの一覧                                           |
 | [teamfolder permdelete](doc/generated_ja/teamfolder-permdelete.md)                 | チームフォルダを完全に削除します                               |
 | [teamfolder replication](doc/generated_ja/teamfolder-replication.md)               | チームフォルダを他のチームに複製します                         |

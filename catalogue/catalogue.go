@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	ingredientfile "github.com/watermint/toolbox/ingredient/file"
+	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
 	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/recipe"
 	recipedev "github.com/watermint/toolbox/recipe/dev"
@@ -35,6 +36,7 @@ import (
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
 	recipeteamsharedlinkupdate "github.com/watermint/toolbox/recipe/team/sharedlink/update"
 	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
+	recipeteamfolderfile "github.com/watermint/toolbox/recipe/teamfolder/file"
 )
 
 func Recipes() []rc_recipe.Recipe {
@@ -97,6 +99,8 @@ func Recipes() []rc_recipe.Recipe {
 		&recipeteamfolder.List{},
 		&recipeteamfolder.Permdelete{},
 		&recipeteamfolder.Replication{},
+		&recipeteamfolderfile.List{},
+		&recipeteamfolderfile.Size{},
 		&recipeteamlinkedapp.List{},
 		&recipeteamnamespace.List{},
 		&recipeteamnamespacefile.List{},
@@ -112,6 +116,8 @@ func Ingredients() []rc_recipe.Recipe {
 	cat := []rc_recipe.Recipe{
 		&ingredientfile.Upload{},
 		&ingredientteamfolder.Replication{},
+		&ingredientteamnamespacefile.List{},
+		&ingredientteamnamespacefile.Size{},
 	}
 	return cat
 }

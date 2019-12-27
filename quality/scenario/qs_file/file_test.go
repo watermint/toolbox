@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/file"
 	filecompare "github.com/watermint/toolbox/recipe/file/compare"
@@ -22,6 +23,12 @@ import (
 
 func TestFileUploadScenario(t *testing.T) {
 	l := app_root.Log()
+
+	if qt_endtoend.IsSkipEndToEndTest() {
+		l.Info("Skip end to end test")
+		return
+	}
+
 	scenario := &Scenario{}
 	if err := scenario.Create(); err != nil {
 		t.Error(err)

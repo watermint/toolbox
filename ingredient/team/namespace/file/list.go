@@ -167,9 +167,6 @@ func (z *List) Test(c app_control.Control) error {
 		if _, ok := cols["namespace_id"]; !ok {
 			return errors.New("`namespace_id` is not found")
 		}
-		if _, ok := cols["id"]; !ok {
-			return errors.New("`id` is not found")
-		}
 		if _, ok := cols["path_display"]; !ok {
 			return errors.New("`path_display` is not found")
 		}
