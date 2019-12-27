@@ -52,12 +52,10 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 	pn := vo.Peer.(*rc_conn_impl.ConnBusinessFile).PeerName
 	{
 		l.Info("Scanning info")
-		r := team.Info{}
-		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &team.InfoVO{
-			Peer: &rc_conn_impl.ConnBusinessInfo{
-				PeerName: pn,
-			},
-		}))
+		err := rc_exec.Exec(k.Control(), &team.Info{}, func(r rc_recipe.Recipe) {
+			rc := r.(*team.Info)
+			rc.Peer.SetPeerName(pn)
+		})
 		if err != nil {
 			l.Error("`team info` failed", zap.Error(err))
 			return err
@@ -66,12 +64,10 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning feature")
-		r := team.Feature{}
-		err := r.Exec(rc_kitchen.NewKitchen(k.Control(), &team.FeatureVO{
-			Peer: &rc_conn_impl.ConnBusinessInfo{
-				PeerName: pn,
-			},
-		}))
+		err := rc_exec.Exec(k.Control(), &team.Feature{}, func(r rc_recipe.Recipe) {
+			rc := r.(*team.Feature)
+			rc.Peer.SetPeerName(pn)
+		})
 		if err != nil {
 			l.Error("`team feature` failed", zap.Error(err))
 			return err
