@@ -14,27 +14,32 @@ const (
 	DefaultPeerName = "default"
 )
 
+func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_context.Context, err error) {
+	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
+	l.Debug("Connect for testing")
+	if qt_endtoend.IsSkipEndToEndTest() {
+		return nil, qt_endtoend.ErrorSkipEndToEndTest
+	}
+	a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(peerName))
+	if c, err := a.Auth(tokenType); err == nil {
+		return c, nil
+	}
+
+	// fallback to end to end peer
+	a = api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(qt_endtoend.EndToEndPeer))
+	if c, err := a.Auth(tokenType); err == nil {
+		return c, nil
+	} else {
+		return nil, qt_endtoend.NotEnoughResource()
+	}
+}
+
 func connect(tokenType, peerName string, ctl app_control.Control) (ctx api_context.Context, err error) {
 	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
 	ui := ctl.UI()
 	switch {
 	case ctl.IsTest():
-		l.Debug("Connect for testing")
-		if qt_endtoend.IsSkipEndToEndTest() {
-			return nil, qt_endtoend.ErrorSkipEndToEndTest
-		}
-		a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(peerName))
-		if c, err := a.Auth(tokenType); err == nil {
-			return c, nil
-		}
-
-		// fallback to end to end peer
-		a = api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(qt_endtoend.EndToEndPeer))
-		if c, err := a.Auth(tokenType); err == nil {
-			return c, nil
-		} else {
-			return nil, qt_endtoend.NotEnoughResource()
-		}
+		return ConnectTest(tokenType, peerName, ctl)
 
 	case ui.IsConsole():
 		l.Debug("Connect through console UI")

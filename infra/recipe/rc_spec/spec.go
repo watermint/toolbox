@@ -8,9 +8,6 @@ import (
 
 func New(rcp rc_recipe.Recipe) rc_recipe.Spec {
 	switch scr := rcp.(type) {
-	case rc_recipe.SideCarRecipe:
-		return newSideCar(scr)
-
 	case rc_recipe.SelfContainedRecipe:
 		return newSelfContained(scr)
 

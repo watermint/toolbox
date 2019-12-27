@@ -3,10 +3,12 @@ package qs_file
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -97,6 +99,11 @@ func TestFileUploadScenario(t *testing.T) {
 	}
 
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+		if _, err := rc_conn_impl.ConnectTest(api_auth.DropboxTokenFull, qt_endtoend.EndToEndPeer, ctl); err != nil {
+			l.Info("Skip: no end to end test resource found")
+			return
+		}
+
 		// `file upload`
 		{
 			fc, err := app_control_impl.Fork(ctl, "file-upload")
@@ -111,6 +118,7 @@ func TestFileUploadScenario(t *testing.T) {
 			})
 			if err != nil {
 				t.Error(err)
+				return
 			}
 
 			testContent(fc, "uploaded", scenario.LocalPath, dbxBase+"/file-upload")

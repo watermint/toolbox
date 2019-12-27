@@ -1,6 +1,8 @@
 package app_opt
 
-import "runtime"
+import (
+	"runtime"
+)
 
 type CommonOpts struct {
 	Workspace   string
