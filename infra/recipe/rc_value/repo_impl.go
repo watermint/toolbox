@@ -132,10 +132,15 @@ type repositoryImpl struct {
 
 func (z *repositoryImpl) Messages() []app_msg.Message {
 	msgs := make([]app_msg.Message, 0)
-	for _, v := range z.values {
+	for k, v := range z.values {
 		if vm, ok := v.(ValueMessage); ok {
 			if m, ok := vm.Message(); ok {
 				msgs = append(msgs, m)
+			}
+		}
+		if _, ok := v.(ValueConn); ok {
+			if k != "Peer" {
+				msgs = append(msgs, rc_recipe.RecipeMessage(z.rcp, "conn."+strcase.ToSnake(k)))
 			}
 		}
 	}
@@ -250,7 +255,21 @@ func (z *repositoryImpl) Apply() rc_recipe.Recipe {
 func (z *repositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, error) {
 	l := ctl.Log()
 	var lastErr error
-	for k, v := range z.values {
+
+	valKeys := make([]string, 0)
+	for k := range z.values {
+		valKeys = append(valKeys, k)
+	}
+	sort.Strings(valKeys)
+
+	for _, k := range valKeys {
+		v := z.values[k]
+		if _, ok := v.(ValueConn); ok {
+			if k != "Peer" {
+				ctl.UI().InfoM(rc_recipe.RecipeMessage(z.rcp, "conn."+strcase.ToSnake(k)))
+			}
+		}
+
 		err := v.SpinUp(ctl)
 		if err != nil {
 			lastErr = err
