@@ -53,12 +53,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option        | Description    | Default   |
-|---------------|----------------|-----------|
-| `-category`   | Event category |           |
-| `-end-date`   | End date       |           |
-| `-peer`       | Account alias  | {default} |
-| `-start-date` | Start date     |           |
+| Option        | Description    | Default |
+|---------------|----------------|---------|
+| `-category`   | Event category |         |
+| `-end-date`   | End date       |         |
+| `-peer`       | Account alias  | default |
+| `-start-date` | Start date     |         |
 
 Common options:
 

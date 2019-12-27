@@ -52,6 +52,7 @@ func newXlsxWriter(name string, ctl app_control.Control) Writer {
 
 type xlsxWriter struct {
 	name           string
+	nameSuffix     string
 	index          int
 	path           string
 	mutex          sync.Mutex
@@ -97,7 +98,7 @@ func (z *xlsxWriter) open() (err error) {
 	if z.fileAvailable {
 		path := z.filePath
 		if z.rotateCount == 0 {
-			path = filepath.Join(z.ctl.Workspace().Report(), z.name+"_0000.xlsx")
+			path = filepath.Join(z.ctl.Workspace().Report(), z.name+z.nameSuffix+"_0000.xlsx")
 		}
 		if err = z.file.Save(path); err != nil {
 			l.Debug("Unable to save file", zap.Error(err), zap.String("path", path))
@@ -112,7 +113,7 @@ func (z *xlsxWriter) open() (err error) {
 		name = fmt.Sprintf("%s_%04d", z.name, z.fileIndex)
 	}
 	l = l.With(zap.String("name", name))
-	z.filePath = filepath.Join(z.ctl.Workspace().Report(), name+".xlsx")
+	z.filePath = filepath.Join(z.ctl.Workspace().Report(), name+z.nameSuffix+".xlsx")
 
 	file := xlsx.NewFile()
 	l.Debug("Create xlsx report", zap.String("filePath", z.filePath))
@@ -196,6 +197,11 @@ func (z *xlsxWriter) Open(ctl app_control.Control, model interface{}, opts ...rp
 	z.ctl = ctl
 	z.colModel = NewColumn(model, opts...)
 	z.fileAvailable = false
+	ro := &rp_model.ReportOpts{}
+	for _, o := range opts {
+		o(ro)
+	}
+	z.nameSuffix = ro.ReportSuffix
 
 	if err := z.open(); err != nil {
 		return err

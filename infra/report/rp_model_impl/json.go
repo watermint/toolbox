@@ -43,8 +43,12 @@ func (z *jsonWriter) Open(ctl app_control.Control, model interface{}, opts ...rp
 		return nil
 	}
 	l := ctl.Log()
+	ro := &rp_model.ReportOpts{}
+	for _, o := range opts {
+		o(ro)
+	}
 
-	z.path = filepath.Join(ctl.Workspace().Report(), z.Name()+".json")
+	z.path = filepath.Join(ctl.Workspace().Report(), z.Name()+ro.ReportSuffix+".json")
 	l = l.With(zap.String("path", z.path))
 	l.Debug("Create new json report")
 	z.file, err = os.Create(z.path)

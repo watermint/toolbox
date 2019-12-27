@@ -53,12 +53,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション    | 説明               | デフォルト |
-|---------------|--------------------|------------|
-| `-category`   | イベントのカテゴリ |            |
-| `-end-date`   | 終了日             |            |
-| `-peer`       | アカウントの別名   | {default}  |
-| `-start-date` | 開始日             |            |
+| オプション    | 説明           | デフォルト |
+|---------------|----------------|------------|
+| `-category`   | Event category |            |
+| `-end-date`   | End date       |            |
+| `-peer`       | Account alias  | default    |
+| `-start-date` | Start date     |            |
 
 Common options:
 

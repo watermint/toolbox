@@ -46,9 +46,13 @@ func (z *csvWriter) Row(r interface{}) {
 func (z *csvWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) (err error) {
 	z.ctl = ctl
 	l := ctl.Log()
+	ro := &rp_model.ReportOpts{}
+	for _, o := range opts {
+		o(ro)
+	}
 
 	z.colModel = NewColumn(model, opts...)
-	z.path = filepath.Join(ctl.Workspace().Report(), z.Name()+".csv")
+	z.path = filepath.Join(ctl.Workspace().Report(), z.Name()+ro.ReportSuffix+".csv")
 	l = l.With(zap.String("path", z.path))
 	l.Debug("Create new csv report")
 	z.file, err = os.Create(z.path)

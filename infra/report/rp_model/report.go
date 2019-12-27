@@ -1,6 +1,8 @@
 package rp_model
 
-import "github.com/watermint/toolbox/infra/ui/app_msg"
+import (
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+)
 
 type ReportOpt func(o *ReportOpts) *ReportOpts
 type ReportOpts struct {
@@ -67,12 +69,14 @@ type Report interface {
 
 type RowReport interface {
 	Report
+	OpenNew(opts ...ReportOpt) (r RowReport, err error)
 	Row(row interface{})
 	SetModel(row interface{}, opts ...ReportOpt)
 }
 
 type TransactionReport interface {
 	Report
+	OpenNew(opts ...ReportOpt) (r TransactionReport, err error)
 	Success(input interface{}, result interface{})
 	Failure(err error, input interface{})
 	Skip(reason app_msg.Message, input interface{})

@@ -53,12 +53,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option        | Description                                                              | Default   |
-|---------------|--------------------------------------------------------------------------|-----------|
-| `-category`   | Filter the returned events to a single category. This field is optional. |           |
-| `-end-time`   | Ending time (exclusive).                                                 |           |
-| `-peer`       | Account alias                                                            | {default} |
-| `-start-time` | Starting time (inclusive)                                                |           |
+| Option        | Description                                                              | Default |
+|---------------|--------------------------------------------------------------------------|---------|
+| `-category`   | Filter the returned events to a single category. This field is optional. |         |
+| `-end-time`   | Ending time (exclusive).                                                 |         |
+| `-peer`       | Account alias                                                            | default |
+| `-start-time` | Starting time (inclusive)                                                |         |
 
 Common options:
 

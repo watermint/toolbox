@@ -43,11 +43,11 @@ type DayRange struct {
 func Daily(start, end string) ([]*DayRange, error) {
 	dr := make([]*DayRange, 0)
 	startTime, ok := ParseTimestamp(start)
-	if !ok {
+	if !ok || startTime.IsZero() {
 		return nil, errors.New("start date is required")
 	}
 	endTime, ok := ParseTimestamp(end)
-	if !ok {
+	if !ok || endTime.IsZero() {
 		endTime = time.Now()
 	}
 

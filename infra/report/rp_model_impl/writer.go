@@ -54,6 +54,14 @@ func (z *RowReport) Fork(ctl app_control.Control) rp_model.RowReport {
 	}
 }
 
+func (z *RowReport) OpenNew(opts ...rp_model.ReportOpt) (r rp_model.RowReport, err error) {
+	r = z.Fork(z.ctl)
+	if err := r.Open(opts...); err != nil {
+		return nil, err
+	}
+	return r, nil
+}
+
 func (z *RowReport) Open(opts ...rp_model.ReportOpt) error {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
@@ -114,6 +122,14 @@ func (z *TransactionReport) Fork(ctl app_control.Control) rp_model.TransactionRe
 		model: z.model,
 		opts:  z.opts,
 	}
+}
+
+func (z *TransactionReport) OpenNew(opts ...rp_model.ReportOpt) (r rp_model.TransactionReport, err error) {
+	r = z.Fork(z.ctl)
+	if err := r.Open(opts...); err != nil {
+		return nil, err
+	}
+	return r, nil
 }
 
 func (z *TransactionReport) Open(opts ...rp_model.ReportOpt) error {

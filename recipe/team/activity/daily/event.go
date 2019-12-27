@@ -6,49 +6,28 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
-type EventVO struct {
-	Peer      rc_conn.OldConnBusinessAudit
+type Event struct {
+	Peer      rc_conn.ConnBusinessAudit
 	StartDate string
 	EndDate   string
 	Category  string
+	Event     rp_model.RowReport
 }
 
-const (
-	reportEvent = "event"
-)
-
-type Event struct {
-}
-
-func (z *Event) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportEvent, &mo_activity.Event{}),
-	}
-}
-
-func (z *Event) Requirement() rc_vo.ValueObject {
-	return &EventVO{}
+func (z *Event) Preset() {
+	z.Event.SetModel(&mo_activity.Event{})
 }
 
 func (z *Event) Exec(k rc_kitchen.Kitchen) error {
-	vo := k.Value().(*EventVO)
 	ui := k.UI()
 
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
-
-	dr, err := ut_time.Daily(vo.StartDate, vo.EndDate)
+	dr, err := ut_time.Daily(z.StartDate, z.EndDate)
 	if err != nil {
 		return err
 	}
@@ -62,7 +41,7 @@ func (z *Event) Exec(k rc_kitchen.Kitchen) error {
 			"End":   d.End,
 		})
 
-		rep, err := rp_spec_impl.New(z, k.Control()).Open(reportEvent, rp_model.Suffix(stDate))
+		rep, err := z.Event.OpenNew(rp_model.Suffix(stDate))
 		if err != nil {
 			return err
 		}
@@ -72,12 +51,15 @@ func (z *Event) Exec(k rc_kitchen.Kitchen) error {
 			return nil
 		}
 
-		err = sv_activity.New(ctx).List(handler,
+		err = sv_activity.New(z.Peer.Context()).List(handler,
 			sv_activity.StartTime(d.Start),
 			sv_activity.EndTime(d.End),
-			sv_activity.Category(vo.Category),
+			sv_activity.Category(z.Category),
 		)
 		rep.Close()
+		if err != nil {
+			return err
+		}
 	}
 
 	return err
