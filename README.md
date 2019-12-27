@@ -105,5 +105,4 @@ Available commands:
 | [teamfolder list](doc/generated/teamfolder-list.md)                             | チームフォルダの一覧                                           |
 | [teamfolder permdelete](doc/generated/teamfolder-permdelete.md)                 | チームフォルダを完全に削除します                               |
 | [teamfolder replication](doc/generated/teamfolder-replication.md)               | チームフォルダを他のチームに複製します                         |
-| [web](doc/generated/web.md)                                                     | Webコンソールを起動 (実験的)                                   |
 

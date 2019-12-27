@@ -79,7 +79,7 @@ func Recipes() []rc_recipe.Recipe {
 		&recipememberupdate.Externalid{},
 		&recipememberupdate.Profile{},
 		&recipe.License{},
-		&recipe.Web{},
+		//		&recipe.Web{},
 		&recipesharedfolder.List{},
 		&recipesharedfoldermember.List{},
 		&recipesharedlink.Create{},
