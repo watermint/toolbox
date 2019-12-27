@@ -9,7 +9,7 @@ import (
 	"reflect"
 )
 
-func newValueRpModelRowReport(name string) Value {
+func newValueRpModelRowReport(name string) rc_recipe.Value {
 	n := strcase.ToSnake(name)
 	v := &ValueRpModelRowReport{name: n}
 	v.rep = rp_model_impl.NewRowReport(n)
@@ -21,7 +21,7 @@ type ValueRpModelRowReport struct {
 	rep  *rp_model_impl.RowReport
 }
 
-func (z *ValueRpModelRowReport) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
+func (z *ValueRpModelRowReport) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*rp_model.RowReport)(nil)).Elem()) {
 		return newValueRpModelRowReport(name)
 	}

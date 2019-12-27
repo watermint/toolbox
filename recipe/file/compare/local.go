@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_compare_local"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -26,8 +25,8 @@ func (z *Local) Preset() {
 	z.Skip.SetModel(&mo_file_diff.Diff{})
 }
 
-func (z *Local) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
+func (z *Local) Exec(c app_control.Control) error {
+	ui := c.UI()
 	ctx := z.Peer.Context()
 
 	if err := z.Diff.Open(); err != nil {
@@ -47,7 +46,7 @@ func (z *Local) Exec(k rc_kitchen.Kitchen) error {
 		return nil
 	}
 
-	ucl := uc_compare_local.New(ctx, k.UI())
+	ucl := uc_compare_local.New(ctx, c.UI())
 	count, err := ucl.Diff(z.LocalPath, z.DropboxPath, diff)
 	if err != nil {
 		return err

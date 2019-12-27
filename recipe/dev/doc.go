@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -39,9 +38,8 @@ func (z *Doc) Preset() {
 	z.CommandPath = "doc/generated/"
 }
 
-func (z *Doc) Exec(k rc_kitchen.Kitchen) error {
-	l := k.Log()
-	ctl := k.Control()
+func (z *Doc) Exec(ctl app_control.Control) error {
+	l := ctl.Log()
 
 	if z.Lang != "" {
 		wc := ctl.(app_control_launcher.WithMessageContainer)

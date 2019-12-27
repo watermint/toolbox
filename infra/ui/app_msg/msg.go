@@ -3,6 +3,7 @@ package app_msg
 import (
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"reflect"
 	"strings"
 )
@@ -132,4 +133,8 @@ func Apply(mo interface{}) interface{} {
 
 	applyReflect(mot, mov)
 	return mo
+}
+
+func ObjMessage(r interface{}, suffix string) Message {
+	return M(ut_reflect.Key(app.Pkg, r) + "." + suffix)
 }

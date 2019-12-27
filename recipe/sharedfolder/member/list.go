@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -52,7 +51,7 @@ func (z *List) Preset() {
 	z.Member.SetModel(&mo_sharedfolder_member.SharedFolderMember{})
 }
 
-func (z *List) Exec(k rc_kitchen.Kitchen) error {
+func (z *List) Exec(c app_control.Control) error {
 	folders, err := sv_sharedfolder.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
@@ -62,13 +61,13 @@ func (z *List) Exec(k rc_kitchen.Kitchen) error {
 		return err
 	}
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 	for _, folder := range folders {
 		q.Enqueue(&ListWorker{
 			folder: folder,
 			conn:   z.Peer.Context(),
 			rep:    z.Member,
-			ctl:    k.Control(),
+			ctl:    c,
 		})
 	}
 	q.Wait()

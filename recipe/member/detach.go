@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
@@ -34,7 +33,7 @@ func (z *Detach) Test(c app_control.Control) error {
 func (z *Detach) Console() {
 }
 
-func (z *Detach) Exec(k rc_kitchen.Kitchen) error {
+func (z *Detach) Exec(c app_control.Control) error {
 	ctx := z.Peer.Context()
 
 	svm := sv_member.New(ctx)

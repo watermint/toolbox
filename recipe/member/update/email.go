@@ -14,7 +14,6 @@ import (
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -80,8 +79,8 @@ func (z *Email) Preset() {
 	z.OperationLog.SetModel(&EmailRow{}, &mo_member.Member{})
 }
 
-func (z *Email) Exec(k rc_kitchen.Kitchen) error {
-	l := k.Log()
+func (z *Email) Exec(c app_control.Control) error {
+	l := c.Log()
 	ctx := z.Peer.Context()
 
 	members, err := sv_member.New(ctx).List()
@@ -95,7 +94,7 @@ func (z *Email) Exec(k rc_kitchen.Kitchen) error {
 		return err
 	}
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 	err = z.File.EachRow(func(m interface{}, rowIndex int) error {
 		row := m.(*EmailRow)
 		ll := l.With(zap.Any("row", row))
@@ -124,7 +123,7 @@ func (z *Email) Exec(k rc_kitchen.Kitchen) error {
 			member:      member,
 			ctx:         ctx,
 			rep:         z.OperationLog,
-			ctl:         k.Control(),
+			ctl:         c,
 		})
 
 		return nil

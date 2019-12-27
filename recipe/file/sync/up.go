@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -26,8 +25,8 @@ func (z *Up) Preset() {
 func (z *Up) Console() {
 }
 
-func (z *Up) Exec(k rc_kitchen.Kitchen) error {
-	return rc_exec.Exec(k.Control(), z.Upload, func(r rc_recipe.Recipe) {
+func (z *Up) Exec(c app_control.Control) error {
+	return rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
 		ru := r.(*file.Upload)
 		ru.EstimateOnly = false
 		ru.LocalPath = z.LocalPath

@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -31,14 +30,14 @@ func (z *Preflight) Console() {
 
 func (z *Preflight) Test(c app_control.Control) error {
 	z.TestMode = true
-	return z.Exec(rc_kitchen.NewKitchen(c, z))
+	return z.Exec(c)
 }
 
-func (z *Preflight) Exec(k rc_kitchen.Kitchen) error {
-	l := k.Log()
+func (z *Preflight) Exec(c app_control.Control) error {
+	l := c.Log()
 	{
 		l.Info("Generating English documents")
-		err := rc_exec.Exec(k.Control(), &Doc{}, func(r rc_recipe.Recipe) {
+		err := rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
 			rr := r.(*Doc)
 			rr.TestMode = z.TestMode
 			rr.Badge = true
@@ -54,7 +53,7 @@ func (z *Preflight) Exec(k rc_kitchen.Kitchen) error {
 	}
 	{
 		l.Info("Generating Japanese documents")
-		err := rc_exec.Exec(k.Control(), &Doc{}, func(r rc_recipe.Recipe) {
+		err := rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
 			rr := r.(*Doc)
 			rr.TestMode = z.TestMode
 			rr.Badge = true
@@ -70,7 +69,7 @@ func (z *Preflight) Exec(k rc_kitchen.Kitchen) error {
 	}
 
 	{
-		cl := k.Control().(app_control_launcher.ControlLauncher)
+		cl := c.(app_control_launcher.ControlLauncher)
 		l.Info("Verify recipes")
 		for _, r := range cl.Catalogue() {
 			spec := rc_spec.New(r)
@@ -78,7 +77,7 @@ func (z *Preflight) Exec(k rc_kitchen.Kitchen) error {
 				continue
 			}
 			for _, m := range spec.Messages() {
-				l.Debug("message", zap.String("key", m.Key()), zap.String("text", k.UI().Text(m.Key())))
+				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m.Key())))
 			}
 		}
 
@@ -89,13 +88,13 @@ func (z *Preflight) Exec(k rc_kitchen.Kitchen) error {
 				continue
 			}
 			for _, m := range spec.Messages() {
-				l.Debug("message", zap.String("key", m.Key()), zap.String("text", k.UI().Text(m.Key())))
+				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m.Key())))
 			}
 		}
 	}
 
 	l.Info("Verify message resources")
-	qm := k.Control().Messages().(app_msg_container.Quality)
+	qm := c.Messages().(app_msg_container.Quality)
 	missing := qm.MissingKeys()
 	if len(missing) > 0 {
 		suggested := make([]string, 0)
@@ -107,5 +106,5 @@ func (z *Preflight) Exec(k rc_kitchen.Kitchen) error {
 		fmt.Println(strings.Join(suggested, "\n"))
 	}
 
-	return qt_messages.VerifyMessages(k.Control())
+	return qt_messages.VerifyMessages(c)
 }

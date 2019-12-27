@@ -2,7 +2,6 @@ package test
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
 )
@@ -20,7 +19,7 @@ func (z *Resources) Test(c app_control.Control) error {
 func (z *Resources) Hidden() {
 }
 
-func (z *Resources) Exec(k rc_kitchen.Kitchen) error {
-	qt_runtime.Suite(k.Control())
+func (z *Resources) Exec(c app_control.Control) error {
+	qt_runtime.Suite(c)
 	return nil
 }

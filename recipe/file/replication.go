@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -30,8 +29,8 @@ func (z *Replication) Preset() {
 func (z *Replication) Console() {
 }
 
-func (z *Replication) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
+func (z *Replication) Exec(c app_control.Control) error {
+	ui := c.UI()
 
 	ctxSrc := z.Src.Context()
 	ctxDst := z.Dst.Context()
@@ -47,7 +46,7 @@ func (z *Replication) Exec(k rc_kitchen.Kitchen) error {
 		z.ReplicationDiff.Row(&d)
 		return nil
 	}
-	count, err := uc_compare_paths.New(ctxSrc, ctxDst, k.UI()).Diff(z.SrcPath, z.DstPath, diff)
+	count, err := uc_compare_paths.New(ctxSrc, ctxDst, c.UI()).Diff(z.SrcPath, z.DstPath, diff)
 	ui.Info("recipe.file.replication.done", app_msg.P{
 		"DiffCount": count,
 	})

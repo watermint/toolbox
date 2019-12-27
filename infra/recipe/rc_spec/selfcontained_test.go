@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -37,8 +36,8 @@ type SelfContainedTestRecipe struct {
 	DataReport    rp_model.RowReport
 }
 
-func (z *SelfContainedTestRecipe) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
+func (z *SelfContainedTestRecipe) Exec(c app_control.Control) error {
+	ui := c.UI()
 	ui.InfoM(z.ProgressStart)
 
 	if !z.Enabled {
@@ -126,12 +125,12 @@ func TestSpecSelfContained_ApplyValues(t *testing.T) {
 		}
 
 		{
-			rcp, k, err := spec.SpinUp(ctl, rc_recipe.NoCustomValues)
+			rcp, err := spec.SpinUp(ctl, rc_recipe.NoCustomValues)
 			if err != nil {
 				t.Error(err)
 				return
 			}
-			if err = rcp.Exec(k); err != nil {
+			if err = rcp.Exec(ctl); err != nil {
 				t.Error(err)
 			}
 			if err = rcp.Test(ctl); err != nil {

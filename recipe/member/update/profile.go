@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -36,8 +35,8 @@ func (z *Profile) Test(c app_control.Control) error {
 func (z *Profile) Console() {
 }
 
-func (z *Profile) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
+func (z *Profile) Exec(c app_control.Control) error {
+	ui := c.UI()
 
 	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {

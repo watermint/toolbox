@@ -6,16 +6,12 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_reflect"
 )
 
-func RecipeMessage(r Recipe, suffix string) app_msg.Message {
-	return app_msg.M(Key(r) + "." + suffix)
-}
-
 func Title(r Recipe) app_msg.Message {
-	return RecipeMessage(r, "title")
+	return app_msg.ObjMessage(r, "title")
 }
 
 func Desc(r Recipe) app_msg.Message {
-	return RecipeMessage(r, "desc")
+	return app_msg.ObjMessage(r, "desc")
 }
 
 func Path(r Recipe) (path []string, name string) {

@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
@@ -17,14 +16,14 @@ type Watch struct {
 	Recursive bool
 }
 
-func (z *Watch) Exec(k rc_kitchen.Kitchen) error {
+func (z *Watch) Exec(c app_control.Control) error {
 	ctx := z.Peer.Context()
 	opts := make([]sv_file.ListOpt, 0)
 	if z.Recursive {
 		opts = append(opts, sv_file.Recursive())
 	}
-	w := rp_model_impl.NewJsonWriter("entries", k.Control(), true)
-	if err := w.Open(k.Control(), &mo_file.ConcreteEntry{}); err != nil {
+	w := rp_model_impl.NewJsonWriter("entries", c, true)
+	if err := w.Open(c, &mo_file.ConcreteEntry{}); err != nil {
 		return err
 	}
 	defer w.Close()

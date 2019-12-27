@@ -1,47 +1,6 @@
 package _import
 
-import (
-	"context"
-	"crypto/sha256"
-	"errors"
-	"fmt"
-	"github.com/watermint/toolbox/domain/model/mo_file"
-	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/service/sv_desktop"
-	"github.com/watermint/toolbox/domain/service/sv_file"
-	"github.com/watermint/toolbox/domain/service/sv_file_folder"
-	"github.com/watermint/toolbox/domain/service/sv_file_relocation"
-	"github.com/watermint/toolbox/domain/service/sv_profile"
-	"github.com/watermint/toolbox/domain/usecase/uc_file_upload"
-	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_util"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/infra/recipe/rc_worker"
-	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_filecompare"
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"github.com/watermint/toolbox/quality/scenario/qs_file"
-	"go.uber.org/zap"
-	"golang.org/x/sync/semaphore"
-	"io"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"strings"
-	"sync"
-	"sync/atomic"
-	"time"
-)
-
+/*
 type ViaAppVO struct {
 	Peer              rc_conn.OldConnUserFile
 	DropboxPath       string
@@ -951,3 +910,5 @@ func (z *ViaAppPseudoDesktop) Run() {
 		}
 	}
 }
+
+*/

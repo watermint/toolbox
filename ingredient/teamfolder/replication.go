@@ -23,7 +23,6 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -188,7 +187,7 @@ type Replication struct {
 	DstMgmt      rc_conn.ConnBusinessMgmt
 }
 
-func (z *Replication) Exec(k rc_kitchen.Kitchen) (err error) {
+func (z *Replication) Exec(c app_control.Control) (err error) {
 	var ctx Context
 	if z.TargetAll {
 		ctx, err = z.AllFolderScope()
@@ -201,7 +200,7 @@ func (z *Replication) Exec(k rc_kitchen.Kitchen) (err error) {
 			return err
 		}
 	}
-	return z.Mirror(k, ctx)
+	return z.Mirror(c, ctx)
 }
 
 func (z *Replication) Test(c app_control.Control) error {
@@ -266,88 +265,88 @@ func (z *Replication) PartialScope(names []string) (ctx Context, err error) {
 }
 
 // Verify scope
-func (z *Replication) VerifyScope(k rc_kitchen.Kitchen, ctx Context) (err error) {
-	if err = z.Inspect(k, ctx); err != nil {
+func (z *Replication) VerifyScope(c app_control.Control, ctx Context) (err error) {
+	if err = z.Inspect(c, ctx); err != nil {
 		return err
 	}
 	var lastErr error
 	lastErr = nil
-	if err = z.Bridge(k, ctx); err != nil {
+	if err = z.Bridge(c, ctx); err != nil {
 		lastErr = err
 	}
 	for _, pair := range ctx.Pairs() {
 		scope := NewScope(pair)
 
-		if err = z.Mount(k, ctx, scope); err != nil {
+		if err = z.Mount(c, ctx, scope); err != nil {
 			lastErr = err
 			continue
 		}
-		if err = z.Verify(k, ctx, scope); err != nil {
+		if err = z.Verify(c, ctx, scope); err != nil {
 			lastErr = err
 		}
-		if err = z.Unmount(k, ctx, scope); err != nil {
+		if err = z.Unmount(c, ctx, scope); err != nil {
 			lastErr = err
 		}
 	}
-	if err = z.Cleanup(k, ctx); err != nil {
+	if err = z.Cleanup(c, ctx); err != nil {
 		lastErr = err
 	}
 	return lastErr
 }
 
-func (z *Replication) Mirror(k rc_kitchen.Kitchen, ctx Context, opts ...MirrorOpt) (err error) {
-	l := k.Log()
+func (z *Replication) Mirror(c app_control.Control, ctx Context, opts ...MirrorOpt) (err error) {
+	l := c.Log()
 	mo := &mirrorOpts{}
 	for _, o := range opts {
 		o(mo)
 	}
 
-	if err = z.Inspect(k, ctx); err != nil {
+	if err = z.Inspect(c, ctx); err != nil {
 		return err
 	}
 	var lastErr error
 	lastErr = nil
-	if err = z.Bridge(k, ctx); err != nil {
+	if err = z.Bridge(c, ctx); err != nil {
 		lastErr = err
 	}
 	for _, pair := range ctx.Pairs() {
 		scope := NewScope(pair)
 
-		if err = z.Mount(k, ctx, scope); err != nil {
+		if err = z.Mount(c, ctx, scope); err != nil {
 			lastErr = err
 			continue
 		}
 		archive := false
-		if err = z.Content(k, ctx, scope); err != nil {
+		if err = z.Content(c, ctx, scope); err != nil {
 			lastErr = err
 		} else {
 			if mo.skipVerify {
 				l.Info("Skip verification step")
 			} else {
-				if err = z.Verify(k, ctx, scope); err != nil {
+				if err = z.Verify(c, ctx, scope); err != nil {
 					lastErr = err
 				} else if mo.archiveOnSuccess {
 					archive = true
 				}
 			}
 		}
-		if err = z.Unmount(k, ctx, scope); err != nil {
+		if err = z.Unmount(c, ctx, scope); err != nil {
 			lastErr = err
 		}
 		if archive {
-			if err = z.Archive(k, ctx, scope); err != nil {
+			if err = z.Archive(c, ctx, scope); err != nil {
 				lastErr = err
 			}
 		}
 	}
-	if err = z.Cleanup(k, ctx); err != nil {
+	if err = z.Cleanup(c, ctx); err != nil {
 		lastErr = err
 	}
 	return lastErr
 }
 
-func (z *Replication) Inspect(k rc_kitchen.Kitchen, ctx Context) (err error) {
-	l := k.Log()
+func (z *Replication) Inspect(c app_control.Control, ctx Context) (err error) {
+	l := c.Log()
 	// Identify admins
 	identifyAdmins := func() error {
 		adminSrc, err := sv_profile.NewTeam(z.SrcMgmt.Context()).Admin()
@@ -484,8 +483,8 @@ func (z *Replication) Inspect(k rc_kitchen.Kitchen, ctx Context) (err error) {
 	return nil
 }
 
-func (z *Replication) Bridge(k rc_kitchen.Kitchen, ctx Context) (err error) {
-	l := k.Log()
+func (z *Replication) Bridge(c app_control.Control, ctx Context) (err error) {
+	l := c.Log()
 	groupName := fmt.Sprintf("%s-%x", MirrorGroupNamePrefix, time.Now().Unix())
 	l.Info("Bridge", zap.String("groupName", groupName))
 
@@ -517,8 +516,8 @@ func (z *Replication) Bridge(k rc_kitchen.Kitchen, ctx Context) (err error) {
 	return nil
 }
 
-func (z *Replication) Mount(k rc_kitchen.Kitchen, ctx Context, scope Scope) (err error) {
-	l := k.Log().With(zap.Any("pair", scope.Pair()))
+func (z *Replication) Mount(c app_control.Control, ctx Context, scope Scope) (err error) {
+	l := c.Log().With(zap.Any("pair", scope.Pair()))
 	l.Info("Mount")
 
 	// Create team folder if required
@@ -590,8 +589,8 @@ func (z *Replication) Mount(k rc_kitchen.Kitchen, ctx Context, scope Scope) (err
 	return nil
 }
 
-func (z *Replication) Content(k rc_kitchen.Kitchen, ctx Context, scope Scope) (err error) {
-	l := k.Log().With(
+func (z *Replication) Content(c app_control.Control, ctx Context, scope Scope) (err error) {
+	l := c.Log().With(
 		zap.String("folderSrcId", scope.Pair().Src.TeamFolderId),
 		zap.String("folderSrcName", scope.Pair().Src.Name),
 		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
@@ -610,15 +609,15 @@ func (z *Replication) Content(k rc_kitchen.Kitchen, ctx Context, scope Scope) (e
 	return ucm.Mirror(mo_path.NewDropboxPath("/"), mo_path.NewDropboxPath("/"))
 }
 
-func (z *Replication) Verify(k rc_kitchen.Kitchen, ctx Context, scope Scope) (err error) {
-	l := k.Log().With(
+func (z *Replication) Verify(c app_control.Control, ctx Context, scope Scope) (err error) {
+	l := c.Log().With(
 		zap.String("folderSrcId", scope.Pair().Src.TeamFolderId),
 		zap.String("folderSrcName", scope.Pair().Src.Name),
 		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
 		zap.String("folderDstName", scope.Pair().Dst.Name),
 	)
 	if err := z.Verification.Open(); err != nil {
-		k.UI().Error("usecase.uc_teamfolder_mirror.err.unable_to_create_diff_report", app_msg.P{
+		c.UI().Error("usecase.uc_teamfolder_mirror.err.unable_to_create_diff_report", app_msg.P{
 			"Error": err.Error(),
 		})
 		return err
@@ -633,7 +632,7 @@ func (z *Replication) Verify(k rc_kitchen.Kitchen, ctx Context, scope Scope) (er
 		AsMemberId(ctx.AdminDst().TeamMemberId).
 		WithPath(api_context.Namespace(scope.Pair().Dst.TeamFolderId))
 
-	ucc := uc_compare_paths.New(ctxSrc, ctxDst, k.UI())
+	ucc := uc_compare_paths.New(ctxSrc, ctxDst, c.UI())
 	count, err := ucc.Diff(
 		mo_path.NewDropboxPath(""), mo_path.NewDropboxPath(""),
 		func(diff mo_file_diff.Diff) error {
@@ -648,8 +647,8 @@ func (z *Replication) Verify(k rc_kitchen.Kitchen, ctx Context, scope Scope) (er
 	return nil
 }
 
-func (z *Replication) Unmount(k rc_kitchen.Kitchen, ctx Context, scope Scope) (err error) {
-	l := k.Log().With(
+func (z *Replication) Unmount(c app_control.Control, ctx Context, scope Scope) (err error) {
+	l := c.Log().With(
 		zap.String("folderSrcId", scope.Pair().Src.TeamFolderId),
 		zap.String("folderSrcName", scope.Pair().Src.Name),
 		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
@@ -680,8 +679,8 @@ func (z *Replication) Unmount(k rc_kitchen.Kitchen, ctx Context, scope Scope) (e
 	return nil
 }
 
-func (z *Replication) Archive(k rc_kitchen.Kitchen, ctx Context, scope Scope) (err error) {
-	l := k.Log()
+func (z *Replication) Archive(c app_control.Control, ctx Context, scope Scope) (err error) {
+	l := c.Log()
 	l.Info("Archive: Archiving team folder", zap.String("name", scope.Pair().Src.Name))
 	svt := sv_teamfolder.New(z.SrcFile.Context())
 	if _, err := svt.Archive(scope.Pair().Src); err != nil {
@@ -691,8 +690,8 @@ func (z *Replication) Archive(k rc_kitchen.Kitchen, ctx Context, scope Scope) (e
 	return nil
 }
 
-func (z *Replication) Cleanup(k rc_kitchen.Kitchen, ctx Context) (err error) {
-	l := k.Log()
+func (z *Replication) Cleanup(c app_control.Control, ctx Context) (err error) {
+	l := c.Log()
 	l.Info("Cleanup")
 	err = nil
 

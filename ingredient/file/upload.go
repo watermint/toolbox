@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
@@ -52,9 +51,9 @@ func (z *Upload) Preset() {
 	z.ChunkSizeKb = 150 * 1024
 }
 
-func (z *Upload) exec(k rc_kitchen.Kitchen, localPath string, dropboxPath string, estimate bool) (summary *UploadSummary, err error) {
+func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath string, estimate bool) (summary *UploadSummary, err error) {
 	// TODO: refactor localPath to mo_path.FileSystemPath, and DropboxPath to mo_path.DropboxPath
-	l := k.Log().With(zap.String("localPath", localPath), zap.String("dropboxPath", dropboxPath), zap.Bool("estimate", estimate))
+	l := c.Log().With(zap.String("localPath", localPath), zap.String("dropboxPath", dropboxPath), zap.Bool("estimate", estimate))
 	l.Debug("execute")
 
 	status := &UploadStatus{
@@ -74,7 +73,7 @@ func (z *Upload) exec(k rc_kitchen.Kitchen, localPath string, dropboxPath string
 
 			kps := status.summary.NumBytes / int64(dur) / 1024
 
-			k.UI().InfoM(z.ProgressSummary.
+			c.UI().InfoM(z.ProgressSummary.
 				With("Time", time.Now().Truncate(time.Second).Format("15:04:05")).
 				With("NumFileUpload", status.summary.NumFilesUpload).
 				With("NumFileSkip", status.summary.NumFilesSkip).
@@ -87,7 +86,7 @@ func (z *Upload) exec(k rc_kitchen.Kitchen, localPath string, dropboxPath string
 
 	l.Debug("upload", zap.Int("chunkSize", z.ChunkSizeKb))
 	up := sv_file_content.NewUpload(z.Context, sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
-	q := k.NewQueue()
+	q := c.NewQueue()
 
 	info, err := os.Lstat(localPath)
 	if err != nil {
@@ -195,7 +194,7 @@ func (z *Upload) exec(k rc_kitchen.Kitchen, localPath string, dropboxPath string
 					localFilePath:   p,
 					dbxEntry:        dbxEntry,
 					ctx:             z.Context,
-					ctl:             k.Control(),
+					ctl:             c,
 					up:              up,
 					estimateOnly:    estimate,
 					status:          status,
@@ -220,7 +219,7 @@ func (z *Upload) exec(k rc_kitchen.Kitchen, localPath string, dropboxPath string
 			localBasePath:   localPath,
 			localFilePath:   localPath,
 			ctx:             z.Context,
-			ctl:             k.Control(),
+			ctl:             c,
 			up:              up,
 			estimateOnly:    estimate,
 			upload:          z,
@@ -235,7 +234,7 @@ func (z *Upload) exec(k rc_kitchen.Kitchen, localPath string, dropboxPath string
 	return &status.summary, lastErr
 }
 
-func (z *Upload) Exec(k rc_kitchen.Kitchen) error {
+func (z *Upload) Exec(c app_control.Control) error {
 	if err := z.Uploaded.Open(); err != nil {
 		return err
 	}
@@ -245,7 +244,7 @@ func (z *Upload) Exec(k rc_kitchen.Kitchen) error {
 	if err := z.Summary.Open(); err != nil {
 		return err
 	}
-	_, err := z.exec(k, z.LocalPath.Path(), z.DropboxPath.Path(), z.EstimateOnly)
+	_, err := z.exec(c, z.LocalPath.Path(), z.DropboxPath.Path(), z.EstimateOnly)
 	return err
 }
 

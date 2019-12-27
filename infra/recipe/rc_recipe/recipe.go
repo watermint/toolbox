@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_vo"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_spec"
@@ -18,15 +17,8 @@ const (
 )
 
 type Recipe interface {
-	Exec(k rc_kitchen.Kitchen) error
+	Exec(c app_control.Control) error
 	Test(c app_control.Control) error
-}
-
-// Deprecated: migrate to SelfContainedRecipe
-type SideCarRecipe interface {
-	Recipe
-	Requirement() rc_vo.ValueObject
-	Reports() []rp_spec.ReportSpec
 }
 
 type SelfContainedRecipe interface {
@@ -53,6 +45,9 @@ type SpecValue interface {
 
 	// Value default for the name
 	ValueDefault(name string) interface{}
+
+	// Value for the name
+	Value(name string) Value
 
 	// Customized value default for the name
 	ValueCustomDefault(name string) app_msg.MessageOptional
@@ -100,8 +95,11 @@ type Spec interface {
 	// Returns array of scope of connections to Dropbox account(s)
 	ConnScopes() []string
 
+	// Field name and scope label map
+	ConnScopeMap() map[string]string
+
 	// Apply values to the new recipe instance
-	SpinUp(ctl app_control.Control, custom func(r Recipe)) (rcp Recipe, k rc_kitchen.Kitchen, err error)
+	SpinUp(ctl app_control.Control, custom func(r Recipe)) (rcp Recipe, err error)
 
 	// Serialize values
 	Debug() map[string]interface{}

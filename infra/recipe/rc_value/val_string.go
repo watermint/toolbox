@@ -6,7 +6,7 @@ import (
 	"reflect"
 )
 
-func newValueString() Value {
+func newValueString() rc_recipe.Value {
 	return &ValueString{}
 }
 
@@ -14,14 +14,14 @@ type ValueString struct {
 	v string
 }
 
-func (z *ValueString) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
+func (z *ValueString) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Kind() == reflect.String {
 		return newValueString()
 	}
 	return nil
 }
 
-func (z *ValueString) Fork(ctl app_control.Control) Value {
+func (z *ValueString) Fork(ctl app_control.Control) rc_recipe.Value {
 	v := &ValueString{}
 	v.v = z.v
 	return v

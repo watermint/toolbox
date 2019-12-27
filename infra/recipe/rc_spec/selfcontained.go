@@ -4,7 +4,6 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_value"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -33,7 +32,19 @@ type specValueSelfContained struct {
 	name    string
 	cliPath string
 	scr     rc_recipe.SelfContainedRecipe
-	repo    rc_value.Repository
+	repo    rc_recipe.Repository
+}
+
+func (z *specValueSelfContained) Value(name string) rc_recipe.Value {
+	return z.repo.FieldValue(name)
+}
+
+func (z *specValueSelfContained) ConnScopeMap() map[string]string {
+	scopes := make(map[string]string)
+	for k, v := range z.repo.Conns() {
+		scopes[k] = v.ScopeLabel()
+	}
+	return scopes
 }
 
 func (z *specValueSelfContained) SpinDown(ctl app_control.Control) error {
@@ -77,11 +88,11 @@ func (z *specValueSelfContained) CliPath() string {
 }
 
 func (z *specValueSelfContained) CliArgs() app_msg.MessageOptional {
-	return rc_recipe.RecipeMessage(z.scr, "cli.args").AsOptional()
+	return app_msg.ObjMessage(z.scr, "cli.args").AsOptional()
 }
 
 func (z *specValueSelfContained) CliNote() app_msg.MessageOptional {
-	return rc_recipe.RecipeMessage(z.scr, "cli.note").AsOptional()
+	return app_msg.ObjMessage(z.scr, "cli.note").AsOptional()
 }
 
 func (z *specValueSelfContained) Messages() []app_msg.Message {
@@ -133,16 +144,16 @@ func (z *specValueSelfContained) ConnScopes() []string {
 	return scopes
 }
 
-func (z *specValueSelfContained) SpinUp(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (rcp rc_recipe.Recipe, k rc_kitchen.Kitchen, err error) {
+func (z *specValueSelfContained) SpinUp(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (rcp rc_recipe.Recipe, err error) {
 	l := ctl.Log().With(zap.String("name", z.name))
 	rcp = z.repo.Apply()
 	custom(rcp)
 	_, err = z.repo.SpinUp(ctl)
 	if err != nil {
 		l.Debug("Unable to spin up", zap.Error(err))
-		return nil, nil, err
+		return nil, err
 	}
-	return rcp, rc_kitchen.NewKitchen(ctl, rcp), nil
+	return rcp, nil
 }
 
 func (z *specValueSelfContained) Debug() map[string]interface{} {

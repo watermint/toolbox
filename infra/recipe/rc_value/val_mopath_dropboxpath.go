@@ -7,7 +7,7 @@ import (
 	"reflect"
 )
 
-func newValueMoPathDropboxPath(name string) Value {
+func newValueMoPathDropboxPath(name string) rc_recipe.Value {
 	v := &ValueMoPathDropboxPath{name: name}
 	v.path = mo_path.NewDropboxPath("")
 	return v
@@ -23,7 +23,7 @@ func (z *ValueMoPathDropboxPath) ValueText() string {
 	return z.filePath
 }
 
-func (z *ValueMoPathDropboxPath) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
+func (z *ValueMoPathDropboxPath) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*mo_path.Path)(nil)).Elem()) {
 		return newValueMoPathDropboxPath(name)
 	}

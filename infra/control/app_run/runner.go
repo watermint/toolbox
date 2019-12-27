@@ -32,7 +32,7 @@ import (
 )
 
 func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.Spec, grp *rc_group.Group, rem []string, bx, web *rice.Box) (found bool) {
-	comSpec, com, cvc := rc_spec.NewCommonValue()
+	comSpec := rc_spec.NewCommonValue()
 
 	f := flag.NewFlagSet(rcpSpec.CliPath(), flag.ContinueOnError)
 
@@ -45,7 +45,8 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 		grp.PrintRecipeUsage(ui, rcpSpec, f)
 		os.Exit(app_control.FailureInvalidCommandFlags)
 	}
-	cvc.Apply(com)
+	comSpec.Apply()
+	com := comSpec.Opts()
 
 	// Apply common flags
 
@@ -75,7 +76,7 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 	so = append(so, app_control.LowMemory(com.LowMemory))
 	so = append(so, app_control.Concurrency(com.Concurrency))
 	so = append(so, app_control.RecipeName(rcpSpec.CliPath()))
-	so = append(so, app_control.CommonOptions(cvc.Serialize()))
+	so = append(so, app_control.CommonOptions(comSpec.Debug()))
 	so = append(so, app_control.RecipeOptions(rcpSpec.Debug()))
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.Recipes(), catalogue.Ingredients())

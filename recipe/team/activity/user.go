@@ -11,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -37,7 +36,7 @@ type UserIn struct {
 }
 
 type UserWorker struct {
-	k          rc_kitchen.Kitchen
+	ctl        app_control.Control
 	ctx        api_context.Context
 	reps       rp_model.RowReport
 	repSummary rp_model.TransactionReport
@@ -49,8 +48,8 @@ type UserWorker struct {
 
 func (z *UserWorker) Exec() error {
 	userIn := &UserIn{User: z.user.Email}
-	ui := z.k.UI()
-	l := z.k.Log().With(zap.Any("userIn", userIn))
+	ui := z.ctl.UI()
+	l := z.ctl.Log().With(zap.Any("userIn", userIn))
 
 	rep, err := z.reps.OpenNew(rp_model.Suffix("-" + ut_mailaddr.EscapeSpecial(z.user.Email, "_")))
 	if err != nil {
@@ -122,8 +121,8 @@ func (z *User) Preset() {
 func (z *User) Console() {
 }
 
-func (z *User) Exec(k rc_kitchen.Kitchen) error {
-	l := k.Log()
+func (z *User) Exec(c app_control.Control) error {
+	l := c.Log()
 
 	if z.StartTime != "" {
 		if t, ok := ut_time.ParseTimestamp(z.StartTime); ok {
@@ -153,10 +152,10 @@ func (z *User) Exec(k rc_kitchen.Kitchen) error {
 		return err
 	}
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 	for _, member := range members {
 		q.Enqueue(&UserWorker{
-			k:          k,
+			ctl:        c,
 			ctx:        z.Peer.Context(),
 			reps:       z.User,
 			repSummary: z.UserSummary,

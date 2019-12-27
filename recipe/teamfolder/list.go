@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -35,7 +34,7 @@ func (z *List) Test(c app_control.Control) error {
 	})
 }
 
-func (z *List) Exec(k rc_kitchen.Kitchen) error {
+func (z *List) Exec(c app_control.Control) error {
 	folders, err := sv_teamfolder.New(z.Peer.Context()).List()
 	if err != nil {
 		// ApiError will be reported by infra
@@ -46,7 +45,7 @@ func (z *List) Exec(k rc_kitchen.Kitchen) error {
 		return err
 	}
 	for _, folder := range folders {
-		k.Log().Debug("Folder", zap.Any("folder", folder))
+		c.Log().Debug("Folder", zap.Any("folder", folder))
 		z.TeamFolder.Row(folder)
 	}
 

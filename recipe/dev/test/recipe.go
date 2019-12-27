@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -29,10 +28,10 @@ func (z *Recipe) Console() {
 func (z *Recipe) Hidden() {
 }
 
-func (z *Recipe) Exec(k rc_kitchen.Kitchen) error {
-	cl := k.Control().(app_control_launcher.ControlLauncher)
+func (z *Recipe) Exec(c app_control.Control) error {
+	cl := c.(app_control_launcher.ControlLauncher)
 	cat := cl.Catalogue()
-	l := k.Log()
+	l := c.Log()
 
 	testResource := gjson.Parse("{}")
 
@@ -50,7 +49,7 @@ func (z *Recipe) Exec(k rc_kitchen.Kitchen) error {
 		testResource = gjson.ParseBytes(b)
 	}
 
-	tc, err := k.Control().(*app_control_impl.Single).NewTestControl(testResource)
+	tc, err := c.(*app_control_impl.Single).NewTestControl(testResource)
 	if err != nil {
 		l.Error("Unable to create test control", zap.Error(err))
 		return err

@@ -8,7 +8,6 @@ import (
 	"github.com/skratchdot/open-golang/open"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/web/web_handler"
 	"github.com/watermint/toolbox/infra/web/web_job"
 	"github.com/watermint/toolbox/infra/web/web_user"
@@ -37,23 +36,23 @@ func (z *Web) Test(c app_control.Control) error {
 func (z *Web) Console() {
 }
 
-func (z *Web) Exec(k rc_kitchen.Kitchen) error {
-	l := k.Log()
-	repo, err := web_user.SingleUserRepository(k.Control().Workspace())
+func (z *Web) Exec(c app_control.Control) error {
+	l := c.Log()
+	repo, err := web_user.SingleUserRepository(c.Workspace())
 	if err != nil {
 		return err
 	}
 	rur := repo.(web_user.RootUserRepository)
 	ru := rur.RootUser()
 
-	if k.Control().IsProduction() {
+	if c.IsProduction() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	hfs := k.Control().(app_control.ControlHttpFileSystem)
+	hfs := c.(app_control.ControlHttpFileSystem)
 	htp := hfs.Template()
 	htr := htp.(render.HTMLRender)
-	cl := k.Control().(app_control_launcher.ControlLauncher)
+	cl := c.(app_control_launcher.ControlLauncher)
 
 	g := gin.New()
 	g.Use(ginzap.Ginzap(l, time.RFC3339, true))
@@ -65,7 +64,7 @@ func (z *Web) Exec(k rc_kitchen.Kitchen) error {
 	jobChan := make(chan *web_job.WebJobRun)
 
 	wh := web_handler.NewHanlder(
-		k.Control(),
+		c,
 		htp,
 		cl,
 		baseUrl,
@@ -73,11 +72,11 @@ func (z *Web) Exec(k rc_kitchen.Kitchen) error {
 	)
 	wh.Setup(g)
 
-	go web_job.Runner(k.Control(), jobChan)
+	go web_job.Runner(c, jobChan)
 
 	loginUrl := baseUrl + web_handler.WebPathLogin + "/" + ru.UserHash()
 
-	k.Log().Info("Login url", zap.String("url", loginUrl))
+	c.Log().Info("Login url", zap.String("url", loginUrl))
 
 	wg := sync.WaitGroup{}
 	go func() {
@@ -85,12 +84,12 @@ func (z *Web) Exec(k rc_kitchen.Kitchen) error {
 		defer wg.Done()
 		err = g.Run(fmt.Sprintf(":%d", z.Port))
 		if err != nil {
-			k.Log().Error("Unable to start", zap.Error(err))
+			c.Log().Error("Unable to start", zap.Error(err))
 		}
 	}()
 
 	time.Sleep(2 * time.Second)
-	k.Log().Info("Trying open browser")
+	c.Log().Info("Trying open browser")
 	open.Start(loginUrl)
 	wg.Wait()
 

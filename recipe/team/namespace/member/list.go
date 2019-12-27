@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -64,8 +63,8 @@ func (z *List) Preset() {
 	))
 }
 
-func (z *List) Exec(k rc_kitchen.Kitchen) error {
-	l := k.Log()
+func (z *List) Exec(c app_control.Control) error {
+	l := c.Log()
 	if err := z.NamespaceMember.Open(); err != nil {
 		return err
 	}
@@ -83,7 +82,7 @@ func (z *List) Exec(k rc_kitchen.Kitchen) error {
 
 	cta := z.Peer.Context().AsAdminId(admin.TeamMemberId)
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 	for _, namespace := range namespaces {
 		if namespace.NamespaceType != "team_folder" &&
 			namespace.NamespaceType != "shared_folder" {
@@ -95,7 +94,7 @@ func (z *List) Exec(k rc_kitchen.Kitchen) error {
 			namespace: namespace,
 			ctx:       cta,
 			rep:       z.NamespaceMember,
-			ctl:       k.Control(),
+			ctl:       c,
 		})
 	}
 	q.Wait()

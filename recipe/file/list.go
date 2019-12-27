@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -27,7 +26,7 @@ func (z *List) Preset() {
 	z.FileList.SetModel(&mo_file.ConcreteEntry{})
 }
 
-func (z *List) Exec(k rc_kitchen.Kitchen) error {
+func (z *List) Exec(c app_control.Control) error {
 	ctx := z.Peer.Context()
 
 	opts := make([]sv_file.ListOpt, 0)
@@ -50,7 +49,7 @@ func (z *List) Exec(k rc_kitchen.Kitchen) error {
 		z.FileList.Row(entry.Concrete())
 	}, opts...)
 	if err != nil {
-		k.Log().Debug("Failed to list files")
+		c.Log().Debug("Failed to list files")
 		return err
 	}
 	return nil

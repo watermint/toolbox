@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
@@ -25,8 +24,8 @@ func (z *Permdelete) Preset() {
 func (z *Permdelete) Console() {
 }
 
-func (z *Permdelete) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
+func (z *Permdelete) Exec(c app_control.Control) error {
+	ui := c.UI()
 
 	if z.Name == "" {
 		ui.Error("recipe.teamfolder.permdelete.err.missing_option.name")
@@ -56,7 +55,7 @@ func (z *Permdelete) Exec(k rc_kitchen.Kitchen) error {
 		return errors.New("unable to find team folder")
 	}
 
-	k.Log().Debug("Archiving team folder", zap.Any("teamfolder", teamfolder))
+	c.Log().Debug("Archiving team folder", zap.Any("teamfolder", teamfolder))
 
 	err = sv_teamfolder.New(z.Peer.Context()).PermDelete(teamfolder)
 	if err != nil {

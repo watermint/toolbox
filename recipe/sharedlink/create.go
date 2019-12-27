@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
@@ -30,8 +29,8 @@ func (z *Create) Preset() {
 func (z *Create) Console() {
 }
 
-func (z *Create) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
+func (z *Create) Exec(c app_control.Control) error {
+	ui := c.UI()
 	opts := make([]sv_sharedlink.LinkOpt, 0)
 
 	if z.Expires != "" {

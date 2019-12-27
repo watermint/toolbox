@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -32,8 +31,8 @@ func (z *Account) Preset() {
 func (z *Account) Console() {
 }
 
-func (z *Account) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
+func (z *Account) Exec(c app_control.Control) error {
+	ui := c.UI()
 
 	ui.InfoM(z.ConnLeft)
 	ctxLeft := z.Left.Context()
@@ -51,7 +50,7 @@ func (z *Account) Exec(k rc_kitchen.Kitchen) error {
 		return nil
 	}
 
-	ucc := uc_compare_paths.New(ctxLeft, ctxRight, k.UI())
+	ucc := uc_compare_paths.New(ctxLeft, ctxRight, c.UI())
 	count, err := ucc.Diff(z.LeftPath, z.RightPath, diff)
 	if err != nil {
 		return err

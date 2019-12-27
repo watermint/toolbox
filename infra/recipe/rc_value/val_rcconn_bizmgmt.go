@@ -8,7 +8,7 @@ import (
 	"reflect"
 )
 
-func newValueRcConnBusinessMgmt(peerName string) Value {
+func newValueRcConnBusinessMgmt(peerName string) rc_recipe.Value {
 	v := &ValueRcConnBusinessMgmt{peerName: peerName}
 	v.conn = rc_conn_impl.NewConnBusinessMgmt(peerName)
 	return v
@@ -23,7 +23,7 @@ func (z *ValueRcConnBusinessMgmt) ValueText() string {
 	return z.peerName
 }
 
-func (z *ValueRcConnBusinessMgmt) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
+func (z *ValueRcConnBusinessMgmt) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*rc_conn.ConnBusinessMgmt)(nil)).Elem()) {
 		return newValueRcConnBusinessMgmt(z.peerName)
 	}

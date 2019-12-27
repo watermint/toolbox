@@ -12,7 +12,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -25,7 +24,6 @@ type SizeWorker struct {
 	ctx       api_context.Context
 	ctl       app_control.Control
 	rep       rp_model.TransactionReport
-	k         rc_kitchen.Kitchen
 	depth     int
 }
 
@@ -42,7 +40,7 @@ func (z *SizeWorker) Exec() error {
 	ctn := z.ctx.WithPath(api_context.Namespace(z.namespace.NamespaceId))
 
 	var lastErr error
-	sizes, errs := uc_file_size.New(ctn, z.k).Size(mo_path.NewDropboxPath("/"), z.depth)
+	sizes, errs := uc_file_size.New(ctn, z.ctl).Size(mo_path.NewDropboxPath("/"), z.depth)
 
 	for p, size := range sizes {
 		if err, ok := errs[p]; ok {
@@ -91,8 +89,8 @@ func (z *Size) Preset() {
 	z.Depth = 1
 }
 
-func (z *Size) Exec(k rc_kitchen.Kitchen) error {
-	l := k.Log()
+func (z *Size) Exec(c app_control.Control) error {
+	l := c.Log()
 
 	if z.Depth < 1 {
 		return errors.New("depth should grater than 1")
@@ -115,7 +113,7 @@ func (z *Size) Exec(k rc_kitchen.Kitchen) error {
 
 	cta := z.Peer.Context().AsAdminId(admin.TeamMemberId)
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 	for _, namespace := range namespaces {
 		process := false
 		switch {
@@ -138,12 +136,11 @@ func (z *Size) Exec(k rc_kitchen.Kitchen) error {
 		}
 
 		q.Enqueue(&SizeWorker{
-			k:         k,
 			namespace: namespace,
 			ctx:       cta,
 			rep:       z.NamespaceSize,
 			depth:     z.Depth,
-			ctl:       k.Control(),
+			ctl:       c,
 		})
 	}
 	q.Wait()

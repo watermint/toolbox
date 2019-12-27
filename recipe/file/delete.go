@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
@@ -19,8 +18,8 @@ type Delete struct {
 func (z *Delete) Preset() {
 }
 
-func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
+func (z *Delete) Exec(c app_control.Control) error {
+	ui := c.UI()
 	ctx := z.Peer.Context()
 
 	var delete func(path mo_path.DropboxPath) error

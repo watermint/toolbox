@@ -2,13 +2,12 @@ package rc_value
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"reflect"
 )
 
-func newValueRcRecipeRecipe(name string, t reflect.Type) Value {
+func newValueRcRecipeRecipe(name string, t reflect.Type) rc_recipe.Value {
 	v := &ValueRcRecipeRecipe{name: name}
 	if t == nil {
 		v.recipe = &EmptyRecipe{}
@@ -31,7 +30,7 @@ func (z *ValueRcRecipeRecipe) Reports() map[string]rp_model.Report {
 	return spec.Reports()
 }
 
-func (z *ValueRcRecipeRecipe) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
+func (z *ValueRcRecipeRecipe) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*rc_recipe.Recipe)(nil)).Elem()) {
 		return newValueRcRecipeRecipe(name, t)
 	}
@@ -73,7 +72,7 @@ func (z *ValueRcRecipeRecipe) SpinDown(ctl app_control.Control) error {
 type EmptyRecipe struct {
 }
 
-func (z *EmptyRecipe) Exec(k rc_kitchen.Kitchen) error {
+func (z *EmptyRecipe) Exec(c app_control.Control) error {
 	return nil
 }
 

@@ -4,7 +4,6 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
@@ -30,8 +29,8 @@ func (z *Auth) Hidden() {
 func (z *Auth) Console() {
 }
 
-func (z *Auth) Exec(k rc_kitchen.Kitchen) error {
-	if err := api_auth_impl.CreateCompatible(k.Control(), qt_endtoend.EndToEndPeer); err != nil {
+func (z *Auth) Exec(c app_control.Control) error {
+	if err := api_auth_impl.CreateCompatible(c, qt_endtoend.EndToEndPeer); err != nil {
 		return err
 	}
 	return nil

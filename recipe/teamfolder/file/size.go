@@ -4,7 +4,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	namespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -20,8 +19,8 @@ func (z *Size) Preset() {
 	z.Depth = 1
 }
 
-func (z *Size) Exec(k rc_kitchen.Kitchen) error {
-	return rc_exec.Exec(k.Control(), z.FileSize, func(r rc_recipe.Recipe) {
+func (z *Size) Exec(c app_control.Control) error {
+	return rc_exec.Exec(c, z.FileSize, func(r rc_recipe.Recipe) {
 		rc := r.(*namespacefile.Size)
 		rc.IncludeSharedFolder = false
 		rc.IncludeTeamFolder = false

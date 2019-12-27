@@ -6,16 +6,11 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file_content"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
-)
-
-const (
-	reportDownload = "download"
 )
 
 type Download struct {
@@ -32,8 +27,8 @@ func (z *Download) Preset() {
 func (z *Download) Console() {
 }
 
-func (z *Download) Exec(k rc_kitchen.Kitchen) error {
-	l := k.Log()
+func (z *Download) Exec(c app_control.Control) error {
+	l := c.Log()
 	ctx := z.Peer.Context()
 
 	if err := z.OperationLog.Open(); err != nil {

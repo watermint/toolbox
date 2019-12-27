@@ -14,11 +14,9 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo"
-	"github.com/watermint/toolbox/infra/recipe/rc_vo_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_template"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/web/web_job"
@@ -147,10 +145,6 @@ func (z *WebHandler) setupCatalogue() {
 		if ok {
 			continue
 		}
-		_, ok = r.(rc_recipe.SideCarRecipe)
-		if ok {
-			continue
-		}
 
 		z.Root.Add(r)
 	}
@@ -168,30 +162,15 @@ func (z *WebHandler) findRecipe(cmd string) (grp *rc_group.Group, rcp rc_recipe.
 	return
 }
 
-func (z *WebHandler) recipeRequirements(rcp rc_recipe.SideCarRecipe) (conns map[string]string, paramTypes map[string]string, paramDefaults map[string]interface{}) {
-	conns = make(map[string]string)
+func (z *WebHandler) recipeRequirements(rcp rc_recipe.SelfContainedRecipe) (conns map[string]string, paramTypes map[string]string, paramDefaults map[string]interface{}) {
 	paramTypes = make(map[string]string)
 	paramDefaults = make(map[string]interface{})
 
-	var vo interface{} = rcp.Requirement()
-	vc := rc_vo_impl.NewValueContainer(vo)
-
-	for k, v := range vc.Values {
-		if d, ok := v.(bool); ok {
-			paramTypes[k] = "bool"
-			paramDefaults[k] = d
-		} else if _, ok := v.(rc_conn.OldConnBusinessInfo); ok {
-			conns[k] = api_auth.DropboxTokenBusinessInfo
-		} else if _, ok := v.(rc_conn.OldConnBusinessFile); ok {
-			conns[k] = api_auth.DropboxTokenBusinessFile
-		} else if _, ok := v.(rc_conn.OldConnBusinessAudit); ok {
-			conns[k] = api_auth.DropboxTokenBusinessAudit
-		} else if _, ok := v.(rc_conn.OldConnBusinessMgmt); ok {
-			conns[k] = api_auth.DropboxTokenBusinessManagement
-		} else if _, ok := v.(rc_conn.OldConnUserFile); ok {
-			conns[k] = api_auth.DropboxTokenFull
-		}
+	rcpSpec := rc_spec.New(rcp)
+	if rcpSpec == nil {
+		return
 	}
+	conns = rcpSpec.ConnScopeMap()
 	return
 }
 
@@ -351,7 +330,7 @@ func (z *WebHandler) Home(g *gin.Context) {
 		case rcp != nil:
 			// TODO: Breadcrumb list
 			switch scr := rcp.(type) {
-			case rc_recipe.SideCarRecipe:
+			case rc_recipe.SelfContainedRecipe:
 				z.renderRecipeConn(g, cmd, scr, user, uc)
 			}
 
@@ -373,118 +352,77 @@ func (z *WebHandler) Run(g *gin.Context) {
 			return
 		}
 		selectedConns := g.PostFormMap("Conn")
+		rcpSpec := rc_spec.New(rcp)
 
-		switch scr := rcp.(type) {
-		case rc_recipe.SideCarRecipe:
-			var vo interface{} = scr.Requirement()
-			vc := rc_vo_impl.NewValueContainer(vo)
-
-			for k, v := range vc.Values {
-				if d, ok := v.(bool); ok {
-					vc.Values[k] = d
-				} else if _, ok := v.(rc_conn.OldConnBusinessInfo); ok {
-					if pn, ok := selectedConns[k]; ok {
-						vc.Values[k] = &rc_conn_impl.ConnBusinessInfo{
-							PeerName: pn,
-						}
-					} else {
-						l.Debug("Unable to find required conn", zap.String("key", k))
-					}
-				} else if _, ok := v.(rc_conn.OldConnBusinessFile); ok {
-					if pn, ok := selectedConns[k]; ok {
-						vc.Values[k] = &rc_conn_impl.ConnBusinessFile{
-							PeerName: pn,
-						}
-					} else {
-						l.Debug("Unable to find required conn", zap.String("key", k))
-					}
-				} else if _, ok := v.(rc_conn.OldConnBusinessAudit); ok {
-					if pn, ok := selectedConns[k]; ok {
-						vc.Values[k] = &rc_conn_impl.ConnBusinessAudit{
-							PeerName: pn,
-						}
-					} else {
-						l.Debug("Unable to find required conn", zap.String("key", k))
-					}
-				} else if _, ok := v.(rc_conn.OldConnBusinessMgmt); ok {
-					if pn, ok := selectedConns[k]; ok {
-						vc.Values[k] = &rc_conn_impl.ConnBusinessMgmt{
-							PeerName: pn,
-						}
-					} else {
-						l.Debug("Unable to find required conn", zap.String("key", k))
-					}
-				} else if _, ok := v.(rc_conn.OldConnUserFile); ok {
-					if pn, ok := selectedConns[k]; ok {
-						vc.Values[k] = &rc_conn_impl.ConnUserFile{
-							PeerName: pn,
-						}
-					} else {
-						l.Debug("Unable to find required conn", zap.String("key", k))
-					}
+		for _, vn := range rcpSpec.ValueNames() {
+			v := rcpSpec.Value(vn)
+			if v == nil {
+				continue
+			}
+			if vc, ok := v.(rc_recipe.ValueConn); ok {
+				if pn, ok := selectedConns[vn]; ok {
+					conn := vc.Bind().(rc_conn.ConnDropboxApi)
+					conn.SetPeerName(pn)
 				}
 			}
+		}
 
-			vc.Apply(vo)
+		jws, err := app_workspace.NewMultiJob(user.Workspace())
+		if err != nil {
+			l.Debug("Unable to create new Job workspace", zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
+			return
+		}
 
-			jws, err := app_workspace.NewMultiJob(user.Workspace())
+		wuiLogPath := filepath.Join(jws.Log(), "webui.log")
+		l.Debug("Create web ui log file", zap.String("path", wuiLogPath))
+		wuiLog, err := os.Create(wuiLogPath)
+		if err != nil {
+			l.Debug("Unable to create web ui log file", zap.String("path", wuiLogPath), zap.Error(err))
+			g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
+			return
+		}
+
+		linkForLocalFile := func(path string) string {
+			rel, err := filepath.Rel(jws.Job(), path)
 			if err != nil {
-				l.Debug("Unable to create new Job workspace", zap.Error(err))
-				g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
-				return
+				l.Warn("Unable to calc rel path", zap.Error(err))
+				return ""
 			}
+			p := base64.URLEncoding.EncodeToString([]byte(rel))
+			return fmt.Sprintf("%s/%s/%s/%s", WebPathJobArtifact, cmd, jws.JobId(), p)
+		}
 
-			wuiLogPath := filepath.Join(jws.Log(), "webui.log")
-			l.Debug("Create web ui log file", zap.String("path", wuiLogPath))
-			wuiLog, err := os.Create(wuiLogPath)
+		wui := app_ui.NewWeb(uc.UI(), wuiLog, linkForLocalFile)
+		if muc, ok := uc.(*app_control_impl.Multi); !ok {
+			l.Debug("Control was not expected impl.")
+			g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
+			return
+		} else {
+			juc, err := muc.Fork(wui, jws)
 			if err != nil {
-				l.Debug("Unable to create web ui log file", zap.String("path", wuiLogPath), zap.Error(err))
+				l.Debug("Unable to fork control for new job", zap.Error(err))
 				g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
 				return
 			}
-
-			linkForLocalFile := func(path string) string {
-				rel, err := filepath.Rel(jws.Job(), path)
-				if err != nil {
-					l.Warn("Unable to calc rel path", zap.Error(err))
-					return ""
-				}
-				p := base64.URLEncoding.EncodeToString([]byte(rel))
-				return fmt.Sprintf("%s/%s/%s/%s", WebPathJobArtifact, cmd, jws.JobId(), p)
+			wj := &web_job.WebJobRun{
+				Name:      cmd,
+				JobId:     jws.JobId(),
+				Recipe:    rcpSpec,
+				UC:        juc,
+				UiLogFile: wuiLog,
 			}
+			l.Debug("Enqueue Job", zap.String("name", cmd), zap.String("jobId", wj.JobId))
+			z.JobChan <- wj
 
-			wui := app_ui.NewWeb(uc.UI(), wuiLog, linkForLocalFile)
-			if muc, ok := uc.(*app_control_impl.Multi); !ok {
-				l.Debug("Control was not expected impl.")
-				g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
-				return
-			} else {
-				juc, err := muc.Fork(wui, jws)
-				if err != nil {
-					l.Debug("Unable to fork control for new job", zap.Error(err))
-					g.Redirect(http.StatusTemporaryRedirect, WebPathServerError)
-					return
-				}
-				wj := &web_job.WebJobRun{
-					Name:      cmd,
-					JobId:     jws.JobId(),
-					Recipe:    rcp,
-					VO:        vo.(rc_vo.ValueObject),
-					UC:        juc,
-					UiLogFile: wuiLog,
-				}
-				l.Debug("Enqueue Job", zap.String("name", cmd), zap.String("jobId", wj.JobId))
-				z.JobChan <- wj
-
-				g.HTML(
-					http.StatusOK,
-					WebPathRun,
-					gin.H{
-						"Recipe": cmd,
-						"JobId":  wj.JobId,
-					},
-				)
-			}
+			g.HTML(
+				http.StatusOK,
+				WebPathRun,
+				gin.H{
+					"Recipe": cmd,
+					"JobId":  wj.JobId,
+				},
+			)
 		}
 	})
 }
@@ -614,7 +552,7 @@ func (z *WebHandler) Artifact(g *gin.Context) {
 	})
 }
 
-func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp rc_recipe.SideCarRecipe, user web_user.User, uc app_control.Control) {
+func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp rc_recipe.SelfContainedRecipe, user web_user.User, uc app_control.Control) {
 	l := z.Control.Log().With(zap.String("cmd", cmd))
 	reqConns, reqParams, _ := z.recipeRequirements(rcp)
 	selectedConns := g.PostFormMap("Conn")
@@ -689,7 +627,7 @@ func (z *WebHandler) renderRecipeParam(g *gin.Context) {
 	)
 }
 
-func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp rc_recipe.SideCarRecipe, user web_user.User, uc app_control.Control) {
+func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp rc_recipe.SelfContainedRecipe, user web_user.User, uc app_control.Control) {
 	l := z.Control.Log().With(zap.String("cmd", cmd))
 	reqConns, _, _ := z.recipeRequirements(rcp)
 

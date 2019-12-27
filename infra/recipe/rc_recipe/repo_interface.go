@@ -1,11 +1,10 @@
-package rc_value
+package rc_recipe
 
 import (
 	"flag"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -34,14 +33,17 @@ type Repository interface {
 	// Text representation of the field value
 	FieldValueText(name string) string
 
+	// Field value
+	FieldValue(name string) Value
+
 	// Returns connections that requested by the recipe
 	Conns() map[string]rc_conn.ConnDropboxApi
 
 	// Apply values in the repository to the
-	Apply() rc_recipe.Recipe
+	Apply() Recipe
 
 	// Prepare values for run recipe
-	SpinUp(ctl app_control.Control) (rc_recipe.Recipe, error)
+	SpinUp(ctl app_control.Control) (Recipe, error)
 
 	// Spin down value
 	SpinDown(ctl app_control.Control) error
@@ -62,7 +64,7 @@ type Repository interface {
 type Value interface {
 	// Returns forked instance when the type is acceptable
 	// Otherwise returns nil
-	Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value
+	Accept(t reflect.Type, v0 interface{}, name string) Value
 
 	// Return value reference of the instance
 	Bind() interface{}

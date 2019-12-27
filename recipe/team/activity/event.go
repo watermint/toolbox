@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/util/ut_time"
@@ -29,8 +28,8 @@ func (z *Event) Preset() {
 	z.Event.SetModel(&mo_activity.Event{})
 }
 
-func (z *Event) Exec(k rc_kitchen.Kitchen) error {
-	l := k.Log()
+func (z *Event) Exec(c app_control.Control) error {
+	l := c.Log()
 
 	if z.StartTime != "" {
 		if t, ok := ut_time.ParseTimestamp(z.StartTime); ok {

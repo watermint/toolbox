@@ -6,7 +6,7 @@ import (
 	"reflect"
 )
 
-func newValueInt() Value {
+func newValueInt() rc_recipe.Value {
 	return &ValueInt{}
 }
 
@@ -14,7 +14,7 @@ type ValueInt struct {
 	v int64
 }
 
-func (z *ValueInt) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
+func (z *ValueInt) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Kind() == reflect.Int {
 		return newValueInt()
 	}

@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -18,7 +17,7 @@ import (
 )
 
 type RestoreWorker struct {
-	k    rc_kitchen.Kitchen
+	ctl  app_control.Control
 	ctx  api_context.Context
 	rep  rp_model.TransactionReport
 	path mo_path.DropboxPath
@@ -29,8 +28,8 @@ type RestoreTarget struct {
 }
 
 func (z *RestoreWorker) Exec() error {
-	l := z.k.Log().With(zap.String("path", z.path.Path()))
-	ui := z.k.UI()
+	l := z.ctl.Log().With(zap.String("path", z.path.Path()))
+	ui := z.ctl.UI()
 	ui.Info("recipe.file.restore.progress.restore_file", app_msg.P{"Path": z.path.Path()})
 	target := &RestoreTarget{
 		Path: z.path.Path(),
@@ -82,21 +81,21 @@ func (z *Restore) Preset() {
 func (z *Restore) Console() {
 }
 
-func (z *Restore) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
+func (z *Restore) Exec(c app_control.Control) error {
+	ui := c.UI()
 	ctx := z.Peer.Context()
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 
 	count := 0
 	handler := func(entry mo_file.Entry) {
 		if f, e := entry.Deleted(); e {
 			count++
 			q.Enqueue(&RestoreWorker{
-				k:    k,
+				ctl:  c,
 				ctx:  ctx,
 				path: f.Path(),
 				rep:  z.OperationLog,

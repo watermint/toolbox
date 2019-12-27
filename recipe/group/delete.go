@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
@@ -23,8 +22,8 @@ func (z *Delete) Preset() {
 func (z *Delete) Console() {
 }
 
-func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
+func (z *Delete) Exec(c app_control.Control) error {
+	ui := c.UI()
 
 	if z.Name == "" {
 		ui.Error("recipe.group.delete.err.missing_option.name")
@@ -39,7 +38,7 @@ func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
 			})
 		return err
 	}
-	k.Log().Debug("Removing group", zap.Any("group", group))
+	c.Log().Debug("Removing group", zap.Any("group", group))
 
 	err = sv_group.New(z.Peer.Context()).Remove(group.GroupId)
 	if err != nil {

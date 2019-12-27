@@ -166,7 +166,7 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 		l.Error("Unable to compile template", zap.Error(err))
 		return err
 	}
-	commonSpec, _, _ := rc_spec.NewCommonValue()
+	commonSpec := rc_spec.NewCommonValue()
 
 	params := make(map[string]interface{})
 	params["Command"] = spec.CliPath()
@@ -225,7 +225,6 @@ func (z *Commands) GenerateAll() error {
 
 	numSecret := 0
 	numSelfContained := 0
-	numSideCar := 0
 
 	for _, r := range recipes {
 		if _, ok := r.(rc_recipe.SecretRecipe); ok {
@@ -235,13 +234,10 @@ func (z *Commands) GenerateAll() error {
 		if _, ok := r.(rc_recipe.SelfContainedRecipe); ok {
 			numSelfContained++
 		}
-		if _, ok := r.(rc_recipe.SideCarRecipe); ok {
-			numSideCar++
-		}
 		if err := z.Generate(r); err != nil {
 			return err
 		}
 	}
-	l.Info("Recipes", zap.Int("SecretRecipes", numSecret), zap.Int("SideCarRecipe", numSideCar), zap.Int("SelfContainedRecipe", numSelfContained))
+	l.Info("Recipes", zap.Int("SecretRecipes", numSecret), zap.Int("SelfContainedRecipe", numSelfContained))
 	return nil
 }

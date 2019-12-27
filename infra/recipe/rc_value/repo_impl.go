@@ -21,7 +21,7 @@ import (
 )
 
 var (
-	valueTypes = []Value{
+	valueTypes = []rc_recipe.Value{
 		newValueBool(),
 		newValueInt(),
 		newValueString(),
@@ -43,7 +43,7 @@ var (
 
 // Find value of type.
 // Returns nil when the value type is not supported
-func valueOfType(t reflect.Type, r rc_recipe.Recipe, name string) Value {
+func valueOfType(t reflect.Type, r interface{}, name string) rc_recipe.Value {
 	for _, vt := range valueTypes {
 		if v := vt.Accept(t, r, name); v != nil {
 			return v
@@ -53,12 +53,12 @@ func valueOfType(t reflect.Type, r rc_recipe.Recipe, name string) Value {
 }
 
 // Returns nil if the given rcp is not supported type.
-func NewRepository(scr rc_recipe.Recipe) Repository {
+func NewRepository(scr interface{}) rc_recipe.Repository {
 	l := app_root.Log()
 
 	// Create a new recipe instance
 	srt := reflect.ValueOf(scr).Elem().Type()
-	rcp := reflect.New(srt).Interface().(rc_recipe.SelfContainedRecipe)
+	rcp := reflect.New(srt).Interface()
 
 	// Type
 	rt := reflect.ValueOf(rcp).Elem().Type()
@@ -69,7 +69,7 @@ func NewRepository(scr rc_recipe.Recipe) Repository {
 		return nil
 	}
 
-	vals := make(map[string]Value)
+	vals := make(map[string]rc_recipe.Value)
 	fieldValue := make(map[string]reflect.Value)
 	rcpName := rt.PkgPath() + "." + strcase.ToSnake(rt.Name())
 
@@ -105,15 +105,15 @@ func NewRepository(scr rc_recipe.Recipe) Repository {
 		}
 	}
 
-	rcp.Preset()
+	if cr, ok := rcp.(rc_recipe.SelfContainedRecipe); ok {
+		cr.Preset()
+	}
 
 	// Apply preset values
 	for k, v := range vals {
 		f := fieldValue[k]
 		v.ApplyPreset(f.Interface())
 	}
-
-	// TODO: require write back to repo vals at this point
 
 	return &repositoryImpl{
 		values:     vals,
@@ -124,23 +124,27 @@ func NewRepository(scr rc_recipe.Recipe) Repository {
 }
 
 type repositoryImpl struct {
-	rcp        rc_recipe.Recipe
+	rcp        interface{}
 	rcpName    string
-	values     map[string]Value
+	values     map[string]rc_recipe.Value
 	fieldValue map[string]reflect.Value
+}
+
+func (z *repositoryImpl) FieldValue(name string) rc_recipe.Value {
+	return z.values[name]
 }
 
 func (z *repositoryImpl) Messages() []app_msg.Message {
 	msgs := make([]app_msg.Message, 0)
 	for k, v := range z.values {
-		if vm, ok := v.(ValueMessage); ok {
+		if vm, ok := v.(rc_recipe.ValueMessage); ok {
 			if m, ok := vm.Message(); ok {
 				msgs = append(msgs, m)
 			}
 		}
-		if _, ok := v.(ValueConn); ok {
+		if _, ok := v.(rc_recipe.ValueConn); ok {
 			if k != "Peer" {
-				msgs = append(msgs, rc_recipe.RecipeMessage(z.rcp, "conn."+strcase.ToSnake(k)))
+				msgs = append(msgs, app_msg.ObjMessage(z.rcp, "conn."+strcase.ToSnake(k)))
 			}
 		}
 	}
@@ -160,7 +164,7 @@ func (z *repositoryImpl) FieldNames() []string {
 
 func (z *repositoryImpl) FieldValueText(name string) string {
 	v := z.values[name]
-	if cv, ok := v.(ValueCustomValueText); ok {
+	if cv, ok := v.(rc_recipe.ValueCustomValueText); ok {
 		return cv.ValueText()
 	} else {
 		av := v.Apply()
@@ -171,7 +175,7 @@ func (z *repositoryImpl) FieldValueText(name string) string {
 func (z *repositoryImpl) Conns() map[string]rc_conn.ConnDropboxApi {
 	conns := make(map[string]rc_conn.ConnDropboxApi)
 	for k, v := range z.values {
-		if vc, ok := v.(ValueConn); ok {
+		if vc, ok := v.(rc_recipe.ValueConn); ok {
 			if conn, ok := vc.Conn(); ok {
 				conns[k] = conn
 			}
@@ -183,7 +187,7 @@ func (z *repositoryImpl) Conns() map[string]rc_conn.ConnDropboxApi {
 func (z *repositoryImpl) Feeds() map[string]fd_file.RowFeed {
 	feeds := make(map[string]fd_file.RowFeed)
 	for k, v := range z.values {
-		if vf, ok := v.(ValueFeed); ok {
+		if vf, ok := v.(rc_recipe.ValueFeed); ok {
 			if feed, ok := vf.Feed(); ok {
 				feeds[k] = feed
 			}
@@ -195,7 +199,7 @@ func (z *repositoryImpl) Feeds() map[string]fd_file.RowFeed {
 func (z *repositoryImpl) FeedSpecs() map[string]fd_file.Spec {
 	feeds := make(map[string]fd_file.Spec)
 	for k, v := range z.values {
-		if vf, ok := v.(ValueFeed); ok {
+		if vf, ok := v.(rc_recipe.ValueFeed); ok {
 			if feed, ok := vf.Feed(); ok {
 				feeds[k] = feed.Spec()
 			}
@@ -207,12 +211,12 @@ func (z *repositoryImpl) FeedSpecs() map[string]fd_file.Spec {
 func (z *repositoryImpl) Reports() map[string]rp_model.Report {
 	reps := make(map[string]rp_model.Report)
 	for k, v := range z.values {
-		if vr, ok := v.(ValueReport); ok {
+		if vr, ok := v.(rc_recipe.ValueReport); ok {
 			if rep, ok := vr.Report(); ok {
 				reps[k] = rep
 			}
 		}
-		if vr, ok := v.(ValueReports); ok {
+		if vr, ok := v.(rc_recipe.ValueReports); ok {
 			reps0 := vr.Reports()
 			for k0, v0 := range reps0 {
 				reps[k0] = v0
@@ -249,7 +253,11 @@ func (z *repositoryImpl) Apply() rc_recipe.Recipe {
 			fv.Set(reflect.ValueOf(av))
 		}
 	}
-	return z.rcp
+	if r, ok := z.rcp.(rc_recipe.Recipe); ok {
+		return r
+	} else {
+		return nil
+	}
 }
 
 func (z *repositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, error) {
@@ -264,9 +272,9 @@ func (z *repositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 
 	for _, k := range valKeys {
 		v := z.values[k]
-		if _, ok := v.(ValueConn); ok {
+		if _, ok := v.(rc_recipe.ValueConn); ok {
 			if k != "Peer" {
-				ctl.UI().InfoM(rc_recipe.RecipeMessage(z.rcp, "conn."+strcase.ToSnake(k)))
+				ctl.UI().InfoM(app_msg.ObjMessage(z.rcp, "conn."+strcase.ToSnake(k)))
 			}
 		}
 
@@ -280,7 +288,12 @@ func (z *repositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 	if lastErr != nil {
 		return nil, lastErr
 	}
-	return z.rcp, nil
+
+	if r, ok := z.rcp.(rc_recipe.Recipe); ok {
+		return r, nil
+	} else {
+		return nil, nil
+	}
 }
 
 func (z *repositoryImpl) SpinDown(ctl app_control.Control) error {

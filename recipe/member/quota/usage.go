@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -56,7 +55,7 @@ func (z *Usage) Preset() {
 	z.Usage.SetModel(&mo_usage.MemberUsage{})
 }
 
-func (z *Usage) Exec(k rc_kitchen.Kitchen) error {
+func (z *Usage) Exec(c app_control.Control) error {
 	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
@@ -66,12 +65,12 @@ func (z *Usage) Exec(k rc_kitchen.Kitchen) error {
 		return err
 	}
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 	for _, member := range members {
 		q.Enqueue(&UsageWorker{
 			member: member,
 			ctx:    z.Peer.Context(),
-			ctl:    k.Control(),
+			ctl:    c,
 			rep:    z.Usage,
 		})
 	}

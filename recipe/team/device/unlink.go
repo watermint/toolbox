@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -64,18 +63,18 @@ func (z *Unlink) Preset() {
 func (z *Unlink) Console() {
 }
 
-func (z *Unlink) Exec(k rc_kitchen.Kitchen) error {
+func (z *Unlink) Exec(c app_control.Control) error {
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 	err := z.File.EachRow(func(m interface{}, rowIndex int) error {
 		q.Enqueue(&UnlinkWorker{
 			session: m.(*mo_device.MemberSession),
 			rep:     z.OperationLog,
 			ctx:     z.Peer.Context(),
-			ctl:     k.Control(),
+			ctl:     c,
 		})
 		return nil
 	})

@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"io"
@@ -38,8 +37,8 @@ func (z *Dummy) Test(c app_control.Control) error {
 func (z *Dummy) Hidden() {
 }
 
-func (z *Dummy) Exec(k rc_kitchen.Kitchen) error {
-	l := k.Log().With(zap.String("path", z.Path))
+func (z *Dummy) Exec(c app_control.Control) error {
+	l := c.Log().With(zap.String("path", z.Path))
 
 	f, err := os.Open(z.Path)
 	if err != nil {
@@ -68,7 +67,7 @@ func (z *Dummy) Exec(k rc_kitchen.Kitchen) error {
 			return err
 		}
 
-		if err = z.create(k, z.Dest, de); err != nil {
+		if err = z.create(c, z.Dest, de); err != nil {
 			return err
 		}
 
@@ -80,8 +79,8 @@ func (z *Dummy) Exec(k rc_kitchen.Kitchen) error {
 	}
 }
 
-func (z *Dummy) create(k rc_kitchen.Kitchen, base string, de *DummyEntry) error {
-	l := k.Log()
+func (z *Dummy) create(c app_control.Control, base string, de *DummyEntry) error {
+	l := c.Log()
 
 	switch de.Tag {
 	case "file":

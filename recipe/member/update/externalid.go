@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -41,7 +40,7 @@ func (z *Externalid) Preset() {
 func (z *Externalid) Console() {
 }
 
-func (z *Externalid) Exec(k rc_kitchen.Kitchen) error {
+func (z *Externalid) Exec(c app_control.Control) error {
 	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {
 		return err

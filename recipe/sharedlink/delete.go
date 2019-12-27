@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -29,21 +28,21 @@ func (z *Delete) Preset() {
 func (z *Delete) Console() {
 }
 
-func (z *Delete) Exec(k rc_kitchen.Kitchen) error {
+func (z *Delete) Exec(c app_control.Control) error {
 	if err := z.SharedLink.Open(); err != nil {
 		return err
 	}
 
 	if z.Recursive {
-		return z.removeRecursive(k)
+		return z.removeRecursive(c)
 	} else {
-		return z.removePathAt(k)
+		return z.removePathAt(c)
 	}
 }
 
-func (z *Delete) removePathAt(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
-	l := k.Log()
+func (z *Delete) removePathAt(c app_control.Control) error {
+	ui := c.UI()
+	l := c.Log()
 	links, err := sv_sharedlink.New(z.Peer.Context()).ListByPath(z.Path)
 	if err != nil {
 		return err
@@ -73,9 +72,9 @@ func (z *Delete) removePathAt(k rc_kitchen.Kitchen) error {
 	return lastErr
 }
 
-func (z *Delete) removeRecursive(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
-	l := k.Log().With(zap.String("path", z.Path.Path()))
+func (z *Delete) removeRecursive(c app_control.Control) error {
+	ui := c.UI()
+	l := c.Log().With(zap.String("path", z.Path.Path()))
 	links, err := sv_sharedlink.New(z.Peer.Context()).List()
 	if err != nil {
 		return err

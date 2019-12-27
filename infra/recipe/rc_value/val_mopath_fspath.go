@@ -7,7 +7,7 @@ import (
 	"reflect"
 )
 
-func newValueMoPathFileSystemPath(name string) Value {
+func newValueMoPathFileSystemPath(name string) rc_recipe.Value {
 	v := &ValueMoPathFileSystemPath{name: name}
 	v.path = mo_path.NewFileSystemPath("")
 	return v
@@ -23,7 +23,7 @@ func (z ValueMoPathFileSystemPath) ValueText() string {
 	return z.filePath
 }
 
-func (z *ValueMoPathFileSystemPath) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
+func (z *ValueMoPathFileSystemPath) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*mo_path.Path)(nil)).Elem()) {
 		return newValueMoPathFileSystemPath(name)
 	}

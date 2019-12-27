@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"sort"
@@ -23,9 +22,9 @@ func (z *License) Test(c app_control.Control) error {
 	return qt_endtoend.NoTestRequired()
 }
 
-func (z *License) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
-	tbxLicense, otherLicenses, order, err := LoadLicense(k.Control())
+func (z *License) Exec(c app_control.Control) error {
+	ui := c.UI()
+	tbxLicense, otherLicenses, order, err := LoadLicense(c)
 	if err != nil {
 		return err
 	}

@@ -11,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -22,7 +21,6 @@ import (
 )
 
 type ExpiryScanWorker struct {
-	k          rc_kitchen.Kitchen
 	ctl        app_control.Control
 	ctx        api_context.Context
 	rep        rp_model.TransactionReport
@@ -47,7 +45,7 @@ func (z *ExpiryScanWorker) Exec() error {
 		return err
 	}
 
-	q := z.k.NewQueue()
+	q := z.ctl.NewQueue()
 
 	for _, link := range links {
 		ll := l.With(zap.Any("link", link))
@@ -133,11 +131,6 @@ func (z *ExpiryWorker) Exec() error {
 	return nil
 }
 
-const (
-	reportExpiryUpdated = "updated_sharedlink"
-	reportExpirySkipped = "skipped_sharedlink"
-)
-
 type Expiry struct {
 	Peer       rc_conn.ConnBusinessFile
 	Days       int
@@ -170,9 +163,9 @@ func (z *Expiry) Preset() {
 func (z Expiry) Console() {
 }
 
-func (z *Expiry) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
-	l := k.Log()
+func (z *Expiry) Exec(c app_control.Control) error {
+	ui := c.UI()
+	l := c.Log()
 	var newExpiry time.Time
 	if z.Days > 0 && z.At != "" {
 		l.Debug("Both Days/At specified", zap.Int("evo.Days", z.Days), zap.String("evo.At", z.At))
@@ -213,12 +206,11 @@ func (z *Expiry) Exec(k rc_kitchen.Kitchen) error {
 		return err
 	}
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 
 	for _, member := range members {
 		q.Enqueue(&ExpiryScanWorker{
-			k:          k,
-			ctl:        k.Control(),
+			ctl:        c,
 			ctx:        z.Peer.Context(),
 			rep:        z.Updated,
 			repSkipped: z.Skipped,

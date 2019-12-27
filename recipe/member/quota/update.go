@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
@@ -67,7 +66,7 @@ func (z *Update) Preset() {
 func (z *Update) Console() {
 }
 
-func (z *Update) Exec(k rc_kitchen.Kitchen) error {
+func (z *Update) Exec(c app_control.Control) error {
 	ctx := z.Peer.Context()
 
 	members, err := sv_member.New(ctx).List()
@@ -81,7 +80,7 @@ func (z *Update) Exec(k rc_kitchen.Kitchen) error {
 		return err
 	}
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 
 	err = z.File.EachRow(func(m interface{}, rowIndex int) error {
 		mq := m.(*mo_member_quota.MemberQuota)
@@ -94,7 +93,7 @@ func (z *Update) Exec(k rc_kitchen.Kitchen) error {
 		q.Enqueue(&UpdateWorker{
 			member: member,
 			quota:  mq.Quota,
-			ctl:    k.Control(),
+			ctl:    c,
 			ctx:    ctx,
 			rep:    z.OperationLog,
 		})

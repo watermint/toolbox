@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/recipe/group"
 	groupmember "github.com/watermint/toolbox/recipe/group/member"
@@ -50,11 +49,11 @@ func (z *Explorer) Preset() {
 func (z *Explorer) Console() {
 }
 
-func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
-	l := k.Log()
+func (z *Explorer) Exec(c app_control.Control) error {
+	l := c.Log()
 	{
 		l.Info("Scanning info")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("info")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("info")
 		if err != nil {
 			return err
 		}
@@ -70,7 +69,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning feature")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("feature")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("feature")
 		if err != nil {
 			return err
 		}
@@ -86,7 +85,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning group")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("group_list")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("group_list")
 		if err != nil {
 			return err
 		}
@@ -102,7 +101,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning group members")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("group_member_list")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("group_member_list")
 		if err != nil {
 			return err
 		}
@@ -118,7 +117,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning members")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("member_list")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("member_list")
 		if err != nil {
 			return err
 		}
@@ -134,7 +133,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning member quota")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("member_quota_list")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("member_quota_list")
 		if err != nil {
 			return err
 		}
@@ -150,7 +149,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning member usage")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("member_quota_usage")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("member_quota_usage")
 		if err != nil {
 			return err
 		}
@@ -166,7 +165,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning devices")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("team_device_list")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("team_device_list")
 		if err != nil {
 			return err
 		}
@@ -182,7 +181,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning file requests")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("team_filerequest_list")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("team_filerequest_list")
 		if err != nil {
 			return err
 		}
@@ -198,7 +197,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning linked apps")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("team_linkedapp_list")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("team_linkedapp_list")
 		if err != nil {
 			return err
 		}
@@ -214,7 +213,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning team folders")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("teamfolder_list")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("teamfolder_list")
 		if err != nil {
 			return err
 		}
@@ -230,7 +229,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning namespaces")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("team_namespace_list")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("team_namespace_list")
 		if err != nil {
 			return err
 		}
@@ -246,7 +245,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning namespace members")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("team_namespace_member_list")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("team_namespace_member_list")
 		if err != nil {
 			return err
 		}
@@ -262,7 +261,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 	{
 		l.Info("Scanning shared links")
-		fc, err := k.(app_control_launcher.ControlFork).Fork("team_sharedlink_list")
+		fc, err := c.(app_control_launcher.ControlFork).Fork("team_sharedlink_list")
 		if err != nil {
 			return err
 		}
@@ -279,7 +278,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 	if z.All {
 		l.Info("Scanning namespace file list")
 		{
-			fc, err := k.(app_control_launcher.ControlFork).Fork("team_namespace_file_list")
+			fc, err := c.(app_control_launcher.ControlFork).Fork("team_namespace_file_list")
 			if err != nil {
 				return err
 			}
@@ -299,7 +298,7 @@ func (z *Explorer) Exec(k rc_kitchen.Kitchen) error {
 
 		l.Info("Scanning namespace file size")
 		{
-			fc, err := k.(app_control_launcher.ControlFork).Fork("team_namespace_file_size")
+			fc, err := c.(app_control_launcher.ControlFork).Fork("team_namespace_file_size")
 			if err != nil {
 				return err
 			}

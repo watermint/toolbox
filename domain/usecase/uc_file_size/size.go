@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
+	"github.com/watermint/toolbox/infra/control/app_control"
 	"go.uber.org/zap"
 	"sync"
 )
@@ -18,10 +18,10 @@ type Scale interface {
 	Size(path mo_path.DropboxPath, depth int) (sizes map[mo_path.DropboxPath]mo_file_size.Size, errors map[mo_path.DropboxPath]error)
 }
 
-func New(ctx api_context.Context, k rc_kitchen.Kitchen) Scale {
+func New(ctx api_context.Context, ctl app_control.Control) Scale {
 	return &scaleImpl{
 		ctx: ctx,
-		k:   k,
+		ctl: ctl,
 	}
 }
 
@@ -66,7 +66,7 @@ func (z *sizeDict) add(path mo_path.DropboxPath, size mo_file_size.Size) {
 }
 
 type scaleWorker struct {
-	k        rc_kitchen.Kitchen
+	ctl      app_control.Control
 	ctx      api_context.Context
 	svc      sv_file.Files
 	keyPaths []mo_path.DropboxPath
@@ -102,7 +102,7 @@ func (z *scaleWorker) Exec() error {
 		current.ApiComplexity = 1
 	}
 
-	q := z.k.NewQueue()
+	q := z.ctl.NewQueue()
 	for _, entry := range entries {
 		current.CountDescendant++
 		if f, e := entry.File(); e {
@@ -128,7 +128,7 @@ func (z *scaleWorker) Exec() error {
 				zap.Int("childDepth", nd),
 			)
 			q.Enqueue(&scaleWorker{
-				k:        z.k,
+				ctl:      z.ctl,
 				ctx:      z.ctx,
 				svc:      z.svc,
 				keyPaths: kps,
@@ -149,7 +149,7 @@ func (z *scaleWorker) Exec() error {
 }
 
 type scaleImpl struct {
-	k   rc_kitchen.Kitchen
+	ctl app_control.Control
 	ctx api_context.Context
 }
 
@@ -158,9 +158,9 @@ func (z *scaleImpl) Size(path mo_path.DropboxPath, depth int) (sizes map[mo_path
 	ed := newErrorDict()
 	svc := sv_file.NewFiles(z.ctx)
 
-	q := z.k.NewQueue()
+	q := z.ctl.NewQueue()
 	q.Enqueue(&scaleWorker{
-		k:        z.k,
+		ctl:      z.ctl,
 		ctx:      z.ctx,
 		svc:      svc,
 		keyPaths: []mo_path.DropboxPath{path},

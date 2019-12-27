@@ -12,7 +12,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -62,7 +61,7 @@ func (z *Async) Preset() {
 func (z *Async) Hidden() {
 }
 
-func (z *Async) Exec(k rc_kitchen.Kitchen) error {
+func (z *Async) Exec(c app_control.Control) error {
 	ctxInfo := z.Peer.Context()
 
 	gsv := sv_group.New(ctxInfo)
@@ -76,7 +75,7 @@ func (z *Async) Exec(k rc_kitchen.Kitchen) error {
 		return err
 	}
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 
 	// Launch additional routines (because only single routine running when the recipe
 	// run through test
@@ -87,13 +86,13 @@ func (z *Async) Exec(k rc_kitchen.Kitchen) error {
 		if z.RunConcurrently {
 			w := &AsyncWorker{
 				group: group,
-				ctl:   k.Control(),
+				ctl:   c,
 				conn:  ctxInfo,
 				rep:   z.Rows,
 			}
 			q.Enqueue(w)
 		} else {
-			k.Log().Debug("Scan group (Single thread)", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Group", group))
+			c.Log().Debug("Scan group (Single thread)", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Group", group))
 			msv := sv_group_member.New(ctxInfo, group)
 			members, err := msv.List()
 			if err != nil {

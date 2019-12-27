@@ -7,7 +7,7 @@ import (
 	"reflect"
 )
 
-func newValueMoTimeTime(name string) Value {
+func newValueMoTimeTime(name string) rc_recipe.Value {
 	v := &ValueMoTimeTime{name: name}
 	v.time = mo_time.Zero()
 	return v
@@ -23,7 +23,7 @@ func (z *ValueMoTimeTime) ValueText() string {
 	return z.dateTime
 }
 
-func (z *ValueMoTimeTime) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
+func (z *ValueMoTimeTime) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*mo_time.Time)(nil)).Elem()) {
 		return newValueMoTimeTime(name)
 	}

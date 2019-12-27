@@ -8,7 +8,7 @@ import (
 	"reflect"
 )
 
-func newValueFdFileRowFeed(name string) Value {
+func newValueFdFileRowFeed(name string) rc_recipe.Value {
 	v := &ValueFdFileRowFeed{name: name}
 	v.rf = fd_file_impl.NewRowFeed(name)
 	return v
@@ -24,7 +24,7 @@ func (z *ValueFdFileRowFeed) ValueText() string {
 	return z.path
 }
 
-func (z *ValueFdFileRowFeed) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
+func (z *ValueFdFileRowFeed) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*fd_file.RowFeed)(nil)).Elem()) {
 		return newValueFdFileRowFeed(name)
 	}

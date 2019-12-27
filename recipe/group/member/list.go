@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -47,10 +46,6 @@ func (z *ListWorker) Exec() error {
 	return nil
 }
 
-const (
-	reportList = "group_member"
-)
-
 type List struct {
 	Peer        rc_conn.ConnBusinessInfo
 	GroupMember rp_model.RowReport
@@ -60,7 +55,7 @@ func (z *List) Preset() {
 	z.GroupMember.SetModel(&mo_group_member.GroupMember{})
 }
 
-func (z *List) Exec(k rc_kitchen.Kitchen) error {
+func (z *List) Exec(c app_control.Control) error {
 	gsv := sv_group.New(z.Peer.Context())
 	groups, err := gsv.List()
 	if err != nil {
@@ -71,11 +66,11 @@ func (z *List) Exec(k rc_kitchen.Kitchen) error {
 		return err
 	}
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 	for _, group := range groups {
 		w := &ListWorker{
 			group: group,
-			ctl:   k.Control(),
+			ctl:   c,
 			conn:  z.Peer.Context(),
 			rep:   z.GroupMember,
 		}

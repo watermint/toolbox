@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_relocation"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
@@ -21,7 +20,7 @@ func (z *Move) Preset() {
 func (z *Move) Console() {
 }
 
-func (z *Move) Exec(k rc_kitchen.Kitchen) error {
+func (z *Move) Exec(c app_control.Control) error {
 	uc := uc_file_relocation.New(z.Peer.Context())
 	return uc.Move(z.Src, z.Dst)
 }

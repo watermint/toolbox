@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -36,8 +35,8 @@ func (z *Replication) Hidden() {
 func (z *Replication) Console() {
 }
 
-func (z *Replication) Exec(k rc_kitchen.Kitchen) error {
-	ui := k.UI()
+func (z *Replication) Exec(c app_control.Control) error {
+	ui := c.UI()
 
 	if err := z.OperationLog.Open(); err != nil {
 		return err

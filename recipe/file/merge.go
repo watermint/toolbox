@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_merge"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_kitchen"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
@@ -25,10 +24,10 @@ func (z *Merge) Preset() {
 func (z *Merge) Console() {
 }
 
-func (z *Merge) Exec(k rc_kitchen.Kitchen) error {
+func (z *Merge) Exec(c app_control.Control) error {
 	ctx := z.Peer.Context()
 
-	ufm := uc_file_merge.New(ctx, k)
+	ufm := uc_file_merge.New(ctx, c)
 	opts := make([]uc_file_merge.MergeOpt, 0)
 	if z.DryRun {
 		opts = append(opts, uc_file_merge.DryRun())

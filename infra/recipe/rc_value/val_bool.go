@@ -6,7 +6,7 @@ import (
 	"reflect"
 )
 
-func newValueBool() Value {
+func newValueBool() rc_recipe.Value {
 	return &ValueBool{}
 }
 
@@ -14,7 +14,7 @@ type ValueBool struct {
 	v bool
 }
 
-func (z *ValueBool) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
+func (z *ValueBool) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Kind() == reflect.Bool {
 		return newValueBool()
 	}

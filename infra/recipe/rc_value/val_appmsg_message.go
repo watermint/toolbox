@@ -8,7 +8,7 @@ import (
 	"reflect"
 )
 
-func newValueAppMsgMessage(name string, msg app_msg.Message) Value {
+func newValueAppMsgMessage(name string, msg app_msg.Message) rc_recipe.Value {
 	return &ValueAppMsgMessage{name: name, msg: msg}
 }
 
@@ -17,9 +17,9 @@ type ValueAppMsgMessage struct {
 	msg  app_msg.Message
 }
 
-func (z *ValueAppMsgMessage) Accept(t reflect.Type, r rc_recipe.Recipe, name string) Value {
+func (z *ValueAppMsgMessage) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*app_msg.Message)(nil)).Elem()) {
-		return newValueAppMsgMessage(name, rc_recipe.RecipeMessage(r, strcase.ToSnake(name)))
+		return newValueAppMsgMessage(name, app_msg.ObjMessage(v0, strcase.ToSnake(name)))
 	}
 	return nil
 }

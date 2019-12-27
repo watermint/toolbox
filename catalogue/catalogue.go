@@ -61,7 +61,6 @@ func Recipes() []rc_recipe.Recipe {
 		&recipefilecompare.Account{},
 		&recipefilecompare.Local{},
 		&recipefileimport.Url{},
-		&recipefileimport.ViaApp{},
 		&recipefileimportbatch.Url{},
 		&recipefilesync.Up{},
 		&recipefilesyncpreflight.Up{},
