@@ -1,6 +1,6 @@
 # group list 
 
-グループを一覧
+List group(s)
 
 # Security
 
@@ -53,22 +53,22 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-peer`    | Account alias | default    |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-peer` | Account alias | default |
 
 Common options:
 
-| オプション      | 説明                                                                                             | デフォルト     |
-|-----------------|--------------------------------------------------------------------------------------------------|----------------|
-| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
-| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
-| `-debug`        | デバッグモードを有効にする                                                                       | false          |
-| `-low-memory`   | Low memory footprint mode                                                                        | false          |
-| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
-| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
-| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
-| `-workspace`    | ワークスペースへのパス                                                                           |                |
+| Option          | Description                                                                      | Default              |
+|-----------------|----------------------------------------------------------------------------------|----------------------|
+| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
+| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`        | Enable debug mode                                                                | false                |
+| `-low-memory`   | Low memory footprint mode                                                        | false                |
+| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`       | Do not store tokens into a file                                                  | false                |
+| `-workspace`    | Workspace path                                                                   |                      |
 
 ## Authentication
 
@@ -119,11 +119,11 @@ But if you run with `-low-memory` option, the command will generate only `group.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...   
 
-| 列                    | 説明                                                                                    |
-|-----------------------|-----------------------------------------------------------------------------------------|
-| group_name            | グループ名称                                                                            |
-| group_id              | グループID                                                                              |
-| group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
-| group_external_id     |  グループの外部IDこの任意のIDは管理者がグループに付加できます                           |
-| member_count          | グループ内のメンバー数                                                                  |
+| Column                | Description                                                                           |
+|-----------------------|---------------------------------------------------------------------------------------|
+| group_name            | Name of a group                                                                       |
+| group_id              | A group's identifier                                                                  |
+| group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
+| group_external_id     |  External ID of group. This is an arbitrary ID that an admin can attach to a group.   |
+| member_count          | The number of members in the group.                                                   |
 

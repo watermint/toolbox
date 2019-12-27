@@ -1,6 +1,6 @@
 # file merge 
 
-フォルダを統合します
+Merge paths
 
 # Security
 
@@ -50,31 +50,31 @@ select "General" tab. You may find the message like:
 And you may find the button "Allow Anyway". Please hit the button with your risk.
 At second run, please hit button "Open" on the dialogue.
 
-期待する結果と整合性があうことを確認できたら`-dry-run=false` オプションを追加して実行してください
+Please add `-dry-run=false` option after verify integrity of expected result.
 
 ## Options
 
-| オプション               | 説明                                                                                    | デフォルト |
-|--------------------------|-----------------------------------------------------------------------------------------|------------|
-| `-dry-run`               | Dry run                                                                                 | true       |
-| `-from`                  | Path for merge                                                                          |            |
-| `-keep-empty-folder`     | Keep empty folder after merge                                                           | false      |
-| `-peer`                  | Account alias                                                                           | default    |
-| `-to`                    | Path to merge                                                                           |            |
-| `-within-same-namespace` | Do not cross namespace. That is for preserve sharing permission including a shared link | false      |
+| Option                   | Description                                                                             | Default |
+|--------------------------|-----------------------------------------------------------------------------------------|---------|
+| `-dry-run`               | Dry run                                                                                 | true    |
+| `-from`                  | Path for merge                                                                          |         |
+| `-keep-empty-folder`     | Keep empty folder after merge                                                           | false   |
+| `-peer`                  | Account alias                                                                           | default |
+| `-to`                    | Path to merge                                                                           |         |
+| `-within-same-namespace` | Do not cross namespace. That is for preserve sharing permission including a shared link | false   |
 
 Common options:
 
-| オプション      | 説明                                                                                             | デフォルト     |
-|-----------------|--------------------------------------------------------------------------------------------------|----------------|
-| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
-| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
-| `-debug`        | デバッグモードを有効にする                                                                       | false          |
-| `-low-memory`   | Low memory footprint mode                                                                        | false          |
-| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
-| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
-| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
-| `-workspace`    | ワークスペースへのパス                                                                           |                |
+| Option          | Description                                                                      | Default              |
+|-----------------|----------------------------------------------------------------------------------|----------------------|
+| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
+| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`        | Enable debug mode                                                                | false                |
+| `-low-memory`   | Low memory footprint mode                                                        | false                |
+| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`       | Do not store tokens into a file                                                  | false                |
+| `-workspace`    | Workspace path                                                                   |                      |
 
 ## Authentication
 

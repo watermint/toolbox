@@ -1,6 +1,6 @@
 # team namespace member list 
 
-チームフォルダ以下のファイル・フォルダを一覧
+List members of shared folders and team folders in the team
 
 # Security
 
@@ -53,23 +53,23 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション     | 説明             | デフォルト |
-|----------------|------------------|------------|
-| `-all-columns` | Show all columns | false      |
-| `-peer`        | Account alias    | default    |
+| Option         | Description      | Default |
+|----------------|------------------|---------|
+| `-all-columns` | Show all columns | false   |
+| `-peer`        | Account alias    | default |
 
 Common options:
 
-| オプション      | 説明                                                                                             | デフォルト     |
-|-----------------|--------------------------------------------------------------------------------------------------|----------------|
-| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
-| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
-| `-debug`        | デバッグモードを有効にする                                                                       | false          |
-| `-low-memory`   | Low memory footprint mode                                                                        | false          |
-| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
-| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
-| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
-| `-workspace`    | ワークスペースへのパス                                                                           |                |
+| Option          | Description                                                                      | Default              |
+|-----------------|----------------------------------------------------------------------------------|----------------------|
+| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
+| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`        | Enable debug mode                                                                | false                |
+| `-low-memory`   | Low memory footprint mode                                                        | false                |
+| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`       | Do not store tokens into a file                                                  | false                |
+| `-workspace`    | Workspace path                                                                   |                      |
 
 ## Authentication
 
@@ -120,15 +120,15 @@ But if you run with `-low-memory` option, the command will generate only `namesp
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`...   
 
-| 列                 | 説明                                                                                                 |
-|--------------------|------------------------------------------------------------------------------------------------------|
-| namespace_name     | 名前空間の名称                                                                                       |
-| namespace_id       | 名前空間ID                                                                                           |
-| namespace_type     | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)               |
-| entry_access_type  | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
-| entry_is_inherited | メンバーのアクセス権限が上位フォルダから継承されている場合true                                       |
-| email              | ユーザーのメールアドレス                                                                             |
-| display_name       | セッションのタイプ (web_session, desktop_client, または mobile_client)                               |
-| group_name         | グループ名称                                                                                         |
-| invitee_email      | このフォルダに招待されたメールアドレス                                                               |
+| Column             | Description                                                                                               |
+|--------------------|-----------------------------------------------------------------------------------------------------------|
+| namespace_name     | The name of this namespace                                                                                |
+| namespace_id       | The ID of this namespace.                                                                                 |
+| namespace_type     | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)                |
+| entry_access_type  | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
+| entry_is_inherited | True if the member has access from a parent folder                                                        |
+| email              | Email address of user.                                                                                    |
+| display_name       | Type of the session (web_session, desktop_client, or mobile_client)                                       |
+| group_name         | Name of the group                                                                                         |
+| invitee_email      | Email address of invitee for this folder                                                                  |
 

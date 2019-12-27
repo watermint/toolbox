@@ -1,6 +1,6 @@
 # member quota list 
 
-メンバーの容量制限情報を一覧します
+List team member quota
 
 # Security
 
@@ -52,22 +52,22 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-peer`    | Account alias | default    |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-peer` | Account alias | default |
 
 Common options:
 
-| オプション      | 説明                                                                                             | デフォルト     |
-|-----------------|--------------------------------------------------------------------------------------------------|----------------|
-| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
-| `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
-| `-debug`        | デバッグモードを有効にする                                                                       | false          |
-| `-low-memory`   | Low memory footprint mode                                                                        | false          |
-| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
-| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
-| `-secure`       | トークンをファイルに保存しません                                                                 | false          |
-| `-workspace`    | ワークスペースへのパス                                                                           |                |
+| Option          | Description                                                                      | Default              |
+|-----------------|----------------------------------------------------------------------------------|----------------------|
+| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
+| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`        | Enable debug mode                                                                | false                |
+| `-low-memory`   | Low memory footprint mode                                                        | false                |
+| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`       | Do not store tokens into a file                                                  | false                |
+| `-workspace`    | Workspace path                                                                   |                      |
 
 ## Authentication
 
@@ -118,8 +118,8 @@ But if you run with `-low-memory` option, the command will generate only `member
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
 like `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`...   
 
-| 列    | 説明                                                                |
-|-------|---------------------------------------------------------------------|
-| email | ユーザーのメールアドレス                                            |
-| quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
+| Column | Description                                                                 |
+|--------|-----------------------------------------------------------------------------|
+| email  | Email address of user.                                                      |
+| quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
 

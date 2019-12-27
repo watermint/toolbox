@@ -42,7 +42,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			rr.TestMode = z.TestMode
 			rr.Badge = true
 			rr.MarkdownReadme = true
-			rr.Lang = ""
+			rr.Lang = "en"
 			rr.Filename = "README.md"
 			rr.CommandPath = "doc/generated/"
 		})
