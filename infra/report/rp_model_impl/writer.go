@@ -162,7 +162,7 @@ func (z *TransactionReport) Success(input interface{}, result interface{}) {
 
 	ui := z.ctl.UI()
 	z.w.Row(&rp_model.TransactionRow{
-		Status:    ui.TextK(rp_model.MsgSuccess.Key(), rp_model.MsgSuccess.Params()...),
+		Status:    ui.Text(MTransactionReport.Success),
 		StatusTag: rp_model.StatusTagSuccess,
 		Input:     input,
 		Result:    result,
@@ -175,7 +175,7 @@ func (z *TransactionReport) Failure(err error, input interface{}) {
 
 	ui := z.ctl.UI()
 	reason := api_util.MsgFromError(err)
-	if ui.TextOrEmptyK(reason.Key()) == "" {
+	if ui.TextOrEmpty(reason) == "" {
 		summary := api_util.ErrorSummary(err)
 		if summary == "" {
 			summary = err.Error()
@@ -183,9 +183,9 @@ func (z *TransactionReport) Failure(err error, input interface{}) {
 		reason = app_msg.M("dbx.err.general_error", app_msg.P{"ErrorK": summary})
 	}
 	z.w.Row(&rp_model.TransactionRow{
-		Status:    ui.TextK(rp_model.MsgFailure.Key(), rp_model.MsgFailure.Params()...),
+		Status:    ui.Text(MTransactionReport.Failure),
 		StatusTag: rp_model.StatusTagFailure,
-		Reason:    ui.TextK(reason.Key(), reason.Params()...),
+		Reason:    ui.Text(reason),
 		Input:     input,
 		Result:    nil,
 	})
@@ -197,9 +197,9 @@ func (z *TransactionReport) Skip(reason app_msg.Message, input interface{}) {
 
 	ui := z.ctl.UI()
 	z.w.Row(&rp_model.TransactionRow{
-		Status:    ui.TextK(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
+		Status:    ui.Text(MTransactionReport.Skip),
 		StatusTag: rp_model.StatusTagSkip,
-		Reason:    ui.TextK(reason.Key(), reason.Params()...),
+		Reason:    ui.Text(reason),
 		Input:     input,
 		Result:    nil,
 	})

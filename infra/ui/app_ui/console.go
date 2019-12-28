@@ -39,6 +39,18 @@ const (
 	ColorBrightWhite
 )
 
+type MsgConsole struct {
+	LargeReport       app_msg.Message
+	OpenArtifactError app_msg.Message
+	OpenArtifact      app_msg.Message
+	PointArtifact     app_msg.Message
+	Progress          app_msg.Message
+}
+
+var (
+	MConsole = app_msg.Apply(&MsgConsole{}).(*MsgConsole)
+)
+
 const (
 	consoleNumRowsThreshold = 500
 )
@@ -84,6 +96,88 @@ type console struct {
 	qm               qt_missingmsg.Message
 	mutex            sync.Mutex
 	openArtifactOnce sync.Once
+}
+
+func (z *console) AskCont(m app_msg.Message) (cont bool, cancel bool) {
+	z.verifyKey(m.Key())
+	msg := z.mc.Compile(m)
+	app_root.Log().Debug(msg)
+
+	z.colorPrint(msg, ColorCyan)
+	br := bufio.NewReader(z.in)
+	for {
+		line, _, err := br.ReadLine()
+		if err == io.EOF {
+			app_root.Log().Debug("Cancelled")
+			return false, true
+		}
+		ans := strings.ToLower(strings.TrimSpace(string(line)))
+		switch ans {
+		case "y":
+			app_root.Log().Debug("Continue")
+			return true, false
+		case "yes":
+			app_root.Log().Debug("Continue")
+			return true, false
+		case "n":
+			app_root.Log().Debug("Do not continue")
+			return false, false
+		case "no":
+			app_root.Log().Debug("Do not continue")
+			return false, false
+		}
+
+		// ask again
+		z.colorPrint(msg, ColorCyan)
+	}
+}
+
+func (z *console) AskText(m app_msg.Message) (text string, cancel bool) {
+	z.verifyKey(m.Key())
+	msg := z.mc.Compile(m)
+	z.colorPrint(msg, ColorCyan)
+	app_root.Log().Debug(msg)
+
+	br := bufio.NewReader(z.in)
+	for {
+		line, _, err := br.ReadLine()
+		if err == io.EOF {
+			app_root.Log().Debug("Cancelled")
+			return "", true
+		}
+		text := strings.TrimSpace(string(line))
+		if text != "" {
+			app_root.Log().Debug("Text entered", zap.String("text", text))
+			return text, false
+		}
+
+		// ask again
+		z.colorPrint(msg, ColorCyan)
+	}
+}
+
+func (z *console) AskSecure(m app_msg.Message) (secure string, cancel bool) {
+	z.verifyKey(m.Key())
+	msg := z.mc.Compile(m)
+	z.colorPrint(msg, ColorCyan)
+	app_root.Log().Debug(msg)
+
+	br := bufio.NewReader(z.in)
+	for {
+		line, _, err := br.ReadLine()
+		if err == io.EOF {
+			app_root.Log().Debug("Cancelled")
+			return "", true
+		}
+		text := strings.TrimSpace(string(line))
+		if text != "" {
+			app_root.Log().Debug("Secret entered")
+			return text, false
+		}
+
+		// ask again
+		z.colorPrint(msg, ColorCyan)
+	}
 }
 
 func (z *console) Header(m app_msg.Message) {
@@ -146,20 +240,20 @@ func (z *console) OpenArtifact(path string) {
 				e := filepath.Ext(f.Name())
 				switch strings.ToLower(e) {
 				case ".xlsx", ".csv", ".json":
-					z.InfoK("run.console.point_artifact", app_msg.P{
-						"Path": filepath.Join(path, f.Name()),
-					})
+					z.Info(MConsole.PointArtifact.With(
+						"Path", filepath.Join(path, f.Name()),
+					))
 
 				default:
 					l.Debug("unsupported extension", zap.String("name", f.Name()))
 				}
 			}
 
-			z.InfoK("run.console.open_artifact", app_msg.P{"Path": path})
+			z.Info(MConsole.OpenArtifact.With("Path", path))
 			l.Debug("Register success shutdown hook", zap.String("path", path))
 			err = open.Start(path)
 			if err != nil {
-				z.ErrorK("run.console.open_artifact.error", app_msg.P{"ErrorK": err})
+				z.Error(MConsole.OpenArtifactError.With("Error", err))
 			}
 		})
 	})
@@ -248,86 +342,16 @@ func (z *console) Failure(key string, p ...app_msg.P) {
 	app_root.Log().Debug(m)
 }
 
-func (z *console) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
-	z.verifyKey(key)
-	msg := z.mc.Compile(app_msg.M(key, p...))
-	app_root.Log().Debug(msg)
-
-	z.colorPrint(msg, ColorCyan)
-	br := bufio.NewReader(z.in)
-	for {
-		line, _, err := br.ReadLine()
-		if err == io.EOF {
-			app_root.Log().Debug("Cancelled")
-			return false, true
-		}
-		ans := strings.ToLower(strings.TrimSpace(string(line)))
-		switch ans {
-		case "y":
-			app_root.Log().Debug("Continue")
-			return true, false
-		case "yes":
-			app_root.Log().Debug("Continue")
-			return true, false
-		case "n":
-			app_root.Log().Debug("Do not continue")
-			return false, false
-		case "no":
-			app_root.Log().Debug("Do not continue")
-			return false, false
-		}
-
-		// ask again
-		z.colorPrint(msg, ColorCyan)
-	}
+func (z *console) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
+	return z.AskCont(app_msg.M(key, p...))
 }
 
-func (z *console) AskText(key string, p ...app_msg.P) (text string, cancel bool) {
-	z.verifyKey(key)
-	msg := z.mc.Compile(app_msg.M(key, p...))
-	z.colorPrint(msg, ColorCyan)
-	app_root.Log().Debug(msg)
-
-	br := bufio.NewReader(z.in)
-	for {
-		line, _, err := br.ReadLine()
-		if err == io.EOF {
-			app_root.Log().Debug("Cancelled")
-			return "", true
-		}
-		text := strings.TrimSpace(string(line))
-		if text != "" {
-			app_root.Log().Debug("Text entered", zap.String("text", text))
-			return text, false
-		}
-
-		// ask again
-		z.colorPrint(msg, ColorCyan)
-	}
+func (z *console) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
+	return z.AskText(app_msg.M(key, p...))
 }
 
-func (z *console) AskSecure(key string, p ...app_msg.P) (text string, cancel bool) {
-	z.verifyKey(key)
-	msg := z.mc.Compile(app_msg.M(key, p...))
-	z.colorPrint(msg, ColorCyan)
-	app_root.Log().Debug(msg)
-
-	br := bufio.NewReader(z.in)
-	for {
-		line, _, err := br.ReadLine()
-		if err == io.EOF {
-			app_root.Log().Debug("Cancelled")
-			return "", true
-		}
-		text := strings.TrimSpace(string(line))
-		if text != "" {
-			app_root.Log().Debug("Secret entered")
-			return text, false
-		}
-
-		// ask again
-		z.colorPrint(msg, ColorCyan)
-	}
+func (z *console) AskSecureK(key string, p ...app_msg.P) (text string, cancel bool) {
+	return z.AskSecure(app_msg.M(key, p...))
 }
 
 type consoleTable struct {
@@ -362,10 +386,9 @@ func (z *consoleTable) RowRaw(m ...string) {
 		fmt.Fprintln(z.tab, strings.Join(m, "\t"))
 	}
 	if z.numRows%consoleNumRowsThreshold == 0 {
-		z.ui.InfoK("run.console.progress", app_msg.P{
-			"Label":    z.name,
-			"Progress": z.numRows,
-		})
+		z.ui.Info(MConsole.Progress.
+			With("Label", z.name).
+			With("Progress", z.numRows))
 	}
 }
 
@@ -398,8 +421,6 @@ func (z *consoleTable) Flush() {
 
 	z.tab.Flush()
 	if z.numRows >= consoleNumRowsThreshold {
-		z.ui.InfoK("run.console.large_report", app_msg.P{
-			"Num": z.numRows,
-		})
+		z.ui.Info(MConsole.LargeReport.With("Num", z.numRows))
 	}
 }

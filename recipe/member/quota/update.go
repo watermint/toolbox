@@ -1,6 +1,7 @@
 package quota
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/model/mo_member_quota"
 	"github.com/watermint/toolbox/domain/service/sv_member"
@@ -86,7 +87,7 @@ func (z *Update) Exec(c app_control.Control) error {
 		mq := m.(*mo_member_quota.MemberQuota)
 		member, ok := emailToMember[mq.Email]
 		if !ok {
-			z.OperationLog.Failure(&rp_model.NotFound{Id: mq.Email}, mq)
+			z.OperationLog.Failure(errors.New("member not found for an email"), mq)
 			return nil
 		}
 

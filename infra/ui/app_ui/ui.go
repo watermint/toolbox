@@ -39,9 +39,23 @@ type UI interface {
 	// Compile text, returns empty string if the key is not found
 	TextOrEmpty(m app_msg.Message) string
 
-	AskCont(key string, p ...app_msg.P) (cont bool, cancel bool)
-	AskText(key string, p ...app_msg.P) (text string, cancel bool)
-	AskSecure(key string, p ...app_msg.P) (secure string, cancel bool)
+	// Deprecated: use AskCont
+	AskContK(key string, p ...app_msg.P) (cont bool, cancel bool)
+
+	// Ask continue
+	AskCont(m app_msg.Message) (cont bool, cancel bool)
+
+	// Deprecated: use AskText
+	AskTextK(key string, p ...app_msg.P) (text string, cancel bool)
+
+	// Ask for a text
+	AskText(m app_msg.Message) (text string, cancel bool)
+
+	// Deprecated: use AskSecure
+	AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool)
+
+	// Ask for a credentials
+	AskSecure(m app_msg.Message) (secure string, cancel bool)
 
 	OpenArtifact(path string)
 	Success(key string, p ...app_msg.P)

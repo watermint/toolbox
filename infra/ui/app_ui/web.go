@@ -38,6 +38,18 @@ type Web struct {
 	mutex  sync.Mutex
 }
 
+func (z *Web) AskCont(m app_msg.Message) (cont bool, cancel bool) {
+	return false, true
+}
+
+func (z *Web) AskText(m app_msg.Message) (text string, cancel bool) {
+	return "", true
+}
+
+func (z *Web) AskSecure(m app_msg.Message) (secure string, cancel bool) {
+	return "", true
+}
+
 func (z *Web) Header(m app_msg.Message) {
 	z.HeaderK(m.Key(), m.Params()...)
 }
@@ -159,15 +171,15 @@ func (z *Web) TextOrEmptyK(key string, p ...app_msg.P) string {
 	return z.baseUI.TextOrEmptyK(key, p...)
 }
 
-func (z *Web) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
+func (z *Web) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	panic("not supported")
 }
 
-func (z *Web) AskText(key string, p ...app_msg.P) (text string, cancel bool) {
+func (z *Web) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
 	panic("not supported")
 }
 
-func (z *Web) AskSecure(key string, p ...app_msg.P) (secure string, cancel bool) {
+func (z *Web) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool) {
 	panic("not supported")
 }
 

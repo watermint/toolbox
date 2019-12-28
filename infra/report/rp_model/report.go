@@ -113,27 +113,3 @@ const (
 	StatusTagFailure = "failure"
 	StatusTagSkip    = "skip"
 )
-
-var (
-	MsgSuccess     = app_msg.M("report.transaction.success")
-	MsgFailure     = app_msg.M("report.transaction.failure")
-	MsgSkip        = app_msg.M("report.transaction.skip")
-	MsgInvalidData = app_msg.M("report.transaction.failure.invalid_data")
-)
-
-// Deprecated:
-type NotFound struct {
-	Id string
-}
-
-func (z *NotFound) Error() string {
-	return "entry not found for id: " + z.Id
-}
-
-// Deprecated:
-type InvalidData struct {
-}
-
-func (z *InvalidData) Error() string {
-	return "invalid data"
-}

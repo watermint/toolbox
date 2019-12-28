@@ -20,10 +20,20 @@ type Catalogue struct {
 	RootGroup   *Group
 }
 
+type MsgHeader struct {
+	Header    app_msg.Message
+	Copyright app_msg.Message
+	License   app_msg.Message
+}
+
+var (
+	MHeader = app_msg.Apply(&MsgHeader{}).(*MsgHeader)
+)
+
 func AppHeader(ui app_ui.UI) {
-	ui.HeaderK("run.app.header", app_msg.P{"AppVersion": app.Version})
-	ui.InfoK("run.app.copyright")
-	ui.InfoK("run.app.license")
+	ui.Header(MHeader.Header.With("AppVersion", app.Version))
+	ui.Info(MHeader.Copyright)
+	ui.Info(MHeader.License)
 	ui.Break()
 }
 

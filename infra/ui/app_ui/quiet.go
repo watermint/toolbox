@@ -20,6 +20,18 @@ type Quiet struct {
 	log *zap.Logger
 }
 
+func (z *Quiet) AskCont(m app_msg.Message) (cont bool, cancel bool) {
+	return false, true
+}
+
+func (z *Quiet) AskText(m app_msg.Message) (text string, cancel bool) {
+	return "", true
+}
+
+func (z *Quiet) AskSecure(m app_msg.Message) (secure string, cancel bool) {
+	return "", true
+}
+
 func (z *Quiet) Header(m app_msg.Message) {
 	z.mq.Verify(m.Key())
 	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
@@ -115,21 +127,21 @@ func (z *Quiet) ErrorK(key string, p ...app_msg.P) {
 }
 
 // always cancel process
-func (z *Quiet) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
+func (z *Quiet) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	z.mq.Verify(key)
 	z.log.Debug(key, zap.Any("params", p))
 	return false, true
 }
 
 // always cancel
-func (z *Quiet) AskText(key string, p ...app_msg.P) (text string, cancel bool) {
+func (z *Quiet) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
 	z.mq.Verify(key)
 	z.log.Debug(key, zap.Any("params", p))
 	return "", true
 }
 
 // always cancel
-func (z *Quiet) AskSecure(key string, p ...app_msg.P) (secure string, cancel bool) {
+func (z *Quiet) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool) {
 	z.mq.Verify(key)
 	z.log.Debug(key, zap.Any("params", p))
 	return "", true

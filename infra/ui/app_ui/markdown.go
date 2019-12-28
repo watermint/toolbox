@@ -27,6 +27,18 @@ type Markdown struct {
 	ignoreMissing bool
 }
 
+func (z *Markdown) AskCont(m app_msg.Message) (cont bool, cancel bool) {
+	return false, true
+}
+
+func (z *Markdown) AskText(m app_msg.Message) (text string, cancel bool) {
+	return "", true
+}
+
+func (z *Markdown) AskSecure(m app_msg.Message) (secure string, cancel bool) {
+	return "", true
+}
+
 func (z *Markdown) Header(m app_msg.Message) {
 	z.print("# {{.Message}}\n\n", m)
 }
@@ -100,15 +112,15 @@ func (z *Markdown) TextOrEmptyK(key string, p ...app_msg.P) string {
 	}
 }
 
-func (z *Markdown) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
+func (z *Markdown) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	return false, true
 }
 
-func (z *Markdown) AskText(key string, p ...app_msg.P) (text string, cancel bool) {
+func (z *Markdown) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
 	return "", true
 }
 
-func (z *Markdown) AskSecure(key string, p ...app_msg.P) (secure string, cancel bool) {
+func (z *Markdown) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool) {
 	return "", true
 }
 

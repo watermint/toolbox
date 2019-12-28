@@ -13,6 +13,18 @@ func NewDummy() UI {
 type Dummy struct {
 }
 
+func (z *Dummy) AskCont(m app_msg.Message) (cont bool, cancel bool) {
+	return false, true
+}
+
+func (z *Dummy) AskText(m app_msg.Message) (text string, cancel bool) {
+	return "", true
+}
+
+func (z *Dummy) AskSecure(m app_msg.Message) (secure string, cancel bool) {
+	return "", true
+}
+
 func (z *Dummy) Header(m app_msg.Message) {
 }
 
@@ -54,15 +66,15 @@ func (z *Dummy) TextOrEmptyK(key string, p ...app_msg.P) string {
 	return ""
 }
 
-func (z *Dummy) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
+func (z *Dummy) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	return false, true
 }
 
-func (z *Dummy) AskText(key string, p ...app_msg.P) (text string, cancel bool) {
+func (z *Dummy) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
 	return "", true
 }
 
-func (z *Dummy) AskSecure(key string, p ...app_msg.P) (secure string, cancel bool) {
+func (z *Dummy) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool) {
 	return "", true
 }
 

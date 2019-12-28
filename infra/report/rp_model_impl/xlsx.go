@@ -18,6 +18,14 @@ const (
 	XlsxMaxMemoryTarget = 4 * 1_048_576 // 4MB
 )
 
+type MsgXlsxWriter struct {
+	UnableToOpen app_msg.Message
+}
+
+var (
+	MXlsxWriter = app_msg.Apply(&MsgXlsxWriter{}).(*MsgXlsxWriter)
+)
+
 func xlsxHeaderStyle() *xlsx.Style {
 	headerStyle := xlsx.NewStyle()
 	headerStyle.ApplyFill = true
@@ -82,10 +90,9 @@ func (z *xlsxWriter) rotate() {
 	// rotate
 	if err := z.open(); err != nil {
 		if !z.omitError {
-			z.ctl.UI().ErrorK("report.xlsx.unable_to_open", app_msg.P{
-				"Path":   z.filePath,
-				"ErrorK": err.Error(),
-			})
+			z.ctl.UI().Error(MXlsxWriter.UnableToOpen.
+				With("Path", z.filePath).
+				With("Error", err.Error()))
 			z.omitError = true
 		}
 		z.rotateFailed = true
