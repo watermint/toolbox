@@ -90,6 +90,7 @@ func (z *console) Header(m app_msg.Message) {
 	z.verifyKey(m.Key())
 	t := z.mc.Compile(m)
 	z.boldPrint(t)
+	z.Break()
 }
 
 func (z *console) Text(m app_msg.Message) string {

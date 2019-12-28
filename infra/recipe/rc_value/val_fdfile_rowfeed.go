@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"reflect"
+	"strings"
 )
 
 func newValueFdFileRowFeed(name string) rc_recipe.Value {
@@ -65,6 +66,11 @@ func (z *ValueFdFileRowFeed) SpinUp(ctl app_control.Control) (err error) {
 		err = z.rf.Open(ctl)
 	}
 	if err != nil {
+		ui := ctl.UI()
+		ui.Break()
+		ui.Header(MValFdFileRowFeed.HeadFeed.With("Name", strcase.ToSnake(z.rf.Spec().Name())))
+		ui.Info(MValFdFileRowFeed.FeedDesc)
+
 		FeedSpec(z.rf.Spec(), ctl.UI())
 		return err
 	}
@@ -80,10 +86,16 @@ func (z *ValueFdFileRowFeed) Feed() (feed fd_file.RowFeed, valid bool) {
 }
 
 func FeedSpec(spec fd_file.Spec, ui app_ui.UI) {
-	ui.Break()
-	ui.Header(MValFdFileRowFeed.HeadFeed.With("Name", strcase.ToSnake(spec.Name())))
-
 	cols := spec.Columns()
+	sampleCols := make([]string, 0)
+	for _, col := range cols {
+		sampleCols = append(sampleCols, ui.Text(spec.ColumnExample(col)))
+	}
+	ui.Info(MValFdFileRowFeed.FeedSample.
+		With("Header", strings.Join(cols, ",")).
+		With("Body", strings.Join(sampleCols, ",")))
+	ui.Break()
+
 	t := ui.InfoTable(spec.Name())
 
 	t.Header(

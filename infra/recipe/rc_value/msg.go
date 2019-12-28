@@ -4,6 +4,8 @@ import "github.com/watermint/toolbox/infra/ui/app_msg"
 
 type MsgValFdFileRowFeed struct {
 	HeadFeed       app_msg.Message
+	FeedDesc       app_msg.Message
+	FeedSample     app_msg.Message
 	HeadColName    app_msg.Message
 	HeadColDesc    app_msg.Message
 	HeadColExample app_msg.Message
