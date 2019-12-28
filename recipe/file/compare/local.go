@@ -51,7 +51,7 @@ func (z *Local) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	ui.InfoM(z.Success.With("DiffCount", count))
+	ui.Info(z.Success.With("DiffCount", count))
 	return nil
 }
 

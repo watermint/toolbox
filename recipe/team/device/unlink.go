@@ -24,7 +24,7 @@ type UnlinkWorker struct {
 
 func (z *UnlinkWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.Info("recipe.team.device.unlink.progress", app_msg.P{
+	ui.InfoK("recipe.team.device.unlink.progress", app_msg.P{
 		"Member":      z.session.Email,
 		"SessionType": z.session.DeviceTag,
 		"SessionId":   z.session.Id,

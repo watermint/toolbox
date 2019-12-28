@@ -38,6 +38,18 @@ type Web struct {
 	mutex  sync.Mutex
 }
 
+func (z *Web) Header(m app_msg.Message) {
+	z.HeaderK(m.Key(), m.Params()...)
+}
+
+func (z *Web) Text(m app_msg.Message) string {
+	return z.TextK(m.Key(), m.Params()...)
+}
+
+func (z *Web) TextOrEmpty(m app_msg.Message) string {
+	return z.TextOrEmptyK(m.Key(), m.Params()...)
+}
+
 const (
 	WebTagHeader         = "header"
 	WebTagInfo           = "info"
@@ -81,39 +93,39 @@ func (z *Web) uiLog(w *WebUILog) {
 	}
 }
 
-func (z *Web) InfoM(m app_msg.Message) {
-	z.Info(m.Key(), m.Params()...)
+func (z *Web) Info(m app_msg.Message) {
+	z.InfoK(m.Key(), m.Params()...)
 }
 
-func (z *Web) ErrorM(m app_msg.Message) {
-	z.Error(m.Key(), m.Params()...)
+func (z *Web) Error(m app_msg.Message) {
+	z.ErrorK(m.Key(), m.Params()...)
 }
 
 func (z *Web) Success(key string, p ...app_msg.P) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagResultSuccess,
-		Message: z.Text(key, p...),
+		Message: z.TextK(key, p...),
 	})
 }
 
 func (z *Web) Failure(key string, p ...app_msg.P) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagResultFailure,
-		Message: z.Text(key, p...),
+		Message: z.TextK(key, p...),
 	})
 }
 
-func (z *Web) Header(key string, p ...app_msg.P) {
+func (z *Web) HeaderK(key string, p ...app_msg.P) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagHeader,
-		Message: z.Text(key, p...),
+		Message: z.TextK(key, p...),
 	})
 }
 
-func (z *Web) Info(key string, p ...app_msg.P) {
+func (z *Web) InfoK(key string, p ...app_msg.P) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagInfo,
-		Message: z.Text(key, p...),
+		Message: z.TextK(key, p...),
 	})
 }
 
@@ -126,10 +138,10 @@ func (z *Web) InfoTable(name string) Table {
 	return t
 }
 
-func (z *Web) Error(key string, p ...app_msg.P) {
+func (z *Web) ErrorK(key string, p ...app_msg.P) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagError,
-		Message: z.Text(key, p...),
+		Message: z.TextK(key, p...),
 	})
 }
 
@@ -139,12 +151,12 @@ func (z *Web) Break() {
 	})
 }
 
-func (z *Web) Text(key string, p ...app_msg.P) string {
-	return z.baseUI.Text(key, p...)
+func (z *Web) TextK(key string, p ...app_msg.P) string {
+	return z.baseUI.TextK(key, p...)
 }
 
-func (z *Web) TextOrEmpty(key string, p ...app_msg.P) string {
-	return z.baseUI.TextOrEmpty(key, p...)
+func (z *Web) TextOrEmptyK(key string, p ...app_msg.P) string {
+	return z.baseUI.TextOrEmptyK(key, p...)
 }
 
 func (z *Web) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
@@ -217,7 +229,7 @@ type WebTable struct {
 func (z *WebTable) Header(h ...app_msg.Message) {
 	cols := make([]string, 0)
 	for _, c := range h {
-		cols = append(cols, z.baseUI.Text(c.Key(), c.Params()...))
+		cols = append(cols, z.baseUI.TextK(c.Key(), c.Params()...))
 	}
 	z.w.uiLog(&WebUILog{
 		Tag:       WebTagTableHeader,
@@ -241,7 +253,7 @@ func (z *WebTable) HeaderRaw(h ...string) {
 func (z *WebTable) Row(m ...app_msg.Message) {
 	cols := make([]string, 0)
 	for _, c := range m {
-		cols = append(cols, z.baseUI.Text(c.Key(), c.Params()...))
+		cols = append(cols, z.baseUI.TextK(c.Key(), c.Params()...))
 	}
 	z.w.uiLog(&WebUILog{
 		Tag:       WebTagTableRow,

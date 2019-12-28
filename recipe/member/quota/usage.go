@@ -29,7 +29,7 @@ type UsageWorker struct {
 
 func (z *UsageWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.Info("recipe.member.quota.usage.scan",
+	ui.InfoK("recipe.member.quota.usage.scan",
 		app_msg.P{
 			"MemberEmail": z.member.Email,
 		})

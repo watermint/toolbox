@@ -135,6 +135,29 @@ func Apply(mo interface{}) interface{} {
 	return mo
 }
 
+func Messages(mo interface{}) []Message {
+	msgs := make([]Message, 0)
+	mot := reflect.TypeOf(mo)
+	mov := reflect.ValueOf(mo)
+	if mot.Kind() == reflect.Ptr {
+		mot = reflect.ValueOf(mo).Elem().Type()
+		mov = reflect.ValueOf(mo).Elem()
+	}
+
+	nf := mot.NumField()
+	for i := 0; i < nf; i++ {
+		mof := mot.Field(i)
+		mvf := mov.Field(i)
+
+		switch {
+		case mof.Type.Implements(reflect.TypeOf((*Message)(nil)).Elem()):
+			msg := mvf.Interface().(Message)
+			msgs = append(msgs, msg)
+		}
+	}
+	return msgs
+}
+
 func ObjMessage(r interface{}, suffix string) Message {
 	return M(ut_reflect.Key(app.Pkg, r) + "." + suffix)
 }

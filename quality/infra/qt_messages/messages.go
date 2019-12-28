@@ -15,8 +15,10 @@ import (
 
 func VerifyMessages(ctl app_control.Control) error {
 	cl := ctl.(app_control_launcher.ControlLauncher)
+	cat := cl.Catalogue()
+	recipes := cat.Recipes
 	root := rc_group.NewGroup([]string{}, "")
-	for _, r := range cl.Catalogue() {
+	for _, r := range recipes {
 		root.Add(r)
 	}
 

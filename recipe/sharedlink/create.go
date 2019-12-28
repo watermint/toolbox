@@ -37,7 +37,7 @@ func (z *Create) Exec(c app_control.Control) error {
 		if expires, e := ut_time.ParseTimestamp(z.Expires); e {
 			opts = append(opts, sv_sharedlink.Expires(expires))
 		} else {
-			ui.Error("recipe.sharedlink.create.err.unsupported_time_format", app_msg.P{
+			ui.ErrorK("recipe.sharedlink.create.err.unsupported_time_format", app_msg.P{
 				"Input": z.Expires,
 			})
 			return errors.New("invalid time format for expires")
@@ -58,7 +58,7 @@ func (z *Create) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	ui.Info("recipe.sharedlink.create.success", app_msg.P{
+	ui.InfoK("recipe.sharedlink.create.success", app_msg.P{
 		"Url": link.LinkUrl(),
 	})
 

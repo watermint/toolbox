@@ -73,7 +73,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 
 			kps := status.summary.NumBytes / int64(dur) / 1024
 
-			c.UI().InfoM(z.ProgressSummary.
+			c.UI().Info(z.ProgressSummary.
 				With("Time", time.Now().Truncate(time.Second).Format("15:04:05")).
 				With("NumFileUpload", status.summary.NumFilesUpload).
 				With("NumFileSkip", status.summary.NumFilesSkip).

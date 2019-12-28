@@ -125,10 +125,10 @@ func (z *RowFeed) Open(ctl app_control.Control) error {
 	var err error
 	z.file, err = os.Open(z.filePath)
 	if err != nil {
-		ui.Error("flow.error.unable_to_read",
+		ui.ErrorK("flow.error.unable_to_read",
 			app_msg.P{
-				"Path":  z.filePath,
-				"Error": err,
+				"Path":   z.filePath,
+				"ErrorK": err,
 			},
 		)
 		return err
@@ -259,10 +259,10 @@ func (z *RowFeed) EachRow(exec func(m interface{}, rowIndex int) error) error {
 			return nil
 
 		case err != nil:
-			ui.Error("flow.error.unable_to_read",
+			ui.ErrorK("flow.error.unable_to_read",
 				app_msg.P{
-					"Path":  z.filePath,
-					"Error": err,
+					"Path":   z.filePath,
+					"ErrorK": err,
 				},
 			)
 			return err

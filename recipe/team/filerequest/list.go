@@ -24,7 +24,7 @@ type ListWorker struct {
 }
 
 func (z *ListWorker) Exec() error {
-	z.ctl.UI().Info("recipe.team.filerequest.list.scan", app_msg.P{"MemberEmail": z.member.Email})
+	z.ctl.UI().InfoK("recipe.team.filerequest.list.scan", app_msg.P{"MemberEmail": z.member.Email})
 	mc := z.conn.AsMemberId(z.member.TeamMemberId)
 	reqs, err := sv_filerequest.New(mc).List()
 	if err != nil {

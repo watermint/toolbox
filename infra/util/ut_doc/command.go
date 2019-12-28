@@ -137,7 +137,7 @@ func (z *Commands) feedSample(spec fd_file.Spec) string {
 
 	exRow := make([]string, 0)
 	for _, col := range cols {
-		exRow = append(exRow, ui.Text(spec.ColumnExample(col).Key()))
+		exRow = append(exRow, ui.TextK(spec.ColumnExample(col).Key()))
 	}
 	cw.Write(exRow)
 	cw.Flush()
@@ -170,10 +170,10 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 
 	params := make(map[string]interface{})
 	params["Command"] = spec.CliPath()
-	params["CommandTitle"] = ui.Text(spec.Title().Key())
-	params["CommandDesc"] = ui.TextOrEmpty(spec.Desc().Key())
-	params["CommandArgs"] = ui.TextOrEmpty(spec.CliArgs().Key())
-	params["CommandNote"] = ui.TextOrEmpty(spec.CliNote().Key())
+	params["CommandTitle"] = ui.TextK(spec.Title().Key())
+	params["CommandDesc"] = ui.TextOrEmptyK(spec.Desc().Key())
+	params["CommandArgs"] = ui.TextOrEmptyK(spec.CliArgs().Key())
+	params["CommandNote"] = ui.TextOrEmptyK(spec.CliNote().Key())
 	params["Options"] = z.optionsTable(spec)
 	params["CommonOptions"] = z.optionsTable(commonSpec)
 	params["UseAuth"] = len(spec.ConnScopes()) > 0
@@ -220,7 +220,7 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 
 func (z *Commands) GenerateAll() error {
 	cl := z.ctl.(app_control_launcher.ControlLauncher)
-	recipes := cl.Catalogue()
+	recipes := cl.Catalogue().Recipes
 	l := z.ctl.Log()
 
 	numSecret := 0

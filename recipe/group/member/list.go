@@ -31,7 +31,7 @@ type ListWorker struct {
 func (z *ListWorker) Exec() error {
 	l := z.ctl.Log()
 
-	z.ctl.UI().Info("recipe.group.member.list.progress.scan", app_msg.P{"Group": z.group.GroupName})
+	z.ctl.UI().InfoK("recipe.group.member.list.progress.scan", app_msg.P{"Group": z.group.GroupName})
 	l.Debug("Scan group", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Group", z.group))
 
 	msv := sv_group_member.New(z.conn, z.group)

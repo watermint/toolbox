@@ -24,7 +24,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 
 	var delete func(path mo_path.DropboxPath) error
 	delete = func(path mo_path.DropboxPath) error {
-		ui.Info("recipe.file.delete.progress.deleting", app_msg.P{
+		ui.InfoK("recipe.file.delete.progress.deleting", app_msg.P{
 			"Path": path.Path(),
 		})
 		_, err := sv_file.NewFiles(ctx).Remove(path)

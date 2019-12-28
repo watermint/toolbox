@@ -34,10 +34,10 @@ func (z *Account) Console() {
 func (z *Account) Exec(c app_control.Control) error {
 	ui := c.UI()
 
-	ui.InfoM(z.ConnLeft)
+	ui.Info(z.ConnLeft)
 	ctxLeft := z.Left.Context()
 
-	ui.InfoM(z.ConnRight)
+	ui.Info(z.ConnRight)
 	ctxRight := z.Right.Context()
 
 	err := z.Diff.Open()
@@ -55,7 +55,7 @@ func (z *Account) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	ui.InfoM(z.Success.With("DiffCount", count))
+	ui.Info(z.Success.With("DiffCount", count))
 	return nil
 }
 

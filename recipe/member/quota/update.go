@@ -27,7 +27,7 @@ type UpdateWorker struct {
 
 func (z *UpdateWorker) Exec() error {
 	l := z.ctl.Log()
-	z.ctl.UI().Info("recipe.member.quota.update.progress",
+	z.ctl.UI().InfoK("recipe.member.quota.update.progress",
 		app_msg.P{
 			"MemberEmail": z.member.Email,
 			"Quota":       z.quota,

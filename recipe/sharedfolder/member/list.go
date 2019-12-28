@@ -25,7 +25,7 @@ type ListWorker struct {
 }
 
 func (z *ListWorker) Exec() error {
-	z.ctl.UI().Info("recipe.sharedfolder.member.list.progress.scan",
+	z.ctl.UI().InfoK("recipe.sharedfolder.member.list.progress.scan",
 		app_msg.P{
 			"Folder":   z.folder.Name,
 			"FolderId": z.folder.SharedFolderId},

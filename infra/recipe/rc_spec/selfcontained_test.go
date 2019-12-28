@@ -38,7 +38,7 @@ type SelfContainedTestRecipe struct {
 
 func (z *SelfContainedTestRecipe) Exec(c app_control.Control) error {
 	ui := c.UI()
-	ui.InfoM(z.ProgressStart)
+	ui.Info(z.ProgressStart)
 
 	if !z.Enabled {
 		return errors.New("!enabled")

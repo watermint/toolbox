@@ -28,15 +28,15 @@ func (z *Archive) Exec(c app_control.Control) error {
 	ui := c.UI()
 
 	if z.Name == "" {
-		ui.Error("recipe.teamfolder.archive.err.missing_option.name")
+		ui.ErrorK("recipe.teamfolder.archive.err.missing_option.name")
 		return errors.New("missing required option")
 	}
 
 	teamfolders, err := sv_teamfolder.New(z.Peer.Context()).List()
 	if err != nil {
-		ui.Error("recipe.teamfolder.archive.err.unable_to_resolve_teamfolder",
+		ui.ErrorK("recipe.teamfolder.archive.err.unable_to_resolve_teamfolder",
 			app_msg.P{
-				"Error": err.Error(),
+				"ErrorK": err.Error(),
 			})
 		return err
 	}
@@ -48,9 +48,9 @@ func (z *Archive) Exec(c app_control.Control) error {
 		}
 	}
 	if teamfolder == nil {
-		ui.Error("recipe.teamfolder.archive.err.unable_to_resolve_teamfolder",
+		ui.ErrorK("recipe.teamfolder.archive.err.unable_to_resolve_teamfolder",
 			app_msg.P{
-				"Error": "Unable to find team folder",
+				"ErrorK": "Unable to find team folder",
 			})
 		return errors.New("unable to find team folder")
 	}
@@ -59,8 +59,8 @@ func (z *Archive) Exec(c app_control.Control) error {
 
 	_, err = sv_teamfolder.New(z.Peer.Context()).Archive(teamfolder)
 	if err != nil {
-		ui.Error("recipe.teamfolder.archive.err.unable_to_remove_teamfolder", app_msg.P{
-			"Error": err.Error(),
+		ui.ErrorK("recipe.teamfolder.archive.err.unable_to_remove_teamfolder", app_msg.P{
+			"ErrorK": err.Error(),
 		})
 		return err
 	}

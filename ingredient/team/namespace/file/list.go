@@ -33,7 +33,7 @@ type ListWorker struct {
 
 func (z *ListWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.Info("recipe.team.namespace.file.list.scan",
+	ui.InfoK("recipe.team.namespace.file.list.scan",
 		app_msg.P{
 			"NamespaceName": z.namespace.Name,
 			"NamespaceId":   z.namespace.NamespaceId,
@@ -63,11 +63,11 @@ func (z *ListWorker) Exec() error {
 
 	if err != nil {
 		l.Debug("Unable to traverse", zap.Error(err))
-		ui.Error("recipe.team.namespace.file.list.err.scan_failed",
+		ui.ErrorK("recipe.team.namespace.file.list.err.scan_failed",
 			app_msg.P{
 				"NamespaceName": z.namespace.Name,
 				"NamespaceId":   z.namespace.NamespaceId,
-				"Error":         err.Error(),
+				"ErrorK":        err.Error(),
 			},
 		)
 		return err

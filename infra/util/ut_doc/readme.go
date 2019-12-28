@@ -47,7 +47,7 @@ func (z *Readme) commands() string {
 	book := make(map[string]string)
 	keys := make([]string, 0)
 	cl := z.ctl.(app_control_launcher.ControlLauncher)
-	recipes := cl.Catalogue()
+	recipes := cl.Catalogue().Recipes
 
 	ui := z.ctl.UI()
 	for _, r := range recipes {
@@ -59,7 +59,7 @@ func (z *Readme) commands() string {
 		p = append(p, n)
 		q := strings.Join(p, " ")
 
-		book[q] = ui.Text(rc_recipe.Title(r).Key())
+		book[q] = ui.TextK(rc_recipe.Title(r).Key())
 		keys = append(keys, q)
 	}
 	var b bytes.Buffer

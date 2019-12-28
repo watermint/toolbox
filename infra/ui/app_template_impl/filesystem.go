@@ -104,7 +104,7 @@ func (z *DevFileSystem) Render(name string, d ...app_template.D) string {
 	//m.AddFunc("text/html", html.Minify)
 	//h, err := m.String("text/html", doc.String())
 	//if err != nil {
-	//	l.Warn("Unable to minify result", zap.Error(err))
+	//	l.Warn("Unable to minify result", zap.ErrorK(err))
 	//	return doc.String()
 	//}
 	//return h

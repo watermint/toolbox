@@ -1,10 +1,13 @@
 package rc_value
 
 import (
+	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"reflect"
 )
 
@@ -55,8 +58,17 @@ func (z *ValueFdFileRowFeed) Debug() interface{} {
 	}
 }
 
-func (z *ValueFdFileRowFeed) SpinUp(ctl app_control.Control) error {
-	return z.rf.Open(ctl)
+func (z *ValueFdFileRowFeed) SpinUp(ctl app_control.Control) (err error) {
+	if z.path == "" || z.rf.FilePath() == "" {
+		err = ErrorMissingRequiredOption
+	} else {
+		err = z.rf.Open(ctl)
+	}
+	if err != nil {
+		FeedSpec(z.rf.Spec(), ctl.UI())
+		return err
+	}
+	return nil
 }
 
 func (z *ValueFdFileRowFeed) SpinDown(ctl app_control.Control) error {
@@ -65,4 +77,27 @@ func (z *ValueFdFileRowFeed) SpinDown(ctl app_control.Control) error {
 
 func (z *ValueFdFileRowFeed) Feed() (feed fd_file.RowFeed, valid bool) {
 	return z.rf, true
+}
+
+func FeedSpec(spec fd_file.Spec, ui app_ui.UI) {
+	ui.Break()
+	ui.Header(MValFdFileRowFeed.HeadFeed.With("Name", strcase.ToSnake(spec.Name())))
+
+	cols := spec.Columns()
+	t := ui.InfoTable(spec.Name())
+
+	t.Header(
+		MValFdFileRowFeed.HeadColName,
+		MValFdFileRowFeed.HeadColDesc,
+		MValFdFileRowFeed.HeadColExample,
+	)
+	for _, col := range cols {
+		t.Row(
+			app_msg.M("raw", app_msg.P{"Raw": col}),
+			spec.ColumnDesc(col),
+			spec.ColumnExample(col),
+		)
+	}
+	t.Flush()
+	ui.Break()
 }

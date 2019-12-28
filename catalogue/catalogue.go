@@ -3,6 +3,8 @@ package catalogue
 import (
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	infra_recipe_rcvalue "github.com/watermint/toolbox/infra/recipe/rc_value"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	ingredientfile "github.com/watermint/toolbox/ingredient/file"
 	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
 	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
@@ -38,6 +40,15 @@ import (
 	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
 	recipeteamfolderfile "github.com/watermint/toolbox/recipe/teamfolder/file"
 )
+
+func NewCatalogue() *rc_group.Catalogue {
+	return &rc_group.Catalogue{
+		Recipes:     Recipes(),
+		Ingredients: Ingredients(),
+		Messages:    Messages(),
+		RootGroup:   Groups(),
+	}
+}
 
 func Recipes() []rc_recipe.Recipe {
 	cat := []rc_recipe.Recipe{
@@ -121,7 +132,18 @@ func Ingredients() []rc_recipe.Recipe {
 	return cat
 }
 
-func Catalogue() *rc_group.Group {
+func Messages() []interface{} {
+	msgs := []interface{}{
+		infra_recipe_rcvalue.MValFdFileRowFeed,
+		infra_recipe_rcvalue.MRepository,
+	}
+	for _, m := range msgs {
+		app_msg.Apply(m)
+	}
+	return msgs
+}
+
+func Groups() *rc_group.Group {
 	root := rc_group.NewGroup([]string{}, "")
 	for _, r := range Recipes() {
 		root.Add(r)

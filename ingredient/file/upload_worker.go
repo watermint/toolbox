@@ -92,7 +92,7 @@ func (z *UploadWorker) Exec() (err error) {
 		return nil
 	}
 
-	ui.InfoM(z.upload.ProgressUpload.With("File", z.localFilePath))
+	ui.Info(z.upload.ProgressUpload.With("File", z.localFilePath))
 
 	var entry mo_file.Entry
 	if z.upload.Overwrite {

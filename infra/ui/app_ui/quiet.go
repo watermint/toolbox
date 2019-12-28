@@ -20,12 +20,33 @@ type Quiet struct {
 	log *zap.Logger
 }
 
-func (z *Quiet) InfoM(m app_msg.Message) {
-	z.Info(m.Key(), m.Params()...)
+func (z *Quiet) Header(m app_msg.Message) {
+	z.mq.Verify(m.Key())
+	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
 }
 
-func (z *Quiet) ErrorM(m app_msg.Message) {
-	z.Error(m.Key(), m.Params()...)
+func (z *Quiet) Text(m app_msg.Message) string {
+	z.mq.Verify(m.Key())
+	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
+	return z.mc.Compile(m)
+}
+
+func (z *Quiet) TextOrEmpty(m app_msg.Message) string {
+	z.mq.Verify(m.Key())
+	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
+	if z.mc.Exists(m.Key()) {
+		return z.mc.Compile(m)
+	} else {
+		return ""
+	}
+}
+
+func (z *Quiet) Info(m app_msg.Message) {
+	z.InfoK(m.Key(), m.Params()...)
+}
+
+func (z *Quiet) Error(m app_msg.Message) {
+	z.ErrorK(m.Key(), m.Params()...)
 }
 
 func (z *Quiet) Success(key string, p ...app_msg.P) {
@@ -50,12 +71,12 @@ func (z *Quiet) OpenArtifact(path string) {
 	z.log.Debug("Open artifact", zap.String("path", path))
 }
 
-func (z *Quiet) Text(key string, p ...app_msg.P) string {
+func (z *Quiet) TextK(key string, p ...app_msg.P) string {
 	z.mq.Verify(key)
 	return z.mc.Compile(app_msg.M(key, p...))
 }
 
-func (z *Quiet) TextOrEmpty(key string, p ...app_msg.P) string {
+func (z *Quiet) TextOrEmptyK(key string, p ...app_msg.P) string {
 	if z.mc.Exists(key) {
 		return z.mc.Compile(app_msg.M(key, p...))
 	} else {
@@ -70,7 +91,7 @@ func (z *Quiet) Break() {
 	z.log.Debug("Break")
 }
 
-func (z *Quiet) Header(key string, p ...app_msg.P) {
+func (z *Quiet) HeaderK(key string, p ...app_msg.P) {
 	z.mq.Verify(key)
 	z.log.Debug(key, zap.Any("params", p))
 }
@@ -82,12 +103,12 @@ func (z *Quiet) InfoTable(name string) Table {
 	}
 }
 
-func (z *Quiet) Info(key string, p ...app_msg.P) {
+func (z *Quiet) InfoK(key string, p ...app_msg.P) {
 	z.mq.Verify(key)
 	z.log.Debug(key, zap.Any("params", p))
 }
 
-func (z *Quiet) Error(key string, p ...app_msg.P) {
+func (z *Quiet) ErrorK(key string, p ...app_msg.P) {
 	z.mq.Verify(key)
 	z.log.Debug(key, zap.Any("params", p))
 	z.log.Error(z.mc.Compile(app_msg.M(key, p...)))

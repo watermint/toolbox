@@ -5,15 +5,39 @@ import (
 )
 
 type UI interface {
-	Header(key string, p ...app_msg.P)
-	Info(key string, p ...app_msg.P)
-	InfoM(m app_msg.Message)
+	// Deprecated: use Header
+	HeaderK(key string, p ...app_msg.P)
+
+	// Header
+	Header(m app_msg.Message)
+	// Deprecated: use Info
+	InfoK(key string, p ...app_msg.P)
+
+	// Info
+	Info(m app_msg.Message)
+
+	// Create information table
 	InfoTable(name string) Table
-	Error(key string, p ...app_msg.P)
-	ErrorM(m app_msg.Message)
+	// Deprecated: use Error
+	ErrorK(key string, p ...app_msg.P)
+
+	// Error
+	Error(m app_msg.Message)
+
+	// Break
 	Break()
-	Text(key string, p ...app_msg.P) string
-	TextOrEmpty(key string, p ...app_msg.P) string
+
+	// Deprecated: use Text
+	TextK(key string, p ...app_msg.P) string
+
+	// Compile text
+	Text(m app_msg.Message) string
+
+	// Deprecated: use TextOrEmpty
+	TextOrEmptyK(key string, p ...app_msg.P) string
+
+	// Compile text, returns empty string if the key is not found
+	TextOrEmpty(m app_msg.Message) string
 
 	AskCont(key string, p ...app_msg.P) (cont bool, cancel bool)
 	AskText(key string, p ...app_msg.P) (text string, cancel bool)

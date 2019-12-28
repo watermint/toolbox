@@ -82,9 +82,9 @@ func (z *xlsxWriter) rotate() {
 	// rotate
 	if err := z.open(); err != nil {
 		if !z.omitError {
-			z.ctl.UI().Error("report.xlsx.unable_to_open", app_msg.P{
-				"Path":  z.filePath,
-				"Error": err.Error(),
+			z.ctl.UI().ErrorK("report.xlsx.unable_to_open", app_msg.P{
+				"Path":   z.filePath,
+				"ErrorK": err.Error(),
 			})
 			z.omitError = true
 		}

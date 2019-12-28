@@ -12,14 +12,14 @@ import (
 
 func TestCatalogue(t *testing.T) {
 	_, _, _, ui := qt_recipe.Resources(t)
-	testGroup(Catalogue(), ui)
+	testGroup(Groups(), ui)
 	for _, r := range Ingredients() {
 		spec := rc_spec.New(r)
 		if spec == nil {
 			continue
 		}
 		for _, m := range spec.Messages() {
-			ui.InfoM(m)
+			ui.Info(m)
 		}
 	}
 }
@@ -45,6 +45,6 @@ func testRecipe(g *rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
 	g.PrintRecipeUsage(ui, spec, f)
 
 	for _, m := range spec.Messages() {
-		ui.InfoM(m)
+		ui.Info(m)
 	}
 }

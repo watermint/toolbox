@@ -35,7 +35,7 @@ func (z *UrlWorker) Exec() error {
 	ui := z.ctl.UI()
 
 	path := sv_file_url.PathWithName(mo_path.NewDropboxPath(z.row.Path), z.row.Url)
-	ui.Info("recipe.file.import.batch.url.progress", app_msg.P{
+	ui.InfoK("recipe.file.import.batch.url.progress", app_msg.P{
 		"Url":  z.row.Url,
 		"Path": path.Path(),
 	})
@@ -86,7 +86,7 @@ func (z *Url) Exec(c app_control.Control) error {
 			path = z.Path
 		default:
 			z.OperationLog.Skip(z.SkipPathMissing, r)
-			ui.Error("recipe.file.import.batch.url.err.path_missing")
+			ui.ErrorK("recipe.file.import.batch.url.err.path_missing")
 			return errors.New("no path to save")
 		}
 

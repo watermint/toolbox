@@ -69,7 +69,7 @@ func (z *compareImpl) cmpLevel(local mo_path.FileSystemPath, dropbox mo_path.Dro
 		}
 	}
 
-	z.ui.Info("usecase.uc_compare_local.scan_folder", app_msg.P{
+	z.ui.InfoK("usecase.uc_compare_local.scan_folder", app_msg.P{
 		"Path": path,
 	})
 

@@ -35,13 +35,13 @@ func (z *ExpiryScanWorker) Exec() error {
 	l := z.ctl.Log().With(zap.Any("member", z.member))
 
 	l.Debug("Scanning member shared links")
-	ui.Info("recipe.team.sharedlink.update.expiry.scan", app_msg.P{"MemberEmail": z.member.Email})
+	ui.InfoK("recipe.team.sharedlink.update.expiry.scan", app_msg.P{"MemberEmail": z.member.Email})
 
 	ctxMember := z.ctx.AsMemberId(z.member.TeamMemberId)
 	links, err := sv_sharedlink.New(ctxMember).List()
 	if err != nil {
 		l.Debug("Unable to scan shared link", zap.Error(err))
-		ui.ErrorM(api_util.MsgFromError(err))
+		ui.Error(api_util.MsgFromError(err))
 		return err
 	}
 
@@ -108,7 +108,7 @@ func (z *ExpiryWorker) Exec() error {
 	ui := z.ctl.UI()
 	l := z.ctl.Log().With(zap.Any("link", z.link.Metadata()))
 
-	ui.Info("recipe.team.sharedlink.update.expiry.updating", app_msg.P{
+	ui.InfoK("recipe.team.sharedlink.update.expiry.updating", app_msg.P{
 		"MemberEmail":   z.member.Email,
 		"Url":           z.link.LinkUrl(),
 		"CurrentExpiry": z.link.LinkExpires(),
@@ -169,12 +169,12 @@ func (z *Expiry) Exec(c app_control.Control) error {
 	var newExpiry time.Time
 	if z.Days > 0 && z.At != "" {
 		l.Debug("Both Days/At specified", zap.Int("evo.Days", z.Days), zap.String("evo.At", z.At))
-		ui.Error("recipe.team.sharedlink.update.expiry.err.please_specify_days_or_at")
+		ui.ErrorK("recipe.team.sharedlink.update.expiry.err.please_specify_days_or_at")
 		return errors.New("please specify days or at")
 	}
 	if z.Days < 0 {
 		l.Debug("Days options should not be negative", zap.Int("evo.Days", z.Days))
-		ui.Error("recipe.team.sharedlink.update.expiry.err.days_should_not_negative")
+		ui.ErrorK("recipe.team.sharedlink.update.expiry.err.days_should_not_negative")
 		return errors.New("days should not be negative")
 	}
 
@@ -187,7 +187,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 		var valid bool
 		if newExpiry, valid = ut_time.ParseTimestamp(z.At); !valid {
 			l.Debug("Invalid date/time format for at option", zap.String("evo.At", z.At))
-			ui.Error("recipe.team.sharedlink.update.expiry.err.invalid_date_time_format_for_at_option")
+			ui.ErrorK("recipe.team.sharedlink.update.expiry.err.invalid_date_time_format_for_at_option")
 			return errors.New("invalid date/time format for `at`")
 		}
 	}

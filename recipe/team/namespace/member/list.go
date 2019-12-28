@@ -29,7 +29,7 @@ type ListWorker struct {
 
 func (z *ListWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.Info("recipe.team.namespace.member.list.scan",
+	ui.InfoK("recipe.team.namespace.member.list.scan",
 		app_msg.P{
 			"NamespaceName": z.namespace.Name,
 			"NamespaceId":   z.namespace.NamespaceId,

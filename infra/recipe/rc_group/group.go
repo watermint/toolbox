@@ -13,10 +13,17 @@ import (
 	"strings"
 )
 
+type Catalogue struct {
+	Recipes     []rc_recipe.Recipe
+	Ingredients []rc_recipe.Recipe
+	Messages    []interface{}
+	RootGroup   *Group
+}
+
 func AppHeader(ui app_ui.UI) {
-	ui.Header("run.app.header", app_msg.P{"AppVersion": app.Version})
-	ui.Info("run.app.copyright")
-	ui.Info("run.app.license")
+	ui.HeaderK("run.app.header", app_msg.P{"AppVersion": app.Version})
+	ui.InfoK("run.app.copyright")
+	ui.InfoK("run.app.license")
 	ui.Break()
 }
 
@@ -60,30 +67,30 @@ func (z *Group) Add(r rc_recipe.Recipe) {
 func (z *Group) usageHeader(ui app_ui.UI, desc string) {
 	AppHeader(ui)
 	ui.Break()
-	ui.Info(desc)
+	ui.InfoK(desc)
 	ui.Break()
 }
 
 func (z *Group) PrintRecipeUsage(ui app_ui.UI, spec rc_recipe.Spec, f *flag.FlagSet) {
 	z.usageHeader(ui, spec.Title().Key())
 
-	ui.Header("run.recipe.header.usage")
-	ui.Info(
+	ui.HeaderK("run.recipe.header.usage")
+	ui.InfoK(
 		"run.recipe.usage",
 		app_msg.P{
 			"Exec":   os.Args[0],
 			"Recipe": spec.CliPath(),
-			"Args":   ui.TextOrEmpty(spec.CliArgs().Key()),
+			"Args":   ui.TextOrEmptyK(spec.CliArgs().Key()),
 		},
 	)
 
 	ui.Break()
-	ui.Header("run.recipe.header.available_flags")
+	ui.HeaderK("run.recipe.header.available_flags")
 
 	buf := new(bytes.Buffer)
 	f.SetOutput(buf)
 	f.PrintDefaults()
-	ui.Info("raw", app_msg.P{"Raw": buf.String()})
+	ui.InfoK("raw", app_msg.P{"Raw": buf.String()})
 	ui.Break()
 }
 
@@ -95,8 +102,8 @@ func (z *Group) PrintUsage(ui app_ui.UI) {
 
 	z.usageHeader(ui, strings.Join(grpDesc, "."))
 
-	ui.Header("run.group.header.usage")
-	ui.Info(
+	ui.HeaderK("run.group.header.usage")
+	ui.InfoK(
 		"run.group.usage",
 		app_msg.P{
 			"Exec":  os.Args[0],
@@ -105,7 +112,7 @@ func (z *Group) PrintUsage(ui app_ui.UI) {
 	)
 	ui.Break()
 
-	ui.Header("run.group.header.available_commands")
+	ui.HeaderK("run.group.header.available_commands")
 	cmdTable := ui.InfoTable("usage")
 	for _, cmd := range z.AvailableCommands() {
 		cmdTable.Row(app_msg.Raw(" "), app_msg.Raw(cmd), z.CommandTitle(cmd))

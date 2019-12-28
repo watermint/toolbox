@@ -134,7 +134,7 @@ func (z *WebHandler) setupUrls(g *gin.Engine) {
 }
 
 func (z *WebHandler) setupCatalogue() {
-	recipes := z.Launcher.Catalogue()
+	recipes := z.Launcher.Catalogue().Recipes
 	z.Root = rc_group.NewGroup([]string{}, "")
 	for _, r := range recipes {
 		_, ok := r.(rc_recipe.SecretRecipe)
@@ -219,8 +219,8 @@ func (z *WebHandler) NotFound(g *gin.Context) {
 		http.StatusNotFound,
 		"error",
 		gin.H{
-			"Header": ui.Text("web.error.notfound.header"),
-			"Detail": ui.Text("web.error.notfound.detail"),
+			"Header": ui.TextK("web.error.notfound.header"),
+			"Detail": ui.TextK("web.error.notfound.detail"),
 		},
 	)
 }
@@ -231,8 +231,8 @@ func (z *WebHandler) ServerError(g *gin.Context) {
 		http.StatusInternalServerError,
 		"error",
 		gin.H{
-			"Header": ui.Text("web.error.server.header"),
-			"Detail": ui.Text("web.error.server.detail"),
+			"Header": ui.TextK("web.error.server.header"),
+			"Detail": ui.TextK("web.error.server.detail"),
 		},
 	)
 }
@@ -242,8 +242,8 @@ func (z *WebHandler) CommandNotFound(g *gin.Context) {
 		http.StatusBadRequest,
 		"error",
 		gin.H{
-			"Header": ui.Text("web.error.command_not_found.header"),
-			"Detail": ui.Text("web.error.command_not_found.detail"),
+			"Header": ui.TextK("web.error.command_not_found.header"),
+			"Detail": ui.TextK("web.error.command_not_found.detail"),
 		},
 	)
 }
@@ -254,8 +254,8 @@ func (z *WebHandler) AuthFailed(g *gin.Context) {
 		http.StatusOK,
 		"error",
 		gin.H{
-			"Header": ui.Text("web.error.auth_failed.header"),
-			"Detail": ui.Text("web.error.auth_failed.detail"),
+			"Header": ui.TextK("web.error.auth_failed.header"),
+			"Detail": ui.TextK("web.error.auth_failed.detail"),
 		},
 	)
 }
@@ -266,8 +266,8 @@ func (z *WebHandler) Forbidden(g *gin.Context) {
 		http.StatusForbidden,
 		WebPathServerError,
 		gin.H{
-			"Header": ui.Text("web.error.forbidden.header"),
-			"Detail": ui.Text("web.error.forbidden.detail"),
+			"Header": ui.TextK("web.error.forbidden.header"),
+			"Detail": ui.TextK("web.error.forbidden.detail"),
 		},
 	)
 }
@@ -610,8 +610,8 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp rc_recipe.
 			"SelectedConns":         selectedConns,
 			"CurrentConn":           nextConnName,
 			"CurrentConnType":       nextConnType,
-			"CurrentConnTypeHeader": ui.Text("web.conn." + nextConnType + ".header"),
-			"CurrentConnTypeDetail": ui.Text("web.conn." + nextConnType + ".detail"),
+			"CurrentConnTypeHeader": ui.TextK("web.conn." + nextConnType + ".header"),
+			"CurrentConnTypeDetail": ui.TextK("web.conn." + nextConnType + ".detail"),
 		},
 	)
 }
@@ -684,7 +684,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *rc_group.G
 
 		dict[g.Name] = gin.H{
 			"Title":       g.Name,
-			"Description": ui.Text(grp.CommandTitle(g.Name).Key()),
+			"Description": ui.TextK(grp.CommandTitle(g.Name).Key()),
 			"Uri":         WebPathHome + "/" + strings.Join(path, "-"),
 		}
 	}
@@ -695,7 +695,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *rc_group.G
 
 		dict[name] = gin.H{
 			"Title":       name,
-			"Description": ui.Text(grp.CommandTitle(name).Key()),
+			"Description": ui.TextK(grp.CommandTitle(name).Key()),
 			"Uri":         WebPathHome + "/" + strings.Join(path, "-"),
 		}
 	}

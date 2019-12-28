@@ -617,8 +617,8 @@ func (z *Replication) Verify(c app_control.Control, ctx Context, scope Scope) (e
 		zap.String("folderDstName", scope.Pair().Dst.Name),
 	)
 	if err := z.Verification.Open(); err != nil {
-		c.UI().Error("usecase.uc_teamfolder_mirror.err.unable_to_create_diff_report", app_msg.P{
-			"Error": err.Error(),
+		c.UI().ErrorK("usecase.uc_teamfolder_mirror.err.unable_to_create_diff_report", app_msg.P{
+			"ErrorK": err.Error(),
 		})
 		return err
 	}

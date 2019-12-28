@@ -66,7 +66,7 @@ func (z *Profile) Exec(c app_control.Control) error {
 			member.Surname = m.Surname
 		}
 
-		ui.Info("recipe.member.update.profile.progress", app_msg.P{
+		ui.InfoK("recipe.member.update.profile.progress", app_msg.P{
 			"Email": m.Email,
 		})
 		r, err := sv_member.New(z.Peer.Context()).Update(member)

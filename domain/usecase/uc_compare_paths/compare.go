@@ -51,7 +51,7 @@ func (z *compareImpl) cmpLevel(left, right mo_path.DropboxPath, path string, onD
 
 	l := z.ctxLeft.Log().With(zap.String("path", path))
 
-	z.ui.Info("usecase.uc_compare_paths.scan_folder", app_msg.P{
+	z.ui.InfoK("usecase.uc_compare_paths.scan_folder", app_msg.P{
 		"Path": path,
 	})
 

@@ -48,7 +48,7 @@ func (z *Delete) removePathAt(c app_control.Control) error {
 		return err
 	}
 	if len(links) < 1 {
-		ui.Info("recipe.sharedlink.delete.info.no_links_at_the_path", app_msg.P{
+		ui.InfoK("recipe.sharedlink.delete.info.no_links_at_the_path", app_msg.P{
 			"Path": z.Path.Path(),
 		})
 		return nil
@@ -56,7 +56,7 @@ func (z *Delete) removePathAt(c app_control.Control) error {
 
 	var lastErr error
 	for _, link := range links {
-		ui.Info("recipe.sharedlink.delete.progress", app_msg.P{
+		ui.InfoK("recipe.sharedlink.delete.progress", app_msg.P{
 			"Url":  link.LinkUrl(),
 			"Path": link.LinkPathLower(),
 		})
@@ -80,7 +80,7 @@ func (z *Delete) removeRecursive(c app_control.Control) error {
 		return err
 	}
 	if len(links) < 1 {
-		ui.Info("recipe.sharedlink.delete.info.no_links_at_the_path", app_msg.P{
+		ui.InfoK("recipe.sharedlink.delete.info.no_links_at_the_path", app_msg.P{
 			"Path": z.Path.Path(),
 		})
 		return nil
@@ -99,7 +99,7 @@ func (z *Delete) removeRecursive(c app_control.Control) error {
 			continue
 		}
 
-		ui.Info("recipe.sharedlink.delete.progress", app_msg.P{
+		ui.InfoK("recipe.sharedlink.delete.progress", app_msg.P{
 			"Url":  link.LinkUrl(),
 			"Path": link.LinkPathLower(),
 		})

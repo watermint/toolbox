@@ -44,7 +44,7 @@ func (z retryImpl) Call(ctx api_context.Context, req api_request.Request) (res a
 		zap.String("Routine", ut_runtime.GetGoRoutineName()),
 	)
 
-	// Error handling
+	// ErrorK handling
 	retryOnError := func(lastErr error) (res api_response.Response, err error) {
 		if ctx.IsNoRetry() {
 			l.Debug("Abort retry due to NoRetryOnError", zap.Error(lastErr))
@@ -107,23 +107,23 @@ func (z retryImpl) Call(ctx api_context.Context, req api_request.Request) (res a
 			nw_ratelimit.AddError(ctx.Hash(), req.Endpoint(), errors.New("bad response from server: res_code 400 with html body"))
 			return z.Call(ctx, req)
 		}
-		l.Debug("Bad input param", zap.String("Error", res.ResultString()))
+		l.Debug("Bad input param", zap.String("ErrorK", res.ResultString()))
 		return nil, api_error.ParseApiError(res.ResultString())
 
 	case api_response.ErrorBadOrExpiredToken: // Bad or expired token
-		l.Debug("Bad or expired token", zap.String("Error", res.ResultString()))
+		l.Debug("Bad or expired token", zap.String("ErrorK", res.ResultString()))
 		return nil, api_error.ParseApiError(res.ResultString())
 
-	case api_response.ErrorAccessError: // Access Error
-		l.Debug("Access Error", zap.String("Error", res.ResultString()))
+	case api_response.ErrorAccessError: // Access ErrorK
+		l.Debug("Access ErrorK", zap.String("ErrorK", res.ResultString()))
 		return nil, api_error.ParseAccessError(res.ResultString())
 
 	case api_response.ErrorEndpointSpecific: // Endpoint specific
-		l.Debug("Endpoint specific error", zap.String("Error", res.ResultString()))
+		l.Debug("Endpoint specific error", zap.String("ErrorK", res.ResultString()))
 		return nil, api_error.ParseApiError(res.ResultString())
 
 	case api_response.ErrorNoPermission: // No permission
-		l.Debug("No Permission", zap.String("Error", res.ResultString()))
+		l.Debug("No Permission", zap.String("ErrorK", res.ResultString()))
 		return nil, api_error.ParseAccessError(res.ResultString())
 
 	case api_response.ErrorRateLimit: // Rate limit

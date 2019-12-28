@@ -33,9 +33,9 @@ func (z *License) Exec(c app_control.Control) error {
 		fmt.Println(line)
 	}
 	fmt.Printf("\n\n")
-	fmt.Println(ui.Text("recipe.license.third_party_notice.head"))
+	fmt.Println(ui.TextK("recipe.license.third_party_notice.head"))
 	fmt.Printf("\n")
-	fmt.Println(ui.Text("recipe.license.third_party_notice.body"))
+	fmt.Println(ui.TextK("recipe.license.third_party_notice.body"))
 	fmt.Printf("\n")
 
 	for _, pkg := range order {

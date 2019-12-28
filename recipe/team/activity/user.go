@@ -59,7 +59,7 @@ func (z *UserWorker) Exec() error {
 	}
 	defer rep.Close()
 
-	ui.Info("recipe.team.activity.user.progress.scan_user", app_msg.P{
+	ui.InfoK("recipe.team.activity.user.progress.scan_user", app_msg.P{
 		"User": userIn.User,
 	})
 

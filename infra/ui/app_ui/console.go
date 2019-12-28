@@ -86,12 +86,37 @@ type console struct {
 	openArtifactOnce sync.Once
 }
 
-func (z *console) InfoM(m app_msg.Message) {
-	z.Info(m.Key(), m.Params()...)
+func (z *console) Header(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	t := z.mc.Compile(m)
+	z.boldPrint(t)
 }
 
-func (z *console) ErrorM(m app_msg.Message) {
-	z.Error(m.Key(), m.Params()...)
+func (z *console) Text(m app_msg.Message) string {
+	z.verifyKey(m.Key())
+	return z.mc.Compile(m)
+}
+
+func (z *console) TextOrEmpty(m app_msg.Message) string {
+	if z.mc.Exists(m.Key()) {
+		return z.mc.Compile(m)
+	} else {
+		return ""
+	}
+}
+
+func (z *console) Info(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	t := z.mc.Compile(m)
+	z.colorPrint(t, ColorWhite)
+	app_root.Log().Debug(t)
+}
+
+func (z *console) Error(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	t := z.mc.Compile(m)
+	z.colorPrint(t, ColorRed)
+	app_root.Log().Debug(t)
 }
 
 func (z *console) IsConsole() bool {
@@ -120,7 +145,7 @@ func (z *console) OpenArtifact(path string) {
 				e := filepath.Ext(f.Name())
 				switch strings.ToLower(e) {
 				case ".xlsx", ".csv", ".json":
-					z.Info("run.console.point_artifact", app_msg.P{
+					z.InfoK("run.console.point_artifact", app_msg.P{
 						"Path": filepath.Join(path, f.Name()),
 					})
 
@@ -129,11 +154,11 @@ func (z *console) OpenArtifact(path string) {
 				}
 			}
 
-			z.Info("run.console.open_artifact", app_msg.P{"Path": path})
+			z.InfoK("run.console.open_artifact", app_msg.P{"Path": path})
 			l.Debug("Register success shutdown hook", zap.String("path", path))
 			err = open.Start(path)
 			if err != nil {
-				z.Error("run.console.open_artifact.error", app_msg.P{"Error": err})
+				z.ErrorK("run.console.open_artifact.error", app_msg.P{"ErrorK": err})
 			}
 		})
 	})
@@ -145,17 +170,12 @@ func (z *console) verifyKey(key string) {
 	}
 }
 
-func (z *console) Text(key string, p ...app_msg.P) string {
-	z.verifyKey(key)
-	return z.mc.Compile(app_msg.M(key, p...))
+func (z *console) TextK(key string, p ...app_msg.P) string {
+	return z.Text(app_msg.M(key, p...))
 }
 
-func (z *console) TextOrEmpty(key string, p ...app_msg.P) string {
-	if z.mc.Exists(key) {
-		return z.mc.Compile(app_msg.M(key, p...))
-	} else {
-		return ""
-	}
+func (z *console) TextOrEmptyK(key string, p ...app_msg.P) string {
+	return z.TextOrEmpty(app_msg.M(key, p...))
 }
 
 func (z *console) Break() {
@@ -187,36 +207,30 @@ func (z *console) boldPrint(t string) {
 	}
 }
 
-func (z *console) Header(key string, p ...app_msg.P) {
-	z.verifyKey(key)
-	m := z.mc.Compile(app_msg.M(key, p...))
-	z.boldPrint(m)
+func (z *console) HeaderK(key string, p ...app_msg.P) {
+	z.Header(app_msg.M(key, p...))
 }
 
 func (z *console) InfoTable(name string) Table {
-	tw := new(tabwriter.Writer)
-	tw.Init(z.out, 0, 2, 2, ' ', 0)
-	return &consoleTable{
-		mc:   z.mc,
-		tab:  tw,
-		qm:   z.qm,
-		name: name,
-		ui:   z,
-	}
+	return newMarkdownTable(z.mc, z.out, false)
+	//
+	//tw := new(tabwriter.Writer)
+	//tw.Init(z.out, 0, 2, 2, ' ', 0)
+	//return &consoleTable{
+	//	mc:   z.mc,
+	//	tab:  tw,
+	//	qm:   z.qm,
+	//	name: name,
+	//	ui:   z,
+	//}
 }
 
-func (z *console) Info(key string, p ...app_msg.P) {
-	z.verifyKey(key)
-	m := z.mc.Compile(app_msg.M(key, p...))
-	z.colorPrint(m, ColorWhite)
-	app_root.Log().Debug(m)
+func (z *console) InfoK(key string, p ...app_msg.P) {
+	z.Info(app_msg.M(key, p...))
 }
 
-func (z *console) Error(key string, p ...app_msg.P) {
-	z.verifyKey(key)
-	m := z.mc.Compile(app_msg.M(key, p...))
-	z.colorPrint(m, ColorRed)
-	app_root.Log().Debug(m)
+func (z *console) ErrorK(key string, p ...app_msg.P) {
+	z.Error(app_msg.M(key, p...))
 }
 
 func (z *console) Success(key string, p ...app_msg.P) {
@@ -347,7 +361,7 @@ func (z *consoleTable) RowRaw(m ...string) {
 		fmt.Fprintln(z.tab, strings.Join(m, "\t"))
 	}
 	if z.numRows%consoleNumRowsThreshold == 0 {
-		z.ui.Info("run.console.progress", app_msg.P{
+		z.ui.InfoK("run.console.progress", app_msg.P{
 			"Label":    z.name,
 			"Progress": z.numRows,
 		})
@@ -383,7 +397,7 @@ func (z *consoleTable) Flush() {
 
 	z.tab.Flush()
 	if z.numRows >= consoleNumRowsThreshold {
-		z.ui.Info("run.console.large_report", app_msg.P{
+		z.ui.InfoK("run.console.large_report", app_msg.P{
 			"Num": z.numRows,
 		})
 	}

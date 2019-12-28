@@ -38,7 +38,7 @@ func (z *CcAuth) Auth(tokenType string) (ctx api_context.Context, err error) {
 func (z *CcAuth) wrapToken(tokenType, token string, cause error) (ctx api_context.Context, err error) {
 	ui := z.control.UI()
 	if cause != nil {
-		ui.Error("auth.failed_or_cancelled", app_msg.P{
+		ui.ErrorK("auth.failed_or_cancelled", app_msg.P{
 			"Cause": cause.Error(),
 		})
 		return nil, cause
@@ -53,7 +53,7 @@ func (z *CcAuth) wrapToken(tokenType, token string, cause error) (ctx api_contex
 	_, _, err = VerifyToken(tokenType, ctx)
 	if err != nil {
 		z.control.Log().Debug("failed verify token", zap.Error(err))
-		ui.Error("auth.basic.verify.failed")
+		ui.ErrorK("auth.basic.verify.failed")
 		return nil, err
 	}
 	return ctx, nil
@@ -91,7 +91,7 @@ func (z *CcAuth) generatedTokenInstruction(tokenType string) {
 		z.control.Log().Fatal("Undefined token type", zap.String("type", tokenType))
 	}
 
-	ui.Info(
+	ui.InfoK(
 		"auth.basic.generated_token1",
 		app_msg.P{
 			"API":          api,
@@ -168,7 +168,7 @@ func (z *CcAuth) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
 	cfg := z.app.Config(tokenType)
 	url := z.oauthUrl(cfg, state)
 
-	ui.Info("auth.basic.oauth_seq1", app_msg.P{"Url": url})
+	ui.InfoK("auth.basic.oauth_seq1", app_msg.P{"Url": url})
 
 	code := z.oauthCode(state)
 	if code == "" {

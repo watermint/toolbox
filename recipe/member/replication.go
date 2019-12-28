@@ -45,7 +45,7 @@ func (z *Replication) Exec(c app_control.Control) error {
 	return z.File.EachRow(func(m interface{}, rowIndex int) error {
 		row := m.(*ReplicationRow)
 
-		ui.Info("recipe.member.replication.progress", app_msg.P{
+		ui.InfoK("recipe.member.replication.progress", app_msg.P{
 			"SrcEmail": row.SrcEmail,
 			"DstEmail": row.DstEmail,
 		})

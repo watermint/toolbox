@@ -85,9 +85,9 @@ func TestSharedFolderImpl_Create(t *testing.T) {
 		//if err != nil {
 		//	eb := api_util.ErrorBody(err)
 		//	if eb != nil {
-		//		ctx.Log().Error("err", zap.Error(err), zap.String("errorBody", string(eb)))
+		//		ctx.Log().ErrorK("err", zap.ErrorK(err), zap.String("errorBody", string(eb)))
 		//	}
-		//	t.Error("invalid", err)
+		//	t.ErrorK("invalid", err)
 		//}
 
 		err = svc.Remove(sf)

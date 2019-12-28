@@ -13,33 +13,44 @@ func NewDummy() UI {
 type Dummy struct {
 }
 
-func (z *Dummy) InfoM(m app_msg.Message) {
+func (z *Dummy) Header(m app_msg.Message) {
 }
 
-func (z *Dummy) ErrorM(m app_msg.Message) {
+func (z *Dummy) Text(m app_msg.Message) string {
+	return ""
 }
 
-func (z *Dummy) Header(key string, p ...app_msg.P) {
+func (z *Dummy) TextOrEmpty(m app_msg.Message) string {
+	return ""
 }
 
-func (z *Dummy) Info(key string, p ...app_msg.P) {
+func (z *Dummy) Info(m app_msg.Message) {
+}
+
+func (z *Dummy) Error(m app_msg.Message) {
+}
+
+func (z *Dummy) HeaderK(key string, p ...app_msg.P) {
+}
+
+func (z *Dummy) InfoK(key string, p ...app_msg.P) {
 }
 
 func (z *Dummy) InfoTable(name string) Table {
 	return &DummyTable{}
 }
 
-func (z *Dummy) Error(key string, p ...app_msg.P) {
+func (z *Dummy) ErrorK(key string, p ...app_msg.P) {
 }
 
 func (z *Dummy) Break() {
 }
 
-func (z *Dummy) Text(key string, p ...app_msg.P) string {
+func (z *Dummy) TextK(key string, p ...app_msg.P) string {
 	return ""
 }
 
-func (z *Dummy) TextOrEmpty(key string, p ...app_msg.P) string {
+func (z *Dummy) TextOrEmptyK(key string, p ...app_msg.P) string {
 	return ""
 }
 

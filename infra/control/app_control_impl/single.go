@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -25,15 +25,14 @@ import (
 	"runtime"
 )
 
-func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, catalogue, ingredients []rc_recipe.Recipe) app_control.Control {
+func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, cat *rc_group.Catalogue) app_control.Control {
 	return &Single{
 		ui:           ui,
 		box:          bx,
 		web:          web,
 		mc:           mc,
 		quiet:        quiet,
-		catalogue:    catalogue,
-		ingredients:  ingredients,
+		catalogue:    cat,
 		testResource: gjson.Parse("{}"),
 	}
 }
@@ -48,13 +47,12 @@ type Single struct {
 	ws           app_workspace.Workspace
 	opts         *app_control.UpOpts
 	quiet        bool
-	catalogue    []rc_recipe.Recipe
-	ingredients  []rc_recipe.Recipe
+	catalogue    *rc_group.Catalogue
 	testResource gjson.Result
 }
 
-func (z *Single) Ingredients() []rc_recipe.Recipe {
-	return z.ingredients
+func (z *Single) Catalogue() *rc_group.Catalogue {
+	return z.catalogue
 }
 
 func (z *Single) IsLowMemory() bool {
@@ -154,10 +152,6 @@ func (z *Single) NewTestControl(testResource gjson.Result) (ctl app_control.Cont
 
 func (z *Single) NewQueue() rc_worker.Queue {
 	return rc_worker_impl.NewQueue(z, z.opts.Concurrency)
-}
-
-func (z *Single) Catalogue() []rc_recipe.Recipe {
-	return z.catalogue
 }
 
 func (z *Single) Template() app_template.Template {

@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
+	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
@@ -61,7 +62,7 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	bx, web, mc, ui := Resources(t)
 
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, []rc_recipe.Recipe{}, []rc_recipe.Recipe{})
+	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, &rc_group.Catalogue{})
 	cs := ctl.(*app_control_impl.Single)
 	if res, found := findTestResource(); found {
 		var err error

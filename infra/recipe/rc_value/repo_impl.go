@@ -1,6 +1,7 @@
 package rc_value
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"github.com/iancoleman/strcase"
@@ -39,6 +40,8 @@ var (
 		newValueRpModelTransactionReport(""),
 		newValueFdFileRowFeed(""),
 	}
+
+	ErrorMissingRequiredOption = errors.New("missing required option")
 )
 
 // Find value of type.
@@ -262,6 +265,7 @@ func (z *repositoryImpl) Apply() rc_recipe.Recipe {
 
 func (z *repositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, error) {
 	l := ctl.Log()
+	ui := ctl.UI()
 	var lastErr error
 
 	valKeys := make([]string, 0)
@@ -274,12 +278,20 @@ func (z *repositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 		v := z.values[k]
 		if _, ok := v.(rc_recipe.ValueConn); ok {
 			if k != "Peer" {
-				ctl.UI().InfoM(app_msg.ObjMessage(z.rcp, "conn."+strcase.ToSnake(k)))
+				ctl.UI().Info(app_msg.ObjMessage(z.rcp, "conn."+strcase.ToSnake(k)))
 			}
 		}
 
 		err := v.SpinUp(ctl)
-		if err != nil {
+		switch err {
+		case nil:
+			continue
+
+		case ErrorMissingRequiredOption:
+			lastErr = err
+			ui.Error(MRepository.ErrorMissingRequiredOption.With("Key", strcase.ToSnake(k)))
+
+		default:
 			lastErr = err
 			// TODO: replace with UI message
 			l.Error("Invalid argument, or unable to spin up", zap.String("key", k), zap.Error(err))
@@ -322,11 +334,11 @@ func (z *repositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
 		if b != nil {
 			switch bv := b.(type) {
 			case *bool:
-				f.BoolVar(bv, flagName, *bv, ui.Text(flagDesc.Key()))
+				f.BoolVar(bv, flagName, *bv, ui.TextK(flagDesc.Key()))
 			case *int64:
-				f.Int64Var(bv, flagName, *bv, ui.Text(flagDesc.Key()))
+				f.Int64Var(bv, flagName, *bv, ui.TextK(flagDesc.Key()))
 			case *string:
-				f.StringVar(bv, flagName, *bv, ui.Text(flagDesc.Key()))
+				f.StringVar(bv, flagName, *bv, ui.TextK(flagDesc.Key()))
 			}
 		}
 	}

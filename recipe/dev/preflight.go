@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"go.uber.org/zap"
@@ -70,25 +71,35 @@ func (z *Preflight) Exec(c app_control.Control) error {
 
 	{
 		cl := c.(app_control_launcher.ControlLauncher)
+		cat := cl.Catalogue()
 		l.Info("Verify recipes")
-		for _, r := range cl.Catalogue() {
+		for _, r := range cat.Recipes {
 			spec := rc_spec.New(r)
 			if spec == nil {
 				continue
 			}
 			for _, m := range spec.Messages() {
-				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m.Key())))
+				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m)))
 			}
 		}
 
 		l.Info("Verify ingredients")
-		for _, r := range cl.Ingredients() {
+		for _, r := range cat.Ingredients {
 			spec := rc_spec.New(r)
 			if spec == nil {
 				continue
 			}
 			for _, m := range spec.Messages() {
-				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m.Key())))
+				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m)))
+			}
+		}
+
+		l.Info("Verify message objects")
+		for _, m := range cat.Messages {
+			msgs := app_msg.Messages(m)
+			for _, msg := range msgs {
+				l.Debug("message", zap.String("key", msg.Key()), zap.String("text", c.UI().Text(msg)))
+
 			}
 		}
 	}

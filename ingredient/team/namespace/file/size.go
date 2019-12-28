@@ -29,7 +29,7 @@ type SizeWorker struct {
 
 func (z *SizeWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.Info("recipe.team.namespace.file.size.scan",
+	ui.InfoK("recipe.team.namespace.file.size.scan",
 		app_msg.P{
 			"NamespaceName": z.namespace.Name,
 			"NamespaceId":   z.namespace.NamespaceId,
@@ -45,11 +45,11 @@ func (z *SizeWorker) Exec() error {
 	for p, size := range sizes {
 		if err, ok := errs[p]; ok {
 			l.Debug("Unable to traverse", zap.Error(err))
-			ui.Error("recipe.team.namespace.file.size.err.scan_failed",
+			ui.ErrorK("recipe.team.namespace.file.size.err.scan_failed",
 				app_msg.P{
 					"NamespaceName": z.namespace.Name,
 					"NamespaceId":   z.namespace.NamespaceId,
-					"Error":         err.Error(),
+					"ErrorK":        err.Error(),
 				},
 			)
 			lastErr = err

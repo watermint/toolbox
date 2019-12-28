@@ -38,7 +38,7 @@ type EmailWorker struct {
 
 func (z *EmailWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.Info("recipe.member.update.email.progress.updating",
+	ui.InfoK("recipe.member.update.email.progress.updating",
 		app_msg.P{
 			"EmailFrom": z.transaction.FromEmail,
 			"EmailTo":   z.transaction.ToEmail,
@@ -274,7 +274,7 @@ func (z *Email) Test(c app_control.Control) error {
 			rr.File.SetFilePath(pathForward)
 		})
 		if lastErr != nil {
-			l.Warn("Error in backward operation")
+			l.Warn("ErrorK in backward operation")
 		}
 		scanReport()
 		if err := preserveReport("_forward"); err != nil {
@@ -290,7 +290,7 @@ func (z *Email) Test(c app_control.Control) error {
 			rr.File.SetFilePath(pathBackward)
 		})
 		if lastErr != nil {
-			l.Warn("Error in backward operation")
+			l.Warn("ErrorK in backward operation")
 		}
 		scanReport()
 		if err := preserveReport("_backward"); err != nil {

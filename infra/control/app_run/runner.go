@@ -60,8 +60,8 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 	if com.Workspace != "" {
 		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace)
 		if err != nil {
-			ui.Error("run.error.unable_to_format_path", app_msg.P{
-				"Error": err.Error(),
+			ui.ErrorK("run.error.unable_to_format_path", app_msg.P{
+				"ErrorK": err.Error(),
 			})
 			os.Exit(app_control.FailureInvalidCommandFlags)
 		}
@@ -79,7 +79,7 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 	so = append(so, app_control.CommonOptions(comSpec.Debug()))
 	so = append(so, app_control.RecipeOptions(rcpSpec.Debug()))
 
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.Recipes(), catalogue.Ingredients())
+	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.NewCatalogue())
 	err = ctl.Up(so...)
 	if err != nil {
 		os.Exit(app_control.FatalStartup)
@@ -98,10 +98,10 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 			if err != nil {
 				l := ctl.Log()
 				l.Debug("Recovery from panic")
-				l.Error(ctl.UI().Text("run.error.panic"),
+				l.Error(ctl.UI().TextK("run.error.panic"),
 					zap.Any("error", err),
 				)
-				l.Error(ctl.UI().Text("run.error.panic.instruction"),
+				l.Error(ctl.UI().TextK("run.error.panic.instruction"),
 					zap.String("JobPath", ctl.Workspace().Job()),
 				)
 
@@ -145,8 +145,8 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 				}
 			}
 			ui := ctl.UI()
-			ui.Error("run.error.interrupted")
-			ui.Error("run.error.interrupted.instruction", app_msg.P{"JobPath": ctl.Workspace().Job()})
+			ui.ErrorK("run.error.interrupted")
+			ui.ErrorK("run.error.interrupted.instruction", app_msg.P{"JobPath": ctl.Workspace().Job()})
 			ctl.Abort(app_control.Reason(app_control.FatalInterrupted))
 
 			// in case the controller didn't fire exit..
@@ -194,7 +194,7 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 		err = rc_exec.ExecSpec(ctl, rcpSpec, rc_recipe.NoCustomValues)
 		if err != nil {
 			ctl.Log().Debug("Unable to apply values to the recipe", zap.Error(err))
-			ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
+			ui.Failure("run.error.recipe.failed", app_msg.P{"ErrorK": err.Error()})
 			os.Exit(app_control.FailureGeneral)
 		}
 	}
@@ -205,7 +205,7 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 
 	if err != nil {
 		ctl.Log().Error("Recipe failed with an error", zap.Error(err))
-		ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
+		ui.Failure("run.error.recipe.failed", app_msg.P{"ErrorK": err.Error()})
 		os.Exit(app_control.FailureGeneral)
 	}
 	app_root.FlushSuccessShutdownHook()
@@ -217,7 +217,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Initialize resources
 	mc := app_msg_container_impl.NewContainer(bx)
 	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
-	cat := catalogue.Catalogue()
+	cat := catalogue.Groups()
 
 	// Select recipe or group
 	_, grp, rcp, rem, err := cat.Select(args)
@@ -238,7 +238,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 
 	spec := rc_spec.New(rcp)
 	if spec == nil {
-		ui.Error("run.error.recipe_spec_not_found")
+		ui.ErrorK("run.error.recipe_spec_not_found")
 		return false
 	}
 

@@ -30,7 +30,7 @@ type RestoreTarget struct {
 func (z *RestoreWorker) Exec() error {
 	l := z.ctl.Log().With(zap.String("path", z.path.Path()))
 	ui := z.ctl.UI()
-	ui.Info("recipe.file.restore.progress.restore_file", app_msg.P{"Path": z.path.Path()})
+	ui.InfoK("recipe.file.restore.progress.restore_file", app_msg.P{"Path": z.path.Path()})
 	target := &RestoreTarget{
 		Path: z.path.Path(),
 	}
@@ -111,7 +111,7 @@ func (z *Restore) Exec(c app_control.Control) error {
 	)
 	q.Wait()
 
-	ui.Info("recipe.file.restore.progress.finish", app_msg.P{
+	ui.InfoK("recipe.file.restore.progress.finish", app_msg.P{
 		"Count": count,
 	})
 

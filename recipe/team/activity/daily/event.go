@@ -35,7 +35,7 @@ func (z *Event) Exec(c app_control.Control) error {
 		st, _ := ut_time.ParseTimestamp(d.Start)
 		stDate := st.Format("2006-01-02")
 
-		ui.Info("recipe.team.activity.daily.event.progress", app_msg.P{
+		ui.InfoK("recipe.team.activity.daily.event.progress", app_msg.P{
 			"Start": d.Start,
 			"End":   d.End,
 		})

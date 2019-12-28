@@ -75,7 +75,7 @@ func (z *mergeImpl) doOperation(msg app_msg.Message, op func() error) error {
 		"DryRun": dryRunIndicator,
 	})
 
-	z.ctl.UI().Info(msg.Key(), msgParam...)
+	z.ctl.UI().InfoK(msg.Key(), msgParam...)
 	if !z.opts.DryRun {
 		return op()
 	}

@@ -23,12 +23,12 @@ func Runner(ctl app_control.Control, jc <-chan *WebJobRun) {
 		l.Debug("Start a new job")
 		if rcp, err := job.Recipe.SpinUp(ctl, rc_recipe.NoCustomValues); err != nil {
 			l.Error("Unable to start the job", zap.Error(err))
-			ui.Failure("web.job.result.failure", app_msg.P{"Error": err.Error()})
+			ui.Failure("web.job.result.failure", app_msg.P{"ErrorK": err.Error()})
 		} else {
 			err := rcp.Exec(ctl)
 			if err != nil {
 				l.Error("Unable to finish the job", zap.Error(err))
-				ui.Failure("web.job.result.failure", app_msg.P{"Error": err.Error()})
+				ui.Failure("web.job.result.failure", app_msg.P{"ErrorK": err.Error()})
 			} else {
 				ui.Success("web.job.result.success")
 			}

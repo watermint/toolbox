@@ -36,7 +36,7 @@ func (z *Url) Exec(c app_control.Control) error {
 	}
 
 	path := sv_file_url.PathWithName(z.Path, z.Url)
-	ui.Info("recipe.file.import.url.progress", app_msg.P{
+	ui.InfoK("recipe.file.import.url.progress", app_msg.P{
 		"Path": path.Path(),
 		"Url":  z.Url,
 	})
