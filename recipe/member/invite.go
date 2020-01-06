@@ -5,15 +5,11 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_file"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 type InviteRow struct {
@@ -29,65 +25,43 @@ func (z *InviteRow) Validate() error {
 	return nil
 }
 
-type InviteVO struct {
-	File         app_file.Data
-	Peer         app_conn.ConnBusinessMgmt
+type Invite struct {
+	File         fd_file.RowFeed
+	Peer         rc_conn.ConnBusinessMgmt
+	OperationLog rp_model.TransactionReport
 	SilentInvite bool
 }
 
-const (
-	reportInvite = "invite"
-)
-
-type Invite struct {
-}
-
-func (z *Invite) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportInvite, rp_model.TransactionHeader(&InviteRow{}, &mo_member.Member{})),
-	}
+func (z *Invite) Preset() {
+	z.File.SetModel(&InviteRow{})
+	z.OperationLog.SetModel(&InviteRow{}, &mo_member.Member{})
 }
 
 func (z *Invite) Test(c app_control.Control) error {
-	return qt_recipe.HumanInteractionRequired()
+	return qt_endtoend.HumanInteractionRequired()
 }
 
 func (z *Invite) Console() {
-}
-
-func (z *Invite) Requirement() app_vo.ValueObject {
-	return &InviteVO{}
 }
 
 func (z *Invite) msgFromTag(tag string) app_msg.Message {
 	return app_msg.M("recipe.member.invite.tag." + tag)
 }
 
-func (z *Invite) Exec(k app_kitchen.Kitchen) error {
-	var vo interface{} = k.Value()
-	mvo := vo.(*InviteVO)
+func (z *Invite) Exec(c app_control.Control) error {
+	ctx := z.Peer.Context()
 
-	connMgmt, err := mvo.Peer.Connect(k.Control())
+	svm := sv_member.New(ctx)
+	err := z.OperationLog.Open()
 	if err != nil {
 		return err
 	}
 
-	svm := sv_member.New(connMgmt)
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportInvite)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
-
-	if err := mvo.File.Model(k.Control(), &InviteRow{}); err != nil {
-		return err
-	}
-
-	return mvo.File.EachRow(func(row interface{}, rowIndex int) error {
+	return z.File.EachRow(func(row interface{}, rowIndex int) error {
 		m := row.(*InviteRow)
 		if err = m.Validate(); err != nil {
 			if rowIndex > 0 {
-				rep.Failure(err, m)
+				z.OperationLog.Failure(err, m)
 			}
 			return nil
 		}
@@ -98,27 +72,27 @@ func (z *Invite) Exec(k app_kitchen.Kitchen) error {
 		if m.Surname != "" {
 			opts = append(opts, sv_member.AddWithSurname(m.Surname))
 		}
-		if mvo.SilentInvite {
+		if z.SilentInvite {
 			opts = append(opts, sv_member.AddWithoutSendWelcomeEmail())
 		}
 
 		r, err := svm.Add(m.Email, opts...)
 		switch {
 		case err != nil:
-			rep.Failure(err, m)
+			z.OperationLog.Failure(err, m)
 			return nil
 
 		case r.Tag == "success":
-			rep.Success(m, r)
+			z.OperationLog.Success(m, r)
 			return nil
 
 		case r.Tag == "user_already_on_team":
-			rep.Skip(z.msgFromTag(r.Tag), m)
+			z.OperationLog.Skip(z.msgFromTag(r.Tag), m)
 			return nil
 
 		default:
 			// TODO: i18n
-			rep.Failure(errors.New("failure due to "+r.Tag), m)
+			z.OperationLog.Failure(errors.New("failure due to "+r.Tag), m)
 			return nil
 		}
 	})

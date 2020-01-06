@@ -9,11 +9,12 @@ import (
 )
 
 type Files interface {
-	Resolve(path mo_path.Path) (entry mo_file.Entry, err error)
-	List(path mo_path.Path, opts ...ListOpt) (entries []mo_file.Entry, err error)
-	ListChunked(path mo_path.Path, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
+	Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err error)
+	List(path mo_path.DropboxPath, opts ...ListOpt) (entries []mo_file.Entry, err error)
+	ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
 
-	Remove(path mo_path.Path, opts ...RemoveOpt) (entry mo_file.Entry, err error)
+	Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry mo_file.Entry, err error)
+	Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
 }
 
 type ListOpt func(opt *listOpts) *listOpts
@@ -79,7 +80,79 @@ type filesImpl struct {
 	limit int
 }
 
-func (z *filesImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, err error) {
+func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
+	lo := &listOpts{}
+	for _, o := range opts {
+		o(lo)
+	}
+
+	p := struct {
+		Path                            string `json:"path"`
+		Recursive                       bool   `json:"recursive,omitempty"`
+		IncludeMediaInfo                bool   `json:"include_media_info,omitempty"`
+		IncludeDeleted                  bool   `json:"include_deleted,omitempty"`
+		IncludeHasExplicitSharedMembers bool   `json:"include_has_explicit_shared_members,omitempty"`
+		Limit                           int    `json:"limit,omitempty"`
+	}{
+		Path:                            path.Path(),
+		Recursive:                       lo.recursive,
+		IncludeMediaInfo:                lo.includeMediaInfo,
+		IncludeDeleted:                  lo.includeDeleted,
+		IncludeHasExplicitSharedMembers: lo.includeHasExplicitSharedMembers,
+	}
+
+	type Cursor struct {
+		Cursor string `path:"cursor" json:"cursor"`
+	}
+	type LongPoll struct {
+		Changes bool `path:"changes"  json:"changes"`
+	}
+
+	res, err := z.ctx.Rpc("files/list_folder/get_latest_cursor").Param(p).Call()
+	if err != nil {
+		return err
+	}
+	cursor := &Cursor{}
+	if err = res.Model(cursor); err != nil {
+		return err
+	}
+
+	noAuthCtx := z.ctx.NoAuth()
+	for {
+		res, err := noAuthCtx.Notify("files/list_folder/longpoll").Param(cursor).Call()
+		if err != nil {
+			return err
+		}
+		changes := &LongPoll{}
+		if err = res.Model(changes); err != nil {
+			return err
+		}
+		if changes.Changes {
+			err = z.ctx.List("files/list_folder/continue").
+				Continue("files/list_folder/continue").
+				Param(cursor).
+				UseHasMore(true).
+				ResultTag("entries").
+				OnEntry(func(entry api_list.ListEntry) error {
+					e := &mo_file.Metadata{}
+					if err := entry.Model(e); err != nil {
+						j, _ := entry.Json()
+						z.ctx.Log().Error("invalid", zap.Error(err), zap.String("entry", j.Raw))
+						return err
+					}
+					onEntry(e)
+					return nil
+				}).OnLastCursor(func(c string) {
+				cursor.Cursor = c
+			}).Call()
+			if err != nil {
+				return err
+			}
+		}
+	}
+}
+
+func (z *filesImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err error) {
 	p := struct {
 		Path                            string `json:"path"`
 		IncludeMediaInfo                bool   `json:"include_media_info,omitempty"`
@@ -102,7 +175,7 @@ func (z *filesImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, err error) 
 	return entry, nil
 }
 
-func (z *filesImpl) List(path mo_path.Path, opts ...ListOpt) (entries []mo_file.Entry, err error) {
+func (z *filesImpl) List(path mo_path.DropboxPath, opts ...ListOpt) (entries []mo_file.Entry, err error) {
 	entries = make([]mo_file.Entry, 0)
 	err = z.ListChunked(path, func(entry mo_file.Entry) {
 		entries = append(entries, entry)
@@ -113,7 +186,7 @@ func (z *filesImpl) List(path mo_path.Path, opts ...ListOpt) (entries []mo_file.
 	return entries, nil
 }
 
-func (z *filesImpl) ListChunked(path mo_path.Path, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
+func (z *filesImpl) ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
 	lo := &listOpts{}
 	for _, o := range opts {
 		o(lo)
@@ -157,7 +230,7 @@ func (z *filesImpl) ListChunked(path mo_path.Path, onEntry func(entry mo_file.En
 	return req.Call()
 }
 
-func (z *filesImpl) Remove(path mo_path.Path, opts ...RemoveOpt) (entry mo_file.Entry, err error) {
+func (z *filesImpl) Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry mo_file.Entry, err error) {
 	opt := &removeOpts{}
 	for _, o := range opts {
 		o(opt)

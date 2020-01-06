@@ -3,88 +3,62 @@ package member
 import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_file"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 type DeleteRow struct {
 	Email string `json:"email"`
 }
 
-type DeleteVO struct {
-	File     app_file.Data
-	Peer     app_conn.ConnBusinessMgmt
-	WipeData bool
-}
-
-const (
-	reportDelete = "delete"
-)
-
 type Delete struct {
+	File         fd_file.RowFeed
+	Peer         rc_conn.ConnBusinessMgmt
+	WipeData     bool
+	OperationLog rp_model.TransactionReport
 }
 
-func (z *Delete) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportDelete, rp_model.TransactionHeader(&DeleteRow{}, nil)),
-	}
+func (z *Delete) Preset() {
+	z.WipeData = true
+	z.File.SetModel(&DeleteRow{})
+	z.OperationLog.SetModel(&DeleteRow{}, nil)
 }
 
 func (z *Delete) Console() {
 }
 
-func (z *Delete) Requirement() app_vo.ValueObject {
-	return &DeleteVO{
-		WipeData: true,
-	}
-}
-
-func (z *Delete) Exec(k app_kitchen.Kitchen) error {
-	vo := k.Value().(*DeleteVO)
-
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
+func (z *Delete) Exec(c app_control.Control) error {
+	ctx := z.Peer.Context()
 
 	svm := sv_member.New(ctx)
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportDelete)
+	err := z.OperationLog.Open()
 	if err != nil {
 		return err
 	}
-	defer rep.Close()
 
-	if err := vo.File.Model(k.Control(), &DeleteRow{}); err != nil {
-		return err
-	}
-
-	return vo.File.EachRow(func(mod interface{}, rowIndex int) error {
+	return z.File.EachRow(func(mod interface{}, rowIndex int) error {
 		m := mod.(*DeleteRow)
 		mem, err := svm.ResolveByEmail(m.Email)
 		if err != nil {
-			rep.Failure(err, m)
+			z.OperationLog.Failure(err, m)
 			return nil
 		}
 		ros := make([]sv_member.RemoveOpt, 0)
-		if vo.WipeData {
+		if z.WipeData {
 			ros = append(ros, sv_member.RemoveWipeData())
 		}
 		err = svm.Remove(mem, ros...)
 		if err != nil {
-			rep.Failure(err, m)
+			z.OperationLog.Failure(err, m)
 		} else {
-			rep.Success(m, nil)
+			z.OperationLog.Success(m, nil)
 		}
 		return nil
 	})
 }
 
 func (z *Delete) Test(c app_control.Control) error {
-	return qt_recipe.HumanInteractionRequired()
+	return qt_endtoend.HumanInteractionRequired()
 }

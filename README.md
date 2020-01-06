@@ -63,6 +63,7 @@ Available commands:
 | [file sync preflight up](doc/generated/file-sync-preflight-up.md)               | Upstream sync preflight check                                 |
 | [file sync up](doc/generated/file-sync-up.md)                                   | Upstream sync with Dropbox                                    |
 | [file upload](doc/generated/file-upload.md)                                     | Upload file                                                   |
+| [file watch](doc/generated/file-watch.md)                                       | Watch file activities                                         |
 | [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |
 | [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
 | [group member list](doc/generated/group-member-list.md)                         | List members of groups                                        |
@@ -99,8 +100,9 @@ Available commands:
 | [team sharedlink list](doc/generated/team-sharedlink-list.md)                   | List of shared links                                          |
 | [team sharedlink update expiry](doc/generated/team-sharedlink-update-expiry.md) | Update expiration date of public shared links within the team |
 | [teamfolder archive](doc/generated/teamfolder-archive.md)                       | Archive team folder                                           |
+| [teamfolder file list](doc/generated/teamfolder-file-list.md)                   | List files in team folders                                    |
+| [teamfolder file size](doc/generated/teamfolder-file-size.md)                   | Calculate size of team folders                                |
 | [teamfolder list](doc/generated/teamfolder-list.md)                             | List team folder(s)                                           |
 | [teamfolder permdelete](doc/generated/teamfolder-permdelete.md)                 | Permanently delete team folder                                |
 | [teamfolder replication](doc/generated/teamfolder-replication.md)               | Replicate a team folder to the other team                     |
-| [web](doc/generated/web.md)                                                     | Launch web console (experimental)                             |
 

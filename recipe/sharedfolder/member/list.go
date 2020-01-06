@@ -8,30 +8,24 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
 
-type ListVO struct {
-	Peer app_conn.ConnUserFile
-}
-
 type ListWorker struct {
 	folder *mo_sharedfolder.SharedFolder
 	conn   api_context.Context
-	rep    rp_model.Report
+	rep    rp_model.RowReport
 	ctl    app_control.Control
 }
 
 func (z *ListWorker) Exec() error {
-	z.ctl.UI().Info("recipe.sharedfolder.member.list.progress.scan",
+	z.ctl.UI().InfoK("recipe.sharedfolder.member.list.progress.scan",
 		app_msg.P{
 			"Folder":   z.folder.Name,
 			"FolderId": z.folder.SharedFolderId},
@@ -48,49 +42,32 @@ func (z *ListWorker) Exec() error {
 	return nil
 }
 
-const (
-	reportList = "sharedfolder_member"
-)
-
 type List struct {
+	Peer   rc_conn.ConnUserFile
+	Member rp_model.RowReport
 }
 
-func (z *List) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportList, &mo_sharedfolder_member.SharedFolderMember{}),
-	}
+func (z *List) Preset() {
+	z.Member.SetModel(&mo_sharedfolder_member.SharedFolderMember{})
 }
 
-func (z *List) Requirement() app_vo.ValueObject {
-	return &ListVO{}
-}
-
-func (z *List) Exec(k app_kitchen.Kitchen) error {
-	var vo interface{} = k.Value()
-	lvo := vo.(*ListVO)
-	conn, err := lvo.Peer.Connect(k.Control())
+func (z *List) Exec(c app_control.Control) error {
+	folders, err := sv_sharedfolder.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
 	}
 
-	folders, err := sv_sharedfolder.New(conn).List()
-	if err != nil {
+	if err := z.Member.Open(); err != nil {
 		return err
 	}
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportList)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
-
-	q := k.NewQueue()
+	q := c.NewQueue()
 	for _, folder := range folders {
 		q.Enqueue(&ListWorker{
 			folder: folder,
-			conn:   conn,
-			rep:    rep,
-			ctl:    k.Control(),
+			conn:   z.Peer.Context(),
+			rep:    z.Member,
+			ctl:    c,
 		})
 	}
 	q.Wait()
@@ -99,14 +76,10 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *List) Test(c app_control.Control) error {
-	lvo := &ListVO{}
-	if !qt_recipe.ApplyTestPeers(c, lvo) {
-		return qt_recipe.NotEnoughResource()
-	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues); err != nil {
 		return err
 	}
-	return qt_recipe.TestRows(c, "sharedfolder_member", func(cols map[string]string) error {
+	return qt_recipe.TestRows(c, "member", func(cols map[string]string) error {
 		if _, ok := cols["email"]; !ok {
 			return errors.New("email is not found")
 		}

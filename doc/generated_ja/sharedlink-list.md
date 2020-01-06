@@ -17,10 +17,9 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
+* Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -53,9 +52,9 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-peer`    | アカウントの別名 | {default}  |
+| オプション | 説明          | デフォルト |
+|------------|---------------|------------|
+| `-peer`    | Account alias | default    |
 
 Common options:
 
@@ -112,12 +111,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: sharedlink 
+## Report: shared_link 
 
-Report files are generated in three formats, `sharedlink.csv`, `sharedlink.xlsx` and `sharedlink.json`.
-But if you run with `-low-memory` option, the command will generate only `sharedlink.json}}` report.
+Report files are generated in three formats, `shared_link.csv`, `shared_link.xlsx` and `shared_link.json`.
+But if you run with `-low-memory` option, the command will generate only `shared_link.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `sharedlink_0000.xlsx`, `sharedlink_0001.xlsx`, `sharedlink_0002.xlsx`...   
+like `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
 
 | 列         | 説明                                   |
 |------------|----------------------------------------|

@@ -103,7 +103,7 @@ func (z *mirrorImpl) Mirror(srcEmail, dstEmail string) error {
 	var mirrorPath func(p string) error
 	mirrorPath = func(p string) error {
 		ll := l.With(zap.String("p", p))
-		path := mo_path.NewPath(p)
+		path := mo_path.NewDropboxPath(p)
 
 		// mirror path unless the path is or has exclusion path
 		if !hasExclusionPath(p) && !isExclusionPath(p) {

@@ -9,38 +9,18 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/recpie/app_worker_impl"
+	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 	"sort"
 )
-
-type AsyncVO struct {
-	RunConcurrently bool
-	Peer            app_conn.ConnBusinessInfo
-}
-
-const (
-	reportAsyncConcurrent = "concurrent"
-	reportAsyncSingle     = "single_thread"
-)
-
-func (z *AsyncVO) reportName() string {
-	if z.RunConcurrently {
-		return reportAsyncConcurrent
-	} else {
-		return reportAsyncSingle
-	}
-}
 
 type AsyncWorker struct {
 	// job context
@@ -49,7 +29,7 @@ type AsyncWorker struct {
 	// recipe's context
 	ctl  app_control.Control
 	conn api_context.Context
-	rep  rp_model.Report
+	rep  rp_model.RowReport
 }
 
 func (z *AsyncWorker) Exec() error {
@@ -69,68 +49,58 @@ func (z *AsyncWorker) Exec() error {
 }
 
 type Async struct {
+	RunConcurrently bool
+	Peer            rc_conn.ConnBusinessInfo
+	Rows            rp_model.RowReport
 }
 
-func (z *Async) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportAsyncConcurrent, &mo_group_member.GroupMember{}),
-		rp_spec_impl.Spec(reportAsyncSingle, &mo_group_member.GroupMember{}),
-	}
+func (z *Async) Preset() {
+	z.Rows.SetModel(&mo_group_member.GroupMember{})
 }
 
 func (z *Async) Hidden() {
 }
 
-func (z *Async) Requirement() app_vo.ValueObject {
-	return &AsyncVO{}
-}
+func (z *Async) Exec(c app_control.Control) error {
+	ctxInfo := z.Peer.Context()
 
-func (z *Async) Exec(k app_kitchen.Kitchen) error {
-	var vo interface{} = k.Value()
-	lvo := vo.(*AsyncVO)
-	connInfo, err := lvo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
-
-	gsv := sv_group.New(connInfo)
+	gsv := sv_group.New(ctxInfo)
 	groups, err := gsv.List()
 	if err != nil {
 		return err
 	}
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(lvo.reportName())
+	err = z.Rows.Open()
 	if err != nil {
 		return err
 	}
-	defer rep.Close()
 
-	q := k.NewQueue()
+	q := c.NewQueue()
 
 	// Launch additional routines (because only single routine running when the recipe
 	// run through test
-	qq := q.(*app_worker_impl.Queue)
+	qq := q.(*rc_worker_impl.Queue)
 	qq.Launch(4)
 
 	for _, group := range groups {
-		if lvo.RunConcurrently {
+		if z.RunConcurrently {
 			w := &AsyncWorker{
 				group: group,
-				ctl:   k.Control(),
-				conn:  connInfo,
-				rep:   rep,
+				ctl:   c,
+				conn:  ctxInfo,
+				rep:   z.Rows,
 			}
 			q.Enqueue(w)
 		} else {
-			k.Log().Debug("Scan group (Single thread)", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Group", group))
-			msv := sv_group_member.New(connInfo, group)
+			c.Log().Debug("Scan group (Single thread)", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Group", group))
+			msv := sv_group_member.New(ctxInfo, group)
 			members, err := msv.List()
 			if err != nil {
 				return err
 			}
 			for _, m := range members {
 				row := mo_group_member.NewGroupMember(group, m)
-				rep.Row(row)
+				z.Rows.Row(row)
 			}
 		}
 	}
@@ -140,32 +110,49 @@ func (z *Async) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Async) Test(c app_control.Control) error {
-	lvo := &AsyncVO{}
-	if !qt_recipe.ApplyTestPeers(c, lvo) {
-		return qt_recipe.NotEnoughResource()
-	}
-
 	l := c.Log()
 
-	// Non concurrent operation:
-	l.Info("Running single thread operation")
-	lvo.RunConcurrently = false
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
-		return err
-	}
-	singleReportPath := filepath.Join(c.Workspace().Report(), lvo.reportName()+".csv")
+	var singleTheadReport, multiThreadReport string
 
-	// Concurrent operation:
-	l.Info("Running multi thread operation")
-	lvo.RunConcurrently = true
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
-		return err
+	// Concurrent
+	{
+		l.Info("Running multi thread operation")
+		cf := c.(app_control_launcher.ControlFork)
+		cc, err := cf.Fork("async")
+		if err != nil {
+			return err
+		}
+		err = rc_exec.Exec(cc, &Async{}, func(r rc_recipe.Recipe) {
+			ar := r.(*Async)
+			ar.RunConcurrently = true
+		})
+		if err != nil {
+			return err
+		}
+		multiThreadReport = filepath.Join(cc.Workspace().Report(), "rows.csv")
 	}
-	concurrentReportPath := filepath.Join(c.Workspace().Report(), lvo.reportName()+".csv")
+
+	// Single thread
+	{
+		l.Info("Running single-thread operation")
+		cf := c.(app_control_launcher.ControlFork)
+		cc, err := cf.Fork("single-thread")
+		if err != nil {
+			return err
+		}
+		err = rc_exec.Exec(cc, &Async{}, func(r rc_recipe.Recipe) {
+			ar := r.(*Async)
+			ar.RunConcurrently = true
+		})
+		if err != nil {
+			return err
+		}
+		singleTheadReport = filepath.Join(cc.Workspace().Report(), "rows.csv")
+	}
 
 	singleReport := make([]string, 0)
 	{
-		f, err := os.Open(singleReportPath)
+		f, err := os.Open(singleTheadReport)
 		if err != nil {
 			return err
 		}
@@ -178,7 +165,7 @@ func (z *Async) Test(c app_control.Control) error {
 
 	concurrentReport := make([]string, 0)
 	{
-		f, err := os.Open(concurrentReportPath)
+		f, err := os.Open(multiThreadReport)
 		if err != nil {
 			return err
 		}

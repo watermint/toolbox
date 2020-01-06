@@ -17,7 +17,7 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 This command use following access type(s) during the operation:
 * Dropbox Business File access
@@ -53,9 +53,9 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option  | Description   | Default   |
-|---------|---------------|-----------|
-| `-peer` | Account alias | {default} |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-peer` | Account alias | default |
 
 Common options:
 
@@ -112,12 +112,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: teamfolder 
+## Report: team_folder 
 
-Report files are generated in three formats, `teamfolder.csv`, `teamfolder.xlsx` and `teamfolder.json`.
-But if you run with `-low-memory` option, the command will generate only `teamfolder.json}}` report.
+Report files are generated in three formats, `team_folder.csv`, `team_folder.xlsx` and `team_folder.json`.
+But if you run with `-low-memory` option, the command will generate only `team_folder.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `teamfolder_0000.xlsx`, `teamfolder_0001.xlsx`, `teamfolder_0002.xlsx`...   
+like `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`...   
 
 | Column                 | Description                                                                                |
 |------------------------|--------------------------------------------------------------------------------------------|

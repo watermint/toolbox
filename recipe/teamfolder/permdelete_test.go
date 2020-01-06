@@ -6,5 +6,5 @@ import (
 )
 
 func TestPermDelete_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &PermDelete{})
+	qt_recipe.TestRecipe(t, &Permdelete{})
 }

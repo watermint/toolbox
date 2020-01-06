@@ -6,7 +6,7 @@ import (
 )
 
 type History interface {
-	Revisions(path mo_path.Path) (entries []mo_file.Entry, isDeleted bool, serverDeleted string, err error)
+	Revisions(path mo_path.DropboxPath) (entries []mo_file.Entry, isDeleted bool, serverDeleted string, err error)
 
-	Restore(path mo_path.Path, revision string) (entry mo_file.Entry, err error)
+	Restore(path mo_path.DropboxPath, revision string) (entry mo_file.Entry, err error)
 }

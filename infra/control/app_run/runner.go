@@ -7,79 +7,46 @@ import (
 	"github.com/watermint/toolbox/catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
-	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/network/nw_concurrency"
 	"github.com/watermint/toolbox/infra/network/nw_diag"
 	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"github.com/watermint/toolbox/infra/network/nw_proxy"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
-	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_group"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
-	"github.com/watermint/toolbox/quality/infra/qt_control_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
 	"os"
 	"os/signal"
 	"runtime"
-	"strings"
 	"syscall"
 )
 
-func Run(args []string, bx, web *rice.Box) (found bool) {
-	// Initialize resources
-	mc := app_msg_container_impl.NewContainer(bx)
-	ui := app_ui.NewConsole(mc, qt_control_impl.NewMessageMemory(), false)
-	cat := catalogue.Catalogue()
+func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.Spec, grp *rc_group.Group, rem []string, bx, web *rice.Box) (found bool) {
+	comSpec := rc_spec.NewCommonValue()
 
-	// Select recipe or group
-	cmd, grp, rcp, rem, err := cat.Select(args)
+	f := flag.NewFlagSet(rcpSpec.CliPath(), flag.ContinueOnError)
 
-	switch {
-	case err != nil:
-		if grp != nil {
-			grp.PrintUsage(ui)
-		} else {
-			cat.PrintUsage(ui)
-		}
-		os.Exit(app_control.FailureInvalidCommand)
+	comSpec.SetFlags(f, ui)
+	rcpSpec.SetFlags(f, ui)
 
-	case rcp == nil:
-		grp.PrintUsage(ui)
-		os.Exit(app_control.Success)
-	}
-
-	// Initialize recipe value object
-	cmdPath := make([]string, 0)
-	cmdPath = append(cmdPath, grp.Path...)
-	if cmd != "" {
-		cmdPath = append(cmdPath, cmd)
-	}
-	recipeName := strings.Join(cmdPath, " ")
-
-	vo := rcp.Requirement()
-	f := flag.NewFlagSet(recipeName, flag.ContinueOnError)
-	com := app_opt.NewDefaultCommonOpts()
-
-	cvc := app_vo_impl.NewValueContainer(com)
-	cvc.MakeFlagSet(f, ui)
-
-	vc := app_vo_impl.NewValueContainer(vo)
-	vc.MakeFlagSet(f, ui)
-
-	err = f.Parse(rem)
+	err := f.Parse(rem)
 	rem2 := f.Args()
 	if err != nil || (len(rem2) > 0 && rem2[0] == "help") {
-		grp.PrintRecipeUsage(ui, rcp, f)
+		grp.PrintRecipeUsage(ui, rcpSpec, f)
 		os.Exit(app_control.FailureInvalidCommandFlags)
 	}
-	vc.Apply(vo)
-	cvc.Apply(com)
+	comSpec.Apply()
+	com := comSpec.Opts()
 
 	// Apply common flags
 
@@ -93,8 +60,8 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	if com.Workspace != "" {
 		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace)
 		if err != nil {
-			ui.Error("run.error.unable_to_format_path", app_msg.P{
-				"Error": err.Error(),
+			ui.ErrorK("run.error.unable_to_format_path", app_msg.P{
+				"ErrorK": err.Error(),
 			})
 			os.Exit(app_control.FailureInvalidCommandFlags)
 		}
@@ -108,11 +75,11 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	}
 	so = append(so, app_control.LowMemory(com.LowMemory))
 	so = append(so, app_control.Concurrency(com.Concurrency))
-	so = append(so, app_control.RecipeName(recipeName))
-	so = append(so, app_control.CommonOptions(cvc.Serialize()))
-	so = append(so, app_control.RecipeOptions(vc.Serialize()))
+	so = append(so, app_control.RecipeName(rcpSpec.CliPath()))
+	so = append(so, app_control.CommonOptions(comSpec.Debug()))
+	so = append(so, app_control.RecipeOptions(rcpSpec.Debug()))
 
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.Recipes())
+	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.NewCatalogue())
 	err = ctl.Up(so...)
 	if err != nil {
 		os.Exit(app_control.FatalStartup)
@@ -125,32 +92,34 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	}
 
 	// Recover
-	defer func() {
-		err := recover()
-		if err != nil {
-			l := ctl.Log()
-			l.Debug("Recovery from panic")
-			l.Error(ctl.UI().Text("run.error.panic"),
-				zap.Any("error", err),
-			)
-			l.Error(ctl.UI().Text("run.error.panic.instruction"),
-				zap.String("JobPath", ctl.Workspace().Job()),
-			)
-
-			for depth := 0; ; depth++ {
-				_, file, line, ok := runtime.Caller(depth)
-				if !ok {
-					break
-				}
-				ctl.Log().Debug("Trace",
-					zap.Int("Depth", depth),
-					zap.String("File", file),
-					zap.Int("Line", line),
+	if ctl.IsProduction() {
+		defer func() {
+			err := recover()
+			if err != nil {
+				l := ctl.Log()
+				l.Debug("Recovery from panic")
+				l.Error(ctl.UI().TextK("run.error.panic"),
+					zap.Any("error", err),
 				)
+				l.Error(ctl.UI().TextK("run.error.panic.instruction"),
+					zap.String("JobPath", ctl.Workspace().Job()),
+				)
+
+				for depth := 0; ; depth++ {
+					_, file, line, ok := runtime.Caller(depth)
+					if !ok {
+						break
+					}
+					ctl.Log().Debug("Trace",
+						zap.Int("Depth", depth),
+						zap.String("File", file),
+						zap.Int("Line", line),
+					)
+				}
+				ctl.Abort(app_control.Reason(app_control.FatalPanic))
 			}
-			ctl.Abort(app_control.Reason(app_control.FatalPanic))
-		}
-	}()
+		}()
+	}
 
 	// Trap signals
 	sig := make(chan os.Signal, 1)
@@ -176,8 +145,8 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 				}
 			}
 			ui := ctl.UI()
-			ui.Error("run.error.interrupted")
-			ui.Error("run.error.interrupted.instruction", app_msg.P{"JobPath": ctl.Workspace().Job()})
+			ui.ErrorK("run.error.interrupted")
+			ui.ErrorK("run.error.interrupted.instruction", app_msg.P{"JobPath": ctl.Workspace().Job()})
 			ctl.Abort(app_control.Reason(app_control.FatalInterrupted))
 
 			// in case the controller didn't fire exit..
@@ -189,7 +158,7 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	nw_proxy.SetHttpProxy(com.Proxy, ctl)
 
 	// App Header
-	app_recipe_group.AppHeader(ui)
+	rc_group.AppHeader(ui)
 
 	// Diagnosis
 	err = nw_diag.Runtime(ctl)
@@ -220,9 +189,15 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	}
 
 	// Run
-	ctl.Log().Debug("Run recipe", zap.Any("vo", vo), zap.Any("common", com))
-	k := app_kitchen.NewKitchen(ctl, vo)
-	err = rcp.Exec(k)
+	ctl.Log().Debug("Run recipe", zap.Any("vo", rcpSpec.Debug()), zap.Any("common", com))
+	{
+		err = rc_exec.ExecSpec(ctl, rcpSpec, rc_recipe.NoCustomValues)
+		if err != nil {
+			ctl.Log().Debug("Unable to apply values to the recipe", zap.Error(err))
+			ui.Failure("run.error.recipe.failed", app_msg.P{"ErrorK": err.Error()})
+			os.Exit(app_control.FailureGeneral)
+		}
+	}
 
 	// Dump stats
 	ut_memory.DumpStats(ctl.Log())
@@ -230,10 +205,42 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 
 	if err != nil {
 		ctl.Log().Error("Recipe failed with an error", zap.Error(err))
-		ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
+		ui.Failure("run.error.recipe.failed", app_msg.P{"ErrorK": err.Error()})
 		os.Exit(app_control.FailureGeneral)
 	}
 	app_root.FlushSuccessShutdownHook()
 
 	return true
+}
+
+func Run(args []string, bx, web *rice.Box) (found bool) {
+	// Initialize resources
+	mc := app_msg_container_impl.NewContainer(bx)
+	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
+	cat := catalogue.Groups()
+
+	// Select recipe or group
+	_, grp, rcp, rem, err := cat.Select(args)
+
+	switch {
+	case err != nil:
+		if grp != nil {
+			grp.PrintUsage(ui)
+		} else {
+			cat.PrintUsage(ui)
+		}
+		os.Exit(app_control.FailureInvalidCommand)
+
+	case rcp == nil:
+		grp.PrintUsage(ui)
+		os.Exit(app_control.Success)
+	}
+
+	spec := rc_spec.New(rcp)
+	if spec == nil {
+		ui.ErrorK("run.error.recipe_spec_not_found")
+		return false
+	}
+
+	return runSideCarRecipe(mc, ui, spec, grp, rem, bx, web)
 }

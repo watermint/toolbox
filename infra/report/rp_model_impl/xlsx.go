@@ -18,6 +18,14 @@ const (
 	XlsxMaxMemoryTarget = 4 * 1_048_576 // 4MB
 )
 
+type MsgXlsxWriter struct {
+	UnableToOpen app_msg.Message
+}
+
+var (
+	MXlsxWriter = app_msg.Apply(&MsgXlsxWriter{}).(*MsgXlsxWriter)
+)
+
 func xlsxHeaderStyle() *xlsx.Style {
 	headerStyle := xlsx.NewStyle()
 	headerStyle.ApplyFill = true
@@ -43,38 +51,33 @@ func xlsxDataStyle() *xlsx.Style {
 	return dataStyle
 }
 
-func NewXlsx(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.Report, err error) {
-	parser := NewColumn(row, opts...)
-	x := &Xlsx{
-		fileAvailable: false,
-		name:          name,
-		ctl:           ctl,
-		parser:        parser,
+func NewXlsxWriter(name string, ctl app_control.Control) Writer {
+	return &xlsxWriter{
+		name: name,
+		ctl:  ctl,
 	}
-	if err = x.open(); err != nil {
-		return nil, err
-	}
-	return x, nil
 }
 
-type Xlsx struct {
-	ctl            app_control.Control
+type xlsxWriter struct {
 	name           string
+	nameSuffix     string
+	index          int
+	path           string
+	mutex          sync.Mutex
+	ctl            app_control.Control
+	colModel       Column
 	omitError      bool
 	rotateCount    int
 	rotateFailed   bool
 	filePath       string
 	fileAvailable  bool
 	file           *xlsx.File
-	sheet          *xlsx.Sheet
-	parser         Column
-	index          int
 	fileIndex      int
-	mutex          sync.Mutex
+	sheet          *xlsx.Sheet
 	estMemoryUsage int64
 }
 
-func (z *Xlsx) rotate() {
+func (z *xlsxWriter) rotate() {
 	l := z.ctl.Log()
 
 	// Ignore once rotate failed
@@ -87,10 +90,9 @@ func (z *Xlsx) rotate() {
 	// rotate
 	if err := z.open(); err != nil {
 		if !z.omitError {
-			z.ctl.UI().Error("report.xlsx.unable_to_open", app_msg.P{
-				"Path":  z.filePath,
-				"Error": err.Error(),
-			})
+			z.ctl.UI().Error(MXlsxWriter.UnableToOpen.
+				With("Path", z.filePath).
+				With("Error", err.Error()))
 			z.omitError = true
 		}
 		z.rotateFailed = true
@@ -98,12 +100,12 @@ func (z *Xlsx) rotate() {
 	z.rotateCount++
 }
 
-func (z *Xlsx) open() (err error) {
+func (z *xlsxWriter) open() (err error) {
 	l := z.ctl.Log()
 	if z.fileAvailable {
 		path := z.filePath
 		if z.rotateCount == 0 {
-			path = filepath.Join(z.ctl.Workspace().Report(), z.name+"_0000.xlsx")
+			path = filepath.Join(z.ctl.Workspace().Report(), z.name+z.nameSuffix+"_0000.xlsx")
 		}
 		if err = z.file.Save(path); err != nil {
 			l.Debug("Unable to save file", zap.Error(err), zap.String("path", path))
@@ -118,7 +120,7 @@ func (z *Xlsx) open() (err error) {
 		name = fmt.Sprintf("%s_%04d", z.name, z.fileIndex)
 	}
 	l = l.With(zap.String("name", name))
-	z.filePath = filepath.Join(z.ctl.Workspace().Report(), name+".xlsx")
+	z.filePath = filepath.Join(z.ctl.Workspace().Report(), name+z.nameSuffix+".xlsx")
 
 	file := xlsx.NewFile()
 	l.Debug("Create xlsx report", zap.String("filePath", z.filePath))
@@ -142,7 +144,7 @@ func (z *Xlsx) open() (err error) {
 	return nil
 }
 
-func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
+func (z *xlsxWriter) addRow(cols []interface{}, style *xlsx.Style) error {
 	rowSize := 0
 	row := z.sheet.AddRow()
 	for _, col := range cols {
@@ -171,30 +173,11 @@ func (z *Xlsx) addRow(cols []interface{}, style *xlsx.Style) error {
 	return nil
 }
 
-func (z *Xlsx) Success(input interface{}, result interface{}) {
-	ui := z.ctl.UI()
-	z.Row(rp_model.TransactionRow{
-		Status: ui.Text(rp_model.MsgSuccess.Key(), rp_model.MsgSuccess.Params()...),
-		Input:  input,
-		Result: result,
-	})
+func (z *xlsxWriter) Name() string {
+	return z.name
 }
 
-func (z *Xlsx) Failure(err error, input interface{}) {
-	z.Row(rowForFailure(z.ctl.UI(), err, input))
-}
-
-func (z *Xlsx) Skip(reason app_msg.Message, input interface{}) {
-	ui := z.ctl.UI()
-	z.Row(rp_model.TransactionRow{
-		Status: ui.Text(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
-		Reason: ui.Text(reason.Key(), reason.Params()...),
-		Input:  input,
-		Result: nil,
-	})
-}
-
-func (z *Xlsx) Row(row interface{}) {
+func (z *xlsxWriter) Row(r interface{}) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
@@ -204,12 +187,12 @@ func (z *Xlsx) Row(row interface{}) {
 
 	if z.index == 0 {
 		header := make([]interface{}, 0)
-		for _, h := range z.parser.Header() {
+		for _, h := range z.colModel.Header() {
 			header = append(header, h)
 		}
 		z.addRow(header, xlsxHeaderStyle())
 	}
-	z.addRow(z.parser.Values(row), xlsxDataStyle())
+	z.addRow(z.colModel.Values(r), xlsxDataStyle())
 	z.index++
 
 	if z.index > XlsxMaxRows || z.estMemoryUsage > XlsxMaxMemoryTarget {
@@ -217,7 +200,23 @@ func (z *Xlsx) Row(row interface{}) {
 	}
 }
 
-func (z *Xlsx) Close() {
+func (z *xlsxWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) error {
+	z.ctl = ctl
+	z.colModel = NewColumn(model, opts...)
+	z.fileAvailable = false
+	ro := &rp_model.ReportOpts{}
+	for _, o := range opts {
+		o(ro)
+	}
+	z.nameSuffix = ro.ReportSuffix
+
+	if err := z.open(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (z *xlsxWriter) Close() {
 	if !z.fileAvailable {
 		return
 	}

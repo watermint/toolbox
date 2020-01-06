@@ -18,7 +18,8 @@ func TestXlsx_Rotate(t *testing.T) {
 
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		name := "xlsx_less_than_threshold"
-		x, err := rp_model_impl.NewXlsx(name, &Data{}, ctl)
+		x := rp_model_impl.NewXlsxWriter(name, ctl)
+		err := x.Open(ctl, &Data{})
 		if err != nil {
 			t.Error(err)
 			return
@@ -55,7 +56,8 @@ func TestXlsx_Rotate(t *testing.T) {
 
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		name := "xlsx_equals_to_threshold"
-		x, err := rp_model_impl.NewXlsx(name, &Data{}, ctl)
+		x := rp_model_impl.NewXlsxWriter(name, ctl)
+		err := x.Open(ctl, &Data{})
 		if err != nil {
 			t.Error(err)
 			return
@@ -102,7 +104,8 @@ func TestXlsx_Rotate(t *testing.T) {
 
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		name := "xlsx_rotate"
-		x, err := rp_model_impl.NewXlsx(name, &Data{}, ctl)
+		x := rp_model_impl.NewXlsxWriter(name, ctl)
+		err := x.Open(ctl, &Data{})
 		if err != nil {
 			t.Error(err)
 			return

@@ -6,77 +6,48 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-)
-
-type ReplicationVO struct {
-	Src     app_conn.ConnUserFile
-	Dst     app_conn.ConnUserFile
-	SrcPath string
-	DstPath string
-}
-
-const (
-	reportReplication = "replication_diff"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 type Replication struct {
+	Src             rc_conn.ConnUserFile
+	Dst             rc_conn.ConnUserFile
+	SrcPath         mo_path.DropboxPath
+	DstPath         mo_path.DropboxPath
+	ReplicationDiff rp_model.RowReport
 }
 
-func (z *Replication) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportReplication, &mo_file_diff.Diff{}),
-	}
+func (z *Replication) Preset() {
+	z.ReplicationDiff.SetModel(&mo_file_diff.Diff{})
+	z.Src.SetPeerName("src")
+	z.Dst.SetPeerName("dst")
 }
 
 func (z *Replication) Console() {
 }
 
-func (z *Replication) Requirement() app_vo.ValueObject {
-	return &ReplicationVO{}
-}
+func (z *Replication) Exec(c app_control.Control) error {
+	ui := c.UI()
 
-func (z *Replication) Exec(k app_kitchen.Kitchen) error {
-	vo := k.Value().(*ReplicationVO)
-	ui := k.UI()
+	ctxSrc := z.Src.Context()
+	ctxDst := z.Dst.Context()
 
-	ui.Info("recipe.file.replication.conn_src")
-	ctxSrc, err := vo.Src.Connect(k.Control())
+	err := uc_file_mirror.New(ctxSrc, ctxDst).Mirror(z.SrcPath, z.DstPath)
 	if err != nil {
 		return err
 	}
-
-	ui.Info("recipe.file.replication.conn_dst")
-	ctxDst, err := vo.Dst.Connect(k.Control())
-	if err != nil {
+	if err := z.ReplicationDiff.Open(); err != nil {
 		return err
 	}
-
-	srcPath := mo_path.NewPath(vo.SrcPath)
-	dstPath := mo_path.NewPath(vo.DstPath)
-
-	err = uc_file_mirror.New(ctxSrc, ctxDst).Mirror(srcPath, dstPath)
-	if err != nil {
-		return err
-	}
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportReplication)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
-
 	diff := func(d mo_file_diff.Diff) error {
-		rep.Row(&d)
+		z.ReplicationDiff.Row(&d)
 		return nil
 	}
-	count, err := uc_compare_paths.New(ctxSrc, ctxDst, k.UI()).Diff(srcPath, dstPath, diff)
-	ui.Info("recipe.file.replication.done", app_msg.P{
+	count, err := uc_compare_paths.New(ctxSrc, ctxDst, c.UI()).Diff(z.SrcPath, z.DstPath, diff)
+	ui.InfoK("recipe.file.replication.done", app_msg.P{
 		"DiffCount": count,
 	})
 	if err != nil {
@@ -86,5 +57,5 @@ func (z *Replication) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Replication) Test(c app_control.Control) error {
-	return qt_recipe.ImplementMe()
+	return qt_endtoend.ImplementMe()
 }

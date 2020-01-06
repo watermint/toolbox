@@ -17,7 +17,7 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 This command use following access type(s) during the operation:
 * Dropbox Business File access
@@ -53,11 +53,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option              | Description            | Default   |
-|---------------------|------------------------|-----------|
-| `-delete-on-unlink` | Delete files on unlink | false     |
-| `-file`             | Data file              |           |
-| `-peer`             | Account alias          | {default} |
+| Option              | Description            | Default |
+|---------------------|------------------------|---------|
+| `-delete-on-unlink` | Delete files on unlink | false   |
+| `-file`             | Data file              |         |
+| `-peer`             | Account alias          | default |
 
 Common options:
 
@@ -71,6 +71,48 @@ Common options:
 | `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`       | Do not store tokens into a file                                                  | false                |
 | `-workspace`    | Workspace path                                                                   |                      |
+
+# File formats
+
+## Format: File 
+
+| Column                        | Description                                                                          | Value example                              |
+|-------------------------------|--------------------------------------------------------------------------------------|--------------------------------------------|
+| team_member_id                | ID of user as a member of a team.                                                    | dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  |
+| email                         | Email address of user.                                                               | john.smith@example.com                     |
+| status                        | The user's status as a member of a specific team. (active/invited/suspended/removed) | active                                     |
+| given_name                    | Also known as a first name                                                           | John                                       |
+| surname                       | Also known as a last name or family name.                                            | Smith                                      |
+| familiar_name                 | Locale-dependent name                                                                | John Smith                                 |
+| display_name                  | A name that can be used directly to represent the name of a user's Dropbox account.  | John Smith                                 |
+| abbreviated_name              | An abbreviated form of the person's name.                                            | JS                                         |
+| external_id                   | External ID that a team can attach to the user.                                      |                                            |
+| account_id                    | A user's account identifier.                                                         | dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   |
+| device_tag                    | Type of the session (web_session, desktop_client, or mobile_client)                  | desktop_client                             |
+| id                            | The session id.                                                                      | dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |
+| user_agent                    | Information on the hosting device.                                                   |                                            |
+| os                            | Information on the hosting operating system                                          |                                            |
+| browser                       | Information on the browser used for this web session.                                |                                            |
+| ip_address                    | The IP address of the last activity from this session.                               | xx.xxx.x.xxx                               |
+| country                       | The country from which the last activity from this session was made.                 | United States                              |
+| created                       | The time this session was created.                                                   | 2019-09-20T23:47:33Z                       |
+| updated                       | The time of the last activity from this session.                                     | 2019-10-25T04:42:16Z                       |
+| expires                       | The time this session expires                                                        |                                            |
+| host_name                     | Name of the hosting desktop.                                                         | nihonbashi                                 |
+| client_type                   | The Dropbox desktop client type (windows, mac, or linux)                             | windows                                    |
+| client_version                | The Dropbox client version.                                                          | 83.4.152                                   |
+| platform                      | Information on the hosting platform.                                                 | Windows 10 1903                            |
+| is_delete_on_unlink_supported | Whether it's possible to delete all of the account files upon unlinking.             | TRUE                                       |
+| device_name                   | The device name.                                                                     |                                            |
+| os_version                    | The hosting OS version.                                                              |                                            |
+| last_carrier                  | Last carrier used by the device.                                                     |                                            |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+team_member_id,email,status,given_name,surname,familiar_name,display_name,abbreviated_name,external_id,account_id,device_tag,id,user_agent,os,browser,ip_address,country,created,updated,expires,host_name,client_type,client_version,platform,is_delete_on_unlink_supported,device_name,os_version,last_carrier
+dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john.smith@example.com,active,John,Smith,John Smith,John Smith,JS,,dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,desktop_client,dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,,,,xx.xxx.x.xxx,United States,2019-09-20T23:47:33Z,2019-10-25T04:42:16Z,,nihonbashi,windows,83.4.152,Windows 10 1903,TRUE,,,
+```
 
 ## Authentication
 
@@ -114,12 +156,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: unlink 
+## Report: operation_log 
 
-Report files are generated in three formats, `unlink.csv`, `unlink.xlsx` and `unlink.json`.
-But if you run with `-low-memory` option, the command will generate only `unlink.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `unlink_0000.xlsx`, `unlink_0001.xlsx`, `unlink_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
 | Column                              | Description                                                                          |
 |-------------------------------------|--------------------------------------------------------------------------------------|

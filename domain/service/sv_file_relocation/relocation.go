@@ -8,10 +8,10 @@ import (
 
 type Relocation interface {
 	// options: allow_shared_folder, allow_ownership_transfer, auto_rename
-	Copy(from, to mo_path.Path) (entry mo_file.Entry, err error)
+	Copy(from, to mo_path.DropboxPath) (entry mo_file.Entry, err error)
 
 	// options: allow_shared_folder, allow_ownership_transfer, auto_rename
-	Move(from, to mo_path.Path) (entry mo_file.Entry, err error)
+	Move(from, to mo_path.DropboxPath) (entry mo_file.Entry, err error)
 }
 
 type RelocationOption interface {
@@ -69,7 +69,7 @@ func (z *implRelocation) AutoRename(auto bool) {
 	z.autoRename = auto
 }
 
-func (z *implRelocation) relocParam(from, to mo_path.Path) interface{} {
+func (z *implRelocation) relocParam(from, to mo_path.DropboxPath) interface{} {
 	p := struct {
 		FromPath               string `json:"from_path"`
 		ToPath                 string `json:"to_path"`
@@ -86,7 +86,7 @@ func (z *implRelocation) relocParam(from, to mo_path.Path) interface{} {
 	return p
 }
 
-func (z *implRelocation) Copy(from, to mo_path.Path) (entry mo_file.Entry, err error) {
+func (z *implRelocation) Copy(from, to mo_path.DropboxPath) (entry mo_file.Entry, err error) {
 	p := z.relocParam(from, to)
 	entry = &mo_file.Metadata{}
 	res, err := z.ctx.Rpc("files/copy_v2").Param(p).Call()
@@ -99,7 +99,7 @@ func (z *implRelocation) Copy(from, to mo_path.Path) (entry mo_file.Entry, err e
 	return entry, nil
 }
 
-func (z *implRelocation) Move(from, to mo_path.Path) (entry mo_file.Entry, err error) {
+func (z *implRelocation) Move(from, to mo_path.DropboxPath) (entry mo_file.Entry, err error) {
 	p := z.relocParam(from, to)
 	entry = &mo_file.Metadata{}
 	res, err := z.ctx.Rpc("files/move_v2").Param(p).Call()

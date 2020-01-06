@@ -13,9 +13,9 @@ import (
 )
 
 type Upload interface {
-	Add(destPath mo_path.Path, filePath string) (entry mo_file.Entry, err error)
-	Overwrite(destPath mo_path.Path, filePath string) (entry mo_file.Entry, err error)
-	Update(destPath mo_path.Path, filePath string, revision string) (entry mo_file.Entry, err error)
+	Add(destPath mo_path.DropboxPath, filePath string) (entry mo_file.Entry, err error)
+	Overwrite(destPath mo_path.DropboxPath, filePath string) (entry mo_file.Entry, err error)
+	Update(destPath mo_path.DropboxPath, filePath string, revision string) (entry mo_file.Entry, err error)
 }
 
 type UploadOpt func(o *UploadOpts) *UploadOpts
@@ -69,19 +69,19 @@ type uploadImpl struct {
 	uo  *UploadOpts
 }
 
-func (z *uploadImpl) Add(destPath mo_path.Path, filePath string) (entry mo_file.Entry, err error) {
+func (z *uploadImpl) Add(destPath mo_path.DropboxPath, filePath string) (entry mo_file.Entry, err error) {
 	return z.upload(destPath, filePath, "add", "")
 }
 
-func (z *uploadImpl) Overwrite(destPath mo_path.Path, filePath string) (entry mo_file.Entry, err error) {
+func (z *uploadImpl) Overwrite(destPath mo_path.DropboxPath, filePath string) (entry mo_file.Entry, err error) {
 	return z.upload(destPath, filePath, "overwrite", "")
 }
 
-func (z *uploadImpl) Update(destPath mo_path.Path, filePath string, revision string) (entry mo_file.Entry, err error) {
+func (z *uploadImpl) Update(destPath mo_path.DropboxPath, filePath string, revision string) (entry mo_file.Entry, err error) {
 	return z.upload(destPath, filePath, "update", revision)
 }
 
-func (z *uploadImpl) upload(destPath mo_path.Path, filePath string, mode string, revision string) (entry mo_file.Entry, err error) {
+func (z *uploadImpl) upload(destPath mo_path.DropboxPath, filePath string, mode string, revision string) (entry mo_file.Entry, err error) {
 	info, err := os.Lstat(filePath)
 	if err != nil {
 		return nil, err
@@ -106,11 +106,11 @@ type UploadParams struct {
 	Autorename     bool             `json:"autorename"`
 }
 
-func UploadPath(destPath mo_path.Path, f os.FileInfo) mo_path.Path {
+func UploadPath(destPath mo_path.DropboxPath, f os.FileInfo) mo_path.DropboxPath {
 	return destPath.ChildPath(filepath.Base(f.Name()))
 }
 
-func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.Path, mode string, revision string) *UploadParams {
+func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.DropboxPath, mode string, revision string) *UploadParams {
 	upm := &UploadParamMode{
 		Tag:    mode,
 		Update: "",
@@ -130,7 +130,7 @@ func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.Path, mode st
 	return up
 }
 
-func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.Path, filePath string, mode string, revision string) (entry mo_file.Entry, err error) {
+func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.DropboxPath, filePath string, mode string, revision string) (entry mo_file.Entry, err error) {
 	l := z.ctx.Log().With(zap.String("filePath", filePath), zap.Int64("size", info.Size()))
 	l.Debug("Uploading file")
 
@@ -156,7 +156,7 @@ func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.Path, fileP
 	return entry, nil
 }
 
-func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.Path, filePath string, mode string, revision string) (entry mo_file.Entry, err error) {
+func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.DropboxPath, filePath string, mode string, revision string) (entry mo_file.Entry, err error) {
 	l := z.ctx.Log().With(zap.String("filePath", filePath), zap.Int64("size", info.Size()))
 
 	total := info.Size()

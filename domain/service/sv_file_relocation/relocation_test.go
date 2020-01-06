@@ -13,7 +13,7 @@ func TestCopy(t *testing.T) {
 		r := New(ctx)
 		src := api_test.ToolboxTestSuiteFolder.ChildPath("copy/F0.jpg")
 		name := fmt.Sprintf("copy-%x.jpg", time.Now().Unix())
-		dest := api_test.ToolboxTestSuiteFolder.ChildPath("copy/" + name)
+		dest := api_test.ToolboxTestSuiteFolder.ChildPath("copy", name)
 
 		entry, err := r.Copy(src, dest)
 		if err != nil {

@@ -17,10 +17,9 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
+* Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -55,14 +54,14 @@ Please add `-dry-run=false` option after verify integrity of expected result.
 
 ## Options
 
-| Option                   | Description                                                                             | Default   |
-|--------------------------|-----------------------------------------------------------------------------------------|-----------|
-| `-dry-run`               | Dry run                                                                                 | true      |
-| `-from`                  | Path for merge                                                                          |           |
-| `-keep-empty-folder`     | Keep empty folder after merge                                                           | false     |
-| `-peer`                  | Account alias                                                                           | {default} |
-| `-to`                    | Path to merge                                                                           |           |
-| `-within-same-namespace` | Do not cross namespace. That is for preserve sharing permission including a shared link | false     |
+| Option                   | Description                                                                             | Default |
+|--------------------------|-----------------------------------------------------------------------------------------|---------|
+| `-dry-run`               | Dry run                                                                                 | true    |
+| `-from`                  | Path for merge                                                                          |         |
+| `-keep-empty-folder`     | Keep empty folder after merge                                                           | false   |
+| `-peer`                  | Account alias                                                                           | default |
+| `-to`                    | Path to merge                                                                           |         |
+| `-within-same-namespace` | Do not cross namespace. That is for preserve sharing permission including a shared link | false   |
 
 Common options:
 

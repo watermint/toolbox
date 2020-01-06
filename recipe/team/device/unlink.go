@@ -5,33 +5,26 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_device"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_file"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 type UnlinkVO struct {
-	DeleteOnUnlink bool
-	File           app_file.Data
-	Peer           app_conn.ConnBusinessFile
 }
 
 type UnlinkWorker struct {
 	session *mo_device.MemberSession
-	rep     rp_model.Report
+	rep     rp_model.TransactionReport
 	ctx     api_context.Context
 	ctl     app_control.Control
 }
 
 func (z *UnlinkWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.Info("recipe.team.device.unlink.progress", app_msg.P{
+	ui.InfoK("recipe.team.device.unlink.progress", app_msg.P{
 		"Member":      z.session.Email,
 		"SessionType": z.session.DeviceTag,
 		"SessionId":   z.session.Id,
@@ -56,54 +49,39 @@ const (
 )
 
 type Unlink struct {
+	DeleteOnUnlink bool
+	File           fd_file.RowFeed
+	Peer           rc_conn.ConnBusinessFile
+	OperationLog   rp_model.TransactionReport
 }
 
-func (z *Unlink) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportUnlink,
-			rp_model.TransactionHeader(&mo_device.MemberSession{}, nil)),
-	}
+func (z *Unlink) Preset() {
+	z.File.SetModel(&mo_device.MemberSession{})
+	z.OperationLog.SetModel(&mo_device.MemberSession{}, nil)
 }
 
 func (z *Unlink) Console() {
 }
 
-func (z *Unlink) Requirement() app_vo.ValueObject {
-	return &UnlinkVO{}
-}
-
-func (z *Unlink) Exec(k app_kitchen.Kitchen) error {
-	vo := k.Value().(*UnlinkVO)
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
+func (z *Unlink) Exec(c app_control.Control) error {
+	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
-	err = vo.File.Model(k.Control(), &mo_device.MemberSession{})
-	if err != nil {
-		return err
-	}
-
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportUnlink)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
-
-	q := k.NewQueue()
-	err = vo.File.EachRow(func(m interface{}, rowIndex int) error {
+	q := c.NewQueue()
+	err := z.File.EachRow(func(m interface{}, rowIndex int) error {
 		q.Enqueue(&UnlinkWorker{
 			session: m.(*mo_device.MemberSession),
-			rep:     rep,
-			ctx:     ctx,
-			ctl:     k.Control(),
+			rep:     z.OperationLog,
+			ctx:     z.Peer.Context(),
+			ctl:     c,
 		})
 		return nil
 	})
 	q.Wait()
-	return nil
+	return err
 }
 
 func (z *Unlink) Test(c app_control.Control) error {
-	return qt_recipe.HumanInteractionRequired()
+	return qt_endtoend.HumanInteractionRequired()
 }

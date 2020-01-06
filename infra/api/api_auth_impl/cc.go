@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"strings"
@@ -38,9 +37,7 @@ func (z *CcAuth) Auth(tokenType string) (ctx api_context.Context, err error) {
 func (z *CcAuth) wrapToken(tokenType, token string, cause error) (ctx api_context.Context, err error) {
 	ui := z.control.UI()
 	if cause != nil {
-		ui.Error("auth.failed_or_cancelled", app_msg.P{
-			"Cause": cause.Error(),
-		})
+		ui.Error(MCcAuth.FailedOrCancelled.With("Cause", cause.Error()))
 		return nil, cause
 	}
 	tc := api_auth.TokenContainer{
@@ -53,7 +50,7 @@ func (z *CcAuth) wrapToken(tokenType, token string, cause error) (ctx api_contex
 	_, _, err = VerifyToken(tokenType, ctx)
 	if err != nil {
 		z.control.Log().Debug("failed verify token", zap.Error(err))
-		ui.Error("auth.basic.verify.failed")
+		ui.Error(MCcAuth.VerifyFailed)
 		return nil, err
 	}
 	return ctx, nil
@@ -91,20 +88,14 @@ func (z *CcAuth) generatedTokenInstruction(tokenType string) {
 		z.control.Log().Fatal("Undefined token type", zap.String("type", tokenType))
 	}
 
-	ui.Info(
-		"auth.basic.generated_token1",
-		app_msg.P{
-			"API":          api,
-			"TypeOfAccess": toa,
-		},
-	)
+	ui.Info(MCcAuth.GeneratedToken1.With("API", api).With("TypeOfAccess", toa))
 }
 
 func (z *CcAuth) generatedToken(tokenType string) (string, error) {
 	ui := z.control.UI()
 	z.generatedTokenInstruction(tokenType)
 	for {
-		code, cancel := ui.AskSecure("auth.basic.generated_token2")
+		code, cancel := ui.AskSecure(MCcAuth.GeneratedToken2)
 		if cancel {
 			return "", errors.New("user cancelled")
 		}
@@ -152,7 +143,7 @@ func (z *CcAuth) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.Token, 
 func (z *CcAuth) oauthCode(state string) string {
 	ui := z.control.UI()
 	for {
-		code, cancel := ui.AskSecure("auth.basic.oauth_seq2")
+		code, cancel := ui.AskSecure(MCcAuth.OauthSeq2)
 		if cancel {
 			return ""
 		}
@@ -168,7 +159,7 @@ func (z *CcAuth) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
 	cfg := z.app.Config(tokenType)
 	url := z.oauthUrl(cfg, state)
 
-	ui.Info("auth.basic.oauth_seq1", app_msg.P{"Url": url})
+	ui.Info(MCcAuth.OauthSeq1.With("Url", url))
 
 	code := z.oauthCode(state)
 	if code == "" {

@@ -123,15 +123,15 @@ func TestNewBomAwareCsvReader(t *testing.T) {
 	//for i := 0; i < numRows; i++ {
 	//	l8, err := csvUtf8.Read()
 	//	if err != nil {
-	//		t.Error(err)
+	//		t.ErrorK(err)
 	//	}
 	//	l16le, err := csvUtf16Le.Read()
 	//	if err != nil {
-	//		t.Error(err)
+	//		t.ErrorK(err)
 	//	}
 	//	l16be, err := csvUtf16Be.Read()
 	//	if err != nil {
-	//		t.Error(err)
+	//		t.ErrorK(err)
 	//	}
 	//
 	//	colsOfRow := make([]string, len(cols))
@@ -139,13 +139,13 @@ func TestNewBomAwareCsvReader(t *testing.T) {
 	//		colsOfRow[j] = fmt.Sprintf("%s%d", c, i)
 	//	}
 	//	if !reflect.DeepEqual(l8, colsOfRow) {
-	//		t.Error("Utf8 not matched", l8)
+	//		t.ErrorK("Utf8 not matched", l8)
 	//	}
 	//	if !reflect.DeepEqual(l16le, colsOfRow) {
-	//		t.Error("Utf16le not matched", l16le)
+	//		t.ErrorK("Utf16le not matched", l16le)
 	//	}
 	//	if !reflect.DeepEqual(l16be, colsOfRow) {
-	//		t.Error("Utf16be not matched", l16be)
+	//		t.ErrorK("Utf16be not matched", l16be)
 	//	}
 	//}
 }

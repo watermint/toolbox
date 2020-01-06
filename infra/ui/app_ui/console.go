@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -39,11 +39,23 @@ const (
 	ColorBrightWhite
 )
 
+type MsgConsole struct {
+	LargeReport       app_msg.Message
+	OpenArtifactError app_msg.Message
+	OpenArtifact      app_msg.Message
+	PointArtifact     app_msg.Message
+	Progress          app_msg.Message
+}
+
+var (
+	MConsole = app_msg.Apply(&MsgConsole{}).(*MsgConsole)
+)
+
 const (
 	consoleNumRowsThreshold = 500
 )
 
-func NewConsole(mc app_msg_container.Container, qm qt_control.Message, testMode bool) UI {
+func NewConsole(mc app_msg_container.Container, qm qt_missingmsg.Message, testMode bool) UI {
 	return &console{
 		mc:       mc,
 		out:      os.Stdout,
@@ -81,161 +93,14 @@ type console struct {
 	out              io.Writer
 	in               io.Reader
 	testMode         bool
-	qm               qt_control.Message
+	qm               qt_missingmsg.Message
 	mutex            sync.Mutex
 	openArtifactOnce sync.Once
 }
 
-func (z *console) InfoM(m app_msg.Message) {
-	z.Info(m.Key(), m.Params()...)
-}
-
-func (z *console) ErrorM(m app_msg.Message) {
-	z.Error(m.Key(), m.Params()...)
-}
-
-func (z *console) IsConsole() bool {
-	return true
-}
-
-func (z *console) IsWeb() bool {
-	return false
-}
-
-func (z *console) OpenArtifact(path string) {
-	l := app_root.Log()
-
-	if z.testMode {
-		return
-	}
-
-	z.openArtifactOnce.Do(func() {
-		app_root.AddSuccessShutdownHook(func() {
-			files, err := ioutil.ReadDir(path)
-			if err != nil {
-				l.Debug("Unable to read path", zap.Error(err), zap.String("path", path))
-				return
-			}
-			for _, f := range files {
-				e := filepath.Ext(f.Name())
-				switch strings.ToLower(e) {
-				case ".xlsx", ".csv", ".json":
-					z.Info("run.console.point_artifact", app_msg.P{
-						"Path": filepath.Join(path, f.Name()),
-					})
-
-				default:
-					l.Debug("unsupported extension", zap.String("name", f.Name()))
-				}
-			}
-
-			z.Info("run.console.open_artifact", app_msg.P{"Path": path})
-			l.Debug("Register success shutdown hook", zap.String("path", path))
-			err = open.Start(path)
-			if err != nil {
-				z.Error("run.console.open_artifact.error", app_msg.P{"Error": err})
-			}
-		})
-	})
-}
-
-func (z *console) verifyKey(key string) {
-	if !z.mc.Exists(key) {
-		z.qm.NotFound(key)
-	}
-}
-
-func (z *console) Text(key string, p ...app_msg.P) string {
-	z.verifyKey(key)
-	return z.mc.Compile(app_msg.M(key, p...))
-}
-
-func (z *console) TextOrEmpty(key string, p ...app_msg.P) string {
-	if z.mc.Exists(key) {
-		return z.mc.Compile(app_msg.M(key, p...))
-	} else {
-		return ""
-	}
-}
-
-func (z *console) Break() {
-	z.mutex.Lock()
-	defer z.mutex.Unlock()
-
-	fmt.Fprintln(z.out)
-}
-
-func (z *console) colorPrint(t string, color int) {
-	z.mutex.Lock()
-	defer z.mutex.Unlock()
-
-	if runtime.GOOS == "windows" {
-		fmt.Fprintf(z.out, "%s\n", t)
-	} else {
-		fmt.Fprintf(z.out, "\x1b[%dm%s\x1b[0m\n", color, t)
-	}
-}
-
-func (z *console) boldPrint(t string) {
-	z.mutex.Lock()
-	defer z.mutex.Unlock()
-
-	if runtime.GOOS == "windows" {
-		fmt.Fprintf(z.out, "%s\n", t)
-	} else {
-		fmt.Fprintf(z.out, "\x1b[1m%s\x1b[0m\n", t)
-	}
-}
-
-func (z *console) Header(key string, p ...app_msg.P) {
-	z.verifyKey(key)
-	m := z.mc.Compile(app_msg.M(key, p...))
-	z.boldPrint(m)
-}
-
-func (z *console) InfoTable(name string) Table {
-	tw := new(tabwriter.Writer)
-	tw.Init(z.out, 0, 2, 2, ' ', 0)
-	return &consoleTable{
-		mc:   z.mc,
-		tab:  tw,
-		qm:   z.qm,
-		name: name,
-		ui:   z,
-	}
-}
-
-func (z *console) Info(key string, p ...app_msg.P) {
-	z.verifyKey(key)
-	m := z.mc.Compile(app_msg.M(key, p...))
-	z.colorPrint(m, ColorWhite)
-	app_root.Log().Debug(m)
-}
-
-func (z *console) Error(key string, p ...app_msg.P) {
-	z.verifyKey(key)
-	m := z.mc.Compile(app_msg.M(key, p...))
-	z.colorPrint(m, ColorRed)
-	app_root.Log().Debug(m)
-}
-
-func (z *console) Success(key string, p ...app_msg.P) {
-	z.verifyKey(key)
-	m := z.mc.Compile(app_msg.M(key, p...))
-	z.colorPrint(m, ColorGreen)
-	app_root.Log().Debug(m)
-}
-
-func (z *console) Failure(key string, p ...app_msg.P) {
-	z.verifyKey(key)
-	m := z.mc.Compile(app_msg.M(key, p...))
-	z.colorPrint(m, ColorRed)
-	app_root.Log().Debug(m)
-}
-
-func (z *console) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
-	z.verifyKey(key)
-	msg := z.mc.Compile(app_msg.M(key, p...))
+func (z *console) AskCont(m app_msg.Message) (cont bool, cancel bool) {
+	z.verifyKey(m.Key())
+	msg := z.mc.Compile(m)
 	app_root.Log().Debug(msg)
 
 	z.colorPrint(msg, ColorCyan)
@@ -267,9 +132,9 @@ func (z *console) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	}
 }
 
-func (z *console) AskText(key string, p ...app_msg.P) (text string, cancel bool) {
-	z.verifyKey(key)
-	msg := z.mc.Compile(app_msg.M(key, p...))
+func (z *console) AskText(m app_msg.Message) (text string, cancel bool) {
+	z.verifyKey(m.Key())
+	msg := z.mc.Compile(m)
 	z.colorPrint(msg, ColorCyan)
 	app_root.Log().Debug(msg)
 
@@ -291,9 +156,9 @@ func (z *console) AskText(key string, p ...app_msg.P) (text string, cancel bool)
 	}
 }
 
-func (z *console) AskSecure(key string, p ...app_msg.P) (text string, cancel bool) {
-	z.verifyKey(key)
-	msg := z.mc.Compile(app_msg.M(key, p...))
+func (z *console) AskSecure(m app_msg.Message) (secure string, cancel bool) {
+	z.verifyKey(m.Key())
+	msg := z.mc.Compile(m)
 	z.colorPrint(msg, ColorCyan)
 	app_root.Log().Debug(msg)
 
@@ -315,10 +180,184 @@ func (z *console) AskSecure(key string, p ...app_msg.P) (text string, cancel boo
 	}
 }
 
+func (z *console) Header(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	t := z.mc.Compile(m)
+	z.boldPrint(t)
+	z.Break()
+}
+
+func (z *console) Text(m app_msg.Message) string {
+	z.verifyKey(m.Key())
+	return z.mc.Compile(m)
+}
+
+func (z *console) TextOrEmpty(m app_msg.Message) string {
+	if z.mc.Exists(m.Key()) {
+		return z.mc.Compile(m)
+	} else {
+		return ""
+	}
+}
+
+func (z *console) Info(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	t := z.mc.Compile(m)
+	z.colorPrint(t, ColorWhite)
+	app_root.Log().Debug(t)
+}
+
+func (z *console) Error(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	t := z.mc.Compile(m)
+	z.colorPrint(t, ColorRed)
+	app_root.Log().Debug(t)
+}
+
+func (z *console) IsConsole() bool {
+	return true
+}
+
+func (z *console) IsWeb() bool {
+	return false
+}
+
+func (z *console) OpenArtifact(path string) {
+	l := app_root.Log()
+
+	if z.testMode {
+		return
+	}
+
+	z.openArtifactOnce.Do(func() {
+		app_root.AddSuccessShutdownHook(func() {
+			files, err := ioutil.ReadDir(path)
+			if err != nil {
+				l.Debug("Unable to read path", zap.Error(err), zap.String("path", path))
+				return
+			}
+			for _, f := range files {
+				e := filepath.Ext(f.Name())
+				switch strings.ToLower(e) {
+				case ".xlsx", ".csv", ".json":
+					z.Info(MConsole.PointArtifact.With(
+						"Path", filepath.Join(path, f.Name()),
+					))
+
+				default:
+					l.Debug("unsupported extension", zap.String("name", f.Name()))
+				}
+			}
+
+			z.Info(MConsole.OpenArtifact.With("Path", path))
+			l.Debug("Register success shutdown hook", zap.String("path", path))
+			err = open.Start(path)
+			if err != nil {
+				z.Error(MConsole.OpenArtifactError.With("Error", err))
+			}
+		})
+	})
+}
+
+func (z *console) verifyKey(key string) {
+	if !z.mc.Exists(key) {
+		z.qm.NotFound(key)
+	}
+}
+
+func (z *console) TextK(key string, p ...app_msg.P) string {
+	return z.Text(app_msg.M(key, p...))
+}
+
+func (z *console) TextOrEmptyK(key string, p ...app_msg.P) string {
+	return z.TextOrEmpty(app_msg.M(key, p...))
+}
+
+func (z *console) Break() {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
+	fmt.Fprintln(z.out)
+}
+
+func (z *console) colorPrint(t string, color int) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
+	if runtime.GOOS == "windows" {
+		fmt.Fprintf(z.out, "%s\n", t)
+	} else {
+		fmt.Fprintf(z.out, "\x1b[%dm%s\x1b[0m\n", color, t)
+	}
+}
+
+func (z *console) boldPrint(t string) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
+	if runtime.GOOS == "windows" {
+		fmt.Fprintf(z.out, "%s\n", t)
+	} else {
+		fmt.Fprintf(z.out, "\x1b[1m%s\x1b[0m\n", t)
+	}
+}
+
+func (z *console) HeaderK(key string, p ...app_msg.P) {
+	z.Header(app_msg.M(key, p...))
+}
+
+func (z *console) InfoTable(name string) Table {
+	return newMarkdownTable(z.mc, z.out, false)
+	//
+	//tw := new(tabwriter.Writer)
+	//tw.Init(z.out, 0, 2, 2, ' ', 0)
+	//return &consoleTable{
+	//	mc:   z.mc,
+	//	tab:  tw,
+	//	qm:   z.qm,
+	//	name: name,
+	//	ui:   z,
+	//}
+}
+
+func (z *console) InfoK(key string, p ...app_msg.P) {
+	z.Info(app_msg.M(key, p...))
+}
+
+func (z *console) ErrorK(key string, p ...app_msg.P) {
+	z.Error(app_msg.M(key, p...))
+}
+
+func (z *console) Success(key string, p ...app_msg.P) {
+	z.verifyKey(key)
+	m := z.mc.Compile(app_msg.M(key, p...))
+	z.colorPrint(m, ColorGreen)
+	app_root.Log().Debug(m)
+}
+
+func (z *console) Failure(key string, p ...app_msg.P) {
+	z.verifyKey(key)
+	m := z.mc.Compile(app_msg.M(key, p...))
+	z.colorPrint(m, ColorRed)
+	app_root.Log().Debug(m)
+}
+
+func (z *console) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
+	return z.AskCont(app_msg.M(key, p...))
+}
+
+func (z *console) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
+	return z.AskText(app_msg.M(key, p...))
+}
+
+func (z *console) AskSecureK(key string, p ...app_msg.P) (text string, cancel bool) {
+	return z.AskSecure(app_msg.M(key, p...))
+}
+
 type consoleTable struct {
 	mc      app_msg_container.Container
 	tab     *tabwriter.Writer
-	qm      qt_control.Message
+	qm      qt_missingmsg.Message
 	mutex   sync.Mutex
 	numRows int
 	name    string
@@ -347,10 +386,9 @@ func (z *consoleTable) RowRaw(m ...string) {
 		fmt.Fprintln(z.tab, strings.Join(m, "\t"))
 	}
 	if z.numRows%consoleNumRowsThreshold == 0 {
-		z.ui.Info("run.console.progress", app_msg.P{
-			"Label":    z.name,
-			"Progress": z.numRows,
-		})
+		z.ui.Info(MConsole.Progress.
+			With("Label", z.name).
+			With("Progress", z.numRows))
 	}
 }
 
@@ -383,8 +421,6 @@ func (z *consoleTable) Flush() {
 
 	z.tab.Flush()
 	if z.numRows >= consoleNumRowsThreshold {
-		z.ui.Info("run.console.large_report", app_msg.P{
-			"Num": z.numRows,
-		})
+		z.ui.Info(MConsole.LargeReport.With("Num", z.numRows))
 	}
 }

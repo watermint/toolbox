@@ -16,7 +16,7 @@ const (
 func TestUrlImpl_Save(t *testing.T) {
 	api_test.DoTestTokenFull(func(ctx api_context.Context) {
 		svc := New(ctx)
-		path := api_test.ToolboxTestSuiteFolder.ChildPath("save_url").ChildPath("f0.png")
+		path := api_test.ToolboxTestSuiteFolder.ChildPath("save_url", "f0.png")
 		entry, err := svc.Save(path, DummyImageUrl)
 		if err != nil {
 			t.Error(err.Error())
@@ -35,7 +35,7 @@ func TestUrlImpl_Save(t *testing.T) {
 }
 
 func TestPathWithName(t *testing.T) {
-	base := mo_path.NewPath("/Test/Path")
+	base := mo_path.NewDropboxPath("/Test/Path")
 
 	// regular url
 	{

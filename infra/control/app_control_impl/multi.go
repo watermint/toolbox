@@ -7,8 +7,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/infra/recpie/app_worker"
-	"github.com/watermint/toolbox/infra/recpie/app_worker_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_worker"
+	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -47,8 +47,8 @@ func (z *Multi) TestResource(key string) (data gjson.Result, found bool) {
 	return gjson.Parse("{}"), false
 }
 
-func (z *Multi) NewQueue() app_worker.Queue {
-	return app_worker_impl.NewQueue(z, 1)
+func (z *Multi) NewQueue() rc_worker.Queue {
+	return rc_worker_impl.NewQueue(z, 1)
 }
 
 func (z *Multi) Fork(ui app_ui.UI, ws app_workspace.Workspace) (ctl app_control.Control, err error) {

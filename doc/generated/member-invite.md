@@ -17,10 +17,9 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 This command use following access type(s) during the operation:
-* Dropbox Business management
 
 # Usage
 
@@ -53,11 +52,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option           | Description                                                            | Default   |
-|------------------|------------------------------------------------------------------------|-----------|
-| `-file`          | Data file                                                              |           |
-| `-peer`          | Account alias                                                          | {default} |
-| `-silent-invite` | Do not send welcome email (requires SSO + domain verification instead) | false     |
+| Option           | Description                                                            | Default |
+|------------------|------------------------------------------------------------------------|---------|
+| `-file`          | Data file                                                              |         |
+| `-peer`          | Account alias                                                          | default |
+| `-silent-invite` | Do not send welcome email (requires SSO + domain verification instead) | false   |
 
 Common options:
 
@@ -71,6 +70,23 @@ Common options:
 | `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`       | Do not store tokens into a file                                                  | false                |
 | `-workspace`    | Workspace path                                                                   |                      |
+
+# File formats
+
+## Format: File 
+
+| Column     | Description                  | Value example    |
+|------------|------------------------------|------------------|
+| email      | Email address of the account | john@example.com |
+| given_name | Given name of the account    | John             |
+| surname    | Surname of the account       | Smith            |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+email,given_name,surname
+john@example.com,John,Smith
+```
 
 ## Authentication
 
@@ -114,12 +130,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: invite 
+## Report: operation_log 
 
-Report files are generated in three formats, `invite.csv`, `invite.xlsx` and `invite.json`.
-But if you run with `-low-memory` option, the command will generate only `invite.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `invite_0000.xlsx`, `invite_0001.xlsx`, `invite_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
 | Column                  | Description                                                                                                          |
 |-------------------------|----------------------------------------------------------------------------------------------------------------------|

@@ -17,7 +17,7 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 This command use following access type(s) during the operation:
 * Dropbox Business File access
@@ -53,15 +53,15 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option                   | Description                                                       | Default   |
-|--------------------------|-------------------------------------------------------------------|-----------|
-| `-depth`                 | Report entry for all files and directories depth directories deep | 1         |
-| `-include-app-folder`    | If true, include app folders                                      | false     |
-| `-include-member-folder` | if true, include team member folders                              | false     |
-| `-include-shared-folder` | If true, include shared folders                                   | true      |
-| `-include-team-folder`   | If true, include team folders                                     | true      |
-| `-name`                  | List only for the folder matched to the name                      |           |
-| `-peer`                  | Account alias                                                     | {default} |
+| Option                   | Description                                                       | Default |
+|--------------------------|-------------------------------------------------------------------|---------|
+| `-depth`                 | Report entry for all files and directories depth directories deep | 1       |
+| `-include-app-folder`    | If true, include app folders                                      | false   |
+| `-include-member-folder` | if true, include team member folders                              | false   |
+| `-include-shared-folder` | If true, include shared folders                                   | true    |
+| `-include-team-folder`   | If true, include team folders                                     | true    |
+| `-name`                  | List only for the folder matched to the name                      |         |
+| `-peer`                  | Account alias                                                     | default |
 
 Common options:
 

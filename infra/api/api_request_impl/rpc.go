@@ -18,6 +18,7 @@ type rpcRequestImpl struct {
 	param         interface{}
 	url           string
 	endpoint      string
+	endpointBase  string
 	headers       map[string]string
 	method        string
 	contentLength int64
@@ -31,6 +32,7 @@ func (z *rpcRequestImpl) Param(p interface{}) api_request.Request {
 		param:         p,
 		url:           z.url,
 		endpoint:      z.endpoint,
+		endpointBase:  z.endpointBase,
 		headers:       z.headers,
 		method:        z.method,
 		contentLength: z.contentLength,
@@ -67,7 +69,7 @@ func (z *rpcRequestImpl) Method() string {
 
 func (z *rpcRequestImpl) Make() (req *http.Request, err error) {
 	l := z.ctx.Log()
-	z.url = RpcRequestUrl(z.endpoint)
+	z.url = RpcRequestUrl(z.endpointBase, z.endpoint)
 
 	// param
 	p, err := json.Marshal(z.param)

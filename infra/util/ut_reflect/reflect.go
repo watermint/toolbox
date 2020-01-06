@@ -1,6 +1,7 @@
 package ut_reflect
 
 import (
+	"github.com/iancoleman/strcase"
 	"reflect"
 	"strings"
 )
@@ -17,7 +18,8 @@ func Path(base string, r interface{}) (path []string, name string) {
 	if pkg != "" {
 		path = append(path, strings.Split(pkg, "/")...)
 	}
-	return path, strings.ToLower(rt.Name())
+	//	return path, strings.ToLower(rt.Name())
+	return path, strcase.ToSnake(rt.Name())
 }
 
 func Key(base string, r interface{}) string {

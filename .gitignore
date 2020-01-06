@@ -1,5 +1,6 @@
 .DS_Store
 .dropbox
+.coverprofile
 *.iml
 *.secret
 *.tokens

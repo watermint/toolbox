@@ -3,116 +3,67 @@ package rp_model_impl
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
-func New(name string, row interface{}, ctl app_control.Control, opts ...rp_model.ReportOpt) (rp_model.Report, error) {
-	ro := &rp_model.ReportOpts{}
-	for _, o := range opts {
-		o(ro)
-	}
-	reportName := name + ro.ReportSuffix
+func newCascade(name string, ctl app_control.Control) Writer {
+	writers := make([]Writer, 0)
 
-	reports := make([]rp_model.Report, 0)
-	closeAll := func() {
-		for _, r := range reports {
-			r.Close()
-		}
-	}
-
+	writers = append(writers, NewJsonWriter(name, ctl, false))
 	if !ctl.IsLowMemory() {
-		csv, err := NewCsv(reportName, row, ctl, opts...)
-		if err != nil {
-			closeAll()
-			return nil, err
-		}
-		reports = append(reports, csv)
+		writers = append(writers, newCsvWriter(name, ctl))
+		writers = append(writers, NewXlsxWriter(name, ctl))
 	}
-
-	{
-		js, err := NewJson(reportName, ctl, opts...)
-		if err != nil {
-			closeAll()
-			return nil, err
-		}
-		reports = append(reports, js)
-	}
-
-	if !ctl.IsLowMemory() {
-		xl, err := NewXlsx(reportName, row, ctl, opts...)
-		if err != nil {
-			closeAll()
-			return nil, err
-		}
-		reports = append(reports, xl)
-	}
-
 	if ctl.IsQuiet() {
-		// Output as JSON on quiet
-		js, err := NewJsonForQuiet(reportName, ctl)
-		if err != nil {
-			closeAll()
-			return nil, err
-		}
-		reports = append(reports, js)
-	} else if !ctl.IsLowMemory() {
-		// Output for UI
-		ui, err := NewUI(reportName, row, ctl, opts...)
-		if err != nil {
-			closeAll()
-			return nil, err
-		}
-		reports = append(reports, ui)
+		writers = append(writers, NewJsonWriter(name, ctl, true))
+	} else {
+		writers = append(writers, newUIWriter(name, ctl))
 	}
 
-	r := &Cascade{
-		Ctl:     ctl,
-		Reports: reports,
+	return &cascadeWriter{
+		ctl:     ctl,
+		name:    name,
+		writers: writers,
 	}
-	return r, nil
 }
 
-type Cascade struct {
-	Ctl      app_control.Control
-	Reports  []rp_model.Report
+type cascadeWriter struct {
+	ctl      app_control.Control
+	name     string
+	writers  []Writer
 	isClosed bool
 }
 
-func (z *Cascade) Success(input interface{}, result interface{}) {
-	for _, r := range z.Reports {
-		r.Success(input, result)
-	}
+func (z cascadeWriter) Name() string {
+	return z.name
 }
 
-func (z *Cascade) Failure(err error, input interface{}) {
-	for _, r := range z.Reports {
-		r.Failure(err, input)
+func (z cascadeWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) error {
+	for _, w := range z.writers {
+		if err := w.Open(ctl, model, opts...); err != nil {
+			z.Close()
+			return err
+		}
 	}
+	return nil
 }
 
-func (z *Cascade) Skip(reason app_msg.Message, input interface{}) {
-	for _, r := range z.Reports {
-		r.Skip(reason, input)
-	}
-}
-
-func (z *Cascade) Row(row interface{}) {
+func (z *cascadeWriter) Row(r interface{}) {
 	if z.isClosed {
-		z.Ctl.Log().Error("The report already closed")
+		return
 	}
 
-	for _, r := range z.Reports {
-		r.Row(row)
+	for _, w := range z.writers {
+		w.Row(r)
 	}
 }
 
-func (z *Cascade) Close() {
-	ui := z.Ctl.UI()
-	for _, r := range z.Reports {
-		r.Close()
+func (z *cascadeWriter) Close() {
+	for _, w := range z.writers {
+		w.Close()
 	}
 
-	p := z.Ctl.Workspace().Report()
+	p := z.ctl.Workspace().Report()
+	ui := z.ctl.UI()
 	ui.OpenArtifact(p)
 	z.isClosed = true
 }

@@ -1,49 +1,15 @@
 package _import
 
-import (
-	"context"
-	"crypto/sha256"
-	"errors"
-	"fmt"
-	"github.com/watermint/toolbox/domain/model/mo_file"
-	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/service/sv_desktop"
-	"github.com/watermint/toolbox/domain/service/sv_file"
-	"github.com/watermint/toolbox/domain/service/sv_file_folder"
-	"github.com/watermint/toolbox/domain/service/sv_file_relocation"
-	"github.com/watermint/toolbox/domain/service/sv_profile"
-	"github.com/watermint/toolbox/domain/usecase/uc_file_upload"
-	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_util"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/recpie/app_worker"
-	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"github.com/watermint/toolbox/quality/scenario/qs_file"
-	"go.uber.org/zap"
-	"golang.org/x/sync/semaphore"
-	"io"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"strings"
-	"sync"
-	"sync/atomic"
-	"time"
-)
-
+/*
 type ViaAppVO struct {
-	Peer              app_conn.ConnUserFile
+	Peer              rc_conn.OldConnUserFile
 	DropboxPath       string
 	LocalPath         string
 	PseudoDesktopPath string
+}
+
+type ViaAppMO struct {
+	ScanLocalPath app_msg.Message
 }
 
 const (
@@ -114,7 +80,7 @@ func (z *ViaAppHashToRel) Get(hash string) (string, bool) {
 }
 
 type ViaAppStates struct {
-	DbxWorkPath     mo_path.Path
+	DbxWorkPath     mo_path.DropboxPath
 	DesktopPath     string
 	DesktopWorkPath string
 	Backlogs        int64
@@ -136,21 +102,21 @@ func (z *ViaAppStates) ReleaseBacklog() {
 }
 
 type ViaAppReports struct {
-	repLocalScanner rp_model.Report
-	repDbxScanner   rp_model.Report
-	repCopier       rp_model.Report
-	repMover        rp_model.Report
+	repLocalScanner rp_model.SideCarReport
+	repDbxScanner   rp_model.SideCarReport
+	repCopier       rp_model.SideCarReport
+	repMover        rp_model.SideCarReport
 }
 
 type ViaAppQueues struct {
-	qLocalScanner app_worker.Queue
-	qDbxScanner   app_worker.Queue
-	qCopier       app_worker.Queue
-	qMover        app_worker.Queue
+	qLocalScanner rc_worker.Queue
+	qDbxScanner   rc_worker.Queue
+	qCopier       rc_worker.Queue
+	qMover        rc_worker.Queue
 }
 
 type ViaAppLocalScannerWorker struct {
-	k            app_kitchen.Kitchen
+	k            rc_kitchen.Kitchen
 	ctx          api_context.Context
 	htr          *ViaAppHashToRel
 	vo           *ViaAppVO
@@ -160,7 +126,7 @@ type ViaAppLocalScannerWorker struct {
 	curLocalPath string
 }
 
-func viaAppEnqueueLocalScanner(k app_kitchen.Kitchen,
+func viaAppEnqueueLocalScanner(k rc_kitchen.Kitchen,
 	ctx api_context.Context,
 	htr *ViaAppHashToRel,
 	vo *ViaAppVO,
@@ -173,7 +139,7 @@ func viaAppEnqueueLocalScanner(k app_kitchen.Kitchen,
 	l.Debug("Trying enqueue to local scanner queue")
 
 	if err := semLocalScanner.Acquire(context.Background(), 1); err != nil {
-		l.Error("Unable to acquire semaphore", zap.Error(err))
+		l.ErrorK("Unable to acquire semaphore", zap.ErrorK(err))
 		return
 	}
 
@@ -221,7 +187,7 @@ func (z *ViaAppLocalScannerWorker) Exec() error {
 
 	entries, err := ioutil.ReadDir(z.curLocalPath)
 	if err != nil {
-		l.Debug("Unable to read dir", zap.Error(err))
+		l.Debug("Unable to read dir", zap.ErrorK(err))
 		z.reps.repLocalScanner.Failure(err, lsIn)
 		return err
 	}
@@ -273,7 +239,7 @@ func (z *ViaAppLocalScannerWorker) Exec() error {
 	return nil
 }
 
-func viaAppEnqueueDbxScanner(k app_kitchen.Kitchen,
+func viaAppEnqueueDbxScanner(k rc_kitchen.Kitchen,
 	ctx api_context.Context,
 	htr *ViaAppHashToRel,
 	vo *ViaAppVO,
@@ -287,7 +253,7 @@ func viaAppEnqueueDbxScanner(k app_kitchen.Kitchen,
 	l.Debug("Trying enqueue to local scanner queue")
 
 	if err := semDbxScanner.Acquire(context.Background(), 1); err != nil {
-		l.Error("Unable to acquire semaphore", zap.Error(err))
+		l.ErrorK("Unable to acquire semaphore", zap.ErrorK(err))
 		return
 	}
 	st.AddBacklog()
@@ -305,7 +271,7 @@ func viaAppEnqueueDbxScanner(k app_kitchen.Kitchen,
 }
 
 type ViaAppDbxScannerWorker struct {
-	k            app_kitchen.Kitchen
+	k            rc_kitchen.Kitchen
 	ctx          api_context.Context
 	htr          *ViaAppHashToRel
 	vo           *ViaAppVO
@@ -324,11 +290,11 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 
 	rel, err := ut_filepath.Rel(z.vo.LocalPath, z.curLocalPath)
 	if err != nil {
-		l.Error("Invalid local path", zap.Error(err))
+		l.ErrorK("Invalid local path", zap.ErrorK(err))
 		z.reps.repDbxScanner.Failure(err, dsIn)
 		return err
 	}
-	dbxPath := mo_path.NewPath(z.vo.DropboxPath)
+	dbxPath := mo_path.NewDropboxPath(z.vo.DropboxPath)
 	if rel != "." {
 		dbxPath = dbxPath.ChildPath(rel)
 	}
@@ -340,7 +306,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 			l.Debug("Path not found in dest dropbox path")
 			entries = make([]mo_file.Entry, 0)
 		} else {
-			l.Error("Failed to scan dbx path", zap.Error(err))
+			l.ErrorK("Failed to scan dbx path", zap.ErrorK(err))
 			return err
 		}
 	}
@@ -358,7 +324,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 		if f, e := entry.File(); e {
 			en := strings.ToLower(f.Name())
 			if lf, ok := nameToLocal[en]; ok {
-				same, _ := uc_file_upload.Compare(l, filepath.Join(z.curLocalPath, lf.Name()), lf, f)
+				same, _ := ut_filecompare.Compare(l, filepath.Join(z.curLocalPath, lf.Name()), lf, f)
 				if same {
 					requireUpdate[en] = false
 				}
@@ -396,7 +362,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 }
 
 func viaAppEnqueueCopier(
-	k app_kitchen.Kitchen,
+	k rc_kitchen.Kitchen,
 	ctx api_context.Context,
 	htr *ViaAppHashToRel,
 	vo *ViaAppVO,
@@ -409,7 +375,7 @@ func viaAppEnqueueCopier(
 	l.Debug("Trying enqueue to copier queue")
 
 	if err := semCopier.Acquire(context.Background(), 1); err != nil {
-		l.Error("Unable to acquire semaphore", zap.Error(err))
+		l.ErrorK("Unable to acquire semaphore", zap.ErrorK(err))
 		return
 	}
 
@@ -427,7 +393,7 @@ func viaAppEnqueueCopier(
 }
 
 type ViaAppCopierWorker struct {
-	k      app_kitchen.Kitchen
+	k      rc_kitchen.Kitchen
 	ctx    api_context.Context
 	htr    *ViaAppHashToRel
 	vo     *ViaAppVO
@@ -458,7 +424,7 @@ func (z *ViaAppCopierWorker) Exec() error {
 
 	srcInfo, err := os.Lstat(z.copyIn.LocalFilePath)
 	if err != nil {
-		l.Debug("Unable to retrieve local src file info", zap.Error(err))
+		l.Debug("Unable to retrieve local src file info", zap.ErrorK(err))
 		z.reps.repCopier.Failure(err, z.copyIn)
 		return err
 	}
@@ -466,7 +432,7 @@ func (z *ViaAppCopierWorker) Exec() error {
 	l.Debug("Open source file")
 	src, err := os.Open(z.copyIn.LocalFilePath)
 	if err != nil {
-		l.Debug("Unable to open local src file", zap.Error(err))
+		l.Debug("Unable to open local src file", zap.ErrorK(err))
 		z.reps.repCopier.Failure(err, z.copyIn)
 		return err
 	}
@@ -475,7 +441,7 @@ func (z *ViaAppCopierWorker) Exec() error {
 	l.Debug("Create dest file")
 	dst, err := os.Create(workCopyPath)
 	if err != nil {
-		l.Debug("unable to create dest file", zap.Error(err))
+		l.Debug("unable to create dest file", zap.ErrorK(err))
 		z.reps.repCopier.Failure(err, z.copyIn)
 		return err
 	}
@@ -483,7 +449,7 @@ func (z *ViaAppCopierWorker) Exec() error {
 	l.Debug("Copy")
 	writtenBytes, err := io.Copy(dst, src)
 	if err != nil {
-		l.Debug("Unable to copy", zap.Error(err))
+		l.Debug("Unable to copy", zap.ErrorK(err))
 		z.reps.repCopier.Failure(err, z.copyIn)
 		return err
 	}
@@ -502,11 +468,11 @@ func (z *ViaAppCopierWorker) Exec() error {
 	l.Debug("Updating mod time", zap.String("srcModTime", srcInfo.ModTime().String()))
 	err = os.Chtimes(workCopyPath, time.Now(), srcInfo.ModTime())
 	if err != nil {
-		l.Debug("Unable to modify modTime", zap.Error(err))
+		l.Debug("Unable to modify modTime", zap.ErrorK(err))
 		z.reps.repCopier.Failure(err, z.copyIn)
 		// try delete dst file
 		if err = os.Remove(workCopyPath); err != nil {
-			l.Debug("Unable to clean up file on error", zap.Error(err))
+			l.Debug("Unable to clean up file on error", zap.ErrorK(err))
 			// fall through
 		}
 		return err
@@ -523,7 +489,7 @@ func (z *ViaAppCopierWorker) Exec() error {
 }
 
 func viaAppEnqueueMover(
-	k app_kitchen.Kitchen,
+	k rc_kitchen.Kitchen,
 	ctx api_context.Context,
 	htr *ViaAppHashToRel,
 	vo *ViaAppVO,
@@ -537,7 +503,7 @@ func viaAppEnqueueMover(
 	htr.Proceed(moveIn.DbxFileName)
 
 	if err := semMover.Acquire(context.Background(), 1); err != nil {
-		l.Error("Unable to acquire semaphore", zap.Error(err))
+		l.ErrorK("Unable to acquire semaphore", zap.ErrorK(err))
 		return
 	}
 
@@ -554,7 +520,7 @@ func viaAppEnqueueMover(
 }
 
 type ViaAppMoverWorker struct {
-	k      app_kitchen.Kitchen
+	k      rc_kitchen.Kitchen
 	ctx    api_context.Context
 	htr    *ViaAppHashToRel
 	vo     *ViaAppVO
@@ -582,11 +548,11 @@ func (z *ViaAppMoverWorker) Exec() error {
 
 	l.Info("Moving from work to dest")
 	src := z.st.DbxWorkPath.ChildPath(z.moveIn.DbxFileName)
-	dst := mo_path.NewPath(dbxDestPath)
+	dst := mo_path.NewDropboxPath(dbxDestPath)
 
 	movedEntry, err := sv_file_relocation.New(z.ctx).Move(src, dst)
 	if err != nil {
-		l.Debug("Unable to move", zap.Error(err))
+		l.Debug("Unable to move", zap.ErrorK(err))
 		z.reps.repMover.Failure(err, z.moveIn)
 		return err
 	}
@@ -599,7 +565,7 @@ func (z *ViaAppMoverWorker) Exec() error {
 }
 
 type ViaAppWatcher struct {
-	k    app_kitchen.Kitchen
+	k    rc_kitchen.Kitchen
 	ctx  api_context.Context
 	htr  *ViaAppHashToRel
 	vo   *ViaAppVO
@@ -617,7 +583,7 @@ func (z *ViaAppWatcher) Watch() {
 
 		entries, err := sv_file.NewFiles(z.ctx).List(z.st.DbxWorkPath)
 		if err != nil {
-			l.Debug("Unable to list work path", zap.Error(err))
+			l.Debug("Unable to list work path", zap.ErrorK(err))
 			continue
 		}
 
@@ -657,11 +623,11 @@ func (ViaApp) Hidden() {
 func (ViaApp) Console() {
 }
 
-func (z *ViaApp) Requirement() app_vo.ValueObject {
+func (z *ViaApp) Requirement() rc_vo.ValueObject {
 	return &ViaAppVO{}
 }
 
-func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
+func (z *ViaApp) Exec(k rc_kitchen.Kitchen) error {
 	vo := k.Value().(*ViaAppVO)
 	l := k.Log()
 
@@ -675,7 +641,7 @@ func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
 	}
 
 	workPathRel := "tbx-file-import-viaapp/" + time.Now().Format("2006-01-02T15-04-05")
-	dbxWorkPath := mo_path.NewPath("/" + workPathRel)
+	dbxWorkPath := mo_path.NewDropboxPath("/" + workPathRel)
 	dbxWorkFolder, err := sv_file_folder.New(ctx).Create(dbxWorkPath)
 	if err != nil {
 		return err
@@ -706,7 +672,7 @@ func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
 
 	dpInfo, err := os.Lstat(desktopPath)
 	if err != nil {
-		l.Debug("Unable to retrieve desktop path info", zap.Error(err))
+		l.Debug("Unable to retrieve desktop path info", zap.ErrorK(err))
 		return err
 	}
 
@@ -743,7 +709,7 @@ func (z *ViaApp) Exec(k app_kitchen.Kitchen) error {
 
 	desktopWorkPath := filepath.Join(desktopPath, workPathRel)
 	if err := os.MkdirAll(desktopWorkPath, 0755); err != nil {
-		l.Debug("Unable to create folder", zap.Error(err))
+		l.Debug("Unable to create folder", zap.ErrorK(err))
 		return err
 	}
 
@@ -824,7 +790,7 @@ func (z *ViaApp) Test(c app_control.Control) error {
 	l := c.Log()
 	vo := &ViaAppVO{}
 	if !qt_recipe.ApplyTestPeers(c, vo) {
-		return qt_recipe.NotEnoughResource()
+		return qt_endtoend.NotEnoughResource()
 	}
 
 	scenario := qs_file.Scenario{}
@@ -835,13 +801,13 @@ func (z *ViaApp) Test(c app_control.Control) error {
 
 	pseudoDesktop, err := ioutil.TempDir("", "pseudo-desktop")
 	if err != nil {
-		l.Error("unable to create temp dir", zap.Error(err))
+		l.ErrorK("unable to create temp dir", zap.ErrorK(err))
 		return err
 	}
 	vo.PseudoDesktopPath = pseudoDesktop
 	vo.DropboxPath = "/" + qt_recipe.TestTeamFolderName + "/" + time.Now().Format("2006-01-02T15-04-05")
 
-	if err = z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
+	if err = z.Exec(rc_kitchen.NewKitchen(c, vo)); err != nil {
 		return err
 	}
 
@@ -875,11 +841,11 @@ func (z *ViaApp) Reports() []rp_spec.ReportSpec {
 type ViaAppPseudoDesktop struct {
 	desktopPath     string
 	desktopWorkPath string
-	dbxWorkPath     mo_path.Path
+	dbxWorkPath     mo_path.DropboxPath
 	ctx             api_context.Context
 	specs           *rp_spec_impl.Specs
 	st              *ViaAppStates
-	k               app_kitchen.Kitchen
+	k               rc_kitchen.Kitchen
 }
 
 func (z *ViaAppPseudoDesktop) Run() {
@@ -889,13 +855,13 @@ func (z *ViaAppPseudoDesktop) Run() {
 	dbxToLocalSync := func() {
 		dbxEntries, err := sv_file.NewFiles(z.ctx).List(z.dbxWorkPath)
 		if err != nil {
-			l.Debug("Unable to list folder", zap.Error(err))
+			l.Debug("Unable to list folder", zap.ErrorK(err))
 			z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
 		}
 
 		localEntries, err := ioutil.ReadDir(z.desktopWorkPath)
 		if err != nil {
-			l.Debug("Unable to list folder", zap.Error(err))
+			l.Debug("Unable to list folder", zap.ErrorK(err))
 			z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
 		}
 
@@ -906,7 +872,7 @@ func (z *ViaAppPseudoDesktop) Run() {
 				if dn == ln {
 					err := os.Remove(filepath.Join(z.desktopWorkPath, le.Name()))
 					if err != nil {
-						l.Debug("Unable to remove", zap.Error(err), zap.Any("localEntry", le), zap.Any("dropboxEntry", de))
+						l.Debug("Unable to remove", zap.ErrorK(err), zap.Any("localEntry", le), zap.Any("dropboxEntry", de))
 						z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
 					}
 					break
@@ -918,7 +884,7 @@ func (z *ViaAppPseudoDesktop) Run() {
 	localToDbxSync := func() {
 		localEntries, err := ioutil.ReadDir(z.desktopWorkPath)
 		if err != nil {
-			l.Debug("Unable to list folder", zap.Error(err))
+			l.Debug("Unable to list folder", zap.ErrorK(err))
 			z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
 		}
 
@@ -944,3 +910,5 @@ func (z *ViaAppPseudoDesktop) Run() {
 		}
 	}
 }
+
+*/

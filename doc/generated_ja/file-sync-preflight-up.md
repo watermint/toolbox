@@ -17,10 +17,9 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
+* Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -57,7 +56,7 @@ At second run, please hit button "Open" on the dialogue.
 |-----------------|------------------------|------------|
 | `-dropbox-path` | 転送先のDropboxパス    |            |
 | `-local-path`   | ローカルファイルのパス |            |
-| `-peer`         | アカウントの別名       | {default}  |
+| `-peer`         | アカウントの別名       | default    |
 
 Common options:
 
@@ -114,12 +113,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: skip 
+## Report: skipped 
 
-Report files are generated in three formats, `skip.csv`, `skip.xlsx` and `skip.json`.
-But if you run with `-low-memory` option, the command will generate only `skip.json}}` report.
+Report files are generated in three formats, `skipped.csv`, `skipped.xlsx` and `skipped.json`.
+But if you run with `-low-memory` option, the command will generate only `skipped.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`...   
+like `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`...   
 
 | 列                             | 説明                                                                                       |
 |--------------------------------|--------------------------------------------------------------------------------------------|
@@ -157,12 +156,12 @@ like `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...
 | num_files_skip   | スキップ対象またはスキップ予定のファイル数       |
 | num_api_call     | この処理によって消費される見積アップロードAPI数  |
 
-## Report: upload 
+## Report: uploaded 
 
-Report files are generated in three formats, `upload.csv`, `upload.xlsx` and `upload.json`.
-But if you run with `-low-memory` option, the command will generate only `upload.json}}` report.
+Report files are generated in three formats, `uploaded.csv`, `uploaded.xlsx` and `uploaded.json`.
+But if you run with `-low-memory` option, the command will generate only `uploaded.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `upload_0000.xlsx`, `upload_0001.xlsx`, `upload_0002.xlsx`...   
+like `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
 
 | 列                             | 説明                                                                                       |
 |--------------------------------|--------------------------------------------------------------------------------------------|

@@ -1,54 +1,46 @@
 package file
 
 import (
-	"github.com/watermint/toolbox/domain/usecase/uc_file_upload"
+	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"os"
 )
 
-type UploadVO struct {
-	Peer        app_conn.ConnUserFile
-	LocalPath   string
-	DropboxPath string
+type Upload struct {
+	Peer        rc_conn.ConnUserFile
+	LocalPath   mo_path.FileSystemPath
+	DropboxPath mo_path.DropboxPath
 	Overwrite   bool
 	ChunkSizeKb int
+	Upload      *file.Upload
 }
 
-type Upload struct {
+func (z *Upload) Preset() {
+	z.ChunkSizeKb = 150 * 1024
 }
 
 func (z *Upload) Console() {
 }
 
-func (z *Upload) Requirement() app_vo.ValueObject {
-	return &UploadVO{
-		ChunkSizeKb: 150 * 1024,
-	}
-}
-
-func (z *Upload) Exec(k app_kitchen.Kitchen) error {
-	vo := k.Value().(*UploadVO)
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
-	opts := make([]uc_file_upload.UploadOpt, 0)
-	if vo.ChunkSizeKb > 0 {
-		opts = append(opts, uc_file_upload.ChunkSizeKb(vo.ChunkSizeKb))
-	}
-	if vo.Overwrite {
-		opts = append(opts, uc_file_upload.Overwrite())
-	}
-
-	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k, opts...)
-	_, err = up.Upload(vo.LocalPath, vo.DropboxPath)
-	return err
+func (z *Upload) Exec(c app_control.Control) error {
+	return rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
+		ru := r.(*file.Upload)
+		ru.EstimateOnly = false
+		ru.LocalPath = z.LocalPath
+		ru.DropboxPath = z.DropboxPath
+		ru.Overwrite = z.Overwrite
+		ru.CreateFolder = false
+		ru.Context = z.Peer.Context()
+		if z.ChunkSizeKb > 0 {
+			ru.ChunkSizeKb = z.ChunkSizeKb
+		}
+	})
 }
 
 func (z *Upload) Test(c app_control.Control) error {
@@ -63,41 +55,33 @@ func (z *Upload) Test(c app_control.Control) error {
 	}
 	if file == "" {
 		l.Warn("No file to upload")
-		return qt_recipe.NotEnoughResource()
+		return qt_endtoend.NotEnoughResource()
 	}
 
 	{
-		vo := &UploadVO{
-			LocalPath:   file,
-			DropboxPath: "/" + qt_recipe.TestTeamFolderName,
-			Overwrite:   true,
-		}
-		if !qt_recipe.ApplyTestPeers(c, vo) {
-			return qt_recipe.NotEnoughResource()
-		}
-		if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
+		err := rc_exec.Exec(c, &Upload{}, func(r rc_recipe.Recipe) {
+			ru := r.(*Upload)
+			ru.LocalPath = mo_path.NewFileSystemPath(file)
+			ru.DropboxPath = mo_path.NewDropboxPath("/" + qt_recipe.TestTeamFolderName)
+			ru.Overwrite = true
+		})
+		if err != nil {
 			return err
 		}
 	}
 
 	// Chunked
 	{
-		vo := &UploadVO{
-			LocalPath:   file,
-			DropboxPath: "/" + qt_recipe.TestTeamFolderName,
-			Overwrite:   true,
-			ChunkSizeKb: 1,
-		}
-		if !qt_recipe.ApplyTestPeers(c, vo) {
-			return qt_recipe.NotEnoughResource()
-		}
-		if err := z.Exec(app_kitchen.NewKitchen(c, vo)); err != nil {
+		err := rc_exec.Exec(c, &Upload{}, func(r rc_recipe.Recipe) {
+			ru := r.(*Upload)
+			ru.LocalPath = mo_path.NewFileSystemPath(file)
+			ru.DropboxPath = mo_path.NewDropboxPath("/" + qt_recipe.TestTeamFolderName)
+			ru.Overwrite = true
+			ru.ChunkSizeKb = 1
+		})
+		if err != nil {
 			return err
 		}
 	}
 	return nil
-}
-
-func (z *Upload) Reports() []rp_spec.ReportSpec {
-	return uc_file_upload.UploadReports()
 }

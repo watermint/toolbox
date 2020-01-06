@@ -6,89 +6,66 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-)
-
-type CreateVO struct {
-	Peer     app_conn.ConnUserFile
-	Path     string
-	TeamOnly bool
-	Password string
-	Expires  string
-}
-
-const (
-	reportCreate = "shared_link"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 type Create struct {
+	Peer     rc_conn.ConnUserFile
+	Path     mo_path.DropboxPath
+	TeamOnly bool
+	Password string
+	Expires  string
+	Created  rp_model.RowReport
 }
 
-func (z *Create) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportCreate, &mo_sharedlink.Metadata{}),
-	}
+func (z *Create) Preset() {
+	z.Created.SetModel(&mo_sharedlink.Metadata{})
 }
 
 func (z *Create) Console() {
 }
 
-func (z *Create) Requirement() app_vo.ValueObject {
-	return &CreateVO{}
-}
-
-func (z *Create) Exec(k app_kitchen.Kitchen) error {
-	vo := k.Value().(*CreateVO)
-	ui := k.UI()
+func (z *Create) Exec(c app_control.Control) error {
+	ui := c.UI()
 	opts := make([]sv_sharedlink.LinkOpt, 0)
 
-	if vo.Expires != "" {
-		if expires, e := ut_time.ParseTimestamp(vo.Expires); e {
+	if z.Expires != "" {
+		if expires, e := ut_time.ParseTimestamp(z.Expires); e {
 			opts = append(opts, sv_sharedlink.Expires(expires))
 		} else {
-			ui.Error("recipe.sharedlink.create.err.unsupported_time_format", app_msg.P{
-				"Input": vo.Expires,
+			ui.ErrorK("recipe.sharedlink.create.err.unsupported_time_format", app_msg.P{
+				"Input": z.Expires,
 			})
 			return errors.New("invalid time format for expires")
 		}
 	}
-	if vo.TeamOnly {
+	if z.TeamOnly {
 		opts = append(opts, sv_sharedlink.TeamOnly())
 	}
-	if vo.Password != "" {
-		opts = append(opts, sv_sharedlink.Password(vo.Password))
+	if z.Password != "" {
+		opts = append(opts, sv_sharedlink.Password(z.Password))
 	}
 
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
+	if err := z.Created.Open(); err != nil {
 		return err
 	}
 
-	link, err := sv_sharedlink.New(ctx).Create(mo_path.NewPath(vo.Path), opts...)
+	link, err := sv_sharedlink.New(z.Peer.Context()).Create(z.Path, opts...)
 	if err != nil {
 		return err
 	}
-	ui.Info("recipe.sharedlink.create.success", app_msg.P{
+	ui.InfoK("recipe.sharedlink.create.success", app_msg.P{
 		"Url": link.LinkUrl(),
 	})
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportCreate)
-	if err != nil {
-		return err
-	}
-	rep.Row(link.Metadata())
-	rep.Close()
-
+	z.Created.Row(link.Metadata())
 	return nil
 }
 
 func (z *Create) Test(c app_control.Control) error {
-	return qt_recipe.ImplementMe()
+	return qt_endtoend.ImplementMe()
 }

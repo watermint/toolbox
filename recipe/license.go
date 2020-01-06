@@ -6,10 +6,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"sort"
 	"strings"
@@ -18,21 +15,16 @@ import (
 type License struct {
 }
 
-func (z *License) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{}
+func (z *License) Preset() {
 }
 
 func (z *License) Test(c app_control.Control) error {
-	return qt_recipe.NoTestRequired()
+	return qt_endtoend.NoTestRequired()
 }
 
-func (*License) Requirement() app_vo.ValueObject {
-	return &app_vo.EmptyValueObject{}
-}
-
-func (z *License) Exec(k app_kitchen.Kitchen) error {
-	ui := k.UI()
-	tbxLicense, otherLicenses, order, err := LoadLicense(k.Control())
+func (z *License) Exec(c app_control.Control) error {
+	ui := c.UI()
+	tbxLicense, otherLicenses, order, err := LoadLicense(c)
 	if err != nil {
 		return err
 	}
@@ -41,9 +33,9 @@ func (z *License) Exec(k app_kitchen.Kitchen) error {
 		fmt.Println(line)
 	}
 	fmt.Printf("\n\n")
-	fmt.Println(ui.Text("recipe.license.third_party_notice.head"))
+	fmt.Println(ui.TextK("recipe.license.third_party_notice.head"))
 	fmt.Printf("\n")
-	fmt.Println(ui.Text("recipe.license.third_party_notice.body"))
+	fmt.Println(ui.TextK("recipe.license.third_party_notice.body"))
 	fmt.Printf("\n")
 
 	for _, pkg := range order {

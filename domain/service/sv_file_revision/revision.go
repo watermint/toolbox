@@ -11,10 +11,10 @@ import (
 
 type Revision interface {
 	// Returns revisions with the same file path as identified by the latest file entry at the given file path or id.
-	List(path mo_path.Path) (revs *mo_file_revision.Revisions, err error)
+	List(path mo_path.DropboxPath) (revs *mo_file_revision.Revisions, err error)
 
 	// Returns revisions with the same file id as identified by the latest file entry at the given file path or id.
-	ListById(path mo_path.Path) (revs *mo_file_revision.Revisions, err error)
+	ListById(path mo_path.DropboxPath) (revs *mo_file_revision.Revisions, err error)
 }
 
 type RevisionOpt func(o *RevisionOpts) *RevisionOpts
@@ -38,7 +38,7 @@ type revisionImpl struct {
 	opts *RevisionOpts
 }
 
-func (z *revisionImpl) doList(path mo_path.Path, mode string) (revs *mo_file_revision.Revisions, err error) {
+func (z *revisionImpl) doList(path mo_path.DropboxPath, mode string) (revs *mo_file_revision.Revisions, err error) {
 	l := z.ctx.Log().With(zap.String("path", path.Path()), zap.String("mode", mode))
 	p := struct {
 		Path  string `json:"path"`
@@ -78,10 +78,10 @@ func (z *revisionImpl) doList(path mo_path.Path, mode string) (revs *mo_file_rev
 	return revs, nil
 }
 
-func (z *revisionImpl) List(path mo_path.Path) (revs *mo_file_revision.Revisions, err error) {
+func (z *revisionImpl) List(path mo_path.DropboxPath) (revs *mo_file_revision.Revisions, err error) {
 	return z.doList(path, "path")
 }
 
-func (z *revisionImpl) ListById(path mo_path.Path) (revs *mo_file_revision.Revisions, err error) {
+func (z *revisionImpl) ListById(path mo_path.DropboxPath) (revs *mo_file_revision.Revisions, err error) {
 	return z.doList(path, "id")
 }

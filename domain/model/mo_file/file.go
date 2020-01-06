@@ -35,7 +35,7 @@ func (z *File) PathLower() string {
 	return z.EntryPathLower
 }
 
-func (z *File) Path() mo_path.Path {
+func (z *File) Path() mo_path.DropboxPath {
 	return mo_path.NewPathDisplay(z.EntryPathDisplay)
 }
 

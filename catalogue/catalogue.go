@@ -1,112 +1,158 @@
 package catalogue
 
 import (
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
+	infra_api_api_api_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
+	infra_recipe_rc_group "github.com/watermint/toolbox/infra/recipe/rc_group"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	infra_recipe_rcvalue "github.com/watermint/toolbox/infra/recipe/rc_value"
+	infra_report_rpmodelimpl "github.com/watermint/toolbox/infra/report/rp_model_impl"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+	infra_ui_appui "github.com/watermint/toolbox/infra/ui/app_ui"
+	ingredientfile "github.com/watermint/toolbox/ingredient/file"
+	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
+	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/recipe"
-	"github.com/watermint/toolbox/recipe/dev"
-	devtest "github.com/watermint/toolbox/recipe/dev/test"
-	"github.com/watermint/toolbox/recipe/file"
-	filecompare "github.com/watermint/toolbox/recipe/file/compare"
-	fileimport "github.com/watermint/toolbox/recipe/file/import"
-	fileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
-	filesync "github.com/watermint/toolbox/recipe/file/sync"
-	filesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
-	"github.com/watermint/toolbox/recipe/group"
-	groupmember "github.com/watermint/toolbox/recipe/group/member"
-	"github.com/watermint/toolbox/recipe/member"
-	memberquota "github.com/watermint/toolbox/recipe/member/quota"
-	memberupdate "github.com/watermint/toolbox/recipe/member/update"
-	"github.com/watermint/toolbox/recipe/sharedfolder"
-	sharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
-	"github.com/watermint/toolbox/recipe/sharedlink"
-	"github.com/watermint/toolbox/recipe/team"
-	teamactivity "github.com/watermint/toolbox/recipe/team/activity"
-	teamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
-	teamdevice "github.com/watermint/toolbox/recipe/team/device"
-	teamdiag "github.com/watermint/toolbox/recipe/team/diag"
-	teamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
-	teamlinkedapp "github.com/watermint/toolbox/recipe/team/linkedapp"
-	teamnamespace "github.com/watermint/toolbox/recipe/team/namespace"
-	teamnamespacefile "github.com/watermint/toolbox/recipe/team/namespace/file"
-	teamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
-	teamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
-	teamsharedlinkupdate "github.com/watermint/toolbox/recipe/team/sharedlink/update"
-	"github.com/watermint/toolbox/recipe/teamfolder"
+	recipedev "github.com/watermint/toolbox/recipe/dev"
+	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
+	recipefile "github.com/watermint/toolbox/recipe/file"
+	recipefilecompare "github.com/watermint/toolbox/recipe/file/compare"
+	recipefileimport "github.com/watermint/toolbox/recipe/file/import"
+	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
+	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
+	recipefilesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
+	recipegroup "github.com/watermint/toolbox/recipe/group"
+	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
+	recipemember "github.com/watermint/toolbox/recipe/member"
+	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
+	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
+	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
+	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
+	recipesharedlink "github.com/watermint/toolbox/recipe/sharedlink"
+	recipeteam "github.com/watermint/toolbox/recipe/team"
+	recipeteamactivity "github.com/watermint/toolbox/recipe/team/activity"
+	recipeteamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
+	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
+	recipeteamdiag "github.com/watermint/toolbox/recipe/team/diag"
+	recipeteamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
+	recipeteamlinkedapp "github.com/watermint/toolbox/recipe/team/linkedapp"
+	recipeteamnamespace "github.com/watermint/toolbox/recipe/team/namespace"
+	recipeteamnamespacefile "github.com/watermint/toolbox/recipe/team/namespace/file"
+	recipeteamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
+	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
+	recipeteamsharedlinkupdate "github.com/watermint/toolbox/recipe/team/sharedlink/update"
+	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
+	recipeteamfolderfile "github.com/watermint/toolbox/recipe/teamfolder/file"
 )
 
-func Recipes() []app_recipe.Recipe {
-	return []app_recipe.Recipe{
-		&dev.Async{},
-		&dev.Doc{},
-		&dev.Dummy{},
-		&dev.Preflight{},
-		&devtest.Auth{},
-		&devtest.Recipe{},
-		&devtest.Resources{},
-		&file.Copy{},
-		&file.Delete{},
-		&file.Download{},
-		&file.List{},
-		&file.Merge{},
-		&file.Move{},
-		&file.Replication{},
-		&file.Restore{},
-		&file.Upload{},
-		&filecompare.Account{},
-		&filecompare.Local{},
-		&fileimport.Url{},
-		&fileimport.ViaApp{},
-		&fileimportbatch.Url{},
-		&filesync.Up{},
-		&filesyncpreflight.Up{},
-		&group.List{},
-		&group.Delete{},
-		&groupmember.List{},
-		&member.Detach{},
-		&member.Invite{},
-		&member.List{},
-		&member.Replication{},
-		&member.Delete{},
-		&memberquota.List{},
-		&memberquota.Update{},
-		&memberquota.Usage{},
-		&memberupdate.Email{},
-		&memberupdate.ExternalId{},
-		&memberupdate.Profile{},
-		&recipe.License{},
-		&recipe.Web{},
-		&sharedfolder.List{},
-		&sharedfoldermember.List{},
-		&sharedlink.Create{},
-		&sharedlink.List{},
-		&sharedlink.Delete{},
-		&team.Feature{},
-		&team.Info{},
-		&teamdiag.Explorer{},
-		&teamdiag.Path{},
-		&teamactivity.Event{},
-		&teamactivity.User{},
-		&teamactivitydaily.Event{},
-		&teamdevice.List{},
-		&teamdevice.Unlink{},
-		&teamfilerequest.List{},
-		&teamfolder.Archive{},
-		&teamfolder.List{},
-		&teamfolder.PermDelete{},
-		&teamfolder.Replication{},
-		&teamlinkedapp.List{},
-		&teamnamespace.List{},
-		&teamnamespacefile.List{},
-		&teamnamespacefile.Size{},
-		&teamnamespacemember.List{},
-		&teamsharedlink.List{},
-		&teamsharedlinkupdate.Expiry{},
+func NewCatalogue() *infra_recipe_rc_group.Catalogue {
+	return &infra_recipe_rc_group.Catalogue{
+		Recipes:     Recipes(),
+		Ingredients: Ingredients(),
+		Messages:    Messages(),
+		RootGroup:   Groups(),
 	}
 }
 
-func Catalogue() *app_recipe_group.Group {
-	root := app_recipe_group.NewGroup([]string{}, "")
+func Recipes() []rc_recipe.Recipe {
+	cat := []rc_recipe.Recipe{
+		&recipedev.Async{},
+		&recipedev.Doc{},
+		&recipedev.Dummy{},
+		&recipedev.Preflight{},
+		&recipedevtest.Auth{},
+		&recipedevtest.Recipe{},
+		&recipedevtest.Resources{},
+		&recipefile.Copy{},
+		&recipefile.Delete{},
+		&recipefile.Download{},
+		&recipefile.List{},
+		&recipefile.Merge{},
+		&recipefile.Move{},
+		&recipefile.Replication{},
+		&recipefile.Restore{},
+		&recipefile.Upload{},
+		&recipefile.Watch{},
+		&recipefilecompare.Account{},
+		&recipefilecompare.Local{},
+		&recipefileimport.Url{},
+		&recipefileimportbatch.Url{},
+		&recipefilesync.Up{},
+		&recipefilesyncpreflight.Up{},
+		&recipegroup.List{},
+		&recipegroup.Delete{},
+		&recipegroupmember.List{},
+		&recipemember.Detach{},
+		&recipemember.Invite{},
+		&recipemember.List{},
+		&recipemember.Replication{},
+		&recipemember.Delete{},
+		&recipememberquota.List{},
+		&recipememberquota.Update{},
+		&recipememberquota.Usage{},
+		&recipememberupdate.Email{},
+		&recipememberupdate.Externalid{},
+		&recipememberupdate.Profile{},
+		&recipe.License{},
+		//		&recipe.Web{},
+		&recipesharedfolder.List{},
+		&recipesharedfoldermember.List{},
+		&recipesharedlink.Create{},
+		&recipesharedlink.List{},
+		&recipesharedlink.Delete{},
+		&recipeteam.Feature{},
+		&recipeteam.Info{},
+		&recipeteamdiag.Explorer{},
+		&recipeteamactivity.Event{},
+		&recipeteamactivity.User{},
+		&recipeteamactivitydaily.Event{},
+		&recipeteamdevice.List{},
+		&recipeteamdevice.Unlink{},
+		&recipeteamfilerequest.List{},
+		&recipeteamfolder.Archive{},
+		&recipeteamfolder.List{},
+		&recipeteamfolder.Permdelete{},
+		&recipeteamfolder.Replication{},
+		&recipeteamfolderfile.List{},
+		&recipeteamfolderfile.Size{},
+		&recipeteamlinkedapp.List{},
+		&recipeteamnamespace.List{},
+		&recipeteamnamespacefile.List{},
+		&recipeteamnamespacefile.Size{},
+		&recipeteamnamespacemember.List{},
+		&recipeteamsharedlink.List{},
+		&recipeteamsharedlinkupdate.Expiry{},
+	}
+	return cat
+}
+
+func Ingredients() []rc_recipe.Recipe {
+	cat := []rc_recipe.Recipe{
+		&ingredientfile.Upload{},
+		&ingredientteamfolder.Replication{},
+		&ingredientteamnamespacefile.List{},
+		&ingredientteamnamespacefile.Size{},
+	}
+	return cat
+}
+
+func Messages() []interface{} {
+	msgs := []interface{}{
+		infra_api_api_api_auth_impl.MCcAuth,
+		infra_recipe_rcvalue.MValFdFileRowFeed,
+		infra_recipe_rcvalue.MRepository,
+		infra_report_rpmodelimpl.MTransactionReport,
+		infra_report_rpmodelimpl.MXlsxWriter,
+		infra_recipe_rc_group.MHeader,
+		infra_ui_appui.MConsole,
+	}
+	for _, m := range msgs {
+		app_msg.Apply(m)
+	}
+	return msgs
+}
+
+func Groups() *infra_recipe_rc_group.Group {
+	root := infra_recipe_rc_group.NewGroup([]string{}, "")
 	for _, r := range Recipes() {
 		root.Add(r)
 	}

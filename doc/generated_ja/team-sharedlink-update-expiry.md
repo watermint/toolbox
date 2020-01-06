@@ -17,7 +17,7 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 This command use following access type(s) during the operation:
 * Dropbox Business File access
@@ -53,12 +53,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション    | 説明                       | デフォルト |
-|---------------|----------------------------|------------|
-| `-at`         | 新しい有効期限の日時       |            |
-| `-days`       | 新しい有効期限までの日時   | 0          |
-| `-peer`       | アカウントの別名           | {default}  |
-| `-visibility` | 対象となるリンクの公開範囲 | public     |
+| オプション    | 説明                            | デフォルト |
+|---------------|---------------------------------|------------|
+| `-at`         | New expiration date and time    |            |
+| `-days`       | Days to the new expiration date | 0          |
+| `-peer`       | Account alias                   | default    |
+| `-visibility` | Target link visibility          | public     |
 
 Common options:
 
@@ -115,12 +115,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: skipped_sharedlink 
+## Report: skipped 
 
-Report files are generated in three formats, `skipped_sharedlink.csv`, `skipped_sharedlink.xlsx` and `skipped_sharedlink.json`.
-But if you run with `-low-memory` option, the command will generate only `skipped_sharedlink.json}}` report.
+Report files are generated in three formats, `skipped.csv`, `skipped.xlsx` and `skipped.json`.
+But if you run with `-low-memory` option, the command will generate only `skipped.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `skipped_sharedlink_0000.xlsx`, `skipped_sharedlink_0001.xlsx`, `skipped_sharedlink_0002.xlsx`...   
+like `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`...   
 
 | 列         | 説明                                                                 |
 |------------|----------------------------------------------------------------------|
@@ -135,12 +135,12 @@ like `skipped_sharedlink_0000.xlsx`, `skipped_sharedlink_0001.xlsx`, `skipped_sh
 | surname    | リンク所有者の名字                                                   |
 | given_name | リンク所有者の名                                                     |
 
-## Report: updated_sharedlink 
+## Report: updated 
 
-Report files are generated in three formats, `updated_sharedlink.csv`, `updated_sharedlink.xlsx` and `updated_sharedlink.json`.
-But if you run with `-low-memory` option, the command will generate only `updated_sharedlink.json}}` report.
+Report files are generated in three formats, `updated.csv`, `updated.xlsx` and `updated.json`.
+But if you run with `-low-memory` option, the command will generate only `updated.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `updated_sharedlink_0000.xlsx`, `updated_sharedlink_0001.xlsx`, `updated_sharedlink_0002.xlsx`...   
+like `updated_0000.xlsx`, `updated_0001.xlsx`, `updated_0002.xlsx`...   
 
 | 列                   | 説明                                                                 |
 |----------------------|----------------------------------------------------------------------|

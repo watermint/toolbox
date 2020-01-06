@@ -23,7 +23,7 @@ type Entry interface {
 	PathLower() string
 
 	// Path
-	Path() mo_path.Path
+	Path() mo_path.DropboxPath
 
 	// Returns File, returns nil & false if an entry is not a File.
 	File() (*File, bool)

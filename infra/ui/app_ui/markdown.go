@@ -27,17 +27,45 @@ type Markdown struct {
 	ignoreMissing bool
 }
 
-func (z *Markdown) InfoM(m app_msg.Message) {
-	z.Info(m.Key(), m.Params()...)
+func (z *Markdown) AskCont(m app_msg.Message) (cont bool, cancel bool) {
+	return false, true
 }
 
-func (z *Markdown) ErrorM(m app_msg.Message) {
-	z.Error(m.Key(), m.Params()...)
+func (z *Markdown) AskText(m app_msg.Message) (text string, cancel bool) {
+	return "", true
 }
 
-func (z *Markdown) print(tmpl, key string, p ...app_msg.P) {
+func (z *Markdown) AskSecure(m app_msg.Message) (secure string, cancel bool) {
+	return "", true
+}
+
+func (z *Markdown) Header(m app_msg.Message) {
+	z.print("# {{.Message}}\n\n", m)
+}
+
+func (z *Markdown) Text(m app_msg.Message) string {
+	return z.mc.Compile(m)
+}
+
+func (z *Markdown) TextOrEmpty(m app_msg.Message) string {
+	if z.mc.Exists(m.Key()) {
+		return z.mc.Compile(m)
+	} else {
+		return ""
+	}
+}
+
+func (z *Markdown) Info(m app_msg.Message) {
+	z.print("{{.Message}}\n", m)
+}
+
+func (z *Markdown) Error(m app_msg.Message) {
+	z.print("ERROR: {{.Message}}\n", m)
+}
+
+func (z *Markdown) print(tmpl string, m app_msg.Message) {
 	if z.ignoreMissing {
-		if !z.mc.Exists(key) {
+		if !z.mc.Exists(m.Key()) {
 			return
 		}
 	}
@@ -47,24 +75,24 @@ func (z *Markdown) print(tmpl, key string, p ...app_msg.P) {
 		return
 	}
 	t.Execute(z.out, map[string]interface{}{
-		"Message": z.mc.Compile(app_msg.M(key, p...)),
+		"Message": z.mc.Compile(m),
 	})
 }
 
-func (z *Markdown) Header(key string, p ...app_msg.P) {
-	z.print("# {{.Message}}\n\n", key, p...)
+func (z *Markdown) HeaderK(key string, p ...app_msg.P) {
+	z.print("# {{.Message}}\n\n", app_msg.M(key, p...))
 }
 
-func (z *Markdown) Info(key string, p ...app_msg.P) {
-	z.print("{{.Message}}\n", key, p...)
+func (z *Markdown) InfoK(key string, p ...app_msg.P) {
+	z.print("{{.Message}}\n", app_msg.M(key, p...))
 }
 
 func (z *Markdown) InfoTable(name string) Table {
 	return newMarkdownTable(z.mc, z.out, z.ignoreMissing)
 }
 
-func (z *Markdown) Error(key string, p ...app_msg.P) {
-	z.print("ERROR: {{.Message}}\n", key, p...)
+func (z *Markdown) ErrorK(key string, p ...app_msg.P) {
+	z.print("ERROR: {{.Message}}\n", app_msg.M(key, p...))
 }
 
 func (z *Markdown) Break() {
@@ -72,11 +100,11 @@ func (z *Markdown) Break() {
 	fmt.Fprintln(z.out, "")
 }
 
-func (z *Markdown) Text(key string, p ...app_msg.P) string {
-	return z.Text(key, p...)
+func (z *Markdown) TextK(key string, p ...app_msg.P) string {
+	return z.mc.Compile(app_msg.M(key, p...))
 }
 
-func (z *Markdown) TextOrEmpty(key string, p ...app_msg.P) string {
+func (z *Markdown) TextOrEmptyK(key string, p ...app_msg.P) string {
 	if z.mc.Exists(key) {
 		return z.mc.Compile(app_msg.M(key, p...))
 	} else {
@@ -84,15 +112,15 @@ func (z *Markdown) TextOrEmpty(key string, p ...app_msg.P) string {
 	}
 }
 
-func (z *Markdown) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
+func (z *Markdown) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	return false, true
 }
 
-func (z *Markdown) AskText(key string, p ...app_msg.P) (text string, cancel bool) {
+func (z *Markdown) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
 	return "", true
 }
 
-func (z *Markdown) AskSecure(key string, p ...app_msg.P) (secure string, cancel bool) {
+func (z *Markdown) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool) {
 	return "", true
 }
 
@@ -100,11 +128,11 @@ func (z *Markdown) OpenArtifact(path string) {
 }
 
 func (z *Markdown) Success(key string, p ...app_msg.P) {
-	z.print("SUCCESS: {{.Message}}\n", key, p...)
+	z.print("SUCCESS: {{.Message}}\n", app_msg.M(key, p...))
 }
 
 func (z *Markdown) Failure(key string, p ...app_msg.P) {
-	z.print("FAILURE: {{.Message}}\n", key, p...)
+	z.print("FAILURE: {{.Message}}\n", app_msg.M(key, p...))
 }
 
 func (z *Markdown) IsConsole() bool {
@@ -170,6 +198,7 @@ func (z *markdownTable) RowRaw(m ...string) {
 }
 
 func (z *markdownTable) Flush() {
+	l := app_root.Log()
 	numCols := len(z.header)
 	cols := make([]int, numCols)
 
@@ -187,7 +216,13 @@ func (z *markdownTable) Flush() {
 	printCols := func(row []string) {
 		fmt.Fprintf(z.out, "|")
 		for i, c := range row {
-			padding := ut_math.MaxInt(cols[i]-ut_string.Width(c), 0)
+			padding := 0
+			if i < len(cols) {
+				padding = ut_math.MaxInt(cols[i]-ut_string.Width(c), 0)
+			} else {
+				l.Debug("Number of columns exceeds header columns", zap.Int("i", i), zap.Strings("row", row))
+				padding = 1
+			}
 			fmt.Fprint(z.out, " ")
 			fmt.Fprint(z.out, c)
 			fmt.Fprint(z.out, strings.Repeat(" ", padding))

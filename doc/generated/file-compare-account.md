@@ -17,10 +17,9 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
+* Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -55,12 +54,12 @@ If you want to compare different path in same account, please specify same alias
 
 ## Options
 
-| Option        | Description                        | Default   |
-|---------------|------------------------------------|-----------|
-| `-left`       | Account alias (left)               | {default} |
-| `-left-path`  | The path from account root (left)  |           |
-| `-right`      | Account alias (right)              | {default} |
-| `-right-path` | The path from account root (right) |           |
+| Option        | Description                        | Default |
+|---------------|------------------------------------|---------|
+| `-left`       | Account alias (left)               | left    |
+| `-left-path`  | The path from account root (left)  |         |
+| `-right`      | Account alias (right)              | right   |
+| `-right-path` | The path from account root (right) |         |
 
 Common options:
 

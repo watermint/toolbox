@@ -15,17 +15,17 @@ func Network(ctl app_control.Control) error {
 	}
 	l := ctl.Log()
 	ui := ctl.UI()
-	ui.Info("run.network.progress.testing")
+	ui.InfoK("run.network.progress.testing")
 
 	for _, url := range urls {
 		resp, err := http.Head(url)
 		ll := l.With(zap.String("Url", url))
 		if err != nil {
 			ll.Debug("Network test failed", zap.Error(err))
-			ui.Error("run.network.error.unreachable",
+			ui.ErrorK("run.network.error.unreachable",
 				app_msg.P{
-					"Url":   url,
-					"Error": err,
+					"Url":    url,
+					"ErrorK": err,
 				},
 			)
 			return err
@@ -38,7 +38,7 @@ func Network(ctl app_control.Control) error {
 
 		ll.Debug("Network test success", zap.Int("status_code", resp.StatusCode))
 	}
-	ui.Info("run.network.progress.testing.done")
+	ui.InfoK("run.network.progress.testing.done")
 	ui.Break()
 
 	return nil

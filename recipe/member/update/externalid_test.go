@@ -6,5 +6,5 @@ import (
 )
 
 func TestExternalId_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &ExternalId{})
+	qt_recipe.TestRecipe(t, &Externalid{})
 }

@@ -4,7 +4,7 @@ import "testing"
 
 func TestPathImpl(t *testing.T) {
 	{
-		p := pathImpl{path: ""}
+		p := NewDropboxPath("")
 		if pi := p.Path(); pi != "" {
 			t.Error("invalid")
 		}
@@ -20,7 +20,7 @@ func TestPathImpl(t *testing.T) {
 	}
 
 	{
-		p := pathImpl{path: "/world.txt"}
+		p := NewDropboxPath("/world.txt")
 		if pi := p.Path(); pi != "/world.txt" {
 			t.Error("invalid")
 		}
@@ -36,7 +36,7 @@ func TestPathImpl(t *testing.T) {
 	}
 
 	{
-		p := pathImpl{path: "/hello/world.txt"}
+		p := NewDropboxPath("/hello/world.txt")
 		if pi := p.Path(); pi != "/hello/world.txt" {
 			t.Error("invalid")
 		}
@@ -52,39 +52,39 @@ func TestPathImpl(t *testing.T) {
 	}
 
 	{
-		p := pathImpl{path: "id:abc123xyz"}
+		p := NewDropboxPath("id:abc123xyz")
 		if pi := p.Path(); pi != "id:abc123xyz" {
-			t.Error("invalid")
+			t.Error("invalid", "["+pi+"]")
 		}
 		if pi, e := p.Id(); pi != "abc123xyz" || !e {
-			t.Error("invalid")
+			t.Error("invalid", "["+pi+"]")
 		}
 		if pi, e := p.Namespace(); pi != "" || e {
-			t.Error("invalid")
+			t.Error("invalid", "["+pi+"]")
 		}
 		if pi := p.LogicalPath(); pi != "/" {
-			t.Error("invalid")
+			t.Error("invalid", "["+pi+"]")
 		}
 	}
 
 	{
-		p := pathImpl{path: "id:abc123xyz/world.txt"}
+		p := NewDropboxPath("id:abc123xyz/world.txt")
 		if pi := p.Path(); pi != "id:abc123xyz/world.txt" {
-			t.Error("invalid")
+			t.Error("invalid", "["+pi+"]")
 		}
 		if pi, e := p.Id(); pi != "abc123xyz" || !e {
-			t.Error("invalid")
+			t.Error("invalid", "["+pi+"]")
 		}
 		if pi, e := p.Namespace(); pi != "" || e {
-			t.Error("invalid")
+			t.Error("invalid", "["+pi+"]")
 		}
 		if pi := p.LogicalPath(); pi != "/world.txt" {
-			t.Error("invalid")
+			t.Error("invalid", "["+pi+"]")
 		}
 	}
 
 	{
-		p := pathImpl{path: "id:abc123xyz/hello/world.txt"}
+		p := NewDropboxPath("id:abc123xyz/hello/world.txt")
 		if pi := p.Path(); pi != "id:abc123xyz/hello/world.txt" {
 			t.Error("invalid")
 		}
@@ -100,7 +100,7 @@ func TestPathImpl(t *testing.T) {
 	}
 
 	{
-		p := pathImpl{path: "ns:123456"}
+		p := NewDropboxPath("ns:123456")
 		if pi := p.Path(); pi != "ns:123456" {
 			t.Error("invalid")
 		}
@@ -116,7 +116,7 @@ func TestPathImpl(t *testing.T) {
 	}
 
 	{
-		p := pathImpl{path: "ns:123456/hello/world.txt"}
+		p := NewDropboxPath("ns:123456/hello/world.txt")
 		if pi := p.Path(); pi != "ns:123456/hello/world.txt" {
 			t.Error("invalid")
 		}
@@ -135,56 +135,56 @@ func TestPathImpl(t *testing.T) {
 func TestNewPath(t *testing.T) {
 	// multiple separators
 
-	if p := NewPath("/hello//world.txt"); p.Path() != "/hello/world.txt" {
+	if p := NewDropboxPath("/hello//world.txt"); p.Path() != "/hello/world.txt" {
 		t.Error("invalid")
 	}
-	if p := NewPath("//hello//world.txt"); p.Path() != "/hello/world.txt" {
+	if p := NewDropboxPath("//hello//world.txt"); p.Path() != "/hello/world.txt" {
 		t.Error("invalid")
 	}
-	if p := NewPath("id:abc123xyz//hello/world.txt"); p.Path() != "id:abc123xyz/hello/world.txt" {
+	if p := NewDropboxPath("id:abc123xyz//hello/world.txt"); p.Path() != "id:abc123xyz/hello/world.txt" {
 		t.Error("invalid")
 	}
 
-	if p := NewPath(""); p.Path() != "" {
+	if p := NewDropboxPath(""); p.Path() != "" {
 		t.Error("invalid")
 	}
-	if p := NewPath("/"); p.Path() != "" {
+	if p := NewDropboxPath("/"); p.Path() != "" {
 		t.Error("invalid")
 	}
-	if p := NewPath("/hello/world.txt"); p.Path() != "/hello/world.txt" {
+	if p := NewDropboxPath("/hello/world.txt"); p.Path() != "/hello/world.txt" {
 		t.Error("invalid")
 	}
-	if p := NewPath("id:abc123xyz"); p.Path() != "id:abc123xyz" {
+	if p := NewDropboxPath("id:abc123xyz"); p.Path() != "id:abc123xyz" {
 		t.Error("invalid")
 	}
-	if p := NewPath("id:abc123xyz/hello/world.txt"); p.Path() != "id:abc123xyz/hello/world.txt" {
+	if p := NewDropboxPath("id:abc123xyz/hello/world.txt"); p.Path() != "id:abc123xyz/hello/world.txt" {
 		t.Error("invalid")
 	}
-	if p := NewPath("ns:123456"); p.Path() != "ns:123456" {
+	if p := NewDropboxPath("ns:123456"); p.Path() != "ns:123456" {
 		t.Error("invalid")
 	}
-	if p := NewPath("ns:123456/hello/world.txt"); p.Path() != "ns:123456/hello/world.txt" {
+	if p := NewDropboxPath("ns:123456/hello/world.txt"); p.Path() != "ns:123456/hello/world.txt" {
 		t.Error("invalid")
 	}
 
 	// Windows paths
 
-	if p := NewPath("\\"); p.Path() != "" {
+	if p := NewDropboxPath("\\"); p.Path() != "" {
 		t.Error("invalid")
 	}
-	if p := NewPath("\\hello\\world.txt"); p.Path() != "/hello/world.txt" {
+	if p := NewDropboxPath("\\hello\\world.txt"); p.Path() != "/hello/world.txt" {
 		t.Error("invalid")
 	}
-	if p := NewPath("id:abc123xyz"); p.Path() != "id:abc123xyz" {
+	if p := NewDropboxPath("id:abc123xyz"); p.Path() != "id:abc123xyz" {
 		t.Error("invalid")
 	}
-	if p := NewPath("id:abc123xyz\\hello\\world.txt"); p.Path() != "id:abc123xyz/hello/world.txt" {
+	if p := NewDropboxPath("id:abc123xyz\\hello\\world.txt"); p.Path() != "id:abc123xyz/hello/world.txt" {
 		t.Error("invalid")
 	}
-	if p := NewPath("ns:123456"); p.Path() != "ns:123456" {
+	if p := NewDropboxPath("ns:123456"); p.Path() != "ns:123456" {
 		t.Error("invalid")
 	}
-	if p := NewPath("ns:123456\\hello\\world.txt"); p.Path() != "ns:123456/hello/world.txt" {
+	if p := NewDropboxPath("ns:123456\\hello\\world.txt"); p.Path() != "ns:123456/hello/world.txt" {
 		t.Error("invalid")
 	}
 

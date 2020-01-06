@@ -33,6 +33,7 @@ type listImpl struct {
 	onEntry          func(res api_list.ListEntry) error
 	onResponse       func(res api_response.Response) error
 	onFailure        func(err error) error
+	onLastCursor     func(cursor string)
 }
 
 func (z *listImpl) Param(param interface{}) api_list.List {
@@ -70,6 +71,11 @@ func (z *listImpl) OnEntry(entry func(entry api_list.ListEntry) error) api_list.
 	return z
 }
 
+func (z *listImpl) OnLastCursor(f func(cursor string)) api_list.List {
+	z.onLastCursor = f
+	return z
+}
+
 func (z *listImpl) handleResponse(endpoint string, res api_response.Response, err error) error {
 	log := z.ctx.Log().With(zap.String("endpoint", endpoint))
 
@@ -102,6 +108,8 @@ func (z *listImpl) handleResponse(endpoint string, res api_response.Response, er
 		if err = z.listContinue(cursor); err != nil {
 			return err
 		}
+	} else if z.onLastCursor != nil {
+		z.onLastCursor(cursor)
 	}
 	return nil
 }
@@ -148,15 +156,15 @@ func (z *listImpl) isContinue(res api_response.Response) (cont bool, cursor stri
 	}
 
 	if z.useHasMore {
+		cursor = j.Get("cursor").String()
 		if j.Get("has_more").Bool() {
-			cursor = j.Get("cursor").String()
 			if cursor != "" {
 				return true, cursor
 			}
 			log.Debug("has_more returned true, but no cursor found in the body")
 			return false, ""
 		} else {
-			return false, ""
+			return false, cursor
 		}
 	}
 
@@ -164,7 +172,7 @@ func (z *listImpl) isContinue(res api_response.Response) (cont bool, cursor stri
 	if cursor != "" {
 		return true, cursor
 	}
-	return false, ""
+	return false, cursor
 }
 
 func (z *listImpl) list() error {

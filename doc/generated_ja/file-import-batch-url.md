@@ -17,10 +17,9 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
+* Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -32,13 +31,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file import batch url -data /path/to/data/file -path /path/to/import
+.\tbx.exe file import batch url -file /path/to/data/file -path /path/to/import
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file import batch url -data /path/to/data/file -path /path/to/import
+$HOME/Desktop/tbx file import batch url -file /path/to/data/file -path /path/to/import
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
@@ -55,9 +54,9 @@ At second run, please hit button "Open" on the dialogue.
 
 | オプション | 説明               | デフォルト |
 |------------|--------------------|------------|
-| `-data`    | データファイル     |            |
+| `-file`    | データファイル     |            |
 | `-path`    | インポート先のパス |            |
-| `-peer`    | アカウントの別名   | {default}  |
+| `-peer`    | アカウントの別名   | default    |
 
 Common options:
 
@@ -71,6 +70,22 @@ Common options:
 | `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
 | `-workspace`    | ワークスペースへのパス                                                                           |                |
+
+# File formats
+
+## Format: File 
+
+| 列   | 説明                                                                    | Value example                     |
+|------|-------------------------------------------------------------------------|-----------------------------------|
+| url  | Url to download                                                         | http://example.com/2019/12/26.zip |
+| path | Path to store file (use path given by `-path` when the record is empty) | /backup/2019-12-16.zip            |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+url,path
+http://example.com/2019/12/26.zip,/backup/2019-12-16.zip
+```
 
 ## Authentication
 
@@ -114,25 +129,29 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: import_url 
+## Report: operation_log 
 
-Report files are generated in three formats, `import_url.csv`, `import_url.xlsx` and `import_url.json`.
-But if you run with `-low-memory` option, the command will generate only `import_url.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `import_url_0000.xlsx`, `import_url_0001.xlsx`, `import_url_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列                      | 説明                                                                                       |
-|-------------------------|--------------------------------------------------------------------------------------------|
-| id                      | ファイルへの一意なID                                                                       |
-| tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
-| name                    | 名称                                                                                       |
-| path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
-| path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
-| client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
-| server_modified         | Dropbox上で最後に更新された日時                                                            |
-| revision                | ファイルの現在バージョンの一意な識別子                                                     |
-| size                    | ファイルサイズ(バイト単位)                                                                 |
-| content_hash            | ファイルコンテンツのハッシュ                                                               |
-| shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
+| 列                             | 説明                                                                                       |
+|--------------------------------|--------------------------------------------------------------------------------------------|
+| status                         | 処理の状態                                                                                 |
+| reason                         | 失敗またはスキップの理由                                                                   |
+| input.url                      | Url to download                                                                            |
+| input.path                     | Path to store file (use path given by `-path` when the record is empty)                    |
+| result.id                      | ファイルへの一意なID                                                                       |
+| result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
+| result.name                    | 名称                                                                                       |
+| result.path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
+| result.path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
+| result.client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
+| result.server_modified         | Dropbox上で最後に更新された日時                                                            |
+| result.revision                | ファイルの現在バージョンの一意な識別子                                                     |
+| result.size                    | ファイルサイズ(バイト単位)                                                                 |
+| result.content_hash            | ファイルコンテンツのハッシュ                                                               |
+| result.shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
+| result.parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
 

@@ -17,10 +17,9 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 This command use following access type(s) during the operation:
-* Dropbox Business management
 
 # Usage
 
@@ -53,11 +52,11 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| Option       | Description                                                                  | Default   |
-|--------------|------------------------------------------------------------------------------|-----------|
-| `-file`      | Data file                                                                    |           |
-| `-peer`      | Account alias                                                                | {default} |
-| `-wipe-data` | If true, controls if the user's data will be deleted on their linked devices | true      |
+| Option       | Description                                                                  | Default |
+|--------------|------------------------------------------------------------------------------|---------|
+| `-file`      | Data file                                                                    |         |
+| `-peer`      | Account alias                                                                | default |
+| `-wipe-data` | If true, controls if the user's data will be deleted on their linked devices | true    |
 
 Common options:
 
@@ -71,6 +70,21 @@ Common options:
 | `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`       | Do not store tokens into a file                                                  | false                |
 | `-workspace`    | Workspace path                                                                   |                      |
+
+# File formats
+
+## Format: File 
+
+| Column | Description                  | Value example    |
+|--------|------------------------------|------------------|
+| email  | Email address of the account | john@example.com |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+email
+john@example.com
+```
 
 ## Authentication
 
@@ -114,12 +128,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: delete 
+## Report: operation_log 
 
-Report files are generated in three formats, `delete.csv`, `delete.xlsx` and `delete.json`.
-But if you run with `-low-memory` option, the command will generate only `delete.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `delete_0000.xlsx`, `delete_0001.xlsx`, `delete_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
 | Column      | Description                            |
 |-------------|----------------------------------------|

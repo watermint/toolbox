@@ -55,7 +55,7 @@ func New(ctx api_context.Context, req *http.Request, res *http.Response) (api_re
 			if n > 0 {
 				l.Debug("writing", zap.Int("writing", n))
 				if _, wErr := resWrite.Write(buf[:n]); wErr != nil {
-					l.Debug("Error on writing body to the file", zap.Error(wErr))
+					l.Debug("ErrorK on writing body to the file", zap.Error(wErr))
 					return nil, err
 				}
 				loadedLength += int64(n)
@@ -64,7 +64,7 @@ func New(ctx api_context.Context, req *http.Request, res *http.Response) (api_re
 				break
 			}
 			if err != nil {
-				l.Debug("Error on reading body", zap.Error(err))
+				l.Debug("ErrorK on reading body", zap.Error(err))
 				return nil, err
 			}
 			if n == 0 {

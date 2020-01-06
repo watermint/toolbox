@@ -13,6 +13,7 @@ type List interface {
 	OnFailure(failure func(err error) error) List
 	OnResponse(response func(res api_response.Response) error) List
 	OnEntry(entry func(entry ListEntry) error) List
+	OnLastCursor(f func(cursor string)) List
 	Call() (err error)
 }
 

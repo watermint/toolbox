@@ -17,7 +17,7 @@ import (
 )
 
 type Compare interface {
-	Diff(localPath string, dropboxPath mo_path.Path, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
+	Diff(localPath mo_path.FileSystemPath, dropboxPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
 }
 
 type CompareOpt func(o *CompareOpts) *CompareOpts
@@ -43,22 +43,22 @@ type compareImpl struct {
 	opts *CompareOpts
 }
 
-func (z *compareImpl) cmpLevel(local string, dropbox mo_path.Path, path string, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
+func (z *compareImpl) cmpLevel(local mo_path.FileSystemPath, dropbox mo_path.DropboxPath, path string, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
 	localFiles := make(map[string]os.FileInfo)
 	localFolders := make(map[string]os.FileInfo)
 	dropboxFiles := make(map[string]*mo_file.File)
 	dropboxFolders := make(map[string]*mo_file.Folder)
 
 	l := z.ctx.Log().With(
-		zap.String("local", local),
+		zap.String("local", local.Path()),
 		zap.String("dropbox", dropbox.Path()),
 		zap.String("path", path))
 
 	localPath := func(info os.FileInfo) string {
 		if path == "" {
-			return filepath.Join(local, info.Name())
+			return filepath.Join(local.Path(), info.Name())
 		} else {
-			return filepath.Join(local, path, info.Name())
+			return filepath.Join(local.Path(), path, info.Name())
 		}
 	}
 	relPath := func(info os.FileInfo) string {
@@ -69,14 +69,14 @@ func (z *compareImpl) cmpLevel(local string, dropbox mo_path.Path, path string, 
 		}
 	}
 
-	z.ui.Info("usecase.uc_compare_local.scan_folder", app_msg.P{
+	z.ui.InfoK("usecase.uc_compare_local.scan_folder", app_msg.P{
 		"Path": path,
 	})
 
 	// Scan local
 	{
 		l.Debug("Scan local")
-		localPath := filepath.Join(local, path)
+		localPath := filepath.Join(local.Path(), path)
 		entries, err := ioutil.ReadDir(localPath)
 		if err != nil {
 			l.Debug("Unable to read dir")
@@ -247,6 +247,6 @@ func (z *compareImpl) cmpLevel(local string, dropbox mo_path.Path, path string, 
 	return diffCount, nil
 }
 
-func (z *compareImpl) Diff(localPath string, dropboxPath mo_path.Path, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
+func (z *compareImpl) Diff(localPath mo_path.FileSystemPath, dropboxPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
 	return z.cmpLevel(localPath, dropboxPath, "", onDiff)
 }

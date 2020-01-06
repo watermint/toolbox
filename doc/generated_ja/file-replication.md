@@ -19,10 +19,9 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
+* Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -55,12 +54,12 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション  | 説明                    | デフォルト |
-|-------------|-------------------------|------------|
-| `-dst`      | アカウントの別名 (宛先) | {default}  |
-| `-dst-path` | 宛先のパス              |            |
-| `-src`      | アカウントの別名 (元)   | {default}  |
-| `-src-path` | 元のパス                |            |
+| オプション  | 説明                         | デフォルト |
+|-------------|------------------------------|------------|
+| `-dst`      | Account alias (destionation) | dst        |
+| `-dst-path` | Destination path             |            |
+| `-src`      | Account alias (source)       | src        |
+| `-src-path` | Source path                  |            |
 
 Common options:
 

@@ -30,7 +30,7 @@ func (z *Metadata) PathLower() string {
 	return z.EntryPathLower
 }
 
-func (z *Metadata) Path() mo_path.Path {
+func (z *Metadata) Path() mo_path.DropboxPath {
 	return mo_path.NewPathDisplay(z.EntryPathDisplay)
 }
 

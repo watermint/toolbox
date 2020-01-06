@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -14,42 +13,54 @@ import (
 	"sync"
 )
 
-func NewJsonForQuiet(name string, ctl app_control.Control) (r rp_model.Report, err error) {
-	r = &Json{
-		w:   os.Stdout,
-		ctl: ctl,
+func NewJsonWriter(name string, ctl app_control.Control, toStdout bool) Writer {
+	return &jsonWriter{
+		name:     name,
+		toStdout: toStdout,
+		ctl:      ctl,
 	}
-	return r, nil
 }
 
-func NewJson(name string, ctl app_control.Control, opts ...rp_model.ReportOpt) (r rp_model.Report, err error) {
+type jsonWriter struct {
+	name     string
+	index    int
+	path     string
+	toStdout bool
+	file     *os.File
+	w        io.Writer
+	mutex    sync.Mutex
+	ctl      app_control.Control
+}
+
+func (z *jsonWriter) Name() string {
+	return z.name
+}
+
+func (z *jsonWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) (err error) {
+	z.ctl = ctl
+	if z.toStdout {
+		z.w = os.Stdout
+		return nil
+	}
 	l := ctl.Log()
-	p := filepath.Join(ctl.Workspace().Report(), name+".json")
-	l.Debug("Create new csv report", zap.String("path", p))
-	f, err := os.Create(p)
+	ro := &rp_model.ReportOpts{}
+	for _, o := range opts {
+		o(ro)
+	}
+
+	z.path = filepath.Join(ctl.Workspace().Report(), z.Name()+ro.ReportSuffix+".json")
+	l = l.With(zap.String("path", z.path))
+	l.Debug("Create new json report")
+	z.file, err = os.Create(z.path)
 	if err != nil {
-		l.Error("Unable to create file", zap.String("path", p), zap.Error(err))
-		return nil, err
+		l.Error("Unable to create file", zap.Error(err))
+		return err
 	}
-	r = &Json{
-		path: p,
-		file: f,
-		w:    f,
-		ctl:  ctl,
-	}
-	return r, nil
+	z.w = z.file
+	return nil
 }
 
-type Json struct {
-	path  string
-	file  *os.File
-	w     io.Writer
-	ctl   app_control.Control
-	mutex sync.Mutex
-	index int
-}
-
-func (z *Json) findRaw(row interface{}, orig interface{}) json.RawMessage {
+func (z *jsonWriter) findRaw(row interface{}) json.RawMessage {
 	var rv reflect.Value
 	switch r := row.(type) {
 	case reflect.Value:
@@ -72,35 +83,13 @@ func (z *Json) findRaw(row interface{}, orig interface{}) json.RawMessage {
 	return rvf.Bytes()
 }
 
-func (z *Json) Success(input interface{}, result interface{}) {
-	ui := z.ctl.UI()
-	z.Row(rp_model.TransactionRow{
-		Status: ui.Text(rp_model.MsgSuccess.Key(), rp_model.MsgSuccess.Params()...),
-		Input:  input,
-		Result: result,
-	})
-}
-
-func (z *Json) Failure(err error, input interface{}) {
-	z.Row(rowForFailure(z.ctl.UI(), err, input))
-}
-
-func (z *Json) Skip(reason app_msg.Message, input interface{}) {
-	ui := z.ctl.UI()
-	z.Row(rp_model.TransactionRow{
-		Status: ui.Text(rp_model.MsgSkip.Key(), rp_model.MsgFailure.Params()...),
-		Reason: ui.Text(reason.Key(), reason.Params()...),
-		Input:  input,
-		Result: nil,
-	})
-}
-
-func (z *Json) Row(row interface{}) {
+func (z *jsonWriter) Row(r interface{}) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 	z.index++
+	l := z.ctl.Log().With(zap.String("path", z.path))
 
-	raw := z.findRaw(row, row)
+	raw := z.findRaw(r)
 	if raw != nil {
 		z.w.Write(raw)
 		z.w.Write([]byte("\n"))
@@ -111,25 +100,28 @@ func (z *Json) Row(row interface{}) {
 	enc := json.NewEncoder(buf)
 	enc.SetEscapeHTML(false)
 	enc.SetIndent("", "")
-	err := enc.Encode(row)
+	err := enc.Encode(r)
 	if err != nil {
-		z.ctl.Log().Debug("Unable to unmarshal", zap.Error(err))
+		l.Debug("Unable to unmarshal", zap.Error(err))
 		return
 	}
 	z.w.Write(buf.Bytes())
 }
 
-func (z *Json) Close() {
+func (z *jsonWriter) Close() {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
+	l := z.ctl.Log().With(zap.String("path", z.path))
+
 	if z.file != nil {
-		z.file.Close()
+		err := z.file.Close()
+		l.Debug("File closed", zap.Error(err))
 
 		if z.index < 1 && z.ctl.IsProduction() {
-			z.ctl.Log().Debug("Try removing empty report file", zap.String("path", z.path))
+			l.Debug("Try removing empty report file")
 			err := os.Remove(z.path)
-			z.ctl.Log().Debug("Removed or had an error (ignore)", zap.String("path", z.path), zap.Error(err))
+			l.Debug("Removed or had an error (ignore)", zap.Error(err))
 		}
 		z.file = nil
 	}

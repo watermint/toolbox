@@ -9,27 +9,18 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file_revision"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 )
 
-type RestoreVO struct {
-	Peer app_conn.ConnUserFile
-	Path string
-}
-
 type RestoreWorker struct {
-	k    app_kitchen.Kitchen
+	ctl  app_control.Control
 	ctx  api_context.Context
-	rep  rp_model.Report
-	path mo_path.Path
+	rep  rp_model.TransactionReport
+	path mo_path.DropboxPath
 }
 
 type RestoreTarget struct {
@@ -37,9 +28,9 @@ type RestoreTarget struct {
 }
 
 func (z *RestoreWorker) Exec() error {
-	l := z.k.Log().With(zap.String("path", z.path.Path()))
-	ui := z.k.UI()
-	ui.Info("recipe.file.restore.progress.restore_file", app_msg.P{"Path": z.path.Path()})
+	l := z.ctl.Log().With(zap.String("path", z.path.Path()))
+	ui := z.ctl.UI()
+	ui.InfoK("recipe.file.restore.progress.restore_file", app_msg.P{"Path": z.path.Path()})
 	target := &RestoreTarget{
 		Path: z.path.Path(),
 	}
@@ -78,52 +69,49 @@ const (
 )
 
 type Restore struct {
+	Peer         rc_conn.ConnUserFile
+	Path         mo_path.DropboxPath
+	OperationLog rp_model.TransactionReport
+}
+
+func (z *Restore) Preset() {
+	z.OperationLog.SetModel(&RestoreTarget{}, &mo_file.ConcreteEntry{})
 }
 
 func (z *Restore) Console() {
 }
 
-func (z *Restore) Requirement() app_vo.ValueObject {
-	return &RestoreVO{}
-}
-
-func (z *Restore) Exec(k app_kitchen.Kitchen) error {
-	vo := k.Value().(*RestoreVO)
-	ui := k.UI()
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
+func (z *Restore) Exec(c app_control.Control) error {
+	ui := c.UI()
+	ctx := z.Peer.Context()
+	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(reportRestore)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
-	q := k.NewQueue()
+	q := c.NewQueue()
 
 	count := 0
 	handler := func(entry mo_file.Entry) {
 		if f, e := entry.Deleted(); e {
 			count++
 			q.Enqueue(&RestoreWorker{
-				k:    k,
+				ctl:  c,
 				ctx:  ctx,
 				path: f.Path(),
-				rep:  rep,
+				rep:  z.OperationLog,
 			})
 		}
 	}
 
 	lastErr := sv_file.NewFiles(ctx).ListChunked(
-		mo_path.NewPath(vo.Path),
+		z.Path,
 		handler,
 		sv_file.IncludeDeleted(),
 		sv_file.Recursive(),
 	)
 	q.Wait()
 
-	ui.Info("recipe.file.restore.progress.finish", app_msg.P{
+	ui.InfoK("recipe.file.restore.progress.finish", app_msg.P{
 		"Count": count,
 	})
 
@@ -131,16 +119,5 @@ func (z *Restore) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Restore) Test(c app_control.Control) error {
-	return qt_recipe.ImplementMe()
-}
-
-func (z *Restore) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(reportRestore,
-			rp_model.TransactionHeader(
-				&RestoreTarget{},
-				&mo_file.ConcreteEntry{},
-			),
-		),
-	}
+	return qt_endtoend.ImplementMe()
 }

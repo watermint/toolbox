@@ -9,7 +9,7 @@ func TestGenerateRandomString(t *testing.T) {
 			t.Errorf("Should fail with size (%d)", l)
 		}
 		if l >= 1 && (e != nil || len(s) != l) {
-			t.Errorf("Error or invalid length (%d): generated (%s)", l, s)
+			t.Errorf("ErrorK or invalid length (%d): generated (%s)", l, s)
 		}
 	}
 }

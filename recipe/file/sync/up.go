@@ -1,56 +1,45 @@
 package sync
 
 import (
-	"github.com/watermint/toolbox/domain/usecase/uc_file_upload"
+	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
-type UpVO struct {
-	Peer              app_conn.ConnUserFile
-	LocalPath         string
-	DropboxPath       string
-	ExcludeFolderName string
-	ChunkSizeKb       int
+type Up struct {
+	Peer        rc_conn.ConnUserFile
+	LocalPath   mo_path.FileSystemPath
+	DropboxPath mo_path.DropboxPath
+	ChunkSizeKb int
+	Upload      *file.Upload
 }
 
-type Up struct {
+func (z *Up) Preset() {
+	z.ChunkSizeKb = 150 * 1024
 }
 
 func (z *Up) Console() {
 }
 
-func (z *Up) Requirement() app_vo.ValueObject {
-	return &UpVO{
-		ChunkSizeKb: 150 * 1024,
-	}
-}
-
-func (z *Up) Exec(k app_kitchen.Kitchen) error {
-	vo := k.Value().(*UpVO)
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
-		return err
-	}
-	up := uc_file_upload.New(ctx, rp_spec_impl.New(z, k.Control()), k,
-		uc_file_upload.ChunkSizeKb(vo.ChunkSizeKb),
-		uc_file_upload.CreateFolder(),
-		uc_file_upload.ExcludeFolderName(vo.ExcludeFolderName),
-		uc_file_upload.Overwrite())
-
-	_, err = up.Upload(vo.LocalPath, vo.DropboxPath)
-	return err
+func (z *Up) Exec(c app_control.Control) error {
+	return rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
+		ru := r.(*file.Upload)
+		ru.EstimateOnly = false
+		ru.LocalPath = z.LocalPath
+		ru.DropboxPath = z.DropboxPath
+		ru.Overwrite = true
+		ru.CreateFolder = true
+		ru.Context = z.Peer.Context()
+		if z.ChunkSizeKb > 0 {
+			ru.ChunkSizeKb = z.ChunkSizeKb
+		}
+	})
 }
 
 func (z *Up) Test(c app_control.Control) error {
-	return qt_recipe.ScenarioTest()
-}
-
-func (z *Up) Reports() []rp_spec.ReportSpec {
-	return uc_file_upload.UploadReports()
+	return qt_endtoend.ScenarioTest()
 }

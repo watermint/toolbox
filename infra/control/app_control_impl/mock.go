@@ -7,12 +7,12 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/infra/recpie/app_worker"
-	"github.com/watermint/toolbox/infra/recpie/app_worker_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_worker"
+	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/quality/infra/qt_control_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
 	"os"
 )
@@ -21,7 +21,7 @@ func NewMock() app_control.Control {
 	mc := &app_msg_container_impl.Alt{}
 	return &mockControl{
 		logger: app_log.NewConsoleLogger(false),
-		ui:     app_ui.NewConsole(mc, qt_control_impl.NewMessageMemory(), false),
+		ui:     app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false),
 		ws:     app_workspace.NewTempAppWorkspace(),
 	}
 }
@@ -44,8 +44,8 @@ func (z *mockControl) TestResource(key string) (data gjson.Result, found bool) {
 	return gjson.Parse("{}"), false
 }
 
-func (z *mockControl) NewQueue() app_worker.Queue {
-	return app_worker_impl.NewQueue(z, 1)
+func (z *mockControl) NewQueue() rc_worker.Queue {
+	return rc_worker_impl.NewQueue(z, 1)
 }
 
 func (z *mockControl) IsProduction() bool {

@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
+	"github.com/watermint/toolbox/infra/control/app_control"
 	"go.uber.org/zap"
 	"sync"
 )
@@ -15,28 +15,28 @@ const (
 )
 
 type Scale interface {
-	Size(path mo_path.Path, depth int) (sizes map[mo_path.Path]mo_file_size.Size, errors map[mo_path.Path]error)
+	Size(path mo_path.DropboxPath, depth int) (sizes map[mo_path.DropboxPath]mo_file_size.Size, errors map[mo_path.DropboxPath]error)
 }
 
-func New(ctx api_context.Context, k app_kitchen.Kitchen) Scale {
+func New(ctx api_context.Context, ctl app_control.Control) Scale {
 	return &scaleImpl{
 		ctx: ctx,
-		k:   k,
+		ctl: ctl,
 	}
 }
 
 func newErrorDict() *errorDict {
 	return &errorDict{
-		lastError: make(map[mo_path.Path]error),
+		lastError: make(map[mo_path.DropboxPath]error),
 	}
 }
 
 type errorDict struct {
-	lastError map[mo_path.Path]error
+	lastError map[mo_path.DropboxPath]error
 	mutex     sync.Mutex
 }
 
-func (z *errorDict) add(path mo_path.Path, err error) {
+func (z *errorDict) add(path mo_path.DropboxPath, err error) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
@@ -45,16 +45,16 @@ func (z *errorDict) add(path mo_path.Path, err error) {
 
 func newSizeDict() *sizeDict {
 	return &sizeDict{
-		sizes: make(map[mo_path.Path]mo_file_size.Size),
+		sizes: make(map[mo_path.DropboxPath]mo_file_size.Size),
 	}
 }
 
 type sizeDict struct {
-	sizes map[mo_path.Path]mo_file_size.Size
+	sizes map[mo_path.DropboxPath]mo_file_size.Size
 	mutex sync.Mutex
 }
 
-func (z *sizeDict) add(path mo_path.Path, size mo_file_size.Size) {
+func (z *sizeDict) add(path mo_path.DropboxPath, size mo_file_size.Size) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
@@ -66,11 +66,11 @@ func (z *sizeDict) add(path mo_path.Path, size mo_file_size.Size) {
 }
 
 type scaleWorker struct {
-	k        app_kitchen.Kitchen
+	ctl      app_control.Control
 	ctx      api_context.Context
 	svc      sv_file.Files
-	keyPaths []mo_path.Path
-	path     mo_path.Path
+	keyPaths []mo_path.DropboxPath
+	path     mo_path.DropboxPath
 	curDepth int
 	maxDepth int
 	sd       *sizeDict
@@ -102,7 +102,7 @@ func (z *scaleWorker) Exec() error {
 		current.ApiComplexity = 1
 	}
 
-	q := z.k.NewQueue()
+	q := z.ctl.NewQueue()
 	for _, entry := range entries {
 		current.CountDescendant++
 		if f, e := entry.File(); e {
@@ -113,7 +113,7 @@ func (z *scaleWorker) Exec() error {
 			current.CountFolder++
 			nd := z.curDepth + 1
 			np := z.path.ChildPath(f.Name())
-			kps := make([]mo_path.Path, 0)
+			kps := make([]mo_path.DropboxPath, 0)
 			kps = append(kps, z.keyPaths...)
 			if nd < z.maxDepth {
 				kps = append(kps, np)
@@ -128,7 +128,7 @@ func (z *scaleWorker) Exec() error {
 				zap.Int("childDepth", nd),
 			)
 			q.Enqueue(&scaleWorker{
-				k:        z.k,
+				ctl:      z.ctl,
 				ctx:      z.ctx,
 				svc:      z.svc,
 				keyPaths: kps,
@@ -149,21 +149,21 @@ func (z *scaleWorker) Exec() error {
 }
 
 type scaleImpl struct {
-	k   app_kitchen.Kitchen
+	ctl app_control.Control
 	ctx api_context.Context
 }
 
-func (z *scaleImpl) Size(path mo_path.Path, depth int) (sizes map[mo_path.Path]mo_file_size.Size, errors map[mo_path.Path]error) {
+func (z *scaleImpl) Size(path mo_path.DropboxPath, depth int) (sizes map[mo_path.DropboxPath]mo_file_size.Size, errors map[mo_path.DropboxPath]error) {
 	sd := newSizeDict()
 	ed := newErrorDict()
 	svc := sv_file.NewFiles(z.ctx)
 
-	q := z.k.NewQueue()
+	q := z.ctl.NewQueue()
 	q.Enqueue(&scaleWorker{
-		k:        z.k,
+		ctl:      z.ctl,
 		ctx:      z.ctx,
 		svc:      svc,
-		keyPaths: []mo_path.Path{path},
+		keyPaths: []mo_path.DropboxPath{path},
 		path:     path,
 		curDepth: 0,
 		maxDepth: depth,

@@ -6,26 +6,20 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"io/ioutil"
 )
 
-type RecipeVO struct {
+type Recipe struct {
 	All      bool
 	Recipe   string
 	Resource string
 }
 
-type Recipe struct {
-}
-
-func (z *Recipe) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{}
+func (z *Recipe) Preset() {
 }
 
 func (z *Recipe) Console() {
@@ -34,21 +28,16 @@ func (z *Recipe) Console() {
 func (z *Recipe) Hidden() {
 }
 
-func (z *Recipe) Requirement() app_vo.ValueObject {
-	return &RecipeVO{}
-}
-
-func (z *Recipe) Exec(k app_kitchen.Kitchen) error {
-	cl := k.Control().(app_control_launcher.ControlLauncher)
+func (z *Recipe) Exec(c app_control.Control) error {
+	cl := c.(app_control_launcher.ControlLauncher)
 	cat := cl.Catalogue()
-	l := k.Log()
-	vo := k.Value().(*RecipeVO)
+	l := c.Log()
 
 	testResource := gjson.Parse("{}")
 
-	if vo.Resource != "" {
-		ll := l.With(zap.String("resource", vo.Resource))
-		b, err := ioutil.ReadFile(vo.Resource)
+	if z.Resource != "" {
+		ll := l.With(zap.String("resource", z.Resource))
+		b, err := ioutil.ReadFile(z.Resource)
 		if err != nil {
 			ll.Error("Unable to read resource file", zap.Error(err))
 			return err
@@ -60,49 +49,49 @@ func (z *Recipe) Exec(k app_kitchen.Kitchen) error {
 		testResource = gjson.ParseBytes(b)
 	}
 
-	tc, err := k.Control().(*app_control_impl.Single).NewTestControl(testResource)
+	tc, err := c.(*app_control_impl.Single).NewTestControl(testResource)
 	if err != nil {
 		l.Error("Unable to create test control", zap.Error(err))
 		return err
 	}
 
 	switch {
-	case vo.All:
-		for _, r := range cat {
-			path, name := app_recipe.Path(r)
+	case z.All:
+		for _, r := range cat.Recipes {
+			path, name := rc_recipe.Path(r)
 			ll := l.With(zap.Strings("path", path), zap.String("name", name))
-			if _, ok := r.(app_recipe.SecretRecipe); ok {
+			if _, ok := r.(rc_recipe.SecretRecipe); ok {
 				ll.Info("Skip secret recipe")
 				continue
 			}
 			ll.Info("Testing: ")
 
-			if err := r.Test(tc); err != nil {
-				ll.Error("Error", zap.Error(err))
+			if err := qt_recipe.RecipeError(l, r.Test(tc)); err != nil {
+				ll.Error("ErrorK", zap.Error(err))
 				return err
 			}
 			ll.Info("Recipe test success")
 		}
 		l.Info("All tests passed without error")
 
-	case vo.Recipe != "":
-		for _, r := range cat {
-			p := app_recipe.Key(r)
-			if p != vo.Recipe {
+	case z.Recipe != "":
+		for _, r := range cat.Recipes {
+			p := rc_recipe.Key(r)
+			if p != z.Recipe {
 				continue
 			}
 			ll := l.With(zap.String("recipeKey", p))
 			ll.Info("Testing: ")
 
-			if err := r.Test(tc); err != nil {
-				ll.Error("Error", zap.Error(err))
+			if err := qt_recipe.RecipeError(l, r.Test(tc)); err != nil {
+				ll.Error("ErrorK", zap.Error(err))
 				return err
 			} else {
 				ll.Info("Recipe test success")
 				return nil
 			}
 		}
-		l.Error("recipe not found", zap.String("vo.Recipe", vo.Recipe))
+		l.Error("recipe not found", zap.String("vo.Recipe", z.Recipe))
 		return errors.New("recipe not found")
 
 	default:
@@ -113,5 +102,5 @@ func (z *Recipe) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *Recipe) Test(c app_control.Control) error {
-	return qt_recipe.NoTestRequired()
+	return qt_endtoend.NoTestRequired()
 }

@@ -13,12 +13,10 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_conn_impl"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe"
-	"github.com/watermint/toolbox/infra/recpie/app_recipe_group"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
-	"github.com/watermint/toolbox/infra/recpie/app_vo_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_group"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_template"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/web/web_job"
@@ -78,7 +76,7 @@ type WebHandler struct {
 	Template       app_template.Template
 	Launcher       app_control_launcher.ControlLauncher
 	BaseUrl        string
-	Root           *app_recipe_group.Group
+	Root           *rc_group.Group
 	authForUser    map[string]api_auth.Web
 	controlForUser map[string]app_control.Control
 	JobChan        chan *web_job.WebJobRun
@@ -136,14 +134,14 @@ func (z *WebHandler) setupUrls(g *gin.Engine) {
 }
 
 func (z *WebHandler) setupCatalogue() {
-	recipes := z.Launcher.Catalogue()
-	z.Root = app_recipe_group.NewGroup([]string{}, "")
+	recipes := z.Launcher.Catalogue().Recipes
+	z.Root = rc_group.NewGroup([]string{}, "")
 	for _, r := range recipes {
-		_, ok := r.(app_recipe.SecretRecipe)
+		_, ok := r.(rc_recipe.SecretRecipe)
 		if ok {
 			continue
 		}
-		_, ok = r.(app_recipe.ConsoleRecipe)
+		_, ok = r.(rc_recipe.ConsoleRecipe)
 		if ok {
 			continue
 		}
@@ -152,7 +150,7 @@ func (z *WebHandler) setupCatalogue() {
 	}
 }
 
-func (z *WebHandler) findRecipe(cmd string) (grp *app_recipe_group.Group, rcp app_recipe.Recipe, err error) {
+func (z *WebHandler) findRecipe(cmd string) (grp *rc_group.Group, rcp rc_recipe.Recipe, err error) {
 	cmdPath := strings.Split(cmd, "-")
 	_, grp, rcp, _, err = z.Root.Select(cmdPath)
 
@@ -164,30 +162,15 @@ func (z *WebHandler) findRecipe(cmd string) (grp *app_recipe_group.Group, rcp ap
 	return
 }
 
-func (z *WebHandler) recipeRequirements(rcp app_recipe.Recipe) (conns map[string]string, paramTypes map[string]string, paramDefaults map[string]interface{}) {
-	conns = make(map[string]string)
+func (z *WebHandler) recipeRequirements(rcp rc_recipe.SelfContainedRecipe) (conns map[string]string, paramTypes map[string]string, paramDefaults map[string]interface{}) {
 	paramTypes = make(map[string]string)
 	paramDefaults = make(map[string]interface{})
 
-	var vo interface{} = rcp.Requirement()
-	vc := app_vo_impl.NewValueContainer(vo)
-
-	for k, v := range vc.Values {
-		if d, ok := v.(bool); ok {
-			paramTypes[k] = "bool"
-			paramDefaults[k] = d
-		} else if _, ok := v.(app_conn.ConnBusinessInfo); ok {
-			conns[k] = api_auth.DropboxTokenBusinessInfo
-		} else if _, ok := v.(app_conn.ConnBusinessFile); ok {
-			conns[k] = api_auth.DropboxTokenBusinessFile
-		} else if _, ok := v.(app_conn.ConnBusinessAudit); ok {
-			conns[k] = api_auth.DropboxTokenBusinessAudit
-		} else if _, ok := v.(app_conn.ConnBusinessMgmt); ok {
-			conns[k] = api_auth.DropboxTokenBusinessManagement
-		} else if _, ok := v.(app_conn.ConnUserFile); ok {
-			conns[k] = api_auth.DropboxTokenFull
-		}
+	rcpSpec := rc_spec.New(rcp)
+	if rcpSpec == nil {
+		return
 	}
+	conns = rcpSpec.ConnScopeMap()
 	return
 }
 
@@ -236,8 +219,8 @@ func (z *WebHandler) NotFound(g *gin.Context) {
 		http.StatusNotFound,
 		"error",
 		gin.H{
-			"Header": ui.Text("web.error.notfound.header"),
-			"Detail": ui.Text("web.error.notfound.detail"),
+			"Header": ui.TextK("web.error.notfound.header"),
+			"Detail": ui.TextK("web.error.notfound.detail"),
 		},
 	)
 }
@@ -248,8 +231,8 @@ func (z *WebHandler) ServerError(g *gin.Context) {
 		http.StatusInternalServerError,
 		"error",
 		gin.H{
-			"Header": ui.Text("web.error.server.header"),
-			"Detail": ui.Text("web.error.server.detail"),
+			"Header": ui.TextK("web.error.server.header"),
+			"Detail": ui.TextK("web.error.server.detail"),
 		},
 	)
 }
@@ -259,8 +242,8 @@ func (z *WebHandler) CommandNotFound(g *gin.Context) {
 		http.StatusBadRequest,
 		"error",
 		gin.H{
-			"Header": ui.Text("web.error.command_not_found.header"),
-			"Detail": ui.Text("web.error.command_not_found.detail"),
+			"Header": ui.TextK("web.error.command_not_found.header"),
+			"Detail": ui.TextK("web.error.command_not_found.detail"),
 		},
 	)
 }
@@ -271,8 +254,8 @@ func (z *WebHandler) AuthFailed(g *gin.Context) {
 		http.StatusOK,
 		"error",
 		gin.H{
-			"Header": ui.Text("web.error.auth_failed.header"),
-			"Detail": ui.Text("web.error.auth_failed.detail"),
+			"Header": ui.TextK("web.error.auth_failed.header"),
+			"Detail": ui.TextK("web.error.auth_failed.detail"),
 		},
 	)
 }
@@ -283,8 +266,8 @@ func (z *WebHandler) Forbidden(g *gin.Context) {
 		http.StatusForbidden,
 		WebPathServerError,
 		gin.H{
-			"Header": ui.Text("web.error.forbidden.header"),
-			"Detail": ui.Text("web.error.forbidden.detail"),
+			"Header": ui.TextK("web.error.forbidden.header"),
+			"Detail": ui.TextK("web.error.forbidden.detail"),
 		},
 	)
 }
@@ -346,7 +329,10 @@ func (z *WebHandler) Home(g *gin.Context) {
 
 		case rcp != nil:
 			// TODO: Breadcrumb list
-			z.renderRecipeConn(g, cmd, rcp, user, uc)
+			switch scr := rcp.(type) {
+			case rc_recipe.SelfContainedRecipe:
+				z.renderRecipeConn(g, cmd, scr, user, uc)
+			}
 
 		case grp != nil:
 			// TODO: Breadcrumb list
@@ -366,57 +352,20 @@ func (z *WebHandler) Run(g *gin.Context) {
 			return
 		}
 		selectedConns := g.PostFormMap("Conn")
+		rcpSpec := rc_spec.New(rcp)
 
-		var vo interface{} = rcp.Requirement()
-		vc := app_vo_impl.NewValueContainer(vo)
-
-		for k, v := range vc.Values {
-			if d, ok := v.(bool); ok {
-				vc.Values[k] = d
-			} else if _, ok := v.(app_conn.ConnBusinessInfo); ok {
-				if pn, ok := selectedConns[k]; ok {
-					vc.Values[k] = &app_conn_impl.ConnBusinessInfo{
-						PeerName: pn,
-					}
-				} else {
-					l.Debug("Unable to find required conn", zap.String("key", k))
-				}
-			} else if _, ok := v.(app_conn.ConnBusinessFile); ok {
-				if pn, ok := selectedConns[k]; ok {
-					vc.Values[k] = &app_conn_impl.ConnBusinessFile{
-						PeerName: pn,
-					}
-				} else {
-					l.Debug("Unable to find required conn", zap.String("key", k))
-				}
-			} else if _, ok := v.(app_conn.ConnBusinessAudit); ok {
-				if pn, ok := selectedConns[k]; ok {
-					vc.Values[k] = &app_conn_impl.ConnBusinessAudit{
-						PeerName: pn,
-					}
-				} else {
-					l.Debug("Unable to find required conn", zap.String("key", k))
-				}
-			} else if _, ok := v.(app_conn.ConnBusinessMgmt); ok {
-				if pn, ok := selectedConns[k]; ok {
-					vc.Values[k] = &app_conn_impl.ConnBusinessMgmt{
-						PeerName: pn,
-					}
-				} else {
-					l.Debug("Unable to find required conn", zap.String("key", k))
-				}
-			} else if _, ok := v.(app_conn.ConnUserFile); ok {
-				if pn, ok := selectedConns[k]; ok {
-					vc.Values[k] = &app_conn_impl.ConnUserFile{
-						PeerName: pn,
-					}
-				} else {
-					l.Debug("Unable to find required conn", zap.String("key", k))
+		for _, vn := range rcpSpec.ValueNames() {
+			v := rcpSpec.Value(vn)
+			if v == nil {
+				continue
+			}
+			if vc, ok := v.(rc_recipe.ValueConn); ok {
+				if pn, ok := selectedConns[vn]; ok {
+					conn := vc.Bind().(rc_conn.ConnDropboxApi)
+					conn.SetPeerName(pn)
 				}
 			}
 		}
-
-		vc.Apply(vo)
 
 		jws, err := app_workspace.NewMultiJob(user.Workspace())
 		if err != nil {
@@ -459,8 +408,7 @@ func (z *WebHandler) Run(g *gin.Context) {
 			wj := &web_job.WebJobRun{
 				Name:      cmd,
 				JobId:     jws.JobId(),
-				Recipe:    rcp,
-				VO:        vo.(app_vo.ValueObject),
+				Recipe:    rcpSpec,
 				UC:        juc,
 				UiLogFile: wuiLog,
 			}
@@ -476,7 +424,6 @@ func (z *WebHandler) Run(g *gin.Context) {
 				},
 			)
 		}
-
 	})
 }
 
@@ -605,7 +552,7 @@ func (z *WebHandler) Artifact(g *gin.Context) {
 	})
 }
 
-func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe.Recipe, user web_user.User, uc app_control.Control) {
+func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp rc_recipe.SelfContainedRecipe, user web_user.User, uc app_control.Control) {
 	l := z.Control.Log().With(zap.String("cmd", cmd))
 	reqConns, reqParams, _ := z.recipeRequirements(rcp)
 	selectedConns := g.PostFormMap("Conn")
@@ -663,8 +610,8 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp app_recipe
 			"SelectedConns":         selectedConns,
 			"CurrentConn":           nextConnName,
 			"CurrentConnType":       nextConnType,
-			"CurrentConnTypeHeader": ui.Text("web.conn." + nextConnType + ".header"),
-			"CurrentConnTypeDetail": ui.Text("web.conn." + nextConnType + ".detail"),
+			"CurrentConnTypeHeader": ui.TextK("web.conn." + nextConnType + ".header"),
+			"CurrentConnTypeDetail": ui.TextK("web.conn." + nextConnType + ".detail"),
 		},
 	)
 }
@@ -680,7 +627,7 @@ func (z *WebHandler) renderRecipeParam(g *gin.Context) {
 	)
 }
 
-func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp app_recipe.Recipe, user web_user.User, uc app_control.Control) {
+func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp rc_recipe.SelfContainedRecipe, user web_user.User, uc app_control.Control) {
 	l := z.Control.Log().With(zap.String("cmd", cmd))
 	reqConns, _, _ := z.recipeRequirements(rcp)
 
@@ -720,7 +667,7 @@ func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp app_recipe.
 	)
 }
 
-func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe_group.Group) {
+func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *rc_group.Group) {
 	cmds := make([]string, 0)
 	dict := make(map[string]gin.H)
 	jobs := make([]gin.H, 0)
@@ -737,7 +684,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe
 
 		dict[g.Name] = gin.H{
 			"Title":       g.Name,
-			"Description": ui.Text(grp.CommandTitle(g.Name).Key()),
+			"Description": ui.TextK(grp.CommandTitle(g.Name).Key()),
 			"Uri":         WebPathHome + "/" + strings.Join(path, "-"),
 		}
 	}
@@ -748,7 +695,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *app_recipe
 
 		dict[name] = gin.H{
 			"Title":       name,
-			"Description": ui.Text(grp.CommandTitle(name).Key()),
+			"Description": ui.TextK(grp.CommandTitle(name).Key()),
 			"Uri":         WebPathHome + "/" + strings.Join(path, "-"),
 		}
 	}

@@ -8,32 +8,28 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recpie/app_conn"
-	"github.com/watermint/toolbox/infra/recpie/app_kitchen"
-	"github.com/watermint/toolbox/infra/recpie/app_vo"
+	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_spec"
-	"github.com/watermint/toolbox/infra/report/rp_spec_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
 
 type ListVO struct {
-	Peer       app_conn.ConnBusinessFile
-	AllColumns bool
 }
 
 type ListWorker struct {
 	namespace *mo_namespace.Namespace
 	ctx       api_context.Context // should be with admin team member id.
-	rep       rp_model.Report
+	rep       rp_model.RowReport
 	ctl       app_control.Control
 }
 
 func (z *ListWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.Info("recipe.team.namespace.member.list.scan",
+	ui.InfoK("recipe.team.namespace.member.list.scan",
 		app_msg.P{
 			"NamespaceName": z.namespace.Name,
 			"NamespaceId":   z.namespace.NamespaceId,
@@ -52,60 +48,41 @@ func (z *ListWorker) Exec() error {
 	return nil
 }
 
-const (
-	listReportNamespaceMember = "namespace_member"
-)
-
 type List struct {
+	Peer            rc_conn.ConnBusinessFile
+	AllColumns      bool
+	NamespaceMember rp_model.RowReport
 }
 
-func (z *List) Reports() []rp_spec.ReportSpec {
-	return []rp_spec.ReportSpec{
-		rp_spec_impl.Spec(listReportNamespaceMember,
-			&mo_namespace.NamespaceMember{},
-			rp_model.HiddenColumns(
-				"account_id",
-				"group_id",
-				"namespace_team_member_id",
-				"team_member_id",
-			),
-		),
-	}
+func (z *List) Preset() {
+	z.NamespaceMember.SetModel(&mo_namespace.NamespaceMember{}, rp_model.HiddenColumns(
+		"account_id",
+		"group_id",
+		"namespace_team_member_id",
+		"team_member_id",
+	))
 }
 
-func (z *List) Requirement() app_vo.ValueObject {
-	return &ListVO{}
-}
-
-func (z *List) Exec(k app_kitchen.Kitchen) error {
-	l := k.Log()
-	vo := k.Value().(*ListVO)
-
-	ctx, err := vo.Peer.Connect(k.Control())
-	if err != nil {
+func (z *List) Exec(c app_control.Control) error {
+	l := c.Log()
+	if err := z.NamespaceMember.Open(); err != nil {
 		return err
 	}
 
-	admin, err := sv_profile.NewTeam(ctx).Admin()
+	admin, err := sv_profile.NewTeam(z.Peer.Context()).Admin()
 	if err != nil {
 		return err
 	}
 	l.Debug("Run as admin", zap.Any("admin", admin))
 
-	namespaces, err := sv_namespace.New(ctx).List()
+	namespaces, err := sv_namespace.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
 	}
 
-	cta := ctx.AsAdminId(admin.TeamMemberId)
+	cta := z.Peer.Context().AsAdminId(admin.TeamMemberId)
 
-	rep, err := rp_spec_impl.New(z, k.Control()).Open(listReportNamespaceMember)
-	if err != nil {
-		return err
-	}
-	defer rep.Close()
-
-	q := k.NewQueue()
+	q := c.NewQueue()
 	for _, namespace := range namespaces {
 		if namespace.NamespaceType != "team_folder" &&
 			namespace.NamespaceType != "shared_folder" {
@@ -116,8 +93,8 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 		q.Enqueue(&ListWorker{
 			namespace: namespace,
 			ctx:       cta,
-			rep:       rep,
-			ctl:       k.Control(),
+			rep:       z.NamespaceMember,
+			ctl:       c,
 		})
 	}
 	q.Wait()
@@ -125,11 +102,7 @@ func (z *List) Exec(k app_kitchen.Kitchen) error {
 }
 
 func (z *List) Test(c app_control.Control) error {
-	lvo := &ListVO{}
-	if !qt_recipe.ApplyTestPeers(c, lvo) {
-		return qt_recipe.NotEnoughResource()
-	}
-	if err := z.Exec(app_kitchen.NewKitchen(c, lvo)); err != nil {
+	if err := rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues); err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "namespace_member", func(cols map[string]string) error {

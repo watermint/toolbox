@@ -17,10 +17,9 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
+* Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -53,9 +52,9 @@ At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-peer`    | アカウントの別名 | {default}  |
+| オプション | 説明          | デフォルト |
+|------------|---------------|------------|
+| `-peer`    | Account alias | default    |
 
 Common options:
 
@@ -112,12 +111,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: sharedfolder_member 
+## Report: member 
 
-Report files are generated in three formats, `sharedfolder_member.csv`, `sharedfolder_member.xlsx` and `sharedfolder_member.json`.
-But if you run with `-low-memory` option, the command will generate only `sharedfolder_member.json}}` report.
+Report files are generated in three formats, `member.csv`, `member.xlsx` and `member.json`.
+But if you run with `-low-memory` option, the command will generate only `member.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `sharedfolder_member_0000.xlsx`, `sharedfolder_member_0001.xlsx`, `sharedfolder_member_0002.xlsx`...   
+like `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
 
 | 列                      | 説明                                                                                                 |
 |-------------------------|------------------------------------------------------------------------------------------------------|

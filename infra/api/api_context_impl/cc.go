@@ -35,13 +35,27 @@ func New(control app_control.Control, token api_auth.TokenContainer) api_context
 type ccImpl struct {
 	control        app_control.Control
 	tokenContainer api_auth.TokenContainer
-	noAuth         bool
 	asMemberId     string
 	asAdminId      string
 	basePath       api_context.PathRoot
 	noRetryOnError bool
 	hashComputed   string
 	hashMutex      sync.Mutex
+}
+
+func (z *ccImpl) NoAuth() api_context.Context {
+	return &ccImpl{
+		control: z.control,
+		tokenContainer: api_auth.TokenContainer{
+			TokenType: api_auth.DropboxTokenNoAuth,
+		},
+		asMemberId:     z.asMemberId,
+		asAdminId:      z.asAdminId,
+		basePath:       z.basePath,
+		noRetryOnError: z.noRetryOnError,
+		hashComputed:   z.hashComputed,
+		hashMutex:      sync.Mutex{},
+	}
 }
 
 func (z *ccImpl) Token() api_auth.TokenContainer {
@@ -68,6 +82,19 @@ func (z *ccImpl) Rpc(endpoint string) api_request.Request {
 		z.asAdminId,
 		z.basePath,
 		z.tokenContainer,
+		api_request_impl.RpcEndpoint,
+	)
+}
+
+func (z *ccImpl) Notify(endpoint string) api_request.Request {
+	return api_request_impl.NewPpcRequest(
+		z,
+		endpoint,
+		z.asMemberId,
+		z.asAdminId,
+		z.basePath,
+		z.tokenContainer,
+		api_request_impl.NotifyEndpoint,
 	)
 }
 
@@ -106,7 +133,6 @@ func (z *ccImpl) AsMemberId(teamMemberId string) api_context.Context {
 	return &ccImpl{
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
-		noAuth:         z.noAuth,
 		noRetryOnError: z.noRetryOnError,
 		asMemberId:     teamMemberId,
 		asAdminId:      "",
@@ -118,7 +144,6 @@ func (z *ccImpl) AsAdminId(teamMemberId string) api_context.Context {
 	return &ccImpl{
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
-		noAuth:         z.noAuth,
 		noRetryOnError: z.noRetryOnError,
 		asMemberId:     "",
 		asAdminId:      teamMemberId,
@@ -130,7 +155,6 @@ func (z *ccImpl) WithPath(pathRoot api_context.PathRoot) api_context.Context {
 	return &ccImpl{
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
-		noAuth:         z.noAuth,
 		noRetryOnError: z.noRetryOnError,
 		asMemberId:     z.asMemberId,
 		asAdminId:      z.asAdminId,
@@ -142,7 +166,6 @@ func (z *ccImpl) NoRetryOnError() api_context.Context {
 	return &ccImpl{
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
-		noAuth:         z.noAuth,
 		noRetryOnError: true,
 		asMemberId:     z.asMemberId,
 		asAdminId:      z.asAdminId,

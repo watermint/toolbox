@@ -12,6 +12,7 @@ type Context interface {
 	Log() *zap.Logger
 
 	Rpc(endpoint string) api_request.Request
+	Notify(endpoint string) api_request.Request
 	List(endpoint string) api_list.List
 	Async(endpoint string) api_async.Async
 	Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request
@@ -23,6 +24,7 @@ type Context interface {
 	NoRetryOnError() Context
 	IsNoRetry() bool
 	Hash() string
+	NoAuth() Context
 }
 
 type CaptureContext interface {

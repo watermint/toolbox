@@ -17,10 +17,9 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/ja-jp/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 This command use following access type(s) during the operation:
-* Dropbox Business management
 
 # Usage
 
@@ -56,7 +55,7 @@ At second run, please hit button "Open" on the dialogue.
 | オプション | 説明             | デフォルト |
 |------------|------------------|------------|
 | `-file`    | データファイル   |            |
-| `-peer`    | アカウントの別名 | {default}  |
+| `-peer`    | アカウントの別名 | default    |
 
 Common options:
 
@@ -70,6 +69,22 @@ Common options:
 | `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
 | `-workspace`    | ワークスペースへのパス                                                                           |                |
+
+# File formats
+
+## Format: File 
+
+| 列    | 説明                                                                | Value example    |
+|-------|---------------------------------------------------------------------|------------------|
+| email | ユーザーのメールアドレス                                            | john@example.com |
+| quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. | 50               |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+email,quota
+john@example.com,50
+```
 
 ## Authentication
 
@@ -113,12 +128,12 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: quota_update 
+## Report: operation_log 
 
-Report files are generated in three formats, `quota_update.csv`, `quota_update.xlsx` and `quota_update.json`.
-But if you run with `-low-memory` option, the command will generate only `quota_update.json}}` report.
+Report files are generated in three formats, `operation_log.csv`, `operation_log.xlsx` and `operation_log.json`.
+But if you run with `-low-memory` option, the command will generate only `operation_log.json}}` report.
 In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `quota_update_0000.xlsx`, `quota_update_0001.xlsx`, `quota_update_0002.xlsx`...   
+like `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
 | 列           | 説明                                                                |
 |--------------|---------------------------------------------------------------------|

@@ -17,10 +17,9 @@ You can delete those files after use if you want to remove it.
 If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Individual account: https://help.dropbox.com/ja-jp/installs-integrations/third-party/third-party-apps
+* Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 This command use following access type(s) during the operation:
-* Dropbox Full access
 
 # Usage
 
@@ -57,9 +56,9 @@ At second run, please hit button "Open" on the dialogue.
 
 | オプション    | 説明                              | デフォルト |
 |---------------|-----------------------------------|------------|
-| `-left`       | アカウントの別名 (左)             | {default}  |
+| `-left`       | アカウントの別名 (左)             | left       |
 | `-left-path`  | アカウントのルートからのパス (左) |            |
-| `-right`      | アカウントの別名 (右)             | {default}  |
+| `-right`      | アカウントの別名 (右)             | right      |
 | `-right-path` | アカウントのルートからのパス (右) |            |
 
 Common options:

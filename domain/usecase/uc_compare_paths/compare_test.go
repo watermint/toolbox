@@ -46,7 +46,7 @@ func TestCompareImpl_Diff(t *testing.T) {
 				ctx.WithPath(api_context.Namespace(tf1.SharedFolderId())),
 				app_ui.NewDummy(),
 			)
-			count, err := ucc.Diff(mo_path.NewPath(""), mo_path.NewPath(""), func(diff mo_file_diff.Diff) error {
+			count, err := ucc.Diff(mo_path.NewDropboxPath(""), mo_path.NewDropboxPath(""), func(diff mo_file_diff.Diff) error {
 				t.Error(diff)
 				return nil
 			})
@@ -80,7 +80,7 @@ func TestCompareImpl_Diff(t *testing.T) {
 				ctx.WithPath(api_context.Namespace(tf2.SharedFolderId())),
 				app_ui.NewDummy(),
 			)
-			count, err := ucc.Diff(mo_path.NewPath(""), mo_path.NewPath(""), func(diff mo_file_diff.Diff) error {
+			count, err := ucc.Diff(mo_path.NewDropboxPath(""), mo_path.NewDropboxPath(""), func(diff mo_file_diff.Diff) error {
 				t.Error(diff)
 				return nil
 			})
@@ -97,7 +97,7 @@ func TestCompareImpl_Diff(t *testing.T) {
 				ctx.WithPath(api_context.Namespace(tf2.SharedFolderId())),
 				app_ui.NewDummy(),
 			)
-			count, err := ucc.Diff(mo_path.NewPath(""), mo_path.NewPath(""), func(diff mo_file_diff.Diff) error {
+			count, err := ucc.Diff(mo_path.NewDropboxPath(""), mo_path.NewDropboxPath(""), func(diff mo_file_diff.Diff) error {
 				ctx.Log().Debug("diff", zap.Any("diff", diff))
 				return nil
 			})

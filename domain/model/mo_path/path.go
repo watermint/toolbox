@@ -1,10 +1,31 @@
 package mo_path
 
 import (
+	"path/filepath"
 	"strings"
 )
 
 type Path interface {
+	Path() string
+}
+
+type FileSystemPath interface {
+	Path
+}
+
+func NewFileSystemPath(path string) FileSystemPath {
+	return &fileSystemPathImpl{path: filepath.Clean(path)}
+}
+
+type fileSystemPathImpl struct {
+	path string
+}
+
+func (z *fileSystemPathImpl) Path() string {
+	return z.path
+}
+
+type DropboxPath interface {
 	// Path format for Dropbox API
 	Path() string
 
@@ -19,70 +40,76 @@ type Path interface {
 	LogicalPath() string
 
 	// Child path
-	ChildPath(name string) Path
+	ChildPath(elem ...string) DropboxPath
 }
 
-type pathImpl struct {
+type dropboxPathImpl struct {
+	ns   string
+	id   string
 	path string
 }
 
-func (z *pathImpl) String() string {
-	return z.path
-}
-
-func (z *pathImpl) ChildPath(name string) Path {
-	return NewPathDisplay(z.path + "/" + name)
-}
-
-func (z *pathImpl) Namespace() (namespace string, exist bool) {
-	if strings.HasPrefix(z.path, "ns:") {
-		p := strings.Index(z.path, "/")
-		if p < 0 {
-			return z.path[3:], true
+func (z *dropboxPathImpl) String() string {
+	switch {
+	case z.ns != "":
+		// root of the namespace
+		if z.path == "" {
+			return "ns:" + z.ns
 		}
-		return z.path[3:p], true
-	}
-	return "", false
-}
+		// z.path always starts with '/' if it's not empty
+		return "ns:" + z.ns + z.path
 
-func (z *pathImpl) Id() (id string, exist bool) {
-	if strings.HasPrefix(z.path, "id:") {
-		p := strings.Index(z.path, "/")
-		if p < 0 {
-			return z.path[3:], true
+	case z.id != "":
+		// root of the folder id
+		if z.path == "" {
+			return "id:" + z.id
 		}
-		return z.path[3:p], true
+		// z.path always starts with '/' if it's not empty
+		return "id:" + z.id + z.path
+
+	default:
+		if z.path == "/" {
+			return ""
+		} else {
+			return z.path
+		}
 	}
-	return "", false
 }
 
-func (z *pathImpl) LogicalPath() string {
+func (z *dropboxPathImpl) ChildPath(elem ...string) DropboxPath {
+	a := make([]string, 0)
+	a = append(a, z.path)
+	a = append(a, elem...)
+
+	return &dropboxPathImpl{
+		ns:   z.ns,
+		id:   z.id,
+		path: filepath.ToSlash(filepath.Join(a...)),
+	}
+}
+
+func (z *dropboxPathImpl) Namespace() (namespace string, exist bool) {
+	return z.ns, z.ns != ""
+}
+
+func (z *dropboxPathImpl) Id() (id string, exist bool) {
+	return z.id, z.id != ""
+}
+
+func (z *dropboxPathImpl) LogicalPath() string {
 	if z.path == "" {
 		return "/"
 	}
-	p := strings.Index(z.path, "/")
-	if strings.HasPrefix(z.path, "ns:") {
-		if p < 0 {
-			return "/"
-		}
-		return z.path[p:]
-	}
-	if strings.HasPrefix(z.path, "id:") {
-		if p < 0 {
-			return "/"
-		}
-		return z.path[p:]
-	}
 	return z.path
 }
 
-func (z *pathImpl) Path() string {
-	return z.path
+func (z *dropboxPathImpl) Path() string {
+	return z.String()
 }
 
 // Create new `Path` instance.
 // Windows style paths are automatically replaced for API.
-func NewPath(path string) Path {
+func NewDropboxPath(path string) DropboxPath {
 	ps1 := strings.Split(path, "\\")
 	ps2 := strings.Join(ps1, "/")
 	ps3 := strings.ReplaceAll(ps2, "//", "/")
@@ -90,10 +117,39 @@ func NewPath(path string) Path {
 		ps3 = ""
 	}
 
-	return &pathImpl{path: ps3}
+	ns := ""
+	id := ""
+	pe := ps3
+
+	if strings.HasPrefix(ps3, "ns:") {
+		p := strings.Index(ps3, "/")
+		if p < 0 {
+			ns = ps3[3:]
+			pe = ""
+		} else {
+			ns = ps3[3:p]
+			pe = ps3[p:]
+		}
+	}
+	if strings.HasPrefix(ps3, "id:") {
+		p := strings.Index(ps3, "/")
+		if p < 0 {
+			id = ps3[3:]
+			pe = ""
+		} else {
+			id = ps3[3:p]
+			pe = ps3[p:]
+		}
+	}
+
+	return &dropboxPathImpl{
+		ns:   ns,
+		id:   id,
+		path: pe,
+	}
 }
 
 // Create new `Path` instance. No validation & modification
-func NewPathDisplay(path string) Path {
-	return &pathImpl{path: path}
+func NewPathDisplay(path string) DropboxPath {
+	return &dropboxPathImpl{path: path}
 }

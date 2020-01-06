@@ -8,10 +8,10 @@ import (
 
 type CopyRef interface {
 	// `files/copy_reference/get`
-	Resolve(path mo_path.Path) (entry mo_file.Entry, ref, expires string, err error)
+	Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, ref, expires string, err error)
 
 	// `files/copy_reference/save`
-	Save(path mo_path.Path, ref string) (entry mo_file.Entry, err error)
+	Save(path mo_path.DropboxPath, ref string) (entry mo_file.Entry, err error)
 }
 
 func New(ctx api_context.Context) CopyRef {
@@ -24,7 +24,7 @@ type copyRefImpl struct {
 	ctx api_context.Context
 }
 
-func (z *copyRefImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, ref, expires string, err error) {
+func (z *copyRefImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, ref, expires string, err error) {
 	p := struct {
 		Path string `json:"path"`
 	}{
@@ -49,7 +49,7 @@ func (z *copyRefImpl) Resolve(path mo_path.Path) (entry mo_file.Entry, ref, expi
 	return
 }
 
-func (z *copyRefImpl) Save(path mo_path.Path, ref string) (entry mo_file.Entry, err error) {
+func (z *copyRefImpl) Save(path mo_path.DropboxPath, ref string) (entry mo_file.Entry, err error) {
 	p := struct {
 		CopyReference string `json:"copy_reference"`
 		Path          string `json:"path"`

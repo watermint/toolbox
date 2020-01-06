@@ -7,7 +7,7 @@ import (
 )
 
 type Restore interface {
-	Restore(path mo_path.Path, rev string) (entry mo_file.Entry, err error)
+	Restore(path mo_path.DropboxPath, rev string) (entry mo_file.Entry, err error)
 }
 
 func New(ctx api_context.Context) Restore {
@@ -20,7 +20,7 @@ type restoreImpl struct {
 	ctx api_context.Context
 }
 
-func (z *restoreImpl) Restore(path mo_path.Path, rev string) (entry mo_file.Entry, err error) {
+func (z *restoreImpl) Restore(path mo_path.DropboxPath, rev string) (entry mo_file.Entry, err error) {
 	p := struct {
 		Path string `json:"path"`
 		Rev  string `json:"rev"`

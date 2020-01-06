@@ -13,45 +13,68 @@ func NewDummy() UI {
 type Dummy struct {
 }
 
-func (z *Dummy) InfoM(m app_msg.Message) {
+func (z *Dummy) AskCont(m app_msg.Message) (cont bool, cancel bool) {
+	return false, true
 }
 
-func (z *Dummy) ErrorM(m app_msg.Message) {
+func (z *Dummy) AskText(m app_msg.Message) (text string, cancel bool) {
+	return "", true
 }
 
-func (z *Dummy) Header(key string, p ...app_msg.P) {
+func (z *Dummy) AskSecure(m app_msg.Message) (secure string, cancel bool) {
+	return "", true
 }
 
-func (z *Dummy) Info(key string, p ...app_msg.P) {
+func (z *Dummy) Header(m app_msg.Message) {
+}
+
+func (z *Dummy) Text(m app_msg.Message) string {
+	return ""
+}
+
+func (z *Dummy) TextOrEmpty(m app_msg.Message) string {
+	return ""
+}
+
+func (z *Dummy) Info(m app_msg.Message) {
+}
+
+func (z *Dummy) Error(m app_msg.Message) {
+}
+
+func (z *Dummy) HeaderK(key string, p ...app_msg.P) {
+}
+
+func (z *Dummy) InfoK(key string, p ...app_msg.P) {
 }
 
 func (z *Dummy) InfoTable(name string) Table {
 	return &DummyTable{}
 }
 
-func (z *Dummy) Error(key string, p ...app_msg.P) {
+func (z *Dummy) ErrorK(key string, p ...app_msg.P) {
 }
 
 func (z *Dummy) Break() {
 }
 
-func (z *Dummy) Text(key string, p ...app_msg.P) string {
+func (z *Dummy) TextK(key string, p ...app_msg.P) string {
 	return ""
 }
 
-func (z *Dummy) TextOrEmpty(key string, p ...app_msg.P) string {
+func (z *Dummy) TextOrEmptyK(key string, p ...app_msg.P) string {
 	return ""
 }
 
-func (z *Dummy) AskCont(key string, p ...app_msg.P) (cont bool, cancel bool) {
+func (z *Dummy) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
 	return false, true
 }
 
-func (z *Dummy) AskText(key string, p ...app_msg.P) (text string, cancel bool) {
+func (z *Dummy) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
 	return "", true
 }
 
-func (z *Dummy) AskSecure(key string, p ...app_msg.P) (secure string, cancel bool) {
+func (z *Dummy) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool) {
 	return "", true
 }
 
