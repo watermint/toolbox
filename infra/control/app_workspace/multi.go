@@ -89,6 +89,15 @@ type multiJob struct {
 	jobId string
 }
 
+func (z *multiJob) KVS() string {
+	t, err := z.Descendant(nameKvs)
+	if err != nil {
+		app_root.Log().Error("Unable to create KVS folder", zap.Error(err))
+		t = filepath.Join(z.Job(), nameKvs)
+	}
+	return t
+}
+
 func (z *multiJob) Test() string {
 	t, err := z.Descendant(nameTest)
 	if err != nil {

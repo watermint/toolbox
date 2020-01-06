@@ -15,12 +15,9 @@ const (
 	monitorInterval = 15 * time.Second
 )
 
-func New(ctl app_control.Control, name string) (kv_storage.Storage, error) {
-	bw := &bboltWrapper{ctl: ctl}
-	if err := bw.init(name); err != nil {
-		return nil, err
-	}
-	return bw, nil
+func New(name string) kv_storage.Storage {
+	bw := &bboltWrapper{name: name}
+	return bw
 }
 
 type bboltWrapper struct {
@@ -29,6 +26,11 @@ type bboltWrapper struct {
 	db        *bbolt.DB
 	closed    bool
 	lastStats bbolt.Stats
+}
+
+func (z *bboltWrapper) Open(ctl app_control.Control) error {
+	z.ctl = ctl
+	return z.init(z.name)
 }
 
 func (z *bboltWrapper) View(f func(tx kv_transaction.Transaction) error) error {

@@ -45,11 +45,15 @@ func (z *ValueFdFileRowFeed) Init() (v interface{}) {
 
 func (z *ValueFdFileRowFeed) ApplyPreset(v0 interface{}) {
 	z.rf = v0.(fd_file.RowFeed)
-	z.path = z.rf.FilePath()
+	if z.rf.FilePath() != "" {
+		z.path = z.rf.FilePath()
+	}
 }
 
 func (z *ValueFdFileRowFeed) Apply() (v interface{}) {
-	z.rf.SetFilePath(z.path)
+	if z.path != "" {
+		z.rf.SetFilePath(z.path)
+	}
 	return z.rf
 }
 
@@ -60,7 +64,7 @@ func (z *ValueFdFileRowFeed) Debug() interface{} {
 }
 
 func (z *ValueFdFileRowFeed) SpinUp(ctl app_control.Control) (err error) {
-	if z.path == "" || z.rf.FilePath() == "" {
+	if z.rf.FilePath() == "" {
 		err = ErrorMissingRequiredOption
 	} else {
 		err = z.rf.Open(ctl)

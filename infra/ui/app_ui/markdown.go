@@ -198,6 +198,7 @@ func (z *markdownTable) RowRaw(m ...string) {
 }
 
 func (z *markdownTable) Flush() {
+	l := app_root.Log()
 	numCols := len(z.header)
 	cols := make([]int, numCols)
 
@@ -215,7 +216,13 @@ func (z *markdownTable) Flush() {
 	printCols := func(row []string) {
 		fmt.Fprintf(z.out, "|")
 		for i, c := range row {
-			padding := ut_math.MaxInt(cols[i]-ut_string.Width(c), 0)
+			padding := 0
+			if i < len(cols) {
+				padding = ut_math.MaxInt(cols[i]-ut_string.Width(c), 0)
+			} else {
+				l.Debug("Number of columns exceeds header columns", zap.Int("i", i), zap.Strings("row", row))
+				padding = 1
+			}
 			fmt.Fprint(z.out, " ")
 			fmt.Fprint(z.out, c)
 			fmt.Fprint(z.out, strings.Repeat(" ", padding))

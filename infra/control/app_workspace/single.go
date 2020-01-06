@@ -63,6 +63,15 @@ func (z *singleWorkspace) Report() string {
 	return filepath.Join(z.Job(), nameReport)
 }
 
+func (z *singleWorkspace) KVS() string {
+	t, err := z.Descendant(nameKvs)
+	if err != nil {
+		app_root.Log().Error("Unable to create KVS folder", zap.Error(err))
+		t = filepath.Join(z.Job(), nameKvs)
+	}
+	return t
+}
+
 func (z *singleWorkspace) Test() string {
 	t, err := z.Descendant(nameTest)
 	if err != nil {

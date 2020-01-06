@@ -13,7 +13,8 @@ import (
 
 func TestNew(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
-		db, err := kv_storage_impl.New(ctl, "test")
+		db := kv_storage_impl.New("test")
+		err := db.Open(ctl)
 		if err != nil {
 			t.Error(err)
 			return

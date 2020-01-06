@@ -8,6 +8,8 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/kvs/kv_storage"
+	"github.com/watermint/toolbox/infra/kvs/kv_transaction"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -28,6 +30,7 @@ type SelfContainedTestRecipe struct {
 	Start         mo_time.Time
 	DbxPath       mo_path.DropboxPath
 	CustomQuota   fd_file.RowFeed
+	EventLog      kv_storage.Storage
 	Enabled       bool
 	Limit         int
 	Limit2        int
@@ -73,6 +76,19 @@ func (z *SelfContainedTestRecipe) Exec(c app_control.Control) error {
 		}
 		z.OperLog.Success(row, nil)
 		z.DataReport.Row(row)
+		return nil
+	}); err != nil {
+		return err
+	}
+	if err := z.EventLog.Batch(func(tx kv_transaction.Transaction) error {
+		k, err := tx.Kvs("test")
+		if err != nil {
+			return err
+		}
+		_, err = k.NextSequence()
+		if err != nil {
+			return err
+		}
 		return nil
 	}); err != nil {
 		return err

@@ -25,6 +25,7 @@ const (
 	nameLogs    = "logs"
 	nameReport  = "report"
 	nameTest    = "test"
+	nameKvs     = "kvs"
 )
 
 func NewJobId() string {

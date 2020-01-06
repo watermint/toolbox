@@ -26,6 +26,7 @@ var (
 		newValueBool(),
 		newValueInt(),
 		newValueString(),
+		newValueKvStorageStorage(""),
 		newValueAppMsgMessage("", app_msg.Raw("")),
 		newValueMoTimeTime(""),
 		newValueMoPathDropboxPath(""),

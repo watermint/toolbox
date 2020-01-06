@@ -1,9 +1,15 @@
 package kv_storage
 
-import "github.com/watermint/toolbox/infra/kvs/kv_transaction"
+import (
+	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/kvs/kv_transaction"
+)
 
 // Storage interface.
 type Storage interface {
+	// Open KVS storage
+	Open(ctl app_control.Control) error
+
 	// Close KVS storage
 	Close()
 
