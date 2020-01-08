@@ -307,17 +307,15 @@ func (z *console) HeaderK(key string, p ...app_msg.P) {
 }
 
 func (z *console) InfoTable(name string) Table {
-	return newMarkdownTable(z.mc, z.out, false)
-	//
-	//tw := new(tabwriter.Writer)
-	//tw.Init(z.out, 0, 2, 2, ' ', 0)
-	//return &consoleTable{
-	//	mc:   z.mc,
-	//	tab:  tw,
-	//	qm:   z.qm,
-	//	name: name,
-	//	ui:   z,
-	//}
+	tw := new(tabwriter.Writer)
+	tw.Init(z.out, 0, 2, 2, ' ', 0)
+	return &consoleTable{
+		mc:   z.mc,
+		tab:  tw,
+		qm:   z.qm,
+		name: name,
+		ui:   z,
+	}
 }
 
 func (z *console) InfoK(key string, p ...app_msg.P) {
