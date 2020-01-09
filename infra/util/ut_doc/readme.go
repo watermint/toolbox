@@ -104,6 +104,17 @@ func (z *Readme) Generate() error {
 		return err
 	}
 
+	bodyUsage := ""
+	{
+		var b bytes.Buffer
+		w := bufio.NewWriter(&b)
+		cui := app_ui.NewBufferConsole(z.ctl.Messages(), w)
+		cl := z.ctl.(app_control_launcher.ControlLauncher)
+		cl.Catalogue().RootGroup.PrintUsage(cui, "./tbx", "xx.x.xxx")
+		w.Flush()
+		bodyUsage = b.String()
+	}
+
 	out := os.Stdout
 	if !z.toStdout {
 		out, err = os.Create(z.filename)
@@ -115,6 +126,7 @@ func (z *Readme) Generate() error {
 
 	params := make(map[string]interface{})
 	params["Commands"] = commands
+	params["BodyUsage"] = bodyUsage
 
 	if z.badge {
 		params["Badges"] = app.ProjectStatusBadge

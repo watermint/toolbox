@@ -3,6 +3,7 @@ package qt_messages
 import (
 	"errors"
 	"flag"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
@@ -11,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
+	"os"
 )
 
 func VerifyMessages(ctl app_control.Control) error {
@@ -40,7 +42,7 @@ func VerifyMessages(ctl app_control.Control) error {
 }
 
 func verifyGroup(g *rc_group.Group, ui app_ui.UI) {
-	g.PrintUsage(ui)
+	g.PrintUsage(ui, os.Args[0], app.Version)
 	for _, sg := range g.SubGroups {
 		verifyGroup(sg, ui)
 	}

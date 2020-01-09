@@ -30,8 +30,8 @@ var (
 	MHeader = app_msg.Apply(&MsgHeader{}).(*MsgHeader)
 )
 
-func AppHeader(ui app_ui.UI) {
-	ui.Header(MHeader.Header.With("AppVersion", app.Version))
+func AppHeader(ui app_ui.UI, version string) {
+	ui.Header(MHeader.Header.With("AppVersion", version))
 	ui.Info(MHeader.Copyright)
 	ui.Info(MHeader.License)
 	ui.Break()
@@ -74,15 +74,15 @@ func (z *Group) Add(r rc_recipe.Recipe) {
 	z.addToPath(path, path, name, r)
 }
 
-func (z *Group) usageHeader(ui app_ui.UI, desc string) {
-	AppHeader(ui)
+func (z *Group) usageHeader(ui app_ui.UI, desc, version string) {
+	AppHeader(ui, version)
 	ui.Break()
 	ui.InfoK(desc)
 	ui.Break()
 }
 
 func (z *Group) PrintRecipeUsage(ui app_ui.UI, spec rc_recipe.Spec, f *flag.FlagSet) {
-	z.usageHeader(ui, spec.Title().Key())
+	z.usageHeader(ui, spec.Title().Key(), app.Version)
 
 	ui.HeaderK("run.recipe.header.usage")
 	ui.InfoK(
@@ -104,19 +104,19 @@ func (z *Group) PrintRecipeUsage(ui app_ui.UI, spec rc_recipe.Spec, f *flag.Flag
 	ui.Break()
 }
 
-func (z *Group) PrintUsage(ui app_ui.UI) {
+func (z *Group) PrintUsage(ui app_ui.UI, exec, version string) {
 	grpDesc := make([]string, 0)
 	grpDesc = append(grpDesc, "recipe")
 	grpDesc = append(grpDesc, z.Path...)
 	grpDesc = append(grpDesc, "title")
 
-	z.usageHeader(ui, strings.Join(grpDesc, "."))
+	z.usageHeader(ui, strings.Join(grpDesc, "."), version)
 
 	ui.HeaderK("run.group.header.usage")
 	ui.InfoK(
 		"run.group.usage",
 		app_msg.P{
-			"Exec":  os.Args[0],
+			"Exec":  exec,
 			"Group": strings.Join(z.Path, " "),
 		},
 	)

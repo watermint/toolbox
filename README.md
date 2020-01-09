@@ -2,6 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/watermint/toolbox.svg?style=shield)](https://circleci.com/gh/watermint/toolbox)
 [![Coverage Status](https://coveralls.io/repos/github/watermint/toolbox/badge.svg)](https://coveralls.io/github/watermint/toolbox)
+
 ![watermint toolbox](resources/watermint-toolbox-256x256.png)
 
 Tools for Dropbox and Dropbox Business.
@@ -24,16 +25,23 @@ You can see available commands and options by running executable without argumen
 
 ```
 % ./tbx
+
 watermint toolbox xx.x.xxx
-© 2016-2019 Takayuki Okazaki
+==========================
+
+© 2016-2020 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 Tools for Dropbox and Dropbox Business
 
 Usage:
+======
+
 ./tbx  command
 
 Available commands:
+===================
+
    file          File operation
    group         Group management (Dropbox Business)
    license       Show license information
@@ -42,7 +50,7 @@ Available commands:
    sharedlink    Shared Link of Personal account
    team          Dropbox Business Team
    teamfolder    Team folder management (Dropbox Business)
-   web           Launch web console (experimental)
+
 ```
 
 ## Commands

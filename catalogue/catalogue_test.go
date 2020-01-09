@@ -2,11 +2,13 @@ package catalogue
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"os"
 	"testing"
 )
 
@@ -25,7 +27,7 @@ func TestCatalogue(t *testing.T) {
 }
 
 func testGroup(g *rc_group.Group, ui app_ui.UI) {
-	g.PrintUsage(ui)
+	g.PrintUsage(ui, os.Args[0], app.Version)
 	for _, sg := range g.SubGroups {
 		testGroup(sg, ui)
 	}
