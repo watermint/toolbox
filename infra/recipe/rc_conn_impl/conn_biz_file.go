@@ -16,19 +16,19 @@ type connBusinessFile struct {
 	ctx  api_context.Context
 }
 
-func (z connBusinessFile) ScopeLabel() string {
+func (z *connBusinessFile) ScopeLabel() string {
 	return api_auth.DropboxTokenBusinessFile
 }
 
-func (z connBusinessFile) IsPersonal() bool {
+func (z *connBusinessFile) IsPersonal() bool {
 	return false
 }
 
-func (z connBusinessFile) IsBusiness() bool {
+func (z *connBusinessFile) IsBusiness() bool {
 	return true
 }
 
-func (z connBusinessFile) SetPeerName(name string) {
+func (z *connBusinessFile) SetPeerName(name string) {
 	z.name = name
 }
 

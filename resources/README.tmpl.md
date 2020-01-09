@@ -1,5 +1,5 @@
 # watermint toolbox
-{{.Badges}}
+{{.Badges}}{{.Logo}}
 
 {{ msg "doc.readme.title" }}
 
