@@ -16,19 +16,19 @@ type connBusinessAudit struct {
 	ctx  api_context.Context
 }
 
-func (z connBusinessAudit) ScopeLabel() string {
+func (z *connBusinessAudit) ScopeLabel() string {
 	return api_auth.DropboxTokenBusinessAudit
 }
 
-func (z connBusinessAudit) IsPersonal() bool {
+func (z *connBusinessAudit) IsPersonal() bool {
 	return false
 }
 
-func (z connBusinessAudit) IsBusiness() bool {
+func (z *connBusinessAudit) IsBusiness() bool {
 	return true
 }
 
-func (z connBusinessAudit) SetPeerName(name string) {
+func (z *connBusinessAudit) SetPeerName(name string) {
 	z.name = name
 }
 
