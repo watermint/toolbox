@@ -12,7 +12,8 @@ type MsgValFdFileRowFeed struct {
 }
 
 type MsgRepository struct {
-	ErrorMissingRequiredOption app_msg.Message
+	ErrorMissingRequiredOption      app_msg.Message
+	ProgressDoneValueInitialization app_msg.Message
 }
 
 var (

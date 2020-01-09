@@ -277,15 +277,20 @@ func (z *repositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 
 	for _, k := range valKeys {
 		v := z.values[k]
+		promot := false
 		if _, ok := v.(rc_recipe.ValueConn); ok {
 			if k != "Peer" {
-				ctl.UI().Info(app_msg.ObjMessage(z.rcp, "conn."+strcase.ToSnake(k)))
+				ui.Header(app_msg.ObjMessage(z.rcp, "conn."+strcase.ToSnake(k)))
+				promot = true
 			}
 		}
 
 		err := v.SpinUp(ctl)
 		switch err {
 		case nil:
+			if promot {
+				ui.Info(MRepository.ProgressDoneValueInitialization)
+			}
 			continue
 
 		case ErrorMissingRequiredOption:

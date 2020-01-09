@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
+	"github.com/watermint/toolbox/infra/util/ut_string"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 	"go.uber.org/zap"
 	"io"
@@ -183,7 +184,10 @@ func (z *console) AskSecure(m app_msg.Message) (secure string, cancel bool) {
 func (z *console) Header(m app_msg.Message) {
 	z.verifyKey(m.Key())
 	t := z.mc.Compile(m)
+	tl := ut_string.Width(t)
+	z.Break()
 	z.boldPrint(t)
+	z.boldPrint(strings.Repeat("=", tl))
 	z.Break()
 }
 

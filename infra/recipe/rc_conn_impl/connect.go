@@ -34,9 +34,21 @@ func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_c
 	}
 }
 
-func connect(tokenType, peerName string, ctl app_control.Control) (ctx api_context.Context, err error) {
+func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (ctx api_context.Context, err error) {
 	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
 	ui := ctl.UI()
+
+	verifyToken := func(ctx0 api_context.Context) error {
+		if verify {
+			desc, suppl, err0 := api_auth_impl.VerifyToken(tokenType, ctx0)
+			if err0 == nil {
+				ui.Info(MConnect.VerifySuccess.With("Desc", desc).With("Suppl", suppl))
+			}
+			return err0
+		}
+		return nil
+	}
+
 	switch {
 	case ctl.IsTest():
 		return ConnectTest(tokenType, peerName, ctl)
@@ -45,6 +57,9 @@ func connect(tokenType, peerName string, ctl app_control.Control) (ctx api_conte
 		l.Debug("Connect through console UI")
 		c := api_auth_impl.New(ctl, api_auth_impl.PeerName(peerName))
 		ctx, err = c.Auth(tokenType)
+		if err == nil {
+			err = verifyToken(ctx)
+		}
 		return
 
 	case ui.IsWeb():

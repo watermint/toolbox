@@ -45,6 +45,7 @@ func (z *ValueRcConnBusinessMgmt) ApplyPreset(v0 interface{}) {
 
 func (z *ValueRcConnBusinessMgmt) Apply() (v interface{}) {
 	z.conn.SetPeerName(z.peerName)
+	rc_conn_impl.EnsurePreVerify(z.conn)
 	return z.conn
 }
 
