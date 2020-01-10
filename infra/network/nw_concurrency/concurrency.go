@@ -45,9 +45,12 @@ func (z *concurrencyImpl) SetConcurrency(c int) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 	l := app_root.Log()
-	l.Debug("Set concurrency", zap.Int("concurrency", c))
-
-	z.w = semaphore.NewWeighted(int64(c))
+	if c < 1 {
+		l.Debug("Ignore setting concurrency for less than 1", zap.Int("concurrency", c))
+	} else {
+		l.Debug("Set concurrency", zap.Int("concurrency", c))
+		z.w = semaphore.NewWeighted(int64(c))
+	}
 }
 
 func (z *concurrencyImpl) Start() {

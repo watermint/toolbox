@@ -23,6 +23,7 @@ func WrapReader(r io.Reader) io.Reader {
 	if currentLimit == 0 {
 		return r
 	}
+	app_root.Log().Debug("Create new bandwidth limited reader", zap.Int("kbs", currentLimit))
 	return throttle.Reader(r)
 }
 
@@ -30,5 +31,6 @@ func WrapWriter(w io.Writer) io.Writer {
 	if currentLimit == 0 {
 		return w
 	}
+	app_root.Log().Debug("Create new bandwidth limited writer", zap.Int("kbs", currentLimit))
 	return throttle.Writer(w)
 }
