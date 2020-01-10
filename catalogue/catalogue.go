@@ -115,6 +115,7 @@ func Recipes() []rc_recipe.Recipe {
 		&recipeteamfolder.Permdelete{},
 		&recipeteamfolder.Replication{},
 		&recipeteamfolderbatch.Replication{},
+		&recipeteamfolderbatch.Archive{},
 		&recipeteamfolderfile.List{},
 		&recipeteamfolderfile.Size{},
 		&recipeteamlinkedapp.List{},

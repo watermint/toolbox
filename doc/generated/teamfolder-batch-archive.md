@@ -1,6 +1,25 @@
-# teamfolder batch replication 
+# teamfolder batch archive 
 
-Batch replication of team folders
+Archiving team folders
+
+# Security
+
+`watermint toolbox` stores credentials into the file system. That is located at below path:
+
+| OS       | Path                                                               |
+| -------- | ------------------------------------------------------------------ |
+| Windows  | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS    | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux    | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+
+Please do not share those files to anyone including Dropbox support.
+You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
+
+Please see below help article for more detail:
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
+
+This command use following access type(s) during the operation:
+* Dropbox Business File access
 
 # Usage
 
@@ -12,13 +31,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe teamfolder batch replication -file TEAMFOLDER_NAME_LIST.csv
+.\tbx.exe teamfolder batch archive 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx teamfolder batch replication -file TEAMFOLDER_NAME_LIST.csv
+$HOME/Desktop/tbx teamfolder batch archive 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -29,11 +48,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option           | Description                               | Default |
-|------------------|-------------------------------------------|---------|
-| `-dst-peer-name` | Destination team account alias            | dst     |
-| `-file`          | Data file for a list of team folder names |         |
-| `-src-peer-name` | Source team account alias                 | src     |
+| Option  | Description                               | Default |
+|---------|-------------------------------------------|---------|
+| `-file` | Data file for a list of team folder names |         |
+| `-peer` | Account alias                             | default |
 
 Common options:
 
@@ -63,6 +81,28 @@ name
 Sales
 ```
 
+# Authorization
+
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2020 Takayuki Okazaki
+Licensed under open source licenses. Use the `license` command for more detail.
+
+1. Visit the URL for the auth dialogue:
+
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. Click 'Allow' (you might have to login first):
+3. Copy the authorisation code:
+Enter the authorisation code
+
+```
+
 # Proxy configuration
 
 The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
@@ -77,27 +117,26 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: verification 
+## Report: operation_log 
 
 Report files are generated in three formats like below;
-* `verification.csv`
-* `verification.xlsx`
-* `verification.json`
+* `operation_log.csv`
+* `operation_log.xlsx`
+* `operation_log.json`
 
 But if you run with `-low-memory` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`verification_0000.xlsx`, `verification_0001.xlsx`, `verification_0002.xlsx`...   
+`operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| Column     | Description                                                                                                                                                                            |
-|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| diff_type  | Type of difference. `file_content_diff`: different content hash, `{left|right}_file_missing`: left or right file missing, `{left|right}_folder_missing`: left or right folder missing. |
-| left_path  | path of left                                                                                                                                                                           |
-| left_kind  | folder or file                                                                                                                                                                         |
-| left_size  | size of left file                                                                                                                                                                      |
-| left_hash  | Content hash of left file                                                                                                                                                              |
-| right_path | path of right                                                                                                                                                                          |
-| right_kind | folder of file                                                                                                                                                                         |
-| right_size | size of right file                                                                                                                                                                     |
-| right_hash | Content hash of right file                                                                                                                                                             |
+| Column                        | Description                                                                                |
+|-------------------------------|--------------------------------------------------------------------------------------------|
+| status                        | Status of the operation                                                                    |
+| reason                        | Reason of failure or skipped operation                                                     |
+| input.name                    | Name of team folder                                                                        |
+| result.team_folder_id         | The ID of the team folder.                                                                 |
+| result.name                   | The name of the team folder.                                                               |
+| result.status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
+| result.is_team_shared_dropbox |                                                                                            |
+| result.sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
 

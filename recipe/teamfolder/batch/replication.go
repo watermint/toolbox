@@ -9,10 +9,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
-type TeamFolderName struct {
-	Name string `json:"name"`
-}
-
 type Replication struct {
 	File        fd_file.RowFeed
 	Replication *teamfolder.Replication
