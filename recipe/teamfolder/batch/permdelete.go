@@ -13,17 +13,17 @@ import (
 	"strings"
 )
 
-type Archive struct {
+type Permdelete struct {
 	ErrTeamFolderNotFound                 app_msg.Message
-	ErrUnableToArchive                    app_msg.Message
+	ErrUnableToDelete                     app_msg.Message
 	ErrUnableToRetrieveCurrentTeamFolders app_msg.Message
 	File                                  fd_file.RowFeed
 	OperationLog                          rp_model.TransactionReport
 	Peer                                  rc_conn.ConnBusinessFile
-	ProgressArchiveFolder                 app_msg.Message
+	ProgressDeleteFolder                  app_msg.Message
 }
 
-func (z *Archive) Exec(c app_control.Control) error {
+func (z *Permdelete) Exec(c app_control.Control) error {
 	ui := c.UI()
 	if err := z.OperationLog.Open(); err != nil {
 		return err
@@ -37,7 +37,7 @@ func (z *Archive) Exec(c app_control.Control) error {
 
 	return z.File.EachRow(func(m interface{}, rowIndex int) error {
 		r := m.(*TeamFolderName)
-		ui.Info(z.ProgressArchiveFolder.With("Name", r.Name))
+		ui.Info(z.ProgressDeleteFolder.With("Name", r.Name))
 
 		var folder *mo_teamfolder.TeamFolder
 		for _, tf := range folders {
@@ -52,22 +52,22 @@ func (z *Archive) Exec(c app_control.Control) error {
 			return nil
 		}
 
-		archived, err := sv_teamfolder.New(z.Peer.Context()).Archive(folder)
+		err := sv_teamfolder.New(z.Peer.Context()).PermDelete(folder)
 		if err != nil {
-			ui.Error(z.ErrUnableToArchive.With("Name", r.Name).With("Error", err.Error()))
+			ui.Error(z.ErrUnableToDelete.With("Name", r.Name).With("Error", err.Error()))
 			z.OperationLog.Failure(err, r)
 			return nil
 		}
-		z.OperationLog.Success(r, archived)
+		z.OperationLog.Success(r, nil)
 		return nil
 	})
 }
 
-func (z *Archive) Test(c app_control.Control) error {
+func (z *Permdelete) Test(c app_control.Control) error {
 	return qt_endtoend.ImplementMe()
 }
 
-func (z *Archive) Preset() {
+func (z *Permdelete) Preset() {
 	z.File.SetModel(&TeamFolderName{})
-	z.OperationLog.SetModel(&TeamFolderName{}, &mo_teamfolder.TeamFolder{})
+	z.OperationLog.SetModel(&TeamFolderName{}, nil)
 }

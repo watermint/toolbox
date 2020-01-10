@@ -110,6 +110,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [team sharedlink update expiry](doc/generated_ja/team-sharedlink-update-expiry.md) | チーム内の公開されている共有リンクについて有効期限を更新します |
 | [teamfolder archive](doc/generated_ja/teamfolder-archive.md)                       | チームフォルダのアーカイブ                                     |
 | [teamfolder batch archive](doc/generated_ja/teamfolder-batch-archive.md)           | Archiving team folders                                         |
+| [teamfolder batch permdelete](doc/generated_ja/teamfolder-batch-permdelete.md)     | Permanently delete team folders                                |
 | [teamfolder batch replication](doc/generated_ja/teamfolder-batch-replication.md)   | Batch replication of team folders                              |
 | [teamfolder file list](doc/generated_ja/teamfolder-file-list.md)                   | List files in team folders                                     |
 | [teamfolder file size](doc/generated_ja/teamfolder-file-size.md)                   | Calculate size of team folders                                 |
