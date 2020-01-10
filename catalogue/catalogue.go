@@ -22,6 +22,7 @@ import (
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
 	recipefilesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
 	recipegroup "github.com/watermint/toolbox/recipe/group"
+	recipegroupbatch "github.com/watermint/toolbox/recipe/group/batch"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
@@ -83,6 +84,7 @@ func Recipes() []rc_recipe.Recipe {
 		&recipefilesyncpreflight.Up{},
 		&recipegroup.Delete{},
 		&recipegroup.List{},
+		&recipegroupbatch.Delete{},
 		&recipegroupmember.List{},
 		&recipemember.Delete{},
 		&recipemember.Detach{},

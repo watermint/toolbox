@@ -1,6 +1,24 @@
-# teamfolder batch replication 
+# group batch delete 
 
-Batch replication of team folders
+Delete groups
+
+# セキュリティ
+
+`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
+
+| OS       | Path                                                               |
+| -------- | ------------------------------------------------------------------ |
+| Windows  | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS    | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux    | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+
+これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
+不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
+
+方法は次のヘルプセンター記事をご参照ください:
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
+
+このコマンドは次のアクセスタイプを処理に利用します:
 
 # 利用方法
 
@@ -12,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe teamfolder batch replication -file TEAMFOLDER_NAME_LIST.csv
+.\tbx.exe group batch delete 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx teamfolder batch replication -file TEAMFOLDER_NAME_LIST.csv
+$HOME/Desktop/tbx group batch delete 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -29,11 +47,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション       | 説明                             | デフォルト |
-|------------------|----------------------------------|------------|
-| `-dst-peer-name` | Destination team account alias   | dst        |
-| `-file`          | チームフォルダ名のデータファイル |            |
-| `-src-peer-name` | Source team account alias        | src        |
+| オプション | 説明                          | デフォルト |
+|------------|-------------------------------|------------|
+| `-file`    | Data file for group name list |            |
+| `-peer`    | Account alias                 | default    |
 
 共通のオプション:
 
@@ -52,15 +69,37 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File 
 
-| 列   | 説明                | 値の説明 |
-|------|---------------------|----------|
-| name | Name of team folder | Sales    |
+| 列   | 説明       | 値の説明 |
+|------|------------|----------|
+| name | Group name | Sales    |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
 
 ```csv
 name
 Sales
+```
+
+# 認可
+
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
+
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2020 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
+
+1. 次のURLを開き認証ダイアログを開いてください:
+
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
+
 ```
 
 # ネットワークプロクシの設定
@@ -77,27 +116,26 @@ Sales
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## レポート: verification 
+## レポート: operation_log 
 
 レポートファイルは次の3種類のフォーマットで出力されます;
-* `verification.csv`
-* `verification.xlsx`
-* `verification.json`
+* `operation_log.csv`
+* `operation_log.xlsx`
+* `operation_log.json`
 
 `-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`verification_0000.xlsx`, `verification_0001.xlsx`, `verification_0002.xlsx`...   
+`operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列         | 説明                                                                                                                                                                                           |
-|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| diff_type  | 差分のタイプ`file_content_diff`: コンテンツハッシュの差分, `{left|right}_file_missing`: 左または右のファイルが見つからない, `{left|right}_folder_missing`: 左または右のフォルダが見つからない. |
-| left_path  | 左のパス                                                                                                                                                                                       |
-| left_kind  | フォルダまたはファイル                                                                                                                                                                         |
-| left_size  | 左ファイルのサイズ                                                                                                                                                                             |
-| left_hash  | 左ファイルのコンテンツハッシュ                                                                                                                                                                 |
-| right_path | 右のパス                                                                                                                                                                                       |
-| right_kind | フォルダまたはファイル                                                                                                                                                                         |
-| right_size | 右ファイルのサイズ                                                                                                                                                                             |
-| right_hash | 右ファイルのコンテンツハッシュ                                                                                                                                                                 |
+| 列                           | 説明                                                                                    |
+|------------------------------|-----------------------------------------------------------------------------------------|
+| status                       | 処理の状態                                                                              |
+| reason                       | 失敗またはスキップの理由                                                                |
+| input.name                   | Group name                                                                              |
+| result.group_name            | グループ名称                                                                            |
+| result.group_id              | グループID                                                                              |
+| result.group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
+| result.group_external_id     |  グループの外部IDこの任意のIDは管理者がグループに付加できます                           |
+| result.member_count          | グループ内のメンバー数                                                                  |
 

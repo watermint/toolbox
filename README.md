@@ -73,6 +73,7 @@ Available commands:
 | [file sync up](doc/generated/file-sync-up.md)                                   | Upstream sync with Dropbox                                    |
 | [file upload](doc/generated/file-upload.md)                                     | Upload file                                                   |
 | [file watch](doc/generated/file-watch.md)                                       | Watch file activities                                         |
+| [group batch delete](doc/generated/group-batch-delete.md)                       | Delete groups                                                 |
 | [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |
 | [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
 | [group member list](doc/generated/group-member-list.md)                         | List members of groups                                        |
