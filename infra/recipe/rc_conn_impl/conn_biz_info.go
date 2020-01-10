@@ -8,12 +8,22 @@ import (
 )
 
 func NewConnBusinessInfo(name string) rc_conn.ConnBusinessInfo {
-	return &connBusinessInfo{name: name}
+	cbi := &connBusinessInfo{name: name}
+	return cbi
 }
 
 type connBusinessInfo struct {
-	name string
-	ctx  api_context.Context
+	name   string
+	verify bool
+	ctx    api_context.Context
+}
+
+func (z *connBusinessInfo) SetPreVerify(enabled bool) {
+	z.verify = enabled
+}
+
+func (z *connBusinessInfo) IsPreVerify() bool {
+	return z.verify
 }
 
 func (z *connBusinessInfo) ScopeLabel() string {
@@ -41,7 +51,7 @@ func (z *connBusinessInfo) Context() api_context.Context {
 }
 
 func (z *connBusinessInfo) Connect(ctl app_control.Control) (err error) {
-	z.ctx, err = connect(z.ScopeLabel(), z.name, ctl)
+	z.ctx, err = connect(z.ScopeLabel(), z.name, z.verify, ctl)
 	return err
 }
 

@@ -119,7 +119,7 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 		v.ApplyPreset(f.Interface())
 	}
 
-	return &repositoryImpl{
+	return &RepositoryImpl{
 		values:     vals,
 		rcp:        rcp,
 		rcpName:    rcpName,
@@ -127,18 +127,22 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 	}
 }
 
-type repositoryImpl struct {
+type RepositoryImpl struct {
 	rcp        interface{}
 	rcpName    string
 	values     map[string]rc_recipe.Value
 	fieldValue map[string]reflect.Value
 }
 
-func (z *repositoryImpl) FieldValue(name string) rc_recipe.Value {
+func (z *RepositoryImpl) Current() interface{} {
+	return z.rcp
+}
+
+func (z *RepositoryImpl) FieldValue(name string) rc_recipe.Value {
 	return z.values[name]
 }
 
-func (z *repositoryImpl) Messages() []app_msg.Message {
+func (z *RepositoryImpl) Messages() []app_msg.Message {
 	msgs := make([]app_msg.Message, 0)
 	for k, v := range z.values {
 		if vm, ok := v.(rc_recipe.ValueMessage); ok {
@@ -155,7 +159,7 @@ func (z *repositoryImpl) Messages() []app_msg.Message {
 	return msgs
 }
 
-func (z *repositoryImpl) FieldNames() []string {
+func (z *RepositoryImpl) FieldNames() []string {
 	names := make([]string, 0)
 	for k, v := range z.values {
 		if v.Bind() != nil {
@@ -166,7 +170,7 @@ func (z *repositoryImpl) FieldNames() []string {
 	return names
 }
 
-func (z *repositoryImpl) FieldValueText(name string) string {
+func (z *RepositoryImpl) FieldValueText(name string) string {
 	v := z.values[name]
 	if cv, ok := v.(rc_recipe.ValueCustomValueText); ok {
 		return cv.ValueText()
@@ -176,7 +180,7 @@ func (z *repositoryImpl) FieldValueText(name string) string {
 	}
 }
 
-func (z *repositoryImpl) Conns() map[string]rc_conn.ConnDropboxApi {
+func (z *RepositoryImpl) Conns() map[string]rc_conn.ConnDropboxApi {
 	conns := make(map[string]rc_conn.ConnDropboxApi)
 	for k, v := range z.values {
 		if vc, ok := v.(rc_recipe.ValueConn); ok {
@@ -188,7 +192,7 @@ func (z *repositoryImpl) Conns() map[string]rc_conn.ConnDropboxApi {
 	return conns
 }
 
-func (z *repositoryImpl) Feeds() map[string]fd_file.RowFeed {
+func (z *RepositoryImpl) Feeds() map[string]fd_file.RowFeed {
 	feeds := make(map[string]fd_file.RowFeed)
 	for k, v := range z.values {
 		if vf, ok := v.(rc_recipe.ValueFeed); ok {
@@ -200,7 +204,7 @@ func (z *repositoryImpl) Feeds() map[string]fd_file.RowFeed {
 	return feeds
 }
 
-func (z *repositoryImpl) FeedSpecs() map[string]fd_file.Spec {
+func (z *RepositoryImpl) FeedSpecs() map[string]fd_file.Spec {
 	feeds := make(map[string]fd_file.Spec)
 	for k, v := range z.values {
 		if vf, ok := v.(rc_recipe.ValueFeed); ok {
@@ -212,7 +216,7 @@ func (z *repositoryImpl) FeedSpecs() map[string]fd_file.Spec {
 	return feeds
 }
 
-func (z *repositoryImpl) Reports() map[string]rp_model.Report {
+func (z *RepositoryImpl) Reports() map[string]rp_model.Report {
 	reps := make(map[string]rp_model.Report)
 	for k, v := range z.values {
 		if vr, ok := v.(rc_recipe.ValueReport); ok {
@@ -231,7 +235,7 @@ func (z *repositoryImpl) Reports() map[string]rp_model.Report {
 	return reps
 }
 
-func (z *repositoryImpl) ReportSpecs() map[string]rp_model.Spec {
+func (z *RepositoryImpl) ReportSpecs() map[string]rp_model.Spec {
 	reps := make(map[string]rp_model.Spec)
 	for k, r := range z.Reports() {
 		reps[k] = r.Spec()
@@ -239,7 +243,7 @@ func (z *repositoryImpl) ReportSpecs() map[string]rp_model.Spec {
 	return reps
 }
 
-func (z *repositoryImpl) Apply() rc_recipe.Recipe {
+func (z *RepositoryImpl) Apply() rc_recipe.Recipe {
 	for k, v := range z.values {
 		fv, ok := z.fieldValue[k]
 		if !ok {
@@ -264,10 +268,9 @@ func (z *repositoryImpl) Apply() rc_recipe.Recipe {
 	}
 }
 
-func (z *repositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, error) {
+func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, error) {
 	l := ctl.Log()
 	ui := ctl.UI()
-	var lastErr error
 
 	valKeys := make([]string, 0)
 	for k := range z.values {
@@ -277,29 +280,31 @@ func (z *repositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 
 	for _, k := range valKeys {
 		v := z.values[k]
+		promot := false
 		if _, ok := v.(rc_recipe.ValueConn); ok {
 			if k != "Peer" {
-				ctl.UI().Info(app_msg.ObjMessage(z.rcp, "conn."+strcase.ToSnake(k)))
+				ui.Header(app_msg.ObjMessage(z.rcp, "conn."+strcase.ToSnake(k)))
+				promot = true
 			}
 		}
 
 		err := v.SpinUp(ctl)
 		switch err {
 		case nil:
+			if promot {
+				ui.Info(MRepository.ProgressDoneValueInitialization)
+			}
 			continue
 
 		case ErrorMissingRequiredOption:
-			lastErr = err
 			ui.Error(MRepository.ErrorMissingRequiredOption.With("Key", strcase.ToSnake(k)))
+			return nil, err
 
 		default:
-			lastErr = err
 			// TODO: replace with UI message
 			l.Error("Invalid argument, or unable to spin up", zap.String("key", k), zap.Error(err))
+			return nil, err
 		}
-	}
-	if lastErr != nil {
-		return nil, lastErr
 	}
 
 	if r, ok := z.rcp.(rc_recipe.Recipe); ok {
@@ -309,7 +314,7 @@ func (z *repositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 	}
 }
 
-func (z *repositoryImpl) SpinDown(ctl app_control.Control) error {
+func (z *RepositoryImpl) SpinDown(ctl app_control.Control) error {
 	l := ctl.Log()
 	var lastErr error
 	for k, v := range z.values {
@@ -326,7 +331,7 @@ func (z *repositoryImpl) SpinDown(ctl app_control.Control) error {
 	return nil
 }
 
-func (z *repositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
+func (z *RepositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
 	for k, v := range z.values {
 		flagName := strcase.ToKebab(k)
 		flagDesc := z.FieldDesc(k)
@@ -345,22 +350,22 @@ func (z *repositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
 	}
 }
 
-func (z *repositoryImpl) fieldMessageKey(name string) string {
+func (z *RepositoryImpl) fieldMessageKey(name string) string {
 	key := z.rcpName
 	key = strings.ReplaceAll(key, app.Pkg+"/", "")
 	key = strings.ReplaceAll(key, "/", ".")
 	return key + ".flag." + strcase.ToSnake(name)
 }
 
-func (z *repositoryImpl) FieldCustomDefault(name string) app_msg.MessageOptional {
+func (z *RepositoryImpl) FieldCustomDefault(name string) app_msg.MessageOptional {
 	return app_msg.M(z.fieldMessageKey(name) + ".default").AsOptional()
 }
 
-func (z *repositoryImpl) FieldDesc(name string) app_msg.Message {
+func (z *RepositoryImpl) FieldDesc(name string) app_msg.Message {
 	return app_msg.M(z.fieldMessageKey(name))
 }
 
-func (z *repositoryImpl) Debug() map[string]interface{} {
+func (z *RepositoryImpl) Debug() map[string]interface{} {
 	dbg := make(map[string]interface{})
 	for k, v := range z.values {
 		dbg[k] = v.Debug()

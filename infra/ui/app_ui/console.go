@@ -7,7 +7,9 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
+	"github.com/watermint/toolbox/infra/util/ut_string"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -62,6 +64,17 @@ func NewConsole(mc app_msg_container.Container, qm qt_missingmsg.Message, testMo
 		in:       os.Stdin,
 		testMode: testMode,
 		qm:       qm,
+		useColor: true,
+	}
+}
+
+func NewBufferConsole(mc app_msg_container.Container, buf io.Writer) UI {
+	return &console{
+		mc:       mc,
+		out:      buf,
+		in:       os.Stdin,
+		qm:       qt_missingmsg_impl.NewMessageMemory(),
+		useColor: false,
 	}
 }
 
@@ -93,6 +106,7 @@ type console struct {
 	out              io.Writer
 	in               io.Reader
 	testMode         bool
+	useColor         bool
 	qm               qt_missingmsg.Message
 	mutex            sync.Mutex
 	openArtifactOnce sync.Once
@@ -183,7 +197,10 @@ func (z *console) AskSecure(m app_msg.Message) (secure string, cancel bool) {
 func (z *console) Header(m app_msg.Message) {
 	z.verifyKey(m.Key())
 	t := z.mc.Compile(m)
+	tl := ut_string.Width(t)
+	z.Break()
 	z.boldPrint(t)
+	z.boldPrint(strings.Repeat("=", tl))
 	z.Break()
 }
 
@@ -284,7 +301,7 @@ func (z *console) colorPrint(t string, color int) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	if runtime.GOOS == "windows" {
+	if runtime.GOOS == "windows" || !z.useColor {
 		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
 		fmt.Fprintf(z.out, "\x1b[%dm%s\x1b[0m\n", color, t)
@@ -295,7 +312,7 @@ func (z *console) boldPrint(t string) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	if runtime.GOOS == "windows" {
+	if runtime.GOOS == "windows" || !z.useColor {
 		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
 		fmt.Fprintf(z.out, "\x1b[1m%s\x1b[0m\n", t)

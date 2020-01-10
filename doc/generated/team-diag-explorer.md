@@ -13,8 +13,7 @@ Report while team information
 | Linux    | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
 Please do not share those files to anyone including Dropbox support.
-You can delete those files after use if you want to remove it.
-If you want to make sure removal of credentials, revoke application access from setting or the admin console.
+You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
@@ -24,7 +23,7 @@ This command use following access type(s) during the operation:
 
 # Usage
 
-This document uses the Desktop folder for command example. 
+This document uses the Desktop folder for command example.
 
 ## Run
 
@@ -41,15 +40,11 @@ macOS, Linux:
 $HOME/Desktop/tbx team diag explorer 
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
-Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue.
-Then please proceed "System Preference", then open "Security & Privacy",
-select "General" tab. You may find the message like:
-
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
+You may find the message like:
 > "tbx" was blocked from use because it is not from an identified developer.
 
-And you may find the button "Allow Anyway". Please hit the button with your risk.
-At second run, please hit button "Open" on the dialogue.
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
@@ -73,41 +68,35 @@ Common options:
 | `-secure`       | Do not store tokens into a file                                                  | false                |
 | `-workspace`    | Workspace path                                                                   |                      |
 
-## Authentication
+# Authorization
 
-For the first run, `toolbox` will ask you an authentication with your Dropbox account. 
-Please copy the link and paste it into your browser. Then proceed to authorization.
-After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `toolbox`.
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
 
 ```
+
 watermint toolbox xx.x.xxx
-© 2016-2019 Takayuki Okazaki
+==========================
+
+© 2016-2020 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-Testing network connection...
-Done
-
-1. Visit the URL for the auth dialog:
+1. Visit the URL for the auth dialogue:
 
 https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
 
 2. Click 'Allow' (you might have to login first):
 3. Copy the authorisation code:
 Enter the authorisation code
+
 ```
 
-## Network configuration: Proxy
+# Proxy configuration
 
-The executable automatically detects your proxy configuration from the environment.
-However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port.
-Currently, the executable doesn't support proxies which require authentication.
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
-# Result
+# Results
 
-Report file path will be displayed last line of the command line output.
-If you missed command line output, please see path below.
-[job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path                                                                                                      |
 | ------- | --------------------------------------------------------------------------------------------------------- |
@@ -117,10 +106,15 @@ If you missed command line output, please see path below.
 
 ## Report: device 
 
-Report files are generated in three formats, `device.csv`, `device.xlsx` and `device.json`.
-But if you run with `-low-memory` option, the command will generate only `device.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `device.csv`
+* `device.xlsx`
+* `device.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...   
 
 | Column                        | Description                                                                          |
 |-------------------------------|--------------------------------------------------------------------------------------|
@@ -155,10 +149,15 @@ like `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...
 
 ## Report: feature 
 
-Report files are generated in three formats, `feature.csv`, `feature.xlsx` and `feature.json`.
-But if you run with `-low-memory` option, the command will generate only `feature.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `feature.csv`
+* `feature.xlsx`
+* `feature.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...   
 
 | Column                      | Description                                       |
 |-----------------------------|---------------------------------------------------|
@@ -170,10 +169,15 @@ like `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...
 
 ## Report: file_request 
 
-Report files are generated in three formats, `file_request.csv`, `file_request.xlsx` and `file_request.json`.
-But if you run with `-low-memory` option, the command will generate only `file_request.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `file_request.csv`
+* `file_request.xlsx`
+* `file_request.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`...   
 
 | Column                      | Description                                                                   |
 |-----------------------------|-------------------------------------------------------------------------------|
@@ -195,10 +199,15 @@ like `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx
 
 ## Report: group 
 
-Report files are generated in three formats, `group.csv`, `group.xlsx` and `group.json`.
-But if you run with `-low-memory` option, the command will generate only `group.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `group.csv`
+* `group.xlsx`
+* `group.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...   
 
 | Column                | Description                                                                           |
 |-----------------------|---------------------------------------------------------------------------------------|
@@ -210,10 +219,15 @@ like `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...
 
 ## Report: group_member 
 
-Report files are generated in three formats, `group_member.csv`, `group_member.xlsx` and `group_member.json`.
-But if you run with `-low-memory` option, the command will generate only `group_member.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `group_member.csv`
+* `group_member.xlsx`
+* `group_member.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`...   
 
 | Column                | Description                                                                           |
 |-----------------------|---------------------------------------------------------------------------------------|
@@ -230,10 +244,15 @@ like `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx
 
 ## Report: info 
 
-Report files are generated in three formats, `info.csv`, `info.xlsx` and `info.json`.
-But if you run with `-low-memory` option, the command will generate only `info.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `info.csv`
+* `info.xlsx`
+* `info.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
 
 | Column                      | Description                                                                                                   |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------|
@@ -249,10 +268,15 @@ like `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...
 
 ## Report: linked_app 
 
-Report files are generated in three formats, `linked_app.csv`, `linked_app.xlsx` and `linked_app.json`.
-But if you run with `-low-memory` option, the command will generate only `linked_app.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `linked_app.csv`
+* `linked_app.xlsx`
+* `linked_app.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
 
 | Column           | Description                                                                          |
 |------------------|--------------------------------------------------------------------------------------|
@@ -275,10 +299,15 @@ like `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...
 
 ## Report: member 
 
-Report files are generated in three formats, `member.csv`, `member.xlsx` and `member.json`.
-But if you run with `-low-memory` option, the command will generate only `member.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `member.csv`
+* `member.xlsx`
+* `member.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
 
 | Column           | Description                                                                                                          |
 |------------------|----------------------------------------------------------------------------------------------------------------------|
@@ -300,10 +329,15 @@ like `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...
 
 ## Report: member_quota 
 
-Report files are generated in three formats, `member_quota.csv`, `member_quota.xlsx` and `member_quota.json`.
-But if you run with `-low-memory` option, the command will generate only `member_quota.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `member_quota.csv`
+* `member_quota.xlsx`
+* `member_quota.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`...   
 
 | Column | Description                                                                 |
 |--------|-----------------------------------------------------------------------------|
@@ -312,10 +346,15 @@ like `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx
 
 ## Report: namespace 
 
-Report files are generated in three formats, `namespace.csv`, `namespace.xlsx` and `namespace.json`.
-But if you run with `-low-memory` option, the command will generate only `namespace.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `namespace.csv`
+* `namespace.xlsx`
+* `namespace.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
 
 | Column         | Description                                                                                |
 |----------------|--------------------------------------------------------------------------------------------|
@@ -326,10 +365,15 @@ like `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...
 
 ## Report: namespace_file 
 
-Report files are generated in three formats, `namespace_file.csv`, `namespace_file.xlsx` and `namespace_file.json`.
-But if you run with `-low-memory` option, the command will generate only `namespace_file.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `namespace_file.csv`
+* `namespace_file.xlsx`
+* `namespace_file.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
 
 | Column                  | Description                                                                                            |
 |-------------------------|--------------------------------------------------------------------------------------------------------|
@@ -351,10 +395,15 @@ like `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_000
 
 ## Report: namespace_size 
 
-Report files are generated in three formats, `namespace_size.csv`, `namespace_size.xlsx` and `namespace_size.json`.
-But if you run with `-low-memory` option, the command will generate only `namespace_size.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `namespace_size.csv`
+* `namespace_size.xlsx`
+* `namespace_size.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
 | Column                      | Description                                                                                |
 |-----------------------------|--------------------------------------------------------------------------------------------|
@@ -377,10 +426,15 @@ like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_000
 
 ## Report: shared_link 
 
-Report files are generated in three formats, `shared_link.csv`, `shared_link.xlsx` and `shared_link.json`.
-But if you run with `-low-memory` option, the command will generate only `shared_link.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `shared_link.csv`
+* `shared_link.xlsx`
+* `shared_link.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
 
 | Column         | Description                                                                                                                                                                                                             |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -400,10 +454,15 @@ like `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`..
 
 ## Report: usage 
 
-Report files are generated in three formats, `usage.csv`, `usage.xlsx` and `usage.json`.
-But if you run with `-low-memory` option, the command will generate only `usage.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `usage.csv`
+* `usage.xlsx`
+* `usage.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   
 
 | Column     | Description                                              |
 |------------|----------------------------------------------------------|

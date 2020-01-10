@@ -5,6 +5,7 @@ import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/catalogue"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -158,7 +159,7 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 	nw_proxy.SetHttpProxy(com.Proxy, ctl)
 
 	// App Header
-	rc_group.AppHeader(ui)
+	rc_group.AppHeader(ui, app.Version)
 
 	// Diagnosis
 	err = nw_diag.Runtime(ctl)
@@ -225,14 +226,14 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	switch {
 	case err != nil:
 		if grp != nil {
-			grp.PrintUsage(ui)
+			grp.PrintUsage(ui, os.Args[0], app.Version)
 		} else {
-			cat.PrintUsage(ui)
+			cat.PrintUsage(ui, os.Args[0], app.Version)
 		}
 		os.Exit(app_control.FailureInvalidCommand)
 
 	case rcp == nil:
-		grp.PrintUsage(ui)
+		grp.PrintUsage(ui, os.Args[0], app.Version)
 		os.Exit(app_control.Success)
 	}
 

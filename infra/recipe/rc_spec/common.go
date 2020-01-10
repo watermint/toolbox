@@ -13,13 +13,11 @@ func NewCommonValue() *CommonValues {
 	com := app_opt.NewDefaultCommonOpts()
 	repo := rc_value.NewRepository(com)
 	return &CommonValues{
-		com:  com,
 		repo: repo,
 	}
 }
 
 type CommonValues struct {
-	com  *app_opt.CommonOpts
 	repo rc_recipe.Repository
 }
 
@@ -32,7 +30,7 @@ func (z *CommonValues) Debug() map[string]interface{} {
 }
 
 func (z *CommonValues) Opts() *app_opt.CommonOpts {
-	return z.com
+	return z.repo.(*rc_value.RepositoryImpl).Current().(*app_opt.CommonOpts)
 }
 
 func (z *CommonValues) Apply() {

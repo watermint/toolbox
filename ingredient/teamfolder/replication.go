@@ -642,9 +642,9 @@ func (z *Replication) Verify(c app_control.Control, ctx Context, scope Scope) (e
 		})
 
 	if count > 0 {
-		return errors.New("one or more files differ between source and destination folder")
+		l.Warn("Content diff found", zap.Int("Num diffs", count))
 	}
-	return nil
+	return err
 }
 
 func (z *Replication) Unmount(c app_control.Control, ctx Context, scope Scope) (err error) {

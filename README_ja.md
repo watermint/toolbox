@@ -3,6 +3,8 @@
 [![CircleCI](https://circleci.com/gh/watermint/toolbox.svg?style=shield)](https://circleci.com/gh/watermint/toolbox)
 [![Coverage Status](https://coveralls.io/repos/github/watermint/toolbox/badge.svg)](https://coveralls.io/github/watermint/toolbox)
 
+![watermint toolbox](resources/watermint-toolbox-256x256.png)
+
 DropboxおよびDropbox Business向けのツールセット
 
 # ライセンスと免責条項
@@ -23,25 +25,32 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 ```
 % ./tbx
+
 watermint toolbox xx.x.xxx
-© 2016-2019 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
+==========================
 
-Tools for Dropbox and Dropbox Business
+© 2016-2020 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-Usage:
-./tbx  command
+DropboxおよびDropbox Business向けのツールセット
 
-Available commands:
-   file          File operation
-   group         Group management (Dropbox Business)
-   license       Show license information
-   member        Team member management (Dropbox Business)
-   sharedfolder  Shared folder
-   sharedlink    Shared Link of Personal account
-   team          Dropbox Business Team
-   teamfolder    Team folder management (Dropbox Business)
-   web           Launch web console (experimental)
+使い方:
+=======
+
+./tbx  コマンド
+
+利用可能なコマンド:
+===================
+
+   file          ファイル操作
+   group         グループの管理 (Dropbox Business)
+   license       ライセンス情報を表示します
+   member        チームメンバーの管理 (Dropbox Business)
+   sharedfolder  共有フォルダ
+   sharedlink    個人アカウントの共有リンク
+   team          Dropbox Business チーム
+   teamfolder    チームフォルダの管理 (Dropbox Business)
+
 ```
 
 ## コマンド
@@ -63,7 +72,8 @@ Available commands:
 | [file sync preflight up](doc/generated_ja/file-sync-preflight-up.md)               | 上り方向同期のための事前チェックを実施します                   |
 | [file sync up](doc/generated_ja/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                  |
 | [file upload](doc/generated_ja/file-upload.md)                                     | ファイルのアップロード                                         |
-| [file watch](doc/generated_ja/file-watch.md)                                       | Watch file activities                                          |
+| [file watch](doc/generated_ja/file-watch.md)                                       | ファイルアクティビティを監視                                   |
+| [group batch delete](doc/generated_ja/group-batch-delete.md)                       | Delete groups                                                  |
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                           |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                 |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                     |
@@ -85,7 +95,7 @@ Available commands:
 | [sharedlink list](doc/generated_ja/sharedlink-list.md)                             | 共有リンクの一覧                                               |
 | [team activity daily event](doc/generated_ja/team-activity-daily-event.md)         | アクティビティーを1日ごとに取得します                          |
 | [team activity event](doc/generated_ja/team-activity-event.md)                     | イベントログ                                                   |
-| [team activity user](doc/generated_ja/team-activity-user.md)                       | Activities log per user                                        |
+| [team activity user](doc/generated_ja/team-activity-user.md)                       | ユーザーごとのアクティビティ                                   |
 | [team device list](doc/generated_ja/team-device-list.md)                           | チーム内全てのデバイス/セッションを一覧します                  |
 | [team device unlink](doc/generated_ja/team-device-unlink.md)                       | デバイスのセッションを解除します                               |
 | [team diag explorer](doc/generated_ja/team-diag-explorer.md)                       | Report while team information                                  |
@@ -100,6 +110,9 @@ Available commands:
 | [team sharedlink list](doc/generated_ja/team-sharedlink-list.md)                   | 共有リンクの一覧                                               |
 | [team sharedlink update expiry](doc/generated_ja/team-sharedlink-update-expiry.md) | チーム内の公開されている共有リンクについて有効期限を更新します |
 | [teamfolder archive](doc/generated_ja/teamfolder-archive.md)                       | チームフォルダのアーカイブ                                     |
+| [teamfolder batch archive](doc/generated_ja/teamfolder-batch-archive.md)           | 複数のチームフォルダをアーカイブします                         |
+| [teamfolder batch permdelete](doc/generated_ja/teamfolder-batch-permdelete.md)     | 複数のチームフォルダを完全に削除します                         |
+| [teamfolder batch replication](doc/generated_ja/teamfolder-batch-replication.md)   | Batch replication of team folders                              |
 | [teamfolder file list](doc/generated_ja/teamfolder-file-list.md)                   | List files in team folders                                     |
 | [teamfolder file size](doc/generated_ja/teamfolder-file-size.md)                   | Calculate size of team folders                                 |
 | [teamfolder list](doc/generated_ja/teamfolder-list.md)                             | チームフォルダの一覧                                           |

@@ -46,19 +46,6 @@ func HiddenColumns(col ...string) ReportOpt {
 	}
 }
 
-// Deprecated:
-type SideCarReport interface {
-	// Report data row
-	Row(row interface{})
-
-	// Report transaction result
-	Success(input interface{}, result interface{})
-	Failure(err error, input interface{})
-	Skip(reason app_msg.Message, input interface{})
-
-	Close()
-}
-
 type Report interface {
 	Open(opts ...ReportOpt) error
 	Spec() Spec
@@ -90,14 +77,6 @@ type Spec interface {
 	Columns() []string
 	ColumnDesc(col string) app_msg.Message
 	Options() []ReportOpt
-}
-
-// Deprecated:
-func TransactionHeader(input interface{}, result interface{}) *TransactionRow {
-	return &TransactionRow{
-		Input:  input,
-		Result: result,
-	}
 }
 
 type TransactionRow struct {

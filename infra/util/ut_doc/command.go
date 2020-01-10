@@ -6,9 +6,11 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -168,6 +170,18 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 	}
 	commonSpec := rc_spec.NewCommonValue()
 
+	authExample := ""
+	{
+		var b bytes.Buffer
+		w := bufio.NewWriter(&b)
+		cui := app_ui.NewBufferConsole(z.ctl.Messages(), w)
+		rc_group.AppHeader(cui, "xx.x.xxx")
+		cui.Info(api_auth_impl.MCcAuth.OauthSeq1.With("Url", "https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx"))
+		cui.Info(api_auth_impl.MCcAuth.OauthSeq2)
+		w.Flush()
+		authExample = "```\n" + b.String() + "\n```"
+	}
+
 	params := make(map[string]interface{})
 	params["Command"] = spec.CliPath()
 	params["CommandTitle"] = ui.TextK(spec.Title().Key())
@@ -180,6 +194,7 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 	params["UseAuthPersonal"] = spec.ConnUsePersonal()
 	params["UseAuthBusiness"] = spec.ConnUseBusiness()
 	params["AuthScopes"] = spec.ConnScopes()
+	params["AuthExample"] = authExample
 
 	feedNames := make([]string, 0)
 	feeds := make(map[string]string, 0)

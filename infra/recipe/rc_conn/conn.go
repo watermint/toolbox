@@ -7,11 +7,25 @@ import (
 
 type ConnDropboxApi interface {
 	Name() string
+
 	Context() api_context.Context
+
+	// Connect to api
 	Connect(ctl app_control.Control) (err error)
+
+	// Update peer name
 	SetPeerName(name string)
+
+	// Scope label
 	ScopeLabel() string
+
+	// True when the connection required to verify before the operation
+	IsPreVerify() bool
+
+	// True when the connection type is personal
 	IsPersonal() bool
+
+	// True when the connection type is business
 	IsBusiness() bool
 }
 

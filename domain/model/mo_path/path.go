@@ -80,11 +80,15 @@ func (z *dropboxPathImpl) ChildPath(elem ...string) DropboxPath {
 	a := make([]string, 0)
 	a = append(a, z.path)
 	a = append(a, elem...)
+	path := filepath.ToSlash(filepath.Join(a...))
+	if path != "" && !strings.HasPrefix(path, "/") {
+		path = "/" + path
+	}
 
 	return &dropboxPathImpl{
 		ns:   z.ns,
 		id:   z.id,
-		path: filepath.ToSlash(filepath.Join(a...)),
+		path: path,
 	}
 }
 

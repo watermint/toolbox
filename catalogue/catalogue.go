@@ -8,6 +8,7 @@ import (
 	infra_report_rpmodelimpl "github.com/watermint/toolbox/infra/report/rp_model_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	infra_ui_appui "github.com/watermint/toolbox/infra/ui/app_ui"
+	infra_util_ut_doc "github.com/watermint/toolbox/infra/util/ut_doc"
 	ingredientfile "github.com/watermint/toolbox/ingredient/file"
 	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
 	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
@@ -21,6 +22,7 @@ import (
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
 	recipefilesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
 	recipegroup "github.com/watermint/toolbox/recipe/group"
+	recipegroupbatch "github.com/watermint/toolbox/recipe/group/batch"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
@@ -41,6 +43,7 @@ import (
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
 	recipeteamsharedlinkupdate "github.com/watermint/toolbox/recipe/team/sharedlink/update"
 	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
+	recipeteamfolderbatch "github.com/watermint/toolbox/recipe/teamfolder/batch"
 	recipeteamfolderfile "github.com/watermint/toolbox/recipe/teamfolder/file"
 )
 
@@ -55,6 +58,7 @@ func NewCatalogue() *infra_recipe_rc_group.Catalogue {
 
 func Recipes() []rc_recipe.Recipe {
 	cat := []rc_recipe.Recipe{
+		&recipe.License{},
 		&recipedev.Async{},
 		&recipedev.Doc{},
 		&recipedev.Dummy{},
@@ -78,40 +82,42 @@ func Recipes() []rc_recipe.Recipe {
 		&recipefileimportbatch.Url{},
 		&recipefilesync.Up{},
 		&recipefilesyncpreflight.Up{},
-		&recipegroup.List{},
 		&recipegroup.Delete{},
+		&recipegroup.List{},
+		&recipegroupbatch.Delete{},
 		&recipegroupmember.List{},
+		&recipemember.Delete{},
 		&recipemember.Detach{},
 		&recipemember.Invite{},
 		&recipemember.List{},
 		&recipemember.Replication{},
-		&recipemember.Delete{},
 		&recipememberquota.List{},
 		&recipememberquota.Update{},
 		&recipememberquota.Usage{},
 		&recipememberupdate.Email{},
 		&recipememberupdate.Externalid{},
 		&recipememberupdate.Profile{},
-		&recipe.License{},
-		//		&recipe.Web{},
 		&recipesharedfolder.List{},
 		&recipesharedfoldermember.List{},
 		&recipesharedlink.Create{},
-		&recipesharedlink.List{},
 		&recipesharedlink.Delete{},
+		&recipesharedlink.List{},
 		&recipeteam.Feature{},
 		&recipeteam.Info{},
-		&recipeteamdiag.Explorer{},
 		&recipeteamactivity.Event{},
 		&recipeteamactivity.User{},
 		&recipeteamactivitydaily.Event{},
 		&recipeteamdevice.List{},
 		&recipeteamdevice.Unlink{},
+		&recipeteamdiag.Explorer{},
 		&recipeteamfilerequest.List{},
 		&recipeteamfolder.Archive{},
 		&recipeteamfolder.List{},
 		&recipeteamfolder.Permdelete{},
 		&recipeteamfolder.Replication{},
+		&recipeteamfolderbatch.Archive{},
+		&recipeteamfolderbatch.Permdelete{},
+		&recipeteamfolderbatch.Replication{},
 		&recipeteamfolderfile.List{},
 		&recipeteamfolderfile.Size{},
 		&recipeteamlinkedapp.List{},
@@ -121,6 +127,7 @@ func Recipes() []rc_recipe.Recipe {
 		&recipeteamnamespacemember.List{},
 		&recipeteamsharedlink.List{},
 		&recipeteamsharedlinkupdate.Expiry{},
+		//		&recipe.Web{},
 	}
 	return cat
 }
@@ -138,12 +145,13 @@ func Ingredients() []rc_recipe.Recipe {
 func Messages() []interface{} {
 	msgs := []interface{}{
 		infra_api_api_api_auth_impl.MCcAuth,
-		infra_recipe_rcvalue.MValFdFileRowFeed,
+		infra_recipe_rc_group.MHeader,
 		infra_recipe_rcvalue.MRepository,
+		infra_recipe_rcvalue.MValFdFileRowFeed,
 		infra_report_rpmodelimpl.MTransactionReport,
 		infra_report_rpmodelimpl.MXlsxWriter,
-		infra_recipe_rc_group.MHeader,
 		infra_ui_appui.MConsole,
+		infra_util_ut_doc.MDoc,
 	}
 	for _, m := range msgs {
 		app_msg.Apply(m)

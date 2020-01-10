@@ -3,6 +3,8 @@
 [![CircleCI](https://circleci.com/gh/watermint/toolbox.svg?style=shield)](https://circleci.com/gh/watermint/toolbox)
 [![Coverage Status](https://coveralls.io/repos/github/watermint/toolbox/badge.svg)](https://coveralls.io/github/watermint/toolbox)
 
+![watermint toolbox](resources/watermint-toolbox-256x256.png)
+
 Tools for Dropbox and Dropbox Business.
 
 # Licensing & Disclaimers
@@ -23,16 +25,23 @@ You can see available commands and options by running executable without argumen
 
 ```
 % ./tbx
+
 watermint toolbox xx.x.xxx
-© 2016-2019 Takayuki Okazaki
+==========================
+
+© 2016-2020 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 Tools for Dropbox and Dropbox Business
 
 Usage:
+======
+
 ./tbx  command
 
 Available commands:
+===================
+
    file          File operation
    group         Group management (Dropbox Business)
    license       Show license information
@@ -41,7 +50,7 @@ Available commands:
    sharedlink    Shared Link of Personal account
    team          Dropbox Business Team
    teamfolder    Team folder management (Dropbox Business)
-   web           Launch web console (experimental)
+
 ```
 
 ## Commands
@@ -64,6 +73,7 @@ Available commands:
 | [file sync up](doc/generated/file-sync-up.md)                                   | Upstream sync with Dropbox                                    |
 | [file upload](doc/generated/file-upload.md)                                     | Upload file                                                   |
 | [file watch](doc/generated/file-watch.md)                                       | Watch file activities                                         |
+| [group batch delete](doc/generated/group-batch-delete.md)                       | Delete groups                                                 |
 | [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |
 | [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
 | [group member list](doc/generated/group-member-list.md)                         | List members of groups                                        |
@@ -100,6 +110,9 @@ Available commands:
 | [team sharedlink list](doc/generated/team-sharedlink-list.md)                   | List of shared links                                          |
 | [team sharedlink update expiry](doc/generated/team-sharedlink-update-expiry.md) | Update expiration date of public shared links within the team |
 | [teamfolder archive](doc/generated/teamfolder-archive.md)                       | Archive team folder                                           |
+| [teamfolder batch archive](doc/generated/teamfolder-batch-archive.md)           | Archiving team folders                                        |
+| [teamfolder batch permdelete](doc/generated/teamfolder-batch-permdelete.md)     | Permanently delete team folders                               |
+| [teamfolder batch replication](doc/generated/teamfolder-batch-replication.md)   | Batch replication of team folders                             |
 | [teamfolder file list](doc/generated/teamfolder-file-list.md)                   | List files in team folders                                    |
 | [teamfolder file size](doc/generated/teamfolder-file-size.md)                   | Calculate size of team folders                                |
 | [teamfolder list](doc/generated/teamfolder-list.md)                             | List team folder(s)                                           |

@@ -8,27 +8,37 @@ import (
 )
 
 func NewConnBusinessMgmt(name string) rc_conn.ConnBusinessMgmt {
-	return &connBusinessMgmt{name: name}
+	cbm := &connBusinessMgmt{name: name}
+	return cbm
 }
 
 type connBusinessMgmt struct {
-	name string
-	ctx  api_context.Context
+	name   string
+	verify bool
+	ctx    api_context.Context
 }
 
-func (z connBusinessMgmt) ScopeLabel() string {
+func (z *connBusinessMgmt) SetPreVerify(enabled bool) {
+	z.verify = enabled
+}
+
+func (z *connBusinessMgmt) IsPreVerify() bool {
+	return z.verify
+}
+
+func (z *connBusinessMgmt) ScopeLabel() string {
 	return api_auth.DropboxTokenBusinessManagement
 }
 
-func (z connBusinessMgmt) IsPersonal() bool {
+func (z *connBusinessMgmt) IsPersonal() bool {
 	return false
 }
 
-func (z connBusinessMgmt) IsBusiness() bool {
+func (z *connBusinessMgmt) IsBusiness() bool {
 	return true
 }
 
-func (z connBusinessMgmt) SetPeerName(name string) {
+func (z *connBusinessMgmt) SetPeerName(name string) {
 	z.name = name
 }
 
@@ -41,7 +51,7 @@ func (z *connBusinessMgmt) Context() api_context.Context {
 }
 
 func (z *connBusinessMgmt) Connect(ctl app_control.Control) (err error) {
-	z.ctx, err = connect(z.ScopeLabel(), z.name, ctl)
+	z.ctx, err = connect(z.ScopeLabel(), z.name, z.verify, ctl)
 	return err
 }
 

@@ -2,9 +2,9 @@
 
 Report while team information
 
-# Security
+# セキュリティ
 
-`watermint toolbox` stores credentials into the file system. That is located at below path:
+`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
 
 | OS       | Path                                                               |
 | -------- | ------------------------------------------------------------------ |
@@ -12,21 +12,20 @@ Report while team information
 | macOS    | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
 | Linux    | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
-Please do not share those files to anyone including Dropbox support.
-You can delete those files after use if you want to remove it.
-If you want to make sure removal of credentials, revoke application access from setting or the admin console.
+これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
+不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
-Please see below help article for more detail:
+方法は次のヘルプセンター記事をご参照ください:
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
-This command use following access type(s) during the operation:
+このコマンドは次のアクセスタイプを処理に利用します:
 * Dropbox Business File access* Dropbox Business Information access
 
-# Usage
+# 利用方法
 
-This document uses the Desktop folder for command example. 
+このドキュメントは"デスクトップ"フォルダを例として使用します.
 
-## Run
+## 実行
 
 Windows:
 
@@ -41,73 +40,63 @@ macOS, Linux:
 $HOME/Desktop/tbx team diag explorer 
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
-Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue.
-Then please proceed "System Preference", then open "Security & Privacy",
-select "General" tab. You may find the message like:
+macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
+次のようなメッセージが表示されています:
+> "tbx"は開発元を確認できないため、使用がブロックされました。
 
-> "tbx" was blocked from use because it is not from an identified developer.
+"このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
 
-And you may find the button "Allow Anyway". Please hit the button with your risk.
-At second run, please hit button "Open" on the dialogue.
-
-## Options
+## オプション
 
 | オプション | 説明                                | デフォルト |
 |------------|-------------------------------------|------------|
-| `-all`     | Include additional reports          | false      |
+| `-all`     | 追加のレポートを含める              | false      |
 | `-file`    | Dropbox Business file access        | default    |
 | `-info`    | Dropbox Business information access | default    |
 | `-mgmt`    | Dropbox Business management         | default    |
 
-Common options:
+共通のオプション:
 
 | オプション      | 説明                                                                                             | デフォルト     |
 |-----------------|--------------------------------------------------------------------------------------------------|----------------|
 | `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
 | `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
 | `-debug`        | デバッグモードを有効にする                                                                       | false          |
-| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-low-memory`   | 省メモリモード                                                                                   | false          |
 | `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
 | `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
 | `-workspace`    | ワークスペースへのパス                                                                           |                |
 
-## Authentication
+# 認可
 
-For the first run, `toolbox` will ask you an authentication with your Dropbox account. 
-Please copy the link and paste it into your browser. Then proceed to authorization.
-After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `toolbox`.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 
 ```
+
 watermint toolbox xx.x.xxx
-© 2016-2019 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
+==========================
 
-Testing network connection...
-Done
+© 2016-2020 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-1. Visit the URL for the auth dialog:
+1. 次のURLを開き認証ダイアログを開いてください:
 
 https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
 
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
+
 ```
 
-## Network configuration: Proxy
+# ネットワークプロクシの設定
 
-The executable automatically detects your proxy configuration from the environment.
-However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port.
-Currently, the executable doesn't support proxies which require authentication.
+プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 
-# Result
+# 実行結果
 
-Report file path will be displayed last line of the command line output.
-If you missed command line output, please see path below.
-[job-id] will be the date/time of the run. Please see the latest job-id.
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
 
 | OS      | Path                                                                                                      |
 | ------- | --------------------------------------------------------------------------------------------------------- |
@@ -115,12 +104,17 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: device 
+## レポート: device 
 
-Report files are generated in three formats, `device.csv`, `device.xlsx` and `device.json`.
-But if you run with `-low-memory` option, the command will generate only `device.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `device.csv`
+* `device.xlsx`
+* `device.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...   
 
 | 列                            | 説明                                                                   |
 |-------------------------------|------------------------------------------------------------------------|
@@ -153,12 +147,17 @@ like `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...
 | os_version                    | ホストOSのバージョン                                                   |
 | last_carrier                  | このデバイスで利用された最後のキャリア                                 |
 
-## Report: feature 
+## レポート: feature 
 
-Report files are generated in three formats, `feature.csv`, `feature.xlsx` and `feature.json`.
-But if you run with `-low-memory` option, the command will generate only `feature.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `feature.csv`
+* `feature.xlsx`
+* `feature.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...   
 
 | 列                          | 説明                                                   |
 |-----------------------------|--------------------------------------------------------|
@@ -168,12 +167,17 @@ like `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...
 | has_team_file_events        | このチームがファイルイベント機能を持っているかどうか   |
 | has_team_selective_sync     | このチームがチーム選択型同期を有効化しているかどうか   |
 
-## Report: file_request 
+## レポート: file_request 
 
-Report files are generated in three formats, `file_request.csv`, `file_request.xlsx` and `file_request.json`.
-But if you run with `-low-memory` option, the command will generate only `file_request.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `file_request.csv`
+* `file_request.xlsx`
+* `file_request.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`...   
 
 | 列                          | 説明                                                                      |
 |-----------------------------|---------------------------------------------------------------------------|
@@ -193,12 +197,17 @@ like `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx
 | deadline                    | ファイルリクエストの締め切り.                                             |
 | deadline_allow_late_uploads | 設定されている場合、締め切りを超えてもアップロードが許可されている        |
 
-## Report: group 
+## レポート: group 
 
-Report files are generated in three formats, `group.csv`, `group.xlsx` and `group.json`.
-But if you run with `-low-memory` option, the command will generate only `group.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `group.csv`
+* `group.xlsx`
+* `group.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...   
 
 | 列                    | 説明                                                                                    |
 |-----------------------|-----------------------------------------------------------------------------------------|
@@ -208,12 +217,17 @@ like `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...
 | group_external_id     |  グループの外部IDこの任意のIDは管理者がグループに付加できます                           |
 | member_count          | グループ内のメンバー数                                                                  |
 
-## Report: group_member 
+## レポート: group_member 
 
-Report files are generated in three formats, `group_member.csv`, `group_member.xlsx` and `group_member.json`.
-But if you run with `-low-memory` option, the command will generate only `group_member.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `group_member.csv`
+* `group_member.xlsx`
+* `group_member.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`...   
 
 | 列                    | 説明                                                                                    |
 |-----------------------|-----------------------------------------------------------------------------------------|
@@ -228,12 +242,17 @@ like `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx
 | surname               | 名字                                                                                    |
 | given_name            | 名                                                                                      |
 
-## Report: info 
+## レポート: info 
 
-Report files are generated in three formats, `info.csv`, `info.xlsx` and `info.json`.
-But if you run with `-low-memory` option, the command will generate only `info.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `info.csv`
+* `info.xlsx`
+* `info.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
 
 | 列                          | 説明                                                                                                          |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------|
@@ -247,12 +266,17 @@ like `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...
 | policy_emm_state            | This describes the Enterprise Mobility Management (EMM) state for this team (disabled, optional, or required) |
 | policy_office_add_in        | The admin policy around the Dropbox Office Add-In for this team (disabled, or enabled)                        |
 
-## Report: linked_app 
+## レポート: linked_app 
 
-Report files are generated in three formats, `linked_app.csv`, `linked_app.xlsx` and `linked_app.json`.
-But if you run with `-low-memory` option, the command will generate only `linked_app.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `linked_app.csv`
+* `linked_app.xlsx`
+* `linked_app.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
 
 | 列               | 説明                                                                 |
 |------------------|----------------------------------------------------------------------|
@@ -273,12 +297,17 @@ like `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...
 | publisher_url    | アプリケーションパブリッシャーの名前                                 |
 | linked           | アプリケーションがリンクされた日時                                   |
 
-## Report: member 
+## レポート: member 
 
-Report files are generated in three formats, `member.csv`, `member.xlsx` and `member.json`.
-But if you run with `-low-memory` option, the command will generate only `member.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `member.csv`
+* `member.xlsx`
+* `member.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
 
 | 列               | 説明                                                                                            |
 |------------------|-------------------------------------------------------------------------------------------------|
@@ -298,24 +327,34 @@ like `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...
 | joined_on        | メンバーがチームに参加した日時.                                                                 |
 | role             | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
 
-## Report: member_quota 
+## レポート: member_quota 
 
-Report files are generated in three formats, `member_quota.csv`, `member_quota.xlsx` and `member_quota.json`.
-But if you run with `-low-memory` option, the command will generate only `member_quota.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `member_quota.csv`
+* `member_quota.xlsx`
+* `member_quota.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`...   
 
 | 列    | 説明                                                                |
 |-------|---------------------------------------------------------------------|
 | email | ユーザーのメールアドレス                                            |
 | quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
 
-## Report: namespace 
+## レポート: namespace 
 
-Report files are generated in three formats, `namespace.csv`, `namespace.xlsx` and `namespace.json`.
-But if you run with `-low-memory` option, the command will generate only `namespace.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `namespace.csv`
+* `namespace.xlsx`
+* `namespace.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
 
 | 列             | 説明                                                                                   |
 |----------------|----------------------------------------------------------------------------------------|
@@ -324,12 +363,17 @@ like `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...
 | namespace_type | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
 | team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
 
-## Report: namespace_file 
+## レポート: namespace_file 
 
-Report files are generated in three formats, `namespace_file.csv`, `namespace_file.xlsx` and `namespace_file.json`.
-But if you run with `-low-memory` option, the command will generate only `namespace_file.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `namespace_file.csv`
+* `namespace_file.xlsx`
+* `namespace_file.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
 
 | 列                      | 説明                                                                                            |
 |-------------------------|-------------------------------------------------------------------------------------------------|
@@ -349,12 +393,17 @@ like `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_000
 | shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。      |
 | parent_shared_folder_id | 設定されている場合、共有フォルダに内包されています.                                             |
 
-## Report: namespace_size 
+## レポート: namespace_size 
 
-Report files are generated in three formats, `namespace_size.csv`, `namespace_size.xlsx` and `namespace_size.json`.
-But if you run with `-low-memory` option, the command will generate only `namespace_size.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `namespace_size.csv`
+* `namespace_size.xlsx`
+* `namespace_size.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
 | 列                          | 説明                                                                                   |
 |-----------------------------|----------------------------------------------------------------------------------------|
@@ -375,12 +424,17 @@ like `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_000
 | result.size                 | フォルダのサイズ                                                                       |
 | result.api_complexity       | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
 
-## Report: shared_link 
+## レポート: shared_link 
 
-Report files are generated in three formats, `shared_link.csv`, `shared_link.xlsx` and `shared_link.json`.
-But if you run with `-low-memory` option, the command will generate only `shared_link.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `shared_link.csv`
+* `shared_link.xlsx`
+* `shared_link.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
 
 | 列             | 説明                                                                 |
 |----------------|----------------------------------------------------------------------|
@@ -398,12 +452,17 @@ like `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`..
 | surname        | リンク所有者の名字                                                   |
 | given_name     | リンク所有者の名                                                     |
 
-## Report: usage 
+## レポート: usage 
 
-Report files are generated in three formats, `usage.csv`, `usage.xlsx` and `usage.json`.
-But if you run with `-low-memory` option, the command will generate only `usage.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `usage.csv`
+* `usage.xlsx`
+* `usage.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   
 
 | 列         | 説明                                                     |
 |------------|----------------------------------------------------------|
