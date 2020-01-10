@@ -267,7 +267,6 @@ func (z *repositoryImpl) Apply() rc_recipe.Recipe {
 func (z *repositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, error) {
 	l := ctl.Log()
 	ui := ctl.UI()
-	var lastErr error
 
 	valKeys := make([]string, 0)
 	for k := range z.values {
@@ -294,17 +293,14 @@ func (z *repositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 			continue
 
 		case ErrorMissingRequiredOption:
-			lastErr = err
 			ui.Error(MRepository.ErrorMissingRequiredOption.With("Key", strcase.ToSnake(k)))
+			return nil, err
 
 		default:
-			lastErr = err
 			// TODO: replace with UI message
 			l.Error("Invalid argument, or unable to spin up", zap.String("key", k), zap.Error(err))
+			return nil, err
 		}
-	}
-	if lastErr != nil {
-		return nil, lastErr
 	}
 
 	if r, ok := z.rcp.(rc_recipe.Recipe); ok {
