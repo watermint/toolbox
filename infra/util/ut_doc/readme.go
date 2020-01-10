@@ -109,10 +109,11 @@ func (z *Readme) Generate() error {
 		var b bytes.Buffer
 		w := bufio.NewWriter(&b)
 		cui := app_ui.NewBufferConsole(z.ctl.Messages(), w)
-		cl := z.ctl.(app_control_launcher.ControlLauncher)
-		cl.Catalogue().RootGroup.PrintUsage(cui, "./tbx", "xx.x.xxx")
-		w.Flush()
-		bodyUsage = b.String()
+		if cl, ok := z.ctl.(app_control_launcher.ControlLauncher); ok {
+			cl.Catalogue().RootGroup.PrintUsage(cui, "./tbx", "xx.x.xxx")
+			w.Flush()
+			bodyUsage = b.String()
+		}
 	}
 
 	out := os.Stdout

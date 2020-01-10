@@ -62,7 +62,7 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	bx, web, mc, ui := Resources(t)
 
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, &rc_group.Catalogue{})
+	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, rc_group.NewEmptyCatalogue())
 	cs := ctl.(*app_control_impl.Single)
 	if res, found := findTestResource(); found {
 		var err error

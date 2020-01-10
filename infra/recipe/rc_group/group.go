@@ -20,6 +20,15 @@ type Catalogue struct {
 	RootGroup   *Group
 }
 
+func NewEmptyCatalogue() *Catalogue {
+	return &Catalogue{
+		Recipes:     []rc_recipe.Recipe{},
+		Ingredients: []rc_recipe.Recipe{},
+		Messages:    []interface{}{},
+		RootGroup:   NewGroup([]string{}, ""),
+	}
+}
+
 type MsgHeader struct {
 	Header    app_msg.Message
 	Copyright app_msg.Message
