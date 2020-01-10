@@ -51,7 +51,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | オプション | 説明                                      | デフォルト |
 |------------|-------------------------------------------|------------|
 | `-file`    | Data file for a list of team folder names |            |
-| `-peer`    | Account alias                             | default    |
+| `-peer`    | アカウントの別名                          | default    |
 
 共通のオプション:
 

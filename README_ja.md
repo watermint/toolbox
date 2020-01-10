@@ -94,7 +94,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [sharedlink list](doc/generated_ja/sharedlink-list.md)                             | 共有リンクの一覧                                               |
 | [team activity daily event](doc/generated_ja/team-activity-daily-event.md)         | アクティビティーを1日ごとに取得します                          |
 | [team activity event](doc/generated_ja/team-activity-event.md)                     | イベントログ                                                   |
-| [team activity user](doc/generated_ja/team-activity-user.md)                       | Activities log per user                                        |
+| [team activity user](doc/generated_ja/team-activity-user.md)                       | ユーザーごとのアクティビティ                                   |
 | [team device list](doc/generated_ja/team-device-list.md)                           | チーム内全てのデバイス/セッションを一覧します                  |
 | [team device unlink](doc/generated_ja/team-device-unlink.md)                       | デバイスのセッションを解除します                               |
 | [team diag explorer](doc/generated_ja/team-diag-explorer.md)                       | Report while team information                                  |

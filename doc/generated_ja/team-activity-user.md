@@ -1,6 +1,6 @@
 # team activity user 
 
-Activities log per user
+ユーザーごとのアクティビティ
 
 # セキュリティ
 
@@ -135,16 +135,16 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `user_summary_0000.xlsx`, `user_summary_0001.xlsx`, `user_summary_0002.xlsx`...   
 
-| 列                     | 説明                                |
-|------------------------|-------------------------------------|
-| status                 | 処理の状態                          |
-| reason                 | 失敗またはスキップの理由            |
-| input.user             | User email address                  |
-| result.user            | User email address                  |
-| result.logins          | Number of login activities          |
-| result.devices         | Number of device activities         |
-| result.sharing         | Number of sharing activities        |
-| result.file_operations | Number of file operation activities |
-| result.paper           | Number of activities of Paper       |
-| result.others          | Number of other category activities |
+| 列                     | 説明                               |
+|------------------------|------------------------------------|
+| status                 | 処理の状態                         |
+| reason                 | 失敗またはスキップの理由           |
+| input.user             | ユーザーのメールアドレス           |
+| result.user            | ユーザーのメールアドレス           |
+| result.logins          | ログインのアクティビティ数         |
+| result.devices         | デバイスのアクティビティ数         |
+| result.sharing         | 共有のアクティビティ数             |
+| result.file_operations | ファイル操作のアクティビティ数     |
+| result.paper           | Paperのアクティビティ数            |
+| result.others          | その他のカテゴリのアクティビティ数 |
 

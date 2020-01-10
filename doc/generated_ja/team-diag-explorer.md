@@ -50,7 +50,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション | 説明                                | デフォルト |
 |------------|-------------------------------------|------------|
-| `-all`     | Include additional reports          | false      |
+| `-all`     | 追加のレポートを含める              | false      |
 | `-file`    | Dropbox Business file access        | default    |
 | `-info`    | Dropbox Business information access | default    |
 | `-mgmt`    | Dropbox Business management         | default    |
