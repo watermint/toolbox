@@ -20,7 +20,7 @@ type Replication struct {
 	DstPeerName string
 }
 
-func (z Replication) Preset() {
+func (z *Replication) Preset() {
 	z.SrcPeerName = "src"
 	z.DstPeerName = "dst"
 	z.File.SetModel(&TeamFolderName{})
