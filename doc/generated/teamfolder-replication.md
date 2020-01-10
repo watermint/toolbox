@@ -4,7 +4,7 @@ Replicate a team folder to the other team
 
 # Usage
 
-This document uses the Desktop folder for command example. 
+This document uses the Desktop folder for command example.
 
 ## Run
 
@@ -21,15 +21,11 @@ macOS, Linux:
 $HOME/Desktop/tbx teamfolder replication 
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
-Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue.
-Then please proceed "System Preference", then open "Security & Privacy",
-select "General" tab. You may find the message like:
-
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
+You may find the message like:
 > "tbx" was blocked from use because it is not from an identified developer.
 
-And you may find the button "Allow Anyway". Please hit the button with your risk.
-At second run, please hit button "Open" on the dialogue.
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
 ## Options
 
@@ -52,17 +48,13 @@ Common options:
 | `-secure`       | Do not store tokens into a file                                                  | false                |
 | `-workspace`    | Workspace path                                                                   |                      |
 
-## Network configuration: Proxy
+# Proxy configuration
 
-The executable automatically detects your proxy configuration from the environment.
-However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port.
-Currently, the executable doesn't support proxies which require authentication.
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
-# Result
+# Results
 
-Report file path will be displayed last line of the command line output.
-If you missed command line output, please see path below.
-[job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path                                                                                                      |
 | ------- | --------------------------------------------------------------------------------------------------------- |
@@ -72,10 +64,15 @@ If you missed command line output, please see path below.
 
 ## Report: verification 
 
-Report files are generated in three formats, `verification.csv`, `verification.xlsx` and `verification.json`.
-But if you run with `-low-memory` option, the command will generate only `verification.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `verification_0000.xlsx`, `verification_0001.xlsx`, `verification_0002.xlsx`...   
+Report files are generated in three formats like below;
+* `verification.csv`
+* `verification.xlsx`
+* `verification.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`verification_0000.xlsx`, `verification_0001.xlsx`, `verification_0002.xlsx`...   
 
 | Column     | Description                                                                                                                                                                            |
 |------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

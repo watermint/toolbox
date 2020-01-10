@@ -2,11 +2,11 @@
 
 ライセンス情報を表示します
 
-# Usage
+# 利用方法
 
-This document uses the Desktop folder for command example. 
+このドキュメントは"デスクトップ"フォルダを例として使用します.
 
-## Run
+## 実行
 
 Windows:
 
@@ -21,19 +21,15 @@ macOS, Linux:
 $HOME/Desktop/tbx license 
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
-Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue.
-Then please proceed "System Preference", then open "Security & Privacy",
-select "General" tab. You may find the message like:
+macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
+次のようなメッセージが表示されています:
+> "tbx"は開発元を確認できないため、使用がブロックされました。
 
-> "tbx" was blocked from use because it is not from an identified developer.
+"このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
 
-And you may find the button "Allow Anyway". Please hit the button with your risk.
-At second run, please hit button "Open" on the dialogue.
+## オプション
 
-## Options
-
-Common options:
+共通のオプション:
 
 | オプション      | 説明                                                                                             | デフォルト     |
 |-----------------|--------------------------------------------------------------------------------------------------|----------------|
@@ -46,9 +42,7 @@ Common options:
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
 | `-workspace`    | ワークスペースへのパス                                                                           |                |
 
-## Network configuration: Proxy
+# ネットワークプロクシの設定
 
-The executable automatically detects your proxy configuration from the environment.
-However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port.
-Currently, the executable doesn't support proxies which require authentication.
+プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 

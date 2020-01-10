@@ -8,6 +8,7 @@ import (
 	infra_report_rpmodelimpl "github.com/watermint/toolbox/infra/report/rp_model_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	infra_ui_appui "github.com/watermint/toolbox/infra/ui/app_ui"
+	infra_util_ut_doc "github.com/watermint/toolbox/infra/util/ut_doc"
 	ingredientfile "github.com/watermint/toolbox/ingredient/file"
 	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
 	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
@@ -144,6 +145,7 @@ func Messages() []interface{} {
 		infra_report_rpmodelimpl.MXlsxWriter,
 		infra_recipe_rc_group.MHeader,
 		infra_ui_appui.MConsole,
+		infra_util_ut_doc.MDoc,
 	}
 	for _, m := range msgs {
 		app_msg.Apply(m)

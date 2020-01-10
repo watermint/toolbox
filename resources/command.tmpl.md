@@ -5,9 +5,9 @@
 {{.CommandDesc}}
 
 {{if .UseAuth}}
-# Security
+# {{ msg "doc.command.security.header" }}
 
-`watermint toolbox` stores credentials into the file system. That is located at below path:
+{{ msg "doc.command.security.credential_location" }}
 
 | OS       | Path                                                               |
 | -------- | ------------------------------------------------------------------ |
@@ -15,22 +15,21 @@
 | macOS    | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
 | Linux    | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
-Please do not share those files to anyone including Dropbox support.
-You can delete those files after use if you want to remove it.
-If you want to make sure removal of credentials, revoke application access from setting or the admin console.
+{{ msg "doc.command.security.credential_remarks" }}
+{{ msg "doc.command.security.how_to_remove_it" }}
 
-Please see below help article for more detail:
-{{ if .UseAuthPersonal }}* Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps{{end}}{{ if .UseAuthBusiness }}* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations{{end}}
+{{ msg "doc.command.security.how_to_help_center" }}
+{{ if .UseAuthPersonal }}* {{ msg "doc.command.security.how_to_help_center_individual" }}: https://help.dropbox.com/installs-integrations/third-party/third-party-apps{{end}}{{ if .UseAuthBusiness }}* {{ msg "doc.command.security.how_to_help_center_business" }}: https://help.dropbox.com/teams-admins/admin/app-integrations{{end}}
 
-This command use following access type(s) during the operation:
+{{ msg "doc.command.security.scopes" }}
 {{ range $scope := .AuthScopes }}{{ with (eq $scope "business_info")}}* Dropbox Business Information access{{end}}{{ with (eq $scope "business_file")}}* Dropbox Business File access{{end}}{{ with (eq $scope "business_mgmt")}}* Dropbox Business management{{end}}{{ with (eq $scope "business_audit")}}* Dropbox Business Auditing{{end}}{{ with (eq $scope "user_file")}}* Dropbox Full access{{end}}{{end}}
 {{end}}
 
-# Usage
+# {{ msg "doc.command.usage.header" }}
 
-This document uses the Desktop folder for command example. 
+{{ msg "doc.command.usage.usage_remarks" }}
 
-## Run
+## {{ msg "doc.command.usage.run.header" }}
 
 Windows:
 
@@ -45,37 +44,32 @@ macOS, Linux:
 $HOME/Desktop/tbx {{.Command}} {{.CommandArgs}}
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
-Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue.
-Then please proceed "System Preference", then open "Security & Privacy",
-select "General" tab. You may find the message like:
+{{ msg "doc.command.usage.run.catalina_remarks1" }}
+{{ msg "doc.command.usage.run.catalina_remarks2" }}
 
-> "tbx" was blocked from use because it is not from an identified developer.
-
-And you may find the button "Allow Anyway". Please hit the button with your risk.
-At second run, please hit button "Open" on the dialogue.
+{{ msg "doc.command.usage.run.catalina_remarks3" }}
 
 {{.CommandNote}}
 
-## Options
+## {{ msg "doc.command.usage.options" }}
 
 {{.Options}}
 
-Common options:
+{{ msg "doc.command.usage.options.common_options" }}
 
 {{.CommonOptions}}
 
 {{if .FeedAvailable }}
-# File formats
+# {{ msg "doc.command.file_formats.header" }}
 
 {{ $feeds := .Feeds }}
 {{ $feedSamples := .FeedSamples }}
 {{ range $name := .FeedNames }}
-## Format: {{ $name }} 
+## {{ msg "doc.command.file_formats.format.header" }}: {{ $name }} 
 
 {{ index $feeds $name }}
 
-The first line is a header line. The program will accept file without the header.
+{{ msg "doc.command.file_formats.format.header_line" }}
 
 ```csv
 {{ index $feedSamples $name }}```
@@ -83,43 +77,21 @@ The first line is a header line. The program will accept file without the header
 {{end}}
 
 {{if .UseAuth}}
-## Authentication
+# {{ msg "doc.command.auth.header" }}
 
-For the first run, `toolbox` will ask you an authentication with your Dropbox account. 
-Please copy the link and paste it into your browser. Then proceed to authorization.
-After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `toolbox`.
+{{ msg "doc.command.auth.description" }}
 
-```
-watermint toolbox xx.x.xxx
-© 2016-2019 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
-
-Testing network connection...
-Done
-
-1. Visit the URL for the auth dialog:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
-```
+{{ .AuthExample }}
 {{end}}
 
-## Network configuration: Proxy
+# {{ msg "doc.command.proxy.header" }}
 
-The executable automatically detects your proxy configuration from the environment.
-However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port.
-Currently, the executable doesn't support proxies which require authentication.
+{{ msg "doc.command.proxy.description" }}
 
 {{if .ReportAvailable }}
-# Result
+# {{ msg "doc.command.report.header" }}
 
-Report file path will be displayed last line of the command line output.
-If you missed command line output, please see path below.
-[job-id] will be the date/time of the run. Please see the latest job-id.
+{{ msg "doc.command.report.file_location" }}
 
 | OS      | Path                                                                                                      |
 | ------- | --------------------------------------------------------------------------------------------------------- |
@@ -129,12 +101,17 @@ If you missed command line output, please see path below.
 
 {{ $reports := .Reports }}
 {{ range $name := .ReportNames }}
-## Report: {{ $name }} 
+## {{ msg "doc.command.report.report.header" }}: {{ $name }} 
 
-Report files are generated in three formats, `{{$name}}.csv`, `{{$name}}.xlsx` and `{{$name}}.json`.
-But if you run with `-low-memory` option, the command will generate only `{{$name}}.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `{{$name}}_0000.xlsx`, `{{$name}}_0001.xlsx`, `{{$name}}_0002.xlsx`...   
+{{ msg "doc.command.report.report.format_description" }}
+* `{{$name}}.csv`
+* `{{$name}}.xlsx`
+* `{{$name}}.json`
+
+{{ msg "doc.command.report.report.low_memory_option" }}
+
+{{ msg "doc.command.report.report.xlsx_remarks" }}
+`{{$name}}_0000.xlsx`, `{{$name}}_0001.xlsx`, `{{$name}}_0002.xlsx`...   
 
 {{ index $reports $name }}
 {{end}}

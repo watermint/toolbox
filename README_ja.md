@@ -30,7 +30,7 @@ watermint toolbox xx.x.xxx
 ==========================
 
 © 2016-2020 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 DropboxおよびDropbox Business向けのツールセット
 

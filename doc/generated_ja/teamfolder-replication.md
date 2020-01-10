@@ -2,11 +2,11 @@
 
 チームフォルダを他のチームに複製します
 
-# Usage
+# 利用方法
 
-This document uses the Desktop folder for command example. 
+このドキュメントは"デスクトップ"フォルダを例として使用します.
 
-## Run
+## 実行
 
 Windows:
 
@@ -21,25 +21,21 @@ macOS, Linux:
 $HOME/Desktop/tbx teamfolder replication 
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity.
-Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue.
-Then please proceed "System Preference", then open "Security & Privacy",
-select "General" tab. You may find the message like:
+macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
+次のようなメッセージが表示されています:
+> "tbx"は開発元を確認できないため、使用がブロックされました。
 
-> "tbx" was blocked from use because it is not from an identified developer.
+"このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
 
-And you may find the button "Allow Anyway". Please hit the button with your risk.
-At second run, please hit button "Open" on the dialogue.
-
-## Options
+## オプション
 
 | オプション       | 説明                           | デフォルト |
 |------------------|--------------------------------|------------|
 | `-dst-peer-name` | Destination team account alias | dst        |
-| `-name`          | Team folder name               |            |
+| `-name`          | チームフォルダ名               |            |
 | `-src-peer-name` | Source team account alias      | src        |
 
-Common options:
+共通のオプション:
 
 | オプション      | 説明                                                                                             | デフォルト     |
 |-----------------|--------------------------------------------------------------------------------------------------|----------------|
@@ -52,17 +48,13 @@ Common options:
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
 | `-workspace`    | ワークスペースへのパス                                                                           |                |
 
-## Network configuration: Proxy
+# ネットワークプロクシの設定
 
-The executable automatically detects your proxy configuration from the environment.
-However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port.
-Currently, the executable doesn't support proxies which require authentication.
+プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 
-# Result
+# 実行結果
 
-Report file path will be displayed last line of the command line output.
-If you missed command line output, please see path below.
-[job-id] will be the date/time of the run. Please see the latest job-id.
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
 
 | OS      | Path                                                                                                      |
 | ------- | --------------------------------------------------------------------------------------------------------- |
@@ -70,12 +62,17 @@ If you missed command line output, please see path below.
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: verification 
+## レポート: verification 
 
-Report files are generated in three formats, `verification.csv`, `verification.xlsx` and `verification.json`.
-But if you run with `-low-memory` option, the command will generate only `verification.json}}` report.
-In case of a report become large, a report in `.xlsx` format will be split into several chunks
-like `verification_0000.xlsx`, `verification_0001.xlsx`, `verification_0002.xlsx`...   
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `verification.csv`
+* `verification.xlsx`
+* `verification.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`verification_0000.xlsx`, `verification_0001.xlsx`, `verification_0002.xlsx`...   
 
 | 列         | 説明                                                                                                                                                                                           |
 |------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
