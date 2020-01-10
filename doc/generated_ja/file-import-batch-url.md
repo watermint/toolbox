@@ -60,7 +60,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
 | `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
 | `-debug`        | デバッグモードを有効にする                                                                       | false          |
-| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-low-memory`   | 省メモリモード                                                                                   | false          |
 | `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
 | `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
@@ -70,10 +70,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File 
 
-| 列   | 説明                                                                    | Value example                     |
-|------|-------------------------------------------------------------------------|-----------------------------------|
-| url  | Url to download                                                         | http://example.com/2019/12/26.zip |
-| path | Path to store file (use path given by `-path` when the record is empty) | /backup/2019-12-16.zip            |
+| 列   | 説明                                                           | 値の説明                          |
+|------|----------------------------------------------------------------|-----------------------------------|
+| url  | ダウンロードするURL                                            | http://example.com/2019/12/26.zip |
+| path | 保存先パス (指定しないと`-path`オプションの指定が利用されます) | /backup/2019-12-16.zip            |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
 
@@ -134,8 +134,8 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 |--------------------------------|--------------------------------------------------------------------------------------------|
 | status                         | 処理の状態                                                                                 |
 | reason                         | 失敗またはスキップの理由                                                                   |
-| input.url                      | Url to download                                                                            |
-| input.path                     | Path to store file (use path given by `-path` when the record is empty)                    |
+| input.url                      | ダウンロードするURL                                                                        |
+| input.path                     | 保存先パス (指定しないと`-path`オプションの指定が利用されます)                             |
 | result.id                      | ファイルへの一意なID                                                                       |
 | result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
 | result.name                    | 名称                                                                                       |

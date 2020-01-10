@@ -60,7 +60,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
 | `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
 | `-debug`        | デバッグモードを有効にする                                                                       | false          |
-| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-low-memory`   | 省メモリモード                                                                                   | false          |
 | `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
 | `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
@@ -147,8 +147,8 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 
 | 列               | 説明                                             |
 |------------------|--------------------------------------------------|
-| upload_start     | Time of start uploading                          |
-| upload_end       | Time of finish uploading                         |
+| upload_start     | アップロード開始日時                             |
+| upload_end       | アップロード終了日時                             |
 | num_bytes        | 合計アップロードサイズ (バイト)                  |
 | num_files_error  | 失敗またはエラーが発生したファイル数.            |
 | num_files_upload | アップロード済みまたはアップロード対象ファイル数 |

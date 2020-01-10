@@ -42,6 +42,7 @@ import (
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
 	recipeteamsharedlinkupdate "github.com/watermint/toolbox/recipe/team/sharedlink/update"
 	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
+	recipeteamfolderbatch "github.com/watermint/toolbox/recipe/teamfolder/batch"
 	recipeteamfolderfile "github.com/watermint/toolbox/recipe/teamfolder/file"
 )
 
@@ -113,6 +114,7 @@ func Recipes() []rc_recipe.Recipe {
 		&recipeteamfolder.List{},
 		&recipeteamfolder.Permdelete{},
 		&recipeteamfolder.Replication{},
+		&recipeteamfolderbatch.Replication{},
 		&recipeteamfolderfile.List{},
 		&recipeteamfolderfile.Size{},
 		&recipeteamlinkedapp.List{},

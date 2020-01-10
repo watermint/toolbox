@@ -72,7 +72,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [file sync preflight up](doc/generated_ja/file-sync-preflight-up.md)               | 上り方向同期のための事前チェックを実施します                   |
 | [file sync up](doc/generated_ja/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                  |
 | [file upload](doc/generated_ja/file-upload.md)                                     | ファイルのアップロード                                         |
-| [file watch](doc/generated_ja/file-watch.md)                                       | Watch file activities                                          |
+| [file watch](doc/generated_ja/file-watch.md)                                       | ファイルアクティビティを監視                                   |
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                           |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                 |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                     |
@@ -109,6 +109,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [team sharedlink list](doc/generated_ja/team-sharedlink-list.md)                   | 共有リンクの一覧                                               |
 | [team sharedlink update expiry](doc/generated_ja/team-sharedlink-update-expiry.md) | チーム内の公開されている共有リンクについて有効期限を更新します |
 | [teamfolder archive](doc/generated_ja/teamfolder-archive.md)                       | チームフォルダのアーカイブ                                     |
+| [teamfolder batch replication](doc/generated_ja/teamfolder-batch-replication.md)   | Batch replication of team folders                              |
 | [teamfolder file list](doc/generated_ja/teamfolder-file-list.md)                   | List files in team folders                                     |
 | [teamfolder file size](doc/generated_ja/teamfolder-file-size.md)                   | Calculate size of team folders                                 |
 | [teamfolder list](doc/generated_ja/teamfolder-list.md)                             | チームフォルダの一覧                                           |

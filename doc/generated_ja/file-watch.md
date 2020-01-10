@@ -1,6 +1,6 @@
 # file watch 
 
-Watch file activities
+ファイルアクティビティを監視
 
 # セキュリティ
 
@@ -47,11 +47,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション   | 説明                   | デフォルト |
-|--------------|------------------------|------------|
-| `-path`      | Path to watch          |            |
-| `-peer`      | アカウントの別名       | default    |
-| `-recursive` | Watch path recursively | false      |
+| オプション   | 説明               | デフォルト |
+|--------------|--------------------|------------|
+| `-path`      | 監視対象のパス     |            |
+| `-peer`      | アカウントの別名   | default    |
+| `-recursive` | パスを再起的に監視 | false      |
 
 共通のオプション:
 
@@ -60,7 +60,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
 | `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
 | `-debug`        | デバッグモードを有効にする                                                                       | false          |
-| `-low-memory`   | Low memory footprint mode                                                                        | false          |
+| `-low-memory`   | 省メモリモード                                                                                   | false          |
 | `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                        |                |
 | `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |

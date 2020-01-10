@@ -109,6 +109,7 @@ Available commands:
 | [team sharedlink list](doc/generated/team-sharedlink-list.md)                   | List of shared links                                          |
 | [team sharedlink update expiry](doc/generated/team-sharedlink-update-expiry.md) | Update expiration date of public shared links within the team |
 | [teamfolder archive](doc/generated/teamfolder-archive.md)                       | Archive team folder                                           |
+| [teamfolder batch replication](doc/generated/teamfolder-batch-replication.md)   | Batch replication of team folders                             |
 | [teamfolder file list](doc/generated/teamfolder-file-list.md)                   | List files in team folders                                    |
 | [teamfolder file size](doc/generated/teamfolder-file-size.md)                   | Calculate size of team folders                                |
 | [teamfolder list](doc/generated/teamfolder-list.md)                             | List team folder(s)                                           |
