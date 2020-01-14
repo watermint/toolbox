@@ -162,7 +162,7 @@ func (z *WebHandler) findRecipe(cmd string) (grp *rc_group.Group, rcp rc_recipe.
 	return
 }
 
-func (z *WebHandler) recipeRequirements(rcp rc_recipe.SelfContainedRecipe) (conns map[string]string, paramTypes map[string]string, paramDefaults map[string]interface{}) {
+func (z *WebHandler) recipeRequirements(rcp rc_recipe.Recipe) (conns map[string]string, paramTypes map[string]string, paramDefaults map[string]interface{}) {
 	paramTypes = make(map[string]string)
 	paramDefaults = make(map[string]interface{})
 
@@ -329,10 +329,7 @@ func (z *WebHandler) Home(g *gin.Context) {
 
 		case rcp != nil:
 			// TODO: Breadcrumb list
-			switch scr := rcp.(type) {
-			case rc_recipe.SelfContainedRecipe:
-				z.renderRecipeConn(g, cmd, scr, user, uc)
-			}
+			z.renderRecipeConn(g, cmd, rcp, user, uc)
 
 		case grp != nil:
 			// TODO: Breadcrumb list
@@ -552,7 +549,7 @@ func (z *WebHandler) Artifact(g *gin.Context) {
 	})
 }
 
-func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp rc_recipe.SelfContainedRecipe, user web_user.User, uc app_control.Control) {
+func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp rc_recipe.Recipe, user web_user.User, uc app_control.Control) {
 	l := z.Control.Log().With(zap.String("cmd", cmd))
 	reqConns, reqParams, _ := z.recipeRequirements(rcp)
 	selectedConns := g.PostFormMap("Conn")
@@ -627,7 +624,7 @@ func (z *WebHandler) renderRecipeParam(g *gin.Context) {
 	)
 }
 
-func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp rc_recipe.SelfContainedRecipe, user web_user.User, uc app_control.Control) {
+func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp rc_recipe.Recipe, user web_user.User, uc app_control.Control) {
 	l := z.Control.Log().With(zap.String("cmd", cmd))
 	reqConns, _, _ := z.recipeRequirements(rcp)
 

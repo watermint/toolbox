@@ -17,10 +17,6 @@ const (
 type Recipe interface {
 	Exec(c app_control.Control) error
 	Test(c app_control.Control) error
-}
-
-type SelfContainedRecipe interface {
-	Recipe
 	Preset()
 }
 

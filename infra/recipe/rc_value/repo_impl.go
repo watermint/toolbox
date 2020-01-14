@@ -109,8 +109,8 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 		}
 	}
 
-	if cr, ok := rcp.(rc_recipe.SelfContainedRecipe); ok {
-		cr.Preset()
+	if scr, ok := rcp.(rc_recipe.Recipe); ok {
+		scr.Preset()
 	}
 
 	// Apply preset values

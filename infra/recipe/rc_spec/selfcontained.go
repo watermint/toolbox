@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-func newSelfContained(scr rc_recipe.SelfContainedRecipe) rc_recipe.Spec {
+func newSelfContained(scr rc_recipe.Recipe) rc_recipe.Spec {
 	path, name := rc_recipe.Path(scr)
 	cliPath := strings.Join(append(path, name), " ")
 
@@ -31,7 +31,7 @@ func newSelfContained(scr rc_recipe.SelfContainedRecipe) rc_recipe.Spec {
 type specValueSelfContained struct {
 	name    string
 	cliPath string
-	scr     rc_recipe.SelfContainedRecipe
+	scr     rc_recipe.Recipe
 	repo    rc_recipe.Repository
 }
 

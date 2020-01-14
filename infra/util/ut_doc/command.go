@@ -239,20 +239,16 @@ func (z *Commands) GenerateAll() error {
 	l := z.ctl.Log()
 
 	numSecret := 0
-	numSelfContained := 0
 
 	for _, r := range recipes {
 		if _, ok := r.(rc_recipe.SecretRecipe); ok {
 			numSecret++
 			continue
 		}
-		if _, ok := r.(rc_recipe.SelfContainedRecipe); ok {
-			numSelfContained++
-		}
 		if err := z.Generate(r); err != nil {
 			return err
 		}
 	}
-	l.Info("Recipes", zap.Int("SecretRecipes", numSecret), zap.Int("SelfContainedRecipe", numSelfContained))
+	l.Info("Recipes", zap.Int("SecretRecipes", numSecret), zap.Int("Recipes", len(recipes)))
 	return nil
 }
