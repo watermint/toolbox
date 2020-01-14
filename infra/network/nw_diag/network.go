@@ -24,8 +24,8 @@ func Network(ctl app_control.Control) error {
 			ll.Debug("Network test failed", zap.Error(err))
 			ui.ErrorK("run.network.error.unreachable",
 				app_msg.P{
-					"Url":    url,
-					"ErrorK": err,
+					"Url":   url,
+					"Error": err,
 				},
 			)
 			return err

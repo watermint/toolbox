@@ -75,9 +75,6 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		l.Info("Verify recipes")
 		for _, r := range cat.Recipes {
 			spec := rc_spec.New(r)
-			if spec == nil {
-				continue
-			}
 			for _, m := range spec.Messages() {
 				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m)))
 			}
@@ -86,9 +83,6 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		l.Info("Verify ingredients")
 		for _, r := range cat.Ingredients {
 			spec := rc_spec.New(r)
-			if spec == nil {
-				continue
-			}
 			for _, m := range spec.Messages() {
 				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m)))
 			}

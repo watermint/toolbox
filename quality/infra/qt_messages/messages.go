@@ -55,10 +55,6 @@ func verifyRecipe(g *rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
 	f := flag.NewFlagSet("", flag.ContinueOnError)
 
 	spec := rc_spec.New(r)
-	if spec == nil {
-		// skip
-		return
-	}
 	spec.SetFlags(f, ui)
 	g.PrintRecipeUsage(ui, spec, f)
 }

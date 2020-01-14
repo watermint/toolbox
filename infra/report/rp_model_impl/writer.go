@@ -180,7 +180,7 @@ func (z *TransactionReport) Failure(err error, input interface{}) {
 		if summary == "" {
 			summary = err.Error()
 		}
-		reason = app_msg.M("dbx.err.general_error", app_msg.P{"ErrorK": summary})
+		reason = app_msg.M("dbx.err.general_error", app_msg.P{"Error": summary})
 	}
 	z.w.Row(&rp_model.TransactionRow{
 		Status:    ui.Text(MTransactionReport.Failure),

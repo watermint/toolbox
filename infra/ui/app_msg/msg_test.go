@@ -35,10 +35,10 @@ func TestApply(t *testing.T) {
 			t.Error(mo2.Hey.Key())
 		}
 		//if mo2.Test.Hello.Key() != "infra.ui.app_msg.test_mo.hello" {
-		//	t.ErrorK(mo2.Test.Hello.Key())
+		//	t.Error(mo2.Test.Hello.Key())
 		//}
 		//if mo2.Test.Greet.Key() != "infra.ui.app_msg.test_mo.greet" {
-		//	t.ErrorK(mo2.Test.Greet.Key())
+		//	t.Error(mo2.Test.Greet.Key())
 		//}
 	}
 

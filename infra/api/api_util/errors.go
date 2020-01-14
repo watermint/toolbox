@@ -51,7 +51,7 @@ func ErrorTag(err error) string {
 	}
 }
 
-// Returns `user_message` if an error is ApiError. Otherwise return ErrorK().
+// Returns `user_message` if an error is ApiError. Otherwise return Error().
 func ErrorUserMessage(err error) string {
 	switch re := err.(type) {
 	case api_error.ApiError:
@@ -75,12 +75,12 @@ func MsgFromError(err error) app_msg.Message {
 	case summary == "" && userMessage != "":
 		return app_msg.M(
 			"dbx.err.general_error",
-			app_msg.P{"ErrorK": userMessage},
+			app_msg.P{"Error": userMessage},
 		)
 	case summary == "":
 		return app_msg.M(
 			"dbx.err.general_error",
-			app_msg.P{"ErrorK": err.Error()},
+			app_msg.P{"Error": err.Error()},
 		)
 
 	default:

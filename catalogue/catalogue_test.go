@@ -17,9 +17,6 @@ func TestCatalogue(t *testing.T) {
 	testGroup(Groups(), ui)
 	for _, r := range Ingredients() {
 		spec := rc_spec.New(r)
-		if spec == nil {
-			continue
-		}
 		for _, m := range spec.Messages() {
 			ui.Info(m)
 		}
@@ -39,10 +36,6 @@ func testGroup(g *rc_group.Group, ui app_ui.UI) {
 func testRecipe(g *rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
 	f := flag.NewFlagSet("", flag.ContinueOnError)
 	spec := rc_spec.New(r)
-	if spec == nil {
-		// skip
-		return
-	}
 	spec.SetFlags(f, ui)
 	g.PrintRecipeUsage(ui, spec, f)
 

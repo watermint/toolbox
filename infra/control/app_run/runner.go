@@ -32,7 +32,7 @@ import (
 	"syscall"
 )
 
-func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.Spec, grp *rc_group.Group, rem []string, bx, web *rice.Box) (found bool) {
+func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.Spec, grp *rc_group.Group, rem []string, bx, web *rice.Box) (found bool) {
 	comSpec := rc_spec.NewCommonValue()
 
 	f := flag.NewFlagSet(rcpSpec.CliPath(), flag.ContinueOnError)
@@ -62,7 +62,7 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace)
 		if err != nil {
 			ui.ErrorK("run.error.unable_to_format_path", app_msg.P{
-				"ErrorK": err.Error(),
+				"Error": err.Error(),
 			})
 			os.Exit(app_control.FailureInvalidCommandFlags)
 		}
@@ -195,7 +195,7 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 		err = rc_exec.ExecSpec(ctl, rcpSpec, rc_recipe.NoCustomValues)
 		if err != nil {
 			ctl.Log().Debug("Unable to apply values to the recipe", zap.Error(err))
-			ui.Failure("run.error.recipe.failed", app_msg.P{"ErrorK": err.Error()})
+			ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
 			os.Exit(app_control.FailureGeneral)
 		}
 	}
@@ -206,7 +206,7 @@ func runSideCarRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_r
 
 	if err != nil {
 		ctl.Log().Error("Recipe failed with an error", zap.Error(err))
-		ui.Failure("run.error.recipe.failed", app_msg.P{"ErrorK": err.Error()})
+		ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
 		os.Exit(app_control.FailureGeneral)
 	}
 	app_root.FlushSuccessShutdownHook()
@@ -238,10 +238,5 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	}
 
 	spec := rc_spec.New(rcp)
-	if spec == nil {
-		ui.ErrorK("run.error.recipe_spec_not_found")
-		return false
-	}
-
-	return runSideCarRecipe(mc, ui, spec, grp, rem, bx, web)
+	return runRecipe(mc, ui, spec, grp, rem, bx, web)
 }

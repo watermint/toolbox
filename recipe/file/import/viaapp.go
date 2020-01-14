@@ -139,7 +139,7 @@ func viaAppEnqueueLocalScanner(k rc_kitchen.Kitchen,
 	l.Debug("Trying enqueue to local scanner queue")
 
 	if err := semLocalScanner.Acquire(context.Background(), 1); err != nil {
-		l.ErrorK("Unable to acquire semaphore", zap.ErrorK(err))
+		l.Error("Unable to acquire semaphore", zap.Error(err))
 		return
 	}
 
@@ -187,7 +187,7 @@ func (z *ViaAppLocalScannerWorker) Exec() error {
 
 	entries, err := ioutil.ReadDir(z.curLocalPath)
 	if err != nil {
-		l.Debug("Unable to read dir", zap.ErrorK(err))
+		l.Debug("Unable to read dir", zap.Error(err))
 		z.reps.repLocalScanner.Failure(err, lsIn)
 		return err
 	}
@@ -253,7 +253,7 @@ func viaAppEnqueueDbxScanner(k rc_kitchen.Kitchen,
 	l.Debug("Trying enqueue to local scanner queue")
 
 	if err := semDbxScanner.Acquire(context.Background(), 1); err != nil {
-		l.ErrorK("Unable to acquire semaphore", zap.ErrorK(err))
+		l.Error("Unable to acquire semaphore", zap.Error(err))
 		return
 	}
 	st.AddBacklog()
@@ -290,7 +290,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 
 	rel, err := ut_filepath.Rel(z.vo.LocalPath, z.curLocalPath)
 	if err != nil {
-		l.ErrorK("Invalid local path", zap.ErrorK(err))
+		l.Error("Invalid local path", zap.Error(err))
 		z.reps.repDbxScanner.Failure(err, dsIn)
 		return err
 	}
@@ -306,7 +306,7 @@ func (z *ViaAppDbxScannerWorker) Exec() error {
 			l.Debug("Path not found in dest dropbox path")
 			entries = make([]mo_file.Entry, 0)
 		} else {
-			l.ErrorK("Failed to scan dbx path", zap.ErrorK(err))
+			l.Error("Failed to scan dbx path", zap.Error(err))
 			return err
 		}
 	}
@@ -375,7 +375,7 @@ func viaAppEnqueueCopier(
 	l.Debug("Trying enqueue to copier queue")
 
 	if err := semCopier.Acquire(context.Background(), 1); err != nil {
-		l.ErrorK("Unable to acquire semaphore", zap.ErrorK(err))
+		l.Error("Unable to acquire semaphore", zap.Error(err))
 		return
 	}
 
@@ -424,7 +424,7 @@ func (z *ViaAppCopierWorker) Exec() error {
 
 	srcInfo, err := os.Lstat(z.copyIn.LocalFilePath)
 	if err != nil {
-		l.Debug("Unable to retrieve local src file info", zap.ErrorK(err))
+		l.Debug("Unable to retrieve local src file info", zap.Error(err))
 		z.reps.repCopier.Failure(err, z.copyIn)
 		return err
 	}
@@ -432,7 +432,7 @@ func (z *ViaAppCopierWorker) Exec() error {
 	l.Debug("Open source file")
 	src, err := os.Open(z.copyIn.LocalFilePath)
 	if err != nil {
-		l.Debug("Unable to open local src file", zap.ErrorK(err))
+		l.Debug("Unable to open local src file", zap.Error(err))
 		z.reps.repCopier.Failure(err, z.copyIn)
 		return err
 	}
@@ -441,7 +441,7 @@ func (z *ViaAppCopierWorker) Exec() error {
 	l.Debug("Create dest file")
 	dst, err := os.Create(workCopyPath)
 	if err != nil {
-		l.Debug("unable to create dest file", zap.ErrorK(err))
+		l.Debug("unable to create dest file", zap.Error(err))
 		z.reps.repCopier.Failure(err, z.copyIn)
 		return err
 	}
@@ -449,7 +449,7 @@ func (z *ViaAppCopierWorker) Exec() error {
 	l.Debug("Copy")
 	writtenBytes, err := io.Copy(dst, src)
 	if err != nil {
-		l.Debug("Unable to copy", zap.ErrorK(err))
+		l.Debug("Unable to copy", zap.Error(err))
 		z.reps.repCopier.Failure(err, z.copyIn)
 		return err
 	}
@@ -468,11 +468,11 @@ func (z *ViaAppCopierWorker) Exec() error {
 	l.Debug("Updating mod time", zap.String("srcModTime", srcInfo.ModTime().String()))
 	err = os.Chtimes(workCopyPath, time.Now(), srcInfo.ModTime())
 	if err != nil {
-		l.Debug("Unable to modify modTime", zap.ErrorK(err))
+		l.Debug("Unable to modify modTime", zap.Error(err))
 		z.reps.repCopier.Failure(err, z.copyIn)
 		// try delete dst file
 		if err = os.Remove(workCopyPath); err != nil {
-			l.Debug("Unable to clean up file on error", zap.ErrorK(err))
+			l.Debug("Unable to clean up file on error", zap.Error(err))
 			// fall through
 		}
 		return err
@@ -503,7 +503,7 @@ func viaAppEnqueueMover(
 	htr.Proceed(moveIn.DbxFileName)
 
 	if err := semMover.Acquire(context.Background(), 1); err != nil {
-		l.ErrorK("Unable to acquire semaphore", zap.ErrorK(err))
+		l.Error("Unable to acquire semaphore", zap.Error(err))
 		return
 	}
 
@@ -552,7 +552,7 @@ func (z *ViaAppMoverWorker) Exec() error {
 
 	movedEntry, err := sv_file_relocation.New(z.ctx).Move(src, dst)
 	if err != nil {
-		l.Debug("Unable to move", zap.ErrorK(err))
+		l.Debug("Unable to move", zap.Error(err))
 		z.reps.repMover.Failure(err, z.moveIn)
 		return err
 	}
@@ -583,7 +583,7 @@ func (z *ViaAppWatcher) Watch() {
 
 		entries, err := sv_file.NewFiles(z.ctx).List(z.st.DbxWorkPath)
 		if err != nil {
-			l.Debug("Unable to list work path", zap.ErrorK(err))
+			l.Debug("Unable to list work path", zap.Error(err))
 			continue
 		}
 
@@ -672,7 +672,7 @@ func (z *ViaApp) Exec(k rc_kitchen.Kitchen) error {
 
 	dpInfo, err := os.Lstat(desktopPath)
 	if err != nil {
-		l.Debug("Unable to retrieve desktop path info", zap.ErrorK(err))
+		l.Debug("Unable to retrieve desktop path info", zap.Error(err))
 		return err
 	}
 
@@ -709,7 +709,7 @@ func (z *ViaApp) Exec(k rc_kitchen.Kitchen) error {
 
 	desktopWorkPath := filepath.Join(desktopPath, workPathRel)
 	if err := os.MkdirAll(desktopWorkPath, 0755); err != nil {
-		l.Debug("Unable to create folder", zap.ErrorK(err))
+		l.Debug("Unable to create folder", zap.Error(err))
 		return err
 	}
 
@@ -801,7 +801,7 @@ func (z *ViaApp) Test(c app_control.Control) error {
 
 	pseudoDesktop, err := ioutil.TempDir("", "pseudo-desktop")
 	if err != nil {
-		l.ErrorK("unable to create temp dir", zap.ErrorK(err))
+		l.Error("unable to create temp dir", zap.Error(err))
 		return err
 	}
 	vo.PseudoDesktopPath = pseudoDesktop
@@ -855,13 +855,13 @@ func (z *ViaAppPseudoDesktop) Run() {
 	dbxToLocalSync := func() {
 		dbxEntries, err := sv_file.NewFiles(z.ctx).List(z.dbxWorkPath)
 		if err != nil {
-			l.Debug("Unable to list folder", zap.ErrorK(err))
+			l.Debug("Unable to list folder", zap.Error(err))
 			z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
 		}
 
 		localEntries, err := ioutil.ReadDir(z.desktopWorkPath)
 		if err != nil {
-			l.Debug("Unable to list folder", zap.ErrorK(err))
+			l.Debug("Unable to list folder", zap.Error(err))
 			z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
 		}
 
@@ -872,7 +872,7 @@ func (z *ViaAppPseudoDesktop) Run() {
 				if dn == ln {
 					err := os.Remove(filepath.Join(z.desktopWorkPath, le.Name()))
 					if err != nil {
-						l.Debug("Unable to remove", zap.ErrorK(err), zap.Any("localEntry", le), zap.Any("dropboxEntry", de))
+						l.Debug("Unable to remove", zap.Error(err), zap.Any("localEntry", le), zap.Any("dropboxEntry", de))
 						z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
 					}
 					break
@@ -884,7 +884,7 @@ func (z *ViaAppPseudoDesktop) Run() {
 	localToDbxSync := func() {
 		localEntries, err := ioutil.ReadDir(z.desktopWorkPath)
 		if err != nil {
-			l.Debug("Unable to list folder", zap.ErrorK(err))
+			l.Debug("Unable to list folder", zap.Error(err))
 			z.k.Control().Abort(app_control.Reason(app_control.FatalPanic))
 		}
 

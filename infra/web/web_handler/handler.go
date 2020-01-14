@@ -167,9 +167,6 @@ func (z *WebHandler) recipeRequirements(rcp rc_recipe.Recipe) (conns map[string]
 	paramDefaults = make(map[string]interface{})
 
 	rcpSpec := rc_spec.New(rcp)
-	if rcpSpec == nil {
-		return
-	}
 	conns = rcpSpec.ConnScopeMap()
 	return
 }

@@ -34,7 +34,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 	if err != nil {
 		ui.ErrorK("recipe.group.delete.err.unable_to_resolve_group",
 			app_msg.P{
-				"ErrorK": err.Error(),
+				"Error": err.Error(),
 			})
 		return err
 	}
@@ -43,7 +43,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 	err = sv_group.New(z.Peer.Context()).Remove(group.GroupId)
 	if err != nil {
 		ui.ErrorK("recipe.group.delete.err.unable_to_remove_group", app_msg.P{
-			"ErrorK": err.Error(),
+			"Error": err.Error(),
 		})
 		return err
 	}

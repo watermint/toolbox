@@ -149,9 +149,6 @@ func (z *Commands) feedSample(spec fd_file.Spec) string {
 
 func (z *Commands) Generate(r rc_recipe.Recipe) error {
 	spec := rc_spec.New(r)
-	if spec == nil {
-		return errors.New("no spec defined for the recipe")
-	}
 
 	l := z.ctl.Log()
 	ui := z.ctl.UI()

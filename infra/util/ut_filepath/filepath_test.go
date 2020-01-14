@@ -47,7 +47,7 @@ func TestRel(t *testing.T) {
 		isWindows = false
 	}
 
-	// ErrorK case
+	// Error case
 	{
 		if p, err := Rel("/a/b/c/d", "/a/b/c"); p != "" || err == nil {
 			t.Error(p, err)
