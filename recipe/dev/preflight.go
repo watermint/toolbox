@@ -73,7 +73,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		cl := c.(app_control_launcher.ControlLauncher)
 		cat := cl.Catalogue()
 		l.Info("Verify recipes")
-		for _, r := range cat.Recipes {
+		for _, r := range cat.Recipes() {
 			spec := rc_spec.New(r)
 			for _, m := range spec.Messages() {
 				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m)))
@@ -81,7 +81,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		}
 
 		l.Info("Verify ingredients")
-		for _, r := range cat.Ingredients {
+		for _, r := range cat.Ingredients() {
 			spec := rc_spec.New(r)
 			for _, m := range spec.Messages() {
 				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m)))
@@ -89,7 +89,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		}
 
 		l.Info("Verify message objects")
-		for _, m := range cat.Messages {
+		for _, m := range cat.Messages() {
 			msgs := app_msg.Messages(m)
 			for _, msg := range msgs {
 				l.Debug("message", zap.String("key", msg.Key()), zap.String("text", c.UI().Text(msg)))

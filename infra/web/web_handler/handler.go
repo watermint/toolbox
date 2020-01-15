@@ -134,7 +134,7 @@ func (z *WebHandler) setupUrls(g *gin.Engine) {
 }
 
 func (z *WebHandler) setupCatalogue() {
-	recipes := z.Launcher.Catalogue().Recipes
+	recipes := z.Launcher.Catalogue().Recipes()
 	z.Root = rc_group.NewGroup([]string{}, "")
 	for _, r := range recipes {
 		_, ok := r.(rc_recipe.SecretRecipe)

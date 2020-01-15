@@ -218,17 +218,18 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Initialize resources
 	mc := app_msg_container_impl.NewContainer(bx)
 	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
-	cat := catalogue.Groups()
+	cat := catalogue.NewCatalogue()
+	rg := cat.RootGroup()
 
 	// Select recipe or group
-	_, grp, rcp, rem, err := cat.Select(args)
+	_, grp, rcp, rem, err := rg.Select(args)
 
 	switch {
 	case err != nil:
 		if grp != nil {
 			grp.PrintUsage(ui, os.Args[0], app.Version)
 		} else {
-			cat.PrintUsage(ui, os.Args[0], app.Version)
+			rg.PrintUsage(ui, os.Args[0], app.Version)
 		}
 		os.Exit(app_control.FailureInvalidCommand)
 

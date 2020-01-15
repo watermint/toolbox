@@ -8,7 +8,7 @@ import (
 )
 
 type ControlLauncher interface {
-	Catalogue() *rc_group.Catalogue
+	Catalogue() rc_group.Catalogue
 	NewControl(user app_workspace.MultiUser) (ctl app_control.Control, err error)
 }
 

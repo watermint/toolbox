@@ -2,6 +2,7 @@ package catalogue
 
 import (
 	infra_api_api_api_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
+	infra_recipe_rc_conn_impl "github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
 	infra_recipe_rc_group "github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	infra_recipe_rcvalue "github.com/watermint/toolbox/infra/recipe/rc_value"
@@ -47,13 +48,8 @@ import (
 	recipeteamfolderfile "github.com/watermint/toolbox/recipe/teamfolder/file"
 )
 
-func NewCatalogue() *infra_recipe_rc_group.Catalogue {
-	return &infra_recipe_rc_group.Catalogue{
-		Recipes:     Recipes(),
-		Ingredients: Ingredients(),
-		Messages:    Messages(),
-		RootGroup:   Groups(),
-	}
+func NewCatalogue() infra_recipe_rc_group.Catalogue {
+	return infra_recipe_rc_group.NewCatalogue(Recipes(), Ingredients(), Messages())
 }
 
 func Recipes() []rc_recipe.Recipe {
@@ -146,6 +142,7 @@ func Messages() []interface{} {
 	msgs := []interface{}{
 		infra_api_api_api_auth_impl.MCcAuth,
 		infra_recipe_rc_group.MHeader,
+		infra_recipe_rc_conn_impl.MConnect,
 		infra_recipe_rcvalue.MRepository,
 		infra_recipe_rcvalue.MValFdFileRowFeed,
 		infra_report_rpmodelimpl.MTransactionReport,
@@ -157,12 +154,4 @@ func Messages() []interface{} {
 		app_msg.Apply(m)
 	}
 	return msgs
-}
-
-func Groups() *infra_recipe_rc_group.Group {
-	root := infra_recipe_rc_group.NewGroup([]string{}, "")
-	for _, r := range Recipes() {
-		root.Add(r)
-	}
-	return root
 }

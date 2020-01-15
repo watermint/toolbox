@@ -47,7 +47,7 @@ func (z *Readme) commands() string {
 	book := make(map[string]string)
 	keys := make([]string, 0)
 	cl := z.ctl.(app_control_launcher.ControlLauncher)
-	recipes := cl.Catalogue().Recipes
+	recipes := cl.Catalogue().Recipes()
 
 	ui := z.ctl.UI()
 	for _, r := range recipes {
@@ -110,7 +110,7 @@ func (z *Readme) Generate() error {
 		w := bufio.NewWriter(&b)
 		cui := app_ui.NewBufferConsole(z.ctl.Messages(), w)
 		if cl, ok := z.ctl.(app_control_launcher.ControlLauncher); ok {
-			cl.Catalogue().RootGroup.PrintUsage(cui, "./tbx", "xx.x.xxx")
+			cl.Catalogue().RootGroup().PrintUsage(cui, "./tbx", "xx.x.xxx")
 			w.Flush()
 			bodyUsage = b.String()
 		}

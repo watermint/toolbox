@@ -13,20 +13,52 @@ import (
 	"strings"
 )
 
-type Catalogue struct {
-	Recipes     []rc_recipe.Recipe
-	Ingredients []rc_recipe.Recipe
-	Messages    []interface{}
-	RootGroup   *Group
+type Catalogue interface {
+	Recipes() []rc_recipe.Recipe
+	Ingredients() []rc_recipe.Recipe
+	Messages() []interface{}
+	RootGroup() *Group
 }
 
-func NewEmptyCatalogue() *Catalogue {
-	return &Catalogue{
-		Recipes:     []rc_recipe.Recipe{},
-		Ingredients: []rc_recipe.Recipe{},
-		Messages:    []interface{}{},
-		RootGroup:   NewGroup([]string{}, ""),
+type catalogueImpl struct {
+	recipes     []rc_recipe.Recipe
+	ingredients []rc_recipe.Recipe
+	messages    []interface{}
+	root        *Group
+}
+
+func (z *catalogueImpl) Recipes() []rc_recipe.Recipe {
+	return z.recipes
+}
+
+func (z *catalogueImpl) Ingredients() []rc_recipe.Recipe {
+	return z.ingredients
+}
+
+func (z *catalogueImpl) Messages() []interface{} {
+	return z.messages
+}
+
+func (z *catalogueImpl) RootGroup() *Group {
+	return z.root
+}
+
+func NewCatalogue(recipes, ingredients []rc_recipe.Recipe, messages []interface{}) Catalogue {
+	root := NewGroup([]string{}, "")
+	for _, r := range recipes {
+		root.Add(r)
 	}
+
+	return &catalogueImpl{
+		recipes:     recipes,
+		ingredients: ingredients,
+		messages:    messages,
+		root:        root,
+	}
+}
+
+func NewEmptyCatalogue() Catalogue {
+	return NewCatalogue([]rc_recipe.Recipe{}, []rc_recipe.Recipe{}, []interface{}{})
 }
 
 type MsgHeader struct {

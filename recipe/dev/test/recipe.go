@@ -57,7 +57,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 
 	switch {
 	case z.All:
-		for _, r := range cat.Recipes {
+		for _, r := range cat.Recipes() {
 			path, name := rc_recipe.Path(r)
 			ll := l.With(zap.Strings("path", path), zap.String("name", name))
 			if _, ok := r.(rc_recipe.SecretRecipe); ok {
@@ -75,7 +75,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 		l.Info("All tests passed without error")
 
 	case z.Recipe != "":
-		for _, r := range cat.Recipes {
+		for _, r := range cat.Recipes() {
 			p := rc_recipe.Key(r)
 			if p != z.Recipe {
 				continue

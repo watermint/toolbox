@@ -25,7 +25,7 @@ import (
 	"runtime"
 )
 
-func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, cat *rc_group.Catalogue) app_control.Control {
+func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, cat rc_group.Catalogue) app_control.Control {
 	return &Single{
 		ui:           ui,
 		box:          bx,
@@ -47,11 +47,11 @@ type Single struct {
 	ws           app_workspace.Workspace
 	opts         *app_control.UpOpts
 	quiet        bool
-	catalogue    *rc_group.Catalogue
+	catalogue    rc_group.Catalogue
 	testResource gjson.Result
 }
 
-func (z *Single) Catalogue() *rc_group.Catalogue {
+func (z *Single) Catalogue() rc_group.Catalogue {
 	return z.catalogue
 }
 

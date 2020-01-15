@@ -14,8 +14,9 @@ import (
 
 func TestCatalogue(t *testing.T) {
 	_, _, _, ui := qt_recipe.Resources(t)
-	testGroup(Groups(), ui)
-	for _, r := range Ingredients() {
+	cat := NewCatalogue()
+	testGroup(cat.RootGroup(), ui)
+	for _, r := range cat.Ingredients() {
 		spec := rc_spec.New(r)
 		for _, m := range spec.Messages() {
 			ui.Info(m)

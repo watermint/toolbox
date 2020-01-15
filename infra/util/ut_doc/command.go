@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/csv"
-	"errors"
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -232,7 +231,7 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 
 func (z *Commands) GenerateAll() error {
 	cl := z.ctl.(app_control_launcher.ControlLauncher)
-	recipes := cl.Catalogue().Recipes
+	recipes := cl.Catalogue().Recipes()
 	l := z.ctl.Log()
 
 	numSecret := 0
