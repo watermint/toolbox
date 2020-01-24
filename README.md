@@ -62,6 +62,7 @@ Available commands:
 | [file copy](doc/generated/file-copy.md)                                         | Copy files                                                    |
 | [file delete](doc/generated/file-delete.md)                                     | Delete file or folder                                         |
 | [file download](doc/generated/file-download.md)                                 | Download a file from Dropbox (experimental)                   |
+| [file export doc](doc/generated/file-export-doc.md)                             | Export document                                               |
 | [file import batch url](doc/generated/file-import-batch-url.md)                 | Batch import files from URL                                   |
 | [file import url](doc/generated/file-import-url.md)                             | Import file from the URL                                      |
 | [file list](doc/generated/file-list.md)                                         | List files and folders                                        |

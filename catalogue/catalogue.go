@@ -18,6 +18,7 @@ import (
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
 	recipefile "github.com/watermint/toolbox/recipe/file"
 	recipefilecompare "github.com/watermint/toolbox/recipe/file/compare"
+	recipefileexport "github.com/watermint/toolbox/recipe/file/export"
 	recipefileimport "github.com/watermint/toolbox/recipe/file/import"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
@@ -74,6 +75,7 @@ func Recipes() []rc_recipe.Recipe {
 		&recipefile.Watch{},
 		&recipefilecompare.Account{},
 		&recipefilecompare.Local{},
+		&recipefileexport.Doc{},
 		&recipefileimport.Url{},
 		&recipefileimportbatch.Url{},
 		&recipefilesync.Up{},

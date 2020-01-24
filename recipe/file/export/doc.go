@@ -1,4 +1,4 @@
-package file
+package export
 
 import (
 	"github.com/watermint/toolbox/domain/model/mo_file"
@@ -13,45 +13,42 @@ import (
 	"path/filepath"
 )
 
-type Download struct {
+type Doc struct {
 	Peer         rc_conn.ConnUserFile
-	DropboxPath  mo_path.DropboxPath
 	LocalPath    mo_path.FileSystemPath
+	DropboxPath  mo_path.DropboxPath
 	OperationLog rp_model.RowReport
 }
 
-func (z *Download) Preset() {
-	z.OperationLog.SetModel(&mo_file.ConcreteEntry{})
-}
-
-func (z *Download) Console() {
-}
-
-func (z *Download) Exec(c app_control.Control) error {
+func (z *Doc) Exec(c app_control.Control) error {
 	l := c.Log()
-	ctx := z.Peer.Context()
-
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
-	entry, f, err := sv_file_content.NewDownload(ctx).Download(z.DropboxPath)
+	export, path, err := sv_file_content.NewExport(z.Peer.Context()).Export(z.DropboxPath)
 	if err != nil {
 		return err
 	}
-	if err := os.Rename(f.Path(), filepath.Join(z.LocalPath.Path(), entry.Name())); err != nil {
+	dest := filepath.Join(z.LocalPath.Path(), export.ExportName)
+	if err := os.Rename(path.Path(), dest); err != nil {
 		l.Debug("Unable to move file to specified path",
 			zap.Error(err),
-			zap.String("downloaded", f.Path()),
-			zap.String("destination", z.LocalPath.Path()),
+			zap.String("downloaded", path.Path()),
+			zap.String("destination", dest),
 		)
 		return err
 	}
 
-	z.OperationLog.Row(entry.Concrete())
+	z.OperationLog.Row(export)
+
 	return nil
 }
 
-func (z *Download) Test(c app_control.Control) error {
+func (z *Doc) Test(c app_control.Control) error {
 	return qt_endtoend.ImplementMe()
+}
+
+func (z *Doc) Preset() {
+	z.OperationLog.SetModel(&mo_file.Export{})
 }
