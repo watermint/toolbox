@@ -41,17 +41,17 @@ func VerifyMessages(ctl app_control.Control) error {
 	return nil
 }
 
-func verifyGroup(g *rc_group.Group, ui app_ui.UI) {
-	g.PrintUsage(ui, os.Args[0], app.Version)
-	for _, sg := range g.SubGroups {
+func verifyGroup(g rc_group.Group, ui app_ui.UI) {
+	g.PrintGroupUsage(ui, os.Args[0], app.Version)
+	for _, sg := range g.SubGroups() {
 		verifyGroup(sg, ui)
 	}
-	for _, r := range g.Recipes {
+	for _, r := range g.Recipes() {
 		verifyRecipe(g, r, ui)
 	}
 }
 
-func verifyRecipe(g *rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
+func verifyRecipe(g rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
 	f := flag.NewFlagSet("", flag.ContinueOnError)
 
 	spec := rc_spec.New(r)

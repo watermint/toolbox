@@ -1,6 +1,6 @@
 # teamfolder batch replication 
 
-Batch replication of team folders
+チームフォルダの一括レプリケーション
 
 # 利用方法
 
@@ -31,9 +31,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション       | 説明                             | デフォルト |
 |------------------|----------------------------------|------------|
-| `-dst-peer-name` | Destination team account alias   | dst        |
+| `-dst-peer-name` | 宛先チームのアカウント別名       | dst        |
 | `-file`          | チームフォルダ名のデータファイル |            |
-| `-src-peer-name` | Source team account alias        | src        |
+| `-src-peer-name` | 元チームのアカウント別名         | src        |
 
 共通のオプション:
 
@@ -52,15 +52,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File 
 
-| 列   | 説明                | 値の説明 |
-|------|---------------------|----------|
-| name | Name of team folder | Sales    |
+| 列   | 説明             | 値の例 |
+|------|------------------|--------|
+| name | チームフォルダ名 | 営業   |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
 
 ```csv
 name
-Sales
+営業
 ```
 
 # ネットワークプロクシの設定

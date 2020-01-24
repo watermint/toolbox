@@ -70,7 +70,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File 
 
-| 列         | 説明                 | 値の説明               |
+| 列         | 説明                 | 値の例                 |
 |------------|----------------------|------------------------|
 | from_email | 現在のメールアドレス | john@example.com       |
 | to_email   | 新しいメールアドレス | john.smith@example.net |

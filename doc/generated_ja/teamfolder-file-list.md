@@ -1,6 +1,6 @@
 # teamfolder file list 
 
-List files in team folders
+チームフォルダの一覧
 
 # セキュリティ
 

@@ -24,17 +24,17 @@ func TestCatalogue(t *testing.T) {
 	}
 }
 
-func testGroup(g *rc_group.Group, ui app_ui.UI) {
-	g.PrintUsage(ui, os.Args[0], app.Version)
-	for _, sg := range g.SubGroups {
+func testGroup(g rc_group.Group, ui app_ui.UI) {
+	g.PrintGroupUsage(ui, os.Args[0], app.Version)
+	for _, sg := range g.SubGroups() {
 		testGroup(sg, ui)
 	}
-	for _, r := range g.Recipes {
+	for _, r := range g.Recipes() {
 		testRecipe(g, r, ui)
 	}
 }
 
-func testRecipe(g *rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
+func testRecipe(g rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
 	f := flag.NewFlagSet("", flag.ContinueOnError)
 	spec := rc_spec.New(r)
 	spec.SetFlags(f, ui)

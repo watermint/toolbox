@@ -145,7 +145,7 @@ func (z *Multi) Workspace() app_workspace.Workspace {
 }
 
 func (z *Multi) IsProduction() bool {
-	return isProduction()
+	return app.IsProduction()
 }
 
 func (z *Multi) IsTest() bool {

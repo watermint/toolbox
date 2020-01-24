@@ -44,8 +44,6 @@ func (z *Quiet) Text(m app_msg.Message) string {
 }
 
 func (z *Quiet) TextOrEmpty(m app_msg.Message) string {
-	z.mq.Verify(m.Key())
-	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
 	if z.mc.Exists(m.Key()) {
 		return z.mc.Compile(m)
 	} else {

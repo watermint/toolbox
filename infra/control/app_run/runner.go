@@ -32,7 +32,7 @@ import (
 	"syscall"
 )
 
-func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.Spec, grp *rc_group.Group, rem []string, bx, web *rice.Box) (found bool) {
+func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.Spec, grp rc_group.Group, rem []string, bx, web *rice.Box) (found bool) {
 	comSpec := rc_spec.NewCommonValue()
 
 	f := flag.NewFlagSet(rcpSpec.CliPath(), flag.ContinueOnError)
@@ -174,7 +174,7 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 	}
 
 	// Launch monitor
-	nw_monitor.LaunchReporting(ui, ctl.Log())
+	nw_monitor.LaunchReporting(ctl.Log())
 	ut_memory.LaunchReporting(ctl.Log())
 
 	// Set bandwidth
@@ -227,14 +227,14 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 	switch {
 	case err != nil:
 		if grp != nil {
-			grp.PrintUsage(ui, os.Args[0], app.Version)
+			grp.PrintGroupUsage(ui, os.Args[0], app.Version)
 		} else {
-			rg.PrintUsage(ui, os.Args[0], app.Version)
+			rg.PrintGroupUsage(ui, os.Args[0], app.Version)
 		}
 		os.Exit(app_control.FailureInvalidCommand)
 
 	case rcp == nil:
-		grp.PrintUsage(ui, os.Args[0], app.Version)
+		grp.PrintGroupUsage(ui, os.Args[0], app.Version)
 		os.Exit(app_control.Success)
 	}
 

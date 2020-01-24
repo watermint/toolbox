@@ -16,3 +16,7 @@ const (
 `
 	ProjectLogo = `![watermint toolbox](resources/watermint-toolbox-256x256.png)`
 )
+
+func IsProduction() bool {
+	return Hash != ""
+}

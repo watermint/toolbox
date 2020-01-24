@@ -76,7 +76,7 @@ type WebHandler struct {
 	Template       app_template.Template
 	Launcher       app_control_launcher.ControlLauncher
 	BaseUrl        string
-	Root           *rc_group.Group
+	Root           rc_group.Group
 	authForUser    map[string]api_auth.Web
 	controlForUser map[string]app_control.Control
 	JobChan        chan *web_job.WebJobRun
@@ -150,7 +150,7 @@ func (z *WebHandler) setupCatalogue() {
 	}
 }
 
-func (z *WebHandler) findRecipe(cmd string) (grp *rc_group.Group, rcp rc_recipe.Recipe, err error) {
+func (z *WebHandler) findRecipe(cmd string) (grp rc_group.Group, rcp rc_recipe.Recipe, err error) {
 	cmdPath := strings.Split(cmd, "-")
 	_, grp, rcp, _, err = z.Root.Select(cmdPath)
 
@@ -661,30 +661,30 @@ func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp rc_recipe.R
 	)
 }
 
-func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp *rc_group.Group) {
+func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp rc_group.Group) {
 	cmds := make([]string, 0)
 	dict := make(map[string]gin.H)
 	jobs := make([]gin.H, 0)
 	ui := z.Control.UI()
 
-	for _, g := range grp.SubGroups {
+	for _, g := range grp.SubGroups() {
 		if g.IsSecret() {
 			continue
 		}
 
 		path := make([]string, 0)
-		path = append(path, grp.Path...)
-		path = append(path, g.Name)
+		path = append(path, grp.Path()...)
+		path = append(path, g.Name())
 
-		dict[g.Name] = gin.H{
+		dict[g.Name()] = gin.H{
 			"Title":       g.Name,
-			"Description": ui.TextK(grp.CommandTitle(g.Name).Key()),
+			"Description": ui.Text(grp.CommandTitle(g.Name())),
 			"Uri":         WebPathHome + "/" + strings.Join(path, "-"),
 		}
 	}
-	for name := range grp.Recipes {
+	for name := range grp.Recipes() {
 		path := make([]string, 0)
-		path = append(path, grp.Path...)
+		path = append(path, grp.Path()...)
 		path = append(path, name)
 
 		dict[name] = gin.H{

@@ -1,6 +1,6 @@
 # teamfolder file size 
 
-Calculate size of team folders
+チームフォルダのサイズを計算
 
 # セキュリティ
 
@@ -50,7 +50,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション | 説明             | デフォルト |
 |------------|------------------|------------|
-| `-depth`   | Depth            | 1          |
+| `-depth`   | 深さ             | 1          |
 | `-peer`    | アカウントの別名 | default    |
 
 共通のオプション:

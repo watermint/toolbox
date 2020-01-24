@@ -17,14 +17,14 @@ type Catalogue interface {
 	Recipes() []rc_recipe.Recipe
 	Ingredients() []rc_recipe.Recipe
 	Messages() []interface{}
-	RootGroup() *Group
+	RootGroup() Group
 }
 
 type catalogueImpl struct {
 	recipes     []rc_recipe.Recipe
 	ingredients []rc_recipe.Recipe
 	messages    []interface{}
-	root        *Group
+	root        Group
 }
 
 func (z *catalogueImpl) Recipes() []rc_recipe.Recipe {
@@ -39,7 +39,7 @@ func (z *catalogueImpl) Messages() []interface{} {
 	return z.messages
 }
 
-func (z *catalogueImpl) RootGroup() *Group {
+func (z *catalogueImpl) RootGroup() Group {
 	return z.root
 }
 
@@ -67,8 +67,18 @@ type MsgHeader struct {
 	License   app_msg.Message
 }
 
+type MsgGroup struct {
+	RecipeHeaderUsage      app_msg.Message
+	RecipeUsage            app_msg.Message
+	RecipeAvailableFlags   app_msg.Message
+	GroupHeaderUsage       app_msg.Message
+	GroupUsage             app_msg.Message
+	GroupAvailableCommands app_msg.Message
+}
+
 var (
 	MHeader = app_msg.Apply(&MsgHeader{}).(*MsgHeader)
+	MGroup  = app_msg.Apply(&MsgGroup{}).(*MsgGroup)
 )
 
 func AppHeader(ui app_ui.UI, version string) {
@@ -78,103 +88,135 @@ func AppHeader(ui app_ui.UI, version string) {
 	ui.Break()
 }
 
-type Group struct {
-	Name      string
-	BasePkg   string
-	Path      []string
-	Recipes   map[string]rc_recipe.Recipe
-	SubGroups map[string]*Group
+type Group interface {
+	Name() string
+	BasePkg() string
+	Path() []string
+	Recipes() map[string]rc_recipe.Recipe
+	SubGroups() map[string]Group
+	Add(r rc_recipe.Recipe)
+	AddToPath(fullPath []string, relPath []string, name string, r rc_recipe.Recipe)
+	PrintRecipeUsage(ui app_ui.UI, spec rc_recipe.Spec, f *flag.FlagSet)
+	PrintGroupUsage(ui app_ui.UI, exec, version string)
+	GroupDesc() app_msg.Message
+	CommandTitle(cmd string) app_msg.Message
+	IsSecret() bool
+	Select(args []string) (name string, g Group, r rc_recipe.Recipe, remainder []string, err error)
 }
 
-func NewGroup(path []string, name string) *Group {
-	return &Group{
-		Name:      name,
-		Path:      path,
-		Recipes:   make(map[string]rc_recipe.Recipe),
-		SubGroups: make(map[string]*Group),
+type GroupImpl struct {
+	name      string
+	basePkg   string
+	path      []string
+	recipes   map[string]rc_recipe.Recipe
+	subGroups map[string]Group
+}
+
+func (z *GroupImpl) Name() string {
+	return z.name
+}
+
+func (z *GroupImpl) BasePkg() string {
+	return z.basePkg
+}
+
+func (z *GroupImpl) Path() []string {
+	return z.path
+}
+
+func (z *GroupImpl) Recipes() map[string]rc_recipe.Recipe {
+	return z.recipes
+}
+
+func (z *GroupImpl) SubGroups() map[string]Group {
+	return z.subGroups
+}
+
+func (z *GroupImpl) GroupDesc() app_msg.Message {
+	grpDesc := make([]string, 0)
+	grpDesc = append(grpDesc, "recipe")
+	grpDesc = append(grpDesc, z.path...)
+	grpDesc = append(grpDesc, "title")
+
+	return app_msg.M(strings.Join(grpDesc, "."))
+}
+
+func NewGroup(path []string, name string) Group {
+	return &GroupImpl{
+		name:      name,
+		path:      path,
+		recipes:   make(map[string]rc_recipe.Recipe),
+		subGroups: make(map[string]Group),
 	}
 }
 
-func (z *Group) addToPath(fullPath []string, relPath []string, name string, r rc_recipe.Recipe) {
+func (z *GroupImpl) AddToPath(fullPath []string, relPath []string, name string, r rc_recipe.Recipe) {
 	if len(relPath) > 0 {
 		p0 := relPath[0]
-		sg, ok := z.SubGroups[p0]
+		sg, ok := z.subGroups[p0]
 		if !ok {
 			sg = NewGroup(fullPath, p0)
-			z.SubGroups[p0] = sg
+			z.subGroups[p0] = sg
 		}
-		sg.addToPath(fullPath, relPath[1:], name, r)
+		sg.AddToPath(fullPath, relPath[1:], name, r)
 	} else {
-		z.Recipes[name] = r
+		z.recipes[name] = r
 	}
 }
 
-func (z *Group) Add(r rc_recipe.Recipe) {
+func (z *GroupImpl) Add(r rc_recipe.Recipe) {
 	path, name := rc_recipe.Path(r)
 
-	z.addToPath(path, path, name, r)
+	z.AddToPath(path, path, name, r)
 }
 
-func (z *Group) usageHeader(ui app_ui.UI, desc, version string) {
+func (z *GroupImpl) usageHeader(ui app_ui.UI, desc app_msg.Message, version string) {
 	AppHeader(ui, version)
 	ui.Break()
-	ui.InfoK(desc)
+	ui.Info(desc)
 	ui.Break()
 }
 
-func (z *Group) PrintRecipeUsage(ui app_ui.UI, spec rc_recipe.Spec, f *flag.FlagSet) {
-	z.usageHeader(ui, spec.Title().Key(), app.Version)
+func (z *GroupImpl) PrintRecipeUsage(ui app_ui.UI, spec rc_recipe.Spec, f *flag.FlagSet) {
+	z.usageHeader(ui, spec.Title(), app.Version)
 
-	ui.HeaderK("run.recipe.header.usage")
-	ui.InfoK(
-		"run.recipe.usage",
-		app_msg.P{
-			"Exec":   os.Args[0],
-			"Recipe": spec.CliPath(),
-			"Args":   ui.TextOrEmptyK(spec.CliArgs().Key()),
-		},
-	)
+	ui.Header(MGroup.RecipeHeaderUsage)
+	ui.Info(MGroup.RecipeUsage.
+		With("Exec", os.Args[0]).
+		With("Recipe", spec.CliPath()).
+		With("Args", ui.TextOrEmpty(spec.CliArgs())))
 
 	ui.Break()
-	ui.HeaderK("run.recipe.header.available_flags")
+	ui.Header(MGroup.RecipeAvailableFlags)
 
 	buf := new(bytes.Buffer)
 	f.SetOutput(buf)
 	f.PrintDefaults()
-	ui.InfoK("raw", app_msg.P{"Raw": buf.String()})
+	ui.Info(app_msg.Raw(buf.String()))
 	ui.Break()
 }
 
-func (z *Group) PrintUsage(ui app_ui.UI, exec, version string) {
-	grpDesc := make([]string, 0)
-	grpDesc = append(grpDesc, "recipe")
-	grpDesc = append(grpDesc, z.Path...)
-	grpDesc = append(grpDesc, "title")
+func (z *GroupImpl) PrintGroupUsage(ui app_ui.UI, exec, version string) {
+	z.usageHeader(ui, z.GroupDesc(), version)
 
-	z.usageHeader(ui, strings.Join(grpDesc, "."), version)
-
-	ui.HeaderK("run.group.header.usage")
-	ui.InfoK(
-		"run.group.usage",
-		app_msg.P{
-			"Exec":  exec,
-			"Group": strings.Join(z.Path, " "),
-		},
-	)
+	ui.Header(MGroup.GroupHeaderUsage)
+	ui.Info(MGroup.GroupUsage.
+		With("Exec", exec).
+		With("Group", strings.Join(z.path, " ")))
 	ui.Break()
 
-	ui.HeaderK("run.group.header.available_commands")
+	ui.Header(MGroup.GroupAvailableCommands)
 	cmdTable := ui.InfoTable("usage")
-	for _, cmd := range z.AvailableCommands() {
+	for _, cmd := range z.availableCommands() {
 		cmdTable.Row(app_msg.Raw(" "), app_msg.Raw(cmd), z.CommandTitle(cmd))
 	}
 	cmdTable.Flush()
 }
 
-func (z *Group) CommandTitle(cmd string) app_msg.Message {
+func (z *GroupImpl) CommandTitle(cmd string) app_msg.Message {
 	keyPath := make([]string, 0)
 	keyPath = append(keyPath, "recipe")
-	keyPath = append(keyPath, z.Path...)
+	keyPath = append(keyPath, z.path...)
 	keyPath = append(keyPath, cmd)
 	keyPath = append(keyPath, "title")
 	key := strings.Join(keyPath, ".")
@@ -182,8 +224,8 @@ func (z *Group) CommandTitle(cmd string) app_msg.Message {
 	return app_msg.M(key)
 }
 
-func (z *Group) IsSecret() bool {
-	for _, r := range z.Recipes {
+func (z *GroupImpl) IsSecret() bool {
+	for _, r := range z.recipes {
 		_, ok := r.(rc_recipe.SecretRecipe)
 		if !ok {
 			return false
@@ -192,14 +234,14 @@ func (z *Group) IsSecret() bool {
 	return true
 }
 
-func (z *Group) AvailableCommands() (cmd []string) {
+func (z *GroupImpl) availableCommands() (cmd []string) {
 	cmd = make([]string, 0)
-	for _, g := range z.SubGroups {
+	for _, g := range z.subGroups {
 		if !g.IsSecret() {
-			cmd = append(cmd, g.Name)
+			cmd = append(cmd, g.Name())
 		}
 	}
-	for n, r := range z.Recipes {
+	for n, r := range z.recipes {
 		_, ok := r.(rc_recipe.SecretRecipe)
 		if !ok {
 			cmd = append(cmd, n)
@@ -209,17 +251,17 @@ func (z *Group) AvailableCommands() (cmd []string) {
 	return
 }
 
-func (z *Group) Select(args []string) (name string, g *Group, r rc_recipe.Recipe, remainder []string, err error) {
+func (z *GroupImpl) Select(args []string) (name string, g Group, r rc_recipe.Recipe, remainder []string, err error) {
 	if len(args) < 1 {
 		return "", z, nil, args, nil
 	}
 	arg := args[0]
-	for k, sg := range z.SubGroups {
+	for k, sg := range z.subGroups {
 		if arg == k {
 			return sg.Select(args[1:])
 		}
 	}
-	for k, sr := range z.Recipes {
+	for k, sr := range z.Recipes() {
 		if arg == k {
 			return k, z, sr, args[1:], nil
 		}

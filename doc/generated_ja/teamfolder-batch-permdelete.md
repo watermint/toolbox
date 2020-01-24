@@ -70,15 +70,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File 
 
-| 列   | 説明                | 値の説明 |
-|------|---------------------|----------|
-| name | Name of team folder | Sales    |
+| 列   | 説明             | 値の例 |
+|------|------------------|--------|
+| name | チームフォルダ名 | 営業   |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
 
 ```csv
 name
-Sales
+営業
 ```
 
 # 認可
@@ -133,5 +133,5 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 |------------|--------------------------|
 | status     | 処理の状態               |
 | reason     | 失敗またはスキップの理由 |
-| input.name | Name of team folder      |
+| input.name | チームフォルダ名         |
 

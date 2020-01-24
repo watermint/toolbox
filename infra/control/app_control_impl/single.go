@@ -163,7 +163,7 @@ func (z *Single) HttpFileSystem() http.FileSystem {
 }
 
 func (z *Single) IsProduction() bool {
-	return isProduction()
+	return app.IsProduction()
 }
 
 func (z *Single) IsSecure() bool {
