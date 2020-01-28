@@ -64,10 +64,6 @@ func (z *RestoreWorker) Exec() error {
 	return nil
 }
 
-const (
-	reportRestore = "restore"
-)
-
 type Restore struct {
 	Peer         rc_conn.ConnUserFile
 	Path         mo_path.DropboxPath
@@ -76,9 +72,6 @@ type Restore struct {
 
 func (z *Restore) Preset() {
 	z.OperationLog.SetModel(&RestoreTarget{}, &mo_file.ConcreteEntry{})
-}
-
-func (z *Restore) Console() {
 }
 
 func (z *Restore) Exec(c app_control.Control) error {

@@ -1,6 +1,6 @@
 # team activity event 
 
-Event log
+Event log 
 
 # Security
 

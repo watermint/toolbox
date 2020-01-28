@@ -19,9 +19,6 @@ type Delete struct {
 func (z *Delete) Preset() {
 }
 
-func (z *Delete) Console() {
-}
-
 func (z *Delete) Exec(c app_control.Control) error {
 	ui := c.UI()
 

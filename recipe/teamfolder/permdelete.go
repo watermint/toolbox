@@ -21,9 +21,6 @@ type Permdelete struct {
 func (z *Permdelete) Preset() {
 }
 
-func (z *Permdelete) Console() {
-}
-
 func (z *Permdelete) Exec(c app_control.Control) error {
 	ui := c.UI()
 

@@ -1,6 +1,6 @@
 # team linkedapp list 
 
-List linked applications
+List linked applications 
 
 # Security
 

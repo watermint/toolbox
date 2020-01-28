@@ -1,6 +1,6 @@
 # teamfolder permdelete 
 
-Permanently delete team folder
+Permanently delete team folder (Irreversible operation)
 
 # Security
 

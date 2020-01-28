@@ -1,6 +1,6 @@
 # team activity event 
 
-イベントログ
+イベントログ 
 
 # セキュリティ
 

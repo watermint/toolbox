@@ -1,6 +1,6 @@
 # member quota list 
 
-List team member quota
+List team member quota 
 
 # Security
 

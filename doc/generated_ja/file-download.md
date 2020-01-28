@@ -1,6 +1,6 @@
 # file download 
 
-Download a file from Dropbox (experimental)
+Dropboxからファイルをダウンロードします (試験的実装です)
 
 # セキュリティ
 
@@ -47,11 +47,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション      | 説明                   | デフォルト |
-|-----------------|------------------------|------------|
-| `-dropbox-path` | File path to download  |            |
-| `-local-path`   | Local path to download |            |
-| `-peer`         | アカウントの別名       | default    |
+| オプション      | 説明                         | デフォルト |
+|-----------------|------------------------------|------------|
+| `-dropbox-path` | ダウンロードするファイルパス |            |
+| `-local-path`   | 保存先ローカルパス           |            |
+| `-peer`         | アカウントの別名             | default    |
 
 共通のオプション:
 

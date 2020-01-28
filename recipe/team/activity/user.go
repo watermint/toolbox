@@ -118,9 +118,6 @@ func (z *User) Preset() {
 	))
 }
 
-func (z *User) Console() {
-}
-
 func (z *User) Exec(c app_control.Control) error {
 	l := c.Log()
 

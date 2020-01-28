@@ -1,6 +1,6 @@
 # team namespace list 
 
-List all namespaces of the team
+List all namespaces of the team 
 
 # Security
 

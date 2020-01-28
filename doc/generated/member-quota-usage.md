@@ -1,6 +1,6 @@
 # member quota usage 
 
-List team member storage usage
+List team member storage usage 
 
 # Security
 

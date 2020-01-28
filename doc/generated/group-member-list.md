@@ -1,6 +1,6 @@
 # group member list 
 
-List members of groups
+List members of groups 
 
 # Security
 

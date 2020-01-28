@@ -1,6 +1,6 @@
 # member delete 
 
-Delete members
+Delete members 
 
 # Security
 

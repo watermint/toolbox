@@ -1,6 +1,6 @@
 # file compare local 
 
-Compare local folders and Dropbox folders
+Compare local folders and Dropbox folders 
 
 # Security
 

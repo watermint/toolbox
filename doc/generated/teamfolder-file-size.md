@@ -1,6 +1,6 @@
 # teamfolder file size 
 
-Calculate size of team folders
+Calculate size of team folders 
 
 # Security
 

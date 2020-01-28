@@ -1,6 +1,6 @@
 # file compare account 
 
-Compare files of two accounts
+Compare files of two accounts 
 
 # Security
 

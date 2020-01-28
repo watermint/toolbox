@@ -37,9 +37,6 @@ func (z *Externalid) Preset() {
 	z.OperationLog.SetModel(&ExternalIdRow{}, &mo_member.Member{})
 }
 
-func (z *Externalid) Console() {
-}
-
 func (z *Externalid) Exec(c app_control.Control) error {
 	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {

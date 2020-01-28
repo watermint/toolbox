@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
@@ -20,12 +21,6 @@ type Recipe struct {
 }
 
 func (z *Recipe) Preset() {
-}
-
-func (z *Recipe) Console() {
-}
-
-func (z *Recipe) Hidden() {
 }
 
 func (z *Recipe) Exec(c app_control.Control) error {
@@ -58,9 +53,10 @@ func (z *Recipe) Exec(c app_control.Control) error {
 	switch {
 	case z.All:
 		for _, r := range cat.Recipes() {
-			path, name := rc_recipe.Path(r)
+			rs := rc_spec.New(r)
+			path, name := rs.Path()
 			ll := l.With(zap.Strings("path", path), zap.String("name", name))
-			if _, ok := r.(rc_recipe.SecretRecipe); ok {
+			if rs.IsSecret() {
 				ll.Info("Skip secret recipe")
 				continue
 			}

@@ -1,6 +1,6 @@
 # teamfolder batch archive 
 
-Archiving team folders
+Archiving team folders 
 
 # Security
 

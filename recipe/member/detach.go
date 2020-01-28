@@ -30,9 +30,6 @@ func (z *Detach) Test(c app_control.Control) error {
 	return qt_endtoend.HumanInteractionRequired()
 }
 
-func (z *Detach) Console() {
-}
-
 func (z *Detach) Exec(c app_control.Control) error {
 	ctx := z.Peer.Context()
 

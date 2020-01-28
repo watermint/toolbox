@@ -1,6 +1,6 @@
 # sharedfolder member list 
 
-List shared folder member(s)
+List shared folder member(s) 
 
 # Security
 

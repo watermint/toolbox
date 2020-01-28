@@ -1,6 +1,6 @@
 # member list 
 
-List team member(s)
+List team member(s) 
 
 # Security
 

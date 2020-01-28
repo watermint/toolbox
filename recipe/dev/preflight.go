@@ -23,12 +23,6 @@ func (z *Preflight) Preset() {
 	z.TestMode = false
 }
 
-func (z *Preflight) Hidden() {
-}
-
-func (z *Preflight) Console() {
-}
-
 func (z *Preflight) Test(c app_control.Control) error {
 	z.TestMode = true
 	return z.Exec(c)

@@ -17,9 +17,6 @@ type Move struct {
 func (z *Move) Preset() {
 }
 
-func (z *Move) Console() {
-}
-
 func (z *Move) Exec(c app_control.Control) error {
 	uc := uc_file_relocation.New(z.Peer.Context())
 	return uc.Move(z.Src, z.Dst)

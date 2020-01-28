@@ -21,9 +21,6 @@ type Archive struct {
 func (z *Archive) Preset() {
 }
 
-func (z *Archive) Console() {
-}
-
 func (z *Archive) Exec(c app_control.Control) error {
 	ui := c.UI()
 

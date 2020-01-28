@@ -238,6 +238,5 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 		os.Exit(app_control.Success)
 	}
 
-	spec := rc_spec.New(rcp)
-	return runRecipe(mc, ui, spec, grp, rem, bx, web)
+	return runRecipe(mc, ui, rcp, grp, rem, bx, web)
 }

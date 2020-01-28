@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -51,15 +51,16 @@ func (z *Readme) commands() string {
 
 	ui := z.ctl.UI()
 	for _, r := range recipes {
-		if _, ok := r.(rc_recipe.SecretRecipe); ok {
+		rs := rc_spec.New(r)
+		if rs.IsSecret() {
 			continue
 		}
 
-		p, n := rc_recipe.Path(r)
+		p, n := rs.Path()
 		p = append(p, n)
 		q := strings.Join(p, " ")
 
-		book[q] = ui.TextK(rc_recipe.Title(r).Key())
+		book[q] = ui.Text(rs.Title())
 		keys = append(keys, q)
 	}
 	var b bytes.Buffer

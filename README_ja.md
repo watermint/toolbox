@@ -42,14 +42,14 @@ DropboxおよびDropbox Business向けのツールセット
 利用可能なコマンド:
 ===================
 
-   file          ファイル操作
-   group         グループの管理 (Dropbox Business)
-   license       ライセンス情報を表示します
-   member        チームメンバーの管理 (Dropbox Business)
-   sharedfolder  共有フォルダ
-   sharedlink    個人アカウントの共有リンク
-   team          Dropbox Business チーム
-   teamfolder    チームフォルダの管理 (Dropbox Business)
+   file          ファイル操作                
+   group         グループ管理                
+   license       ライセンス情報を表示します         
+   member        チームメンバーの管理            
+   sharedfolder  共有フォルダ                
+   sharedlink    個人アカウントの共有リンク         
+   team          Dropbox Business チーム  
+   teamfolder    チームフォルダの管理            
 
 ```
 
@@ -61,20 +61,20 @@ DropboxおよびDropbox Business向けのツールセット
 | [file compare local](doc/generated_ja/file-compare-local.md)                       | ローカルフォルダとDropboxフォルダの内容を比較します            |
 | [file copy](doc/generated_ja/file-copy.md)                                         | ファイルをコピーします                                         |
 | [file delete](doc/generated_ja/file-delete.md)                                     | ファイルまたはフォルダは削除します.                            |
-| [file download](doc/generated_ja/file-download.md)                                 | Download a file from Dropbox (experimental)                    |
-| [file export doc](doc/generated_ja/file-export-doc.md)                             | Export document                                                |
+| [file download](doc/generated_ja/file-download.md)                                 | Dropboxからファイルをダウンロードします                        |
+| [file export doc](doc/generated_ja/file-export-doc.md)                             | ドキュメントのエクスポート                                     |
 | [file import batch url](doc/generated_ja/file-import-batch-url.md)                 | URLからファイルを一括インポートします                          |
 | [file import url](doc/generated_ja/file-import-url.md)                             | URLからファイルをインポートします                              |
 | [file list](doc/generated_ja/file-list.md)                                         | ファイルとフォルダを一覧します                                 |
 | [file merge](doc/generated_ja/file-merge.md)                                       | フォルダを統合します                                           |
 | [file move](doc/generated_ja/file-move.md)                                         | ファイルを移動します                                           |
 | [file replication](doc/generated_ja/file-replication.md)                           | ファイルコンテンツを他のアカウントに複製します                 |
-| [file restore](doc/generated_ja/file-restore.md)                                   | 指定されたパス以下のファイルを復元します (実験的)              |
+| [file restore](doc/generated_ja/file-restore.md)                                   | 指定されたパス以下をリストアします                             |
 | [file sync preflight up](doc/generated_ja/file-sync-preflight-up.md)               | 上り方向同期のための事前チェックを実施します                   |
 | [file sync up](doc/generated_ja/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                  |
 | [file upload](doc/generated_ja/file-upload.md)                                     | ファイルのアップロード                                         |
 | [file watch](doc/generated_ja/file-watch.md)                                       | ファイルアクティビティを監視                                   |
-| [group batch delete](doc/generated_ja/group-batch-delete.md)                       | Delete groups                                                  |
+| [group batch delete](doc/generated_ja/group-batch-delete.md)                       | グループの削除                                                 |
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                           |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                 |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                     |
@@ -86,6 +86,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [member quota list](doc/generated_ja/member-quota-list.md)                         | メンバーの容量制限情報を一覧します                             |
 | [member quota update](doc/generated_ja/member-quota-update.md)                     | チームメンバーの容量制限を変更                                 |
 | [member quota usage](doc/generated_ja/member-quota-usage.md)                       | チームメンバーのストレージ利用状況を取得                       |
+| [member replication](doc/generated_ja/member-replication.md)                       | チームメンバーのファイルを複製します                           |
 | [member update email](doc/generated_ja/member-update-email.md)                     | メンバーのメールアドレス処理                                   |
 | [member update externalid](doc/generated_ja/member-update-externalid.md)           | チームメンバーのExternal IDを更新します.                       |
 | [member update profile](doc/generated_ja/member-update-profile.md)                 | メンバーのプロフィール変更                                     |

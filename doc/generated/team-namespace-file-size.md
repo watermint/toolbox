@@ -1,6 +1,6 @@
 # team namespace file size 
 
-List all files and folders of the team namespaces
+List all files and folders of the team namespaces 
 
 # Security
 

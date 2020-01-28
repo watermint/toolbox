@@ -20,14 +20,104 @@ type Recipe interface {
 	Preset()
 }
 
-// SecretRecipe will not be listed in available commands.
-type SecretRecipe interface {
-	Hidden()
+type Annotation interface {
+	Recipe
+
+	// Returns seed Recipe of this annotation.
+	Seed() Recipe
+
+	// True if the recipe is not for general usage.
+	IsSecret() bool
+
+	// True if the recipe is not designed for non-console UI.
+	IsConsole() bool
+
+	// True if the recipe is in experimental phase.
+	IsExperimental() bool
+
+	// True if the operation is irreversible.
+	IsIrreversible() bool
 }
 
-// Console only recipe will not be listed in web console.
-type ConsoleRecipe interface {
-	Console()
+type RecipeProperty func(ro *RecipeProps) *RecipeProps
+type RecipeProps struct {
+	Secret       bool
+	Console      bool
+	Experimental bool
+	Irreversible bool
+}
+
+func Secret() RecipeProperty {
+	return func(ro *RecipeProps) *RecipeProps {
+		ro.Secret = true
+		return ro
+	}
+}
+func Console() RecipeProperty {
+	return func(ro *RecipeProps) *RecipeProps {
+		ro.Console = true
+		return ro
+	}
+}
+func Experimental() RecipeProperty {
+	return func(ro *RecipeProps) *RecipeProps {
+		ro.Experimental = true
+		return ro
+	}
+}
+func Irreversible() RecipeProperty {
+	return func(ro *RecipeProps) *RecipeProps {
+		ro.Irreversible = true
+		return ro
+	}
+}
+
+type annotatedRecipe struct {
+	seed Recipe
+	opts *RecipeProps
+}
+
+func (z *annotatedRecipe) Exec(c app_control.Control) error {
+	return z.seed.Exec(c)
+}
+
+func (z *annotatedRecipe) Test(c app_control.Control) error {
+	return z.seed.Test(c)
+}
+
+func (z *annotatedRecipe) Preset() {
+	z.seed.Preset()
+}
+
+func (z *annotatedRecipe) Seed() Recipe {
+	return z.seed
+}
+
+func (z *annotatedRecipe) IsSecret() bool {
+	return z.opts.Secret
+}
+
+func (z *annotatedRecipe) IsConsole() bool {
+	return z.opts.Console
+}
+
+func (z *annotatedRecipe) IsExperimental() bool {
+	return z.opts.Experimental
+}
+
+func (z *annotatedRecipe) IsIrreversible() bool {
+	return z.opts.Irreversible
+}
+
+func Annotate(r Recipe, props ...RecipeProperty) Annotation {
+	rp := &RecipeProps{}
+	for _, p := range props {
+		p(rp)
+	}
+	return &annotatedRecipe{
+		seed: r,
+		opts: rp,
+	}
 }
 
 type SpecValue interface {
@@ -61,6 +151,12 @@ type Spec interface {
 
 	// Recipe description
 	Desc() app_msg.MessageOptional
+
+	// Recipe remarks
+	Remarks() app_msg.MessageOptional
+
+	// Path signature of the recipe
+	Path() (path []string, name string)
 
 	// Recipe path on cli
 	CliPath() string
@@ -100,6 +196,18 @@ type Spec interface {
 
 	// SpinDown
 	SpinDown(ctl app_control.Control) error
+
+	// True if the recipe is not for general usage.
+	IsSecret() bool
+
+	// True if the recipe is not designed for non-console UI.
+	IsConsole() bool
+
+	// True if the recipe is in experimental phase.
+	IsExperimental() bool
+
+	// True if the operation is irreversible.
+	IsIrreversible() bool
 }
 
 func NoCustomValues(r Recipe) {}

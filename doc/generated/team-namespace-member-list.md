@@ -1,6 +1,6 @@
 # team namespace member list 
 
-List members of shared folders and team folders in the team
+List members of shared folders and team folders in the team 
 
 # Security
 

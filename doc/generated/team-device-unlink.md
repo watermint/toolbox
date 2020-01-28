@@ -1,6 +1,6 @@
 # team device unlink 
 
-Unlink device sessions
+Unlink device sessions (Irreversible operation)
 
 # Security
 

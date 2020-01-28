@@ -1,6 +1,6 @@
 # file compare local 
 
-ローカルフォルダとDropboxフォルダの内容を比較します
+ローカルフォルダとDropboxフォルダの内容を比較します 
 
 # セキュリティ
 

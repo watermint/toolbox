@@ -1,6 +1,6 @@
 # license 
 
-Show license information
+Show license information 
 
 # Usage
 

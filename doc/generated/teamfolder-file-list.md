@@ -1,6 +1,6 @@
 # teamfolder file list 
 
-List files in team folders
+List files in team folders 
 
 # Security
 

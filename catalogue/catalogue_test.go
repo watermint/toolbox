@@ -34,13 +34,12 @@ func testGroup(g rc_group.Group, ui app_ui.UI) {
 	}
 }
 
-func testRecipe(g rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
+func testRecipe(g rc_group.Group, r rc_recipe.Spec, ui app_ui.UI) {
 	f := flag.NewFlagSet("", flag.ContinueOnError)
-	spec := rc_spec.New(r)
-	spec.SetFlags(f, ui)
-	g.PrintRecipeUsage(ui, spec, f)
+	r.SetFlags(f, ui)
+	g.PrintRecipeUsage(ui, r, f)
 
-	for _, m := range spec.Messages() {
+	for _, m := range r.Messages() {
 		ui.Info(m)
 	}
 }

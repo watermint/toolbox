@@ -1,6 +1,6 @@
 # team sharedlink list 
 
-共有リンクの一覧
+共有リンクの一覧 
 
 # セキュリティ
 

@@ -1,6 +1,6 @@
 # sharedlink delete 
 
-Remove shared links
+Remove shared links (Irreversible operation)
 
 This command will delete shared links based on the path in the Dropbox
 

@@ -41,9 +41,6 @@ func (z *Invite) Test(c app_control.Control) error {
 	return qt_endtoend.HumanInteractionRequired()
 }
 
-func (z *Invite) Console() {
-}
-
 func (z *Invite) msgFromTag(tag string) app_msg.Message {
 	return app_msg.M("recipe.member.invite.tag." + tag)
 }

@@ -1,6 +1,6 @@
 # team namespace file list 
 
-List all files and folders of the team namespaces
+List all files and folders of the team namespaces 
 
 # Security
 

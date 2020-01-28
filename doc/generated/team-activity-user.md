@@ -1,6 +1,6 @@
 # team activity user 
 
-Activities log per user
+Activities log per user 
 
 # Security
 

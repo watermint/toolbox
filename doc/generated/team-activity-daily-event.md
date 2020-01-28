@@ -1,6 +1,6 @@
 # team activity daily event 
 
-Report activities by day
+Report activities by day 
 
 # Security
 

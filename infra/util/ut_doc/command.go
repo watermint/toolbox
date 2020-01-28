@@ -180,10 +180,11 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 
 	params := make(map[string]interface{})
 	params["Command"] = spec.CliPath()
-	params["CommandTitle"] = ui.TextK(spec.Title().Key())
-	params["CommandDesc"] = ui.TextOrEmptyK(spec.Desc().Key())
-	params["CommandArgs"] = ui.TextOrEmptyK(spec.CliArgs().Key())
-	params["CommandNote"] = ui.TextOrEmptyK(spec.CliNote().Key())
+	params["CommandTitle"] = ui.Text(spec.Title())
+	params["CommandRemarks"] = ui.TextOrEmpty(spec.Remarks())
+	params["CommandDesc"] = ui.TextOrEmpty(spec.Desc())
+	params["CommandArgs"] = ui.TextOrEmpty(spec.CliArgs())
+	params["CommandNote"] = ui.TextOrEmpty(spec.CliNote())
 	params["Options"] = z.optionsTable(spec)
 	params["CommonOptions"] = z.optionsTable(commonSpec)
 	params["UseAuth"] = len(spec.ConnScopes()) > 0
@@ -237,7 +238,8 @@ func (z *Commands) GenerateAll() error {
 	numSecret := 0
 
 	for _, r := range recipes {
-		if _, ok := r.(rc_recipe.SecretRecipe); ok {
+		rs := rc_spec.New(r)
+		if rs.IsSecret() {
 			numSecret++
 			continue
 		}

@@ -1,6 +1,6 @@
 # team diag explorer 
 
-Report while team information
+Report while team information 
 
 # Security
 

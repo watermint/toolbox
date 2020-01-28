@@ -20,9 +20,6 @@ func (z *Replication) Preset() {
 	z.DstPeerName = "dst"
 }
 
-func (z *Replication) Console() {
-}
-
 func (z *Replication) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, &teamfolder.Replication{}, func(r rc_recipe.Recipe) {
 		rc := r.(*teamfolder.Replication)

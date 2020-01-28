@@ -1,6 +1,6 @@
 # group list 
 
-List group(s)
+List group(s) 
 
 # Security
 

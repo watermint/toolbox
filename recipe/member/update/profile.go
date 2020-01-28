@@ -32,9 +32,6 @@ func (z *Profile) Test(c app_control.Control) error {
 	return qt_endtoend.HumanInteractionRequired()
 }
 
-func (z *Profile) Console() {
-}
-
 func (z *Profile) Exec(c app_control.Control) error {
 	ui := c.UI()
 

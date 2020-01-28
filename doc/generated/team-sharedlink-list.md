@@ -1,6 +1,6 @@
 # team sharedlink list 
 
-List of shared links
+List of shared links 
 
 # Security
 

@@ -1,6 +1,6 @@
 # teamfolder batch replication 
 
-Batch replication of team folders
+Batch replication of team folders (Irreversible operation)
 
 # Usage
 

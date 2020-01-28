@@ -26,9 +26,6 @@ func (z *Delete) Preset() {
 	z.OperationLog.SetModel(&DeleteRow{}, nil)
 }
 
-func (z *Delete) Console() {
-}
-
 func (z *Delete) Exec(c app_control.Control) error {
 	ctx := z.Peer.Context()
 

@@ -1,6 +1,6 @@
 # team filerequest list 
 
-List all file requests in the team
+List all file requests in the team 
 
 # Security
 

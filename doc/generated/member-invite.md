@@ -1,6 +1,6 @@
 # member invite 
 
-Invite member(s)
+Invite member(s) 
 
 # Security
 

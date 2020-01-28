@@ -1,6 +1,6 @@
 # member quota update 
 
-Update team member quota
+Update team member quota 
 
 # Security
 

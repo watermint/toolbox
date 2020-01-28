@@ -60,9 +60,6 @@ func (z *Unlink) Preset() {
 	z.OperationLog.SetModel(&mo_device.MemberSession{}, nil)
 }
 
-func (z *Unlink) Console() {
-}
-
 func (z *Unlink) Exec(c app_control.Control) error {
 	if err := z.OperationLog.Open(); err != nil {
 		return err

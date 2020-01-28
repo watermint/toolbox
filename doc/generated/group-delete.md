@@ -1,6 +1,6 @@
 # group delete 
 
-Delete group
+Delete group (Irreversible operation)
 
 This command does not confirm whether the group used in existing folders
 

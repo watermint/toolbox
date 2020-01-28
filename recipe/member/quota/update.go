@@ -64,9 +64,6 @@ func (z *Update) Preset() {
 	z.OperationLog.SetModel(&mo_member_quota.MemberQuota{}, &mo_member_quota.MemberQuota{})
 }
 
-func (z *Update) Console() {
-}
-
 func (z *Update) Exec(c app_control.Control) error {
 	ctx := z.Peer.Context()
 

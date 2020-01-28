@@ -15,6 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
+	"github.com/watermint/toolbox/infra/recipe/rc_group_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_template"
@@ -135,22 +136,18 @@ func (z *WebHandler) setupUrls(g *gin.Engine) {
 
 func (z *WebHandler) setupCatalogue() {
 	recipes := z.Launcher.Catalogue().Recipes()
-	z.Root = rc_group.NewGroup([]string{}, "")
+	z.Root = rc_group_impl.NewGroup()
 	for _, r := range recipes {
-		_, ok := r.(rc_recipe.SecretRecipe)
-		if ok {
-			continue
-		}
-		_, ok = r.(rc_recipe.ConsoleRecipe)
-		if ok {
+		rs := rc_spec.New(r)
+		if rs.IsSecret() || rs.IsConsole() {
 			continue
 		}
 
-		z.Root.Add(r)
+		z.Root.Add(rs)
 	}
 }
 
-func (z *WebHandler) findRecipe(cmd string) (grp rc_group.Group, rcp rc_recipe.Recipe, err error) {
+func (z *WebHandler) findRecipe(cmd string) (grp rc_group.Group, rcp rc_recipe.Spec, err error) {
 	cmdPath := strings.Split(cmd, "-")
 	_, grp, rcp, _, err = z.Root.Select(cmdPath)
 
@@ -162,12 +159,11 @@ func (z *WebHandler) findRecipe(cmd string) (grp rc_group.Group, rcp rc_recipe.R
 	return
 }
 
-func (z *WebHandler) recipeRequirements(rcp rc_recipe.Recipe) (conns map[string]string, paramTypes map[string]string, paramDefaults map[string]interface{}) {
+func (z *WebHandler) recipeRequirements(rcp rc_recipe.Spec) (conns map[string]string, paramTypes map[string]string, paramDefaults map[string]interface{}) {
 	paramTypes = make(map[string]string)
 	paramDefaults = make(map[string]interface{})
 
-	rcpSpec := rc_spec.New(rcp)
-	conns = rcpSpec.ConnScopeMap()
+	conns = rcp.ConnScopeMap()
 	return
 }
 
@@ -339,14 +335,13 @@ func (z *WebHandler) Run(g *gin.Context) {
 	z.withUser(g, func(g *gin.Context, user web_user.User, uc app_control.Control) {
 		cmd := g.Param("command")
 		l := z.Control.Log().With(zap.String("cmd", cmd))
-		_, rcp, err := z.findRecipe(cmd)
-		if rcp == nil || err != nil {
+		_, rcpSpec, err := z.findRecipe(cmd)
+		if rcpSpec == nil || err != nil {
 			l.Debug("Invalid run request", zap.String("Cmd", cmd))
 			g.Redirect(http.StatusTemporaryRedirect, WebPathCommandNotFound)
 			return
 		}
 		selectedConns := g.PostFormMap("Conn")
-		rcpSpec := rc_spec.New(rcp)
 
 		for _, vn := range rcpSpec.ValueNames() {
 			v := rcpSpec.Value(vn)
@@ -546,7 +541,7 @@ func (z *WebHandler) Artifact(g *gin.Context) {
 	})
 }
 
-func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp rc_recipe.Recipe, user web_user.User, uc app_control.Control) {
+func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp rc_recipe.Spec, user web_user.User, uc app_control.Control) {
 	l := z.Control.Log().With(zap.String("cmd", cmd))
 	reqConns, reqParams, _ := z.recipeRequirements(rcp)
 	selectedConns := g.PostFormMap("Conn")
@@ -621,7 +616,7 @@ func (z *WebHandler) renderRecipeParam(g *gin.Context) {
 	)
 }
 
-func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp rc_recipe.Recipe, user web_user.User, uc app_control.Control) {
+func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp rc_recipe.Spec, user web_user.User, uc app_control.Control) {
 	l := z.Control.Log().With(zap.String("cmd", cmd))
 	reqConns, _, _ := z.recipeRequirements(rcp)
 

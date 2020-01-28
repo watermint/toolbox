@@ -1,6 +1,6 @@
 # teamfolder batch permdelete 
 
-Permanently delete team folders
+Permanently delete team folders (Irreversible operation)
 
 # Security
 

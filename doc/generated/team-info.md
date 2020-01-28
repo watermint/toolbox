@@ -1,6 +1,6 @@
 # team info 
 
-Team information
+Team information 
 
 # Security
 

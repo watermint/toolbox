@@ -1,6 +1,6 @@
 # team sharedlink update expiry 
 
-Update expiration date of public shared links within the team
+Update expiration date of public shared links within the team (Irreversible operation)
 
 # Security
 

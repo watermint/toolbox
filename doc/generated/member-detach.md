@@ -1,6 +1,6 @@
 # member detach 
 
-Convert Dropbox Business accounts to a Basic account
+Convert Dropbox Business accounts to a Basic account 
 
 # Security
 

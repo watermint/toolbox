@@ -1,6 +1,6 @@
 # file delete 
 
-Delete file or folder
+Delete file or folder 
 
 # Security
 

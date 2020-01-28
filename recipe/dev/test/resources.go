@@ -16,9 +16,6 @@ func (z *Resources) Test(c app_control.Control) error {
 	return qt_endtoend.NoTestRequired()
 }
 
-func (z *Resources) Hidden() {
-}
-
 func (z *Resources) Exec(c app_control.Control) error {
 	qt_runtime.Suite(c)
 	return nil

@@ -24,9 +24,6 @@ func (z *Download) Preset() {
 	z.OperationLog.SetModel(&mo_file.ConcreteEntry{})
 }
 
-func (z *Download) Console() {
-}
-
 func (z *Download) Exec(c app_control.Control) error {
 	l := c.Log()
 	ctx := z.Peer.Context()

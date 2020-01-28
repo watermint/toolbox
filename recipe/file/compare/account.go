@@ -28,9 +28,6 @@ func (z *Account) Preset() {
 	z.Right.SetPeerName("right")
 }
 
-func (z *Account) Console() {
-}
-
 func (z *Account) Exec(c app_control.Control) error {
 	ui := c.UI()
 

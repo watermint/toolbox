@@ -1,6 +1,6 @@
 # team device list 
 
-List all devices/sessions in the team
+List all devices/sessions in the team 
 
 # Security
 

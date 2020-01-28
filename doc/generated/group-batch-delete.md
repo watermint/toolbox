@@ -1,6 +1,6 @@
 # group batch delete 
 
-Delete groups
+Delete groups (Irreversible operation)
 
 # Security
 

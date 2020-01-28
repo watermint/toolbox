@@ -23,12 +23,6 @@ func (z *Auth) Preset() {
 	z.Mgmt.SetPeerName(qt_endtoend.EndToEndPeer)
 }
 
-func (z *Auth) Hidden() {
-}
-
-func (z *Auth) Console() {
-}
-
 func (z *Auth) Exec(c app_control.Control) error {
 	if err := api_auth_impl.CreateCompatible(c, qt_endtoend.EndToEndPeer); err != nil {
 		return err
