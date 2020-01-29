@@ -18,6 +18,7 @@ import (
 	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/recipe"
 	recipedev "github.com/watermint/toolbox/recipe/dev"
+	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
 	recipefile "github.com/watermint/toolbox/recipe/file"
 	recipefilecompare "github.com/watermint/toolbox/recipe/file/compare"
@@ -63,6 +64,7 @@ func Recipes() []rc_recipe.Recipe {
 		rc_recipe.Annotate(&recipedev.Doc{}, rc_recipe.Secret()),
 		rc_recipe.Annotate(&recipedev.Dummy{}, rc_recipe.Secret()),
 		rc_recipe.Annotate(&recipedev.Preflight{}, rc_recipe.Secret()),
+		rc_recipe.Annotate(&recipedevdiag.Procmon{}, rc_recipe.Secret()),
 		rc_recipe.Annotate(&recipedevtest.Auth{}, rc_recipe.Secret()),
 		rc_recipe.Annotate(&recipedevtest.Monkey{}, rc_recipe.Secret()),
 		rc_recipe.Annotate(&recipedevtest.Recipe{}, rc_recipe.Secret()),
