@@ -97,6 +97,8 @@ func (z *Procmon) downloadProcmon(c app_control.Control) error {
 				l.Debug("Unable to copy from zip", zap.Error(err))
 				return err
 			}
+			extracted.Close()
+			compressed.Close()
 		}
 	}
 
