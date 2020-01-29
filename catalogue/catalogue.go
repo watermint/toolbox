@@ -64,6 +64,7 @@ func Recipes() []rc_recipe.Recipe {
 		rc_recipe.Annotate(&recipedev.Dummy{}, rc_recipe.Secret()),
 		rc_recipe.Annotate(&recipedev.Preflight{}, rc_recipe.Secret()),
 		rc_recipe.Annotate(&recipedevtest.Auth{}, rc_recipe.Secret()),
+		rc_recipe.Annotate(&recipedevtest.Monkey{}, rc_recipe.Secret()),
 		rc_recipe.Annotate(&recipedevtest.Recipe{}, rc_recipe.Secret()),
 		rc_recipe.Annotate(&recipedevtest.Resources{}, rc_recipe.Secret()),
 		rc_recipe.Annotate(&recipefile.Copy{}),
