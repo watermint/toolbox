@@ -18,45 +18,49 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"os"
+	"path/filepath"
 	"time"
 )
 
 type MonkeyWorker struct {
 	Context api_context.Context
 	Base    mo_path.DropboxPath
-	File    mo_path.DropboxPath
+	Name    string
 	Sem     *semaphore.Weighted
 }
 
 func (z *MonkeyWorker) upload() error {
 	l := z.Context.Log()
-	tf, err := ioutil.TempFile("", "test-*.dat")
+	tf, err := ioutil.TempFile("", "monkey")
 	if err != nil {
 		l.Debug("Unable to create temp file", zap.Error(err))
 		return err
 	}
-	defer os.Remove(tf.Name())
 	td := make([]byte, rand.Intn(384)+1)
 	rand.Read(td)
 	tf.Write(td)
+	tf.Close()
+	path := filepath.Join(filepath.Dir(tf.Name()), z.Name)
+	os.Rename(tf.Name(), path)
+	defer os.Remove(path)
 
-	entry, err := sv_file_content.NewUpload(z.Context).Overwrite(z.File, tf.Name())
+	entry, err := sv_file_content.NewUpload(z.Context).Overwrite(z.Base, path)
 	l.Info("Create or update", zap.Any("entry", entry), zap.Error(err))
-	return err
+	return nil
 }
 
 func (z *MonkeyWorker) delete() error {
 	l := z.Context.Log()
-	entry, err := sv_file.NewFiles(z.Context).Remove(z.File)
+	entry, err := sv_file.NewFiles(z.Context).Remove(z.Base.ChildPath(z.Name))
 	l.Info("Delete", zap.Any("entry", entry), zap.Error(err))
-	return err
+	return nil
 }
 
 func (z *MonkeyWorker) Exec() error {
 	defer z.Sem.Release(1)
 
-	l := z.Context.Log().With(zap.String("file", z.File.Path()))
-	entry, err := sv_file.NewFiles(z.Context).Resolve(z.File)
+	l := z.Context.Log().With(zap.String("base", z.Base.Path()), zap.String("name", z.Name))
+	entry, err := sv_file.NewFiles(z.Context).Resolve(z.Base.ChildPath(z.Name))
 
 	l.Debug("Entry", zap.Any("entry", entry), zap.Error(err))
 
@@ -85,11 +89,11 @@ func (z *Monkey) Exec(c app_control.Control) error {
 	if z.Distribution < 1 {
 		return errors.New("distribution must be grater than 1")
 	}
-	files := make([]mo_path.DropboxPath, z.Distribution)
+	files := make([]string, z.Distribution)
+	folders := make([]mo_path.DropboxPath, z.Distribution)
 	for i := 0; i < z.Distribution; i++ {
-		//file := fmt.Sprintf("test-%05d.dat", i/10)
-		folder := fmt.Sprintf("test%d", i%10)
-		files[i] = z.Path.ChildPath(folder)
+		files[i] = fmt.Sprintf("test-%05d.dat", i/10)
+		folders[i] = z.Path.ChildPath(fmt.Sprintf("test%d", i%10))
 	}
 	sem := semaphore.NewWeighted(100)
 	l := c.Log()
@@ -104,12 +108,15 @@ func (z *Monkey) Exec(c app_control.Control) error {
 				return
 			}
 
-			f := files[rand.Intn(z.Distribution)]
-			l.Debug("Enqueue file", zap.String("file", f.Path()))
+			index := rand.Intn(z.Distribution)
+			file := files[index]
+			folder := folders[index]
+
+			l.Debug("Enqueue file", zap.String("path", folder.Path()), zap.String("name", file))
 			q.Enqueue(&MonkeyWorker{
 				Context: z.Peer.Context(),
-				Base:    z.Path,
-				File:    f,
+				Base:    folder,
+				Name:    file,
 				Sem:     sem,
 			})
 		}
