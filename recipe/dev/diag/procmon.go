@@ -46,7 +46,7 @@ func (z *Procmon) downloadProcmon(c app_control.Control) error {
 
 	// Download
 	{
-		l.Debug("Try download", zap.String("url", procmonDownloadUrl))
+		l.Info("Try download", zap.String("url", procmonDownloadUrl))
 		resp, err := http.Get(procmonDownloadUrl)
 		if err != nil {
 			l.Debug("Unable to create download request")
@@ -70,7 +70,7 @@ func (z *Procmon) downloadProcmon(c app_control.Control) error {
 
 	// Extract
 	{
-		l.Debug("Extract downloaded zip", zap.String("zip", procmonZip))
+		l.Info("Extract downloaded zip", zap.String("zip", procmonZip))
 		r, err := zip.OpenReader(procmonZip)
 		if err != nil {
 			l.Debug("Unable to open zip file", zap.Error(err))
@@ -144,6 +144,8 @@ func (z *Procmon) runProcmon(c app_control.Control, exePath string) (cmd *exec.C
 		"/BackingFile",
 		logPath,
 	)
+	l.Info("Run Process monitor", zap.String("exe", exePath), zap.Strings("args", cmd.Args))
+
 	err = cmd.Start()
 	if err != nil {
 		l.Debug("Unable to start program", zap.Error(err), zap.Any("cmd", cmd))
@@ -156,7 +158,7 @@ func (z *Procmon) runProcmon(c app_control.Control, exePath string) (cmd *exec.C
 func (z *Procmon) terminateProcmon(c app_control.Control, exePath string, cmd *exec.Cmd) error {
 	l := c.Log()
 
-	l.Debug("Trying to terminate procmon")
+	l.Info("Trying to terminate procmon")
 	termCmd := exec.Command(exePath,
 		"/Terminate",
 	)
@@ -167,6 +169,10 @@ func (z *Procmon) terminateProcmon(c app_control.Control, exePath string, cmd *e
 		err2 := cmd.Process.Kill()
 		l.Debug("Kill sent", zap.Error(err2))
 		return err
+	}
+	if err := termCmd.Wait(); err != nil {
+		l.Debug("Terminate wait returned an error", zap.Error(err))
+		return nil
 	}
 
 	return nil
@@ -198,12 +204,15 @@ func (z *Procmon) cleanupProcmonLogs(c app_control.Control) error {
 	l := c.Log().With(zap.String("logPath", logPath))
 	l.Debug("Start clean up logs")
 
-	err := os.RemoveAll(logPath)
-	if err != nil {
-		l.Debug("Unable to clean up logs", zap.Error(err))
-		return err
+	for i := 0; i < 10; i++ {
+		err := os.RemoveAll(logPath)
+		if err != nil {
+			l.Debug("Unable to clean up logs", zap.Error(err))
+			time.Sleep(10 * time.Second)
+			continue
+		}
+		return nil
 	}
-
 	return nil
 }
 
@@ -236,6 +245,10 @@ func (z *Procmon) Exec(c app_control.Control) error {
 	if err = z.terminateProcmon(c, exe, cmd); err != nil {
 		return err
 	}
+
+	l.Info("Waiting for termination", zap.Int("seconds", 60))
+	time.Sleep(60 * time.Second)
+
 	if err = z.uploadProcmonLogs(c); err != nil {
 		return err
 	}
