@@ -22,15 +22,16 @@ func Ready() bool {
 	return ready
 }
 
+func InitLogger() {
+	rootLogger = app_log.NewConsoleLogger(false)
+	logWrapper = app_log.NewLogWrapper(rootLogger)
+}
+
 func SetLogger(logger *zap.Logger) {
 	rootLogger = logger
 	logWrapper = app_log.NewLogWrapper(logger)
 	log.SetOutput(logWrapper)
 	ready = true
-}
-
-func SetCompatibleLogger(logger *zap.Logger) {
-	rootLogger = logger
 }
 
 func SetCapture(logger *zap.Logger) {

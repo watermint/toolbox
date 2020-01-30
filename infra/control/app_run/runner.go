@@ -190,31 +190,25 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 	}
 
 	// Run
+	var lastErr error
 	ctl.Log().Debug("Run recipe", zap.Any("vo", rcpSpec.Debug()), zap.Any("common", com))
-	{
-		err = rc_exec.ExecSpec(ctl, rcpSpec, rc_recipe.NoCustomValues)
-		if err != nil {
-			ctl.Log().Debug("Unable to apply values to the recipe", zap.Error(err))
-			ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
-			os.Exit(app_control.FailureGeneral)
-		}
+	lastErr = rc_exec.ExecSpec(ctl, rcpSpec, rc_recipe.NoCustomValues)
+	if lastErr != nil {
+		ctl.Log().Error("Recipe failed with an error", zap.Error(lastErr))
+		ui.Failure("run.error.recipe.failed", app_msg.P{"Error": lastErr.Error()})
+		os.Exit(app_control.FailureGeneral)
 	}
 
 	// Dump stats
 	ut_memory.DumpStats(ctl.Log())
 	nw_monitor.DumpStats(ctl.Log())
 
-	if err != nil {
-		ctl.Log().Error("Recipe failed with an error", zap.Error(err))
-		ui.Failure("run.error.recipe.failed", app_msg.P{"Error": err.Error()})
-		os.Exit(app_control.FailureGeneral)
-	}
 	app_root.FlushSuccessShutdownHook()
 
 	return true
 }
 
-func Run(args []string, bx, web *rice.Box) (found bool) {
+func Run(args []string, bx, web *rice.Box) {
 	// Initialize resources
 	mc := app_msg_container_impl.NewContainer(bx)
 	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
@@ -238,5 +232,5 @@ func Run(args []string, bx, web *rice.Box) (found bool) {
 		os.Exit(app_control.Success)
 	}
 
-	return runRecipe(mc, ui, rcp, grp, rem, bx, web)
+	runRecipe(mc, ui, rcp, grp, rem, bx, web)
 }

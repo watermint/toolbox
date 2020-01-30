@@ -254,6 +254,7 @@ func (z *Single) Up(opts ...app_control.UpOpt) (err error) {
 func (z *Single) Down() {
 	z.Log().Debug("Down")
 	app_root.Flush()
+	app_root.InitLogger()
 	z.cap.Close()
 	z.flc.Close()
 }

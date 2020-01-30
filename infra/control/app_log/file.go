@@ -15,6 +15,7 @@ type FileLogContext struct {
 func (z *FileLogContext) Close() {
 	if z.File != nil {
 		z.File.Close()
+		z.File = nil
 	}
 }
 

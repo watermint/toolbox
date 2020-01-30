@@ -10,5 +10,9 @@ func main() {
 	bx := rice.MustFindBox("resources")
 	web := rice.MustFindBox("web")
 
-	_ = app_run.Run(os.Args[1:], bx, web)
+	if rb, found := app_run.FindRunBook(false); found {
+		rb.Exec(bx, web)
+	} else {
+		app_run.Run(os.Args[1:], bx, web)
+	}
 }
