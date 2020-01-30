@@ -124,10 +124,13 @@ func TestFormatPathWithPredefinedVariables(t *testing.T) {
 }
 
 func TestEscape(t *testing.T) {
-	if e := Escape("<>:\"|?*."); e != "________" {
+	if e := Escape("<>:\"|?*"); e != "_______" {
 		t.Error(e)
 	}
 	if e := Escape("abc123def456"); e != "abc123def456" {
+		t.Error(e)
+	}
+	if e := Escape("abc<123>def|456?"); e != "abc_123_def_456_" {
 		t.Error(e)
 	}
 }
