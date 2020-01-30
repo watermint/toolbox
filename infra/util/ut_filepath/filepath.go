@@ -194,7 +194,7 @@ func FormatPathWithPredefinedVariables(path string) (string, error) {
 					Key:    k,
 				}
 			}
-			data[k] = v
+			data[k] = Escape(v)
 		}
 	}
 
