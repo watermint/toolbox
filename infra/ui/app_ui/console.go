@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/skratchdot/open-golang/open"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -15,7 +16,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"sync"
 	"text/tabwriter"
@@ -301,7 +301,7 @@ func (z *console) colorPrint(t string, color int) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	if runtime.GOOS == "windows" || !z.useColor {
+	if app.IsWindows() || !z.useColor {
 		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
 		fmt.Fprintf(z.out, "\x1b[%dm%s\x1b[0m\n", color, t)
@@ -312,7 +312,7 @@ func (z *console) boldPrint(t string) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	if runtime.GOOS == "windows" || !z.useColor {
+	if app.IsWindows() || !z.useColor {
 		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
 		fmt.Fprintf(z.out, "\x1b[1m%s\x1b[0m\n", t)

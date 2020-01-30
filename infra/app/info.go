@@ -1,5 +1,7 @@
 package app
 
+import "runtime"
+
 var (
 	Name       = "toolbox"
 	Version    = "`dev`"
@@ -19,4 +21,8 @@ const (
 
 func IsProduction() bool {
 	return Hash != ""
+}
+
+func IsWindows() bool {
+	return runtime.GOOS == "windows"
 }

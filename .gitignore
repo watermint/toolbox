@@ -15,5 +15,5 @@
 /vendor
 /resources/*.tokens
 /resources/*.appkeys
+/resources/*.buildkey
 /test/dev
-

@@ -1,10 +1,10 @@
 package app_log
 
 import (
+	"github.com/watermint/toolbox/infra/app"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
-	"runtime"
 )
 
 func NewConsoleLogger(debug bool) *zap.Logger {
@@ -17,7 +17,7 @@ func NewConsoleLoggerCore(debug bool) zapcore.Core {
 		MessageKey:     "msg",
 		EncodeDuration: zapcore.StringDurationEncoder,
 	}
-	if runtime.GOOS == "windows" {
+	if app.IsWindows() {
 		en.EncodeLevel = zapcore.CapitalLevelEncoder
 	} else {
 		en.EncodeLevel = zapcore.CapitalColorLevelEncoder

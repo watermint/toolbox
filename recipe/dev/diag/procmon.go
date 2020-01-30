@@ -2,8 +2,11 @@ package diag
 
 import (
 	"archive/zip"
+	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/model/mo_time"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -15,8 +18,11 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"os/user"
 	"path/filepath"
 	"runtime"
+	"sort"
+	"strings"
 	"time"
 )
 
@@ -24,12 +30,17 @@ const (
 	procmonDownloadUrl = "https://download.sysinternals.com/files/ProcessMonitor.zip"
 	procmonExe32       = "ProcMon.exe"
 	procmonExe64       = "ProcMon64.exe"
+	procmonLogPrefix   = "monitor"
+	procmonLogSummary  = "info.json"
 )
 
 type Procmon struct {
+	ProcmonUrl     string
 	RepositoryPath mo_path.FileSystemPath
 	DropboxPath    mo_path.DropboxPath
 	Peer           rc_conn.ConnUserFile
+	RunUntil       mo_time.Time
+	RetainLogs     int
 	Seconds        int
 	Upload         *file.Upload
 }
@@ -46,8 +57,8 @@ func (z *Procmon) downloadProcmon(c app_control.Control) error {
 
 	// Download
 	{
-		l.Info("Try download", zap.String("url", procmonDownloadUrl))
-		resp, err := http.Get(procmonDownloadUrl)
+		l.Info("Try download", zap.String("url", z.ProcmonUrl))
+		resp, err := http.Get(z.ProcmonUrl)
 		if err != nil {
 			l.Debug("Unable to create download request")
 			return err
@@ -125,16 +136,53 @@ func (z *Procmon) ensureProcmon(c app_control.Control) (exePath string, err erro
 	return exePath, err
 }
 
-func (z *Procmon) runProcmon(c app_control.Control, exePath string) (cmd *exec.Cmd, err error) {
+func (z *Procmon) runProcmon(c app_control.Control, exePath string) (cmd *exec.Cmd, logPath string, err error) {
 	l := c.Log()
 
 	logName := c.Workspace().JobId()
-	logPath := filepath.Join(z.RepositoryPath.Path(), "logs", logName)
+	logPath = filepath.Join(z.RepositoryPath.Path(), "logs", logName)
 	l.Debug("Creating log path", zap.String("path", logPath))
 	err = os.MkdirAll(logPath, 0755)
 	if err != nil {
 		l.Debug("Unable to create log path", zap.Error(err))
-		return nil, err
+		return nil, "", err
+	}
+
+	{
+		hostname, _ := os.Hostname()
+		usr, _ := user.Current()
+
+		info := struct {
+			TimeLocal string `json:"time_local"`
+			TimeUTC   string `json:"time_utc"`
+			Hostname  string `json:"hostname"`
+			Username  string `json:"username"`
+			UserHome  string `json:"user_home"`
+			UserUID   string `json:"user_uid"`
+			UserGID   string `json:"user_gid"`
+		}{
+			TimeLocal: time.Now().Local().Format(time.RFC3339),
+			TimeUTC:   time.Now().UTC().Format(time.RFC3339),
+			Hostname:  hostname,
+			Username:  usr.Name,
+			UserHome:  usr.HomeDir,
+			UserUID:   usr.Uid,
+			UserGID:   usr.Gid,
+		}
+		content, err := json.Marshal(&info)
+		if err != nil {
+			l.Error("Unable to create info file", zap.Error(err))
+		}
+
+		err = ioutil.WriteFile(filepath.Join(logPath, procmonLogSummary), content, 0644)
+		if err != nil {
+			l.Error("Unable to write info file", zap.Error(err))
+		}
+	}
+
+	if !app.IsWindows() {
+		l.Warn("Skip run procmon (Reason; not on Windows)")
+		return nil, logPath, nil
 	}
 
 	cmd = exec.Command(exePath,
@@ -142,21 +190,93 @@ func (z *Procmon) runProcmon(c app_control.Control, exePath string) (cmd *exec.C
 		"/Quiet",
 		"/Minimized",
 		"/BackingFile",
-		logPath,
+		filepath.Join(logPath, procmonLogPrefix),
 	)
 	l.Info("Run Process monitor", zap.String("exe", exePath), zap.Strings("args", cmd.Args))
 
 	err = cmd.Start()
 	if err != nil {
 		l.Debug("Unable to start program", zap.Error(err), zap.Any("cmd", cmd))
-		return nil, err
+		return nil, logPath, err
 	}
 
-	return cmd, nil
+	return cmd, logPath, nil
+}
+
+func (z *Procmon) watchProcmon(c app_control.Control, exePath string, cmd *exec.Cmd, logPath string) error {
+	l := c.Log().With(zap.String("logPath", logPath))
+
+	if cmd == nil || !app.IsWindows() {
+		l.Info("skip watching")
+		return nil
+	}
+
+	go func() {
+		for {
+			time.Sleep(1 * time.Second)
+			l.Debug("Process", zap.Any("status", cmd.ProcessState))
+
+			entries, err := ioutil.ReadDir(logPath)
+			if err != nil {
+				l.Debug("Unable to list dir", zap.Error(err))
+				continue
+			}
+			if z.RetainLogs == 0 {
+				continue
+			}
+
+			logEntries := make([]os.FileInfo, 0)
+			modTimes := make([]string, 0)
+			cmpTimeFormat := "20060102-150405.000"
+
+			for _, f := range entries {
+				if f.IsDir() {
+					continue
+				}
+				if strings.HasPrefix(strings.ToLower(f.Name()), procmonLogPrefix) {
+					logEntries = append(logEntries, f)
+					mt := f.ModTime().Format(cmpTimeFormat)
+					modTimes = append(modTimes, mt)
+					l.Debug("Log file found", zap.Any("entry", f), zap.String("modTime", mt))
+				}
+			}
+
+			if len(modTimes) <= z.RetainLogs {
+				l.Debug("Log files is less than threshold")
+				continue
+			}
+
+			sort.Strings(modTimes)
+			thresholdIndex := len(modTimes) - z.RetainLogs
+			thresholdTime := modTimes[thresholdIndex]
+
+			for _, f := range logEntries {
+				et := f.ModTime().Format(cmpTimeFormat)
+				if strings.Compare(et, thresholdTime) < 0 {
+					l.Debug("Remove log", zap.Any("entry", f))
+					lf := filepath.Join(logPath, f.Name())
+					err = os.Remove(lf)
+					l.Debug("Removed", zap.Error(err), zap.String("logFile", lf))
+				} else {
+					l.Debug("Retain file", zap.Any("entry", f))
+				}
+			}
+		}
+	}()
+
+	l.Info("Waiting for duration", zap.Int("seconds", z.Seconds))
+	time.Sleep(time.Duration(z.Seconds) * time.Second)
+
+	return nil
 }
 
 func (z *Procmon) terminateProcmon(c app_control.Control, exePath string, cmd *exec.Cmd) error {
 	l := c.Log()
+
+	if !app.IsWindows() {
+		l.Warn("Skip run procmon (Reason; not on Windows)")
+		return nil
+	}
 
 	l.Info("Trying to terminate procmon")
 	termCmd := exec.Command(exePath,
@@ -174,6 +294,9 @@ func (z *Procmon) terminateProcmon(c app_control.Control, exePath string, cmd *e
 		l.Debug("Terminate wait returned an error", zap.Error(err))
 		return nil
 	}
+
+	l.Info("Waiting for termination", zap.Int("seconds", 60))
+	time.Sleep(60 * time.Second)
 
 	return nil
 }
@@ -222,6 +345,10 @@ func (z *Procmon) Exec(c app_control.Control) error {
 	if z.Seconds < 10 {
 		return errors.New("seconds must grater than 10 sec")
 	}
+	if z.RunUntil.Time().Before(time.Now()) {
+		l.Info("Skip run")
+		return nil
+	}
 
 	exe, err := z.ensureProcmon(c)
 	if err != nil {
@@ -229,26 +356,17 @@ func (z *Procmon) Exec(c app_control.Control) error {
 	}
 	l.Debug("Procmon exe", zap.String("exe", exe))
 
-	if runtime.GOOS != "windows" {
-		l.Info("This command runs only on Windows")
-		return nil
-	}
-
-	cmd, err := z.runProcmon(c, exe)
+	cmd, logPath, err := z.runProcmon(c, exe)
 	if err != nil {
 		return err
 	}
 
-	l.Info("Waiting for duration", zap.Int("seconds", z.Seconds))
-	time.Sleep(time.Duration(z.Seconds) * time.Second)
-
+	if err = z.watchProcmon(c, exe, cmd, logPath); err != nil {
+		return err
+	}
 	if err = z.terminateProcmon(c, exe, cmd); err != nil {
 		return err
 	}
-
-	l.Info("Waiting for termination", zap.Int("seconds", 60))
-	time.Sleep(60 * time.Second)
-
 	if err = z.uploadProcmonLogs(c); err != nil {
 		return err
 	}
@@ -269,11 +387,19 @@ func (z *Procmon) Test(c app_control.Control) error {
 
 	return rc_exec.Exec(c, &Procmon{}, func(r rc_recipe.Recipe) {
 		m := r.(*Procmon)
+		m.ProcmonUrl = procmonDownloadUrl
 		m.Seconds = 30
+		m.RetainLogs = 4
 		m.RepositoryPath = mo_path.NewFileSystemPath(tmpDir)
 	})
 }
 
 func (z *Procmon) Preset() {
+	ru, err := mo_time.New(time.Now().Add(7 * 24 * time.Hour).Format("2006-01-02"))
+	if err != nil {
+		panic(err)
+	}
 	z.Seconds = 1800
+	z.RunUntil = ru
+	z.RetainLogs = 4
 }

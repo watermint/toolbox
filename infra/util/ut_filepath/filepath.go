@@ -4,17 +4,17 @@ import (
 	"bytes"
 	"errors"
 	"github.com/watermint/toolbox/domain/service/sv_desktop"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
 	"os/user"
-	"runtime"
 	"strings"
 	"text/template"
 	"unicode"
 )
 
 var (
-	isWindows = runtime.GOOS == "windows"
+	isWindows = app.IsWindows()
 )
 
 func Rel(basePath, targetPath string) (rel string, err error) {
