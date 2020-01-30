@@ -399,6 +399,7 @@ func (z *Procmon) Preset() {
 	if err != nil {
 		panic(err)
 	}
+	z.ProcmonUrl = procmonDownloadUrl
 	z.Seconds = 1800
 	z.RunUntil = ru
 	z.RetainLogs = 4

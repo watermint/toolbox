@@ -1,6 +1,7 @@
 package mo_path
 
 import (
+	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"path/filepath"
 	"strings"
 )
@@ -14,7 +15,11 @@ type FileSystemPath interface {
 }
 
 func NewFileSystemPath(path string) FileSystemPath {
-	return &fileSystemPathImpl{path: filepath.Clean(path)}
+	p, err := ut_filepath.FormatPathWithPredefinedVariables(path)
+	if err != nil {
+		p = path
+	}
+	return &fileSystemPathImpl{path: filepath.Clean(p)}
 }
 
 type fileSystemPathImpl struct {

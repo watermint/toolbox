@@ -1,6 +1,7 @@
 package ut_filepath
 
 import (
+	"fmt"
 	"os/user"
 	"testing"
 )
@@ -107,9 +108,26 @@ func TestFormatPathWithPredefinedVariables(t *testing.T) {
 	}
 
 	{
+		p, err := FormatPathWithPredefinedVariables("/{{.Date}}T{{.Time}}/{{.DateUTC}}T{{.TimeUTC}}/{{.Hostname}}/{{.Rand8}}")
+		if err != nil {
+			t.Error()
+		}
+		fmt.Println(p)
+	}
+
+	{
 		_, err := FormatPathWithPredefinedVariables("{{.AlwaysErrorForTest}}/test")
 		if err == nil {
 			t.Error("should raise error")
 		}
+	}
+}
+
+func TestEscape(t *testing.T) {
+	if e := Escape("<>:\"|?*."); e != "________" {
+		t.Error(e)
+	}
+	if e := Escape("abc123def456"); e != "abc123def456" {
+		t.Error(e)
 	}
 }
