@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/domain/service/sv_file_content"
+	"github.com/watermint/toolbox/domain/service/sv_profile"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
@@ -373,13 +374,20 @@ func (z *Procmon) uploadProcmonLogs(c app_control.Control, arcPath string) error
 	l := c.Log().With(zap.String("logPath", logPath))
 	l.Info("Start uploading logs", zap.String("archive", arcPath))
 
+	prof, err := sv_profile.NewProfile(z.Peer.Context()).Current()
+	if err != nil {
+		l.Error("Unable to retrieve profile", zap.Error(err))
+		return err
+	}
+	l.Info("Upload to the account", zap.Any("account", prof))
+
 	e, err := sv_file_content.NewUpload(z.Peer.Context()).Add(z.DropboxPath, arcPath)
 	if err != nil {
 		l.Error("Unable to upload file", zap.Error(err))
 		return err
 	}
 	l.Info("Uploaded", zap.Any("entry", e))
-	//	err = os.Remove(arcPath)
+	err = os.Remove(arcPath)
 	l.Debug("Removed", zap.Error(err))
 
 	return nil
