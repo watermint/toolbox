@@ -149,14 +149,14 @@ func FormatPathWithPredefinedVariables(path string) (string, error) {
 	predefined["Username"] = func() (s string, e error) {
 		h, err := user.Current()
 		if err == nil {
-			return h.Username, nil
+			return Escape(h.Username), nil
 		}
 		return "", errors.New("unable to retrieve hostname")
 	}
 	predefined["Hostname"] = func() (s string, e error) {
 		h, err := os.Hostname()
 		if err == nil {
-			return h, nil
+			return Escape(h), nil
 		}
 		return "", errors.New("unable to retrieve hostname")
 	}
@@ -194,7 +194,7 @@ func FormatPathWithPredefinedVariables(path string) (string, error) {
 					Key:    k,
 				}
 			}
-			data[k] = Escape(v)
+			data[k] = v
 		}
 	}
 

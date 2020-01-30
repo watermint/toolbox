@@ -6,12 +6,12 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/model/mo_time"
+	"github.com/watermint/toolbox/domain/service/sv_file_content"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/ingredient/file"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -42,7 +42,6 @@ type Procmon struct {
 	RunUntil       mo_time.Time
 	RetainLogs     int
 	Seconds        int
-	Upload         *file.Upload
 }
 
 func (z *Procmon) downloadProcmon(c app_control.Control) error {
@@ -301,24 +300,88 @@ func (z *Procmon) terminateProcmon(c app_control.Control, exePath string, cmd *e
 	return nil
 }
 
-func (z *Procmon) uploadProcmonLogs(c app_control.Control) error {
+func (z *Procmon) compressProcmonLogs(c app_control.Control) (arcPath string, err error) {
 	logPath := filepath.Join(z.RepositoryPath.Path(), "logs")
 	l := c.Log().With(zap.String("logPath", logPath))
-	l.Debug("Start uploading logs")
 
-	err := rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
-		ru := r.(*file.Upload)
-		ru.EstimateOnly = false
-		ru.LocalPath = mo_path.NewFileSystemPath(logPath)
-		ru.DropboxPath = z.DropboxPath
-		ru.Overwrite = true
-		ru.CreateFolder = true
-		ru.Context = z.Peer.Context()
-	})
+	arcName := c.Workspace().JobId()
+	arcPath = filepath.Join(z.RepositoryPath.Path(), arcName+".zip")
+
+	l.Info("Start compress logs", zap.String("archive", arcPath))
+	arcFile, err := os.Create(arcPath)
 	if err != nil {
-		l.Debug("Unable to upload logs", zap.Error(err))
+		l.Error("Unable to create archive", zap.Error(err))
+		return "", err
+	}
+
+	arc := zip.NewWriter(arcFile)
+	arc.SetComment(arcName)
+
+	var archive func(b, d string) error
+	archive = func(b, d string) error {
+		entries, err := ioutil.ReadDir(filepath.Join(b, d))
+		if err != nil {
+			l.Error("Unable to read dir", zap.Error(err))
+			return err
+		}
+		for _, e := range entries {
+			if e.IsDir() {
+				archive(b, filepath.Join(d, e.Name()))
+			} else {
+				ep := filepath.Join(d, e.Name())
+				l.Debug("Add file into the archive", zap.String("EntryPath", ep))
+				w, err := arc.Create(ep)
+				if err != nil {
+					l.Debug("Unable to add file to the archive", zap.Error(err))
+					continue
+				}
+
+				rp := filepath.Join(b, d, e.Name())
+				r, err := os.Open(rp)
+				if err != nil {
+					l.Debug("Unable to read file", zap.Error(err))
+					continue
+				}
+
+				_, err = io.Copy(w, r)
+				if err != nil {
+					l.Debug("Unable to insert file into the archive", zap.Error(err))
+					continue
+				}
+
+				r.Close()
+				l.Debug("Try remove the log file", zap.String("path", rp))
+				err = os.Remove(rp)
+				l.Debug("Removed", zap.String("path", rp), zap.Error(err))
+			}
+		}
+		return nil
+	}
+
+	err = archive(logPath, "")
+	if err != nil {
+		return "", err
+	}
+	arc.Flush()
+	arc.Close()
+
+	return arcPath, nil
+}
+
+func (z *Procmon) uploadProcmonLogs(c app_control.Control, arcPath string) error {
+	logPath := filepath.Join(z.RepositoryPath.Path(), "logs")
+	l := c.Log().With(zap.String("logPath", logPath))
+	l.Info("Start uploading logs", zap.String("archive", arcPath))
+
+	e, err := sv_file_content.NewUpload(z.Peer.Context()).Add(z.DropboxPath, arcPath)
+	if err != nil {
+		l.Error("Unable to upload file", zap.Error(err))
 		return err
 	}
+	l.Info("Uploaded", zap.Any("entry", e))
+	//	err = os.Remove(arcPath)
+	l.Debug("Removed", zap.Error(err))
+
 	return nil
 }
 
@@ -367,7 +430,11 @@ func (z *Procmon) Exec(c app_control.Control) error {
 	if err = z.terminateProcmon(c, exe, cmd); err != nil {
 		return err
 	}
-	if err = z.uploadProcmonLogs(c); err != nil {
+	logArc, err := z.compressProcmonLogs(c)
+	if err != nil {
+		return err
+	}
+	if err = z.uploadProcmonLogs(c, logArc); err != nil {
 		return err
 	}
 	if err = z.cleanupProcmonLogs(c); err != nil {
