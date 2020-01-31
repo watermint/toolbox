@@ -1,6 +1,8 @@
 hash: 315b6bc38003cb8f31e8ad794e2f32b5b65bad760a59a72f4f02628772382d1e
-updated: 2020-01-31T17:24:31.501041+09:00
+updated: 2020-01-31T17:33:23.066143+09:00
 imports:
+- name: github.com/BurntSushi/toml
+  version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
 - name: github.com/daaku/go.zipexe
@@ -10,21 +12,51 @@ imports:
 - name: github.com/GeertJohan/go.rice
   version: d954009f7238df62c766980934c8ea7f161d0e59
   subpackages:
+  - embedded
   - rice
+- name: github.com/gin-contrib/sse
+  version: 43f0f29dbd2b3f0feeebff91fd9cda22db296938
 - name: github.com/gin-contrib/zap
   version: d12829f8f61bc1b21bf5372dfa1ba50b9472277b
 - name: github.com/gin-gonic/gin
   version: 15ced05c5316609bce5b43389f8e3f06102a8b18
+  subpackages:
+  - binding
+  - internal/json
+  - render
+- name: github.com/go-playground/locales
+  version: 9f105231d3a5f6877a2bf8321dfa15ea6f844b1b
+  subpackages:
+  - currency
+- name: github.com/go-playground/universal-translator
+  version: f87b1403479a348651dbf5f07f5cc6e5fcf07008
+- name: github.com/golang/protobuf
+  version: d23c5127dc24889085f8ccea5c9d560a57a879d8
+  subpackages:
+  - proto
 - name: github.com/gorilla/mux
   version: 00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15
 - name: github.com/iancoleman/strcase
   version: 16388991a33441046539eb716cff4d294d556c70
+- name: github.com/json-iterator/go
+  version: 49c900ee46e6efa73ea31a4eef029bc0a19a1ed9
 - name: github.com/kardianos/osext
   version: 2bc1f35cddc0cc527b4bc3dce8578fc2a6c11384
+- name: github.com/leodido/go-urn
+  version: a0f5013415294bb94553821ace21a1a74c0298cc
+- name: github.com/mattn/go-isatty
+  version: cb30d6282491c185f77d9bec5d25de1bb61a06bc
+- name: github.com/modern-go/concurrent
+  version: bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94
+- name: github.com/modern-go/reflect2
+  version: 94122c33edd36123c84d5368cfb2b69df93a0ec8
 - name: github.com/pkg/profile
   version: acd64d450fd45fb2afa41f833f3788c8a7797219
 - name: github.com/rapid7/go-get-proxied
   version: 16249a544090ff549b357cfc72bccf76fc5a8b8d
+  subpackages:
+  - proxy
+  - winhttp
 - name: github.com/skratchdot/open-golang
   version: eef8423979666925a58eb77f9db583e54320d5a4
   subpackages:
@@ -35,27 +67,129 @@ imports:
   version: d10932a0d0b5f1618759b6259b05f7cb7bea0c25
 - name: github.com/tidwall/match
   version: 33827db735fff6510490d69a8622612558a557ed
+- name: github.com/tidwall/pretty
+  version: 1166b9ac2b65e46a43d8618d30d1554f4652d49b
+- name: github.com/ugorji/go
+  version: 42bc974514ff101a54c6b72a0e4dee29d96c0b26
+  subpackages:
+  - codec
 - name: github.com/watermint/bwlimit
   version: 8152079585508d4cb67950578277091bb233641b
 - name: go.uber.org/atomic
   version: 40ae6a40a970ef4cdbffa7b24b280e316db8accc
 - name: go.uber.org/multierr
   version: 824d08f79702fe5f54aca8400aa0d754318786e7
+- name: go.uber.org/tools
+  version: 2cfd321de3ee5d5f8a5fda2521d1703478334d98
+  subpackages:
+  - update-license
 - name: go.uber.org/zap
   version: 33e58d4d0120aa28d4df84cd244838c490846c9d
+  subpackages:
+  - buffer
+  - internal/bufferpool
+  - internal/color
+  - internal/exit
+  - zapcore
+- name: golang.org/x/lint
+  version: 910be7a94367618fd0fd25eaabbee4fdc0ac7092
+  subpackages:
+  - golint
 - name: golang.org/x/net
   version: 6afb5195e5aab057fda82e27171243402346b0ad
   subpackages:
   - context
+  - context/ctxhttp
 - name: golang.org/x/oauth2
   version: bf48bf16ab8d622ce64ec6ce98d2c98f916b6303
+  subpackages:
+  - internal
 - name: golang.org/x/sync
   version: cd5d95a43a6e21273425c7ae415d3df9ea832eeb
   subpackages:
   - semaphore
+- name: golang.org/x/sys
+  version: 9fbb57f87de9ccfe3a99d4e3270ce8a926ebba4f
+  subpackages:
+  - unix
+  - windows
 - name: golang.org/x/text
   version: 929e72ca90deac4784bbe451caf10faa5b256ebe
   subpackages:
+  - encoding
+  - encoding/internal
+  - encoding/internal/identifier
+  - encoding/unicode
+  - internal/language
+  - internal/language/compact
+  - internal/tag
+  - internal/utf8internal
+  - language
+  - runes
+  - transform
   - unicode/norm
   - width
+- name: golang.org/x/tools
+  version: b4207ef4930765bb7d8205504a8e9217f20be1dd
+  subpackages:
+  - go/analysis
+  - go/analysis/passes/inspect
+  - go/ast/astutil
+  - go/ast/inspector
+  - go/buildutil
+  - go/gcexportdata
+  - go/internal/cgo
+  - go/internal/gcimporter
+  - go/internal/packagesdriver
+  - go/loader
+  - go/packages
+  - go/types/objectpath
+  - go/types/typeutil
+  - internal/packagesinternal
+- name: google.golang.org/appengine
+  version: b6ce0843b556e44e6416df5c2fd05db0869cc8d4
+  subpackages:
+  - internal
+  - internal/base
+  - internal/datastore
+  - internal/log
+  - internal/remote_api
+  - internal/urlfetch
+  - urlfetch
+- name: gopkg.in/go-playground/validator.v9
+  version: 21c910fc6d9c3556c28252b04beb17de0c2d40ec
+- name: gopkg.in/yaml.v2
+  version: 53403b58ad1b561927d19068c655246f2db79d48
+- name: honnef.co/go/tools
+  version: 2774002210e8cbf35b5445a3805e6f173c6bec1f
+  subpackages:
+  - arg
+  - cmd/staticcheck
+  - code
+  - config
+  - deprecated
+  - edit
+  - facts
+  - functions
+  - go/types/typeutil
+  - internal/cache
+  - internal/passes/buildir
+  - internal/renameio
+  - internal/robustio
+  - internal/sharedcheck
+  - ir
+  - ir/irutil
+  - lint
+  - lint/lintdsl
+  - lint/lintutil
+  - lint/lintutil/format
+  - loader
+  - pattern
+  - printf
+  - report
+  - simple
+  - staticcheck
+  - stylecheck
+  - unused
+  - version
 testImports: []

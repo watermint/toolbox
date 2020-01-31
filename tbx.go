@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/infra/control/app_run"
-	"github.com/watermint/toolbox/infra/util/ut_ui"
 	"os"
 )
 
