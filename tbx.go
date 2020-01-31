@@ -12,7 +12,6 @@ func main() {
 	web := rice.MustFindBox("web")
 
 	if rb, found := app_run.FindRunBook(false); found {
-		ut_ui.HideWindow()
 		rb.Exec(bx, web)
 	} else {
 		app_run.Run(os.Args[1:], bx, web)
