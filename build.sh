@@ -97,7 +97,7 @@ X_APP_BUILDERKEY="-X github.com/watermint/toolbox/infra/app.BuilderKey=$TOOLBOX_
 LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY"
 
 echo Building: Windows
-GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS -H=windowsgui" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
+GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
 echo Building: Linux
 GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/linux/tbx   github.com/watermint/toolbox
 echo Building: Darwin
