@@ -2,6 +2,10 @@
 
 package ut_ui
 
+import (
+	"syscall"
+)
+
 // https://forum.golangbridge.org/t/no-println-output-with-go-build-ldflags-h-windowsgui/7633/2
 func HideConsole() {
 	getConsoleWindow := syscall.NewLazyDLL("kernel32.dll").NewProc("GetConsoleWindow")
