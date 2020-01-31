@@ -1,16 +1,16 @@
-hash: 315b6bc38003cb8f31e8ad794e2f32b5b65bad760a59a72f4f02628772382d1e
-updated: 2019-12-13T14:38:36.246496+09:00
+hash: fa8cd3df32371ecbdc8ea0fd9445bf8c4607e137da0cdde3792d296f09250a9d
+updated: 2020-01-31T16:47:22.831164+09:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
 - name: github.com/cloudfoundry-attic/jibber_jabber
   version: bcc4c8345a21301bf47c032ff42dd1aae2fe3027
 - name: github.com/daaku/go.zipexe
-  version: a5fe2436ffcb3236e175e5149162b41cd28bd27d
+  version: 74d766ac1dde7458348221869a7d1e7e5fa0597e
 - name: github.com/etcd-io/bbolt
   version: a0458a2b35708eef59eb5f620ceb3cd1c01a824d
 - name: github.com/GeertJohan/go.rice
-  version: c02ca9a983da5807ddf7d796784928f5be4afd09
+  version: d954009f7238df62c766980934c8ea7f161d0e59
   subpackages:
   - embedded
   - rice
@@ -31,21 +31,23 @@ imports:
 - name: github.com/go-playground/universal-translator
   version: f87b1403479a348651dbf5f07f5cc6e5fcf07008
 - name: github.com/golang/protobuf
-  version: 951a149f90371fb8858c6c979d03bb2583611052
+  version: d23c5127dc24889085f8ccea5c9d560a57a879d8
   subpackages:
   - proto
+- name: github.com/gonutz/w32
+  version: 1effbc37d65a161d9992626ecf9c57d62a9daa65
 - name: github.com/gorilla/mux
   version: 00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15
 - name: github.com/iancoleman/strcase
   version: 16388991a33441046539eb716cff4d294d556c70
 - name: github.com/json-iterator/go
-  version: 44a7e7340d23d2e5d5d942966eb683436c027da0
+  version: 49c900ee46e6efa73ea31a4eef029bc0a19a1ed9
 - name: github.com/kardianos/osext
-  version: ae77be60afb1dcacde03767a8c37337fad28ac14
+  version: 2bc1f35cddc0cc527b4bc3dce8578fc2a6c11384
 - name: github.com/leodido/go-urn
   version: a0f5013415294bb94553821ace21a1a74c0298cc
 - name: github.com/mattn/go-isatty
-  version: 31745d66dd679ac0ac4f8d3ecff168fce6170c6a
+  version: cb30d6282491c185f77d9bec5d25de1bb61a06bc
 - name: github.com/modern-go/concurrent
   version: bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94
 - name: github.com/modern-go/reflect2
@@ -58,15 +60,15 @@ imports:
   - proxy
   - winhttp
 - name: github.com/skratchdot/open-golang
-  version: 79abb63cd66e41cb1473e26d11ebdcd68b04c8e5
+  version: eef8423979666925a58eb77f9db583e54320d5a4
   subpackages:
   - open
 - name: github.com/tealeg/xlsx
-  version: 1b556911422e5b0f499a31ddc028ccc5ad288d4c
+  version: b11c494b670b7b041e833f706045b8134f8f87c6
 - name: github.com/tidwall/gjson
-  version: 5c2e4b382486589dad7478130a364ee2fa6a068b
+  version: d10932a0d0b5f1618759b6259b05f7cb7bea0c25
 - name: github.com/tidwall/match
-  version: 1731857f09b1f38450e2c12409748407822dc6be
+  version: 33827db735fff6510490d69a8622612558a557ed
 - name: github.com/tidwall/pretty
   version: 1166b9ac2b65e46a43d8618d30d1554f4652d49b
 - name: github.com/ugorji/go
@@ -92,16 +94,16 @@ imports:
   - internal/exit
   - zapcore
 - name: golang.org/x/lint
-  version: fdd1cda4f05fd1fd86124f0ef9ce31a0b72c8448
+  version: 910be7a94367618fd0fd25eaabbee4fdc0ac7092
   subpackages:
   - golint
 - name: golang.org/x/net
-  version: 03003ca0c849e57b6ea29a4bab8d3cb6e4d568fe
+  version: 6afb5195e5aab057fda82e27171243402346b0ad
   subpackages:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: f42d05182288abf10faef86d16c0d07b8d40ea2d
+  version: bf48bf16ab8d622ce64ec6ce98d2c98f916b6303
   subpackages:
   - internal
 - name: golang.org/x/sync
@@ -109,12 +111,12 @@ imports:
   subpackages:
   - semaphore
 - name: golang.org/x/sys
-  version: ac6580df4449443a05718fd7858c1f91ad5f8d20
+  version: 9fbb57f87de9ccfe3a99d4e3270ce8a926ebba4f
   subpackages:
   - unix
   - windows
 - name: golang.org/x/text
-  version: 6f44c5a2ea40ee3593d98cdcc905cc1fdaa660e2
+  version: 929e72ca90deac4784bbe451caf10faa5b256ebe
   subpackages:
   - encoding
   - encoding/internal
@@ -130,7 +132,7 @@ imports:
   - unicode/norm
   - width
 - name: golang.org/x/tools
-  version: 7093a17b0467e77fb41804b2754a44f54a8c9ca2
+  version: b4207ef4930765bb7d8205504a8e9217f20be1dd
   subpackages:
   - go/analysis
   - go/analysis/passes/inspect
@@ -145,11 +147,9 @@ imports:
   - go/packages
   - go/types/objectpath
   - go/types/typeutil
-  - internal/fastwalk
-  - internal/gopathwalk
-  - internal/semver
+  - internal/packagesinternal
 - name: google.golang.org/appengine
-  version: 4a4468ece617fc8205e99368fa2200e9d1fad421
+  version: b6ce0843b556e44e6416df5c2fd05db0869cc8d4
   subpackages:
   - internal
   - internal/base
@@ -159,11 +159,11 @@ imports:
   - internal/urlfetch
   - urlfetch
 - name: gopkg.in/go-playground/validator.v9
-  version: bde478f9466b5371375581708adf1b77acd08b72
+  version: 21c910fc6d9c3556c28252b04beb17de0c2d40ec
 - name: gopkg.in/yaml.v2
-  version: 1f64d6156d11335c3f22d9330b0ad14fc1e789ce
+  version: 53403b58ad1b561927d19068c655246f2db79d48
 - name: honnef.co/go/tools
-  version: 32de78dc1c6c931f2bf017870750b0ca80006601
+  version: 2774002210e8cbf35b5445a3805e6f173c6bec1f
   subpackages:
   - arg
   - cmd/staticcheck

@@ -11,6 +11,7 @@ import (
 	"math/rand"
 	"os"
 	"os/user"
+	"path/filepath"
 	"strings"
 	"text/template"
 	"time"
@@ -159,6 +160,10 @@ func FormatPathWithPredefinedVariables(path string) (string, error) {
 			return Escape(h), nil
 		}
 		return "", errors.New("unable to retrieve hostname")
+	}
+	predefined["ExecPath"] = func() (s string, err error) {
+		s = filepath.Dir(os.Args[0])
+		return s, nil
 	}
 	predefined["Rand8"] = func() (s string, err error) {
 		return fmt.Sprintf("%08d", rand.Intn(100_000_000)), nil
