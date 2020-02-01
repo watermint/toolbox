@@ -82,6 +82,7 @@ Available commands:
 | [job archive](doc/generated/job-archive.md)                                     | Archive jobs                                                  |
 | [job delete](doc/generated/job-delete.md)                                       | Delete job history                                            |
 | [job history](doc/generated/job-history.md)                                     | Show job history                                              |
+| [job ship](doc/generated/job-ship.md)                                           | Ship Job logs to Dropbox path                                 |
 | [license](doc/generated/license.md)                                             | Show license information                                      |
 | [member delete](doc/generated/member-delete.md)                                 | Delete members                                                |
 | [member detach](doc/generated/member-detach.md)                                 | Convert Dropbox Business accounts to a Basic account          |

@@ -82,6 +82,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [job archive](doc/generated_ja/job-archive.md)                                     | Archive jobs                                                   |
 | [job delete](doc/generated_ja/job-delete.md)                                       | Delete job history                                             |
 | [job history](doc/generated_ja/job-history.md)                                     | Show job history                                               |
+| [job ship](doc/generated_ja/job-ship.md)                                           | Ship Job logs to Dropbox path                                  |
 | [license](doc/generated_ja/license.md)                                             | ライセンス情報を表示します                                     |
 | [member delete](doc/generated_ja/member-delete.md)                                 | メンバーを削除します                                           |
 | [member detach](doc/generated_ja/member-detach.md)                                 | Dropbox BusinessユーザーをBasicユーザーに変更します            |
