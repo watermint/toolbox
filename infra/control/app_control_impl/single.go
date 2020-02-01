@@ -1,13 +1,13 @@
 package app_control_impl
 
 import (
-	"encoding/json"
 	"errors"
 	"github.com/GeertJohan/go.rice"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -21,8 +21,8 @@ import (
 	"go.uber.org/zap"
 	"net/http"
 	"os"
-	"path/filepath"
 	"runtime"
+	"time"
 )
 
 func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, cat rc_catalogue.Catalogue) app_control.Control {
@@ -187,33 +187,25 @@ func (z *Single) Resource(key string) (bin []byte, err error) {
 }
 
 func (z *Single) upWithWorkspace(ws app_workspace.Workspace) (err error) {
-	rl, err := os.Create(filepath.Join(z.ws.Log(), "recipe.log"))
-	if err != nil {
-		return err
-	}
-	type RecipeLog struct {
-		Name        string                 `json:"name"`
-		ValueObject map[string]interface{} `json:"value_object"`
-		CommonOpts  map[string]interface{} `json:"common_opts"`
-	}
-	rr := &RecipeLog{
+	sl := &app_job.StartLog{
 		Name:        z.opts.RecipeName,
 		ValueObject: z.opts.RecipeOptions,
 		CommonOpts:  z.opts.CommonOptions,
+		TimeStart:   time.Now().Format(time.RFC3339),
+		AppName:     app.Name,
+		AppHash:     app.Hash,
+		AppVersion:  app.Version,
 	}
-	rb, err := json.Marshal(rr)
-	if err != nil {
-		return err
-	}
-	rl.Write(rb)
-	rl.Close()
-
-	z.flc, err = app_log.NewFileLogger(z.ws.Log(), z.opts.Debug)
-	if err != nil {
+	if err = sl.Create(ws); err != nil {
 		return err
 	}
 
-	z.cap, err = app_log.NewCaptureLogger(z.ws.Log())
+	z.flc, err = app_log.NewFileLogger(ws.Log(), z.opts.Debug)
+	if err != nil {
+		return err
+	}
+
+	z.cap, err = app_log.NewCaptureLogger(ws.Log())
 	if err != nil {
 		return err
 	}
@@ -253,6 +245,13 @@ func (z *Single) Up(opts ...app_control.UpOpt) (err error) {
 
 func (z *Single) Down() {
 	z.Log().Debug("Down")
+	fl := &app_job.ResultLog{
+		Success:    true,
+		TimeFinish: time.Now().Format(time.RFC3339),
+	}
+	if err := fl.Create(z.ws); err != nil {
+		z.Log().Debug("Unable to store finish log", zap.Error(err))
+	}
 	app_root.Flush()
 	app_root.InitLogger()
 	z.cap.Close()
@@ -265,6 +264,15 @@ func (z *Single) Abort(opts ...app_control.AbortOpt) {
 		o(opt)
 	}
 	z.Log().Debug("Abort shutdown", zap.Any("opt", opt))
+	fl := &app_job.ResultLog{
+		Success:     true,
+		TimeFinish:  time.Now().Format(time.RFC3339),
+		ReasonAbort: opt.Reason,
+	}
+	if err := fl.Create(z.ws); err != nil {
+		z.Log().Debug("Unable to store finish log", zap.Error(err))
+	}
+
 	app_root.Flush()
 	z.cap.Close()
 	z.flc.Close()

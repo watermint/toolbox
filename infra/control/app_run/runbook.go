@@ -31,13 +31,8 @@ func (z *RunBook) Exec(bx, web *rice.Box) {
 	}
 }
 
-func FindRunBook(forTest bool) (rb *RunBook, found bool) {
+func NewRunBook(path string) (rb *RunBook, found bool) {
 	l := app_root.Log()
-	name := RunBookName
-	if forTest {
-		name = RunBookTestName
-	}
-	path := filepath.Join(filepath.Dir(os.Args[0]), name)
 	_, err := os.Lstat(path)
 	if err != nil {
 		return nil, false
@@ -56,4 +51,13 @@ func FindRunBook(forTest bool) (rb *RunBook, found bool) {
 	}
 
 	return rb, true
+}
+
+func DefaultRunBook(forTest bool) (rb *RunBook, found bool) {
+	name := RunBookName
+	if forTest {
+		name = RunBookTestName
+	}
+	path := filepath.Join(filepath.Dir(os.Args[0]), name)
+	return NewRunBook(path)
 }

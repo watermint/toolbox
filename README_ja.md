@@ -44,6 +44,7 @@ DropboxおよびDropbox Business向けのツールセット
 
    file          ファイル操作                
    group         グループ管理                
+   job           Job operation         
    license       ライセンス情報を表示します         
    member        チームメンバーの管理            
    sharedfolder  共有フォルダ                
@@ -78,6 +79,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                           |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                 |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                     |
+| [job history](doc/generated_ja/job-history.md)                                     | Show job history                                               |
 | [license](doc/generated_ja/license.md)                                             | ライセンス情報を表示します                                     |
 | [member delete](doc/generated_ja/member-delete.md)                                 | メンバーを削除します                                           |
 | [member detach](doc/generated_ja/member-detach.md)                                 | Dropbox BusinessユーザーをBasicユーザーに変更します            |

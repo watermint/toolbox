@@ -29,7 +29,16 @@ import (
 	"os"
 	"os/signal"
 	"runtime"
+	"strings"
 	"syscall"
+)
+
+type MsgRun struct {
+	ErrorInvalidArgument app_msg.Message
+}
+
+var (
+	MRun = app_msg.Apply(&MsgRun{}).(*MsgRun)
 )
 
 func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.Spec, grp rc_group.Group, rem []string, bx, web *rice.Box) (found bool) {
@@ -208,7 +217,7 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 	return true
 }
 
-func Run(args []string, bx, web *rice.Box) {
+func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Initialize resources
 	mc := app_msg_container_impl.NewContainer(bx)
 	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
@@ -220,6 +229,7 @@ func Run(args []string, bx, web *rice.Box) {
 
 	switch {
 	case err != nil:
+		ui.Error(MRun.ErrorInvalidArgument.With("Args", strings.Join(args, " ")))
 		if grp != nil {
 			grp.PrintGroupUsage(ui, os.Args[0], app.Version)
 		} else {
@@ -232,5 +242,5 @@ func Run(args []string, bx, web *rice.Box) {
 		os.Exit(app_control.Success)
 	}
 
-	runRecipe(mc, ui, rcp, grp, rem, bx, web)
+	return runRecipe(mc, ui, rcp, grp, rem, bx, web)
 }

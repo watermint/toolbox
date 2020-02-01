@@ -30,6 +30,7 @@ import (
 	recipegroup "github.com/watermint/toolbox/recipe/group"
 	recipegroupbatch "github.com/watermint/toolbox/recipe/group/batch"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
+	recipejob "github.com/watermint/toolbox/recipe/job"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
@@ -91,6 +92,7 @@ func Recipes() []rc_recipe.Recipe {
 		rc_recipe.Annotate(&recipegroup.List{}),
 		rc_recipe.Annotate(&recipegroupbatch.Delete{}, rc_recipe.Irreversible()),
 		rc_recipe.Annotate(&recipegroupmember.List{}),
+		rc_recipe.Annotate(&recipejob.History{}),
 		rc_recipe.Annotate(&recipemember.Delete{}),
 		rc_recipe.Annotate(&recipemember.Detach{}),
 		rc_recipe.Annotate(&recipemember.Invite{}),
