@@ -5,6 +5,6 @@ import (
 	"testing"
 )
 
-func TestShip_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Ship{})
+func TestStatus_Exec(t *testing.T) {
+	qt_recipe.TestRecipe(t, &Status{})
 }

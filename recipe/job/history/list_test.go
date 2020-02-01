@@ -1,4 +1,4 @@
-package job
+package history
 
 import (
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestHistory_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &History{})
+	qt_recipe.TestRecipe(t, &List{})
 }

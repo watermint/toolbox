@@ -1,4 +1,4 @@
-package job
+package history
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -26,6 +26,9 @@ func (z *Delete) Exec(c app_control.Control) error {
 		ts, found := h.TimeStart()
 		if !found {
 			l.Debug("Skip: Time start not found for the job")
+			continue
+		}
+		if h.JobId() == c.Workspace().JobId() {
 			continue
 		}
 		if ts.After(threshold) {

@@ -1,4 +1,4 @@
-package job
+package history
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -9,11 +9,11 @@ import (
 	"time"
 )
 
-type History struct {
+type List struct {
 	Log rp_model.RowReport
 }
 
-type HistoryRecord struct {
+type JobRecord struct {
 	JobId      string `json:"job_id"`
 	AppVersion string `json:"app_version"`
 	RecipeName string `json:"recipe_name"`
@@ -21,7 +21,7 @@ type HistoryRecord struct {
 	TimeFinish string `json:"time_finish"`
 }
 
-func (z *History) Exec(c app_control.Control) error {
+func (z *List) Exec(c app_control.Control) error {
 	historian := app_job_impl.NewHistorian(c)
 	histories := historian.Histories()
 	if err := z.Log.Open(); err != nil {
@@ -37,7 +37,7 @@ func (z *History) Exec(c app_control.Control) error {
 		if t, found := h.TimeFinish(); found {
 			tf = t.Format(time.RFC3339)
 		}
-		z.Log.Row(&HistoryRecord{
+		z.Log.Row(&JobRecord{
 			JobId:      h.JobId(),
 			AppVersion: h.AppVersion(),
 			RecipeName: h.RecipeName(),
@@ -49,10 +49,10 @@ func (z *History) Exec(c app_control.Control) error {
 	return nil
 }
 
-func (z *History) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &History{}, func(r rc_recipe.Recipe) {})
+func (z *List) Test(c app_control.Control) error {
+	return rc_exec.Exec(c, &List{}, func(r rc_recipe.Recipe) {})
 }
 
-func (z *History) Preset() {
-	z.Log.SetModel(&HistoryRecord{})
+func (z *List) Preset() {
+	z.Log.SetModel(&JobRecord{})
 }

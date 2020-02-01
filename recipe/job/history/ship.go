@@ -1,4 +1,4 @@
-package job
+package history
 
 import (
 	"github.com/watermint/toolbox/domain/model/mo_file"
