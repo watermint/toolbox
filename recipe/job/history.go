@@ -5,24 +5,29 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"time"
 )
 
 type History struct {
-	TableJobId      app_msg.Message
-	TableAppVersion app_msg.Message
-	TableRecipeName app_msg.Message
-	TableTimeStart  app_msg.Message
-	TableTimeFinish app_msg.Message
+	Log rp_model.RowReport
+}
+
+type HistoryRecord struct {
+	JobId      string `json:"job_id"`
+	AppVersion string `json:"app_version"`
+	RecipeName string `json:"recipe_name"`
+	TimeStart  string `json:"time_start"`
+	TimeFinish string `json:"time_finish"`
 }
 
 func (z *History) Exec(c app_control.Control) error {
 	historian := app_job_impl.NewHistorian(c)
 	histories := historian.Histories()
-	t := c.UI().InfoTable("History")
+	if err := z.Log.Open(); err != nil {
+		return err
+	}
 
-	t.Header(z.TableJobId, z.TableAppVersion, z.TableRecipeName, z.TableTimeStart, z.TableTimeFinish)
 	for _, h := range histories {
 		ts := ""
 		tf := ""
@@ -32,10 +37,14 @@ func (z *History) Exec(c app_control.Control) error {
 		if t, found := h.TimeFinish(); found {
 			tf = t.Format(time.RFC3339)
 		}
-
-		t.RowRaw(h.JobId(), h.AppVersion(), h.RecipeName(), ts, tf)
+		z.Log.Row(&HistoryRecord{
+			JobId:      h.JobId(),
+			AppVersion: h.AppVersion(),
+			RecipeName: h.RecipeName(),
+			TimeStart:  ts,
+			TimeFinish: tf,
+		})
 	}
-	t.Flush()
 
 	return nil
 }
@@ -45,4 +54,5 @@ func (z *History) Test(c app_control.Control) error {
 }
 
 func (z *History) Preset() {
+	z.Log.SetModel(&HistoryRecord{})
 }

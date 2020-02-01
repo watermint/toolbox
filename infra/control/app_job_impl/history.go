@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/control/app_job"
+	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_archive"
 	"go.uber.org/zap"
@@ -90,6 +91,9 @@ func (z *History) AppVersion() string {
 
 func (z *History) TimeStart() (t time.Time, found bool) {
 	if z.start == nil || z.start.TimeStart == "" {
+		if t, err := time.Parse(app_workspace.JobIdFormat, z.jobId); err == nil {
+			return t, true
+		}
 		return time.Time{}, false
 	}
 	t, err := time.Parse(time.RFC3339, z.start.TimeStart)
@@ -110,6 +114,17 @@ func (z *History) TimeFinish() (t time.Time, found bool) {
 		return time.Time{}, false
 	}
 	return t, true
+}
+
+func (z *History) Delete() error {
+	l := z.ctl.Log()
+	logPath := filepath.Join(z.ctl.Workspace().Home(), "jobs", z.jobId)
+	l.Debug("Trying remove history", zap.String("path", logPath))
+	if err := os.RemoveAll(logPath); err != nil {
+		l.Debug("Unable to remove", zap.Error(err))
+		return err
+	}
+	return nil
 }
 
 func (z *History) Archive() (path string, err error) {

@@ -16,6 +16,7 @@ type History interface {
 
 	// Archive job history
 	Archive() (path string, err error)
+	Delete() error
 }
 
 type Historian interface {

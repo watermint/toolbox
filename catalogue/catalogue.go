@@ -92,6 +92,8 @@ func Recipes() []rc_recipe.Recipe {
 		rc_recipe.Annotate(&recipegroup.List{}),
 		rc_recipe.Annotate(&recipegroupbatch.Delete{}, rc_recipe.Irreversible()),
 		rc_recipe.Annotate(&recipegroupmember.List{}),
+		rc_recipe.Annotate(&recipejob.Archive{}),
+		rc_recipe.Annotate(&recipejob.Delete{}),
 		rc_recipe.Annotate(&recipejob.History{}),
 		rc_recipe.Annotate(&recipemember.Delete{}),
 		rc_recipe.Annotate(&recipemember.Detach{}),

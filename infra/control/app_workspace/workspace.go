@@ -26,10 +26,11 @@ const (
 	nameReport  = "report"
 	nameTest    = "test"
 	nameKvs     = "kvs"
+	JobIdFormat = "20060102-150405.000"
 )
 
 func NewJobId() string {
-	return fmt.Sprintf(time.Now().Format("20060102-150405.000"))
+	return fmt.Sprintf(time.Now().Format(JobIdFormat))
 }
 
 func DefaultAppPath() (path string, err error) {

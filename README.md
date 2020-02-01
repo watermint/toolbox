@@ -79,6 +79,8 @@ Available commands:
 | [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |
 | [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
 | [group member list](doc/generated/group-member-list.md)                         | List members of groups                                        |
+| [job archive](doc/generated/job-archive.md)                                     | Archive jobs                                                  |
+| [job delete](doc/generated/job-delete.md)                                       | Delete job history                                            |
 | [job history](doc/generated/job-history.md)                                     | Show job history                                              |
 | [license](doc/generated/license.md)                                             | Show license information                                      |
 | [member delete](doc/generated/member-delete.md)                                 | Delete members                                                |

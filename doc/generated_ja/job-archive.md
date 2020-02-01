@@ -1,6 +1,6 @@
-# job history 
+# job archive 
 
-Show job history 
+Archive jobs 
 
 # 利用方法
 
@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe job history 
+.\tbx.exe job archive 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx job history 
+$HOME/Desktop/tbx job archive 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -28,6 +28,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 "このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
 
 ## オプション
+
+| オプション | 説明            | デフォルト |
+|------------|-----------------|------------|
+| `-days`    | Target days old | 7          |
 
 共通のオプション:
 
@@ -45,34 +49,4 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 # ネットワークプロクシの設定
 
 プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | Path                                                                                                      |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-## レポート: log 
-
-レポートファイルは次の3種類のフォーマットで出力されます;
-* `log.csv`
-* `log.xlsx`
-* `log.json`
-
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`log_0000.xlsx`, `log_0001.xlsx`, `log_0002.xlsx`...   
-
-| 列          | 説明          |
-|-------------|---------------|
-| job_id      | Job ID        |
-| app_version | App version   |
-| recipe_name | Command       |
-| time_start  | Time Started  |
-| time_finish | Time Finished |
 
