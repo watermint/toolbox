@@ -39,7 +39,7 @@ func TestRunbook(t *testing.T) {
 	}
 	defer os.Remove(rbPath)
 
-	if runBook, found := app_run.DefaultRunBook(); found {
+	if runBook, found := app_run.DefaultRunBook(true); found {
 		bx := rice.MustFindBox("resources")
 		web := rice.MustFindBox("web")
 		runBook.Exec(bx, web)
