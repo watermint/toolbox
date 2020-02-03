@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/util/ut_encoding"
 	"go.uber.org/zap"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -38,7 +38,7 @@ func NewRunBook(path string) (rb *RunBook, found bool) {
 		return nil, false
 	}
 
-	content, err := ioutil.ReadFile(path)
+	content, err := ut_encoding.BomAwareReadBytes(path)
 	if err != nil {
 		l.Error("Unable to read the runbook file", zap.Error(err))
 		return nil, false
