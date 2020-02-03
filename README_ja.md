@@ -90,6 +90,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [member quota list](doc/generated_ja/member-quota-list.md)                         | メンバーの容量制限情報を一覧します                             |
 | [member quota update](doc/generated_ja/member-quota-update.md)                     | チームメンバーの容量制限を変更                                 |
 | [member quota usage](doc/generated_ja/member-quota-usage.md)                       | チームメンバーのストレージ利用状況を取得                       |
+| [member reinvite](doc/generated_ja/member-reinvite.md)                             | {"key":"recipe.member.reinvite.title","params":{}}             |
 | [member replication](doc/generated_ja/member-replication.md)                       | チームメンバーのファイルを複製します                           |
 | [member update email](doc/generated_ja/member-update-email.md)                     | メンバーのメールアドレス処理                                   |
 | [member update externalid](doc/generated_ja/member-update-externalid.md)           | チームメンバーのExternal IDを更新します.                       |

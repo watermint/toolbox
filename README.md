@@ -90,6 +90,7 @@ Available commands:
 | [member quota list](doc/generated/member-quota-list.md)                         | List team member quota                                        |
 | [member quota update](doc/generated/member-quota-update.md)                     | Update team member quota                                      |
 | [member quota usage](doc/generated/member-quota-usage.md)                       | List team member storage usage                                |
+| [member reinvite](doc/generated/member-reinvite.md)                             | {"key":"recipe.member.reinvite.title","params":{}}            |
 | [member replication](doc/generated/member-replication.md)                       | Replicate team member files                                   |
 | [member update email](doc/generated/member-update-email.md)                     | Member email operation                                        |
 | [member update externalid](doc/generated/member-update-externalid.md)           | Update External ID of team members                            |

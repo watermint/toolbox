@@ -101,6 +101,7 @@ func Recipes() []rc_recipe.Recipe {
 		rc_recipe.Annotate(&recipemember.Delete{}),
 		rc_recipe.Annotate(&recipemember.Detach{}),
 		rc_recipe.Annotate(&recipemember.Invite{}),
+		rc_recipe.Annotate(&recipemember.Reinvite{}),
 		rc_recipe.Annotate(&recipemember.List{}),
 		rc_recipe.Annotate(&recipemember.Replication{}, rc_recipe.Irreversible()),
 		rc_recipe.Annotate(&recipememberquota.List{}),
