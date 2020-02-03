@@ -1,6 +1,6 @@
 # member reinvite 
 
-{"key":"recipe.member.reinvite.title","params":{}} 
+Reinvite invited status members to the team 
 
 # Security
 
@@ -47,10 +47,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option    | Description                                              | Default |
-|-----------|----------------------------------------------------------|---------|
-| `-peer`   | {"key":"recipe.member.reinvite.flag.peer","params":{}}   | default |
-| `-silent` | {"key":"recipe.member.reinvite.flag.silent","params":{}} | false   |
+| Option    | Description                              | Default |
+|-----------|------------------------------------------|---------|
+| `-peer`   | Account alias                            | default |
+| `-silent` | Do not send welcome email (SSO required) | false   |
 
 Common options:
 

@@ -1,6 +1,6 @@
 # member reinvite 
 
-{"key":"recipe.member.reinvite.title","params":{}} 
+Reinvite invited status members to the team 
 
 # セキュリティ
 
@@ -47,10 +47,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション | 説明                                                     | デフォルト |
-|------------|----------------------------------------------------------|------------|
-| `-peer`    | {"key":"recipe.member.reinvite.flag.peer","params":{}}   | default    |
-| `-silent`  | {"key":"recipe.member.reinvite.flag.silent","params":{}} | false      |
+| オプション | 説明                                     | デフォルト |
+|------------|------------------------------------------|------------|
+| `-peer`    | Account alias                            | default    |
+| `-silent`  | Do not send welcome email (SSO required) | false      |
 
 共通のオプション:
 
