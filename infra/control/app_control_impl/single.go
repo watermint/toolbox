@@ -51,6 +51,10 @@ type Single struct {
 	testResource gjson.Result
 }
 
+func (z *Single) IsAutoOpen() bool {
+	return z.opts.AutoOpen
+}
+
 func (z *Single) Catalogue() rc_catalogue.Catalogue {
 	return z.catalogue
 }

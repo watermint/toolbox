@@ -85,6 +85,7 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 	}
 	so = append(so, app_control.LowMemory(com.LowMemory))
 	so = append(so, app_control.Concurrency(com.Concurrency))
+	so = append(so, app_control.AutoOpen(com.AutoOpen))
 	so = append(so, app_control.RecipeName(rcpSpec.CliPath()))
 	so = append(so, app_control.CommonOptions(comSpec.Debug()))
 	so = append(so, app_control.RecipeOptions(rcpSpec.Debug()))
@@ -175,7 +176,7 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 	if err != nil {
 		ctl.Abort(app_control.Reason(app_control.FatalRuntime))
 	}
-	if ctl.IsProduction() {
+	if ctl.IsProduction() && len(rcpSpec.ConnScopes()) > 0 {
 		err = nw_diag.Network(ctl)
 		if err != nil {
 			ctl.Abort(app_control.Reason(app_control.FatalNetwork))
@@ -220,7 +221,7 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Initialize resources
 	mc := app_msg_container_impl.NewContainer(bx)
-	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
+	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false, true)
 	cat := catalogue.NewCatalogue()
 	rg := cat.RootGroup()
 

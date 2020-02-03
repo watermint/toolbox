@@ -29,6 +29,7 @@ type Control interface {
 	IsQuiet() bool
 	IsSecure() bool
 	IsLowMemory() bool
+	IsAutoOpen() bool
 
 	NewQueue() rc_worker.Queue
 }
@@ -50,8 +51,15 @@ type UpOpts struct {
 	CommonOptions map[string]interface{}
 	Concurrency   int
 	LowMemory     bool
+	AutoOpen      bool
 }
 
+func AutoOpen(enabled bool) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
+		opt.AutoOpen = enabled
+		return opt
+	}
+}
 func LowMemory(enabled bool) UpOpt {
 	return func(opt *UpOpts) *UpOpts {
 		opt.LowMemory = enabled

@@ -35,6 +35,10 @@ type Multi struct {
 	secure bool
 }
 
+func (z *Multi) IsAutoOpen() bool {
+	return false
+}
+
 func (z *Multi) IsLowMemory() bool {
 	return false
 }

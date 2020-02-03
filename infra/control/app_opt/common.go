@@ -13,6 +13,7 @@ type CommonOpts struct {
 	Concurrency int
 	BandwidthKb int
 	LowMemory   bool
+	AutoOpen    bool
 }
 
 func NewDefaultCommonOpts() *CommonOpts {
@@ -25,5 +26,6 @@ func NewDefaultCommonOpts() *CommonOpts {
 		BandwidthKb: 0,
 		Concurrency: runtime.NumCPU(),
 		LowMemory:   false,
+		AutoOpen:    false,
 	}
 }
