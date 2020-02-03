@@ -143,6 +143,7 @@ func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.DropboxPath
 		l.Debug("Unable to create read rewinder", zap.Error(err))
 		return nil, err
 	}
+	defer r.Close()
 
 	res, err := z.ctx.Upload("files/upload", rr).
 		Param(z.makeParams(info, destPath, mode, revision)).Call()
@@ -165,6 +166,7 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.DropboxPat
 	if err != nil {
 		return nil, err
 	}
+	defer f.Close()
 
 	type SessionId struct {
 		SessionId string `json:"session_id"`

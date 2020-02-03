@@ -30,11 +30,17 @@ func Create(arcPath, targetPath, arcComment string) error {
 		}
 		for _, e := range entries {
 			if e.IsDir() {
-				archive(b, filepath.Join(d, e.Name()))
+				if err = archive(b, filepath.Join(d, e.Name())); err != nil {
+					return err
+				}
 			} else {
 				ep := filepath.Join(d, e.Name())
 				l.Debug("Add file into the archive", zap.String("EntryPath", ep))
-				w, err := arc.Create(ep)
+				w, err := arc.CreateHeader(&zip.FileHeader{
+					Name:     filepath.ToSlash(ep),
+					Comment:  e.Name(),
+					Modified: e.ModTime(),
+				})
 				if err != nil {
 					l.Debug("Unable to add file to the archive", zap.Error(err))
 					continue
@@ -63,11 +69,11 @@ func Create(arcPath, targetPath, arcComment string) error {
 	}
 
 	err = archive(targetPath, "")
+	arc.Flush()
+	arc.Close()
 	if err != nil {
 		return err
 	}
-	arc.Flush()
-	arc.Close()
 
 	return nil
 }
