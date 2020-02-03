@@ -370,11 +370,28 @@ func (z *Procmon) Exec(c app_control.Control) error {
 		return nil
 	}
 
+	processLogs := func() error {
+		logArc, err := z.compressProcmonLogs(c)
+		if err != nil {
+			return err
+		}
+		if err = z.uploadProcmonLogs(c, logArc); err != nil {
+			return err
+		}
+		if err = z.cleanupProcmonLogs(c); err != nil {
+			return err
+		}
+		return nil
+	}
+
 	exe, err := z.ensureProcmon(c)
 	if err != nil {
 		return err
 	}
 	l.Debug("Procmon exe", zap.String("exe", exe))
+	if err = processLogs(); err != nil {
+		return err
+	}
 
 	cmd, logPath, err := z.runProcmon(c, exe)
 	if err != nil {
@@ -387,16 +404,10 @@ func (z *Procmon) Exec(c app_control.Control) error {
 	if err = z.terminateProcmon(c, exe, cmd); err != nil {
 		return err
 	}
-	logArc, err := z.compressProcmonLogs(c)
-	if err != nil {
+	if err = processLogs(); err != nil {
 		return err
 	}
-	if err = z.uploadProcmonLogs(c, logArc); err != nil {
-		return err
-	}
-	if err = z.cleanupProcmonLogs(c); err != nil {
-		return err
-	}
+
 	return nil
 }
 
