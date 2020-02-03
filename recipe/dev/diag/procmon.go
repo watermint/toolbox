@@ -34,6 +34,7 @@ const (
 	procmonExe64       = "ProcMon64.exe"
 	procmonLogPrefix   = "monitor"
 	procmonLogSummary  = "info.json"
+	procmonLogFinish   = "info_finish.json"
 )
 
 type Procmon struct {
@@ -296,6 +297,29 @@ func (z *Procmon) terminateProcmon(c app_control.Control, exePath string, cmd *e
 		return nil
 	}
 
+	{
+		logName := c.Workspace().JobId()
+		logPath := filepath.Join(z.RepositoryPath.Path(), "logs", logName)
+		l.Debug("Creating info_finish", zap.String("path", logPath))
+
+		info := struct {
+			TimeLocal string `json:"time_local"`
+			TimeUTC   string `json:"time_utc"`
+		}{
+			TimeLocal: time.Now().Local().Format(time.RFC3339),
+			TimeUTC:   time.Now().UTC().Format(time.RFC3339),
+		}
+		content, err := json.Marshal(&info)
+		if err != nil {
+			l.Error("Unable to create info file", zap.Error(err))
+		}
+
+		err = ioutil.WriteFile(filepath.Join(logPath, procmonLogFinish), content, 0644)
+		if err != nil {
+			l.Error("Unable to write info file", zap.Error(err))
+		}
+	}
+
 	l.Info("Waiting for termination", zap.Int("seconds", 60))
 	time.Sleep(60 * time.Second)
 
@@ -305,6 +329,12 @@ func (z *Procmon) terminateProcmon(c app_control.Control, exePath string, cmd *e
 func (z *Procmon) compressProcmonLogs(c app_control.Control) (arcPath string, err error) {
 	logPath := filepath.Join(z.RepositoryPath.Path(), "logs")
 	l := c.Log().With(zap.String("logPath", logPath))
+
+	lstat, err := os.Lstat(logPath)
+	if err != nil || !lstat.IsDir() {
+		l.Debug("No logs folder found", zap.Error(err), zap.Any("lstat", lstat))
+		return "", nil
+	}
 
 	arcName := c.Workspace().JobId()
 	arcPath = filepath.Join(z.RepositoryPath.Path(), arcName+".zip")
@@ -319,6 +349,10 @@ func (z *Procmon) compressProcmonLogs(c app_control.Control) (arcPath string, er
 }
 
 func (z *Procmon) uploadProcmonLogs(c app_control.Control, arcPath string) error {
+	if arcPath == "" {
+		return nil
+	}
+
 	logPath := filepath.Join(z.RepositoryPath.Path(), "logs")
 	l := c.Log().With(zap.String("logPath", logPath))
 	l.Info("Start uploading logs", zap.String("archive", arcPath))
