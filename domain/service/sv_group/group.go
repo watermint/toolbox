@@ -228,5 +228,31 @@ func (z *implGroup) Resolve(groupId string) (g *mo_group.Group, err error) {
 }
 
 func (z *implGroup) Update(group *mo_group.Group) (g *mo_group.Group, err error) {
-	panic("implement me")
+	type GroupSelector struct {
+		Tag     string `json:".tag"`
+		GroupId string `json:"group_id"`
+	}
+	u := struct {
+		Group                  *GroupSelector `json:"group"`
+		NewGroupName           string         `json:"new_group_name,omitempty"`
+		NewGroupExternalId     string         `json:"new_group_external_id,omitempty"`
+		NewGroupManagementType string         `json:"new_group_management_type,omitempty"`
+	}{
+		Group: &GroupSelector{
+			Tag:     "group_id",
+			GroupId: group.GroupId,
+		},
+		NewGroupName:           group.GroupName,
+		NewGroupExternalId:     group.GroupExternalId,
+		NewGroupManagementType: group.GroupManagementType,
+	}
+	g = &mo_group.Group{}
+	res, err := z.ctx.Rpc("team/groups/update").Param(u).Call()
+	if err != nil {
+		return nil, err
+	}
+	if err = res.Model(g); err != nil {
+		return nil, err
+	}
+	return g, nil
 }

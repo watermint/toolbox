@@ -81,6 +81,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [group member add](doc/generated_ja/group-member-add.md)                           | Add a member to the group                                      |
 | [group member delete](doc/generated_ja/group-member-delete.md)                     | Delete a member from the group                                 |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                     |
+| [group rename](doc/generated_ja/group-rename.md)                                   | Rename the group                                               |
 | [job history archive](doc/generated_ja/job-history-archive.md)                     | Archive jobs                                                   |
 | [job history delete](doc/generated_ja/job-history-delete.md)                       | Delete old job history                                         |
 | [job history list](doc/generated_ja/job-history-list.md)                           | Show job history                                               |

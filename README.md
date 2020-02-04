@@ -81,6 +81,7 @@ Available commands:
 | [group member add](doc/generated/group-member-add.md)                           | Add a member to the group                                     |
 | [group member delete](doc/generated/group-member-delete.md)                     | Delete a member from the group                                |
 | [group member list](doc/generated/group-member-list.md)                         | List members of groups                                        |
+| [group rename](doc/generated/group-rename.md)                                   | Rename the group                                              |
 | [job history archive](doc/generated/job-history-archive.md)                     | Archive jobs                                                  |
 | [job history delete](doc/generated/job-history-delete.md)                       | Delete old job history                                        |
 | [job history list](doc/generated/job-history-list.md)                           | Show job history                                              |

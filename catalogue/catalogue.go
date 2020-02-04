@@ -93,6 +93,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipegroup.Add{}, infra_recipe_rc_recipe.Irreversible()),
 		infra_recipe_rc_recipe.Annotate(&recipegroup.Delete{}, infra_recipe_rc_recipe.Irreversible()),
 		infra_recipe_rc_recipe.Annotate(&recipegroup.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipegroup.Rename{}),
 		infra_recipe_rc_recipe.Annotate(&recipegroupbatch.Delete{}, infra_recipe_rc_recipe.Irreversible()),
 		infra_recipe_rc_recipe.Annotate(&recipegroupmember.Add{}, infra_recipe_rc_recipe.Irreversible()),
 		infra_recipe_rc_recipe.Annotate(&recipegroupmember.Delete{}, infra_recipe_rc_recipe.Irreversible()),

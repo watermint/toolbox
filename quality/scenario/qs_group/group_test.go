@@ -53,6 +53,42 @@ func TestGroup(t *testing.T) {
 			}
 		}()
 
+		// Rename group
+		{
+			c, err := app_control_impl.Fork(ctl, "group-rename")
+			if err != nil {
+				t.Error(err)
+				return
+			}
+			err = rc_exec.Exec(c, &group.Rename{}, func(r rc_recipe.Recipe) {
+				m := r.(*group.Rename)
+				m.CurrentName = testGroupName
+				m.NewName = testGroupName + "New"
+			})
+			if err != nil {
+				t.Error(err)
+				return
+			}
+		}
+
+		// Revert: Rename group
+		{
+			c, err := app_control_impl.Fork(ctl, "group-rename-revert")
+			if err != nil {
+				t.Error(err)
+				return
+			}
+			err = rc_exec.Exec(c, &group.Rename{}, func(r rc_recipe.Recipe) {
+				m := r.(*group.Rename)
+				m.CurrentName = testGroupName + "New"
+				m.NewName = testGroupName
+			})
+			if err != nil {
+				t.Error(err)
+				return
+			}
+		}
+
 		// Verify created group
 		{
 			c, err := app_control_impl.Fork(ctl, "group-list")
