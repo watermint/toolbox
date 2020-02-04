@@ -50,7 +50,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | オプション      | 説明                   | デフォルト |
 |-----------------|------------------------|------------|
 | `-dropbox-path` | Dropbox path to upload |            |
-| `-peer`         | Account alias          | default    |
+| `-peer`         | アカウントの別名       | default    |
 
 共通のオプション:
 
@@ -119,7 +119,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | status                         | 処理の状態                                                                                 |
 | reason                         | 失敗またはスキップの理由                                                                   |
 | input.job_id                   | Job ID                                                                                     |
-| input.recipe_name              | Command                                                                                    |
+| input.recipe_name              | コマンド                                                                                   |
 | result.id                      | ファイルへの一意なID                                                                       |
 | result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
 | result.name                    | 名称                                                                                       |

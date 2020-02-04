@@ -73,7 +73,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |-------------|---------------|
 | job_id      | Job ID        |
 | app_version | App version   |
-| recipe_name | Command       |
+| recipe_name | コマンド      |
 | time_start  | Time Started  |
 | time_finish | Time Finished |
 

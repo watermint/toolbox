@@ -1,6 +1,6 @@
 # team diag explorer 
 
-Report while team information 
+チーム全体の情報をレポートします 
 
 # セキュリティ
 
@@ -51,9 +51,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | オプション | 説明                                | デフォルト |
 |------------|-------------------------------------|------------|
 | `-all`     | 追加のレポートを含める              | false      |
-| `-file`    | Dropbox Business file access        | default    |
-| `-info`    | Dropbox Business information access | default    |
-| `-mgmt`    | Dropbox Business management         | default    |
+| `-file`    | Dropbox Business ファイルアクアセス | default    |
+| `-info`    | Dropbox Business 情報アクセス       | default    |
+| `-mgmt`    | Dropbox Business 管理               | default    |
 
 共通のオプション:
 

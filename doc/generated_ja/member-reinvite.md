@@ -49,7 +49,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション | 説明                                     | デフォルト |
 |------------|------------------------------------------|------------|
-| `-peer`    | Account alias                            | default    |
+| `-peer`    | アカウントの別名                         | default    |
 | `-silent`  | Do not send welcome email (SSO required) | false      |
 
 共通のオプション:
