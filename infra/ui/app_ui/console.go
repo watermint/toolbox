@@ -347,18 +347,26 @@ func (z *console) ErrorK(key string, p ...app_msg.P) {
 	z.Error(app_msg.M(key, p...))
 }
 
-func (z *console) Success(key string, p ...app_msg.P) {
-	z.verifyKey(key)
-	m := z.mc.Compile(app_msg.M(key, p...))
-	z.colorPrint(m, ColorGreen)
-	app_root.Log().Debug(m)
+func (z *console) Success(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	t := z.mc.Compile(m)
+	z.colorPrint(t, ColorGreen)
+	app_root.Log().Debug(t)
 }
 
-func (z *console) Failure(key string, p ...app_msg.P) {
-	z.verifyKey(key)
-	m := z.mc.Compile(app_msg.M(key, p...))
-	z.colorPrint(m, ColorRed)
-	app_root.Log().Debug(m)
+func (z *console) Failure(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	t := z.mc.Compile(m)
+	z.colorPrint(t, ColorRed)
+	app_root.Log().Debug(t)
+}
+
+func (z *console) SuccessK(key string, p ...app_msg.P) {
+	z.Success(app_msg.M(key, p...))
+}
+
+func (z *console) FailureK(key string, p ...app_msg.P) {
+	z.Failure(app_msg.M(key, p...))
 }
 
 func (z *console) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {

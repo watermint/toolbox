@@ -87,7 +87,6 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			msgs := app_msg.Messages(m)
 			for _, msg := range msgs {
 				l.Debug("message", zap.String("key", msg.Key()), zap.String("text", c.UI().Text(msg)))
-
 			}
 		}
 	}

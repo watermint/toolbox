@@ -13,6 +13,12 @@ func NewDummy() UI {
 type Dummy struct {
 }
 
+func (z *Dummy) Success(m app_msg.Message) {
+}
+
+func (z *Dummy) Failure(m app_msg.Message) {
+}
+
 func (z *Dummy) AskCont(m app_msg.Message) (cont bool, cancel bool) {
 	return false, true
 }
@@ -81,10 +87,10 @@ func (z *Dummy) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bo
 func (z *Dummy) OpenArtifact(path string) {
 }
 
-func (z *Dummy) Success(key string, p ...app_msg.P) {
+func (z *Dummy) SuccessK(key string, p ...app_msg.P) {
 }
 
-func (z *Dummy) Failure(key string, p ...app_msg.P) {
+func (z *Dummy) FailureK(key string, p ...app_msg.P) {
 }
 
 func (z *Dummy) IsConsole() bool {

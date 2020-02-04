@@ -61,7 +61,7 @@ func (z *Permdelete) Exec(c app_control.Control) error {
 		})
 		return err
 	}
-	ui.Success("recipe.teamfolder.permdelete.success.permdeleted", app_msg.P{
+	ui.SuccessK("recipe.teamfolder.permdelete.success.permdeleted", app_msg.P{
 		"TeamFolderName": teamfolder.Name,
 	})
 	return nil

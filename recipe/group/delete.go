@@ -44,7 +44,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		})
 		return err
 	}
-	ui.Success("recipe.group.delete.success.removed", app_msg.P{
+	ui.SuccessK("recipe.group.delete.success.removed", app_msg.P{
 		"GroupName":      group.GroupName,
 		"ManagementType": group.GroupManagementType,
 	})

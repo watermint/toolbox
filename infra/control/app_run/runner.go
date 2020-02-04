@@ -34,7 +34,13 @@ import (
 )
 
 type MsgRun struct {
-	ErrorInvalidArgument app_msg.Message
+	ErrorInvalidArgument        app_msg.Message
+	ErrorInterrupted            app_msg.Message
+	ErrorInterruptedInstruction app_msg.Message
+	ErrorUnableToFormatPath     app_msg.Message
+	ErrorPanic                  app_msg.Message
+	ErrorPanicInstruction       app_msg.Message
+	ErrorRecipeFailed           app_msg.Message
 }
 
 var (
@@ -70,9 +76,7 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 	if com.Workspace != "" {
 		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace)
 		if err != nil {
-			ui.ErrorK("run.error.unable_to_format_path", app_msg.P{
-				"Error": err.Error(),
-			})
+			ui.Error(MRun.ErrorUnableToFormatPath.With("Error", err))
 			os.Exit(app_control.FailureInvalidCommandFlags)
 		}
 		so = append(so, app_control.WorkspacePath(wsPath))
@@ -100,6 +104,21 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 	// - Quiet
 	if qui, ok := ui.(*app_ui.Quiet); ok {
 		qui.SetLogger(ctl.Log())
+	}
+
+	// Test MRun message, due to unable to test because of package dependency
+	if !app.IsProduction() {
+		for _, msg := range app_msg.Messages(MRun) {
+			ui.Text(msg)
+		}
+		if qm, ok := ctl.Messages().(app_msg_container.Quality); ok {
+			missing := qm.MissingKeys()
+			if len(missing) > 0 {
+				for _, k := range missing {
+					ctl.Log().Error("Key missing", zap.String("key", k))
+				}
+			}
+		}
 	}
 
 	// Recover
@@ -205,7 +224,7 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 	lastErr = rc_exec.ExecSpec(ctl, rcpSpec, rc_recipe.NoCustomValues)
 	if lastErr != nil {
 		ctl.Log().Error("Recipe failed with an error", zap.Error(lastErr))
-		ui.Failure("run.error.recipe.failed", app_msg.P{"Error": lastErr.Error()})
+		ui.Failure(MRun.ErrorRecipeFailed.With("Error", lastErr))
 		os.Exit(app_control.FailureGeneral)
 	}
 

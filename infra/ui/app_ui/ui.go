@@ -58,8 +58,14 @@ type UI interface {
 	AskSecure(m app_msg.Message) (secure string, cancel bool)
 
 	OpenArtifact(path string)
-	Success(key string, p ...app_msg.P)
-	Failure(key string, p ...app_msg.P)
+
+	// Deprecated: use Success
+	SuccessK(key string, p ...app_msg.P)
+
+	// Deprecated: use Failure
+	FailureK(key string, p ...app_msg.P)
+	Success(m app_msg.Message)
+	Failure(m app_msg.Message)
 
 	IsConsole() bool
 	IsWeb() bool
