@@ -157,7 +157,7 @@ func TestGroupMember_Group(t *testing.T) {
 	//	if gm2.TeamMemberId != gm2.Member().TeamMemberId || gm2.TeamMemberId == "" {
 	//		t.Error("invalid")
 	//	}
-	//	if gm2.GroupName != gm2.Group().GroupName || gm2.GroupName != "営業部" {
+	//	if gm2.Name != gm2.Group().Name || gm2.Name != "営業部" {
 	//		t.Error("invalid")
 	//	}
 	//}

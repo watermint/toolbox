@@ -12,8 +12,12 @@ import (
 )
 
 type Delete struct {
-	Peer rc_conn.ConnBusinessMgmt
-	Name string
+	Peer                      rc_conn.ConnBusinessMgmt
+	Name                      string
+	ErrorMissingOptionName    app_msg.Message
+	ErrorUnableToResolveGroup app_msg.Message
+	ErrorUnableToRemoveGroup  app_msg.Message
+	SuccessRemoved            app_msg.Message
 }
 
 func (z *Delete) Preset() {
@@ -23,31 +27,23 @@ func (z *Delete) Exec(c app_control.Control) error {
 	ui := c.UI()
 
 	if z.Name == "" {
-		ui.ErrorK("recipe.group.delete.err.missing_option.name")
+		ui.Error(z.ErrorMissingOptionName)
 		return errors.New("missing required option")
 	}
 
 	group, err := sv_group.New(z.Peer.Context()).ResolveByName(z.Name)
 	if err != nil {
-		ui.ErrorK("recipe.group.delete.err.unable_to_resolve_group",
-			app_msg.P{
-				"Error": err.Error(),
-			})
+		ui.Error(z.ErrorUnableToResolveGroup.With("Error", err))
 		return err
 	}
 	c.Log().Debug("Removing group", zap.Any("group", group))
 
 	err = sv_group.New(z.Peer.Context()).Remove(group.GroupId)
 	if err != nil {
-		ui.ErrorK("recipe.group.delete.err.unable_to_remove_group", app_msg.P{
-			"Error": err.Error(),
-		})
+		ui.Error(z.ErrorUnableToRemoveGroup.With("Error", err))
 		return err
 	}
-	ui.SuccessK("recipe.group.delete.success.removed", app_msg.P{
-		"GroupName":      group.GroupName,
-		"ManagementType": group.GroupManagementType,
-	})
+	ui.Success(z.SuccessRemoved.With("GroupName", group.GroupName).With("ManagementType", group.GroupManagementType))
 	return nil
 }
 

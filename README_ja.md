@@ -74,9 +74,12 @@ DropboxおよびDropbox Business向けのツールセット
 | [file sync up](doc/generated_ja/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                  |
 | [file upload](doc/generated_ja/file-upload.md)                                     | ファイルのアップロード                                         |
 | [file watch](doc/generated_ja/file-watch.md)                                       | ファイルアクティビティを監視                                   |
+| [group add](doc/generated_ja/group-add.md)                                         | Create new group                                               |
 | [group batch delete](doc/generated_ja/group-batch-delete.md)                       | グループの削除                                                 |
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                           |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                 |
+| [group member add](doc/generated_ja/group-member-add.md)                           | Add a member to the group                                      |
+| [group member delete](doc/generated_ja/group-member-delete.md)                     | Delete a member from the group                                 |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                     |
 | [job history archive](doc/generated_ja/job-history-archive.md)                     | Archive jobs                                                   |
 | [job history delete](doc/generated_ja/job-history-delete.md)                       | Delete old job history                                         |
