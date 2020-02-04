@@ -1,6 +1,6 @@
 # group member add 
 
-Add a member to the group (Irreversible operation)
+Add a member to the group 
 
 # Security
 

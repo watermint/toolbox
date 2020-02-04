@@ -1,6 +1,6 @@
 # job history list 
 
-Show job history 
+ジョブ履歴の表示 
 
 # 利用方法
 
@@ -33,7 +33,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション      | 説明                                                                                             | デフォルト     |
 |-----------------|--------------------------------------------------------------------------------------------------|----------------|
-| `-auto-open`    | Auto open URL or artifact folder                                                                 | false          |
+| `-auto-open`    | 成果物フォルダまたはURLを自動で開く                                                              | false          |
 | `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
 | `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
 | `-debug`        | デバッグモードを有効にする                                                                       | false          |
@@ -69,11 +69,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `log_0000.xlsx`, `log_0001.xlsx`, `log_0002.xlsx`...   
 
-| 列          | 説明          |
-|-------------|---------------|
-| job_id      | Job ID        |
-| app_version | App version   |
-| recipe_name | コマンド      |
-| time_start  | Time Started  |
-| time_finish | Time Finished |
+| 列          | 説明                       |
+|-------------|----------------------------|
+| job_id      | ジョブID                   |
+| app_version | アプリケーションバージョン |
+| recipe_name | コマンド                   |
+| time_start  | 開始時刻                   |
+| time_finish | 完了時刻                   |
 

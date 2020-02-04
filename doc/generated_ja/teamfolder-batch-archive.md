@@ -57,7 +57,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション      | 説明                                                                                             | デフォルト     |
 |-----------------|--------------------------------------------------------------------------------------------------|----------------|
-| `-auto-open`    | Auto open URL or artifact folder                                                                 | false          |
+| `-auto-open`    | 成果物フォルダまたはURLを自動で開く                                                              | false          |
 | `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
 | `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
 | `-debug`        | デバッグモードを有効にする                                                                       | false          |
@@ -135,8 +135,8 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | status                        | 処理の状態                                                                                 |
 | reason                        | 失敗またはスキップの理由                                                                   |
 | input.name                    | チームフォルダ名                                                                           |
-| result.team_folder_id         | The ID of the team folder.                                                                 |
-| result.name                   | The name of the team folder.                                                               |
+| result.team_folder_id         | チームフォルダのID                                                                         |
+| result.name                   | チームフォルダの名称                                                                       |
 | result.status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
 | result.is_team_shared_dropbox |                                                                                            |
 | result.sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |

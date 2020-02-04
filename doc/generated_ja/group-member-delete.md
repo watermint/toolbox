@@ -1,6 +1,6 @@
 # group member delete 
 
-Delete a member from the group (非可逆な操作です)
+メンバーをグループから削除 (非可逆な操作です)
 
 # セキュリティ
 
@@ -47,17 +47,17 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション      | 説明                        | デフォルト |
-|-----------------|-----------------------------|------------|
-| `-group-name`   | Name of the group           |            |
-| `-member-email` | Email address of the member |            |
-| `-peer`         | Account alias               | default    |
+| オプション      | 説明                     | デフォルト |
+|-----------------|--------------------------|------------|
+| `-group-name`   | グループ名称             |            |
+| `-member-email` | メンバーのメールアドレス |            |
+| `-peer`         | アカウントの別名         | default    |
 
 共通のオプション:
 
 | オプション      | 説明                                                                                             | デフォルト     |
 |-----------------|--------------------------------------------------------------------------------------------------|----------------|
-| `-auto-open`    | Auto open URL or artifact folder                                                                 | false          |
+| `-auto-open`    | 成果物フォルダまたはURLを自動で開く                                                              | false          |
 | `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
 | `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
 | `-debug`        | デバッグモードを有効にする                                                                       | false          |
@@ -119,8 +119,8 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 |------------------------------|-----------------------------------------------------------------------------------------|
 | status                       | 処理の状態                                                                              |
 | reason                       | 失敗またはスキップの理由                                                                |
-| input.group_name             | Name of the group                                                                       |
-| input.member_email           | Email address of the member                                                             |
+| input.group_name             | グループ名称                                                                            |
+| input.member_email           | メンバーのメールアドレス                                                                |
 | result.group_name            | グループ名称                                                                            |
 | result.group_id              | グループID                                                                              |
 | result.group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |

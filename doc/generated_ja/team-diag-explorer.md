@@ -59,7 +59,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション      | 説明                                                                                             | デフォルト     |
 |-----------------|--------------------------------------------------------------------------------------------------|----------------|
-| `-auto-open`    | Auto open URL or artifact folder                                                                 | false          |
+| `-auto-open`    | 成果物フォルダまたはURLを自動で開く                                                              | false          |
 | `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
 | `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
 | `-debug`        | デバッグモードを有効にする                                                                       | false          |
@@ -258,9 +258,9 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | 列                          | 説明                                                                                                          |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------|
 | name                        | チームの名称                                                                                                  |
-| team_id                     | The ID of the team.                                                                                           |
+| team_id                     | チームのID                                                                                                    |
 | num_licensed_users          | このチームで利用可能なライセンス数                                                                            |
-| num_provisioned_users       | The number of accounts that have been invited or are already active members of the team.                      |
+| num_provisioned_users       | 招待済みアカウント数 (アクティブメンバーまたは招待済み)                                                       |
 | policy_shared_folder_member | Which shared folders team members can join (from_team_only, or from_anyone)                                   |
 | policy_shared_folder_join   | Who can join folders shared by team members (team, or anyone)                                                 |
 | policy_shared_link_create   | Who can view shared links owned by team members (default_public, default_team_only, or team_only)             |

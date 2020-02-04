@@ -1,6 +1,6 @@
 # job history ship 
 
-Ship Job logs to Dropbox path 
+ログの転送先Dropboxパス 
 
 # セキュリティ
 
@@ -47,16 +47,16 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション      | 説明                   | デフォルト |
-|-----------------|------------------------|------------|
-| `-dropbox-path` | Dropbox path to upload |            |
-| `-peer`         | アカウントの別名       | default    |
+| オプション      | 説明                      | デフォルト |
+|-----------------|---------------------------|------------|
+| `-dropbox-path` | アップロード先Dropboxパス |            |
+| `-peer`         | アカウントの別名          | default    |
 
 共通のオプション:
 
 | オプション      | 説明                                                                                             | デフォルト     |
 |-----------------|--------------------------------------------------------------------------------------------------|----------------|
-| `-auto-open`    | Auto open URL or artifact folder                                                                 | false          |
+| `-auto-open`    | 成果物フォルダまたはURLを自動で開く                                                              | false          |
 | `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒)0の場合、制限を行わない | 0              |
 | `-concurrency`  | 指定した並列度で並列処理を行います                                                               | プロセッサー数 |
 | `-debug`        | デバッグモードを有効にする                                                                       | false          |
@@ -118,7 +118,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 |--------------------------------|--------------------------------------------------------------------------------------------|
 | status                         | 処理の状態                                                                                 |
 | reason                         | 失敗またはスキップの理由                                                                   |
-| input.job_id                   | Job ID                                                                                     |
+| input.job_id                   | ジョブID                                                                                   |
 | input.recipe_name              | コマンド                                                                                   |
 | result.id                      | ファイルへの一意なID                                                                       |
 | result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |

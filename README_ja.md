@@ -74,18 +74,18 @@ DropboxおよびDropbox Business向けのツールセット
 | [file sync up](doc/generated_ja/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                  |
 | [file upload](doc/generated_ja/file-upload.md)                                     | ファイルのアップロード                                         |
 | [file watch](doc/generated_ja/file-watch.md)                                       | ファイルアクティビティを監視                                   |
-| [group add](doc/generated_ja/group-add.md)                                         | Create new group                                               |
+| [group add](doc/generated_ja/group-add.md)                                         | グループを作成します                                           |
 | [group batch delete](doc/generated_ja/group-batch-delete.md)                       | グループの削除                                                 |
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                           |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                 |
-| [group member add](doc/generated_ja/group-member-add.md)                           | Add a member to the group                                      |
-| [group member delete](doc/generated_ja/group-member-delete.md)                     | Delete a member from the group                                 |
+| [group member add](doc/generated_ja/group-member-add.md)                           | メンバーをグループに追加                                       |
+| [group member delete](doc/generated_ja/group-member-delete.md)                     | メンバーをグループから削除                                     |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                     |
-| [group rename](doc/generated_ja/group-rename.md)                                   | Rename the group                                               |
-| [job history archive](doc/generated_ja/job-history-archive.md)                     | Archive jobs                                                   |
-| [job history delete](doc/generated_ja/job-history-delete.md)                       | Delete old job history                                         |
-| [job history list](doc/generated_ja/job-history-list.md)                           | Show job history                                               |
-| [job history ship](doc/generated_ja/job-history-ship.md)                           | Ship Job logs to Dropbox path                                  |
+| [group rename](doc/generated_ja/group-rename.md)                                   | グループの改名                                                 |
+| [job history archive](doc/generated_ja/job-history-archive.md)                     | ジョブのアーカイブ                                             |
+| [job history delete](doc/generated_ja/job-history-delete.md)                       | 古いジョブ履歴の削除                                           |
+| [job history list](doc/generated_ja/job-history-list.md)                           | ジョブ履歴の表示                                               |
+| [job history ship](doc/generated_ja/job-history-ship.md)                           | ログの転送先Dropboxパス                                        |
 | [license](doc/generated_ja/license.md)                                             | ライセンス情報を表示します                                     |
 | [member delete](doc/generated_ja/member-delete.md)                                 | メンバーを削除します                                           |
 | [member detach](doc/generated_ja/member-detach.md)                                 | Dropbox BusinessユーザーをBasicユーザーに変更します            |
@@ -94,7 +94,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [member quota list](doc/generated_ja/member-quota-list.md)                         | メンバーの容量制限情報を一覧します                             |
 | [member quota update](doc/generated_ja/member-quota-update.md)                     | チームメンバーの容量制限を変更                                 |
 | [member quota usage](doc/generated_ja/member-quota-usage.md)                       | チームメンバーのストレージ利用状況を取得                       |
-| [member reinvite](doc/generated_ja/member-reinvite.md)                             | Reinvite invited status members to the team                    |
+| [member reinvite](doc/generated_ja/member-reinvite.md)                             | 招待済み状態メンバーをチームに再招待します                     |
 | [member replication](doc/generated_ja/member-replication.md)                       | チームメンバーのファイルを複製します                           |
 | [member update email](doc/generated_ja/member-update-email.md)                     | メンバーのメールアドレス処理                                   |
 | [member update externalid](doc/generated_ja/member-update-externalid.md)           | チームメンバーのExternal IDを更新します.                       |
