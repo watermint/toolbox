@@ -15,6 +15,7 @@ type Files interface {
 
 	Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry mo_file.Entry, err error)
 	Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
+	Search(query string, opts ...SearchOpt) (matches []*mo_file.Match, err error)
 }
 
 type ListOpt func(opt *listOpts) *listOpts
@@ -71,13 +72,118 @@ func NewFiles(ctx api_context.Context) Files {
 func newFilesTest(ctx api_context.Context) Files {
 	return &filesImpl{
 		ctx: ctx,
-		//limit: 3,
+	}
+}
+
+type SearchOpt func(opt *searchOpts) *searchOpts
+type searchOpts struct {
+	path              string
+	maxResults        *int
+	fileStatus        string
+	fileNameOnly      bool
+	fileExtension     string
+	fileCategories    string
+	includeHighlights bool
+}
+
+func SearchPath(path mo_path.DropboxPath) SearchOpt {
+	return func(opt *searchOpts) *searchOpts {
+		opt.path = path.Path()
+		return opt
+	}
+}
+func SearchMaxResults(maxResults int) SearchOpt {
+	return func(opt *searchOpts) *searchOpts {
+		opt.maxResults = &maxResults
+		return opt
+	}
+}
+func SearchFileDeleted() SearchOpt {
+	return func(opt *searchOpts) *searchOpts {
+		opt.fileStatus = "deleted"
+		return opt
+	}
+}
+func SearchFileNameOnly() SearchOpt {
+	return func(opt *searchOpts) *searchOpts {
+		opt.fileNameOnly = true
+		return opt
+	}
+}
+func SearchFileExtension(ext string) SearchOpt {
+	return func(opt *searchOpts) *searchOpts {
+		opt.fileExtension = ext
+		return opt
+	}
+}
+func SearchCategories(cat string) SearchOpt {
+	return func(opt *searchOpts) *searchOpts {
+		opt.fileCategories = cat
+		return opt
+	}
+}
+func SearchIncludeHighlights() SearchOpt {
+	return func(opt *searchOpts) *searchOpts {
+		opt.includeHighlights = true
+		return opt
 	}
 }
 
 type filesImpl struct {
 	ctx   api_context.Context
 	limit int
+}
+
+func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.Match, err error) {
+	so := &searchOpts{}
+	for _, o := range opts {
+		o(so)
+	}
+	type SO struct {
+		MaxResults     *int   `json:"max_results,omitempty"`
+		FileStatus     string `json:"file_status,omitempty"`
+		FilenameOnly   bool   `json:"filename_only,omitempty"`
+		FileExtensions string `json:"file_extensions,omitempty"`
+		FileCategories string `json:"file_categories,omitempty"`
+	}
+	sos := &SO{
+		MaxResults:     so.maxResults,
+		FileStatus:     so.fileStatus,
+		FilenameOnly:   so.fileNameOnly,
+		FileExtensions: so.fileExtension,
+		FileCategories: so.fileCategories,
+	}
+	p := struct {
+		Query             string `json:"query"`
+		Options           *SO    `json:"options"`
+		IncludeHighlights bool   `json:"include_highlights,omitempty"`
+	}{
+		Query:             query,
+		Options:           sos,
+		IncludeHighlights: so.includeHighlights,
+	}
+
+	matches = make([]*mo_file.Match, 0)
+
+	req := z.ctx.List("files/search_v2").
+		Continue("files/search/continue_v2").
+		Param(p).
+		UseHasMore(true).
+		ResultTag("matches").
+		OnEntry(func(entry api_list.ListEntry) error {
+			e := &mo_file.Match{}
+			if err := entry.Model(e); err != nil {
+				j, _ := entry.Json()
+				z.ctx.Log().Error("invalid", zap.Error(err), zap.String("entry", j.Raw))
+				return err
+			}
+			matches = append(matches, e)
+			return nil
+		})
+	if err = req.Call(); err != nil {
+		return nil, err
+	}
+	return matches, nil
 }
 
 func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {

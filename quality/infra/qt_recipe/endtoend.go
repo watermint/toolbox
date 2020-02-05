@@ -35,7 +35,7 @@ func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container,
 	web = rice.MustFindBox("../../../web")
 
 	mc = app_msg_container_impl.NewContainer(bx)
-	ui = app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageTest(t), true, false)
+	ui = app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageTest(t), true)
 	return
 }
 

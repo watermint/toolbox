@@ -124,7 +124,7 @@ func (z *Markdown) AskSecureK(key string, p ...app_msg.P) (secure string, cancel
 	return "", true
 }
 
-func (z *Markdown) OpenArtifact(path string) {
+func (z *Markdown) OpenArtifact(path string, autoOpen bool) {
 }
 
 func (z *Markdown) Success(m app_msg.Message) {

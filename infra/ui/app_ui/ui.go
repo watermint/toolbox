@@ -57,7 +57,7 @@ type UI interface {
 	// Ask for a credentials
 	AskSecure(m app_msg.Message) (secure string, cancel bool)
 
-	OpenArtifact(path string)
+	OpenArtifact(path string, autoOpen bool)
 
 	// Deprecated: use Success
 	SuccessK(key string, p ...app_msg.P)

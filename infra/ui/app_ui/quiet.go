@@ -85,7 +85,7 @@ func (z *Quiet) IsWeb() bool {
 	return false
 }
 
-func (z *Quiet) OpenArtifact(path string) {
+func (z *Quiet) OpenArtifact(path string, autoOpen bool) {
 	z.log.Debug("Open artifact", zap.String("path", path))
 }
 

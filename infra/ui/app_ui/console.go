@@ -57,7 +57,7 @@ const (
 	consoleNumRowsThreshold = 500
 )
 
-func NewConsole(mc app_msg_container.Container, qm qt_missingmsg.Message, testMode, autoOpen bool) UI {
+func NewConsole(mc app_msg_container.Container, qm qt_missingmsg.Message, testMode bool) UI {
 	return &console{
 		mc:       mc,
 		out:      os.Stdout,
@@ -65,7 +65,6 @@ func NewConsole(mc app_msg_container.Container, qm qt_missingmsg.Message, testMo
 		testMode: testMode,
 		qm:       qm,
 		useColor: true,
-		autoOpen: autoOpen,
 	}
 }
 
@@ -76,7 +75,6 @@ func NewBufferConsole(mc app_msg_container.Container, buf io.Writer) UI {
 		in:       os.Stdin,
 		qm:       qt_missingmsg_impl.NewMessageMemory(),
 		useColor: false,
-		autoOpen: false,
 	}
 }
 
@@ -88,7 +86,6 @@ func CloneConsole(ui UI, mc app_msg_container.Container) UI {
 			out:      u.out,
 			in:       u.in,
 			testMode: u.testMode,
-			autoOpen: u.autoOpen,
 			qm:       u.qm,
 		}
 
@@ -110,7 +107,6 @@ type console struct {
 	in               io.Reader
 	testMode         bool
 	useColor         bool
-	autoOpen         bool
 	qm               qt_missingmsg.Message
 	mutex            sync.Mutex
 	openArtifactOnce sync.Once
@@ -243,12 +239,8 @@ func (z *console) IsWeb() bool {
 	return false
 }
 
-func (z *console) OpenArtifact(path string) {
+func (z *console) OpenArtifact(path string, autoOpen bool) {
 	l := app_root.Log()
-
-	if z.testMode || !z.autoOpen {
-		return
-	}
 
 	z.openArtifactOnce.Do(func() {
 		app_root.AddSuccessShutdownHook(func() {
@@ -272,6 +264,10 @@ func (z *console) OpenArtifact(path string) {
 
 			z.Info(MConsole.OpenArtifact.With("Path", path))
 			l.Debug("Register success shutdown hook", zap.String("path", path))
+			if z.testMode || !autoOpen {
+				return
+			}
+
 			err = open.Start(path)
 			if err != nil {
 				z.Error(MConsole.OpenArtifactError.With("Error", err))

@@ -240,7 +240,7 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 func Run(args []string, bx, web *rice.Box) (found bool) {
 	// Initialize resources
 	mc := app_msg_container_impl.NewContainer(bx)
-	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false, true)
+	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
 	cat := catalogue.NewCatalogue()
 	rg := cat.RootGroup()
 

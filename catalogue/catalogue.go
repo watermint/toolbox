@@ -26,6 +26,7 @@ import (
 	recipefileexport "github.com/watermint/toolbox/recipe/file/export"
 	recipefileimport "github.com/watermint/toolbox/recipe/file/import"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
+	recipefilesearch "github.com/watermint/toolbox/recipe/file/search"
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
 	recipefilesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
 	recipegroup "github.com/watermint/toolbox/recipe/group"
@@ -83,6 +84,8 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipefile.Restore{}, infra_recipe_rc_recipe.Experimental()),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Upload{}),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Watch{}),
+		infra_recipe_rc_recipe.Annotate(&recipefilesearch.Name{}),
+		infra_recipe_rc_recipe.Annotate(&recipefilesearch.Content{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilecompare.Account{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilecompare.Local{}),
 		infra_recipe_rc_recipe.Annotate(&recipefileexport.Doc{}, infra_recipe_rc_recipe.Experimental()),

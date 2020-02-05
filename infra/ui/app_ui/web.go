@@ -191,7 +191,7 @@ func (z *Web) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool
 	panic("not supported")
 }
 
-func (z *Web) OpenArtifact(path string) {
+func (z *Web) OpenArtifact(path string, autoOpen bool) {
 	l := app_root.Log()
 	files, err := ioutil.ReadDir(path)
 	if err != nil {
