@@ -11,6 +11,14 @@ else
   DIST_PATH=/dist
 fi
 
+if [ x"" = x"$TOOLBOX_BUILDERKEY" ]; then
+  if [ -e resources/toolbox.buildkey ]; then
+    TOOLBOX_BUILDERKEY=$(cat resources/toolbox.buildkey)
+  else
+    TOOLBOX_BUILDERKEY="watermint-toolbox-default"
+  fi
+fi
+
 BUILD_MAJOR_VERSION=$(cat "$PROJECT_ROOT"/version)
 BUILD_HASH=$(cd "$PROJECT_ROOT" && git rev-parse HEAD)
 

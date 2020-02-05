@@ -3,18 +3,23 @@ package ut_filepath
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"github.com/watermint/toolbox/domain/service/sv_desktop"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
+	"math/rand"
+	"os"
 	"os/user"
-	"runtime"
+	"path/filepath"
 	"strings"
 	"text/template"
+	"time"
 	"unicode"
 )
 
 var (
-	isWindows = runtime.GOOS == "windows"
+	isWindows = app.IsWindows()
 )
 
 func Rel(basePath, targetPath string) (rel string, err error) {
@@ -85,6 +90,27 @@ func Rel(basePath, targetPath string) (rel string, err error) {
 	return "", errors.New(errMsg)
 }
 
+// Replace chars that is not usable for path with '_'
+func Escape(p string) string {
+	illegal := []string{
+		"<",
+		">",
+		":",
+		"\"",
+		"|",
+		"?",
+		"*",
+		"/",
+		"\\",
+	}
+
+	o := p
+	for _, il := range illegal {
+		o = strings.ReplaceAll(o, il, "_")
+	}
+	return o
+}
+
 type FormatError struct {
 	Reason string
 	Key    string
@@ -120,6 +146,43 @@ func FormatPathWithPredefinedVariables(path string) (string, error) {
 			return u.HomeDir, nil
 		}
 		return "", errors.New("unable to retrieve current user home")
+	}
+	predefined["Username"] = func() (s string, e error) {
+		h, err := user.Current()
+		if err == nil {
+			return Escape(h.Username), nil
+		}
+		return "", errors.New("unable to retrieve hostname")
+	}
+	predefined["Hostname"] = func() (s string, e error) {
+		h, err := os.Hostname()
+		if err == nil {
+			return Escape(h), nil
+		}
+		return "", errors.New("unable to retrieve hostname")
+	}
+	predefined["ExecPath"] = func() (s string, err error) {
+		s = filepath.Dir(os.Args[0])
+		return s, nil
+	}
+	predefined["Rand8"] = func() (s string, err error) {
+		return fmt.Sprintf("%08d", rand.Intn(100_000_000)), nil
+	}
+	predefined["Date"] = func() (s string, e error) {
+		s = time.Now().Local().Format("2006-01-02")
+		return s, nil
+	}
+	predefined["Time"] = func() (s string, e error) {
+		s = time.Now().Local().Format("15-04-05")
+		return s, nil
+	}
+	predefined["DateUTC"] = func() (s string, e error) {
+		s = time.Now().UTC().Format("2006-01-02")
+		return s, nil
+	}
+	predefined["TimeUTC"] = func() (s string, e error) {
+		s = time.Now().UTC().Format("15-04-05")
+		return s, nil
 	}
 	predefined["AlwaysErrorForTest"] = func() (s string, e error) {
 		return "", errors.New("always error")

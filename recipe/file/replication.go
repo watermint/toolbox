@@ -26,9 +26,6 @@ func (z *Replication) Preset() {
 	z.Dst.SetPeerName("dst")
 }
 
-func (z *Replication) Console() {
-}
-
 func (z *Replication) Exec(c app_control.Control) error {
 	ui := c.UI()
 

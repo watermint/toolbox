@@ -3,7 +3,10 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/util/ut_filepath"
+	"go.uber.org/zap"
 	"reflect"
 )
 
@@ -44,7 +47,13 @@ func (z *ValueMoPathFileSystemPath) ApplyPreset(v0 interface{}) {
 }
 
 func (z *ValueMoPathFileSystemPath) Apply() (v interface{}) {
-	z.path = mo_path.NewFileSystemPath(z.filePath)
+	l := app_root.Log()
+	p, err := ut_filepath.FormatPathWithPredefinedVariables(z.filePath)
+	if err != nil {
+		p = z.filePath
+		l.Debug("Unable to format", zap.String("path", z.filePath), zap.Error(err))
+	}
+	z.path = mo_path.NewFileSystemPath(p)
 	return z.path
 }
 

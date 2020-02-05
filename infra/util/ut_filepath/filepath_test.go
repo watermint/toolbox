@@ -1,6 +1,7 @@
 package ut_filepath
 
 import (
+	"fmt"
 	"os/user"
 	"testing"
 )
@@ -47,7 +48,7 @@ func TestRel(t *testing.T) {
 		isWindows = false
 	}
 
-	// ErrorK case
+	// Error case
 	{
 		if p, err := Rel("/a/b/c/d", "/a/b/c"); p != "" || err == nil {
 			t.Error(p, err)
@@ -107,9 +108,29 @@ func TestFormatPathWithPredefinedVariables(t *testing.T) {
 	}
 
 	{
+		p, err := FormatPathWithPredefinedVariables("/{{.Date}}T{{.Time}}/{{.DateUTC}}T{{.TimeUTC}}/{{.Hostname}}/{{.Rand8}}")
+		if err != nil {
+			t.Error()
+		}
+		fmt.Println(p)
+	}
+
+	{
 		_, err := FormatPathWithPredefinedVariables("{{.AlwaysErrorForTest}}/test")
 		if err == nil {
 			t.Error("should raise error")
 		}
+	}
+}
+
+func TestEscape(t *testing.T) {
+	if e := Escape("<>:\"|?*"); e != "_______" {
+		t.Error(e)
+	}
+	if e := Escape("abc123def456"); e != "abc123def456" {
+		t.Error(e)
+	}
+	if e := Escape("abc<123>def|456?"); e != "abc_123_def_456_" {
+		t.Error(e)
 	}
 }

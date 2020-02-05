@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/skratchdot/open-golang/open"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -15,7 +16,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"sync"
 	"text/tabwriter"
@@ -57,7 +57,7 @@ const (
 	consoleNumRowsThreshold = 500
 )
 
-func NewConsole(mc app_msg_container.Container, qm qt_missingmsg.Message, testMode bool) UI {
+func NewConsole(mc app_msg_container.Container, qm qt_missingmsg.Message, testMode, autoOpen bool) UI {
 	return &console{
 		mc:       mc,
 		out:      os.Stdout,
@@ -65,6 +65,7 @@ func NewConsole(mc app_msg_container.Container, qm qt_missingmsg.Message, testMo
 		testMode: testMode,
 		qm:       qm,
 		useColor: true,
+		autoOpen: autoOpen,
 	}
 }
 
@@ -75,6 +76,7 @@ func NewBufferConsole(mc app_msg_container.Container, buf io.Writer) UI {
 		in:       os.Stdin,
 		qm:       qt_missingmsg_impl.NewMessageMemory(),
 		useColor: false,
+		autoOpen: false,
 	}
 }
 
@@ -86,6 +88,7 @@ func CloneConsole(ui UI, mc app_msg_container.Container) UI {
 			out:      u.out,
 			in:       u.in,
 			testMode: u.testMode,
+			autoOpen: u.autoOpen,
 			qm:       u.qm,
 		}
 
@@ -107,6 +110,7 @@ type console struct {
 	in               io.Reader
 	testMode         bool
 	useColor         bool
+	autoOpen         bool
 	qm               qt_missingmsg.Message
 	mutex            sync.Mutex
 	openArtifactOnce sync.Once
@@ -242,7 +246,7 @@ func (z *console) IsWeb() bool {
 func (z *console) OpenArtifact(path string) {
 	l := app_root.Log()
 
-	if z.testMode {
+	if z.testMode || !z.autoOpen {
 		return
 	}
 
@@ -301,7 +305,7 @@ func (z *console) colorPrint(t string, color int) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	if runtime.GOOS == "windows" || !z.useColor {
+	if app.IsWindows() || !z.useColor {
 		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
 		fmt.Fprintf(z.out, "\x1b[%dm%s\x1b[0m\n", color, t)
@@ -312,7 +316,7 @@ func (z *console) boldPrint(t string) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	if runtime.GOOS == "windows" || !z.useColor {
+	if app.IsWindows() || !z.useColor {
 		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
 		fmt.Fprintf(z.out, "\x1b[1m%s\x1b[0m\n", t)
@@ -343,18 +347,26 @@ func (z *console) ErrorK(key string, p ...app_msg.P) {
 	z.Error(app_msg.M(key, p...))
 }
 
-func (z *console) Success(key string, p ...app_msg.P) {
-	z.verifyKey(key)
-	m := z.mc.Compile(app_msg.M(key, p...))
-	z.colorPrint(m, ColorGreen)
-	app_root.Log().Debug(m)
+func (z *console) Success(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	t := z.mc.Compile(m)
+	z.colorPrint(t, ColorGreen)
+	app_root.Log().Debug(t)
 }
 
-func (z *console) Failure(key string, p ...app_msg.P) {
-	z.verifyKey(key)
-	m := z.mc.Compile(app_msg.M(key, p...))
-	z.colorPrint(m, ColorRed)
-	app_root.Log().Debug(m)
+func (z *console) Failure(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	t := z.mc.Compile(m)
+	z.colorPrint(t, ColorRed)
+	app_root.Log().Debug(t)
+}
+
+func (z *console) SuccessK(key string, p ...app_msg.P) {
+	z.Success(app_msg.M(key, p...))
+}
+
+func (z *console) FailureK(key string, p ...app_msg.P) {
+	z.Failure(app_msg.M(key, p...))
 }
 
 func (z *console) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {

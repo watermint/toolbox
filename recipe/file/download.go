@@ -24,9 +24,6 @@ func (z *Download) Preset() {
 	z.OperationLog.SetModel(&mo_file.ConcreteEntry{})
 }
 
-func (z *Download) Console() {
-}
-
 func (z *Download) Exec(c app_control.Control) error {
 	l := c.Log()
 	ctx := z.Peer.Context()
@@ -39,10 +36,10 @@ func (z *Download) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	if err := os.Rename(f, filepath.Join(z.LocalPath.Path(), entry.Name())); err != nil {
+	if err := os.Rename(f.Path(), filepath.Join(z.LocalPath.Path(), entry.Name())); err != nil {
 		l.Debug("Unable to move file to specified path",
 			zap.Error(err),
-			zap.String("downloaded", f),
+			zap.String("downloaded", f.Path()),
 			zap.String("destination", z.LocalPath.Path()),
 		)
 		return err

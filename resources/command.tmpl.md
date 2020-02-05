@@ -1,6 +1,6 @@
 # {{.Command}} 
 
-{{.CommandTitle}}
+{{.CommandTitle}} {{.CommandRemarks}}
 
 {{.CommandDesc}}
 

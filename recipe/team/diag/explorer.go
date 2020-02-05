@@ -46,9 +46,6 @@ type Explorer struct {
 func (z *Explorer) Preset() {
 }
 
-func (z *Explorer) Console() {
-}
-
 func (z *Explorer) Exec(c app_control.Control) error {
 	l := c.Log()
 	{

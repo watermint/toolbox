@@ -25,12 +25,6 @@ type Doc struct {
 	CommandPath    string
 }
 
-func (z *Doc) Console() {
-}
-
-func (z *Doc) Hidden() {
-}
-
 func (z *Doc) Preset() {
 	z.TestMode = false
 	z.Badge = true

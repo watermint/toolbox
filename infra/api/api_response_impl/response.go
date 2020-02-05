@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"errors"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/api/api_response"
@@ -30,7 +31,7 @@ func New(ctx api_context.Context, req *http.Request, res *http.Response) (api_re
 		res:                    res,
 		resBody:                nil,
 		resBodyString:          "",
-		resFilePath:            "",
+		resFilePath:            nil,
 		resIsContentDownloaded: false,
 	}
 
@@ -55,7 +56,7 @@ func New(ctx api_context.Context, req *http.Request, res *http.Response) (api_re
 			if n > 0 {
 				l.Debug("writing", zap.Int("writing", n))
 				if _, wErr := resWrite.Write(buf[:n]); wErr != nil {
-					l.Debug("ErrorK on writing body to the file", zap.Error(wErr))
+					l.Debug("Error on writing body to the file", zap.Error(wErr))
 					return nil, err
 				}
 				loadedLength += int64(n)
@@ -64,7 +65,7 @@ func New(ctx api_context.Context, req *http.Request, res *http.Response) (api_re
 				break
 			}
 			if err != nil {
-				l.Debug("ErrorK on reading body", zap.Error(err))
+				l.Debug("Error on reading body", zap.Error(err))
 				return nil, err
 			}
 			if n == 0 {
@@ -76,7 +77,7 @@ func New(ctx api_context.Context, req *http.Request, res *http.Response) (api_re
 		resWrite.Flush()
 
 		rr.resIsContentDownloaded = true
-		rr.resFilePath = resFile.Name()
+		rr.resFilePath = mo_path.NewFileSystemPath(resFile.Name())
 		rr.resBodyString = result
 		rr.resBody = []byte(result)
 		res.ContentLength = loadedLength
@@ -108,7 +109,7 @@ type ResponseImpl struct {
 	res                    *http.Response
 	resBody                []byte
 	resBodyString          string
-	resFilePath            string
+	resFilePath            mo_path.FileSystemPath
 	resIsContentDownloaded bool
 	resContentLength       int64
 }
@@ -129,7 +130,7 @@ func (z *ResponseImpl) IsContentDownloaded() bool {
 	return z.resIsContentDownloaded
 }
 
-func (z *ResponseImpl) ContentFilePath() string {
+func (z *ResponseImpl) ContentFilePath() mo_path.FileSystemPath {
 	return z.resFilePath
 }
 

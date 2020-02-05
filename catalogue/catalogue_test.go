@@ -14,39 +14,32 @@ import (
 
 func TestCatalogue(t *testing.T) {
 	_, _, _, ui := qt_recipe.Resources(t)
-	testGroup(Groups(), ui)
-	for _, r := range Ingredients() {
+	cat := NewCatalogue()
+	testGroup(cat.RootGroup(), ui)
+	for _, r := range cat.Ingredients() {
 		spec := rc_spec.New(r)
-		if spec == nil {
-			continue
-		}
 		for _, m := range spec.Messages() {
 			ui.Info(m)
 		}
 	}
 }
 
-func testGroup(g *rc_group.Group, ui app_ui.UI) {
-	g.PrintUsage(ui, os.Args[0], app.Version)
-	for _, sg := range g.SubGroups {
+func testGroup(g rc_group.Group, ui app_ui.UI) {
+	g.PrintGroupUsage(ui, os.Args[0], app.Version)
+	for _, sg := range g.SubGroups() {
 		testGroup(sg, ui)
 	}
-	for _, r := range g.Recipes {
+	for _, r := range g.Recipes() {
 		testRecipe(g, r, ui)
 	}
 }
 
-func testRecipe(g *rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
+func testRecipe(g rc_group.Group, r rc_recipe.Spec, ui app_ui.UI) {
 	f := flag.NewFlagSet("", flag.ContinueOnError)
-	spec := rc_spec.New(r)
-	if spec == nil {
-		// skip
-		return
-	}
-	spec.SetFlags(f, ui)
-	g.PrintRecipeUsage(ui, spec, f)
+	r.SetFlags(f, ui)
+	g.PrintRecipeUsage(ui, r, f)
 
-	for _, m := range spec.Messages() {
+	for _, m := range r.Messages() {
 		ui.Info(m)
 	}
 }

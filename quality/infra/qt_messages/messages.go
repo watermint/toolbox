@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
+	"github.com/watermint/toolbox/infra/recipe/rc_group_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -18,10 +19,11 @@ import (
 func VerifyMessages(ctl app_control.Control) error {
 	cl := ctl.(app_control_launcher.ControlLauncher)
 	cat := cl.Catalogue()
-	recipes := cat.Recipes
-	root := rc_group.NewGroup([]string{}, "")
+	recipes := cat.Recipes()
+	root := rc_group_impl.NewGroup()
 	for _, r := range recipes {
-		root.Add(r)
+		s := rc_spec.New(r)
+		root.Add(s)
 	}
 
 	qui := app_ui.NewQuiet(ctl.Messages())
@@ -41,24 +43,19 @@ func VerifyMessages(ctl app_control.Control) error {
 	return nil
 }
 
-func verifyGroup(g *rc_group.Group, ui app_ui.UI) {
-	g.PrintUsage(ui, os.Args[0], app.Version)
-	for _, sg := range g.SubGroups {
+func verifyGroup(g rc_group.Group, ui app_ui.UI) {
+	g.PrintGroupUsage(ui, os.Args[0], app.Version)
+	for _, sg := range g.SubGroups() {
 		verifyGroup(sg, ui)
 	}
-	for _, r := range g.Recipes {
+	for _, r := range g.Recipes() {
 		verifyRecipe(g, r, ui)
 	}
 }
 
-func verifyRecipe(g *rc_group.Group, r rc_recipe.Recipe, ui app_ui.UI) {
+func verifyRecipe(g rc_group.Group, r rc_recipe.Spec, ui app_ui.UI) {
 	f := flag.NewFlagSet("", flag.ContinueOnError)
 
-	spec := rc_spec.New(r)
-	if spec == nil {
-		// skip
-		return
-	}
-	spec.SetFlags(f, ui)
-	g.PrintRecipeUsage(ui, spec, f)
+	r.SetFlags(f, ui)
+	g.PrintRecipeUsage(ui, r, f)
 }

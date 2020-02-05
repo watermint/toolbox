@@ -2,11 +2,16 @@ package catalogue
 
 import (
 	infra_api_api_api_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
+	infra_network_nw_diag "github.com/watermint/toolbox/infra/network/nw_diag"
+	infra_recipe_rc_catalogue "github.com/watermint/toolbox/infra/recipe/rc_catalogue"
+	infra_recipe_rc_conn_impl "github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
 	infra_recipe_rc_group "github.com/watermint/toolbox/infra/recipe/rc_group"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	infra_recipe_rc_group_impl "github.com/watermint/toolbox/infra/recipe/rc_group_impl"
+	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	infra_recipe_rc_spec "github.com/watermint/toolbox/infra/recipe/rc_spec"
 	infra_recipe_rcvalue "github.com/watermint/toolbox/infra/recipe/rc_value"
 	infra_report_rpmodelimpl "github.com/watermint/toolbox/infra/report/rp_model_impl"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
+	infra_ui_app_msg "github.com/watermint/toolbox/infra/ui/app_msg"
 	infra_ui_appui "github.com/watermint/toolbox/infra/ui/app_ui"
 	infra_util_ut_doc "github.com/watermint/toolbox/infra/util/ut_doc"
 	ingredientfile "github.com/watermint/toolbox/ingredient/file"
@@ -14,9 +19,11 @@ import (
 	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/recipe"
 	recipedev "github.com/watermint/toolbox/recipe/dev"
+	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
 	recipefile "github.com/watermint/toolbox/recipe/file"
 	recipefilecompare "github.com/watermint/toolbox/recipe/file/compare"
+	recipefileexport "github.com/watermint/toolbox/recipe/file/export"
 	recipefileimport "github.com/watermint/toolbox/recipe/file/import"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
@@ -24,6 +31,8 @@ import (
 	recipegroup "github.com/watermint/toolbox/recipe/group"
 	recipegroupbatch "github.com/watermint/toolbox/recipe/group/batch"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
+	recipejob "github.com/watermint/toolbox/recipe/job"
+	recipejobhistory "github.com/watermint/toolbox/recipe/job/history"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
@@ -47,93 +56,102 @@ import (
 	recipeteamfolderfile "github.com/watermint/toolbox/recipe/teamfolder/file"
 )
 
-func NewCatalogue() *infra_recipe_rc_group.Catalogue {
-	return &infra_recipe_rc_group.Catalogue{
-		Recipes:     Recipes(),
-		Ingredients: Ingredients(),
-		Messages:    Messages(),
-		RootGroup:   Groups(),
-	}
+func NewCatalogue() infra_recipe_rc_catalogue.Catalogue {
+	return infra_recipe_rc_catalogue.NewCatalogue(Recipes(), Ingredients(), Messages())
 }
 
-func Recipes() []rc_recipe.Recipe {
-	cat := []rc_recipe.Recipe{
-		&recipe.License{},
-		&recipedev.Async{},
-		&recipedev.Doc{},
-		&recipedev.Dummy{},
-		&recipedev.Preflight{},
-		&recipedevtest.Auth{},
-		&recipedevtest.Recipe{},
-		&recipedevtest.Resources{},
-		&recipefile.Copy{},
-		&recipefile.Delete{},
-		&recipefile.Download{},
-		&recipefile.List{},
-		&recipefile.Merge{},
-		&recipefile.Move{},
-		&recipefile.Replication{},
-		&recipefile.Restore{},
-		&recipefile.Upload{},
-		&recipefile.Watch{},
-		&recipefilecompare.Account{},
-		&recipefilecompare.Local{},
-		&recipefileimport.Url{},
-		&recipefileimportbatch.Url{},
-		&recipefilesync.Up{},
-		&recipefilesyncpreflight.Up{},
-		&recipegroup.Delete{},
-		&recipegroup.List{},
-		&recipegroupbatch.Delete{},
-		&recipegroupmember.List{},
-		&recipemember.Delete{},
-		&recipemember.Detach{},
-		&recipemember.Invite{},
-		&recipemember.List{},
-		&recipemember.Replication{},
-		&recipememberquota.List{},
-		&recipememberquota.Update{},
-		&recipememberquota.Usage{},
-		&recipememberupdate.Email{},
-		&recipememberupdate.Externalid{},
-		&recipememberupdate.Profile{},
-		&recipesharedfolder.List{},
-		&recipesharedfoldermember.List{},
-		&recipesharedlink.Create{},
-		&recipesharedlink.Delete{},
-		&recipesharedlink.List{},
-		&recipeteam.Feature{},
-		&recipeteam.Info{},
-		&recipeteamactivity.Event{},
-		&recipeteamactivity.User{},
-		&recipeteamactivitydaily.Event{},
-		&recipeteamdevice.List{},
-		&recipeteamdevice.Unlink{},
-		&recipeteamdiag.Explorer{},
-		&recipeteamfilerequest.List{},
-		&recipeteamfolder.Archive{},
-		&recipeteamfolder.List{},
-		&recipeteamfolder.Permdelete{},
-		&recipeteamfolder.Replication{},
-		&recipeteamfolderbatch.Archive{},
-		&recipeteamfolderbatch.Permdelete{},
-		&recipeteamfolderbatch.Replication{},
-		&recipeteamfolderfile.List{},
-		&recipeteamfolderfile.Size{},
-		&recipeteamlinkedapp.List{},
-		&recipeteamnamespace.List{},
-		&recipeteamnamespacefile.List{},
-		&recipeteamnamespacefile.Size{},
-		&recipeteamnamespacemember.List{},
-		&recipeteamsharedlink.List{},
-		&recipeteamsharedlinkupdate.Expiry{},
+func Recipes() []infra_recipe_rc_recipe.Recipe {
+	cat := []infra_recipe_rc_recipe.Recipe{
+		infra_recipe_rc_recipe.Annotate(&recipe.License{}),
+		infra_recipe_rc_recipe.Annotate(&recipedev.Async{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedev.Doc{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedev.Dummy{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedev.Echo{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedev.Preflight{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevdiag.Procmon{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevtest.Auth{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevtest.Monkey{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevtest.Recipe{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevtest.Resources{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipefile.Copy{}),
+		infra_recipe_rc_recipe.Annotate(&recipefile.Delete{}),
+		infra_recipe_rc_recipe.Annotate(&recipefile.Download{}, infra_recipe_rc_recipe.Experimental()),
+		infra_recipe_rc_recipe.Annotate(&recipefile.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipefile.Merge{}),
+		infra_recipe_rc_recipe.Annotate(&recipefile.Move{}),
+		infra_recipe_rc_recipe.Annotate(&recipefile.Replication{}),
+		infra_recipe_rc_recipe.Annotate(&recipefile.Restore{}, infra_recipe_rc_recipe.Experimental()),
+		infra_recipe_rc_recipe.Annotate(&recipefile.Upload{}),
+		infra_recipe_rc_recipe.Annotate(&recipefile.Watch{}),
+		infra_recipe_rc_recipe.Annotate(&recipefilecompare.Account{}),
+		infra_recipe_rc_recipe.Annotate(&recipefilecompare.Local{}),
+		infra_recipe_rc_recipe.Annotate(&recipefileexport.Doc{}, infra_recipe_rc_recipe.Experimental()),
+		infra_recipe_rc_recipe.Annotate(&recipefileimport.Url{}),
+		infra_recipe_rc_recipe.Annotate(&recipefileimportbatch.Url{}),
+		infra_recipe_rc_recipe.Annotate(&recipefilesync.Up{}),
+		infra_recipe_rc_recipe.Annotate(&recipefilesyncpreflight.Up{}),
+		infra_recipe_rc_recipe.Annotate(&recipegroup.Add{}),
+		infra_recipe_rc_recipe.Annotate(&recipegroup.Delete{}, infra_recipe_rc_recipe.Irreversible()),
+		infra_recipe_rc_recipe.Annotate(&recipegroup.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipegroup.Rename{}),
+		infra_recipe_rc_recipe.Annotate(&recipegroupbatch.Delete{}, infra_recipe_rc_recipe.Irreversible()),
+		infra_recipe_rc_recipe.Annotate(&recipegroupmember.Add{}),
+		infra_recipe_rc_recipe.Annotate(&recipegroupmember.Delete{}, infra_recipe_rc_recipe.Irreversible()),
+		infra_recipe_rc_recipe.Annotate(&recipegroupmember.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipejob.Status{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipejobhistory.Archive{}),
+		infra_recipe_rc_recipe.Annotate(&recipejobhistory.Delete{}),
+		infra_recipe_rc_recipe.Annotate(&recipejobhistory.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipejobhistory.Ship{}),
+		infra_recipe_rc_recipe.Annotate(&recipemember.Delete{}),
+		infra_recipe_rc_recipe.Annotate(&recipemember.Detach{}),
+		infra_recipe_rc_recipe.Annotate(&recipemember.Invite{}),
+		infra_recipe_rc_recipe.Annotate(&recipemember.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipemember.Reinvite{}),
+		infra_recipe_rc_recipe.Annotate(&recipemember.Replication{}, infra_recipe_rc_recipe.Irreversible()),
+		infra_recipe_rc_recipe.Annotate(&recipememberquota.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipememberquota.Update{}),
+		infra_recipe_rc_recipe.Annotate(&recipememberquota.Usage{}),
+		infra_recipe_rc_recipe.Annotate(&recipememberupdate.Email{}),
+		infra_recipe_rc_recipe.Annotate(&recipememberupdate.Externalid{}),
+		infra_recipe_rc_recipe.Annotate(&recipememberupdate.Profile{}),
+		infra_recipe_rc_recipe.Annotate(&recipesharedfolder.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipesharedfoldermember.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipesharedlink.Create{}),
+		infra_recipe_rc_recipe.Annotate(&recipesharedlink.Delete{}, infra_recipe_rc_recipe.Irreversible()),
+		infra_recipe_rc_recipe.Annotate(&recipesharedlink.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteam.Feature{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteam.Info{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamactivity.Event{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamactivity.User{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamactivitydaily.Event{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamdevice.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamdevice.Unlink{}, infra_recipe_rc_recipe.Irreversible()),
+		infra_recipe_rc_recipe.Annotate(&recipeteamdiag.Explorer{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamfilerequest.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Archive{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Permdelete{}, infra_recipe_rc_recipe.Irreversible()),
+		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Replication{}, infra_recipe_rc_recipe.Irreversible()),
+		infra_recipe_rc_recipe.Annotate(&recipeteamfolderbatch.Archive{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamfolderbatch.Permdelete{}, infra_recipe_rc_recipe.Irreversible()),
+		infra_recipe_rc_recipe.Annotate(&recipeteamfolderbatch.Replication{}, infra_recipe_rc_recipe.Irreversible()),
+		infra_recipe_rc_recipe.Annotate(&recipeteamfolderfile.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamfolderfile.Size{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamlinkedapp.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamnamespace.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamnamespacefile.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamnamespacefile.Size{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamnamespacemember.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamsharedlink.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamsharedlinkupdate.Expiry{}, infra_recipe_rc_recipe.Irreversible()),
 		//		&recipe.Web{},
 	}
 	return cat
 }
 
-func Ingredients() []rc_recipe.Recipe {
-	cat := []rc_recipe.Recipe{
+func Ingredients() []infra_recipe_rc_recipe.Recipe {
+	cat := []infra_recipe_rc_recipe.Recipe{
 		&ingredientfile.Upload{},
 		&ingredientteamfolder.Replication{},
 		&ingredientteamnamespacefile.List{},
@@ -145,7 +163,11 @@ func Ingredients() []rc_recipe.Recipe {
 func Messages() []interface{} {
 	msgs := []interface{}{
 		infra_api_api_api_auth_impl.MCcAuth,
+		infra_network_nw_diag.MNetwork,
+		infra_recipe_rc_conn_impl.MConnect,
 		infra_recipe_rc_group.MHeader,
+		infra_recipe_rc_group_impl.MGroup,
+		infra_recipe_rc_spec.MSelfContained,
 		infra_recipe_rcvalue.MRepository,
 		infra_recipe_rcvalue.MValFdFileRowFeed,
 		infra_report_rpmodelimpl.MTransactionReport,
@@ -154,15 +176,7 @@ func Messages() []interface{} {
 		infra_util_ut_doc.MDoc,
 	}
 	for _, m := range msgs {
-		app_msg.Apply(m)
+		infra_ui_app_msg.Apply(m)
 	}
 	return msgs
-}
-
-func Groups() *infra_recipe_rc_group.Group {
-	root := infra_recipe_rc_group.NewGroup([]string{}, "")
-	for _, r := range Recipes() {
-		root.Add(r)
-	}
-	return root
 }

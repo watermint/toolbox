@@ -1,6 +1,9 @@
 package api_response
 
-import "github.com/tidwall/gjson"
+import (
+	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/domain/model/mo_path"
+)
 
 const (
 	ResHeaderRetryAfter    = "Rewind-After"
@@ -30,7 +33,7 @@ type Response interface {
 	IsContentDownloaded() bool
 
 	// Path to the content saved, if the content downloaded. Otherwise empty string.
-	ContentFilePath() string
+	ContentFilePath() mo_path.FileSystemPath
 
 	// Header for key. Returns empty if no header for the key.
 	Header(key string) string

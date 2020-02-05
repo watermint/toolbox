@@ -7,9 +7,10 @@ import (
 	"golang.org/x/text/encoding/unicode"
 	"golang.org/x/text/transform"
 	"io"
+	"os"
 )
 
-func NewBomAwareCsvReader(r io.Reader) *csv.Reader {
+func NewBomAwareReader(r io.Reader) io.Reader {
 	var (
 		bomUtf8    = []byte{0xef, 0xbb, 0xbf}
 		bomUtf16BE = []byte{0xfe, 0xff}
@@ -29,8 +30,25 @@ func NewBomAwareCsvReader(r io.Reader) *csv.Reader {
 	} else if bytes.HasPrefix(mark, bomUtf16LE) {
 		dec = unicode.UTF16(unicode.LittleEndian, unicode.UseBOM).NewDecoder()
 	}
+	return transform.NewReader(br, dec)
+}
 
-	return csv.NewReader(transform.NewReader(br, dec))
+func NewBomAwareCsvReader(r io.Reader) *csv.Reader {
+	return csv.NewReader(NewBomAwareReader(r))
+}
+
+func BomAwareReadBytes(file string) ([]byte, error) {
+	buf := &bytes.Buffer{}
+	f, err := os.Open(file)
+	if err != nil {
+		return nil, err
+	}
+	if _, err := io.Copy(buf, NewBomAwareReader(f)); err != nil {
+		return nil, err
+	}
+	f.Close()
+
+	return buf.Bytes(), nil
 }
 
 func NewBomAawareCsvWriter(w io.Writer) *csv.Writer {

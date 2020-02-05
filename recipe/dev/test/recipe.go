@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
@@ -20,12 +21,6 @@ type Recipe struct {
 }
 
 func (z *Recipe) Preset() {
-}
-
-func (z *Recipe) Console() {
-}
-
-func (z *Recipe) Hidden() {
 }
 
 func (z *Recipe) Exec(c app_control.Control) error {
@@ -57,17 +52,18 @@ func (z *Recipe) Exec(c app_control.Control) error {
 
 	switch {
 	case z.All:
-		for _, r := range cat.Recipes {
-			path, name := rc_recipe.Path(r)
+		for _, r := range cat.Recipes() {
+			rs := rc_spec.New(r)
+			path, name := rs.Path()
 			ll := l.With(zap.Strings("path", path), zap.String("name", name))
-			if _, ok := r.(rc_recipe.SecretRecipe); ok {
+			if rs.IsSecret() {
 				ll.Info("Skip secret recipe")
 				continue
 			}
 			ll.Info("Testing: ")
 
 			if err := qt_recipe.RecipeError(l, r.Test(tc)); err != nil {
-				ll.Error("ErrorK", zap.Error(err))
+				ll.Error("Error", zap.Error(err))
 				return err
 			}
 			ll.Info("Recipe test success")
@@ -75,7 +71,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 		l.Info("All tests passed without error")
 
 	case z.Recipe != "":
-		for _, r := range cat.Recipes {
+		for _, r := range cat.Recipes() {
 			p := rc_recipe.Key(r)
 			if p != z.Recipe {
 				continue
@@ -84,7 +80,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 			ll.Info("Testing: ")
 
 			if err := qt_recipe.RecipeError(l, r.Test(tc)); err != nil {
-				ll.Error("ErrorK", zap.Error(err))
+				ll.Error("Error", zap.Error(err))
 				return err
 			} else {
 				ll.Info("Recipe test success")

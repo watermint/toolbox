@@ -113,18 +113,26 @@ func (z *Web) Error(m app_msg.Message) {
 	z.ErrorK(m.Key(), m.Params()...)
 }
 
-func (z *Web) Success(key string, p ...app_msg.P) {
+func (z *Web) Success(m app_msg.Message) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagResultSuccess,
-		Message: z.TextK(key, p...),
+		Message: z.Text(m),
 	})
 }
 
-func (z *Web) Failure(key string, p ...app_msg.P) {
+func (z *Web) SuccessK(key string, p ...app_msg.P) {
+	z.Success(app_msg.M(key, p...))
+}
+
+func (z *Web) Failure(m app_msg.Message) {
 	z.uiLog(&WebUILog{
 		Tag:     WebTagResultFailure,
-		Message: z.TextK(key, p...),
+		Message: z.Text(m),
 	})
+}
+
+func (z *Web) FailureK(key string, p ...app_msg.P) {
+	z.Failure(app_msg.M(key, p...))
 }
 
 func (z *Web) HeaderK(key string, p ...app_msg.P) {

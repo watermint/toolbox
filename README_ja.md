@@ -18,6 +18,10 @@ watermint toolboxはMITライセンスのもと配布されています.
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
+# ビルド済み実行ファイル
+
+コンパイル済みバイナリは [最新のリリース](https://github.com/watermint/toolbox/releases/latest) からダウンロードいただけます. ソースコードからビルドする場合には [BUILD.md](BUILD.md) を参照してください.
+
 # 利用方法
 
 `tbx` にはたくさんの機能があります. オプションなしで実行をするとサポートされているコマンドやオプションの一覧が表示されます.
@@ -42,14 +46,14 @@ DropboxおよびDropbox Business向けのツールセット
 利用可能なコマンド:
 ===================
 
-   file          ファイル操作
-   group         グループの管理 (Dropbox Business)
-   license       ライセンス情報を表示します
-   member        チームメンバーの管理 (Dropbox Business)
-   sharedfolder  共有フォルダ
-   sharedlink    個人アカウントの共有リンク
-   team          Dropbox Business チーム
-   teamfolder    チームフォルダの管理 (Dropbox Business)
+   file          ファイル操作                
+   group         グループ管理                
+   license       ライセンス情報を表示します         
+   member        チームメンバーの管理            
+   sharedfolder  共有フォルダ                
+   sharedlink    個人アカウントの共有リンク         
+   team          Dropbox Business チーム  
+   teamfolder    チームフォルダの管理            
 
 ```
 
@@ -61,22 +65,31 @@ DropboxおよびDropbox Business向けのツールセット
 | [file compare local](doc/generated_ja/file-compare-local.md)                       | ローカルフォルダとDropboxフォルダの内容を比較します            |
 | [file copy](doc/generated_ja/file-copy.md)                                         | ファイルをコピーします                                         |
 | [file delete](doc/generated_ja/file-delete.md)                                     | ファイルまたはフォルダは削除します.                            |
-| [file download](doc/generated_ja/file-download.md)                                 | Download a file from Dropbox (experimental)                    |
+| [file download](doc/generated_ja/file-download.md)                                 | Dropboxからファイルをダウンロードします                        |
+| [file export doc](doc/generated_ja/file-export-doc.md)                             | ドキュメントのエクスポート                                     |
 | [file import batch url](doc/generated_ja/file-import-batch-url.md)                 | URLからファイルを一括インポートします                          |
 | [file import url](doc/generated_ja/file-import-url.md)                             | URLからファイルをインポートします                              |
 | [file list](doc/generated_ja/file-list.md)                                         | ファイルとフォルダを一覧します                                 |
 | [file merge](doc/generated_ja/file-merge.md)                                       | フォルダを統合します                                           |
 | [file move](doc/generated_ja/file-move.md)                                         | ファイルを移動します                                           |
 | [file replication](doc/generated_ja/file-replication.md)                           | ファイルコンテンツを他のアカウントに複製します                 |
-| [file restore](doc/generated_ja/file-restore.md)                                   | 指定されたパス以下のファイルを復元します (実験的)              |
+| [file restore](doc/generated_ja/file-restore.md)                                   | 指定されたパス以下をリストアします                             |
 | [file sync preflight up](doc/generated_ja/file-sync-preflight-up.md)               | 上り方向同期のための事前チェックを実施します                   |
 | [file sync up](doc/generated_ja/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                  |
 | [file upload](doc/generated_ja/file-upload.md)                                     | ファイルのアップロード                                         |
 | [file watch](doc/generated_ja/file-watch.md)                                       | ファイルアクティビティを監視                                   |
-| [group batch delete](doc/generated_ja/group-batch-delete.md)                       | Delete groups                                                  |
+| [group add](doc/generated_ja/group-add.md)                                         | グループを作成します                                           |
+| [group batch delete](doc/generated_ja/group-batch-delete.md)                       | グループの削除                                                 |
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                           |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                 |
+| [group member add](doc/generated_ja/group-member-add.md)                           | メンバーをグループに追加                                       |
+| [group member delete](doc/generated_ja/group-member-delete.md)                     | メンバーをグループから削除                                     |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                     |
+| [group rename](doc/generated_ja/group-rename.md)                                   | グループの改名                                                 |
+| [job history archive](doc/generated_ja/job-history-archive.md)                     | ジョブのアーカイブ                                             |
+| [job history delete](doc/generated_ja/job-history-delete.md)                       | 古いジョブ履歴の削除                                           |
+| [job history list](doc/generated_ja/job-history-list.md)                           | ジョブ履歴の表示                                               |
+| [job history ship](doc/generated_ja/job-history-ship.md)                           | ログの転送先Dropboxパス                                        |
 | [license](doc/generated_ja/license.md)                                             | ライセンス情報を表示します                                     |
 | [member delete](doc/generated_ja/member-delete.md)                                 | メンバーを削除します                                           |
 | [member detach](doc/generated_ja/member-detach.md)                                 | Dropbox BusinessユーザーをBasicユーザーに変更します            |
@@ -85,6 +98,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [member quota list](doc/generated_ja/member-quota-list.md)                         | メンバーの容量制限情報を一覧します                             |
 | [member quota update](doc/generated_ja/member-quota-update.md)                     | チームメンバーの容量制限を変更                                 |
 | [member quota usage](doc/generated_ja/member-quota-usage.md)                       | チームメンバーのストレージ利用状況を取得                       |
+| [member reinvite](doc/generated_ja/member-reinvite.md)                             | 招待済み状態メンバーをチームに再招待します                     |
+| [member replication](doc/generated_ja/member-replication.md)                       | チームメンバーのファイルを複製します                           |
 | [member update email](doc/generated_ja/member-update-email.md)                     | メンバーのメールアドレス処理                                   |
 | [member update externalid](doc/generated_ja/member-update-externalid.md)           | チームメンバーのExternal IDを更新します.                       |
 | [member update profile](doc/generated_ja/member-update-profile.md)                 | メンバーのプロフィール変更                                     |
@@ -98,7 +113,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [team activity user](doc/generated_ja/team-activity-user.md)                       | ユーザーごとのアクティビティ                                   |
 | [team device list](doc/generated_ja/team-device-list.md)                           | チーム内全てのデバイス/セッションを一覧します                  |
 | [team device unlink](doc/generated_ja/team-device-unlink.md)                       | デバイスのセッションを解除します                               |
-| [team diag explorer](doc/generated_ja/team-diag-explorer.md)                       | Report while team information                                  |
+| [team diag explorer](doc/generated_ja/team-diag-explorer.md)                       | チーム全体の情報をレポートします                               |
 | [team feature](doc/generated_ja/team-feature.md)                                   | チームの機能を出力します                                       |
 | [team filerequest list](doc/generated_ja/team-filerequest-list.md)                 | チームないのファイルリクエストを一覧します                     |
 | [team info](doc/generated_ja/team-info.md)                                         | チームの情報                                                   |
@@ -112,9 +127,9 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder archive](doc/generated_ja/teamfolder-archive.md)                       | チームフォルダのアーカイブ                                     |
 | [teamfolder batch archive](doc/generated_ja/teamfolder-batch-archive.md)           | 複数のチームフォルダをアーカイブします                         |
 | [teamfolder batch permdelete](doc/generated_ja/teamfolder-batch-permdelete.md)     | 複数のチームフォルダを完全に削除します                         |
-| [teamfolder batch replication](doc/generated_ja/teamfolder-batch-replication.md)   | Batch replication of team folders                              |
-| [teamfolder file list](doc/generated_ja/teamfolder-file-list.md)                   | List files in team folders                                     |
-| [teamfolder file size](doc/generated_ja/teamfolder-file-size.md)                   | Calculate size of team folders                                 |
+| [teamfolder batch replication](doc/generated_ja/teamfolder-batch-replication.md)   | チームフォルダの一括レプリケーション                           |
+| [teamfolder file list](doc/generated_ja/teamfolder-file-list.md)                   | チームフォルダの一覧                                           |
+| [teamfolder file size](doc/generated_ja/teamfolder-file-size.md)                   | チームフォルダのサイズを計算                                   |
 | [teamfolder list](doc/generated_ja/teamfolder-list.md)                             | チームフォルダの一覧                                           |
 | [teamfolder permdelete](doc/generated_ja/teamfolder-permdelete.md)                 | チームフォルダを完全に削除します                               |
 | [teamfolder replication](doc/generated_ja/teamfolder-replication.md)               | チームフォルダを他のチームに複製します                         |

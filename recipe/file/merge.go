@@ -21,9 +21,6 @@ func (z *Merge) Preset() {
 	z.DryRun = true
 }
 
-func (z *Merge) Console() {
-}
-
 func (z *Merge) Exec(c app_control.Control) error {
 	ctx := z.Peer.Context()
 

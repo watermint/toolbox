@@ -21,9 +21,6 @@ type Archive struct {
 func (z *Archive) Preset() {
 }
 
-func (z *Archive) Console() {
-}
-
 func (z *Archive) Exec(c app_control.Control) error {
 	ui := c.UI()
 
@@ -36,7 +33,7 @@ func (z *Archive) Exec(c app_control.Control) error {
 	if err != nil {
 		ui.ErrorK("recipe.teamfolder.archive.err.unable_to_resolve_teamfolder",
 			app_msg.P{
-				"ErrorK": err.Error(),
+				"Error": err.Error(),
 			})
 		return err
 	}
@@ -50,7 +47,7 @@ func (z *Archive) Exec(c app_control.Control) error {
 	if teamfolder == nil {
 		ui.ErrorK("recipe.teamfolder.archive.err.unable_to_resolve_teamfolder",
 			app_msg.P{
-				"ErrorK": "Unable to find team folder",
+				"Error": "Unable to find team folder",
 			})
 		return errors.New("unable to find team folder")
 	}
@@ -60,11 +57,11 @@ func (z *Archive) Exec(c app_control.Control) error {
 	_, err = sv_teamfolder.New(z.Peer.Context()).Archive(teamfolder)
 	if err != nil {
 		ui.ErrorK("recipe.teamfolder.archive.err.unable_to_remove_teamfolder", app_msg.P{
-			"ErrorK": err.Error(),
+			"Error": err.Error(),
 		})
 		return err
 	}
-	ui.Success("recipe.teamfolder.archive.success.archived", app_msg.P{
+	ui.SuccessK("recipe.teamfolder.archive.success.archived", app_msg.P{
 		"TeamFolderName": teamfolder.Name,
 	})
 	return nil

@@ -14,6 +14,12 @@
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
+{{ if .Release}}
+# {{ msg "doc.readme.head.release" }}
+
+{{ msg "doc.readme.body.release" }}
+
+{{ end }}
 # {{ msg "doc.readme.head.usage" }}
 
 {{ msg "doc.readme.body.usage" }}

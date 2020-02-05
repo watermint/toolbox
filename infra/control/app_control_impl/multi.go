@@ -35,6 +35,10 @@ type Multi struct {
 	secure bool
 }
 
+func (z *Multi) IsAutoOpen() bool {
+	return false
+}
+
 func (z *Multi) IsLowMemory() bool {
 	return false
 }
@@ -145,7 +149,7 @@ func (z *Multi) Workspace() app_workspace.Workspace {
 }
 
 func (z *Multi) IsProduction() bool {
-	return isProduction()
+	return app.IsProduction()
 }
 
 func (z *Multi) IsTest() bool {

@@ -58,9 +58,6 @@ func (z *Async) Preset() {
 	z.Rows.SetModel(&mo_group_member.GroupMember{})
 }
 
-func (z *Async) Hidden() {
-}
-
 func (z *Async) Exec(c app_control.Control) error {
 	ctxInfo := z.Peer.Context()
 

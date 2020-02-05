@@ -67,7 +67,7 @@ func (z *ListWorker) Exec() error {
 			app_msg.P{
 				"NamespaceName": z.namespace.Name,
 				"NamespaceId":   z.namespace.NamespaceId,
-				"ErrorK":        err.Error(),
+				"Error":         err.Error(),
 			},
 		)
 		return err

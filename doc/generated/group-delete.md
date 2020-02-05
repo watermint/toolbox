@@ -1,6 +1,6 @@
 # group delete 
 
-Delete group
+Delete group (Irreversible operation)
 
 This command does not confirm whether the group used in existing folders
 
@@ -58,6 +58,7 @@ Common options:
 
 | Option          | Description                                                                      | Default              |
 |-----------------|----------------------------------------------------------------------------------|----------------------|
+| `-auto-open`    | Auto open URL or artifact folder                                                 | false                |
 | `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
 | `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
 | `-debug`        | Enable debug mode                                                                | false                |

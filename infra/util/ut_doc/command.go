@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/csv"
-	"errors"
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -149,9 +148,6 @@ func (z *Commands) feedSample(spec fd_file.Spec) string {
 
 func (z *Commands) Generate(r rc_recipe.Recipe) error {
 	spec := rc_spec.New(r)
-	if spec == nil {
-		return errors.New("no spec defined for the recipe")
-	}
 
 	l := z.ctl.Log()
 	ui := z.ctl.UI()
@@ -184,10 +180,11 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 
 	params := make(map[string]interface{})
 	params["Command"] = spec.CliPath()
-	params["CommandTitle"] = ui.TextK(spec.Title().Key())
-	params["CommandDesc"] = ui.TextOrEmptyK(spec.Desc().Key())
-	params["CommandArgs"] = ui.TextOrEmptyK(spec.CliArgs().Key())
-	params["CommandNote"] = ui.TextOrEmptyK(spec.CliNote().Key())
+	params["CommandTitle"] = ui.Text(spec.Title())
+	params["CommandRemarks"] = ui.TextOrEmpty(spec.Remarks())
+	params["CommandDesc"] = ui.TextOrEmpty(spec.Desc())
+	params["CommandArgs"] = ui.TextOrEmpty(spec.CliArgs())
+	params["CommandNote"] = ui.TextOrEmpty(spec.CliNote())
 	params["Options"] = z.optionsTable(spec)
 	params["CommonOptions"] = z.optionsTable(commonSpec)
 	params["UseAuth"] = len(spec.ConnScopes()) > 0
@@ -235,24 +232,21 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 
 func (z *Commands) GenerateAll() error {
 	cl := z.ctl.(app_control_launcher.ControlLauncher)
-	recipes := cl.Catalogue().Recipes
+	recipes := cl.Catalogue().Recipes()
 	l := z.ctl.Log()
 
 	numSecret := 0
-	numSelfContained := 0
 
 	for _, r := range recipes {
-		if _, ok := r.(rc_recipe.SecretRecipe); ok {
+		rs := rc_spec.New(r)
+		if rs.IsSecret() {
 			numSecret++
 			continue
-		}
-		if _, ok := r.(rc_recipe.SelfContainedRecipe); ok {
-			numSelfContained++
 		}
 		if err := z.Generate(r); err != nil {
 			return err
 		}
 	}
-	l.Info("Recipes", zap.Int("SecretRecipes", numSecret), zap.Int("SelfContainedRecipe", numSelfContained))
+	l.Info("Recipes", zap.Int("SecretRecipes", numSecret), zap.Int("Recipes", len(recipes)))
 	return nil
 }

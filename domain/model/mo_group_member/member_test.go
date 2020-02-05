@@ -125,11 +125,11 @@ func TestGroupMember_Group(t *testing.T) {
 	//	report.ExecContext = ec
 	//	report.Path = reportPath
 	//	if err := report.Init(ec); err != nil {
-	//		t.ErrorK(err)
+	//		t.Error(err)
 	//		return
 	//	}
 	//	if err := report.Report(gm); err != nil {
-	//		t.ErrorK(err)
+	//		t.Error(err)
 	//		return
 	//	}
 	//	report.Close()
@@ -137,28 +137,28 @@ func TestGroupMember_Group(t *testing.T) {
 	//	rp := filepath.Join(reportPath, "GroupMember.json")
 	//	rf, err := os.Open(rp)
 	//	if err != nil {
-	//		t.ErrorK(err)
+	//		t.Error(err)
 	//		return
 	//	}
 	//	defer rf.Close()
 	//	jb1, err := ioutil.ReadAll(rf)
 	//	if err != nil {
-	//		t.ErrorK(err)
+	//		t.Error(err)
 	//		return
 	//	}
 	//
 	//	gm2 := &GroupMember{}
 	//	if err := api_parser.ParseModelRaw(gm2, jb1); err != nil {
-	//		t.ErrorK(err)
+	//		t.Error(err)
 	//	}
 	//	if gm2.GroupId != gm2.Group().GroupId || gm2.GroupId == "" {
-	//		t.ErrorK("invalid")
+	//		t.Error("invalid")
 	//	}
 	//	if gm2.TeamMemberId != gm2.Member().TeamMemberId || gm2.TeamMemberId == "" {
-	//		t.ErrorK("invalid")
+	//		t.Error("invalid")
 	//	}
-	//	if gm2.GroupName != gm2.Group().GroupName || gm2.GroupName != "営業部" {
-	//		t.ErrorK("invalid")
+	//	if gm2.Name != gm2.Group().Name || gm2.Name != "営業部" {
+	//		t.Error("invalid")
 	//	}
 	//}
 

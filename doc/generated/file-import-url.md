@@ -1,6 +1,6 @@
 # file import url 
 
-Import file from the URL
+Import file from the URL 
 
 # Security
 
@@ -57,6 +57,7 @@ Common options:
 
 | Option          | Description                                                                      | Default              |
 |-----------------|----------------------------------------------------------------------------------|----------------------|
+| `-auto-open`    | Auto open URL or artifact folder                                                 | false                |
 | `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
 | `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
 | `-debug`        | Enable debug mode                                                                | false                |

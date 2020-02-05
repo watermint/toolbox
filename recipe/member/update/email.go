@@ -274,7 +274,7 @@ func (z *Email) Test(c app_control.Control) error {
 			rr.File.SetFilePath(pathForward)
 		})
 		if lastErr != nil {
-			l.Warn("ErrorK in backward operation")
+			l.Warn("Error in backward operation")
 		}
 		scanReport()
 		if err := preserveReport("_forward"); err != nil {
@@ -290,7 +290,7 @@ func (z *Email) Test(c app_control.Control) error {
 			rr.File.SetFilePath(pathBackward)
 		})
 		if lastErr != nil {
-			l.Warn("ErrorK in backward operation")
+			l.Warn("Error in backward operation")
 		}
 		scanReport()
 		if err := preserveReport("_backward"); err != nil {

@@ -17,9 +17,6 @@ type Copy struct {
 func (z *Copy) Preset() {
 }
 
-func (z *Copy) Console() {
-}
-
 func (z *Copy) Exec(c app_control.Control) error {
 	uc := uc_file_relocation.New(z.Peer.Context())
 	return uc.Copy(z.Src, z.Dst)

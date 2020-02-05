@@ -1,6 +1,6 @@
 # file replication 
 
-Replicate file content to the other account
+Replicate file content to the other account 
 
 This command will replicate files/folders. But it does not include sharing permissions. The command replicates only for folder contents of given path.
 
@@ -60,6 +60,7 @@ Common options:
 
 | Option          | Description                                                                      | Default              |
 |-----------------|----------------------------------------------------------------------------------|----------------------|
+| `-auto-open`    | Auto open URL or artifact folder                                                 | false                |
 | `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
 | `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
 | `-debug`        | Enable debug mode                                                                | false                |

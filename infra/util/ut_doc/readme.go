@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -47,19 +47,20 @@ func (z *Readme) commands() string {
 	book := make(map[string]string)
 	keys := make([]string, 0)
 	cl := z.ctl.(app_control_launcher.ControlLauncher)
-	recipes := cl.Catalogue().Recipes
+	recipes := cl.Catalogue().Recipes()
 
 	ui := z.ctl.UI()
 	for _, r := range recipes {
-		if _, ok := r.(rc_recipe.SecretRecipe); ok {
+		rs := rc_spec.New(r)
+		if rs.IsSecret() {
 			continue
 		}
 
-		p, n := rc_recipe.Path(r)
+		p, n := rs.Path()
 		p = append(p, n)
 		q := strings.Join(p, " ")
 
-		book[q] = ui.TextK(rc_recipe.Title(r).Key())
+		book[q] = ui.Text(rs.Title())
 		keys = append(keys, q)
 	}
 	var b bytes.Buffer
@@ -110,7 +111,7 @@ func (z *Readme) Generate() error {
 		w := bufio.NewWriter(&b)
 		cui := app_ui.NewBufferConsole(z.ctl.Messages(), w)
 		if cl, ok := z.ctl.(app_control_launcher.ControlLauncher); ok {
-			cl.Catalogue().RootGroup.PrintUsage(cui, "./tbx", "xx.x.xxx")
+			cl.Catalogue().RootGroup().PrintGroupUsage(cui, "./tbx", "xx.x.xxx")
 			w.Flush()
 			bodyUsage = b.String()
 		}
@@ -132,9 +133,11 @@ func (z *Readme) Generate() error {
 	if z.badge {
 		params["Badges"] = app.ProjectStatusBadge
 		params["Logo"] = app.ProjectLogo
+		params["Release"] = true
 	} else {
 		params["Badges"] = ""
 		params["Logo"] = ""
+		params["Release"] = false
 	}
 
 	return tmpl.Execute(NewRemoveRedundantLinesWriter(out), params)

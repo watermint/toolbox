@@ -26,9 +26,6 @@ func (z *Clone) Preset() {
 	z.OperationLog.SetModel(&mo_filerequest.MemberFileRequest{}, &mo_filerequest.MemberFileRequest{})
 }
 
-func (z *Clone) Hidden() {
-}
-
 func (z *Clone) Exec(c app_control.Control) error {
 	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {

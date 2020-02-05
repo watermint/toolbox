@@ -44,8 +44,6 @@ func (z *Quiet) Text(m app_msg.Message) string {
 }
 
 func (z *Quiet) TextOrEmpty(m app_msg.Message) string {
-	z.mq.Verify(m.Key())
-	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
 	if z.mc.Exists(m.Key()) {
 		return z.mc.Compile(m)
 	} else {
@@ -61,14 +59,22 @@ func (z *Quiet) Error(m app_msg.Message) {
 	z.ErrorK(m.Key(), m.Params()...)
 }
 
-func (z *Quiet) Success(key string, p ...app_msg.P) {
-	z.mq.Verify(key)
-	z.log.Debug(key, zap.Any("params", p))
+func (z *Quiet) Success(m app_msg.Message) {
+	z.mq.Verify(m.Key())
+	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
 }
 
-func (z *Quiet) Failure(key string, p ...app_msg.P) {
-	z.mq.Verify(key)
-	z.log.Debug(key, zap.Any("params", p))
+func (z *Quiet) Failure(m app_msg.Message) {
+	z.mq.Verify(m.Key())
+	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
+}
+
+func (z *Quiet) SuccessK(key string, p ...app_msg.P) {
+	z.Success(app_msg.M(key, p...))
+}
+
+func (z *Quiet) FailureK(key string, p ...app_msg.P) {
+	z.Failure(app_msg.M(key, p...))
 }
 
 func (z *Quiet) IsConsole() bool {

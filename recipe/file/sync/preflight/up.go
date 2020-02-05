@@ -20,9 +20,6 @@ type Up struct {
 func (z *Up) Preset() {
 }
 
-func (z *Up) Console() {
-}
-
 func (z *Up) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
 		ru := r.(*file.Upload)

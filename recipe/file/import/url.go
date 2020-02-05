@@ -24,9 +24,6 @@ func (z *Url) Preset() {
 	z.OperationLog.SetModel(&mo_file.ConcreteEntry{})
 }
 
-func (z *Url) Console() {
-}
-
 func (z *Url) Exec(c app_control.Control) error {
 	ui := c.UI()
 	ctx := z.Peer.Context()

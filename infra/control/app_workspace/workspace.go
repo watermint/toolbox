@@ -26,23 +26,11 @@ const (
 	nameReport  = "report"
 	nameTest    = "test"
 	nameKvs     = "kvs"
+	JobIdFormat = "20060102-150405.000"
 )
 
 func NewJobId() string {
-	return fmt.Sprintf(time.Now().Format("20060102-150405.000"))
-}
-
-func NewTempAppWorkspace() Workspace {
-	home := os.TempDir()
-	ws := &singleWorkspace{
-		home:  home,
-		jobId: NewJobId(),
-	}
-	err := ws.setup()
-	if err != nil {
-		panic("Unable to create temporary workspace")
-	}
-	return ws
+	return fmt.Sprintf(time.Now().Format(JobIdFormat))
 }
 
 func DefaultAppPath() (path string, err error) {

@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_error"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"go.uber.org/zap"
+	"strings"
 	"time"
 )
 
@@ -74,12 +75,22 @@ func (z *asyncImpl) handlePoll(res api_response.Response, asyncJobId string) (as
 	tag := resJson.Get("\\.tag")
 
 	if !tag.Exists() {
-		asyncJobId := resJson.Get("async_job_id")
-		if asyncJobId.Exists() {
-			log.Debug("Wait for async", zap.Duration("wait", z.pollInterval))
-			time.Sleep(z.pollInterval)
-			return z.handleAsyncJobId(res, asyncJobId.String())
+		asyncJobIdTag := resJson.Get("async_job_id")
+		if asyncJobIdTag.Exists() {
+			asyncJobId := strings.TrimSpace(asyncJobIdTag.String())
+			if asyncJobId == "" {
+				asyncRes = &responseImpl{
+					res:            res,
+					complete:       resJson,
+					completeExists: false,
+				}
+				return asyncRes, nil
 
+			} else {
+				log.Debug("Wait for async", zap.Duration("wait", z.pollInterval))
+				time.Sleep(z.pollInterval)
+				return z.handleAsyncJobId(res, asyncJobIdTag.String())
+			}
 		} else {
 			err := errors.New("unexpected data format: `.tag` not found")
 			if z.failure != nil {

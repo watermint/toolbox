@@ -127,12 +127,20 @@ func (z *Markdown) AskSecureK(key string, p ...app_msg.P) (secure string, cancel
 func (z *Markdown) OpenArtifact(path string) {
 }
 
-func (z *Markdown) Success(key string, p ...app_msg.P) {
-	z.print("SUCCESS: {{.Message}}\n", app_msg.M(key, p...))
+func (z *Markdown) Success(m app_msg.Message) {
+	z.print("SUCCESS: {{.Message}}\n", m)
 }
 
-func (z *Markdown) Failure(key string, p ...app_msg.P) {
-	z.print("FAILURE: {{.Message}}\n", app_msg.M(key, p...))
+func (z *Markdown) Failure(m app_msg.Message) {
+	z.print("FAILURE: {{.Message}}\n", m)
+}
+
+func (z *Markdown) SuccessK(key string, p ...app_msg.P) {
+	z.Success(app_msg.M(key, p...))
+}
+
+func (z *Markdown) FailureK(key string, p ...app_msg.P) {
+	z.Failure(app_msg.M(key, p...))
 }
 
 func (z *Markdown) IsConsole() bool {

@@ -18,6 +18,10 @@ Please carefully note:
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
+# Built executable
+
+Pre-compiled binaries can be found in [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are building directly from the source, please refer [BUILD.md](BUILD.md).
+
 # Usage
 
 `tbx` have various features. Run without an option for a list of supported commands and options.
@@ -42,14 +46,14 @@ Usage:
 Available commands:
 ===================
 
-   file          File operation
-   group         Group management (Dropbox Business)
-   license       Show license information
-   member        Team member management (Dropbox Business)
-   sharedfolder  Shared folder
-   sharedlink    Shared Link of Personal account
-   team          Dropbox Business Team
-   teamfolder    Team folder management (Dropbox Business)
+   file          File operation                   
+   group         Group management                 
+   license       Show license information         
+   member        Team member management           
+   sharedfolder  Shared folder                    
+   sharedlink    Shared Link of Personal account  
+   team          Dropbox Business Team            
+   teamfolder    Team folder management           
 
 ```
 
@@ -61,22 +65,31 @@ Available commands:
 | [file compare local](doc/generated/file-compare-local.md)                       | Compare local folders and Dropbox folders                     |
 | [file copy](doc/generated/file-copy.md)                                         | Copy files                                                    |
 | [file delete](doc/generated/file-delete.md)                                     | Delete file or folder                                         |
-| [file download](doc/generated/file-download.md)                                 | Download a file from Dropbox (experimental)                   |
+| [file download](doc/generated/file-download.md)                                 | Download a file from Dropbox                                  |
+| [file export doc](doc/generated/file-export-doc.md)                             | Export document                                               |
 | [file import batch url](doc/generated/file-import-batch-url.md)                 | Batch import files from URL                                   |
 | [file import url](doc/generated/file-import-url.md)                             | Import file from the URL                                      |
 | [file list](doc/generated/file-list.md)                                         | List files and folders                                        |
 | [file merge](doc/generated/file-merge.md)                                       | Merge paths                                                   |
 | [file move](doc/generated/file-move.md)                                         | Move files                                                    |
 | [file replication](doc/generated/file-replication.md)                           | Replicate file content to the other account                   |
-| [file restore](doc/generated/file-restore.md)                                   | Restore files under given path (experimental)                 |
+| [file restore](doc/generated/file-restore.md)                                   | Restore files under given path                                |
 | [file sync preflight up](doc/generated/file-sync-preflight-up.md)               | Upstream sync preflight check                                 |
 | [file sync up](doc/generated/file-sync-up.md)                                   | Upstream sync with Dropbox                                    |
 | [file upload](doc/generated/file-upload.md)                                     | Upload file                                                   |
 | [file watch](doc/generated/file-watch.md)                                       | Watch file activities                                         |
+| [group add](doc/generated/group-add.md)                                         | Create new group                                              |
 | [group batch delete](doc/generated/group-batch-delete.md)                       | Delete groups                                                 |
 | [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |
 | [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
+| [group member add](doc/generated/group-member-add.md)                           | Add a member to the group                                     |
+| [group member delete](doc/generated/group-member-delete.md)                     | Delete a member from the group                                |
 | [group member list](doc/generated/group-member-list.md)                         | List members of groups                                        |
+| [group rename](doc/generated/group-rename.md)                                   | Rename the group                                              |
+| [job history archive](doc/generated/job-history-archive.md)                     | Archive jobs                                                  |
+| [job history delete](doc/generated/job-history-delete.md)                       | Delete old job history                                        |
+| [job history list](doc/generated/job-history-list.md)                           | Show job history                                              |
+| [job history ship](doc/generated/job-history-ship.md)                           | Ship Job logs to Dropbox path                                 |
 | [license](doc/generated/license.md)                                             | Show license information                                      |
 | [member delete](doc/generated/member-delete.md)                                 | Delete members                                                |
 | [member detach](doc/generated/member-detach.md)                                 | Convert Dropbox Business accounts to a Basic account          |
@@ -85,6 +98,8 @@ Available commands:
 | [member quota list](doc/generated/member-quota-list.md)                         | List team member quota                                        |
 | [member quota update](doc/generated/member-quota-update.md)                     | Update team member quota                                      |
 | [member quota usage](doc/generated/member-quota-usage.md)                       | List team member storage usage                                |
+| [member reinvite](doc/generated/member-reinvite.md)                             | Reinvite invited status members to the team                   |
+| [member replication](doc/generated/member-replication.md)                       | Replicate team member files                                   |
 | [member update email](doc/generated/member-update-email.md)                     | Member email operation                                        |
 | [member update externalid](doc/generated/member-update-externalid.md)           | Update External ID of team members                            |
 | [member update profile](doc/generated/member-update-profile.md)                 | Update member profile                                         |
@@ -98,7 +113,7 @@ Available commands:
 | [team activity user](doc/generated/team-activity-user.md)                       | Activities log per user                                       |
 | [team device list](doc/generated/team-device-list.md)                           | List all devices/sessions in the team                         |
 | [team device unlink](doc/generated/team-device-unlink.md)                       | Unlink device sessions                                        |
-| [team diag explorer](doc/generated/team-diag-explorer.md)                       | Report while team information                                 |
+| [team diag explorer](doc/generated/team-diag-explorer.md)                       | Report whole team information                                 |
 | [team feature](doc/generated/team-feature.md)                                   | Team feature                                                  |
 | [team filerequest list](doc/generated/team-filerequest-list.md)                 | List all file requests in the team                            |
 | [team info](doc/generated/team-info.md)                                         | Team information                                              |

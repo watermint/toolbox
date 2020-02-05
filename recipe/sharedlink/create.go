@@ -26,9 +26,6 @@ func (z *Create) Preset() {
 	z.Created.SetModel(&mo_sharedlink.Metadata{})
 }
 
-func (z *Create) Console() {
-}
-
 func (z *Create) Exec(c app_control.Control) error {
 	ui := c.UI()
 	opts := make([]sv_sharedlink.LinkOpt, 0)

@@ -25,9 +25,6 @@ func (z *Delete) Preset() {
 	z.SharedLink.SetModel(&mo_sharedlink.Metadata{}, nil)
 }
 
-func (z *Delete) Console() {
-}
-
 func (z *Delete) Exec(c app_control.Control) error {
 	if err := z.SharedLink.Open(); err != nil {
 		return err

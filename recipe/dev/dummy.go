@@ -34,9 +34,6 @@ func (z *Dummy) Test(c app_control.Control) error {
 	return qt_endtoend.NoTestRequired()
 }
 
-func (z *Dummy) Hidden() {
-}
-
 func (z *Dummy) Exec(c app_control.Control) error {
 	l := c.Log().With(zap.String("path", z.Path))
 

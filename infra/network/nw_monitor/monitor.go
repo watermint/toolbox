@@ -1,7 +1,6 @@
 package nw_monitor
 
 import (
-	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"net/http"
 	"sync"
@@ -41,17 +40,11 @@ func Log(req *http.Request, res *http.Response) {
 	total.Log(req, res)
 }
 
-func LaunchReporting(ui app_ui.UI, l *zap.Logger) {
+func LaunchReporting(l *zap.Logger) {
 	go func() {
 		for {
 			time.Sleep(reportInterval)
 			cpm, qps, sps := mon.Traffic()
-			//ui.Info("run.network.progress.stats", app_msg.P{
-			//	"CallPerMin": cpm,
-			//	"ReqKps":     fmt.Sprintf("%.2f", float64(qps)/1024.0),
-			//	"ResKps":     fmt.Sprintf("%.2f", float64(sps)/1024.0),
-			//})
-
 			tcc, tql, tsl := total.Summary()
 			cc, ql, sl := mon.Summary()
 			l.Debug("Network stats",

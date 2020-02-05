@@ -19,10 +19,6 @@ import (
 	"sync"
 )
 
-const (
-	maxLastErrors = 10
-)
-
 func New(control app_control.Control, token api_auth.TokenContainer) api_context.Context {
 	c := &ccImpl{
 		control:        control,

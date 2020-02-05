@@ -1,6 +1,7 @@
 .DS_Store
 .dropbox
 .coverprofile
+tbx.runbook
 *.iml
 *.secret
 *.tokens
@@ -15,5 +16,5 @@
 /vendor
 /resources/*.tokens
 /resources/*.appkeys
+/resources/*.buildkey
 /test/dev
-

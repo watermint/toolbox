@@ -160,9 +160,6 @@ func (z *Expiry) Preset() {
 	))
 }
 
-func (z Expiry) Console() {
-}
-
 func (z *Expiry) Exec(c app_control.Control) error {
 	ui := c.UI()
 	l := c.Log()

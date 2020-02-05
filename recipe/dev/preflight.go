@@ -23,12 +23,6 @@ func (z *Preflight) Preset() {
 	z.TestMode = false
 }
 
-func (z *Preflight) Hidden() {
-}
-
-func (z *Preflight) Console() {
-}
-
 func (z *Preflight) Test(c app_control.Control) error {
 	z.TestMode = true
 	return z.Exec(c)
@@ -73,33 +67,26 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		cl := c.(app_control_launcher.ControlLauncher)
 		cat := cl.Catalogue()
 		l.Info("Verify recipes")
-		for _, r := range cat.Recipes {
+		for _, r := range cat.Recipes() {
 			spec := rc_spec.New(r)
-			if spec == nil {
-				continue
-			}
 			for _, m := range spec.Messages() {
 				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m)))
 			}
 		}
 
 		l.Info("Verify ingredients")
-		for _, r := range cat.Ingredients {
+		for _, r := range cat.Ingredients() {
 			spec := rc_spec.New(r)
-			if spec == nil {
-				continue
-			}
 			for _, m := range spec.Messages() {
 				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m)))
 			}
 		}
 
 		l.Info("Verify message objects")
-		for _, m := range cat.Messages {
+		for _, m := range cat.Messages() {
 			msgs := app_msg.Messages(m)
 			for _, msg := range msgs {
 				l.Debug("message", zap.String("key", msg.Key()), zap.String("text", c.UI().Text(msg)))
-
 			}
 		}
 	}

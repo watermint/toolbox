@@ -33,9 +33,6 @@ func (z *Web) Test(c app_control.Control) error {
 	return qt_endtoend.HumanInteractionRequired()
 }
 
-func (z *Web) Console() {
-}
-
 func (z *Web) Exec(c app_control.Control) error {
 	l := c.Log()
 	repo, err := web_user.SingleUserRepository(c.Workspace())

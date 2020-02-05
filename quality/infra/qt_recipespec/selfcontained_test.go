@@ -1,4 +1,4 @@
-package rc_spec
+package qt_recipespec_test
 
 import (
 	"errors"
@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
 	"github.com/watermint/toolbox/infra/kvs/kv_transaction"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -112,7 +113,7 @@ func (z *SelfContainedTestRecipe) Preset() {
 func TestSpecSelfContained_ApplyValues(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		scr := &SelfContainedTestRecipe{}
-		spec := newSelfContained(scr)
+		spec := rc_spec.NewSelfContained(scr)
 
 		feedDir, err := ioutil.TempDir("", "feed")
 		if err != nil {

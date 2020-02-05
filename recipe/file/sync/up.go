@@ -22,9 +22,6 @@ func (z *Up) Preset() {
 	z.ChunkSizeKb = 150 * 1024
 }
 
-func (z *Up) Console() {
-}
-
 func (z *Up) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
 		ru := r.(*file.Upload)

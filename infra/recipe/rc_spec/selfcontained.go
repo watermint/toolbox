@@ -9,30 +9,88 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"go.uber.org/zap"
 	"sort"
 	"strings"
 )
 
-func newSelfContained(scr rc_recipe.SelfContainedRecipe) rc_recipe.Spec {
-	path, name := rc_recipe.Path(scr)
+type MsgSelfContained struct {
+	IsExperimental                app_msg.Message
+	IsIrreversible                app_msg.Message
+	IsExperimentalAndIrreversible app_msg.Message
+}
+
+var (
+	MSelfContained = app_msg.Apply(&MsgSelfContained{}).(*MsgSelfContained)
+)
+
+func NewSelfContained(scr rc_recipe.Recipe) rc_recipe.Spec {
+	var ann rc_recipe.Annotation
+	var repo rc_recipe.Repository
+
+	switch rr := scr.(type) {
+	case rc_recipe.Annotation:
+		repo = rc_value.NewRepository(rr.Seed())
+		ann = rr
+		scr = rr.Seed()
+
+	default:
+		repo = rc_value.NewRepository(scr)
+	}
+
+	path, name := ut_reflect.Path(rc_recipe.BasePackage, scr)
 	cliPath := strings.Join(append(path, name), " ")
 
-	repo := rc_value.NewRepository(scr)
-
 	return &specValueSelfContained{
-		name:    name,
-		cliPath: cliPath,
-		scr:     scr,
-		repo:    repo,
+		path:       path,
+		name:       name,
+		cliPath:    cliPath,
+		scr:        scr,
+		repo:       repo,
+		annotation: ann,
 	}
 }
 
 type specValueSelfContained struct {
-	name    string
-	cliPath string
-	scr     rc_recipe.SelfContainedRecipe
-	repo    rc_recipe.Repository
+	path       []string
+	name       string
+	cliPath    string
+	annotation rc_recipe.Annotation
+	scr        rc_recipe.Recipe
+	repo       rc_recipe.Repository
+}
+
+func (z *specValueSelfContained) Path() (path []string, name string) {
+	return z.path, z.name
+}
+
+func (z *specValueSelfContained) IsSecret() bool {
+	if z.annotation != nil {
+		return z.annotation.IsSecret()
+	}
+	return false
+}
+
+func (z *specValueSelfContained) IsConsole() bool {
+	if z.annotation != nil {
+		return z.annotation.IsConsole()
+	}
+	return false
+}
+
+func (z *specValueSelfContained) IsExperimental() bool {
+	if z.annotation != nil {
+		return z.annotation.IsExperimental()
+	}
+	return false
+}
+
+func (z *specValueSelfContained) IsIrreversible() bool {
+	if z.annotation != nil {
+		return z.annotation.IsIrreversible()
+	}
+	return false
 }
 
 func (z *specValueSelfContained) Value(name string) rc_recipe.Value {
@@ -76,11 +134,24 @@ func (z *specValueSelfContained) Name() string {
 }
 
 func (z *specValueSelfContained) Title() app_msg.Message {
-	return rc_recipe.Title(z.scr)
+	return app_msg.ObjMessage(z.scr, "title")
 }
 
 func (z *specValueSelfContained) Desc() app_msg.MessageOptional {
-	return rc_recipe.Desc(z.scr).AsOptional()
+	return app_msg.ObjMessage(z.scr, "desc").AsOptional()
+}
+
+func (z *specValueSelfContained) Remarks() app_msg.MessageOptional {
+	switch {
+	case z.IsExperimental() && z.IsIrreversible():
+		return MSelfContained.IsExperimentalAndIrreversible.AsOptional()
+	case z.IsIrreversible():
+		return MSelfContained.IsIrreversible.AsOptional()
+	case z.IsExperimental():
+		return MSelfContained.IsExperimental.AsOptional()
+	default:
+		return app_msg.Raw("").AsOptional()
+	}
 }
 
 func (z *specValueSelfContained) CliPath() string {
