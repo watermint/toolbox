@@ -133,9 +133,11 @@ func (z *Readme) Generate() error {
 	if z.badge {
 		params["Badges"] = app.ProjectStatusBadge
 		params["Logo"] = app.ProjectLogo
+		params["Release"] = true
 	} else {
 		params["Badges"] = ""
 		params["Logo"] = ""
+		params["Release"] = false
 	}
 
 	return tmpl.Execute(NewRemoveRedundantLinesWriter(out), params)

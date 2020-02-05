@@ -18,6 +18,10 @@ Please carefully note:
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
+# Built executable
+
+Pre-compiled binaries can be found in [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are building directly from the source, please refer [BUILD.md](BUILD.md).
+
 # Usage
 
 `tbx` have various features. Run without an option for a list of supported commands and options.

@@ -34,6 +34,8 @@
   "doc.readme.head.commands": "Commands",
   "doc.readme.head.license": "Licensing & Disclaimers",
   "doc.readme.head.usage": "Usage",
+  "doc.readme.head.release": "Built executable",
+  "doc.readme.body.release": "Pre-compiled binaries can be found in [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are building directly from the source, please refer [BUILD.md](BUILD.md).",
   "doc.readme.title": "Tools for Dropbox and Dropbox Business.",
   "domain.model.mo_activity.event.event_category.desc": "Filter the returned events to a single category",
   "domain.model.mo_activity.event.event_type.desc": "Type of the event",
