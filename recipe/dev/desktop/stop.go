@@ -9,10 +9,12 @@ import (
 	"go.uber.org/zap"
 	"os/exec"
 	"runtime"
+	"time"
 )
 
 // Tell Dropbox to quit, but no guarantee of stop the process.
 type Stop struct {
+	WaitSeconds int
 }
 
 func (z *Stop) stopDarwin(c app_control.Control) error {
@@ -42,6 +44,10 @@ func (z *Stop) stopWindows(c app_control.Control) error {
 }
 
 func (z *Stop) Exec(c app_control.Control) error {
+	if z.WaitSeconds > 0 {
+		c.Log().Info("Waiting for stop", zap.Int("seconds", z.WaitSeconds))
+		time.Sleep(time.Duration(z.WaitSeconds) * time.Second)
+	}
 	switch runtime.GOOS {
 	case "windows":
 		return z.stopWindows(c)

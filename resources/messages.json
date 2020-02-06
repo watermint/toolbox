@@ -406,6 +406,7 @@
   "recipe.dev.async.title": "Async framework test",
   "recipe.dev.desktop.start.title": "Launch Dropbox Desktop desktop app",
   "recipe.dev.desktop.stop.title": "Try stopping Dropbox desktop app",
+  "recipe.dev.desktop.stop.flag.wait_seconds": "Try stopping the app after given seconds.",
   "recipe.dev.desktop.title": "Desktop app",
   "recipe.dev.diag.procmon.flag.dropbox_path": "Dropbox path to upload procmon logs",
   "recipe.dev.diag.procmon.flag.peer": "Account alias",
