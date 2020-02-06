@@ -1,6 +1,8 @@
-hash: 315b6bc38003cb8f31e8ad794e2f32b5b65bad760a59a72f4f02628772382d1e
-updated: 2020-01-31T17:33:23.066143+09:00
+hash: 78964769804567378bc1345c90d1f6eda5da0dba9ef44e1eedf04e54b15d5ce5
+updated: 2020-02-06T14:35:45.236439+09:00
 imports:
+- name: github.com/andybrewer/mack
+  version: a347fce911ce48b5d56d3f5185f04328cdc640c1
 - name: github.com/BurntSushi/toml
   version: 3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005
 - name: github.com/cloudfoundry-attic/jibber_jabber
@@ -39,7 +41,7 @@ imports:
 - name: github.com/iancoleman/strcase
   version: 16388991a33441046539eb716cff4d294d556c70
 - name: github.com/json-iterator/go
-  version: 49c900ee46e6efa73ea31a4eef029bc0a19a1ed9
+  version: 7acbb404a45be33f136d6f16fe8f86ca30f1008d
 - name: github.com/kardianos/osext
   version: 2bc1f35cddc0cc527b4bc3dce8578fc2a6c11384
 - name: github.com/leodido/go-urn
@@ -68,7 +70,7 @@ imports:
 - name: github.com/tidwall/match
   version: 33827db735fff6510490d69a8622612558a557ed
 - name: github.com/tidwall/pretty
-  version: 1166b9ac2b65e46a43d8618d30d1554f4652d49b
+  version: b2475501f89994f7ea30b3c94ba86b49079961fe
 - name: github.com/ugorji/go
   version: 42bc974514ff101a54c6b72a0e4dee29d96c0b26
   subpackages:
@@ -96,7 +98,7 @@ imports:
   subpackages:
   - golint
 - name: golang.org/x/net
-  version: 6afb5195e5aab057fda82e27171243402346b0ad
+  version: 16171245cfb220d5317888b716d69c1fb4e7992b
   subpackages:
   - context
   - context/ctxhttp
@@ -109,7 +111,7 @@ imports:
   subpackages:
   - semaphore
 - name: golang.org/x/sys
-  version: 9fbb57f87de9ccfe3a99d4e3270ce8a926ebba4f
+  version: d101bd2416d505c0448a6ce8a282482678040a89
   subpackages:
   - unix
   - windows
@@ -130,7 +132,7 @@ imports:
   - unicode/norm
   - width
 - name: golang.org/x/tools
-  version: b4207ef4930765bb7d8205504a8e9217f20be1dd
+  version: dd0d5d485177fdcc188f5ec5ef32ee8278ab0a09
   subpackages:
   - go/analysis
   - go/analysis/passes/inspect
