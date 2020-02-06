@@ -50,7 +50,7 @@ func (z *Content) Exec(c app_control.Control) error {
 
 func (z *Content) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Content{}, func(r rc_recipe.Recipe) {
-		m := r.(*Name)
+		m := r.(*Content)
 		m.Query = "watermint"
 	})
 }
