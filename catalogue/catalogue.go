@@ -22,6 +22,7 @@ import (
 	recipedevdesktop "github.com/watermint/toolbox/recipe/dev/desktop"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
+	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipefile "github.com/watermint/toolbox/recipe/file"
 	recipefilecompare "github.com/watermint/toolbox/recipe/file/compare"
 	recipefileexport "github.com/watermint/toolbox/recipe/file/export"
@@ -77,6 +78,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Monkey{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Recipe{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Resources{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevutil.Wait{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Copy{}),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Delete{}),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Download{}, infra_recipe_rc_recipe.Experimental()),
