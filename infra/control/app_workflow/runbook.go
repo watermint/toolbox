@@ -144,7 +144,7 @@ func (z *RunBook) runRecipe(workerName string, step *RunStep, rg rc_group.Group,
 	return nil
 }
 
-func (z *RunBook) runWorker(wg *sync.WaitGroup, workerName string, steps []*RunStep, rg rc_group.Group, cp app_control.Control, cf app_control_launcher.ControlFork) error {
+func (z *RunBook) runWorker(wg *sync.WaitGroup, workerErrors []error, workerName string, steps []*RunStep, rg rc_group.Group, cp app_control.Control, cf app_control_launcher.ControlFork) error {
 	wg.Add(1)
 	defer wg.Done()
 
@@ -153,6 +153,7 @@ func (z *RunBook) runWorker(wg *sync.WaitGroup, workerName string, steps []*RunS
 	for _, step := range steps {
 		if err := z.runRecipe(workerName, step, rg, cp, cf); err != nil {
 			l.Debug("Failed exec recipe", zap.Error(err))
+			workerErrors = append(workerErrors, err)
 			return err
 		}
 	}
@@ -180,11 +181,11 @@ func (z *RunBook) Run(c app_control.Control) error {
 
 	l.Debug("Run runbook")
 	if z.Steps != nil && len(z.Steps) > 0 {
-		go z.runWorker(&wg, RootWorkerName, z.Steps, rg, c, cf)
+		go z.runWorker(&wg, workerErrors, RootWorkerName, z.Steps, rg, c, cf)
 	}
 	if z.Workers != nil && len(z.Workers) > 0 {
 		for _, worker := range z.Workers {
-			go z.runWorker(&wg, worker.Name, worker.Steps, rg, c, cf)
+			go z.runWorker(&wg, workerErrors, worker.Name, worker.Steps, rg, c, cf)
 		}
 	}
 
