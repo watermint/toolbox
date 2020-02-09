@@ -48,6 +48,7 @@ Available commands:
 
    file          File operation                   
    group         Group management                 
+   job           Job operation                    
    license       Show license information         
    member        Team member management           
    sharedfolder  Shared folder                    
@@ -92,6 +93,8 @@ Available commands:
 | [job history delete](doc/generated/job-history-delete.md)                       | Delete old job history                                        |
 | [job history list](doc/generated/job-history-list.md)                           | Show job history                                              |
 | [job history ship](doc/generated/job-history-ship.md)                           | Ship Job logs to Dropbox path                                 |
+| [job loop](doc/generated/job-loop.md)                                           | Run runbook until specified date/time                         |
+| [job run](doc/generated/job-run.md)                                             | Run workflow with *.runbook file                              |
 | [license](doc/generated/license.md)                                             | Show license information                                      |
 | [member delete](doc/generated/member-delete.md)                                 | Delete members                                                |
 | [member detach](doc/generated/member-detach.md)                                 | Convert Dropbox Business accounts to a Basic account          |

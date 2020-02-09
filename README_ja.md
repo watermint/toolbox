@@ -48,6 +48,7 @@ DropboxおよびDropbox Business向けのツールセット
 
    file          ファイル操作                
    group         グループ管理                
+   job           ジョブの操作                
    license       ライセンス情報を表示します         
    member        チームメンバーの管理            
    sharedfolder  共有フォルダ                
@@ -92,6 +93,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [job history delete](doc/generated_ja/job-history-delete.md)                       | 古いジョブ履歴の削除                                           |
 | [job history list](doc/generated_ja/job-history-list.md)                           | ジョブ履歴の表示                                               |
 | [job history ship](doc/generated_ja/job-history-ship.md)                           | ログの転送先Dropboxパス                                        |
+| [job loop](doc/generated_ja/job-loop.md)                                           | Run runbook until specified date/time                          |
+| [job run](doc/generated_ja/job-run.md)                                             | Run workflow with *.runbook file                               |
 | [license](doc/generated_ja/license.md)                                             | ライセンス情報を表示します                                     |
 | [member delete](doc/generated_ja/member-delete.md)                                 | メンバーを削除します                                           |
 | [member detach](doc/generated_ja/member-detach.md)                                 | Dropbox BusinessユーザーをBasicユーザーに変更します            |

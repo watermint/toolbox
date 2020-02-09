@@ -51,7 +51,3 @@ func NewCatalogue(recipes, ingredients []rc_recipe.Recipe, messages []interface{
 		root:        root,
 	}
 }
-
-func NewEmptyCatalogue() Catalogue {
-	return NewCatalogue([]rc_recipe.Recipe{}, []rc_recipe.Recipe{}, []interface{}{})
-}
