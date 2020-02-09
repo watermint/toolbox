@@ -2,6 +2,7 @@ package app_ui
 
 import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"go.uber.org/zap"
 )
 
 type UI interface {
@@ -77,4 +78,8 @@ type Table interface {
 	Row(m ...app_msg.Message)
 	RowRaw(m ...string)
 	Flush()
+}
+
+type UILog interface {
+	SetLogger(l *zap.Logger)
 }

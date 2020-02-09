@@ -70,18 +70,23 @@ func Fork(ctl app_control.Control, name string) (app_control.Control, error) {
 	return nil, errors.New("fork is not supported on this control")
 }
 
-func (z *Single) Fork(name string) (ctl app_control.Control, err error) {
+func (z *Single) Fork(name string, opts ...app_control.UpOpt) (ctl app_control.Control, err error) {
+	co := z.opts.Clone()
+	for _, o := range opts {
+		o(co)
+	}
+
 	ws, err := app_workspace.Fork(z.ws, name)
 	if err != nil {
 		return nil, err
 	}
 	s := &Single{
-		ui:           z.ui,
+		ui:           app_ui.CloneConsole(z.ui, z.mc),
 		box:          z.box,
 		web:          z.web,
 		mc:           z.mc,
 		ws:           ws,
-		opts:         z.opts,
+		opts:         co,
 		quiet:        z.quiet,
 		catalogue:    z.catalogue,
 		testResource: z.testResource,
@@ -207,6 +212,9 @@ func (z *Single) upWithWorkspace(ws app_workspace.Workspace) (err error) {
 	z.flc, err = app_log.NewFileLogger(ws.Log(), z.opts.Debug)
 	if err != nil {
 		return err
+	}
+	if ul, ok := z.ui.(app_ui.UILog); ok {
+		ul.SetLogger(z.flc.Logger)
 	}
 
 	z.cap, err = app_log.NewCaptureLogger(ws.Log())

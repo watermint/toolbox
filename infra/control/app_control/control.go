@@ -54,6 +54,20 @@ type UpOpts struct {
 	AutoOpen      bool
 }
 
+func (z *UpOpts) Clone() *UpOpts {
+	return &UpOpts{
+		WorkspacePath: z.WorkspacePath,
+		Workspace:     z.Workspace,
+		Debug:         z.Debug,
+		Test:          z.Test,
+		Secure:        z.Secure,
+		CommonOptions: z.CommonOptions,
+		Concurrency:   z.Concurrency,
+		LowMemory:     z.LowMemory,
+		AutoOpen:      z.AutoOpen,
+	}
+}
+
 func AutoOpen(enabled bool) UpOpt {
 	return func(opt *UpOpts) *UpOpts {
 		opt.AutoOpen = enabled

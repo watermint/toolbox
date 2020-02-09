@@ -25,7 +25,7 @@ func TestCatalogue(t *testing.T) {
 }
 
 func testGroup(g rc_group.Group, ui app_ui.UI) {
-	g.PrintGroupUsage(ui, os.Args[0], app.Version)
+	g.PrintUsage(ui, os.Args[0], app.Version)
 	for _, sg := range g.SubGroups() {
 		testGroup(sg, ui)
 	}
@@ -37,7 +37,7 @@ func testGroup(g rc_group.Group, ui app_ui.UI) {
 func testRecipe(g rc_group.Group, r rc_recipe.Spec, ui app_ui.UI) {
 	f := flag.NewFlagSet("", flag.ContinueOnError)
 	r.SetFlags(f, ui)
-	g.PrintRecipeUsage(ui, r, f)
+	r.PrintUsage(ui, f)
 
 	for _, m := range r.Messages() {
 		ui.Info(m)

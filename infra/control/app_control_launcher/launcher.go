@@ -14,7 +14,7 @@ type ControlLauncher interface {
 
 // Fork control: create workspace with name under existing control
 type ControlFork interface {
-	Fork(name string) (ctl app_control.Control, err error)
+	Fork(name string, opts ...app_control.UpOpt) (ctl app_control.Control, err error)
 }
 
 type WithMessageContainer interface {

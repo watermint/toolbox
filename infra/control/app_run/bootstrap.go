@@ -14,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/network/nw_diag"
 	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"github.com/watermint/toolbox/infra/network/nw_proxy"
+	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -47,28 +48,52 @@ var (
 	MRun = app_msg.Apply(&MsgRun{}).(*MsgRun)
 )
 
-func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.Spec, grp rc_group.Group, rem []string, bx, web *rice.Box) (found bool) {
-	comSpec := rc_spec.NewCommonValue()
+// Mutable object for running recipe
+type Bootstrap interface {
+	// Parse arguments for recipe & common values
+	Parse(args ...string) (rcp rc_recipe.Spec, com *rc_spec.CommonValues)
 
-	f := flag.NewFlagSet(rcpSpec.CliPath(), flag.ContinueOnError)
+	// Parse arguments for common values only
+	ParseCommon(args []string, ignoreErrors bool) (rem []string, com *rc_spec.CommonValues)
 
-	comSpec.SetFlags(f, ui)
-	rcpSpec.SetFlags(f, ui)
+	// Run recipe
+	Run(rcp rc_recipe.Spec, com *rc_spec.CommonValues)
+}
 
-	err := f.Parse(rem)
-	rem2 := f.Args()
-	if err != nil || (len(rem2) > 0 && rem2[0] == "help") {
-		grp.PrintRecipeUsage(ui, rcpSpec, f)
-		os.Exit(app_control.FailureInvalidCommandFlags)
+func NewBootstrap(bx, web *rice.Box) Bootstrap {
+	mc := app_msg_container_impl.NewContainer(bx)
+	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
+	cat := catalogue.NewCatalogue()
+	rg := cat.RootGroup()
+
+	return &bootstrapImpl{
+		boxResource:  bx,
+		boxWeb:       web,
+		msgContainer: mc,
+		currentUI:    ui,
+		catalogue:    cat,
+		rootGroup:    rg,
 	}
-	comSpec.Apply()
-	com := comSpec.Opts()
+}
 
-	// Apply common flags
+type bootstrapImpl struct {
+	boxResource *rice.Box
+	boxWeb      *rice.Box
+
+	// Mutable field. This field point to current UI only. UI may change on flags.
+	currentUI app_ui.UI
+
+	msgContainer app_msg_container.Container
+	catalogue    rc_catalogue.Catalogue
+	rootGroup    rc_group.Group
+}
+
+func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
+	com := comSpec.Opts()
 
 	// - Quiet
 	if com.Quiet {
-		ui = app_ui.NewQuiet(mc)
+		z.currentUI = app_ui.NewQuiet(z.msgContainer)
 	}
 
 	// Up
@@ -76,7 +101,7 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 	if com.Workspace != "" {
 		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace)
 		if err != nil {
-			ui.Error(MRun.ErrorUnableToFormatPath.With("Error", err))
+			z.currentUI.Error(MRun.ErrorUnableToFormatPath.With("Error", err))
 			os.Exit(app_control.FailureInvalidCommandFlags)
 		}
 		so = append(so, app_control.WorkspacePath(wsPath))
@@ -90,26 +115,34 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 	so = append(so, app_control.LowMemory(com.LowMemory))
 	so = append(so, app_control.Concurrency(com.Concurrency))
 	so = append(so, app_control.AutoOpen(com.AutoOpen))
-	so = append(so, app_control.RecipeName(rcpSpec.CliPath()))
+	so = append(so, app_control.RecipeName(rcp.CliPath()))
 	so = append(so, app_control.CommonOptions(comSpec.Debug()))
-	so = append(so, app_control.RecipeOptions(rcpSpec.Debug()))
+	so = append(so, app_control.RecipeOptions(rcp.Debug()))
 
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, com.Quiet, catalogue.NewCatalogue())
-	err = ctl.Up(so...)
+	ctl := app_control_impl.NewSingle(
+		z.currentUI,
+		z.boxResource,
+		z.boxWeb,
+		z.msgContainer,
+		com.Quiet,
+		z.catalogue,
+	)
+
+	err := ctl.Up(so...)
 	if err != nil {
 		os.Exit(app_control.FatalStartup)
 	}
 	defer ctl.Down()
 
 	// - Quiet
-	if qui, ok := ui.(*app_ui.Quiet); ok {
+	if qui, ok := z.currentUI.(*app_ui.Quiet); ok {
 		qui.SetLogger(ctl.Log())
 	}
 
 	// Test MRun message, due to unable to test because of package dependency
 	if !app.IsProduction() {
 		for _, msg := range app_msg.Messages(MRun) {
-			ui.Text(msg)
+			z.currentUI.Text(msg)
 		}
 		if qm, ok := ctl.Messages().(app_msg_container.Quality); ok {
 			missing := qm.MissingKeys()
@@ -128,12 +161,8 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 			if err != nil {
 				l := ctl.Log()
 				l.Debug("Recovery from panic")
-				l.Error(ctl.UI().TextK("run.error.panic"),
-					zap.Any("error", err),
-				)
-				l.Error(ctl.UI().TextK("run.error.panic.instruction"),
-					zap.String("JobPath", ctl.Workspace().Job()),
-				)
+				ctl.UI().Error(MRun.ErrorPanic.With("Error", err))
+				ctl.UI().Error(MRun.ErrorPanicInstruction.With("JobPath", ctl.Workspace().Job()))
 
 				for depth := 0; ; depth++ {
 					_, file, line, ok := runtime.Caller(depth)
@@ -175,8 +204,8 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 				}
 			}
 			ui := ctl.UI()
-			ui.ErrorK("run.error.interrupted")
-			ui.ErrorK("run.error.interrupted.instruction", app_msg.P{"JobPath": ctl.Workspace().Job()})
+			ui.Error(MRun.ErrorInterrupted)
+			ui.Error(MRun.ErrorInterruptedInstruction.With("JobPath", ctl.Workspace().Job()))
 			ctl.Abort(app_control.Reason(app_control.FatalInterrupted))
 
 			// in case the controller didn't fire exit..
@@ -188,14 +217,14 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 	nw_proxy.SetHttpProxy(com.Proxy, ctl)
 
 	// App Header
-	rc_group.AppHeader(ui, app.Version)
+	rc_group.AppHeader(z.currentUI, app.Version)
 
 	// Diagnosis
 	err = nw_diag.Runtime(ctl)
 	if err != nil {
 		ctl.Abort(app_control.Reason(app_control.FatalRuntime))
 	}
-	if ctl.IsProduction() && len(rcpSpec.ConnScopes()) > 0 {
+	if ctl.IsProduction() && len(rcp.ConnScopes()) > 0 {
 		err = nw_diag.Network(ctl)
 		if err != nil {
 			ctl.Abort(app_control.Reason(app_control.FatalNetwork))
@@ -220,11 +249,11 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 
 	// Run
 	var lastErr error
-	ctl.Log().Debug("Run recipe", zap.Any("vo", rcpSpec.Debug()), zap.Any("common", com))
-	lastErr = rc_exec.ExecSpec(ctl, rcpSpec, rc_recipe.NoCustomValues)
+	ctl.Log().Debug("Run recipe", zap.Any("vo", rcp.Debug()), zap.Any("common", com))
+	lastErr = rc_exec.ExecSpec(ctl, rcp, rc_recipe.NoCustomValues)
 	if lastErr != nil {
 		ctl.Log().Error("Recipe failed with an error", zap.Error(lastErr))
-		ui.Failure(MRun.ErrorRecipeFailed.With("Error", lastErr))
+		z.currentUI.Failure(MRun.ErrorRecipeFailed.With("Error", lastErr))
 		os.Exit(app_control.FailureGeneral)
 	}
 
@@ -233,34 +262,57 @@ func runRecipe(mc app_msg_container.Container, ui app_ui.UI, rcpSpec rc_recipe.S
 	nw_monitor.DumpStats(ctl.Log())
 
 	app_root.FlushSuccessShutdownHook()
-
-	return true
 }
 
-func Run(args []string, bx, web *rice.Box) (found bool) {
-	// Initialize resources
-	mc := app_msg_container_impl.NewContainer(bx)
-	ui := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
-	cat := catalogue.NewCatalogue()
-	rg := cat.RootGroup()
+func (z *bootstrapImpl) ParseCommon(args []string, ignoreErrors bool) (rem []string, com *rc_spec.CommonValues) {
+	comSpec := rc_spec.NewCommonValue()
+	f := flag.NewFlagSet(app.Name, flag.ContinueOnError)
+	comSpec.SetFlags(f, z.currentUI)
+	err := f.Parse(rem)
+	rem = f.Args()
+	if err != nil {
+		if ignoreErrors {
+			return []string{}, nil
+		} else {
+			z.currentUI.Error(MRun.ErrorInvalidArgument.With("Args", strings.Join(args, " ")))
+			os.Exit(app_control.FailureInvalidCommandFlags)
+		}
+	}
+	return rem, comSpec
+}
 
+func (z *bootstrapImpl) Parse(args ...string) (rcp rc_recipe.Spec, com *rc_spec.CommonValues) {
 	// Select recipe or group
-	_, grp, rcp, rem, err := rg.Select(args)
+	grp, rcp, rem, err := z.rootGroup.Select(args)
 
 	switch {
 	case err != nil:
-		ui.Error(MRun.ErrorInvalidArgument.With("Args", strings.Join(args, " ")))
+		z.currentUI.Error(MRun.ErrorInvalidArgument.With("Args", strings.Join(args, " ")))
 		if grp != nil {
-			grp.PrintGroupUsage(ui, os.Args[0], app.Version)
+			grp.PrintUsage(z.currentUI, os.Args[0], app.Version)
 		} else {
-			rg.PrintGroupUsage(ui, os.Args[0], app.Version)
+			z.rootGroup.PrintUsage(z.currentUI, os.Args[0], app.Version)
 		}
 		os.Exit(app_control.FailureInvalidCommand)
 
 	case rcp == nil:
-		grp.PrintGroupUsage(ui, os.Args[0], app.Version)
+		grp.PrintUsage(z.currentUI, os.Args[0], app.Version)
 		os.Exit(app_control.Success)
 	}
 
-	return runRecipe(mc, ui, rcp, grp, rem, bx, web)
+	comSpec := rc_spec.NewCommonValue()
+
+	f := flag.NewFlagSet(rcp.CliPath(), flag.ContinueOnError)
+
+	comSpec.SetFlags(f, z.currentUI)
+	rcp.SetFlags(f, z.currentUI)
+
+	err = f.Parse(rem)
+	rem2 := f.Args()
+	if err != nil || (len(rem2) > 0 && rem2[0] == "help") {
+		rcp.PrintUsage(z.currentUI, f)
+		os.Exit(app_control.FailureInvalidCommandFlags)
+	}
+	comSpec.Apply()
+	return rcp, comSpec
 }

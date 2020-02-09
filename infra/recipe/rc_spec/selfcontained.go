@@ -1,9 +1,12 @@
 package rc_spec
 
 import (
+	"bytes"
 	"flag"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_value"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -11,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"go.uber.org/zap"
+	"os"
 	"sort"
 	"strings"
 )
@@ -19,6 +23,9 @@ type MsgSelfContained struct {
 	IsExperimental                app_msg.Message
 	IsIrreversible                app_msg.Message
 	IsExperimentalAndIrreversible app_msg.Message
+	RecipeHeaderUsage             app_msg.Message
+	RecipeUsage                   app_msg.Message
+	RecipeAvailableFlags          app_msg.Message
 }
 
 var (
@@ -59,6 +66,29 @@ type specValueSelfContained struct {
 	annotation rc_recipe.Annotation
 	scr        rc_recipe.Recipe
 	repo       rc_recipe.Repository
+}
+
+func (z *specValueSelfContained) New() rc_recipe.Spec {
+	return NewSelfContained(z.scr)
+}
+
+func (z *specValueSelfContained) PrintUsage(ui app_ui.UI, f *flag.FlagSet) {
+	rc_group.UsageHeader(ui, z.Title(), app.Version)
+
+	ui.Header(MSelfContained.RecipeHeaderUsage)
+	ui.Info(MSelfContained.RecipeUsage.
+		With("Exec", os.Args[0]).
+		With("Recipe", z.CliPath()).
+		With("Args", ui.TextOrEmpty(z.CliArgs())))
+
+	ui.Break()
+	ui.Header(MSelfContained.RecipeAvailableFlags)
+
+	buf := new(bytes.Buffer)
+	f.SetOutput(buf)
+	f.PrintDefaults()
+	ui.Info(app_msg.Raw(buf.String()))
+	ui.Break()
 }
 
 func (z *specValueSelfContained) Path() (path []string, name string) {

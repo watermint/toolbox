@@ -1,7 +1,6 @@
 package rc_group
 
 import (
-	"flag"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -24,6 +23,13 @@ func AppHeader(ui app_ui.UI, version string) {
 	ui.Break()
 }
 
+func UsageHeader(ui app_ui.UI, desc app_msg.Message, version string) {
+	AppHeader(ui, version)
+	ui.Break()
+	ui.Info(desc)
+	ui.Break()
+}
+
 type Group interface {
 	Name() string
 	BasePkg() string
@@ -32,10 +38,9 @@ type Group interface {
 	SubGroups() map[string]Group
 	Add(r rc_recipe.Spec)
 	AddToPath(fullPath []string, relPath []string, name string, r rc_recipe.Spec)
-	PrintRecipeUsage(ui app_ui.UI, spec rc_recipe.Spec, f *flag.FlagSet)
-	PrintGroupUsage(ui app_ui.UI, exec, version string)
+	PrintUsage(ui app_ui.UI, exec, version string)
 	GroupDesc() app_msg.Message
 	CommandTitle(cmd string) app_msg.Message
 	IsSecret() bool
-	Select(args []string) (name string, g Group, r rc_recipe.Spec, remainder []string, err error)
+	Select(args []string) (g Group, r rc_recipe.Spec, remainder []string, err error)
 }

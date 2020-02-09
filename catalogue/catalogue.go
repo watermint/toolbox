@@ -2,6 +2,7 @@ package catalogue
 
 import (
 	infra_api_api_api_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
+	infra_control_app_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
 	infra_network_nw_diag "github.com/watermint/toolbox/infra/network/nw_diag"
 	infra_recipe_rc_catalogue "github.com/watermint/toolbox/infra/recipe/rc_catalogue"
 	infra_recipe_rc_conn_impl "github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
@@ -106,7 +107,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipegroupmember.Add{}),
 		infra_recipe_rc_recipe.Annotate(&recipegroupmember.Delete{}, infra_recipe_rc_recipe.Irreversible()),
 		infra_recipe_rc_recipe.Annotate(&recipegroupmember.List{}),
-		infra_recipe_rc_recipe.Annotate(&recipejob.Status{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipejob.Run{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipejobhistory.Archive{}),
 		infra_recipe_rc_recipe.Annotate(&recipejobhistory.Delete{}),
 		infra_recipe_rc_recipe.Annotate(&recipejobhistory.List{}),
@@ -171,6 +172,7 @@ func Ingredients() []infra_recipe_rc_recipe.Recipe {
 func Messages() []interface{} {
 	msgs := []interface{}{
 		infra_api_api_api_auth_impl.MCcAuth,
+		infra_control_app_workflow.MRunBook,
 		infra_network_nw_diag.MNetwork,
 		infra_recipe_rc_conn_impl.MConnect,
 		infra_recipe_rc_group.MHeader,

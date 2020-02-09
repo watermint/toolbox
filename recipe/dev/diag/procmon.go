@@ -14,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_archive"
+	"github.com/watermint/toolbox/infra/util/ut_process"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -196,6 +197,10 @@ func (z *Procmon) runProcmon(c app_control.Control, exePath string) (cmd *exec.C
 	)
 	l.Info("Run Process monitor", zap.String("exe", exePath), zap.Strings("args", cmd.Args))
 
+	pl := ut_process.NewLogger(cmd, c)
+	pl.Start()
+	defer pl.Close()
+
 	err = cmd.Start()
 	if err != nil {
 		l.Debug("Unable to start program", zap.Error(err), zap.Any("cmd", cmd))
@@ -216,7 +221,7 @@ func (z *Procmon) watchProcmon(c app_control.Control, exePath string, cmd *exec.
 	go func() {
 		for {
 			time.Sleep(1 * time.Second)
-			l.Debug("Process", zap.Any("status", cmd.ProcessState))
+			l.Debug("Process", zap.Any("state", cmd.ProcessState), zap.Any("process", cmd.Process), zap.Any("sysAttr", cmd.SysProcAttr))
 
 			entries, err := ioutil.ReadDir(logPath)
 			if err != nil {
@@ -284,6 +289,10 @@ func (z *Procmon) terminateProcmon(c app_control.Control, exePath string, cmd *e
 	termCmd := exec.Command(exePath,
 		"/Terminate",
 	)
+	pl := ut_process.NewLogger(cmd, c)
+	pl.Start()
+	defer pl.Close()
+
 	err := termCmd.Start()
 	if err != nil {
 		l.Debug("Unable to invoke procmon", zap.Error(err), zap.Any("cmd", cmd))

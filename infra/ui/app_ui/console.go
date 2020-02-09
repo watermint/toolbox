@@ -105,6 +105,7 @@ type console struct {
 	mc               app_msg_container.Container
 	out              io.Writer
 	in               io.Reader
+	l                *zap.Logger
 	testMode         bool
 	useColor         bool
 	qm               qt_missingmsg.Message
@@ -112,32 +113,44 @@ type console struct {
 	openArtifactOnce sync.Once
 }
 
+func (z *console) SetLogger(l *zap.Logger) {
+	z.l = l
+}
+
+func (z *console) currentLogger() *zap.Logger {
+	if z.l == nil {
+		return app_root.Log()
+	} else {
+		return z.l
+	}
+}
+
 func (z *console) AskCont(m app_msg.Message) (cont bool, cancel bool) {
 	z.verifyKey(m.Key())
 	msg := z.mc.Compile(m)
-	app_root.Log().Debug(msg)
+	z.currentLogger().Debug(msg)
 
 	z.colorPrint(msg, ColorCyan)
 	br := bufio.NewReader(z.in)
 	for {
 		line, _, err := br.ReadLine()
 		if err == io.EOF {
-			app_root.Log().Debug("Cancelled")
+			z.currentLogger().Debug("Cancelled")
 			return false, true
 		}
 		ans := strings.ToLower(strings.TrimSpace(string(line)))
 		switch ans {
 		case "y":
-			app_root.Log().Debug("Continue")
+			z.currentLogger().Debug("Continue")
 			return true, false
 		case "yes":
-			app_root.Log().Debug("Continue")
+			z.currentLogger().Debug("Continue")
 			return true, false
 		case "n":
-			app_root.Log().Debug("Do not continue")
+			z.currentLogger().Debug("Do not continue")
 			return false, false
 		case "no":
-			app_root.Log().Debug("Do not continue")
+			z.currentLogger().Debug("Do not continue")
 			return false, false
 		}
 
@@ -150,18 +163,18 @@ func (z *console) AskText(m app_msg.Message) (text string, cancel bool) {
 	z.verifyKey(m.Key())
 	msg := z.mc.Compile(m)
 	z.colorPrint(msg, ColorCyan)
-	app_root.Log().Debug(msg)
+	z.currentLogger().Debug(msg)
 
 	br := bufio.NewReader(z.in)
 	for {
 		line, _, err := br.ReadLine()
 		if err == io.EOF {
-			app_root.Log().Debug("Cancelled")
+			z.currentLogger().Debug("Cancelled")
 			return "", true
 		}
 		text := strings.TrimSpace(string(line))
 		if text != "" {
-			app_root.Log().Debug("Text entered", zap.String("text", text))
+			z.currentLogger().Debug("Text entered", zap.String("text", text))
 			return text, false
 		}
 
@@ -174,18 +187,18 @@ func (z *console) AskSecure(m app_msg.Message) (secure string, cancel bool) {
 	z.verifyKey(m.Key())
 	msg := z.mc.Compile(m)
 	z.colorPrint(msg, ColorCyan)
-	app_root.Log().Debug(msg)
+	z.currentLogger().Debug(msg)
 
 	br := bufio.NewReader(z.in)
 	for {
 		line, _, err := br.ReadLine()
 		if err == io.EOF {
-			app_root.Log().Debug("Cancelled")
+			z.currentLogger().Debug("Cancelled")
 			return "", true
 		}
 		text := strings.TrimSpace(string(line))
 		if text != "" {
-			app_root.Log().Debug("Secret entered")
+			z.currentLogger().Debug("Secret entered")
 			return text, false
 		}
 
@@ -221,14 +234,14 @@ func (z *console) Info(m app_msg.Message) {
 	z.verifyKey(m.Key())
 	t := z.mc.Compile(m)
 	z.colorPrint(t, ColorWhite)
-	app_root.Log().Debug(t)
+	z.currentLogger().Debug(t)
 }
 
 func (z *console) Error(m app_msg.Message) {
 	z.verifyKey(m.Key())
 	t := z.mc.Compile(m)
 	z.colorPrint(t, ColorRed)
-	app_root.Log().Debug(t)
+	z.currentLogger().Debug(t)
 }
 
 func (z *console) IsConsole() bool {
@@ -240,7 +253,7 @@ func (z *console) IsWeb() bool {
 }
 
 func (z *console) OpenArtifact(path string, autoOpen bool) {
-	l := app_root.Log()
+	l := z.currentLogger()
 
 	z.openArtifactOnce.Do(func() {
 		app_root.AddSuccessShutdownHook(func() {
@@ -347,14 +360,14 @@ func (z *console) Success(m app_msg.Message) {
 	z.verifyKey(m.Key())
 	t := z.mc.Compile(m)
 	z.colorPrint(t, ColorGreen)
-	app_root.Log().Debug(t)
+	z.currentLogger().Debug(t)
 }
 
 func (z *console) Failure(m app_msg.Message) {
 	z.verifyKey(m.Key())
 	t := z.mc.Compile(m)
 	z.colorPrint(t, ColorRed)
-	app_root.Log().Debug(t)
+	z.currentLogger().Debug(t)
 }
 
 func (z *console) SuccessK(key string, p ...app_msg.P) {
