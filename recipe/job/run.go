@@ -28,7 +28,7 @@ func (z *Run) execFork(c app_control.Control) error {
 	l := c.Log()
 
 	l.Info("Fork", zap.String("cmd", os.Args[0]), zap.String("runbook", z.RunbookPath.Path()))
-	cmd := exec.Command(os.Args[0], "job", "run", z.RunbookPath.Path())
+	cmd := exec.Command(os.Args[0], "job", "run", "-runbook-path", z.RunbookPath.Path())
 	pl := ut_process.NewLogger(cmd, c)
 	pl.Start()
 	defer pl.Close()
