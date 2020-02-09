@@ -6,5 +6,5 @@ import (
 )
 
 func TestSuspendupgrade_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Suspendupgrade{})
+	qt_recipe.TestRecipe(t, &Suspendupdate{})
 }

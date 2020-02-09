@@ -75,7 +75,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Install{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Start{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Stop{}, infra_recipe_rc_recipe.Secret()),
-		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Suspendupgrade{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Suspendupdate{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdiag.Procmon{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Auth{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Monkey{}, infra_recipe_rc_recipe.Secret()),

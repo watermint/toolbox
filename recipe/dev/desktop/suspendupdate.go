@@ -9,13 +9,13 @@ import (
 	"runtime"
 )
 
-type Suspendupgrade struct {
+type Suspendupdate struct {
 	UpdaterPath string
 	UpdaterName string
 	Unsuspend   bool
 }
 
-func (z *Suspendupgrade) Exec(c app_control.Control) error {
+func (z *Suspendupdate) Exec(c app_control.Control) error {
 	l := c.Log()
 	if runtime.GOOS != "windows" {
 		l.Info("Skip: operation is not supported on this platform")
@@ -48,11 +48,11 @@ func (z *Suspendupgrade) Exec(c app_control.Control) error {
 	return nil
 }
 
-func (z *Suspendupgrade) Test(c app_control.Control) error {
+func (z *Suspendupdate) Test(c app_control.Control) error {
 	return qt_endtoend.NoTestRequired()
 }
 
-func (z *Suspendupgrade) Preset() {
+func (z *Suspendupdate) Preset() {
 	z.UpdaterPath = "C:/Program Files (x86)/Dropbox/Update"
 	z.UpdaterName = "DropboxUpdate.exe"
 }

@@ -12,7 +12,9 @@ import (
 )
 
 type Install struct {
-	InstallerUrl string
+	InstallerUrl   string
+	Silent         bool
+	SilentNoLaunch bool
 }
 
 func (z *Install) Exec(c app_control.Control) error {
@@ -24,11 +26,20 @@ func (z *Install) Exec(c app_control.Control) error {
 	dn := "DropboxOfflineInstaller.exe"
 	dp := filepath.Join(c.Workspace().Job(), dn)
 
+	arg := ""
+	if z.Silent {
+		arg = "/S"
+	}
+	if z.SilentNoLaunch {
+		arg = "/NOLAUNCH"
+	}
+
 	if err := ut_download.Download(c.Log(), z.InstallerUrl, dp); err != nil {
 		l.Error("Unable to download installer", zap.Error(err))
 		return err
 	}
-	cmd := exec.Command(dp)
+
+	cmd := exec.Command(dp, arg)
 	pl := ut_process.NewLogger(cmd, c)
 	pl.Start()
 	defer pl.Close()
