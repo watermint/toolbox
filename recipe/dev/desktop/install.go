@@ -27,6 +27,7 @@ func (z *Install) Exec(c app_control.Control) error {
 	dp := filepath.Join(c.Workspace().Job(), dn)
 
 	arg := ""
+	// https://help.dropbox.com/installs-integrations/desktop/enterprise-installer
 	if z.Silent {
 		arg = "/S"
 	}

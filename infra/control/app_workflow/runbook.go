@@ -55,7 +55,7 @@ type RunWorker struct {
 }
 
 type RunBook struct {
-	Version string       `json:"version"`
+	Version int          `json:"version"`
 	Steps   []*RunStep   `json:"steps"`
 	Workers []*RunWorker `json:"workers"`
 }
@@ -70,7 +70,7 @@ func (z *RunBook) Verify(c app_control.Control) (lastErr error) {
 	rg := cat.RootGroup()
 	ui := c.UI()
 	lastErr = nil
-	if z.Version != "1" {
+	if z.Version != 1 {
 		ui.Error(MRunBook.ErrorInvalidVersion.With("Version", z.Version))
 		lastErr = errors.New("invalid version number")
 	}

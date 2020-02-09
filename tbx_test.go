@@ -17,7 +17,7 @@ func TestRun(t *testing.T) {
 func TestRunbook(t *testing.T) {
 	rbPath := filepath.Join(filepath.Dir(os.Args[0]), app_workflow.RunBookTestName)
 	rb := &app_workflow.RunBook{
-		Version: "1",
+		Version: 1,
 		Steps: []*app_workflow.RunStep{
 			{
 				Name: "echo-hello",
@@ -81,7 +81,7 @@ func TestRunbookLoop(t *testing.T) {
 	defer os.RemoveAll(p)
 	rbPath := filepath.Join(p, "loop.runbook")
 	rb := &app_workflow.RunBook{
-		Version: "1",
+		Version: 1,
 		Steps: []*app_workflow.RunStep{
 			{
 				Name: "echo-hello",
