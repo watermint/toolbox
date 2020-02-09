@@ -27,12 +27,13 @@ func (z *Run) execFork(c app_control.Control) error {
 	ui := c.UI()
 	l := c.Log()
 
-	l.Debug("Fork", zap.String("runbook", z.RunbookPath.Path()))
+	l.Info("Fork", zap.String("cmd", os.Args[0]), zap.String("runbook", z.RunbookPath.Path()))
 	cmd := exec.Command(os.Args[0], "job", "run", z.RunbookPath.Path())
 	pl := ut_process.NewLogger(cmd, c)
 	pl.Start()
 	defer pl.Close()
 
+	l.Debug("Start")
 	err := cmd.Start()
 	if err != nil {
 		ui.Error(z.ErrorUnableToFork.With("Error", err))
@@ -40,7 +41,13 @@ func (z *Run) execFork(c app_control.Control) error {
 	}
 
 	if z.TimeoutSeconds < 1 {
-		return cmd.Wait()
+		l.Info("Waiting for finish process")
+		if err := cmd.Wait(); err != nil {
+			l.Info("The process finished with an error", zap.Error(err))
+		} else {
+			l.Info("The process finished")
+		}
+		return err
 	}
 
 	running := true
@@ -51,6 +58,7 @@ func (z *Run) execFork(c app_control.Control) error {
 	}()
 
 	timeout := time.Now().Add(time.Duration(z.TimeoutSeconds) * time.Second)
+	l.Info("Waiting for process", zap.String("timeout", timeout.Format(time.RFC3339)))
 	for {
 		time.Sleep(500 * time.Microsecond)
 		if !running {
