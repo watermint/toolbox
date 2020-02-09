@@ -1,19 +1,14 @@
 package job
 
 import (
-	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
-	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 	"time"
 )
 
@@ -77,43 +72,8 @@ func (z *Loop) Exec(c app_control.Control) error {
 }
 
 func (z *Loop) Test(c app_control.Control) error {
-	l := c.Log()
-	p := c.Workspace().Test()
-	if err := os.MkdirAll(p, 0755); err != nil {
-		l.Debug("Unable to create dir", zap.Error(err))
-		return err
-	}
-	rbPath := filepath.Join(p, "loop.runbook")
-	rb := &app_workflow.RunBook{
-		Version: "1",
-		Steps: []*app_workflow.RunStep{
-			{
-				Name: "echo-hello",
-				Args: []string{"dev", "echo", "-text", "Hello"},
-			},
-		},
-	}
-	rbContent, err := json.Marshal(rb)
-	if err != nil {
-		l.Debug("Unable to marshal", zap.Error(err))
-		return err
-	}
-
-	if err = ioutil.WriteFile(rbPath, rbContent, 0644); err != nil {
-		l.Debug("Unable to write", zap.Error(err))
-		return err
-	}
-	defer os.Remove(rbPath)
-
-	return rc_exec.Exec(c, &Loop{}, func(r rc_recipe.Recipe) {
-		m := r.(*Loop)
-		m.IntervalSeconds = 1
-		m.RunbookPath = mo_path.NewFileSystemPath(rbPath)
-		mu := m.Until.(*mo_time.TimeImpl)
-		if err = mu.UpdateTime(time.Now().Add(2 * time.Second).Format("2006-01-02T15:04:05")); err != nil {
-			panic(err)
-		}
-	})
+	// Can't test from this func. Test on tbx_test
+	return qt_endtoend.ScenarioTest()
 }
 
 func (z *Loop) Preset() {

@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 )
 
 func TestRun(t *testing.T) {
@@ -69,4 +70,39 @@ func TestRunbook(t *testing.T) {
 	defer os.Remove(rbPath)
 
 	run([]string{os.Args[0]}, true)
+}
+
+func TestRunbookLoop(t *testing.T) {
+	p, err := ioutil.TempDir("", "loop")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	defer os.RemoveAll(p)
+	rbPath := filepath.Join(p, "loop.runbook")
+	rb := &app_workflow.RunBook{
+		Version: "1",
+		Steps: []*app_workflow.RunStep{
+			{
+				Name: "echo-hello",
+				Args: []string{"dev", "echo", "-text", "Hello"},
+			},
+		},
+	}
+	rbContent, err := json.Marshal(rb)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if err = ioutil.WriteFile(rbPath, rbContent, 0644); err != nil {
+		t.Error(err)
+		return
+	}
+
+	run([]string{os.Args[0],
+		"job", "loop",
+		"-runbook-path", rbPath,
+		"-until", time.Now().Add(2 * time.Second).Format(time.RFC3339),
+		"-interval-seconds", "1",
+	}, true)
 }

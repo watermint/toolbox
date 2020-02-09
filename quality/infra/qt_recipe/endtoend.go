@@ -17,7 +17,6 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_memory"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
-	"github.com/watermint/toolbox/recipe/dev"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -63,9 +62,7 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	bx, web, mc, ui := Resources(t)
 
-	cat := rc_catalogue.NewCatalogue([]rc_recipe.Recipe{
-		rc_recipe.Annotate(&dev.Echo{}),
-	}, []rc_recipe.Recipe{}, []interface{}{})
+	cat := rc_catalogue.NewCatalogue([]rc_recipe.Recipe{}, []rc_recipe.Recipe{}, []interface{}{})
 
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, cat)
 	cs := ctl.(*app_control_impl.Single)
