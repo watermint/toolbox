@@ -14,11 +14,11 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_archive"
+	"github.com/watermint/toolbox/infra/util/ut_download"
 	"github.com/watermint/toolbox/infra/util/ut_process"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
-	"net/http"
 	"os"
 	"os/exec"
 	"os/user"
@@ -59,27 +59,8 @@ func (z *Procmon) downloadProcmon(c app_control.Control) error {
 	procmonZip := filepath.Join(z.RepositoryPath.Path(), "procmon.zip")
 
 	// Download
-	{
-		l.Info("Try download", zap.String("url", z.ProcmonUrl))
-		resp, err := http.Get(z.ProcmonUrl)
-		if err != nil {
-			l.Debug("Unable to create download request")
-			return err
-		}
-		defer resp.Body.Close()
-
-		out, err := os.Create(procmonZip)
-		if err != nil {
-			l.Debug("Unable to create download file")
-			return err
-		}
-		defer out.Close()
-
-		_, err = io.Copy(out, resp.Body)
-		if err != nil {
-			l.Debug("Unable to copy from response", zap.Error(err))
-			return err
-		}
+	if err := ut_download.Download(l, z.ProcmonUrl, procmonZip); err != nil {
+		return err
 	}
 
 	// Extract
