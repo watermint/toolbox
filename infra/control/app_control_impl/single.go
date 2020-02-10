@@ -46,6 +46,7 @@ type Single struct {
 	mc           app_msg_container.Container
 	ws           app_workspace.Workspace
 	opts         *app_control.UpOpts
+	fork         bool
 	quiet        bool
 	catalogue    rc_catalogue.Catalogue
 	testResource gjson.Result
@@ -85,6 +86,7 @@ func (z *Single) Fork(name string, opts ...app_control.UpOpt) (ctl app_control.C
 		box:          z.box,
 		web:          z.web,
 		mc:           z.mc,
+		fork:         true,
 		ws:           ws,
 		opts:         co,
 		quiet:        z.quiet,
@@ -222,9 +224,11 @@ func (z *Single) upWithWorkspace(ws app_workspace.Workspace) (err error) {
 		return err
 	}
 
-	// Overwrite logger
-	app_root.SetLogger(z.flc.Logger)
-	app_root.SetCapture(z.cap.Logger)
+	if !z.fork {
+		// Overwrite logger
+		app_root.SetLogger(z.flc.Logger)
+		app_root.SetCapture(z.cap.Logger)
+	}
 
 	name := app.Name
 	ver := app.Version
@@ -265,7 +269,9 @@ func (z *Single) Down() {
 		z.Log().Debug("Unable to store finish log", zap.Error(err))
 	}
 	app_root.Flush()
-	app_root.InitLogger()
+	if !z.fork {
+		app_root.InitLogger()
+	}
 	z.cap.Close()
 	z.flc.Close()
 }
@@ -286,6 +292,9 @@ func (z *Single) Abort(opts ...app_control.AbortOpt) {
 	}
 
 	app_root.Flush()
+	if !z.fork {
+		app_root.InitLogger()
+	}
 	z.cap.Close()
 	z.flc.Close()
 
