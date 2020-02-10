@@ -37,8 +37,8 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 	p := filepath.Join("resources", filename)
 	content, err := ioutil.ReadFile(p)
 	if err != nil {
-		l.Warn("Unable to open resource file", zap.Error(err))
-		return err
+		l.Info("SKIP: Unable to open resource file", zap.Error(err))
+		return nil
 	}
 	messages := make(map[string]string)
 	if err = json.Unmarshal(content, &messages); err != nil {
