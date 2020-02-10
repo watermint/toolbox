@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"sync"
 	"time"
 )
 
@@ -33,7 +34,7 @@ type loggerImpl struct {
 func (z *loggerImpl) logger(r io.Reader, prefix string) {
 	l := z.ctl.Log()
 	sb := bufio.NewReader(r)
-	var lastErr error
+	w := sync.Once{}
 	for {
 		line, _, err := sb.ReadLine()
 		switch err {
@@ -42,10 +43,9 @@ func (z *loggerImpl) logger(r io.Reader, prefix string) {
 		case nil:
 			l.Info(prefix, zap.String("line", string(line)))
 		default:
-			if lastErr != err {
+			w.Do(func() {
 				l.Warn(prefix+": Read error", zap.Error(err))
-			}
-			lastErr = err
+			})
 		}
 		if !z.running {
 			break
