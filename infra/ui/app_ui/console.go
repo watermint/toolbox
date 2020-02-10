@@ -275,11 +275,11 @@ func (z *console) OpenArtifact(path string, autoOpen bool) {
 				}
 			}
 
-			z.Info(MConsole.OpenArtifact.With("Path", path))
 			l.Debug("Register success shutdown hook", zap.String("path", path))
 			if z.testMode || !autoOpen {
 				return
 			}
+			z.Info(MConsole.OpenArtifact.With("Path", path))
 
 			err = open.Start(path)
 			if err != nil {
