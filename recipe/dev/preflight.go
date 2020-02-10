@@ -1,6 +1,7 @@
 package dev
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -44,12 +45,15 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 		l.Warn("Unable to unmarshal message file", zap.Error(err))
 		return err
 	}
-	sorted, err := json.MarshalIndent(messages, "", "  ")
-	if err != nil {
+	buf := &bytes.Buffer{}
+	je := json.NewEncoder(buf)
+	je.SetEscapeHTML(false)
+	je.SetIndent("", "  ")
+	if err = je.Encode(messages); err != nil {
 		l.Warn("Unable to create sorted image", zap.Error(err))
 		return err
 	}
-	if err := ioutil.WriteFile(p, sorted, 0644); err != nil {
+	if err := ioutil.WriteFile(p, buf.Bytes(), 0644); err != nil {
 		l.Warn("Unable to update message", zap.Error(err))
 		return err
 	}
