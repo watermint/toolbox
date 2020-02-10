@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"go.uber.org/zap"
 	"io"
+	"os"
 	"os/exec"
 	"time"
 )
@@ -32,15 +33,19 @@ type loggerImpl struct {
 func (z *loggerImpl) logger(r io.Reader, prefix string) {
 	l := z.ctl.Log()
 	sb := bufio.NewReader(r)
+	var lastErr error
 	for {
 		line, _, err := sb.ReadLine()
 		switch err {
-		case io.EOF:
+		case io.EOF, os.ErrClosed:
 			return
 		case nil:
 			l.Info(prefix, zap.String("line", string(line)))
 		default:
-			l.Warn(prefix+": Read error", zap.Error(err))
+			if lastErr != err {
+				l.Warn(prefix+": Read error", zap.Error(err))
+			}
+			lastErr = err
 		}
 		if !z.running {
 			break
