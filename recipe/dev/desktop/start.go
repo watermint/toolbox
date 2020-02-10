@@ -33,12 +33,14 @@ func (z *Start) Exec(c app_control.Control) error {
 	pl.Start()
 	defer pl.Close()
 
+	l.Info("Start Dropbox")
 	err := cmd.Start()
 	if err != nil {
 		l.Error("Unable to start Desktop", zap.Error(err))
 		return err
 	}
 
+	l.Info("Waiting for Dropbox startup")
 	cmd.Wait()
 	return nil
 }

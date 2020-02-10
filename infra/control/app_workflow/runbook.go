@@ -149,15 +149,15 @@ func (z *RunBook) runWorker(wg *sync.WaitGroup, workerErrors []error, workerName
 	defer wg.Done()
 
 	l := cp.Log().With(zap.String("worker", workerName), zap.String("goroutine", ut_runtime.GetGoRoutineName()))
-	l.Debug("Worker start")
+	l.Info("Worker start")
 	for _, step := range steps {
 		if err := z.runRecipe(workerName, step, rg, cp, cf); err != nil {
-			l.Debug("Failed exec recipe", zap.Error(err))
+			l.Error("Failed exec recipe", zap.Error(err))
 			workerErrors = append(workerErrors, err)
 			return err
 		}
 	}
-	l.Debug("Worker finished")
+	l.Info("Worker finished")
 	return nil
 }
 
@@ -189,9 +189,11 @@ func (z *RunBook) Run(c app_control.Control) error {
 		}
 	}
 
-	l.Debug("Waiting for workers")
+	l.Info("Waiting for workers")
 	wg.Wait()
+	l.Info("Workers finished")
 	if len(workerErrors) > 0 {
+		l.Error("One or more errors from workers", zap.Errors("worker", workerErrors))
 		return workerErrors[0]
 	}
 	return nil
