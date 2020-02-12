@@ -5,34 +5,46 @@ import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_run"
+	"github.com/watermint/toolbox/infra/control/app_workflow"
 	"github.com/watermint/toolbox/infra/util/ut_ui"
 	"os"
 	"strings"
 )
 
-func main() {
+func runRunBook(b app_run.Bootstrap, path string, args []string) {
+	_, com := b.ParseCommon(args, true)
+	r, _ := b.Parse("job", "run", "-runbook-path", path)
+	b.Run(r, com)
+}
+
+func run(args []string, forTest bool) {
 	bx := rice.MustFindBox("resources")
 	web := rice.MustFindBox("web")
+	b := app_run.NewBootstrap(bx, web)
 
 	switch {
-	case len(os.Args) <= 1:
-		if rb, found := app_run.DefaultRunBook(false); found {
+	case len(args) <= 1:
+		if path, _, found := app_workflow.DefaultRunBook(forTest); found {
 			ut_ui.HideConsole()
-			rb.Exec(bx, web)
+			runRunBook(b, path, []string{})
 		} else {
-			app_run.Run(os.Args[1:], bx, web)
+			b.Run(b.Parse(args[1:]...))
 		}
 
-	case strings.HasSuffix(strings.ToLower(os.Args[1]), ".runbook"):
-		if rb, found := app_run.NewRunBook(os.Args[1]); found {
-			ut_ui.HideConsole()
-			rb.Exec(bx, web)
+	case strings.HasSuffix(strings.ToLower(args[1]), ".runbook"):
+		path := args[1]
+		if _, found := app_workflow.NewRunBook(path); found {
+			runRunBook(b, path, args[2:])
 		} else {
-			fmt.Errorf("Unable to execute runbook\n")
+			fmt.Errorf("Unable to execute runbook: %s\n", path)
 			os.Exit(app_control.FatalStartup)
 		}
 
 	default:
-		app_run.Run(os.Args[1:], bx, web)
+		b.Run(b.Parse(args[1:]...))
 	}
+}
+
+func main() {
+	run(os.Args, false)
 }

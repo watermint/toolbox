@@ -2,6 +2,7 @@ package app_ui
 
 import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"go.uber.org/zap"
 )
 
 type UI interface {
@@ -57,7 +58,7 @@ type UI interface {
 	// Ask for a credentials
 	AskSecure(m app_msg.Message) (secure string, cancel bool)
 
-	OpenArtifact(path string)
+	OpenArtifact(path string, autoOpen bool)
 
 	// Deprecated: use Success
 	SuccessK(key string, p ...app_msg.P)
@@ -77,4 +78,8 @@ type Table interface {
 	Row(m ...app_msg.Message)
 	RowRaw(m ...string)
 	Flush()
+}
+
+type UILog interface {
+	SetLogger(l *zap.Logger)
 }

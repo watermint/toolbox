@@ -208,6 +208,12 @@ type Spec interface {
 
 	// True if the operation is irreversible.
 	IsIrreversible() bool
+
+	// Print usage
+	PrintUsage(ui app_ui.UI, f *flag.FlagSet)
+
+	// Create new spec
+	New() Spec
 }
 
 func NoCustomValues(r Recipe) {}

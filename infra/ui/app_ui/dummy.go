@@ -84,7 +84,7 @@ func (z *Dummy) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bo
 	return "", true
 }
 
-func (z *Dummy) OpenArtifact(path string) {
+func (z *Dummy) OpenArtifact(path string, autoOpen bool) {
 }
 
 func (z *Dummy) SuccessK(key string, p ...app_msg.P) {

@@ -19,6 +19,7 @@ import (
 	"math/rand"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -83,16 +84,24 @@ type Monkey struct {
 	Distribution int
 	Path         mo_path.DropboxPath
 	Peer         rc_conn.ConnUserFile
+	Extension    string
 }
 
 func (z *Monkey) Exec(c app_control.Control) error {
 	if z.Distribution < 1 {
 		return errors.New("distribution must be grater than 1")
 	}
+	exts := make([]string, 0)
+	for _, e := range strings.Split(z.Extension, ",") {
+		exts = append(exts, strings.TrimSpace(e))
+	}
+	extNum := len(exts)
+
 	files := make([]string, z.Distribution)
 	folders := make([]mo_path.DropboxPath, z.Distribution)
 	for i := 0; i < z.Distribution; i++ {
-		files[i] = fmt.Sprintf("test-%05d.dat", i/10)
+		e := exts[rand.Intn(extNum)]
+		files[i] = fmt.Sprintf("test-%05d.%s", i/10, e)
 		folders[i] = z.Path.ChildPath(fmt.Sprintf("test%d", i%10))
 	}
 	sem := semaphore.NewWeighted(100)
@@ -138,4 +147,5 @@ func (z *Monkey) Test(c app_control.Control) error {
 func (z *Monkey) Preset() {
 	z.Seconds = 10
 	z.Distribution = 10000
+	z.Extension = "jpg,pdf,xlsx,docx,pptx,zip,png,txt,bak,csv,mov,mp4,html,gif,lzh,bmp,wmi,ini,ai,psd"
 }

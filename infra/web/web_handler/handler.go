@@ -149,7 +149,7 @@ func (z *WebHandler) setupCatalogue() {
 
 func (z *WebHandler) findRecipe(cmd string) (grp rc_group.Group, rcp rc_recipe.Spec, err error) {
 	cmdPath := strings.Split(cmd, "-")
-	_, grp, rcp, _, err = z.Root.Select(cmdPath)
+	grp, rcp, _, err = z.Root.Select(cmdPath)
 
 	if cmd == "" {
 		grp = z.Root

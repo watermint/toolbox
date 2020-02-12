@@ -48,6 +48,7 @@ Available commands:
 
    file          File operation                   
    group         Group management                 
+   job           Job operation                    
    license       Show license information         
    member        Team member management           
    sharedfolder  Shared folder                    
@@ -74,6 +75,8 @@ Available commands:
 | [file move](doc/generated/file-move.md)                                         | Move files                                                    |
 | [file replication](doc/generated/file-replication.md)                           | Replicate file content to the other account                   |
 | [file restore](doc/generated/file-restore.md)                                   | Restore files under given path                                |
+| [file search content](doc/generated/file-search-content.md)                     | Search file content                                           |
+| [file search name](doc/generated/file-search-name.md)                           | Search file name                                              |
 | [file sync preflight up](doc/generated/file-sync-preflight-up.md)               | Upstream sync preflight check                                 |
 | [file sync up](doc/generated/file-sync-up.md)                                   | Upstream sync with Dropbox                                    |
 | [file upload](doc/generated/file-upload.md)                                     | Upload file                                                   |
@@ -90,6 +93,8 @@ Available commands:
 | [job history delete](doc/generated/job-history-delete.md)                       | Delete old job history                                        |
 | [job history list](doc/generated/job-history-list.md)                           | Show job history                                              |
 | [job history ship](doc/generated/job-history-ship.md)                           | Ship Job logs to Dropbox path                                 |
+| [job loop](doc/generated/job-loop.md)                                           | Run runbook until specified date/time                         |
+| [job run](doc/generated/job-run.md)                                             | Run workflow with *.runbook file                              |
 | [license](doc/generated/license.md)                                             | Show license information                                      |
 | [member delete](doc/generated/member-delete.md)                                 | Delete members                                                |
 | [member detach](doc/generated/member-detach.md)                                 | Convert Dropbox Business accounts to a Basic account          |

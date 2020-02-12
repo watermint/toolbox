@@ -74,7 +74,7 @@ func (z *History) Recipe() (r rc_recipe.Spec, found bool) {
 	if !ok {
 		return nil, false
 	}
-	_, _, r, _, err := cat.Catalogue().RootGroup().Select(strings.Split(z.start.Name, " "))
+	_, r, _, err := cat.Catalogue().RootGroup().Select(strings.Split(z.start.Name, " "))
 	if err != nil {
 		return nil, false
 	}

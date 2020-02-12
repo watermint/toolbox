@@ -114,11 +114,11 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   
 
-| 列         | 説明                                                     |
-|------------|----------------------------------------------------------|
-| email      | アカウントのメールアドレス                               |
-| used_gb    | The user's total space usage (in GB, 1GB = 1024 MB).     |
-| used_bytes | The user's total space usage (bytes).                    |
-| allocation | The user's space allocation (individual, or team)        |
-| allocated  | The total space allocated to the user's account (bytes). |
+| 列         | 説明                                                    |
+|------------|---------------------------------------------------------|
+| email      | アカウントのメールアドレス                              |
+| used_gb    | このユーザーの合計利用スペース (in GB, 1GB = 1024 MB).  |
+| used_bytes | ユーザーの合計利用要領 (bytes).                         |
+| allocation | このユーザーの利用容量の付与先 (individual, or team)    |
+| allocated  | このユーザーアカウントに確保されている合計容量 (bytes). |
 

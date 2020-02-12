@@ -130,14 +130,14 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列                            | 説明                                                                                       |
-|-------------------------------|--------------------------------------------------------------------------------------------|
-| status                        | 処理の状態                                                                                 |
-| reason                        | 失敗またはスキップの理由                                                                   |
-| input.name                    | チームフォルダ名                                                                           |
-| result.team_folder_id         | チームフォルダのID                                                                         |
-| result.name                   | チームフォルダの名称                                                                       |
-| result.status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
-| result.is_team_shared_dropbox |                                                                                            |
-| result.sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
+| 列                            | 説明                                                                                 |
+|-------------------------------|--------------------------------------------------------------------------------------|
+| status                        | 処理の状態                                                                           |
+| reason                        | 失敗またはスキップの理由                                                             |
+| input.name                    | チームフォルダ名                                                                     |
+| result.team_folder_id         | チームフォルダのID                                                                   |
+| result.name                   | チームフォルダの名称                                                                 |
+| result.status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
+| result.is_team_shared_dropbox |                                                                                      |
+| result.sync_setting           | チームフォルダに設定された同期設定 (default, not_synced, または not_synced_inactive) |
 

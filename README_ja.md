@@ -48,6 +48,7 @@ DropboxおよびDropbox Business向けのツールセット
 
    file          ファイル操作                
    group         グループ管理                
+   job           ジョブの操作                
    license       ライセンス情報を表示します         
    member        チームメンバーの管理            
    sharedfolder  共有フォルダ                
@@ -74,6 +75,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [file move](doc/generated_ja/file-move.md)                                         | ファイルを移動します                                           |
 | [file replication](doc/generated_ja/file-replication.md)                           | ファイルコンテンツを他のアカウントに複製します                 |
 | [file restore](doc/generated_ja/file-restore.md)                                   | 指定されたパス以下をリストアします                             |
+| [file search content](doc/generated_ja/file-search-content.md)                     | ファイルコンテンツを検索                                       |
+| [file search name](doc/generated_ja/file-search-name.md)                           | ファイル名を検索                                               |
 | [file sync preflight up](doc/generated_ja/file-sync-preflight-up.md)               | 上り方向同期のための事前チェックを実施します                   |
 | [file sync up](doc/generated_ja/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                  |
 | [file upload](doc/generated_ja/file-upload.md)                                     | ファイルのアップロード                                         |
@@ -90,6 +93,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [job history delete](doc/generated_ja/job-history-delete.md)                       | 古いジョブ履歴の削除                                           |
 | [job history list](doc/generated_ja/job-history-list.md)                           | ジョブ履歴の表示                                               |
 | [job history ship](doc/generated_ja/job-history-ship.md)                           | ログの転送先Dropboxパス                                        |
+| [job loop](doc/generated_ja/job-loop.md)                                           | 指定日時までrunbookを実行します.                               |
+| [job run](doc/generated_ja/job-run.md)                                             | *.runbookoファイルにてワークフローを実行します                 |
 | [license](doc/generated_ja/license.md)                                             | ライセンス情報を表示します                                     |
 | [member delete](doc/generated_ja/member-delete.md)                                 | メンバーを削除します                                           |
 | [member detach](doc/generated_ja/member-detach.md)                                 | Dropbox BusinessユーザーをBasicユーザーに変更します            |

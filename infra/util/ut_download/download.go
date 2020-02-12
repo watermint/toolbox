@@ -1,0 +1,33 @@
+package ut_download
+
+import (
+	"go.uber.org/zap"
+	"io"
+	"net/http"
+	"os"
+)
+
+func Download(l *zap.Logger, url string, path string) error {
+	l.Info("Try download", zap.String("url", url))
+	resp, err := http.Get(url)
+	if err != nil {
+		l.Debug("Unable to create download request")
+		return err
+	}
+	defer resp.Body.Close()
+
+	out, err := os.Create(path)
+	if err != nil {
+		l.Debug("Unable to create download file")
+		return err
+	}
+	defer out.Close()
+
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		l.Debug("Unable to copy from response", zap.Error(err))
+		return err
+	}
+	l.Debug("Finished download", zap.String("url", url))
+	return nil
+}

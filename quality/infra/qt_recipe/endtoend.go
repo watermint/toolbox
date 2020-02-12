@@ -35,7 +35,7 @@ func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container,
 	web = rice.MustFindBox("../../../web")
 
 	mc = app_msg_container_impl.NewContainer(bx)
-	ui = app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageTest(t), true, false)
+	ui = app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageTest(t), true)
 	return
 }
 
@@ -62,7 +62,9 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	bx, web, mc, ui := Resources(t)
 
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, rc_catalogue.NewEmptyCatalogue())
+	cat := rc_catalogue.NewCatalogue([]rc_recipe.Recipe{}, []rc_recipe.Recipe{}, []interface{}{})
+
+	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, cat)
 	cs := ctl.(*app_control_impl.Single)
 	if res, found := findTestResource(); found {
 		var err error

@@ -51,7 +51,7 @@ func (z *forkWorkspace) Job() string {
 }
 
 func (z *forkWorkspace) JobId() string {
-	return z.parent.Job() + z.name
+	return z.parent.JobId() + "-" + z.name
 }
 
 func (z *forkWorkspace) Log() string {

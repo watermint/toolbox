@@ -1,6 +1,8 @@
 package dev
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
@@ -11,6 +13,8 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"go.uber.org/zap"
+	"io/ioutil"
+	"path/filepath"
 	"sort"
 	"strings"
 )
@@ -26,6 +30,34 @@ func (z *Preflight) Preset() {
 func (z *Preflight) Test(c app_control.Control) error {
 	z.TestMode = true
 	return z.Exec(c)
+}
+
+func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
+	l := c.Log().With(zap.String("filename", filename))
+	p := filepath.Join("resources", filename)
+	content, err := ioutil.ReadFile(p)
+	if err != nil {
+		l.Info("SKIP: Unable to open resource file", zap.Error(err))
+		return nil
+	}
+	messages := make(map[string]string)
+	if err = json.Unmarshal(content, &messages); err != nil {
+		l.Warn("Unable to unmarshal message file", zap.Error(err))
+		return err
+	}
+	buf := &bytes.Buffer{}
+	je := json.NewEncoder(buf)
+	je.SetEscapeHTML(false)
+	je.SetIndent("", "  ")
+	if err = je.Encode(messages); err != nil {
+		l.Warn("Unable to create sorted image", zap.Error(err))
+		return err
+	}
+	if err := ioutil.WriteFile(p, buf.Bytes(), 0644); err != nil {
+		l.Warn("Unable to update message", zap.Error(err))
+		return err
+	}
+	return nil
 }
 
 func (z *Preflight) Exec(c app_control.Control) error {
@@ -89,6 +121,14 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				l.Debug("message", zap.String("key", msg.Key()), zap.String("text", c.UI().Text(msg)))
 			}
 		}
+	}
+
+	l.Info("Sorting message resources")
+	if err := z.sortMessages(c, "messages.json"); err != nil {
+		return err
+	}
+	if err := z.sortMessages(c, "messages_ja.json"); err != nil {
+		return err
 	}
 
 	l.Info("Verify message resources")

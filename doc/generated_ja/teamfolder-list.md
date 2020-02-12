@@ -114,11 +114,11 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`...   
 
-| 列                     | 説明                                                                                       |
-|------------------------|--------------------------------------------------------------------------------------------|
-| team_folder_id         | チームフォルダのID                                                                         |
-| name                   | チームフォルダの名称                                                                       |
-| status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
-| is_team_shared_dropbox |                                                                                            |
-| sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
+| 列                     | 説明                                                                                 |
+|------------------------|--------------------------------------------------------------------------------------|
+| team_folder_id         | チームフォルダのID                                                                   |
+| name                   | チームフォルダの名称                                                                 |
+| status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
+| is_team_shared_dropbox |                                                                                      |
+| sync_setting           | チームフォルダに設定された同期設定 (default, not_synced, または not_synced_inactive) |
 

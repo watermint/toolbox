@@ -57,6 +57,11 @@ func (z *ValueMoTimeTime) Debug() interface{} {
 }
 
 func (z *ValueMoTimeTime) SpinUp(ctl app_control.Control) (err error) {
+	// argument was't given, but applied on preset or custom value
+	if z.dateTime == "" && !z.time.IsZero() {
+		return nil
+	}
+
 	ti := z.time.(*mo_time.TimeImpl)
 	if err = ti.UpdateTime(z.dateTime); err != nil {
 		return err

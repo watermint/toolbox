@@ -44,7 +44,7 @@ func VerifyMessages(ctl app_control.Control) error {
 }
 
 func verifyGroup(g rc_group.Group, ui app_ui.UI) {
-	g.PrintGroupUsage(ui, os.Args[0], app.Version)
+	g.PrintUsage(ui, os.Args[0], app.Version)
 	for _, sg := range g.SubGroups() {
 		verifyGroup(sg, ui)
 	}
@@ -57,5 +57,5 @@ func verifyRecipe(g rc_group.Group, r rc_recipe.Spec, ui app_ui.UI) {
 	f := flag.NewFlagSet("", flag.ContinueOnError)
 
 	r.SetFlags(f, ui)
-	g.PrintRecipeUsage(ui, r, f)
+	r.PrintUsage(ui, f)
 }

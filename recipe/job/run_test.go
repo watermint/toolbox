@@ -6,5 +6,5 @@ import (
 )
 
 func TestStatus_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Status{})
+	qt_recipe.TestRecipe(t, &Run{})
 }

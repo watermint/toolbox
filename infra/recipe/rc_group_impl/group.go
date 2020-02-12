@@ -1,23 +1,16 @@
 package rc_group_impl
 
 import (
-	"bytes"
 	"errors"
-	"flag"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"os"
 	"sort"
 	"strings"
 )
 
 type MsgGroup struct {
-	RecipeHeaderUsage      app_msg.Message
-	RecipeUsage            app_msg.Message
-	RecipeAvailableFlags   app_msg.Message
 	GroupHeaderUsage       app_msg.Message
 	GroupUsage             app_msg.Message
 	GroupAvailableCommands app_msg.Message
@@ -97,34 +90,8 @@ func (z *groupImpl) Add(r rc_recipe.Spec) {
 	z.AddToPath(path, path, name, r)
 }
 
-func (z *groupImpl) usageHeader(ui app_ui.UI, desc app_msg.Message, version string) {
-	rc_group.AppHeader(ui, version)
-	ui.Break()
-	ui.Info(desc)
-	ui.Break()
-}
-
-func (z *groupImpl) PrintRecipeUsage(ui app_ui.UI, spec rc_recipe.Spec, f *flag.FlagSet) {
-	z.usageHeader(ui, spec.Title(), app.Version)
-
-	ui.Header(MGroup.RecipeHeaderUsage)
-	ui.Info(MGroup.RecipeUsage.
-		With("Exec", os.Args[0]).
-		With("Recipe", spec.CliPath()).
-		With("Args", ui.TextOrEmpty(spec.CliArgs())))
-
-	ui.Break()
-	ui.Header(MGroup.RecipeAvailableFlags)
-
-	buf := new(bytes.Buffer)
-	f.SetOutput(buf)
-	f.PrintDefaults()
-	ui.Info(app_msg.Raw(buf.String()))
-	ui.Break()
-}
-
-func (z *groupImpl) PrintGroupUsage(ui app_ui.UI, exec, version string) {
-	z.usageHeader(ui, z.GroupDesc(), version)
+func (z *groupImpl) PrintUsage(ui app_ui.UI, exec, version string) {
+	rc_group.UsageHeader(ui, z.GroupDesc(), version)
 
 	ui.Header(MGroup.GroupHeaderUsage)
 	ui.Info(MGroup.GroupUsage.
@@ -181,9 +148,9 @@ func (z *groupImpl) commandAnnotations(ui app_ui.UI) (cmds []string, annotation 
 	return
 }
 
-func (z *groupImpl) Select(args []string) (name string, g rc_group.Group, r rc_recipe.Spec, remainder []string, err error) {
+func (z *groupImpl) Select(args []string) (g rc_group.Group, r rc_recipe.Spec, remainder []string, err error) {
 	if len(args) < 1 {
-		return "", z, nil, args, nil
+		return z, nil, args, nil
 	}
 	arg := args[0]
 	for k, sg := range z.subGroups {
@@ -193,8 +160,8 @@ func (z *groupImpl) Select(args []string) (name string, g rc_group.Group, r rc_r
 	}
 	for k, sr := range z.Recipes() {
 		if arg == k {
-			return k, z, sr, args[1:], nil
+			return z, sr, args[1:], nil
 		}
 	}
-	return "", z, nil, args, errors.New("not found")
+	return z, nil, args, errors.New("not found")
 }
