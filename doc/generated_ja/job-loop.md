@@ -1,6 +1,6 @@
 # job loop 
 
-Run runbook until specified date/time 
+指定日時までrunbookを実行します. 
 
 # 利用方法
 
@@ -29,12 +29,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション          | 説明                     | デフォルト |
-|---------------------|--------------------------|------------|
-| `-interval-seconds` | Interval seconds         | 180        |
-| `-quit-on-error`    | Quit on error            | false      |
-| `-runbook-path`     | Path to runbook          |            |
-| `-until`            | Run until this date/time |            |
+| オプション          | 説明                      | デフォルト |
+|---------------------|---------------------------|------------|
+| `-interval-seconds` | 実行間隔                  | 180        |
+| `-quit-on-error`    | エラー発生時に終了します. | false      |
+| `-runbook-path`     | 実行するrunbookのパス     |            |
+| `-until`            | 指定日時まで実行します.   |            |
 
 共通のオプション:
 

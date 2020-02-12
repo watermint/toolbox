@@ -1,6 +1,6 @@
 # file search name 
 
-Search file name 
+ファイル名を検索 
 
 # セキュリティ
 
@@ -47,13 +47,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション   | 説明                                                                                                                                  | デフォルト |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-category`  | Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others). |            |
-| `-extension` | Restricts search to only the extensions specified.                                                                                    |            |
-| `-path`      | Scopes the search to a path in the user's Dropbox.                                                                                    |            |
-| `-peer`      | Account alias                                                                                                                         | default    |
-| `-query`     | The string to search for.                                                                                                             |            |
+| オプション   | 説明                                                                                                                        | デフォルト |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------|------------|
+| `-category`  | 指定されたファイルカテゴリに検索を限定します (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others). |            |
+| `-extension` | 指定されたファイル拡張子に検索を限定します.                                                                                 |            |
+| `-path`      | 検索対象とするユーザーのDropbox上のパス.                                                                                    |            |
+| `-peer`      | アカウントの別名                                                                                                            | default    |
+| `-query`     | 検索文字列.                                                                                                                 |            |
 
 共通のオプション:
 

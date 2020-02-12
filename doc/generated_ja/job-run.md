@@ -1,6 +1,6 @@
 # job run 
 
-Run workflow with *.runbook file 
+*.runbookoファイルにてワークフローを実行します 
 
 # 利用方法
 
@@ -29,11 +29,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション         | 説明                                     | デフォルト |
-|--------------------|------------------------------------------|------------|
-| `-fork`            | Fork process on running the workflow     | false      |
-| `-runbook-path`    | Path to the runbook                      |            |
-| `-timeout-seconds` | Terminate process when given time passed | 0          |
+| オプション         | 説明                                              | デフォルト |
+|--------------------|---------------------------------------------------|------------|
+| `-fork`            | ワークフローを実行する際にプロセスをフォークする. | false      |
+| `-runbook-path`    | Runbookへのパス.                                  |            |
+| `-timeout-seconds` | 指定時間を経過したしたためプロセスを終了します.   | 0          |
 
 共通のオプション:
 

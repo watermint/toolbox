@@ -255,17 +255,17 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
 
-| 列                          | 説明                                                                                                          |
-|-----------------------------|---------------------------------------------------------------------------------------------------------------|
-| name                        | チームの名称                                                                                                  |
-| team_id                     | チームのID                                                                                                    |
-| num_licensed_users          | このチームで利用可能なライセンス数                                                                            |
-| num_provisioned_users       | 招待済みアカウント数 (アクティブメンバーまたは招待済み)                                                       |
-| policy_shared_folder_member | Which shared folders team members can join (from_team_only, or from_anyone)                                   |
-| policy_shared_folder_join   | Who can join folders shared by team members (team, or anyone)                                                 |
-| policy_shared_link_create   | Who can view shared links owned by team members (default_public, default_team_only, or team_only)             |
-| policy_emm_state            | This describes the Enterprise Mobility Management (EMM) state for this team (disabled, optional, or required) |
-| policy_office_add_in        | The admin policy around the Dropbox Office Add-In for this team (disabled, or enabled)                        |
+| 列                          | 説明                                                                                                     |
+|-----------------------------|----------------------------------------------------------------------------------------------------------|
+| name                        | チームの名称                                                                                             |
+| team_id                     | チームのID                                                                                               |
+| num_licensed_users          | このチームで利用可能なライセンス数                                                                       |
+| num_provisioned_users       | 招待済みアカウント数 (アクティブメンバーまたは招待済み)                                                  |
+| policy_shared_folder_member | チームメンバーが参加できる共有フォルダ (from_team_onlyまたはfrom_anyone)                                 |
+| policy_shared_folder_join   | チームメンバーが共有できる範囲 (teamまたは anyone)                                                       |
+| policy_shared_link_create   | チームメンバーが所有する共有リンクを誰が閲覧可能か (default_public, default_team_only, または team_only) |
+| policy_emm_state            | Enterprise Mobility Management (EMM) のチームに対する状態 (disabled, optional, or required)              |
+| policy_office_add_in        | Dropbox Office アドインについてこのチームに対する管理者ポリシー (disabled, or enabled)                   |
 
 ## レポート: linked_app 
 
@@ -465,11 +465,11 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   
 
-| 列         | 説明                                                     |
-|------------|----------------------------------------------------------|
-| email      | アカウントのメールアドレス                               |
-| used_gb    | The user's total space usage (in GB, 1GB = 1024 MB).     |
-| used_bytes | The user's total space usage (bytes).                    |
-| allocation | The user's space allocation (individual, or team)        |
-| allocated  | The total space allocated to the user's account (bytes). |
+| 列         | 説明                                                    |
+|------------|---------------------------------------------------------|
+| email      | アカウントのメールアドレス                              |
+| used_gb    | このユーザーの合計利用スペース (in GB, 1GB = 1024 MB).  |
+| used_bytes | ユーザーの合計利用要領 (bytes).                         |
+| allocation | このユーザーの利用容量の付与先 (individual, or team)    |
+| allocated  | このユーザーアカウントに確保されている合計容量 (bytes). |
 
