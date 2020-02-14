@@ -1,6 +1,6 @@
-# team activity user 
+# team activity batch user 
 
-ユーザーごとのアクティビティ 
+複数ユーザーのアクティビティを一括取得します 
 
 # セキュリティ
 
@@ -31,13 +31,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe team activity user 
+.\tbx.exe team activity batch user 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx team activity user 
+$HOME/Desktop/tbx team activity batch user 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -54,6 +54,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-end-time`   | 終了日時 (該当同時刻を含まない).                                                      |            |
 | `-peer`       | アカウントの別名                                                                      | default    |
 | `-start-time` | 開始日時 (該当時刻を含む)                                                             |            |
+| `-user-list`  | メールアドレスリストのファイル                                                        |            |
 
 共通のオプション:
 
@@ -68,6 +69,21 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                              | false          |
 | `-secure`       | トークンをファイルに保存しません                                                                 | false          |
 | `-workspace`    | ワークスペースへのパス                                                                           |                |
+
+# ファイル書式
+
+## 書式: UserList 
+
+| 列    | 説明                     | 値の例           |
+|-------|--------------------------|------------------|
+| email | ユーザーのメールアドレス | john@example.com |
+
+最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
+
+```csv
+email
+john@example.com
+```
 
 # 認可
 
@@ -105,6 +121,35 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
+## レポート: combined 
+
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `combined.csv`
+* `combined.xlsx`
+* `combined.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`combined_0000.xlsx`, `combined_0001.xlsx`, `combined_0002.xlsx`...   
+
+| 列                       | 説明                                                            |
+|--------------------------|-----------------------------------------------------------------|
+| timestamp                | このアクションが実行されたDropbox側でのタイムスタンプ.          |
+| member                   | ユーザーの表示名                                                |
+| member_email             | ユーザーのメールアドレス                                        |
+| event_type               | 実行されたアクションのタイプ                                    |
+| category                 | 監査ログイベントのカテゴリー                                    |
+| access_method            | アクションが実行された方法.                                     |
+| ip_address               | IPアドレス.                                                     |
+| country                  | 国                                                              |
+| city                     | 市町村                                                          |
+| involve_non_team_members | 1名以上のチーム外のユーザーがこのアクションに関連した場合はTrue |
+| participants             | このアクションによって影響を受けたユーザーまたはグループ        |
+| context                  | アクターがアクションを実行したユーザーまたはチーム              |
+| assets                   | アクションに関連したコンテンツ資産.                             |
+| other_info               | このタイプのアクションに適用可能な可変イベントスキーマ.         |
+
 ## レポート: user 
 
 レポートファイルは次の3種類のフォーマットで出力されます;
@@ -133,29 +178,4 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | context                  | アクターがアクションを実行したユーザーまたはチーム              |
 | assets                   | アクションに関連したコンテンツ資産.                             |
 | other_info               | このタイプのアクションに適用可能な可変イベントスキーマ.         |
-
-## レポート: user_summary 
-
-レポートファイルは次の3種類のフォーマットで出力されます;
-* `user_summary.csv`
-* `user_summary.xlsx`
-* `user_summary.json`
-
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`user_summary_0000.xlsx`, `user_summary_0001.xlsx`, `user_summary_0002.xlsx`...   
-
-| 列                     | 説明                               |
-|------------------------|------------------------------------|
-| status                 | 処理の状態                         |
-| reason                 | 失敗またはスキップの理由           |
-| input.user             | ユーザーのメールアドレス           |
-| result.user            | ユーザーのメールアドレス           |
-| result.logins          | ログインのアクティビティ数         |
-| result.devices         | デバイスのアクティビティ数         |
-| result.sharing         | 共有のアクティビティ数             |
-| result.file_operations | ファイル操作のアクティビティ数     |
-| result.paper           | Paperのアクティビティ数            |
-| result.others          | その他のカテゴリのアクティビティ数 |
 

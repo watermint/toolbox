@@ -113,6 +113,7 @@ Available commands:
 | [sharedlink create](doc/generated/sharedlink-create.md)                         | Create shared link                                            |
 | [sharedlink delete](doc/generated/sharedlink-delete.md)                         | Remove shared links                                           |
 | [sharedlink list](doc/generated/sharedlink-list.md)                             | List of shared link(s)                                        |
+| [team activity batch user](doc/generated/team-activity-batch-user.md)           | Scan activities for multiple users                            |
 | [team activity daily event](doc/generated/team-activity-daily-event.md)         | Report activities by day                                      |
 | [team activity event](doc/generated/team-activity-event.md)                     | Event log                                                     |
 | [team activity user](doc/generated/team-activity-user.md)                       | Activities log per user                                       |

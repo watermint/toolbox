@@ -117,12 +117,22 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`...   
 
-| Column          | Description                                     |
-|-----------------|-------------------------------------------------|
-| timestamp       | Timestamp of the event                          |
-| event_category  | Filter the returned events to a single category |
-| event_type      | Type of the event                               |
-| event_type_desc | The particular type of action taken             |
+| Column                   | Description                                                                                        |
+|--------------------------|----------------------------------------------------------------------------------------------------|
+| timestamp                | The Dropbox timestamp representing when the action was taken.                                      |
+| member                   | User display name                                                                                  |
+| member_email             | User email address                                                                                 |
+| event_type               | The particular type of action taken.                                                               |
+| category                 | Category of the events in event audit log.                                                         |
+| access_method            | The method that was used to perform the action.                                                    |
+| ip_address               | IP Address.                                                                                        |
+| country                  | Country code.                                                                                      |
+| city                     | City name                                                                                          |
+| involve_non_team_members | True if the action involved a non team member either as the actor or as one of the affected users. |
+| participants             | Zero or more users and/or groups that are affected by the action.                                  |
+| context                  | The user or team on whose behalf the actor performed the action.                                   |
+| assets                   | Zero or more content assets involved in the action.                                                |
+| other_info               | The variable event schema applicable to this type of action.                                       |
 
 ## Report: user_summary 
 

@@ -1,6 +1,6 @@
-# team activity daily event 
+# team activity batch user 
 
-Report activities by day 
+Scan activities for multiple users 
 
 # Security
 
@@ -31,13 +31,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe team activity daily event 
+.\tbx.exe team activity batch user 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx team activity daily event 
+$HOME/Desktop/tbx team activity batch user 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -48,12 +48,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option        | Description    | Default |
-|---------------|----------------|---------|
-| `-category`   | Event category |         |
-| `-end-date`   | End date       |         |
-| `-peer`       | Account alias  | default |
-| `-start-date` | Start date     |         |
+| Option        | Description                                                              | Default |
+|---------------|--------------------------------------------------------------------------|---------|
+| `-category`   | Filter the returned events to a single category. This field is optional. |         |
+| `-end-time`   | Ending time (exclusive).                                                 |         |
+| `-peer`       | Account alias                                                            | default |
+| `-start-time` | Starting time (inclusive)                                                |         |
+| `-user-list`  | User email address list file                                             |         |
 
 Common options:
 
@@ -68,6 +69,21 @@ Common options:
 | `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`       | Do not store tokens into a file                                                  | false                |
 | `-workspace`    | Workspace path                                                                   |                      |
+
+# File formats
+
+## Format: UserList 
+
+| Column | Description        | Value example    |
+|--------|--------------------|------------------|
+| email  | User email address | john@example.com |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+email
+john@example.com
+```
 
 # Authorization
 
@@ -105,17 +121,46 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: event 
+## Report: combined 
 
 Report files are generated in three formats like below;
-* `event.csv`
-* `event.xlsx`
-* `event.json`
+* `combined.csv`
+* `combined.xlsx`
+* `combined.json`
 
 But if you run with `-low-memory` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`...   
+`combined_0000.xlsx`, `combined_0001.xlsx`, `combined_0002.xlsx`...   
+
+| Column                   | Description                                                                                        |
+|--------------------------|----------------------------------------------------------------------------------------------------|
+| timestamp                | The Dropbox timestamp representing when the action was taken.                                      |
+| member                   | User display name                                                                                  |
+| member_email             | User email address                                                                                 |
+| event_type               | The particular type of action taken.                                                               |
+| category                 | Category of the events in event audit log.                                                         |
+| access_method            | The method that was used to perform the action.                                                    |
+| ip_address               | IP Address.                                                                                        |
+| country                  | Country code.                                                                                      |
+| city                     | City name                                                                                          |
+| involve_non_team_members | True if the action involved a non team member either as the actor or as one of the affected users. |
+| participants             | Zero or more users and/or groups that are affected by the action.                                  |
+| context                  | The user or team on whose behalf the actor performed the action.                                   |
+| assets                   | Zero or more content assets involved in the action.                                                |
+| other_info               | The variable event schema applicable to this type of action.                                       |
+
+## Report: user 
+
+Report files are generated in three formats like below;
+* `user.csv`
+* `user.xlsx`
+* `user.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`...   
 
 | Column                   | Description                                                                                        |
 |--------------------------|----------------------------------------------------------------------------------------------------|

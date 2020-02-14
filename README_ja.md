@@ -113,6 +113,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [sharedlink create](doc/generated_ja/sharedlink-create.md)                         | 共有リンクの作成                                               |
 | [sharedlink delete](doc/generated_ja/sharedlink-delete.md)                         | 共有リンクを削除します                                         |
 | [sharedlink list](doc/generated_ja/sharedlink-list.md)                             | 共有リンクの一覧                                               |
+| [team activity batch user](doc/generated_ja/team-activity-batch-user.md)           | 複数ユーザーのアクティビティを一括取得します                   |
 | [team activity daily event](doc/generated_ja/team-activity-daily-event.md)         | アクティビティーを1日ごとに取得します                          |
 | [team activity event](doc/generated_ja/team-activity-event.md)                     | イベントログ                                                   |
 | [team activity user](doc/generated_ja/team-activity-user.md)                       | ユーザーごとのアクティビティ                                   |

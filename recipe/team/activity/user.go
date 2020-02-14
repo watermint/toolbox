@@ -68,7 +68,7 @@ func (z *UserWorker) Exec() error {
 	}
 
 	handler := func(event *mo_activity.Event) error {
-		rep.Row(event)
+		rep.Row(event.Compatible())
 		switch event.EventCategory {
 		case "logins":
 			summary.Logins++
@@ -112,7 +112,7 @@ type User struct {
 }
 
 func (z *User) Preset() {
-	z.User.SetModel(&mo_activity.Event{})
+	z.User.SetModel(&mo_activity.Compatible{})
 	z.UserSummary.SetModel(&UserIn{}, &UserSummary{}, rp_model.HiddenColumns(
 		"result.user", // duplicated to `input.user`
 	))
