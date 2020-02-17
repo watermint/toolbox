@@ -19,6 +19,7 @@ import (
 	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
 	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/recipe"
+	recipeconnect "github.com/watermint/toolbox/recipe/connect"
 	recipedev "github.com/watermint/toolbox/recipe/dev"
 	recipedevdesktop "github.com/watermint/toolbox/recipe/dev/desktop"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
@@ -68,6 +69,11 @@ func NewCatalogue() infra_recipe_rc_catalogue.Catalogue {
 func Recipes() []infra_recipe_rc_recipe.Recipe {
 	cat := []infra_recipe_rc_recipe.Recipe{
 		infra_recipe_rc_recipe.Annotate(&recipe.License{}),
+		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessAudit{}),
+		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessFile{}),
+		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessInfo{}),
+		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessMgmt{}),
+		infra_recipe_rc_recipe.Annotate(&recipeconnect.UserFile{}),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Async{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Doc{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Dummy{}, infra_recipe_rc_recipe.Secret()),
