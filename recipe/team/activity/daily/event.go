@@ -20,7 +20,7 @@ type Event struct {
 }
 
 func (z *Event) Preset() {
-	z.Event.SetModel(&mo_activity.Event{})
+	z.Event.SetModel(&mo_activity.Compatible{})
 }
 
 func (z *Event) Exec(c app_control.Control) error {
@@ -46,7 +46,7 @@ func (z *Event) Exec(c app_control.Control) error {
 		}
 
 		handler := func(event *mo_activity.Event) error {
-			rep.Row(event)
+			rep.Row(event.Compatible())
 			return nil
 		}
 

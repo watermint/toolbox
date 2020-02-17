@@ -109,7 +109,7 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 		}
 	}
 
-	if scr, ok := rcp.(rc_recipe.Recipe); ok {
+	if scr, ok := rcp.(rc_recipe.Preset); ok {
 		scr.Preset()
 	}
 
@@ -280,18 +280,18 @@ func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 
 	for _, k := range valKeys {
 		v := z.values[k]
-		promot := false
+		prompt := false
 		if _, ok := v.(rc_recipe.ValueConn); ok {
 			if k != "Peer" {
 				ui.Header(app_msg.ObjMessage(z.rcp, "conn."+strcase.ToSnake(k)))
-				promot = true
+				prompt = true
 			}
 		}
 
 		err := v.SpinUp(ctl)
 		switch err {
 		case nil:
-			if promot {
+			if prompt {
 				ui.Info(MRepository.ProgressDoneValueInitialization)
 			}
 			continue
@@ -340,11 +340,11 @@ func (z *RepositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
 		if b != nil {
 			switch bv := b.(type) {
 			case *bool:
-				f.BoolVar(bv, flagName, *bv, ui.TextK(flagDesc.Key()))
+				f.BoolVar(bv, flagName, *bv, ui.Text(flagDesc))
 			case *int64:
-				f.Int64Var(bv, flagName, *bv, ui.TextK(flagDesc.Key()))
+				f.Int64Var(bv, flagName, *bv, ui.Text(flagDesc))
 			case *string:
-				f.StringVar(bv, flagName, *bv, ui.TextK(flagDesc.Key()))
+				f.StringVar(bv, flagName, *bv, ui.Text(flagDesc))
 			}
 		}
 	}

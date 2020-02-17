@@ -46,6 +46,7 @@ DropboxおよびDropbox Business向けのツールセット
 利用可能なコマンド:
 ===================
 
+   connect       アカウントに接続する            
    file          ファイル操作                
    group         グループ管理                
    job           ジョブの操作                
@@ -62,6 +63,11 @@ DropboxおよびDropbox Business向けのツールセット
 
 | コマンド                                                                           | 説明                                                           |
 |------------------------------------------------------------------------------------|----------------------------------------------------------------|
+| [connect business_audit](doc/generated_ja/connect-business_audit.md)               | チーム監査アクセスに接続する                                   |
+| [connect business_file](doc/generated_ja/connect-business_file.md)                 | チームファイルアクセスに接続する                               |
+| [connect business_info](doc/generated_ja/connect-business_info.md)                 | チームの情報アクセスに接続する                                 |
+| [connect business_mgmt](doc/generated_ja/connect-business_mgmt.md)                 | チームの管理アクセスに接続する                                 |
+| [connect user_file](doc/generated_ja/connect-user_file.md)                         | ユーザーのファイルアクセスに接続する                           |
 | [file compare account](doc/generated_ja/file-compare-account.md)                   | 二つのアカウントのファイルを比較します                         |
 | [file compare local](doc/generated_ja/file-compare-local.md)                       | ローカルフォルダとDropboxフォルダの内容を比較します            |
 | [file copy](doc/generated_ja/file-copy.md)                                         | ファイルをコピーします                                         |
@@ -113,6 +119,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [sharedlink create](doc/generated_ja/sharedlink-create.md)                         | 共有リンクの作成                                               |
 | [sharedlink delete](doc/generated_ja/sharedlink-delete.md)                         | 共有リンクを削除します                                         |
 | [sharedlink list](doc/generated_ja/sharedlink-list.md)                             | 共有リンクの一覧                                               |
+| [team activity batch user](doc/generated_ja/team-activity-batch-user.md)           | 複数ユーザーのアクティビティを一括取得します                   |
 | [team activity daily event](doc/generated_ja/team-activity-daily-event.md)         | アクティビティーを1日ごとに取得します                          |
 | [team activity event](doc/generated_ja/team-activity-event.md)                     | イベントログ                                                   |
 | [team activity user](doc/generated_ja/team-activity-user.md)                       | ユーザーごとのアクティビティ                                   |

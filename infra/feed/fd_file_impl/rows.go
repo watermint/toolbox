@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/util/ut_encoding"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -133,7 +134,7 @@ func (z *RowFeed) Open(ctl app_control.Control) error {
 		)
 		return err
 	}
-	z.reader = csv.NewReader(z.file)
+	z.reader = ut_encoding.NewBomAwareCsvReader(z.file)
 	z.applyModel()
 
 	return nil

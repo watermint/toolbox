@@ -10,8 +10,9 @@ import (
 )
 
 func NewCommonValue() *CommonValues {
-	com := app_opt.NewDefaultCommonOpts()
+	com := &app_opt.CommonOpts{}
 	repo := rc_value.NewRepository(com)
+
 	return &CommonValues{
 		repo: repo,
 	}

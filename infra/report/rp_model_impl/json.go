@@ -30,6 +30,7 @@ type jsonWriter struct {
 	w        io.Writer
 	mutex    sync.Mutex
 	ctl      app_control.Control
+	warnZero sync.Once
 }
 
 func (z *jsonWriter) Name() string {
@@ -88,6 +89,12 @@ func (z *jsonWriter) Row(r interface{}) {
 	defer z.mutex.Unlock()
 	z.index++
 	l := z.ctl.Log().With(zap.String("path", z.path))
+	if r == nil {
+		z.warnZero.Do(func() {
+			l.Error("Empty row found")
+		})
+		return
+	}
 
 	raw := z.findRaw(r)
 	if raw != nil {

@@ -117,10 +117,20 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`...   
 
-| 列              | 説明                                       |
-|-----------------|--------------------------------------------|
-| timestamp       | イベントのタイムスタンプ                   |
-| event_category  | ひとつのイベントカテゴリでフィルターします |
-| event_type      | イベントのタイプ                           |
-| event_type_desc | 特定タイプのアクション                     |
+| 列                       | 説明                                                            |
+|--------------------------|-----------------------------------------------------------------|
+| timestamp                | このアクションが実行されたDropbox側でのタイムスタンプ.          |
+| member                   | ユーザーの表示名                                                |
+| member_email             | ユーザーのメールアドレス                                        |
+| event_type               | 実行されたアクションのタイプ                                    |
+| category                 | 監査ログイベントのカテゴリー                                    |
+| access_method            | アクションが実行された方法.                                     |
+| ip_address               | IPアドレス.                                                     |
+| country                  | 国                                                              |
+| city                     | 市町村                                                          |
+| involve_non_team_members | 1名以上のチーム外のユーザーがこのアクションに関連した場合はTrue |
+| participants             | このアクションによって影響を受けたユーザーまたはグループ        |
+| context                  | アクターがアクションを実行したユーザーまたはチーム              |
+| assets                   | アクションに関連したコンテンツ資産.                             |
+| other_info               | このタイプのアクションに適用可能な可変イベントスキーマ.         |
 

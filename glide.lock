@@ -1,5 +1,5 @@
-hash: 78964769804567378bc1345c90d1f6eda5da0dba9ef44e1eedf04e54b15d5ce5
-updated: 2020-02-06T14:35:45.236439+09:00
+hash: d7299a01246227af318d14b9dacee5dc92b8d322c669fe3801588df3266de92c
+updated: 2020-02-13T18:39:20.227191+09:00
 imports:
 - name: github.com/andybrewer/mack
   version: a347fce911ce48b5d56d3f5185f04328cdc640c1
@@ -37,9 +37,11 @@ imports:
   subpackages:
   - proto
 - name: github.com/gorilla/mux
-  version: 00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15
+  version: 75dcda0896e109a2a22c9315bca3bb21b87b2ba5
 - name: github.com/iancoleman/strcase
   version: 16388991a33441046539eb716cff4d294d556c70
+- name: github.com/jinzhu/copier
+  version: b57f9002281ac48ed8cbc489b1e91121e1a0824c
 - name: github.com/json-iterator/go
   version: 7acbb404a45be33f136d6f16fe8f86ca30f1008d
 - name: github.com/kardianos/osext
@@ -66,7 +68,7 @@ imports:
 - name: github.com/tealeg/xlsx
   version: b11c494b670b7b041e833f706045b8134f8f87c6
 - name: github.com/tidwall/gjson
-  version: d10932a0d0b5f1618759b6259b05f7cb7bea0c25
+  version: 0360deb6d803e8c271363ce5f6c85d6cd843a3a0
 - name: github.com/tidwall/match
   version: 33827db735fff6510490d69a8622612558a557ed
 - name: github.com/tidwall/pretty
@@ -111,7 +113,7 @@ imports:
   subpackages:
   - semaphore
 - name: golang.org/x/sys
-  version: d101bd2416d505c0448a6ce8a282482678040a89
+  version: 12a6c2dcc1e4cb348b57847c73987099e261714b
   subpackages:
   - unix
   - windows
@@ -132,7 +134,7 @@ imports:
   - unicode/norm
   - width
 - name: golang.org/x/tools
-  version: dd0d5d485177fdcc188f5ec5ef32ee8278ab0a09
+  version: 49b8ac185c84c5092be0953fb92b7660db9b8162
   subpackages:
   - go/analysis
   - go/analysis/passes/inspect
@@ -163,7 +165,7 @@ imports:
 - name: gopkg.in/yaml.v2
   version: 53403b58ad1b561927d19068c655246f2db79d48
 - name: honnef.co/go/tools
-  version: 2774002210e8cbf35b5445a3805e6f173c6bec1f
+  version: 104ba5a2aac5d20ec6b404f18f67569e8fa181b2
   subpackages:
   - arg
   - cmd/staticcheck

@@ -1,6 +1,6 @@
-# team activity event 
+# connect business_audit 
 
-イベントログ 
+チーム監査アクセスに接続する 
 
 # セキュリティ
 
@@ -31,13 +31,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe team activity event 
+.\tbx.exe connect business_audit 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx team activity event 
+$HOME/Desktop/tbx connect business_audit 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -48,12 +48,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明                                                                                  | デフォルト |
-|---------------|---------------------------------------------------------------------------------------|------------|
-| `-category`   | 一つのイベントカテゴリのみを返すようなフィルター条件. このフィールドはオプションです. |            |
-| `-end-time`   | 終了日時 (該当同時刻を含まない).                                                      |            |
-| `-peer`       | アカウントの別名                                                                      | default    |
-| `-start-time` | 開始日時 (該当時刻を含む)                                                             |            |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-peer`    | アカウントの別名 | default    |
 
 共通のオプション:
 
@@ -94,43 +91,4 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # ネットワークプロクシの設定
 
 プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | Path                                                                                                      |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-## レポート: event 
-
-レポートファイルは次の3種類のフォーマットで出力されます;
-* `event.csv`
-* `event.xlsx`
-* `event.json`
-
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`...   
-
-| 列                       | 説明                                                            |
-|--------------------------|-----------------------------------------------------------------|
-| timestamp                | このアクションが実行されたDropbox側でのタイムスタンプ.          |
-| member                   | ユーザーの表示名                                                |
-| member_email             | ユーザーのメールアドレス                                        |
-| event_type               | 実行されたアクションのタイプ                                    |
-| category                 | 監査ログイベントのカテゴリー                                    |
-| access_method            | アクションが実行された方法.                                     |
-| ip_address               | IPアドレス.                                                     |
-| country                  | 国                                                              |
-| city                     | 市町村                                                          |
-| involve_non_team_members | 1名以上のチーム外のユーザーがこのアクションに関連した場合はTrue |
-| participants             | このアクションによって影響を受けたユーザーまたはグループ        |
-| context                  | アクターがアクションを実行したユーザーまたはチーム              |
-| assets                   | アクションに関連したコンテンツ資産.                             |
-| other_info               | このタイプのアクションに適用可能な可変イベントスキーマ.         |
 

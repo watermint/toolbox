@@ -19,6 +19,7 @@ import (
 	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
 	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/recipe"
+	recipeconnect "github.com/watermint/toolbox/recipe/connect"
 	recipedev "github.com/watermint/toolbox/recipe/dev"
 	recipedevdesktop "github.com/watermint/toolbox/recipe/dev/desktop"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
@@ -45,6 +46,7 @@ import (
 	recipesharedlink "github.com/watermint/toolbox/recipe/sharedlink"
 	recipeteam "github.com/watermint/toolbox/recipe/team"
 	recipeteamactivity "github.com/watermint/toolbox/recipe/team/activity"
+	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
 	recipeteamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
 	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
 	recipeteamdiag "github.com/watermint/toolbox/recipe/team/diag"
@@ -67,6 +69,11 @@ func NewCatalogue() infra_recipe_rc_catalogue.Catalogue {
 func Recipes() []infra_recipe_rc_recipe.Recipe {
 	cat := []infra_recipe_rc_recipe.Recipe{
 		infra_recipe_rc_recipe.Annotate(&recipe.License{}),
+		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessAudit{}),
+		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessFile{}),
+		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessInfo{}),
+		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessMgmt{}),
+		infra_recipe_rc_recipe.Annotate(&recipeconnect.UserFile{}),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Async{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Doc{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Dummy{}, infra_recipe_rc_recipe.Secret()),
@@ -136,6 +143,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipeteam.Info{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamactivity.Event{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamactivity.User{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamactivitybatch.User{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamactivitydaily.Event{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamdevice.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamdevice.Unlink{}, infra_recipe_rc_recipe.Irreversible()),
@@ -187,6 +195,7 @@ func Messages() []interface{} {
 		infra_report_rpmodelimpl.MXlsxWriter,
 		infra_ui_appui.MConsole,
 		infra_util_ut_doc.MDoc,
+		recipeteamactivitybatch.MUser,
 	}
 	for _, m := range msgs {
 		infra_ui_app_msg.Apply(m)
