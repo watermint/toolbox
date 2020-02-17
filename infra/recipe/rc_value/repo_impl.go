@@ -109,7 +109,7 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 		}
 	}
 
-	if scr, ok := rcp.(rc_recipe.Recipe); ok {
+	if scr, ok := rcp.(rc_recipe.Preset); ok {
 		scr.Preset()
 	}
 

@@ -16,16 +16,14 @@ type CommonOpts struct {
 	AutoOpen    bool
 }
 
-func NewDefaultCommonOpts() *CommonOpts {
-	return &CommonOpts{
-		Workspace:   "",
-		Debug:       false,
-		Proxy:       "",
-		Quiet:       false,
-		Secure:      false,
-		BandwidthKb: 0,
-		Concurrency: runtime.NumCPU(),
-		LowMemory:   false,
-		AutoOpen:    false,
-	}
+func (z *CommonOpts) Preset() {
+	z.Workspace = ""
+	z.Debug = false
+	z.Proxy = ""
+	z.Quiet = false
+	z.Secure = false
+	z.BandwidthKb = 0
+	z.Concurrency = runtime.NumCPU()
+	z.LowMemory = false
+	z.AutoOpen = false
 }

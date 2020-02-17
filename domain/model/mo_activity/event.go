@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
+	"time"
 )
 
 type Event struct {
@@ -25,6 +26,14 @@ func (z *Event) Compatible() *Compatible {
 	}
 
 	g := gjson.ParseBytes(z.Raw)
+	dts := g.Get("timestamp").String()
+	if ts, err := time.Parse("2006-01-02T15:04:05Z", dts); err != nil {
+		l.Debug("Unable to parse time", zap.Error(err))
+		return nil
+	} else {
+		c.Timestamp = ts.Local().Format("2006-01-02 15:04:05")
+	}
+
 	c.Participants = g.Get("participants").Raw
 	c.Context = g.Get("context").Raw
 	c.Assets = g.Get("assets").Raw
@@ -45,7 +54,7 @@ func (z *Event) Compatible() *Compatible {
 // Dropbox Business activities report compatible model
 type Compatible struct {
 	Raw                   json.RawMessage
-	Timestamp             string `path:"timestamp" json:"timestamp"`
+	Timestamp             string `json:"timestamp"`
 	Member                string `json:"member"`
 	MemberEmail           string `json:"member_email"`
 	EventType             string `path:"event_type.description" json:"event_type"`

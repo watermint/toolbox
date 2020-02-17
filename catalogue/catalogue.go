@@ -45,6 +45,7 @@ import (
 	recipesharedlink "github.com/watermint/toolbox/recipe/sharedlink"
 	recipeteam "github.com/watermint/toolbox/recipe/team"
 	recipeteamactivity "github.com/watermint/toolbox/recipe/team/activity"
+	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
 	recipeteamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
 	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
 	recipeteamdiag "github.com/watermint/toolbox/recipe/team/diag"
@@ -136,6 +137,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipeteam.Info{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamactivity.Event{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamactivity.User{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamactivitybatch.User{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamactivitydaily.Event{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamdevice.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamdevice.Unlink{}, infra_recipe_rc_recipe.Irreversible()),
@@ -187,6 +189,7 @@ func Messages() []interface{} {
 		infra_report_rpmodelimpl.MXlsxWriter,
 		infra_ui_appui.MConsole,
 		infra_util_ut_doc.MDoc,
+		recipeteamactivitybatch.MUser,
 	}
 	for _, m := range msgs {
 		infra_ui_app_msg.Apply(m)
