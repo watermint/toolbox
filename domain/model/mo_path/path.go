@@ -12,6 +12,8 @@ type Path interface {
 
 type FileSystemPath interface {
 	Path
+
+	Drive() string
 }
 
 func NewFileSystemPath(path string) FileSystemPath {
@@ -19,11 +21,15 @@ func NewFileSystemPath(path string) FileSystemPath {
 	if err != nil {
 		p = path
 	}
-	return &fileSystemPathImpl{path: filepath.Clean(p)}
+	return &fileSystemPathImpl{path: p}
 }
 
 type fileSystemPathImpl struct {
 	path string
+}
+
+func (z *fileSystemPathImpl) Drive() string {
+	return filepath.VolumeName(z.path)
 }
 
 func (z *fileSystemPathImpl) Path() string {

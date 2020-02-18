@@ -27,7 +27,7 @@ func (z *ValueMoPathDropboxPath) ValueText() string {
 }
 
 func (z *ValueMoPathDropboxPath) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
-	if t.Implements(reflect.TypeOf((*mo_path.Path)(nil)).Elem()) {
+	if t.Implements(reflect.TypeOf((*mo_path.DropboxPath)(nil)).Elem()) {
 		return newValueMoPathDropboxPath(name)
 	}
 	return nil
