@@ -57,12 +57,12 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 	}
 
 	rme := ut_doc.NewReadme(ctl, z.Filename, z.Badge, z.TestMode, z.MarkdownReadme, z.CommandPath)
-	cmd := ut_doc.NewCommand(ctl, z.CommandPath, z.TestMode)
+	cmd := ut_doc.NewCommandWithPath(z.CommandPath, z.TestMode)
 	if err := rme.Generate(); err != nil {
 		l.Error("Failed to generate README", zap.Error(err))
 		return err
 	}
-	if err := cmd.GenerateAll(); err != nil {
+	if err := cmd.GenerateAll(ctl); err != nil {
 		l.Error("Failed to generate command manuals", zap.Error(err))
 		return err
 	}

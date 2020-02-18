@@ -20,6 +20,10 @@ type Quiet struct {
 	log *zap.Logger
 }
 
+func (z *Quiet) Exists(m app_msg.Message) bool {
+	return z.mc.Exists(m.Key())
+}
+
 func (z *Quiet) AskCont(m app_msg.Message) (cont bool, cancel bool) {
 	return false, true
 }

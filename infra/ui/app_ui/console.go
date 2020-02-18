@@ -113,6 +113,10 @@ type console struct {
 	openArtifactOnce sync.Once
 }
 
+func (z *console) Exists(m app_msg.Message) bool {
+	return z.mc.Exists(m.Key())
+}
+
 func (z *console) SetLogger(l *zap.Logger) {
 	z.l = l
 }

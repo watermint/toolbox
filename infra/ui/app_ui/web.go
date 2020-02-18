@@ -38,6 +38,10 @@ type Web struct {
 	mutex  sync.Mutex
 }
 
+func (z *Web) Exists(m app_msg.Message) bool {
+	return z.baseUI.Exists(m)
+}
+
 func (z *Web) AskCont(m app_msg.Message) (cont bool, cancel bool) {
 	return false, true
 }

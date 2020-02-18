@@ -1,7 +1,6 @@
 package rc_spec
 
 import (
-	"bytes"
 	"flag"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -10,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_value"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/ui/app_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_reflect"
@@ -26,6 +26,7 @@ type MsgSelfContained struct {
 	RecipeHeaderUsage             app_msg.Message
 	RecipeUsage                   app_msg.Message
 	RecipeAvailableFlags          app_msg.Message
+	RecipeCommonFlags             app_msg.Message
 }
 
 var (
@@ -72,7 +73,7 @@ func (z *specValueSelfContained) New() rc_recipe.Spec {
 	return NewSelfContained(z.scr)
 }
 
-func (z *specValueSelfContained) PrintUsage(ui app_ui.UI, f *flag.FlagSet) {
+func (z *specValueSelfContained) PrintUsage(ui app_ui.UI) {
 	rc_group.UsageHeader(ui, z.Title(), app.Version)
 
 	ui.Header(MSelfContained.RecipeHeaderUsage)
@@ -82,12 +83,13 @@ func (z *specValueSelfContained) PrintUsage(ui app_ui.UI, f *flag.FlagSet) {
 		With("Args", ui.TextOrEmpty(z.CliArgs())))
 
 	ui.Break()
-	ui.Header(MSelfContained.RecipeAvailableFlags)
+	ui.Header(MSelfContained.RecipeCommonFlags)
+	com := NewCommonValue()
+	app_doc.PrintOptionsTable(ui, com)
 
-	buf := new(bytes.Buffer)
-	f.SetOutput(buf)
-	f.PrintDefaults()
-	ui.Info(app_msg.Raw(buf.String()))
+	ui.Header(MSelfContained.RecipeAvailableFlags)
+	app_doc.PrintOptionsTable(ui, z)
+
 	ui.Break()
 }
 

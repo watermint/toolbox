@@ -28,6 +28,9 @@ type UI interface {
 	// Break
 	Break()
 
+	// Test existence of the message key
+	Exists(m app_msg.Message) bool
+
 	// Deprecated: use Text
 	TextK(key string, p ...app_msg.P) string
 

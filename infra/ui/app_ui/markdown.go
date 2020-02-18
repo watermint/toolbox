@@ -27,6 +27,10 @@ type Markdown struct {
 	ignoreMissing bool
 }
 
+func (z *Markdown) Exists(m app_msg.Message) bool {
+	return z.mc.Exists(m.Key())
+}
+
 func (z *Markdown) AskCont(m app_msg.Message) (cont bool, cancel bool) {
 	return false, true
 }

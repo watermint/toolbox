@@ -214,7 +214,7 @@ type Spec interface {
 	IsIrreversible() bool
 
 	// Print usage
-	PrintUsage(ui app_ui.UI, f *flag.FlagSet)
+	PrintUsage(ui app_ui.UI)
 
 	// Create new spec
 	New() Spec

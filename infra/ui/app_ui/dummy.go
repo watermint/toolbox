@@ -13,6 +13,10 @@ func NewDummy() UI {
 type Dummy struct {
 }
 
+func (z *Dummy) Exists(m app_msg.Message) bool {
+	return false
+}
+
 func (z *Dummy) Success(m app_msg.Message) {
 }
 

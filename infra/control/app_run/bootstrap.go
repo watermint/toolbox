@@ -1,6 +1,7 @@
 package app_run
 
 import (
+	"bytes"
 	"flag"
 	"github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
@@ -37,6 +38,7 @@ import (
 
 type MsgRun struct {
 	ErrorInvalidArgument        app_msg.Message
+	ErrorTooManyArguments       app_msg.Message
 	ErrorInterrupted            app_msg.Message
 	ErrorInterruptedInstruction app_msg.Message
 	ErrorUnableToFormatPath     app_msg.Message
@@ -302,7 +304,7 @@ func (z *bootstrapImpl) ParseCommon(args []string, ignoreErrors bool) (rem []str
 		if ignoreErrors {
 			return []string{}, nil
 		} else {
-			z.currentUI.Error(MRun.ErrorInvalidArgument.With("Args", strings.Join(args, " ")))
+			z.currentUI.Error(MRun.ErrorInvalidArgument.With("Args", strings.Join(args, " ")).With("Error", err))
 			os.Exit(app_control.FailureInvalidCommandFlags)
 		}
 	}
@@ -331,16 +333,36 @@ func (z *bootstrapImpl) Parse(args ...string) (rcp rc_recipe.Spec, com *rc_spec.
 	comSpec := rc_spec.NewCommonValue()
 
 	f := flag.NewFlagSet(rcp.CliPath(), flag.ContinueOnError)
+	fBuf := &bytes.Buffer{}
+	f.SetOutput(fBuf)
 
 	comSpec.SetFlags(f, z.currentUI)
 	rcp.SetFlags(f, z.currentUI)
 
 	err = f.Parse(rem)
 	rem2 := f.Args()
-	if err != nil || (len(rem2) > 0 && rem2[0] == "help") {
-		rcp.PrintUsage(z.currentUI, f)
+
+	switch {
+	case err != nil:
+		z.currentUI.Error(MRun.ErrorInvalidArgument.
+			With("Args", strings.Join(args, " ")).
+			With("Error", err))
+		rcp.PrintUsage(z.currentUI)
 		os.Exit(app_control.FailureInvalidCommandFlags)
+
+	case len(rem2) > 0 && rem2[0] == "help":
+		rcp.PrintUsage(z.currentUI)
+		os.Exit(app_control.Success)
+
+	case len(rem2) > 0:
+		z.currentUI.Error(MRun.ErrorTooManyArguments.
+			With("Args", strings.Join(rem2, " ")).
+			With("AllArgs", strings.Join(args, " ")))
+		rcp.PrintUsage(z.currentUI)
+		os.Exit(app_control.FailureInvalidCommandFlags)
+
 	}
+
 	comSpec.Apply()
 	return rcp, comSpec
 }
