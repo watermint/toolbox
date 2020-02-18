@@ -2,6 +2,7 @@ package rp_model_impl
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 )
 
@@ -13,10 +14,12 @@ func newCascade(name string, ctl app_control.Control) Writer {
 		writers = append(writers, newCsvWriter(name, ctl))
 		writers = append(writers, NewXlsxWriter(name, ctl))
 	}
-	if ctl.IsQuiet() {
-		writers = append(writers, NewJsonWriter(name, ctl, true))
-	} else {
-		writers = append(writers, newUIWriter(name, ctl))
+	if !ctl.IsQuiet() {
+		if ctl.UIFormat() == app_opt.OutputJson {
+			writers = append(writers, NewJsonWriter(name, ctl, true))
+		} else {
+			writers = append(writers, newUIWriter(name, ctl))
+		}
 	}
 
 	return &cascadeWriter{

@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/network/nw_concurrency"
@@ -42,6 +43,7 @@ type MsgRun struct {
 	ErrorPanic                  app_msg.Message
 	ErrorPanicInstruction       app_msg.Message
 	ErrorRecipeFailed           app_msg.Message
+	ErrorUnsupportedOutput      app_msg.Message
 }
 
 var (
@@ -50,6 +52,9 @@ var (
 
 // Mutable object for running recipe
 type Bootstrap interface {
+	// Select UI for the option
+	SelectUI(mc app_msg_container.Container, opt *app_opt.CommonOpts) (uiFormat string, ui app_ui.UI)
+
 	// Parse arguments for recipe & common values
 	Parse(args ...string) (rcp rc_recipe.Spec, com *rc_spec.CommonValues)
 
@@ -88,20 +93,42 @@ type bootstrapImpl struct {
 	rootGroup    rc_group.Group
 }
 
+func (z *bootstrapImpl) SelectUI(mc app_msg_container.Container, opt *app_opt.CommonOpts) (uiFormat string, ui app_ui.UI) {
+	output := strings.ToLower(opt.Output)
+
+	// Select UI
+	switch {
+	case opt.Quiet, output == app_opt.OutputNone:
+		return app_opt.OutputNone, app_ui.NewQuiet(mc)
+
+	case output == app_opt.OutputJson:
+		return app_opt.OutputJson, app_ui.NewQuiet(mc)
+
+	case output == app_opt.OutputText:
+		return app_opt.OutputText, app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
+
+	case output == app_opt.OutputMarkdown:
+		return app_opt.OutputMarkdown, app_ui.NewMarkdown(mc, os.Stdout, true)
+
+	default:
+		u := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
+		u.Error(MRun.ErrorUnsupportedOutput.With("Output", opt.Output))
+
+		// fallback to regular console output
+		return app_opt.OutputText, u
+	}
+}
+
 func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	com := comSpec.Opts()
-
-	// - Quiet
-	if com.Quiet {
-		z.currentUI = app_ui.NewQuiet(z.msgContainer)
-	}
+	ufmt, ui := z.SelectUI(z.msgContainer, com)
 
 	// Up
 	so := make([]app_control.UpOpt, 0)
 	if com.Workspace != "" {
 		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace)
 		if err != nil {
-			z.currentUI.Error(MRun.ErrorUnableToFormatPath.With("Error", err))
+			ui.Error(MRun.ErrorUnableToFormatPath.With("Error", err))
 			os.Exit(app_control.FailureInvalidCommandFlags)
 		}
 		so = append(so, app_control.WorkspacePath(wsPath))
@@ -112,6 +139,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	if com.Secure {
 		so = append(so, app_control.Secure())
 	}
+	so = append(so, app_control.UIFormat(ufmt))
 	so = append(so, app_control.LowMemory(com.LowMemory))
 	so = append(so, app_control.Concurrency(com.Concurrency))
 	so = append(so, app_control.AutoOpen(com.AutoOpen))
@@ -120,7 +148,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	so = append(so, app_control.RecipeOptions(rcp.Debug()))
 
 	ctl := app_control_impl.NewSingle(
-		z.currentUI,
+		ui,
 		z.boxResource,
 		z.boxWeb,
 		z.msgContainer,
@@ -135,14 +163,14 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	defer ctl.Down()
 
 	// - Quiet
-	if qui, ok := z.currentUI.(*app_ui.Quiet); ok {
+	if qui, ok := ui.(*app_ui.Quiet); ok {
 		qui.SetLogger(ctl.Log())
 	}
 
 	// Test MRun message, due to unable to test because of package dependency
 	if !app.IsProduction() {
 		for _, msg := range app_msg.Messages(MRun) {
-			z.currentUI.Text(msg)
+			ui.Text(msg)
 		}
 		if qm, ok := ctl.Messages().(app_msg_container.Quality); ok {
 			missing := qm.MissingKeys()
@@ -217,7 +245,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	nw_proxy.SetHttpProxy(com.Proxy, ctl)
 
 	// App Header
-	rc_group.AppHeader(z.currentUI, app.Version)
+	rc_group.AppHeader(ui, app.Version)
 
 	// Diagnosis
 	err = nw_diag.Runtime(ctl)
@@ -253,7 +281,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	lastErr = rc_exec.ExecSpec(ctl, rcp, rc_recipe.NoCustomValues)
 	if lastErr != nil {
 		ctl.Log().Error("Recipe failed with an error", zap.Error(lastErr))
-		z.currentUI.Failure(MRun.ErrorRecipeFailed.With("Error", lastErr))
+		ui.Failure(MRun.ErrorRecipeFailed.With("Error", lastErr))
 		os.Exit(app_control.FailureGeneral)
 	}
 

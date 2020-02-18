@@ -30,6 +30,7 @@ type Control interface {
 	IsSecure() bool
 	IsLowMemory() bool
 	IsAutoOpen() bool
+	UIFormat() string
 
 	NewQueue() rc_worker.Queue
 }
@@ -52,6 +53,7 @@ type UpOpts struct {
 	Concurrency   int
 	LowMemory     bool
 	AutoOpen      bool
+	UIFormat      string
 }
 
 func (z *UpOpts) Clone() *UpOpts {
@@ -65,9 +67,16 @@ func (z *UpOpts) Clone() *UpOpts {
 		Concurrency:   z.Concurrency,
 		LowMemory:     z.LowMemory,
 		AutoOpen:      z.AutoOpen,
+		UIFormat:      z.UIFormat,
 	}
 }
 
+func UIFormat(format string) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
+		opt.UIFormat = format
+		return opt
+	}
+}
 func AutoOpen(enabled bool) UpOpt {
 	return func(opt *UpOpts) *UpOpts {
 		opt.AutoOpen = enabled
