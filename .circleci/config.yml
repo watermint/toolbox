@@ -18,5 +18,6 @@ jobs:
       - run: gover
       - run: goveralls -coverprofile=gover.coverprofile -service=circle-ci -v
       - run: ./build.sh
+      - run: go run tbx.go file upload -peer end_to_end_test -dropbox-path /watermint-toolbox-build -local-path /go/src/github.com/watermint/toolbox/dist
       - store_artifacts:
           path: /go/src/github.com/watermint/toolbox/dist
