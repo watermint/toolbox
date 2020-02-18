@@ -203,6 +203,10 @@ func FormatPathWithPredefinedVariables(path string) (string, error) {
 		}
 	}
 
+	if len(data) < 1 {
+		return path, nil
+	}
+
 	var buf bytes.Buffer
 	pathTmpl, err := template.New("path").Parse(path)
 	if err != nil {

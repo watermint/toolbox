@@ -27,7 +27,7 @@ func (z ValueMoPathFileSystemPath) ValueText() string {
 }
 
 func (z *ValueMoPathFileSystemPath) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
-	if t.Implements(reflect.TypeOf((*mo_path.Path)(nil)).Elem()) {
+	if t.Implements(reflect.TypeOf((*mo_path.FileSystemPath)(nil)).Elem()) {
 		return newValueMoPathFileSystemPath(name)
 	}
 	return nil
