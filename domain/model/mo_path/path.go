@@ -19,7 +19,7 @@ func NewFileSystemPath(path string) FileSystemPath {
 	if err != nil {
 		p = path
 	}
-	return &fileSystemPathImpl{path: filepath.Clean(p)}
+	return &fileSystemPathImpl{path: p}
 }
 
 type fileSystemPathImpl struct {
