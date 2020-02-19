@@ -44,6 +44,7 @@ import (
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
 	recipesharedlink "github.com/watermint/toolbox/recipe/sharedlink"
+	recipesharedlinkfile "github.com/watermint/toolbox/recipe/sharedlink/file"
 	recipeteam "github.com/watermint/toolbox/recipe/team"
 	recipeteamactivity "github.com/watermint/toolbox/recipe/team/activity"
 	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
@@ -139,6 +140,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipesharedlink.Create{}),
 		infra_recipe_rc_recipe.Annotate(&recipesharedlink.Delete{}, infra_recipe_rc_recipe.Irreversible()),
 		infra_recipe_rc_recipe.Annotate(&recipesharedlink.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipesharedlinkfile.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteam.Feature{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteam.Info{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamactivity.Event{}),

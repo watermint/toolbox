@@ -18,35 +18,35 @@ type Files interface {
 	Search(query string, opts ...SearchOpt) (matches []*mo_file.Match, err error)
 }
 
-type ListOpt func(opt *listOpts) *listOpts
-type listOpts struct {
-	recursive                       bool
-	includeMediaInfo                bool
-	includeDeleted                  bool
-	includeHasExplicitSharedMembers bool
+type ListOpt func(opt *ListOpts) *ListOpts
+type ListOpts struct {
+	Recursive                       bool
+	IncludeMediaInfo                bool
+	IncludeDeleted                  bool
+	IncludeHasExplicitSharedMembers bool
 }
 
 func Recursive() ListOpt {
-	return func(opt *listOpts) *listOpts {
-		opt.recursive = true
+	return func(opt *ListOpts) *ListOpts {
+		opt.Recursive = true
 		return opt
 	}
 }
 func IncludeMediaInfo() ListOpt {
-	return func(opt *listOpts) *listOpts {
-		opt.includeMediaInfo = true
+	return func(opt *ListOpts) *ListOpts {
+		opt.IncludeMediaInfo = true
 		return opt
 	}
 }
 func IncludeDeleted() ListOpt {
-	return func(opt *listOpts) *listOpts {
-		opt.includeDeleted = true
+	return func(opt *ListOpts) *ListOpts {
+		opt.IncludeDeleted = true
 		return opt
 	}
 }
 func IncludeHasExplicitSharedMembers() ListOpt {
-	return func(opt *listOpts) *listOpts {
-		opt.includeHasExplicitSharedMembers = true
+	return func(opt *ListOpts) *ListOpts {
+		opt.IncludeHasExplicitSharedMembers = true
 		return opt
 	}
 }
@@ -187,7 +187,7 @@ func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.
 }
 
 func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
-	lo := &listOpts{}
+	lo := &ListOpts{}
 	for _, o := range opts {
 		o(lo)
 	}
@@ -201,10 +201,10 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 		Limit                           int    `json:"limit,omitempty"`
 	}{
 		Path:                            path.Path(),
-		Recursive:                       lo.recursive,
-		IncludeMediaInfo:                lo.includeMediaInfo,
-		IncludeDeleted:                  lo.includeDeleted,
-		IncludeHasExplicitSharedMembers: lo.includeHasExplicitSharedMembers,
+		Recursive:                       lo.Recursive,
+		IncludeMediaInfo:                lo.IncludeMediaInfo,
+		IncludeDeleted:                  lo.IncludeDeleted,
+		IncludeHasExplicitSharedMembers: lo.IncludeHasExplicitSharedMembers,
 	}
 
 	type Cursor struct {
@@ -293,7 +293,7 @@ func (z *filesImpl) List(path mo_path.DropboxPath, opts ...ListOpt) (entries []m
 }
 
 func (z *filesImpl) ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
-	lo := &listOpts{}
+	lo := &ListOpts{}
 	for _, o := range opts {
 		o(lo)
 	}
@@ -312,10 +312,10 @@ func (z *filesImpl) ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_
 		Limit                           int    `json:"limit,omitempty"`
 	}{
 		Path:                            pp,
-		Recursive:                       lo.recursive,
-		IncludeMediaInfo:                lo.includeMediaInfo,
-		IncludeDeleted:                  lo.includeDeleted,
-		IncludeHasExplicitSharedMembers: lo.includeHasExplicitSharedMembers,
+		Recursive:                       lo.Recursive,
+		IncludeMediaInfo:                lo.IncludeMediaInfo,
+		IncludeDeleted:                  lo.IncludeDeleted,
+		IncludeHasExplicitSharedMembers: lo.IncludeHasExplicitSharedMembers,
 	}
 
 	req := z.ctx.List("files/list_folder").

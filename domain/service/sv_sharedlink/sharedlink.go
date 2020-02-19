@@ -1,8 +1,10 @@
 package sv_sharedlink
 
 import (
+	"github.com/watermint/toolbox/domain/model/mo_file"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
+	"github.com/watermint/toolbox/domain/model/mo_url"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_util"
@@ -15,6 +17,7 @@ type SharedLink interface {
 	Remove(link mo_sharedlink.SharedLink) (err error)
 	Create(path mo_path.DropboxPath, opts ...LinkOpt) (link mo_sharedlink.SharedLink, err error)
 	Update(link mo_sharedlink.SharedLink, opts ...LinkOpt) (updated mo_sharedlink.SharedLink, err error)
+	Resolve(url mo_url.Url, password string) (entry mo_file.Entry, err error)
 }
 
 type linkOptions struct {
@@ -66,6 +69,25 @@ func New(ctx api_context.Context) SharedLink {
 
 type sharedLinkImpl struct {
 	ctx api_context.Context
+}
+
+func (z *sharedLinkImpl) Resolve(url mo_url.Url, password string) (entry mo_file.Entry, err error) {
+	p := struct {
+		Url      string `json:"url"`
+		Password string `json:"password,omitempty"`
+	}{
+		Url:      url.String(),
+		Password: password,
+	}
+	entry = &mo_file.Metadata{}
+	res, err := z.ctx.Rpc("sharing/get_shared_link_metadata").Param(p).Call()
+	if err != nil {
+		return nil, err
+	}
+	if err := res.Model(entry); err != nil {
+		return nil, err
+	}
+	return entry, nil
 }
 
 func (z *sharedLinkImpl) Update(link mo_sharedlink.SharedLink, opts ...LinkOpt) (updated mo_sharedlink.SharedLink, err error) {
