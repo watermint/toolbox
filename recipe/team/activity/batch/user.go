@@ -1,14 +1,13 @@
 package batch
 
 import (
-	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/domain/model/mo_activity"
+	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/domain/service/sv_activity"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
@@ -18,7 +17,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
-	"github.com/watermint/toolbox/infra/util/ut_time"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"math/rand"
@@ -91,8 +89,8 @@ func (z *UserWorker) Exec() error {
 
 type User struct {
 	Peer       rc_conn.ConnBusinessAudit
-	StartTime  string
-	EndTime    string
+	StartTime  mo_time.TimeOptional
+	EndTime    mo_time.TimeOptional
 	Category   string
 	Combined   rp_model.RowReport
 	User       rp_model.RowReport
@@ -102,25 +100,6 @@ type User struct {
 
 func (z *User) Exec(c app_control.Control) error {
 	l := c.Log()
-
-	if z.StartTime != "" {
-		if t, ok := ut_time.ParseTimestamp(z.StartTime); ok {
-			l.Debug("Rebase StartTime", zap.String("startTime", z.StartTime))
-			z.StartTime = api_util.RebaseAsString(t)
-			l.Debug("Rebased StartTime", zap.String("startTime", z.StartTime))
-		} else {
-			return errors.New("invalid date/time format for -start-date")
-		}
-	}
-	if z.EndTime != "" {
-		if t, ok := ut_time.ParseTimestamp(z.EndTime); ok {
-			l.Debug("Rebase EndTime", zap.String("endTime", z.StartTime))
-			z.StartTime = api_util.RebaseAsString(t)
-			l.Debug("Rebased EndTime", zap.String("endTime", z.StartTime))
-		} else {
-			return errors.New("invalid date/time format for -end-date")
-		}
-	}
 
 	if err := z.Combined.Open(); err != nil {
 		return err
@@ -132,8 +111,8 @@ func (z *User) Exec(c app_control.Control) error {
 		q.Enqueue(&UserWorker{
 			Ctl:        c,
 			Context:    z.Peer.Context(),
-			StartTime:  z.StartTime,
-			EndTime:    z.EndTime,
+			StartTime:  z.StartTime.Iso8601(),
+			EndTime:    z.EndTime.Iso8601(),
 			Category:   z.Category,
 			EventCache: z.EventCache,
 			UserEmail:  e.Email,

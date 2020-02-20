@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_activity"
 	"github.com/watermint/toolbox/domain/model/mo_member"
+	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/domain/service/sv_activity"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
@@ -15,7 +16,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_mailaddr"
-	"github.com/watermint/toolbox/infra/util/ut_time"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"time"
@@ -104,8 +104,8 @@ func (z *UserWorker) Exec() error {
 
 type User struct {
 	Peer        rc_conn.ConnBusinessAudit
-	StartTime   string
-	EndTime     string
+	StartTime   mo_time.TimeOptional
+	EndTime     mo_time.TimeOptional
 	Category    string
 	User        rp_model.RowReport
 	UserSummary rp_model.TransactionReport
@@ -119,27 +119,6 @@ func (z *User) Preset() {
 }
 
 func (z *User) Exec(c app_control.Control) error {
-	l := c.Log()
-
-	if z.StartTime != "" {
-		if t, ok := ut_time.ParseTimestamp(z.StartTime); ok {
-			l.Debug("Rebase StartTime", zap.String("startTime", z.StartTime))
-			z.StartTime = api_util.RebaseAsString(t)
-			l.Debug("Rebased StartTime", zap.String("startTime", z.StartTime))
-		} else {
-			return errors.New("invalid date/time format for -start-date")
-		}
-	}
-	if z.EndTime != "" {
-		if t, ok := ut_time.ParseTimestamp(z.EndTime); ok {
-			l.Debug("Rebase EndTime", zap.String("endTime", z.StartTime))
-			z.StartTime = api_util.RebaseAsString(t)
-			l.Debug("Rebased EndTime", zap.String("endTime", z.StartTime))
-		} else {
-			return errors.New("invalid date/time format for -end-date")
-		}
-	}
-
 	if err := z.UserSummary.Open(); err != nil {
 		return err
 	}
@@ -157,8 +136,8 @@ func (z *User) Exec(c app_control.Control) error {
 			reps:       z.User,
 			repSummary: z.UserSummary,
 			user:       member,
-			StartTime:  z.StartTime,
-			EndTime:    z.EndTime,
+			StartTime:  z.StartTime.Iso8601(),
+			EndTime:    z.EndTime.Iso8601(),
 			Category:   z.Category,
 		})
 	}
@@ -170,7 +149,9 @@ func (z *User) Exec(c app_control.Control) error {
 func (z *User) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, &User{}, func(r rc_recipe.Recipe) {
 		rc := r.(*User)
-		rc.StartTime = api_util.RebaseAsString(time.Now().Add(-10 * time.Minute))
+		if t, ok := rc.StartTime.(*mo_time.TimeImpl); ok {
+			t.UpdateTime(time.Now().Add(-10 * time.Minute).Format(api_util.DateTimeFormat))
+		}
 	})
 	if err != nil {
 		return err

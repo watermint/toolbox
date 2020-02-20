@@ -1,15 +1,14 @@
 package sharedlink
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
+	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_time"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
@@ -18,7 +17,7 @@ type Create struct {
 	Path     mo_path.DropboxPath
 	TeamOnly bool
 	Password string
-	Expires  string
+	Expires  mo_time.TimeOptional
 	Created  rp_model.RowReport
 }
 
@@ -30,15 +29,8 @@ func (z *Create) Exec(c app_control.Control) error {
 	ui := c.UI()
 	opts := make([]sv_sharedlink.LinkOpt, 0)
 
-	if z.Expires != "" {
-		if expires, e := ut_time.ParseTimestamp(z.Expires); e {
-			opts = append(opts, sv_sharedlink.Expires(expires))
-		} else {
-			ui.ErrorK("recipe.sharedlink.create.err.unsupported_time_format", app_msg.P{
-				"Input": z.Expires,
-			})
-			return errors.New("invalid time format for expires")
-		}
+	if z.Expires.Ok() {
+		opts = append(opts, sv_sharedlink.Expires(z.Expires.Time()))
 	}
 	if z.TeamOnly {
 		opts = append(opts, sv_sharedlink.TeamOnly())

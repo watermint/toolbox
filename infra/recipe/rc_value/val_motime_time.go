@@ -1,6 +1,7 @@
 package rc_value
 
 import (
+	"github.com/watermint/toolbox/domain/model/mo_essential"
 	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -10,13 +11,22 @@ import (
 func newValueMoTimeTime(name string) rc_recipe.Value {
 	v := &ValueMoTimeTime{name: name}
 	v.time = mo_time.Zero()
+	v.isOptional = false
+	return v
+}
+
+func newValueMoTimeTimeOptional(name string) rc_recipe.Value {
+	v := &ValueMoTimeTime{name: name}
+	v.time = mo_time.Zero()
+	v.isOptional = true
 	return v
 }
 
 type ValueMoTimeTime struct {
-	name     string
-	dateTime string
-	time     mo_time.Time
+	name       string
+	dateTime   string
+	time       mo_time.Time
+	isOptional bool
 }
 
 func (z *ValueMoTimeTime) ValueText() string {
@@ -24,6 +34,9 @@ func (z *ValueMoTimeTime) ValueText() string {
 }
 
 func (z *ValueMoTimeTime) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+	if t.Implements(reflect.TypeOf((*mo_time.TimeOptional)(nil)).Elem()) {
+		return newValueMoTimeTimeOptional(name)
+	}
 	if t.Implements(reflect.TypeOf((*mo_time.Time)(nil)).Elem()) {
 		return newValueMoTimeTime(name)
 	}
@@ -59,6 +72,15 @@ func (z *ValueMoTimeTime) Debug() interface{} {
 func (z *ValueMoTimeTime) SpinUp(ctl app_control.Control) (err error) {
 	// argument was't given, but applied on preset or custom value
 	if z.dateTime == "" && !z.time.IsZero() {
+		return nil
+	}
+
+	// optional case
+	if z.dateTime == "" && z.isOptional {
+		// mark as unset
+		if to, ok := z.time.(mo_essential.OptionalMutable); ok {
+			to.Unset()
+		}
 		return nil
 	}
 
