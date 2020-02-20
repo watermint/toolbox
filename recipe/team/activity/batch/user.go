@@ -130,7 +130,7 @@ func (z *User) Exec(c app_control.Control) error {
 		return tx.ForEach(func(name string, kvs kv_kvs.Kvs) error {
 			ll := l.With(zap.String("user", name))
 			suffix := ut_filepath.Escape(name)
-			ur, err := z.User.OpenNew(rp_model.Suffix("_" + suffix))
+			ur, err := z.User.OpenNew(rp_model.Suffix("_"+suffix), rp_model.NoConsoleOutput())
 			if err != nil {
 				ll.Debug("Unable to create per user report", zap.Error(err))
 				ur = nil

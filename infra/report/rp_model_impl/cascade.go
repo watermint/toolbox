@@ -7,40 +7,55 @@ import (
 )
 
 func newCascade(name string, ctl app_control.Control) Writer {
-	writers := make([]Writer, 0)
+	fileWriters := make([]Writer, 0)
+	consoleWriters := make([]Writer, 0)
 
-	writers = append(writers, NewJsonWriter(name, ctl, false))
+	fileWriters = append(fileWriters, NewJsonWriter(name, ctl, false))
 	if !ctl.IsLowMemory() {
-		writers = append(writers, newCsvWriter(name, ctl))
-		writers = append(writers, NewXlsxWriter(name, ctl))
+		fileWriters = append(fileWriters, newCsvWriter(name, ctl))
+		fileWriters = append(fileWriters, NewXlsxWriter(name, ctl))
 	}
 	if !ctl.IsQuiet() {
 		if ctl.UIFormat() == app_opt.OutputJson {
-			writers = append(writers, NewJsonWriter(name, ctl, true))
+			consoleWriters = append(consoleWriters, NewJsonWriter(name, ctl, true))
 		} else {
-			writers = append(writers, newUIWriter(name, ctl))
+			consoleWriters = append(consoleWriters, newUIWriter(name, ctl))
 		}
 	}
 
 	return &cascadeWriter{
-		ctl:     ctl,
-		name:    name,
-		writers: writers,
+		ctl:            ctl,
+		name:           name,
+		fileWriters:    fileWriters,
+		consoleWriters: consoleWriters,
 	}
 }
 
 type cascadeWriter struct {
-	ctl      app_control.Control
-	name     string
-	writers  []Writer
-	isClosed bool
+	ctl            app_control.Control
+	name           string
+	writers        []Writer
+	fileWriters    []Writer
+	consoleWriters []Writer
+	isClosed       bool
 }
 
-func (z cascadeWriter) Name() string {
+func (z *cascadeWriter) Name() string {
 	return z.name
 }
 
-func (z cascadeWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) error {
+func (z *cascadeWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) error {
+	ro := &rp_model.ReportOpts{}
+	for _, o := range opts {
+		o(ro)
+	}
+
+	z.writers = make([]Writer, 0)
+	z.writers = append(z.writers, z.fileWriters...)
+	if !ro.NoConsoleOutput {
+		z.writers = append(z.writers, z.consoleWriters...)
+	}
+
 	for _, w := range z.writers {
 		if err := w.Open(ctl, model, opts...); err != nil {
 			z.Close()

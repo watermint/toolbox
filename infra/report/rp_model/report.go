@@ -6,9 +6,10 @@ import (
 
 type ReportOpt func(o *ReportOpts) *ReportOpts
 type ReportOpts struct {
-	HiddenColumns  map[string]bool
-	ShowAllColumns bool
-	ReportSuffix   string
+	HiddenColumns   map[string]bool
+	ShowAllColumns  bool
+	ReportSuffix    string
+	NoConsoleOutput bool
 }
 
 func (z *ReportOpts) IsHiddenColumn(name string) bool {
@@ -22,6 +23,12 @@ func (z *ReportOpts) IsHiddenColumn(name string) bool {
 	return ok
 }
 
+func NoConsoleOutput() ReportOpt {
+	return func(o *ReportOpts) *ReportOpts {
+		o.NoConsoleOutput = true
+		return o
+	}
+}
 func Suffix(suffix string) ReportOpt {
 	return func(o *ReportOpts) *ReportOpts {
 		o.ReportSuffix = suffix
