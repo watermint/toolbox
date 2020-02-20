@@ -9,22 +9,22 @@ import (
 type Alt struct {
 }
 
-func (alt Alt) Verify(key string) {
+func (z *Alt) Verify(key string) {
 }
 
-func (alt Alt) MissingKeys() []string {
+func (z *Alt) MissingKeys() []string {
 	return []string{}
 }
 
-func (alt Alt) Text(key string) string {
+func (z *Alt) Text(key string) string {
 	return fmt.Sprintf("Key[%s]", key)
 }
 
-func (Alt) Exists(key string) bool {
+func (z *Alt) Exists(key string) bool {
 	return false
 }
 
-func (Alt) Compile(m app_msg.Message) string {
+func (z *Alt) Compile(m app_msg.Message) string {
 	params := make(map[string]interface{})
 	for _, p := range m.Params() {
 		for k, v := range p {

@@ -15,7 +15,7 @@ type SizeComparator struct {
 	l *zap.Logger
 }
 
-func (z SizeComparator) Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
+func (z *SizeComparator) Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
 	l := z.l.With(zap.String("localPath", localPath), zap.String("dbxPath", dbxEntry.PathDisplay()))
 	if f, ok := dbxEntry.File(); ok {
 		if f.Size == localFile.Size() {
@@ -33,7 +33,7 @@ type TimeComparator struct {
 	l *zap.Logger
 }
 
-func (z TimeComparator) Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
+func (z *TimeComparator) Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
 	l := z.l.With(zap.String("localPath", localPath), zap.String("dbxPath", dbxEntry.PathDisplay()))
 	if f, ok := dbxEntry.File(); ok {
 		lt := api_util.RebaseTime(localFile.ModTime())
@@ -61,7 +61,7 @@ type HashComparator struct {
 	l *zap.Logger
 }
 
-func (z HashComparator) Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
+func (z *HashComparator) Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
 	l := z.l.With(zap.String("localPath", localPath), zap.String("dbxPath", dbxEntry.PathDisplay()))
 	if f, ok := dbxEntry.File(); ok {
 		lch, err := api_util.ContentHash(localPath)

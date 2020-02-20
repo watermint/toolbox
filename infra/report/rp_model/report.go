@@ -1,7 +1,9 @@
 package rp_model
 
 import (
+	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 type ReportOpt func(o *ReportOpts) *ReportOpts
@@ -84,6 +86,8 @@ type Spec interface {
 	Columns() []string
 	ColumnDesc(col string) app_msg.Message
 	Options() []ReportOpt
+
+	Doc(ui app_ui.UI) *rc_doc.Report
 }
 
 type TransactionRow struct {

@@ -58,7 +58,7 @@ type rootPathRoot struct {
 	Root string `json:"root"`
 }
 
-func (z rootPathRoot) Header() string {
+func (z *rootPathRoot) Header() string {
 	return "{\".tag\":\"root\",\"root\":\"" + z.Root + "\"}"
 }
 
@@ -67,6 +67,6 @@ type namespacePathRoot struct {
 	NamespaceId string `json:"namespace_id"`
 }
 
-func (z namespacePathRoot) Header() string {
+func (z *namespacePathRoot) Header() string {
 	return "{\".tag\":\"namespace_id\",\"namespace_id\":\"" + z.NamespaceId + "\"}"
 }

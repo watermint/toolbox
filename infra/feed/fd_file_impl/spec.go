@@ -3,7 +3,9 @@ package fd_file_impl
 import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_reflect"
 )
 
@@ -25,6 +27,23 @@ type Spec struct {
 	base       string
 	colDesc    map[string]app_msg.Message
 	colExample map[string]app_msg.Message
+}
+
+func (z *Spec) Doc(ui app_ui.UI) *rc_doc.Feed {
+	cols := make([]*rc_doc.FeedColumn, 0)
+	for _, col := range z.Columns() {
+		cols = append(cols, &rc_doc.FeedColumn{
+			Name:    col,
+			Desc:    ui.TextOrEmpty(z.ColumnDesc(col)),
+			Example: ui.TextOrEmpty(z.ColumnExample(col)),
+		})
+	}
+
+	return &rc_doc.Feed{
+		Name:    z.Name(),
+		Desc:    ui.TextOrEmpty(z.Desc()),
+		Columns: cols,
+	}
 }
 
 func (z *Spec) Name() string {

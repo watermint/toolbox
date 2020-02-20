@@ -38,7 +38,7 @@ func Call(ctx api_context.Context, req api_request.Request) (res api_response.Re
 type retryImpl struct {
 }
 
-func (z retryImpl) Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
+func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
 	l := ctx.Log().With(
 		zap.String("Endpoint", req.Endpoint()),
 		zap.String("Routine", ut_runtime.GetGoRoutineName()),

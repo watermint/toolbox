@@ -96,6 +96,32 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	}
 
 	{
+		l.Info("Generating Spec document (English)")
+		err := rc_exec.Exec(c, &Spec{}, func(r rc_recipe.Recipe) {
+			rr := r.(*Spec)
+			rr.Lang = "en"
+			rr.FilePath = "doc/generated/spec.json"
+		})
+		if err != nil {
+			l.Error("Failed to generate documents", zap.Error(err))
+			return err
+		}
+	}
+
+	{
+		l.Info("Generating Spec document (Japanese)")
+		err := rc_exec.Exec(c, &Spec{}, func(r rc_recipe.Recipe) {
+			rr := r.(*Spec)
+			rr.Lang = "ja"
+			rr.FilePath = "doc/generated_ja/spec.json"
+		})
+		if err != nil {
+			l.Error("Failed to generate documents", zap.Error(err))
+			return err
+		}
+	}
+
+	{
 		cl := c.(app_control_launcher.ControlLauncher)
 		cat := cl.Catalogue()
 		l.Info("Verify recipes")

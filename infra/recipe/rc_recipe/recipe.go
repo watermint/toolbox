@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -218,6 +219,9 @@ type Spec interface {
 
 	// Create new spec
 	New() Spec
+
+	// Specification document
+	Doc(ui app_ui.UI) *rc_doc.Recipe
 }
 
 func NoCustomValues(r Recipe) {}

@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_value"
@@ -67,6 +68,36 @@ type specValueSelfContained struct {
 	annotation rc_recipe.Annotation
 	scr        rc_recipe.Recipe
 	repo       rc_recipe.Repository
+}
+
+func (z *specValueSelfContained) Doc(ui app_ui.UI) *rc_doc.Recipe {
+	feeds := make([]*rc_doc.Feed, 0)
+	reports := make([]*rc_doc.Report, 0)
+	for _, f := range z.Feeds() {
+		feeds = append(feeds, f.Doc(ui))
+	}
+	for _, r := range z.Reports() {
+		reports = append(reports, r.Doc(ui))
+	}
+
+	return &rc_doc.Recipe{
+		Name:            z.Name(),
+		Title:           ui.Text(z.Title()),
+		Desc:            ui.TextOrEmpty(z.Desc()),
+		Remarks:         ui.TextOrEmpty(z.Remarks()),
+		Path:            z.CliPath(),
+		CliArgs:         ui.TextOrEmpty(z.CliArgs()),
+		CliNote:         ui.TextOrEmpty(z.CliNote()),
+		ConnUsePersonal: z.ConnUsePersonal(),
+		ConnUseBusiness: z.ConnUseBusiness(),
+		ConnScopes:      z.ConnScopeMap(),
+		IsSecret:        z.IsSecret(),
+		IsConsole:       z.IsConsole(),
+		IsExperimental:  z.IsExperimental(),
+		IsIrreversible:  z.IsIrreversible(),
+		Feeds:           feeds,
+		Reports:         reports,
+	}
 }
 
 func (z *specValueSelfContained) New() rc_recipe.Spec {

@@ -22,7 +22,7 @@ type ValueMoPathFileSystemPath struct {
 	path     mo_path.FileSystemPath
 }
 
-func (z ValueMoPathFileSystemPath) ValueText() string {
+func (z *ValueMoPathFileSystemPath) ValueText() string {
 	return z.filePath
 }
 
