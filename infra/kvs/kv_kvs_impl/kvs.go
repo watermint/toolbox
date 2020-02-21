@@ -126,10 +126,11 @@ func (z *badgerWrapper) ForEach(f func(key string, value []byte) error) error {
 	defer it.Close()
 	for it.Rewind(); it.Valid(); it.Next() {
 		i := it.Item()
-		err := i.Value(func(val []byte) error {
-			return f(string(i.Key()), val)
-		})
+		v, err := i.ValueCopy(nil)
 		if err != nil {
+			return err
+		}
+		if err := f(string(i.Key()), v); err != nil {
 			return err
 		}
 	}

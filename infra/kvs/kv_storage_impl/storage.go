@@ -1,6 +1,7 @@
 package kv_storage_impl
 
 import (
+	"fmt"
 	"github.com/dgraph-io/badger"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
@@ -59,11 +60,33 @@ func (z *badgerWrapper) init(name string) (err error) {
 
 	l = l.With(zap.String("path", path))
 	l.Debug("Open database")
-	z.db, err = badger.Open(badger.DefaultOptions(path))
+	opts := badger.DefaultOptions(path)
+	opts.Logger = &badgerLogger{l: l}
+	z.db, err = badger.Open(opts)
 	if err != nil {
 		l.Debug("Unable to open database", zap.Error(err))
 		return err
 	}
 	z.name = name
 	return nil
+}
+
+type badgerLogger struct {
+	l *zap.Logger
+}
+
+func (z *badgerLogger) Errorf(f string, p ...interface{}) {
+	z.l.Warn(fmt.Sprintf(f, p...), zap.String("level", "error"))
+}
+
+func (z *badgerLogger) Warningf(f string, p ...interface{}) {
+	z.l.Debug(fmt.Sprintf(f, p...), zap.String("level", "warn"))
+}
+
+func (z *badgerLogger) Infof(f string, p ...interface{}) {
+	z.l.Debug(fmt.Sprintf(f, p...), zap.String("level", "info"))
+}
+
+func (z *badgerLogger) Debugf(f string, p ...interface{}) {
+	z.l.Debug(fmt.Sprintf(f, p...), zap.String("level", "debug"))
 }

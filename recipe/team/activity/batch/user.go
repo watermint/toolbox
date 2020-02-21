@@ -17,6 +17,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"math/rand"
@@ -38,7 +39,8 @@ type UserEmail struct {
 }
 
 const (
-	keySeparator = "*"
+	keySeparator = "/"
+	keySeqPrefix = "seq"
 )
 
 type UserWorker struct {
@@ -66,13 +68,13 @@ func (z *UserWorker) Exec() error {
 	return sv_activity.New(z.Context).List(
 		func(event *mo_activity.Event) error {
 			return z.EventCache.Update(func(kvs kv_kvs.Kvs) error {
-				seq, err := kvs.NextSequence(member.Email)
+				seq, err := kvs.NextSequence(strings.Join([]string{keySeqPrefix, member.Email}, keySeparator))
 				if err != nil {
 					l.Debug("Unable to generate seq", zap.Error(err))
 					// pseudo seq
 					seq = rand.Uint64()
 				}
-				key := strings.Join([]string{member.Email, event.Timestamp, fmt.Sprintf("%d", seq)}, keySeparator)
+				key := strings.Join([]string{event.Timestamp, z.UserEmail, fmt.Sprintf("%d", seq)}, keySeparator)
 				app_ui.ShowProgressWithMessage(ui, MUser.ProgressScanningUserEvent)
 
 				if err = kvs.PutJson(key, event.Raw); err != nil {
@@ -107,9 +109,19 @@ func (z *User) Exec(c app_control.Control) error {
 		return err
 	}
 
+	userReps := make(map[string]rp_model.RowReport)
+
 	q := c.NewQueue()
 	err := z.UserList.EachRow(func(m interface{}, rowIndex int) error {
 		e := m.(*UserEmail)
+
+		suffix := ut_filepath.Escape(e.Email)
+		ur, err := z.User.OpenNew(rp_model.Suffix("_"+suffix), rp_model.NoConsoleOutput())
+		if err != nil {
+			return err
+		}
+		userReps[e.Email] = ur
+
 		q.Enqueue(&UserWorker{
 			Ctl:        c,
 			Context:    z.Peer.Context(),
@@ -123,6 +135,13 @@ func (z *User) Exec(c app_control.Control) error {
 	})
 	l.Debug("Waiting for workers")
 	q.Wait()
+
+	defer func() {
+		for _, ur := range userReps {
+			ur.Close()
+		}
+	}()
+
 	if err != nil {
 		l.Debug("Failure during reading model", zap.Error(err))
 		return err
@@ -131,14 +150,19 @@ func (z *User) Exec(c app_control.Control) error {
 	return z.EventCache.View(func(kvs kv_kvs.Kvs) error {
 		return kvs.ForEach(func(key string, value []byte) error {
 			ks := strings.Split(key, keySeparator)
-			if len(ks) != 3 {
+			switch {
+			case len(ks) == 2 && ks[0] == keySeqPrefix:
+				return nil
+			case len(ks) != 3:
 				l.Debug("Invalid key format", zap.String("key", key), zap.Strings("ks", ks))
 				return errors.New("invalid key format")
 			}
-			name := ks[0]
-			//ts := ks[1]
+			//ts := ks[0]
+			email := ks[1]
 			//seq := ks[2]
-			ll := l.With(zap.String("name", name))
+			ur := userReps[email]
+
+			ll := l.With(zap.String("email", email))
 			ev := &mo_activity.Event{}
 			if err = api_parser.ParseModelRaw(ev, value); err != nil {
 				ll.Debug("Unable to parse model", zap.Error(err))
@@ -146,31 +170,10 @@ func (z *User) Exec(c app_control.Control) error {
 			}
 			ec := ev.Compatible()
 			z.Combined.Row(ec)
+			ur.Row(ec)
+
 			return nil
 		})
-		//return tx.ForEach(func(name string, kvs kv_kvs.Kvs) error {
-		//	ll := l.With(zap.String("user", name))
-		//	suffix := ut_filepath.Escape(name)
-		//	ur, err := z.User.OpenNew(rp_model.Suffix("_"+suffix), rp_model.NoConsoleOutput())
-		//	if err != nil {
-		//		ll.Debug("Unable to create per user report", zap.Error(err))
-		//		ur = nil
-		//	}
-		//	defer ur.Close()
-		//	return kvs.ForEach(func(key string, value []byte) error {
-		//		ev := &mo_activity.Event{}
-		//		if err = api_parser.ParseModelRaw(ev, value); err != nil {
-		//			ll.Debug("Unable to parse model", zap.Error(err))
-		//			return err
-		//		}
-		//		ec := ev.Compatible()
-		//		z.Combined.Row(ec)
-		//		if ur != nil {
-		//			ur.Row(ec)
-		//		}
-		//		return nil
-		//	})
-		//})
 	})
 }
 
