@@ -72,12 +72,29 @@ type specValueSelfContained struct {
 
 func (z *specValueSelfContained) Doc(ui app_ui.UI) *rc_doc.Recipe {
 	feeds := make([]*rc_doc.Feed, 0)
-	reports := make([]*rc_doc.Report, 0)
+	feedNames := make([]string, 0)
+	feedMaps := make(map[string]*rc_doc.Feed)
+
 	for _, f := range z.Feeds() {
-		feeds = append(feeds, f.Doc(ui))
+		feedMaps[f.Name()] = f.Doc(ui)
+		feedNames = append(feedNames, f.Name())
 	}
+	sort.Strings(feedNames)
+	for _, f := range feedNames {
+		feeds = append(feeds, feedMaps[f])
+	}
+
+	reports := make([]*rc_doc.Report, 0)
+	reportNames := make([]string, 0)
+	reportMap := make(map[string]*rc_doc.Report)
+
 	for _, r := range z.Reports() {
-		reports = append(reports, r.Doc(ui))
+		reportMap[r.Name()] = r.Doc(ui)
+		reportNames = append(reportNames, r.Name())
+	}
+	sort.Strings(reportNames)
+	for _, r := range reportNames {
+		reports = append(reports, reportMap[r])
 	}
 
 	return &rc_doc.Recipe{
