@@ -2,7 +2,6 @@ package kv_kvs
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/infra/kvs/kv_cursor"
 )
 
 // Key-value store interface.
@@ -20,10 +19,5 @@ type Kvs interface {
 	Delete(key string) error
 	ForEach(func(key string, value []byte) error) error
 
-	Nested(key string) (kvs Kvs, err error)
-	DeleteNested(key string) error
-
-	NextSequence() (uint64, error)
-
-	Cursor() kv_cursor.Cursor
+	NextSequence(name string) (uint64, error)
 }

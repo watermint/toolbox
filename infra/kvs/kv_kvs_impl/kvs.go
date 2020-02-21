@@ -2,142 +2,136 @@ package kv_kvs_impl
 
 import (
 	"encoding/json"
-	"errors"
-	"github.com/etcd-io/bbolt"
+	"github.com/dgraph-io/badger"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/kvs/kv_cursor"
-	"github.com/watermint/toolbox/infra/kvs/kv_cursor_impl"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"go.uber.org/zap"
 )
 
-func New(ctl app_control.Control, name string, bucket *bbolt.Bucket) kv_kvs.Kvs {
-	return &bboltWrapper{
-		ctl:    ctl,
-		name:   name,
-		bucket: bucket,
+func New(ctl app_control.Control, db *badger.DB, tx *badger.Txn) kv_kvs.Kvs {
+	return &badgerWrapper{
+		ctl: ctl,
+		db:  db,
+		tx:  tx,
 	}
 }
 
-type bboltWrapper struct {
-	ctl    app_control.Control
-	name   string
-	bucket *bbolt.Bucket
+type badgerWrapper struct {
+	ctl app_control.Control
+	db  *badger.DB
+	tx  *badger.Txn
 }
 
-func (z *bboltWrapper) NextSequence() (uint64, error) {
-	return z.bucket.NextSequence()
-}
-
-func (z *bboltWrapper) Nested(key string) (kvs kv_kvs.Kvs, err error) {
-	l := z.ctl.Log()
-	b := z.bucket.Bucket([]byte(key))
-	if b != nil {
-		return New(z.ctl, key, b), nil
-	}
-
-	nb, err := z.bucket.CreateBucketIfNotExists([]byte(key))
+func (z *badgerWrapper) NextSequence(name string) (uint64, error) {
+	l := z.ctl.Log().With(zap.String("name", name))
+	seq, err := z.db.GetSequence([]byte(name), 100)
 	if err != nil {
-		l.Debug("Unable to create nested bucket", zap.String("name", z.name), zap.String("key", key))
-		return nil, err
+		l.Debug("Unable to get seq", zap.Error(err))
+		return 0, err
 	}
-	return New(z.ctl, key, nb), nil
-}
-
-func (z *bboltWrapper) DeleteNested(key string) error {
-	return z.bucket.DeleteBucket([]byte(key))
-}
-
-func (z *bboltWrapper) PutString(key string, value string) error {
-	l := z.ctl.Log()
-	err := z.bucket.Put([]byte(key), []byte(value))
+	defer seq.Release()
+	s, err := seq.Next()
 	if err != nil {
-		l.Debug("Unable to put key/value", zap.String("name", z.name), zap.String("key", key))
+		l.Debug("Unable to generate seq", zap.Error(err))
+		return 0, err
+	}
+	return s, nil
+}
+
+func (z *badgerWrapper) PutString(key string, value string) error {
+	l := z.ctl.Log()
+	err := z.tx.Set([]byte(key), []byte(value))
+	if err != nil {
+		l.Debug("Unable to put key/value", zap.String("key", key))
 		return err
 	}
 	return nil
 }
 
-func (z *bboltWrapper) PutBytes(key string, value []byte) error {
+func (z *badgerWrapper) PutBytes(key string, value []byte) error {
 	l := z.ctl.Log()
-	err := z.bucket.Put([]byte(key), value)
+	err := z.tx.Set([]byte(key), value)
 	if err != nil {
-		l.Debug("Unable to put key/value", zap.String("name", z.name), zap.String("key", key))
+		l.Debug("Unable to put key/value", zap.String("key", key))
 		return err
 	}
 	return nil
 }
 
-func (z *bboltWrapper) PutJson(key string, j json.RawMessage) error {
+func (z *badgerWrapper) PutJson(key string, j json.RawMessage) error {
 	l := z.ctl.Log()
-	err := z.bucket.Put([]byte(key), j)
+	err := z.tx.Set([]byte(key), j)
 	if err != nil {
-		l.Debug("Unable to put key/value", zap.String("name", z.name), zap.String("key", key))
+		l.Debug("Unable to put key/value", zap.String("key", key))
 		return err
 	}
 	return nil
 }
 
-func (z *bboltWrapper) PutJsonModel(key string, v interface{}) error {
+func (z *badgerWrapper) PutJsonModel(key string, v interface{}) error {
 	l := z.ctl.Log()
 	b, err := json.Marshal(v)
 	if err != nil {
 		l.Debug("Unable to marshal value", zap.Error(err))
 		return err
 	}
-	err = z.bucket.Put([]byte(key), b)
+	err = z.tx.Set([]byte(key), b)
 	if err != nil {
-		l.Debug("Unable to put key/value", zap.String("name", z.name), zap.String("key", key))
+		l.Debug("Unable to put key/value", zap.String("key", key))
 		return err
 	}
 	return nil
 }
 
-func (z *bboltWrapper) GetString(key string) (value string, err error) {
-	r := z.bucket.Get([]byte(key))
-	if r == nil {
-		return "", errors.New("key not found in this kvs")
+func (z *badgerWrapper) GetString(key string) (value string, err error) {
+	r, err := z.tx.Get([]byte(key))
+	if err != nil {
+		return "", err
 	}
-	return string(r), nil
+	return r.String(), nil
 }
 
-func (z *bboltWrapper) GetBytes(key string) (value []byte, err error) {
-	r := z.bucket.Get([]byte(key))
-	if r == nil {
-		return nil, errors.New("key not found in this kvs")
+func (z *badgerWrapper) GetBytes(key string) (value []byte, err error) {
+	r, err := z.tx.Get([]byte(key))
+	if err != nil {
+		return nil, err
 	}
-	return r, nil
+	return r.ValueCopy(nil)
 }
 
-func (z *bboltWrapper) GetJson(key string) (j json.RawMessage, err error) {
-	r := z.bucket.Get([]byte(key))
-	if r == nil {
-		return nil, errors.New("key not found in this kvs")
+func (z *badgerWrapper) GetJson(key string) (j json.RawMessage, err error) {
+	r, err := z.tx.Get([]byte(key))
+	if err != nil {
+		return nil, err
 	}
-	return r, nil
+	return r.ValueCopy(nil)
 }
 
-func (z *bboltWrapper) GetJsonModel(key string, v interface{}) (err error) {
-	r := z.bucket.Get([]byte(key))
-	if r == nil {
-		return errors.New("key not found in this kvs")
-	}
+func (z *badgerWrapper) GetJsonModel(key string, v interface{}) (err error) {
+	r, err := z.GetJson(key)
 	if err = json.Unmarshal(r, v); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (z *bboltWrapper) Delete(key string) error {
-	return z.bucket.Delete([]byte(key))
+func (z *badgerWrapper) Delete(key string) error {
+	return z.tx.Delete([]byte(key))
 }
 
-func (z *bboltWrapper) ForEach(f func(key string, value []byte) error) error {
-	return z.bucket.ForEach(func(k, v []byte) error {
-		return f(string(k), v)
-	})
-}
-
-func (z *bboltWrapper) Cursor() kv_cursor.Cursor {
-	return kv_cursor_impl.New(z.ctl, z, z.bucket.Cursor())
+func (z *badgerWrapper) ForEach(f func(key string, value []byte) error) error {
+	opts := badger.DefaultIteratorOptions
+	opts.PrefetchSize = 100
+	it := z.tx.NewIterator(opts)
+	defer it.Close()
+	for it.Rewind(); it.Valid(); it.Next() {
+		i := it.Item()
+		err := i.Value(func(val []byte) error {
+			return f(string(i.Key()), val)
+		})
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

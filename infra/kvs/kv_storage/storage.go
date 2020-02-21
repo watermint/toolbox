@@ -2,7 +2,7 @@ package kv_storage
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/kvs/kv_transaction"
+	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 )
 
 // Storage interface.
@@ -14,11 +14,8 @@ type Storage interface {
 	Close()
 
 	// Read only transaction
-	View(f func(tx kv_transaction.Transaction) error) error
-
-	// Update transaction
-	Update(f func(tx kv_transaction.Transaction) error) error
+	View(f func(kvs kv_kvs.Kvs) error) error
 
 	// Read-write transaction
-	Batch(f func(tx kv_transaction.Transaction) error) error
+	Update(f func(kvs kv_kvs.Kvs) error) error
 }

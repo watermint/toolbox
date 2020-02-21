@@ -1,58 +1,46 @@
 package kv_storage_impl
 
 import (
-	"github.com/etcd-io/bbolt"
+	"github.com/dgraph-io/badger"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
+	"github.com/watermint/toolbox/infra/kvs/kv_kvs_impl"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
-	"github.com/watermint/toolbox/infra/kvs/kv_transaction"
-	"github.com/watermint/toolbox/infra/kvs/kv_transaction_impl"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"go.uber.org/zap"
 	"path/filepath"
-	"time"
-)
-
-const (
-	monitorInterval = 15 * time.Second
 )
 
 func New(name string) kv_storage.Storage {
-	bw := &bboltWrapper{name: name}
+	bw := &badgerWrapper{name: name}
 	return bw
 }
 
-type bboltWrapper struct {
-	ctl       app_control.Control
-	name      string
-	db        *bbolt.DB
-	closed    bool
-	lastStats bbolt.Stats
+type badgerWrapper struct {
+	ctl    app_control.Control
+	name   string
+	db     *badger.DB
+	closed bool
 }
 
-func (z *bboltWrapper) Open(ctl app_control.Control) error {
+func (z *badgerWrapper) Open(ctl app_control.Control) error {
 	z.ctl = ctl
 	return z.init(z.name)
 }
 
-func (z *bboltWrapper) View(f func(tx kv_transaction.Transaction) error) error {
-	return z.db.View(func(tx *bbolt.Tx) error {
-		return f(kv_transaction_impl.New(z.ctl, tx))
+func (z *badgerWrapper) View(f func(kv kv_kvs.Kvs) error) error {
+	return z.db.View(func(tx *badger.Txn) error {
+		return f(kv_kvs_impl.New(z.ctl, z.db, tx))
 	})
 }
 
-func (z *bboltWrapper) Update(f func(tx kv_transaction.Transaction) error) error {
-	return z.db.Update(func(tx *bbolt.Tx) error {
-		return f(kv_transaction_impl.New(z.ctl, tx))
+func (z *badgerWrapper) Update(f func(kv kv_kvs.Kvs) error) error {
+	return z.db.Update(func(tx *badger.Txn) error {
+		return f(kv_kvs_impl.New(z.ctl, z.db, tx))
 	})
 }
 
-func (z *bboltWrapper) Batch(f func(tx kv_transaction.Transaction) error) error {
-	return z.db.Batch(func(tx *bbolt.Tx) error {
-		return f(kv_transaction_impl.New(z.ctl, tx))
-	})
-}
-
-func (z *bboltWrapper) Close() {
+func (z *badgerWrapper) Close() {
 	l := z.ctl.Log().With(zap.String("name", z.name))
 	l.Debug("Closing database")
 	z.closed = true
@@ -60,23 +48,7 @@ func (z *bboltWrapper) Close() {
 	l.Debug("Database closed", zap.Error(err))
 }
 
-func (z *bboltWrapper) monitor() {
-	z.lastStats = z.db.Stats()
-	l := z.ctl.Log().With(zap.String("name", z.name))
-	for {
-		time.Sleep(monitorInterval)
-
-		if z.closed {
-			return
-		}
-		stats := z.db.Stats()
-		diff := stats.Sub(&z.lastStats)
-		z.lastStats = stats
-		l.Debug("Database stats", zap.Any("stats", diff))
-	}
-}
-
-func (z *bboltWrapper) init(name string) (err error) {
+func (z *badgerWrapper) init(name string) (err error) {
 	l := z.ctl.Log().With(zap.String("name", name))
 	path, err := z.ctl.Workspace().Descendant("kvs")
 	if err != nil {
@@ -87,12 +59,11 @@ func (z *bboltWrapper) init(name string) (err error) {
 
 	l = l.With(zap.String("path", path))
 	l.Debug("Open database")
-	z.db, err = bbolt.Open(path, 0600, nil)
+	z.db, err = badger.Open(badger.DefaultOptions(path))
 	if err != nil {
 		l.Debug("Unable to open database", zap.Error(err))
 		return err
 	}
 	z.name = name
-	go z.monitor()
 	return nil
 }
