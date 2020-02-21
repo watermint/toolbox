@@ -1,7 +1,9 @@
 package app_ui
 
 import (
+	"fmt"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"go.uber.org/atomic"
 	"go.uber.org/zap"
 )
 
@@ -74,11 +76,15 @@ type UI interface {
 	FailureK(key string, p ...app_msg.P)
 	Success(m app_msg.Message)
 	Failure(m app_msg.Message)
+	Progress(m app_msg.Message)
 
 	Code(code string)
 
 	IsConsole() bool
 	IsWeb() bool
+
+	// Unique identifier of this UI
+	Id() string
 }
 
 type Table interface {
@@ -91,4 +97,12 @@ type Table interface {
 
 type UILog interface {
 	SetLogger(l *zap.Logger)
+}
+
+var (
+	latestId atomic.Int64
+)
+
+func newId() string {
+	return fmt.Sprintf("%d", latestId.Add(1))
 }

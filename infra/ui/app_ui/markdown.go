@@ -15,6 +15,7 @@ import (
 
 func NewMarkdown(mc app_msg_container.Container, out io.Writer, ignoreMissing bool) UI {
 	return &Markdown{
+		id:            newId(),
 		mc:            mc,
 		out:           out,
 		ignoreMissing: ignoreMissing,
@@ -22,9 +23,18 @@ func NewMarkdown(mc app_msg_container.Container, out io.Writer, ignoreMissing bo
 }
 
 type Markdown struct {
+	id            string
 	mc            app_msg_container.Container
 	out           io.Writer
 	ignoreMissing bool
+}
+
+func (z *Markdown) Id() string {
+	return z.id
+}
+
+func (z *Markdown) Progress(m app_msg.Message) {
+	z.print("_ {{.Message}} _\n", m)
 }
 
 func (z *Markdown) SubHeader(m app_msg.Message) {

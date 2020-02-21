@@ -21,10 +21,35 @@ type WebUILog struct {
 	LinkLabel string
 }
 
+const (
+	WebTagHeader         = "header"
+	WebTagHeader2        = "header2"
+	WebTagProgress       = "progress"
+	WebTagInfo           = "info"
+	WebTagTableStart     = "table_start"
+	WebTagTableHeader    = "table_header"
+	WebTagTableRow       = "table_row"
+	WebTagTableFinish    = "table_finish"
+	WebTagError          = "error"
+	WebTagBreak          = "break"
+	WebTagAskCont        = "ask_cont"
+	WebTagAskText        = "ask_text"
+	WebTagAskSecure      = "ask_secure"
+	WebTagArtifactHeader = "artifact_header"
+	WebTagArtifactXlsx   = "artifact_xlsx"
+	WebTagArtifactCsv    = "artifact_csv"
+	WebTagArtifactJson   = "artifact_json"
+	WebTagResultSuccess  = "result_success"
+	WebTagResultFailure  = "result_failure"
+	WebTagCodeBlock      = "code_block"
+	WebTagRefresh        = "refresh"
+)
+
 type LinkForLocalFile func(path string) string
 
 func NewWeb(baseUI UI, out io.Writer, llf LinkForLocalFile) UI {
 	return &Web{
+		id:     newId(),
 		baseUI: baseUI,
 		out:    out,
 		llf:    llf,
@@ -32,10 +57,22 @@ func NewWeb(baseUI UI, out io.Writer, llf LinkForLocalFile) UI {
 }
 
 type Web struct {
+	id     string
 	baseUI UI
 	out    io.Writer
 	llf    LinkForLocalFile
 	mutex  sync.Mutex
+}
+
+func (z *Web) Id() string {
+	return z.id
+}
+
+func (z *Web) Progress(m app_msg.Message) {
+	z.uiLog(&WebUILog{
+		Tag:     WebTagProgress,
+		Message: z.Text(m),
+	})
 }
 
 func (z *Web) SubHeader(m app_msg.Message) {
@@ -79,29 +116,6 @@ func (z *Web) Text(m app_msg.Message) string {
 func (z *Web) TextOrEmpty(m app_msg.Message) string {
 	return z.TextOrEmptyK(m.Key(), m.Params()...)
 }
-
-const (
-	WebTagHeader         = "header"
-	WebTagHeader2        = "header2"
-	WebTagInfo           = "info"
-	WebTagTableStart     = "table_start"
-	WebTagTableHeader    = "table_header"
-	WebTagTableRow       = "table_row"
-	WebTagTableFinish    = "table_finish"
-	WebTagError          = "error"
-	WebTagBreak          = "break"
-	WebTagAskCont        = "ask_cont"
-	WebTagAskText        = "ask_text"
-	WebTagAskSecure      = "ask_secure"
-	WebTagArtifactHeader = "artifact_header"
-	WebTagArtifactXlsx   = "artifact_xlsx"
-	WebTagArtifactCsv    = "artifact_csv"
-	WebTagArtifactJson   = "artifact_json"
-	WebTagResultSuccess  = "result_success"
-	WebTagResultFailure  = "result_failure"
-	WebTagCodeBlock      = "code_block"
-	WebTagRefresh        = "refresh"
-)
 
 func (z *Web) uiLog(w *WebUILog) {
 	z.mutex.Lock()

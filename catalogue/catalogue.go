@@ -199,6 +199,7 @@ func Messages() []interface{} {
 		infra_report_rpmodelimpl.MTransactionReport,
 		infra_report_rpmodelimpl.MXlsxWriter,
 		infra_ui_appui.MConsole,
+		infra_ui_appui.MProgress,
 		infra_util_ut_doc.MDoc,
 		recipeteamactivitybatch.MUser,
 	}

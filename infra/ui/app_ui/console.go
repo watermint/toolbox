@@ -59,6 +59,7 @@ const (
 
 func NewConsole(mc app_msg_container.Container, qm qt_missingmsg.Message, testMode bool) UI {
 	return &console{
+		id:       newId(),
 		mc:       mc,
 		out:      os.Stdout,
 		in:       os.Stdin,
@@ -70,6 +71,7 @@ func NewConsole(mc app_msg_container.Container, qm qt_missingmsg.Message, testMo
 
 func NewBufferConsole(mc app_msg_container.Container, buf io.Writer) UI {
 	return &console{
+		id:       newId(),
 		mc:       mc,
 		out:      buf,
 		in:       os.Stdin,
@@ -82,6 +84,7 @@ func CloneConsole(ui UI, mc app_msg_container.Container) UI {
 	switch u := ui.(type) {
 	case *console:
 		return &console{
+			id:       newId(),
 			mc:       mc,
 			out:      u.out,
 			in:       u.in,
@@ -91,6 +94,7 @@ func CloneConsole(ui UI, mc app_msg_container.Container) UI {
 
 	case *Quiet:
 		return &Quiet{
+			id:  newId(),
 			mc:  mc,
 			log: u.log,
 		}
@@ -102,6 +106,7 @@ func CloneConsole(ui UI, mc app_msg_container.Container) UI {
 }
 
 type console struct {
+	id               string
 	mc               app_msg_container.Container
 	out              io.Writer
 	in               io.Reader
@@ -111,6 +116,17 @@ type console struct {
 	qm               qt_missingmsg.Message
 	mutex            sync.Mutex
 	openArtifactOnce sync.Once
+}
+
+func (z *console) Id() string {
+	return z.id
+}
+
+func (z *console) Progress(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	t := z.mc.Compile(m)
+	z.colorPrint(t, ColorCyan)
+	z.currentLogger().Debug(t)
 }
 
 func (z *console) SubHeader(m app_msg.Message) {

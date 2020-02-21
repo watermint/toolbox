@@ -16,6 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
@@ -23,8 +24,9 @@ import (
 )
 
 type MsgUser struct {
-	ProgressScanningUser app_msg.Message
-	ErrorUserNotFound    app_msg.Message
+	ProgressScanningUser      app_msg.Message
+	ProgressScanningUserEvent app_msg.Message
+	ErrorUserNotFound         app_msg.Message
 }
 
 var (
@@ -72,6 +74,7 @@ func (z *UserWorker) Exec() error {
 					seq = rand.Uint64()
 				}
 				key := fmt.Sprintf("%s-%d", event.Timestamp, seq)
+				app_ui.ShowProgressWithMessage(ui, MUser.ProgressScanningUserEvent)
 
 				if err = kvs.PutJson(key, event.Raw); err != nil {
 					l.Debug("Unable to store data", zap.Error(err))
