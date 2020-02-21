@@ -7,13 +7,11 @@ jobs:
     steps:
       - checkout
       - run: ./.circleci/prepare.sh
-      - run: go get github.com/Masterminds/glide
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
       - run: go get golang.org/x/tools/cmd/cover
       - run: go get github.com/modocache/gover
       - run: go get github.com/mattn/goveralls
-      - run: glide install
       - run: go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' $(glide novendor) | xargs -L 1 sh -c
       - run: gover
       - run: goveralls -coverprofile=gover.coverprofile -service=circle-ci -v
