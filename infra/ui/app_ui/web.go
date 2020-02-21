@@ -38,6 +38,20 @@ type Web struct {
 	mutex  sync.Mutex
 }
 
+func (z *Web) SubHeader(m app_msg.Message) {
+	z.uiLog(&WebUILog{
+		Tag:     WebTagHeader2,
+		Message: z.Text(m),
+	})
+}
+
+func (z *Web) Code(code string) {
+	z.uiLog(&WebUILog{
+		Tag:     WebTagCodeBlock,
+		Message: code,
+	})
+}
+
 func (z *Web) Exists(m app_msg.Message) bool {
 	return z.baseUI.Exists(m)
 }
@@ -68,6 +82,7 @@ func (z *Web) TextOrEmpty(m app_msg.Message) string {
 
 const (
 	WebTagHeader         = "header"
+	WebTagHeader2        = "header2"
 	WebTagInfo           = "info"
 	WebTagTableStart     = "table_start"
 	WebTagTableHeader    = "table_header"
@@ -84,6 +99,7 @@ const (
 	WebTagArtifactJson   = "artifact_json"
 	WebTagResultSuccess  = "result_success"
 	WebTagResultFailure  = "result_failure"
+	WebTagCodeBlock      = "code_block"
 	WebTagRefresh        = "refresh"
 )
 

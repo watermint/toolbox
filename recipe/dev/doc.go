@@ -6,12 +6,9 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/util/ut_doc"
 	"go.uber.org/zap"
-	"golang.org/x/text/language"
 	"sort"
 	"strings"
 )
@@ -36,24 +33,9 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 	l := ctl.Log()
 
 	if z.Lang != "" {
-		wc := ctl.(app_control_launcher.WithMessageContainer)
-		langPriority := make([]language.Tag, 0)
-		ul := app_lang.Select(z.Lang)
-		if ul != language.English {
-			langPriority = append(langPriority, ul)
+		if c, ok := app_control_launcher.ControlWithLang(z.Lang, ctl); ok {
+			ctl = c
 		}
-		langPriority = append(langPriority, language.English)
-		langContainers := make(map[language.Tag]app_msg_container.Container)
-
-		for _, lang := range langPriority {
-			mc, err := app_msg_container_impl.New(lang, ctl)
-			if err != nil {
-				return err
-			}
-			langContainers[lang] = mc
-		}
-
-		ctl = wc.With(app_msg_container_impl.NewMultilingual(langPriority, langContainers))
 	}
 
 	rme := ut_doc.NewReadme(ctl, z.Filename, z.Badge, z.TestMode, z.MarkdownReadme, z.CommandPath)

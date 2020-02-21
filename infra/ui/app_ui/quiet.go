@@ -20,6 +20,15 @@ type Quiet struct {
 	log *zap.Logger
 }
 
+func (z *Quiet) SubHeader(m app_msg.Message) {
+	z.mq.Verify(m.Key())
+	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
+}
+
+func (z *Quiet) Code(code string) {
+	z.log.Debug("code", zap.String("code", code))
+}
+
 func (z *Quiet) Exists(m app_msg.Message) bool {
 	return z.mc.Exists(m.Key())
 }

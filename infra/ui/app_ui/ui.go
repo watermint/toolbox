@@ -11,6 +11,10 @@ type UI interface {
 
 	// Header
 	Header(m app_msg.Message)
+
+	// Sub header
+	SubHeader(m app_msg.Message)
+
 	// Deprecated: use Info
 	InfoK(key string, p ...app_msg.P)
 
@@ -70,6 +74,8 @@ type UI interface {
 	FailureK(key string, p ...app_msg.P)
 	Success(m app_msg.Message)
 	Failure(m app_msg.Message)
+
+	Code(code string)
 
 	IsConsole() bool
 	IsWeb() bool

@@ -1,4 +1,4 @@
-package dev
+package spec
 
 import (
 	"encoding/json"
@@ -9,24 +9,20 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
-	"github.com/watermint/toolbox/infra/ui/app_lang"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"go.uber.org/zap"
-	"golang.org/x/text/language"
 	"io"
 	"os"
 )
 
-type Spec struct {
+type Doc struct {
 	Lang     string
 	FilePath string
 }
 
-func (z *Spec) Preset() {
+func (z *Doc) Preset() {
 }
 
-func (z *Spec) traverseCatalogue(c app_control.Control, cat rc_catalogue.Catalogue) error {
+func (z *Doc) traverseCatalogue(c app_control.Control, cat rc_catalogue.Catalogue) error {
 	l := c.Log()
 	sd := make(map[string]*rc_doc.Recipe)
 
@@ -67,36 +63,20 @@ func (z *Spec) traverseCatalogue(c app_control.Control, cat rc_catalogue.Catalog
 	return nil
 }
 
-func (z *Spec) Exec(c app_control.Control) error {
+func (z *Doc) Exec(c app_control.Control) error {
 	l := c.Log()
 	if z.Lang != "" {
-		wc := c.(app_control_launcher.WithMessageContainer)
-		langPriority := make([]language.Tag, 0)
-		ul := app_lang.Select(z.Lang)
-		if ul != language.English {
-			langPriority = append(langPriority, ul)
+		if c0, ok := app_control_launcher.ControlWithLang(z.Lang, c); ok {
+			c = c0
 		}
-		langPriority = append(langPriority, language.English)
-		langContainers := make(map[language.Tag]app_msg_container.Container)
-
-		for _, lang := range langPriority {
-			mc, err := app_msg_container_impl.New(lang, c)
-			if err != nil {
-				return err
-			}
-			langContainers[lang] = mc
-		}
-
-		c = wc.With(app_msg_container_impl.NewMultilingual(langPriority, langContainers))
 	}
-
 	if cl, ok := c.(app_control_launcher.ControlLauncher); ok {
 		return z.traverseCatalogue(c, cl.Catalogue())
 	}
-	l.Debug("Not enough resource")
+	l.Error("Not enough resource")
 	return nil
 }
 
-func (z *Spec) Test(c app_control.Control) error {
+func (z *Doc) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, z, rc_recipe.NoCustomValues)
 }

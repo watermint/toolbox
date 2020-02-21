@@ -113,6 +113,22 @@ type console struct {
 	openArtifactOnce sync.Once
 }
 
+func (z *console) SubHeader(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	t := z.mc.Compile(m)
+	tl := ut_string.Width(t)
+	z.Break()
+	z.boldPrint(t)
+	z.boldPrint(strings.Repeat("-", tl))
+	z.Break()
+}
+
+func (z *console) Code(code string) {
+	z.Break()
+	z.colorPrint(code, ColorBlue)
+	z.Break()
+}
+
 func (z *console) Exists(m app_msg.Message) bool {
 	return z.mc.Exists(m.Key())
 }

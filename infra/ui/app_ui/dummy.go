@@ -13,6 +13,12 @@ func NewDummy() UI {
 type Dummy struct {
 }
 
+func (z *Dummy) SubHeader(m app_msg.Message) {
+}
+
+func (z *Dummy) Code(code string) {
+}
+
 func (z *Dummy) Exists(m app_msg.Message) bool {
 	return false
 }

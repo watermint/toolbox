@@ -330,12 +330,30 @@
     "reports": [],
     "feeds": []
   },
-  "dev spec": {
-    "name": "spec",
+  "dev spec diff": {
+    "name": "diff",
+    "title": "Compare spec of two releases",
+    "desc": "",
+    "remarks": "",
+    "path": "dev spec diff",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev spec doc": {
+    "name": "doc",
     "title": "Generate spec docs",
     "desc": "",
     "remarks": "",
-    "path": "dev spec",
+    "path": "dev spec doc",
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
@@ -529,7 +547,7 @@
     "is_irreversible": false,
     "reports": [
       {
-        "name": "skip",
+        "name": "diff",
         "desc": "",
         "columns": [
           {
@@ -571,7 +589,7 @@
         ]
       },
       {
-        "name": "diff",
+        "name": "skip",
         "desc": "",
         "columns": [
           {
@@ -1351,40 +1369,6 @@
     "is_irreversible": false,
     "reports": [
       {
-        "name": "summary",
-        "desc": "",
-        "columns": [
-          {
-            "name": "upload_start",
-            "desc": "Time of start uploading"
-          },
-          {
-            "name": "upload_end",
-            "desc": "Time of finish uploading"
-          },
-          {
-            "name": "num_bytes",
-            "desc": "Total upload size (Bytes)"
-          },
-          {
-            "name": "num_files_error",
-            "desc": "The number of files failed or got an error."
-          },
-          {
-            "name": "num_files_upload",
-            "desc": "The number of files uploaded or to upload."
-          },
-          {
-            "name": "num_files_skip",
-            "desc": "The number of files skipped or to skip."
-          },
-          {
-            "name": "num_api_call",
-            "desc": "The number of estimated upload API call for upload."
-          }
-        ]
-      },
-      {
         "name": "uploaded",
         "desc": "",
         "columns": [
@@ -1521,6 +1505,40 @@
           {
             "name": "result.parent_shared_folder_id",
             "desc": "ID of shared folder that holds this file."
+          }
+        ]
+      },
+      {
+        "name": "summary",
+        "desc": "",
+        "columns": [
+          {
+            "name": "upload_start",
+            "desc": "Time of start uploading"
+          },
+          {
+            "name": "upload_end",
+            "desc": "Time of finish uploading"
+          },
+          {
+            "name": "num_bytes",
+            "desc": "Total upload size (Bytes)"
+          },
+          {
+            "name": "num_files_error",
+            "desc": "The number of files failed or got an error."
+          },
+          {
+            "name": "num_files_upload",
+            "desc": "The number of files uploaded or to upload."
+          },
+          {
+            "name": "num_files_skip",
+            "desc": "The number of files skipped or to skip."
+          },
+          {
+            "name": "num_api_call",
+            "desc": "The number of estimated upload API call for upload."
           }
         ]
       }
@@ -1580,7 +1598,7 @@
         ]
       },
       {
-        "name": "skipped",
+        "name": "uploaded",
         "desc": "",
         "columns": [
           {
@@ -1650,7 +1668,7 @@
         ]
       },
       {
-        "name": "uploaded",
+        "name": "skipped",
         "desc": "",
         "columns": [
           {
@@ -1741,40 +1759,6 @@
     "is_irreversible": false,
     "reports": [
       {
-        "name": "summary",
-        "desc": "",
-        "columns": [
-          {
-            "name": "upload_start",
-            "desc": "Time of start uploading"
-          },
-          {
-            "name": "upload_end",
-            "desc": "Time of finish uploading"
-          },
-          {
-            "name": "num_bytes",
-            "desc": "Total upload size (Bytes)"
-          },
-          {
-            "name": "num_files_error",
-            "desc": "The number of files failed or got an error."
-          },
-          {
-            "name": "num_files_upload",
-            "desc": "The number of files uploaded or to upload."
-          },
-          {
-            "name": "num_files_skip",
-            "desc": "The number of files skipped or to skip."
-          },
-          {
-            "name": "num_api_call",
-            "desc": "The number of estimated upload API call for upload."
-          }
-        ]
-      },
-      {
         "name": "uploaded",
         "desc": "",
         "columns": [
@@ -1841,6 +1825,40 @@
           {
             "name": "result.parent_shared_folder_id",
             "desc": "ID of shared folder that holds this file."
+          }
+        ]
+      },
+      {
+        "name": "summary",
+        "desc": "",
+        "columns": [
+          {
+            "name": "upload_start",
+            "desc": "Time of start uploading"
+          },
+          {
+            "name": "upload_end",
+            "desc": "Time of finish uploading"
+          },
+          {
+            "name": "num_bytes",
+            "desc": "Total upload size (Bytes)"
+          },
+          {
+            "name": "num_files_error",
+            "desc": "The number of files failed or got an error."
+          },
+          {
+            "name": "num_files_upload",
+            "desc": "The number of files uploaded or to upload."
+          },
+          {
+            "name": "num_files_skip",
+            "desc": "The number of files skipped or to skip."
+          },
+          {
+            "name": "num_api_call",
+            "desc": "The number of estimated upload API call for upload."
           }
         ]
       },
@@ -4977,100 +4995,6 @@
     "is_irreversible": false,
     "reports": [
       {
-        "name": "group",
-        "desc": "",
-        "columns": [
-          {
-            "name": "group_name",
-            "desc": "Name of a group"
-          },
-          {
-            "name": "group_id",
-            "desc": "A group's identifier"
-          },
-          {
-            "name": "group_management_type",
-            "desc": "Who is allowed to manage the group (user_managed, company_managed, or system_managed)"
-          },
-          {
-            "name": "group_external_id",
-            "desc": " External ID of group. This is an arbitrary ID that an admin can attach to a group."
-          },
-          {
-            "name": "member_count",
-            "desc": "The number of members in the group."
-          }
-        ]
-      },
-      {
-        "name": "feature",
-        "desc": "",
-        "columns": [
-          {
-            "name": "upload_api_rate_limit",
-            "desc": "The number of upload API calls allowed per month."
-          },
-          {
-            "name": "upload_api_rate_limit_count",
-            "desc": "The number of upload API called this month."
-          },
-          {
-            "name": "has_team_shared_dropbox",
-            "desc": "Does this team have a shared team root."
-          },
-          {
-            "name": "has_team_file_events",
-            "desc": "Does this team have file events."
-          },
-          {
-            "name": "has_team_selective_sync",
-            "desc": "Does this team have team selective sync enabled."
-          }
-        ]
-      },
-      {
-        "name": "info",
-        "desc": "",
-        "columns": [
-          {
-            "name": "name",
-            "desc": "The name of the team"
-          },
-          {
-            "name": "team_id",
-            "desc": "The ID of the team."
-          },
-          {
-            "name": "num_licensed_users",
-            "desc": "The number of licenses available to the team."
-          },
-          {
-            "name": "num_provisioned_users",
-            "desc": "The number of accounts that have been invited or are already active members of the team."
-          },
-          {
-            "name": "policy_shared_folder_member",
-            "desc": "Which shared folders team members can join (from_team_only, or from_anyone)"
-          },
-          {
-            "name": "policy_shared_folder_join",
-            "desc": "Who can join folders shared by team members (team, or anyone)"
-          },
-          {
-            "name": "policy_shared_link_create",
-            "desc": "Who can view shared links owned by team members (default_public, default_team_only, or team_only)"
-          },
-          {
-            "name": "policy_emm_state",
-            "desc": "This describes the Enterprise Mobility Management (EMM) state for this team (disabled, optional, or required)"
-          },
-          {
-            "name": "policy_office_add_in",
-            "desc": "The admin policy around the Dropbox Office Add-In for this team (disabled, or enabled)"
-          }
-        ]
-      },
-      {
         "name": "file_request",
         "desc": "",
         "columns": [
@@ -5137,6 +5061,284 @@
         ]
       },
       {
+        "name": "info",
+        "desc": "",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "The name of the team"
+          },
+          {
+            "name": "team_id",
+            "desc": "The ID of the team."
+          },
+          {
+            "name": "num_licensed_users",
+            "desc": "The number of licenses available to the team."
+          },
+          {
+            "name": "num_provisioned_users",
+            "desc": "The number of accounts that have been invited or are already active members of the team."
+          },
+          {
+            "name": "policy_shared_folder_member",
+            "desc": "Which shared folders team members can join (from_team_only, or from_anyone)"
+          },
+          {
+            "name": "policy_shared_folder_join",
+            "desc": "Who can join folders shared by team members (team, or anyone)"
+          },
+          {
+            "name": "policy_shared_link_create",
+            "desc": "Who can view shared links owned by team members (default_public, default_team_only, or team_only)"
+          },
+          {
+            "name": "policy_emm_state",
+            "desc": "This describes the Enterprise Mobility Management (EMM) state for this team (disabled, optional, or required)"
+          },
+          {
+            "name": "policy_office_add_in",
+            "desc": "The admin policy around the Dropbox Office Add-In for this team (disabled, or enabled)"
+          }
+        ]
+      },
+      {
+        "name": "namespace_file",
+        "desc": "",
+        "columns": [
+          {
+            "name": "namespace_type",
+            "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
+          },
+          {
+            "name": "namespace_id",
+            "desc": "The ID of this namespace."
+          },
+          {
+            "name": "namespace_name",
+            "desc": "The name of this namespace"
+          },
+          {
+            "name": "namespace_member_email",
+            "desc": "If this is a team member or app folder, the email address of the owning team member."
+          },
+          {
+            "name": "file_id",
+            "desc": "A unique identifier for the file."
+          },
+          {
+            "name": "tag",
+            "desc": "Type of entry. `file`, `folder`, or `deleted`"
+          },
+          {
+            "name": "name",
+            "desc": "The last component of the path (including extension)."
+          },
+          {
+            "name": "path_display",
+            "desc": "The cased path to be used for display purposes only."
+          },
+          {
+            "name": "client_modified",
+            "desc": "For files, this is the modification time set by the desktop client when the file was added to Dropbox."
+          },
+          {
+            "name": "server_modified",
+            "desc": "The last time the file was modified on Dropbox."
+          },
+          {
+            "name": "revision",
+            "desc": "A unique identifier for the current revision of a file."
+          },
+          {
+            "name": "size",
+            "desc": "The file size in bytes."
+          },
+          {
+            "name": "content_hash",
+            "desc": "A hash of the file content."
+          },
+          {
+            "name": "shared_folder_id",
+            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
+          },
+          {
+            "name": "parent_shared_folder_id",
+            "desc": "Set if the folder is contained by a shared folder."
+          }
+        ]
+      },
+      {
+        "name": "shared_link",
+        "desc": "",
+        "columns": [
+          {
+            "name": "shared_link_id",
+            "desc": "A unique identifier for the linked file or folder"
+          },
+          {
+            "name": "tag",
+            "desc": "Entry type (file, or folder)"
+          },
+          {
+            "name": "url",
+            "desc": "URL of the shared link."
+          },
+          {
+            "name": "name",
+            "desc": "The linked file name (including extension)."
+          },
+          {
+            "name": "expires",
+            "desc": "Expiration time, if set."
+          },
+          {
+            "name": "path_lower",
+            "desc": "The lowercased full path in the user's Dropbox."
+          },
+          {
+            "name": "visibility",
+            "desc": "The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder)."
+          },
+          {
+            "name": "account_id",
+            "desc": "A user's account identifier."
+          },
+          {
+            "name": "team_member_id",
+            "desc": "ID of user as a member of a team."
+          },
+          {
+            "name": "email",
+            "desc": "Email address of user."
+          },
+          {
+            "name": "status",
+            "desc": "The user's status as a member of a specific team. (active/invited/suspended/removed)"
+          },
+          {
+            "name": "surname",
+            "desc": "Surname of the link owner"
+          },
+          {
+            "name": "given_name",
+            "desc": "Given name of the link owner"
+          }
+        ]
+      },
+      {
+        "name": "member",
+        "desc": "",
+        "columns": [
+          {
+            "name": "team_member_id",
+            "desc": "ID of user as a member of a team."
+          },
+          {
+            "name": "email",
+            "desc": "Email address of user."
+          },
+          {
+            "name": "email_verified",
+            "desc": "Is true if the user's email is verified to be owned by the user."
+          },
+          {
+            "name": "status",
+            "desc": "The user's status as a member of a specific team. (active/invited/suspended/removed)"
+          },
+          {
+            "name": "given_name",
+            "desc": "Also known as a first name"
+          },
+          {
+            "name": "surname",
+            "desc": "Also known as a last name or family name."
+          },
+          {
+            "name": "familiar_name",
+            "desc": "Locale-dependent name"
+          },
+          {
+            "name": "display_name",
+            "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
+          },
+          {
+            "name": "abbreviated_name",
+            "desc": "An abbreviated form of the person's name."
+          },
+          {
+            "name": "member_folder_id",
+            "desc": "The namespace id of the user's root folder."
+          },
+          {
+            "name": "external_id",
+            "desc": "External ID that a team can attach to the user."
+          },
+          {
+            "name": "account_id",
+            "desc": "A user's account identifier."
+          },
+          {
+            "name": "persistent_id",
+            "desc": "Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication."
+          },
+          {
+            "name": "joined_on",
+            "desc": "The date and time the user joined as a member of a specific team."
+          },
+          {
+            "name": "role",
+            "desc": "The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)"
+          }
+        ]
+      },
+      {
+        "name": "group_member",
+        "desc": "",
+        "columns": [
+          {
+            "name": "group_id",
+            "desc": "A group's identifier"
+          },
+          {
+            "name": "group_name",
+            "desc": "Name of a group."
+          },
+          {
+            "name": "group_management_type",
+            "desc": "Who is allowed to manage the group (user_managed, company_managed, or system_managed)"
+          },
+          {
+            "name": "access_type",
+            "desc": "The role that the user has in the group (member/owner)"
+          },
+          {
+            "name": "account_id",
+            "desc": "A user's account identifier"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "ID of user as a member of a team."
+          },
+          {
+            "name": "email",
+            "desc": "Email address of user."
+          },
+          {
+            "name": "status",
+            "desc": "The user's status as a member of a specific team. (active/invited/suspended/removed)"
+          },
+          {
+            "name": "surname",
+            "desc": "Also known as a last name or family name."
+          },
+          {
+            "name": "given_name",
+            "desc": "Also known as a first name"
+          }
+        ]
+      },
+      {
         "name": "usage",
         "desc": "",
         "columns": [
@@ -5159,6 +5361,234 @@
           {
             "name": "allocated",
             "desc": "The total space allocated to the user's account (bytes)."
+          }
+        ]
+      },
+      {
+        "name": "namespace",
+        "desc": "",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "The name of this namespace"
+          },
+          {
+            "name": "namespace_id",
+            "desc": "The ID of this namespace."
+          },
+          {
+            "name": "namespace_type",
+            "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "If this is a team member or app folder, the ID of the owning team member."
+          }
+        ]
+      },
+      {
+        "name": "namespace_size",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "Status of the operation"
+          },
+          {
+            "name": "reason",
+            "desc": "Reason of failure or skipped operation"
+          },
+          {
+            "name": "input.name",
+            "desc": "The name of this namespace"
+          },
+          {
+            "name": "input.namespace_id",
+            "desc": "The ID of this namespace."
+          },
+          {
+            "name": "input.namespace_type",
+            "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
+          },
+          {
+            "name": "input.team_member_id",
+            "desc": "If this is a team member or app folder, the ID of the owning team member."
+          },
+          {
+            "name": "result.namespace_name",
+            "desc": "The name of this namespace"
+          },
+          {
+            "name": "result.namespace_id",
+            "desc": "The ID of this namespace."
+          },
+          {
+            "name": "result.namespace_type",
+            "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
+          },
+          {
+            "name": "result.owner_team_member_id",
+            "desc": "If this is a team member or app folder, the ID of the owning team member."
+          },
+          {
+            "name": "result.path",
+            "desc": "Path to the folder"
+          },
+          {
+            "name": "result.count_file",
+            "desc": "Number of files under the folder"
+          },
+          {
+            "name": "result.count_folder",
+            "desc": "Number of folders under the folder"
+          },
+          {
+            "name": "result.count_descendant",
+            "desc": "Number of files and folders under the folder"
+          },
+          {
+            "name": "result.size",
+            "desc": "Size of the folder"
+          },
+          {
+            "name": "result.api_complexity",
+            "desc": "Folder complexity index for API operations"
+          }
+        ]
+      },
+      {
+        "name": "group",
+        "desc": "",
+        "columns": [
+          {
+            "name": "group_name",
+            "desc": "Name of a group"
+          },
+          {
+            "name": "group_id",
+            "desc": "A group's identifier"
+          },
+          {
+            "name": "group_management_type",
+            "desc": "Who is allowed to manage the group (user_managed, company_managed, or system_managed)"
+          },
+          {
+            "name": "group_external_id",
+            "desc": " External ID of group. This is an arbitrary ID that an admin can attach to a group."
+          },
+          {
+            "name": "member_count",
+            "desc": "The number of members in the group."
+          }
+        ]
+      },
+      {
+        "name": "feature",
+        "desc": "",
+        "columns": [
+          {
+            "name": "upload_api_rate_limit",
+            "desc": "The number of upload API calls allowed per month."
+          },
+          {
+            "name": "upload_api_rate_limit_count",
+            "desc": "The number of upload API called this month."
+          },
+          {
+            "name": "has_team_shared_dropbox",
+            "desc": "Does this team have a shared team root."
+          },
+          {
+            "name": "has_team_file_events",
+            "desc": "Does this team have file events."
+          },
+          {
+            "name": "has_team_selective_sync",
+            "desc": "Does this team have team selective sync enabled."
+          }
+        ]
+      },
+      {
+        "name": "linked_app",
+        "desc": "",
+        "columns": [
+          {
+            "name": "team_member_id",
+            "desc": "ID of user as a member of a team."
+          },
+          {
+            "name": "email",
+            "desc": "Email address of user."
+          },
+          {
+            "name": "status",
+            "desc": "The user's status as a member of a specific team. (active/invited/suspended/removed)"
+          },
+          {
+            "name": "given_name",
+            "desc": "Also known as a first name"
+          },
+          {
+            "name": "surname",
+            "desc": "Also known as a last name or family name."
+          },
+          {
+            "name": "familiar_name",
+            "desc": "Locale-dependent name"
+          },
+          {
+            "name": "display_name",
+            "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
+          },
+          {
+            "name": "abbreviated_name",
+            "desc": "An abbreviated form of the person's name."
+          },
+          {
+            "name": "external_id",
+            "desc": "External ID that a team can attach to the user."
+          },
+          {
+            "name": "account_id",
+            "desc": "A user's account identifier."
+          },
+          {
+            "name": "app_id",
+            "desc": "The application unique id."
+          },
+          {
+            "name": "app_name",
+            "desc": "The application name."
+          },
+          {
+            "name": "is_app_folder",
+            "desc": "Whether the linked application uses a dedicated folder."
+          },
+          {
+            "name": "publisher",
+            "desc": "The publisher's URL."
+          },
+          {
+            "name": "publisher_url",
+            "desc": "The application publisher name."
+          },
+          {
+            "name": "linked",
+            "desc": "The time this application was linked"
+          }
+        ]
+      },
+      {
+        "name": "member_quota",
+        "desc": "",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "Email address of user."
+          },
+          {
+            "name": "quota",
+            "desc": "Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set."
           }
         ]
       },
@@ -5277,418 +5707,6 @@
           {
             "name": "last_carrier",
             "desc": "Last carrier used by the device."
-          }
-        ]
-      },
-      {
-        "name": "member",
-        "desc": "",
-        "columns": [
-          {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
-            "name": "email",
-            "desc": "Email address of user."
-          },
-          {
-            "name": "email_verified",
-            "desc": "Is true if the user's email is verified to be owned by the user."
-          },
-          {
-            "name": "status",
-            "desc": "The user's status as a member of a specific team. (active/invited/suspended/removed)"
-          },
-          {
-            "name": "given_name",
-            "desc": "Also known as a first name"
-          },
-          {
-            "name": "surname",
-            "desc": "Also known as a last name or family name."
-          },
-          {
-            "name": "familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
-            "name": "display_name",
-            "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "member_folder_id",
-            "desc": "The namespace id of the user's root folder."
-          },
-          {
-            "name": "external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "persistent_id",
-            "desc": "Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication."
-          },
-          {
-            "name": "joined_on",
-            "desc": "The date and time the user joined as a member of a specific team."
-          },
-          {
-            "name": "role",
-            "desc": "The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)"
-          }
-        ]
-      },
-      {
-        "name": "namespace",
-        "desc": "",
-        "columns": [
-          {
-            "name": "name",
-            "desc": "The name of this namespace"
-          },
-          {
-            "name": "namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
-            "name": "namespace_type",
-            "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
-          },
-          {
-            "name": "team_member_id",
-            "desc": "If this is a team member or app folder, the ID of the owning team member."
-          }
-        ]
-      },
-      {
-        "name": "namespace_size",
-        "desc": "",
-        "columns": [
-          {
-            "name": "status",
-            "desc": "Status of the operation"
-          },
-          {
-            "name": "reason",
-            "desc": "Reason of failure or skipped operation"
-          },
-          {
-            "name": "input.name",
-            "desc": "The name of this namespace"
-          },
-          {
-            "name": "input.namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
-            "name": "input.namespace_type",
-            "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
-          },
-          {
-            "name": "input.team_member_id",
-            "desc": "If this is a team member or app folder, the ID of the owning team member."
-          },
-          {
-            "name": "result.namespace_name",
-            "desc": "The name of this namespace"
-          },
-          {
-            "name": "result.namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
-            "name": "result.namespace_type",
-            "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
-          },
-          {
-            "name": "result.owner_team_member_id",
-            "desc": "If this is a team member or app folder, the ID of the owning team member."
-          },
-          {
-            "name": "result.path",
-            "desc": "Path to the folder"
-          },
-          {
-            "name": "result.count_file",
-            "desc": "Number of files under the folder"
-          },
-          {
-            "name": "result.count_folder",
-            "desc": "Number of folders under the folder"
-          },
-          {
-            "name": "result.count_descendant",
-            "desc": "Number of files and folders under the folder"
-          },
-          {
-            "name": "result.size",
-            "desc": "Size of the folder"
-          },
-          {
-            "name": "result.api_complexity",
-            "desc": "Folder complexity index for API operations"
-          }
-        ]
-      },
-      {
-        "name": "shared_link",
-        "desc": "",
-        "columns": [
-          {
-            "name": "shared_link_id",
-            "desc": "A unique identifier for the linked file or folder"
-          },
-          {
-            "name": "tag",
-            "desc": "Entry type (file, or folder)"
-          },
-          {
-            "name": "url",
-            "desc": "URL of the shared link."
-          },
-          {
-            "name": "name",
-            "desc": "The linked file name (including extension)."
-          },
-          {
-            "name": "expires",
-            "desc": "Expiration time, if set."
-          },
-          {
-            "name": "path_lower",
-            "desc": "The lowercased full path in the user's Dropbox."
-          },
-          {
-            "name": "visibility",
-            "desc": "The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder)."
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
-            "name": "email",
-            "desc": "Email address of user."
-          },
-          {
-            "name": "status",
-            "desc": "The user's status as a member of a specific team. (active/invited/suspended/removed)"
-          },
-          {
-            "name": "surname",
-            "desc": "Surname of the link owner"
-          },
-          {
-            "name": "given_name",
-            "desc": "Given name of the link owner"
-          }
-        ]
-      },
-      {
-        "name": "namespace_file",
-        "desc": "",
-        "columns": [
-          {
-            "name": "namespace_type",
-            "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
-          },
-          {
-            "name": "namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
-            "name": "namespace_name",
-            "desc": "The name of this namespace"
-          },
-          {
-            "name": "namespace_member_email",
-            "desc": "If this is a team member or app folder, the email address of the owning team member."
-          },
-          {
-            "name": "file_id",
-            "desc": "A unique identifier for the file."
-          },
-          {
-            "name": "tag",
-            "desc": "Type of entry. `file`, `folder`, or `deleted`"
-          },
-          {
-            "name": "name",
-            "desc": "The last component of the path (including extension)."
-          },
-          {
-            "name": "path_display",
-            "desc": "The cased path to be used for display purposes only."
-          },
-          {
-            "name": "client_modified",
-            "desc": "For files, this is the modification time set by the desktop client when the file was added to Dropbox."
-          },
-          {
-            "name": "server_modified",
-            "desc": "The last time the file was modified on Dropbox."
-          },
-          {
-            "name": "revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
-            "name": "size",
-            "desc": "The file size in bytes."
-          },
-          {
-            "name": "content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "Set if the folder is contained by a shared folder."
-          }
-        ]
-      },
-      {
-        "name": "group_member",
-        "desc": "",
-        "columns": [
-          {
-            "name": "group_id",
-            "desc": "A group's identifier"
-          },
-          {
-            "name": "group_name",
-            "desc": "Name of a group."
-          },
-          {
-            "name": "group_management_type",
-            "desc": "Who is allowed to manage the group (user_managed, company_managed, or system_managed)"
-          },
-          {
-            "name": "access_type",
-            "desc": "The role that the user has in the group (member/owner)"
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier"
-          },
-          {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
-            "name": "email",
-            "desc": "Email address of user."
-          },
-          {
-            "name": "status",
-            "desc": "The user's status as a member of a specific team. (active/invited/suspended/removed)"
-          },
-          {
-            "name": "surname",
-            "desc": "Also known as a last name or family name."
-          },
-          {
-            "name": "given_name",
-            "desc": "Also known as a first name"
-          }
-        ]
-      },
-      {
-        "name": "linked_app",
-        "desc": "",
-        "columns": [
-          {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
-            "name": "email",
-            "desc": "Email address of user."
-          },
-          {
-            "name": "status",
-            "desc": "The user's status as a member of a specific team. (active/invited/suspended/removed)"
-          },
-          {
-            "name": "given_name",
-            "desc": "Also known as a first name"
-          },
-          {
-            "name": "surname",
-            "desc": "Also known as a last name or family name."
-          },
-          {
-            "name": "familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
-            "name": "display_name",
-            "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "app_id",
-            "desc": "The application unique id."
-          },
-          {
-            "name": "app_name",
-            "desc": "The application name."
-          },
-          {
-            "name": "is_app_folder",
-            "desc": "Whether the linked application uses a dedicated folder."
-          },
-          {
-            "name": "publisher",
-            "desc": "The publisher's URL."
-          },
-          {
-            "name": "publisher_url",
-            "desc": "The application publisher name."
-          },
-          {
-            "name": "linked",
-            "desc": "The time this application was linked"
-          }
-        ]
-      },
-      {
-        "name": "member_quota",
-        "desc": "",
-        "columns": [
-          {
-            "name": "email",
-            "desc": "Email address of user."
-          },
-          {
-            "name": "quota",
-            "desc": "Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set."
           }
         ]
       }

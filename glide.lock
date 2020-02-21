@@ -1,5 +1,5 @@
-hash: d7299a01246227af318d14b9dacee5dc92b8d322c669fe3801588df3266de92c
-updated: 2020-02-13T18:39:20.227191+09:00
+hash: d9ce428c2c420ad6e21a53646187c76b87e3417dc753efc9f737c5336e81efc5
+updated: 2020-02-21T14:11:23.685755+09:00
 imports:
 - name: github.com/andybrewer/mack
   version: a347fce911ce48b5d56d3f5185f04328cdc640c1
@@ -36,6 +36,10 @@ imports:
   version: d23c5127dc24889085f8ccea5c9d560a57a879d8
   subpackages:
   - proto
+- name: github.com/google/go-cmp
+  version: 5a6f75716e1203a923a78c9efb94089d857df0f6
+  subpackages:
+  - cmp
 - name: github.com/gorilla/mux
   version: 75dcda0896e109a2a22c9315bca3bb21b87b2ba5
 - name: github.com/iancoleman/strcase
@@ -88,7 +92,7 @@ imports:
   subpackages:
   - update-license
 - name: go.uber.org/zap
-  version: 33e58d4d0120aa28d4df84cd244838c490846c9d
+  version: c89bd3c833f56cad3bc6dfa104b9c6d144526145
   subpackages:
   - buffer
   - internal/bufferpool
@@ -100,7 +104,7 @@ imports:
   subpackages:
   - golint
 - name: golang.org/x/net
-  version: 16171245cfb220d5317888b716d69c1fb4e7992b
+  version: 46282727080fcf56da5781d0a9ef2fda184be5e6
   subpackages:
   - context
   - context/ctxhttp
@@ -113,7 +117,7 @@ imports:
   subpackages:
   - semaphore
 - name: golang.org/x/sys
-  version: 12a6c2dcc1e4cb348b57847c73987099e261714b
+  version: cb0a6d8edb6c3528b01a0be84a5fe513dbf880a6
   subpackages:
   - unix
   - windows
@@ -134,7 +138,7 @@ imports:
   - unicode/norm
   - width
 - name: golang.org/x/tools
-  version: 49b8ac185c84c5092be0953fb92b7660db9b8162
+  version: 8a925fa4c0df0a534c179f4fb53714570613c0e4
   subpackages:
   - go/analysis
   - go/analysis/passes/inspect
@@ -165,7 +169,7 @@ imports:
 - name: gopkg.in/yaml.v2
   version: 53403b58ad1b561927d19068c655246f2db79d48
 - name: honnef.co/go/tools
-  version: 104ba5a2aac5d20ec6b404f18f67569e8fa181b2
+  version: 633c4fe08760811a1220663a35fbdb10360ba7a4
   subpackages:
   - arg
   - cmd/staticcheck

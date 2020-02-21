@@ -23,6 +23,7 @@ import (
 	recipedev "github.com/watermint/toolbox/recipe/dev"
 	recipedevdesktop "github.com/watermint/toolbox/recipe/dev/desktop"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
+	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipefile "github.com/watermint/toolbox/recipe/file"
@@ -80,12 +81,13 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipedev.Dummy{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Echo{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Preflight{}, infra_recipe_rc_recipe.Secret()),
-		infra_recipe_rc_recipe.Annotate(&recipedev.Spec{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Install{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Start{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Stop{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Suspendupdate{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdiag.Procmon{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevspec.Diff{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevspec.Doc{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Auth{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Monkey{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Recipe{}, infra_recipe_rc_recipe.Secret()),

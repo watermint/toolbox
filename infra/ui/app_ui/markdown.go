@@ -27,6 +27,14 @@ type Markdown struct {
 	ignoreMissing bool
 }
 
+func (z *Markdown) SubHeader(m app_msg.Message) {
+	z.print("## {{.Message}}\n\n", m)
+}
+
+func (z *Markdown) Code(code string) {
+	fmt.Printf("```\n%s\n```\n\n", code)
+}
+
 func (z *Markdown) Exists(m app_msg.Message) bool {
 	return z.mc.Exists(m.Key())
 }
@@ -253,4 +261,5 @@ func (z *markdownTable) Flush() {
 	for _, row := range z.rows {
 		printCols(row)
 	}
+	fmt.Fprintln(z.out, "")
 }
