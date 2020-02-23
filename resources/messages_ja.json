@@ -723,6 +723,7 @@
   "infra.control.app_workflow.msg_run_book.error_unable_start": "開始できませんでした: {{.Error}}",
   "infra.control.app_workflow.msg_run_book.progress_recipe_finished": "ステップ完了",
   "infra.control.app_workflow.msg_run_book.progress_recipe_start": "ステップ開始: {{.Worker}}; {{.Args}}",
+  "infra.kvs.kv_storage_impl.msg_storage.error_this_command_may_not_work_on_win_32": "このコマンドは32-bit版Windowsでは動作しない可能性があります. 64bit版のWindowsで、64bit版コマンドの実行を検討してください.",
   "infra.network.nw_diag.msg_network.error_unreachable": "`{{.Url}}`へのネットワーク接続に失敗しました.\nネットワークが利用可能であるかどうか、またプロクシサーバの設定が正しいか確認してください.\nプロクシサーバやファイアウォール下で利用される場合には`-proxy`オプションにてプロクシサーバを指定してください.\n詳細は下記記事をご参照ください.\nhttps://github.com/watermint/toolbox/wiki/app.common.diag.network.err.unreachable.ja\n\nエラー:\n{{.Error}}",
   "infra.network.nw_diag.msg_network.progress_testing": "ネットワーク接続をテストしています...",
   "infra.network.nw_diag.msg_network.progress_testing_done": "完了",

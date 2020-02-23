@@ -1,6 +1,7 @@
 package kv_storage_impl
 
 import (
+	"errors"
 	"fmt"
 	"github.com/dgraph-io/badger"
 	"github.com/watermint/toolbox/infra/app"
@@ -82,7 +83,8 @@ func (z *badgerWrapper) init(name string) (err error) {
 		if strings.Contains(err.Error(), "MapViewOfFile: Not enough memory resources are available to process this command") {
 			l.Debug("Memory map error", zap.Error(err))
 			if app.IsWindows() && runtime.GOARCH == "386" {
-				z.ctl.UI().Failure(MStorage.ErrorThisCommandMayNotWorkOnWin32)
+				z.ctl.UI().Error(MStorage.ErrorThisCommandMayNotWorkOnWin32)
+				return errors.New("this command may not work on 32 bit windows")
 			}
 		}
 		return err
