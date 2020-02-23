@@ -24,7 +24,7 @@ BUILD_HASH=$(cd "$PROJECT_ROOT" && git rev-parse HEAD)
 
 if [ ! -d $BUILD_PATH ]; then
   mkdir -p $BUILD_PATH
-  for p in win mac linux; do
+  for p in win win32 mac linux; do
     mkdir -p $BUILD_PATH/$p
   done
 fi
@@ -101,9 +101,9 @@ X_APP_BUILDERKEY="-X github.com/watermint/toolbox/infra/app.BuilderKey=$TOOLBOX_
 LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY"
 
 echo Building: Windows 386
-CGO_ENABLED=0 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
+CGO_ENABLED=0 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win32/tbx.exe github.com/watermint/toolbox
 echo Building: Windows amd64
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx64.exe github.com/watermint/toolbox
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
 echo Building: Linux
 CGO_ENABLED=0 GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/linux/tbx   github.com/watermint/toolbox
 echo Building: Darwin
@@ -128,7 +128,7 @@ $BUILD_PATH/linux/tbx dev doc -filename README.txt -badge=false > $BUILD_PATH/RE
 
 echo --------------------
 echo BUILD: Packaging
-for p in win mac linux; do
+for p in win32 win mac linux; do
   echo BUILD: Packaging $p
   cp $BUILD_PATH/LICENSE.txt $BUILD_PATH/"$p"/
   cp README.txt  $BUILD_PATH/"$p"/README.txt
