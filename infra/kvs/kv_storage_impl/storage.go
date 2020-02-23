@@ -3,13 +3,25 @@ package kv_storage_impl
 import (
 	"fmt"
 	"github.com/dgraph-io/badger"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs_impl"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"go.uber.org/zap"
 	"path/filepath"
+	"runtime"
+	"strings"
+)
+
+type MsgStorage struct {
+	ErrorThisCommandMayNotWorkOnWin32 app_msg.Message
+}
+
+var (
+	MStorage = app_msg.Apply(&MsgStorage{}).(*MsgStorage)
 )
 
 func New(name string) kv_storage.Storage {
@@ -65,6 +77,14 @@ func (z *badgerWrapper) init(name string) (err error) {
 	z.db, err = badger.Open(opts)
 	if err != nil {
 		l.Debug("Unable to open database", zap.Error(err))
+		// Temporary workaround:
+		// https://github.com/watermint/toolbox/issues/297
+		if strings.Contains(err.Error(), "MapViewOfFile: Not enough memory resources are available to process this command") {
+			l.Debug("Memory map error", zap.Error(err))
+			if app.IsWindows() && runtime.GOARCH == "386" {
+				z.ctl.UI().Failure(MStorage.ErrorThisCommandMayNotWorkOnWin32)
+			}
+		}
 		return err
 	}
 	z.name = name

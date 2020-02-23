@@ -3,6 +3,7 @@ package catalogue
 import (
 	infra_api_api_api_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
 	infra_control_app_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
+	infra_kvs_kv_storageimpl "github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
 	infra_network_nw_diag "github.com/watermint/toolbox/infra/network/nw_diag"
 	infra_recipe_rc_catalogue "github.com/watermint/toolbox/infra/recipe/rc_catalogue"
 	infra_recipe_rc_conn_impl "github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
@@ -189,6 +190,7 @@ func Messages() []interface{} {
 	msgs := []interface{}{
 		infra_api_api_api_auth_impl.MCcAuth,
 		infra_control_app_workflow.MRunBook,
+		infra_kvs_kv_storageimpl.MStorage,
 		infra_network_nw_diag.MNetwork,
 		infra_recipe_rc_conn_impl.MConnect,
 		infra_recipe_rc_group.MHeader,

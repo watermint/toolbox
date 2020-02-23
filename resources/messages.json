@@ -723,6 +723,7 @@
   "infra.control.app_workflow.msg_run_book.error_unable_start": "Unable to start: {{.Error}}",
   "infra.control.app_workflow.msg_run_book.progress_recipe_finished": "Step finished",
   "infra.control.app_workflow.msg_run_book.progress_recipe_start": "Step start: {{.Worker}}; {{.Args}}",
+  "infra.kvs.kv_storage_impl.msg_storage.error_this_command_may_not_work_on_win_32": "This command may not work on 32 bit Windows. Please consider run on 64-bit version on 64 bit version Windows.",
   "infra.network.nw_diag.msg_network.error_unreachable": "Network unreachable to `{{.Url}}`.\nPlease ensure your network connection or proxy configuration.\nPlease specify `-proxy` option if your machine is under proxy or firewall.\n\nError:\n{{.Error}}",
   "infra.network.nw_diag.msg_network.progress_testing": "Testing network connection...",
   "infra.network.nw_diag.msg_network.progress_testing_done": "Done",
