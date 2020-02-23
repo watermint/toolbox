@@ -56,7 +56,7 @@ func (z *badgerWrapper) init(name string) (err error) {
 		l.Debug("Unable to create kvs folder", zap.Error(err))
 		return err
 	}
-	path = filepath.Join(path, ut_filepath.Escape(name)+".db")
+	path = filepath.Join(path, ut_filepath.Escape(name))
 
 	l = l.With(zap.String("path", path))
 	l.Debug("Open database")

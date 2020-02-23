@@ -53,16 +53,20 @@ echo --------------------
 echo BUILD: Start building version: $BUILD_VERSION
 
 cd "$PROJECT_ROOT"
-
 echo BUILD: Preparing license information
-for l in $(find vendor -name LICENSE\*); do
-  pkg=$(dirname $l | sed 's/.*\/vendor\///')
-  pf=$(echo $pkg | sed 's/\//-/g')
-  jq -Rn "{\"$pkg\":[inputs]}" $l > $BUILD_PATH/$pf.lic
+for m in $(go list -m all | awk '{print $1}'); do
+  d=$(go list -json $m | jq -r .Module.Dir)
+  if [ x"" != x"$d" ]; then
+    l=$(find "$d" -maxdepth 1 -iname LICENSE\*)
+    if [ x"" != x"$l" ]; then
+      p=$(echo $m | sed 's/\//-/g')
+      jq -Rn "{\"$m\":[inputs]}" "$l" > $BUILD_PATH/$p.lic
+    fi
+  fi
 done
+
 jq -Rn '{"github.com/watermint/toolbox":[inputs]}' LICENSE.md > $BUILD_PATH/github.com-watermint-toolbox.lic
 jq -s add $BUILD_PATH/*.lic > resources/licenses.json
-
 
 echo BUILD: Building tool
 
@@ -96,7 +100,7 @@ X_APP_ZAP="-X github.com/watermint/toolbox/infra/app.Zap=$TOOLBOX_ZAP"
 X_APP_BUILDERKEY="-X github.com/watermint/toolbox/infra/app.BuilderKey=$TOOLBOX_BUILDERKEY"
 LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY"
 
-echo Building: Windows
+echo Building: Windows 386
 CGO_ENABLED=0 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
 echo Building: Windows amd64
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx64.exe github.com/watermint/toolbox

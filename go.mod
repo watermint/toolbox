@@ -12,10 +12,10 @@ require (
 	github.com/gin-contrib/zap v0.0.1
 	github.com/gin-gonic/gin v1.5.0
 	github.com/google/go-cmp v0.4.0
-	github.com/gorilla/mux v1.7.4 // indirect
 	github.com/iancoleman/strcase v0.0.0-20191112232945-16388991a334
-	github.com/jinzhu/copier v0.0.0-20190924061706-b57f9002281a // indirect
-	github.com/kardianos/osext v0.0.0-20190222173326-2bc1f35cddc0 // indirect
+	github.com/json-iterator/go v1.1.9 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/onsi/ginkgo v1.12.0 // indirect
 	github.com/onsi/gomega v1.9.0 // indirect
 	github.com/pkg/profile v1.4.0
@@ -30,5 +30,7 @@ require (
 	golang.org/x/net v0.0.0-20200219183655-46282727080f // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
+	golang.org/x/sys v0.0.0-20200122134326-e047566fdf82 // indirect
 	golang.org/x/text v0.3.3-0.20191230102452-929e72ca90de
+	gopkg.in/yaml.v2 v2.2.5 // indirect
 )
