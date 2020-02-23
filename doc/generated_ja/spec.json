@@ -7045,5 +7045,23 @@
       }
     ],
     "feeds": []
+  },
+  "web": {
+    "name": "web",
+    "title": "Webコンソールの起動",
+    "desc": "",
+    "remarks": "",
+    "path": "web",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
   }
 }
