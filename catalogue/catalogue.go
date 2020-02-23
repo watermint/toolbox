@@ -71,6 +71,7 @@ func NewCatalogue() infra_recipe_rc_catalogue.Catalogue {
 func Recipes() []infra_recipe_rc_recipe.Recipe {
 	cat := []infra_recipe_rc_recipe.Recipe{
 		infra_recipe_rc_recipe.Annotate(&recipe.License{}),
+		infra_recipe_rc_recipe.Annotate(&recipe.Web{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessAudit{}),
 		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessFile{}),
 		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessInfo{}),
@@ -103,13 +104,13 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipefile.Restore{}, infra_recipe_rc_recipe.Experimental()),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Upload{}),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Watch{}),
-		infra_recipe_rc_recipe.Annotate(&recipefilesearch.Name{}),
-		infra_recipe_rc_recipe.Annotate(&recipefilesearch.Content{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilecompare.Account{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilecompare.Local{}),
 		infra_recipe_rc_recipe.Annotate(&recipefileexport.Doc{}, infra_recipe_rc_recipe.Experimental()),
 		infra_recipe_rc_recipe.Annotate(&recipefileimport.Url{}),
 		infra_recipe_rc_recipe.Annotate(&recipefileimportbatch.Url{}),
+		infra_recipe_rc_recipe.Annotate(&recipefilesearch.Content{}),
+		infra_recipe_rc_recipe.Annotate(&recipefilesearch.Name{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilesync.Up{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilesyncpreflight.Up{}),
 		infra_recipe_rc_recipe.Annotate(&recipegroup.Add{}),
@@ -170,7 +171,6 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipeteamnamespacemember.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamsharedlink.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamsharedlinkupdate.Expiry{}, infra_recipe_rc_recipe.Irreversible()),
-		//		&recipe.Web{},
 	}
 	return cat
 }

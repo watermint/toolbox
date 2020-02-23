@@ -672,7 +672,7 @@ func (z *WebHandler) renderCatalogue(g *gin.Context, cmd string, grp rc_group.Gr
 		path = append(path, g.Name())
 
 		dict[g.Name()] = gin.H{
-			"Title":       g.Name,
+			"Title":       g.Name(),
 			"Description": ui.Text(grp.CommandTitle(g.Name())),
 			"Uri":         WebPathHome + "/" + strings.Join(path, "-"),
 		}
