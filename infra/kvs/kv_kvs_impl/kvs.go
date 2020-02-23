@@ -88,7 +88,11 @@ func (z *badgerWrapper) GetString(key string) (value string, err error) {
 	if err != nil {
 		return "", err
 	}
-	return r.String(), nil
+	v, err := r.ValueCopy(nil)
+	if err != nil {
+		return "", err
+	}
+	return string(v), nil
 }
 
 func (z *badgerWrapper) GetBytes(key string) (value []byte, err error) {
