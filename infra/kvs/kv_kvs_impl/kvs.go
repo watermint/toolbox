@@ -2,7 +2,7 @@ package kv_kvs_impl
 
 import (
 	"encoding/json"
-	"github.com/dgraph-io/badger"
+	"github.com/dgraph-io/badger/v2"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"go.uber.org/zap"

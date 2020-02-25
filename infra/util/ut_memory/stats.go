@@ -22,6 +22,7 @@ func LaunchReporting(l *zap.Logger) {
 func DumpStats(l *zap.Logger) {
 	var mem runtime.MemStats
 	runtime.ReadMemStats(&mem)
+	l.Debug("Sys", zap.Uint64("Sys", mem.Sys), zap.Uint64("OtherSys", mem.OtherSys))
 	l.Debug("Heap stats",
 		zap.Uint64("TotalAlloc", mem.TotalAlloc),
 		zap.Uint64("HeapAlloc", mem.HeapAlloc),

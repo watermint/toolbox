@@ -3,7 +3,7 @@ package kv_storage_impl
 import (
 	"errors"
 	"fmt"
-	"github.com/dgraph-io/badger"
+	"github.com/dgraph-io/badger/v2"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
@@ -74,13 +74,24 @@ func (z *badgerWrapper) init(name string) (err error) {
 	l = l.With(zap.String("path", path))
 	l.Debug("Open database")
 	opts := badger.DefaultOptions(path)
-	opts.Logger = &badgerLogger{l: l}
+	opts = opts.WithLogger(&badgerLogger{l})
+	opts = opts.WithMaxCacheSize(32 * 1_048_576) // 32MB
+
+	// Use lesser ValueLogFileSize for Windows 32bit environment
+	if app.IsWindows() && runtime.GOARCH == "386" {
+		opts = opts.WithValueLogFileSize(2 << 20)
+		opts = opts.WithNumMemtables(2)
+	}
+
 	z.db, err = badger.Open(opts)
 	if err != nil {
 		l.Debug("Unable to open database", zap.Error(err))
 		// Temporary workaround:
 		// https://github.com/watermint/toolbox/issues/297
-		if strings.Contains(err.Error(), "MapViewOfFile: Not enough memory resources are available to process this command") {
+		// Win 64 bit / GOARCH=386 : MapViewOfFile: Not enough memory resources are available to process this command
+		// Win 32 bit / GOARCH=386 : MapViewOfFile: The parameter is incorrect.
+		// This look like: https://github.com/dgraph-io/badger/issues/1072
+		if strings.Contains(err.Error(), "MapViewOfFile") {
 			l.Debug("Memory map error", zap.Error(err))
 			if app.IsWindows() && runtime.GOARCH == "386" {
 				z.ctl.UI().Error(MStorage.ErrorThisCommandMayNotWorkOnWin32)
