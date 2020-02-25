@@ -44,7 +44,7 @@ if [ "$TOOLBOX_BUILD_ID"x = ""x ]; then
   elif [ "$CI_PIPELINE_IID" ]; then
     TOOLBOX_BUILD_ID=1.$CI_PIPELINE_IID
   else
-    TOOLBOX_BUILD_ID=0.0
+    TOOLBOX_BUILD_ID=0.$(date +%Y%m%d%H%M%S)
   fi
 fi
 BUILD_VERSION=$BUILD_MAJOR_VERSION.$TOOLBOX_BUILD_ID
