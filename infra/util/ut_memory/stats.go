@@ -1,6 +1,7 @@
 package ut_memory
 
 import (
+	"github.com/watermint/toolbox/infra/app"
 	"go.uber.org/zap"
 	"runtime"
 	"time"
@@ -45,5 +46,7 @@ func DumpStats(l *zap.Logger) {
 		zap.Uint32("NumGC", mem.NumGC),
 		zap.Uint32("NumForcedGC", mem.NumForcedGC),
 	)
-	l.Debug("Per size class allocation", zap.Any("BySize", mem.BySize))
+	if app.IsDebug() {
+		l.Debug("Per size class allocation", zap.Any("BySize", mem.BySize))
+	}
 }

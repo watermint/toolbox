@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/dgraph-io/badger/v2"
+	"github.com/dgraph-io/badger/v2/options"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
@@ -74,8 +75,10 @@ func (z *badgerWrapper) init(name string) (err error) {
 	l = l.With(zap.String("path", path))
 	l.Debug("Open database")
 	opts := badger.DefaultOptions(path)
-	opts = opts.WithLogger(&badgerLogger{l})
+	opts = opts.WithLogger(&badgerLogger{l.WithOptions(zap.AddCallerSkip(1))})
 	opts = opts.WithMaxCacheSize(32 * 1_048_576) // 32MB
+	opts = opts.WithNumCompactors(1)
+	opts = opts.WithTableLoadingMode(options.FileIO)
 
 	// Use lesser ValueLogFileSize for Windows 32bit environment
 	if app.IsWindows() && runtime.GOARCH == "386" {

@@ -137,6 +137,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	}
 	if com.Debug {
 		so = append(so, app_control.Debug())
+		app.SetDebug(true)
 	}
 	if com.Secure {
 		so = append(so, app_control.Secure())

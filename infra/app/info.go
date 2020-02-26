@@ -8,6 +8,7 @@ var (
 	Hash       = ""
 	Zap        = ""
 	BuilderKey = ""
+	debugMode  = false
 )
 
 const (
@@ -25,4 +26,12 @@ func IsProduction() bool {
 
 func IsWindows() bool {
 	return runtime.GOOS == "windows"
+}
+
+func IsDebug() bool {
+	return !debugMode
+}
+
+func SetDebug(enabled bool) {
+	debugMode = enabled
 }
