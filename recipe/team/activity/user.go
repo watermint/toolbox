@@ -15,6 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_mailaddr"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
@@ -51,7 +52,10 @@ func (z *UserWorker) Exec() error {
 	ui := z.ctl.UI()
 	l := z.ctl.Log().With(zap.Any("userIn", userIn))
 
-	rep, err := z.reps.OpenNew(rp_model.Suffix("-" + ut_mailaddr.EscapeSpecial(z.user.Email, "_")))
+	rep, err := z.reps.OpenNew(
+		rp_model.Suffix("-"+ut_mailaddr.EscapeSpecial(z.user.Email, "_")),
+		rp_model.NoConsoleOutput(),
+	)
 	if err != nil {
 		l.Debug("unable to create report", zap.Error(err))
 		z.repSummary.Failure(err, userIn)
@@ -83,6 +87,7 @@ func (z *UserWorker) Exec() error {
 		default:
 			summary.Others++
 		}
+		app_ui.ShowProgress(ui)
 
 		return nil
 	}
