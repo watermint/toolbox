@@ -9,15 +9,39 @@ import (
 func NewQuiet(container app_msg_container.Container) UI {
 	q := container.(app_msg_container.Quality)
 	return &Quiet{
+		id: newId(),
 		mc: container,
 		mq: q,
 	}
 }
 
 type Quiet struct {
+	id  string
 	mc  app_msg_container.Container
 	mq  app_msg_container.Quality
 	log *zap.Logger
+}
+
+func (z *Quiet) Id() string {
+	return z.id
+}
+
+func (z *Quiet) Progress(m app_msg.Message) {
+	z.mq.Verify(m.Key())
+	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
+}
+
+func (z *Quiet) SubHeader(m app_msg.Message) {
+	z.mq.Verify(m.Key())
+	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
+}
+
+func (z *Quiet) Code(code string) {
+	z.log.Debug("code", zap.String("code", code))
+}
+
+func (z *Quiet) Exists(m app_msg.Message) bool {
+	return z.mc.Exists(m.Key())
 }
 
 func (z *Quiet) AskCont(m app_msg.Message) (cont bool, cancel bool) {

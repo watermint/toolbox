@@ -3,8 +3,10 @@ package rp_model_impl
 import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"go.uber.org/zap"
 )
@@ -60,6 +62,21 @@ type ColumnSpec struct {
 	opts    []rp_model.ReportOpt
 	cols    []string
 	colDesc map[string]app_msg.Message
+}
+
+func (z *ColumnSpec) Doc(ui app_ui.UI) *rc_doc.Report {
+	cols := make([]*rc_doc.ReportColumn, 0)
+	for _, col := range z.Columns() {
+		cols = append(cols, &rc_doc.ReportColumn{
+			Name: col,
+			Desc: ui.TextOrEmpty(z.ColumnDesc(col)),
+		})
+	}
+	return &rc_doc.Report{
+		Name:    z.Name(),
+		Desc:    ui.TextOrEmpty(z.Desc()),
+		Columns: cols,
+	}
 }
 
 func (z *ColumnSpec) Name() string {

@@ -5,28 +5,43 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
-	"github.com/watermint/toolbox/infra/kvs/kv_transaction"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
 func TestNew(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
-		db := kv_storage_impl.New("test")
-		err := db.Open(ctl)
-		if err != nil {
+		var err error
+
+		db1 := kv_storage_impl.New("coffee1")
+		if err := db1.Open(ctl); err != nil {
 			t.Error(err)
 			return
 		}
+		defer db1.Close()
+		db2 := kv_storage_impl.New("coffee2")
+		if err := db2.Open(ctl); err != nil {
+			t.Error(err)
+			return
+		}
+		defer db2.Close()
+		db3 := kv_storage_impl.New("coffee3")
+		if err := db3.Open(ctl); err != nil {
+			t.Error(err)
+			return
+		}
+		defer db3.Close()
+		db4 := kv_storage_impl.New("coffee4")
+		if err := db4.Open(ctl); err != nil {
+			t.Error(err)
+			return
+		}
+		defer db4.Close()
 
 		// put/get string
-		err = db.Update(func(tx kv_transaction.Transaction) error {
-			coffee, err := tx.Kvs("coffee1")
-			if err != nil {
-				t.Error(err)
-				return err
-			}
+		err = db1.Update(func(coffee kv_kvs.Kvs) error {
 			if err = coffee.PutString("A1234", "espresso"); err != nil {
 				t.Error(err)
 				return err
@@ -58,12 +73,7 @@ func TestNew(t *testing.T) {
 		}
 
 		// put/get bytes
-		err = db.Update(func(tx kv_transaction.Transaction) error {
-			coffee, err := tx.Kvs("coffee2")
-			if err != nil {
-				t.Error(err)
-				return err
-			}
+		err = db2.Update(func(coffee kv_kvs.Kvs) error {
 			a1234 := []byte("Espresso")
 			if err = coffee.PutBytes("A1234", a1234); err != nil {
 				t.Error(err)
@@ -89,7 +99,7 @@ func TestNew(t *testing.T) {
 		}
 
 		// put/get json
-		err = db.Update(func(tx kv_transaction.Transaction) error {
+		err = db3.Update(func(coffee kv_kvs.Kvs) error {
 			type SKU struct {
 				Name  string `json:"name"`
 				Price int    `json:"price"`
@@ -113,7 +123,6 @@ func TestNew(t *testing.T) {
 				return err
 			}
 
-			coffee, err := tx.Kvs("coffee3")
 			if err != nil {
 				t.Error(err)
 				return err
@@ -141,7 +150,7 @@ func TestNew(t *testing.T) {
 		}
 
 		// put/get json model
-		err = db.Update(func(tx kv_transaction.Transaction) error {
+		err = db4.Update(func(coffee kv_kvs.Kvs) error {
 			type SKU struct {
 				Name  string `json:"name"`
 				Price int    `json:"price"`
@@ -155,11 +164,6 @@ func TestNew(t *testing.T) {
 				Price: 500,
 			}
 
-			coffee, err := tx.Kvs("coffee4")
-			if err != nil {
-				t.Error(err)
-				return err
-			}
 			if err = coffee.PutJsonModel("A1234", a1234); err != nil {
 				t.Error(err)
 				return err
@@ -185,12 +189,7 @@ func TestNew(t *testing.T) {
 		}
 
 		// foreach, cursor
-		err = db.Batch(func(tx kv_transaction.Transaction) error {
-			coffee, err := tx.Kvs("coffee4")
-			if err != nil {
-				t.Error(err)
-				return err
-			}
+		err = db4.Update(func(coffee kv_kvs.Kvs) error {
 			dat := map[string]string{
 				"A1234": "Espresso",
 				"A5678": "カフェラテ",
@@ -226,152 +225,10 @@ func TestNew(t *testing.T) {
 				}
 			}
 
-			// cursor first-next
-			{
-				found := make(map[string]bool)
-				c := coffee.Cursor()
-
-				for k, v, e := c.First(); e; k, v, e = c.Next() {
-					if c, e := dat[k]; !e || c != string(v) {
-						t.Error(k, v)
-						return errors.New("invalid value")
-					}
-					found[k] = true
-				}
-				for k := range dat {
-					if _, e := found[k]; !e {
-						t.Error(k)
-						return errors.New("key not found")
-					}
-				}
-			}
-
-			// cursor last-prev
-			{
-				found := make(map[string]bool)
-				c := coffee.Cursor()
-
-				for k, v, e := c.Last(); e; k, v, e = c.Prev() {
-					if c, e := dat[k]; !e || c != string(v) {
-						t.Error(k, v)
-						return errors.New("invalid value")
-					}
-					found[k] = true
-				}
-				for k := range dat {
-					if _, e := found[k]; !e {
-						t.Error(k)
-						return errors.New("key not found")
-					}
-				}
-			}
-
-			// cursor seek
-			{
-				c := coffee.Cursor()
-				k, v, e := c.Seek("A5678")
-				if !e || k != "A5678" || bytes.Compare(v, []byte("カフェラテ")) != 0 {
-					t.Error(k, v, e)
-					return errors.New("invalid")
-				}
-			}
 			return nil
 		})
 		if err != nil {
 			t.Error(err)
 		}
-
-		// view: foreach, cursor
-		err = db.View(func(tx kv_transaction.Transaction) error {
-			coffee, err := tx.Kvs("coffee4")
-			if err != nil {
-				t.Error(err)
-				return err
-			}
-			dat := map[string]string{
-				"A1234": "Espresso",
-				"A5678": "カフェラテ",
-				"A9012": "☕️",
-			}
-
-			// foreach
-			{
-				found := make(map[string]bool)
-				err = coffee.ForEach(func(key string, value []byte) error {
-					if c, e := dat[key]; !e || c != string(value) {
-						t.Error(key, value)
-						return errors.New("invalid value")
-					}
-					found[key] = true
-					return nil
-				})
-				if err != nil {
-					t.Error(err)
-					return err
-				}
-				for k := range dat {
-					if _, e := found[k]; !e {
-						t.Error(k)
-						return errors.New("key not found")
-					}
-				}
-			}
-
-			// cursor first-next
-			{
-				found := make(map[string]bool)
-				c := coffee.Cursor()
-
-				for k, v, e := c.First(); e; k, v, e = c.Next() {
-					if c, e := dat[k]; !e || c != string(v) {
-						t.Error(k, v)
-						return errors.New("invalid value")
-					}
-					found[k] = true
-				}
-				for k := range dat {
-					if _, e := found[k]; !e {
-						t.Error(k)
-						return errors.New("key not found")
-					}
-				}
-			}
-
-			// cursor last-prev
-			{
-				found := make(map[string]bool)
-				c := coffee.Cursor()
-
-				for k, v, e := c.Last(); e; k, v, e = c.Prev() {
-					if c, e := dat[k]; !e || c != string(v) {
-						t.Error(k, v)
-						return errors.New("invalid value")
-					}
-					found[k] = true
-				}
-				for k := range dat {
-					if _, e := found[k]; !e {
-						t.Error(k)
-						return errors.New("key not found")
-					}
-				}
-			}
-
-			// cursor seek
-			{
-				c := coffee.Cursor()
-				k, v, e := c.Seek("A5678")
-				if !e || k != "A5678" || bytes.Compare(v, []byte("カフェラテ")) != 0 {
-					t.Error(k, v, e)
-					return errors.New("invalid")
-				}
-			}
-			return nil
-		})
-		if err != nil {
-			t.Error(err)
-		}
-
-		db.Close()
 	})
 }

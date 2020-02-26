@@ -8,8 +8,8 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
-	"github.com/watermint/toolbox/infra/kvs/kv_transaction"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -81,12 +81,8 @@ func (z *SelfContainedTestRecipe) Exec(c app_control.Control) error {
 	}); err != nil {
 		return err
 	}
-	if err := z.EventLog.Batch(func(tx kv_transaction.Transaction) error {
-		k, err := tx.Kvs("test")
-		if err != nil {
-			return err
-		}
-		_, err = k.NextSequence()
+	if err := z.EventLog.Update(func(kvs kv_kvs.Kvs) error {
+		_, err = kvs.NextSequence("kvs")
 		if err != nil {
 			return err
 		}

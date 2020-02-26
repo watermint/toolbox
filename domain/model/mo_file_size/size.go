@@ -13,7 +13,7 @@ type Size struct {
 	ApiComplexity   int64  `json:"api_complexity"`
 }
 
-func (z Size) Plus(path string, s Size) Size {
+func (z *Size) Plus(path string, s Size) Size {
 	return Size{
 		Path:            path,
 		CountFile:       z.CountFile + s.CountFile,

@@ -3,6 +3,8 @@ package app_template_impl
 import (
 	"bytes"
 	"github.com/gin-gonic/gin/render"
+	"github.com/tdewolff/minify"
+	"github.com/tdewolff/minify/html"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_template"
 	"go.uber.org/zap"
@@ -99,14 +101,12 @@ func (z *DevFileSystem) Render(name string, d ...app_template.D) string {
 		return ""
 	}
 
-	// Unable to solve dependencies..
-	//m := minify.New()
-	//m.AddFunc("text/html", html.Minify)
-	//h, err := m.String("text/html", doc.String())
-	//if err != nil {
-	//	l.Warn("Unable to minify result", zap.Error(err))
-	//	return doc.String()
-	//}
-	//return h
-	return doc.String()
+	m := minify.New()
+	m.AddFunc("text/html", html.Minify)
+	h, err := m.String("text/html", doc.String())
+	if err != nil {
+		l.Warn("Unable to minify result", zap.Error(err))
+		return doc.String()
+	}
+	return h
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
@@ -29,14 +30,15 @@ func (z *Local) Exec(c app_control.Control) error {
 	ui := c.UI()
 	ctx := z.Peer.Context()
 
-	if err := z.Diff.Open(); err != nil {
+	if err := z.Diff.Open(rp_model.NoConsoleOutput()); err != nil {
 		return err
 	}
-	if err := z.Skip.Open(); err != nil {
+	if err := z.Skip.Open(rp_model.NoConsoleOutput()); err != nil {
 		return err
 	}
 
 	diff := func(diff mo_file_diff.Diff) error {
+		app_ui.ShowProgress(c.UI())
 		switch diff.DiffType {
 		case mo_file_diff.DiffSkipped:
 			z.Skip.Row(&diff)

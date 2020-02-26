@@ -7,10 +7,28 @@ import (
 
 func NewDummy() UI {
 	app_root.Log().Warn("Dummy UI generated")
-	return &Dummy{}
+	return &Dummy{id: newId()}
 }
 
 type Dummy struct {
+	id string
+}
+
+func (z *Dummy) Id() string {
+	return z.id
+}
+
+func (z *Dummy) Progress(m app_msg.Message) {
+}
+
+func (z *Dummy) SubHeader(m app_msg.Message) {
+}
+
+func (z *Dummy) Code(code string) {
+}
+
+func (z *Dummy) Exists(m app_msg.Message) bool {
+	return false
 }
 
 func (z *Dummy) Success(m app_msg.Message) {

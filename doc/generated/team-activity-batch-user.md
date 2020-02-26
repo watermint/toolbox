@@ -52,9 +52,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |---------------|--------------------------------------------------------------------------|---------|
 | `-category`   | Filter the returned events to a single category. This field is optional. |         |
 | `-end-time`   | Ending time (exclusive).                                                 |         |
+| `-file`       | User email address list file                                             |         |
 | `-peer`       | Account alias                                                            | default |
 | `-start-time` | Starting time (inclusive)                                                |         |
-| `-user-list`  | User email address list file                                             |         |
 
 Common options:
 
@@ -65,6 +65,7 @@ Common options:
 | `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
 | `-debug`        | Enable debug mode                                                                | false                |
 | `-low-memory`   | Low memory footprint mode                                                        | false                |
+| `-output`       | Output format (none/text/markdown/json)                                          | text                 |
 | `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
 | `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`       | Do not store tokens into a file                                                  | false                |
@@ -72,7 +73,7 @@ Common options:
 
 # File formats
 
-## Format: UserList 
+## Format: File 
 
 | Column | Description        | Value example    |
 |--------|--------------------|------------------|

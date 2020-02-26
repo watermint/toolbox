@@ -1,58 +1,61 @@
 package kv_storage_impl
 
 import (
-	"github.com/etcd-io/bbolt"
+	"errors"
+	"fmt"
+	"github.com/dgraph-io/badger/v2"
+	"github.com/dgraph-io/badger/v2/options"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
+	"github.com/watermint/toolbox/infra/kvs/kv_kvs_impl"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
-	"github.com/watermint/toolbox/infra/kvs/kv_transaction"
-	"github.com/watermint/toolbox/infra/kvs/kv_transaction_impl"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"go.uber.org/zap"
 	"path/filepath"
-	"time"
+	"runtime"
+	"strings"
 )
 
-const (
-	monitorInterval = 15 * time.Second
+type MsgStorage struct {
+	ErrorThisCommandMayNotWorkOnWin32 app_msg.Message
+}
+
+var (
+	MStorage = app_msg.Apply(&MsgStorage{}).(*MsgStorage)
 )
 
 func New(name string) kv_storage.Storage {
-	bw := &bboltWrapper{name: name}
+	bw := &badgerWrapper{name: name}
 	return bw
 }
 
-type bboltWrapper struct {
-	ctl       app_control.Control
-	name      string
-	db        *bbolt.DB
-	closed    bool
-	lastStats bbolt.Stats
+type badgerWrapper struct {
+	ctl    app_control.Control
+	name   string
+	db     *badger.DB
+	closed bool
 }
 
-func (z *bboltWrapper) Open(ctl app_control.Control) error {
+func (z *badgerWrapper) Open(ctl app_control.Control) error {
 	z.ctl = ctl
 	return z.init(z.name)
 }
 
-func (z *bboltWrapper) View(f func(tx kv_transaction.Transaction) error) error {
-	return z.db.View(func(tx *bbolt.Tx) error {
-		return f(kv_transaction_impl.New(z.ctl, tx))
+func (z *badgerWrapper) View(f func(kv kv_kvs.Kvs) error) error {
+	return z.db.View(func(tx *badger.Txn) error {
+		return f(kv_kvs_impl.New(z.ctl, z.db, tx))
 	})
 }
 
-func (z *bboltWrapper) Update(f func(tx kv_transaction.Transaction) error) error {
-	return z.db.Update(func(tx *bbolt.Tx) error {
-		return f(kv_transaction_impl.New(z.ctl, tx))
+func (z *badgerWrapper) Update(f func(kv kv_kvs.Kvs) error) error {
+	return z.db.Update(func(tx *badger.Txn) error {
+		return f(kv_kvs_impl.New(z.ctl, z.db, tx))
 	})
 }
 
-func (z *bboltWrapper) Batch(f func(tx kv_transaction.Transaction) error) error {
-	return z.db.Batch(func(tx *bbolt.Tx) error {
-		return f(kv_transaction_impl.New(z.ctl, tx))
-	})
-}
-
-func (z *bboltWrapper) Close() {
+func (z *badgerWrapper) Close() {
 	l := z.ctl.Log().With(zap.String("name", z.name))
 	l.Debug("Closing database")
 	z.closed = true
@@ -60,39 +63,66 @@ func (z *bboltWrapper) Close() {
 	l.Debug("Database closed", zap.Error(err))
 }
 
-func (z *bboltWrapper) monitor() {
-	z.lastStats = z.db.Stats()
-	l := z.ctl.Log().With(zap.String("name", z.name))
-	for {
-		time.Sleep(monitorInterval)
-
-		if z.closed {
-			return
-		}
-		stats := z.db.Stats()
-		diff := stats.Sub(&z.lastStats)
-		z.lastStats = stats
-		l.Debug("Database stats", zap.Any("stats", diff))
-	}
-}
-
-func (z *bboltWrapper) init(name string) (err error) {
+func (z *badgerWrapper) init(name string) (err error) {
 	l := z.ctl.Log().With(zap.String("name", name))
 	path, err := z.ctl.Workspace().Descendant("kvs")
 	if err != nil {
 		l.Debug("Unable to create kvs folder", zap.Error(err))
 		return err
 	}
-	path = filepath.Join(path, ut_filepath.Escape(name)+".db")
+	path = filepath.Join(path, ut_filepath.Escape(name))
 
 	l = l.With(zap.String("path", path))
 	l.Debug("Open database")
-	z.db, err = bbolt.Open(path, 0600, nil)
+	opts := badger.DefaultOptions(path)
+	opts = opts.WithLogger(&badgerLogger{l.WithOptions(zap.AddCallerSkip(1))})
+	opts = opts.WithMaxCacheSize(32 * 1_048_576) // 32MB
+	opts = opts.WithNumCompactors(1)
+	opts = opts.WithTableLoadingMode(options.FileIO)
+
+	// Use lesser ValueLogFileSize for Windows 32bit environment
+	if app.IsWindows() && runtime.GOARCH == "386" {
+		opts = opts.WithValueLogFileSize(2 << 20)
+		opts = opts.WithNumMemtables(2)
+	}
+
+	z.db, err = badger.Open(opts)
 	if err != nil {
 		l.Debug("Unable to open database", zap.Error(err))
+		// Temporary workaround:
+		// https://github.com/watermint/toolbox/issues/297
+		// Win 64 bit / GOARCH=386 : MapViewOfFile: Not enough memory resources are available to process this command
+		// Win 32 bit / GOARCH=386 : MapViewOfFile: The parameter is incorrect.
+		// This look like: https://github.com/dgraph-io/badger/issues/1072
+		if strings.Contains(err.Error(), "MapViewOfFile") {
+			l.Debug("Memory map error", zap.Error(err))
+			if app.IsWindows() && runtime.GOARCH == "386" {
+				z.ctl.UI().Error(MStorage.ErrorThisCommandMayNotWorkOnWin32)
+				return errors.New("this command may not work on 32 bit windows")
+			}
+		}
 		return err
 	}
 	z.name = name
-	go z.monitor()
 	return nil
+}
+
+type badgerLogger struct {
+	l *zap.Logger
+}
+
+func (z *badgerLogger) Errorf(f string, p ...interface{}) {
+	z.l.Warn(fmt.Sprintf(f, p...), zap.String("level", "error"))
+}
+
+func (z *badgerLogger) Warningf(f string, p ...interface{}) {
+	z.l.Debug(fmt.Sprintf(f, p...), zap.String("level", "warn"))
+}
+
+func (z *badgerLogger) Infof(f string, p ...interface{}) {
+	z.l.Debug(fmt.Sprintf(f, p...), zap.String("level", "info"))
+}
+
+func (z *badgerLogger) Debugf(f string, p ...interface{}) {
+	z.l.Debug(fmt.Sprintf(f, p...), zap.String("level", "debug"))
 }

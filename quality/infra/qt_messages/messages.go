@@ -57,5 +57,5 @@ func verifyRecipe(g rc_group.Group, r rc_recipe.Spec, ui app_ui.UI) {
 	f := flag.NewFlagSet("", flag.ContinueOnError)
 
 	r.SetFlags(f, ui)
-	r.PrintUsage(ui, f)
+	r.PrintUsage(ui)
 }

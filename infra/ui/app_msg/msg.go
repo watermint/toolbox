@@ -92,7 +92,7 @@ func M(key string, p ...P) Message {
 	}
 }
 
-func Raw(text string) Message {
+func Raw(text interface{}) Message {
 	return &messageImpl{
 		K: "raw",
 		P: []P{

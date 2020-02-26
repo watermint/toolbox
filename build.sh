@@ -24,7 +24,7 @@ BUILD_HASH=$(cd "$PROJECT_ROOT" && git rev-parse HEAD)
 
 if [ ! -d $BUILD_PATH ]; then
   mkdir -p $BUILD_PATH
-  for p in win mac linux; do
+  for p in win win64 mac linux; do
     mkdir -p $BUILD_PATH/$p
   done
 fi
@@ -44,7 +44,7 @@ if [ "$TOOLBOX_BUILD_ID"x = ""x ]; then
   elif [ "$CI_PIPELINE_IID" ]; then
     TOOLBOX_BUILD_ID=1.$CI_PIPELINE_IID
   else
-    TOOLBOX_BUILD_ID=0.0
+    TOOLBOX_BUILD_ID=0.$(date +%Y%m%d%H%M%S)
   fi
 fi
 BUILD_VERSION=$BUILD_MAJOR_VERSION.$TOOLBOX_BUILD_ID
@@ -53,16 +53,20 @@ echo --------------------
 echo BUILD: Start building version: $BUILD_VERSION
 
 cd "$PROJECT_ROOT"
-
 echo BUILD: Preparing license information
-for l in $(find vendor -name LICENSE\*); do
-  pkg=$(dirname $l | sed 's/.*\/vendor\///')
-  pf=$(echo $pkg | sed 's/\//-/g')
-  jq -Rn "{\"$pkg\":[inputs]}" $l > $BUILD_PATH/$pf.lic
+for m in $(go list -m all | awk '{print $1}'); do
+  d=$(go list -json $m | jq -r .Module.Dir)
+  if [ x"" != x"$d" ]; then
+    l=$(find "$d" -maxdepth 1 -iname LICENSE\*)
+    if [ x"" != x"$l" ]; then
+      p=$(echo $m | sed 's/\//-/g')
+      jq -Rn "{\"$m\":[inputs]}" "$l" > $BUILD_PATH/$p.lic
+    fi
+  fi
 done
+
 jq -Rn '{"github.com/watermint/toolbox":[inputs]}' LICENSE.md > $BUILD_PATH/github.com-watermint-toolbox.lic
 jq -s add $BUILD_PATH/*.lic > resources/licenses.json
-
 
 echo BUILD: Building tool
 
@@ -96,12 +100,14 @@ X_APP_ZAP="-X github.com/watermint/toolbox/infra/app.Zap=$TOOLBOX_ZAP"
 X_APP_BUILDERKEY="-X github.com/watermint/toolbox/infra/app.BuilderKey=$TOOLBOX_BUILDERKEY"
 LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY"
 
-echo Building: Windows
-GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
+echo Building: Windows 386
+CGO_ENABLED=0 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
+echo Building: Windows amd64
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win64/tbx.exe github.com/watermint/toolbox
 echo Building: Linux
-GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/linux/tbx   github.com/watermint/toolbox
+CGO_ENABLED=0 GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/linux/tbx   github.com/watermint/toolbox
 echo Building: Darwin
-GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/mac/tbx     github.com/watermint/toolbox
+CGO_ENABLED=0 GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/mac/tbx     github.com/watermint/toolbox
 
 echo --------------------
 echo BUILD: Testing binary
@@ -122,7 +128,7 @@ $BUILD_PATH/linux/tbx dev doc -filename README.txt -badge=false > $BUILD_PATH/RE
 
 echo --------------------
 echo BUILD: Packaging
-for p in win mac linux; do
+for p in win win64 mac linux; do
   echo BUILD: Packaging $p
   cp $BUILD_PATH/LICENSE.txt $BUILD_PATH/"$p"/
   cp README.txt  $BUILD_PATH/"$p"/README.txt

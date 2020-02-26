@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_log"
+	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
@@ -33,6 +34,10 @@ type Multi struct {
 	ws     app_workspace.Workspace
 	quiet  bool
 	secure bool
+}
+
+func (z *Multi) UIFormat() string {
+	return app_opt.OutputNone
 }
 
 func (z *Multi) IsAutoOpen() bool {

@@ -1,15 +1,16 @@
 package rc_spec
 
 import (
-	"bytes"
 	"flag"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_value"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/ui/app_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_reflect"
@@ -26,6 +27,7 @@ type MsgSelfContained struct {
 	RecipeHeaderUsage             app_msg.Message
 	RecipeUsage                   app_msg.Message
 	RecipeAvailableFlags          app_msg.Message
+	RecipeCommonFlags             app_msg.Message
 }
 
 var (
@@ -68,11 +70,58 @@ type specValueSelfContained struct {
 	repo       rc_recipe.Repository
 }
 
+func (z *specValueSelfContained) Doc(ui app_ui.UI) *rc_doc.Recipe {
+	feeds := make([]*rc_doc.Feed, 0)
+	feedNames := make([]string, 0)
+	feedMaps := make(map[string]*rc_doc.Feed)
+
+	for _, f := range z.Feeds() {
+		feedMaps[f.Name()] = f.Doc(ui)
+		feedNames = append(feedNames, f.Name())
+	}
+	sort.Strings(feedNames)
+	for _, f := range feedNames {
+		feeds = append(feeds, feedMaps[f])
+	}
+
+	reports := make([]*rc_doc.Report, 0)
+	reportNames := make([]string, 0)
+	reportMap := make(map[string]*rc_doc.Report)
+
+	for _, r := range z.Reports() {
+		reportMap[r.Name()] = r.Doc(ui)
+		reportNames = append(reportNames, r.Name())
+	}
+	sort.Strings(reportNames)
+	for _, r := range reportNames {
+		reports = append(reports, reportMap[r])
+	}
+
+	return &rc_doc.Recipe{
+		Name:            z.Name(),
+		Title:           ui.Text(z.Title()),
+		Desc:            ui.TextOrEmpty(z.Desc()),
+		Remarks:         ui.TextOrEmpty(z.Remarks()),
+		Path:            z.CliPath(),
+		CliArgs:         ui.TextOrEmpty(z.CliArgs()),
+		CliNote:         ui.TextOrEmpty(z.CliNote()),
+		ConnUsePersonal: z.ConnUsePersonal(),
+		ConnUseBusiness: z.ConnUseBusiness(),
+		ConnScopes:      z.ConnScopeMap(),
+		IsSecret:        z.IsSecret(),
+		IsConsole:       z.IsConsole(),
+		IsExperimental:  z.IsExperimental(),
+		IsIrreversible:  z.IsIrreversible(),
+		Feeds:           feeds,
+		Reports:         reports,
+	}
+}
+
 func (z *specValueSelfContained) New() rc_recipe.Spec {
 	return NewSelfContained(z.scr)
 }
 
-func (z *specValueSelfContained) PrintUsage(ui app_ui.UI, f *flag.FlagSet) {
+func (z *specValueSelfContained) PrintUsage(ui app_ui.UI) {
 	rc_group.UsageHeader(ui, z.Title(), app.Version)
 
 	ui.Header(MSelfContained.RecipeHeaderUsage)
@@ -82,12 +131,13 @@ func (z *specValueSelfContained) PrintUsage(ui app_ui.UI, f *flag.FlagSet) {
 		With("Args", ui.TextOrEmpty(z.CliArgs())))
 
 	ui.Break()
-	ui.Header(MSelfContained.RecipeAvailableFlags)
+	ui.Header(MSelfContained.RecipeCommonFlags)
+	com := NewCommonValue()
+	app_doc.PrintOptionsTable(ui, com)
 
-	buf := new(bytes.Buffer)
-	f.SetOutput(buf)
-	f.PrintDefaults()
-	ui.Info(app_msg.Raw(buf.String()))
+	ui.Header(MSelfContained.RecipeAvailableFlags)
+	app_doc.PrintOptionsTable(ui, z)
+
 	ui.Break()
 }
 

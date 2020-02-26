@@ -31,6 +31,7 @@ var (
 		newValueMoTimeTime(""),
 		newValueMoPathDropboxPath(""),
 		newValueMoPathFileSystemPath(""),
+		newValueMoUrlUrl(""),
 		newValueRcRecipeRecipe("", nil),
 		newValueRcConnBusinessInfo(rc_conn_impl.DefaultPeerName),
 		newValueRcConnBusinessMgmt(rc_conn_impl.DefaultPeerName),

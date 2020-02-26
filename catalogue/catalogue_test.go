@@ -30,14 +30,14 @@ func testGroup(g rc_group.Group, ui app_ui.UI) {
 		testGroup(sg, ui)
 	}
 	for _, r := range g.Recipes() {
-		testRecipe(g, r, ui)
+		testRecipe(r, ui)
 	}
 }
 
-func testRecipe(g rc_group.Group, r rc_recipe.Spec, ui app_ui.UI) {
+func testRecipe(r rc_recipe.Spec, ui app_ui.UI) {
 	f := flag.NewFlagSet("", flag.ContinueOnError)
 	r.SetFlags(f, ui)
-	r.PrintUsage(ui, f)
+	r.PrintUsage(ui)
 
 	for _, m := range r.Messages() {
 		ui.Info(m)

@@ -8,10 +8,11 @@ import (
 	"github.com/skratchdot/open-golang/open"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/web/web_handler"
 	"github.com/watermint/toolbox/infra/web/web_job"
 	"github.com/watermint/toolbox/infra/web/web_user"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"sync"
 	"time"
@@ -30,7 +31,7 @@ func (z *Web) Preset() {
 }
 
 func (z *Web) Test(c app_control.Control) error {
-	return qt_endtoend.HumanInteractionRequired()
+	return rc_exec.Exec(c, z, rc_recipe.NoCustomValues)
 }
 
 func (z *Web) Exec(c app_control.Control) error {
@@ -87,8 +88,10 @@ func (z *Web) Exec(c app_control.Control) error {
 
 	time.Sleep(2 * time.Second)
 	c.Log().Info("Trying open browser")
-	open.Start(loginUrl)
-	wg.Wait()
+	if !c.IsTest() {
+		open.Start(loginUrl)
+		wg.Wait()
+	}
 
 	return nil
 }

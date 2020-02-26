@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
@@ -182,6 +183,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 					})
 				continue
 			}
+			app_ui.ShowProgress(c.UI())
 			numEntriesProceed++
 			if e.IsDir() {
 				lastErr = scanFolder(filepath.Join(path, e.Name()))
@@ -235,10 +237,10 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 }
 
 func (z *Upload) Exec(c app_control.Control) error {
-	if err := z.Uploaded.Open(); err != nil {
+	if err := z.Uploaded.Open(rp_model.NoConsoleOutput()); err != nil {
 		return err
 	}
-	if err := z.Skipped.Open(); err != nil {
+	if err := z.Skipped.Open(rp_model.NoConsoleOutput()); err != nil {
 		return err
 	}
 	if err := z.Summary.Open(); err != nil {

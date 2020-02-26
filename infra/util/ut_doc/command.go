@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/csv"
-	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
@@ -13,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/ui/app_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -22,61 +22,37 @@ import (
 	"text/template"
 )
 
-func NewCommand(ctl app_control.Control, path string, toStdout bool) *Commands {
+func NewCommand() *Commands {
+	return &Commands{}
+}
+
+func NewCommandWithPath(path string, toStdout bool) *Commands {
 	return &Commands{
-		ctl:      ctl,
 		toStdout: toStdout,
 		path:     path,
 	}
 }
 
 type Commands struct {
-	ctl      app_control.Control
 	toStdout bool
 	path     string
 }
 
-func (z *Commands) optionsTable(spec rc_recipe.SpecValue) string {
+func (z *Commands) optionsTable(ctl app_control.Control, spec rc_recipe.SpecValue) string {
 	var b bytes.Buffer
 	w := bufio.NewWriter(&b)
-	mc := z.ctl.Messages()
+	mc := ctl.Messages()
 
 	mui := app_ui.NewMarkdown(mc, w, false)
-	mt := mui.InfoTable("")
-
-	mt.Header(
-		app_msg.M("recipe.dev.doc.options.header.option"),
-		app_msg.M("recipe.dev.doc.options.header.description"),
-		app_msg.M("recipe.dev.doc.options.header.default"),
-	)
-
-	if len(spec.ValueNames()) < 1 {
-		return ""
-	}
-
-	for _, k := range spec.ValueNames() {
-		vd := spec.ValueDefault(k)
-		vkd := spec.ValueCustomDefault(k)
-		if mc.Exists(vkd.Key()) {
-			vd = mc.Text(vkd.Key())
-		}
-
-		mt.Row(
-			app_msg.M("recipe.dev.doc.options.body.option", app_msg.P{"Option": strcase.ToKebab(k)}),
-			spec.ValueDesc(k),
-			app_msg.M("raw", app_msg.P{"Raw": vd}),
-		)
-	}
-
-	mt.Flush()
+	app_doc.PrintOptionsTable(mui, spec)
 	w.Flush()
 	return b.String()
 }
 
-func (z *Commands) reportTable(rs rp_model.Spec) string {
+func (z *Commands) reportTable(ctl app_control.Control, rs rp_model.Spec) string {
 	var b bytes.Buffer
 	w := bufio.NewWriter(&b)
-	mc := z.ctl.Messages()
+	mc := ctl.Messages()
 
 	mui := app_ui.NewMarkdown(mc, w, false)
 	mt := mui.InfoTable("")
@@ -99,10 +75,10 @@ func (z *Commands) reportTable(rs rp_model.Spec) string {
 	return b.String()
 }
 
-func (z *Commands) feedTable(spec fd_file.Spec) string {
+func (z *Commands) feedTable(ctl app_control.Control, spec fd_file.Spec) string {
 	var b bytes.Buffer
 	w := bufio.NewWriter(&b)
-	mc := z.ctl.Messages()
+	mc := ctl.Messages()
 
 	mui := app_ui.NewMarkdown(mc, w, false)
 	mt := mui.InfoTable(spec.Name())
@@ -127,18 +103,18 @@ func (z *Commands) feedTable(spec fd_file.Spec) string {
 	return b.String()
 }
 
-func (z *Commands) feedSample(spec fd_file.Spec) string {
+func (z *Commands) feedSample(ctl app_control.Control, spec fd_file.Spec) string {
 	var b bytes.Buffer
 	w := bufio.NewWriter(&b)
 	cw := csv.NewWriter(w)
-	ui := z.ctl.UI()
+	ui := ctl.UI()
 
 	cols := spec.Columns()
 	cw.Write(spec.Columns())
 
 	exRow := make([]string, 0)
 	for _, col := range cols {
-		exRow = append(exRow, ui.TextK(spec.ColumnExample(col).Key()))
+		exRow = append(exRow, ui.Text(spec.ColumnExample(col)))
 	}
 	cw.Write(exRow)
 	cw.Flush()
@@ -146,20 +122,20 @@ func (z *Commands) feedSample(spec fd_file.Spec) string {
 	return b.String()
 }
 
-func (z *Commands) Generate(r rc_recipe.Recipe) error {
+func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 	spec := rc_spec.New(r)
 
-	l := z.ctl.Log()
-	ui := z.ctl.UI()
+	l := ctl.Log()
+	ui := ctl.UI()
 
 	l.Info("Generating command manual", zap.String("command", spec.CliPath()))
 
-	tmplBytes, err := z.ctl.Resource("command.tmpl.md")
+	tmplBytes, err := ctl.Resource("command.tmpl.md")
 	if err != nil {
 		l.Error("Template not found", zap.Error(err))
 		return err
 	}
-	tmpl, err := template.New(spec.CliPath()).Funcs(msgFuncMap(z.ctl, z.toStdout)).Parse(string(tmplBytes))
+	tmpl, err := template.New(spec.CliPath()).Funcs(msgFuncMap(ctl, z.toStdout)).Parse(string(tmplBytes))
 	if err != nil {
 		l.Error("Unable to compile template", zap.Error(err))
 		return err
@@ -170,7 +146,7 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 	{
 		var b bytes.Buffer
 		w := bufio.NewWriter(&b)
-		cui := app_ui.NewBufferConsole(z.ctl.Messages(), w)
+		cui := app_ui.NewBufferConsole(ctl.Messages(), w)
 		rc_group.AppHeader(cui, "xx.x.xxx")
 		cui.Info(api_auth_impl.MCcAuth.OauthSeq1.With("Url", "https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx"))
 		cui.Info(api_auth_impl.MCcAuth.OauthSeq2)
@@ -185,8 +161,8 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 	params["CommandDesc"] = ui.TextOrEmpty(spec.Desc())
 	params["CommandArgs"] = ui.TextOrEmpty(spec.CliArgs())
 	params["CommandNote"] = ui.TextOrEmpty(spec.CliNote())
-	params["Options"] = z.optionsTable(spec)
-	params["CommonOptions"] = z.optionsTable(commonSpec)
+	params["Options"] = z.optionsTable(ctl, spec)
+	params["CommonOptions"] = z.optionsTable(ctl, commonSpec)
 	params["UseAuth"] = len(spec.ConnScopes()) > 0
 	params["UseAuthPersonal"] = spec.ConnUsePersonal()
 	params["UseAuthBusiness"] = spec.ConnUseBusiness()
@@ -198,8 +174,8 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 	feedSamples := make(map[string]string, 0)
 	for _, fd := range spec.Feeds() {
 		feedNames = append(feedNames, fd.Name())
-		feeds[fd.Name()] = z.feedTable(fd)
-		feedSamples[fd.Name()] = z.feedSample(fd)
+		feeds[fd.Name()] = z.feedTable(ctl, fd)
+		feedSamples[fd.Name()] = z.feedSample(ctl, fd)
 	}
 	sort.Strings(feedNames)
 	params["FeedNames"] = feedNames
@@ -211,7 +187,7 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 	reports := make(map[string]string, 0)
 	for _, rs := range spec.Reports() {
 		reportNames = append(reportNames, rs.Name())
-		reports[rs.Name()] = z.reportTable(rs)
+		reports[rs.Name()] = z.reportTable(ctl, rs)
 	}
 	sort.Strings(reportNames)
 	params["ReportNames"] = reportNames
@@ -230,10 +206,10 @@ func (z *Commands) Generate(r rc_recipe.Recipe) error {
 	return tmpl.Execute(NewRemoveRedundantLinesWriter(out), params)
 }
 
-func (z *Commands) GenerateAll() error {
-	cl := z.ctl.(app_control_launcher.ControlLauncher)
+func (z *Commands) GenerateAll(ctl app_control.Control) error {
+	cl := ctl.(app_control_launcher.ControlLauncher)
 	recipes := cl.Catalogue().Recipes()
-	l := z.ctl.Log()
+	l := ctl.Log()
 
 	numSecret := 0
 
@@ -243,7 +219,7 @@ func (z *Commands) GenerateAll() error {
 			numSecret++
 			continue
 		}
-		if err := z.Generate(r); err != nil {
+		if err := z.Generate(ctl, r); err != nil {
 			return err
 		}
 	}

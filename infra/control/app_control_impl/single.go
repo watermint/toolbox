@@ -27,29 +27,33 @@ import (
 
 func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, cat rc_catalogue.Catalogue) app_control.Control {
 	return &Single{
-		ui:           ui,
 		box:          bx,
-		web:          web,
+		catalogue:    cat,
 		mc:           mc,
 		quiet:        quiet,
-		catalogue:    cat,
 		testResource: gjson.Parse("{}"),
+		ui:           ui,
+		web:          web,
 	}
 }
 
 type Single struct {
-	ui           app_ui.UI
-	flc          *app_log.FileLogContext
-	cap          *app_log.CaptureContext
 	box          *rice.Box
-	web          *rice.Box
-	mc           app_msg_container.Container
-	ws           app_workspace.Workspace
-	opts         *app_control.UpOpts
-	fork         bool
-	quiet        bool
+	cap          *app_log.CaptureContext
 	catalogue    rc_catalogue.Catalogue
+	flc          *app_log.FileLogContext
+	fork         bool
+	mc           app_msg_container.Container
+	opts         *app_control.UpOpts
+	quiet        bool
 	testResource gjson.Result
+	ui           app_ui.UI
+	web          *rice.Box
+	ws           app_workspace.Workspace
+}
+
+func (z *Single) UIFormat() string {
+	return z.opts.UIFormat
 }
 
 func (z *Single) IsAutoOpen() bool {
@@ -82,16 +86,16 @@ func (z *Single) Fork(name string, opts ...app_control.UpOpt) (ctl app_control.C
 		return nil, err
 	}
 	s := &Single{
-		ui:           app_ui.CloneConsole(z.ui, z.mc),
 		box:          z.box,
-		web:          z.web,
-		mc:           z.mc,
+		catalogue:    z.catalogue,
 		fork:         true,
-		ws:           ws,
+		mc:           z.mc,
 		opts:         co,
 		quiet:        z.quiet,
-		catalogue:    z.catalogue,
 		testResource: z.testResource,
+		ui:           app_ui.CloneConsole(z.ui, z.mc),
+		web:          z.web,
+		ws:           ws,
 	}
 	if err := s.upWithWorkspace(ws); err != nil {
 		return nil, err
@@ -103,17 +107,17 @@ func (z *Single) With(mc app_msg_container.Container) app_control.Control {
 	ui := app_ui.CloneConsole(z.ui, mc)
 
 	return &Single{
-		ui:           ui,
-		flc:          z.flc,
-		cap:          z.cap,
 		box:          z.box,
-		web:          z.web,
+		cap:          z.cap,
+		catalogue:    z.catalogue,
+		flc:          z.flc,
 		mc:           mc,
-		ws:           z.ws,
 		opts:         z.opts,
 		quiet:        z.quiet,
-		catalogue:    z.catalogue,
 		testResource: z.testResource,
+		ui:           ui,
+		web:          z.web,
+		ws:           z.ws,
 	}
 }
 

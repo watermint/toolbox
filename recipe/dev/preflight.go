@@ -12,11 +12,17 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
+	"github.com/watermint/toolbox/recipe/dev/spec"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"path/filepath"
 	"sort"
+	"strconv"
 	"strings"
+)
+
+const (
+	minimumSpecDocVersion = 59
 )
 
 type Preflight struct {
@@ -62,6 +68,21 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 
 func (z *Preflight) Exec(c app_control.Control) error {
 	l := c.Log()
+
+	release := 0
+	if !z.TestMode {
+		v, err := ioutil.ReadFile("version")
+		if err != nil {
+			l.Error("Unable to read version file", zap.Error(err))
+			return err
+		}
+		release, err = strconv.Atoi(string(v))
+		if err != nil {
+			l.Error("Unable to parse version number", zap.Error(err))
+			return err
+		}
+	}
+
 	{
 		l.Info("Generating English documents")
 		err := rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
@@ -88,6 +109,69 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			rr.Lang = "ja"
 			rr.Filename = "README_ja.md"
 			rr.CommandPath = "doc/generated_ja/"
+		})
+		if err != nil {
+			l.Error("Failed to generate documents", zap.Error(err))
+			return err
+		}
+	}
+
+	if !z.TestMode {
+		l.Info("Generating Spec document (English)")
+		err := rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
+			rr := r.(*spec.Doc)
+			rr.Lang = "en"
+			rr.FilePath = "doc/generated/spec.json"
+		})
+		if err != nil {
+			l.Error("Failed to generate documents", zap.Error(err))
+			return err
+		}
+	}
+
+	if !z.TestMode {
+		l.Info("Generating Spec document (Japanese)")
+		err := rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
+			rr := r.(*spec.Doc)
+			rr.Lang = "ja"
+			rr.FilePath = "doc/generated_ja/spec.json"
+		})
+		if err != nil {
+			l.Error("Failed to generate documents", zap.Error(err))
+			return err
+		}
+	}
+
+	cloneSpec := func(path string) error {
+		if z.TestMode {
+			l.Debug("Skip for test")
+			return nil
+		}
+		s, err := ioutil.ReadFile(filepath.Join(path, "spec.json"))
+		if err != nil {
+			l.Error("Unable to open current spec file", zap.Error(err))
+			return err
+		}
+		err = ioutil.WriteFile(filepath.Join(path, fmt.Sprintf("spec_%d.json", release)), s, 0644)
+		if err != nil {
+			l.Error("Unable to create version spec file", zap.Error(err))
+			return err
+		}
+		return nil
+	}
+
+	if err := cloneSpec("doc/generated"); err != nil {
+		return err
+	}
+	if err := cloneSpec("doc/generated_ja"); err != nil {
+		return err
+	}
+	if !z.TestMode && minimumSpecDocVersion < release {
+		l.Info("Generating release notes")
+		err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
+			rr := r.(*spec.Diff)
+			rr.Release1 = fmt.Sprintf("%d", release-1)
+			rr.FilePath = "doc/generated/changes.md"
 		})
 		if err != nil {
 			l.Error("Failed to generate documents", zap.Error(err))
