@@ -52,9 +52,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |---------------|--------------------------------------------------------------------------|---------|
 | `-category`   | Filter the returned events to a single category. This field is optional. |         |
 | `-end-time`   | Ending time (exclusive).                                                 |         |
+| `-file`       | User email address list file                                             |         |
 | `-peer`       | Account alias                                                            | default |
 | `-start-time` | Starting time (inclusive)                                                |         |
-| `-user-list`  | User email address list file                                             |         |
 
 Common options:
 
@@ -73,7 +73,7 @@ Common options:
 
 # File formats
 
-## Format: UserList 
+## Format: File 
 
 | Column | Description        | Value example    |
 |--------|--------------------|------------------|

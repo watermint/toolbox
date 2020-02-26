@@ -4234,7 +4234,7 @@
     ],
     "feeds": [
       {
-        "name": "UserList",
+        "name": "File",
         "desc": "",
         "columns": [
           {

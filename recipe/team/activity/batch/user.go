@@ -98,7 +98,7 @@ type User struct {
 	Category   string
 	Combined   rp_model.RowReport
 	User       rp_model.RowReport
-	UserList   fd_file.RowFeed
+	File       fd_file.RowFeed
 	EventCache kv_storage.Storage
 }
 
@@ -112,7 +112,7 @@ func (z *User) Exec(c app_control.Control) error {
 	userReps := make(map[string]rp_model.RowReport)
 
 	q := c.NewQueue()
-	err := z.UserList.EachRow(func(m interface{}, rowIndex int) error {
+	err := z.File.EachRow(func(m interface{}, rowIndex int) error {
 		e := m.(*UserEmail)
 
 		suffix := ut_filepath.Escape(e.Email)
@@ -184,5 +184,5 @@ func (z *User) Test(c app_control.Control) error {
 func (z *User) Preset() {
 	z.Combined.SetModel(&mo_activity.Compatible{})
 	z.User.SetModel(&mo_activity.Compatible{})
-	z.UserList.SetModel(&UserEmail{})
+	z.File.SetModel(&UserEmail{})
 }
