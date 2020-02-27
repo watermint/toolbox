@@ -18,7 +18,7 @@ jobs:
       - save_cache:
           key: go-mod-{{ checksum "go.sum" }}
           paths:
-            - $GOPATH/pkg
+            - /go/pkg
       - run: go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' ./... | xargs -L 1 sh -c
       - run: gover
       - run: goveralls -coverprofile=gover.coverprofile -service=circle-ci -v
