@@ -6,12 +6,20 @@ jobs:
     working_directory: /go/src/github.com/watermint/toolbox
     steps:
       - checkout
+      - restore_cache:
+          - keys:
+              - go-mod-{{ checksum "go.sum" }}
       - run: ./.circleci/prepare.sh
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
       - run: go get golang.org/x/tools/cmd/cover
       - run: go get github.com/modocache/gover
       - run: go get github.com/mattn/goveralls
+      - run: go mod download
+      - save_cache:
+          - key: go-mod{{ checksum "go.sum" }}
+          - paths:
+              - $GOPATH/pkg
       - run: go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' ./... | xargs -L 1 sh -c
       - run: gover
       - run: goveralls -coverprofile=gover.coverprofile -service=circle-ci -v
