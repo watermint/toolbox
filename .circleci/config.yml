@@ -31,9 +31,9 @@ jobs:
       - run: go get github.com/sozorogami/gover
       - run: go get github.com/mattn/goveralls
       - run: go get github.com/jstemmer/go-junit-report
-      - run: go list -f '{{if len .TestGoFiles}}"mkdir -p test/results/{{.ImportPath}}"{{end}} | xargs -L 1 sh -c
+      - run: go list -f '{{if len .TestGoFiles}}"mkdir -p test/results/{{.ImportPath}}"{{end}}' | xargs -L 1 sh -c
       - run: go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}} 2>&1 | tee test/results/{{.ImportPath}}/gotest.txt"{{end}}' ./... | xargs -L 1 sh -c
-      - run: go list -f '{{if len .TestGoFiles}}"cat test/results/{{.ImportPath}}/gotest.txt | go-junit-report > test/results/{{.ImportPath}}/report.xml"{{end}} | xargs -L 1 sh -c
+      - run: go list -f '{{if len .TestGoFiles}}"cat test/results/{{.ImportPath}}/gotest.txt | go-junit-report > test/results/{{.ImportPath}}/report.xml"{{end}}' | xargs -L 1 sh -c
       - save_cache:
           key: go-pkg-mod-{{ checksum "go.sum" }}
           paths:
