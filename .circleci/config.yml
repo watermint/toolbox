@@ -12,10 +12,6 @@ jobs:
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
       - run: ./build.sh
-      - save_cache:
-          key: go-mod-{{ checksum "go.sum" }}
-          paths:
-            - /go/pkg
       - run: go run tbx.go file sync up -peer end_to_end_test -dropbox-path /watermint-toolbox-build -local-path /go/src/github.com/watermint/toolbox/dist
       - store_artifacts:
           path: /go/src/github.com/watermint/toolbox/dist
@@ -32,11 +28,13 @@ jobs:
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
       - run: go get golang.org/x/tools/cmd/cover
-      - run: go get github.com/modocache/gover
       - run: go get github.com/mattn/goveralls
-      - run: go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' ./... | xargs -L 1 sh -c
-      - run: gover
-      - run: goveralls -coverprofile=gover.coverprofile -service=circle-ci -v
+      - run: go test -benchmem -failfast -coverprofile=profile.cov ./...
+      - save_cache:
+          key: go-mod-{{ checksum "go.sum" }}
+          paths:
+            - /go/pkg
+      - run: goveralls -coverprofile=profile.cov -service=circle-ci -v
 
 workflows:
   version: 2
