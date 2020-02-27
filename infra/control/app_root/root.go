@@ -10,7 +10,7 @@ import (
 type Hook func()
 
 var (
-	rootLogger                           = app_log.NewConsoleLogger(false)
+	rootLogger                           = app_log.NewConsoleLogger(false, false)
 	logWrapper                           = app_log.NewLogWrapper(rootLogger)
 	captureLogger            *zap.Logger = nil
 	ready                                = false
@@ -23,7 +23,7 @@ func Ready() bool {
 }
 
 func InitLogger() {
-	rootLogger = app_log.NewConsoleLogger(false)
+	rootLogger = app_log.NewConsoleLogger(false, false)
 	logWrapper = app_log.NewLogWrapper(rootLogger)
 }
 

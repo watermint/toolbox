@@ -5,6 +5,9 @@
     {{with (eq $log.Tag "info")}}
         <div>{{$log.Message}}</div>
     {{end}}
+    {{with (eq $log.Tag "code_block")}}
+        <blockquote><code>{{$log.Message}}</code></blockquote>
+    {{end}}
     {{with (eq $log.Tag "table_start")}}
         <h2>{{$log.TableId}}</h2>
         <div class="overflow-auto mb-4 mt-4">

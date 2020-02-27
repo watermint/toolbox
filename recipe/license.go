@@ -13,10 +13,11 @@ import (
 )
 
 type License struct {
-	ToolboxHeader     app_msg.Message
-	ThirdPartyHeader  app_msg.Message
-	ThirdPartyNotice  app_msg.Message
-	ThirdPartyPackage app_msg.Message
+	ErrorLicenseInfoNotFound app_msg.Message
+	ToolboxHeader            app_msg.Message
+	ThirdPartyHeader         app_msg.Message
+	ThirdPartyNotice         app_msg.Message
+	ThirdPartyPackage        app_msg.Message
 }
 
 func (z *License) Preset() {
@@ -30,6 +31,7 @@ func (z *License) Exec(c app_control.Control) error {
 	ui := c.UI()
 	tbxLicense, otherLicenses, order, err := LoadLicense(c)
 	if err != nil {
+		ui.Error(z.ErrorLicenseInfoNotFound)
 		return err
 	}
 

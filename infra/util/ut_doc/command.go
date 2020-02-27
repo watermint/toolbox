@@ -15,6 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"os"
 	"sort"
@@ -194,7 +195,7 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 	params["Reports"] = reports
 	params["ReportAvailable"] = len(reportNames) > 0
 
-	out := os.Stdout
+	out := ut_io.NewDefaultOut(ctl.IsTest())
 	if !z.toStdout {
 		outPath := z.path + strings.ReplaceAll(spec.CliPath(), " ", "-") + ".md"
 		out, err = os.Create(outPath)

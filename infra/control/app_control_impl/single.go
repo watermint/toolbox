@@ -215,7 +215,7 @@ func (z *Single) upWithWorkspace(ws app_workspace.Workspace) (err error) {
 		return err
 	}
 
-	z.flc, err = app_log.NewFileLogger(ws.Log(), z.opts.Debug)
+	z.flc, err = app_log.NewFileLogger(ws.Log(), z.opts.Debug, z.opts.Test)
 	if err != nil {
 		return err
 	}

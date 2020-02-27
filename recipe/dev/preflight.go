@@ -26,15 +26,12 @@ const (
 )
 
 type Preflight struct {
-	TestMode bool
 }
 
 func (z *Preflight) Preset() {
-	z.TestMode = false
 }
 
 func (z *Preflight) Test(c app_control.Control) error {
-	z.TestMode = true
 	return z.Exec(c)
 }
 
@@ -70,7 +67,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	l := c.Log()
 
 	release := 0
-	if !z.TestMode {
+	if !c.IsTest() {
 		v, err := ioutil.ReadFile("version")
 		if err != nil {
 			l.Error("Unable to read version file", zap.Error(err))
@@ -87,7 +84,6 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		l.Info("Generating English documents")
 		err := rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
 			rr := r.(*Doc)
-			rr.TestMode = z.TestMode
 			rr.Badge = true
 			rr.MarkdownReadme = true
 			rr.Lang = "en"
@@ -103,7 +99,6 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		l.Info("Generating Japanese documents")
 		err := rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
 			rr := r.(*Doc)
-			rr.TestMode = z.TestMode
 			rr.Badge = true
 			rr.MarkdownReadme = true
 			rr.Lang = "ja"
@@ -116,7 +111,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		}
 	}
 
-	if !z.TestMode {
+	if !c.IsTest() {
 		l.Info("Generating Spec document (English)")
 		err := rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
 			rr := r.(*spec.Doc)
@@ -129,7 +124,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		}
 	}
 
-	if !z.TestMode {
+	if !c.IsTest() {
 		l.Info("Generating Spec document (Japanese)")
 		err := rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
 			rr := r.(*spec.Doc)
@@ -143,7 +138,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	}
 
 	cloneSpec := func(path string) error {
-		if z.TestMode {
+		if c.IsTest() {
 			l.Debug("Skip for test")
 			return nil
 		}
@@ -166,7 +161,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	if err := cloneSpec("doc/generated_ja"); err != nil {
 		return err
 	}
-	if !z.TestMode && minimumSpecDocVersion < release {
+	if !c.IsTest() && minimumSpecDocVersion < release {
 		l.Info("Generating release notes")
 		err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
 			rr := r.(*spec.Diff)

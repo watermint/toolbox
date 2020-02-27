@@ -1168,6 +1168,7 @@
   "recipe.member.delete_row.email.example": "john@example.com",
   "recipe.member.detach.cli.args": "-file /path/to/data/file.csv",
   "recipe.member.detach.flag.file": "Data file",
+  "recipe.license.error_license_info_not_found": "License data not found. Please refer https://github.com/watermint/toolbox",
   "recipe.member.detach.flag.peer": "Account alias",
   "recipe.member.detach.flag.revoke_team_shares": "True for revoke shared folder access which owned by the team",
   "recipe.member.detach.title": "Convert Dropbox Business accounts to a Basic account",

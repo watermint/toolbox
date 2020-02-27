@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"github.com/watermint/toolbox/infra/util/ut_string"
 	"github.com/watermint/toolbox/infra/util/ut_terminal"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
@@ -62,9 +63,21 @@ func NewConsole(mc app_msg_container.Container, qm qt_missingmsg.Message, testMo
 	return &console{
 		id:       newId(),
 		mc:       mc,
-		out:      os.Stdout,
+		out:      ut_io.NewDefaultOut(testMode),
 		in:       os.Stdin,
 		testMode: testMode,
+		qm:       qm,
+		useColor: true,
+	}
+}
+
+func NewNullConsole(mc app_msg_container.Container, qm qt_missingmsg.Message) UI {
+	return &console{
+		id:       newId(),
+		mc:       mc,
+		out:      ioutil.Discard,
+		in:       os.Stdin,
+		testMode: true,
 		qm:       qm,
 		useColor: true,
 	}

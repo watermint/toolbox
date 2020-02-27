@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -236,7 +237,7 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 	var w io.WriteCloser
 	shouldClose := false
 	if z.FilePath == "" {
-		w = os.Stdout
+		w = ut_io.NewDefaultOut(c.IsTest())
 	} else {
 		var err error
 		w, err = os.Create(z.FilePath)
