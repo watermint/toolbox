@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: go-mod-{{ checksum "go.sum" }}
+          key: go-pkg-mod-{{ checksum "go.sum" }}
       - run: ./.circleci/prepare.sh
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
@@ -31,9 +31,9 @@ jobs:
       - run: go get github.com/mattn/goveralls
       - run: CGO_ENABLED=0 go test -failfast -coverprofile=profile.cov ./...
       - save_cache:
-          key: go-mod-{{ checksum "go.sum" }}
+          key: go-pkg-mod-{{ checksum "go.sum" }}
           paths:
-            - /go/pkg
+            - /go/pkg/mod
       - run: goveralls -coverprofile=profile.cov -service=circle-ci -v
 
 workflows:
