@@ -9,6 +9,8 @@ jobs:
       - restore_cache:
           key: go-mod-{{ checksum "go.sum" }}
       - run: ./.circleci/prepare.sh
+      - run: go get github.com/GeertJohan/go.rice
+      - run: go get github.com/GeertJohan/go.rice/rice
       - run: ./build.sh
       - save_cache:
           key: go-mod-{{ checksum "go.sum" }}
