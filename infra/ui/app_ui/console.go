@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/util/ut_string"
+	"github.com/watermint/toolbox/infra/util/ut_terminal"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
@@ -350,7 +351,7 @@ func (z *console) colorPrint(t string, color int) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	if app.IsWindows() || !z.useColor {
+	if app.IsWindows() || !z.useColor || !ut_terminal.IsTerminal() {
 		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
 		fmt.Fprintf(z.out, "\x1b[%dm%s\x1b[0m\n", color, t)

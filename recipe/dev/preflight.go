@@ -170,6 +170,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		l.Info("Generating release notes")
 		err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
 			rr := r.(*spec.Diff)
+			rr.Lang = "en"
 			rr.Release1 = fmt.Sprintf("%d", release-1)
 			rr.FilePath = "doc/generated/changes.md"
 		})

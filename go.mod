@@ -33,6 +33,7 @@ require (
 	go.uber.org/atomic v1.5.1
 	go.uber.org/multierr v1.4.0 // indirect
 	go.uber.org/zap v1.14.0
+	golang.org/x/crypto v0.0.0-20190510104115-cbcb75029529
 	golang.org/x/net v0.0.0-20200222125558-5a598a2470a0 // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
