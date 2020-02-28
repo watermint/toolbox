@@ -6,6 +6,6 @@ import (
 )
 
 func TestDumpStats(t *testing.T) {
-	l := app_log.NewConsoleLogger(true)
+	l := app_log.NewConsoleLogger(true, true)
 	DumpStats(l)
 }

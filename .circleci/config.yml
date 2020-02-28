@@ -6,16 +6,46 @@ jobs:
     working_directory: /go/src/github.com/watermint/toolbox
     steps:
       - checkout
+      - restore_cache:
+          key: go-pkg-mod-{{ checksum "go.sum" }}
       - run: ./.circleci/prepare.sh
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
-      - run: go get golang.org/x/tools/cmd/cover
-      - run: go get github.com/modocache/gover
-      - run: go get github.com/mattn/goveralls
-      - run: go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' ./... | xargs -L 1 sh -c
-      - run: gover
-      - run: goveralls -coverprofile=gover.coverprofile -service=circle-ci -v
       - run: ./build.sh
       - run: go run tbx.go file sync up -peer end_to_end_test -dropbox-path /watermint-toolbox-build -local-path /go/src/github.com/watermint/toolbox/dist
       - store_artifacts:
           path: /go/src/github.com/watermint/toolbox/dist
+
+  test:
+    docker:
+      - image: circleci/golang:1.13
+    working_directory: /go/src/github.com/watermint/toolbox
+    steps:
+      - checkout
+      - restore_cache:
+          key: go-pkg-mod-{{ checksum "go.sum" }}
+      - run: ./.circleci/prepare.sh
+      - run: go get github.com/GeertJohan/go.rice
+      - run: go get github.com/GeertJohan/go.rice/rice
+      - run: go get golang.org/x/tools/cmd/cover
+      - run: go get github.com/sozorogami/gover
+      - run: go get github.com/mattn/goveralls
+      - run: go get github.com/jstemmer/go-junit-report
+      - run: go list -f '{{if len .TestGoFiles}}"mkdir -p test/results/{{.ImportPath}}"{{end}}' ./... | xargs -L 1 sh -c
+      - run: go list -f '{{if len .TestGoFiles}}"go test -v -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}} 2>&1 > test/results/{{.ImportPath}}/gotest.txt"{{end}}' ./... | xargs -L 1 sh -c
+      - run: go list -f '{{if len .TestGoFiles}}"cat test/results/{{.ImportPath}}/gotest.txt | go-junit-report > test/results/{{.ImportPath}}/report.xml"{{end}}' ./... | xargs -L 1 sh -c
+      - save_cache:
+          key: go-pkg-mod-{{ checksum "go.sum" }}
+          paths:
+            - /go/pkg/mod
+      - store_test_results:
+          path: /go/src/github.com/watermint/toolbox/test/results
+      - run: gover
+      - run: goveralls -coverprofile=gover.coverprofile -service=circle-ci -v
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test

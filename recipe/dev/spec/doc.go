@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -38,7 +39,7 @@ func (z *Doc) traverseCatalogue(c app_control.Control, cat rc_catalogue.Catalogu
 	var err error
 	shouldClose := false
 	if z.FilePath == "" {
-		w = os.Stdout
+		w = ut_io.NewDefaultOut(c.IsTest())
 	} else {
 		w, err = os.Create(z.FilePath)
 		if err != nil {

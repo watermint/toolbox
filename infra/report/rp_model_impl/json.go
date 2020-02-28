@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -40,7 +41,7 @@ func (z *jsonWriter) Name() string {
 func (z *jsonWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) (err error) {
 	z.ctl = ctl
 	if z.toStdout {
-		z.w = os.Stdout
+		z.w = ut_io.NewDefaultOut(false)
 		return nil
 	}
 	l := ctl.Log()

@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"github.com/google/go-cmp/cmp"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -20,6 +22,7 @@ import (
 )
 
 type Diff struct {
+	Lang                string
 	Release1            string
 	Release2            string
 	FilePath            string
@@ -203,7 +206,7 @@ func (z *Diff) diffSpec(mui app_ui.UI, s1, s2 *rc_doc.Recipe) {
 	})
 }
 
-func (z *Diff) Exec(c app_control.Control) error {
+func (z *Diff) makeDiff(c app_control.Control) error {
 	l := c.Log()
 	r1, err := z.loadSpec(c, z.Release1)
 	if err != nil {
@@ -234,7 +237,7 @@ func (z *Diff) Exec(c app_control.Control) error {
 	var w io.WriteCloser
 	shouldClose := false
 	if z.FilePath == "" {
-		w = os.Stdout
+		w = ut_io.NewDefaultOut(c.IsTest())
 	} else {
 		var err error
 		w, err = os.Create(z.FilePath)
@@ -292,6 +295,14 @@ func (z *Diff) Exec(c app_control.Control) error {
 	}
 
 	return nil
+}
+
+func (z *Diff) Exec(c app_control.Control) error {
+	if cl, ok := app_control_launcher.ControlWithLang(z.Lang, c); ok {
+		return z.makeDiff(cl)
+	} else {
+		return z.makeDiff(c)
+	}
 }
 
 func (z *Diff) Test(c app_control.Control) error {

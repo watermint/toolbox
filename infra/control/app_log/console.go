@@ -2,16 +2,16 @@ package app_log
 
 import (
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"os"
 )
 
-func NewConsoleLogger(debug bool) *zap.Logger {
-	return zap.New(NewConsoleLoggerCore(debug))
+func NewConsoleLogger(debug bool, test bool) *zap.Logger {
+	return zap.New(NewConsoleLoggerCore(debug, test))
 }
 
-func NewConsoleLoggerCore(debug bool) zapcore.Core {
+func NewConsoleLoggerCore(debug bool, test bool) zapcore.Core {
 	en := zapcore.EncoderConfig{
 		LevelKey:       "level",
 		MessageKey:     "msg",
@@ -22,7 +22,8 @@ func NewConsoleLoggerCore(debug bool) zapcore.Core {
 	} else {
 		en.EncodeLevel = zapcore.CapitalColorLevelEncoder
 	}
-	zo := zapcore.AddSync(os.Stdout)
+	w := ut_io.NewDefaultOut(test)
+	zo := zapcore.AddSync(w)
 
 	var level zapcore.Level
 	if debug {

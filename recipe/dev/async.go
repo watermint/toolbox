@@ -3,6 +3,7 @@ package dev
 import (
 	"bufio"
 	"errors"
+	"github.com/google/go-cmp/cmp"
 	"github.com/watermint/toolbox/domain/model/mo_group"
 	"github.com/watermint/toolbox/domain/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/service/sv_group"
@@ -173,46 +174,11 @@ func (z *Async) Test(c app_control.Control) error {
 	}
 	sort.Strings(concurrentReport)
 
-	var err error
-	if len(singleReport) != len(concurrentReport) {
-		l.Error("Size mismatch")
-		err = errors.New("report size mismatch")
+	d := cmp.Diff(singleReport, concurrentReport)
+	l.Debug("Diff")
+	if d != "" {
+		l.Error("Diff found", zap.String("diff", d))
+		return errors.New("diff found")
 	}
-
-	l.Info("Compare single to concurrent",
-		zap.Int("singleRecords", len(singleReport)),
-		zap.Int("concurrentRecords", len(concurrentReport)),
-	)
-	for i, single := range singleReport {
-		if len(concurrentReport) < i {
-			break
-		}
-		concurrent := concurrentReport[i]
-		if concurrent != single {
-			l.Error("Line diff",
-				zap.Int("Line", i),
-				zap.String("Single", single),
-				zap.String("Concurrent", concurrent),
-			)
-			err = errors.New("line diff found")
-		}
-	}
-
-	l.Info("Compare concurrent to single")
-	for i, concurrent := range concurrentReport {
-		if len(singleReport) < i {
-			break
-		}
-		single := singleReport[i]
-		if concurrent != single {
-			l.Error("Line diff",
-				zap.Int("Line", i),
-				zap.String("Single", single),
-				zap.String("Concurrent", concurrent),
-			)
-			err = errors.New("line diff found")
-		}
-	}
-
-	return err
+	return nil
 }

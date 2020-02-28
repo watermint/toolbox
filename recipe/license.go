@@ -3,9 +3,9 @@ package recipe
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"sort"
@@ -13,6 +13,11 @@ import (
 )
 
 type License struct {
+	ErrorLicenseInfoNotFound app_msg.Message
+	ToolboxHeader            app_msg.Message
+	ThirdPartyHeader         app_msg.Message
+	ThirdPartyNotice         app_msg.Message
+	ThirdPartyPackage        app_msg.Message
 }
 
 func (z *License) Preset() {
@@ -26,31 +31,23 @@ func (z *License) Exec(c app_control.Control) error {
 	ui := c.UI()
 	tbxLicense, otherLicenses, order, err := LoadLicense(c)
 	if err != nil {
+		ui.Error(z.ErrorLicenseInfoNotFound)
 		return err
 	}
 
-	for _, line := range tbxLicense {
-		fmt.Println(line)
-	}
-	fmt.Printf("\n\n")
-	fmt.Println(ui.TextK("recipe.license.third_party_notice.head"))
-	fmt.Printf("\n")
-	fmt.Println(ui.TextK("recipe.license.third_party_notice.body"))
-	fmt.Printf("\n")
+	ui.Header(z.ToolboxHeader)
+	ui.Code(strings.Join(tbxLicense, "\n"))
+
+	ui.Header(z.ThirdPartyHeader)
+	ui.Info(z.ThirdPartyNotice)
 
 	for _, pkg := range order {
 		pp := pkg
 		if strings.HasPrefix(pp, "vendor/") {
 			pp = pp[len("vendor/"):]
 		}
-		fmt.Println(pp + ":")
-		fmt.Println(strings.Repeat("-", len(pp)+1))
-		fmt.Printf("\n")
-		lines := otherLicenses[pkg]
-		for _, line := range lines {
-			fmt.Println(line)
-		}
-		fmt.Printf("\n\n")
+		ui.SubHeader(z.ThirdPartyPackage.With("Package", pp))
+		ui.Code(strings.Join(otherLicenses[pkg], "\n"))
 	}
 
 	return nil

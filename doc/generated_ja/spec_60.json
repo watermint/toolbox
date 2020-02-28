@@ -1,0 +1,7067 @@
+{
+  "connect business_audit": {
+    "name": "business_audit",
+    "title": "チーム監査アクセスに接続する",
+    "desc": "",
+    "remarks": "",
+    "path": "connect business_audit",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_audit"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "connect business_file": {
+    "name": "business_file",
+    "title": "チームファイルアクセスに接続する",
+    "desc": "",
+    "remarks": "",
+    "path": "connect business_file",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "connect business_info": {
+    "name": "business_info",
+    "title": "チームの情報アクセスに接続する",
+    "desc": "",
+    "remarks": "",
+    "path": "connect business_info",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "connect business_mgmt": {
+    "name": "business_mgmt",
+    "title": "チームの管理アクセスに接続する",
+    "desc": "",
+    "remarks": "",
+    "path": "connect business_mgmt",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "connect user_file": {
+    "name": "user_file",
+    "title": "ユーザーのファイルアクセスに接続する",
+    "desc": "",
+    "remarks": "",
+    "path": "connect user_file",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev async": {
+    "name": "async",
+    "title": "非同期処理フレームワークテスト",
+    "desc": "",
+    "remarks": "",
+    "path": "dev async",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "rows",
+        "desc": "",
+        "columns": [
+          {
+            "name": "group_id",
+            "desc": "グループID"
+          },
+          {
+            "name": "group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "group_management_type",
+            "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
+          },
+          {
+            "name": "access_type",
+            "desc": "グループにおけるユーザーの役割 (member/owner)"
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーアカウントのID"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "surname",
+            "desc": "名字"
+          },
+          {
+            "name": "given_name",
+            "desc": "名"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "dev desktop install": {
+    "name": "install",
+    "title": "Dropboxクライアントをインストールします",
+    "desc": "",
+    "remarks": "",
+    "path": "dev desktop install",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev desktop start": {
+    "name": "start",
+    "title": "Dropbox Desktopアプリケーションを起動します",
+    "desc": "",
+    "remarks": "",
+    "path": "dev desktop start",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev desktop stop": {
+    "name": "stop",
+    "title": "Dropboxデスクトップアプリケーションの停止を試みます",
+    "desc": "",
+    "remarks": "",
+    "path": "dev desktop stop",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev desktop suspendupdate": {
+    "name": "suspendupdate",
+    "title": "Dropbox Updaterを停止・再開します",
+    "desc": "",
+    "remarks": "",
+    "path": "dev desktop suspendupdate",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev diag procmon": {
+    "name": "procmon",
+    "title": "Process monitorのログを収集します",
+    "desc": "",
+    "remarks": "",
+    "path": "dev diag procmon",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev doc": {
+    "name": "doc",
+    "title": "ドキュメントを生成",
+    "desc": "",
+    "remarks": "",
+    "path": "dev doc",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev dummy": {
+    "name": "dummy",
+    "title": "ダミーファイルを作成します",
+    "desc": "",
+    "remarks": "",
+    "path": "dev dummy",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev echo": {
+    "name": "echo",
+    "title": "テキストのエコー",
+    "desc": "",
+    "remarks": "",
+    "path": "dev echo",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev preflight": {
+    "name": "preflight",
+    "title": "リリースに向けて必要な事前準備を実施",
+    "desc": "",
+    "remarks": "",
+    "path": "dev preflight",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev spec diff": {
+    "name": "diff",
+    "title": "2リリース間の仕様を比較します",
+    "desc": "",
+    "remarks": "",
+    "path": "dev spec diff",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev spec doc": {
+    "name": "doc",
+    "title": "仕様ドキュメントを生成します",
+    "desc": "",
+    "remarks": "",
+    "path": "dev spec doc",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev test auth": {
+    "name": "auth",
+    "title": "エンドツーエンドテストのための認証",
+    "desc": "",
+    "remarks": "",
+    "path": "dev test auth",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Audit": "business_audit",
+      "File": "business_file",
+      "Full": "user_full",
+      "Info": "business_info",
+      "Mgmt": "business_management"
+    },
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev test monkey": {
+    "name": "monkey",
+    "title": "モンキーテスト",
+    "desc": "",
+    "remarks": "",
+    "path": "dev test monkey",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev test recipe": {
+    "name": "recipe",
+    "title": "レシピのテスト",
+    "desc": "",
+    "remarks": "",
+    "path": "dev test recipe",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev test resources": {
+    "name": "resources",
+    "title": "バイナリの品質テスト",
+    "desc": "",
+    "remarks": "",
+    "path": "dev test resources",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev util wait": {
+    "name": "wait",
+    "title": "指定した秒数待機します",
+    "desc": "",
+    "remarks": "",
+    "path": "dev util wait",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "file compare account": {
+    "name": "account",
+    "title": "二つのアカウントのファイルを比較します",
+    "desc": "",
+    "remarks": "",
+    "path": "file compare account",
+    "cli_args": "-left left -left-path /比較対象パス -right right -right-path /比較対象パス",
+    "cli_note": "同じアカウント内の別パス同士を比較したい場合には `-left` と `-right` に同じ別名を指定してください",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Left": "user_full",
+      "Right": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "diff",
+        "desc": "",
+        "columns": [
+          {
+            "name": "diff_type",
+            "desc": "差分のタイプ`file_content_diff`: コンテンツハッシュの差分, `{left|right}_file_missing`: 左または右のファイルが見つからない, `{left|right}_folder_missing`: 左または右のフォルダが見つからない."
+          },
+          {
+            "name": "left_path",
+            "desc": "左のパス"
+          },
+          {
+            "name": "left_kind",
+            "desc": "フォルダまたはファイル"
+          },
+          {
+            "name": "left_size",
+            "desc": "左ファイルのサイズ"
+          },
+          {
+            "name": "left_hash",
+            "desc": "左ファイルのコンテンツハッシュ"
+          },
+          {
+            "name": "right_path",
+            "desc": "右のパス"
+          },
+          {
+            "name": "right_kind",
+            "desc": "フォルダまたはファイル"
+          },
+          {
+            "name": "right_size",
+            "desc": "右ファイルのサイズ"
+          },
+          {
+            "name": "right_hash",
+            "desc": "右ファイルのコンテンツハッシュ"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file compare local": {
+    "name": "local",
+    "title": "ローカルフォルダとDropboxフォルダの内容を比較します",
+    "desc": "",
+    "remarks": "",
+    "path": "file compare local",
+    "cli_args": "-local-path /path/to/local -dropbox-path /path/on/dropbox",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "diff",
+        "desc": "",
+        "columns": [
+          {
+            "name": "diff_type",
+            "desc": "差分のタイプ`file_content_diff`: コンテンツハッシュの差分, `{left|right}_file_missing`: 左または右のファイルが見つからない, `{left|right}_folder_missing`: 左または右のフォルダが見つからない."
+          },
+          {
+            "name": "left_path",
+            "desc": "左のパス"
+          },
+          {
+            "name": "left_kind",
+            "desc": "フォルダまたはファイル"
+          },
+          {
+            "name": "left_size",
+            "desc": "左ファイルのサイズ"
+          },
+          {
+            "name": "left_hash",
+            "desc": "左ファイルのコンテンツハッシュ"
+          },
+          {
+            "name": "right_path",
+            "desc": "右のパス"
+          },
+          {
+            "name": "right_kind",
+            "desc": "フォルダまたはファイル"
+          },
+          {
+            "name": "right_size",
+            "desc": "右ファイルのサイズ"
+          },
+          {
+            "name": "right_hash",
+            "desc": "右ファイルのコンテンツハッシュ"
+          }
+        ]
+      },
+      {
+        "name": "skip",
+        "desc": "",
+        "columns": [
+          {
+            "name": "diff_type",
+            "desc": "差分のタイプ`file_content_diff`: コンテンツハッシュの差分, `{left|right}_file_missing`: 左または右のファイルが見つからない, `{left|right}_folder_missing`: 左または右のフォルダが見つからない."
+          },
+          {
+            "name": "left_path",
+            "desc": "左のパス"
+          },
+          {
+            "name": "left_kind",
+            "desc": "フォルダまたはファイル"
+          },
+          {
+            "name": "left_size",
+            "desc": "左ファイルのサイズ"
+          },
+          {
+            "name": "left_hash",
+            "desc": "左ファイルのコンテンツハッシュ"
+          },
+          {
+            "name": "right_path",
+            "desc": "右のパス"
+          },
+          {
+            "name": "right_kind",
+            "desc": "フォルダまたはファイル"
+          },
+          {
+            "name": "right_size",
+            "desc": "右ファイルのサイズ"
+          },
+          {
+            "name": "right_hash",
+            "desc": "右ファイルのコンテンツハッシュ"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file copy": {
+    "name": "copy",
+    "title": "ファイルをコピーします",
+    "desc": "",
+    "remarks": "",
+    "path": "file copy",
+    "cli_args": "-src /SRC/PATH -dst /DST/PATH",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "file delete": {
+    "name": "delete",
+    "title": "ファイルまたはフォルダは削除します.",
+    "desc": "",
+    "remarks": "",
+    "path": "file delete",
+    "cli_args": "-path /PATH/TO/DELETE",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "file download": {
+    "name": "download",
+    "title": "Dropboxからファイルをダウンロードします",
+    "desc": "",
+    "remarks": "(試験的実装です)",
+    "path": "file download",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": true,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "name",
+            "desc": "名称"
+          },
+          {
+            "name": "path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file export doc": {
+    "name": "doc",
+    "title": "ドキュメントのエクスポート",
+    "desc": "",
+    "remarks": "(試験的実装です)",
+    "path": "file export doc",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": true,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "名称"
+          },
+          {
+            "name": "path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "size",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "export_name",
+            "desc": "エクスポートするファイル名."
+          },
+          {
+            "name": "export_size",
+            "desc": "エクスポートするファイルのサイズ."
+          },
+          {
+            "name": "export_hash",
+            "desc": "エクスポートするファイルのコンテンツハッシュ."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file import batch url": {
+    "name": "url",
+    "title": "URLからファイルを一括インポートします",
+    "desc": "",
+    "remarks": "",
+    "path": "file import batch url",
+    "cli_args": "-file /path/to/data/file -path /path/to/import",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.url",
+            "desc": "ダウンロードするURL"
+          },
+          {
+            "name": "input.path",
+            "desc": "保存先パス (指定しないと`-path`オプションの指定が利用されます)"
+          },
+          {
+            "name": "result.id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "result.tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "名称"
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "result.revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "result.size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "url",
+            "desc": "ダウンロードするURL",
+            "example": "http://example.com/2019/12/26.zip"
+          },
+          {
+            "name": "path",
+            "desc": "保存先パス (指定しないと`-path`オプションの指定が利用されます)",
+            "example": "/backup/2019-12-16.zip"
+          }
+        ]
+      }
+    ]
+  },
+  "file import url": {
+    "name": "url",
+    "title": "URLからファイルをインポートします",
+    "desc": "",
+    "remarks": "",
+    "path": "file import url",
+    "cli_args": "-url URL -path /path/to/import",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "name",
+            "desc": "名称"
+          },
+          {
+            "name": "path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file list": {
+    "name": "list",
+    "title": "ファイルとフォルダを一覧します",
+    "desc": "",
+    "remarks": "",
+    "path": "file list",
+    "cli_args": "-path /path",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "file_list",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "name",
+            "desc": "名称"
+          },
+          {
+            "name": "path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file merge": {
+    "name": "merge",
+    "title": "フォルダを統合します",
+    "desc": "",
+    "remarks": "",
+    "path": "file merge",
+    "cli_args": "-from /from/path -to /path/to",
+    "cli_note": "期待する結果と整合性があうことを確認できたら`-dry-run=false` オプションを追加して実行してください",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "file move": {
+    "name": "move",
+    "title": "ファイルを移動します",
+    "desc": "",
+    "remarks": "",
+    "path": "file move",
+    "cli_args": "-src /SRC/PATH -dst /DST/PATH",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "file replication": {
+    "name": "replication",
+    "title": "ファイルコンテンツを他のアカウントに複製します",
+    "desc": "このコマンドはファイルとフォルダを複製します. しかし、ファイルの共有権限については複製しません. このコマンドは指定されたパスのフォルダコンテンツのみを複製します",
+    "remarks": "",
+    "path": "file replication",
+    "cli_args": "-src source -src-path /path/src -dst dest -dst-path /path/dest",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Dst": "user_full",
+      "Src": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "replication_diff",
+        "desc": "",
+        "columns": [
+          {
+            "name": "diff_type",
+            "desc": "差分のタイプ`file_content_diff`: コンテンツハッシュの差分, `{left|right}_file_missing`: 左または右のファイルが見つからない, `{left|right}_folder_missing`: 左または右のフォルダが見つからない."
+          },
+          {
+            "name": "left_path",
+            "desc": "左のパス"
+          },
+          {
+            "name": "left_kind",
+            "desc": "フォルダまたはファイル"
+          },
+          {
+            "name": "left_size",
+            "desc": "左ファイルのサイズ"
+          },
+          {
+            "name": "left_hash",
+            "desc": "左ファイルのコンテンツハッシュ"
+          },
+          {
+            "name": "right_path",
+            "desc": "右のパス"
+          },
+          {
+            "name": "right_kind",
+            "desc": "フォルダまたはファイル"
+          },
+          {
+            "name": "right_size",
+            "desc": "右ファイルのサイズ"
+          },
+          {
+            "name": "right_hash",
+            "desc": "右ファイルのコンテンツハッシュ"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file restore": {
+    "name": "restore",
+    "title": "指定されたパス以下をリストアします",
+    "desc": "",
+    "remarks": "(試験的実装です)",
+    "path": "file restore",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": true,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.path",
+            "desc": "パス"
+          },
+          {
+            "name": "result.id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "result.tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "名称"
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "result.revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "result.size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file search content": {
+    "name": "content",
+    "title": "ファイルコンテンツを検索",
+    "desc": "",
+    "remarks": "",
+    "path": "file search content",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "matches",
+        "desc": "",
+        "columns": [
+          {
+            "name": "tag",
+            "desc": "エントリーの種別"
+          },
+          {
+            "name": "path_display",
+            "desc": "パス"
+          },
+          {
+            "name": "highlight_html",
+            "desc": "HTML書式のハイライト済みテキスト"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file search name": {
+    "name": "name",
+    "title": "ファイル名を検索",
+    "desc": "",
+    "remarks": "",
+    "path": "file search name",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "matches",
+        "desc": "",
+        "columns": [
+          {
+            "name": "tag",
+            "desc": "エントリーの種別"
+          },
+          {
+            "name": "path_display",
+            "desc": "パス"
+          },
+          {
+            "name": "highlight_html",
+            "desc": "HTML書式のハイライト済みテキスト"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file sync preflight up": {
+    "name": "up",
+    "title": "上り方向同期のための事前チェックを実施します",
+    "desc": "",
+    "remarks": "",
+    "path": "file sync preflight up",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "skipped",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.file",
+            "desc": "ローカルファイルのパス"
+          },
+          {
+            "name": "input.size",
+            "desc": "ローカルファイルのサイズ"
+          },
+          {
+            "name": "result.id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "result.tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "名称"
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "result.revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "result.size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      },
+      {
+        "name": "summary",
+        "desc": "",
+        "columns": [
+          {
+            "name": "upload_start",
+            "desc": "アップロード開始日時"
+          },
+          {
+            "name": "upload_end",
+            "desc": "アップロード終了日時"
+          },
+          {
+            "name": "num_bytes",
+            "desc": "合計アップロードサイズ (バイト)"
+          },
+          {
+            "name": "num_files_error",
+            "desc": "失敗またはエラーが発生したファイル数."
+          },
+          {
+            "name": "num_files_upload",
+            "desc": "アップロード済みまたはアップロード対象ファイル数"
+          },
+          {
+            "name": "num_files_skip",
+            "desc": "スキップ対象またはスキップ予定のファイル数"
+          },
+          {
+            "name": "num_api_call",
+            "desc": "この処理によって消費される見積アップロードAPI数"
+          }
+        ]
+      },
+      {
+        "name": "uploaded",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.file",
+            "desc": "ローカルファイルのパス"
+          },
+          {
+            "name": "input.size",
+            "desc": "ローカルファイルのサイズ"
+          },
+          {
+            "name": "result.id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "result.tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "名称"
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "result.revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "result.size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file sync up": {
+    "name": "up",
+    "title": "Dropboxと上り方向で同期します",
+    "desc": "",
+    "remarks": "",
+    "path": "file sync up",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "skipped",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.file",
+            "desc": "ローカルファイルのパス"
+          },
+          {
+            "name": "input.size",
+            "desc": "ローカルファイルのサイズ"
+          },
+          {
+            "name": "result.id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "result.tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "名称"
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "result.revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "result.size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      },
+      {
+        "name": "summary",
+        "desc": "",
+        "columns": [
+          {
+            "name": "upload_start",
+            "desc": "アップロード開始日時"
+          },
+          {
+            "name": "upload_end",
+            "desc": "アップロード終了日時"
+          },
+          {
+            "name": "num_bytes",
+            "desc": "合計アップロードサイズ (バイト)"
+          },
+          {
+            "name": "num_files_error",
+            "desc": "失敗またはエラーが発生したファイル数."
+          },
+          {
+            "name": "num_files_upload",
+            "desc": "アップロード済みまたはアップロード対象ファイル数"
+          },
+          {
+            "name": "num_files_skip",
+            "desc": "スキップ対象またはスキップ予定のファイル数"
+          },
+          {
+            "name": "num_api_call",
+            "desc": "この処理によって消費される見積アップロードAPI数"
+          }
+        ]
+      },
+      {
+        "name": "uploaded",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.file",
+            "desc": "ローカルファイルのパス"
+          },
+          {
+            "name": "input.size",
+            "desc": "ローカルファイルのサイズ"
+          },
+          {
+            "name": "result.id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "result.tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "名称"
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "result.revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "result.size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file upload": {
+    "name": "upload",
+    "title": "ファイルのアップロード",
+    "desc": "",
+    "remarks": "",
+    "path": "file upload",
+    "cli_args": "-local-path /PATH/TO/UPLOAD -dropbox-path /DROPBOX/PATH",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "skipped",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.file",
+            "desc": "ローカルファイルのパス"
+          },
+          {
+            "name": "input.size",
+            "desc": "ローカルファイルのサイズ"
+          },
+          {
+            "name": "result.id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "result.tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "名称"
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "result.revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "result.size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      },
+      {
+        "name": "summary",
+        "desc": "",
+        "columns": [
+          {
+            "name": "upload_start",
+            "desc": "アップロード開始日時"
+          },
+          {
+            "name": "upload_end",
+            "desc": "アップロード終了日時"
+          },
+          {
+            "name": "num_bytes",
+            "desc": "合計アップロードサイズ (バイト)"
+          },
+          {
+            "name": "num_files_error",
+            "desc": "失敗またはエラーが発生したファイル数."
+          },
+          {
+            "name": "num_files_upload",
+            "desc": "アップロード済みまたはアップロード対象ファイル数"
+          },
+          {
+            "name": "num_files_skip",
+            "desc": "スキップ対象またはスキップ予定のファイル数"
+          },
+          {
+            "name": "num_api_call",
+            "desc": "この処理によって消費される見積アップロードAPI数"
+          }
+        ]
+      },
+      {
+        "name": "uploaded",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.file",
+            "desc": "ローカルファイルのパス"
+          },
+          {
+            "name": "input.size",
+            "desc": "ローカルファイルのサイズ"
+          },
+          {
+            "name": "result.id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "result.tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "名称"
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "result.revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "result.size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "file watch": {
+    "name": "watch",
+    "title": "ファイルアクティビティを監視",
+    "desc": "",
+    "remarks": "",
+    "path": "file watch",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "group add": {
+    "name": "add",
+    "title": "グループを作成します",
+    "desc": "",
+    "remarks": "",
+    "path": "group add",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "added_group",
+        "desc": "",
+        "columns": [
+          {
+            "name": "group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "group_id",
+            "desc": "グループID"
+          },
+          {
+            "name": "group_management_type",
+            "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
+          },
+          {
+            "name": "group_external_id",
+            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
+          },
+          {
+            "name": "member_count",
+            "desc": "グループ内のメンバー数"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "group batch delete": {
+    "name": "delete",
+    "title": "グループの削除",
+    "desc": "",
+    "remarks": "(非可逆な操作です)",
+    "path": "group batch delete",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": true,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.name",
+            "desc": "グループ名"
+          },
+          {
+            "name": "result.group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "result.group_id",
+            "desc": "グループID"
+          },
+          {
+            "name": "result.group_management_type",
+            "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
+          },
+          {
+            "name": "result.group_external_id",
+            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
+          },
+          {
+            "name": "result.member_count",
+            "desc": "グループ内のメンバー数"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "グループ名",
+            "example": "営業"
+          }
+        ]
+      }
+    ]
+  },
+  "group delete": {
+    "name": "delete",
+    "title": "グループを削除します",
+    "desc": "このコマンドはグループがフォルダなどで利用されているかどうかを確認しない点ご注意ください",
+    "remarks": "(非可逆な操作です)",
+    "path": "group delete",
+    "cli_args": "-name グループ名",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": true,
+    "reports": [],
+    "feeds": []
+  },
+  "group list": {
+    "name": "list",
+    "title": "グループを一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "group list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "group",
+        "desc": "",
+        "columns": [
+          {
+            "name": "group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "group_id",
+            "desc": "グループID"
+          },
+          {
+            "name": "group_management_type",
+            "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
+          },
+          {
+            "name": "group_external_id",
+            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
+          },
+          {
+            "name": "member_count",
+            "desc": "グループ内のメンバー数"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "group member add": {
+    "name": "add",
+    "title": "メンバーをグループに追加",
+    "desc": "",
+    "remarks": "",
+    "path": "group member add",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "input.member_email",
+            "desc": "メンバーのメールアドレス"
+          },
+          {
+            "name": "result.group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "result.group_id",
+            "desc": "グループID"
+          },
+          {
+            "name": "result.group_management_type",
+            "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
+          },
+          {
+            "name": "result.group_external_id",
+            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
+          },
+          {
+            "name": "result.member_count",
+            "desc": "グループ内のメンバー数"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "group member delete": {
+    "name": "delete",
+    "title": "メンバーをグループから削除",
+    "desc": "",
+    "remarks": "(非可逆な操作です)",
+    "path": "group member delete",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": true,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "input.member_email",
+            "desc": "メンバーのメールアドレス"
+          },
+          {
+            "name": "result.group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "result.group_id",
+            "desc": "グループID"
+          },
+          {
+            "name": "result.group_management_type",
+            "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
+          },
+          {
+            "name": "result.group_external_id",
+            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
+          },
+          {
+            "name": "result.member_count",
+            "desc": "グループ内のメンバー数"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "group member list": {
+    "name": "list",
+    "title": "グループに所属するメンバー一覧を取得します",
+    "desc": "",
+    "remarks": "",
+    "path": "group member list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "group_member",
+        "desc": "",
+        "columns": [
+          {
+            "name": "group_id",
+            "desc": "グループID"
+          },
+          {
+            "name": "group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "group_management_type",
+            "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
+          },
+          {
+            "name": "access_type",
+            "desc": "グループにおけるユーザーの役割 (member/owner)"
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーアカウントのID"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "surname",
+            "desc": "名字"
+          },
+          {
+            "name": "given_name",
+            "desc": "名"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "group rename": {
+    "name": "rename",
+    "title": "グループの改名",
+    "desc": "",
+    "remarks": "",
+    "path": "group rename",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.current_name",
+            "desc": "現在のグループ名"
+          },
+          {
+            "name": "input.new_name",
+            "desc": "新しいグループ名"
+          },
+          {
+            "name": "result.group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "result.group_id",
+            "desc": "グループID"
+          },
+          {
+            "name": "result.group_management_type",
+            "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
+          },
+          {
+            "name": "result.group_external_id",
+            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
+          },
+          {
+            "name": "result.member_count",
+            "desc": "グループ内のメンバー数"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "job history archive": {
+    "name": "archive",
+    "title": "ジョブのアーカイブ",
+    "desc": "",
+    "remarks": "",
+    "path": "job history archive",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "job history delete": {
+    "name": "delete",
+    "title": "古いジョブ履歴の削除",
+    "desc": "",
+    "remarks": "",
+    "path": "job history delete",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "job history list": {
+    "name": "list",
+    "title": "ジョブ履歴の表示",
+    "desc": "",
+    "remarks": "",
+    "path": "job history list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "job_id",
+            "desc": "ジョブID"
+          },
+          {
+            "name": "app_version",
+            "desc": "アプリケーションバージョン"
+          },
+          {
+            "name": "recipe_name",
+            "desc": "コマンド"
+          },
+          {
+            "name": "time_start",
+            "desc": "開始時刻"
+          },
+          {
+            "name": "time_finish",
+            "desc": "完了時刻"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "job history ship": {
+    "name": "ship",
+    "title": "ログの転送先Dropboxパス",
+    "desc": "",
+    "remarks": "",
+    "path": "job history ship",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.job_id",
+            "desc": "ジョブID"
+          },
+          {
+            "name": "input.recipe_name",
+            "desc": "コマンド"
+          },
+          {
+            "name": "result.id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "result.tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "名称"
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "result.revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "result.size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "job loop": {
+    "name": "loop",
+    "title": "指定日時までrunbookを実行します.",
+    "desc": "",
+    "remarks": "",
+    "path": "job loop",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "job run": {
+    "name": "run",
+    "title": "*.runbookoファイルにてワークフローを実行します",
+    "desc": "",
+    "remarks": "",
+    "path": "job run",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "license": {
+    "name": "license",
+    "title": "ライセンス情報を表示します",
+    "desc": "",
+    "remarks": "",
+    "path": "license",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "member delete": {
+    "name": "delete",
+    "title": "メンバーを削除します",
+    "desc": "",
+    "remarks": "",
+    "path": "member delete",
+    "cli_args": "-file /path/to/data/file.csv",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.email",
+            "desc": "アカウントのメールアドレス"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "アカウントのメールアドレス",
+            "example": "john@example.com"
+          }
+        ]
+      }
+    ]
+  },
+  "member detach": {
+    "name": "detach",
+    "title": "Dropbox BusinessユーザーをBasicユーザーに変更します",
+    "desc": "",
+    "remarks": "",
+    "path": "member detach",
+    "cli_args": "-file /path/to/data/file.csv",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.email",
+            "desc": "アカウントのメールアドレス"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "アカウントのメールアドレス",
+            "example": "john@example.com"
+          }
+        ]
+      }
+    ]
+  },
+  "member invite": {
+    "name": "invite",
+    "title": "メンバーを招待します",
+    "desc": "",
+    "remarks": "",
+    "path": "member invite",
+    "cli_args": "-file /path/to/data/file.csv",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.email",
+            "desc": "アカウントのメールアドレス"
+          },
+          {
+            "name": "input.given_name",
+            "desc": "アカウントの名前"
+          },
+          {
+            "name": "input.surname",
+            "desc": "アカウントの名字"
+          },
+          {
+            "name": "result.team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "result.email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "result.email_verified",
+            "desc": "trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています."
+          },
+          {
+            "name": "result.status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "result.given_name",
+            "desc": "名"
+          },
+          {
+            "name": "result.surname",
+            "desc": "名字"
+          },
+          {
+            "name": "result.familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "result.display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "result.abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "result.member_folder_id",
+            "desc": "ユーザールートフォルダの名前空間ID."
+          },
+          {
+            "name": "result.external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "result.account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "result.persistent_id",
+            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
+          },
+          {
+            "name": "result.joined_on",
+            "desc": "メンバーがチームに参加した日時."
+          },
+          {
+            "name": "result.role",
+            "desc": "ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only)"
+          },
+          {
+            "name": "result.tag",
+            "desc": "処理のタグ"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "アカウントのメールアドレス",
+            "example": "john@example.com"
+          },
+          {
+            "name": "given_name",
+            "desc": "アカウントの名前",
+            "example": "John"
+          },
+          {
+            "name": "surname",
+            "desc": "アカウントの名字",
+            "example": "Smith"
+          }
+        ]
+      }
+    ]
+  },
+  "member list": {
+    "name": "list",
+    "title": "チームメンバーの一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "member list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "member",
+        "desc": "",
+        "columns": [
+          {
+            "name": "team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "email_verified",
+            "desc": "trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています."
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "given_name",
+            "desc": "名"
+          },
+          {
+            "name": "surname",
+            "desc": "名字"
+          },
+          {
+            "name": "familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "member_folder_id",
+            "desc": "ユーザールートフォルダの名前空間ID."
+          },
+          {
+            "name": "external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "persistent_id",
+            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
+          },
+          {
+            "name": "joined_on",
+            "desc": "メンバーがチームに参加した日時."
+          },
+          {
+            "name": "role",
+            "desc": "ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only)"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "member quota list": {
+    "name": "list",
+    "title": "メンバーの容量制限情報を一覧します",
+    "desc": "",
+    "remarks": "",
+    "path": "member quota list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "member_quota",
+        "desc": "",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "quota",
+            "desc": "カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "member quota update": {
+    "name": "update",
+    "title": "チームメンバーの容量制限を変更",
+    "desc": "",
+    "remarks": "",
+    "path": "member quota update",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "input.quota",
+            "desc": "カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません."
+          },
+          {
+            "name": "result.email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "result.quota",
+            "desc": "カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません."
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス",
+            "example": "john@example.com"
+          },
+          {
+            "name": "quota",
+            "desc": "カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません.",
+            "example": "50"
+          }
+        ]
+      }
+    ]
+  },
+  "member quota usage": {
+    "name": "usage",
+    "title": "チームメンバーのストレージ利用状況を取得",
+    "desc": "",
+    "remarks": "",
+    "path": "member quota usage",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "usage",
+        "desc": "",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "アカウントのメールアドレス"
+          },
+          {
+            "name": "used_gb",
+            "desc": "このユーザーの合計利用スペース (in GB, 1GB = 1024 MB)."
+          },
+          {
+            "name": "used_bytes",
+            "desc": "ユーザーの合計利用要領 (bytes)."
+          },
+          {
+            "name": "allocation",
+            "desc": "このユーザーの利用容量の付与先 (individual, or team)"
+          },
+          {
+            "name": "allocated",
+            "desc": "このユーザーアカウントに確保されている合計容量 (bytes)."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "member reinvite": {
+    "name": "reinvite",
+    "title": "招待済み状態メンバーをチームに再招待します",
+    "desc": "",
+    "remarks": "",
+    "path": "member reinvite",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "input.email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "input.email_verified",
+            "desc": "trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています."
+          },
+          {
+            "name": "input.status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "input.given_name",
+            "desc": "名"
+          },
+          {
+            "name": "input.surname",
+            "desc": "名字"
+          },
+          {
+            "name": "input.familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "input.display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "input.abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "input.member_folder_id",
+            "desc": "ユーザールートフォルダの名前空間ID."
+          },
+          {
+            "name": "input.external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "input.account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "input.persistent_id",
+            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
+          },
+          {
+            "name": "input.joined_on",
+            "desc": "メンバーがチームに参加した日時."
+          },
+          {
+            "name": "input.role",
+            "desc": "ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only)"
+          },
+          {
+            "name": "input.tag",
+            "desc": "処理のタグ"
+          },
+          {
+            "name": "result.team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "result.email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "result.email_verified",
+            "desc": "trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています."
+          },
+          {
+            "name": "result.status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "result.given_name",
+            "desc": "名"
+          },
+          {
+            "name": "result.surname",
+            "desc": "名字"
+          },
+          {
+            "name": "result.familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "result.display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "result.abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "result.member_folder_id",
+            "desc": "ユーザールートフォルダの名前空間ID."
+          },
+          {
+            "name": "result.external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "result.account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "result.persistent_id",
+            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
+          },
+          {
+            "name": "result.joined_on",
+            "desc": "メンバーがチームに参加した日時."
+          },
+          {
+            "name": "result.role",
+            "desc": "ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only)"
+          },
+          {
+            "name": "result.tag",
+            "desc": "処理のタグ"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "member replication": {
+    "name": "replication",
+    "title": "チームメンバーのファイルを複製します",
+    "desc": "",
+    "remarks": "(非可逆な操作です)",
+    "path": "member replication",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Dst": "business_file",
+      "Src": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": true,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.src_email",
+            "desc": "転送元アカウントのメールアドレス"
+          },
+          {
+            "name": "input.dst_email",
+            "desc": "転送先アカウントのメールアドレス"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "src_email",
+            "desc": "転送元アカウントのメールアドレス",
+            "example": "john@example.net"
+          },
+          {
+            "name": "dst_email",
+            "desc": "転送先アカウントのメールアドレス",
+            "example": "john.smith@example.com"
+          }
+        ]
+      }
+    ]
+  },
+  "member update email": {
+    "name": "email",
+    "title": "メンバーのメールアドレス処理",
+    "desc": "",
+    "remarks": "",
+    "path": "member update email",
+    "cli_args": "-file /path/to/data/file.csv",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.from_email",
+            "desc": "現在のメールアドレス"
+          },
+          {
+            "name": "input.to_email",
+            "desc": "新しいメールアドレス"
+          },
+          {
+            "name": "result.team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "result.email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "result.email_verified",
+            "desc": "trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています."
+          },
+          {
+            "name": "result.status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "result.given_name",
+            "desc": "名"
+          },
+          {
+            "name": "result.surname",
+            "desc": "名字"
+          },
+          {
+            "name": "result.familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "result.display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "result.abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "result.member_folder_id",
+            "desc": "ユーザールートフォルダの名前空間ID."
+          },
+          {
+            "name": "result.external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "result.account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "result.persistent_id",
+            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
+          },
+          {
+            "name": "result.joined_on",
+            "desc": "メンバーがチームに参加した日時."
+          },
+          {
+            "name": "result.role",
+            "desc": "ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only)"
+          },
+          {
+            "name": "result.tag",
+            "desc": "処理のタグ"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "from_email",
+            "desc": "現在のメールアドレス",
+            "example": "john@example.com"
+          },
+          {
+            "name": "to_email",
+            "desc": "新しいメールアドレス",
+            "example": "john.smith@example.net"
+          }
+        ]
+      }
+    ]
+  },
+  "member update externalid": {
+    "name": "externalid",
+    "title": "チームメンバーのExternal IDを更新します.",
+    "desc": "",
+    "remarks": "",
+    "path": "member update externalid",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.email",
+            "desc": "チームメンバーのメールアドレス"
+          },
+          {
+            "name": "input.external_id",
+            "desc": "チームメンバーのExternal ID"
+          },
+          {
+            "name": "result.team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "result.email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "result.email_verified",
+            "desc": "trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています."
+          },
+          {
+            "name": "result.status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "result.given_name",
+            "desc": "名"
+          },
+          {
+            "name": "result.surname",
+            "desc": "名字"
+          },
+          {
+            "name": "result.familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "result.display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "result.abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "result.member_folder_id",
+            "desc": "ユーザールートフォルダの名前空間ID."
+          },
+          {
+            "name": "result.external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "result.account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "result.persistent_id",
+            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
+          },
+          {
+            "name": "result.joined_on",
+            "desc": "メンバーがチームに参加した日時."
+          },
+          {
+            "name": "result.role",
+            "desc": "ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only)"
+          },
+          {
+            "name": "result.tag",
+            "desc": "処理のタグ"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "チームメンバーのメールアドレス",
+            "example": "john@example.com"
+          },
+          {
+            "name": "external_id",
+            "desc": "チームメンバーのExternal ID",
+            "example": "0123456789"
+          }
+        ]
+      }
+    ]
+  },
+  "member update profile": {
+    "name": "profile",
+    "title": "メンバーのプロフィール変更",
+    "desc": "",
+    "remarks": "",
+    "path": "member update profile",
+    "cli_args": "-file /path/to/data/file.csv",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.email",
+            "desc": "アカウントのメールアドレス"
+          },
+          {
+            "name": "input.given_name",
+            "desc": "アカウントの名前"
+          },
+          {
+            "name": "input.surname",
+            "desc": "アカウントの名字"
+          },
+          {
+            "name": "result.team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "result.email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "result.email_verified",
+            "desc": "trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています."
+          },
+          {
+            "name": "result.status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "result.given_name",
+            "desc": "名"
+          },
+          {
+            "name": "result.surname",
+            "desc": "名字"
+          },
+          {
+            "name": "result.familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "result.display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "result.abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "result.member_folder_id",
+            "desc": "ユーザールートフォルダの名前空間ID."
+          },
+          {
+            "name": "result.external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "result.account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "result.persistent_id",
+            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
+          },
+          {
+            "name": "result.joined_on",
+            "desc": "メンバーがチームに参加した日時."
+          },
+          {
+            "name": "result.role",
+            "desc": "ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only)"
+          },
+          {
+            "name": "result.tag",
+            "desc": "処理のタグ"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "アカウントのメールアドレス",
+            "example": "john@example.com"
+          },
+          {
+            "name": "given_name",
+            "desc": "アカウントの名前",
+            "example": "John"
+          },
+          {
+            "name": "surname",
+            "desc": "アカウントの名字",
+            "example": "Smith"
+          }
+        ]
+      }
+    ]
+  },
+  "sharedfolder list": {
+    "name": "list",
+    "title": "共有フォルダの一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "sharedfolder list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "shared_folder",
+        "desc": "",
+        "columns": [
+          {
+            "name": "shared_folder_id",
+            "desc": "共有フォルダのID"
+          },
+          {
+            "name": "parent_shared_folder_id",
+            "desc": "親共有フォルダのID. このフィールドはフォルダが他の共有フォルダに含まれる場合のみ設定されます."
+          },
+          {
+            "name": "name",
+            "desc": "共有フォルダの名称"
+          },
+          {
+            "name": "access_type",
+            "desc": "ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment)"
+          },
+          {
+            "name": "path_lower",
+            "desc": "共有フォルダのフルパス(小文字に変換済み)."
+          },
+          {
+            "name": "is_inside_team_folder",
+            "desc": "フォルダがチームフォルダに内包されているかどうか"
+          },
+          {
+            "name": "is_team_folder",
+            "desc": "このフォルダがチームフォルダであるかどうか"
+          },
+          {
+            "name": "policy_member",
+            "desc": "だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "sharedfolder member list": {
+    "name": "list",
+    "title": "共有フォルダのメンバーを一覧します",
+    "desc": "",
+    "remarks": "",
+    "path": "sharedfolder member list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "member",
+        "desc": "",
+        "columns": [
+          {
+            "name": "shared_folder_id",
+            "desc": "共有フォルダのID"
+          },
+          {
+            "name": "parent_shared_folder_id",
+            "desc": "親共有フォルダのID. このフィールドはフォルダが他の共有フォルダに含まれる場合のみ設定されます."
+          },
+          {
+            "name": "name",
+            "desc": "共有フォルダの名称"
+          },
+          {
+            "name": "path_lower",
+            "desc": "共有フォルダのフルパス(小文字に変換済み)."
+          },
+          {
+            "name": "is_inside_team_folder",
+            "desc": "フォルダがチームフォルダに内包されているかどうか"
+          },
+          {
+            "name": "is_team_folder",
+            "desc": "このフォルダがチームフォルダであるかどうか"
+          },
+          {
+            "name": "access_type",
+            "desc": "ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment)"
+          },
+          {
+            "name": "is_inherited",
+            "desc": "メンバーのアクセス権限が上位フォルダから継承されている場合true"
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "group_id",
+            "desc": "グループID"
+          },
+          {
+            "name": "invitee_email",
+            "desc": "このフォルダに招待されたメールアドレス"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "sharedlink create": {
+    "name": "create",
+    "title": "共有リンクの作成",
+    "desc": "",
+    "remarks": "",
+    "path": "sharedlink create",
+    "cli_args": "-path /path/to/share",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "created",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "ファイルまたはフォルダへのリンクのID"
+          },
+          {
+            "name": "tag",
+            "desc": "エントリーの種別 (file, または folder)"
+          },
+          {
+            "name": "url",
+            "desc": "共有リンクのURL."
+          },
+          {
+            "name": "name",
+            "desc": "リンク先ファイル名称"
+          },
+          {
+            "name": "expires",
+            "desc": "有効期限 (設定されている場合)"
+          },
+          {
+            "name": "path_lower",
+            "desc": "パス (すべて小文字に変換)."
+          },
+          {
+            "name": "visibility",
+            "desc": "共有リンクの開示範囲"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "sharedlink delete": {
+    "name": "delete",
+    "title": "共有リンクを削除します",
+    "desc": "このコマンドはDropbox内のパスを指定して共有リンクを削除します",
+    "remarks": "(非可逆な操作です)",
+    "path": "sharedlink delete",
+    "cli_args": "-path /path/to/delete",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": true,
+    "reports": [
+      {
+        "name": "shared_link",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.id",
+            "desc": "ファイルまたはフォルダへのリンクのID"
+          },
+          {
+            "name": "input.tag",
+            "desc": "エントリーの種別 (file, または folder)"
+          },
+          {
+            "name": "input.url",
+            "desc": "共有リンクのURL."
+          },
+          {
+            "name": "input.name",
+            "desc": "リンク先ファイル名称"
+          },
+          {
+            "name": "input.expires",
+            "desc": "有効期限 (設定されている場合)"
+          },
+          {
+            "name": "input.path_lower",
+            "desc": "パス (すべて小文字に変換)."
+          },
+          {
+            "name": "input.visibility",
+            "desc": "共有リンクの開示範囲"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "sharedlink file list": {
+    "name": "list",
+    "title": "共有リンクのファイルを一覧する",
+    "desc": "",
+    "remarks": "",
+    "path": "sharedlink file list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "file_list",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "name",
+            "desc": "名称"
+          },
+          {
+            "name": "path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "sharedlink list": {
+    "name": "list",
+    "title": "共有リンクの一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "sharedlink list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "shared_link",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "ファイルまたはフォルダへのリンクのID"
+          },
+          {
+            "name": "tag",
+            "desc": "エントリーの種別 (file, または folder)"
+          },
+          {
+            "name": "url",
+            "desc": "共有リンクのURL."
+          },
+          {
+            "name": "name",
+            "desc": "リンク先ファイル名称"
+          },
+          {
+            "name": "expires",
+            "desc": "有効期限 (設定されている場合)"
+          },
+          {
+            "name": "path_lower",
+            "desc": "パス (すべて小文字に変換)."
+          },
+          {
+            "name": "visibility",
+            "desc": "共有リンクの開示範囲"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team activity batch user": {
+    "name": "user",
+    "title": "複数ユーザーのアクティビティを一括取得します",
+    "desc": "",
+    "remarks": "",
+    "path": "team activity batch user",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_audit"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "combined",
+        "desc": "",
+        "columns": [
+          {
+            "name": "timestamp",
+            "desc": "このアクションが実行されたDropbox側でのタイムスタンプ."
+          },
+          {
+            "name": "member",
+            "desc": "ユーザーの表示名"
+          },
+          {
+            "name": "member_email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "event_type",
+            "desc": "実行されたアクションのタイプ"
+          },
+          {
+            "name": "category",
+            "desc": "監査ログイベントのカテゴリー"
+          },
+          {
+            "name": "access_method",
+            "desc": "アクションが実行された方法."
+          },
+          {
+            "name": "ip_address",
+            "desc": "IPアドレス."
+          },
+          {
+            "name": "country",
+            "desc": "国"
+          },
+          {
+            "name": "city",
+            "desc": "市町村"
+          },
+          {
+            "name": "involve_non_team_members",
+            "desc": "1名以上のチーム外のユーザーがこのアクションに関連した場合はTrue"
+          },
+          {
+            "name": "participants",
+            "desc": "このアクションによって影響を受けたユーザーまたはグループ"
+          },
+          {
+            "name": "context",
+            "desc": "アクターがアクションを実行したユーザーまたはチーム"
+          },
+          {
+            "name": "assets",
+            "desc": "アクションに関連したコンテンツ資産."
+          },
+          {
+            "name": "other_info",
+            "desc": "このタイプのアクションに適用可能な可変イベントスキーマ."
+          }
+        ]
+      },
+      {
+        "name": "user",
+        "desc": "",
+        "columns": [
+          {
+            "name": "timestamp",
+            "desc": "このアクションが実行されたDropbox側でのタイムスタンプ."
+          },
+          {
+            "name": "member",
+            "desc": "ユーザーの表示名"
+          },
+          {
+            "name": "member_email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "event_type",
+            "desc": "実行されたアクションのタイプ"
+          },
+          {
+            "name": "category",
+            "desc": "監査ログイベントのカテゴリー"
+          },
+          {
+            "name": "access_method",
+            "desc": "アクションが実行された方法."
+          },
+          {
+            "name": "ip_address",
+            "desc": "IPアドレス."
+          },
+          {
+            "name": "country",
+            "desc": "国"
+          },
+          {
+            "name": "city",
+            "desc": "市町村"
+          },
+          {
+            "name": "involve_non_team_members",
+            "desc": "1名以上のチーム外のユーザーがこのアクションに関連した場合はTrue"
+          },
+          {
+            "name": "participants",
+            "desc": "このアクションによって影響を受けたユーザーまたはグループ"
+          },
+          {
+            "name": "context",
+            "desc": "アクターがアクションを実行したユーザーまたはチーム"
+          },
+          {
+            "name": "assets",
+            "desc": "アクションに関連したコンテンツ資産."
+          },
+          {
+            "name": "other_info",
+            "desc": "このタイプのアクションに適用可能な可変イベントスキーマ."
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス",
+            "example": "john@example.com"
+          }
+        ]
+      }
+    ]
+  },
+  "team activity daily event": {
+    "name": "event",
+    "title": "アクティビティーを1日ごとに取得します",
+    "desc": "",
+    "remarks": "",
+    "path": "team activity daily event",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_audit"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "event",
+        "desc": "",
+        "columns": [
+          {
+            "name": "timestamp",
+            "desc": "このアクションが実行されたDropbox側でのタイムスタンプ."
+          },
+          {
+            "name": "member",
+            "desc": "ユーザーの表示名"
+          },
+          {
+            "name": "member_email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "event_type",
+            "desc": "実行されたアクションのタイプ"
+          },
+          {
+            "name": "category",
+            "desc": "監査ログイベントのカテゴリー"
+          },
+          {
+            "name": "access_method",
+            "desc": "アクションが実行された方法."
+          },
+          {
+            "name": "ip_address",
+            "desc": "IPアドレス."
+          },
+          {
+            "name": "country",
+            "desc": "国"
+          },
+          {
+            "name": "city",
+            "desc": "市町村"
+          },
+          {
+            "name": "involve_non_team_members",
+            "desc": "1名以上のチーム外のユーザーがこのアクションに関連した場合はTrue"
+          },
+          {
+            "name": "participants",
+            "desc": "このアクションによって影響を受けたユーザーまたはグループ"
+          },
+          {
+            "name": "context",
+            "desc": "アクターがアクションを実行したユーザーまたはチーム"
+          },
+          {
+            "name": "assets",
+            "desc": "アクションに関連したコンテンツ資産."
+          },
+          {
+            "name": "other_info",
+            "desc": "このタイプのアクションに適用可能な可変イベントスキーマ."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team activity event": {
+    "name": "event",
+    "title": "イベントログ",
+    "desc": "",
+    "remarks": "",
+    "path": "team activity event",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_audit"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "event",
+        "desc": "",
+        "columns": [
+          {
+            "name": "timestamp",
+            "desc": "このアクションが実行されたDropbox側でのタイムスタンプ."
+          },
+          {
+            "name": "member",
+            "desc": "ユーザーの表示名"
+          },
+          {
+            "name": "member_email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "event_type",
+            "desc": "実行されたアクションのタイプ"
+          },
+          {
+            "name": "category",
+            "desc": "監査ログイベントのカテゴリー"
+          },
+          {
+            "name": "access_method",
+            "desc": "アクションが実行された方法."
+          },
+          {
+            "name": "ip_address",
+            "desc": "IPアドレス."
+          },
+          {
+            "name": "country",
+            "desc": "国"
+          },
+          {
+            "name": "city",
+            "desc": "市町村"
+          },
+          {
+            "name": "involve_non_team_members",
+            "desc": "1名以上のチーム外のユーザーがこのアクションに関連した場合はTrue"
+          },
+          {
+            "name": "participants",
+            "desc": "このアクションによって影響を受けたユーザーまたはグループ"
+          },
+          {
+            "name": "context",
+            "desc": "アクターがアクションを実行したユーザーまたはチーム"
+          },
+          {
+            "name": "assets",
+            "desc": "アクションに関連したコンテンツ資産."
+          },
+          {
+            "name": "other_info",
+            "desc": "このタイプのアクションに適用可能な可変イベントスキーマ."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team activity user": {
+    "name": "user",
+    "title": "ユーザーごとのアクティビティ",
+    "desc": "",
+    "remarks": "",
+    "path": "team activity user",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_audit"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "user",
+        "desc": "",
+        "columns": [
+          {
+            "name": "timestamp",
+            "desc": "このアクションが実行されたDropbox側でのタイムスタンプ."
+          },
+          {
+            "name": "member",
+            "desc": "ユーザーの表示名"
+          },
+          {
+            "name": "member_email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "event_type",
+            "desc": "実行されたアクションのタイプ"
+          },
+          {
+            "name": "category",
+            "desc": "監査ログイベントのカテゴリー"
+          },
+          {
+            "name": "access_method",
+            "desc": "アクションが実行された方法."
+          },
+          {
+            "name": "ip_address",
+            "desc": "IPアドレス."
+          },
+          {
+            "name": "country",
+            "desc": "国"
+          },
+          {
+            "name": "city",
+            "desc": "市町村"
+          },
+          {
+            "name": "involve_non_team_members",
+            "desc": "1名以上のチーム外のユーザーがこのアクションに関連した場合はTrue"
+          },
+          {
+            "name": "participants",
+            "desc": "このアクションによって影響を受けたユーザーまたはグループ"
+          },
+          {
+            "name": "context",
+            "desc": "アクターがアクションを実行したユーザーまたはチーム"
+          },
+          {
+            "name": "assets",
+            "desc": "アクションに関連したコンテンツ資産."
+          },
+          {
+            "name": "other_info",
+            "desc": "このタイプのアクションに適用可能な可変イベントスキーマ."
+          }
+        ]
+      },
+      {
+        "name": "user_summary",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.user",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "result.user",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "result.logins",
+            "desc": "ログインのアクティビティ数"
+          },
+          {
+            "name": "result.devices",
+            "desc": "デバイスのアクティビティ数"
+          },
+          {
+            "name": "result.sharing",
+            "desc": "共有のアクティビティ数"
+          },
+          {
+            "name": "result.file_operations",
+            "desc": "ファイル操作のアクティビティ数"
+          },
+          {
+            "name": "result.paper",
+            "desc": "Paperのアクティビティ数"
+          },
+          {
+            "name": "result.others",
+            "desc": "その他のカテゴリのアクティビティ数"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team device list": {
+    "name": "list",
+    "title": "チーム内全てのデバイス/セッションを一覧します",
+    "desc": "",
+    "remarks": "",
+    "path": "team device list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "device",
+        "desc": "",
+        "columns": [
+          {
+            "name": "team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "given_name",
+            "desc": "名"
+          },
+          {
+            "name": "surname",
+            "desc": "名字"
+          },
+          {
+            "name": "familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "device_tag",
+            "desc": "セッションのタイプ (web_session, desktop_client, または mobile_client)"
+          },
+          {
+            "name": "id",
+            "desc": "セッションID"
+          },
+          {
+            "name": "user_agent",
+            "desc": "ホストデバイスの情報"
+          },
+          {
+            "name": "os",
+            "desc": "ホストOSの情報"
+          },
+          {
+            "name": "browser",
+            "desc": "Webセッションのブラウザ情報"
+          },
+          {
+            "name": "ip_address",
+            "desc": "このセッションの昨秋アクティビティのIPアドレス"
+          },
+          {
+            "name": "country",
+            "desc": "このセッションの最終アクティビティの国"
+          },
+          {
+            "name": "created",
+            "desc": "セッションが作成された日時"
+          },
+          {
+            "name": "updated",
+            "desc": "このセッションの最終アクティビティの日時"
+          },
+          {
+            "name": "expires",
+            "desc": "このセッションが失効する日時"
+          },
+          {
+            "name": "host_name",
+            "desc": "デスクトップホストの名称"
+          },
+          {
+            "name": "client_type",
+            "desc": "Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)"
+          },
+          {
+            "name": "client_version",
+            "desc": "Dropboxクライアントバージョン"
+          },
+          {
+            "name": "platform",
+            "desc": "ホストプラットホームの情報"
+          },
+          {
+            "name": "is_delete_on_unlink_supported",
+            "desc": "アカウントのファイルをリンク解除時に削除を試みます"
+          },
+          {
+            "name": "device_name",
+            "desc": "デバイス名"
+          },
+          {
+            "name": "os_version",
+            "desc": "ホストOSのバージョン"
+          },
+          {
+            "name": "last_carrier",
+            "desc": "このデバイスで利用された最後のキャリア"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team device unlink": {
+    "name": "unlink",
+    "title": "デバイスのセッションを解除します",
+    "desc": "",
+    "remarks": "(非可逆な操作です)",
+    "path": "team device unlink",
+    "cli_args": "-file /path/to/data/file.csv",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": true,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "input.email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "input.status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "input.given_name",
+            "desc": "名"
+          },
+          {
+            "name": "input.surname",
+            "desc": "名字"
+          },
+          {
+            "name": "input.familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "input.display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "input.abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "input.external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "input.account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "input.device_tag",
+            "desc": "セッションのタイプ (web_session, desktop_client, または mobile_client)"
+          },
+          {
+            "name": "input.id",
+            "desc": "セッションID"
+          },
+          {
+            "name": "input.user_agent",
+            "desc": "ホストデバイスの情報"
+          },
+          {
+            "name": "input.os",
+            "desc": "ホストOSの情報"
+          },
+          {
+            "name": "input.browser",
+            "desc": "Webセッションのブラウザ情報"
+          },
+          {
+            "name": "input.ip_address",
+            "desc": "このセッションの昨秋アクティビティのIPアドレス"
+          },
+          {
+            "name": "input.country",
+            "desc": "このセッションの最終アクティビティの国"
+          },
+          {
+            "name": "input.created",
+            "desc": "セッションが作成された日時"
+          },
+          {
+            "name": "input.updated",
+            "desc": "このセッションの最終アクティビティの日時"
+          },
+          {
+            "name": "input.expires",
+            "desc": "このセッションが失効する日時"
+          },
+          {
+            "name": "input.host_name",
+            "desc": "デスクトップホストの名称"
+          },
+          {
+            "name": "input.client_type",
+            "desc": "Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)"
+          },
+          {
+            "name": "input.client_version",
+            "desc": "Dropboxクライアントバージョン"
+          },
+          {
+            "name": "input.platform",
+            "desc": "ホストプラットホームの情報"
+          },
+          {
+            "name": "input.is_delete_on_unlink_supported",
+            "desc": "アカウントのファイルをリンク解除時に削除を試みます"
+          },
+          {
+            "name": "input.device_name",
+            "desc": "デバイス名"
+          },
+          {
+            "name": "input.os_version",
+            "desc": "ホストOSのバージョン"
+          },
+          {
+            "name": "input.last_carrier",
+            "desc": "このデバイスで利用された最後のキャリア"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "team_member_id",
+            "desc": "チームにおけるメンバーのID",
+            "example": "dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス",
+            "example": "john.smith@example.com"
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)",
+            "example": "active"
+          },
+          {
+            "name": "given_name",
+            "desc": "名",
+            "example": "John"
+          },
+          {
+            "name": "surname",
+            "desc": "名字",
+            "example": "Smith"
+          },
+          {
+            "name": "familiar_name",
+            "desc": "ロケール依存の名前",
+            "example": "John Smith"
+          },
+          {
+            "name": "display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称",
+            "example": "John Smith"
+          },
+          {
+            "name": "abbreviated_name",
+            "desc": "ユーザーの省略名称",
+            "example": "JS"
+          },
+          {
+            "name": "external_id",
+            "desc": "このユーザーに関連づけられた外部ID",
+            "example": ""
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーのアカウントID",
+            "example": "dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "name": "device_tag",
+            "desc": "セッションのタイプ (web_session, desktop_client, または mobile_client)",
+            "example": "desktop_client"
+          },
+          {
+            "name": "id",
+            "desc": "セッションID",
+            "example": "dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "name": "user_agent",
+            "desc": "ホストデバイスの情報",
+            "example": ""
+          },
+          {
+            "name": "os",
+            "desc": "ホストOSの情報",
+            "example": ""
+          },
+          {
+            "name": "browser",
+            "desc": "Webセッションのブラウザ情報",
+            "example": ""
+          },
+          {
+            "name": "ip_address",
+            "desc": "このセッションの昨秋アクティビティのIPアドレス",
+            "example": "xx.xxx.x.xxx"
+          },
+          {
+            "name": "country",
+            "desc": "このセッションの最終アクティビティの国",
+            "example": "United States"
+          },
+          {
+            "name": "created",
+            "desc": "セッションが作成された日時",
+            "example": "2019-09-20T23:47:33Z"
+          },
+          {
+            "name": "updated",
+            "desc": "このセッションの最終アクティビティの日時",
+            "example": "2019-10-25T04:42:16Z"
+          },
+          {
+            "name": "expires",
+            "desc": "このセッションが失効する日時",
+            "example": ""
+          },
+          {
+            "name": "host_name",
+            "desc": "デスクトップホストの名称",
+            "example": "nihonbashi"
+          },
+          {
+            "name": "client_type",
+            "desc": "Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)",
+            "example": "windows"
+          },
+          {
+            "name": "client_version",
+            "desc": "Dropboxクライアントバージョン",
+            "example": "83.4.152"
+          },
+          {
+            "name": "platform",
+            "desc": "ホストプラットホームの情報",
+            "example": "Windows 10 1903"
+          },
+          {
+            "name": "is_delete_on_unlink_supported",
+            "desc": "アカウントのファイルをリンク解除時に削除を試みます",
+            "example": "TRUE"
+          },
+          {
+            "name": "device_name",
+            "desc": "デバイス名",
+            "example": ""
+          },
+          {
+            "name": "os_version",
+            "desc": "ホストOSのバージョン",
+            "example": ""
+          },
+          {
+            "name": "last_carrier",
+            "desc": "このデバイスで利用された最後のキャリア",
+            "example": ""
+          }
+        ]
+      }
+    ]
+  },
+  "team diag explorer": {
+    "name": "explorer",
+    "title": "チーム全体の情報をレポートします",
+    "desc": "",
+    "remarks": "",
+    "path": "team diag explorer",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "File": "business_file",
+      "Info": "business_info",
+      "Mgmt": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "device",
+        "desc": "",
+        "columns": [
+          {
+            "name": "team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "given_name",
+            "desc": "名"
+          },
+          {
+            "name": "surname",
+            "desc": "名字"
+          },
+          {
+            "name": "familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "device_tag",
+            "desc": "セッションのタイプ (web_session, desktop_client, または mobile_client)"
+          },
+          {
+            "name": "id",
+            "desc": "セッションID"
+          },
+          {
+            "name": "user_agent",
+            "desc": "ホストデバイスの情報"
+          },
+          {
+            "name": "os",
+            "desc": "ホストOSの情報"
+          },
+          {
+            "name": "browser",
+            "desc": "Webセッションのブラウザ情報"
+          },
+          {
+            "name": "ip_address",
+            "desc": "このセッションの昨秋アクティビティのIPアドレス"
+          },
+          {
+            "name": "country",
+            "desc": "このセッションの最終アクティビティの国"
+          },
+          {
+            "name": "created",
+            "desc": "セッションが作成された日時"
+          },
+          {
+            "name": "updated",
+            "desc": "このセッションの最終アクティビティの日時"
+          },
+          {
+            "name": "expires",
+            "desc": "このセッションが失効する日時"
+          },
+          {
+            "name": "host_name",
+            "desc": "デスクトップホストの名称"
+          },
+          {
+            "name": "client_type",
+            "desc": "Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)"
+          },
+          {
+            "name": "client_version",
+            "desc": "Dropboxクライアントバージョン"
+          },
+          {
+            "name": "platform",
+            "desc": "ホストプラットホームの情報"
+          },
+          {
+            "name": "is_delete_on_unlink_supported",
+            "desc": "アカウントのファイルをリンク解除時に削除を試みます"
+          },
+          {
+            "name": "device_name",
+            "desc": "デバイス名"
+          },
+          {
+            "name": "os_version",
+            "desc": "ホストOSのバージョン"
+          },
+          {
+            "name": "last_carrier",
+            "desc": "このデバイスで利用された最後のキャリア"
+          }
+        ]
+      },
+      {
+        "name": "feature",
+        "desc": "",
+        "columns": [
+          {
+            "name": "upload_api_rate_limit",
+            "desc": "毎月利用可能なアップロードAPIコール回数"
+          },
+          {
+            "name": "upload_api_rate_limit_count",
+            "desc": "この月に利用されたアップロードAPIコール回数"
+          },
+          {
+            "name": "has_team_shared_dropbox",
+            "desc": "このチームが共有されたチームルートを持っているかどうか"
+          },
+          {
+            "name": "has_team_file_events",
+            "desc": "このチームがファイルイベント機能を持っているかどうか"
+          },
+          {
+            "name": "has_team_selective_sync",
+            "desc": "このチームがチーム選択型同期を有効化しているかどうか"
+          }
+        ]
+      },
+      {
+        "name": "file_request",
+        "desc": "",
+        "columns": [
+          {
+            "name": "account_id",
+            "desc": "ファイルリクエスト所有者のアカウントID"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "ファイルリクエスト所有者のチームメンバーとしてのID"
+          },
+          {
+            "name": "email",
+            "desc": "ファイルリクエスト所有者のメールアドレス"
+          },
+          {
+            "name": "status",
+            "desc": "ファイルリクエスト所有者ユーザーの状態 (active/invited/suspended/removed)"
+          },
+          {
+            "name": "surname",
+            "desc": "ファイルリクエスト所有者の名字"
+          },
+          {
+            "name": "given_name",
+            "desc": "ファイルリクエスト所有者の名"
+          },
+          {
+            "name": "file_request_id",
+            "desc": "ファイルリクエストID"
+          },
+          {
+            "name": "url",
+            "desc": "ファイルリクエストのURL"
+          },
+          {
+            "name": "title",
+            "desc": "ファイルリクエストのタイトル"
+          },
+          {
+            "name": "created",
+            "desc": "このファイルリクエストが作成された日時"
+          },
+          {
+            "name": "is_open",
+            "desc": "このファイルリクエストがオープンしているかどうか"
+          },
+          {
+            "name": "file_count",
+            "desc": "このファイルリクエストが受け取ったファイル数"
+          },
+          {
+            "name": "destination",
+            "desc": "アップロードされたファイルが置かれるDropboxフォルダのパス"
+          },
+          {
+            "name": "deadline",
+            "desc": "ファイルリクエストの締め切り."
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "設定されている場合、締め切りを超えてもアップロードが許可されている"
+          }
+        ]
+      },
+      {
+        "name": "group",
+        "desc": "",
+        "columns": [
+          {
+            "name": "group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "group_id",
+            "desc": "グループID"
+          },
+          {
+            "name": "group_management_type",
+            "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
+          },
+          {
+            "name": "group_external_id",
+            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
+          },
+          {
+            "name": "member_count",
+            "desc": "グループ内のメンバー数"
+          }
+        ]
+      },
+      {
+        "name": "group_member",
+        "desc": "",
+        "columns": [
+          {
+            "name": "group_id",
+            "desc": "グループID"
+          },
+          {
+            "name": "group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "group_management_type",
+            "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
+          },
+          {
+            "name": "access_type",
+            "desc": "グループにおけるユーザーの役割 (member/owner)"
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーアカウントのID"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "surname",
+            "desc": "名字"
+          },
+          {
+            "name": "given_name",
+            "desc": "名"
+          }
+        ]
+      },
+      {
+        "name": "info",
+        "desc": "",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "チームの名称"
+          },
+          {
+            "name": "team_id",
+            "desc": "チームのID"
+          },
+          {
+            "name": "num_licensed_users",
+            "desc": "このチームで利用可能なライセンス数"
+          },
+          {
+            "name": "num_provisioned_users",
+            "desc": "招待済みアカウント数 (アクティブメンバーまたは招待済み)"
+          },
+          {
+            "name": "policy_shared_folder_member",
+            "desc": "チームメンバーが参加できる共有フォルダ (from_team_onlyまたはfrom_anyone)"
+          },
+          {
+            "name": "policy_shared_folder_join",
+            "desc": "チームメンバーが共有できる範囲 (teamまたは anyone)"
+          },
+          {
+            "name": "policy_shared_link_create",
+            "desc": "チームメンバーが所有する共有リンクを誰が閲覧可能か (default_public, default_team_only, または team_only)"
+          },
+          {
+            "name": "policy_emm_state",
+            "desc": "Enterprise Mobility Management (EMM) のチームに対する状態 (disabled, optional, or required)"
+          },
+          {
+            "name": "policy_office_add_in",
+            "desc": "Dropbox Office アドインについてこのチームに対する管理者ポリシー (disabled, or enabled)"
+          }
+        ]
+      },
+      {
+        "name": "linked_app",
+        "desc": "",
+        "columns": [
+          {
+            "name": "team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "given_name",
+            "desc": "名"
+          },
+          {
+            "name": "surname",
+            "desc": "名字"
+          },
+          {
+            "name": "familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "app_id",
+            "desc": "アプリケーションの固有ID"
+          },
+          {
+            "name": "app_name",
+            "desc": "アプリケーション名称"
+          },
+          {
+            "name": "is_app_folder",
+            "desc": "アプリケーションが専用フォルダにリンクするかどうか"
+          },
+          {
+            "name": "publisher",
+            "desc": "パブリッシャーのURL"
+          },
+          {
+            "name": "publisher_url",
+            "desc": "アプリケーションパブリッシャーの名前"
+          },
+          {
+            "name": "linked",
+            "desc": "アプリケーションがリンクされた日時"
+          }
+        ]
+      },
+      {
+        "name": "member",
+        "desc": "",
+        "columns": [
+          {
+            "name": "team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "email_verified",
+            "desc": "trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています."
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "given_name",
+            "desc": "名"
+          },
+          {
+            "name": "surname",
+            "desc": "名字"
+          },
+          {
+            "name": "familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "member_folder_id",
+            "desc": "ユーザールートフォルダの名前空間ID."
+          },
+          {
+            "name": "external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "persistent_id",
+            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
+          },
+          {
+            "name": "joined_on",
+            "desc": "メンバーがチームに参加した日時."
+          },
+          {
+            "name": "role",
+            "desc": "ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only)"
+          }
+        ]
+      },
+      {
+        "name": "member_quota",
+        "desc": "",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "quota",
+            "desc": "カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません."
+          }
+        ]
+      },
+      {
+        "name": "namespace",
+        "desc": "",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "namespace_id",
+            "desc": "名前空間ID"
+          },
+          {
+            "name": "namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID"
+          }
+        ]
+      },
+      {
+        "name": "namespace_file",
+        "desc": "",
+        "columns": [
+          {
+            "name": "namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "namespace_id",
+            "desc": "名前空間ID"
+          },
+          {
+            "name": "namespace_name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "namespace_member_email",
+            "desc": "これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス."
+          },
+          {
+            "name": "file_id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "name",
+            "desc": "名称"
+          },
+          {
+            "name": "path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "parent_shared_folder_id",
+            "desc": "設定されている場合、共有フォルダに内包されています."
+          }
+        ]
+      },
+      {
+        "name": "namespace_size",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "input.namespace_id",
+            "desc": "名前空間ID"
+          },
+          {
+            "name": "input.namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "input.team_member_id",
+            "desc": "メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID"
+          },
+          {
+            "name": "result.namespace_name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "result.namespace_id",
+            "desc": "名前空間ID"
+          },
+          {
+            "name": "result.namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "result.owner_team_member_id",
+            "desc": "メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID"
+          },
+          {
+            "name": "result.path",
+            "desc": "フォルダへのパス"
+          },
+          {
+            "name": "result.count_file",
+            "desc": "このフォルダに含まれるファイル数"
+          },
+          {
+            "name": "result.count_folder",
+            "desc": "このフォルダに含まれるフォルダ数"
+          },
+          {
+            "name": "result.count_descendant",
+            "desc": "このフォルダに含まれるファイル・フォルダ数"
+          },
+          {
+            "name": "result.size",
+            "desc": "フォルダのサイズ"
+          },
+          {
+            "name": "result.api_complexity",
+            "desc": "APIを用いて操作する場合のフォルダ複雑度の指標"
+          }
+        ]
+      },
+      {
+        "name": "shared_link",
+        "desc": "",
+        "columns": [
+          {
+            "name": "shared_link_id",
+            "desc": "ファイルまたはフォルダへのリンクのID"
+          },
+          {
+            "name": "tag",
+            "desc": "エントリーの種別 (file, または folder)"
+          },
+          {
+            "name": "url",
+            "desc": "共有リンクのURL."
+          },
+          {
+            "name": "name",
+            "desc": "リンク先ファイル名称"
+          },
+          {
+            "name": "expires",
+            "desc": "有効期限 (設定されている場合)"
+          },
+          {
+            "name": "path_lower",
+            "desc": "パス (すべて小文字に変換)."
+          },
+          {
+            "name": "visibility",
+            "desc": "共有リンクの開示範囲"
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "surname",
+            "desc": "リンク所有者の名字"
+          },
+          {
+            "name": "given_name",
+            "desc": "リンク所有者の名"
+          }
+        ]
+      },
+      {
+        "name": "usage",
+        "desc": "",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "アカウントのメールアドレス"
+          },
+          {
+            "name": "used_gb",
+            "desc": "このユーザーの合計利用スペース (in GB, 1GB = 1024 MB)."
+          },
+          {
+            "name": "used_bytes",
+            "desc": "ユーザーの合計利用要領 (bytes)."
+          },
+          {
+            "name": "allocation",
+            "desc": "このユーザーの利用容量の付与先 (individual, or team)"
+          },
+          {
+            "name": "allocated",
+            "desc": "このユーザーアカウントに確保されている合計容量 (bytes)."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team feature": {
+    "name": "feature",
+    "title": "チームの機能を出力します",
+    "desc": "",
+    "remarks": "",
+    "path": "team feature",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "feature",
+        "desc": "",
+        "columns": [
+          {
+            "name": "upload_api_rate_limit",
+            "desc": "毎月利用可能なアップロードAPIコール回数"
+          },
+          {
+            "name": "upload_api_rate_limit_count",
+            "desc": "この月に利用されたアップロードAPIコール回数"
+          },
+          {
+            "name": "has_team_shared_dropbox",
+            "desc": "このチームが共有されたチームルートを持っているかどうか"
+          },
+          {
+            "name": "has_team_file_events",
+            "desc": "このチームがファイルイベント機能を持っているかどうか"
+          },
+          {
+            "name": "has_team_selective_sync",
+            "desc": "このチームがチーム選択型同期を有効化しているかどうか"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team filerequest list": {
+    "name": "list",
+    "title": "チームないのファイルリクエストを一覧します",
+    "desc": "",
+    "remarks": "",
+    "path": "team filerequest list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "file_request",
+        "desc": "",
+        "columns": [
+          {
+            "name": "account_id",
+            "desc": "ファイルリクエスト所有者のアカウントID"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "ファイルリクエスト所有者のチームメンバーとしてのID"
+          },
+          {
+            "name": "email",
+            "desc": "ファイルリクエスト所有者のメールアドレス"
+          },
+          {
+            "name": "status",
+            "desc": "ファイルリクエスト所有者ユーザーの状態 (active/invited/suspended/removed)"
+          },
+          {
+            "name": "surname",
+            "desc": "ファイルリクエスト所有者の名字"
+          },
+          {
+            "name": "given_name",
+            "desc": "ファイルリクエスト所有者の名"
+          },
+          {
+            "name": "file_request_id",
+            "desc": "ファイルリクエストID"
+          },
+          {
+            "name": "url",
+            "desc": "ファイルリクエストのURL"
+          },
+          {
+            "name": "title",
+            "desc": "ファイルリクエストのタイトル"
+          },
+          {
+            "name": "created",
+            "desc": "このファイルリクエストが作成された日時"
+          },
+          {
+            "name": "is_open",
+            "desc": "このファイルリクエストがオープンしているかどうか"
+          },
+          {
+            "name": "file_count",
+            "desc": "このファイルリクエストが受け取ったファイル数"
+          },
+          {
+            "name": "destination",
+            "desc": "アップロードされたファイルが置かれるDropboxフォルダのパス"
+          },
+          {
+            "name": "deadline",
+            "desc": "ファイルリクエストの締め切り."
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "設定されている場合、締め切りを超えてもアップロードが許可されている"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team info": {
+    "name": "info",
+    "title": "チームの情報",
+    "desc": "",
+    "remarks": "",
+    "path": "team info",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "info",
+        "desc": "",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "チームの名称"
+          },
+          {
+            "name": "team_id",
+            "desc": "チームのID"
+          },
+          {
+            "name": "num_licensed_users",
+            "desc": "このチームで利用可能なライセンス数"
+          },
+          {
+            "name": "num_provisioned_users",
+            "desc": "招待済みアカウント数 (アクティブメンバーまたは招待済み)"
+          },
+          {
+            "name": "policy_shared_folder_member",
+            "desc": "チームメンバーが参加できる共有フォルダ (from_team_onlyまたはfrom_anyone)"
+          },
+          {
+            "name": "policy_shared_folder_join",
+            "desc": "チームメンバーが共有できる範囲 (teamまたは anyone)"
+          },
+          {
+            "name": "policy_shared_link_create",
+            "desc": "チームメンバーが所有する共有リンクを誰が閲覧可能か (default_public, default_team_only, または team_only)"
+          },
+          {
+            "name": "policy_emm_state",
+            "desc": "Enterprise Mobility Management (EMM) のチームに対する状態 (disabled, optional, or required)"
+          },
+          {
+            "name": "policy_office_add_in",
+            "desc": "Dropbox Office アドインについてこのチームに対する管理者ポリシー (disabled, or enabled)"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team linkedapp list": {
+    "name": "list",
+    "title": "リンク済みアプリを一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "team linkedapp list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "linked_app",
+        "desc": "",
+        "columns": [
+          {
+            "name": "team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "given_name",
+            "desc": "名"
+          },
+          {
+            "name": "surname",
+            "desc": "名字"
+          },
+          {
+            "name": "familiar_name",
+            "desc": "ロケール依存の名前"
+          },
+          {
+            "name": "display_name",
+            "desc": "ユーザーのDropboxアカウントの表示名称"
+          },
+          {
+            "name": "abbreviated_name",
+            "desc": "ユーザーの省略名称"
+          },
+          {
+            "name": "external_id",
+            "desc": "このユーザーに関連づけられた外部ID"
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "app_id",
+            "desc": "アプリケーションの固有ID"
+          },
+          {
+            "name": "app_name",
+            "desc": "アプリケーション名称"
+          },
+          {
+            "name": "is_app_folder",
+            "desc": "アプリケーションが専用フォルダにリンクするかどうか"
+          },
+          {
+            "name": "publisher",
+            "desc": "パブリッシャーのURL"
+          },
+          {
+            "name": "publisher_url",
+            "desc": "アプリケーションパブリッシャーの名前"
+          },
+          {
+            "name": "linked",
+            "desc": "アプリケーションがリンクされた日時"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team namespace file list": {
+    "name": "list",
+    "title": "チーム内全ての名前空間でのファイル・フォルダを一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "team namespace file list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "namespace_file",
+        "desc": "",
+        "columns": [
+          {
+            "name": "namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "namespace_id",
+            "desc": "名前空間ID"
+          },
+          {
+            "name": "namespace_name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "namespace_member_email",
+            "desc": "これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス."
+          },
+          {
+            "name": "file_id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "name",
+            "desc": "名称"
+          },
+          {
+            "name": "path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "parent_shared_folder_id",
+            "desc": "設定されている場合、共有フォルダに内包されています."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team namespace file size": {
+    "name": "size",
+    "title": "チーム内全ての名前空間でのファイル・フォルダを一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "team namespace file size",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "namespace_size",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "input.namespace_id",
+            "desc": "名前空間ID"
+          },
+          {
+            "name": "input.namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "input.team_member_id",
+            "desc": "メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID"
+          },
+          {
+            "name": "result.namespace_name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "result.namespace_id",
+            "desc": "名前空間ID"
+          },
+          {
+            "name": "result.namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "result.owner_team_member_id",
+            "desc": "メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID"
+          },
+          {
+            "name": "result.path",
+            "desc": "フォルダへのパス"
+          },
+          {
+            "name": "result.count_file",
+            "desc": "このフォルダに含まれるファイル数"
+          },
+          {
+            "name": "result.count_folder",
+            "desc": "このフォルダに含まれるフォルダ数"
+          },
+          {
+            "name": "result.count_descendant",
+            "desc": "このフォルダに含まれるファイル・フォルダ数"
+          },
+          {
+            "name": "result.size",
+            "desc": "フォルダのサイズ"
+          },
+          {
+            "name": "result.api_complexity",
+            "desc": "APIを用いて操作する場合のフォルダ複雑度の指標"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team namespace list": {
+    "name": "list",
+    "title": "チーム内すべての名前空間を一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "team namespace list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "namespace",
+        "desc": "",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "namespace_id",
+            "desc": "名前空間ID"
+          },
+          {
+            "name": "namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team namespace member list": {
+    "name": "list",
+    "title": "チームフォルダ以下のファイル・フォルダを一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "team namespace member list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "namespace_member",
+        "desc": "",
+        "columns": [
+          {
+            "name": "namespace_name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "namespace_id",
+            "desc": "名前空間ID"
+          },
+          {
+            "name": "namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "entry_access_type",
+            "desc": "ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment)"
+          },
+          {
+            "name": "entry_is_inherited",
+            "desc": "メンバーのアクセス権限が上位フォルダから継承されている場合true"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "display_name",
+            "desc": "セッションのタイプ (web_session, desktop_client, または mobile_client)"
+          },
+          {
+            "name": "group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "invitee_email",
+            "desc": "このフォルダに招待されたメールアドレス"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team sharedlink list": {
+    "name": "list",
+    "title": "共有リンクの一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "team sharedlink list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "shared_link",
+        "desc": "",
+        "columns": [
+          {
+            "name": "shared_link_id",
+            "desc": "ファイルまたはフォルダへのリンクのID"
+          },
+          {
+            "name": "tag",
+            "desc": "エントリーの種別 (file, または folder)"
+          },
+          {
+            "name": "url",
+            "desc": "共有リンクのURL."
+          },
+          {
+            "name": "name",
+            "desc": "リンク先ファイル名称"
+          },
+          {
+            "name": "expires",
+            "desc": "有効期限 (設定されている場合)"
+          },
+          {
+            "name": "path_lower",
+            "desc": "パス (すべて小文字に変換)."
+          },
+          {
+            "name": "visibility",
+            "desc": "共有リンクの開示範囲"
+          },
+          {
+            "name": "account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "surname",
+            "desc": "リンク所有者の名字"
+          },
+          {
+            "name": "given_name",
+            "desc": "リンク所有者の名"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team sharedlink update expiry": {
+    "name": "expiry",
+    "title": "チーム内の公開されている共有リンクについて有効期限を更新します",
+    "desc": "",
+    "remarks": "(非可逆な操作です)",
+    "path": "team sharedlink update expiry",
+    "cli_args": "-days 28",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": true,
+    "reports": [
+      {
+        "name": "skipped",
+        "desc": "",
+        "columns": [
+          {
+            "name": "tag",
+            "desc": "エントリーの種別 (file, または folder)"
+          },
+          {
+            "name": "url",
+            "desc": "共有リンクのURL."
+          },
+          {
+            "name": "name",
+            "desc": "リンク先ファイル名称"
+          },
+          {
+            "name": "expires",
+            "desc": "有効期限 (設定されている場合)"
+          },
+          {
+            "name": "path_lower",
+            "desc": "パス (すべて小文字に変換)."
+          },
+          {
+            "name": "visibility",
+            "desc": "共有リンクの開示範囲"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "surname",
+            "desc": "リンク所有者の名字"
+          },
+          {
+            "name": "given_name",
+            "desc": "リンク所有者の名"
+          }
+        ]
+      },
+      {
+        "name": "updated",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.shared_link_id",
+            "desc": "ファイルまたはフォルダへのリンクのID"
+          },
+          {
+            "name": "input.tag",
+            "desc": "エントリーの種別 (file, または folder)"
+          },
+          {
+            "name": "input.url",
+            "desc": "共有リンクのURL."
+          },
+          {
+            "name": "input.name",
+            "desc": "リンク先ファイル名称"
+          },
+          {
+            "name": "input.expires",
+            "desc": "有効期限 (設定されている場合)"
+          },
+          {
+            "name": "input.path_lower",
+            "desc": "パス (すべて小文字に変換)."
+          },
+          {
+            "name": "input.visibility",
+            "desc": "共有リンクの開示範囲"
+          },
+          {
+            "name": "input.account_id",
+            "desc": "ユーザーのアカウントID"
+          },
+          {
+            "name": "input.team_member_id",
+            "desc": "チームにおけるメンバーのID"
+          },
+          {
+            "name": "input.email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "input.status",
+            "desc": "チームにおけるメンバーのステータス(active/invited/suspended/removed)"
+          },
+          {
+            "name": "input.surname",
+            "desc": "リンク所有者の名字"
+          },
+          {
+            "name": "input.given_name",
+            "desc": "リンク所有者の名"
+          },
+          {
+            "name": "result.id",
+            "desc": "ファイルまたはフォルダへのリンクのID"
+          },
+          {
+            "name": "result.tag",
+            "desc": "エントリーの種別 (file, または folder)"
+          },
+          {
+            "name": "result.url",
+            "desc": "共有リンクのURL."
+          },
+          {
+            "name": "result.name",
+            "desc": "リンク先ファイル名称"
+          },
+          {
+            "name": "result.expires",
+            "desc": "有効期限 (設定されている場合)"
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "パス (すべて小文字に変換)."
+          },
+          {
+            "name": "result.visibility",
+            "desc": "共有リンクの開示範囲"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "teamfolder archive": {
+    "name": "archive",
+    "title": "チームフォルダのアーカイブ",
+    "desc": "",
+    "remarks": "",
+    "path": "teamfolder archive",
+    "cli_args": "-name チームフォルダ名",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "teamfolder batch archive": {
+    "name": "archive",
+    "title": "複数のチームフォルダをアーカイブします",
+    "desc": "",
+    "remarks": "",
+    "path": "teamfolder batch archive",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.name",
+            "desc": "チームフォルダ名"
+          },
+          {
+            "name": "result.team_folder_id",
+            "desc": "チームフォルダのID"
+          },
+          {
+            "name": "result.name",
+            "desc": "チームフォルダの名称"
+          },
+          {
+            "name": "result.status",
+            "desc": "チームフォルダの状態 (active, archived, または archive_in_progress)"
+          },
+          {
+            "name": "result.is_team_shared_dropbox",
+            "desc": ""
+          },
+          {
+            "name": "result.sync_setting",
+            "desc": "チームフォルダに設定された同期設定 (default, not_synced, または not_synced_inactive)"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "チームフォルダ名",
+            "example": "営業"
+          }
+        ]
+      }
+    ]
+  },
+  "teamfolder batch permdelete": {
+    "name": "permdelete",
+    "title": "複数のチームフォルダを完全に削除します",
+    "desc": "",
+    "remarks": "(非可逆な操作です)",
+    "path": "teamfolder batch permdelete",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": true,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.name",
+            "desc": "チームフォルダ名"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "チームフォルダ名",
+            "example": "営業"
+          }
+        ]
+      }
+    ]
+  },
+  "teamfolder batch replication": {
+    "name": "replication",
+    "title": "チームフォルダの一括レプリケーション",
+    "desc": "",
+    "remarks": "(非可逆な操作です)",
+    "path": "teamfolder batch replication",
+    "cli_args": "-file TEAMFOLDER_NAME_LIST.csv",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": true,
+    "reports": [
+      {
+        "name": "verification",
+        "desc": "",
+        "columns": [
+          {
+            "name": "diff_type",
+            "desc": "差分のタイプ`file_content_diff`: コンテンツハッシュの差分, `{left|right}_file_missing`: 左または右のファイルが見つからない, `{left|right}_folder_missing`: 左または右のフォルダが見つからない."
+          },
+          {
+            "name": "left_path",
+            "desc": "左のパス"
+          },
+          {
+            "name": "left_kind",
+            "desc": "フォルダまたはファイル"
+          },
+          {
+            "name": "left_size",
+            "desc": "左ファイルのサイズ"
+          },
+          {
+            "name": "left_hash",
+            "desc": "左ファイルのコンテンツハッシュ"
+          },
+          {
+            "name": "right_path",
+            "desc": "右のパス"
+          },
+          {
+            "name": "right_kind",
+            "desc": "フォルダまたはファイル"
+          },
+          {
+            "name": "right_size",
+            "desc": "右ファイルのサイズ"
+          },
+          {
+            "name": "right_hash",
+            "desc": "右ファイルのコンテンツハッシュ"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "チームフォルダ名",
+            "example": "営業"
+          }
+        ]
+      }
+    ]
+  },
+  "teamfolder file list": {
+    "name": "list",
+    "title": "チームフォルダの一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "teamfolder file list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "namespace_file",
+        "desc": "",
+        "columns": [
+          {
+            "name": "namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "namespace_id",
+            "desc": "名前空間ID"
+          },
+          {
+            "name": "namespace_name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "namespace_member_email",
+            "desc": "これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス."
+          },
+          {
+            "name": "file_id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "name",
+            "desc": "名称"
+          },
+          {
+            "name": "path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "parent_shared_folder_id",
+            "desc": "設定されている場合、共有フォルダに内包されています."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "teamfolder file size": {
+    "name": "size",
+    "title": "チームフォルダのサイズを計算",
+    "desc": "",
+    "remarks": "",
+    "path": "teamfolder file size",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "namespace_size",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "input.namespace_id",
+            "desc": "名前空間ID"
+          },
+          {
+            "name": "input.namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "input.team_member_id",
+            "desc": "メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID"
+          },
+          {
+            "name": "result.namespace_name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "result.namespace_id",
+            "desc": "名前空間ID"
+          },
+          {
+            "name": "result.namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "result.owner_team_member_id",
+            "desc": "メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID"
+          },
+          {
+            "name": "result.path",
+            "desc": "フォルダへのパス"
+          },
+          {
+            "name": "result.count_file",
+            "desc": "このフォルダに含まれるファイル数"
+          },
+          {
+            "name": "result.count_folder",
+            "desc": "このフォルダに含まれるフォルダ数"
+          },
+          {
+            "name": "result.count_descendant",
+            "desc": "このフォルダに含まれるファイル・フォルダ数"
+          },
+          {
+            "name": "result.size",
+            "desc": "フォルダのサイズ"
+          },
+          {
+            "name": "result.api_complexity",
+            "desc": "APIを用いて操作する場合のフォルダ複雑度の指標"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "teamfolder list": {
+    "name": "list",
+    "title": "チームフォルダの一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "teamfolder list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "team_folder",
+        "desc": "",
+        "columns": [
+          {
+            "name": "team_folder_id",
+            "desc": "チームフォルダのID"
+          },
+          {
+            "name": "name",
+            "desc": "チームフォルダの名称"
+          },
+          {
+            "name": "status",
+            "desc": "チームフォルダの状態 (active, archived, または archive_in_progress)"
+          },
+          {
+            "name": "is_team_shared_dropbox",
+            "desc": ""
+          },
+          {
+            "name": "sync_setting",
+            "desc": "チームフォルダに設定された同期設定 (default, not_synced, または not_synced_inactive)"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "teamfolder permdelete": {
+    "name": "permdelete",
+    "title": "チームフォルダを完全に削除します",
+    "desc": "",
+    "remarks": "(非可逆な操作です)",
+    "path": "teamfolder permdelete",
+    "cli_args": "-name チームフォルダ名",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": true,
+    "reports": [],
+    "feeds": []
+  },
+  "teamfolder replication": {
+    "name": "replication",
+    "title": "チームフォルダを他のチームに複製します",
+    "desc": "",
+    "remarks": "(非可逆な操作です)",
+    "path": "teamfolder replication",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": true,
+    "reports": [
+      {
+        "name": "verification",
+        "desc": "",
+        "columns": [
+          {
+            "name": "diff_type",
+            "desc": "差分のタイプ`file_content_diff`: コンテンツハッシュの差分, `{left|right}_file_missing`: 左または右のファイルが見つからない, `{left|right}_folder_missing`: 左または右のフォルダが見つからない."
+          },
+          {
+            "name": "left_path",
+            "desc": "左のパス"
+          },
+          {
+            "name": "left_kind",
+            "desc": "フォルダまたはファイル"
+          },
+          {
+            "name": "left_size",
+            "desc": "左ファイルのサイズ"
+          },
+          {
+            "name": "left_hash",
+            "desc": "左ファイルのコンテンツハッシュ"
+          },
+          {
+            "name": "right_path",
+            "desc": "右のパス"
+          },
+          {
+            "name": "right_kind",
+            "desc": "フォルダまたはファイル"
+          },
+          {
+            "name": "right_size",
+            "desc": "右ファイルのサイズ"
+          },
+          {
+            "name": "right_hash",
+            "desc": "右ファイルのコンテンツハッシュ"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "web": {
+    "name": "web",
+    "title": "Webコンソールの起動",
+    "desc": "",
+    "remarks": "",
+    "path": "web",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  }
+}

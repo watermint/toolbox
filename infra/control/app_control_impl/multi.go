@@ -95,7 +95,7 @@ func (z *Multi) Up(opts ...app_control.UpOpt) (err error) {
 		z.ws = opt.Workspace
 	}
 
-	z.flc, err = app_log.NewFileLogger(z.ws.Log(), opt.Debug)
+	z.flc, err = app_log.NewFileLogger(z.ws.Log(), opt.Debug, opt.Test)
 	if err != nil {
 		return err
 	}

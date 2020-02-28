@@ -19,7 +19,7 @@ func (z *FileLogContext) Close() {
 	}
 }
 
-func NewFileLogger(path string, debug bool) (flc *FileLogContext, err error) {
+func NewFileLogger(path string, debug bool, test bool) (flc *FileLogContext, err error) {
 	logPath := filepath.Join(path, "toolbox.log")
 	cfg := zapcore.EncoderConfig{
 		TimeKey:        "time",
@@ -50,7 +50,7 @@ func NewFileLogger(path string, debug bool) (flc *FileLogContext, err error) {
 	logger := zap.New(
 		zapcore.NewTee(
 			fileLoggerCore,
-			NewConsoleLoggerCore(debug),
+			NewConsoleLoggerCore(debug, test),
 		),
 	).WithOptions(zap.AddCaller())
 

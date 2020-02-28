@@ -14,7 +14,6 @@ import (
 )
 
 type Doc struct {
-	TestMode       bool
 	Badge          bool
 	MarkdownReadme bool
 	Lang           string
@@ -23,7 +22,6 @@ type Doc struct {
 }
 
 func (z *Doc) Preset() {
-	z.TestMode = false
 	z.Badge = true
 	z.Filename = "README.md"
 	z.CommandPath = "doc/generated/"
@@ -38,8 +36,8 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 		}
 	}
 
-	rme := ut_doc.NewReadme(ctl, z.Filename, z.Badge, z.TestMode, z.MarkdownReadme, z.CommandPath)
-	cmd := ut_doc.NewCommandWithPath(z.CommandPath, z.TestMode)
+	rme := ut_doc.NewReadme(ctl, z.Filename, z.Badge, ctl.IsTest(), z.MarkdownReadme, z.CommandPath)
+	cmd := ut_doc.NewCommandWithPath(z.CommandPath, ctl.IsTest())
 	if err := rme.Generate(); err != nil {
 		l.Error("Failed to generate README", zap.Error(err))
 		return err
@@ -66,7 +64,6 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 func (z *Doc) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
 		rr := r.(*Doc)
-		rr.TestMode = true
 		rr.Badge = false
 		rr.Filename = ""
 	})
