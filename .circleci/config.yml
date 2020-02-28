@@ -43,7 +43,7 @@ jobs:
             - /go/pkg/mod
       - store_test_results:
           path: /go/src/github.com/watermint/toolbox/test/results
-      - run: gover
+      #- run: gover
       - run: goveralls -coverprofile=gover.coverprofile -service=circle-ci -v
 
 workflows:
