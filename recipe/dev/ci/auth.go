@@ -1,4 +1,4 @@
-package test
+package ci
 
 import (
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
