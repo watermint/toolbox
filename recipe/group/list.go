@@ -22,7 +22,9 @@ func (z *List) Preset() {
 }
 
 func (z *List) Test(c app_control.Control) error {
-	rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues)
+	if err := rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues); err != nil {
+		return err
+	}
 	return qt_recipe.TestRows(c, "group", func(cols map[string]string) error {
 		if _, ok := cols["group_id"]; !ok {
 			return errors.New("group_id is not found")

@@ -62,7 +62,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 			}
 			ll.Info("Testing: ")
 
-			if err := qt_recipe.RecipeError(l, r.Test(tc)); err != nil {
+			if err, _ := qt_recipe.RecipeError(l, r.Test(tc)); err != nil {
 				ll.Error("Error", zap.Error(err))
 				return err
 			}
@@ -79,7 +79,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 			ll := l.With(zap.String("recipeKey", p))
 			ll.Info("Testing: ")
 
-			if err := qt_recipe.RecipeError(l, r.Test(tc)); err != nil {
+			if err, _ := qt_recipe.RecipeError(l, r.Test(tc)); err != nil {
 				ll.Error("Error", zap.Error(err))
 				return err
 			} else {

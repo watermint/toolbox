@@ -83,30 +83,34 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	twc(ctl)
 }
 
-func RecipeError(l *zap.Logger, err error) error {
+// Returns nil even err != nil if the error type is ignorable.
+func RecipeError(l *zap.Logger, err error) (resolvedErr error, cont bool) {
+	if err == nil {
+		return nil, true
+	}
 	switch err.(type) {
 	case *qt_endtoend.ErrorNoTestRequired:
 		l.Info("Skip: No test required for this recipe")
-		return nil
+		return nil, false
 
 	case *qt_endtoend.ErrorHumanInteractionRequired:
 		l.Info("Skip: Human interaction required for this test")
-		return nil
+		return nil, false
 
 	case *qt_endtoend.ErrorNotEnoughResource:
 		l.Info("Skip: Not enough resource")
-		return nil
+		return nil, false
 
 	case *qt_endtoend.ErrorScenarioTest:
 		l.Info("Skip: Implemented as scenario test")
-		return nil
+		return nil, false
 
 	case *qt_endtoend.ErrorImplementMe:
 		l.Warn("Test is not implemented for this recipe")
-		return nil
+		return nil, false
 
 	default:
-		return err
+		return err, false
 	}
 }
 
@@ -129,7 +133,7 @@ func TestRecipe(t *testing.T, re rc_recipe.Recipe) {
 			return
 		}
 
-		if re := RecipeError(l, err); re != nil {
+		if re, _ := RecipeError(l, err); re != nil {
 			t.Error(re)
 		}
 	})

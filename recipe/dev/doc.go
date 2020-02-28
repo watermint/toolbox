@@ -36,8 +36,8 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 		}
 	}
 
-	rme := ut_doc.NewReadme(ctl, z.Filename, z.Badge, ctl.IsTest(), z.MarkdownReadme, z.CommandPath)
-	cmd := ut_doc.NewCommandWithPath(z.CommandPath, ctl.IsTest())
+	rme := ut_doc.NewReadme(ctl, z.Filename, z.Badge, z.MarkdownReadme, z.CommandPath)
+	cmd := ut_doc.NewCommandWithPath(z.CommandPath)
 	if err := rme.Generate(); err != nil {
 		l.Error("Failed to generate README", zap.Error(err))
 		return err

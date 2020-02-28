@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"os"
 	"sort"
@@ -20,14 +21,12 @@ func NewReadme(
 	ctl app_control.Control,
 	filename string,
 	badge bool,
-	toStdout bool,
 	markdown bool,
 	commandPath string,
 ) *Readme {
 	return &Readme{
 		filename:    filename,
 		badge:       badge,
-		toStdout:    toStdout,
 		markdown:    markdown,
 		ctl:         ctl,
 		commandPath: commandPath,
@@ -37,7 +36,6 @@ func NewReadme(
 type Readme struct {
 	filename    string
 	badge       bool
-	toStdout    bool
 	markdown    bool
 	commandPath string
 	ctl         app_control.Control
@@ -99,7 +97,7 @@ func (z *Readme) Generate() error {
 		return err
 	}
 
-	tmpl, err := template.New("README").Funcs(msgFuncMap(z.ctl, z.toStdout)).Parse(string(readmeBytes))
+	tmpl, err := template.New("README").Funcs(msgFuncMap(z.ctl)).Parse(string(readmeBytes))
 	if err != nil {
 		l.Error("Unable to compile template", zap.Error(err))
 		return err
@@ -117,8 +115,8 @@ func (z *Readme) Generate() error {
 		}
 	}
 
-	out := os.Stdout
-	if !z.toStdout {
+	out := ut_io.NewDefaultOut(z.ctl.IsTest())
+	if !z.ctl.IsTest() {
 		out, err = os.Create(z.filename)
 		if err != nil {
 			return err

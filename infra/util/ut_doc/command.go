@@ -27,16 +27,14 @@ func NewCommand() *Commands {
 	return &Commands{}
 }
 
-func NewCommandWithPath(path string, toStdout bool) *Commands {
+func NewCommandWithPath(path string) *Commands {
 	return &Commands{
-		toStdout: toStdout,
-		path:     path,
+		path: path,
 	}
 }
 
 type Commands struct {
-	toStdout bool
-	path     string
+	path string
 }
 
 func (z *Commands) optionsTable(ctl app_control.Control, spec rc_recipe.SpecValue) string {
@@ -136,7 +134,7 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 		l.Error("Template not found", zap.Error(err))
 		return err
 	}
-	tmpl, err := template.New(spec.CliPath()).Funcs(msgFuncMap(ctl, z.toStdout)).Parse(string(tmplBytes))
+	tmpl, err := template.New(spec.CliPath()).Funcs(msgFuncMap(ctl)).Parse(string(tmplBytes))
 	if err != nil {
 		l.Error("Unable to compile template", zap.Error(err))
 		return err
@@ -196,7 +194,7 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 	params["ReportAvailable"] = len(reportNames) > 0
 
 	out := ut_io.NewDefaultOut(ctl.IsTest())
-	if !z.toStdout {
+	if z.path != "" && !ctl.IsTest() {
 		outPath := z.path + strings.ReplaceAll(spec.CliPath(), " ", "-") + ".md"
 		out, err = os.Create(outPath)
 		if err != nil {

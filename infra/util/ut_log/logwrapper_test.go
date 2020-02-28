@@ -1,17 +1,13 @@
 package ut_log
 
 import (
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/infra/control/app_log"
 	"log"
 	"testing"
 )
 
 func TestLogWrapper_Write(t *testing.T) {
-	zl, err := zap.NewDevelopment()
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	zl := app_log.NewConsoleLogger(true, true)
 	lw := NewLogWrapper(zl)
 	log.SetOutput(lw)
 
