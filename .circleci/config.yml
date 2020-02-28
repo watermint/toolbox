@@ -35,7 +35,7 @@ jobs:
       #      - run: go list -f '{{if len .TestGoFiles}}"mkdir -p test/results/{{.ImportPath}}"{{end}}' ./... | xargs -L 1 sh -c
       #      - run: go list -f '{{if len .TestGoFiles}}"echo Testing - {{.ImportPath}}; go test -v -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}} 2>&1 > test/results/{{.ImportPath}}/gotest.txt"{{end}}' ./... | xargs -L 1 sh -c
       #      - run: go list -f '{{if len .TestGoFiles}}"cat test/results/{{.ImportPath}}/gotest.txt | go-junit-report > test/results/{{.ImportPath}}/report.xml"{{end}}' ./... | xargs -L 1 sh -c
-      - run: go test -coverprofile=gover.coverprofile ./... | tee test/results/all.txt
+      - run: CGO_ENABLED=0 go test -coverprofile=gover.coverprofile ./... | tee test/results/all.txt
       - run: cat test/results/all.txt | go-junit-report > test/results/all.xml
       - save_cache:
           key: go-pkg-mod-{{ checksum "go.sum" }}
