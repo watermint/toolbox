@@ -59,7 +59,7 @@ func (z *Upload) Test(c app_control.Control) error {
 		err := rc_exec.Exec(c, &Upload{}, func(r rc_recipe.Recipe) {
 			ru := r.(*Upload)
 			ru.LocalPath = mo_path.NewFileSystemPath(file)
-			ru.DropboxPath = mo_path.NewDropboxPath("/" + qt_recipe.TestTeamFolderName)
+			ru.DropboxPath = qt_recipe.NewTestDropboxFolderPath()
 			ru.Overwrite = true
 		})
 		if err != nil {
@@ -72,7 +72,7 @@ func (z *Upload) Test(c app_control.Control) error {
 		err := rc_exec.Exec(c, &Upload{}, func(r rc_recipe.Recipe) {
 			ru := r.(*Upload)
 			ru.LocalPath = mo_path.NewFileSystemPath(file)
-			ru.DropboxPath = mo_path.NewDropboxPath("/" + qt_recipe.TestTeamFolderName)
+			ru.DropboxPath = qt_recipe.NewTestDropboxFolderPath()
 			ru.Overwrite = true
 			ru.ChunkSizeKb = 1
 		})

@@ -5,6 +5,7 @@ import (
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -29,6 +30,10 @@ import (
 const (
 	TestTeamFolderName = "watermint-toolbox-test"
 )
+
+func NewTestDropboxFolderPath(rel ...string) mo_path.DropboxPath {
+	return mo_path.NewDropboxPath("/" + TestTeamFolderName).ChildPath(rel...)
+}
 
 func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {
 	bx = rice.MustFindBox("../../../resources")
