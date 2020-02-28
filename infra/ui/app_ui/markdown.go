@@ -42,7 +42,7 @@ func (z *Markdown) SubHeader(m app_msg.Message) {
 }
 
 func (z *Markdown) Code(code string) {
-	fmt.Printf("```\n%s\n```\n\n", code)
+	fmt.Fprintf(z.out, "```\n%s\n```\n\n", code)
 }
 
 func (z *Markdown) Exists(m app_msg.Message) bool {

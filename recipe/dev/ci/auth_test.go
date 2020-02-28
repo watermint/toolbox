@@ -1,4 +1,4 @@
-package test
+package ci
 
 import (
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"

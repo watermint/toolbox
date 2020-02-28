@@ -13,7 +13,7 @@
       "Peer": "business_audit"
     },
     "is_secret": false,
-    "is_console": false,
+    "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -33,7 +33,7 @@
       "Peer": "business_file"
     },
     "is_secret": false,
-    "is_console": false,
+    "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -53,7 +53,7 @@
       "Peer": "business_info"
     },
     "is_secret": false,
-    "is_console": false,
+    "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -73,7 +73,7 @@
       "Peer": "business_management"
     },
     "is_secret": false,
-    "is_console": false,
+    "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -93,7 +93,7 @@
       "Peer": "user_full"
     },
     "is_secret": false,
-    "is_console": false,
+    "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -164,6 +164,223 @@
         ]
       }
     ],
+    "feeds": []
+  },
+  "dev ci artifact up": {
+    "name": "up",
+    "title": "Upload CI artifact",
+    "desc": "",
+    "remarks": "",
+    "path": "dev ci artifact up",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "skipped",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.file",
+            "desc": "ローカルファイルのパス"
+          },
+          {
+            "name": "input.size",
+            "desc": "ローカルファイルのサイズ"
+          },
+          {
+            "name": "result.id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "result.tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "名称"
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "result.revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "result.size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      },
+      {
+        "name": "summary",
+        "desc": "",
+        "columns": [
+          {
+            "name": "upload_start",
+            "desc": "アップロード開始日時"
+          },
+          {
+            "name": "upload_end",
+            "desc": "アップロード終了日時"
+          },
+          {
+            "name": "num_bytes",
+            "desc": "合計アップロードサイズ (バイト)"
+          },
+          {
+            "name": "num_files_error",
+            "desc": "失敗またはエラーが発生したファイル数."
+          },
+          {
+            "name": "num_files_upload",
+            "desc": "アップロード済みまたはアップロード対象ファイル数"
+          },
+          {
+            "name": "num_files_skip",
+            "desc": "スキップ対象またはスキップ予定のファイル数"
+          },
+          {
+            "name": "num_api_call",
+            "desc": "この処理によって消費される見積アップロードAPI数"
+          }
+        ]
+      },
+      {
+        "name": "uploaded",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.file",
+            "desc": "ローカルファイルのパス"
+          },
+          {
+            "name": "input.size",
+            "desc": "ローカルファイルのサイズ"
+          },
+          {
+            "name": "result.id",
+            "desc": "ファイルへの一意なID"
+          },
+          {
+            "name": "result.tag",
+            "desc": "エントリーの種別`file`, `folder`, または `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "名称"
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "パス (表示目的で大文字小文字を区別する)."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ"
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "Dropbox上で最後に更新された日時"
+          },
+          {
+            "name": "result.revision",
+            "desc": "ファイルの現在バージョンの一意な識別子"
+          },
+          {
+            "name": "result.size",
+            "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "このファイルを含む共有フォルダのID."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "dev ci auth": {
+    "name": "auth",
+    "title": "Authenticate for generating end to end testing",
+    "desc": "",
+    "remarks": "",
+    "path": "dev ci auth",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Audit": "business_audit",
+      "File": "business_file",
+      "Full": "user_full",
+      "Info": "business_info",
+      "Mgmt": "business_management"
+    },
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
     "feeds": []
   },
   "dev desktop install": {
@@ -359,30 +576,6 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
-    "is_secret": true,
-    "is_console": false,
-    "is_experimental": false,
-    "is_irreversible": false,
-    "reports": [],
-    "feeds": []
-  },
-  "dev test auth": {
-    "name": "auth",
-    "title": "エンドツーエンドテストのための認証",
-    "desc": "",
-    "remarks": "",
-    "path": "dev test auth",
-    "cli_args": "",
-    "cli_note": "",
-    "conn_use_personal": true,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Audit": "business_audit",
-      "File": "business_file",
-      "Full": "user_full",
-      "Info": "business_info",
-      "Mgmt": "business_management"
-    },
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,

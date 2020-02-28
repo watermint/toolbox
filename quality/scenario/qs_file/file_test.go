@@ -37,7 +37,7 @@ func TestFileUploadScenario(t *testing.T) {
 		return
 	}
 
-	dbxBase := "/" + qt_recipe.TestTeamFolderName + "/" + time.Now().Format("2006-01-02T15-04-05")
+	dbxBase := qt_recipe.NewTestDropboxFolderPath(time.Now().Format("2006-01-02T15-04-05"))
 
 	testContent := func(ctl app_control.Control, reportName, localBase, dbxBase string) {
 		found := make(map[string]bool)
@@ -113,7 +113,7 @@ func TestFileUploadScenario(t *testing.T) {
 			err = rc_exec.Exec(fc, &file.Upload{}, func(r rc_recipe.Recipe) {
 				ru := r.(*file.Upload)
 				ru.LocalPath = mo_path.NewFileSystemPath(scenario.LocalPath)
-				ru.DropboxPath = mo_path.NewDropboxPath(dbxBase + "/file-upload")
+				ru.DropboxPath = dbxBase.ChildPath("file-upload")
 				ru.Overwrite = false
 			})
 			if err != nil {
@@ -121,7 +121,7 @@ func TestFileUploadScenario(t *testing.T) {
 				return
 			}
 
-			testContent(fc, "uploaded", scenario.LocalPath, dbxBase+"/file-upload")
+			testContent(fc, "uploaded", scenario.LocalPath, dbxBase.ChildPath("file-upload").Path())
 			testSkip(fc, "skipped", scenario.LocalPath)
 		}
 
@@ -134,13 +134,13 @@ func TestFileUploadScenario(t *testing.T) {
 			err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 				ru := r.(*filesync.Up)
 				ru.LocalPath = mo_path.NewFileSystemPath(scenario.LocalPath)
-				ru.DropboxPath = mo_path.NewDropboxPath(dbxBase + "/file-sync-up")
+				ru.DropboxPath = dbxBase.ChildPath("file-sync-up")
 			})
 			if err != nil {
 				t.Error(err)
 			}
 
-			testContent(fc, "uploaded", scenario.LocalPath, dbxBase+"/file-sync-up")
+			testContent(fc, "uploaded", scenario.LocalPath, dbxBase.ChildPath("file-sync-up").Path())
 			testSkip(fc, "skipped", scenario.LocalPath)
 		}
 
@@ -153,7 +153,7 @@ func TestFileUploadScenario(t *testing.T) {
 			err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 				ru := r.(*filesync.Up)
 				ru.LocalPath = mo_path.NewFileSystemPath(scenario.LocalPath)
-				ru.DropboxPath = mo_path.NewDropboxPath(dbxBase + "/file-sync-up")
+				ru.DropboxPath = dbxBase.ChildPath("file-sync-up")
 			})
 			if err != nil {
 				t.Error(err)
@@ -174,7 +174,7 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &filecompare.Local{}, func(r rc_recipe.Recipe) {
 				rc := r.(*filecompare.Local)
-				rc.DropboxPath = mo_path.NewDropboxPath(dbxBase).ChildPath("/file-sync-up")
+				rc.DropboxPath = dbxBase.ChildPath("file-sync-up")
 				rc.LocalPath = mo_path.NewFileSystemPath(scenario.LocalPath)
 			})
 			if err != nil {
@@ -192,7 +192,7 @@ func TestFileUploadScenario(t *testing.T) {
 			err = rc_exec.Exec(fc, &filesyncpreflight.Up{}, func(r rc_recipe.Recipe) {
 				ru := r.(*filesyncpreflight.Up)
 				ru.LocalPath = mo_path.NewFileSystemPath(scenario.LocalPath)
-				ru.DropboxPath = mo_path.NewDropboxPath(dbxBase + "/file-sync-preflight-up")
+				ru.DropboxPath = dbxBase.ChildPath("file-sync-preflight-up")
 			})
 			if err != nil {
 				t.Error(err)
@@ -208,7 +208,7 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &file.List{}, func(r rc_recipe.Recipe) {
 				rc := r.(*file.List)
-				rc.Path = mo_path.NewDropboxPath(dbxBase + "/file-sync-up")
+				rc.Path = dbxBase.ChildPath("file-sync-up")
 				rc.Recursive = true
 			})
 			if err != nil {
@@ -225,8 +225,8 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &file.Copy{}, func(r rc_recipe.Recipe) {
 				rc := r.(*file.Copy)
-				rc.Src = mo_path.NewDropboxPath(dbxBase + "/file-sync-up")
-				rc.Dst = mo_path.NewDropboxPath(dbxBase + "/file-copy")
+				rc.Src = dbxBase.ChildPath("file-sync-up")
+				rc.Dst = dbxBase.ChildPath("/file-copy")
 			})
 			if err != nil {
 				t.Error(err)
@@ -242,8 +242,8 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &file.Move{}, func(r rc_recipe.Recipe) {
 				rc := r.(*file.Move)
-				rc.Src = mo_path.NewDropboxPath(dbxBase + "/file-copy")
-				rc.Dst = mo_path.NewDropboxPath(dbxBase + "/file-move")
+				rc.Src = dbxBase.ChildPath("file-copy")
+				rc.Dst = dbxBase.ChildPath("file-move")
 			})
 			if err != nil {
 				t.Error(err)
@@ -259,8 +259,8 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &file.Merge{}, func(r rc_recipe.Recipe) {
 				rc := r.(*file.Merge)
-				rc.From = mo_path.NewDropboxPath(dbxBase + "/file-sync-up")
-				rc.To = mo_path.NewDropboxPath(dbxBase + "/file-move")
+				rc.From = dbxBase.ChildPath("file-sync-up")
+				rc.To = dbxBase.ChildPath("file-move")
 				rc.DryRun = false
 			})
 			if err != nil {
@@ -277,7 +277,7 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &file.Delete{}, func(r rc_recipe.Recipe) {
 				rc := r.(*file.Delete)
-				rc.Path = mo_path.NewDropboxPath(dbxBase)
+				rc.Path = dbxBase
 			})
 			if err != nil {
 				t.Error(err)

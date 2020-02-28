@@ -27,10 +27,13 @@ func TestGroup(t *testing.T) {
 				t.Error(err)
 				return
 			}
-			err = rc_exec.Exec(c, &group.Add{}, func(r rc_recipe.Recipe) {
+			err, cnt := qt_recipe.RecipeError(ctl.Log(), rc_exec.Exec(c, &group.Add{}, func(r rc_recipe.Recipe) {
 				m := r.(*group.Add)
 				m.Name = testGroupName
-			})
+			}))
+			if !cnt {
+				return
+			}
 			if err != nil {
 				t.Error(err)
 				return
@@ -44,10 +47,13 @@ func TestGroup(t *testing.T) {
 				t.Error(err)
 				return
 			}
-			err = rc_exec.Exec(c, &group.Delete{}, func(r rc_recipe.Recipe) {
+			err, cnt := qt_recipe.RecipeError(ctl.Log(), rc_exec.Exec(c, &group.Delete{}, func(r rc_recipe.Recipe) {
 				m := r.(*group.Delete)
 				m.Name = testGroupName
-			})
+			}))
+			if !cnt {
+				return
+			}
 			if err != nil {
 				t.Error(err)
 			}
@@ -60,11 +66,14 @@ func TestGroup(t *testing.T) {
 				t.Error(err)
 				return
 			}
-			err = rc_exec.Exec(c, &group.Rename{}, func(r rc_recipe.Recipe) {
+			err, cnt := qt_recipe.RecipeError(ctl.Log(), rc_exec.Exec(c, &group.Rename{}, func(r rc_recipe.Recipe) {
 				m := r.(*group.Rename)
 				m.CurrentName = testGroupName
 				m.NewName = testGroupName + "New"
-			})
+			}))
+			if !cnt {
+				return
+			}
 			if err != nil {
 				t.Error(err)
 				return
@@ -78,11 +87,14 @@ func TestGroup(t *testing.T) {
 				t.Error(err)
 				return
 			}
-			err = rc_exec.Exec(c, &group.Rename{}, func(r rc_recipe.Recipe) {
+			err, cnt := qt_recipe.RecipeError(ctl.Log(), rc_exec.Exec(c, &group.Rename{}, func(r rc_recipe.Recipe) {
 				m := r.(*group.Rename)
 				m.CurrentName = testGroupName + "New"
 				m.NewName = testGroupName
-			})
+			}))
+			if !cnt {
+				return
+			}
 			if err != nil {
 				t.Error(err)
 				return
@@ -96,7 +108,10 @@ func TestGroup(t *testing.T) {
 				t.Error(err)
 				return
 			}
-			err = rc_exec.Exec(c, &group.List{}, func(r rc_recipe.Recipe) {})
+			err, cnt := qt_recipe.RecipeError(ctl.Log(), rc_exec.Exec(c, &group.List{}, func(r rc_recipe.Recipe) {}))
+			if !cnt {
+				return
+			}
 			if err != nil {
 				t.Error(err)
 				return
@@ -124,7 +139,10 @@ func TestGroup(t *testing.T) {
 				t.Error(err)
 				return
 			}
-			err = rc_exec.Exec(c, &member.List{}, func(r rc_recipe.Recipe) {})
+			err, cnt := qt_recipe.RecipeError(ctl.Log(), rc_exec.Exec(c, &member.List{}, func(r rc_recipe.Recipe) {}))
+			if !cnt {
+				return
+			}
 			if err != nil {
 				t.Error(err)
 				return
@@ -152,11 +170,14 @@ func TestGroup(t *testing.T) {
 				t.Error(err)
 				return
 			}
-			err = rc_exec.Exec(c, &groupmember.Add{}, func(r rc_recipe.Recipe) {
+			err, cnt := qt_recipe.RecipeError(ctl.Log(), rc_exec.Exec(c, &groupmember.Add{}, func(r rc_recipe.Recipe) {
 				m := r.(*groupmember.Add)
 				m.GroupName = testGroupName
 				m.MemberEmail = testMemberEmail
-			})
+			}))
+			if !cnt {
+				return
+			}
 			if err != nil {
 				t.Error(err)
 				return
@@ -170,7 +191,10 @@ func TestGroup(t *testing.T) {
 				t.Error(err)
 				return
 			}
-			err = rc_exec.Exec(c, &groupmember.List{}, func(r rc_recipe.Recipe) {})
+			err, cnt := qt_recipe.RecipeError(ctl.Log(), rc_exec.Exec(c, &groupmember.List{}, func(r rc_recipe.Recipe) {}))
+			if !cnt {
+				return
+			}
 			if err != nil {
 				t.Error(err)
 				return
@@ -205,11 +229,14 @@ func TestGroup(t *testing.T) {
 				t.Error(err)
 				return
 			}
-			err = rc_exec.Exec(c, &groupmember.Delete{}, func(r rc_recipe.Recipe) {
+			err, cnt := qt_recipe.RecipeError(ctl.Log(), rc_exec.Exec(c, &groupmember.Delete{}, func(r rc_recipe.Recipe) {
 				m := r.(*groupmember.Delete)
 				m.GroupName = testGroupName
 				m.MemberEmail = testMemberEmail
-			})
+			}))
+			if !cnt {
+				return
+			}
 			if err != nil {
 				t.Error(err)
 				return
@@ -223,7 +250,10 @@ func TestGroup(t *testing.T) {
 				t.Error(err)
 				return
 			}
-			err = rc_exec.Exec(c, &groupmember.List{}, func(r rc_recipe.Recipe) {})
+			err, cnt := qt_recipe.RecipeError(ctl.Log(), rc_exec.Exec(c, &groupmember.List{}, func(r rc_recipe.Recipe) {}))
+			if !cnt {
+				return
+			}
 			if err != nil {
 				t.Error(err)
 				return

@@ -26,6 +26,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
@@ -110,7 +111,7 @@ func (z *bootstrapImpl) SelectUI(mc app_msg_container.Container, opt *app_opt.Co
 		return app_opt.OutputText, app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)
 
 	case output == app_opt.OutputMarkdown:
-		return app_opt.OutputMarkdown, app_ui.NewMarkdown(mc, os.Stdout, true)
+		return app_opt.OutputMarkdown, app_ui.NewMarkdown(mc, ut_io.NewDefaultOut(false), true)
 
 	default:
 		u := app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageMemory(), false)

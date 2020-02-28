@@ -13,7 +13,7 @@
       "Peer": "business_audit"
     },
     "is_secret": false,
-    "is_console": false,
+    "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -33,7 +33,7 @@
       "Peer": "business_file"
     },
     "is_secret": false,
-    "is_console": false,
+    "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -53,7 +53,7 @@
       "Peer": "business_info"
     },
     "is_secret": false,
-    "is_console": false,
+    "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -73,7 +73,7 @@
       "Peer": "business_management"
     },
     "is_secret": false,
-    "is_console": false,
+    "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -93,7 +93,7 @@
       "Peer": "user_full"
     },
     "is_secret": false,
-    "is_console": false,
+    "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -164,6 +164,223 @@
         ]
       }
     ],
+    "feeds": []
+  },
+  "dev ci artifact up": {
+    "name": "up",
+    "title": "Upload CI artifact",
+    "desc": "",
+    "remarks": "",
+    "path": "dev ci artifact up",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "skipped",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "Status of the operation"
+          },
+          {
+            "name": "reason",
+            "desc": "Reason of failure or skipped operation"
+          },
+          {
+            "name": "input.file",
+            "desc": "Local file path"
+          },
+          {
+            "name": "input.size",
+            "desc": "Local file size"
+          },
+          {
+            "name": "result.id",
+            "desc": "A unique identifier for the file."
+          },
+          {
+            "name": "result.tag",
+            "desc": "Type of entry. `file`, `folder`, or `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "The last component of the path (including extension)."
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "The cased path to be used for display purposes only."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "For files, this is the modification time set by the desktop client when the file was added to Dropbox."
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "The last time the file was modified on Dropbox."
+          },
+          {
+            "name": "result.revision",
+            "desc": "A unique identifier for the current revision of a file."
+          },
+          {
+            "name": "result.size",
+            "desc": "The file size in bytes."
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "A hash of the file content."
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "ID of shared folder that holds this file."
+          }
+        ]
+      },
+      {
+        "name": "summary",
+        "desc": "",
+        "columns": [
+          {
+            "name": "upload_start",
+            "desc": "Time of start uploading"
+          },
+          {
+            "name": "upload_end",
+            "desc": "Time of finish uploading"
+          },
+          {
+            "name": "num_bytes",
+            "desc": "Total upload size (Bytes)"
+          },
+          {
+            "name": "num_files_error",
+            "desc": "The number of files failed or got an error."
+          },
+          {
+            "name": "num_files_upload",
+            "desc": "The number of files uploaded or to upload."
+          },
+          {
+            "name": "num_files_skip",
+            "desc": "The number of files skipped or to skip."
+          },
+          {
+            "name": "num_api_call",
+            "desc": "The number of estimated upload API call for upload."
+          }
+        ]
+      },
+      {
+        "name": "uploaded",
+        "desc": "",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "Status of the operation"
+          },
+          {
+            "name": "reason",
+            "desc": "Reason of failure or skipped operation"
+          },
+          {
+            "name": "input.file",
+            "desc": "Local file path"
+          },
+          {
+            "name": "input.size",
+            "desc": "Local file size"
+          },
+          {
+            "name": "result.id",
+            "desc": "A unique identifier for the file."
+          },
+          {
+            "name": "result.tag",
+            "desc": "Type of entry. `file`, `folder`, or `deleted`"
+          },
+          {
+            "name": "result.name",
+            "desc": "The last component of the path (including extension)."
+          },
+          {
+            "name": "result.path_lower",
+            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
+          },
+          {
+            "name": "result.path_display",
+            "desc": "The cased path to be used for display purposes only."
+          },
+          {
+            "name": "result.client_modified",
+            "desc": "For files, this is the modification time set by the desktop client when the file was added to Dropbox."
+          },
+          {
+            "name": "result.server_modified",
+            "desc": "The last time the file was modified on Dropbox."
+          },
+          {
+            "name": "result.revision",
+            "desc": "A unique identifier for the current revision of a file."
+          },
+          {
+            "name": "result.size",
+            "desc": "The file size in bytes."
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "A hash of the file content."
+          },
+          {
+            "name": "result.shared_folder_id",
+            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
+          },
+          {
+            "name": "result.parent_shared_folder_id",
+            "desc": "ID of shared folder that holds this file."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "dev ci auth": {
+    "name": "auth",
+    "title": "Authenticate for generating end to end testing",
+    "desc": "",
+    "remarks": "",
+    "path": "dev ci auth",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Audit": "business_audit",
+      "File": "business_file",
+      "Full": "user_full",
+      "Info": "business_info",
+      "Mgmt": "business_management"
+    },
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
     "feeds": []
   },
   "dev desktop install": {
@@ -359,30 +576,6 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
-    "is_secret": true,
-    "is_console": false,
-    "is_experimental": false,
-    "is_irreversible": false,
-    "reports": [],
-    "feeds": []
-  },
-  "dev test auth": {
-    "name": "auth",
-    "title": "Authenticate for generating end to end testing",
-    "desc": "",
-    "remarks": "",
-    "path": "dev test auth",
-    "cli_args": "",
-    "cli_note": "",
-    "conn_use_personal": true,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Audit": "business_audit",
-      "File": "business_file",
-      "Full": "user_full",
-      "Info": "business_info",
-      "Mgmt": "business_management"
-    },
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,

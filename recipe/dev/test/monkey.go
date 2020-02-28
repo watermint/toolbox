@@ -138,7 +138,7 @@ func (z *Monkey) Exec(c app_control.Control) error {
 func (z *Monkey) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Monkey{}, func(r rc_recipe.Recipe) {
 		m := r.(*Monkey)
-		m.Path = mo_path.NewDropboxPath(qt_recipe.TestTeamFolderName).ChildPath("dev-monkey")
+		m.Path = qt_recipe.NewTestDropboxFolderPath("dev-monkey")
 		m.Seconds = 1
 		m.Distribution = 1000
 	})
