@@ -49,7 +49,7 @@ func (z *Clone) Exec(c app_control.Control) error {
 			return nil
 		}
 
-		opts := make([]sv_filerequest.UpdateOpt, 0)
+		opts := make([]sv_filerequest.CreateOpt, 0)
 		if fm.Deadline != "" {
 			opts = append(opts, sv_filerequest.OptDeadline(fm.Deadline))
 		}

@@ -9,12 +9,12 @@ import (
 
 type FileRequest interface {
 	List() (requests []*mo_filerequest.FileRequest, err error)
-	Create(title string, destination mo_path.DropboxPath, opts ...UpdateOpt) (req *mo_filerequest.FileRequest, err error)
+	Create(title string, destination mo_path.DropboxPath, opts ...CreateOpt) (req *mo_filerequest.FileRequest, err error)
 }
 
-type UpdateOpt func(opts *UpdateOpts) *UpdateOpts
+type CreateOpt func(opts *CreateOpts) *CreateOpts
 
-type UpdateOpts struct {
+type CreateOpts struct {
 	Open                     bool
 	Deadline                 string
 	DeadlineAllowLateUploads string
@@ -24,14 +24,14 @@ type Deadline struct {
 	AllowLateUploads string `json:"allow_late_uploads,omitempty"`
 }
 
-func OptDeadline(deadline string) UpdateOpt {
-	return func(opts *UpdateOpts) *UpdateOpts {
+func OptDeadline(deadline string) CreateOpt {
+	return func(opts *CreateOpts) *CreateOpts {
 		opts.Deadline = deadline
 		return opts
 	}
 }
-func OptAllowLateUploads(tag string) UpdateOpt {
-	return func(opts *UpdateOpts) *UpdateOpts {
+func OptAllowLateUploads(tag string) CreateOpt {
+	return func(opts *CreateOpts) *CreateOpts {
 		opts.DeadlineAllowLateUploads = tag
 		return opts
 	}
@@ -47,8 +47,8 @@ type fileRequestImpl struct {
 	ctx api_context.Context
 }
 
-func (z *fileRequestImpl) Create(title string, destination mo_path.DropboxPath, opts ...UpdateOpt) (req *mo_filerequest.FileRequest, err error) {
-	uo := &UpdateOpts{}
+func (z *fileRequestImpl) Create(title string, destination mo_path.DropboxPath, opts ...CreateOpt) (req *mo_filerequest.FileRequest, err error) {
+	uo := &CreateOpts{}
 	for _, opt := range opts {
 		opt(uo)
 	}
