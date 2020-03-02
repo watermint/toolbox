@@ -106,7 +106,7 @@ func TestCachedGroup_Resolve(t *testing.T) {
 	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
 		sv := NewCached(ctx)
 		_, err := sv.Resolve("test")
-		if err != nil && err != qt_errors.ErrorMock {
+		if err != ErrorGroupNotFoundForGroupId {
 			t.Error(err)
 		}
 	})
@@ -116,7 +116,7 @@ func TestCachedGroup_ResolveByName(t *testing.T) {
 	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
 		sv := NewCached(ctx)
 		_, err := sv.ResolveByName("test")
-		if err != nil && err != qt_errors.ErrorMock {
+		if err != ErrorGroupNotFoundForName {
 			t.Error(err)
 		}
 	})
@@ -179,7 +179,7 @@ func TestImplGroup_ResolveByName(t *testing.T) {
 	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
 		sv := New(ctx)
 		_, err := sv.ResolveByName("test")
-		if err != nil && err != qt_errors.ErrorMock {
+		if err != ErrorGroupNotFoundForName {
 			t.Error(err)
 		}
 	})
