@@ -15,5 +15,4 @@ func TestMirrorImpl_Mirror(t *testing.T) {
 			t.Error(err)
 		}
 	})
-
 }

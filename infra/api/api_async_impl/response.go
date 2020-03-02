@@ -7,6 +7,10 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_response"
 )
 
+var (
+	ErrorNoResult = errors.New("no result")
+)
+
 type responseImpl struct {
 	res            api_response.Response
 	complete       gjson.Result
@@ -23,7 +27,7 @@ func (z *responseImpl) Model(v interface{}) error {
 
 func (z *responseImpl) ModelWithPath(v interface{}, path string) error {
 	if !z.completeExists {
-		return errors.New("no result")
+		return ErrorNoResult
 	}
 	return api_parser.ParseModel(v, z.complete.Get(path))
 }
