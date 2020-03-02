@@ -6,8 +6,9 @@ jobs:
     working_directory: /go/src/github.com/watermint/toolbox
     steps:
       - checkout
+      - run: shasum -a 256 go.mod > go.mod.sum
       - restore_cache:
-          key: go-pkg-mod-{{ checksum "go.mod" }}
+          key: go-pkg-mod-{{ checksum "go.mod.sum" }}
       - run: ./.circleci/prepare.sh
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
@@ -22,8 +23,9 @@ jobs:
     working_directory: /go/src/github.com/watermint/toolbox
     steps:
       - checkout
+      - run: shasum -a 256 go.mod > go.mod.sum
       - restore_cache:
-          key: go-pkg-mod-{{ checksum "go.mod" }}
+          key: go-pkg-mod-{{ checksum "go.mod.sum" }}
       - run: ./.circleci/prepare.sh
       - run: mkdir -p test/results
       - run: go get github.com/GeertJohan/go.rice
@@ -34,7 +36,7 @@ jobs:
       - run: CGO_ENABLED=0 go test -v -p 1 -coverprofile=.coverprofile ./... 2>&1 | go-junit-report > test/results/all.xml
       - run: git diff
       - save_cache:
-          key: go-pkg-mod-{{ checksum "go.mod" }}
+          key: go-pkg-mod-{{ checksum "go.mod.sum" }}
           paths:
             - /go/pkg/mod
       - store_test_results:
