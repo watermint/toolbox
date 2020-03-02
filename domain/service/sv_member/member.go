@@ -12,6 +12,11 @@ import (
 	"strings"
 )
 
+var (
+	ErrorMemberNotFoundForEmail        = errors.New("member not found for the email")
+	ErrorMemberNotFoundForTeamMemberId = errors.New("member not found for the team_member_id")
+)
+
 type Member interface {
 	Update(member *mo_member.Member) (updated *mo_member.Member, err error)
 	List() (members []*mo_member.Member, err error)
@@ -153,7 +158,7 @@ func (z *cachedMember) Resolve(teamMemberId string) (member *mo_member.Member, e
 			return m, nil
 		}
 	}
-	return nil, errors.New("member not found for email")
+	return nil, ErrorMemberNotFoundForTeamMemberId
 }
 
 func (z *cachedMember) ResolveByEmail(email string) (member *mo_member.Member, err error) {
@@ -169,7 +174,7 @@ func (z *cachedMember) ResolveByEmail(email string) (member *mo_member.Member, e
 			return m, nil
 		}
 	}
-	return nil, errors.New("member not found for email")
+	return nil, ErrorMemberNotFoundForEmail
 }
 
 func (z *cachedMember) Add(email string, opts ...AddOpt) (member *mo_member.Member, err error) {
