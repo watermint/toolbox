@@ -95,7 +95,7 @@ func (z *SelfContainedTestRecipe) Exec(c app_control.Control) error {
 }
 
 func (z *SelfContainedTestRecipe) Test(c app_control.Control) error {
-	return qt_errors.NoTestRequired()
+	return qt_errors.ErrorNoTestRequired
 }
 
 func (z *SelfContainedTestRecipe) Preset() {
@@ -147,11 +147,11 @@ func TestSpecSelfContained_ApplyValues(t *testing.T) {
 				t.Error(err)
 			}
 			if err = rcp.Test(ctl); err != nil {
-				switch e := err.(type) {
-				case *qt_errors.ErrorNoTestRequired:
+				switch err {
+				case qt_errors.ErrorNoTestRequired:
 					ctl.Log().Debug("ok")
 				default:
-					t.Error(e)
+					t.Error(err)
 				}
 			}
 		}
