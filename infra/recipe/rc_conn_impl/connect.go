@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 )
 
@@ -18,7 +19,7 @@ func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_c
 	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
 	l.Debug("Connect for testing")
 	if qt_endtoend.IsSkipEndToEndTest() {
-		return nil, qt_endtoend.ErrorSkipEndToEndTest
+		return nil, qt_errors.ErrorSkipEndToEndTest
 	}
 	a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(peerName))
 	if c, err := a.Auth(tokenType); err == nil {
@@ -30,7 +31,7 @@ func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_c
 	if c, err := a.Auth(tokenType); err == nil {
 		return c, nil
 	} else {
-		return nil, qt_endtoend.NotEnoughResource()
+		return nil, qt_errors.ErrorNotEnoughResource
 	}
 }
 

@@ -1,4 +1,4 @@
-package api_test
+package qt_api
 
 import (
 	"github.com/watermint/toolbox/domain/model/mo_path"

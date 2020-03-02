@@ -3,14 +3,14 @@ package sv_sharedfolder
 import (
 	"fmt"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"go.uber.org/zap"
 	"testing"
 	"time"
 )
 
 func TestSharedFolderImpl_List(t *testing.T) {
-	api_test.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
 		svc := New(ctx)
 		folders, err := svc.List()
 		if err != nil {
@@ -29,11 +29,11 @@ func TestSharedFolderImpl_List(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Create(t *testing.T) {
-	api_test.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
 		svc := New(ctx)
 		name := fmt.Sprintf("toolbox-test-%x", time.Now().Unix())
 		ctx.Log().Info("create shared folder", zap.String("name", name))
-		sf, err := svc.Create(api_test.ToolboxTestSuiteFolder.ChildPath(name))
+		sf, err := svc.Create(qt_api.ToolboxTestSuiteFolder.ChildPath(name))
 		if err != nil {
 			t.Error("invalid", err)
 		}

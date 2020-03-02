@@ -3,7 +3,7 @@ package sv_file_url
 import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"go.uber.org/zap"
 	"strings"
 	"testing"
@@ -14,9 +14,9 @@ const (
 )
 
 func TestUrlImpl_Save(t *testing.T) {
-	api_test.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
 		svc := New(ctx)
-		path := api_test.ToolboxTestSuiteFolder.ChildPath("save_url", "f0.png")
+		path := qt_api.ToolboxTestSuiteFolder.ChildPath("save_url", "f0.png")
 		entry, err := svc.Save(path, DummyImageUrl)
 		if err != nil {
 			t.Error(err.Error())

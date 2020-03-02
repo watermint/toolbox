@@ -5,16 +5,16 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/service/sv_file"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_test"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"go.uber.org/zap"
 	"testing"
 )
 
 func TestCompareImpl_Diff(t *testing.T) {
-	api_test.DoTestTokenFull(func(ctx api_context.Context) {
-		tf1Path := api_test.ToolboxTestSuiteFolder.ChildPath("compare/compare1")
-		tf2Path := api_test.ToolboxTestSuiteFolder.ChildPath("compare/compare2")
+	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
+		tf1Path := qt_api.ToolboxTestSuiteFolder.ChildPath("compare/compare1")
+		tf2Path := qt_api.ToolboxTestSuiteFolder.ChildPath("compare/compare2")
 
 		testFolder1, err := sv_file.NewFiles(ctx).Resolve(tf1Path)
 		if err != nil {

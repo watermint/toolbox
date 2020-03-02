@@ -2,7 +2,7 @@ package test
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
 )
 
@@ -13,7 +13,7 @@ func (z *Resources) Preset() {
 }
 
 func (z *Resources) Test(c app_control.Control) error {
-	return qt_endtoend.NoTestRequired()
+	return qt_errors.ErrorNoTestRequired
 }
 
 func (z *Resources) Exec(c app_control.Control) error {

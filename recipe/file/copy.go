@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_relocation"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type Copy struct {
@@ -23,5 +23,5 @@ func (z *Copy) Exec(c app_control.Control) error {
 }
 
 func (z *Copy) Test(c app_control.Control) error {
-	return qt_endtoend.ScenarioTest()
+	return qt_errors.ErrorScenarioTest
 }

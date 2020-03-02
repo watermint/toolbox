@@ -2,12 +2,12 @@ package sv_teamfolder
 
 import (
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"testing"
 )
 
 func TestTeamFolderImpl_List(t *testing.T) {
-	api_test.DoTestBusinessFile(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessFile(func(ctx api_context.Context) {
 		svc := New(ctx)
 		list, err := svc.List()
 		if err != nil {

@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type Rename struct {
@@ -47,7 +47,7 @@ func (z *Rename) Exec(c app_control.Control) error {
 }
 
 func (z *Rename) Test(c app_control.Control) error {
-	return qt_endtoend.ScenarioTest()
+	return qt_errors.ErrorScenarioTest
 }
 
 func (z *Rename) Preset() {

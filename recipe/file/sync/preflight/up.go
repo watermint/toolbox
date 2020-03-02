@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type Up struct {
@@ -31,5 +31,5 @@ func (z *Up) Exec(c app_control.Control) error {
 }
 
 func (z *Up) Test(c app_control.Control) error {
-	return qt_endtoend.ScenarioTest()
+	return qt_errors.ErrorScenarioTest
 }

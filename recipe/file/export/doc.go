@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -46,7 +46,7 @@ func (z *Doc) Exec(c app_control.Control) error {
 }
 
 func (z *Doc) Test(c app_control.Control) error {
-	return qt_endtoend.ImplementMe()
+	return qt_errors.ErrorImplementMe
 }
 
 func (z *Doc) Preset() {

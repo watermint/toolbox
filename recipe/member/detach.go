@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type DetachRow struct {
@@ -27,7 +27,7 @@ func (z *Detach) Preset() {
 }
 
 func (z *Detach) Test(c app_control.Control) error {
-	return qt_endtoend.HumanInteractionRequired()
+	return qt_errors.ErrorHumanInteractionRequired
 }
 
 func (z *Detach) Exec(c app_control.Control) error {

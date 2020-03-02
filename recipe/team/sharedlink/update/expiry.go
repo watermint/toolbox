@@ -15,7 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"time"
 )
@@ -253,5 +253,5 @@ func (z *Expiry) Test(c app_control.Control) error {
 			return errors.New("negative days should not be accepted")
 		}
 	}
-	return qt_endtoend.ImplementMe()
+	return qt_errors.ErrorImplementMe
 }

@@ -13,7 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 )
 
@@ -103,5 +103,5 @@ func (z *Update) Exec(c app_control.Control) error {
 }
 
 func (z *Update) Test(c app_control.Control) error {
-	return qt_endtoend.HumanInteractionRequired()
+	return qt_errors.ErrorHumanInteractionRequired
 }

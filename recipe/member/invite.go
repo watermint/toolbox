@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type InviteRow struct {
@@ -38,7 +38,7 @@ func (z *Invite) Preset() {
 }
 
 func (z *Invite) Test(c app_control.Control) error {
-	return qt_endtoend.HumanInteractionRequired()
+	return qt_errors.ErrorHumanInteractionRequired
 }
 
 func (z *Invite) msgFromTag(tag string) app_msg.Message {

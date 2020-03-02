@@ -13,7 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
@@ -251,5 +251,5 @@ func (z *Upload) Exec(c app_control.Control) error {
 }
 
 func (z *Upload) Test(c app_control.Control) error {
-	return qt_endtoend.ScenarioTest()
+	return qt_errors.ErrorScenarioTest
 }

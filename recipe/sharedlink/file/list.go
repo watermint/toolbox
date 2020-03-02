@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type List struct {
@@ -32,5 +32,5 @@ func (z *List) Exec(c app_control.Control) error {
 }
 
 func (z *List) Test(c app_control.Control) error {
-	return qt_endtoend.ImplementMe()
+	return qt_errors.ErrorImplementMe
 }

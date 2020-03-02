@@ -3,17 +3,17 @@ package sv_file_relocation
 import (
 	"fmt"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"testing"
 	"time"
 )
 
 func TestCopy(t *testing.T) {
-	api_test.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
 		r := New(ctx)
-		src := api_test.ToolboxTestSuiteFolder.ChildPath("copy/F0.jpg")
+		src := qt_api.ToolboxTestSuiteFolder.ChildPath("copy/F0.jpg")
 		name := fmt.Sprintf("copy-%x.jpg", time.Now().Unix())
-		dest := api_test.ToolboxTestSuiteFolder.ChildPath("copy", name)
+		dest := qt_api.ToolboxTestSuiteFolder.ChildPath("copy", name)
 
 		entry, err := r.Copy(src, dest)
 		if err != nil {

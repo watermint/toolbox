@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/util/ut_download"
 	"github.com/watermint/toolbox/infra/util/ut_process"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"os/exec"
 	"path/filepath"
@@ -60,7 +60,7 @@ func (z *Install) Exec(c app_control.Control) error {
 }
 
 func (z *Install) Test(c app_control.Control) error {
-	return qt_endtoend.NoTestRequired()
+	return qt_errors.ErrorNoTestRequired
 }
 
 func (z *Install) Preset() {

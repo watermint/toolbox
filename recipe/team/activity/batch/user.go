@@ -18,7 +18,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"math/rand"
 	"strings"
@@ -178,7 +178,7 @@ func (z *User) Exec(c app_control.Control) error {
 }
 
 func (z *User) Test(c app_control.Control) error {
-	return qt_endtoend.ImplementMe()
+	return qt_errors.ErrorImplementMe
 }
 
 func (z *User) Preset() {

@@ -4,12 +4,12 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"testing"
 )
 
 func TestExceptionsImpl(t *testing.T) {
-	api_test.DoTestBusinessManagement(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessManagement(func(ctx api_context.Context) {
 		svm := sv_member.New(ctx)
 		members, err := svm.List()
 		if err != nil {

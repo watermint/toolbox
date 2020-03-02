@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"strings"
 	"testing"
 )
@@ -67,7 +67,7 @@ func TestMemberImpl_Resolve(t *testing.T) {
 }
 
 func TestMemberImpl_ResolveByEmail(t *testing.T) {
-	api_test.DoTestBusinessInfo(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessInfo(func(ctx api_context.Context) {
 		svm := New(ctx)
 		members, err := svm.List()
 		if err != nil {
@@ -106,7 +106,7 @@ func TestMemberImpl_ResolveByEmail(t *testing.T) {
 }
 
 func TestMemberImpl_ListResolve(t *testing.T) {
-	api_test.DoTestBusinessInfo(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessInfo(func(ctx api_context.Context) {
 		ls := newTest(ctx)
 		members, err := ls.List()
 		if err != nil {

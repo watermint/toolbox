@@ -6,6 +6,8 @@ import (
 	"github.com/pkg/profile"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_context_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -16,7 +18,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
 	"io"
@@ -63,6 +65,13 @@ func findTestResource() (resource gjson.Result, found bool) {
 	return gjson.ParseBytes(b), true
 }
 
+func TestWithApiContext(t *testing.T, twc func(ctx api_context.Context)) {
+	TestWithControl(t, func(ctl app_control.Control) {
+		ctx := api_context_impl.NewMock(ctl)
+		twc(ctx)
+	})
+}
+
 func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	bx, web, mc, ui := Resources(t)
@@ -93,24 +102,24 @@ func RecipeError(l *zap.Logger, err error) (resolvedErr error, cont bool) {
 	if err == nil {
 		return nil, true
 	}
-	switch err.(type) {
-	case *qt_endtoend.ErrorNoTestRequired:
+	switch err {
+	case qt_errors.ErrorNoTestRequired:
 		l.Info("Skip: No test required for this recipe")
 		return nil, false
 
-	case *qt_endtoend.ErrorHumanInteractionRequired:
+	case qt_errors.ErrorHumanInteractionRequired:
 		l.Info("Skip: Human interaction required for this test")
 		return nil, false
 
-	case *qt_endtoend.ErrorNotEnoughResource:
+	case qt_errors.ErrorNotEnoughResource:
 		l.Info("Skip: Not enough resource")
 		return nil, false
 
-	case *qt_endtoend.ErrorScenarioTest:
+	case qt_errors.ErrorScenarioTest:
 		l.Info("Skip: Implemented as scenario test")
 		return nil, false
 
-	case *qt_endtoend.ErrorImplementMe:
+	case qt_errors.ErrorImplementMe:
 		l.Warn("Test is not implemented for this recipe")
 		return nil, false
 

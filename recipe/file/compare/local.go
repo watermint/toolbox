@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type Local struct {
@@ -58,5 +58,5 @@ func (z *Local) Exec(c app_control.Control) error {
 }
 
 func (z *Local) Test(c app_control.Control) error {
-	return qt_endtoend.ScenarioTest()
+	return qt_errors.ErrorScenarioTest
 }

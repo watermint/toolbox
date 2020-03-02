@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type Replication struct {
@@ -54,5 +54,5 @@ func (z *Replication) Exec(c app_control.Control) error {
 }
 
 func (z *Replication) Test(c app_control.Control) error {
-	return qt_endtoend.ImplementMe()
+	return qt_errors.ErrorImplementMe
 }

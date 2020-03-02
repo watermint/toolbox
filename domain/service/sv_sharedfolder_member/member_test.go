@@ -3,12 +3,12 @@ package sv_sharedfolder_member
 import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"testing"
 )
 
 func TestMemberImpl_List(t *testing.T) {
-	api_test.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
 		sf := sv_sharedfolder.New(ctx)
 		folders, err := sf.List()
 		if err != nil {

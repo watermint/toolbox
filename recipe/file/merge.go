@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_merge"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type Merge struct {
@@ -40,5 +40,5 @@ func (z *Merge) Exec(c app_control.Control) error {
 }
 
 func (z *Merge) Test(c app_control.Control) error {
-	return qt_endtoend.ScenarioTest()
+	return qt_errors.ErrorScenarioTest
 }

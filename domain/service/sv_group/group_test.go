@@ -3,13 +3,13 @@ package sv_group
 import (
 	"fmt"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"testing"
 	"time"
 )
 
 func TestImplGroup_CreateRemove(t *testing.T) {
-	api_test.DoTestBusinessManagement(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessManagement(func(ctx api_context.Context) {
 		svc := New(ctx)
 		name := fmt.Sprintf("toolbox-test-%x", time.Now().Unix())
 		createdGroup, err := svc.Create(name, CompanyManaged())
@@ -44,7 +44,7 @@ func TestImplGroup_CreateRemove(t *testing.T) {
 }
 
 func TestImplGroup_List(t *testing.T) {
-	api_test.DoTestBusinessManagement(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessManagement(func(ctx api_context.Context) {
 		svc := New(ctx)
 		groups, err := svc.List()
 		if err != nil {

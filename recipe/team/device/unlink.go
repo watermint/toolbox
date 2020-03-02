@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type UnlinkVO struct {
@@ -80,5 +80,5 @@ func (z *Unlink) Exec(c app_control.Control) error {
 }
 
 func (z *Unlink) Test(c app_control.Control) error {
-	return qt_endtoend.HumanInteractionRequired()
+	return qt_errors.ErrorHumanInteractionRequired
 }

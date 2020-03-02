@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model_impl"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type Watch struct {
@@ -34,7 +34,7 @@ func (z *Watch) Exec(c app_control.Control) error {
 }
 
 func (z *Watch) Test(c app_control.Control) error {
-	return qt_endtoend.NoTestRequired()
+	return qt_errors.ErrorNoTestRequired
 }
 
 func (z *Watch) Preset() {

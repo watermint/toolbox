@@ -2,15 +2,15 @@ package sv_sharedlink
 
 import (
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"strings"
 	"testing"
 )
 
 func TestSharedLinkImpl_CreateListRemove(t *testing.T) {
-	api_test.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
 		svc := New(ctx)
-		src := api_test.ToolboxTestSuiteFolder.ChildPath("copy/F0.jpg")
+		src := qt_api.ToolboxTestSuiteFolder.ChildPath("copy/F0.jpg")
 		links, err := svc.ListByPath(src)
 		if err != nil {
 			t.Error(err)

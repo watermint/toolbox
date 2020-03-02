@@ -3,12 +3,12 @@ package sv_group_member
 import (
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"testing"
 )
 
 func TestGroupMemberImpl_List(t *testing.T) {
-	api_test.DoTestBusinessManagement(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessManagement(func(ctx api_context.Context) {
 		gsv := sv_group.New(ctx)
 		groups, err := gsv.List()
 		if err != nil {

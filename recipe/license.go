@@ -5,8 +5,9 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"sort"
 	"strings"
@@ -24,7 +25,7 @@ func (z *License) Preset() {
 }
 
 func (z *License) Test(c app_control.Control) error {
-	return qt_endtoend.NoTestRequired()
+	return rc_exec.Exec(c, z, rc_recipe.NoCustomValues)
 }
 
 func (z *License) Exec(c app_control.Control) error {
@@ -32,7 +33,7 @@ func (z *License) Exec(c app_control.Control) error {
 	tbxLicense, otherLicenses, order, err := LoadLicense(c)
 	if err != nil {
 		ui.Error(z.ErrorLicenseInfoNotFound)
-		return err
+		return nil
 	}
 
 	ui.Header(z.ToolboxHeader)

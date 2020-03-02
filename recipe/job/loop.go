@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"time"
 )
@@ -73,7 +73,7 @@ func (z *Loop) Exec(c app_control.Control) error {
 
 func (z *Loop) Test(c app_control.Control) error {
 	// Can't test from this func. Test on tbx_test
-	return qt_endtoend.ScenarioTest()
+	return qt_errors.ErrorScenarioTest
 }
 
 func (z *Loop) Preset() {
