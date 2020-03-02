@@ -6,10 +6,12 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/quality/infra/qt_api"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
-func TestQuotaImpl(t *testing.T) {
+func TestEndToEndQuotaImpl(t *testing.T) {
 	qt_api.DoTestBusinessManagement(func(ctx api_context.Context) {
 		svm := sv_member.New(ctx)
 		members, err := svm.List()
@@ -86,6 +88,38 @@ func TestQuotaImpl(t *testing.T) {
 			if q.Quota != initialQuota.Quota {
 				t.Error("unable to restore")
 			}
+		}
+	})
+}
+
+// mock tests
+
+func TestQuotaImpl_Remove(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := NewQuota(ctx)
+		err := sv.Remove("test")
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestQuotaImpl_Resolve(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := NewQuota(ctx)
+		_, err := sv.Resolve("test")
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestQuotaImpl_Update(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := NewQuota(ctx)
+		_, err := sv.Update(&mo_member_quota.Quota{})
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
 		}
 	})
 }

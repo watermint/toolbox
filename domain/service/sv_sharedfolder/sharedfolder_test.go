@@ -2,8 +2,12 @@ package sv_sharedfolder
 
 import (
 	"fmt"
+	"github.com/watermint/toolbox/domain/model/mo_profile"
+	"github.com/watermint/toolbox/domain/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/quality/infra/qt_api"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"testing"
 	"time"
@@ -28,7 +32,7 @@ func TestSharedFolderImpl_List(t *testing.T) {
 	})
 }
 
-func TestSharedFolderImpl_Create(t *testing.T) {
+func TestEndToEndSharedFolderImpl_Create(t *testing.T) {
 	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
 		svc := New(ctx)
 		name := fmt.Sprintf("toolbox-test-%x", time.Now().Unix())
@@ -93,6 +97,76 @@ func TestSharedFolderImpl_Create(t *testing.T) {
 		err = svc.Remove(sf)
 		if err != nil {
 			t.Error("invalid", err)
+		}
+	})
+}
+
+// Mock tests
+
+func TestSharedFolderImpl_Create(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		_, err := sv.Create(qt_recipe.NewTestDropboxFolderPath())
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestSharedFolderImpl_Leave(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		err := sv.Leave(&mo_sharedfolder.SharedFolder{}, LeaveACopy())
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestSharedFolderImpl_Remove(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		err := sv.Remove(&mo_sharedfolder.SharedFolder{}, LeaveACopy())
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestSharedFolderImpl_Resolve(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		_, err := sv.Resolve("test")
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestSharedFolderImpl_Transfer(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		err := sv.Transfer(&mo_sharedfolder.SharedFolder{}, ToProfile(&mo_profile.Profile{}))
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+		err = sv.Transfer(&mo_sharedfolder.SharedFolder{}, ToAccountId("test"))
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+		err = sv.Transfer(&mo_sharedfolder.SharedFolder{}, ToTeamMemberId("test"))
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestSharedFolderImpl_UpdatePolicy(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		_, err := sv.UpdatePolicy("test", MemberPolicy("test"))
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
 		}
 	})
 }
