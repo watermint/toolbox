@@ -52,17 +52,21 @@ func (z *fileRequestImpl) Create(title string, destination mo_path.DropboxPath, 
 	for _, opt := range opts {
 		opt(uo)
 	}
+	var deadline *Deadline
+	if uo.Deadline != "" {
+		deadline = &Deadline{
+			Deadline:         uo.Deadline,
+			AllowLateUploads: uo.DeadlineAllowLateUploads,
+		}
+	}
 	co := struct {
-		Title       string   `json:"title"`
-		Destination string   `json:"destination"`
-		Deadline    Deadline `json:"deadline,omitempty"`
+		Title       string    `json:"title"`
+		Destination string    `json:"destination"`
+		Deadline    *Deadline `json:"deadline,omitempty"`
 	}{
 		Title:       title,
 		Destination: destination.Path(),
-		Deadline: Deadline{
-			Deadline:         uo.Deadline,
-			AllowLateUploads: uo.DeadlineAllowLateUploads,
-		},
+		Deadline:    deadline,
 	}
 	fr := &mo_filerequest.FileRequest{}
 	res, err := z.ctx.Rpc("file_requests/create").Param(co).Call()

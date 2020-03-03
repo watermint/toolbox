@@ -46,16 +46,17 @@ DropboxおよびDropbox Business向けのツールセット
 利用可能なコマンド:
 ===================
 
-   connect       アカウントに接続する            
-   file          ファイル操作                
-   group         グループ管理                
-   job           ジョブの操作                
-   license       ライセンス情報を表示します         
-   member        チームメンバーの管理            
-   sharedfolder  共有フォルダ                
-   sharedlink    個人アカウントの共有リンク         
-   team          Dropbox Business チーム  
-   teamfolder    チームフォルダの管理            
+   connect       アカウントに接続する              
+   file          ファイル操作                  
+   filerequest   File request operation  
+   group         グループ管理                  
+   job           ジョブの操作                  
+   license       ライセンス情報を表示します           
+   member        チームメンバーの管理              
+   sharedfolder  共有フォルダ                  
+   sharedlink    個人アカウントの共有リンク           
+   team          Dropbox Business チーム    
+   teamfolder    チームフォルダの管理              
 
 ```
 
@@ -87,6 +88,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [file sync up](doc/generated_ja/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                  |
 | [file upload](doc/generated_ja/file-upload.md)                                     | ファイルのアップロード                                         |
 | [file watch](doc/generated_ja/file-watch.md)                                       | ファイルアクティビティを監視                                   |
+| [filerequest create](doc/generated_ja/filerequest-create.md)                       | Create a file request                                          |
+| [filerequest list](doc/generated_ja/filerequest-list.md)                           | List file requests of the individual account                   |
 | [group add](doc/generated_ja/group-add.md)                                         | グループを作成します                                           |
 | [group batch delete](doc/generated_ja/group-batch-delete.md)                       | グループの削除                                                 |
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                           |

@@ -36,12 +36,12 @@ func Zero() (tm Time) {
 	return &TimeImpl{time: time.Time{}, isSet: true}
 }
 
-func New(t string) (tm Time, err error) {
-	ts, valid := ut_time.ParseTimestamp(t)
-	if !valid {
-		return nil, InvalidTimeFormat
-	}
-	return &TimeImpl{time: ts, isSet: true}, nil
+func New(t time.Time) Time {
+	return &TimeImpl{time: t, isSet: true}
+}
+
+func NewOptional(t time.Time) TimeOptional {
+	return &TimeImpl{time: t, isSet: true}
 }
 
 type TimeImpl struct {

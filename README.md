@@ -48,6 +48,7 @@ Available commands:
 
    connect       Connect to the account           
    file          File operation                   
+   filerequest   File request operation           
    group         Group management                 
    job           Job operation                    
    license       Show license information         
@@ -87,6 +88,8 @@ Available commands:
 | [file sync up](doc/generated/file-sync-up.md)                                   | Upstream sync with Dropbox                                    |
 | [file upload](doc/generated/file-upload.md)                                     | Upload file                                                   |
 | [file watch](doc/generated/file-watch.md)                                       | Watch file activities                                         |
+| [filerequest create](doc/generated/filerequest-create.md)                       | Create a file request                                         |
+| [filerequest list](doc/generated/filerequest-list.md)                           | List file requests of the individual account                  |
 | [group add](doc/generated/group-add.md)                                         | Create new group                                              |
 | [group batch delete](doc/generated/group-batch-delete.md)                       | Delete groups                                                 |
 | [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |

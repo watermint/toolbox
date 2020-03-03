@@ -2148,6 +2148,132 @@
     "reports": [],
     "feeds": []
   },
+  "filerequest create": {
+    "name": "create",
+    "title": "Create a file request",
+    "desc": "",
+    "remarks": "",
+    "path": "filerequest create",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "file_request",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "The Id of the file request"
+          },
+          {
+            "name": "url",
+            "desc": "The URL of the file request"
+          },
+          {
+            "name": "title",
+            "desc": "The title of the file request"
+          },
+          {
+            "name": "created",
+            "desc": "Date/time of the file request was created."
+          },
+          {
+            "name": "is_open",
+            "desc": "Whether or not the file request is open."
+          },
+          {
+            "name": "file_count",
+            "desc": "The number of files this file request has received."
+          },
+          {
+            "name": "destination",
+            "desc": "The path for the folder in the Dropbox where uploaded files will be sent."
+          },
+          {
+            "name": "deadline",
+            "desc": "The deadline for this file request."
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "If set, allow uploads after the deadline has passed."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "filerequest list": {
+    "name": "list",
+    "title": "List file requests of the individual account",
+    "desc": "",
+    "remarks": "",
+    "path": "filerequest list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "file_requests",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "The Id of the file request"
+          },
+          {
+            "name": "url",
+            "desc": "The URL of the file request"
+          },
+          {
+            "name": "title",
+            "desc": "The title of the file request"
+          },
+          {
+            "name": "created",
+            "desc": "Date/time of the file request was created."
+          },
+          {
+            "name": "is_open",
+            "desc": "Whether or not the file request is open."
+          },
+          {
+            "name": "file_count",
+            "desc": "The number of files this file request has received."
+          },
+          {
+            "name": "destination",
+            "desc": "The path for the folder in the Dropbox where uploaded files will be sent."
+          },
+          {
+            "name": "deadline",
+            "desc": "The deadline for this file request."
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "If set, allow uploads after the deadline has passed."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
   "group add": {
     "name": "add",
     "title": "グループを作成します",

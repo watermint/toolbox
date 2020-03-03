@@ -454,12 +454,8 @@ func (z *Procmon) Test(c app_control.Control) error {
 }
 
 func (z *Procmon) Preset() {
-	ru, err := mo_time.New(time.Now().Add(7 * 24 * time.Hour).Format("2006-01-02"))
-	if err != nil {
-		panic(err)
-	}
 	z.ProcmonUrl = procmonDownloadUrl
 	z.Seconds = 1800
-	z.RunUntil = ru
+	z.RunUntil = mo_time.New(time.Now().Add(7 * 24 * time.Hour))
 	z.RetainLogs = 4
 }
