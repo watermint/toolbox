@@ -46,7 +46,7 @@ func (z *Curl) Exec(c app_control.Control) error {
 			for k, v := range rec.Req.RequestHeaders {
 				fmt.Fprintf(bw, "     --header \"%s: %s\" \\\n", k, v)
 			}
-			fmt.Fprintf(bw, "     --data \"%s\"\\\n", rec.Req.RequestParam)
+			fmt.Fprintf(bw, "     --data \"%s\"\n", rec.Req.RequestParam)
 			fmt.Fprintf(bw, "\n")
 			fmt.Fprintf(bw, "HTTP/2 %d\n", rec.Res.ResponseCode)
 			for k, v := range rec.Res.ResponseHeaders {
