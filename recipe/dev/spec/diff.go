@@ -288,10 +288,15 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 	}
 
 	// Search for changed
-	for r, s1 := range r1 {
-		if s2, ok := r2[r]; ok {
-			z.diffSpec(mui, s1, s2)
+	changed := make([]string, 0)
+	for r, _ := range r1 {
+		if _, ok := r2[r]; ok {
+			changed = append(changed, r)
 		}
+	}
+	sort.Strings(changed)
+	for _, r := range changed {
+		z.diffSpec(mui, r1[r], r2[r])
 	}
 
 	return nil

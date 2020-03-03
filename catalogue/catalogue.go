@@ -99,6 +99,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Recipe{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Resources{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevutil.Wait{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevutil.Curl{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Copy{}),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Delete{}),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Download{}, infra_recipe_rc_recipe.Experimental()),

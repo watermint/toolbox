@@ -639,6 +639,24 @@
     "reports": [],
     "feeds": []
   },
+  "dev util curl": {
+    "name": "curl",
+    "title": "Generate cURL preview from capture log",
+    "desc": "",
+    "remarks": "",
+    "path": "dev util curl",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
   "dev util wait": {
     "name": "wait",
     "title": "Wait for specified seconds",
