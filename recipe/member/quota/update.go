@@ -57,6 +57,7 @@ type Update struct {
 	Peer         rc_conn.ConnBusinessMgmt
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
+	Quota        int
 }
 
 func (z *Update) Preset() {
@@ -87,10 +88,14 @@ func (z *Update) Exec(c app_control.Control) error {
 			z.OperationLog.Failure(errors.New("member not found for an email"), mq)
 			return nil
 		}
+		quota := z.Quota
+		if mq.Quota != 0 {
+			quota = mq.Quota
+		}
 
 		q.Enqueue(&UpdateWorker{
 			member: member,
-			quota:  mq.Quota,
+			quota:  quota,
 			ctl:    c,
 			ctx:    ctx,
 			rep:    z.OperationLog,

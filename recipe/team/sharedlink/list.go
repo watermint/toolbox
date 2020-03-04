@@ -14,16 +14,19 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"go.uber.org/zap"
 )
 
 type ListWorker struct {
-	member *mo_member.Member
-	conn   api_context.Context
-	rep    rp_model.RowReport
-	ctl    app_control.Control
+	member     *mo_member.Member
+	conn       api_context.Context
+	rep        rp_model.RowReport
+	ctl        app_control.Control
+	visibility string
 }
 
 func (z *ListWorker) Exec() error {
+	l := z.ctl.Log().With(zap.String("member", z.member.Email))
 	z.ctl.UI().InfoK("recipe.team.sharedlink.list.scan", app_msg.P{"MemberEmail": z.member.Email})
 	mc := z.conn.AsMemberId(z.member.TeamMemberId)
 	links, err := sv_sharedlink.New(mc).List()
@@ -32,6 +35,10 @@ func (z *ListWorker) Exec() error {
 	}
 	for _, link := range links {
 		lm := mo_sharedlink.NewSharedLinkMember(link, z.member)
+		if z.visibility != "" && lm.Visibility != z.visibility {
+			l.Debug("Skipped from report", zap.Any("link", lm))
+			continue
+		}
 		z.rep.Row(lm)
 	}
 	return nil
@@ -40,6 +47,7 @@ func (z *ListWorker) Exec() error {
 type List struct {
 	Peer       rc_conn.ConnBusinessFile
 	SharedLink rp_model.RowReport
+	Visibility string
 }
 
 func (z *List) Preset() {
@@ -59,10 +67,11 @@ func (z *List) Exec(c app_control.Control) error {
 	q := c.NewQueue()
 	for _, member := range members {
 		q.Enqueue(&ListWorker{
-			member: member,
-			conn:   z.Peer.Context(),
-			rep:    z.SharedLink,
-			ctl:    c,
+			member:     member,
+			conn:       z.Peer.Context(),
+			rep:        z.SharedLink,
+			ctl:        c,
+			visibility: z.Visibility,
 		})
 	}
 	q.Wait()

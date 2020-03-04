@@ -47,10 +47,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-file` | Data file     |         |
-| `-peer` | Account alias | default |
+| Option   | Description                                                               | Default |
+|----------|---------------------------------------------------------------------------|---------|
+| `-file`  | Data file                                                                 |         |
+| `-peer`  | Account alias                                                             | default |
+| `-quota` | Custom quota in GB (1TB = 1024GB). 0 if the user has no custom quota set. | 0       |
 
 Common options:
 
