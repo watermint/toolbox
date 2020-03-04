@@ -13,6 +13,8 @@ import (
 	"go.uber.org/zap"
 	"io"
 	"os"
+	"sort"
+	"strings"
 )
 
 type Curl struct {
@@ -42,15 +44,25 @@ func (z *Curl) Exec(c app_control.Control) error {
 				l.Error("Unable to unmarshal", zap.Error(err), zap.String("line", string(line)))
 				return err
 			}
-			fmt.Fprintf(bw, "curl -X POST %s\\\n", rec.Req.RequestUrl)
-			for k, v := range rec.Req.RequestHeaders {
-				fmt.Fprintf(bw, "     --header \"%s: %s\" \\\n", k, v)
+			fmt.Fprintf(bw, "curl -D - -X POST %s \\\n", rec.Req.RequestUrl)
+			reqKeys := make([]string, 0)
+			for k := range rec.Req.RequestHeaders {
+				reqKeys = append(reqKeys, k)
 			}
-			fmt.Fprintf(bw, "     --data \"%s\"\n", rec.Req.RequestParam)
+			sort.Strings(reqKeys)
+			for _, k := range reqKeys {
+				fmt.Fprintf(bw, "     --header \"%s: %s\" \\\n", k, rec.Req.RequestHeaders[k])
+			}
+			fmt.Fprintf(bw, "     --data \"%s\"\n", strings.ReplaceAll(rec.Req.RequestParam, "\"", "\\\""))
 			fmt.Fprintf(bw, "\n")
 			fmt.Fprintf(bw, "HTTP/2 %d\n", rec.Res.ResponseCode)
-			for k, v := range rec.Res.ResponseHeaders {
-				fmt.Fprintf(bw, "%s: %s\n", k, v)
+			resKeys := make([]string, 0)
+			for k := range rec.Res.ResponseHeaders {
+				resKeys = append(resKeys, k)
+			}
+			sort.Strings(resKeys)
+			for _, k := range resKeys {
+				fmt.Fprintf(bw, "%s: %s\n", strings.ToLower(k), rec.Res.ResponseHeaders[k])
 			}
 			fmt.Fprintf(bw, "\n")
 			if rec.Res.ResponseError != "" {
