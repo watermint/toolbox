@@ -89,6 +89,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [file upload](doc/generated_ja/file-upload.md)                                     | ファイルのアップロード                                         |
 | [file watch](doc/generated_ja/file-watch.md)                                       | ファイルアクティビティを監視                                   |
 | [filerequest create](doc/generated_ja/filerequest-create.md)                       | Create a file request                                          |
+| [filerequest delete closed](doc/generated_ja/filerequest-delete-closed.md)         | Delete all closed file requests on this account.               |
+| [filerequest delete url](doc/generated_ja/filerequest-delete-url.md)               | Delete a file request by the file request URL                  |
 | [filerequest list](doc/generated_ja/filerequest-list.md)                           | List file requests of the individual account                   |
 | [group add](doc/generated_ja/group-add.md)                                         | グループを作成します                                           |
 | [group batch delete](doc/generated_ja/group-batch-delete.md)                       | グループの削除                                                 |

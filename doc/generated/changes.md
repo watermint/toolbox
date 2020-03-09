@@ -2,13 +2,15 @@
 
 # Commands added
 
-| Command            | Title                                          |
-|--------------------|------------------------------------------------|
-| dev ci artifact up | Upload CI artifact                             |
-| dev ci auth        | Authenticate for generating end to end testing |
-| dev util curl      | Generate cURL preview from capture log         |
-| filerequest create | Create a file request                          |
-| filerequest list   | List file requests of the individual account   |
+| Command                   | Title                                            |
+|---------------------------|--------------------------------------------------|
+| dev ci artifact up        | Upload CI artifact                               |
+| dev ci auth               | Authenticate for generating end to end testing   |
+| dev util curl             | Generate cURL preview from capture log           |
+| filerequest create        | Create a file request                            |
+| filerequest delete closed | Delete all closed file requests on this account. |
+| filerequest delete url    | Delete a file request by the file request URL    |
+| filerequest list          | List file requests of the individual account     |
 
 
 
@@ -29,16 +31,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_audit"},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 2 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_audit"},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 2 identical fields
+  }
 
 ```
 
@@ -51,16 +53,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_file"},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 2 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_file"},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 2 identical fields
+  }
 
 ```
 
@@ -73,16 +75,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_info"},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 2 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_info"},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 2 identical fields
+  }
 
 ```
 
@@ -95,16 +97,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_management"},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 2 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_management"},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 2 identical fields
+  }
 
 ```
 
@@ -117,16 +119,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "user_full"},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 2 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "user_full"},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 2 identical fields
+  }
 
 ```
 

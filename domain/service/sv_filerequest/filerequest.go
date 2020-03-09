@@ -10,6 +10,9 @@ import (
 type FileRequest interface {
 	List() (requests []*mo_filerequest.FileRequest, err error)
 	Create(title string, destination mo_path.DropboxPath, opts ...CreateOpt) (req *mo_filerequest.FileRequest, err error)
+	Delete(ids ...string) (requests []*mo_filerequest.FileRequest, err error)
+	DeleteAllClosed() (requests []*mo_filerequest.FileRequest, err error)
+	Update(fr *mo_filerequest.FileRequest) (req *mo_filerequest.FileRequest, err error)
 }
 
 type CreateOpt func(opts *CreateOpts) *CreateOpts
@@ -45,6 +48,84 @@ func New(ctx api_context.Context) FileRequest {
 
 type fileRequestImpl struct {
 	ctx api_context.Context
+}
+
+func (z *fileRequestImpl) Update(fr *mo_filerequest.FileRequest) (req *mo_filerequest.FileRequest, err error) {
+	var deadline *Deadline
+	if fr.Deadline != "" {
+		deadline = &Deadline{
+			Deadline:         fr.Deadline,
+			AllowLateUploads: fr.DeadlineAllowLateUploads,
+		}
+	}
+
+	co := struct {
+		Id          string    `json:"id"`
+		Title       string    `json:"title"`
+		Destination string    `json:"destination"`
+		Deadline    *Deadline `json:"deadline,omitempty"`
+		Open        bool      `json:"open"`
+	}{
+		Id:          fr.Id,
+		Title:       fr.Title,
+		Destination: fr.Destination,
+		Deadline:    deadline,
+		Open:        fr.IsOpen,
+	}
+	fr1 := &mo_filerequest.FileRequest{}
+	res, err := z.ctx.Rpc("file_requests/update").Param(co).Call()
+	if err != nil {
+		return nil, err
+	}
+	if err = res.Model(fr1); err != nil {
+		return nil, err
+	}
+	return fr1, nil
+}
+
+func (z *fileRequestImpl) Delete(ids ...string) (requests []*mo_filerequest.FileRequest, err error) {
+	p := struct {
+		Ids []string `json:"ids"`
+	}{
+		Ids: ids,
+	}
+
+	req := z.ctx.List("file_requests/delete").
+		Continue("file_requests/list/continue").
+		Param(p).
+		UseHasMore(false).
+		ResultTag("file_requests").
+		OnEntry(func(entry api_list.ListEntry) error {
+			fr := &mo_filerequest.FileRequest{}
+			if err := entry.Model(fr); err != nil {
+				return err
+			}
+			requests = append(requests, fr)
+			return nil
+		})
+	if err := req.Call(); err != nil {
+		return nil, err
+	}
+	return requests, nil
+}
+
+func (z *fileRequestImpl) DeleteAllClosed() (requests []*mo_filerequest.FileRequest, err error) {
+	req := z.ctx.List("file_requests/delete_all_closed").
+		Continue("file_requests/list/continue").
+		UseHasMore(false).
+		ResultTag("file_requests").
+		OnEntry(func(entry api_list.ListEntry) error {
+			fr := &mo_filerequest.FileRequest{}
+			if err := entry.Model(fr); err != nil {
+				return err
+			}
+			requests = append(requests, fr)
+			return nil
+		})
+	if err := req.Call(); err != nil {
+		return nil, err
+	}
+	return requests, nil
 }
 
 func (z *fileRequestImpl) Create(title string, destination mo_path.DropboxPath, opts ...CreateOpt) (req *mo_filerequest.FileRequest, err error) {

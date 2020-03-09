@@ -38,6 +38,7 @@ import (
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
 	recipefilesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
 	recipefilerequest "github.com/watermint/toolbox/recipe/filerequest"
+	recipefilerequestdelete "github.com/watermint/toolbox/recipe/filerequest/delete"
 	recipegroup "github.com/watermint/toolbox/recipe/group"
 	recipegroupbatch "github.com/watermint/toolbox/recipe/group/batch"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
@@ -117,6 +118,8 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipefileimportbatch.Url{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilerequest.Create{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilerequest.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipefilerequestdelete.Closed{}),
+		infra_recipe_rc_recipe.Annotate(&recipefilerequestdelete.Url{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilesearch.Content{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilesearch.Name{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilesync.Up{}),
