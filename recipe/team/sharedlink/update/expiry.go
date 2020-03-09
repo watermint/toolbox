@@ -166,7 +166,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 	l := c.Log()
 	var newExpiry time.Time
 	if z.Days > 0 && !z.At.Ok() {
-		l.Debug("Both Days/At specified", zap.Int("evo.Days", z.Days), zap.String("evo.At", z.At))
+		l.Debug("Both Days/At specified", zap.Int("evo.Days", z.Days), zap.String("evo.At", z.At.String()))
 		ui.ErrorK("recipe.team.sharedlink.update.expiry.err.please_specify_days_or_at")
 		return errors.New("please specify days or at")
 	}
@@ -183,7 +183,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 
 	default:
 		if !z.At.Ok() {
-			l.Debug("Invalid date/time format for at option", zap.String("evo.At", z.At))
+			l.Debug("Invalid date/time format for at option", zap.String("evo.At", z.At.String()))
 			ui.ErrorK("recipe.team.sharedlink.update.expiry.err.invalid_date_time_format_for_at_option")
 			return errors.New("invalid date/time format for `at`")
 		}
@@ -228,7 +228,7 @@ func (z *Expiry) Test(c app_control.Control) error {
 		err := rc_exec.Exec(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			rc := r.(*Expiry)
 			rc.Days = 1
-			rc.At = "2019-09-05T01:02:03Z"
+			rc.At = mo_time.NewOptional(time.Now().Add(1 * time.Second))
 		})
 		if err == nil {
 			return errors.New("days and at should not be accepted same time")
@@ -239,16 +239,6 @@ func (z *Expiry) Test(c app_control.Control) error {
 		err := rc_exec.Exec(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			rc := r.(*Expiry)
 			rc.Days = -1
-		})
-		if err == nil {
-			return errors.New("negative days should not be accepted")
-		}
-	}
-
-	{
-		err := rc_exec.Exec(c, &Expiry{}, func(r rc_recipe.Recipe) {
-			rc := r.(*Expiry)
-			rc.At = "Invalid time format"
 		})
 		if err == nil {
 			return errors.New("negative days should not be accepted")
