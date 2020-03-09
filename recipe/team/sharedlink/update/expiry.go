@@ -165,10 +165,10 @@ func (z *Expiry) Exec(c app_control.Control) error {
 	ui := c.UI()
 	l := c.Log()
 	var newExpiry time.Time
-	if z.Days > 0 && !z.At.Ok() {
+	if z.Days > 0 && z.At.Ok() {
 		l.Debug("Both Days/At specified", zap.Int("evo.Days", z.Days), zap.String("evo.At", z.At.String()))
 		ui.ErrorK("recipe.team.sharedlink.update.expiry.err.please_specify_days_or_at")
-		return errors.New("please specify days or at")
+		return errors.New("please specify one of `-days` or `-at`")
 	}
 	if z.Days < 0 {
 		l.Debug("Days options should not be negative", zap.Int("evo.Days", z.Days))

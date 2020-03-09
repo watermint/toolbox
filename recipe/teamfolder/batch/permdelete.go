@@ -66,7 +66,7 @@ func (z *Permdelete) Exec(c app_control.Control) error {
 }
 
 func (z *Permdelete) Test(c app_control.Control) error {
-	return rc_exec.ExecMock(c, &Archive{}, func(r rc_recipe.Recipe) {
+	return rc_exec.ExecMock(c, &Permdelete{}, func(r rc_recipe.Recipe) {
 		f, err := qt_file.MakeTestFile("test-batch-archive", "Marketing\nSales\n")
 		if err != nil {
 			return

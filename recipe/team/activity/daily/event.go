@@ -66,5 +66,8 @@ func (z *Event) Exec(c app_control.Control) error {
 }
 
 func (z *Event) Test(c app_control.Control) error {
-	return rc_exec.ExecMock(c, &Event{}, rc_recipe.NoCustomValues)
+	return rc_exec.ExecMock(c, &Event{}, func(r rc_recipe.Recipe) {
+		m := r.(*Event)
+		m.StartDate = "2020-03-10"
+	})
 }
