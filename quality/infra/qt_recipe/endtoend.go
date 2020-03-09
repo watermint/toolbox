@@ -129,18 +129,27 @@ func RecipeError(l *zap.Logger, err error) (resolvedErr error, cont bool) {
 }
 
 func TestRecipe(t *testing.T, re rc_recipe.Recipe) {
+	type Stopper interface {
+		Stop()
+	}
 	nw_ratelimit.SetTestMode(true)
 	TestWithControl(t, func(ctl app_control.Control) {
 		l := ctl.Log()
 		l.Debug("Start testing")
-		pr := profile.Start(
-			profile.ProfilePath(ctl.Workspace().Log()),
-			profile.MemProfile,
-		)
+
+		var pr Stopper
+		if !testing.Short() {
+			pr = profile.Start(
+				profile.ProfilePath(ctl.Workspace().Log()),
+				profile.MemProfile,
+			)
+		}
 
 		err := re.Test(ctl)
 
-		pr.Stop()
+		if pr != nil {
+			pr.Stop()
+		}
 		ut_memory.DumpStats(l)
 
 		if err == nil {
