@@ -1,7 +1,6 @@
 package filerequest
 
 import (
-	"fmt"
 	"github.com/watermint/toolbox/domain/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/model/mo_path"
 	"github.com/watermint/toolbox/domain/model/mo_time"
@@ -12,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"sync"
 	"time"
 )
 
@@ -49,22 +47,6 @@ func (z *Create) Exec(c app_control.Control) error {
 }
 
 func (z *Create) Test(c app_control.Control) error {
-	wg := sync.WaitGroup{}
-	create := func(i int) {
-		wg.Add(1)
-		rc_exec.Exec(c, z, func(r rc_recipe.Recipe) {
-			m := r.(*Create)
-			m.Title = fmt.Sprintf("watermint toolbox [%d] %s", i, time.Now().String())
-			m.Path = qt_recipe.NewTestDropboxFolderPath("file-request")
-			//m.Deadline = mo_time.NewOptional(time.Now().Add(5 * time.Hour))
-		})
-		wg.Done()
-	}
-	for i := 0; i < 5000; i++ {
-		go create(i)
-	}
-	wg.Wait()
-
 	return rc_exec.Exec(c, z, func(r rc_recipe.Recipe) {
 		m := r.(*Create)
 		m.Title = "watermint toolbox " + time.Now().String()
