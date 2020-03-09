@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
+	"github.com/watermint/toolbox/domain/model/mo_time"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/api/api_context"
@@ -15,7 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"time"
 )
@@ -134,7 +135,7 @@ func (z *ExpiryWorker) Exec() error {
 type Expiry struct {
 	Peer       rc_conn.ConnBusinessFile
 	Days       int
-	At         string
+	At         mo_time.TimeOptional
 	Visibility string
 	Updated    rp_model.TransactionReport
 	Skipped    rp_model.RowReport
@@ -164,7 +165,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 	ui := c.UI()
 	l := c.Log()
 	var newExpiry time.Time
-	if z.Days > 0 && z.At != "" {
+	if z.Days > 0 && !z.At.Ok() {
 		l.Debug("Both Days/At specified", zap.Int("evo.Days", z.Days), zap.String("evo.At", z.At))
 		ui.ErrorK("recipe.team.sharedlink.update.expiry.err.please_specify_days_or_at")
 		return errors.New("please specify days or at")
@@ -181,12 +182,12 @@ func (z *Expiry) Exec(c app_control.Control) error {
 		l.Debug("New expiry", zap.Int("evo.Days", z.Days), zap.String("newExpiry", newExpiry.String()))
 
 	default:
-		var valid bool
-		if newExpiry, valid = ut_time.ParseTimestamp(z.At); !valid {
+		if !z.At.Ok() {
 			l.Debug("Invalid date/time format for at option", zap.String("evo.At", z.At))
 			ui.ErrorK("recipe.team.sharedlink.update.expiry.err.invalid_date_time_format_for_at_option")
 			return errors.New("invalid date/time format for `at`")
 		}
+		newExpiry = z.At.Time()
 	}
 
 	l = l.With(zap.String("newExpiry", newExpiry.String()))
@@ -253,5 +254,26 @@ func (z *Expiry) Test(c app_control.Control) error {
 			return errors.New("negative days should not be accepted")
 		}
 	}
-	return qt_errors.ErrorImplementMe
+
+	{
+		err := rc_exec.ExecMock(c, &Expiry{}, func(r rc_recipe.Recipe) {
+			m := r.(*Expiry)
+			m.Days = 7
+		})
+		if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+			return e
+		}
+	}
+
+	{
+		err := rc_exec.ExecMock(c, &Expiry{}, func(r rc_recipe.Recipe) {
+			m := r.(*Expiry)
+			m.At = mo_time.NewOptional(time.Now().Add(1 * time.Second))
+		})
+		if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+			return e
+		}
+	}
+
+	return nil
 }

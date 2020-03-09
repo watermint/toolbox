@@ -14,11 +14,13 @@ import (
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"go.uber.org/zap"
 	"math/rand"
 	"strings"
@@ -178,7 +180,14 @@ func (z *User) Exec(c app_control.Control) error {
 }
 
 func (z *User) Test(c app_control.Control) error {
-	return qt_errors.ErrorImplementMe
+	return rc_exec.ExecMock(c, &User{}, func(r rc_recipe.Recipe) {
+		f, err := qt_file.MakeTestFile("user", "john@example.com\nsmith@example.net\n")
+		if err != nil {
+			return
+		}
+		m := r.(*User)
+		m.File.SetFilePath(f)
+	})
 }
 
 func (z *User) Preset() {

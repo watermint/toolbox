@@ -6,9 +6,10 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_filerequest"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 )
 
@@ -73,5 +74,8 @@ func (z *Url) Exec(c app_control.Control) error {
 }
 
 func (z *Url) Test(c app_control.Control) error {
-	return qt_errors.ErrorImplementMe
+	return rc_exec.ExecMock(c, &Url{}, func(r rc_recipe.Recipe) {
+		m := r.(*Url)
+		m.Url = "https://www.dropbox.com/request/oaCAVmEyrqYnkZX9955Y"
+	})
 }

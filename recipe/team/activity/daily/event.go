@@ -5,10 +5,11 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_activity"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type Event struct {
@@ -65,5 +66,5 @@ func (z *Event) Exec(c app_control.Control) error {
 }
 
 func (z *Event) Test(c app_control.Control) error {
-	return qt_errors.ErrorImplementMe
+	return rc_exec.ExecMock(c, &Event{}, rc_recipe.NoCustomValues)
 }

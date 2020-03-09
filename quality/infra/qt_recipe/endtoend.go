@@ -18,6 +18,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
@@ -123,12 +124,20 @@ func RecipeError(l *zap.Logger, err error) (resolvedErr error, cont bool) {
 		l.Warn("Test is not implemented for this recipe")
 		return nil, false
 
+	case qt_errors.ErrorMock:
+		l.Debug("Mock test")
+		return nil, false
+
 	default:
 		return err, false
 	}
 }
 
 func TestRecipe(t *testing.T, re rc_recipe.Recipe) {
+	DoTestRecipe(t, re, false)
+}
+
+func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 	type Stopper interface {
 		Stop()
 	}
@@ -143,6 +152,11 @@ func TestRecipe(t *testing.T, re rc_recipe.Recipe) {
 				profile.ProfilePath(ctl.Workspace().Log()),
 				profile.MemProfile,
 			)
+		}
+		if useMock {
+			if c, ok := ctl.(app_control.ControlTestExtension); ok {
+				c.SetTestValue(qt_endtoend.CtlTestExtUseMock, true)
+			}
 		}
 
 		err := re.Test(ctl)

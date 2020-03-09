@@ -6,9 +6,11 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"path/filepath"
 	"strings"
@@ -113,5 +115,24 @@ func (z *Delete) removeRecursive(c app_control.Control) error {
 }
 
 func (z *Delete) Test(c app_control.Control) error {
-	return qt_errors.ErrorImplementMe
+	// Non-recursive
+	err := rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
+		m := r.(*Delete)
+		m.Path = qt_recipe.NewTestDropboxFolderPath("sharedlink-delete")
+		m.Recursive = false
+	})
+	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		return e
+	}
+
+	// Recursive
+	err = rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
+		m := r.(*Delete)
+		m.Path = qt_recipe.NewTestDropboxFolderPath("sharedlink-delete")
+		m.Recursive = true
+	})
+	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		return e
+	}
+	return nil
 }

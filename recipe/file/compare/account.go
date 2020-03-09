@@ -6,9 +6,11 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type Account struct {
@@ -57,5 +59,9 @@ func (z *Account) Exec(c app_control.Control) error {
 }
 
 func (z *Account) Test(c app_control.Control) error {
-	return qt_errors.ErrorImplementMe
+	return rc_exec.ExecMock(c, &Account{}, func(r rc_recipe.Recipe) {
+		m := r.(*Account)
+		m.LeftPath = qt_recipe.NewTestDropboxFolderPath("left")
+		m.RightPath = qt_recipe.NewTestDropboxFolderPath("right")
+	})
 }

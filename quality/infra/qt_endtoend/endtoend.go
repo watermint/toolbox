@@ -8,6 +8,9 @@ import (
 const (
 	EndToEndPeer        = "end_to_end_test"
 	EndToEndTestSkipEnv = "TOOLBOX_SKIPENDTOENDTEST"
+
+	// Keys for ControlTestExtension keys
+	CtlTestExtUseMock = "use_mock"
 )
 
 func IsSkipEndToEndTest() bool {

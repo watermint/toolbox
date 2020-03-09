@@ -52,6 +52,12 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 
 	switch {
 	case ctl.IsTest():
+		if c, ok := ctl.(app_control.ControlTestExtension); ok {
+			if c.TestValue(qt_endtoend.CtlTestExtUseMock) == true {
+				l.Debug("Test with mock")
+				return api_context_impl.NewMock(ctl), nil
+			}
+		}
 		return ConnectTest(tokenType, peerName, ctl)
 
 	case ui.IsConsole():

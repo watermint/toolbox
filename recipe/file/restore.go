@@ -10,9 +10,11 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
 
@@ -112,5 +114,8 @@ func (z *Restore) Exec(c app_control.Control) error {
 }
 
 func (z *Restore) Test(c app_control.Control) error {
-	return qt_errors.ErrorImplementMe
+	return rc_exec.ExecMock(c, &Restore{}, func(r rc_recipe.Recipe) {
+		m := r.(*Restore)
+		m.Path = qt_recipe.NewTestDropboxFolderPath("file-restore")
+	})
 }

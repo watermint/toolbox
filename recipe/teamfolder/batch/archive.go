@@ -7,9 +7,11 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"strings"
 )
 
@@ -64,7 +66,14 @@ func (z *Archive) Exec(c app_control.Control) error {
 }
 
 func (z *Archive) Test(c app_control.Control) error {
-	return qt_errors.ErrorImplementMe
+	return rc_exec.ExecMock(c, &Archive{}, func(r rc_recipe.Recipe) {
+		f, err := qt_file.MakeTestFile("test-batch-archive", "Marketing\nSales\n")
+		if err != nil {
+			return
+		}
+		m := r.(*Archive)
+		m.File.SetFilePath(f)
+	})
 }
 
 func (z *Archive) Preset() {
