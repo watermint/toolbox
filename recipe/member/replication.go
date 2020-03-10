@@ -5,9 +5,13 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type ReplicationRow struct {
@@ -54,5 +58,16 @@ func (z *Replication) Exec(c app_control.Control) error {
 }
 
 func (z *Replication) Test(c app_control.Control) error {
+	err := rc_exec.ExecMock(c, &Replication{}, func(r rc_recipe.Recipe) {
+		f, err := qt_file.MakeTestFile("member-replication", "john@example.com,smith@example.net\n")
+		if err != nil {
+			return
+		}
+		m := r.(*Replication)
+		m.File.SetFilePath(f)
+	})
+	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		return e
+	}
 	return qt_errors.ErrorHumanInteractionRequired
 }

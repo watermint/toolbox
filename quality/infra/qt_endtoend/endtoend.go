@@ -3,6 +3,7 @@ package qt_endtoend
 import (
 	"os"
 	"strconv"
+	"testing"
 )
 
 const (
@@ -18,6 +19,9 @@ func IsSkipEndToEndTest() bool {
 		if b, _ := strconv.ParseBool(p); b {
 			return true
 		}
+	}
+	if testing.Short() {
+		return true
 	}
 	return false
 }
