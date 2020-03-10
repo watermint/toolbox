@@ -8,6 +8,8 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"os"
 )
 
 type Up struct {
@@ -38,5 +40,14 @@ func (z *Up) Exec(c app_control.Control) error {
 }
 
 func (z *Up) Test(c app_control.Control) error {
+	err := rc_exec.ExecMock(c, &Up{}, func(r rc_recipe.Recipe) {
+		m := r.(*Up)
+		m.LocalPath = mo_path.NewFileSystemPath(os.TempDir())
+		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("up")
+	})
+	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+		return err
+	}
+
 	return qt_errors.ErrorScenarioTest
 }
