@@ -1,6 +1,6 @@
 # filerequest delete url 
 
-Delete a file request by the file request URL 
+ファイルリクエストのURLを指定して削除 
 
 # セキュリティ
 
@@ -47,11 +47,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション | 説明                           | デフォルト |
-|------------|--------------------------------|------------|
-| `-force`   | Force delete the file request. | false      |
-| `-peer`    | Account alias                  | default    |
-| `-url`     | URL of the file request.       |            |
+| オプション | 説明                                | デフォルト |
+|------------|-------------------------------------|------------|
+| `-force`   | ファイリクエストを強制的に削除する. | false      |
+| `-peer`    | アカウントの別名                    | default    |
+| `-url`     | ファイルリクエストのURL             |            |
 
 共通のオプション:
 
@@ -116,15 +116,15 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`...   
 
-| 列                          | 説明                                                                      |
-|-----------------------------|---------------------------------------------------------------------------|
-| id                          | The Id of the file request                                                |
-| url                         | The URL of the file request                                               |
-| title                       | The title of the file request                                             |
-| created                     | Date/time of the file request was created.                                |
-| is_open                     | Whether or not the file request is open.                                  |
-| file_count                  | The number of files this file request has received.                       |
-| destination                 | The path for the folder in the Dropbox where uploaded files will be sent. |
-| deadline                    | The deadline for this file request.                                       |
-| deadline_allow_late_uploads | If set, allow uploads after the deadline has passed.                      |
+| 列                          | 説明                                                                    |
+|-----------------------------|-------------------------------------------------------------------------|
+| id                          | ファイルリクエストのID                                                  |
+| url                         | ファイルリクエストのURL                                                 |
+| title                       | ファイルリクエストのタイトル                                            |
+| created                     | ファイルリクエストが作成された日時.                                     |
+| is_open                     | このファイルリクエストがオープンしているかどうか                        |
+| file_count                  | このファイルリクエストが受け取ったファイル数                            |
+| destination                 | ファイルをアップロードするDropbox上のパス                               |
+| deadline                    | ファイルリクエストの締め切り.                                           |
+| deadline_allow_late_uploads | 設定した場合、ファイルリクエストの期限がきてもアップロードを許可します. |
 

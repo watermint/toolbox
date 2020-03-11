@@ -1,6 +1,6 @@
 # filerequest create 
 
-Create a file request 
+ファイルリクエストを作成します 
 
 # セキュリティ
 
@@ -47,13 +47,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション            | 説明                                                                                                 | デフォルト |
-|-----------------------|------------------------------------------------------------------------------------------------------|------------|
-| `-allow-late-uploads` | If set, allow uploads after the deadline has passed (one_day/two_days/seven_days/thirty_days/always) |            |
-| `-deadline`           | The deadline for this file request.                                                                  |            |
-| `-path`               | The path for the folder in the Dropbox where uploaded files will be sent.                            |            |
-| `-peer`               | Account alias                                                                                        | default    |
-| `-title`              | The title of the file request                                                                        |            |
+| オプション            | 説明                                                                                                  | デフォルト |
+|-----------------------|-------------------------------------------------------------------------------------------------------|------------|
+| `-allow-late-uploads` | 設定した場合、期限を過ぎてもアップロードを許可します (one_day/two_days/seven_days/thirty_days/always) |            |
+| `-deadline`           | ファイルリクエストの締め切り.                                                                         |            |
+| `-path`               | ファイルをアップロードするDropbox上のパス                                                             |            |
+| `-peer`               | アカウントの別名                                                                                      | default    |
+| `-title`              | ファイルリクエストのタイトル                                                                          |            |
 
 共通のオプション:
 
@@ -118,15 +118,15 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`...   
 
-| 列                          | 説明                                                                      |
-|-----------------------------|---------------------------------------------------------------------------|
-| id                          | The Id of the file request                                                |
-| url                         | The URL of the file request                                               |
-| title                       | The title of the file request                                             |
-| created                     | Date/time of the file request was created.                                |
-| is_open                     | Whether or not the file request is open.                                  |
-| file_count                  | The number of files this file request has received.                       |
-| destination                 | The path for the folder in the Dropbox where uploaded files will be sent. |
-| deadline                    | The deadline for this file request.                                       |
-| deadline_allow_late_uploads | If set, allow uploads after the deadline has passed.                      |
+| 列                          | 説明                                                                    |
+|-----------------------------|-------------------------------------------------------------------------|
+| id                          | ファイルリクエストのID                                                  |
+| url                         | ファイルリクエストのURL                                                 |
+| title                       | ファイルリクエストのタイトル                                            |
+| created                     | ファイルリクエストが作成された日時.                                     |
+| is_open                     | このファイルリクエストがオープンしているかどうか                        |
+| file_count                  | このファイルリクエストが受け取ったファイル数                            |
+| destination                 | ファイルをアップロードするDropbox上のパス                               |
+| deadline                    | ファイルリクエストの締め切り.                                           |
+| deadline_allow_late_uploads | 設定した場合、ファイルリクエストの期限がきてもアップロードを許可します. |
 

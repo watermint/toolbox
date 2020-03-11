@@ -54,7 +54,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-procmon-url`     | Process MonitorのダウンロードURL           | https://download.sysinternals.com/files/ProcessMonitor.zip |
 | `-repository-path` | Process Monitorの作業ディレクトリ          |                                                            |
 | `-retain-logs`     | 維持するProcmonのログ数                    | 4                                                          |
-| `-run-until`       | 指定日時以降は実行をスキップ               | 2020-03-18T08:35:24Z                                       |
+| `-run-until`       | 指定日時以降は実行をスキップ               |                                                            |
 | `-seconds`         | procmonの実行待機時間                      | 1800                                                       |
 
 共通のオプション:

@@ -1,6 +1,6 @@
 # dev ci auth 
 
-Authenticate for generating end to end testing 
+エンドツーエンドテストのための認証 
 
 # セキュリティ
 
@@ -48,13 +48,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション | 説明                                                        | デフォルト      |
-|------------|-------------------------------------------------------------|-----------------|
-| `-audit`   | Authenticate with Dropbox Business Audit scope              | end_to_end_test |
-| `-file`    | Authenticate with Dropbox Business member file access scope | end_to_end_test |
-| `-full`    | Authenticate with Dropbox user full access scope            | end_to_end_test |
-| `-info`    | Authenticate with Dropbox Business info scope               | end_to_end_test |
-| `-mgmt`    | Authenticate with Dropbox Business management scope         | end_to_end_test |
+| オプション | 説明                                               | デフォルト      |
+|------------|----------------------------------------------------|-----------------|
+| `-audit`   | Dropbox Business Audit スコープで認証              | end_to_end_test |
+| `-file`    | Dropbox Business member file access スコープで認証 | end_to_end_test |
+| `-full`    | Dropbox user full access スコープで認証            | end_to_end_test |
+| `-info`    | Dropbox Business info スコープで認証               | end_to_end_test |
+| `-mgmt`    | Dropbox Business management スコープで認証         | end_to_end_test |
 
 共通のオプション:
 

@@ -16,6 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_archive"
 	"github.com/watermint/toolbox/infra/util/ut_download"
 	"github.com/watermint/toolbox/infra/util/ut_process"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -436,6 +437,10 @@ func (z *Procmon) Exec(c app_control.Control) error {
 }
 
 func (z *Procmon) Test(c app_control.Control) error {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		return nil
+	}
+
 	tmpDir, err := ioutil.TempDir("", "procmon")
 	if err != nil {
 		return err
@@ -456,6 +461,5 @@ func (z *Procmon) Test(c app_control.Control) error {
 func (z *Procmon) Preset() {
 	z.ProcmonUrl = procmonDownloadUrl
 	z.Seconds = 1800
-	z.RunUntil = mo_time.New(time.Now().Add(7 * 24 * time.Hour))
 	z.RetainLogs = 4
 }

@@ -54,7 +54,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-procmon-url`     | Process monitor download url        | https://download.sysinternals.com/files/ProcessMonitor.zip |
 | `-repository-path` | Procmon Work directory              |                                                            |
 | `-retain-logs`     | Number of Procmon logs to retain    | 4                                                          |
-| `-run-until`       | Skip run after this date/time       | 2020-03-18T08:35:23Z                                       |
+| `-run-until`       | Skip run after this date/time       |                                                            |
 | `-seconds`         | Duration for waiting procmon        | 1800                                                       |
 
 Common options:

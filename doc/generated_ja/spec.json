@@ -168,7 +168,7 @@
   },
   "dev ci artifact up": {
     "name": "up",
-    "title": "Upload CI artifact",
+    "title": "CI成果物をアップロードします",
     "desc": "",
     "remarks": "",
     "path": "dev ci artifact up",
@@ -361,7 +361,7 @@
   },
   "dev ci auth": {
     "name": "auth",
-    "title": "Authenticate for generating end to end testing",
+    "title": "エンドツーエンドテストのための認証",
     "desc": "",
     "remarks": "",
     "path": "dev ci auth",
@@ -641,7 +641,7 @@
   },
   "dev util curl": {
     "name": "curl",
-    "title": "Generate cURL preview from capture log",
+    "title": "capture.logからcURLのプレビューを生成します",
     "desc": "",
     "remarks": "",
     "path": "dev util curl",
@@ -2168,7 +2168,7 @@
   },
   "filerequest create": {
     "name": "create",
-    "title": "Create a file request",
+    "title": "ファイルリクエストを作成します",
     "desc": "",
     "remarks": "",
     "path": "filerequest create",
@@ -2190,39 +2190,39 @@
         "columns": [
           {
             "name": "id",
-            "desc": "The Id of the file request"
+            "desc": "ファイルリクエストのID"
           },
           {
             "name": "url",
-            "desc": "The URL of the file request"
+            "desc": "ファイルリクエストのURL"
           },
           {
             "name": "title",
-            "desc": "The title of the file request"
+            "desc": "ファイルリクエストのタイトル"
           },
           {
             "name": "created",
-            "desc": "Date/time of the file request was created."
+            "desc": "ファイルリクエストが作成された日時."
           },
           {
             "name": "is_open",
-            "desc": "Whether or not the file request is open."
+            "desc": "このファイルリクエストがオープンしているかどうか"
           },
           {
             "name": "file_count",
-            "desc": "The number of files this file request has received."
+            "desc": "このファイルリクエストが受け取ったファイル数"
           },
           {
             "name": "destination",
-            "desc": "The path for the folder in the Dropbox where uploaded files will be sent."
+            "desc": "ファイルをアップロードするDropbox上のパス"
           },
           {
             "name": "deadline",
-            "desc": "The deadline for this file request."
+            "desc": "ファイルリクエストの締め切り."
           },
           {
             "name": "deadline_allow_late_uploads",
-            "desc": "If set, allow uploads after the deadline has passed."
+            "desc": "設定した場合、ファイルリクエストの期限がきてもアップロードを許可します."
           }
         ]
       }
@@ -2231,7 +2231,7 @@
   },
   "filerequest delete closed": {
     "name": "closed",
-    "title": "Delete all closed file requests on this account.",
+    "title": "このアカウントの全ての閉じられているファイルリクエストを削除します",
     "desc": "",
     "remarks": "",
     "path": "filerequest delete closed",
@@ -2253,39 +2253,39 @@
         "columns": [
           {
             "name": "id",
-            "desc": "The Id of the file request"
+            "desc": "ファイルリクエストのID"
           },
           {
             "name": "url",
-            "desc": "The URL of the file request"
+            "desc": "ファイルリクエストのURL"
           },
           {
             "name": "title",
-            "desc": "The title of the file request"
+            "desc": "ファイルリクエストのタイトル"
           },
           {
             "name": "created",
-            "desc": "Date/time of the file request was created."
+            "desc": "ファイルリクエストが作成された日時."
           },
           {
             "name": "is_open",
-            "desc": "Whether or not the file request is open."
+            "desc": "このファイルリクエストがオープンしているかどうか"
           },
           {
             "name": "file_count",
-            "desc": "The number of files this file request has received."
+            "desc": "このファイルリクエストが受け取ったファイル数"
           },
           {
             "name": "destination",
-            "desc": "The path for the folder in the Dropbox where uploaded files will be sent."
+            "desc": "ファイルをアップロードするDropbox上のパス"
           },
           {
             "name": "deadline",
-            "desc": "The deadline for this file request."
+            "desc": "ファイルリクエストの締め切り."
           },
           {
             "name": "deadline_allow_late_uploads",
-            "desc": "If set, allow uploads after the deadline has passed."
+            "desc": "設定した場合、ファイルリクエストの期限がきてもアップロードを許可します."
           }
         ]
       }
@@ -2294,7 +2294,7 @@
   },
   "filerequest delete url": {
     "name": "url",
-    "title": "Delete a file request by the file request URL",
+    "title": "ファイルリクエストのURLを指定して削除",
     "desc": "",
     "remarks": "",
     "path": "filerequest delete url",
@@ -2316,39 +2316,39 @@
         "columns": [
           {
             "name": "id",
-            "desc": "The Id of the file request"
+            "desc": "ファイルリクエストのID"
           },
           {
             "name": "url",
-            "desc": "The URL of the file request"
+            "desc": "ファイルリクエストのURL"
           },
           {
             "name": "title",
-            "desc": "The title of the file request"
+            "desc": "ファイルリクエストのタイトル"
           },
           {
             "name": "created",
-            "desc": "Date/time of the file request was created."
+            "desc": "ファイルリクエストが作成された日時."
           },
           {
             "name": "is_open",
-            "desc": "Whether or not the file request is open."
+            "desc": "このファイルリクエストがオープンしているかどうか"
           },
           {
             "name": "file_count",
-            "desc": "The number of files this file request has received."
+            "desc": "このファイルリクエストが受け取ったファイル数"
           },
           {
             "name": "destination",
-            "desc": "The path for the folder in the Dropbox where uploaded files will be sent."
+            "desc": "ファイルをアップロードするDropbox上のパス"
           },
           {
             "name": "deadline",
-            "desc": "The deadline for this file request."
+            "desc": "ファイルリクエストの締め切り."
           },
           {
             "name": "deadline_allow_late_uploads",
-            "desc": "If set, allow uploads after the deadline has passed."
+            "desc": "設定した場合、ファイルリクエストの期限がきてもアップロードを許可します."
           }
         ]
       }
@@ -2357,7 +2357,7 @@
   },
   "filerequest list": {
     "name": "list",
-    "title": "List file requests of the individual account",
+    "title": "個人アカウントのファイルリクエストを一覧.",
     "desc": "",
     "remarks": "",
     "path": "filerequest list",
@@ -2379,39 +2379,39 @@
         "columns": [
           {
             "name": "id",
-            "desc": "The Id of the file request"
+            "desc": "ファイルリクエストのID"
           },
           {
             "name": "url",
-            "desc": "The URL of the file request"
+            "desc": "ファイルリクエストのURL"
           },
           {
             "name": "title",
-            "desc": "The title of the file request"
+            "desc": "ファイルリクエストのタイトル"
           },
           {
             "name": "created",
-            "desc": "Date/time of the file request was created."
+            "desc": "ファイルリクエストが作成された日時."
           },
           {
             "name": "is_open",
-            "desc": "Whether or not the file request is open."
+            "desc": "このファイルリクエストがオープンしているかどうか"
           },
           {
             "name": "file_count",
-            "desc": "The number of files this file request has received."
+            "desc": "このファイルリクエストが受け取ったファイル数"
           },
           {
             "name": "destination",
-            "desc": "The path for the folder in the Dropbox where uploaded files will be sent."
+            "desc": "ファイルをアップロードするDropbox上のパス"
           },
           {
             "name": "deadline",
-            "desc": "The deadline for this file request."
+            "desc": "ファイルリクエストの締め切り."
           },
           {
             "name": "deadline_allow_late_uploads",
-            "desc": "If set, allow uploads after the deadline has passed."
+            "desc": "設定した場合、ファイルリクエストの期限がきてもアップロードを許可します."
           }
         ]
       }
