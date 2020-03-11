@@ -15,6 +15,7 @@ import (
 	"github.com/watermint/toolbox/recipe/dev/spec"
 	"go.uber.org/zap"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"sort"
 	"strconv"
@@ -63,8 +64,64 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 	return nil
 }
 
+func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) error {
+	l := c.Log()
+	whiteList := func(name string) bool {
+		nameLower := strings.ToLower(name)
+		switch {
+		case nameLower == "changes.md":
+			return true
+		case strings.HasPrefix(nameLower, "spec") && strings.HasSuffix(nameLower, ".json"):
+			return true
+		default:
+			return false
+		}
+	}
+
+	entries, err := ioutil.ReadDir(path)
+	if err != nil {
+		return err
+	}
+
+	for _, e := range entries {
+		if !whiteList(e.Name()) {
+			p := filepath.Join(path, e.Name())
+			if c.IsTest() {
+				continue
+			}
+			err := os.Remove(p)
+			if err != nil {
+				l.Error("Unable to remove file", zap.Error(err), zap.String("path", p))
+				return nil
+			}
+		}
+	}
+	return nil
+}
+
+func (z *Preflight) cloneSpec(c app_control.Control, path string, release int) error {
+	l := c.Log()
+	if c.IsTest() {
+		l.Debug("Skip for test")
+		return nil
+	}
+	s, err := ioutil.ReadFile(filepath.Join(path, "spec.json"))
+	if err != nil {
+		l.Error("Unable to open current spec file", zap.Error(err))
+		return err
+	}
+	err = ioutil.WriteFile(filepath.Join(path, fmt.Sprintf("spec_%d.json", release)), s, 0644)
+	if err != nil {
+		l.Error("Unable to create version spec file", zap.Error(err))
+		return err
+	}
+	return nil
+}
+
 func (z *Preflight) Exec(c app_control.Control) error {
 	l := c.Log()
+	languages := []string{"en", "ja"}
+	languageSuffix := map[string]string{"en": "", "ja": "_ja"}
 
 	release := 0
 	if !c.IsTest() {
@@ -80,98 +137,65 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		}
 	}
 
-	{
-		l.Info("Generating English documents")
+	for _, lang := range languages {
+		suffix := languageSuffix[lang]
+		path := fmt.Sprintf("doc/generated%s/", suffix)
+		ll := l.With(zap.String("lang", lang), zap.String("suffix", suffix))
+
+		ll.Info("Clean up generated document folder")
+		if err := z.deleteOldGeneratedFiles(c, path); err != nil {
+			return err
+		}
+
+		ll.Info("Generating README")
 		err := rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
 			rr := r.(*Doc)
 			rr.Badge = true
 			rr.MarkdownReadme = true
-			rr.Lang = "en"
-			rr.Filename = "README.md"
-			rr.CommandPath = "doc/generated/"
+			rr.Lang = lang
+			rr.Filename = fmt.Sprintf("README%s.md", suffix)
+			rr.CommandPath = path
 		})
 		if err != nil {
 			l.Error("Failed to generate documents", zap.Error(err))
 			return err
 		}
-	}
-	{
-		l.Info("Generating Japanese documents")
-		err := rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
-			rr := r.(*Doc)
-			rr.Badge = true
-			rr.MarkdownReadme = true
-			rr.Lang = "ja"
-			rr.Filename = "README_ja.md"
-			rr.CommandPath = "doc/generated_ja/"
-		})
-		if err != nil {
-			l.Error("Failed to generate documents", zap.Error(err))
-			return err
-		}
-	}
 
-	if !c.IsTest() {
-		l.Info("Generating Spec document (English)")
-		err := rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
-			rr := r.(*spec.Doc)
-			rr.Lang = "en"
-			rr.FilePath = "doc/generated/spec.json"
-		})
-		if err != nil {
-			l.Error("Failed to generate documents", zap.Error(err))
-			return err
+		if !c.IsTest() {
+			ll.Info("Generating Spec document")
+			err = rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
+				rr := r.(*spec.Doc)
+				rr.Lang = lang
+				rr.FilePath = filepath.Join(path, "spec.json")
+			})
+			if err != nil {
+				l.Error("Failed to generate documents", zap.Error(err))
+				return err
+			}
 		}
-	}
 
-	if !c.IsTest() {
-		l.Info("Generating Spec document (Japanese)")
-		err := rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
-			rr := r.(*spec.Doc)
-			rr.Lang = "ja"
-			rr.FilePath = "doc/generated_ja/spec.json"
-		})
-		if err != nil {
-			l.Error("Failed to generate documents", zap.Error(err))
+		ll.Info("Clone spec")
+		if err := z.cloneSpec(c, path, release); err != nil {
 			return err
 		}
-	}
 
-	cloneSpec := func(path string) error {
-		if c.IsTest() {
-			l.Debug("Skip for test")
-			return nil
-		}
-		s, err := ioutil.ReadFile(filepath.Join(path, "spec.json"))
-		if err != nil {
-			l.Error("Unable to open current spec file", zap.Error(err))
+		ll.Info("Sorting message resources")
+		if err := z.sortMessages(c, fmt.Sprintf("messages%s.json", suffix)); err != nil {
 			return err
 		}
-		err = ioutil.WriteFile(filepath.Join(path, fmt.Sprintf("spec_%d.json", release)), s, 0644)
-		if err != nil {
-			l.Error("Unable to create version spec file", zap.Error(err))
-			return err
-		}
-		return nil
-	}
 
-	if err := cloneSpec("doc/generated"); err != nil {
-		return err
-	}
-	if err := cloneSpec("doc/generated_ja"); err != nil {
-		return err
-	}
-	if !c.IsTest() && minimumSpecDocVersion < release {
-		l.Info("Generating release notes")
-		err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
-			rr := r.(*spec.Diff)
-			rr.Lang = "en"
-			rr.Release1 = fmt.Sprintf("%d", release-1)
-			rr.FilePath = "doc/generated/changes.md"
-		})
-		if err != nil {
-			l.Error("Failed to generate documents", zap.Error(err))
-			return err
+		if !c.IsTest() && minimumSpecDocVersion < release {
+			ll.Info("Generating release notes")
+			err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
+				rr := r.(*spec.Diff)
+				rr.Lang = lang
+				rr.Release1 = fmt.Sprintf("%d", release-1)
+				rr.FilePath = filepath.Join(path, "changes.md")
+			})
+			if err != nil {
+				l.Error("Failed to generate documents", zap.Error(err))
+				return err
+			}
 		}
 	}
 
@@ -201,14 +225,6 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				l.Debug("message", zap.String("key", msg.Key()), zap.String("text", c.UI().Text(msg)))
 			}
 		}
-	}
-
-	l.Info("Sorting message resources")
-	if err := z.sortMessages(c, "messages.json"); err != nil {
-		return err
-	}
-	if err := z.sortMessages(c, "messages_ja.json"); err != nil {
-		return err
 	}
 
 	l.Info("Verify message resources")
