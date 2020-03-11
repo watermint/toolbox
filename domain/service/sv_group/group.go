@@ -8,6 +8,11 @@ import (
 	"strings"
 )
 
+var (
+	ErrorGroupNotFoundForGroupId = errors.New("group not found for the group id")
+	ErrorGroupNotFoundForName    = errors.New("group not found for the name")
+)
+
 type Group interface {
 	Resolve(groupId string) (g *mo_group.Group, err error)
 	ResolveByName(groupName string) (g *mo_group.Group, err error)
@@ -73,7 +78,7 @@ func (z *cachedGroup) Resolve(groupId string) (g *mo_group.Group, err error) {
 			return g, nil
 		}
 	}
-	return nil, errors.New("group not found for id")
+	return nil, ErrorGroupNotFoundForGroupId
 }
 
 func (z *cachedGroup) ResolveByName(groupName string) (g *mo_group.Group, err error) {
@@ -88,7 +93,7 @@ func (z *cachedGroup) ResolveByName(groupName string) (g *mo_group.Group, err er
 			return g, nil
 		}
 	}
-	return nil, errors.New("group not found for name")
+	return nil, ErrorGroupNotFoundForName
 }
 
 func (z *cachedGroup) List() (g []*mo_group.Group, err error) {
@@ -132,7 +137,7 @@ func (z *implGroup) ResolveByName(groupName string) (g *mo_group.Group, err erro
 			return g, nil
 		}
 	}
-	return nil, errors.New("group not found")
+	return nil, ErrorGroupNotFoundForName
 }
 
 func (z *implGroup) Create(name string, opt ...CreateOpt) (g *mo_group.Group, err error) {

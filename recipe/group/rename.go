@@ -5,8 +5,11 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_group"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type Rename struct {
@@ -47,7 +50,15 @@ func (z *Rename) Exec(c app_control.Control) error {
 }
 
 func (z *Rename) Test(c app_control.Control) error {
-	return qt_endtoend.ScenarioTest()
+	err := rc_exec.ExecMock(c, &Rename{}, func(r rc_recipe.Recipe) {
+		m := r.(*Rename)
+		m.CurrentName = "Marketing"
+		m.NewName = "Marketing (Archived)"
+	})
+	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil && err != sv_group.ErrorGroupNotFoundForName {
+		return err
+	}
+	return qt_errors.ErrorScenarioTest
 }
 
 func (z *Rename) Preset() {

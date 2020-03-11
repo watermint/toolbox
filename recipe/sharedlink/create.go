@@ -7,9 +7,12 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"time"
 )
 
 type Create struct {
@@ -56,5 +59,11 @@ func (z *Create) Exec(c app_control.Control) error {
 }
 
 func (z *Create) Test(c app_control.Control) error {
-	return qt_endtoend.ImplementMe()
+	return rc_exec.ExecMock(c, &Create{}, func(r rc_recipe.Recipe) {
+		m := r.(*Create)
+		m.Path = qt_recipe.NewTestDropboxFolderPath("sharedlink-create")
+		m.Password = "1234"
+		m.TeamOnly = true
+		m.Expires = mo_time.NewOptional(time.Now().Add(1 * time.Second))
+	})
 }

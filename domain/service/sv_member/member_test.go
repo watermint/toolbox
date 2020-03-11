@@ -5,7 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"strings"
 	"testing"
 )
@@ -50,7 +52,7 @@ const (
 ]`
 )
 
-func TestMemberImpl_Resolve(t *testing.T) {
+func TestModelMemberImpl_Resolve(t *testing.T) {
 	member := &mo_member.Member{}
 	j := gjson.Parse(memberGetInfoSuccessRes)
 	if !j.IsArray() {
@@ -66,8 +68,8 @@ func TestMemberImpl_Resolve(t *testing.T) {
 	}
 }
 
-func TestMemberImpl_ResolveByEmail(t *testing.T) {
-	api_test.DoTestBusinessInfo(func(ctx api_context.Context) {
+func TestEndToEndMemberImpl_ResolveByEmail(t *testing.T) {
+	qt_api.DoTestBusinessInfo(func(ctx api_context.Context) {
 		svm := New(ctx)
 		members, err := svm.List()
 		if err != nil {
@@ -105,8 +107,8 @@ func TestMemberImpl_ResolveByEmail(t *testing.T) {
 	})
 }
 
-func TestMemberImpl_ListResolve(t *testing.T) {
-	api_test.DoTestBusinessInfo(func(ctx api_context.Context) {
+func TestEndToEndMemberImpl_ListResolve(t *testing.T) {
+	qt_api.DoTestBusinessInfo(func(ctx api_context.Context) {
 		ls := newTest(ctx)
 		members, err := ls.List()
 		if err != nil {
@@ -129,6 +131,141 @@ func TestMemberImpl_ListResolve(t *testing.T) {
 		}
 		if m.Email != members[0].Email {
 			t.Error("invalid")
+		}
+	})
+}
+
+// -- mock test impl
+
+func TestMemberImpl_Add(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		_, err := sv.Add("test@example.com",
+			AddWithGivenName("test"),
+			AddWithSurname("example"),
+			AddWithExternalId("ADSYNC test@test"),
+			AddWithoutSendWelcomeEmail(),
+			AddWithRole("user_admin"),
+			AddWithDirectoryRestricted(),
+		)
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestMemberImpl_List(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		_, err := sv.List()
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestMemberImpl_Remove(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		err := sv.Remove(&mo_member.Member{},
+			Downgrade(),
+			RemoveWipeData(),
+			RetainTeamShares(),
+		)
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestMemberImpl_Resolve(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		_, err := sv.Resolve("test")
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestMemberImpl_ResolveByEmail(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		_, err := sv.ResolveByEmail("test@example.com")
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestMemberImpl_Update(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		_, err := sv.Update(&mo_member.Member{})
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+// -- Test cached
+
+func TestCachedMember_Add(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := NewCached(ctx)
+		_, err := sv.Add("test@example.com")
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestCachedMember_List(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := NewCached(ctx)
+		_, err := sv.List()
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestCachedMember_Remove(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := NewCached(ctx)
+		err := sv.Remove(&mo_member.Member{})
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestCachedMember_Resolve(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := NewCached(ctx)
+		_, err := sv.Resolve("test")
+		if err != ErrorMemberNotFoundForTeamMemberId {
+			t.Error(err)
+		}
+	})
+}
+
+func TestCachedMember_ResolveByEmail(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := NewCached(ctx)
+		_, err := sv.ResolveByEmail("test@example.com")
+		if err != ErrorMemberNotFoundForEmail {
+			t.Error(err)
+		}
+	})
+}
+
+func TestCachedMember_Update(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := New(ctx)
+		_, err := sv.Update(&mo_member.Member{})
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
 		}
 	})
 }

@@ -5,8 +5,12 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type DetachRow struct {
@@ -27,7 +31,19 @@ func (z *Detach) Preset() {
 }
 
 func (z *Detach) Test(c app_control.Control) error {
-	return qt_endtoend.HumanInteractionRequired()
+	err := rc_exec.ExecMock(c, &Detach{}, func(r rc_recipe.Recipe) {
+		f, err := qt_file.MakeTestFile("member-detach", "john@example.com\nsmith@example.net\n")
+		if err != nil {
+			return
+		}
+		m := r.(*Detach)
+		m.File.SetFilePath(f)
+		m.RevokeTeamShares = false
+	})
+	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		return e
+	}
+	return qt_errors.ErrorHumanInteractionRequired
 }
 
 func (z *Detach) Exec(c app_control.Control) error {

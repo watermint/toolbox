@@ -6,8 +6,6 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
-	"regexp"
-	"time"
 )
 
 type Capture interface {
@@ -26,29 +24,6 @@ func Current() Capture {
 	return currentImpl(cap)
 }
 
-type Record struct {
-	Timestamp      time.Time         `json:"timestamp"`
-	RequestMethod  string            `json:"req_method"`
-	RequestUrl     string            `json:"req_url"`
-	RequestParam   string            `json:"req_param,omitempty"`
-	RequestHeaders map[string]string `json:"req_headers"`
-	ResponseCode   int               `json:"res_code"`
-	ResponseBody   string            `json:"res_body,omitempty"`
-	ResponseError  string            `json:"res_error,omitempty"`
-	Latency        int64             `json:"latency"`
-}
-
-type mockImpl struct {
-}
-
-func (mockImpl) WithResponse(req api_request.Request, res api_response.Response, resErr error, latency int64) {
-	// ignore
-}
-
-var (
-	tokenMatcher = regexp.MustCompile(`\w`)
-)
-
 func NewCapture(cap *zap.Logger) Capture {
 	return &captureImpl{
 		capture: cap,
@@ -58,6 +33,14 @@ func NewCapture(cap *zap.Logger) Capture {
 type captureImpl struct {
 	capture *zap.Logger
 }
+
+type Record struct {
+	Time    string `json:"time"`
+	Req     *Req   `json:"req"`
+	Res     *Res   `json:"res"`
+	Latency int64  `json:"latency"`
+}
+
 type Req struct {
 	RequestMethod  string            `json:"method"`
 	RequestUrl     string            `json:"url"`

@@ -639,6 +639,24 @@
     "reports": [],
     "feeds": []
   },
+  "dev util curl": {
+    "name": "curl",
+    "title": "Generate cURL preview from capture log",
+    "desc": "",
+    "remarks": "",
+    "path": "dev util curl",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
   "dev util wait": {
     "name": "wait",
     "title": "Wait for specified seconds",
@@ -2148,6 +2166,258 @@
     "reports": [],
     "feeds": []
   },
+  "filerequest create": {
+    "name": "create",
+    "title": "Create a file request",
+    "desc": "",
+    "remarks": "",
+    "path": "filerequest create",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "file_request",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "The Id of the file request"
+          },
+          {
+            "name": "url",
+            "desc": "The URL of the file request"
+          },
+          {
+            "name": "title",
+            "desc": "The title of the file request"
+          },
+          {
+            "name": "created",
+            "desc": "Date/time of the file request was created."
+          },
+          {
+            "name": "is_open",
+            "desc": "Whether or not the file request is open."
+          },
+          {
+            "name": "file_count",
+            "desc": "The number of files this file request has received."
+          },
+          {
+            "name": "destination",
+            "desc": "The path for the folder in the Dropbox where uploaded files will be sent."
+          },
+          {
+            "name": "deadline",
+            "desc": "The deadline for this file request."
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "If set, allow uploads after the deadline has passed."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "filerequest delete closed": {
+    "name": "closed",
+    "title": "Delete all closed file requests on this account.",
+    "desc": "",
+    "remarks": "",
+    "path": "filerequest delete closed",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "deleted",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "The Id of the file request"
+          },
+          {
+            "name": "url",
+            "desc": "The URL of the file request"
+          },
+          {
+            "name": "title",
+            "desc": "The title of the file request"
+          },
+          {
+            "name": "created",
+            "desc": "Date/time of the file request was created."
+          },
+          {
+            "name": "is_open",
+            "desc": "Whether or not the file request is open."
+          },
+          {
+            "name": "file_count",
+            "desc": "The number of files this file request has received."
+          },
+          {
+            "name": "destination",
+            "desc": "The path for the folder in the Dropbox where uploaded files will be sent."
+          },
+          {
+            "name": "deadline",
+            "desc": "The deadline for this file request."
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "If set, allow uploads after the deadline has passed."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "filerequest delete url": {
+    "name": "url",
+    "title": "Delete a file request by the file request URL",
+    "desc": "",
+    "remarks": "",
+    "path": "filerequest delete url",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "deleted",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "The Id of the file request"
+          },
+          {
+            "name": "url",
+            "desc": "The URL of the file request"
+          },
+          {
+            "name": "title",
+            "desc": "The title of the file request"
+          },
+          {
+            "name": "created",
+            "desc": "Date/time of the file request was created."
+          },
+          {
+            "name": "is_open",
+            "desc": "Whether or not the file request is open."
+          },
+          {
+            "name": "file_count",
+            "desc": "The number of files this file request has received."
+          },
+          {
+            "name": "destination",
+            "desc": "The path for the folder in the Dropbox where uploaded files will be sent."
+          },
+          {
+            "name": "deadline",
+            "desc": "The deadline for this file request."
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "If set, allow uploads after the deadline has passed."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "filerequest list": {
+    "name": "list",
+    "title": "List file requests of the individual account",
+    "desc": "",
+    "remarks": "",
+    "path": "filerequest list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "file_requests",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "The Id of the file request"
+          },
+          {
+            "name": "url",
+            "desc": "The URL of the file request"
+          },
+          {
+            "name": "title",
+            "desc": "The title of the file request"
+          },
+          {
+            "name": "created",
+            "desc": "Date/time of the file request was created."
+          },
+          {
+            "name": "is_open",
+            "desc": "Whether or not the file request is open."
+          },
+          {
+            "name": "file_count",
+            "desc": "The number of files this file request has received."
+          },
+          {
+            "name": "destination",
+            "desc": "The path for the folder in the Dropbox where uploaded files will be sent."
+          },
+          {
+            "name": "deadline",
+            "desc": "The deadline for this file request."
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "If set, allow uploads after the deadline has passed."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
   "group add": {
     "name": "add",
     "title": "Create new group",
@@ -2201,7 +2471,7 @@
     "desc": "",
     "remarks": "(Irreversible operation)",
     "path": "group batch delete",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,
@@ -3178,7 +3448,7 @@
     "desc": "",
     "remarks": "",
     "path": "member quota update",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,
@@ -3456,7 +3726,7 @@
     "desc": "",
     "remarks": "(Irreversible operation)",
     "path": "member replication",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,
@@ -3641,7 +3911,7 @@
     "desc": "",
     "remarks": "",
     "path": "member update externalid",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,
@@ -4288,7 +4558,7 @@
     "desc": "",
     "remarks": "",
     "path": "team activity batch user",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,
@@ -6744,7 +7014,7 @@
     "desc": "",
     "remarks": "",
     "path": "teamfolder batch archive",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,
@@ -6815,7 +7085,7 @@
     "desc": "",
     "remarks": "(Irreversible operation)",
     "path": "teamfolder batch permdelete",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,

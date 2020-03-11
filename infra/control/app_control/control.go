@@ -35,6 +35,11 @@ type Control interface {
 	NewQueue() rc_worker.Queue
 }
 
+type ControlTestExtension interface {
+	TestValue(key string) interface{}
+	SetTestValue(key string, v interface{})
+}
+
 type ControlHttpFileSystem interface {
 	HttpFileSystem() http.FileSystem
 	Template() app_template.Template

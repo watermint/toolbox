@@ -168,7 +168,7 @@
   },
   "dev ci artifact up": {
     "name": "up",
-    "title": "Upload CI artifact",
+    "title": "CI成果物をアップロードします",
     "desc": "",
     "remarks": "",
     "path": "dev ci artifact up",
@@ -361,7 +361,7 @@
   },
   "dev ci auth": {
     "name": "auth",
-    "title": "Authenticate for generating end to end testing",
+    "title": "エンドツーエンドテストのための認証",
     "desc": "",
     "remarks": "",
     "path": "dev ci auth",
@@ -627,6 +627,24 @@
     "desc": "",
     "remarks": "",
     "path": "dev test resources",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev util curl": {
+    "name": "curl",
+    "title": "capture.logからcURLのプレビューを生成します",
+    "desc": "",
+    "remarks": "",
+    "path": "dev util curl",
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
@@ -2148,6 +2166,258 @@
     "reports": [],
     "feeds": []
   },
+  "filerequest create": {
+    "name": "create",
+    "title": "ファイルリクエストを作成します",
+    "desc": "",
+    "remarks": "",
+    "path": "filerequest create",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "file_request",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "ファイルリクエストのID"
+          },
+          {
+            "name": "url",
+            "desc": "ファイルリクエストのURL"
+          },
+          {
+            "name": "title",
+            "desc": "ファイルリクエストのタイトル"
+          },
+          {
+            "name": "created",
+            "desc": "ファイルリクエストが作成された日時."
+          },
+          {
+            "name": "is_open",
+            "desc": "このファイルリクエストがオープンしているかどうか"
+          },
+          {
+            "name": "file_count",
+            "desc": "このファイルリクエストが受け取ったファイル数"
+          },
+          {
+            "name": "destination",
+            "desc": "ファイルをアップロードするDropbox上のパス"
+          },
+          {
+            "name": "deadline",
+            "desc": "ファイルリクエストの締め切り."
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "設定した場合、ファイルリクエストの期限がきてもアップロードを許可します."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "filerequest delete closed": {
+    "name": "closed",
+    "title": "このアカウントの全ての閉じられているファイルリクエストを削除します",
+    "desc": "",
+    "remarks": "",
+    "path": "filerequest delete closed",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "deleted",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "ファイルリクエストのID"
+          },
+          {
+            "name": "url",
+            "desc": "ファイルリクエストのURL"
+          },
+          {
+            "name": "title",
+            "desc": "ファイルリクエストのタイトル"
+          },
+          {
+            "name": "created",
+            "desc": "ファイルリクエストが作成された日時."
+          },
+          {
+            "name": "is_open",
+            "desc": "このファイルリクエストがオープンしているかどうか"
+          },
+          {
+            "name": "file_count",
+            "desc": "このファイルリクエストが受け取ったファイル数"
+          },
+          {
+            "name": "destination",
+            "desc": "ファイルをアップロードするDropbox上のパス"
+          },
+          {
+            "name": "deadline",
+            "desc": "ファイルリクエストの締め切り."
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "設定した場合、ファイルリクエストの期限がきてもアップロードを許可します."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "filerequest delete url": {
+    "name": "url",
+    "title": "ファイルリクエストのURLを指定して削除",
+    "desc": "",
+    "remarks": "",
+    "path": "filerequest delete url",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "deleted",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "ファイルリクエストのID"
+          },
+          {
+            "name": "url",
+            "desc": "ファイルリクエストのURL"
+          },
+          {
+            "name": "title",
+            "desc": "ファイルリクエストのタイトル"
+          },
+          {
+            "name": "created",
+            "desc": "ファイルリクエストが作成された日時."
+          },
+          {
+            "name": "is_open",
+            "desc": "このファイルリクエストがオープンしているかどうか"
+          },
+          {
+            "name": "file_count",
+            "desc": "このファイルリクエストが受け取ったファイル数"
+          },
+          {
+            "name": "destination",
+            "desc": "ファイルをアップロードするDropbox上のパス"
+          },
+          {
+            "name": "deadline",
+            "desc": "ファイルリクエストの締め切り."
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "設定した場合、ファイルリクエストの期限がきてもアップロードを許可します."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "filerequest list": {
+    "name": "list",
+    "title": "個人アカウントのファイルリクエストを一覧.",
+    "desc": "",
+    "remarks": "",
+    "path": "filerequest list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "file_requests",
+        "desc": "",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "ファイルリクエストのID"
+          },
+          {
+            "name": "url",
+            "desc": "ファイルリクエストのURL"
+          },
+          {
+            "name": "title",
+            "desc": "ファイルリクエストのタイトル"
+          },
+          {
+            "name": "created",
+            "desc": "ファイルリクエストが作成された日時."
+          },
+          {
+            "name": "is_open",
+            "desc": "このファイルリクエストがオープンしているかどうか"
+          },
+          {
+            "name": "file_count",
+            "desc": "このファイルリクエストが受け取ったファイル数"
+          },
+          {
+            "name": "destination",
+            "desc": "ファイルをアップロードするDropbox上のパス"
+          },
+          {
+            "name": "deadline",
+            "desc": "ファイルリクエストの締め切り."
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "設定した場合、ファイルリクエストの期限がきてもアップロードを許可します."
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
   "group add": {
     "name": "add",
     "title": "グループを作成します",
@@ -2201,7 +2471,7 @@
     "desc": "",
     "remarks": "(非可逆な操作です)",
     "path": "group batch delete",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,
@@ -3178,7 +3448,7 @@
     "desc": "",
     "remarks": "",
     "path": "member quota update",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,
@@ -3456,7 +3726,7 @@
     "desc": "",
     "remarks": "(非可逆な操作です)",
     "path": "member replication",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,
@@ -3641,7 +3911,7 @@
     "desc": "",
     "remarks": "",
     "path": "member update externalid",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,
@@ -4288,7 +4558,7 @@
     "desc": "",
     "remarks": "",
     "path": "team activity batch user",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,
@@ -6744,7 +7014,7 @@
     "desc": "",
     "remarks": "",
     "path": "teamfolder batch archive",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,
@@ -6815,7 +7085,7 @@
     "desc": "",
     "remarks": "(非可逆な操作です)",
     "path": "teamfolder batch permdelete",
-    "cli_args": "",
+    "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": true,

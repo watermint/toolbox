@@ -5,9 +5,12 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
 
@@ -61,7 +64,14 @@ func (z *Reinvite) Exec(c app_control.Control) error {
 }
 
 func (z *Reinvite) Test(c app_control.Control) error {
-	return qt_endtoend.HumanInteractionRequired()
+	err := rc_exec.ExecMock(c, &Reinvite{}, func(r rc_recipe.Recipe) {
+		m := r.(*Reinvite)
+		m.Silent = true
+	})
+	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		return e
+	}
+	return qt_errors.ErrorHumanInteractionRequired
 }
 
 func (z *Reinvite) Preset() {

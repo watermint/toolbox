@@ -7,13 +7,17 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_file_content"
 	"github.com/watermint/toolbox/domain/service/sv_file_folder"
 	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_context_impl"
 	"github.com/watermint/toolbox/infra/api/api_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
@@ -251,5 +255,15 @@ func (z *Upload) Exec(c app_control.Control) error {
 }
 
 func (z *Upload) Test(c app_control.Control) error {
-	return qt_endtoend.ScenarioTest()
+	err := rc_exec.ExecMock(c, &Upload{}, func(r rc_recipe.Recipe) {
+		m := r.(*Upload)
+		m.Context = api_context_impl.NewMock(c)
+		m.LocalPath = mo_path.NewFileSystemPath(os.TempDir())
+		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("up")
+	})
+	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+		return err
+	}
+
+	return qt_errors.ErrorScenarioTest
 }

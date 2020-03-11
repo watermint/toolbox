@@ -6,9 +6,12 @@ import (
 	"github.com/watermint/toolbox/domain/service/sv_group_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type Add struct {
@@ -49,7 +52,15 @@ func (z *Add) Exec(c app_control.Control) error {
 }
 
 func (z *Add) Test(c app_control.Control) error {
-	return qt_endtoend.ScenarioTest()
+	err := rc_exec.ExecMock(c, &Add{}, func(r rc_recipe.Recipe) {
+		m := r.(*Add)
+		m.GroupName = "Marketing"
+		m.MemberEmail = "john@example.com"
+	})
+	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil && err != sv_group.ErrorGroupNotFoundForName {
+		return err
+	}
+	return qt_errors.ErrorScenarioTest
 }
 
 func (z *Add) Preset() {

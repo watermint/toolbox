@@ -5,10 +5,28 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 )
 
 func Exec(ctl app_control.Control, r rc_recipe.Recipe, custom func(r rc_recipe.Recipe)) error {
+	return ExecSpec(ctl, rc_spec.New(r), custom)
+}
+
+// Execute with mock test mode
+func ExecMock(ctl app_control.Control, r rc_recipe.Recipe, custom func(r rc_recipe.Recipe)) error {
+	var origTestMock interface{}
+	cte, ok := ctl.(app_control.ControlTestExtension)
+	if !ok {
+		ctl.Log().Debug("Skip mock test due to insufficient control interface")
+		return qt_errors.ErrorSkipEndToEndTest
+	}
+	origTestMock = cte.TestValue(qt_endtoend.CtlTestExtUseMock)
+	cte.SetTestValue(qt_endtoend.CtlTestExtUseMock, true)
+	defer func() {
+		cte.SetTestValue(qt_endtoend.CtlTestExtUseMock, origTestMock)
+	}()
 	return ExecSpec(ctl, rc_spec.New(r), custom)
 }
 

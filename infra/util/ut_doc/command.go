@@ -216,7 +216,8 @@ func (z *Commands) GenerateAll(ctl app_control.Control) error {
 		rs := rc_spec.New(r)
 		if rs.IsSecret() {
 			numSecret++
-			continue
+			// #310 : generate secret docs for recipes, but not linked from README
+			//			continue
 		}
 		if err := z.Generate(ctl, r); err != nil {
 			return err

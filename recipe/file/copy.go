@@ -5,7 +5,10 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_relocation"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type Copy struct {
@@ -23,5 +26,13 @@ func (z *Copy) Exec(c app_control.Control) error {
 }
 
 func (z *Copy) Test(c app_control.Control) error {
-	return qt_endtoend.ScenarioTest()
+	err := rc_exec.ExecMock(c, &Copy{}, func(r rc_recipe.Recipe) {
+		m := r.(*Copy)
+		m.Src = qt_recipe.NewTestDropboxFolderPath("src")
+		m.Dst = qt_recipe.NewTestDropboxFolderPath("dst")
+	})
+	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+		return err
+	}
+	return qt_errors.ErrorScenarioTest
 }

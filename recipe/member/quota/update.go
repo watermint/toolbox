@@ -10,10 +10,14 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
 
@@ -57,6 +61,7 @@ type Update struct {
 	Peer         rc_conn.ConnBusinessMgmt
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
+	Quota        int
 }
 
 func (z *Update) Preset() {
@@ -87,10 +92,14 @@ func (z *Update) Exec(c app_control.Control) error {
 			z.OperationLog.Failure(errors.New("member not found for an email"), mq)
 			return nil
 		}
+		quota := z.Quota
+		if mq.Quota != 0 {
+			quota = mq.Quota
+		}
 
 		q.Enqueue(&UpdateWorker{
 			member: member,
-			quota:  mq.Quota,
+			quota:  quota,
 			ctl:    c,
 			ctx:    ctx,
 			rep:    z.OperationLog,
@@ -103,5 +112,17 @@ func (z *Update) Exec(c app_control.Control) error {
 }
 
 func (z *Update) Test(c app_control.Control) error {
-	return qt_endtoend.HumanInteractionRequired()
+	err := rc_exec.ExecMock(c, &Update{}, func(r rc_recipe.Recipe) {
+		f, err := qt_file.MakeTestFile("update-quota", "john@example.com,10")
+		if err != nil {
+			return
+		}
+		m := r.(*Update)
+		m.Quota = 150
+		m.File.SetFilePath(f)
+	})
+	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		return e
+	}
+	return qt_errors.ErrorHumanInteractionRequired
 }

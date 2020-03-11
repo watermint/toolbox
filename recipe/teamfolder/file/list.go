@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	namespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type List struct {
@@ -26,5 +26,5 @@ func (z *List) Exec(c app_control.Control) error {
 }
 
 func (z *List) Test(c app_control.Control) error {
-	return qt_endtoend.NoTestRequired()
+	return qt_errors.ErrorNoTestRequired
 }

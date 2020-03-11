@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -31,7 +31,7 @@ func (z *Dummy) Preset() {
 }
 
 func (z *Dummy) Test(c app_control.Control) error {
-	return qt_endtoend.NoTestRequired()
+	return qt_errors.ErrorNoTestRequired
 }
 
 func (z *Dummy) Exec(c app_control.Control) error {

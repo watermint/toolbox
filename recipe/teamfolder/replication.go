@@ -5,7 +5,8 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/teamfolder"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type Replication struct {
@@ -32,5 +33,12 @@ func (z *Replication) Exec(c app_control.Control) error {
 }
 
 func (z *Replication) Test(c app_control.Control) error {
-	return qt_endtoend.HumanInteractionRequired()
+	err := rc_exec.ExecMock(c, &Replication{}, func(r rc_recipe.Recipe) {
+		m := r.(*Replication)
+		m.Name = "Sales"
+	})
+	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		return e
+	}
+	return qt_errors.ErrorHumanInteractionRequired
 }

@@ -3,6 +3,7 @@ package app_run
 import (
 	"bytes"
 	"flag"
+	"fmt"
 	"github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/catalogue"
@@ -179,8 +180,10 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 		if qm, ok := ctl.Messages().(app_msg_container.Quality); ok {
 			missing := qm.MissingKeys()
 			if len(missing) > 0 {
+				w := ut_io.NewDefaultOut(ctl.IsTest())
 				for _, k := range missing {
 					ctl.Log().Error("Key missing", zap.String("key", k))
+					fmt.Fprintf(w, `"%s":"",\n`, k)
 				}
 			}
 		}

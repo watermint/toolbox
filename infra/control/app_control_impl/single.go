@@ -34,6 +34,7 @@ func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, 
 		testResource: gjson.Parse("{}"),
 		ui:           ui,
 		web:          web,
+		testValues:   make(map[string]interface{}),
 	}
 }
 
@@ -50,6 +51,15 @@ type Single struct {
 	ui           app_ui.UI
 	web          *rice.Box
 	ws           app_workspace.Workspace
+	testValues   map[string]interface{}
+}
+
+func (z *Single) TestValue(key string) interface{} {
+	return z.testValues[key]
+}
+
+func (z *Single) SetTestValue(key string, v interface{}) {
+	z.testValues[key] = v
 }
 
 func (z *Single) UIFormat() string {
@@ -85,6 +95,10 @@ func (z *Single) Fork(name string, opts ...app_control.UpOpt) (ctl app_control.C
 	if err != nil {
 		return nil, err
 	}
+	tv := make(map[string]interface{})
+	for k, v := range z.testValues {
+		tv[k] = v
+	}
 	s := &Single{
 		box:          z.box,
 		catalogue:    z.catalogue,
@@ -96,6 +110,7 @@ func (z *Single) Fork(name string, opts ...app_control.UpOpt) (ctl app_control.C
 		ui:           app_ui.CloneConsole(z.ui, z.mc),
 		web:          z.web,
 		ws:           ws,
+		testValues:   tv,
 	}
 	if err := s.upWithWorkspace(ws); err != nil {
 		return nil, err
@@ -118,6 +133,7 @@ func (z *Single) With(mc app_msg_container.Container) app_control.Control {
 		ui:           ui,
 		web:          z.web,
 		ws:           z.ws,
+		testValues:   z.testValues, // do not clone
 	}
 }
 

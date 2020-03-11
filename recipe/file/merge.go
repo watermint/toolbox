@@ -5,7 +5,10 @@ import (
 	"github.com/watermint/toolbox/domain/usecase/uc_file_merge"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type Merge struct {
@@ -40,5 +43,27 @@ func (z *Merge) Exec(c app_control.Control) error {
 }
 
 func (z *Merge) Test(c app_control.Control) error {
-	return qt_endtoend.ScenarioTest()
+	err := rc_exec.ExecMock(c, &Merge{}, func(r rc_recipe.Recipe) {
+		m := r.(*Merge)
+		m.DryRun = true
+		m.KeepEmptyFolder = true
+		m.WithinSameNamespace = true
+		m.From = qt_recipe.NewTestDropboxFolderPath("from")
+		m.To = qt_recipe.NewTestDropboxFolderPath("to")
+	})
+	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+		return err
+	}
+	err = rc_exec.ExecMock(c, &Merge{}, func(r rc_recipe.Recipe) {
+		m := r.(*Merge)
+		m.DryRun = false
+		m.KeepEmptyFolder = false
+		m.WithinSameNamespace = false
+		m.From = qt_recipe.NewTestDropboxFolderPath("from")
+		m.To = qt_recipe.NewTestDropboxFolderPath("to")
+	})
+	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+		return err
+	}
+	return qt_errors.ErrorScenarioTest
 }

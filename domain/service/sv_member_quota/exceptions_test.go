@@ -4,12 +4,14 @@ import (
 	"github.com/watermint/toolbox/domain/model/mo_member"
 	"github.com/watermint/toolbox/domain/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_test"
+	"github.com/watermint/toolbox/quality/infra/qt_api"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
-func TestExceptionsImpl(t *testing.T) {
-	api_test.DoTestBusinessManagement(func(ctx api_context.Context) {
+func TestEndToEndExceptionsImpl(t *testing.T) {
+	qt_api.DoTestBusinessManagement(func(ctx api_context.Context) {
 		svm := sv_member.New(ctx)
 		members, err := svm.List()
 		if err != nil {
@@ -101,6 +103,38 @@ func TestExceptionsImpl(t *testing.T) {
 					t.Error(err)
 				}
 			}
+		}
+	})
+}
+
+// mock tests
+
+func TestExceptionsImpl_Add(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := NewExceptions(ctx)
+		err := sv.Add("test")
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestExceptionsImpl_List(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := NewExceptions(ctx)
+		_, err := sv.List()
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}
+
+func TestExceptionsImpl_Remove(t *testing.T) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+		sv := NewExceptions(ctx)
+		err := sv.Remove("test")
+		if err != nil && err != qt_errors.ErrorMock {
+			t.Error(err)
 		}
 	})
 }

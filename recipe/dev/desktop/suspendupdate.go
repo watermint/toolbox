@@ -2,7 +2,7 @@ package desktop
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -49,7 +49,7 @@ func (z *Suspendupdate) Exec(c app_control.Control) error {
 }
 
 func (z *Suspendupdate) Test(c app_control.Control) error {
-	return qt_endtoend.NoTestRequired()
+	return qt_errors.ErrorNoTestRequired
 }
 
 func (z *Suspendupdate) Preset() {

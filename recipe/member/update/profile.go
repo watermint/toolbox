@@ -6,9 +6,13 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type ProfileRow struct {
@@ -18,9 +22,11 @@ type ProfileRow struct {
 }
 
 type Profile struct {
-	File         fd_file.RowFeed
-	Peer         rc_conn.ConnBusinessMgmt
-	OperationLog rp_model.TransactionReport
+	File                fd_file.RowFeed
+	Peer                rc_conn.ConnBusinessMgmt
+	OperationLog        rp_model.TransactionReport
+	ErrorMemberNotFound app_msg.Message
+	ProgressUpdating    app_msg.Message
 }
 
 func (z *Profile) Preset() {
@@ -29,7 +35,18 @@ func (z *Profile) Preset() {
 }
 
 func (z *Profile) Test(c app_control.Control) error {
-	return qt_endtoend.HumanInteractionRequired()
+	err := rc_exec.ExecMock(c, &Profile{}, func(r rc_recipe.Recipe) {
+		f, err := qt_file.MakeTestFile("member-update-profile", "john@example.com,john,smith\nalex@example.com,alex,king\n")
+		if err != nil {
+			return
+		}
+		m := r.(*Profile)
+		m.File.SetFilePath(f)
+	})
+	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		return e
+	}
+	return qt_errors.ErrorHumanInteractionRequired
 }
 
 func (z *Profile) Exec(c app_control.Control) error {
@@ -49,10 +66,7 @@ func (z *Profile) Exec(c app_control.Control) error {
 		m := row.(*ProfileRow)
 		member, ok := emailToMember[m.Email]
 		if !ok {
-			msg := app_msg.M("recipe.member.update.profile.err.member_not_found", app_msg.P{
-				"Email": m.Email,
-			})
-			z.OperationLog.Skip(msg, m)
+			z.OperationLog.Skip(z.ErrorMemberNotFound.With("Email", m.Email), m)
 			return nil
 		}
 
@@ -63,9 +77,7 @@ func (z *Profile) Exec(c app_control.Control) error {
 			member.Surname = m.Surname
 		}
 
-		ui.InfoK("recipe.member.update.profile.progress", app_msg.P{
-			"Email": m.Email,
-		})
+		ui.Info(z.ProgressUpdating.With("Email", m.Email))
 		r, err := sv_member.New(z.Peer.Context()).Update(member)
 		switch {
 		case err != nil:

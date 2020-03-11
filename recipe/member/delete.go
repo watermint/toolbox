@@ -5,8 +5,12 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type DeleteRow struct {
@@ -57,5 +61,16 @@ func (z *Delete) Exec(c app_control.Control) error {
 }
 
 func (z *Delete) Test(c app_control.Control) error {
-	return qt_endtoend.HumanInteractionRequired()
+	err := rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
+		f, err := qt_file.MakeTestFile("member-delete", "john@example.com\nsmith@example.net\n")
+		if err != nil {
+			return
+		}
+		m := r.(*Delete)
+		m.File.SetFilePath(f)
+	})
+	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		return err
+	}
+	return qt_errors.ErrorHumanInteractionRequired
 }

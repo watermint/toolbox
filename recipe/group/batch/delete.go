@@ -6,9 +6,11 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 )
 
 type GroupName struct {
@@ -54,7 +56,14 @@ func (z *Delete) Exec(c app_control.Control) error {
 }
 
 func (z *Delete) Test(c app_control.Control) error {
-	return qt_endtoend.ImplementMe()
+	return rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
+		tf, err := qt_file.MakeTestFile("group-batch-delete", "Marketing\nSales\n")
+		if err != nil {
+			return
+		}
+		m := r.(*Delete)
+		m.File.SetFilePath(tf)
+	})
 }
 
 func (z *Delete) Preset() {

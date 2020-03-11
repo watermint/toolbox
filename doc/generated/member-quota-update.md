@@ -30,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe member quota update 
+.\tbx.exe member quota update -file /path/to/file.csv
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx member quota update 
+$HOME/Desktop/tbx member quota update -file /path/to/file.csv
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -47,10 +47,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-file` | Data file     |         |
-| `-peer` | Account alias | default |
+| Option   | Description                                                               | Default |
+|----------|---------------------------------------------------------------------------|---------|
+| `-file`  | Data file                                                                 |         |
+| `-peer`  | Account alias                                                             | default |
+| `-quota` | Custom quota in GB (1TB = 1024GB). 0 if the user has no custom quota set. | 0       |
 
 Common options:
 

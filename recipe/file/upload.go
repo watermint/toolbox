@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"os"
 )
@@ -52,7 +52,7 @@ func (z *Upload) Test(c app_control.Control) error {
 	}
 	if file == "" {
 		l.Warn("No file to upload")
-		return qt_endtoend.NotEnoughResource()
+		return qt_errors.ErrorNotEnoughResource
 	}
 
 	{
