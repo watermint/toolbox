@@ -31,16 +31,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_audit"},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 2 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_audit"},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 2 identical fields
+  }
 
 ```
 
@@ -53,16 +53,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_file"},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 2 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_file"},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 2 identical fields
+  }
 
 ```
 
@@ -75,16 +75,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_info"},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 2 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_info"},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 2 identical fields
+  }
 
 ```
 
@@ -97,16 +97,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_management"},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 2 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_management"},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 2 identical fields
+  }
 
 ```
 
@@ -119,16 +119,170 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "user_full"},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 2 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "user_full"},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 2 identical fields
+  }
+
+```
+
+# Command spec changed: `group batch delete`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 3 identical fields
+  	Remarks:         "(Irreversible operation)",
+  	Path:            "group batch delete",
+- 	CliArgs:         "",
++ 	CliArgs:         "-file /path/to/file.csv",
+  	CliNote:         "",
+  	ConnUsePersonal: false,
+  	... // 8 identical fields
+  }
+
+```
+
+# Command spec changed: `member quota update`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 3 identical fields
+  	Remarks:         "",
+  	Path:            "member quota update",
+- 	CliArgs:         "",
++ 	CliArgs:         "-file /path/to/file.csv",
+  	CliNote:         "",
+  	ConnUsePersonal: false,
+  	... // 8 identical fields
+  }
+
+```
+
+# Command spec changed: `member replication`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 3 identical fields
+  	Remarks:         "(Irreversible operation)",
+  	Path:            "member replication",
+- 	CliArgs:         "",
++ 	CliArgs:         "-file /path/to/file.csv",
+  	CliNote:         "",
+  	ConnUsePersonal: false,
+  	... // 8 identical fields
+  }
+
+```
+
+# Command spec changed: `member update externalid`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 3 identical fields
+  	Remarks:         "",
+  	Path:            "member update externalid",
+- 	CliArgs:         "",
++ 	CliArgs:         "-file /path/to/file.csv",
+  	CliNote:         "",
+  	ConnUsePersonal: false,
+  	... // 8 identical fields
+  }
+
+```
+
+# Command spec changed: `team activity batch user`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 3 identical fields
+  	Remarks:         "",
+  	Path:            "team activity batch user",
+- 	CliArgs:         "",
++ 	CliArgs:         "-file /path/to/file.csv",
+  	CliNote:         "",
+  	ConnUsePersonal: false,
+  	... // 8 identical fields
+  }
+
+```
+
+# Command spec changed: `teamfolder batch archive`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 3 identical fields
+  	Remarks:         "",
+  	Path:            "teamfolder batch archive",
+- 	CliArgs:         "",
++ 	CliArgs:         "-file /path/to/file.csv",
+  	CliNote:         "",
+  	ConnUsePersonal: false,
+  	... // 8 identical fields
+  }
+
+```
+
+# Command spec changed: `teamfolder batch permdelete`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 3 identical fields
+  	Remarks:         "(Irreversible operation)",
+  	Path:            "teamfolder batch permdelete",
+- 	CliArgs:         "",
++ 	CliArgs:         "-file /path/to/file.csv",
+  	CliNote:         "",
+  	ConnUsePersonal: false,
+  	... // 8 identical fields
+  }
 
 ```
 
