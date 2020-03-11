@@ -144,26 +144,26 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		path := fmt.Sprintf("doc/generated%s/", suffix)
 		ll := l.With(zap.String("lang", lang), zap.String("suffix", suffix))
 
-		ll.Info("Clean up generated document folder")
-		if err := z.deleteOldGeneratedFiles(c, path); err != nil {
-			return err
-		}
-
-		ll.Info("Generating README & command documents")
-		err := rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
-			rr := r.(*Doc)
-			rr.Badge = true
-			rr.MarkdownReadme = true
-			rr.Lang = lang
-			rr.Filename = fmt.Sprintf("README%s.md", suffix)
-			rr.CommandPath = path
-		})
-		if err != nil {
-			l.Error("Failed to generate documents", zap.Error(err))
-			return err
-		}
-
 		if !c.IsTest() {
+			ll.Info("Clean up generated document folder")
+			if err := z.deleteOldGeneratedFiles(c, path); err != nil {
+				return err
+			}
+
+			ll.Info("Generating README & command documents")
+			err := rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
+				rr := r.(*Doc)
+				rr.Badge = true
+				rr.MarkdownReadme = true
+				rr.Lang = lang
+				rr.Filename = fmt.Sprintf("README%s.md", suffix)
+				rr.CommandPath = path
+			})
+			if err != nil {
+				l.Error("Failed to generate documents", zap.Error(err))
+				return err
+			}
+
 			ll.Info("Generating Spec document")
 			err = rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Doc)
