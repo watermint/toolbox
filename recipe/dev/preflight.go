@@ -121,7 +121,6 @@ func (z *Preflight) cloneSpec(c app_control.Control, path string, release int) e
 func (z *Preflight) Exec(c app_control.Control) error {
 	l := c.Log()
 	languages := []string{"en", "ja"}
-	languageSuffix := map[string]string{"en": "", "ja": "_ja"}
 
 	release := 0
 	if !c.IsTest() {
@@ -138,7 +137,10 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	}
 
 	for _, lang := range languages {
-		suffix := languageSuffix[lang]
+		suffix := ""
+		if lang != "en" {
+			suffix = "_" + lang
+		}
 		path := fmt.Sprintf("doc/generated%s/", suffix)
 		ll := l.With(zap.String("lang", lang), zap.String("suffix", suffix))
 
@@ -147,7 +149,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			return err
 		}
 
-		ll.Info("Generating README")
+		ll.Info("Generating README & command documents")
 		err := rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
 			rr := r.(*Doc)
 			rr.Badge = true
