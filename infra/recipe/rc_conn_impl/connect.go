@@ -2,6 +2,7 @@ package rc_conn_impl
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_context_impl"
@@ -14,6 +15,25 @@ import (
 const (
 	DefaultPeerName = "default"
 )
+
+func IsEndToEndTokenAllAvailable(ctl app_control.Control) bool {
+	tts := []string{
+		api_auth.DropboxTokenFull,
+		api_auth.DropboxTokenBusinessInfo,
+		api_auth.DropboxTokenBusinessFile,
+		api_auth.DropboxTokenBusinessManagement,
+		api_auth.DropboxTokenBusinessAudit,
+	}
+
+	for _, tt := range tts {
+		_, err := ConnectTest(tt, qt_endtoend.EndToEndPeer, ctl)
+		if err != nil {
+			ctl.Log().Debug("Token is not available for the token type", zap.String("tokenType", tt), zap.Error(err))
+			return false
+		}
+	}
+	return true
+}
 
 func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_context.Context, err error) {
 	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
@@ -50,14 +70,15 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 		return nil
 	}
 
+	if c, ok := ctl.(app_control.ControlTestExtension); ok {
+		if c.TestValue(qt_endtoend.CtlTestExtUseMock) == true {
+			l.Debug("Test with mock")
+			return api_context_impl.NewMock(ctl), nil
+		}
+	}
+
 	switch {
 	case ctl.IsTest():
-		if c, ok := ctl.(app_control.ControlTestExtension); ok {
-			if c.TestValue(qt_endtoend.CtlTestExtUseMock) == true {
-				l.Debug("Test with mock")
-				return api_context_impl.NewMock(ctl), nil
-			}
-		}
 		if qt_endtoend.IsSkipEndToEndTest() {
 			l.Debug("Skip end to end test")
 			return api_context_impl.NewMock(ctl), nil

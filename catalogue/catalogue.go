@@ -26,6 +26,7 @@ import (
 	recipedevciartifact "github.com/watermint/toolbox/recipe/dev/ci/artifact"
 	recipedevdesktop "github.com/watermint/toolbox/recipe/dev/desktop"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
+	recipedevrelease "github.com/watermint/toolbox/recipe/dev/release"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
@@ -86,6 +87,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipedev.Doc{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Dummy{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Echo{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevrelease.Candidate{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Preflight{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevci.Auth{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevciartifact.Up{}, infra_recipe_rc_recipe.Secret()),

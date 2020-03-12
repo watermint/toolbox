@@ -1,6 +1,7 @@
 package app_ui
 
 import (
+	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"go.uber.org/zap"
@@ -9,9 +10,10 @@ import (
 func NewQuiet(container app_msg_container.Container) UI {
 	q := container.(app_msg_container.Quality)
 	return &Quiet{
-		id: newId(),
-		mc: container,
-		mq: q,
+		id:  newId(),
+		mc:  container,
+		mq:  q,
+		log: app_root.Log(),
 	}
 }
 

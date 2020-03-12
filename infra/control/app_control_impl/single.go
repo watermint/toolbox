@@ -137,6 +137,25 @@ func (z *Single) With(mc app_msg_container.Container) app_control.Control {
 	}
 }
 
+func (z *Single) Quiet() app_control.Control {
+	ui := app_ui.NewQuiet(z.mc)
+
+	return &Single{
+		box:          z.box,
+		cap:          z.cap,
+		catalogue:    z.catalogue,
+		flc:          z.flc,
+		mc:           z.mc,
+		opts:         z.opts,
+		quiet:        z.quiet,
+		testResource: z.testResource,
+		ui:           ui,
+		web:          z.web,
+		ws:           z.ws,
+		testValues:   z.testValues, // do not clone
+	}
+}
+
 func (z *Single) Messages() app_msg_container.Container {
 	return z.mc
 }
@@ -162,6 +181,10 @@ func (z *Single) NewControl(user app_workspace.MultiUser) (ctl app_control.Contr
 }
 
 func (z *Single) NewTestControl(testResource gjson.Result) (ctl app_control.Control, err error) {
+	tv := make(map[string]interface{})
+	for k, v := range z.testValues {
+		tv[k] = v
+	}
 	ctl = &Single{
 		ui:           z.ui,
 		box:          z.box,
@@ -170,6 +193,7 @@ func (z *Single) NewTestControl(testResource gjson.Result) (ctl app_control.Cont
 		quiet:        z.quiet,
 		catalogue:    z.catalogue,
 		testResource: testResource,
+		testValues:   tv,
 	}
 	opts := make([]app_control.UpOpt, 0)
 	opts = append(opts, app_control.Test())

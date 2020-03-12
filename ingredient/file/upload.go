@@ -258,7 +258,7 @@ func (z *Upload) Test(c app_control.Control) error {
 	err := rc_exec.ExecMock(c, &Upload{}, func(r rc_recipe.Recipe) {
 		m := r.(*Upload)
 		m.Context = api_context_impl.NewMock(c)
-		m.LocalPath = mo_path.NewFileSystemPath(os.TempDir())
+		m.LocalPath = qt_recipe.NewTestFileSystemFolderPath(c, "up")
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("up")
 	})
 	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {

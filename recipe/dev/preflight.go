@@ -9,11 +9,13 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
+	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"github.com/watermint/toolbox/recipe/dev/spec"
 	"go.uber.org/zap"
+	"golang.org/x/text/language"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -120,7 +122,6 @@ func (z *Preflight) cloneSpec(c app_control.Control, path string, release int) e
 
 func (z *Preflight) Exec(c app_control.Control) error {
 	l := c.Log()
-	languages := []string{"en", "ja"}
 
 	release := 0
 	if !c.IsTest() {
@@ -136,13 +137,15 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		}
 	}
 
-	for _, lang := range languages {
+	for _, lang := range app_lang.SupportedLanguages {
 		suffix := ""
-		if lang != "en" {
-			suffix = "_" + lang
+		langBase, _, _ := lang.Raw()
+		langBaseStr := langBase.String()
+		if lang != language.English {
+			suffix = "_" + langBaseStr
 		}
 		path := fmt.Sprintf("doc/generated%s/", suffix)
-		ll := l.With(zap.String("lang", lang), zap.String("suffix", suffix))
+		ll := l.With(zap.String("lang", langBaseStr), zap.String("suffix", suffix))
 
 		if !c.IsTest() {
 			ll.Info("Clean up generated document folder")
@@ -155,7 +158,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				rr := r.(*Doc)
 				rr.Badge = true
 				rr.MarkdownReadme = true
-				rr.Lang = lang
+				rr.Lang = langBaseStr
 				rr.Filename = fmt.Sprintf("README%s.md", suffix)
 				rr.CommandPath = path
 			})
@@ -167,7 +170,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			ll.Info("Generating Spec document")
 			err = rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Doc)
-				rr.Lang = lang
+				rr.Lang = langBaseStr
 				rr.FilePath = filepath.Join(path, "spec.json")
 			})
 			if err != nil {
@@ -190,7 +193,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			ll.Info("Generating release notes")
 			err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Diff)
-				rr.Lang = lang
+				rr.Lang = langBaseStr
 				rr.Release1 = fmt.Sprintf("%d", release-1)
 				rr.FilePath = filepath.Join(path, "changes.md")
 			})

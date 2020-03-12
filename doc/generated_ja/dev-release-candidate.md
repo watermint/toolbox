@@ -1,6 +1,6 @@
-# dev test recipe 
+# dev release candidate 
 
-レシピのテスト 
+リリース候補を検査します 
 
 # 利用方法
 
@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe dev test recipe 
+.\tbx.exe dev release candidate 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx dev test recipe 
+$HOME/Desktop/tbx dev release candidate 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -29,12 +29,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション  | 説明                       | デフォルト |
-|-------------|----------------------------|------------|
-| `-all`      | 全てのレシピをテストします | false      |
-| `-recipe`   | テストするレシピ名         |            |
-| `-resource` | テスト用リソースへのパス   |            |
-| `-verbose`  | テスト結果の詳細出力       | false      |
+| オプション       | 説明                   | デフォルト             |
+|------------------|------------------------|------------------------|
+| `-test-resource` | テストリソースへのパス | test/dev/resource.json |
 
 共通のオプション:
 
