@@ -1,6 +1,6 @@
 # dev release publish 
 
-Publish release 
+リリースを公開します 
 
 # 利用方法
 
@@ -29,10 +29,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション       | 説明                  | デフォルト             |
-|------------------|-----------------------|------------------------|
-| `-artifact-path` | Path to artifacts     |                        |
-| `-test-resource` | Path to test resource | test/dev/resource.json |
+| オプション       | 説明                   | デフォルト             |
+|------------------|------------------------|------------------------|
+| `-artifact-path` | 成果物へのパス         |                        |
+| `-test-resource` | テストリソースへのパス | test/dev/resource.json |
 
 共通のオプション:
 

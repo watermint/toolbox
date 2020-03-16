@@ -137,7 +137,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	}
 
 	for _, lang := range app_lang.SupportedLanguages {
-		langCode := app_lang.LanguageCode(lang)
+		langCode := app_lang.Base(lang)
 		suffix := app_lang.PathSuffix(lang)
 
 		path := fmt.Sprintf("doc/generated%s/", suffix)

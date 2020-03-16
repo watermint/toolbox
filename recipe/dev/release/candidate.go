@@ -46,7 +46,7 @@ func (z *Candidate) verifyMessages(c app_control.Control) error {
 		if lang == language.English {
 			continue
 		}
-		code := app_lang.LanguageCode(lang)
+		code := app_lang.Base(lang)
 		suffix := app_lang.PathSuffix(lang)
 
 		ll := l.With(zap.String("Language", code))

@@ -567,7 +567,7 @@
   },
   "dev release publish": {
     "name": "publish",
-    "title": "Publish release",
+    "title": "リリースを公開します",
     "desc": "",
     "remarks": "",
     "path": "dev release publish",
