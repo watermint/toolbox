@@ -107,7 +107,13 @@ func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) error 
 	mui.Break()
 
 	mui.Header(z.HeadingChanges)
-	mui.Info(z.ListSpecChange.With("Link", baseUrl+"/doc/generated/changes.md"))
+
+	for _, lang := range app_lang.SupportedLanguages {
+		mui.Info(z.ListSpecChange.
+			With("Link", baseUrl+"/doc/generated"+app_lang.PathSuffix(lang)+"/changes.md").
+			With("Lang", display.Self.Name(lang)),
+		)
+	}
 
 	mui.Break()
 	mui.Header(z.HeadingDocument)

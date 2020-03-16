@@ -899,7 +899,7 @@
   "recipe.dev.release.publish.heading_document": "Documents",
   "recipe.dev.release.publish.heading_release_theme": "Release theme",
   "recipe.dev.release.publish.list_readme": "* [{{.Name}}]({{.Link}}) ({{.Lang}})",
-  "recipe.dev.release.publish.list_spec_change": "* [Specification changes]({{.Link}})",
+  "recipe.dev.release.publish.list_spec_change": "* [Specification changes]({{.Link}}) ({{.Lang}})",
   "recipe.dev.release.publish.title": "Publish release",
   "recipe.dev.release.title": "Release tool",
   "recipe.dev.spec.diff.change_feed_added": "Added feed(s)",

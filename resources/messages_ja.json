@@ -899,7 +899,7 @@
   "recipe.dev.release.publish.heading_document": "ドキュメント",
   "recipe.dev.release.publish.heading_release_theme": "リリース概要",
   "recipe.dev.release.publish.list_readme": "* [{{.Name}}]({{.Link}}) ({{.Lang}})",
-  "recipe.dev.release.publish.list_spec_change": "* [仕様変更点]({{.Link}})",
+  "recipe.dev.release.publish.list_spec_change": "* [仕様変更点]({{.Link}}) ({{.Lang}})",
   "recipe.dev.release.publish.title": "リリースを公開します",
   "recipe.dev.release.title": "リリースツール",
   "recipe.dev.spec.diff.change_feed_added": "追加されたフィード",

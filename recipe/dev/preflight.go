@@ -191,6 +191,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				rr := r.(*spec.Diff)
 				rr.Lang = langCode
 				rr.Release1 = fmt.Sprintf("%d", release-1)
+				rr.Release2 = fmt.Sprintf("%d", release)
 				rr.FilePath = filepath.Join(path, "changes.md")
 			})
 			if err != nil {
