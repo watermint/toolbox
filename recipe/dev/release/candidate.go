@@ -52,7 +52,7 @@ func (z *Candidate) verifyMessages(c app_control.Control) error {
 		ll := l.With(zap.String("Language", code))
 		ll.Info("Verify messages for language")
 
-		msgRaw, err := c.Resource(fmt.Sprintf("messages_%s.json", suffix))
+		msgRaw, err := c.Resource(fmt.Sprintf("messages%s.json", suffix))
 		if err != nil {
 			ll.Error("Unable to load message resource", zap.Error(err))
 			return err

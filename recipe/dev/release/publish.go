@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
@@ -14,6 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filehash"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
@@ -145,6 +147,13 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 	if c.IsTest() {
 		l.Info("Skip tests")
 		return nil
+	}
+
+	if c.IsProduction() {
+		l.Info("Prepare resources")
+		if err := api_auth_impl.CreateSecret(c, qt_endtoend.EndToEndPeer); err != nil {
+			return err
+		}
 	}
 
 	l.Info("Ensure end to end resource availability")
