@@ -138,6 +138,7 @@ func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) error 
 		return err
 	}
 	fmt.Println(buf.String())
+	l.Info("Release note created", zap.String("path", relNotesPath))
 
 	return nil
 }
@@ -207,6 +208,7 @@ func (z *Publish) Exec(c app_control.Control) error {
 		l.Warn("The build does not satisfy release criteria")
 		return ErrorBuildIsNotReadyForRelease
 	}
+	l.Info("The build is ready to publish")
 	return nil
 }
 
