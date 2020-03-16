@@ -15,7 +15,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"github.com/watermint/toolbox/recipe/dev/spec"
 	"go.uber.org/zap"
-	"golang.org/x/text/language"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -138,14 +137,11 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	}
 
 	for _, lang := range app_lang.SupportedLanguages {
-		suffix := ""
-		langBase, _, _ := lang.Raw()
-		langBaseStr := langBase.String()
-		if lang != language.English {
-			suffix = "_" + langBaseStr
-		}
+		langCode := app_lang.LanguageCode(lang)
+		suffix := app_lang.PathSuffix(lang)
+
 		path := fmt.Sprintf("doc/generated%s/", suffix)
-		ll := l.With(zap.String("lang", langBaseStr), zap.String("suffix", suffix))
+		ll := l.With(zap.String("lang", langCode), zap.String("suffix", suffix))
 
 		if !c.IsTest() {
 			ll.Info("Clean up generated document folder")
@@ -158,7 +154,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				rr := r.(*Doc)
 				rr.Badge = true
 				rr.MarkdownReadme = true
-				rr.Lang = langBaseStr
+				rr.Lang = langCode
 				rr.Filename = fmt.Sprintf("README%s.md", suffix)
 				rr.CommandPath = path
 			})
@@ -170,7 +166,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			ll.Info("Generating Spec document")
 			err = rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Doc)
-				rr.Lang = langBaseStr
+				rr.Lang = langCode
 				rr.FilePath = filepath.Join(path, "spec.json")
 			})
 			if err != nil {
@@ -193,7 +189,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			ll.Info("Generating release notes")
 			err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Diff)
-				rr.Lang = langBaseStr
+				rr.Lang = langCode
 				rr.Release1 = fmt.Sprintf("%d", release-1)
 				rr.FilePath = filepath.Join(path, "changes.md")
 			})

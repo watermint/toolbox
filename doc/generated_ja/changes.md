@@ -2,9 +2,10 @@
 
 # 追加されたコマンド
 
-| コマンド              | タイトル                   |
-|-----------------------|----------------------------|
-| dev release candidate | Validate release candidate |
+| コマンド              | タイトル                                               |
+|-----------------------|--------------------------------------------------------|
+| dev release candidate | Validate release candidate                             |
+| dev release publish   | {"key":"recipe.dev.release.publish.title","params":{}} |
 
 
 

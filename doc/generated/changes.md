@@ -5,6 +5,7 @@
 | Command               | Title                      |
 |-----------------------|----------------------------|
 | dev release candidate | Validate release candidate |
+| dev release publish   | Publish release            |
 
 
 

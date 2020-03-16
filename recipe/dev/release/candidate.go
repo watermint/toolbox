@@ -46,13 +46,13 @@ func (z *Candidate) verifyMessages(c app_control.Control) error {
 		if lang == language.English {
 			continue
 		}
-		langBase, _, _ := lang.Raw()
-		base := langBase.String()
+		code := app_lang.LanguageCode(lang)
+		suffix := app_lang.PathSuffix(lang)
 
-		ll := l.With(zap.String("Language", base))
+		ll := l.With(zap.String("Language", code))
 		ll.Info("Verify messages for language")
 
-		msgRaw, err := c.Resource(fmt.Sprintf("messages_%s.json", base))
+		msgRaw, err := c.Resource(fmt.Sprintf("messages_%s.json", suffix))
 		if err != nil {
 			ll.Error("Unable to load message resource", zap.Error(err))
 			return err
@@ -101,9 +101,11 @@ func (z *Candidate) Exec(c app_control.Control) error {
 	err = rc_exec.Exec(c, &test.Recipe{}, func(r rc_recipe.Recipe) {
 		m := r.(*test.Recipe)
 		m.All = true
-		_, err := os.Lstat(defaultTestResource)
+		_, err := os.Lstat(z.TestResource)
 		if err == nil {
-			m.Resource = defaultTestResource
+			m.Resource = z.TestResource
+		} else {
+			l.Warn("Unable to read test resource", zap.String("path", z.TestResource), zap.Error(err))
 		}
 	})
 	if err != nil {

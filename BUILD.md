@@ -70,3 +70,18 @@ Please run command `dev preflight` to ensure all message resources and documents
 $ cd /path/to/PROJECT_ROOT
 $ go run tbx.go dev preflight
 ``` 
+
+# Release process
+
+## Release candidate
+
+Please run command `dev release candidate` to verify & update resources for release ready.
+
+```bash
+$ cd /path/to/PROJECT_ROOT
+$ go run tbx.go dev release candidate 
+```
+
+## Publish Release
+
+Please run command `dev release publish` to create release notes.

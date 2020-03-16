@@ -565,6 +565,24 @@
     "reports": [],
     "feeds": []
   },
+  "dev release publish": {
+    "name": "publish",
+    "title": "Publish release",
+    "desc": "",
+    "remarks": "",
+    "path": "dev release publish",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
   "dev spec diff": {
     "name": "diff",
     "title": "2リリース間の仕様を比較します",
