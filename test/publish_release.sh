@@ -5,12 +5,11 @@ if [ x"$TOOLBOX_TEST_RESOURCE" != x"" ]; then
   TEST_ARGS="-test-resource $TOOLBOX_TEST_RESOURCE"
   echo Release proceeding with the test resource: $TOOLBOX_TEST_RESOURCE
 else
-  echo Release proceeding without test resources
+  echo Abort: Test resource is not found
+  exit 1
 fi
 
 mkdir -p publish/secrets
 cp $HOME/.toolbox/secrets/end_to_end_test.tokens publish/secrets
 
-cp $HOME/.toolbox/release/test_resource.json     publish/test_resource.json
-
-./tbx dev release publish -workspace $PWD/publish -artifact-path $PWD
+LC_ALL=C ./tbx dev release publish -workspace $PWD/publish -artifact-path $PWD $TEST_ARGS

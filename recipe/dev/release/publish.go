@@ -203,7 +203,7 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return err
 	}
 
-	if ready {
+	if !ready {
 		l.Warn("The build does not satisfy release criteria")
 		return ErrorBuildIsNotReadyForRelease
 	}

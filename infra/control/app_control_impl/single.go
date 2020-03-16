@@ -185,7 +185,7 @@ func (z *Single) NewTestControl(testResource gjson.Result) (ctl app_control.Cont
 	for k, v := range z.testValues {
 		tv[k] = v
 	}
-	ctl = &Single{
+	sc := &Single{
 		ui:           z.ui,
 		box:          z.box,
 		web:          z.web,
@@ -194,15 +194,16 @@ func (z *Single) NewTestControl(testResource gjson.Result) (ctl app_control.Cont
 		catalogue:    z.catalogue,
 		testResource: testResource,
 		testValues:   tv,
+		ws:           z.ws,
 	}
 	opts := make([]app_control.UpOpt, 0)
 	opts = append(opts, app_control.Test())
 	opts = append(opts, app_control.Concurrency(runtime.NumCPU()))
-	err = ctl.Up(opts...)
+	err = sc.upWithWorkspace(z.ws, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ctl, nil
+	return sc, nil
 }
 
 func (z *Single) NewQueue() rc_worker.Queue {
@@ -241,7 +242,13 @@ func (z *Single) Resource(key string) (bin []byte, err error) {
 	return z.box.Bytes(key)
 }
 
-func (z *Single) upWithWorkspace(ws app_workspace.Workspace) (err error) {
+func (z *Single) upWithWorkspace(ws app_workspace.Workspace, opts ...app_control.UpOpt) (err error) {
+	if z.opts == nil {
+		z.opts = &app_control.UpOpts{}
+	}
+	for _, o := range opts {
+		o(z.opts)
+	}
 	sl := &app_job.StartLog{
 		Name:        z.opts.RecipeName,
 		ValueObject: z.opts.RecipeOptions,
