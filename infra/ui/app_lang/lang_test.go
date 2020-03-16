@@ -24,25 +24,25 @@ func TestPathSuffix(t *testing.T) {
 }
 
 func TestSelect(t *testing.T) {
-	if sel := Select("en"); sel != language.English {
+	if sel := Base(Select("en")); sel != "en" {
 		t.Error(sel)
 	}
-	if sel := Select("en-US"); sel != language.English {
+	if sel := Base(Select("en-US")); sel != "en" {
 		t.Error(sel)
 	}
 
-	if sel := Select("ja-Jpan-JP"); sel != language.Japanese {
+	if sel := Base(Select("ja-Jpan-JP")); sel != "ja" {
 		t.Error(sel)
 	}
-	if sel := Select("ja-JP"); sel != language.Japanese {
+	if sel := Base(Select("ja-JP")); sel != "ja" {
 		t.Error(sel)
 	}
-	if sel := Select("ja"); sel != language.Japanese {
+	if sel := Base(Select("ja")); sel != "ja" {
 		t.Error(sel)
 	}
 
 	// fallback to English
-	if sel := Select("und"); sel != language.English {
+	if sel := Base(Select("und")); sel != "en" {
 		t.Error(sel)
 	}
 }
