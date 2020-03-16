@@ -54,7 +54,7 @@ func (z *Download) Exec(c app_control.Control) error {
 func (z *Download) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Download{}, func(r rc_recipe.Recipe) {
 		m := r.(*Download)
-		m.LocalPath = mo_path.NewFileSystemPath(os.TempDir())
+		m.LocalPath = qt_recipe.NewTestFileSystemFolderPath(c, "download")
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("file-download")
 	})
 }

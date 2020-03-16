@@ -20,6 +20,7 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_memory"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
 	"io"
@@ -36,6 +37,10 @@ const (
 
 func NewTestDropboxFolderPath(rel ...string) mo_path.DropboxPath {
 	return mo_path.NewDropboxPath("/" + TestTeamFolderName).ChildPath(rel...)
+}
+
+func NewTestFileSystemFolderPath(c app_control.Control, name string) mo_path.FileSystemPath {
+	return mo_path.NewFileSystemPath(qt_file.MustMakeTestFolder(c, name, true))
 }
 
 func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {
@@ -105,23 +110,23 @@ func RecipeError(l *zap.Logger, err error) (resolvedErr error, cont bool) {
 	}
 	switch err {
 	case qt_errors.ErrorNoTestRequired:
-		l.Info("Skip: No test required for this recipe")
+		l.Debug("Skip: No test required for this recipe")
 		return nil, false
 
 	case qt_errors.ErrorHumanInteractionRequired:
-		l.Info("Skip: Human interaction required for this test")
+		l.Debug("Skip: Human interaction required for this test")
 		return nil, false
 
 	case qt_errors.ErrorNotEnoughResource:
-		l.Info("Skip: Not enough resource")
+		l.Debug("Skip: Not enough resource")
 		return nil, false
 
 	case qt_errors.ErrorScenarioTest:
-		l.Info("Skip: Implemented as scenario test")
+		l.Debug("Skip: Implemented as scenario test")
 		return nil, false
 
 	case qt_errors.ErrorImplementMe:
-		l.Warn("Test is not implemented for this recipe")
+		l.Debug("Test is not implemented for this recipe")
 		return nil, false
 
 	case qt_errors.ErrorMock:

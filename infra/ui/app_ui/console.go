@@ -107,11 +107,7 @@ func CloneConsole(ui UI, mc app_msg_container.Container) UI {
 		}
 
 	case *Quiet:
-		return &Quiet{
-			id:  newId(),
-			mc:  mc,
-			log: u.log,
-		}
+		return NewQuiet(mc)
 
 	default:
 		app_root.Log().Error("Unsupported UI type")

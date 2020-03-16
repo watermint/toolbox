@@ -13,7 +13,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"os"
 )
 
 type Local struct {
@@ -64,7 +63,7 @@ func (z *Local) Exec(c app_control.Control) error {
 func (z *Local) Test(c app_control.Control) error {
 	err := rc_exec.ExecMock(c, &Local{}, func(r rc_recipe.Recipe) {
 		m := r.(*Local)
-		m.LocalPath = mo_path.NewFileSystemPath(os.TempDir())
+		m.LocalPath = qt_recipe.NewTestFileSystemFolderPath(c, "compare")
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("compare")
 	})
 	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {

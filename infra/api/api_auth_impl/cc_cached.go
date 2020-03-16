@@ -52,10 +52,11 @@ func (z *CcCachedAuth) Auth(tokenType string) (ctx api_context.Context, err erro
 }
 
 func (z *CcCachedAuth) init() {
+	l := z.control.Log()
 	z.tokens = make(map[string]string)
 
-	if z.loadFile() == nil {
-		return // return on success
+	if err := z.loadFile(); err != nil {
+		l.Debug("Unable to load file", zap.Error(err))
 	}
 }
 
@@ -242,4 +243,31 @@ func CreateCompatible(c app_control.Control, peerName string) error {
 	a.init()
 
 	return a.convertToCompatible()
+}
+
+func CreateSecret(c app_control.Control, peerName string) error {
+	l := c.Log()
+	l.Debug("Converting existing compatible token file into secure version", zap.String("BUILDER_KEY", app.BuilderKey))
+
+	a := CcCachedAuth{
+		peerName: peerName,
+		control:  c,
+		auth:     nil,
+	}
+	a.init()
+	if e, _ := a.loadCompatibleFile(); !e {
+		l.Debug("Unable to load compatible file")
+		return errors.New("compatible file not found")
+	}
+	t, err := json.Marshal(a.tokens)
+	if err != nil {
+		l.Debug("Unable to marshal token file", zap.Error(err))
+		return err
+	}
+	if err := a.updateSecure(t); err != nil {
+		l.Debug("Unable to update token file thru secure method", zap.Error(err))
+		return err
+	}
+	l.Debug("Secure token file created")
+	return nil
 }

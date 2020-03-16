@@ -42,3 +42,15 @@ func Select(bcp47 string) language.Tag {
 
 	return l
 }
+
+func Base(l language.Tag) string {
+	base, _, _ := l.Raw()
+	return base.String()
+}
+
+func PathSuffix(l language.Tag) string {
+	if l == language.English {
+		return ""
+	}
+	return "_" + Base(l)
+}

@@ -50,7 +50,7 @@ func (z *Doc) Exec(c app_control.Control) error {
 func (z *Doc) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Doc{}, func(r rc_recipe.Recipe) {
 		m := r.(*Doc)
-		m.LocalPath = mo_path.NewFileSystemPath(os.TempDir())
+		m.LocalPath = qt_recipe.NewTestFileSystemFolderPath(c, "export-doc")
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("file-export-doc")
 	})
 }

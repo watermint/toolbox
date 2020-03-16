@@ -1,6 +1,6 @@
-# dev test recipe 
+# dev release candidate 
 
-Test recipe 
+Validate release candidate 
 
 # Usage
 
@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe dev test recipe 
+.\tbx.exe dev release candidate 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx dev test recipe 
+$HOME/Desktop/tbx dev release candidate 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -29,12 +29,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option      | Description                | Default |
-|-------------|----------------------------|---------|
-| `-all`      | Test all recipes           | false   |
-| `-recipe`   | Recipe name to test        |         |
-| `-resource` | Test resource file path    |         |
-| `-verbose`  | Verbose output for testing | false   |
+| Option           | Description                        | Default                |
+|------------------|------------------------------------|------------------------|
+| `-test-resource` | Path to the test resource location | test/dev/resource.json |
 
 Common options:
 
