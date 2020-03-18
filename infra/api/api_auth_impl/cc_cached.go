@@ -20,6 +20,10 @@ import (
 	"path/filepath"
 )
 
+var (
+	ErrorCompatibleFileNotFound = errors.New("compatible file not found")
+)
+
 type CcCachedAuth struct {
 	peerName string
 	tokens   map[string]string
@@ -257,7 +261,7 @@ func CreateSecret(c app_control.Control, peerName string) error {
 	a.init()
 	if e, _ := a.loadCompatibleFile(); !e {
 		l.Debug("Unable to load compatible file")
-		return errors.New("compatible file not found")
+		return ErrorCompatibleFileNotFound
 	}
 	t, err := json.Marshal(a.tokens)
 	if err != nil {

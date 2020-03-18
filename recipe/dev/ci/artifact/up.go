@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"io/ioutil"
 	"os"
@@ -17,6 +16,7 @@ import (
 )
 
 type Up struct {
+	PeerName    string
 	LocalPath   mo_path.FileSystemPath
 	DropboxPath mo_path.DropboxPath
 	Upload      *file.Upload
@@ -27,7 +27,7 @@ func (z *Up) Preset() {
 
 func (z *Up) Exec(c app_control.Control) error {
 	l := c.Log()
-	a := api_auth_impl.NewCached(c, api_auth_impl.PeerName(qt_endtoend.EndToEndPeer))
+	a := api_auth_impl.NewCached(c, api_auth_impl.PeerName(z.PeerName))
 	ctx, err := a.Auth(api_auth.DropboxTokenFull)
 	if err != nil {
 		l.Info("Skip operation")

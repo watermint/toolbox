@@ -1,11 +1,2 @@
-# Changes between `Release 60` to `Release 61`
-
-# Commands added
-
-| Command               | Title                      |
-|-----------------------|----------------------------|
-| dev release candidate | Validate release candidate |
-| dev release publish   | Publish release            |
-
-
+# Changes between `Release 61` to `Release 62`
 

@@ -13,7 +13,6 @@ jobs:
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
       - run: ./build.sh
-      - run: go run tbx.go dev ci artifact up -dropbox-path /watermint-toolbox-build -local-path /go/src/github.com/watermint/toolbox/dist
       - store_artifacts:
           path: /go/src/github.com/watermint/toolbox/dist
 
