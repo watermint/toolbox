@@ -84,7 +84,7 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 	if mkResErr != nil {
 		l.Debug("Unable to make http response", zap.Error(mkResErr))
 		cp.NoResponse(req, err, latency.Nanoseconds())
-		return retryOnError(err)
+		return retryOnError(mkResErr)
 	}
 	cp.WithResponse(req, res, err, latency.Nanoseconds())
 

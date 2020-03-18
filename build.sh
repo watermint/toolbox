@@ -137,10 +137,6 @@ done
 cp test/publish_release.sh $BUILD_PATH
 ( cd $BUILD_PATH && zip -0 $DIST_PATH/tbx-"$BUILD_VERSION".zip *.zip publish_release.*)
 
-if [ ""x != "$CIRCLE_BUILD_URL"x ]; then
-  echo Artifact: "$CIRCLE_BUILD_URL"/"$CIRCLE_NODE_INDEX"/$DIST_PATH/tbx-"$BUILD_VERSION".zip
-fi
-
 if [ x"$TOOLBOX_DEPLOY_TOKEN" = x"" ]; then
   exit 0
 fi
