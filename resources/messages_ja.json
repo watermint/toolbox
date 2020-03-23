@@ -830,6 +830,7 @@
   "recipe.dev.ci.artifact.title": "CI成果物",
   "recipe.dev.ci.artifact.up.flag.dropbox_path": "アップロード先Dropboxパス",
   "recipe.dev.ci.artifact.up.flag.local_path": "アップロードするローカルファイルのパス",
+  "recipe.dev.ci.artifact.up.flag.peer_name": "アカウントの別名",
   "recipe.dev.ci.artifact.up.title": "CI成果物をアップロードします",
   "recipe.dev.ci.auth.conn.audit": "Dropbox Business Audit スコープで認証",
   "recipe.dev.ci.auth.conn.file": "Dropbox Business member file access スコープで認証",

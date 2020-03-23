@@ -137,6 +137,13 @@ done
 cp test/publish_release.sh $BUILD_PATH
 ( cd $BUILD_PATH && zip -0 $DIST_PATH/tbx-"$BUILD_VERSION".zip *.zip publish_release.*)
 
-if [ ""x != "$CIRCLE_BUILD_URL"x ]; then
-  echo Artifact: "$CIRCLE_BUILD_URL"/"$CIRCLE_NODE_INDEX"/$DIST_PATH/tbx-"$BUILD_VERSION".zip
+if [ x"$TOOLBOX_DEPLOY_TOKEN" = x"" ]; then
+  exit 0
 fi
+
+echo --------------------
+echo BUILD: Deploying
+
+echo "$TOOLBOX_DEPLOY_TOKEN" > $HOME/.toolbox/secrets/deploy.tokens
+cd $PROJECT_ROOT
+go run tbx.go dev ci artifact up -dropbox-path /watermint-toolbox-build -local-path $DIST_PATH -peer-name deploy

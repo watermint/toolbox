@@ -33,6 +33,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |-----------------|------------------------|---------|
 | `-dropbox-path` | Dropbox path to upload |         |
 | `-local-path`   | Local path to upload   |         |
+| `-peer-name`    | Account alias          |         |
 
 Common options:
 

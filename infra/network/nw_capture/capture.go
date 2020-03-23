@@ -114,7 +114,9 @@ func (z *captureImpl) NoResponse(req api_request.Request, resErr error, latency 
 
 	// response
 	rs := Res{}
-	rs.ResponseError = resErr.Error()
+	if resErr != nil {
+		rs.ResponseError = resErr.Error()
+	}
 
 	z.capture.Debug("",
 		zap.Any("req", rq),
