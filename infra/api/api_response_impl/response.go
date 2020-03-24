@@ -37,7 +37,7 @@ func New(ctx api_context.Context, req *http.Request, res *http.Response) (api_re
 
 	result := ""
 	if res.Header != nil {
-		result = res.Header.Get(api_response.ResHeaderApiResult)
+		result = res.Header.Get(api_response.DropboxApiResHeaderResult)
 	}
 	if result != "" {
 		resFile, err := ioutil.TempFile("", ctx.Hash())

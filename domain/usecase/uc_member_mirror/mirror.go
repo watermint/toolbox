@@ -16,7 +16,7 @@ type Mirror interface {
 	Mirror(srcEmail, dstEmail string) error
 }
 
-func New(ctxFileSrc, ctxFileDst api_context.Context) Mirror {
+func New(ctxFileSrc, ctxFileDst api_context.DropboxApiContext) Mirror {
 	return &mirrorImpl{
 		ctxFileSrc: ctxFileSrc,
 		ctxFileDst: ctxFileDst,
@@ -24,8 +24,8 @@ func New(ctxFileSrc, ctxFileDst api_context.Context) Mirror {
 }
 
 type mirrorImpl struct {
-	ctxFileSrc api_context.Context
-	ctxFileDst api_context.Context
+	ctxFileSrc api_context.DropboxApiContext
+	ctxFileDst api_context.DropboxApiContext
 }
 
 func (z *mirrorImpl) log() *zap.Logger {

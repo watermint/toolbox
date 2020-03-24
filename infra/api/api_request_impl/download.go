@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/network/nw_retry"
 	"go.uber.org/zap"
 	"net/http"
@@ -86,8 +87,9 @@ func (z *downloadRequestImpl) Make() (req *http.Request, err error) {
 	if _, err := z.dbxReq.decorate(req); err != nil {
 		return nil, err
 	}
+	req.Header.Add(api_request.ReqHeaderUserAgent, app.UserAgent())
 	req.Header.Add(api_request.ReqHeaderContentType, "application/octet-stream")
-	req.Header.Add(api_request.ReqHeaderArg, z.paramString)
+	req.Header.Add(api_request.ReqHeaderDropboxApiArg, z.paramString)
 	z.contentLength = 0
 
 	z.headers = make(map[string]string)

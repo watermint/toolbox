@@ -18,13 +18,17 @@ type Context interface {
 	Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request
 	Download(endpoint string) api_request.Request
 
-	AsMemberId(teamMemberId string) Context
-	AsAdminId(teamMemberId string) Context
-	WithPath(pathRoot PathRoot) Context
 	NoRetryOnError() Context
 	IsNoRetry() bool
 	Hash() string
 	NoAuth() Context
+}
+
+type DropboxApiContext interface {
+	Context
+	AsMemberId(teamMemberId string) DropboxApiContext
+	AsAdminId(teamMemberId string) DropboxApiContext
+	WithPath(pathRoot PathRoot) DropboxApiContext
 }
 
 type CaptureContext interface {

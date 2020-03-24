@@ -24,7 +24,7 @@ import (
 type ListWorker struct {
 	namespace        *mo_namespace.Namespace
 	idToMember       map[string]*mo_member.Member
-	ctx              api_context.Context
+	ctx              api_context.DropboxApiContext
 	ctl              app_control.Control
 	rep              rp_model.RowReport
 	IncludeMediaInfo bool

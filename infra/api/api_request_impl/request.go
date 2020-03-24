@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
@@ -140,14 +141,15 @@ type dbxRequest struct {
 func (z *dbxRequest) decorate(req *http.Request) (r *http.Request, err error) {
 	l := app_root.Log()
 
+	req.Header.Add(api_request.ReqHeaderUserAgent, app.UserAgent())
 	if z.token.TokenType != api_auth.DropboxTokenNoAuth {
 		req.Header.Add(api_request.ReqHeaderAuthorization, "Bearer "+z.token.Token)
 	}
 	if z.asAdminId != "" {
-		req.Header.Add(api_request.ReqHeaderSelectAdmin, z.asAdminId)
+		req.Header.Add(api_request.ReqHeaderDropboxApiSelectAdmin, z.asAdminId)
 	}
 	if z.asMemberId != "" {
-		req.Header.Add(api_request.ReqHeaderSelectUser, z.asMemberId)
+		req.Header.Add(api_request.ReqHeaderDropboxApiSelectUser, z.asMemberId)
 	}
 	if z.base != nil {
 		pr, err := json.Marshal(z.base)
@@ -155,7 +157,7 @@ func (z *dbxRequest) decorate(req *http.Request) (r *http.Request, err error) {
 			l.Debug("unable to marshal path root", zap.Error(err))
 			return nil, err
 		}
-		req.Header.Add(api_request.ReqHeaderPathRoot, string(pr))
+		req.Header.Add(api_request.ReqHeaderDropboxApiPathRoot, string(pr))
 	}
 	return req, nil
 }

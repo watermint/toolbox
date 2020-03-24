@@ -23,7 +23,7 @@ import (
 
 type ExpiryScanWorker struct {
 	ctl        app_control.Control
-	ctx        api_context.Context
+	ctx        api_context.DropboxApiContext
 	rep        rp_model.TransactionReport
 	repSkipped rp_model.RowReport
 	member     *mo_member.Member

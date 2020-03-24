@@ -97,7 +97,7 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 	case http.StatusOK:
 		return res, nil
 
-	case api_response.ErrorBadInputParam: // Bad input param
+	case api_response.DropboxApiErrorBadInputParam: // Bad input param
 		// In case of the server returned unexpected HTML response
 		// Response body should be plain text
 		if strings.HasPrefix(res.ResultString(), "<!DOCTYPE html>") {
@@ -110,24 +110,24 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 		l.Debug("Bad input param", zap.String("Error", res.ResultString()))
 		return nil, api_error.ParseApiError(res.ResultString())
 
-	case api_response.ErrorBadOrExpiredToken: // Bad or expired token
+	case api_response.DropboxApiErrorBadOrExpiredToken: // Bad or expired token
 		l.Debug("Bad or expired token", zap.String("Error", res.ResultString()))
 		return nil, api_error.ParseApiError(res.ResultString())
 
-	case api_response.ErrorAccessError: // Access Error
+	case api_response.DropboxApiErrorAccessError: // Access Error
 		l.Debug("Access Error", zap.String("Error", res.ResultString()))
 		return nil, api_error.ParseAccessError(res.ResultString())
 
-	case api_response.ErrorEndpointSpecific: // Endpoint specific
+	case api_response.DropboxApiErrorEndpointSpecific: // Endpoint specific
 		l.Debug("Endpoint specific error", zap.String("Error", res.ResultString()))
 		return nil, api_error.ParseApiError(res.ResultString())
 
-	case api_response.ErrorNoPermission: // No permission
+	case api_response.DropboxApiErrorNoPermission: // No permission
 		l.Debug("No Permission", zap.String("Error", res.ResultString()))
 		return nil, api_error.ParseAccessError(res.ResultString())
 
-	case api_response.ErrorRateLimit: // Rate limit
-		retryAfter := res.Header(api_response.ResHeaderRetryAfter)
+	case api_response.DropboxApiErrorRateLimit: // Rate limit
+		retryAfter := res.Header(api_response.DropboxApiResHeaderRetryAfter)
 		retryAfterSec, err := strconv.Atoi(retryAfter)
 		if err != nil {
 			l.Debug("Unable to parse header for RateLimit, retry with predefined interval",

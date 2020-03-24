@@ -6,12 +6,13 @@ import (
 )
 
 const (
-	ReqHeaderContentType   = "Content-Type"
-	ReqHeaderAuthorization = "Authorization"
-	ReqHeaderSelectUser    = "Dropbox-API-Select-User"
-	ReqHeaderSelectAdmin   = "Dropbox-API-Select-Admin"
-	ReqHeaderPathRoot      = "Dropbox-API-Path-Root"
-	ReqHeaderArg           = "Dropbox-API-Arg"
+	ReqHeaderContentType           = "Content-Type"
+	ReqHeaderAuthorization         = "Authorization"
+	ReqHeaderUserAgent             = "User-Agent"
+	ReqHeaderDropboxApiSelectUser  = "Dropbox-API-Select-User"
+	ReqHeaderDropboxApiSelectAdmin = "Dropbox-API-Select-Admin"
+	ReqHeaderDropboxApiPathRoot    = "Dropbox-API-Path-Root"
+	ReqHeaderDropboxApiArg         = "Dropbox-API-Arg"
 )
 
 type Request interface {

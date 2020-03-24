@@ -19,7 +19,7 @@ import (
 	"sync"
 )
 
-func New(control app_control.Control, token api_auth.TokenContainer) api_context.Context {
+func New(control app_control.Control, token api_auth.TokenContainer) api_context.DropboxApiContext {
 	c := &ccImpl{
 		control:        control,
 		tokenContainer: token,
@@ -125,7 +125,7 @@ func (z *ccImpl) Download(endpoint string) api_request.Request {
 	)
 }
 
-func (z *ccImpl) AsMemberId(teamMemberId string) api_context.Context {
+func (z *ccImpl) AsMemberId(teamMemberId string) api_context.DropboxApiContext {
 	return &ccImpl{
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
@@ -136,7 +136,7 @@ func (z *ccImpl) AsMemberId(teamMemberId string) api_context.Context {
 	}
 }
 
-func (z *ccImpl) AsAdminId(teamMemberId string) api_context.Context {
+func (z *ccImpl) AsAdminId(teamMemberId string) api_context.DropboxApiContext {
 	return &ccImpl{
 		control:        z.control,
 		tokenContainer: z.tokenContainer,
@@ -147,7 +147,7 @@ func (z *ccImpl) AsAdminId(teamMemberId string) api_context.Context {
 	}
 }
 
-func (z *ccImpl) WithPath(pathRoot api_context.PathRoot) api_context.Context {
+func (z *ccImpl) WithPath(pathRoot api_context.PathRoot) api_context.DropboxApiContext {
 	return &ccImpl{
 		control:        z.control,
 		tokenContainer: z.tokenContainer,

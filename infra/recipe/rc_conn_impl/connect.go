@@ -16,6 +16,10 @@ const (
 	DefaultPeerName = "default"
 )
 
+var (
+	ErrorIncompatibleTokenType = errors.New("incompatible token type")
+)
+
 func IsEndToEndTokenAllAvailable(ctl app_control.Control) bool {
 	tts := []string{
 		api_auth.DropboxTokenFull,
@@ -35,7 +39,7 @@ func IsEndToEndTokenAllAvailable(ctl app_control.Control) bool {
 	return true
 }
 
-func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_context.Context, err error) {
+func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_context.DropboxApiContext, err error) {
 	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
 	l.Debug("Connect for testing")
 	if qt_endtoend.IsSkipEndToEndTest() {
@@ -43,23 +47,33 @@ func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_c
 	}
 	a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(peerName))
 	if c, err := a.Auth(tokenType); err == nil {
-		return c, nil
+		if dc, ok := c.(api_context.DropboxApiContext); ok {
+			return dc, nil
+		} else {
+			l.Debug("Incompatible token type found", zap.Any("token", c))
+			return nil, ErrorIncompatibleTokenType
+		}
 	}
 
 	// fallback to end to end peer
 	a = api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(qt_endtoend.EndToEndPeer))
 	if c, err := a.Auth(tokenType); err == nil {
-		return c, nil
+		if dc, ok := c.(api_context.DropboxApiContext); ok {
+			return dc, nil
+		} else {
+			l.Debug("Incompatible token type found", zap.Any("returned token", c))
+			return nil, ErrorIncompatibleTokenType
+		}
 	} else {
 		return nil, qt_errors.ErrorNotEnoughResource
 	}
 }
 
-func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (ctx api_context.Context, err error) {
+func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (ctx api_context.DropboxApiContext, err error) {
 	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
 	ui := ctl.UI()
 
-	verifyToken := func(ctx0 api_context.Context) error {
+	verifyToken := func(ctx0 api_context.DropboxApiContext) error {
 		if verify {
 			desc, suppl, err0 := api_auth_impl.VerifyToken(tokenType, ctx0)
 			if err0 == nil {
@@ -88,11 +102,17 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 	case ui.IsConsole():
 		l.Debug("Connect through console UI")
 		c := api_auth_impl.New(ctl, api_auth_impl.PeerName(peerName))
-		ctx, err = c.Auth(tokenType)
-		if err == nil {
-			err = verifyToken(ctx)
+		ctx0, err := c.Auth(tokenType)
+		if err != nil {
+			return nil, err
 		}
-		return
+		ctx, ok := ctx0.(api_context.DropboxApiContext)
+		if !ok {
+			l.Debug("Incompatible token type found", zap.Any("token", ctx0))
+			return nil, ErrorIncompatibleTokenType
+		}
+		err = verifyToken(ctx)
+		return ctx, nil
 
 	case ui.IsWeb():
 		l.Debug("Connect through web UI")

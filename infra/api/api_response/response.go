@@ -6,14 +6,14 @@ import (
 )
 
 const (
-	ResHeaderRetryAfter    = "Rewind-After"
-	ResHeaderApiResult     = "Dropbox-API-Result"
-	ErrorBadInputParam     = 400
-	ErrorBadOrExpiredToken = 401
-	ErrorAccessError       = 403
-	ErrorEndpointSpecific  = 409
-	ErrorNoPermission      = 422
-	ErrorRateLimit         = 429
+	DropboxApiResHeaderRetryAfter    = "Rewind-After"
+	DropboxApiResHeaderResult        = "Dropbox-API-Result"
+	DropboxApiErrorBadInputParam     = 400
+	DropboxApiErrorBadOrExpiredToken = 401
+	DropboxApiErrorAccessError       = 403
+	DropboxApiErrorEndpointSpecific  = 409
+	DropboxApiErrorNoPermission      = 422
+	DropboxApiErrorRateLimit         = 429
 )
 
 type Response interface {

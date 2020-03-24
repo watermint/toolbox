@@ -21,7 +21,7 @@ import (
 
 type SizeWorker struct {
 	namespace *mo_namespace.Namespace
-	ctx       api_context.Context
+	ctx       api_context.DropboxApiContext
 	ctl       app_control.Control
 	rep       rp_model.TransactionReport
 	depth     int

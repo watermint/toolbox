@@ -582,7 +582,7 @@ func (z *Replication) Mount(c app_control.Control, ctx Context, scope Scope) (er
 	}
 
 	// Ensure access
-	ensureAccess := func(admin *mo_profile.Profile, ctx api_context.Context, folder *mo_teamfolder.TeamFolder) error {
+	ensureAccess := func(admin *mo_profile.Profile, ctx api_context.DropboxApiContext, folder *mo_teamfolder.TeamFolder) error {
 		mount, ensureErr := sv_sharedfolder.New(ctx.AsMemberId(admin.TeamMemberId)).Resolve(folder.TeamFolderId)
 		if ensureErr != nil {
 			return ensureErr

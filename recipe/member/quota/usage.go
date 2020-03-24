@@ -22,7 +22,7 @@ type UsageVO struct {
 
 type UsageWorker struct {
 	member *mo_member.Member
-	ctx    api_context.Context
+	ctx    api_context.DropboxApiContext
 	ctl    app_control.Control
 	rep    rp_model.RowReport
 }

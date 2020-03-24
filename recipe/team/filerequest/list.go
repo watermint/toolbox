@@ -18,7 +18,7 @@ import (
 
 type ListWorker struct {
 	member *mo_member.Member
-	conn   api_context.Context
+	conn   api_context.DropboxApiContext
 	rep    rp_model.RowReport
 	ctl    app_control.Control
 }

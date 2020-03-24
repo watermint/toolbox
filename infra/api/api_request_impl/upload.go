@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/network/nw_retry"
 	"github.com/watermint/toolbox/infra/util/ut_io"
@@ -91,8 +92,9 @@ func (z *uploadRequestImpl) Make() (req *http.Request, err error) {
 		return nil, err
 	}
 
+	req.Header.Add(api_request.ReqHeaderUserAgent, app.UserAgent())
 	req.Header.Add(api_request.ReqHeaderContentType, "application/octet-stream")
-	req.Header.Add(api_request.ReqHeaderArg, z.paramString)
+	req.Header.Add(api_request.ReqHeaderDropboxApiArg, z.paramString)
 
 	z.contentLength = z.content.Length()
 	z.headers = make(map[string]string)

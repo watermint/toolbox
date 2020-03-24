@@ -13,7 +13,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func NewMock(c app_control.Control) api_context.Context {
+func NewMock(c app_control.Control) api_context.DropboxApiContext {
 	return &Mock{l: c.Log()}
 }
 
@@ -49,15 +49,15 @@ func (z *Mock) Download(endpoint string) api_request.Request {
 	return &api_request_impl.MockRequest{}
 }
 
-func (z *Mock) AsMemberId(teamMemberId string) api_context.Context {
+func (z *Mock) AsMemberId(teamMemberId string) api_context.DropboxApiContext {
 	return z
 }
 
-func (z *Mock) AsAdminId(teamMemberId string) api_context.Context {
+func (z *Mock) AsAdminId(teamMemberId string) api_context.DropboxApiContext {
 	return z
 }
 
-func (z *Mock) WithPath(pathRoot api_context.PathRoot) api_context.Context {
+func (z *Mock) WithPath(pathRoot api_context.PathRoot) api_context.DropboxApiContext {
 	return z
 }
 
