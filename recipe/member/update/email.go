@@ -5,11 +5,11 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/domain/model/mo_member"
-	"github.com/watermint/toolbox/domain/service/sv_member"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
@@ -31,7 +31,7 @@ type EmailRow struct {
 type EmailWorker struct {
 	transaction *EmailRow
 	member      *mo_member.Member
-	ctx         api_context.Context
+	ctx         api_context.DropboxApiContext
 	rep         rp_model.TransactionReport
 	ctl         app_control.Control
 }
@@ -149,7 +149,7 @@ func (z *Email) Test(c app_control.Control) error {
 		to := row.Get("to").String()
 		exists := row.Get("exists").Bool()
 
-		if !api_util.RegexEmail.MatchString(from) || !api_util.RegexEmail.MatchString(to) {
+		if !dbx_util.RegexEmail.MatchString(from) || !dbx_util.RegexEmail.MatchString(to) {
 			l.Error("from or to email address unmatched to email address format", zap.String("from", from), zap.String("to", to))
 			return errors.New("invalid input")
 		}

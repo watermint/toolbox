@@ -2,7 +2,7 @@ package ut_time
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"time"
 )
 
@@ -61,15 +61,15 @@ func Daily(start, end string) ([]*DayRange, error) {
 
 	for endTime.After(p) {
 		dr = append(dr, &DayRange{
-			Start: api_util.RebaseAsString(q),
-			End:   api_util.RebaseAsString(p),
+			Start: dbx_util.RebaseAsString(q),
+			End:   dbx_util.RebaseAsString(p),
 		})
 		q = p
 		p = p.Add(24 * time.Hour)
 	}
 	dr = append(dr, &DayRange{
-		Start: api_util.RebaseAsString(q),
-		End:   api_util.RebaseAsString(endTime),
+		Start: dbx_util.RebaseAsString(q),
+		End:   dbx_util.RebaseAsString(endTime),
 	})
 
 	return dr, nil

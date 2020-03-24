@@ -2,11 +2,54 @@ package nw_capture
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/network/nw_client"
+	"github.com/watermint/toolbox/infra/network/nw_http"
 	"go.uber.org/zap"
 )
+
+var (
+	defaultCaller nw_client.Client = &CaptureCaller{}
+)
+
+func Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
+	return defaultCaller.Call(ctx, req)
+}
+
+type CaptureCaller struct {
+}
+
+func (z *CaptureCaller) Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
+	l := ctx.Log()
+	hReq, err := req.Make()
+	if err != nil {
+		l.Debug("Unable to make http request", zap.Error(err))
+		return nil, err
+	}
+
+	var cp Capture
+	if cac, ok := ctx.(api_context.CaptureContext); ok {
+		cp = NewCapture(cac.Capture())
+	} else {
+		cp = Current()
+	}
+	// Call
+	hRes, latency, err := nw_http.Call(ctx.Hash(), req.Endpoint(), hReq)
+
+	// Make response
+	res, mkResErr := ctx.MakeResponse(hReq, hRes)
+	if mkResErr != nil {
+		l.Debug("Unable to make http response", zap.Error(mkResErr))
+		cp.NoResponse(req, mkResErr, latency.Nanoseconds())
+		return nil, mkResErr
+	}
+	cp.WithResponse(req, res, err, latency.Nanoseconds())
+
+	return res, nil
+}
 
 type Capture interface {
 	WithResponse(req api_request.Request, res api_response.Response, resErr error, latency int64)

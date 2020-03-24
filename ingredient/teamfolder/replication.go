@@ -4,23 +4,23 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/domain/model/mo_file_diff"
-	"github.com/watermint/toolbox/domain/model/mo_group"
-	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/model/mo_profile"
-	"github.com/watermint/toolbox/domain/model/mo_teamfolder"
-	"github.com/watermint/toolbox/domain/service/sv_file"
-	"github.com/watermint/toolbox/domain/service/sv_group"
-	"github.com/watermint/toolbox/domain/service/sv_group_member"
-	"github.com/watermint/toolbox/domain/service/sv_profile"
-	"github.com/watermint/toolbox/domain/service/sv_sharedfolder"
-	"github.com/watermint/toolbox/domain/service/sv_sharedfolder_member"
-	"github.com/watermint/toolbox/domain/service/sv_team"
-	"github.com/watermint/toolbox/domain/service/sv_teamfolder"
-	"github.com/watermint/toolbox/domain/usecase/uc_compare_paths"
-	"github.com/watermint/toolbox/domain/usecase/uc_file_mirror"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_team"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -545,7 +545,7 @@ func (z *Replication) Mount(c app_control.Control, ctx Context, scope Scope) (er
 		if pair.Dst == nil {
 			folder, err := svt.Create(pair.Src.Name, sv_teamfolder.SyncNoSync())
 			if err != nil {
-				if strings.HasPrefix(api_util.ErrorSummary(err), "folder_name_already_used") {
+				if strings.HasPrefix(dbx_util.ErrorSummary(err), "folder_name_already_used") {
 					l.Debug("Skip: Already created")
 					return nil
 				}

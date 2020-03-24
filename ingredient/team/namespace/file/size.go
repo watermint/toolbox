@@ -2,12 +2,12 @@ package file
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/model/mo_file_size"
-	"github.com/watermint/toolbox/domain/model/mo_namespace"
-	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/service/sv_namespace"
-	"github.com/watermint/toolbox/domain/service/sv_profile"
-	"github.com/watermint/toolbox/domain/usecase/uc_file_size"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_size"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"

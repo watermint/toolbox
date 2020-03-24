@@ -2,9 +2,9 @@ package qs_file
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -53,7 +53,7 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			ll := l.With(zap.String("r", r))
 			found[r] = true
-			ch, err := api_util.ContentHash(cols["input.file"])
+			ch, err := dbx_util.ContentHash(cols["input.file"])
 			if err != nil {
 				ll.Debug("unable to calc hash", zap.Error(err))
 				return err

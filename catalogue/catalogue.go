@@ -1,7 +1,7 @@
 package catalogue
 
 import (
-	infra_api_api_api_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
+	infra_api_api_api_auth_impl "github.com/watermint/toolbox/infra/api/dbx_auth"
 	infra_control_app_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
 	infra_kvs_kv_storageimpl "github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
 	infra_network_nw_diag "github.com/watermint/toolbox/infra/network/nw_diag"

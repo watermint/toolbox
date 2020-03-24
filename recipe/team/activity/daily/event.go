@@ -1,8 +1,8 @@
 package daily
 
 import (
-	"github.com/watermint/toolbox/domain/model/mo_activity"
-	"github.com/watermint/toolbox/domain/service/sv_activity"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"

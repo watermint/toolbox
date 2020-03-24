@@ -2,7 +2,7 @@ package api_response
 
 import (
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 )
 
 const (

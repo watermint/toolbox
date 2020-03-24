@@ -1,7 +1,7 @@
 package rp_model_impl
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -174,9 +174,9 @@ func (z *TransactionReport) Failure(err error, input interface{}) {
 	defer z.mutex.Unlock()
 
 	ui := z.ctl.UI()
-	reason := api_util.MsgFromError(err)
+	reason := dbx_util.MsgFromError(err)
 	if ui.TextOrEmpty(reason) == "" {
-		summary := api_util.ErrorSummary(err)
+		summary := dbx_util.ErrorSummary(err)
 		if summary == "" {
 			summary = err.Error()
 		}

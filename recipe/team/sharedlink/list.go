@@ -2,10 +2,10 @@ package sharedlink
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/model/mo_member"
-	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
-	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"

@@ -3,9 +3,9 @@ package qt_recipespec_test
 import (
 	"errors"
 	"flag"
-	"github.com/watermint/toolbox/domain/model/mo_file"
-	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/model/mo_time"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"

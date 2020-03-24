@@ -2,7 +2,7 @@ package group
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/service/sv_group"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"

@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/infra/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
@@ -158,7 +158,7 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 
 	if c.IsProduction() {
 		l.Info("Prepare resources")
-		if err := api_auth_impl.CreateSecret(c, qt_endtoend.EndToEndPeer); err != nil {
+		if err := dbx_auth.CreateSecret(c, qt_endtoend.EndToEndPeer); err != nil {
 			return err
 		}
 	}

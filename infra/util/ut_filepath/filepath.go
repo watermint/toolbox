@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/domain/service/sv_desktop"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_desktop"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"

@@ -1,20 +1,24 @@
 package api_context
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/infra/api/api_async"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
+	"net/http"
+)
+
+var (
+	ErrorIncompatibleContextType = errors.New("incompatible context type")
 )
 
 type Context interface {
 	Log() *zap.Logger
 
 	Rpc(endpoint string) api_request.Request
-	Notify(endpoint string) api_request.Request
-	List(endpoint string) api_list.List
-	Async(endpoint string) api_async.Async
 	Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request
 	Download(endpoint string) api_request.Request
 
@@ -22,10 +26,14 @@ type Context interface {
 	IsNoRetry() bool
 	Hash() string
 	NoAuth() Context
+	MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error)
 }
 
 type DropboxApiContext interface {
 	Context
+	Notify(endpoint string) api_request.Request
+	List(endpoint string) api_list.List
+	Async(endpoint string) api_async.Async
 	AsMemberId(teamMemberId string) DropboxApiContext
 	AsAdminId(teamMemberId string) DropboxApiContext
 	WithPath(pathRoot PathRoot) DropboxApiContext

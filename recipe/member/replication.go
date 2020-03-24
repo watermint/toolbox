@@ -1,7 +1,7 @@
 package member
 
 import (
-	"github.com/watermint/toolbox/domain/usecase/uc_member_mirror"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_member_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"

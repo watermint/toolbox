@@ -1,11 +1,11 @@
 package filerequest
 
 import (
-	"github.com/watermint/toolbox/domain/model/mo_filerequest"
-	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/model/mo_time"
-	"github.com/watermint/toolbox/domain/service/sv_filerequest"
-	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_filerequest"
+	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -59,7 +59,7 @@ func (z *Create) Test(c app_control.Control) error {
 	switch {
 	case cont && err != nil:
 		return err
-	case strings.Contains(api_util.ErrorSummary(err), "rate_limit"):
+	case strings.Contains(dbx_util.ErrorSummary(err), "rate_limit"):
 		// In case of the account has 4,000 > file requests
 		c.Log().Info("The test account has more than 4,000 file requests")
 		return nil

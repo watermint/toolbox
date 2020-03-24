@@ -2,13 +2,13 @@ package activity
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/model/mo_activity"
-	"github.com/watermint/toolbox/domain/model/mo_member"
-	"github.com/watermint/toolbox/domain/model/mo_time"
-	"github.com/watermint/toolbox/domain/service/sv_activity"
-	"github.com/watermint/toolbox/domain/service/sv_member"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -38,7 +38,7 @@ type UserIn struct {
 
 type UserWorker struct {
 	ctl        app_control.Control
-	ctx        api_context.Context
+	ctx        api_context.DropboxApiContext
 	reps       rp_model.RowReport
 	repSummary rp_model.TransactionReport
 	user       *mo_member.Member
@@ -155,7 +155,7 @@ func (z *User) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, &User{}, func(r rc_recipe.Recipe) {
 		rc := r.(*User)
 		if t, ok := rc.StartTime.(*mo_time.TimeImpl); ok {
-			t.UpdateTime(time.Now().Add(-10 * time.Minute).Format(api_util.DateTimeFormat))
+			t.UpdateTime(time.Now().Add(-10 * time.Minute).Format(dbx_util.DateTimeFormat))
 		}
 	})
 	if err != nil {

@@ -1,8 +1,8 @@
 package rc_value
 
 import (
-	"github.com/watermint/toolbox/domain/model/mo_essential"
-	"github.com/watermint/toolbox/domain/model/mo_time"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_essential"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"

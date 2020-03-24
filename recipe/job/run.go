@@ -2,7 +2,7 @@ package job
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
 	"github.com/watermint/toolbox/infra/ui/app_msg"

@@ -1,14 +1,14 @@
 package file
 
 import (
-	"github.com/watermint/toolbox/domain/model/mo_file"
-	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/service/sv_file"
-	"github.com/watermint/toolbox/domain/service/sv_file_content"
-	"github.com/watermint/toolbox/domain/service/sv_file_folder"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_folder"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_context_impl"
-	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/api/dbx_context"
+	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -31,7 +31,7 @@ const (
 )
 
 type Upload struct {
-	Context         api_context.Context
+	Context         api_context.DropboxApiContext
 	EstimateOnly    bool
 	Overwrite       bool
 	ChunkSizeKb     int
@@ -120,7 +120,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 
 		entry, err := sv_file_folder.New(z.Context).Create(folderPath)
 		if err != nil {
-			if api_util.ErrorSummaryPrefix(err, "path/conflict/folder") {
+			if dbx_util.ErrorSummaryPrefix(err, "path/conflict/folder") {
 				ll.Debug("The folder already exist, ignore it", zap.Error(err))
 				return nil
 			} else {
@@ -157,7 +157,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 
 		dbxEntries, err := sv_file.NewFiles(z.Context).List(dbxPath)
 		if err != nil {
-			if api_util.ErrorSummaryPrefix(err, "path/not_found") {
+			if dbx_util.ErrorSummaryPrefix(err, "path/not_found") {
 				ll.Debug("Dropbox entry not found", zap.String("dbxPath", dbxPath.Path()), zap.Error(err))
 				dbxEntries = make([]mo_file.Entry, 0)
 			} else {
@@ -171,7 +171,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 		var lastErr error
 		for _, e := range localEntries {
 			p := filepath.Join(path, e.Name())
-			if api_util.IsFileNameIgnored(p) {
+			if dbx_util.IsFileNameIgnored(p) {
 				ll.Debug("Ignore file", zap.String("p", p))
 				var ps int64 = 0
 				pi, err := os.Lstat(p)
@@ -257,7 +257,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 func (z *Upload) Test(c app_control.Control) error {
 	err := rc_exec.ExecMock(c, &Upload{}, func(r rc_recipe.Recipe) {
 		m := r.(*Upload)
-		m.Context = api_context_impl.NewMock(c)
+		m.Context = dbx_context.NewMock(c)
 		m.LocalPath = qt_recipe.NewTestFileSystemFolderPath(c, "up")
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("up")
 	})

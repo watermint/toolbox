@@ -2,13 +2,13 @@ package update
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/model/mo_member"
-	"github.com/watermint/toolbox/domain/model/mo_sharedlink"
-	"github.com/watermint/toolbox/domain/model/mo_time"
-	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/domain/service/sv_sharedlink"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -42,7 +42,7 @@ func (z *ExpiryScanWorker) Exec() error {
 	links, err := sv_sharedlink.New(ctxMember).List()
 	if err != nil {
 		l.Debug("Unable to scan shared link", zap.Error(err))
-		ui.Error(api_util.MsgFromError(err))
+		ui.Error(dbx_util.MsgFromError(err))
 		return err
 	}
 
@@ -98,7 +98,7 @@ func (z *ExpiryScanWorker) Exec() error {
 
 type ExpiryWorker struct {
 	ctl       app_control.Control
-	ctx       api_context.Context
+	ctx       api_context.DropboxApiContext
 	rep       rp_model.TransactionReport
 	member    *mo_member.Member
 	link      mo_sharedlink.SharedLink
@@ -113,7 +113,7 @@ func (z *ExpiryWorker) Exec() error {
 		"MemberEmail":   z.member.Email,
 		"Url":           z.link.LinkUrl(),
 		"CurrentExpiry": z.link.LinkExpires(),
-		"NewExpiry":     api_util.RebaseAsString(z.newExpiry),
+		"NewExpiry":     dbx_util.RebaseAsString(z.newExpiry),
 	})
 
 	updated, err := sv_sharedlink.New(z.ctx).Update(z.link, sv_sharedlink.Expires(z.newExpiry))
@@ -178,7 +178,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 
 	switch {
 	case z.Days > 0:
-		newExpiry = api_util.RebaseTime(time.Now().Add(time.Duration(z.Days*24) * time.Hour))
+		newExpiry = dbx_util.RebaseTime(time.Now().Add(time.Duration(z.Days*24) * time.Hour))
 		l.Debug("New expiry", zap.Int("evo.Days", z.Days), zap.String("newExpiry", newExpiry.String()))
 
 	default:
