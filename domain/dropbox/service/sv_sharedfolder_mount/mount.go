@@ -12,14 +12,14 @@ type Mount interface {
 	Unmount(sf *mo_sharedfolder.SharedFolder) (err error)
 }
 
-func New(ctx api_context.Context) Mount {
+func New(ctx api_context.DropboxApiContext) Mount {
 	return &mountImpl{
 		ctx: ctx,
 	}
 }
 
 type mountImpl struct {
-	ctx api_context.Context
+	ctx api_context.DropboxApiContext
 }
 
 func (z *mountImpl) List() (mount []*mo_sharedfolder.SharedFolder, err error) {

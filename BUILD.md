@@ -71,6 +71,15 @@ $ cd /path/to/PROJECT_ROOT
 $ go run tbx.go dev preflight
 ``` 
 
+# Test process
+
+To run all tests, please reduce concurrency to 1. Because some test are stateful for Dropbox accounts.
+
+```bash
+$ cd /path/to/PROJECT_ROOT
+$ go test -p 1 ./...
+```
+
 # Release process
 
 ## Release candidate
@@ -84,4 +93,5 @@ $ go run tbx.go dev release candidate
 
 ## Publish Release
 
-Please run command `dev release publish` to create release notes.
+Please run `publish_release.sh` on macOs, to test binaries.
+The script will generate draft release notes when all tests succeed.

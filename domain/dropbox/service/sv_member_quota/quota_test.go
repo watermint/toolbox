@@ -12,7 +12,7 @@ import (
 )
 
 func TestEndToEndQuotaImpl(t *testing.T) {
-	qt_api.DoTestBusinessManagement(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessManagement(func(ctx api_context.DropboxApiContext) {
 		svm := sv_member.New(ctx)
 		members, err := svm.List()
 		if err != nil {
@@ -95,7 +95,7 @@ func TestEndToEndQuotaImpl(t *testing.T) {
 // mock tests
 
 func TestQuotaImpl_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewQuota(ctx)
 		err := sv.Remove("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -105,7 +105,7 @@ func TestQuotaImpl_Remove(t *testing.T) {
 }
 
 func TestQuotaImpl_Resolve(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewQuota(ctx)
 		_, err := sv.Resolve("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -115,7 +115,7 @@ func TestQuotaImpl_Resolve(t *testing.T) {
 }
 
 func TestQuotaImpl_Update(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewQuota(ctx)
 		_, err := sv.Update(&mo_member_quota.Quota{})
 		if err != nil && err != qt_errors.ErrorMock {

@@ -8,7 +8,7 @@ import (
 )
 
 func TestFolderImpl_Create(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Create(qt_recipe.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {

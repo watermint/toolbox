@@ -11,7 +11,7 @@ import (
 )
 
 func TestEndToEndGroupMemberImpl_List(t *testing.T) {
-	qt_api.DoTestBusinessManagement(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessManagement(func(ctx api_context.DropboxApiContext) {
 		gsv := sv_group.New(ctx)
 		groups, err := gsv.List()
 		if err != nil {
@@ -38,7 +38,7 @@ func TestEndToEndGroupMemberImpl_List(t *testing.T) {
 }
 
 func TestGroupMemberImpl_Add(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx, &mo_group.Group{})
 		_, err := sv.Add(ByEmail("test@example.com"))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -48,7 +48,7 @@ func TestGroupMemberImpl_Add(t *testing.T) {
 }
 
 func TestGroupMemberImpl_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx, &mo_group.Group{})
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -58,7 +58,7 @@ func TestGroupMemberImpl_List(t *testing.T) {
 }
 
 func TestGroupMemberImpl_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx, &mo_group.Group{})
 		_, err := sv.Remove(ByTeamMemberId("test"))
 		if err != nil && err != qt_errors.ErrorMock {

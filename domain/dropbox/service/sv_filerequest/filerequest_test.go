@@ -9,7 +9,7 @@ import (
 )
 
 func TestFileRequestImpl_Create(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Create("test", qt_recipe.NewTestDropboxFolderPath(),
 			OptDeadline("2020-03-02T17:40:00Z"),
@@ -21,7 +21,7 @@ func TestFileRequestImpl_Create(t *testing.T) {
 }
 
 func TestFileRequestImpl_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -31,7 +31,7 @@ func TestFileRequestImpl_List(t *testing.T) {
 }
 
 func TestFileRequestImpl_Delete(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Delete("1234")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -41,7 +41,7 @@ func TestFileRequestImpl_Delete(t *testing.T) {
 }
 
 func TestFileRequestImpl_DeleteAllClosed(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.DeleteAllClosed()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -51,7 +51,7 @@ func TestFileRequestImpl_DeleteAllClosed(t *testing.T) {
 }
 
 func TestFileRequestImpl_Update(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Update(&mo_filerequest.FileRequest{})
 		if err != nil && err != qt_errors.ErrorMock {

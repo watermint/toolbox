@@ -13,7 +13,7 @@ import (
 )
 
 func TestEndToEndSharedLinkImpl_CreateListRemove(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.DropboxApiContext) {
 		svc := New(ctx)
 		src := qt_api.ToolboxTestSuiteFolder.ChildPath("copy/F0.jpg")
 		links, err := svc.ListByPath(src)
@@ -106,7 +106,7 @@ func TestEndToEndSharedLinkImpl_CreateListRemove(t *testing.T) {
 // Mock tests
 
 func TestSharedLinkImpl_Create(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Create(qt_recipe.NewTestDropboxFolderPath(), Public())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -124,7 +124,7 @@ func TestSharedLinkImpl_Create(t *testing.T) {
 }
 
 func TestSharedLinkImpl_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -134,7 +134,7 @@ func TestSharedLinkImpl_List(t *testing.T) {
 }
 
 func TestSharedLinkImpl_ListByPath(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.ListByPath(qt_recipe.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -144,7 +144,7 @@ func TestSharedLinkImpl_ListByPath(t *testing.T) {
 }
 
 func TestSharedLinkImpl_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		err := sv.Remove(&mo_sharedlink.Metadata{})
 		if err != nil && err != qt_errors.ErrorMock {
@@ -154,7 +154,7 @@ func TestSharedLinkImpl_Remove(t *testing.T) {
 }
 
 func TestSharedLinkImpl_Resolve(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Resolve(mo_url.NewEmptyUrl(), "test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -164,7 +164,7 @@ func TestSharedLinkImpl_Resolve(t *testing.T) {
 }
 
 func TestSharedLinkImpl_Update(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Update(&mo_sharedlink.Metadata{}, RemoveExpiration())
 		if err != nil && err != qt_errors.ErrorMock {

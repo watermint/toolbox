@@ -8,7 +8,7 @@ import (
 )
 
 func TestExportImpl_Export(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewExport(ctx)
 		_, _, err := sv.Export(qt_recipe.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {

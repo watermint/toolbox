@@ -16,7 +16,7 @@ import (
 )
 
 func TestEndToEndCompareImpl_Diff(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.DropboxApiContext) {
 		tf1Path := qt_api.ToolboxTestSuiteFolder.ChildPath("compare/compare1")
 		tf2Path := qt_api.ToolboxTestSuiteFolder.ChildPath("compare/compare2")
 

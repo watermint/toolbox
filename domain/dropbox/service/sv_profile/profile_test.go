@@ -9,7 +9,7 @@ import (
 )
 
 func TestEndToEndProfileImpl_Current(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.DropboxApiContext) {
 		svc := NewProfile(ctx)
 		prof, err := svc.Current()
 		if err != nil {
@@ -22,7 +22,7 @@ func TestEndToEndProfileImpl_Current(t *testing.T) {
 }
 
 func TestEndToEndTeamImpl_Admin(t *testing.T) {
-	qt_api.DoTestBusinessInfo(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessInfo(func(ctx api_context.DropboxApiContext) {
 		svc := NewTeam(ctx)
 		prof, err := svc.Admin()
 		if err != nil {
@@ -37,7 +37,7 @@ func TestEndToEndTeamImpl_Admin(t *testing.T) {
 // Mock tests
 
 func TestProfileImpl_Current(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewProfile(ctx)
 		_, err := sv.Current()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -47,7 +47,7 @@ func TestProfileImpl_Current(t *testing.T) {
 }
 
 func TestTeamImpl_Admin(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewTeam(ctx)
 		_, err := sv.Admin()
 		if err != nil && err != qt_errors.ErrorMock {

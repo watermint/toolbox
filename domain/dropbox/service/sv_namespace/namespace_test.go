@@ -10,7 +10,7 @@ import (
 )
 
 func TestEndToEndNamespaceImpl_List(t *testing.T) {
-	qt_api.DoTestBusinessFile(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessFile(func(ctx api_context.DropboxApiContext) {
 		svc := newTest(ctx, 3)
 		namespaces, err := svc.List()
 		if err != nil {
@@ -33,7 +33,7 @@ func TestEndToEndNamespaceImpl_List(t *testing.T) {
 // Mock tests
 
 func TestNamespaceImpl_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {

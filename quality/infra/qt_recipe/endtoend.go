@@ -71,7 +71,7 @@ func findTestResource() (resource gjson.Result, found bool) {
 	return gjson.ParseBytes(b), true
 }
 
-func TestWithApiContext(t *testing.T, twc func(ctx api_context.Context)) {
+func TestWithApiContext(t *testing.T, twc func(ctx api_context.DropboxApiContext)) {
 	TestWithControl(t, func(ctl app_control.Control) {
 		ctx := dbx_context.NewMock(ctl)
 		twc(ctx)

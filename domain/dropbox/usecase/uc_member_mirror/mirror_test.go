@@ -8,7 +8,7 @@ import (
 )
 
 func TestMirrorImpl_Mirror(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx, ctx)
 		err := sv.Mirror("src@example.com", "to@example.com")
 		if err != nil && err != qt_errors.ErrorMock {

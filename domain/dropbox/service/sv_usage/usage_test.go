@@ -9,7 +9,7 @@ import (
 )
 
 func TestEndToEndUsageImpl_Resolve(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.DropboxApiContext) {
 		_, err := New(ctx).Resolve()
 		if err != nil {
 			t.Error(err)
@@ -20,7 +20,7 @@ func TestEndToEndUsageImpl_Resolve(t *testing.T) {
 // Mock tests
 
 func TestUsageImpl_Resolve(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Resolve()
 		if err != nil && err != qt_errors.ErrorMock {

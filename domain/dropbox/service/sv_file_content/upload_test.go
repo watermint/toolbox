@@ -14,7 +14,7 @@ func TestUploadImpl_Add(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewUpload(ctx)
 		_, err := sv.Add(qt_recipe.NewTestDropboxFolderPath(), f)
 		if err != nil && err != qt_errors.ErrorMock {
@@ -29,7 +29,7 @@ func TestUploadImpl_Overwrite(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewUpload(ctx)
 		_, err := sv.Overwrite(qt_recipe.NewTestDropboxFolderPath(), f)
 		if err != nil && err != qt_errors.ErrorMock {
@@ -44,7 +44,7 @@ func TestUploadImpl_Update(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewUpload(ctx)
 		_, err := sv.Update(qt_recipe.NewTestDropboxFolderPath(), f, "test")
 		if err != nil && err != qt_errors.ErrorMock {

@@ -14,7 +14,7 @@ import (
 )
 
 func TestSharedFolderImpl_List(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.DropboxApiContext) {
 		svc := New(ctx)
 		folders, err := svc.List()
 		if err != nil {
@@ -33,7 +33,7 @@ func TestSharedFolderImpl_List(t *testing.T) {
 }
 
 func TestEndToEndSharedFolderImpl_Create(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.DropboxApiContext) {
 		svc := New(ctx)
 		name := fmt.Sprintf("toolbox-test-%x", time.Now().Unix())
 		ctx.Log().Info("create shared folder", zap.String("name", name))
@@ -104,7 +104,7 @@ func TestEndToEndSharedFolderImpl_Create(t *testing.T) {
 // Mock tests
 
 func TestSharedFolderImpl_Create(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Create(qt_recipe.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -114,7 +114,7 @@ func TestSharedFolderImpl_Create(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Leave(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		err := sv.Leave(&mo_sharedfolder.SharedFolder{}, LeaveACopy())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -124,7 +124,7 @@ func TestSharedFolderImpl_Leave(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		err := sv.Remove(&mo_sharedfolder.SharedFolder{}, LeaveACopy())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -134,7 +134,7 @@ func TestSharedFolderImpl_Remove(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Resolve(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Resolve("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -144,7 +144,7 @@ func TestSharedFolderImpl_Resolve(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Transfer(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		err := sv.Transfer(&mo_sharedfolder.SharedFolder{}, ToProfile(&mo_profile.Profile{}))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -162,7 +162,7 @@ func TestSharedFolderImpl_Transfer(t *testing.T) {
 }
 
 func TestSharedFolderImpl_UpdatePolicy(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.UpdatePolicy("test", MemberPolicy("test"))
 		if err != nil && err != qt_errors.ErrorMock {

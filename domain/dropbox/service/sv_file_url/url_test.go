@@ -16,7 +16,7 @@ const (
 )
 
 func TestUrlImpl_SaveWithTestSuite(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.DropboxApiContext) {
 		svc := New(ctx)
 		path := qt_api.ToolboxTestSuiteFolder.ChildPath("save_url", "f0.png")
 		entry, err := svc.Save(path, DummyImageUrl)
@@ -59,7 +59,7 @@ func TestPathWithName(t *testing.T) {
 }
 
 func TestUrlImpl_Save(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Save(qt_recipe.NewTestDropboxFolderPath(), "https://www.dropbox.com")
 		if err != nil && err != qt_errors.ErrorMock {

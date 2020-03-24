@@ -9,7 +9,7 @@ import (
 )
 
 func TestActivityImpl_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		err := sv.List(func(event *mo_activity.Event) error {
 			return nil
@@ -21,7 +21,7 @@ func TestActivityImpl_List(t *testing.T) {
 }
 
 func TestActivityImpl_All(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		err := sv.All(func(event *mo_activity.Event) error {
 			return nil

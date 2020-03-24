@@ -8,7 +8,7 @@ import (
 )
 
 func TestCopyRefImpl_Resolve(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, _, _, err := sv.Resolve(qt_recipe.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -18,7 +18,7 @@ func TestCopyRefImpl_Resolve(t *testing.T) {
 }
 
 func TestCopyRefImpl_Save(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Save(qt_recipe.NewTestDropboxFolderPath(), "test")
 		if err != nil && err != qt_errors.ErrorMock {

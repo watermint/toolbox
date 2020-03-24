@@ -16,23 +16,23 @@ var (
 	legacyTestsEnabled     = false
 )
 
-func DoTestTokenFull(test func(ctx api_context.Context)) {
+func DoTestTokenFull(test func(ctx api_context.DropboxApiContext)) {
 	doTest(api_auth.DropboxTokenFull, test)
 }
-func DoTestBusinessInfo(test func(ctx api_context.Context)) {
+func DoTestBusinessInfo(test func(ctx api_context.DropboxApiContext)) {
 	doTest(api_auth.DropboxTokenBusinessInfo, test)
 }
-func DoTestBusinessFile(test func(ctx api_context.Context)) {
+func DoTestBusinessFile(test func(ctx api_context.DropboxApiContext)) {
 	doTest(api_auth.DropboxTokenBusinessFile, test)
 }
-func DoTestBusinessManagement(test func(ctx api_context.Context)) {
+func DoTestBusinessManagement(test func(ctx api_context.DropboxApiContext)) {
 	doTest(api_auth.DropboxTokenBusinessManagement, test)
 }
-func DoTestBusinessAudit(test func(ctx api_context.Context)) {
+func DoTestBusinessAudit(test func(ctx api_context.DropboxApiContext)) {
 	doTest(api_auth.DropboxTokenBusinessAudit, test)
 }
 
-func doTest(tokenType string, test func(ctx api_context.Context)) {
+func doTest(tokenType string, test func(ctx api_context.DropboxApiContext)) {
 	qt_recipe.TestWithControl(nil, func(ctl app_control.Control) {
 		l := ctl.Log()
 		a := dbx_auth.NewCached(ctl, dbx_auth.PeerName(qt_endtoend.EndToEndPeer))
@@ -41,9 +41,13 @@ func doTest(tokenType string, test func(ctx api_context.Context)) {
 			l.Info("Skip test", zap.Error(err))
 			return
 		}
-
+		dtx, ok := ctx.(api_context.DropboxApiContext)
+		if !ok {
+			l.Warn("Invalid context type", zap.Any("ctx", ctx))
+			return
+		}
 		if legacyTestsEnabled {
-			test(ctx)
+			test(dtx)
 		}
 	})
 }

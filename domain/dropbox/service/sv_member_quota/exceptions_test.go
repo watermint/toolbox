@@ -11,7 +11,7 @@ import (
 )
 
 func TestEndToEndExceptionsImpl(t *testing.T) {
-	qt_api.DoTestBusinessManagement(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessManagement(func(ctx api_context.DropboxApiContext) {
 		svm := sv_member.New(ctx)
 		members, err := svm.List()
 		if err != nil {
@@ -110,7 +110,7 @@ func TestEndToEndExceptionsImpl(t *testing.T) {
 // mock tests
 
 func TestExceptionsImpl_Add(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewExceptions(ctx)
 		err := sv.Add("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -120,7 +120,7 @@ func TestExceptionsImpl_Add(t *testing.T) {
 }
 
 func TestExceptionsImpl_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewExceptions(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -130,7 +130,7 @@ func TestExceptionsImpl_List(t *testing.T) {
 }
 
 func TestExceptionsImpl_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewExceptions(ctx)
 		err := sv.Remove("test")
 		if err != nil && err != qt_errors.ErrorMock {

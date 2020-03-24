@@ -8,7 +8,7 @@ import (
 )
 
 func TestRestoreImpl_Restore(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Restore(qt_recipe.NewTestDropboxFolderPath(), "test")
 		if err != nil && err != qt_errors.ErrorMock {

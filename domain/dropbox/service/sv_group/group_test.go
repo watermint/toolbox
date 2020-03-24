@@ -12,7 +12,7 @@ import (
 )
 
 func TestEndToEndImplGroup_CreateRemove(t *testing.T) {
-	qt_api.DoTestBusinessManagement(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessManagement(func(ctx api_context.DropboxApiContext) {
 		svc := New(ctx)
 		name := fmt.Sprintf("toolbox-test-%x", time.Now().Unix())
 		createdGroup, err := svc.Create(name, CompanyManaged())
@@ -47,7 +47,7 @@ func TestEndToEndImplGroup_CreateRemove(t *testing.T) {
 }
 
 func TestEndToEndImplGroup_List(t *testing.T) {
-	qt_api.DoTestBusinessManagement(func(ctx api_context.Context) {
+	qt_api.DoTestBusinessManagement(func(ctx api_context.DropboxApiContext) {
 		svc := New(ctx)
 		groups, err := svc.List()
 		if err != nil {
@@ -73,7 +73,7 @@ func TestEndToEndImplGroup_List(t *testing.T) {
 // ---- Mock tests for Cache
 
 func TestCachedGroup_Create(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewCached(ctx)
 		_, err := sv.Create("test", CompanyManaged())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -83,7 +83,7 @@ func TestCachedGroup_Create(t *testing.T) {
 }
 
 func TestCachedGroup_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewCached(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -93,7 +93,7 @@ func TestCachedGroup_List(t *testing.T) {
 }
 
 func TestCachedGroup_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewCached(ctx)
 		err := sv.Remove("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -103,7 +103,7 @@ func TestCachedGroup_Remove(t *testing.T) {
 }
 
 func TestCachedGroup_Resolve(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewCached(ctx)
 		_, err := sv.Resolve("test")
 		if err != ErrorGroupNotFoundForGroupId {
@@ -113,7 +113,7 @@ func TestCachedGroup_Resolve(t *testing.T) {
 }
 
 func TestCachedGroup_ResolveByName(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewCached(ctx)
 		_, err := sv.ResolveByName("test")
 		if err != ErrorGroupNotFoundForName {
@@ -123,7 +123,7 @@ func TestCachedGroup_ResolveByName(t *testing.T) {
 }
 
 func TestCachedGroup_Update(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := NewCached(ctx)
 		_, err := sv.Update(&mo_group.Group{})
 		if err != nil && err != qt_errors.ErrorMock {
@@ -135,7 +135,7 @@ func TestCachedGroup_Update(t *testing.T) {
 /// ----- Mock tests for impl
 
 func TestImplGroup_Create(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Create("test", ManagementType("company_managed"))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -145,7 +145,7 @@ func TestImplGroup_Create(t *testing.T) {
 }
 
 func TestImplGroup_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -156,7 +156,7 @@ func TestImplGroup_List(t *testing.T) {
 }
 
 func TestImplGroup_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		err := sv.Remove("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -166,7 +166,7 @@ func TestImplGroup_Remove(t *testing.T) {
 }
 
 func TestImplGroup_Resolve(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Resolve("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -176,7 +176,7 @@ func TestImplGroup_Resolve(t *testing.T) {
 }
 
 func TestImplGroup_ResolveByName(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.ResolveByName("test")
 		if err != ErrorGroupNotFoundForName {
@@ -186,7 +186,7 @@ func TestImplGroup_ResolveByName(t *testing.T) {
 }
 
 func TestImplGroup_Update(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx)
 		_, err := sv.Update(&mo_group.Group{})
 		if err != nil && err != qt_errors.ErrorMock {

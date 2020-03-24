@@ -50,7 +50,7 @@ func TestSelect(t *testing.T) {
 func TestDetect(t *testing.T) {
 	d := Detect()
 	for _, l := range SupportedLanguages {
-		if l == d {
+		if Base(l) == Base(d) {
 			return
 		}
 	}

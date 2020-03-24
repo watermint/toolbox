@@ -11,7 +11,7 @@ import (
 )
 
 func TestCopy(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx api_context.Context) {
+	qt_api.DoTestTokenFull(func(ctx api_context.DropboxApiContext) {
 		r := New(ctx)
 		src := qt_api.ToolboxTestSuiteFolder.ChildPath("copy/F0.jpg")
 		name := fmt.Sprintf("copy-%x.jpg", time.Now().Unix())
@@ -28,7 +28,7 @@ func TestCopy(t *testing.T) {
 }
 
 func TestImplRelocation_Copy(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx, AllowOwnershipTransfer(true), AllowSharedFolder(true), AutoRename(true))
 		_, err := sv.Copy(qt_recipe.NewTestDropboxFolderPath("from"), qt_recipe.NewTestDropboxFolderPath("to"))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -38,7 +38,7 @@ func TestImplRelocation_Copy(t *testing.T) {
 }
 
 func TestImplRelocation_Move(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.Context) {
+	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
 		sv := New(ctx, AllowOwnershipTransfer(true), AllowSharedFolder(true), AutoRename(true))
 		_, err := sv.Move(qt_recipe.NewTestDropboxFolderPath("from"), qt_recipe.NewTestDropboxFolderPath("to"))
 		if err != nil && err != qt_errors.ErrorMock {
