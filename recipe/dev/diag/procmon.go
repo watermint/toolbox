@@ -454,6 +454,7 @@ func (z *Procmon) Test(c app_control.Control) error {
 		m.ProcmonUrl = procmonDownloadUrl
 		m.Seconds = 30
 		m.RetainLogs = 4
+		m.RunUntil = mo_time.New(time.Now().Add(5 * time.Second))
 		m.RepositoryPath = mo_path.NewFileSystemPath(tmpDir)
 	})
 }
