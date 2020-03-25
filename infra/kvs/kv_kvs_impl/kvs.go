@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"go.uber.org/zap"
+	"reflect"
 )
 
 func New(ctl app_control.Control, db *badger.DB, tx *badger.Txn) kv_kvs.Kvs {
@@ -139,4 +140,15 @@ func (z *badgerWrapper) ForEach(f func(key string, value []byte) error) error {
 		}
 	}
 	return nil
+}
+
+func (z *badgerWrapper) ForEachModel(model interface{}, f func(key string, m interface{}) error) error {
+	mt := reflect.ValueOf(model).Elem().Type()
+	return z.ForEach(func(key string, value []byte) error {
+		m := reflect.New(mt).Interface()
+		if err := json.Unmarshal(value, m); err != nil {
+			return err
+		}
+		return f(key, m)
+	})
 }

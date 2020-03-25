@@ -5040,6 +5040,26 @@
     ],
     "feeds": []
   },
+  "team content member": {
+    "name": "member",
+    "title": "List team folder & shared folder members",
+    "desc": "",
+    "remarks": "",
+    "path": "team content member",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
   "team device list": {
     "name": "list",
     "title": "チーム内全てのデバイス/セッションを一覧します",

@@ -12,4 +12,6 @@ type SharedFolder struct {
 	IsInsideTeamFolder   bool   `path:"is_inside_team_folder" json:"is_inside_team_folder"`
 	IsTeamFolder         bool   `path:"is_team_folder" json:"is_team_folder"`
 	PolicyMember         string `path:"policy.member_policy.\\.tag" json:"policy_member"`
+	OwnerTeamId          string `path:"owner_team.id" json:"owner_team_id"`
+	OwnerTeamName        string `path:"owner_team.name" json:"owner_team_name"`
 }

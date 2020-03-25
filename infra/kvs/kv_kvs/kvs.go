@@ -17,7 +17,8 @@ type Kvs interface {
 	GetJsonModel(key string, v interface{}) (err error)
 
 	Delete(key string) error
-	ForEach(func(key string, value []byte) error) error
+	ForEach(f func(key string, value []byte) error) error
+	ForEachModel(model interface{}, f func(key string, m interface{}) error) error
 
 	NextSequence(name string) (uint64, error)
 }

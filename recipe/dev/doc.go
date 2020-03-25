@@ -1,7 +1,6 @@
 package dev
 
 import (
-	"fmt"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -10,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_doc"
 	"go.uber.org/zap"
 	"sort"
-	"strings"
 )
 
 type Doc struct {
@@ -50,13 +48,10 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 	qm := ctl.Messages().(app_msg_container.Quality)
 	missing := qm.MissingKeys()
 	if len(missing) > 0 {
-		suggested := make([]string, 0)
+		sort.Strings(missing)
 		for _, k := range missing {
 			l.Error("Key missing", zap.String("key", k))
-			suggested = append(suggested, "\""+k+"\":\"\",")
 		}
-		sort.Strings(suggested)
-		fmt.Println(strings.Join(suggested, "\n"))
 	}
 	return nil
 }

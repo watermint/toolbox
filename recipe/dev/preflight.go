@@ -11,14 +11,12 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"github.com/watermint/toolbox/recipe/dev/spec"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -230,17 +228,5 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	}
 
 	l.Info("Verify message resources")
-	qm := c.Messages().(app_msg_container.Quality)
-	missing := qm.MissingKeys()
-	if len(missing) > 0 {
-		suggested := make([]string, 0)
-		for _, k := range missing {
-			l.Error("Key missing", zap.String("key", k))
-			suggested = append(suggested, "\""+k+"\":\"\",")
-		}
-		sort.Strings(suggested)
-		fmt.Println(strings.Join(suggested, "\n"))
-	}
-
 	return qt_messages.VerifyMessages(c)
 }

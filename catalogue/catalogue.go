@@ -56,6 +56,7 @@ import (
 	recipeteamactivity "github.com/watermint/toolbox/recipe/team/activity"
 	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
 	recipeteamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
+	recipeteamcontent "github.com/watermint/toolbox/recipe/team/content"
 	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
 	recipeteamdiag "github.com/watermint/toolbox/recipe/team/diag"
 	recipeteamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
@@ -169,6 +170,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipeteamdevice.Unlink{}, infra_recipe_rc_recipe.Irreversible()),
 		infra_recipe_rc_recipe.Annotate(&recipeteamdiag.Explorer{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfilerequest.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamcontent.Member{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Archive{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Permdelete{}, infra_recipe_rc_recipe.Irreversible()),
@@ -217,6 +219,7 @@ func Messages() []interface{} {
 		infra_ui_appui.MProgress,
 		infra_util_ut_doc.MDoc,
 		recipeteamactivitybatch.MUser,
+		recipeteamcontent.MScanMetadata,
 	}
 	for _, m := range msgs {
 		infra_ui_app_msg.Apply(m)

@@ -11,37 +11,18 @@ import (
 	"testing"
 )
 
-func TestNew(t *testing.T) {
+func TestPutGetString(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		var err error
-
-		db1 := kv_storage_impl.New("coffee1")
-		if err := db1.Open(ctl); err != nil {
+		db := kv_storage_impl.New("coffee_put-get-string")
+		if err := db.Open(ctl); err != nil {
 			t.Error(err)
 			return
 		}
-		defer db1.Close()
-		db2 := kv_storage_impl.New("coffee2")
-		if err := db2.Open(ctl); err != nil {
-			t.Error(err)
-			return
-		}
-		defer db2.Close()
-		db3 := kv_storage_impl.New("coffee3")
-		if err := db3.Open(ctl); err != nil {
-			t.Error(err)
-			return
-		}
-		defer db3.Close()
-		db4 := kv_storage_impl.New("coffee4")
-		if err := db4.Open(ctl); err != nil {
-			t.Error(err)
-			return
-		}
-		defer db4.Close()
+		defer db.Close()
 
 		// put/get string
-		err = db1.Update(func(coffee kv_kvs.Kvs) error {
+		err = db.Update(func(coffee kv_kvs.Kvs) error {
 			if err = coffee.PutString("A1234", "espresso"); err != nil {
 				t.Error(err)
 				return err
@@ -71,9 +52,20 @@ func TestNew(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
+	})
+}
+
+func TestPutGetBytes(t *testing.T) {
+	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+		var err error
+		db := kv_storage_impl.New("coffee_put-get-bytes")
+		if err := db.Open(ctl); err != nil {
+			t.Error(err)
+			return
+		}
 
 		// put/get bytes
-		err = db2.Update(func(coffee kv_kvs.Kvs) error {
+		err = db.Update(func(coffee kv_kvs.Kvs) error {
 			a1234 := []byte("Espresso")
 			if err = coffee.PutBytes("A1234", a1234); err != nil {
 				t.Error(err)
@@ -97,9 +89,19 @@ func TestNew(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
+	})
+}
 
+func TestPutGetJSON(t *testing.T) {
+	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+		var err error
+		db := kv_storage_impl.New("coffee_put-get-json")
+		if err := db.Open(ctl); err != nil {
+			t.Error(err)
+			return
+		}
 		// put/get json
-		err = db3.Update(func(coffee kv_kvs.Kvs) error {
+		err = db.Update(func(coffee kv_kvs.Kvs) error {
 			type SKU struct {
 				Name  string `json:"name"`
 				Price int    `json:"price"`
@@ -148,9 +150,19 @@ func TestNew(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
+	})
+}
 
+func TestPutGetJSONModel(t *testing.T) {
+	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+		var err error
+		db := kv_storage_impl.New("coffee_put-get-json-model")
+		if err := db.Open(ctl); err != nil {
+			t.Error(err)
+			return
+		}
 		// put/get json model
-		err = db4.Update(func(coffee kv_kvs.Kvs) error {
+		err = db.Update(func(coffee kv_kvs.Kvs) error {
 			type SKU struct {
 				Name  string `json:"name"`
 				Price int    `json:"price"`
@@ -189,7 +201,7 @@ func TestNew(t *testing.T) {
 		}
 
 		// foreach, cursor
-		err = db4.Update(func(coffee kv_kvs.Kvs) error {
+		err = db.Update(func(coffee kv_kvs.Kvs) error {
 			dat := map[string]string{
 				"A1234": "Espresso",
 				"A5678": "カフェラテ",
@@ -218,6 +230,85 @@ func TestNew(t *testing.T) {
 					return err
 				}
 				for k := range dat {
+					if _, e := found[k]; !e {
+						t.Error(k)
+						return errors.New("key not found")
+					}
+				}
+			}
+
+			return nil
+		})
+		if err != nil {
+			t.Error(err)
+		}
+	})
+}
+
+func TestPutGetJSONModel2(t *testing.T) {
+	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+		var err error
+		db := kv_storage_impl.New("coffee_put-get-json-model2")
+		if err := db.Open(ctl); err != nil {
+			t.Error(err)
+			return
+		}
+
+		// foreach model
+		err = db.Update(func(coffee kv_kvs.Kvs) error {
+			type TestForEachModel struct {
+				Name     string `json:"name"`
+				Quantity int    `json:"quantity"`
+			}
+
+			transactions := make(map[string][]*TestForEachModel)
+			transactions["E0123"] = []*TestForEachModel{
+				{
+					Name:     "Espresso",
+					Quantity: 2,
+				},
+				{
+					Name:     "Latte",
+					Quantity: 1,
+				},
+			}
+			transactions["E0129"] = []*TestForEachModel{
+				{
+					Name:     "カフェラテ",
+					Quantity: 1,
+				},
+				{
+					Name:     "ブレンド",
+					Quantity: 4,
+				},
+			}
+
+			for k, v := range transactions {
+				if err := coffee.PutJsonModel(k, v); err != nil {
+					t.Error(err)
+				}
+			}
+
+			// foreach
+			{
+				found := make(map[string]bool)
+				err = coffee.ForEachModel(&[]*TestForEachModel{}, func(key string, m interface{}) error {
+					if c, e := transactions[key]; !e {
+						t.Error(key)
+						return errors.New("invalid value")
+					} else {
+						if len(c) != 2 {
+							t.Error(c)
+						}
+					}
+					found[key] = true
+					return nil
+				})
+				if err != nil {
+					t.Error(err)
+					return err
+				}
+				for k := range transactions {
 					if _, e := found[k]; !e {
 						t.Error(k)
 						return errors.New("key not found")
