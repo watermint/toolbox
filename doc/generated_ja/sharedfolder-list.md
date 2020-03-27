@@ -124,6 +124,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | is_inside_team_folder   | フォルダがチームフォルダに内包されているかどうか                                                     |
 | is_team_folder          | このフォルダがチームフォルダであるかどうか                                                           |
 | policy_member           | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
-| owner_team_id           | Team ID of the team that owns the folder                                                             |
-| owner_team_name         | Team name of the team that owns the folder                                                           |
+| owner_team_id           | このフォルダを所有するチームのチームID                                                               |
+| owner_team_name         | このフォルダを所有するチームの名前                                                                   |
 

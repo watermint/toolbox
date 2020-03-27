@@ -8,8 +8,9 @@ import (
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 )
 
@@ -180,5 +181,5 @@ func (z *Member) Exec(c app_control.Control) error {
 }
 
 func (z *Member) Test(c app_control.Control) error {
-	return qt_errors.ErrorImplementMe
+	return rc_exec.Exec(c, &Member{}, rc_recipe.NoCustomValues)
 }

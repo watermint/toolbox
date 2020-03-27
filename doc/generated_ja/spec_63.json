@@ -4254,11 +4254,11 @@
           },
           {
             "name": "owner_team_id",
-            "desc": "Team ID of the team that owns the folder"
+            "desc": "このフォルダを所有するチームのチームID"
           },
           {
             "name": "owner_team_name",
-            "desc": "Team name of the team that owns the folder"
+            "desc": "このフォルダを所有するチームの名前"
           }
         ]
       }
@@ -5050,7 +5050,7 @@
   },
   "team content member": {
     "name": "member",
-    "title": "List team folder & shared folder members",
+    "title": "チームフォルダや共有フォルダのメンバー一覧",
     "desc": "",
     "remarks": "",
     "path": "team content member",
@@ -5072,31 +5072,31 @@
         "columns": [
           {
             "name": "path",
-            "desc": "Path"
+            "desc": "パス"
           },
           {
             "name": "is_team_folder",
-            "desc": "`true` if the folder is a team folder, or inside of a team folder"
+            "desc": "チームフォルダまたはチームフォルダ下のフォルダの場合 `true`"
           },
           {
             "name": "owner_team_name",
-            "desc": "Team name of the team that owns the folder"
+            "desc": "このフォルダを所有するチームの名前"
           },
           {
             "name": "access_type",
-            "desc": "User's access level for this folder"
+            "desc": "このフォルダに対するユーザーのアクセスレベル"
           },
           {
             "name": "member_type",
-            "desc": "Type of this member (user, group, or invitee)"
+            "desc": "メンバーの種類 (user, group または invitee)"
           },
           {
             "name": "member_name",
-            "desc": "Name of this member"
+            "desc": "このメンバーの名前"
           },
           {
             "name": "member_email",
-            "desc": "Email address of this member"
+            "desc": "このメンバーのメールアドレス"
           }
         ]
       },
@@ -5106,11 +5106,11 @@
         "columns": [
           {
             "name": "owner_team_name",
-            "desc": "Team name of the team that owns the folder"
+            "desc": "このフォルダを所有するチームの名前"
           },
           {
             "name": "path",
-            "desc": "Path"
+            "desc": "パス"
           }
         ]
       }

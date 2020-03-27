@@ -1,6 +1,6 @@
 # team content member 
 
-List team folder & shared folder members 
+チームフォルダや共有フォルダのメンバー一覧 
 
 # セキュリティ
 
@@ -48,9 +48,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-peer`    | Account alias | default    |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-peer`    | アカウントの別名 | default    |
 
 共通のオプション:
 
@@ -115,15 +115,15 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`...   
 
-| 列              | 説明                                                              |
-|-----------------|-------------------------------------------------------------------|
-| path            | Path                                                              |
-| is_team_folder  | `true` if the folder is a team folder, or inside of a team folder |
-| owner_team_name | Team name of the team that owns the folder                        |
-| access_type     | User's access level for this folder                               |
-| member_type     | Type of this member (user, group, or invitee)                     |
-| member_name     | Name of this member                                               |
-| member_email    | Email address of this member                                      |
+| 列              | 説明                                                        |
+|-----------------|-------------------------------------------------------------|
+| path            | パス                                                        |
+| is_team_folder  | チームフォルダまたはチームフォルダ下のフォルダの場合 `true` |
+| owner_team_name | このフォルダを所有するチームの名前                          |
+| access_type     | このフォルダに対するユーザーのアクセスレベル                |
+| member_type     | メンバーの種類 (user, group または invitee)                 |
+| member_name     | このメンバーの名前                                          |
+| member_email    | このメンバーのメールアドレス                                |
 
 ## レポート: no_member 
 
@@ -137,8 +137,8 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`...   
 
-| 列              | 説明                                       |
-|-----------------|--------------------------------------------|
-| owner_team_name | Team name of the team that owns the folder |
-| path            | Path                                       |
+| 列              | 説明                               |
+|-----------------|------------------------------------|
+| owner_team_name | このフォルダを所有するチームの名前 |
+| path            | パス                               |
 
