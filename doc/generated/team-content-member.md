@@ -93,3 +93,52 @@ Enter the authorisation code
 
 The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
+# Results
+
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+
+| OS      | Path                                                                                                      |
+| ------- | --------------------------------------------------------------------------------------------------------- |
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
+
+## Report: membership 
+
+Report files are generated in three formats like below;
+* `membership.csv`
+* `membership.xlsx`
+* `membership.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`...   
+
+| Column          | Description                                                       |
+|-----------------|-------------------------------------------------------------------|
+| path            | Path                                                              |
+| is_team_folder  | `true` if the folder is a team folder, or inside of a team folder |
+| owner_team_name | Team name of the team that owns the folder                        |
+| access_type     | User's access level for this folder                               |
+| member_type     | Type of this member (user, group, or invitee)                     |
+| member_name     | Name of this member                                               |
+| member_email    | Email address of this member                                      |
+
+## Report: no_member 
+
+Report files are generated in three formats like below;
+* `no_member.csv`
+* `no_member.xlsx`
+* `no_member.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`...   
+
+| Column          | Description                                |
+|-----------------|--------------------------------------------|
+| owner_team_name | Team name of the team that owns the folder |
+| path            | Path                                       |
+

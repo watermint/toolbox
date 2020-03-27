@@ -4251,6 +4251,14 @@
           {
             "name": "policy_member",
             "desc": "だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)"
+          },
+          {
+            "name": "owner_team_id",
+            "desc": "Team ID of the team that owns the folder"
+          },
+          {
+            "name": "owner_team_name",
+            "desc": "Team name of the team that owns the folder"
           }
         ]
       }
@@ -5057,7 +5065,56 @@
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
-    "reports": [],
+    "reports": [
+      {
+        "name": "membership",
+        "desc": "",
+        "columns": [
+          {
+            "name": "path",
+            "desc": "Path"
+          },
+          {
+            "name": "is_team_folder",
+            "desc": "`true` if the folder is a team folder, or inside of a team folder"
+          },
+          {
+            "name": "owner_team_name",
+            "desc": "Team name of the team that owns the folder"
+          },
+          {
+            "name": "access_type",
+            "desc": "User's access level for this folder"
+          },
+          {
+            "name": "member_type",
+            "desc": "Type of this member (user, group, or invitee)"
+          },
+          {
+            "name": "member_name",
+            "desc": "Name of this member"
+          },
+          {
+            "name": "member_email",
+            "desc": "Email address of this member"
+          }
+        ]
+      },
+      {
+        "name": "no_member",
+        "desc": "",
+        "columns": [
+          {
+            "name": "owner_team_name",
+            "desc": "Team name of the team that owns the folder"
+          },
+          {
+            "name": "path",
+            "desc": "Path"
+          }
+        ]
+      }
+    ],
     "feeds": []
   },
   "team device list": {

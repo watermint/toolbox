@@ -20,7 +20,7 @@ type TeamScanner struct {
 	queue               rc_worker.Queue
 }
 
-func (z *TeamScanner) NamespacesOfTeam() error {
+func (z *TeamScanner) namespacesOfTeam() error {
 	l := z.ctx.Log()
 
 	l.Debug("Scanning admin")
@@ -102,6 +102,16 @@ func (z *TeamScanner) iterateMembers(f func(member *mo_member.Member) error) err
 	return nil
 }
 
-func (z *TeamScanner) NamespacesOfMembers() error {
+func (z *TeamScanner) namespacesOfMembers() error {
 	return z.iterateMembers(z.namespaceOfMember)
+}
+
+func (z *TeamScanner) Scan() error {
+	if err := z.namespacesOfTeam(); err != nil {
+		return err
+	}
+	if err := z.namespacesOfMembers(); err != nil {
+		return err
+	}
+	return nil
 }

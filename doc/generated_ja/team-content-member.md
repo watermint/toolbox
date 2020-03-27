@@ -93,3 +93,52 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 
 プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 
+# 実行結果
+
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+
+| OS      | Path                                                                                                      |
+| ------- | --------------------------------------------------------------------------------------------------------- |
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
+
+## レポート: membership 
+
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `membership.csv`
+* `membership.xlsx`
+* `membership.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`...   
+
+| 列              | 説明                                                              |
+|-----------------|-------------------------------------------------------------------|
+| path            | Path                                                              |
+| is_team_folder  | `true` if the folder is a team folder, or inside of a team folder |
+| owner_team_name | Team name of the team that owns the folder                        |
+| access_type     | User's access level for this folder                               |
+| member_type     | Type of this member (user, group, or invitee)                     |
+| member_name     | Name of this member                                               |
+| member_email    | Email address of this member                                      |
+
+## レポート: no_member 
+
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `no_member.csv`
+* `no_member.xlsx`
+* `no_member.json`
+
+`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`...   
+
+| 列              | 説明                                       |
+|-----------------|--------------------------------------------|
+| owner_team_name | Team name of the team that owns the folder |
+| path            | Path                                       |
+

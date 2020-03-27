@@ -124,4 +124,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
 | is_team_folder          | Whether this folder is a team folder.                                                                                   |
 | policy_member           | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                                |
+| owner_team_id           | Team ID of the team that owns the folder                                                                                |
+| owner_team_name         | Team name of the team that owns the folder                                                                              |
 
