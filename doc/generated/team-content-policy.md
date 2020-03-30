@@ -1,6 +1,6 @@
-# sharedfolder list 
+# team content policy 
 
-List shared folder(s) 
+List policies of team folders and shared folders in the team 
 
 # Security
 
@@ -16,9 +16,10 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Individual account: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 This command use following access type(s) during the operation:
+* Dropbox Business File access
 
 # Usage
 
@@ -30,13 +31,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe sharedfolder list 
+.\tbx.exe team content policy 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx sharedfolder list 
+$HOME/Desktop/tbx team content policy 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -102,31 +103,25 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: shared_folder 
+## Report: policy 
 
 Report files are generated in three formats like below;
-* `shared_folder.csv`
-* `shared_folder.xlsx`
-* `shared_folder.json`
+* `policy.csv`
+* `policy.xlsx`
+* `policy.json`
 
 But if you run with `-low-memory` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`...   
+`policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`...   
 
-| Column                  | Description                                                                                                             |
-|-------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| shared_folder_id        | The ID of the shared folder.                                                                                            |
-| parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
-| name                    | The name of the this shared folder.                                                                                     |
-| access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
-| path_lower              | The lower-cased full path of this shared folder.                                                                        |
-| is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
-| is_team_folder          | Whether this folder is a team folder.                                                                                   |
-| policy_manage_access    | Who can add and remove members from this shared folder.                                                                 |
-| policy_shared_link      | Who links can be shared with.                                                                                           |
-| policy_member           | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                                |
-| policy_viewer_info      | Who can enable/disable viewer info for this shared folder.                                                              |
-| owner_team_id           | Team ID of the team that owns the folder                                                                                |
-| owner_team_name         | Team name of the team that owns the folder                                                                              |
+| Column               | Description                                                                                              |
+|----------------------|----------------------------------------------------------------------------------------------------------|
+| path                 | Path                                                                                                     |
+| is_team_folder       | `true` if the folder is a team folder, or inside of a team folder                                        |
+| owner_team_name      | Team name of the team that owns the folder                                                               |
+| policy_manage_access | Who can add and remove members from this shared folder.                                                  |
+| policy_shared_link   | Who links can be shared with.                                                                            |
+| policy_member        | Who can be a member of this shared folder, taking into account both the folder and the team-wide policy. |
+| policy_viewer_info   | Who can enable/disable viewer info for this shared folder.                                               |
 

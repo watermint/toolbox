@@ -1,6 +1,6 @@
-# sharedfolder list 
+# team content policy 
 
-共有フォルダの一覧 
+チームフォルダと共有フォルダのポリシー一覧 
 
 # セキュリティ
 
@@ -16,9 +16,10 @@
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* 個人アカウント: https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 このコマンドは次のアクセスタイプを処理に利用します:
+* Dropbox Business File access
 
 # 利用方法
 
@@ -30,13 +31,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe sharedfolder list 
+.\tbx.exe team content policy 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx sharedfolder list 
+$HOME/Desktop/tbx team content policy 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -102,31 +103,25 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## レポート: shared_folder 
+## レポート: policy 
 
 レポートファイルは次の3種類のフォーマットで出力されます;
-* `shared_folder.csv`
-* `shared_folder.xlsx`
-* `shared_folder.json`
+* `policy.csv`
+* `policy.xlsx`
+* `policy.json`
 
 `-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`...   
+`policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`...   
 
-| 列                      | 説明                                                                                                 |
-|-------------------------|------------------------------------------------------------------------------------------------------|
-| shared_folder_id        | 共有フォルダのID                                                                                     |
-| parent_shared_folder_id | 親共有フォルダのID. このフィールドはフォルダが他の共有フォルダに含まれる場合のみ設定されます.        |
-| name                    | 共有フォルダの名称                                                                                   |
-| access_type             | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
-| path_lower              | 共有フォルダのフルパス(小文字に変換済み).                                                            |
-| is_inside_team_folder   | フォルダがチームフォルダに内包されているかどうか                                                     |
-| is_team_folder          | このフォルダがチームフォルダであるかどうか                                                           |
-| policy_manage_access    | このフォルダへメンバーを追加したり削除できるユーザー                                                 |
-| policy_shared_link      | このフォルダの共有リンクを誰が利用できるか                                                           |
-| policy_member           | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
-| policy_viewer_info      | だれが閲覧社情報を有効化・無効化できるか                                                             |
-| owner_team_id           | このフォルダを所有するチームのチームID                                                               |
-| owner_team_name         | このフォルダを所有するチームの名前                                                                   |
+| 列                   | 説明                                                                                                            |
+|----------------------|-----------------------------------------------------------------------------------------------------------------|
+| path                 | パス                                                                                                            |
+| is_team_folder       | チームフォルダまたはチームフォルダ下のフォルダの場合 `true`                                                     |
+| owner_team_name      | このフォルダを所有するチームの名前                                                                              |
+| policy_manage_access | このフォルダへメンバーを追加したり削除できるユーザー                                                            |
+| policy_shared_link   | このフォルダの共有リンクを誰が利用できるか                                                                      |
+| policy_member        | このフォルダへ、誰がメンバーになることができるか. フォルダならびにチーム全体ポリシーが適用された結果のポリシー. |
+| policy_viewer_info   | だれが閲覧社情報を有効化・無効化できるか                                                                        |
 

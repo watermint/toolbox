@@ -4249,8 +4249,20 @@
             "desc": "このフォルダがチームフォルダであるかどうか"
           },
           {
+            "name": "policy_manage_access",
+            "desc": "このフォルダへメンバーを追加したり削除できるユーザー"
+          },
+          {
+            "name": "policy_shared_link",
+            "desc": "このフォルダの共有リンクを誰が利用できるか"
+          },
+          {
             "name": "policy_member",
             "desc": "だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)"
+          },
+          {
+            "name": "policy_viewer_info",
+            "desc": "だれが閲覧社情報を有効化・無効化できるか"
           },
           {
             "name": "owner_team_id",
@@ -5111,6 +5123,61 @@
           {
             "name": "path",
             "desc": "パス"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team content policy": {
+    "name": "policy",
+    "title": "チームフォルダと共有フォルダのポリシー一覧",
+    "desc": "",
+    "remarks": "",
+    "path": "team content policy",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "policy",
+        "desc": "",
+        "columns": [
+          {
+            "name": "path",
+            "desc": "パス"
+          },
+          {
+            "name": "is_team_folder",
+            "desc": "チームフォルダまたはチームフォルダ下のフォルダの場合 `true`"
+          },
+          {
+            "name": "owner_team_name",
+            "desc": "このフォルダを所有するチームの名前"
+          },
+          {
+            "name": "policy_manage_access",
+            "desc": "このフォルダへメンバーを追加したり削除できるユーザー"
+          },
+          {
+            "name": "policy_shared_link",
+            "desc": "このフォルダの共有リンクを誰が利用できるか"
+          },
+          {
+            "name": "policy_member",
+            "desc": "このフォルダへ、誰がメンバーになることができるか. フォルダならびにチーム全体ポリシーが適用された結果のポリシー."
+          },
+          {
+            "name": "policy_viewer_info",
+            "desc": "だれが閲覧社情報を有効化・無効化できるか"
           }
         ]
       }

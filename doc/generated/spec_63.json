@@ -4249,8 +4249,20 @@
             "desc": "Whether this folder is a team folder."
           },
           {
+            "name": "policy_manage_access",
+            "desc": "Who can add and remove members from this shared folder."
+          },
+          {
+            "name": "policy_shared_link",
+            "desc": "Who links can be shared with."
+          },
+          {
             "name": "policy_member",
             "desc": "Who can be a member of this shared folder, as set on the folder itself (team, or anyone)"
+          },
+          {
+            "name": "policy_viewer_info",
+            "desc": "Who can enable/disable viewer info for this shared folder."
           },
           {
             "name": "owner_team_id",
@@ -5111,6 +5123,61 @@
           {
             "name": "path",
             "desc": "Path"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "team content policy": {
+    "name": "policy",
+    "title": "List policies of team folders and shared folders in the team",
+    "desc": "",
+    "remarks": "",
+    "path": "team content policy",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "policy",
+        "desc": "",
+        "columns": [
+          {
+            "name": "path",
+            "desc": "Path"
+          },
+          {
+            "name": "is_team_folder",
+            "desc": "`true` if the folder is a team folder, or inside of a team folder"
+          },
+          {
+            "name": "owner_team_name",
+            "desc": "Team name of the team that owns the folder"
+          },
+          {
+            "name": "policy_manage_access",
+            "desc": "Who can add and remove members from this shared folder."
+          },
+          {
+            "name": "policy_shared_link",
+            "desc": "Who links can be shared with."
+          },
+          {
+            "name": "policy_member",
+            "desc": "Who can be a member of this shared folder, taking into account both the folder and the team-wide policy."
+          },
+          {
+            "name": "policy_viewer_info",
+            "desc": "Who can enable/disable viewer info for this shared folder."
           }
         ]
       }

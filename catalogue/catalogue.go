@@ -171,6 +171,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipeteamdiag.Explorer{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfilerequest.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamcontent.Member{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamcontent.Policy{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Archive{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Permdelete{}, infra_recipe_rc_recipe.Irreversible()),
