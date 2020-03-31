@@ -1,4 +1,4 @@
-package app_report_test
+package rp_test
 
 import (
 	"fmt"

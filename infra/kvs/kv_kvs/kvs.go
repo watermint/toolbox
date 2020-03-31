@@ -10,6 +10,7 @@ type Kvs interface {
 	PutBytes(key string, value []byte) error
 	PutJson(key string, j json.RawMessage) error
 	PutJsonModel(key string, v interface{}) error
+	PutRaw(key, value []byte) error
 
 	GetString(key string) (value string, err error)
 	GetBytes(key string) (value []byte, err error)
@@ -18,6 +19,7 @@ type Kvs interface {
 
 	Delete(key string) error
 	ForEach(f func(key string, value []byte) error) error
+	ForEachRaw(f func(key, value []byte) error) error
 	ForEachModel(model interface{}, f func(key string, m interface{}) error) error
 
 	NextSequence(name string) (uint64, error)

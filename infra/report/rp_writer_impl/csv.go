@@ -3,6 +3,8 @@ package rp_writer_impl
 import (
 	"encoding/csv"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/report/rp_column"
+	"github.com/watermint/toolbox/infra/report/rp_column_impl"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_writer"
 	"go.uber.org/zap"
@@ -26,7 +28,7 @@ type csvWriter struct {
 	w        *csv.Writer
 	mutex    sync.Mutex
 	ctl      app_control.Control
-	colModel Column
+	colModel rp_column.Column
 }
 
 func (z *csvWriter) Name() string {
@@ -52,7 +54,7 @@ func (z *csvWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_
 		o(ro)
 	}
 
-	z.colModel = NewColumn(model, opts...)
+	z.colModel = rp_column_impl.NewModel(model, opts...)
 	z.path = filepath.Join(ctl.Workspace().Report(), z.Name()+ro.ReportSuffix+".csv")
 	l = l.With(zap.String("path", z.path))
 	l.Debug("Create new csv report")

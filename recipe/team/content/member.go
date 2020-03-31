@@ -27,7 +27,7 @@ type Membership struct {
 	NamespaceId   string `json:"namespace_id"`
 	NamespaceName string `json:"namespace_name"`
 	Path          string `json:"path"`
-	IsTeamFolder  bool   `json:"is_team_folder"`
+	FolderType    string `json:"folder_type"`
 	OwnerTeamId   string `json:"owner_team_id"`
 	OwnerTeamName string `json:"owner_team_name"`
 	AccessType    string `json:"access_type"`
@@ -43,6 +43,7 @@ type NoMember struct {
 	NamespaceId   string `json:"namespace_id"`
 	NamespaceName string `json:"namespace_name"`
 	Path          string `json:"path"`
+	FolderType    string `json:"folder_type"`
 }
 
 func (z *Member) Preset() {
@@ -137,6 +138,7 @@ func (z *Member) Exec(c app_control.Control) error {
 						NamespaceId:   meta.SharedFolderId,
 						NamespaceName: meta.Name,
 						Path:          t.RelativePath,
+						FolderType:    FolderType(meta),
 					})
 				}
 				for _, member := range members {
@@ -163,7 +165,7 @@ func (z *Member) Exec(c app_control.Control) error {
 						NamespaceId:   meta.SharedFolderId,
 						NamespaceName: meta.Name,
 						Path:          t.RelativePath,
-						IsTeamFolder:  meta.IsTeamFolder || meta.IsInsideTeamFolder,
+						FolderType:    FolderType(meta),
 						AccessType:    member.AccessType(),
 						MemberType:    member.MemberType(),
 						MemberId:      memberId,
@@ -182,4 +184,13 @@ func (z *Member) Exec(c app_control.Control) error {
 
 func (z *Member) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Member{}, rc_recipe.NoCustomValues)
+}
+
+func FolderType(m *mo_sharedfolder.SharedFolder) string {
+	switch {
+	case m.IsTeamFolder, m.IsInsideTeamFolder:
+		return "team_folder"
+	default:
+		return "shared_folder"
+	}
 }

@@ -217,6 +217,7 @@ func Messages() []interface{} {
 		infra_recipe_rcvalue.MValFdFileRowFeed,
 		infra_report_rpmodelimpl.MTransactionReport,
 		rp_writer_impl.MXlsxWriter,
+		rp_writer_impl.MSortedWriter,
 		infra_ui_appui.MConsole,
 		infra_ui_appui.MProgress,
 		infra_util_ut_doc.MDoc,

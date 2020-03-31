@@ -8,14 +8,19 @@ import (
 )
 
 func NewCascade(name string, ctl app_control.Control) rp_writer.Writer {
+	columnWriters := make([]rp_writer.Writer, 0)
 	fileWriters := make([]rp_writer.Writer, 0)
 	consoleWriters := make([]rp_writer.Writer, 0)
 
 	fileWriters = append(fileWriters, NewJsonWriter(name, ctl, false))
 	if !ctl.IsLowMemory() {
-		fileWriters = append(fileWriters, newCsvWriter(name, ctl))
-		fileWriters = append(fileWriters, NewXlsxWriter(name, ctl))
+		columnWriters = append(columnWriters, newCsvWriter(name, ctl))
+		columnWriters = append(columnWriters, NewXlsxWriter(name, ctl))
 	}
+
+	sortedWriter := NewSorted(name, columnWriters)
+	fileWriters = append(fileWriters, sortedWriter)
+
 	if !ctl.IsQuiet() {
 		if ctl.UIFormat() == app_opt.OutputJson {
 			consoleWriters = append(consoleWriters, NewJsonWriter(name, ctl, true))

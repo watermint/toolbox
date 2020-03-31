@@ -23,6 +23,10 @@ type badgerWrapper struct {
 	tx  *badger.Txn
 }
 
+func (z *badgerWrapper) PutRaw(key, value []byte) error {
+	return z.tx.Set(key, value)
+}
+
 func (z *badgerWrapper) NextSequence(name string) (uint64, error) {
 	l := z.ctl.Log().With(zap.String("name", name))
 	seq, err := z.db.GetSequence([]byte(name), 100)
@@ -124,9 +128,8 @@ func (z *badgerWrapper) Delete(key string) error {
 	return z.tx.Delete([]byte(key))
 }
 
-func (z *badgerWrapper) ForEach(f func(key string, value []byte) error) error {
+func (z *badgerWrapper) ForEachRaw(f func(key, value []byte) error) error {
 	opts := badger.DefaultIteratorOptions
-	opts.PrefetchSize = 100
 	it := z.tx.NewIterator(opts)
 	defer it.Close()
 	for it.Rewind(); it.Valid(); it.Next() {
@@ -135,11 +138,17 @@ func (z *badgerWrapper) ForEach(f func(key string, value []byte) error) error {
 		if err != nil {
 			return err
 		}
-		if err := f(string(i.Key()), v); err != nil {
+		if err := f(i.Key(), v); err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func (z *badgerWrapper) ForEach(f func(key string, value []byte) error) error {
+	return z.ForEachRaw(func(key, value []byte) error {
+		return f(string(key), value)
+	})
 }
 
 func (z *badgerWrapper) ForEachModel(model interface{}, f func(key string, m interface{}) error) error {

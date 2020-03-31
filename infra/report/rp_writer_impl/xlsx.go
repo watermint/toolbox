@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/tealeg/xlsx"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/report/rp_column"
+	"github.com/watermint/toolbox/infra/report/rp_column_impl"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_writer"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -66,7 +68,7 @@ type xlsxWriter struct {
 	path           string
 	mutex          sync.Mutex
 	ctl            app_control.Control
-	colModel       Column
+	colModel       rp_column.Column
 	omitError      bool
 	rotateCount    int
 	rotateFailed   bool
@@ -203,7 +205,7 @@ func (z *xlsxWriter) Row(r interface{}) {
 
 func (z *xlsxWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) error {
 	z.ctl = ctl
-	z.colModel = NewColumn(model, opts...)
+	z.colModel = rp_column_impl.NewModel(model, opts...)
 	z.fileAvailable = false
 	ro := &rp_model.ReportOpts{}
 	for _, o := range opts {

@@ -2,6 +2,8 @@ package rp_writer_impl
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/report/rp_column"
+	"github.com/watermint/toolbox/infra/report/rp_column_impl"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_writer"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -19,7 +21,7 @@ type uiWriter struct {
 	name     string
 	ctl      app_control.Control
 	table    app_ui.Table
-	colModel Column
+	colModel rp_column.Column
 	index    int
 	mutex    sync.Mutex
 }
@@ -41,7 +43,7 @@ func (z *uiWriter) Row(r interface{}) {
 
 func (z *uiWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) error {
 	z.ctl = ctl
-	z.colModel = NewColumn(model, opts...)
+	z.colModel = rp_column_impl.NewModel(model, opts...)
 	z.table = ctl.UI().InfoTable(z.name)
 	return nil
 }
