@@ -36,6 +36,10 @@ type Multi struct {
 	secure bool
 }
 
+func (z *Multi) IsDebug() bool {
+	return false
+}
+
 func (z *Multi) UIFormat() string {
 	return app_opt.OutputNone
 }

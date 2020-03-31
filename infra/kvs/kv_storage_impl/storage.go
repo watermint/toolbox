@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"go.uber.org/zap"
+	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -33,6 +34,7 @@ func New(name string) kv_storage.Storage {
 
 type badgerWrapper struct {
 	ctl    app_control.Control
+	path   string
 	name   string
 	db     *badger.DB
 	closed bool
@@ -61,20 +63,33 @@ func (z *badgerWrapper) Close() {
 	z.closed = true
 	err := z.db.Close()
 	l.Debug("Database closed", zap.Error(err))
+
+	// #323 : remove storage data on close unless debug option enabled
+	if z.ctl.IsDebug() {
+		l.Debug("Skip removing database")
+		return
+	}
+
+	l.Debug("Trying to clean up database", zap.String("path", z.path))
+	if err := os.RemoveAll(z.path); err != nil {
+		l.Debug("Unable to delete database", zap.Error(err))
+	} else {
+		l.Debug("The database removed")
+	}
 }
 
 func (z *badgerWrapper) init(name string) (err error) {
 	l := z.ctl.Log().With(zap.String("name", name))
-	path, err := z.ctl.Workspace().Descendant("kvs")
+	kvsBasePath, err := z.ctl.Workspace().Descendant("kvs")
 	if err != nil {
 		l.Debug("Unable to create kvs folder", zap.Error(err))
 		return err
 	}
-	path = filepath.Join(path, ut_filepath.Escape(name))
+	z.path = filepath.Join(kvsBasePath, ut_filepath.Escape(name))
 
-	l = l.With(zap.String("path", path))
+	l = l.With(zap.String("path", z.path))
 	l.Debug("Open database")
-	opts := badger.DefaultOptions(path)
+	opts := badger.DefaultOptions(z.path)
 	opts = opts.WithLogger(&badgerLogger{l.WithOptions(zap.AddCallerSkip(1))})
 	opts = opts.WithMaxCacheSize(32 * 1_048_576) // 32MB
 	opts = opts.WithNumCompactors(1)
