@@ -3,9 +3,9 @@ package rc_conn_impl
 import (
 	"errors"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_context_impl"
+	"github.com/watermint/toolbox/infra/api/dbx_auth"
+	"github.com/watermint/toolbox/infra/api/dbx_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -14,6 +14,10 @@ import (
 
 const (
 	DefaultPeerName = "default"
+)
+
+var (
+	ErrorIncompatibleTokenType = errors.New("incompatible token type")
 )
 
 func IsEndToEndTokenAllAvailable(ctl app_control.Control) bool {
@@ -35,33 +39,43 @@ func IsEndToEndTokenAllAvailable(ctl app_control.Control) bool {
 	return true
 }
 
-func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_context.Context, err error) {
+func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_context.DropboxApiContext, err error) {
 	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
 	l.Debug("Connect for testing")
 	if qt_endtoend.IsSkipEndToEndTest() {
 		return nil, qt_errors.ErrorSkipEndToEndTest
 	}
-	a := api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(peerName))
+	a := dbx_auth.NewCached(ctl, dbx_auth.PeerName(peerName))
 	if c, err := a.Auth(tokenType); err == nil {
-		return c, nil
+		if dc, ok := c.(api_context.DropboxApiContext); ok {
+			return dc, nil
+		} else {
+			l.Debug("Incompatible token type found", zap.Any("token", c))
+			return nil, ErrorIncompatibleTokenType
+		}
 	}
 
 	// fallback to end to end peer
-	a = api_auth_impl.NewCached(ctl, api_auth_impl.PeerName(qt_endtoend.EndToEndPeer))
+	a = dbx_auth.NewCached(ctl, dbx_auth.PeerName(qt_endtoend.EndToEndPeer))
 	if c, err := a.Auth(tokenType); err == nil {
-		return c, nil
+		if dc, ok := c.(api_context.DropboxApiContext); ok {
+			return dc, nil
+		} else {
+			l.Debug("Incompatible token type found", zap.Any("returned token", c))
+			return nil, ErrorIncompatibleTokenType
+		}
 	} else {
 		return nil, qt_errors.ErrorNotEnoughResource
 	}
 }
 
-func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (ctx api_context.Context, err error) {
+func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (ctx api_context.DropboxApiContext, err error) {
 	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
 	ui := ctl.UI()
 
-	verifyToken := func(ctx0 api_context.Context) error {
+	verifyToken := func(ctx0 api_context.DropboxApiContext) error {
 		if verify {
-			desc, suppl, err0 := api_auth_impl.VerifyToken(tokenType, ctx0)
+			desc, suppl, err0 := dbx_auth.VerifyToken(tokenType, ctx0)
 			if err0 == nil {
 				ui.Info(MConnect.VerifySuccess.With("Desc", desc).With("Suppl", suppl))
 			}
@@ -73,7 +87,7 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 	if c, ok := ctl.(app_control.ControlTestExtension); ok {
 		if c.TestValue(qt_endtoend.CtlTestExtUseMock) == true {
 			l.Debug("Test with mock")
-			return api_context_impl.NewMock(ctl), nil
+			return dbx_context.NewMock(ctl), nil
 		}
 	}
 
@@ -81,29 +95,35 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 	case ctl.IsTest():
 		if qt_endtoend.IsSkipEndToEndTest() {
 			l.Debug("Skip end to end test")
-			return api_context_impl.NewMock(ctl), nil
+			return dbx_context.NewMock(ctl), nil
 		}
 		return ConnectTest(tokenType, peerName, ctl)
 
 	case ui.IsConsole():
 		l.Debug("Connect through console UI")
-		c := api_auth_impl.New(ctl, api_auth_impl.PeerName(peerName))
-		ctx, err = c.Auth(tokenType)
-		if err == nil {
-			err = verifyToken(ctx)
+		c := dbx_auth.New(ctl, dbx_auth.PeerName(peerName))
+		ctx0, err := c.Auth(tokenType)
+		if err != nil {
+			return nil, err
 		}
-		return
+		ctx, ok := ctx0.(api_context.DropboxApiContext)
+		if !ok {
+			l.Debug("Incompatible token type found", zap.Any("token", ctx0))
+			return nil, ErrorIncompatibleTokenType
+		}
+		err = verifyToken(ctx)
+		return ctx, nil
 
 	case ui.IsWeb():
 		l.Debug("Connect through web UI")
-		a := api_auth_impl.NewWeb(ctl)
+		a := dbx_auth.NewWeb(ctl)
 		tokens, err := a.List(tokenType)
 		if err != nil {
 			return nil, err
 		}
 		for _, t := range tokens {
 			if t.PeerName == peerName {
-				c := api_context_impl.New(ctl, t)
+				c := dbx_context.New(ctl, t)
 				return c, nil
 			}
 		}

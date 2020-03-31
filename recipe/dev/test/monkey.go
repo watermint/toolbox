@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/service/sv_file"
-	"github.com/watermint/toolbox/domain/service/sv_file_content"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
@@ -24,7 +24,7 @@ import (
 )
 
 type MonkeyWorker struct {
-	Context api_context.Context
+	Context api_context.DropboxApiContext
 	Base    mo_path.DropboxPath
 	Name    string
 	Sem     *semaphore.Weighted

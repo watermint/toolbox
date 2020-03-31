@@ -1,7 +1,7 @@
 package ci
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -25,7 +25,7 @@ func (z *Auth) Preset() {
 }
 
 func (z *Auth) Exec(c app_control.Control) error {
-	if err := api_auth_impl.CreateCompatible(c, qt_endtoend.EndToEndPeer); err != nil {
+	if err := dbx_auth.CreateCompatible(c, qt_endtoend.EndToEndPeer); err != nil {
 		return err
 	}
 	return nil

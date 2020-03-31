@@ -2,10 +2,10 @@ package quota
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/model/mo_member"
-	"github.com/watermint/toolbox/domain/model/mo_usage"
-	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/domain/service/sv_usage"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_usage"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_usage"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
@@ -22,7 +22,7 @@ type UsageVO struct {
 
 type UsageWorker struct {
 	member *mo_member.Member
-	ctx    api_context.Context
+	ctx    api_context.DropboxApiContext
 	ctl    app_control.Control
 	rep    rp_model.RowReport
 }

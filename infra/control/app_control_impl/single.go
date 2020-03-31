@@ -66,6 +66,10 @@ func (z *Single) UIFormat() string {
 	return z.opts.UIFormat
 }
 
+func (z *Single) IsDebug() bool {
+	return z.opts.Debug
+}
+
 func (z *Single) IsAutoOpen() bool {
 	return z.opts.AutoOpen
 }

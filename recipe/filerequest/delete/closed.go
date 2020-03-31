@@ -1,8 +1,8 @@
 package delete
 
 import (
-	"github.com/watermint/toolbox/domain/model/mo_filerequest"
-	"github.com/watermint/toolbox/domain/service/sv_filerequest"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_filerequest"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"

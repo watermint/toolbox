@@ -4,10 +4,10 @@ import (
 	"archive/zip"
 	"encoding/json"
 	"errors"
-	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/model/mo_time"
-	"github.com/watermint/toolbox/domain/service/sv_file_content"
-	"github.com/watermint/toolbox/domain/service/sv_profile"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
@@ -454,6 +454,7 @@ func (z *Procmon) Test(c app_control.Control) error {
 		m.ProcmonUrl = procmonDownloadUrl
 		m.Seconds = 30
 		m.RetainLogs = 4
+		m.RunUntil = mo_time.New(time.Now().Add(5 * time.Second))
 		m.RepositoryPath = mo_path.NewFileSystemPath(tmpDir)
 	})
 }

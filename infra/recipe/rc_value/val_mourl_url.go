@@ -1,7 +1,7 @@
 package rc_value
 
 import (
-	"github.com/watermint/toolbox/domain/model/mo_url"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"

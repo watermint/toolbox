@@ -1,8 +1,8 @@
 package batch
 
 import (
-	"github.com/watermint/toolbox/domain/model/mo_group"
-	"github.com/watermint/toolbox/domain/service/sv_group"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"

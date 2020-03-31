@@ -25,6 +25,7 @@ type Control interface {
 	Messages() app_msg_container.Container
 
 	IsProduction() bool
+	IsDebug() bool
 	IsTest() bool
 	IsQuiet() bool
 	IsSecure() bool

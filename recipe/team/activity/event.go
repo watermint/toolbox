@@ -2,10 +2,10 @@ package activity
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/model/mo_activity"
-	"github.com/watermint/toolbox/domain/model/mo_time"
-	"github.com/watermint/toolbox/domain/service/sv_activity"
-	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
+	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -48,7 +48,7 @@ func (z *Event) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, &Event{}, func(r rc_recipe.Recipe) {
 		rc := r.(*Event)
 		if t, ok := rc.StartTime.(*mo_time.TimeImpl); ok {
-			t.UpdateTime(time.Now().Add(-10 * time.Minute).Format(api_util.DateTimeFormat))
+			t.UpdateTime(time.Now().Add(-10 * time.Minute).Format(dbx_util.DateTimeFormat))
 		}
 		rc.Category = "logins"
 	})

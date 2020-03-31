@@ -21,14 +21,14 @@ type MsgNetwork struct {
 }
 
 var (
-	MNetwork = app_msg.Apply(&MsgNetwork{}).(*MsgNetwork)
-)
-
-func Network(ctl app_control.Control) error {
-	urls := []string{
+	MNetwork        = app_msg.Apply(&MsgNetwork{}).(*MsgNetwork)
+	NetworkDiagUrls = []string{
 		"https://www.dropbox.com",
 		"https://api.dropboxapi.com",
 	}
+)
+
+func Network(ctl app_control.Control) error {
 	l := ctl.Log()
 	ui := ctl.UI()
 	ui.Info(MNetwork.ProgressTesting)
@@ -41,7 +41,7 @@ func Network(ctl app_control.Control) error {
 		}
 	}()
 
-	for _, url := range urls {
+	for _, url := range NetworkDiagUrls {
 		resp, err := http.Head(url)
 		ll := l.With(zap.String("Url", url))
 		if err != nil {

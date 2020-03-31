@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
@@ -87,7 +87,7 @@ func (z *WebHandler) auth(user web_user.User, uc app_control.Control) api_auth.W
 	if a, ok := z.authForUser[user.UserHash()]; ok {
 		return a
 	} else {
-		a = api_auth_impl.NewWeb(uc)
+		a = dbx_auth.NewWeb(uc)
 		z.authForUser[user.UserHash()] = a
 		return a
 	}

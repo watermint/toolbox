@@ -3,9 +3,9 @@ package batch
 import (
 	"encoding/csv"
 	"errors"
-	"github.com/watermint/toolbox/domain/model/mo_file"
-	"github.com/watermint/toolbox/domain/model/mo_path"
-	"github.com/watermint/toolbox/domain/service/sv_file_url"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_url"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -26,7 +26,7 @@ type UrlRow struct {
 
 type UrlWorker struct {
 	row *UrlRow
-	ctx api_context.Context
+	ctx api_context.DropboxApiContext
 	ctl app_control.Control
 	rep rp_model.TransactionReport
 }

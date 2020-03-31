@@ -15,7 +15,7 @@ func NewConnBusinessInfo(name string) rc_conn.ConnBusinessInfo {
 type connBusinessInfo struct {
 	name   string
 	verify bool
-	ctx    api_context.Context
+	ctx    api_context.DropboxApiContext
 }
 
 func (z *connBusinessInfo) SetPreVerify(enabled bool) {
@@ -46,7 +46,7 @@ func (z *connBusinessInfo) Name() string {
 	return z.name
 }
 
-func (z *connBusinessInfo) Context() api_context.Context {
+func (z *connBusinessInfo) Context() api_context.DropboxApiContext {
 	return z.ctx
 }
 

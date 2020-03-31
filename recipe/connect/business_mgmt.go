@@ -1,7 +1,7 @@
 package connect
 
 import (
-	"github.com/watermint/toolbox/domain/service/sv_profile"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"

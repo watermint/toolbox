@@ -3,6 +3,7 @@ package qt_messages
 import (
 	"errors"
 	"flag"
+	"fmt"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
@@ -12,8 +13,11 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"os"
+	"sort"
+	"strings"
 )
 
 func VerifyMessages(ctl app_control.Control) error {
@@ -35,9 +39,26 @@ func VerifyMessages(ctl app_control.Control) error {
 	qm := ctl.Messages().(app_msg_container.Quality)
 	missing := qm.MissingKeys()
 	if len(missing) > 0 {
+		sort.Strings(missing)
 		for _, k := range missing {
 			ctl.Log().Error("Key missing", zap.String(k, ""))
 		}
+
+		out := ut_io.NewDefaultOut(ctl.IsTest())
+		fmt.Fprintln(out, "Please add those messages to message resource files:")
+		fmt.Fprintln(out, "====================================================")
+		for _, m := range missing {
+			switch {
+			case strings.HasSuffix(m, ".flag.peer"):
+				fmt.Fprintf(out, `"%s":"Account alias",`, m)
+			case strings.HasSuffix(m, ".flag.file"):
+				fmt.Fprintf(out, `"%s":"Path to data file",`, m)
+			default:
+				fmt.Fprintf(out, `"%s":"",`, m)
+			}
+			fmt.Fprintln(out)
+		}
+		fmt.Fprintln(out, "====================================================")
 		return errors.New("missing key found")
 	}
 	return nil

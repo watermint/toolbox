@@ -3,7 +3,7 @@ package app
 import "runtime"
 
 var (
-	Name       = "toolbox"
+	Name       = "watermint toolbox"
 	Version    = "`dev`"
 	Hash       = ""
 	Zap        = ""
@@ -19,6 +19,10 @@ const (
 `
 	ProjectLogo = `![watermint toolbox](resources/watermint-toolbox-256x256.png)`
 )
+
+func UserAgent() string {
+	return Name + "/" + Version
+}
 
 func IsProduction() bool {
 	return Hash != ""

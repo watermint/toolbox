@@ -123,5 +123,10 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | path_lower              | The lower-cased full path of this shared folder.                                                                        |
 | is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
 | is_team_folder          | Whether this folder is a team folder.                                                                                   |
+| policy_manage_access    | Who can add and remove members from this shared folder.                                                                 |
+| policy_shared_link      | Who links can be shared with.                                                                                           |
 | policy_member           | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                                |
+| policy_viewer_info      | Who can enable/disable viewer info for this shared folder.                                                              |
+| owner_team_id           | Team ID of the team that owns the folder                                                                                |
+| owner_team_name         | Team name of the team that owns the folder                                                                              |
 

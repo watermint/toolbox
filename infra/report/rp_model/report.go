@@ -2,6 +2,7 @@ package rp_model
 
 import (
 	"github.com/watermint/toolbox/infra/recipe/rc_doc"
+	"github.com/watermint/toolbox/infra/report/rp_column"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
@@ -12,6 +13,7 @@ type ReportOpts struct {
 	ShowAllColumns  bool
 	ReportSuffix    string
 	NoConsoleOutput bool
+	ColumnModel     rp_column.Column
 }
 
 func (z *ReportOpts) IsHiddenColumn(name string) bool {
@@ -37,7 +39,12 @@ func Suffix(suffix string) ReportOpt {
 		return o
 	}
 }
-
+func ColumnModel(model rp_column.Column) ReportOpt {
+	return func(o *ReportOpts) *ReportOpts {
+		o.ColumnModel = model
+		return o
+	}
+}
 func ShowAllColumns(enabled bool) ReportOpt {
 	return func(o *ReportOpts) *ReportOpts {
 		o.ShowAllColumns = enabled

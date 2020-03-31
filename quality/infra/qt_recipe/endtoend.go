@@ -5,9 +5,9 @@ import (
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/domain/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_context_impl"
+	"github.com/watermint/toolbox/infra/api/dbx_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -71,9 +71,9 @@ func findTestResource() (resource gjson.Result, found bool) {
 	return gjson.ParseBytes(b), true
 }
 
-func TestWithApiContext(t *testing.T, twc func(ctx api_context.Context)) {
+func TestWithApiContext(t *testing.T, twc func(ctx api_context.DropboxApiContext)) {
 	TestWithControl(t, func(ctl app_control.Control) {
-		ctx := api_context_impl.NewMock(ctl)
+		ctx := dbx_context.NewMock(ctl)
 		twc(ctx)
 	})
 }

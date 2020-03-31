@@ -15,7 +15,7 @@ func NewConnUserFile(name string) rc_conn.ConnUserFile {
 type connUserFile struct {
 	name   string
 	verify bool
-	ctx    api_context.Context
+	ctx    api_context.DropboxApiContext
 }
 
 func (z *connUserFile) SetPreVerify(enabled bool) {
@@ -46,7 +46,7 @@ func (z *connUserFile) Name() string {
 	return z.name
 }
 
-func (z *connUserFile) Context() api_context.Context {
+func (z *connUserFile) Context() api_context.DropboxApiContext {
 	return z.ctx
 }
 

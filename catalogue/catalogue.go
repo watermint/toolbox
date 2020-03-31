@@ -1,7 +1,7 @@
 package catalogue
 
 import (
-	infra_api_api_api_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
+	infra_api_api_api_auth_impl "github.com/watermint/toolbox/infra/api/dbx_auth"
 	infra_control_app_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
 	infra_kvs_kv_storageimpl "github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
 	infra_network_nw_diag "github.com/watermint/toolbox/infra/network/nw_diag"
@@ -13,6 +13,7 @@ import (
 	infra_recipe_rc_spec "github.com/watermint/toolbox/infra/recipe/rc_spec"
 	infra_recipe_rcvalue "github.com/watermint/toolbox/infra/recipe/rc_value"
 	infra_report_rpmodelimpl "github.com/watermint/toolbox/infra/report/rp_model_impl"
+	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
 	infra_ui_app_msg "github.com/watermint/toolbox/infra/ui/app_msg"
 	infra_ui_appui "github.com/watermint/toolbox/infra/ui/app_ui"
 	infra_util_ut_doc "github.com/watermint/toolbox/infra/util/ut_doc"
@@ -56,6 +57,7 @@ import (
 	recipeteamactivity "github.com/watermint/toolbox/recipe/team/activity"
 	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
 	recipeteamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
+	recipeteamcontent "github.com/watermint/toolbox/recipe/team/content"
 	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
 	recipeteamdiag "github.com/watermint/toolbox/recipe/team/diag"
 	recipeteamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
@@ -169,6 +171,8 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipeteamdevice.Unlink{}, infra_recipe_rc_recipe.Irreversible()),
 		infra_recipe_rc_recipe.Annotate(&recipeteamdiag.Explorer{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfilerequest.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamcontent.Member{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamcontent.Policy{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Archive{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Permdelete{}, infra_recipe_rc_recipe.Irreversible()),
@@ -212,11 +216,13 @@ func Messages() []interface{} {
 		infra_recipe_rcvalue.MRepository,
 		infra_recipe_rcvalue.MValFdFileRowFeed,
 		infra_report_rpmodelimpl.MTransactionReport,
-		infra_report_rpmodelimpl.MXlsxWriter,
+		rp_writer_impl.MXlsxWriter,
+		rp_writer_impl.MSortedWriter,
 		infra_ui_appui.MConsole,
 		infra_ui_appui.MProgress,
 		infra_util_ut_doc.MDoc,
 		recipeteamactivitybatch.MUser,
+		recipeteamcontent.MScanMetadata,
 	}
 	for _, m := range msgs {
 		infra_ui_app_msg.Apply(m)

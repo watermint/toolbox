@@ -1,8 +1,8 @@
 package ut_filecompare
 
 import (
-	"github.com/watermint/toolbox/domain/model/mo_file"
-	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
+	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"go.uber.org/zap"
 	"os"
 )
@@ -36,8 +36,8 @@ type TimeComparator struct {
 func (z *TimeComparator) Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
 	l := z.l.With(zap.String("localPath", localPath), zap.String("dbxPath", dbxEntry.PathDisplay()))
 	if f, ok := dbxEntry.File(); ok {
-		lt := api_util.RebaseTime(localFile.ModTime())
-		dt, err := api_util.Parse(f.ClientModified)
+		lt := dbx_util.RebaseTime(localFile.ModTime())
+		dt, err := dbx_util.Parse(f.ClientModified)
 		if err != nil {
 			l.Debug("Unable to parse client modified", zap.Error(err))
 			return false, err
@@ -64,7 +64,7 @@ type HashComparator struct {
 func (z *HashComparator) Compare(localPath string, localFile os.FileInfo, dbxEntry mo_file.Entry) (bool, error) {
 	l := z.l.With(zap.String("localPath", localPath), zap.String("dbxPath", dbxEntry.PathDisplay()))
 	if f, ok := dbxEntry.File(); ok {
-		lch, err := api_util.ContentHash(localPath)
+		lch, err := dbx_util.ContentHash(localPath)
 		if err != nil {
 			l.Debug("Unable to calc local file content hash", zap.Error(err))
 			return false, err

@@ -6,9 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_error"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
-	"github.com/watermint/toolbox/infra/api/api_response_impl"
 	"github.com/watermint/toolbox/infra/network/nw_capture"
-	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"go.uber.org/zap"
@@ -21,11 +19,6 @@ import (
 const (
 	retryIntervalSecOnNoRetryAfterParam = 10
 )
-
-// Stateless
-type Retry interface {
-	Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error)
-}
 
 var (
 	retryInstance = retryImpl{}
@@ -62,32 +55,7 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 		return z.Call(ctx, req)
 	}
 
-	// Make request
-	hReq, err := req.Make()
-	if err != nil {
-		l.Debug("Unable to make http request", zap.Error(err))
-		return nil, err
-	}
-
-	var cp nw_capture.Capture
-	if cac, ok := ctx.(api_context.CaptureContext); ok {
-		cp = nw_capture.NewCapture(cac.Capture())
-	} else {
-		cp = nw_capture.Current()
-	}
-
-	// Call
-	hRes, latency, err := nw_client.Call(ctx.Hash(), req.Endpoint(), hReq)
-
-	// Make response
-	res, mkResErr := api_response_impl.New(ctx, hReq, hRes)
-	if mkResErr != nil {
-		l.Debug("Unable to make http response", zap.Error(mkResErr))
-		cp.NoResponse(req, mkResErr, latency.Nanoseconds())
-		return retryOnError(mkResErr)
-	}
-	cp.WithResponse(req, res, err, latency.Nanoseconds())
-
+	res, err = nw_capture.Call(ctx, req)
 	if err != nil {
 		return retryOnError(err)
 	}
@@ -97,7 +65,7 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 	case http.StatusOK:
 		return res, nil
 
-	case api_response.ErrorBadInputParam: // Bad input param
+	case api_response.DropboxApiErrorBadInputParam: // Bad input param
 		// In case of the server returned unexpected HTML response
 		// Response body should be plain text
 		if strings.HasPrefix(res.ResultString(), "<!DOCTYPE html>") {
@@ -110,24 +78,24 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 		l.Debug("Bad input param", zap.String("Error", res.ResultString()))
 		return nil, api_error.ParseApiError(res.ResultString())
 
-	case api_response.ErrorBadOrExpiredToken: // Bad or expired token
+	case api_response.DropboxApiErrorBadOrExpiredToken: // Bad or expired token
 		l.Debug("Bad or expired token", zap.String("Error", res.ResultString()))
 		return nil, api_error.ParseApiError(res.ResultString())
 
-	case api_response.ErrorAccessError: // Access Error
+	case api_response.DropboxApiErrorAccessError: // Access Error
 		l.Debug("Access Error", zap.String("Error", res.ResultString()))
 		return nil, api_error.ParseAccessError(res.ResultString())
 
-	case api_response.ErrorEndpointSpecific: // Endpoint specific
+	case api_response.DropboxApiErrorEndpointSpecific: // Endpoint specific
 		l.Debug("Endpoint specific error", zap.String("Error", res.ResultString()))
 		return nil, api_error.ParseApiError(res.ResultString())
 
-	case api_response.ErrorNoPermission: // No permission
+	case api_response.DropboxApiErrorNoPermission: // No permission
 		l.Debug("No Permission", zap.String("Error", res.ResultString()))
 		return nil, api_error.ParseAccessError(res.ResultString())
 
-	case api_response.ErrorRateLimit: // Rate limit
-		retryAfter := res.Header(api_response.ResHeaderRetryAfter)
+	case api_response.DropboxApiErrorRateLimit: // Rate limit
+		retryAfter := res.Header(api_response.DropboxApiResHeaderRetryAfter)
 		retryAfterSec, err := strconv.Atoi(retryAfter)
 		if err != nil {
 			l.Debug("Unable to parse header for RateLimit, retry with predefined interval",

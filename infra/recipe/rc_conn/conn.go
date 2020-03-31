@@ -8,7 +8,7 @@ import (
 type ConnDropboxApi interface {
 	Name() string
 
-	Context() api_context.Context
+	Context() api_context.DropboxApiContext
 
 	// Connect to api
 	Connect(ctl app_control.Control) (err error)

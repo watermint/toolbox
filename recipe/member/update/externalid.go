@@ -3,9 +3,9 @@ package update
 import (
 	"encoding/csv"
 	"errors"
-	"github.com/watermint/toolbox/domain/model/mo_member"
-	"github.com/watermint/toolbox/domain/service/sv_member"
-	"github.com/watermint/toolbox/infra/api/api_util"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
@@ -81,7 +81,7 @@ func (z *Externalid) Test(c app_control.Control) error {
 		email := row.Get("email").String()
 		extid := row.Get("external_id").String() + " " + time.Now().Format("2006-01-02T15-04-05")
 
-		if !api_util.RegexEmail.MatchString(email) {
+		if !dbx_util.RegexEmail.MatchString(email) {
 			l.Error("invalid email address", zap.String("email", email))
 			return errors.New("invalid input")
 		}

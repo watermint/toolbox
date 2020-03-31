@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"go.uber.org/zap"
+	"reflect"
 )
 
 func New(ctl app_control.Control, db *badger.DB, tx *badger.Txn) kv_kvs.Kvs {
@@ -20,6 +21,10 @@ type badgerWrapper struct {
 	ctl app_control.Control
 	db  *badger.DB
 	tx  *badger.Txn
+}
+
+func (z *badgerWrapper) PutRaw(key, value []byte) error {
+	return z.tx.Set(key, value)
 }
 
 func (z *badgerWrapper) NextSequence(name string) (uint64, error) {
@@ -123,9 +128,8 @@ func (z *badgerWrapper) Delete(key string) error {
 	return z.tx.Delete([]byte(key))
 }
 
-func (z *badgerWrapper) ForEach(f func(key string, value []byte) error) error {
+func (z *badgerWrapper) ForEachRaw(f func(key, value []byte) error) error {
 	opts := badger.DefaultIteratorOptions
-	opts.PrefetchSize = 100
 	it := z.tx.NewIterator(opts)
 	defer it.Close()
 	for it.Rewind(); it.Valid(); it.Next() {
@@ -134,9 +138,26 @@ func (z *badgerWrapper) ForEach(f func(key string, value []byte) error) error {
 		if err != nil {
 			return err
 		}
-		if err := f(string(i.Key()), v); err != nil {
+		if err := f(i.Key(), v); err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func (z *badgerWrapper) ForEach(f func(key string, value []byte) error) error {
+	return z.ForEachRaw(func(key, value []byte) error {
+		return f(string(key), value)
+	})
+}
+
+func (z *badgerWrapper) ForEachModel(model interface{}, f func(key string, m interface{}) error) error {
+	mt := reflect.ValueOf(model).Elem().Type()
+	return z.ForEach(func(key string, value []byte) error {
+		m := reflect.New(mt).Interface()
+		if err := json.Unmarshal(value, m); err != nil {
+			return err
+		}
+		return f(key, m)
+	})
 }

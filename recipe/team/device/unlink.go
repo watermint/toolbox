@@ -1,8 +1,8 @@
 package device
 
 import (
-	"github.com/watermint/toolbox/domain/model/mo_device"
-	"github.com/watermint/toolbox/domain/service/sv_device"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_device"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_device"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -22,7 +22,7 @@ type UnlinkVO struct {
 type UnlinkWorker struct {
 	session *mo_device.MemberSession
 	rep     rp_model.TransactionReport
-	ctx     api_context.Context
+	ctx     api_context.DropboxApiContext
 	ctl     app_control.Control
 }
 

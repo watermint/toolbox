@@ -1,9 +1,9 @@
 package file
 
 import (
-	"github.com/watermint/toolbox/domain/model/mo_file"
-	"github.com/watermint/toolbox/domain/model/mo_url"
-	"github.com/watermint/toolbox/domain/service/sv_sharedlink_file"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink_file"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"

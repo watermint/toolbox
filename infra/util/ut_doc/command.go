@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/csv"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -147,8 +147,8 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 		w := bufio.NewWriter(&b)
 		cui := app_ui.NewBufferConsole(ctl.Messages(), w)
 		rc_group.AppHeader(cui, "xx.x.xxx")
-		cui.Info(api_auth_impl.MCcAuth.OauthSeq1.With("Url", "https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx"))
-		cui.Info(api_auth_impl.MCcAuth.OauthSeq2)
+		cui.Info(dbx_auth.MCcAuth.OauthSeq1.With("Url", "https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx"))
+		cui.Info(dbx_auth.MCcAuth.OauthSeq2)
 		w.Flush()
 		authExample = "```\n" + b.String() + "\n```"
 	}
