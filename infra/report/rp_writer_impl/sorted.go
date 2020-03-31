@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
+	"sync"
 )
 
 type MsgSortedWriter struct {
@@ -37,6 +38,8 @@ type Sorted struct {
 	storage kv_storage.Storage
 	stream  rp_column.Column
 	bson    rp_column.Column
+	isOpen  bool
+	mutex   sync.Mutex
 }
 
 func (z *Sorted) Name() string {
@@ -44,12 +47,21 @@ func (z *Sorted) Name() string {
 }
 
 func (z *Sorted) Row(r interface{}) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	l := z.ctl.Log().With(zap.String("name", z.name))
+
+	if !z.isOpen {
+		l.Warn("The writer is not yet open")
+		return
+	}
+
 	vals := z.stream.Values(r)
 
 	b, err := json.Marshal(vals)
 	if err != nil {
-		l.Debug("Unable to marshal", zap.Error(err))
+		l.Warn("Unable to marshal", zap.Error(err))
 		return
 	}
 
@@ -57,18 +69,27 @@ func (z *Sorted) Row(r interface{}) {
 		return kvs.PutRaw(b, []byte{1})
 	})
 	if err != nil {
-		l.Debug("Unable to store row", zap.Error(err))
+		l.Warn("Unable to store row", zap.Error(err))
 	}
 }
 
 func (z *Sorted) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) error {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
+	ro := &rp_model.ReportOpts{}
+	for _, o := range opts {
+		o(ro)
+	}
+
 	z.ctl = ctl
-	z.storage = kv_storage_impl.New("rp_writer_sorted-" + z.name)
+	z.storage = kv_storage_impl.New("rp_writer_sorted-" + z.name + ro.ReportSuffix)
 
 	l := ctl.Log().With(zap.String("name", z.name))
 
 	if err := z.storage.Open(ctl); err != nil {
 		l.Debug("Unable to create storage")
+		return err
 	}
 
 	z.stream = rp_column_impl.NewStream(model, opts...)
@@ -84,11 +105,20 @@ func (z *Sorted) Open(ctl app_control.Control, model interface{}, opts ...rp_mod
 			return err
 		}
 	}
+	z.isOpen = true
 	return nil
 }
 
 func (z *Sorted) Close() {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
 	l := z.ctl.Log()
+
+	if !z.isOpen {
+		l.Debug("The writer is not yet open")
+		return
+	}
+
 	ui := z.ctl.UI()
 	l.Debug("Writing sorted report")
 	err := z.storage.View(func(kvs kv_kvs.Kvs) error {

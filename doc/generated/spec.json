@@ -5087,8 +5087,8 @@
             "desc": "Path"
           },
           {
-            "name": "is_team_folder",
-            "desc": "`true` if the folder is a team folder, or inside of a team folder"
+            "name": "folder_type",
+            "desc": "Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)"
           },
           {
             "name": "owner_team_name",
@@ -5123,6 +5123,10 @@
           {
             "name": "path",
             "desc": "Path"
+          },
+          {
+            "name": "folder_type",
+            "desc": "Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)"
           }
         ]
       }

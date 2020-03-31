@@ -115,15 +115,15 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`...   
 
-| Column          | Description                                                       |
-|-----------------|-------------------------------------------------------------------|
-| path            | Path                                                              |
-| is_team_folder  | `true` if the folder is a team folder, or inside of a team folder |
-| owner_team_name | Team name of the team that owns the folder                        |
-| access_type     | User's access level for this folder                               |
-| member_type     | Type of this member (user, group, or invitee)                     |
-| member_name     | Name of this member                                               |
-| member_email    | Email address of this member                                      |
+| Column          | Description                                                                                              |
+|-----------------|----------------------------------------------------------------------------------------------------------|
+| path            | Path                                                                                                     |
+| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
+| owner_team_name | Team name of the team that owns the folder                                                               |
+| access_type     | User's access level for this folder                                                                      |
+| member_type     | Type of this member (user, group, or invitee)                                                            |
+| member_name     | Name of this member                                                                                      |
+| member_email    | Email address of this member                                                                             |
 
 ## Report: no_member 
 
@@ -137,8 +137,9 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`...   
 
-| Column          | Description                                |
-|-----------------|--------------------------------------------|
-| owner_team_name | Team name of the team that owns the folder |
-| path            | Path                                       |
+| Column          | Description                                                                                              |
+|-----------------|----------------------------------------------------------------------------------------------------------|
+| owner_team_name | Team name of the team that owns the folder                                                               |
+| path            | Path                                                                                                     |
+| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
 

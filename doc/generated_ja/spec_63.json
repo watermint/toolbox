@@ -5087,8 +5087,8 @@
             "desc": "パス"
           },
           {
-            "name": "is_team_folder",
-            "desc": "チームフォルダまたはチームフォルダ下のフォルダの場合 `true`"
+            "name": "folder_type",
+            "desc": "フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ)"
           },
           {
             "name": "owner_team_name",
@@ -5123,6 +5123,10 @@
           {
             "name": "path",
             "desc": "パス"
+          },
+          {
+            "name": "folder_type",
+            "desc": "フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ)"
           }
         ]
       }
