@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/tealeg/xlsx"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/report/rp_model_impl"
+	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"path/filepath"
 	"testing"
@@ -18,14 +18,14 @@ func TestXlsx_Rotate(t *testing.T) {
 
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		name := "xlsx_less_than_threshold"
-		x := rp_model_impl.NewXlsxWriter(name, ctl)
+		x := rp_writer_impl.NewXlsxWriter(name, ctl)
 		err := x.Open(ctl, &Data{})
 		if err != nil {
 			t.Error(err)
 			return
 		}
 
-		for i := 0; i < rp_model_impl.XlsxMaxRows; i++ {
+		for i := 0; i < rp_writer_impl.XlsxMaxRows; i++ {
 			x.Row(&Data{
 				Index: i,
 				Value: fmt.Sprintf("%04d", i),
@@ -46,7 +46,7 @@ func TestXlsx_Rotate(t *testing.T) {
 			return
 		}
 
-		for i := 0; i < rp_model_impl.XlsxMaxRows; i++ {
+		for i := 0; i < rp_writer_impl.XlsxMaxRows; i++ {
 			row := sheet.Row(i + 1).Cells
 			if row[0].Value != fmt.Sprintf("%d", i) {
 				t.Error("Invalid row found", i)
@@ -56,14 +56,14 @@ func TestXlsx_Rotate(t *testing.T) {
 
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		name := "xlsx_equals_to_threshold"
-		x := rp_model_impl.NewXlsxWriter(name, ctl)
+		x := rp_writer_impl.NewXlsxWriter(name, ctl)
 		err := x.Open(ctl, &Data{})
 		if err != nil {
 			t.Error(err)
 			return
 		}
 
-		for i := 0; i <= rp_model_impl.XlsxMaxRows; i++ {
+		for i := 0; i <= rp_writer_impl.XlsxMaxRows; i++ {
 			x.Row(&Data{
 				Index: i,
 				Value: fmt.Sprintf("%04d", i),
@@ -85,7 +85,7 @@ func TestXlsx_Rotate(t *testing.T) {
 				return
 			}
 
-			for i := 0; i <= rp_model_impl.XlsxMaxRows; i++ {
+			for i := 0; i <= rp_writer_impl.XlsxMaxRows; i++ {
 				row := sheet.Row(i + 1).Cells
 				if row[0].Value != fmt.Sprintf("%d", i) {
 					t.Error("Invalid row found", i)
@@ -104,14 +104,14 @@ func TestXlsx_Rotate(t *testing.T) {
 
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		name := "xlsx_rotate"
-		x := rp_model_impl.NewXlsxWriter(name, ctl)
+		x := rp_writer_impl.NewXlsxWriter(name, ctl)
 		err := x.Open(ctl, &Data{})
 		if err != nil {
 			t.Error(err)
 			return
 		}
 
-		for i := 0; i <= rp_model_impl.XlsxMaxRows*2; i++ {
+		for i := 0; i <= rp_writer_impl.XlsxMaxRows*2; i++ {
 			x.Row(&Data{
 				Index: i,
 				Value: fmt.Sprintf("%04d", i),
@@ -133,7 +133,7 @@ func TestXlsx_Rotate(t *testing.T) {
 				return
 			}
 
-			for i := 0; i <= rp_model_impl.XlsxMaxRows; i++ {
+			for i := 0; i <= rp_writer_impl.XlsxMaxRows; i++ {
 				row := sheet.Row(i + 1).Cells
 				if row[0].Value != fmt.Sprintf("%d", i) {
 					t.Error("Invalid row found", i)
@@ -142,7 +142,7 @@ func TestXlsx_Rotate(t *testing.T) {
 		}
 
 		{
-			offset := rp_model_impl.XlsxMaxRows + 1
+			offset := rp_writer_impl.XlsxMaxRows + 1
 			f, err := xlsx.OpenFile(filepath.Join(ctl.Workspace().Report(), name+"_0001.xlsx"))
 			if err != nil {
 				t.Error(err)
@@ -155,7 +155,7 @@ func TestXlsx_Rotate(t *testing.T) {
 				return
 			}
 
-			for i := 0; i < rp_model_impl.XlsxMaxRows; i++ {
+			for i := 0; i < rp_writer_impl.XlsxMaxRows; i++ {
 				row := sheet.Row(i + 1).Cells
 				if row[0].Value != fmt.Sprintf("%d", i+offset) {
 					t.Error("Invalid row found", i+offset)

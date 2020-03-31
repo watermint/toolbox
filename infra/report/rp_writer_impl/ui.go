@@ -1,13 +1,14 @@
-package rp_model_impl
+package rp_writer_impl
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_writer"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"sync"
 )
 
-func newUIWriter(name string, ctl app_control.Control) Writer {
+func newUIWriter(name string, ctl app_control.Control) rp_writer.Writer {
 	return &uiWriter{
 		name: name,
 		ctl:  ctl,

@@ -770,7 +770,7 @@
   "infra.report.rp_model_impl.msg_transaction_report.failure": "Failure",
   "infra.report.rp_model_impl.msg_transaction_report.skip": "Skip",
   "infra.report.rp_model_impl.msg_transaction_report.success": "Success",
-  "infra.report.rp_model_impl.msg_xlsx_writer.unable_to_open": "xlsx Report: Unable to create report file `{{.Path}}` with an error: {{.Error}}",
+  "infra.report.rp_writer_impl.msg_xlsx_writer.unable_to_open": "xlsx Report: Unable to create report file `{{.Path}}` with an error: {{.Error}}",
   "infra.ui.app_doc.msg_doc.body_option": "`-{{.Option}}`",
   "infra.ui.app_doc.msg_doc.header_default": "Default",
   "infra.ui.app_doc.msg_doc.header_description": "Description",

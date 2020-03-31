@@ -1,14 +1,15 @@
-package rp_model_impl
+package rp_writer_impl
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_writer"
 )
 
-func newCascade(name string, ctl app_control.Control) Writer {
-	fileWriters := make([]Writer, 0)
-	consoleWriters := make([]Writer, 0)
+func NewCascade(name string, ctl app_control.Control) rp_writer.Writer {
+	fileWriters := make([]rp_writer.Writer, 0)
+	consoleWriters := make([]rp_writer.Writer, 0)
 
 	fileWriters = append(fileWriters, NewJsonWriter(name, ctl, false))
 	if !ctl.IsLowMemory() {
@@ -34,9 +35,9 @@ func newCascade(name string, ctl app_control.Control) Writer {
 type cascadeWriter struct {
 	ctl            app_control.Control
 	name           string
-	writers        []Writer
-	fileWriters    []Writer
-	consoleWriters []Writer
+	writers        []rp_writer.Writer
+	fileWriters    []rp_writer.Writer
+	consoleWriters []rp_writer.Writer
 	isClosed       bool
 }
 
@@ -50,7 +51,7 @@ func (z *cascadeWriter) Open(ctl app_control.Control, model interface{}, opts ..
 		o(ro)
 	}
 
-	z.writers = make([]Writer, 0)
+	z.writers = make([]rp_writer.Writer, 0)
 	z.writers = append(z.writers, z.fileWriters...)
 	if !ro.NoConsoleOutput {
 		z.writers = append(z.writers, z.consoleWriters...)

@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_reflect"
@@ -19,7 +20,7 @@ func newSpec(name string, model interface{}, opts []rp_model.ReportOpt) rp_model
 		if m == nil {
 			return []string{}
 		}
-		model := NewColumn(m, opts...)
+		model := rp_writer_impl.NewColumn(m, opts...)
 		hdrs := model.Header()
 		keyBase := ut_reflect.Key(app.Pkg, m)
 		for _, col := range hdrs {

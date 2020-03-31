@@ -13,6 +13,7 @@ import (
 	infra_recipe_rc_spec "github.com/watermint/toolbox/infra/recipe/rc_spec"
 	infra_recipe_rcvalue "github.com/watermint/toolbox/infra/recipe/rc_value"
 	infra_report_rpmodelimpl "github.com/watermint/toolbox/infra/report/rp_model_impl"
+	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
 	infra_ui_app_msg "github.com/watermint/toolbox/infra/ui/app_msg"
 	infra_ui_appui "github.com/watermint/toolbox/infra/ui/app_ui"
 	infra_util_ut_doc "github.com/watermint/toolbox/infra/util/ut_doc"
@@ -215,7 +216,7 @@ func Messages() []interface{} {
 		infra_recipe_rcvalue.MRepository,
 		infra_recipe_rcvalue.MValFdFileRowFeed,
 		infra_report_rpmodelimpl.MTransactionReport,
-		infra_report_rpmodelimpl.MXlsxWriter,
+		rp_writer_impl.MXlsxWriter,
 		infra_ui_appui.MConsole,
 		infra_ui_appui.MProgress,
 		infra_util_ut_doc.MDoc,

@@ -1,10 +1,11 @@
-package rp_model_impl
+package rp_writer_impl
 
 import (
 	"fmt"
 	"github.com/tealeg/xlsx"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_writer"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"path/filepath"
@@ -51,7 +52,7 @@ func xlsxDataStyle() *xlsx.Style {
 	return dataStyle
 }
 
-func NewXlsxWriter(name string, ctl app_control.Control) Writer {
+func NewXlsxWriter(name string, ctl app_control.Control) rp_writer.Writer {
 	return &xlsxWriter{
 		name: name,
 		ctl:  ctl,

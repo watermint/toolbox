@@ -1,16 +1,17 @@
-package rp_model_impl
+package rp_writer_impl
 
 import (
 	"encoding/csv"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_writer"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 	"sync"
 )
 
-func newCsvWriter(name string, ctl app_control.Control) Writer {
+func newCsvWriter(name string, ctl app_control.Control) rp_writer.Writer {
 	return &csvWriter{
 		name: name,
 		ctl:  ctl,

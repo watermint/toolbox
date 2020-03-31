@@ -1,4 +1,4 @@
-package rp_model_impl
+package rp_writer_impl
 
 import (
 	"encoding/json"

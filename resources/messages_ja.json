@@ -770,7 +770,7 @@
   "infra.report.rp_model_impl.msg_transaction_report.failure": "失敗",
   "infra.report.rp_model_impl.msg_transaction_report.skip": "スキップ",
   "infra.report.rp_model_impl.msg_transaction_report.success": "成功",
-  "infra.report.rp_model_impl.msg_xlsx_writer.unable_to_open": "xlsx レポート: レポート `{{.Path}}` の作成に失敗しました (エラー: {{.Error}})",
+  "infra.report.rp_writer_impl.msg_xlsx_writer.unable_to_open": "xlsx レポート: レポート `{{.Path}}` の作成に失敗しました (エラー: {{.Error}})",
   "infra.ui.app_doc.msg_doc.body_option": "`-{{.Option}}`",
   "infra.ui.app_doc.msg_doc.header_default": "デフォルト",
   "infra.ui.app_doc.msg_doc.header_description": "説明",

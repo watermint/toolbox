@@ -1,10 +1,11 @@
-package rp_model_impl
+package rp_writer_impl
 
 import (
 	"bytes"
 	"encoding/json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/report/rp_writer"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"io"
@@ -14,7 +15,7 @@ import (
 	"sync"
 )
 
-func NewJsonWriter(name string, ctl app_control.Control, toStdout bool) Writer {
+func NewJsonWriter(name string, ctl app_control.Control, toStdout bool) rp_writer.Writer {
 	return &jsonWriter{
 		name:     name,
 		toStdout: toStdout,
