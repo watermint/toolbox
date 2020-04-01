@@ -43,7 +43,14 @@ type List struct {
 }
 
 func (z *List) Preset() {
-	z.FileRequest.SetModel(&mo_filerequest.MemberFileRequest{})
+	z.FileRequest.SetModel(
+		&mo_filerequest.MemberFileRequest{},
+		rp_model.HiddenColumns(
+			"account_id",
+			"team_member_id",
+			"file_request_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {

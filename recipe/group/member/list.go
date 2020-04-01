@@ -52,7 +52,14 @@ type List struct {
 }
 
 func (z *List) Preset() {
-	z.GroupMember.SetModel(&mo_group_member.GroupMember{})
+	z.GroupMember.SetModel(
+		&mo_group_member.GroupMember{},
+		rp_model.HiddenColumns(
+			"group_id",
+			"account_id",
+			"team_member_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
