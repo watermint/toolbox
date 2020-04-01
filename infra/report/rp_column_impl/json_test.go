@@ -40,6 +40,7 @@ func TestHeaders(t *testing.T) {
 			Supplier struct {
 				Name    string `json:"name"`
 				Contact string `json:"contact"`
+				Phone   string `json:"phone"`
 			} `json:"supplier"`
 		}{
 			SKU:      "A123",
@@ -47,14 +48,16 @@ func TestHeaders(t *testing.T) {
 			Supplier: struct {
 				Name    string `json:"name"`
 				Contact string `json:"contact"`
+				Phone   string `json:"phone"`
 			}{
 				Name:    "XYZ",
 				Contact: "John",
+				Phone:   "0123-456-789",
 			},
 		}
 
 		headers, err := Headers(s, func(name string) bool {
-			return false
+			return name == "supplier.phone"
 		})
 		if err != nil {
 			t.Error(err)

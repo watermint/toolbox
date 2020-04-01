@@ -183,13 +183,10 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 
 | Column                      | Description                                                                   |
 |-----------------------------|-------------------------------------------------------------------------------|
-| account_id                  | Account ID of this file request owner.                                        |
-| team_member_id              | ID of file request owner user as a member of a team                           |
 | email                       | Email address of this file request owner.                                     |
 | status                      | The user status of this file request owner (active/invited/suspended/removed) |
 | surname                     | Surname of this file request owner.                                           |
 | given_name                  | Given name of this file request owner.                                        |
-| file_request_id             | The ID of the file request.                                                   |
 | url                         | The URL of the file request.                                                  |
 | title                       | The title of the file request.                                                |
 | created                     | When this file request was created.                                           |
@@ -233,12 +230,9 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 
 | Column                | Description                                                                           |
 |-----------------------|---------------------------------------------------------------------------------------|
-| group_id              | A group's identifier                                                                  |
 | group_name            | Name of a group.                                                                      |
 | group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
 | access_type           | The role that the user has in the group (member/owner)                                |
-| account_id            | A user's account identifier                                                           |
-| team_member_id        | ID of user as a member of a team.                                                     |
 | email                 | Email address of user.                                                                |
 | status                | The user's status as a member of a specific team. (active/invited/suspended/removed)  |
 | surname               | Also known as a last name or family name.                                             |
@@ -407,24 +401,20 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
-| Column                      | Description                                                                                |
-|-----------------------------|--------------------------------------------------------------------------------------------|
-| status                      | Status of the operation                                                                    |
-| reason                      | Reason of failure or skipped operation                                                     |
-| input.name                  | The name of this namespace                                                                 |
-| input.namespace_id          | The ID of this namespace.                                                                  |
-| input.namespace_type        | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
-| input.team_member_id        | If this is a team member or app folder, the ID of the owning team member.                  |
-| result.namespace_name       | The name of this namespace                                                                 |
-| result.namespace_id         | The ID of this namespace.                                                                  |
-| result.namespace_type       | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
-| result.owner_team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
-| result.path                 | Path to the folder                                                                         |
-| result.count_file           | Number of files under the folder                                                           |
-| result.count_folder         | Number of folders under the folder                                                         |
-| result.count_descendant     | Number of files and folders under the folder                                               |
-| result.size                 | Size of the folder                                                                         |
-| result.api_complexity       | Folder complexity index for API operations                                                 |
+| Column                  | Description                                                                                |
+|-------------------------|--------------------------------------------------------------------------------------------|
+| status                  | Status of the operation                                                                    |
+| reason                  | Reason of failure or skipped operation                                                     |
+| input.name              | The name of this namespace                                                                 |
+| input.namespace_id      | The ID of this namespace.                                                                  |
+| input.namespace_type    | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
+| input.team_member_id    | If this is a team member or app folder, the ID of the owning team member.                  |
+| result.path             | Path to the folder                                                                         |
+| result.count_file       | Number of files under the folder                                                           |
+| result.count_folder     | Number of folders under the folder                                                         |
+| result.count_descendant | Number of files and folders under the folder                                               |
+| result.size             | Size of the folder                                                                         |
+| result.api_complexity   | Folder complexity index for API operations                                                 |
 
 ## Report: shared_link 
 

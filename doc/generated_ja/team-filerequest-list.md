@@ -117,13 +117,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 
 | 列                          | 説明                                                                      |
 |-----------------------------|---------------------------------------------------------------------------|
-| account_id                  | ファイルリクエスト所有者のアカウントID                                    |
-| team_member_id              | ファイルリクエスト所有者のチームメンバーとしてのID                        |
 | email                       | ファイルリクエスト所有者のメールアドレス                                  |
 | status                      | ファイルリクエスト所有者ユーザーの状態 (active/invited/suspended/removed) |
 | surname                     | ファイルリクエスト所有者の名字                                            |
 | given_name                  | ファイルリクエスト所有者の名                                              |
-| file_request_id             | ファイルリクエストID                                                      |
 | url                         | ファイルリクエストのURL                                                   |
 | title                       | ファイルリクエストのタイトル                                              |
 | created                     | このファイルリクエストが作成された日時                                    |

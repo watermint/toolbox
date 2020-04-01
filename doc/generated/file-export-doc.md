@@ -119,15 +119,10 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | Column          | Description                                                                                            |
 |-----------------|--------------------------------------------------------------------------------------------------------|
 | name            | The last component of the path (including extension).                                                  |
-| path_lower      | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
 | path_display    | The cased path to be used for display purposes only.                                                   |
-| id              | A unique identifier for the file.                                                                      |
 | client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
 | server_modified | The last time the file was modified on Dropbox.                                                        |
-| revision        | A unique identifier for the current revision of a file.                                                |
 | size            | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| content_hash    | A hash of the file content.                                                                            |
 | export_name     | File name for export file.                                                                             |
 | export_size     | File size of export file.                                                                              |
-| export_hash     | Content hash of export file.                                                                           |
 

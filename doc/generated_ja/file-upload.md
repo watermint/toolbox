@@ -124,8 +124,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | reason                         | 失敗またはスキップの理由                                                                   |
 | input.file                     | ローカルファイルのパス                                                                     |
 | input.size                     | ローカルファイルのサイズ                                                                   |
-| result.id                      | ファイルへの一意なID                                                                       |
-| result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
 | result.name                    | 名称                                                                                       |
 | result.path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
 | result.path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
@@ -177,8 +175,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | reason                         | 失敗またはスキップの理由                                                                   |
 | input.file                     | ローカルファイルのパス                                                                     |
 | input.size                     | ローカルファイルのサイズ                                                                   |
-| result.id                      | ファイルへの一意なID                                                                       |
-| result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
 | result.name                    | 名称                                                                                       |
 | result.path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
 | result.path_display            | パス (表示目的で大文字小文字を区別する).                                                   |

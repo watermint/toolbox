@@ -56,5 +56,14 @@ func (z *Doc) Test(c app_control.Control) error {
 }
 
 func (z *Doc) Preset() {
-	z.OperationLog.SetModel(&mo_file.Export{})
+	z.OperationLog.SetModel(
+		&mo_file.Export{},
+		rp_model.HiddenColumns(
+			"path_lower",
+			"id",
+			"revision",
+			"content_hash",
+			"export_hash",
+		),
+	)
 }

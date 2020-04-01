@@ -132,22 +132,16 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| Column                         | Description                                                                                            |
-|--------------------------------|--------------------------------------------------------------------------------------------------------|
-| status                         | Status of the operation                                                                                |
-| reason                         | Reason of failure or skipped operation                                                                 |
-| input.url                      | Url to download                                                                                        |
-| input.path                     | Path to store file (use path given by `-path` when the record is empty)                                |
-| result.id                      | A unique identifier for the file.                                                                      |
-| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.name                    | The last component of the path (including extension).                                                  |
-| result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| result.path_display            | The cased path to be used for display purposes only.                                                   |
-| result.client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified         | The last time the file was modified on Dropbox.                                                        |
-| result.revision                | A unique identifier for the current revision of a file.                                                |
-| result.size                    | The file size in bytes.                                                                                |
-| result.content_hash            | A hash of the file content.                                                                            |
-| result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| result.parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
+| Column                 | Description                                                                                            |
+|------------------------|--------------------------------------------------------------------------------------------------------|
+| status                 | Status of the operation                                                                                |
+| reason                 | Reason of failure or skipped operation                                                                 |
+| input.url              | Url to download                                                                                        |
+| input.path             | Path to store file (use path given by `-path` when the record is empty)                                |
+| result.tag             | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| result.name            | The last component of the path (including extension).                                                  |
+| result.path_display    | The cased path to be used for display purposes only.                                                   |
+| result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| result.server_modified | The last time the file was modified on Dropbox.                                                        |
+| result.size            | The file size in bytes.                                                                                |
 

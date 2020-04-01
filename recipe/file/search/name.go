@@ -57,5 +57,9 @@ func (z *Name) Test(c app_control.Control) error {
 }
 
 func (z *Name) Preset() {
-	z.Matches.SetModel(&mo_file.MatchHighlighted{}, rp_model.HiddenColumns("name", "path_lower"))
+	z.Matches.SetModel(&mo_file.MatchHighlighted{},
+		rp_model.HiddenColumns(
+			"name",
+			"path_lower"),
+	)
 }

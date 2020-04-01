@@ -50,10 +50,6 @@ func (z *UrlWorker) Exec() error {
 	return nil
 }
 
-const (
-	reportUrl = "import_url"
-)
-
 type Url struct {
 	Peer            rc_conn.ConnUserFile
 	File            fd_file.RowFeed
@@ -63,7 +59,18 @@ type Url struct {
 }
 
 func (z *Url) Preset() {
-	z.OperationLog.SetModel(&UrlRow{}, &mo_file.ConcreteEntry{})
+	z.OperationLog.SetModel(
+		&UrlRow{},
+		&mo_file.ConcreteEntry{},
+		rp_model.HiddenColumns(
+			"result.id",
+			"result.path_lower",
+			"result.revision",
+			"result.content_hash",
+			"result.shared_folder_id",
+			"result.parent_shared_folder_id",
+		),
+	)
 	z.File.SetModel(&UrlRow{})
 }
 

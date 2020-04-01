@@ -117,12 +117,9 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 
 | 列                    | 説明                                                                                    |
 |-----------------------|-----------------------------------------------------------------------------------------|
-| group_id              | グループID                                                                              |
 | group_name            | グループ名称                                                                            |
 | group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
 | access_type           | グループにおけるユーザーの役割 (member/owner)                                           |
-| account_id            | ユーザーアカウントのID                                                                  |
-| team_member_id        | チームにおけるメンバーのID                                                              |
 | email                 | ユーザーのメールアドレス                                                                |
 | status                | チームにおけるメンバーのステータス(active/invited/suspended/removed)                    |
 | surname               | 名字                                                                                    |

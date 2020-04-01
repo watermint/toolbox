@@ -203,14 +203,6 @@
             "desc": "Local file size"
           },
           {
-            "name": "result.id",
-            "desc": "A unique identifier for the file."
-          },
-          {
-            "name": "result.tag",
-            "desc": "Type of entry. `file`, `folder`, or `deleted`"
-          },
-          {
             "name": "result.name",
             "desc": "The last component of the path (including extension)."
           },
@@ -305,14 +297,6 @@
           {
             "name": "input.size",
             "desc": "Local file size"
-          },
-          {
-            "name": "result.id",
-            "desc": "A unique identifier for the file."
-          },
-          {
-            "name": "result.tag",
-            "desc": "Type of entry. `file`, `folder`, or `deleted`"
           },
           {
             "name": "result.name",
@@ -993,20 +977,12 @@
         "desc": "",
         "columns": [
           {
-            "name": "id",
-            "desc": "A unique identifier for the file."
-          },
-          {
             "name": "tag",
             "desc": "Type of entry. `file`, `folder`, or `deleted`"
           },
           {
             "name": "name",
             "desc": "The last component of the path (including extension)."
-          },
-          {
-            "name": "path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
           },
           {
             "name": "path_display",
@@ -1021,24 +997,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       }
@@ -1072,16 +1032,8 @@
             "desc": "The last component of the path (including extension)."
           },
           {
-            "name": "path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
-          },
-          {
             "name": "path_display",
             "desc": "The cased path to be used for display purposes only."
-          },
-          {
-            "name": "id",
-            "desc": "A unique identifier for the file."
           },
           {
             "name": "client_modified",
@@ -1092,16 +1044,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "size",
             "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "content_hash",
-            "desc": "A hash of the file content."
           },
           {
             "name": "export_name",
@@ -1110,10 +1054,6 @@
           {
             "name": "export_size",
             "desc": "File size of export file."
-          },
-          {
-            "name": "export_hash",
-            "desc": "Content hash of export file."
           }
         ]
       }
@@ -1159,20 +1099,12 @@
             "desc": "Path to store file (use path given by `-path` when the record is empty)"
           },
           {
-            "name": "result.id",
-            "desc": "A unique identifier for the file."
-          },
-          {
             "name": "result.tag",
             "desc": "Type of entry. `file`, `folder`, or `deleted`"
           },
           {
             "name": "result.name",
             "desc": "The last component of the path (including extension)."
-          },
-          {
-            "name": "result.path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
           },
           {
             "name": "result.path_display",
@@ -1187,24 +1119,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "result.revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "result.size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       }
@@ -1251,20 +1167,12 @@
         "desc": "",
         "columns": [
           {
-            "name": "id",
-            "desc": "A unique identifier for the file."
-          },
-          {
             "name": "tag",
             "desc": "Type of entry. `file`, `folder`, or `deleted`"
           },
           {
             "name": "name",
             "desc": "The last component of the path (including extension)."
-          },
-          {
-            "name": "path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
           },
           {
             "name": "path_display",
@@ -1285,18 +1193,6 @@
           {
             "name": "size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       }
@@ -1326,20 +1222,12 @@
         "desc": "",
         "columns": [
           {
-            "name": "id",
-            "desc": "A unique identifier for the file."
-          },
-          {
             "name": "tag",
             "desc": "Type of entry. `file`, `folder`, or `deleted`"
           },
           {
             "name": "name",
             "desc": "The last component of the path (including extension)."
-          },
-          {
-            "name": "path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
           },
           {
             "name": "path_display",
@@ -1354,24 +1242,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       }
@@ -1686,14 +1558,6 @@
             "desc": "Local file size"
           },
           {
-            "name": "result.id",
-            "desc": "A unique identifier for the file."
-          },
-          {
-            "name": "result.tag",
-            "desc": "Type of entry. `file`, `folder`, or `deleted`"
-          },
-          {
             "name": "result.name",
             "desc": "The last component of the path (including extension)."
           },
@@ -1788,14 +1652,6 @@
           {
             "name": "input.size",
             "desc": "Local file size"
-          },
-          {
-            "name": "result.id",
-            "desc": "A unique identifier for the file."
-          },
-          {
-            "name": "result.tag",
-            "desc": "Type of entry. `file`, `folder`, or `deleted`"
           },
           {
             "name": "result.name",
@@ -1881,14 +1737,6 @@
             "desc": "Local file size"
           },
           {
-            "name": "result.id",
-            "desc": "A unique identifier for the file."
-          },
-          {
-            "name": "result.tag",
-            "desc": "Type of entry. `file`, `folder`, or `deleted`"
-          },
-          {
             "name": "result.name",
             "desc": "The last component of the path (including extension)."
           },
@@ -1983,14 +1831,6 @@
           {
             "name": "input.size",
             "desc": "Local file size"
-          },
-          {
-            "name": "result.id",
-            "desc": "A unique identifier for the file."
-          },
-          {
-            "name": "result.tag",
-            "desc": "Type of entry. `file`, `folder`, or `deleted`"
           },
           {
             "name": "result.name",
@@ -2076,14 +1916,6 @@
             "desc": "Local file size"
           },
           {
-            "name": "result.id",
-            "desc": "A unique identifier for the file."
-          },
-          {
-            "name": "result.tag",
-            "desc": "Type of entry. `file`, `folder`, or `deleted`"
-          },
-          {
             "name": "result.name",
             "desc": "The last component of the path (including extension)."
           },
@@ -2178,14 +2010,6 @@
           {
             "name": "input.size",
             "desc": "Local file size"
-          },
-          {
-            "name": "result.id",
-            "desc": "A unique identifier for the file."
-          },
-          {
-            "name": "result.tag",
-            "desc": "Type of entry. `file`, `folder`, or `deleted`"
           },
           {
             "name": "result.name",
@@ -2838,10 +2662,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "group_id",
-            "desc": "A group's identifier"
-          },
-          {
             "name": "group_name",
             "desc": "Name of a group."
           },
@@ -2852,14 +2672,6 @@
           {
             "name": "access_type",
             "desc": "The role that the user has in the group (member/owner)"
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier"
-          },
-          {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
           },
           {
             "name": "email",
@@ -5078,10 +4890,6 @@
             "desc": "User email address"
           },
           {
-            "name": "result.user",
-            "desc": "User email address"
-          },
-          {
             "name": "result.logins",
             "desc": "Number of login activities"
           },
@@ -5840,14 +5648,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "account_id",
-            "desc": "Account ID of this file request owner."
-          },
-          {
-            "name": "team_member_id",
-            "desc": "ID of file request owner user as a member of a team"
-          },
-          {
             "name": "email",
             "desc": "Email address of this file request owner."
           },
@@ -5862,10 +5662,6 @@
           {
             "name": "given_name",
             "desc": "Given name of this file request owner."
-          },
-          {
-            "name": "file_request_id",
-            "desc": "The ID of the file request."
           },
           {
             "name": "url",
@@ -5932,10 +5728,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "group_id",
-            "desc": "A group's identifier"
-          },
-          {
             "name": "group_name",
             "desc": "Name of a group."
           },
@@ -5946,14 +5738,6 @@
           {
             "name": "access_type",
             "desc": "The role that the user has in the group (member/owner)"
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier"
-          },
-          {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
           },
           {
             "name": "email",
@@ -6282,22 +6066,6 @@
             "desc": "If this is a team member or app folder, the ID of the owning team member."
           },
           {
-            "name": "result.namespace_name",
-            "desc": "The name of this namespace"
-          },
-          {
-            "name": "result.namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
-            "name": "result.namespace_type",
-            "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
-          },
-          {
-            "name": "result.owner_team_member_id",
-            "desc": "If this is a team member or app folder, the ID of the owning team member."
-          },
-          {
             "name": "result.path",
             "desc": "Path to the folder"
           },
@@ -6480,14 +6248,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "account_id",
-            "desc": "Account ID of this file request owner."
-          },
-          {
-            "name": "team_member_id",
-            "desc": "ID of file request owner user as a member of a team"
-          },
-          {
             "name": "email",
             "desc": "Email address of this file request owner."
           },
@@ -6502,10 +6262,6 @@
           {
             "name": "given_name",
             "desc": "Given name of this file request owner."
-          },
-          {
-            "name": "file_request_id",
-            "desc": "The ID of the file request."
           },
           {
             "name": "url",
@@ -6832,22 +6588,6 @@
             "desc": "If this is a team member or app folder, the ID of the owning team member."
           },
           {
-            "name": "result.namespace_name",
-            "desc": "The name of this namespace"
-          },
-          {
-            "name": "result.namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
-            "name": "result.namespace_type",
-            "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
-          },
-          {
-            "name": "result.owner_team_member_id",
-            "desc": "If this is a team member or app folder, the ID of the owning team member."
-          },
-          {
             "name": "result.path",
             "desc": "Path to the folder"
           },
@@ -7138,10 +6878,6 @@
             "desc": "Reason of failure or skipped operation"
           },
           {
-            "name": "input.shared_link_id",
-            "desc": "A unique identifier for the linked file or folder"
-          },
-          {
             "name": "input.tag",
             "desc": "Entry type (file, or folder)"
           },
@@ -7166,14 +6902,6 @@
             "desc": "The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder)."
           },
           {
-            "name": "input.account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "input.team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
             "name": "input.email",
             "desc": "Email address of user."
           },
@@ -7190,32 +6918,8 @@
             "desc": "Given name of the link owner"
           },
           {
-            "name": "result.id",
-            "desc": "A unique identifier for the linked file or folder"
-          },
-          {
-            "name": "result.tag",
-            "desc": "Entry type (file, or folder)"
-          },
-          {
-            "name": "result.url",
-            "desc": "URL of the shared link."
-          },
-          {
-            "name": "result.name",
-            "desc": "The linked file name (including extension)."
-          },
-          {
             "name": "result.expires",
             "desc": "Expiration time, if set."
-          },
-          {
-            "name": "result.path_lower",
-            "desc": "The lowercased full path in the user's Dropbox."
-          },
-          {
-            "name": "result.visibility",
-            "desc": "The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder)."
           }
         ]
       }
@@ -7568,22 +7272,6 @@
           },
           {
             "name": "input.team_member_id",
-            "desc": "If this is a team member or app folder, the ID of the owning team member."
-          },
-          {
-            "name": "result.namespace_name",
-            "desc": "The name of this namespace"
-          },
-          {
-            "name": "result.namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
-            "name": "result.namespace_type",
-            "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
-          },
-          {
-            "name": "result.owner_team_member_id",
             "desc": "If this is a team member or app folder, the ID of the owning team member."
           },
           {

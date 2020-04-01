@@ -143,28 +143,19 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `updated_0000.xlsx`, `updated_0001.xlsx`, `updated_0002.xlsx`...   
 
-| 列                   | 説明                                                                 |
-|----------------------|----------------------------------------------------------------------|
-| status               | 処理の状態                                                           |
-| reason               | 失敗またはスキップの理由                                             |
-| input.shared_link_id | ファイルまたはフォルダへのリンクのID                                 |
-| input.tag            | エントリーの種別 (file, または folder)                               |
-| input.url            | 共有リンクのURL.                                                     |
-| input.name           | リンク先ファイル名称                                                 |
-| input.expires        | 有効期限 (設定されている場合)                                        |
-| input.path_lower     | パス (すべて小文字に変換).                                           |
-| input.visibility     | 共有リンクの開示範囲                                                 |
-| input.account_id     | ユーザーのアカウントID                                               |
-| input.team_member_id | チームにおけるメンバーのID                                           |
-| input.email          | ユーザーのメールアドレス                                             |
-| input.status         | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
-| input.surname        | リンク所有者の名字                                                   |
-| input.given_name     | リンク所有者の名                                                     |
-| result.id            | ファイルまたはフォルダへのリンクのID                                 |
-| result.tag           | エントリーの種別 (file, または folder)                               |
-| result.url           | 共有リンクのURL.                                                     |
-| result.name          | リンク先ファイル名称                                                 |
-| result.expires       | 有効期限 (設定されている場合)                                        |
-| result.path_lower    | パス (すべて小文字に変換).                                           |
-| result.visibility    | 共有リンクの開示範囲                                                 |
+| 列               | 説明                                                                 |
+|------------------|----------------------------------------------------------------------|
+| status           | 処理の状態                                                           |
+| reason           | 失敗またはスキップの理由                                             |
+| input.tag        | エントリーの種別 (file, または folder)                               |
+| input.url        | 共有リンクのURL.                                                     |
+| input.name       | リンク先ファイル名称                                                 |
+| input.expires    | 有効期限 (設定されている場合)                                        |
+| input.path_lower | パス (すべて小文字に変換).                                           |
+| input.visibility | 共有リンクの開示範囲                                                 |
+| input.email      | ユーザーのメールアドレス                                             |
+| input.status     | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
+| input.surname    | リンク所有者の名字                                                   |
+| input.given_name | リンク所有者の名                                                     |
+| result.expires   | 有効期限 (設定されている場合)                                        |
 

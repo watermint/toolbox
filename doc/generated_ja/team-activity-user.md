@@ -152,7 +152,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | status                 | 処理の状態                         |
 | reason                 | 失敗またはスキップの理由           |
 | input.user             | ユーザーのメールアドレス           |
-| result.user            | ユーザーのメールアドレス           |
 | result.logins          | ログインのアクティビティ数         |
 | result.devices         | デバイスのアクティビティ数         |
 | result.sharing         | 共有のアクティビティ数             |

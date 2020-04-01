@@ -23,7 +23,17 @@ type Download struct {
 }
 
 func (z *Download) Preset() {
-	z.OperationLog.SetModel(&mo_file.ConcreteEntry{})
+	z.OperationLog.SetModel(
+		&mo_file.ConcreteEntry{},
+		rp_model.HiddenColumns(
+			"id",
+			"path_lower",
+			"revision",
+			"content_hash",
+			"shared_folder_id",
+			"parent_shared_folder_id",
+		),
+	)
 }
 
 func (z *Download) Exec(c app_control.Control) error {

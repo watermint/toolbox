@@ -122,8 +122,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | reason                         | Reason of failure or skipped operation                                                                 |
 | input.file                     | Local file path                                                                                        |
 | input.size                     | Local file size                                                                                        |
-| result.id                      | A unique identifier for the file.                                                                      |
-| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
 | result.name                    | The last component of the path (including extension).                                                  |
 | result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
 | result.path_display            | The cased path to be used for display purposes only.                                                   |
@@ -175,8 +173,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | reason                         | Reason of failure or skipped operation                                                                 |
 | input.file                     | Local file path                                                                                        |
 | input.size                     | Local file size                                                                                        |
-| result.id                      | A unique identifier for the file.                                                                      |
-| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
 | result.name                    | The last component of the path (including extension).                                                  |
 | result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
 | result.path_display            | The cased path to be used for display purposes only.                                                   |

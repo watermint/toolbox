@@ -183,13 +183,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 
 | 列                          | 説明                                                                      |
 |-----------------------------|---------------------------------------------------------------------------|
-| account_id                  | ファイルリクエスト所有者のアカウントID                                    |
-| team_member_id              | ファイルリクエスト所有者のチームメンバーとしてのID                        |
 | email                       | ファイルリクエスト所有者のメールアドレス                                  |
 | status                      | ファイルリクエスト所有者ユーザーの状態 (active/invited/suspended/removed) |
 | surname                     | ファイルリクエスト所有者の名字                                            |
 | given_name                  | ファイルリクエスト所有者の名                                              |
-| file_request_id             | ファイルリクエストID                                                      |
 | url                         | ファイルリクエストのURL                                                   |
 | title                       | ファイルリクエストのタイトル                                              |
 | created                     | このファイルリクエストが作成された日時                                    |
@@ -233,12 +230,9 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 
 | 列                    | 説明                                                                                    |
 |-----------------------|-----------------------------------------------------------------------------------------|
-| group_id              | グループID                                                                              |
 | group_name            | グループ名称                                                                            |
 | group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
 | access_type           | グループにおけるユーザーの役割 (member/owner)                                           |
-| account_id            | ユーザーアカウントのID                                                                  |
-| team_member_id        | チームにおけるメンバーのID                                                              |
 | email                 | ユーザーのメールアドレス                                                                |
 | status                | チームにおけるメンバーのステータス(active/invited/suspended/removed)                    |
 | surname               | 名字                                                                                    |
@@ -407,24 +401,20 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
-| 列                          | 説明                                                                                   |
-|-----------------------------|----------------------------------------------------------------------------------------|
-| status                      | 処理の状態                                                                             |
-| reason                      | 失敗またはスキップの理由                                                               |
-| input.name                  | 名前空間の名称                                                                         |
-| input.namespace_id          | 名前空間ID                                                                             |
-| input.namespace_type        | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| input.team_member_id        | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
-| result.namespace_name       | 名前空間の名称                                                                         |
-| result.namespace_id         | 名前空間ID                                                                             |
-| result.namespace_type       | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| result.owner_team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
-| result.path                 | フォルダへのパス                                                                       |
-| result.count_file           | このフォルダに含まれるファイル数                                                       |
-| result.count_folder         | このフォルダに含まれるフォルダ数                                                       |
-| result.count_descendant     | このフォルダに含まれるファイル・フォルダ数                                             |
-| result.size                 | フォルダのサイズ                                                                       |
-| result.api_complexity       | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
+| 列                      | 説明                                                                                   |
+|-------------------------|----------------------------------------------------------------------------------------|
+| status                  | 処理の状態                                                                             |
+| reason                  | 失敗またはスキップの理由                                                               |
+| input.name              | 名前空間の名称                                                                         |
+| input.namespace_id      | 名前空間ID                                                                             |
+| input.namespace_type    | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
+| input.team_member_id    | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
+| result.path             | フォルダへのパス                                                                       |
+| result.count_file       | このフォルダに含まれるファイル数                                                       |
+| result.count_folder     | このフォルダに含まれるフォルダ数                                                       |
+| result.count_descendant | このフォルダに含まれるファイル・フォルダ数                                             |
+| result.size             | フォルダのサイズ                                                                       |
+| result.api_complexity   | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
 
 ## レポート: shared_link 
 

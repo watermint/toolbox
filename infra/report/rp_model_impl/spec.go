@@ -13,6 +13,10 @@ import (
 )
 
 func newSpec(name string, model interface{}, opts []rp_model.ReportOpt) rp_model.Spec {
+	ro := &rp_model.ReportOpts{}
+	for _, o := range opts {
+		o(ro)
+	}
 	cols := make([]string, 0)
 	colDesc := make(map[string]app_msg.Message)
 
@@ -21,13 +25,20 @@ func newSpec(name string, model interface{}, opts []rp_model.ReportOpt) rp_model
 			return []string{}
 		}
 		model := rp_column_impl.NewStream(m, opts...)
-		hdrs := model.Header()
+		headers := model.Header()
+		visibleHeaders := make([]string, 0)
+		for _, h := range headers {
+			if !ro.IsHiddenColumn(base + h) {
+				visibleHeaders = append(visibleHeaders, h)
+			}
+		}
+
 		keyBase := ut_reflect.Key(app.Pkg, m)
-		for _, col := range hdrs {
+		for _, col := range visibleHeaders {
 			colDesc[base+col] = app_msg.M(keyBase + "." + col + ".desc")
 		}
 		colsWithBase := make([]string, 0)
-		for _, c := range hdrs {
+		for _, c := range visibleHeaders {
 			colsWithBase = append(colsWithBase, base+c)
 		}
 		return colsWithBase

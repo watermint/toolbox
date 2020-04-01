@@ -117,13 +117,10 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 
 | Column                      | Description                                                                   |
 |-----------------------------|-------------------------------------------------------------------------------|
-| account_id                  | Account ID of this file request owner.                                        |
-| team_member_id              | ID of file request owner user as a member of a team                           |
 | email                       | Email address of this file request owner.                                     |
 | status                      | The user status of this file request owner (active/invited/suspended/removed) |
 | surname                     | Surname of this file request owner.                                           |
 | given_name                  | Given name of this file request owner.                                        |
-| file_request_id             | The ID of the file request.                                                   |
 | url                         | The URL of the file request.                                                  |
 | title                       | The title of the file request.                                                |
 | created                     | When this file request was created.                                           |

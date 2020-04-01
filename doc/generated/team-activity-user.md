@@ -152,7 +152,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | status                 | Status of the operation                |
 | reason                 | Reason of failure or skipped operation |
 | input.user             | User email address                     |
-| result.user            | User email address                     |
 | result.logins          | Number of login activities             |
 | result.devices         | Number of device activities            |
 | result.sharing         | Number of sharing activities           |
