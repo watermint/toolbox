@@ -119,8 +119,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | 列                    | 説明                                                                                    |
 |-----------------------|-----------------------------------------------------------------------------------------|
 | group_name            | グループ名称                                                                            |
-| group_id              | グループID                                                                              |
 | group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
-| group_external_id     |  グループの外部IDこの任意のIDは管理者がグループに付加できます                           |
 | member_count          | グループ内のメンバー数                                                                  |
 

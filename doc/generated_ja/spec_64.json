@@ -122,10 +122,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "group_id",
-            "desc": "グループID"
-          },
-          {
             "name": "group_name",
             "desc": "グループ名称"
           },
@@ -136,14 +132,6 @@
           {
             "name": "access_type",
             "desc": "グループにおけるユーザーの役割 (member/owner)"
-          },
-          {
-            "name": "account_id",
-            "desc": "ユーザーアカウントのID"
-          },
-          {
-            "name": "team_member_id",
-            "desc": "チームにおけるメンバーのID"
           },
           {
             "name": "email",
@@ -207,10 +195,6 @@
             "desc": "名称"
           },
           {
-            "name": "result.path_lower",
-            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
-          },
-          {
             "name": "result.path_display",
             "desc": "パス (表示目的で大文字小文字を区別する)."
           },
@@ -223,24 +207,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "result.revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "このファイルを含む共有フォルダのID."
           }
         ]
       },
@@ -303,10 +271,6 @@
             "desc": "名称"
           },
           {
-            "name": "result.path_lower",
-            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
-          },
-          {
             "name": "result.path_display",
             "desc": "パス (表示目的で大文字小文字を区別する)."
           },
@@ -319,24 +283,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "result.revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "このファイルを含む共有フォルダのID."
           }
         ]
       }
@@ -1389,20 +1337,12 @@
             "desc": "パス"
           },
           {
-            "name": "result.id",
-            "desc": "ファイルへの一意なID"
-          },
-          {
             "name": "result.tag",
             "desc": "エントリーの種別`file`, `folder`, または `deleted`"
           },
           {
             "name": "result.name",
             "desc": "名称"
-          },
-          {
-            "name": "result.path_lower",
-            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
           },
           {
             "name": "result.path_display",
@@ -1417,24 +1357,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "result.revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "このファイルを含む共有フォルダのID."
           }
         ]
       }
@@ -1562,10 +1486,6 @@
             "desc": "名称"
           },
           {
-            "name": "result.path_lower",
-            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
-          },
-          {
             "name": "result.path_display",
             "desc": "パス (表示目的で大文字小文字を区別する)."
           },
@@ -1578,24 +1498,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "result.revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "このファイルを含む共有フォルダのID."
           }
         ]
       },
@@ -1658,10 +1562,6 @@
             "desc": "名称"
           },
           {
-            "name": "result.path_lower",
-            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
-          },
-          {
             "name": "result.path_display",
             "desc": "パス (表示目的で大文字小文字を区別する)."
           },
@@ -1674,24 +1574,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "result.revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "このファイルを含む共有フォルダのID."
           }
         ]
       }
@@ -1741,10 +1625,6 @@
             "desc": "名称"
           },
           {
-            "name": "result.path_lower",
-            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
-          },
-          {
             "name": "result.path_display",
             "desc": "パス (表示目的で大文字小文字を区別する)."
           },
@@ -1757,24 +1637,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "result.revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "このファイルを含む共有フォルダのID."
           }
         ]
       },
@@ -1837,10 +1701,6 @@
             "desc": "名称"
           },
           {
-            "name": "result.path_lower",
-            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
-          },
-          {
             "name": "result.path_display",
             "desc": "パス (表示目的で大文字小文字を区別する)."
           },
@@ -1853,24 +1713,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "result.revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "このファイルを含む共有フォルダのID."
           }
         ]
       }
@@ -1920,10 +1764,6 @@
             "desc": "名称"
           },
           {
-            "name": "result.path_lower",
-            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
-          },
-          {
             "name": "result.path_display",
             "desc": "パス (表示目的で大文字小文字を区別する)."
           },
@@ -1936,24 +1776,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "result.revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "このファイルを含む共有フォルダのID."
           }
         ]
       },
@@ -2016,10 +1840,6 @@
             "desc": "名称"
           },
           {
-            "name": "result.path_lower",
-            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
-          },
-          {
             "name": "result.path_display",
             "desc": "パス (表示目的で大文字小文字を区別する)."
           },
@@ -2032,24 +1852,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "result.revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "このファイルを含む共有フォルダのID."
           }
         ]
       }
@@ -2355,16 +2159,8 @@
             "desc": "グループ名称"
           },
           {
-            "name": "group_id",
-            "desc": "グループID"
-          },
-          {
             "name": "group_management_type",
             "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
-          },
-          {
-            "name": "group_external_id",
-            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
           },
           {
             "name": "member_count",
@@ -2414,16 +2210,8 @@
             "desc": "グループ名称"
           },
           {
-            "name": "result.group_id",
-            "desc": "グループID"
-          },
-          {
             "name": "result.group_management_type",
             "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
-          },
-          {
-            "name": "result.group_external_id",
-            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
           },
           {
             "name": "result.member_count",
@@ -2493,16 +2281,8 @@
             "desc": "グループ名称"
           },
           {
-            "name": "group_id",
-            "desc": "グループID"
-          },
-          {
             "name": "group_management_type",
             "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
-          },
-          {
-            "name": "group_external_id",
-            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
           },
           {
             "name": "member_count",
@@ -2556,16 +2336,8 @@
             "desc": "グループ名称"
           },
           {
-            "name": "result.group_id",
-            "desc": "グループID"
-          },
-          {
             "name": "result.group_management_type",
             "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
-          },
-          {
-            "name": "result.group_external_id",
-            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
           },
           {
             "name": "result.member_count",
@@ -2619,16 +2391,8 @@
             "desc": "グループ名称"
           },
           {
-            "name": "result.group_id",
-            "desc": "グループID"
-          },
-          {
             "name": "result.group_management_type",
             "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
-          },
-          {
-            "name": "result.group_external_id",
-            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
           },
           {
             "name": "result.member_count",
@@ -2737,16 +2501,8 @@
             "desc": "グループ名称"
           },
           {
-            "name": "result.group_id",
-            "desc": "グループID"
-          },
-          {
             "name": "result.group_management_type",
             "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
-          },
-          {
-            "name": "result.group_external_id",
-            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
           },
           {
             "name": "result.member_count",
@@ -2911,18 +2667,6 @@
           {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "このファイルを含む共有フォルダのID."
           }
         ]
       }
@@ -3128,10 +2872,6 @@
             "desc": "アカウントの名字"
           },
           {
-            "name": "result.team_member_id",
-            "desc": "チームにおけるメンバーのID"
-          },
-          {
             "name": "result.email",
             "desc": "ユーザーのメールアドレス"
           },
@@ -3152,32 +2892,8 @@
             "desc": "名字"
           },
           {
-            "name": "result.familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "result.display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "result.abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "result.member_folder_id",
-            "desc": "ユーザールートフォルダの名前空間ID."
-          },
-          {
-            "name": "result.external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "result.account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
-            "name": "result.persistent_id",
-            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
           },
           {
             "name": "result.joined_on",
@@ -3241,10 +2957,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "team_member_id",
-            "desc": "チームにおけるメンバーのID"
-          },
-          {
             "name": "email",
             "desc": "ユーザーのメールアドレス"
           },
@@ -3265,32 +2977,8 @@
             "desc": "名字"
           },
           {
-            "name": "familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "member_folder_id",
-            "desc": "ユーザールートフォルダの名前空間ID."
-          },
-          {
-            "name": "external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
-            "name": "persistent_id",
-            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
           },
           {
             "name": "joined_on",
@@ -3486,10 +3174,6 @@
             "desc": "失敗またはスキップの理由"
           },
           {
-            "name": "input.team_member_id",
-            "desc": "チームにおけるメンバーのID"
-          },
-          {
             "name": "input.email",
             "desc": "ユーザーのメールアドレス"
           },
@@ -3510,32 +3194,8 @@
             "desc": "名字"
           },
           {
-            "name": "input.familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "input.display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "input.abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "input.member_folder_id",
-            "desc": "ユーザールートフォルダの名前空間ID."
-          },
-          {
-            "name": "input.external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "input.account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
-            "name": "input.persistent_id",
-            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
           },
           {
             "name": "input.joined_on",
@@ -3548,10 +3208,6 @@
           {
             "name": "input.tag",
             "desc": "処理のタグ"
-          },
-          {
-            "name": "result.team_member_id",
-            "desc": "チームにおけるメンバーのID"
           },
           {
             "name": "result.email",
@@ -3574,32 +3230,8 @@
             "desc": "名字"
           },
           {
-            "name": "result.familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "result.display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "result.abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "result.member_folder_id",
-            "desc": "ユーザールートフォルダの名前空間ID."
-          },
-          {
-            "name": "result.external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "result.account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
-            "name": "result.persistent_id",
-            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
           },
           {
             "name": "result.joined_on",
@@ -3718,10 +3350,6 @@
             "desc": "新しいメールアドレス"
           },
           {
-            "name": "result.team_member_id",
-            "desc": "チームにおけるメンバーのID"
-          },
-          {
             "name": "result.email",
             "desc": "ユーザーのメールアドレス"
           },
@@ -3742,32 +3370,8 @@
             "desc": "名字"
           },
           {
-            "name": "result.familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "result.display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "result.abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "result.member_folder_id",
-            "desc": "ユーザールートフォルダの名前空間ID."
-          },
-          {
-            "name": "result.external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "result.account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
-            "name": "result.persistent_id",
-            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
           },
           {
             "name": "result.joined_on",
@@ -3842,10 +3446,6 @@
             "desc": "チームメンバーのExternal ID"
           },
           {
-            "name": "result.team_member_id",
-            "desc": "チームにおけるメンバーのID"
-          },
-          {
             "name": "result.email",
             "desc": "ユーザーのメールアドレス"
           },
@@ -3866,32 +3466,8 @@
             "desc": "名字"
           },
           {
-            "name": "result.familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "result.display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "result.abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "result.member_folder_id",
-            "desc": "ユーザールートフォルダの名前空間ID."
-          },
-          {
-            "name": "result.external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "result.account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
-            "name": "result.persistent_id",
-            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
           },
           {
             "name": "result.joined_on",
@@ -3970,10 +3546,6 @@
             "desc": "アカウントの名字"
           },
           {
-            "name": "result.team_member_id",
-            "desc": "チームにおけるメンバーのID"
-          },
-          {
             "name": "result.email",
             "desc": "ユーザーのメールアドレス"
           },
@@ -3994,32 +3566,8 @@
             "desc": "名字"
           },
           {
-            "name": "result.familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "result.display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "result.abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "result.member_folder_id",
-            "desc": "ユーザールートフォルダの名前空間ID."
-          },
-          {
-            "name": "result.external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "result.account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
-            "name": "result.persistent_id",
-            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
           },
           {
             "name": "result.joined_on",
@@ -4083,14 +3631,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "shared_folder_id",
-            "desc": "共有フォルダのID"
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "親共有フォルダのID. このフィールドはフォルダが他の共有フォルダに含まれる場合のみ設定されます."
-          },
-          {
             "name": "name",
             "desc": "共有フォルダの名称"
           },
@@ -4127,10 +3667,6 @@
             "desc": "だれが閲覧社情報を有効化・無効化できるか"
           },
           {
-            "name": "owner_team_id",
-            "desc": "このフォルダを所有するチームのチームID"
-          },
-          {
             "name": "owner_team_name",
             "desc": "このフォルダを所有するチームの名前"
           }
@@ -4162,14 +3698,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "shared_folder_id",
-            "desc": "共有フォルダのID"
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "親共有フォルダのID. このフィールドはフォルダが他の共有フォルダに含まれる場合のみ設定されます."
-          },
-          {
             "name": "name",
             "desc": "共有フォルダの名称"
           },
@@ -4194,10 +3722,6 @@
             "desc": "メンバーのアクセス権限が上位フォルダから継承されている場合true"
           },
           {
-            "name": "account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
             "name": "email",
             "desc": "ユーザーのメールアドレス"
           },
@@ -4208,10 +3732,6 @@
           {
             "name": "group_name",
             "desc": "グループ名称"
-          },
-          {
-            "name": "group_id",
-            "desc": "グループID"
           },
           {
             "name": "invitee_email",
@@ -4308,10 +3828,6 @@
             "desc": "失敗またはスキップの理由"
           },
           {
-            "name": "input.id",
-            "desc": "ファイルまたはフォルダへのリンクのID"
-          },
-          {
             "name": "input.tag",
             "desc": "エントリーの種別 (file, または folder)"
           },
@@ -4363,20 +3879,12 @@
         "desc": "",
         "columns": [
           {
-            "name": "id",
-            "desc": "ファイルへの一意なID"
-          },
-          {
             "name": "tag",
             "desc": "エントリーの種別`file`, `folder`, または `deleted`"
           },
           {
             "name": "name",
             "desc": "名称"
-          },
-          {
-            "name": "path_lower",
-            "desc": "パス (すべて小文字に変換). これは常にスラッシュで始まります."
           },
           {
             "name": "path_display",
@@ -4391,24 +3899,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "このファイルを含む共有フォルダのID."
           }
         ]
       }
@@ -4437,10 +3929,6 @@
         "name": "shared_link",
         "desc": "",
         "columns": [
-          {
-            "name": "id",
-            "desc": "ファイルまたはフォルダへのリンクのID"
-          },
           {
             "name": "tag",
             "desc": "エントリーの種別 (file, または folder)"
@@ -5089,24 +4577,8 @@
             "desc": "名字"
           },
           {
-            "name": "familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "account_id",
-            "desc": "ユーザーのアカウントID"
           },
           {
             "name": "device_tag",
@@ -5236,24 +4708,8 @@
             "desc": "名字"
           },
           {
-            "name": "input.familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "input.display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "input.abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "input.external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "input.account_id",
-            "desc": "ユーザーのアカウントID"
           },
           {
             "name": "input.device_tag",
@@ -5524,24 +4980,8 @@
             "desc": "名字"
           },
           {
-            "name": "familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "account_id",
-            "desc": "ユーザーのアカウントID"
           },
           {
             "name": "device_tag",
@@ -5706,16 +5146,8 @@
             "desc": "グループ名称"
           },
           {
-            "name": "group_id",
-            "desc": "グループID"
-          },
-          {
             "name": "group_management_type",
             "desc": "だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)"
-          },
-          {
-            "name": "group_external_id",
-            "desc": " グループの外部IDこの任意のIDは管理者がグループに付加できます"
           },
           {
             "name": "member_count",
@@ -5804,10 +5236,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "team_member_id",
-            "desc": "チームにおけるメンバーのID"
-          },
-          {
             "name": "email",
             "desc": "ユーザーのメールアドレス"
           },
@@ -5824,28 +5252,8 @@
             "desc": "名字"
           },
           {
-            "name": "familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
-            "name": "app_id",
-            "desc": "アプリケーションの固有ID"
           },
           {
             "name": "app_name",
@@ -5874,10 +5282,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "team_member_id",
-            "desc": "チームにおけるメンバーのID"
-          },
-          {
             "name": "email",
             "desc": "ユーザーのメールアドレス"
           },
@@ -5898,32 +5302,8 @@
             "desc": "名字"
           },
           {
-            "name": "familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "member_folder_id",
-            "desc": "ユーザールートフォルダの名前空間ID."
-          },
-          {
-            "name": "external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
-            "name": "persistent_id",
-            "desc": "ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです."
           },
           {
             "name": "joined_on",
@@ -5958,10 +5338,6 @@
             "desc": "名前空間の名称"
           },
           {
-            "name": "namespace_id",
-            "desc": "名前空間ID"
-          },
-          {
             "name": "namespace_type",
             "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
           },
@@ -5980,20 +5356,12 @@
             "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
           },
           {
-            "name": "namespace_id",
-            "desc": "名前空間ID"
-          },
-          {
             "name": "namespace_name",
             "desc": "名前空間の名称"
           },
           {
             "name": "namespace_member_email",
             "desc": "これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス."
-          },
-          {
-            "name": "file_id",
-            "desc": "ファイルへの一意なID"
           },
           {
             "name": "tag",
@@ -6016,24 +5384,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "設定されている場合、共有フォルダに内包されています."
           }
         ]
       },
@@ -6054,16 +5406,8 @@
             "desc": "名前空間の名称"
           },
           {
-            "name": "input.namespace_id",
-            "desc": "名前空間ID"
-          },
-          {
             "name": "input.namespace_type",
             "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
-          },
-          {
-            "name": "input.team_member_id",
-            "desc": "メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID"
           },
           {
             "name": "result.path",
@@ -6096,10 +5440,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "shared_link_id",
-            "desc": "ファイルまたはフォルダへのリンクのID"
-          },
-          {
             "name": "tag",
             "desc": "エントリーの種別 (file, または folder)"
           },
@@ -6122,14 +5462,6 @@
           {
             "name": "visibility",
             "desc": "共有リンクの開示範囲"
-          },
-          {
-            "name": "account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
-            "name": "team_member_id",
-            "desc": "チームにおけるメンバーのID"
           },
           {
             "name": "email",
@@ -6386,10 +5718,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "team_member_id",
-            "desc": "チームにおけるメンバーのID"
-          },
-          {
             "name": "email",
             "desc": "ユーザーのメールアドレス"
           },
@@ -6406,28 +5734,8 @@
             "desc": "名字"
           },
           {
-            "name": "familiar_name",
-            "desc": "ロケール依存の名前"
-          },
-          {
             "name": "display_name",
             "desc": "ユーザーのDropboxアカウントの表示名称"
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "ユーザーの省略名称"
-          },
-          {
-            "name": "external_id",
-            "desc": "このユーザーに関連づけられた外部ID"
-          },
-          {
-            "name": "account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
-            "name": "app_id",
-            "desc": "アプリケーションの固有ID"
           },
           {
             "name": "app_name",
@@ -6481,20 +5789,12 @@
             "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
           },
           {
-            "name": "namespace_id",
-            "desc": "名前空間ID"
-          },
-          {
             "name": "namespace_name",
             "desc": "名前空間の名称"
           },
           {
             "name": "namespace_member_email",
             "desc": "これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス."
-          },
-          {
-            "name": "file_id",
-            "desc": "ファイルへの一意なID"
           },
           {
             "name": "tag",
@@ -6517,24 +5817,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "設定されている場合、共有フォルダに内包されています."
           }
         ]
       }
@@ -6576,16 +5860,8 @@
             "desc": "名前空間の名称"
           },
           {
-            "name": "input.namespace_id",
-            "desc": "名前空間ID"
-          },
-          {
             "name": "input.namespace_type",
             "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
-          },
-          {
-            "name": "input.team_member_id",
-            "desc": "メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID"
           },
           {
             "name": "result.path",
@@ -6643,10 +5919,6 @@
             "desc": "名前空間の名称"
           },
           {
-            "name": "namespace_id",
-            "desc": "名前空間ID"
-          },
-          {
             "name": "namespace_type",
             "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
           },
@@ -6684,10 +5956,6 @@
           {
             "name": "namespace_name",
             "desc": "名前空間の名称"
-          },
-          {
-            "name": "namespace_id",
-            "desc": "名前空間ID"
           },
           {
             "name": "namespace_type",
@@ -6745,10 +6013,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "shared_link_id",
-            "desc": "ファイルまたはフォルダへのリンクのID"
-          },
-          {
             "name": "tag",
             "desc": "エントリーの種別 (file, または folder)"
           },
@@ -6771,14 +6035,6 @@
           {
             "name": "visibility",
             "desc": "共有リンクの開示範囲"
-          },
-          {
-            "name": "account_id",
-            "desc": "ユーザーのアカウントID"
-          },
-          {
-            "name": "team_member_id",
-            "desc": "チームにおけるメンバーのID"
           },
           {
             "name": "email",
@@ -6981,10 +6237,6 @@
             "desc": "チームフォルダ名"
           },
           {
-            "name": "result.team_folder_id",
-            "desc": "チームフォルダのID"
-          },
-          {
             "name": "result.name",
             "desc": "チームフォルダの名称"
           },
@@ -7168,20 +6420,12 @@
             "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
           },
           {
-            "name": "namespace_id",
-            "desc": "名前空間ID"
-          },
-          {
             "name": "namespace_name",
             "desc": "名前空間の名称"
           },
           {
             "name": "namespace_member_email",
             "desc": "これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス."
-          },
-          {
-            "name": "file_id",
-            "desc": "ファイルへの一意なID"
           },
           {
             "name": "tag",
@@ -7204,24 +6448,8 @@
             "desc": "Dropbox上で最後に更新された日時"
           },
           {
-            "name": "revision",
-            "desc": "ファイルの現在バージョンの一意な識別子"
-          },
-          {
             "name": "size",
             "desc": "ファイルサイズ(バイト単位)"
-          },
-          {
-            "name": "content_hash",
-            "desc": "ファイルコンテンツのハッシュ"
-          },
-          {
-            "name": "shared_folder_id",
-            "desc": "これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。"
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "設定されている場合、共有フォルダに内包されています."
           }
         ]
       }
@@ -7263,16 +6491,8 @@
             "desc": "名前空間の名称"
           },
           {
-            "name": "input.namespace_id",
-            "desc": "名前空間ID"
-          },
-          {
             "name": "input.namespace_type",
             "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
-          },
-          {
-            "name": "input.team_member_id",
-            "desc": "メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID"
           },
           {
             "name": "result.path",
@@ -7325,10 +6545,6 @@
         "name": "team_folder",
         "desc": "",
         "columns": [
-          {
-            "name": "team_folder_id",
-            "desc": "チームフォルダのID"
-          },
           {
             "name": "name",
             "desc": "チームフォルダの名称"

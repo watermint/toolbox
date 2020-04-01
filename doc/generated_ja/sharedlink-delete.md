@@ -122,7 +122,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 |------------------|----------------------------------------|
 | status           | 処理の状態                             |
 | reason           | 失敗またはスキップの理由               |
-| input.id         | ファイルまたはフォルダへのリンクのID   |
 | input.tag        | エントリーの種別 (file, または folder) |
 | input.url        | 共有リンクのURL.                       |
 | input.name       | リンク先ファイル名称                   |

@@ -122,10 +122,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "group_id",
-            "desc": "A group's identifier"
-          },
-          {
             "name": "group_name",
             "desc": "Name of a group."
           },
@@ -136,14 +132,6 @@
           {
             "name": "access_type",
             "desc": "The role that the user has in the group (member/owner)"
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier"
-          },
-          {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
           },
           {
             "name": "email",
@@ -207,10 +195,6 @@
             "desc": "The last component of the path (including extension)."
           },
           {
-            "name": "result.path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
-          },
-          {
             "name": "result.path_display",
             "desc": "The cased path to be used for display purposes only."
           },
@@ -223,24 +207,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "result.revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "result.size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       },
@@ -303,10 +271,6 @@
             "desc": "The last component of the path (including extension)."
           },
           {
-            "name": "result.path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
-          },
-          {
             "name": "result.path_display",
             "desc": "The cased path to be used for display purposes only."
           },
@@ -319,24 +283,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "result.revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "result.size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       }
@@ -1389,20 +1337,12 @@
             "desc": "Path"
           },
           {
-            "name": "result.id",
-            "desc": "A unique identifier for the file."
-          },
-          {
             "name": "result.tag",
             "desc": "Type of entry. `file`, `folder`, or `deleted`"
           },
           {
             "name": "result.name",
             "desc": "The last component of the path (including extension)."
-          },
-          {
-            "name": "result.path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
           },
           {
             "name": "result.path_display",
@@ -1417,24 +1357,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "result.revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "result.size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       }
@@ -1562,10 +1486,6 @@
             "desc": "The last component of the path (including extension)."
           },
           {
-            "name": "result.path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
-          },
-          {
             "name": "result.path_display",
             "desc": "The cased path to be used for display purposes only."
           },
@@ -1578,24 +1498,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "result.revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "result.size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       },
@@ -1658,10 +1562,6 @@
             "desc": "The last component of the path (including extension)."
           },
           {
-            "name": "result.path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
-          },
-          {
             "name": "result.path_display",
             "desc": "The cased path to be used for display purposes only."
           },
@@ -1674,24 +1574,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "result.revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "result.size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       }
@@ -1741,10 +1625,6 @@
             "desc": "The last component of the path (including extension)."
           },
           {
-            "name": "result.path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
-          },
-          {
             "name": "result.path_display",
             "desc": "The cased path to be used for display purposes only."
           },
@@ -1757,24 +1637,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "result.revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "result.size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       },
@@ -1837,10 +1701,6 @@
             "desc": "The last component of the path (including extension)."
           },
           {
-            "name": "result.path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
-          },
-          {
             "name": "result.path_display",
             "desc": "The cased path to be used for display purposes only."
           },
@@ -1853,24 +1713,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "result.revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "result.size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       }
@@ -1920,10 +1764,6 @@
             "desc": "The last component of the path (including extension)."
           },
           {
-            "name": "result.path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
-          },
-          {
             "name": "result.path_display",
             "desc": "The cased path to be used for display purposes only."
           },
@@ -1936,24 +1776,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "result.revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "result.size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       },
@@ -2016,10 +1840,6 @@
             "desc": "The last component of the path (including extension)."
           },
           {
-            "name": "result.path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
-          },
-          {
             "name": "result.path_display",
             "desc": "The cased path to be used for display purposes only."
           },
@@ -2032,24 +1852,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "result.revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "result.size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       }
@@ -2355,16 +2159,8 @@
             "desc": "Name of a group"
           },
           {
-            "name": "group_id",
-            "desc": "A group's identifier"
-          },
-          {
             "name": "group_management_type",
             "desc": "Who is allowed to manage the group (user_managed, company_managed, or system_managed)"
-          },
-          {
-            "name": "group_external_id",
-            "desc": " External ID of group. This is an arbitrary ID that an admin can attach to a group."
           },
           {
             "name": "member_count",
@@ -2414,16 +2210,8 @@
             "desc": "Name of a group"
           },
           {
-            "name": "result.group_id",
-            "desc": "A group's identifier"
-          },
-          {
             "name": "result.group_management_type",
             "desc": "Who is allowed to manage the group (user_managed, company_managed, or system_managed)"
-          },
-          {
-            "name": "result.group_external_id",
-            "desc": " External ID of group. This is an arbitrary ID that an admin can attach to a group."
           },
           {
             "name": "result.member_count",
@@ -2493,16 +2281,8 @@
             "desc": "Name of a group"
           },
           {
-            "name": "group_id",
-            "desc": "A group's identifier"
-          },
-          {
             "name": "group_management_type",
             "desc": "Who is allowed to manage the group (user_managed, company_managed, or system_managed)"
-          },
-          {
-            "name": "group_external_id",
-            "desc": " External ID of group. This is an arbitrary ID that an admin can attach to a group."
           },
           {
             "name": "member_count",
@@ -2556,16 +2336,8 @@
             "desc": "Name of a group"
           },
           {
-            "name": "result.group_id",
-            "desc": "A group's identifier"
-          },
-          {
             "name": "result.group_management_type",
             "desc": "Who is allowed to manage the group (user_managed, company_managed, or system_managed)"
-          },
-          {
-            "name": "result.group_external_id",
-            "desc": " External ID of group. This is an arbitrary ID that an admin can attach to a group."
           },
           {
             "name": "result.member_count",
@@ -2619,16 +2391,8 @@
             "desc": "Name of a group"
           },
           {
-            "name": "result.group_id",
-            "desc": "A group's identifier"
-          },
-          {
             "name": "result.group_management_type",
             "desc": "Who is allowed to manage the group (user_managed, company_managed, or system_managed)"
-          },
-          {
-            "name": "result.group_external_id",
-            "desc": " External ID of group. This is an arbitrary ID that an admin can attach to a group."
           },
           {
             "name": "result.member_count",
@@ -2737,16 +2501,8 @@
             "desc": "Name of a group"
           },
           {
-            "name": "result.group_id",
-            "desc": "A group's identifier"
-          },
-          {
             "name": "result.group_management_type",
             "desc": "Who is allowed to manage the group (user_managed, company_managed, or system_managed)"
-          },
-          {
-            "name": "result.group_external_id",
-            "desc": " External ID of group. This is an arbitrary ID that an admin can attach to a group."
           },
           {
             "name": "result.member_count",
@@ -2911,18 +2667,6 @@
           {
             "name": "result.size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "result.content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "result.shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "result.parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       }
@@ -3128,10 +2872,6 @@
             "desc": "Surname of the account"
           },
           {
-            "name": "result.team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
             "name": "result.email",
             "desc": "Email address of user."
           },
@@ -3152,32 +2892,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "result.familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "result.display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "result.abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "result.member_folder_id",
-            "desc": "The namespace id of the user's root folder."
-          },
-          {
-            "name": "result.external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "result.account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "result.persistent_id",
-            "desc": "Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication."
           },
           {
             "name": "result.joined_on",
@@ -3241,10 +2957,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
             "name": "email",
             "desc": "Email address of user."
           },
@@ -3265,32 +2977,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "member_folder_id",
-            "desc": "The namespace id of the user's root folder."
-          },
-          {
-            "name": "external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "persistent_id",
-            "desc": "Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication."
           },
           {
             "name": "joined_on",
@@ -3486,10 +3174,6 @@
             "desc": "Reason of failure or skipped operation"
           },
           {
-            "name": "input.team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
             "name": "input.email",
             "desc": "Email address of user."
           },
@@ -3510,32 +3194,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "input.familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "input.display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "input.abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "input.member_folder_id",
-            "desc": "The namespace id of the user's root folder."
-          },
-          {
-            "name": "input.external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "input.account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "input.persistent_id",
-            "desc": "Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication."
           },
           {
             "name": "input.joined_on",
@@ -3548,10 +3208,6 @@
           {
             "name": "input.tag",
             "desc": "Operation tag"
-          },
-          {
-            "name": "result.team_member_id",
-            "desc": "ID of user as a member of a team."
           },
           {
             "name": "result.email",
@@ -3574,32 +3230,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "result.familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "result.display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "result.abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "result.member_folder_id",
-            "desc": "The namespace id of the user's root folder."
-          },
-          {
-            "name": "result.external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "result.account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "result.persistent_id",
-            "desc": "Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication."
           },
           {
             "name": "result.joined_on",
@@ -3718,10 +3350,6 @@
             "desc": "New Email address"
           },
           {
-            "name": "result.team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
             "name": "result.email",
             "desc": "Email address of user."
           },
@@ -3742,32 +3370,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "result.familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "result.display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "result.abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "result.member_folder_id",
-            "desc": "The namespace id of the user's root folder."
-          },
-          {
-            "name": "result.external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "result.account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "result.persistent_id",
-            "desc": "Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication."
           },
           {
             "name": "result.joined_on",
@@ -3842,10 +3446,6 @@
             "desc": "External ID of team members"
           },
           {
-            "name": "result.team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
             "name": "result.email",
             "desc": "Email address of user."
           },
@@ -3866,32 +3466,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "result.familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "result.display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "result.abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "result.member_folder_id",
-            "desc": "The namespace id of the user's root folder."
-          },
-          {
-            "name": "result.external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "result.account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "result.persistent_id",
-            "desc": "Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication."
           },
           {
             "name": "result.joined_on",
@@ -3970,10 +3546,6 @@
             "desc": "Surname of the account"
           },
           {
-            "name": "result.team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
             "name": "result.email",
             "desc": "Email address of user."
           },
@@ -3994,32 +3566,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "result.familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "result.display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "result.abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "result.member_folder_id",
-            "desc": "The namespace id of the user's root folder."
-          },
-          {
-            "name": "result.external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "result.account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "result.persistent_id",
-            "desc": "Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication."
           },
           {
             "name": "result.joined_on",
@@ -4083,14 +3631,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "shared_folder_id",
-            "desc": "The ID of the shared folder."
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder."
-          },
-          {
             "name": "name",
             "desc": "The name of the this shared folder."
           },
@@ -4127,10 +3667,6 @@
             "desc": "Who can enable/disable viewer info for this shared folder."
           },
           {
-            "name": "owner_team_id",
-            "desc": "Team ID of the team that owns the folder"
-          },
-          {
             "name": "owner_team_name",
             "desc": "Team name of the team that owns the folder"
           }
@@ -4162,14 +3698,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "shared_folder_id",
-            "desc": "The ID of the shared folder."
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder."
-          },
-          {
             "name": "name",
             "desc": "The name of the this shared folder."
           },
@@ -4194,10 +3722,6 @@
             "desc": "True if the member has access from a parent folder"
           },
           {
-            "name": "account_id",
-            "desc": "A user's account identifier."
-          },
-          {
             "name": "email",
             "desc": "Email address of user."
           },
@@ -4208,10 +3732,6 @@
           {
             "name": "group_name",
             "desc": "Name of a group"
-          },
-          {
-            "name": "group_id",
-            "desc": "A group's identifier"
           },
           {
             "name": "invitee_email",
@@ -4308,10 +3828,6 @@
             "desc": "Reason of failure or skipped operation"
           },
           {
-            "name": "input.id",
-            "desc": "A unique identifier for the linked file or folder"
-          },
-          {
             "name": "input.tag",
             "desc": "Entry type (file, or folder)"
           },
@@ -4363,20 +3879,12 @@
         "desc": "",
         "columns": [
           {
-            "name": "id",
-            "desc": "A unique identifier for the file."
-          },
-          {
             "name": "tag",
             "desc": "Type of entry. `file`, `folder`, or `deleted`"
           },
           {
             "name": "name",
             "desc": "The last component of the path (including extension)."
-          },
-          {
-            "name": "path_lower",
-            "desc": "The lowercased full path in the user's Dropbox. This always starts with a slash."
           },
           {
             "name": "path_display",
@@ -4391,24 +3899,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "ID of shared folder that holds this file."
           }
         ]
       }
@@ -4437,10 +3929,6 @@
         "name": "shared_link",
         "desc": "",
         "columns": [
-          {
-            "name": "id",
-            "desc": "A unique identifier for the linked file or folder"
-          },
           {
             "name": "tag",
             "desc": "Entry type (file, or folder)"
@@ -5089,24 +4577,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier."
           },
           {
             "name": "device_tag",
@@ -5236,24 +4708,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "input.familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "input.display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "input.abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "input.external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "input.account_id",
-            "desc": "A user's account identifier."
           },
           {
             "name": "input.device_tag",
@@ -5524,24 +4980,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier."
           },
           {
             "name": "device_tag",
@@ -5706,16 +5146,8 @@
             "desc": "Name of a group"
           },
           {
-            "name": "group_id",
-            "desc": "A group's identifier"
-          },
-          {
             "name": "group_management_type",
             "desc": "Who is allowed to manage the group (user_managed, company_managed, or system_managed)"
-          },
-          {
-            "name": "group_external_id",
-            "desc": " External ID of group. This is an arbitrary ID that an admin can attach to a group."
           },
           {
             "name": "member_count",
@@ -5804,10 +5236,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
             "name": "email",
             "desc": "Email address of user."
           },
@@ -5824,28 +5252,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "app_id",
-            "desc": "The application unique id."
           },
           {
             "name": "app_name",
@@ -5874,10 +5282,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
             "name": "email",
             "desc": "Email address of user."
           },
@@ -5898,32 +5302,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "member_folder_id",
-            "desc": "The namespace id of the user's root folder."
-          },
-          {
-            "name": "external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "persistent_id",
-            "desc": "Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication."
           },
           {
             "name": "joined_on",
@@ -5958,10 +5338,6 @@
             "desc": "The name of this namespace"
           },
           {
-            "name": "namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
             "name": "namespace_type",
             "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
           },
@@ -5980,20 +5356,12 @@
             "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
           },
           {
-            "name": "namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
             "name": "namespace_name",
             "desc": "The name of this namespace"
           },
           {
             "name": "namespace_member_email",
             "desc": "If this is a team member or app folder, the email address of the owning team member."
-          },
-          {
-            "name": "file_id",
-            "desc": "A unique identifier for the file."
           },
           {
             "name": "tag",
@@ -6016,24 +5384,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "Set if the folder is contained by a shared folder."
           }
         ]
       },
@@ -6054,16 +5406,8 @@
             "desc": "The name of this namespace"
           },
           {
-            "name": "input.namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
             "name": "input.namespace_type",
             "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
-          },
-          {
-            "name": "input.team_member_id",
-            "desc": "If this is a team member or app folder, the ID of the owning team member."
           },
           {
             "name": "result.path",
@@ -6096,10 +5440,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "shared_link_id",
-            "desc": "A unique identifier for the linked file or folder"
-          },
-          {
             "name": "tag",
             "desc": "Entry type (file, or folder)"
           },
@@ -6122,14 +5462,6 @@
           {
             "name": "visibility",
             "desc": "The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder)."
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
           },
           {
             "name": "email",
@@ -6386,10 +5718,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
-          },
-          {
             "name": "email",
             "desc": "Email address of user."
           },
@@ -6406,28 +5734,8 @@
             "desc": "Also known as a last name or family name."
           },
           {
-            "name": "familiar_name",
-            "desc": "Locale-dependent name"
-          },
-          {
             "name": "display_name",
             "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
-          },
-          {
-            "name": "abbreviated_name",
-            "desc": "An abbreviated form of the person's name."
-          },
-          {
-            "name": "external_id",
-            "desc": "External ID that a team can attach to the user."
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "app_id",
-            "desc": "The application unique id."
           },
           {
             "name": "app_name",
@@ -6481,20 +5789,12 @@
             "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
           },
           {
-            "name": "namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
             "name": "namespace_name",
             "desc": "The name of this namespace"
           },
           {
             "name": "namespace_member_email",
             "desc": "If this is a team member or app folder, the email address of the owning team member."
-          },
-          {
-            "name": "file_id",
-            "desc": "A unique identifier for the file."
           },
           {
             "name": "tag",
@@ -6517,24 +5817,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "Set if the folder is contained by a shared folder."
           }
         ]
       }
@@ -6576,16 +5860,8 @@
             "desc": "The name of this namespace"
           },
           {
-            "name": "input.namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
             "name": "input.namespace_type",
             "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
-          },
-          {
-            "name": "input.team_member_id",
-            "desc": "If this is a team member or app folder, the ID of the owning team member."
           },
           {
             "name": "result.path",
@@ -6643,10 +5919,6 @@
             "desc": "The name of this namespace"
           },
           {
-            "name": "namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
             "name": "namespace_type",
             "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
           },
@@ -6684,10 +5956,6 @@
           {
             "name": "namespace_name",
             "desc": "The name of this namespace"
-          },
-          {
-            "name": "namespace_id",
-            "desc": "The ID of this namespace."
           },
           {
             "name": "namespace_type",
@@ -6745,10 +6013,6 @@
         "desc": "",
         "columns": [
           {
-            "name": "shared_link_id",
-            "desc": "A unique identifier for the linked file or folder"
-          },
-          {
             "name": "tag",
             "desc": "Entry type (file, or folder)"
           },
@@ -6771,14 +6035,6 @@
           {
             "name": "visibility",
             "desc": "The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder)."
-          },
-          {
-            "name": "account_id",
-            "desc": "A user's account identifier."
-          },
-          {
-            "name": "team_member_id",
-            "desc": "ID of user as a member of a team."
           },
           {
             "name": "email",
@@ -6981,10 +6237,6 @@
             "desc": "Name of team folder"
           },
           {
-            "name": "result.team_folder_id",
-            "desc": "The ID of the team folder."
-          },
-          {
             "name": "result.name",
             "desc": "The name of the team folder."
           },
@@ -7168,20 +6420,12 @@
             "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
           },
           {
-            "name": "namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
             "name": "namespace_name",
             "desc": "The name of this namespace"
           },
           {
             "name": "namespace_member_email",
             "desc": "If this is a team member or app folder, the email address of the owning team member."
-          },
-          {
-            "name": "file_id",
-            "desc": "A unique identifier for the file."
           },
           {
             "name": "tag",
@@ -7204,24 +6448,8 @@
             "desc": "The last time the file was modified on Dropbox."
           },
           {
-            "name": "revision",
-            "desc": "A unique identifier for the current revision of a file."
-          },
-          {
             "name": "size",
             "desc": "The file size in bytes."
-          },
-          {
-            "name": "content_hash",
-            "desc": "A hash of the file content."
-          },
-          {
-            "name": "shared_folder_id",
-            "desc": "If this folder is a shared folder mount point, the ID of the shared folder mounted at this location."
-          },
-          {
-            "name": "parent_shared_folder_id",
-            "desc": "Set if the folder is contained by a shared folder."
           }
         ]
       }
@@ -7263,16 +6491,8 @@
             "desc": "The name of this namespace"
           },
           {
-            "name": "input.namespace_id",
-            "desc": "The ID of this namespace."
-          },
-          {
             "name": "input.namespace_type",
             "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
-          },
-          {
-            "name": "input.team_member_id",
-            "desc": "If this is a team member or app folder, the ID of the owning team member."
           },
           {
             "name": "result.path",
@@ -7325,10 +6545,6 @@
         "name": "team_folder",
         "desc": "",
         "columns": [
-          {
-            "name": "team_folder_id",
-            "desc": "The ID of the team folder."
-          },
           {
             "name": "name",
             "desc": "The name of the team folder."

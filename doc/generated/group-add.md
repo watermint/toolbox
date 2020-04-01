@@ -119,8 +119,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | Column                | Description                                                                           |
 |-----------------------|---------------------------------------------------------------------------------------|
 | group_name            | Name of a group                                                                       |
-| group_id              | A group's identifier                                                                  |
 | group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
-| group_external_id     |  External ID of group. This is an arbitrary ID that an admin can attach to a group.   |
 | member_count          | The number of members in the group.                                                   |
 

@@ -115,22 +115,16 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
 
-| 列               | 説明                                                                 |
-|------------------|----------------------------------------------------------------------|
-| team_member_id   | チームにおけるメンバーのID                                           |
-| email            | ユーザーのメールアドレス                                             |
-| status           | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
-| given_name       | 名                                                                   |
-| surname          | 名字                                                                 |
-| familiar_name    | ロケール依存の名前                                                   |
-| display_name     | ユーザーのDropboxアカウントの表示名称                                |
-| abbreviated_name | ユーザーの省略名称                                                   |
-| external_id      | このユーザーに関連づけられた外部ID                                   |
-| account_id       | ユーザーのアカウントID                                               |
-| app_id           | アプリケーションの固有ID                                             |
-| app_name         | アプリケーション名称                                                 |
-| is_app_folder    | アプリケーションが専用フォルダにリンクするかどうか                   |
-| publisher        | パブリッシャーのURL                                                  |
-| publisher_url    | アプリケーションパブリッシャーの名前                                 |
-| linked           | アプリケーションがリンクされた日時                                   |
+| 列            | 説明                                                                 |
+|---------------|----------------------------------------------------------------------|
+| email         | ユーザーのメールアドレス                                             |
+| status        | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
+| given_name    | 名                                                                   |
+| surname       | 名字                                                                 |
+| display_name  | ユーザーのDropboxアカウントの表示名称                                |
+| app_name      | アプリケーション名称                                                 |
+| is_app_folder | アプリケーションが専用フォルダにリンクするかどうか                   |
+| publisher     | パブリッシャーのURL                                                  |
+| publisher_url | アプリケーションパブリッシャーの名前                                 |
+| linked        | アプリケーションがリンクされた日時                                   |
 

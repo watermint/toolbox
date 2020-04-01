@@ -90,7 +90,17 @@ func (z *List) Preset() {
 	z.IncludeTeamFolder = true
 	z.IncludeSharedFolder = true
 	z.IncludeMemberFolder = false
-	z.NamespaceFile.SetModel(&mo_namespace.NamespaceEntry{})
+	z.NamespaceFile.SetModel(
+		&mo_namespace.NamespaceEntry{},
+		rp_model.HiddenColumns(
+			"namespace_id",
+			"file_id",
+			"revision",
+			"content_hash",
+			"shared_folder_id",
+			"parent_shared_folder_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -163,8 +173,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "namespace_file", func(cols map[string]string) error {
-		if _, ok := cols["namespace_id"]; !ok {
-			return errors.New("`namespace_id` is not found")
+		if _, ok := cols["namespace_name"]; !ok {
+			return errors.New("`namespace_name` is not found")
 		}
 		if _, ok := cols["path_display"]; !ok {
 			return errors.New("`path_display` is not found")

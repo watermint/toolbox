@@ -114,19 +114,16 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`...   
 
-| 列                      | 説明                                                                                                 |
-|-------------------------|------------------------------------------------------------------------------------------------------|
-| shared_folder_id        | 共有フォルダのID                                                                                     |
-| parent_shared_folder_id | 親共有フォルダのID. このフィールドはフォルダが他の共有フォルダに含まれる場合のみ設定されます.        |
-| name                    | 共有フォルダの名称                                                                                   |
-| access_type             | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
-| path_lower              | 共有フォルダのフルパス(小文字に変換済み).                                                            |
-| is_inside_team_folder   | フォルダがチームフォルダに内包されているかどうか                                                     |
-| is_team_folder          | このフォルダがチームフォルダであるかどうか                                                           |
-| policy_manage_access    | このフォルダへメンバーを追加したり削除できるユーザー                                                 |
-| policy_shared_link      | このフォルダの共有リンクを誰が利用できるか                                                           |
-| policy_member           | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
-| policy_viewer_info      | だれが閲覧社情報を有効化・無効化できるか                                                             |
-| owner_team_id           | このフォルダを所有するチームのチームID                                                               |
-| owner_team_name         | このフォルダを所有するチームの名前                                                                   |
+| 列                    | 説明                                                                                                 |
+|-----------------------|------------------------------------------------------------------------------------------------------|
+| name                  | 共有フォルダの名称                                                                                   |
+| access_type           | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
+| path_lower            | 共有フォルダのフルパス(小文字に変換済み).                                                            |
+| is_inside_team_folder | フォルダがチームフォルダに内包されているかどうか                                                     |
+| is_team_folder        | このフォルダがチームフォルダであるかどうか                                                           |
+| policy_manage_access  | このフォルダへメンバーを追加したり削除できるユーザー                                                 |
+| policy_shared_link    | このフォルダの共有リンクを誰が利用できるか                                                           |
+| policy_member         | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
+| policy_viewer_info    | だれが閲覧社情報を有効化・無効化できるか                                                             |
+| owner_team_name       | このフォルダを所有するチームの名前                                                                   |
 

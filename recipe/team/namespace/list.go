@@ -18,7 +18,11 @@ type List struct {
 }
 
 func (z *List) Preset() {
-	z.Namespace.SetModel(&mo_namespace.Namespace{})
+	z.Namespace.SetModel(&mo_namespace.Namespace{},
+		rp_model.HiddenColumns(
+			"namespace_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -42,8 +46,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "namespace", func(cols map[string]string) error {
-		if _, ok := cols["namespace_id"]; !ok {
-			return errors.New("`namespace_id` is not found")
+		if _, ok := cols["name"]; !ok {
+			return errors.New("`name` is not found")
 		}
 		return nil
 	})

@@ -57,7 +57,16 @@ type Unlink struct {
 
 func (z *Unlink) Preset() {
 	z.File.SetModel(&mo_device.MemberSession{})
-	z.OperationLog.SetModel(&mo_device.MemberSession{}, nil)
+	z.OperationLog.SetModel(&mo_device.MemberSession{}, nil,
+		rp_model.HiddenColumns(
+			"input.familiar_name",
+			"input.abbreviated_name",
+			"input.member_folder_id",
+			"input.external_id",
+			"input.account_id",
+			"input.persistent_id",
+		),
+	)
 }
 
 func (z *Unlink) Exec(c app_control.Control) error {

@@ -131,26 +131,19 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列                      | 説明                                                                                            |
-|-------------------------|-------------------------------------------------------------------------------------------------|
-| status                  | 処理の状態                                                                                      |
-| reason                  | 失敗またはスキップの理由                                                                        |
-| input.email             | チームメンバーのメールアドレス                                                                  |
-| input.external_id       | チームメンバーのExternal ID                                                                     |
-| result.team_member_id   | チームにおけるメンバーのID                                                                      |
-| result.email            | ユーザーのメールアドレス                                                                        |
-| result.email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
-| result.status           | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
-| result.given_name       | 名                                                                                              |
-| result.surname          | 名字                                                                                            |
-| result.familiar_name    | ロケール依存の名前                                                                              |
-| result.display_name     | ユーザーのDropboxアカウントの表示名称                                                           |
-| result.abbreviated_name | ユーザーの省略名称                                                                              |
-| result.member_folder_id | ユーザールートフォルダの名前空間ID.                                                             |
-| result.external_id      | このユーザーに関連づけられた外部ID                                                              |
-| result.account_id       | ユーザーのアカウントID                                                                          |
-| result.persistent_id    | ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです.                             |
-| result.joined_on        | メンバーがチームに参加した日時.                                                                 |
-| result.role             | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
-| result.tag              | 処理のタグ                                                                                      |
+| 列                    | 説明                                                                                            |
+|-----------------------|-------------------------------------------------------------------------------------------------|
+| status                | 処理の状態                                                                                      |
+| reason                | 失敗またはスキップの理由                                                                        |
+| input.email           | チームメンバーのメールアドレス                                                                  |
+| input.external_id     | チームメンバーのExternal ID                                                                     |
+| result.email          | ユーザーのメールアドレス                                                                        |
+| result.email_verified | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
+| result.status         | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
+| result.given_name     | 名                                                                                              |
+| result.surname        | 名字                                                                                            |
+| result.display_name   | ユーザーのDropboxアカウントの表示名称                                                           |
+| result.joined_on      | メンバーがチームに参加した日時.                                                                 |
+| result.role           | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
+| result.tag            | 処理のタグ                                                                                      |
 

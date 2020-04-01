@@ -44,7 +44,7 @@ type Procmon struct {
 	RepositoryPath mo_path.FileSystemPath
 	DropboxPath    mo_path.DropboxPath
 	Peer           rc_conn.ConnUserFile
-	RunUntil       mo_time.Time
+	RunUntil       mo_time.TimeOptional
 	RetainLogs     int
 	Seconds        int
 }
@@ -390,7 +390,7 @@ func (z *Procmon) Exec(c app_control.Control) error {
 	if z.Seconds < 10 {
 		return errors.New("seconds must grater than 10 sec")
 	}
-	if z.RunUntil.Time().Before(time.Now()) {
+	if z.RunUntil.Ok() && z.RunUntil.Time().Before(time.Now()) {
 		l.Info("Skip run")
 		return nil
 	}
@@ -454,7 +454,6 @@ func (z *Procmon) Test(c app_control.Control) error {
 		m.ProcmonUrl = procmonDownloadUrl
 		m.Seconds = 30
 		m.RetainLogs = 4
-		m.RunUntil = mo_time.New(time.Now().Add(5 * time.Second))
 		m.RepositoryPath = mo_path.NewFileSystemPath(tmpDir)
 	})
 }

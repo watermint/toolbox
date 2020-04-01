@@ -168,11 +168,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | input.status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   |
 | input.given_name                    | 名                                                                     |
 | input.surname                       | 名字                                                                   |
-| input.familiar_name                 | ロケール依存の名前                                                     |
 | input.display_name                  | ユーザーのDropboxアカウントの表示名称                                  |
-| input.abbreviated_name              | ユーザーの省略名称                                                     |
-| input.external_id                   | このユーザーに関連づけられた外部ID                                     |
-| input.account_id                    | ユーザーのアカウントID                                                 |
 | input.device_tag                    | セッションのタイプ (web_session, desktop_client, または mobile_client) |
 | input.id                            | セッションID                                                           |
 | input.user_agent                    | ホストデバイスの情報                                                   |

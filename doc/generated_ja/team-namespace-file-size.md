@@ -126,9 +126,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | status                  | 処理の状態                                                                             |
 | reason                  | 失敗またはスキップの理由                                                               |
 | input.name              | 名前空間の名称                                                                         |
-| input.namespace_id      | 名前空間ID                                                                             |
 | input.namespace_type    | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| input.team_member_id    | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
 | result.path             | フォルダへのパス                                                                       |
 | result.count_file       | このフォルダに含まれるファイル数                                                       |
 | result.count_folder     | このフォルダに含まれるフォルダ数                                                       |

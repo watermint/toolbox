@@ -69,5 +69,11 @@ func (z *Add) Test(c app_control.Control) error {
 
 func (z *Add) Preset() {
 	z.ManagementType = "company_managed"
-	z.AddedGroup.SetModel(&mo_group.Group{})
+	z.AddedGroup.SetModel(
+		&mo_group.Group{},
+		rp_model.HiddenColumns(
+			"group_id",
+			"group_external_id",
+		),
+	)
 }

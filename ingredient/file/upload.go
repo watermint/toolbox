@@ -47,10 +47,22 @@ type Upload struct {
 
 func (z *Upload) Preset() {
 	z.Uploaded.SetModel(&UploadRow{}, &mo_file.ConcreteEntry{}, rp_model.HiddenColumns(
-		"result.id", "result.tag",
+		"result.id",
+		"result.tag",
+		"result.path_lower",
+		"result.revision",
+		"result.content_hash",
+		"result.shared_folder_id",
+		"result.parent_shared_folder_id",
 	))
 	z.Skipped.SetModel(&UploadRow{}, &mo_file.ConcreteEntry{}, rp_model.HiddenColumns(
-		"result.id", "result.tag",
+		"result.id",
+		"result.tag",
+		"result.path_lower",
+		"result.revision",
+		"result.content_hash",
+		"result.shared_folder_id",
+		"result.parent_shared_folder_id",
 	))
 	z.Summary.SetModel(&UploadSummary{})
 	z.ChunkSizeKb = 150 * 1024

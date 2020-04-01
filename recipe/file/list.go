@@ -75,8 +75,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "file_list", func(cols map[string]string) error {
-		if _, ok := cols["id"]; !ok {
-			return errors.New("`id` is not found")
+		if _, ok := cols["name"]; !ok {
+			return errors.New("`name` is not found")
 		}
 		if _, ok := cols["path_display"]; !ok {
 			return errors.New("`path_display` is not found")

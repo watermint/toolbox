@@ -93,11 +93,11 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "group_member", func(cols map[string]string) error {
-		if _, ok := cols["group_id"]; !ok {
-			return errors.New("group_id is not found")
+		if _, ok := cols["group_name"]; !ok {
+			return errors.New("group_name is not found")
 		}
-		if _, ok := cols["team_member_id"]; !ok {
-			return errors.New("team_member_id is not found")
+		if _, ok := cols["email"]; !ok {
+			return errors.New("email is not found")
 		}
 		return nil
 	})

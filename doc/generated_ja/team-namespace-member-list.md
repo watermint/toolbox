@@ -119,7 +119,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | 列                 | 説明                                                                                                 |
 |--------------------|------------------------------------------------------------------------------------------------------|
 | namespace_name     | 名前空間の名称                                                                                       |
-| namespace_id       | 名前空間ID                                                                                           |
 | namespace_type     | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)               |
 | entry_access_type  | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
 | entry_is_inherited | メンバーのアクセス権限が上位フォルダから継承されている場合true                                       |

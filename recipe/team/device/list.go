@@ -20,7 +20,17 @@ type List struct {
 }
 
 func (z *List) Preset() {
-	z.Device.SetModel(&mo_device.MemberSession{})
+	z.Device.SetModel(
+		&mo_device.MemberSession{},
+		rp_model.HiddenColumns(
+			"familiar_name",
+			"abbreviated_name",
+			"member_folder_id",
+			"external_id",
+			"account_id",
+			"persistent_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {

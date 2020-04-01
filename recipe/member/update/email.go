@@ -76,7 +76,19 @@ type Email struct {
 
 func (z *Email) Preset() {
 	z.File.SetModel(&EmailRow{})
-	z.OperationLog.SetModel(&EmailRow{}, &mo_member.Member{})
+	z.OperationLog.SetModel(
+		&EmailRow{},
+		&mo_member.Member{},
+		rp_model.HiddenColumns(
+			"result.team_member_id",
+			"result.familiar_name",
+			"result.abbreviated_name",
+			"result.member_folder_id",
+			"result.external_id",
+			"result.account_id",
+			"result.persistent_id",
+		),
+	)
 }
 
 func (z *Email) Exec(c app_control.Control) error {

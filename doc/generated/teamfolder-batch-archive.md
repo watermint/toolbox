@@ -136,7 +136,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | status                        | Status of the operation                                                                    |
 | reason                        | Reason of failure or skipped operation                                                     |
 | input.name                    | Name of team folder                                                                        |
-| result.team_folder_id         | The ID of the team folder.                                                                 |
 | result.name                   | The name of the team folder.                                                               |
 | result.status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
 | result.is_team_shared_dropbox |                                                                                            |

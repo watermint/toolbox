@@ -24,7 +24,13 @@ type Delete struct {
 }
 
 func (z *Delete) Preset() {
-	z.SharedLink.SetModel(&mo_sharedlink.Metadata{}, nil)
+	z.SharedLink.SetModel(
+		&mo_sharedlink.Metadata{},
+		nil,
+		rp_model.HiddenColumns(
+			"input.id",
+		),
+	)
 }
 
 func (z *Delete) Exec(c app_control.Control) error {

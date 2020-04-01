@@ -51,7 +51,14 @@ type List struct {
 }
 
 func (z *List) Preset() {
-	z.SharedLink.SetModel(&mo_sharedlink.SharedLinkMember{})
+	z.SharedLink.SetModel(
+		&mo_sharedlink.SharedLinkMember{},
+		rp_model.HiddenColumns(
+			"shared_link_id",
+			"account_id",
+			"team_member_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -84,11 +91,11 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "shared_link", func(cols map[string]string) error {
-		if _, ok := cols["shared_link_id"]; !ok {
-			return errors.New("`shared_link_id` is not found")
+		if _, ok := cols["name"]; !ok {
+			return errors.New("`name` is not found")
 		}
-		if _, ok := cols["team_member_id"]; !ok {
-			return errors.New("`team_member_id` is not found")
+		if _, ok := cols["email"]; !ok {
+			return errors.New("`email` is not found")
 		}
 		return nil
 	})

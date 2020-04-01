@@ -18,7 +18,14 @@ type List struct {
 }
 
 func (z *List) Preset() {
-	z.SharedFolder.SetModel(&mo_sharedfolder.SharedFolder{})
+	z.SharedFolder.SetModel(
+		&mo_sharedfolder.SharedFolder{},
+		rp_model.HiddenColumns(
+			"shared_folder_id",
+			"parent_shared_folder_id",
+			"owner_team_id",
+		),
+	)
 }
 
 func (z *List) Test(c app_control.Control) error {
@@ -26,8 +33,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "shared_folder", func(cols map[string]string) error {
-		if _, ok := cols["shared_folder_id"]; !ok {
-			return errors.New("shared_folder_id is not found")
+		if _, ok := cols["name"]; !ok {
+			return errors.New("name is not found")
 		}
 		return nil
 	})

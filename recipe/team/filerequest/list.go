@@ -82,11 +82,11 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "file_request", func(cols map[string]string) error {
-		if _, ok := cols["file_request_id"]; !ok {
-			return errors.New("`file_request_id` is not found")
+		if _, ok := cols["url"]; !ok {
+			return errors.New("`url` is not found")
 		}
-		if _, ok := cols["team_member_id"]; !ok {
-			return errors.New("`team_member_id` is not found")
+		if _, ok := cols["email"]; !ok {
+			return errors.New("`email` is not found")
 		}
 		return nil
 	})

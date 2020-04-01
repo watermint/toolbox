@@ -30,7 +30,19 @@ type Profile struct {
 }
 
 func (z *Profile) Preset() {
-	z.OperationLog.SetModel(&ProfileRow{}, &mo_member.Member{})
+	z.OperationLog.SetModel(
+		&ProfileRow{},
+		&mo_member.Member{},
+		rp_model.HiddenColumns(
+			"result.team_member_id",
+			"result.member_folder_id",
+			"result.account_id",
+			"result.persistent_id",
+			"result.familiar_name",
+			"result.abbreviated_name",
+			"result.external_id",
+		),
+	)
 	z.File.SetModel(&ProfileRow{})
 }
 

@@ -85,5 +85,13 @@ func (z *Ship) Test(c app_control.Control) error {
 }
 
 func (z *Ship) Preset() {
-	z.OperationLog.SetModel(&ShipInfo{}, &mo_file.ConcreteEntry{})
+	z.OperationLog.SetModel(
+		&ShipInfo{},
+		&mo_file.ConcreteEntry{},
+		rp_model.HiddenColumns(
+			"result.content_hash",
+			"result.shared_folder_id",
+			"result.parent_shared_folder_id",
+		),
+	)
 }

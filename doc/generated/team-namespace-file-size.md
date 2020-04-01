@@ -126,9 +126,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | status                  | Status of the operation                                                                    |
 | reason                  | Reason of failure or skipped operation                                                     |
 | input.name              | The name of this namespace                                                                 |
-| input.namespace_id      | The ID of this namespace.                                                                  |
 | input.namespace_type    | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
-| input.team_member_id    | If this is a team member or app folder, the ID of the owning team member.                  |
 | result.path             | Path to the folder                                                                         |
 | result.count_file       | Number of files under the folder                                                           |
 | result.count_folder     | Number of folders under the folder                                                         |

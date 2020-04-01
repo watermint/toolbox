@@ -68,5 +68,10 @@ func (z *Delete) Test(c app_control.Control) error {
 
 func (z *Delete) Preset() {
 	z.File.SetModel(&GroupName{})
-	z.OperationLog.SetModel(&GroupName{}, &mo_group.Group{})
+	z.OperationLog.SetModel(&GroupName{}, &mo_group.Group{},
+		rp_model.HiddenColumns(
+			"result.group_id",
+			"result.group_external_id",
+		),
+	)
 }

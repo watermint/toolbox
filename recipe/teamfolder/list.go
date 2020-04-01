@@ -19,7 +19,12 @@ type List struct {
 }
 
 func (z *List) Preset() {
-	z.TeamFolder.SetModel(&mo_teamfolder.TeamFolder{})
+	z.TeamFolder.SetModel(
+		&mo_teamfolder.TeamFolder{},
+		rp_model.HiddenColumns(
+			"team_folder_id",
+		),
+	)
 }
 
 func (z *List) Test(c app_control.Control) error {
@@ -27,8 +32,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "team_folder", func(cols map[string]string) error {
-		if _, ok := cols["team_folder_id"]; !ok {
-			return errors.New("`team_folder_id` is not found")
+		if _, ok := cols["name"]; !ok {
+			return errors.New("`name` is not found")
 		}
 		return nil
 	})

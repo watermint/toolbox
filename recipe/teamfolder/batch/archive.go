@@ -78,5 +78,9 @@ func (z *Archive) Test(c app_control.Control) error {
 
 func (z *Archive) Preset() {
 	z.File.SetModel(&TeamFolderName{})
-	z.OperationLog.SetModel(&TeamFolderName{}, &mo_teamfolder.TeamFolder{})
+	z.OperationLog.SetModel(&TeamFolderName{}, &mo_teamfolder.TeamFolder{},
+		rp_model.HiddenColumns(
+			"result.team_folder_id",
+		),
+	)
 }

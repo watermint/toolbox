@@ -123,8 +123,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | input.current_name           | Current group name                                                                    |
 | input.new_name               | New group name                                                                        |
 | result.group_name            | Name of a group                                                                       |
-| result.group_id              | A group's identifier                                                                  |
 | result.group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
-| result.group_external_id     |  External ID of group. This is an arbitrary ID that an admin can attach to a group.   |
 | result.member_count          | The number of members in the group.                                                   |
 

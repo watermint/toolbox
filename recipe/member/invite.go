@@ -38,7 +38,19 @@ type Invite struct {
 
 func (z *Invite) Preset() {
 	z.File.SetModel(&InviteRow{})
-	z.OperationLog.SetModel(&InviteRow{}, &mo_member.Member{})
+	z.OperationLog.SetModel(
+		&InviteRow{},
+		&mo_member.Member{},
+		rp_model.HiddenColumns(
+			"result.team_member_id",
+			"result.member_folder_id",
+			"result.account_id",
+			"result.external_id",
+			"result.persistent_id",
+			"result.familiar_name",
+			"result.abbreviated_name",
+		),
+	)
 }
 
 func (z *Invite) Test(c app_control.Control) error {

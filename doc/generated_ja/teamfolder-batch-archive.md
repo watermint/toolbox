@@ -136,7 +136,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | status                        | 処理の状態                                                                           |
 | reason                        | 失敗またはスキップの理由                                                             |
 | input.name                    | チームフォルダ名                                                                     |
-| result.team_folder_id         | チームフォルダのID                                                                   |
 | result.name                   | チームフォルダの名称                                                                 |
 | result.status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
 | result.is_team_shared_dropbox |                                                                                      |

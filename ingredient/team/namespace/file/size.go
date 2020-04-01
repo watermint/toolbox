@@ -82,6 +82,8 @@ func (z *Size) Preset() {
 			"result.namespace_id",
 			"result.namespace_type",
 			"result.owner_team_member_id",
+			"input.team_member_id",
+			"input.namespace_id",
 		),
 	)
 	z.IncludeSharedFolder = true

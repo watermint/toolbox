@@ -117,22 +117,17 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`...   
 
-| 列                             | 説明                                                                                       |
-|--------------------------------|--------------------------------------------------------------------------------------------|
-| status                         | 処理の状態                                                                                 |
-| reason                         | 失敗またはスキップの理由                                                                   |
-| input.file                     | ローカルファイルのパス                                                                     |
-| input.size                     | ローカルファイルのサイズ                                                                   |
-| result.name                    | 名称                                                                                       |
-| result.path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
-| result.path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
-| result.client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
-| result.server_modified         | Dropbox上で最後に更新された日時                                                            |
-| result.revision                | ファイルの現在バージョンの一意な識別子                                                     |
-| result.size                    | ファイルサイズ(バイト単位)                                                                 |
-| result.content_hash            | ファイルコンテンツのハッシュ                                                               |
-| result.shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| result.parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
+| 列                     | 説明                                                         |
+|------------------------|--------------------------------------------------------------|
+| status                 | 処理の状態                                                   |
+| reason                 | 失敗またはスキップの理由                                     |
+| input.file             | ローカルファイルのパス                                       |
+| input.size             | ローカルファイルのサイズ                                     |
+| result.name            | 名称                                                         |
+| result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
+| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| result.server_modified | Dropbox上で最後に更新された日時                              |
+| result.size            | ファイルサイズ(バイト単位)                                   |
 
 ## レポート: summary 
 
@@ -168,20 +163,15 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
 
-| 列                             | 説明                                                                                       |
-|--------------------------------|--------------------------------------------------------------------------------------------|
-| status                         | 処理の状態                                                                                 |
-| reason                         | 失敗またはスキップの理由                                                                   |
-| input.file                     | ローカルファイルのパス                                                                     |
-| input.size                     | ローカルファイルのサイズ                                                                   |
-| result.name                    | 名称                                                                                       |
-| result.path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
-| result.path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
-| result.client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
-| result.server_modified         | Dropbox上で最後に更新された日時                                                            |
-| result.revision                | ファイルの現在バージョンの一意な識別子                                                     |
-| result.size                    | ファイルサイズ(バイト単位)                                                                 |
-| result.content_hash            | ファイルコンテンツのハッシュ                                                               |
-| result.shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| result.parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
+| 列                     | 説明                                                         |
+|------------------------|--------------------------------------------------------------|
+| status                 | 処理の状態                                                   |
+| reason                 | 失敗またはスキップの理由                                     |
+| input.file             | ローカルファイルのパス                                       |
+| input.size             | ローカルファイルのサイズ                                     |
+| result.name            | 名称                                                         |
+| result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
+| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| result.server_modified | Dropbox上で最後に更新された日時                              |
+| result.size            | ファイルサイズ(バイト単位)                                   |
 

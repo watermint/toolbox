@@ -29,7 +29,7 @@ type TimeOptional interface {
 }
 
 var (
-	InvalidTimeFormat = errors.New("invalid time format")
+	ErrorInvalidTimeFormat = errors.New("invalid time format")
 )
 
 func Zero() (tm Time) {
@@ -84,7 +84,7 @@ func (z *TimeImpl) String() string {
 func (z *TimeImpl) UpdateTime(dateTime string) error {
 	ts, valid := ut_time.ParseTimestamp(dateTime)
 	if !valid {
-		return InvalidTimeFormat
+		return ErrorInvalidTimeFormat
 	}
 	z.time = ts
 	z.isSet = true

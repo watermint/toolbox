@@ -114,20 +114,16 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
 
-| 列                      | 説明                                                                                                 |
-|-------------------------|------------------------------------------------------------------------------------------------------|
-| shared_folder_id        | 共有フォルダのID                                                                                     |
-| parent_shared_folder_id | 親共有フォルダのID. このフィールドはフォルダが他の共有フォルダに含まれる場合のみ設定されます.        |
-| name                    | 共有フォルダの名称                                                                                   |
-| path_lower              | 共有フォルダのフルパス(小文字に変換済み).                                                            |
-| is_inside_team_folder   | フォルダがチームフォルダに内包されているかどうか                                                     |
-| is_team_folder          | このフォルダがチームフォルダであるかどうか                                                           |
-| access_type             | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
-| is_inherited            | メンバーのアクセス権限が上位フォルダから継承されている場合true                                       |
-| account_id              | ユーザーのアカウントID                                                                               |
-| email                   | ユーザーのメールアドレス                                                                             |
-| display_name            | ユーザーのDropboxアカウントの表示名称                                                                |
-| group_name              | グループ名称                                                                                         |
-| group_id                | グループID                                                                                           |
-| invitee_email           | このフォルダに招待されたメールアドレス                                                               |
+| 列                    | 説明                                                                                                 |
+|-----------------------|------------------------------------------------------------------------------------------------------|
+| name                  | 共有フォルダの名称                                                                                   |
+| path_lower            | 共有フォルダのフルパス(小文字に変換済み).                                                            |
+| is_inside_team_folder | フォルダがチームフォルダに内包されているかどうか                                                     |
+| is_team_folder        | このフォルダがチームフォルダであるかどうか                                                           |
+| access_type           | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
+| is_inherited          | メンバーのアクセス権限が上位フォルダから継承されている場合true                                       |
+| email                 | ユーザーのメールアドレス                                                                             |
+| display_name          | ユーザーのDropboxアカウントの表示名称                                                                |
+| group_name            | グループ名称                                                                                         |
+| invitee_email         | このフォルダに招待されたメールアドレス                                                               |
 

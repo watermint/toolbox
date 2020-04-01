@@ -116,19 +116,16 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
 
-| 列             | 説明                                                                 |
-|----------------|----------------------------------------------------------------------|
-| shared_link_id | ファイルまたはフォルダへのリンクのID                                 |
-| tag            | エントリーの種別 (file, または folder)                               |
-| url            | 共有リンクのURL.                                                     |
-| name           | リンク先ファイル名称                                                 |
-| expires        | 有効期限 (設定されている場合)                                        |
-| path_lower     | パス (すべて小文字に変換).                                           |
-| visibility     | 共有リンクの開示範囲                                                 |
-| account_id     | ユーザーのアカウントID                                               |
-| team_member_id | チームにおけるメンバーのID                                           |
-| email          | ユーザーのメールアドレス                                             |
-| status         | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
-| surname        | リンク所有者の名字                                                   |
-| given_name     | リンク所有者の名                                                     |
+| 列         | 説明                                                                 |
+|------------|----------------------------------------------------------------------|
+| tag        | エントリーの種別 (file, または folder)                               |
+| url        | 共有リンクのURL.                                                     |
+| name       | リンク先ファイル名称                                                 |
+| expires    | 有効期限 (設定されている場合)                                        |
+| path_lower | パス (すべて小文字に変換).                                           |
+| visibility | 共有リンクの開示範囲                                                 |
+| email      | ユーザーのメールアドレス                                             |
+| status     | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
+| surname    | リンク所有者の名字                                                   |
+| given_name | リンク所有者の名                                                     |
 

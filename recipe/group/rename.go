@@ -62,5 +62,12 @@ func (z *Rename) Test(c app_control.Control) error {
 }
 
 func (z *Rename) Preset() {
-	z.OperationLog.SetModel(&RenameRow{}, &mo_group.Group{})
+	z.OperationLog.SetModel(
+		&RenameRow{},
+		&mo_group.Group{},
+		rp_model.HiddenColumns(
+			"result.group_id",
+			"result.group_external_id",
+		),
+	)
 }

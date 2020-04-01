@@ -117,7 +117,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 
 | Column                 | Description                                                                                |
 |------------------------|--------------------------------------------------------------------------------------------|
-| team_folder_id         | The ID of the team folder.                                                                 |
 | name                   | The name of the team folder.                                                               |
 | status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
 | is_team_shared_dropbox |                                                                                            |

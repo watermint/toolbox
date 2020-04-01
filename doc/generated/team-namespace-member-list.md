@@ -119,7 +119,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | Column             | Description                                                                                               |
 |--------------------|-----------------------------------------------------------------------------------------------------------|
 | namespace_name     | The name of this namespace                                                                                |
-| namespace_id       | The ID of this namespace.                                                                                 |
 | namespace_type     | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)                |
 | entry_access_type  | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | entry_is_inherited | True if the member has access from a parent folder                                                        |

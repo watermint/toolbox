@@ -131,26 +131,19 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| Column                  | Description                                                                                                          |
-|-------------------------|----------------------------------------------------------------------------------------------------------------------|
-| status                  | Status of the operation                                                                                              |
-| reason                  | Reason of failure or skipped operation                                                                               |
-| input.email             | Email address of team members                                                                                        |
-| input.external_id       | External ID of team members                                                                                          |
-| result.team_member_id   | ID of user as a member of a team.                                                                                    |
-| result.email            | Email address of user.                                                                                               |
-| result.email_verified   | Is true if the user's email is verified to be owned by the user.                                                     |
-| result.status           | The user's status as a member of a specific team. (active/invited/suspended/removed)                                 |
-| result.given_name       | Also known as a first name                                                                                           |
-| result.surname          | Also known as a last name or family name.                                                                            |
-| result.familiar_name    | Locale-dependent name                                                                                                |
-| result.display_name     | A name that can be used directly to represent the name of a user's Dropbox account.                                  |
-| result.abbreviated_name | An abbreviated form of the person's name.                                                                            |
-| result.member_folder_id | The namespace id of the user's root folder.                                                                          |
-| result.external_id      | External ID that a team can attach to the user.                                                                      |
-| result.account_id       | A user's account identifier.                                                                                         |
-| result.persistent_id    | Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication. |
-| result.joined_on        | The date and time the user joined as a member of a specific team.                                                    |
-| result.role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
-| result.tag              | Operation tag                                                                                                        |
+| Column                | Description                                                                                    |
+|-----------------------|------------------------------------------------------------------------------------------------|
+| status                | Status of the operation                                                                        |
+| reason                | Reason of failure or skipped operation                                                         |
+| input.email           | Email address of team members                                                                  |
+| input.external_id     | External ID of team members                                                                    |
+| result.email          | Email address of user.                                                                         |
+| result.email_verified | Is true if the user's email is verified to be owned by the user.                               |
+| result.status         | The user's status as a member of a specific team. (active/invited/suspended/removed)           |
+| result.given_name     | Also known as a first name                                                                     |
+| result.surname        | Also known as a last name or family name.                                                      |
+| result.display_name   | A name that can be used directly to represent the name of a user's Dropbox account.            |
+| result.joined_on      | The date and time the user joined as a member of a specific team.                              |
+| result.role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
+| result.tag            | Operation tag                                                                                  |
 

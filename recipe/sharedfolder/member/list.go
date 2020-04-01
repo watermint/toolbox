@@ -48,7 +48,15 @@ type List struct {
 }
 
 func (z *List) Preset() {
-	z.Member.SetModel(&mo_sharedfolder_member.SharedFolderMember{})
+	z.Member.SetModel(
+		&mo_sharedfolder_member.SharedFolderMember{},
+		rp_model.HiddenColumns(
+			"shared_folder_id",
+			"parent_shared_folder_id",
+			"account_id",
+			"group_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {

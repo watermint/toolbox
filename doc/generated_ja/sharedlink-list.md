@@ -116,7 +116,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 
 | 列         | 説明                                   |
 |------------|----------------------------------------|
-| id         | ファイルまたはフォルダへのリンクのID   |
 | tag        | エントリーの種別 (file, または folder) |
 | url        | 共有リンクのURL.                       |
 | name       | リンク先ファイル名称                   |

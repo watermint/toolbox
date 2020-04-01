@@ -73,7 +73,18 @@ type Restore struct {
 }
 
 func (z *Restore) Preset() {
-	z.OperationLog.SetModel(&RestoreTarget{}, &mo_file.ConcreteEntry{})
+	z.OperationLog.SetModel(
+		&RestoreTarget{},
+		&mo_file.ConcreteEntry{},
+		rp_model.HiddenColumns(
+			"result.id",
+			"result.path_lower",
+			"result.revision",
+			"result.content_hash",
+			"result.shared_folder_id",
+			"result.parent_shared_folder_id",
+		),
+	)
 }
 
 func (z *Restore) Exec(c app_control.Control) error {

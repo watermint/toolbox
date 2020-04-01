@@ -34,7 +34,19 @@ type Externalid struct {
 
 func (z *Externalid) Preset() {
 	z.File.SetModel(&ExternalIdRow{})
-	z.OperationLog.SetModel(&ExternalIdRow{}, &mo_member.Member{})
+	z.OperationLog.SetModel(
+		&ExternalIdRow{},
+		&mo_member.Member{},
+		rp_model.HiddenColumns(
+			"result.team_member_id",
+			"result.familiar_name",
+			"result.abbreviated_name",
+			"result.member_folder_id",
+			"result.external_id",
+			"result.account_id",
+			"result.persistent_id",
+		),
+	)
 }
 
 func (z *Externalid) Exec(c app_control.Control) error {

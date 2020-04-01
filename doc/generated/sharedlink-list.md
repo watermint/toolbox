@@ -116,7 +116,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 
 | Column     | Description                                                                                                                                                                                                             |
 |------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id         | A unique identifier for the linked file or folder                                                                                                                                                                       |
 | tag        | Entry type (file, or folder)                                                                                                                                                                                            |
 | url        | URL of the shared link.                                                                                                                                                                                                 |
 | name       | The linked file name (including extension).                                                                                                                                                                             |

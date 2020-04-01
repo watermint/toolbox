@@ -125,11 +125,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   |
 | given_name                    | 名                                                                     |
 | surname                       | 名字                                                                   |
-| familiar_name                 | ロケール依存の名前                                                     |
 | display_name                  | ユーザーのDropboxアカウントの表示名称                                  |
-| abbreviated_name              | ユーザーの省略名称                                                     |
-| external_id                   | このユーザーに関連づけられた外部ID                                     |
-| account_id                    | ユーザーのアカウントID                                                 |
 | device_tag                    | セッションのタイプ (web_session, desktop_client, または mobile_client) |
 | id                            | セッションID                                                           |
 | user_agent                    | ホストデバイスの情報                                                   |
@@ -211,9 +207,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | 列                    | 説明                                                                                    |
 |-----------------------|-----------------------------------------------------------------------------------------|
 | group_name            | グループ名称                                                                            |
-| group_id              | グループID                                                                              |
 | group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
-| group_external_id     |  グループの外部IDこの任意のIDは管理者がグループに付加できます                           |
 | member_count          | グループ内のメンバー数                                                                  |
 
 ## レポート: group_member 
@@ -274,24 +268,18 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
 
-| 列               | 説明                                                                 |
-|------------------|----------------------------------------------------------------------|
-| team_member_id   | チームにおけるメンバーのID                                           |
-| email            | ユーザーのメールアドレス                                             |
-| status           | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
-| given_name       | 名                                                                   |
-| surname          | 名字                                                                 |
-| familiar_name    | ロケール依存の名前                                                   |
-| display_name     | ユーザーのDropboxアカウントの表示名称                                |
-| abbreviated_name | ユーザーの省略名称                                                   |
-| external_id      | このユーザーに関連づけられた外部ID                                   |
-| account_id       | ユーザーのアカウントID                                               |
-| app_id           | アプリケーションの固有ID                                             |
-| app_name         | アプリケーション名称                                                 |
-| is_app_folder    | アプリケーションが専用フォルダにリンクするかどうか                   |
-| publisher        | パブリッシャーのURL                                                  |
-| publisher_url    | アプリケーションパブリッシャーの名前                                 |
-| linked           | アプリケーションがリンクされた日時                                   |
+| 列            | 説明                                                                 |
+|---------------|----------------------------------------------------------------------|
+| email         | ユーザーのメールアドレス                                             |
+| status        | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
+| given_name    | 名                                                                   |
+| surname       | 名字                                                                 |
+| display_name  | ユーザーのDropboxアカウントの表示名称                                |
+| app_name      | アプリケーション名称                                                 |
+| is_app_folder | アプリケーションが専用フォルダにリンクするかどうか                   |
+| publisher     | パブリッシャーのURL                                                  |
+| publisher_url | アプリケーションパブリッシャーの名前                                 |
+| linked        | アプリケーションがリンクされた日時                                   |
 
 ## レポート: member 
 
@@ -305,23 +293,16 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
 
-| 列               | 説明                                                                                            |
-|------------------|-------------------------------------------------------------------------------------------------|
-| team_member_id   | チームにおけるメンバーのID                                                                      |
-| email            | ユーザーのメールアドレス                                                                        |
-| email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
-| status           | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
-| given_name       | 名                                                                                              |
-| surname          | 名字                                                                                            |
-| familiar_name    | ロケール依存の名前                                                                              |
-| display_name     | ユーザーのDropboxアカウントの表示名称                                                           |
-| abbreviated_name | ユーザーの省略名称                                                                              |
-| member_folder_id | ユーザールートフォルダの名前空間ID.                                                             |
-| external_id      | このユーザーに関連づけられた外部ID                                                              |
-| account_id       | ユーザーのアカウントID                                                                          |
-| persistent_id    | ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです.                             |
-| joined_on        | メンバーがチームに参加した日時.                                                                 |
-| role             | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
+| 列             | 説明                                                                                            |
+|----------------|-------------------------------------------------------------------------------------------------|
+| email          | ユーザーのメールアドレス                                                                        |
+| email_verified | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
+| status         | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
+| given_name     | 名                                                                                              |
+| surname        | 名字                                                                                            |
+| display_name   | ユーザーのDropboxアカウントの表示名称                                                           |
+| joined_on      | メンバーがチームに参加した日時.                                                                 |
+| role           | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
 
 ## レポート: member_quota 
 
@@ -355,7 +336,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | 列             | 説明                                                                                   |
 |----------------|----------------------------------------------------------------------------------------|
 | name           | 名前空間の名称                                                                         |
-| namespace_id   | 名前空間ID                                                                             |
 | namespace_type | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
 | team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
 
@@ -371,23 +351,17 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
 
-| 列                      | 説明                                                                                            |
-|-------------------------|-------------------------------------------------------------------------------------------------|
-| namespace_type          | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)          |
-| namespace_id            | 名前空間ID                                                                                      |
-| namespace_name          | 名前空間の名称                                                                                  |
-| namespace_member_email  | これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス. |
-| file_id                 | ファイルへの一意なID                                                                            |
-| tag                     | エントリーの種別`file`, `folder`, または `deleted`                                              |
-| name                    | 名称                                                                                            |
-| path_display            | パス (表示目的で大文字小文字を区別する).                                                        |
-| client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                    |
-| server_modified         | Dropbox上で最後に更新された日時                                                                 |
-| revision                | ファイルの現在バージョンの一意な識別子                                                          |
-| size                    | ファイルサイズ(バイト単位)                                                                      |
-| content_hash            | ファイルコンテンツのハッシュ                                                                    |
-| shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。      |
-| parent_shared_folder_id | 設定されている場合、共有フォルダに内包されています.                                             |
+| 列                     | 説明                                                                                            |
+|------------------------|-------------------------------------------------------------------------------------------------|
+| namespace_type         | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)          |
+| namespace_name         | 名前空間の名称                                                                                  |
+| namespace_member_email | これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス. |
+| tag                    | エントリーの種別`file`, `folder`, または `deleted`                                              |
+| name                   | 名称                                                                                            |
+| path_display           | パス (表示目的で大文字小文字を区別する).                                                        |
+| client_modified        | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                    |
+| server_modified        | Dropbox上で最後に更新された日時                                                                 |
+| size                   | ファイルサイズ(バイト単位)                                                                      |
 
 ## レポート: namespace_size 
 
@@ -406,9 +380,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | status                  | 処理の状態                                                                             |
 | reason                  | 失敗またはスキップの理由                                                               |
 | input.name              | 名前空間の名称                                                                         |
-| input.namespace_id      | 名前空間ID                                                                             |
 | input.namespace_type    | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| input.team_member_id    | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
 | result.path             | フォルダへのパス                                                                       |
 | result.count_file       | このフォルダに含まれるファイル数                                                       |
 | result.count_folder     | このフォルダに含まれるフォルダ数                                                       |
@@ -428,21 +400,18 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
 
-| 列             | 説明                                                                 |
-|----------------|----------------------------------------------------------------------|
-| shared_link_id | ファイルまたはフォルダへのリンクのID                                 |
-| tag            | エントリーの種別 (file, または folder)                               |
-| url            | 共有リンクのURL.                                                     |
-| name           | リンク先ファイル名称                                                 |
-| expires        | 有効期限 (設定されている場合)                                        |
-| path_lower     | パス (すべて小文字に変換).                                           |
-| visibility     | 共有リンクの開示範囲                                                 |
-| account_id     | ユーザーのアカウントID                                               |
-| team_member_id | チームにおけるメンバーのID                                           |
-| email          | ユーザーのメールアドレス                                             |
-| status         | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
-| surname        | リンク所有者の名字                                                   |
-| given_name     | リンク所有者の名                                                     |
+| 列         | 説明                                                                 |
+|------------|----------------------------------------------------------------------|
+| tag        | エントリーの種別 (file, または folder)                               |
+| url        | 共有リンクのURL.                                                     |
+| name       | リンク先ファイル名称                                                 |
+| expires    | 有効期限 (設定されている場合)                                        |
+| path_lower | パス (すべて小文字に変換).                                           |
+| visibility | 共有リンクの開示範囲                                                 |
+| email      | ユーザーのメールアドレス                                             |
+| status     | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
+| surname    | リンク所有者の名字                                                   |
+| given_name | リンク所有者の名                                                     |
 
 ## レポート: usage 
 

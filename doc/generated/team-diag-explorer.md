@@ -125,11 +125,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | status                        | The user's status as a member of a specific team. (active/invited/suspended/removed) |
 | given_name                    | Also known as a first name                                                           |
 | surname                       | Also known as a last name or family name.                                            |
-| familiar_name                 | Locale-dependent name                                                                |
 | display_name                  | A name that can be used directly to represent the name of a user's Dropbox account.  |
-| abbreviated_name              | An abbreviated form of the person's name.                                            |
-| external_id                   | External ID that a team can attach to the user.                                      |
-| account_id                    | A user's account identifier.                                                         |
 | device_tag                    | Type of the session (web_session, desktop_client, or mobile_client)                  |
 | id                            | The session id.                                                                      |
 | user_agent                    | Information on the hosting device.                                                   |
@@ -211,9 +207,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | Column                | Description                                                                           |
 |-----------------------|---------------------------------------------------------------------------------------|
 | group_name            | Name of a group                                                                       |
-| group_id              | A group's identifier                                                                  |
 | group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
-| group_external_id     |  External ID of group. This is an arbitrary ID that an admin can attach to a group.   |
 | member_count          | The number of members in the group.                                                   |
 
 ## Report: group_member 
@@ -274,24 +268,18 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
 
-| Column           | Description                                                                          |
-|------------------|--------------------------------------------------------------------------------------|
-| team_member_id   | ID of user as a member of a team.                                                    |
-| email            | Email address of user.                                                               |
-| status           | The user's status as a member of a specific team. (active/invited/suspended/removed) |
-| given_name       | Also known as a first name                                                           |
-| surname          | Also known as a last name or family name.                                            |
-| familiar_name    | Locale-dependent name                                                                |
-| display_name     | A name that can be used directly to represent the name of a user's Dropbox account.  |
-| abbreviated_name | An abbreviated form of the person's name.                                            |
-| external_id      | External ID that a team can attach to the user.                                      |
-| account_id       | A user's account identifier.                                                         |
-| app_id           | The application unique id.                                                           |
-| app_name         | The application name.                                                                |
-| is_app_folder    | Whether the linked application uses a dedicated folder.                              |
-| publisher        | The publisher's URL.                                                                 |
-| publisher_url    | The application publisher name.                                                      |
-| linked           | The time this application was linked                                                 |
+| Column        | Description                                                                          |
+|---------------|--------------------------------------------------------------------------------------|
+| email         | Email address of user.                                                               |
+| status        | The user's status as a member of a specific team. (active/invited/suspended/removed) |
+| given_name    | Also known as a first name                                                           |
+| surname       | Also known as a last name or family name.                                            |
+| display_name  | A name that can be used directly to represent the name of a user's Dropbox account.  |
+| app_name      | The application name.                                                                |
+| is_app_folder | Whether the linked application uses a dedicated folder.                              |
+| publisher     | The publisher's URL.                                                                 |
+| publisher_url | The application publisher name.                                                      |
+| linked        | The time this application was linked                                                 |
 
 ## Report: member 
 
@@ -305,23 +293,16 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
 
-| Column           | Description                                                                                                          |
-|------------------|----------------------------------------------------------------------------------------------------------------------|
-| team_member_id   | ID of user as a member of a team.                                                                                    |
-| email            | Email address of user.                                                                                               |
-| email_verified   | Is true if the user's email is verified to be owned by the user.                                                     |
-| status           | The user's status as a member of a specific team. (active/invited/suspended/removed)                                 |
-| given_name       | Also known as a first name                                                                                           |
-| surname          | Also known as a last name or family name.                                                                            |
-| familiar_name    | Locale-dependent name                                                                                                |
-| display_name     | A name that can be used directly to represent the name of a user's Dropbox account.                                  |
-| abbreviated_name | An abbreviated form of the person's name.                                                                            |
-| member_folder_id | The namespace id of the user's root folder.                                                                          |
-| external_id      | External ID that a team can attach to the user.                                                                      |
-| account_id       | A user's account identifier.                                                                                         |
-| persistent_id    | Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication. |
-| joined_on        | The date and time the user joined as a member of a specific team.                                                    |
-| role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
+| Column         | Description                                                                                    |
+|----------------|------------------------------------------------------------------------------------------------|
+| email          | Email address of user.                                                                         |
+| email_verified | Is true if the user's email is verified to be owned by the user.                               |
+| status         | The user's status as a member of a specific team. (active/invited/suspended/removed)           |
+| given_name     | Also known as a first name                                                                     |
+| surname        | Also known as a last name or family name.                                                      |
+| display_name   | A name that can be used directly to represent the name of a user's Dropbox account.            |
+| joined_on      | The date and time the user joined as a member of a specific team.                              |
+| role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 
 ## Report: member_quota 
 
@@ -355,7 +336,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | Column         | Description                                                                                |
 |----------------|--------------------------------------------------------------------------------------------|
 | name           | The name of this namespace                                                                 |
-| namespace_id   | The ID of this namespace.                                                                  |
 | namespace_type | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
 | team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
 
@@ -371,23 +351,17 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
 
-| Column                  | Description                                                                                            |
-|-------------------------|--------------------------------------------------------------------------------------------------------|
-| namespace_type          | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)             |
-| namespace_id            | The ID of this namespace.                                                                              |
-| namespace_name          | The name of this namespace                                                                             |
-| namespace_member_email  | If this is a team member or app folder, the email address of the owning team member.                   |
-| file_id                 | A unique identifier for the file.                                                                      |
-| tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name                    | The last component of the path (including extension).                                                  |
-| path_display            | The cased path to be used for display purposes only.                                                   |
-| client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified         | The last time the file was modified on Dropbox.                                                        |
-| revision                | A unique identifier for the current revision of a file.                                                |
-| size                    | The file size in bytes.                                                                                |
-| content_hash            | A hash of the file content.                                                                            |
-| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| parent_shared_folder_id | Set if the folder is contained by a shared folder.                                                     |
+| Column                 | Description                                                                                            |
+|------------------------|--------------------------------------------------------------------------------------------------------|
+| namespace_type         | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)             |
+| namespace_name         | The name of this namespace                                                                             |
+| namespace_member_email | If this is a team member or app folder, the email address of the owning team member.                   |
+| tag                    | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| name                   | The last component of the path (including extension).                                                  |
+| path_display           | The cased path to be used for display purposes only.                                                   |
+| client_modified        | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| server_modified        | The last time the file was modified on Dropbox.                                                        |
+| size                   | The file size in bytes.                                                                                |
 
 ## Report: namespace_size 
 
@@ -406,9 +380,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | status                  | Status of the operation                                                                    |
 | reason                  | Reason of failure or skipped operation                                                     |
 | input.name              | The name of this namespace                                                                 |
-| input.namespace_id      | The ID of this namespace.                                                                  |
 | input.namespace_type    | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
-| input.team_member_id    | If this is a team member or app folder, the ID of the owning team member.                  |
 | result.path             | Path to the folder                                                                         |
 | result.count_file       | Number of files under the folder                                                           |
 | result.count_folder     | Number of folders under the folder                                                         |
@@ -428,21 +400,18 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
 
-| Column         | Description                                                                                                                                                                                                             |
-|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| shared_link_id | A unique identifier for the linked file or folder                                                                                                                                                                       |
-| tag            | Entry type (file, or folder)                                                                                                                                                                                            |
-| url            | URL of the shared link.                                                                                                                                                                                                 |
-| name           | The linked file name (including extension).                                                                                                                                                                             |
-| expires        | Expiration time, if set.                                                                                                                                                                                                |
-| path_lower     | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| visibility     | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| account_id     | A user's account identifier.                                                                                                                                                                                            |
-| team_member_id | ID of user as a member of a team.                                                                                                                                                                                       |
-| email          | Email address of user.                                                                                                                                                                                                  |
-| status         | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
-| surname        | Surname of the link owner                                                                                                                                                                                               |
-| given_name     | Given name of the link owner                                                                                                                                                                                            |
+| Column     | Description                                                                                                                                                                                                             |
+|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
+| url        | URL of the shared link.                                                                                                                                                                                                 |
+| name       | The linked file name (including extension).                                                                                                                                                                             |
+| expires    | Expiration time, if set.                                                                                                                                                                                                |
+| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| email      | Email address of user.                                                                                                                                                                                                  |
+| status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
+| surname    | Surname of the link owner                                                                                                                                                                                               |
+| given_name | Given name of the link owner                                                                                                                                                                                            |
 
 ## Report: usage 
 

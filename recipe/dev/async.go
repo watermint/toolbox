@@ -56,7 +56,14 @@ type Async struct {
 }
 
 func (z *Async) Preset() {
-	z.Rows.SetModel(&mo_group_member.GroupMember{})
+	z.Rows.SetModel(
+		&mo_group_member.GroupMember{},
+		rp_model.HiddenColumns(
+			"group_id",
+			"account_id",
+			"team_member_id",
+		),
+	)
 }
 
 func (z *Async) Exec(c app_control.Control) error {

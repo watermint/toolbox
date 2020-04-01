@@ -18,7 +18,12 @@ type List struct {
 }
 
 func (z *List) Preset() {
-	z.Group.SetModel(&mo_group.Group{})
+	z.Group.SetModel(&mo_group.Group{},
+		rp_model.HiddenColumns(
+			"group_id",
+			"group_external_id",
+		),
+	)
 }
 
 func (z *List) Test(c app_control.Control) error {
@@ -26,8 +31,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "group", func(cols map[string]string) error {
-		if _, ok := cols["group_id"]; !ok {
-			return errors.New("group_id is not found")
+		if _, ok := cols["group_name"]; !ok {
+			return errors.New("group_name is not found")
 		}
 		return nil
 	})

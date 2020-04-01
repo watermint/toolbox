@@ -168,11 +168,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | input.status                        | The user's status as a member of a specific team. (active/invited/suspended/removed) |
 | input.given_name                    | Also known as a first name                                                           |
 | input.surname                       | Also known as a last name or family name.                                            |
-| input.familiar_name                 | Locale-dependent name                                                                |
 | input.display_name                  | A name that can be used directly to represent the name of a user's Dropbox account.  |
-| input.abbreviated_name              | An abbreviated form of the person's name.                                            |
-| input.external_id                   | External ID that a team can attach to the user.                                      |
-| input.account_id                    | A user's account identifier.                                                         |
 | input.device_tag                    | Type of the session (web_session, desktop_client, or mobile_client)                  |
 | input.id                            | The session id.                                                                      |
 | input.user_agent                    | Information on the hosting device.                                                   |

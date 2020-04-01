@@ -115,21 +115,14 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
 
-| Column           | Description                                                                                                          |
-|------------------|----------------------------------------------------------------------------------------------------------------------|
-| team_member_id   | ID of user as a member of a team.                                                                                    |
-| email            | Email address of user.                                                                                               |
-| email_verified   | Is true if the user's email is verified to be owned by the user.                                                     |
-| status           | The user's status as a member of a specific team. (active/invited/suspended/removed)                                 |
-| given_name       | Also known as a first name                                                                                           |
-| surname          | Also known as a last name or family name.                                                                            |
-| familiar_name    | Locale-dependent name                                                                                                |
-| display_name     | A name that can be used directly to represent the name of a user's Dropbox account.                                  |
-| abbreviated_name | An abbreviated form of the person's name.                                                                            |
-| member_folder_id | The namespace id of the user's root folder.                                                                          |
-| external_id      | External ID that a team can attach to the user.                                                                      |
-| account_id       | A user's account identifier.                                                                                         |
-| persistent_id    | Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication. |
-| joined_on        | The date and time the user joined as a member of a specific team.                                                    |
-| role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
+| Column         | Description                                                                                    |
+|----------------|------------------------------------------------------------------------------------------------|
+| email          | Email address of user.                                                                         |
+| email_verified | Is true if the user's email is verified to be owned by the user.                               |
+| status         | The user's status as a member of a specific team. (active/invited/suspended/removed)           |
+| given_name     | Also known as a first name                                                                     |
+| surname        | Also known as a last name or family name.                                                      |
+| display_name   | A name that can be used directly to represent the name of a user's Dropbox account.            |
+| joined_on      | The date and time the user joined as a member of a specific team.                              |
+| role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 

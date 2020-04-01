@@ -123,8 +123,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | input.current_name           | 現在のグループ名                                                                        |
 | input.new_name               | 新しいグループ名                                                                        |
 | result.group_name            | グループ名称                                                                            |
-| result.group_id              | グループID                                                                              |
 | result.group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
-| result.group_external_id     |  グループの外部IDこの任意のIDは管理者がグループに付加できます                           |
 | result.member_count          | グループ内のメンバー数                                                                  |
 

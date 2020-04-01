@@ -18,7 +18,19 @@ type List struct {
 }
 
 func (z *List) Preset() {
-	z.LinkedApp.SetModel(&mo_linkedapp.MemberLinkedApp{})
+	z.LinkedApp.SetModel(
+		&mo_linkedapp.MemberLinkedApp{},
+		rp_model.HiddenColumns(
+			"team_member_id",
+			"familiar_name",
+			"abbreviated_name",
+			"member_folder_id",
+			"external_id",
+			"account_id",
+			"persistent_id",
+			"app_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
