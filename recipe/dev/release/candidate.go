@@ -85,7 +85,7 @@ func (z *Candidate) Exec(c app_control.Control) error {
 		return err
 	}
 
-	l.Info("Preflight process")
+	l.Info("Preview process")
 	err := rc_exec.Exec(c, &dev.Preflight{}, rc_recipe.NoCustomValues)
 	if err != nil {
 		return err

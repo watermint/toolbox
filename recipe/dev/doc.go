@@ -7,8 +7,8 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/util/ut_doc"
+	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"go.uber.org/zap"
-	"sort"
 )
 
 type Doc struct {
@@ -48,10 +48,7 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 	qm := ctl.Messages().(app_msg_container.Quality)
 	missing := qm.MissingKeys()
 	if len(missing) > 0 {
-		sort.Strings(missing)
-		for _, k := range missing {
-			l.Error("Key missing", zap.String("key", k))
-		}
+		return qt_messages.VerifyMessages(ctl)
 	}
 	return nil
 }

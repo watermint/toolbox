@@ -171,6 +171,10 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				l.Error("Failed to generate documents", zap.Error(err))
 				return err
 			}
+			l.Info("Verify message resources")
+			if err := qt_messages.VerifyMessages(c); err != nil {
+				return err
+			}
 		}
 
 		ll.Info("Clone spec")
@@ -197,6 +201,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				return err
 			}
 		}
+
 	}
 
 	{

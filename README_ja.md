@@ -73,6 +73,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [file compare local](doc/generated_ja/file-compare-local.md)                       | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy](doc/generated_ja/file-copy.md)                                         | ファイルをコピーします                                             |
 | [file delete](doc/generated_ja/file-delete.md)                                     | ファイルまたはフォルダは削除します.                                |
+| [file dispatch local](doc/generated_ja/file-dispatch-local.md)                     | Dispatch local files                                               |
 | [file download](doc/generated_ja/file-download.md)                                 | Dropboxからファイルをダウンロードします                            |
 | [file export doc](doc/generated_ja/file-export-doc.md)                             | ドキュメントのエクスポート                                         |
 | [file import batch url](doc/generated_ja/file-import-batch-url.md)                 | URLからファイルを一括インポートします                              |

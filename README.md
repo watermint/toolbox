@@ -73,6 +73,7 @@ Available commands:
 | [file compare local](doc/generated/file-compare-local.md)                       | Compare local folders and Dropbox folders                     |
 | [file copy](doc/generated/file-copy.md)                                         | Copy files                                                    |
 | [file delete](doc/generated/file-delete.md)                                     | Delete file or folder                                         |
+| [file dispatch local](doc/generated/file-dispatch-local.md)                     | Dispatch local files                                          |
 | [file download](doc/generated/file-download.md)                                 | Download a file from Dropbox                                  |
 | [file export doc](doc/generated/file-export-doc.md)                             | Export document                                               |
 | [file import batch url](doc/generated/file-import-batch-url.md)                 | Batch import files from URL                                   |

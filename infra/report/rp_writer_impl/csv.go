@@ -13,7 +13,7 @@ import (
 	"sync"
 )
 
-func newCsvWriter(name string, ctl app_control.Control) rp_writer.Writer {
+func NewCsvWriter(name string, ctl app_control.Control) rp_writer.Writer {
 	return &csvWriter{
 		name: name,
 		ctl:  ctl,

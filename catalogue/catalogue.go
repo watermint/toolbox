@@ -33,6 +33,7 @@ import (
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipefile "github.com/watermint/toolbox/recipe/file"
 	recipefilecompare "github.com/watermint/toolbox/recipe/file/compare"
+	recipefiledispatch "github.com/watermint/toolbox/recipe/file/dispatch"
 	recipefileexport "github.com/watermint/toolbox/recipe/file/export"
 	recipefileimport "github.com/watermint/toolbox/recipe/file/import"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
@@ -118,6 +119,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipefile.Watch{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilecompare.Account{}),
 		infra_recipe_rc_recipe.Annotate(&recipefilecompare.Local{}),
+		infra_recipe_rc_recipe.Annotate(&recipefiledispatch.Local{}),
 		infra_recipe_rc_recipe.Annotate(&recipefileexport.Doc{}, infra_recipe_rc_recipe.Experimental()),
 		infra_recipe_rc_recipe.Annotate(&recipefileimport.Url{}),
 		infra_recipe_rc_recipe.Annotate(&recipefileimportbatch.Url{}),
@@ -216,13 +218,14 @@ func Messages() []interface{} {
 		infra_recipe_rcvalue.MRepository,
 		infra_recipe_rcvalue.MValFdFileRowFeed,
 		infra_report_rpmodelimpl.MTransactionReport,
-		rp_writer_impl.MXlsxWriter,
-		rp_writer_impl.MSortedWriter,
 		infra_ui_appui.MConsole,
 		infra_ui_appui.MProgress,
 		infra_util_ut_doc.MDoc,
+		recipefiledispatch.MLocal,
 		recipeteamactivitybatch.MUser,
 		recipeteamcontent.MScanMetadata,
+		rp_writer_impl.MSortedWriter,
+		rp_writer_impl.MXlsxWriter,
 	}
 	for _, m := range msgs {
 		infra_ui_app_msg.Apply(m)
