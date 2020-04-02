@@ -69,7 +69,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for updating member profile. 
 
 | Column     | Description                  | Value example    |
 |------------|------------------------------|------------------|

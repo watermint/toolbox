@@ -70,7 +70,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for batch import files from URLs. 
 
 | Column | Description                                                             | Value example                     |
 |--------|-------------------------------------------------------------------------|-----------------------------------|

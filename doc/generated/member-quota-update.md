@@ -70,7 +70,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+This report shows a list of custom quota settings for each team members. 
 
 | Column | Description                                                                 | Value example    |
 |--------|-----------------------------------------------------------------------------|------------------|

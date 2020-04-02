@@ -70,7 +70,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for deleting team members. 
 
 | Column | Description                  | Value example    |
 |--------|------------------------------|------------------|

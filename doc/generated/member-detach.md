@@ -70,7 +70,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for converting team members into Dropbox Basic account. 
 
 | Column | Description                  | Value example    |
 |--------|------------------------------|------------------|

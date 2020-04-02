@@ -871,7 +871,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for dispatch rules.",
         "columns": [
           {
             "name": "suffix",
@@ -1076,7 +1076,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for batch import files from URLs.",
         "columns": [
           {
             "name": "url",
@@ -2223,7 +2223,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for batch operation to groups.",
         "columns": [
           {
             "name": "name",
@@ -2767,7 +2767,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for deleting team members.",
         "columns": [
           {
             "name": "email",
@@ -2818,7 +2818,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for converting team members into Dropbox Basic account.",
         "columns": [
           {
             "name": "email",
@@ -2913,7 +2913,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for invite team members.",
         "columns": [
           {
             "name": "email",
@@ -3080,7 +3080,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "This report shows a list of custom quota settings for each team members.",
         "columns": [
           {
             "name": "email",
@@ -3295,7 +3295,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for replicating member contents.",
         "columns": [
           {
             "name": "src_email",
@@ -3391,7 +3391,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for updating team member email addresses.",
         "columns": [
           {
             "name": "from_email",
@@ -3487,7 +3487,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for updating member external id.",
         "columns": [
           {
             "name": "email",
@@ -3587,7 +3587,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for updating member profile.",
         "columns": [
           {
             "name": "email",
@@ -4104,7 +4104,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for batch retrieve activities of members.",
         "columns": [
           {
             "name": "email",
@@ -4789,7 +4789,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "This report shows a list of current existing sessions in the team with team member information.",
         "columns": [
           {
             "name": "team_member_id",
@@ -6258,7 +6258,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for batch creating team folders.",
         "columns": [
           {
             "name": "name",
@@ -6309,7 +6309,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for batch creating team folders.",
         "columns": [
           {
             "name": "name",
@@ -6382,7 +6382,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "",
+        "desc": "Data file for batch creating team folders.",
         "columns": [
           {
             "name": "name",

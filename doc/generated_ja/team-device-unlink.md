@@ -71,7 +71,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 # ファイル書式
 
-## 書式: File 
+## 書式: File
+
+This report shows a list of current existing sessions in the team with team member information. 
 
 | 列                            | 説明                                                                   | 値の例                                     |
 |-------------------------------|------------------------------------------------------------------------|--------------------------------------------|

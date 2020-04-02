@@ -70,7 +70,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for updating team member email addresses. 
 
 | Column     | Description           | Value example          |
 |------------|-----------------------|------------------------|

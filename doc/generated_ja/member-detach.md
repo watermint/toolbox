@@ -70,7 +70,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 # ファイル書式
 
-## 書式: File 
+## 書式: File
+
+Data file for converting team members into Dropbox Basic account. 
 
 | 列    | 説明                       | 値の例           |
 |-------|----------------------------|------------------|

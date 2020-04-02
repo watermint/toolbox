@@ -51,7 +51,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for dispatch rules. 
 
 | Column              | Description                                   | Value example                             |
 |---------------------|-----------------------------------------------|-------------------------------------------|

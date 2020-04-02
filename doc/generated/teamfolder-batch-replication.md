@@ -52,7 +52,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for batch creating team folders. 
 
 | Column | Description         | Value example |
 |--------|---------------------|---------------|

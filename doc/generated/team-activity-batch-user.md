@@ -73,7 +73,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for batch retrieve activities of members. 
 
 | Column | Description        | Value example    |
 |--------|--------------------|------------------|

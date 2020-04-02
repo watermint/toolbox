@@ -71,7 +71,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for replicating member contents. 
 
 | Column    | Description                         | Value example          |
 |-----------|-------------------------------------|------------------------|

@@ -233,15 +233,18 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 	params["AuthExample"] = authExample
 
 	feedNames := make([]string, 0)
+	feedDescs := make(map[string]string)
 	feeds := make(map[string]string, 0)
 	feedSamples := make(map[string]string, 0)
 	for _, fd := range spec.Feeds() {
 		feedNames = append(feedNames, fd.Name())
 		feeds[fd.Name()] = z.feedTable(ctl, fd)
 		feedSamples[fd.Name()] = z.feedSample(ctl, fd)
+		feedDescs[fd.Name()] = ui.Text(fd.Desc())
 	}
 	sort.Strings(feedNames)
 	params["FeedNames"] = feedNames
+	params["FeedDesc"] = feedDescs
 	params["Feeds"] = feeds
 	params["FeedSamples"] = feedSamples
 	params["FeedAvailable"] = len(feedNames) > 0

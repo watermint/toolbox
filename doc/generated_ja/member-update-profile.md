@@ -69,7 +69,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 # ファイル書式
 
-## 書式: File 
+## 書式: File
+
+Data file for updating member profile. 
 
 | 列         | 説明                       | 値の例           |
 |------------|----------------------------|------------------|

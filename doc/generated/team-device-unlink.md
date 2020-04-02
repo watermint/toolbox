@@ -71,7 +71,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+This report shows a list of current existing sessions in the team with team member information. 
 
 | Column                        | Description                                                                          | Value example                              |
 |-------------------------------|--------------------------------------------------------------------------------------|--------------------------------------------|

@@ -69,7 +69,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for batch operation to groups. 
 
 | Column | Description | Value example |
 |--------|-------------|---------------|

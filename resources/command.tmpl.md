@@ -64,8 +64,11 @@ $HOME/Desktop/tbx {{.Command}} {{.CommandArgs}}
 
 {{ $feeds := .Feeds }}
 {{ $feedSamples := .FeedSamples }}
+{{ $feedDesc := .FeedDesc }}
 {{ range $name := .FeedNames }}
-## {{ msg "doc.command.file_formats.format.header" }}: {{ $name }} 
+## {{ msg "doc.command.file_formats.format.header" }}: {{ $name }}
+
+{{ index $feedDesc $name }} 
 
 {{ index $feeds $name }}
 

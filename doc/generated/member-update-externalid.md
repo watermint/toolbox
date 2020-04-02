@@ -69,7 +69,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for updating member external id. 
 
 | Column      | Description                   | Value example    |
 |-------------|-------------------------------|------------------|
