@@ -105,7 +105,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: diff 
-
+This report shows a difference between to folders.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `diff.csv`
 * `diff.xlsx`
@@ -129,7 +129,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | right_hash | 右ファイルのコンテンツハッシュ                                                                                                                                                                 |
 
 ## レポート: skip 
-
+This report shows a difference between to folders.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `skip.csv`
 * `skip.xlsx`

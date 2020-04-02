@@ -104,7 +104,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: policy 
-
+This report shows a list of shared folders and team folders with their current policy settings.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `policy.csv`
 * `policy.xlsx`

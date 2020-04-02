@@ -108,7 +108,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: replication_diff 
-
+This report shows a difference between to folders.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `replication_diff.csv`
 * `replication_diff.xlsx`

@@ -119,7 +119,7 @@
     "reports": [
       {
         "name": "rows",
-        "desc": "",
+        "desc": "This report shows a list of groups and their members.",
         "columns": [
           {
             "name": "group_name",
@@ -172,7 +172,7 @@
     "reports": [
       {
         "name": "skipped",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -214,7 +214,7 @@
       },
       {
         "name": "summary",
-        "desc": "",
+        "desc": "This report shows a summary of the upload results.",
         "columns": [
           {
             "name": "upload_start",
@@ -248,7 +248,7 @@
       },
       {
         "name": "uploaded",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -664,7 +664,7 @@
     "reports": [
       {
         "name": "diff",
-        "desc": "",
+        "desc": "This report shows a difference between to folders.",
         "columns": [
           {
             "name": "diff_type",
@@ -727,7 +727,7 @@
     "reports": [
       {
         "name": "diff",
-        "desc": "",
+        "desc": "This report shows a difference between to folders.",
         "columns": [
           {
             "name": "diff_type",
@@ -769,7 +769,7 @@
       },
       {
         "name": "skip",
-        "desc": "",
+        "desc": "This report shows a difference between to folders.",
         "columns": [
           {
             "name": "diff_type",
@@ -922,7 +922,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows a list of metadata of files or folders in the path.",
         "columns": [
           {
             "name": "tag",
@@ -973,7 +973,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows a result of exporting file.",
         "columns": [
           {
             "name": "name",
@@ -1028,7 +1028,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -1112,7 +1112,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows a list of metadata of files or folders in the path.",
         "columns": [
           {
             "name": "tag",
@@ -1167,7 +1167,7 @@
     "reports": [
       {
         "name": "file_list",
-        "desc": "",
+        "desc": "This report shows a list of metadata of files or folders in the path.",
         "columns": [
           {
             "name": "tag",
@@ -1259,7 +1259,7 @@
     "reports": [
       {
         "name": "replication_diff",
-        "desc": "",
+        "desc": "This report shows a difference between to folders.",
         "columns": [
           {
             "name": "diff_type",
@@ -1322,7 +1322,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -1385,7 +1385,7 @@
     "reports": [
       {
         "name": "matches",
-        "desc": "",
+        "desc": "This report shows a result of search with highlighted text.",
         "columns": [
           {
             "name": "tag",
@@ -1424,7 +1424,7 @@
     "reports": [
       {
         "name": "matches",
-        "desc": "",
+        "desc": "This report shows a result of search with highlighted text.",
         "columns": [
           {
             "name": "tag",
@@ -1463,7 +1463,7 @@
     "reports": [
       {
         "name": "skipped",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -1505,7 +1505,7 @@
       },
       {
         "name": "summary",
-        "desc": "",
+        "desc": "This report shows a summary of the upload results.",
         "columns": [
           {
             "name": "upload_start",
@@ -1539,7 +1539,7 @@
       },
       {
         "name": "uploaded",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -1602,7 +1602,7 @@
     "reports": [
       {
         "name": "skipped",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -1644,7 +1644,7 @@
       },
       {
         "name": "summary",
-        "desc": "",
+        "desc": "This report shows a summary of the upload results.",
         "columns": [
           {
             "name": "upload_start",
@@ -1678,7 +1678,7 @@
       },
       {
         "name": "uploaded",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -1741,7 +1741,7 @@
     "reports": [
       {
         "name": "skipped",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -1783,7 +1783,7 @@
       },
       {
         "name": "summary",
-        "desc": "",
+        "desc": "This report shows a summary of the upload results.",
         "columns": [
           {
             "name": "upload_start",
@@ -1817,7 +1817,7 @@
       },
       {
         "name": "uploaded",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -1900,7 +1900,7 @@
     "reports": [
       {
         "name": "file_request",
-        "desc": "",
+        "desc": "This report shows a list of file requests.",
         "columns": [
           {
             "name": "id",
@@ -1963,7 +1963,7 @@
     "reports": [
       {
         "name": "deleted",
-        "desc": "",
+        "desc": "This report shows a list of file requests.",
         "columns": [
           {
             "name": "id",
@@ -2026,7 +2026,7 @@
     "reports": [
       {
         "name": "deleted",
-        "desc": "",
+        "desc": "This report shows a list of file requests.",
         "columns": [
           {
             "name": "id",
@@ -2089,7 +2089,7 @@
     "reports": [
       {
         "name": "file_requests",
-        "desc": "",
+        "desc": "This report shows a list of file requests.",
         "columns": [
           {
             "name": "id",
@@ -2152,7 +2152,7 @@
     "reports": [
       {
         "name": "added_group",
-        "desc": "",
+        "desc": "This report shows a list of groups in the team.",
         "columns": [
           {
             "name": "group_name",
@@ -2191,7 +2191,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -2274,7 +2274,7 @@
     "reports": [
       {
         "name": "group",
-        "desc": "",
+        "desc": "This report shows a list of groups in the team.",
         "columns": [
           {
             "name": "group_name",
@@ -2313,7 +2313,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -2368,7 +2368,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -2423,7 +2423,7 @@
     "reports": [
       {
         "name": "group_member",
-        "desc": "",
+        "desc": "This report shows a list of groups and their members.",
         "columns": [
           {
             "name": "group_name",
@@ -2478,7 +2478,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -2567,7 +2567,7 @@
     "reports": [
       {
         "name": "log",
-        "desc": "",
+        "desc": "This report shows a list of job histories.",
         "columns": [
           {
             "name": "job_id",
@@ -2614,7 +2614,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -2747,7 +2747,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -2798,7 +2798,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -2849,7 +2849,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -2954,7 +2954,7 @@
     "reports": [
       {
         "name": "member",
-        "desc": "",
+        "desc": "This report shows a list of members.",
         "columns": [
           {
             "name": "email",
@@ -3013,7 +3013,7 @@
     "reports": [
       {
         "name": "member_quota",
-        "desc": "",
+        "desc": "This report shows a list of custom quota settings for each team members.",
         "columns": [
           {
             "name": "email",
@@ -3048,7 +3048,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -3116,7 +3116,7 @@
     "reports": [
       {
         "name": "usage",
-        "desc": "",
+        "desc": "This report shows current storage usage of users.",
         "columns": [
           {
             "name": "email",
@@ -3163,7 +3163,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -3271,7 +3271,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -3331,7 +3331,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -3427,7 +3427,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -3523,7 +3523,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -3628,7 +3628,7 @@
     "reports": [
       {
         "name": "shared_folder",
-        "desc": "",
+        "desc": "This report shows a list of shared folders.",
         "columns": [
           {
             "name": "name",
@@ -3695,7 +3695,7 @@
     "reports": [
       {
         "name": "member",
-        "desc": "",
+        "desc": "This report shows a list of members of shared folders.",
         "columns": [
           {
             "name": "name",
@@ -3762,7 +3762,7 @@
     "reports": [
       {
         "name": "created",
-        "desc": "",
+        "desc": "THis report shows a list of shared links.",
         "columns": [
           {
             "name": "id",
@@ -3817,7 +3817,7 @@
     "reports": [
       {
         "name": "shared_link",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -3876,7 +3876,7 @@
     "reports": [
       {
         "name": "file_list",
-        "desc": "",
+        "desc": "This report shows a list of metadata of files or folders in the path.",
         "columns": [
           {
             "name": "tag",
@@ -3927,7 +3927,7 @@
     "reports": [
       {
         "name": "shared_link",
-        "desc": "",
+        "desc": "THis report shows a list of shared links.",
         "columns": [
           {
             "name": "tag",
@@ -3978,7 +3978,7 @@
     "reports": [
       {
         "name": "combined",
-        "desc": "",
+        "desc": "This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.",
         "columns": [
           {
             "name": "timestamp",
@@ -4040,7 +4040,7 @@
       },
       {
         "name": "user",
-        "desc": "",
+        "desc": "This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.",
         "columns": [
           {
             "name": "timestamp",
@@ -4135,7 +4135,7 @@
     "reports": [
       {
         "name": "event",
-        "desc": "",
+        "desc": "This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.",
         "columns": [
           {
             "name": "timestamp",
@@ -4218,7 +4218,7 @@
     "reports": [
       {
         "name": "event",
-        "desc": "",
+        "desc": "This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.",
         "columns": [
           {
             "name": "timestamp",
@@ -4301,7 +4301,7 @@
     "reports": [
       {
         "name": "user",
-        "desc": "",
+        "desc": "This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.",
         "columns": [
           {
             "name": "timestamp",
@@ -4363,7 +4363,7 @@
       },
       {
         "name": "user_summary",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -4426,7 +4426,7 @@
     "reports": [
       {
         "name": "membership",
-        "desc": "",
+        "desc": "This report shows a list of shared folders and team folders with their members. If a folder has multiple members, then members are listed with rows.",
         "columns": [
           {
             "name": "path",
@@ -4460,7 +4460,7 @@
       },
       {
         "name": "no_member",
-        "desc": "",
+        "desc": "This report shows folders without members.",
         "columns": [
           {
             "name": "owner_team_name",
@@ -4499,7 +4499,7 @@
     "reports": [
       {
         "name": "policy",
-        "desc": "",
+        "desc": "This report shows a list of shared folders and team folders with their current policy settings.",
         "columns": [
           {
             "name": "path",
@@ -4554,7 +4554,7 @@
     "reports": [
       {
         "name": "device",
-        "desc": "",
+        "desc": "This report shows a list of current existing sessions in the team with team member information.",
         "columns": [
           {
             "name": "team_member_id",
@@ -4677,7 +4677,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -4957,7 +4957,7 @@
     "reports": [
       {
         "name": "device",
-        "desc": "",
+        "desc": "This report shows a list of current existing sessions in the team with team member information.",
         "columns": [
           {
             "name": "team_member_id",
@@ -5059,7 +5059,7 @@
       },
       {
         "name": "feature",
-        "desc": "",
+        "desc": "This report shows a list of team features and their settings.",
         "columns": [
           {
             "name": "upload_api_rate_limit",
@@ -5085,7 +5085,7 @@
       },
       {
         "name": "file_request",
-        "desc": "",
+        "desc": "This report shows a list of file requests with the file request owner team member.",
         "columns": [
           {
             "name": "email",
@@ -5139,7 +5139,7 @@
       },
       {
         "name": "group",
-        "desc": "",
+        "desc": "This report shows a list of groups in the team.",
         "columns": [
           {
             "name": "group_name",
@@ -5157,7 +5157,7 @@
       },
       {
         "name": "group_member",
-        "desc": "",
+        "desc": "This report shows a list of groups and their members.",
         "columns": [
           {
             "name": "group_name",
@@ -5191,7 +5191,7 @@
       },
       {
         "name": "info",
-        "desc": "",
+        "desc": "This report shows a list of team information.",
         "columns": [
           {
             "name": "name",
@@ -5233,7 +5233,7 @@
       },
       {
         "name": "linked_app",
-        "desc": "",
+        "desc": "This report shows a list of linked app with the user of the app.",
         "columns": [
           {
             "name": "email",
@@ -5279,7 +5279,7 @@
       },
       {
         "name": "member",
-        "desc": "",
+        "desc": "This report shows a list of members.",
         "columns": [
           {
             "name": "email",
@@ -5317,7 +5317,7 @@
       },
       {
         "name": "member_quota",
-        "desc": "",
+        "desc": "This report shows a list of custom quota settings for each team members.",
         "columns": [
           {
             "name": "email",
@@ -5331,7 +5331,7 @@
       },
       {
         "name": "namespace",
-        "desc": "",
+        "desc": "This report shows a list of namespaces in the team.",
         "columns": [
           {
             "name": "name",
@@ -5349,7 +5349,7 @@
       },
       {
         "name": "namespace_file",
-        "desc": "",
+        "desc": "This report shows a list of namespaces in the team.",
         "columns": [
           {
             "name": "namespace_type",
@@ -5391,7 +5391,7 @@
       },
       {
         "name": "namespace_size",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -5437,7 +5437,7 @@
       },
       {
         "name": "shared_link",
-        "desc": "",
+        "desc": "This report shows a list of shared links with the shared link owner team member.",
         "columns": [
           {
             "name": "tag",
@@ -5483,7 +5483,7 @@
       },
       {
         "name": "usage",
-        "desc": "",
+        "desc": "This report shows current storage usage of users.",
         "columns": [
           {
             "name": "email",
@@ -5530,7 +5530,7 @@
     "reports": [
       {
         "name": "feature",
-        "desc": "",
+        "desc": "This report shows a list of team features and their settings.",
         "columns": [
           {
             "name": "upload_api_rate_limit",
@@ -5577,7 +5577,7 @@
     "reports": [
       {
         "name": "file_request",
-        "desc": "",
+        "desc": "This report shows a list of file requests with the file request owner team member.",
         "columns": [
           {
             "name": "email",
@@ -5652,7 +5652,7 @@
     "reports": [
       {
         "name": "info",
-        "desc": "",
+        "desc": "This report shows a list of team information.",
         "columns": [
           {
             "name": "name",
@@ -5715,7 +5715,7 @@
     "reports": [
       {
         "name": "linked_app",
-        "desc": "",
+        "desc": "This report shows a list of linked app with the user of the app.",
         "columns": [
           {
             "name": "email",
@@ -5782,7 +5782,7 @@
     "reports": [
       {
         "name": "namespace_file",
-        "desc": "",
+        "desc": "This report shows a list of namespaces in the team.",
         "columns": [
           {
             "name": "namespace_type",
@@ -5845,7 +5845,7 @@
     "reports": [
       {
         "name": "namespace_size",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -5912,7 +5912,7 @@
     "reports": [
       {
         "name": "namespace",
-        "desc": "",
+        "desc": "This report shows a list of namespaces in the team.",
         "columns": [
           {
             "name": "name",
@@ -5951,7 +5951,7 @@
     "reports": [
       {
         "name": "namespace_member",
-        "desc": "",
+        "desc": "This report shows a list of members of namespaces in the team.",
         "columns": [
           {
             "name": "namespace_name",
@@ -6010,7 +6010,7 @@
     "reports": [
       {
         "name": "shared_link",
-        "desc": "",
+        "desc": "This report shows a list of shared links with the shared link owner team member.",
         "columns": [
           {
             "name": "tag",
@@ -6077,7 +6077,7 @@
     "reports": [
       {
         "name": "skipped",
-        "desc": "",
+        "desc": "This report shows a list of shared links with the shared link owner team member.",
         "columns": [
           {
             "name": "tag",
@@ -6123,7 +6123,7 @@
       },
       {
         "name": "updated",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -6222,7 +6222,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -6289,7 +6289,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -6338,7 +6338,7 @@
     "reports": [
       {
         "name": "verification",
-        "desc": "",
+        "desc": "This report shows a difference between to folders.",
         "columns": [
           {
             "name": "diff_type",
@@ -6413,7 +6413,7 @@
     "reports": [
       {
         "name": "namespace_file",
-        "desc": "",
+        "desc": "This report shows a list of namespaces in the team.",
         "columns": [
           {
             "name": "namespace_type",
@@ -6476,7 +6476,7 @@
     "reports": [
       {
         "name": "namespace_size",
-        "desc": "",
+        "desc": "This report shows the transaction result.",
         "columns": [
           {
             "name": "status",
@@ -6543,7 +6543,7 @@
     "reports": [
       {
         "name": "team_folder",
-        "desc": "",
+        "desc": "This report shows a list of team folders in the team.",
         "columns": [
           {
             "name": "name",
@@ -6604,7 +6604,7 @@
     "reports": [
       {
         "name": "verification",
-        "desc": "",
+        "desc": "This report shows a difference between to folders.",
         "columns": [
           {
             "name": "diff_type",
@@ -6665,7 +6665,7 @@
     "reports": [
       {
         "name": "versions",
-        "desc": "",
+        "desc": "Components and version information.",
         "columns": [
           {
             "name": "component",

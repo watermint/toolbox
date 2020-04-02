@@ -107,7 +107,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: skipped 
-
+This report shows the transaction result.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `skipped.csv`
 * `skipped.xlsx`
@@ -131,7 +131,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | result.size            | ファイルサイズ(バイト単位)                                   |
 
 ## レポート: summary 
-
+This report shows a summary of the upload results.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `summary.csv`
 * `summary.xlsx`
@@ -153,7 +153,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | num_api_call     | この処理によって消費される見積アップロードAPI数  |
 
 ## レポート: uploaded 
-
+This report shows the transaction result.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `uploaded.csv`
 * `uploaded.xlsx`

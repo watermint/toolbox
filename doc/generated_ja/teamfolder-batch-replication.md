@@ -80,7 +80,7 @@ name
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: verification 
-
+This report shows a difference between to folders.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `verification.csv`
 * `verification.xlsx`

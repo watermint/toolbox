@@ -107,7 +107,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: file_list 
-
+This report shows a list of metadata of files or folders in the path.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `file_list.csv`
 * `file_list.xlsx`

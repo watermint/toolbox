@@ -123,7 +123,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: combined 
-
+This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `combined.csv`
 * `combined.xlsx`
@@ -152,7 +152,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | other_info               | このタイプのアクションに適用可能な可変イベントスキーマ.         |
 
 ## レポート: user 
-
+This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `user.csv`
 * `user.xlsx`

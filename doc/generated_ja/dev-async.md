@@ -105,7 +105,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: rows 
-
+This report shows a list of groups and their members.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `rows.csv`
 * `rows.xlsx`

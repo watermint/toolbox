@@ -104,7 +104,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: membership 
-
+This report shows a list of shared folders and team folders with their members. If a folder has multiple members, then members are listed with rows.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `membership.csv`
 * `membership.xlsx`
@@ -126,7 +126,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | member_email    | このメンバーのメールアドレス                                                                                     |
 
 ## レポート: no_member 
-
+This report shows folders without members.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `no_member.csv`
 * `no_member.xlsx`

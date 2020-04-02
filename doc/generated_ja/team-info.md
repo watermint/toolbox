@@ -104,7 +104,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: info 
-
+This report shows a list of team information.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `info.csv`
 * `info.xlsx`

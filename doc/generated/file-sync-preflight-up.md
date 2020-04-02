@@ -105,7 +105,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: skipped 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `skipped.csv`
 * `skipped.xlsx`
@@ -129,7 +129,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | result.size            | The file size in bytes.                                                                                |
 
 ## Report: summary 
-
+This report shows a summary of the upload results.
 Report files are generated in three formats like below;
 * `summary.csv`
 * `summary.xlsx`
@@ -151,7 +151,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | num_api_call     | The number of estimated upload API call for upload. |
 
 ## Report: uploaded 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `uploaded.csv`
 * `uploaded.xlsx`

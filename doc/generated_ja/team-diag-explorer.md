@@ -107,7 +107,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: device 
-
+This report shows a list of current existing sessions in the team with team member information.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `device.csv`
 * `device.xlsx`
@@ -146,7 +146,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | last_carrier                  | このデバイスで利用された最後のキャリア                                 |
 
 ## レポート: feature 
-
+This report shows a list of team features and their settings.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `feature.csv`
 * `feature.xlsx`
@@ -166,7 +166,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | has_team_selective_sync     | このチームがチーム選択型同期を有効化しているかどうか   |
 
 ## レポート: file_request 
-
+This report shows a list of file requests with the file request owner team member.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `file_request.csv`
 * `file_request.xlsx`
@@ -193,7 +193,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | deadline_allow_late_uploads | 設定されている場合、締め切りを超えてもアップロードが許可されている        |
 
 ## レポート: group 
-
+This report shows a list of groups in the team.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `group.csv`
 * `group.xlsx`
@@ -211,7 +211,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | member_count          | グループ内のメンバー数                                                                  |
 
 ## レポート: group_member 
-
+This report shows a list of groups and their members.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `group_member.csv`
 * `group_member.xlsx`
@@ -233,7 +233,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | given_name            | 名                                                                                      |
 
 ## レポート: info 
-
+This report shows a list of team information.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `info.csv`
 * `info.xlsx`
@@ -257,7 +257,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | policy_office_add_in        | Dropbox Office アドインについてこのチームに対する管理者ポリシー (disabled, or enabled)                   |
 
 ## レポート: linked_app 
-
+This report shows a list of linked app with the user of the app.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `linked_app.csv`
 * `linked_app.xlsx`
@@ -282,7 +282,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | linked        | アプリケーションがリンクされた日時                                   |
 
 ## レポート: member 
-
+This report shows a list of members.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `member.csv`
 * `member.xlsx`
@@ -305,7 +305,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | role           | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
 
 ## レポート: member_quota 
-
+This report shows a list of custom quota settings for each team members.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `member_quota.csv`
 * `member_quota.xlsx`
@@ -322,7 +322,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
 
 ## レポート: namespace 
-
+This report shows a list of namespaces in the team.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `namespace.csv`
 * `namespace.xlsx`
@@ -340,7 +340,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
 
 ## レポート: namespace_file 
-
+This report shows a list of namespaces in the team.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `namespace_file.csv`
 * `namespace_file.xlsx`
@@ -364,7 +364,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | size                   | ファイルサイズ(バイト単位)                                                                      |
 
 ## レポート: namespace_size 
-
+This report shows the transaction result.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `namespace_size.csv`
 * `namespace_size.xlsx`
@@ -389,7 +389,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | result.api_complexity   | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
 
 ## レポート: shared_link 
-
+This report shows a list of shared links with the shared link owner team member.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `shared_link.csv`
 * `shared_link.xlsx`
@@ -414,7 +414,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | given_name | リンク所有者の名                                                     |
 
 ## レポート: usage 
-
+This report shows current storage usage of users.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `usage.csv`
 * `usage.xlsx`

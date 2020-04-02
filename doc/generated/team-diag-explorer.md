@@ -107,7 +107,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: device 
-
+This report shows a list of current existing sessions in the team with team member information.
 Report files are generated in three formats like below;
 * `device.csv`
 * `device.xlsx`
@@ -146,7 +146,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | last_carrier                  | Last carrier used by the device.                                                     |
 
 ## Report: feature 
-
+This report shows a list of team features and their settings.
 Report files are generated in three formats like below;
 * `feature.csv`
 * `feature.xlsx`
@@ -166,7 +166,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | has_team_selective_sync     | Does this team have team selective sync enabled.  |
 
 ## Report: file_request 
-
+This report shows a list of file requests with the file request owner team member.
 Report files are generated in three formats like below;
 * `file_request.csv`
 * `file_request.xlsx`
@@ -193,7 +193,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | deadline_allow_late_uploads | If set, allow uploads after the deadline has passed                           |
 
 ## Report: group 
-
+This report shows a list of groups in the team.
 Report files are generated in three formats like below;
 * `group.csv`
 * `group.xlsx`
@@ -211,7 +211,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | member_count          | The number of members in the group.                                                   |
 
 ## Report: group_member 
-
+This report shows a list of groups and their members.
 Report files are generated in three formats like below;
 * `group_member.csv`
 * `group_member.xlsx`
@@ -233,7 +233,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | given_name            | Also known as a first name                                                            |
 
 ## Report: info 
-
+This report shows a list of team information.
 Report files are generated in three formats like below;
 * `info.csv`
 * `info.xlsx`
@@ -257,7 +257,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | policy_office_add_in        | The admin policy around the Dropbox Office Add-In for this team (disabled, or enabled)                        |
 
 ## Report: linked_app 
-
+This report shows a list of linked app with the user of the app.
 Report files are generated in three formats like below;
 * `linked_app.csv`
 * `linked_app.xlsx`
@@ -282,7 +282,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | linked        | The time this application was linked                                                 |
 
 ## Report: member 
-
+This report shows a list of members.
 Report files are generated in three formats like below;
 * `member.csv`
 * `member.xlsx`
@@ -305,7 +305,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 
 ## Report: member_quota 
-
+This report shows a list of custom quota settings for each team members.
 Report files are generated in three formats like below;
 * `member_quota.csv`
 * `member_quota.xlsx`
@@ -322,7 +322,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
 
 ## Report: namespace 
-
+This report shows a list of namespaces in the team.
 Report files are generated in three formats like below;
 * `namespace.csv`
 * `namespace.xlsx`
@@ -340,7 +340,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
 
 ## Report: namespace_file 
-
+This report shows a list of namespaces in the team.
 Report files are generated in three formats like below;
 * `namespace_file.csv`
 * `namespace_file.xlsx`
@@ -364,7 +364,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | size                   | The file size in bytes.                                                                                |
 
 ## Report: namespace_size 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `namespace_size.csv`
 * `namespace_size.xlsx`
@@ -389,7 +389,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | result.api_complexity   | Folder complexity index for API operations                                                 |
 
 ## Report: shared_link 
-
+This report shows a list of shared links with the shared link owner team member.
 Report files are generated in three formats like below;
 * `shared_link.csv`
 * `shared_link.xlsx`
@@ -414,7 +414,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | given_name | Given name of the link owner                                                                                                                                                                                            |
 
 ## Report: usage 
-
+This report shows current storage usage of users.
 Report files are generated in three formats like below;
 * `usage.csv`
 * `usage.xlsx`

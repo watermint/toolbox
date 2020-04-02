@@ -107,7 +107,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: skipped 
-
+This report shows a list of shared links with the shared link owner team member.
 Report files are generated in three formats like below;
 * `skipped.csv`
 * `skipped.xlsx`
@@ -132,7 +132,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | given_name | Given name of the link owner                                                                                                                                                                                            |
 
 ## Report: updated 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `updated.csv`
 * `updated.xlsx`

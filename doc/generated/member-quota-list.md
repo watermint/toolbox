@@ -103,7 +103,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: member_quota 
-
+This report shows a list of custom quota settings for each team members.
 Report files are generated in three formats like below;
 * `member_quota.csv`
 * `member_quota.xlsx`

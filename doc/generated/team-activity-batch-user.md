@@ -123,7 +123,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: combined 
-
+This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.
 Report files are generated in three formats like below;
 * `combined.csv`
 * `combined.xlsx`
@@ -152,7 +152,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | other_info               | The variable event schema applicable to this type of action.                                       |
 
 ## Report: user 
-
+This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.
 Report files are generated in three formats like below;
 * `user.csv`
 * `user.xlsx`

@@ -107,7 +107,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: event 
-
+This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.
 Report files are generated in three formats like below;
 * `event.csv`
 * `event.xlsx`

@@ -104,7 +104,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: file_request 
-
+This report shows a list of file requests with the file request owner team member.
 Report files are generated in three formats like below;
 * `file_request.csv`
 * `file_request.xlsx`

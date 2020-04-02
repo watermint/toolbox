@@ -103,7 +103,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: shared_folder 
-
+This report shows a list of shared folders.
 Report files are generated in three formats like below;
 * `shared_folder.csv`
 * `shared_folder.xlsx`

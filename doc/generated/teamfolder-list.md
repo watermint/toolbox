@@ -104,7 +104,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: team_folder 
-
+This report shows a list of team folders in the team.
 Report files are generated in three formats like below;
 * `team_folder.csv`
 * `team_folder.xlsx`

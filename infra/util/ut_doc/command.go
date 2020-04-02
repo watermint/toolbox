@@ -247,15 +247,18 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 	params["FeedAvailable"] = len(feedNames) > 0
 
 	reportNames := make([]string, 0)
-	reports := make(map[string]string, 0)
+	reportDescs := make(map[string]string)
+	reports := make(map[string]string)
 	for _, rs := range spec.Reports() {
 		reportNames = append(reportNames, rs.Name())
 		reports[rs.Name()] = z.reportTable(ctl, rs)
+		reportDescs[rs.Name()] = ui.Text(rs.Desc())
 	}
 	sort.Strings(reportNames)
 	params["ReportNames"] = reportNames
 	params["Reports"] = reports
 	params["ReportAvailable"] = len(reportNames) > 0
+	params["ReportDesc"] = reportDescs
 
 	out := ut_io.NewDefaultOut(ctl.IsTest())
 	if z.path != "" && !ctl.IsTest() {
