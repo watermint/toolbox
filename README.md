@@ -57,6 +57,7 @@ Available commands:
    sharedlink    Shared Link of Personal account  
    team          Dropbox Business Team            
    teamfolder    Team folder management           
+   version       Show version                     
 
 ```
 
@@ -154,4 +155,5 @@ Available commands:
 | [teamfolder list](doc/generated/teamfolder-list.md)                             | List team folder(s)                                           |
 | [teamfolder permdelete](doc/generated/teamfolder-permdelete.md)                 | Permanently delete team folder                                |
 | [teamfolder replication](doc/generated/teamfolder-replication.md)               | Replicate a team folder to the other team                     |
+| [version](doc/generated/version.md)                                             | Show version                                                  |
 

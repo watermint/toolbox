@@ -1,6 +1,6 @@
 # file dispatch local 
 
-Dispatch local files 
+ローカルファイルを整理します 
 
 # 利用方法
 
@@ -29,10 +29,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション | 説明              | デフォルト |
-|------------|-------------------|------------|
-| `-file`    | Path to data file |            |
-| `-preview` | Preview mode      | false      |
+| オプション | 説明                   | デフォルト |
+|------------|------------------------|------------|
+| `-file`    | データファイルへのパス |            |
+| `-preview` | プレビューモード       | false      |
 
 共通のオプション:
 
@@ -53,19 +53,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File 
 
-| 列                  | 説明                                          | 値の例                                    |
-|---------------------|-----------------------------------------------|-------------------------------------------|
-| suffix              | Source file name suffix                       | .pdf                                      |
-| source_path         | Source path                                   | <no value>/Downloads                      |
-| source_file_pattern | Source file name pattern (regular expression) | toolbox-([0-9]{4})-([0-9]{2})-([0-9]{2})  |
-| dest_path_pattern   | Destination path pattern                      | <no value>/Document/<no value>-<no value> |
-| dest_file_pattern   | Destination file name pattern                 | TBX_<no value>-<no value>-<no value>      |
+| 列                  | 説明                                  | 値の例                                        |
+|---------------------|---------------------------------------|-----------------------------------------------|
+| suffix              | ファイル名の拡張子                    | .pdf                                          |
+| source_path         | 元のパス                              | <no value>/ダウンロード                       |
+| source_file_pattern | 転送元ファイル名のパターン (正規表現) | toolbox-([0-9]{4})-([0-9]{2})-([0-9]{2})      |
+| dest_path_pattern   | 転送先パスのパターン                  | <no value>/ドキュメント/<no value>-<no value> |
+| dest_file_pattern   | 転送先ファイル名のパターン            | TBX_<no value>-<no value>-<no value>          |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
 
 ```csv
 suffix,source_path,source_file_pattern,dest_path_pattern,dest_file_pattern
-.pdf,<no value>/Downloads,toolbox-([0-9]{4})-([0-9]{2})-([0-9]{2}),<no value>/Document/<no value>-<no value>,TBX_<no value>-<no value>-<no value>
+.pdf,<no value>/ダウンロード,toolbox-([0-9]{4})-([0-9]{2})-([0-9]{2}),<no value>/ドキュメント/<no value>-<no value>,TBX_<no value>-<no value>-<no value>
 ```
 
 # ネットワークプロクシの設定

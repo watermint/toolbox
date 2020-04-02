@@ -57,6 +57,7 @@ DropboxおよびDropbox Business向けのツールセット
    sharedlink    個人アカウントの共有リンク         
    team          Dropbox Business チーム  
    teamfolder    チームフォルダの管理            
+   version       バージョン情報               
 
 ```
 
@@ -73,7 +74,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [file compare local](doc/generated_ja/file-compare-local.md)                       | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy](doc/generated_ja/file-copy.md)                                         | ファイルをコピーします                                             |
 | [file delete](doc/generated_ja/file-delete.md)                                     | ファイルまたはフォルダは削除します.                                |
-| [file dispatch local](doc/generated_ja/file-dispatch-local.md)                     | Dispatch local files                                               |
+| [file dispatch local](doc/generated_ja/file-dispatch-local.md)                     | ローカルファイルを整理します                                       |
 | [file download](doc/generated_ja/file-download.md)                                 | Dropboxからファイルをダウンロードします                            |
 | [file export doc](doc/generated_ja/file-export-doc.md)                             | ドキュメントのエクスポート                                         |
 | [file import batch url](doc/generated_ja/file-import-batch-url.md)                 | URLからファイルを一括インポートします                              |
@@ -154,4 +155,5 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder list](doc/generated_ja/teamfolder-list.md)                             | チームフォルダの一覧                                               |
 | [teamfolder permdelete](doc/generated_ja/teamfolder-permdelete.md)                 | チームフォルダを完全に削除します                                   |
 | [teamfolder replication](doc/generated_ja/teamfolder-replication.md)               | チームフォルダを他のチームに複製します                             |
+| [version](doc/generated_ja/version.md)                                             | バージョン情報                                                     |
 

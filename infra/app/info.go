@@ -3,12 +3,13 @@ package app
 import "runtime"
 
 var (
-	Name       = "watermint toolbox"
-	Version    = "`dev`"
-	Hash       = ""
-	Zap        = ""
-	BuilderKey = ""
-	debugMode  = false
+	Name           = "watermint toolbox"
+	Version        = "`dev`"
+	Hash           = ""
+	Zap            = ""
+	BuilderKey     = ""
+	BuildTimestamp = ""
+	debugMode      = false
 )
 
 const (

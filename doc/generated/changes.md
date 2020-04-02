@@ -5,6 +5,7 @@
 | Command             | Title                |
 |---------------------|----------------------|
 | file dispatch local | Dispatch local files |
+| version             | Show version         |
 
 
 

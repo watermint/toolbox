@@ -21,6 +21,7 @@ fi
 
 BUILD_MAJOR_VERSION=$(cat "$PROJECT_ROOT"/version)
 BUILD_HASH=$(cd "$PROJECT_ROOT" && git rev-parse HEAD)
+BUILD_TIMESTAMP=$(date --iso-8601=seconds)
 
 if [ ! -d $BUILD_PATH ]; then
   mkdir -p $BUILD_PATH
@@ -93,12 +94,12 @@ else
 fi
 rice embed-go
 
-X_APP_NAME="-X github.com/watermint/toolbox/infra/app.Name=toolbox"
 X_APP_VERSION="-X github.com/watermint/toolbox/infra/app.Version=$BUILD_VERSION"
 X_APP_HASH="-X github.com/watermint/toolbox/infra/app.Hash=$BUILD_HASH"
 X_APP_ZAP="-X github.com/watermint/toolbox/infra/app.Zap=$TOOLBOX_ZAP"
 X_APP_BUILDERKEY="-X github.com/watermint/toolbox/infra/app.BuilderKey=$TOOLBOX_BUILDERKEY"
-LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY"
+X_APP_BUILDTIMESTAMP="-X github.com/watermint/toolbox/infra/app.BuildTimestamp=$BUILD_TIMESTAMP"
+LD_FLAGS="$X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY $X_APP_BUILDTIMESTAMP"
 
 echo Building: Windows 386
 CGO_ENABLED=0 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox

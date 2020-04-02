@@ -6647,6 +6647,39 @@
     ],
     "feeds": []
   },
+  "version": {
+    "name": "version",
+    "title": "Show version",
+    "desc": "",
+    "remarks": "",
+    "path": "version",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "versions",
+        "desc": "",
+        "columns": [
+          {
+            "name": "component",
+            "desc": "Component"
+          },
+          {
+            "name": "version",
+            "desc": "Version"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
   "web": {
     "name": "web",
     "title": "Launch web console",

@@ -5,6 +5,7 @@
 | コマンド            | タイトル             |
 |---------------------|----------------------|
 | file dispatch local | Dispatch local files |
+| version             | Show version         |
 
 
 
@@ -1473,6 +1474,22 @@
 
 ```
 
+## 変更されたレポート: namespace
+
+```
+  &rc_doc.Report{
+  	Name: "namespace",
+  	Desc: "",
+  	Columns: []*rc_doc.ReportColumn{
+  		&{Name: "name", Desc: "The name of this namespace"},
+- 		&{Name: "namespace_id", Desc: "The ID of this namespace."},
+  		&{Name: "namespace_type", Desc: "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"},
+  		&{Name: "team_member_id", Desc: "If this is a team member or app folder, the ID of the owning team member."},
+  	},
+  }
+
+```
+
 ## 変更されたレポート: namespace_file
 
 ```
@@ -1701,6 +1718,26 @@
   		&{Name: "result.path", Desc: "Path to the folder"},
   		&{Name: "result.count_file", Desc: "Number of files under the folder"},
   		... // 4 identical elements
+  	},
+  }
+
+```
+
+# コマンド仕様の変更: `team namespace list`
+
+
+
+## 変更されたレポート: namespace
+
+```
+  &rc_doc.Report{
+  	Name: "namespace",
+  	Desc: "",
+  	Columns: []*rc_doc.ReportColumn{
+  		&{Name: "name", Desc: "The name of this namespace"},
+- 		&{Name: "namespace_id", Desc: "The ID of this namespace."},
+  		&{Name: "namespace_type", Desc: "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"},
+  		&{Name: "team_member_id", Desc: "If this is a team member or app folder, the ID of the owning team member."},
   	},
   }
 
