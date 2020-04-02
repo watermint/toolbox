@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe dev release publish 
+.\tbx.exe dev release publish -artifact-path /LOCAL/PATH/TO/ARTIFACT
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx dev release publish 
+$HOME/Desktop/tbx dev release publish -artifact-path /LOCAL/PATH/TO/ARTIFACT
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

@@ -30,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe filerequest create 
+.\tbx.exe filerequest create -path /DROPBOX/PATH/OF/FILEREQUEST
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx filerequest create 
+$HOME/Desktop/tbx filerequest create -path /DROPBOX/PATH/OF/FILEREQUEST
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

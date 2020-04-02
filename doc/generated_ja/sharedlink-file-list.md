@@ -30,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe sharedlink file list 
+.\tbx.exe sharedlink file list -url SHAREDLINK_URL
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx sharedlink file list 
+$HOME/Desktop/tbx sharedlink file list -url SHAREDLINK_URL
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.

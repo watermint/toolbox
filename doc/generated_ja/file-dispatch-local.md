@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file dispatch local 
+.\tbx.exe file dispatch local -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file dispatch local 
+$HOME/Desktop/tbx file dispatch local -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.

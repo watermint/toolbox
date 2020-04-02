@@ -29,6 +29,10 @@ type ValueMoTimeTime struct {
 	isOptional bool
 }
 
+func (z *ValueMoTimeTime) IsOptional() bool {
+	return z.isOptional
+}
+
 func (z *ValueMoTimeTime) ValueText() string {
 	return z.dateTime
 }

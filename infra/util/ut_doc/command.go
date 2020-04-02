@@ -4,6 +4,9 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/csv"
+	"errors"
+	"fmt"
+	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/infra/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
@@ -11,16 +14,23 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
+	"github.com/watermint/toolbox/infra/recipe/rc_value"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_io"
+	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"go.uber.org/zap"
+	"io"
 	"os"
 	"sort"
 	"strings"
 	"text/template"
+)
+
+var (
+	ErrorCliArgSuggestFound = errors.New("cli.arg message might required")
 )
 
 func NewCommand() *Commands {
@@ -121,6 +131,56 @@ func (z *Commands) feedSample(ctl app_control.Control, spec fd_file.Spec) string
 	return b.String()
 }
 
+func (z *Commands) suggestCliArgs(ctl app_control.Control, r rc_recipe.Recipe) error {
+	l := ctl.Log()
+	spec := rc_spec.New(r)
+	if ctl.UI().Exists(spec.CliArgs()) {
+		return nil
+	}
+
+	suggests := make([]string, 0)
+	for _, valName := range spec.ValueNames() {
+		v := spec.Value(valName)
+		valArg := "-" + strcase.ToKebab(valName) + " "
+		switch vt := v.(type) {
+		case *rc_value.ValueMoUrlUrl:
+			suggests = append(suggests, valArg+"URL")
+
+		case *rc_value.ValueMoPathFileSystemPath:
+			suggests = append(suggests, valArg+"/LOCAL/PATH/TO/PROCESS")
+
+		case *rc_value.ValueMoPathDropboxPath:
+			suggests = append(suggests, valArg+"/DROPBOX/PATH/TO/PROCESS")
+
+		case *rc_value.ValueFdFileRowFeed:
+			suggests = append(suggests, valArg+"/PATH/TO/DATA_FILE.csv")
+
+		case *rc_value.ValueMoTimeTime:
+			if vt.IsOptional() {
+				continue
+			}
+			suggests = append(suggests, valArg+`\"2020-04-01 17:58:38\"`)
+
+		default:
+			l.Debug("Skip suggest", zap.Any("value", vt))
+		}
+	}
+	if len(suggests) > 0 {
+		msgCliArgs := spec.CliArgs()
+		l.Error("cli.arg might required",
+			zap.String("key", msgCliArgs.Key()),
+			zap.String("suggest", strings.Join(suggests, " ")))
+
+		qt_messages.SuggestMessages(ctl, func(out io.Writer) {
+			fmt.Fprintf(out, `"%s":"%s",`, msgCliArgs.Key(), strings.Join(suggests, " "))
+			fmt.Fprintln(out)
+		})
+
+		return ErrorCliArgSuggestFound
+	}
+	return nil
+}
+
 func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 	spec := rc_spec.New(r)
 
@@ -140,6 +200,10 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 		return err
 	}
 	commonSpec := rc_spec.NewCommonValue()
+
+	if err := z.suggestCliArgs(ctl, r); err != nil {
+		return err
+	}
 
 	authExample := ""
 	{
