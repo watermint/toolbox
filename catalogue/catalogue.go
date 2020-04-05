@@ -2,6 +2,7 @@ package catalogue
 
 import (
 	infra_api_api_api_auth_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	infra_control_app_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
 	infra_kvs_kv_storageimpl "github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
 	infra_network_nw_diag "github.com/watermint/toolbox/infra/network/nw_diag"
@@ -23,8 +24,8 @@ import (
 	"github.com/watermint/toolbox/recipe"
 	recipeconnect "github.com/watermint/toolbox/recipe/connect"
 	recipedev "github.com/watermint/toolbox/recipe/dev"
-	recipedevci "github.com/watermint/toolbox/recipe/dev/ci"
 	recipedevciartifact "github.com/watermint/toolbox/recipe/dev/ci/artifact"
+	recipedevciauth "github.com/watermint/toolbox/recipe/dev/ci/auth"
 	recipedevdesktop "github.com/watermint/toolbox/recipe/dev/desktop"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipedevrelease "github.com/watermint/toolbox/recipe/dev/release"
@@ -79,8 +80,8 @@ func NewCatalogue() infra_recipe_rc_catalogue.Catalogue {
 
 func Recipes() []infra_recipe_rc_recipe.Recipe {
 	cat := []infra_recipe_rc_recipe.Recipe{
-		infra_recipe_rc_recipe.Annotate(&recipe.Version{}),
 		infra_recipe_rc_recipe.Annotate(&recipe.License{}),
+		infra_recipe_rc_recipe.Annotate(&recipe.Version{}),
 		infra_recipe_rc_recipe.Annotate(&recipe.Web{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessAudit{}, infra_recipe_rc_recipe.Console()),
 		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessFile{}, infra_recipe_rc_recipe.Console()),
@@ -91,23 +92,25 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipedev.Doc{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Dummy{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Echo{}, infra_recipe_rc_recipe.Secret()),
-		infra_recipe_rc_recipe.Annotate(&recipedevrelease.Candidate{}, infra_recipe_rc_recipe.Secret()),
-		infra_recipe_rc_recipe.Annotate(&recipedevrelease.Publish{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Preflight{}, infra_recipe_rc_recipe.Secret()),
-		infra_recipe_rc_recipe.Annotate(&recipedevci.Auth{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevciartifact.Up{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevciauth.Connect{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevciauth.Export{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevciauth.Import{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Install{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Start{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Stop{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdesktop.Suspendupdate{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevdiag.Procmon{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevrelease.Candidate{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevrelease.Publish{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevspec.Diff{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevspec.Doc{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Monkey{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Recipe{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevtest.Resources{}, infra_recipe_rc_recipe.Secret()),
-		infra_recipe_rc_recipe.Annotate(&recipedevutil.Wait{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevutil.Curl{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevutil.Wait{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Copy{}),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Delete{}),
 		infra_recipe_rc_recipe.Annotate(&recipefile.Download{}, infra_recipe_rc_recipe.Experimental()),
@@ -170,12 +173,12 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipeteamactivity.User{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamactivitybatch.User{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamactivitydaily.Event{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamcontent.Member{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamcontent.Policy{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamdevice.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamdevice.Unlink{}, infra_recipe_rc_recipe.Irreversible()),
 		infra_recipe_rc_recipe.Annotate(&recipeteamdiag.Explorer{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfilerequest.List{}),
-		infra_recipe_rc_recipe.Annotate(&recipeteamcontent.Member{}),
-		infra_recipe_rc_recipe.Annotate(&recipeteamcontent.Policy{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Archive{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Permdelete{}, infra_recipe_rc_recipe.Irreversible()),
@@ -208,6 +211,7 @@ func Ingredients() []infra_recipe_rc_recipe.Recipe {
 
 func Messages() []interface{} {
 	msgs := []interface{}{
+		dbx_auth_attr.MAttr,
 		infra_api_api_api_auth_impl.MCcAuth,
 		infra_control_app_workflow.MRunBook,
 		infra_kvs_kv_storageimpl.MStorage,

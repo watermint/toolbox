@@ -65,7 +65,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: skipped 
-This report shows the transaction result.
+このレポートは処理結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `skipped.csv`
 * `skipped.xlsx`
@@ -90,7 +90,7 @@ This report shows the transaction result.
 | result.content_hash    | ファイルコンテンツのハッシュ                                 |
 
 ## レポート: summary 
-This report shows a summary of the upload results.
+このレポートはアップロード結果の概要を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `summary.csv`
 * `summary.xlsx`
@@ -112,7 +112,7 @@ This report shows a summary of the upload results.
 | num_api_call     | この処理によって消費される見積アップロードAPI数  |
 
 ## レポート: uploaded 
-This report shows the transaction result.
+このレポートは処理結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `uploaded.csv`
 * `uploaded.xlsx`

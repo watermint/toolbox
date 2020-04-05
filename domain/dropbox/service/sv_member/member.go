@@ -3,9 +3,9 @@ package sv_member
 import (
 	"encoding/json"
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_error"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"go.uber.org/zap"
@@ -340,7 +340,7 @@ func (z *memberImpl) parseOneMember(res api_response.Response) (member *mo_membe
 	// {".tag": "id_not_found", "id_not_found": "xxx+xxxxx@xxxxxxxxx.xxx"}
 	if a.Get("id_not_found").Exists() {
 		z.ctx.Log().Debug("`id_not_found`", zap.String("id", a.Get("id_not_found").String()))
-		return nil, api_error.ApiError{
+		return nil, dbx_error.ApiError{
 			ErrorTag:     "id_not_found",
 			ErrorSummary: "id_not_found",
 			ErrorBody:    json.RawMessage(`{"error_summary":"id_not_found","error":{".tag":"id_not_found"}}`),

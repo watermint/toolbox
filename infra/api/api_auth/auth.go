@@ -6,7 +6,6 @@ import (
 )
 
 const (
-	DropboxTokenNoAuth             = ""
 	DropboxTokenFull               = "user_full"
 	DropboxTokenApp                = "user_app"
 	DropboxTokenBusinessInfo       = "business_info"
@@ -15,36 +14,36 @@ const (
 	DropboxTokenBusinessManagement = "business_management"
 )
 
-type TokenContainer struct {
-	Token        string
-	TokenType    string
-	PeerName     string
-	Description  string
-	Supplemental string
-}
-
-type TokenContext interface {
-	Token() TokenContainer
+// Auth context
+type Context interface {
+	Token() *oauth2.Token
+	Scope() string
+	PeerName() string
+	Description() string
+	Supplemental() string
+	IsNoAuth() bool
 }
 
 // Application key/secret manager
 type App interface {
 	// Key/secret for token type
-	AppKey(tokenType string) (key, secret string)
+	AppKey(scope string) (key, secret string)
 
 	// OAuth2 config
-	Config(tokenType string) *oauth2.Config
+	Config(scope string) *oauth2.Config
 }
 
 // Auth interface for console UI
 type Console interface {
-	Auth(tokenType string) (ctx api_context.Context, err error)
+	PeerName() string
+
+	Auth(scope string) (token Context, err error)
 }
 
 // Auth interface for web UI
 type Web interface {
 	// Create new state and url.
-	New(tokenType, redirectUrl string) (state, url string, err error)
+	New(scope, redirectUrl string) (state, url string, err error)
 
 	// Proceed authorisation process.
 	Auth(state, code string) (peerName string, ctx api_context.Context, err error)
@@ -53,5 +52,5 @@ type Web interface {
 	Get(state string) (peerName string, ctx api_context.Context, err error)
 
 	// List existing connections
-	List(tokenType string) (token []TokenContainer, err error)
+	List(scope string) (token []Context, err error)
 }

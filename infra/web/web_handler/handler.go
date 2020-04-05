@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -87,7 +87,7 @@ func (z *WebHandler) auth(user web_user.User, uc app_control.Control) api_auth.W
 	if a, ok := z.authForUser[user.UserHash()]; ok {
 		return a
 	} else {
-		a = dbx_auth.NewWeb(uc)
+		a = dbx_auth_attr.NewWeb(uc)
 		z.authForUser[user.UserHash()] = a
 		return a
 	}
@@ -581,9 +581,9 @@ func (z *WebHandler) renderRecipeConn(g *gin.Context, cmd string, rcp rc_recipe.
 	connSuppl := make(map[string]string)
 
 	for _, e := range existingConns {
-		listConns = append(listConns, e.PeerName)
-		connDesc[e.PeerName] = e.Description
-		connSuppl[e.PeerName] = e.Supplemental
+		listConns = append(listConns, e.PeerName())
+		connDesc[e.PeerName()] = e.Description()
+		connSuppl[e.PeerName()] = e.Supplemental()
 	}
 	sort.Strings(listConns)
 
@@ -634,9 +634,9 @@ func (z *WebHandler) renderRecipeRun(g *gin.Context, cmd string, rcp rc_recipe.S
 			return
 		}
 		for _, c := range conns {
-			if c.PeerName == selectedConns[connName] {
-				connDesc[connName] = c.Description
-				connSuppl[connName] = c.Supplemental
+			if c.PeerName() == selectedConns[connName] {
+				connDesc[connName] = c.Description()
+				connSuppl[connName] = c.Supplemental()
 				break
 			}
 		}

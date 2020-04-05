@@ -29,7 +29,7 @@ func (z *Up) Preset() {
 
 func (z *Up) Exec(c app_control.Control) error {
 	l := c.Log()
-	a := dbx_auth.NewCached(c, dbx_auth.PeerName(z.PeerName))
+	a := dbx_auth.NewConsoleCacheOnly(c, z.PeerName)
 	ctx, err := a.Auth(api_auth.DropboxTokenFull)
 	if err != nil {
 		l.Info("Skip operation")

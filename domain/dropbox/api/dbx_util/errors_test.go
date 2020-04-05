@@ -1,7 +1,7 @@
 package dbx_util
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_error"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"strings"
 	"testing"
 )
@@ -177,7 +177,7 @@ var (
 
 func TestErrorSummary(t *testing.T) {
 	for _, e := range errorSummarySamples {
-		ae := api_error.ApiError{
+		ae := dbx_error.ApiError{
 			ErrorSummary: e,
 		}
 		re := ErrorSummary(ae)

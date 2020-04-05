@@ -73,6 +73,17 @@ $ go run tbx.go dev preflight
 
 # Test process
 
+## End to end test
+
+Please run below command to prepare end to end testing. Tests should pass without this step.
+
+```bash
+$ cd /path/to/PROJECT_ROOT
+$ go run tbx.go dev ci auth connect
+```
+
+## Run all tests
+
 To run all tests, please reduce concurrency to 1. Because some test are stateful for Dropbox accounts.
 
 ```bash

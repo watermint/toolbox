@@ -59,7 +59,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: versions 
-Components and version information.
+コンポーネントとバージョン情報.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `versions.csv`
 * `versions.xlsx`

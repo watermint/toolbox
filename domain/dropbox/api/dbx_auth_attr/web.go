@@ -1,4 +1,4 @@
-package dbx_auth
+package dbx_auth_attr
 
 import (
 	"context"
@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
@@ -27,9 +28,9 @@ import (
 func NewWeb(control app_control.Control) api_auth.Web {
 	w := &Web{
 		control:       control,
-		app:           NewApp(control),
-		sessions:      map[string]WebAuthSession{},
-		sessionTokens: map[string]string{},
+		app:           dbx_auth.NewApp(control),
+		sessions:      make(map[string]WebAuthSession),
+		sessionTokens: make(map[string]api_auth.Context),
 	}
 	return w
 }
@@ -44,7 +45,7 @@ type Web struct {
 	control       app_control.Control
 	app           api_auth.App
 	sessions      map[string]WebAuthSession
-	sessionTokens map[string]string
+	sessionTokens map[string]api_auth.Context
 	sessionLock   sync.Mutex
 	databaseLock  sync.Mutex // database write lock
 }
@@ -117,38 +118,26 @@ func (z *Web) Auth(state, code string) (peerName string, ctx api_context.Context
 		return "", nil, err
 	}
 
-	tc := api_auth.TokenContainer{
-		Token:     token.AccessToken,
-		TokenType: session.TokenType,
-		PeerName:  session.PeerName,
-	}
+	tc := dbx_auth.NewContext(token, session.PeerName, session.TokenType)
 	ctx = dbx_context.New(z.control, tc)
 
-	desc, suppl, err := VerifyToken(session.TokenType, ctx)
+	tc, err = VerifyToken(tc, z.control)
 	if err != nil {
 		l.Debug("Verification failed", zap.Error(err))
 		return "", nil, err
 	}
-	tc.Description = desc
-	tc.Supplemental = suppl
 
-	z.sessionTokens[state] = token.AccessToken
+	z.sessionTokens[state] = tc
 	z.updateDatabase(tc)
 
 	l.Debug("Successfully finished auth sequence")
-	return tc.PeerName, ctx, nil
+	return tc.PeerName(), ctx, nil
 }
 
 func (z *Web) Get(state string) (peerName string, ctx api_context.Context, err error) {
 	if t, ok := z.sessionTokens[state]; ok {
 		if c, ok := z.sessions[state]; ok {
-			tc := api_auth.TokenContainer{
-				Token:     t,
-				TokenType: c.TokenType,
-				PeerName:  c.PeerName,
-			}
-			ctx = dbx_context.New(z.control, tc)
-
+			ctx = dbx_context.New(z.control, t)
 			return c.PeerName, ctx, nil
 		}
 	}
@@ -156,8 +145,8 @@ func (z *Web) Get(state string) (peerName string, ctx api_context.Context, err e
 	return "", nil, errors.New("state not found")
 }
 
-func (z *Web) List(tokenType string) (token []api_auth.TokenContainer, err error) {
-	token = make([]api_auth.TokenContainer, 0)
+func (z *Web) List(tokenType string) (token []api_auth.Context, err error) {
+	token = make([]api_auth.Context, 0)
 	tf := z.databaseFile(tokenType)
 	l := z.control.Log().With(zap.String("tokenType", tokenType))
 
@@ -213,13 +202,13 @@ func (z *Web) databaseFile(tokenType string) string {
 	return filepath.Join(p, pn)
 }
 
-func (z *Web) updateDatabase(tc api_auth.TokenContainer) {
+func (z *Web) updateDatabase(tc api_auth.Context) {
 	z.databaseLock.Lock()
 	defer z.databaseLock.Unlock()
 
 	l := z.control.Log()
 
-	tokens, err := z.List(tc.TokenType)
+	tokens, err := z.List(tc.Scope())
 	if err != nil {
 		l.Debug("Unable to retrieve existing tokens", zap.Error(err))
 		return
@@ -249,7 +238,7 @@ func (z *Web) updateDatabase(tc api_auth.TokenContainer) {
 	}
 	sealed := gcm.Seal(nonce, nonce, tb, nil)
 
-	tf := z.databaseFile(tc.TokenType)
+	tf := z.databaseFile(tc.Scope())
 	err = ioutil.WriteFile(tf, sealed, 0600)
 	if err != nil {
 		l.Debug("unable to write tokens into file", zap.Error(err))

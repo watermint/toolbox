@@ -25,7 +25,7 @@ type listImpl struct {
 	asAdminId        string
 	base             api_context.PathRoot
 	param            interface{}
-	token            api_auth.TokenContainer
+	token            api_auth.Context
 	useHasMore       bool
 	resultTag        string
 	requestEndpoint  string

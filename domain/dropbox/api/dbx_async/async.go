@@ -2,9 +2,9 @@ package dbx_async
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/infra/api/api_async"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_error"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"go.uber.org/zap"
 	"strings"
@@ -158,7 +158,7 @@ func (z *asyncImpl) handlePoll(res api_response.Response, asyncJobId string) (as
 	if errorTag := resJson.Get("error.\\.tag"); errorTag.Exists() {
 		log.Debug("Endpoint specific error", zap.String("error_tag", tag.String()))
 		body, _ := res.Result()
-		err = api_error.ParseApiError(body)
+		err = dbx_error.ParseApiError(body)
 		if err2 := z.failure(err); err2 != nil {
 			return nil, err2
 		}

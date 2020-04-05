@@ -32,7 +32,7 @@ func NewPpcRequest(ctx api_context.Context,
 	endpoint string,
 	asMemberId, asAdminId string,
 	base api_context.PathRoot,
-	token api_auth.TokenContainer,
+	token api_auth.Context,
 	endpointBase string) api_request.Request {
 
 	req := &rpcRequestImpl{
@@ -53,7 +53,7 @@ func NewDownloadRequest(ctx api_context.Context,
 	endpoint string,
 	asMemberId, asAdminId string,
 	base api_context.PathRoot,
-	token api_auth.TokenContainer) api_request.Request {
+	token api_auth.Context) api_request.Request {
 
 	req := &downloadRequestImpl{
 		ctx:      ctx,
@@ -73,7 +73,7 @@ func NewUploadRequest(ctx api_context.Context,
 	content ut_io.ReadRewinder,
 	asMemberId, asAdminId string,
 	base api_context.PathRoot,
-	token api_auth.TokenContainer) api_request.Request {
+	token api_auth.Context) api_request.Request {
 
 	req := &uploadRequestImpl{
 		ctx:      ctx,
@@ -135,15 +135,15 @@ type dbxRequest struct {
 	asMemberId string
 	asAdminId  string
 	base       api_context.PathRoot
-	token      api_auth.TokenContainer
+	token      api_auth.Context
 }
 
 func (z *dbxRequest) decorate(req *http.Request) (r *http.Request, err error) {
 	l := app_root.Log()
 
 	req.Header.Add(api_request.ReqHeaderUserAgent, app.UserAgent())
-	if z.token.TokenType != api_auth.DropboxTokenNoAuth {
-		req.Header.Add(api_request.ReqHeaderAuthorization, "Bearer "+z.token.Token)
+	if !z.token.IsNoAuth() {
+		req.Header.Add(api_request.ReqHeaderAuthorization, "Bearer "+z.token.Token().AccessToken)
 	}
 	if z.asAdminId != "" {
 		req.Header.Add(api_request.ReqHeaderDropboxApiSelectAdmin, z.asAdminId)

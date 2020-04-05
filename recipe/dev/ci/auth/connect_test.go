@@ -1,4 +1,4 @@
-package ci
+package auth
 
 import (
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestAuth_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Auth{})
+	qt_recipe.TestRecipe(t, &Connect{})
 }

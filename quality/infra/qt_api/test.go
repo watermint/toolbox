@@ -2,6 +2,7 @@ package qt_api
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
@@ -35,17 +36,13 @@ func DoTestBusinessAudit(test func(ctx api_context.DropboxApiContext)) {
 func doTest(tokenType string, test func(ctx api_context.DropboxApiContext)) {
 	qt_recipe.TestWithControl(nil, func(ctl app_control.Control) {
 		l := ctl.Log()
-		a := dbx_auth.NewCached(ctl, dbx_auth.PeerName(qt_endtoend.EndToEndPeer))
+		a := dbx_auth.NewConsoleCacheOnly(ctl, qt_endtoend.EndToEndPeer)
 		ctx, err := a.Auth(tokenType)
 		if err != nil {
 			l.Info("Skip test", zap.Error(err))
 			return
 		}
-		dtx, ok := ctx.(api_context.DropboxApiContext)
-		if !ok {
-			l.Warn("Invalid context type", zap.Any("ctx", ctx))
-			return
-		}
+		dtx := dbx_context.New(ctl, ctx)
 		if legacyTestsEnabled {
 			test(dtx)
 		}

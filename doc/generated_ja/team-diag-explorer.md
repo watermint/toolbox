@@ -82,13 +82,13 @@ watermint toolbox xx.x.xxx
 © 2016-2020 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-1. Visit the URL for the auth dialogue:
+1. 次のURLを開き認証ダイアログを開いてください:
 
 https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
 
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
 
 ```
 
@@ -107,7 +107,7 @@ Enter the authorisation code
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: device 
-This report shows a list of current existing sessions in the team with team member information.
+このレポートではチーム内の既存セッションとメンバー情報を一覧できます.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `device.csv`
 * `device.xlsx`
@@ -146,7 +146,7 @@ This report shows a list of current existing sessions in the team with team memb
 | last_carrier                  | このデバイスで利用された最後のキャリア                                 |
 
 ## レポート: feature 
-This report shows a list of team features and their settings.
+このレポートはチームの機能と設定を一覧します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `feature.csv`
 * `feature.xlsx`
@@ -166,7 +166,7 @@ This report shows a list of team features and their settings.
 | has_team_selective_sync     | このチームがチーム選択型同期を有効化しているかどうか   |
 
 ## レポート: file_request 
-This report shows a list of file requests with the file request owner team member.
+このレポートはチームメンバーのもつファイルリクエストを一覧します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `file_request.csv`
 * `file_request.xlsx`
@@ -193,7 +193,7 @@ This report shows a list of file requests with the file request owner team membe
 | deadline_allow_late_uploads | 設定されている場合、締め切りを超えてもアップロードが許可されている        |
 
 ## レポート: group 
-This report shows a list of groups in the team.
+このレポートはチーム内のグループを一覧します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `group.csv`
 * `group.xlsx`
@@ -211,7 +211,7 @@ This report shows a list of groups in the team.
 | member_count          | グループ内のメンバー数                                                                  |
 
 ## レポート: group_member 
-This report shows a list of groups and their members.
+このレポートはグループとメンバーを一覧します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `group_member.csv`
 * `group_member.xlsx`
@@ -233,7 +233,7 @@ This report shows a list of groups and their members.
 | given_name            | 名                                                                                      |
 
 ## レポート: info 
-This report shows a list of team information.
+このレポートはチームの情報を一覧します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `info.csv`
 * `info.xlsx`
@@ -257,7 +257,7 @@ This report shows a list of team information.
 | policy_office_add_in        | Dropbox Office アドインについてこのチームに対する管理者ポリシー (disabled, or enabled)                   |
 
 ## レポート: linked_app 
-This report shows a list of linked app with the user of the app.
+このレポートは接続済みアプリケーションと利用ユーザーを一覧します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `linked_app.csv`
 * `linked_app.xlsx`
@@ -282,7 +282,7 @@ This report shows a list of linked app with the user of the app.
 | linked        | アプリケーションがリンクされた日時                                   |
 
 ## レポート: member 
-This report shows a list of members.
+このレポートはメンバー一覧を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `member.csv`
 * `member.xlsx`
@@ -305,7 +305,7 @@ This report shows a list of members.
 | role           | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
 
 ## レポート: member_quota 
-This report shows a list of custom quota settings for each team members.
+このレポートはチームメンバーのカスタム容量上限の設定を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `member_quota.csv`
 * `member_quota.xlsx`
@@ -322,7 +322,7 @@ This report shows a list of custom quota settings for each team members.
 | quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
 
 ## レポート: namespace 
-This report shows a list of namespaces in the team.
+このレポートはチームの名前空間を一覧します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `namespace.csv`
 * `namespace.xlsx`
@@ -340,7 +340,7 @@ This report shows a list of namespaces in the team.
 | team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
 
 ## レポート: namespace_file 
-This report shows a list of namespaces in the team.
+このレポートはチームの名前空間を一覧します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `namespace_file.csv`
 * `namespace_file.xlsx`
@@ -364,7 +364,7 @@ This report shows a list of namespaces in the team.
 | size                   | ファイルサイズ(バイト単位)                                                                      |
 
 ## レポート: namespace_size 
-This report shows the transaction result.
+このレポートは処理結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `namespace_size.csv`
 * `namespace_size.xlsx`
@@ -389,7 +389,7 @@ This report shows the transaction result.
 | result.api_complexity   | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
 
 ## レポート: shared_link 
-This report shows a list of shared links with the shared link owner team member.
+このレポートはチーム内のチームメンバーがもつ共有リンク一覧を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `shared_link.csv`
 * `shared_link.xlsx`
@@ -414,7 +414,7 @@ This report shows a list of shared links with the shared link owner team member.
 | given_name | リンク所有者の名                                                     |
 
 ## レポート: usage 
-This report shows current storage usage of users.
+このレポートはユーザーの現在のストレージ利用容量を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `usage.csv`
 * `usage.xlsx`

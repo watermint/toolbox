@@ -1,4 +1,4 @@
-package api_error
+package dbx_error
 
 import (
 	"encoding/json"

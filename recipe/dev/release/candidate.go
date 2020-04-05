@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/recipe/dev"
-	"github.com/watermint/toolbox/recipe/dev/ci"
+	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"github.com/watermint/toolbox/recipe/dev/test"
 	"go.uber.org/zap"
 	"golang.org/x/text/language"
@@ -24,7 +24,7 @@ const (
 
 type Candidate struct {
 	TestResource string
-	Auth         *ci.Auth
+	Auth         *auth.Connect
 }
 
 func (z *Candidate) Preset() {

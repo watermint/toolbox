@@ -80,13 +80,13 @@ watermint toolbox xx.x.xxx
 © 2016-2020 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-1. Visit the URL for the auth dialogue:
+1. 次のURLを開き認証ダイアログを開いてください:
 
 https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
 
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
 
 ```
 
@@ -105,7 +105,7 @@ Enter the authorisation code
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: diff 
-This report shows a difference between to folders.
+このレポートはフォルダ間の差分を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `diff.csv`
 * `diff.xlsx`
@@ -129,7 +129,7 @@ This report shows a difference between to folders.
 | right_hash | 右ファイルのコンテンツハッシュ                                                                                                                                                                 |
 
 ## レポート: skip 
-This report shows a difference between to folders.
+このレポートはフォルダ間の差分を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `skip.csv`
 * `skip.xlsx`

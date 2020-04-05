@@ -10,6 +10,8 @@ else
 fi
 
 mkdir -p publish/secrets
-cp $HOME/.toolbox/secrets/end_to_end_test.tokens publish/secrets
 
+LC_ALL=C ./tbx dev ci auth export -quiet > /dev/null
+LC_ALL=C ./tbx dev ci auth import -workspace $PWD/publish 
 LC_ALL=C ./tbx dev release publish -workspace $PWD/publish -artifact-path $PWD $TEST_ARGS
+

@@ -3,6 +3,7 @@ package rc_conn_impl
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
@@ -14,10 +15,6 @@ import (
 
 const (
 	DefaultPeerName = "default"
-)
-
-var (
-	ErrorIncompatibleTokenType = errors.New("incompatible token type")
 )
 
 func IsEndToEndTokenAllAvailable(ctl app_control.Control) bool {
@@ -45,44 +42,20 @@ func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_c
 	if qt_endtoend.IsSkipEndToEndTest() {
 		return nil, qt_errors.ErrorSkipEndToEndTest
 	}
-	a := dbx_auth.NewCached(ctl, dbx_auth.PeerName(peerName))
-	if c, err := a.Auth(tokenType); err == nil {
-		if dc, ok := c.(api_context.DropboxApiContext); ok {
-			return dc, nil
-		} else {
-			l.Debug("Incompatible token type found", zap.Any("token", c))
-			return nil, ErrorIncompatibleTokenType
+	peers := []string{peerName, qt_endtoend.EndToEndPeer}
+	for _, peer := range peers {
+		l.Debug("Retrieve cache from peer", zap.String("peer", peer))
+		a := dbx_auth.NewConsoleCacheOnly(ctl, peer)
+		if c, err := a.Auth(tokenType); err == nil {
+			return dbx_context.New(ctl, c), nil
 		}
 	}
-
-	// fallback to end to end peer
-	a = dbx_auth.NewCached(ctl, dbx_auth.PeerName(qt_endtoend.EndToEndPeer))
-	if c, err := a.Auth(tokenType); err == nil {
-		if dc, ok := c.(api_context.DropboxApiContext); ok {
-			return dc, nil
-		} else {
-			l.Debug("Incompatible token type found", zap.Any("returned token", c))
-			return nil, ErrorIncompatibleTokenType
-		}
-	} else {
-		return nil, qt_errors.ErrorNotEnoughResource
-	}
+	return nil, qt_errors.ErrorNotEnoughResource
 }
 
 func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (ctx api_context.DropboxApiContext, err error) {
 	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
 	ui := ctl.UI()
-
-	verifyToken := func(ctx0 api_context.DropboxApiContext) error {
-		if verify {
-			desc, suppl, err0 := dbx_auth.VerifyToken(tokenType, ctx0)
-			if err0 == nil {
-				ui.Info(MConnect.VerifySuccess.With("Desc", desc).With("Suppl", suppl))
-			}
-			return err0
-		}
-		return nil
-	}
 
 	if c, ok := ctl.(app_control.ControlTestExtension); ok {
 		if c.TestValue(qt_endtoend.CtlTestExtUseMock) == true {
@@ -101,28 +74,22 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 
 	case ui.IsConsole():
 		l.Debug("Connect through console UI")
-		c := dbx_auth.New(ctl, dbx_auth.PeerName(peerName))
-		ctx0, err := c.Auth(tokenType)
+		c := dbx_auth_attr.NewConsole(ctl, peerName)
+		ctx, err := c.Auth(tokenType)
 		if err != nil {
 			return nil, err
 		}
-		ctx, ok := ctx0.(api_context.DropboxApiContext)
-		if !ok {
-			l.Debug("Incompatible token type found", zap.Any("token", ctx0))
-			return nil, ErrorIncompatibleTokenType
-		}
-		err = verifyToken(ctx)
-		return ctx, nil
+		return dbx_context.New(ctl, ctx), nil
 
 	case ui.IsWeb():
 		l.Debug("Connect through web UI")
-		a := dbx_auth.NewWeb(ctl)
+		a := dbx_auth_attr.NewWeb(ctl)
 		tokens, err := a.List(tokenType)
 		if err != nil {
 			return nil, err
 		}
 		for _, t := range tokens {
-			if t.PeerName == peerName {
+			if t.PeerName() == peerName {
 				c := dbx_context.New(ctl, t)
 				return c, nil
 			}

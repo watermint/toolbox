@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
@@ -16,6 +17,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filehash"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
@@ -158,8 +160,14 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 
 	if c.IsProduction() {
 		l.Info("Prepare resources")
-		if err := dbx_auth.CreateSecret(c, qt_endtoend.EndToEndPeer); err != nil {
-			return err
+		if !dbx_auth.IsCacheAvailable(c, qt_endtoend.EndToEndPeer, []string{
+			api_auth.DropboxTokenFull,
+			api_auth.DropboxTokenBusinessAudit,
+			api_auth.DropboxTokenBusinessManagement,
+			api_auth.DropboxTokenBusinessFile,
+			api_auth.DropboxTokenBusinessInfo,
+		}) {
+			return qt_errors.ErrorNotEnoughResource
 		}
 	}
 

@@ -2,8 +2,8 @@ package nw_retry
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_error"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/network/nw_capture"
@@ -76,23 +76,23 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 			return z.Call(ctx, req)
 		}
 		l.Debug("Bad input param", zap.String("Error", res.ResultString()))
-		return nil, api_error.ParseApiError(res.ResultString())
+		return nil, dbx_error.ParseApiError(res.ResultString())
 
 	case api_response.DropboxApiErrorBadOrExpiredToken: // Bad or expired token
 		l.Debug("Bad or expired token", zap.String("Error", res.ResultString()))
-		return nil, api_error.ParseApiError(res.ResultString())
+		return nil, dbx_error.ParseApiError(res.ResultString())
 
 	case api_response.DropboxApiErrorAccessError: // Access Error
 		l.Debug("Access Error", zap.String("Error", res.ResultString()))
-		return nil, api_error.ParseAccessError(res.ResultString())
+		return nil, dbx_error.ParseAccessError(res.ResultString())
 
 	case api_response.DropboxApiErrorEndpointSpecific: // Endpoint specific
 		l.Debug("Endpoint specific error", zap.String("Error", res.ResultString()))
-		return nil, api_error.ParseApiError(res.ResultString())
+		return nil, dbx_error.ParseApiError(res.ResultString())
 
 	case api_response.DropboxApiErrorNoPermission: // No permission
 		l.Debug("No Permission", zap.String("Error", res.ResultString()))
-		return nil, api_error.ParseAccessError(res.ResultString())
+		return nil, dbx_error.ParseAccessError(res.ResultString())
 
 	case api_response.DropboxApiErrorRateLimit: // Rate limit
 		retryAfter := res.Header(api_response.DropboxApiResHeaderRetryAfter)
@@ -118,7 +118,7 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 
 	if int(res.StatusCode()/100) == 5 {
 		l.Debug("server error", zap.Int("status_code", res.StatusCode()), zap.String("body", res.ResultString()))
-		return retryOnError(api_error.ServerError{StatusCode: res.StatusCode()})
+		return retryOnError(dbx_error.ServerError{StatusCode: res.StatusCode()})
 	}
 
 	l.Warn("Unknown or server error", zap.Int("Code", res.StatusCode()), zap.String("Result", res.ResultString()))

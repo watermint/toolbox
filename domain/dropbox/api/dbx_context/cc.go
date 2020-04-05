@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
@@ -22,10 +23,10 @@ import (
 	"sync"
 )
 
-func New(control app_control.Control, token api_auth.TokenContainer) api_context.DropboxApiContext {
+func New(control app_control.Control, token api_auth.Context) api_context.DropboxApiContext {
 	c := &ccImpl{
 		control:        control,
-		tokenContainer: token,
+		token:          token,
 		noRetryOnError: false,
 	}
 	return c
@@ -33,7 +34,7 @@ func New(control app_control.Control, token api_auth.TokenContainer) api_context
 
 type ccImpl struct {
 	control        app_control.Control
-	tokenContainer api_auth.TokenContainer
+	token          api_auth.Context
 	asMemberId     string
 	asAdminId      string
 	basePath       api_context.PathRoot
@@ -48,10 +49,8 @@ func (z *ccImpl) MakeResponse(req *http.Request, res *http.Response) (api_respon
 
 func (z *ccImpl) NoAuth() api_context.Context {
 	return &ccImpl{
-		control: z.control,
-		tokenContainer: api_auth.TokenContainer{
-			TokenType: api_auth.DropboxTokenNoAuth,
-		},
+		control:        z.control,
+		token:          dbx_auth.NewNoAuth(),
 		asMemberId:     z.asMemberId,
 		asAdminId:      z.asAdminId,
 		basePath:       z.basePath,
@@ -59,10 +58,6 @@ func (z *ccImpl) NoAuth() api_context.Context {
 		hashComputed:   z.hashComputed,
 		hashMutex:      sync.Mutex{},
 	}
-}
-
-func (z *ccImpl) Token() api_auth.TokenContainer {
-	return z.tokenContainer
 }
 
 func (z *ccImpl) Capture() *zap.Logger {
@@ -84,7 +79,7 @@ func (z *ccImpl) Rpc(endpoint string) api_request.Request {
 		z.asMemberId,
 		z.asAdminId,
 		z.basePath,
-		z.tokenContainer,
+		z.token,
 		dbx_request.RpcEndpoint,
 	)
 }
@@ -96,7 +91,7 @@ func (z *ccImpl) Notify(endpoint string) api_request.Request {
 		z.asMemberId,
 		z.asAdminId,
 		z.basePath,
-		z.tokenContainer,
+		z.token,
 		dbx_request.NotifyEndpoint,
 	)
 }
@@ -117,7 +112,7 @@ func (z *ccImpl) Upload(endpoint string, content ut_io.ReadRewinder) api_request
 		z.asMemberId,
 		z.asAdminId,
 		z.basePath,
-		z.tokenContainer,
+		z.token,
 	)
 }
 
@@ -128,14 +123,14 @@ func (z *ccImpl) Download(endpoint string) api_request.Request {
 		z.asMemberId,
 		z.asAdminId,
 		z.basePath,
-		z.tokenContainer,
+		z.token,
 	)
 }
 
 func (z *ccImpl) AsMemberId(teamMemberId string) api_context.DropboxApiContext {
 	return &ccImpl{
 		control:        z.control,
-		tokenContainer: z.tokenContainer,
+		token:          z.token,
 		noRetryOnError: z.noRetryOnError,
 		asMemberId:     teamMemberId,
 		asAdminId:      "",
@@ -146,7 +141,7 @@ func (z *ccImpl) AsMemberId(teamMemberId string) api_context.DropboxApiContext {
 func (z *ccImpl) AsAdminId(teamMemberId string) api_context.DropboxApiContext {
 	return &ccImpl{
 		control:        z.control,
-		tokenContainer: z.tokenContainer,
+		token:          z.token,
 		noRetryOnError: z.noRetryOnError,
 		asMemberId:     "",
 		asAdminId:      teamMemberId,
@@ -157,7 +152,7 @@ func (z *ccImpl) AsAdminId(teamMemberId string) api_context.DropboxApiContext {
 func (z *ccImpl) WithPath(pathRoot api_context.PathRoot) api_context.DropboxApiContext {
 	return &ccImpl{
 		control:        z.control,
-		tokenContainer: z.tokenContainer,
+		token:          z.token,
 		noRetryOnError: z.noRetryOnError,
 		asMemberId:     z.asMemberId,
 		asAdminId:      z.asAdminId,
@@ -168,7 +163,7 @@ func (z *ccImpl) WithPath(pathRoot api_context.PathRoot) api_context.DropboxApiC
 func (z *ccImpl) NoRetryOnError() api_context.Context {
 	return &ccImpl{
 		control:        z.control,
-		tokenContainer: z.tokenContainer,
+		token:          z.token,
 		noRetryOnError: true,
 		asMemberId:     z.asMemberId,
 		asAdminId:      z.asAdminId,
@@ -189,11 +184,11 @@ func (z *ccImpl) Hash() string {
 		"a",
 		z.asAdminId,
 		"p",
-		z.tokenContainer.PeerName,
+		z.token.PeerName(),
 		"t",
-		z.tokenContainer.Token,
+		z.token.Token().AccessToken,
 		"y",
-		z.tokenContainer.TokenType,
+		z.token.Scope(),
 		"n",
 		strconv.FormatBool(z.noRetryOnError),
 	}

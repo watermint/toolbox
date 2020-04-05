@@ -119,7 +119,7 @@
     "reports": [
       {
         "name": "rows",
-        "desc": "This report shows a list of groups and their members.",
+        "desc": "このレポートはグループとメンバーを一覧します.",
         "columns": [
           {
             "name": "group_name",
@@ -172,7 +172,7 @@
     "reports": [
       {
         "name": "skipped",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -218,7 +218,7 @@
       },
       {
         "name": "summary",
-        "desc": "This report shows a summary of the upload results.",
+        "desc": "このレポートはアップロード結果の概要を出力します.",
         "columns": [
           {
             "name": "upload_start",
@@ -252,7 +252,7 @@
       },
       {
         "name": "uploaded",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -299,12 +299,12 @@
     ],
     "feeds": []
   },
-  "dev ci auth": {
-    "name": "auth",
+  "dev ci auth connect": {
+    "name": "connect",
     "title": "エンドツーエンドテストのための認証",
     "desc": "",
     "remarks": "",
-    "path": "dev ci auth",
+    "path": "dev ci auth connect",
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": true,
@@ -316,6 +316,48 @@
       "Info": "business_info",
       "Mgmt": "business_management"
     },
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev ci auth export": {
+    "name": "export",
+    "title": "エンドツーエンドテストのトークンを出力します",
+    "desc": "",
+    "remarks": "",
+    "path": "dev ci auth export",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Audit": "business_audit",
+      "File": "business_file",
+      "Full": "user_full",
+      "Info": "business_info",
+      "Mgmt": "business_management"
+    },
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
+  "dev ci auth import": {
+    "name": "import",
+    "title": "環境変数はエンドツーエンドトークンをインポートします",
+    "desc": "",
+    "remarks": "",
+    "path": "dev ci auth import",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
@@ -672,7 +714,7 @@
     "reports": [
       {
         "name": "diff",
-        "desc": "This report shows a difference between to folders.",
+        "desc": "このレポートはフォルダ間の差分を出力します.",
         "columns": [
           {
             "name": "diff_type",
@@ -735,7 +777,7 @@
     "reports": [
       {
         "name": "diff",
-        "desc": "This report shows a difference between to folders.",
+        "desc": "このレポートはフォルダ間の差分を出力します.",
         "columns": [
           {
             "name": "diff_type",
@@ -777,7 +819,7 @@
       },
       {
         "name": "skip",
-        "desc": "This report shows a difference between to folders.",
+        "desc": "このレポートはフォルダ間の差分を出力します.",
         "columns": [
           {
             "name": "diff_type",
@@ -879,7 +921,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for dispatch rules.",
+        "desc": "整理ルールのデータファイル.",
         "columns": [
           {
             "name": "suffix",
@@ -930,7 +972,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows a list of metadata of files or folders in the path.",
+        "desc": "このレポートはファイルとフォルダのメタデータを出力します.",
         "columns": [
           {
             "name": "tag",
@@ -981,7 +1023,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows a result of exporting file.",
+        "desc": "このレポートはファイルのエクスポート結果を出力します.",
         "columns": [
           {
             "name": "name",
@@ -1036,7 +1078,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -1084,7 +1126,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for batch import files from URLs.",
+        "desc": "URLからファイルを一括インポートするためのデータファイル.",
         "columns": [
           {
             "name": "url",
@@ -1120,7 +1162,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows a list of metadata of files or folders in the path.",
+        "desc": "このレポートはファイルとフォルダのメタデータを出力します.",
         "columns": [
           {
             "name": "tag",
@@ -1175,7 +1217,7 @@
     "reports": [
       {
         "name": "file_list",
-        "desc": "This report shows a list of metadata of files or folders in the path.",
+        "desc": "このレポートはファイルとフォルダのメタデータを出力します.",
         "columns": [
           {
             "name": "tag",
@@ -1267,7 +1309,7 @@
     "reports": [
       {
         "name": "replication_diff",
-        "desc": "This report shows a difference between to folders.",
+        "desc": "このレポートはフォルダ間の差分を出力します.",
         "columns": [
           {
             "name": "diff_type",
@@ -1330,7 +1372,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -1393,7 +1435,7 @@
     "reports": [
       {
         "name": "matches",
-        "desc": "This report shows a result of search with highlighted text.",
+        "desc": "このレポートは検索結果とハイライトテキストを出力します.",
         "columns": [
           {
             "name": "tag",
@@ -1432,7 +1474,7 @@
     "reports": [
       {
         "name": "matches",
-        "desc": "This report shows a result of search with highlighted text.",
+        "desc": "このレポートは検索結果とハイライトテキストを出力します.",
         "columns": [
           {
             "name": "tag",
@@ -1471,7 +1513,7 @@
     "reports": [
       {
         "name": "skipped",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -1517,7 +1559,7 @@
       },
       {
         "name": "summary",
-        "desc": "This report shows a summary of the upload results.",
+        "desc": "このレポートはアップロード結果の概要を出力します.",
         "columns": [
           {
             "name": "upload_start",
@@ -1551,7 +1593,7 @@
       },
       {
         "name": "uploaded",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -1618,7 +1660,7 @@
     "reports": [
       {
         "name": "skipped",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -1664,7 +1706,7 @@
       },
       {
         "name": "summary",
-        "desc": "This report shows a summary of the upload results.",
+        "desc": "このレポートはアップロード結果の概要を出力します.",
         "columns": [
           {
             "name": "upload_start",
@@ -1698,7 +1740,7 @@
       },
       {
         "name": "uploaded",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -1765,7 +1807,7 @@
     "reports": [
       {
         "name": "skipped",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -1811,7 +1853,7 @@
       },
       {
         "name": "summary",
-        "desc": "This report shows a summary of the upload results.",
+        "desc": "このレポートはアップロード結果の概要を出力します.",
         "columns": [
           {
             "name": "upload_start",
@@ -1845,7 +1887,7 @@
       },
       {
         "name": "uploaded",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -1932,7 +1974,7 @@
     "reports": [
       {
         "name": "file_request",
-        "desc": "This report shows a list of file requests.",
+        "desc": "このレポートはファイルリクエストの一覧を出力します.",
         "columns": [
           {
             "name": "id",
@@ -1995,7 +2037,7 @@
     "reports": [
       {
         "name": "deleted",
-        "desc": "This report shows a list of file requests.",
+        "desc": "このレポートはファイルリクエストの一覧を出力します.",
         "columns": [
           {
             "name": "id",
@@ -2058,7 +2100,7 @@
     "reports": [
       {
         "name": "deleted",
-        "desc": "This report shows a list of file requests.",
+        "desc": "このレポートはファイルリクエストの一覧を出力します.",
         "columns": [
           {
             "name": "id",
@@ -2121,7 +2163,7 @@
     "reports": [
       {
         "name": "file_requests",
-        "desc": "This report shows a list of file requests.",
+        "desc": "このレポートはファイルリクエストの一覧を出力します.",
         "columns": [
           {
             "name": "id",
@@ -2184,7 +2226,7 @@
     "reports": [
       {
         "name": "added_group",
-        "desc": "This report shows a list of groups in the team.",
+        "desc": "このレポートはチーム内のグループを一覧します.",
         "columns": [
           {
             "name": "group_name",
@@ -2223,7 +2265,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -2255,7 +2297,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for batch operation to groups.",
+        "desc": "グループに対する一括操作のためのデータファイル.",
         "columns": [
           {
             "name": "name",
@@ -2306,7 +2348,7 @@
     "reports": [
       {
         "name": "group",
-        "desc": "This report shows a list of groups in the team.",
+        "desc": "このレポートはチーム内のグループを一覧します.",
         "columns": [
           {
             "name": "group_name",
@@ -2345,7 +2387,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -2400,7 +2442,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -2455,7 +2497,7 @@
     "reports": [
       {
         "name": "group_member",
-        "desc": "This report shows a list of groups and their members.",
+        "desc": "このレポートはグループとメンバーを一覧します.",
         "columns": [
           {
             "name": "group_name",
@@ -2510,7 +2552,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -2599,7 +2641,7 @@
     "reports": [
       {
         "name": "log",
-        "desc": "This report shows a list of job histories.",
+        "desc": "ジョブ履歴を一覧するレポートです.",
         "columns": [
           {
             "name": "job_id",
@@ -2646,7 +2688,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -2779,7 +2821,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -2799,7 +2841,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for deleting team members.",
+        "desc": "チームメンバーを削除するためのデータファイル.",
         "columns": [
           {
             "name": "email",
@@ -2830,7 +2872,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -2850,7 +2892,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for converting team members into Dropbox Basic account.",
+        "desc": "チームメンバーをDropbox Basicアカウントに変換するためのデータファイル.",
         "columns": [
           {
             "name": "email",
@@ -2881,7 +2923,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -2945,7 +2987,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for invite team members.",
+        "desc": "チームメンバーを招待するためのデータファイル.",
         "columns": [
           {
             "name": "email",
@@ -2986,7 +3028,7 @@
     "reports": [
       {
         "name": "member",
-        "desc": "This report shows a list of members.",
+        "desc": "このレポートはメンバー一覧を出力します.",
         "columns": [
           {
             "name": "email",
@@ -3045,7 +3087,7 @@
     "reports": [
       {
         "name": "member_quota",
-        "desc": "This report shows a list of custom quota settings for each team members.",
+        "desc": "このレポートはチームメンバーのカスタム容量上限の設定を出力します.",
         "columns": [
           {
             "name": "email",
@@ -3080,7 +3122,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -3112,7 +3154,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "This report shows a list of custom quota settings for each team members.",
+        "desc": "このレポートはチームメンバーのカスタム容量上限の設定を出力します.",
         "columns": [
           {
             "name": "email",
@@ -3148,7 +3190,7 @@
     "reports": [
       {
         "name": "usage",
-        "desc": "This report shows current storage usage of users.",
+        "desc": "このレポートはユーザーの現在のストレージ利用容量を出力します.",
         "columns": [
           {
             "name": "email",
@@ -3195,7 +3237,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -3303,7 +3345,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -3327,7 +3369,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for replicating member contents.",
+        "desc": "メンバーのコンテンツを複製するためのデータファイル.",
         "columns": [
           {
             "name": "src_email",
@@ -3363,7 +3405,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -3423,7 +3465,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for updating team member email addresses.",
+        "desc": "チームメンバーのメールアドレスを変更処理するためのデータファイル.",
         "columns": [
           {
             "name": "from_email",
@@ -3459,7 +3501,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -3519,7 +3561,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for updating member external id.",
+        "desc": "メンバーの外部ID(External ID)を変更するためのデータファイル.",
         "columns": [
           {
             "name": "email",
@@ -3555,7 +3597,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -3619,7 +3661,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for updating member profile.",
+        "desc": "メンバーのプロフィールを変更するためのデータファイル.",
         "columns": [
           {
             "name": "email",
@@ -3660,7 +3702,7 @@
     "reports": [
       {
         "name": "shared_folder",
-        "desc": "This report shows a list of shared folders.",
+        "desc": "このレポートは共有フォルダの一覧を出力します.",
         "columns": [
           {
             "name": "name",
@@ -3727,7 +3769,7 @@
     "reports": [
       {
         "name": "member",
-        "desc": "This report shows a list of members of shared folders.",
+        "desc": "このレポートは共有フォルダのメンバー一覧を出力します.",
         "columns": [
           {
             "name": "name",
@@ -3794,7 +3836,7 @@
     "reports": [
       {
         "name": "created",
-        "desc": "THis report shows a list of shared links.",
+        "desc": "このレポートは共有リンクの一覧を出力します.",
         "columns": [
           {
             "name": "id",
@@ -3849,7 +3891,7 @@
     "reports": [
       {
         "name": "shared_link",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -3908,7 +3950,7 @@
     "reports": [
       {
         "name": "file_list",
-        "desc": "This report shows a list of metadata of files or folders in the path.",
+        "desc": "このレポートはファイルとフォルダのメタデータを出力します.",
         "columns": [
           {
             "name": "tag",
@@ -3959,7 +4001,7 @@
     "reports": [
       {
         "name": "shared_link",
-        "desc": "THis report shows a list of shared links.",
+        "desc": "このレポートは共有リンクの一覧を出力します.",
         "columns": [
           {
             "name": "tag",
@@ -4136,7 +4178,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for batch retrieve activities of members.",
+        "desc": "メンバーのアクティビティを一括取得するためのデータファイル.",
         "columns": [
           {
             "name": "email",
@@ -4395,7 +4437,7 @@
       },
       {
         "name": "user_summary",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -4458,7 +4500,7 @@
     "reports": [
       {
         "name": "membership",
-        "desc": "This report shows a list of shared folders and team folders with their members. If a folder has multiple members, then members are listed with rows.",
+        "desc": "このレポートは共有フォルダまたはチームフォルダと、そのメンバーを一覧できます. フォルダに複数メンバーがいる場合には、メンバーは1行ずつ出力されます.",
         "columns": [
           {
             "name": "path",
@@ -4492,7 +4534,7 @@
       },
       {
         "name": "no_member",
-        "desc": "This report shows folders without members.",
+        "desc": "このレポートはメンバーのいないフォルダの一覧を出力します.",
         "columns": [
           {
             "name": "owner_team_name",
@@ -4531,7 +4573,7 @@
     "reports": [
       {
         "name": "policy",
-        "desc": "This report shows a list of shared folders and team folders with their current policy settings.",
+        "desc": "このレポートでは共有フォルダならびにチームフォルダについて、現在のポリシー設定を一覧できます.",
         "columns": [
           {
             "name": "path",
@@ -4586,7 +4628,7 @@
     "reports": [
       {
         "name": "device",
-        "desc": "This report shows a list of current existing sessions in the team with team member information.",
+        "desc": "このレポートではチーム内の既存セッションとメンバー情報を一覧できます.",
         "columns": [
           {
             "name": "team_member_id",
@@ -4709,7 +4751,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -4821,7 +4863,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "This report shows a list of current existing sessions in the team with team member information.",
+        "desc": "このレポートではチーム内の既存セッションとメンバー情報を一覧できます.",
         "columns": [
           {
             "name": "team_member_id",
@@ -4989,7 +5031,7 @@
     "reports": [
       {
         "name": "device",
-        "desc": "This report shows a list of current existing sessions in the team with team member information.",
+        "desc": "このレポートではチーム内の既存セッションとメンバー情報を一覧できます.",
         "columns": [
           {
             "name": "team_member_id",
@@ -5091,7 +5133,7 @@
       },
       {
         "name": "feature",
-        "desc": "This report shows a list of team features and their settings.",
+        "desc": "このレポートはチームの機能と設定を一覧します.",
         "columns": [
           {
             "name": "upload_api_rate_limit",
@@ -5117,7 +5159,7 @@
       },
       {
         "name": "file_request",
-        "desc": "This report shows a list of file requests with the file request owner team member.",
+        "desc": "このレポートはチームメンバーのもつファイルリクエストを一覧します.",
         "columns": [
           {
             "name": "email",
@@ -5171,7 +5213,7 @@
       },
       {
         "name": "group",
-        "desc": "This report shows a list of groups in the team.",
+        "desc": "このレポートはチーム内のグループを一覧します.",
         "columns": [
           {
             "name": "group_name",
@@ -5189,7 +5231,7 @@
       },
       {
         "name": "group_member",
-        "desc": "This report shows a list of groups and their members.",
+        "desc": "このレポートはグループとメンバーを一覧します.",
         "columns": [
           {
             "name": "group_name",
@@ -5223,7 +5265,7 @@
       },
       {
         "name": "info",
-        "desc": "This report shows a list of team information.",
+        "desc": "このレポートはチームの情報を一覧します.",
         "columns": [
           {
             "name": "name",
@@ -5265,7 +5307,7 @@
       },
       {
         "name": "linked_app",
-        "desc": "This report shows a list of linked app with the user of the app.",
+        "desc": "このレポートは接続済みアプリケーションと利用ユーザーを一覧します.",
         "columns": [
           {
             "name": "email",
@@ -5311,7 +5353,7 @@
       },
       {
         "name": "member",
-        "desc": "This report shows a list of members.",
+        "desc": "このレポートはメンバー一覧を出力します.",
         "columns": [
           {
             "name": "email",
@@ -5349,7 +5391,7 @@
       },
       {
         "name": "member_quota",
-        "desc": "This report shows a list of custom quota settings for each team members.",
+        "desc": "このレポートはチームメンバーのカスタム容量上限の設定を出力します.",
         "columns": [
           {
             "name": "email",
@@ -5363,7 +5405,7 @@
       },
       {
         "name": "namespace",
-        "desc": "This report shows a list of namespaces in the team.",
+        "desc": "このレポートはチームの名前空間を一覧します.",
         "columns": [
           {
             "name": "name",
@@ -5381,7 +5423,7 @@
       },
       {
         "name": "namespace_file",
-        "desc": "This report shows a list of namespaces in the team.",
+        "desc": "このレポートはチームの名前空間を一覧します.",
         "columns": [
           {
             "name": "namespace_type",
@@ -5423,7 +5465,7 @@
       },
       {
         "name": "namespace_size",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -5469,7 +5511,7 @@
       },
       {
         "name": "shared_link",
-        "desc": "This report shows a list of shared links with the shared link owner team member.",
+        "desc": "このレポートはチーム内のチームメンバーがもつ共有リンク一覧を出力します.",
         "columns": [
           {
             "name": "tag",
@@ -5515,7 +5557,7 @@
       },
       {
         "name": "usage",
-        "desc": "This report shows current storage usage of users.",
+        "desc": "このレポートはユーザーの現在のストレージ利用容量を出力します.",
         "columns": [
           {
             "name": "email",
@@ -5562,7 +5604,7 @@
     "reports": [
       {
         "name": "feature",
-        "desc": "This report shows a list of team features and their settings.",
+        "desc": "このレポートはチームの機能と設定を一覧します.",
         "columns": [
           {
             "name": "upload_api_rate_limit",
@@ -5609,7 +5651,7 @@
     "reports": [
       {
         "name": "file_request",
-        "desc": "This report shows a list of file requests with the file request owner team member.",
+        "desc": "このレポートはチームメンバーのもつファイルリクエストを一覧します.",
         "columns": [
           {
             "name": "email",
@@ -5684,7 +5726,7 @@
     "reports": [
       {
         "name": "info",
-        "desc": "This report shows a list of team information.",
+        "desc": "このレポートはチームの情報を一覧します.",
         "columns": [
           {
             "name": "name",
@@ -5747,7 +5789,7 @@
     "reports": [
       {
         "name": "linked_app",
-        "desc": "This report shows a list of linked app with the user of the app.",
+        "desc": "このレポートは接続済みアプリケーションと利用ユーザーを一覧します.",
         "columns": [
           {
             "name": "email",
@@ -5814,7 +5856,7 @@
     "reports": [
       {
         "name": "namespace_file",
-        "desc": "This report shows a list of namespaces in the team.",
+        "desc": "このレポートはチームの名前空間を一覧します.",
         "columns": [
           {
             "name": "namespace_type",
@@ -5877,7 +5919,7 @@
     "reports": [
       {
         "name": "namespace_size",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -5944,7 +5986,7 @@
     "reports": [
       {
         "name": "namespace",
-        "desc": "This report shows a list of namespaces in the team.",
+        "desc": "このレポートはチームの名前空間を一覧します.",
         "columns": [
           {
             "name": "name",
@@ -5983,7 +6025,7 @@
     "reports": [
       {
         "name": "namespace_member",
-        "desc": "This report shows a list of members of namespaces in the team.",
+        "desc": "このレポートは名前空間とそのメンバー一覧を出力します.",
         "columns": [
           {
             "name": "namespace_name",
@@ -6042,7 +6084,7 @@
     "reports": [
       {
         "name": "shared_link",
-        "desc": "This report shows a list of shared links with the shared link owner team member.",
+        "desc": "このレポートはチーム内のチームメンバーがもつ共有リンク一覧を出力します.",
         "columns": [
           {
             "name": "tag",
@@ -6109,7 +6151,7 @@
     "reports": [
       {
         "name": "skipped",
-        "desc": "This report shows a list of shared links with the shared link owner team member.",
+        "desc": "このレポートはチーム内のチームメンバーがもつ共有リンク一覧を出力します.",
         "columns": [
           {
             "name": "tag",
@@ -6155,7 +6197,7 @@
       },
       {
         "name": "updated",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -6254,7 +6296,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -6290,7 +6332,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for batch creating team folders.",
+        "desc": "一括でチームフォルダを作成する際のデータファイル.",
         "columns": [
           {
             "name": "name",
@@ -6321,7 +6363,7 @@
     "reports": [
       {
         "name": "operation_log",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -6341,7 +6383,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for batch creating team folders.",
+        "desc": "一括でチームフォルダを作成する際のデータファイル.",
         "columns": [
           {
             "name": "name",
@@ -6370,7 +6412,7 @@
     "reports": [
       {
         "name": "verification",
-        "desc": "This report shows a difference between to folders.",
+        "desc": "このレポートはフォルダ間の差分を出力します.",
         "columns": [
           {
             "name": "diff_type",
@@ -6414,7 +6456,7 @@
     "feeds": [
       {
         "name": "File",
-        "desc": "Data file for batch creating team folders.",
+        "desc": "一括でチームフォルダを作成する際のデータファイル.",
         "columns": [
           {
             "name": "name",
@@ -6445,7 +6487,7 @@
     "reports": [
       {
         "name": "namespace_file",
-        "desc": "This report shows a list of namespaces in the team.",
+        "desc": "このレポートはチームの名前空間を一覧します.",
         "columns": [
           {
             "name": "namespace_type",
@@ -6508,7 +6550,7 @@
     "reports": [
       {
         "name": "namespace_size",
-        "desc": "This report shows the transaction result.",
+        "desc": "このレポートは処理結果を出力します.",
         "columns": [
           {
             "name": "status",
@@ -6575,7 +6617,7 @@
     "reports": [
       {
         "name": "team_folder",
-        "desc": "This report shows a list of team folders in the team.",
+        "desc": "このレポートはチーム内のチームフォルダを一覧します.",
         "columns": [
           {
             "name": "name",
@@ -6636,7 +6678,7 @@
     "reports": [
       {
         "name": "verification",
-        "desc": "This report shows a difference between to folders.",
+        "desc": "このレポートはフォルダ間の差分を出力します.",
         "columns": [
           {
             "name": "diff_type",
@@ -6697,7 +6739,7 @@
     "reports": [
       {
         "name": "versions",
-        "desc": "Components and version information.",
+        "desc": "コンポーネントとバージョン情報.",
         "columns": [
           {
             "name": "component",

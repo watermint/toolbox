@@ -1,12 +1,10 @@
 package main
 
 import (
-	"crypto/aes"
-	"crypto/cipher"
-	"crypto/rand"
 	"crypto/sha256"
 	"encoding/base32"
-	"io"
+	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -53,15 +51,14 @@ const (
 	exitCantOpenKey = iota + 1
 	exitCantReadKey
 	exitCantWriteZap
-	exitCantCreateBlock
-	exitCantCreateGCM
-	exitCantPrepareNonce
 	exitCantWriteSecret
+	exitCantObfuscate
 )
 
 func main() {
 	keyPath := "resources/toolbox.appkeys"
 	secretPath := keyPath + ".secret"
+	l := app_root.Log()
 
 	keyFile, err := os.Open(keyPath)
 	if err != nil {
@@ -79,24 +76,11 @@ func main() {
 		os.Exit(exitCantWriteZap)
 	}
 
-	zap32 := sha256.Sum256([]byte(key))
-	zap := make([]byte, 32)
-	copy(zap[:], zap32[:])
-
-	block, err := aes.NewCipher([]byte(zap))
+	b, err := sc_obfuscate.Obfuscate(l, []byte(key), keyContent)
 	if err != nil {
-		os.Exit(exitCantCreateBlock)
+		os.Exit(exitCantObfuscate)
 	}
-	gcm, err := cipher.NewGCM(block)
-	if err != nil {
-		os.Exit(exitCantCreateGCM)
-	}
-	nonce := make([]byte, gcm.NonceSize())
-	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
-		os.Exit(exitCantPrepareNonce)
-	}
-	sealed := gcm.Seal(nonce, nonce, keyContent, nil)
-	if err := ioutil.WriteFile(secretPath, sealed, 0600); err != nil {
+	if err := ioutil.WriteFile(secretPath, b, 0600); err != nil {
 		os.Exit(exitCantWriteSecret)
 	}
 }

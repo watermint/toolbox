@@ -1,6 +1,6 @@
-# dev ci auth 
+# dev ci auth export 
 
-エンドツーエンドテストのための認証 
+エンドツーエンドテストのトークンを出力します 
 
 # セキュリティ
 
@@ -31,13 +31,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe dev ci auth 
+.\tbx.exe dev ci auth export 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx dev ci auth 
+$HOME/Desktop/tbx dev ci auth export 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -83,13 +83,13 @@ watermint toolbox xx.x.xxx
 © 2016-2020 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-1. Visit the URL for the auth dialogue:
+1. 次のURLを開き認証ダイアログを開いてください:
 
 https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
 
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
 
 ```
 
