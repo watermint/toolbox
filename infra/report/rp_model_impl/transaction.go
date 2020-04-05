@@ -1,7 +1,7 @@
 package rp_model_impl
 
 import (
-	"github.com/watermint/toolbox/infra/api/dbx_util"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_writer"

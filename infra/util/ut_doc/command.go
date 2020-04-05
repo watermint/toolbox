@@ -7,7 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/iancoleman/strcase"
-	"github.com/watermint/toolbox/infra/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/feed/fd_file"

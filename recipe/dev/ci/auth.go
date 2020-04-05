@@ -1,7 +1,7 @@
 package ci
 
 import (
-	"github.com/watermint/toolbox/infra/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"

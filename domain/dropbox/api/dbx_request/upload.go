@@ -1,10 +1,10 @@
 package dbx_request
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/network/nw_retry"

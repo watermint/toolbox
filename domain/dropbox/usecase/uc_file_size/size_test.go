@@ -1,7 +1,7 @@
 package uc_file_size
 
 import (
-	"github.com/watermint/toolbox/infra/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"

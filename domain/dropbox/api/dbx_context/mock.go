@@ -1,14 +1,14 @@
 package dbx_context
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/infra/api/api_async"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
-	"github.com/watermint/toolbox/infra/api/dbx_async"
-	"github.com/watermint/toolbox/infra/api/dbx_list"
-	"github.com/watermint/toolbox/infra/api/dbx_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"

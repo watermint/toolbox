@@ -1,9 +1,9 @@
 package uc_compare_local
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/dbx_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"

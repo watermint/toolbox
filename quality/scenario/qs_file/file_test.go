@@ -2,9 +2,9 @@ package qs_file
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"

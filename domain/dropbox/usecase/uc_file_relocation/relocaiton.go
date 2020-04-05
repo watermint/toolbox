@@ -2,11 +2,11 @@ package uc_file_relocation
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_relocation"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"go.uber.org/zap"
 )
 

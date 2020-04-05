@@ -1,14 +1,14 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_folder"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/dbx_context"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -51,7 +51,6 @@ func (z *Upload) Preset() {
 		"result.tag",
 		"result.path_lower",
 		"result.revision",
-		"result.content_hash",
 		"result.shared_folder_id",
 		"result.parent_shared_folder_id",
 	))
@@ -60,7 +59,6 @@ func (z *Upload) Preset() {
 		"result.tag",
 		"result.path_lower",
 		"result.revision",
-		"result.content_hash",
 		"result.shared_folder_id",
 		"result.parent_shared_folder_id",
 	))

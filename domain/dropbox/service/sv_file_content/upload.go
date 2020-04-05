@@ -1,10 +1,10 @@
 package sv_file_content
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"os"

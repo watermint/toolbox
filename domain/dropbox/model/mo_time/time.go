@@ -2,8 +2,8 @@ package mo_time
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_essential"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/util/ut_time"
 	"time"
 )

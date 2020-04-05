@@ -3,9 +3,9 @@ package dbx_auth
 import (
 	"context"
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/dbx_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"go.uber.org/zap"

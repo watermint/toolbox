@@ -2,12 +2,12 @@ package uc_file_mirror
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_copyref"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"go.uber.org/zap"
 	"path/filepath"
 	"strings"

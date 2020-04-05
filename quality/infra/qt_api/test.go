@@ -1,10 +1,10 @@
 package qt_api
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"

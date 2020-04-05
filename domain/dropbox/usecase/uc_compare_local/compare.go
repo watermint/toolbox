@@ -1,12 +1,12 @@
 package uc_compare_local
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"

@@ -2,7 +2,7 @@ package ut_time
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"time"
 )
 
