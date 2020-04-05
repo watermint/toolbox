@@ -209,6 +209,10 @@
           {
             "name": "result.size",
             "desc": "The file size in bytes."
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "A hash of the file content."
           }
         ]
       },
@@ -285,6 +289,10 @@
           {
             "name": "result.size",
             "desc": "The file size in bytes."
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "A hash of the file content."
           }
         ]
       }
@@ -1500,6 +1508,10 @@
           {
             "name": "result.size",
             "desc": "The file size in bytes."
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "A hash of the file content."
           }
         ]
       },
@@ -1576,6 +1588,10 @@
           {
             "name": "result.size",
             "desc": "The file size in bytes."
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "A hash of the file content."
           }
         ]
       }
@@ -1639,6 +1655,10 @@
           {
             "name": "result.size",
             "desc": "The file size in bytes."
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "A hash of the file content."
           }
         ]
       },
@@ -1715,6 +1735,10 @@
           {
             "name": "result.size",
             "desc": "The file size in bytes."
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "A hash of the file content."
           }
         ]
       }
@@ -1778,6 +1802,10 @@
           {
             "name": "result.size",
             "desc": "The file size in bytes."
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "A hash of the file content."
           }
         ]
       },
@@ -1854,6 +1882,10 @@
           {
             "name": "result.size",
             "desc": "The file size in bytes."
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "A hash of the file content."
           }
         ]
       }

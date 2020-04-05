@@ -128,6 +128,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
 | result.server_modified | The last time the file was modified on Dropbox.                                                        |
 | result.size            | The file size in bytes.                                                                                |
+| result.content_hash    | A hash of the file content.                                                                            |
 
 ## Report: summary 
 This report shows a summary of the upload results.
@@ -174,4 +175,5 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
 | result.server_modified | The last time the file was modified on Dropbox.                                                        |
 | result.size            | The file size in bytes.                                                                                |
+| result.content_hash    | A hash of the file content.                                                                            |
 

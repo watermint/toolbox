@@ -87,6 +87,7 @@ This report shows the transaction result.
 | result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
 | result.server_modified | Dropbox上で最後に更新された日時                              |
 | result.size            | ファイルサイズ(バイト単位)                                   |
+| result.content_hash    | ファイルコンテンツのハッシュ                                 |
 
 ## レポート: summary 
 This report shows a summary of the upload results.
@@ -133,4 +134,5 @@ This report shows the transaction result.
 | result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
 | result.server_modified | Dropbox上で最後に更新された日時                              |
 | result.size            | ファイルサイズ(バイト単位)                                   |
+| result.content_hash    | ファイルコンテンツのハッシュ                                 |
 

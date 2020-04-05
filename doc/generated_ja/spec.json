@@ -209,6 +209,10 @@
           {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
           }
         ]
       },
@@ -285,6 +289,10 @@
           {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
           }
         ]
       }
@@ -1500,6 +1508,10 @@
           {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
           }
         ]
       },
@@ -1576,6 +1588,10 @@
           {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
           }
         ]
       }
@@ -1639,6 +1655,10 @@
           {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
           }
         ]
       },
@@ -1715,6 +1735,10 @@
           {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
           }
         ]
       }
@@ -1778,6 +1802,10 @@
           {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
           }
         ]
       },
@@ -1854,6 +1882,10 @@
           {
             "name": "result.size",
             "desc": "ファイルサイズ(バイト単位)"
+          },
+          {
+            "name": "result.content_hash",
+            "desc": "ファイルコンテンツのハッシュ"
           }
         ]
       }
@@ -3978,7 +4010,7 @@
     "reports": [
       {
         "name": "combined",
-        "desc": "This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.",
+        "desc": "このレポートはDropbox Businessのアクティビティログとほぼ互換性のあるアクティビティレポートを出力します.",
         "columns": [
           {
             "name": "timestamp",
@@ -4040,7 +4072,7 @@
       },
       {
         "name": "user",
-        "desc": "This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.",
+        "desc": "このレポートはDropbox Businessのアクティビティログとほぼ互換性のあるアクティビティレポートを出力します.",
         "columns": [
           {
             "name": "timestamp",
@@ -4135,7 +4167,7 @@
     "reports": [
       {
         "name": "event",
-        "desc": "This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.",
+        "desc": "このレポートはDropbox Businessのアクティビティログとほぼ互換性のあるアクティビティレポートを出力します.",
         "columns": [
           {
             "name": "timestamp",
@@ -4218,7 +4250,7 @@
     "reports": [
       {
         "name": "event",
-        "desc": "This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.",
+        "desc": "このレポートはDropbox Businessのアクティビティログとほぼ互換性のあるアクティビティレポートを出力します.",
         "columns": [
           {
             "name": "timestamp",
@@ -4301,7 +4333,7 @@
     "reports": [
       {
         "name": "user",
-        "desc": "This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.",
+        "desc": "このレポートはDropbox Businessのアクティビティログとほぼ互換性のあるアクティビティレポートを出力します.",
         "columns": [
           {
             "name": "timestamp",
