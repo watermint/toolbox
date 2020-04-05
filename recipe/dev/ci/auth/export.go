@@ -37,7 +37,8 @@ func (z *Export) Exec(c app_control.Control) error {
 	for _, s := range Scopes {
 		t, err := a.Auth(s)
 		if err != nil {
-			return err
+			l.Info("Skip export", zap.Error(err), zap.String("scope", s))
+			return nil
 		}
 		e[s] = t.Token()
 	}
