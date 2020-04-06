@@ -2,11 +2,11 @@ package uc_file_relocation
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_relocation"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"go.uber.org/zap"
 )
 
@@ -18,14 +18,14 @@ type Relocation interface {
 	Move(from, to mo_path.DropboxPath) (err error)
 }
 
-func New(ctx api_context.DropboxApiContext) Relocation {
+func New(ctx dbx_context.Context) Relocation {
 	return &relocationImpl{
 		ctx: ctx,
 	}
 }
 
 type relocationImpl struct {
-	ctx api_context.DropboxApiContext
+	ctx dbx_context.Context
 }
 
 func (z *relocationImpl) Copy(from, to mo_path.DropboxPath) (err error) {

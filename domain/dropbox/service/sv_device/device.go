@@ -2,8 +2,8 @@ package sv_device
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_device"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"go.uber.org/zap"
@@ -27,14 +27,14 @@ type revokeOptions struct {
 	deleteOnUnlink bool
 }
 
-func New(ctx api_context.DropboxApiContext) Session {
+func New(ctx dbx_context.Context) Session {
 	return &sessionImpl{
 		ctx: ctx,
 	}
 }
 
 type sessionImpl struct {
-	ctx api_context.DropboxApiContext
+	ctx dbx_context.Context
 }
 
 func (z *sessionImpl) List() (sessions []mo_device.Session, err error) {

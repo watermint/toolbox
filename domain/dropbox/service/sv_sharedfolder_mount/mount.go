@@ -1,8 +1,8 @@
 package sv_sharedfolder_mount
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 )
 
@@ -12,14 +12,14 @@ type Mount interface {
 	Unmount(sf *mo_sharedfolder.SharedFolder) (err error)
 }
 
-func New(ctx api_context.DropboxApiContext) Mount {
+func New(ctx dbx_context.Context) Mount {
 	return &mountImpl{
 		ctx: ctx,
 	}
 }
 
 type mountImpl struct {
-	ctx api_context.DropboxApiContext
+	ctx dbx_context.Context
 }
 
 func (z *mountImpl) List() (mount []*mo_sharedfolder.SharedFolder, err error) {

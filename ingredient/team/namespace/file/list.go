@@ -2,6 +2,7 @@ package file
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
@@ -10,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -24,7 +24,7 @@ import (
 type ListWorker struct {
 	namespace        *mo_namespace.Namespace
 	idToMember       map[string]*mo_member.Member
-	ctx              api_context.DropboxApiContext
+	ctx              dbx_context.Context
 	ctl              app_control.Control
 	rep              rp_model.RowReport
 	IncludeMediaInfo bool
@@ -41,7 +41,7 @@ func (z *ListWorker) Exec() error {
 	)
 	l := z.ctl.Log().With(zap.Any("namespace", z.namespace))
 
-	ctn := z.ctx.WithPath(api_context.Namespace(z.namespace.NamespaceId))
+	ctn := z.ctx.WithPath(dbx_context.Namespace(z.namespace.NamespaceId))
 
 	opts := make([]sv_file.ListOpt, 0)
 	if z.IncludeDeleted {

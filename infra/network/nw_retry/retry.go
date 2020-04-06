@@ -45,7 +45,7 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 		}
 
 		// Add lastErr and wait if required
-		abort := nw_ratelimit.AddError(ctx.Hash(), req.Endpoint(), lastErr)
+		abort := nw_ratelimit.AddError(ctx.ClientHash(), req.Endpoint(), lastErr)
 		if abort {
 			l.Debug("Abort retry due to rateLimit", zap.Error(lastErr))
 			return nil, lastErr
@@ -72,7 +72,7 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 			l.Debug("Bad response from server, assume that can retry", zap.String("response", res.ResultString()))
 
 			// add error & retry
-			nw_ratelimit.AddError(ctx.Hash(), req.Endpoint(), errors.New("bad response from server: res_code 400 with html body"))
+			nw_ratelimit.AddError(ctx.ClientHash(), req.Endpoint(), errors.New("bad response from server: res_code 400 with html body"))
 			return z.Call(ctx, req)
 		}
 		l.Debug("Bad input param", zap.String("Error", res.ResultString()))
@@ -112,7 +112,7 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 			zap.String("RetryAfter", after.String()),
 			zap.Bool("NoRetry", ctx.IsNoRetry()),
 		)
-		nw_ratelimit.UpdateRetryAfter(ctx.Hash(), req.Endpoint(), after)
+		nw_ratelimit.UpdateRetryAfter(ctx.ClientHash(), req.Endpoint(), after)
 		return z.Call(ctx, req)
 	}
 

@@ -1,14 +1,14 @@
 package rc_conn
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
 type ConnDropboxApi interface {
 	Name() string
 
-	Context() api_context.DropboxApiContext
+	Context() dbx_context.Context
 
 	// Connect to api
 	Connect(ctl app_control.Control) (err error)

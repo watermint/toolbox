@@ -2,11 +2,11 @@ package member
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -19,7 +19,7 @@ import (
 
 type ListWorker struct {
 	folder *mo_sharedfolder.SharedFolder
-	conn   api_context.DropboxApiContext
+	conn   dbx_context.Context
 	rep    rp_model.RowReport
 	ctl    app_control.Control
 }

@@ -3,9 +3,9 @@ package sv_member
 import (
 	"encoding/json"
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"go.uber.org/zap"
@@ -105,13 +105,13 @@ func RetainTeamShares() RemoveOpt {
 	}
 }
 
-func New(ctx api_context.DropboxApiContext) Member {
+func New(ctx dbx_context.Context) Member {
 	return &memberImpl{
 		ctx: ctx,
 	}
 }
 
-func NewCached(ctx api_context.DropboxApiContext) Member {
+func NewCached(ctx dbx_context.Context) Member {
 	return &cachedMember{
 		impl: &memberImpl{
 			ctx: ctx,
@@ -119,7 +119,7 @@ func NewCached(ctx api_context.DropboxApiContext) Member {
 	}
 }
 
-func newTest(ctx api_context.DropboxApiContext) Member {
+func newTest(ctx dbx_context.Context) Member {
 	return &memberImpl{
 		ctx:   ctx,
 		limit: 3,
@@ -188,7 +188,7 @@ func (z *cachedMember) Remove(member *mo_member.Member, opts ...RemoveOpt) (err 
 }
 
 type memberImpl struct {
-	ctx            api_context.DropboxApiContext
+	ctx            dbx_context.Context
 	includeDeleted bool
 	limit          int
 }

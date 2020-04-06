@@ -6,8 +6,8 @@ import (
 	"github.com/pkg/profile"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -71,9 +71,9 @@ func findTestResource() (resource gjson.Result, found bool) {
 	return gjson.ParseBytes(b), true
 }
 
-func TestWithApiContext(t *testing.T, twc func(ctx api_context.DropboxApiContext)) {
+func TestWithApiContext(t *testing.T, twc func(ctx dbx_context.Context)) {
 	TestWithControl(t, func(ctl app_control.Control) {
-		ctx := dbx_context.NewMock(ctl)
+		ctx := dbx_context_impl.NewMock(ctl)
 		twc(ctx)
 	})
 }

@@ -1,7 +1,7 @@
 package uc_file_size
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -10,7 +10,7 @@ import (
 
 func TestScaleImpl_Size(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
-		ctx := dbx_context.NewMock(ctl)
+		ctx := dbx_context_impl.NewMock(ctl)
 		sv := New(ctx, ctl)
 		_, errs := sv.Size(qt_recipe.NewTestDropboxFolderPath(), 1)
 		if len(errs) > 0 {

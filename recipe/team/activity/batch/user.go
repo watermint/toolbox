@@ -3,11 +3,11 @@ package batch
 import (
 	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -47,7 +47,7 @@ const (
 
 type UserWorker struct {
 	Ctl        app_control.Control
-	Context    api_context.DropboxApiContext
+	Context    dbx_context.Context
 	StartTime  string
 	EndTime    string
 	Category   string

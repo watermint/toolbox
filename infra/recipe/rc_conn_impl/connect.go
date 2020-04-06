@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -36,7 +36,7 @@ func IsEndToEndTokenAllAvailable(ctl app_control.Control) bool {
 	return true
 }
 
-func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_context.DropboxApiContext, err error) {
+func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx dbx_context.Context, err error) {
 	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
 	l.Debug("Connect for testing")
 	if qt_endtoend.IsSkipEndToEndTest() {
@@ -47,20 +47,20 @@ func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx api_c
 		l.Debug("Retrieve cache from peer", zap.String("peer", peer))
 		a := dbx_auth.NewConsoleCacheOnly(ctl, peer)
 		if c, err := a.Auth(tokenType); err == nil {
-			return dbx_context.New(ctl, c), nil
+			return dbx_context_impl.New(ctl, c), nil
 		}
 	}
 	return nil, qt_errors.ErrorNotEnoughResource
 }
 
-func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (ctx api_context.DropboxApiContext, err error) {
+func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (ctx dbx_context.Context, err error) {
 	l := ctl.Log().With(zap.String("tokenType", tokenType), zap.String("peerName", peerName))
 	ui := ctl.UI()
 
 	if c, ok := ctl.(app_control.ControlTestExtension); ok {
 		if c.TestValue(qt_endtoend.CtlTestExtUseMock) == true {
 			l.Debug("Test with mock")
-			return dbx_context.NewMock(ctl), nil
+			return dbx_context_impl.NewMock(ctl), nil
 		}
 	}
 
@@ -68,7 +68,7 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 	case ctl.IsTest():
 		if qt_endtoend.IsSkipEndToEndTest() {
 			l.Debug("Skip end to end test")
-			return dbx_context.NewMock(ctl), nil
+			return dbx_context_impl.NewMock(ctl), nil
 		}
 		return ConnectTest(tokenType, peerName, ctl)
 
@@ -79,7 +79,7 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 		if err != nil {
 			return nil, err
 		}
-		return dbx_context.New(ctl, ctx), nil
+		return dbx_context_impl.New(ctl, ctx), nil
 
 	case ui.IsWeb():
 		l.Debug("Connect through web UI")
@@ -90,7 +90,7 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 		}
 		for _, t := range tokens {
 			if t.PeerName() == peerName {
-				c := dbx_context.New(ctl, t)
+				c := dbx_context_impl.New(ctl, t)
 				return c, nil
 			}
 		}

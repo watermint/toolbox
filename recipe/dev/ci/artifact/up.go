@@ -2,6 +2,7 @@ package artifact
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
@@ -35,7 +36,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		l.Info("Skip operation")
 		return nil
 	}
-	dbxCtx, ok := ctx.(api_context.DropboxApiContext)
+	dbxCtx, ok := ctx.(dbx_context.Context)
 	if !ok {
 		l.Error("Incompatible context type found", zap.Any("ctx", ctx))
 		return api_context.ErrorIncompatibleContextType

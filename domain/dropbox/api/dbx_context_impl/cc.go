@@ -1,10 +1,11 @@
-package dbx_context
+package dbx_context_impl
 
 import (
 	"crypto/sha256"
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
@@ -23,7 +24,7 @@ import (
 	"sync"
 )
 
-func New(control app_control.Control, token api_auth.Context) api_context.DropboxApiContext {
+func New(control app_control.Control, token api_auth.Context) dbx_context.Context {
 	c := &ccImpl{
 		control:        control,
 		token:          token,
@@ -37,7 +38,7 @@ type ccImpl struct {
 	token          api_auth.Context
 	asMemberId     string
 	asAdminId      string
-	basePath       api_context.PathRoot
+	basePath       dbx_context.PathRoot
 	noRetryOnError bool
 	hashComputed   string
 	hashMutex      sync.Mutex
@@ -127,7 +128,7 @@ func (z *ccImpl) Download(endpoint string) api_request.Request {
 	)
 }
 
-func (z *ccImpl) AsMemberId(teamMemberId string) api_context.DropboxApiContext {
+func (z *ccImpl) AsMemberId(teamMemberId string) dbx_context.Context {
 	return &ccImpl{
 		control:        z.control,
 		token:          z.token,
@@ -138,7 +139,7 @@ func (z *ccImpl) AsMemberId(teamMemberId string) api_context.DropboxApiContext {
 	}
 }
 
-func (z *ccImpl) AsAdminId(teamMemberId string) api_context.DropboxApiContext {
+func (z *ccImpl) AsAdminId(teamMemberId string) dbx_context.Context {
 	return &ccImpl{
 		control:        z.control,
 		token:          z.token,
@@ -149,7 +150,7 @@ func (z *ccImpl) AsAdminId(teamMemberId string) api_context.DropboxApiContext {
 	}
 }
 
-func (z *ccImpl) WithPath(pathRoot api_context.PathRoot) api_context.DropboxApiContext {
+func (z *ccImpl) WithPath(pathRoot dbx_context.PathRoot) dbx_context.Context {
 	return &ccImpl{
 		control:        z.control,
 		token:          z.token,
@@ -171,7 +172,7 @@ func (z *ccImpl) NoRetryOnError() api_context.Context {
 	}
 }
 
-func (z *ccImpl) Hash() string {
+func (z *ccImpl) ClientHash() string {
 	z.hashMutex.Lock()
 	defer z.hashMutex.Unlock()
 

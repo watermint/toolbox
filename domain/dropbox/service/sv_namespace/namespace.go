@@ -1,8 +1,8 @@
 package sv_namespace
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 )
 
@@ -10,13 +10,13 @@ type Namespace interface {
 	List() (namespaces []*mo_namespace.Namespace, err error)
 }
 
-func New(ctx api_context.DropboxApiContext) Namespace {
+func New(ctx dbx_context.Context) Namespace {
 	return &namespaceImpl{
 		ctx: ctx,
 	}
 }
 
-func newTest(ctx api_context.DropboxApiContext, limit int) Namespace {
+func newTest(ctx dbx_context.Context, limit int) Namespace {
 	return &namespaceImpl{
 		ctx:   ctx,
 		limit: limit,
@@ -24,7 +24,7 @@ func newTest(ctx api_context.DropboxApiContext, limit int) Namespace {
 }
 
 type namespaceImpl struct {
-	ctx   api_context.DropboxApiContext
+	ctx   dbx_context.Context
 	limit int
 }
 

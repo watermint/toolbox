@@ -1,7 +1,8 @@
-package dbx_context
+package dbx_context_impl
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/infra/api/api_async"
@@ -16,7 +17,7 @@ import (
 	"net/http"
 )
 
-func NewMock(c app_control.Control) api_context.DropboxApiContext {
+func NewMock(c app_control.Control) dbx_context.Context {
 	return &Mock{l: c.Log()}
 }
 
@@ -56,15 +57,15 @@ func (z *Mock) Download(endpoint string) api_request.Request {
 	return &dbx_request.MockRequest{}
 }
 
-func (z *Mock) AsMemberId(teamMemberId string) api_context.DropboxApiContext {
+func (z *Mock) AsMemberId(teamMemberId string) dbx_context.Context {
 	return z
 }
 
-func (z *Mock) AsAdminId(teamMemberId string) api_context.DropboxApiContext {
+func (z *Mock) AsAdminId(teamMemberId string) dbx_context.Context {
 	return z
 }
 
-func (z *Mock) WithPath(pathRoot api_context.PathRoot) api_context.DropboxApiContext {
+func (z *Mock) WithPath(pathRoot dbx_context.PathRoot) dbx_context.Context {
 	return z
 }
 
@@ -76,7 +77,7 @@ func (z *Mock) IsNoRetry() bool {
 	return false
 }
 
-func (z *Mock) Hash() string {
+func (z *Mock) ClientHash() string {
 	return ""
 }
 

@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	defaultCaller nw_client.Client = &CaptureCaller{}
+	defaultCaller nw_client.Rest = &CaptureCaller{}
 )
 
 func Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
@@ -37,7 +37,7 @@ func (z *CaptureCaller) Call(ctx api_context.Context, req api_request.Request) (
 		cp = Current()
 	}
 	// Call
-	hRes, latency, err := nw_http.Call(ctx.Hash(), req.Endpoint(), hReq)
+	hRes, latency, err := nw_http.Call(ctx.ClientHash(), req.Endpoint(), hReq)
 
 	// Make response
 	res, mkResErr := ctx.MakeResponse(hReq, hRes)

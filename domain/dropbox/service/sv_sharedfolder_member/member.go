@@ -2,12 +2,12 @@ package sv_sharedfolder_member
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/api/api_response"
 )
@@ -19,26 +19,26 @@ const (
 	LevelViewerNoComment = "viewer_no_comment"
 )
 
-func New(ctx api_context.DropboxApiContext, sf *mo_sharedfolder.SharedFolder) Member {
+func New(ctx dbx_context.Context, sf *mo_sharedfolder.SharedFolder) Member {
 	return &memberImpl{
 		ctx:            ctx,
 		sharedFolderId: sf.SharedFolderId,
 	}
 }
 
-func NewByTeamFolder(ctx api_context.DropboxApiContext, tf *mo_teamfolder.TeamFolder) Member {
+func NewByTeamFolder(ctx dbx_context.Context, tf *mo_teamfolder.TeamFolder) Member {
 	return &memberImpl{
 		ctx:            ctx,
 		sharedFolderId: tf.TeamFolderId,
 	}
 }
-func NewBySharedFolderId(ctx api_context.DropboxApiContext, sfId string) Member {
+func NewBySharedFolderId(ctx dbx_context.Context, sfId string) Member {
 	return &memberImpl{
 		ctx:            ctx,
 		sharedFolderId: sfId,
 	}
 }
-func NewCached(ctx api_context.DropboxApiContext, sfId string) Member {
+func NewCached(ctx dbx_context.Context, sfId string) Member {
 	return &cachedMember{
 		impl: &memberImpl{
 			ctx:            ctx,
@@ -206,7 +206,7 @@ func (z *cachedMember) Remove(member MemberRemoveOption, opts ...RemoveOption) (
 }
 
 type memberImpl struct {
-	ctx            api_context.DropboxApiContext
+	ctx            dbx_context.Context
 	sharedFolderId string
 }
 

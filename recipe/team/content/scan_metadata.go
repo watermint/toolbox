@@ -1,8 +1,8 @@
 package content
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
@@ -15,7 +15,7 @@ type ScanNamespaceMetadata struct {
 	queue    rc_worker.Queue
 }
 
-func (z *ScanNamespaceMetadata) Scan(ctl app_control.Control, ctx api_context.DropboxApiContext, namespaceName string, namespaceId string) {
+func (z *ScanNamespaceMetadata) Scan(ctl app_control.Control, ctx dbx_context.Context, namespaceName string, namespaceId string) {
 	z.queue.Enqueue(&MetadataScannerWorker{
 		Control:       ctl,
 		Context:       ctx,
@@ -27,7 +27,7 @@ func (z *ScanNamespaceMetadata) Scan(ctl app_control.Control, ctx api_context.Dr
 
 type MetadataScannerWorker struct {
 	Control       app_control.Control
-	Context       api_context.DropboxApiContext
+	Context       dbx_context.Context
 	NamespaceName string
 	NamespaceId   string
 	Metadata      kv_storage.Storage

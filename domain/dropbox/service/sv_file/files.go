@@ -1,6 +1,7 @@
 package sv_file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_context"
@@ -63,13 +64,13 @@ func RemoveRevision(revision string) RemoveOpt {
 	}
 }
 
-func NewFiles(ctx api_context.DropboxApiContext) Files {
+func NewFiles(ctx dbx_context.Context) Files {
 	return &filesImpl{
 		ctx: ctx,
 	}
 }
 
-func newFilesTest(ctx api_context.DropboxApiContext) Files {
+func newFilesTest(ctx dbx_context.Context) Files {
 	return &filesImpl{
 		ctx: ctx,
 	}
@@ -130,7 +131,7 @@ func SearchIncludeHighlights() SearchOpt {
 }
 
 type filesImpl struct {
-	ctx   api_context.DropboxApiContext
+	ctx   dbx_context.Context
 	limit int
 }
 
@@ -224,7 +225,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 	}
 
 	noAuthCtx0 := z.ctx.NoAuth()
-	noAuthCtx, ok := noAuthCtx0.(api_context.DropboxApiContext)
+	noAuthCtx, ok := noAuthCtx0.(dbx_context.Context)
 	if !ok {
 		return api_context.ErrorIncompatibleContextType
 	}

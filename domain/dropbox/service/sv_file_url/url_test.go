@@ -1,8 +1,8 @@
 package sv_file_url
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -16,7 +16,7 @@ const (
 )
 
 func TestUrlImpl_SaveWithTestSuite(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx api_context.DropboxApiContext) {
+	qt_api.DoTestTokenFull(func(ctx dbx_context.Context) {
 		svc := New(ctx)
 		path := qt_api.ToolboxTestSuiteFolder.ChildPath("save_url", "f0.png")
 		entry, err := svc.Save(path, DummyImageUrl)
@@ -59,7 +59,7 @@ func TestPathWithName(t *testing.T) {
 }
 
 func TestUrlImpl_Save(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		_, err := sv.Save(qt_recipe.NewTestDropboxFolderPath(), "https://www.dropbox.com")
 		if err != nil && err != qt_errors.ErrorMock {

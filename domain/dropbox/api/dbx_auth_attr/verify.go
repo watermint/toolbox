@@ -3,7 +3,7 @@ package dbx_auth_attr
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"go.uber.org/zap"
@@ -21,7 +21,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 
 	switch ctx.Scope() {
 	case api_auth.DropboxTokenFull, api_auth.DropboxTokenApp:
-		apiCtx := dbx_context.New(ctl, ctx)
+		apiCtx := dbx_context_impl.New(ctl, ctx)
 		p, err := apiCtx.Rpc("users/get_current_account").Call()
 		if err != nil {
 			l.Debug("Unable to verify token", zap.Error(err))
@@ -43,7 +43,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 		api_auth.DropboxTokenBusinessManagement,
 		api_auth.DropboxTokenBusinessFile,
 		api_auth.DropboxTokenBusinessAudit:
-		apiCtx := dbx_context.New(ctl, ctx)
+		apiCtx := dbx_context_impl.New(ctl, ctx)
 		p, err := apiCtx.Rpc("team/get_info").Call()
 		if err != nil {
 			l.Debug("Unable to verify token", zap.Error(err))

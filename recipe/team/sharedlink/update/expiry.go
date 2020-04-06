@@ -2,13 +2,13 @@ package update
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -23,7 +23,7 @@ import (
 
 type ExpiryScanWorker struct {
 	ctl        app_control.Control
-	ctx        api_context.DropboxApiContext
+	ctx        dbx_context.Context
 	rep        rp_model.TransactionReport
 	repSkipped rp_model.RowReport
 	member     *mo_member.Member
@@ -98,7 +98,7 @@ func (z *ExpiryScanWorker) Exec() error {
 
 type ExpiryWorker struct {
 	ctl       app_control.Control
-	ctx       api_context.DropboxApiContext
+	ctx       dbx_context.Context
 	rep       rp_model.TransactionReport
 	member    *mo_member.Member
 	link      mo_sharedlink.SharedLink

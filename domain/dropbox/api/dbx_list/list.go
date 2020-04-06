@@ -2,6 +2,7 @@ package dbx_list
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
@@ -9,7 +10,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func New(ctx api_context.Context, endpoint string, asMemberId, asAdminId string, base api_context.PathRoot) api_list.List {
+func New(ctx api_context.Context, endpoint string, asMemberId, asAdminId string, base dbx_context.PathRoot) api_list.List {
 	return &listImpl{
 		ctx:             ctx,
 		requestEndpoint: endpoint,
@@ -23,7 +24,7 @@ type listImpl struct {
 	ctx              api_context.Context
 	asMemberId       string
 	asAdminId        string
-	base             api_context.PathRoot
+	base             dbx_context.PathRoot
 	param            interface{}
 	token            api_auth.Context
 	useHasMore       bool

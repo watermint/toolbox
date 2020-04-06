@@ -1,19 +1,19 @@
 package content
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"go.uber.org/zap"
 )
 
 type TeamScanner struct {
-	ctx                 api_context.DropboxApiContext
+	ctx                 dbx_context.Context
 	ctl                 app_control.Control
 	teamOwnedNamespaces map[string]bool
 	scanner             ScanNamespace

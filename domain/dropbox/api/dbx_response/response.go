@@ -40,7 +40,7 @@ func New(ctx api_context.Context, req *http.Request, res *http.Response) (api_re
 		result = res.Header.Get(api_response.DropboxApiResHeaderResult)
 	}
 	if result != "" {
-		resFile, err := ioutil.TempFile("", ctx.Hash())
+		resFile, err := ioutil.TempFile("", ctx.ClientHash())
 		if err != nil {
 			l.Debug("Unable to create temp file to store download", zap.Error(err))
 			return nil, err

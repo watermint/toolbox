@@ -2,11 +2,11 @@ package member
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -22,7 +22,7 @@ type ListVO struct {
 
 type ListWorker struct {
 	namespace *mo_namespace.Namespace
-	ctx       api_context.DropboxApiContext // should be with admin team member id.
+	ctx       dbx_context.Context // should be with admin team member id.
 	rep       rp_model.RowReport
 	ctl       app_control.Control
 }

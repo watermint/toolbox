@@ -1,8 +1,8 @@
 package rc_conn_impl
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 )
@@ -15,7 +15,7 @@ func NewConnBusinessInfo(name string) rc_conn.ConnBusinessInfo {
 type connBusinessInfo struct {
 	name   string
 	verify bool
-	ctx    api_context.DropboxApiContext
+	ctx    dbx_context.Context
 }
 
 func (z *connBusinessInfo) SetPreVerify(enabled bool) {
@@ -46,7 +46,7 @@ func (z *connBusinessInfo) Name() string {
 	return z.name
 }
 
-func (z *connBusinessInfo) Context() api_context.DropboxApiContext {
+func (z *connBusinessInfo) Context() dbx_context.Context {
 	return z.ctx
 }
 

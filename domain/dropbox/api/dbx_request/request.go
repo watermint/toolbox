@@ -3,6 +3,7 @@ package dbx_request
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -31,7 +32,7 @@ func ContentRequestUrl(endpoint string) string {
 func NewPpcRequest(ctx api_context.Context,
 	endpoint string,
 	asMemberId, asAdminId string,
-	base api_context.PathRoot,
+	base dbx_context.PathRoot,
 	token api_auth.Context,
 	endpointBase string) api_request.Request {
 
@@ -52,7 +53,7 @@ func NewPpcRequest(ctx api_context.Context,
 func NewDownloadRequest(ctx api_context.Context,
 	endpoint string,
 	asMemberId, asAdminId string,
-	base api_context.PathRoot,
+	base dbx_context.PathRoot,
 	token api_auth.Context) api_request.Request {
 
 	req := &downloadRequestImpl{
@@ -72,7 +73,7 @@ func NewUploadRequest(ctx api_context.Context,
 	endpoint string,
 	content ut_io.ReadRewinder,
 	asMemberId, asAdminId string,
-	base api_context.PathRoot,
+	base dbx_context.PathRoot,
 	token api_auth.Context) api_request.Request {
 
 	req := &uploadRequestImpl{
@@ -134,7 +135,7 @@ func (z *badRequest) Make() (req *http.Request, err error) {
 type dbxRequest struct {
 	asMemberId string
 	asAdminId  string
-	base       api_context.PathRoot
+	base       dbx_context.PathRoot
 	token      api_auth.Context
 }
 

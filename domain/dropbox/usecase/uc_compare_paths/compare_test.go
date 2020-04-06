@@ -2,10 +2,10 @@ package uc_compare_paths
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_api"
@@ -16,7 +16,7 @@ import (
 )
 
 func TestEndToEndCompareImpl_Diff(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx api_context.DropboxApiContext) {
+	qt_api.DoTestTokenFull(func(ctx dbx_context.Context) {
 		tf1Path := qt_api.ToolboxTestSuiteFolder.ChildPath("compare/compare1")
 		tf2Path := qt_api.ToolboxTestSuiteFolder.ChildPath("compare/compare2")
 
@@ -46,8 +46,8 @@ func TestEndToEndCompareImpl_Diff(t *testing.T) {
 		ctx.Log().Info("Compare 1 to 1 (with Path Root)")
 		{
 			ucc := New(
-				ctx.WithPath(api_context.Namespace(tf1.SharedFolderId())),
-				ctx.WithPath(api_context.Namespace(tf1.SharedFolderId())),
+				ctx.WithPath(dbx_context.Namespace(tf1.SharedFolderId())),
+				ctx.WithPath(dbx_context.Namespace(tf1.SharedFolderId())),
 				app_ui.NewDummy(),
 			)
 			count, err := ucc.Diff(mo_path.NewDropboxPath(""), mo_path.NewDropboxPath(""), func(diff mo_file_diff.Diff) error {
@@ -80,8 +80,8 @@ func TestEndToEndCompareImpl_Diff(t *testing.T) {
 		ctx.Log().Info("Compare 2 to 2")
 		{
 			ucc := New(
-				ctx.WithPath(api_context.Namespace(tf2.SharedFolderId())),
-				ctx.WithPath(api_context.Namespace(tf2.SharedFolderId())),
+				ctx.WithPath(dbx_context.Namespace(tf2.SharedFolderId())),
+				ctx.WithPath(dbx_context.Namespace(tf2.SharedFolderId())),
 				app_ui.NewDummy(),
 			)
 			count, err := ucc.Diff(mo_path.NewDropboxPath(""), mo_path.NewDropboxPath(""), func(diff mo_file_diff.Diff) error {
@@ -97,8 +97,8 @@ func TestEndToEndCompareImpl_Diff(t *testing.T) {
 		ctx.Log().Info("Compare 1 to 2 (path root)")
 		{
 			ucc := New(
-				ctx.WithPath(api_context.Namespace(tf1.SharedFolderId())),
-				ctx.WithPath(api_context.Namespace(tf2.SharedFolderId())),
+				ctx.WithPath(dbx_context.Namespace(tf1.SharedFolderId())),
+				ctx.WithPath(dbx_context.Namespace(tf2.SharedFolderId())),
 				app_ui.NewDummy(),
 			)
 			count, err := ucc.Diff(mo_path.NewDropboxPath(""), mo_path.NewDropboxPath(""), func(diff mo_file_diff.Diff) error {
@@ -133,7 +133,7 @@ func TestEndToEndCompareImpl_Diff(t *testing.T) {
 
 func TestCompareImpl_Diff(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
-		ctx := dbx_context.NewMock(ctl)
+		ctx := dbx_context_impl.NewMock(ctl)
 		sv := New(ctx, ctx, ctl.UI())
 		_, err := sv.Diff(qt_recipe.NewTestDropboxFolderPath(), qt_recipe.NewTestDropboxFolderPath(), func(diff mo_file_diff.Diff) error {
 			return nil

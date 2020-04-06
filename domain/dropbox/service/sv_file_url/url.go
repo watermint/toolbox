@@ -1,9 +1,9 @@
 package sv_file_url
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
 	url2 "net/url"
@@ -14,7 +14,7 @@ type Url interface {
 	Save(path mo_path.DropboxPath, url string) (entry mo_file.Entry, err error)
 }
 
-func New(ctx api_context.DropboxApiContext) Url {
+func New(ctx dbx_context.Context) Url {
 	return &urlImpl{
 		ctx: ctx,
 	}
@@ -35,7 +35,7 @@ func PathWithName(base mo_path.DropboxPath, url string) (path mo_path.DropboxPat
 }
 
 type urlImpl struct {
-	ctx api_context.DropboxApiContext
+	ctx dbx_context.Context
 }
 
 func (z *urlImpl) Save(path mo_path.DropboxPath, url string) (entry mo_file.Entry, err error) {

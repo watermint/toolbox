@@ -10,7 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/app"
@@ -119,7 +119,7 @@ func (z *Web) Auth(state, code string) (peerName string, ctx api_context.Context
 	}
 
 	tc := dbx_auth.NewContext(token, session.PeerName, session.TokenType)
-	ctx = dbx_context.New(z.control, tc)
+	ctx = dbx_context_impl.New(z.control, tc)
 
 	tc, err = VerifyToken(tc, z.control)
 	if err != nil {
@@ -137,7 +137,7 @@ func (z *Web) Auth(state, code string) (peerName string, ctx api_context.Context
 func (z *Web) Get(state string) (peerName string, ctx api_context.Context, err error) {
 	if t, ok := z.sessionTokens[state]; ok {
 		if c, ok := z.sessions[state]; ok {
-			ctx = dbx_context.New(z.control, t)
+			ctx = dbx_context_impl.New(z.control, t)
 			return c.PeerName, ctx, nil
 		}
 	}

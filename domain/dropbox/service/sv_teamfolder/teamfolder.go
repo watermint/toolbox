@@ -1,8 +1,8 @@
 package sv_teamfolder
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 )
 
@@ -35,14 +35,14 @@ func SyncNoSync() CreateOption {
 	}
 }
 
-func New(ctx api_context.DropboxApiContext) TeamFolder {
+func New(ctx dbx_context.Context) TeamFolder {
 	return &teamFolderImpl{
 		ctx: ctx,
 	}
 }
 
 type teamFolderImpl struct {
-	ctx api_context.DropboxApiContext
+	ctx dbx_context.Context
 }
 
 func (z *teamFolderImpl) List() (teamfolders []*mo_teamfolder.TeamFolder, err error) {

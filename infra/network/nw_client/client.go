@@ -6,6 +6,10 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_response"
 )
 
-type Client interface {
+type Rest interface {
 	Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error)
+}
+
+type Http interface {
+	Call()
 }

@@ -2,12 +2,12 @@ package uc_file_merge
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_relocation"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
@@ -20,7 +20,7 @@ type Merge interface {
 	Merge(from, to mo_path.DropboxPath, opts ...MergeOpt) error
 }
 
-func New(ctx api_context.DropboxApiContext, ctl app_control.Control) Merge {
+func New(ctx dbx_context.Context, ctl app_control.Control) Merge {
 	return &mergeImpl{
 		ctx: ctx,
 		ctl: ctl,
@@ -54,7 +54,7 @@ func ClearEmptyFolder() MergeOpt {
 }
 
 type mergeImpl struct {
-	ctx       api_context.DropboxApiContext
+	ctx       dbx_context.Context
 	ctl       app_control.Control
 	from      mo_path.DropboxPath
 	fromEntry mo_file.Entry

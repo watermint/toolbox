@@ -1,10 +1,10 @@
 package sv_sharedfolder
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 )
 
@@ -18,7 +18,7 @@ type SharedFolder interface {
 	UpdatePolicy(sharedFolderId string, opts ...PolicyOpt) (sf *mo_sharedfolder.SharedFolder, err error)
 }
 
-func New(ctx api_context.DropboxApiContext) SharedFolder {
+func New(ctx dbx_context.Context) SharedFolder {
 	return &sharedFolderImpl{
 		ctx: ctx,
 	}
@@ -80,7 +80,7 @@ func LeaveACopy() DeleteOpt {
 }
 
 type sharedFolderImpl struct {
-	ctx   api_context.DropboxApiContext
+	ctx   dbx_context.Context
 	limit int
 }
 

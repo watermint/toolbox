@@ -1,8 +1,8 @@
 package rc_conn_impl
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 )
@@ -15,7 +15,7 @@ func NewConnUserFile(name string) rc_conn.ConnUserFile {
 type connUserFile struct {
 	name   string
 	verify bool
-	ctx    api_context.DropboxApiContext
+	ctx    dbx_context.Context
 }
 
 func (z *connUserFile) SetPreVerify(enabled bool) {
@@ -46,7 +46,7 @@ func (z *connUserFile) Name() string {
 	return z.name
 }
 
-func (z *connUserFile) Context() api_context.DropboxApiContext {
+func (z *connUserFile) Context() dbx_context.Context {
 	return z.ctx
 }
 

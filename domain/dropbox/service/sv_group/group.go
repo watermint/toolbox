@@ -2,8 +2,8 @@ package sv_group
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"strings"
 )
@@ -46,13 +46,13 @@ func ManagementType(mgmtType string) CreateOpt {
 	}
 }
 
-func New(ctx api_context.DropboxApiContext) Group {
+func New(ctx dbx_context.Context) Group {
 	g := &implGroup{
 		ctx: ctx,
 	}
 	return g
 }
-func NewCached(ctx api_context.DropboxApiContext) Group {
+func NewCached(ctx dbx_context.Context) Group {
 	g := &cachedGroup{
 		impl: &implGroup{
 			ctx: ctx,
@@ -122,7 +122,7 @@ func (z *cachedGroup) Update(group *mo_group.Group) (g *mo_group.Group, err erro
 }
 
 type implGroup struct {
-	ctx   api_context.DropboxApiContext
+	ctx   dbx_context.Context
 	limit int
 }
 
