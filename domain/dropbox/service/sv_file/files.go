@@ -2,9 +2,9 @@ package sv_file
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"go.uber.org/zap"
 )
@@ -224,11 +224,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 		return err
 	}
 
-	noAuthCtx0 := z.ctx.NoAuth()
-	noAuthCtx, ok := noAuthCtx0.(dbx_context.Context)
-	if !ok {
-		return api_context.ErrorIncompatibleContextType
-	}
+	noAuthCtx := dbx_context_impl.NewNoAuth()
 	for {
 		res, err := noAuthCtx.Notify("files/list_folder/longpoll").Param(cursor).Call()
 		if err != nil {

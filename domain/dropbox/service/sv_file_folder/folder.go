@@ -1,9 +1,9 @@
 package sv_file_folder
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_context"
 )
 
 type Folder interface {
@@ -12,14 +12,14 @@ type Folder interface {
 	Create(path mo_path.DropboxPath) (entry mo_file.Entry, err error)
 }
 
-func New(ctx api_context.Context) Folder {
+func New(ctx dbx_context.Context) Folder {
 	return &folderImpl{
 		ctx: ctx,
 	}
 }
 
 type folderImpl struct {
-	ctx api_context.Context
+	ctx dbx_context.Context
 }
 
 func (z *folderImpl) Create(path mo_path.DropboxPath) (entry mo_file.Entry, err error) {

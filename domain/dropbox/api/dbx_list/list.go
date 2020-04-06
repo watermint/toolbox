@@ -4,13 +4,12 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"go.uber.org/zap"
 )
 
-func New(ctx api_context.Context, endpoint string, asMemberId, asAdminId string, base dbx_context.PathRoot) api_list.List {
+func New(ctx dbx_context.Context, endpoint string, asMemberId, asAdminId string, base dbx_context.PathRoot) api_list.List {
 	return &listImpl{
 		ctx:             ctx,
 		requestEndpoint: endpoint,
@@ -21,7 +20,7 @@ func New(ctx api_context.Context, endpoint string, asMemberId, asAdminId string,
 }
 
 type listImpl struct {
-	ctx              api_context.Context
+	ctx              dbx_context.Context
 	asMemberId       string
 	asAdminId        string
 	base             dbx_context.PathRoot

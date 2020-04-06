@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
-	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_http"
 	"go.uber.org/zap"
@@ -30,16 +29,12 @@ func (z *CaptureCaller) Call(ctx api_context.Context, req api_request.Request) (
 		return nil, err
 	}
 
-	var cp Capture
-	if cac, ok := ctx.(api_context.CaptureContext); ok {
-		cp = NewCapture(cac.Capture())
-	} else {
-		cp = Current()
-	}
 	// Call
 	hRes, latency, err := nw_http.Call(ctx.ClientHash(), req.Endpoint(), hReq)
 
 	// Make response
+	cp := NewCapture(ctx.Capture())
+
 	res, mkResErr := ctx.MakeResponse(hReq, hRes)
 	if mkResErr != nil {
 		l.Debug("Unable to make http response", zap.Error(mkResErr))
@@ -54,17 +49,6 @@ func (z *CaptureCaller) Call(ctx api_context.Context, req api_request.Request) (
 type Capture interface {
 	WithResponse(req api_request.Request, res api_response.Response, resErr error, latency int64)
 	NoResponse(req api_request.Request, resErr error, latency int64)
-}
-
-func currentImpl(cap *zap.Logger) Capture {
-	return &captureImpl{
-		capture: cap,
-	}
-}
-
-func Current() Capture {
-	cap := app_root.Capture()
-	return currentImpl(cap)
 }
 
 func NewCapture(cap *zap.Logger) Capture {

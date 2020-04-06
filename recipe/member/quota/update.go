@@ -2,11 +2,11 @@ package quota
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member_quota"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member_quota"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_conn"
@@ -26,7 +26,7 @@ type UpdateWorker struct {
 	quota  int
 
 	ctl app_control.Control
-	ctx api_context.Context
+	ctx dbx_context.Context
 	rep rp_model.TransactionReport
 }
 

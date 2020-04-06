@@ -1,10 +1,7 @@
 package dbx_context_impl
 
 import (
-	"crypto/sha256"
-	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
@@ -20,13 +17,12 @@ import (
 	"go.uber.org/zap"
 	"net/http"
 	"strconv"
-	"strings"
 	"sync"
 )
 
-func New(control app_control.Control, token api_auth.Context) dbx_context.Context {
+func New(ctl app_control.Control, token api_auth.Context) dbx_context.Context {
 	c := &ccImpl{
-		control:        control,
+		ctl:            ctl,
 		token:          token,
 		noRetryOnError: false,
 	}
@@ -34,7 +30,7 @@ func New(control app_control.Control, token api_auth.Context) dbx_context.Contex
 }
 
 type ccImpl struct {
-	control        app_control.Control
+	ctl            app_control.Control
 	token          api_auth.Context
 	asMemberId     string
 	asAdminId      string
@@ -48,21 +44,8 @@ func (z *ccImpl) MakeResponse(req *http.Request, res *http.Response) (api_respon
 	return dbx_response.New(z, req, res)
 }
 
-func (z *ccImpl) NoAuth() api_context.Context {
-	return &ccImpl{
-		control:        z.control,
-		token:          dbx_auth.NewNoAuth(),
-		asMemberId:     z.asMemberId,
-		asAdminId:      z.asAdminId,
-		basePath:       z.basePath,
-		noRetryOnError: z.noRetryOnError,
-		hashComputed:   z.hashComputed,
-		hashMutex:      sync.Mutex{},
-	}
-}
-
 func (z *ccImpl) Capture() *zap.Logger {
-	return z.control.Capture()
+	return z.ctl.Capture()
 }
 
 func (z *ccImpl) IsNoRetry() bool {
@@ -70,7 +53,7 @@ func (z *ccImpl) IsNoRetry() bool {
 }
 
 func (z *ccImpl) Log() *zap.Logger {
-	return z.control.Log()
+	return z.ctl.Log()
 }
 
 func (z *ccImpl) Rpc(endpoint string) api_request.Request {
@@ -130,7 +113,7 @@ func (z *ccImpl) Download(endpoint string) api_request.Request {
 
 func (z *ccImpl) AsMemberId(teamMemberId string) dbx_context.Context {
 	return &ccImpl{
-		control:        z.control,
+		ctl:            z.ctl,
 		token:          z.token,
 		noRetryOnError: z.noRetryOnError,
 		asMemberId:     teamMemberId,
@@ -141,7 +124,7 @@ func (z *ccImpl) AsMemberId(teamMemberId string) dbx_context.Context {
 
 func (z *ccImpl) AsAdminId(teamMemberId string) dbx_context.Context {
 	return &ccImpl{
-		control:        z.control,
+		ctl:            z.ctl,
 		token:          z.token,
 		noRetryOnError: z.noRetryOnError,
 		asMemberId:     "",
@@ -152,7 +135,7 @@ func (z *ccImpl) AsAdminId(teamMemberId string) dbx_context.Context {
 
 func (z *ccImpl) WithPath(pathRoot dbx_context.PathRoot) dbx_context.Context {
 	return &ccImpl{
-		control:        z.control,
+		ctl:            z.ctl,
 		token:          z.token,
 		noRetryOnError: z.noRetryOnError,
 		asMemberId:     z.asMemberId,
@@ -163,7 +146,7 @@ func (z *ccImpl) WithPath(pathRoot dbx_context.PathRoot) dbx_context.Context {
 
 func (z *ccImpl) NoRetryOnError() api_context.Context {
 	return &ccImpl{
-		control:        z.control,
+		ctl:            z.ctl,
 		token:          z.token,
 		noRetryOnError: true,
 		asMemberId:     z.asMemberId,
@@ -179,26 +162,18 @@ func (z *ccImpl) ClientHash() string {
 	if z.hashComputed != "" {
 		return z.hashComputed
 	}
-	seeds := []string{
-		"m",
-		z.asMemberId,
-		"a",
-		z.asAdminId,
-		"p",
-		z.token.PeerName(),
-		"t",
-		z.token.Token().AccessToken,
-		"y",
-		z.token.Scope(),
-		"n",
-		strconv.FormatBool(z.noRetryOnError),
-	}
 
+	seeds := []string{
+		"m", z.asMemberId,
+		"a", z.asAdminId,
+		"p", z.token.PeerName(),
+		"t", z.token.Token().AccessToken,
+		"y", z.token.Scope(),
+		"n", strconv.FormatBool(z.noRetryOnError),
+	}
 	if z.basePath != nil {
 		seeds = append(seeds, z.basePath.Header())
 	}
-
-	h := sha256.Sum224([]byte(strings.Join(seeds, ",")))
-	z.hashComputed = fmt.Sprintf("%x", h)
+	z.hashComputed = ClientHash(seeds)
 	return z.hashComputed
 }

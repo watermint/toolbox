@@ -1,15 +1,15 @@
 package sv_profile
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
-	"github.com/watermint/toolbox/infra/api/api_context"
 )
 
 type Profile interface {
 	Current() (profile *mo_profile.Profile, err error)
 }
 
-func NewProfile(ctx api_context.Context) Profile {
+func NewProfile(ctx dbx_context.Context) Profile {
 	return &profileImpl{
 		ctx: ctx,
 	}
@@ -19,14 +19,14 @@ type Team interface {
 	Admin() (profile *mo_profile.Profile, err error)
 }
 
-func NewTeam(ctx api_context.Context) Team {
+func NewTeam(ctx dbx_context.Context) Team {
 	return &teamImpl{
 		ctx: ctx,
 	}
 }
 
 type profileImpl struct {
-	ctx api_context.Context
+	ctx dbx_context.Context
 }
 
 func (z *profileImpl) Current() (profile *mo_profile.Profile, err error) {
@@ -42,7 +42,7 @@ func (z *profileImpl) Current() (profile *mo_profile.Profile, err error) {
 }
 
 type teamImpl struct {
-	ctx api_context.Context
+	ctx dbx_context.Context
 }
 
 func (z *teamImpl) Admin() (profile *mo_profile.Profile, err error) {

@@ -2,9 +2,9 @@ package sv_file_content
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"go.uber.org/zap"
 	"os"
 )
@@ -13,12 +13,12 @@ type Download interface {
 	Download(path mo_path.DropboxPath) (entry mo_file.Entry, localPath mo_path.FileSystemPath, err error)
 }
 
-func NewDownload(ctx api_context.Context) Download {
+func NewDownload(ctx dbx_context.Context) Download {
 	return &downloadImpl{ctx: ctx}
 }
 
 type downloadImpl struct {
-	ctx api_context.Context
+	ctx dbx_context.Context
 }
 
 func (z *downloadImpl) Download(path mo_path.DropboxPath) (entry mo_file.Entry, localPath mo_path.FileSystemPath, err error) {

@@ -5,14 +5,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/infra/api/api_async"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"go.uber.org/zap"
 	"strings"
 	"time"
 )
 
-func New(ctx api_context.Context, endpoint string, asMemberId, asAdminId string, base dbx_context.PathRoot) api_async.Async {
+func New(ctx dbx_context.Context, endpoint string, asMemberId, asAdminId string, base dbx_context.PathRoot) api_async.Async {
 	return &asyncImpl{
 		ctx:             ctx,
 		requestEndpoint: endpoint,
@@ -24,7 +23,7 @@ func New(ctx api_context.Context, endpoint string, asMemberId, asAdminId string,
 }
 
 type asyncImpl struct {
-	ctx             api_context.Context
+	ctx             dbx_context.Context
 	asMemberId      string
 	asAdminId       string
 	base            dbx_context.PathRoot

@@ -2,6 +2,8 @@ package api_context
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/infra/api/api_async"
+	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/util/ut_io"
@@ -17,21 +19,32 @@ type ClientGroup interface {
 	ClientHash() string
 }
 
+type AsyncContext interface {
+	Async(endpoint string) api_async.Async
+}
+type ListContext interface {
+	List(endpoint string) api_list.List
+}
+type NotifyContext interface {
+	Notify(endpoint string) api_request.Request
+}
+type UploadContext interface {
+	Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request
+}
+type DownloadContext interface {
+	Download(endpoint string) api_request.Request
+}
+type RpcContext interface {
+	Rpc(endpoint string) api_request.Request
+}
+
 type Context interface {
 	ClientGroup
 
 	Log() *zap.Logger
-
-	Rpc(endpoint string) api_request.Request
-	Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request
-	Download(endpoint string) api_request.Request
+	Capture() *zap.Logger
 
 	NoRetryOnError() Context
 	IsNoRetry() bool
-	NoAuth() Context
 	MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error)
-}
-
-type CaptureContext interface {
-	Capture() *zap.Logger
 }

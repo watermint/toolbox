@@ -18,15 +18,20 @@ import (
 )
 
 func NewMock(c app_control.Control) dbx_context.Context {
-	return &Mock{l: c.Log()}
+	return &Mock{l: c.Log(), c: c.Capture()}
 }
 
 type Mock struct {
 	l *zap.Logger
+	c *zap.Logger
 }
 
 func (z *Mock) MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error) {
 	return nil, qt_errors.ErrorMock
+}
+
+func (z *Mock) Capture() *zap.Logger {
+	return z.c
 }
 
 func (z *Mock) Log() *zap.Logger {

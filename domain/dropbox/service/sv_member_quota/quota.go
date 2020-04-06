@@ -1,8 +1,8 @@
 package sv_member_quota
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member_quota"
-	"github.com/watermint/toolbox/infra/api/api_context"
 )
 
 type Quota interface {
@@ -11,14 +11,14 @@ type Quota interface {
 	Remove(teamMemberId string) (err error)
 }
 
-func NewQuota(ctx api_context.Context) Quota {
+func NewQuota(ctx dbx_context.Context) Quota {
 	return &quotaImpl{
 		ctx: ctx,
 	}
 }
 
 type quotaImpl struct {
-	ctx api_context.Context
+	ctx dbx_context.Context
 }
 
 func (z *quotaImpl) Remove(teamMemberId string) (err error) {

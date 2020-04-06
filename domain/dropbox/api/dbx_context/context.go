@@ -1,20 +1,25 @@
 package dbx_context
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_async"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_list"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Context interface {
 	api_context.Context
-	Notify(endpoint string) api_request.Request
-	List(endpoint string) api_list.List
-	Async(endpoint string) api_async.Async
+	api_context.RpcContext
+	api_context.AsyncContext
+	api_context.ListContext
+	api_context.UploadContext
+	api_context.DownloadContext
+
 	AsMemberId(teamMemberId string) Context
 	AsAdminId(teamMemberId string) Context
 	WithPath(pathRoot PathRoot) Context
+}
+
+type NoAuthContext interface {
+	api_context.Context
+	api_context.NotifyContext
 }
 
 type PathRoot interface {
