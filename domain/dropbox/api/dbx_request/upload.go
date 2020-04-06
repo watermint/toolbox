@@ -1,13 +1,13 @@
 package dbx_request
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_rest"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
-	"github.com/watermint/toolbox/infra/network/nw_retry"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"net/http"
@@ -42,7 +42,7 @@ func (z *uploadRequestImpl) Param(p interface{}) api_request.Request {
 }
 
 func (z *uploadRequestImpl) Call() (res api_response.Response, err error) {
-	return nw_retry.Call(z.ctx, z)
+	return dbx_rest.Default().Call(z.ctx, z)
 }
 
 func (z *uploadRequestImpl) Endpoint() string {

@@ -1,4 +1,4 @@
-package nw_retry
+package dbx_recovery
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
-	"github.com/watermint/toolbox/infra/network/nw_capture"
+	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"go.uber.org/zap"
@@ -20,15 +20,12 @@ const (
 	retryIntervalSecOnNoRetryAfterParam = 10
 )
 
-var (
-	retryInstance = retryImpl{}
-)
-
-func Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
-	return retryInstance.Call(ctx, req)
+func New(client nw_client.Rest) nw_client.Rest {
+	return &retryImpl{client: client}
 }
 
 type retryImpl struct {
+	client nw_client.Rest
 }
 
 func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
@@ -55,7 +52,7 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 		return z.Call(ctx, req)
 	}
 
-	res, err = nw_capture.Call(ctx, req)
+	res, err = z.client.Call(ctx, req)
 	if err != nil {
 		return retryOnError(err)
 	}

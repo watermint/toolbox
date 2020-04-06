@@ -3,10 +3,10 @@ package dbx_request
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_rest"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
-	"github.com/watermint/toolbox/infra/network/nw_retry"
 	"go.uber.org/zap"
 	"net/http"
 )
@@ -40,7 +40,7 @@ func (z *rpcRequestImpl) Param(p interface{}) api_request.Request {
 }
 
 func (z *rpcRequestImpl) Call() (res api_response.Response, err error) {
-	return nw_retry.Call(z.ctx, z)
+	return dbx_rest.Default().Call(z.ctx, z)
 }
 
 func (z *rpcRequestImpl) Endpoint() string {

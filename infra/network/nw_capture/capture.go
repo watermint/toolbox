@@ -6,22 +6,18 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/network/nw_client"
-	"github.com/watermint/toolbox/infra/network/nw_http"
 	"go.uber.org/zap"
 )
 
-var (
-	defaultCaller nw_client.Rest = &CaptureCaller{}
-)
-
-func Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
-	return defaultCaller.Call(ctx, req)
+func New(client nw_client.Http) nw_client.Rest {
+	return &Client{httpClient: client}
 }
 
-type CaptureCaller struct {
+type Client struct {
+	httpClient nw_client.Http
 }
 
-func (z *CaptureCaller) Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
+func (z *Client) Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
 	l := ctx.Log()
 	hReq, err := req.Make()
 	if err != nil {
@@ -30,7 +26,7 @@ func (z *CaptureCaller) Call(ctx api_context.Context, req api_request.Request) (
 	}
 
 	// Call
-	hRes, latency, err := nw_http.Call(ctx.ClientHash(), req.Endpoint(), hReq)
+	hRes, latency, err := z.httpClient.Call(ctx.ClientHash(), req.Endpoint(), hReq)
 
 	// Make response
 	cp := NewCapture(ctx.Capture())

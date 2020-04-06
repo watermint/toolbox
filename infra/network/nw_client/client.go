@@ -4,6 +4,8 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
+	"net/http"
+	"time"
 )
 
 type Rest interface {
@@ -11,5 +13,5 @@ type Rest interface {
 }
 
 type Http interface {
-	Call()
+	Call(clientHash string, endpoint string, req *http.Request) (res *http.Response, latency time.Duration, err error)
 }
