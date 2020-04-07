@@ -11,7 +11,7 @@ func NewConsole(c app_control.Control, peerName string) api_auth.Console {
 	var oa api_auth.Console
 
 	// Make redirect impl. hidden for while
-	if strings.HasPrefix("redirect-", peerName) {
+	if strings.HasPrefix(peerName, "redirect-") {
 		oa = dbx_auth.NewConsoleRedirect(c, peerName)
 	} else {
 		oa = dbx_auth.NewConsoleOAuth(c, peerName)
