@@ -14,16 +14,6 @@ const (
 	DropboxTokenBusinessManagement = "business_management"
 )
 
-// Auth context
-type Context interface {
-	Token() *oauth2.Token
-	Scope() string
-	PeerName() string
-	Description() string
-	Supplemental() string
-	IsNoAuth() bool
-}
-
 // Application key/secret manager
 type App interface {
 	// Key/secret for token type

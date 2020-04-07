@@ -3,12 +3,12 @@ package app_ui
 import (
 	"bufio"
 	"fmt"
-	"github.com/skratchdot/open-golang/open"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/util/ut_io"
+	"github.com/watermint/toolbox/infra/util/ut_open"
 	"github.com/watermint/toolbox/infra/util/ut_string"
 	"github.com/watermint/toolbox/infra/util/ut_terminal"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
@@ -327,8 +327,7 @@ func (z *console) OpenArtifact(path string, autoOpen bool) {
 			}
 			z.Info(MConsole.OpenArtifact.With("Path", path))
 
-			err = open.Start(path)
-			if err != nil {
+			if err := ut_open.New().Open(path, true); err != nil {
 				z.Error(MConsole.OpenArtifactError.With("Error", err))
 			}
 		})

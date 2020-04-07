@@ -118,7 +118,7 @@ func (z *Web) Auth(state, code string) (peerName string, ctx api_context.Context
 		return "", nil, err
 	}
 
-	tc := dbx_auth.NewContext(token, session.PeerName, session.TokenType)
+	tc := api_auth.NewContext(token, session.PeerName, session.TokenType)
 	ctx = dbx_context_impl.New(z.control, tc)
 
 	tc, err = VerifyToken(tc, z.control)

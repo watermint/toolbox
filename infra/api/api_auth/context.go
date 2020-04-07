@@ -1,20 +1,19 @@
-package dbx_auth
+package api_auth
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_auth"
 	"golang.org/x/oauth2"
 )
 
-func NewContext(token *oauth2.Token, peerName, scope string) api_auth.Context {
-	return &Context{
+func NewContext(token *oauth2.Token, peerName, scope string) Context {
+	return &contextImpl{
 		token:    token,
 		scope:    scope,
 		peerName: peerName,
 	}
 }
 
-func NewContextWithAttr(c api_auth.Context, desc, suppl string) api_auth.Context {
-	return &Context{
+func NewContextWithAttr(c Context, desc, suppl string) Context {
+	return &contextImpl{
 		token:    c.Token(),
 		peerName: c.PeerName(),
 		scope:    c.Scope(),
@@ -23,7 +22,17 @@ func NewContextWithAttr(c api_auth.Context, desc, suppl string) api_auth.Context
 	}
 }
 
-func NewNoAuth() api_auth.Context {
+// Auth context
+type Context interface {
+	Token() *oauth2.Token
+	Scope() string
+	PeerName() string
+	Description() string
+	Supplemental() string
+	IsNoAuth() bool
+}
+
+func NewNoAuth() Context {
 	return &noAuthContext{}
 }
 
@@ -54,7 +63,7 @@ func (z *noAuthContext) IsNoAuth() bool {
 	return true
 }
 
-type Context struct {
+type contextImpl struct {
 	token    *oauth2.Token
 	peerName string
 	scope    string
@@ -62,26 +71,26 @@ type Context struct {
 	suppl    string
 }
 
-func (z *Context) Scope() string {
+func (z *contextImpl) Scope() string {
 	return z.scope
 }
 
-func (z *Context) Token() *oauth2.Token {
+func (z *contextImpl) Token() *oauth2.Token {
 	return z.token
 }
 
-func (z *Context) PeerName() string {
+func (z *contextImpl) PeerName() string {
 	return z.peerName
 }
 
-func (z *Context) Description() string {
+func (z *contextImpl) Description() string {
 	return z.desc
 }
 
-func (z *Context) Supplemental() string {
+func (z *contextImpl) Supplemental() string {
 	return z.suppl
 }
 
-func (z *Context) IsNoAuth() bool {
+func (z *contextImpl) IsNoAuth() bool {
 	return false
 }

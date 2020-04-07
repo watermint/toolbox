@@ -1,10 +1,10 @@
 package dbx_context_impl
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
+	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
@@ -51,7 +51,7 @@ func (z *noAuthImpl) Rpc(endpoint string) api_request.Request {
 		"",
 		"",
 		nil,
-		dbx_auth.NewNoAuth(),
+		api_auth.NewNoAuth(),
 		dbx_request.NotifyEndpoint,
 	)
 }
@@ -63,7 +63,7 @@ func (z *noAuthImpl) Notify(endpoint string) api_request.Request {
 		"",
 		"",
 		nil,
-		dbx_auth.NewNoAuth(),
+		api_auth.NewNoAuth(),
 		dbx_request.NotifyEndpoint,
 	)
 }
@@ -76,7 +76,7 @@ func (z *noAuthImpl) Upload(endpoint string, content ut_io.ReadRewinder) api_req
 		"",
 		"",
 		nil,
-		dbx_auth.NewNoAuth(),
+		api_auth.NewNoAuth(),
 	)
 }
 
@@ -87,7 +87,7 @@ func (z *noAuthImpl) Download(endpoint string) api_request.Request {
 		"",
 		"",
 		nil,
-		dbx_auth.NewNoAuth(),
+		api_auth.NewNoAuth(),
 	)
 }
 

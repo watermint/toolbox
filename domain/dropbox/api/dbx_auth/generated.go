@@ -29,7 +29,7 @@ func (z *Generated) Auth(scope string) (tc api_auth.Context, err error) {
 	if err != nil {
 		return nil, err
 	}
-	return NewContext(token, z.peerName, scope), nil
+	return api_auth.NewContext(token, z.peerName, scope), nil
 }
 
 func (z *Generated) generatedTokenInstruction(scope string) {

@@ -55,7 +55,7 @@ type Status struct {
 	AppHash    string `json:"app_hash"`
 }
 
-func NewHanlder(ctl app_control.Control,
+func NewHandler(ctl app_control.Control,
 	tmpl app_template.Template,
 	lnc app_control_launcher.ControlLauncher,
 	baseUrl string,

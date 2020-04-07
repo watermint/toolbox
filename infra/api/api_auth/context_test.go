@@ -1,4 +1,4 @@
-package dbx_auth
+package api_auth
 
 import (
 	"golang.org/x/oauth2"

@@ -5,11 +5,11 @@ import (
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
-	"github.com/skratchdot/open-golang/open"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/util/ut_open"
 	"github.com/watermint/toolbox/infra/web/web_handler"
 	"github.com/watermint/toolbox/infra/web/web_job"
 	"github.com/watermint/toolbox/infra/web/web_user"
@@ -61,7 +61,7 @@ func (z *Web) Exec(c app_control.Control) error {
 	baseUrl := fmt.Sprintf("http://localhost:%d", z.Port)
 	jobChan := make(chan *web_job.WebJobRun)
 
-	wh := web_handler.NewHanlder(
+	wh := web_handler.NewHandler(
 		c,
 		htp,
 		cl,
@@ -74,7 +74,7 @@ func (z *Web) Exec(c app_control.Control) error {
 
 	loginUrl := baseUrl + web_handler.WebPathLogin + "/" + ru.UserHash()
 
-	c.Log().Info("Login url", zap.String("url", loginUrl))
+	l.Info("Login url", zap.String("url", loginUrl))
 
 	wg := sync.WaitGroup{}
 	go func() {
@@ -82,14 +82,17 @@ func (z *Web) Exec(c app_control.Control) error {
 		defer wg.Done()
 		err = g.Run(fmt.Sprintf(":%d", z.Port))
 		if err != nil {
-			c.Log().Error("Unable to start", zap.Error(err))
+			l.Error("Unable to start", zap.Error(err))
 		}
 	}()
 
 	time.Sleep(2 * time.Second)
-	c.Log().Info("Trying open browser")
+	l.Info("Trying open the browser")
 	if !c.IsTest() {
-		open.Start(loginUrl)
+		if err := ut_open.New().Open(loginUrl, true); err != nil {
+			l.Warn("Unable to open the browser", zap.Error(err))
+			l.Info("Please open this url on the browser", zap.String("url", loginUrl))
+		}
 		wg.Wait()
 	}
 

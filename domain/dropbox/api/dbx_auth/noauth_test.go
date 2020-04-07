@@ -1,9 +1,12 @@
 package dbx_auth
 
-import "testing"
+import (
+	"github.com/watermint/toolbox/infra/api/api_auth"
+	"testing"
+)
 
 func TestNoAuth_Auth(t *testing.T) {
-	a := NewNoAuth()
+	a := api_auth.NewNoAuth()
 	if a.PeerName() != "" || a.Scope() != "" || a.Supplemental() != "" || a.Description() != "" {
 		t.Error("invalid")
 	}

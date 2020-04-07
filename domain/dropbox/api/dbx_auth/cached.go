@@ -50,7 +50,7 @@ func (z *Cached) Auth(scope string) (tc api_auth.Context, err error) {
 	if err != nil {
 		l.Debug("Unable to load from the cache", zap.Error(err))
 	} else {
-		return NewContext(t, z.auth.PeerName(), scope), nil
+		return api_auth.NewContext(t, z.auth.PeerName(), scope), nil
 	}
 	tc, err = z.auth.Auth(scope)
 	if err != nil {

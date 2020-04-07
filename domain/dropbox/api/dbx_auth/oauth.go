@@ -92,7 +92,7 @@ func (z *OAuth) Auth(scope string) (tc api_auth.Context, err error) {
 		ui.Error(MCcAuth.FailedOrCancelled.With("Cause", err))
 		return nil, err
 	}
-	return NewContext(t, z.peerName, scope), nil
+	return api_auth.NewContext(t, z.peerName, scope), nil
 }
 
 func (z *OAuth) oauthStart(scope string) (*oauth2.Token, error) {

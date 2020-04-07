@@ -2,7 +2,6 @@ package dbx_auth_attr
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -37,7 +36,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 		suppl := j.Get("email").String()
 		l.Debug("Token Verified", zap.String("desc", desc))
 
-		return dbx_auth.NewContextWithAttr(ctx, desc, suppl), nil
+		return api_auth.NewContextWithAttr(ctx, desc, suppl), nil
 
 	case api_auth.DropboxTokenBusinessInfo,
 		api_auth.DropboxTokenBusinessManagement,
@@ -60,7 +59,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 		suppl := ui.Text(MAttr.AttrTeamLicenses.With("Licenses", supplLic))
 		l.Debug("Token Verified", zap.String("desc", desc), zap.String("suppl", suppl))
 
-		return dbx_auth.NewContextWithAttr(ctx, desc, suppl), nil
+		return api_auth.NewContextWithAttr(ctx, desc, suppl), nil
 
 	default:
 		return nil, ErrorNoVerification
