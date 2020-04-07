@@ -12,7 +12,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_template"
 	"github.com/watermint/toolbox/infra/util/ut_open"
 	"go.uber.org/atomic"
 	"go.uber.org/zap"
@@ -28,11 +27,18 @@ const (
 	PathConnect = "/connect/auth"
 	PathSuccess = "/success"
 	PathFailure = "/failure"
+	PathHello   = "/hello"
 )
 
 type MsgCallback struct {
 	MsgOpenUrlOnYourBrowser app_msg.Message
 	MsgHitEnterToProceed    app_msg.Message
+	MsgResultSuccessHeader  app_msg.Message
+	MsgResultSuccessBody    app_msg.Message
+	MsgResultFailureHeader  app_msg.Message
+	MsgResultFailureBody    app_msg.Message
+	MsgHelloHeader          app_msg.Message
+	MsgHelloBody            app_msg.Message
 }
 
 var (
@@ -104,7 +110,6 @@ type callbackImpl struct {
 	service     Service
 	ctl         app_control.Control
 	port        int
-	tmpl        app_template.Template
 	server      *http.Server
 	serverError error
 	serverToken string
@@ -241,13 +246,15 @@ func (z *callbackImpl) Start() error {
 	// in scope of the lock
 	{
 		if z.server != nil {
+			z.mutex.Unlock()
 			l.Debug("The server is already running")
 			return nil
 		}
 
 		z.flowStatus = make(chan struct{})
-		hfs := z.ctl.(app_control.ControlHttpFileSystem)
-		htp := hfs.Template()
+		hfc := z.ctl.(app_control.ControlHttpFileSystem)
+		hfs := hfc.HttpFileSystem()
+		htp := hfc.Template()
 		htr := htp.(render.HTMLRender)
 		if z.ctl.IsProduction() {
 			gin.SetMode(gin.ReleaseMode)
@@ -258,7 +265,14 @@ func (z *callbackImpl) Start() error {
 		g.GET(PathConnect, z.Connect)
 		g.GET(PathFailure, z.Failure)
 		g.GET(PathSuccess, z.Success)
+		g.GET(PathHello, z.Hello)
 		g.GET(PathPing, z.Ping)
+		if err := htp.Define("result", "layout/simple.html", "pages/auth_result.html"); err != nil {
+			z.mutex.Unlock()
+			l.Debug("Unable to prepare templates", zap.Error(err))
+			return err
+		}
+		g.StaticFS("/assets", hfs)
 		g.HTMLRender = htr
 
 		z.serverToken = sc_random.MustGenerateRandomString(16)
@@ -330,14 +344,47 @@ func (z *callbackImpl) Connect(g *gin.Context) {
 
 func (z *callbackImpl) Success(g *gin.Context) {
 	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
-	g.JSON(http.StatusOK, gin.H{"result": "success"})
+	ui := z.ctl.UI()
+	g.HTML(
+		http.StatusOK,
+		"result",
+		gin.H{
+			"Copyright": app.Copyright,
+			"Header":    ui.Text(MCallback.MsgResultSuccessHeader),
+			"Detail":    ui.Text(MCallback.MsgResultSuccessBody),
+		},
+	)
 	z.Shutdown()
 	l.Debug("Successfully finished")
 }
 
 func (z *callbackImpl) Failure(g *gin.Context) {
 	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
-	g.JSON(http.StatusForbidden, gin.H{"result": "failure"})
+	ui := z.ctl.UI()
+	g.HTML(
+		http.StatusForbidden,
+		"result",
+		gin.H{
+			"Copyright": app.Copyright,
+			"Header":    ui.Text(MCallback.MsgResultFailureHeader),
+			"Detail":    ui.Text(MCallback.MsgResultFailureBody),
+		},
+	)
 	z.Shutdown()
 	l.Debug("Finished with failure")
+}
+
+func (z *callbackImpl) Hello(g *gin.Context) {
+	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
+	ui := z.ctl.UI()
+	g.HTML(
+		http.StatusOK,
+		"result",
+		gin.H{
+			"Copyright": app.Copyright,
+			"Header":    ui.Text(MCallback.MsgHelloHeader),
+			"Detail":    ui.Text(MCallback.MsgHelloBody),
+		},
+	)
+	l.Debug("Finished")
 }

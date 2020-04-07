@@ -5,6 +5,7 @@ import "runtime"
 var (
 	Name           = "watermint toolbox"
 	Version        = "`dev`"
+	Copyright      = "© 2016-2020 Takayuki Okazaki"
 	Hash           = ""
 	Zap            = ""
 	BuilderKey     = ""

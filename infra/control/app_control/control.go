@@ -11,7 +11,20 @@ import (
 	"net/http"
 )
 
+type Feature interface {
+	IsProduction() bool
+	IsDebug() bool
+	IsTest() bool
+	IsQuiet() bool
+	IsSecure() bool
+	IsLowMemory() bool
+	IsAutoOpen() bool
+	UIFormat() string
+}
+
 type Control interface {
+	Feature
+
 	Up(opts ...UpOpt) error
 	Down()
 	Abort(opts ...AbortOpt)
@@ -23,15 +36,6 @@ type Control interface {
 	TestResource(key string) (data gjson.Result, found bool)
 	Workspace() app_workspace.Workspace
 	Messages() app_msg_container.Container
-
-	IsProduction() bool
-	IsDebug() bool
-	IsTest() bool
-	IsQuiet() bool
-	IsSecure() bool
-	IsLowMemory() bool
-	IsAutoOpen() bool
-	UIFormat() string
 
 	NewQueue() rc_worker.Queue
 }
