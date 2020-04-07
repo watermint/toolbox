@@ -3,7 +3,7 @@ package catalogue
 import (
 	infra_api_api_api_auth_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
-	"github.com/watermint/toolbox/infra/api/api_auth_callback"
+	"github.com/watermint/toolbox/infra/api/api_callback"
 	infra_control_app_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
 	infra_kvs_kv_storageimpl "github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
 	infra_network_nw_diag "github.com/watermint/toolbox/infra/network/nw_diag"
@@ -232,7 +232,7 @@ func Messages() []interface{} {
 		recipeteamcontent.MScanMetadata,
 		rp_writer_impl.MSortedWriter,
 		rp_writer_impl.MXlsxWriter,
-		api_auth_callback.MCallback,
+		api_callback.MCallback,
 	}
 	for _, m := range msgs {
 		infra_ui_app_msg.Apply(m)

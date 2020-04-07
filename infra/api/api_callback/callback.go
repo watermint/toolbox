@@ -1,4 +1,4 @@
-package api_auth_callback
+package api_callback
 
 import (
 	"context"
@@ -103,6 +103,12 @@ func New(ctl app_control.Control, s Service, port int) Callback {
 		port:     port,
 		opener:   ut_open.New(),
 	}
+}
+
+func NewWithOpener(ctl app_control.Control, s Service, port int, opener ut_open.Open) Callback {
+	c := New(ctl, s, port)
+	c.(*callbackImpl).opener = opener
+	return c
 }
 
 type callbackImpl struct {

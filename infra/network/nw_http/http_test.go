@@ -12,7 +12,8 @@ func TestCallRpc(t *testing.T) {
 		t.Error("unable to create request", err)
 		return
 	}
-	res, _, err := Call("123", "end/point", req)
+	c := NewClient()
+	res, _, err := c.Call("123", "end/point", req)
 	if err != nil {
 		t.Error("bad response", err)
 	}

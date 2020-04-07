@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_auth_callback"
+	"github.com/watermint/toolbox/infra/api/api_callback"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
@@ -46,7 +46,7 @@ func (z *Redirect) Auth(scope string) (token api_auth.Context, err error) {
 		result:   nil,
 		token:    nil,
 	}
-	cb := api_auth_callback.New(z.ctl, rs, app.DefaultWebPort)
+	cb := api_callback.New(z.ctl, rs, app.DefaultWebPort)
 
 	l.Debug("Starting sequence")
 	if err := cb.Flow(); err != nil {
