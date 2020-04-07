@@ -9,6 +9,7 @@ var (
 	Zap            = ""
 	BuilderKey     = ""
 	BuildTimestamp = ""
+	DefaultWebPort = 7800
 	debugMode      = false
 )
 

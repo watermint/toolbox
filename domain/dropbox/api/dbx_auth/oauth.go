@@ -14,8 +14,8 @@ import (
 
 func NewApp(control app_control.Control) api_auth.App {
 	a := &App{
-		control: control,
-		keys:    make(map[string]string),
+		ctl:  control,
+		keys: make(map[string]string),
 	}
 	a.loadKeys()
 	return a
@@ -30,8 +30,8 @@ func NewConsoleOAuth(c app_control.Control, peerName string) api_auth.Console {
 }
 
 type App struct {
-	control app_control.Control
-	keys    map[string]string
+	ctl  app_control.Control
+	keys map[string]string
 }
 
 func (z *App) Config(tokenType string) *oauth2.Config {
@@ -56,17 +56,17 @@ func (z *App) AppKey(tokenType string) (key, secret string) {
 }
 
 func (z *App) loadKeys() {
-	kb, err := sc_zap.Unzap(z.control)
+	kb, err := sc_zap.Unzap(z.ctl)
 	if err != nil {
-		kb, err = z.control.Resource("toolbox.appkeys")
+		kb, err = z.ctl.Resource("toolbox.appkeys")
 		if err != nil {
-			z.control.Log().Debug("Skip loading app keys")
+			z.ctl.Log().Debug("Skip loading app keys")
 			return
 		}
 	}
 	err = json.Unmarshal(kb, &z.keys)
 	if err != nil {
-		z.control.Log().Debug("Skip loading app keys: unable to unmarshal resource", zap.Error(err))
+		z.ctl.Log().Debug("Skip loading app keys: unable to unmarshal resource", zap.Error(err))
 		return
 	}
 }

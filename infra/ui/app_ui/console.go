@@ -128,6 +128,20 @@ type console struct {
 	openArtifactOnce sync.Once
 }
 
+func (z *console) AskProceed(m app_msg.Message) (cancel bool) {
+	z.verifyKey(m.Key())
+	msg := z.mc.Compile(m)
+	z.colorPrint(msg, ColorCyan)
+	z.currentLogger().Debug(msg)
+
+	br := bufio.NewReader(z.in)
+	_, _, err := br.ReadLine()
+	if err != nil {
+		return true
+	}
+	return false
+}
+
 func (z *console) Id() string {
 	return z.id
 }
@@ -421,18 +435,6 @@ func (z *console) SuccessK(key string, p ...app_msg.P) {
 
 func (z *console) FailureK(key string, p ...app_msg.P) {
 	z.Failure(app_msg.M(key, p...))
-}
-
-func (z *console) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
-	return z.AskCont(app_msg.M(key, p...))
-}
-
-func (z *console) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
-	return z.AskText(app_msg.M(key, p...))
-}
-
-func (z *console) AskSecureK(key string, p ...app_msg.P) (text string, cancel bool) {
-	return z.AskSecure(app_msg.M(key, p...))
 }
 
 type consoleTable struct {

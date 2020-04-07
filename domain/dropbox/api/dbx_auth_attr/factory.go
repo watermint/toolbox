@@ -7,7 +7,8 @@ import (
 )
 
 func NewConsole(c app_control.Control, peerName string) api_auth.Console {
-	oa := dbx_auth.NewConsoleOAuth(c, peerName)
+	//oa := dbx_auth.NewConsoleOAuth(c, peerName)
+	oa := dbx_auth.NewConsoleRedirect(c, peerName)
 	aa := NewConsoleAttr(c, oa)
 	ca := dbx_auth.NewConsoleCache(c, aa)
 	return ca

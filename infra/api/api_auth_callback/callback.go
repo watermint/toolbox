@@ -25,7 +25,7 @@ import (
 
 const (
 	PathPing    = "/ping"
-	PathConnect = "/connect"
+	PathConnect = "/connect/auth"
 	PathSuccess = "/success"
 	PathFailure = "/failure"
 )
@@ -46,7 +46,7 @@ type Callback interface {
 	// Auth redirect url
 	Url() string
 
-	// Execute OAuth2 flow
+	// Execute OAuth2 flow. This is blocking operation.
 	Flow() error
 
 	// Startup the server, this is blocking operation.
@@ -173,13 +173,15 @@ func (z *callbackImpl) openUrl(authUrl string) error {
 	ui := z.ctl.UI()
 
 	l.Debug("opening auth url", zap.String("url", authUrl))
+	if cancel := ui.AskProceed(MCallback.MsgHitEnterToProceed); cancel {
+		l.Debug("The user cancelled the flow")
+		z.Shutdown()
+		return ErrorUserCancelledTheFlow
+	}
+
 	if err := z.opener.Open(authUrl, true); err != nil {
+		l.Debug("Unable to open, ask user to open the url")
 		ui.Info(MCallback.MsgOpenUrlOnYourBrowser.With("Url", authUrl))
-		if _, cancel := ui.AskText(MCallback.MsgHitEnterToProceed); cancel {
-			l.Debug("The user cancelled the flow")
-			z.Shutdown()
-			return ErrorUserCancelledTheFlow
-		}
 	}
 	return nil
 }

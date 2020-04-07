@@ -24,6 +24,10 @@ type Quiet struct {
 	log *zap.Logger
 }
 
+func (z *Quiet) AskProceed(m app_msg.Message) (cancel bool) {
+	return true
+}
+
 func (z *Quiet) Id() string {
 	return z.id
 }
@@ -156,27 +160,6 @@ func (z *Quiet) ErrorK(key string, p ...app_msg.P) {
 	z.mq.Verify(key)
 	z.log.Debug(key, zap.Any("params", p))
 	z.log.Error(z.mc.Compile(app_msg.M(key, p...)))
-}
-
-// always cancel process
-func (z *Quiet) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
-	z.mq.Verify(key)
-	z.log.Debug(key, zap.Any("params", p))
-	return false, true
-}
-
-// always cancel
-func (z *Quiet) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
-	z.mq.Verify(key)
-	z.log.Debug(key, zap.Any("params", p))
-	return "", true
-}
-
-// always cancel
-func (z *Quiet) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool) {
-	z.mq.Verify(key)
-	z.log.Debug(key, zap.Any("params", p))
-	return "", true
 }
 
 type QuietTable struct {
