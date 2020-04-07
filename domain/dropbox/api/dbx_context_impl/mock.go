@@ -4,7 +4,6 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/infra/api/api_async"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
@@ -38,12 +37,12 @@ func (z *Mock) Log() *zap.Logger {
 	return z.l
 }
 
-func (z *Mock) Rpc(endpoint string) api_request.Request {
-	return &dbx_request.MockRequest{}
+func (z *Mock) Post(endpoint string) api_request.Request {
+	return &api_request.MockRequest{}
 }
 
 func (z *Mock) Notify(endpoint string) api_request.Request {
-	return &dbx_request.MockRequest{}
+	return &api_request.MockRequest{}
 }
 
 func (z *Mock) List(endpoint string) api_list.List {
@@ -55,11 +54,11 @@ func (z *Mock) Async(endpoint string) api_async.Async {
 }
 
 func (z *Mock) Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request {
-	return &dbx_request.MockRequest{}
+	return &api_request.MockRequest{}
 }
 
 func (z *Mock) Download(endpoint string) api_request.Request {
-	return &dbx_request.MockRequest{}
+	return &api_request.MockRequest{}
 }
 
 func (z *Mock) AsMemberId(teamMemberId string) dbx_context.Context {

@@ -34,8 +34,11 @@ type UploadContext interface {
 type DownloadContext interface {
 	Download(endpoint string) api_request.Request
 }
-type RpcContext interface {
-	Rpc(endpoint string) api_request.Request
+type PostContext interface {
+	Post(endpoint string) api_request.Request
+}
+type GetContext interface {
+	Get(endpoint string) api_request.Request
 }
 
 type Context interface {

@@ -1,13 +1,13 @@
-package rc_conn_impl
+package dbx_conn_impl
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 )
 
-func NewConnUserFile(name string) rc_conn.ConnUserFile {
+func NewConnUserFile(name string) dbx_conn.ConnUserFile {
 	cuf := &connUserFile{name: name}
 	return cuf
 }

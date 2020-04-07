@@ -291,7 +291,7 @@ func (z *memberImpl) Update(member *mo_member.Member) (updated *mo_member.Member
 		NewSurname:      member.Surname,
 		NewPersistentId: member.PersistentId,
 	}
-	req := z.ctx.Rpc("team/members/set_profile").Param(p)
+	req := z.ctx.Post("team/members/set_profile").Param(p)
 	res, err := req.Call()
 	if err != nil {
 		return nil, err
@@ -318,7 +318,7 @@ func (z *memberImpl) Resolve(teamMemberId string) (member *mo_member.Member, err
 			},
 		},
 	}
-	res, err := z.ctx.Rpc("team/members/get_info").Param(p).Call()
+	res, err := z.ctx.Post("team/members/get_info").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -369,7 +369,7 @@ func (z *memberImpl) ResolveByEmail(email string) (member *mo_member.Member, err
 		},
 	}
 	member = &mo_member.Member{}
-	res, err := z.ctx.Rpc("team/members/get_info").Param(p).Call()
+	res, err := z.ctx.Post("team/members/get_info").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

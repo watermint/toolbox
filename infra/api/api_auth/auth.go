@@ -12,6 +12,7 @@ const (
 	DropboxTokenBusinessAudit      = "business_audit"
 	DropboxTokenBusinessFile       = "business_file"
 	DropboxTokenBusinessManagement = "business_management"
+	Github                         = "github"
 )
 
 // Application key/secret manager

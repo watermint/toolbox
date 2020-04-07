@@ -2,11 +2,11 @@ package batch
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -21,7 +21,7 @@ type Archive struct {
 	ErrUnableToRetrieveCurrentTeamFolders app_msg.Message
 	File                                  fd_file.RowFeed
 	OperationLog                          rp_model.TransactionReport
-	Peer                                  rc_conn.ConnBusinessFile
+	Peer                                  dbx_conn.ConnBusinessFile
 	ProgressArchiveFolder                 app_msg.Message
 }
 

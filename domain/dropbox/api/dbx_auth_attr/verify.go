@@ -21,7 +21,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 	switch ctx.Scope() {
 	case api_auth.DropboxTokenFull, api_auth.DropboxTokenApp:
 		apiCtx := dbx_context_impl.New(ctl, ctx)
-		p, err := apiCtx.Rpc("users/get_current_account").Call()
+		p, err := apiCtx.Post("users/get_current_account").Call()
 		if err != nil {
 			l.Debug("Unable to verify token", zap.Error(err))
 			return nil, err
@@ -43,7 +43,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 		api_auth.DropboxTokenBusinessFile,
 		api_auth.DropboxTokenBusinessAudit:
 		apiCtx := dbx_context_impl.New(ctl, ctx)
-		p, err := apiCtx.Rpc("team/get_info").Call()
+		p, err := apiCtx.Post("team/get_info").Call()
 		if err != nil {
 			l.Debug("Unable to verify token", zap.Error(err))
 			return nil, err

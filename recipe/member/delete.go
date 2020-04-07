@@ -1,10 +1,10 @@
 package member
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -19,7 +19,7 @@ type DeleteRow struct {
 
 type Delete struct {
 	File         fd_file.RowFeed
-	Peer         rc_conn.ConnBusinessMgmt
+	Peer         dbx_conn.ConnBusinessMgmt
 	WipeData     bool
 	OperationLog rp_model.TransactionReport
 }

@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
@@ -12,7 +13,6 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -66,7 +66,7 @@ func (z *EmailWorker) Exec() error {
 }
 
 type Email struct {
-	Peer                rc_conn.ConnBusinessMgmt
+	Peer                dbx_conn.ConnBusinessMgmt
 	File                fd_file.RowFeed
 	UpdateUnverified    bool
 	OperationLog        rp_model.TransactionReport

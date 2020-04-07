@@ -1,12 +1,12 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -15,8 +15,8 @@ import (
 )
 
 type Replication struct {
-	Src             rc_conn.ConnUserFile
-	Dst             rc_conn.ConnUserFile
+	Src             dbx_conn.ConnUserFile
+	Dst             dbx_conn.ConnUserFile
 	SrcPath         mo_path.DropboxPath
 	DstPath         mo_path.DropboxPath
 	ReplicationDiff rp_model.RowReport

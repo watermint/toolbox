@@ -3,13 +3,13 @@ package batch
 import (
 	"encoding/csv"
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_url"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -51,7 +51,7 @@ func (z *UrlWorker) Exec() error {
 }
 
 type Url struct {
-	Peer            rc_conn.ConnUserFile
+	Peer            dbx_conn.ConnUserFile
 	File            fd_file.RowFeed
 	Path            string
 	OperationLog    rp_model.TransactionReport

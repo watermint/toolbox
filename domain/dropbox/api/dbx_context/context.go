@@ -6,7 +6,7 @@ import (
 
 type Context interface {
 	api_context.Context
-	api_context.RpcContext
+	api_context.PostContext
 	api_context.AsyncContext
 	api_context.ListContext
 	api_context.UploadContext

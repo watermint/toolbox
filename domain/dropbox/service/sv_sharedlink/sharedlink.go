@@ -80,7 +80,7 @@ func (z *sharedLinkImpl) Resolve(url mo_url.Url, password string) (entry mo_file
 		Password: password,
 	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Rpc("sharing/get_shared_link_metadata").Param(p).Call()
+	res, err := z.ctx.Post("sharing/get_shared_link_metadata").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +115,7 @@ func (z *sharedLinkImpl) Update(link mo_sharedlink.SharedLink, opts ...LinkOpt) 
 	}
 
 	link = &mo_sharedlink.Metadata{}
-	res, err := z.ctx.Rpc("sharing/modify_shared_link_settings").Param(p).Call()
+	res, err := z.ctx.Post("sharing/modify_shared_link_settings").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -167,7 +167,7 @@ func (z *sharedLinkImpl) Remove(link mo_sharedlink.SharedLink) (err error) {
 		Url: link.LinkUrl(),
 	}
 
-	_, err = z.ctx.Rpc("sharing/revoke_shared_link").Param(p).Call()
+	_, err = z.ctx.Post("sharing/revoke_shared_link").Param(p).Call()
 	return err
 }
 
@@ -194,7 +194,7 @@ func (z *sharedLinkImpl) Create(path mo_path.DropboxPath, opts ...LinkOpt) (link
 	}
 
 	link = &mo_sharedlink.Metadata{}
-	res, err := z.ctx.Rpc("sharing/create_shared_link_with_settings").Param(p).Call()
+	res, err := z.ctx.Post("sharing/create_shared_link_with_settings").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

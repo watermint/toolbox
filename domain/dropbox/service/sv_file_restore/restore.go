@@ -29,7 +29,7 @@ func (z *restoreImpl) Restore(path mo_path.DropboxPath, rev string) (entry mo_fi
 		Rev:  rev,
 	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Rpc("files/restore").Param(p).Call()
+	res, err := z.ctx.Post("files/restore").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

@@ -318,7 +318,7 @@ func (z *memberImpl) Add(member MemberAddOption, opts ...AddOption) (err error) 
 		CustomMessage:  ao.customMessage,
 	}
 
-	_, err = z.ctx.Rpc("sharing/add_folder_member").Param(p).Call()
+	_, err = z.ctx.Post("sharing/add_folder_member").Param(p).Call()
 	if err != nil {
 		return err
 	}

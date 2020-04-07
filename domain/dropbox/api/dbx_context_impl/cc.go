@@ -56,7 +56,7 @@ func (z *ccImpl) Log() *zap.Logger {
 	return z.ctl.Log()
 }
 
-func (z *ccImpl) Rpc(endpoint string) api_request.Request {
+func (z *ccImpl) Post(endpoint string) api_request.Request {
 	return dbx_request.NewPpcRequest(
 		z,
 		endpoint,

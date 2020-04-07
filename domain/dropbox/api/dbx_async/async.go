@@ -196,7 +196,7 @@ func (z *asyncImpl) handleAsyncJobId(res api_response.Response, asyncJobId strin
 		AsyncJobId: asyncJobId,
 	}
 
-	res, err = z.ctx.Rpc(z.statusEndpoint).Param(p).Call()
+	res, err = z.ctx.Post(z.statusEndpoint).Param(p).Call()
 	if err != nil {
 		if z.failure != nil {
 			if err2 := z.failure(err); err2 != nil {
@@ -210,7 +210,7 @@ func (z *asyncImpl) handleAsyncJobId(res api_response.Response, asyncJobId strin
 }
 
 func (z *asyncImpl) Call() (res api_async.Response, resErr error) {
-	rpcRes, err := z.ctx.Rpc(z.requestEndpoint).Param(z.param).Call()
+	rpcRes, err := z.ctx.Post(z.requestEndpoint).Param(z.param).Call()
 	if err != nil {
 		return nil, err
 	}

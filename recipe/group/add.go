@@ -1,10 +1,10 @@
 package group
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -15,7 +15,7 @@ import (
 )
 
 type Add struct {
-	Peer                       rc_conn.ConnBusinessMgmt
+	Peer                       dbx_conn.ConnBusinessMgmt
 	Name                       string
 	ManagementType             string
 	ErrorInvalidManagementType app_msg.Message

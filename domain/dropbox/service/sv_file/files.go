@@ -215,7 +215,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 		Changes bool `path:"changes"  json:"changes"`
 	}
 
-	res, err := z.ctx.Rpc("files/list_folder/get_latest_cursor").Param(p).Call()
+	res, err := z.ctx.Post("files/list_folder/get_latest_cursor").Param(p).Call()
 	if err != nil {
 		return err
 	}
@@ -272,7 +272,7 @@ func (z *filesImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err 
 		IncludeDeleted:                  false,
 	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Rpc("files/get_metadata").Param(p).Call()
+	res, err := z.ctx.Post("files/get_metadata").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -352,7 +352,7 @@ func (z *filesImpl) Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry m
 	}
 
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Rpc("files/delete_v2").Param(p).Call()
+	res, err := z.ctx.Post("files/delete_v2").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

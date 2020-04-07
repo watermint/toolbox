@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
@@ -22,7 +23,6 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -184,10 +184,10 @@ type Replication struct {
 	TargetNames  []string
 	TargetAll    bool
 	Verification rp_model.RowReport
-	SrcFile      rc_conn.ConnBusinessFile
-	SrcMgmt      rc_conn.ConnBusinessMgmt
-	DstFile      rc_conn.ConnBusinessFile
-	DstMgmt      rc_conn.ConnBusinessMgmt
+	SrcFile      dbx_conn.ConnBusinessFile
+	SrcMgmt      dbx_conn.ConnBusinessMgmt
+	DstFile      dbx_conn.ConnBusinessFile
+	DstMgmt      dbx_conn.ConnBusinessMgmt
 }
 
 func (z *Replication) Exec(c app_control.Control) (err error) {

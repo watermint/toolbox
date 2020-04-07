@@ -3682,6 +3682,47 @@
       }
     ]
   },
+  "services github public issue list": {
+    "name": "list",
+    "title": "List issues of the public GitHub repository",
+    "desc": "",
+    "remarks": "(Experimental)",
+    "path": "services github public issue list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": true,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "issues",
+        "desc": "GitHub Issue",
+        "columns": [
+          {
+            "name": "number",
+            "desc": "Issue number"
+          },
+          {
+            "name": "url",
+            "desc": "URL of the issue"
+          },
+          {
+            "name": "title",
+            "desc": "Title"
+          },
+          {
+            "name": "state",
+            "desc": "Issue state"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
   "sharedfolder list": {
     "name": "list",
     "title": "List shared folder(s)",

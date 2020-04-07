@@ -2,12 +2,12 @@ package activity
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -16,7 +16,7 @@ import (
 )
 
 type Event struct {
-	Peer      rc_conn.ConnBusinessAudit
+	Peer      dbx_conn.ConnBusinessAudit
 	StartTime mo_time.TimeOptional
 	EndTime   mo_time.TimeOptional
 	Category  string

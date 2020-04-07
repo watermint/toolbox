@@ -1,10 +1,10 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -12,7 +12,7 @@ import (
 )
 
 type Copy struct {
-	Peer rc_conn.ConnUserFile
+	Peer dbx_conn.ConnUserFile
 	Src  mo_path.DropboxPath
 	Dst  mo_path.DropboxPath
 }

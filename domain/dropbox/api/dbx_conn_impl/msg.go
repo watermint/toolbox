@@ -1,4 +1,4 @@
-package rc_conn_impl
+package dbx_conn_impl
 
 import "github.com/watermint/toolbox/infra/ui/app_msg"
 

@@ -72,7 +72,7 @@ func (z *teamFolderImpl) Resolve(teamFolderId string) (teamfolder *mo_teamfolder
 	}{
 		TeamFolderIds: []string{teamFolderId},
 	}
-	res, err := z.ctx.Rpc("team/team_folder/get_info").Param(p).Call()
+	res, err := z.ctx.Post("team/team_folder/get_info").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +96,7 @@ func (z *teamFolderImpl) Create(name string, opts ...CreateOption) (teamfolder *
 	}
 
 	teamfolder = &mo_teamfolder.TeamFolder{}
-	res, err := z.ctx.Rpc("team/team_folder/create").Param(p).Call()
+	res, err := z.ctx.Post("team/team_folder/create").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +113,7 @@ func (z *teamFolderImpl) Activate(tf *mo_teamfolder.TeamFolder) (teamfolder *mo_
 		TeamFolderId: tf.TeamFolderId,
 	}
 	teamfolder = &mo_teamfolder.TeamFolder{}
-	res, err := z.ctx.Rpc("team/team_folder/activate").Param(p).Call()
+	res, err := z.ctx.Post("team/team_folder/activate").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -152,7 +152,7 @@ func (z *teamFolderImpl) Rename(tf *mo_teamfolder.TeamFolder, newName string) (u
 		Name:         newName,
 	}
 	updated = &mo_teamfolder.TeamFolder{}
-	res, err := z.ctx.Rpc("team/team_folder/rename").Param(p).Call()
+	res, err := z.ctx.Post("team/team_folder/rename").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -168,6 +168,6 @@ func (z *teamFolderImpl) PermDelete(tf *mo_teamfolder.TeamFolder) (err error) {
 	}{
 		TeamFolderId: tf.TeamFolderId,
 	}
-	_, err = z.ctx.Rpc("team/team_folder/permanently_delete").Param(p).Call()
+	_, err = z.ctx.Post("team/team_folder/permanently_delete").Param(p).Call()
 	return err
 }

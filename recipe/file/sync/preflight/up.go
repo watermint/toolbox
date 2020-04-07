@@ -1,9 +1,9 @@
 package preflight
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
@@ -12,7 +12,7 @@ import (
 )
 
 type Up struct {
-	Peer        rc_conn.ConnUserFile
+	Peer        dbx_conn.ConnUserFile
 	LocalPath   mo_path.FileSystemPath
 	DropboxPath mo_path.DropboxPath
 	Upload      *file.Upload

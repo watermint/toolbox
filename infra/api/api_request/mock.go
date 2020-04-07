@@ -1,7 +1,6 @@
-package dbx_request
+package api_request
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"net/http"
@@ -14,7 +13,7 @@ func (z *MockRequest) ParamString() string {
 	return ""
 }
 
-func (z *MockRequest) Param(p interface{}) api_request.Request {
+func (z *MockRequest) Param(p interface{}) Request {
 	return z
 }
 

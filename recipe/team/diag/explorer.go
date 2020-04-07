@@ -1,9 +1,9 @@
 package diag
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/recipe/group"
@@ -23,9 +23,9 @@ import (
 )
 
 type Explorer struct {
-	Info                        rc_conn.ConnBusinessInfo
-	File                        rc_conn.ConnBusinessFile
-	Mgmt                        rc_conn.ConnBusinessMgmt
+	Info                        dbx_conn.ConnBusinessInfo
+	File                        dbx_conn.ConnBusinessFile
+	Mgmt                        dbx_conn.ConnBusinessMgmt
 	All                         bool
 	RecipeInfo                  *team.Info
 	RecipeFeature               *team.Feature

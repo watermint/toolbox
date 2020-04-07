@@ -5,11 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_lang"
@@ -172,7 +172,7 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 	}
 
 	l.Info("Ensure end to end resource availability")
-	if !rc_conn_impl.IsEndToEndTokenAllAvailable(c) {
+	if !dbx_conn_impl.IsEndToEndTokenAllAvailable(c) {
 		l.Error("At least one of end to end resource is not available.")
 		return errors.New("end to end resource is not available")
 	}

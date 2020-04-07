@@ -89,7 +89,7 @@ func (z *implRelocation) relocParam(from, to mo_path.DropboxPath) interface{} {
 func (z *implRelocation) Copy(from, to mo_path.DropboxPath) (entry mo_file.Entry, err error) {
 	p := z.relocParam(from, to)
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Rpc("files/copy_v2").Param(p).Call()
+	res, err := z.ctx.Post("files/copy_v2").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +102,7 @@ func (z *implRelocation) Copy(from, to mo_path.DropboxPath) (entry mo_file.Entry
 func (z *implRelocation) Move(from, to mo_path.DropboxPath) (entry mo_file.Entry, err error) {
 	p := z.relocParam(from, to)
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Rpc("files/move_v2").Param(p).Call()
+	res, err := z.ctx.Post("files/move_v2").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

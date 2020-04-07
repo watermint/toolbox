@@ -176,7 +176,7 @@ func (z *listImpl) isContinue(res api_response.Response) (cont bool, cursor stri
 }
 
 func (z *listImpl) list() error {
-	res, err := z.ctx.Rpc(z.requestEndpoint).Param(z.param).Call()
+	res, err := z.ctx.Post(z.requestEndpoint).Param(z.param).Call()
 	return z.handleResponse(z.requestEndpoint, res, err)
 }
 
@@ -186,7 +186,7 @@ func (z *listImpl) listContinue(cursor string) error {
 	}{
 		Cursor: cursor,
 	}
-	res, err := z.ctx.Rpc(z.continueEndpoint).Param(p).Call()
+	res, err := z.ctx.Post(z.continueEndpoint).Param(p).Call()
 
 	return z.handleResponse(z.continueEndpoint, res, err)
 }

@@ -44,7 +44,7 @@ func (z *noAuthImpl) Log() *zap.Logger {
 	return app_root.Log()
 }
 
-func (z *noAuthImpl) Rpc(endpoint string) api_request.Request {
+func (z *noAuthImpl) Post(endpoint string) api_request.Request {
 	return dbx_request.NewPpcRequest(
 		z,
 		endpoint,

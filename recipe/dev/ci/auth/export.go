@@ -3,8 +3,8 @@ package auth
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_io"
@@ -14,11 +14,11 @@ import (
 )
 
 type Export struct {
-	Full  rc_conn.ConnUserFile
-	Info  rc_conn.ConnBusinessInfo
-	File  rc_conn.ConnBusinessFile
-	Audit rc_conn.ConnBusinessAudit
-	Mgmt  rc_conn.ConnBusinessMgmt
+	Full  dbx_conn.ConnUserFile
+	Info  dbx_conn.ConnBusinessInfo
+	File  dbx_conn.ConnBusinessFile
+	Audit dbx_conn.ConnBusinessAudit
+	Mgmt  dbx_conn.ConnBusinessMgmt
 }
 
 func (z *Export) Preset() {

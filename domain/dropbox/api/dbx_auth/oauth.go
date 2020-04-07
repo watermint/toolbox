@@ -2,22 +2,20 @@ package dbx_auth
 
 import (
 	"context"
-	"encoding/json"
+	"github.com/watermint/toolbox/infra/api/api_appkey"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
-	"github.com/watermint/toolbox/infra/security/sc_zap"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"strings"
 )
 
-func NewApp(control app_control.Control) api_auth.App {
+func NewApp(ctl app_control.Control) api_auth.App {
 	a := &App{
-		ctl:  control,
-		keys: make(map[string]string),
+		ctl: ctl,
+		res: api_appkey.New(ctl),
 	}
-	a.loadKeys()
 	return a
 }
 
@@ -30,8 +28,8 @@ func NewConsoleOAuth(c app_control.Control, peerName string) api_auth.Console {
 }
 
 type App struct {
-	ctl  app_control.Control
-	keys map[string]string
+	ctl app_control.Control
+	res api_appkey.Resource
 }
 
 func (z *App) Config(tokenType string) *oauth2.Config {
@@ -45,30 +43,7 @@ func (z *App) Config(tokenType string) *oauth2.Config {
 }
 
 func (z *App) AppKey(tokenType string) (key, secret string) {
-	var e bool
-	if key, e = z.keys[tokenType+".key"]; !e {
-		return "", ""
-	}
-	if secret, e = z.keys[tokenType+".secret"]; !e {
-		return "", ""
-	}
-	return
-}
-
-func (z *App) loadKeys() {
-	kb, err := sc_zap.Unzap(z.ctl)
-	if err != nil {
-		kb, err = z.ctl.Resource("toolbox.appkeys")
-		if err != nil {
-			z.ctl.Log().Debug("Skip loading app keys")
-			return
-		}
-	}
-	err = json.Unmarshal(kb, &z.keys)
-	if err != nil {
-		z.ctl.Log().Debug("Skip loading app keys: unable to unmarshal resource", zap.Error(err))
-		return
-	}
+	return z.res.Key(tokenType)
 }
 
 type OAuth struct {

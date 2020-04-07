@@ -1,11 +1,11 @@
 package export
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -16,7 +16,7 @@ import (
 )
 
 type Doc struct {
-	Peer         rc_conn.ConnUserFile
+	Peer         dbx_conn.ConnUserFile
 	LocalPath    mo_path.FileSystemPath
 	DropboxPath  mo_path.DropboxPath
 	OperationLog rp_model.RowReport

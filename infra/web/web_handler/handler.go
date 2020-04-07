@@ -7,13 +7,13 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_group_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -350,7 +350,7 @@ func (z *WebHandler) Run(g *gin.Context) {
 			}
 			if vc, ok := v.(rc_recipe.ValueConn); ok {
 				if pn, ok := selectedConns[vn]; ok {
-					conn := vc.Bind().(rc_conn.ConnDropboxApi)
+					conn := vc.Bind().(dbx_conn.ConnDropboxApi)
 					conn.SetPeerName(pn)
 				}
 			}

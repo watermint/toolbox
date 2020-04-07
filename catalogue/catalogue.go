@@ -3,12 +3,12 @@ package catalogue
 import (
 	infra_api_api_api_auth_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
+	infra_recipe_rc_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/infra/api/api_callback"
 	infra_control_app_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
 	infra_kvs_kv_storageimpl "github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
 	infra_network_nw_diag "github.com/watermint/toolbox/infra/network/nw_diag"
 	infra_recipe_rc_catalogue "github.com/watermint/toolbox/infra/recipe/rc_catalogue"
-	infra_recipe_rc_conn_impl "github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
 	infra_recipe_rc_group "github.com/watermint/toolbox/infra/recipe/rc_group"
 	infra_recipe_rc_group_impl "github.com/watermint/toolbox/infra/recipe/rc_group_impl"
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -52,6 +52,7 @@ import (
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
+	recipeservicesgithubpublicissue "github.com/watermint/toolbox/recipe/services/github/public/issue"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
 	recipesharedlink "github.com/watermint/toolbox/recipe/sharedlink"
@@ -162,6 +163,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipememberupdate.Email{}),
 		infra_recipe_rc_recipe.Annotate(&recipememberupdate.Externalid{}),
 		infra_recipe_rc_recipe.Annotate(&recipememberupdate.Profile{}),
+		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubpublicissue.List{}, infra_recipe_rc_recipe.Experimental()),
 		infra_recipe_rc_recipe.Annotate(&recipesharedfolder.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipesharedfoldermember.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipesharedlink.Create{}),

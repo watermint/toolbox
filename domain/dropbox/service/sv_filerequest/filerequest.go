@@ -73,7 +73,7 @@ func (z *fileRequestImpl) Update(fr *mo_filerequest.FileRequest) (req *mo_filere
 		Open:        fr.IsOpen,
 	}
 	fr1 := &mo_filerequest.FileRequest{}
-	res, err := z.ctx.Rpc("file_requests/update").Param(co).Call()
+	res, err := z.ctx.Post("file_requests/update").Param(co).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +150,7 @@ func (z *fileRequestImpl) Create(title string, destination mo_path.DropboxPath, 
 		Deadline:    deadline,
 	}
 	fr := &mo_filerequest.FileRequest{}
-	res, err := z.ctx.Rpc("file_requests/create").Param(co).Call()
+	res, err := z.ctx.Post("file_requests/create").Param(co).Call()
 	if err != nil {
 		return nil, err
 	}

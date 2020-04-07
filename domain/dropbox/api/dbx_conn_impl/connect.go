@@ -1,4 +1,4 @@
-package rc_conn_impl
+package dbx_conn_impl
 
 import (
 	"errors"

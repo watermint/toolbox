@@ -5,12 +5,12 @@ import (
 	"flag"
 	"fmt"
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -33,11 +33,12 @@ var (
 		newValueMoPathFileSystemPath(""),
 		newValueMoUrlUrl(""),
 		newValueRcRecipeRecipe("", nil),
-		newValueRcConnBusinessInfo(rc_conn_impl.DefaultPeerName),
-		newValueRcConnBusinessMgmt(rc_conn_impl.DefaultPeerName),
-		newValueRcConnBusinessFile(rc_conn_impl.DefaultPeerName),
-		newValueRcConnBusinessAudit(rc_conn_impl.DefaultPeerName),
-		newValueRcConnUserFile(rc_conn_impl.DefaultPeerName),
+		newValueDbxConnBusinessInfo(dbx_conn_impl.DefaultPeerName),
+		newValueDbxConnBusinessMgmt(dbx_conn_impl.DefaultPeerName),
+		newValueDbxConnBusinessFile(dbx_conn_impl.DefaultPeerName),
+		newValueDbxConnBusinessAudit(dbx_conn_impl.DefaultPeerName),
+		newValueDbxConnUserFile(dbx_conn_impl.DefaultPeerName),
+		newValueGhConnGithubPublic(),
 		newValueRpModelRowReport(""),
 		newValueRpModelTransactionReport(""),
 		newValueFdFileRowFeed(""),
@@ -181,8 +182,8 @@ func (z *RepositoryImpl) FieldValueText(name string) string {
 	}
 }
 
-func (z *RepositoryImpl) Conns() map[string]rc_conn.ConnDropboxApi {
-	conns := make(map[string]rc_conn.ConnDropboxApi)
+func (z *RepositoryImpl) Conns() map[string]dbx_conn.ConnDropboxApi {
+	conns := make(map[string]dbx_conn.ConnDropboxApi)
 	for k, v := range z.values {
 		if vc, ok := v.(rc_recipe.ValueConn); ok {
 			if conn, ok := vc.Conn(); ok {
