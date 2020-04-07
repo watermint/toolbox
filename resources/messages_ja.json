@@ -1007,6 +1007,7 @@
   "recipe.dev.test.resources.title": "バイナリの品質テスト",
   "recipe.dev.test.title": "バイナリテスト",
   "recipe.dev.title": "開発用レシピ",
+  "recipe.dev.util.curl.flag.buffer_size": "バッファのサイズ",
   "recipe.dev.util.curl.flag.record": "テスト用に直接テストレコードを指定",
   "recipe.dev.util.curl.title": "capture.logからcURLのプレビューを生成します",
   "recipe.dev.util.title": "開発ユーティリティ",

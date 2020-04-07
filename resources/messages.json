@@ -1007,6 +1007,7 @@
   "recipe.dev.test.resources.title": "Binary quality test",
   "recipe.dev.test.title": "Binary test",
   "recipe.dev.title": "Development recipes",
+  "recipe.dev.util.curl.flag.buffer_size": "Size of buffer",
   "recipe.dev.util.curl.flag.record": "Capture record(s) for the test",
   "recipe.dev.util.curl.title": "Generate cURL preview from capture log",
   "recipe.dev.util.title": "Dev utilities",

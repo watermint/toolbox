@@ -29,9 +29,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option    | Description                    | Default |
-|-----------|--------------------------------|---------|
-| `-record` | Capture record(s) for the test |         |
+| Option         | Description                    | Default |
+|----------------|--------------------------------|---------|
+| `-buffer-size` | Size of buffer                 | 65536   |
+| `-record`      | Capture record(s) for the test |         |
 
 Common options:
 

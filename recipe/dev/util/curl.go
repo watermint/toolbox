@@ -18,10 +18,12 @@ import (
 )
 
 type Curl struct {
-	Record string
+	Record     string
+	BufferSize int
 }
 
 func (z *Curl) Preset() {
+	z.BufferSize = 65536
 }
 
 func (z *Curl) Exec(c app_control.Control) error {
@@ -34,9 +36,13 @@ func (z *Curl) Exec(c app_control.Control) error {
 	if z.Record != "" {
 		r = buffer.NewReader([]byte(z.Record))
 	}
-	br := bufio.NewReader(r)
+	br := bufio.NewReaderSize(r, z.BufferSize)
 	for {
-		line, _, err := br.ReadLine()
+		line, prefix, err := br.ReadLine()
+		if prefix {
+			l.Warn("Line is too long, terminate operation")
+			return nil
+		}
 		switch err {
 		case nil:
 			rec := &nw_capture.Record{}

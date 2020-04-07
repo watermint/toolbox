@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_rest"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
+	"github.com/watermint/toolbox/infra/app"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"net/http"
@@ -96,6 +97,7 @@ func (z *rpcImpl) Make() (req *http.Request, err error) {
 		return nil, err
 	}
 
+	req.Header.Add(api_request.ReqHeaderUserAgent, app.UserAgent())
 	req.Header.Add(api_request.ReqHeaderContentType, "application/json")
 	z.contentLength = int64(len(p))
 	z.headers = make(map[string]string)
