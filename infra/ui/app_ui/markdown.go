@@ -29,8 +29,7 @@ type Markdown struct {
 	ignoreMissing bool
 }
 
-func (z *Markdown) AskProceed(m app_msg.Message) (cancel bool) {
-	return true
+func (z *Markdown) AskProceed(m app_msg.Message) {
 }
 
 func (z *Markdown) Id() string {

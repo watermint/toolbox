@@ -49,8 +49,9 @@ type UI interface {
 	// Compile text, returns empty string if the key is not found
 	TextOrEmpty(m app_msg.Message) string
 
-	// Ask continue
-	AskProceed(m app_msg.Message) (cancel bool)
+	// Ask to continue. This confirmation step may be skipped on some UI implementation.
+	// If you want to ensure actual user acknowledge, please use AskCont instead.
+	AskProceed(m app_msg.Message)
 
 	// Ask continue
 	AskCont(m app_msg.Message) (cont bool, cancel bool)

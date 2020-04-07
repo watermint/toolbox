@@ -27,7 +27,7 @@ func (z *Import) Exec(c app_control.Control) error {
 		return nil
 	}
 	tokens := make(map[string]*oauth2.Token)
-	if err := json.Unmarshal([]byte(e), tokens); err != nil {
+	if err := json.Unmarshal([]byte(e), &tokens); err != nil {
 		l.Debug("Unable to unmarshal", zap.Error(err))
 		return err
 	}
@@ -39,6 +39,7 @@ func (z *Import) Exec(c app_control.Control) error {
 		if _, err := ca.Auth(scope); err != nil {
 			return err
 		}
+		l.Info("Loaded", zap.String("scope", scope))
 	}
 	l.Info("Tokens loaded")
 	return nil

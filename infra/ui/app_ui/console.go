@@ -128,18 +128,14 @@ type console struct {
 	openArtifactOnce sync.Once
 }
 
-func (z *console) AskProceed(m app_msg.Message) (cancel bool) {
+func (z *console) AskProceed(m app_msg.Message) {
 	z.verifyKey(m.Key())
 	msg := z.mc.Compile(m)
 	z.colorPrint(msg, ColorCyan)
 	z.currentLogger().Debug(msg)
 
 	br := bufio.NewReader(z.in)
-	_, _, err := br.ReadLine()
-	if err != nil {
-		return true
-	}
-	return false
+	_, _, _ = br.ReadLine()
 }
 
 func (z *console) Id() string {

@@ -64,8 +64,7 @@ type Web struct {
 	mutex  sync.Mutex
 }
 
-func (z *Web) AskProceed(m app_msg.Message) (cancel bool) {
-	return true
+func (z *Web) AskProceed(m app_msg.Message) {
 }
 
 func (z *Web) Id() string {

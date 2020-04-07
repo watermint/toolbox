@@ -11,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
-	"os"
 )
 
 type Export struct {
@@ -50,12 +49,6 @@ func (z *Export) Exec(c app_control.Control) error {
 	o.Write(b)
 	o.Write([]byte("\n"))
 	o.Close()
-
-	l.Info("Updating env")
-	err = os.Setenv(qt_endtoend.EndToEndEnvToken, string(b))
-	if err != nil {
-		l.Debug("Unable to set env variable", zap.Error(err))
-	}
 
 	return nil
 }

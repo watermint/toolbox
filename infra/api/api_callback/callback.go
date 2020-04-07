@@ -42,10 +42,9 @@ type MsgCallback struct {
 }
 
 var (
-	shutdownTimeout           = 5 * time.Second
-	ErrorAnotherServerOnline  = errors.New("another server is online")
-	ErrorUserCancelledTheFlow = errors.New("the user cancelled the flow")
-	MCallback                 = app_msg.Apply(&MsgCallback{}).(*MsgCallback)
+	shutdownTimeout          = 5 * time.Second
+	ErrorAnotherServerOnline = errors.New("another server is online")
+	MCallback                = app_msg.Apply(&MsgCallback{}).(*MsgCallback)
 )
 
 type Callback interface {
@@ -179,22 +178,17 @@ func (z *callbackImpl) ping() error {
 	}
 }
 
-func (z *callbackImpl) openUrl(authUrl string) error {
+func (z *callbackImpl) openUrl(authUrl string) {
 	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
 	ui := z.ctl.UI()
 
 	l.Debug("opening auth url", zap.String("url", authUrl))
-	if cancel := ui.AskProceed(MCallback.MsgHitEnterToProceed); cancel {
-		l.Debug("The user cancelled the flow")
-		z.Shutdown()
-		return ErrorUserCancelledTheFlow
-	}
+	ui.AskProceed(MCallback.MsgHitEnterToProceed)
 
 	if err := z.opener.Open(authUrl, true); err != nil {
 		l.Debug("Unable to open, ask user to open the url")
 		ui.Info(MCallback.MsgOpenUrlOnYourBrowser.With("Url", authUrl))
 	}
-	return nil
 }
 
 func (z *callbackImpl) Flow() error {
@@ -220,10 +214,7 @@ func (z *callbackImpl) Flow() error {
 	}
 
 	l.Debug("open url", zap.String("url", url))
-	if err := z.openUrl(url); err != nil {
-		l.Debug("open url failure", zap.Error(err), zap.String("url", url))
-		return err
-	}
+	z.openUrl(url)
 
 	// waiting for finish
 	l.Debug("waiting for server startup")

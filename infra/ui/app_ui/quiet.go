@@ -24,8 +24,7 @@ type Quiet struct {
 	log *zap.Logger
 }
 
-func (z *Quiet) AskProceed(m app_msg.Message) (cancel bool) {
-	return true
+func (z *Quiet) AskProceed(m app_msg.Message) {
 }
 
 func (z *Quiet) Id() string {

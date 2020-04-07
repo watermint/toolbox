@@ -37,8 +37,7 @@ func (z *Dummy) Success(m app_msg.Message) {
 func (z *Dummy) Failure(m app_msg.Message) {
 }
 
-func (z *Dummy) AskProceed(m app_msg.Message) (cancel bool) {
-	return true
+func (z *Dummy) AskProceed(m app_msg.Message) {
 }
 
 func (z *Dummy) AskCont(m app_msg.Message) (cont bool, cancel bool) {

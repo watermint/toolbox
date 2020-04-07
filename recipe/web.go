@@ -5,6 +5,7 @@ import (
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -18,16 +19,12 @@ import (
 	"time"
 )
 
-const (
-	webPort = 7800
-)
-
 type Web struct {
 	Port int
 }
 
 func (z *Web) Preset() {
-	z.Port = webPort
+	z.Port = app.DefaultWebPort
 }
 
 func (z *Web) Test(c app_control.Control) error {

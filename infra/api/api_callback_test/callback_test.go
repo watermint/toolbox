@@ -132,16 +132,6 @@ func TestCallbackImpl_FailureInvalidCode(t *testing.T) {
 	})
 }
 
-func TestCallbackImpl_FailureUserCancel(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
-		ms := NewMockService(ctl)
-		cb := api_callback.NewWithOpener(ctl, ms, 7800, ut_open.NewTestError())
-		if err := cb.Flow(); err != api_callback.ErrorUserCancelledTheFlow {
-			t.Error(err)
-		}
-	})
-}
-
 func TestCallbackImpl_FailureCantStart(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)

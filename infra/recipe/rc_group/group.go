@@ -8,9 +8,8 @@ import (
 )
 
 type MsgHeader struct {
-	Header    app_msg.Message
-	Copyright app_msg.Message
-	License   app_msg.Message
+	Header  app_msg.Message
+	License app_msg.Message
 }
 
 var (
