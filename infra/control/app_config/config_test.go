@@ -1,12 +1,12 @@
 package app_config
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"io/ioutil"
 	"testing"
 )
 
 func TestConfigImpl(t *testing.T) {
-	p, err := qt_file.MakeTestFolder("config", false)
+	p, err := ioutil.TempDir("", "config")
 	if err != nil {
 		t.Error(err)
 		return
