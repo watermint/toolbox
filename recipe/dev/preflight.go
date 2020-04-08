@@ -85,7 +85,7 @@ func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) 
 	for _, e := range entries {
 		if !whiteList(e.Name()) {
 			p := filepath.Join(path, e.Name())
-			if c.IsTest() {
+			if c.Feature().IsTest() {
 				continue
 			}
 			err := os.Remove(p)
@@ -100,7 +100,7 @@ func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) 
 
 func (z *Preflight) cloneSpec(c app_control.Control, path string, release int) error {
 	l := c.Log()
-	if c.IsTest() {
+	if c.Feature().IsTest() {
 		l.Debug("Skip for test")
 		return nil
 	}
@@ -121,7 +121,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	l := c.Log()
 
 	release := 0
-	if !c.IsTest() {
+	if !c.Feature().IsTest() {
 		v, err := ioutil.ReadFile("version")
 		if err != nil {
 			l.Error("Unable to read version file", zap.Error(err))
@@ -141,7 +141,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		path := fmt.Sprintf("doc/generated%s/", suffix)
 		ll := l.With(zap.String("lang", langCode), zap.String("suffix", suffix))
 
-		if !c.IsTest() {
+		if !c.Feature().IsTest() {
 			ll.Info("Clean up generated document folder")
 			if err := z.deleteOldGeneratedFiles(c, path); err != nil {
 				return err
@@ -187,7 +187,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			return err
 		}
 
-		if !c.IsTest() && minimumSpecDocVersion < release {
+		if !c.Feature().IsTest() && minimumSpecDocVersion < release {
 			ll.Info("Generating release notes")
 			err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Diff)

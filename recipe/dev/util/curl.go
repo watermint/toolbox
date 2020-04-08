@@ -28,7 +28,7 @@ func (z *Curl) Preset() {
 
 func (z *Curl) Exec(c app_control.Control) error {
 	l := c.Log()
-	w := ut_io.NewDefaultOut(c.IsTest())
+	w := ut_io.NewDefaultOut(c.Feature().IsTest())
 	bw := bufio.NewWriter(w)
 	defer bw.Flush()
 	var r io.Reader
@@ -40,7 +40,7 @@ func (z *Curl) Exec(c app_control.Control) error {
 	for {
 		line, prefix, err := br.ReadLine()
 		if prefix {
-			l.Warn("Line is too long, terminate operation")
+			l.Warn("Line is too long, terminate this operation")
 			return nil
 		}
 		switch err {

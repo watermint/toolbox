@@ -45,7 +45,7 @@ func (z *Export) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	o := ut_io.NewDefaultOut(c.IsTest())
+	o := ut_io.NewDefaultOut(c.Feature().IsTest())
 	o.Write(b)
 	o.Write([]byte("\n"))
 	o.Close()

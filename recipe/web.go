@@ -40,7 +40,7 @@ func (z *Web) Exec(c app_control.Control) error {
 	rur := repo.(web_user.RootUserRepository)
 	ru := rur.RootUser()
 
-	if c.IsProduction() {
+	if c.Feature().IsProduction() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
@@ -85,7 +85,7 @@ func (z *Web) Exec(c app_control.Control) error {
 
 	time.Sleep(2 * time.Second)
 	l.Info("Trying open the browser")
-	if !c.IsTest() {
+	if !c.Feature().IsTest() {
 		if err := ut_open.New().Open(loginUrl, true); err != nil {
 			l.Warn("Unable to open the browser", zap.Error(err))
 			l.Info("Please open this url on the browser", zap.String("url", loginUrl))

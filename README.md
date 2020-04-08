@@ -46,6 +46,7 @@ Usage:
 Available commands:
 ===================
 
+   config        watermint toolbox configuration  
    connect       Connect to the account           
    file          File operation                   
    filerequest   File request operation           
@@ -65,6 +66,8 @@ Available commands:
 
 | Command                                                                                 | Description                                                   |
 |-----------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [config disable](doc/generated/config-disable.md)                                       | Disable a feature.                                            |
+| [config enable](doc/generated/config-enable.md)                                         | Enable a feature.                                             |
 | [connect business_audit](doc/generated/connect-business_audit.md)                       | Connect to the team audit access                              |
 | [connect business_file](doc/generated/connect-business_file.md)                         | Connect to the team file access                               |
 | [connect business_info](doc/generated/connect-business_info.md)                         | Connect to the team info access                               |

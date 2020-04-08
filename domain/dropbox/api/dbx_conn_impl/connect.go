@@ -65,7 +65,7 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 	}
 
 	switch {
-	case ctl.IsTest():
+	case ctl.Feature().IsTest():
 		if qt_endtoend.IsSkipEndToEndTest() {
 			l.Debug("Skip end to end test")
 			return dbx_context_impl.NewMock(ctl), nil

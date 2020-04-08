@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_request"
-	"github.com/watermint/toolbox/domain/github/api/gh_response"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
+	"io/ioutil"
 	"net/http"
 	"strings"
 )
@@ -64,7 +65,7 @@ func (z *Context) IsNoRetry() bool {
 }
 
 func (z *Context) MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error) {
-	return gh_response.New(z, req, res)
+	return NewResponse(z, req, res)
 }
 
 func (z *Context) Post(endpoint string) api_request.Request {
@@ -73,4 +74,22 @@ func (z *Context) Post(endpoint string) api_request.Request {
 
 func (z *Context) Get(endpoint string) api_request.Request {
 	return gh_request.New(z, z.scope, z.token, endpoint, "GET")
+}
+
+func NewResponse(ctx api_context.Context, req *http.Request, res *http.Response) (api_response.Response, error) {
+	l := ctx.Log()
+	defer nw_monitor.Log(req, res)
+	if res == nil {
+		l.Debug("Null response")
+		return nil, api_response.ErrorNoResponse
+	}
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		l.Debug("Unable to read body", zap.Error(err))
+		return nil, err
+	}
+	res.ContentLength = int64(len(body))
+
+	return api_response.New(res, body), nil
 }

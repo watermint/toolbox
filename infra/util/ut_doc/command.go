@@ -263,8 +263,8 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 	params["ReportAvailable"] = len(reportNames) > 0
 	params["ReportDesc"] = reportDescs
 
-	out := ut_io.NewDefaultOut(ctl.IsTest())
-	if z.path != "" && !ctl.IsTest() {
+	out := ut_io.NewDefaultOut(ctl.Feature().IsTest())
+	if z.path != "" && !ctl.Feature().IsTest() {
 		outPath := z.path + strings.ReplaceAll(spec.CliPath(), " ", "-") + ".md"
 		out, err = os.Create(outPath)
 		if err != nil {

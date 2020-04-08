@@ -79,7 +79,7 @@ func (z *csvWriter) Close() {
 		err := z.file.Close()
 		l.Debug("File closed", zap.Error(err))
 
-		if z.index < 1 && z.ctl.IsProduction() && !z.ctl.IsTest() {
+		if z.index < 1 && z.ctl.Feature().IsProduction() && !z.ctl.Feature().IsTest() {
 			l.Debug("Try removing empty report file")
 			err := os.Remove(z.path)
 			l.Debug("Removed or had an error (ignore)", zap.Error(err))

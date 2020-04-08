@@ -151,13 +151,13 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	so = append(so, app_control.RecipeName(rcp.CliPath()))
 	so = append(so, app_control.CommonOptions(comSpec.Debug()))
 	so = append(so, app_control.RecipeOptions(rcp.Debug()))
+	so = append(so, app_control.Quiet(com.Quiet))
 
 	ctl := app_control_impl.NewSingle(
 		ui,
 		z.boxResource,
 		z.boxWeb,
 		z.msgContainer,
-		com.Quiet,
 		z.catalogue,
 	)
 
@@ -180,7 +180,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 		if qm, ok := ctl.Messages().(app_msg_container.Quality); ok {
 			missing := qm.MissingKeys()
 			if len(missing) > 0 {
-				w := ut_io.NewDefaultOut(ctl.IsTest())
+				w := ut_io.NewDefaultOut(ctl.Feature().IsTest())
 				for _, k := range missing {
 					ctl.Log().Error("Key missing", zap.String("key", k))
 					fmt.Fprintf(w, `"%s":"",\n`, k)
@@ -190,7 +190,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	}
 
 	// Recover
-	if ctl.IsProduction() {
+	if ctl.Feature().IsProduction() {
 		defer func() {
 			err := recover()
 			if err != nil {
@@ -259,7 +259,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	if err != nil {
 		ctl.Abort(app_control.Reason(app_control.FatalRuntime))
 	}
-	if ctl.IsProduction() && len(rcp.ConnScopes()) > 0 {
+	if ctl.Feature().IsProduction() && len(rcp.ConnScopes()) > 0 {
 		err = nw_diag.Network(ctl)
 		if err != nil {
 			ctl.Abort(app_control.Reason(app_control.FatalNetwork))

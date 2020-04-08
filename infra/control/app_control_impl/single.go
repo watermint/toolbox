@@ -25,12 +25,11 @@ import (
 	"time"
 )
 
-func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, quiet bool, cat rc_catalogue.Catalogue) app_control.Control {
+func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, cat rc_catalogue.Catalogue) app_control.Control {
 	return &Single{
 		box:          bx,
 		catalogue:    cat,
 		mc:           mc,
-		quiet:        quiet,
 		testResource: gjson.Parse("{}"),
 		ui:           ui,
 		web:          web,
@@ -40,18 +39,22 @@ func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, 
 
 type Single struct {
 	box          *rice.Box
+	feature      app_control.Feature
 	cap          *app_log.CaptureContext
 	catalogue    rc_catalogue.Catalogue
 	flc          *app_log.FileLogContext
 	fork         bool
 	mc           app_msg_container.Container
 	opts         *app_control.UpOpts
-	quiet        bool
 	testResource gjson.Result
 	ui           app_ui.UI
 	web          *rice.Box
 	ws           app_workspace.Workspace
 	testValues   map[string]interface{}
+}
+
+func (z *Single) Feature() app_control.Feature {
+	return z.feature
 }
 
 func (z *Single) TestValue(key string) interface{} {
@@ -62,24 +65,8 @@ func (z *Single) SetTestValue(key string, v interface{}) {
 	z.testValues[key] = v
 }
 
-func (z *Single) UIFormat() string {
-	return z.opts.UIFormat
-}
-
-func (z *Single) IsDebug() bool {
-	return z.opts.Debug
-}
-
-func (z *Single) IsAutoOpen() bool {
-	return z.opts.AutoOpen
-}
-
 func (z *Single) Catalogue() rc_catalogue.Catalogue {
 	return z.catalogue
-}
-
-func (z *Single) IsLowMemory() bool {
-	return z.opts.LowMemory
 }
 
 func Fork(ctl app_control.Control, name string) (app_control.Control, error) {
@@ -109,12 +96,12 @@ func (z *Single) Fork(name string, opts ...app_control.UpOpt) (ctl app_control.C
 		fork:         true,
 		mc:           z.mc,
 		opts:         co,
-		quiet:        z.quiet,
 		testResource: z.testResource,
 		ui:           app_ui.CloneConsole(z.ui, z.mc),
 		web:          z.web,
 		ws:           ws,
 		testValues:   tv,
+		feature:      z.feature,
 	}
 	if err := s.upWithWorkspace(ws); err != nil {
 		return nil, err
@@ -132,12 +119,12 @@ func (z *Single) With(mc app_msg_container.Container) app_control.Control {
 		flc:          z.flc,
 		mc:           mc,
 		opts:         z.opts,
-		quiet:        z.quiet,
 		testResource: z.testResource,
 		ui:           ui,
 		web:          z.web,
 		ws:           z.ws,
 		testValues:   z.testValues, // do not clone
+		feature:      z.feature,
 	}
 }
 
@@ -151,12 +138,12 @@ func (z *Single) Quiet() app_control.Control {
 		flc:          z.flc,
 		mc:           z.mc,
 		opts:         z.opts,
-		quiet:        z.quiet,
 		testResource: z.testResource,
 		ui:           ui,
 		web:          z.web,
 		ws:           z.ws,
 		testValues:   z.testValues, // do not clone
+		feature:      z.feature,
 	}
 }
 
@@ -166,7 +153,7 @@ func (z *Single) Messages() app_msg_container.Container {
 
 func (z *Single) NewControl(user app_workspace.MultiUser) (ctl app_control.Control, err error) {
 	ws, err := app_workspace.NewMultiJob(user)
-	ctl = NewMulti(ws, z.ui, z.box, z.mc, z.quiet)
+	ctl = NewMulti(ws, z.ui, z.box, z.mc, z.feature)
 	opts := make([]app_control.UpOpt, 0)
 	if z.opts.Debug {
 		opts = append(opts, app_control.Debug())
@@ -194,7 +181,6 @@ func (z *Single) NewTestControl(testResource gjson.Result) (ctl app_control.Cont
 		box:          z.box,
 		web:          z.web,
 		mc:           z.mc,
-		quiet:        z.quiet,
 		catalogue:    z.catalogue,
 		testResource: testResource,
 		testValues:   tv,
@@ -220,22 +206,6 @@ func (z *Single) Template() app_template.Template {
 
 func (z *Single) HttpFileSystem() http.FileSystem {
 	return z.web.HTTPBox()
-}
-
-func (z *Single) IsProduction() bool {
-	return app.IsProduction()
-}
-
-func (z *Single) IsSecure() bool {
-	return z.opts.Secure
-}
-
-func (z *Single) IsQuiet() bool {
-	return z.quiet
-}
-
-func (z *Single) IsTest() bool {
-	return z.opts.Test
 }
 
 func (z *Single) Workspace() app_workspace.Workspace {
@@ -265,6 +235,7 @@ func (z *Single) upWithWorkspace(ws app_workspace.Workspace, opts ...app_control
 	if err = sl.Create(ws); err != nil {
 		return err
 	}
+	z.feature = NewFeature(z.opts, ws)
 
 	z.flc, err = app_log.NewFileLogger(ws.Log(), z.opts.Debug, z.opts.Test)
 	if err != nil {

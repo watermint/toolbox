@@ -83,8 +83,7 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	bx, web, mc, ui := Resources(t)
 
 	cat := rc_catalogue.NewCatalogue([]rc_recipe.Recipe{}, []rc_recipe.Recipe{}, []interface{}{})
-
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, cat)
+	ctl := app_control_impl.NewSingle(ui, bx, web, mc, cat)
 	cs := ctl.(*app_control_impl.Single)
 	if res, found := findTestResource(); found {
 		var err error

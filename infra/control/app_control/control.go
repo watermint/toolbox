@@ -2,6 +2,7 @@ package app_control
 
 import (
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/infra/control/app_config"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -9,6 +10,18 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
 	"net/http"
+)
+
+const (
+	ConfigKeyDomainDropboxAuthUseRedirect = "domain.dropbox.api.dbx_auth_attr.UseRedirect"
+	ConfigKeyRecipeConfigEnableTest       = "recipe.config.enable.Test"
+)
+
+var (
+	ConfigKeys = []string{
+		ConfigKeyDomainDropboxAuthUseRedirect,
+		ConfigKeyRecipeConfigEnableTest,
+	}
 )
 
 type Feature interface {
@@ -20,11 +33,11 @@ type Feature interface {
 	IsLowMemory() bool
 	IsAutoOpen() bool
 	UIFormat() string
+	Config() app_config.Config
+	IsConfigEnabled(key string) bool
 }
 
 type Control interface {
-	Feature
-
 	Up(opts ...UpOpt) error
 	Down()
 	Abort(opts ...AbortOpt)
@@ -36,6 +49,7 @@ type Control interface {
 	TestResource(key string) (data gjson.Result, found bool)
 	Workspace() app_workspace.Workspace
 	Messages() app_msg_container.Container
+	Feature() Feature
 
 	NewQueue() rc_worker.Queue
 }
@@ -63,6 +77,7 @@ type UpOpts struct {
 	Concurrency   int
 	LowMemory     bool
 	AutoOpen      bool
+	Quiet         bool
 	UIFormat      string
 }
 
@@ -77,10 +92,17 @@ func (z *UpOpts) Clone() *UpOpts {
 		Concurrency:   z.Concurrency,
 		LowMemory:     z.LowMemory,
 		AutoOpen:      z.AutoOpen,
+		Quiet:         z.Quiet,
 		UIFormat:      z.UIFormat,
 	}
 }
 
+func Quiet(enabled bool) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
+		opt.Quiet = true
+		return opt
+	}
+}
 func UIFormat(format string) UpOpt {
 	return func(opt *UpOpts) *UpOpts {
 		opt.UIFormat = format

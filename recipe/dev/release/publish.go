@@ -153,12 +153,12 @@ func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) error 
 
 func (z *Publish) endToEndTest(c app_control.Control) error {
 	l := c.Log()
-	if c.IsTest() {
+	if c.Feature().IsTest() {
 		l.Info("Skip tests")
 		return nil
 	}
 
-	if c.IsProduction() {
+	if c.Feature().IsProduction() {
 		l.Info("Prepare resources")
 		if !dbx_auth.IsCacheAvailable(c, qt_endtoend.EndToEndPeer, []string{
 			api_auth.DropboxTokenFull,

@@ -22,7 +22,7 @@ import (
 )
 
 func SuggestMessages(ctl app_control.Control, suggest func(out io.Writer)) {
-	out := ut_io.NewDefaultOut(ctl.IsTest())
+	out := ut_io.NewDefaultOut(ctl.Feature().IsTest())
 	fmt.Fprintln(out, "Please add those messages to message resource files:")
 	fmt.Fprintln(out, "====================================================")
 	suggest(out)

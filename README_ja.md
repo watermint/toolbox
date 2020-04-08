@@ -46,18 +46,19 @@ DropboxおよびDropbox Business向けのツールセット
 利用可能なコマンド:
 ===================
 
-   connect       アカウントに接続する            
-   file          ファイル操作                
-   filerequest   ファイルリクエストの操作          
-   group         グループ管理                
-   job           ジョブの操作                
-   license       ライセンス情報を表示します         
-   member        チームメンバーの管理            
-   sharedfolder  共有フォルダ                
-   sharedlink    個人アカウントの共有リンク         
-   team          Dropbox Business チーム  
-   teamfolder    チームフォルダの管理            
-   version       バージョン情報               
+   config        watermint toolbox の設定  
+   connect       アカウントに接続する             
+   file          ファイル操作                 
+   filerequest   ファイルリクエストの操作           
+   group         グループ管理                 
+   job           ジョブの操作                 
+   license       ライセンス情報を表示します          
+   member        チームメンバーの管理             
+   sharedfolder  共有フォルダ                 
+   sharedlink    個人アカウントの共有リンク          
+   team          Dropbox Business チーム   
+   teamfolder    チームフォルダの管理             
+   version       バージョン情報                
 
 ```
 
@@ -65,6 +66,8 @@ DropboxおよびDropbox Business向けのツールセット
 
 | コマンド                                                                                   | 説明                                                               |
 |--------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| [config disable](doc/generated_ja/config-disable.md)                                       | 機能を無効化します.                                                |
+| [config enable](doc/generated_ja/config-enable.md)                                         | 機能を有効化します.                                                |
 | [connect business_audit](doc/generated_ja/connect-business_audit.md)                       | チーム監査アクセスに接続する                                       |
 | [connect business_file](doc/generated_ja/connect-business_file.md)                         | チームファイルアクセスに接続する                                   |
 | [connect business_info](doc/generated_ja/connect-business_info.md)                         | チームの情報アクセスに接続する                                     |

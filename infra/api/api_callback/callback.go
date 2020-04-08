@@ -253,7 +253,7 @@ func (z *callbackImpl) Start() error {
 		hfs := hfc.HttpFileSystem()
 		htp := hfc.Template()
 		htr := htp.(render.HTMLRender)
-		if z.ctl.IsProduction() {
+		if z.ctl.Feature().IsProduction() {
 			gin.SetMode(gin.ReleaseMode)
 		}
 		g := gin.New()

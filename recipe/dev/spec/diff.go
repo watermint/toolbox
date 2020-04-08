@@ -237,7 +237,7 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 	var w io.WriteCloser
 	shouldClose := false
 	if z.FilePath == "" {
-		w = ut_io.NewDefaultOut(c.IsTest())
+		w = ut_io.NewDefaultOut(c.Feature().IsTest())
 	} else {
 		var err error
 		w, err = os.Create(z.FilePath)

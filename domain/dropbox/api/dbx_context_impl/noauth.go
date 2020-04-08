@@ -3,7 +3,6 @@ package dbx_context_impl
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -100,5 +99,5 @@ func (z *noAuthImpl) IsNoRetry() bool {
 }
 
 func (z *noAuthImpl) MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error) {
-	return dbx_response.New(z, req, res)
+	return NewResponse(z, req, res)
 }

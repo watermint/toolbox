@@ -39,7 +39,7 @@ func (z *Doc) traverseCatalogue(c app_control.Control, cat rc_catalogue.Catalogu
 	var err error
 	shouldClose := false
 	if z.FilePath == "" {
-		w = ut_io.NewDefaultOut(c.IsTest())
+		w = ut_io.NewDefaultOut(c.Feature().IsTest())
 	} else {
 		w, err = os.Create(z.FilePath)
 		if err != nil {
