@@ -68,6 +68,7 @@ Available commands:
 |-----------------------------------------------------------------------------------------|---------------------------------------------------------------|
 | [config disable](doc/generated/config-disable.md)                                       | Disable a feature.                                            |
 | [config enable](doc/generated/config-enable.md)                                         | Enable a feature.                                             |
+| [config features](doc/generated/config-features.md)                                     | List available optional features.                             |
 | [connect business_audit](doc/generated/connect-business_audit.md)                       | Connect to the team audit access                              |
 | [connect business_file](doc/generated/connect-business_file.md)                         | Connect to the team file access                               |
 | [connect business_info](doc/generated/connect-business_info.md)                         | Connect to the team info access                               |

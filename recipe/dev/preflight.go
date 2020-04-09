@@ -230,6 +230,15 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				l.Debug("message", zap.String("key", msg.Key()), zap.String("text", c.UI().Text(msg)))
 			}
 		}
+
+		l.Info("Verify features")
+		for _, f := range cat.Features() {
+			key := f.OptInName(f)
+			ll := l.With(zap.String("key", key))
+			ll.Debug("feature disclaimer", zap.String("msg", c.UI().Text(f.OptInDisclaimer(f))))
+			ll.Debug("feature agreement", zap.String("msg", c.UI().Text(f.OptInAgreement(f))))
+			ll.Debug("feature desc", zap.String("msg", c.UI().Text(f.OptInDescription(f))))
+		}
 	}
 
 	l.Info("Verify message resources")

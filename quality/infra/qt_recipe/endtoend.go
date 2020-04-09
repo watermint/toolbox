@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
 	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
@@ -82,7 +83,7 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	bx, web, mc, ui := Resources(t)
 
-	cat := rc_catalogue.NewCatalogue([]rc_recipe.Recipe{}, []rc_recipe.Recipe{}, []interface{}{})
+	cat := rc_catalogue.NewCatalogue([]rc_recipe.Recipe{}, []rc_recipe.Recipe{}, []interface{}{}, []app_feature.OptIn{})
 	ctl := app_control_impl.NewSingle(ui, bx, web, mc, cat)
 	cs := ctl.(*app_control_impl.Single)
 	if res, found := findTestResource(); found {

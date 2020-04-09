@@ -35,6 +35,24 @@
     "reports": [],
     "feeds": []
   },
+  "config features": {
+    "name": "features",
+    "title": "List available optional features.",
+    "desc": "",
+    "remarks": "",
+    "path": "config features",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": true,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": []
+  },
   "connect business_audit": {
     "name": "business_audit",
     "title": "チーム監査アクセスに接続する",

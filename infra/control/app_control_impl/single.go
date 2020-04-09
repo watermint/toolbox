@@ -7,6 +7,8 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/control/app_feature"
+	"github.com/watermint/toolbox/infra/control/app_feature_impl"
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -39,7 +41,7 @@ func NewSingle(ui app_ui.UI, bx, web *rice.Box, mc app_msg_container.Container, 
 
 type Single struct {
 	box          *rice.Box
-	feature      app_control.Feature
+	feature      app_feature.Feature
 	cap          *app_log.CaptureContext
 	catalogue    rc_catalogue.Catalogue
 	flc          *app_log.FileLogContext
@@ -53,7 +55,7 @@ type Single struct {
 	testValues   map[string]interface{}
 }
 
-func (z *Single) Feature() app_control.Feature {
+func (z *Single) Feature() app_feature.Feature {
 	return z.feature
 }
 
@@ -235,7 +237,7 @@ func (z *Single) upWithWorkspace(ws app_workspace.Workspace, opts ...app_control
 	if err = sl.Create(ws); err != nil {
 		return err
 	}
-	z.feature = NewFeature(z.opts, ws)
+	z.feature = app_feature_impl.NewFeature(z.opts, ws)
 
 	z.flc, err = app_log.NewFileLogger(ws.Log(), z.opts.Debug, z.opts.Test)
 	if err != nil {

@@ -5,6 +5,7 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
@@ -14,7 +15,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func NewMulti(ws app_workspace.Workspace, ui app_ui.UI, bx *rice.Box, mc app_msg_container.Container, feature app_control.Feature) app_control.Control {
+func NewMulti(ws app_workspace.Workspace, ui app_ui.UI, bx *rice.Box, mc app_msg_container.Container, feature app_feature.Feature) app_control.Control {
 	return &Multi{
 		ws:      ws,
 		ui:      ui,
@@ -25,7 +26,7 @@ func NewMulti(ws app_workspace.Workspace, ui app_ui.UI, bx *rice.Box, mc app_msg
 }
 
 type Multi struct {
-	feature app_control.Feature
+	feature app_feature.Feature
 	ui      app_ui.UI
 	flc     *app_log.FileLogContext
 	cap     *app_log.CaptureContext
@@ -35,7 +36,7 @@ type Multi struct {
 	secure  bool
 }
 
-func (z *Multi) Feature() app_control.Feature {
+func (z *Multi) Feature() app_feature.Feature {
 	return z.feature
 }
 

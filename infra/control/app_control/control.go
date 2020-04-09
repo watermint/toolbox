@@ -2,7 +2,7 @@ package app_control
 
 import (
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/infra/control/app_config"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -11,31 +11,6 @@ import (
 	"go.uber.org/zap"
 	"net/http"
 )
-
-const (
-	ConfigKeyDomainDropboxAuthUseRedirect = "domain.dropbox.api.dbx_auth_attr.UseRedirect"
-	ConfigKeyRecipeConfigEnableTest       = "recipe.config.enable.Test"
-)
-
-var (
-	ConfigKeys = []string{
-		ConfigKeyDomainDropboxAuthUseRedirect,
-		ConfigKeyRecipeConfigEnableTest,
-	}
-)
-
-type Feature interface {
-	IsProduction() bool
-	IsDebug() bool
-	IsTest() bool
-	IsQuiet() bool
-	IsSecure() bool
-	IsLowMemory() bool
-	IsAutoOpen() bool
-	UIFormat() string
-	Config() app_config.Config
-	IsConfigEnabled(key string) bool
-}
 
 type Control interface {
 	Up(opts ...UpOpt) error
@@ -49,7 +24,7 @@ type Control interface {
 	TestResource(key string) (data gjson.Result, found bool)
 	Workspace() app_workspace.Workspace
 	Messages() app_msg_container.Container
-	Feature() Feature
+	Feature() app_feature.Feature
 
 	NewQueue() rc_worker.Queue
 }

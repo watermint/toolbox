@@ -6,6 +6,7 @@
 |-----------------------------------|-----------------------------------------------------------------|
 | config disable                    | Disable a feature.                                              |
 | config enable                     | Enable a feature.                                               |
+| config features                   | List available optional features.                               |
 | dev ci auth connect               | Authenticate for generating end to end testing                  |
 | dev ci auth export                | Export auth tokens of end to end test                           |
 | dev ci auth import                | Import auth tokens of end to end test from environment variable |

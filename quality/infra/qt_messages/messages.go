@@ -60,6 +60,10 @@ func VerifyMessages(ctl app_control.Control) error {
 					fmt.Fprintf(out, `"%s":"Account alias",`, m)
 				case strings.HasSuffix(m, ".flag.file"):
 					fmt.Fprintf(out, `"%s":"Path to data file",`, m)
+				case strings.HasSuffix(m, ".agreement"):
+					fmt.Fprintf(out, `"%s":"This feature is in an early stage of development. This is not well tested. Please proceed by typing 'yes' to agree & enable this feature.",`, m)
+				case strings.HasSuffix(m, ".disclaimer"):
+					fmt.Fprintf(out, `"%s":"WARN: The early access feature is enabled.",`, m)
 				default:
 					fmt.Fprintf(out, `"%s":"",`, m)
 				}

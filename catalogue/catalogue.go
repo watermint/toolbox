@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	infra_recipe_rc_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/infra/api/api_callback"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	infra_control_app_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
 	infra_kvs_kv_storageimpl "github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
 	infra_network_nw_diag "github.com/watermint/toolbox/infra/network/nw_diag"
@@ -78,7 +79,12 @@ import (
 )
 
 func NewCatalogue() infra_recipe_rc_catalogue.Catalogue {
-	return infra_recipe_rc_catalogue.NewCatalogue(Recipes(), Ingredients(), Messages())
+	return infra_recipe_rc_catalogue.NewCatalogue(
+		Recipes(),
+		Ingredients(),
+		Messages(),
+		Features(),
+	)
 }
 
 func Recipes() []infra_recipe_rc_recipe.Recipe {
@@ -86,6 +92,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipe.License{}),
 		infra_recipe_rc_recipe.Annotate(&recipe.Version{}),
 		infra_recipe_rc_recipe.Annotate(&recipe.Web{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipeconfig.Features{}, infra_recipe_rc_recipe.Console()),
 		infra_recipe_rc_recipe.Annotate(&recipeconfig.Enable{}, infra_recipe_rc_recipe.Console()),
 		infra_recipe_rc_recipe.Annotate(&recipeconfig.Disable{}, infra_recipe_rc_recipe.Console()),
 		infra_recipe_rc_recipe.Annotate(&recipeconnect.BusinessAudit{}, infra_recipe_rc_recipe.Console()),
@@ -213,6 +220,13 @@ func Ingredients() []infra_recipe_rc_recipe.Recipe {
 		&ingredientteamnamespacefile.Size{},
 	}
 	return cat
+}
+
+func Features() []app_feature.OptIn {
+	foi := []app_feature.OptIn{
+		&dbx_auth_attr.Redirect{},
+	}
+	return foi
 }
 
 func Messages() []interface{} {

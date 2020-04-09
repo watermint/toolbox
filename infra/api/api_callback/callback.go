@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/util/ut_log"
 	"github.com/watermint/toolbox/infra/util/ut_open"
 	"go.uber.org/atomic"
 	"go.uber.org/zap"
@@ -253,11 +254,11 @@ func (z *callbackImpl) Start() error {
 		hfs := hfc.HttpFileSystem()
 		htp := hfc.Template()
 		htr := htp.(render.HTMLRender)
-		if z.ctl.Feature().IsProduction() {
+		if !z.ctl.Feature().IsDebug() {
 			gin.SetMode(gin.ReleaseMode)
 		}
 		g := gin.New()
-		g.Use(ginzap.Ginzap(l, time.RFC3339, true))
+		g.Use(ut_log.GinWrapper(l))
 		g.Use(ginzap.RecoveryWithZap(l, true))
 		g.GET(PathConnect, z.Connect)
 		g.GET(PathFailure, z.Failure)

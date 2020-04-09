@@ -68,6 +68,7 @@ DropboxおよびDropbox Business向けのツールセット
 |--------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
 | [config disable](doc/generated_ja/config-disable.md)                                       | 機能を無効化します.                                                |
 | [config enable](doc/generated_ja/config-enable.md)                                         | 機能を有効化します.                                                |
+| [config features](doc/generated_ja/config-features.md)                                     | List available optional features.                                  |
 | [connect business_audit](doc/generated_ja/connect-business_audit.md)                       | チーム監査アクセスに接続する                                       |
 | [connect business_file](doc/generated_ja/connect-business_file.md)                         | チームファイルアクセスに接続する                                   |
 | [connect business_info](doc/generated_ja/connect-business_info.md)                         | チームの情報アクセスに接続する                                     |
