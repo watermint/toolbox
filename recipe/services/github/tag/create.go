@@ -61,10 +61,10 @@ func (z *Create) Exec(c app_control.Control) error {
 func (z *Create) Test(c app_control.Control) error {
 	sha := "4a6b7fea537d8912b1c0ce1422f270dab1e90d82"
 
-	return rc_exec.Exec(c, &Create{}, func(r rc_recipe.Recipe) {
+	return rc_exec.ExecMock(c, &Create{}, func(r rc_recipe.Recipe) {
 		m := r.(*Create)
 		m.Owner = "watermint"
-		m.Repository = "toolbox_sandobx"
+		m.Repository = "toolbox_sandbox"
 		m.Sha1 = sha
 		m.Tag = time.Now().Format("20060103150405")
 		m.Message = time.Now().Format("20060103150405") + ": test tag"

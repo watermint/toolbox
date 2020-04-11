@@ -15,6 +15,7 @@
 | services github issue list        | List issues of the public/private GitHub repository             |
 | services github profile           | Get the authenticated user                                      |
 | services github public issue list | List issues of the public GitHub repository                     |
+| services github release draft     | Create release draft                                            |
 | services github release list      | List releases                                                   |
 | services github tag create        | Create a tag on the repository                                  |
 | version                           | Show version                                                    |

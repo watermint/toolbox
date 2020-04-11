@@ -1,4 +1,4 @@
-package installation
+package release
 
 import (
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"

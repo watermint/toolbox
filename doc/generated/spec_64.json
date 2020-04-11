@@ -3888,6 +3888,51 @@
     ],
     "feeds": []
   },
+  "services github release draft": {
+    "name": "draft",
+    "title": "Create release draft",
+    "desc": "",
+    "remarks": "(Experimental)",
+    "path": "services github release draft",
+    "cli_args": "-body-file /LOCAL/PATH/TO/body.txt",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": true,
+    "is_experimental": true,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "release",
+        "desc": "Release on GitHub",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "Id of the release"
+          },
+          {
+            "name": "tag_name",
+            "desc": "Tag name"
+          },
+          {
+            "name": "name",
+            "desc": "Name of the release"
+          },
+          {
+            "name": "draft",
+            "desc": "True when the release is draft."
+          },
+          {
+            "name": "url",
+            "desc": "URL of the release"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
   "services github release list": {
     "name": "list",
     "title": "List releases",

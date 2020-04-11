@@ -129,6 +129,7 @@ Available commands:
 | [services github issue list](doc/generated/services-github-issue-list.md)               | List issues of the public/private GitHub repository           |
 | [services github profile](doc/generated/services-github-profile.md)                     | Get the authenticated user                                    |
 | [services github public issue list](doc/generated/services-github-public-issue-list.md) | List issues of the public GitHub repository                   |
+| [services github release draft](doc/generated/services-github-release-draft.md)         | Create release draft                                          |
 | [services github release list](doc/generated/services-github-release-list.md)           | List releases                                                 |
 | [services github tag create](doc/generated/services-github-tag-create.md)               | Create a tag on the repository                                |
 | [sharedfolder list](doc/generated/sharedfolder-list.md)                                 | List shared folder(s)                                         |

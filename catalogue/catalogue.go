@@ -56,9 +56,7 @@ import (
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
-	recipeservicesgithubinstallation "github.com/watermint/toolbox/recipe/services/github/installation"
 	recipeservicesgithubissue "github.com/watermint/toolbox/recipe/services/github/issue"
-	recipeservicesgithubpublicissue "github.com/watermint/toolbox/recipe/services/github/public/issue"
 	recipeservicesgithubrelease "github.com/watermint/toolbox/recipe/services/github/release"
 	recipeservicesgithubtag "github.com/watermint/toolbox/recipe/services/github/tag"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
@@ -181,10 +179,9 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipememberupdate.Profile{}),
 		infra_recipe_rc_recipe.Annotate(&recipeservicesgithub.Profile{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental()),
 		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubissue.List{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental()),
-		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubpublicissue.List{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental()),
 		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubrelease.List{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental()),
+		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubrelease.Draft{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental()),
 		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubtag.Create{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental(), infra_recipe_rc_recipe.Irreversible()),
-		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubinstallation.List{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental(), infra_recipe_rc_recipe.Irreversible()),
 		infra_recipe_rc_recipe.Annotate(&recipesharedfolder.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipesharedfoldermember.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipesharedlink.Create{}),
