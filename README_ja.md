@@ -126,6 +126,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [member update externalid](doc/generated_ja/member-update-externalid.md)                   | チームメンバーのExternal IDを更新します.                           |
 | [member update profile](doc/generated_ja/member-update-profile.md)                         | メンバーのプロフィール変更                                         |
 | [services github issue list](doc/generated_ja/services-github-issue-list.md)               | List issues of the public/private GitHub repository                |
+| [services github profile](doc/generated_ja/services-github-profile.md)                     | Get the authenticated user                                         |
 | [services github public issue list](doc/generated_ja/services-github-public-issue-list.md) | GitHub公開レポジトリの課題を一覧                                   |
 | [services github release list](doc/generated_ja/services-github-release-list.md)           | List releases                                                      |
 | [sharedfolder list](doc/generated_ja/sharedfolder-list.md)                                 | 共有フォルダの一覧                                                 |
