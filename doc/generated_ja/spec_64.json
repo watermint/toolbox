@@ -3736,6 +3736,39 @@
       }
     ]
   },
+  "services github installation list": {
+    "name": "list",
+    "title": "List current installations",
+    "desc": "",
+    "remarks": "(試験的実装かつ非可逆な操作です)",
+    "path": "services github installation list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": true,
+    "is_experimental": true,
+    "is_irreversible": true,
+    "reports": [
+      {
+        "name": "installations",
+        "desc": "Installation of GitHub Apps",
+        "columns": [
+          {
+            "name": "id",
+            "desc": "Id of installation"
+          },
+          {
+            "name": "target_type",
+            "desc": "Target type"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
   "services github issue list": {
     "name": "list",
     "title": "List issues of the public/private GitHub repository",
@@ -3797,6 +3830,10 @@
         "name": "user",
         "desc": "GitHub user profile",
         "columns": [
+          {
+            "name": "login",
+            "desc": "Login user name"
+          },
           {
             "name": "name",
             "desc": "Name of the user"
@@ -3886,6 +3923,75 @@
           {
             "name": "url",
             "desc": "URL of the release"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
+  "services github tag create": {
+    "name": "create",
+    "title": "Create a tag on the repository",
+    "desc": "",
+    "remarks": "(試験的実装かつ非可逆な操作です)",
+    "path": "services github tag create",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": true,
+    "is_experimental": true,
+    "is_irreversible": true,
+    "reports": [
+      {
+        "name": "created",
+        "desc": "このレポートは処理結果を出力します.",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.owner",
+            "desc": "Owner of the repository"
+          },
+          {
+            "name": "input.repository",
+            "desc": "Name of the repository"
+          },
+          {
+            "name": "input.tag",
+            "desc": "Tag name"
+          },
+          {
+            "name": "input.message",
+            "desc": "Message of the tag"
+          },
+          {
+            "name": "input.sha_1",
+            "desc": "SHA1 hash of the commit"
+          },
+          {
+            "name": "result.tag",
+            "desc": "Tag name"
+          },
+          {
+            "name": "result.sha",
+            "desc": "SHA1 sum of the commit"
+          },
+          {
+            "name": "result.message",
+            "desc": "Message of the commit"
+          },
+          {
+            "name": "result.url",
+            "desc": "URL of the tag"
           }
         ]
       }

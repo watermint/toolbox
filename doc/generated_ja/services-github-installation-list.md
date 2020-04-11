@@ -1,6 +1,6 @@
-# services github profile 
+# services github installation list 
 
-Get the authenticated user (試験的実装です)
+List current installations (試験的実装かつ非可逆な操作です)
 
 # 利用方法
 
@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe services github profile 
+.\tbx.exe services github installation list 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx services github profile 
+$HOME/Desktop/tbx services github installation list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -62,21 +62,20 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## レポート: user 
-GitHub user profile
+## レポート: installations 
+Installation of GitHub Apps
 レポートファイルは次の3種類のフォーマットで出力されます;
-* `user.csv`
-* `user.xlsx`
-* `user.json`
+* `installations.csv`
+* `installations.xlsx`
+* `installations.json`
 
 `-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`...   
+`installations_0000.xlsx`, `installations_0001.xlsx`, `installations_0002.xlsx`...   
 
-| 列    | 説明             |
-|-------|------------------|
-| login | Login user name  |
-| name  | Name of the user |
-| url   | Url of the user  |
+| 列          | 説明               |
+|-------------|--------------------|
+| id          | Id of installation |
+| target_type | Target type        |
 

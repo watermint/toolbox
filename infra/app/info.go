@@ -1,6 +1,9 @@
 package app
 
-import "runtime"
+import (
+	"runtime"
+	"strings"
+)
 
 var (
 	Name           = "watermint toolbox"
@@ -24,7 +27,7 @@ const (
 )
 
 func UserAgent() string {
-	return Name + "/" + Version
+	return strings.ReplaceAll(Name, " ", "-") + "/" + Version
 }
 
 func IsProduction() bool {

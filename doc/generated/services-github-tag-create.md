@@ -1,6 +1,6 @@
-# services github profile 
+# services github tag create 
 
-Get the authenticated user (Experimental)
+Create a tag on the repository (Experimental, and Irreversible operation)
 
 # Usage
 
@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe services github profile 
+.\tbx.exe services github tag create 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx services github profile 
+$HOME/Desktop/tbx services github tag create 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -29,9 +29,14 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option  | Description   | Default          |
-|---------|---------------|------------------|
-| `-peer` | Account alias | &{default <nil>} |
+| Option        | Description             | Default          |
+|---------------|-------------------------|------------------|
+| `-message`    | Message of the tag      |                  |
+| `-owner`      | Owner of the repository |                  |
+| `-peer`       | Account alias           | &{default <nil>} |
+| `-repository` | Name of the repository  |                  |
+| `-sha-1`      | SHA1 hash of the commit |                  |
+| `-tag`        | Tag name                |                  |
 
 Common options:
 
@@ -62,21 +67,29 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: user 
-GitHub user profile
+## Report: created 
+This report shows the transaction result.
 Report files are generated in three formats like below;
-* `user.csv`
-* `user.xlsx`
-* `user.json`
+* `created.csv`
+* `created.xlsx`
+* `created.json`
 
 But if you run with `-low-memory` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`...   
+`created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`...   
 
-| Column | Description      |
-|--------|------------------|
-| login  | Login user name  |
-| name   | Name of the user |
-| url    | Url of the user  |
+| Column           | Description                            |
+|------------------|----------------------------------------|
+| status           | Status of the operation                |
+| reason           | Reason of failure or skipped operation |
+| input.owner      | Owner of the repository                |
+| input.repository | Name of the repository                 |
+| input.tag        | Tag name                               |
+| input.message    | Message of the tag                     |
+| input.sha_1      | SHA1 hash of the commit                |
+| result.tag       | Tag name                               |
+| result.sha       | SHA1 sum of the commit                 |
+| result.message   | Message of the commit                  |
+| result.url       | URL of the tag                         |
 

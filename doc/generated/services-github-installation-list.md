@@ -1,6 +1,6 @@
-# services github profile 
+# services github installation list 
 
-Get the authenticated user (Experimental)
+List current installations (Experimental, and Irreversible operation)
 
 # Usage
 
@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe services github profile 
+.\tbx.exe services github installation list 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx services github profile 
+$HOME/Desktop/tbx services github installation list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -62,21 +62,20 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: user 
-GitHub user profile
+## Report: installations 
+Installation of GitHub Apps
 Report files are generated in three formats like below;
-* `user.csv`
-* `user.xlsx`
-* `user.json`
+* `installations.csv`
+* `installations.xlsx`
+* `installations.json`
 
 But if you run with `-low-memory` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`...   
+`installations_0000.xlsx`, `installations_0001.xlsx`, `installations_0002.xlsx`...   
 
-| Column | Description      |
-|--------|------------------|
-| login  | Login user name  |
-| name   | Name of the user |
-| url    | Url of the user  |
+| Column      | Description        |
+|-------------|--------------------|
+| id          | Id of installation |
+| target_type | Target type        |
 

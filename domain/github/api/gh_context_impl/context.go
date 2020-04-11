@@ -2,6 +2,7 @@ package gh_context_impl
 
 import (
 	"crypto/sha256"
+	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_request"
@@ -15,6 +16,10 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+)
+
+var (
+	ErrorGeneralApiError = errors.New("general api error")
 )
 
 func NewNoAuth(ctl app_control.Control) gh_context.Context {
