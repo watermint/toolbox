@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_request"
+	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"go.uber.org/zap"
-	"golang.org/x/oauth2"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -20,25 +20,37 @@ import (
 func NewNoAuth(ctl app_control.Control) gh_context.Context {
 	return &Context{
 		scope:     "",
-		token:     nil,
+		ac:        nil,
+		ctl:       ctl,
+		isNoRetry: false,
+	}
+}
+
+func New(ctl app_control.Control, peerName, scope string, ac api_auth.Context) gh_context.Context {
+	return &Context{
+		peerName:  peerName,
+		scope:     scope,
+		ac:        ac,
 		ctl:       ctl,
 		isNoRetry: false,
 	}
 }
 
 type Context struct {
+	peerName  string
 	scope     string
-	token     *oauth2.Token
+	ac        api_auth.Context
 	ctl       app_control.Control
 	isNoRetry bool
 }
 
 func (z *Context) ClientHash() string {
 	tok := ""
-	if z.token != nil {
-		tok = z.token.AccessToken
+	if z.ac != nil && z.ac.Token() != nil {
+		tok = z.ac.Token().AccessToken
 	}
 	seeds := []string{
+		"p", z.peerName,
 		"s", z.scope,
 		"t", tok,
 	}
@@ -69,11 +81,11 @@ func (z *Context) MakeResponse(req *http.Request, res *http.Response) (api_respo
 }
 
 func (z *Context) Post(endpoint string) api_request.Request {
-	return gh_request.New(z, z.scope, z.token, endpoint, "POST")
+	return gh_request.New(z, z.scope, z.ac.Token(), endpoint, "POST")
 }
 
 func (z *Context) Get(endpoint string) api_request.Request {
-	return gh_request.New(z, z.scope, z.token, endpoint, "GET")
+	return gh_request.New(z, z.scope, z.ac.Token(), endpoint, "GET")
 }
 
 func NewResponse(ctx api_context.Context, req *http.Request, res *http.Response) (api_response.Response, error) {

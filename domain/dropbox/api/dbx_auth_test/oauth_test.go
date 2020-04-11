@@ -2,6 +2,7 @@ package dbx_auth_test
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
@@ -9,7 +10,7 @@ import (
 
 func TestOAuth_Auth(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
-		a := dbx_auth.NewConsoleOAuth(ctl, "test-oauth-auth")
+		a := api_auth_impl.NewConsoleOAuth(ctl, "test-oauth-auth")
 		if a.PeerName() != "test-oauth-auth" {
 			t.Error(a.PeerName())
 		}

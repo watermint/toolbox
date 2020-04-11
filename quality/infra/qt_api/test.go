@@ -1,11 +1,11 @@
 package qt_api
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -36,7 +36,7 @@ func DoTestBusinessAudit(test func(ctx dbx_context.Context)) {
 func doTest(tokenType string, test func(ctx dbx_context.Context)) {
 	qt_recipe.TestWithControl(nil, func(ctl app_control.Control) {
 		l := ctl.Log()
-		a := dbx_auth.NewConsoleCacheOnly(ctl, qt_endtoend.EndToEndPeer)
+		a := api_auth_impl.NewConsoleCacheOnly(ctl, qt_endtoend.EndToEndPeer)
 		ctx, err := a.Auth(tokenType)
 		if err != nil {
 			l.Info("Skip test", zap.Error(err))

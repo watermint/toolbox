@@ -1,62 +1,46 @@
-package dbx_auth
+package api_auth_impl
 
 import (
 	"context"
-	"github.com/watermint/toolbox/infra/api/api_appkey"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"strings"
 )
 
-func NewApp(ctl app_control.Control) api_auth.App {
-	a := &App{
-		ctl: ctl,
-		res: api_appkey.New(ctl),
-	}
-	return a
+type MsgApiAuth struct {
+	FailedOrCancelled app_msg.Message
+	OauthSeq1         app_msg.Message
+	OauthSeq2         app_msg.Message
 }
 
+var (
+	MApiAuth = app_msg.Apply(&MsgApiAuth{}).(*MsgApiAuth)
+)
+
 func NewConsoleOAuth(c app_control.Control, peerName string) api_auth.Console {
-	return &OAuth{
+	return &Console{
 		ctl:      c,
-		app:      NewApp(c),
+		app:      dbx_auth.NewApp(c),
 		peerName: peerName,
 	}
 }
 
-type App struct {
-	ctl app_control.Control
-	res api_appkey.Resource
-}
-
-func (z *App) Config(tokenType string) *oauth2.Config {
-	key, secret := z.AppKey(tokenType)
-	return &oauth2.Config{
-		ClientID:     key,
-		ClientSecret: secret,
-		Scopes:       []string{},
-		Endpoint:     DropboxOAuthEndpoint(),
-	}
-}
-
-func (z *App) AppKey(tokenType string) (key, secret string) {
-	return z.res.Key(tokenType)
-}
-
-type OAuth struct {
+type Console struct {
 	ctl      app_control.Control
 	app      api_auth.App
 	peerName string
 }
 
-func (z *OAuth) PeerName() string {
+func (z *Console) PeerName() string {
 	return z.peerName
 }
 
-func (z *OAuth) Auth(scope string) (tc api_auth.Context, err error) {
+func (z *Console) Auth(scope string) (tc api_auth.Context, err error) {
 	l := z.ctl.Log().With(zap.String("peerName", z.peerName), zap.String("scope", scope))
 	ui := z.ctl.UI()
 
@@ -64,13 +48,13 @@ func (z *OAuth) Auth(scope string) (tc api_auth.Context, err error) {
 	t, err := z.oauthStart(scope)
 	if err != nil {
 		l.Debug("Authentication finished with an error", zap.Error(err))
-		ui.Error(MCcAuth.FailedOrCancelled.With("Cause", err))
+		ui.Error(MApiAuth.FailedOrCancelled.With("Cause", err))
 		return nil, err
 	}
 	return api_auth.NewContext(t, z.peerName, scope), nil
 }
 
-func (z *OAuth) oauthStart(scope string) (*oauth2.Token, error) {
+func (z *Console) oauthStart(scope string) (*oauth2.Token, error) {
 	l := z.ctl.Log()
 	l.Debug("Start OAuth sequence")
 	state, err := sc_random.GenerateRandomString(8)
@@ -87,21 +71,21 @@ func (z *OAuth) oauthStart(scope string) (*oauth2.Token, error) {
 	return tok, nil
 }
 
-func (z *OAuth) oauthUrl(cfg *oauth2.Config, state string) string {
+func (z *Console) oauthUrl(cfg *oauth2.Config, state string) string {
 	return cfg.AuthCodeURL(
 		state,
 		oauth2.SetAuthURLParam("response_type", "code"),
 	)
 }
 
-func (z *OAuth) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.Token, error) {
+func (z *Console) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.Token, error) {
 	return cfg.Exchange(context.Background(), code)
 }
 
-func (z *OAuth) oauthCode(state string) string {
+func (z *Console) oauthCode(state string) string {
 	ui := z.ctl.UI()
 	for {
-		code, cancel := ui.AskSecure(MCcAuth.OauthSeq2)
+		code, cancel := ui.AskSecure(MApiAuth.OauthSeq2)
 		if cancel {
 			return ""
 		}
@@ -112,16 +96,16 @@ func (z *OAuth) oauthCode(state string) string {
 	}
 }
 
-func (z *OAuth) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
+func (z *Console) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
 	ui := z.ctl.UI()
 	cfg := z.app.Config(tokenType)
 	url := z.oauthUrl(cfg, state)
 
-	ui.Info(MCcAuth.OauthSeq1.With("Url", url))
+	ui.Info(MApiAuth.OauthSeq1.With("Url", url))
 
 	code := z.oauthCode(state)
 	if code == "" {
-		return nil, ErrorUserCancelled
+		return nil, api_auth.ErrorUserCancelled
 	}
 
 	return z.oauthExchange(cfg, code)

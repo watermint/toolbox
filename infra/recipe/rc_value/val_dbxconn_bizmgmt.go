@@ -40,7 +40,7 @@ func (z *ValueDbxConnBusinessMgmt) Init() (v interface{}) {
 
 func (z *ValueDbxConnBusinessMgmt) ApplyPreset(v0 interface{}) {
 	z.conn = v0.(dbx_conn.ConnBusinessMgmt)
-	z.peerName = z.conn.Name()
+	z.peerName = z.conn.PeerName()
 }
 
 func (z *ValueDbxConnBusinessMgmt) Apply() (v interface{}) {

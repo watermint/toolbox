@@ -8,18 +8,7 @@ import (
 type ConnDropboxApi interface {
 	rc_conn.Connection
 
-	Name() string
-
 	Context() dbx_context.Context
-
-	// Update peer name
-	SetPeerName(name string)
-
-	// Scope label
-	ScopeLabel() string
-
-	// True when the connection required to verify before the operation
-	IsPreVerify() bool
 
 	// True when the connection type is personal
 	IsPersonal() bool

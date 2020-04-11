@@ -1,7 +1,12 @@
 package dbx_auth
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/infra/api/api_auth"
+)
+
+var (
+	ErrorNoAuthDefined = errors.New("no auth defined")
 )
 
 func NewConsoleNoAuth(peerName string) api_auth.Console {

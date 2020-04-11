@@ -1,6 +1,7 @@
-package dbx_auth
+package api_auth_impl
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_token"
@@ -8,7 +9,7 @@ import (
 )
 
 func NewConsoleCacheOnly(c app_control.Control, peerName string) api_auth.Console {
-	return NewConsoleCache(c, NewConsoleNoAuth(peerName))
+	return NewConsoleCache(c, dbx_auth.NewConsoleNoAuth(peerName))
 }
 
 func NewConsoleCache(c app_control.Control, auth api_auth.Console) api_auth.Console {

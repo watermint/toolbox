@@ -1,6 +1,7 @@
 package gh_context_impl
 
 import (
+	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
@@ -9,6 +10,10 @@ import (
 	"go.uber.org/zap"
 	"net/http"
 )
+
+func NewMock() gh_context.Context {
+	return &Mock{}
+}
 
 type Mock struct {
 }

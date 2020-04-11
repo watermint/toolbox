@@ -10,7 +10,7 @@ type PreVerify interface {
 }
 
 func EnsurePreVerify(conn dbx_conn.ConnDropboxApi) {
-	switch conn.Name() {
+	switch conn.PeerName() {
 	case DefaultPeerName, qt_endtoend.EndToEndPeer:
 		return
 

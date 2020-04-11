@@ -39,6 +39,7 @@ var (
 		newValueDbxConnBusinessAudit(dbx_conn_impl.DefaultPeerName),
 		newValueDbxConnUserFile(dbx_conn_impl.DefaultPeerName),
 		newValueGhConnGithubPublic(),
+		newValueGhConnGithubRepo(dbx_conn_impl.DefaultPeerName),
 		newValueRpModelRowReport(""),
 		newValueRpModelTransactionReport(""),
 		newValueFdFileRowFeed(""),

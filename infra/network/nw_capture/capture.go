@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"go.uber.org/zap"
+	"strings"
 )
 
 func New(client nw_client.Http) nw_client.Rest {
@@ -81,7 +82,8 @@ func (z *Req) Apply(req api_request.Request) {
 	for k, v := range req.Headers() {
 		// Anonymize token
 		if k == api_request.ReqHeaderAuthorization {
-			z.RequestHeaders[k] = "Bearer <secret>"
+			vv := strings.Split(v, " ")
+			z.RequestHeaders[k] = vv[0] + " <secret>"
 		} else {
 			z.RequestHeaders[k] = v
 		}

@@ -3736,6 +3736,47 @@
       }
     ]
   },
+  "services github issue list": {
+    "name": "list",
+    "title": "List issues of the public/private GitHub repository",
+    "desc": "",
+    "remarks": "(試験的実装です)",
+    "path": "services github issue list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": true,
+    "is_experimental": true,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "issues",
+        "desc": "GitHub 課題",
+        "columns": [
+          {
+            "name": "number",
+            "desc": "課題番号"
+          },
+          {
+            "name": "url",
+            "desc": "課題のURL"
+          },
+          {
+            "name": "title",
+            "desc": "タイトル"
+          },
+          {
+            "name": "state",
+            "desc": "課題の状態"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
   "services github public issue list": {
     "name": "list",
     "title": "GitHub公開レポジトリの課題を一覧",
@@ -3748,7 +3789,7 @@
     "conn_use_business": false,
     "conn_scopes": {},
     "is_secret": false,
-    "is_console": false,
+    "is_console": true,
     "is_experimental": true,
     "is_irreversible": false,
     "reports": [

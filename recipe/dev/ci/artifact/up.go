@@ -1,10 +1,10 @@
 package artifact
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -30,7 +30,7 @@ func (z *Up) Preset() {
 
 func (z *Up) Exec(c app_control.Control) error {
 	l := c.Log()
-	a := dbx_auth.NewConsoleCacheOnly(c, z.PeerName)
+	a := api_auth_impl.NewConsoleCacheOnly(c, z.PeerName)
 	ctx, err := a.Auth(api_auth.DropboxTokenFull)
 	if err != nil {
 		l.Info("Skip operation")

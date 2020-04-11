@@ -11,6 +11,7 @@
 | dev ci auth export                | Export auth tokens of end to end test                           |
 | dev ci auth import                | Import auth tokens of end to end test from environment variable |
 | file dispatch local               | Dispatch local files                                            |
+| services github issue list        | List issues of the public/private GitHub repository             |
 | services github public issue list | List issues of the public GitHub repository                     |
 | version                           | Show version                                                    |
 

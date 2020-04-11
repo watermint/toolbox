@@ -1,26 +1,33 @@
-package dbx_auth
+package api_auth_impl
 
 import (
 	"context"
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_callback"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 )
 
 var (
-	ErrorOAuthSequenceStopped = errors.New("the oauth sequence stopped")
-	ErrorOAuthFailure         = errors.New("")
+	ErrorOAuthSequenceStopped  = errors.New("the oauth sequence stopped")
+	ErrorOAuthFailure          = errors.New("oauth failure")
+	ErrorOAuthSequenceDisabled = errors.New("this oauth sequence disabled")
 )
+
+type FeatureRedirect struct {
+	app_feature.OptInStatus
+}
 
 func NewConsoleRedirect(c app_control.Control, peerName string) api_auth.Console {
 	return &Redirect{
 		ctl:      c,
-		app:      NewApp(c),
+		app:      dbx_auth.NewApp(c),
 		peerName: peerName,
 	}
 }
@@ -37,6 +44,14 @@ func (z *Redirect) PeerName() string {
 
 func (z *Redirect) Auth(scope string) (token api_auth.Context, err error) {
 	l := z.ctl.Log().With(zap.String("scope", scope), zap.String("peerName", z.peerName))
+	ui := z.ctl.UI()
+
+	if f, found := z.ctl.Feature().OptInGet(&FeatureRedirect{}); found && f.OptInIsEnabled() {
+		ui.Info(f.OptInDisclaimer(f))
+	} else {
+		return nil, ErrorOAuthSequenceDisabled
+	}
+
 	rs := &RedirectService{
 		ctl:      z.ctl,
 		app:      z.app,

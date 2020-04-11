@@ -1,13 +1,27 @@
 package gh_conn_impl
 
 import (
+	"github.com/watermint/toolbox/domain/github/api/gh_auth"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
 type ConnGithubPublic struct {
-	ctl app_control.Control
+	name string
+	ctl  app_control.Control
+}
+
+func (z *ConnGithubPublic) ScopeLabel() string {
+	return gh_auth.ScopeNoScope
+}
+
+func (z *ConnGithubPublic) PeerName() string {
+	return z.name
+}
+
+func (z *ConnGithubPublic) SetPeerName(name string) {
+	z.name = name
 }
 
 func (z *ConnGithubPublic) IsPublic() bool {

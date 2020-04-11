@@ -74,7 +74,7 @@ func (z *UpOpts) Clone() *UpOpts {
 
 func Quiet(enabled bool) UpOpt {
 	return func(opt *UpOpts) *UpOpts {
-		opt.Quiet = true
+		opt.Quiet = enabled
 		return opt
 	}
 }

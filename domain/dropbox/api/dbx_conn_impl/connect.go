@@ -2,11 +2,11 @@ package dbx_conn_impl
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -45,7 +45,7 @@ func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx dbx_c
 	peers := []string{peerName, qt_endtoend.EndToEndPeer}
 	for _, peer := range peers {
 		l.Debug("Retrieve cache from peer", zap.String("peer", peer))
-		a := dbx_auth.NewConsoleCacheOnly(ctl, peer)
+		a := api_auth_impl.NewConsoleCacheOnly(ctl, peer)
 		if c, err := a.Auth(tokenType); err == nil {
 			return dbx_context_impl.New(ctl, c), nil
 		}

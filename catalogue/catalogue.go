@@ -4,6 +4,7 @@ import (
 	infra_api_api_api_auth_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	infra_recipe_rc_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/api/api_callback"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	infra_control_app_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
@@ -54,6 +55,7 @@ import (
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
+	recipeservicesgithubissue "github.com/watermint/toolbox/recipe/services/github/issue"
 	recipeservicesgithubpublicissue "github.com/watermint/toolbox/recipe/services/github/public/issue"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
@@ -173,7 +175,8 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipememberupdate.Email{}),
 		infra_recipe_rc_recipe.Annotate(&recipememberupdate.Externalid{}),
 		infra_recipe_rc_recipe.Annotate(&recipememberupdate.Profile{}),
-		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubpublicissue.List{}, infra_recipe_rc_recipe.Experimental()),
+		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubissue.List{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental()),
+		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubpublicissue.List{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental()),
 		infra_recipe_rc_recipe.Annotate(&recipesharedfolder.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipesharedfoldermember.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipesharedlink.Create{}),
@@ -224,15 +227,17 @@ func Ingredients() []infra_recipe_rc_recipe.Recipe {
 
 func Features() []app_feature.OptIn {
 	foi := []app_feature.OptIn{
-		&dbx_auth_attr.Redirect{},
+		&api_auth_impl.FeatureRedirect{},
 	}
 	return foi
 }
 
 func Messages() []interface{} {
 	msgs := []interface{}{
+		api_auth_impl.MApiAuth,
+		api_callback.MCallback,
 		dbx_auth_attr.MAttr,
-		infra_api_api_api_auth_impl.MCcAuth,
+		infra_api_api_api_auth_impl.MGenerated,
 		infra_control_app_workflow.MRunBook,
 		infra_kvs_kv_storageimpl.MStorage,
 		infra_network_nw_diag.MNetwork,
@@ -251,7 +256,6 @@ func Messages() []interface{} {
 		recipeteamcontent.MScanMetadata,
 		rp_writer_impl.MSortedWriter,
 		rp_writer_impl.MXlsxWriter,
-		api_callback.MCallback,
 	}
 	for _, m := range msgs {
 		infra_ui_app_msg.Apply(m)

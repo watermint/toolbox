@@ -42,7 +42,7 @@ func (z *connUserFile) IsBusiness() bool {
 	return false
 }
 
-func (z *connUserFile) Name() string {
+func (z *connUserFile) PeerName() string {
 	return z.name
 }
 

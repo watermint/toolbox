@@ -42,7 +42,7 @@ func (z *connBusinessMgmt) SetPeerName(name string) {
 	z.name = name
 }
 
-func (z *connBusinessMgmt) Name() string {
+func (z *connBusinessMgmt) PeerName() string {
 	return z.name
 }
 

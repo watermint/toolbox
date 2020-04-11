@@ -96,7 +96,9 @@ func (z *rpcImpl) Make() (req *http.Request, err error) {
 		l.Debug("Unable create request", zap.Error(err))
 		return nil, err
 	}
-
+	if z.token != nil {
+		req.Header.Add(api_request.ReqHeaderAuthorization, "token "+z.token.AccessToken)
+	}
 	req.Header.Add(api_request.ReqHeaderUserAgent, app.UserAgent())
 	req.Header.Add(api_request.ReqHeaderContentType, "application/json")
 	z.contentLength = int64(len(p))

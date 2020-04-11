@@ -2,8 +2,8 @@ package auth
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -32,7 +32,7 @@ func (z *Export) Preset() {
 func (z *Export) Exec(c app_control.Control) error {
 	l := c.Log()
 	e := make(map[string]*oauth2.Token)
-	a := dbx_auth.NewConsoleCacheOnly(c, qt_endtoend.EndToEndPeer)
+	a := api_auth_impl.NewConsoleCacheOnly(c, qt_endtoend.EndToEndPeer)
 	for _, s := range Scopes {
 		t, err := a.Auth(s)
 		if err != nil {

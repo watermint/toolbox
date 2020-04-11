@@ -1,6 +1,7 @@
 package api_auth
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"golang.org/x/oauth2"
 )
@@ -13,6 +14,10 @@ const (
 	DropboxTokenBusinessFile       = "business_file"
 	DropboxTokenBusinessManagement = "business_management"
 	Github                         = "github"
+)
+
+var (
+	ErrorUserCancelled = errors.New("user cancelled")
 )
 
 // Application key/secret manager

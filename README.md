@@ -125,6 +125,7 @@ Available commands:
 | [member update email](doc/generated/member-update-email.md)                             | Member email operation                                        |
 | [member update externalid](doc/generated/member-update-externalid.md)                   | Update External ID of team members                            |
 | [member update profile](doc/generated/member-update-profile.md)                         | Update member profile                                         |
+| [services github issue list](doc/generated/services-github-issue-list.md)               | List issues of the public/private GitHub repository           |
 | [services github public issue list](doc/generated/services-github-public-issue-list.md) | List issues of the public GitHub repository                   |
 | [sharedfolder list](doc/generated/sharedfolder-list.md)                                 | List shared folder(s)                                         |
 | [sharedfolder member list](doc/generated/sharedfolder-member-list.md)                   | List shared folder member(s)                                  |

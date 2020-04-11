@@ -3,9 +3,19 @@ package dbx_auth
 import (
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"strings"
+)
+
+type MsgGenerated struct {
+	GeneratedToken1 app_msg.Message
+	GeneratedToken2 app_msg.Message
+}
+
+var (
+	MGenerated = app_msg.Apply(&MsgGenerated{}).(*MsgGenerated)
 )
 
 func NewConsoleGenerated(c app_control.Control, peerName string) api_auth.Console {
@@ -60,16 +70,16 @@ func (z *Generated) generatedTokenInstruction(scope string) {
 		z.ctl.Log().Fatal("Undefined token type", zap.String("type", scope))
 	}
 
-	ui.Info(MCcAuth.GeneratedToken1.With("API", api).With("TypeOfAccess", toa))
+	ui.Info(MGenerated.GeneratedToken1.With("API", api).With("TypeOfAccess", toa))
 }
 
 func (z *Generated) generatedToken(scope string) (*oauth2.Token, error) {
 	ui := z.ctl.UI()
 	z.generatedTokenInstruction(scope)
 	for {
-		code, cancel := ui.AskSecure(MCcAuth.GeneratedToken2)
+		code, cancel := ui.AskSecure(MGenerated.GeneratedToken2)
 		if cancel {
-			return nil, ErrorUserCancelled
+			return nil, api_auth.ErrorUserCancelled
 		}
 		trim := strings.TrimSpace(code)
 		if len(trim) > 0 {

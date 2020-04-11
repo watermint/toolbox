@@ -15,3 +15,8 @@ type ConnGithubPublic interface {
 	ConnGithub
 	IsPublic() bool
 }
+
+type ConnGithubRepo interface {
+	ConnGithub
+	IsRepo() bool
+}
