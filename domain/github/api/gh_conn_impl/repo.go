@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
@@ -52,7 +53,11 @@ func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
 		l.Debug("non console UI is not supported")
 		return ErrorUnsupportedUI
 	}
-	a := gh_auth.New(ctl, z.name)
+	a := api_auth_impl.NewConsoleRedirect(ctl, z.name, gh_auth.NewApp(ctl))
+	if !ctl.Feature().IsSecure() {
+		l.Debug("Enable cache")
+		a = api_auth_impl.NewConsoleCache(ctl, a)
+	}
 	l.Debug("Start auth sequence", zap.String("scope", scope))
 	ac, err := a.Auth(scope)
 	if err != nil {

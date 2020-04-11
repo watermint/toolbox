@@ -3,7 +3,6 @@ package api_auth_impl
 import (
 	"context"
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_callback"
 	"github.com/watermint/toolbox/infra/app"
@@ -24,10 +23,10 @@ type FeatureRedirect struct {
 	app_feature.OptInStatus
 }
 
-func NewConsoleRedirect(c app_control.Control, peerName string) api_auth.Console {
+func NewConsoleRedirect(c app_control.Control, peerName string, app api_auth.App) api_auth.Console {
 	return &Redirect{
 		ctl:      c,
-		app:      dbx_auth.NewApp(c),
+		app:      app,
 		peerName: peerName,
 	}
 }

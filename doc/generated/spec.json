@@ -3818,6 +3818,47 @@
     ],
     "feeds": []
   },
+  "services github release list": {
+    "name": "list",
+    "title": "List releases",
+    "desc": "",
+    "remarks": "(Experimental)",
+    "path": "services github release list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": true,
+    "is_experimental": true,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "releases",
+        "desc": "Release on GitHub",
+        "columns": [
+          {
+            "name": "tag_name",
+            "desc": "Tag name"
+          },
+          {
+            "name": "name",
+            "desc": "Name of the release"
+          },
+          {
+            "name": "draft",
+            "desc": "True when the release is draft."
+          },
+          {
+            "name": "url",
+            "desc": "URL of the release"
+          }
+        ]
+      }
+    ],
+    "feeds": []
+  },
   "sharedfolder list": {
     "name": "list",
     "title": "List shared folder(s)",
