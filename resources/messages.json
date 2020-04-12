@@ -1801,6 +1801,7 @@
   "recipe.version.title": "Show version",
   "recipe.version_info.component.desc": "Component",
   "recipe.version_info.desc": "Components and version information.",
+  "recipe.version_info.key.desc": "Key",
   "recipe.version_info.version.desc": "Version",
   "recipe.web.flag.port": "Port number",
   "recipe.web.title": "Launch web console",

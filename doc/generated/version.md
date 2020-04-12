@@ -72,6 +72,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 
 | Column    | Description |
 |-----------|-------------|
+| key       | Key         |
 | component | Component   |
 | version   | Version     |
 

@@ -9700,6 +9700,10 @@
         "desc": "コンポーネントとバージョン情報.",
         "columns": [
           {
+            "name": "key",
+            "desc": "Key"
+          },
+          {
             "name": "component",
             "desc": "コンポーネント"
           },

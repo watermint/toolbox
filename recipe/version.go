@@ -11,6 +11,7 @@ import (
 )
 
 type VersionInfo struct {
+	Key       string `json:"key"`
 	Component string `json:"component"`
 	Version   string `json:"version"`
 }
@@ -32,18 +33,22 @@ func (z *Version) Exec(c app_control.Control) error {
 		return err
 	}
 	z.Versions.Row(&VersionInfo{
+		Key:       "app.name",
 		Component: app.Name,
 		Version:   app.Version,
 	})
 	z.Versions.Row(&VersionInfo{
+		Key:       "app.hash",
 		Component: ui.Text(z.HeaderAppHash),
 		Version:   app.Hash,
 	})
 	z.Versions.Row(&VersionInfo{
+		Key:       "build.time",
 		Component: ui.Text(z.HeaderBuildTime),
 		Version:   app.BuildTimestamp,
 	})
 	z.Versions.Row(&VersionInfo{
+		Key:       "go.version",
 		Component: ui.Text(z.HeaderGoVersion),
 		Version:   runtime.Version(),
 	})

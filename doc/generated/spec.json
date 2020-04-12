@@ -9700,6 +9700,10 @@
         "desc": "Components and version information.",
         "columns": [
           {
+            "name": "key",
+            "desc": "Key"
+          },
+          {
             "name": "component",
             "desc": "Component"
           },
