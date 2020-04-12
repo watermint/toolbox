@@ -32,7 +32,7 @@ type releaseImpl struct {
 }
 
 func (z *releaseImpl) Get(tagName string) (release *mo_release.Release, err error) {
-	endpoint := "repos/" + z.owner + "/" + z.repo + "/releases/tags" + tagName
+	endpoint := "repos/" + z.owner + "/" + z.repo + "/releases/tags/" + tagName
 	res, err := z.ctx.Get(endpoint).Call()
 	if err != nil {
 		return nil, err
