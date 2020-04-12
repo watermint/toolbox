@@ -21,7 +21,9 @@ import (
 	infra_ui_app_msg "github.com/watermint/toolbox/infra/ui/app_msg"
 	infra_ui_appui "github.com/watermint/toolbox/infra/ui/app_ui"
 	infra_util_ut_doc "github.com/watermint/toolbox/infra/util/ut_doc"
+	ingredientbootstrap "github.com/watermint/toolbox/ingredient/bootstrap"
 	ingredientfile "github.com/watermint/toolbox/ingredient/file"
+	ingredientjob "github.com/watermint/toolbox/ingredient/job"
 	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
 	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/recipe"
@@ -226,6 +228,9 @@ func Ingredients() []infra_recipe_rc_recipe.Recipe {
 		&ingredientteamfolder.Replication{},
 		&ingredientteamnamespacefile.List{},
 		&ingredientteamnamespacefile.Size{},
+		&ingredientbootstrap.Bootstrap{},
+		&ingredientbootstrap.Autodelete{},
+		&ingredientjob.Delete{},
 	}
 	return cat
 }
@@ -233,6 +238,7 @@ func Ingredients() []infra_recipe_rc_recipe.Recipe {
 func Features() []app_feature.OptIn {
 	foi := []app_feature.OptIn{
 		&api_auth_impl.FeatureRedirect{},
+		&ingredientbootstrap.FeatureAutodelete{},
 	}
 	return foi
 }

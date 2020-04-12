@@ -29,6 +29,7 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
+	"github.com/watermint/toolbox/ingredient/bootstrap"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
 	"os"
@@ -280,6 +281,13 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 			profile.ProfilePath(ctl.Workspace().Log()),
 			profile.MemProfile,
 		).Stop()
+	}
+
+	// Bootstrap recipe
+	if err := rc_exec.Exec(ctl, &bootstrap.Bootstrap{}, rc_recipe.NoCustomValues); err != nil {
+		ctl.Log().Error("Bootstrap failed with an error", zap.Error(err))
+		ui.Failure(MRun.ErrorRecipeFailed.With("Error", err))
+		os.Exit(app_control.FailureGeneral)
 	}
 
 	// Run
