@@ -58,6 +58,7 @@ func (z *uploadImpl) Header(key, value string) api_request.Request {
 		method:        z.method,
 		customHeaders: headers,
 		param:         z.param,
+		content:       z.content,
 	}
 }
 
@@ -72,6 +73,7 @@ func (z *uploadImpl) Param(p interface{}) api_request.Request {
 		token:    z.token,
 		endpoint: z.endpoint,
 		method:   z.method,
+		content:  z.content,
 		param:    p,
 	}
 }
