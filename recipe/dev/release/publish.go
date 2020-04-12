@@ -234,7 +234,7 @@ func (z *Publish) createTag(c app_control.Control) error {
 	svt := sv_reference.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName)
 	l.Debug("Create tag")
 	tag, err := svt.Create(
-		app.Version,
+		"refs/tags/"+app.Version,
 		app.Hash,
 	)
 	if err != nil && err != qt_errors.ErrorMock {
