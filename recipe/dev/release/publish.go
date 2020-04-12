@@ -11,9 +11,9 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
+	"github.com/watermint/toolbox/domain/github/service/sv_reference"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
-	"github.com/watermint/toolbox/domain/github/service/sv_tag"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
@@ -230,12 +230,10 @@ func (z *Publish) createTag(c app_control.Control) error {
 		zap.String("repository", app.RepositoryName),
 		zap.String("version", app.Version),
 		zap.String("hash", app.Hash))
-	ui := c.UI()
-	svt := sv_tag.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName)
+	svt := sv_reference.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName)
 	l.Debug("Create tag")
 	tag, err := svt.Create(
 		app.Version,
-		ui.Text(z.TagCommitMessage.With("Version", app.Version)),
 		app.Hash,
 	)
 	if err != nil && err != qt_errors.ErrorMock {
