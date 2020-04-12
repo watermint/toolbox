@@ -29,11 +29,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明             | デフォルト       |
-|---------------|------------------|------------------|
-| `-owner`      | Repository owner |                  |
-| `-peer`       | Account alias    | &{default <nil>} |
-| `-repository` | Repository name  |                  |
+| オプション    | 説明             | デフォルト |
+|---------------|------------------|------------|
+| `-owner`      | Repository owner |            |
+| `-peer`       | Account alias    | default    |
+| `-repository` | Repository name  |            |
 
 共通のオプション:
 

@@ -29,14 +29,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明                                                                | デフォルト       |
-|---------------|---------------------------------------------------------------------|------------------|
-| `-body-file`  | File path to body text. THe file must encoded in UTF-8 without BOM. |                  |
-| `-name`       | Name of the release                                                 |                  |
-| `-owner`      | Owner of the repository                                             |                  |
-| `-peer`       | Account alias                                                       | &{default <nil>} |
-| `-repository` | Name of the repository                                              |                  |
-| `-tag`        | Name of the tag                                                     |                  |
+| オプション    | 説明                                                                | デフォルト |
+|---------------|---------------------------------------------------------------------|------------|
+| `-body-file`  | File path to body text. THe file must encoded in UTF-8 without BOM. |            |
+| `-name`       | Name of the release                                                 |            |
+| `-owner`      | Owner of the repository                                             |            |
+| `-peer`       | Account alias                                                       | default    |
+| `-repository` | Name of the repository                                              |            |
+| `-tag`        | Name of the tag                                                     |            |
 
 共通のオプション:
 

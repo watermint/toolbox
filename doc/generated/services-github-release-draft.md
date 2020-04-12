@@ -29,14 +29,14 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option        | Description                                                         | Default          |
-|---------------|---------------------------------------------------------------------|------------------|
-| `-body-file`  | File path to body text. THe file must encoded in UTF-8 without BOM. |                  |
-| `-name`       | Name of the release                                                 |                  |
-| `-owner`      | Owner of the repository                                             |                  |
-| `-peer`       | Account alias                                                       | &{default <nil>} |
-| `-repository` | Name of the repository                                              |                  |
-| `-tag`        | Name of the tag                                                     |                  |
+| Option        | Description                                                         | Default |
+|---------------|---------------------------------------------------------------------|---------|
+| `-body-file`  | File path to body text. THe file must encoded in UTF-8 without BOM. |         |
+| `-name`       | Name of the release                                                 |         |
+| `-owner`      | Owner of the repository                                             |         |
+| `-peer`       | Account alias                                                       | default |
+| `-repository` | Name of the repository                                              |         |
+| `-tag`        | Name of the tag                                                     |         |
 
 Common options:
 

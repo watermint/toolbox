@@ -29,13 +29,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option        | Description             | Default          |
-|---------------|-------------------------|------------------|
-| `-asset`      | Path to assets          |                  |
-| `-owner`      | Owner of the repository |                  |
-| `-peer`       | Account alias           | &{default <nil>} |
-| `-release`    | Release tag name        |                  |
-| `-repository` | Name of the repository  |                  |
+| Option        | Description             | Default |
+|---------------|-------------------------|---------|
+| `-asset`      | Path to assets          |         |
+| `-owner`      | Owner of the repository |         |
+| `-peer`       | Account alias           | default |
+| `-release`    | Release tag name        |         |
+| `-repository` | Name of the repository  |         |
 
 Common options:
 

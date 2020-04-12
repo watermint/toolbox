@@ -29,14 +29,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明                    | デフォルト       |
-|---------------|-------------------------|------------------|
-| `-message`    | Message of the tag      |                  |
-| `-owner`      | Owner of the repository |                  |
-| `-peer`       | Account alias           | &{default <nil>} |
-| `-repository` | Name of the repository  |                  |
-| `-sha-1`      | SHA1 hash of the commit |                  |
-| `-tag`        | Tag name                |                  |
+| オプション    | 説明                    | デフォルト |
+|---------------|-------------------------|------------|
+| `-message`    | Message of the tag      |            |
+| `-owner`      | Owner of the repository |            |
+| `-peer`       | Account alias           | default    |
+| `-repository` | Name of the repository  |            |
+| `-sha-1`      | SHA1 hash of the commit |            |
+| `-tag`        | Tag name                |            |
 
 共通のオプション:
 

@@ -29,9 +29,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option  | Description   | Default          |
-|---------|---------------|------------------|
-| `-peer` | Account alias | &{default <nil>} |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-peer` | Account alias | default |
 
 Common options:
 

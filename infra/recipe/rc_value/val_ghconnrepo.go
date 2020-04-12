@@ -22,6 +22,10 @@ type ValueGhConnGithubRepo struct {
 	peerName string
 }
 
+func (z *ValueGhConnGithubRepo) ValueText() string {
+	return z.peerName
+}
+
 func (z *ValueGhConnGithubRepo) Spec() (typeName string, typeAttr interface{}) {
 	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*gh_conn.ConnGithubRepo)(nil)).Elem()), nil
 }

@@ -29,13 +29,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明                    | デフォルト       |
-|---------------|-------------------------|------------------|
-| `-asset`      | Path to assets          |                  |
-| `-owner`      | Owner of the repository |                  |
-| `-peer`       | Account alias           | &{default <nil>} |
-| `-release`    | Release tag name        |                  |
-| `-repository` | Name of the repository  |                  |
+| オプション    | 説明                    | デフォルト |
+|---------------|-------------------------|------------|
+| `-asset`      | Path to assets          |            |
+| `-owner`      | Owner of the repository |            |
+| `-peer`       | Account alias           | default    |
+| `-release`    | Release tag name        |            |
+| `-repository` | Name of the repository  |            |
 
 共通のオプション:
 

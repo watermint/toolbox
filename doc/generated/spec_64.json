@@ -5419,7 +5419,7 @@
       },
       {
         "name": "Peer",
-        "desc": "&{default <nil>}",
+        "desc": "default",
         "default": "Account alias",
         "type_name": "reflect.rtype",
         "type_attr": null
@@ -5472,7 +5472,7 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "&{default <nil>}",
+        "desc": "default",
         "default": "Account alias",
         "type_name": "reflect.rtype",
         "type_attr": null
@@ -5529,7 +5529,7 @@
       },
       {
         "name": "Peer",
-        "desc": "&{default <nil>}",
+        "desc": "default",
         "default": "Account alias",
         "type_name": "reflect.rtype",
         "type_attr": null
@@ -5621,7 +5621,7 @@
       },
       {
         "name": "Peer",
-        "desc": "&{default <nil>}",
+        "desc": "default",
         "default": "Account alias",
         "type_name": "reflect.rtype",
         "type_attr": null
@@ -5712,7 +5712,7 @@
       },
       {
         "name": "Peer",
-        "desc": "&{default <nil>}",
+        "desc": "default",
         "default": "Account alias",
         "type_name": "reflect.rtype",
         "type_attr": null
@@ -5783,7 +5783,7 @@
       },
       {
         "name": "Peer",
-        "desc": "&{default <nil>}",
+        "desc": "default",
         "default": "Account alias",
         "type_name": "reflect.rtype",
         "type_attr": null
@@ -5882,7 +5882,7 @@
       },
       {
         "name": "Peer",
-        "desc": "&{default <nil>}",
+        "desc": "default",
         "default": "Account alias",
         "type_name": "reflect.rtype",
         "type_attr": null

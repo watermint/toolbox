@@ -29,14 +29,14 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option        | Description             | Default          |
-|---------------|-------------------------|------------------|
-| `-message`    | Message of the tag      |                  |
-| `-owner`      | Owner of the repository |                  |
-| `-peer`       | Account alias           | &{default <nil>} |
-| `-repository` | Name of the repository  |                  |
-| `-sha-1`      | SHA1 hash of the commit |                  |
-| `-tag`        | Tag name                |                  |
+| Option        | Description             | Default |
+|---------------|-------------------------|---------|
+| `-message`    | Message of the tag      |         |
+| `-owner`      | Owner of the repository |         |
+| `-peer`       | Account alias           | default |
+| `-repository` | Name of the repository  |         |
+| `-sha-1`      | SHA1 hash of the commit |         |
+| `-tag`        | Tag name                |         |
 
 Common options:
 

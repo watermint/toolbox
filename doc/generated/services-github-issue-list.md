@@ -29,11 +29,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option        | Description             | Default          |
-|---------------|-------------------------|------------------|
-| `-owner`      | Owner of the repository |                  |
-| `-peer`       | Account alias           | &{default <nil>} |
-| `-repository` | Repository name         |                  |
+| Option        | Description             | Default |
+|---------------|-------------------------|---------|
+| `-owner`      | Owner of the repository |         |
+| `-peer`       | Account alias           | default |
+| `-repository` | Repository name         |         |
 
 Common options:
 
