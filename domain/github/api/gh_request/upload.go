@@ -1,36 +1,39 @@
 package gh_request
 
 import (
-	"bytes"
-	"encoding/json"
+	"github.com/google/go-querystring/query"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_rest"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"net/http"
 )
 
-func NewRpc(ctx gh_context.Context, scope string, token *oauth2.Token, endpoint string, method string) api_request.Request {
-	return &rpcImpl{
+func NewUpload(ctx gh_context.Context, scope string, token *oauth2.Token, endpoint string, method string, content ut_io.ReadRewinder) api_request.Request {
+	return &uploadImpl{
 		ctx:           ctx,
 		scope:         scope,
 		token:         token,
 		endpoint:      endpoint,
 		method:        method,
+		content:       content,
 		customHeaders: make(map[string]string),
 	}
 }
 
-type rpcImpl struct {
+type uploadImpl struct {
 	ctx           gh_context.Context
 	scope         string
 	token         *oauth2.Token
 	endpoint      string
 	param         interface{}
 	method        string
+	content       ut_io.ReadRewinder
 	customHeaders map[string]string
 
 	// mutable variables
@@ -41,13 +44,13 @@ type rpcImpl struct {
 	contentLength int64
 }
 
-func (z *rpcImpl) Header(key, value string) api_request.Request {
+func (z *uploadImpl) Header(key, value string) api_request.Request {
 	headers := make(map[string]string)
 	for k, v := range z.customHeaders {
 		headers[k] = v
 	}
 	headers[key] = value
-	return &rpcImpl{
+	return &uploadImpl{
 		ctx:           z.ctx,
 		scope:         z.scope,
 		token:         z.token,
@@ -58,60 +61,59 @@ func (z *rpcImpl) Header(key, value string) api_request.Request {
 	}
 }
 
-func (z *rpcImpl) ParamString() string {
+func (z *uploadImpl) ParamString() string {
 	return z.paramString
 }
 
-func (z *rpcImpl) Param(p interface{}) api_request.Request {
-	return &rpcImpl{
-		ctx:           z.ctx,
-		scope:         z.scope,
-		token:         z.token,
-		endpoint:      z.endpoint,
-		method:        z.method,
-		customHeaders: z.customHeaders,
-		param:         p,
+func (z *uploadImpl) Param(p interface{}) api_request.Request {
+	return &uploadImpl{
+		ctx:      z.ctx,
+		scope:    z.scope,
+		token:    z.token,
+		endpoint: z.endpoint,
+		method:   z.method,
+		param:    p,
 	}
 }
 
-func (z *rpcImpl) Call() (res api_response.Response, err error) {
+func (z *uploadImpl) Call() (res api_response.Response, err error) {
 	return gh_rest.Default().Call(z.ctx, z)
 }
 
-func (z *rpcImpl) Endpoint() string {
+func (z *uploadImpl) Endpoint() string {
 	return z.endpoint
 }
 
-func (z *rpcImpl) Url() string {
+func (z *uploadImpl) Url() string {
 	return z.url
 }
 
-func (z *rpcImpl) Headers() map[string]string {
+func (z *uploadImpl) Headers() map[string]string {
 	return z.headers
 }
 
-func (z *rpcImpl) Method() string {
+func (z *uploadImpl) Method() string {
 	return z.method
 }
 
-func (z *rpcImpl) ContentLength() int64 {
+func (z *uploadImpl) ContentLength() int64 {
 	return z.contentLength
 }
 
-func (z *rpcImpl) Make() (req *http.Request, err error) {
+func (z *uploadImpl) Make() (req *http.Request, err error) {
 	l := z.ctx.Log().With(zap.String("scope", z.scope), zap.String("endpoint", z.endpoint))
 
 	z.url = "https://api.github.com/" + z.endpoint
 	l.Debug("Making request", zap.String("url", z.url))
 
-	p, err := json.Marshal(z.param)
+	qs, err := query.Values(z.param)
 	if err != nil {
 		l.Debug("Unable to marshal params", zap.Error(err))
 		return nil, err
 	}
-	z.paramString = string(p)
+	z.paramString = qs.Encode()
 
-	req, err = http.NewRequest(z.method, z.url, bytes.NewReader(p))
+	req, err = http.NewRequest(z.method, z.url, nw_bandwidth.WrapReader(z.content))
 	if err != nil {
 		l.Debug("Unable create request", zap.Error(err))
 		return nil, err
@@ -124,7 +126,7 @@ func (z *rpcImpl) Make() (req *http.Request, err error) {
 	for k, v := range z.customHeaders {
 		req.Header.Add(k, v)
 	}
-	z.contentLength = int64(len(p))
+	z.contentLength = z.content.Length()
 	z.headers = make(map[string]string)
 	for k := range req.Header {
 		z.headers[k] = req.Header.Get(k)

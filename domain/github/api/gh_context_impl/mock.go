@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"net/http"
@@ -16,6 +17,10 @@ func NewMock() gh_context.Context {
 }
 
 type Mock struct {
+}
+
+func (z *Mock) Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request {
+	return &api_request.MockRequest{}
 }
 
 func (z *Mock) ClientHash() string {

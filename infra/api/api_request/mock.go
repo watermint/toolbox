@@ -9,6 +9,10 @@ import (
 type MockRequest struct {
 }
 
+func (z *MockRequest) Header(key, value string) Request {
+	return z
+}
+
 func (z *MockRequest) ParamString() string {
 	return ""
 }

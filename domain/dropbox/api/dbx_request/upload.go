@@ -1,8 +1,10 @@
 package dbx_request
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_rest"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
@@ -12,6 +14,27 @@ import (
 	"go.uber.org/zap"
 	"net/http"
 )
+
+func NewUploadRequest(ctx api_context.Context,
+	endpoint string,
+	content ut_io.ReadRewinder,
+	asMemberId, asAdminId string,
+	base dbx_context.PathRoot,
+	token api_auth.Context) api_request.Request {
+
+	req := &uploadRequestImpl{
+		ctx:      ctx,
+		endpoint: endpoint,
+		dbxReq: &dbxRequest{
+			asMemberId: asMemberId,
+			asAdminId:  asAdminId,
+			base:       base,
+			token:      token,
+		},
+		content: content,
+	}
+	return req
+}
 
 type uploadRequestImpl struct {
 	ctx           api_context.Context
@@ -24,6 +47,12 @@ type uploadRequestImpl struct {
 	method        string
 	content       ut_io.ReadRewinder
 	contentLength int64
+}
+
+func (z *uploadRequestImpl) Header(key, value string) api_request.Request {
+	z.ctx.Log().Warn("this impl. does not support custom headers",
+		zap.String("key", key), zap.String("value", value))
+	return z
 }
 
 func (z *uploadRequestImpl) Param(p interface{}) api_request.Request {

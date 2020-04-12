@@ -5479,6 +5479,77 @@
       }
     ]
   },
+  "services github release asset list": {
+    "name": "list",
+    "title": "List assets of GitHub Release",
+    "desc": "",
+    "remarks": "(Experimental)",
+    "path": "services github release asset list",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": true,
+    "is_experimental": true,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "assets",
+        "desc": "GitHub Release assets",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "Name of the asset"
+          },
+          {
+            "name": "size",
+            "desc": "Size of the asset"
+          },
+          {
+            "name": "state",
+            "desc": "State of the asset"
+          },
+          {
+            "name": "download_count",
+            "desc": "Number of downloads"
+          }
+        ]
+      }
+    ],
+    "feeds": [],
+    "values": [
+      {
+        "name": "Owner",
+        "desc": "",
+        "default": "Owner of the repository",
+        "type_name": "string",
+        "type_attr": null
+      },
+      {
+        "name": "Peer",
+        "desc": "&{default <nil>}",
+        "default": "Account alias",
+        "type_name": "reflect.rtype",
+        "type_attr": null
+      },
+      {
+        "name": "Release",
+        "desc": "",
+        "default": "Release tag name",
+        "type_name": "string",
+        "type_attr": null
+      },
+      {
+        "name": "Repository",
+        "desc": "",
+        "default": "Name of the repository",
+        "type_name": "string",
+        "type_attr": null
+      }
+    ]
+  },
   "services github release draft": {
     "name": "draft",
     "title": "Create release draft",

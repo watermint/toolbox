@@ -24,6 +24,12 @@ type downloadRequestImpl struct {
 	contentLength int64
 }
 
+func (z *downloadRequestImpl) Header(key, value string) api_request.Request {
+	z.ctx.Log().Warn("this impl. does not support custom headers",
+		zap.String("key", key), zap.String("value", value))
+	return z
+}
+
 func (z *downloadRequestImpl) ParamString() string {
 	return z.paramString
 }

@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"net/http"
 )
@@ -69,29 +68,12 @@ func NewDownloadRequest(ctx api_context.Context,
 	return req
 }
 
-func NewUploadRequest(ctx api_context.Context,
-	endpoint string,
-	content ut_io.ReadRewinder,
-	asMemberId, asAdminId string,
-	base dbx_context.PathRoot,
-	token api_auth.Context) api_request.Request {
-
-	req := &uploadRequestImpl{
-		ctx:      ctx,
-		endpoint: endpoint,
-		dbxReq: &dbxRequest{
-			asMemberId: asMemberId,
-			asAdminId:  asAdminId,
-			base:       base,
-			token:      token,
-		},
-		content: content,
-	}
-	return req
-}
-
 type badRequest struct {
 	err error
+}
+
+func (z *badRequest) Header(key, value string) api_request.Request {
+	return z
 }
 
 func (z *badRequest) ContentLength() int64 {

@@ -14,6 +14,7 @@ require (
 	github.com/gin-gonic/gin v1.5.0
 	github.com/golang/protobuf v1.3.3 // indirect
 	github.com/google/go-cmp v0.4.0
+	github.com/google/go-querystring v1.0.0
 	github.com/iancoleman/strcase v0.0.0-20191112232945-16388991a334
 	github.com/json-iterator/go v1.1.9 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect

@@ -60,6 +60,7 @@ import (
 	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
 	recipeservicesgithubissue "github.com/watermint/toolbox/recipe/services/github/issue"
 	recipeservicesgithubrelease "github.com/watermint/toolbox/recipe/services/github/release"
+	recipeservicesgithubreleaseasset "github.com/watermint/toolbox/recipe/services/github/release/asset"
 	recipeservicesgithubtag "github.com/watermint/toolbox/recipe/services/github/tag"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
@@ -183,6 +184,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubissue.List{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental()),
 		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubrelease.List{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental()),
 		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubrelease.Draft{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental()),
+		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubreleaseasset.List{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental()),
 		infra_recipe_rc_recipe.Annotate(&recipeservicesgithubtag.Create{}, infra_recipe_rc_recipe.Console(), infra_recipe_rc_recipe.Experimental(), infra_recipe_rc_recipe.Irreversible()),
 		infra_recipe_rc_recipe.Annotate(&recipesharedfolder.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipesharedfoldermember.List{}),

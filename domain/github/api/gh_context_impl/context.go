@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/network/nw_monitor"
+	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
@@ -86,11 +87,15 @@ func (z *Context) MakeResponse(req *http.Request, res *http.Response) (api_respo
 }
 
 func (z *Context) Post(endpoint string) api_request.Request {
-	return gh_request.New(z, z.scope, z.ac.Token(), endpoint, "POST")
+	return gh_request.NewRpc(z, z.scope, z.ac.Token(), endpoint, "POST")
 }
 
 func (z *Context) Get(endpoint string) api_request.Request {
-	return gh_request.New(z, z.scope, z.ac.Token(), endpoint, "GET")
+	return gh_request.NewRpc(z, z.scope, z.ac.Token(), endpoint, "GET")
+}
+
+func (z *Context) Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request {
+	return gh_request.NewUpload(z, z.scope, z.ac.Token(), endpoint, "POST", content)
 }
 
 func NewResponse(ctx api_context.Context, req *http.Request, res *http.Response) (api_response.Response, error) {

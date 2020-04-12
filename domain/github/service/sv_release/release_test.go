@@ -21,3 +21,11 @@ func TestReleaseImpl_CreateDraft(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestReleaseImpl_Get(t *testing.T) {
+	mc := &gh_context_impl.Mock{}
+	sv := New(mc, "watermint", "toolbox_sandbox")
+	if _, err := sv.Get("0.0.2"); err != qt_errors.ErrorMock {
+		t.Error(err)
+	}
+}

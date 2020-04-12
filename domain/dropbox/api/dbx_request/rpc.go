@@ -24,6 +24,12 @@ type rpcRequestImpl struct {
 	contentLength int64
 }
 
+func (z *rpcRequestImpl) Header(key, value string) api_request.Request {
+	z.ctx.Log().Warn("this impl. does not support custom headers",
+		zap.String("key", key), zap.String("value", value))
+	return z
+}
+
 func (z *rpcRequestImpl) Param(p interface{}) api_request.Request {
 	return &rpcRequestImpl{
 		ctx:           z.ctx,
