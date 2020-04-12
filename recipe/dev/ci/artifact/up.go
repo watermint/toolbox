@@ -2,11 +2,10 @@ package artifact
 
 import (
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -14,7 +13,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/dev/ci/auth"
-	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -50,11 +48,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		l.Info("Skip operation")
 		return nil
 	}
-	dbxCtx, ok := ctx.(dbx_context.Context)
-	if !ok {
-		l.Error("Incompatible context type found", zap.Any("ctx", ctx))
-		return api_context.ErrorIncompatibleContextType
-	}
+	dbxCtx := dbx_context_impl.New(c, ctx)
 	err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
 		m := r.(*file.Upload)
 		m.Context = dbxCtx
