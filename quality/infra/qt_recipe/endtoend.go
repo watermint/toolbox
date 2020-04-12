@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_feature"
@@ -55,7 +56,7 @@ func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container,
 	web = rice.MustFindBox("../../../web")
 
 	mc = app_msg_container_impl.NewContainer(bx)
-	if qt_secure.IsSecureEndToEndTest() {
+	if qt_secure.IsSecureEndToEndTest() || app.IsProduction() {
 		ui = app_ui.NewNullConsole(mc, qt_missingmsg_impl.NewMessageTest(t))
 	} else {
 		ui = app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageTest(t), true)
