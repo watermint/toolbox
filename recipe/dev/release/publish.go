@@ -46,6 +46,7 @@ var (
 type Publish struct {
 	TestResource              string
 	Branch                    string
+	SkipTests                 bool
 	ArtifactPath              mo_path2.FileSystemPath
 	ConnGithub                gh_conn.ConnGithubRepo
 	HeadingReleaseTheme       app_msg.Message
@@ -306,9 +307,13 @@ func (z *Publish) Exec(c app_control.Control) error {
 		ready = false
 	}
 
-	err := z.endToEndTest(c)
-	if err != nil {
-		return err
+	if z.SkipTests {
+		ready = false
+	} else {
+		err := z.endToEndTest(c)
+		if err != nil {
+			return err
+		}
 	}
 
 	sum, err := z.verifyArtifacts(c)
