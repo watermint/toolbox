@@ -322,6 +322,10 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return err
 	}
 
+	if err := z.createTag(c); err != nil {
+		return nil
+	}
+
 	if err := z.createReleaseDraft(c, relNote); err != nil {
 		return err
 	}
