@@ -249,7 +249,7 @@ func (z *Publish) createTag(c app_control.Control) error {
 	if err == qt_errors.ErrorMock {
 		return nil
 	}
-	l.Info("The tag created", zap.Any("tag", tag))
+	l.Info("The tag created", zap.String("tag", tag.Ref))
 	return nil
 }
 
@@ -274,7 +274,7 @@ func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel
 	if err == qt_errors.ErrorMock {
 		return &mo_release.Release{}, nil
 	}
-	l.Info("Release created", zap.Any("rel", rel))
+	l.Info("Release created", zap.String("release", rel.Url))
 	return rel, nil
 }
 
@@ -295,7 +295,7 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) e
 		if err == qt_errors.ErrorMock {
 			continue
 		}
-		l.Info("Uploaded", zap.Any("asset", a))
+		l.Info("Uploaded", zap.Any("asset", p))
 	}
 	return nil
 }
