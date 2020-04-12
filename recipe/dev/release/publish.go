@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
+	"github.com/watermint/toolbox/domain/github/model/mo_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
 	"github.com/watermint/toolbox/domain/github/service/sv_tag"
@@ -248,7 +249,7 @@ func (z *Publish) createTag(c app_control.Control) error {
 	return nil
 }
 
-func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) error {
+func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel *mo_release.Release, err error) {
 	l := c.Log().With(
 		zap.String("owner", app.RepositoryOwner),
 		zap.String("repository", app.RepositoryName),
@@ -256,7 +257,7 @@ func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) erro
 		zap.String("hash", app.Hash))
 	ui := c.UI()
 	svr := sv_release.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName)
-	rel, err := svr.CreateDraft(
+	rel, err = svr.CreateDraft(
 		app.Version,
 		ui.Text(z.ReleaseName.With("Version", app.Version)),
 		relNote,
@@ -264,23 +265,23 @@ func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) erro
 	)
 	if err != nil && err != qt_errors.ErrorMock {
 		l.Debug("Unable to create release draft", zap.Error(err))
-		return err
+		return nil, err
 	}
 	if err == qt_errors.ErrorMock {
-		return nil
+		return &mo_release.Release{}, nil
 	}
 	l.Info("Release created", zap.Any("rel", rel))
-	return nil
+	return rel, nil
 }
 
-func (z *Publish) uploadAssets(c app_control.Control) error {
+func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) error {
 	l := c.Log()
 	assets, _, err := z.artifactAssets(c)
 	if err != nil {
 		return err
 	}
 
-	sva := sv_release_asset.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName, app.Version)
+	sva := sv_release_asset.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName, rel.Id)
 	for _, p := range assets {
 		l.Info("Uploading asset", zap.String("path", p))
 		a, err := sva.Upload(mo_path2.NewExistingFileSystemPath(p))
@@ -326,11 +327,12 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return nil
 	}
 
-	if err := z.createReleaseDraft(c, relNote); err != nil {
+	rel, err := z.createReleaseDraft(c, relNote)
+	if err != nil {
 		return err
 	}
 
-	if err := z.uploadAssets(c); err != nil {
+	if err := z.uploadAssets(c, rel); err != nil {
 		return err
 	}
 

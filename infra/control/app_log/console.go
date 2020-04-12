@@ -26,9 +26,14 @@ func NewConsoleLoggerCore(debug bool, test bool) zapcore.Core {
 	zo := zapcore.AddSync(w)
 
 	var level zapcore.Level
-	if debug || (test && !app.IsProduction()) {
+	switch {
+	case app.IsProduction() && test:
+		level = zap.FatalLevel
+
+	case debug, test:
 		level = zap.DebugLevel
-	} else {
+
+	default:
 		level = zap.InfoLevel
 	}
 

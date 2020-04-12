@@ -124,7 +124,16 @@ func (z *uploadImpl) Make() (req *http.Request, err error) {
 		req.Header.Add(api_request.ReqHeaderAuthorization, "token "+z.token.AccessToken)
 	}
 	req.Header.Add(api_request.ReqHeaderUserAgent, app.UserAgent())
-	req.Header.Add(api_request.ReqHeaderContentType, "application/json")
+	customContentType := false
+	for k := range z.customHeaders {
+		if k == api_request.ReqHeaderContentType {
+			customContentType = true
+			break
+		}
+	}
+	if !customContentType {
+		req.Header.Add(api_request.ReqHeaderContentType, "application/json")
+	}
 	for k, v := range z.customHeaders {
 		req.Header.Add(k, v)
 	}

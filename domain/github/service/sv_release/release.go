@@ -8,6 +8,7 @@ import (
 )
 
 var (
+	ErrorNotFound           = errors.New("not found")
 	ErrorUnexpectedResponse = errors.New("unexpected response")
 )
 
@@ -32,16 +33,27 @@ type releaseImpl struct {
 }
 
 func (z *releaseImpl) Get(tagName string) (release *mo_release.Release, err error) {
-	endpoint := "repos/" + z.owner + "/" + z.repo + "/releases/tags/" + tagName
-	res, err := z.ctx.Get(endpoint).Call()
+	//endpoint := "repos/" + z.owner + "/" + z.repo + "/releases/tags/" + tagName
+	//res, err := z.ctx.Get(endpoint).Call()
+	//if err != nil {
+	//	return nil, err
+	//}
+	//release = &mo_release.Release{}
+	//if err := res.Model(release); err != nil {
+	//	return nil, err
+	//}
+	//return release, nil
+
+	rels, err := z.List()
 	if err != nil {
 		return nil, err
 	}
-	release = &mo_release.Release{}
-	if err := res.Model(release); err != nil {
-		return nil, err
+	for _, rel := range rels {
+		if rel.TagName == tagName {
+			return rel, nil
+		}
 	}
-	return release, nil
+	return nil, ErrorNotFound
 }
 
 func (z *releaseImpl) CreateDraft(tagName, name, body, branch string) (release *mo_release.Release, err error) {
