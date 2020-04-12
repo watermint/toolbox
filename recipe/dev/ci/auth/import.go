@@ -14,15 +14,19 @@ import (
 )
 
 type Import struct {
+	PeerName string
+	EnvName  string
 }
 
 func (z *Import) Preset() {
+	z.PeerName = qt_endtoend.EndToEndPeer
+	z.EnvName = qt_endtoend.EndToEndEnvToken
 }
 
 func (z *Import) Exec(c app_control.Control) error {
-	l := c.Log()
+	l := c.Log().With(zap.String("peerName", z.PeerName), zap.String("envName", z.EnvName))
 	env := ut_runtime.EnvMap()
-	e, ok := env[qt_endtoend.EndToEndEnvToken]
+	e, ok := env[z.EnvName]
 	if !ok {
 		l.Info("Environment variable not found. Skip import.")
 		return nil
@@ -33,14 +37,15 @@ func (z *Import) Exec(c app_control.Control) error {
 		return err
 	}
 
-	pa := dbx_auth.NewMockWithPreset(qt_endtoend.EndToEndPeer, tokens)
+	pa := dbx_auth.NewMockWithPreset(z.PeerName, tokens)
 	ca := api_auth_impl.NewConsoleCache(c, pa)
 
 	for _, scope := range Scopes {
 		if _, err := ca.Auth(scope); err != nil {
-			return err
+			l.Info("Skip loading", zap.String("scope", scope), zap.Error(err))
+		} else {
+			l.Info("Loaded", zap.String("scope", scope))
 		}
-		l.Info("Loaded", zap.String("scope", scope))
 	}
 	l.Info("Tokens loaded")
 	return nil

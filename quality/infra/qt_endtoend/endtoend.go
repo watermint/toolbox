@@ -9,6 +9,8 @@ import (
 )
 
 const (
+	DeployPeer          = "deploy"
+	DeployEnvToken      = "TOOLBOX_DEPLOY_TOKEN"
 	EndToEndPeer        = "end_to_end_test"
 	EndToEndEnvTestSkip = "TOOLBOX_SKIPENDTOENDTEST"
 	EndToEndEnvToken    = "TOOLBOX_ENDTOEND"

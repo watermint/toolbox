@@ -288,6 +288,35 @@
       }
     ]
   },
+  "dev ci artifact connect": {
+    "name": "connect",
+    "title": "Connect to Dropbox for uploading artifact from CI",
+    "desc": "",
+    "remarks": "",
+    "path": "dev ci artifact connect",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": true,
+    "conn_use_business": false,
+    "conn_scopes": {
+      "Full": "user_full"
+    },
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": [],
+    "values": [
+      {
+        "name": "Full",
+        "desc": "deploy",
+        "default": "Account alias",
+        "type_name": "reflect.rtype",
+        "type_attr": null
+      }
+    ]
+  },
   "dev ci artifact up": {
     "name": "up",
     "title": "CI成果物をアップロードします",
@@ -451,7 +480,7 @@
       },
       {
         "name": "PeerName",
-        "desc": "end_to_end_test",
+        "desc": "deploy",
         "default": "アカウントの別名",
         "type_name": "string",
         "type_attr": null
@@ -597,7 +626,22 @@
     "is_irreversible": false,
     "reports": [],
     "feeds": [],
-    "values": []
+    "values": [
+      {
+        "name": "EnvName",
+        "desc": "TOOLBOX_ENDTOEND",
+        "default": "Environment variable name",
+        "type_name": "string",
+        "type_attr": null
+      },
+      {
+        "name": "PeerName",
+        "desc": "end_to_end_test",
+        "default": "Account alias",
+        "type_name": "string",
+        "type_attr": null
+      }
+    ]
   },
   "dev desktop install": {
     "name": "install",

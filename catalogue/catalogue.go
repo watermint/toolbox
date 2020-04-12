@@ -112,6 +112,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipedev.Dummy{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Echo{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedev.Preflight{}, infra_recipe_rc_recipe.Secret()),
+		infra_recipe_rc_recipe.Annotate(&recipedevciartifact.Connect{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevciartifact.Up{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevciauth.Connect{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipedevciauth.Export{}, infra_recipe_rc_recipe.Secret()),

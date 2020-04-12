@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
@@ -28,11 +29,21 @@ type Up struct {
 }
 
 func (z *Up) Preset() {
-	z.PeerName = qt_endtoend.EndToEndPeer
+	z.PeerName = qt_endtoend.DeployPeer
 }
 
 func (z *Up) Exec(c app_control.Control) error {
 	l := c.Log()
+
+	if err := rc_exec.Exec(c, &auth.Import{}, func(r rc_recipe.Recipe) {
+		m := r.(*auth.Import)
+		m.PeerName = qt_endtoend.DeployPeer
+		m.EnvName = qt_endtoend.DeployEnvToken
+	}); err != nil {
+		l.Info("No token imported. Skip operation")
+		return nil
+	}
+
 	a := api_auth_impl.NewConsoleCacheOnly(c, z.PeerName)
 	ctx, err := a.Auth(api_auth.DropboxTokenFull)
 	if err != nil {

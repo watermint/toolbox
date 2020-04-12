@@ -145,6 +145,5 @@ fi
 echo --------------------
 echo BUILD: Deploying
 
-echo "$TOOLBOX_DEPLOY_TOKEN" > $HOME/.toolbox/secrets/deploy.tokens
 cd $PROJECT_ROOT
 go run tbx.go dev ci artifact up -dropbox-path /watermint-toolbox-build -local-path $DIST_PATH -peer-name deploy
