@@ -146,4 +146,4 @@ echo --------------------
 echo BUILD: Deploying
 
 cd $PROJECT_ROOT
-$BUILD_PATH/linux/tbx dev ci artifact up -dropbox-path /watermint-toolbox-build -local-path $DIST_PATH -peer-name deploy
+$BUILD_PATH/linux/tbx dev ci artifact up -low-memory -dropbox-path /watermint-toolbox-build -local-path $DIST_PATH -peer-name deploy
