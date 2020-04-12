@@ -29,11 +29,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option          | Description            | Default |
-|-----------------|------------------------|---------|
-| `-dropbox-path` | Dropbox path to upload |         |
-| `-local-path`   | Local path to upload   |         |
-| `-peer-name`    | Account alias          |         |
+| Option          | Description            | Default         |
+|-----------------|------------------------|-----------------|
+| `-dropbox-path` | Dropbox path to upload |                 |
+| `-local-path`   | Local path to upload   |                 |
+| `-peer-name`    | Account alias          | end_to_end_test |
 
 Common options:
 

@@ -45,6 +45,10 @@ func NewTestFileSystemFolderPath(c app_control.Control, name string) mo_path2.Fi
 	return mo_path2.NewFileSystemPath(qt_file.MustMakeTestFolder(c, name, true))
 }
 
+func NewTestExistingFileSystemFolderPath(c app_control.Control, name string) mo_path2.ExistingFileSystemPath {
+	return mo_path2.NewExistingFileSystemPath(qt_file.MustMakeTestFolder(c, name, true))
+}
+
 func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {
 	bx = rice.MustFindBox("../../../resources")
 	web = rice.MustFindBox("../../../web")

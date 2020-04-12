@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
@@ -183,7 +184,7 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 		m.All = true
 		_, err := os.Lstat(z.TestResource)
 		if err == nil {
-			m.Resource = z.TestResource
+			m.Resource = mo_string.NewOptional(z.TestResource)
 		} else {
 			l.Warn("Unable to read test resource", zap.String("path", z.TestResource), zap.Error(err))
 		}

@@ -2,6 +2,7 @@ package update
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
@@ -136,13 +137,13 @@ type Expiry struct {
 	Peer       dbx_conn.ConnBusinessFile
 	Days       int
 	At         mo_time.TimeOptional
-	Visibility string
+	Visibility mo_string.SelectString
 	Updated    rp_model.TransactionReport
 	Skipped    rp_model.RowReport
 }
 
 func (z *Expiry) Preset() {
-	z.Visibility = "public"
+	z.Visibility.SetOptions([]string{"public", "team_only", "password", "team_and_password", "shared_folder_only"}, "public")
 	z.Skipped.SetModel(&mo_sharedlink.SharedLinkMember{}, rp_model.HiddenColumns(
 		"shared_link_id",
 		"account_id",
@@ -214,7 +215,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 			repSkipped: z.Skipped,
 			member:     member,
 			newExpiry:  newExpiry,
-			visibility: z.Visibility,
+			visibility: z.Visibility.String(),
 		})
 	}
 	q.Wait()

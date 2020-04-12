@@ -14,7 +14,7 @@ import (
 
 type Up struct {
 	Peer        dbx_conn.ConnUserFile
-	LocalPath   mo_path2.FileSystemPath
+	LocalPath   mo_path2.ExistingFileSystemPath
 	DropboxPath mo_path.DropboxPath
 	Upload      *file.Upload
 }
@@ -35,7 +35,7 @@ func (z *Up) Exec(c app_control.Control) error {
 func (z *Up) Test(c app_control.Control) error {
 	err := rc_exec.ExecMock(c, &Up{}, func(r rc_recipe.Recipe) {
 		m := r.(*Up)
-		m.LocalPath = qt_recipe.NewTestFileSystemFolderPath(c, "up")
+		m.LocalPath = qt_recipe.NewTestExistingFileSystemFolderPath(c, "up")
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("up")
 	})
 	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {

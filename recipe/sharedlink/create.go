@@ -1,6 +1,7 @@
 package sharedlink
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
@@ -19,7 +20,7 @@ type Create struct {
 	Peer     dbx_conn.ConnUserFile
 	Path     mo_path.DropboxPath
 	TeamOnly bool
-	Password string
+	Password mo_string.OptionalString
 	Expires  mo_time.TimeOptional
 	Created  rp_model.RowReport
 }
@@ -38,8 +39,8 @@ func (z *Create) Exec(c app_control.Control) error {
 	if z.TeamOnly {
 		opts = append(opts, sv_sharedlink.TeamOnly())
 	}
-	if z.Password != "" {
-		opts = append(opts, sv_sharedlink.Password(z.Password))
+	if z.Password.IsExists() {
+		opts = append(opts, sv_sharedlink.Password(z.Password.String()))
 	}
 
 	if err := z.Created.Open(); err != nil {
@@ -62,7 +63,7 @@ func (z *Create) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Create{}, func(r rc_recipe.Recipe) {
 		m := r.(*Create)
 		m.Path = qt_recipe.NewTestDropboxFolderPath("sharedlink-create")
-		m.Password = "1234"
+		m.Password = mo_string.NewOptional("1234")
 		m.TeamOnly = true
 		m.Expires = mo_time.NewOptional(time.Now().Add(1 * time.Second))
 	})

@@ -48,10 +48,14 @@ func (z *ListWorker) Exec() error {
 type List struct {
 	Peer       dbx_conn.ConnBusinessFile
 	SharedLink rp_model.RowReport
-	Visibility mo_string.OptionalString
+	Visibility mo_string.SelectString
 }
 
 func (z *List) Preset() {
+	z.Visibility.SetOptions(
+		[]string{"public", "team_only", "password", "team_and_password", "shared_folder_only"},
+		"public",
+	)
 	z.SharedLink.SetModel(
 		&mo_sharedlink.SharedLinkMember{},
 		rp_model.HiddenColumns(

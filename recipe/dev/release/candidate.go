@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -103,7 +104,7 @@ func (z *Candidate) Exec(c app_control.Control) error {
 		m.All = true
 		_, err := os.Lstat(z.TestResource)
 		if err == nil {
-			m.Resource = z.TestResource
+			m.Resource = mo_string.NewOptional(z.TestResource)
 		} else {
 			l.Warn("Unable to read test resource", zap.String("path", z.TestResource), zap.Error(err))
 		}

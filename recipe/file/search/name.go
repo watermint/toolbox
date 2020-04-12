@@ -17,7 +17,7 @@ type Name struct {
 	Path      mo_string.OptionalString
 	Query     string
 	Extension mo_string.OptionalString
-	Category  mo_string.OptionalString
+	Category  mo_string.SelectString
 	Matches   rp_model.RowReport
 }
 
@@ -28,7 +28,7 @@ func (z *Name) Exec(c app_control.Control) error {
 	if z.Extension.IsExists() {
 		so = append(so, sv_file.SearchFileExtension(z.Extension.String()))
 	}
-	if z.Category.IsExists() {
+	if z.Category.String() != "" {
 		so = append(so, sv_file.SearchCategories(z.Category.String()))
 	}
 	if z.Path.IsExists() {
@@ -58,6 +58,10 @@ func (z *Name) Test(c app_control.Control) error {
 }
 
 func (z *Name) Preset() {
+	z.Category.SetOptions(
+		[]string{"", "image", "document", "pdf", "spreadsheet", "presentation", "audio", "video", "folder", "paper", "others"},
+		"",
+	)
 	z.Matches.SetModel(&mo_file.MatchHighlighted{},
 		rp_model.HiddenColumns(
 			"name",

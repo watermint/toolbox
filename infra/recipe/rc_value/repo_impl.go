@@ -44,9 +44,11 @@ var (
 		newValueRpModelTransactionReport(""),
 		newValueFdFileRowFeed(""),
 		newValueOptionalString(),
+		newValueSelectString(),
 	}
 
 	ErrorMissingRequiredOption = errors.New("missing required option")
+	ErrorInvalidValue          = errors.New("invalid value")
 )
 
 // Find value of type.
@@ -312,6 +314,10 @@ func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 				ui.Info(MRepository.ProgressDoneValueInitialization)
 			}
 			continue
+
+		case ErrorInvalidValue:
+			ui.Error(MRepository.ErrorInvalidValue.With("Key", strcase.ToKebab(k)))
+			return nil, err
 
 		case ErrorMissingRequiredOption:
 			ui.Error(MRepository.ErrorMissingRequiredOption.With("Key", strcase.ToKebab(k)))

@@ -133,7 +133,7 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 				ru := r.(*filesync.Up)
-				ru.LocalPath = mo_path2.NewFileSystemPath(scenario.LocalPath)
+				ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 				ru.DropboxPath = dbxBase.ChildPath("file-sync-up")
 			})
 			if err != nil {
@@ -152,7 +152,7 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 				ru := r.(*filesync.Up)
-				ru.LocalPath = mo_path2.NewFileSystemPath(scenario.LocalPath)
+				ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 				ru.DropboxPath = dbxBase.ChildPath("file-sync-up")
 			})
 			if err != nil {
@@ -191,7 +191,7 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &filesyncpreflight.Up{}, func(r rc_recipe.Recipe) {
 				ru := r.(*filesyncpreflight.Up)
-				ru.LocalPath = mo_path2.NewFileSystemPath(scenario.LocalPath)
+				ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 				ru.DropboxPath = dbxBase.ChildPath("file-sync-preflight-up")
 			})
 			if err != nil {

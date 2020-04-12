@@ -24,7 +24,7 @@ func NewFileSystemPath(path string) FileSystemPath {
 	return &fileSystemPathImpl{path: p}
 }
 
-func NewExistingFileSystemPath(path string) FileSystemPath {
+func NewExistingFileSystemPath(path string) ExistingFileSystemPath {
 	p, err := ut_filepath.FormatPathWithPredefinedVariables(path)
 	if err != nil {
 		p = path
