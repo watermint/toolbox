@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
@@ -14,7 +15,7 @@ import (
 type List struct {
 	Peer     dbx_conn.ConnUserFile
 	Url      mo_url.Url
-	Password string
+	Password mo_string.OptionalString
 	FileList rp_model.RowReport
 }
 
@@ -47,7 +48,7 @@ func (z *List) Exec(c app_control.Control) error {
 
 	return sv_sharedlink_file.New(z.Peer.Context()).ListRecursive(z.Url, func(entry mo_file.Entry) {
 		z.FileList.Row(entry.Concrete())
-	}, sv_sharedlink_file.Password(z.Password))
+	}, sv_sharedlink_file.Password(z.Password.String()))
 }
 
 func (z *List) Test(c app_control.Control) error {

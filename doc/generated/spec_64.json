@@ -3736,39 +3736,6 @@
       }
     ]
   },
-  "services github installation list": {
-    "name": "list",
-    "title": "List current installations",
-    "desc": "",
-    "remarks": "(Experimental, and Irreversible operation)",
-    "path": "services github installation list",
-    "cli_args": "",
-    "cli_note": "",
-    "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "is_secret": false,
-    "is_console": true,
-    "is_experimental": true,
-    "is_irreversible": true,
-    "reports": [
-      {
-        "name": "installations",
-        "desc": "Installation of GitHub Apps",
-        "columns": [
-          {
-            "name": "id",
-            "desc": "Id of installation"
-          },
-          {
-            "name": "target_type",
-            "desc": "Target type"
-          }
-        ]
-      }
-    ],
-    "feeds": []
-  },
   "services github issue list": {
     "name": "list",
     "title": "List issues of the public/private GitHub repository",
@@ -3841,47 +3808,6 @@
           {
             "name": "url",
             "desc": "Url of the user"
-          }
-        ]
-      }
-    ],
-    "feeds": []
-  },
-  "services github public issue list": {
-    "name": "list",
-    "title": "List issues of the public GitHub repository",
-    "desc": "",
-    "remarks": "(Experimental)",
-    "path": "services github public issue list",
-    "cli_args": "",
-    "cli_note": "",
-    "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "is_secret": false,
-    "is_console": true,
-    "is_experimental": true,
-    "is_irreversible": false,
-    "reports": [
-      {
-        "name": "issues",
-        "desc": "GitHub Issue",
-        "columns": [
-          {
-            "name": "number",
-            "desc": "Issue number"
-          },
-          {
-            "name": "url",
-            "desc": "URL of the issue"
-          },
-          {
-            "name": "title",
-            "desc": "Title"
-          },
-          {
-            "name": "state",
-            "desc": "Issue state"
           }
         ]
       }

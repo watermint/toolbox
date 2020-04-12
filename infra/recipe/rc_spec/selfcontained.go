@@ -299,6 +299,7 @@ func (z *specValueSelfContained) SpinUp(ctl app_control.Control, custom func(r r
 	l := ctl.Log().With(zap.String("name", z.name))
 	rcp = z.repo.Apply()
 	custom(rcp)
+	z.repo.ApplyCustom()
 	_, err = z.repo.SpinUp(ctl)
 	if err != nil {
 		l.Debug("Unable to spin up", zap.Error(err))

@@ -60,6 +60,10 @@ func (z *ValueMoUrlUrl) Debug() interface{} {
 
 func (z *ValueMoUrlUrl) SpinUp(ctl app_control.Control) error {
 	l := app_root.Log()
+	if z.rawUrl == "" {
+		return ErrorMissingRequiredOption
+	}
+
 	u, err := mo_url.NewUrl(z.rawUrl)
 	if err != nil {
 		l.Debug("Unable to parse", zap.String("url", z.rawUrl), zap.Error(err))

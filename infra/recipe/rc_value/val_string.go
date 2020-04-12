@@ -21,12 +21,6 @@ func (z *ValueString) Accept(t reflect.Type, v0 interface{}, name string) rc_rec
 	return nil
 }
 
-func (z *ValueString) Fork(ctl app_control.Control) rc_recipe.Value {
-	v := &ValueString{}
-	v.v = z.v
-	return v
-}
-
 func (z *ValueString) Bind() interface{} {
 	return &z.v
 }
@@ -48,6 +42,10 @@ func (z *ValueString) Debug() interface{} {
 }
 
 func (z *ValueString) SpinUp(ctl app_control.Control) error {
+	if z.v == "" {
+		return ErrorMissingRequiredOption
+		//return nil
+	}
 	return nil
 }
 

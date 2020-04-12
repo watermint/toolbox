@@ -2,11 +2,11 @@ package dbx_context_impl
 
 import (
 	"bufio"
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_async"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
@@ -235,7 +235,7 @@ func NewResponse(ctx api_context.Context, req *http.Request, res *http.Response)
 		resWrite.Flush()
 		res.ContentLength = loadedLength
 
-		return api_response.NewDownload(res, mo_path.NewFileSystemPath(resFile.Name()), result, loadedLength), nil
+		return api_response.NewDownload(res, mo_path2.NewFileSystemPath(resFile.Name()), result, loadedLength), nil
 
 	} else {
 		body, err := ioutil.ReadAll(res.Body)

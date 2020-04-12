@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
@@ -37,7 +37,7 @@ var (
 
 type Publish struct {
 	TestResource              string
-	ArtifactPath              mo_path.FileSystemPath
+	ArtifactPath              mo_path2.FileSystemPath
 	HeadingReleaseTheme       app_msg.Message
 	HeadingChanges            app_msg.Message
 	ListSpecChange            app_msg.Message
@@ -245,7 +245,7 @@ func (z *Publish) Test(c app_control.Control) error {
 
 	err = rc_exec.Exec(c, &Publish{}, func(r rc_recipe.Recipe) {
 		m := r.(*Publish)
-		m.ArtifactPath = mo_path.NewFileSystemPath(d)
+		m.ArtifactPath = mo_path2.NewFileSystemPath(d)
 	})
 	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != ErrorBuildIsNotReadyForRelease && err != nil {
 		return err

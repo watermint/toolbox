@@ -1,6 +1,7 @@
 package search
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -13,24 +14,24 @@ import (
 
 type Content struct {
 	Peer      dbx_conn.ConnUserFile
-	Path      string
+	Path      mo_string.OptionalString
 	Query     string
-	Extension string
-	Category  string
+	Extension mo_string.OptionalString
+	Category  mo_string.OptionalString
 	Matches   rp_model.RowReport
 }
 
 func (z *Content) Exec(c app_control.Control) error {
 	so := make([]sv_file.SearchOpt, 0)
 	so = append(so, sv_file.SearchIncludeHighlights())
-	if z.Extension != "" {
-		so = append(so, sv_file.SearchFileExtension(z.Extension))
+	if z.Extension.IsExists() {
+		so = append(so, sv_file.SearchFileExtension(z.Extension.String()))
 	}
-	if z.Category != "" {
-		so = append(so, sv_file.SearchCategories(z.Category))
+	if z.Category.IsExists() {
+		so = append(so, sv_file.SearchCategories(z.Category.String()))
 	}
-	if z.Path != "" {
-		so = append(so, sv_file.SearchPath(mo_path.NewDropboxPath(z.Path)))
+	if z.Path.IsExists() {
+		so = append(so, sv_file.SearchPath(mo_path.NewDropboxPath(z.Path.String())))
 	}
 
 	if err := z.Matches.Open(); err != nil {

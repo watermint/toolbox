@@ -13,6 +13,7 @@ type MsgValFdFileRowFeed struct {
 
 type MsgRepository struct {
 	ErrorMissingRequiredOption      app_msg.Message
+	ErrorMoPathFsPathNotFound       app_msg.Message
 	ProgressDoneValueInitialization app_msg.Message
 }
 

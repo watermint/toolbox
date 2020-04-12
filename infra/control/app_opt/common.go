@@ -1,6 +1,7 @@
 package app_opt
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"runtime"
 )
 
@@ -31,7 +32,7 @@ type CommonOpts struct {
 	Output string
 
 	// Explicitly set proxy the hostname and the port number
-	Proxy string
+	Proxy mo_string.OptionalString
 
 	// Quiet mode
 	Quiet bool
@@ -40,7 +41,7 @@ type CommonOpts struct {
 	Secure bool
 
 	// Specify workspace path
-	Workspace string
+	Workspace mo_string.OptionalString
 }
 
 func (z *CommonOpts) Preset() {
@@ -50,8 +51,8 @@ func (z *CommonOpts) Preset() {
 	z.Debug = false
 	z.LowMemory = false
 	z.Output = "text"
-	z.Proxy = ""
+	z.Proxy = mo_string.NewOptional("")
 	z.Quiet = false
 	z.Secure = false
-	z.Workspace = ""
+	z.Workspace = mo_string.NewOptional("")
 }

@@ -814,6 +814,7 @@
   "infra.recipe.rc_spec.msg_self_contained.recipe_header_usage": "Usage:",
   "infra.recipe.rc_spec.msg_self_contained.recipe_usage": "{{.Exec}} {{.Recipe}} [option...] {{.Args}}",
   "infra.recipe.rc_value.msg_repository.error_missing_required_option": "Missing required option: `-{{.Key}}`",
+  "infra.recipe.rc_value.msg_repository.error_mo_path_fs_path_not_found": "`-{{.Key}}`: The path `{{.Path}}` given not found.",
   "infra.recipe.rc_value.msg_repository.progress_done_value_initialization": "Done",
   "infra.recipe.rc_value.msg_val_fd_file_row_feed.feed_desc": "Please specify file with format like below;",
   "infra.recipe.rc_value.msg_val_fd_file_row_feed.feed_sample": "Sample file format:\n\n```\n{{.Header}}\n{{.Body}}\n```",

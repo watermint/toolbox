@@ -1,6 +1,7 @@
 package file
 
 import (
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -14,7 +15,7 @@ import (
 
 type Upload struct {
 	Peer        dbx_conn.ConnUserFile
-	LocalPath   mo_path.FileSystemPath
+	LocalPath   mo_path2.FileSystemPath
 	DropboxPath mo_path.DropboxPath
 	Overwrite   bool
 	ChunkSizeKb int
@@ -58,7 +59,7 @@ func (z *Upload) Test(c app_control.Control) error {
 	{
 		err := rc_exec.Exec(c, &Upload{}, func(r rc_recipe.Recipe) {
 			ru := r.(*Upload)
-			ru.LocalPath = mo_path.NewFileSystemPath(file)
+			ru.LocalPath = mo_path2.NewFileSystemPath(file)
 			ru.DropboxPath = qt_recipe.NewTestDropboxFolderPath()
 			ru.Overwrite = true
 		})
@@ -71,7 +72,7 @@ func (z *Upload) Test(c app_control.Control) error {
 	{
 		err := rc_exec.Exec(c, &Upload{}, func(r rc_recipe.Recipe) {
 			ru := r.(*Upload)
-			ru.LocalPath = mo_path.NewFileSystemPath(file)
+			ru.LocalPath = mo_path2.NewFileSystemPath(file)
 			ru.DropboxPath = qt_recipe.NewTestDropboxFolderPath()
 			ru.Overwrite = true
 			ru.ChunkSizeKb = 1

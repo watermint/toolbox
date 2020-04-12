@@ -3,7 +3,7 @@ package api_response
 import (
 	"errors"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
@@ -45,7 +45,7 @@ type Response interface {
 	IsContentDownloaded() bool
 
 	// Path to the content saved, if the content downloaded. Otherwise empty string.
-	ContentFilePath() mo_path.FileSystemPath
+	ContentFilePath() mo_path2.FileSystemPath
 
 	// Header for key. Returns empty if no header for the key.
 	Header(key string) string
@@ -85,7 +85,7 @@ func New(res *http.Response, body []byte) Response {
 	}
 }
 
-func NewDownload(res *http.Response, path mo_path.FileSystemPath, body string, contentLength int64) Response {
+func NewDownload(res *http.Response, path mo_path2.FileSystemPath, body string, contentLength int64) Response {
 	return &responseImpl{
 		res:                    res,
 		resBody:                []byte(body),
@@ -100,7 +100,7 @@ type responseImpl struct {
 	res                    *http.Response
 	resBody                []byte
 	resBodyString          string
-	resFilePath            mo_path.FileSystemPath
+	resFilePath            mo_path2.FileSystemPath
 	resIsContentDownloaded bool
 	resContentLength       int64
 }
@@ -121,7 +121,7 @@ func (z *responseImpl) IsContentDownloaded() bool {
 	return z.resIsContentDownloaded
 }
 
-func (z *responseImpl) ContentFilePath() mo_path.FileSystemPath {
+func (z *responseImpl) ContentFilePath() mo_path2.FileSystemPath {
 	return z.resFilePath
 }
 

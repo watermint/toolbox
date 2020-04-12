@@ -2,6 +2,7 @@ package sharedlink
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
@@ -47,7 +48,7 @@ func (z *ListWorker) Exec() error {
 type List struct {
 	Peer       dbx_conn.ConnBusinessFile
 	SharedLink rp_model.RowReport
-	Visibility string
+	Visibility mo_string.OptionalString
 }
 
 func (z *List) Preset() {
@@ -78,7 +79,7 @@ func (z *List) Exec(c app_control.Control) error {
 			conn:       z.Peer.Context(),
 			rep:        z.SharedLink,
 			ctl:        c,
-			visibility: z.Visibility,
+			visibility: z.Visibility.String(),
 		})
 	}
 	q.Wait()

@@ -4,6 +4,7 @@ import (
 	"archive/zip"
 	"encoding/json"
 	"errors"
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
@@ -41,7 +42,7 @@ const (
 
 type Procmon struct {
 	ProcmonUrl     string
-	RepositoryPath mo_path.FileSystemPath
+	RepositoryPath mo_path2.FileSystemPath
 	DropboxPath    mo_path.DropboxPath
 	Peer           dbx_conn.ConnUserFile
 	RunUntil       mo_time.TimeOptional
@@ -454,7 +455,7 @@ func (z *Procmon) Test(c app_control.Control) error {
 		m.ProcmonUrl = procmonDownloadUrl
 		m.Seconds = 30
 		m.RetainLogs = 4
-		m.RepositoryPath = mo_path.NewFileSystemPath(tmpDir)
+		m.RepositoryPath = mo_path2.NewFileSystemPath(tmpDir)
 	})
 }
 

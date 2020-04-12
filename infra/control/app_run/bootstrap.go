@@ -129,8 +129,8 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	// Up
 	so := make([]app_control.UpOpt, 0)
-	if com.Workspace != "" {
-		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace)
+	if com.Workspace.IsExists() {
+		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace.String())
 		if err != nil {
 			ui.Error(MRun.ErrorUnableToFormatPath.With("Error", err))
 			os.Exit(app_control.FailureInvalidCommandFlags)
@@ -249,7 +249,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	}()
 
 	// - Proxy config
-	nw_proxy.SetHttpProxy(com.Proxy, ctl)
+	nw_proxy.SetHttpProxy(com.Proxy.String(), ctl)
 
 	// App Header
 	rc_group.AppHeader(ui, app.Version)

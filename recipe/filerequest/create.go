@@ -1,6 +1,7 @@
 package filerequest
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
@@ -20,7 +21,7 @@ type Create struct {
 	Title            string
 	Path             mo_path.DropboxPath
 	Deadline         mo_time.TimeOptional
-	AllowLateUploads string
+	AllowLateUploads mo_string.OptionalString
 	Peer             dbx_conn.ConnUserFile
 	FileRequest      rp_model.RowReport
 }
@@ -33,8 +34,8 @@ func (z *Create) Exec(c app_control.Control) error {
 	opts := make([]sv_filerequest.CreateOpt, 0)
 	if z.Deadline.Ok() {
 		opts = append(opts, sv_filerequest.OptDeadline(z.Deadline.String()))
-		if z.AllowLateUploads != "" {
-			opts = append(opts, sv_filerequest.OptAllowLateUploads(z.AllowLateUploads))
+		if z.AllowLateUploads.IsExists() {
+			opts = append(opts, sv_filerequest.OptAllowLateUploads(z.AllowLateUploads.String()))
 		}
 	}
 	if err := z.FileRequest.Open(); err != nil {

@@ -5,6 +5,7 @@ import (
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	"github.com/tidwall/gjson"
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -40,8 +41,8 @@ func NewTestDropboxFolderPath(rel ...string) mo_path.DropboxPath {
 	return mo_path.NewDropboxPath("/" + TestTeamFolderName).ChildPath(rel...)
 }
 
-func NewTestFileSystemFolderPath(c app_control.Control, name string) mo_path.FileSystemPath {
-	return mo_path.NewFileSystemPath(qt_file.MustMakeTestFolder(c, name, true))
+func NewTestFileSystemFolderPath(c app_control.Control, name string) mo_path2.FileSystemPath {
+	return mo_path2.NewFileSystemPath(qt_file.MustMakeTestFolder(c, name, true))
 }
 
 func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {

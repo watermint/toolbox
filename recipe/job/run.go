@@ -2,7 +2,7 @@ package job
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -17,7 +17,7 @@ import (
 type Run struct {
 	Fork                    bool
 	TimeoutSeconds          int
-	RunbookPath             mo_path.FileSystemPath
+	RunbookPath             mo_path2.FileSystemPath
 	ErrorRunBookNotFound    app_msg.Message
 	ErrorTimeoutRequireFork app_msg.Message
 	ErrorUnableToFork       app_msg.Message

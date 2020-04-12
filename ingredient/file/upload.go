@@ -1,6 +1,7 @@
 package file
 
 import (
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
@@ -36,7 +37,7 @@ type Upload struct {
 	Overwrite       bool
 	ChunkSizeKb     int
 	CreateFolder    bool
-	LocalPath       mo_path.FileSystemPath
+	LocalPath       mo_path2.FileSystemPath
 	DropboxPath     mo_path.DropboxPath
 	ProgressUpload  app_msg.Message
 	ProgressSummary app_msg.Message

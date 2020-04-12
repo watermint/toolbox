@@ -42,6 +42,9 @@ type Repository interface {
 	// Apply values in the repository to the
 	Apply() Recipe
 
+	// Apply custom values to the repository
+	ApplyCustom()
+
 	// Prepare values for run recipe
 	SpinUp(ctl app_control.Control) (Recipe, error)
 

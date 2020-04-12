@@ -1,6 +1,7 @@
 package compare
 
 import (
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -17,7 +18,7 @@ import (
 
 type Local struct {
 	Peer        dbx_conn.ConnUserFile
-	LocalPath   mo_path.FileSystemPath
+	LocalPath   mo_path2.FileSystemPath
 	DropboxPath mo_path.DropboxPath
 	Diff        rp_model.RowReport
 	Skip        rp_model.RowReport

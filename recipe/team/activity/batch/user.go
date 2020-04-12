@@ -3,6 +3,7 @@ package batch
 import (
 	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
@@ -97,7 +98,7 @@ type User struct {
 	Peer       dbx_conn.ConnBusinessAudit
 	StartTime  mo_time.TimeOptional
 	EndTime    mo_time.TimeOptional
-	Category   string
+	Category   mo_string.OptionalString
 	Combined   rp_model.RowReport
 	User       rp_model.RowReport
 	File       fd_file.RowFeed
@@ -129,7 +130,7 @@ func (z *User) Exec(c app_control.Control) error {
 			Context:    z.Peer.Context(),
 			StartTime:  z.StartTime.Iso8601(),
 			EndTime:    z.EndTime.Iso8601(),
-			Category:   z.Category,
+			Category:   z.Category.String(),
 			EventCache: z.EventCache,
 			UserEmail:  e.Email,
 		})

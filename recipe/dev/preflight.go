@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -152,7 +153,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				rr := r.(*Doc)
 				rr.Badge = true
 				rr.MarkdownReadme = true
-				rr.Lang = langCode
+				rr.Lang = mo_string.NewOptional(langCode)
 				rr.Filename = fmt.Sprintf("README%s.md", suffix)
 				rr.CommandPath = path
 			})
@@ -164,8 +165,8 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			ll.Info("Generating Spec document")
 			err = rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Doc)
-				rr.Lang = langCode
-				rr.FilePath = filepath.Join(path, "spec.json")
+				rr.Lang = mo_string.NewOptional(langCode)
+				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "spec.json"))
 			})
 			if err != nil {
 				l.Error("Failed to generate documents", zap.Error(err))
@@ -188,20 +189,19 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		}
 
 		if !c.Feature().IsTest() && minimumSpecDocVersion < release {
-			ll.Info("Generating release notes")
+			ll.Info("Generating release changes")
 			err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Diff)
-				rr.Lang = langCode
-				rr.Release1 = fmt.Sprintf("%d", release-1)
-				rr.Release2 = fmt.Sprintf("%d", release)
-				rr.FilePath = filepath.Join(path, "changes.md")
+				rr.Lang = mo_string.NewOptional(langCode)
+				rr.Release1 = mo_string.NewOptional(fmt.Sprintf("%d", release-1))
+				rr.Release2 = mo_string.NewOptional(fmt.Sprintf("%d", release))
+				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "changes.md"))
 			})
 			if err != nil {
 				l.Error("Failed to generate documents", zap.Error(err))
 				return err
 			}
 		}
-
 	}
 
 	{

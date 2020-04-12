@@ -3,6 +3,7 @@ package spec
 import (
 	"encoding/json"
 	"github.com/google/go-cmp/cmp"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_doc"
@@ -22,10 +23,10 @@ import (
 )
 
 type Diff struct {
-	Lang                string
-	Release1            string
-	Release2            string
-	FilePath            string
+	Lang                mo_string.OptionalString
+	Release1            mo_string.OptionalString
+	Release2            mo_string.OptionalString
+	FilePath            mo_string.OptionalString
 	ReleaseCurrent      app_msg.Message
 	ReleaseVersion      app_msg.Message
 	DocHeader           app_msg.Message
@@ -208,11 +209,11 @@ func (z *Diff) diffSpec(mui app_ui.UI, s1, s2 *rc_doc.Recipe) {
 
 func (z *Diff) makeDiff(c app_control.Control) error {
 	l := c.Log()
-	r1, err := z.loadSpec(c, z.Release1)
+	r1, err := z.loadSpec(c, z.Release1.String())
 	if err != nil {
 		return nil
 	}
-	r2, err := z.loadSpec(c, z.Release2)
+	r2, err := z.loadSpec(c, z.Release2.String())
 	if err != nil {
 		return nil
 	}
@@ -236,13 +237,13 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 
 	var w io.WriteCloser
 	shouldClose := false
-	if z.FilePath == "" {
+	if !z.FilePath.IsExists() {
 		w = ut_io.NewDefaultOut(c.Feature().IsTest())
 	} else {
 		var err error
-		w, err = os.Create(z.FilePath)
+		w, err = os.Create(z.FilePath.String())
 		if err != nil {
-			l.Error("Unable to create file", zap.Error(err), zap.String("path", z.FilePath))
+			l.Error("Unable to create file", zap.Error(err), zap.String("path", z.FilePath.String()))
 			return err
 		}
 		shouldClose = true
@@ -261,7 +262,7 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 	}
 
 	mui := app_ui.NewMarkdown(c.Messages(), w, false)
-	mui.Header(z.DocHeader.With("Release1", relName(z.Release1)).With("Release2", relName(z.Release2)))
+	mui.Header(z.DocHeader.With("Release1", relName(z.Release1.String())).With("Release2", relName(z.Release2.String())))
 
 	if len(added) > 0 {
 		mui.Header(z.SpecAdded)
@@ -303,7 +304,7 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 }
 
 func (z *Diff) Exec(c app_control.Control) error {
-	if cl, ok := app_control_launcher.ControlWithLang(z.Lang, c); ok {
+	if cl, ok := app_control_launcher.ControlWithLang(z.Lang.String(), c); ok {
 		return z.makeDiff(cl)
 	} else {
 		return z.makeDiff(c)

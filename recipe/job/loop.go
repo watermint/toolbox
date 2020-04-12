@@ -2,7 +2,7 @@ package job
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
@@ -16,7 +16,7 @@ type Loop struct {
 	Until                       mo_time.Time
 	IntervalSeconds             int
 	QuitOnError                 bool
-	RunbookPath                 mo_path.FileSystemPath
+	RunbookPath                 mo_path2.FileSystemPath
 	ErrorRunBookNotFound        app_msg.Message
 	ErrorInvalidRunBookContent  app_msg.Message
 	ErrorInvalidIntervalSeconds app_msg.Message

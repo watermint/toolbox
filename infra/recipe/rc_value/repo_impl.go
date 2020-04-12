@@ -43,6 +43,7 @@ var (
 		newValueRpModelRowReport(""),
 		newValueRpModelTransactionReport(""),
 		newValueFdFileRowFeed(""),
+		newValueOptionalString(),
 	}
 
 	ErrorMissingRequiredOption = errors.New("missing required option")
@@ -113,21 +114,19 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 	}
 
 	if scr, ok := rcp.(rc_recipe.Preset); ok {
+		l.Debug("Call preset")
 		scr.Preset()
 	}
 
-	// Apply preset values
-	for k, v := range vals {
-		f := fieldValue[k]
-		v.ApplyPreset(f.Interface())
-	}
-
-	return &RepositoryImpl{
+	ri := &RepositoryImpl{
 		values:     vals,
 		rcp:        rcp,
 		rcpName:    rcpName,
 		fieldValue: fieldValue,
 	}
+	ri.ApplyCustom()
+
+	return ri
 }
 
 type RepositoryImpl struct {
@@ -135,6 +134,15 @@ type RepositoryImpl struct {
 	rcpName    string
 	values     map[string]rc_recipe.Value
 	fieldValue map[string]reflect.Value
+}
+
+func (z *RepositoryImpl) ApplyCustom() {
+	l := app_root.Log()
+	for k, v := range z.values {
+		f := z.fieldValue[k]
+		l.Debug("Apply preset", zap.String("k", k), zap.Any("v", f.Interface()))
+		v.ApplyPreset(f.Interface())
+	}
 }
 
 func (z *RepositoryImpl) Current() interface{} {
@@ -247,6 +255,7 @@ func (z *RepositoryImpl) ReportSpecs() map[string]rp_model.Spec {
 }
 
 func (z *RepositoryImpl) Apply() rc_recipe.Recipe {
+	l := app_root.Log()
 	for k, v := range z.values {
 		fv, ok := z.fieldValue[k]
 		if !ok {
@@ -255,12 +264,16 @@ func (z *RepositoryImpl) Apply() rc_recipe.Recipe {
 		av := v.Apply()
 		switch fv.Type().Kind() {
 		case reflect.Bool:
+			l.Debug("apply bool", zap.String("k", k), zap.Any("av", av))
 			fv.SetBool(av.(bool))
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			l.Debug("apply int", zap.String("k", k), zap.Any("av", av))
 			fv.SetInt(av.(int64))
 		case reflect.String:
+			l.Debug("apply string", zap.String("k", k), zap.Any("av", av))
 			fv.SetString(av.(string))
 		default:
+			l.Debug("apply interface", zap.String("k", k), zap.Any("av", av))
 			fv.Set(reflect.ValueOf(av))
 		}
 	}
@@ -290,6 +303,7 @@ func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 				prompt = true
 			}
 		}
+		l.Debug("spin up", zap.String("k", k), zap.Any("v.debug", v.Debug()))
 
 		err := v.SpinUp(ctl)
 		switch err {
@@ -300,7 +314,7 @@ func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 			continue
 
 		case ErrorMissingRequiredOption:
-			ui.Error(MRepository.ErrorMissingRequiredOption.With("Key", strcase.ToSnake(k)))
+			ui.Error(MRepository.ErrorMissingRequiredOption.With("Key", strcase.ToKebab(k)))
 			return nil, err
 
 		default:

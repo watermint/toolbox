@@ -1,6 +1,7 @@
 package artifact
 
 import (
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
@@ -10,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"io/ioutil"
@@ -20,12 +22,13 @@ import (
 
 type Up struct {
 	PeerName    string
-	LocalPath   mo_path.FileSystemPath
+	LocalPath   mo_path2.FileSystemPath
 	DropboxPath mo_path.DropboxPath
 	Upload      *file.Upload
 }
 
 func (z *Up) Preset() {
+	z.PeerName = qt_endtoend.EndToEndPeer
 }
 
 func (z *Up) Exec(c app_control.Control) error {
@@ -69,7 +72,7 @@ func (z *Up) Test(c app_control.Control) error {
 
 	return rc_exec.Exec(c, z, func(r rc_recipe.Recipe) {
 		m := r.(*Up)
-		m.LocalPath = mo_path.NewFileSystemPath(tp)
+		m.LocalPath = mo_path2.NewFileSystemPath(tp)
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("dev-ci-artifact", time.Now().Format(time.RFC3339))
 	})
 }

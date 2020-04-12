@@ -2,6 +2,7 @@ package activity
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
@@ -111,7 +112,7 @@ type User struct {
 	Peer        dbx_conn.ConnBusinessAudit
 	StartTime   mo_time.TimeOptional
 	EndTime     mo_time.TimeOptional
-	Category    string
+	Category    mo_string.OptionalString
 	User        rp_model.RowReport
 	UserSummary rp_model.TransactionReport
 }
@@ -143,7 +144,7 @@ func (z *User) Exec(c app_control.Control) error {
 			user:       member,
 			StartTime:  z.StartTime.Iso8601(),
 			EndTime:    z.EndTime.Iso8601(),
-			Category:   z.Category,
+			Category:   z.Category.String(),
 		})
 	}
 	q.Wait()

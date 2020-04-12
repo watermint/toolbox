@@ -3,6 +3,7 @@ package batch
 import (
 	"encoding/csv"
 	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
@@ -53,7 +54,7 @@ func (z *UrlWorker) Exec() error {
 type Url struct {
 	Peer            dbx_conn.ConnUserFile
 	File            fd_file.RowFeed
-	Path            string
+	Path            mo_string.OptionalString
 	OperationLog    rp_model.TransactionReport
 	SkipPathMissing app_msg.Message
 }
@@ -89,8 +90,8 @@ func (z *Url) Exec(c app_control.Control) error {
 		switch {
 		case r.Path != "":
 			path = r.Path
-		case z.Path != "":
-			path = z.Path
+		case z.Path.IsExists():
+			path = z.Path.String()
 		default:
 			z.OperationLog.Skip(z.SkipPathMissing, r)
 			ui.ErrorK("recipe.file.import.batch.url.err.path_missing")

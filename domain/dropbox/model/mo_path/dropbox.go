@@ -1,40 +1,9 @@
 package mo_path
 
 import (
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"path/filepath"
 	"strings"
 )
-
-type Path interface {
-	Path() string
-}
-
-type FileSystemPath interface {
-	Path
-
-	Drive() string
-}
-
-func NewFileSystemPath(path string) FileSystemPath {
-	p, err := ut_filepath.FormatPathWithPredefinedVariables(path)
-	if err != nil {
-		p = path
-	}
-	return &fileSystemPathImpl{path: p}
-}
-
-type fileSystemPathImpl struct {
-	path string
-}
-
-func (z *fileSystemPathImpl) Drive() string {
-	return filepath.VolumeName(z.path)
-}
-
-func (z *fileSystemPathImpl) Path() string {
-	return z.path
-}
 
 type DropboxPath interface {
 	// Path format for Dropbox API

@@ -1,7 +1,7 @@
 package release
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
@@ -20,7 +20,7 @@ type Draft struct {
 	Repository string
 	Tag        string
 	Name       string
-	BodyFile   mo_path.FileSystemPath
+	BodyFile   mo_path2.FileSystemPath
 	Release    rp_model.RowReport
 }
 
@@ -59,6 +59,6 @@ func (z *Draft) Test(c app_control.Control) error {
 		m.Name = "0.0.2"
 		m.Owner = "watermint"
 		m.Repository = "toolbox_sandbox"
-		m.BodyFile = mo_path.NewFileSystemPath(f)
+		m.BodyFile = mo_path2.NewFileSystemPath(f)
 	})
 }

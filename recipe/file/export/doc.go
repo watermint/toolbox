@@ -1,6 +1,7 @@
 package export
 
 import (
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -17,7 +18,7 @@ import (
 
 type Doc struct {
 	Peer         dbx_conn.ConnUserFile
-	LocalPath    mo_path.FileSystemPath
+	LocalPath    mo_path2.FileSystemPath
 	DropboxPath  mo_path.DropboxPath
 	OperationLog rp_model.RowReport
 }
