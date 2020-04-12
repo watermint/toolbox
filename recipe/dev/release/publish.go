@@ -7,6 +7,12 @@ import (
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/domain/github/api/gh_conn"
+	"github.com/watermint/toolbox/domain/github/api/gh_context"
+	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
+	"github.com/watermint/toolbox/domain/github/service/sv_release"
+	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
+	"github.com/watermint/toolbox/domain/github/service/sv_tag"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
@@ -38,7 +44,9 @@ var (
 
 type Publish struct {
 	TestResource              string
+	Branch                    string
 	ArtifactPath              mo_path2.FileSystemPath
+	ConnGithub                gh_conn.ConnGithubRepo
 	HeadingReleaseTheme       app_msg.Message
 	HeadingChanges            app_msg.Message
 	ListSpecChange            app_msg.Message
@@ -49,6 +57,8 @@ type Publish struct {
 	BinaryTableHeaderSize     app_msg.Message
 	BinaryTableHeaderMD5      app_msg.Message
 	BinaryTableHeaderSHA256   app_msg.Message
+	TagCommitMessage          app_msg.Message
+	ReleaseName               app_msg.Message
 }
 
 type ArtifactSum struct {
@@ -60,27 +70,41 @@ type ArtifactSum struct {
 
 func (z *Publish) Preset() {
 	z.TestResource = defaultTestResource
+	z.Branch = "master"
+}
+
+func (z *Publish) artifactAssets(c app_control.Control) (paths []string, sizes map[string]int64, err error) {
+	l := c.Log()
+
+	entries, err := ioutil.ReadDir(z.ArtifactPath.Path())
+	if err != nil {
+		return nil, nil, err
+	}
+	paths = make([]string, 0)
+	sizes = make(map[string]int64)
+	for _, e := range entries {
+		if !strings.HasPrefix(e.Name(), "tbx-"+app.Version) || !strings.HasSuffix(e.Name(), ".zip") {
+			l.Debug("Ignore non artifact file", zap.Any("file", e))
+			continue
+		}
+		path := filepath.Join(z.ArtifactPath.Path(), e.Name())
+		paths = append(paths, path)
+		sizes[path] = e.Size()
+	}
+	return paths, sizes, nil
 }
 
 func (z *Publish) verifyArtifacts(c app_control.Control) (a []*ArtifactSum, err error) {
 	l := c.Log()
 	a = make([]*ArtifactSum, 0)
 
-	entries, err := ioutil.ReadDir(z.ArtifactPath.Path())
-	if err != nil {
-		return nil, err
-	}
+	assets, assetSize, err := z.artifactAssets(c)
 
 	h := ut_filehash.NewHash(l)
-	for _, e := range entries {
-		if !strings.HasPrefix(e.Name(), "tbx-"+app.Version) || !strings.HasSuffix(e.Name(), ".zip") {
-			l.Debug("Ignore non artifact file", zap.Any("file", e))
-			continue
-		}
-		p := filepath.Join(z.ArtifactPath.Path(), e.Name())
+	for _, p := range assets {
 		sum := &ArtifactSum{
-			Filename: e.Name(),
-			Size:     e.Size(),
+			Filename: filepath.Base(p),
+			Size:     assetSize[p],
 		}
 		sum.MD5, err = h.MD5(p)
 		if err != nil {
@@ -100,7 +124,7 @@ func (z *Publish) verifyArtifacts(c app_control.Control) (a []*ArtifactSum, err 
 	return a, nil
 }
 
-func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) error {
+func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNote string, err error) {
 	l := c.Log()
 	baseUrl := "https://github.com/watermint/toolbox/blob/" + app.Version
 
@@ -141,15 +165,14 @@ func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) error 
 	mit.Flush()
 
 	relNotesPath := filepath.Join(c.Workspace().Report(), "release_notes.md")
-	err := ioutil.WriteFile(relNotesPath, buf.Bytes(), 0644)
+	err = ioutil.WriteFile(relNotesPath, buf.Bytes(), 0644)
 	if err != nil {
 		l.Debug("Unable to write release notes", zap.Error(err), zap.String("path", relNotesPath))
-		return err
+		return "", err
 	}
-	fmt.Println(buf.String())
 	l.Info("Release note created", zap.String("path", relNotesPath))
 
-	return nil
+	return buf.String(), nil
 }
 
 func (z *Publish) endToEndTest(c app_control.Control) error {
@@ -192,6 +215,86 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 	return err
 }
 
+func (z *Publish) ghCtx(c app_control.Control) gh_context.Context {
+	if c.Feature().IsTest() {
+		return gh_context_impl.NewMock()
+	} else {
+		return z.ConnGithub.Context()
+	}
+}
+
+func (z *Publish) createTag(c app_control.Control) error {
+	l := c.Log().With(
+		zap.String("owner", app.RepositoryOwner),
+		zap.String("repository", app.RepositoryName),
+		zap.String("version", app.Version),
+		zap.String("hash", app.Hash))
+	ui := c.UI()
+	svt := sv_tag.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName)
+	l.Debug("Create tag")
+	tag, err := svt.Create(
+		app.Version,
+		ui.Text(z.TagCommitMessage.With("Version", app.Version)),
+		app.Hash,
+	)
+	if err != nil && err != qt_errors.ErrorMock {
+		l.Debug("Unable to create tag", zap.Error(err))
+		return err
+	}
+	if err == qt_errors.ErrorMock {
+		return nil
+	}
+	l.Info("The tag created", zap.Any("tag", tag))
+	return nil
+}
+
+func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) error {
+	l := c.Log().With(
+		zap.String("owner", app.RepositoryOwner),
+		zap.String("repository", app.RepositoryName),
+		zap.String("version", app.Version),
+		zap.String("hash", app.Hash))
+	ui := c.UI()
+	svr := sv_release.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName)
+	rel, err := svr.CreateDraft(
+		app.Version,
+		ui.Text(z.ReleaseName.With("Version", app.Version)),
+		relNote,
+		z.Branch,
+	)
+	if err != nil && err != qt_errors.ErrorMock {
+		l.Debug("Unable to create release draft", zap.Error(err))
+		return err
+	}
+	if err == qt_errors.ErrorMock {
+		return nil
+	}
+	l.Info("Release created", zap.Any("rel", rel))
+	return nil
+}
+
+func (z *Publish) uploadAssets(c app_control.Control) error {
+	l := c.Log()
+	assets, _, err := z.artifactAssets(c)
+	if err != nil {
+		return err
+	}
+
+	sva := sv_release_asset.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName, app.Version)
+	for _, p := range assets {
+		l.Info("Uploading asset", zap.String("path", p))
+		a, err := sva.Upload(mo_path2.NewExistingFileSystemPath(p))
+		if err != nil && err != qt_errors.ErrorMock {
+			return err
+		}
+		if err == qt_errors.ErrorMock {
+			continue
+		}
+		l.Info("Uploaded", zap.Any("asset", a))
+	}
+	return nil
+}
+
 func (z *Publish) Exec(c app_control.Control) error {
 	l := c.Log()
 	ready := true
@@ -214,8 +317,16 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return err
 	}
 
-	err = z.releaseNotes(c, sum)
+	relNote, err := z.releaseNotes(c, sum)
 	if err != nil {
+		return err
+	}
+
+	if err := z.createReleaseDraft(c, relNote); err != nil {
+		return err
+	}
+
+	if err := z.uploadAssets(c); err != nil {
 		return err
 	}
 
@@ -244,7 +355,7 @@ func (z *Publish) Test(c app_control.Control) error {
 	}
 	defer os.RemoveAll(d)
 
-	err = rc_exec.Exec(c, &Publish{}, func(r rc_recipe.Recipe) {
+	err = rc_exec.ExecMock(c, &Publish{}, func(r rc_recipe.Recipe) {
 		m := r.(*Publish)
 		m.ArtifactPath = mo_path2.NewFileSystemPath(d)
 	})
