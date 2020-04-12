@@ -18,6 +18,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_lang"
@@ -127,6 +128,10 @@ func (z *Publish) verifyArtifacts(c app_control.Control) (a []*ArtifactSum, err 
 }
 
 func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNote string, err error) {
+	if cl, ok := app_control_launcher.ControlWithLang("en", c); ok {
+		c = cl
+	}
+
 	l := c.Log()
 	baseUrl := "https://github.com/watermint/toolbox/blob/" + app.Version
 
