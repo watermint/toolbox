@@ -73,7 +73,14 @@ type OptInStatus struct {
 func (z *OptInStatus) OptInCommit(enable bool) {
 	usr, _ := user.Current()
 
-	z.User = usr.Name
+	switch {
+	case usr.Name != "":
+		z.User = usr.Name
+	case usr.Username != "":
+		z.User = usr.Username
+	default:
+		z.User = "unknown"
+	}
 	z.Status = enable
 	z.Timestamp = time.Now().Format(time.RFC3339)
 }

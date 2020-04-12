@@ -209,11 +209,11 @@ func (z *Web) Break() {
 }
 
 func (z *Web) TextK(key string, p ...app_msg.P) string {
-	return z.baseUI.TextK(key, p...)
+	return z.baseUI.Text(app_msg.M(key, p...))
 }
 
 func (z *Web) TextOrEmptyK(key string, p ...app_msg.P) string {
-	return z.baseUI.TextOrEmptyK(key, p...)
+	return z.baseUI.TextOrEmpty(app_msg.M(key, p...))
 }
 
 func (z *Web) OpenArtifact(path string, autoOpen bool) {

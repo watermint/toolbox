@@ -43,9 +43,6 @@ type UI interface {
 	// Compile text
 	Text(m app_msg.Message) string
 
-	// Deprecated: use TextOrEmpty
-	TextOrEmptyK(key string, p ...app_msg.P) string
-
 	// Compile text, returns empty string if the key is not found
 	TextOrEmpty(m app_msg.Message) string
 
