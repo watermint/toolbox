@@ -128,6 +128,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [services github issue list](doc/generated_ja/services-github-issue-list.md)                 | List issues of the public/private GitHub repository                |
 | [services github profile](doc/generated_ja/services-github-profile.md)                       | Get the authenticated user                                         |
 | [services github release asset list](doc/generated_ja/services-github-release-asset-list.md) | List assets of GitHub Release                                      |
+| [services github release asset up](doc/generated_ja/services-github-release-asset-up.md)     | Upload assets file into the GitHub Release                         |
 | [services github release draft](doc/generated_ja/services-github-release-draft.md)           | Create release draft                                               |
 | [services github release list](doc/generated_ja/services-github-release-list.md)             | List releases                                                      |
 | [services github tag create](doc/generated_ja/services-github-tag-create.md)                 | Create a tag on the repository                                     |

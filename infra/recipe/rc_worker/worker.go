@@ -6,5 +6,5 @@ type Worker interface {
 
 type Queue interface {
 	Enqueue(w Worker)
-	Wait()
+	Wait() error
 }

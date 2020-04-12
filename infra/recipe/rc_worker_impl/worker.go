@@ -25,6 +25,7 @@ type Queue struct {
 	numWorker   int
 	maxWorker   int
 	workerMutex sync.Mutex
+	lastErr     error
 }
 
 func (z *Queue) dequeue() {
@@ -37,6 +38,7 @@ func (z *Queue) dequeue() {
 
 		ll.Debug("Run work")
 		if err := w.Exec(); err != nil {
+			z.lastErr = err
 			ll.Debug("Failure", zap.Error(err))
 		} else {
 			ll.Debug("Success")
@@ -75,9 +77,11 @@ func (z *Queue) Enqueue(w rc_worker.Worker) {
 	z.q <- w
 }
 
-func (z *Queue) Wait() {
+func (z *Queue) Wait() error {
 	l := z.ctl.Log().With(zap.String("Routine", ut_runtime.GetGoRoutineName()))
 	l.Debug("Waiting for worker shutdown")
 	z.wg.Wait()
 	close(z.q)
+
+	return z.lastErr
 }

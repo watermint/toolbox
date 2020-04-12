@@ -5550,6 +5550,98 @@
       }
     ]
   },
+  "services github release asset up": {
+    "name": "up",
+    "title": "Upload assets file into the GitHub Release",
+    "desc": "",
+    "remarks": "(試験的実装です)",
+    "path": "services github release asset up",
+    "cli_args": "-asset /LOCAL/PATH/TO/assets",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": true,
+    "is_experimental": true,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "uploads",
+        "desc": "このレポートは処理結果を出力します.",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.file",
+            "desc": "File path"
+          },
+          {
+            "name": "result.name",
+            "desc": "Name of the asset"
+          },
+          {
+            "name": "result.size",
+            "desc": "Size of the asset"
+          },
+          {
+            "name": "result.state",
+            "desc": "State of the asset"
+          },
+          {
+            "name": "result.download_count",
+            "desc": "Number of downloads"
+          }
+        ]
+      }
+    ],
+    "feeds": [],
+    "values": [
+      {
+        "name": "Asset",
+        "desc": "",
+        "default": "Path to assets",
+        "type_name": "reflect.rtype",
+        "type_attr": {
+          "shouldExist": false
+        }
+      },
+      {
+        "name": "Owner",
+        "desc": "",
+        "default": "Owner of the repository",
+        "type_name": "string",
+        "type_attr": null
+      },
+      {
+        "name": "Peer",
+        "desc": "&{default <nil>}",
+        "default": "Account alias",
+        "type_name": "reflect.rtype",
+        "type_attr": null
+      },
+      {
+        "name": "Release",
+        "desc": "",
+        "default": "Release tag name",
+        "type_name": "string",
+        "type_attr": null
+      },
+      {
+        "name": "Repository",
+        "desc": "",
+        "default": "Name of the repository",
+        "type_name": "string",
+        "type_attr": null
+      }
+    ]
+  },
   "services github release draft": {
     "name": "draft",
     "title": "Create release draft",

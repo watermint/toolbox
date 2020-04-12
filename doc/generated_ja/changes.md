@@ -2,21 +2,23 @@
 
 # 追加されたコマンド
 
-| コマンド                      | タイトル                                                        |
-|-------------------------------|-----------------------------------------------------------------|
-| config disable                | Disable a feature.                                              |
-| config enable                 | Enable a feature.                                               |
-| config features               | List available optional features.                               |
-| dev ci auth connect           | Authenticate for generating end to end testing                  |
-| dev ci auth export            | Export auth tokens of end to end test                           |
-| dev ci auth import            | Import auth tokens of end to end test from environment variable |
-| file dispatch local           | Dispatch local files                                            |
-| services github issue list    | List issues of the public/private GitHub repository             |
-| services github profile       | Get the authenticated user                                      |
-| services github release draft | Create release draft                                            |
-| services github release list  | List releases                                                   |
-| services github tag create    | Create a tag on the repository                                  |
-| version                       | Show version                                                    |
+| コマンド                           | タイトル                                                        |
+|------------------------------------|-----------------------------------------------------------------|
+| config disable                     | Disable a feature.                                              |
+| config enable                      | Enable a feature.                                               |
+| config features                    | List available optional features.                               |
+| dev ci auth connect                | Authenticate for generating end to end testing                  |
+| dev ci auth export                 | Export auth tokens of end to end test                           |
+| dev ci auth import                 | Import auth tokens of end to end test from environment variable |
+| file dispatch local                | Dispatch local files                                            |
+| services github issue list         | List issues of the public/private GitHub repository             |
+| services github profile            | Get the authenticated user                                      |
+| services github release asset list | List assets of GitHub Release                                   |
+| services github release asset up   | Upload assets file into the GitHub Release                      |
+| services github release draft      | Create release draft                                            |
+| services github release list       | List releases                                                   |
+| services github tag create         | Create a tag on the repository                                  |
+| version                            | Show version                                                    |
 
 
 

@@ -14,6 +14,7 @@
 | services github issue list         | List issues of the public/private GitHub repository             |
 | services github profile            | Get the authenticated user                                      |
 | services github release asset list | List assets of GitHub Release                                   |
+| services github release asset up   | Upload assets file into the GitHub Release                      |
 | services github release draft      | Create release draft                                            |
 | services github release list       | List releases                                                   |
 | services github tag create         | Create a tag on the repository                                  |
