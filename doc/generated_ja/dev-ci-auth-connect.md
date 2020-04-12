@@ -53,6 +53,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-audit`   | Dropbox Business Audit スコープで認証              | end_to_end_test |
 | `-file`    | Dropbox Business member file access スコープで認証 | end_to_end_test |
 | `-full`    | Dropbox user full access スコープで認証            | end_to_end_test |
+| `-github`  | Account alias for Github deployment                | deploy          |
 | `-info`    | Dropbox Business info スコープで認証               | end_to_end_test |
 | `-mgmt`    | Dropbox Business management スコープで認証         | end_to_end_test |
 

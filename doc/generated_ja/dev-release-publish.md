@@ -34,6 +34,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-artifact-path` | 成果物へのパス         |                        |
 | `-branch`        | Target branch          | master                 |
 | `-conn-github`   | Account alias          | default                |
+| `-skip-tests`    | Skip end to end tests. | false                  |
 | `-test-resource` | テストリソースへのパス | test/dev/resource.json |
 
 共通のオプション:

@@ -533,6 +533,13 @@
         "type_attr": null
       },
       {
+        "name": "Github",
+        "desc": "deploy",
+        "default": "Account alias for Github deployment",
+        "type_name": "reflect.rtype",
+        "type_attr": null
+      },
+      {
         "name": "Info",
         "desc": "end_to_end_test",
         "default": "Dropbox Business info スコープで認証",
@@ -1052,6 +1059,13 @@
         "desc": "default",
         "default": "Account alias",
         "type_name": "reflect.rtype",
+        "type_attr": null
+      },
+      {
+        "name": "SkipTests",
+        "desc": "false",
+        "default": "Skip end to end tests.",
+        "type_name": "bool",
         "type_attr": null
       },
       {
@@ -5903,10 +5917,6 @@
             "desc": "Tag name"
           },
           {
-            "name": "input.message",
-            "desc": "Message of the tag"
-          },
-          {
             "name": "input.sha_1",
             "desc": "SHA1 hash of the commit"
           },
@@ -5931,13 +5941,6 @@
     ],
     "feeds": [],
     "values": [
-      {
-        "name": "Message",
-        "desc": "",
-        "default": "Message of the tag",
-        "type_name": "string",
-        "type_attr": null
-      },
       {
         "name": "Owner",
         "desc": "",

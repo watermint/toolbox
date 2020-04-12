@@ -17,7 +17,7 @@ func TestReleaseImpl_List(t *testing.T) {
 func TestReleaseImpl_CreateDraft(t *testing.T) {
 	mc := &gh_context_impl.Mock{}
 	sv := New(mc, "watermint", "toolbox_sandbox")
-	if _, err := sv.CreateDraft("0.0.0", "test", "test body"); err != qt_errors.ErrorMock {
+	if _, err := sv.CreateDraft("0.0.0", "test", "test body", "master"); err != qt_errors.ErrorMock {
 		t.Error(err)
 	}
 }

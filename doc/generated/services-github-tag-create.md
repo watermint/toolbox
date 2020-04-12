@@ -31,7 +31,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option        | Description             | Default |
 |---------------|-------------------------|---------|
-| `-message`    | Message of the tag      |         |
 | `-owner`      | Owner of the repository |         |
 | `-peer`       | Account alias           | default |
 | `-repository` | Name of the repository  |         |
@@ -86,7 +85,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | input.owner      | Owner of the repository                |
 | input.repository | Name of the repository                 |
 | input.tag        | Tag name                               |
-| input.message    | Message of the tag                     |
 | input.sha_1      | SHA1 hash of the commit                |
 | result.tag       | Tag name                               |
 | result.sha       | SHA1 sum of the commit                 |

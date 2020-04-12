@@ -48,13 +48,14 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option   | Description                                                 | Default         |
-|----------|-------------------------------------------------------------|-----------------|
-| `-audit` | Authenticate with Dropbox Business Audit scope              | end_to_end_test |
-| `-file`  | Authenticate with Dropbox Business member file access scope | end_to_end_test |
-| `-full`  | Authenticate with Dropbox user full access scope            | end_to_end_test |
-| `-info`  | Authenticate with Dropbox Business info scope               | end_to_end_test |
-| `-mgmt`  | Authenticate with Dropbox Business management scope         | end_to_end_test |
+| Option    | Description                                                 | Default         |
+|-----------|-------------------------------------------------------------|-----------------|
+| `-audit`  | Authenticate with Dropbox Business Audit scope              | end_to_end_test |
+| `-file`   | Authenticate with Dropbox Business member file access scope | end_to_end_test |
+| `-full`   | Authenticate with Dropbox user full access scope            | end_to_end_test |
+| `-github` | Account alias for Github deployment                         | deploy          |
+| `-info`   | Authenticate with Dropbox Business info scope               | end_to_end_test |
+| `-mgmt`   | Authenticate with Dropbox Business management scope         | end_to_end_test |
 
 Common options:
 
