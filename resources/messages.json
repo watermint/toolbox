@@ -1514,6 +1514,7 @@
   "recipe.services.github.release.asset.up_file.file.desc": "File path",
   "recipe.services.github.release.draft.cli.args": "-body-file /LOCAL/PATH/TO/body.txt",
   "recipe.services.github.release.draft.flag.body_file": "File path to body text. THe file must encoded in UTF-8 without BOM.",
+  "recipe.services.github.release.draft.flag.branch": "Name of the target branch",
   "recipe.services.github.release.draft.flag.name": "Name of the release",
   "recipe.services.github.release.draft.flag.owner": "Owner of the repository",
   "recipe.services.github.release.draft.flag.peer": "Account alias",

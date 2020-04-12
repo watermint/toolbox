@@ -32,6 +32,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | Option        | Description                                                         | Default |
 |---------------|---------------------------------------------------------------------|---------|
 | `-body-file`  | File path to body text. THe file must encoded in UTF-8 without BOM. |         |
+| `-branch`     | Name of the target branch                                           |         |
 | `-name`       | Name of the release                                                 |         |
 | `-owner`      | Owner of the repository                                             |         |
 | `-peer`       | Account alias                                                       | default |

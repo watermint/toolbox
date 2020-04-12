@@ -20,6 +20,7 @@ type Draft struct {
 	Repository string
 	Tag        string
 	Name       string
+	Branch     string
 	BodyFile   mo_path2.FileSystemPath
 	Release    rp_model.RowReport
 }
@@ -37,7 +38,7 @@ func (z *Draft) Exec(c app_control.Control) error {
 		return err
 	}
 	svr := sv_release.New(z.Peer.Context(), z.Owner, z.Repository)
-	rel, err := svr.CreateDraft(z.Tag, z.Name, string(body))
+	rel, err := svr.CreateDraft(z.Tag, z.Name, string(body), z.Branch)
 	if err != nil {
 		return err
 	}
@@ -59,6 +60,7 @@ func (z *Draft) Test(c app_control.Control) error {
 		m.Name = "0.0.2"
 		m.Owner = "watermint"
 		m.Repository = "toolbox_sandbox"
+		m.Branch = "master"
 		m.BodyFile = mo_path2.NewFileSystemPath(f)
 	})
 }

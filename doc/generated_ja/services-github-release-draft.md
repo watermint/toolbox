@@ -32,6 +32,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | オプション    | 説明                                                                | デフォルト |
 |---------------|---------------------------------------------------------------------|------------|
 | `-body-file`  | File path to body text. THe file must encoded in UTF-8 without BOM. |            |
+| `-branch`     | Name of the target branch                                           |            |
 | `-name`       | Name of the release                                                 |            |
 | `-owner`      | Owner of the repository                                             |            |
 | `-peer`       | Account alias                                                       | default    |

@@ -14,7 +14,7 @@ var (
 type Release interface {
 	Get(tagName string) (release *mo_release.Release, err error)
 	List() (releases []*mo_release.Release, err error)
-	CreateDraft(tagName string, name string, body string) (release *mo_release.Release, err error)
+	CreateDraft(tagName, name, body, branch string) (release *mo_release.Release, err error)
 }
 
 func New(ctx gh_context.Context, owner, repo string) Release {
@@ -44,18 +44,20 @@ func (z *releaseImpl) Get(tagName string) (release *mo_release.Release, err erro
 	return release, nil
 }
 
-func (z *releaseImpl) CreateDraft(tagName string, name string, body string) (release *mo_release.Release, err error) {
+func (z *releaseImpl) CreateDraft(tagName, name, body, branch string) (release *mo_release.Release, err error) {
 	endpoint := "repos/" + z.owner + "/" + z.repo + "/releases"
 	p := struct {
-		TagName string `json:"tag_name"`
-		Name    string `json:"name"`
-		Body    string `json:"body"`
-		Draft   bool   `json:"draft"`
+		TagName         string `json:"tag_name"`
+		TargetCommitish string `json:"target_commitish"`
+		Name            string `json:"name"`
+		Body            string `json:"body"`
+		Draft           bool   `json:"draft"`
 	}{
-		TagName: tagName,
-		Name:    name,
-		Body:    body,
-		Draft:   true,
+		TagName:         tagName,
+		TargetCommitish: branch,
+		Name:            name,
+		Body:            body,
+		Draft:           true,
 	}
 	res, err := z.ctx.Post(endpoint).Param(&p).Call()
 	if err != nil {

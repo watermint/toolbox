@@ -5741,6 +5741,13 @@
         }
       },
       {
+        "name": "Branch",
+        "desc": "",
+        "default": "Name of the target branch",
+        "type_name": "string",
+        "type_attr": null
+      },
+      {
         "name": "Name",
         "desc": "",
         "default": "Name of the release",
