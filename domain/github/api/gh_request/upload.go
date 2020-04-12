@@ -105,25 +105,27 @@ func (z *uploadImpl) ContentLength() int64 {
 func (z *uploadImpl) Make() (req *http.Request, err error) {
 	l := z.ctx.Log().With(zap.String("scope", z.scope), zap.String("endpoint", z.endpoint))
 
-	z.url = "https://api.github.com/" + z.endpoint
-	l.Debug("Making request", zap.String("url", z.url))
-
 	qs, err := query.Values(z.param)
 	if err != nil {
 		l.Debug("Unable to marshal params", zap.Error(err))
 		return nil, err
 	}
 	z.paramString = qs.Encode()
+	z.url = "https://uploads.github.com/" + z.endpoint + "?" + z.paramString
+
+	l.Debug("Making request", zap.String("url", z.url))
 
 	req, err = http.NewRequest(z.method, z.url, nw_bandwidth.WrapReader(z.content))
 	if err != nil {
 		l.Debug("Unable create request", zap.Error(err))
 		return nil, err
 	}
-	if z.token != nil {
-		req.Header.Add(api_request.ReqHeaderAuthorization, "token "+z.token.AccessToken)
-	}
-	req.Header.Add(api_request.ReqHeaderUserAgent, app.UserAgent())
+
+	// content length
+	z.contentLength = z.content.Length()
+	req.ContentLength = z.contentLength
+
+	// content type
 	customContentType := false
 	for k := range z.customHeaders {
 		if k == api_request.ReqHeaderContentType {
@@ -134,10 +136,21 @@ func (z *uploadImpl) Make() (req *http.Request, err error) {
 	if !customContentType {
 		req.Header.Add(api_request.ReqHeaderContentType, "application/json")
 	}
+
+	// custom headers
 	for k, v := range z.customHeaders {
 		req.Header.Add(k, v)
 	}
-	z.contentLength = z.content.Length()
+
+	// auth token
+	if z.token != nil {
+		req.Header.Add(api_request.ReqHeaderAuthorization, "token "+z.token.AccessToken)
+	}
+
+	// user agent
+	req.Header.Add(api_request.ReqHeaderUserAgent, app.UserAgent())
+
+	// save headers for logging
 	z.headers = make(map[string]string)
 	for k := range req.Header {
 		z.headers[k] = req.Header.Get(k)

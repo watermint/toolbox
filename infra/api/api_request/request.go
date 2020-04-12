@@ -7,6 +7,7 @@ import (
 
 const (
 	ReqHeaderContentType           = "Content-Type"
+	ReqHeaderContentLength         = "Content-Length"
 	ReqHeaderAuthorization         = "Authorization"
 	ReqHeaderUserAgent             = "User-Agent"
 	ReqHeaderDropboxApiSelectUser  = "Dropbox-API-Select-User"
