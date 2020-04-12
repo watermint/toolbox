@@ -1,6 +1,7 @@
 package ut_io
 
 import (
+	"github.com/watermint/toolbox/quality/infra/qt_secure"
 	"io"
 	"io/ioutil"
 	"os"
@@ -8,7 +9,11 @@ import (
 
 func NewDefaultOut(test bool) io.WriteCloser {
 	if test {
-		return &Discard{}
+		if qt_secure.IsSecureEndToEndTest() {
+			return &Discard{}
+		} else {
+			return &Stdout{}
+		}
 	} else {
 		return &Stdout{}
 	}

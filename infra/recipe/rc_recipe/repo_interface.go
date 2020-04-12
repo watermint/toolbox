@@ -89,6 +89,9 @@ type Value interface {
 
 	// Spin down after run
 	SpinDown(ctl app_control.Control) error
+
+	// Value spec
+	Spec() (typeName string, typeAttr interface{})
 }
 
 type ValueCustomValueText interface {

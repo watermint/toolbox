@@ -3,8 +3,10 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_essential"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"reflect"
 )
 
@@ -27,6 +29,13 @@ type ValueMoTimeTime struct {
 	dateTime   string
 	time       mo_time.Time
 	isOptional bool
+}
+
+func (z *ValueMoTimeTime) Spec() (typeName string, typeAttr interface{}) {
+	if z.isOptional {
+		return ut_reflect.Key(app.Pkg, reflect.TypeOf((*mo_time.TimeOptional)(nil)).Elem()), nil
+	}
+	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*mo_time.Time)(nil)).Elem()), nil
 }
 
 func (z *ValueMoTimeTime) IsOptional() bool {

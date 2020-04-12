@@ -14,6 +14,10 @@ type ValueString struct {
 	v string
 }
 
+func (z *ValueString) Spec() (typeName string, typeAttr interface{}) {
+	return "string", nil
+}
+
 func (z *ValueString) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Kind() == reflect.String {
 		return newValueString()

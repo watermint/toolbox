@@ -1,9 +1,11 @@
 package rc_value
 
 import (
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"reflect"
 )
 
@@ -23,6 +25,12 @@ type ValueRcRecipeRecipe struct {
 	name       string
 	recipe     rc_recipe.Recipe
 	recipeType reflect.Type
+}
+
+func (z *ValueRcRecipeRecipe) Spec() (typeName string, typeAttr interface{}) {
+	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*rc_recipe.Recipe)(nil)).Elem()), map[string]interface{}{
+		"recipeType": z.recipeType,
+	}
 }
 
 func (z *ValueRcRecipeRecipe) Reports() map[string]rp_model.Report {

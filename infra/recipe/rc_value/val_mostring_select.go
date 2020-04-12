@@ -2,8 +2,10 @@ package rc_value
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"reflect"
 	"strconv"
 	"strings"
@@ -18,6 +20,12 @@ func newValueSelectString() rc_recipe.Value {
 type ValueMoStringSelect struct {
 	selStr mo_string.SelectString
 	valStr string
+}
+
+func (z *ValueMoStringSelect) Spec() (typeName string, typeAttr interface{}) {
+	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*mo_string.SelectString)(nil)).Elem()), map[string]interface{}{
+		"options": z.selStr.Options(),
+	}
 }
 
 func (z *ValueMoStringSelect) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

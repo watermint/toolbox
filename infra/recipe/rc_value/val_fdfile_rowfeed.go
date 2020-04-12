@@ -2,12 +2,14 @@ package rc_value
 
 import (
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"reflect"
 	"strings"
 )
@@ -22,6 +24,10 @@ type ValueFdFileRowFeed struct {
 	name string
 	rf   fd_file.RowFeed
 	path string
+}
+
+func (z *ValueFdFileRowFeed) Spec() (typeName string, typeAttr interface{}) {
+	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*fd_file.RowFeed)(nil)).Elem()), nil
 }
 
 func (z *ValueFdFileRowFeed) ValueText() string {

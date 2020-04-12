@@ -28,9 +28,122 @@
 
 
 
+# コマンド仕様の変更: `connect business_audit`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
+# コマンド仕様の変更: `connect business_file`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
+# コマンド仕様の変更: `connect business_info`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
+# コマンド仕様の変更: `connect business_mgmt`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
+# コマンド仕様の変更: `connect user_file`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 # コマンド仕様の変更: `dev async`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "RunConcurrently", Desc: "false", Default: "run concurrently"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: rows
 
@@ -71,7 +184,15 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/ARTIFACT",
   	CliNote:         "",
   	ConnUsePersonal: false,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DropboxPath", Default: "Dropbox path to upload"},
++ 		&{Name: "LocalPath", Default: "Local path to upload"},
++ 		&{Name: "PeerName", Desc: "end_to_end_test", Default: "Account alias"},
++ 	},
   }
 
 ```
@@ -168,6 +289,108 @@
 
 ```
 
+# コマンド仕様の変更: `dev desktop install`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "InstallerUrl",
++ 			Desc:    "https://www.dropbox.com/download?full=1&os=win",
++ 			Default: "Installer download URL",
++ 		},
++ 		&{Name: "Silent", Desc: "false", Default: "Use Silent installer"},
++ 		&{Name: "SilentNoLaunch", Desc: "false", Default: "Use Enterprise installer"},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `dev desktop start`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{},
+  }
+
+```
+
+# コマンド仕様の変更: `dev desktop stop`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "WaitSeconds",
++ 			Desc:    "0",
++ 			Default: "Try stopping the app after given seconds.",
++ 		},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `dev desktop suspendupdate`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Unsuspend", Desc: "false", Default: "True when unsuspend Updater"},
++ 		&{
++ 			Name:    "UpdaterName",
++ 			Desc:    "DropboxUpdate.exe",
++ 			Default: "Executable name of Dropbox Updater",
++ 		},
++ 		&{
++ 			Name:    "UpdaterPath",
++ 			Desc:    "C:/Program Files (x86)/Dropbox/Update",
++ 			Default: "Path to Dropbox Updater",
++ 		},
++ 	},
+  }
+
+```
+
 # コマンド仕様の変更: `dev diag procmon`
 
 
@@ -185,7 +408,142 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -repository-path /LOCAL/PATH/TO/PROCESS",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DropboxPath", Default: "Dropbox path to upload procmon logs"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{
++ 			Name:    "ProcmonUrl",
++ 			Desc:    "https://download.sysinternals.com/files/ProcessMonitor.zip",
++ 			Default: "Process monitor download url",
++ 		},
++ 		&{Name: "RepositoryPath", Default: "Procmon Work directory"},
++ 		&{Name: "RetainLogs", Desc: "4", Default: "Number of Procmon logs to retain"},
++ 		&{Name: "RunUntil", Default: "Skip run after this date/time"},
++ 		&{Name: "Seconds", Desc: "1800", Default: "Duration for waiting procmon"},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `dev doc`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Badge", Desc: "true", Default: "Include badges of build status"},
++ 		&{
++ 			Name:    "CommandPath",
++ 			Desc:    "doc/generated/",
++ 			Default: "Relative path to generate command manuals",
++ 		},
++ 		&{Name: "Filename", Desc: "README.md", Default: "Filename"},
++ 		&{Name: "Lang", Default: "Language"},
++ 		&{
++ 			Name:    "MarkdownReadme",
++ 			Desc:    "false",
++ 			Default: "Generate README as markdown format",
++ 		},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `dev dummy`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Dest", Default: "Dummy file destination"},
++ 		&{Name: "MaxEntry", Desc: "0", Default: "Maximum entries"},
++ 		&{Name: "Path", Default: "Path to dummy entry file"},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `dev echo`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Text", Default: "Text to echo"}},
+  }
+
+```
+
+# コマンド仕様の変更: `dev preflight`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{},
+  }
+
+```
+
+# コマンド仕様の変更: `dev release candidate`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "TestResource",
++ 			Desc:    "test/dev/resource.json",
++ 			Default: "Path to the test resource location",
++ 		},
++ 	},
   }
 
 ```
@@ -207,7 +565,61 @@
 + 	CliArgs:         "-artifact-path /LOCAL/PATH/TO/ARTIFACT",
   	CliNote:         "",
   	ConnUsePersonal: false,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "ArtifactPath", Default: "Path to artifacts"},
++ 		&{
++ 			Name:    "TestResource",
++ 			Desc:    "test/dev/resource.json",
++ 			Default: "Path to test resource",
++ 		},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `dev spec diff`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "FilePath", Default: "File path to output"},
++ 		&{Name: "Lang", Default: "Language"},
++ 		&{Name: "Release1", Default: "Release name 1"},
++ 		&{Name: "Release2", Default: "Release name 2"},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `dev spec doc`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "FilePath", Default: "File path"}, &{Name: "Lang", Default: "Language"}},
   }
 
 ```
@@ -229,7 +641,109 @@
 + 	CliArgs:         "-path /DROPBOX/PATH/TO/PROCESS",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "Distribution",
++ 			Desc:    "10000",
++ 			Default: "Number of files/folder distribution",
++ 		},
++ 		&{
++ 			Name:    "Extension",
++ 			Desc:    "jpg,pdf,xlsx,docx,pptx,zip,png,txt,bak,csv,mov,mp4,html,gif,lzh,bmp,wmi,ini,ai,psd",
++ 			Default: "File extensions (comma separated)",
++ 		},
++ 		&{Name: "Path", Default: "Monkey test path"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "Seconds", Desc: "10", Default: "Monkey test duration in seconds"},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `dev test recipe`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "All", Desc: "false", Default: "Test all recipes"},
++ 		&{Name: "Recipe", Default: "Recipe name to test"},
++ 		&{Name: "Resource", Default: "Test resource file path"},
++ 		&{Name: "Verbose", Desc: "false", Default: "Verbose output for testing"},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `dev test resources`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{},
+  }
+
+```
+
+# コマンド仕様の変更: `dev util curl`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "BufferSize", Desc: "65536", Default: "Size of buffer"},
++ 		&{Name: "Record", Default: "Capture record(s) for the test"},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `dev util wait`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Seconds", Desc: "1", Default: "Wait seconds"}},
   }
 
 ```
@@ -237,6 +751,26 @@
 # コマンド仕様の変更: `file compare account`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Left", Desc: "left", Default: "Account alias (left)"},
++ 		&{Name: "LeftPath", Default: "The path from account root (left)"},
++ 		&{Name: "Right", Desc: "right", Default: "Account alias (right)"},
++ 		&{Name: "RightPath", Default: "The path from account root (right)"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: diff
 
@@ -253,6 +787,25 @@
 # コマンド仕様の変更: `file compare local`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DropboxPath", Default: "Dropbox path"},
++ 		&{Name: "LocalPath", Default: "Local path"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: diff
 
@@ -278,6 +831,51 @@
 
 ```
 
+# コマンド仕様の変更: `file copy`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Dst", Default: "Destination path"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "Src", Default: "Source path"},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `file delete`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Path", Default: "Path to delete"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
+
 # コマンド仕様の変更: `file download`
 
 
@@ -295,7 +893,15 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DropboxPath", Default: "File path to download"},
++ 		&{Name: "LocalPath", Default: "Local path to download"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
   }
 
 ```
@@ -354,7 +960,15 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/FILE -local-path /LOCAL/PATH/TO/EXPORT",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DropboxPath", Default: "Dropbox document path to export."},
++ 		&{Name: "LocalPath", Default: "Local path to save"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
   }
 
 ```
@@ -393,6 +1007,25 @@
 # コマンド仕様の変更: `file import batch url`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file"},
++ 		&{Name: "Path", Default: "Path to import"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: operation_log
 
@@ -438,6 +1071,25 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Path", Default: "Path to import"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "Url", Default: "URL"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: operation_log
 
 ```
@@ -476,6 +1128,27 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "IncludeDeleted", Desc: "false", Default: "Include deleted files"},
++ 		&{Name: "IncludeMediaInfo", Desc: "false", Default: "Include media information"},
++ 		&{Name: "Path", Default: "Path"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "Recursive", Desc: "false", Default: "List recursively"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: file_list
 
 ```
@@ -513,9 +1186,82 @@
 
 ```
 
+# コマンド仕様の変更: `file merge`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DryRun", Desc: "true", Default: "Dry run"},
++ 		&{Name: "From", Default: "Path for merge"},
++ 		&{Name: "KeepEmptyFolder", Desc: "false", Default: "Keep empty folder after merge"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "To", Default: "Path to merge"},
++ 		&{
++ 			Name:    "WithinSameNamespace",
++ 			Desc:    "false",
++ 			Default: "Do not cross namespace. That is for preserve sharing permission including a shared link",
++ 		},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `file move`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Dst", Default: "Destination path"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "Src", Default: "Source path"},
++ 	},
+  }
+
+```
+
 # コマンド仕様の変更: `file replication`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Dst", Desc: "dst", Default: "Account alias (destionation)"},
++ 		&{Name: "DstPath", Default: "Destination path"},
++ 		&{Name: "Src", Desc: "src", Default: "Account alias (source)"},
++ 		&{Name: "SrcPath", Default: "Source path"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: replication_diff
 
@@ -546,7 +1292,14 @@
 + 	CliArgs:         "-path /DROPBOX/PATH/TO/RESTORE",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Path", Default: "Path"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
   }
 
 ```
@@ -595,6 +1348,30 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "Category",
++ 			Default: "Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).",
++ 		},
++ 		&{Name: "Extension", Default: "Restricts search to only the extensions specified."},
++ 		&{Name: "Path", Default: "Scopes the search to a path in the user's Dropbox."},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "Query", Default: "The string to search for."},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: matches
 
 ```
@@ -610,6 +1387,30 @@
 # コマンド仕様の変更: `file search name`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "Category",
++ 			Default: "Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).",
++ 		},
++ 		&{Name: "Extension", Default: "Restricts search to only the extensions specified."},
++ 		&{Name: "Path", Default: "Scopes the search to a path in the user's Dropbox."},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "Query", Default: "The string to search for."},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: matches
 
@@ -640,7 +1441,15 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DropboxPath", Default: "Destination Dropbox path"},
++ 		&{Name: "LocalPath", Default: "Local file path"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
   }
 
 ```
@@ -754,7 +1563,16 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "ChunkSizeKb", Desc: "153600", Default: "Upload chunk size in KB"},
++ 		&{Name: "DropboxPath", Default: "Destination Dropbox path"},
++ 		&{Name: "LocalPath", Default: "Local file path"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
   }
 
 ```
@@ -854,6 +1672,27 @@
 # コマンド仕様の変更: `file upload`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "ChunkSizeKb", Desc: "153600", Default: "Upload chunk size in KB"},
++ 		&{Name: "DropboxPath", Default: "Destination Dropbox path"},
++ 		&{Name: "LocalPath", Default: "Local file path"},
++ 		&{Name: "Overwrite", Desc: "false", Default: "Overwrite existing file(s)"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: skipped
 
@@ -964,7 +1803,15 @@
 + 	CliArgs:         "-path /DROPBOX/PATH/TO/WATCH",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Path", Default: "Path to watch"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "Recursive", Desc: "false", Default: "Watch path recursively"},
++ 	},
   }
 
 ```
@@ -986,7 +1833,23 @@
 + 	CliArgs:         "-path /DROPBOX/PATH/OF/FILEREQUEST",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "AllowLateUploads",
++ 			Default: "If set, allow uploads after the deadline has passed (one_day/two_days/seven_days/thirty_days/always)",
++ 		},
++ 		&{Name: "Deadline", Default: "The deadline for this file request."},
++ 		&{
++ 			Name:    "Path",
++ 			Default: "The path for the folder in the Dropbox where uploaded files will be sent.",
++ 		},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "Title", Default: "The title of the file request"},
++ 	},
   }
 
 ```
@@ -1007,6 +1870,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: deleted
 
 ```
@@ -1022,6 +1900,25 @@
 # コマンド仕様の変更: `filerequest delete url`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Force", Desc: "false", Default: "Force delete the file request."},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "Url", Default: "URL of the file request."},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: deleted
 
@@ -1039,6 +1936,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: file_requests
 
 ```
@@ -1054,6 +1966,29 @@
 # コマンド仕様の変更: `group add`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "ManagementType",
++ 			Desc:    "company_managed",
++ 			Default: "Group management type `company_managed` or `user_managed`",
++ 		},
++ 		&{Name: "Name", Default: "Group name"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: added_group
 
@@ -1080,6 +2015,24 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file for group name list"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: operation_log
 
 ```
@@ -1103,9 +2056,46 @@
 
 ```
 
+# コマンド仕様の変更: `group delete`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Name", Default: "Group name"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
+
 # コマンド仕様の変更: `group list`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
 
 ## 変更されたレポート: group
 
@@ -1131,6 +2121,25 @@
 # コマンド仕様の変更: `group member add`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "GroupName", Default: "Group name"},
++ 		&{Name: "MemberEmail", Default: "Email address of the member"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: operation_log
 
@@ -1159,6 +2168,25 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "GroupName", Default: "Name of the group"},
++ 		&{Name: "MemberEmail", Default: "Email address of the member"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: operation_log
 
 ```
@@ -1186,6 +2214,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: group_member
 
 ```
@@ -1212,6 +2255,25 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "CurrentName", Default: "Current group name"},
++ 		&{Name: "NewName", Default: "New group name"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: operation_log
 
 ```
@@ -1235,9 +2297,62 @@
 
 ```
 
+# コマンド仕様の変更: `job history archive`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Days", Desc: "7", Default: "Target days old"}},
+  }
+
+```
+
+# コマンド仕様の変更: `job history delete`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Days", Desc: "28", Default: "Target days old"}},
+  }
+
+```
+
 # コマンド仕様の変更: `job history list`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{},
+  }
+
+```
 
 ## 変更されたレポート: log
 
@@ -1268,7 +2383,14 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DropboxPath", Default: "Dropbox path to upload"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
   }
 
 ```
@@ -1315,7 +2437,16 @@
 + 	CliArgs:         `-runbook-path /LOCAL/PATH/TO/RUNBOOK.runbook -until "2020-04-01 17:58:38"`,
   	CliNote:         "",
   	ConnUsePersonal: false,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "IntervalSeconds", Desc: "180", Default: "Interval seconds"},
++ 		&{Name: "QuitOnError", Desc: "false", Default: "Quit on error"},
++ 		&{Name: "RunbookPath", Default: "Path to runbook"},
++ 		&{Name: "Until", Default: "Run until this date/time"},
++ 	},
   }
 
 ```
@@ -1337,7 +2468,38 @@
 + 	CliArgs:         "-runbook-path /LOCAL/PATH/TO/RUNBOOK.runbook",
   	CliNote:         "",
   	ConnUsePersonal: false,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Fork", Desc: "false", Default: "Fork process on running the workflow"},
++ 		&{Name: "RunbookPath", Default: "Path to the runbook"},
++ 		&{
++ 			Name:    "TimeoutSeconds",
++ 			Desc:    "0",
++ 			Default: "Terminate process when given time passed",
++ 		},
++ 	},
+  }
+
+```
+
+# コマンド仕様の変更: `license`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{},
   }
 
 ```
@@ -1345,6 +2507,29 @@
 # コマンド仕様の変更: `member delete`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{
++ 			Name:    "WipeData",
++ 			Desc:    "true",
++ 			Default: "If true, controls if the user's data will be deleted on their linked devices",
++ 		},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: operation_log
 
@@ -1362,6 +2547,29 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{
++ 			Name:    "RevokeTeamShares",
++ 			Desc:    "false",
++ 			Default: "True for revoke shared folder access which owned by the team",
++ 		},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: operation_log
 
 ```
@@ -1377,6 +2585,29 @@
 # コマンド仕様の変更: `member invite`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{
++ 			Name:    "SilentInvite",
++ 			Desc:    "false",
++ 			Default: "Do not send welcome email (requires SSO + domain verification instead)",
++ 		},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: operation_log
 
@@ -1426,6 +2657,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: member
 
 ```
@@ -1461,6 +2707,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: member_quota
 
 ```
@@ -1476,6 +2737,29 @@
 # コマンド仕様の変更: `member quota update`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{
++ 			Name:    "Quota",
++ 			Desc:    "0",
++ 			Default: "Custom quota in GB (1TB = 1024GB). 0 if the user has no custom quota set.",
++ 		},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: operation_log
 
@@ -1493,6 +2777,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: usage
 
 ```
@@ -1508,6 +2807,28 @@
 # コマンド仕様の変更: `member reinvite`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{
++ 			Name:    "Silent",
++ 			Desc:    "false",
++ 			Default: "Do not send welcome email (SSO required)",
++ 		},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: operation_log
 
@@ -1584,6 +2905,25 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Dst", Desc: "dst", Default: "Destination team; team file access"},
++ 		&{Name: "File", Default: "Data file"},
++ 		&{Name: "Src", Desc: "src", Default: "Source team; team file access"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: operation_log
 
 ```
@@ -1599,6 +2939,29 @@
 # コマンド仕様の変更: `member update email`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{
++ 			Name:    "UpdateUnverified",
++ 			Desc:    "false",
++ 			Default: "Update an account which didn't verified email. If an account email unverified, email address change may affect lose invitation to folders.",
++ 		},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: operation_log
 
@@ -1648,6 +3011,24 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: operation_log
 
 ```
@@ -1695,6 +3076,24 @@
 # コマンド仕様の変更: `member update profile`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: operation_log
 
@@ -1744,6 +3143,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: shared_folder
 
 ```
@@ -1772,6 +3186,21 @@
 # コマンド仕様の変更: `sharedfolder member list`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
 
 ## 変更されたレポート: member
 
@@ -1806,6 +3235,31 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Expires", Default: "Expiration date/time of the shared link"},
++ 		&{Name: "Password", Default: "Password"},
++ 		&{Name: "Path", Default: "Path"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{
++ 			Name:    "TeamOnly",
++ 			Desc:    "false",
++ 			Default: "Link is accessible only by team members",
++ 		},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: created
 
 ```
@@ -1821,6 +3275,29 @@
 # コマンド仕様の変更: `sharedlink delete`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Path", Default: "File or folder path to remove shared link"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{
++ 			Name:    "Recursive",
++ 			Desc:    "false",
++ 			Default: "Attempt to remove the file hierarchy",
++ 		},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: shared_link
 
@@ -1858,7 +3335,15 @@
 + 	CliArgs:         "-url SHAREDLINK_URL",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Password", Default: "Password for the shared link"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "Url", Default: "Shared link URL"},
++ 	},
   }
 
 ```
@@ -1904,6 +3389,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: shared_link
 
 ```
@@ -1924,6 +3424,30 @@
 # コマンド仕様の変更: `team activity batch user`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "Category",
++ 			Default: "Filter the returned events to a single category. This field is optional.",
++ 		},
++ 		&{Name: "EndTime", Default: "Ending time (exclusive)."},
++ 		&{Name: "File", Default: "User email address list file"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "StartTime", Default: "Starting time (inclusive)"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: combined
 
@@ -1953,6 +3477,26 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Category", Default: "Event category"},
++ 		&{Name: "EndDate", Default: "End date"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "StartDate", Default: "Start date"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: event
 
 ```
@@ -1969,6 +3513,29 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "Category",
++ 			Default: "Filter the returned events to a single category. This field is optional.",
++ 		},
++ 		&{Name: "EndTime", Default: "Ending time (exclusive)."},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "StartTime", Default: "Starting time (inclusive)"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: event
 
 ```
@@ -1984,6 +3551,29 @@
 # コマンド仕様の変更: `team activity user`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "Category",
++ 			Default: "Filter the returned events to a single category. This field is optional.",
++ 		},
++ 		&{Name: "EndTime", Default: "Ending time (exclusive)."},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "StartTime", Default: "Starting time (inclusive)"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: user
 
@@ -2021,6 +3611,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: membership
 
 ```
@@ -2049,6 +3654,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: policy
 
 ```
@@ -2064,6 +3684,21 @@
 # コマンド仕様の変更: `team device list`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
 
 ## 変更されたレポート: device
 
@@ -2092,6 +3727,25 @@
 # コマンド仕様の変更: `team device unlink`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DeleteOnUnlink", Desc: "false", Default: "Delete files on unlink"},
++ 		&{Name: "File", Default: "Data file"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: operation_log
 
@@ -2126,6 +3780,26 @@
 # コマンド仕様の変更: `team diag explorer`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "All", Desc: "false", Default: "Include additional reports"},
++ 		&{Name: "File", Desc: "default", Default: "Dropbox Business file access"},
++ 		&{Name: "Info", Desc: "default", Default: "Dropbox Business information access"},
++ 		&{Name: "Mgmt", Desc: "default", Default: "Dropbox Business management"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: device
 
@@ -2446,6 +4120,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: feature
 
 ```
@@ -2461,6 +4150,21 @@
 # コマンド仕様の変更: `team filerequest list`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
 
 ## 変更されたレポート: file_request
 
@@ -2492,6 +4196,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: info
 
 ```
@@ -2507,6 +4226,21 @@
 # コマンド仕様の変更: `team linkedapp list`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
 
 ## 変更されたレポート: linked_app
 
@@ -2538,6 +4272,49 @@
 # コマンド仕様の変更: `team namespace file list`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "IncludeDeleted",
++ 			Desc:    "false",
++ 			Default: "If true, deleted file or folder will be returned",
++ 		},
++ 		&{
++ 			Name:    "IncludeMediaInfo",
++ 			Desc:    "false",
++ 			Default: "If true, media info is set for photo and video in json report",
++ 		},
++ 		&{
++ 			Name:    "IncludeMemberFolder",
++ 			Desc:    "false",
++ 			Default: "If true, include team member folders",
++ 		},
++ 		&{
++ 			Name:    "IncludeSharedFolder",
++ 			Desc:    "true",
++ 			Default: "If true, include shared folders",
++ 		},
++ 		&{
++ 			Name:    "IncludeTeamFolder",
++ 			Desc:    "true",
++ 			Default: "If true, include team folders",
++ 		},
++ 		&{Name: "Name", Default: "List only for the folder matched to the name"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: namespace_file
 
@@ -2580,6 +4357,45 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:    "Depth",
++ 			Desc:    "1",
++ 			Default: "Report entry for all files and directories depth directories deep",
++ 		},
++ 		&{Name: "IncludeAppFolder", Desc: "false", Default: "If true, include app folders"},
++ 		&{
++ 			Name:    "IncludeMemberFolder",
++ 			Desc:    "false",
++ 			Default: "if true, include team member folders",
++ 		},
++ 		&{
++ 			Name:    "IncludeSharedFolder",
++ 			Desc:    "true",
++ 			Default: "If true, include shared folders",
++ 		},
++ 		&{
++ 			Name:    "IncludeTeamFolder",
++ 			Desc:    "true",
++ 			Default: "If true, include team folders",
++ 		},
++ 		&{Name: "Name", Default: "List only for the folder matched to the name"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: namespace_size
 
 ```
@@ -2619,6 +4435,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: namespace
 
 ```
@@ -2639,6 +4470,24 @@
 # コマンド仕様の変更: `team namespace member list`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "AllColumns", Desc: "false", Default: "Show all columns"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: namespace_member
 
@@ -2661,6 +4510,28 @@
 # コマンド仕様の変更: `team sharedlink list`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{
++ 			Name:    "Visibility",
++ 			Desc:    "public",
++ 			Default: "Filter links by visibility (public/team_only/password)",
++ 		},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: shared_link
 
@@ -2692,6 +4563,26 @@
 # コマンド仕様の変更: `team sharedlink update expiry`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "At", Default: "New expiration date and time"},
++ 		&{Name: "Days", Desc: "0", Default: "Days to the new expiration date"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 		&{Name: "Visibility", Desc: "public", Default: "Target link visibility"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: skipped
 
@@ -2748,9 +4639,49 @@
 
 ```
 
+# コマンド仕様の変更: `teamfolder archive`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Name", Default: "Team folder name"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
+
 # コマンド仕様の変更: `teamfolder batch archive`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file for a list of team folder names"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: operation_log
 
@@ -2776,6 +4707,24 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file for a list of team folder names"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: operation_log
 
 ```
@@ -2792,6 +4741,25 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DstPeerName", Desc: "dst", Default: "Destination team account alias"},
++ 		&{Name: "File", Default: "Data file for a list of team folder names"},
++ 		&{Name: "SrcPeerName", Desc: "src", Default: "Source team account alias"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: verification
 
 ```
@@ -2807,6 +4775,21 @@
 # コマンド仕様の変更: `teamfolder file list`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
 
 ## 変更されたレポート: namespace_file
 
@@ -2849,6 +4832,24 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Depth", Desc: "1", Default: "Depth"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
+
 ## 変更されたレポート: namespace_size
 
 ```
@@ -2888,6 +4889,21 @@
 
 
 
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Peer", Desc: "default", Default: "Account alias"}},
+  }
+
+```
+
 ## 変更されたレポート: team_folder
 
 ```
@@ -2905,9 +4921,50 @@
 
 ```
 
+# コマンド仕様の変更: `teamfolder permdelete`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Name", Default: "Team folder name"},
++ 		&{Name: "Peer", Desc: "default", Default: "Account alias"},
++ 	},
+  }
+
+```
+
 # コマンド仕様の変更: `teamfolder replication`
 
 
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DstPeerName", Desc: "dst", Default: "Destination team account alias"},
++ 		&{Name: "Name", Default: "Team folder name"},
++ 		&{Name: "SrcPeerName", Desc: "src", Default: "Source team account alias"},
++ 	},
+  }
+
+```
 
 ## 変更されたレポート: verification
 
@@ -2917,6 +4974,25 @@
 - 	Desc:    "",
 + 	Desc:    "This report shows a difference between to folders.",
   	Columns: []*rc_doc.ReportColumn{&{Name: "diff_type", Desc: "Type of difference. `file_content_diff`: different content hash, `{left|right}_file_missing`: left or right file missing, `{left|right}_folder_missing`: left or right folder missing."}, &{Name: "left_path", Desc: "path of left"}, &{Name: "left_kind", Desc: "folder or file"}, &{Name: "left_size", Desc: "size of left file"}, &{Name: "left_hash", Desc: "Content hash of left file"}, &{Name: "right_path", Desc: "path of right"}, &{Name: "right_kind", Desc: "folder of file"}, &{Name: "right_size", Desc: "size of right file"}, &{Name: "right_hash", Desc: "Content hash of right file"}},
+  }
+
+```
+
+# コマンド仕様の変更: `web`
+
+
+
+## 設定が変更されたコマンド
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Port", Desc: "7800", Default: "Port number"}},
   }
 
 ```

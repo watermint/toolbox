@@ -24,6 +24,7 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_secure"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -54,7 +55,11 @@ func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container,
 	web = rice.MustFindBox("../../../web")
 
 	mc = app_msg_container_impl.NewContainer(bx)
-	ui = app_ui.NewNullConsole(mc, qt_missingmsg_impl.NewMessageTest(t))
+	if qt_secure.IsSecureEndToEndTest() {
+		ui = app_ui.NewNullConsole(mc, qt_missingmsg_impl.NewMessageTest(t))
+	} else {
+		ui = app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageTest(t), true)
+	}
 	return
 }
 

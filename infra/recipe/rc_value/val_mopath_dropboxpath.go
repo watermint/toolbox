@@ -2,10 +2,12 @@ package rc_value
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"go.uber.org/zap"
 	"reflect"
 )
@@ -20,6 +22,10 @@ type ValueMoPathDropboxPath struct {
 	name     string
 	filePath string
 	path     mo_path.DropboxPath
+}
+
+func (z *ValueMoPathDropboxPath) Spec() (typeName string, typeAttr interface{}) {
+	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*mo_path.DropboxPath)(nil)).Elem()), nil
 }
 
 func (z *ValueMoPathDropboxPath) ValueText() string {

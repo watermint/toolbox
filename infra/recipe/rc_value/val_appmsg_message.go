@@ -2,9 +2,11 @@ package rc_value
 
 import (
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"reflect"
 )
 
@@ -15,6 +17,10 @@ func newValueAppMsgMessage(name string, msg app_msg.Message) rc_recipe.Value {
 type ValueAppMsgMessage struct {
 	name string
 	msg  app_msg.Message
+}
+
+func (z *ValueAppMsgMessage) Spec() (typeName string, typeAttr interface{}) {
+	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*app_msg.Message)(nil)).Elem()), nil
 }
 
 func (z *ValueAppMsgMessage) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

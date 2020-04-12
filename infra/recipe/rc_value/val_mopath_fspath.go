@@ -4,10 +4,12 @@ import (
 	"errors"
 	"github.com/iancoleman/strcase"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"go.uber.org/zap"
 	"os"
 	"reflect"
@@ -27,6 +29,16 @@ type ValueMoPathFileSystemPath struct {
 	name     string
 	filePath string
 	path     mo_path2.FileSystemPath
+}
+
+func (z *ValueMoPathFileSystemPath) Spec() (typeName string, typeAttr interface{}) {
+	se := false
+	if efs, ok := z.path.(mo_path2.ExistingFileSystemPath); ok {
+		se = efs.ShouldExist()
+	}
+	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*mo_path2.FileSystemPath)(nil)).Elem()), map[string]bool{
+		"shouldExist": se,
+	}
 }
 
 func (z *ValueMoPathFileSystemPath) ValueText() string {

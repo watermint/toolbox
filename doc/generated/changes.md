@@ -28,9 +28,167 @@
 
 
 
+# Command spec changed: `connect business_audit`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `connect business_file`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `connect business_info`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `connect business_mgmt`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `connect user_file`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 # Command spec changed: `dev async`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "RunConcurrently",
++ 			Desc:     "false",
++ 			Default:  "run concurrently",
++ 			TypeName: "bool",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: rows
 
@@ -71,7 +229,29 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/ARTIFACT",
   	CliNote:         "",
   	ConnUsePersonal: false,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "DropboxPath",
++ 			Default:  "Dropbox path to upload",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "LocalPath",
++ 			Default:  "Local path to upload",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
++ 		},
++ 		&{
++ 			Name:     "PeerName",
++ 			Desc:     "end_to_end_test",
++ 			Default:  "Account alias",
++ 			TypeName: "string",
++ 		},
++ 	},
   }
 
 ```
@@ -168,6 +348,122 @@
 
 ```
 
+# Command spec changed: `dev desktop install`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "InstallerUrl",
++ 			Desc:     "https://www.dropbox.com/download?full=1&os=win",
++ 			Default:  "Installer download URL",
++ 			TypeName: "string",
++ 		},
++ 		&{Name: "Silent", Desc: "false", Default: "Use Silent installer", TypeName: "bool"},
++ 		&{
++ 			Name:     "SilentNoLaunch",
++ 			Desc:     "false",
++ 			Default:  "Use Enterprise installer",
++ 			TypeName: "bool",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `dev desktop start`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{},
+  }
+
+```
+
+# Command spec changed: `dev desktop stop`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "WaitSeconds",
++ 			Desc:     "0",
++ 			Default:  "Try stopping the app after given seconds.",
++ 			TypeName: "int",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `dev desktop suspendupdate`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Unsuspend",
++ 			Desc:     "false",
++ 			Default:  "True when unsuspend Updater",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "UpdaterName",
++ 			Desc:     "DropboxUpdate.exe",
++ 			Default:  "Executable name of Dropbox Updater",
++ 			TypeName: "string",
++ 		},
++ 		&{
++ 			Name:     "UpdaterPath",
++ 			Desc:     "C:/Program Files (x86)/Dropbox/Update",
++ 			Default:  "Path to Dropbox Updater",
++ 			TypeName: "string",
++ 		},
++ 	},
+  }
+
+```
+
 # Command spec changed: `dev diag procmon`
 
 
@@ -185,7 +481,179 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -repository-path /LOCAL/PATH/TO/PROCESS",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "DropboxPath",
++ 			Default:  "Dropbox path to upload procmon logs",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "ProcmonUrl",
++ 			Desc:     "https://download.sysinternals.com/files/ProcessMonitor.zip",
++ 			Default:  "Process monitor download url",
++ 			TypeName: "string",
++ 		},
++ 		&{
++ 			Name:     "RepositoryPath",
++ 			Default:  "Procmon Work directory",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
++ 		},
++ 		&{
++ 			Name:     "RetainLogs",
++ 			Desc:     "4",
++ 			Default:  "Number of Procmon logs to retain",
++ 			TypeName: "int",
++ 		},
++ 		&{
++ 			Name:     "RunUntil",
++ 			Default:  "Skip run after this date/time",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Seconds",
++ 			Desc:     "1800",
++ 			Default:  "Duration for waiting procmon",
++ 			TypeName: "int",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `dev doc`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Badge",
++ 			Desc:     "true",
++ 			Default:  "Include badges of build status",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "CommandPath",
++ 			Desc:     "doc/generated/",
++ 			Default:  "Relative path to generate command manuals",
++ 			TypeName: "string",
++ 		},
++ 		&{Name: "Filename", Desc: "README.md", Default: "Filename", TypeName: "string"},
++ 		&{Name: "Lang", Default: "Language", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "MarkdownReadme",
++ 			Desc:     "false",
++ 			Default:  "Generate README as markdown format",
++ 			TypeName: "bool",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `dev dummy`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Dest", Default: "Dummy file destination", TypeName: "string"},
++ 		&{Name: "MaxEntry", Desc: "0", Default: "Maximum entries", TypeName: "int"},
++ 		&{Name: "Path", Default: "Path to dummy entry file", TypeName: "string"},
++ 	},
+  }
+
+```
+
+# Command spec changed: `dev echo`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Text", Default: "Text to echo", TypeName: "string"}},
+  }
+
+```
+
+# Command spec changed: `dev preflight`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{},
+  }
+
+```
+
+# Command spec changed: `dev release candidate`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "TestResource",
++ 			Desc:     "test/dev/resource.json",
++ 			Default:  "Path to the test resource location",
++ 			TypeName: "string",
++ 		},
++ 	},
   }
 
 ```
@@ -207,7 +675,70 @@
 + 	CliArgs:         "-artifact-path /LOCAL/PATH/TO/ARTIFACT",
   	CliNote:         "",
   	ConnUsePersonal: false,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "ArtifactPath",
++ 			Default:  "Path to artifacts",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
++ 		},
++ 		&{
++ 			Name:     "TestResource",
++ 			Desc:     "test/dev/resource.json",
++ 			Default:  "Path to test resource",
++ 			TypeName: "string",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `dev spec diff`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "FilePath", Default: "File path to output", TypeName: "reflect.rtype"},
++ 		&{Name: "Lang", Default: "Language", TypeName: "reflect.rtype"},
++ 		&{Name: "Release1", Default: "Release name 1", TypeName: "reflect.rtype"},
++ 		&{Name: "Release2", Default: "Release name 2", TypeName: "reflect.rtype"},
++ 	},
+  }
+
+```
+
+# Command spec changed: `dev spec doc`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "FilePath", Default: "File path", TypeName: "reflect.rtype"},
++ 		&{Name: "Lang", Default: "Language", TypeName: "reflect.rtype"},
++ 	},
   }
 
 ```
@@ -229,7 +760,126 @@
 + 	CliArgs:         "-path /DROPBOX/PATH/TO/PROCESS",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Distribution",
++ 			Desc:     "10000",
++ 			Default:  "Number of files/folder distribution",
++ 			TypeName: "int",
++ 		},
++ 		&{
++ 			Name:     "Extension",
++ 			Desc:     "jpg,pdf,xlsx,docx,pptx,zip,png,txt,bak,csv,mov,mp4,html,gif,lzh,bmp,wmi,ini,ai,psd",
++ 			Default:  "File extensions (comma separated)",
++ 			TypeName: "string",
++ 		},
++ 		&{Name: "Path", Default: "Monkey test path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Seconds",
++ 			Desc:     "10",
++ 			Default:  "Monkey test duration in seconds",
++ 			TypeName: "int",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `dev test recipe`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "All", Desc: "false", Default: "Test all recipes", TypeName: "bool"},
++ 		&{Name: "Recipe", Default: "Recipe name to test", TypeName: "reflect.rtype"},
++ 		&{Name: "Resource", Default: "Test resource file path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Verbose",
++ 			Desc:     "false",
++ 			Default:  "Verbose output for testing",
++ 			TypeName: "bool",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `dev test resources`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{},
+  }
+
+```
+
+# Command spec changed: `dev util curl`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "BufferSize", Desc: "65536", Default: "Size of buffer", TypeName: "int"},
++ 		&{Name: "Record", Default: "Capture record(s) for the test", TypeName: "string"},
++ 	},
+  }
+
+```
+
+# Command spec changed: `dev util wait`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Seconds", Desc: "1", Default: "Wait seconds", TypeName: "int"}},
   }
 
 ```
@@ -237,6 +887,44 @@
 # Command spec changed: `file compare account`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Left",
++ 			Desc:     "left",
++ 			Default:  "Account alias (left)",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "LeftPath",
++ 			Default:  "The path from account root (left)",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Right",
++ 			Desc:     "right",
++ 			Default:  "Account alias (right)",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "RightPath",
++ 			Default:  "The path from account root (right)",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: diff
 
@@ -253,6 +941,35 @@
 # Command spec changed: `file compare local`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DropboxPath", Default: "Dropbox path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "LocalPath",
++ 			Default:  "Local path",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: diff
 
@@ -278,6 +995,61 @@
 
 ```
 
+# Command spec changed: `file copy`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Dst", Default: "Destination path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "Src", Default: "Source path", TypeName: "reflect.rtype"},
++ 	},
+  }
+
+```
+
+# Command spec changed: `file delete`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Path", Default: "Path to delete", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 # Command spec changed: `file download`
 
 
@@ -295,7 +1067,25 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DropboxPath", Default: "File path to download", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "LocalPath",
++ 			Default:  "Local path to download",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
   }
 
 ```
@@ -354,7 +1144,29 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/FILE -local-path /LOCAL/PATH/TO/EXPORT",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "DropboxPath",
++ 			Default:  "Dropbox document path to export.",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "LocalPath",
++ 			Default:  "Local path to save",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
   }
 
 ```
@@ -393,6 +1205,30 @@
 # Command spec changed: `file import batch url`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{Name: "Path", Default: "Path to import", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: operation_log
 
@@ -438,6 +1274,30 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Path", Default: "Path to import", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "Url", Default: "URL", TypeName: "string"},
++ 	},
+  }
+
+```
+
 ## Changed report: operation_log
 
 ```
@@ -476,6 +1336,42 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "IncludeDeleted",
++ 			Desc:     "false",
++ 			Default:  "Include deleted files",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "IncludeMediaInfo",
++ 			Desc:     "false",
++ 			Default:  "Include media information",
++ 			TypeName: "bool",
++ 		},
++ 		&{Name: "Path", Default: "Path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "Recursive", Desc: "false", Default: "List recursively", TypeName: "bool"},
++ 	},
+  }
+
+```
+
 ## Changed report: file_list
 
 ```
@@ -513,9 +1409,108 @@
 
 ```
 
+# Command spec changed: `file merge`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "DryRun", Desc: "true", Default: "Dry run", TypeName: "bool"},
++ 		&{Name: "From", Default: "Path for merge", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "KeepEmptyFolder",
++ 			Desc:     "false",
++ 			Default:  "Keep empty folder after merge",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "To", Default: "Path to merge", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "WithinSameNamespace",
++ 			Desc:     "false",
++ 			Default:  "Do not cross namespace. That is for preserve sharing permission including a shared link",
++ 			TypeName: "bool",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `file move`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Dst", Default: "Destination path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "Src", Default: "Source path", TypeName: "reflect.rtype"},
++ 	},
+  }
+
+```
+
 # Command spec changed: `file replication`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Dst",
++ 			Desc:     "dst",
++ 			Default:  "Account alias (destionation)",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "DstPath", Default: "Destination path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Src",
++ 			Desc:     "src",
++ 			Default:  "Account alias (source)",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "SrcPath", Default: "Source path", TypeName: "reflect.rtype"},
++ 	},
+  }
+
+```
 
 ## Changed report: replication_diff
 
@@ -546,7 +1541,19 @@
 + 	CliArgs:         "-path /DROPBOX/PATH/TO/RESTORE",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Path", Default: "Path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
   }
 
 ```
@@ -595,6 +1602,59 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Category",
++ 			Default:  "Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{
++ 				"options": []interface{}{
++ 					string(""),
++ 					string("image"),
++ 					string("document"),
++ 					string("pdf"),
++ 					string("spreadsheet"),
++ 					string("presentation"),
++ 					string("audio"),
++ 					string("video"),
++ 					string("folder"),
++ 					string("paper"),
++ 					string("others"),
++ 				},
++ 			},
++ 		},
++ 		&{
++ 			Name:     "Extension",
++ 			Default:  "Restricts search to only the extensions specified.",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Path",
++ 			Default:  "Scopes the search to a path in the user's Dropbox.",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "Query", Default: "The string to search for.", TypeName: "string"},
++ 	},
+  }
+
+```
+
 ## Changed report: matches
 
 ```
@@ -610,6 +1670,59 @@
 # Command spec changed: `file search name`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Category",
++ 			Default:  "Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{
++ 				"options": []interface{}{
++ 					string(""),
++ 					string("image"),
++ 					string("document"),
++ 					string("pdf"),
++ 					string("spreadsheet"),
++ 					string("presentation"),
++ 					string("audio"),
++ 					string("video"),
++ 					string("folder"),
++ 					string("paper"),
++ 					string("others"),
++ 				},
++ 			},
++ 		},
++ 		&{
++ 			Name:     "Extension",
++ 			Default:  "Restricts search to only the extensions specified.",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Path",
++ 			Default:  "Scopes the search to a path in the user's Dropbox.",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "Query", Default: "The string to search for.", TypeName: "string"},
++ 	},
+  }
+
+```
 
 ## Changed report: matches
 
@@ -640,7 +1753,29 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "DropboxPath",
++ 			Default:  "Destination Dropbox path",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "LocalPath",
++ 			Default:  "Local file path",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
   }
 
 ```
@@ -754,7 +1889,35 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "ChunkSizeKb",
++ 			Desc:     "153600",
++ 			Default:  "Upload chunk size in KB",
++ 			TypeName: "int",
++ 		},
++ 		&{
++ 			Name:     "DropboxPath",
++ 			Default:  "Destination Dropbox path",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "LocalPath",
++ 			Default:  "Local file path",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
   }
 
 ```
@@ -854,6 +2017,51 @@
 # Command spec changed: `file upload`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "ChunkSizeKb",
++ 			Desc:     "153600",
++ 			Default:  "Upload chunk size in KB",
++ 			TypeName: "int",
++ 		},
++ 		&{
++ 			Name:     "DropboxPath",
++ 			Default:  "Destination Dropbox path",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "LocalPath",
++ 			Default:  "Local file path",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
++ 		},
++ 		&{
++ 			Name:     "Overwrite",
++ 			Desc:     "false",
++ 			Default:  "Overwrite existing file(s)",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: skipped
 
@@ -964,7 +2172,25 @@
 + 	CliArgs:         "-path /DROPBOX/PATH/TO/WATCH",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Path", Default: "Path to watch", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Recursive",
++ 			Desc:     "false",
++ 			Default:  "Watch path recursively",
++ 			TypeName: "bool",
++ 		},
++ 	},
   }
 
 ```
@@ -986,7 +2212,34 @@
 + 	CliArgs:         "-path /DROPBOX/PATH/OF/FILEREQUEST",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "AllowLateUploads",
++ 			Default:  "If set, allow uploads after the deadline has passed (one_day/two_days/seven_days/thirty_days/always)",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Deadline",
++ 			Default:  "The deadline for this file request.",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Path",
++ 			Default:  "The path for the folder in the Dropbox where uploaded files will be sent.",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "Title", Default: "The title of the file request", TypeName: "string"},
++ 	},
   }
 
 ```
@@ -1007,6 +2260,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: deleted
 
 ```
@@ -1022,6 +2297,35 @@
 # Command spec changed: `filerequest delete url`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Force",
++ 			Desc:     "false",
++ 			Default:  "Force delete the file request.",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "Url", Default: "URL of the file request.", TypeName: "string"},
++ 	},
+  }
+
+```
 
 ## Changed report: deleted
 
@@ -1039,6 +2343,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: file_requests
 
 ```
@@ -1054,6 +2380,36 @@
 # Command spec changed: `group add`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "ManagementType",
++ 			Desc:     "company_managed",
++ 			Default:  "Group management type `company_managed` or `user_managed`",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{"options": []interface{}{string("company_managed"), string("user_managed")}},
++ 		},
++ 		&{Name: "Name", Default: "Group name", TypeName: "string"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: added_group
 
@@ -1080,6 +2436,33 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "File",
++ 			Default:  "Data file for group name list",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: operation_log
 
 ```
@@ -1103,9 +2486,58 @@
 
 ```
 
+# Command spec changed: `group delete`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Name", Default: "Group name", TypeName: "string"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 # Command spec changed: `group list`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: group
 
@@ -1131,6 +2563,30 @@
 # Command spec changed: `group member add`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "GroupName", Default: "Group name", TypeName: "string"},
++ 		&{Name: "MemberEmail", Default: "Email address of the member", TypeName: "string"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: operation_log
 
@@ -1159,6 +2615,30 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "GroupName", Default: "Name of the group", TypeName: "string"},
++ 		&{Name: "MemberEmail", Default: "Email address of the member", TypeName: "string"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: operation_log
 
 ```
@@ -1186,6 +2666,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: group_member
 
 ```
@@ -1212,6 +2714,30 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "CurrentName", Default: "Current group name", TypeName: "string"},
++ 		&{Name: "NewName", Default: "New group name", TypeName: "string"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: operation_log
 
 ```
@@ -1235,9 +2761,62 @@
 
 ```
 
+# Command spec changed: `job history archive`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Days", Desc: "7", Default: "Target days old", TypeName: "int"}},
+  }
+
+```
+
+# Command spec changed: `job history delete`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Days", Desc: "28", Default: "Target days old", TypeName: "int"}},
+  }
+
+```
+
 # Command spec changed: `job history list`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{},
+  }
+
+```
 
 ## Changed report: log
 
@@ -1268,7 +2847,23 @@
 + 	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "DropboxPath",
++ 			Default:  "Dropbox path to upload",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
   }
 
 ```
@@ -1315,7 +2910,26 @@
 + 	CliArgs:         `-runbook-path /LOCAL/PATH/TO/RUNBOOK.runbook -until "2020-04-01 17:58:38"`,
   	CliNote:         "",
   	ConnUsePersonal: false,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "IntervalSeconds",
++ 			Desc:     "180",
++ 			Default:  "Interval seconds",
++ 			TypeName: "int",
++ 		},
++ 		&{Name: "QuitOnError", Desc: "false", Default: "Quit on error", TypeName: "bool"},
++ 		&{
++ 			Name:     "RunbookPath",
++ 			Default:  "Path to runbook",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
++ 		},
++ 		&{Name: "Until", Default: "Run until this date/time", TypeName: "reflect.rtype"},
++ 	},
   }
 
 ```
@@ -1337,7 +2951,49 @@
 + 	CliArgs:         "-runbook-path /LOCAL/PATH/TO/RUNBOOK.runbook",
   	CliNote:         "",
   	ConnUsePersonal: false,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Fork",
++ 			Desc:     "false",
++ 			Default:  "Fork process on running the workflow",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "RunbookPath",
++ 			Default:  "Path to the runbook",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
++ 		},
++ 		&{
++ 			Name:     "TimeoutSeconds",
++ 			Desc:     "0",
++ 			Default:  "Terminate process when given time passed",
++ 			TypeName: "int",
++ 		},
++ 	},
+  }
+
+```
+
+# Command spec changed: `license`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{},
   }
 
 ```
@@ -1345,6 +3001,35 @@
 # Command spec changed: `member delete`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "WipeData",
++ 			Desc:     "true",
++ 			Default:  "If true, controls if the user's data will be deleted on their linked devices",
++ 			TypeName: "bool",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: operation_log
 
@@ -1362,6 +3047,35 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "RevokeTeamShares",
++ 			Desc:     "false",
++ 			Default:  "True for revoke shared folder access which owned by the team",
++ 			TypeName: "bool",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: operation_log
 
 ```
@@ -1377,6 +3091,35 @@
 # Command spec changed: `member invite`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "SilentInvite",
++ 			Desc:     "false",
++ 			Default:  "Do not send welcome email (requires SSO + domain verification instead)",
++ 			TypeName: "bool",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: operation_log
 
@@ -1426,6 +3169,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: member
 
 ```
@@ -1461,6 +3226,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: member_quota
 
 ```
@@ -1476,6 +3263,35 @@
 # Command spec changed: `member quota update`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Quota",
++ 			Desc:     "0",
++ 			Default:  "Custom quota in GB (1TB = 1024GB). 0 if the user has no custom quota set.",
++ 			TypeName: "int",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: operation_log
 
@@ -1493,6 +3309,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: usage
 
 ```
@@ -1508,6 +3346,34 @@
 # Command spec changed: `member reinvite`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Silent",
++ 			Desc:     "false",
++ 			Default:  "Do not send welcome email (SSO required)",
++ 			TypeName: "bool",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: operation_log
 
@@ -1584,6 +3450,35 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Dst",
++ 			Desc:     "dst",
++ 			Default:  "Destination team; team file access",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Src",
++ 			Desc:     "src",
++ 			Default:  "Source team; team file access",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: operation_log
 
 ```
@@ -1599,6 +3494,35 @@
 # Command spec changed: `member update email`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "UpdateUnverified",
++ 			Desc:     "false",
++ 			Default:  "Update an account which didn't verified email. If an account email unverified, email address change may affect lose invitation to folders.",
++ 			TypeName: "bool",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: operation_log
 
@@ -1648,6 +3572,29 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: operation_log
 
 ```
@@ -1695,6 +3642,29 @@
 # Command spec changed: `member update profile`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: operation_log
 
@@ -1744,6 +3714,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: shared_folder
 
 ```
@@ -1772,6 +3764,28 @@
 # Command spec changed: `sharedfolder member list`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: member
 
@@ -1806,6 +3820,41 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Expires",
++ 			Default:  "Expiration date/time of the shared link",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "Password", Default: "Password", TypeName: "reflect.rtype"},
++ 		&{Name: "Path", Default: "Path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "TeamOnly",
++ 			Desc:     "false",
++ 			Default:  "Link is accessible only by team members",
++ 			TypeName: "bool",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: created
 
 ```
@@ -1821,6 +3870,39 @@
 # Command spec changed: `sharedlink delete`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Path",
++ 			Default:  "File or folder path to remove shared link",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Recursive",
++ 			Desc:     "false",
++ 			Default:  "Attempt to remove the file hierarchy",
++ 			TypeName: "bool",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: shared_link
 
@@ -1858,7 +3940,24 @@
 + 	CliArgs:         "-url SHAREDLINK_URL",
   	CliNote:         "",
   	ConnUsePersonal: true,
-  	... // 8 identical fields
+  	... // 6 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Password",
++ 			Default:  "Password for the shared link",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "Url", Default: "Shared link URL", TypeName: "reflect.rtype"},
++ 	},
   }
 
 ```
@@ -1904,6 +4003,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: shared_link
 
 ```
@@ -1924,6 +4045,40 @@
 # Command spec changed: `team activity batch user`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Category",
++ 			Default:  "Filter the returned events to a single category. This field is optional.",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "EndTime", Default: "Ending time (exclusive).", TypeName: "reflect.rtype"},
++ 		&{Name: "File", Default: "User email address list file", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "StartTime",
++ 			Default:  "Starting time (inclusive)",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: combined
 
@@ -1953,6 +4108,31 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Category", Default: "Event category", TypeName: "reflect.rtype"},
++ 		&{Name: "EndDate", Default: "End date", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "StartDate", Default: "Start date", TypeName: "string"},
++ 	},
+  }
+
+```
+
 ## Changed report: event
 
 ```
@@ -1969,6 +4149,39 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Category",
++ 			Default:  "Filter the returned events to a single category. This field is optional.",
++ 			TypeName: "string",
++ 		},
++ 		&{Name: "EndTime", Default: "Ending time (exclusive).", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "StartTime",
++ 			Default:  "Starting time (inclusive)",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: event
 
 ```
@@ -1984,6 +4197,39 @@
 # Command spec changed: `team activity user`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Category",
++ 			Default:  "Filter the returned events to a single category. This field is optional.",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{Name: "EndTime", Default: "Ending time (exclusive).", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "StartTime",
++ 			Default:  "Starting time (inclusive)",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: user
 
@@ -2021,6 +4267,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: membership
 
 ```
@@ -2049,6 +4317,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: policy
 
 ```
@@ -2064,6 +4354,28 @@
 # Command spec changed: `team device list`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: device
 
@@ -2092,6 +4404,35 @@
 # Command spec changed: `team device unlink`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "DeleteOnUnlink",
++ 			Desc:     "false",
++ 			Default:  "Delete files on unlink",
++ 			TypeName: "bool",
++ 		},
++ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: operation_log
 
@@ -2126,6 +4467,46 @@
 # Command spec changed: `team diag explorer`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "All",
++ 			Desc:     "false",
++ 			Default:  "Include additional reports",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "File",
++ 			Desc:     "default",
++ 			Default:  "Dropbox Business file access",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Info",
++ 			Desc:     "default",
++ 			Default:  "Dropbox Business information access",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Mgmt",
++ 			Desc:     "default",
++ 			Default:  "Dropbox Business management",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: device
 
@@ -2446,6 +4827,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: feature
 
 ```
@@ -2461,6 +4864,28 @@
 # Command spec changed: `team filerequest list`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: file_request
 
@@ -2492,6 +4917,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: info
 
 ```
@@ -2507,6 +4954,28 @@
 # Command spec changed: `team linkedapp list`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: linked_app
 
@@ -2538,6 +5007,63 @@
 # Command spec changed: `team namespace file list`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "IncludeDeleted",
++ 			Desc:     "false",
++ 			Default:  "If true, deleted file or folder will be returned",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "IncludeMediaInfo",
++ 			Desc:     "false",
++ 			Default:  "If true, media info is set for photo and video in json report",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "IncludeMemberFolder",
++ 			Desc:     "false",
++ 			Default:  "If true, include team member folders",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "IncludeSharedFolder",
++ 			Desc:     "true",
++ 			Default:  "If true, include shared folders",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "IncludeTeamFolder",
++ 			Desc:     "true",
++ 			Default:  "If true, include team folders",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "Name",
++ 			Default:  "List only for the folder matched to the name",
++ 			TypeName: "string",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: namespace_file
 
@@ -2580,6 +5106,63 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Depth",
++ 			Desc:     "1",
++ 			Default:  "Report entry for all files and directories depth directories deep",
++ 			TypeName: "int",
++ 		},
++ 		&{
++ 			Name:     "IncludeAppFolder",
++ 			Desc:     "false",
++ 			Default:  "If true, include app folders",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "IncludeMemberFolder",
++ 			Desc:     "false",
++ 			Default:  "if true, include team member folders",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "IncludeSharedFolder",
++ 			Desc:     "true",
++ 			Default:  "If true, include shared folders",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "IncludeTeamFolder",
++ 			Desc:     "true",
++ 			Default:  "If true, include team folders",
++ 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "Name",
++ 			Default:  "List only for the folder matched to the name",
++ 			TypeName: "string",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: namespace_size
 
 ```
@@ -2619,6 +5202,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: namespace
 
 ```
@@ -2639,6 +5244,29 @@
 # Command spec changed: `team namespace member list`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "AllColumns", Desc: "false", Default: "Show all columns", TypeName: "bool"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: namespace_member
 
@@ -2661,6 +5289,43 @@
 # Command spec changed: `team sharedlink list`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Visibility",
++ 			Desc:     "public",
++ 			Default:  "Filter links by visibility (public/team_only/password)",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{
++ 				"options": []interface{}{
++ 					string("public"),
++ 					string("team_only"),
++ 					string("password"),
++ 					string("team_and_password"),
++ 					string("shared_folder_only"),
++ 				},
++ 			},
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: shared_link
 
@@ -2692,6 +5357,50 @@
 # Command spec changed: `team sharedlink update expiry`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "At", Default: "New expiration date and time", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Days",
++ 			Desc:     "0",
++ 			Default:  "Days to the new expiration date",
++ 			TypeName: "int",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Visibility",
++ 			Desc:     "public",
++ 			Default:  "Target link visibility",
++ 			TypeName: "reflect.rtype",
++ 			TypeAttr: map[string]interface{}{
++ 				"options": []interface{}{
++ 					string("public"),
++ 					string("team_only"),
++ 					string("password"),
++ 					string("team_and_password"),
++ 					string("shared_folder_only"),
++ 				},
++ 			},
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: skipped
 
@@ -2748,9 +5457,63 @@
 
 ```
 
+# Command spec changed: `teamfolder archive`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Name", Default: "Team folder name", TypeName: "string"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 # Command spec changed: `teamfolder batch archive`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "File",
++ 			Default:  "Data file for a list of team folder names",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: operation_log
 
@@ -2776,6 +5539,33 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "File",
++ 			Default:  "Data file for a list of team folder names",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: operation_log
 
 ```
@@ -2792,6 +5582,39 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "DstPeerName",
++ 			Desc:     "dst",
++ 			Default:  "Destination team account alias",
++ 			TypeName: "string",
++ 		},
++ 		&{
++ 			Name:     "File",
++ 			Default:  "Data file for a list of team folder names",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 		&{
++ 			Name:     "SrcPeerName",
++ 			Desc:     "src",
++ 			Default:  "Source team account alias",
++ 			TypeName: "string",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: verification
 
 ```
@@ -2807,6 +5630,28 @@
 # Command spec changed: `teamfolder file list`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: namespace_file
 
@@ -2849,6 +5694,29 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Depth", Desc: "1", Default: "Depth", TypeName: "int"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: namespace_size
 
 ```
@@ -2888,6 +5756,28 @@
 
 
 
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 ## Changed report: team_folder
 
 ```
@@ -2905,9 +5795,65 @@
 
 ```
 
+# Command spec changed: `teamfolder permdelete`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{Name: "Name", Default: "Team folder name", TypeName: "string"},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "default",
++ 			Default:  "Account alias",
++ 			TypeName: "reflect.rtype",
++ 		},
++ 	},
+  }
+
+```
+
 # Command spec changed: `teamfolder replication`
 
 
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values: []*rc_doc.Value{
++ 		&{
++ 			Name:     "DstPeerName",
++ 			Desc:     "dst",
++ 			Default:  "Destination team account alias",
++ 			TypeName: "string",
++ 		},
++ 		&{Name: "Name", Default: "Team folder name", TypeName: "string"},
++ 		&{
++ 			Name:     "SrcPeerName",
++ 			Desc:     "src",
++ 			Default:  "Source team account alias",
++ 			TypeName: "string",
++ 		},
++ 	},
+  }
+
+```
 
 ## Changed report: verification
 
@@ -2917,6 +5863,25 @@
 - 	Desc:    "",
 + 	Desc:    "This report shows a difference between to folders.",
   	Columns: []*rc_doc.ReportColumn{&{Name: "diff_type", Desc: "Type of difference. `file_content_diff`: different content hash, `{left|right}_file_missing`: left or right file missing, `{left|right}_folder_missing`: left or right folder missing."}, &{Name: "left_path", Desc: "path of left"}, &{Name: "left_kind", Desc: "folder or file"}, &{Name: "left_size", Desc: "size of left file"}, &{Name: "left_hash", Desc: "Content hash of left file"}, &{Name: "right_path", Desc: "path of right"}, &{Name: "right_kind", Desc: "folder of file"}, &{Name: "right_size", Desc: "size of right file"}, &{Name: "right_hash", Desc: "Content hash of right file"}},
+  }
+
+```
+
+# Command spec changed: `web`
+
+
+
+## Command configuration changed
+
+
+
+```
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  nil,
++ 	Values:  []*rc_doc.Value{&{Name: "Port", Desc: "7800", Default: "Port number", TypeName: "int"}},
   }
 
 ```

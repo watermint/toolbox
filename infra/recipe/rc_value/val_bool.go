@@ -14,6 +14,10 @@ type ValueBool struct {
 	v bool
 }
 
+func (z *ValueBool) Spec() (typeName string, typeAttr interface{}) {
+	return "bool", nil
+}
+
 func (z *ValueBool) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Kind() == reflect.Bool {
 		return newValueBool()

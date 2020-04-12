@@ -3,8 +3,10 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"reflect"
 )
 
@@ -17,6 +19,10 @@ func newValueDbxConnBusinessInfo(peerName string) rc_recipe.Value {
 type ValueDbxConnBusinessInfo struct {
 	conn     dbx_conn.ConnBusinessInfo
 	peerName string
+}
+
+func (z *ValueDbxConnBusinessInfo) Spec() (typeName string, typeAttr interface{}) {
+	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*dbx_conn.ConnBusinessInfo)(nil)).Elem()), nil
 }
 
 func (z *ValueDbxConnBusinessInfo) ValueText() string {

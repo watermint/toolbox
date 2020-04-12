@@ -17,4 +17,5 @@ type Recipe struct {
 	IsIrreversible  bool              `json:"is_irreversible"`
 	Reports         []*Report         `json:"reports"`
 	Feeds           []*Feed           `json:"feeds"`
+	Values          []*Value          `json:"values"`
 }
