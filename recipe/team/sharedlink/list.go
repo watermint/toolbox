@@ -83,7 +83,7 @@ func (z *List) Exec(c app_control.Control) error {
 			conn:       z.Peer.Context(),
 			rep:        z.SharedLink,
 			ctl:        c,
-			visibility: z.Visibility.String(),
+			visibility: z.Visibility.Value(),
 		})
 	}
 	q.Wait()

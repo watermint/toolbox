@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/tdewolff/parse/buffer"
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/network/nw_capture"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -19,11 +20,11 @@ import (
 
 type Curl struct {
 	Record     string
-	BufferSize int
+	BufferSize mo_int.RangeInt
 }
 
 func (z *Curl) Preset() {
-	z.BufferSize = 65536
+	z.BufferSize.SetRange(1024, 2*1048576, 65536)
 }
 
 func (z *Curl) Exec(c app_control.Control) error {
@@ -36,7 +37,7 @@ func (z *Curl) Exec(c app_control.Control) error {
 	if z.Record != "" {
 		r = buffer.NewReader([]byte(z.Record))
 	}
-	br := bufio.NewReaderSize(r, z.BufferSize)
+	br := bufio.NewReaderSize(r, z.BufferSize.Value())
 	for {
 		line, prefix, err := br.ReadLine()
 		if prefix {

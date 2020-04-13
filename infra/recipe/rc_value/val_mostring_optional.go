@@ -21,6 +21,10 @@ type ValueMoStringOptional struct {
 	valStr string
 }
 
+func (z *ValueMoStringOptional) ValueText() string {
+	return z.valStr
+}
+
 func (z *ValueMoStringOptional) Spec() (typeName string, typeAttr interface{}) {
 	return ut_reflect.Key(app.Pkg, z.optStr), nil
 }
@@ -42,7 +46,7 @@ func (z *ValueMoStringOptional) Init() (v interface{}) {
 
 func (z *ValueMoStringOptional) ApplyPreset(v0 interface{}) {
 	z.optStr = v0.(mo_string.OptionalString)
-	z.valStr = z.optStr.String()
+	z.valStr = z.optStr.Value()
 }
 
 func (z *ValueMoStringOptional) Apply() (v interface{}) {
@@ -51,7 +55,7 @@ func (z *ValueMoStringOptional) Apply() (v interface{}) {
 
 func (z *ValueMoStringOptional) Debug() interface{} {
 	return map[string]string{
-		"str":    z.optStr.String(),
+		"str":    z.optStr.Value(),
 		"exists": strconv.FormatBool(z.optStr.IsExists()),
 	}
 }

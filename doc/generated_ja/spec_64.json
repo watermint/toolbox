@@ -19,8 +19,8 @@
     "values": [
       {
         "name": "Key",
-        "desc": "",
-        "default": "機能キー.",
+        "desc": "機能キー.",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -46,8 +46,8 @@
     "values": [
       {
         "name": "Key",
-        "desc": "",
-        "default": "機能キー.",
+        "desc": "機能キー.",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -94,8 +94,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       }
@@ -123,8 +123,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -152,8 +152,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       }
@@ -181,8 +181,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -210,8 +210,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -274,15 +274,15 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       },
       {
         "name": "RunConcurrently",
-        "desc": "false",
-        "default": "並列実行",
+        "desc": "並列実行",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -310,8 +310,8 @@
     "values": [
       {
         "name": "Full",
-        "desc": "deploy",
-        "default": "Account alias",
+        "desc": "Account alias",
+        "default": "deploy",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -464,15 +464,15 @@
     "values": [
       {
         "name": "DropboxPath",
-        "desc": "",
-        "default": "アップロード先Dropboxパス",
+        "desc": "アップロード先Dropboxパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
-        "desc": "",
-        "default": "アップロードするローカルファイルのパス",
+        "desc": "アップロードするローカルファイルのパス",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -480,8 +480,8 @@
       },
       {
         "name": "PeerName",
-        "desc": "deploy",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "deploy",
         "type_name": "string",
         "type_attr": null
       }
@@ -513,43 +513,43 @@
     "values": [
       {
         "name": "Audit",
-        "desc": "end_to_end_test",
-        "default": "Dropbox Business Audit スコープで認証",
+        "desc": "Dropbox Business Audit スコープで認証",
+        "default": "end_to_end_test",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       },
       {
         "name": "File",
-        "desc": "end_to_end_test",
-        "default": "Dropbox Business member file access スコープで認証",
+        "desc": "Dropbox Business member file access スコープで認証",
+        "default": "end_to_end_test",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       },
       {
         "name": "Full",
-        "desc": "end_to_end_test",
-        "default": "Dropbox user full access スコープで認証",
+        "desc": "Dropbox user full access スコープで認証",
+        "default": "end_to_end_test",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Github",
-        "desc": "deploy",
-        "default": "Account alias for Github deployment",
+        "desc": "Account alias for Github deployment",
+        "default": "deploy",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Info",
-        "desc": "end_to_end_test",
-        "default": "Dropbox Business info スコープで認証",
+        "desc": "Dropbox Business info スコープで認証",
+        "default": "end_to_end_test",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       },
       {
         "name": "Mgmt",
-        "desc": "end_to_end_test",
-        "default": "Dropbox Business management スコープで認証",
+        "desc": "Dropbox Business management スコープで認証",
+        "default": "end_to_end_test",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -581,36 +581,36 @@
     "values": [
       {
         "name": "Audit",
-        "desc": "end_to_end_test",
-        "default": "Dropbox Business Audit スコープで認証",
+        "desc": "Dropbox Business Audit スコープで認証",
+        "default": "end_to_end_test",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       },
       {
         "name": "File",
-        "desc": "end_to_end_test",
-        "default": "Dropbox Business member file access スコープで認証",
+        "desc": "Dropbox Business member file access スコープで認証",
+        "default": "end_to_end_test",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       },
       {
         "name": "Full",
-        "desc": "end_to_end_test",
-        "default": "Dropbox user full access スコープで認証",
+        "desc": "Dropbox user full access スコープで認証",
+        "default": "end_to_end_test",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Info",
-        "desc": "end_to_end_test",
-        "default": "Dropbox Business info スコープで認証",
+        "desc": "Dropbox Business info スコープで認証",
+        "default": "end_to_end_test",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       },
       {
         "name": "Mgmt",
-        "desc": "end_to_end_test",
-        "default": "Dropbox Business management スコープで認証",
+        "desc": "Dropbox Business management スコープで認証",
+        "default": "end_to_end_test",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -636,15 +636,15 @@
     "values": [
       {
         "name": "EnvName",
-        "desc": "TOOLBOX_ENDTOEND",
-        "default": "Environment variable name",
+        "desc": "Environment variable name",
+        "default": "TOOLBOX_ENDTOEND",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "PeerName",
-        "desc": "end_to_end_test",
-        "default": "Account alias",
+        "desc": "Account alias",
+        "default": "end_to_end_test",
         "type_name": "string",
         "type_attr": null
       }
@@ -670,22 +670,22 @@
     "values": [
       {
         "name": "InstallerUrl",
-        "desc": "https://www.dropbox.com/download?full=1&os=win",
-        "default": "インストーラーのダウンロードURL",
+        "desc": "インストーラーのダウンロードURL",
+        "default": "https://www.dropbox.com/download?full=1&os=win",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Silent",
-        "desc": "false",
-        "default": "サイレントインストーラーを利用します",
+        "desc": "サイレントインストーラーを利用します",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "SilentNoLaunch",
-        "desc": "false",
-        "default": "エンタープライズインストーラーを利用します",
+        "desc": "エンタープライズインストーラーを利用します",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -730,10 +730,14 @@
     "values": [
       {
         "name": "WaitSeconds",
-        "desc": "0",
-        "default": "指定秒数後にアプリケーションの停止を試みます",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "指定秒数後にアプリケーションの停止を試みます",
+        "default": "60",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 2147483647,
+          "min": 0,
+          "value": 60
+        }
       }
     ]
   },
@@ -757,22 +761,22 @@
     "values": [
       {
         "name": "Unsuspend",
-        "desc": "false",
-        "default": "指定すると一時停止を解除します (通常に戻します)",
+        "desc": "指定すると一時停止を解除します (通常に戻します)",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "UpdaterName",
-        "desc": "DropboxUpdate.exe",
-        "default": "Dropbox Updaterの実行ファイル名",
+        "desc": "Dropbox Updaterの実行ファイル名",
+        "default": "DropboxUpdate.exe",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "UpdaterPath",
-        "desc": "C:/Program Files (x86)/Dropbox/Update",
-        "default": "Dropbox Updaterへのパス",
+        "desc": "Dropbox Updaterへのパス",
+        "default": "C:/Program Files (x86)/Dropbox/Update",
         "type_name": "string",
         "type_attr": null
       }
@@ -800,29 +804,29 @@
     "values": [
       {
         "name": "DropboxPath",
-        "desc": "",
-        "default": "procmonのログをアップロードするDropboxパス",
+        "desc": "procmonのログをアップロードするDropboxパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "ProcmonUrl",
-        "desc": "https://download.sysinternals.com/files/ProcessMonitor.zip",
-        "default": "Process MonitorのダウンロードURL",
+        "desc": "Process MonitorのダウンロードURL",
+        "default": "https://download.sysinternals.com/files/ProcessMonitor.zip",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "RepositoryPath",
-        "desc": "",
-        "default": "Process Monitorの作業ディレクトリ",
+        "desc": "Process Monitorの作業ディレクトリ",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -830,15 +834,19 @@
       },
       {
         "name": "RetainLogs",
-        "desc": "4",
-        "default": "維持するProcmonのログ数",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "維持するProcmonのログ数",
+        "default": "4",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 10000,
+          "min": 0,
+          "value": 4
+        }
       },
       {
         "name": "RunUntil",
-        "desc": "",
-        "default": "指定日時以降は実行をスキップ",
+        "desc": "指定日時以降は実行をスキップ",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_time.time_impl",
         "type_attr": {
           "optional": true
@@ -846,10 +854,14 @@
       },
       {
         "name": "Seconds",
-        "desc": "1800",
-        "default": "procmonの実行待機時間",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "procmonの実行待機時間",
+        "default": "1800",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 86400,
+          "min": 10,
+          "value": 1800
+        }
       }
     ]
   },
@@ -873,36 +885,36 @@
     "values": [
       {
         "name": "Badge",
-        "desc": "true",
-        "default": "ビルド状態のバッジを含める",
+        "desc": "ビルド状態のバッジを含める",
+        "default": "true",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "CommandPath",
-        "desc": "doc/generated/",
-        "default": "コマンドマニュアルを作成する相対パス",
+        "desc": "コマンドマニュアルを作成する相対パス",
+        "default": "doc/generated/",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Filename",
-        "desc": "README.md",
-        "default": "ファイル名",
+        "desc": "ファイル名",
+        "default": "README.md",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Lang",
-        "desc": "",
-        "default": "言語",
+        "desc": "言語",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "MarkdownReadme",
-        "desc": "false",
-        "default": "READMEをMarkdownフォーマットで生成",
+        "desc": "READMEをMarkdownフォーマットで生成",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -928,22 +940,26 @@
     "values": [
       {
         "name": "Dest",
-        "desc": "",
-        "default": "ダミーファイルの位置",
+        "desc": "ダミーファイルの位置",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "MaxEntry",
-        "desc": "0",
-        "default": "最大エントリ数",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "最大エントリ数",
+        "default": "0",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 2147483647,
+          "min": 0,
+          "value": 0
+        }
       },
       {
         "name": "Path",
-        "desc": "",
-        "default": "ダミーファイルエントリへのパス",
+        "desc": "ダミーファイルエントリへのパス",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -969,8 +985,8 @@
     "values": [
       {
         "name": "Text",
-        "desc": "",
-        "default": "エコーするテキストインポート先のパス",
+        "desc": "エコーするテキストインポート先のパス",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -1015,8 +1031,8 @@
     "values": [
       {
         "name": "TestResource",
-        "desc": "test/dev/resource.json",
-        "default": "テストリソースへのパス",
+        "desc": "テストリソースへのパス",
+        "default": "test/dev/resource.json",
         "type_name": "string",
         "type_attr": null
       }
@@ -1042,8 +1058,8 @@
     "values": [
       {
         "name": "ArtifactPath",
-        "desc": "",
-        "default": "成果物へのパス",
+        "desc": "成果物へのパス",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -1051,29 +1067,29 @@
       },
       {
         "name": "Branch",
-        "desc": "master",
-        "default": "Target branch",
+        "desc": "Target branch",
+        "default": "master",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "ConnGithub",
-        "desc": "default",
-        "default": "Account alias",
+        "desc": "Account alias",
+        "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "SkipTests",
-        "desc": "false",
-        "default": "Skip end to end tests.",
+        "desc": "Skip end to end tests.",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "TestResource",
-        "desc": "test/dev/resource.json",
-        "default": "テストリソースへのパス",
+        "desc": "テストリソースへのパス",
+        "default": "test/dev/resource.json",
         "type_name": "string",
         "type_attr": null
       }
@@ -1099,29 +1115,29 @@
     "values": [
       {
         "name": "FilePath",
-        "desc": "",
-        "default": "出力先ファイルパス",
+        "desc": "出力先ファイルパス",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Lang",
-        "desc": "",
-        "default": "言語",
+        "desc": "言語",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Release1",
-        "desc": "",
-        "default": "リリース名1",
+        "desc": "リリース名1",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Release2",
-        "desc": "",
-        "default": "リリース名2",
+        "desc": "リリース名2",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       }
@@ -1147,15 +1163,15 @@
     "values": [
       {
         "name": "FilePath",
-        "desc": "",
-        "default": "ファイルパス",
+        "desc": "ファイルパス",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Lang",
-        "desc": "",
-        "default": "言語",
+        "desc": "言語",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       }
@@ -1183,38 +1199,46 @@
     "values": [
       {
         "name": "Distribution",
-        "desc": "10000",
-        "default": "ファイル・フォルダの分布数",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "ファイル・フォルダの分布数",
+        "default": "10000",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 2147483647,
+          "min": 1,
+          "value": 10000
+        }
       },
       {
         "name": "Extension",
-        "desc": "jpg,pdf,xlsx,docx,pptx,zip,png,txt,bak,csv,mov,mp4,html,gif,lzh,bmp,wmi,ini,ai,psd",
-        "default": "カンマ区切りの拡張子一覧",
+        "desc": "カンマ区切りの拡張子一覧",
+        "default": "jpg,pdf,xlsx,docx,pptx,zip,png,txt,bak,csv,mov,mp4,html,gif,lzh,bmp,wmi,ini,ai,psd",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Path",
-        "desc": "",
-        "default": "モンキーテストパス",
+        "desc": "モンキーテストパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Seconds",
-        "desc": "10",
-        "default": "モンキーテストの実施時間(秒)",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "モンキーテストの実施時間(秒)",
+        "default": "10",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 86400,
+          "min": 1,
+          "value": 10
+        }
       }
     ]
   },
@@ -1238,29 +1262,29 @@
     "values": [
       {
         "name": "All",
-        "desc": "false",
-        "default": "全てのレシピをテストします",
+        "desc": "全てのレシピをテストします",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "Recipe",
-        "desc": "",
-        "default": "テストするレシピ名",
+        "desc": "テストするレシピ名",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Resource",
-        "desc": "",
-        "default": "テスト用リソースへのパス",
+        "desc": "テスト用リソースへのパス",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Verbose",
-        "desc": "false",
-        "default": "テスト結果の詳細出力",
+        "desc": "テスト結果の詳細出力",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -1305,15 +1329,19 @@
     "values": [
       {
         "name": "BufferSize",
-        "desc": "65536",
-        "default": "バッファのサイズ",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "バッファのサイズ",
+        "default": "65536",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 2097152,
+          "min": 1024,
+          "value": 65536
+        }
       },
       {
         "name": "Record",
-        "desc": "",
-        "default": "テスト用に直接テストレコードを指定",
+        "desc": "テスト用に直接テストレコードを指定",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -1339,10 +1367,14 @@
     "values": [
       {
         "name": "Seconds",
-        "desc": "1",
-        "default": "指定秒数待機",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "指定秒数待機",
+        "default": "1",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 604800,
+          "min": 1,
+          "value": 1
+        }
       }
     ]
   },
@@ -1412,29 +1444,29 @@
     "values": [
       {
         "name": "Left",
-        "desc": "left",
-        "default": "アカウントの別名 (左)",
+        "desc": "アカウントの別名 (左)",
+        "default": "left",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "LeftPath",
-        "desc": "",
-        "default": "アカウントのルートからのパス (左)",
+        "desc": "アカウントのルートからのパス (左)",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Right",
-        "desc": "right",
-        "default": "アカウントの別名 (右)",
+        "desc": "アカウントの別名 (右)",
+        "default": "right",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "RightPath",
-        "desc": "",
-        "default": "アカウントのルートからのパス (右)",
+        "desc": "アカウントのルートからのパス (右)",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       }
@@ -1547,15 +1579,15 @@
     "values": [
       {
         "name": "DropboxPath",
-        "desc": "",
-        "default": "Dropbox上のパス",
+        "desc": "Dropbox上のパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
-        "desc": "",
-        "default": "ローカルパス",
+        "desc": "ローカルパス",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -1563,8 +1595,8 @@
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -1592,22 +1624,22 @@
     "values": [
       {
         "name": "Dst",
-        "desc": "",
-        "default": "宛先のパス",
+        "desc": "宛先のパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Src",
-        "desc": "",
-        "default": "元のパス",
+        "desc": "元のパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       }
@@ -1635,15 +1667,15 @@
     "values": [
       {
         "name": "Path",
-        "desc": "",
-        "default": "削除対象のパス",
+        "desc": "削除対象のパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -1701,15 +1733,15 @@
     "values": [
       {
         "name": "File",
-        "desc": "",
-        "default": "データファイルへのパス",
+        "desc": "データファイルへのパス",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Preview",
-        "desc": "false",
-        "default": "プレビューモード",
+        "desc": "プレビューモード",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -1768,15 +1800,15 @@
     "values": [
       {
         "name": "DropboxPath",
-        "desc": "",
-        "default": "ダウンロードするファイルパス",
+        "desc": "ダウンロードするファイルパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
-        "desc": "",
-        "default": "保存先ローカルパス",
+        "desc": "保存先ローカルパス",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -1784,8 +1816,8 @@
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -1848,15 +1880,15 @@
     "values": [
       {
         "name": "DropboxPath",
-        "desc": "",
-        "default": "エクスポートするDropbox上のドキュメントパス",
+        "desc": "エクスポートするDropbox上のドキュメントパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
-        "desc": "",
-        "default": "保存先ローカルパス",
+        "desc": "保存先ローカルパス",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -1864,8 +1896,8 @@
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -1957,22 +1989,22 @@
     "values": [
       {
         "name": "File",
-        "desc": "",
-        "default": "データファイル",
+        "desc": "データファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Path",
-        "desc": "",
-        "default": "インポート先のパス",
+        "desc": "インポート先のパス",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -2035,22 +2067,22 @@
     "values": [
       {
         "name": "Path",
-        "desc": "",
-        "default": "インポート先のパス",
+        "desc": "インポート先のパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Url",
-        "desc": "",
-        "default": "URL",
+        "desc": "URL",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -2109,36 +2141,36 @@
     "values": [
       {
         "name": "IncludeDeleted",
-        "desc": "false",
-        "default": "削除済みファイルを含める",
+        "desc": "削除済みファイルを含める",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "IncludeMediaInfo",
-        "desc": "false",
-        "default": "メディア情報を含める",
+        "desc": "メディア情報を含める",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "Path",
-        "desc": "",
-        "default": "パス",
+        "desc": "パス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Recursive",
-        "desc": "false",
-        "default": "再起的に一覧を実行",
+        "desc": "再起的に一覧を実行",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -2166,43 +2198,43 @@
     "values": [
       {
         "name": "DryRun",
-        "desc": "true",
-        "default": "リハーサルを行います",
+        "desc": "リハーサルを行います",
+        "default": "true",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "From",
-        "desc": "",
-        "default": "統合するパス",
+        "desc": "統合するパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "KeepEmptyFolder",
-        "desc": "false",
-        "default": "統合後に空となったフォルダを維持する",
+        "desc": "統合後に空となったフォルダを維持する",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "To",
-        "desc": "",
-        "default": "統合するパス",
+        "desc": "統合するパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "WithinSameNamespace",
-        "desc": "false",
-        "default": "ネームスペースを超えないように制御します. これは共有リンクを含む共有権限設定を維持するためです.",
+        "desc": "ネームスペースを超えないように制御します. これは共有リンクを含む共有権限設定を維持するためです.",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -2230,22 +2262,22 @@
     "values": [
       {
         "name": "Dst",
-        "desc": "",
-        "default": "宛先のパス",
+        "desc": "宛先のパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Src",
-        "desc": "",
-        "default": "元のパス",
+        "desc": "元のパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       }
@@ -2317,29 +2349,29 @@
     "values": [
       {
         "name": "Dst",
-        "desc": "dst",
-        "default": "アカウントの別名 (宛先)",
+        "desc": "アカウントの別名 (宛先)",
+        "default": "dst",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "DstPath",
-        "desc": "",
-        "default": "宛先のパス",
+        "desc": "宛先のパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Src",
-        "desc": "src",
-        "default": "アカウントの別名 (元)",
+        "desc": "アカウントの別名 (元)",
+        "default": "src",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "SrcPath",
-        "desc": "",
-        "default": "元のパス",
+        "desc": "元のパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       }
@@ -2410,15 +2442,15 @@
     "values": [
       {
         "name": "Path",
-        "desc": "",
-        "default": "パス",
+        "desc": "パス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -2465,8 +2497,8 @@
     "values": [
       {
         "name": "Category",
-        "desc": "",
-        "default": "指定されたファイルカテゴリに検索を限定します (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).",
+        "desc": "指定されたファイルカテゴリに検索を限定します (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).",
+        "default": "",
         "type_name": "domain.common.model.mo_string.select_string",
         "type_attr": {
           "options": [
@@ -2486,29 +2518,29 @@
       },
       {
         "name": "Extension",
-        "desc": "",
-        "default": "指定されたファイル拡張子に検索を限定します.",
+        "desc": "指定されたファイル拡張子に検索を限定します.",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Path",
-        "desc": "",
-        "default": "検索対象とするユーザーのDropbox上のパス.",
+        "desc": "検索対象とするユーザーのDropbox上のパス.",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Query",
-        "desc": "",
-        "default": "検索文字列.",
+        "desc": "検索文字列.",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -2555,8 +2587,8 @@
     "values": [
       {
         "name": "Category",
-        "desc": "",
-        "default": "指定されたファイルカテゴリに検索を限定します (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).",
+        "desc": "指定されたファイルカテゴリに検索を限定します (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).",
+        "default": "",
         "type_name": "domain.common.model.mo_string.select_string",
         "type_attr": {
           "options": [
@@ -2576,29 +2608,29 @@
       },
       {
         "name": "Extension",
-        "desc": "",
-        "default": "指定されたファイル拡張子に検索を限定します.",
+        "desc": "指定されたファイル拡張子に検索を限定します.",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Path",
-        "desc": "",
-        "default": "検索対象とするユーザーのDropbox上のパス.",
+        "desc": "検索対象とするユーザーのDropbox上のパス.",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Query",
-        "desc": "",
-        "default": "検索文字列.",
+        "desc": "検索文字列.",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -2753,15 +2785,15 @@
     "values": [
       {
         "name": "DropboxPath",
-        "desc": "",
-        "default": "転送先のDropboxパス",
+        "desc": "転送先のDropboxパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
-        "desc": "",
-        "default": "ローカルファイルのパス",
+        "desc": "ローカルファイルのパス",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -2769,8 +2801,8 @@
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -2925,22 +2957,26 @@
     "values": [
       {
         "name": "ChunkSizeKb",
-        "desc": "153600",
-        "default": "アップロードチャンク容量(Kバイト)",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "アップロードチャンク容量(Kバイト)",
+        "default": "153600",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 153600,
+          "min": 1,
+          "value": 153600
+        }
       },
       {
         "name": "DropboxPath",
-        "desc": "",
-        "default": "転送先のDropboxパス",
+        "desc": "転送先のDropboxパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
-        "desc": "",
-        "default": "ローカルファイルのパス",
+        "desc": "ローカルファイルのパス",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -2948,8 +2984,8 @@
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -3104,22 +3140,26 @@
     "values": [
       {
         "name": "ChunkSizeKb",
-        "desc": "153600",
-        "default": "アップロードチャンク容量(Kバイト)",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "アップロードチャンク容量(Kバイト)",
+        "default": "153600",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 153600,
+          "min": 1,
+          "value": 153600
+        }
       },
       {
         "name": "DropboxPath",
-        "desc": "",
-        "default": "転送先のDropboxパス",
+        "desc": "転送先のDropboxパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
-        "desc": "",
-        "default": "ローカルファイルのパス",
+        "desc": "ローカルファイルのパス",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -3127,15 +3167,15 @@
       },
       {
         "name": "Overwrite",
-        "desc": "false",
-        "default": "既存のファイルを上書きします",
+        "desc": "既存のファイルを上書きします",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -3163,22 +3203,22 @@
     "values": [
       {
         "name": "Path",
-        "desc": "",
-        "default": "監視対象のパス",
+        "desc": "監視対象のパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Recursive",
-        "desc": "false",
-        "default": "パスを再起的に監視",
+        "desc": "パスを再起的に監視",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -3249,15 +3289,15 @@
     "values": [
       {
         "name": "AllowLateUploads",
-        "desc": "",
-        "default": "設定した場合、期限を過ぎてもアップロードを許可します (one_day/two_days/seven_days/thirty_days/always)",
+        "desc": "設定した場合、期限を過ぎてもアップロードを許可します (one_day/two_days/seven_days/thirty_days/always)",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Deadline",
-        "desc": "",
-        "default": "ファイルリクエストの締め切り.",
+        "desc": "ファイルリクエストの締め切り.",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_time.time_impl",
         "type_attr": {
           "optional": true
@@ -3265,22 +3305,22 @@
       },
       {
         "name": "Path",
-        "desc": "",
-        "default": "ファイルをアップロードするDropbox上のパス",
+        "desc": "ファイルをアップロードするDropbox上のパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Title",
-        "desc": "",
-        "default": "ファイルリクエストのタイトル",
+        "desc": "ファイルリクエストのタイトル",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -3351,8 +3391,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -3423,22 +3463,22 @@
     "values": [
       {
         "name": "Force",
-        "desc": "false",
-        "default": "ファイリクエストを強制的に削除する.",
+        "desc": "ファイリクエストを強制的に削除する.",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Url",
-        "desc": "",
-        "default": "ファイルリクエストのURL",
+        "desc": "ファイルリクエストのURL",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -3509,8 +3549,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -3557,8 +3597,8 @@
     "values": [
       {
         "name": "ManagementType",
-        "desc": "company_managed",
-        "default": "グループ管理タイプ. `company_managed` または `user_managed`",
+        "desc": "グループ管理タイプ. `company_managed` または `user_managed`",
+        "default": "company_managed",
         "type_name": "domain.common.model.mo_string.select_string",
         "type_attr": {
           "options": [
@@ -3569,15 +3609,15 @@
       },
       {
         "name": "Name",
-        "desc": "",
-        "default": "グループ名",
+        "desc": "グループ名",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -3648,15 +3688,15 @@
     "values": [
       {
         "name": "File",
-        "desc": "",
-        "default": "グループ名リストのデータファイル",
+        "desc": "グループ名リストのデータファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -3684,15 +3724,15 @@
     "values": [
       {
         "name": "Name",
-        "desc": "",
-        "default": "グループ名",
+        "desc": "グループ名",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -3739,8 +3779,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       }
@@ -3803,22 +3843,22 @@
     "values": [
       {
         "name": "GroupName",
-        "desc": "",
-        "default": "グループ名",
+        "desc": "グループ名",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "MemberEmail",
-        "desc": "",
-        "default": "メンバーのメールアドレス",
+        "desc": "メンバーのメールアドレス",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -3881,22 +3921,22 @@
     "values": [
       {
         "name": "GroupName",
-        "desc": "",
-        "default": "グループ名称",
+        "desc": "グループ名称",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "MemberEmail",
-        "desc": "",
-        "default": "メンバーのメールアドレス",
+        "desc": "メンバーのメールアドレス",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -3959,8 +3999,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       }
@@ -4023,22 +4063,22 @@
     "values": [
       {
         "name": "CurrentName",
-        "desc": "",
-        "default": "現在のグループ名",
+        "desc": "現在のグループ名",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "NewName",
-        "desc": "",
-        "default": "新しいグループ名",
+        "desc": "新しいグループ名",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -4064,10 +4104,14 @@
     "values": [
       {
         "name": "Days",
-        "desc": "7",
-        "default": "目標日数",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "目標日数",
+        "default": "7",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 3650,
+          "min": 1,
+          "value": 7
+        }
       }
     ]
   },
@@ -4091,10 +4135,14 @@
     "values": [
       {
         "name": "Days",
-        "desc": "28",
-        "default": "目標日数",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "目標日数",
+        "default": "28",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 3650,
+          "min": 1,
+          "value": 28
+        }
       }
     ]
   },
@@ -4225,15 +4273,15 @@
     "values": [
       {
         "name": "DropboxPath",
-        "desc": "",
-        "default": "アップロード先Dropboxパス",
+        "desc": "アップロード先Dropboxパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -4259,22 +4307,26 @@
     "values": [
       {
         "name": "IntervalSeconds",
-        "desc": "180",
-        "default": "実行間隔",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "実行間隔",
+        "default": "180",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 31536000,
+          "min": 1,
+          "value": 180
+        }
       },
       {
         "name": "QuitOnError",
-        "desc": "false",
-        "default": "エラー発生時に終了します.",
+        "desc": "エラー発生時に終了します.",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "RunbookPath",
-        "desc": "",
-        "default": "実行するrunbookのパス",
+        "desc": "実行するrunbookのパス",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -4282,8 +4334,8 @@
       },
       {
         "name": "Until",
-        "desc": "",
-        "default": "指定日時まで実行します.",
+        "desc": "指定日時まで実行します.",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_time.time_impl",
         "type_attr": {
           "optional": false
@@ -4311,15 +4363,15 @@
     "values": [
       {
         "name": "Fork",
-        "desc": "false",
-        "default": "ワークフローを実行する際にプロセスをフォークする.",
+        "desc": "ワークフローを実行する際にプロセスをフォークする.",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "RunbookPath",
-        "desc": "",
-        "default": "Runbookへのパス.",
+        "desc": "Runbookへのパス.",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -4327,10 +4379,14 @@
       },
       {
         "name": "TimeoutSeconds",
-        "desc": "0",
-        "default": "指定時間を経過したしたためプロセスを終了します.",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "指定時間を経過したしたためプロセスを終了します.",
+        "default": "0",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 31536000,
+          "min": 0,
+          "value": 0
+        }
       }
     ]
   },
@@ -4406,22 +4462,22 @@
     "values": [
       {
         "name": "File",
-        "desc": "",
-        "default": "データファイル",
+        "desc": "データファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       },
       {
         "name": "WipeData",
-        "desc": "true",
-        "default": "指定した場合にはユーザーのデータがリンクされたデバイスから削除されます",
+        "desc": "指定した場合にはユーザーのデータがリンクされたデバイスから削除されます",
+        "default": "true",
         "type_name": "bool",
         "type_attr": null
       }
@@ -4480,22 +4536,22 @@
     "values": [
       {
         "name": "File",
-        "desc": "",
-        "default": "データファイル",
+        "desc": "データファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       },
       {
         "name": "RevokeTeamShares",
-        "desc": "false",
-        "default": "指定した場合にはユーザーからチームが保有する共有フォルダからのアクセス権を剥奪します",
+        "desc": "指定した場合にはユーザーからチームが保有する共有フォルダからのアクセス権を剥奪します",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -4608,22 +4664,22 @@
     "values": [
       {
         "name": "File",
-        "desc": "",
-        "default": "データファイル",
+        "desc": "データファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       },
       {
         "name": "SilentInvite",
-        "desc": "false",
-        "default": "ウエルカムメールを送信しません (SSOとドメイン確認が必要です)",
+        "desc": "ウエルカムメールを送信しません (SSOとドメイン確認が必要です)",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -4690,8 +4746,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       }
@@ -4734,8 +4790,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -4811,24 +4867,28 @@
     "values": [
       {
         "name": "File",
-        "desc": "",
-        "default": "データファイル",
+        "desc": "データファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       },
       {
         "name": "Quota",
-        "desc": "0",
-        "default": "カスタムの容量制限 (1TB = 1024GB). 0の場合、容量制限をしません.",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "カスタムの容量制限 (1TB = 1024GB). 0の場合、容量制限をしません.",
+        "default": "0",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 2147483647,
+          "min": 0,
+          "value": 0
+        }
       }
     ]
   },
@@ -4881,8 +4941,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -4997,15 +5057,15 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       },
       {
         "name": "Silent",
-        "desc": "false",
-        "default": "招待メールを送信しません (SSOが必須となります)",
+        "desc": "招待メールを送信しません (SSOが必須となります)",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -5074,22 +5134,22 @@
     "values": [
       {
         "name": "Dst",
-        "desc": "dst",
-        "default": "宛先チーム; チームのファイルアクセス",
+        "desc": "宛先チーム; チームのファイルアクセス",
+        "default": "dst",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       },
       {
         "name": "File",
-        "desc": "",
-        "default": "データファイル",
+        "desc": "データファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Src",
-        "desc": "src",
-        "default": "元チーム; チームのファイルアクセス",
+        "desc": "元チーム; チームのファイルアクセス",
+        "default": "src",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -5193,22 +5253,22 @@
     "values": [
       {
         "name": "File",
-        "desc": "",
-        "default": "データファイル",
+        "desc": "データファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       },
       {
         "name": "UpdateUnverified",
-        "desc": "false",
-        "default": "アカウントのメールアドレスが確認されていない場合でも変更する. アカウントのメールアドレスが確認されていない場合、フォルダへの招待を失う場合があります.",
+        "desc": "アカウントのメールアドレスが確認されていない場合でも変更する. アカウントのメールアドレスが確認されていない場合、フォルダへの招待を失う場合があります.",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -5312,15 +5372,15 @@
     "values": [
       {
         "name": "File",
-        "desc": "",
-        "default": "データファイル",
+        "desc": "データファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -5433,15 +5493,15 @@
     "values": [
       {
         "name": "File",
-        "desc": "",
-        "default": "データファイル",
+        "desc": "データファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -5490,22 +5550,22 @@
     "values": [
       {
         "name": "Owner",
-        "desc": "",
-        "default": "Owner of the repository",
+        "desc": "Owner of the repository",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "Account alias",
+        "desc": "Account alias",
+        "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "",
-        "default": "Repository name",
+        "desc": "Repository name",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -5550,8 +5610,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "Account alias",
+        "desc": "Account alias",
+        "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       }
@@ -5600,29 +5660,29 @@
     "values": [
       {
         "name": "Owner",
-        "desc": "",
-        "default": "Owner of the repository",
+        "desc": "Owner of the repository",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "Account alias",
+        "desc": "Account alias",
+        "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Release",
-        "desc": "",
-        "default": "Release tag name",
+        "desc": "Release tag name",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "",
-        "default": "Name of the repository",
+        "desc": "Name of the repository",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -5683,8 +5743,8 @@
     "values": [
       {
         "name": "Asset",
-        "desc": "",
-        "default": "Path to assets",
+        "desc": "Path to assets",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -5692,29 +5752,29 @@
       },
       {
         "name": "Owner",
-        "desc": "",
-        "default": "Owner of the repository",
+        "desc": "Owner of the repository",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "Account alias",
+        "desc": "Account alias",
+        "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Release",
-        "desc": "",
-        "default": "Release tag name",
+        "desc": "Release tag name",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "",
-        "default": "Name of the repository",
+        "desc": "Name of the repository",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -5767,8 +5827,8 @@
     "values": [
       {
         "name": "BodyFile",
-        "desc": "",
-        "default": "File path to body text. THe file must encoded in UTF-8 without BOM.",
+        "desc": "File path to body text. THe file must encoded in UTF-8 without BOM.",
+        "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
@@ -5776,43 +5836,43 @@
       },
       {
         "name": "Branch",
-        "desc": "",
-        "default": "Name of the target branch",
+        "desc": "Name of the target branch",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Name",
-        "desc": "",
-        "default": "Name of the release",
+        "desc": "Name of the release",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Owner",
-        "desc": "",
-        "default": "Owner of the repository",
+        "desc": "Owner of the repository",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "Account alias",
+        "desc": "Account alias",
+        "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "",
-        "default": "Name of the repository",
+        "desc": "Name of the repository",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Tag",
-        "desc": "",
-        "default": "Name of the tag",
+        "desc": "Name of the tag",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -5861,22 +5921,22 @@
     "values": [
       {
         "name": "Owner",
-        "desc": "",
-        "default": "Repository owner",
+        "desc": "Repository owner",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "Account alias",
+        "desc": "Account alias",
+        "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "",
-        "default": "Repository name",
+        "desc": "Repository name",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -5949,36 +6009,36 @@
     "values": [
       {
         "name": "Owner",
-        "desc": "",
-        "default": "Owner of the repository",
+        "desc": "Owner of the repository",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "Account alias",
+        "desc": "Account alias",
+        "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "",
-        "default": "Name of the repository",
+        "desc": "Name of the repository",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Sha1",
-        "desc": "",
-        "default": "SHA1 hash of the commit",
+        "desc": "SHA1 hash of the commit",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Tag",
-        "desc": "",
-        "default": "Tag name",
+        "desc": "Tag name",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -6053,8 +6113,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -6129,8 +6189,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -6193,8 +6253,8 @@
     "values": [
       {
         "name": "Expires",
-        "desc": "",
-        "default": "共有リンクの有効期限日時",
+        "desc": "共有リンクの有効期限日時",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_time.time_impl",
         "type_attr": {
           "optional": true
@@ -6202,29 +6262,29 @@
       },
       {
         "name": "Password",
-        "desc": "",
-        "default": "パスワード",
+        "desc": "パスワード",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Path",
-        "desc": "",
-        "default": "パス",
+        "desc": "パス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "TeamOnly",
-        "desc": "false",
-        "default": "リンクがチームメンバーのみアクセスできます",
+        "desc": "リンクがチームメンバーのみアクセスできます",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -6291,22 +6351,22 @@
     "values": [
       {
         "name": "Path",
-        "desc": "",
-        "default": "共有リンクを削除するファイルまたはフォルダへのパス",
+        "desc": "共有リンクを削除するファイルまたはフォルダへのパス",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Recursive",
-        "desc": "false",
-        "default": "フォルダ階層をたどって削除します",
+        "desc": "フォルダ階層をたどって削除します",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       }
@@ -6365,22 +6425,22 @@
     "values": [
       {
         "name": "Password",
-        "desc": "",
-        "default": "共有リンクのパスワード",
+        "desc": "共有リンクのパスワード",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Url",
-        "desc": "",
-        "default": "共有リンクのURL",
+        "desc": "共有リンクのURL",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_url.url_impl",
         "type_attr": null
       }
@@ -6439,8 +6499,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
@@ -6605,15 +6665,15 @@
     "values": [
       {
         "name": "Category",
-        "desc": "",
-        "default": "一つのイベントカテゴリのみを返すようなフィルター条件. このフィールドはオプションです.",
+        "desc": "一つのイベントカテゴリのみを返すようなフィルター条件. このフィールドはオプションです.",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "EndTime",
-        "desc": "",
-        "default": "終了日時 (該当同時刻を含まない).",
+        "desc": "終了日時 (該当同時刻を含まない).",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_time.time_impl",
         "type_attr": {
           "optional": true
@@ -6621,22 +6681,22 @@
       },
       {
         "name": "File",
-        "desc": "",
-        "default": "メールアドレスリストのファイル",
+        "desc": "メールアドレスリストのファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       },
       {
         "name": "StartTime",
-        "desc": "",
-        "default": "開始日時 (該当時刻を含む)",
+        "desc": "開始日時 (該当時刻を含む)",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_time.time_impl",
         "type_attr": {
           "optional": true
@@ -6729,29 +6789,29 @@
     "values": [
       {
         "name": "Category",
-        "desc": "",
-        "default": "イベントのカテゴリ",
+        "desc": "イベントのカテゴリ",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "EndDate",
-        "desc": "",
-        "default": "終了日",
+        "desc": "終了日",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       },
       {
         "name": "StartDate",
-        "desc": "",
-        "default": "開始日",
+        "desc": "開始日",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       }
@@ -6842,15 +6902,15 @@
     "values": [
       {
         "name": "Category",
-        "desc": "",
-        "default": "一つのイベントカテゴリのみを返すようなフィルター条件. このフィールドはオプションです.",
+        "desc": "一つのイベントカテゴリのみを返すようなフィルター条件. このフィールドはオプションです.",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "EndTime",
-        "desc": "",
-        "default": "終了日時 (該当同時刻を含まない).",
+        "desc": "終了日時 (該当同時刻を含まない).",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_time.time_impl",
         "type_attr": {
           "optional": true
@@ -6858,15 +6918,15 @@
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       },
       {
         "name": "StartTime",
-        "desc": "",
-        "default": "開始日時 (該当時刻を含む)",
+        "desc": "開始日時 (該当時刻を含む)",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_time.time_impl",
         "type_attr": {
           "optional": true
@@ -7001,15 +7061,15 @@
     "values": [
       {
         "name": "Category",
-        "desc": "",
-        "default": "一つのイベントカテゴリのみを返すようなフィルター条件. このフィールドはオプションです.",
+        "desc": "一つのイベントカテゴリのみを返すようなフィルター条件. このフィールドはオプションです.",
+        "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "EndTime",
-        "desc": "",
-        "default": "終了日時 (該当同時刻を含まない).",
+        "desc": "終了日時 (該当同時刻を含まない).",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_time.time_impl",
         "type_attr": {
           "optional": true
@@ -7017,15 +7077,15 @@
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       },
       {
         "name": "StartTime",
-        "desc": "",
-        "default": "開始日時 (該当時刻を含む)",
+        "desc": "開始日時 (該当時刻を含む)",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_time.time_impl",
         "type_attr": {
           "optional": true
@@ -7108,8 +7168,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -7172,8 +7232,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -7304,8 +7364,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -7591,22 +7651,22 @@
     "values": [
       {
         "name": "DeleteOnUnlink",
-        "desc": "false",
-        "default": "デバイスリンク解除時にファイルを削除します",
+        "desc": "デバイスリンク解除時にファイルを削除します",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "File",
-        "desc": "",
-        "default": "データファイル",
+        "desc": "データファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -8189,29 +8249,29 @@
     "values": [
       {
         "name": "All",
-        "desc": "false",
-        "default": "追加のレポートを含める",
+        "desc": "追加のレポートを含める",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "File",
-        "desc": "default",
-        "default": "Dropbox Business ファイルアクアセス",
+        "desc": "Dropbox Business ファイルアクアセス",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       },
       {
         "name": "Info",
-        "desc": "default",
-        "default": "Dropbox Business 情報アクセス",
+        "desc": "Dropbox Business 情報アクセス",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       },
       {
         "name": "Mgmt",
-        "desc": "default",
-        "default": "Dropbox Business 管理",
+        "desc": "Dropbox Business 管理",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
@@ -8266,8 +8326,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       }
@@ -8350,8 +8410,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -8422,8 +8482,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       }
@@ -8498,8 +8558,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -8570,50 +8630,50 @@
     "values": [
       {
         "name": "IncludeDeleted",
-        "desc": "false",
-        "default": "指定された場合、削除済みのファイルやフォルダが含めます",
+        "desc": "指定された場合、削除済みのファイルやフォルダが含めます",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "IncludeMediaInfo",
-        "desc": "false",
-        "default": "指定された場合、JSONレポートに写真や動画ファイルへのメデイア情報を含めます",
+        "desc": "指定された場合、JSONレポートに写真や動画ファイルへのメデイア情報を含めます",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "IncludeMemberFolder",
-        "desc": "false",
-        "default": "指定された場合、チームメンバーのフォルダを含めます",
+        "desc": "指定された場合、チームメンバーのフォルダを含めます",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "IncludeSharedFolder",
-        "desc": "true",
-        "default": "Trueの場合、共有フォルダを含めます",
+        "desc": "Trueの場合、共有フォルダを含めます",
+        "default": "true",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "IncludeTeamFolder",
-        "desc": "true",
-        "default": "Trueの場合、チームフォルダを含めます",
+        "desc": "Trueの場合、チームフォルダを含めます",
+        "default": "true",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "Name",
-        "desc": "",
-        "default": "指定された名前に一致するフォルダのみを一覧します",
+        "desc": "指定された名前に一致するフォルダのみを一覧します",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -8688,50 +8748,54 @@
     "values": [
       {
         "name": "Depth",
-        "desc": "1",
-        "default": "フォルダ階層数の指定",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "フォルダ階層数の指定",
+        "default": "1",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 2147483647,
+          "min": 1,
+          "value": 1
+        }
       },
       {
         "name": "IncludeAppFolder",
-        "desc": "false",
-        "default": "Trueの場合、アプリフォルダを含めます",
+        "desc": "Trueの場合、アプリフォルダを含めます",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "IncludeMemberFolder",
-        "desc": "false",
-        "default": "Trueの場合、チームメンバーフォルダを含めます",
+        "desc": "Trueの場合、チームメンバーフォルダを含めます",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "IncludeSharedFolder",
-        "desc": "true",
-        "default": "Trueの場合、共有フォルダを含めます",
+        "desc": "Trueの場合、共有フォルダを含めます",
+        "default": "true",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "IncludeTeamFolder",
-        "desc": "true",
-        "default": "Trueの場合、チームフォルダを含めます",
+        "desc": "Trueの場合、チームフォルダを含めます",
+        "default": "true",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "Name",
-        "desc": "",
-        "default": "指定された名前に一致するフォルダのみを一覧します",
+        "desc": "指定された名前に一致するフォルダのみを一覧します",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -8778,8 +8842,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -8846,15 +8910,15 @@
     "values": [
       {
         "name": "AllColumns",
-        "desc": "false",
-        "default": "全てのカラムを表示します",
+        "desc": "全てのカラムを表示します",
+        "default": "false",
         "type_name": "bool",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -8929,15 +8993,15 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       },
       {
         "name": "Visibility",
-        "desc": "public",
-        "default": "出力するリンクを可視性にてフィルターします (public/team_only/password)",
+        "desc": "出力するリンクを可視性にてフィルターします (public/team_only/password)",
+        "default": "public",
         "type_name": "domain.common.model.mo_string.select_string",
         "type_attr": {
           "options": [
@@ -9078,8 +9142,8 @@
     "values": [
       {
         "name": "At",
-        "desc": "",
-        "default": "新しい有効期限の日時",
+        "desc": "新しい有効期限の日時",
+        "default": "",
         "type_name": "domain.dropbox.model.mo_time.time_impl",
         "type_attr": {
           "optional": true
@@ -9087,22 +9151,26 @@
       },
       {
         "name": "Days",
-        "desc": "0",
-        "default": "新しい有効期限までの日時",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "新しい有効期限までの日時",
+        "default": "0",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 2147483647,
+          "min": 0,
+          "value": 0
+        }
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       },
       {
         "name": "Visibility",
-        "desc": "public",
-        "default": "対象となるリンクの公開範囲",
+        "desc": "対象となるリンクの公開範囲",
+        "default": "public",
         "type_name": "domain.common.model.mo_string.select_string",
         "type_attr": {
           "options": [
@@ -9138,15 +9206,15 @@
     "values": [
       {
         "name": "Name",
-        "desc": "",
-        "default": "チームフォルダ名",
+        "desc": "チームフォルダ名",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -9221,15 +9289,15 @@
     "values": [
       {
         "name": "File",
-        "desc": "",
-        "default": "チームフォルダ名のデータファイル",
+        "desc": "チームフォルダ名のデータファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -9288,15 +9356,15 @@
     "values": [
       {
         "name": "File",
-        "desc": "",
-        "default": "チームフォルダ名のデータファイル",
+        "desc": "チームフォルダ名のデータファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -9377,22 +9445,22 @@
     "values": [
       {
         "name": "DstPeerName",
-        "desc": "dst",
-        "default": "宛先チームのアカウント別名",
+        "desc": "宛先チームのアカウント別名",
+        "default": "dst",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "File",
-        "desc": "",
-        "default": "チームフォルダ名のデータファイル",
+        "desc": "チームフォルダ名のデータファイル",
+        "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "SrcPeerName",
-        "desc": "src",
-        "default": "元チームのアカウント別名",
+        "desc": "元チームのアカウント別名",
+        "default": "src",
         "type_name": "string",
         "type_attr": null
       }
@@ -9463,8 +9531,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -9539,15 +9607,19 @@
     "values": [
       {
         "name": "Depth",
-        "desc": "1",
-        "default": "深さ",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "深さ",
+        "default": "1",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 2147483647,
+          "min": 1,
+          "value": 1
+        }
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -9598,8 +9670,8 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -9627,15 +9699,15 @@
     "values": [
       {
         "name": "Name",
-        "desc": "",
-        "default": "チームフォルダ名",
+        "desc": "チームフォルダ名",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "default",
-        "default": "アカウントの別名",
+        "desc": "アカウントの別名",
+        "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
@@ -9704,22 +9776,22 @@
     "values": [
       {
         "name": "DstPeerName",
-        "desc": "dst",
-        "default": "宛先チームのアカウント別名",
+        "desc": "宛先チームのアカウント別名",
+        "default": "dst",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Name",
-        "desc": "",
-        "default": "チームフォルダ名",
+        "desc": "チームフォルダ名",
+        "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "SrcPeerName",
-        "desc": "src",
-        "default": "元チームのアカウント別名",
+        "desc": "元チームのアカウント別名",
+        "default": "src",
         "type_name": "string",
         "type_attr": null
       }
@@ -9783,10 +9855,14 @@
     "values": [
       {
         "name": "Port",
-        "desc": "7800",
-        "default": "ポート番号",
-        "type_name": "int",
-        "type_attr": null
+        "desc": "ポート番号",
+        "default": "7800",
+        "type_name": "domain.common.model.mo_int.range_int",
+        "type_attr": {
+          "max": 65535,
+          "min": 1024,
+          "value": 7800
+        }
       }
     ]
   }

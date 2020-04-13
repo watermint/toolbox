@@ -1,6 +1,7 @@
 package sync
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -16,12 +17,12 @@ type Up struct {
 	Peer        dbx_conn.ConnUserFile
 	LocalPath   mo_path2.ExistingFileSystemPath
 	DropboxPath mo_path.DropboxPath
-	ChunkSizeKb int
+	ChunkSizeKb mo_int.RangeInt
 	Upload      *file.Upload
 }
 
 func (z *Up) Preset() {
-	z.ChunkSizeKb = 150 * 1024
+	z.ChunkSizeKb.SetRange(1, 150*1024, 150*1024)
 }
 
 func (z *Up) Exec(c app_control.Control) error {
@@ -33,9 +34,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		ru.Overwrite = true
 		ru.CreateFolder = true
 		ru.Context = z.Peer.Context()
-		if z.ChunkSizeKb > 0 {
-			ru.ChunkSizeKb = z.ChunkSizeKb
-		}
+		ru.ChunkSizeKb = z.ChunkSizeKb.Value()
 	})
 }
 

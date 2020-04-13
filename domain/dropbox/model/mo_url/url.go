@@ -10,7 +10,7 @@ type Url interface {
 	Path() string
 	Query() string
 	Fragment() string
-	String() string
+	Value() string
 }
 
 func NewEmptyUrl() Url {
@@ -29,7 +29,7 @@ type urlImpl struct {
 	u *url.URL
 }
 
-func (z *urlImpl) String() string {
+func (z *urlImpl) Value() string {
 	return z.u.String()
 }
 

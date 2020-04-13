@@ -35,8 +35,8 @@ func (z *Recipe) Exec(c app_control.Control) error {
 	testResource := gjson.Parse("{}")
 
 	if z.Resource.IsExists() {
-		ll := l.With(zap.String("resource", z.Resource.String()))
-		b, err := ioutil.ReadFile(z.Resource.String())
+		ll := l.With(zap.String("resource", z.Resource.Value()))
+		b, err := ioutil.ReadFile(z.Resource.Value())
 		if err != nil {
 			ll.Error("Unable to read resource file", zap.Error(err))
 			return err
@@ -95,7 +95,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 
 		for _, r := range cat.Recipes() {
 			p := rc_recipe.Key(r)
-			if p != z.Recipe.String() {
+			if p != z.Recipe.Value() {
 				continue
 			}
 			ll := l.With(zap.String("recipeKey", p))
@@ -114,7 +114,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 				return nil
 			}
 		}
-		l.Error("recipe not found", zap.String("vo.Recipe", z.Recipe.String()))
+		l.Error("recipe not found", zap.String("vo.Recipe", z.Recipe.Value()))
 		return errors.New("recipe not found")
 
 	default:

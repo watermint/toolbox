@@ -76,7 +76,7 @@ func (z *sharedLinkImpl) Resolve(url mo_url.Url, password string) (entry mo_file
 		Url      string `json:"url"`
 		Password string `json:"password,omitempty"`
 	}{
-		Url:      url.String(),
+		Url:      url.Value(),
 		Password: password,
 	}
 	entry = &mo_file.Metadata{}

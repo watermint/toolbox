@@ -29,7 +29,7 @@ type dropboxPathImpl struct {
 	path string
 }
 
-func (z *dropboxPathImpl) String() string {
+func (z *dropboxPathImpl) Value() string {
 	switch {
 	case z.ns != "":
 		// root of the namespace
@@ -88,7 +88,7 @@ func (z *dropboxPathImpl) LogicalPath() string {
 }
 
 func (z *dropboxPathImpl) Path() string {
-	return z.String()
+	return z.Value()
 }
 
 // Create new `Path` instance.

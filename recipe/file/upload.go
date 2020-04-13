@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -18,12 +19,12 @@ type Upload struct {
 	LocalPath   mo_path2.FileSystemPath
 	DropboxPath mo_path.DropboxPath
 	Overwrite   bool
-	ChunkSizeKb int
+	ChunkSizeKb mo_int.RangeInt
 	Upload      *file.Upload
 }
 
 func (z *Upload) Preset() {
-	z.ChunkSizeKb = 150 * 1024
+	z.ChunkSizeKb.SetRange(1, 150*1024, 150*1024)
 }
 
 func (z *Upload) Exec(c app_control.Control) error {
@@ -35,9 +36,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 		ru.Overwrite = z.Overwrite
 		ru.CreateFolder = false
 		ru.Context = z.Peer.Context()
-		if z.ChunkSizeKb > 0 {
-			ru.ChunkSizeKb = z.ChunkSizeKb
-		}
+		ru.ChunkSizeKb = z.ChunkSizeKb.Value()
 	})
 }
 
@@ -75,7 +74,7 @@ func (z *Upload) Test(c app_control.Control) error {
 			ru.LocalPath = mo_path2.NewFileSystemPath(file)
 			ru.DropboxPath = qt_recipe.NewTestDropboxFolderPath()
 			ru.Overwrite = true
-			ru.ChunkSizeKb = 1
+			ru.ChunkSizeKb.SetValue(1)
 		})
 		if err != nil {
 			return err

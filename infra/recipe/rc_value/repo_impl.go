@@ -45,6 +45,7 @@ var (
 		newValueFdFileRowFeed(""),
 		newValueOptionalString(),
 		newValueSelectString(),
+		newValueRangeInt(),
 	}
 
 	ErrorMissingRequiredOption = errors.New("missing required option")

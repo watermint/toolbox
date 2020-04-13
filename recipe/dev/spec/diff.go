@@ -209,11 +209,11 @@ func (z *Diff) diffSpec(mui app_ui.UI, s1, s2 *rc_doc.Recipe) {
 
 func (z *Diff) makeDiff(c app_control.Control) error {
 	l := c.Log()
-	r1, err := z.loadSpec(c, z.Release1.String())
+	r1, err := z.loadSpec(c, z.Release1.Value())
 	if err != nil {
 		return nil
 	}
-	r2, err := z.loadSpec(c, z.Release2.String())
+	r2, err := z.loadSpec(c, z.Release2.Value())
 	if err != nil {
 		return nil
 	}
@@ -241,9 +241,9 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 		w = ut_io.NewDefaultOut(c.Feature().IsTest())
 	} else {
 		var err error
-		w, err = os.Create(z.FilePath.String())
+		w, err = os.Create(z.FilePath.Value())
 		if err != nil {
-			l.Error("Unable to create file", zap.Error(err), zap.String("path", z.FilePath.String()))
+			l.Error("Unable to create file", zap.Error(err), zap.String("path", z.FilePath.Value()))
 			return err
 		}
 		shouldClose = true
@@ -262,7 +262,7 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 	}
 
 	mui := app_ui.NewMarkdown(c.Messages(), w, false)
-	mui.Header(z.DocHeader.With("Release1", relName(z.Release1.String())).With("Release2", relName(z.Release2.String())))
+	mui.Header(z.DocHeader.With("Release1", relName(z.Release1.Value())).With("Release2", relName(z.Release2.Value())))
 
 	if len(added) > 0 {
 		mui.Header(z.SpecAdded)
@@ -304,7 +304,7 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 }
 
 func (z *Diff) Exec(c app_control.Control) error {
-	if cl, ok := app_control_launcher.ControlWithLang(z.Lang.String(), c); ok {
+	if cl, ok := app_control_launcher.ControlWithLang(z.Lang.Value(), c); ok {
 		return z.makeDiff(cl)
 	} else {
 		return z.makeDiff(c)

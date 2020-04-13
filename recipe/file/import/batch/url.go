@@ -91,7 +91,7 @@ func (z *Url) Exec(c app_control.Control) error {
 		case r.Path != "":
 			path = r.Path
 		case z.Path.IsExists():
-			path = z.Path.String()
+			path = z.Path.Value()
 		default:
 			z.OperationLog.Skip(z.SkipPathMissing, r)
 			ui.ErrorK("recipe.file.import.batch.url.err.path_missing")

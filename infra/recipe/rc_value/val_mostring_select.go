@@ -22,6 +22,10 @@ type ValueMoStringSelect struct {
 	valStr string
 }
 
+func (z *ValueMoStringSelect) ValueText() string {
+	return z.valStr
+}
+
 func (z *ValueMoStringSelect) Spec() (typeName string, typeAttr interface{}) {
 	return ut_reflect.Key(app.Pkg, z.selStr), map[string]interface{}{
 		"options": z.selStr.Options(),
@@ -45,7 +49,7 @@ func (z *ValueMoStringSelect) Init() (v interface{}) {
 
 func (z *ValueMoStringSelect) ApplyPreset(v0 interface{}) {
 	z.selStr = v0.(mo_string.SelectString)
-	z.valStr = z.selStr.String()
+	z.valStr = z.selStr.Value()
 }
 
 func (z *ValueMoStringSelect) Apply() (v interface{}) {
@@ -55,7 +59,7 @@ func (z *ValueMoStringSelect) Apply() (v interface{}) {
 
 func (z *ValueMoStringSelect) Debug() interface{} {
 	return map[string]string{
-		"selected": z.selStr.String(),
+		"selected": z.selStr.Value(),
 		"is_valid": strconv.FormatBool(z.selStr.IsValid()),
 		"opts":     strings.Join(z.selStr.Options(), ","),
 	}
@@ -66,7 +70,7 @@ func (z *ValueMoStringSelect) SpinUp(ctl app_control.Control) error {
 
 	if !z.selStr.IsValid() {
 		ui.Error(MRepository.ErrorMoStringSelectInvalidOption.
-			With("Selected", z.selStr.String()).
+			With("Selected", z.selStr.Value()).
 			With("Options", strings.Join(z.selStr.Options(), ", ")))
 		return ErrorInvalidValue
 	}

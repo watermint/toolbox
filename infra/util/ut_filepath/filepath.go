@@ -117,9 +117,9 @@ type FormatError struct {
 }
 
 func (z *FormatError) Error() string {
-	return z.String()
+	return z.Value()
 }
-func (z *FormatError) String() string {
+func (z *FormatError) Value() string {
 	return "{{." + z.Key + "}}: " + z.Reason
 }
 

@@ -127,7 +127,7 @@ func (z *fileImpl) List(url mo_url.Url, path mo_path.DropboxPath, onEntry func(e
 	}{
 		Path: path.Path(),
 		SharedLink: &SL{
-			Url:      url.String(),
+			Url:      url.Value(),
 			Password: lo.Password,
 		},
 		IncludeDeleted:                  lo.IncludeDeleted,

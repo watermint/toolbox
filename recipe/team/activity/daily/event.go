@@ -28,7 +28,7 @@ func (z *Event) Preset() {
 func (z *Event) Exec(c app_control.Control) error {
 	ui := c.UI()
 
-	dr, err := ut_time.Daily(z.StartDate, z.EndDate.String())
+	dr, err := ut_time.Daily(z.StartDate, z.EndDate.Value())
 	if err != nil {
 		return err
 	}
@@ -55,7 +55,7 @@ func (z *Event) Exec(c app_control.Control) error {
 		err = sv_activity.New(z.Peer.Context()).List(handler,
 			sv_activity.StartTime(d.Start),
 			sv_activity.EndTime(d.End),
-			sv_activity.Category(z.Category.String()),
+			sv_activity.Category(z.Category.Value()),
 		)
 		rep.Close()
 		if err != nil {

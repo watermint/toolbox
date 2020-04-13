@@ -6,10 +6,12 @@ import (
 	"encoding/base32"
 	"encoding/json"
 	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"io"
+	"math"
 	"os"
 	"path/filepath"
 	"strings"
@@ -24,10 +26,11 @@ type DummyEntry struct {
 type Dummy struct {
 	Path     string
 	Dest     string
-	MaxEntry int
+	MaxEntry mo_int.RangeInt
 }
 
 func (z *Dummy) Preset() {
+	z.MaxEntry.SetRange(0, math.MaxInt32, 0)
 }
 
 func (z *Dummy) Test(c app_control.Control) error {
@@ -69,7 +72,7 @@ func (z *Dummy) Exec(c app_control.Control) error {
 		}
 
 		entries++
-		if z.MaxEntry != 0 && entries >= z.MaxEntry {
+		if z.MaxEntry.Value() != 0 && entries >= z.MaxEntry.Value() {
 			l.Info("Suspend", zap.Int("entries", entries))
 			return nil
 		}

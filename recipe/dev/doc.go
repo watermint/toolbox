@@ -30,7 +30,7 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 	l := ctl.Log()
 
 	if z.Lang.IsExists() {
-		if c, ok := app_control_launcher.ControlWithLang(z.Lang.String(), ctl); ok {
+		if c, ok := app_control_launcher.ControlWithLang(z.Lang.Value(), ctl); ok {
 			ctl = c
 		}
 	}

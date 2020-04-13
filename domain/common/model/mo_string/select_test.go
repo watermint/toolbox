@@ -8,8 +8,8 @@ func TestSelectString(t *testing.T) {
 	if !s1.IsValid() {
 		t.Error(s1.IsValid())
 	}
-	if s1.String() != "orange" {
-		t.Error(s1.String())
+	if s1.Value() != "orange" {
+		t.Error(s1.Value())
 	}
 	s1.SetSelect("pine")
 	if s1.IsValid() {

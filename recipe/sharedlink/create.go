@@ -40,7 +40,7 @@ func (z *Create) Exec(c app_control.Control) error {
 		opts = append(opts, sv_sharedlink.TeamOnly())
 	}
 	if z.Password.IsExists() {
-		opts = append(opts, sv_sharedlink.Password(z.Password.String()))
+		opts = append(opts, sv_sharedlink.Password(z.Password.Value()))
 	}
 
 	if err := z.Created.Open(); err != nil {

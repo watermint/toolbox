@@ -42,9 +42,9 @@ func (z *Doc) traverseCatalogue(c app_control.Control, cat rc_catalogue.Catalogu
 	if !z.FilePath.IsExists() {
 		w = ut_io.NewDefaultOut(c.Feature().IsTest())
 	} else {
-		w, err = os.Create(z.FilePath.String())
+		w, err = os.Create(z.FilePath.Value())
 		if err != nil {
-			l.Error("Unable to create spec file", zap.Error(err), zap.String("path", z.FilePath.String()))
+			l.Error("Unable to create spec file", zap.Error(err), zap.String("path", z.FilePath.Value()))
 			return err
 		}
 		shouldClose = true
@@ -68,7 +68,7 @@ func (z *Doc) traverseCatalogue(c app_control.Control, cat rc_catalogue.Catalogu
 func (z *Doc) Exec(c app_control.Control) error {
 	l := c.Log()
 	if z.Lang.IsExists() {
-		if c0, ok := app_control_launcher.ControlWithLang(z.Lang.String(), c); ok {
+		if c0, ok := app_control_launcher.ControlWithLang(z.Lang.Value(), c); ok {
 			c = c0
 		}
 	}

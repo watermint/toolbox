@@ -15,7 +15,7 @@ type optString struct {
 	str string
 }
 
-func (z *optString) String() string {
+func (z *optString) Value() string {
 	return z.str
 }
 

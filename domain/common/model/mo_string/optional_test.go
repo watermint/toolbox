@@ -7,14 +7,14 @@ func TestOptString(t *testing.T) {
 	if s1.IsExists() {
 		t.Error(s1.IsExists())
 	}
-	if s1.String() != "" {
-		t.Error(s1.String())
+	if s1.Value() != "" {
+		t.Error(s1.Value())
 	}
 	s2 := NewOptional("s2")
 	if !s2.IsExists() {
 		t.Error(s2.IsExists())
 	}
-	if s2.String() != "s2" {
-		t.Error(s2.String())
+	if s2.Value() != "s2" {
+		t.Error(s2.Value())
 	}
 }

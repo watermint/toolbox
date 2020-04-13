@@ -14,7 +14,7 @@ type Time interface {
 	Iso8601() string
 
 	// Same as Iso8601
-	String() string
+	Value() string
 
 	// Returns time instance
 	Time() time.Time
@@ -73,7 +73,7 @@ func (z *TimeImpl) Iso8601() string {
 	}
 }
 
-func (z *TimeImpl) String() string {
+func (z *TimeImpl) Value() string {
 	if z.Ok() {
 		return z.Iso8601()
 	} else {

@@ -66,7 +66,7 @@ func (z *ValueMoTimeTime) Init() (v interface{}) {
 func (z *ValueMoTimeTime) ApplyPreset(v0 interface{}) {
 	z.time = v0.(mo_time.Time)
 	if !z.time.IsZero() {
-		z.dateTime = z.time.String()
+		z.dateTime = z.time.Value()
 	}
 }
 
@@ -77,7 +77,7 @@ func (z *ValueMoTimeTime) Apply() (v interface{}) {
 func (z *ValueMoTimeTime) Debug() interface{} {
 	return map[string]string{
 		"dateTime": z.dateTime,
-		"time":     z.time.String(),
+		"time":     z.time.Value(),
 	}
 }
 

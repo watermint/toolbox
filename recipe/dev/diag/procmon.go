@@ -3,7 +3,7 @@ package diag
 import (
 	"archive/zip"
 	"encoding/json"
-	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -46,8 +46,8 @@ type Procmon struct {
 	DropboxPath    mo_path.DropboxPath
 	Peer           dbx_conn.ConnUserFile
 	RunUntil       mo_time.TimeOptional
-	RetainLogs     int
-	Seconds        int
+	RetainLogs     mo_int.RangeInt
+	Seconds        mo_int.RangeInt
 }
 
 func (z *Procmon) downloadProcmon(c app_control.Control) error {
@@ -211,7 +211,7 @@ func (z *Procmon) watchProcmon(c app_control.Control, exePath string, cmd *exec.
 				l.Debug("Unable to list dir", zap.Error(err))
 				continue
 			}
-			if z.RetainLogs == 0 {
+			if z.RetainLogs.Value() == 0 {
 				continue
 			}
 
@@ -231,13 +231,13 @@ func (z *Procmon) watchProcmon(c app_control.Control, exePath string, cmd *exec.
 				}
 			}
 
-			if len(modTimes) <= z.RetainLogs {
+			if len(modTimes) <= z.RetainLogs.Value() {
 				l.Debug("Log files is less than threshold")
 				continue
 			}
 
 			sort.Strings(modTimes)
-			thresholdIndex := len(modTimes) - z.RetainLogs
+			thresholdIndex := len(modTimes) - z.RetainLogs.Value()
 			thresholdTime := modTimes[thresholdIndex]
 
 			for _, f := range logEntries {
@@ -254,8 +254,8 @@ func (z *Procmon) watchProcmon(c app_control.Control, exePath string, cmd *exec.
 		}
 	}()
 
-	l.Info("Waiting for duration", zap.Int("seconds", z.Seconds))
-	time.Sleep(time.Duration(z.Seconds) * time.Second)
+	l.Info("Waiting for duration", zap.Int("seconds", z.Seconds.Value()))
+	time.Sleep(time.Duration(z.Seconds.Value()) * time.Second)
 
 	return nil
 }
@@ -388,9 +388,6 @@ func (z *Procmon) cleanupProcmonLogs(c app_control.Control) error {
 func (z *Procmon) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	if z.Seconds < 10 {
-		return errors.New("seconds must grater than 10 sec")
-	}
 	if z.RunUntil.Ok() && z.RunUntil.Time().Before(time.Now()) {
 		l.Info("Skip run")
 		return nil
@@ -453,14 +450,14 @@ func (z *Procmon) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Procmon{}, func(r rc_recipe.Recipe) {
 		m := r.(*Procmon)
 		m.ProcmonUrl = procmonDownloadUrl
-		m.Seconds = 30
-		m.RetainLogs = 4
+		m.Seconds.SetValue(30)
+		m.RetainLogs.SetValue(4)
 		m.RepositoryPath = mo_path2.NewFileSystemPath(tmpDir)
 	})
 }
 
 func (z *Procmon) Preset() {
 	z.ProcmonUrl = procmonDownloadUrl
-	z.Seconds = 1800
-	z.RetainLogs = 4
+	z.Seconds.SetRange(10, 86400, 1800)
+	z.RetainLogs.SetRange(0, 10000, 4)
 }

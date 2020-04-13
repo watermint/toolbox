@@ -33,9 +33,9 @@ func (z *Create) Preset() {
 func (z *Create) Exec(c app_control.Control) error {
 	opts := make([]sv_filerequest.CreateOpt, 0)
 	if z.Deadline.Ok() {
-		opts = append(opts, sv_filerequest.OptDeadline(z.Deadline.String()))
+		opts = append(opts, sv_filerequest.OptDeadline(z.Deadline.Value()))
 		if z.AllowLateUploads.IsExists() {
-			opts = append(opts, sv_filerequest.OptAllowLateUploads(z.AllowLateUploads.String()))
+			opts = append(opts, sv_filerequest.OptAllowLateUploads(z.AllowLateUploads.Value()))
 		}
 	}
 	if err := z.FileRequest.Open(); err != nil {

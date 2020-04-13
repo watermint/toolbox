@@ -16,6 +16,7 @@ type MsgRepository struct {
 	ErrorInvalidValue                app_msg.Message
 	ErrorMoPathFsPathNotFound        app_msg.Message
 	ErrorMoStringSelectInvalidOption app_msg.Message
+	ErrorMoIntRangeInvalidRange      app_msg.Message
 	ProgressDoneValueInitialization  app_msg.Message
 }
 

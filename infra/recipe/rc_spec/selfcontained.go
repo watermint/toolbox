@@ -114,8 +114,8 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *rc_doc.Recipe {
 		values = append(values,
 			&rc_doc.Value{
 				Name:     vn,
-				Default:  ui.Text(z.ValueDesc(vn)),
-				Desc:     ui.Text(dv),
+				Default:  ui.Text(dv),
+				Desc:     ui.Text(z.ValueDesc(vn)),
 				TypeName: tn,
 				TypeAttr: ta,
 			},

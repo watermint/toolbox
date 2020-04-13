@@ -26,13 +26,13 @@ func (z *Name) Exec(c app_control.Control) error {
 	so = append(so, sv_file.SearchFileNameOnly())
 	so = append(so, sv_file.SearchIncludeHighlights())
 	if z.Extension.IsExists() {
-		so = append(so, sv_file.SearchFileExtension(z.Extension.String()))
+		so = append(so, sv_file.SearchFileExtension(z.Extension.Value()))
 	}
-	if z.Category.String() != "" {
-		so = append(so, sv_file.SearchCategories(z.Category.String()))
+	if z.Category.Value() != "" {
+		so = append(so, sv_file.SearchCategories(z.Category.Value()))
 	}
 	if z.Path.IsExists() {
-		so = append(so, sv_file.SearchPath(mo_path.NewDropboxPath(z.Path.String())))
+		so = append(so, sv_file.SearchPath(mo_path.NewDropboxPath(z.Path.Value())))
 	}
 
 	if err := z.Matches.Open(); err != nil {

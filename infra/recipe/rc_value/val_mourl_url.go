@@ -23,6 +23,10 @@ type ValueMoUrlUrl struct {
 	url    mo_url.Url
 }
 
+func (z *ValueMoUrlUrl) ValueText() string {
+	return z.rawUrl
+}
+
 func (z *ValueMoUrlUrl) Spec() (typeName string, typeAttr interface{}) {
 	return ut_reflect.Key(app.Pkg, z.url), nil
 }
@@ -44,7 +48,7 @@ func (z *ValueMoUrlUrl) Init() (v interface{}) {
 
 func (z *ValueMoUrlUrl) ApplyPreset(v0 interface{}) {
 	z.url = v0.(mo_url.Url)
-	z.rawUrl = z.url.String()
+	z.rawUrl = z.url.Value()
 }
 
 func (z *ValueMoUrlUrl) Apply() (v interface{}) {

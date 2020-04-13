@@ -144,7 +144,7 @@ func (z *User) Exec(c app_control.Control) error {
 			user:       member,
 			StartTime:  z.StartTime.Iso8601(),
 			EndTime:    z.EndTime.Iso8601(),
-			Category:   z.Category.String(),
+			Category:   z.Category.Value(),
 		})
 	}
 	q.Wait()

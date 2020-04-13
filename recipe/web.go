@@ -5,6 +5,7 @@ import (
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
@@ -20,11 +21,11 @@ import (
 )
 
 type Web struct {
-	Port int
+	Port mo_int.RangeInt
 }
 
 func (z *Web) Preset() {
-	z.Port = app.DefaultWebPort
+	z.Port.SetRange(1024, 65535, app.DefaultWebPort)
 }
 
 func (z *Web) Test(c app_control.Control) error {

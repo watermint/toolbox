@@ -130,7 +130,7 @@ func (z *User) Exec(c app_control.Control) error {
 			Context:    z.Peer.Context(),
 			StartTime:  z.StartTime.Iso8601(),
 			EndTime:    z.EndTime.Iso8601(),
-			Category:   z.Category.String(),
+			Category:   z.Category.Value(),
 			EventCache: z.EventCache,
 			UserEmail:  e.Email,
 		})

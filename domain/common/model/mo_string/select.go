@@ -25,7 +25,7 @@ type selectString struct {
 	selected string
 }
 
-func (z *selectString) String() string {
+func (z *selectString) Value() string {
 	return z.selected
 }
 
