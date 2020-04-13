@@ -68,7 +68,7 @@ DropboxおよびDropbox Business向けのツールセット
 |----------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
 | [config disable](doc/generated_ja/config-disable.md)                                         | 機能を無効化します.                                                |
 | [config enable](doc/generated_ja/config-enable.md)                                           | 機能を有効化します.                                                |
-| [config features](doc/generated_ja/config-features.md)                                       | List available optional features.                                  |
+| [config features](doc/generated_ja/config-features.md)                                       | 利用可能なオプション機能一覧.                                      |
 | [connect business_audit](doc/generated_ja/connect-business_audit.md)                         | チーム監査アクセスに接続する                                       |
 | [connect business_file](doc/generated_ja/connect-business_file.md)                           | チームファイルアクセスに接続する                                   |
 | [connect business_info](doc/generated_ja/connect-business_info.md)                           | チームの情報アクセスに接続する                                     |
@@ -125,13 +125,13 @@ DropboxおよびDropbox Business向けのツールセット
 | [member update email](doc/generated_ja/member-update-email.md)                               | メンバーのメールアドレス処理                                       |
 | [member update externalid](doc/generated_ja/member-update-externalid.md)                     | チームメンバーのExternal IDを更新します.                           |
 | [member update profile](doc/generated_ja/member-update-profile.md)                           | メンバーのプロフィール変更                                         |
-| [services github issue list](doc/generated_ja/services-github-issue-list.md)                 | List issues of the public/private GitHub repository                |
-| [services github profile](doc/generated_ja/services-github-profile.md)                       | Get the authenticated user                                         |
-| [services github release asset list](doc/generated_ja/services-github-release-asset-list.md) | List assets of GitHub Release                                      |
-| [services github release asset up](doc/generated_ja/services-github-release-asset-up.md)     | Upload assets file into the GitHub Release                         |
-| [services github release draft](doc/generated_ja/services-github-release-draft.md)           | Create release draft                                               |
-| [services github release list](doc/generated_ja/services-github-release-list.md)             | List releases                                                      |
-| [services github tag create](doc/generated_ja/services-github-tag-create.md)                 | Create a tag on the repository                                     |
+| [services github issue list](doc/generated_ja/services-github-issue-list.md)                 | 公開・プライベートGitHubレポジトリの課題一覧                       |
+| [services github profile](doc/generated_ja/services-github-profile.md)                       | 認証したユーザーの情報を取得                                       |
+| [services github release asset list](doc/generated_ja/services-github-release-asset-list.md) | GitHubリリースの成果物一覧                                         |
+| [services github release asset up](doc/generated_ja/services-github-release-asset-up.md)     | GitHub リリースへ成果物をアップロードします                        |
+| [services github release draft](doc/generated_ja/services-github-release-draft.md)           | リリースの下書きを作成                                             |
+| [services github release list](doc/generated_ja/services-github-release-list.md)             | リリースの一覧                                                     |
+| [services github tag create](doc/generated_ja/services-github-tag-create.md)                 | レポジトリにタグを作成します                                       |
 | [sharedfolder list](doc/generated_ja/sharedfolder-list.md)                                   | 共有フォルダの一覧                                                 |
 | [sharedfolder member list](doc/generated_ja/sharedfolder-member-list.md)                     | 共有フォルダのメンバーを一覧します                                 |
 | [sharedlink create](doc/generated_ja/sharedlink-create.md)                                   | 共有リンクの作成                                                   |

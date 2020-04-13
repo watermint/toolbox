@@ -1,6 +1,6 @@
 # services github release draft 
 
-Create release draft (試験的実装です)
+リリースの下書きを作成 (試験的実装です)
 
 # 利用方法
 
@@ -29,15 +29,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明                                                                | デフォルト |
-|---------------|---------------------------------------------------------------------|------------|
-| `-body-file`  | File path to body text. THe file must encoded in UTF-8 without BOM. |            |
-| `-branch`     | Name of the target branch                                           |            |
-| `-name`       | Name of the release                                                 |            |
-| `-owner`      | Owner of the repository                                             |            |
-| `-peer`       | Account alias                                                       | default    |
-| `-repository` | Name of the repository                                              |            |
-| `-tag`        | Name of the tag                                                     |            |
+| オプション    | 説明                                                                                    | デフォルト |
+|---------------|-----------------------------------------------------------------------------------------|------------|
+| `-body-file`  | 本文テキストファイルへのパスファイルはBOMなしUTF-8でエンコードされている必要があります. |            |
+| `-branch`     | 対象ブランチ名                                                                          |            |
+| `-name`       | リリース名称                                                                            |            |
+| `-owner`      | レポジトリの所有者                                                                      |            |
+| `-peer`       | アカウントの別名                                                                        | default    |
+| `-repository` | レポジトリ名                                                                            |            |
+| `-tag`        | タグ名                                                                                  |            |
 
 共通のオプション:
 
@@ -69,7 +69,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: release 
-Release on GitHub
+GitHub上のリリース
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `release.csv`
 * `release.xlsx`
@@ -80,11 +80,11 @@ Release on GitHub
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `release_0000.xlsx`, `release_0001.xlsx`, `release_0002.xlsx`...   
 
-| 列       | 説明                            |
-|----------|---------------------------------|
-| id       | Id of the release               |
-| tag_name | Tag name                        |
-| name     | Name of the release             |
-| draft    | True when the release is draft. |
-| url      | URL of the release              |
+| 列       | 説明                                |
+|----------|-------------------------------------|
+| id       | リリースID                          |
+| tag_name | タグ名                              |
+| name     | リリース名称                        |
+| draft    | リリースが下書き中である場合はTrue. |
+| url      | リリースのURL                       |
 

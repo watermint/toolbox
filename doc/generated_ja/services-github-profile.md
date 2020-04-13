@@ -1,6 +1,6 @@
 # services github profile 
 
-Get the authenticated user (試験的実装です)
+認証したユーザーの情報を取得 (試験的実装です)
 
 # 利用方法
 
@@ -29,9 +29,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-peer`    | Account alias | default    |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-peer`    | アカウントの別名 | default    |
 
 共通のオプション:
 
@@ -63,7 +63,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: user 
-GitHub user profile
+GitHubユーザープロフィール
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `user.csv`
 * `user.xlsx`
@@ -74,9 +74,9 @@ GitHub user profile
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`...   
 
-| 列    | 説明             |
-|-------|------------------|
-| login | Login user name  |
-| name  | Name of the user |
-| url   | Url of the user  |
+| 列    | 説明               |
+|-------|--------------------|
+| login | ログインユーザー名 |
+| name  | ユーザー名         |
+| url   | ユーザーのURL      |
 

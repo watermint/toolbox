@@ -1,6 +1,6 @@
 # services github tag create 
 
-Create a tag on the repository (試験的実装かつ非可逆な操作です)
+レポジトリにタグを作成します (試験的実装かつ非可逆な操作です)
 
 # 利用方法
 
@@ -29,13 +29,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明                    | デフォルト |
-|---------------|-------------------------|------------|
-| `-owner`      | Owner of the repository |            |
-| `-peer`       | Account alias           | default    |
-| `-repository` | Name of the repository  |            |
-| `-sha-1`      | SHA1 hash of the commit |            |
-| `-tag`        | Tag name                |            |
+| オプション    | 説明                   | デフォルト |
+|---------------|------------------------|------------|
+| `-owner`      | レポジトリの所有者     |            |
+| `-peer`       | アカウントの別名       | default    |
+| `-repository` | レポジトリ名           |            |
+| `-sha-1`      | コミットのSHA1ハッシュ |            |
+| `-tag`        | タグ名                 |            |
 
 共通のオプション:
 
@@ -82,12 +82,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |------------------|--------------------------|
 | status           | 処理の状態               |
 | reason           | 失敗またはスキップの理由 |
-| input.owner      | Owner of the repository  |
-| input.repository | Name of the repository   |
-| input.tag        | Tag name                 |
-| input.sha_1      | SHA1 hash of the commit  |
-| result.tag       | Tag name                 |
-| result.sha       | SHA1 sum of the commit   |
-| result.message   | Message of the commit    |
-| result.url       | URL of the tag           |
+| input.owner      | レポジトリの所有者       |
+| input.repository | レポジトリ名             |
+| input.tag        | タグ名                   |
+| input.sha_1      | コミットのSHA1ハッシュ   |
+| result.tag       | タグ名                   |
+| result.sha       | コミットのSHA1ハッシュ   |
+| result.message   | コミットメッセージ       |
+| result.url       | タグのURL                |
 

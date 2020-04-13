@@ -1,6 +1,6 @@
 # services github issue list 
 
-List issues of the public/private GitHub repository (試験的実装です)
+公開・プライベートGitHubレポジトリの課題一覧 (試験的実装です)
 
 # 利用方法
 
@@ -29,11 +29,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明                    | デフォルト |
-|---------------|-------------------------|------------|
-| `-owner`      | Owner of the repository |            |
-| `-peer`       | Account alias           | default    |
-| `-repository` | Repository name         |            |
+| オプション    | 説明               | デフォルト |
+|---------------|--------------------|------------|
+| `-owner`      | レポジトリの所有者 |            |
+| `-peer`       | アカウントの別名   | default    |
+| `-repository` | レポジトリ名       |            |
 
 共通のオプション:
 

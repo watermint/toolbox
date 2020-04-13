@@ -416,7 +416,7 @@
 + 		&{
 + 			Name:     "WaitSeconds",
 + 			Desc:     "Try stopping the app after given seconds.",
-+ 			Default:  "<",
++ 			Default:  "60",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(2.147483647e+09), "min": float64(0), "value": float64(60)},
 + 		},
@@ -511,7 +511,7 @@
 + 		&{
 + 			Name:     "RetainLogs",
 + 			Desc:     "Number of Procmon logs to retain",
-+ 			Default:  "\x04",
++ 			Default:  "4",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(10000), "min": float64(0), "value": float64(4)},
 + 		},
@@ -524,7 +524,7 @@
 + 		&{
 + 			Name:     "Seconds",
 + 			Desc:     "Duration for waiting procmon",
-+ 			Default:  "܈",
++ 			Default:  "1800",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(86400), "min": float64(10), "value": float64(1800)},
 + 		},
@@ -596,7 +596,7 @@
 + 		&{
 + 			Name:     "MaxEntry",
 + 			Desc:     "Maximum entries",
-+ 			Default:  "\x00",
++ 			Default:  "0",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(2.147483647e+09), "min": float64(0), "value": float64(0)},
 + 		},
@@ -817,7 +817,7 @@
 + 		&{
 + 			Name:     "Distribution",
 + 			Desc:     "Number of files/folder distribution",
-+ 			Default:  "✐",
++ 			Default:  "10000",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(2.147483647e+09), "min": float64(1), "value": float64(10000)},
 + 		},
@@ -841,7 +841,7 @@
 + 		&{
 + 			Name:     "Seconds",
 + 			Desc:     "Monkey test duration in seconds",
-+ 			Default:  "\n",
++ 			Default:  "10",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(86400), "min": float64(1), "value": float64(10)},
 + 		},
@@ -924,7 +924,7 @@
 + 		&{
 + 			Name:     "BufferSize",
 + 			Desc:     "Size of buffer",
-+ 			Default:  "𐀀",
++ 			Default:  "65536",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(2.097152e+06), "min": float64(1024), "value": float64(65536)},
 + 		},
@@ -952,7 +952,7 @@
 + 		&{
 + 			Name:     "Seconds",
 + 			Desc:     "Wait seconds",
-+ 			Default:  "\x01",
++ 			Default:  "1",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(604800), "min": float64(1), "value": float64(1)},
 + 		},
@@ -2034,7 +2034,7 @@
 + 		&{
 + 			Name:     "ChunkSizeKb",
 + 			Desc:     "Upload chunk size in KB",
-+ 			Default:  "𥠀",
++ 			Default:  "153600",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(153600), "min": float64(1), "value": float64(153600)},
 + 		},
@@ -2170,7 +2170,7 @@
 + 		&{
 + 			Name:     "ChunkSizeKb",
 + 			Desc:     "Upload chunk size in KB",
-+ 			Default:  "𥠀",
++ 			Default:  "153600",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(153600), "min": float64(1), "value": float64(153600)},
 + 		},
@@ -2923,7 +2923,7 @@
 + 		&{
 + 			Name:     "Days",
 + 			Desc:     "Target days old",
-+ 			Default:  "\a",
++ 			Default:  "7",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(3650), "min": float64(1), "value": float64(7)},
 + 		},
@@ -2950,7 +2950,7 @@
 + 		&{
 + 			Name:     "Days",
 + 			Desc:     "Target days old",
-+ 			Default:  "\x1c",
++ 			Default:  "28",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(3650), "min": float64(1), "value": float64(28)},
 + 		},
@@ -3078,7 +3078,7 @@
 + 		&{
 + 			Name:     "IntervalSeconds",
 + 			Desc:     "Interval seconds",
-+ 			Default:  "´",
++ 			Default:  "180",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(3.1536e+07), "min": float64(1), "value": float64(180)},
 + 		},
@@ -3137,7 +3137,7 @@
 + 		&{
 + 			Name:     "TimeoutSeconds",
 + 			Desc:     "Terminate process when given time passed",
-+ 			Default:  "\x00",
++ 			Default:  "0",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(3.1536e+07), "min": float64(0), "value": float64(0)},
 + 		},
@@ -3452,7 +3452,7 @@
 + 		&{
 + 			Name:     "Quota",
 + 			Desc:     "Custom quota in GB (1TB = 1024GB). 0 if the user has no custom quota set.",
-+ 			Default:  "\x00",
++ 			Default:  "0",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(2.147483647e+09), "min": float64(0), "value": float64(0)},
 + 		},
@@ -5331,7 +5331,7 @@
 + 		&{
 + 			Name:     "Depth",
 + 			Desc:     "Report entry for all files and directories depth directories deep",
-+ 			Default:  "\x01",
++ 			Default:  "1",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(2.147483647e+09), "min": float64(1), "value": float64(1)},
 + 		},
@@ -5590,7 +5590,7 @@
 + 		&{
 + 			Name:     "Days",
 + 			Desc:     "Days to the new expiration date",
-+ 			Default:  "\x00",
++ 			Default:  "0",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(2.147483647e+09), "min": float64(0), "value": float64(0)},
 + 		},
@@ -5926,7 +5926,7 @@
 + 		&{
 + 			Name:     "Depth",
 + 			Desc:     "Depth",
-+ 			Default:  "\x01",
++ 			Default:  "1",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(2.147483647e+09), "min": float64(1), "value": float64(1)},
 + 		},
@@ -6109,7 +6109,7 @@
 + 		&{
 + 			Name:     "Port",
 + 			Desc:     "Port number",
-+ 			Default:  "Ṹ",
++ 			Default:  "7800",
 + 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeAttr: map[string]interface{}{"max": float64(65535), "min": float64(1024), "value": float64(7800)},
 + 		},

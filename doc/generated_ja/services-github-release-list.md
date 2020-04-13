@@ -1,6 +1,6 @@
 # services github release list 
 
-List releases (試験的実装です)
+リリースの一覧 (試験的実装です)
 
 # 利用方法
 
@@ -29,11 +29,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明             | デフォルト |
-|---------------|------------------|------------|
-| `-owner`      | Repository owner |            |
-| `-peer`       | Account alias    | default    |
-| `-repository` | Repository name  |            |
+| オプション    | 説明               | デフォルト |
+|---------------|--------------------|------------|
+| `-owner`      | レポジトリの所有者 |            |
+| `-peer`       | アカウントの別名   | default    |
+| `-repository` | レポジトリ名       |            |
 
 共通のオプション:
 
@@ -65,7 +65,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: releases 
-Release on GitHub
+GitHub上のリリース
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `releases.csv`
 * `releases.xlsx`
@@ -76,10 +76,10 @@ Release on GitHub
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `releases_0000.xlsx`, `releases_0001.xlsx`, `releases_0002.xlsx`...   
 
-| 列       | 説明                            |
-|----------|---------------------------------|
-| tag_name | Tag name                        |
-| name     | Name of the release             |
-| draft    | True when the release is draft. |
-| url      | URL of the release              |
+| 列       | 説明                                |
+|----------|-------------------------------------|
+| tag_name | タグ名                              |
+| name     | リリース名称                        |
+| draft    | リリースが下書き中である場合はTrue. |
+| url      | リリースのURL                       |
 

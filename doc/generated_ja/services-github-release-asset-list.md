@@ -1,6 +1,6 @@
 # services github release asset list 
 
-List assets of GitHub Release (試験的実装です)
+GitHubリリースの成果物一覧 (試験的実装です)
 
 # 利用方法
 
@@ -29,12 +29,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明                    | デフォルト |
-|---------------|-------------------------|------------|
-| `-owner`      | Owner of the repository |            |
-| `-peer`       | Account alias           | default    |
-| `-release`    | Release tag name        |            |
-| `-repository` | Name of the repository  |            |
+| オプション    | 説明               | デフォルト |
+|---------------|--------------------|------------|
+| `-owner`      | レポジトリの所有者 |            |
+| `-peer`       | アカウントの別名   | default    |
+| `-release`    | リリースタグ名     |            |
+| `-repository` | レポジトリ名       |            |
 
 共通のオプション:
 
@@ -66,7 +66,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: assets 
-GitHub Release assets
+GitHub リリースの成果物
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `assets.csv`
 * `assets.xlsx`
@@ -77,10 +77,10 @@ GitHub Release assets
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `assets_0000.xlsx`, `assets_0001.xlsx`, `assets_0002.xlsx`...   
 
-| 列             | 説明                |
-|----------------|---------------------|
-| name           | Name of the asset   |
-| size           | Size of the asset   |
-| state          | State of the asset  |
-| download_count | Number of downloads |
+| 列             | 説明             |
+|----------------|------------------|
+| name           | アセット数       |
+| size           | アセットのサイズ |
+| state          | アセットの状態   |
+| download_count | ダウンロード数   |
 

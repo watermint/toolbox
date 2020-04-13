@@ -55,7 +55,7 @@
   },
   "config features": {
     "name": "features",
-    "title": "List available optional features.",
+    "title": "利用可能なオプション機能一覧.",
     "desc": "",
     "remarks": "",
     "path": "config features",
@@ -290,7 +290,7 @@
   },
   "dev ci artifact connect": {
     "name": "connect",
-    "title": "Connect to Dropbox for uploading artifact from CI",
+    "title": "CI成果物をアップロードするためのDropboxアカウントに接続",
     "desc": "",
     "remarks": "",
     "path": "dev ci artifact connect",
@@ -310,7 +310,7 @@
     "values": [
       {
         "name": "Full",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "deploy",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
@@ -534,7 +534,7 @@
       },
       {
         "name": "Github",
-        "desc": "Account alias for Github deployment",
+        "desc": "GitHubへのデプロイメントのためのアカウント別名",
         "default": "deploy",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
@@ -636,14 +636,14 @@
     "values": [
       {
         "name": "EnvName",
-        "desc": "Environment variable name",
+        "desc": "環境変数名",
         "default": "TOOLBOX_ENDTOEND",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "PeerName",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "end_to_end_test",
         "type_name": "string",
         "type_attr": null
@@ -1067,21 +1067,21 @@
       },
       {
         "name": "Branch",
-        "desc": "Target branch",
+        "desc": "対象ブランチ",
         "default": "master",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "ConnGithub",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "SkipTests",
-        "desc": "Skip end to end tests.",
+        "desc": "エンドツーエンドテストをスキップします.",
         "default": "false",
         "type_name": "bool",
         "type_attr": null
@@ -5509,7 +5509,7 @@
   },
   "services github issue list": {
     "name": "list",
-    "title": "List issues of the public/private GitHub repository",
+    "title": "公開・プライベートGitHubレポジトリの課題一覧",
     "desc": "",
     "remarks": "(試験的実装です)",
     "path": "services github issue list",
@@ -5550,21 +5550,21 @@
     "values": [
       {
         "name": "Owner",
-        "desc": "Owner of the repository",
+        "desc": "レポジトリの所有者",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "Repository name",
+        "desc": "レポジトリ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
@@ -5573,7 +5573,7 @@
   },
   "services github profile": {
     "name": "profile",
-    "title": "Get the authenticated user",
+    "title": "認証したユーザーの情報を取得",
     "desc": "",
     "remarks": "(試験的実装です)",
     "path": "services github profile",
@@ -5589,19 +5589,19 @@
     "reports": [
       {
         "name": "user",
-        "desc": "GitHub user profile",
+        "desc": "GitHubユーザープロフィール",
         "columns": [
           {
             "name": "login",
-            "desc": "Login user name"
+            "desc": "ログインユーザー名"
           },
           {
             "name": "name",
-            "desc": "Name of the user"
+            "desc": "ユーザー名"
           },
           {
             "name": "url",
-            "desc": "Url of the user"
+            "desc": "ユーザーのURL"
           }
         ]
       }
@@ -5610,7 +5610,7 @@
     "values": [
       {
         "name": "Peer",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
@@ -5619,7 +5619,7 @@
   },
   "services github release asset list": {
     "name": "list",
-    "title": "List assets of GitHub Release",
+    "title": "GitHubリリースの成果物一覧",
     "desc": "",
     "remarks": "(試験的実装です)",
     "path": "services github release asset list",
@@ -5635,23 +5635,23 @@
     "reports": [
       {
         "name": "assets",
-        "desc": "GitHub Release assets",
+        "desc": "GitHub リリースの成果物",
         "columns": [
           {
             "name": "name",
-            "desc": "Name of the asset"
+            "desc": "アセット数"
           },
           {
             "name": "size",
-            "desc": "Size of the asset"
+            "desc": "アセットのサイズ"
           },
           {
             "name": "state",
-            "desc": "State of the asset"
+            "desc": "アセットの状態"
           },
           {
             "name": "download_count",
-            "desc": "Number of downloads"
+            "desc": "ダウンロード数"
           }
         ]
       }
@@ -5660,28 +5660,28 @@
     "values": [
       {
         "name": "Owner",
-        "desc": "Owner of the repository",
+        "desc": "レポジトリの所有者",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Release",
-        "desc": "Release tag name",
+        "desc": "リリースタグ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "Name of the repository",
+        "desc": "レポジトリ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
@@ -5690,7 +5690,7 @@
   },
   "services github release asset up": {
     "name": "up",
-    "title": "Upload assets file into the GitHub Release",
+    "title": "GitHub リリースへ成果物をアップロードします",
     "desc": "",
     "remarks": "(試験的実装です)",
     "path": "services github release asset up",
@@ -5718,23 +5718,23 @@
           },
           {
             "name": "input.file",
-            "desc": "File path"
+            "desc": "ファイルパス"
           },
           {
             "name": "result.name",
-            "desc": "Name of the asset"
+            "desc": "アセット数"
           },
           {
             "name": "result.size",
-            "desc": "Size of the asset"
+            "desc": "アセットのサイズ"
           },
           {
             "name": "result.state",
-            "desc": "State of the asset"
+            "desc": "アセットの状態"
           },
           {
             "name": "result.download_count",
-            "desc": "Number of downloads"
+            "desc": "ダウンロード数"
           }
         ]
       }
@@ -5743,7 +5743,7 @@
     "values": [
       {
         "name": "Asset",
-        "desc": "Path to assets",
+        "desc": "成果物のパス",
         "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
@@ -5752,28 +5752,28 @@
       },
       {
         "name": "Owner",
-        "desc": "Owner of the repository",
+        "desc": "レポジトリの所有者",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Release",
-        "desc": "Release tag name",
+        "desc": "リリースタグ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "Name of the repository",
+        "desc": "レポジトリ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
@@ -5782,7 +5782,7 @@
   },
   "services github release draft": {
     "name": "draft",
-    "title": "Create release draft",
+    "title": "リリースの下書きを作成",
     "desc": "",
     "remarks": "(試験的実装です)",
     "path": "services github release draft",
@@ -5798,27 +5798,27 @@
     "reports": [
       {
         "name": "release",
-        "desc": "Release on GitHub",
+        "desc": "GitHub上のリリース",
         "columns": [
           {
             "name": "id",
-            "desc": "Id of the release"
+            "desc": "リリースID"
           },
           {
             "name": "tag_name",
-            "desc": "Tag name"
+            "desc": "タグ名"
           },
           {
             "name": "name",
-            "desc": "Name of the release"
+            "desc": "リリース名称"
           },
           {
             "name": "draft",
-            "desc": "True when the release is draft."
+            "desc": "リリースが下書き中である場合はTrue."
           },
           {
             "name": "url",
-            "desc": "URL of the release"
+            "desc": "リリースのURL"
           }
         ]
       }
@@ -5827,7 +5827,7 @@
     "values": [
       {
         "name": "BodyFile",
-        "desc": "File path to body text. THe file must encoded in UTF-8 without BOM.",
+        "desc": "本文テキストファイルへのパスファイルはBOMなしUTF-8でエンコードされている必要があります.",
         "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
@@ -5836,42 +5836,42 @@
       },
       {
         "name": "Branch",
-        "desc": "Name of the target branch",
+        "desc": "対象ブランチ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Name",
-        "desc": "Name of the release",
+        "desc": "リリース名称",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Owner",
-        "desc": "Owner of the repository",
+        "desc": "レポジトリの所有者",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "Name of the repository",
+        "desc": "レポジトリ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Tag",
-        "desc": "Name of the tag",
+        "desc": "タグ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
@@ -5880,7 +5880,7 @@
   },
   "services github release list": {
     "name": "list",
-    "title": "List releases",
+    "title": "リリースの一覧",
     "desc": "",
     "remarks": "(試験的実装です)",
     "path": "services github release list",
@@ -5896,23 +5896,23 @@
     "reports": [
       {
         "name": "releases",
-        "desc": "Release on GitHub",
+        "desc": "GitHub上のリリース",
         "columns": [
           {
             "name": "tag_name",
-            "desc": "Tag name"
+            "desc": "タグ名"
           },
           {
             "name": "name",
-            "desc": "Name of the release"
+            "desc": "リリース名称"
           },
           {
             "name": "draft",
-            "desc": "True when the release is draft."
+            "desc": "リリースが下書き中である場合はTrue."
           },
           {
             "name": "url",
-            "desc": "URL of the release"
+            "desc": "リリースのURL"
           }
         ]
       }
@@ -5921,21 +5921,21 @@
     "values": [
       {
         "name": "Owner",
-        "desc": "Repository owner",
+        "desc": "レポジトリの所有者",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "Repository name",
+        "desc": "レポジトリ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
@@ -5944,7 +5944,7 @@
   },
   "services github tag create": {
     "name": "create",
-    "title": "Create a tag on the repository",
+    "title": "レポジトリにタグを作成します",
     "desc": "",
     "remarks": "(試験的実装かつ非可逆な操作です)",
     "path": "services github tag create",
@@ -5972,35 +5972,35 @@
           },
           {
             "name": "input.owner",
-            "desc": "Owner of the repository"
+            "desc": "レポジトリの所有者"
           },
           {
             "name": "input.repository",
-            "desc": "Name of the repository"
+            "desc": "レポジトリ名"
           },
           {
             "name": "input.tag",
-            "desc": "Tag name"
+            "desc": "タグ名"
           },
           {
             "name": "input.sha_1",
-            "desc": "SHA1 hash of the commit"
+            "desc": "コミットのSHA1ハッシュ"
           },
           {
             "name": "result.tag",
-            "desc": "Tag name"
+            "desc": "タグ名"
           },
           {
             "name": "result.sha",
-            "desc": "SHA1 sum of the commit"
+            "desc": "コミットのSHA1ハッシュ"
           },
           {
             "name": "result.message",
-            "desc": "Message of the commit"
+            "desc": "コミットメッセージ"
           },
           {
             "name": "result.url",
-            "desc": "URL of the tag"
+            "desc": "タグのURL"
           }
         ]
       }
@@ -6009,35 +6009,35 @@
     "values": [
       {
         "name": "Owner",
-        "desc": "Owner of the repository",
+        "desc": "レポジトリの所有者",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "Name of the repository",
+        "desc": "レポジトリ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Sha1",
-        "desc": "SHA1 hash of the commit",
+        "desc": "コミットのSHA1ハッシュ",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Tag",
-        "desc": "Tag name",
+        "desc": "タグ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
@@ -9819,7 +9819,7 @@
         "columns": [
           {
             "name": "key",
-            "desc": "Key"
+            "desc": "キー"
           },
           {
             "name": "component",

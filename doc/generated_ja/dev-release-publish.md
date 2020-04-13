@@ -29,13 +29,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション       | 説明                   | デフォルト             |
-|------------------|------------------------|------------------------|
-| `-artifact-path` | 成果物へのパス         |                        |
-| `-branch`        | Target branch          | master                 |
-| `-conn-github`   | Account alias          | default                |
-| `-skip-tests`    | Skip end to end tests. | false                  |
-| `-test-resource` | テストリソースへのパス | test/dev/resource.json |
+| オプション       | 説明                                    | デフォルト             |
+|------------------|-----------------------------------------|------------------------|
+| `-artifact-path` | 成果物へのパス                          |                        |
+| `-branch`        | 対象ブランチ                            | master                 |
+| `-conn-github`   | アカウントの別名                        | default                |
+| `-skip-tests`    | エンドツーエンドテストをスキップします. | false                  |
+| `-test-resource` | テストリソースへのパス                  | test/dev/resource.json |
 
 共通のオプション:
 

@@ -1,6 +1,6 @@
 # config features 
 
-List available optional features. 
+利用可能なオプション機能一覧. 
 
 # 利用方法
 

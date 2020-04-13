@@ -1,6 +1,6 @@
 # services github release asset up 
 
-Upload assets file into the GitHub Release (試験的実装です)
+GitHub リリースへ成果物をアップロードします (試験的実装です)
 
 # 利用方法
 
@@ -29,13 +29,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明                    | デフォルト |
-|---------------|-------------------------|------------|
-| `-asset`      | Path to assets          |            |
-| `-owner`      | Owner of the repository |            |
-| `-peer`       | Account alias           | default    |
-| `-release`    | Release tag name        |            |
-| `-repository` | Name of the repository  |            |
+| オプション    | 説明               | デフォルト |
+|---------------|--------------------|------------|
+| `-asset`      | 成果物のパス       |            |
+| `-owner`      | レポジトリの所有者 |            |
+| `-peer`       | アカウントの別名   | default    |
+| `-release`    | リリースタグ名     |            |
+| `-repository` | レポジトリ名       |            |
 
 共通のオプション:
 
@@ -82,9 +82,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |-----------------------|--------------------------|
 | status                | 処理の状態               |
 | reason                | 失敗またはスキップの理由 |
-| input.file            | File path                |
-| result.name           | Name of the asset        |
-| result.size           | Size of the asset        |
-| result.state          | State of the asset       |
-| result.download_count | Number of downloads      |
+| input.file            | ファイルパス             |
+| result.name           | アセット数               |
+| result.size           | アセットのサイズ         |
+| result.state          | アセットの状態           |
+| result.download_count | ダウンロード数           |
 
