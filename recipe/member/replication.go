@@ -1,10 +1,10 @@
 package member
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_member_mirror"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -20,8 +20,8 @@ type ReplicationRow struct {
 }
 
 type Replication struct {
-	Src          rc_conn.ConnBusinessFile
-	Dst          rc_conn.ConnBusinessFile
+	Src          dbx_conn.ConnBusinessFile
+	Dst          dbx_conn.ConnBusinessFile
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
 }

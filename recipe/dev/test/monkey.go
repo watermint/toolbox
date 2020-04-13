@@ -2,20 +2,21 @@ package test
 
 import (
 	"context"
-	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"golang.org/x/sync/semaphore"
 	"io/ioutil"
+	"math"
 	"math/rand"
 	"os"
 	"path/filepath"
@@ -24,7 +25,7 @@ import (
 )
 
 type MonkeyWorker struct {
-	Context api_context.DropboxApiContext
+	Context dbx_context.Context
 	Base    mo_path.DropboxPath
 	Name    string
 	Sem     *semaphore.Weighted
@@ -80,33 +81,30 @@ func (z *MonkeyWorker) Exec() error {
 }
 
 type Monkey struct {
-	Seconds      int
-	Distribution int
+	Seconds      mo_int.RangeInt
+	Distribution mo_int.RangeInt
 	Path         mo_path.DropboxPath
-	Peer         rc_conn.ConnUserFile
+	Peer         dbx_conn.ConnUserFile
 	Extension    string
 }
 
 func (z *Monkey) Exec(c app_control.Control) error {
-	if z.Distribution < 1 {
-		return errors.New("distribution must be grater than 1")
-	}
 	exts := make([]string, 0)
 	for _, e := range strings.Split(z.Extension, ",") {
 		exts = append(exts, strings.TrimSpace(e))
 	}
 	extNum := len(exts)
 
-	files := make([]string, z.Distribution)
-	folders := make([]mo_path.DropboxPath, z.Distribution)
-	for i := 0; i < z.Distribution; i++ {
+	files := make([]string, z.Distribution.Value())
+	folders := make([]mo_path.DropboxPath, z.Distribution.Value())
+	for i := 0; i < z.Distribution.Value(); i++ {
 		e := exts[rand.Intn(extNum)]
 		files[i] = fmt.Sprintf("test-%05d.%s", i/10, e)
 		folders[i] = z.Path.ChildPath(fmt.Sprintf("test%d", i%10))
 	}
 	sem := semaphore.NewWeighted(100)
 	l := c.Log()
-	l.Info("Monkey test start", zap.Int("Distribution", z.Distribution), zap.Int("Running time", z.Seconds))
+	l.Info("Monkey test start", zap.Int("Distribution", z.Distribution.Value()), zap.Int("Running time", z.Seconds.Value()))
 
 	q := c.NewQueue()
 	go func() {
@@ -117,7 +115,7 @@ func (z *Monkey) Exec(c app_control.Control) error {
 				return
 			}
 
-			index := rand.Intn(z.Distribution)
+			index := rand.Intn(z.Distribution.Value())
 			file := files[index]
 			folder := folders[index]
 
@@ -131,7 +129,7 @@ func (z *Monkey) Exec(c app_control.Control) error {
 		}
 	}()
 
-	time.Sleep(time.Duration(z.Seconds) * time.Second)
+	time.Sleep(time.Duration(z.Seconds.Value()) * time.Second)
 	return nil
 }
 
@@ -139,13 +137,13 @@ func (z *Monkey) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Monkey{}, func(r rc_recipe.Recipe) {
 		m := r.(*Monkey)
 		m.Path = qt_recipe.NewTestDropboxFolderPath("dev-monkey")
-		m.Seconds = 1
-		m.Distribution = 1000
+		m.Seconds.SetValue(1)
+		m.Distribution.SetValue(1000)
 	})
 }
 
 func (z *Monkey) Preset() {
-	z.Seconds = 10
-	z.Distribution = 10000
+	z.Seconds.SetRange(1, 86400, 10)
+	z.Distribution.SetRange(1, math.MaxInt32, 10000)
 	z.Extension = "jpg,pdf,xlsx,docx,pptx,zip,png,txt,bak,csv,mov,mp4,html,gif,lzh,bmp,wmi,ini,ai,psd"
 }

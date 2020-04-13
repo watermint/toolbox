@@ -30,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file export doc 
+.\tbx.exe file export doc -dropbox-path /DROPBOX/PATH/TO/FILE -local-path /LOCAL/PATH/TO/EXPORT
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file export doc 
+$HOME/Desktop/tbx file export doc -dropbox-path /DROPBOX/PATH/TO/FILE -local-path /LOCAL/PATH/TO/EXPORT
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -105,7 +105,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: operation_log 
-
+このレポートはファイルのエクスポート結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `operation_log.csv`
 * `operation_log.xlsx`
@@ -119,15 +119,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | 列              | 説明                                                                                       |
 |-----------------|--------------------------------------------------------------------------------------------|
 | name            | 名称                                                                                       |
-| path_lower      | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
 | path_display    | パス (表示目的で大文字小文字を区別する).                                                   |
-| id              | ファイルへの一意なID                                                                       |
 | client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
 | server_modified | Dropbox上で最後に更新された日時                                                            |
-| revision        | ファイルの現在バージョンの一意な識別子                                                     |
 | size            | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| content_hash    | ファイルコンテンツのハッシュ                                                               |
 | export_name     | エクスポートするファイル名.                                                                |
 | export_size     | エクスポートするファイルのサイズ.                                                          |
-| export_hash     | エクスポートするファイルのコンテンツハッシュ.                                              |
 

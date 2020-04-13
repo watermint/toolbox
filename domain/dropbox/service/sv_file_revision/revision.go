@@ -1,10 +1,10 @@
 package sv_file_revision
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_revision"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"go.uber.org/zap"
 )
@@ -22,7 +22,7 @@ type RevisionOpts struct {
 	Limit int
 }
 
-func New(ctx api_context.Context, opt ...RevisionOpt) Revision {
+func New(ctx dbx_context.Context, opt ...RevisionOpt) Revision {
 	opts := &RevisionOpts{Limit: 10}
 	for _, o := range opt {
 		o(opts)
@@ -34,7 +34,7 @@ func New(ctx api_context.Context, opt ...RevisionOpt) Revision {
 }
 
 type revisionImpl struct {
-	ctx  api_context.Context
+	ctx  dbx_context.Context
 	opts *RevisionOpts
 }
 
@@ -50,7 +50,7 @@ func (z *revisionImpl) doList(path mo_path.DropboxPath, mode string) (revs *mo_f
 		Limit: z.opts.Limit,
 	}
 	revs = &mo_file_revision.Revisions{}
-	res, err := z.ctx.Rpc("files/list_revisions").Param(p).Call()
+	res, err := z.ctx.Post("files/list_revisions").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

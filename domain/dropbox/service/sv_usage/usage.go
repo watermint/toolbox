@@ -1,26 +1,26 @@
 package sv_usage
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_usage"
-	"github.com/watermint/toolbox/infra/api/api_context"
 )
 
 type Usage interface {
 	Resolve() (usage *mo_usage.Usage, err error)
 }
 
-func New(ctx api_context.Context) Usage {
+func New(ctx dbx_context.Context) Usage {
 	return &usageImpl{
 		ctx: ctx,
 	}
 }
 
 type usageImpl struct {
-	ctx api_context.Context
+	ctx dbx_context.Context
 }
 
 func (z *usageImpl) Resolve() (usage *mo_usage.Usage, err error) {
-	res, err := z.ctx.Rpc("users/get_space_usage").Call()
+	res, err := z.ctx.Post("users/get_space_usage").Call()
 	if err != nil {
 		return nil, err
 	}

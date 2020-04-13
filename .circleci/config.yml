@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/golang:1.13
+      - image: circleci/golang:1.14
     working_directory: /go/src/github.com/watermint/toolbox
     steps:
       - checkout
@@ -18,7 +18,7 @@ jobs:
 
   test:
     docker:
-      - image: circleci/golang:1.13
+      - image: circleci/golang:1.14
     working_directory: /go/src/github.com/watermint/toolbox
     steps:
       - checkout
@@ -32,7 +32,8 @@ jobs:
       - run: go get golang.org/x/tools/cmd/cover
       - run: go get github.com/mattn/goveralls
       - run: go get github.com/jstemmer/go-junit-report
-      - run: CGO_ENABLED=0 go test -short -v -p 1 -coverprofile=.coverprofile ./... 2>&1 | go-junit-report > test/results/all.xml
+#      - run: CGO_ENABLED=0 go run tbx.go dev ci auth import
+      - run: CGO_ENABLED=0 go test -short -p 1 -v -coverprofile=.coverprofile ./... 2>&1 | go-junit-report > test/results/all.xml
       - save_cache:
           key: go-pkg-mod-{{ checksum "go.mod.sum" }}
           paths:

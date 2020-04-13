@@ -1,6 +1,7 @@
 package uc_file_size
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
@@ -18,7 +19,7 @@ type Scale interface {
 	Size(path mo_path.DropboxPath, depth int) (sizes map[mo_path.DropboxPath]mo_file_size.Size, errors map[mo_path.DropboxPath]error)
 }
 
-func New(ctx api_context.DropboxApiContext, ctl app_control.Control) Scale {
+func New(ctx dbx_context.Context, ctl app_control.Control) Scale {
 	return &scaleImpl{
 		ctx: ctx,
 		ctl: ctl,
@@ -150,7 +151,7 @@ func (z *scaleWorker) Exec() error {
 
 type scaleImpl struct {
 	ctl app_control.Control
-	ctx api_context.DropboxApiContext
+	ctx dbx_context.Context
 }
 
 func (z *scaleImpl) Size(path mo_path.DropboxPath, depth int) (sizes map[mo_path.DropboxPath]mo_file_size.Size, errors map[mo_path.DropboxPath]error) {

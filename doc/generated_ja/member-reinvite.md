@@ -104,7 +104,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: operation_log 
-
+このレポートは処理結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `operation_log.csv`
 * `operation_log.xlsx`
@@ -115,40 +115,26 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列                      | 説明                                                                                            |
-|-------------------------|-------------------------------------------------------------------------------------------------|
-| status                  | 処理の状態                                                                                      |
-| reason                  | 失敗またはスキップの理由                                                                        |
-| input.team_member_id    | チームにおけるメンバーのID                                                                      |
-| input.email             | ユーザーのメールアドレス                                                                        |
-| input.email_verified    | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
-| input.status            | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
-| input.given_name        | 名                                                                                              |
-| input.surname           | 名字                                                                                            |
-| input.familiar_name     | ロケール依存の名前                                                                              |
-| input.display_name      | ユーザーのDropboxアカウントの表示名称                                                           |
-| input.abbreviated_name  | ユーザーの省略名称                                                                              |
-| input.member_folder_id  | ユーザールートフォルダの名前空間ID.                                                             |
-| input.external_id       | このユーザーに関連づけられた外部ID                                                              |
-| input.account_id        | ユーザーのアカウントID                                                                          |
-| input.persistent_id     | ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです.                             |
-| input.joined_on         | メンバーがチームに参加した日時.                                                                 |
-| input.role              | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
-| input.tag               | 処理のタグ                                                                                      |
-| result.team_member_id   | チームにおけるメンバーのID                                                                      |
-| result.email            | ユーザーのメールアドレス                                                                        |
-| result.email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
-| result.status           | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
-| result.given_name       | 名                                                                                              |
-| result.surname          | 名字                                                                                            |
-| result.familiar_name    | ロケール依存の名前                                                                              |
-| result.display_name     | ユーザーのDropboxアカウントの表示名称                                                           |
-| result.abbreviated_name | ユーザーの省略名称                                                                              |
-| result.member_folder_id | ユーザールートフォルダの名前空間ID.                                                             |
-| result.external_id      | このユーザーに関連づけられた外部ID                                                              |
-| result.account_id       | ユーザーのアカウントID                                                                          |
-| result.persistent_id    | ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです.                             |
-| result.joined_on        | メンバーがチームに参加した日時.                                                                 |
-| result.role             | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
-| result.tag              | 処理のタグ                                                                                      |
+| 列                    | 説明                                                                                            |
+|-----------------------|-------------------------------------------------------------------------------------------------|
+| status                | 処理の状態                                                                                      |
+| reason                | 失敗またはスキップの理由                                                                        |
+| input.email           | ユーザーのメールアドレス                                                                        |
+| input.email_verified  | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
+| input.status          | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
+| input.given_name      | 名                                                                                              |
+| input.surname         | 名字                                                                                            |
+| input.display_name    | ユーザーのDropboxアカウントの表示名称                                                           |
+| input.joined_on       | メンバーがチームに参加した日時.                                                                 |
+| input.role            | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
+| input.tag             | 処理のタグ                                                                                      |
+| result.email          | ユーザーのメールアドレス                                                                        |
+| result.email_verified | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
+| result.status         | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
+| result.given_name     | 名                                                                                              |
+| result.surname        | 名字                                                                                            |
+| result.display_name   | ユーザーのDropboxアカウントの表示名称                                                           |
+| result.joined_on      | メンバーがチームに参加した日時.                                                                 |
+| result.role           | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
+| result.tag            | 処理のタグ                                                                                      |
 

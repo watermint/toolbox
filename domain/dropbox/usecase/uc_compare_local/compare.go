@@ -1,12 +1,13 @@
 package uc_compare_local
 
 import (
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
-	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -17,7 +18,7 @@ import (
 )
 
 type Compare interface {
-	Diff(localPath mo_path.FileSystemPath, dropboxPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
+	Diff(localPath mo_path2.FileSystemPath, dropboxPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
 }
 
 type CompareOpt func(o *CompareOpts) *CompareOpts
@@ -25,7 +26,7 @@ type CompareOpts struct {
 	ForceCalcLocalHash bool
 }
 
-func New(ctx api_context.DropboxApiContext, ui app_ui.UI, opts ...CompareOpt) Compare {
+func New(ctx dbx_context.Context, ui app_ui.UI, opts ...CompareOpt) Compare {
 	co := &CompareOpts{}
 	for _, o := range opts {
 		o(co)
@@ -38,12 +39,12 @@ func New(ctx api_context.DropboxApiContext, ui app_ui.UI, opts ...CompareOpt) Co
 }
 
 type compareImpl struct {
-	ctx  api_context.DropboxApiContext
+	ctx  dbx_context.Context
 	ui   app_ui.UI
 	opts *CompareOpts
 }
 
-func (z *compareImpl) cmpLevel(local mo_path.FileSystemPath, dropbox mo_path.DropboxPath, path string, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
+func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.DropboxPath, path string, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
 	localFiles := make(map[string]os.FileInfo)
 	localFolders := make(map[string]os.FileInfo)
 	dropboxFiles := make(map[string]*mo_file.File)
@@ -247,6 +248,6 @@ func (z *compareImpl) cmpLevel(local mo_path.FileSystemPath, dropbox mo_path.Dro
 	return diffCount, nil
 }
 
-func (z *compareImpl) Diff(localPath mo_path.FileSystemPath, dropboxPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
+func (z *compareImpl) Diff(localPath mo_path2.FileSystemPath, dropboxPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error) {
 	return z.cmpLevel(localPath, dropboxPath, "", onDiff)
 }

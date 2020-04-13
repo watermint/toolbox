@@ -30,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file sync up 
+.\tbx.exe file sync up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file sync up 
+$HOME/Desktop/tbx file sync up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -106,7 +106,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: skipped 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `skipped.csv`
 * `skipped.xlsx`
@@ -117,27 +117,21 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`...   
 
-| Column                         | Description                                                                                            |
-|--------------------------------|--------------------------------------------------------------------------------------------------------|
-| status                         | Status of the operation                                                                                |
-| reason                         | Reason of failure or skipped operation                                                                 |
-| input.file                     | Local file path                                                                                        |
-| input.size                     | Local file size                                                                                        |
-| result.id                      | A unique identifier for the file.                                                                      |
-| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.name                    | The last component of the path (including extension).                                                  |
-| result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| result.path_display            | The cased path to be used for display purposes only.                                                   |
-| result.client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified         | The last time the file was modified on Dropbox.                                                        |
-| result.revision                | A unique identifier for the current revision of a file.                                                |
-| result.size                    | The file size in bytes.                                                                                |
-| result.content_hash            | A hash of the file content.                                                                            |
-| result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| result.parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
+| Column                 | Description                                                                                            |
+|------------------------|--------------------------------------------------------------------------------------------------------|
+| status                 | Status of the operation                                                                                |
+| reason                 | Reason of failure or skipped operation                                                                 |
+| input.file             | Local file path                                                                                        |
+| input.size             | Local file size                                                                                        |
+| result.name            | The last component of the path (including extension).                                                  |
+| result.path_display    | The cased path to be used for display purposes only.                                                   |
+| result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| result.server_modified | The last time the file was modified on Dropbox.                                                        |
+| result.size            | The file size in bytes.                                                                                |
+| result.content_hash    | A hash of the file content.                                                                            |
 
 ## Report: summary 
-
+This report shows a summary of the upload results.
 Report files are generated in three formats like below;
 * `summary.csv`
 * `summary.xlsx`
@@ -159,7 +153,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | num_api_call     | The number of estimated upload API call for upload. |
 
 ## Report: uploaded 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `uploaded.csv`
 * `uploaded.xlsx`
@@ -170,22 +164,16 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
 
-| Column                         | Description                                                                                            |
-|--------------------------------|--------------------------------------------------------------------------------------------------------|
-| status                         | Status of the operation                                                                                |
-| reason                         | Reason of failure or skipped operation                                                                 |
-| input.file                     | Local file path                                                                                        |
-| input.size                     | Local file size                                                                                        |
-| result.id                      | A unique identifier for the file.                                                                      |
-| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.name                    | The last component of the path (including extension).                                                  |
-| result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| result.path_display            | The cased path to be used for display purposes only.                                                   |
-| result.client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified         | The last time the file was modified on Dropbox.                                                        |
-| result.revision                | A unique identifier for the current revision of a file.                                                |
-| result.size                    | The file size in bytes.                                                                                |
-| result.content_hash            | A hash of the file content.                                                                            |
-| result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| result.parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
+| Column                 | Description                                                                                            |
+|------------------------|--------------------------------------------------------------------------------------------------------|
+| status                 | Status of the operation                                                                                |
+| reason                 | Reason of failure or skipped operation                                                                 |
+| input.file             | Local file path                                                                                        |
+| input.size             | Local file size                                                                                        |
+| result.name            | The last component of the path (including extension).                                                  |
+| result.path_display    | The cased path to be used for display purposes only.                                                   |
+| result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| result.server_modified | The last time the file was modified on Dropbox.                                                        |
+| result.size            | The file size in bytes.                                                                                |
+| result.content_hash    | A hash of the file content.                                                                            |
 

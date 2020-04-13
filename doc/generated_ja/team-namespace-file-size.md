@@ -110,7 +110,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: namespace_size 
-
+このレポートは処理結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `namespace_size.csv`
 * `namespace_size.xlsx`
@@ -121,22 +121,16 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
-| 列                          | 説明                                                                                   |
-|-----------------------------|----------------------------------------------------------------------------------------|
-| status                      | 処理の状態                                                                             |
-| reason                      | 失敗またはスキップの理由                                                               |
-| input.name                  | 名前空間の名称                                                                         |
-| input.namespace_id          | 名前空間ID                                                                             |
-| input.namespace_type        | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| input.team_member_id        | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
-| result.namespace_name       | 名前空間の名称                                                                         |
-| result.namespace_id         | 名前空間ID                                                                             |
-| result.namespace_type       | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| result.owner_team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
-| result.path                 | フォルダへのパス                                                                       |
-| result.count_file           | このフォルダに含まれるファイル数                                                       |
-| result.count_folder         | このフォルダに含まれるフォルダ数                                                       |
-| result.count_descendant     | このフォルダに含まれるファイル・フォルダ数                                             |
-| result.size                 | フォルダのサイズ                                                                       |
-| result.api_complexity       | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
+| 列                      | 説明                                                                                   |
+|-------------------------|----------------------------------------------------------------------------------------|
+| status                  | 処理の状態                                                                             |
+| reason                  | 失敗またはスキップの理由                                                               |
+| input.name              | 名前空間の名称                                                                         |
+| input.namespace_type    | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
+| result.path             | フォルダへのパス                                                                       |
+| result.count_file       | このフォルダに含まれるファイル数                                                       |
+| result.count_folder     | このフォルダに含まれるフォルダ数                                                       |
+| result.count_descendant | このフォルダに含まれるファイル・フォルダ数                                             |
+| result.size             | フォルダのサイズ                                                                       |
+| result.api_complexity   | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
 

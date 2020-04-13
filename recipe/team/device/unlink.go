@@ -1,12 +1,12 @@
 package device
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_device"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_device"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -22,7 +22,7 @@ type UnlinkVO struct {
 type UnlinkWorker struct {
 	session *mo_device.MemberSession
 	rep     rp_model.TransactionReport
-	ctx     api_context.DropboxApiContext
+	ctx     dbx_context.Context
 	ctl     app_control.Control
 }
 
@@ -51,13 +51,22 @@ func (z *UnlinkWorker) Exec() error {
 type Unlink struct {
 	DeleteOnUnlink bool
 	File           fd_file.RowFeed
-	Peer           rc_conn.ConnBusinessFile
+	Peer           dbx_conn.ConnBusinessFile
 	OperationLog   rp_model.TransactionReport
 }
 
 func (z *Unlink) Preset() {
 	z.File.SetModel(&mo_device.MemberSession{})
-	z.OperationLog.SetModel(&mo_device.MemberSession{}, nil)
+	z.OperationLog.SetModel(&mo_device.MemberSession{}, nil,
+		rp_model.HiddenColumns(
+			"input.familiar_name",
+			"input.abbreviated_name",
+			"input.member_folder_id",
+			"input.external_id",
+			"input.account_id",
+			"input.persistent_id",
+		),
+	)
 }
 
 func (z *Unlink) Exec(c app_control.Control) error {

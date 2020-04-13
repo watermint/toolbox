@@ -2,13 +2,11 @@ package sv_member
 
 import (
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"strings"
 	"testing"
 )
 
@@ -68,77 +66,10 @@ func TestModelMemberImpl_Resolve(t *testing.T) {
 	}
 }
 
-func TestEndToEndMemberImpl_ResolveByEmail(t *testing.T) {
-	qt_api.DoTestBusinessInfo(func(ctx api_context.DropboxApiContext) {
-		svm := New(ctx)
-		members, err := svm.List()
-		if err != nil {
-			t.Error(err)
-		}
-
-		for i, member := range members {
-			if i > 10 {
-				break
-			}
-			m1, err := svm.Resolve(member.TeamMemberId)
-			if err != nil {
-				t.Error(err)
-			}
-			m2, err := svm.ResolveByEmail(member.Email)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if m1.TeamMemberId != member.TeamMemberId ||
-				m2.TeamMemberId != member.TeamMemberId {
-				t.Error("invalid")
-			}
-		}
-
-		_, err = svm.Resolve("dbmid:xxxxxxxxxxxxxx-xxxxxxxx-xxxx-xxxxxx")
-		if err == nil {
-			t.Error("invalid")
-		}
-
-		_, err = svm.ResolveByEmail("non_existent@example.com")
-		if err == nil {
-			t.Error("invalid")
-		}
-	})
-}
-
-func TestEndToEndMemberImpl_ListResolve(t *testing.T) {
-	qt_api.DoTestBusinessInfo(func(ctx api_context.DropboxApiContext) {
-		ls := newTest(ctx)
-		members, err := ls.List()
-		if err != nil {
-			t.Error(err)
-			return
-		}
-		if len(members) < 1 {
-			t.Error("invalid")
-		}
-		if !strings.Contains(members[0].Email, "@") {
-			t.Error("invalid")
-		}
-
-		m, err := ls.Resolve(members[0].TeamMemberId)
-		if err != nil {
-			t.Error("failed fetch")
-		}
-		if m.TeamMemberId != members[0].TeamMemberId {
-			t.Error("invalid")
-		}
-		if m.Email != members[0].Email {
-			t.Error("invalid")
-		}
-	})
-}
-
 // -- mock test impl
 
 func TestMemberImpl_Add(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		_, err := sv.Add("test@example.com",
 			AddWithGivenName("test"),
@@ -155,7 +86,7 @@ func TestMemberImpl_Add(t *testing.T) {
 }
 
 func TestMemberImpl_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -165,7 +96,7 @@ func TestMemberImpl_List(t *testing.T) {
 }
 
 func TestMemberImpl_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		err := sv.Remove(&mo_member.Member{},
 			Downgrade(),
@@ -179,7 +110,7 @@ func TestMemberImpl_Remove(t *testing.T) {
 }
 
 func TestMemberImpl_Resolve(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		_, err := sv.Resolve("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -189,7 +120,7 @@ func TestMemberImpl_Resolve(t *testing.T) {
 }
 
 func TestMemberImpl_ResolveByEmail(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		_, err := sv.ResolveByEmail("test@example.com")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -199,7 +130,7 @@ func TestMemberImpl_ResolveByEmail(t *testing.T) {
 }
 
 func TestMemberImpl_Update(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		_, err := sv.Update(&mo_member.Member{})
 		if err != nil && err != qt_errors.ErrorMock {
@@ -211,7 +142,7 @@ func TestMemberImpl_Update(t *testing.T) {
 // -- Test cached
 
 func TestCachedMember_Add(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewCached(ctx)
 		_, err := sv.Add("test@example.com")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -221,7 +152,7 @@ func TestCachedMember_Add(t *testing.T) {
 }
 
 func TestCachedMember_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewCached(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -231,7 +162,7 @@ func TestCachedMember_List(t *testing.T) {
 }
 
 func TestCachedMember_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewCached(ctx)
 		err := sv.Remove(&mo_member.Member{})
 		if err != nil && err != qt_errors.ErrorMock {
@@ -241,7 +172,7 @@ func TestCachedMember_Remove(t *testing.T) {
 }
 
 func TestCachedMember_Resolve(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewCached(ctx)
 		_, err := sv.Resolve("test")
 		if err != ErrorMemberNotFoundForTeamMemberId {
@@ -251,7 +182,7 @@ func TestCachedMember_Resolve(t *testing.T) {
 }
 
 func TestCachedMember_ResolveByEmail(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewCached(ctx)
 		_, err := sv.ResolveByEmail("test@example.com")
 		if err != ErrorMemberNotFoundForEmail {
@@ -261,7 +192,7 @@ func TestCachedMember_ResolveByEmail(t *testing.T) {
 }
 
 func TestCachedMember_Update(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		_, err := sv.Update(&mo_member.Member{})
 		if err != nil && err != qt_errors.ErrorMock {

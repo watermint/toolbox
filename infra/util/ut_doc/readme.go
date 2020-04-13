@@ -115,8 +115,8 @@ func (z *Readme) Generate() error {
 		}
 	}
 
-	out := ut_io.NewDefaultOut(z.ctl.IsTest())
-	if !z.ctl.IsTest() {
+	out := ut_io.NewDefaultOut(z.ctl.Feature().IsTest())
+	if !z.ctl.Feature().IsTest() {
 		out, err = os.Create(z.filename)
 		if err != nil {
 			return err

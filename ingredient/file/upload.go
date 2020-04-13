@@ -1,14 +1,15 @@
 package file
 
 import (
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_folder"
-	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/dbx_context"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -31,12 +32,12 @@ const (
 )
 
 type Upload struct {
-	Context         api_context.DropboxApiContext
+	Context         dbx_context.Context
 	EstimateOnly    bool
 	Overwrite       bool
 	ChunkSizeKb     int
 	CreateFolder    bool
-	LocalPath       mo_path.FileSystemPath
+	LocalPath       mo_path2.FileSystemPath
 	DropboxPath     mo_path.DropboxPath
 	ProgressUpload  app_msg.Message
 	ProgressSummary app_msg.Message
@@ -47,10 +48,20 @@ type Upload struct {
 
 func (z *Upload) Preset() {
 	z.Uploaded.SetModel(&UploadRow{}, &mo_file.ConcreteEntry{}, rp_model.HiddenColumns(
-		"result.id", "result.tag",
+		"result.id",
+		"result.tag",
+		"result.path_lower",
+		"result.revision",
+		"result.shared_folder_id",
+		"result.parent_shared_folder_id",
 	))
 	z.Skipped.SetModel(&UploadRow{}, &mo_file.ConcreteEntry{}, rp_model.HiddenColumns(
-		"result.id", "result.tag",
+		"result.id",
+		"result.tag",
+		"result.path_lower",
+		"result.revision",
+		"result.shared_folder_id",
+		"result.parent_shared_folder_id",
 	))
 	z.Summary.SetModel(&UploadSummary{})
 	z.ChunkSizeKb = 150 * 1024
@@ -257,7 +268,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 func (z *Upload) Test(c app_control.Control) error {
 	err := rc_exec.ExecMock(c, &Upload{}, func(r rc_recipe.Recipe) {
 		m := r.(*Upload)
-		m.Context = dbx_context.NewMock(c)
+		m.Context = dbx_context_impl.NewMock(c)
 		m.LocalPath = qt_recipe.NewTestFileSystemFolderPath(c, "up")
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("up")
 	})

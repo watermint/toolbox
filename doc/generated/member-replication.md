@@ -71,7 +71,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for replicating member contents. 
 
 | Column    | Description                         | Value example          |
 |-----------|-------------------------------------|------------------------|
@@ -122,7 +124,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: operation_log 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `operation_log.csv`
 * `operation_log.xlsx`

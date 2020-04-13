@@ -104,7 +104,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: membership 
-
+This report shows a list of shared folders and team folders with their members. If a folder has multiple members, then members are listed with rows.
 Report files are generated in three formats like below;
 * `membership.csv`
 * `membership.xlsx`
@@ -126,7 +126,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | member_email    | Email address of this member                                                                             |
 
 ## Report: no_member 
-
+This report shows folders without members.
 Report files are generated in three formats like below;
 * `no_member.csv`
 * `no_member.xlsx`

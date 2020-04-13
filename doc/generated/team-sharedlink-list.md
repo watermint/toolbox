@@ -51,7 +51,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | Option        | Description                                            | Default |
 |---------------|--------------------------------------------------------|---------|
 | `-peer`       | Account alias                                          | default |
-| `-visibility` | Filter links by visibility (public/team_only/password) |         |
+| `-visibility` | Filter links by visibility (public/team_only/password) | public  |
 
 Common options:
 
@@ -105,7 +105,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: shared_link 
-
+This report shows a list of shared links with the shared link owner team member.
 Report files are generated in three formats like below;
 * `shared_link.csv`
 * `shared_link.xlsx`
@@ -116,19 +116,16 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
 
-| Column         | Description                                                                                                                                                                                                             |
-|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| shared_link_id | A unique identifier for the linked file or folder                                                                                                                                                                       |
-| tag            | Entry type (file, or folder)                                                                                                                                                                                            |
-| url            | URL of the shared link.                                                                                                                                                                                                 |
-| name           | The linked file name (including extension).                                                                                                                                                                             |
-| expires        | Expiration time, if set.                                                                                                                                                                                                |
-| path_lower     | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| visibility     | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| account_id     | A user's account identifier.                                                                                                                                                                                            |
-| team_member_id | ID of user as a member of a team.                                                                                                                                                                                       |
-| email          | Email address of user.                                                                                                                                                                                                  |
-| status         | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
-| surname        | Surname of the link owner                                                                                                                                                                                               |
-| given_name     | Given name of the link owner                                                                                                                                                                                            |
+| Column     | Description                                                                                                                                                                                                             |
+|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
+| url        | URL of the shared link.                                                                                                                                                                                                 |
+| name       | The linked file name (including extension).                                                                                                                                                                             |
+| expires    | Expiration time, if set.                                                                                                                                                                                                |
+| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| email      | Email address of user.                                                                                                                                                                                                  |
+| status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
+| surname    | Surname of the link owner                                                                                                                                                                                               |
+| given_name | Given name of the link owner                                                                                                                                                                                            |
 

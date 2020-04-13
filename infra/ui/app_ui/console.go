@@ -3,12 +3,12 @@ package app_ui
 import (
 	"bufio"
 	"fmt"
-	"github.com/skratchdot/open-golang/open"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/util/ut_io"
+	"github.com/watermint/toolbox/infra/util/ut_open"
 	"github.com/watermint/toolbox/infra/util/ut_string"
 	"github.com/watermint/toolbox/infra/util/ut_terminal"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
@@ -126,6 +126,16 @@ type console struct {
 	qm               qt_missingmsg.Message
 	mutex            sync.Mutex
 	openArtifactOnce sync.Once
+}
+
+func (z *console) AskProceed(m app_msg.Message) {
+	z.verifyKey(m.Key())
+	msg := z.mc.Compile(m)
+	z.colorPrint(msg, ColorCyan)
+	z.currentLogger().Debug(msg)
+
+	br := bufio.NewReader(z.in)
+	_, _, _ = br.ReadLine()
 }
 
 func (z *console) Id() string {
@@ -327,8 +337,7 @@ func (z *console) OpenArtifact(path string, autoOpen bool) {
 			}
 			z.Info(MConsole.OpenArtifact.With("Path", path))
 
-			err = open.Start(path)
-			if err != nil {
+			if err := ut_open.New().Open(path, true); err != nil {
 				z.Error(MConsole.OpenArtifactError.With("Error", err))
 			}
 		})
@@ -422,18 +431,6 @@ func (z *console) SuccessK(key string, p ...app_msg.P) {
 
 func (z *console) FailureK(key string, p ...app_msg.P) {
 	z.Failure(app_msg.M(key, p...))
-}
-
-func (z *console) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
-	return z.AskCont(app_msg.M(key, p...))
-}
-
-func (z *console) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
-	return z.AskText(app_msg.M(key, p...))
-}
-
-func (z *console) AskSecureK(key string, p ...app_msg.P) (text string, cancel bool) {
-	return z.AskSecure(app_msg.M(key, p...))
 }
 
 type consoleTable struct {

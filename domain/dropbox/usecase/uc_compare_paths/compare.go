@@ -1,11 +1,11 @@
 package uc_compare_paths
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"go.uber.org/zap"
@@ -17,7 +17,7 @@ type Compare interface {
 	Diff(leftPath mo_path.DropboxPath, rightPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
 }
 
-func New(left, right api_context.DropboxApiContext, ui app_ui.UI, opts ...CompareOpt) Compare {
+func New(left, right dbx_context.Context, ui app_ui.UI, opts ...CompareOpt) Compare {
 	co := &CompareOpts{}
 	for _, o := range opts {
 		o(co)
@@ -37,8 +37,8 @@ type CompareOpts struct {
 }
 
 type compareImpl struct {
-	ctxLeft  api_context.DropboxApiContext
-	ctxRight api_context.DropboxApiContext
+	ctxLeft  dbx_context.Context
+	ctxRight dbx_context.Context
 	opts     *CompareOpts
 	ui       app_ui.UI
 }

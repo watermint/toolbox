@@ -69,7 +69,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 # ファイル書式
 
-## 書式: File 
+## 書式: File
+
+グループに対する一括操作のためのデータファイル. 
 
 | 列   | 説明       | 値の例 |
 |------|------------|--------|
@@ -119,7 +121,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: operation_log 
-
+このレポートは処理結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `operation_log.csv`
 * `operation_log.xlsx`
@@ -136,8 +138,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | reason                       | 失敗またはスキップの理由                                                                |
 | input.name                   | グループ名                                                                              |
 | result.group_name            | グループ名称                                                                            |
-| result.group_id              | グループID                                                                              |
 | result.group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
-| result.group_external_id     |  グループの外部IDこの任意のIDは管理者がグループに付加できます                           |
 | result.member_count          | グループ内のメンバー数                                                                  |
 

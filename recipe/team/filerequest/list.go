@@ -2,13 +2,13 @@ package filerequest
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -18,7 +18,7 @@ import (
 
 type ListWorker struct {
 	member *mo_member.Member
-	conn   api_context.DropboxApiContext
+	conn   dbx_context.Context
 	rep    rp_model.RowReport
 	ctl    app_control.Control
 }
@@ -38,12 +38,19 @@ func (z *ListWorker) Exec() error {
 }
 
 type List struct {
-	Peer        rc_conn.ConnBusinessFile
+	Peer        dbx_conn.ConnBusinessFile
 	FileRequest rp_model.RowReport
 }
 
 func (z *List) Preset() {
-	z.FileRequest.SetModel(&mo_filerequest.MemberFileRequest{})
+	z.FileRequest.SetModel(
+		&mo_filerequest.MemberFileRequest{},
+		rp_model.HiddenColumns(
+			"account_id",
+			"team_member_id",
+			"file_request_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -75,11 +82,11 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "file_request", func(cols map[string]string) error {
-		if _, ok := cols["file_request_id"]; !ok {
-			return errors.New("`file_request_id` is not found")
+		if _, ok := cols["url"]; !ok {
+			return errors.New("`url` is not found")
 		}
-		if _, ok := cols["team_member_id"]; !ok {
-			return errors.New("`team_member_id` is not found")
+		if _, ok := cols["email"]; !ok {
+			return errors.New("`email` is not found")
 		}
 		return nil
 	})

@@ -14,6 +14,10 @@ type ValueInt struct {
 	v int64
 }
 
+func (z *ValueInt) Spec() (typeName string, typeAttr interface{}) {
+	return "int", nil
+}
+
 func (z *ValueInt) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Kind() == reflect.Int {
 		return newValueInt()

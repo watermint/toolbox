@@ -1,9 +1,9 @@
 package sv_file_relocation
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_context"
 )
 
 type Relocation interface {
@@ -22,7 +22,7 @@ type RelocationOption interface {
 
 type Option func(option RelocationOption)
 
-func New(ctx api_context.Context, options ...Option) Relocation {
+func New(ctx dbx_context.Context, options ...Option) Relocation {
 	r := &implRelocation{
 		ctx: ctx,
 	}
@@ -51,7 +51,7 @@ func AutoRename(auto bool) Option {
 }
 
 type implRelocation struct {
-	ctx                    api_context.Context
+	ctx                    dbx_context.Context
 	allowSharedFolder      bool
 	allowOwnershipTransfer bool
 	autoRename             bool
@@ -89,7 +89,7 @@ func (z *implRelocation) relocParam(from, to mo_path.DropboxPath) interface{} {
 func (z *implRelocation) Copy(from, to mo_path.DropboxPath) (entry mo_file.Entry, err error) {
 	p := z.relocParam(from, to)
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Rpc("files/copy_v2").Param(p).Call()
+	res, err := z.ctx.Post("files/copy_v2").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +102,7 @@ func (z *implRelocation) Copy(from, to mo_path.DropboxPath) (entry mo_file.Entry
 func (z *implRelocation) Move(from, to mo_path.DropboxPath) (entry mo_file.Entry, err error) {
 	p := z.relocParam(from, to)
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Rpc("files/move_v2").Param(p).Call()
+	res, err := z.ctx.Post("files/move_v2").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

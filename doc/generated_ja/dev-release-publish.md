@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe dev release publish 
+.\tbx.exe dev release publish -artifact-path /LOCAL/PATH/TO/ARTIFACT
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx dev release publish 
+$HOME/Desktop/tbx dev release publish -artifact-path /LOCAL/PATH/TO/ARTIFACT
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -29,10 +29,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション       | 説明                   | デフォルト             |
-|------------------|------------------------|------------------------|
-| `-artifact-path` | 成果物へのパス         |                        |
-| `-test-resource` | テストリソースへのパス | test/dev/resource.json |
+| オプション       | 説明                                    | デフォルト             |
+|------------------|-----------------------------------------|------------------------|
+| `-artifact-path` | 成果物へのパス                          |                        |
+| `-branch`        | 対象ブランチ                            | master                 |
+| `-conn-github`   | アカウントの別名                        | default                |
+| `-skip-tests`    | エンドツーエンドテストをスキップします. | false                  |
+| `-test-resource` | テストリソースへのパス                  | test/dev/resource.json |
 
 共通のオプション:
 

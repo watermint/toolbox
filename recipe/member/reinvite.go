@@ -1,10 +1,10 @@
 package member
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -15,7 +15,7 @@ import (
 )
 
 type Reinvite struct {
-	Peer             rc_conn.ConnBusinessMgmt
+	Peer             dbx_conn.ConnBusinessMgmt
 	Silent           bool
 	OperationLog     rp_model.TransactionReport
 	ProgressReinvite app_msg.Message
@@ -75,5 +75,24 @@ func (z *Reinvite) Test(c app_control.Control) error {
 }
 
 func (z *Reinvite) Preset() {
-	z.OperationLog.SetModel(&mo_member.Member{}, &mo_member.Member{})
+	z.OperationLog.SetModel(
+		&mo_member.Member{},
+		&mo_member.Member{},
+		rp_model.HiddenColumns(
+			"input.team_member_id",
+			"input.familiar_name",
+			"input.abbreviated_name",
+			"input.member_folder_id",
+			"input.external_id",
+			"input.account_id",
+			"input.persistent_id",
+			"result.team_member_id",
+			"result.familiar_name",
+			"result.abbreviated_name",
+			"result.member_folder_id",
+			"result.external_id",
+			"result.account_id",
+			"result.persistent_id",
+		),
+	)
 }

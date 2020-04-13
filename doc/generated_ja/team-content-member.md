@@ -104,7 +104,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: membership 
-
+このレポートは共有フォルダまたはチームフォルダと、そのメンバーを一覧できます. フォルダに複数メンバーがいる場合には、メンバーは1行ずつ出力されます.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `membership.csv`
 * `membership.xlsx`
@@ -126,7 +126,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | member_email    | このメンバーのメールアドレス                                                                                     |
 
 ## レポート: no_member 
-
+このレポートはメンバーのいないフォルダの一覧を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `no_member.csv`
 * `no_member.xlsx`

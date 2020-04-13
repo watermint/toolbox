@@ -1,24 +1,36 @@
 package linkedapp
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_linkedapp"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_linkedapp"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 )
 
 type List struct {
-	Peer      rc_conn.ConnBusinessFile
+	Peer      dbx_conn.ConnBusinessFile
 	LinkedApp rp_model.RowReport
 }
 
 func (z *List) Preset() {
-	z.LinkedApp.SetModel(&mo_linkedapp.MemberLinkedApp{})
+	z.LinkedApp.SetModel(
+		&mo_linkedapp.MemberLinkedApp{},
+		rp_model.HiddenColumns(
+			"team_member_id",
+			"familiar_name",
+			"abbreviated_name",
+			"member_folder_id",
+			"external_id",
+			"account_id",
+			"persistent_id",
+			"app_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {

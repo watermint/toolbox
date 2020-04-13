@@ -3,13 +3,14 @@ package batch
 import (
 	"encoding/csv"
 	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_url"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -26,7 +27,7 @@ type UrlRow struct {
 
 type UrlWorker struct {
 	row *UrlRow
-	ctx api_context.DropboxApiContext
+	ctx dbx_context.Context
 	ctl app_control.Control
 	rep rp_model.TransactionReport
 }
@@ -50,20 +51,27 @@ func (z *UrlWorker) Exec() error {
 	return nil
 }
 
-const (
-	reportUrl = "import_url"
-)
-
 type Url struct {
-	Peer            rc_conn.ConnUserFile
+	Peer            dbx_conn.ConnUserFile
 	File            fd_file.RowFeed
-	Path            string
+	Path            mo_string.OptionalString
 	OperationLog    rp_model.TransactionReport
 	SkipPathMissing app_msg.Message
 }
 
 func (z *Url) Preset() {
-	z.OperationLog.SetModel(&UrlRow{}, &mo_file.ConcreteEntry{})
+	z.OperationLog.SetModel(
+		&UrlRow{},
+		&mo_file.ConcreteEntry{},
+		rp_model.HiddenColumns(
+			"result.id",
+			"result.path_lower",
+			"result.revision",
+			"result.content_hash",
+			"result.shared_folder_id",
+			"result.parent_shared_folder_id",
+		),
+	)
 	z.File.SetModel(&UrlRow{})
 }
 
@@ -82,8 +90,8 @@ func (z *Url) Exec(c app_control.Control) error {
 		switch {
 		case r.Path != "":
 			path = r.Path
-		case z.Path != "":
-			path = z.Path
+		case z.Path.IsExists():
+			path = z.Path.Value()
 		default:
 			z.OperationLog.Skip(z.SkipPathMissing, r)
 			ui.ErrorK("recipe.file.import.batch.url.err.path_missing")

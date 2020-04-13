@@ -5,8 +5,8 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_log"
-	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
@@ -15,41 +15,29 @@ import (
 	"go.uber.org/zap"
 )
 
-func NewMulti(ws app_workspace.Workspace, ui app_ui.UI, bx *rice.Box, mc app_msg_container.Container, quiet bool) app_control.Control {
+func NewMulti(ws app_workspace.Workspace, ui app_ui.UI, bx *rice.Box, mc app_msg_container.Container, feature app_feature.Feature) app_control.Control {
 	return &Multi{
-		ws:    ws,
-		ui:    ui,
-		box:   bx,
-		mc:    mc,
-		quiet: quiet,
+		ws:      ws,
+		ui:      ui,
+		box:     bx,
+		mc:      mc,
+		feature: feature,
 	}
 }
 
 type Multi struct {
-	ui     app_ui.UI
-	flc    *app_log.FileLogContext
-	cap    *app_log.CaptureContext
-	box    *rice.Box
-	mc     app_msg_container.Container
-	ws     app_workspace.Workspace
-	quiet  bool
-	secure bool
+	feature app_feature.Feature
+	ui      app_ui.UI
+	flc     *app_log.FileLogContext
+	cap     *app_log.CaptureContext
+	box     *rice.Box
+	mc      app_msg_container.Container
+	ws      app_workspace.Workspace
+	secure  bool
 }
 
-func (z *Multi) IsDebug() bool {
-	return false
-}
-
-func (z *Multi) UIFormat() string {
-	return app_opt.OutputNone
-}
-
-func (z *Multi) IsAutoOpen() bool {
-	return false
-}
-
-func (z *Multi) IsLowMemory() bool {
-	return false
+func (z *Multi) Feature() app_feature.Feature {
+	return z.feature
 }
 
 func (z *Multi) Messages() app_msg_container.Container {
@@ -72,7 +60,6 @@ func (z *Multi) Fork(ui app_ui.UI, ws app_workspace.Workspace) (ctl app_control.
 		box:    z.box,
 		mc:     z.mc,
 		ws:     ws,
-		quiet:  z.quiet,
 		secure: z.secure,
 	}
 
@@ -155,20 +142,4 @@ func (z *Multi) Resource(key string) (bin []byte, err error) {
 
 func (z *Multi) Workspace() app_workspace.Workspace {
 	return z.ws
-}
-
-func (z *Multi) IsProduction() bool {
-	return app.IsProduction()
-}
-
-func (z *Multi) IsTest() bool {
-	return false
-}
-
-func (z *Multi) IsQuiet() bool {
-	return z.quiet
-}
-
-func (z *Multi) IsSecure() bool {
-	return z.secure
 }

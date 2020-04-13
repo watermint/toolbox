@@ -104,7 +104,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: namespace_file 
-
+このレポートはチームの名前空間を一覧します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `namespace_file.csv`
 * `namespace_file.xlsx`
@@ -115,21 +115,15 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
 
-| 列                      | 説明                                                                                            |
-|-------------------------|-------------------------------------------------------------------------------------------------|
-| namespace_type          | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)          |
-| namespace_id            | 名前空間ID                                                                                      |
-| namespace_name          | 名前空間の名称                                                                                  |
-| namespace_member_email  | これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス. |
-| file_id                 | ファイルへの一意なID                                                                            |
-| tag                     | エントリーの種別`file`, `folder`, または `deleted`                                              |
-| name                    | 名称                                                                                            |
-| path_display            | パス (表示目的で大文字小文字を区別する).                                                        |
-| client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                    |
-| server_modified         | Dropbox上で最後に更新された日時                                                                 |
-| revision                | ファイルの現在バージョンの一意な識別子                                                          |
-| size                    | ファイルサイズ(バイト単位)                                                                      |
-| content_hash            | ファイルコンテンツのハッシュ                                                                    |
-| shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。      |
-| parent_shared_folder_id | 設定されている場合、共有フォルダに内包されています.                                             |
+| 列                     | 説明                                                                                            |
+|------------------------|-------------------------------------------------------------------------------------------------|
+| namespace_type         | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)          |
+| namespace_name         | 名前空間の名称                                                                                  |
+| namespace_member_email | これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス. |
+| tag                    | エントリーの種別`file`, `folder`, または `deleted`                                              |
+| name                   | 名称                                                                                            |
+| path_display           | パス (表示目的で大文字小文字を区別する).                                                        |
+| client_modified        | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                    |
+| server_modified        | Dropbox上で最後に更新された日時                                                                 |
+| size                   | ファイルサイズ(バイト単位)                                                                      |
 

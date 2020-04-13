@@ -3,12 +3,12 @@ package update
 import (
 	"encoding/csv"
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -27,14 +27,26 @@ type ExternalIdRow struct {
 }
 
 type Externalid struct {
-	Peer         rc_conn.ConnBusinessMgmt
+	Peer         dbx_conn.ConnBusinessMgmt
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
 }
 
 func (z *Externalid) Preset() {
 	z.File.SetModel(&ExternalIdRow{})
-	z.OperationLog.SetModel(&ExternalIdRow{}, &mo_member.Member{})
+	z.OperationLog.SetModel(
+		&ExternalIdRow{},
+		&mo_member.Member{},
+		rp_model.HiddenColumns(
+			"result.team_member_id",
+			"result.familiar_name",
+			"result.abbreviated_name",
+			"result.member_folder_id",
+			"result.external_id",
+			"result.account_id",
+			"result.persistent_id",
+		),
+	)
 }
 
 func (z *Externalid) Exec(c app_control.Control) error {

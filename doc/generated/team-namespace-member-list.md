@@ -105,7 +105,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: namespace_member 
-
+This report shows a list of members of namespaces in the team.
 Report files are generated in three formats like below;
 * `namespace_member.csv`
 * `namespace_member.xlsx`
@@ -119,7 +119,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | Column             | Description                                                                                               |
 |--------------------|-----------------------------------------------------------------------------------------------------------|
 | namespace_name     | The name of this namespace                                                                                |
-| namespace_id       | The ID of this namespace.                                                                                 |
 | namespace_type     | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)                |
 | entry_access_type  | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | entry_is_inherited | True if the member has access from a parent folder                                                        |

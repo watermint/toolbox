@@ -107,7 +107,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: matches 
-
+This report shows a result of search with highlighted text.
 Report files are generated in three formats like below;
 * `matches.csv`
 * `matches.xlsx`

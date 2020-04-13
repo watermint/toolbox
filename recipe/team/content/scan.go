@@ -2,7 +2,7 @@ package content
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
@@ -19,7 +19,7 @@ var (
 )
 
 type ScanNamespace interface {
-	Scan(ctl app_control.Control, ctx api_context.DropboxApiContext, namespaceName string, namespaceId string)
+	Scan(ctl app_control.Control, ctx dbx_context.Context, namespaceName string, namespaceId string)
 }
 
 type ScanNamespaceMetadataAndMembership struct {
@@ -27,7 +27,7 @@ type ScanNamespaceMetadataAndMembership struct {
 	membership ScanNamespace
 }
 
-func (z *ScanNamespaceMetadataAndMembership) Scan(ctl app_control.Control, ctx api_context.DropboxApiContext, namespaceName string, namespaceId string) {
+func (z *ScanNamespaceMetadataAndMembership) Scan(ctl app_control.Control, ctx dbx_context.Context, namespaceName string, namespaceId string) {
 	z.membership.Scan(ctl, ctx, namespaceName, namespaceId)
 	z.metadata.Scan(ctl, ctx, namespaceName, namespaceId)
 }

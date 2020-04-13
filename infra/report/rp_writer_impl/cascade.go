@@ -12,16 +12,16 @@ func NewCascade(name string, ctl app_control.Control) rp_writer.Writer {
 	consoleWriters := make([]rp_writer.Writer, 0)
 
 	fileWriters = append(fileWriters, NewJsonWriter(name, ctl, false))
-	if !ctl.IsLowMemory() {
+	if !ctl.Feature().IsLowMemory() {
 		columnWriters := make([]rp_writer.Writer, 0)
-		columnWriters = append(columnWriters, newCsvWriter(name, ctl))
+		columnWriters = append(columnWriters, NewCsvWriter(name, ctl))
 		columnWriters = append(columnWriters, NewXlsxWriter(name, ctl))
 		sortedWriter := NewSorted(name, columnWriters)
 		fileWriters = append(fileWriters, sortedWriter)
 	}
 
-	if !ctl.IsQuiet() {
-		if ctl.UIFormat() == app_opt.OutputJson {
+	if !ctl.Feature().IsQuiet() {
+		if ctl.Feature().UIFormat() == app_opt.OutputJson {
 			consoleWriters = append(consoleWriters, NewJsonWriter(name, ctl, true))
 		} else {
 			consoleWriters = append(consoleWriters, newUIWriter(name, ctl))
@@ -87,6 +87,6 @@ func (z *cascadeWriter) Close() {
 
 	p := z.ctl.Workspace().Report()
 	ui := z.ctl.UI()
-	ui.OpenArtifact(p, z.ctl.IsAutoOpen())
+	ui.OpenArtifact(p, z.ctl.Feature().IsAutoOpen())
 	z.isClosed = true
 }

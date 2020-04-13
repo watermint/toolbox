@@ -2,7 +2,8 @@ package job
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -16,8 +17,8 @@ import (
 
 type Run struct {
 	Fork                    bool
-	TimeoutSeconds          int
-	RunbookPath             mo_path.FileSystemPath
+	TimeoutSeconds          mo_int.RangeInt
+	RunbookPath             mo_path2.FileSystemPath
 	ErrorRunBookNotFound    app_msg.Message
 	ErrorTimeoutRequireFork app_msg.Message
 	ErrorUnableToFork       app_msg.Message
@@ -40,7 +41,7 @@ func (z *Run) execFork(c app_control.Control) error {
 		return err
 	}
 
-	if z.TimeoutSeconds < 1 {
+	if z.TimeoutSeconds.Value() < 1 {
 		l.Info("Waiting for finish process")
 		if err := cmd.Wait(); err != nil {
 			l.Info("The process finished with an error", zap.Error(err))
@@ -57,7 +58,7 @@ func (z *Run) execFork(c app_control.Control) error {
 		running = false
 	}()
 
-	timeout := time.Now().Add(time.Duration(z.TimeoutSeconds) * time.Second)
+	timeout := time.Now().Add(time.Duration(z.TimeoutSeconds.Value()) * time.Second)
 	l.Info("Waiting for process", zap.String("timeout", timeout.Format(time.RFC3339)))
 	for {
 		time.Sleep(500 * time.Microsecond)
@@ -90,7 +91,7 @@ func (z *Run) execInProcess(c app_control.Control) error {
 
 func (z *Run) Exec(c app_control.Control) error {
 	ui := c.UI()
-	if !z.Fork && z.TimeoutSeconds > 0 {
+	if !z.Fork && z.TimeoutSeconds.Value() > 0 {
 		ui.Error(z.ErrorTimeoutRequireFork)
 		return errors.New("-timeout-seconds option requires fork")
 	}
@@ -108,5 +109,5 @@ func (z *Run) Test(c app_control.Control) error {
 
 func (z *Run) Preset() {
 	z.Fork = false
-	z.TimeoutSeconds = 0
+	z.TimeoutSeconds.SetRange(0, 86400*365, 0)
 }

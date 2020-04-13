@@ -1,11 +1,11 @@
 package _import
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_url"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -14,14 +14,23 @@ import (
 )
 
 type Url struct {
-	Peer         rc_conn.ConnUserFile
+	Peer         dbx_conn.ConnUserFile
 	Path         mo_path.DropboxPath
 	Url          string
 	OperationLog rp_model.RowReport
 }
 
 func (z *Url) Preset() {
-	z.OperationLog.SetModel(&mo_file.ConcreteEntry{})
+	z.OperationLog.SetModel(
+		&mo_file.ConcreteEntry{},
+		rp_model.HiddenColumns(
+			"id",
+			"path_lower",
+			"content_hash",
+			"shared_folder_id",
+			"parent_shared_folder_id",
+		),
+	)
 }
 
 func (z *Url) Exec(c app_control.Control) error {

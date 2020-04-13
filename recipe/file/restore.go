@@ -2,14 +2,14 @@ package file
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_restore"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_revision"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -20,7 +20,7 @@ import (
 
 type RestoreWorker struct {
 	ctl  app_control.Control
-	ctx  api_context.Context
+	ctx  dbx_context.Context
 	rep  rp_model.TransactionReport
 	path mo_path.DropboxPath
 }
@@ -67,13 +67,24 @@ func (z *RestoreWorker) Exec() error {
 }
 
 type Restore struct {
-	Peer         rc_conn.ConnUserFile
+	Peer         dbx_conn.ConnUserFile
 	Path         mo_path.DropboxPath
 	OperationLog rp_model.TransactionReport
 }
 
 func (z *Restore) Preset() {
-	z.OperationLog.SetModel(&RestoreTarget{}, &mo_file.ConcreteEntry{})
+	z.OperationLog.SetModel(
+		&RestoreTarget{},
+		&mo_file.ConcreteEntry{},
+		rp_model.HiddenColumns(
+			"result.id",
+			"result.path_lower",
+			"result.revision",
+			"result.content_hash",
+			"result.shared_folder_id",
+			"result.parent_shared_folder_id",
+		),
+	)
 }
 
 func (z *Restore) Exec(c app_control.Control) error {

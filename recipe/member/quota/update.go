@@ -2,14 +2,15 @@ package quota
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member_quota"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member_quota"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -19,6 +20,7 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
+	"math"
 )
 
 type UpdateWorker struct {
@@ -26,7 +28,7 @@ type UpdateWorker struct {
 	quota  int
 
 	ctl app_control.Control
-	ctx api_context.Context
+	ctx dbx_context.Context
 	rep rp_model.TransactionReport
 }
 
@@ -58,15 +60,16 @@ func (z *UpdateWorker) Exec() error {
 }
 
 type Update struct {
-	Peer         rc_conn.ConnBusinessMgmt
+	Peer         dbx_conn.ConnBusinessMgmt
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
-	Quota        int
+	Quota        mo_int.RangeInt
 }
 
 func (z *Update) Preset() {
 	z.File.SetModel(&mo_member_quota.MemberQuota{})
 	z.OperationLog.SetModel(&mo_member_quota.MemberQuota{}, &mo_member_quota.MemberQuota{})
+	z.Quota.SetRange(0, math.MaxInt32, 0)
 }
 
 func (z *Update) Exec(c app_control.Control) error {
@@ -92,7 +95,7 @@ func (z *Update) Exec(c app_control.Control) error {
 			z.OperationLog.Failure(errors.New("member not found for an email"), mq)
 			return nil
 		}
-		quota := z.Quota
+		quota := z.Quota.Value()
 		if mq.Quota != 0 {
 			quota = mq.Quota
 		}
@@ -118,7 +121,7 @@ func (z *Update) Test(c app_control.Control) error {
 			return
 		}
 		m := r.(*Update)
-		m.Quota = 150
+		m.Quota.SetValue(150)
 		m.File.SetFilePath(f)
 	})
 	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {

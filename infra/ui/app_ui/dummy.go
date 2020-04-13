@@ -37,6 +37,9 @@ func (z *Dummy) Success(m app_msg.Message) {
 func (z *Dummy) Failure(m app_msg.Message) {
 }
 
+func (z *Dummy) AskProceed(m app_msg.Message) {
+}
+
 func (z *Dummy) AskCont(m app_msg.Message) (cont bool, cancel bool) {
 	return false, true
 }
@@ -88,18 +91,6 @@ func (z *Dummy) TextK(key string, p ...app_msg.P) string {
 
 func (z *Dummy) TextOrEmptyK(key string, p ...app_msg.P) string {
 	return ""
-}
-
-func (z *Dummy) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
-	return false, true
-}
-
-func (z *Dummy) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
-	return "", true
-}
-
-func (z *Dummy) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool) {
-	return "", true
 }
 
 func (z *Dummy) OpenArtifact(path string, autoOpen bool) {

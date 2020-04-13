@@ -2,15 +2,15 @@ package file
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_size"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -21,7 +21,7 @@ import (
 
 type SizeWorker struct {
 	namespace *mo_namespace.Namespace
-	ctx       api_context.DropboxApiContext
+	ctx       dbx_context.Context
 	ctl       app_control.Control
 	rep       rp_model.TransactionReport
 	depth     int
@@ -37,7 +37,7 @@ func (z *SizeWorker) Exec() error {
 	)
 	l := z.ctl.Log().With(zap.Any("namespace", z.namespace))
 
-	ctn := z.ctx.WithPath(api_context.Namespace(z.namespace.NamespaceId))
+	ctn := z.ctx.WithPath(dbx_context.Namespace(z.namespace.NamespaceId))
 
 	var lastErr error
 	sizes, errs := uc_file_size.New(ctn, z.ctl).Size(mo_path.NewDropboxPath("/"), z.depth)
@@ -63,7 +63,7 @@ func (z *SizeWorker) Exec() error {
 }
 
 type Size struct {
-	Peer                rc_conn.ConnBusinessFile
+	Peer                dbx_conn.ConnBusinessFile
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
 	IncludeMemberFolder bool
@@ -82,6 +82,8 @@ func (z *Size) Preset() {
 			"result.namespace_id",
 			"result.namespace_type",
 			"result.owner_team_member_id",
+			"input.team_member_id",
+			"input.namespace_id",
 		),
 	)
 	z.IncludeSharedFolder = true

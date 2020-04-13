@@ -1,7 +1,7 @@
 package util
 
 import (
-	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -10,25 +10,22 @@ import (
 )
 
 type Wait struct {
-	Seconds int
+	Seconds mo_int.RangeInt
 }
 
 func (z *Wait) Exec(c app_control.Control) error {
-	if z.Seconds < 1 {
-		return errors.New("seconds must grater than 1")
-	}
-	c.Log().Info("Wait", zap.Int("seconds", z.Seconds))
-	time.Sleep(time.Duration(z.Seconds) * time.Second)
+	c.Log().Info("Wait", zap.Int("seconds", z.Seconds.Value()))
+	time.Sleep(time.Duration(z.Seconds.Value()) * time.Second)
 	return nil
 }
 
 func (z *Wait) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Wait{}, func(r rc_recipe.Recipe) {
 		m := r.(*Wait)
-		m.Seconds = 1
+		m.Seconds.SetValue(1)
 	})
 }
 
 func (z *Wait) Preset() {
-	z.Seconds = 1
+	z.Seconds.SetRange(1, 86400*7, 1)
 }

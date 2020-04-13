@@ -3,17 +3,18 @@ package batch
 import (
 	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -47,7 +48,7 @@ const (
 
 type UserWorker struct {
 	Ctl        app_control.Control
-	Context    api_context.DropboxApiContext
+	Context    dbx_context.Context
 	StartTime  string
 	EndTime    string
 	Category   string
@@ -94,10 +95,10 @@ func (z *UserWorker) Exec() error {
 }
 
 type User struct {
-	Peer       rc_conn.ConnBusinessAudit
+	Peer       dbx_conn.ConnBusinessAudit
 	StartTime  mo_time.TimeOptional
 	EndTime    mo_time.TimeOptional
-	Category   string
+	Category   mo_string.OptionalString
 	Combined   rp_model.RowReport
 	User       rp_model.RowReport
 	File       fd_file.RowFeed
@@ -129,7 +130,7 @@ func (z *User) Exec(c app_control.Control) error {
 			Context:    z.Peer.Context(),
 			StartTime:  z.StartTime.Iso8601(),
 			EndTime:    z.EndTime.Iso8601(),
-			Category:   z.Category,
+			Category:   z.Category.Value(),
 			EventCache: z.EventCache,
 			UserEmail:  e.Email,
 		})

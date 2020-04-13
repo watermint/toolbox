@@ -1,43 +1,15 @@
 package sv_file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
-	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
 
-func TestFilesImpl_ListWithTestSuite(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx api_context.DropboxApiContext) {
-		svc := newFilesTest(ctx)
-		folder := qt_api.ToolboxTestSuiteFolder.ChildPath("list_folder")
-		entries, err := svc.List(folder)
-		if err != nil {
-			t.Error(err)
-			return
-		}
-		if len(entries) < 1 {
-			t.Error("invalid")
-		}
-		for i, e := range entries {
-			if i > 10 {
-				break
-			}
-			f, err := svc.Resolve(e.Path())
-			if err != nil {
-				t.Error(err)
-			}
-			if f.Tag() != e.Tag() || f.PathLower() != e.PathLower() {
-				t.Error("invalid")
-			}
-		}
-	})
-}
-
 func TestFilesImpl_ListChunked(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		err := sv.ListChunked(qt_recipe.NewTestDropboxFolderPath(), func(entry mo_file.Entry) {},
 			Recursive(),
@@ -52,7 +24,7 @@ func TestFilesImpl_ListChunked(t *testing.T) {
 }
 
 func TestFilesImpl_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		_, err := sv.List(qt_recipe.NewTestDropboxFolderPath(),
 			Recursive(),
@@ -67,7 +39,7 @@ func TestFilesImpl_List(t *testing.T) {
 }
 
 func TestFilesImpl_Poll(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		err := sv.Poll(qt_recipe.NewTestDropboxFolderPath(), func(entry mo_file.Entry) {
 		})
@@ -78,7 +50,7 @@ func TestFilesImpl_Poll(t *testing.T) {
 }
 
 func TestFilesImpl_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		_, err := sv.Remove(qt_recipe.NewTestDropboxFolderPath(), RemoveRevision("test"))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -88,7 +60,7 @@ func TestFilesImpl_Remove(t *testing.T) {
 }
 
 func TestFilesImpl_Resolve(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		_, err := sv.Resolve(qt_recipe.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -98,7 +70,7 @@ func TestFilesImpl_Resolve(t *testing.T) {
 }
 
 func TestFilesImpl_Search(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx api_context.DropboxApiContext) {
+	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		_, err := sv.Search("test",
 			SearchPath(qt_recipe.NewTestDropboxFolderPath()),

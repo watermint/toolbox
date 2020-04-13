@@ -2,13 +2,13 @@ package qs_file
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -99,7 +99,7 @@ func TestFileUploadScenario(t *testing.T) {
 	}
 
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
-		if _, err := rc_conn_impl.ConnectTest(api_auth.DropboxTokenFull, qt_endtoend.EndToEndPeer, ctl); err != nil {
+		if _, err := dbx_conn_impl.ConnectTest(api_auth.DropboxTokenFull, qt_endtoend.EndToEndPeer, ctl); err != nil {
 			l.Info("Skip: no end to end test resource found")
 			return
 		}
@@ -112,7 +112,7 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &file.Upload{}, func(r rc_recipe.Recipe) {
 				ru := r.(*file.Upload)
-				ru.LocalPath = mo_path.NewFileSystemPath(scenario.LocalPath)
+				ru.LocalPath = mo_path2.NewFileSystemPath(scenario.LocalPath)
 				ru.DropboxPath = dbxBase.ChildPath("file-upload")
 				ru.Overwrite = false
 			})
@@ -133,7 +133,7 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 				ru := r.(*filesync.Up)
-				ru.LocalPath = mo_path.NewFileSystemPath(scenario.LocalPath)
+				ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 				ru.DropboxPath = dbxBase.ChildPath("file-sync-up")
 			})
 			if err != nil {
@@ -152,7 +152,7 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 				ru := r.(*filesync.Up)
-				ru.LocalPath = mo_path.NewFileSystemPath(scenario.LocalPath)
+				ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 				ru.DropboxPath = dbxBase.ChildPath("file-sync-up")
 			})
 			if err != nil {
@@ -175,7 +175,7 @@ func TestFileUploadScenario(t *testing.T) {
 			err = rc_exec.Exec(fc, &filecompare.Local{}, func(r rc_recipe.Recipe) {
 				rc := r.(*filecompare.Local)
 				rc.DropboxPath = dbxBase.ChildPath("file-sync-up")
-				rc.LocalPath = mo_path.NewFileSystemPath(scenario.LocalPath)
+				rc.LocalPath = mo_path2.NewFileSystemPath(scenario.LocalPath)
 			})
 			if err != nil {
 				t.Error(err)
@@ -191,7 +191,7 @@ func TestFileUploadScenario(t *testing.T) {
 			}
 			err = rc_exec.Exec(fc, &filesyncpreflight.Up{}, func(r rc_recipe.Recipe) {
 				ru := r.(*filesyncpreflight.Up)
-				ru.LocalPath = mo_path.NewFileSystemPath(scenario.LocalPath)
+				ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 				ru.DropboxPath = dbxBase.ChildPath("file-sync-preflight-up")
 			})
 			if err != nil {

@@ -52,7 +52,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for batch creating team folders. 
 
 | Column | Description         | Value example |
 |--------|---------------------|---------------|
@@ -80,7 +82,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: verification 
-
+This report shows a difference between to folders.
 Report files are generated in three formats like below;
 * `verification.csv`
 * `verification.xlsx`

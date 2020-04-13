@@ -1,11 +1,12 @@
 package export
 
 import (
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -16,8 +17,8 @@ import (
 )
 
 type Doc struct {
-	Peer         rc_conn.ConnUserFile
-	LocalPath    mo_path.FileSystemPath
+	Peer         dbx_conn.ConnUserFile
+	LocalPath    mo_path2.FileSystemPath
 	DropboxPath  mo_path.DropboxPath
 	OperationLog rp_model.RowReport
 }
@@ -56,5 +57,14 @@ func (z *Doc) Test(c app_control.Control) error {
 }
 
 func (z *Doc) Preset() {
-	z.OperationLog.SetModel(&mo_file.Export{})
+	z.OperationLog.SetModel(
+		&mo_file.Export{},
+		rp_model.HiddenColumns(
+			"path_lower",
+			"id",
+			"revision",
+			"content_hash",
+			"export_hash",
+		),
+	)
 }

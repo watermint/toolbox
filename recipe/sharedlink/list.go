@@ -2,10 +2,10 @@ package sharedlink
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -13,12 +13,19 @@ import (
 )
 
 type List struct {
-	Peer       rc_conn.ConnUserFile
+	Peer       dbx_conn.ConnUserFile
 	SharedLink rp_model.RowReport
 }
 
 func (z *List) Preset() {
-	z.SharedLink.SetModel(&mo_sharedlink.Metadata{})
+	z.SharedLink.SetModel(
+		&mo_sharedlink.Metadata{},
+		rp_model.HiddenColumns(
+			"id",
+			"account_id",
+			"team_member_id",
+		),
+	)
 }
 
 func (z *List) Test(c app_control.Control) error {
@@ -26,8 +33,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "shared_link", func(cols map[string]string) error {
-		if _, ok := cols["id"]; !ok {
-			return errors.New("`id` is not found")
+		if _, ok := cols["name"]; !ok {
+			return errors.New("`name` is not found")
 		}
 		return nil
 	})

@@ -3,6 +3,7 @@ package test
 import (
 	"errors"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
@@ -18,8 +19,8 @@ import (
 
 type Recipe struct {
 	All      bool
-	Recipe   string
-	Resource string
+	Recipe   mo_string.OptionalString
+	Resource mo_string.OptionalString
 	Verbose  bool
 }
 
@@ -33,9 +34,9 @@ func (z *Recipe) Exec(c app_control.Control) error {
 
 	testResource := gjson.Parse("{}")
 
-	if z.Resource != "" {
-		ll := l.With(zap.String("resource", z.Resource))
-		b, err := ioutil.ReadFile(z.Resource)
+	if z.Resource.IsExists() {
+		ll := l.With(zap.String("resource", z.Resource.Value()))
+		b, err := ioutil.ReadFile(z.Resource.Value())
 		if err != nil {
 			ll.Error("Unable to read resource file", zap.Error(err))
 			return err
@@ -90,11 +91,11 @@ func (z *Recipe) Exec(c app_control.Control) error {
 		}
 		l.Info("All tests passed without error")
 
-	case z.Recipe != "":
+	case z.Recipe.IsExists():
 
 		for _, r := range cat.Recipes() {
 			p := rc_recipe.Key(r)
-			if p != z.Recipe {
+			if p != z.Recipe.Value() {
 				continue
 			}
 			ll := l.With(zap.String("recipeKey", p))
@@ -113,7 +114,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 				return nil
 			}
 		}
-		l.Error("recipe not found", zap.String("vo.Recipe", z.Recipe))
+		l.Error("recipe not found", zap.String("vo.Recipe", z.Recipe.Value()))
 		return errors.New("recipe not found")
 
 	default:

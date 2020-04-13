@@ -2,15 +2,17 @@ package update
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
-	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -18,12 +20,13 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_time"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
+	"math"
 	"time"
 )
 
 type ExpiryScanWorker struct {
 	ctl        app_control.Control
-	ctx        api_context.DropboxApiContext
+	ctx        dbx_context.Context
 	rep        rp_model.TransactionReport
 	repSkipped rp_model.RowReport
 	member     *mo_member.Member
@@ -98,7 +101,7 @@ func (z *ExpiryScanWorker) Exec() error {
 
 type ExpiryWorker struct {
 	ctl       app_control.Control
-	ctx       api_context.DropboxApiContext
+	ctx       dbx_context.Context
 	rep       rp_model.TransactionReport
 	member    *mo_member.Member
 	link      mo_sharedlink.SharedLink
@@ -133,16 +136,17 @@ func (z *ExpiryWorker) Exec() error {
 }
 
 type Expiry struct {
-	Peer       rc_conn.ConnBusinessFile
-	Days       int
+	Peer       dbx_conn.ConnBusinessFile
+	Days       mo_int.RangeInt
 	At         mo_time.TimeOptional
-	Visibility string
+	Visibility mo_string.SelectString
 	Updated    rp_model.TransactionReport
 	Skipped    rp_model.RowReport
 }
 
 func (z *Expiry) Preset() {
-	z.Visibility = "public"
+	z.Days.SetRange(0, math.MaxInt32, 0)
+	z.Visibility.SetOptions([]string{"public", "team_only", "password", "team_and_password", "shared_folder_only"}, "public")
 	z.Skipped.SetModel(&mo_sharedlink.SharedLinkMember{}, rp_model.HiddenColumns(
 		"shared_link_id",
 		"account_id",
@@ -165,25 +169,20 @@ func (z *Expiry) Exec(c app_control.Control) error {
 	ui := c.UI()
 	l := c.Log()
 	var newExpiry time.Time
-	if z.Days > 0 && z.At.Ok() {
-		l.Debug("Both Days/At specified", zap.Int("evo.Days", z.Days), zap.String("evo.At", z.At.String()))
+	if z.Days.Value() > 0 && z.At.Ok() {
+		l.Debug("Both Days/At specified", zap.Int("evo.Days", z.Days.Value()), zap.String("evo.At", z.At.Value()))
 		ui.ErrorK("recipe.team.sharedlink.update.expiry.err.please_specify_days_or_at")
 		return errors.New("please specify one of `-days` or `-at`")
 	}
-	if z.Days < 0 {
-		l.Debug("Days options should not be negative", zap.Int("evo.Days", z.Days))
-		ui.ErrorK("recipe.team.sharedlink.update.expiry.err.days_should_not_negative")
-		return errors.New("days should not be negative")
-	}
 
 	switch {
-	case z.Days > 0:
-		newExpiry = dbx_util.RebaseTime(time.Now().Add(time.Duration(z.Days*24) * time.Hour))
-		l.Debug("New expiry", zap.Int("evo.Days", z.Days), zap.String("newExpiry", newExpiry.String()))
+	case z.Days.Value() > 0:
+		newExpiry = dbx_util.RebaseTime(time.Now().Add(time.Duration(z.Days.Value()*24) * time.Hour))
+		l.Debug("New expiry", zap.Int("evo.Days", z.Days.Value()), zap.String("newExpiry", newExpiry.String()))
 
 	default:
 		if !z.At.Ok() {
-			l.Debug("Invalid date/time format for at option", zap.String("evo.At", z.At.String()))
+			l.Debug("Invalid date/time format for at option", zap.String("evo.At", z.At.Value()))
 			ui.ErrorK("recipe.team.sharedlink.update.expiry.err.invalid_date_time_format_for_at_option")
 			return errors.New("invalid date/time format for `at`")
 		}
@@ -214,7 +213,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 			repSkipped: z.Skipped,
 			member:     member,
 			newExpiry:  newExpiry,
-			visibility: z.Visibility,
+			visibility: z.Visibility.Value(),
 		})
 	}
 	q.Wait()
@@ -227,7 +226,7 @@ func (z *Expiry) Test(c app_control.Control) error {
 	{
 		err := rc_exec.Exec(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			rc := r.(*Expiry)
-			rc.Days = 1
+			rc.Days.SetValue(1)
 			rc.At = mo_time.NewOptional(time.Now().Add(1 * time.Second))
 		})
 		if err == nil {
@@ -236,19 +235,9 @@ func (z *Expiry) Test(c app_control.Control) error {
 	}
 
 	{
-		err := rc_exec.Exec(c, &Expiry{}, func(r rc_recipe.Recipe) {
-			rc := r.(*Expiry)
-			rc.Days = -1
-		})
-		if err == nil {
-			return errors.New("negative days should not be accepted")
-		}
-	}
-
-	{
 		err := rc_exec.ExecMock(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			m := r.(*Expiry)
-			m.Days = 7
+			m.Days.SetValue(7)
 		})
 		if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
 			return e

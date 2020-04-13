@@ -65,7 +65,7 @@ func (z *badgerWrapper) Close() {
 	l.Debug("Database closed", zap.Error(err))
 
 	// #323 : remove storage data on close unless debug option enabled
-	if z.ctl.IsDebug() {
+	if z.ctl.Feature().IsDebug() {
 		l.Debug("Skip removing database")
 		return
 	}

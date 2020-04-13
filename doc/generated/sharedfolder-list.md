@@ -103,7 +103,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: shared_folder 
-
+This report shows a list of shared folders.
 Report files are generated in three formats like below;
 * `shared_folder.csv`
 * `shared_folder.xlsx`
@@ -114,19 +114,16 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`...   
 
-| Column                  | Description                                                                                                             |
-|-------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| shared_folder_id        | The ID of the shared folder.                                                                                            |
-| parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
-| name                    | The name of the this shared folder.                                                                                     |
-| access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
-| path_lower              | The lower-cased full path of this shared folder.                                                                        |
-| is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
-| is_team_folder          | Whether this folder is a team folder.                                                                                   |
-| policy_manage_access    | Who can add and remove members from this shared folder.                                                                 |
-| policy_shared_link      | Who links can be shared with.                                                                                           |
-| policy_member           | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                                |
-| policy_viewer_info      | Who can enable/disable viewer info for this shared folder.                                                              |
-| owner_team_id           | Team ID of the team that owns the folder                                                                                |
-| owner_team_name         | Team name of the team that owns the folder                                                                              |
+| Column                | Description                                                                                               |
+|-----------------------|-----------------------------------------------------------------------------------------------------------|
+| name                  | The name of the this shared folder.                                                                       |
+| access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
+| path_lower            | The lower-cased full path of this shared folder.                                                          |
+| is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
+| is_team_folder        | Whether this folder is a team folder.                                                                     |
+| policy_manage_access  | Who can add and remove members from this shared folder.                                                   |
+| policy_shared_link    | Who links can be shared with.                                                                             |
+| policy_member         | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                  |
+| policy_viewer_info    | Who can enable/disable viewer info for this shared folder.                                                |
+| owner_team_name       | Team name of the team that owns the folder                                                                |
 

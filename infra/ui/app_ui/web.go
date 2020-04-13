@@ -64,6 +64,9 @@ type Web struct {
 	mutex  sync.Mutex
 }
 
+func (z *Web) AskProceed(m app_msg.Message) {
+}
+
 func (z *Web) Id() string {
 	return z.id
 }
@@ -206,23 +209,11 @@ func (z *Web) Break() {
 }
 
 func (z *Web) TextK(key string, p ...app_msg.P) string {
-	return z.baseUI.TextK(key, p...)
+	return z.baseUI.Text(app_msg.M(key, p...))
 }
 
 func (z *Web) TextOrEmptyK(key string, p ...app_msg.P) string {
-	return z.baseUI.TextOrEmptyK(key, p...)
-}
-
-func (z *Web) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
-	panic("not supported")
-}
-
-func (z *Web) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
-	panic("not supported")
-}
-
-func (z *Web) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool) {
-	panic("not supported")
+	return z.baseUI.TextOrEmpty(app_msg.M(key, p...))
 }
 
 func (z *Web) OpenArtifact(path string, autoOpen bool) {

@@ -15,10 +15,19 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
+	"io"
 	"os"
 	"sort"
 	"strings"
 )
+
+func SuggestMessages(ctl app_control.Control, suggest func(out io.Writer)) {
+	out := ut_io.NewDefaultOut(ctl.Feature().IsTest())
+	fmt.Fprintln(out, "Please add those messages to message resource files:")
+	fmt.Fprintln(out, "====================================================")
+	suggest(out)
+	fmt.Fprintln(out, "====================================================")
+}
 
 func VerifyMessages(ctl app_control.Control) error {
 	cl := ctl.(app_control_launcher.ControlLauncher)
@@ -44,21 +53,24 @@ func VerifyMessages(ctl app_control.Control) error {
 			ctl.Log().Error("Key missing", zap.String(k, ""))
 		}
 
-		out := ut_io.NewDefaultOut(ctl.IsTest())
-		fmt.Fprintln(out, "Please add those messages to message resource files:")
-		fmt.Fprintln(out, "====================================================")
-		for _, m := range missing {
-			switch {
-			case strings.HasSuffix(m, ".flag.peer"):
-				fmt.Fprintf(out, `"%s":"Account alias",`, m)
-			case strings.HasSuffix(m, ".flag.file"):
-				fmt.Fprintf(out, `"%s":"Path to data file",`, m)
-			default:
-				fmt.Fprintf(out, `"%s":"",`, m)
+		SuggestMessages(ctl, func(out io.Writer) {
+			for _, m := range missing {
+				switch {
+				case strings.HasSuffix(m, ".flag.peer"):
+					fmt.Fprintf(out, `"%s":"Account alias",`, m)
+				case strings.HasSuffix(m, ".flag.file"):
+					fmt.Fprintf(out, `"%s":"Path to data file",`, m)
+				case strings.HasSuffix(m, ".agreement"):
+					fmt.Fprintf(out, `"%s":"This feature is in an early stage of development. This is not well tested. Please proceed by typing 'yes' to agree & enable this feature.",`, m)
+				case strings.HasSuffix(m, ".disclaimer"):
+					fmt.Fprintf(out, `"%s":"WARN: The early access feature is enabled.",`, m)
+				default:
+					fmt.Fprintf(out, `"%s":"",`, m)
+				}
+				fmt.Fprintln(out)
 			}
-			fmt.Fprintln(out)
-		}
-		fmt.Fprintln(out, "====================================================")
+		})
+
 		return errors.New("missing key found")
 	}
 	return nil

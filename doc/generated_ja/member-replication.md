@@ -71,7 +71,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 # ファイル書式
 
-## 書式: File 
+## 書式: File
+
+メンバーのコンテンツを複製するためのデータファイル. 
 
 | 列        | 説明                             | 値の例                 |
 |-----------|----------------------------------|------------------------|
@@ -122,7 +124,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: operation_log 
-
+このレポートは処理結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `operation_log.csv`
 * `operation_log.xlsx`

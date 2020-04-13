@@ -30,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file download 
+.\tbx.exe file download -dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file download 
+$HOME/Desktop/tbx file download -dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -105,7 +105,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: operation_log 
-
+このレポートはファイルとフォルダのメタデータを出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `operation_log.csv`
 * `operation_log.xlsx`
@@ -116,18 +116,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列                      | 説明                                                                                       |
-|-------------------------|--------------------------------------------------------------------------------------------|
-| id                      | ファイルへの一意なID                                                                       |
-| tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
-| name                    | 名称                                                                                       |
-| path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
-| path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
-| client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
-| server_modified         | Dropbox上で最後に更新された日時                                                            |
-| revision                | ファイルの現在バージョンの一意な識別子                                                     |
-| size                    | ファイルサイズ(バイト単位)                                                                 |
-| content_hash            | ファイルコンテンツのハッシュ                                                               |
-| shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
+| 列              | 説明                                                         |
+|-----------------|--------------------------------------------------------------|
+| tag             | エントリーの種別`file`, `folder`, または `deleted`           |
+| name            | 名称                                                         |
+| path_display    | パス (表示目的で大文字小文字を区別する).                     |
+| client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| server_modified | Dropbox上で最後に更新された日時                              |
+| size            | ファイルサイズ(バイト単位)                                   |
 

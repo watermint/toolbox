@@ -1,9 +1,10 @@
 package preflight
 
 import (
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
@@ -12,8 +13,8 @@ import (
 )
 
 type Up struct {
-	Peer        rc_conn.ConnUserFile
-	LocalPath   mo_path.FileSystemPath
+	Peer        dbx_conn.ConnUserFile
+	LocalPath   mo_path2.ExistingFileSystemPath
 	DropboxPath mo_path.DropboxPath
 	Upload      *file.Upload
 }
@@ -34,7 +35,7 @@ func (z *Up) Exec(c app_control.Control) error {
 func (z *Up) Test(c app_control.Control) error {
 	err := rc_exec.ExecMock(c, &Up{}, func(r rc_recipe.Recipe) {
 		m := r.(*Up)
-		m.LocalPath = qt_recipe.NewTestFileSystemFolderPath(c, "up")
+		m.LocalPath = qt_recipe.NewTestExistingFileSystemFolderPath(c, "up")
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("up")
 	})
 	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {

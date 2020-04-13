@@ -1,20 +1,21 @@
 package dev
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/util/ut_doc"
+	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"go.uber.org/zap"
-	"sort"
 )
 
 type Doc struct {
 	Badge          bool
 	MarkdownReadme bool
-	Lang           string
+	Lang           mo_string.OptionalString
 	Filename       string
 	CommandPath    string
 }
@@ -28,8 +29,8 @@ func (z *Doc) Preset() {
 func (z *Doc) Exec(ctl app_control.Control) error {
 	l := ctl.Log()
 
-	if z.Lang != "" {
-		if c, ok := app_control_launcher.ControlWithLang(z.Lang, ctl); ok {
+	if z.Lang.IsExists() {
+		if c, ok := app_control_launcher.ControlWithLang(z.Lang.Value(), ctl); ok {
 			ctl = c
 		}
 	}
@@ -48,10 +49,7 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 	qm := ctl.Messages().(app_msg_container.Quality)
 	missing := qm.MissingKeys()
 	if len(missing) > 0 {
-		sort.Strings(missing)
-		for _, k := range missing {
-			l.Error("Key missing", zap.String("key", k))
-		}
+		return qt_messages.VerifyMessages(ctl)
 	}
 	return nil
 }
@@ -60,6 +58,5 @@ func (z *Doc) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
 		rr := r.(*Doc)
 		rr.Badge = false
-		rr.Filename = ""
 	})
 }

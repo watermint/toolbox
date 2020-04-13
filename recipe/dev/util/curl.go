@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/tdewolff/parse/buffer"
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/network/nw_capture"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -18,15 +19,17 @@ import (
 )
 
 type Curl struct {
-	Record string
+	Record     string
+	BufferSize mo_int.RangeInt
 }
 
 func (z *Curl) Preset() {
+	z.BufferSize.SetRange(1024, 2*1048576, 65536)
 }
 
 func (z *Curl) Exec(c app_control.Control) error {
 	l := c.Log()
-	w := ut_io.NewDefaultOut(c.IsTest())
+	w := ut_io.NewDefaultOut(c.Feature().IsTest())
 	bw := bufio.NewWriter(w)
 	defer bw.Flush()
 	var r io.Reader
@@ -34,9 +37,13 @@ func (z *Curl) Exec(c app_control.Control) error {
 	if z.Record != "" {
 		r = buffer.NewReader([]byte(z.Record))
 	}
-	br := bufio.NewReader(r)
+	br := bufio.NewReaderSize(r, z.BufferSize.Value())
 	for {
-		line, _, err := br.ReadLine()
+		line, prefix, err := br.ReadLine()
+		if prefix {
+			l.Warn("Line is too long, terminate this operation")
+			return nil
+		}
 		switch err {
 		case nil:
 			rec := &nw_capture.Record{}

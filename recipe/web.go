@@ -5,11 +5,14 @@ import (
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
-	"github.com/skratchdot/open-golang/open"
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/util/ut_log"
+	"github.com/watermint/toolbox/infra/util/ut_open"
 	"github.com/watermint/toolbox/infra/web/web_handler"
 	"github.com/watermint/toolbox/infra/web/web_job"
 	"github.com/watermint/toolbox/infra/web/web_user"
@@ -18,16 +21,12 @@ import (
 	"time"
 )
 
-const (
-	webPort = 7800
-)
-
 type Web struct {
-	Port int
+	Port mo_int.RangeInt
 }
 
 func (z *Web) Preset() {
-	z.Port = webPort
+	z.Port.SetRange(1024, 65535, int64(app.DefaultWebPort))
 }
 
 func (z *Web) Test(c app_control.Control) error {
@@ -43,7 +42,7 @@ func (z *Web) Exec(c app_control.Control) error {
 	rur := repo.(web_user.RootUserRepository)
 	ru := rur.RootUser()
 
-	if c.IsProduction() {
+	if !c.Feature().IsDebug() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
@@ -53,15 +52,15 @@ func (z *Web) Exec(c app_control.Control) error {
 	cl := c.(app_control_launcher.ControlLauncher)
 
 	g := gin.New()
-	g.Use(ginzap.Ginzap(l, time.RFC3339, true))
+	g.Use(ut_log.GinWrapper(l))
 	g.Use(ginzap.RecoveryWithZap(l, true))
 	//g.StaticFS("/assets", hfs.HttpFileSystem())
 	g.HTMLRender = htr
 
-	baseUrl := fmt.Sprintf("http://localhost:%d", z.Port)
+	baseUrl := fmt.Sprintf("http://localhost:%d", z.Port.Value())
 	jobChan := make(chan *web_job.WebJobRun)
 
-	wh := web_handler.NewHanlder(
+	wh := web_handler.NewHandler(
 		c,
 		htp,
 		cl,
@@ -74,22 +73,25 @@ func (z *Web) Exec(c app_control.Control) error {
 
 	loginUrl := baseUrl + web_handler.WebPathLogin + "/" + ru.UserHash()
 
-	c.Log().Info("Login url", zap.String("url", loginUrl))
+	l.Info("Login url", zap.String("url", loginUrl))
 
 	wg := sync.WaitGroup{}
 	go func() {
 		wg.Add(1)
 		defer wg.Done()
-		err = g.Run(fmt.Sprintf(":%d", z.Port))
+		err = g.Run(fmt.Sprintf(":%d", z.Port.Value()))
 		if err != nil {
-			c.Log().Error("Unable to start", zap.Error(err))
+			l.Error("Unable to start", zap.Error(err))
 		}
 	}()
 
 	time.Sleep(2 * time.Second)
-	c.Log().Info("Trying open browser")
-	if !c.IsTest() {
-		open.Start(loginUrl)
+	l.Info("Trying open the browser")
+	if !c.Feature().IsTest() {
+		if err := ut_open.New().Open(loginUrl, true); err != nil {
+			l.Warn("Unable to open the browser", zap.Error(err))
+			l.Info("Please open this url on the browser", zap.String("url", loginUrl))
+		}
 		wg.Wait()
 	}
 

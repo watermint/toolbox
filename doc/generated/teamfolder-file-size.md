@@ -105,7 +105,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: namespace_size 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `namespace_size.csv`
 * `namespace_size.xlsx`
@@ -116,22 +116,16 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
-| Column                      | Description                                                                                |
-|-----------------------------|--------------------------------------------------------------------------------------------|
-| status                      | Status of the operation                                                                    |
-| reason                      | Reason of failure or skipped operation                                                     |
-| input.name                  | The name of this namespace                                                                 |
-| input.namespace_id          | The ID of this namespace.                                                                  |
-| input.namespace_type        | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
-| input.team_member_id        | If this is a team member or app folder, the ID of the owning team member.                  |
-| result.namespace_name       | The name of this namespace                                                                 |
-| result.namespace_id         | The ID of this namespace.                                                                  |
-| result.namespace_type       | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
-| result.owner_team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
-| result.path                 | Path to the folder                                                                         |
-| result.count_file           | Number of files under the folder                                                           |
-| result.count_folder         | Number of folders under the folder                                                         |
-| result.count_descendant     | Number of files and folders under the folder                                               |
-| result.size                 | Size of the folder                                                                         |
-| result.api_complexity       | Folder complexity index for API operations                                                 |
+| Column                  | Description                                                                                |
+|-------------------------|--------------------------------------------------------------------------------------------|
+| status                  | Status of the operation                                                                    |
+| reason                  | Reason of failure or skipped operation                                                     |
+| input.name              | The name of this namespace                                                                 |
+| input.namespace_type    | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
+| result.path             | Path to the folder                                                                         |
+| result.count_file       | Number of files under the folder                                                           |
+| result.count_folder     | Number of folders under the folder                                                         |
+| result.count_descendant | Number of files and folders under the folder                                               |
+| result.size             | Size of the folder                                                                         |
+| result.api_complexity   | Folder complexity index for API operations                                                 |
 

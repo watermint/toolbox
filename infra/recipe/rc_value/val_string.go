@@ -14,17 +14,15 @@ type ValueString struct {
 	v string
 }
 
+func (z *ValueString) Spec() (typeName string, typeAttr interface{}) {
+	return "string", nil
+}
+
 func (z *ValueString) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Kind() == reflect.String {
 		return newValueString()
 	}
 	return nil
-}
-
-func (z *ValueString) Fork(ctl app_control.Control) rc_recipe.Value {
-	v := &ValueString{}
-	v.v = z.v
-	return v
 }
 
 func (z *ValueString) Bind() interface{} {
@@ -48,6 +46,10 @@ func (z *ValueString) Debug() interface{} {
 }
 
 func (z *ValueString) SpinUp(ctl app_control.Control) error {
+	if z.v == "" {
+		return ErrorMissingRequiredOption
+		//return nil
+	}
 	return nil
 }
 

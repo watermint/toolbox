@@ -2,13 +2,13 @@ package member
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -19,7 +19,7 @@ import (
 
 type ListWorker struct {
 	folder *mo_sharedfolder.SharedFolder
-	conn   api_context.DropboxApiContext
+	conn   dbx_context.Context
 	rep    rp_model.RowReport
 	ctl    app_control.Control
 }
@@ -43,12 +43,20 @@ func (z *ListWorker) Exec() error {
 }
 
 type List struct {
-	Peer   rc_conn.ConnUserFile
+	Peer   dbx_conn.ConnUserFile
 	Member rp_model.RowReport
 }
 
 func (z *List) Preset() {
-	z.Member.SetModel(&mo_sharedfolder_member.SharedFolderMember{})
+	z.Member.SetModel(
+		&mo_sharedfolder_member.SharedFolderMember{},
+		rp_model.HiddenColumns(
+			"shared_folder_id",
+			"parent_shared_folder_id",
+			"account_id",
+			"group_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {

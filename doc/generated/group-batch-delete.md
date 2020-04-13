@@ -69,7 +69,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for batch operation to groups. 
 
 | Column | Description | Value example |
 |--------|-------------|---------------|
@@ -119,7 +121,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: operation_log 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `operation_log.csv`
 * `operation_log.xlsx`
@@ -136,8 +138,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | reason                       | Reason of failure or skipped operation                                                |
 | input.name                   | Group name                                                                            |
 | result.group_name            | Name of a group                                                                       |
-| result.group_id              | A group's identifier                                                                  |
 | result.group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
-| result.group_external_id     |  External ID of group. This is an arbitrary ID that an admin can attach to a group.   |
 | result.member_count          | The number of members in the group.                                                   |
 

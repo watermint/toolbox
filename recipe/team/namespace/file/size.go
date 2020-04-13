@@ -1,12 +1,14 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/team/namespace/file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"math"
 )
 
 type Size struct {
@@ -15,15 +17,15 @@ type Size struct {
 	IncludeMemberFolder bool
 	IncludeAppFolder    bool
 	Name                string
-	Depth               int
+	Depth               mo_int.RangeInt
 	NamespaceSize       *file.Size
-	Peer                rc_conn.ConnBusinessFile
+	Peer                dbx_conn.ConnBusinessFile
 }
 
 func (z *Size) Preset() {
 	z.IncludeSharedFolder = true
 	z.IncludeTeamFolder = true
-	z.Depth = 1
+	z.Depth.SetRange(1, math.MaxInt32, 1)
 }
 
 func (z *Size) Exec(c app_control.Control) error {
@@ -34,7 +36,7 @@ func (z *Size) Exec(c app_control.Control) error {
 		rc.IncludeMemberFolder = z.IncludeMemberFolder
 		rc.IncludeAppFolder = z.IncludeAppFolder
 		rc.Name = z.Name
-		rc.Depth = z.Depth
+		rc.Depth = z.Depth.Value()
 	})
 }
 

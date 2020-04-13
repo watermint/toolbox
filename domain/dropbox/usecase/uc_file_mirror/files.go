@@ -2,12 +2,12 @@ package uc_file_mirror
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_copyref"
-	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"go.uber.org/zap"
 	"path/filepath"
 	"strings"
@@ -18,7 +18,7 @@ type Files interface {
 	Mirror(pathSrc, pathDst mo_path.DropboxPath) (err error)
 }
 
-func New(ctxSrc, ctxDst api_context.DropboxApiContext) Files {
+func New(ctxSrc, ctxDst dbx_context.Context) Files {
 	return &filesImpl{
 		ctxSrc:       ctxSrc,
 		ctxDst:       ctxDst,
@@ -27,8 +27,8 @@ func New(ctxSrc, ctxDst api_context.DropboxApiContext) Files {
 }
 
 type filesImpl struct {
-	ctxSrc       api_context.DropboxApiContext
-	ctxDst       api_context.DropboxApiContext
+	ctxSrc       dbx_context.Context
+	ctxDst       dbx_context.Context
 	pollInterval time.Duration
 }
 

@@ -2,10 +2,10 @@ package sharedfolder
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -13,12 +13,19 @@ import (
 )
 
 type List struct {
-	Peer         rc_conn.ConnUserFile
+	Peer         dbx_conn.ConnUserFile
 	SharedFolder rp_model.RowReport
 }
 
 func (z *List) Preset() {
-	z.SharedFolder.SetModel(&mo_sharedfolder.SharedFolder{})
+	z.SharedFolder.SetModel(
+		&mo_sharedfolder.SharedFolder{},
+		rp_model.HiddenColumns(
+			"shared_folder_id",
+			"parent_shared_folder_id",
+			"owner_team_id",
+		),
+	)
 }
 
 func (z *List) Test(c app_control.Control) error {
@@ -26,8 +33,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "shared_folder", func(cols map[string]string) error {
-		if _, ok := cols["shared_folder_id"]; !ok {
-			return errors.New("shared_folder_id is not found")
+		if _, ok := cols["name"]; !ok {
+			return errors.New("name is not found")
 		}
 		return nil
 	})

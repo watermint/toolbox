@@ -64,8 +64,11 @@ $HOME/Desktop/tbx {{.Command}} {{.CommandArgs}}
 
 {{ $feeds := .Feeds }}
 {{ $feedSamples := .FeedSamples }}
+{{ $feedDesc := .FeedDesc }}
 {{ range $name := .FeedNames }}
-## {{ msg "doc.command.file_formats.format.header" }}: {{ $name }} 
+## {{ msg "doc.command.file_formats.format.header" }}: {{ $name }}
+
+{{ index $feedDesc $name }} 
 
 {{ index $feeds $name }}
 
@@ -100,9 +103,10 @@ $HOME/Desktop/tbx {{.Command}} {{.CommandArgs}}
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 {{ $reports := .Reports }}
+{{ $reportDesc := .ReportDesc }}
 {{ range $name := .ReportNames }}
 ## {{ msg "doc.command.report.report.header" }}: {{ $name }} 
-
+{{ index $reportDesc $name }}
 {{ msg "doc.command.report.report.format_description" }}
 * `{{$name}}.csv`
 * `{{$name}}.xlsx`

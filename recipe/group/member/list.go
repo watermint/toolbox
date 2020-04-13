@@ -2,13 +2,13 @@ package member
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -24,7 +24,7 @@ type ListWorker struct {
 
 	// recipe's context
 	ctl  app_control.Control
-	conn api_context.DropboxApiContext
+	conn dbx_context.Context
 	rep  rp_model.RowReport
 }
 
@@ -47,12 +47,19 @@ func (z *ListWorker) Exec() error {
 }
 
 type List struct {
-	Peer        rc_conn.ConnBusinessInfo
+	Peer        dbx_conn.ConnBusinessInfo
 	GroupMember rp_model.RowReport
 }
 
 func (z *List) Preset() {
-	z.GroupMember.SetModel(&mo_group_member.GroupMember{})
+	z.GroupMember.SetModel(
+		&mo_group_member.GroupMember{},
+		rp_model.HiddenColumns(
+			"group_id",
+			"account_id",
+			"team_member_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -86,11 +93,11 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "group_member", func(cols map[string]string) error {
-		if _, ok := cols["group_id"]; !ok {
-			return errors.New("group_id is not found")
+		if _, ok := cols["group_name"]; !ok {
+			return errors.New("group_name is not found")
 		}
-		if _, ok := cols["team_member_id"]; !ok {
-			return errors.New("team_member_id is not found")
+		if _, ok := cols["email"]; !ok {
+			return errors.New("email is not found")
 		}
 		return nil
 	})

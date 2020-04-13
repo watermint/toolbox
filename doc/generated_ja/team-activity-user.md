@@ -107,7 +107,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: user 
-
+このレポートはDropbox Businessのアクティビティログとほぼ互換性のあるアクティビティレポートを出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `user.csv`
 * `user.xlsx`
@@ -136,7 +136,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | other_info               | このタイプのアクションに適用可能な可変イベントスキーマ.         |
 
 ## レポート: user_summary 
-
+このレポートは処理結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `user_summary.csv`
 * `user_summary.xlsx`
@@ -152,7 +152,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | status                 | 処理の状態                         |
 | reason                 | 失敗またはスキップの理由           |
 | input.user             | ユーザーのメールアドレス           |
-| result.user            | ユーザーのメールアドレス           |
 | result.logins          | ログインのアクティビティ数         |
 | result.devices         | デバイスのアクティビティ数         |
 | result.sharing         | 共有のアクティビティ数             |

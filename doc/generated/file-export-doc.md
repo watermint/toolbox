@@ -30,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file export doc 
+.\tbx.exe file export doc -dropbox-path /DROPBOX/PATH/TO/FILE -local-path /LOCAL/PATH/TO/EXPORT
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file export doc 
+$HOME/Desktop/tbx file export doc -dropbox-path /DROPBOX/PATH/TO/FILE -local-path /LOCAL/PATH/TO/EXPORT
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -105,7 +105,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: operation_log 
-
+This report shows a result of exporting file.
 Report files are generated in three formats like below;
 * `operation_log.csv`
 * `operation_log.xlsx`
@@ -119,15 +119,10 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | Column          | Description                                                                                            |
 |-----------------|--------------------------------------------------------------------------------------------------------|
 | name            | The last component of the path (including extension).                                                  |
-| path_lower      | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
 | path_display    | The cased path to be used for display purposes only.                                                   |
-| id              | A unique identifier for the file.                                                                      |
 | client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
 | server_modified | The last time the file was modified on Dropbox.                                                        |
-| revision        | A unique identifier for the current revision of a file.                                                |
 | size            | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| content_hash    | A hash of the file content.                                                                            |
 | export_name     | File name for export file.                                                                             |
 | export_size     | File size of export file.                                                                              |
-| export_hash     | Content hash of export file.                                                                           |
 

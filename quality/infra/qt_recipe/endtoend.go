@@ -5,11 +5,14 @@ import (
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	"github.com/tidwall/gjson"
+	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/dbx_context"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
 	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
@@ -22,6 +25,7 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_secure"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -39,8 +43,12 @@ func NewTestDropboxFolderPath(rel ...string) mo_path.DropboxPath {
 	return mo_path.NewDropboxPath("/" + TestTeamFolderName).ChildPath(rel...)
 }
 
-func NewTestFileSystemFolderPath(c app_control.Control, name string) mo_path.FileSystemPath {
-	return mo_path.NewFileSystemPath(qt_file.MustMakeTestFolder(c, name, true))
+func NewTestFileSystemFolderPath(c app_control.Control, name string) mo_path2.FileSystemPath {
+	return mo_path2.NewFileSystemPath(qt_file.MustMakeTestFolder(c, name, true))
+}
+
+func NewTestExistingFileSystemFolderPath(c app_control.Control, name string) mo_path2.ExistingFileSystemPath {
+	return mo_path2.NewExistingFileSystemPath(qt_file.MustMakeTestFolder(c, name, true))
 }
 
 func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {
@@ -48,7 +56,11 @@ func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container,
 	web = rice.MustFindBox("../../../web")
 
 	mc = app_msg_container_impl.NewContainer(bx)
-	ui = app_ui.NewNullConsole(mc, qt_missingmsg_impl.NewMessageTest(t))
+	if qt_secure.IsSecureEndToEndTest() || app.IsProduction() {
+		ui = app_ui.NewNullConsole(mc, qt_missingmsg_impl.NewMessageTest(t))
+	} else {
+		ui = app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageTest(t), true)
+	}
 	return
 }
 
@@ -71,9 +83,9 @@ func findTestResource() (resource gjson.Result, found bool) {
 	return gjson.ParseBytes(b), true
 }
 
-func TestWithApiContext(t *testing.T, twc func(ctx api_context.DropboxApiContext)) {
+func TestWithApiContext(t *testing.T, twc func(ctx dbx_context.Context)) {
 	TestWithControl(t, func(ctl app_control.Control) {
-		ctx := dbx_context.NewMock(ctl)
+		ctx := dbx_context_impl.NewMock(ctl)
 		twc(ctx)
 	})
 }
@@ -82,9 +94,8 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	bx, web, mc, ui := Resources(t)
 
-	cat := rc_catalogue.NewCatalogue([]rc_recipe.Recipe{}, []rc_recipe.Recipe{}, []interface{}{})
-
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, false, cat)
+	cat := rc_catalogue.NewCatalogue([]rc_recipe.Recipe{}, []rc_recipe.Recipe{}, []interface{}{}, []app_feature.OptIn{})
+	ctl := app_control_impl.NewSingle(ui, bx, web, mc, cat)
 	cs := ctl.(*app_control_impl.Single)
 	if res, found := findTestResource(); found {
 		var err error

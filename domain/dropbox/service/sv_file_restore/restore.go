@@ -1,23 +1,23 @@
 package sv_file_restore
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_context"
 )
 
 type Restore interface {
 	Restore(path mo_path.DropboxPath, rev string) (entry mo_file.Entry, err error)
 }
 
-func New(ctx api_context.Context) Restore {
+func New(ctx dbx_context.Context) Restore {
 	return &restoreImpl{
 		ctx: ctx,
 	}
 }
 
 type restoreImpl struct {
-	ctx api_context.Context
+	ctx dbx_context.Context
 }
 
 func (z *restoreImpl) Restore(path mo_path.DropboxPath, rev string) (entry mo_file.Entry, err error) {
@@ -29,7 +29,7 @@ func (z *restoreImpl) Restore(path mo_path.DropboxPath, rev string) (entry mo_fi
 		Rev:  rev,
 	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Rpc("files/restore").Param(p).Call()
+	res, err := z.ctx.Post("files/restore").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

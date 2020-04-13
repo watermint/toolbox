@@ -29,6 +29,9 @@ type Markdown struct {
 	ignoreMissing bool
 }
 
+func (z *Markdown) AskProceed(m app_msg.Message) {
+}
+
 func (z *Markdown) Id() string {
 	return z.id
 }
@@ -132,18 +135,6 @@ func (z *Markdown) TextOrEmptyK(key string, p ...app_msg.P) string {
 	} else {
 		return ""
 	}
-}
-
-func (z *Markdown) AskContK(key string, p ...app_msg.P) (cont bool, cancel bool) {
-	return false, true
-}
-
-func (z *Markdown) AskTextK(key string, p ...app_msg.P) (text string, cancel bool) {
-	return "", true
-}
-
-func (z *Markdown) AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool) {
-	return "", true
 }
 
 func (z *Markdown) OpenArtifact(path string, autoOpen bool) {

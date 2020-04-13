@@ -70,7 +70,9 @@ Common options:
 
 # File formats
 
-## Format: File 
+## Format: File
+
+Data file for batch creating team folders. 
 
 | Column | Description         | Value example |
 |--------|---------------------|---------------|
@@ -120,7 +122,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: operation_log 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `operation_log.csv`
 * `operation_log.xlsx`
@@ -136,7 +138,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | status                        | Status of the operation                                                                    |
 | reason                        | Reason of failure or skipped operation                                                     |
 | input.name                    | Name of team folder                                                                        |
-| result.team_folder_id         | The ID of the team folder.                                                                 |
 | result.name                   | The name of the team folder.                                                               |
 | result.status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
 | result.is_team_shared_dropbox |                                                                                            |

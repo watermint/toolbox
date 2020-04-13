@@ -1,8 +1,8 @@
 package content
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
@@ -15,7 +15,7 @@ type ScanNamespaceMembership struct {
 	queue      rc_worker.Queue
 }
 
-func (z *ScanNamespaceMembership) Scan(ctl app_control.Control, ctx api_context.DropboxApiContext, namespaceName string, namespaceId string) {
+func (z *ScanNamespaceMembership) Scan(ctl app_control.Control, ctx dbx_context.Context, namespaceName string, namespaceId string) {
 	z.queue.Enqueue(&NamespaceMemberScannerWorker{
 		Control:       ctl,
 		Context:       ctx,
@@ -27,7 +27,7 @@ func (z *ScanNamespaceMembership) Scan(ctl app_control.Control, ctx api_context.
 
 type NamespaceMemberScannerWorker struct {
 	Control       app_control.Control
-	Context       api_context.DropboxApiContext
+	Context       dbx_context.Context
 	NamespaceName string
 	NamespaceId   string
 	Membership    kv_storage.Storage

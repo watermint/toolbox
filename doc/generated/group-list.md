@@ -104,7 +104,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: group 
-
+This report shows a list of groups in the team.
 Report files are generated in three formats like below;
 * `group.csv`
 * `group.xlsx`
@@ -118,8 +118,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | Column                | Description                                                                           |
 |-----------------------|---------------------------------------------------------------------------------------|
 | group_name            | Name of a group                                                                       |
-| group_id              | A group's identifier                                                                  |
 | group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
-| group_external_id     |  External ID of group. This is an arbitrary ID that an admin can attach to a group.   |
 | member_count          | The number of members in the group.                                                   |
 

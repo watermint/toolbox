@@ -105,7 +105,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: diff 
-
+This report shows a difference between to folders.
 Report files are generated in three formats like below;
 * `diff.csv`
 * `diff.xlsx`
@@ -129,7 +129,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | right_hash | Content hash of right file                                                                                                                                                             |
 
 ## Report: skip 
-
+This report shows a difference between to folders.
 Report files are generated in three formats like below;
 * `skip.csv`
 * `skip.xlsx`

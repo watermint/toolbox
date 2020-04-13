@@ -2,12 +2,12 @@ package device
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_device"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_device"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -15,12 +15,22 @@ import (
 )
 
 type List struct {
-	Peer   rc_conn.ConnBusinessFile
+	Peer   dbx_conn.ConnBusinessFile
 	Device rp_model.RowReport
 }
 
 func (z *List) Preset() {
-	z.Device.SetModel(&mo_device.MemberSession{})
+	z.Device.SetModel(
+		&mo_device.MemberSession{},
+		rp_model.HiddenColumns(
+			"familiar_name",
+			"abbreviated_name",
+			"member_folder_id",
+			"external_id",
+			"account_id",
+			"persistent_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {

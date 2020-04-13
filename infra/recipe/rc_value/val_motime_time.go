@@ -3,8 +3,11 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_essential"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
+	"go.uber.org/zap"
 	"reflect"
 )
 
@@ -27,6 +30,16 @@ type ValueMoTimeTime struct {
 	dateTime   string
 	time       mo_time.Time
 	isOptional bool
+}
+
+func (z *ValueMoTimeTime) Spec() (typeName string, typeAttr interface{}) {
+	return ut_reflect.Key(app.Pkg, z.time), map[string]interface{}{
+		"optional": z.isOptional,
+	}
+}
+
+func (z *ValueMoTimeTime) IsOptional() bool {
+	return z.isOptional
 }
 
 func (z *ValueMoTimeTime) ValueText() string {
@@ -54,7 +67,7 @@ func (z *ValueMoTimeTime) Init() (v interface{}) {
 func (z *ValueMoTimeTime) ApplyPreset(v0 interface{}) {
 	z.time = v0.(mo_time.Time)
 	if !z.time.IsZero() {
-		z.dateTime = z.time.String()
+		z.dateTime = z.time.Value()
 	}
 }
 
@@ -65,11 +78,13 @@ func (z *ValueMoTimeTime) Apply() (v interface{}) {
 func (z *ValueMoTimeTime) Debug() interface{} {
 	return map[string]string{
 		"dateTime": z.dateTime,
-		"time":     z.time.String(),
+		"time":     z.time.Value(),
 	}
 }
 
 func (z *ValueMoTimeTime) SpinUp(ctl app_control.Control) (err error) {
+	l := ctl.Log()
+
 	// argument was't given, but applied on preset or custom value
 	if z.dateTime == "" && !z.time.IsZero() {
 		return nil
@@ -86,6 +101,7 @@ func (z *ValueMoTimeTime) SpinUp(ctl app_control.Control) (err error) {
 
 	ti := z.time.(*mo_time.TimeImpl)
 	if err = ti.UpdateTime(z.dateTime); err != nil {
+		l.Debug("Unable to parse", zap.Error(err), zap.String("dateTime", z.dateTime))
 		return err
 	}
 	return nil

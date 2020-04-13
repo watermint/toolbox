@@ -1,8 +1,8 @@
 package ut_filecompare
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"go.uber.org/zap"
 	"os"
 )

@@ -2,11 +2,13 @@ package desktop
 
 import (
 	"github.com/andybrewer/mack"
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_process"
 	"go.uber.org/zap"
+	"math"
 	"os/exec"
 	"runtime"
 	"time"
@@ -14,7 +16,7 @@ import (
 
 // Tell Dropbox to quit, but no guarantee of stop the process.
 type Stop struct {
-	WaitSeconds int
+	WaitSeconds mo_int.RangeInt
 }
 
 func (z *Stop) stopDarwin(c app_control.Control) error {
@@ -44,9 +46,9 @@ func (z *Stop) stopWindows(c app_control.Control) error {
 }
 
 func (z *Stop) Exec(c app_control.Control) error {
-	if z.WaitSeconds > 0 {
-		c.Log().Info("Waiting for stop", zap.Int("seconds", z.WaitSeconds))
-		time.Sleep(time.Duration(z.WaitSeconds) * time.Second)
+	if z.WaitSeconds.Value() > 0 {
+		c.Log().Info("Waiting for stop", zap.Int("seconds", int(z.WaitSeconds.Value())))
+		time.Sleep(time.Duration(z.WaitSeconds.Value()) * time.Second)
 	}
 	switch runtime.GOOS {
 	case "windows":
@@ -60,8 +62,12 @@ func (z *Stop) Exec(c app_control.Control) error {
 }
 
 func (z *Stop) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &Stop{}, func(r rc_recipe.Recipe) {})
+	return rc_exec.Exec(c, &Stop{}, func(r rc_recipe.Recipe) {
+		m := r.(*Stop)
+		m.WaitSeconds.SetValue(0)
+	})
 }
 
 func (z *Stop) Preset() {
+	z.WaitSeconds.SetRange(0, math.MaxInt32, 0)
 }

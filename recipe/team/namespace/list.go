@@ -2,10 +2,10 @@ package namespace
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -13,12 +13,16 @@ import (
 )
 
 type List struct {
-	Peer      rc_conn.ConnBusinessFile
+	Peer      dbx_conn.ConnBusinessFile
 	Namespace rp_model.RowReport
 }
 
 func (z *List) Preset() {
-	z.Namespace.SetModel(&mo_namespace.Namespace{})
+	z.Namespace.SetModel(&mo_namespace.Namespace{},
+		rp_model.HiddenColumns(
+			"namespace_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -42,8 +46,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "namespace", func(cols map[string]string) error {
-		if _, ok := cols["namespace_id"]; !ok {
-			return errors.New("`namespace_id` is not found")
+		if _, ok := cols["name"]; !ok {
+			return errors.New("`name` is not found")
 		}
 		return nil
 	})

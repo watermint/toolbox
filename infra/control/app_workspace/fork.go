@@ -39,7 +39,7 @@ func (z *forkWorkspace) setup() (err error) {
 }
 
 func (z *forkWorkspace) Home() string {
-	return filepath.Join(z.parent.Home(), z.name)
+	return filepath.Join(z.parent.Job(), z.name)
 }
 
 func (z *forkWorkspace) Secrets() string {

@@ -2,11 +2,11 @@ package sv_sharedlink_file
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"go.uber.org/zap"
 	"strings"
@@ -43,12 +43,12 @@ func Password(password string) ListOpt {
 	}
 }
 
-func New(ctx api_context.DropboxApiContext) File {
+func New(ctx dbx_context.Context) File {
 	return &fileImpl{ctx: ctx}
 }
 
 type fileImpl struct {
-	ctx api_context.DropboxApiContext
+	ctx dbx_context.Context
 }
 
 func (z *fileImpl) ListRecursive(url mo_url.Url, nEntry func(entry mo_file.Entry), opts ...ListOpt) error {
@@ -127,7 +127,7 @@ func (z *fileImpl) List(url mo_url.Url, path mo_path.DropboxPath, onEntry func(e
 	}{
 		Path: path.Path(),
 		SharedLink: &SL{
-			Url:      url.String(),
+			Url:      url.Value(),
 			Password: lo.Password,
 		},
 		IncludeDeleted:                  lo.IncludeDeleted,

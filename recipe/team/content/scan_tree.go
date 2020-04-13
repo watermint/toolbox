@@ -2,10 +2,10 @@ package content
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
@@ -20,7 +20,7 @@ type Tree struct {
 
 type TeamFolderNestedFolderScanWorker struct {
 	ctl          app_control.Control
-	ctx          api_context.DropboxApiContext
+	ctx          dbx_context.Context
 	metadata     kv_storage.Storage
 	tree         kv_storage.Storage
 	teamFolderId string
@@ -77,7 +77,7 @@ func (z *TeamFolderNestedFolderScanWorker) Exec() error {
 	}
 	ErrorScanCompleted := errors.New("scan completed")
 
-	ctx := z.ctx.WithPath(api_context.Namespace(z.teamFolderId))
+	ctx := z.ctx.WithPath(dbx_context.Namespace(z.teamFolderId))
 	var scan func(path mo_path.DropboxPath) error
 	scan = func(path mo_path.DropboxPath) error {
 		entries, err := sv_file.NewFiles(ctx).List(path)
@@ -133,7 +133,7 @@ func (z *TeamFolderNestedFolderScanWorker) Exec() error {
 // Use breadth first search for file tree
 type TeamFolderScanner struct {
 	ctl      app_control.Control
-	ctx      api_context.DropboxApiContext
+	ctx      dbx_context.Context
 	metadata kv_storage.Storage
 	tree     kv_storage.Storage
 }

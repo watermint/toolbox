@@ -2,9 +2,9 @@ package rc_recipe
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -37,10 +37,13 @@ type Repository interface {
 	FieldValue(name string) Value
 
 	// Returns connections that requested by the recipe
-	Conns() map[string]rc_conn.ConnDropboxApi
+	Conns() map[string]dbx_conn.ConnDropboxApi
 
 	// Apply values in the repository to the
 	Apply() Recipe
+
+	// Apply custom values to the repository
+	ApplyCustom()
 
 	// Prepare values for run recipe
 	SpinUp(ctl app_control.Control) (Recipe, error)
@@ -86,6 +89,9 @@ type Value interface {
 
 	// Spin down after run
 	SpinDown(ctl app_control.Control) error
+
+	// Value spec
+	Spec() (typeName string, typeAttr interface{})
 }
 
 type ValueCustomValueText interface {
@@ -119,7 +125,7 @@ type ValueConn interface {
 	Value
 
 	// True when the value is type of connection, and return the instance of the connection
-	Conn() (conn rc_conn.ConnDropboxApi, valid bool)
+	Conn() (conn dbx_conn.ConnDropboxApi, valid bool)
 }
 
 type ValueMessage interface {

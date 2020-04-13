@@ -1,12 +1,12 @@
 package history
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -18,7 +18,7 @@ import (
 )
 
 type Ship struct {
-	Peer               rc_conn.ConnUserFile
+	Peer               dbx_conn.ConnUserFile
 	DropboxPath        mo_path.DropboxPath
 	ProgressUploading  app_msg.Message
 	ErrorFailedArchive app_msg.Message
@@ -85,5 +85,13 @@ func (z *Ship) Test(c app_control.Control) error {
 }
 
 func (z *Ship) Preset() {
-	z.OperationLog.SetModel(&ShipInfo{}, &mo_file.ConcreteEntry{})
+	z.OperationLog.SetModel(
+		&ShipInfo{},
+		&mo_file.ConcreteEntry{},
+		rp_model.HiddenColumns(
+			"result.content_hash",
+			"result.shared_folder_id",
+			"result.parent_shared_folder_id",
+		),
+	)
 }

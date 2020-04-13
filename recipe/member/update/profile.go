@@ -1,11 +1,11 @@
 package update
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -23,14 +23,26 @@ type ProfileRow struct {
 
 type Profile struct {
 	File                fd_file.RowFeed
-	Peer                rc_conn.ConnBusinessMgmt
+	Peer                dbx_conn.ConnBusinessMgmt
 	OperationLog        rp_model.TransactionReport
 	ErrorMemberNotFound app_msg.Message
 	ProgressUpdating    app_msg.Message
 }
 
 func (z *Profile) Preset() {
-	z.OperationLog.SetModel(&ProfileRow{}, &mo_member.Member{})
+	z.OperationLog.SetModel(
+		&ProfileRow{},
+		&mo_member.Member{},
+		rp_model.HiddenColumns(
+			"result.team_member_id",
+			"result.member_folder_id",
+			"result.account_id",
+			"result.persistent_id",
+			"result.familiar_name",
+			"result.abbreviated_name",
+			"result.external_id",
+		),
+	)
 	z.File.SetModel(&ProfileRow{})
 }
 

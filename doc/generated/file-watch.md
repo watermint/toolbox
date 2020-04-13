@@ -30,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file watch 
+.\tbx.exe file watch -path /DROPBOX/PATH/TO/WATCH
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file watch 
+$HOME/Desktop/tbx file watch -path /DROPBOX/PATH/TO/WATCH
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

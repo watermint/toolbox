@@ -1,6 +1,7 @@
 package history
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -11,7 +12,7 @@ import (
 )
 
 type Archive struct {
-	Days               int
+	Days               mo_int.RangeInt
 	ProgressArchiving  app_msg.Message
 	ErrorFailedArchive app_msg.Message
 }
@@ -19,7 +20,7 @@ type Archive struct {
 func (z *Archive) Exec(c app_control.Control) error {
 	historian := app_job_impl.NewHistorian(c)
 	histories := historian.Histories()
-	threshold := time.Now().Add(time.Duration(-z.Days*24) * time.Hour)
+	threshold := time.Now().Add(time.Duration(-z.Days.Value()*24) * time.Hour)
 	l := c.Log()
 
 	for _, h := range histories {
@@ -49,10 +50,10 @@ func (z *Archive) Exec(c app_control.Control) error {
 func (z *Archive) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Archive{}, func(r rc_recipe.Recipe) {
 		m := r.(*Archive)
-		m.Days = 7
+		m.Days.SetValue(7)
 	})
 }
 
 func (z *Archive) Preset() {
-	z.Days = 7
+	z.Days.SetRange(1, 3650, 7)
 }

@@ -107,7 +107,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: matches 
-
+このレポートは検索結果とハイライトテキストを出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `matches.csv`
 * `matches.xlsx`

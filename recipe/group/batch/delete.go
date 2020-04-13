@@ -1,11 +1,11 @@
 package batch
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -22,7 +22,7 @@ type Delete struct {
 	ErrUnableToDelete   app_msg.Message
 	File                fd_file.RowFeed
 	OperationLog        rp_model.TransactionReport
-	Peer                rc_conn.ConnBusinessMgmt
+	Peer                dbx_conn.ConnBusinessMgmt
 	ProgressDeleteGroup app_msg.Message
 }
 
@@ -68,5 +68,10 @@ func (z *Delete) Test(c app_control.Control) error {
 
 func (z *Delete) Preset() {
 	z.File.SetModel(&GroupName{})
-	z.OperationLog.SetModel(&GroupName{}, &mo_group.Group{})
+	z.OperationLog.SetModel(&GroupName{}, &mo_group.Group{},
+		rp_model.HiddenColumns(
+			"result.group_id",
+			"result.group_external_id",
+		),
+	)
 }

@@ -2,6 +2,8 @@ package file
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
@@ -10,9 +12,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -24,7 +24,7 @@ import (
 type ListWorker struct {
 	namespace        *mo_namespace.Namespace
 	idToMember       map[string]*mo_member.Member
-	ctx              api_context.DropboxApiContext
+	ctx              dbx_context.Context
 	ctl              app_control.Control
 	rep              rp_model.RowReport
 	IncludeMediaInfo bool
@@ -41,7 +41,7 @@ func (z *ListWorker) Exec() error {
 	)
 	l := z.ctl.Log().With(zap.Any("namespace", z.namespace))
 
-	ctn := z.ctx.WithPath(api_context.Namespace(z.namespace.NamespaceId))
+	ctn := z.ctx.WithPath(dbx_context.Namespace(z.namespace.NamespaceId))
 
 	opts := make([]sv_file.ListOpt, 0)
 	if z.IncludeDeleted {
@@ -76,7 +76,7 @@ func (z *ListWorker) Exec() error {
 }
 
 type List struct {
-	Peer                rc_conn.ConnBusinessFile
+	Peer                dbx_conn.ConnBusinessFile
 	IncludeMediaInfo    bool
 	IncludeDeleted      bool
 	IncludeMemberFolder bool
@@ -90,7 +90,17 @@ func (z *List) Preset() {
 	z.IncludeTeamFolder = true
 	z.IncludeSharedFolder = true
 	z.IncludeMemberFolder = false
-	z.NamespaceFile.SetModel(&mo_namespace.NamespaceEntry{})
+	z.NamespaceFile.SetModel(
+		&mo_namespace.NamespaceEntry{},
+		rp_model.HiddenColumns(
+			"namespace_id",
+			"file_id",
+			"revision",
+			"content_hash",
+			"shared_folder_id",
+			"parent_shared_folder_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -163,8 +173,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "namespace_file", func(cols map[string]string) error {
-		if _, ok := cols["namespace_id"]; !ok {
-			return errors.New("`namespace_id` is not found")
+		if _, ok := cols["namespace_name"]; !ok {
+			return errors.New("`namespace_name` is not found")
 		}
 		if _, ok := cols["path_display"]; !ok {
 			return errors.New("`path_display` is not found")

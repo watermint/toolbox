@@ -21,6 +21,7 @@ fi
 
 BUILD_MAJOR_VERSION=$(cat "$PROJECT_ROOT"/version)
 BUILD_HASH=$(cd "$PROJECT_ROOT" && git rev-parse HEAD)
+BUILD_TIMESTAMP=$(date --iso-8601=seconds)
 
 if [ ! -d $BUILD_PATH ]; then
   mkdir -p $BUILD_PATH
@@ -93,12 +94,13 @@ else
 fi
 rice embed-go
 
-X_APP_NAME="-X github.com/watermint/toolbox/infra/app.Name=toolbox"
 X_APP_VERSION="-X github.com/watermint/toolbox/infra/app.Version=$BUILD_VERSION"
 X_APP_HASH="-X github.com/watermint/toolbox/infra/app.Hash=$BUILD_HASH"
 X_APP_ZAP="-X github.com/watermint/toolbox/infra/app.Zap=$TOOLBOX_ZAP"
 X_APP_BUILDERKEY="-X github.com/watermint/toolbox/infra/app.BuilderKey=$TOOLBOX_BUILDERKEY"
-LD_FLAGS="$X_APP_NAME $X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY"
+X_APP_BUILDTIMESTAMP="-X github.com/watermint/toolbox/infra/app.BuildTimestamp=$BUILD_TIMESTAMP"
+X_APP_BRANCH="-X github.com/watermint/toolbox/infra/app.Branch=$CIRCLE_BRANCH"
+LD_FLAGS="$X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY $X_APP_BUILDTIMESTAMP $X_APP_BRANCH"
 
 echo Building: Windows 386
 CGO_ENABLED=0 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
@@ -144,6 +146,5 @@ fi
 echo --------------------
 echo BUILD: Deploying
 
-echo "$TOOLBOX_DEPLOY_TOKEN" > $HOME/.toolbox/secrets/deploy.tokens
 cd $PROJECT_ROOT
-go run tbx.go dev ci artifact up -dropbox-path /watermint-toolbox-build -local-path $DIST_PATH -peer-name deploy
+$BUILD_PATH/linux/tbx dev ci artifact up -low-memory -dropbox-path /watermint-toolbox-build -local-path $DIST_PATH -peer-name deploy

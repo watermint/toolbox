@@ -2,8 +2,8 @@ package sv_team
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_team"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"go.uber.org/zap"
 )
@@ -13,19 +13,19 @@ type Team interface {
 	Feature() (feature *mo_team.Feature, err error)
 }
 
-func New(ctx api_context.Context) Team {
+func New(ctx dbx_context.Context) Team {
 	return &teamImpl{
 		ctx: ctx,
 	}
 }
 
 type teamImpl struct {
-	ctx api_context.Context
+	ctx dbx_context.Context
 }
 
 func (z *teamImpl) Info() (info *mo_team.Info, err error) {
 	info = &mo_team.Info{}
-	res, err := z.ctx.Rpc("team/get_info").Call()
+	res, err := z.ctx.Post("team/get_info").Call()
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +54,7 @@ func (z *teamImpl) Feature() (feature *mo_team.Feature, err error) {
 	for _, tag := range featureTags {
 		z.ctx.Log().Debug("Feature", zap.String("tag", tag))
 		p := FP{Values: []FT{{Tag: tag}}}
-		res, err := z.ctx.Rpc("team/features/get_values").Param(p).Call()
+		res, err := z.ctx.Post("team/features/get_values").Param(p).Call()
 		if err != nil {
 			return nil, err
 		}

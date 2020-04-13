@@ -4,14 +4,14 @@ import (
 	"bufio"
 	"errors"
 	"github.com/google/go-cmp/cmp"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
@@ -29,7 +29,7 @@ type AsyncWorker struct {
 
 	// recipe's context
 	ctl  app_control.Control
-	conn api_context.DropboxApiContext
+	conn dbx_context.Context
 	rep  rp_model.RowReport
 }
 
@@ -51,12 +51,19 @@ func (z *AsyncWorker) Exec() error {
 
 type Async struct {
 	RunConcurrently bool
-	Peer            rc_conn.ConnBusinessInfo
+	Peer            dbx_conn.ConnBusinessInfo
 	Rows            rp_model.RowReport
 }
 
 func (z *Async) Preset() {
-	z.Rows.SetModel(&mo_group_member.GroupMember{})
+	z.Rows.SetModel(
+		&mo_group_member.GroupMember{},
+		rp_model.HiddenColumns(
+			"group_id",
+			"account_id",
+			"team_member_id",
+		),
+	)
 }
 
 func (z *Async) Exec(c app_control.Control) error {

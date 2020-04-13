@@ -117,14 +117,19 @@ type FormatError struct {
 }
 
 func (z *FormatError) Error() string {
-	return z.String()
+	return z.Value()
 }
-func (z *FormatError) String() string {
+func (z *FormatError) Value() string {
 	return "{{." + z.Key + "}}: " + z.Reason
 }
 
+type Pair struct {
+	Key   string
+	Value string
+}
+
 // Format path if a path contains pattern like `{{.DropboxPersonal}}`.
-func FormatPathWithPredefinedVariables(path string) (string, error) {
+func FormatPathWithPredefinedVariables(path string, pairs ...Pair) (string, error) {
 	predefined := make(map[string]func() (string, error))
 	predefined["DropboxPersonal"] = func() (s string, e error) {
 		p, _, _ := sv_desktop.New().Lookup()
@@ -188,6 +193,9 @@ func FormatPathWithPredefinedVariables(path string) (string, error) {
 		return "", errors.New("always error")
 	}
 	data := make(map[string]string)
+	for _, p := range pairs {
+		data[p.Key] = p.Value
+	}
 
 	for k, vf := range predefined {
 		ptn := "{{." + k + "}}"

@@ -103,7 +103,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: shared_link 
-
+このレポートは共有リンクの一覧を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `shared_link.csv`
 * `shared_link.xlsx`
@@ -116,7 +116,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 
 | 列         | 説明                                   |
 |------------|----------------------------------------|
-| id         | ファイルまたはフォルダへのリンクのID   |
 | tag        | エントリーの種別 (file, または folder) |
 | url        | 共有リンクのURL.                       |
 | name       | リンク先ファイル名称                   |

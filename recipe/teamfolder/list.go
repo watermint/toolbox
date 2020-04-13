@@ -2,10 +2,10 @@ package teamfolder
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -14,12 +14,17 @@ import (
 )
 
 type List struct {
-	Peer       rc_conn.ConnBusinessFile
+	Peer       dbx_conn.ConnBusinessFile
 	TeamFolder rp_model.RowReport
 }
 
 func (z *List) Preset() {
-	z.TeamFolder.SetModel(&mo_teamfolder.TeamFolder{})
+	z.TeamFolder.SetModel(
+		&mo_teamfolder.TeamFolder{},
+		rp_model.HiddenColumns(
+			"team_folder_id",
+		),
+	)
 }
 
 func (z *List) Test(c app_control.Control) error {
@@ -27,8 +32,8 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "team_folder", func(cols map[string]string) error {
-		if _, ok := cols["team_folder_id"]; !ok {
-			return errors.New("`team_folder_id` is not found")
+		if _, ok := cols["name"]; !ok {
+			return errors.New("`name` is not found")
 		}
 		return nil
 	})

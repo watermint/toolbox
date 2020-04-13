@@ -30,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe file watch 
+.\tbx.exe file watch -path /DROPBOX/PATH/TO/WATCH
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx file watch 
+$HOME/Desktop/tbx file watch -path /DROPBOX/PATH/TO/WATCH
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.

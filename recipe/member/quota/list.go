@@ -2,13 +2,13 @@ package quota
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member_quota"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member_quota"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -20,7 +20,7 @@ import (
 
 type ListWorker struct {
 	member *mo_member.Member
-	ctx    api_context.Context
+	ctx    dbx_context.Context
 	rep    rp_model.RowReport
 	ctl    app_control.Control
 }
@@ -40,7 +40,7 @@ func (z *ListWorker) Exec() error {
 }
 
 type List struct {
-	Peer        rc_conn.ConnBusinessMgmt
+	Peer        dbx_conn.ConnBusinessMgmt
 	MemberQuota rp_model.RowReport
 }
 

@@ -1,9 +1,9 @@
 package sv_file_copyref
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_context"
 )
 
 type CopyRef interface {
@@ -14,14 +14,14 @@ type CopyRef interface {
 	Save(path mo_path.DropboxPath, ref string) (entry mo_file.Entry, err error)
 }
 
-func New(ctx api_context.Context) CopyRef {
+func New(ctx dbx_context.Context) CopyRef {
 	return &copyRefImpl{
 		ctx: ctx,
 	}
 }
 
 type copyRefImpl struct {
-	ctx api_context.Context
+	ctx dbx_context.Context
 }
 
 func (z *copyRefImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, ref, expires string, err error) {
@@ -31,7 +31,7 @@ func (z *copyRefImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, re
 		Path: path.Path(),
 	}
 
-	res, err := z.ctx.Rpc("files/copy_reference/get").Param(p).Call()
+	res, err := z.ctx.Post("files/copy_reference/get").Param(p).Call()
 	if err != nil {
 		return
 	}
@@ -59,7 +59,7 @@ func (z *copyRefImpl) Save(path mo_path.DropboxPath, ref string) (entry mo_file.
 	}
 
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Rpc("files/copy_reference/save").Param(p).Call()
+	res, err := z.ctx.Post("files/copy_reference/save").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

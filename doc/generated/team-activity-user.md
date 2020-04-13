@@ -107,7 +107,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: user 
-
+This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.
 Report files are generated in three formats like below;
 * `user.csv`
 * `user.xlsx`
@@ -136,7 +136,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | other_info               | The variable event schema applicable to this type of action.                                       |
 
 ## Report: user_summary 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `user_summary.csv`
 * `user_summary.xlsx`
@@ -152,7 +152,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | status                 | Status of the operation                |
 | reason                 | Reason of failure or skipped operation |
 | input.user             | User email address                     |
-| result.user            | User email address                     |
 | result.logins          | Number of login activities             |
 | result.devices         | Number of device activities            |
 | result.sharing         | Number of sharing activities           |

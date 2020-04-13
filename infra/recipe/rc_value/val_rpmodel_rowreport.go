@@ -2,10 +2,12 @@ package rc_value
 
 import (
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_model_impl"
+	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"reflect"
 )
 
@@ -19,6 +21,10 @@ func newValueRpModelRowReport(name string) rc_recipe.Value {
 type ValueRpModelRowReport struct {
 	name string
 	rep  *rp_model_impl.RowReport
+}
+
+func (z *ValueRpModelRowReport) Spec() (typeName string, typeAttr interface{}) {
+	return ut_reflect.Key(app.Pkg, z.rep), nil
 }
 
 func (z *ValueRpModelRowReport) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

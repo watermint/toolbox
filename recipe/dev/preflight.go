@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -85,7 +86,7 @@ func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) 
 	for _, e := range entries {
 		if !whiteList(e.Name()) {
 			p := filepath.Join(path, e.Name())
-			if c.IsTest() {
+			if c.Feature().IsTest() {
 				continue
 			}
 			err := os.Remove(p)
@@ -100,7 +101,7 @@ func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) 
 
 func (z *Preflight) cloneSpec(c app_control.Control, path string, release int) error {
 	l := c.Log()
-	if c.IsTest() {
+	if c.Feature().IsTest() {
 		l.Debug("Skip for test")
 		return nil
 	}
@@ -121,7 +122,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	l := c.Log()
 
 	release := 0
-	if !c.IsTest() {
+	if !c.Feature().IsTest() {
 		v, err := ioutil.ReadFile("version")
 		if err != nil {
 			l.Error("Unable to read version file", zap.Error(err))
@@ -141,7 +142,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		path := fmt.Sprintf("doc/generated%s/", suffix)
 		ll := l.With(zap.String("lang", langCode), zap.String("suffix", suffix))
 
-		if !c.IsTest() {
+		if !c.Feature().IsTest() {
 			ll.Info("Clean up generated document folder")
 			if err := z.deleteOldGeneratedFiles(c, path); err != nil {
 				return err
@@ -152,7 +153,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				rr := r.(*Doc)
 				rr.Badge = true
 				rr.MarkdownReadme = true
-				rr.Lang = langCode
+				rr.Lang = mo_string.NewOptional(langCode)
 				rr.Filename = fmt.Sprintf("README%s.md", suffix)
 				rr.CommandPath = path
 			})
@@ -164,11 +165,15 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			ll.Info("Generating Spec document")
 			err = rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Doc)
-				rr.Lang = langCode
-				rr.FilePath = filepath.Join(path, "spec.json")
+				rr.Lang = mo_string.NewOptional(langCode)
+				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "spec.json"))
 			})
 			if err != nil {
 				l.Error("Failed to generate documents", zap.Error(err))
+				return err
+			}
+			l.Info("Verify message resources")
+			if err := qt_messages.VerifyMessages(c); err != nil {
 				return err
 			}
 		}
@@ -183,14 +188,14 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			return err
 		}
 
-		if !c.IsTest() && minimumSpecDocVersion < release {
-			ll.Info("Generating release notes")
+		if !c.Feature().IsTest() && minimumSpecDocVersion < release {
+			ll.Info("Generating release changes")
 			err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Diff)
-				rr.Lang = langCode
-				rr.Release1 = fmt.Sprintf("%d", release-1)
-				rr.Release2 = fmt.Sprintf("%d", release)
-				rr.FilePath = filepath.Join(path, "changes.md")
+				rr.Lang = mo_string.NewOptional(langCode)
+				rr.Release1 = mo_string.NewOptional(fmt.Sprintf("%d", release-1))
+				rr.Release2 = mo_string.NewOptional(fmt.Sprintf("%d", release))
+				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "changes.md"))
 			})
 			if err != nil {
 				l.Error("Failed to generate documents", zap.Error(err))
@@ -224,6 +229,15 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			for _, msg := range msgs {
 				l.Debug("message", zap.String("key", msg.Key()), zap.String("text", c.UI().Text(msg)))
 			}
+		}
+
+		l.Info("Verify features")
+		for _, f := range cat.Features() {
+			key := f.OptInName(f)
+			ll := l.With(zap.String("key", key))
+			ll.Debug("feature disclaimer", zap.String("msg", c.UI().Text(f.OptInDisclaimer(f))))
+			ll.Debug("feature agreement", zap.String("msg", c.UI().Text(f.OptInAgreement(f))))
+			ll.Debug("feature desc", zap.String("msg", c.UI().Text(f.OptInDescription(f))))
 		}
 	}
 

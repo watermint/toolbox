@@ -1,9 +1,10 @@
 package sv_file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"go.uber.org/zap"
 )
@@ -63,13 +64,13 @@ func RemoveRevision(revision string) RemoveOpt {
 	}
 }
 
-func NewFiles(ctx api_context.DropboxApiContext) Files {
+func NewFiles(ctx dbx_context.Context) Files {
 	return &filesImpl{
 		ctx: ctx,
 	}
 }
 
-func newFilesTest(ctx api_context.DropboxApiContext) Files {
+func newFilesTest(ctx dbx_context.Context) Files {
 	return &filesImpl{
 		ctx: ctx,
 	}
@@ -130,7 +131,7 @@ func SearchIncludeHighlights() SearchOpt {
 }
 
 type filesImpl struct {
-	ctx   api_context.DropboxApiContext
+	ctx   dbx_context.Context
 	limit int
 }
 
@@ -214,7 +215,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 		Changes bool `path:"changes"  json:"changes"`
 	}
 
-	res, err := z.ctx.Rpc("files/list_folder/get_latest_cursor").Param(p).Call()
+	res, err := z.ctx.Post("files/list_folder/get_latest_cursor").Param(p).Call()
 	if err != nil {
 		return err
 	}
@@ -223,11 +224,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 		return err
 	}
 
-	noAuthCtx0 := z.ctx.NoAuth()
-	noAuthCtx, ok := noAuthCtx0.(api_context.DropboxApiContext)
-	if !ok {
-		return api_context.ErrorIncompatibleContextType
-	}
+	noAuthCtx := dbx_context_impl.NewNoAuth()
 	for {
 		res, err := noAuthCtx.Notify("files/list_folder/longpoll").Param(cursor).Call()
 		if err != nil {
@@ -275,7 +272,7 @@ func (z *filesImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err 
 		IncludeDeleted:                  false,
 	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Rpc("files/get_metadata").Param(p).Call()
+	res, err := z.ctx.Post("files/get_metadata").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -355,7 +352,7 @@ func (z *filesImpl) Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry m
 	}
 
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Rpc("files/delete_v2").Param(p).Call()
+	res, err := z.ctx.Post("files/delete_v2").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

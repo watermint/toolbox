@@ -104,7 +104,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: team_folder 
-
+このレポートはチーム内のチームフォルダを一覧します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `team_folder.csv`
 * `team_folder.xlsx`
@@ -117,7 +117,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 
 | 列                     | 説明                                                                                 |
 |------------------------|--------------------------------------------------------------------------------------|
-| team_folder_id         | チームフォルダのID                                                                   |
 | name                   | チームフォルダの名称                                                                 |
 | status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
 | is_team_shared_dropbox |                                                                                      |

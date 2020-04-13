@@ -104,7 +104,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: device 
-
+このレポートではチーム内の既存セッションとメンバー情報を一覧できます.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `device.csv`
 * `device.xlsx`
@@ -122,11 +122,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   |
 | given_name                    | 名                                                                     |
 | surname                       | 名字                                                                   |
-| familiar_name                 | ロケール依存の名前                                                     |
 | display_name                  | ユーザーのDropboxアカウントの表示名称                                  |
-| abbreviated_name              | ユーザーの省略名称                                                     |
-| external_id                   | このユーザーに関連づけられた外部ID                                     |
-| account_id                    | ユーザーのアカウントID                                                 |
 | device_tag                    | セッションのタイプ (web_session, desktop_client, または mobile_client) |
 | id                            | セッションID                                                           |
 | user_agent                    | ホストデバイスの情報                                                   |

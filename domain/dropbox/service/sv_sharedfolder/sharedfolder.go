@@ -1,10 +1,10 @@
 package sv_sharedfolder
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 )
 
@@ -18,7 +18,7 @@ type SharedFolder interface {
 	UpdatePolicy(sharedFolderId string, opts ...PolicyOpt) (sf *mo_sharedfolder.SharedFolder, err error)
 }
 
-func New(ctx api_context.DropboxApiContext) SharedFolder {
+func New(ctx dbx_context.Context) SharedFolder {
 	return &sharedFolderImpl{
 		ctx: ctx,
 	}
@@ -80,7 +80,7 @@ func LeaveACopy() DeleteOpt {
 }
 
 type sharedFolderImpl struct {
-	ctx   api_context.DropboxApiContext
+	ctx   dbx_context.Context
 	limit int
 }
 
@@ -99,7 +99,7 @@ func (z *sharedFolderImpl) UpdatePolicy(sharedFolderId string, opts ...PolicyOpt
 	}
 
 	sf = &mo_sharedfolder.SharedFolder{}
-	res, err := z.ctx.Rpc("sharing/update_folder_policy").Param(p).Call()
+	res, err := z.ctx.Post("sharing/update_folder_policy").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -121,7 +121,7 @@ func (z *sharedFolderImpl) Transfer(sf *mo_sharedfolder.SharedFolder, to Transfe
 		ToDropboxId:    too.dropboxId,
 	}
 
-	_, err = z.ctx.Rpc("sharing/transfer_folder").Param(p).Call()
+	_, err = z.ctx.Post("sharing/transfer_folder").Param(p).Call()
 	if err != nil {
 		return err
 	}
@@ -136,7 +136,7 @@ func (z *sharedFolderImpl) Resolve(sharedFolderId string) (sf *mo_sharedfolder.S
 	}
 
 	sf = &mo_sharedfolder.SharedFolder{}
-	res, err := z.ctx.Rpc("sharing/get_folder_metadata").Param(p).Call()
+	res, err := z.ctx.Post("sharing/get_folder_metadata").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

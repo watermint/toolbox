@@ -97,6 +97,31 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *rc_doc.Recipe {
 		reports = append(reports, reportMap[r])
 	}
 
+	values := make([]*rc_doc.Value, 0)
+	valueNames := make([]string, len(z.ValueNames()))
+	copy(valueNames, z.ValueNames())
+	sort.Strings(valueNames)
+	for _, vn := range valueNames {
+		var dv app_msg.Message
+		cdv := z.ValueCustomDefault(vn)
+		if ui.Exists(cdv) {
+			dv = cdv
+		} else {
+			dv = app_msg.Raw(z.ValueDefault(vn))
+		}
+		v := z.Value(vn)
+		tn, ta := v.Spec()
+		values = append(values,
+			&rc_doc.Value{
+				Name:     vn,
+				Default:  ui.Text(dv),
+				Desc:     ui.Text(z.ValueDesc(vn)),
+				TypeName: tn,
+				TypeAttr: ta,
+			},
+		)
+	}
+
 	return &rc_doc.Recipe{
 		Name:            z.Name(),
 		Title:           ui.Text(z.Title()),
@@ -114,6 +139,7 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *rc_doc.Recipe {
 		IsIrreversible:  z.IsIrreversible(),
 		Feeds:           feeds,
 		Reports:         reports,
+		Values:          values,
 	}
 }
 
@@ -299,6 +325,7 @@ func (z *specValueSelfContained) SpinUp(ctl app_control.Control, custom func(r r
 	l := ctl.Log().With(zap.String("name", z.name))
 	rcp = z.repo.Apply()
 	custom(rcp)
+	z.repo.ApplyCustom()
 	_, err = z.repo.SpinUp(ctl)
 	if err != nil {
 		l.Debug("Unable to spin up", zap.Error(err))

@@ -2,6 +2,7 @@ package app_control
 
 import (
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -23,15 +24,7 @@ type Control interface {
 	TestResource(key string) (data gjson.Result, found bool)
 	Workspace() app_workspace.Workspace
 	Messages() app_msg_container.Container
-
-	IsProduction() bool
-	IsDebug() bool
-	IsTest() bool
-	IsQuiet() bool
-	IsSecure() bool
-	IsLowMemory() bool
-	IsAutoOpen() bool
-	UIFormat() string
+	Feature() app_feature.Feature
 
 	NewQueue() rc_worker.Queue
 }
@@ -59,6 +52,7 @@ type UpOpts struct {
 	Concurrency   int
 	LowMemory     bool
 	AutoOpen      bool
+	Quiet         bool
 	UIFormat      string
 }
 
@@ -73,10 +67,17 @@ func (z *UpOpts) Clone() *UpOpts {
 		Concurrency:   z.Concurrency,
 		LowMemory:     z.LowMemory,
 		AutoOpen:      z.AutoOpen,
+		Quiet:         z.Quiet,
 		UIFormat:      z.UIFormat,
 	}
 }
 
+func Quiet(enabled bool) UpOpt {
+	return func(opt *UpOpts) *UpOpts {
+		opt.Quiet = enabled
+		return opt
+	}
+}
 func UIFormat(format string) UpOpt {
 	return func(opt *UpOpts) *UpOpts {
 		opt.UIFormat = format

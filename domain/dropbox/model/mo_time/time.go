@@ -2,8 +2,8 @@ package mo_time
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_essential"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/util/ut_time"
 	"time"
 )
@@ -14,7 +14,7 @@ type Time interface {
 	Iso8601() string
 
 	// Same as Iso8601
-	String() string
+	Value() string
 
 	// Returns time instance
 	Time() time.Time
@@ -29,7 +29,7 @@ type TimeOptional interface {
 }
 
 var (
-	InvalidTimeFormat = errors.New("invalid time format")
+	ErrorInvalidTimeFormat = errors.New("invalid time format")
 )
 
 func Zero() (tm Time) {
@@ -73,7 +73,7 @@ func (z *TimeImpl) Iso8601() string {
 	}
 }
 
-func (z *TimeImpl) String() string {
+func (z *TimeImpl) Value() string {
 	if z.Ok() {
 		return z.Iso8601()
 	} else {
@@ -84,7 +84,7 @@ func (z *TimeImpl) String() string {
 func (z *TimeImpl) UpdateTime(dateTime string) error {
 	ts, valid := ut_time.ParseTimestamp(dateTime)
 	if !valid {
-		return InvalidTimeFormat
+		return ErrorInvalidTimeFormat
 	}
 	z.time = ts
 	z.isSet = true

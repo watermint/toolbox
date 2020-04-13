@@ -3,9 +3,9 @@ package sv_member
 import (
 	"encoding/json"
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_error"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"go.uber.org/zap"
@@ -105,13 +105,13 @@ func RetainTeamShares() RemoveOpt {
 	}
 }
 
-func New(ctx api_context.DropboxApiContext) Member {
+func New(ctx dbx_context.Context) Member {
 	return &memberImpl{
 		ctx: ctx,
 	}
 }
 
-func NewCached(ctx api_context.DropboxApiContext) Member {
+func NewCached(ctx dbx_context.Context) Member {
 	return &cachedMember{
 		impl: &memberImpl{
 			ctx: ctx,
@@ -119,7 +119,7 @@ func NewCached(ctx api_context.DropboxApiContext) Member {
 	}
 }
 
-func newTest(ctx api_context.DropboxApiContext) Member {
+func newTest(ctx dbx_context.Context) Member {
 	return &memberImpl{
 		ctx:   ctx,
 		limit: 3,
@@ -188,7 +188,7 @@ func (z *cachedMember) Remove(member *mo_member.Member, opts ...RemoveOpt) (err 
 }
 
 type memberImpl struct {
-	ctx            api_context.DropboxApiContext
+	ctx            dbx_context.Context
 	includeDeleted bool
 	limit          int
 }
@@ -291,7 +291,7 @@ func (z *memberImpl) Update(member *mo_member.Member) (updated *mo_member.Member
 		NewSurname:      member.Surname,
 		NewPersistentId: member.PersistentId,
 	}
-	req := z.ctx.Rpc("team/members/set_profile").Param(p)
+	req := z.ctx.Post("team/members/set_profile").Param(p)
 	res, err := req.Call()
 	if err != nil {
 		return nil, err
@@ -318,7 +318,7 @@ func (z *memberImpl) Resolve(teamMemberId string) (member *mo_member.Member, err
 			},
 		},
 	}
-	res, err := z.ctx.Rpc("team/members/get_info").Param(p).Call()
+	res, err := z.ctx.Post("team/members/get_info").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}
@@ -340,7 +340,7 @@ func (z *memberImpl) parseOneMember(res api_response.Response) (member *mo_membe
 	// {".tag": "id_not_found", "id_not_found": "xxx+xxxxx@xxxxxxxxx.xxx"}
 	if a.Get("id_not_found").Exists() {
 		z.ctx.Log().Debug("`id_not_found`", zap.String("id", a.Get("id_not_found").String()))
-		return nil, api_error.ApiError{
+		return nil, dbx_error.ApiError{
 			ErrorTag:     "id_not_found",
 			ErrorSummary: "id_not_found",
 			ErrorBody:    json.RawMessage(`{"error_summary":"id_not_found","error":{".tag":"id_not_found"}}`),
@@ -369,7 +369,7 @@ func (z *memberImpl) ResolveByEmail(email string) (member *mo_member.Member, err
 		},
 	}
 	member = &mo_member.Member{}
-	res, err := z.ctx.Rpc("team/members/get_info").Param(p).Call()
+	res, err := z.ctx.Post("team/members/get_info").Param(p).Call()
 	if err != nil {
 		return nil, err
 	}

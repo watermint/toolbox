@@ -1,8 +1,8 @@
 package sv_member_quota
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 )
 
@@ -12,14 +12,14 @@ type Exceptions interface {
 	List() (members []*mo_profile.Profile, err error)
 }
 
-func NewExceptions(ctx api_context.DropboxApiContext) Exceptions {
+func NewExceptions(ctx dbx_context.Context) Exceptions {
 	return &exceptionsImpl{
 		ctx: ctx,
 	}
 }
 
 type exceptionsImpl struct {
-	ctx api_context.DropboxApiContext
+	ctx dbx_context.Context
 }
 
 func (z *exceptionsImpl) Add(teamMemberId string) (err error) {
@@ -37,7 +37,7 @@ func (z *exceptionsImpl) Add(teamMemberId string) (err error) {
 			},
 		},
 	}
-	_, err = z.ctx.Rpc("team/member_space_limits/excluded_users/add").Param(p).Call()
+	_, err = z.ctx.Post("team/member_space_limits/excluded_users/add").Param(p).Call()
 	return err
 }
 
@@ -56,7 +56,7 @@ func (z *exceptionsImpl) Remove(teamMemberId string) (err error) {
 			},
 		},
 	}
-	_, err = z.ctx.Rpc("team/member_space_limits/excluded_users/remove").Param(p).Call()
+	_, err = z.ctx.Post("team/member_space_limits/excluded_users/remove").Param(p).Call()
 	return err
 }
 

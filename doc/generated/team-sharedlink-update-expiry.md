@@ -107,7 +107,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: skipped 
-
+This report shows a list of shared links with the shared link owner team member.
 Report files are generated in three formats like below;
 * `skipped.csv`
 * `skipped.xlsx`
@@ -132,7 +132,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | given_name | Given name of the link owner                                                                                                                                                                                            |
 
 ## Report: updated 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `updated.csv`
 * `updated.xlsx`
@@ -143,28 +143,19 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `updated_0000.xlsx`, `updated_0001.xlsx`, `updated_0002.xlsx`...   
 
-| Column               | Description                                                                                                                                                                                                             |
-|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| status               | Status of the operation                                                                                                                                                                                                 |
-| reason               | Reason of failure or skipped operation                                                                                                                                                                                  |
-| input.shared_link_id | A unique identifier for the linked file or folder                                                                                                                                                                       |
-| input.tag            | Entry type (file, or folder)                                                                                                                                                                                            |
-| input.url            | URL of the shared link.                                                                                                                                                                                                 |
-| input.name           | The linked file name (including extension).                                                                                                                                                                             |
-| input.expires        | Expiration time, if set.                                                                                                                                                                                                |
-| input.path_lower     | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| input.visibility     | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| input.account_id     | A user's account identifier.                                                                                                                                                                                            |
-| input.team_member_id | ID of user as a member of a team.                                                                                                                                                                                       |
-| input.email          | Email address of user.                                                                                                                                                                                                  |
-| input.status         | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
-| input.surname        | Surname of the link owner                                                                                                                                                                                               |
-| input.given_name     | Given name of the link owner                                                                                                                                                                                            |
-| result.id            | A unique identifier for the linked file or folder                                                                                                                                                                       |
-| result.tag           | Entry type (file, or folder)                                                                                                                                                                                            |
-| result.url           | URL of the shared link.                                                                                                                                                                                                 |
-| result.name          | The linked file name (including extension).                                                                                                                                                                             |
-| result.expires       | Expiration time, if set.                                                                                                                                                                                                |
-| result.path_lower    | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| result.visibility    | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| Column           | Description                                                                                                                                                                                                             |
+|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status           | Status of the operation                                                                                                                                                                                                 |
+| reason           | Reason of failure or skipped operation                                                                                                                                                                                  |
+| input.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
+| input.url        | URL of the shared link.                                                                                                                                                                                                 |
+| input.name       | The linked file name (including extension).                                                                                                                                                                             |
+| input.expires    | Expiration time, if set.                                                                                                                                                                                                |
+| input.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| input.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| input.email      | Email address of user.                                                                                                                                                                                                  |
+| input.status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
+| input.surname    | Surname of the link owner                                                                                                                                                                                               |
+| input.given_name | Given name of the link owner                                                                                                                                                                                            |
+| result.expires   | Expiration time, if set.                                                                                                                                                                                                |
 

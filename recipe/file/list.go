@@ -2,11 +2,11 @@ package file
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -14,7 +14,7 @@ import (
 )
 
 type List struct {
-	Peer             rc_conn.ConnUserFile
+	Peer             dbx_conn.ConnUserFile
 	Path             mo_path.DropboxPath
 	Recursive        bool
 	IncludeDeleted   bool
@@ -23,7 +23,17 @@ type List struct {
 }
 
 func (z *List) Preset() {
-	z.FileList.SetModel(&mo_file.ConcreteEntry{})
+	z.FileList.SetModel(
+		&mo_file.ConcreteEntry{},
+		rp_model.HiddenColumns(
+			"id",
+			"path_lower",
+			"revision",
+			"content_hash",
+			"shared_folder_id",
+			"parent_shared_folder_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -58,15 +68,15 @@ func (z *List) Exec(c app_control.Control) error {
 func (z *List) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, &List{}, func(r rc_recipe.Recipe) {
 		r0 := r.(*List)
-		r0.Path = mo_path.NewDropboxPath("")
+		r0.Path = mo_path.NewDropboxPath("/")
 		r0.Recursive = false
 	})
 	if err != nil {
 		return err
 	}
 	return qt_recipe.TestRows(c, "file_list", func(cols map[string]string) error {
-		if _, ok := cols["id"]; !ok {
-			return errors.New("`id` is not found")
+		if _, ok := cols["name"]; !ok {
+			return errors.New("`name` is not found")
 		}
 		if _, ok := cols["path_display"]; !ok {
 			return errors.New("`path_display` is not found")

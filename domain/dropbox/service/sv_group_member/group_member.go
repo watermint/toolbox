@@ -1,9 +1,9 @@
 package sv_group_member
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 )
 
@@ -35,14 +35,14 @@ func ByTeamMemberId(teamMemberId string) MemberOpt {
 	}
 }
 
-func New(ctx api_context.DropboxApiContext, group *mo_group.Group) GroupMember {
+func New(ctx dbx_context.Context, group *mo_group.Group) GroupMember {
 	return &groupMemberImpl{
 		ctx:     ctx,
 		groupId: group.GroupId,
 	}
 }
 
-func NewByGroupId(ctx api_context.DropboxApiContext, groupId string) GroupMember {
+func NewByGroupId(ctx dbx_context.Context, groupId string) GroupMember {
 	return &groupMemberImpl{
 		ctx:     ctx,
 		groupId: groupId,
@@ -50,7 +50,7 @@ func NewByGroupId(ctx api_context.DropboxApiContext, groupId string) GroupMember
 }
 
 type groupMemberImpl struct {
-	ctx     api_context.DropboxApiContext
+	ctx     dbx_context.Context
 	groupId string
 }
 

@@ -52,7 +52,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 # ファイル書式
 
-## 書式: File 
+## 書式: File
+
+一括でチームフォルダを作成する際のデータファイル. 
 
 | 列   | 説明             | 値の例 |
 |------|------------------|--------|
@@ -80,7 +82,7 @@ name
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: verification 
-
+このレポートはフォルダ間の差分を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `verification.csv`
 * `verification.xlsx`

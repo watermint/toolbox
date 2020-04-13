@@ -107,7 +107,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: shared_link 
-
+This report shows the transaction result.
 Report files are generated in three formats like below;
 * `shared_link.csv`
 * `shared_link.xlsx`
@@ -122,7 +122,6 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 |------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | status           | Status of the operation                                                                                                                                                                                                 |
 | reason           | Reason of failure or skipped operation                                                                                                                                                                                  |
-| input.id         | A unique identifier for the linked file or folder                                                                                                                                                                       |
 | input.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
 | input.url        | URL of the shared link.                                                                                                                                                                                                 |
 | input.name       | The linked file name (including extension).                                                                                                                                                                             |

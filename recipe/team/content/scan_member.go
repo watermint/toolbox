@@ -1,16 +1,16 @@
 package content
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"go.uber.org/zap"
 )
 
 type MemberScannerWorker struct {
 	Control             app_control.Control
-	Context             api_context.DropboxApiContext
+	Context             dbx_context.Context
 	Member              *mo_member.Member
 	TeamOwnedNamespaces map[string]bool // namespace Id -> true
 	Scanner             ScanNamespace

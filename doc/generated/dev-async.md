@@ -105,7 +105,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: rows 
-
+This report shows a list of groups and their members.
 Report files are generated in three formats like below;
 * `rows.csv`
 * `rows.xlsx`
@@ -118,12 +118,9 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 
 | Column                | Description                                                                           |
 |-----------------------|---------------------------------------------------------------------------------------|
-| group_id              | A group's identifier                                                                  |
 | group_name            | Name of a group.                                                                      |
 | group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
 | access_type           | The role that the user has in the group (member/owner)                                |
-| account_id            | A user's account identifier                                                           |
-| team_member_id        | ID of user as a member of a team.                                                     |
 | email                 | Email address of user.                                                                |
 | status                | The user's status as a member of a specific team. (active/invited/suspended/removed)  |
 | surname               | Also known as a last name or family name.                                             |

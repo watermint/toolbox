@@ -70,7 +70,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 # ファイル書式
 
-## 書式: File 
+## 書式: File
+
+一括でチームフォルダを作成する際のデータファイル. 
 
 | 列   | 説明             | 値の例 |
 |------|------------------|--------|
@@ -120,7 +122,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: operation_log 
-
+このレポートは処理結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `operation_log.csv`
 * `operation_log.xlsx`
@@ -136,7 +138,6 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | status                        | 処理の状態                                                                           |
 | reason                        | 失敗またはスキップの理由                                                             |
 | input.name                    | チームフォルダ名                                                                     |
-| result.team_folder_id         | チームフォルダのID                                                                   |
 | result.name                   | チームフォルダの名称                                                                 |
 | result.status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
 | result.is_team_shared_dropbox |                                                                                      |

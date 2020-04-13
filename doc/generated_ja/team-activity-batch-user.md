@@ -73,7 +73,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 # ファイル書式
 
-## 書式: File 
+## 書式: File
+
+メンバーのアクティビティを一括取得するためのデータファイル. 
 
 | 列    | 説明                     | 値の例           |
 |-------|--------------------------|------------------|
@@ -123,7 +125,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: combined 
-
+このレポートはDropbox Businessのアクティビティログとほぼ互換性のあるアクティビティレポートを出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `combined.csv`
 * `combined.xlsx`
@@ -152,7 +154,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | other_info               | このタイプのアクションに適用可能な可変イベントスキーマ.         |
 
 ## レポート: user 
-
+このレポートはDropbox Businessのアクティビティログとほぼ互換性のあるアクティビティレポートを出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `user.csv`
 * `user.xlsx`

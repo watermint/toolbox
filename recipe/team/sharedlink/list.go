@@ -2,13 +2,14 @@ package sharedlink
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -19,7 +20,7 @@ import (
 
 type ListWorker struct {
 	member     *mo_member.Member
-	conn       api_context.DropboxApiContext
+	conn       dbx_context.Context
 	rep        rp_model.RowReport
 	ctl        app_control.Control
 	visibility string
@@ -45,13 +46,24 @@ func (z *ListWorker) Exec() error {
 }
 
 type List struct {
-	Peer       rc_conn.ConnBusinessFile
+	Peer       dbx_conn.ConnBusinessFile
 	SharedLink rp_model.RowReport
-	Visibility string
+	Visibility mo_string.SelectString
 }
 
 func (z *List) Preset() {
-	z.SharedLink.SetModel(&mo_sharedlink.SharedLinkMember{})
+	z.Visibility.SetOptions(
+		[]string{"public", "team_only", "password", "team_and_password", "shared_folder_only"},
+		"public",
+	)
+	z.SharedLink.SetModel(
+		&mo_sharedlink.SharedLinkMember{},
+		rp_model.HiddenColumns(
+			"shared_link_id",
+			"account_id",
+			"team_member_id",
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -71,7 +83,7 @@ func (z *List) Exec(c app_control.Control) error {
 			conn:       z.Peer.Context(),
 			rep:        z.SharedLink,
 			ctl:        c,
-			visibility: z.Visibility,
+			visibility: z.Visibility.Value(),
 		})
 	}
 	q.Wait()
@@ -84,11 +96,11 @@ func (z *List) Test(c app_control.Control) error {
 		return err
 	}
 	return qt_recipe.TestRows(c, "shared_link", func(cols map[string]string) error {
-		if _, ok := cols["shared_link_id"]; !ok {
-			return errors.New("`shared_link_id` is not found")
+		if _, ok := cols["name"]; !ok {
+			return errors.New("`name` is not found")
 		}
-		if _, ok := cols["team_member_id"]; !ok {
-			return errors.New("`team_member_id` is not found")
+		if _, ok := cols["email"]; !ok {
+			return errors.New("`email` is not found")
 		}
 		return nil
 	})

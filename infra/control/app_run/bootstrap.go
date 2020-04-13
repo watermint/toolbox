@@ -29,6 +29,7 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
+	"github.com/watermint/toolbox/ingredient/bootstrap"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
 	"os"
@@ -129,8 +130,8 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	// Up
 	so := make([]app_control.UpOpt, 0)
-	if com.Workspace != "" {
-		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace)
+	if com.Workspace.IsExists() {
+		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace.Value())
 		if err != nil {
 			ui.Error(MRun.ErrorUnableToFormatPath.With("Error", err))
 			os.Exit(app_control.FailureInvalidCommandFlags)
@@ -151,13 +152,13 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	so = append(so, app_control.RecipeName(rcp.CliPath()))
 	so = append(so, app_control.CommonOptions(comSpec.Debug()))
 	so = append(so, app_control.RecipeOptions(rcp.Debug()))
+	so = append(so, app_control.Quiet(com.Quiet))
 
 	ctl := app_control_impl.NewSingle(
 		ui,
 		z.boxResource,
 		z.boxWeb,
 		z.msgContainer,
-		com.Quiet,
 		z.catalogue,
 	)
 
@@ -180,7 +181,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 		if qm, ok := ctl.Messages().(app_msg_container.Quality); ok {
 			missing := qm.MissingKeys()
 			if len(missing) > 0 {
-				w := ut_io.NewDefaultOut(ctl.IsTest())
+				w := ut_io.NewDefaultOut(ctl.Feature().IsTest())
 				for _, k := range missing {
 					ctl.Log().Error("Key missing", zap.String("key", k))
 					fmt.Fprintf(w, `"%s":"",\n`, k)
@@ -190,7 +191,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	}
 
 	// Recover
-	if ctl.IsProduction() {
+	if ctl.Feature().IsProduction() {
 		defer func() {
 			err := recover()
 			if err != nil {
@@ -249,7 +250,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	}()
 
 	// - Proxy config
-	nw_proxy.SetHttpProxy(com.Proxy, ctl)
+	nw_proxy.SetHttpProxy(com.Proxy.Value(), ctl)
 
 	// App Header
 	rc_group.AppHeader(ui, app.Version)
@@ -259,7 +260,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	if err != nil {
 		ctl.Abort(app_control.Reason(app_control.FatalRuntime))
 	}
-	if ctl.IsProduction() && len(rcp.ConnScopes()) > 0 {
+	if ctl.Feature().IsProduction() && len(rcp.ConnScopes()) > 0 {
 		err = nw_diag.Network(ctl)
 		if err != nil {
 			ctl.Abort(app_control.Reason(app_control.FatalNetwork))
@@ -280,6 +281,13 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 			profile.ProfilePath(ctl.Workspace().Log()),
 			profile.MemProfile,
 		).Stop()
+	}
+
+	// Bootstrap recipe
+	if err := rc_exec.Exec(ctl, &bootstrap.Bootstrap{}, rc_recipe.NoCustomValues); err != nil {
+		ctl.Log().Error("Bootstrap failed with an error", zap.Error(err))
+		ui.Failure(MRun.ErrorRecipeFailed.With("Error", err))
+		os.Exit(app_control.FailureGeneral)
 	}
 
 	// Run

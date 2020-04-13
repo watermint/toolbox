@@ -104,7 +104,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## レポート: file_request 
-
+このレポートはチームメンバーのもつファイルリクエストを一覧します.
 レポートファイルは次の3種類のフォーマットで出力されます;
 * `file_request.csv`
 * `file_request.xlsx`
@@ -117,13 +117,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 
 | 列                          | 説明                                                                      |
 |-----------------------------|---------------------------------------------------------------------------|
-| account_id                  | ファイルリクエスト所有者のアカウントID                                    |
-| team_member_id              | ファイルリクエスト所有者のチームメンバーとしてのID                        |
 | email                       | ファイルリクエスト所有者のメールアドレス                                  |
 | status                      | ファイルリクエスト所有者ユーザーの状態 (active/invited/suspended/removed) |
 | surname                     | ファイルリクエスト所有者の名字                                            |
 | given_name                  | ファイルリクエスト所有者の名                                              |
-| file_request_id             | ファイルリクエストID                                                      |
 | url                         | ファイルリクエストのURL                                                   |
 | title                       | ファイルリクエストのタイトル                                              |
 | created                     | このファイルリクエストが作成された日時                                    |

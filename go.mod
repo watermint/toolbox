@@ -1,6 +1,6 @@
 module github.com/watermint/toolbox
 
-go 1.13
+go 1.14
 
 require (
 	github.com/GeertJohan/go.rice v1.0.1-0.20191102153406-d954009f7238
@@ -14,6 +14,7 @@ require (
 	github.com/gin-gonic/gin v1.5.0
 	github.com/golang/protobuf v1.3.3 // indirect
 	github.com/google/go-cmp v0.4.0
+	github.com/google/go-querystring v1.0.0
 	github.com/iancoleman/strcase v0.0.0-20191112232945-16388991a334
 	github.com/json-iterator/go v1.1.9 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
@@ -39,6 +40,5 @@ require (
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
 	golang.org/x/sys v0.0.0-20200223170610-d5e6a3e2c0ae // indirect
 	golang.org/x/text v0.3.3-0.20191230102452-929e72ca90de
-	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 	gopkg.in/yaml.v2 v2.2.5 // indirect
 )

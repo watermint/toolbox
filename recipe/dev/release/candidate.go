@@ -4,14 +4,15 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/recipe/dev"
-	"github.com/watermint/toolbox/recipe/dev/ci"
+	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"github.com/watermint/toolbox/recipe/dev/test"
 	"go.uber.org/zap"
 	"golang.org/x/text/language"
@@ -24,7 +25,7 @@ const (
 
 type Candidate struct {
 	TestResource string
-	Auth         *ci.Auth
+	Auth         *auth.Connect
 }
 
 func (z *Candidate) Preset() {
@@ -85,14 +86,14 @@ func (z *Candidate) Exec(c app_control.Control) error {
 		return err
 	}
 
-	l.Info("Preflight process")
+	l.Info("Preview process")
 	err := rc_exec.Exec(c, &dev.Preflight{}, rc_recipe.NoCustomValues)
 	if err != nil {
 		return err
 	}
 
 	l.Info("Ensure end to end resource availability")
-	if !rc_conn_impl.IsEndToEndTokenAllAvailable(c) {
+	if !dbx_conn_impl.IsEndToEndTokenAllAvailable(c) {
 		l.Error("At least one of end to end resource is not available.")
 		return errors.New("end to end resource is not available")
 	}
@@ -103,7 +104,7 @@ func (z *Candidate) Exec(c app_control.Control) error {
 		m.All = true
 		_, err := os.Lstat(z.TestResource)
 		if err == nil {
-			m.Resource = z.TestResource
+			m.Resource = mo_string.NewOptional(z.TestResource)
 		} else {
 			l.Warn("Unable to read test resource", zap.String("path", z.TestResource), zap.Error(err))
 		}

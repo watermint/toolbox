@@ -7,6 +7,7 @@ import (
 
 const (
 	ReqHeaderContentType           = "Content-Type"
+	ReqHeaderContentLength         = "Content-Length"
 	ReqHeaderAuthorization         = "Authorization"
 	ReqHeaderUserAgent             = "User-Agent"
 	ReqHeaderDropboxApiSelectUser  = "Dropbox-API-Select-User"
@@ -19,8 +20,11 @@ type Request interface {
 	// Request param as string. Might be empty string until Make call.
 	ParamString() string
 
-	// Param
+	// With a param
 	Param(p interface{}) Request
+
+	// With a header
+	Header(key, value string) Request
 
 	// Call request
 	Call() (res api_response.Response, err error)

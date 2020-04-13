@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe dev release publish 
+.\tbx.exe dev release publish -artifact-path /LOCAL/PATH/TO/ARTIFACT
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx dev release publish 
+$HOME/Desktop/tbx dev release publish -artifact-path /LOCAL/PATH/TO/ARTIFACT
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -29,10 +29,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option           | Description           | Default                |
-|------------------|-----------------------|------------------------|
-| `-artifact-path` | Path to artifacts     |                        |
-| `-test-resource` | Path to test resource | test/dev/resource.json |
+| Option           | Description            | Default                |
+|------------------|------------------------|------------------------|
+| `-artifact-path` | Path to artifacts      |                        |
+| `-branch`        | Target branch          | master                 |
+| `-conn-github`   | Account alias          | default                |
+| `-skip-tests`    | Skip end to end tests. | false                  |
+| `-test-resource` | Path to test resource  | test/dev/resource.json |
 
 Common options:
 

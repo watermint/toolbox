@@ -11,13 +11,13 @@ import (
 
 func newSpec(rf *RowFeed) fd_file.Spec {
 	s := &Spec{rf: rf}
-	base := ut_reflect.Key(app.Pkg, rf.Model())
+	s.base = ut_reflect.Key(app.Pkg, rf.Model())
 	s.colDesc = make(map[string]app_msg.Message)
 	s.colExample = make(map[string]app_msg.Message)
 
 	for _, col := range rf.fields {
-		s.colDesc[col] = app_msg.M(base + "." + col + ".desc")
-		s.colExample[col] = app_msg.M(base + "." + col + ".example")
+		s.colDesc[col] = app_msg.M(s.base + "." + col + ".desc")
+		s.colExample[col] = app_msg.M(s.base + "." + col + ".example")
 	}
 	return s
 }

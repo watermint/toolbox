@@ -5,14 +5,14 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/api/dbx_util"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -31,7 +31,7 @@ type EmailRow struct {
 type EmailWorker struct {
 	transaction *EmailRow
 	member      *mo_member.Member
-	ctx         api_context.DropboxApiContext
+	ctx         dbx_context.Context
 	rep         rp_model.TransactionReport
 	ctl         app_control.Control
 }
@@ -66,7 +66,7 @@ func (z *EmailWorker) Exec() error {
 }
 
 type Email struct {
-	Peer                rc_conn.ConnBusinessMgmt
+	Peer                dbx_conn.ConnBusinessMgmt
 	File                fd_file.RowFeed
 	UpdateUnverified    bool
 	OperationLog        rp_model.TransactionReport
@@ -76,7 +76,19 @@ type Email struct {
 
 func (z *Email) Preset() {
 	z.File.SetModel(&EmailRow{})
-	z.OperationLog.SetModel(&EmailRow{}, &mo_member.Member{})
+	z.OperationLog.SetModel(
+		&EmailRow{},
+		&mo_member.Member{},
+		rp_model.HiddenColumns(
+			"result.team_member_id",
+			"result.familiar_name",
+			"result.abbreviated_name",
+			"result.member_folder_id",
+			"result.external_id",
+			"result.account_id",
+			"result.persistent_id",
+		),
+	)
 }
 
 func (z *Email) Exec(c app_control.Control) error {

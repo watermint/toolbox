@@ -43,26 +43,18 @@ type UI interface {
 	// Compile text
 	Text(m app_msg.Message) string
 
-	// Deprecated: use TextOrEmpty
-	TextOrEmptyK(key string, p ...app_msg.P) string
-
 	// Compile text, returns empty string if the key is not found
 	TextOrEmpty(m app_msg.Message) string
 
-	// Deprecated: use AskCont
-	AskContK(key string, p ...app_msg.P) (cont bool, cancel bool)
+	// Ask to continue. This confirmation step may be skipped on some UI implementation.
+	// If you want to ensure actual user acknowledge, please use AskCont instead.
+	AskProceed(m app_msg.Message)
 
 	// Ask continue
 	AskCont(m app_msg.Message) (cont bool, cancel bool)
 
-	// Deprecated: use AskText
-	AskTextK(key string, p ...app_msg.P) (text string, cancel bool)
-
 	// Ask for a text
 	AskText(m app_msg.Message) (text string, cancel bool)
-
-	// Deprecated: use AskSecure
-	AskSecureK(key string, p ...app_msg.P) (secure string, cancel bool)
 
 	// Ask for a credentials
 	AskSecure(m app_msg.Message) (secure string, cancel bool)

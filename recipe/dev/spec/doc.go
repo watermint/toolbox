@@ -2,6 +2,7 @@ package spec
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
@@ -16,8 +17,8 @@ import (
 )
 
 type Doc struct {
-	Lang     string
-	FilePath string
+	Lang     mo_string.OptionalString
+	FilePath mo_string.OptionalString
 }
 
 func (z *Doc) Preset() {
@@ -38,12 +39,12 @@ func (z *Doc) traverseCatalogue(c app_control.Control, cat rc_catalogue.Catalogu
 	var w io.WriteCloser
 	var err error
 	shouldClose := false
-	if z.FilePath == "" {
-		w = ut_io.NewDefaultOut(c.IsTest())
+	if !z.FilePath.IsExists() {
+		w = ut_io.NewDefaultOut(c.Feature().IsTest())
 	} else {
-		w, err = os.Create(z.FilePath)
+		w, err = os.Create(z.FilePath.Value())
 		if err != nil {
-			l.Error("Unable to create spec file", zap.Error(err), zap.String("path", z.FilePath))
+			l.Error("Unable to create spec file", zap.Error(err), zap.String("path", z.FilePath.Value()))
 			return err
 		}
 		shouldClose = true
@@ -66,8 +67,8 @@ func (z *Doc) traverseCatalogue(c app_control.Control, cat rc_catalogue.Catalogu
 
 func (z *Doc) Exec(c app_control.Control) error {
 	l := c.Log()
-	if z.Lang != "" {
-		if c0, ok := app_control_launcher.ControlWithLang(z.Lang, c); ok {
+	if z.Lang.IsExists() {
+		if c0, ok := app_control_launcher.ControlWithLang(z.Lang.Value(), c); ok {
 			c = c0
 		}
 	}

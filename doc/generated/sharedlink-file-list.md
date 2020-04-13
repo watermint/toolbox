@@ -30,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe sharedlink file list 
+.\tbx.exe sharedlink file list -url SHAREDLINK_URL
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx sharedlink file list 
+$HOME/Desktop/tbx sharedlink file list -url SHAREDLINK_URL
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -105,7 +105,7 @@ Report file path will be displayed last line of the command line output. If you 
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
 ## Report: file_list 
-
+This report shows a list of metadata of files or folders in the path.
 Report files are generated in three formats like below;
 * `file_list.csv`
 * `file_list.xlsx`
@@ -116,18 +116,12 @@ But if you run with `-low-memory` option, the command will generate only JSON fo
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`...   
 
-| Column                  | Description                                                                                            |
-|-------------------------|--------------------------------------------------------------------------------------------------------|
-| id                      | A unique identifier for the file.                                                                      |
-| tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name                    | The last component of the path (including extension).                                                  |
-| path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| path_display            | The cased path to be used for display purposes only.                                                   |
-| client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified         | The last time the file was modified on Dropbox.                                                        |
-| revision                | A unique identifier for the current revision of a file.                                                |
-| size                    | The file size in bytes.                                                                                |
-| content_hash            | A hash of the file content.                                                                            |
-| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
+| Column          | Description                                                                                            |
+|-----------------|--------------------------------------------------------------------------------------------------------|
+| tag             | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| name            | The last component of the path (including extension).                                                  |
+| path_display    | The cased path to be used for display purposes only.                                                   |
+| client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| server_modified | The last time the file was modified on Dropbox.                                                        |
+| size            | The file size in bytes.                                                                                |
 

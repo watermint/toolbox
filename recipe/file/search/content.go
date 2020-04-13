@@ -1,36 +1,37 @@
 package search
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 )
 
 type Content struct {
-	Peer      rc_conn.ConnUserFile
-	Path      string
+	Peer      dbx_conn.ConnUserFile
+	Path      mo_string.OptionalString
 	Query     string
-	Extension string
-	Category  string
+	Extension mo_string.OptionalString
+	Category  mo_string.SelectString
 	Matches   rp_model.RowReport
 }
 
 func (z *Content) Exec(c app_control.Control) error {
 	so := make([]sv_file.SearchOpt, 0)
 	so = append(so, sv_file.SearchIncludeHighlights())
-	if z.Extension != "" {
-		so = append(so, sv_file.SearchFileExtension(z.Extension))
+	if z.Extension.IsExists() {
+		so = append(so, sv_file.SearchFileExtension(z.Extension.Value()))
 	}
-	if z.Category != "" {
-		so = append(so, sv_file.SearchCategories(z.Category))
+	if z.Category.Value() != "" {
+		so = append(so, sv_file.SearchCategories(z.Category.Value()))
 	}
-	if z.Path != "" {
-		so = append(so, sv_file.SearchPath(mo_path.NewDropboxPath(z.Path)))
+	if z.Path.IsExists() {
+		so = append(so, sv_file.SearchPath(mo_path.NewDropboxPath(z.Path.Value())))
 	}
 
 	if err := z.Matches.Open(); err != nil {
@@ -56,5 +57,15 @@ func (z *Content) Test(c app_control.Control) error {
 }
 
 func (z *Content) Preset() {
-	z.Matches.SetModel(&mo_file.MatchHighlighted{}, rp_model.HiddenColumns("name", "path_lower"))
+	z.Category.SetOptions(
+		[]string{"", "image", "document", "pdf", "spreadsheet", "presentation", "audio", "video", "folder", "paper", "others"},
+		"",
+	)
+	z.Matches.SetModel(
+		&mo_file.MatchHighlighted{},
+		rp_model.HiddenColumns(
+			"name",
+			"path_lower",
+		),
+	)
 }
