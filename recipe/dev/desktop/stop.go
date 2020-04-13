@@ -47,7 +47,7 @@ func (z *Stop) stopWindows(c app_control.Control) error {
 
 func (z *Stop) Exec(c app_control.Control) error {
 	if z.WaitSeconds.Value() > 0 {
-		c.Log().Info("Waiting for stop", zap.Int("seconds", z.WaitSeconds.Value()))
+		c.Log().Info("Waiting for stop", zap.Int("seconds", int(z.WaitSeconds.Value())))
 		time.Sleep(time.Duration(z.WaitSeconds.Value()) * time.Second)
 	}
 	switch runtime.GOOS {

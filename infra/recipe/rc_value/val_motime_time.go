@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_reflect"
+	"go.uber.org/zap"
 	"reflect"
 )
 
@@ -82,6 +83,8 @@ func (z *ValueMoTimeTime) Debug() interface{} {
 }
 
 func (z *ValueMoTimeTime) SpinUp(ctl app_control.Control) (err error) {
+	l := ctl.Log()
+
 	// argument was't given, but applied on preset or custom value
 	if z.dateTime == "" && !z.time.IsZero() {
 		return nil
@@ -98,6 +101,7 @@ func (z *ValueMoTimeTime) SpinUp(ctl app_control.Control) (err error) {
 
 	ti := z.time.(*mo_time.TimeImpl)
 	if err = ti.UpdateTime(z.dateTime); err != nil {
+		l.Debug("Unable to parse", zap.Error(err), zap.String("dateTime", z.dateTime))
 		return err
 	}
 	return nil

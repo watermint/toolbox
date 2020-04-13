@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/util/ut_log"
 	"github.com/watermint/toolbox/infra/util/ut_open"
 	"github.com/watermint/toolbox/infra/web/web_handler"
 	"github.com/watermint/toolbox/infra/web/web_job"
@@ -25,7 +26,7 @@ type Web struct {
 }
 
 func (z *Web) Preset() {
-	z.Port.SetRange(1024, 65535, app.DefaultWebPort)
+	z.Port.SetRange(1024, 65535, int64(app.DefaultWebPort))
 }
 
 func (z *Web) Test(c app_control.Control) error {
@@ -41,7 +42,7 @@ func (z *Web) Exec(c app_control.Control) error {
 	rur := repo.(web_user.RootUserRepository)
 	ru := rur.RootUser()
 
-	if c.Feature().IsProduction() {
+	if !c.Feature().IsDebug() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
@@ -51,12 +52,12 @@ func (z *Web) Exec(c app_control.Control) error {
 	cl := c.(app_control_launcher.ControlLauncher)
 
 	g := gin.New()
-	g.Use(ginzap.Ginzap(l, time.RFC3339, true))
+	g.Use(ut_log.GinWrapper(l))
 	g.Use(ginzap.RecoveryWithZap(l, true))
 	//g.StaticFS("/assets", hfs.HttpFileSystem())
 	g.HTMLRender = htr
 
-	baseUrl := fmt.Sprintf("http://localhost:%d", z.Port)
+	baseUrl := fmt.Sprintf("http://localhost:%d", z.Port.Value())
 	jobChan := make(chan *web_job.WebJobRun)
 
 	wh := web_handler.NewHandler(
@@ -78,7 +79,7 @@ func (z *Web) Exec(c app_control.Control) error {
 	go func() {
 		wg.Add(1)
 		defer wg.Done()
-		err = g.Run(fmt.Sprintf(":%d", z.Port))
+		err = g.Run(fmt.Sprintf(":%d", z.Port.Value()))
 		if err != nil {
 			l.Error("Unable to start", zap.Error(err))
 		}

@@ -18,11 +18,11 @@ func newValueRangeInt() rc_recipe.Value {
 
 type ValueMoIntRange struct {
 	rangeInt mo_int.RangeInt
-	valInt   int
+	valInt   int64
 }
 
 func (z *ValueMoIntRange) ValueText() string {
-	return strconv.FormatInt(int64(z.rangeInt.Value()), 10)
+	return strconv.FormatInt(z.rangeInt.Value64(), 10)
 }
 
 func (z *ValueMoIntRange) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
@@ -42,7 +42,7 @@ func (z *ValueMoIntRange) Init() (v interface{}) {
 
 func (z *ValueMoIntRange) ApplyPreset(v0 interface{}) {
 	z.rangeInt = v0.(mo_int.RangeInt)
-	z.valInt = z.rangeInt.Value()
+	z.valInt = z.rangeInt.Value64()
 }
 
 func (z *ValueMoIntRange) Apply() (v interface{}) {
@@ -55,7 +55,7 @@ func (z *ValueMoIntRange) Debug() interface{} {
 	return map[string]interface{}{
 		"min": min,
 		"max": max,
-		"val": z.rangeInt.Value(),
+		"val": z.rangeInt.Value64(),
 	}
 }
 

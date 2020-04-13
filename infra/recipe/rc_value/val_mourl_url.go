@@ -77,7 +77,7 @@ func (z *ValueMoUrlUrl) SpinUp(ctl app_control.Control) error {
 	u, err := mo_url.NewUrl(z.rawUrl)
 	if err != nil {
 		l.Debug("Unable to parse", zap.String("url", z.rawUrl), zap.Error(err))
-		return err
+		return ErrorInvalidValue
 	} else {
 		z.url = u
 		return nil

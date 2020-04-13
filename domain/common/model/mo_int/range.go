@@ -6,9 +6,10 @@ import (
 
 type RangeInt interface {
 	Value() int
-	Range() (min, max int)
-	SetRange(min, max, preFill int)
-	SetValue(value int)
+	Value64() int64
+	Range() (min, max int64)
+	SetRange(min, max, preFill int64)
+	SetValue(value int64)
 	IsValid() bool
 }
 
@@ -17,26 +18,30 @@ func NewRange() RangeInt {
 }
 
 type rangeInt struct {
-	min   int
-	max   int
-	value int
+	min   int64
+	max   int64
+	value int64
 }
 
-func (z *rangeInt) SetValue(value int) {
+func (z *rangeInt) SetValue(value int64) {
 	z.value = value
 }
 
 func (z *rangeInt) Value() int {
+	return int(z.value)
+}
+
+func (z *rangeInt) Value64() int64 {
 	return z.value
 }
 
-func (z *rangeInt) Range() (min, max int) {
+func (z *rangeInt) Range() (min, max int64) {
 	return z.min, z.max
 }
 
-func (z *rangeInt) SetRange(min, max, preFill int) {
-	z.min = ut_math.MinInt(min, max)
-	z.max = ut_math.MaxInt(min, max)
+func (z *rangeInt) SetRange(min, max, preFill int64) {
+	z.min = ut_math.MinInt64(min, max)
+	z.max = ut_math.MaxInt64(min, max)
 	z.value = preFill
 }
 
