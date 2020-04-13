@@ -295,7 +295,7 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) e
 		if err == qt_errors.ErrorMock {
 			continue
 		}
-		l.Info("Uploaded", zap.Any("asset", p))
+		l.Info("Uploaded", zap.Any("asset", a.Name))
 	}
 	return nil
 }
