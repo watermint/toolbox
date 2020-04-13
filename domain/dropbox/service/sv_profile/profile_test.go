@@ -2,37 +2,10 @@ package sv_profile
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
-
-func TestEndToEndProfileImpl_Current(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx dbx_context.Context) {
-		svc := NewProfile(ctx)
-		prof, err := svc.Current()
-		if err != nil {
-			t.Error(err)
-		}
-		if prof.Email == "" || prof.AccountId == "" {
-			t.Error("invalid")
-		}
-	})
-}
-
-func TestEndToEndTeamImpl_Admin(t *testing.T) {
-	qt_api.DoTestBusinessInfo(func(ctx dbx_context.Context) {
-		svc := NewTeam(ctx)
-		prof, err := svc.Admin()
-		if err != nil {
-			t.Error(err)
-		}
-		if prof.Email == "" || prof.AccountId == "" {
-			t.Error("invalid")
-		}
-	})
-}
 
 // Mock tests
 

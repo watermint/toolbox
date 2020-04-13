@@ -62,6 +62,8 @@ type Publish struct {
 	BinaryTableHeaderSHA256   app_msg.Message
 	TagCommitMessage          app_msg.Message
 	ReleaseName               app_msg.Message
+	ReleaseNameBeta           app_msg.Message
+	ReleaseNameDev            app_msg.Message
 }
 
 type ArtifactSum struct {
@@ -260,10 +262,21 @@ func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel
 		zap.String("version", app.Version),
 		zap.String("hash", app.Hash))
 	ui := c.UI()
+
+	relName := ""
+	switch app.ReleaseStage() {
+	case app.StageDev:
+		relName = ui.Text(z.ReleaseNameDev.With("Version", app.Version))
+	case app.StageBeta:
+		relName = ui.Text(z.ReleaseNameBeta.With("Version", app.Version))
+	case app.StageRelease:
+		relName = ui.Text(z.ReleaseName.With("Version", app.Version))
+	}
+
 	svr := sv_release.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName)
 	rel, err = svr.CreateDraft(
 		app.Version,
-		ui.Text(z.ReleaseName.With("Version", app.Version)),
+		relName,
 		relNote,
 		z.Branch,
 	)

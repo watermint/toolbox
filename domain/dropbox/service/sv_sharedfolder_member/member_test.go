@@ -6,38 +6,10 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
-	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
-	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
-
-func TestEndToEndMemberImpl_List(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx dbx_context.Context) {
-		sf := sv_sharedfolder.New(ctx)
-		folders, err := sf.List()
-		if err != nil {
-			t.Error(err)
-			return
-		}
-
-		for _, folder := range folders {
-			sm := New(ctx, folder)
-			members, err := sm.List()
-			if err != nil {
-				t.Error(err)
-				return
-			}
-
-			for _, m := range members {
-				if m.MemberType() == "" {
-					t.Error("invalid")
-				}
-			}
-		}
-	})
-}
 
 // Mock tests
 

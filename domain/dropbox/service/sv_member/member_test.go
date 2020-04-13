@@ -5,10 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"strings"
 	"testing"
 )
 
@@ -66,73 +64,6 @@ func TestModelMemberImpl_Resolve(t *testing.T) {
 	if member.TeamMemberId != "dbmid:xxxxxxxxxxxxxx-xxxxxxxx-xxxx-xxxxxx" {
 		t.Error("invalid")
 	}
-}
-
-func TestEndToEndMemberImpl_ResolveByEmail(t *testing.T) {
-	qt_api.DoTestBusinessInfo(func(ctx dbx_context.Context) {
-		svm := New(ctx)
-		members, err := svm.List()
-		if err != nil {
-			t.Error(err)
-		}
-
-		for i, member := range members {
-			if i > 10 {
-				break
-			}
-			m1, err := svm.Resolve(member.TeamMemberId)
-			if err != nil {
-				t.Error(err)
-			}
-			m2, err := svm.ResolveByEmail(member.Email)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if m1.TeamMemberId != member.TeamMemberId ||
-				m2.TeamMemberId != member.TeamMemberId {
-				t.Error("invalid")
-			}
-		}
-
-		_, err = svm.Resolve("dbmid:xxxxxxxxxxxxxx-xxxxxxxx-xxxx-xxxxxx")
-		if err == nil {
-			t.Error("invalid")
-		}
-
-		_, err = svm.ResolveByEmail("non_existent@example.com")
-		if err == nil {
-			t.Error("invalid")
-		}
-	})
-}
-
-func TestEndToEndMemberImpl_ListResolve(t *testing.T) {
-	qt_api.DoTestBusinessInfo(func(ctx dbx_context.Context) {
-		ls := newTest(ctx)
-		members, err := ls.List()
-		if err != nil {
-			t.Error(err)
-			return
-		}
-		if len(members) < 1 {
-			t.Error("invalid")
-		}
-		if !strings.Contains(members[0].Email, "@") {
-			t.Error("invalid")
-		}
-
-		m, err := ls.Resolve(members[0].TeamMemberId)
-		if err != nil {
-			t.Error("failed fetch")
-		}
-		if m.TeamMemberId != members[0].TeamMemberId {
-			t.Error("invalid")
-		}
-		if m.Email != members[0].Email {
-			t.Error("invalid")
-		}
-	})
 }
 
 // -- mock test impl

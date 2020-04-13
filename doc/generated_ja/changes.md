@@ -692,6 +692,12 @@
 + 			TypeName: "reflect.rtype",
 + 		},
 + 		&{
++ 			Name:     "SkipTests",
++ 			Desc:     "false",
++ 			Default:  "Skip end to end tests.",
++ 			TypeName: "bool",
++ 		},
++ 		&{
 + 			Name:     "TestResource",
 + 			Desc:     "test/dev/resource.json",
 + 			Default:  "Path to test resource",

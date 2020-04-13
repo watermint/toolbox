@@ -3,38 +3,10 @@ package sv_file
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
-	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
 )
-
-func TestFilesImpl_ListWithTestSuite(t *testing.T) {
-	qt_api.DoTestTokenFull(func(ctx dbx_context.Context) {
-		svc := newFilesTest(ctx)
-		folder := qt_api.ToolboxTestSuiteFolder.ChildPath("list_folder")
-		entries, err := svc.List(folder)
-		if err != nil {
-			t.Error(err)
-			return
-		}
-		if len(entries) < 1 {
-			t.Error("invalid")
-		}
-		for i, e := range entries {
-			if i > 10 {
-				break
-			}
-			f, err := svc.Resolve(e.Path())
-			if err != nil {
-				t.Error(err)
-			}
-			if f.Tag() != e.Tag() || f.PathLower() != e.PathLower() {
-				t.Error("invalid")
-			}
-		}
-	})
-}
 
 func TestFilesImpl_ListChunked(t *testing.T) {
 	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {

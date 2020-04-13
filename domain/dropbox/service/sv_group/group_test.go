@@ -1,74 +1,12 @@
 package sv_group
 
 import (
-	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
-	"github.com/watermint/toolbox/quality/infra/qt_api"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
-	"time"
 )
-
-func TestEndToEndImplGroup_CreateRemove(t *testing.T) {
-	qt_api.DoTestBusinessManagement(func(ctx dbx_context.Context) {
-		svc := New(ctx)
-		name := fmt.Sprintf("toolbox-test-%x", time.Now().Unix())
-		createdGroup, err := svc.Create(name, CompanyManaged())
-		if err != nil {
-			t.Error(err)
-			return
-		}
-
-		resolvedGroup, err := svc.Resolve(createdGroup.GroupId)
-		if err != nil {
-			t.Error(err)
-			return
-		}
-		if resolvedGroup.GroupId != createdGroup.GroupId ||
-			resolvedGroup.GroupName != createdGroup.GroupName ||
-			resolvedGroup.GroupManagementType != createdGroup.GroupManagementType ||
-			resolvedGroup.GroupExternalId != createdGroup.GroupExternalId {
-			t.Error("invalid")
-		}
-
-		err = svc.Remove(createdGroup.GroupId)
-		if err != nil {
-			t.Error(err)
-			return
-		}
-
-		if rg, err := svc.Resolve(createdGroup.GroupId); err == nil || rg != nil {
-			t.Error("invalid")
-			return
-		}
-	})
-}
-
-func TestEndToEndImplGroup_List(t *testing.T) {
-	qt_api.DoTestBusinessManagement(func(ctx dbx_context.Context) {
-		svc := New(ctx)
-		groups, err := svc.List()
-		if err != nil {
-			t.Error(err)
-			return
-		}
-
-		for _, g := range groups {
-			resolvedGroup, err := svc.Resolve(g.GroupId)
-			if err != nil {
-				t.Error(err)
-			}
-			if resolvedGroup.GroupId != g.GroupId ||
-				resolvedGroup.GroupName != g.GroupName ||
-				resolvedGroup.GroupManagementType != g.GroupManagementType ||
-				resolvedGroup.GroupExternalId != g.GroupExternalId {
-				t.Error("invalid", g)
-			}
-		}
-	})
-}
 
 // ---- Mock tests for Cache
 

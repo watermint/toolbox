@@ -1027,6 +1027,8 @@
   "recipe.dev.release.publish.list_readme": "* [{{.Name}}]({{.Link}}) ({{.Lang}})",
   "recipe.dev.release.publish.list_spec_change": "* [Specification changes]({{.Link}}) ({{.Lang}})",
   "recipe.dev.release.publish.release_name": "Release {{.Version}}",
+  "recipe.dev.release.publish.release_name_beta": "Beta Release {{.Version}}",
+  "recipe.dev.release.publish.release_name_dev": "Early access {{.Version}}",
   "recipe.dev.release.publish.tag_commit_message": "Release {{.Version}}",
   "recipe.dev.release.publish.title": "Publish release",
   "recipe.dev.release.title": "Release tool",
