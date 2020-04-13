@@ -62,9 +62,12 @@ func (z *Stop) Exec(c app_control.Control) error {
 }
 
 func (z *Stop) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &Stop{}, func(r rc_recipe.Recipe) {})
+	return rc_exec.Exec(c, &Stop{}, func(r rc_recipe.Recipe) {
+		m := r.(*Stop)
+		m.WaitSeconds.SetValue(0)
+	})
 }
 
 func (z *Stop) Preset() {
-	z.WaitSeconds.SetRange(0, math.MaxInt32, 60)
+	z.WaitSeconds.SetRange(0, math.MaxInt32, 0)
 }
