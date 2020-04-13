@@ -21,12 +21,19 @@ type DropboxPath interface {
 
 	// Child path
 	ChildPath(elem ...string) DropboxPath
+
+	IsValid() bool
 }
 
 type dropboxPathImpl struct {
-	ns   string
-	id   string
-	path string
+	ns        string
+	id        string
+	path      string
+	pathEmpty bool
+}
+
+func (z *dropboxPathImpl) IsValid() bool {
+	return !z.pathEmpty
 }
 
 func (z *dropboxPathImpl) Value() string {
@@ -97,6 +104,10 @@ func NewDropboxPath(path string) DropboxPath {
 	ps1 := strings.Split(path, "\\")
 	ps2 := strings.Join(ps1, "/")
 	ps3 := strings.ReplaceAll(ps2, "//", "/")
+	emp := false
+	if path == "" {
+		emp = true
+	}
 	if ps3 == "/" {
 		ps3 = ""
 	}
@@ -127,9 +138,10 @@ func NewDropboxPath(path string) DropboxPath {
 	}
 
 	return &dropboxPathImpl{
-		ns:   ns,
-		id:   id,
-		path: pe,
+		ns:        ns,
+		id:        id,
+		path:      pe,
+		pathEmpty: emp,
 	}
 }
 

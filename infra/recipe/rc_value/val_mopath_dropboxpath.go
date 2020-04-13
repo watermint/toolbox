@@ -70,7 +70,7 @@ func (z *ValueMoPathDropboxPath) Debug() interface{} {
 }
 
 func (z *ValueMoPathDropboxPath) SpinUp(ctl app_control.Control) error {
-	if z.filePath == "" {
+	if !z.path.IsValid() {
 		return ErrorMissingRequiredOption
 	}
 	return nil
