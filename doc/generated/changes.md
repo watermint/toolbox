@@ -50,7 +50,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
 + 		},
 + 	},
   }
@@ -76,7 +76,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -102,7 +102,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_info",
 + 		},
 + 	},
   }
@@ -128,7 +128,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 	},
   }
@@ -154,7 +154,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -180,7 +180,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_info",
 + 		},
 + 		&{
 + 			Name:     "RunConcurrently",
@@ -240,12 +240,12 @@
 + 		&{
 + 			Name:     "DropboxPath",
 + 			Default:  "Dropbox path to upload",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
 + 		},
 + 		&{
 + 			Name:     "LocalPath",
 + 			Default:  "Local path to upload",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_path.file_system_path_impl",
 + 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
 + 		},
 + 		&{Name: "PeerName", Desc: "deploy", Default: "Account alias", TypeName: "string"},
@@ -487,13 +487,13 @@
 + 		&{
 + 			Name:     "DropboxPath",
 + 			Default:  "Dropbox path to upload procmon logs",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{
 + 			Name:     "ProcmonUrl",
@@ -504,7 +504,7 @@
 + 		&{
 + 			Name:     "RepositoryPath",
 + 			Default:  "Procmon Work directory",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_path.file_system_path_impl",
 + 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
 + 		},
 + 		&{
@@ -516,7 +516,8 @@
 + 		&{
 + 			Name:     "RunUntil",
 + 			Default:  "Skip run after this date/time",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_time.time_impl",
++ 			TypeAttr: map[string]interface{}{"optional": bool(true)},
 + 		},
 + 		&{
 + 			Name:     "Seconds",
@@ -557,7 +558,11 @@
 + 			TypeName: "string",
 + 		},
 + 		&{Name: "Filename", Desc: "README.md", Default: "Filename", TypeName: "string"},
-+ 		&{Name: "Lang", Default: "Language", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Lang",
++ 			Default:  "Language",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
 + 		&{
 + 			Name:     "MarkdownReadme",
 + 			Desc:     "false",
@@ -681,7 +686,7 @@
 + 		&{
 + 			Name:     "ArtifactPath",
 + 			Default:  "Path to artifacts",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_path.file_system_path_impl",
 + 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
 + 		},
 + 		&{Name: "Branch", Desc: "master", Default: "Target branch", TypeName: "string"},
@@ -689,7 +694,7 @@
 + 			Name:     "ConnGithub",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
 + 		},
 + 		&{
 + 			Name:     "SkipTests",
@@ -723,10 +728,26 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "FilePath", Default: "File path to output", TypeName: "reflect.rtype"},
-+ 		&{Name: "Lang", Default: "Language", TypeName: "reflect.rtype"},
-+ 		&{Name: "Release1", Default: "Release name 1", TypeName: "reflect.rtype"},
-+ 		&{Name: "Release2", Default: "Release name 2", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "FilePath",
++ 			Default:  "File path to output",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
++ 		&{
++ 			Name:     "Lang",
++ 			Default:  "Language",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
++ 		&{
++ 			Name:     "Release1",
++ 			Default:  "Release name 1",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
++ 		&{
++ 			Name:     "Release2",
++ 			Default:  "Release name 2",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
 + 	},
   }
 
@@ -747,8 +768,16 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "FilePath", Default: "File path", TypeName: "reflect.rtype"},
-+ 		&{Name: "Lang", Default: "Language", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "FilePath",
++ 			Default:  "File path",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
++ 		&{
++ 			Name:     "Lang",
++ 			Default:  "Language",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
 + 	},
   }
 
@@ -788,12 +817,16 @@
 + 			Default:  "File extensions (comma separated)",
 + 			TypeName: "string",
 + 		},
-+ 		&{Name: "Path", Default: "Monkey test path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Path",
++ 			Default:  "Monkey test path",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{
 + 			Name:     "Seconds",
@@ -822,8 +855,16 @@
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
 + 		&{Name: "All", Desc: "false", Default: "Test all recipes", TypeName: "bool"},
-+ 		&{Name: "Recipe", Default: "Recipe name to test", TypeName: "reflect.rtype"},
-+ 		&{Name: "Resource", Default: "Test resource file path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Recipe",
++ 			Default:  "Recipe name to test",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
++ 		&{
++ 			Name:     "Resource",
++ 			Default:  "Test resource file path",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
 + 		&{
 + 			Name:     "Verbose",
 + 			Desc:     "false",
@@ -914,23 +955,23 @@
 + 			Name:     "Left",
 + 			Desc:     "left",
 + 			Default:  "Account alias (left)",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{
 + 			Name:     "LeftPath",
 + 			Default:  "The path from account root (left)",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
 + 		},
 + 		&{
 + 			Name:     "Right",
 + 			Desc:     "right",
 + 			Default:  "Account alias (right)",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{
 + 			Name:     "RightPath",
 + 			Default:  "The path from account root (right)",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
 + 		},
 + 	},
   }
@@ -964,18 +1005,22 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "DropboxPath", Default: "Dropbox path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "DropboxPath",
++ 			Default:  "Dropbox path",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "LocalPath",
 + 			Default:  "Local path",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_path.file_system_path_impl",
 + 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -1021,14 +1066,22 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "Dst", Default: "Destination path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Dst",
++ 			Default:  "Destination path",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
-+ 		&{Name: "Src", Default: "Source path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Src",
++ 			Default:  "Source path",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 	},
   }
 
@@ -1049,12 +1102,16 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "Path", Default: "Path to delete", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Path",
++ 			Default:  "Path to delete",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -1083,18 +1140,22 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "DropboxPath", Default: "File path to download", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "DropboxPath",
++ 			Default:  "File path to download",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "LocalPath",
 + 			Default:  "Local path to download",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_path.file_system_path_impl",
 + 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -1163,19 +1224,19 @@
 + 		&{
 + 			Name:     "DropboxPath",
 + 			Default:  "Dropbox document path to export.",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
 + 		},
 + 		&{
 + 			Name:     "LocalPath",
 + 			Default:  "Local path to save",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_path.file_system_path_impl",
 + 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -1228,13 +1289,17 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
-+ 		&{Name: "Path", Default: "Path to import", TypeName: "reflect.rtype"},
++ 		&{Name: "File", Default: "Data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
++ 		&{
++ 			Name:     "Path",
++ 			Default:  "Path to import",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -1296,12 +1361,16 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "Path", Default: "Path to import", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Path",
++ 			Default:  "Path to import",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{Name: "Url", Default: "URL", TypeName: "string"},
 + 	},
@@ -1370,12 +1439,16 @@
 + 			Default:  "Include media information",
 + 			TypeName: "bool",
 + 		},
-+ 		&{Name: "Path", Default: "Path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Path",
++ 			Default:  "Path",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{Name: "Recursive", Desc: "false", Default: "List recursively", TypeName: "bool"},
 + 	},
@@ -1436,7 +1509,11 @@
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
 + 		&{Name: "DryRun", Desc: "true", Default: "Dry run", TypeName: "bool"},
-+ 		&{Name: "From", Default: "Path for merge", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "From",
++ 			Default:  "Path for merge",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "KeepEmptyFolder",
 + 			Desc:     "false",
@@ -1447,9 +1524,13 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
-+ 		&{Name: "To", Default: "Path to merge", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "To",
++ 			Default:  "Path to merge",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "WithinSameNamespace",
 + 			Desc:     "false",
@@ -1476,14 +1557,22 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "Dst", Default: "Destination path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Dst",
++ 			Default:  "Destination path",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
-+ 		&{Name: "Src", Default: "Source path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Src",
++ 			Default:  "Source path",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 	},
   }
 
@@ -1508,16 +1597,24 @@
 + 			Name:     "Dst",
 + 			Desc:     "dst",
 + 			Default:  "Account alias (destionation)",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
-+ 		&{Name: "DstPath", Default: "Destination path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "DstPath",
++ 			Default:  "Destination path",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "Src",
 + 			Desc:     "src",
 + 			Default:  "Account alias (source)",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
-+ 		&{Name: "SrcPath", Default: "Source path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "SrcPath",
++ 			Default:  "Source path",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 	},
   }
 
@@ -1557,12 +1654,16 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "Path", Default: "Path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Path",
++ 			Default:  "Path",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -1627,7 +1728,7 @@
 + 		&{
 + 			Name:     "Category",
 + 			Default:  "Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.select_string",
 + 			TypeAttr: map[string]interface{}{
 + 				"options": []interface{}{
 + 					string(""),
@@ -1647,18 +1748,18 @@
 + 		&{
 + 			Name:     "Extension",
 + 			Default:  "Restricts search to only the extensions specified.",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
 + 		},
 + 		&{
 + 			Name:     "Path",
 + 			Default:  "Scopes the search to a path in the user's Dropbox.",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{Name: "Query", Default: "The string to search for.", TypeName: "string"},
 + 	},
@@ -1696,7 +1797,7 @@
 + 		&{
 + 			Name:     "Category",
 + 			Default:  "Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.select_string",
 + 			TypeAttr: map[string]interface{}{
 + 				"options": []interface{}{
 + 					string(""),
@@ -1716,18 +1817,18 @@
 + 		&{
 + 			Name:     "Extension",
 + 			Default:  "Restricts search to only the extensions specified.",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
 + 		},
 + 		&{
 + 			Name:     "Path",
 + 			Default:  "Scopes the search to a path in the user's Dropbox.",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{Name: "Query", Default: "The string to search for.", TypeName: "string"},
 + 	},
@@ -1772,19 +1873,19 @@
 + 		&{
 + 			Name:     "DropboxPath",
 + 			Default:  "Destination Dropbox path",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
 + 		},
 + 		&{
 + 			Name:     "LocalPath",
 + 			Default:  "Local file path",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_path.file_system_path_impl",
 + 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -1914,19 +2015,19 @@
 + 		&{
 + 			Name:     "DropboxPath",
 + 			Default:  "Destination Dropbox path",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
 + 		},
 + 		&{
 + 			Name:     "LocalPath",
 + 			Default:  "Local file path",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_path.file_system_path_impl",
 + 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -2049,12 +2150,12 @@
 + 		&{
 + 			Name:     "DropboxPath",
 + 			Default:  "Destination Dropbox path",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
 + 		},
 + 		&{
 + 			Name:     "LocalPath",
 + 			Default:  "Local file path",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_path.file_system_path_impl",
 + 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
 + 		},
 + 		&{
@@ -2067,7 +2168,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -2188,12 +2289,16 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "Path", Default: "Path to watch", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Path",
++ 			Default:  "Path to watch",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{
 + 			Name:     "Recursive",
@@ -2231,23 +2336,24 @@
 + 		&{
 + 			Name:     "AllowLateUploads",
 + 			Default:  "If set, allow uploads after the deadline has passed (one_day/two_days/seven_days/thirty_days/always)",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
 + 		},
 + 		&{
 + 			Name:     "Deadline",
 + 			Default:  "The deadline for this file request.",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_time.time_impl",
++ 			TypeAttr: map[string]interface{}{"optional": bool(true)},
 + 		},
 + 		&{
 + 			Name:     "Path",
 + 			Default:  "The path for the folder in the Dropbox where uploaded files will be sent.",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{Name: "Title", Default: "The title of the file request", TypeName: "string"},
 + 	},
@@ -2286,7 +2392,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -2330,7 +2436,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{Name: "Url", Default: "URL of the file request.", TypeName: "string"},
 + 	},
@@ -2369,7 +2475,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -2407,7 +2513,7 @@
 + 			Name:     "ManagementType",
 + 			Desc:     "company_managed",
 + 			Default:  "Group management type `company_managed` or `user_managed`",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.select_string",
 + 			TypeAttr: map[string]interface{}{"options": []interface{}{string("company_managed"), string("user_managed")}},
 + 		},
 + 		&{Name: "Name", Default: "Group name", TypeName: "string"},
@@ -2415,7 +2521,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 	},
   }
@@ -2461,13 +2567,13 @@
 + 		&{
 + 			Name:     "File",
 + 			Default:  "Data file for group name list",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "infra.feed.fd_file_impl.row_feed",
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 	},
   }
@@ -2517,7 +2623,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 	},
   }
@@ -2543,7 +2649,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_info",
 + 		},
 + 	},
   }
@@ -2592,7 +2698,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 	},
   }
@@ -2643,7 +2749,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 	},
   }
@@ -2692,7 +2798,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_info",
 + 		},
 + 	},
   }
@@ -2742,7 +2848,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 	},
   }
@@ -2866,13 +2972,13 @@
 + 		&{
 + 			Name:     "DropboxPath",
 + 			Default:  "Dropbox path to upload",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -2936,10 +3042,15 @@
 + 		&{
 + 			Name:     "RunbookPath",
 + 			Default:  "Path to runbook",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_path.file_system_path_impl",
 + 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
 + 		},
-+ 		&{Name: "Until", Default: "Run until this date/time", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Until",
++ 			Default:  "Run until this date/time",
++ 			TypeName: "domain.dropbox.model.mo_time.time_impl",
++ 			TypeAttr: map[string]interface{}{"optional": bool(false)},
++ 		},
 + 	},
   }
 
@@ -2976,7 +3087,7 @@
 + 		&{
 + 			Name:     "RunbookPath",
 + 			Default:  "Path to the runbook",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_path.file_system_path_impl",
 + 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
 + 		},
 + 		&{
@@ -3024,12 +3135,12 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{Name: "File", Default: "Data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 		&{
 + 			Name:     "WipeData",
@@ -3069,12 +3180,12 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{Name: "File", Default: "Data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 		&{
 + 			Name:     "RevokeTeamShares",
@@ -3114,12 +3225,12 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{Name: "File", Default: "Data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 		&{
 + 			Name:     "SilentInvite",
@@ -3195,7 +3306,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_info",
 + 		},
 + 	},
   }
@@ -3252,7 +3363,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 	},
   }
@@ -3286,12 +3397,12 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{Name: "File", Default: "Data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 		&{
 + 			Name:     "Quota",
@@ -3335,7 +3446,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -3373,7 +3484,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 		&{
 + 			Name:     "Silent",
@@ -3476,14 +3587,14 @@
 + 			Name:     "Dst",
 + 			Desc:     "dst",
 + 			Default:  "Destination team; team file access",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
-+ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{Name: "File", Default: "Data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
 + 		&{
 + 			Name:     "Src",
 + 			Desc:     "src",
 + 			Default:  "Source team; team file access",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -3517,12 +3628,12 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{Name: "File", Default: "Data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 		&{
 + 			Name:     "UpdateUnverified",
@@ -3594,12 +3705,12 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{Name: "File", Default: "Data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 	},
   }
@@ -3665,12 +3776,12 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{Name: "File", Default: "Data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 	},
   }
@@ -3740,7 +3851,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -3791,7 +3902,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -3845,15 +3956,24 @@
 + 		&{
 + 			Name:     "Expires",
 + 			Default:  "Expiration date/time of the shared link",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_time.time_impl",
++ 			TypeAttr: map[string]interface{}{"optional": bool(true)},
 + 		},
-+ 		&{Name: "Password", Default: "Password", TypeName: "reflect.rtype"},
-+ 		&{Name: "Path", Default: "Path", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Password",
++ 			Default:  "Password",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
++ 		&{
++ 			Name:     "Path",
++ 			Default:  "Path",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{
 + 			Name:     "TeamOnly",
@@ -3896,13 +4016,13 @@
 + 		&{
 + 			Name:     "Path",
 + 			Default:  "File or folder path to remove shared link",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 		&{
 + 			Name:     "Recursive",
@@ -3959,15 +4079,19 @@
 + 		&{
 + 			Name:     "Password",
 + 			Default:  "Password for the shared link",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
-+ 		&{Name: "Url", Default: "Shared link URL", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Url",
++ 			Default:  "Shared link URL",
++ 			TypeName: "domain.dropbox.model.mo_url.url_impl",
++ 		},
 + 	},
   }
 
@@ -4029,7 +4153,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 + 		},
 + 	},
   }
@@ -4071,20 +4195,30 @@
 + 		&{
 + 			Name:     "Category",
 + 			Default:  "Filter the returned events to a single category. This field is optional.",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
 + 		},
-+ 		&{Name: "EndTime", Default: "Ending time (exclusive).", TypeName: "reflect.rtype"},
-+ 		&{Name: "File", Default: "User email address list file", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "EndTime",
++ 			Default:  "Ending time (exclusive).",
++ 			TypeName: "domain.dropbox.model.mo_time.time_impl",
++ 			TypeAttr: map[string]interface{}{"optional": bool(true)},
++ 		},
++ 		&{
++ 			Name:     "File",
++ 			Default:  "User email address list file",
++ 			TypeName: "infra.feed.fd_file_impl.row_feed",
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
 + 		},
 + 		&{
 + 			Name:     "StartTime",
 + 			Default:  "Starting time (inclusive)",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_time.time_impl",
++ 			TypeAttr: map[string]interface{}{"optional": bool(true)},
 + 		},
 + 	},
   }
@@ -4130,13 +4264,21 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "Category", Default: "Event category", TypeName: "reflect.rtype"},
-+ 		&{Name: "EndDate", Default: "End date", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "Category",
++ 			Default:  "Event category",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
++ 		&{
++ 			Name:     "EndDate",
++ 			Default:  "End date",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
 + 		},
 + 		&{Name: "StartDate", Default: "Start date", TypeName: "string"},
 + 	},
@@ -4176,17 +4318,23 @@
 + 			Default:  "Filter the returned events to a single category. This field is optional.",
 + 			TypeName: "string",
 + 		},
-+ 		&{Name: "EndTime", Default: "Ending time (exclusive).", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "EndTime",
++ 			Default:  "Ending time (exclusive).",
++ 			TypeName: "domain.dropbox.model.mo_time.time_impl",
++ 			TypeAttr: map[string]interface{}{"optional": bool(true)},
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
 + 		},
 + 		&{
 + 			Name:     "StartTime",
 + 			Default:  "Starting time (inclusive)",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_time.time_impl",
++ 			TypeAttr: map[string]interface{}{"optional": bool(true)},
 + 		},
 + 	},
   }
@@ -4223,19 +4371,25 @@
 + 		&{
 + 			Name:     "Category",
 + 			Default:  "Filter the returned events to a single category. This field is optional.",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
 + 		},
-+ 		&{Name: "EndTime", Default: "Ending time (exclusive).", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "EndTime",
++ 			Default:  "Ending time (exclusive).",
++ 			TypeName: "domain.dropbox.model.mo_time.time_impl",
++ 			TypeAttr: map[string]interface{}{"optional": bool(true)},
++ 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
 + 		},
 + 		&{
 + 			Name:     "StartTime",
 + 			Default:  "Starting time (inclusive)",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.model.mo_time.time_impl",
++ 			TypeAttr: map[string]interface{}{"optional": bool(true)},
 + 		},
 + 	},
   }
@@ -4293,7 +4447,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -4343,7 +4497,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -4381,7 +4535,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -4433,12 +4587,12 @@
 + 			Default:  "Delete files on unlink",
 + 			TypeName: "bool",
 + 		},
-+ 		&{Name: "File", Default: "Data file", TypeName: "reflect.rtype"},
++ 		&{Name: "File", Default: "Data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -4500,19 +4654,19 @@
 + 			Name:     "File",
 + 			Desc:     "default",
 + 			Default:  "Dropbox Business file access",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 		&{
 + 			Name:     "Info",
 + 			Desc:     "default",
 + 			Default:  "Dropbox Business information access",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_info",
 + 		},
 + 		&{
 + 			Name:     "Mgmt",
 + 			Desc:     "default",
 + 			Default:  "Dropbox Business management",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
 + 		},
 + 	},
   }
@@ -4853,7 +5007,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_info",
 + 		},
 + 	},
   }
@@ -4891,7 +5045,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -4943,7 +5097,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_info",
 + 		},
 + 	},
   }
@@ -4981,7 +5135,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -5069,7 +5223,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -5167,7 +5321,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -5228,7 +5382,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -5272,7 +5426,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -5316,13 +5470,13 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 		&{
 + 			Name:     "Visibility",
 + 			Desc:     "public",
 + 			Default:  "Filter links by visibility (public/team_only/password)",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.select_string",
 + 			TypeAttr: map[string]interface{}{
 + 				"options": []interface{}{
 + 					string("public"),
@@ -5380,7 +5534,12 @@
   	Feeds:   nil,
 - 	Values:  nil,
 + 	Values: []*rc_doc.Value{
-+ 		&{Name: "At", Default: "New expiration date and time", TypeName: "reflect.rtype"},
++ 		&{
++ 			Name:     "At",
++ 			Default:  "New expiration date and time",
++ 			TypeName: "domain.dropbox.model.mo_time.time_impl",
++ 			TypeAttr: map[string]interface{}{"optional": bool(true)},
++ 		},
 + 		&{
 + 			Name:     "Days",
 + 			Desc:     "0",
@@ -5391,13 +5550,13 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 		&{
 + 			Name:     "Visibility",
 + 			Desc:     "public",
 + 			Default:  "Target link visibility",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.common.model.mo_string.select_string",
 + 			TypeAttr: map[string]interface{}{
 + 				"options": []interface{}{
 + 					string("public"),
@@ -5488,7 +5647,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -5513,13 +5672,13 @@
 + 		&{
 + 			Name:     "File",
 + 			Default:  "Data file for a list of team folder names",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "infra.feed.fd_file_impl.row_feed",
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -5564,13 +5723,13 @@
 + 		&{
 + 			Name:     "File",
 + 			Default:  "Data file for a list of team folder names",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "infra.feed.fd_file_impl.row_feed",
 + 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -5613,7 +5772,7 @@
 + 		&{
 + 			Name:     "File",
 + 			Default:  "Data file for a list of team folder names",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "infra.feed.fd_file_impl.row_feed",
 + 		},
 + 		&{
 + 			Name:     "SrcPeerName",
@@ -5657,7 +5816,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -5721,7 +5880,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -5782,7 +5941,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }
@@ -5826,7 +5985,7 @@
 + 			Name:     "Peer",
 + 			Desc:     "default",
 + 			Default:  "Account alias",
-+ 			TypeName: "reflect.rtype",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 + 		},
 + 	},
   }

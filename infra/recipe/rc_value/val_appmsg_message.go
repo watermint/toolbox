@@ -20,7 +20,7 @@ type ValueAppMsgMessage struct {
 }
 
 func (z *ValueAppMsgMessage) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*app_msg.Message)(nil)).Elem()), nil
+	return ut_reflect.Key(app.Pkg, z.msg), nil
 }
 
 func (z *ValueAppMsgMessage) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

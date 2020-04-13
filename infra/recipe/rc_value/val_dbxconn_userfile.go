@@ -22,7 +22,7 @@ type ValueDbxConnUserFile struct {
 }
 
 func (z *ValueDbxConnUserFile) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*dbx_conn.ConnUserFile)(nil)).Elem()), nil
+	return ut_reflect.Key(app.Pkg, z.conn), nil
 }
 
 func (z *ValueDbxConnUserFile) ValueText() string {

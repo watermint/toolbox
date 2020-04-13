@@ -96,7 +96,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       }
     ]
@@ -125,7 +125,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -154,7 +154,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       }
     ]
@@ -183,7 +183,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -212,7 +212,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -276,7 +276,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       },
       {
@@ -312,7 +312,7 @@
         "name": "Full",
         "desc": "deploy",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -466,14 +466,14 @@
         "name": "DropboxPath",
         "desc": "",
         "default": "Dropbox path to upload",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
         "desc": "",
         "default": "Local path to upload",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -515,42 +515,42 @@
         "name": "Audit",
         "desc": "end_to_end_test",
         "default": "Authenticate with Dropbox Business Audit scope",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       },
       {
         "name": "File",
         "desc": "end_to_end_test",
         "default": "Authenticate with Dropbox Business member file access scope",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       },
       {
         "name": "Full",
         "desc": "end_to_end_test",
         "default": "Authenticate with Dropbox user full access scope",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Github",
         "desc": "deploy",
         "default": "Account alias for Github deployment",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Info",
         "desc": "end_to_end_test",
         "default": "Authenticate with Dropbox Business info scope",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       },
       {
         "name": "Mgmt",
         "desc": "end_to_end_test",
         "default": "Authenticate with Dropbox Business management scope",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -583,35 +583,35 @@
         "name": "Audit",
         "desc": "end_to_end_test",
         "default": "Authenticate with Dropbox Business Audit scope",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       },
       {
         "name": "File",
         "desc": "end_to_end_test",
         "default": "Authenticate with Dropbox Business member file access scope",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       },
       {
         "name": "Full",
         "desc": "end_to_end_test",
         "default": "Authenticate with Dropbox user full access scope",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Info",
         "desc": "end_to_end_test",
         "default": "Authenticate with Dropbox Business info scope",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       },
       {
         "name": "Mgmt",
         "desc": "end_to_end_test",
         "default": "Authenticate with Dropbox Business management scope",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -802,14 +802,14 @@
         "name": "DropboxPath",
         "desc": "",
         "default": "Dropbox path to upload procmon logs",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
@@ -823,7 +823,7 @@
         "name": "RepositoryPath",
         "desc": "",
         "default": "Procmon Work directory",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -839,8 +839,10 @@
         "name": "RunUntil",
         "desc": "",
         "default": "Skip run after this date/time",
-        "type_name": "reflect.rtype",
-        "type_attr": null
+        "type_name": "domain.dropbox.model.mo_time.time_impl",
+        "type_attr": {
+          "optional": true
+        }
       },
       {
         "name": "Seconds",
@@ -894,7 +896,7 @@
         "name": "Lang",
         "desc": "",
         "default": "Language",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
@@ -1042,7 +1044,7 @@
         "name": "ArtifactPath",
         "desc": "",
         "default": "Path to artifacts",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -1058,7 +1060,7 @@
         "name": "ConnGithub",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
@@ -1099,28 +1101,28 @@
         "name": "FilePath",
         "desc": "",
         "default": "File path to output",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Lang",
         "desc": "",
         "default": "Language",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Release1",
         "desc": "",
         "default": "Release name 1",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Release2",
         "desc": "",
         "default": "Release name 2",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       }
     ]
@@ -1147,14 +1149,14 @@
         "name": "FilePath",
         "desc": "",
         "default": "File path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Lang",
         "desc": "",
         "default": "Language",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       }
     ]
@@ -1197,14 +1199,14 @@
         "name": "Path",
         "desc": "",
         "default": "Monkey test path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
@@ -1245,14 +1247,14 @@
         "name": "Recipe",
         "desc": "",
         "default": "Recipe name to test",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Resource",
         "desc": "",
         "default": "Test resource file path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
@@ -1412,28 +1414,28 @@
         "name": "Left",
         "desc": "left",
         "default": "Account alias (left)",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "LeftPath",
         "desc": "",
         "default": "The path from account root (left)",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Right",
         "desc": "right",
         "default": "Account alias (right)",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "RightPath",
         "desc": "",
         "default": "The path from account root (right)",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       }
     ]
@@ -1547,14 +1549,14 @@
         "name": "DropboxPath",
         "desc": "",
         "default": "Dropbox path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
         "desc": "",
         "default": "Local path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -1563,7 +1565,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -1592,21 +1594,21 @@
         "name": "Dst",
         "desc": "",
         "default": "Destination path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Src",
         "desc": "",
         "default": "Source path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       }
     ]
@@ -1635,14 +1637,14 @@
         "name": "Path",
         "desc": "",
         "default": "Path to delete",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -1701,7 +1703,7 @@
         "name": "File",
         "desc": "",
         "default": "Path to data file",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
@@ -1768,14 +1770,14 @@
         "name": "DropboxPath",
         "desc": "",
         "default": "File path to download",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
         "desc": "",
         "default": "Local path to download",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -1784,7 +1786,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -1848,14 +1850,14 @@
         "name": "DropboxPath",
         "desc": "",
         "default": "Dropbox document path to export.",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
         "desc": "",
         "default": "Local path to save",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -1864,7 +1866,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -1957,21 +1959,21 @@
         "name": "File",
         "desc": "",
         "default": "Data file",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Path",
         "desc": "",
         "default": "Path to import",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -2035,14 +2037,14 @@
         "name": "Path",
         "desc": "",
         "default": "Path to import",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
@@ -2123,14 +2125,14 @@
         "name": "Path",
         "desc": "",
         "default": "Path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
@@ -2173,7 +2175,7 @@
         "name": "From",
         "desc": "",
         "default": "Path for merge",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
@@ -2187,14 +2189,14 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "To",
         "desc": "",
         "default": "Path to merge",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
@@ -2230,21 +2232,21 @@
         "name": "Dst",
         "desc": "",
         "default": "Destination path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Src",
         "desc": "",
         "default": "Source path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       }
     ]
@@ -2317,28 +2319,28 @@
         "name": "Dst",
         "desc": "dst",
         "default": "Account alias (destionation)",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "DstPath",
         "desc": "",
         "default": "Destination path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Src",
         "desc": "src",
         "default": "Account alias (source)",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "SrcPath",
         "desc": "",
         "default": "Source path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       }
     ]
@@ -2410,14 +2412,14 @@
         "name": "Path",
         "desc": "",
         "default": "Path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -2465,7 +2467,7 @@
         "name": "Category",
         "desc": "",
         "default": "Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.select_string",
         "type_attr": {
           "options": [
             "",
@@ -2486,21 +2488,21 @@
         "name": "Extension",
         "desc": "",
         "default": "Restricts search to only the extensions specified.",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Path",
         "desc": "",
         "default": "Scopes the search to a path in the user's Dropbox.",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
@@ -2555,7 +2557,7 @@
         "name": "Category",
         "desc": "",
         "default": "Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.select_string",
         "type_attr": {
           "options": [
             "",
@@ -2576,21 +2578,21 @@
         "name": "Extension",
         "desc": "",
         "default": "Restricts search to only the extensions specified.",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Path",
         "desc": "",
         "default": "Scopes the search to a path in the user's Dropbox.",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
@@ -2753,14 +2755,14 @@
         "name": "DropboxPath",
         "desc": "",
         "default": "Destination Dropbox path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
         "desc": "",
         "default": "Local file path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -2769,7 +2771,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -2932,14 +2934,14 @@
         "name": "DropboxPath",
         "desc": "",
         "default": "Destination Dropbox path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
         "desc": "",
         "default": "Local file path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -2948,7 +2950,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -3111,14 +3113,14 @@
         "name": "DropboxPath",
         "desc": "",
         "default": "Destination Dropbox path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "LocalPath",
         "desc": "",
         "default": "Local file path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -3134,7 +3136,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -3163,14 +3165,14 @@
         "name": "Path",
         "desc": "",
         "default": "Path to watch",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
@@ -3249,28 +3251,30 @@
         "name": "AllowLateUploads",
         "desc": "",
         "default": "If set, allow uploads after the deadline has passed (one_day/two_days/seven_days/thirty_days/always)",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Deadline",
         "desc": "",
         "default": "The deadline for this file request.",
-        "type_name": "reflect.rtype",
-        "type_attr": null
+        "type_name": "domain.dropbox.model.mo_time.time_impl",
+        "type_attr": {
+          "optional": true
+        }
       },
       {
         "name": "Path",
         "desc": "",
         "default": "The path for the folder in the Dropbox where uploaded files will be sent.",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
@@ -3349,7 +3353,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -3428,7 +3432,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
@@ -3507,7 +3511,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -3555,7 +3559,7 @@
         "name": "ManagementType",
         "desc": "company_managed",
         "default": "Group management type `company_managed` or `user_managed`",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.select_string",
         "type_attr": {
           "options": [
             "company_managed",
@@ -3574,7 +3578,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -3646,14 +3650,14 @@
         "name": "File",
         "desc": "",
         "default": "Data file for group name list",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -3689,7 +3693,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -3737,7 +3741,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       }
     ]
@@ -3815,7 +3819,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -3893,7 +3897,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -3957,7 +3961,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       }
     ]
@@ -4035,7 +4039,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -4223,14 +4227,14 @@
         "name": "DropboxPath",
         "desc": "",
         "default": "Dropbox path to upload",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -4271,7 +4275,7 @@
         "name": "RunbookPath",
         "desc": "",
         "default": "Path to runbook",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -4280,8 +4284,10 @@
         "name": "Until",
         "desc": "",
         "default": "Run until this date/time",
-        "type_name": "reflect.rtype",
-        "type_attr": null
+        "type_name": "domain.dropbox.model.mo_time.time_impl",
+        "type_attr": {
+          "optional": false
+        }
       }
     ]
   },
@@ -4314,7 +4320,7 @@
         "name": "RunbookPath",
         "desc": "",
         "default": "Path to the runbook",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -4402,14 +4408,14 @@
         "name": "File",
         "desc": "",
         "default": "Data file",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       },
       {
@@ -4476,14 +4482,14 @@
         "name": "File",
         "desc": "",
         "default": "Data file",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       },
       {
@@ -4604,14 +4610,14 @@
         "name": "File",
         "desc": "",
         "default": "Data file",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       },
       {
@@ -4686,7 +4692,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       }
     ]
@@ -4730,7 +4736,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -4807,14 +4813,14 @@
         "name": "File",
         "desc": "",
         "default": "Data file",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       },
       {
@@ -4877,7 +4883,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -4993,7 +4999,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       },
       {
@@ -5070,21 +5076,21 @@
         "name": "Dst",
         "desc": "dst",
         "default": "Destination team; team file access",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       },
       {
         "name": "File",
         "desc": "",
         "default": "Data file",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Src",
         "desc": "src",
         "default": "Source team; team file access",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -5189,14 +5195,14 @@
         "name": "File",
         "desc": "",
         "default": "Data file",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       },
       {
@@ -5308,14 +5314,14 @@
         "name": "File",
         "desc": "",
         "default": "Data file",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -5429,14 +5435,14 @@
         "name": "File",
         "desc": "",
         "default": "Data file",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -5493,7 +5499,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
@@ -5546,7 +5552,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       }
     ]
@@ -5603,7 +5609,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
@@ -5679,7 +5685,7 @@
         "name": "Asset",
         "desc": "",
         "default": "Path to assets",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -5695,7 +5701,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
@@ -5763,7 +5769,7 @@
         "name": "BodyFile",
         "desc": "",
         "default": "File path to body text. THe file must encoded in UTF-8 without BOM.",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
         }
@@ -5793,7 +5799,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
@@ -5864,7 +5870,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
@@ -5952,7 +5958,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
@@ -6049,7 +6055,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -6125,7 +6131,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -6189,28 +6195,30 @@
         "name": "Expires",
         "desc": "",
         "default": "Expiration date/time of the shared link",
-        "type_name": "reflect.rtype",
-        "type_attr": null
+        "type_name": "domain.dropbox.model.mo_time.time_impl",
+        "type_attr": {
+          "optional": true
+        }
       },
       {
         "name": "Password",
         "desc": "",
         "default": "Password",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Path",
         "desc": "",
         "default": "Path",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
@@ -6285,14 +6293,14 @@
         "name": "Path",
         "desc": "",
         "default": "File or folder path to remove shared link",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
@@ -6359,21 +6367,21 @@
         "name": "Password",
         "desc": "",
         "default": "Password for the shared link",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       },
       {
         "name": "Url",
         "desc": "",
         "default": "Shared link URL",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.model.mo_url.url_impl",
         "type_attr": null
       }
     ]
@@ -6433,7 +6441,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
         "type_attr": null
       }
     ]
@@ -6599,36 +6607,40 @@
         "name": "Category",
         "desc": "",
         "default": "Filter the returned events to a single category. This field is optional.",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "EndTime",
         "desc": "",
         "default": "Ending time (exclusive).",
-        "type_name": "reflect.rtype",
-        "type_attr": null
+        "type_name": "domain.dropbox.model.mo_time.time_impl",
+        "type_attr": {
+          "optional": true
+        }
       },
       {
         "name": "File",
         "desc": "",
         "default": "User email address list file",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       },
       {
         "name": "StartTime",
         "desc": "",
         "default": "Starting time (inclusive)",
-        "type_name": "reflect.rtype",
-        "type_attr": null
+        "type_name": "domain.dropbox.model.mo_time.time_impl",
+        "type_attr": {
+          "optional": true
+        }
       }
     ]
   },
@@ -6719,21 +6731,21 @@
         "name": "Category",
         "desc": "",
         "default": "Event category",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "EndDate",
         "desc": "",
         "default": "End date",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       },
       {
@@ -6839,22 +6851,26 @@
         "name": "EndTime",
         "desc": "",
         "default": "Ending time (exclusive).",
-        "type_name": "reflect.rtype",
-        "type_attr": null
+        "type_name": "domain.dropbox.model.mo_time.time_impl",
+        "type_attr": {
+          "optional": true
+        }
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       },
       {
         "name": "StartTime",
         "desc": "",
         "default": "Starting time (inclusive)",
-        "type_name": "reflect.rtype",
-        "type_attr": null
+        "type_name": "domain.dropbox.model.mo_time.time_impl",
+        "type_attr": {
+          "optional": true
+        }
       }
     ]
   },
@@ -6987,29 +7003,33 @@
         "name": "Category",
         "desc": "",
         "default": "Filter the returned events to a single category. This field is optional.",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {
         "name": "EndTime",
         "desc": "",
         "default": "Ending time (exclusive).",
-        "type_name": "reflect.rtype",
-        "type_attr": null
+        "type_name": "domain.dropbox.model.mo_time.time_impl",
+        "type_attr": {
+          "optional": true
+        }
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_audit",
         "type_attr": null
       },
       {
         "name": "StartTime",
         "desc": "",
         "default": "Starting time (inclusive)",
-        "type_name": "reflect.rtype",
-        "type_attr": null
+        "type_name": "domain.dropbox.model.mo_time.time_impl",
+        "type_attr": {
+          "optional": true
+        }
       }
     ]
   },
@@ -7090,7 +7110,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -7154,7 +7174,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -7286,7 +7306,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -7580,14 +7600,14 @@
         "name": "File",
         "desc": "",
         "default": "Data file",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -8178,21 +8198,21 @@
         "name": "File",
         "desc": "default",
         "default": "Dropbox Business file access",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       },
       {
         "name": "Info",
         "desc": "default",
         "default": "Dropbox Business information access",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       },
       {
         "name": "Mgmt",
         "desc": "default",
         "default": "Dropbox Business management",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
         "type_attr": null
       }
     ]
@@ -8248,7 +8268,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       }
     ]
@@ -8332,7 +8352,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -8404,7 +8424,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_info",
         "type_attr": null
       }
     ]
@@ -8480,7 +8500,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -8594,7 +8614,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -8712,7 +8732,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -8760,7 +8780,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -8835,7 +8855,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -8911,14 +8931,14 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       },
       {
         "name": "Visibility",
         "desc": "public",
         "default": "Filter links by visibility (public/team_only/password)",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.select_string",
         "type_attr": {
           "options": [
             "public",
@@ -9060,8 +9080,10 @@
         "name": "At",
         "desc": "",
         "default": "New expiration date and time",
-        "type_name": "reflect.rtype",
-        "type_attr": null
+        "type_name": "domain.dropbox.model.mo_time.time_impl",
+        "type_attr": {
+          "optional": true
+        }
       },
       {
         "name": "Days",
@@ -9074,14 +9096,14 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       },
       {
         "name": "Visibility",
         "desc": "public",
         "default": "Target link visibility",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.common.model.mo_string.select_string",
         "type_attr": {
           "options": [
             "public",
@@ -9125,7 +9147,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -9201,14 +9223,14 @@
         "name": "File",
         "desc": "",
         "default": "Data file for a list of team folder names",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -9268,14 +9290,14 @@
         "name": "File",
         "desc": "",
         "default": "Data file for a list of team folder names",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -9364,7 +9386,7 @@
         "name": "File",
         "desc": "",
         "default": "Data file for a list of team folder names",
-        "type_name": "reflect.rtype",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
@@ -9443,7 +9465,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -9526,7 +9548,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -9578,7 +9600,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]
@@ -9614,7 +9636,7 @@
         "name": "Peer",
         "desc": "default",
         "default": "Account alias",
-        "type_name": "reflect.rtype",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null
       }
     ]

@@ -27,7 +27,7 @@ type ValueFdFileRowFeed struct {
 }
 
 func (z *ValueFdFileRowFeed) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*fd_file.RowFeed)(nil)).Elem()), nil
+	return ut_reflect.Key(app.Pkg, z.rf), nil
 }
 
 func (z *ValueFdFileRowFeed) ValueText() string {

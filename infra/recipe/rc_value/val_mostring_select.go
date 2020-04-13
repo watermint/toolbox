@@ -23,7 +23,7 @@ type ValueMoStringSelect struct {
 }
 
 func (z *ValueMoStringSelect) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*mo_string.SelectString)(nil)).Elem()), map[string]interface{}{
+	return ut_reflect.Key(app.Pkg, z.selStr), map[string]interface{}{
 		"options": z.selStr.Options(),
 	}
 }

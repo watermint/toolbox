@@ -23,7 +23,7 @@ type ValueKvStorageStorage struct {
 }
 
 func (z *ValueKvStorageStorage) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*kv_storage.Storage)(nil)).Elem()), nil
+	return ut_reflect.Key(app.Pkg, z.storage), nil
 }
 
 func (z *ValueKvStorageStorage) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

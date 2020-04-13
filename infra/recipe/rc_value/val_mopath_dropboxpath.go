@@ -25,7 +25,7 @@ type ValueMoPathDropboxPath struct {
 }
 
 func (z *ValueMoPathDropboxPath) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*mo_path.DropboxPath)(nil)).Elem()), nil
+	return ut_reflect.Key(app.Pkg, z.path), nil
 }
 
 func (z *ValueMoPathDropboxPath) ValueText() string {

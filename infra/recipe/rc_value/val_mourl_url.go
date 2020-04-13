@@ -24,7 +24,7 @@ type ValueMoUrlUrl struct {
 }
 
 func (z *ValueMoUrlUrl) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*mo_url.Url)(nil)).Elem()), nil
+	return ut_reflect.Key(app.Pkg, z.url), nil
 }
 
 func (z *ValueMoUrlUrl) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

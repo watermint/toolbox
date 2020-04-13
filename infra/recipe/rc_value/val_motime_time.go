@@ -32,10 +32,9 @@ type ValueMoTimeTime struct {
 }
 
 func (z *ValueMoTimeTime) Spec() (typeName string, typeAttr interface{}) {
-	if z.isOptional {
-		return ut_reflect.Key(app.Pkg, reflect.TypeOf((*mo_time.TimeOptional)(nil)).Elem()), nil
+	return ut_reflect.Key(app.Pkg, z.time), map[string]interface{}{
+		"optional": z.isOptional,
 	}
-	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*mo_time.Time)(nil)).Elem()), nil
 }
 
 func (z *ValueMoTimeTime) IsOptional() bool {

@@ -22,7 +22,7 @@ type ValueDbxConnBusinessMgmt struct {
 }
 
 func (z *ValueDbxConnBusinessMgmt) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*dbx_conn.ConnBusinessMgmt)(nil)).Elem()), nil
+	return ut_reflect.Key(app.Pkg, z.conn), nil
 }
 
 func (z *ValueDbxConnBusinessMgmt) ValueText() string {

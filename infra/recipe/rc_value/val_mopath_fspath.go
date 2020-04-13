@@ -36,7 +36,7 @@ func (z *ValueMoPathFileSystemPath) Spec() (typeName string, typeAttr interface{
 	if efs, ok := z.path.(mo_path2.ExistingFileSystemPath); ok {
 		se = efs.ShouldExist()
 	}
-	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*mo_path2.FileSystemPath)(nil)).Elem()), map[string]bool{
+	return ut_reflect.Key(app.Pkg, z.path), map[string]bool{
 		"shouldExist": se,
 	}
 }

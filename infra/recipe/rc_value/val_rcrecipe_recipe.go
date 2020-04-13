@@ -28,7 +28,7 @@ type ValueRcRecipeRecipe struct {
 }
 
 func (z *ValueRcRecipeRecipe) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, reflect.TypeOf((*rc_recipe.Recipe)(nil)).Elem()), map[string]interface{}{
+	return ut_reflect.Key(app.Pkg, z.recipe), map[string]interface{}{
 		"recipeType": z.recipeType,
 	}
 }
