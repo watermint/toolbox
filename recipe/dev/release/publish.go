@@ -46,11 +46,12 @@ var (
 )
 
 type Publish struct {
-	TestResource              mo_string.OptionalString
-	Branch                    string
-	SkipTests                 bool
-	ArtifactPath              mo_path2.FileSystemPath
-	ConnGithub                gh_conn.ConnGithubRepo
+	ArtifactPath mo_path2.FileSystemPath
+	Branch       string
+	ConnGithub   gh_conn.ConnGithubRepo
+	SkipTests    bool
+	TestResource mo_string.OptionalString
+
 	HeadingReleaseTheme       app_msg.Message
 	HeadingChanges            app_msg.Message
 	ListSpecChange            app_msg.Message
