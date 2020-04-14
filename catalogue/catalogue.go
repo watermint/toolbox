@@ -98,7 +98,6 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 	cat := []infra_recipe_rc_recipe.Recipe{
 		infra_recipe_rc_recipe.Annotate(&recipe.License{}),
 		infra_recipe_rc_recipe.Annotate(&recipe.Version{}),
-		infra_recipe_rc_recipe.Annotate(&recipe.Web{}, infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipeconfig.Features{}, infra_recipe_rc_recipe.Console()),
 		infra_recipe_rc_recipe.Annotate(&recipeconfig.Enable{}, infra_recipe_rc_recipe.Console()),
 		infra_recipe_rc_recipe.Annotate(&recipeconfig.Disable{}, infra_recipe_rc_recipe.Console()),
