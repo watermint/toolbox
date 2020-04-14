@@ -8,25 +8,17 @@ import (
 )
 
 type UI interface {
-	// Deprecated: use Header
-	HeaderK(key string, p ...app_msg.P)
-
 	// Header
 	Header(m app_msg.Message)
 
 	// Sub header
 	SubHeader(m app_msg.Message)
 
-	// Deprecated: use Info
-	InfoK(key string, p ...app_msg.P)
-
 	// Info
 	Info(m app_msg.Message)
 
 	// Create information table
 	InfoTable(name string) Table
-	// Deprecated: use Error
-	ErrorK(key string, p ...app_msg.P)
 
 	// Error
 	Error(m app_msg.Message)
@@ -36,9 +28,6 @@ type UI interface {
 
 	// Test existence of the message key
 	Exists(m app_msg.Message) bool
-
-	// Deprecated: use Text
-	TextK(key string, p ...app_msg.P) string
 
 	// Compile text
 	Text(m app_msg.Message) string
@@ -61,11 +50,6 @@ type UI interface {
 
 	OpenArtifact(path string, autoOpen bool)
 
-	// Deprecated: use Success
-	SuccessK(key string, p ...app_msg.P)
-
-	// Deprecated: use Failure
-	FailureK(key string, p ...app_msg.P)
 	Success(m app_msg.Message)
 	Failure(m app_msg.Message)
 	Progress(m app_msg.Message)

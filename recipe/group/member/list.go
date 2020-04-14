@@ -18,6 +18,14 @@ import (
 	"go.uber.org/zap"
 )
 
+type MsgList struct {
+	ProgressScan app_msg.Message
+}
+
+var (
+	MList = app_msg.Apply(&MsgList{}).(*MsgList)
+)
+
 type ListWorker struct {
 	// job context
 	group *mo_group.Group
@@ -30,8 +38,9 @@ type ListWorker struct {
 
 func (z *ListWorker) Exec() error {
 	l := z.ctl.Log()
+	ui := z.ctl.UI()
 
-	z.ctl.UI().InfoK("recipe.group.member.list.progress.scan", app_msg.P{"Group": z.group.GroupName})
+	ui.Progress(MList.ProgressScan.With("Group", z.group.GroupName))
 	l.Debug("Scan group", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Group", z.group))
 
 	msv := sv_group_member.New(z.conn, z.group)

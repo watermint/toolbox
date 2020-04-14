@@ -18,6 +18,14 @@ import (
 	"go.uber.org/zap"
 )
 
+type MsgList struct {
+	ProgressScan app_msg.Message
+}
+
+var (
+	MList = app_msg.Apply(&MsgList{}).(*MsgList)
+)
+
 type ListWorker struct {
 	member *mo_member.Member
 	ctx    dbx_context.Context
@@ -27,8 +35,8 @@ type ListWorker struct {
 
 func (z *ListWorker) Exec() error {
 	l := z.ctl.Log()
+	z.ctl.UI().Progress(MList.ProgressScan.With("MemberEmail", z.member.Email))
 
-	z.ctl.UI().InfoK("recipe.member.quota.list.scan", app_msg.P{"MemberEmail": z.member.Email})
 	l.Debug("Scan member", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Member", z.member))
 
 	q, err := sv_member_quota.NewQuota(z.ctx).Resolve(z.member.TeamMemberId)

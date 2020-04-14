@@ -16,6 +16,14 @@ import (
 	"strconv"
 )
 
+type MsgRowFeed struct {
+	ErrorUnableToRead app_msg.Message
+}
+
+var (
+	MRowFeed = app_msg.Apply(&MsgRowFeed{}).(*MsgRowFeed)
+)
+
 func NewRowFeed(name string) fd_file.RowFeed {
 	return &RowFeed{
 		name: name,
@@ -126,12 +134,7 @@ func (z *RowFeed) Open(ctl app_control.Control) error {
 	var err error
 	z.file, err = os.Open(z.filePath)
 	if err != nil {
-		ui.ErrorK("flow.error.unable_to_read",
-			app_msg.P{
-				"Path":  z.filePath,
-				"Error": err,
-			},
-		)
+		ui.Error(MRowFeed.ErrorUnableToRead.With("Path", z.filePath).With("Error", err))
 		return err
 	}
 	z.reader = ut_encoding.NewBomAwareCsvReader(z.file)
@@ -260,12 +263,7 @@ func (z *RowFeed) EachRow(exec func(m interface{}, rowIndex int) error) error {
 			return nil
 
 		case err != nil:
-			ui.ErrorK("flow.error.unable_to_read",
-				app_msg.P{
-					"Path":  z.filePath,
-					"Error": err,
-				},
-			)
+			ui.Error(MRowFeed.ErrorUnableToRead.With("Path", z.filePath).With("Error", err))
 			return err
 
 		case ri == 0:

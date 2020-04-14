@@ -14,8 +14,9 @@ import (
 )
 
 type Delete struct {
-	Peer dbx_conn.ConnUserFile
-	Path mo_path.DropboxPath
+	Peer           dbx_conn.ConnUserFile
+	Path           mo_path.DropboxPath
+	ProgressDelete app_msg.Message
 }
 
 func (z *Delete) Preset() {
@@ -25,11 +26,9 @@ func (z *Delete) Exec(c app_control.Control) error {
 	ui := c.UI()
 	ctx := z.Peer.Context()
 
-	var delete func(path mo_path.DropboxPath) error
-	delete = func(path mo_path.DropboxPath) error {
-		ui.InfoK("recipe.file.delete.progress.deleting", app_msg.P{
-			"Path": path.Path(),
-		})
+	var del func(path mo_path.DropboxPath) error
+	del = func(path mo_path.DropboxPath) error {
+		ui.Progress(z.ProgressDelete.With("Path", path.Path()))
 		_, err := sv_file.NewFiles(ctx).Remove(path)
 		if err == nil {
 			return nil
@@ -42,20 +41,20 @@ func (z *Delete) Exec(c app_control.Control) error {
 			}
 			for _, entry := range entries {
 				if f, ok := entry.File(); ok {
-					delete(f.Path())
+					del(f.Path())
 				}
 				if f, ok := entry.Folder(); ok {
-					delete(f.Path())
+					del(f.Path())
 				}
 			}
-			return delete(path)
+			return del(path)
 
 		default:
 			return err
 		}
 	}
 
-	return delete(z.Path)
+	return del(z.Path)
 }
 
 func (z *Delete) Test(c app_control.Control) error {

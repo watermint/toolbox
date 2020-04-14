@@ -4,10 +4,13 @@ import (
 	infra_api_api_api_auth_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	infra_recipe_rc_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/api/api_callback"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	infra_control_app_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
+	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	infra_kvs_kv_storageimpl "github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
 	infra_network_nw_diag "github.com/watermint/toolbox/infra/network/nw_diag"
 	infra_recipe_rc_catalogue "github.com/watermint/toolbox/infra/recipe/rc_catalogue"
@@ -271,6 +274,25 @@ func Messages() []interface{} {
 		recipeteamcontent.MScanMetadata,
 		rp_writer_impl.MSortedWriter,
 		rp_writer_impl.MXlsxWriter,
+		fd_file_impl.MRowFeed,
+		ingredientteamnamespacefile.MList,
+		ingredientteamnamespacefile.MSize,
+		recipefileimportbatch.MUrl,
+		uc_compare_local.MCompare,
+		uc_compare_paths.MCompare,
+		recipefile.MRestore,
+		recipegroupmember.MList,
+		recipememberquota.MList,
+		recipememberquota.MUpdate,
+		recipememberquota.MUsage,
+		recipememberupdate.MEmail,
+		recipesharedfoldermember.MList,
+		recipeteamactivity.MUser,
+		recipeteamdevice.MUnlink,
+		recipeteamfilerequest.MList,
+		recipeteamnamespacemember.MList,
+		recipeteamsharedlink.MList,
+		recipeteamsharedlinkupdate.MExpiry,
 	}
 	for _, m := range msgs {
 		infra_ui_app_msg.Apply(m)

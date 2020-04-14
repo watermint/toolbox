@@ -23,6 +23,14 @@ import (
 	"math"
 )
 
+type MsgUpdate struct {
+	ProgressUpdate app_msg.Message
+}
+
+var (
+	MUpdate = app_msg.Apply(&MsgUpdate{}).(*MsgUpdate)
+)
+
 type UpdateWorker struct {
 	member *mo_member.Member
 	quota  int
@@ -34,11 +42,7 @@ type UpdateWorker struct {
 
 func (z *UpdateWorker) Exec() error {
 	l := z.ctl.Log()
-	z.ctl.UI().InfoK("recipe.member.quota.update.progress",
-		app_msg.P{
-			"MemberEmail": z.member.Email,
-			"Quota":       z.quota,
-		})
+	z.ctl.UI().Progress(MUpdate.ProgressUpdate.With("MemberEmail", z.member.Email).With("Quota", z.quota))
 	l.Debug("Updating quota", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Member", z.member))
 
 	q := &mo_member_quota.Quota{

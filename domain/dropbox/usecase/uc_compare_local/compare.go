@@ -17,6 +17,14 @@ import (
 	"strings"
 )
 
+type MsgCompare struct {
+	ProgressScanFolder app_msg.Message
+}
+
+var (
+	MCompare = app_msg.Apply(&MsgCompare{}).(*MsgCompare)
+)
+
 type Compare interface {
 	Diff(localPath mo_path2.FileSystemPath, dropboxPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
 }
@@ -70,9 +78,7 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 		}
 	}
 
-	z.ui.InfoK("usecase.uc_compare_local.scan_folder", app_msg.P{
-		"Path": path,
-	})
+	z.ui.Progress(MCompare.ProgressScanFolder.With("Path", path))
 
 	// Scan local
 	{

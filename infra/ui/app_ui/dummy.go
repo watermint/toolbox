@@ -69,37 +69,14 @@ func (z *Dummy) Info(m app_msg.Message) {
 func (z *Dummy) Error(m app_msg.Message) {
 }
 
-func (z *Dummy) HeaderK(key string, p ...app_msg.P) {
-}
-
-func (z *Dummy) InfoK(key string, p ...app_msg.P) {
-}
-
 func (z *Dummy) InfoTable(name string) Table {
 	return &DummyTable{}
-}
-
-func (z *Dummy) ErrorK(key string, p ...app_msg.P) {
 }
 
 func (z *Dummy) Break() {
 }
 
-func (z *Dummy) TextK(key string, p ...app_msg.P) string {
-	return ""
-}
-
-func (z *Dummy) TextOrEmptyK(key string, p ...app_msg.P) string {
-	return ""
-}
-
 func (z *Dummy) OpenArtifact(path string, autoOpen bool) {
-}
-
-func (z *Dummy) SuccessK(key string, p ...app_msg.P) {
-}
-
-func (z *Dummy) FailureK(key string, p ...app_msg.P) {
 }
 
 func (z *Dummy) IsConsole() bool {

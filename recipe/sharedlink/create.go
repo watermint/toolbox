@@ -23,6 +23,7 @@ type Create struct {
 	Password mo_string.OptionalString
 	Expires  mo_time.TimeOptional
 	Created  rp_model.RowReport
+	Success  app_msg.Message
 }
 
 func (z *Create) Preset() {
@@ -51,9 +52,7 @@ func (z *Create) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	ui.InfoK("recipe.sharedlink.create.success", app_msg.P{
-		"Url": link.LinkUrl(),
-	})
+	ui.Success(z.Success.With("Url", link.LinkUrl()))
 
 	z.Created.Row(link.Metadata())
 	return nil

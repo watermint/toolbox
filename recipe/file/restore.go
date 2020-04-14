@@ -18,6 +18,15 @@ import (
 	"go.uber.org/zap"
 )
 
+type MsgRestore struct {
+	ProgressRestore app_msg.Message
+	ProgressFinish  app_msg.Message
+}
+
+var (
+	MRestore = app_msg.Apply(&MsgRestore{}).(*MsgRestore)
+)
+
 type RestoreWorker struct {
 	ctl  app_control.Control
 	ctx  dbx_context.Context
@@ -32,7 +41,7 @@ type RestoreTarget struct {
 func (z *RestoreWorker) Exec() error {
 	l := z.ctl.Log().With(zap.String("path", z.path.Path()))
 	ui := z.ctl.UI()
-	ui.InfoK("recipe.file.restore.progress.restore_file", app_msg.P{"Path": z.path.Path()})
+	ui.Progress(MRestore.ProgressRestore.With("Path", z.path.Path()))
 	target := &RestoreTarget{
 		Path: z.path.Path(),
 	}
@@ -117,9 +126,7 @@ func (z *Restore) Exec(c app_control.Control) error {
 	)
 	q.Wait()
 
-	ui.InfoK("recipe.file.restore.progress.finish", app_msg.P{
-		"Count": count,
-	})
+	ui.Info(MRestore.ProgressFinish.With("Count", count))
 
 	return lastErr
 }

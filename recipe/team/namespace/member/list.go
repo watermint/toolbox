@@ -17,6 +17,14 @@ import (
 	"go.uber.org/zap"
 )
 
+type MsgList struct {
+	ProgressScan app_msg.Message
+}
+
+var (
+	MList = app_msg.Apply(&MsgList{}).(*MsgList)
+)
+
 type ListVO struct {
 }
 
@@ -29,11 +37,9 @@ type ListWorker struct {
 
 func (z *ListWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.InfoK("recipe.team.namespace.member.list.scan",
-		app_msg.P{
-			"NamespaceName": z.namespace.Name,
-			"NamespaceId":   z.namespace.NamespaceId,
-		})
+	ui.Progress(MList.ProgressScan.
+		With("NamespaceName", z.namespace.Name).
+		With("NamespaceId", z.namespace.NamespaceId))
 	l := z.ctl.Log().With(zap.Any("namespace", z.namespace))
 
 	members, err := sv_sharedfolder_member.NewBySharedFolderId(z.ctx, z.namespace.NamespaceId).List()

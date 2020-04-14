@@ -20,6 +20,7 @@ type Replication struct {
 	SrcPath         mo_path.DropboxPath
 	DstPath         mo_path.DropboxPath
 	ReplicationDiff rp_model.RowReport
+	ProgressDone    app_msg.Message
 }
 
 func (z *Replication) Preset() {
@@ -46,9 +47,7 @@ func (z *Replication) Exec(c app_control.Control) error {
 		return nil
 	}
 	count, err := uc_compare_paths.New(ctxSrc, ctxDst, c.UI()).Diff(z.SrcPath, z.DstPath, diff)
-	ui.InfoK("recipe.file.replication.done", app_msg.P{
-		"DiffCount": count,
-	})
+	ui.Info(z.ProgressDone.With("DiffCount", count))
 	if err != nil {
 		return err
 	}

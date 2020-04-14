@@ -23,6 +23,14 @@ import (
 	"path/filepath"
 )
 
+type MsgEmail struct {
+	ProgressUpdate app_msg.Message
+}
+
+var (
+	MEmail = app_msg.Apply(&MsgEmail{}).(*MsgEmail)
+)
+
 type EmailRow struct {
 	FromEmail string `json:"from_email"`
 	ToEmail   string `json:"to_email"`
@@ -38,11 +46,7 @@ type EmailWorker struct {
 
 func (z *EmailWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.InfoK("recipe.member.update.email.progress.updating",
-		app_msg.P{
-			"EmailFrom": z.transaction.FromEmail,
-			"EmailTo":   z.transaction.ToEmail,
-		})
+	ui.Progress(MEmail.ProgressUpdate.With("EmailFrom", z.transaction.FromEmail).With("EmailTo", z.transaction.ToEmail))
 
 	l := z.ctl.Log().With(zap.Any("beforeMember", z.member))
 

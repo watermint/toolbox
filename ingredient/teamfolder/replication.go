@@ -26,7 +26,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
@@ -635,9 +634,7 @@ func (z *Replication) Verify(c app_control.Control, ctx Context, scope Scope) (e
 		zap.String("folderDstName", scope.Pair().Dst.Name),
 	)
 	if err := z.Verification.Open(); err != nil {
-		c.UI().ErrorK("usecase.uc_teamfolder_mirror.err.unable_to_create_diff_report", app_msg.P{
-			"Error": err.Error(),
-		})
+		l.Error("Unable to create diff report", zap.Error(err))
 		return err
 	}
 

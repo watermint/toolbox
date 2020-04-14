@@ -19,6 +19,15 @@ import (
 	"go.uber.org/zap"
 )
 
+type MsgSize struct {
+	ProgressScan    app_msg.Message
+	ErrorScanFailed app_msg.Message
+}
+
+var (
+	MSize = app_msg.Apply(&MsgSize{}).(*MsgSize)
+)
+
 type SizeWorker struct {
 	namespace *mo_namespace.Namespace
 	ctx       dbx_context.Context
@@ -29,12 +38,9 @@ type SizeWorker struct {
 
 func (z *SizeWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.InfoK("recipe.team.namespace.file.size.scan",
-		app_msg.P{
-			"NamespaceName": z.namespace.Name,
-			"NamespaceId":   z.namespace.NamespaceId,
-		},
-	)
+	ui.Progress(MSize.ProgressScan.
+		With("NamespaceName", z.namespace.Name).
+		With("NamespaceId", z.namespace.NamespaceId))
 	l := z.ctl.Log().With(zap.Any("namespace", z.namespace))
 
 	ctn := z.ctx.WithPath(dbx_context.Namespace(z.namespace.NamespaceId))
@@ -45,13 +51,11 @@ func (z *SizeWorker) Exec() error {
 	for p, size := range sizes {
 		if err, ok := errs[p]; ok {
 			l.Debug("Unable to traverse", zap.Error(err))
-			ui.ErrorK("recipe.team.namespace.file.size.err.scan_failed",
-				app_msg.P{
-					"NamespaceName": z.namespace.Name,
-					"NamespaceId":   z.namespace.NamespaceId,
-					"Error":         err.Error(),
-				},
-			)
+			ui.Error(MSize.ErrorScanFailed.
+				With("NamespaceName", z.namespace.Name).
+				With("NamespaceId", z.namespace.NamespaceId).
+				With("Error", err.Error()))
+
 			lastErr = err
 			z.rep.Failure(err, z.namespace)
 		} else {

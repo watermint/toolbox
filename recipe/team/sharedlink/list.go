@@ -18,6 +18,14 @@ import (
 	"go.uber.org/zap"
 )
 
+type MsgList struct {
+	ProgressScan app_msg.Message
+}
+
+var (
+	MList = app_msg.Apply(&MsgList{}).(*MsgList)
+)
+
 type ListWorker struct {
 	member     *mo_member.Member
 	conn       dbx_context.Context
@@ -28,7 +36,7 @@ type ListWorker struct {
 
 func (z *ListWorker) Exec() error {
 	l := z.ctl.Log().With(zap.String("member", z.member.Email))
-	z.ctl.UI().InfoK("recipe.team.sharedlink.list.scan", app_msg.P{"MemberEmail": z.member.Email})
+	z.ctl.UI().Progress(MList.ProgressScan.With("MemberEmail", z.member.Email))
 	mc := z.conn.AsMemberId(z.member.TeamMemberId)
 	links, err := sv_sharedlink.New(mc).List()
 	if err != nil {

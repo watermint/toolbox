@@ -14,8 +14,11 @@ import (
 )
 
 type Permdelete struct {
-	Peer dbx_conn.ConnBusinessFile
-	Name string
+	Peer                           dbx_conn.ConnBusinessFile
+	Name                           string
+	ErrorUnableToResolveTeamfolder app_msg.Message
+	ErrorUnableToRemoveTeamfolder  app_msg.Message
+	SuccessPermdeleted             app_msg.Message
 }
 
 func (z *Permdelete) Preset() {
@@ -24,17 +27,9 @@ func (z *Permdelete) Preset() {
 func (z *Permdelete) Exec(c app_control.Control) error {
 	ui := c.UI()
 
-	if z.Name == "" {
-		ui.ErrorK("recipe.teamfolder.permdelete.err.missing_option.name")
-		return errors.New("missing required option")
-	}
-
 	teamfolders, err := sv_teamfolder.New(z.Peer.Context()).List()
 	if err != nil {
-		ui.ErrorK("recipe.teamfolder.permdelete.err.unable_to_resolve_teamfolder",
-			app_msg.P{
-				"Error": err.Error(),
-			})
+		ui.Error(z.ErrorUnableToResolveTeamfolder.With("Error", err))
 		return err
 	}
 	var teamfolder *mo_teamfolder.TeamFolder
@@ -45,10 +40,7 @@ func (z *Permdelete) Exec(c app_control.Control) error {
 		}
 	}
 	if teamfolder == nil {
-		ui.ErrorK("recipe.teamfolder.permdelete.err.unable_to_resolve_teamfolder",
-			app_msg.P{
-				"Error": "Unable to find team folder",
-			})
+		ui.Error(z.ErrorUnableToResolveTeamfolder.With("Error", err))
 		return errors.New("unable to find team folder")
 	}
 
@@ -56,14 +48,10 @@ func (z *Permdelete) Exec(c app_control.Control) error {
 
 	err = sv_teamfolder.New(z.Peer.Context()).PermDelete(teamfolder)
 	if err != nil {
-		ui.ErrorK("recipe.teamfolder.permdelete.err.unable_to_remove_teamfolder", app_msg.P{
-			"Error": err.Error(),
-		})
+		ui.Error(z.ErrorUnableToRemoveTeamfolder.With("Error", err))
 		return err
 	}
-	ui.SuccessK("recipe.teamfolder.permdelete.success.permdeleted", app_msg.P{
-		"TeamFolderName": teamfolder.Name,
-	})
+	ui.Success(z.SuccessPermdeleted.With("TeamFolderName", teamfolder.Name))
 	return nil
 }
 

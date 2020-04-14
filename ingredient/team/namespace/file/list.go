@@ -21,6 +21,15 @@ import (
 	"go.uber.org/zap"
 )
 
+type MsgList struct {
+	ErrorScanFailed app_msg.Message
+	ProgressScan    app_msg.Message
+}
+
+var (
+	MList = app_msg.Apply(&MsgList{}).(*MsgList)
+)
+
 type ListWorker struct {
 	namespace        *mo_namespace.Namespace
 	idToMember       map[string]*mo_member.Member
@@ -33,12 +42,10 @@ type ListWorker struct {
 
 func (z *ListWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.InfoK("recipe.team.namespace.file.list.scan",
-		app_msg.P{
-			"NamespaceName": z.namespace.Name,
-			"NamespaceId":   z.namespace.NamespaceId,
-		},
-	)
+	ui.Progress(MList.ProgressScan.
+		With("NamespaceName", z.namespace.Name).
+		With("NamespaceId", z.namespace.NamespaceId))
+
 	l := z.ctl.Log().With(zap.Any("namespace", z.namespace))
 
 	ctn := z.ctx.WithPath(dbx_context.Namespace(z.namespace.NamespaceId))
@@ -63,13 +70,10 @@ func (z *ListWorker) Exec() error {
 
 	if err != nil {
 		l.Debug("Unable to traverse", zap.Error(err))
-		ui.ErrorK("recipe.team.namespace.file.list.err.scan_failed",
-			app_msg.P{
-				"NamespaceName": z.namespace.Name,
-				"NamespaceId":   z.namespace.NamespaceId,
-				"Error":         err.Error(),
-			},
-		)
+		ui.Error(MList.ErrorScanFailed.
+			With("NamespaceName", z.namespace.Name).
+			With("NamespaceId", z.namespace.NamespaceId).
+			With("Error", err.Error()))
 		return err
 	}
 	return nil

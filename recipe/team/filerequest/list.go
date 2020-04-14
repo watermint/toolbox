@@ -16,6 +16,14 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
+type MsgList struct {
+	ProgressScan app_msg.Message
+}
+
+var (
+	MList = app_msg.Apply(&MsgList{}).(*MsgList)
+)
+
 type ListWorker struct {
 	member *mo_member.Member
 	conn   dbx_context.Context
@@ -24,7 +32,7 @@ type ListWorker struct {
 }
 
 func (z *ListWorker) Exec() error {
-	z.ctl.UI().InfoK("recipe.team.filerequest.list.scan", app_msg.P{"MemberEmail": z.member.Email})
+	z.ctl.UI().Progress(MList.ProgressScan.With("MemberEmail", z.member.Email))
 	mc := z.conn.AsMemberId(z.member.TeamMemberId)
 	reqs, err := sv_filerequest.New(mc).List()
 	if err != nil {

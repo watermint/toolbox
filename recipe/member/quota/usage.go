@@ -17,6 +17,14 @@ import (
 	"go.uber.org/zap"
 )
 
+type MsgUsage struct {
+	ProgressScan app_msg.Message
+}
+
+var (
+	MUsage = app_msg.Apply(&MsgUsage{}).(*MsgUsage)
+)
+
 type UsageVO struct {
 }
 
@@ -29,10 +37,7 @@ type UsageWorker struct {
 
 func (z *UsageWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.InfoK("recipe.member.quota.usage.scan",
-		app_msg.P{
-			"MemberEmail": z.member.Email,
-		})
+	ui.Progress(MUsage.ProgressScan.With("MemberEmail", z.member.Email))
 	l := z.ctl.Log().With(zap.Any("member", z.member))
 	l.Debug("Scanning")
 

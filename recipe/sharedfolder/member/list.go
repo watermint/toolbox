@@ -17,6 +17,14 @@ import (
 	"go.uber.org/zap"
 )
 
+type MsgList struct {
+	ProgressScan app_msg.Message
+}
+
+var (
+	MList = app_msg.Apply(&MsgList{}).(*MsgList)
+)
+
 type ListWorker struct {
 	folder *mo_sharedfolder.SharedFolder
 	conn   dbx_context.Context
@@ -25,11 +33,8 @@ type ListWorker struct {
 }
 
 func (z *ListWorker) Exec() error {
-	z.ctl.UI().InfoK("recipe.sharedfolder.member.list.progress.scan",
-		app_msg.P{
-			"Folder":   z.folder.Name,
-			"FolderId": z.folder.SharedFolderId},
-	)
+	z.ctl.UI().Progress(MList.ProgressScan.With("Folder", z.folder.Name).With("FolderId", z.folder.SharedFolderId))
+
 	z.ctl.Log().Debug("Scanning folder", zap.Any("folder", z.folder))
 	members, err := sv_sharedfolder_member.New(z.conn, z.folder).List()
 	if err != nil {

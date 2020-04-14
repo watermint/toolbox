@@ -350,14 +350,6 @@ func (z *console) verifyKey(key string) {
 	}
 }
 
-func (z *console) TextK(key string, p ...app_msg.P) string {
-	return z.Text(app_msg.M(key, p...))
-}
-
-func (z *console) TextOrEmptyK(key string, p ...app_msg.P) string {
-	return z.TextOrEmpty(app_msg.M(key, p...))
-}
-
 func (z *console) Break() {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
@@ -403,14 +395,6 @@ func (z *console) InfoTable(name string) Table {
 	}
 }
 
-func (z *console) InfoK(key string, p ...app_msg.P) {
-	z.Info(app_msg.M(key, p...))
-}
-
-func (z *console) ErrorK(key string, p ...app_msg.P) {
-	z.Error(app_msg.M(key, p...))
-}
-
 func (z *console) Success(m app_msg.Message) {
 	z.verifyKey(m.Key())
 	t := z.mc.Compile(m)
@@ -423,14 +407,6 @@ func (z *console) Failure(m app_msg.Message) {
 	t := z.mc.Compile(m)
 	z.colorPrint(t, ColorRed)
 	z.currentLogger().Debug(t)
-}
-
-func (z *console) SuccessK(key string, p ...app_msg.P) {
-	z.Success(app_msg.M(key, p...))
-}
-
-func (z *console) FailureK(key string, p ...app_msg.P) {
-	z.Failure(app_msg.M(key, p...))
 }
 
 type consoleTable struct {

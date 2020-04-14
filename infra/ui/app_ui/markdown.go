@@ -104,37 +104,13 @@ func (z *Markdown) print(tmpl string, m app_msg.Message) {
 	})
 }
 
-func (z *Markdown) HeaderK(key string, p ...app_msg.P) {
-	z.print("# {{.Message}}\n\n", app_msg.M(key, p...))
-}
-
-func (z *Markdown) InfoK(key string, p ...app_msg.P) {
-	z.print("{{.Message}}\n", app_msg.M(key, p...))
-}
-
 func (z *Markdown) InfoTable(name string) Table {
 	return newMarkdownTable(z.mc, z.out, z.ignoreMissing)
-}
-
-func (z *Markdown) ErrorK(key string, p ...app_msg.P) {
-	z.print("ERROR: {{.Message}}\n", app_msg.M(key, p...))
 }
 
 func (z *Markdown) Break() {
 	fmt.Fprintln(z.out, "")
 	fmt.Fprintln(z.out, "")
-}
-
-func (z *Markdown) TextK(key string, p ...app_msg.P) string {
-	return z.mc.Compile(app_msg.M(key, p...))
-}
-
-func (z *Markdown) TextOrEmptyK(key string, p ...app_msg.P) string {
-	if z.mc.Exists(key) {
-		return z.mc.Compile(app_msg.M(key, p...))
-	} else {
-		return ""
-	}
 }
 
 func (z *Markdown) OpenArtifact(path string, autoOpen bool) {
@@ -146,14 +122,6 @@ func (z *Markdown) Success(m app_msg.Message) {
 
 func (z *Markdown) Failure(m app_msg.Message) {
 	z.print("FAILURE: {{.Message}}\n", m)
-}
-
-func (z *Markdown) SuccessK(key string, p ...app_msg.P) {
-	z.Success(app_msg.M(key, p...))
-}
-
-func (z *Markdown) FailureK(key string, p ...app_msg.P) {
-	z.Failure(app_msg.M(key, p...))
 }
 
 func (z *Markdown) IsConsole() bool {

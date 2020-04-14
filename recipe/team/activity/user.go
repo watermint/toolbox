@@ -23,6 +23,14 @@ import (
 	"time"
 )
 
+type MsgUser struct {
+	ProgressScanUser app_msg.Message
+}
+
+var (
+	MUser = app_msg.Apply(&MsgUser{}).(*MsgUser)
+)
+
 type UserSummary struct {
 	User           string `json:"user"`
 	Logins         int64  `json:"logins"`
@@ -64,9 +72,7 @@ func (z *UserWorker) Exec() error {
 	}
 	defer rep.Close()
 
-	ui.InfoK("recipe.team.activity.user.progress.scan_user", app_msg.P{
-		"User": userIn.User,
-	})
+	ui.Progress(MUser.ProgressScanUser.With("User", userIn.User))
 
 	summary := &UserSummary{
 		User: z.user.Email,

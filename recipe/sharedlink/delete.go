@@ -17,10 +17,12 @@ import (
 )
 
 type Delete struct {
-	Peer       dbx_conn.ConnUserFile
-	Path       mo_path.DropboxPath
-	Recursive  bool
-	SharedLink rp_model.TransactionReport
+	Peer                 dbx_conn.ConnUserFile
+	Path                 mo_path.DropboxPath
+	Recursive            bool
+	SharedLink           rp_model.TransactionReport
+	InfoNoLinksAtThePath app_msg.Message
+	ProgressDelete       app_msg.Message
 }
 
 func (z *Delete) Preset() {
@@ -53,18 +55,13 @@ func (z *Delete) removePathAt(c app_control.Control) error {
 		return err
 	}
 	if len(links) < 1 {
-		ui.InfoK("recipe.sharedlink.delete.info.no_links_at_the_path", app_msg.P{
-			"Path": z.Path.Path(),
-		})
+		ui.Info(z.InfoNoLinksAtThePath.With("Path", z.Path.Path()))
 		return nil
 	}
 
 	var lastErr error
 	for _, link := range links {
-		ui.InfoK("recipe.sharedlink.delete.progress", app_msg.P{
-			"Url":  link.LinkUrl(),
-			"Path": link.LinkPathLower(),
-		})
+		ui.Progress(z.ProgressDelete.With("Url", link.LinkUrl()).With("Path", link.LinkPathLower()))
 		err = sv_sharedlink.New(z.Peer.Context()).Remove(link)
 		if err != nil {
 			l.Debug("Unable to remove link", zap.Error(err), zap.Any("link", link))
@@ -85,9 +82,7 @@ func (z *Delete) removeRecursive(c app_control.Control) error {
 		return err
 	}
 	if len(links) < 1 {
-		ui.InfoK("recipe.sharedlink.delete.info.no_links_at_the_path", app_msg.P{
-			"Path": z.Path.Path(),
-		})
+		ui.Info(z.InfoNoLinksAtThePath.With("Path", z.Path.Path()))
 		return nil
 	}
 
@@ -104,10 +99,7 @@ func (z *Delete) removeRecursive(c app_control.Control) error {
 			continue
 		}
 
-		ui.InfoK("recipe.sharedlink.delete.progress", app_msg.P{
-			"Url":  link.LinkUrl(),
-			"Path": link.LinkPathLower(),
-		})
+		ui.Progress(z.ProgressDelete.With("Url", link.LinkUrl()).With("Path", link.LinkPathLower()))
 		err = sv_sharedlink.New(z.Peer.Context()).Remove(link)
 		if err != nil {
 			l.Debug("Unable to remove link", zap.Error(err), zap.Any("link", link))

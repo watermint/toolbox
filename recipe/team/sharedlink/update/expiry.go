@@ -24,6 +24,15 @@ import (
 	"time"
 )
 
+type MsgExpiry struct {
+	ProgressScanning app_msg.Message
+	ProgressUpdating app_msg.Message
+}
+
+var (
+	MExpiry = app_msg.Apply(&MsgExpiry{}).(*MsgExpiry)
+)
+
 type ExpiryScanWorker struct {
 	ctl        app_control.Control
 	ctx        dbx_context.Context
@@ -39,7 +48,7 @@ func (z *ExpiryScanWorker) Exec() error {
 	l := z.ctl.Log().With(zap.Any("member", z.member))
 
 	l.Debug("Scanning member shared links")
-	ui.InfoK("recipe.team.sharedlink.update.expiry.scan", app_msg.P{"MemberEmail": z.member.Email})
+	ui.Progress(MExpiry.ProgressScanning.With("MemberEmail", z.member.Email))
 
 	ctxMember := z.ctx.AsMemberId(z.member.TeamMemberId)
 	links, err := sv_sharedlink.New(ctxMember).List()
@@ -112,12 +121,10 @@ func (z *ExpiryWorker) Exec() error {
 	ui := z.ctl.UI()
 	l := z.ctl.Log().With(zap.Any("link", z.link.Metadata()))
 
-	ui.InfoK("recipe.team.sharedlink.update.expiry.updating", app_msg.P{
-		"MemberEmail":   z.member.Email,
-		"Url":           z.link.LinkUrl(),
-		"CurrentExpiry": z.link.LinkExpires(),
-		"NewExpiry":     dbx_util.RebaseAsString(z.newExpiry),
-	})
+	ui.Progress(MExpiry.ProgressUpdating.With("MemberEmail", z.member.Email).
+		With("Url", z.link.LinkUrl()).
+		With("CurrentExpiry", z.link.LinkExpires()).
+		With("NewExpiry", dbx_util.RebaseAsString(z.newExpiry)))
 
 	updated, err := sv_sharedlink.New(z.ctx).Update(z.link, sv_sharedlink.Expires(z.newExpiry))
 	if err != nil {
@@ -136,12 +143,14 @@ func (z *ExpiryWorker) Exec() error {
 }
 
 type Expiry struct {
-	Peer       dbx_conn.ConnBusinessFile
-	Days       mo_int.RangeInt
-	At         mo_time.TimeOptional
-	Visibility mo_string.SelectString
-	Updated    rp_model.TransactionReport
-	Skipped    rp_model.RowReport
+	Peer                       dbx_conn.ConnBusinessFile
+	Days                       mo_int.RangeInt
+	At                         mo_time.TimeOptional
+	Visibility                 mo_string.SelectString
+	Updated                    rp_model.TransactionReport
+	Skipped                    rp_model.RowReport
+	ErrorPleaseSpecifyDaysOrAt app_msg.Message
+	ErrorInvalidDateTime       app_msg.Message
 }
 
 func (z *Expiry) Preset() {
@@ -171,7 +180,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 	var newExpiry time.Time
 	if z.Days.Value() > 0 && z.At.Ok() {
 		l.Debug("Both Days/At specified", zap.Int("evo.Days", z.Days.Value()), zap.String("evo.At", z.At.Value()))
-		ui.ErrorK("recipe.team.sharedlink.update.expiry.err.please_specify_days_or_at")
+		ui.Error(z.ErrorPleaseSpecifyDaysOrAt)
 		return errors.New("please specify one of `-days` or `-at`")
 	}
 
@@ -183,7 +192,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 	default:
 		if !z.At.Ok() {
 			l.Debug("Invalid date/time format for at option", zap.String("evo.At", z.At.Value()))
-			ui.ErrorK("recipe.team.sharedlink.update.expiry.err.invalid_date_time_format_for_at_option")
+			ui.Error(z.ErrorInvalidDateTime.With("Time", z.At.Value()))
 			return errors.New("invalid date/time format for `at`")
 		}
 		newExpiry = z.At.Time()

@@ -19,6 +19,7 @@ type Event struct {
 	EndDate   mo_string.OptionalString
 	Category  mo_string.OptionalString
 	Event     rp_model.RowReport
+	Progress  app_msg.Message
 }
 
 func (z *Event) Preset() {
@@ -36,11 +37,7 @@ func (z *Event) Exec(c app_control.Control) error {
 	for _, d := range dr {
 		st, _ := ut_time.ParseTimestamp(d.Start)
 		stDate := st.Format("2006-01-02")
-
-		ui.InfoK("recipe.team.activity.daily.event.progress", app_msg.P{
-			"Start": d.Start,
-			"End":   d.End,
-		})
+		ui.Progress(z.Progress.With("Start", d.Start).With("End", d.End))
 
 		rep, err := z.Event.OpenNew(rp_model.Suffix(stDate))
 		if err != nil {

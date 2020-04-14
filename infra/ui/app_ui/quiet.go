@@ -81,11 +81,14 @@ func (z *Quiet) TextOrEmpty(m app_msg.Message) string {
 }
 
 func (z *Quiet) Info(m app_msg.Message) {
-	z.InfoK(m.Key(), m.Params()...)
+	z.mq.Verify(m.Key())
+	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
 }
 
 func (z *Quiet) Error(m app_msg.Message) {
-	z.ErrorK(m.Key(), m.Params()...)
+	z.mq.Verify(m.Key())
+	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
+	z.log.Error(z.mc.Compile(m))
 }
 
 func (z *Quiet) Success(m app_msg.Message) {
@@ -96,14 +99,6 @@ func (z *Quiet) Success(m app_msg.Message) {
 func (z *Quiet) Failure(m app_msg.Message) {
 	z.mq.Verify(m.Key())
 	z.log.Debug(m.Key(), zap.Any("params", m.Params()))
-}
-
-func (z *Quiet) SuccessK(key string, p ...app_msg.P) {
-	z.Success(app_msg.M(key, p...))
-}
-
-func (z *Quiet) FailureK(key string, p ...app_msg.P) {
-	z.Failure(app_msg.M(key, p...))
 }
 
 func (z *Quiet) IsConsole() bool {
@@ -118,18 +113,6 @@ func (z *Quiet) OpenArtifact(path string, autoOpen bool) {
 	z.log.Debug("Open artifact", zap.String("path", path))
 }
 
-func (z *Quiet) TextK(key string, p ...app_msg.P) string {
-	z.mq.Verify(key)
-	return z.mc.Compile(app_msg.M(key, p...))
-}
-
-func (z *Quiet) TextOrEmptyK(key string, p ...app_msg.P) string {
-	if z.mc.Exists(key) {
-		return z.mc.Compile(app_msg.M(key, p...))
-	} else {
-		return ""
-	}
-}
 func (z *Quiet) SetLogger(log *zap.Logger) {
 	z.log = log
 }
@@ -138,27 +121,11 @@ func (z *Quiet) Break() {
 	z.log.Debug("Break")
 }
 
-func (z *Quiet) HeaderK(key string, p ...app_msg.P) {
-	z.mq.Verify(key)
-	z.log.Debug(key, zap.Any("params", p))
-}
-
 func (z *Quiet) InfoTable(name string) Table {
 	return &QuietTable{
 		log: z.log,
 		mq:  z.mq,
 	}
-}
-
-func (z *Quiet) InfoK(key string, p ...app_msg.P) {
-	z.mq.Verify(key)
-	z.log.Debug(key, zap.Any("params", p))
-}
-
-func (z *Quiet) ErrorK(key string, p ...app_msg.P) {
-	z.mq.Verify(key)
-	z.log.Debug(key, zap.Any("params", p))
-	z.log.Error(z.mc.Compile(app_msg.M(key, p...)))
 }
 
 type QuietTable struct {
