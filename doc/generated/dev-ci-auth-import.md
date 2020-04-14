@@ -29,10 +29,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option       | Description               | Default          |
-|--------------|---------------------------|------------------|
-| `-env-name`  | Environment variable name | TOOLBOX_ENDTOEND |
-| `-peer-name` | Account alias             | end_to_end_test  |
+| Option       | Description               | Default                |
+|--------------|---------------------------|------------------------|
+| `-env-name`  | Environment variable name | TOOLBOX_ENDTOEND_TOKEN |
+| `-peer-name` | Account alias             | end_to_end_test        |
 
 Common options:
 

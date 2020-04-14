@@ -1240,6 +1240,7 @@
   "recipe.file.sync.up.flag.chunk_size_kb": "Upload chunk size in KB",
   "recipe.file.sync.up.flag.dropbox_path": "Destination Dropbox path",
   "recipe.file.sync.up.flag.exclude_folder_name": "Exclude folders with specified name",
+  "recipe.file.sync.up.flag.fail_on_error": "Returns error when any error happens while the operation. This command will not return any error when this flag is not enabled. All errors are written in the report.",
   "recipe.file.sync.up.flag.local_path": "Local file path",
   "recipe.file.sync.up.flag.peer": "Account alias",
   "recipe.file.sync.up.title": "Upstream sync with Dropbox",

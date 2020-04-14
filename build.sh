@@ -136,8 +136,7 @@ for p in win win64 mac linux; do
   cp README.txt  $BUILD_PATH/"$p"/README.txt
   ( cd $BUILD_PATH/"$p" && zip -9 -r $BUILD_PATH/tbx-"$BUILD_VERSION"-"$p".zip . )
 done
-cp test/publish_release.sh $BUILD_PATH
-( cd $BUILD_PATH && zip -0 $DIST_PATH/tbx-"$BUILD_VERSION".zip *.zip publish_release.*)
+( cd $BUILD_PATH && zip -0 $DIST_PATH/tbx-"$BUILD_VERSION".zip *.zip)
 
 if [ x"$TOOLBOX_DEPLOY_TOKEN" = x"" ]; then
   exit 0

@@ -1240,6 +1240,7 @@
   "recipe.file.sync.up.flag.chunk_size_kb": "アップロードチャンク容量(Kバイト)",
   "recipe.file.sync.up.flag.dropbox_path": "転送先のDropboxパス",
   "recipe.file.sync.up.flag.exclude_folder_name": "指定した名前のフォルダを除外する",
+  "recipe.file.sync.up.flag.fail_on_error": "処理でエラーが発生した場合にエラーを返します. このコマンドはこのフラグが指定されない場合はどのエラーも返しません. 全てのエラーはレポートに書き込まれます.",
   "recipe.file.sync.up.flag.local_path": "ローカルファイルのパス",
   "recipe.file.sync.up.flag.peer": "アカウントの別名",
   "recipe.file.sync.up.title": "Dropboxと上り方向で同期します",
