@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"go.uber.org/zap"
 )
 
 type Up struct {
@@ -19,6 +20,7 @@ type Up struct {
 	DropboxPath mo_path.DropboxPath
 	ChunkSizeKb mo_int.RangeInt
 	Upload      *file.Upload
+	FailOnError bool
 }
 
 func (z *Up) Preset() {
@@ -26,7 +28,8 @@ func (z *Up) Preset() {
 }
 
 func (z *Up) Exec(c app_control.Control) error {
-	return rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
+	l := c.Log()
+	err := rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
 		ru := r.(*file.Upload)
 		ru.EstimateOnly = false
 		ru.LocalPath = z.LocalPath
@@ -36,6 +39,11 @@ func (z *Up) Exec(c app_control.Control) error {
 		ru.Context = z.Peer.Context()
 		ru.ChunkSizeKb = z.ChunkSizeKb.Value()
 	})
+	if z.FailOnError && err != nil {
+		l.Debug("Return error", zap.Error(err))
+		return err
+	}
+	return nil
 }
 
 func (z *Up) Test(c app_control.Control) error {

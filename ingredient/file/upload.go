@@ -153,11 +153,13 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 		localEntries, err := ioutil.ReadDir(path)
 		if err != nil {
 			ll.Debug("Unable to read dir", zap.Error(err))
+			z.Uploaded.Failure(err, &UploadRow{File: path})
 			return err
 		}
 		localPathRel, err := ut_filepath.Rel(localPath, path)
 		if err != nil {
 			ll.Debug("Unable to calc rel path", zap.Error(err))
+			z.Uploaded.Failure(err, &UploadRow{File: path})
 			return err
 		}
 
@@ -252,6 +254,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 }
 
 func (z *Upload) Exec(c app_control.Control) error {
+	l := c.Log().With(zap.String("src", z.LocalPath.Path()), zap.String("dest", z.DropboxPath.Path()))
 	if err := z.Uploaded.Open(rp_model.NoConsoleOutput()); err != nil {
 		return err
 	}
@@ -261,7 +264,9 @@ func (z *Upload) Exec(c app_control.Control) error {
 	if err := z.Summary.Open(); err != nil {
 		return err
 	}
+	l.Debug("Start uploading")
 	_, err := z.exec(c, z.LocalPath.Path(), z.DropboxPath.Path(), z.EstimateOnly)
+	l.Debug("Finished", zap.Error(err))
 	return err
 }
 
