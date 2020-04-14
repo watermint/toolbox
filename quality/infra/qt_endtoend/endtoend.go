@@ -13,7 +13,8 @@ const (
 	DeployEnvToken      = "TOOLBOX_DEPLOY_TOKEN"
 	EndToEndPeer        = "end_to_end_test"
 	EndToEndEnvTestSkip = "TOOLBOX_SKIPENDTOENDTEST"
-	EndToEndEnvToken    = "TOOLBOX_ENDTOEND"
+	EndToEndEnvToken    = "TOOLBOX_ENDTOEND_TOKEN"
+	TestResourceEnv     = "TOOLBOX_TEST_RESOURCE"
 
 	// Keys for ControlTestExtension keys
 	CtlTestExtUseMock = "use_mock"

@@ -25,6 +25,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filehash"
+	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
@@ -45,7 +46,7 @@ var (
 )
 
 type Publish struct {
-	TestResource              string
+	TestResource              mo_string.OptionalString
 	Branch                    string
 	SkipTests                 bool
 	ArtifactPath              mo_path2.FileSystemPath
@@ -74,7 +75,6 @@ type ArtifactSum struct {
 }
 
 func (z *Publish) Preset() {
-	z.TestResource = defaultTestResource
 	z.Branch = "master"
 }
 
@@ -207,18 +207,33 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 	l.Info("Ensure end to end resource availability")
 	if !dbx_conn_impl.IsEndToEndTokenAllAvailable(c) {
 		l.Error("At least one of end to end resource is not available.")
-		return errors.New("end to end resource is not available")
+		return qt_errors.ErrorNotEnoughResource
+	}
+
+	testResourcePath := ""
+	if z.TestResource.IsExists() {
+		testResourcePath = z.TestResource.Value()
+	} else {
+		v, ok := ut_runtime.EnvMap()[qt_endtoend.TestResourceEnv]
+		if ok {
+			testResourcePath = v
+		}
+	}
+
+	if testResourcePath == "" {
+		l.Error("Test resource is not found")
+		return qt_errors.ErrorNotEnoughResource
 	}
 
 	l.Info("Testing all end to end test")
 	err := rc_exec.Exec(c, &test.Recipe{}, func(r rc_recipe.Recipe) {
 		m := r.(*test.Recipe)
 		m.All = true
-		_, err := os.Lstat(z.TestResource)
+		_, err := os.Lstat(testResourcePath)
 		if err == nil {
-			m.Resource = mo_string.NewOptional(z.TestResource)
+			m.Resource = mo_string.NewOptional(testResourcePath)
 		} else {
-			l.Warn("Unable to read test resource", zap.String("path", z.TestResource), zap.Error(err))
+			l.Warn("Unable to read test resource", zap.String("path", testResourcePath), zap.Error(err))
 		}
 	})
 	return err
