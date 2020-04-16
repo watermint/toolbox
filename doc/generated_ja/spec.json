@@ -290,7 +290,7 @@
   },
   "dev catalogue": {
     "name": "catalogue",
-    "title": "Generate catalogue",
+    "title": "カタログを生成します",
     "desc": "",
     "remarks": "",
     "path": "dev catalogue",
@@ -8536,7 +8536,7 @@
           {
             "name": "title",
             "desc": "ファイルリクエストのタイトル",
-            "example": "Photo contest submission"
+            "example": "写真コンテスト"
           },
           {
             "name": "created",
@@ -8574,14 +8574,14 @@
     "values": [
       {
         "name": "File",
-        "desc": "Path to data file",
+        "desc": "データファイルへのパス",
         "default": "",
         "type_name": "infra.feed.fd_file_impl.row_feed",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "default",
         "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
         "type_attr": null

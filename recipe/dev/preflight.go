@@ -225,7 +225,8 @@ func (z *Preflight) Exec(c app_control.Control) error {
 
 		l.Info("Verify message objects")
 		for _, m := range cat.Messages() {
-			msgs := app_msg.Messages(m)
+			m1 := app_msg.Apply(m)
+			msgs := app_msg.Messages(m1)
 			for _, msg := range msgs {
 				l.Debug("message", zap.String("key", msg.Key()), zap.String("text", c.UI().Text(msg)))
 			}

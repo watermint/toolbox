@@ -2,9 +2,10 @@
 
 # 追加されたコマンド
 
-| コマンド      | タイトル           |
-|---------------|--------------------|
-| dev catalogue | Generate catalogue |
+| コマンド               | タイトル                          |
+|------------------------|-----------------------------------|
+| dev catalogue          | Generate catalogue                |
+| team filerequest clone | Clone file requests by given data |
 
 
 

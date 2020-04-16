@@ -1,6 +1,6 @@
 # dev catalogue 
 
-Generate catalogue 
+カタログを生成します 
 
 # 利用方法
 

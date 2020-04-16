@@ -1,34 +1,11 @@
 package catalogue
 
 import (
-	infra_api_api_api_auth_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
-	infra_recipe_rc_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
-	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
-	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
-	"github.com/watermint/toolbox/infra/api/api_callback"
 	"github.com/watermint/toolbox/infra/control/app_feature"
-	infra_control_app_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
-	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
-	infra_kvs_kv_storageimpl "github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
-	infra_network_nw_diag "github.com/watermint/toolbox/infra/network/nw_diag"
 	infra_recipe_rc_catalogue "github.com/watermint/toolbox/infra/recipe/rc_catalogue"
-	infra_recipe_rc_group "github.com/watermint/toolbox/infra/recipe/rc_group"
-	infra_recipe_rc_group_impl "github.com/watermint/toolbox/infra/recipe/rc_group_impl"
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	infra_recipe_rc_spec "github.com/watermint/toolbox/infra/recipe/rc_spec"
-	infra_recipe_rcvalue "github.com/watermint/toolbox/infra/recipe/rc_value"
-	infra_report_rpmodelimpl "github.com/watermint/toolbox/infra/report/rp_model_impl"
-	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
-	infra_ui_app_msg "github.com/watermint/toolbox/infra/ui/app_msg"
-	infra_ui_appui "github.com/watermint/toolbox/infra/ui/app_ui"
-	infra_util_ut_doc "github.com/watermint/toolbox/infra/util/ut_doc"
 	ingredientbootstrap "github.com/watermint/toolbox/ingredient/bootstrap"
-	ingredientfile "github.com/watermint/toolbox/ingredient/file"
-	ingredientjob "github.com/watermint/toolbox/ingredient/job"
-	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
-	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/recipe"
 	recipeconfig "github.com/watermint/toolbox/recipe/config"
 	recipeconnect "github.com/watermint/toolbox/recipe/connect"
@@ -231,16 +208,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 }
 
 func Ingredients() []infra_recipe_rc_recipe.Recipe {
-	cat := []infra_recipe_rc_recipe.Recipe{
-		&ingredientfile.Upload{},
-		&ingredientteamfolder.Replication{},
-		&ingredientteamnamespacefile.List{},
-		&ingredientteamnamespacefile.Size{},
-		&ingredientbootstrap.Bootstrap{},
-		&ingredientbootstrap.Autodelete{},
-		&ingredientjob.Delete{},
-	}
-	return cat
+	return AutoDetectedIngredients()
 }
 
 func Features() []app_feature.OptIn {
@@ -252,52 +220,5 @@ func Features() []app_feature.OptIn {
 }
 
 func Messages() []interface{} {
-	msgs := []interface{}{
-		api_auth_impl.MApiAuth,
-		api_callback.MCallback,
-		dbx_auth_attr.MAttr,
-		fd_file_impl.MRowFeed,
-		infra_api_api_api_auth_impl.MGenerated,
-		infra_control_app_workflow.MRunBook,
-		infra_kvs_kv_storageimpl.MStorage,
-		infra_network_nw_diag.MNetwork,
-		infra_recipe_rc_conn_impl.MConnect,
-		infra_recipe_rc_group.MHeader,
-		infra_recipe_rc_group_impl.MGroup,
-		infra_recipe_rc_spec.MSelfContained,
-		infra_recipe_rcvalue.MRepository,
-		infra_recipe_rcvalue.MValFdFileRowFeed,
-		infra_report_rpmodelimpl.MTransactionReport,
-		infra_ui_appui.MConsole,
-		infra_ui_appui.MProgress,
-		infra_util_ut_doc.MDoc,
-		ingredientteamnamespacefile.MList,
-		ingredientteamnamespacefile.MSize,
-		recipefile.MRestore,
-		recipefiledispatch.MLocal,
-		recipefileimportbatch.MUrl,
-		recipegroupmember.MList,
-		recipememberquota.MList,
-		recipememberquota.MUpdate,
-		recipememberquota.MUsage,
-		recipememberupdate.MEmail,
-		recipeservicesgithubreleaseasset.MUp,
-		recipesharedfoldermember.MList,
-		recipeteamactivity.MUser,
-		recipeteamactivitybatch.MUser,
-		recipeteamcontent.MScanMetadata,
-		recipeteamdevice.MUnlink,
-		recipeteamfilerequest.MList,
-		recipeteamnamespacemember.MList,
-		recipeteamsharedlink.MList,
-		recipeteamsharedlinkupdate.MExpiry,
-		rp_writer_impl.MSortedWriter,
-		rp_writer_impl.MXlsxWriter,
-		uc_compare_local.MCompare,
-		uc_compare_paths.MCompare,
-	}
-	for _, m := range msgs {
-		infra_ui_app_msg.Apply(m)
-	}
-	return msgs
+	return AutoDetectedMessageObjects()
 }

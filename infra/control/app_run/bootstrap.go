@@ -39,7 +39,7 @@ import (
 	"syscall"
 )
 
-type MsgRun struct {
+type msgRun struct {
 	ErrorInvalidArgument        app_msg.Message
 	ErrorTooManyArguments       app_msg.Message
 	ErrorInterrupted            app_msg.Message
@@ -52,7 +52,7 @@ type MsgRun struct {
 }
 
 var (
-	MRun = app_msg.Apply(&MsgRun{}).(*MsgRun)
+	MRun = app_msg.Apply(&msgRun{}).(*msgRun)
 )
 
 // Mutable object for running recipe

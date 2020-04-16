@@ -48,10 +48,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション | 説明              | デフォルト |
-|------------|-------------------|------------|
-| `-file`    | Path to data file |            |
-| `-peer`    | Account alias     | default    |
+| オプション | 説明                   | デフォルト |
+|------------|------------------------|------------|
+| `-file`    | データファイルへのパス |            |
+| `-peer`    | アカウントの別名       | default    |
 
 共通のオプション:
 
@@ -84,7 +84,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | given_name                  | ファイルリクエスト所有者の名                                              | John                                               |
 | file_request_id             | ファイルリクエストID                                                      | xxxxxxxxxxxxxxxxxx                                 |
 | url                         | ファイルリクエストのURL                                                   | https://www.dropbox.com/request/xxxxxxxxxxxxxxxxxx |
-| title                       | ファイルリクエストのタイトル                                              | Photo contest submission                           |
+| title                       | ファイルリクエストのタイトル                                              | 写真コンテスト                                     |
 | created                     | このファイルリクエストが作成された日時                                    | 2019-09-20T23:47:33Z                               |
 | is_open                     | このファイルリクエストがオープンしているかどうか                          | true                                               |
 | file_count                  | このファイルリクエストが受け取ったファイル数                              | 3                                                  |
@@ -96,7 +96,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ```csv
 account_id,team_member_id,email,status,surname,given_name,file_request_id,url,title,created,is_open,file_count,destination,deadline,deadline_allow_late_uploads
-dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john@example.com,active,Smith,John,xxxxxxxxxxxxxxxxxx,https://www.dropbox.com/request/xxxxxxxxxxxxxxxxxx,Photo contest submission,2019-09-20T23:47:33Z,true,3,/Photo contest entries,2019-10-20T23:47:33Z,seven_days
+dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john@example.com,active,Smith,John,xxxxxxxxxxxxxxxxxx,https://www.dropbox.com/request/xxxxxxxxxxxxxxxxxx,写真コンテスト,2019-09-20T23:47:33Z,true,3,/Photo contest entries,2019-10-20T23:47:33Z,seven_days
 ```
 
 # 認可
