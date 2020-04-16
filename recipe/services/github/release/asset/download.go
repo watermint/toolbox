@@ -6,10 +6,12 @@ import (
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_download"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -65,5 +67,19 @@ func (z *Download) Exec(c app_control.Control) error {
 }
 
 func (z *Download) Test(c app_control.Control) error {
-	return qt_errors.ErrorImplementMe
+	f, err := qt_file.MakeTestFolder("download", false)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		os.RemoveAll(f)
+	}()
+
+	return rc_exec.ExecMock(c, &Download{}, func(r rc_recipe.Recipe) {
+		m := r.(*Download)
+		m.Owner = "watermint"
+		m.Repository = "toolbox"
+		m.Release = "65.4.233"
+		m.Path = mo_path.NewFileSystemPath(f)
+	})
 }
