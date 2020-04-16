@@ -74,9 +74,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 一括でチームフォルダを作成する際のデータファイル. 
 
-| Column | Description      | Value example |
-|--------|------------------|---------------|
-| name   | チームフォルダ名 | 営業          |
+| 列   | 説明             | 値の例 |
+|------|------------------|--------|
+| name | チームフォルダ名 | 営業   |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
 
@@ -133,9 +133,9 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| Column     | Description                            |
-|------------|----------------------------------------|
-| status     | Status of the operation                |
-| reason     | Reason of failure or skipped operation |
-| input.name | チームフォルダ名                       |
+| 列         | 説明                     |
+|------------|--------------------------|
+| status     | 処理の状態               |
+| reason     | 失敗またはスキップの理由 |
+| input.name | チームフォルダ名         |
 

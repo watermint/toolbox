@@ -78,13 +78,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `uploads_0000.xlsx`, `uploads_0001.xlsx`, `uploads_0002.xlsx`...   
 
-| Column                | Description                            |
-|-----------------------|----------------------------------------|
-| status                | Status of the operation                |
-| reason                | Reason of failure or skipped operation |
-| input.file            | ファイルパス                           |
-| result.name           | アセット数                             |
-| result.size           | アセットのサイズ                       |
-| result.state          | アセットの状態                         |
-| result.download_count | ダウンロード数                         |
+| 列                    | 説明                     |
+|-----------------------|--------------------------|
+| status                | 処理の状態               |
+| reason                | 失敗またはスキップの理由 |
+| input.file            | ファイルパス             |
+| result.name           | アセット数               |
+| result.size           | アセットのサイズ         |
+| result.state          | アセットの状態           |
+| result.download_count | ダウンロード数           |
 

@@ -121,10 +121,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
-| Column                  | Description                                                                            |
+| 列                      | 説明                                                                                   |
 |-------------------------|----------------------------------------------------------------------------------------|
-| status                  | Status of the operation                                                                |
-| reason                  | Reason of failure or skipped operation                                                 |
+| status                  | 処理の状態                                                                             |
+| reason                  | 失敗またはスキップの理由                                                               |
 | input.name              | 名前空間の名称                                                                         |
 | input.namespace_type    | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
 | result.path             | フォルダへのパス                                                                       |

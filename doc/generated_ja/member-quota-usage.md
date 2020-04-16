@@ -115,7 +115,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   
 
-| Column     | Description                                             |
+| 列         | 説明                                                    |
 |------------|---------------------------------------------------------|
 | email      | アカウントのメールアドレス                              |
 | used_gb    | このユーザーの合計利用スペース (in GB, 1GB = 1024 MB).  |

@@ -118,7 +118,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`...   
 
-| Column     | Description                            |
+| 列         | 説明                                   |
 |------------|----------------------------------------|
 | id         | ファイルまたはフォルダへのリンクのID   |
 | tag        | エントリーの種別 (file, または folder) |

@@ -118,7 +118,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`...   
 
-| Column                   | Description                                                     |
+| 列                       | 説明                                                            |
 |--------------------------|-----------------------------------------------------------------|
 | timestamp                | このアクションが実行されたDropbox側でのタイムスタンプ.          |
 | member                   | ユーザーの表示名                                                |

@@ -73,9 +73,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 グループに対する一括操作のためのデータファイル. 
 
-| Column | Description | Value example |
-|--------|-------------|---------------|
-| name   | グループ名  | 営業          |
+| 列   | 説明       | 値の例 |
+|------|------------|--------|
+| name | グループ名 | 営業   |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
 
@@ -132,10 +132,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| Column                       | Description                                                                             |
+| 列                           | 説明                                                                                    |
 |------------------------------|-----------------------------------------------------------------------------------------|
-| status                       | Status of the operation                                                                 |
-| reason                       | Reason of failure or skipped operation                                                  |
+| status                       | 処理の状態                                                                              |
+| reason                       | 失敗またはスキップの理由                                                                |
 | input.name                   | グループ名                                                                              |
 | result.group_name            | グループ名称                                                                            |
 | result.group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |

@@ -116,10 +116,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| Column                       | Description                                                                             |
+| 列                           | 説明                                                                                    |
 |------------------------------|-----------------------------------------------------------------------------------------|
-| status                       | Status of the operation                                                                 |
-| reason                       | Reason of failure or skipped operation                                                  |
+| status                       | 処理の状態                                                                              |
+| reason                       | 失敗またはスキップの理由                                                                |
 | input.group_name             | グループ名称                                                                            |
 | input.member_email           | メンバーのメールアドレス                                                                |
 | result.group_name            | グループ名称                                                                            |

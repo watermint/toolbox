@@ -77,9 +77,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 メンバーのアクティビティを一括取得するためのデータファイル. 
 
-| Column | Description              | Value example    |
-|--------|--------------------------|------------------|
-| email  | ユーザーのメールアドレス | john@example.com |
+| 列    | 説明                     | 値の例           |
+|-------|--------------------------|------------------|
+| email | ユーザーのメールアドレス | john@example.com |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
 
@@ -136,7 +136,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `combined_0000.xlsx`, `combined_0001.xlsx`, `combined_0002.xlsx`...   
 
-| Column                   | Description                                                     |
+| 列                       | 説明                                                            |
 |--------------------------|-----------------------------------------------------------------|
 | timestamp                | このアクションが実行されたDropbox側でのタイムスタンプ.          |
 | member                   | ユーザーの表示名                                                |
@@ -165,7 +165,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`...   
 
-| Column                   | Description                                                     |
+| 列                       | 説明                                                            |
 |--------------------------|-----------------------------------------------------------------|
 | timestamp                | このアクションが実行されたDropbox側でのタイムスタンプ.          |
 | member                   | ユーザーの表示名                                                |

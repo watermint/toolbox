@@ -115,7 +115,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
 
-| Column         | Description                                                                                     |
+| 列             | 説明                                                                                            |
 |----------------|-------------------------------------------------------------------------------------------------|
 | email          | ユーザーのメールアドレス                                                                        |
 | email_verified | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |

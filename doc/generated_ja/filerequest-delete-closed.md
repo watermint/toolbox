@@ -114,7 +114,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`...   
 
-| Column                      | Description                                                             |
+| 列                          | 説明                                                                    |
 |-----------------------------|-------------------------------------------------------------------------|
 | id                          | ファイルリクエストのID                                                  |
 | url                         | ファイルリクエストのURL                                                 |

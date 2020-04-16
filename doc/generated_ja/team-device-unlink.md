@@ -75,7 +75,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 このレポートではチーム内の既存セッションとメンバー情報を一覧できます. 
 
-| Column                        | Description                                                            | Value example                              |
+| 列                            | 説明                                                                   | 値の例                                     |
 |-------------------------------|------------------------------------------------------------------------|--------------------------------------------|
 | team_member_id                | チームにおけるメンバーのID                                             | dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  |
 | email                         | ユーザーのメールアドレス                                               | john.smith@example.com                     |
@@ -161,10 +161,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| Column                              | Description                                                            |
+| 列                                  | 説明                                                                   |
 |-------------------------------------|------------------------------------------------------------------------|
-| status                              | Status of the operation                                                |
-| reason                              | Reason of failure or skipped operation                                 |
+| status                              | 処理の状態                                                             |
+| reason                              | 失敗またはスキップの理由                                               |
 | input.team_member_id                | チームにおけるメンバーのID                                             |
 | input.email                         | ユーザーのメールアドレス                                               |
 | input.status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   |

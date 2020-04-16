@@ -118,7 +118,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `matches_0000.xlsx`, `matches_0001.xlsx`, `matches_0002.xlsx`...   
 
-| Column         | Description                      |
+| 列             | 説明                             |
 |----------------|----------------------------------|
 | tag            | エントリーの種別                 |
 | path_display   | パス                             |

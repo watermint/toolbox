@@ -118,7 +118,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`...   
 
-| Column                   | Description                                                     |
+| 列                       | 説明                                                            |
 |--------------------------|-----------------------------------------------------------------|
 | timestamp                | このアクションが実行されたDropbox側でのタイムスタンプ.          |
 | member                   | ユーザーの表示名                                                |
@@ -147,15 +147,15 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `user_summary_0000.xlsx`, `user_summary_0001.xlsx`, `user_summary_0002.xlsx`...   
 
-| Column                 | Description                            |
-|------------------------|----------------------------------------|
-| status                 | Status of the operation                |
-| reason                 | Reason of failure or skipped operation |
-| input.user             | ユーザーのメールアドレス               |
-| result.logins          | ログインのアクティビティ数             |
-| result.devices         | デバイスのアクティビティ数             |
-| result.sharing         | 共有のアクティビティ数                 |
-| result.file_operations | ファイル操作のアクティビティ数         |
-| result.paper           | Paperのアクティビティ数                |
-| result.others          | その他のカテゴリのアクティビティ数     |
+| 列                     | 説明                               |
+|------------------------|------------------------------------|
+| status                 | 処理の状態                         |
+| reason                 | 失敗またはスキップの理由           |
+| input.user             | ユーザーのメールアドレス           |
+| result.logins          | ログインのアクティビティ数         |
+| result.devices         | デバイスのアクティビティ数         |
+| result.sharing         | 共有のアクティビティ数             |
+| result.file_operations | ファイル操作のアクティビティ数     |
+| result.paper           | Paperのアクティビティ数            |
+| result.others          | その他のカテゴリのアクティビティ数 |
 

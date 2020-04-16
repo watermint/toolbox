@@ -358,11 +358,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.file",
@@ -438,11 +438,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.file",
@@ -1946,11 +1946,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.url",
@@ -2420,11 +2420,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.path",
@@ -2679,11 +2679,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.file",
@@ -2759,11 +2759,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.file",
@@ -2851,11 +2851,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.file",
@@ -2931,11 +2931,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.file",
@@ -3041,11 +3041,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.file",
@@ -3121,11 +3121,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.file",
@@ -3673,11 +3673,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.name",
@@ -3836,11 +3836,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.group_name",
@@ -3914,11 +3914,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.group_name",
@@ -4056,11 +4056,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.current_name",
@@ -4242,11 +4242,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.job_id",
@@ -4459,11 +4459,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.email",
@@ -4533,11 +4533,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.email",
@@ -4607,11 +4607,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.email",
@@ -4847,11 +4847,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.email",
@@ -4998,11 +4998,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.email",
@@ -5122,11 +5122,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.src_email",
@@ -5205,11 +5205,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.from_email",
@@ -5324,11 +5324,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.email",
@@ -5436,11 +5436,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.email",
@@ -5736,11 +5736,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.file",
@@ -5990,11 +5990,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.owner",
@@ -6340,11 +6340,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.tag",
@@ -7046,11 +7046,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.user",
@@ -7421,11 +7421,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.team_member_id",
@@ -8158,11 +8158,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.name",
@@ -8383,11 +8383,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.email",
@@ -8958,11 +8958,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.name",
@@ -9340,11 +9340,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.tag",
@@ -9499,11 +9499,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.name",
@@ -9582,11 +9582,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.name",
@@ -9817,11 +9817,11 @@
         "columns": [
           {
             "name": "status",
-            "desc": "Status of the operation"
+            "desc": "処理の状態"
           },
           {
             "name": "reason",
-            "desc": "Reason of failure or skipped operation"
+            "desc": "失敗またはスキップの理由"
           },
           {
             "name": "input.name",
