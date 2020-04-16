@@ -30,7 +30,7 @@ var (
 	MUp = app_msg.Apply(&MsgUp{}).(*MsgUp)
 )
 
-type UpWorker struct {
+type UploadWorker struct {
 	file       mo_path.ExistingFileSystemPath
 	owner      string
 	repository string
@@ -41,7 +41,7 @@ type UpWorker struct {
 	queue      rc_worker.Queue
 }
 
-func (z *UpWorker) Exec() error {
+func (z *UploadWorker) Exec() error {
 	l := z.ctl.Log().With(
 		zap.String("owner", z.owner),
 		zap.String("repo", z.repository),
@@ -63,7 +63,7 @@ func (z *UpWorker) Exec() error {
 		}
 		for _, entry := range entries {
 			l.Debug("Enqueue", zap.String("entry", entry.Name()))
-			z.queue.Enqueue(&UpWorker{
+			z.queue.Enqueue(&UploadWorker{
 				file:       mo_path.NewExistingFileSystemPath(filepath.Join(z.file.Path(), entry.Name())),
 				owner:      z.owner,
 				repository: z.repository,
@@ -79,7 +79,7 @@ func (z *UpWorker) Exec() error {
 
 	ui.Progress(MUp.ProgressUpload.With("File", z.file.Path()))
 
-	uf := &UpFile{
+	uf := &UploadFile{
 		File: z.file.Path(),
 	}
 	asset, err := sv_release_asset.New(z.ctx, z.owner, z.repository, z.release.Id).Upload(z.file)
@@ -91,11 +91,11 @@ func (z *UpWorker) Exec() error {
 	return nil
 }
 
-type UpFile struct {
+type UploadFile struct {
 	File string `json:"file"`
 }
 
-type Up struct {
+type Upload struct {
 	Asset      mo_path.ExistingFileSystemPath
 	Owner      string
 	Repository string
@@ -104,15 +104,15 @@ type Up struct {
 	Uploads    rp_model.TransactionReport
 }
 
-func (z *Up) Preset() {
+func (z *Upload) Preset() {
 	z.Uploads.SetModel(
-		&UpFile{},
+		&UploadFile{},
 		&mo_release_asset.Asset{},
 		rp_model.HiddenColumns("result.id"),
 	)
 }
 
-func (z *Up) Exec(c app_control.Control) error {
+func (z *Upload) Exec(c app_control.Control) error {
 	if err := z.Uploads.Open(); err != nil {
 		return err
 	}
@@ -123,7 +123,7 @@ func (z *Up) Exec(c app_control.Control) error {
 	}
 
 	q := c.NewQueue()
-	q.Enqueue(&UpWorker{
+	q.Enqueue(&UploadWorker{
 		file:       z.Asset,
 		owner:      z.Owner,
 		repository: z.Repository,
@@ -136,7 +136,7 @@ func (z *Up) Exec(c app_control.Control) error {
 	return q.Wait()
 }
 
-func (z *Up) Test(c app_control.Control) error {
+func (z *Upload) Test(c app_control.Control) error {
 	f, err := qt_file.MakeTestFolder("github-release-asset", true)
 	if err != nil {
 		return err
@@ -145,8 +145,8 @@ func (z *Up) Test(c app_control.Control) error {
 		os.RemoveAll(f)
 	}()
 
-	return rc_exec.ExecMock(c, &Up{}, func(r rc_recipe.Recipe) {
-		m := r.(*Up)
+	return rc_exec.ExecMock(c, &Upload{}, func(r rc_recipe.Recipe) {
+		m := r.(*Upload)
 		m.Owner = "watermint"
 		m.Repository = "toolbox_sandbox"
 		m.Release = "0.0.2"

@@ -5,6 +5,6 @@ import (
 	"testing"
 )
 
-func TestUp_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Up{})
+func TestDownload_Exec(t *testing.T) {
+	qt_recipe.TestRecipe(t, &Download{})
 }

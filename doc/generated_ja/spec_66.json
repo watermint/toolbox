@@ -5643,6 +5643,82 @@
       }
     ]
   },
+  "services github release asset download": {
+    "name": "download",
+    "title": "Download assets",
+    "desc": "",
+    "remarks": "(試験的実装です)",
+    "path": "services github release asset download",
+    "cli_args": "-path /LOCAL/PATH/TO/DOWNLOAD",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": true,
+    "is_experimental": true,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "downloads",
+        "desc": "このレポートは処理結果を出力します.",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.file",
+            "desc": "File path"
+          }
+        ]
+      }
+    ],
+    "feeds": [],
+    "values": [
+      {
+        "name": "Owner",
+        "desc": "Owner of the repository",
+        "default": "",
+        "type_name": "string",
+        "type_attr": null
+      },
+      {
+        "name": "Path",
+        "desc": "Path to download",
+        "default": "",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
+        "type_attr": {
+          "shouldExist": false
+        }
+      },
+      {
+        "name": "Peer",
+        "desc": "Account alias",
+        "default": "default",
+        "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
+        "type_attr": null
+      },
+      {
+        "name": "Release",
+        "desc": "Release tag name",
+        "default": "",
+        "type_name": "string",
+        "type_attr": null
+      },
+      {
+        "name": "Repository",
+        "desc": "Name of the repository",
+        "default": "",
+        "type_name": "string",
+        "type_attr": null
+      }
+    ]
+  },
   "services github release asset list": {
     "name": "list",
     "title": "GitHubリリースの成果物一覧",
@@ -5678,6 +5754,10 @@
           {
             "name": "download_count",
             "desc": "ダウンロード数"
+          },
+          {
+            "name": "download_url",
+            "desc": "Download URL"
           }
         ]
       }
@@ -5714,12 +5794,12 @@
       }
     ]
   },
-  "services github release asset up": {
-    "name": "up",
-    "title": "GitHub リリースへ成果物をアップロードします",
+  "services github release asset upload": {
+    "name": "upload",
+    "title": "Upload assets file into the GitHub Release",
     "desc": "",
     "remarks": "(試験的実装です)",
-    "path": "services github release asset up",
+    "path": "services github release asset upload",
     "cli_args": "-asset /LOCAL/PATH/TO/assets",
     "cli_note": "",
     "conn_use_personal": false,
@@ -5744,7 +5824,7 @@
           },
           {
             "name": "input.file",
-            "desc": "ファイルパス"
+            "desc": "File path"
           },
           {
             "name": "result.name",
@@ -5761,6 +5841,10 @@
           {
             "name": "result.download_count",
             "desc": "ダウンロード数"
+          },
+          {
+            "name": "result.download_url",
+            "desc": "Download URL"
           }
         ]
       }
@@ -5769,7 +5853,7 @@
     "values": [
       {
         "name": "Asset",
-        "desc": "成果物のパス",
+        "desc": "Path to assets",
         "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
@@ -5778,28 +5862,28 @@
       },
       {
         "name": "Owner",
-        "desc": "レポジトリの所有者",
+        "desc": "Owner of the repository",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "アカウントの別名",
+        "desc": "Account alias",
         "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Release",
-        "desc": "リリースタグ名",
+        "desc": "Release tag name",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "レポジトリ名",
+        "desc": "Name of the repository",
         "default": "",
         "type_name": "string",
         "type_attr": null

@@ -8,7 +8,7 @@ import (
 )
 
 func Download(l *zap.Logger, url string, path string) error {
-	l.Info("Try download", zap.String("url", url))
+	l.Debug("Try download", zap.String("url", url))
 	resp, err := http.Get(url)
 	if err != nil {
 		l.Debug("Unable to create download request")

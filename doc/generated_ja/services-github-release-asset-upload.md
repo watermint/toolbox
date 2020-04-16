@@ -1,6 +1,6 @@
-# services github release asset list 
+# services github release asset upload 
 
-GitHubリリースの成果物一覧 (試験的実装です)
+Upload assets file into the GitHub Release (試験的実装です)
 
 # 利用方法
 
@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe services github release asset list 
+.\tbx.exe services github release asset upload -asset /LOCAL/PATH/TO/assets
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx services github release asset list 
+$HOME/Desktop/tbx services github release asset upload -asset /LOCAL/PATH/TO/assets
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -29,12 +29,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明               | デフォルト |
-|---------------|--------------------|------------|
-| `-owner`      | レポジトリの所有者 |            |
-| `-peer`       | アカウントの別名   | default    |
-| `-release`    | リリースタグ名     |            |
-| `-repository` | レポジトリ名       |            |
+| オプション    | 説明                    | デフォルト |
+|---------------|-------------------------|------------|
+| `-asset`      | Path to assets          |            |
+| `-owner`      | Owner of the repository |            |
+| `-peer`       | Account alias           | default    |
+| `-release`    | Release tag name        |            |
+| `-repository` | Name of the repository  |            |
 
 共通のオプション:
 
@@ -65,23 +66,26 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## レポート: assets 
-GitHub リリースの成果物
+## レポート: uploads 
+このレポートは処理結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
-* `assets.csv`
-* `assets.xlsx`
-* `assets.json`
+* `uploads.csv`
+* `uploads.xlsx`
+* `uploads.json`
 
 `-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`assets_0000.xlsx`, `assets_0001.xlsx`, `assets_0002.xlsx`...   
+`uploads_0000.xlsx`, `uploads_0001.xlsx`, `uploads_0002.xlsx`...   
 
-| 列             | 説明             |
-|----------------|------------------|
-| name           | アセット数       |
-| size           | アセットのサイズ |
-| state          | アセットの状態   |
-| download_count | ダウンロード数   |
-| download_url   | Download URL     |
+| 列                    | 説明                     |
+|-----------------------|--------------------------|
+| status                | 処理の状態               |
+| reason                | 失敗またはスキップの理由 |
+| input.file            | File path                |
+| result.name           | アセット数               |
+| result.size           | アセットのサイズ         |
+| result.state          | アセットの状態           |
+| result.download_count | ダウンロード数           |
+| result.download_url   | Download URL             |
 

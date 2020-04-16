@@ -328,7 +328,7 @@ func (z *Catalogue) scanMessages(c app_control.Control) {
 }
 
 func (z *Catalogue) Exec(c app_control.Control) error {
-	//	z.scanRecipe(c)
+	z.scanRecipe(c)
 	z.scanMessages(c)
 	return nil
 }

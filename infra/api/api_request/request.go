@@ -7,6 +7,7 @@ import (
 
 const (
 	ReqHeaderContentType           = "Content-Type"
+	ReqHeaderAccept                = "Accept"
 	ReqHeaderContentLength         = "Content-Length"
 	ReqHeaderAuthorization         = "Authorization"
 	ReqHeaderUserAgent             = "User-Agent"

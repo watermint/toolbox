@@ -1,6 +1,6 @@
-# services github release asset list 
+# services github release asset upload 
 
-List assets of GitHub Release (Experimental)
+Upload assets file into the GitHub Release (Experimental)
 
 # Usage
 
@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe services github release asset list 
+.\tbx.exe services github release asset upload -asset /LOCAL/PATH/TO/assets
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx services github release asset list 
+$HOME/Desktop/tbx services github release asset upload -asset /LOCAL/PATH/TO/assets
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -31,6 +31,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option        | Description             | Default |
 |---------------|-------------------------|---------|
+| `-asset`      | Path to assets          |         |
 | `-owner`      | Owner of the repository |         |
 | `-peer`       | Account alias           | default |
 | `-release`    | Release tag name        |         |
@@ -65,23 +66,26 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: assets 
-GitHub Release assets
+## Report: uploads 
+This report shows the transaction result.
 Report files are generated in three formats like below;
-* `assets.csv`
-* `assets.xlsx`
-* `assets.json`
+* `uploads.csv`
+* `uploads.xlsx`
+* `uploads.json`
 
 But if you run with `-low-memory` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`assets_0000.xlsx`, `assets_0001.xlsx`, `assets_0002.xlsx`...   
+`uploads_0000.xlsx`, `uploads_0001.xlsx`, `uploads_0002.xlsx`...   
 
-| Column         | Description         |
-|----------------|---------------------|
-| name           | Name of the asset   |
-| size           | Size of the asset   |
-| state          | State of the asset  |
-| download_count | Number of downloads |
-| download_url   | Download URL        |
+| Column                | Description                            |
+|-----------------------|----------------------------------------|
+| status                | Status of the operation                |
+| reason                | Reason of failure or skipped operation |
+| input.file            | File path                              |
+| result.name           | Name of the asset                      |
+| result.size           | Size of the asset                      |
+| result.state          | State of the asset                     |
+| result.download_count | Number of downloads                    |
+| result.download_url   | Download URL                           |
 
