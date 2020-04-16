@@ -19,8 +19,9 @@ import (
 )
 
 type MsgRestore struct {
-	ProgressRestore app_msg.Message
-	ProgressFinish  app_msg.Message
+	ProgressRestore  app_msg.Message
+	ProgressFinish   app_msg.Message
+	SkipIsNotDeleted app_msg.Message
 }
 
 var (
@@ -54,7 +55,7 @@ func (z *RestoreWorker) Exec() error {
 	}
 	if !revs.IsDeleted {
 		l.Debug("The file is not deleted")
-		z.rep.Skip(app_msg.M("recipe.file.restore.skip.is_not_deleted"), target)
+		z.rep.Skip(MRestore.SkipIsNotDeleted, target)
 		return nil
 	}
 	if len(revs.Entries) < 1 {

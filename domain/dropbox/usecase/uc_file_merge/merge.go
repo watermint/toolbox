@@ -16,6 +16,17 @@ import (
 	"time"
 )
 
+type MsgMerge struct {
+	RemoveEmptyFolder    app_msg.Message
+	RemoveDuplicatedFile app_msg.Message
+	RemoveOldContent     app_msg.Message
+	MoveFile             app_msg.Message
+}
+
+var (
+	MMerge = app_msg.Apply(&MsgMerge{}).(*MsgMerge)
+)
+
 type Merge interface {
 	Merge(from, to mo_path.DropboxPath, opts ...MergeOpt) error
 }
@@ -89,10 +100,7 @@ func (z *mergeImpl) mergeFile(from, to *mo_file.File) error {
 	// remove same content hash file
 	if from.ContentHash == to.ContentHash {
 		l.Debug("Same content hash", zap.String("contentHash", from.ContentHash))
-		m := app_msg.M("usecase.uc_file_merge.remove_duplicated_file",
-			app_msg.P{
-				"FromPath": from.PathDisplay(),
-			})
+		m := MMerge.RemoveDuplicatedFile.With("FromPath", from.PathDisplay())
 		return z.doOperation(m, func() error {
 			entry, err := sv_file.NewFiles(z.ctx).Remove(mo_path.NewPathDisplay(from.PathDisplay()))
 			if err != nil {
@@ -120,10 +128,7 @@ func (z *mergeImpl) mergeFile(from, to *mo_file.File) error {
 	// remove old content
 	if toTs.After(fromTs) {
 		l.Debug("Remove the old file at from path")
-		m := app_msg.M("usecase.uc_file_merge.remove_old_content",
-			app_msg.P{
-				"FromPath": from.PathDisplay(),
-			})
+		m := MMerge.RemoveOldContent.With("FromPath", from.PathDisplay())
 		return z.doOperation(m, func() error {
 			entry, err := sv_file.NewFiles(z.ctx).Remove(mo_path.NewPathDisplay(from.PathDisplay()))
 			if err != nil {
@@ -138,12 +143,7 @@ func (z *mergeImpl) mergeFile(from, to *mo_file.File) error {
 	// overwrite `from file` to `to path`
 	fp := mo_path.NewPathDisplay(from.PathDisplay())
 	tp := mo_path.NewPathDisplay(to.PathDisplay())
-	m := app_msg.M("usecase.uc_file_merge.move_file",
-		app_msg.P{
-			"FromPath": from.PathDisplay(),
-			"ToPath":   to.PathDisplay(),
-		},
-	)
+	m := MMerge.MoveFile.With("FromPath", from.PathDisplay()).With("ToPath", to.PathDisplay())
 	return z.doOperation(m, func() error {
 		entry, err := sv_file_relocation.New(z.ctx, sv_file_relocation.AutoRename(false)).Move(fp, tp)
 		if err != nil {
@@ -174,12 +174,7 @@ func (z *mergeImpl) moveFile(from *mo_file.File) error {
 	fp := mo_path.NewPathDisplay(from.PathDisplay())
 	tp := z.to.ChildPath(filepath.Dir(p), from.Name())
 	l.Debug("move file")
-	m := app_msg.M("usecase.uc_file_merge.move_file",
-		app_msg.P{
-			"FromPath": from.PathDisplay(),
-			"ToPath":   tp.Path(),
-		},
-	)
+	m := MMerge.MoveFile.With("FromPath", from.PathDisplay()).With("ToPath", tp.Path())
 	return z.doOperation(m, func() error {
 		entry, err := sv_file_relocation.New(z.ctx).Move(fp, tp)
 		if err != nil {
@@ -211,12 +206,7 @@ func (z *mergeImpl) moveFolder(from *mo_file.Folder) error {
 	l = l.With(zap.String("toPath", tp.Path()))
 
 	// move
-	m := app_msg.M("usecase.uc_file_merge.move_file",
-		app_msg.P{
-			"FromPath": from.PathDisplay(),
-			"ToPath":   tp.Path(),
-		},
-	)
+	m := MMerge.MoveFile.With("FromPath", from.PathDisplay()).With("ToPath", tp.Path())
 	return z.doOperation(m, func() error {
 		l.Debug("move folder")
 		return uc_file_relocation.New(z.ctx).Move(fp, tp)
@@ -360,11 +350,7 @@ func (z *mergeImpl) merge(path string) error {
 		}
 		if len(entries) < 1 {
 			l.Debug("Try clean up folder")
-			m := app_msg.M("usecase.uc_file_merge.remove_empty_folder",
-				app_msg.P{
-					"FromPath": fromPath.Path(),
-				},
-			)
+			m := MMerge.RemoveEmptyFolder.With("FromPath", fromPath.Path())
 			z.doOperation(m, func() error {
 				entry, err := sv_file.NewFiles(z.ctx).Remove(fromPath)
 				if err != nil {

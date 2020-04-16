@@ -116,10 +116,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`...   
 
-| 列                     | 説明                                                         |
+| Column                 | Description                                                  |
 |------------------------|--------------------------------------------------------------|
-| status                 | 処理の状態                                                   |
-| reason                 | 失敗またはスキップの理由                                     |
+| status                 | Status of the operation                                      |
+| reason                 | Reason of failure or skipped operation                       |
 | input.file             | ローカルファイルのパス                                       |
 | input.size             | ローカルファイルのサイズ                                     |
 | result.name            | 名称                                                         |
@@ -141,7 +141,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
 
-| 列               | 説明                                             |
+| Column           | Description                                      |
 |------------------|--------------------------------------------------|
 | upload_start     | アップロード開始日時                             |
 | upload_end       | アップロード終了日時                             |
@@ -163,10 +163,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
 
-| 列                     | 説明                                                         |
+| Column                 | Description                                                  |
 |------------------------|--------------------------------------------------------------|
-| status                 | 処理の状態                                                   |
-| reason                 | 失敗またはスキップの理由                                     |
+| status                 | Status of the operation                                      |
+| reason                 | Reason of failure or skipped operation                       |
 | input.file             | ローカルファイルのパス                                       |
 | input.size             | ローカルファイルのサイズ                                     |
 | result.name            | 名称                                                         |

@@ -8,6 +8,7 @@ import (
 	domain_dropbox_api_dbx_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	domain_dropbox_usecase_uc_compare_local "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
 	domain_dropbox_usecase_uc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
+	domain_dropbox_usecase_uc_file_merge "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
 	infra_api_api_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
 	infra_api_api_callback "github.com/watermint/toolbox/infra/api/api_callback"
 	infra_control_app_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
@@ -23,11 +24,13 @@ import (
 	infra_ui_app_doc "github.com/watermint/toolbox/infra/ui/app_doc"
 	infra_ui_app_ui "github.com/watermint/toolbox/infra/ui/app_ui"
 	infra_util_ut_doc "github.com/watermint/toolbox/infra/util/ut_doc"
+	ingredient_file "github.com/watermint/toolbox/ingredient/file"
 	ingredient_team_namespace_file "github.com/watermint/toolbox/ingredient/team/namespace/file"
 	recipe_file "github.com/watermint/toolbox/recipe/file"
 	recipe_file_dispatch "github.com/watermint/toolbox/recipe/file/dispatch"
 	recipe_file_import_batch "github.com/watermint/toolbox/recipe/file/import/batch"
 	recipe_group_member "github.com/watermint/toolbox/recipe/group/member"
+	recipe_member "github.com/watermint/toolbox/recipe/member"
 	recipe_member_quota "github.com/watermint/toolbox/recipe/member/quota"
 	recipe_member_update "github.com/watermint/toolbox/recipe/member/update"
 	recipe_services_github_release_asset "github.com/watermint/toolbox/recipe/services/github/release/asset"
@@ -49,6 +52,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domain_dropbox_api_dbx_conn_impl.MsgConnect{},
 		&domain_dropbox_usecase_uc_compare_local.MsgCompare{},
 		&domain_dropbox_usecase_uc_compare_paths.MsgCompare{},
+		&domain_dropbox_usecase_uc_file_merge.MsgMerge{},
 		&infra_api_api_auth_impl.MsgApiAuth{},
 		&infra_api_api_callback.MsgCallback{},
 		&infra_control_app_workflow.MsgRunBook{},
@@ -60,19 +64,23 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infra_recipe_rc_spec.MsgSelfContained{},
 		&infra_recipe_rc_value.MsgRepository{},
 		&infra_recipe_rc_value.MsgValFdFileRowFeed{},
+		&infra_report_rp_model_impl.MsgColumnSpec{},
 		&infra_report_rp_model_impl.MsgTransactionReport{},
 		&infra_report_rp_writer_impl.MsgSortedWriter{},
 		&infra_report_rp_writer_impl.MsgXlsxWriter{},
 		&infra_ui_app_doc.MsgDoc{},
 		&infra_ui_app_ui.MsgConsole{},
 		&infra_ui_app_ui.MsgProgress{},
+		&infra_util_ut_doc.MsgCommands{},
 		&infra_util_ut_doc.MsgDoc{},
+		&ingredient_file.MsgUpload{},
 		&ingredient_team_namespace_file.MsgList{},
 		&ingredient_team_namespace_file.MsgSize{},
 		&recipe_file.MsgRestore{},
 		&recipe_file_dispatch.MsgLocal{},
 		&recipe_file_import_batch.MsgUrl{},
 		&recipe_group_member.MsgList{},
+		&recipe_member.MsgInvite{},
 		&recipe_member_quota.MsgList{},
 		&recipe_member_quota.MsgUpdate{},
 		&recipe_member_quota.MsgUsage{},

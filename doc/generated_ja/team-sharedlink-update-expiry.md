@@ -118,7 +118,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`...   
 
-| 列         | 説明                                                                 |
+| Column     | Description                                                          |
 |------------|----------------------------------------------------------------------|
 | tag        | エントリーの種別 (file, または folder)                               |
 | url        | 共有リンクのURL.                                                     |
@@ -143,10 +143,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `updated_0000.xlsx`, `updated_0001.xlsx`, `updated_0002.xlsx`...   
 
-| 列               | 説明                                                                 |
+| Column           | Description                                                          |
 |------------------|----------------------------------------------------------------------|
-| status           | 処理の状態                                                           |
-| reason           | 失敗またはスキップの理由                                             |
+| status           | Status of the operation                                              |
+| reason           | Reason of failure or skipped operation                               |
 | input.tag        | エントリーの種別 (file, または folder)                               |
 | input.url        | 共有リンクのURL.                                                     |
 | input.name       | リンク先ファイル名称                                                 |

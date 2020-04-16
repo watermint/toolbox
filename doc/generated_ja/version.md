@@ -70,7 +70,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `versions_0000.xlsx`, `versions_0001.xlsx`, `versions_0002.xlsx`...   
 
-| 列        | 説明           |
+| Column    | Description    |
 |-----------|----------------|
 | key       | キー           |
 | component | コンポーネント |

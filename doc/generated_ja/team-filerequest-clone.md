@@ -74,7 +74,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 このレポートはチームメンバーのもつファイルリクエストを一覧します. 
 
-| 列                          | 説明                                                                      | 値の例                                             |
+| Column                      | Description                                                               | Value example                                      |
 |-----------------------------|---------------------------------------------------------------------------|----------------------------------------------------|
 | account_id                  | ファイルリクエスト所有者のアカウントID                                    | dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx           |
 | team_member_id              | ファイルリクエスト所有者のチームメンバーとしてのID                        | dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          |
@@ -147,10 +147,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列                                 | 説明                                                                      |
+| Column                             | Description                                                               |
 |------------------------------------|---------------------------------------------------------------------------|
-| status                             | 処理の状態                                                                |
-| reason                             | 失敗またはスキップの理由                                                  |
+| status                             | Status of the operation                                                   |
+| reason                             | Reason of failure or skipped operation                                    |
 | input.email                        | ファイルリクエスト所有者のメールアドレス                                  |
 | input.status                       | ファイルリクエスト所有者ユーザーの状態 (active/invited/suspended/removed) |
 | input.surname                      | ファイルリクエスト所有者の名字                                            |

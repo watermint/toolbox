@@ -115,7 +115,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`...   
 
-| 列                   | 説明                                                                                                            |
+| Column               | Description                                                                                                     |
 |----------------------|-----------------------------------------------------------------------------------------------------------------|
 | path                 | パス                                                                                                            |
 | is_team_folder       | チームフォルダまたはチームフォルダ下のフォルダの場合 `true`                                                     |

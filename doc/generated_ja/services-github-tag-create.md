@@ -78,16 +78,16 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`...   
 
-| 列               | 説明                     |
-|------------------|--------------------------|
-| status           | 処理の状態               |
-| reason           | 失敗またはスキップの理由 |
-| input.owner      | レポジトリの所有者       |
-| input.repository | レポジトリ名             |
-| input.tag        | タグ名                   |
-| input.sha_1      | コミットのSHA1ハッシュ   |
-| result.tag       | タグ名                   |
-| result.sha       | コミットのSHA1ハッシュ   |
-| result.message   | コミットメッセージ       |
-| result.url       | タグのURL                |
+| Column           | Description                            |
+|------------------|----------------------------------------|
+| status           | Status of the operation                |
+| reason           | Reason of failure or skipped operation |
+| input.owner      | レポジトリの所有者                     |
+| input.repository | レポジトリ名                           |
+| input.tag        | タグ名                                 |
+| input.sha_1      | コミットのSHA1ハッシュ                 |
+| result.tag       | タグ名                                 |
+| result.sha       | コミットのSHA1ハッシュ                 |
+| result.message   | コミットメッセージ                     |
+| result.url       | タグのURL                              |
 

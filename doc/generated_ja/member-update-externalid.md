@@ -73,7 +73,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 メンバーの外部ID(External ID)を変更するためのデータファイル. 
 
-| 列          | 説明                           | 値の例           |
+| Column      | Description                    | Value example    |
 |-------------|--------------------------------|------------------|
 | email       | チームメンバーのメールアドレス | john@example.com |
 | external_id | チームメンバーのExternal ID    | 0123456789       |
@@ -133,10 +133,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列                    | 説明                                                                                            |
+| Column                | Description                                                                                     |
 |-----------------------|-------------------------------------------------------------------------------------------------|
-| status                | 処理の状態                                                                                      |
-| reason                | 失敗またはスキップの理由                                                                        |
+| status                | Status of the operation                                                                         |
+| reason                | Reason of failure or skipped operation                                                          |
 | input.email           | チームメンバーのメールアドレス                                                                  |
 | input.external_id     | チームメンバーのExternal ID                                                                     |
 | result.email          | ユーザーのメールアドレス                                                                        |

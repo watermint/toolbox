@@ -76,10 +76,10 @@ GitHub 課題
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `issues_0000.xlsx`, `issues_0001.xlsx`, `issues_0002.xlsx`...   
 
-| 列     | 説明       |
-|--------|------------|
-| number | 課題番号   |
-| url    | 課題のURL  |
-| title  | タイトル   |
-| state  | 課題の状態 |
+| Column | Description |
+|--------|-------------|
+| number | 課題番号    |
+| url    | 課題のURL   |
+| title  | タイトル    |
+| state  | 課題の状態  |
 

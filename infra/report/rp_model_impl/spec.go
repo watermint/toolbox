@@ -12,6 +12,15 @@ import (
 	"go.uber.org/zap"
 )
 
+type MsgColumnSpec struct {
+	TransactionRowStatus app_msg.Message
+	TransactionRowReason app_msg.Message
+}
+
+var (
+	MColumnSpec = app_msg.Apply(&MsgColumnSpec{}).(*MsgColumnSpec)
+)
+
 func newSpec(name string, model interface{}, opts []rp_model.ReportOpt) rp_model.Spec {
 	ro := &rp_model.ReportOpts{}
 	for _, o := range opts {
@@ -52,8 +61,8 @@ func newSpec(name string, model interface{}, opts []rp_model.ReportOpt) rp_model
 		cols = append(cols, cm(md.Input, "input.")...)
 		cols = append(cols, cm(md.Result, "result.")...)
 
-		colDesc["status"] = app_msg.M("infra.report.rp_model.transactionrow.status")
-		colDesc["reason"] = app_msg.M("infra.report.rp_model.transactionrow.reason")
+		colDesc["status"] = MColumnSpec.TransactionRowStatus
+		colDesc["reason"] = MColumnSpec.TransactionRowReason
 
 	default:
 		cols = cm(model, "")

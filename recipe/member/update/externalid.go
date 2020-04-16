@@ -30,6 +30,7 @@ type Externalid struct {
 	Peer         dbx_conn.ConnBusinessMgmt
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
+	SkipNotFound app_msg.Message
 }
 
 func (z *Externalid) Preset() {
@@ -65,7 +66,7 @@ func (z *Externalid) Exec(c app_control.Control) error {
 
 		mem, ok := emailToMember[row.Email]
 		if !ok {
-			z.OperationLog.Skip(app_msg.M("recipe.member.update.externalid.skip.not_found"), m)
+			z.OperationLog.Skip(z.SkipNotFound, m)
 			return nil
 		}
 

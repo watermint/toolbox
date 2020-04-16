@@ -116,7 +116,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`...   
 
-| 列                 | 説明                                                                                                 |
+| Column             | Description                                                                                          |
 |--------------------|------------------------------------------------------------------------------------------------------|
 | namespace_name     | 名前空間の名称                                                                                       |
 | namespace_type     | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)               |

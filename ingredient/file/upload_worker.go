@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_filecompare"
 	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"go.uber.org/zap"
@@ -80,7 +79,7 @@ func (z *UploadWorker) Exec() (err error) {
 			//	"File": z.localFilePath,
 			//})
 
-			z.upload.Skipped.Skip(app_msg.M("usecase.uc_file_upload.skip.file_exists"), upRow)
+			z.upload.Skipped.Skip(MUpload.SkipFileExists, upRow)
 			z.status.skip()
 			return nil
 		}

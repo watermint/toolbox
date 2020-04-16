@@ -29,6 +29,20 @@ import (
 	"text/template"
 )
 
+type MsgCommands struct {
+	ReportHeaderName     app_msg.Message
+	ReportHeaderDesc     app_msg.Message
+	FeedHeaderName       app_msg.Message
+	FeedHeaderDesc       app_msg.Message
+	FeedHeaderExample    app_msg.Message
+	CommandHeaderCommand app_msg.Message
+	CommandHeaderDesc    app_msg.Message
+}
+
+var (
+	MCommands = app_msg.Apply(&MsgCommands{}).(*MsgCommands)
+)
+
 var (
 	ErrorCliArgSuggestFound = errors.New("cli.arg message might required")
 )
@@ -67,8 +81,8 @@ func (z *Commands) reportTable(ctl app_control.Control, rs rp_model.Spec) string
 	mt := mui.InfoTable("")
 
 	mt.Header(
-		app_msg.M("recipe.dev.doc.report.header.name"),
-		app_msg.M("recipe.dev.doc.report.header.description"),
+		MCommands.ReportHeaderName,
+		MCommands.ReportHeaderDesc,
 	)
 
 	cols := rs.Columns()
@@ -93,9 +107,9 @@ func (z *Commands) feedTable(ctl app_control.Control, spec fd_file.Spec) string 
 	mt := mui.InfoTable(spec.Name())
 
 	mt.Header(
-		app_msg.M("recipe.dev.doc.feed.header.name"),
-		app_msg.M("recipe.dev.doc.feed.header.description"),
-		app_msg.M("recipe.dev.doc.feed.header.example"),
+		MCommands.FeedHeaderName,
+		MCommands.FeedHeaderDesc,
+		MCommands.FeedHeaderExample,
 	)
 
 	cols := spec.Columns()

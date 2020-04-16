@@ -114,7 +114,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
 
-| 列                    | 説明                                                                                                 |
+| Column                | Description                                                                                          |
 |-----------------------|------------------------------------------------------------------------------------------------------|
 | name                  | 共有フォルダの名称                                                                                   |
 | path_lower            | 共有フォルダのフルパス(小文字に変換済み).                                                            |

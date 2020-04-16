@@ -115,7 +115,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`...   
 
-| 列                    | 説明                                                                                    |
+| Column                | Description                                                                             |
 |-----------------------|-----------------------------------------------------------------------------------------|
 | group_name            | グループ名称                                                                            |
 | group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |

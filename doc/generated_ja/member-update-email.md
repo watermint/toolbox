@@ -74,7 +74,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 チームメンバーのメールアドレスを変更処理するためのデータファイル. 
 
-| 列         | 説明                 | 値の例                 |
+| Column     | Description          | Value example          |
 |------------|----------------------|------------------------|
 | from_email | 現在のメールアドレス | john@example.com       |
 | to_email   | 新しいメールアドレス | john.smith@example.net |
@@ -134,10 +134,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列                    | 説明                                                                                            |
+| Column                | Description                                                                                     |
 |-----------------------|-------------------------------------------------------------------------------------------------|
-| status                | 処理の状態                                                                                      |
-| reason                | 失敗またはスキップの理由                                                                        |
+| status                | Status of the operation                                                                         |
+| reason                | Reason of failure or skipped operation                                                          |
 | input.from_email      | 現在のメールアドレス                                                                            |
 | input.to_email        | 新しいメールアドレス                                                                            |
 | result.email          | ユーザーのメールアドレス                                                                        |

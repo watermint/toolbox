@@ -115,7 +115,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`...   
 
-| 列              | 説明                                                                                                             |
+| Column          | Description                                                                                                      |
 |-----------------|------------------------------------------------------------------------------------------------------------------|
 | path            | パス                                                                                                             |
 | folder_type     | フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ) |
@@ -137,7 +137,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`...   
 
-| 列              | 説明                                                                                                             |
+| Column          | Description                                                                                                      |
 |-----------------|------------------------------------------------------------------------------------------------------------------|
 | owner_team_name | このフォルダを所有するチームの名前                                                                               |
 | path            | パス                                                                                                             |

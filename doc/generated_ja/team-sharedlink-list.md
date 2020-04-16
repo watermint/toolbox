@@ -116,7 +116,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
 
-| 列         | 説明                                                                 |
+| Column     | Description                                                          |
 |------------|----------------------------------------------------------------------|
 | tag        | エントリーの種別 (file, または folder)                               |
 | url        | 共有リンクのURL.                                                     |

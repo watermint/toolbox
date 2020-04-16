@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
@@ -68,8 +67,8 @@ func (z *Readme) commands() string {
 	mt := mui.InfoTable("Commands")
 
 	mt.Header(
-		app_msg.M("recipe.dev.doc.commands.header.command"),
-		app_msg.M("recipe.dev.doc.commands.header.description"),
+		MCommands.CommandHeaderCommand,
+		MCommands.CommandHeaderDesc,
 	)
 	sort.Strings(keys)
 	for _, k := range keys {

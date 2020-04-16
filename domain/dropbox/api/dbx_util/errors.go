@@ -1,7 +1,6 @@
 package dbx_util
 
 import (
-	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"regexp"
@@ -27,28 +26,6 @@ func ErrorSummary(err error) string {
 
 func ErrorSummaryPrefix(err error, prefix string) bool {
 	return strings.HasPrefix(ErrorSummary(err), prefix)
-}
-
-// Returns `error_summary` if an error is ApiError. Otherwise return "".
-func ErrorBody(err error) json.RawMessage {
-	switch re := err.(type) {
-	case dbx_error.ApiError:
-		return re.ErrorBody
-
-	default:
-		return nil
-	}
-}
-
-// Returns `error_summary` if an error is ApiError. Otherwise return "".
-func ErrorTag(err error) string {
-	switch re := err.(type) {
-	case dbx_error.ApiError:
-		return re.ErrorTag
-
-	default:
-		return ""
-	}
 }
 
 // Returns `user_message` if an error is ApiError. Otherwise return Error().

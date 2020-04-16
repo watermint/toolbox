@@ -27,6 +27,15 @@ import (
 	"time"
 )
 
+type MsgUpload struct {
+	SkipDontSync   app_msg.Message
+	SkipFileExists app_msg.Message
+}
+
+var (
+	MUpload = app_msg.Apply(&MsgUpload{}).(*MsgUpload)
+)
+
 const (
 	statusReportInterval = 15 * time.Second
 )
@@ -193,7 +202,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 				}
 				status.skip()
 				z.Skipped.Skip(
-					app_msg.M("usecase.uc_file_upload.skip.dont_sync"),
+					MUpload.SkipDontSync,
 					UploadRow{
 						File: p,
 						Size: ps,

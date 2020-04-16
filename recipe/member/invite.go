@@ -16,6 +16,16 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
+type MsgInvite struct {
+	TagUserAlreadyOnTeam app_msg.Message
+	TagUserOnAnotherTeam app_msg.Message
+	TagUndefined         app_msg.Message
+}
+
+var (
+	MInvite = app_msg.Apply(&MsgInvite{}).(*MsgInvite)
+)
+
 type InviteRow struct {
 	Email     string `json:"email"`
 	GivenName string `json:"given_name"`
@@ -70,7 +80,13 @@ func (z *Invite) Test(c app_control.Control) error {
 }
 
 func (z *Invite) msgFromTag(tag string) app_msg.Message {
-	return app_msg.M("recipe.member.invite.tag." + tag)
+	switch tag {
+	case "user_already_on_team":
+		return MInvite.TagUserAlreadyOnTeam
+	case "user_on_another_team":
+		return MInvite.TagUserOnAnotherTeam
+	}
+	return MInvite.TagUndefined.With("Tag", tag)
 }
 
 func (z *Invite) Exec(c app_control.Control) error {

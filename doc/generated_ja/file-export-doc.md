@@ -116,7 +116,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列              | 説明                                                                                       |
+| Column          | Description                                                                                |
 |-----------------|--------------------------------------------------------------------------------------------|
 | name            | 名称                                                                                       |
 | path_display    | パス (表示目的で大文字小文字を区別する).                                                   |
