@@ -288,6 +288,25 @@
       }
     ]
   },
+  "dev catalogue": {
+    "name": "catalogue",
+    "title": "Generate catalogue",
+    "desc": "",
+    "remarks": "",
+    "path": "dev catalogue",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": [],
+    "values": []
+  },
   "dev ci artifact connect": {
     "name": "connect",
     "title": "CI成果物をアップロードするためのDropboxアカウントに接続",

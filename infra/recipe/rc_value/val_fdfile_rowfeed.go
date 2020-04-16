@@ -125,7 +125,7 @@ func FeedSpec(spec fd_file.Spec, ui app_ui.UI) {
 	)
 	for _, col := range cols {
 		t.Row(
-			app_msg.M("raw", app_msg.P{"Raw": col}),
+			app_msg.Raw(col),
 			spec.ColumnDesc(col),
 			spec.ColumnExample(col),
 		)

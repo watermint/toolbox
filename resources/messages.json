@@ -935,6 +935,7 @@
   "recipe.dev.async.flag.peer": "Account alias",
   "recipe.dev.async.flag.run_concurrently": "run concurrently",
   "recipe.dev.async.title": "Async framework test",
+  "recipe.dev.catalogue.title": "Generate catalogue",
   "recipe.dev.ci.artifact.connect.conn.full": "Account alias",
   "recipe.dev.ci.artifact.connect.flag.full": "Account alias",
   "recipe.dev.ci.artifact.connect.title": "Connect to Dropbox for uploading artifact from CI",
