@@ -16,8 +16,8 @@ func newSpec(rf *RowFeed) fd_file.Spec {
 	s.colExample = make(map[string]app_msg.Message)
 
 	for _, col := range rf.fields {
-		s.colDesc[col] = app_msg.M(s.base + "." + col + ".desc")
-		s.colExample[col] = app_msg.M(s.base + "." + col + ".example")
+		s.colDesc[col] = app_msg.CreateMessage(s.base + "." + col + ".desc")
+		s.colExample[col] = app_msg.CreateMessage(s.base + "." + col + ".example")
 	}
 	return s
 }
@@ -51,7 +51,7 @@ func (z *Spec) Name() string {
 }
 
 func (z *Spec) Desc() app_msg.Message {
-	return app_msg.M(z.base + ".desc")
+	return app_msg.CreateMessage(z.base + ".desc")
 }
 
 func (z *Spec) Columns() []string {

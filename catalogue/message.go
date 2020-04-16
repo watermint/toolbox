@@ -6,6 +6,7 @@ import (
 	domain_dropbox_api_dbx_auth "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	domain_dropbox_api_dbx_auth_attr "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	domain_dropbox_api_dbx_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	domain_dropbox_api_dbx_util "github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	domain_dropbox_usecase_uc_compare_local "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
 	domain_dropbox_usecase_uc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	domain_dropbox_usecase_uc_file_merge "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
@@ -50,6 +51,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domain_dropbox_api_dbx_auth.MsgGenerated{},
 		&domain_dropbox_api_dbx_auth_attr.MsgAttr{},
 		&domain_dropbox_api_dbx_conn_impl.MsgConnect{},
+		&domain_dropbox_api_dbx_util.MsgError{},
 		&domain_dropbox_usecase_uc_compare_local.MsgCompare{},
 		&domain_dropbox_usecase_uc_compare_paths.MsgCompare{},
 		&domain_dropbox_usecase_uc_file_merge.MsgMerge{},

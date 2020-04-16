@@ -380,7 +380,7 @@ func (z *console) boldPrint(t string) {
 }
 
 func (z *console) HeaderK(key string, p ...app_msg.P) {
-	z.Header(app_msg.M(key, p...))
+	z.Header(app_msg.CreateMessage(key, p...))
 }
 
 func (z *console) InfoTable(name string) Table {

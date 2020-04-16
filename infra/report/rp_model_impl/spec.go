@@ -44,7 +44,7 @@ func newSpec(name string, model interface{}, opts []rp_model.ReportOpt) rp_model
 
 		keyBase := ut_reflect.Key(app.Pkg, m)
 		for _, col := range visibleHeaders {
-			colDesc[base+col] = app_msg.M(keyBase + "." + col + ".desc")
+			colDesc[base+col] = app_msg.CreateMessage(keyBase + "." + col + ".desc")
 		}
 		colsWithBase := make([]string, 0)
 		for _, c := range visibleHeaders {
@@ -110,7 +110,7 @@ func (z *ColumnSpec) Model() interface{} {
 
 func (z *ColumnSpec) Desc() app_msg.Message {
 	key := ut_reflect.Key(app.Pkg, z.model) + ".desc"
-	return app_msg.M(key)
+	return app_msg.CreateMessage(key)
 }
 
 func (z *ColumnSpec) Columns() []string {

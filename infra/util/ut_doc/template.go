@@ -11,7 +11,7 @@ func msgFuncMap(ctl app_control.Control) template.FuncMap {
 		"msg": func(key string) string {
 			if ctl.Feature().IsTest() {
 				if !ctl.Messages().Exists(key) {
-					ctl.UI().Error(app_msg.M(key))
+					ctl.UI().Error(app_msg.CreateMessage(key))
 				}
 			}
 			return ctl.Messages().Text(key)

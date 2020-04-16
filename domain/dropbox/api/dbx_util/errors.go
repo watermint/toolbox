@@ -7,6 +7,15 @@ import (
 	"strings"
 )
 
+type MsgError struct {
+	NoError      app_msg.Message
+	ErrorGeneral app_msg.Message
+}
+
+var (
+	MError = app_msg.Apply(&MsgError{}).(*MsgError)
+)
+
 var (
 	errorSummaryPostfix = regexp.MustCompile(`/\.+$`)
 )
@@ -44,24 +53,19 @@ func ErrorUserMessage(err error) string {
 
 func MsgFromError(err error) app_msg.Message {
 	if err == nil {
-		return app_msg.M("api.error.no_error")
+		return MError.NoError
 	}
 	summary := ErrorSummary(err)
 	userMessage := ErrorUserMessage(err)
 	switch {
 	case summary == "" && userMessage != "":
-		return app_msg.M(
-			"dbx.err.general_error",
-			app_msg.P{"Error": userMessage},
-		)
+		return MError.ErrorGeneral.With("Error", userMessage)
+
 	case summary == "":
-		return app_msg.M(
-			"dbx.err.general_error",
-			app_msg.P{"Error": err.Error()},
-		)
+		return MError.ErrorGeneral.With("Error", userMessage)
 
 	default:
 		errMsgKey := "dbx.err." + summary
-		return app_msg.M(errMsgKey)
+		return app_msg.CreateMessage(errMsgKey)
 	}
 }

@@ -387,11 +387,11 @@ func (z *RepositoryImpl) fieldMessageKey(name string) string {
 }
 
 func (z *RepositoryImpl) FieldCustomDefault(name string) app_msg.MessageOptional {
-	return app_msg.M(z.fieldMessageKey(name) + ".default").AsOptional()
+	return app_msg.CreateMessage(z.fieldMessageKey(name) + ".default").AsOptional()
 }
 
 func (z *RepositoryImpl) FieldDesc(name string) app_msg.Message {
-	return app_msg.M(z.fieldMessageKey(name))
+	return app_msg.CreateMessage(z.fieldMessageKey(name))
 }
 
 func (z *RepositoryImpl) Debug() map[string]interface{} {
