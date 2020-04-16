@@ -27,7 +27,18 @@ type Clone struct {
 
 func (z *Clone) Preset() {
 	z.File.SetModel(&mo_filerequest.MemberFileRequest{})
-	z.OperationLog.SetModel(&mo_filerequest.MemberFileRequest{}, &mo_filerequest.MemberFileRequest{})
+	z.OperationLog.SetModel(
+		&mo_filerequest.MemberFileRequest{},
+		&mo_filerequest.MemberFileRequest{},
+		rp_model.HiddenColumns(
+			"input.account_id",
+			"input.file_request_id",
+			"input.team_member_id",
+			"result.account_id",
+			"result.file_request_id",
+			"result.team_member_id",
+		),
+	)
 }
 
 func (z *Clone) Exec(c app_control.Control) error {

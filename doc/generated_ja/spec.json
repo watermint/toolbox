@@ -8359,6 +8359,235 @@
       }
     ]
   },
+  "team filerequest clone": {
+    "name": "clone",
+    "title": "ファイルリクエストを入力データに従い複製します",
+    "desc": "",
+    "remarks": "(試験的実装です)",
+    "path": "team filerequest clone",
+    "cli_args": "-file /PATH/TO/DATA_FILE.csv",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": true,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "このレポートは処理結果を出力します.",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "処理の状態"
+          },
+          {
+            "name": "reason",
+            "desc": "失敗またはスキップの理由"
+          },
+          {
+            "name": "input.email",
+            "desc": "ファイルリクエスト所有者のメールアドレス"
+          },
+          {
+            "name": "input.status",
+            "desc": "ファイルリクエスト所有者ユーザーの状態 (active/invited/suspended/removed)"
+          },
+          {
+            "name": "input.surname",
+            "desc": "ファイルリクエスト所有者の名字"
+          },
+          {
+            "name": "input.given_name",
+            "desc": "ファイルリクエスト所有者の名"
+          },
+          {
+            "name": "input.url",
+            "desc": "ファイルリクエストのURL"
+          },
+          {
+            "name": "input.title",
+            "desc": "ファイルリクエストのタイトル"
+          },
+          {
+            "name": "input.created",
+            "desc": "このファイルリクエストが作成された日時"
+          },
+          {
+            "name": "input.is_open",
+            "desc": "このファイルリクエストがオープンしているかどうか"
+          },
+          {
+            "name": "input.file_count",
+            "desc": "このファイルリクエストが受け取ったファイル数"
+          },
+          {
+            "name": "input.destination",
+            "desc": "アップロードされたファイルが置かれるDropboxフォルダのパス"
+          },
+          {
+            "name": "input.deadline",
+            "desc": "ファイルリクエストの締め切り."
+          },
+          {
+            "name": "input.deadline_allow_late_uploads",
+            "desc": "設定されている場合、締め切りを超えてもアップロードが許可されている"
+          },
+          {
+            "name": "result.email",
+            "desc": "ファイルリクエスト所有者のメールアドレス"
+          },
+          {
+            "name": "result.status",
+            "desc": "ファイルリクエスト所有者ユーザーの状態 (active/invited/suspended/removed)"
+          },
+          {
+            "name": "result.surname",
+            "desc": "ファイルリクエスト所有者の名字"
+          },
+          {
+            "name": "result.given_name",
+            "desc": "ファイルリクエスト所有者の名"
+          },
+          {
+            "name": "result.url",
+            "desc": "ファイルリクエストのURL"
+          },
+          {
+            "name": "result.title",
+            "desc": "ファイルリクエストのタイトル"
+          },
+          {
+            "name": "result.created",
+            "desc": "このファイルリクエストが作成された日時"
+          },
+          {
+            "name": "result.is_open",
+            "desc": "このファイルリクエストがオープンしているかどうか"
+          },
+          {
+            "name": "result.file_count",
+            "desc": "このファイルリクエストが受け取ったファイル数"
+          },
+          {
+            "name": "result.destination",
+            "desc": "アップロードされたファイルが置かれるDropboxフォルダのパス"
+          },
+          {
+            "name": "result.deadline",
+            "desc": "ファイルリクエストの締め切り."
+          },
+          {
+            "name": "result.deadline_allow_late_uploads",
+            "desc": "設定されている場合、締め切りを超えてもアップロードが許可されている"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "このレポートはチームメンバーのもつファイルリクエストを一覧します.",
+        "columns": [
+          {
+            "name": "account_id",
+            "desc": "ファイルリクエスト所有者のアカウントID",
+            "example": "dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "ファイルリクエスト所有者のチームメンバーとしてのID",
+            "example": "dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "name": "email",
+            "desc": "ファイルリクエスト所有者のメールアドレス",
+            "example": "john@example.com"
+          },
+          {
+            "name": "status",
+            "desc": "ファイルリクエスト所有者ユーザーの状態 (active/invited/suspended/removed)",
+            "example": "active"
+          },
+          {
+            "name": "surname",
+            "desc": "ファイルリクエスト所有者の名字",
+            "example": "Smith"
+          },
+          {
+            "name": "given_name",
+            "desc": "ファイルリクエスト所有者の名",
+            "example": "John"
+          },
+          {
+            "name": "file_request_id",
+            "desc": "ファイルリクエストID",
+            "example": "xxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "name": "url",
+            "desc": "ファイルリクエストのURL",
+            "example": "https://www.dropbox.com/request/xxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "name": "title",
+            "desc": "ファイルリクエストのタイトル",
+            "example": "Photo contest submission"
+          },
+          {
+            "name": "created",
+            "desc": "このファイルリクエストが作成された日時",
+            "example": "2019-09-20T23:47:33Z"
+          },
+          {
+            "name": "is_open",
+            "desc": "このファイルリクエストがオープンしているかどうか",
+            "example": "true"
+          },
+          {
+            "name": "file_count",
+            "desc": "このファイルリクエストが受け取ったファイル数",
+            "example": "3"
+          },
+          {
+            "name": "destination",
+            "desc": "アップロードされたファイルが置かれるDropboxフォルダのパス",
+            "example": "/Photo contest entries"
+          },
+          {
+            "name": "deadline",
+            "desc": "ファイルリクエストの締め切り.",
+            "example": "2019-10-20T23:47:33Z"
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "設定されている場合、締め切りを超えてもアップロードが許可されている",
+            "example": "seven_days"
+          }
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "File",
+        "desc": "Path to data file",
+        "default": "",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
+        "type_attr": null
+      },
+      {
+        "name": "Peer",
+        "desc": "Account alias",
+        "default": "default",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
+        "type_attr": null
+      }
+    ]
+  },
   "team filerequest list": {
     "name": "list",
     "title": "チームないのファイルリクエストを一覧します",

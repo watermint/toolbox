@@ -2,9 +2,10 @@
 
 # Commands added
 
-| Command       | Title              |
-|---------------|--------------------|
-| dev catalogue | Generate catalogue |
+| Command                | Title                             |
+|------------------------|-----------------------------------|
+| dev catalogue          | Generate catalogue                |
+| team filerequest clone | Clone file requests by given data |
 
 
 

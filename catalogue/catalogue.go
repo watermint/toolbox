@@ -209,6 +209,7 @@ func Recipes() []infra_recipe_rc_recipe.Recipe {
 		infra_recipe_rc_recipe.Annotate(&recipeteamdevice.Unlink{}, infra_recipe_rc_recipe.Irreversible()),
 		infra_recipe_rc_recipe.Annotate(&recipeteamdiag.Explorer{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfilerequest.List{}),
+		infra_recipe_rc_recipe.Annotate(&recipeteamfilerequest.Clone{}, infra_recipe_rc_recipe.Experimental(), infra_recipe_rc_recipe.Secret()),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Archive{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.List{}),
 		infra_recipe_rc_recipe.Annotate(&recipeteamfolder.Permdelete{}, infra_recipe_rc_recipe.Irreversible()),

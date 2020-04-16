@@ -8359,6 +8359,235 @@
       }
     ]
   },
+  "team filerequest clone": {
+    "name": "clone",
+    "title": "Clone file requests by given data",
+    "desc": "",
+    "remarks": "(Experimental)",
+    "path": "team filerequest clone",
+    "cli_args": "-file /PATH/TO/DATA_FILE.csv",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "is_secret": true,
+    "is_console": false,
+    "is_experimental": true,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "This report shows the transaction result.",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "Status of the operation"
+          },
+          {
+            "name": "reason",
+            "desc": "Reason of failure or skipped operation"
+          },
+          {
+            "name": "input.email",
+            "desc": "Email address of this file request owner."
+          },
+          {
+            "name": "input.status",
+            "desc": "The user status of this file request owner (active/invited/suspended/removed)"
+          },
+          {
+            "name": "input.surname",
+            "desc": "Surname of this file request owner."
+          },
+          {
+            "name": "input.given_name",
+            "desc": "Given name of this file request owner."
+          },
+          {
+            "name": "input.url",
+            "desc": "The URL of the file request."
+          },
+          {
+            "name": "input.title",
+            "desc": "The title of the file request."
+          },
+          {
+            "name": "input.created",
+            "desc": "When this file request was created."
+          },
+          {
+            "name": "input.is_open",
+            "desc": "Whether or not the file request is open."
+          },
+          {
+            "name": "input.file_count",
+            "desc": "The number of files this file request has received."
+          },
+          {
+            "name": "input.destination",
+            "desc": "The path of the folder in the Dropbox where uploaded files will be sent"
+          },
+          {
+            "name": "input.deadline",
+            "desc": "The deadline for this file request."
+          },
+          {
+            "name": "input.deadline_allow_late_uploads",
+            "desc": "If set, allow uploads after the deadline has passed"
+          },
+          {
+            "name": "result.email",
+            "desc": "Email address of this file request owner."
+          },
+          {
+            "name": "result.status",
+            "desc": "The user status of this file request owner (active/invited/suspended/removed)"
+          },
+          {
+            "name": "result.surname",
+            "desc": "Surname of this file request owner."
+          },
+          {
+            "name": "result.given_name",
+            "desc": "Given name of this file request owner."
+          },
+          {
+            "name": "result.url",
+            "desc": "The URL of the file request."
+          },
+          {
+            "name": "result.title",
+            "desc": "The title of the file request."
+          },
+          {
+            "name": "result.created",
+            "desc": "When this file request was created."
+          },
+          {
+            "name": "result.is_open",
+            "desc": "Whether or not the file request is open."
+          },
+          {
+            "name": "result.file_count",
+            "desc": "The number of files this file request has received."
+          },
+          {
+            "name": "result.destination",
+            "desc": "The path of the folder in the Dropbox where uploaded files will be sent"
+          },
+          {
+            "name": "result.deadline",
+            "desc": "The deadline for this file request."
+          },
+          {
+            "name": "result.deadline_allow_late_uploads",
+            "desc": "If set, allow uploads after the deadline has passed"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "This report shows a list of file requests with the file request owner team member.",
+        "columns": [
+          {
+            "name": "account_id",
+            "desc": "Account ID of this file request owner.",
+            "example": "dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "name": "team_member_id",
+            "desc": "ID of file request owner user as a member of a team",
+            "example": "dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "name": "email",
+            "desc": "Email address of this file request owner.",
+            "example": "john@example.com"
+          },
+          {
+            "name": "status",
+            "desc": "The user status of this file request owner (active/invited/suspended/removed)",
+            "example": "active"
+          },
+          {
+            "name": "surname",
+            "desc": "Surname of this file request owner.",
+            "example": "Smith"
+          },
+          {
+            "name": "given_name",
+            "desc": "Given name of this file request owner.",
+            "example": "John"
+          },
+          {
+            "name": "file_request_id",
+            "desc": "The ID of the file request.",
+            "example": "xxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "name": "url",
+            "desc": "The URL of the file request.",
+            "example": "https://www.dropbox.com/request/xxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "name": "title",
+            "desc": "The title of the file request.",
+            "example": "Photo contest submission"
+          },
+          {
+            "name": "created",
+            "desc": "When this file request was created.",
+            "example": "2019-09-20T23:47:33Z"
+          },
+          {
+            "name": "is_open",
+            "desc": "Whether or not the file request is open.",
+            "example": "true"
+          },
+          {
+            "name": "file_count",
+            "desc": "The number of files this file request has received.",
+            "example": "3"
+          },
+          {
+            "name": "destination",
+            "desc": "The path of the folder in the Dropbox where uploaded files will be sent",
+            "example": "/Photo contest entries"
+          },
+          {
+            "name": "deadline",
+            "desc": "The deadline for this file request.",
+            "example": "2019-10-20T23:47:33Z"
+          },
+          {
+            "name": "deadline_allow_late_uploads",
+            "desc": "If set, allow uploads after the deadline has passed",
+            "example": "seven_days"
+          }
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "File",
+        "desc": "Path to data file",
+        "default": "",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
+        "type_attr": null
+      },
+      {
+        "name": "Peer",
+        "desc": "Account alias",
+        "default": "default",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_file",
+        "type_attr": null
+      }
+    ]
+  },
   "team filerequest list": {
     "name": "list",
     "title": "List all file requests in the team",
