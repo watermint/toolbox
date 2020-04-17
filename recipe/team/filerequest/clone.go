@@ -20,6 +20,8 @@ import (
 )
 
 type Clone struct {
+	rc_recipe.RemarkExperimental
+	rc_recipe.RemarkSecret
 	File         fd_file.RowFeed
 	Peer         dbx_conn.ConnBusinessFile
 	OperationLog rp_model.TransactionReport

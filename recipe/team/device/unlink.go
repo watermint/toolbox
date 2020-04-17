@@ -56,6 +56,7 @@ func (z *UnlinkWorker) Exec() error {
 }
 
 type Unlink struct {
+	rc_recipe.RemarkIrreversible
 	DeleteOnUnlink bool
 	File           fd_file.RowFeed
 	Peer           dbx_conn.ConnBusinessFile

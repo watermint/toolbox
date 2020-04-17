@@ -24,6 +24,7 @@ const (
 )
 
 type Candidate struct {
+	rc_recipe.RemarkSecret
 	TestResource string
 	Auth         *auth.Connect
 }

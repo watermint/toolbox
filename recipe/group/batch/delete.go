@@ -18,6 +18,7 @@ type GroupName struct {
 }
 
 type Delete struct {
+	rc_recipe.RemarkIrreversible
 	ErrGroupNotFound    app_msg.Message
 	ErrUnableToDelete   app_msg.Message
 	File                fd_file.RowFeed

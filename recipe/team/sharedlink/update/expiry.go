@@ -143,6 +143,7 @@ func (z *ExpiryWorker) Exec() error {
 }
 
 type Expiry struct {
+	rc_recipe.RemarkIrreversible
 	Peer                       dbx_conn.ConnBusinessFile
 	Days                       mo_int.RangeInt
 	At                         mo_time.TimeOptional

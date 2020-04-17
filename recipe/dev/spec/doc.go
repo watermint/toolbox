@@ -17,6 +17,7 @@ import (
 )
 
 type Doc struct {
+	rc_recipe.RemarkSecret
 	Lang     mo_string.OptionalString
 	FilePath mo_string.OptionalString
 }

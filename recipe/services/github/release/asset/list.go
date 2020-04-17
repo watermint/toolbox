@@ -12,6 +12,7 @@ import (
 )
 
 type List struct {
+	rc_recipe.RemarkExperimental
 	Owner      string
 	Repository string
 	Release    string

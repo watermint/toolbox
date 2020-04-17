@@ -12,6 +12,7 @@ import (
 )
 
 type Replication struct {
+	rc_recipe.RemarkIrreversible
 	File        fd_file.RowFeed
 	Replication *teamfolder.Replication
 	SrcPeerName string

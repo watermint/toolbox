@@ -15,6 +15,7 @@ import (
 )
 
 type Delete struct {
+	rc_recipe.RemarkIrreversible
 	Peer             dbx_conn.ConnBusinessMgmt
 	GroupName        string
 	MemberEmail      string

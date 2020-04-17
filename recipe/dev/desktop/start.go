@@ -11,6 +11,7 @@ import (
 )
 
 type Start struct {
+	rc_recipe.RemarkSecret
 }
 
 func (z *Start) Exec(c app_control.Control) error {

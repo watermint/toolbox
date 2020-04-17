@@ -45,6 +45,7 @@ func NewSelfContained(scr rc_recipe.Recipe) rc_recipe.Spec {
 		scr = rr.Seed()
 
 	default:
+		ann = rc_recipe.NewAnnotated(scr)
 		repo = rc_value.NewRepository(scr)
 	}
 

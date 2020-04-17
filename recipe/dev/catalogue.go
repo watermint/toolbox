@@ -13,6 +13,7 @@ import (
 )
 
 type Catalogue struct {
+	rc_recipe.RemarkSecret
 }
 
 func (z *Catalogue) Preset() {

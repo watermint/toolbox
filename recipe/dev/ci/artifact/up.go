@@ -20,6 +20,7 @@ import (
 )
 
 type Up struct {
+	rc_recipe.RemarkSecret
 	PeerName    string
 	LocalPath   mo_path2.FileSystemPath
 	DropboxPath mo_path.DropboxPath

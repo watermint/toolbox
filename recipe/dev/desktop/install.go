@@ -2,6 +2,7 @@ package desktop
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_download"
 	"github.com/watermint/toolbox/infra/util/ut_process"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -12,6 +13,7 @@ import (
 )
 
 type Install struct {
+	rc_recipe.RemarkSecret
 	InstallerUrl   string
 	Silent         bool
 	SilentNoLaunch bool

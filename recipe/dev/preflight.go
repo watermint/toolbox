@@ -27,6 +27,7 @@ const (
 )
 
 type Preflight struct {
+	rc_recipe.RemarkSecret
 }
 
 func (z *Preflight) Preset() {

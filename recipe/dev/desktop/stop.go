@@ -16,6 +16,7 @@ import (
 
 // Tell Dropbox to quit, but no guarantee of stop the process.
 type Stop struct {
+	rc_recipe.RemarkSecret
 	WaitSeconds mo_int.RangeInt
 }
 

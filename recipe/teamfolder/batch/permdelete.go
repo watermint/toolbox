@@ -16,6 +16,7 @@ import (
 )
 
 type Permdelete struct {
+	rc_recipe.RemarkIrreversible
 	ErrTeamFolderNotFound                 app_msg.Message
 	ErrUnableToDelete                     app_msg.Message
 	ErrUnableToRetrieveCurrentTeamFolders app_msg.Message

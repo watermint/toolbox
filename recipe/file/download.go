@@ -17,6 +17,7 @@ import (
 )
 
 type Download struct {
+	rc_recipe.RemarkExperimental
 	Peer         dbx_conn.ConnUserFile
 	DropboxPath  mo_path.DropboxPath
 	LocalPath    mo_path2.FileSystemPath

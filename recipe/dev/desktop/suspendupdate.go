@@ -2,6 +2,7 @@ package desktop
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"os"
@@ -10,6 +11,7 @@ import (
 )
 
 type Suspendupdate struct {
+	rc_recipe.RemarkSecret
 	UpdaterPath string
 	UpdaterName string
 	Unsuspend   bool

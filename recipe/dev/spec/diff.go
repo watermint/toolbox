@@ -23,6 +23,7 @@ import (
 )
 
 type Diff struct {
+	rc_recipe.RemarkSecret
 	Lang                mo_string.OptionalString
 	Release1            mo_string.OptionalString
 	Release2            mo_string.OptionalString

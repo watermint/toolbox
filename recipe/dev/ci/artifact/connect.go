@@ -15,6 +15,7 @@ import (
 )
 
 type Connect struct {
+	rc_recipe.RemarkSecret
 	Full dbx_conn.ConnUserFile
 }
 

@@ -18,6 +18,7 @@ import (
 )
 
 type Recipe struct {
+	rc_recipe.RemarkSecret
 	All      bool
 	Recipe   mo_string.OptionalString
 	Resource mo_string.OptionalString

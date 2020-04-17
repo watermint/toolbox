@@ -81,6 +81,7 @@ func (z *MonkeyWorker) Exec() error {
 }
 
 type Monkey struct {
+	rc_recipe.RemarkSecret
 	Seconds      mo_int.RangeInt
 	Distribution mo_int.RangeInt
 	Path         mo_path.DropboxPath

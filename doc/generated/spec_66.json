@@ -11,7 +11,7 @@
     "conn_use_business": false,
     "conn_scopes": {},
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -38,7 +38,7 @@
     "conn_use_business": false,
     "conn_scopes": {},
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -65,7 +65,7 @@
     "conn_use_business": false,
     "conn_scopes": {},
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -86,7 +86,7 @@
       "Peer": "business_audit"
     },
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -115,7 +115,7 @@
       "Peer": "business_file"
     },
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -144,7 +144,7 @@
       "Peer": "business_info"
     },
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -173,7 +173,7 @@
       "Peer": "business_management"
     },
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -202,7 +202,7 @@
       "Peer": "user_full"
     },
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
     "reports": [],
@@ -5545,7 +5545,7 @@
     "conn_use_business": false,
     "conn_scopes": {},
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
     "reports": [
@@ -5609,7 +5609,7 @@
     "conn_use_business": false,
     "conn_scopes": {},
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
     "reports": [
@@ -5655,7 +5655,7 @@
     "conn_use_business": false,
     "conn_scopes": {},
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
     "reports": [
@@ -5731,7 +5731,7 @@
     "conn_use_business": false,
     "conn_scopes": {},
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
     "reports": [
@@ -5806,7 +5806,7 @@
     "conn_use_business": false,
     "conn_scopes": {},
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
     "reports": [
@@ -5902,7 +5902,7 @@
     "conn_use_business": false,
     "conn_scopes": {},
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
     "reports": [
@@ -6000,7 +6000,7 @@
     "conn_use_business": false,
     "conn_scopes": {},
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
     "reports": [
@@ -6056,7 +6056,7 @@
     "name": "create",
     "title": "Create a tag on the repository",
     "desc": "",
-    "remarks": "(Experimental, and Irreversible operation)",
+    "remarks": "(Experimental)",
     "path": "services github tag create",
     "cli_args": "",
     "cli_note": "",
@@ -6064,9 +6064,9 @@
     "conn_use_business": false,
     "conn_scopes": {},
     "is_secret": false,
-    "is_console": true,
+    "is_console": false,
     "is_experimental": true,
-    "is_irreversible": true,
+    "is_irreversible": false,
     "reports": [
       {
         "name": "created",
@@ -10056,7 +10056,7 @@
     "name": "replication",
     "title": "Replicate a team folder to the other team",
     "desc": "",
-    "remarks": "(Irreversible operation)",
+    "remarks": "(Experimental, and Irreversible operation)",
     "path": "teamfolder replication",
     "cli_args": "",
     "cli_note": "",
@@ -10065,7 +10065,7 @@
     "conn_scopes": {},
     "is_secret": false,
     "is_console": false,
-    "is_experimental": false,
+    "is_experimental": true,
     "is_irreversible": true,
     "reports": [
       {

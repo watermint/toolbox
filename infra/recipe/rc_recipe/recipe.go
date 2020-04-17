@@ -25,6 +25,50 @@ type Recipe interface {
 	Test(c app_control.Control) error
 }
 
+type RemarkRecipeSecret interface {
+	// True if the recipe is not for general usage.
+	IsSecret() bool
+}
+type RemarkRecipeExperimental interface {
+	// True if the recipe is in experimental phase.
+	IsExperimental() bool
+}
+type RemarkRecipeConsole interface {
+	// True if the recipe is console mode only.
+	IsConsole() bool
+}
+type RemarkRecipeIrreversible interface {
+	// True if the operation is irreversible.
+	IsIrreversible() bool
+}
+type RemarkSecret struct {
+}
+
+func (z *RemarkSecret) IsSecret() bool {
+	return true
+}
+
+type RemarkExperimental struct {
+}
+
+func (z *RemarkExperimental) IsExperimental() bool {
+	return true
+}
+
+type RemarkIrreversible struct {
+}
+
+func (z *RemarkIrreversible) IsIrreversible() bool {
+	return true
+}
+
+type RemarkConsole struct {
+}
+
+func (z *RemarkConsole) IsConsole() bool {
+	return true
+}
+
 type Annotation interface {
 	Recipe
 
@@ -42,6 +86,60 @@ type Annotation interface {
 
 	// True if the operation is irreversible.
 	IsIrreversible() bool
+}
+
+func NewAnnotated(seed Recipe) Annotation {
+	return &AnnotatedRecipe{
+		seed: seed,
+	}
+}
+
+type AnnotatedRecipe struct {
+	seed Recipe
+}
+
+func (z *AnnotatedRecipe) Preset() {
+	z.seed.Preset()
+}
+
+func (z *AnnotatedRecipe) Exec(c app_control.Control) error {
+	return z.seed.Exec(c)
+}
+
+func (z *AnnotatedRecipe) Test(c app_control.Control) error {
+	return z.seed.Test(c)
+}
+
+func (z *AnnotatedRecipe) Seed() Recipe {
+	return z.seed
+}
+
+func (z *AnnotatedRecipe) IsSecret() bool {
+	if r, ok := z.seed.(RemarkRecipeSecret); ok {
+		return r.IsSecret()
+	}
+	return false
+}
+
+func (z *AnnotatedRecipe) IsConsole() bool {
+	if r, ok := z.seed.(RemarkRecipeConsole); ok {
+		return r.IsConsole()
+	}
+	return false
+}
+
+func (z *AnnotatedRecipe) IsExperimental() bool {
+	if r, ok := z.seed.(RemarkRecipeExperimental); ok {
+		return r.IsExperimental()
+	}
+	return false
+}
+
+func (z *AnnotatedRecipe) IsIrreversible() bool {
+	if r, ok := z.seed.(RemarkRecipeIrreversible); ok {
+		return r.IsIrreversible()
+	}
+	return false
 }
 
 type RecipeProperty func(ro *RecipeProps) *RecipeProps

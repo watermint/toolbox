@@ -41,6 +41,7 @@ const (
 )
 
 type Procmon struct {
+	rc_recipe.RemarkSecret
 	ProcmonUrl     string
 	RepositoryPath mo_path2.FileSystemPath
 	DropboxPath    mo_path.DropboxPath

@@ -50,6 +50,7 @@ func (z *AsyncWorker) Exec() error {
 }
 
 type Async struct {
+	rc_recipe.RemarkSecret
 	RunConcurrently bool
 	Peer            dbx_conn.ConnBusinessInfo
 	Rows            rp_model.RowReport

@@ -14,6 +14,7 @@ import (
 )
 
 type Import struct {
+	rc_recipe.RemarkSecret
 	PeerName string
 	EnvName  string
 }

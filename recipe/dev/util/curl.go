@@ -19,6 +19,7 @@ import (
 )
 
 type Curl struct {
+	rc_recipe.RemarkSecret
 	Record     string
 	BufferSize mo_int.RangeInt
 }

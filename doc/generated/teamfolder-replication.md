@@ -1,6 +1,6 @@
 # teamfolder replication 
 
-Replicate a team folder to the other team (Irreversible operation)
+Replicate a team folder to the other team (Experimental, and Irreversible operation)
 
 # Usage
 

@@ -18,6 +18,7 @@ import (
 )
 
 type Download struct {
+	rc_recipe.RemarkExperimental
 	Path        mo_path.FileSystemPath
 	Owner       string
 	Repository  string

@@ -10,6 +10,8 @@ import (
 )
 
 type Replication struct {
+	rc_recipe.RemarkIrreversible
+	rc_recipe.RemarkExperimental
 	Name        string
 	Replication *teamfolder.Replication
 	SrcPeerName string

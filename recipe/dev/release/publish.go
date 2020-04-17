@@ -46,6 +46,7 @@ var (
 )
 
 type Publish struct {
+	rc_recipe.RemarkSecret
 	ArtifactPath mo_path2.FileSystemPath
 	Branch       string
 	ConnGithub   gh_conn.ConnGithubRepo

@@ -12,21 +12,20 @@ import (
 )
 
 type Create struct {
+	rc_recipe.RemarkExperimental
 	Owner      string
 	Repository string
 	Tag        string
-	//Message    string
-	Sha1    string
-	Created rp_model.TransactionReport
-	Peer    gh_conn.ConnGithubRepo
+	Sha1       string
+	Created    rp_model.TransactionReport
+	Peer       gh_conn.ConnGithubRepo
 }
 
 type CreateTag struct {
 	Owner      string `json:"owner"`
 	Repository string `json:"repository"`
 	Tag        string `json:"tag"`
-	//Message    string `json:"message"`
-	Sha1 string `json:"sha_1"`
+	Sha1       string `json:"sha_1"`
 }
 
 func (z *Create) Preset() {
@@ -41,8 +40,7 @@ func (z *Create) Exec(c app_control.Control) error {
 		Owner:      z.Owner,
 		Repository: z.Repository,
 		Tag:        z.Tag,
-		//		Message:    z.Message,
-		Sha1: z.Sha1,
+		Sha1:       z.Sha1,
 	}
 
 	tag, err := sv_reference.New(z.Peer.Context(), z.Owner, z.Repository).Create("refs/tags/"+z.Tag, z.Sha1)
@@ -63,6 +61,5 @@ func (z *Create) Test(c app_control.Control) error {
 		m.Repository = "toolbox_sandbox"
 		m.Sha1 = sha
 		m.Tag = time.Now().Format("20060103150405")
-		//m.Message = time.Now().Format("20060103150405") + ": test tag"
 	})
 }

@@ -13,6 +13,7 @@ import (
 )
 
 type Doc struct {
+	rc_recipe.RemarkSecret
 	Badge          bool
 	MarkdownReadme bool
 	Lang           mo_string.OptionalString

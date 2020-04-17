@@ -77,6 +77,7 @@ func (z *RestoreWorker) Exec() error {
 }
 
 type Restore struct {
+	rc_recipe.RemarkExperimental
 	Peer         dbx_conn.ConnUserFile
 	Path         mo_path.DropboxPath
 	OperationLog rp_model.TransactionReport

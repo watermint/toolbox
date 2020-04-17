@@ -17,6 +17,7 @@ import (
 )
 
 type Doc struct {
+	rc_recipe.RemarkExperimental
 	Peer         dbx_conn.ConnUserFile
 	LocalPath    mo_path2.FileSystemPath
 	DropboxPath  mo_path.DropboxPath

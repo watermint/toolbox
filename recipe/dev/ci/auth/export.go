@@ -14,6 +14,7 @@ import (
 )
 
 type Export struct {
+	rc_recipe.RemarkSecret
 	Full  dbx_conn.ConnUserFile
 	Info  dbx_conn.ConnBusinessInfo
 	File  dbx_conn.ConnBusinessFile

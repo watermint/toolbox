@@ -96,6 +96,7 @@ type UploadFile struct {
 }
 
 type Upload struct {
+	rc_recipe.RemarkExperimental
 	Asset      mo_path.ExistingFileSystemPath
 	Owner      string
 	Repository string
