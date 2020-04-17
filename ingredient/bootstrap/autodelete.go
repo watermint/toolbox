@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/ingredient/job"
 )
 
-type FeatureAutodelete struct {
+type OptInFeatureAutodelete struct {
 	app_feature.OptInStatus
 }
 
@@ -23,7 +23,7 @@ func (z *Autodelete) Preset() {
 func (z *Autodelete) Exec(c app_control.Control) error {
 	l := c.Log()
 	ui := c.UI()
-	if f, found := c.Feature().OptInGet(&FeatureAutodelete{}); !found {
+	if f, found := c.Feature().OptInGet(&OptInFeatureAutodelete{}); !found {
 		l.Debug("Skip cleanup")
 		return nil
 	} else if !f.OptInIsEnabled() {

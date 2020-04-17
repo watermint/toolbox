@@ -1,11 +1,9 @@
 package catalogue
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	infra_recipe_rc_catalogue "github.com/watermint/toolbox/infra/recipe/rc_catalogue"
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	ingredientbootstrap "github.com/watermint/toolbox/ingredient/bootstrap"
 	"github.com/watermint/toolbox/recipe"
 	recipeconfig "github.com/watermint/toolbox/recipe/config"
 	recipeconnect "github.com/watermint/toolbox/recipe/connect"
@@ -213,11 +211,7 @@ func Ingredients() []infra_recipe_rc_recipe.Recipe {
 }
 
 func Features() []app_feature.OptIn {
-	foi := []app_feature.OptIn{
-		&api_auth_impl.FeatureRedirect{},
-		&ingredientbootstrap.FeatureAutodelete{},
-	}
-	return foi
+	return AutoDetectedFeatures()
 }
 
 func Messages() []interface{} {

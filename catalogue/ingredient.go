@@ -12,14 +12,13 @@ import (
 )
 
 func AutoDetectedIngredients() []infra_recipe_rc_recipe.Recipe {
-	cat := []infra_recipe_rc_recipe.Recipe{
-		&ingredientbootstrap.Bootstrap{},
+	return []infra_recipe_rc_recipe.Recipe{
 		&ingredientbootstrap.Autodelete{},
+		&ingredientbootstrap.Bootstrap{},
 		&ingredientfile.Upload{},
 		&ingredientjob.Delete{},
 		&ingredientteamnamespacefile.List{},
 		&ingredientteamnamespacefile.Size{},
 		&ingredientteamfolder.Replication{},
 	}
-	return cat
 }

@@ -9,9 +9,8 @@ import (
 )
 
 func AutoDetectedMessageObjects() []interface{} {
-    return []interface{}{
-    {{range $mo := .Objects }}&{{ $mo }}{},
+    return []interface{} {
+    {{range $obj := .Objects }}&{{ $obj.Package }}.{{ $obj.Name }}{},
     {{end}}
     }
 }
-

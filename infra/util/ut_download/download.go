@@ -1,6 +1,7 @@
 package ut_download
 
 import (
+	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"go.uber.org/zap"
 	"io"
 	"net/http"
@@ -23,7 +24,7 @@ func Download(l *zap.Logger, url string, path string) error {
 	}
 	defer out.Close()
 
-	_, err = io.Copy(out, resp.Body)
+	_, err = io.Copy(out, nw_bandwidth.WrapReader(resp.Body))
 	if err != nil {
 		l.Debug("Unable to copy from response", zap.Error(err))
 		return err

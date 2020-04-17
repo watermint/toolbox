@@ -13,7 +13,7 @@ func NewConsole(c app_control.Control, peerName string) api_auth.Console {
 	var oa api_auth.Console
 
 	// Make redirect impl. hidden for while
-	if f, found := c.Feature().OptInGet(&api_auth_impl.FeatureRedirect{}); found && f.OptInIsEnabled() {
+	if f, found := c.Feature().OptInGet(&api_auth_impl.OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
 		oa = api_auth_impl.NewConsoleRedirect(c, peerName, dbx_auth.NewApp(c))
 	} else {
 		oa = api_auth_impl.NewConsoleOAuth(c, peerName)

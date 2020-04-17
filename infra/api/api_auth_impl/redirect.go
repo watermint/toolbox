@@ -19,7 +19,7 @@ var (
 	ErrorOAuthSequenceDisabled = errors.New("this oauth sequence disabled")
 )
 
-type FeatureRedirect struct {
+type OptInFeatureRedirect struct {
 	app_feature.OptInStatus
 }
 
@@ -45,7 +45,7 @@ func (z *Redirect) Auth(scope string) (token api_auth.Context, err error) {
 	l := z.ctl.Log().With(zap.String("scope", scope), zap.String("peerName", z.peerName))
 	ui := z.ctl.UI()
 
-	if f, found := z.ctl.Feature().OptInGet(&FeatureRedirect{}); found && f.OptInIsEnabled() {
+	if f, found := z.ctl.Feature().OptInGet(&OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
 		ui.Info(f.OptInDisclaimer(f))
 	} else {
 		return nil, ErrorOAuthSequenceDisabled
