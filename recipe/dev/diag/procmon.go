@@ -204,7 +204,7 @@ func (z *Procmon) watchProcmon(c app_control.Control, exePath string, cmd *exec.
 
 	go func() {
 		for {
-			time.Sleep(1 * time.Second)
+			time.Sleep(1 * 1000 * time.Millisecond)
 			l.Debug("Process", zap.Any("state", cmd.ProcessState), zap.Any("process", cmd.Process), zap.Any("sysAttr", cmd.SysProcAttr))
 
 			entries, err := ioutil.ReadDir(logPath)
@@ -256,7 +256,7 @@ func (z *Procmon) watchProcmon(c app_control.Control, exePath string, cmd *exec.
 	}()
 
 	l.Info("Waiting for duration", zap.Int("seconds", z.Seconds.Value()))
-	time.Sleep(time.Duration(z.Seconds.Value()) * time.Second)
+	time.Sleep(time.Duration(z.Seconds.Value()) * 1000 * time.Millisecond)
 
 	return nil
 }
@@ -314,7 +314,7 @@ func (z *Procmon) terminateProcmon(c app_control.Control, exePath string, cmd *e
 	}
 
 	l.Info("Waiting for termination", zap.Int("seconds", 60))
-	time.Sleep(60 * time.Second)
+	time.Sleep(60 * 1000 * time.Millisecond)
 
 	return nil
 }
@@ -378,7 +378,7 @@ func (z *Procmon) cleanupProcmonLogs(c app_control.Control) error {
 		err := os.RemoveAll(logPath)
 		if err != nil {
 			l.Debug("Unable to clean up logs", zap.Error(err))
-			time.Sleep(10 * time.Second)
+			time.Sleep(10 * 1000 * time.Millisecond)
 			continue
 		}
 		return nil

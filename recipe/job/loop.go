@@ -41,7 +41,7 @@ func (z *Loop) Exec(c app_control.Control) error {
 
 	for {
 		is := time.Now()
-		ie := is.Add(time.Duration(z.IntervalSeconds.Value()) * time.Second)
+		ie := is.Add(time.Duration(z.IntervalSeconds.Value()) * 1000 * time.Millisecond)
 		if is.After(z.Until.Time()) {
 			l.Debug("Finished", zap.String("now", is.String()), zap.String("until", z.Until.Time().String()))
 			ui.Info(z.ProgressLoopFinished)
@@ -62,7 +62,7 @@ func (z *Loop) Exec(c app_control.Control) error {
 				l.Debug("Unsuspend from interval time")
 				break
 			}
-			time.Sleep(1 * time.Second)
+			time.Sleep(1 * 1000 * time.Millisecond)
 		}
 	}
 }

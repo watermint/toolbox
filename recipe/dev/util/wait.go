@@ -16,7 +16,7 @@ type Wait struct {
 
 func (z *Wait) Exec(c app_control.Control) error {
 	c.Log().Info("Wait", zap.Int("seconds", z.Seconds.Value()))
-	time.Sleep(time.Duration(z.Seconds.Value()) * time.Second)
+	time.Sleep(time.Duration(z.Seconds.Value()) * 1000 * time.Millisecond)
 	return nil
 }
 

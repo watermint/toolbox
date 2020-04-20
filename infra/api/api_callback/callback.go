@@ -43,7 +43,7 @@ type MsgCallback struct {
 }
 
 var (
-	shutdownTimeout          = 5 * time.Second
+	shutdownTimeout          = 5 * 1000 * time.Millisecond
 	ErrorAnotherServerOnline = errors.New("another server is online")
 	MCallback                = app_msg.Apply(&MsgCallback{}).(*MsgCallback)
 )

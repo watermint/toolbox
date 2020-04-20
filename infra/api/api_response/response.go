@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	DropboxApiResHeaderRetryAfter    = "Rewind-After"
+	DropboxApiResHeaderRetryAfter    = "Retry-After"
 	DropboxApiResHeaderResult        = "Dropbox-API-Result"
 	DropboxApiErrorBadInputParam     = 400
 	DropboxApiErrorBadOrExpiredToken = 401

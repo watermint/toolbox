@@ -58,7 +58,7 @@ func (z *Run) execFork(c app_control.Control) error {
 		running = false
 	}()
 
-	timeout := time.Now().Add(time.Duration(z.TimeoutSeconds.Value()) * time.Second)
+	timeout := time.Now().Add(time.Duration(z.TimeoutSeconds.Value()) * 1000 * time.Millisecond)
 	l.Info("Waiting for process", zap.String("timeout", timeout.Format(time.RFC3339)))
 	for {
 		time.Sleep(500 * time.Microsecond)

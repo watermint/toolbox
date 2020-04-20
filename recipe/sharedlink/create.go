@@ -64,6 +64,6 @@ func (z *Create) Test(c app_control.Control) error {
 		m.Path = qt_recipe.NewTestDropboxFolderPath("sharedlink-create")
 		m.Password = mo_string.NewOptional("1234")
 		m.TeamOnly = true
-		m.Expires = mo_time.NewOptional(time.Now().Add(1 * time.Second))
+		m.Expires = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))
 	})
 }

@@ -12,7 +12,7 @@ func TestRebaseTimeForAPI(t *testing.T) {
 	}
 	nowUtc := time.Now()
 	nowJst := nowUtc.In(jst)
-	nowRoundedUtc := nowUtc.Round(time.Second)
+	nowRoundedUtc := nowUtc.Round(1000 * time.Millisecond)
 
 	if !RebaseTime(nowJst).Equal(nowRoundedUtc) {
 		t.Error("Invalid state")

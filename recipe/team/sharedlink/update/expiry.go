@@ -237,7 +237,7 @@ func (z *Expiry) Test(c app_control.Control) error {
 		err := rc_exec.Exec(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			rc := r.(*Expiry)
 			rc.Days.SetValue(1)
-			rc.At = mo_time.NewOptional(time.Now().Add(1 * time.Second))
+			rc.At = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))
 		})
 		if err == nil {
 			return errors.New("days and at should not be accepted same time")
@@ -257,7 +257,7 @@ func (z *Expiry) Test(c app_control.Control) error {
 	{
 		err := rc_exec.ExecMock(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			m := r.(*Expiry)
-			m.At = mo_time.NewOptional(time.Now().Add(1 * time.Second))
+			m.At = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))
 		})
 		if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
 			return e

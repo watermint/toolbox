@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	promptThreshold = 5 * time.Second
+	promptThreshold = 5 * 1000 * time.Millisecond
 )
 
 type MsgNetwork struct {

@@ -10,7 +10,7 @@ const (
 )
 
 func RebaseTime(t time.Time) time.Time {
-	return t.UTC().Round(time.Second)
+	return t.UTC().Round(1000 * time.Millisecond)
 }
 
 func RebaseAsString(t time.Time) string {

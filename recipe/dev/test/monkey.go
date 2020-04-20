@@ -130,7 +130,7 @@ func (z *Monkey) Exec(c app_control.Control) error {
 		}
 	}()
 
-	time.Sleep(time.Duration(z.Seconds.Value()) * time.Second)
+	time.Sleep(time.Duration(z.Seconds.Value()) * 1000 * time.Millisecond)
 	return nil
 }
 

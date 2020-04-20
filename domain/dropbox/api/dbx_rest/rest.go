@@ -5,10 +5,14 @@ import (
 	"github.com/watermint/toolbox/infra/network/nw_capture"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_http"
+	"github.com/watermint/toolbox/infra/network/nw_retry"
 )
 
 var (
-	defaultClient = dbx_recovery.New(nw_capture.New(nw_http.NewClient()))
+	defaultClient = nw_retry.NewRetry(
+		dbx_recovery.New(
+			nw_capture.New(
+				nw_http.NewClient())))
 )
 
 func Default() nw_client.Rest {

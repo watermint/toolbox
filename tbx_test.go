@@ -102,7 +102,7 @@ func TestRunbookLoop(t *testing.T) {
 	run([]string{os.Args[0],
 		"job", "loop",
 		"-runbook-path", rbPath,
-		"-until", time.Now().Add(2 * time.Second).Format(time.RFC3339),
+		"-until", time.Now().Add(2 * 1000 * time.Millisecond).Format(time.RFC3339),
 		"-interval-seconds", "1",
 	}, true)
 }

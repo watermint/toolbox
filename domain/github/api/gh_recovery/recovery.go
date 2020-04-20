@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/network/nw_client"
+	"github.com/watermint/toolbox/infra/network/nw_retry"
 	"go.uber.org/zap"
 )
 
@@ -43,6 +44,13 @@ func (z *recoveryImpl) Call(ctx api_context.Context, req api_request.Request) (r
 		return res, nil
 
 	default:
+		// Rate limit
+		erl, found := nw_retry.NewErrorRateLimitFromHeaders(res.Headers())
+		if found && erl.Remaining < 1 {
+			return nil, erl
+		}
+
+		// General errors
 		apiErr := &gh_context.ApiError{}
 		if err := res.Model(apiErr); err != nil {
 			l.Debug("unable to parse the error", zap.Error(err))

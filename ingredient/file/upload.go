@@ -37,7 +37,7 @@ var (
 )
 
 const (
-	statusReportInterval = 15 * time.Second
+	statusReportInterval = 15 * 1000 * time.Millisecond
 )
 
 type Upload struct {
@@ -91,7 +91,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 		for {
 			time.Sleep(statusReportInterval)
 
-			dur := time.Now().Sub(status.summary.UploadStart) / time.Second
+			dur := time.Now().Sub(status.summary.UploadStart) / (1000 * time.Millisecond)
 			if dur == 0 {
 				continue
 			}
@@ -99,7 +99,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 			kps := status.summary.NumBytes / int64(dur) / 1024
 
 			c.UI().Info(z.ProgressSummary.
-				With("Time", time.Now().Truncate(time.Second).Format("15:04:05")).
+				With("Time", time.Now().Truncate(1000*time.Millisecond).Format("15:04:05")).
 				With("NumFileUpload", status.summary.NumFilesUpload).
 				With("NumFileSkip", status.summary.NumFilesSkip).
 				With("NumFileError", status.summary.NumFilesError).

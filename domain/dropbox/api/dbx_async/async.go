@@ -18,7 +18,7 @@ func New(ctx dbx_context.Context, endpoint string, asMemberId, asAdminId string,
 		asMemberId:      asMemberId,
 		asAdminId:       asAdminId,
 		base:            base,
-		pollInterval:    time.Duration(3) * time.Second,
+		pollInterval:    time.Duration(3) * 1000 * time.Millisecond,
 	}
 }
 
@@ -46,7 +46,7 @@ func (z *asyncImpl) Status(endpoint string) api_async.Async {
 }
 
 func (z *asyncImpl) PollInterval(second int) api_async.Async {
-	z.pollInterval = time.Duration(second) * time.Second
+	z.pollInterval = time.Duration(second) * 1000 * time.Millisecond
 	return z
 }
 

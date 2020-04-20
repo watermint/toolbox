@@ -140,8 +140,8 @@ func (z *timeSeriesImpl) Traffic() (callPerMin, reqBps, resBps int64) {
 	}
 
 	return tcc * int64(time.Minute) / int64(dur),
-		tql * int64(time.Second) / int64(dur),
-		tsl * int64(time.Second) / int64(dur)
+		tql * int64(1000*time.Millisecond) / int64(dur),
+		tsl * int64(1000*time.Millisecond) / int64(dur)
 }
 
 func (z *timeSeriesImpl) Log(req *http.Request, res *http.Response) {

@@ -22,7 +22,7 @@ func New(ctxSrc, ctxDst dbx_context.Context) Files {
 	return &filesImpl{
 		ctxSrc:       ctxSrc,
 		ctxDst:       ctxDst,
-		pollInterval: 15 * time.Second,
+		pollInterval: 15 * 1000 * time.Millisecond,
 	}
 }
 
