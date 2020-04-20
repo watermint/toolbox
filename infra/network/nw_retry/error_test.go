@@ -8,7 +8,7 @@ import (
 func TestNewErrorRateLimit(t *testing.T) {
 	reset := time.Now().Add(1 * 1000 * time.Millisecond)
 	er := NewErrorRateLimit(2, 1, reset)
-	if e, ok := er.(ErrorRateLimit); ok {
+	if e, ok := er.(*ErrorRateLimit); ok {
 		if e.Limit != 2 || e.Remaining != 1 || e.Reset != reset {
 			t.Error("invalid")
 		}
@@ -20,7 +20,7 @@ func TestNewErrorRateLimit(t *testing.T) {
 func TestNewErrorTransport(t *testing.T) {
 	reset := time.Now().Add(1 * 1000 * time.Millisecond)
 	er := NewErrorRateLimitResetOnly(reset)
-	if e, ok := er.(ErrorRateLimit); ok {
+	if e, ok := er.(*ErrorRateLimit); ok {
 		if e.Limit != 0 || e.Remaining != 0 || e.Reset != reset {
 			t.Error("invalid")
 		}
@@ -39,7 +39,7 @@ func TestNewErrorRateLimitFromHeaders(t *testing.T) {
 		if !found {
 			t.Error("invalid")
 		}
-		if ra.Reset.After(time.Now().Add(2*time.Second)) && ra.Reset.Before(time.Now().Add(5*time.Second)) {
+		if ra.Reset.Before(time.Now().Add(2*time.Second)) && ra.Reset.After(time.Now().Add(5*time.Second)) {
 			t.Error("invalid")
 		}
 		if ra.Remaining != 0 || ra.Limit != 0 {
@@ -80,7 +80,7 @@ func TestNewErrorRateLimitFromHeaders(t *testing.T) {
 		if !found {
 			t.Error("invalid")
 		}
-		if ra.Reset.After(time.Now().Add(2*time.Second)) && ra.Reset.Before(time.Now().Add(5*time.Second)) {
+		if ra.Reset.Before(time.Now().Add(2*time.Second)) && ra.Reset.After(time.Now().Add(5*time.Second)) {
 			t.Error("invalid")
 		}
 		if ra.Remaining != 4 || ra.Limit != 10 {
@@ -99,7 +99,7 @@ func TestNewErrorRateLimitFromHeaders(t *testing.T) {
 		if !found {
 			t.Error("invalid")
 		}
-		if ra.Reset.After(time.Now().Add(2*time.Second)) && ra.Reset.Before(time.Now().Add(5*time.Second)) {
+		if ra.Reset.Before(time.Now().Add(2*time.Second)) && ra.Reset.After(time.Now().Add(5*time.Second)) {
 			t.Error("invalid")
 		}
 		if ra.Remaining != 4 || ra.Limit != 10 {
@@ -118,7 +118,7 @@ func TestNewErrorRateLimitFromHeaders(t *testing.T) {
 		if !found {
 			t.Error("invalid")
 		}
-		if ra.Reset.After(time.Now().Add(2*time.Second)) && ra.Reset.Before(time.Now().Add(5*time.Second)) {
+		if ra.Reset.Before(time.Now().Add(2*time.Second)) && ra.Reset.After(time.Now().Add(5*time.Second)) {
 			t.Error("invalid")
 		}
 		if ra.Remaining != 4 || ra.Limit != 10 {

@@ -89,15 +89,15 @@ func NewErrorRateLimitFromHeaders(headers map[string]string) (erl *ErrorRateLimi
 
 	if reset, ok := headerLower[strings.ToLower(HeaderRateLimitReset)]; ok {
 		e := newErrorRateLimitFromHeadersRetryAfter(reset)
-		e.Limit = parseRateLimitQuota(headerLower[HeaderRateLimitLimit])
-		e.Remaining = parseRateLimitQuota(headerLower[HeaderRateLimitRemaining])
+		e.Limit = parseRateLimitQuota(headerLower[strings.ToLower(HeaderRateLimitLimit)])
+		e.Remaining = parseRateLimitQuota(headerLower[strings.ToLower(HeaderRateLimitRemaining)])
 		return e, true
 	}
 
 	if reset, ok := headerLower[strings.ToLower(HeaderXRateLimitReset)]; ok {
 		e := newErrorRateLimitFromHeadersRetryAfter(reset)
-		e.Limit = parseRateLimitQuota(headerLower[HeaderXRateLimitLimit])
-		e.Remaining = parseRateLimitQuota(headerLower[HeaderXRateLimitRemaining])
+		e.Limit = parseRateLimitQuota(headerLower[strings.ToLower(HeaderXRateLimitLimit)])
+		e.Remaining = parseRateLimitQuota(headerLower[strings.ToLower(HeaderXRateLimitRemaining)])
 		return e, true
 	}
 

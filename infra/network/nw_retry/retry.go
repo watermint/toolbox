@@ -44,7 +44,7 @@ func (z *Retry) Call(ctx api_context.Context, req api_request.Request) (res api_
 	}
 
 	switch er := err.(type) {
-	case ErrorRateLimit:
+	case *ErrorRateLimit:
 		l.Debug("Rate limit, waiting for reset",
 			zap.Int("limit", er.Limit),
 			zap.Int("remaining", er.Remaining),
