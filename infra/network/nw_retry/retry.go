@@ -11,10 +11,6 @@ import (
 	"time"
 )
 
-var (
-	retryIntervalSecOnTransportError = 10
-)
-
 func NewRetry(client nw_client.Rest) nw_client.Rest {
 	return &Retry{
 		client: client,

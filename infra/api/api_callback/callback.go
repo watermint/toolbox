@@ -2,6 +2,7 @@ package api_callback
 
 import (
 	"context"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -16,6 +17,7 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_open"
 	"go.uber.org/atomic"
 	"go.uber.org/zap"
+	"html/template"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -24,11 +26,12 @@ import (
 )
 
 const (
-	PathPing    = "/ping"
-	PathConnect = "/connect/auth"
-	PathSuccess = "/success"
-	PathFailure = "/failure"
-	PathHello   = "/hello"
+	PathPing        = "/ping"
+	PathConnect     = "/connect/auth"
+	PathSuccess     = "/success"
+	PathFailure     = "/failure"
+	PathHello       = "/hello"
+	DataUriImagePng = "data:image/png;base64,"
 )
 
 type MsgCallback struct {
@@ -112,17 +115,18 @@ func NewWithOpener(ctl app_control.Control, s Service, port int, opener ut_open.
 }
 
 type callbackImpl struct {
-	instance    string
-	service     Service
-	ctl         app_control.Control
-	port        int
-	server      *http.Server
-	serverError error
-	serverToken string
-	serverReady bool
-	flowStatus  chan struct{}
-	mutex       sync.Mutex
-	opener      ut_open.Open
+	instance        string
+	service         Service
+	ctl             app_control.Control
+	port            int
+	server          *http.Server
+	serverError     error
+	serverToken     string
+	serverReady     bool
+	flowStatus      chan struct{}
+	mutex           sync.Mutex
+	opener          ut_open.Open
+	logoImageBase64 template.URL
 }
 
 func (z *callbackImpl) WaitServerReady() bool {
@@ -281,6 +285,13 @@ func (z *callbackImpl) Start() error {
 	}
 	z.mutex.Unlock()
 
+	logoImage, err := z.ctl.Resource("watermint-toolbox-256x256.png")
+	if err != nil {
+		l.Debug("unable to load logo image", zap.Error(err))
+		return err
+	}
+	z.logoImageBase64 = template.URL(DataUriImagePng + base64.StdEncoding.EncodeToString(logoImage))
+
 	l.Debug("Starting server")
 	if err := z.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		l.Debug("Server finished with an error", zap.Error(err))
@@ -348,6 +359,7 @@ func (z *callbackImpl) Success(g *gin.Context) {
 		"result",
 		gin.H{
 			"Copyright": app.Copyright,
+			"LogoData":  z.logoImageBase64,
 			"Header":    ui.Text(MCallback.MsgResultSuccessHeader),
 			"Detail":    ui.Text(MCallback.MsgResultSuccessBody),
 		},
@@ -364,6 +376,7 @@ func (z *callbackImpl) Failure(g *gin.Context) {
 		"result",
 		gin.H{
 			"Copyright": app.Copyright,
+			"LogoData":  z.logoImageBase64,
 			"Header":    ui.Text(MCallback.MsgResultFailureHeader),
 			"Detail":    ui.Text(MCallback.MsgResultFailureBody),
 		},
@@ -380,6 +393,7 @@ func (z *callbackImpl) Hello(g *gin.Context) {
 		"result",
 		gin.H{
 			"Copyright": app.Copyright,
+			"LogoData":  z.logoImageBase64,
 			"Header":    ui.Text(MCallback.MsgHelloHeader),
 			"Detail":    ui.Text(MCallback.MsgHelloBody),
 		},
