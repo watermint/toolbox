@@ -62,8 +62,7 @@ func (z *Enable) Exec(c app_control.Control) error {
 		ui.Info(z.InfoCancelled)
 		return nil
 	}
-	feature.OptInCommit(true)
-	if err := c.Feature().OptInUpdate(feature); err != nil {
+	if err := c.Feature().OptInUpdate(feature.OptInCommit(true)); err != nil {
 		ui.Error(z.ErrorUnableToEnableFeature.With("Key", z.Key))
 		return err
 	}

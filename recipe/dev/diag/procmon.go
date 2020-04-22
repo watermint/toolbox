@@ -10,12 +10,12 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/essentials/http/download"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_archive"
-	"github.com/watermint/toolbox/infra/util/ut_download"
 	"github.com/watermint/toolbox/infra/util/ut_process"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
@@ -62,7 +62,7 @@ func (z *Procmon) downloadProcmon(c app_control.Control) error {
 	procmonZip := filepath.Join(z.RepositoryPath.Path(), "procmon.zip")
 
 	// Download
-	if err := ut_download.Download(l, z.ProcmonUrl, procmonZip); err != nil {
+	if err := download.Download(l, z.ProcmonUrl, procmonZip); err != nil {
 		return err
 	}
 

@@ -1,9 +1,9 @@
 package desktop
 
 import (
+	"github.com/watermint/toolbox/essentials/http/download"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_download"
 	"github.com/watermint/toolbox/infra/util/ut_process"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
@@ -37,7 +37,7 @@ func (z *Install) Exec(c app_control.Control) error {
 		arg = "/NOLAUNCH"
 	}
 
-	if err := ut_download.Download(c.Log(), z.InstallerUrl, dp); err != nil {
+	if err := download.Download(c.Log(), z.InstallerUrl, dp); err != nil {
 		l.Error("Unable to download installer", zap.Error(err))
 		return err
 	}

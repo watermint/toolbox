@@ -14,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/service/sv_reference"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
@@ -21,7 +22,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filehash"
@@ -33,7 +33,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
 	"github.com/watermint/toolbox/recipe/dev/test"
 	"go.uber.org/zap"
-	"golang.org/x/text/language/display"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -146,22 +145,22 @@ func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNo
 
 	mui.Header(z.HeadingChanges)
 
-	for _, lang := range app_lang.SupportedLanguages {
+	for _, la := range lang.Supported {
 		mui.Info(z.ListSpecChange.
-			With("Link", baseUrl+"/doc/generated"+app_lang.PathSuffix(lang)+"/changes.md").
-			With("Lang", display.Self.Name(lang)),
+			With("Link", baseUrl+"/doc/generated"+la.Suffix()+"/changes.md").
+			With("Lang", la.Self()),
 		)
 	}
 
 	mui.Break()
 	mui.Header(z.HeadingDocument)
 
-	for _, lang := range app_lang.SupportedLanguages {
-		name := "README" + app_lang.PathSuffix(lang) + ".md"
+	for _, la := range lang.Supported {
+		name := "README" + la.Suffix() + ".md"
 		mui.Info(z.ListReadme.
 			With("Name", name).
 			With("Link", baseUrl+"/"+name).
-			With("Lang", display.Self.Name(lang)),
+			With("Lang", la.Self()),
 		)
 	}
 

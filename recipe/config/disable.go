@@ -43,8 +43,7 @@ func (z *Disable) Exec(c app_control.Control) error {
 	}
 
 	ui.Text(feature.OptInDescription(feature))
-	feature.OptInCommit(false)
-	if err := c.Feature().OptInUpdate(feature); err != nil {
+	if err := c.Feature().OptInUpdate(feature.OptInCommit(false)); err != nil {
 		ui.Error(z.ErrorUnableToDisableFeature.With("Key", z.Key))
 		return err
 	}

@@ -1,32 +1,32 @@
 package app_msg_container_impl
 
 import (
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
-	"golang.org/x/text/language"
 )
 
-func NewMultilingual(langs []language.Tag, containers map[language.Tag]app_msg_container.Container) app_msg_container.Container {
+func NewMultilingual(las []lang.Lang, containers map[lang.Iso639One]app_msg_container.Container) app_msg_container.Container {
 	return &Multilingual{
-		LangPriority: langs,
+		LangPriority: las,
 		Containers:   containers,
 		qm:           qt_missingmsg_impl.NewMessageMemory(),
 	}
 }
 
 type Multilingual struct {
-	LangPriority []language.Tag
-	Containers   map[language.Tag]app_msg_container.Container
+	LangPriority []lang.Lang
+	Containers   map[lang.Iso639One]app_msg_container.Container
 	qm           qt_missingmsg.Message
 }
 
 func (z *Multilingual) Verify(key string) {
-	for _, lang := range z.LangPriority {
-		if c, ok := z.Containers[lang]; ok {
+	for _, la := range z.LangPriority {
+		if c, ok := z.Containers[la.Code()]; ok {
 			if c.Exists(key) {
 				return
 			}
@@ -40,8 +40,8 @@ func (z *Multilingual) MissingKeys() []string {
 }
 
 func (z *Multilingual) Text(key string) string {
-	for _, lang := range z.LangPriority {
-		if c, ok := z.Containers[lang]; ok {
+	for _, la := range z.LangPriority {
+		if c, ok := z.Containers[la.Code()]; ok {
 			if c.Exists(key) {
 				return c.Text(key)
 			}
@@ -55,8 +55,8 @@ func (z *Multilingual) Text(key string) string {
 }
 
 func (z *Multilingual) Exists(key string) bool {
-	for _, lang := range z.LangPriority {
-		if c, ok := z.Containers[lang]; ok {
+	for _, la := range z.LangPriority {
+		if c, ok := z.Containers[la.Code()]; ok {
 			if c.Exists(key) {
 				return true
 			}
@@ -66,8 +66,8 @@ func (z *Multilingual) Exists(key string) bool {
 }
 
 func (z *Multilingual) Compile(m app_msg.Message) string {
-	for _, lang := range z.LangPriority {
-		if c, ok := z.Containers[lang]; ok {
+	for _, la := range z.LangPriority {
+		if c, ok := z.Containers[la.Code()]; ok {
 			if c.Exists(m.Key()) {
 				return c.Compile(m)
 			}

@@ -6,16 +6,15 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/recipe/dev"
 	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"github.com/watermint/toolbox/recipe/dev/test"
 	"go.uber.org/zap"
-	"golang.org/x/text/language"
 	"os"
 )
 
@@ -44,12 +43,12 @@ func (z *Candidate) verifyMessages(c app_control.Control) error {
 	}
 
 	l := c.Log()
-	for _, lang := range app_lang.SupportedLanguages {
-		if lang == language.English {
+	for _, la := range lang.Supported {
+		if la.IsDefault() {
 			continue
 		}
-		code := app_lang.Base(lang)
-		suffix := app_lang.PathSuffix(lang)
+		code := la.CodeString()
+		suffix := la.Suffix()
 
 		ll := l.With(zap.String("Language", code))
 		ll.Info("Verify messages for language")

@@ -5,12 +5,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
-	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"github.com/watermint/toolbox/recipe/dev/spec"
@@ -136,9 +136,9 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		}
 	}
 
-	for _, lang := range app_lang.SupportedLanguages {
-		langCode := app_lang.Base(lang)
-		suffix := app_lang.PathSuffix(lang)
+	for _, la := range lang.Supported {
+		langCode := la.CodeString()
+		suffix := la.Suffix()
 
 		path := fmt.Sprintf("doc/generated%s/", suffix)
 		ll := l.With(zap.String("lang", langCode), zap.String("suffix", suffix))

@@ -1,4 +1,4 @@
-package ut_download
+package download
 
 import (
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"

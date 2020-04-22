@@ -2,39 +2,34 @@ package app_msg_container_impl
 
 import (
 	rice "github.com/GeertJohan/go.rice"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"go.uber.org/zap"
-	"golang.org/x/text/language"
 )
 
 func NewContainer(box *rice.Box) app_msg_container.Container {
-	cm := make(map[language.Tag]app_msg_container.Container)
-	langs := make([]language.Tag, 0)
+	containers := make(map[lang.Iso639One]app_msg_container.Container)
+	usrLang := lang.Detect(lang.Supported)
+	priority := lang.Priority(usrLang)
 
-	usrLang := app_lang.Detect()
-	if usrLang != language.English {
-		langs = append(langs, usrLang)
-	}
-	langs = append(langs, language.English)
 	var lastErr error = nil
 
-	for _, lang := range langs {
-		c, err := NewResource(lang, box)
+	for _, la := range priority {
+		c, err := NewResource(la, box)
 		if err != nil {
 			lastErr = err
 			continue
 		}
-		cm[lang] = c
+		containers[la.Code()] = c
 	}
-	if len(cm) < 1 {
+	if len(containers) < 1 {
 		app_root.Log().Error("No resources loaded", zap.Error(lastErr))
 		panic("At least one message resource required")
 	}
 
 	return NewMultilingual(
-		langs,
-		cm,
+		priority,
+		containers,
 	)
 }

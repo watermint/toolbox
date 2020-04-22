@@ -48,7 +48,7 @@ type OptIn interface {
 	OptInDisclaimer(v OptIn) app_msg.Message
 
 	// Opt-in
-	OptInCommit(enable bool)
+	OptInCommit(enable bool) OptIn
 }
 
 func OptInFrom(v map[string]interface{}, oi OptIn) error {
@@ -70,7 +70,7 @@ type OptInStatus struct {
 	Status bool `json:"status"`
 }
 
-func (z *OptInStatus) OptInCommit(enable bool) {
+func (z OptInStatus) OptInCommit(enable bool) OptIn {
 	usr, _ := user.Current()
 
 	switch {
@@ -83,32 +83,33 @@ func (z *OptInStatus) OptInCommit(enable bool) {
 	}
 	z.Status = enable
 	z.Timestamp = time.Now().Format(time.RFC3339)
+	return &z
 }
 
-func (z *OptInStatus) OptInName(v OptIn) string {
+func (z OptInStatus) OptInName(v OptIn) string {
 	return ut_reflect.Key(app.Pkg, v)
 }
 
-func (z *OptInStatus) OptInTimestamp() string {
+func (z OptInStatus) OptInTimestamp() string {
 	return z.Timestamp
 }
 
-func (z *OptInStatus) OptInUser() string {
+func (z OptInStatus) OptInUser() string {
 	return z.User
 }
 
-func (z *OptInStatus) OptInIsEnabled() bool {
+func (z OptInStatus) OptInIsEnabled() bool {
 	return z.Status
 }
 
-func (z *OptInStatus) OptInAgreement(v OptIn) app_msg.Message {
+func (z OptInStatus) OptInAgreement(v OptIn) app_msg.Message {
 	return app_msg.ObjMessage(v, "agreement")
 }
 
-func (z *OptInStatus) OptInDisclaimer(v OptIn) app_msg.Message {
+func (z OptInStatus) OptInDisclaimer(v OptIn) app_msg.Message {
 	return app_msg.ObjMessage(v, "disclaimer")
 }
 
-func (z *OptInStatus) OptInDescription(v OptIn) app_msg.Message {
+func (z OptInStatus) OptInDescription(v OptIn) app_msg.Message {
 	return app_msg.ObjMessage(v, "desc")
 }
