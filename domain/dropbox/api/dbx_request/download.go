@@ -53,7 +53,7 @@ func (z *downloadRequestImpl) Param(p interface{}) api_request.Request {
 }
 
 func (z *downloadRequestImpl) Call() (res api_response.Response, err error) {
-	return dbx_rest.Default().Call(z.ctx, z)
+	return dbx_rest.Default(z.ctx.Feature()).Call(z.ctx, z)
 }
 
 func (z *downloadRequestImpl) Endpoint() string {

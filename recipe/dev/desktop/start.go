@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_process"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"os/exec"
 	"runtime"
@@ -47,6 +48,9 @@ func (z *Start) Exec(c app_control.Control) error {
 }
 
 func (z *Start) Test(c app_control.Control) error {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		return nil
+	}
 	return rc_exec.Exec(c, &Start{}, func(r rc_recipe.Recipe) {})
 }
 

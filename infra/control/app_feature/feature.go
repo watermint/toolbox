@@ -38,15 +38,6 @@ type OptIn interface {
 	// Name of the feature.
 	OptInName(v OptIn) string
 
-	// Description of the feature.
-	OptInDescription(v OptIn) app_msg.Message
-
-	// Message on enable this feature.
-	OptInAgreement(v OptIn) app_msg.Message
-
-	// Disclaimer message when the feature enabled runtime.
-	OptInDisclaimer(v OptIn) app_msg.Message
-
 	// Opt-in
 	OptInCommit(enable bool) OptIn
 }
@@ -102,14 +93,14 @@ func (z OptInStatus) OptInIsEnabled() bool {
 	return z.Status
 }
 
-func (z OptInStatus) OptInAgreement(v OptIn) app_msg.Message {
+func OptInAgreement(v OptIn) app_msg.Message {
 	return app_msg.ObjMessage(v, "agreement")
 }
 
-func (z OptInStatus) OptInDisclaimer(v OptIn) app_msg.Message {
+func OptInDisclaimer(v OptIn) app_msg.Message {
 	return app_msg.ObjMessage(v, "disclaimer")
 }
 
-func (z OptInStatus) OptInDescription(v OptIn) app_msg.Message {
+func OptInDescription(v OptIn) app_msg.Message {
 	return app_msg.ObjMessage(v, "desc")
 }

@@ -75,7 +75,7 @@ func (z *rpcImpl) Param(p interface{}) api_request.Request {
 }
 
 func (z *rpcImpl) Call() (res api_response.Response, err error) {
-	return gh_rest.Default().Call(z.ctx, z)
+	return gh_rest.Default(z.ctx.Feature()).Call(z.ctx, z)
 }
 
 func (z *rpcImpl) Endpoint() string {

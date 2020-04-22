@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -39,7 +40,7 @@ func (z *Features) Exec(c app_control.Control) error {
 		for _, f := range cl.Catalogue().Features() {
 			uit.Row(
 				app_msg.Raw(f.OptInName(f)),
-				f.OptInDescription(f),
+				app_feature.OptInDescription(f),
 			)
 		}
 		uit.Flush()

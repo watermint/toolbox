@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
@@ -48,6 +49,10 @@ type Context struct {
 	ac        api_auth.Context
 	ctl       app_control.Control
 	isNoRetry bool
+}
+
+func (z *Context) Feature() app_feature.Feature {
+	return z.ctl.Feature()
 }
 
 func (z *Context) ClientHash() string {

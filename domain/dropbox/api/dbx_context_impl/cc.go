@@ -14,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"github.com/watermint/toolbox/infra/util/ut_io"
@@ -44,6 +45,10 @@ type ccImpl struct {
 	noRetryOnError bool
 	hashComputed   string
 	hashMutex      sync.Mutex
+}
+
+func (z *ccImpl) Feature() app_feature.Feature {
+	return z.ctl.Feature()
 }
 
 func (z *ccImpl) MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error) {

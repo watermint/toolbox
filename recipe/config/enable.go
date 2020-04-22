@@ -56,8 +56,8 @@ func (z *Enable) Exec(c app_control.Control) error {
 		return ErrorInvalidKey
 	}
 
-	ui.Info(feature.OptInDescription(feature))
-	cont, cancel := ui.AskCont(feature.OptInAgreement(feature))
+	ui.Info(app_feature.OptInDescription(feature))
+	cont, cancel := ui.AskCont(app_feature.OptInAgreement(feature))
 	if cancel || !cont {
 		ui.Info(z.InfoCancelled)
 		return nil

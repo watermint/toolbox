@@ -224,7 +224,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 		return err
 	}
 
-	noAuthCtx := dbx_context_impl.NewNoAuth()
+	noAuthCtx := dbx_context_impl.NewNoAuth(z.ctx.Feature())
 	for {
 		res, err := noAuthCtx.Notify("files/list_folder/longpoll").Param(cursor).Call()
 		if err != nil {

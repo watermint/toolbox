@@ -46,7 +46,7 @@ func (z *rpcRequestImpl) Param(p interface{}) api_request.Request {
 }
 
 func (z *rpcRequestImpl) Call() (res api_response.Response, err error) {
-	return dbx_rest.Default().Call(z.ctx, z)
+	return dbx_rest.Default(z.ctx.Feature()).Call(z.ctx, z)
 }
 
 func (z *rpcRequestImpl) Endpoint() string {

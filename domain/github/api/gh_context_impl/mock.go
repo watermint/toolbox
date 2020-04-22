@@ -5,6 +5,8 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
+	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -12,11 +14,16 @@ import (
 	"net/http"
 )
 
-func NewMock() gh_context.Context {
+func NewMock(ctl app_control.Control) gh_context.Context {
 	return &Mock{}
 }
 
 type Mock struct {
+	ctl app_control.Control
+}
+
+func (z *Mock) Feature() app_feature.Feature {
+	return z.ctl.Feature()
 }
 
 func (z *Mock) Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request {

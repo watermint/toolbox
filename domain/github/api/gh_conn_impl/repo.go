@@ -40,13 +40,13 @@ func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
 	if c, ok := ctl.(app_control.ControlTestExtension); ok {
 		if c.TestValue(qt_endtoend.CtlTestExtUseMock) == true {
 			l.Debug("Test with mock")
-			z.ctx = gh_context_impl.NewMock()
+			z.ctx = gh_context_impl.NewMock(ctl)
 			return nil
 		}
 	}
 	if ctl.Feature().IsTest() && qt_endtoend.IsSkipEndToEndTest() {
 		l.Debug("Skip end to end test")
-		z.ctx = gh_context_impl.NewMock()
+		z.ctx = gh_context_impl.NewMock(ctl)
 		return nil
 	}
 	if !ui.IsConsole() {

@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"net/http"
@@ -46,6 +47,7 @@ type Context interface {
 
 	Log() *zap.Logger
 	Capture() *zap.Logger
+	Feature() app_feature.Feature
 
 	NoRetryOnError() Context
 	IsNoRetry() bool

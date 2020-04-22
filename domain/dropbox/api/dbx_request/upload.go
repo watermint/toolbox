@@ -71,7 +71,7 @@ func (z *uploadRequestImpl) Param(p interface{}) api_request.Request {
 }
 
 func (z *uploadRequestImpl) Call() (res api_response.Response, err error) {
-	return dbx_rest.Default().Call(z.ctx, z)
+	return dbx_rest.Default(z.ctx.Feature()).Call(z.ctx, z)
 }
 
 func (z *uploadRequestImpl) Endpoint() string {

@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/atomic"
@@ -19,13 +20,18 @@ var (
 	noAuthImplSeed = atomic.Int64{}
 )
 
-func NewNoAuth() dbx_context.NoAuthContext {
-	return &noAuthImpl{seed: noAuthImplSeed.Add(1), noRetry: false}
+func NewNoAuth(feature app_feature.Feature) dbx_context.NoAuthContext {
+	return &noAuthImpl{seed: noAuthImplSeed.Add(1), noRetry: false, feature: feature}
 }
 
 type noAuthImpl struct {
 	seed    int64
 	noRetry bool
+	feature app_feature.Feature
+}
+
+func (z *noAuthImpl) Feature() app_feature.Feature {
+	return z.feature
 }
 
 func (z *noAuthImpl) ClientHash() string {

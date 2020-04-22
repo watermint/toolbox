@@ -30,7 +30,7 @@ func (z *Autodelete) Exec(c app_control.Control) error {
 		l.Debug("The feature disabled")
 		return nil
 	} else {
-		ui.Info(f.OptInDisclaimer(f))
+		ui.Info(app_feature.OptInDisclaimer(f))
 	}
 	return rc_exec.Exec(c, &job.Delete{}, func(r rc_recipe.Recipe) {
 		m := r.(*job.Delete)

@@ -3,6 +3,7 @@ package desktop
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"os"
@@ -51,6 +52,9 @@ func (z *Suspendupdate) Exec(c app_control.Control) error {
 }
 
 func (z *Suspendupdate) Test(c app_control.Control) error {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		return nil
+	}
 	return qt_errors.ErrorNoTestRequired
 }
 

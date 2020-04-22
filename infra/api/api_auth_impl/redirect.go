@@ -46,7 +46,7 @@ func (z *Redirect) Auth(scope string) (token api_auth.Context, err error) {
 	ui := z.ctl.UI()
 
 	if f, found := z.ctl.Feature().OptInGet(&OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
-		ui.Info(f.OptInDisclaimer(f))
+		ui.Info(app_feature.OptInDisclaimer(f))
 	} else {
 		return nil, ErrorOAuthSequenceDisabled
 	}

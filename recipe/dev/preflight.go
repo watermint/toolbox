@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
@@ -237,9 +238,9 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		for _, f := range cat.Features() {
 			key := f.OptInName(f)
 			ll := l.With(zap.String("key", key))
-			ll.Debug("feature disclaimer", zap.String("msg", c.UI().Text(f.OptInDisclaimer(f))))
-			ll.Debug("feature agreement", zap.String("msg", c.UI().Text(f.OptInAgreement(f))))
-			ll.Debug("feature desc", zap.String("msg", c.UI().Text(f.OptInDescription(f))))
+			ll.Debug("feature disclaimer", zap.String("msg", c.UI().Text(app_feature.OptInDisclaimer(f))))
+			ll.Debug("feature agreement", zap.String("msg", c.UI().Text(app_feature.OptInAgreement(f))))
+			ll.Debug("feature desc", zap.String("msg", c.UI().Text(app_feature.OptInDescription(f))))
 		}
 	}
 

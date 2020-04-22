@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
@@ -17,12 +18,17 @@ import (
 )
 
 func NewMock(c app_control.Control) dbx_context.Context {
-	return &Mock{l: c.Log(), c: c.Capture()}
+	return &Mock{l: c.Log(), c: c.Capture(), feature: c.Feature()}
 }
 
 type Mock struct {
-	l *zap.Logger
-	c *zap.Logger
+	l       *zap.Logger
+	c       *zap.Logger
+	feature app_feature.Feature
+}
+
+func (z *Mock) Feature() app_feature.Feature {
+	return z.feature
 }
 
 func (z *Mock) MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error) {
