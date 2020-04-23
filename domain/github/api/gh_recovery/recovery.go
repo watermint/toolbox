@@ -27,7 +27,7 @@ type recoveryImpl struct {
 	client nw_client.Rest
 }
 
-func (z *recoveryImpl) Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
+func (z recoveryImpl) Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
 	l := ctx.Log()
 	res, err = z.client.Call(ctx, req)
 	if err != nil {

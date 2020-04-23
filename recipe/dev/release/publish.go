@@ -26,7 +26,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_filehash"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -194,7 +193,7 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 
 	if c.Feature().IsProduction() {
 		l.Info("Prepare resources")
-		if !api_auth_impl.IsCacheAvailable(c, qt_endtoend.EndToEndPeer, []string{
+		if !api_auth_impl.IsCacheAvailable(c, app.PeerEndToEndTest, []string{
 			api_auth.DropboxTokenFull,
 			api_auth.DropboxTokenBusinessAudit,
 			api_auth.DropboxTokenBusinessManagement,
@@ -215,7 +214,7 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 	if z.TestResource.IsExists() {
 		testResourcePath = z.TestResource.Value()
 	} else {
-		v, ok := ut_runtime.EnvMap()[qt_endtoend.TestResourceEnv]
+		v, ok := ut_runtime.EnvMap()[app.EnvNameTestResource]
 		if ok {
 			testResourcePath = v
 		}

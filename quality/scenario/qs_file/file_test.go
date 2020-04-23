@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/infra/api/api_auth"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -99,7 +100,7 @@ func TestFileUploadScenario(t *testing.T) {
 	}
 
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
-		if _, err := dbx_conn_impl.ConnectTest(api_auth.DropboxTokenFull, qt_endtoend.EndToEndPeer, ctl); err != nil {
+		if _, err := dbx_conn_impl.ConnectTest(api_auth.DropboxTokenFull, app.PeerEndToEndTest, ctl); err != nil {
 			l.Info("Skip: no end to end test resource found")
 			return
 		}

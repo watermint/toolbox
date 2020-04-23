@@ -22,42 +22,42 @@ type Mock struct {
 	ctl app_control.Control
 }
 
-func (z *Mock) Feature() app_feature.Feature {
+func (z Mock) Feature() app_feature.Feature {
 	return z.ctl.Feature()
 }
 
-func (z *Mock) Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request {
+func (z Mock) Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request {
 	return &api_request.MockRequest{}
 }
 
-func (z *Mock) ClientHash() string {
+func (z Mock) ClientHash() string {
 	return ""
 }
 
-func (z *Mock) Log() *zap.Logger {
+func (z Mock) Log() *zap.Logger {
 	return app_root.Log()
 }
 
-func (z *Mock) Capture() *zap.Logger {
+func (z Mock) Capture() *zap.Logger {
 	return app_root.Capture()
 }
 
-func (z *Mock) NoRetryOnError() api_context.Context {
-	return z
+func (z Mock) NoRetryOnError() api_context.Context {
+	return &z
 }
 
-func (z *Mock) IsNoRetry() bool {
+func (z Mock) IsNoRetry() bool {
 	return false
 }
 
-func (z *Mock) MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error) {
+func (z Mock) MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error) {
 	return nil, qt_errors.ErrorMock
 }
 
-func (z *Mock) Post(endpoint string) api_request.Request {
+func (z Mock) Post(endpoint string) api_request.Request {
 	return &api_request.MockRequest{}
 }
 
-func (z *Mock) Get(endpoint string) api_request.Request {
+func (z Mock) Get(endpoint string) api_request.Request {
 	return &api_request.MockRequest{}
 }

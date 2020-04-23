@@ -2,7 +2,7 @@ package dbx_conn_impl
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/infra/app"
 )
 
 type PreVerify interface {
@@ -11,7 +11,7 @@ type PreVerify interface {
 
 func EnsurePreVerify(conn dbx_conn.ConnDropboxApi) {
 	switch conn.PeerName() {
-	case DefaultPeerName, qt_endtoend.EndToEndPeer:
+	case DefaultPeerName, app.PeerEndToEndTest:
 		return
 
 	default:

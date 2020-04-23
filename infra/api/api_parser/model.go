@@ -30,13 +30,7 @@ func ParseModel(v interface{}, j gjson.Result) error {
 	vv := reflect.ValueOf(v).Elem()
 	vt := vv.Type()
 
-	var l *zap.Logger
-	if app_root.Ready() {
-		l = app_root.Log()
-	} else {
-		l = app_root.Log()
-	}
-	l = l.With(zap.String("valueType", vt.Name()))
+	l := app_root.Log().With(zap.String("valueType", vt.Name()))
 
 	for i := vt.NumField() - 1; i >= 0; i-- {
 		vtf := vt.Field(i)

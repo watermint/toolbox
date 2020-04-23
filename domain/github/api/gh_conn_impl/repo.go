@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
@@ -38,7 +39,7 @@ func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
 	scope := z.ScopeLabel()
 
 	if c, ok := ctl.(app_control.ControlTestExtension); ok {
-		if c.TestValue(qt_endtoend.CtlTestExtUseMock) == true {
+		if c.TestValue(app.CtlTestExtUseMock) == true {
 			l.Debug("Test with mock")
 			z.ctx = gh_context_impl.NewMock(ctl)
 			return nil

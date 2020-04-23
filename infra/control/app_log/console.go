@@ -1,6 +1,7 @@
 package app_log
 
 import (
+	"github.com/watermint/toolbox/essentials/behavior/environment"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
@@ -27,6 +28,9 @@ func NewConsoleLoggerCore(debug bool, test bool) zapcore.Core {
 
 	var level zapcore.Level
 	switch {
+	case environment.IsEnabled(app.EnvNameDebugVerbose):
+		level = zap.DebugLevel
+
 	case app.IsProduction() && test:
 		level = zap.FatalLevel
 

@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 )
@@ -20,8 +20,8 @@ type Import struct {
 }
 
 func (z *Import) Preset() {
-	z.PeerName = qt_endtoend.EndToEndPeer
-	z.EnvName = qt_endtoend.EndToEndEnvToken
+	z.PeerName = app.PeerEndToEndTest
+	z.EnvName = app.EnvNameEndToEndToken
 }
 
 func (z *Import) Exec(c app_control.Control) error {

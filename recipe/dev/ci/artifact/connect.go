@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/util/ut_io"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
@@ -20,7 +20,7 @@ type Connect struct {
 }
 
 func (z *Connect) Preset() {
-	z.Full.SetPeerName(qt_endtoend.DeployPeer)
+	z.Full.SetPeerName(app.PeerDeploy)
 }
 
 func (z *Connect) Exec(c app_control.Control) error {

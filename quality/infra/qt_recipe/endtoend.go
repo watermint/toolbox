@@ -21,7 +21,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/infra/util/ut_memory"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
@@ -171,7 +170,7 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 		}
 		if useMock {
 			if c, ok := ctl.(app_control.ControlTestExtension); ok {
-				c.SetTestValue(qt_endtoend.CtlTestExtUseMock, true)
+				c.SetTestValue(app.CtlTestExtUseMock, true)
 			}
 		}
 

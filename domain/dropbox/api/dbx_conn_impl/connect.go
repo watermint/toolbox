@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -27,7 +28,7 @@ func IsEndToEndTokenAllAvailable(ctl app_control.Control) bool {
 	}
 
 	for _, tt := range tts {
-		_, err := ConnectTest(tt, qt_endtoend.EndToEndPeer, ctl)
+		_, err := ConnectTest(tt, app.PeerEndToEndTest, ctl)
 		if err != nil {
 			ctl.Log().Debug("Token is not available for the token type", zap.String("tokenType", tt), zap.Error(err))
 			return false
@@ -42,7 +43,7 @@ func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx dbx_c
 	if qt_endtoend.IsSkipEndToEndTest() {
 		return nil, qt_errors.ErrorSkipEndToEndTest
 	}
-	peers := []string{peerName, qt_endtoend.EndToEndPeer}
+	peers := []string{peerName, app.PeerEndToEndTest}
 	for _, peer := range peers {
 		l.Debug("Retrieve cache from peer", zap.String("peer", peer))
 		a := api_auth_impl.NewConsoleCacheOnly(ctl, peer)
@@ -58,7 +59,7 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 	ui := ctl.UI()
 
 	if c, ok := ctl.(app_control.ControlTestExtension); ok {
-		if c.TestValue(qt_endtoend.CtlTestExtUseMock) == true {
+		if c.TestValue(app.CtlTestExtUseMock) == true {
 			l.Debug("Test with mock")
 			return dbx_context_impl.NewMock(ctl), nil
 		}

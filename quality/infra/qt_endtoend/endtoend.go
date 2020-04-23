@@ -1,30 +1,16 @@
 package qt_endtoend
 
 import (
+	"github.com/watermint/toolbox/essentials/behavior/environment"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
-	"os"
-	"strconv"
 	"testing"
 )
 
-const (
-	DeployPeer          = "deploy"
-	DeployEnvToken      = "TOOLBOX_DEPLOY_TOKEN"
-	EndToEndPeer        = "end_to_end_test"
-	EndToEndEnvTestSkip = "TOOLBOX_SKIPENDTOENDTEST"
-	EndToEndEnvToken    = "TOOLBOX_ENDTOEND_TOKEN"
-	TestResourceEnv     = "TOOLBOX_TEST_RESOURCE"
-
-	// Keys for ControlTestExtension keys
-	CtlTestExtUseMock = "use_mock"
-)
-
 func IsSkipEndToEndTest() bool {
-	if p, found := os.LookupEnv(EndToEndEnvTestSkip); found {
-		if b, _ := strconv.ParseBool(p); b {
-			return true
-		}
+	if environment.IsEnabled(app.EnvNameEndToEndSkipTest) {
+		return true
 	}
 
 	// Recover: `testing: Short called before Init`

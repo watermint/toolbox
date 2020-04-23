@@ -6,11 +6,11 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"io/ioutil"
@@ -28,7 +28,7 @@ type Up struct {
 }
 
 func (z *Up) Preset() {
-	z.PeerName = qt_endtoend.DeployPeer
+	z.PeerName = app.PeerDeploy
 }
 
 func (z *Up) Exec(c app_control.Control) error {
@@ -36,8 +36,8 @@ func (z *Up) Exec(c app_control.Control) error {
 
 	if err := rc_exec.Exec(c, &auth.Import{}, func(r rc_recipe.Recipe) {
 		m := r.(*auth.Import)
-		m.PeerName = qt_endtoend.DeployPeer
-		m.EnvName = qt_endtoend.DeployEnvToken
+		m.PeerName = app.PeerDeploy
+		m.EnvName = app.EnvNameDeployToken
 	}); err != nil {
 		l.Info("No token imported. Skip operation")
 		return nil

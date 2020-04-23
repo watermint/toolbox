@@ -9,42 +9,42 @@ import (
 type MockRequest struct {
 }
 
-func (z *MockRequest) Header(key, value string) Request {
-	return z
+func (z MockRequest) Header(key, value string) Request {
+	return &z
 }
 
-func (z *MockRequest) ParamString() string {
+func (z MockRequest) ParamString() string {
 	return ""
 }
 
-func (z *MockRequest) Param(p interface{}) Request {
-	return z
+func (z MockRequest) Param(p interface{}) Request {
+	return &z
 }
 
-func (z *MockRequest) Call() (res api_response.Response, err error) {
+func (z MockRequest) Call() (res api_response.Response, err error) {
 	return nil, qt_errors.ErrorMock
 }
 
-func (z *MockRequest) Endpoint() string {
+func (z MockRequest) Endpoint() string {
 	return ""
 }
 
-func (z *MockRequest) Url() string {
+func (z MockRequest) Url() string {
 	return ""
 }
 
-func (z *MockRequest) Headers() map[string]string {
+func (z MockRequest) Headers() map[string]string {
 	return make(map[string]string)
 }
 
-func (z *MockRequest) Method() string {
+func (z MockRequest) Method() string {
 	return ""
 }
 
-func (z *MockRequest) ContentLength() int64 {
+func (z MockRequest) ContentLength() int64 {
 	return 0
 }
 
-func (z *MockRequest) Make() (req *http.Request, err error) {
+func (z MockRequest) Make() (req *http.Request, err error) {
 	return nil, qt_errors.ErrorMock
 }
