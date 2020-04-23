@@ -11,11 +11,10 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/dev/ci/auth"
-	"io/ioutil"
 	"os"
-	"path/filepath"
 	"time"
 )
 
@@ -65,18 +64,15 @@ func (z *Up) Exec(c app_control.Control) error {
 }
 
 func (z *Up) Test(c app_control.Control) error {
-	tp, err := ioutil.TempDir("", "up")
+	tp, err := qt_file.MakeTestFolder("up", true)
 	if err != nil {
-		return err
-	}
-	if err := ioutil.WriteFile(filepath.Join(tp, "artifact.txt"), []byte(time.Now().String()), 0644); err != nil {
 		return err
 	}
 	defer func() {
 		os.RemoveAll(tp)
 	}()
 
-	return rc_exec.Exec(c, z, func(r rc_recipe.Recipe) {
+	return rc_exec.ExecMock(c, z, func(r rc_recipe.Recipe) {
 		m := r.(*Up)
 		m.LocalPath = mo_path2.NewFileSystemPath(tp)
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("dev-ci-artifact", time.Now().Format(time.RFC3339))
