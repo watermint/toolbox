@@ -11,6 +11,8 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/recipe/dev/ci/auth"
@@ -56,23 +58,23 @@ func (z *Up) Exec(c app_control.Control) error {
 		m.DropboxPath = z.DropboxPath
 		m.Overwrite = true
 	})
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 func (z *Up) Test(c app_control.Control) error {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		return qt_errors.ErrorSkipEndToEndTest
+	}
+
 	tp, err := qt_file.MakeTestFolder("up", true)
 	if err != nil {
-		return err
+		return qt_errors.ErrorNotEnoughResource
 	}
 	defer func() {
 		os.RemoveAll(tp)
 	}()
 
-	return rc_exec.ExecMock(c, z, func(r rc_recipe.Recipe) {
+	return rc_exec.Exec(c, z, func(r rc_recipe.Recipe) {
 		m := r.(*Up)
 		m.LocalPath = mo_path2.NewFileSystemPath(tp)
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("dev-ci-artifact", time.Now().Format(time.RFC3339))

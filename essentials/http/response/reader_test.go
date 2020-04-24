@@ -79,7 +79,7 @@ func TestRead_SuccessChunked(t *testing.T) {
 	if body.ContentLength() != int64(len(content)) {
 		t.Error(body.ContentLength())
 	}
-	if body.Body() != nil {
+	if len(body.Body()) != 0 {
 		t.Error(body.Body())
 	}
 	readContent, err := ioutil.ReadFile(body.File())

@@ -61,7 +61,7 @@ func read(ctx api_context.Context, resBody io.ReadCloser, readBufSize, readChunk
 		n, err := io.CopyN(&bodyBuf, bodyReader, int64(readChunkSize))
 		switch err {
 		case io.EOF:
-			return newMemoryBody(bodyBuf.Bytes()), nil
+			return newMemoryBody(ctx, bodyBuf.Bytes()), nil
 
 		case nil:
 			if n == 0 {
@@ -136,7 +136,7 @@ func read(ctx api_context.Context, resBody io.ReadCloser, readBufSize, readChunk
 				cleanupOnError()
 				return nil, err
 			}
-			return newFileBody(bodyFile.Name(), fileBytes), nil
+			return newFileBody(ctx, bodyFile.Name(), fileBytes), nil
 
 		case nil:
 			if n == 0 {

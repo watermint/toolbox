@@ -1,12 +1,12 @@
 package dbx_context_impl
 
 import (
-	"bufio"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/infra/api/api_async"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
@@ -15,16 +15,12 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
-	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
-	"io"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 	"sync"
-	"time"
 )
 
 func New(ctl app_control.Control, token api_auth.Context) dbx_context.Context {
@@ -197,59 +193,24 @@ func NewResponse(ctx api_context.Context, req *http.Request, res *http.Response)
 		l.Debug("Null response")
 		return nil, api_response.ErrorNoResponse
 	}
+	body, err := response.Read(ctx, res.Body)
+	if err != nil {
+		l.Debug("unable to read body", zap.Error(err))
+		return nil, err
+	}
+	res.ContentLength = body.ContentLength()
 
-	result := ""
+	resultHeader := ""
 	if res.Header != nil {
-		result = res.Header.Get(api_response.DropboxApiResHeaderResult)
-	}
-	if result != "" {
-		resFile, err := ioutil.TempFile("", ctx.ClientHash())
+		resultHeader = res.Header.Get(api_response.DropboxApiResHeaderResult)
+		f, err := body.AsFile()
 		if err != nil {
-			l.Debug("Unable to create temp file to store download", zap.Error(err))
+			l.Debug("Unable to write content into the file", zap.Error(err))
 			return nil, err
 		}
-		defer resFile.Close()
-		buf := make([]byte, 4096)
-		resBody := nw_bandwidth.WrapReader(res.Body)
-		resWrite := bufio.NewWriter(resFile)
-		var loadedLength int64
-
-		for {
-			n, err := resBody.Read(buf)
-			if n > 0 {
-				l.Debug("writing", zap.Int("writing", n))
-				if _, wErr := resWrite.Write(buf[:n]); wErr != nil {
-					l.Debug("Error on writing body to the file", zap.Error(wErr))
-					return nil, err
-				}
-				loadedLength += int64(n)
-			}
-			if err == io.EOF {
-				break
-			}
-			if err != nil {
-				l.Debug("Error on reading body", zap.Error(err))
-				return nil, err
-			}
-			if n == 0 {
-				// Wait for throttling
-				time.Sleep(50 * time.Millisecond)
-				continue
-			}
-		}
-		resWrite.Flush()
-		res.ContentLength = loadedLength
-
-		return api_response.NewDownload(res, mo_path2.NewFileSystemPath(resFile.Name()), result, loadedLength), nil
-
-	} else {
-		body, err := ioutil.ReadAll(res.Body)
-		if err != nil {
-			l.Debug("Unable to read body", zap.Error(err))
-			return nil, err
-		}
-		res.ContentLength = int64(len(body))
-
-		return api_response.New(res, body), nil
+		fp := mo_path2.NewFileSystemPath(f)
+		return api_response.NewDownload(res, fp, resultHeader, body.ContentLength()), nil
 	}
+
+	return api_response.New(res, body.Body()), nil
 }

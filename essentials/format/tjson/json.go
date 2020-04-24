@@ -1,0 +1,207 @@
+package tjson
+
+import (
+	"encoding/json"
+	"errors"
+	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/essentials/number"
+	"github.com/watermint/toolbox/infra/control/app_root"
+	"go.uber.org/zap"
+	"reflect"
+	"strings"
+)
+
+var (
+	ErrorInvalidJSONFormat    = errors.New("invalid json format")
+	ErrorNotFound             = errors.New("data not found for the path")
+	ErrorMissingRequired      = errors.New("missing required field")
+	ErrorUnsupportedFieldType = errors.New("unsupported field type")
+)
+
+const (
+	TagPathName          = "path"
+	TagPathValueRequired = "required"
+)
+
+// Wrapper of gjson
+type Json interface {
+	// Raw JSON message
+	Raw() json.RawMessage
+
+	// True if the instance is null
+	IsNull() bool
+
+	// Returns an array value and true if this instance is an array.
+	Array() (v []Json, t bool)
+
+	// Returns an object value and true if this instance is an object.
+	Object() (v map[string]Json, t bool)
+
+	// Returns an boolean value and true if this instance is true/false.
+	Bool() (v bool, t bool)
+
+	// Returns a number value and true if this instance is a number.
+	Number() (v number.Number, t bool)
+
+	// Returns a string value and true if this instance is a string.
+	String() (v string, t bool)
+
+	// Parse model with given type.
+	Model(v interface{}) (w interface{}, err error)
+
+	// Find then Model.
+	FindModel(path string, v interface{}) (w interface{}, err error)
+
+	// Find value under the path. Returns nil & false if not found.
+	Find(path string) (j Json, found bool)
+}
+
+func ParseString(j string) (Json, error) {
+	return Parse([]byte(j))
+}
+
+func Parse(j []byte) (Json, error) {
+	if !Validate(j) {
+		return nil, ErrorInvalidJSONFormat
+	}
+	r := gjson.ParseBytes(j)
+	return newWrapper(r), nil
+}
+
+func newWrapper(r gjson.Result) Json {
+	return &wrapperImpl{
+		r: r,
+	}
+}
+
+type wrapperImpl struct {
+	r gjson.Result
+}
+
+func (z wrapperImpl) IsNull() bool {
+	return z.r.Type == gjson.Null
+}
+
+func (z wrapperImpl) Raw() json.RawMessage {
+	return json.RawMessage(z.r.Raw)
+}
+
+func (z wrapperImpl) Array() (v []Json, t bool) {
+	if !z.r.IsArray() {
+		return nil, false
+	}
+	v = make([]Json, 0)
+	for _, e := range z.r.Array() {
+		v = append(v, newWrapper(e))
+	}
+	return v, true
+}
+
+func (z wrapperImpl) Object() (v map[string]Json, t bool) {
+	if !z.r.IsObject() {
+		return nil, false
+	}
+	v = make(map[string]Json)
+	for k, v0 := range z.r.Map() {
+		v[k] = newWrapper(v0)
+	}
+	return v, true
+}
+
+func (z wrapperImpl) Bool() (v bool, t bool) {
+	if z.r.Type != gjson.True && z.r.Type != gjson.False {
+		return false, false
+	}
+	return z.r.Bool(), true
+}
+
+func (z wrapperImpl) Number() (v number.Number, t bool) {
+	if z.r.Type != gjson.Number {
+		return nil, false
+	}
+	return number.New(z.r.Raw), true
+}
+
+func (z wrapperImpl) String() (v string, t bool) {
+	if z.r.Type != gjson.String {
+		return "", false
+	}
+	return z.r.String(), true
+}
+
+func (z wrapperImpl) Model(v0 interface{}) (w interface{}, err error) {
+	l := app_root.Log()
+	v0t := reflect.ValueOf(v0).Elem().Type()
+	v := reflect.New(v0t).Interface()
+
+	vv := reflect.ValueOf(v).Elem()
+	vt := vv.Type()
+
+	l = l.With(zap.String("valueType", vt.Name()))
+
+	for i := vt.NumField() - 1; i >= 0; i-- {
+		vtf := vt.Field(i)
+		vvf := vv.Field(i)
+
+		if vtf.Name == "Raw" && vvf.Type().Kind() == reflect.TypeOf(json.RawMessage{}).Kind() {
+			vvf.SetBytes(json.RawMessage(z.r.Raw))
+			continue
+		}
+
+		p := vtf.Tag.Get(TagPathName)
+		if p == "" {
+			continue
+		}
+		pp := strings.Split(p, ",")
+		path := pp[0]
+		required := false
+		if len(pp) > 1 && pp[1] == TagPathValueRequired {
+			required = true
+		}
+
+		jv := z.r.Get(path)
+		if !jv.Exists() {
+			if required {
+				l.Debug("Missing required field",
+					zap.String("field", vtf.Name),
+					zap.String("path", p))
+				return nil, ErrorMissingRequired
+			}
+			continue
+		}
+
+		switch vtf.Type.Kind() {
+		case reflect.String:
+			vvf.SetString(jv.String())
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			vvf.SetInt(jv.Int())
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			vvf.SetUint(jv.Uint())
+		case reflect.Bool:
+			vvf.SetBool(jv.Bool())
+		case reflect.Float32, reflect.Float64:
+			vvf.SetFloat(jv.Float())
+
+		default:
+			l.Error("unexpected type found", zap.String("type.kind", vtf.Type.Kind().String()))
+			return nil, ErrorUnsupportedFieldType
+		}
+	}
+	return v, nil
+}
+
+func (z wrapperImpl) FindModel(path string, v interface{}) (w interface{}, err error) {
+	if x, found := z.Find(path); !found {
+		return nil, ErrorNotFound
+	} else {
+		return x.Model(v)
+	}
+}
+
+func (z wrapperImpl) Find(path string) (j Json, found bool) {
+	r1 := z.r.Get(path)
+	if !r1.Exists() {
+		return nil, false
+	}
+	return newWrapper(r1), true
+}
