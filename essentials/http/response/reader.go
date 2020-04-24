@@ -28,8 +28,12 @@ func readJitterWait() {
 	time.Sleep(time.Duration(wms) * time.Millisecond)
 }
 
-func Read(ctx api_context.Context, resBody io.ReadCloser) (body Body, err error) {
-	return read(ctx, resBody, ReadBufferSize, ReadChunkSize)
+func Read(ctx api_context.Context, resBody io.ReadCloser) Body {
+	if body, err := read(ctx, resBody, ReadBufferSize, ReadChunkSize); err != nil {
+		return newErrorBody(err)
+	} else {
+		return body
+	}
 }
 
 func read(ctx api_context.Context, resBody io.ReadCloser, readBufSize, readChunkSize int) (body Body, err error) {

@@ -119,6 +119,10 @@ func RecipeError(l *zap.Logger, err error) (resolvedErr error, cont bool) {
 		return nil, true
 	}
 	switch err {
+	case qt_errors.ErrorSkipEndToEndTest:
+		l.Debug("Skip: skip end to end test")
+		return nil, false
+
 	case qt_errors.ErrorNoTestRequired:
 		l.Debug("Skip: No test required for this recipe")
 		return nil, false

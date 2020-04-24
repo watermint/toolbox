@@ -22,6 +22,10 @@ type bodyMemoryImpl struct {
 	content []byte
 }
 
+func (z bodyMemoryImpl) Error() error {
+	return nil
+}
+
 func (z bodyMemoryImpl) BodyString() string {
 	return string(z.content)
 }

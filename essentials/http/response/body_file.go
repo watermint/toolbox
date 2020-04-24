@@ -23,6 +23,10 @@ type bodyFileImpl struct {
 	contentLength int64
 }
 
+func (z bodyFileImpl) Error() error {
+	return nil
+}
+
 func (z bodyFileImpl) BodyString() string {
 	return ""
 }
