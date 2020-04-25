@@ -42,7 +42,7 @@ func (z *retryImpl) Call(ctx api_context.Context, req api_request.Request) (res 
 	if res.Code() == http.StatusOK {
 		return res, nil
 	}
-	bodyString := res.Body().BodyString()
+	bodyString := res.Success().BodyString()
 
 	// Handle API error
 	switch res.Code() {

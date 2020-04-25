@@ -35,7 +35,7 @@ func (z *profileImpl) Current() (profile *mo_profile.Profile, err error) {
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(profile); err != nil {
+	if _, err = res.Success().Json().Model(profile); err != nil {
 		return nil, err
 	}
 	return profile, nil
@@ -51,7 +51,7 @@ func (z *teamImpl) Admin() (profile *mo_profile.Profile, err error) {
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().FindModel("admin_profile", profile); err != nil {
+	if _, err = res.Success().Json().FindModel("admin_profile", profile); err != nil {
 		return nil, err
 	}
 	return profile, nil

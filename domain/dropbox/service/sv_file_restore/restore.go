@@ -33,7 +33,7 @@ func (z *restoreImpl) Restore(path mo_path.DropboxPath, rev string) (entry mo_fi
 	if err != nil {
 		return nil, err
 	}
-	if _, err := res.Body().Json().Model(entry); err != nil {
+	if _, err := res.Success().Json().Model(entry); err != nil {
 		return nil, err
 	}
 	return entry, nil

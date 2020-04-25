@@ -1,11 +1,5 @@
 package response
 
-import (
-	"github.com/watermint/toolbox/essentials/http/context"
-	"net/http"
-	"strings"
-)
-
 const (
 	Code1xxInformational = 1
 	Code2xxSuccess       = 2
@@ -30,59 +24,16 @@ type Response interface {
 	// Returns empty string, if no header found in the response.
 	Header(header string) string
 
-	// Response body.
-	Body() Body
-}
+	// True on the response recognized as success.
+	IsSuccess() bool
 
-func New(ctx context.Context, res *http.Response) Response {
-	body := Read(ctx, res.Body)
-	return &resImpl{
-		code:         res.StatusCode,
-		headers:      createHeader(res),
-		headersLower: createHeaderLower(res),
-		body:         body,
-	}
-}
+	// Response body on success.
+	// Returns empty body when the response is not recognized as success.
+	Success() Body
 
-func createHeader(res *http.Response) map[string]string {
-	h := make(map[string]string)
-	for k, v := range res.Header {
-		h[k] = v[0]
-	}
-	return h
-}
+	// Alternative response body. Returns empty body on success.
+	Alt() Body
 
-func createHeaderLower(res *http.Response) map[string]string {
-	h := make(map[string]string)
-	for k, v := range res.Header {
-		h[strings.ToLower(k)] = v[0]
-	}
-	return h
-}
-
-type resImpl struct {
-	code         int
-	headers      map[string]string
-	headersLower map[string]string
-	body         Body
-}
-
-func (z resImpl) Code() int {
-	return z.code
-}
-
-func (z resImpl) CodeCategory() CodeCategory {
-	return CodeCategory(z.code / 100)
-}
-
-func (z resImpl) Headers() map[string]string {
-	return z.headers
-}
-
-func (z resImpl) Header(header string) string {
-	return z.headersLower[strings.ToLower(header)]
-}
-
-func (z resImpl) Body() Body {
-	return z.body
+	// Error on IO. Returns nil if no errors during the process.
+	Error() error
 }

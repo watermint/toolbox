@@ -1,16 +1,17 @@
-package response
+package response_impl
 
 import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/essentials/format/tjson"
 	"github.com/watermint/toolbox/essentials/http/context"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/essentials/rec"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
 )
 
-func newMemoryBody(ctx context.Context, content []byte) Body {
+func newMemoryBody(ctx context.Context, content []byte) response.Body {
 	return &bodyMemoryImpl{
 		ctx:     ctx,
 		content: content,
@@ -42,7 +43,7 @@ func (z bodyMemoryImpl) AsJson() (tjson.Json, error) {
 	l := z.ctx.Log()
 	if !gjson.ValidBytes(z.content) {
 		l.Debug("Invalid bytes", zap.Any("bytes", rec.ByteDigest(z.content)))
-		return nil, ErrorContentIsNotAJSON
+		return nil, response.ErrorContentIsNotAJSON
 	}
 	return tjson.Parse(z.content)
 }

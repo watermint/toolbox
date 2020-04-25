@@ -1,15 +1,16 @@
-package response
+package response_impl
 
 import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/essentials/format/tjson"
 	"github.com/watermint/toolbox/essentials/http/context"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/essentials/rec"
 	"go.uber.org/zap"
 	"io/ioutil"
 )
 
-func newFileBody(ctx context.Context, path string, contentLength int64) Body {
+func newFileBody(ctx context.Context, path string, contentLength int64) response.Body {
 	return &bodyFileImpl{
 		ctx:           ctx,
 		path:          path,
@@ -41,9 +42,9 @@ func (z bodyFileImpl) BodyString() string {
 
 func (z bodyFileImpl) AsJson() (tjson.Json, error) {
 	l := z.ctx.Log().With(zap.String("path", z.path))
-	if z.contentLength > MaximumJsonSize {
+	if z.contentLength > response.MaximumJsonSize {
 		l.Debug("content is too large for parse", zap.Int64("size", z.contentLength))
-		return nil, ErrorContentIsTooLarge
+		return nil, response.ErrorContentIsTooLarge
 	}
 	content, err := ioutil.ReadFile(z.path)
 	if err != nil {
@@ -52,7 +53,7 @@ func (z bodyFileImpl) AsJson() (tjson.Json, error) {
 	}
 	if !gjson.ValidBytes(content) {
 		l.Debug("invalid bytes", zap.Any("content", rec.ByteDigest(content)))
-		return nil, ErrorContentIsNotAJSON
+		return nil, response.ErrorContentIsNotAJSON
 	}
 	return tjson.Parse(content)
 }

@@ -219,7 +219,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 		return err
 	}
 	cursor := &Cursor{}
-	if _, err = res.Body().Json().Model(cursor); err != nil {
+	if _, err = res.Success().Json().Model(cursor); err != nil {
 		return err
 	}
 
@@ -230,7 +230,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 			return err
 		}
 		changes := &LongPoll{}
-		if _, err = res.Body().Json().Model(changes); err != nil {
+		if _, err = res.Success().Json().Model(changes); err != nil {
 			return err
 		}
 		if changes.Changes {
@@ -274,7 +274,7 @@ func (z *filesImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err 
 	if err != nil {
 		return nil, err
 	}
-	if _, err := res.Body().Json().Model(entry); err != nil {
+	if _, err := res.Success().Json().Model(entry); err != nil {
 		return nil, err
 	}
 	return entry, nil
@@ -353,7 +353,7 @@ func (z *filesImpl) Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry m
 	if err != nil {
 		return nil, err
 	}
-	if _, err := res.Body().Json().Model(entry); err != nil {
+	if _, err := res.Success().Json().Model(entry); err != nil {
 		return nil, err
 	}
 	return entry, nil

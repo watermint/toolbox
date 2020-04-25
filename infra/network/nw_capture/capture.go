@@ -3,6 +3,7 @@ package nw_capture
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/http/response_impl"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/network/nw_client"
@@ -32,8 +33,8 @@ func (z *Client) Call(ctx api_context.Context, req api_request.Request) (res res
 	// Make response
 	cp := NewCapture(ctx.Capture())
 
-	res = response.New(ctx, hRes)
-	if bodyErr := res.Body().Error(); bodyErr != nil {
+	res = response_impl.New(ctx, hRes)
+	if bodyErr := res.Error(); bodyErr != nil {
 		l.Debug("Unable to make http response", zap.Error(bodyErr))
 		cp.NoResponse(req, bodyErr, latency.Nanoseconds())
 		return nil, bodyErr
@@ -101,11 +102,11 @@ type Res struct {
 
 func (z *Res) Apply(res response.Response, resErr error) {
 	z.ResponseCode = res.Code()
-	z.ContentLength = res.Body().ContentLength()
-	if res.Body().IsFile() {
+	z.ContentLength = res.Success().ContentLength()
+	if res.Success().IsFile() {
 		z.ResponseBody = ""
 	} else {
-		z.ResponseBody = res.Body().BodyString()
+		z.ResponseBody = res.Success().BodyString()
 	}
 	if resErr != nil {
 		z.ResponseError = resErr.Error()

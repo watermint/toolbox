@@ -19,9 +19,6 @@ type Body interface {
 	// Length of the read content in bytes
 	ContentLength() int64
 
-	// Returns some error if any error happened during retrieve response.
-	Error() error
-
 	// Body bytes. Returns empty array if the body written in to the file.
 	Body() []byte
 

@@ -1,7 +1,8 @@
-package response
+package response_impl
 
 import (
 	"github.com/watermint/toolbox/essentials/http/context"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
 	"testing"
@@ -53,8 +54,8 @@ func TestBodyFileImplFailure(t *testing.T) {
 
 	// file too large
 	{
-		bf := newFileBody(ctx, tf, MaximumJsonSize+1)
-		if _, err := bf.AsJson(); err != ErrorContentIsTooLarge {
+		bf := newFileBody(ctx, tf, response.MaximumJsonSize+1)
+		if _, err := bf.AsJson(); err != response.ErrorContentIsTooLarge {
 			t.Error(err)
 		}
 	}
@@ -62,7 +63,7 @@ func TestBodyFileImplFailure(t *testing.T) {
 	// invalid json
 	{
 		bf := newFileBody(ctx, tf, int64(len(content)))
-		if _, err := bf.AsJson(); err != ErrorContentIsNotAJSON {
+		if _, err := bf.AsJson(); err != response.ErrorContentIsNotAJSON {
 			t.Error(err)
 		}
 	}

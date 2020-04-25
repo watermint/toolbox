@@ -38,7 +38,7 @@ func (z *referenceImpl) Create(ref, sha string) (created *mo_reference.Reference
 		return nil, err
 	}
 	created = &mo_reference.Reference{}
-	if _, err := res.Body().Json().Model(created); err != nil {
+	if _, err := res.Success().Json().Model(created); err != nil {
 		return nil, err
 	}
 	return created, nil

@@ -38,7 +38,7 @@ func (z *releaseImpl) Get(tagName string) (release *mo_release.Release, err erro
 		return nil, err
 	}
 	release = &mo_release.Release{}
-	if _, err := res.Body().Json().Model(release); err != nil {
+	if _, err := res.Success().Json().Model(release); err != nil {
 		return nil, err
 	}
 	return release, nil
@@ -64,7 +64,7 @@ func (z *releaseImpl) CreateDraft(tagName, name, body, branch string) (release *
 		return nil, err
 	}
 	release = &mo_release.Release{}
-	if _, err := res.Body().Json().Model(release); err != nil {
+	if _, err := res.Success().Json().Model(release); err != nil {
 		return nil, err
 	}
 	return release, nil
@@ -78,7 +78,7 @@ func (z *releaseImpl) List() (releases []*mo_release.Release, err error) {
 	}
 
 	releases = make([]*mo_release.Release, 0)
-	if entries, found := res.Body().Json().Array(); !found {
+	if entries, found := res.Success().Json().Array(); !found {
 		return nil, ErrorNotFound
 	} else {
 		for _, entry := range entries {

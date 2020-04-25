@@ -51,7 +51,7 @@ func (z recoveryImpl) Call(ctx api_context.Context, req api_request.Request) (re
 		// General errors
 		apiErr := &gh_context.ApiError{}
 
-		if j, err := res.Body().AsJson(); err != nil {
+		if j, err := res.Success().AsJson(); err != nil {
 			l.Debug("response body is not a json", zap.Error(err))
 			return nil, ErrorUnexpectedResponseFormat
 		} else if _, err := j.Model(apiErr); err != nil {

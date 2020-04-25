@@ -151,7 +151,7 @@ func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.DropboxPath
 		return nil, err
 	}
 	entry = &mo_file.Metadata{}
-	if _, err := res.Body().Json().Model(entry); err != nil {
+	if _, err := res.Success().Json().Model(entry); err != nil {
 		return nil, err
 	}
 	return entry, nil
@@ -194,7 +194,7 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.DropboxPat
 		return nil, err
 	}
 	sid := &SessionId{}
-	if _, err := res.Body().Json().Model(sid); err != nil {
+	if _, err := res.Success().Json().Model(sid); err != nil {
 		return nil, err
 	}
 	written += z.uo.ChunkSize
@@ -238,7 +238,7 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.DropboxPat
 		return nil, err
 	}
 	entry = &mo_file.Metadata{}
-	if _, err := res.Body().Json().Model(entry); err != nil {
+	if _, err := res.Success().Json().Model(entry); err != nil {
 		return nil, err
 	}
 	return entry, nil

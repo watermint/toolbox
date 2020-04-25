@@ -55,7 +55,7 @@ func (z *mountImpl) Mount(sf *mo_sharedfolder.SharedFolder) (mount *mo_sharedfol
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(mount); err != nil {
+	if _, err = res.Success().Json().Model(mount); err != nil {
 		return nil, err
 	}
 	return mount, nil

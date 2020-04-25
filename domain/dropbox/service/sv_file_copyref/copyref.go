@@ -41,7 +41,7 @@ func (z *copyRefImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, re
 		return
 	}
 	ent := &mo_file.Metadata{}
-	js := res.Body().Json()
+	js := res.Success().Json()
 	if _, err = js.FindModel("metadata", ent); err != nil {
 		return
 	}
@@ -70,7 +70,7 @@ func (z *copyRefImpl) Save(path mo_path.DropboxPath, ref string) (entry mo_file.
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().FindModel("metadata", entry); err != nil {
+	if _, err = res.Success().Json().FindModel("metadata", entry); err != nil {
 		return nil, err
 	}
 	return entry, nil

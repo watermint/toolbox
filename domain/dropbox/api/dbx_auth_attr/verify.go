@@ -28,7 +28,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 			return nil, err
 		}
 
-		j := p.Body().Json()
+		j := p.Success().Json()
 		desc, found := j.FindString("name.display_name")
 		if !found {
 			return nil, ErrorUnexpectedResponseFormat
@@ -51,7 +51,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 			l.Debug("Unable to verify token", zap.Error(err))
 			return nil, err
 		}
-		j := p.Body().Json()
+		j := p.Success().Json()
 		desc, found := j.FindString("name")
 		if !found {
 			return nil, ErrorUnexpectedResponseFormat

@@ -231,7 +231,7 @@ func (z *memberImpl) Add(email string, opts ...AddOpt) (member *mo_member.Member
 		return nil, err
 	}
 	member = &mo_member.Member{}
-	if _, err := res.Body().Json().FindModel(tjson.PathArrayFirst, member); err != nil {
+	if _, err := res.Success().Json().FindModel(tjson.PathArrayFirst, member); err != nil {
 		return nil, err
 	} else {
 		return member, nil
@@ -298,7 +298,7 @@ func (z *memberImpl) Update(member *mo_member.Member) (updated *mo_member.Member
 		return nil, err
 	}
 	updated = &mo_member.Member{}
-	if _, err := res.Body().Json().Model(updated); err != nil {
+	if _, err := res.Success().Json().Model(updated); err != nil {
 		return nil, err
 	} else {
 		return updated, nil
@@ -328,7 +328,7 @@ func (z *memberImpl) Resolve(teamMemberId string) (member *mo_member.Member, err
 }
 
 func (z *memberImpl) parseOneMember(res response.Response) (member *mo_member.Member, err error) {
-	ba, found := res.Body().Json().Array()
+	ba, found := res.Success().Json().Array()
 	if !found || len(ba) < 1 {
 		return nil, ErrorNotFound
 	}

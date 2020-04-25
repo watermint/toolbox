@@ -1,7 +1,8 @@
-package response
+package response_impl
 
 import (
 	"github.com/watermint/toolbox/essentials/http/context"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"io/ioutil"
 	"os"
@@ -55,7 +56,7 @@ func TestBodyMemoryImpl_Failure(t *testing.T) {
 	}()
 	ctx := context.NewMock()
 	bm := newMemoryBody(ctx, content)
-	if _, err := bm.AsJson(); err != ErrorContentIsNotAJSON {
+	if _, err := bm.AsJson(); err != response.ErrorContentIsNotAJSON {
 		t.Error(err)
 	}
 }

@@ -103,7 +103,7 @@ func (z *sharedFolderImpl) UpdatePolicy(sharedFolderId string, opts ...PolicyOpt
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(sf); err != nil {
+	if _, err = res.Success().Json().Model(sf); err != nil {
 		return nil, err
 	}
 	return sf, nil
@@ -140,7 +140,7 @@ func (z *sharedFolderImpl) Resolve(sharedFolderId string) (sf *mo_sharedfolder.S
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(sf); err != nil {
+	if _, err = res.Success().Json().Model(sf); err != nil {
 		return nil, err
 	}
 	return sf, nil
@@ -187,7 +187,7 @@ func (z *sharedFolderImpl) Create(path mo_path.DropboxPath, opts ...CreateOpt) (
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(sf); err != nil {
+	if _, err = res.Success().Json().Model(sf); err != nil {
 		return nil, err
 	}
 	return sf, nil

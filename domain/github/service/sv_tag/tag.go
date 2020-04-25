@@ -36,7 +36,7 @@ func (z *tagImpl) List() (tags []*mo_tag.Tag, err error) {
 	if err != nil {
 		return nil, err
 	}
-	entries, found := res.Body().Json().Array()
+	entries, found := res.Success().Json().Array()
 	if !found {
 		return nil, ErrorUnexpectedResponse
 	}
@@ -70,7 +70,7 @@ func (z *tagImpl) Create(tagName, message, sha string) (tag *mo_tag.Tag, err err
 		return nil, err
 	}
 	tag = &mo_tag.Tag{}
-	if _, err := res.Body().Json().Model(tag); err != nil {
+	if _, err := res.Success().Json().Model(tag); err != nil {
 		return nil, err
 	}
 

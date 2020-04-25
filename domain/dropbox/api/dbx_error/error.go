@@ -26,7 +26,7 @@ func IsApiError(res response.Response) error {
 		return nil
 	}
 	ae := &ApiError{}
-	if _, err := res.Body().Json().Model(ae); err != nil {
+	if _, err := res.Success().Json().Model(ae); err != nil {
 		return nil
 	}
 	switch {

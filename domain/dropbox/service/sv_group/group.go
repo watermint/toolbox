@@ -163,7 +163,7 @@ func (z *implGroup) Create(name string, opt ...CreateOpt) (g *mo_group.Group, er
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(g); err != nil {
+	if _, err = res.Success().Json().Model(g); err != nil {
 		return nil, err
 	}
 	return g, nil
@@ -226,7 +226,7 @@ func (z *implGroup) Resolve(groupId string) (g *mo_group.Group, err error) {
 	if err != nil {
 		return nil, err
 	}
-	if _, err := res.Body().Json().FindModel(tjson.PathArrayFirst, g); err != nil {
+	if _, err := res.Success().Json().FindModel(tjson.PathArrayFirst, g); err != nil {
 		return nil, err
 	}
 	return g, nil
@@ -256,7 +256,7 @@ func (z *implGroup) Update(group *mo_group.Group) (g *mo_group.Group, err error)
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(g); err != nil {
+	if _, err = res.Success().Json().Model(g); err != nil {
 		return nil, err
 	}
 	return g, nil

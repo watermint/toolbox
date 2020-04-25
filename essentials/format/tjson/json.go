@@ -147,6 +147,7 @@ func (z wrapperImpl) String() (v string, t bool) {
 
 func (z wrapperImpl) Model(v interface{}) (w interface{}, err error) {
 	l := app_root.Log()
+
 	vv := reflect.ValueOf(v).Elem()
 	vt := vv.Type()
 

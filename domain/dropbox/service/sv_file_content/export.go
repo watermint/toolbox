@@ -33,7 +33,7 @@ func (z *exportImpl) Export(path mo_path.DropboxPath) (export *mo_file.Export, l
 	if err != nil {
 		return nil, nil, err
 	}
-	contentFilePath, err := res.Body().AsFile()
+	contentFilePath, err := res.Success().AsFile()
 	if err != nil {
 		return nil, nil, err
 	}

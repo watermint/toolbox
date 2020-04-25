@@ -114,7 +114,7 @@ func (z asyncImpl) handleTag(res response.Response, resJson tjson.Json, tag, asy
 	default:
 		if errTag, found := resJson.Find("error.\\.tag"); found {
 			l.Debug("Endpoint specific error", zap.ByteString("error_tag", errTag.Raw()))
-			return nil, dbx_error.ParseApiError(res.Body().BodyString())
+			return nil, dbx_error.ParseApiError(res.Success().BodyString())
 		}
 		l.Debug("Unknown data format")
 		return nil, ErrorUnexpectedResponseDataFormat
@@ -122,7 +122,7 @@ func (z asyncImpl) handleTag(res response.Response, resJson tjson.Json, tag, asy
 }
 
 func (z asyncImpl) handlePoll(res response.Response, asyncJobId string) (asyncRes dbx_async.Response, resErr error) {
-	resJson, err := res.Body().AsJson()
+	resJson, err := res.Success().AsJson()
 	if err != nil {
 		return nil, err
 	}

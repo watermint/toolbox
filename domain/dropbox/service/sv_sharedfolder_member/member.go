@@ -223,7 +223,7 @@ func (z *memberImpl) List() (member []mo_sharedfolder_member.Member, err error) 
 		Param(p).
 		UseHasMore(false).
 		OnResponse(func(res response.Response) error {
-			j, err := res.Body().AsJson()
+			j, err := res.Success().AsJson()
 			if err != nil {
 				return err
 			}

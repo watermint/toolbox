@@ -1,13 +1,8 @@
 package dbx_async
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/essentials/format/tjson"
 	"github.com/watermint/toolbox/essentials/http/response"
-)
-
-var (
-	ErrorNoResult = errors.New("no result")
 )
 
 type Response interface {
@@ -42,6 +37,18 @@ type resImpl struct {
 	complete  tjson.Json
 }
 
+func (z resImpl) IsSuccess() bool {
+	return z.res.IsSuccess()
+}
+
+func (z resImpl) Alt() response.Body {
+	return z.res.Alt()
+}
+
+func (z resImpl) Error() error {
+	return z.res.Error()
+}
+
 func (z resImpl) Code() int {
 	return z.res.Code()
 }
@@ -58,8 +65,8 @@ func (z resImpl) Header(header string) string {
 	return z.res.Header(header)
 }
 
-func (z resImpl) Body() response.Body {
-	return z.Body()
+func (z resImpl) Success() response.Body {
+	return z.res.Success()
 }
 
 func (z resImpl) IsCompleted() bool {

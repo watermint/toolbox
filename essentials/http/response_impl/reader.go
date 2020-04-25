@@ -1,10 +1,11 @@
-package response
+package response_impl
 
 import (
 	"bufio"
 	"bytes"
 	"errors"
 	"github.com/watermint/toolbox/essentials/http/context"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"go.uber.org/zap"
 	"io"
@@ -28,15 +29,15 @@ func readJitterWait() {
 	time.Sleep(time.Duration(wms) * time.Millisecond)
 }
 
-func Read(ctx context.Context, resBody io.ReadCloser) Body {
+func Read(ctx context.Context, resBody io.ReadCloser) (response.Body, error) {
 	if body, err := read(ctx, resBody, ReadBufferSize, ReadChunkSize); err != nil {
-		return newErrorBody(err)
+		return nil, err
 	} else {
-		return body
+		return body, nil
 	}
 }
 
-func read(ctx context.Context, resBody io.ReadCloser, readBufSize, readChunkSize int) (body Body, err error) {
+func read(ctx context.Context, resBody io.ReadCloser, readBufSize, readChunkSize int) (body response.Body, err error) {
 	l := ctx.Log().With(
 		zap.Int("readBufSize", readBufSize),
 		zap.Int("readChunkSize", readChunkSize))

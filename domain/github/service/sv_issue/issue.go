@@ -34,7 +34,7 @@ func (z *repoIssueImpl) List() (issues []*mo_issue.Issue, err error) {
 	if err != nil {
 		return nil, err
 	}
-	entries, found := res.Body().Json().Array()
+	entries, found := res.Success().Json().Array()
 	if !found {
 		return nil, ErrorUnexpectedResponse
 	}

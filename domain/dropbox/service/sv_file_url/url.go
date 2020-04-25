@@ -56,7 +56,7 @@ func (z *urlImpl) Save(path mo_path.DropboxPath, url string) (entry mo_file.Entr
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(entry); err != nil {
+	if _, err = res.Success().Json().Model(entry); err != nil {
 		return nil, err
 	}
 	meta.EntryTag = "file" // overwrite 'complete' tag

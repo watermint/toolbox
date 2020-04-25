@@ -45,7 +45,7 @@ func (z *assetImpl) List() (assets []*mo_release_asset.Asset, err error) {
 		return nil, err
 	}
 	assets = make([]*mo_release_asset.Asset, 0)
-	entries, found := res.Body().Json().Array()
+	entries, found := res.Success().Json().Array()
 	if !found {
 		return nil, ErrorUnexpectedResponse
 	}
@@ -97,7 +97,7 @@ func (z *assetImpl) Upload(file mo_path.ExistingFileSystemPath) (asset *mo_relea
 		return nil, err
 	}
 	asset = &mo_release_asset.Asset{}
-	if _, err := res.Body().Json().Model(asset); err != nil {
+	if _, err := res.Success().Json().Model(asset); err != nil {
 		l.Debug("failed to parse", zap.Error(err))
 		return nil, err
 	}

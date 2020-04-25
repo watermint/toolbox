@@ -35,7 +35,7 @@ func (z *teamImpl) Info() (info *mo_team.Info, err error) {
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(info); err != nil {
+	if _, err = res.Success().Json().Model(info); err != nil {
 		return nil, err
 	}
 	return info, nil
@@ -64,7 +64,7 @@ func (z *teamImpl) Feature() (feature *mo_team.Feature, err error) {
 		if err != nil {
 			return nil, err
 		}
-		firstValue, found := res.Body().Json().Find("values.0")
+		firstValue, found := res.Success().Json().Find("values.0")
 		if !found {
 			return nil, ErrorUnexpectedFormat
 		}

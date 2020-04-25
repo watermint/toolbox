@@ -84,7 +84,7 @@ func (z *sharedLinkImpl) Resolve(url mo_url.Url, password string) (entry mo_file
 	if err != nil {
 		return nil, err
 	}
-	if _, err := res.Body().Json().Model(entry); err != nil {
+	if _, err := res.Success().Json().Model(entry); err != nil {
 		return nil, err
 	}
 	return entry, nil
@@ -119,7 +119,7 @@ func (z *sharedLinkImpl) Update(link mo_sharedlink.SharedLink, opts ...LinkOpt) 
 	if err != nil {
 		return nil, err
 	}
-	if _, err := res.Body().Json().Model(link); err != nil {
+	if _, err := res.Success().Json().Model(link); err != nil {
 		return nil, err
 	}
 	return link, nil
@@ -198,7 +198,7 @@ func (z *sharedLinkImpl) Create(path mo_path.DropboxPath, opts ...LinkOpt) (link
 	if err != nil {
 		return nil, err
 	}
-	if _, err := res.Body().Json().Model(link); err != nil {
+	if _, err := res.Success().Json().Model(link); err != nil {
 		return nil, err
 	}
 	return link, nil

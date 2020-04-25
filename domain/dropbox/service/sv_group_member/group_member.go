@@ -138,7 +138,7 @@ func (z *groupMemberImpl) Add(members ...MemberOpt) (group *mo_group.Group, err 
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(group); err != nil {
+	if _, err = res.Success().Json().Model(group); err != nil {
 		return nil, err
 	}
 	return group, nil
@@ -185,7 +185,7 @@ func (z *groupMemberImpl) Remove(members ...MemberOpt) (group *mo_group.Group, e
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(group); err != nil {
+	if _, err = res.Success().Json().Model(group); err != nil {
 		return nil, err
 	}
 	return group, nil

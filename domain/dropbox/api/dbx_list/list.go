@@ -120,7 +120,7 @@ func (z *listImpl) handleEntry(res response.Response) error {
 	if err := dbx_error.IsApiError(res); err != nil {
 		return err
 	}
-	j := res.Body().Json()
+	j := res.Success().Json()
 
 	if resultsElem, found := j.Find(z.resultTag); !found {
 		l.Debug("No result found", zap.ByteString("response", j.Raw()))
@@ -163,7 +163,7 @@ func (z listImpl) isContinueCursor(j tjson.Json) (cont bool, cursor string) {
 
 func (z *listImpl) isContinue(res response.Response) (cont bool, cursor string) {
 	l := z.ctx.Log().With(zap.String("endpoint", z.continueEndpoint))
-	j, err := res.Body().AsJson()
+	j, err := res.Success().AsJson()
 	if err != nil {
 		return false, ""
 	}

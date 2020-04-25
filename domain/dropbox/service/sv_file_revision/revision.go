@@ -58,7 +58,7 @@ func (z *revisionImpl) doList(path mo_path.DropboxPath, mode string) (revs *mo_f
 	if err != nil {
 		return nil, err
 	}
-	j := res.Body().Json()
+	j := res.Success().Json()
 	entries, found := j.FindArray("entries")
 	if !found {
 		l.Debug("Response `entries` was not an array")

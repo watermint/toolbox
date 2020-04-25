@@ -76,7 +76,7 @@ func (z *teamFolderImpl) Resolve(teamFolderId string) (teamfolder *mo_teamfolder
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().FindModel(tjson.PathArrayFirst, teamfolder); err != nil {
+	if _, err = res.Success().Json().FindModel(tjson.PathArrayFirst, teamfolder); err != nil {
 		return nil, err
 	}
 	return teamfolder, nil
@@ -100,7 +100,7 @@ func (z *teamFolderImpl) Create(name string, opts ...CreateOption) (teamfolder *
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(teamfolder); err != nil {
+	if _, err = res.Success().Json().Model(teamfolder); err != nil {
 		return nil, err
 	}
 	return teamfolder, nil
@@ -117,7 +117,7 @@ func (z *teamFolderImpl) Activate(tf *mo_teamfolder.TeamFolder) (teamfolder *mo_
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(teamfolder); err != nil {
+	if _, err = res.Success().Json().Model(teamfolder); err != nil {
 		return nil, err
 	}
 	return teamfolder, nil
@@ -137,7 +137,7 @@ func (z *teamFolderImpl) Archive(tf *mo_teamfolder.TeamFolder) (teamfolder *mo_t
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(teamfolder); err != nil {
+	if _, err = res.Success().Json().Model(teamfolder); err != nil {
 		return nil, err
 	}
 	return teamfolder, nil
@@ -156,7 +156,7 @@ func (z *teamFolderImpl) Rename(tf *mo_teamfolder.TeamFolder, newName string) (u
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(updated); err != nil {
+	if _, err = res.Success().Json().Model(updated); err != nil {
 		return nil, err
 	}
 	return updated, nil

@@ -77,7 +77,7 @@ func (z *fileRequestImpl) Update(fr *mo_filerequest.FileRequest) (req *mo_filere
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(fr1); err != nil {
+	if _, err = res.Success().Json().Model(fr1); err != nil {
 		return nil, err
 	}
 	return fr1, nil
@@ -154,7 +154,7 @@ func (z *fileRequestImpl) Create(title string, destination mo_path.DropboxPath, 
 	if err != nil {
 		return nil, err
 	}
-	if _, err = res.Body().Json().Model(fr); err != nil {
+	if _, err = res.Success().Json().Model(fr); err != nil {
 		return nil, err
 	}
 	return fr, nil

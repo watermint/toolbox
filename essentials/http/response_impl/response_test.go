@@ -1,7 +1,8 @@
-package response
+package response_impl
 
 import (
 	"github.com/watermint/toolbox/essentials/http/context"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -24,13 +25,13 @@ func TestResImpl(t *testing.T) {
 
 	r := New(ctx, res)
 
-	if r.Body().BodyString() != content {
-		t.Error(r.Body().BodyString())
+	if r.Success().BodyString() != content {
+		t.Error(r.Success().BodyString())
 	}
 	if r.Code() != 200 {
 		t.Error(r.Code())
 	}
-	if r.CodeCategory() != Code2xxSuccess {
+	if r.CodeCategory() != response.Code2xxSuccess {
 		t.Error(r.CodeCategory())
 	}
 	if x := r.Header("x-toolbox"); x != "true" {

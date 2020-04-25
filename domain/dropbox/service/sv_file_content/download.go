@@ -33,7 +33,7 @@ func (z *downloadImpl) Download(path mo_path.DropboxPath) (entry mo_file.Entry, 
 	if err != nil {
 		return nil, nil, err
 	}
-	contentFilePath, err := res.Body().AsFile()
+	contentFilePath, err := res.Success().AsFile()
 	if err != nil {
 		return nil, nil, err
 	}

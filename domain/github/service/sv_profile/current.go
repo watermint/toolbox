@@ -25,7 +25,7 @@ func (z *currentImpl) User() (user *mo_user.User, err error) {
 		return nil, err
 	}
 	user = &mo_user.User{}
-	if _, err := res.Body().Json().Model(user); err != nil {
+	if _, err := res.Success().Json().Model(user); err != nil {
 		return nil, err
 	}
 	return user, nil
