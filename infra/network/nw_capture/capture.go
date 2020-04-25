@@ -2,9 +2,9 @@ package nw_capture
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"go.uber.org/zap"
 	"strings"
@@ -18,7 +18,7 @@ type Client struct {
 	httpClient nw_client.Http
 }
 
-func (z *Client) Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
+func (z *Client) Call(ctx api_context.Context, req api_request.Request) (res response.Response, err error) {
 	l := ctx.Log()
 	hReq, err := req.Make()
 	if err != nil {
@@ -32,11 +32,11 @@ func (z *Client) Call(ctx api_context.Context, req api_request.Request) (res api
 	// Make response
 	cp := NewCapture(ctx.Capture())
 
-	res, mkResErr := ctx.MakeResponse(hReq, hRes)
-	if mkResErr != nil {
-		l.Debug("Unable to make http response", zap.Error(mkResErr))
-		cp.NoResponse(req, mkResErr, latency.Nanoseconds())
-		return nil, mkResErr
+	res = response.New(ctx, hRes)
+	if bodyErr := res.Body().Error(); bodyErr != nil {
+		l.Debug("Unable to make http response", zap.Error(bodyErr))
+		cp.NoResponse(req, bodyErr, latency.Nanoseconds())
+		return nil, bodyErr
 	}
 	cp.WithResponse(req, res, err, latency.Nanoseconds())
 
@@ -44,7 +44,7 @@ func (z *Client) Call(ctx api_context.Context, req api_request.Request) (res api
 }
 
 type Capture interface {
-	WithResponse(req api_request.Request, res api_response.Response, resErr error, latency int64)
+	WithResponse(req api_request.Request, res response.Response, resErr error, latency int64)
 	NoResponse(req api_request.Request, resErr error, latency int64)
 }
 
@@ -99,16 +99,13 @@ type Res struct {
 	ContentLength   int64             `json:"content_length"`
 }
 
-func (z *Res) Apply(res api_response.Response, resErr error) {
-	z.ResponseCode = res.StatusCode()
-	z.ContentLength = res.ContentLength()
-	resBody, _ := res.Result()
-	if len(resBody) == 0 {
+func (z *Res) Apply(res response.Response, resErr error) {
+	z.ResponseCode = res.Code()
+	z.ContentLength = res.Body().ContentLength()
+	if res.Body().IsFile() {
 		z.ResponseBody = ""
-	} else if resBody[0] == '[' || resBody[0] == '{' {
-		z.ResponseJson = []byte(resBody)
 	} else {
-		z.ResponseBody = resBody
+		z.ResponseBody = res.Body().BodyString()
 	}
 	if resErr != nil {
 		z.ResponseError = resErr.Error()
@@ -116,7 +113,7 @@ func (z *Res) Apply(res api_response.Response, resErr error) {
 	z.ResponseHeaders = res.Headers()
 }
 
-func (z *captureImpl) WithResponse(req api_request.Request, res api_response.Response, resErr error, latency int64) {
+func (z *captureImpl) WithResponse(req api_request.Request, res response.Response, resErr error, latency int64) {
 	// request
 	rq := Req{}
 	rq.Apply(req)

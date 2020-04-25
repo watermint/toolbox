@@ -2,7 +2,7 @@ package response
 
 import (
 	"bytes"
-	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/essentials/http/context"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"io/ioutil"
 	"os"
@@ -13,7 +13,7 @@ func TestRead_InvalidBufferSize(t *testing.T) {
 	content := `{"contact":[{"name":"John"}, {"name":"David"}]}`
 	buf := ioutil.NopCloser(bytes.NewBufferString(content))
 
-	ctx := api_context.NewMock()
+	ctx := context.NewMock()
 	if _, err := read(ctx, buf, 1, 2); err != ErrorInvalidBufferState {
 		t.Error(err)
 	}
@@ -37,7 +37,7 @@ func TestRead_Failure(t *testing.T) {
 	}
 	bodyFile.Close() // close before read
 
-	ctx := api_context.NewMock()
+	ctx := context.NewMock()
 	body := Read(ctx, bodyFile)
 	if err := body.Error(); err == nil {
 		t.Error(err)
@@ -48,7 +48,7 @@ func TestRead_Success(t *testing.T) {
 	content := `{"contact":[{"name":"John"}, {"name":"David"}]}`
 	buf := ioutil.NopCloser(bytes.NewBufferString(content))
 
-	ctx := api_context.NewMock()
+	ctx := context.NewMock()
 	body := Read(ctx, buf)
 	if body.Error() != nil {
 		t.Error(body.Error())
@@ -68,7 +68,7 @@ func TestRead_SuccessChunked(t *testing.T) {
 	content := `{"contact":[{"name":"John"}, {"name":"David"}]}`
 	buf := ioutil.NopCloser(bytes.NewBufferString(content))
 
-	ctx := api_context.NewMock()
+	ctx := context.NewMock()
 	body, err := read(ctx, buf, 24, 8)
 	if err != nil {
 		t.Error(err)

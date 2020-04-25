@@ -3,7 +3,6 @@ package sv_reference
 import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_reference"
-	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
 type Reference interface {
@@ -38,12 +37,8 @@ func (z *referenceImpl) Create(ref, sha string) (created *mo_reference.Reference
 	if err != nil {
 		return nil, err
 	}
-	j, err := res.Json()
-	if err != nil {
-		return nil, err
-	}
 	created = &mo_reference.Reference{}
-	if err := api_parser.ParseModel(created, j); err != nil {
+	if _, err := res.Body().Json().Model(created); err != nil {
 		return nil, err
 	}
 	return created, nil

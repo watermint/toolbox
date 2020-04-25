@@ -175,7 +175,7 @@ func TestCachedMember_Resolve(t *testing.T) {
 	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewCached(ctx)
 		_, err := sv.Resolve("test")
-		if err != ErrorMemberNotFoundForTeamMemberId {
+		if err != ErrorMemberNotFoundForTeamMemberId && err != qt_errors.ErrorMock {
 			t.Error(err)
 		}
 	})
@@ -185,7 +185,7 @@ func TestCachedMember_ResolveByEmail(t *testing.T) {
 	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewCached(ctx)
 		_, err := sv.ResolveByEmail("test@example.com")
-		if err != ErrorMemberNotFoundForEmail {
+		if err != ErrorMemberNotFoundForEmail && err != qt_errors.ErrorMock {
 			t.Error(err)
 		}
 	})

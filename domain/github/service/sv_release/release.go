@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
-	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
 var (
@@ -39,7 +38,7 @@ func (z *releaseImpl) Get(tagName string) (release *mo_release.Release, err erro
 		return nil, err
 	}
 	release = &mo_release.Release{}
-	if err := res.Model(release); err != nil {
+	if _, err := res.Body().Json().Model(release); err != nil {
 		return nil, err
 	}
 	return release, nil
@@ -64,12 +63,8 @@ func (z *releaseImpl) CreateDraft(tagName, name, body, branch string) (release *
 	if err != nil {
 		return nil, err
 	}
-	j, err := res.Json()
-	if err != nil {
-		return nil, err
-	}
 	release = &mo_release.Release{}
-	if err := api_parser.ParseModel(release, j); err != nil {
+	if _, err := res.Body().Json().Model(release); err != nil {
 		return nil, err
 	}
 	return release, nil
@@ -81,20 +76,18 @@ func (z *releaseImpl) List() (releases []*mo_release.Release, err error) {
 	if err != nil {
 		return nil, err
 	}
-	j, err := res.Json()
-	if err != nil {
-		return nil, err
-	}
-	if !j.IsArray() {
-		return nil, ErrorUnexpectedResponse
-	}
+
 	releases = make([]*mo_release.Release, 0)
-	for _, entry := range j.Array() {
-		release := &mo_release.Release{}
-		if err := api_parser.ParseModel(release, entry); err != nil {
-			return nil, err
+	if entries, found := res.Body().Json().Array(); !found {
+		return nil, ErrorNotFound
+	} else {
+		for _, entry := range entries {
+			release := &mo_release.Release{}
+			if _, err := entry.Model(release); err != nil {
+				return nil, err
+			}
+			releases = append(releases, release)
 		}
-		releases = append(releases, release)
+		return releases, nil
 	}
-	return releases, nil
 }

@@ -21,6 +21,7 @@ var (
 const (
 	TagPathName          = "path"
 	TagPathValueRequired = "required"
+	PathArrayFirst       = "0"
 )
 
 // Wrapper of gjson
@@ -49,11 +50,26 @@ type Json interface {
 	// Parse model with given type.
 	Model(v interface{}) (w interface{}, err error)
 
+	// Find value under the path. Returns nil & false if not found.
+	Find(path string) (j Json, found bool)
+
 	// Find then Model.
 	FindModel(path string, v interface{}) (w interface{}, err error)
 
-	// Find value under the path. Returns nil & false if not found.
-	Find(path string) (j Json, found bool)
+	// Find an array
+	FindArray(path string) (v []Json, t bool)
+
+	// Find an object
+	FindObject(path string) (v map[string]Json, t bool)
+
+	// Find Bool
+	FindBool(path string) (v bool, t bool)
+
+	// Returns a number value and true if this instance is a number.
+	FindNumber(path string) (v number.Number, t bool)
+
+	// Returns a string value and true if this instance is a string.
+	FindString(path string) (v string, t bool)
 }
 
 func ParseString(j string) (Json, error) {
@@ -129,11 +145,8 @@ func (z wrapperImpl) String() (v string, t bool) {
 	return z.r.String(), true
 }
 
-func (z wrapperImpl) Model(v0 interface{}) (w interface{}, err error) {
+func (z wrapperImpl) Model(v interface{}) (w interface{}, err error) {
 	l := app_root.Log()
-	v0t := reflect.ValueOf(v0).Elem().Type()
-	v := reflect.New(v0t).Interface()
-
 	vv := reflect.ValueOf(v).Elem()
 	vt := vv.Type()
 
@@ -190,6 +203,14 @@ func (z wrapperImpl) Model(v0 interface{}) (w interface{}, err error) {
 	return v, nil
 }
 
+func (z wrapperImpl) Find(path string) (j Json, found bool) {
+	r1 := z.r.Get(path)
+	if !r1.Exists() {
+		return nil, false
+	}
+	return newWrapper(r1), true
+}
+
 func (z wrapperImpl) FindModel(path string, v interface{}) (w interface{}, err error) {
 	if x, found := z.Find(path); !found {
 		return nil, ErrorNotFound
@@ -198,10 +219,42 @@ func (z wrapperImpl) FindModel(path string, v interface{}) (w interface{}, err e
 	}
 }
 
-func (z wrapperImpl) Find(path string) (j Json, found bool) {
-	r1 := z.r.Get(path)
-	if !r1.Exists() {
+func (z wrapperImpl) FindArray(path string) (v []Json, t bool) {
+	if x, found := z.Find(path); !found {
 		return nil, false
+	} else {
+		return x.Array()
 	}
-	return newWrapper(r1), true
+}
+
+func (z wrapperImpl) FindObject(path string) (v map[string]Json, t bool) {
+	if x, found := z.Find(path); !found {
+		return nil, false
+	} else {
+		return x.Object()
+	}
+}
+
+func (z wrapperImpl) FindBool(path string) (v bool, t bool) {
+	if x, found := z.Find(path); !found {
+		return false, false
+	} else {
+		return x.Bool()
+	}
+}
+
+func (z wrapperImpl) FindNumber(path string) (v number.Number, t bool) {
+	if x, found := z.Find(path); !found {
+		return nil, false
+	} else {
+		return x.Number()
+	}
+}
+
+func (z wrapperImpl) FindString(path string) (v string, t bool) {
+	if x, found := z.Find(path); !found {
+		return "", false
+	} else {
+		return x.String()
+	}
 }

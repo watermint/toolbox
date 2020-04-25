@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_tag"
 	"github.com/watermint/toolbox/domain/github/service/sv_reference"
-	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
 var (
@@ -37,17 +36,14 @@ func (z *tagImpl) List() (tags []*mo_tag.Tag, err error) {
 	if err != nil {
 		return nil, err
 	}
-	j, err := res.Json()
-	if err != nil {
-		return nil, err
-	}
-	if !j.IsArray() {
+	entries, found := res.Body().Json().Array()
+	if !found {
 		return nil, ErrorUnexpectedResponse
 	}
 	tags = make([]*mo_tag.Tag, 0)
-	for _, entry := range j.Array() {
+	for _, entry := range entries {
 		tag := &mo_tag.Tag{}
-		if err := api_parser.ParseModel(tag, entry); err != nil {
+		if _, err := entry.Model(tag); err != nil {
 			return nil, err
 		}
 		tags = append(tags, tag)
@@ -73,12 +69,8 @@ func (z *tagImpl) Create(tagName, message, sha string) (tag *mo_tag.Tag, err err
 	if err != nil {
 		return nil, err
 	}
-	j, err := res.Json()
-	if err != nil {
-		return nil, err
-	}
 	tag = &mo_tag.Tag{}
-	if err := api_parser.ParseModel(tag, j); err != nil {
+	if _, err := res.Body().Json().Model(tag); err != nil {
 		return nil, err
 	}
 

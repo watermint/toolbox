@@ -3,14 +3,14 @@ package response
 import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/http/context"
 	"github.com/watermint/toolbox/essentials/rec"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
 )
 
-func newMemoryBody(ctx api_context.Context, content []byte) Body {
+func newMemoryBody(ctx context.Context, content []byte) Body {
 	return &bodyMemoryImpl{
 		ctx:     ctx,
 		content: content,
@@ -18,8 +18,16 @@ func newMemoryBody(ctx api_context.Context, content []byte) Body {
 }
 
 type bodyMemoryImpl struct {
-	ctx     api_context.Context
+	ctx     context.Context
 	content []byte
+}
+
+func (z bodyMemoryImpl) Json() tjson.Json {
+	if j, err := z.AsJson(); err != nil {
+		return tjson.Null()
+	} else {
+		return j
+	}
 }
 
 func (z bodyMemoryImpl) Error() error {
@@ -39,9 +47,9 @@ func (z bodyMemoryImpl) AsJson() (tjson.Json, error) {
 	return tjson.Parse(z.content)
 }
 
-func (z bodyMemoryImpl) AsFile() (string, error) {
-	l := z.ctx.Log()
-	p, err := ioutil.TempFile("", z.ctx.ClientHash())
+func toFile(ctx context.Context, content []byte) (string, error) {
+	l := ctx.Log()
+	p, err := ioutil.TempFile("", ctx.ClientHash())
 	if err != nil {
 		l.Debug("Unable to create temp file", zap.Error(err))
 		return "", err
@@ -54,7 +62,7 @@ func (z bodyMemoryImpl) AsFile() (string, error) {
 			l.Debug("unable to remove", zap.Error(err))
 		}
 	}
-	if err := ioutil.WriteFile(p.Name(), z.content, 0600); err != nil {
+	if err := ioutil.WriteFile(p.Name(), content, 0600); err != nil {
 		l.Debug("Unable to write", zap.Error(err))
 		cleanupOnError()
 		return "", err
@@ -65,6 +73,10 @@ func (z bodyMemoryImpl) AsFile() (string, error) {
 		return "", err
 	}
 	return p.Name(), nil
+}
+
+func (z bodyMemoryImpl) AsFile() (string, error) {
+	return toFile(z.ctx, z.content)
 }
 
 func (z bodyMemoryImpl) ContentLength() int64 {

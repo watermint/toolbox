@@ -4,6 +4,7 @@ import (
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -179,7 +180,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 
 		dbxEntries, err := sv_file.NewFiles(z.Context).List(dbxPath)
 		if err != nil {
-			if dbx_util.ErrorSummaryPrefix(err, "path/not_found") {
+			if err == dbx_error.ErrorPathNotFound {
 				ll.Debug("Dropbox entry not found", zap.String("dbxPath", dbxPath.Path()), zap.Error(err))
 				dbxEntries = make([]mo_file.Entry, 0)
 			} else {

@@ -3,6 +3,7 @@ package uc_file_mirror
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -79,7 +80,7 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 	entriesDst, err := svfDst.List(pathDstRelToSrc)
 	if err != nil {
 		errPrefix := dbx_util.ErrorSummary(err)
-		if !strings.HasPrefix(errPrefix, "path/not_found") {
+		if err != dbx_error.ErrorPathNotFound {
 			log.Debug("DST: Unable to list", zap.Error(err), zap.String("error_summary", errPrefix))
 			return err
 		}

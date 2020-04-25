@@ -12,6 +12,10 @@ type errorBody struct {
 	err error
 }
 
+func (z errorBody) Json() tjson.Json {
+	return tjson.Null()
+}
+
 func (z errorBody) Error() error {
 	return z.err
 }

@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 )
 
 type GroupMember interface {
@@ -75,9 +75,9 @@ func (z *groupMemberImpl) List() (members []*mo_group_member.Member, err error) 
 		Param(p).
 		ResultTag("members").
 		UseHasMore(true).
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			gm := &mo_group_member.Member{}
-			if err := entry.Model(gm); err != nil {
+			if _, err := entry.Model(gm); err != nil {
 				return err
 			}
 			members = append(members, gm)
@@ -138,7 +138,7 @@ func (z *groupMemberImpl) Add(members ...MemberOpt) (group *mo_group.Group, err 
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(group); err != nil {
+	if _, err = res.Body().Json().Model(group); err != nil {
 		return nil, err
 	}
 	return group, nil
@@ -185,7 +185,7 @@ func (z *groupMemberImpl) Remove(members ...MemberOpt) (group *mo_group.Group, e
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(group); err != nil {
+	if _, err = res.Body().Json().Model(group); err != nil {
 		return nil, err
 	}
 	return group, nil

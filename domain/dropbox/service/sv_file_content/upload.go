@@ -151,7 +151,7 @@ func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.DropboxPath
 		return nil, err
 	}
 	entry = &mo_file.Metadata{}
-	if err := res.Model(entry); err != nil {
+	if _, err := res.Body().Json().Model(entry); err != nil {
 		return nil, err
 	}
 	return entry, nil
@@ -169,7 +169,7 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.DropboxPat
 	defer f.Close()
 
 	type SessionId struct {
-		SessionId string `json:"session_id"`
+		SessionId string `path:"session_id" json:"session_id"`
 	}
 	type CursorInfo struct {
 		SessionId string `json:"session_id"`
@@ -194,10 +194,8 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.DropboxPat
 		return nil, err
 	}
 	sid := &SessionId{}
-	if j, err := res.Json(); err != nil {
+	if _, err := res.Body().Json().Model(sid); err != nil {
 		return nil, err
-	} else {
-		sid.SessionId = j.Get("session_id").String()
 	}
 	written += z.uo.ChunkSize
 	l = l.With(zap.String("sessionId", sid.SessionId))
@@ -240,7 +238,7 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.DropboxPat
 		return nil, err
 	}
 	entry = &mo_file.Metadata{}
-	if err := res.Model(entry); err != nil {
+	if _, err := res.Body().Json().Model(entry); err != nil {
 		return nil, err
 	}
 	return entry, nil

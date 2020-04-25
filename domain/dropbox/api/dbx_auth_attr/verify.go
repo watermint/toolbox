@@ -11,6 +11,7 @@ import (
 var (
 	ErrorUnableToRetrieveResponse = errors.New("unable to retrieve json response")
 	ErrorNoVerification           = errors.New("no verification")
+	ErrorUnexpectedResponseFormat = errors.New("unexpected response format")
 )
 
 // Returns description of the account
@@ -27,13 +28,15 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 			return nil, err
 		}
 
-		j, err := p.Json()
-		if err != nil {
-			l.Debug("Unable to retrieve JSON response", zap.Error(err))
-			return nil, ErrorUnableToRetrieveResponse
+		j := p.Body().Json()
+		desc, found := j.FindString("name.display_name")
+		if !found {
+			return nil, ErrorUnexpectedResponseFormat
 		}
-		desc := j.Get("name.display_name").String()
-		suppl := j.Get("email").String()
+		suppl, found := j.FindString("email")
+		if !found {
+			return nil, ErrorUnexpectedResponseFormat
+		}
 		l.Debug("Token Verified", zap.String("desc", desc))
 
 		return api_auth.NewContextWithAttr(ctx, desc, suppl), nil
@@ -48,14 +51,15 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 			l.Debug("Unable to verify token", zap.Error(err))
 			return nil, err
 		}
-		j, err := p.Json()
-		if err != nil {
-			l.Debug("Unable to retrieve JSON response", zap.Error(err))
-			return nil, ErrorUnableToRetrieveResponse
+		j := p.Body().Json()
+		desc, found := j.FindString("name")
+		if !found {
+			return nil, ErrorUnexpectedResponseFormat
 		}
-
-		desc := j.Get("name").String()
-		supplLic := j.Get("num_licensed_users").Int()
+		supplLic, found := j.FindNumber("num_licensed_users")
+		if !found {
+			return nil, ErrorUnexpectedResponseFormat
+		}
 		suppl := ui.Text(MAttr.AttrTeamLicenses.With("Licenses", supplLic))
 		l.Debug("Token Verified", zap.String("desc", desc), zap.String("suppl", suppl))
 

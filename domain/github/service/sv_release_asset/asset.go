@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
-	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
@@ -45,17 +44,14 @@ func (z *assetImpl) List() (assets []*mo_release_asset.Asset, err error) {
 	if err != nil {
 		return nil, err
 	}
-	j, err := res.Json()
-	if err != nil {
-		return nil, err
-	}
-	if !j.IsArray() {
+	assets = make([]*mo_release_asset.Asset, 0)
+	entries, found := res.Body().Json().Array()
+	if !found {
 		return nil, ErrorUnexpectedResponse
 	}
-	assets = make([]*mo_release_asset.Asset, 0)
-	for _, entry := range j.Array() {
+	for _, entry := range entries {
 		asset := &mo_release_asset.Asset{}
-		if err := api_parser.ParseModel(asset, entry); err != nil {
+		if _, err := entry.Model(asset); err != nil {
 			return nil, err
 		}
 		assets = append(assets, asset)
@@ -101,7 +97,7 @@ func (z *assetImpl) Upload(file mo_path.ExistingFileSystemPath) (asset *mo_relea
 		return nil, err
 	}
 	asset = &mo_release_asset.Asset{}
-	if err := res.Model(asset); err != nil {
+	if _, err := res.Body().Json().Model(asset); err != nil {
 		l.Debug("failed to parse", zap.Error(err))
 		return nil, err
 	}

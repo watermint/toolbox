@@ -35,7 +35,7 @@ func (z *folderImpl) Create(path mo_path.DropboxPath) (entry mo_file.Entry, err 
 	if err != nil {
 		return nil, err
 	}
-	if err := res.ModelWithPath(entry, "metadata"); err != nil {
+	if _, err := res.Body().Json().FindModel("metadata", entry); err != nil {
 		return nil, err
 	}
 	return entry, nil

@@ -3,8 +3,7 @@ package sv_linkedapp
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_linkedapp"
-	"github.com/watermint/toolbox/infra/api/api_list"
-	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 )
 
 type LinkedApp interface {
@@ -28,20 +27,19 @@ func (z *linkedAppImpl) List() (apps []*mo_linkedapp.LinkedApp, err error) {
 		Continue("team/linked_apps/list_members_linked_apps").
 		UseHasMore(true).
 		ResultTag("apps").
-		OnEntry(func(entry api_list.ListEntry) error {
-			j, err := entry.Json()
-			if err != nil {
-				return err
+		OnEntry(func(entry tjson.Json) error {
+			memberId, found := entry.FindString("team_member_id")
+			if !found {
+				return nil
 			}
-			memberId := j.Get("team_member_id").String()
-			apiApps := j.Get("linked_api_apps")
-			if !apiApps.Exists() || !apiApps.IsArray() {
+			apiApps, found := entry.FindArray("linked_api_apps")
+			if !found {
 				return nil
 			}
 
-			for _, a := range apiApps.Array() {
+			for _, a := range apiApps {
 				apiApp := &mo_linkedapp.LinkedApp{}
-				if err := api_parser.ParseModel(apiApp, a); err != nil {
+				if _, err := a.Model(apiApp); err != nil {
 					return err
 				}
 				apiApp.TeamMemberId = memberId

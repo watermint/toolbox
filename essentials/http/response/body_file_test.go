@@ -1,7 +1,7 @@
 package response
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/essentials/http/context"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
 	"testing"
@@ -17,7 +17,7 @@ func TestBodyFileImpl(t *testing.T) {
 	defer func() {
 		os.Remove(tf)
 	}()
-	ctx := api_context.NewMock()
+	ctx := context.NewMock()
 	bf := newFileBody(ctx, tf, int64(len(content)))
 	if bf.File() != tf {
 		t.Error(bf.File())
@@ -49,7 +49,7 @@ func TestBodyFileImplFailure(t *testing.T) {
 	defer func() {
 		os.Remove(tf)
 	}()
-	ctx := api_context.NewMock()
+	ctx := context.NewMock()
 
 	// file too large
 	{

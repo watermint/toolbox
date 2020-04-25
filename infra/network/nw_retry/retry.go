@@ -1,9 +1,9 @@
 package nw_retry
 
 import (
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
@@ -21,7 +21,7 @@ type Retry struct {
 	client nw_client.Rest
 }
 
-func (z *Retry) Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
+func (z *Retry) Call(ctx api_context.Context, req api_request.Request) (res response.Response, err error) {
 	// path through when no retry enabled.
 	if ctx.IsNoRetry() {
 		return z.client.Call(ctx, req)

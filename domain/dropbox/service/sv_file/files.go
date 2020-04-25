@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 	"go.uber.org/zap"
 )
 
@@ -171,11 +171,10 @@ func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.
 		Param(p).
 		UseHasMore(true).
 		ResultTag("matches").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			e := &mo_file.Match{}
-			if err := entry.Model(e); err != nil {
-				j, _ := entry.Json()
-				z.ctx.Log().Error("invalid", zap.Error(err), zap.String("entry", j.Raw))
+			if _, err := entry.Model(e); err != nil {
+				z.ctx.Log().Error("invalid", zap.Error(err))
 				return err
 			}
 			matches = append(matches, e)
@@ -220,7 +219,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 		return err
 	}
 	cursor := &Cursor{}
-	if err = res.Model(cursor); err != nil {
+	if _, err = res.Body().Json().Model(cursor); err != nil {
 		return err
 	}
 
@@ -231,7 +230,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 			return err
 		}
 		changes := &LongPoll{}
-		if err = res.Model(changes); err != nil {
+		if _, err = res.Body().Json().Model(changes); err != nil {
 			return err
 		}
 		if changes.Changes {
@@ -240,11 +239,10 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 				Param(cursor).
 				UseHasMore(true).
 				ResultTag("entries").
-				OnEntry(func(entry api_list.ListEntry) error {
+				OnEntry(func(entry tjson.Json) error {
 					e := &mo_file.Metadata{}
-					if err := entry.Model(e); err != nil {
-						j, _ := entry.Json()
-						z.ctx.Log().Error("invalid", zap.Error(err), zap.String("entry", j.Raw))
+					if _, err := entry.Model(e); err != nil {
+						z.ctx.Log().Error("invalid", zap.Error(err), zap.ByteString("entry", entry.Raw()))
 						return err
 					}
 					onEntry(e)
@@ -276,7 +274,7 @@ func (z *filesImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err 
 	if err != nil {
 		return nil, err
 	}
-	if err := res.Model(entry); err != nil {
+	if _, err := res.Body().Json().Model(entry); err != nil {
 		return nil, err
 	}
 	return entry, nil
@@ -324,11 +322,10 @@ func (z *filesImpl) ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_
 		Param(p).
 		UseHasMore(true).
 		ResultTag("entries").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			e := &mo_file.Metadata{}
-			if err := entry.Model(e); err != nil {
-				j, _ := entry.Json()
-				z.ctx.Log().Error("invalid", zap.Error(err), zap.String("entry", j.Raw))
+			if _, err := entry.Model(e); err != nil {
+				z.ctx.Log().Error("invalid", zap.Error(err), zap.ByteString("entry", entry.Raw()))
 				return err
 			}
 			onEntry(e)
@@ -356,7 +353,7 @@ func (z *filesImpl) Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry m
 	if err != nil {
 		return nil, err
 	}
-	if err := res.Model(entry); err != nil {
+	if _, err := res.Body().Json().Model(entry); err != nil {
 		return nil, err
 	}
 	return entry, nil

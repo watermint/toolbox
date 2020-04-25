@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 	"go.uber.org/zap"
 	"strings"
 )
@@ -139,11 +139,10 @@ func (z *fileImpl) List(url mo_url.Url, path mo_path.DropboxPath, onEntry func(e
 		Param(p).
 		UseHasMore(true).
 		ResultTag("entries").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			e := &mo_file.Metadata{}
-			if err := entry.Model(e); err != nil {
-				j, _ := entry.Json()
-				z.ctx.Log().Error("invalid", zap.Error(err), zap.String("entry", j.Raw))
+			if _, err := entry.Model(e); err != nil {
+				z.ctx.Log().Error("invalid", zap.Error(err), zap.ByteString("entry", entry.Raw()))
 				return err
 			}
 			onEntry(e)

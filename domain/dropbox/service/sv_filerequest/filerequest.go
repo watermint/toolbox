@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 )
 
 type FileRequest interface {
@@ -77,7 +77,7 @@ func (z *fileRequestImpl) Update(fr *mo_filerequest.FileRequest) (req *mo_filere
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(fr1); err != nil {
+	if _, err = res.Body().Json().Model(fr1); err != nil {
 		return nil, err
 	}
 	return fr1, nil
@@ -95,9 +95,9 @@ func (z *fileRequestImpl) Delete(ids ...string) (requests []*mo_filerequest.File
 		Param(p).
 		UseHasMore(false).
 		ResultTag("file_requests").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			fr := &mo_filerequest.FileRequest{}
-			if err := entry.Model(fr); err != nil {
+			if _, err := entry.Model(fr); err != nil {
 				return err
 			}
 			requests = append(requests, fr)
@@ -114,9 +114,9 @@ func (z *fileRequestImpl) DeleteAllClosed() (requests []*mo_filerequest.FileRequ
 		Continue("file_requests/list/continue").
 		UseHasMore(false).
 		ResultTag("file_requests").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			fr := &mo_filerequest.FileRequest{}
-			if err := entry.Model(fr); err != nil {
+			if _, err := entry.Model(fr); err != nil {
 				return err
 			}
 			requests = append(requests, fr)
@@ -154,7 +154,7 @@ func (z *fileRequestImpl) Create(title string, destination mo_path.DropboxPath, 
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(fr); err != nil {
+	if _, err = res.Body().Json().Model(fr); err != nil {
 		return nil, err
 	}
 	return fr, nil
@@ -167,9 +167,9 @@ func (z *fileRequestImpl) List() (requests []*mo_filerequest.FileRequest, err er
 		Continue("file_requests/list/continue").
 		UseHasMore(true).
 		ResultTag("file_requests").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			fr := &mo_filerequest.FileRequest{}
-			if err := entry.Model(fr); err != nil {
+			if _, err := entry.Model(fr); err != nil {
 				return err
 			}
 			requests = append(requests, fr)

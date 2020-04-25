@@ -44,7 +44,7 @@ func TestCachedGroup_Resolve(t *testing.T) {
 	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewCached(ctx)
 		_, err := sv.Resolve("test")
-		if err != ErrorGroupNotFoundForGroupId {
+		if err != ErrorGroupNotFoundForGroupId && err != qt_errors.ErrorMock {
 			t.Error(err)
 		}
 	})
@@ -54,7 +54,7 @@ func TestCachedGroup_ResolveByName(t *testing.T) {
 	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := NewCached(ctx)
 		_, err := sv.ResolveByName("test")
-		if err != ErrorGroupNotFoundForName {
+		if err != ErrorGroupNotFoundForName && err != qt_errors.ErrorMock {
 			t.Error(err)
 		}
 	})
@@ -117,7 +117,7 @@ func TestImplGroup_ResolveByName(t *testing.T) {
 	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		_, err := sv.ResolveByName("test")
-		if err != ErrorGroupNotFoundForName {
+		if err != ErrorGroupNotFoundForName && err != qt_errors.ErrorMock {
 			t.Error(err)
 		}
 	})

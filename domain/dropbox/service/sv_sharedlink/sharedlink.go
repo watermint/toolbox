@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 	"time"
 )
 
@@ -84,7 +84,7 @@ func (z *sharedLinkImpl) Resolve(url mo_url.Url, password string) (entry mo_file
 	if err != nil {
 		return nil, err
 	}
-	if err := res.Model(entry); err != nil {
+	if _, err := res.Body().Json().Model(entry); err != nil {
 		return nil, err
 	}
 	return entry, nil
@@ -119,7 +119,7 @@ func (z *sharedLinkImpl) Update(link mo_sharedlink.SharedLink, opts ...LinkOpt) 
 	if err != nil {
 		return nil, err
 	}
-	if err := res.Model(link); err != nil {
+	if _, err := res.Body().Json().Model(link); err != nil {
 		return nil, err
 	}
 	return link, nil
@@ -138,9 +138,9 @@ func (z *sharedLinkImpl) list(path string) (links []mo_sharedlink.SharedLink, er
 		Param(p).
 		UseHasMore(true).
 		ResultTag("links").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			link := &mo_sharedlink.Metadata{}
-			if err := entry.Model(link); err != nil {
+			if _, err := entry.Model(link); err != nil {
 				return err
 			}
 			links = append(links, link)
@@ -198,7 +198,7 @@ func (z *sharedLinkImpl) Create(path mo_path.DropboxPath, opts ...LinkOpt) (link
 	if err != nil {
 		return nil, err
 	}
-	if err := res.Model(link); err != nil {
+	if _, err := res.Body().Json().Model(link); err != nil {
 		return nil, err
 	}
 	return link, nil

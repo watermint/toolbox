@@ -4,14 +4,11 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/util/ut_io"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
-	"net/http"
 )
 
 func NewMock(ctl app_control.Control) gh_context.Context {
@@ -48,10 +45,6 @@ func (z Mock) NoRetryOnError() api_context.Context {
 
 func (z Mock) IsNoRetry() bool {
 	return false
-}
-
-func (z Mock) MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error) {
-	return nil, qt_errors.ErrorMock
 }
 
 func (z Mock) Post(endpoint string) api_request.Request {

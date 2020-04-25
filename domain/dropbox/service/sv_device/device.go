@@ -4,8 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_device"
-	"github.com/watermint/toolbox/infra/api/api_list"
-	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 	"go.uber.org/zap"
 )
 
@@ -53,24 +52,20 @@ func (z *sessionImpl) List() (sessions []mo_device.Session, err error) {
 		Param(p).
 		UseHasMore(true).
 		ResultTag("devices").
-		OnEntry(func(entry api_list.ListEntry) error {
-			ej, err := entry.Json()
-			if err != nil {
-				return err
-			}
-			m := ej.Get("team_member_id")
-			if !m.Exists() {
-				z.ctx.Log().Debug("no `team_member_id` field found", zap.String("entry", ej.Raw))
+		OnEntry(func(entry tjson.Json) error {
+			m, found := entry.FindString("team_member_id")
+			if !found {
+				z.ctx.Log().Debug("no `team_member_id` field found", zap.ByteString("entry", entry.Raw()))
 				return errors.New("team_member_id not found")
 			}
-			teamMemberId := m.String()
+			teamMemberId := m
 			{
-				ws := ej.Get("web_sessions")
-				if ws.Exists() && ws.IsArray() {
-					for _, w := range ws.Array() {
+				ws, found := entry.FindArray("web_sessions")
+				if found {
+					for _, w := range ws {
 						mw := &mo_device.Web{}
-						if err := api_parser.ParseModel(mw, w); err != nil {
-							z.ctx.Log().Debug("unable to parse web_session", zap.Error(err), zap.String("entry", w.Raw))
+						if _, err := w.Model(mw); err != nil {
+							z.ctx.Log().Debug("unable to parse web_session", zap.Error(err), zap.ByteString("entry", entry.Raw()))
 							return err
 						}
 						mw.TeamMemberId = teamMemberId
@@ -80,12 +75,12 @@ func (z *sessionImpl) List() (sessions []mo_device.Session, err error) {
 				}
 			}
 			{
-				ds := ej.Get("desktop_clients")
-				if ds.Exists() && ds.IsArray() {
-					for _, d := range ds.Array() {
+				ds, found := entry.FindArray("desktop_clients")
+				if found {
+					for _, d := range ds {
 						md := &mo_device.Desktop{}
-						if err := api_parser.ParseModel(md, d); err != nil {
-							z.ctx.Log().Debug("unable to parse desktop_session", zap.Error(err), zap.String("entry", d.Raw))
+						if _, err := d.Model(md); err != nil {
+							z.ctx.Log().Debug("unable to parse desktop_session", zap.Error(err), zap.ByteString("entry", entry.Raw()))
 							return err
 						}
 						md.TeamMemberId = teamMemberId
@@ -95,12 +90,12 @@ func (z *sessionImpl) List() (sessions []mo_device.Session, err error) {
 				}
 			}
 			{
-				ms := ej.Get("mobile_clients")
-				if ms.Exists() && ms.IsArray() {
-					for _, m := range ms.Array() {
+				ms, found := entry.FindArray("mobile_clients")
+				if found {
+					for _, m := range ms {
 						mm := &mo_device.Mobile{}
-						if err := api_parser.ParseModel(mm, m); err != nil {
-							z.ctx.Log().Debug("unable to parse desktop_session", zap.Error(err), zap.String("entry", m.Raw))
+						if _, err := m.Model(mm); err != nil {
+							z.ctx.Log().Debug("unable to parse desktop_session", zap.Error(err), zap.ByteString("entry", entry.Raw()))
 							return err
 						}
 						mm.TeamMemberId = teamMemberId

@@ -3,10 +3,16 @@ package dbx_list
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
+	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_list"
-	"github.com/watermint/toolbox/infra/api/api_response"
 	"go.uber.org/zap"
+)
+
+var (
+	ErrorNoResult = errors.New("no result")
 )
 
 func New(ctx dbx_context.Context, endpoint string, asMemberId, asAdminId string, base dbx_context.PathRoot) api_list.List {
@@ -30,9 +36,8 @@ type listImpl struct {
 	resultTag        string
 	requestEndpoint  string
 	continueEndpoint string
-	onEntry          func(res api_list.ListEntry) error
-	onResponse       func(res api_response.Response) error
-	onFailure        func(err error) error
+	onEntry          func(res tjson.Json) error
+	onResponse       func(res response.Response) error
 	onLastCursor     func(cursor string)
 }
 
@@ -56,17 +61,12 @@ func (z *listImpl) ResultTag(tag string) api_list.List {
 	return z
 }
 
-func (z *listImpl) OnFailure(failure func(err error) error) api_list.List {
-	z.onFailure = failure
-	return z
-}
-
-func (z *listImpl) OnResponse(response func(res api_response.Response) error) api_list.List {
+func (z *listImpl) OnResponse(response func(res response.Response) error) api_list.List {
 	z.onResponse = response
 	return z
 }
 
-func (z *listImpl) OnEntry(entry func(entry api_list.ListEntry) error) api_list.List {
+func (z *listImpl) OnEntry(entry func(entry tjson.Json) error) api_list.List {
 	z.onEntry = entry
 	return z
 }
@@ -76,24 +76,21 @@ func (z *listImpl) OnLastCursor(f func(cursor string)) api_list.List {
 	return z
 }
 
-func (z *listImpl) handleResponse(endpoint string, res api_response.Response, err error) error {
-	log := z.ctx.Log().With(zap.String("endpoint", endpoint))
+func (z *listImpl) handleResponse(endpoint string, res response.Response, err error) error {
+	l := z.ctx.Log().With(zap.String("endpoint", endpoint))
 
 	if err != nil {
-		if z.onFailure != nil {
-			return z.onFailure(err)
-		}
 		return err
 	}
 
 	if res == nil {
-		log.Warn("Response is null")
+		l.Warn("Response is null")
 		return errors.New("response is null")
 	}
 
 	if z.onResponse != nil {
 		if err = z.onResponse(res); err != nil {
-			log.Debug("OnResponseBody returned abort", zap.Error(err))
+			l.Debug("OnResponseBody returned abort", zap.Error(err))
 			return err
 		}
 	}
@@ -114,65 +111,70 @@ func (z *listImpl) handleResponse(endpoint string, res api_response.Response, er
 	return nil
 }
 
-func (z *listImpl) handleEntry(res api_response.Response) error {
+func (z *listImpl) handleEntry(res response.Response) error {
 	if z.onEntry == nil {
 		return nil
 	}
 
-	log := z.ctx.Log().With(zap.String("endpoint", z.requestEndpoint), zap.String("result_tag", z.resultTag))
-	j, err := res.Json()
-	if err != nil {
+	l := z.ctx.Log().With(zap.String("endpoint", z.requestEndpoint), zap.String("result_tag", z.resultTag))
+	if err := dbx_error.IsApiError(res); err != nil {
 		return err
 	}
+	j := res.Body().Json()
 
-	results := j.Get(z.resultTag)
-	if !results.Exists() {
-		log.Debug("No result found")
-		return errors.New("no result found")
-	}
-
-	if !results.IsArray() {
-		log.Debug("result was not an array")
-		return errors.New("result was not an array")
-	}
-
-	for _, e := range results.Array() {
-		le := &listEntryImpl{
-			entry: e,
+	if resultsElem, found := j.Find(z.resultTag); !found {
+		l.Debug("No result found", zap.ByteString("response", j.Raw()))
+		return ErrorNoResult
+	} else if results, found := resultsElem.Array(); !found {
+		l.Debug("Result was not an array", zap.ByteString("response", j.Raw()))
+		return ErrorNoResult
+	} else {
+		for _, e := range results {
+			if err := z.onEntry(e); err != nil {
+				l.Debug("handler returned abort", zap.Error(err))
+				return err
+			}
 		}
-		if err = z.onEntry(le); err != nil {
-			log.Debug("handler returned abort")
-			return err
-		}
+		return nil
 	}
-	return nil
 }
 
-func (z *listImpl) isContinue(res api_response.Response) (cont bool, cursor string) {
-	log := z.ctx.Log().With(zap.String("endpoint", z.continueEndpoint))
-	j, err := res.Json()
+func (z listImpl) isContinueHasMore(j tjson.Json) (cont bool, cursor string) {
+	l := z.ctx.Log().With(zap.String("endpoint", z.continueEndpoint))
+	if hasMore, e := j.FindBool("has_more"); !hasMore {
+		l.Debug("no more results; has_more == false",
+			zap.Bool("e", e),
+			zap.Bool("hasMore", hasMore))
+		return false, ""
+	}
+	return z.isContinueCursor(j)
+}
+
+func (z listImpl) isContinueCursor(j tjson.Json) (cont bool, cursor string) {
+	l := z.ctx.Log().With(zap.String("endpoint", z.continueEndpoint))
+	if cursor, found := j.FindString("cursor"); found {
+		l.Debug("cursor found", zap.String("cursor", cursor))
+		return true, cursor
+	} else {
+		l.Debug("has_more returned true, but no cursor found in the body")
+		return false, ""
+	}
+}
+
+func (z *listImpl) isContinue(res response.Response) (cont bool, cursor string) {
+	l := z.ctx.Log().With(zap.String("endpoint", z.continueEndpoint))
+	j, err := res.Body().AsJson()
 	if err != nil {
 		return false, ""
 	}
 
 	if z.useHasMore {
-		cursor = j.Get("cursor").String()
-		if j.Get("has_more").Bool() {
-			if cursor != "" {
-				return true, cursor
-			}
-			log.Debug("has_more returned true, but no cursor found in the body")
-			return false, ""
-		} else {
-			return false, cursor
-		}
+		l.Debug("use has_more")
+		return z.isContinueHasMore(j)
+	} else {
+		l.Debug("no has_more defined for this api")
+		return z.isContinueCursor(j)
 	}
-
-	cursor = j.Get("cursor").String()
-	if cursor != "" {
-		return true, cursor
-	}
-	return false, cursor
 }
 
 func (z *listImpl) list() error {

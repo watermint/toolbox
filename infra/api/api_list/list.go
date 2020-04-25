@@ -1,8 +1,8 @@
 package api_list
 
 import (
-	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/infra/api/api_response"
+	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/http/response"
 )
 
 type List interface {
@@ -10,15 +10,8 @@ type List interface {
 	Continue(endpoint string) List
 	UseHasMore(use bool) List
 	ResultTag(tag string) List
-	OnFailure(failure func(err error) error) List
-	OnResponse(response func(res api_response.Response) error) List
-	OnEntry(entry func(entry ListEntry) error) List
+	OnResponse(response func(res response.Response) error) List
+	OnEntry(entry func(entry tjson.Json) error) List
 	OnLastCursor(f func(cursor string)) List
 	Call() (err error)
-}
-
-type ListEntry interface {
-	Json() (res gjson.Result, err error)
-	Model(v interface{}) error
-	ModelWithPath(v interface{}, path string) error
 }

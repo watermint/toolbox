@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_rest"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/app"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
@@ -74,7 +74,7 @@ func (z *rpcImpl) Param(p interface{}) api_request.Request {
 	}
 }
 
-func (z *rpcImpl) Call() (res api_response.Response, err error) {
+func (z *rpcImpl) Call() (res response.Response, err error) {
 	return gh_rest.Default(z.ctx.Feature()).Call(z.ctx, z)
 }
 

@@ -1,7 +1,6 @@
 package sv_file_content
 
 import (
-	"errors"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
@@ -34,18 +33,23 @@ func (z *downloadImpl) Download(path mo_path.DropboxPath) (entry mo_file.Entry, 
 	if err != nil {
 		return nil, nil, err
 	}
-	if !res.IsContentDownloaded() {
-		return nil, nil, errors.New("content was not downloaded")
+	contentFilePath, err := res.Body().AsFile()
+	if err != nil {
+		return nil, nil, err
 	}
+	resData := dbx_context.ContentResponseData(res)
+
 	entry = &mo_file.Metadata{}
-	if err := res.Model(entry); err != nil {
+	if _, err := resData.Model(entry); err != nil {
 		// Try remove downloaded file
-		if removeErr := os.Remove(res.ContentFilePath().Path()); removeErr != nil {
-			l.Debug("Unable to remove downloaded file", zap.Error(err), zap.String("path", res.ContentFilePath().Path()))
+		if removeErr := os.Remove(contentFilePath); removeErr != nil {
+			l.Debug("Unable to remove downloaded file",
+				zap.Error(err),
+				zap.String("path", contentFilePath))
 			// fall through
 		}
 
 		return nil, nil, err
 	}
-	return entry, res.ContentFilePath(), nil
+	return entry, mo_path2.NewFileSystemPath(contentFilePath), nil
 }

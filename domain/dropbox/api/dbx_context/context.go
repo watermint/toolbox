@@ -1,7 +1,20 @@
 package dbx_context
 
 import (
+	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/infra/api/api_context"
+)
+
+const (
+	DropboxApiResHeaderRetryAfter    = "Rewind-After"
+	DropboxApiResHeaderResult        = "Dropbox-API-Result"
+	DropboxApiErrorBadInputParam     = 400
+	DropboxApiErrorBadOrExpiredToken = 401
+	DropboxApiErrorAccessError       = 403
+	DropboxApiErrorEndpointSpecific  = 409
+	DropboxApiErrorNoPermission      = 422
+	DropboxApiErrorRateLimit         = 429
 )
 
 type Context interface {
@@ -60,4 +73,12 @@ type namespacePathRoot struct {
 
 func (z *namespacePathRoot) Header() string {
 	return "{\".tag\":\"namespace_id\",\"namespace_id\":\"" + z.NamespaceId + "\"}"
+}
+
+func ContentResponseData(res response.Response) tjson.Json {
+	if j, err := tjson.ParseString(res.Header(DropboxApiResHeaderResult)); err != nil {
+		return tjson.Null()
+	} else {
+		return j
+	}
 }

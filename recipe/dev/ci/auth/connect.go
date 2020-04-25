@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type Connect struct {
@@ -33,5 +33,5 @@ func (z *Connect) Exec(c app_control.Control) error {
 }
 
 func (z *Connect) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &Connect{}, rc_recipe.NoCustomValues)
+	return qt_errors.ErrorNoTestRequired
 }

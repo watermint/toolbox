@@ -1,7 +1,7 @@
 package api_request
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_response"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"net/http"
 )
 
@@ -28,7 +28,7 @@ type Request interface {
 	Header(key, value string) Request
 
 	// Call request
-	Call() (res api_response.Response, err error)
+	Call() (res response.Response, err error)
 
 	// Endpoint.
 	Endpoint() string

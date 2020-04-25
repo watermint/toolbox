@@ -39,4 +39,7 @@ type Body interface {
 
 	// Parse body as JSON.
 	AsJson() (tjson.Json, error)
+
+	// Parse body & returns non nil json instance.
+	Json() tjson.Json
 }

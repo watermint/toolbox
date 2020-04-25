@@ -1,13 +1,12 @@
 package sv_member
 
 import (
-	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
-	"github.com/watermint/toolbox/infra/api/api_list"
-	"github.com/watermint/toolbox/infra/api/api_response"
+	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"go.uber.org/zap"
 	"strings"
 )
@@ -15,6 +14,7 @@ import (
 var (
 	ErrorMemberNotFoundForEmail        = errors.New("member not found for the email")
 	ErrorMemberNotFoundForTeamMemberId = errors.New("member not found for the team_member_id")
+	ErrorNotFound                      = errors.New("not found")
 )
 
 type Member interface {
@@ -231,10 +231,11 @@ func (z *memberImpl) Add(email string, opts ...AddOpt) (member *mo_member.Member
 		return nil, err
 	}
 	member = &mo_member.Member{}
-	if err = res.ModelWithPath(member, "0"); err != nil {
+	if _, err := res.Body().Json().FindModel(tjson.PathArrayFirst, member); err != nil {
 		return nil, err
+	} else {
+		return member, nil
 	}
-	return member, nil
 }
 
 func (z *memberImpl) Remove(member *mo_member.Member, opts ...RemoveOpt) (err error) {
@@ -297,10 +298,11 @@ func (z *memberImpl) Update(member *mo_member.Member) (updated *mo_member.Member
 		return nil, err
 	}
 	updated = &mo_member.Member{}
-	if err = res.Model(updated); err != nil {
+	if _, err := res.Body().Json().Model(updated); err != nil {
 		return nil, err
+	} else {
+		return updated, nil
 	}
-	return updated, nil
 }
 
 func (z *memberImpl) Resolve(teamMemberId string) (member *mo_member.Member, err error) {
@@ -325,29 +327,25 @@ func (z *memberImpl) Resolve(teamMemberId string) (member *mo_member.Member, err
 	return z.parseOneMember(res)
 }
 
-func (z *memberImpl) parseOneMember(res api_response.Response) (member *mo_member.Member, err error) {
-	member = &mo_member.Member{}
-	j, err := res.Json()
-	if err != nil {
-		return nil, err
+func (z *memberImpl) parseOneMember(res response.Response) (member *mo_member.Member, err error) {
+	ba, found := res.Body().Json().Array()
+	if !found || len(ba) < 1 {
+		return nil, ErrorNotFound
 	}
-	if !j.IsArray() {
-		return nil, err
-	}
-	a := j.Array()[0]
+	a := ba[0]
 
 	// id_not_found response:
 	// {".tag": "id_not_found", "id_not_found": "xxx+xxxxx@xxxxxxxxx.xxx"}
-	if a.Get("id_not_found").Exists() {
-		z.ctx.Log().Debug("`id_not_found`", zap.String("id", a.Get("id_not_found").String()))
+	if id, found := a.FindString("id_not_found"); found {
+		z.ctx.Log().Debug("`id_not_found`", zap.String("id", id))
 		return nil, dbx_error.ApiError{
 			ErrorTag:     "id_not_found",
 			ErrorSummary: "id_not_found",
-			ErrorBody:    json.RawMessage(`{"error_summary":"id_not_found","error":{".tag":"id_not_found"}}`),
 		}
 	}
 
-	if err := res.ModelArrayFirst(member); err != nil {
+	member = &mo_member.Member{}
+	if _, err := a.Model(member); err != nil {
 		return nil, err
 	}
 	return member, nil
@@ -391,9 +389,9 @@ func (z *memberImpl) List() (members []*mo_member.Member, err error) {
 		Param(p).
 		UseHasMore(true).
 		ResultTag("members").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			m := &mo_member.Member{}
-			if err := entry.Model(m); err != nil {
+			if _, err := entry.Model(m); err != nil {
 				return err
 			}
 			members = append(members, m)

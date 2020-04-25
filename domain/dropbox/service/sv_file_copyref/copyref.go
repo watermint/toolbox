@@ -1,9 +1,14 @@
 package sv_file_copyref
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+)
+
+var (
+	ErrorUnexpectedFormat = errors.New("unexpected format")
 )
 
 type CopyRef interface {
@@ -35,18 +40,20 @@ func (z *copyRefImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, re
 	if err != nil {
 		return
 	}
-	js, err := res.Json()
-	if err != nil {
-		return
-	}
 	ent := &mo_file.Metadata{}
-	if err = res.ModelWithPath(ent, "metadata"); err != nil {
+	js := res.Body().Json()
+	if _, err = js.FindModel("metadata", ent); err != nil {
 		return
 	}
-	entry = ent
-	ref = js.Get("copy_reference").String()
-	expires = js.Get("expires").String()
-	return
+	ref, found := js.FindString("copy_reference")
+	if !found {
+		return nil, "", "", ErrorUnexpectedFormat
+	}
+	expires, found = js.FindString("expires")
+	if !found {
+		return nil, "", "", ErrorUnexpectedFormat
+	}
+	return ent, ref, expires, nil
 }
 
 func (z *copyRefImpl) Save(path mo_path.DropboxPath, ref string) (entry mo_file.Entry, err error) {
@@ -63,7 +70,7 @@ func (z *copyRefImpl) Save(path mo_path.DropboxPath, ref string) (entry mo_file.
 	if err != nil {
 		return nil, err
 	}
-	if err = res.ModelWithPath(entry, "metadata"); err != nil {
+	if _, err = res.Body().Json().FindModel("metadata", entry); err != nil {
 		return nil, err
 	}
 	return entry, nil

@@ -25,7 +25,7 @@ func (z *usageImpl) Resolve() (usage *mo_usage.Usage, err error) {
 		return nil, err
 	}
 	usage = &mo_usage.Usage{}
-	if err = res.Model(usage); err != nil {
+	if _, err = res.Body().Json().Model(usage); err != nil {
 		return nil, err
 	}
 	return usage, nil

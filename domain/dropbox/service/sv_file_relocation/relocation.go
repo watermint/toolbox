@@ -93,7 +93,7 @@ func (z *implRelocation) Copy(from, to mo_path.DropboxPath) (entry mo_file.Entry
 	if err != nil {
 		return nil, err
 	}
-	if err = res.ModelWithPath(entry, "metadata"); err != nil {
+	if _, err = res.Body().Json().FindModel("metadata", entry); err != nil {
 		return nil, err
 	}
 	return entry, nil
@@ -106,7 +106,7 @@ func (z *implRelocation) Move(from, to mo_path.DropboxPath) (entry mo_file.Entry
 	if err != nil {
 		return nil, err
 	}
-	if err = res.ModelWithPath(entry, "metadata"); err != nil {
+	if _, err = res.Body().Json().FindModel("metadata", entry); err != nil {
 		return nil, err
 	}
 	return entry, nil

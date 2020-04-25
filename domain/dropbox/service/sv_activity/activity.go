@@ -3,7 +3,7 @@ package sv_activity
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 )
 
 type Activity interface {
@@ -59,9 +59,9 @@ func (z *activityImpl) All(handler func(event *mo_activity.Event) error) (err er
 		Continue("team_log/get_events/continue").
 		UseHasMore(true).
 		ResultTag("events").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			e := &mo_activity.Event{}
-			if err = entry.Model(e); err != nil {
+			if _, err = entry.Model(e); err != nil {
 				return err
 			}
 			return handler(e)
@@ -95,9 +95,9 @@ func (z *activityImpl) List(handler func(event *mo_activity.Event) error, opts .
 		UseHasMore(true).
 		Param(p).
 		ResultTag("events").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			e := &mo_activity.Event{}
-			if err := entry.Model(e); err != nil {
+			if _, err := entry.Model(e); err != nil {
 				return err
 			}
 			return handler(e)

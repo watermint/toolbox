@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
-	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/essentials/http/context"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"go.uber.org/zap"
 	"io"
@@ -28,7 +28,7 @@ func readJitterWait() {
 	time.Sleep(time.Duration(wms) * time.Millisecond)
 }
 
-func Read(ctx api_context.Context, resBody io.ReadCloser) Body {
+func Read(ctx context.Context, resBody io.ReadCloser) Body {
 	if body, err := read(ctx, resBody, ReadBufferSize, ReadChunkSize); err != nil {
 		return newErrorBody(err)
 	} else {
@@ -36,7 +36,7 @@ func Read(ctx api_context.Context, resBody io.ReadCloser) Body {
 	}
 }
 
-func read(ctx api_context.Context, resBody io.ReadCloser, readBufSize, readChunkSize int) (body Body, err error) {
+func read(ctx context.Context, resBody io.ReadCloser, readBufSize, readChunkSize int) (body Body, err error) {
 	l := ctx.Log().With(
 		zap.Int("readBufSize", readBufSize),
 		zap.Int("readChunkSize", readChunkSize))

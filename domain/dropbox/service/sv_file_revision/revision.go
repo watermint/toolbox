@@ -1,12 +1,16 @@
 package sv_file_revision
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_revision"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_parser"
 	"go.uber.org/zap"
+)
+
+var (
+	ErrorUnexpectedResponseFormat = errors.New("unexpected response format")
 )
 
 type Revision interface {
@@ -54,22 +58,22 @@ func (z *revisionImpl) doList(path mo_path.DropboxPath, mode string) (revs *mo_f
 	if err != nil {
 		return nil, err
 	}
-	j, err := res.Json()
-	if err != nil {
-		l.Debug("Unable to get JSON response", zap.Error(err))
-		return nil, err
-	}
-	entries := j.Get("entries")
-	if !entries.IsArray() {
+	j := res.Body().Json()
+	entries, found := j.FindArray("entries")
+	if !found {
 		l.Debug("Response `entries` was not an array")
-		return nil, err
+		return nil, ErrorUnexpectedResponseFormat
 	}
-	revs.IsDeleted = j.Get("is_deleted").Bool()
-	revs.ServerDeleted = j.Get("server_deleted").String()
+	if x, found := j.FindBool("is_deleted"); found {
+		revs.IsDeleted = x
+	}
+	if x, found := j.FindString("server_deleted"); found {
+		revs.ServerDeleted = x
+	}
 	revs.Entries = make([]*mo_file.ConcreteEntry, 0)
-	for _, e := range entries.Array() {
+	for _, e := range entries {
 		ce := &mo_file.ConcreteEntry{}
-		if err := api_parser.ParseModel(ce, e); err != nil {
+		if _, err := e.Model(ce); err != nil {
 			l.Debug("Unable to parse entry", zap.Error(err))
 			return nil, err
 		}

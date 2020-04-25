@@ -1,7 +1,7 @@
 package response
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/essentials/http/context"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -11,7 +11,7 @@ import (
 
 func TestResImpl(t *testing.T) {
 	content := `{"message":"Hello"}`
-	ctx := api_context.NewMock()
+	ctx := context.NewMock()
 	res := &http.Response{
 		StatusCode: 200,
 		Header: http.Header{

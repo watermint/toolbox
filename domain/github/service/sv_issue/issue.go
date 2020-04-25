@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_issue"
-	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
 var (
@@ -35,17 +34,14 @@ func (z *repoIssueImpl) List() (issues []*mo_issue.Issue, err error) {
 	if err != nil {
 		return nil, err
 	}
-	j, err := res.Json()
-	if err != nil {
-		return nil, err
-	}
-	if !j.IsArray() {
+	entries, found := res.Body().Json().Array()
+	if !found {
 		return nil, ErrorUnexpectedResponse
 	}
 	issues = make([]*mo_issue.Issue, 0)
-	for _, entry := range j.Array() {
+	for _, entry := range entries {
 		issue := &mo_issue.Issue{}
-		if err := api_parser.ParseModel(issue, entry); err != nil {
+		if _, err := entry.Model(issue); err != nil {
 			return nil, err
 		}
 		issues = append(issues, issue)

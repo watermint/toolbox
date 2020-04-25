@@ -1,7 +1,7 @@
 package response
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/essentials/http/context"
 	"net/http"
 	"strings"
 )
@@ -34,7 +34,7 @@ type Response interface {
 	Body() Body
 }
 
-func New(ctx api_context.Context, res *http.Response) Response {
+func New(ctx context.Context, res *http.Response) Response {
 	body := Read(ctx, res.Body)
 	return &resImpl{
 		code:         res.StatusCode,

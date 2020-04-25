@@ -2,10 +2,16 @@ package sv_team
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_team"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"go.uber.org/zap"
+)
+
+var (
+	ErrorUnexpectedFormat = errors.New("unexpected response format")
 )
 
 type Team interface {
@@ -29,7 +35,7 @@ func (z *teamImpl) Info() (info *mo_team.Info, err error) {
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(info); err != nil {
+	if _, err = res.Body().Json().Model(info); err != nil {
 		return nil, err
 	}
 	return info, nil
@@ -58,30 +64,31 @@ func (z *teamImpl) Feature() (feature *mo_team.Feature, err error) {
 		if err != nil {
 			return nil, err
 		}
-		j, err := res.Json()
-		if err != nil {
-			return nil, err
+		firstValue, found := res.Body().Json().Find("values.0")
+		if !found {
+			return nil, ErrorUnexpectedFormat
 		}
-		values := j.Get("values")
-		if !values.IsArray() {
-			return nil, err
+		valueTag, found := firstValue.FindString("\\.tag")
+		if !found {
+			return nil, ErrorUnexpectedFormat
 		}
-		first := values.Array()[0]
-		valueTag := first.Get("\\.tag")
-		if !valueTag.Exists() {
-			return nil, err
+		value, found := firstValue.Find(valueTag)
+		if !found {
+			return nil, ErrorUnexpectedFormat
 		}
-		value := first.Get(valueTag.String())
-		if !value.Exists() {
-			return nil, err
-		}
-		features[tag] = json.RawMessage(value.Raw)
+
+		features[tag] = value.Raw()
 	}
 
 	raw := api_parser.CombineRaw(features)
 	feature = &mo_team.Feature{}
-	if err = api_parser.ParseModelRaw(feature, raw); err != nil {
+	combined, err := tjson.Parse(raw)
+	if err != nil {
 		return nil, err
 	}
+	if _, err := combined.Model(feature); err != nil {
+		return nil, err
+	}
+
 	return feature, nil
 }

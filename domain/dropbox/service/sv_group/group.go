@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 	"strings"
 )
 
@@ -163,7 +163,7 @@ func (z *implGroup) Create(name string, opt ...CreateOpt) (g *mo_group.Group, er
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(g); err != nil {
+	if _, err = res.Body().Json().Model(g); err != nil {
 		return nil, err
 	}
 	return g, nil
@@ -199,9 +199,9 @@ func (z *implGroup) List() (groups []*mo_group.Group, err error) {
 		Param(p).
 		UseHasMore(true).
 		ResultTag("groups").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			g := &mo_group.Group{}
-			if err := entry.Model(g); err != nil {
+			if _, err := entry.Model(g); err != nil {
 				return err
 			}
 			groups = append(groups, g)
@@ -226,7 +226,7 @@ func (z *implGroup) Resolve(groupId string) (g *mo_group.Group, err error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := res.ModelArrayFirst(g); err != nil {
+	if _, err := res.Body().Json().FindModel(tjson.PathArrayFirst, g); err != nil {
 		return nil, err
 	}
 	return g, nil
@@ -256,7 +256,7 @@ func (z *implGroup) Update(group *mo_group.Group) (g *mo_group.Group, err error)
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(g); err != nil {
+	if _, err = res.Body().Json().Model(g); err != nil {
 		return nil, err
 	}
 	return g, nil

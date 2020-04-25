@@ -1,4 +1,4 @@
-package dbx_async
+package dbx_async_impl
 
 const (
 	// files/create_folder_batch

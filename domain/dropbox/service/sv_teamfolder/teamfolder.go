@@ -3,7 +3,7 @@ package sv_teamfolder
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 )
 
 type TeamFolder interface {
@@ -51,9 +51,9 @@ func (z *teamFolderImpl) List() (teamfolders []*mo_teamfolder.TeamFolder, err er
 		Continue("team/team_folder/list/continue").
 		UseHasMore(true).
 		ResultTag("team_folders").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			tf := &mo_teamfolder.TeamFolder{}
-			if err := entry.Model(tf); err != nil {
+			if _, err := entry.Model(tf); err != nil {
 				return err
 			}
 			teamfolders = append(teamfolders, tf)
@@ -76,7 +76,7 @@ func (z *teamFolderImpl) Resolve(teamFolderId string) (teamfolder *mo_teamfolder
 	if err != nil {
 		return nil, err
 	}
-	if err = res.ModelArrayFirst(teamfolder); err != nil {
+	if _, err = res.Body().Json().FindModel(tjson.PathArrayFirst, teamfolder); err != nil {
 		return nil, err
 	}
 	return teamfolder, nil
@@ -100,7 +100,7 @@ func (z *teamFolderImpl) Create(name string, opts ...CreateOption) (teamfolder *
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(teamfolder); err != nil {
+	if _, err = res.Body().Json().Model(teamfolder); err != nil {
 		return nil, err
 	}
 	return teamfolder, nil
@@ -117,7 +117,7 @@ func (z *teamFolderImpl) Activate(tf *mo_teamfolder.TeamFolder) (teamfolder *mo_
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(teamfolder); err != nil {
+	if _, err = res.Body().Json().Model(teamfolder); err != nil {
 		return nil, err
 	}
 	return teamfolder, nil
@@ -137,7 +137,7 @@ func (z *teamFolderImpl) Archive(tf *mo_teamfolder.TeamFolder) (teamfolder *mo_t
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(teamfolder); err != nil {
+	if _, err = res.Body().Json().Model(teamfolder); err != nil {
 		return nil, err
 	}
 	return teamfolder, nil
@@ -156,7 +156,7 @@ func (z *teamFolderImpl) Rename(tf *mo_teamfolder.TeamFolder, newName string) (u
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(updated); err != nil {
+	if _, err = res.Body().Json().Model(updated); err != nil {
 		return nil, err
 	}
 	return updated, nil

@@ -4,6 +4,18 @@ import (
 	"testing"
 )
 
+func TestPath(t *testing.T) {
+	if j, err := ParseString(`["orange", "apple", "banana"]`); err != nil {
+		t.Error(err)
+	} else if k, found := j.Find(PathArrayFirst); !found {
+		t.Error(found)
+	} else if s, found := k.String(); !found {
+		t.Error(found)
+	} else {
+		t.Log(s)
+	}
+}
+
 func TestParse(t *testing.T) {
 	// object
 	if j, err := Parse([]byte("{}")); err == nil {

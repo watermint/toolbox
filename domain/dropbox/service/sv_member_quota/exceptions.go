@@ -3,7 +3,7 @@ package sv_member_quota
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 )
 
 type Exceptions interface {
@@ -66,9 +66,9 @@ func (z *exceptionsImpl) List() (members []*mo_profile.Profile, err error) {
 		Continue("team/member_space_limits/excluded_users/list/continue").
 		UseHasMore(true).
 		ResultTag("users").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			p := &mo_profile.Profile{}
-			if err := entry.Model(p); err != nil {
+			if _, err := entry.Model(p); err != nil {
 				return err
 			}
 			members = append(members, p)

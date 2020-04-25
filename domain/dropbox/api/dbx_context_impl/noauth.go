@@ -6,13 +6,11 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/atomic"
 	"go.uber.org/zap"
-	"net/http"
 	"strconv"
 )
 
@@ -102,8 +100,4 @@ func (z *noAuthImpl) NoRetryOnError() api_context.Context {
 
 func (z *noAuthImpl) IsNoRetry() bool {
 	return z.noRetry
-}
-
-func (z *noAuthImpl) MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error) {
-	return NewResponse(z, req, res)
 }

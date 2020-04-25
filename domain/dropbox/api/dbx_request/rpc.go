@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_rest"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"github.com/watermint/toolbox/infra/api/api_response"
 	"go.uber.org/zap"
 	"net/http"
 )
@@ -45,7 +45,7 @@ func (z *rpcRequestImpl) Param(p interface{}) api_request.Request {
 	}
 }
 
-func (z *rpcRequestImpl) Call() (res api_response.Response, err error) {
+func (z *rpcRequestImpl) Call() (res response.Response, err error) {
 	return dbx_rest.Default(z.ctx.Feature()).Call(z.ctx, z)
 }
 

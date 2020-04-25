@@ -68,7 +68,7 @@ func (z *List) Exec(c app_control.Control) error {
 func (z *List) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, &List{}, func(r rc_recipe.Recipe) {
 		r0 := r.(*List)
-		r0.Path = mo_path.NewDropboxPath("/")
+		r0.Path = qt_recipe.NewTestDropboxFolderPath()
 		r0.Recursive = false
 	})
 	if err != nil {

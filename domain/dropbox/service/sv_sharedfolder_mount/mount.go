@@ -3,7 +3,7 @@ package sv_sharedfolder_mount
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 )
 
 type Mount interface {
@@ -28,9 +28,9 @@ func (z *mountImpl) List() (mount []*mo_sharedfolder.SharedFolder, err error) {
 		Continue("sharing/list_mountable_folders/continue").
 		UseHasMore(false).
 		ResultTag("entries").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			m := &mo_sharedfolder.SharedFolder{}
-			if err = entry.Model(m); err != nil {
+			if _, err = entry.Model(m); err != nil {
 				return err
 			}
 			mount = append(mount, m)
@@ -55,7 +55,7 @@ func (z *mountImpl) Mount(sf *mo_sharedfolder.SharedFolder) (mount *mo_sharedfol
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(mount); err != nil {
+	if _, err = res.Body().Json().Model(mount); err != nil {
 		return nil, err
 	}
 	return mount, nil

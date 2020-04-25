@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 )
 
 type SharedFolder interface {
@@ -103,7 +103,7 @@ func (z *sharedFolderImpl) UpdatePolicy(sharedFolderId string, opts ...PolicyOpt
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(sf); err != nil {
+	if _, err = res.Body().Json().Model(sf); err != nil {
 		return nil, err
 	}
 	return sf, nil
@@ -140,7 +140,7 @@ func (z *sharedFolderImpl) Resolve(sharedFolderId string) (sf *mo_sharedfolder.S
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(sf); err != nil {
+	if _, err = res.Body().Json().Model(sf); err != nil {
 		return nil, err
 	}
 	return sf, nil
@@ -187,7 +187,7 @@ func (z *sharedFolderImpl) Create(path mo_path.DropboxPath, opts ...CreateOpt) (
 	if err != nil {
 		return nil, err
 	}
-	if err = res.Model(sf); err != nil {
+	if _, err = res.Body().Json().Model(sf); err != nil {
 		return nil, err
 	}
 	return sf, nil
@@ -228,9 +228,9 @@ func (z *sharedFolderImpl) List() (sf []*mo_sharedfolder.SharedFolder, err error
 		Param(p).
 		UseHasMore(false).
 		ResultTag("entries").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			f := &mo_sharedfolder.SharedFolder{}
-			if err := entry.Model(f); err != nil {
+			if _, err := entry.Model(f); err != nil {
 				return err
 			}
 			sf = append(sf, f)

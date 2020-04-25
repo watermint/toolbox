@@ -3,13 +3,13 @@ package response
 import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/http/context"
 	"github.com/watermint/toolbox/essentials/rec"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"go.uber.org/zap"
 	"io/ioutil"
 )
 
-func newFileBody(ctx api_context.Context, path string, contentLength int64) Body {
+func newFileBody(ctx context.Context, path string, contentLength int64) Body {
 	return &bodyFileImpl{
 		ctx:           ctx,
 		path:          path,
@@ -18,9 +18,17 @@ func newFileBody(ctx api_context.Context, path string, contentLength int64) Body
 }
 
 type bodyFileImpl struct {
-	ctx           api_context.Context
+	ctx           context.Context
 	path          string
 	contentLength int64
+}
+
+func (z bodyFileImpl) Json() tjson.Json {
+	if j, err := z.AsJson(); err != nil {
+		return tjson.Null()
+	} else {
+		return j
+	}
 }
 
 func (z bodyFileImpl) Error() error {

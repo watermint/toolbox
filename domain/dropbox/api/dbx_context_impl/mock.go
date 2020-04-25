@@ -2,19 +2,16 @@ package dbx_context_impl
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
-	"github.com/watermint/toolbox/infra/api/api_async"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_list"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/util/ut_io"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
-	"net/http"
 )
 
 func NewMock(c app_control.Control) dbx_context.Context {
@@ -29,10 +26,6 @@ type Mock struct {
 
 func (z *Mock) Feature() app_feature.Feature {
 	return z.feature
-}
-
-func (z *Mock) MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error) {
-	return nil, qt_errors.ErrorMock
 }
 
 func (z *Mock) Capture() *zap.Logger {
@@ -55,8 +48,8 @@ func (z *Mock) List(endpoint string) api_list.List {
 	return &dbx_list.MockList{}
 }
 
-func (z *Mock) Async(endpoint string) api_async.Async {
-	return &dbx_async.MockAsync{}
+func (z *Mock) Async(endpoint string) dbx_async.Async {
+	return &dbx_async_impl.MockAsync{}
 }
 
 func (z *Mock) Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request {

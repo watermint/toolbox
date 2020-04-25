@@ -2,8 +2,15 @@ package dbx_error
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/essentials/http/response"
+	"strings"
+)
+
+var (
+	ErrorPathNotFound = errors.New("path not found")
 )
 
 type ApiErrorRateLimit struct {
@@ -14,13 +21,27 @@ func (z ApiErrorRateLimit) Error() string {
 	return fmt.Sprintf("API Rate limit (retry after %d sec)", z.RetryAfter)
 }
 
+func IsApiError(res response.Response) error {
+	if res.CodeCategory() == response.Code2xxSuccess {
+		return nil
+	}
+	ae := &ApiError{}
+	if _, err := res.Body().Json().Model(ae); err != nil {
+		return nil
+	}
+	switch {
+	case strings.HasPrefix(ae.ErrorSummary, "path/not_found"):
+		return ErrorPathNotFound
+	}
+	return ae
+}
+
+// Deprecated: use IsApiError
 func ParseApiError(responseBody string) (ae ApiError) {
 	ae.ErrorTag = gjson.Get(responseBody, "error.\\.tag").String()
 	ae.ErrorSummary = gjson.Get(responseBody, "error_summary").String()
 	ae.UserMessageLocale = gjson.Get(responseBody, "user_message.locale").String()
 	ae.UserMessage = gjson.Get(responseBody, "user_message.text").String()
-	ae.ErrorBody = json.RawMessage(gjson.Get(responseBody, "error").Raw)
-	ae.UserMessageBody = json.RawMessage(gjson.Get(responseBody, "user_message").Raw)
 
 	return
 }
@@ -42,12 +63,10 @@ func (z ServerError) Error() string {
 }
 
 type ApiError struct {
-	ErrorTag          string          `json:"error,omitempty"`
-	ErrorSummary      string          `json:"error_summary,omitempty"`
-	ErrorBody         json.RawMessage `json:"error,omitempty"`
-	UserMessageLocale string          `json:"user_message_lang,omitempty"`
-	UserMessage       string          `json:"user_message,omitempty"`
-	UserMessageBody   json.RawMessage `json:"user_message,omitempty"`
+	ErrorTag          string `path:"error.\\.tag" json:"error,omitempty"`
+	ErrorSummary      string `path:"error_summary" json:"error_summary,omitempty"`
+	UserMessageLocale string `json:"user_message_lang,omitempty"`
+	UserMessage       string `json:"user_message,omitempty"`
 }
 
 func (z ApiError) Error() string {

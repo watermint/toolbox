@@ -8,8 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
-	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/api/api_response"
+	"github.com/watermint/toolbox/essentials/http/response"
 )
 
 const (
@@ -223,36 +222,33 @@ func (z *memberImpl) List() (member []mo_sharedfolder_member.Member, err error) 
 		Continue("sharing/list_folder_members/continue").
 		Param(p).
 		UseHasMore(false).
-		OnResponse(func(res api_response.Response) error {
-			j, err := res.Json()
+		OnResponse(func(res response.Response) error {
+			j, err := res.Body().AsJson()
 			if err != nil {
 				return err
 			}
-			users := j.Get("users")
-			if users.Exists() && users.IsArray() {
-				for _, u := range users.Array() {
+			if users, found := j.FindArray("users"); found {
+				for _, u := range users {
 					mu := &mo_sharedfolder_member.User{}
-					if err := api_parser.ParseModel(mu, u); err != nil {
+					if _, err := u.Model(mu); err != nil {
 						return err
 					}
 					member = append(member, mu)
 				}
 			}
-			groups := j.Get("groups")
-			if groups.Exists() && groups.IsArray() {
-				for _, g := range groups.Array() {
+			if groups, found := j.FindArray("groups"); found {
+				for _, g := range groups {
 					mg := &mo_sharedfolder_member.Group{}
-					if err := api_parser.ParseModel(mg, g); err != nil {
+					if _, err := g.Model(mg); err != nil {
 						return err
 					}
 					member = append(member, mg)
 				}
 			}
-			invitees := j.Get("invitees")
-			if invitees.Exists() && invitees.IsArray() {
-				for _, i := range invitees.Array() {
+			if invitees, found := j.FindArray("invitees"); found {
+				for _, i := range invitees {
 					mi := &mo_sharedfolder_member.Invitee{}
-					if err := api_parser.ParseModel(mi, i); err != nil {
+					if _, err := i.Model(mi); err != nil {
 						return err
 					}
 					member = append(member, mi)

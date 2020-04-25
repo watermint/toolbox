@@ -18,6 +18,7 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_archive"
 	"github.com/watermint/toolbox/infra/util/ut_process"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
@@ -451,9 +452,10 @@ func (z *Procmon) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Procmon{}, func(r rc_recipe.Recipe) {
 		m := r.(*Procmon)
 		m.ProcmonUrl = procmonDownloadUrl
+		m.RepositoryPath = mo_path2.NewFileSystemPath(tmpDir)
+		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("diag-procmon")
 		m.Seconds.SetValue(30)
 		m.RetainLogs.SetValue(4)
-		m.RepositoryPath = mo_path2.NewFileSystemPath(tmpDir)
 	})
 }
 

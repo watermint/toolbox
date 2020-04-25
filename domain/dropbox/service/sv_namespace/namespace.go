@@ -3,7 +3,7 @@ package sv_namespace
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 )
 
 type Namespace interface {
@@ -41,9 +41,9 @@ func (z *namespaceImpl) List() (namespaces []*mo_namespace.Namespace, err error)
 		Param(p).
 		UseHasMore(true).
 		ResultTag("namespaces").
-		OnEntry(func(entry api_list.ListEntry) error {
+		OnEntry(func(entry tjson.Json) error {
 			n := &mo_namespace.Namespace{}
-			if err := entry.Model(n); err != nil {
+			if _, err := entry.Model(n); err != nil {
 				return err
 			}
 			namespaces = append(namespaces, n)

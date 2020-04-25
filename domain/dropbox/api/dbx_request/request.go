@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
@@ -90,7 +90,7 @@ func (z *badRequest) Param(p interface{}) api_request.Request {
 	}
 }
 
-func (z *badRequest) Call() (res api_response.Response, err error) {
+func (z *badRequest) Call() (res response.Response, err error) {
 	return nil, z.err
 }
 

@@ -1,7 +1,7 @@
 package api_request
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_response"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"net/http"
 )
@@ -21,7 +21,7 @@ func (z MockRequest) Param(p interface{}) Request {
 	return &z
 }
 
-func (z MockRequest) Call() (res api_response.Response, err error) {
+func (z MockRequest) Call() (res response.Response, err error) {
 	return nil, qt_errors.ErrorMock
 }
 
