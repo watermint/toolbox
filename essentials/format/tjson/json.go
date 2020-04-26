@@ -16,6 +16,7 @@ var (
 	ErrorNotFound             = errors.New("data not found for the path")
 	ErrorMissingRequired      = errors.New("missing required field")
 	ErrorUnsupportedFieldType = errors.New("unsupported field type")
+	ErrorNotAnArray           = errors.New("data is not an array")
 )
 
 const (
@@ -35,6 +36,9 @@ type Json interface {
 	// Returns an array value and true if this instance is an array.
 	Array() (v []Json, t bool)
 
+	// Run each entries
+	ArrayEach(f func(e Json) error) error
+
 	// Returns an object value and true if this instance is an object.
 	Object() (v map[string]Json, t bool)
 
@@ -48,16 +52,19 @@ type Json interface {
 	String() (v string, t bool)
 
 	// Parse model with given type.
-	Model(v interface{}) (w interface{}, err error)
+	Model(v interface{}) (err error)
 
 	// Find value under the path. Returns nil & false if not found.
 	Find(path string) (j Json, found bool)
 
 	// Find then Model.
-	FindModel(path string, v interface{}) (w interface{}, err error)
+	FindModel(path string, v interface{}) (err error)
 
 	// Find an array
 	FindArray(path string) (v []Json, t bool)
+
+	// Find an array
+	FindArrayEach(path string, f func(e Json) error) error
 
 	// Find an object
 	FindObject(path string) (v map[string]Json, t bool)
@@ -70,6 +77,22 @@ type Json interface {
 
 	// Returns a string value and true if this instance is a string.
 	FindString(path string) (v string, t bool)
+}
+
+func MustParseString(j string) Json {
+	if j, err := ParseString(j); err != nil {
+		return Null()
+	} else {
+		return j
+	}
+}
+
+func MustParse(j []byte) Json {
+	if j, err := Parse(j); err != nil {
+		return Null()
+	} else {
+		return j
+	}
 }
 
 func ParseString(j string) (Json, error) {
@@ -94,6 +117,18 @@ type wrapperImpl struct {
 	r gjson.Result
 }
 
+func (z wrapperImpl) FindArrayEach(path string, f func(e Json) error) error {
+	if entries, found := z.FindArray(path); found {
+		for _, e := range entries {
+			if err := f(e); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	return ErrorNotFound
+}
+
 func (z wrapperImpl) IsNull() bool {
 	return z.r.Type == gjson.Null
 }
@@ -111,6 +146,19 @@ func (z wrapperImpl) Array() (v []Json, t bool) {
 		v = append(v, newWrapper(e))
 	}
 	return v, true
+}
+
+func (z wrapperImpl) ArrayEach(f func(e Json) error) error {
+	if entries, t := z.Array(); !t {
+		return ErrorNotAnArray
+	} else {
+		for _, e := range entries {
+			if err := f(e); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
 }
 
 func (z wrapperImpl) Object() (v map[string]Json, t bool) {
@@ -145,7 +193,7 @@ func (z wrapperImpl) String() (v string, t bool) {
 	return z.r.String(), true
 }
 
-func (z wrapperImpl) Model(v interface{}) (w interface{}, err error) {
+func (z wrapperImpl) Model(v interface{}) (err error) {
 	l := app_root.Log()
 
 	vv := reflect.ValueOf(v).Elem()
@@ -179,7 +227,7 @@ func (z wrapperImpl) Model(v interface{}) (w interface{}, err error) {
 				l.Debug("Missing required field",
 					zap.String("field", vtf.Name),
 					zap.String("path", p))
-				return nil, ErrorMissingRequired
+				return ErrorMissingRequired
 			}
 			continue
 		}
@@ -198,10 +246,10 @@ func (z wrapperImpl) Model(v interface{}) (w interface{}, err error) {
 
 		default:
 			l.Error("unexpected type found", zap.String("type.kind", vtf.Type.Kind().String()))
-			return nil, ErrorUnsupportedFieldType
+			return ErrorUnsupportedFieldType
 		}
 	}
-	return v, nil
+	return nil
 }
 
 func (z wrapperImpl) Find(path string) (j Json, found bool) {
@@ -212,9 +260,9 @@ func (z wrapperImpl) Find(path string) (j Json, found bool) {
 	return newWrapper(r1), true
 }
 
-func (z wrapperImpl) FindModel(path string, v interface{}) (w interface{}, err error) {
+func (z wrapperImpl) FindModel(path string, v interface{}) (err error) {
 	if x, found := z.Find(path); !found {
-		return nil, ErrorNotFound
+		return ErrorNotFound
 	} else {
 		return x.Model(v)
 	}

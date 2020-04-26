@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/infra/api/api_request"
 	"go.uber.org/zap"
 	"os"
 )
@@ -29,8 +30,8 @@ func (z *downloadImpl) Download(path mo_path.DropboxPath) (entry mo_file.Entry, 
 		Path: path.Path(),
 	}
 
-	res, err := z.ctx.Download("files/download").Param(p).Call()
-	if err != nil {
+	res := z.ctx.Download("files/download", api_request.Param(p))
+	if err, f := res.Failure(); f {
 		return nil, nil, err
 	}
 	contentFilePath, err := res.Success().AsFile()
@@ -40,7 +41,7 @@ func (z *downloadImpl) Download(path mo_path.DropboxPath) (entry mo_file.Entry, 
 	resData := dbx_context.ContentResponseData(res)
 
 	entry = &mo_file.Metadata{}
-	if _, err := resData.Model(entry); err != nil {
+	if err := resData.Model(entry); err != nil {
 		// Try remove downloaded file
 		if removeErr := os.Remove(contentFilePath); removeErr != nil {
 			l.Debug("Unable to remove downloaded file",

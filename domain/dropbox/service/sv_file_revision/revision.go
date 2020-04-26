@@ -6,6 +6,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_revision"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/infra/api/api_request"
 	"go.uber.org/zap"
 )
 
@@ -53,17 +55,12 @@ func (z *revisionImpl) doList(path mo_path.DropboxPath, mode string) (revs *mo_f
 		Mode:  mode,
 		Limit: z.opts.Limit,
 	}
-	revs = &mo_file_revision.Revisions{}
-	res, err := z.ctx.Post("files/list_revisions").Param(p).Call()
-	if err != nil {
+	res := z.ctx.Post("files/list_revisions", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	j := res.Success().Json()
-	entries, found := j.FindArray("entries")
-	if !found {
-		l.Debug("Response `entries` was not an array")
-		return nil, ErrorUnexpectedResponseFormat
-	}
+	revs = &mo_file_revision.Revisions{}
 	if x, found := j.FindBool("is_deleted"); found {
 		revs.IsDeleted = x
 	}
@@ -71,15 +68,16 @@ func (z *revisionImpl) doList(path mo_path.DropboxPath, mode string) (revs *mo_f
 		revs.ServerDeleted = x
 	}
 	revs.Entries = make([]*mo_file.ConcreteEntry, 0)
-	for _, e := range entries {
+	err = j.FindArrayEach("entries", func(e tjson.Json) error {
 		ce := &mo_file.ConcreteEntry{}
-		if _, err := e.Model(ce); err != nil {
+		if err := e.Model(ce); err != nil {
 			l.Debug("Unable to parse entry", zap.Error(err))
-			return nil, err
+			return err
 		}
 		revs.Entries = append(revs.Entries, ce)
-	}
-	return revs, nil
+		return nil
+	})
+	return
 }
 
 func (z *revisionImpl) List(path mo_path.DropboxPath) (revs *mo_file_revision.Revisions, err error) {

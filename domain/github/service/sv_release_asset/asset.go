@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
+	"github.com/watermint/toolbox/essentials/format/tjson"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
@@ -40,23 +41,20 @@ type assetImpl struct {
 
 func (z *assetImpl) List() (assets []*mo_release_asset.Asset, err error) {
 	endpoint := "repos/" + z.owner + "/" + z.repository + "/releases/" + z.release + "/assets"
-	res, err := z.ctx.Get(endpoint).Call()
-	if err != nil {
+	res := z.ctx.Get(endpoint)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	assets = make([]*mo_release_asset.Asset, 0)
-	entries, found := res.Success().Json().Array()
-	if !found {
-		return nil, ErrorUnexpectedResponse
-	}
-	for _, entry := range entries {
+	err = res.Success().Json().ArrayEach(func(e tjson.Json) error {
 		asset := &mo_release_asset.Asset{}
-		if _, err := entry.Model(asset); err != nil {
-			return nil, err
+		if err := e.Model(asset); err != nil {
+			return err
 		}
 		assets = append(assets, asset)
-	}
-	return assets, nil
+		return nil
+	})
+	return
 }
 
 func (z *assetImpl) Upload(file mo_path.ExistingFileSystemPath) (asset *mo_release_asset.Asset, err error) {
@@ -90,16 +88,14 @@ func (z *assetImpl) Upload(file mo_path.ExistingFileSystemPath) (asset *mo_relea
 	}
 	defer r.Close()
 
-	res, err := z.ctx.Upload(endpoint, rr).Param(p).
-		Header(api_request.ReqHeaderContentType, contentType).Call()
-	if err != nil {
-		l.Debug("unable to upload", zap.Error(err))
+	res := z.ctx.Upload(endpoint,
+		api_request.Content(rr),
+		api_request.Param(p),
+		api_request.Header(api_request.ReqHeaderContentType, contentType))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	asset = &mo_release_asset.Asset{}
-	if _, err := res.Success().Json().Model(asset); err != nil {
-		l.Debug("failed to parse", zap.Error(err))
-		return nil, err
-	}
-	return asset, nil
+	err = res.Success().Json().Model(asset)
+	return
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"go.uber.org/zap"
+	"net/http"
 	"strings"
 )
 
@@ -19,34 +20,33 @@ type Client struct {
 	httpClient nw_client.Http
 }
 
-func (z *Client) Call(ctx api_context.Context, req api_request.Request) (res response.Response, err error) {
+func (z *Client) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res response.Response) {
 	l := ctx.Log()
-	hReq, err := req.Make()
+	hReq, err := req.Build()
 	if err != nil {
 		l.Debug("Unable to make http request", zap.Error(err))
-		return nil, err
+		return response_impl.NewNoResponse(err)
 	}
 
 	// Call
 	hRes, latency, err := z.httpClient.Call(ctx.ClientHash(), req.Endpoint(), hReq)
 
 	// Make response
-	cp := NewCapture(ctx.Capture())
-
-	res = response_impl.New(ctx, hRes)
-	if bodyErr := res.Error(); bodyErr != nil {
-		l.Debug("Unable to make http response", zap.Error(bodyErr))
-		cp.NoResponse(req, bodyErr, latency.Nanoseconds())
-		return nil, bodyErr
+	if err != nil {
+		res = response_impl.NewTransportErrorHttpResponse(err, hRes)
+	} else {
+		res = response_impl.New(ctx, hRes)
 	}
-	cp.WithResponse(req, res, err, latency.Nanoseconds())
 
-	return res, nil
+	// Capture
+	cp := NewCapture(ctx.Capture())
+	cp.WithResponse(req, hReq, res, err, latency.Nanoseconds())
+
+	return res
 }
 
 type Capture interface {
-	WithResponse(req api_request.Request, res response.Response, resErr error, latency int64)
-	NoResponse(req api_request.Request, resErr error, latency int64)
+	WithResponse(rb nw_client.RequestBuilder, req *http.Request, res response.Response, resErr error, latency int64)
 }
 
 func NewCapture(cap *zap.Logger) Capture {
@@ -74,19 +74,20 @@ type Req struct {
 	ContentLength  int64             `json:"content_length"`
 }
 
-func (z *Req) Apply(req api_request.Request) {
-	z.RequestMethod = req.Method()
-	z.RequestUrl = req.Url()
-	z.RequestParam = req.ParamString()
+func (z *Req) Apply(rb nw_client.RequestBuilder, req *http.Request) {
+	z.RequestMethod = req.Method
+	z.RequestUrl = req.RequestURI
+	z.RequestParam = rb.Param()
 	z.RequestHeaders = make(map[string]string)
-	z.ContentLength = req.ContentLength()
-	for k, v := range req.Headers() {
+	z.ContentLength = req.ContentLength
+	for k, v := range req.Header {
+		v0 := v[0]
 		// Anonymize token
 		if k == api_request.ReqHeaderAuthorization {
-			vv := strings.Split(v, " ")
+			vv := strings.Split(v0, " ")
 			z.RequestHeaders[k] = vv[0] + " <secret>"
 		} else {
-			z.RequestHeaders[k] = v
+			z.RequestHeaders[k] = v0
 		}
 	}
 }
@@ -114,10 +115,10 @@ func (z *Res) Apply(res response.Response, resErr error) {
 	z.ResponseHeaders = res.Headers()
 }
 
-func (z *captureImpl) WithResponse(req api_request.Request, res response.Response, resErr error, latency int64) {
+func (z *captureImpl) WithResponse(rb nw_client.RequestBuilder, req *http.Request, res response.Response, resErr error, latency int64) {
 	// request
 	rq := Req{}
-	rq.Apply(req)
+	rq.Apply(rb, req)
 
 	// response
 	rs := Res{}
@@ -130,10 +131,10 @@ func (z *captureImpl) WithResponse(req api_request.Request, res response.Respons
 	)
 }
 
-func (z *captureImpl) NoResponse(req api_request.Request, resErr error, latency int64) {
+func (z *captureImpl) NoResponse(rb nw_client.RequestBuilder, req *http.Request, resErr error, latency int64) {
 	// request
 	rq := Req{}
-	rq.Apply(req)
+	rq.Apply(rb, req)
 
 	// response
 	rs := Res{}

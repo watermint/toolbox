@@ -1,90 +1,99 @@
 package dbx_error
 
 import (
-	"encoding/json"
-	"errors"
-	"fmt"
-	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/essentials/http/response"
 	"strings"
 )
 
-var (
-	ErrorPathNotFound = errors.New("path not found")
-)
-
-type ApiErrorRateLimit struct {
-	RetryAfter int
-}
-
-func (z ApiErrorRateLimit) Error() string {
-	return fmt.Sprintf("API Rate limit (retry after %d sec)", z.RetryAfter)
-}
-
-func IsApiError(res response.Response) error {
-	if res.CodeCategory() == response.Code2xxSuccess {
-		return nil
-	}
-	ae := &ApiError{}
-	if _, err := res.Success().Json().Model(ae); err != nil {
-		return nil
-	}
-	switch {
-	case strings.HasPrefix(ae.ErrorSummary, "path/not_found"):
-		return ErrorPathNotFound
-	}
-	return ae
-}
-
-// Deprecated: use IsApiError
-func ParseApiError(responseBody string) (ae ApiError) {
-	ae.ErrorTag = gjson.Get(responseBody, "error.\\.tag").String()
-	ae.ErrorSummary = gjson.Get(responseBody, "error_summary").String()
-	ae.UserMessageLocale = gjson.Get(responseBody, "user_message.locale").String()
-	ae.UserMessage = gjson.Get(responseBody, "user_message.text").String()
-
-	return
-}
-
-func ParseAccessError(responseBody string) (ae AccessError) {
-	ae.PaperAccessDenied = gjson.Get(responseBody, "invalid_account_type.\\.tag").String()
-	ae.InvalidAccountType = gjson.Get(responseBody, "paper_access_denied.\\.tag").String()
-	ae.ErrorBody = json.RawMessage(responseBody)
-
-	return
-}
-
-type ServerError struct {
-	StatusCode int
-}
-
-func (z ServerError) Error() string {
-	return fmt.Sprintf("An error occurred on the Dropbox servers (%d). Check status.dropbox.com for announcements about Dropbox service issues.", z.StatusCode)
-}
-
-type ApiError struct {
+type DropboxError struct {
 	ErrorTag          string `path:"error.\\.tag" json:"error,omitempty"`
 	ErrorSummary      string `path:"error_summary" json:"error_summary,omitempty"`
 	UserMessageLocale string `json:"user_message_lang,omitempty"`
 	UserMessage       string `json:"user_message,omitempty"`
 }
 
-func (z ApiError) Error() string {
-	return fmt.Sprintf("Endpoint specific error[%s] %s", z.ErrorTag, z.ErrorSummary)
+func (z DropboxError) Error() string {
+	return z.ErrorSummary
 }
 
-type AccessError struct {
-	InvalidAccountType string          `json:"invalid_account_type,omitempty"`
-	PaperAccessDenied  string          `json:"paper_access_denied,omitempty"`
-	ErrorBody          json.RawMessage `json:"error,omitempty"`
+func (z DropboxError) HasPrefix(prefix string) bool {
+	return strings.HasPrefix(z.ErrorSummary, prefix)
 }
 
-func (z AccessError) Error() string {
-	if z.InvalidAccountType != "" {
-		return z.InvalidAccountType
+func NewErrors(err error) Errors {
+	if de, ok := err.(*DropboxError); ok {
+		return &errorsImpl{de: *de}
+	} else {
+		return &errorsImpl{de: DropboxError{}}
 	}
-	if z.PaperAccessDenied != "" {
-		return z.PaperAccessDenied
-	}
-	return "The user or team account doesn't have access to the endpoint or feature"
+}
+
+type Errors interface {
+	Auth() ErrorAuth
+	Access() ErrorAccess
+	Path() ErrorEndpointPath
+	Endpoint() ErrorEndpoint
+	Summary() string
+}
+
+// 401: Bad or expired token. This can happen if the access token is expired or if the access token has been revoked by Dropbox or the user.
+type ErrorAuth interface {
+	// The access token is invalid.
+	IsInvalidAccessToken() bool
+	// The user specified in 'Dropbox-API-Select-User' is no longer on the team.
+	IsInvalidSelectUser() bool
+	// The user specified in 'Dropbox-API-Select-Admin' is not a Dropbox Business team admin.
+	IsInvalidSelectAdmin() bool
+	// The user has been suspended.
+	IsUserSuspended() bool
+	// The access token has expired.
+	IsExpiredAccessToken() bool
+	// The access token does not have the required scope to access the route.
+	IsMissingScope() bool
+	// The route is not available to public.
+	IsRouteAccessDenied() bool
+}
+
+// 403: The user or team account doesn't have access to the endpoint or feature.
+type ErrorAccess interface {
+	// Current account type cannot access the resource.
+	IsInvalidAccountType() bool
+	// Current account cannot access Paper.
+	IsPaperAccessDenied() bool
+}
+
+// 409: Endpoint specific error, Path
+type ErrorEndpointPath interface {
+	// There is nothing at the given path.
+	IsNotFound() bool
+	// The given path does not satisfy the required path format
+	IsMalformedPath() bool
+}
+
+// 409: Other endpoint specific error
+type ErrorEndpoint interface {
+	IsRateLimit() bool
+}
+
+type errorsImpl struct {
+	de DropboxError
+}
+
+func (z errorsImpl) Summary() string {
+	return z.de.ErrorSummary
+}
+
+func (z errorsImpl) Auth() ErrorAuth {
+	return NewErrorAuth(z.de)
+}
+
+func (z errorsImpl) Access() ErrorAccess {
+	return NewErrorAccess(z.de)
+}
+
+func (z errorsImpl) Path() ErrorEndpointPath {
+	return NewErrorPath(z.de)
+}
+
+func (z errorsImpl) Endpoint() ErrorEndpoint {
+	return NewErrorEndpoint(z.de)
 }

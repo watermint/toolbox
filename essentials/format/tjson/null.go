@@ -12,6 +12,10 @@ func Null() Json {
 type nullImpl struct {
 }
 
+func (z nullImpl) FindArrayEach(path string, f func(e Json) error) error {
+	return ErrorNotFound
+}
+
 func (z nullImpl) Raw() json.RawMessage {
 	return json.RawMessage("null")
 }
@@ -22,6 +26,10 @@ func (z nullImpl) IsNull() bool {
 
 func (z nullImpl) Array() (v []Json, t bool) {
 	return nil, false
+}
+
+func (z nullImpl) ArrayEach(f func(e Json) error) error {
+	return ErrorNotAnArray
 }
 
 func (z nullImpl) Object() (v map[string]Json, t bool) {
@@ -40,16 +48,16 @@ func (z nullImpl) String() (v string, t bool) {
 	return "", false
 }
 
-func (z nullImpl) Model(v interface{}) (w interface{}, err error) {
-	return nil, ErrorNotFound
+func (z nullImpl) Model(v interface{}) (err error) {
+	return ErrorNotFound
 }
 
 func (z nullImpl) Find(path string) (j Json, found bool) {
 	return nil, false
 }
 
-func (z nullImpl) FindModel(path string, v interface{}) (w interface{}, err error) {
-	return nil, ErrorNotFound
+func (z nullImpl) FindModel(path string, v interface{}) (err error) {
+	return ErrorNotFound
 }
 
 func (z nullImpl) FindArray(path string) (v []Json, t bool) {

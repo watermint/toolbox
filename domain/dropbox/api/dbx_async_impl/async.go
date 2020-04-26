@@ -4,104 +4,86 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/essentials/format/tjson"
 	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/infra/api/api_request"
 	"go.uber.org/zap"
 	"strings"
 	"time"
 )
 
-var (
-	ErrorUnexpectedResponseDataFormat = errors.New("unexpected response data format for async job")
-	ErrorAsyncJobIdNotFound           = errors.New("async job id not found in the response")
-	ErrorAsyncJobFailed               = errors.New("async job failed")
+const (
+	DefaultPollInterval = 3
 )
 
-func New(ctx dbx_context.Context, endpoint string, asMemberId, asAdminId string, base dbx_context.PathRoot) dbx_async.Async {
+var (
+	ErrorAsyncJobIdNotFound = errors.New("async job id not found in the response")
+)
+
+func New(ctx dbx_context.Context, endpoint string, reqData []api_request.RequestDatum) dbx_async.Async {
 	return &asyncImpl{
-		ctx:             ctx,
-		requestEndpoint: endpoint,
-		asMemberId:      asMemberId,
-		asAdminId:       asAdminId,
-		base:            base,
-		pollInterval:    time.Duration(3) * 1000 * time.Millisecond,
+		ctx:         ctx,
+		reqData:     reqData,
+		reqEndpoint: endpoint,
 	}
 }
 
 type asyncImpl struct {
-	ctx             dbx_context.Context
-	asMemberId      string
-	asAdminId       string
-	base            dbx_context.PathRoot
-	param           interface{}
-	pollInterval    time.Duration
-	requestEndpoint string
-	statusEndpoint  string
+	ctx         dbx_context.Context
+	reqData     []api_request.RequestDatum
+	reqEndpoint string
 }
 
-func (z asyncImpl) Param(p interface{}) dbx_async.Async {
-	z.param = p
-	return &z
+func (z asyncImpl) pollDuration(ao dbx_async.AsyncOpts) time.Duration {
+	if ao.PollInterval > 0 {
+		return time.Duration(ao.PollInterval) * time.Second
+	} else {
+		return DefaultPollInterval * time.Second
+	}
 }
 
-func (z asyncImpl) Status(endpoint string) dbx_async.Async {
-	z.statusEndpoint = endpoint
-	return &z
-}
-
-func (z asyncImpl) PollInterval(second int) dbx_async.Async {
-	z.pollInterval = time.Duration(second) * 1000 * time.Millisecond
-	return &z
-}
-
-func (z asyncImpl) poll(res response.Response) (asyncRes dbx_async.Response, resErr error) {
-	return z.handlePoll(res, "")
-}
-
-func (z asyncImpl) handleNoDotTag(res response.Response, resJson tjson.Json) (asyncRes dbx_async.Response, resErr error) {
+func (z asyncImpl) handleNoDotTag(ao dbx_async.AsyncOpts, res response.Response, resJson tjson.Json) (asyncRes dbx_async.Response) {
 	l := z.ctx.Log()
 
 	if asyncJobIdTag, found := resJson.Find("async_job_id"); found {
 		if asyncJobId, found := asyncJobIdTag.String(); !found {
-			return dbx_async.NewIncomplete(res), nil
+			return dbx_async.NewIncomplete(res)
 		} else {
 			asyncJobIdTrimSpace := strings.TrimSpace(asyncJobId)
 			if asyncJobIdTrimSpace == "" {
-				return dbx_async.NewIncomplete(res), nil
+				return dbx_async.NewIncomplete(res)
 
 			} else {
-				l.Debug("Wait for async", zap.Duration("wait", z.pollInterval))
-				time.Sleep(z.pollInterval)
-				return z.handleAsyncJobId(res, resJson, asyncJobIdTrimSpace)
+				l.Debug("Wait for async", zap.Duration("wait", z.pollDuration(ao)))
+				time.Sleep(z.pollDuration(ao))
+				return z.handleAsyncJobId(ao, res, resJson, asyncJobIdTrimSpace)
 			}
 		}
 	}
 
-	return nil, ErrorUnexpectedResponseDataFormat
+	return dbx_async.NewIncomplete(res)
 }
 
-func (z asyncImpl) handleTag(res response.Response, resJson tjson.Json, tag, asyncJobId string) (asyncRes dbx_async.Response, resErr error) {
+func (z asyncImpl) handleTag(ao dbx_async.AsyncOpts, res response.Response, resJson tjson.Json, tag, asyncJobId string) (asyncRes dbx_async.Response) {
 	l := z.ctx.Log().With(zap.String("tag", tag), zap.String("asyncJobId", asyncJobId))
 
 	switch tag {
 	case "async_job_id":
-		l.Debug("Waiting for complete", zap.Duration("wait", z.pollInterval))
-		return z.handleAsyncJobId(res, resJson, "")
+		l.Debug("Waiting for complete", zap.Duration("wait", z.pollDuration(ao)))
+		return z.handleAsyncJobId(ao, res, resJson, "")
 
 	case "complete":
 		l.Debug("Complete")
 		if cmp, found := resJson.Find("complete"); found {
-			asyncRes = dbx_async.NewCompleted(res, cmp)
+			return dbx_async.NewCompleted(res, cmp)
 		} else {
-			asyncRes = dbx_async.NewIncomplete(res)
+			return dbx_async.NewIncomplete(res)
 		}
-		return asyncRes, nil
 
 	case "in_progress":
-		l.Debug("In Progress", zap.Duration("wait", z.pollInterval))
-		time.Sleep(z.pollInterval)
-		return z.handleAsyncJobId(res, resJson, asyncJobId)
+		l.Debug("In Progress", zap.Duration("wait", z.pollDuration(ao)))
+		time.Sleep(z.pollDuration(ao))
+		return z.handleAsyncJobId(ao, res, resJson, asyncJobId)
 
 	case "failed":
 		l.Debug("Failed", zap.ByteString("body", resJson.Raw()))
@@ -109,32 +91,28 @@ func (z asyncImpl) handleTag(res response.Response, resJson tjson.Json, tag, asy
 		if reason, found := resJson.Find("failed"); found {
 			l.Debug("Reason of failure", zap.ByteString("reason", reason.Raw()))
 		}
-		return nil, ErrorAsyncJobFailed
+		return dbx_async.NewIncomplete(res)
 
 	default:
-		if errTag, found := resJson.Find("error.\\.tag"); found {
-			l.Debug("Endpoint specific error", zap.ByteString("error_tag", errTag.Raw()))
-			return nil, dbx_error.ParseApiError(res.Success().BodyString())
-		}
 		l.Debug("Unknown data format")
-		return nil, ErrorUnexpectedResponseDataFormat
+		return dbx_async.NewIncomplete(res)
 	}
 }
 
-func (z asyncImpl) handlePoll(res response.Response, asyncJobId string) (asyncRes dbx_async.Response, resErr error) {
+func (z asyncImpl) handlePoll(ao dbx_async.AsyncOpts, res response.Response, asyncJobId string) (asyncRes dbx_async.Response) {
 	resJson, err := res.Success().AsJson()
 	if err != nil {
-		return nil, err
+		return dbx_async.NewIncomplete(res)
 	}
 
 	l := z.ctx.Log().With(zap.String("async_job_id", asyncJobId))
 	l.Debug("Handle poll", zap.ByteString("body", resJson.Raw()))
 	if tagJson, found := resJson.Find("\\.tag"); !found {
-		return z.handleNoDotTag(res, resJson)
+		return z.handleNoDotTag(ao, res, resJson)
 	} else if tag, found := tagJson.String(); found {
-		return z.handleTag(res, resJson, tag, asyncJobId)
+		return z.handleTag(ao, res, resJson, tag, asyncJobId)
 	}
-	return nil, ErrorUnexpectedResponseDataFormat
+	return dbx_async.NewIncomplete(res)
 }
 
 func (z asyncImpl) findAsyncJobId(resJson tjson.Json, asyncJobId string) (newAsyncJobId string, err error) {
@@ -156,11 +134,11 @@ func (z asyncImpl) findAsyncJobId(resJson tjson.Json, asyncJobId string) (newAsy
 	}
 }
 
-func (z *asyncImpl) handleAsyncJobId(res response.Response, resJson tjson.Json, asyncJobId string) (asyncRes dbx_async.Response, resErr error) {
+func (z asyncImpl) handleAsyncJobId(ao dbx_async.AsyncOpts, res response.Response, resJson tjson.Json, asyncJobId string) (asyncRes dbx_async.Response) {
 	l := z.ctx.Log()
 
 	if aji, err := z.findAsyncJobId(resJson, asyncJobId); err != nil {
-		return nil, err
+		return dbx_async.NewIncomplete(res)
 	} else {
 		p := struct {
 			AsyncJobId string `json:"async_job_id"`
@@ -169,19 +147,19 @@ func (z *asyncImpl) handleAsyncJobId(res response.Response, resJson tjson.Json, 
 		}
 		ll := l.With(zap.String("asyncJobId", aji))
 		ll.Debug("make status call")
-		res, err := z.ctx.Post(z.statusEndpoint).Param(p).Call()
-		if err != nil {
-			ll.Debug("error on status call", zap.Error(err))
-			return nil, err
+		res := z.ctx.Post(ao.StatusEndpoint, api_request.Param(p))
+		if !res.IsSuccess() {
+			return dbx_async.NewIncomplete(res)
 		}
-		return z.handlePoll(res, asyncJobId)
+		return z.handlePoll(ao, res, asyncJobId)
 	}
 }
 
-func (z *asyncImpl) Call() (res dbx_async.Response, resErr error) {
-	rpcRes, err := z.ctx.Post(z.requestEndpoint).Param(z.param).Call()
-	if err != nil {
-		return nil, err
+func (z asyncImpl) Call(opts ...dbx_async.AsyncOpt) dbx_async.Response {
+	ao := dbx_async.Combined(opts)
+	rpcRes := z.ctx.Post(z.reqEndpoint, z.reqData...)
+	if !rpcRes.IsSuccess() {
+		return dbx_async.NewIncomplete(rpcRes)
 	}
-	return z.poll(rpcRes)
+	return z.handlePoll(ao, rpcRes, "")
 }

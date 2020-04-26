@@ -177,7 +177,7 @@ var (
 
 func TestErrorSummary(t *testing.T) {
 	for _, e := range errorSummarySamples {
-		ae := dbx_error.ApiError{
+		ae := dbx_error.DropboxError{
 			ErrorSummary: e,
 		}
 		re := ErrorSummary(ae)

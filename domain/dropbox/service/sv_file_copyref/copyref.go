@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 var (
@@ -36,14 +37,14 @@ func (z *copyRefImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, re
 		Path: path.Path(),
 	}
 
-	res, err := z.ctx.Post("files/copy_reference/get").Param(p).Call()
-	if err != nil {
-		return
+	res := z.ctx.Post("files/copy_reference/get", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, "", "", err
 	}
 	ent := &mo_file.Metadata{}
 	js := res.Success().Json()
-	if _, err = js.FindModel("metadata", ent); err != nil {
-		return
+	if err = js.FindModel("metadata", ent); err != nil {
+		return nil, "", "", err
 	}
 	ref, found := js.FindString("copy_reference")
 	if !found {
@@ -65,13 +66,11 @@ func (z *copyRefImpl) Save(path mo_path.DropboxPath, ref string) (entry mo_file.
 		Path:          path.Path(),
 	}
 
+	res := z.ctx.Post("files/copy_reference/save", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Post("files/copy_reference/save").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err = res.Success().Json().FindModel("metadata", entry); err != nil {
-		return nil, err
-	}
-	return entry, nil
+	err = res.Success().Json().FindModel("metadata", entry)
+	return
 }

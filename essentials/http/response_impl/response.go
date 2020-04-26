@@ -1,9 +1,11 @@
 package response_impl
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/essentials/http/context"
 	"github.com/watermint/toolbox/essentials/http/response"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -13,7 +15,7 @@ func New(ctx context.Context, res *http.Response) response.Response {
 	body, err := Read(ctx, res.Body)
 	if err != nil {
 		l.Debug("Error on transport")
-		return newErrorResponse(err, res)
+		return NewTransportErrorHttpResponse(err, res)
 	}
 
 	headers := createHeader(res)
@@ -75,7 +77,18 @@ type resImpl struct {
 	isSuccess    bool
 }
 
-func (z resImpl) Error() error {
+func (z resImpl) Failure() (error, bool) {
+	if z.isSuccess {
+		return nil, false
+	}
+	st := http.StatusText(z.code)
+	if st != "" {
+		return errors.New(st), true
+	}
+	return errors.New("status code " + strconv.FormatInt(int64(z.code), 10)), true
+}
+
+func (z resImpl) TransportError() error {
 	return nil
 }
 

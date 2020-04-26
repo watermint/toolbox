@@ -196,14 +196,14 @@ func TestJsonModel(t *testing.T) {
 	}
 
 	m := `{"sku":{"name":"Notebook", "code":"1234"}, "quantity": 48}`
+	m1 := &Order{}
 	if j, err := ParseString(m); err != nil {
 		t.Error(err)
-	} else if m1, err := j.Model(&Order{}); err != nil {
+	} else if err := j.Model(m1); err != nil {
 		t.Error(err)
 	} else {
-		m2 := m1.(*Order)
-		if m2.Name != "Notebook" || m2.Code != "1234" || m2.Quantity != 48 {
-			t.Error(m2)
+		if m1.Name != "Notebook" || m1.Code != "1234" || m1.Quantity != 48 {
+			t.Error(m1)
 		}
 	}
 }
@@ -229,14 +229,14 @@ func TestJsonFindModel(t *testing.T) {
 	}
 
 	m := `{"transactions":{"sku":{"name":"Notebook", "code":"1234"}, "quantity": 48}}`
+	m1 := &Order{}
 	if j, err := ParseString(m); err != nil {
 		t.Error(err)
-	} else if m1, err := j.FindModel("transactions", &Order{}); err != nil {
+	} else if err := j.FindModel("transactions", m1); err != nil {
 		t.Error(err)
 	} else {
-		m2 := m1.(*Order)
-		if m2.Name != "Notebook" || m2.Code != "1234" || m2.Quantity != 48 {
-			t.Error(m2)
+		if m1.Name != "Notebook" || m1.Code != "1234" || m1.Quantity != 48 {
+			t.Error(m1)
 		}
 	}
 }

@@ -143,6 +143,10 @@ func RecipeError(l *zap.Logger, err error) (resolvedErr error, cont bool) {
 		l.Debug("Test is not implemented for this recipe")
 		return nil, false
 
+	case qt_errors.ErrorUnsupportedUI:
+		l.Debug("Test is not compatible for testing UI")
+		return nil, false
+
 	case qt_errors.ErrorMock:
 		l.Debug("Mock test")
 		return nil, false

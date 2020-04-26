@@ -2,11 +2,14 @@ package sv_member
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/essentials/format/tjson"
 	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/infra/api/api_request"
 	"go.uber.org/zap"
 	"strings"
 )
@@ -223,19 +226,15 @@ func (z *memberImpl) Add(email string, opts ...AddOpt) (member *mo_member.Member
 		},
 	}
 
-	res, err := z.ctx.Async("team/members/add").
-		Status("team/members/add/job_status/get").
-		Param(p).
-		Call()
-	if err != nil {
+	res := z.ctx.Async("team/members/add", api_request.Param(p)).Call(
+		dbx_async.Status("team/members/add/job_status/get"),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	member = &mo_member.Member{}
-	if _, err := res.Success().Json().FindModel(tjson.PathArrayFirst, member); err != nil {
-		return nil, err
-	} else {
-		return member, nil
-	}
+	err = res.Success().Json().FindModel(tjson.PathArrayFirst, member)
+	return
 }
 
 func (z *memberImpl) Remove(member *mo_member.Member, opts ...RemoveOpt) (err error) {
@@ -262,11 +261,12 @@ func (z *memberImpl) Remove(member *mo_member.Member, opts ...RemoveOpt) (err er
 		RetainTeamShares: ro.retainTeamShares,
 	}
 
-	_, err = z.ctx.Async("team/members/remove").
-		Status("team/members/remove/job_status/get").
-		Param(p).
-		Call()
-	return err
+	res := z.ctx.Async("team/members/remove", api_request.Param(p)).Call(
+		dbx_async.Status("team/members/remove/job_status/get"))
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }
 
 func (z *memberImpl) Update(member *mo_member.Member) (updated *mo_member.Member, err error) {
@@ -292,17 +292,13 @@ func (z *memberImpl) Update(member *mo_member.Member) (updated *mo_member.Member
 		NewSurname:      member.Surname,
 		NewPersistentId: member.PersistentId,
 	}
-	req := z.ctx.Post("team/members/set_profile").Param(p)
-	res, err := req.Call()
-	if err != nil {
+	res := z.ctx.Post("team/members/set_profile", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	updated = &mo_member.Member{}
-	if _, err := res.Success().Json().Model(updated); err != nil {
-		return nil, err
-	} else {
-		return updated, nil
-	}
+	err = res.Success().Json().Model(updated)
+	return
 }
 
 func (z *memberImpl) Resolve(teamMemberId string) (member *mo_member.Member, err error) {
@@ -320,8 +316,8 @@ func (z *memberImpl) Resolve(teamMemberId string) (member *mo_member.Member, err
 			},
 		},
 	}
-	res, err := z.ctx.Post("team/members/get_info").Param(p).Call()
-	if err != nil {
+	res := z.ctx.Post("team/members/get_info", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return z.parseOneMember(res)
@@ -338,17 +334,15 @@ func (z *memberImpl) parseOneMember(res response.Response) (member *mo_member.Me
 	// {".tag": "id_not_found", "id_not_found": "xxx+xxxxx@xxxxxxxxx.xxx"}
 	if id, found := a.FindString("id_not_found"); found {
 		z.ctx.Log().Debug("`id_not_found`", zap.String("id", id))
-		return nil, dbx_error.ApiError{
+		return nil, dbx_error.DropboxError{
 			ErrorTag:     "id_not_found",
 			ErrorSummary: "id_not_found",
 		}
 	}
 
 	member = &mo_member.Member{}
-	if _, err := a.Model(member); err != nil {
-		return nil, err
-	}
-	return member, nil
+	err = a.Model(member)
+	return
 }
 
 func (z *memberImpl) ResolveByEmail(email string) (member *mo_member.Member, err error) {
@@ -367,8 +361,8 @@ func (z *memberImpl) ResolveByEmail(email string) (member *mo_member.Member, err
 		},
 	}
 	member = &mo_member.Member{}
-	res, err := z.ctx.Post("team/members/get_info").Param(p).Call()
-	if err != nil {
+	res := z.ctx.Post("team/members/get_info", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return z.parseOneMember(res)
@@ -384,20 +378,20 @@ func (z *memberImpl) List() (members []*mo_member.Member, err error) {
 		Limit:          z.limit,
 	}
 
-	req := z.ctx.List("team/members/list").
-		Continue("team/members/list/continue").
-		Param(p).
-		UseHasMore(true).
-		ResultTag("members").
-		OnEntry(func(entry tjson.Json) error {
+	res := z.ctx.List("team/members/list", api_request.Param(p)).Call(
+		dbx_list.Continue("team/members/list/continue"),
+		dbx_list.UseHasMore(),
+		dbx_list.ResultTag("members"),
+		dbx_list.OnEntry(func(entry tjson.Json) error {
 			m := &mo_member.Member{}
-			if _, err := entry.Model(m); err != nil {
+			if err := entry.Model(m); err != nil {
 				return err
 			}
 			members = append(members, m)
 			return nil
-		})
-	if err := req.Call(); err != nil {
+		}),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return members, nil

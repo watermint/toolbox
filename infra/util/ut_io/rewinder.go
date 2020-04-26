@@ -1,6 +1,7 @@
 package ut_io
 
 import (
+	"bytes"
 	"errors"
 	"github.com/watermint/toolbox/infra/util/ut_math"
 	"io"
@@ -11,6 +12,17 @@ type ReadRewinder interface {
 	io.Reader
 	Rewind() error
 	Length() int64
+}
+
+func NewReadRewinderOnMemory(c []byte) ReadRewinder {
+	sz := int64(len(c))
+	return &readerRewinderWithLimit{
+		offset: 0,
+		limit:  sz,
+		length: sz,
+		lr:     bytes.NewReader(c),
+		r:      bytes.NewReader(c),
+	}
 }
 
 func NewReadRewinder(r io.ReadSeeker, offset int64) (rr ReadRewinder, err error) {

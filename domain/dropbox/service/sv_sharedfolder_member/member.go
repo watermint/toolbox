@@ -2,13 +2,16 @@ package sv_sharedfolder_member
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 const (
@@ -218,11 +221,9 @@ func (z *memberImpl) List() (member []mo_sharedfolder_member.Member, err error) 
 		SharedFolderId: z.sharedFolderId,
 	}
 
-	err = z.ctx.List("sharing/list_folder_members").
-		Continue("sharing/list_folder_members/continue").
-		Param(p).
-		UseHasMore(false).
-		OnResponse(func(res response.Response) error {
+	res := z.ctx.List("sharing/list_folder_members", api_request.Param(p)).Call(
+		dbx_list.Continue("sharing/list_folder_members/continue"),
+		dbx_list.OnResponse(func(res response.Response) error {
 			j, err := res.Success().AsJson()
 			if err != nil {
 				return err
@@ -230,7 +231,7 @@ func (z *memberImpl) List() (member []mo_sharedfolder_member.Member, err error) 
 			if users, found := j.FindArray("users"); found {
 				for _, u := range users {
 					mu := &mo_sharedfolder_member.User{}
-					if _, err := u.Model(mu); err != nil {
+					if err := u.Model(mu); err != nil {
 						return err
 					}
 					member = append(member, mu)
@@ -239,7 +240,7 @@ func (z *memberImpl) List() (member []mo_sharedfolder_member.Member, err error) 
 			if groups, found := j.FindArray("groups"); found {
 				for _, g := range groups {
 					mg := &mo_sharedfolder_member.Group{}
-					if _, err := g.Model(mg); err != nil {
+					if err := g.Model(mg); err != nil {
 						return err
 					}
 					member = append(member, mg)
@@ -248,15 +249,16 @@ func (z *memberImpl) List() (member []mo_sharedfolder_member.Member, err error) 
 			if invitees, found := j.FindArray("invitees"); found {
 				for _, i := range invitees {
 					mi := &mo_sharedfolder_member.Invitee{}
-					if _, err := i.Model(mi); err != nil {
+					if err := i.Model(mi); err != nil {
 						return err
 					}
 					member = append(member, mi)
 				}
 			}
 			return nil
-		}).Call()
-	if err != nil {
+		}),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return member, nil
@@ -314,11 +316,11 @@ func (z *memberImpl) Add(member MemberAddOption, opts ...AddOption) (err error) 
 		CustomMessage:  ao.customMessage,
 	}
 
-	_, err = z.ctx.Post("sharing/add_folder_member").Param(p).Call()
-	if err != nil {
+	res := z.ctx.Post("sharing/add_folder_member", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
 		return err
 	}
-	return err
+	return nil
 }
 
 func (z *memberImpl) Remove(member MemberRemoveOption, opts ...RemoveOption) (err error) {
@@ -362,11 +364,10 @@ func (z *memberImpl) Remove(member MemberRemoveOption, opts ...RemoveOption) (er
 		Member:         mems[0],
 		LeaveACopy:     ro.leaveACopy,
 	}
-	_, err = z.ctx.Async("sharing/remove_folder_member").
-		Status("sharing/check_remove_member_job_status").
-		Param(p).
-		Call()
-	if err != nil {
+	res := z.ctx.Async("sharing/remove_folder_member", api_request.Param(p)).Call(
+		dbx_async.Status("sharing/check_remove_member_job_status"),
+	)
+	if err, fail := res.Failure(); fail {
 		return err
 	}
 	return nil

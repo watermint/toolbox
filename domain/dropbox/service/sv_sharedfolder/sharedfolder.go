@@ -1,11 +1,14 @@
 package sv_sharedfolder
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type SharedFolder interface {
@@ -98,15 +101,13 @@ func (z *sharedFolderImpl) UpdatePolicy(sharedFolderId string, opts ...PolicyOpt
 		MemberPolicy:   po.memberPolicy,
 	}
 
+	res := z.ctx.Post("sharing/update_folder_policy", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	sf = &mo_sharedfolder.SharedFolder{}
-	res, err := z.ctx.Post("sharing/update_folder_policy").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err = res.Success().Json().Model(sf); err != nil {
-		return nil, err
-	}
-	return sf, nil
+	err = res.Success().Json().Model(sf)
+	return
 }
 
 func (z *sharedFolderImpl) Transfer(sf *mo_sharedfolder.SharedFolder, to TransferTo) (err error) {
@@ -121,8 +122,8 @@ func (z *sharedFolderImpl) Transfer(sf *mo_sharedfolder.SharedFolder, to Transfe
 		ToDropboxId:    too.dropboxId,
 	}
 
-	_, err = z.ctx.Post("sharing/transfer_folder").Param(p).Call()
-	if err != nil {
+	res := z.ctx.Post("sharing/transfer_folder", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
 		return err
 	}
 	return nil
@@ -135,15 +136,13 @@ func (z *sharedFolderImpl) Resolve(sharedFolderId string) (sf *mo_sharedfolder.S
 		SharedFolderId: sharedFolderId,
 	}
 
+	res := z.ctx.Post("sharing/get_folder_metadata", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	sf = &mo_sharedfolder.SharedFolder{}
-	res, err := z.ctx.Post("sharing/get_folder_metadata").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err = res.Success().Json().Model(sf); err != nil {
-		return nil, err
-	}
-	return sf, nil
+	err = res.Success().Json().Model(sf)
+	return
 }
 
 func (z *sharedFolderImpl) Leave(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOpt) (err error) {
@@ -159,10 +158,9 @@ func (z *sharedFolderImpl) Leave(sf *mo_sharedfolder.SharedFolder, opts ...Delet
 		LeaveACopy:     do.leaveACopy,
 	}
 	sf = &mo_sharedfolder.SharedFolder{}
-	_, err = z.ctx.Async("sharing/relinquish_folder_membership").
-		Status("sharing/check_share_job_status").
-		Param(p).Call()
-	if err != nil {
+	res := z.ctx.Async("sharing/relinquish_folder_membership", api_request.Param(p)).Call(
+		dbx_async.Status("sharing/check_share_job_status"))
+	if err, fail := res.Failure(); fail {
 		return err
 	}
 	return nil
@@ -180,17 +178,14 @@ func (z *sharedFolderImpl) Create(path mo_path.DropboxPath, opts ...CreateOpt) (
 		Path: path.Path(),
 	}
 
+	res := z.ctx.Async("sharing/share_folder", api_request.Param(p)).Call(
+		dbx_async.Status("sharing/check_share_job_status"))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	sf = &mo_sharedfolder.SharedFolder{}
-	res, err := z.ctx.Async("sharing/share_folder").
-		Status("sharing/check_share_job_status").
-		Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err = res.Success().Json().Model(sf); err != nil {
-		return nil, err
-	}
-	return sf, nil
+	err = res.Success().Json().Model(sf)
+	return
 }
 
 func (z *sharedFolderImpl) Remove(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOpt) (err error) {
@@ -207,10 +202,9 @@ func (z *sharedFolderImpl) Remove(sf *mo_sharedfolder.SharedFolder, opts ...Dele
 		LeaveACopy:     do.leaveACopy,
 	}
 	sf = &mo_sharedfolder.SharedFolder{}
-	_, err = z.ctx.Async("sharing/unshare_folder").
-		Status("sharing/check_job_status").
-		Param(p).Call()
-	if err != nil {
+	res := z.ctx.Async("sharing/unshare_folder", api_request.Param(p)).Call(
+		dbx_async.Status("sharing/check_job_status"))
+	if err, fail := res.Failure(); fail {
 		return err
 	}
 	return nil
@@ -223,21 +217,20 @@ func (z *sharedFolderImpl) List() (sf []*mo_sharedfolder.SharedFolder, err error
 		Limit: z.limit,
 	}
 	sf = make([]*mo_sharedfolder.SharedFolder, 0)
-	req := z.ctx.List("sharing/list_folders").
-		Continue("sharing/list_folders/continue").
-		Param(p).
-		UseHasMore(false).
-		ResultTag("entries").
-		OnEntry(func(entry tjson.Json) error {
+	res := z.ctx.List("sharing/list_folders", api_request.Param(p)).Call(
+		dbx_list.Continue("sharing/list_folders/continue"),
+		dbx_list.ResultTag("entries"),
+		dbx_list.OnEntry(func(entry tjson.Json) error {
 			f := &mo_sharedfolder.SharedFolder{}
-			if _, err := entry.Model(f); err != nil {
+			if err := entry.Model(f); err != nil {
 				return err
 			}
 			sf = append(sf, f)
 			return nil
-		})
-	if err := req.Call(); err != nil {
+		}),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
-	return sf, err
+	return
 }

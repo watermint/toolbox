@@ -3,7 +3,6 @@ package nw_retry
 import (
 	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
@@ -21,25 +20,20 @@ type Retry struct {
 	client nw_client.Rest
 }
 
-func (z *Retry) Call(ctx api_context.Context, req api_request.Request) (res response.Response, err error) {
-	// path through when no retry enabled.
-	if ctx.IsNoRetry() {
-		return z.client.Call(ctx, req)
-	}
-
+func (z *Retry) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res response.Response) {
 	l := ctx.Log().With(
-		zap.String("Url", req.Url()),
+		zap.String("Url", req.Endpoint()),
 		zap.String("Routine", ut_runtime.GetGoRoutineName()),
 	)
 
-	res, err = z.client.Call(ctx, req)
+	res = z.client.Call(ctx, req)
 
 	// return when on success
-	if err == nil {
-		return res, nil
+	if res.IsSuccess() {
+		return res
 	}
 
-	switch er := err.(type) {
+	switch er := res.TransportError().(type) {
 	case *ErrorRateLimit:
 		l.Debug("Rate limit, waiting for reset",
 			zap.Int("limit", er.Limit),
@@ -49,12 +43,12 @@ func (z *Retry) Call(ctx api_context.Context, req api_request.Request) (res resp
 		return z.Call(ctx, req)
 
 	default:
-		abort := nw_ratelimit.AddError(ctx.ClientHash(), req.Endpoint(), err)
+		abort := nw_ratelimit.AddError(ctx.ClientHash(), req.Endpoint(), er)
 		if abort {
 			l.Debug("Abort retry due to retries exceeds retry limit")
-			return nil, err
+			return res
 		}
-		l.Debug("Retrying", zap.Error(err))
+		l.Debug("Retrying", zap.Error(er))
 		return z.Call(ctx, req)
 	}
 }

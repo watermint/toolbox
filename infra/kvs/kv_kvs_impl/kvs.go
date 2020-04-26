@@ -109,16 +109,24 @@ func (z *badgerWrapper) GetBytes(key string) (value []byte, err error) {
 }
 
 func (z *badgerWrapper) GetJson(key string) (j json.RawMessage, err error) {
+	l := z.ctl.Log()
 	r, err := z.tx.Get([]byte(key))
 	if err != nil {
+		l.Debug("key not found", zap.String("key", key), zap.Error(err))
 		return nil, err
 	}
 	return r.ValueCopy(nil)
 }
 
 func (z *badgerWrapper) GetJsonModel(key string, v interface{}) (err error) {
+	l := z.ctl.Log()
 	r, err := z.GetJson(key)
+	if err != nil {
+		l.Debug("key not found", zap.String("key", key), zap.Error(err))
+		return err
+	}
 	if err = json.Unmarshal(r, v); err != nil {
+		l.Debug("unable to unmarshal", zap.String("key", key), zap.Error(err))
 		return err
 	}
 	return nil

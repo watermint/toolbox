@@ -1,94 +1,83 @@
 package gh_context_impl
 
 import (
-	"crypto/sha256"
-	"errors"
-	"fmt"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_request"
+	"github.com/watermint/toolbox/domain/github/api/gh_response"
+	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_feature"
-	"github.com/watermint/toolbox/infra/util/ut_io"
+	"github.com/watermint/toolbox/infra/network/nw_client"
+	"github.com/watermint/toolbox/infra/network/nw_rest"
 	"go.uber.org/zap"
-	"strings"
+	"net/http"
 )
 
-var (
-	ErrorGeneralApiError = errors.New("general api error")
+const (
+	ServerRpc    = "https://api.github.com/"
+	ServerUpload = "https://uploads.github.com/"
 )
 
-func NewNoAuth(ctl app_control.Control) gh_context.Context {
-	return &Context{
-		scope:     "",
-		ac:        nil,
-		ctl:       ctl,
-		isNoRetry: false,
+func NewMock(ctl app_control.Control) gh_context.Context {
+	client := nw_rest.New(ctl.Feature(),
+		nw_rest.Assert(gh_response.AssertResponse),
+		nw_rest.Mock())
+	return &ctxImpl{
+		client:  client,
+		ctl:     ctl,
+		builder: gh_request.NewBuilder(ctl, nil),
 	}
 }
 
-func New(ctl app_control.Control, peerName, scope string, ac api_auth.Context) gh_context.Context {
-	return &Context{
-		peerName:  peerName,
-		scope:     scope,
-		ac:        ac,
-		ctl:       ctl,
-		isNoRetry: false,
+func New(ctl app_control.Control, token api_auth.Context) gh_context.Context {
+	client := nw_rest.New(ctl.Feature(),
+		nw_rest.Assert(gh_response.AssertResponse))
+	return &ctxImpl{
+		client:  client,
+		ctl:     ctl,
+		builder: gh_request.NewBuilder(ctl, token),
 	}
 }
 
-type Context struct {
-	peerName  string
-	scope     string
-	ac        api_auth.Context
-	ctl       app_control.Control
-	isNoRetry bool
+type ctxImpl struct {
+	client  nw_client.Rest
+	ctl     app_control.Control
+	builder gh_request.Builder
 }
 
-func (z Context) Feature() app_feature.Feature {
-	return z.ctl.Feature()
+func (z ctxImpl) ClientHash() string {
+	return z.builder.ClientHash()
 }
 
-func (z Context) ClientHash() string {
-	tok := ""
-	if z.ac != nil && z.ac.Token() != nil {
-		tok = z.ac.Token().AccessToken
-	}
-	seeds := []string{
-		"p", z.peerName,
-		"s", z.scope,
-		"t", tok,
-	}
-	return fmt.Sprintf("%x", sha256.Sum224([]byte(strings.Join(seeds, ","))))
+func (z ctxImpl) Log() *zap.Logger {
+	return z.builder.Log()
 }
 
-func (z Context) Log() *zap.Logger {
-	return z.ctl.Log()
-}
-
-func (z Context) Capture() *zap.Logger {
+func (z ctxImpl) Capture() *zap.Logger {
 	return z.ctl.Capture()
 }
 
-func (z Context) NoRetryOnError() api_context.Context {
-	z.isNoRetry = true
-	return &z
+func (z ctxImpl) Post(endpoint string, d ...api_request.RequestDatum) (res response.Response) {
+	b := z.builder.With(
+		http.MethodPost,
+		ServerRpc+endpoint,
+		api_request.Combine(d))
+	return z.client.Call(&z, b)
 }
 
-func (z Context) IsNoRetry() bool {
-	return z.isNoRetry
+func (z ctxImpl) Get(endpoint string, d ...api_request.RequestDatum) (res response.Response) {
+	b := z.builder.With(
+		http.MethodGet,
+		ServerRpc+endpoint,
+		api_request.Combine(d))
+	return z.client.Call(&z, b)
 }
 
-func (z Context) Post(endpoint string) api_request.Request {
-	return gh_request.NewRpc(&z, z.scope, z.ac.Token(), endpoint, "POST")
-}
-
-func (z Context) Get(endpoint string) api_request.Request {
-	return gh_request.NewRpc(&z, z.scope, z.ac.Token(), endpoint, "GET")
-}
-
-func (z Context) Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request {
-	return gh_request.NewUpload(&z, z.scope, z.ac.Token(), endpoint, "POST", content)
+func (z ctxImpl) Upload(endpoint string, d ...api_request.RequestDatum) (res response.Response) {
+	b := z.builder.With(
+		http.MethodPost,
+		ServerUpload+endpoint, // Upload endpoint
+		api_request.Combine(d))
+	return z.client.Call(&z, b)
 }

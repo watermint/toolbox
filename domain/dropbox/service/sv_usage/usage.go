@@ -20,13 +20,11 @@ type usageImpl struct {
 }
 
 func (z *usageImpl) Resolve() (usage *mo_usage.Usage, err error) {
-	res, err := z.ctx.Post("users/get_space_usage").Call()
-	if err != nil {
+	res := z.ctx.Post("users/get_space_usage")
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	usage = &mo_usage.Usage{}
-	if _, err = res.Success().Json().Model(usage); err != nil {
-		return nil, err
-	}
-	return usage, nil
+	err = res.Success().Json().Model(usage)
+	return
 }

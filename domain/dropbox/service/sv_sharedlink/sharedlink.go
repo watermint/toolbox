@@ -2,12 +2,14 @@ package sv_sharedlink
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
 	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/infra/api/api_request"
 	"time"
 )
 
@@ -79,15 +81,13 @@ func (z *sharedLinkImpl) Resolve(url mo_url.Url, password string) (entry mo_file
 		Url:      url.Value(),
 		Password: password,
 	}
+	res := z.ctx.Post("sharing/get_shared_link_metadata", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Post("sharing/get_shared_link_metadata").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err := res.Success().Json().Model(entry); err != nil {
-		return nil, err
-	}
-	return entry, nil
+	err = res.Success().Json().Model(entry)
+	return
 }
 
 func (z *sharedLinkImpl) Update(link mo_sharedlink.SharedLink, opts ...LinkOpt) (updated mo_sharedlink.SharedLink, err error) {
@@ -114,15 +114,13 @@ func (z *sharedLinkImpl) Update(link mo_sharedlink.SharedLink, opts ...LinkOpt) 
 		RemoveExpiration: opt.removeExpiration,
 	}
 
+	res := z.ctx.Post("sharing/modify_shared_link_settings", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	link = &mo_sharedlink.Metadata{}
-	res, err := z.ctx.Post("sharing/modify_shared_link_settings").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err := res.Success().Json().Model(link); err != nil {
-		return nil, err
-	}
-	return link, nil
+	err = res.Success().Json().Model(link)
+	return
 }
 
 func (z *sharedLinkImpl) list(path string) (links []mo_sharedlink.SharedLink, err error) {
@@ -133,20 +131,20 @@ func (z *sharedLinkImpl) list(path string) (links []mo_sharedlink.SharedLink, er
 	}
 
 	links = make([]mo_sharedlink.SharedLink, 0)
-	req := z.ctx.List("sharing/list_shared_links").
-		Continue("sharing/list_shared_links").
-		Param(p).
-		UseHasMore(true).
-		ResultTag("links").
-		OnEntry(func(entry tjson.Json) error {
+	res := z.ctx.List("sharing/list_shared_links", api_request.Param(p)).Call(
+		dbx_list.Continue("sharing/list_shared_links"),
+		dbx_list.UseHasMore(),
+		dbx_list.ResultTag("links"),
+		dbx_list.OnEntry(func(entry tjson.Json) error {
 			link := &mo_sharedlink.Metadata{}
-			if _, err := entry.Model(link); err != nil {
+			if err := entry.Model(link); err != nil {
 				return err
 			}
 			links = append(links, link)
 			return nil
-		})
-	if err := req.Call(); err != nil {
+		}),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return links, nil
@@ -167,8 +165,11 @@ func (z *sharedLinkImpl) Remove(link mo_sharedlink.SharedLink) (err error) {
 		Url: link.LinkUrl(),
 	}
 
-	_, err = z.ctx.Post("sharing/revoke_shared_link").Param(p).Call()
-	return err
+	res := z.ctx.Post("sharing/revoke_shared_link", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }
 
 func (z *sharedLinkImpl) Create(path mo_path.DropboxPath, opts ...LinkOpt) (link mo_sharedlink.SharedLink, err error) {
@@ -193,13 +194,11 @@ func (z *sharedLinkImpl) Create(path mo_path.DropboxPath, opts ...LinkOpt) (link
 		},
 	}
 
+	res := z.ctx.Post("sharing/create_shared_link_with_settings", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	link = &mo_sharedlink.Metadata{}
-	res, err := z.ctx.Post("sharing/create_shared_link_with_settings").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err := res.Success().Json().Model(link); err != nil {
-		return nil, err
-	}
-	return link, nil
+	err = res.Success().Json().Model(link)
+	return
 }

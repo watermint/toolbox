@@ -38,9 +38,9 @@ func TestRead_Failure(t *testing.T) {
 	bodyFile.Close() // close before read
 
 	ctx := context.NewMock()
-	body := Read(ctx, bodyFile)
-	if err := body.Error(); err == nil {
-		t.Error(err)
+	body, err := Read(ctx, bodyFile)
+	if err == nil {
+		t.Error(err, body)
 	}
 }
 
@@ -49,9 +49,9 @@ func TestRead_Success(t *testing.T) {
 	buf := ioutil.NopCloser(bytes.NewBufferString(content))
 
 	ctx := context.NewMock()
-	body := Read(ctx, buf)
-	if body.Error() != nil {
-		t.Error(body.Error())
+	body, err := Read(ctx, buf)
+	if err != nil {
+		t.Error(err)
 	}
 	if body.IsFile() || body.File() != "" {
 		t.Error(body.IsFile(), body.File())

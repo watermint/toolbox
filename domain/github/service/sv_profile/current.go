@@ -20,13 +20,11 @@ type currentImpl struct {
 }
 
 func (z *currentImpl) User() (user *mo_user.User, err error) {
-	res, err := z.ctx.Get("user").Call()
-	if err != nil {
+	res := z.ctx.Get("user")
+	if err, fa := res.Failure(); fa {
 		return nil, err
 	}
 	user = &mo_user.User{}
-	if _, err := res.Success().Json().Model(user); err != nil {
-		return nil, err
-	}
-	return user, nil
+	err = res.Success().Json().Model(user)
+	return
 }

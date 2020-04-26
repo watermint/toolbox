@@ -21,6 +21,9 @@ var (
 	// Marker error: The test requires some resource, but the resource is not available.
 	ErrorNotEnoughResource = errors.New("not enough resource")
 
+	// Unsupported UI
+	ErrorUnsupportedUI = errors.New("unsupported UI for this auth scope")
+
 	// Marker error: Mock
 	ErrorMock = errors.New("mock error")
 )

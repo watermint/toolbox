@@ -30,15 +30,13 @@ type profileImpl struct {
 }
 
 func (z *profileImpl) Current() (profile *mo_profile.Profile, err error) {
+	res := z.ctx.Post("users/get_current_account")
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	profile = &mo_profile.Profile{}
-	res, err := z.ctx.Post("users/get_current_account").Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err = res.Success().Json().Model(profile); err != nil {
-		return nil, err
-	}
-	return profile, nil
+	err = res.Success().Json().Model(profile)
+	return
 }
 
 type teamImpl struct {
@@ -46,13 +44,11 @@ type teamImpl struct {
 }
 
 func (z *teamImpl) Admin() (profile *mo_profile.Profile, err error) {
+	res := z.ctx.Post("team/token/get_authenticated_admin")
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	profile = &mo_profile.Profile{}
-	res, err := z.ctx.Post("team/token/get_authenticated_admin").Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err = res.Success().Json().FindModel("admin_profile", profile); err != nil {
-		return nil, err
-	}
-	return profile, nil
+	err = res.Success().Json().FindModel("admin_profile", profile)
+	return
 }

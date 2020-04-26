@@ -17,7 +17,7 @@ type Response interface {
 
 func NewCompleted(res response.Response, complete tjson.Json) Response {
 	return &resImpl{
-		res:       res,
+		Proxy:     response.NewProxy(res),
 		completed: true,
 		complete:  complete,
 	}
@@ -25,48 +25,16 @@ func NewCompleted(res response.Response, complete tjson.Json) Response {
 
 func NewIncomplete(res response.Response) Response {
 	return &resImpl{
-		res:       res,
+		Proxy:     response.NewProxy(res),
 		completed: false,
 		complete:  nil,
 	}
 }
 
 type resImpl struct {
-	res       response.Response
+	response.Proxy
 	completed bool
 	complete  tjson.Json
-}
-
-func (z resImpl) IsSuccess() bool {
-	return z.res.IsSuccess()
-}
-
-func (z resImpl) Alt() response.Body {
-	return z.res.Alt()
-}
-
-func (z resImpl) Error() error {
-	return z.res.Error()
-}
-
-func (z resImpl) Code() int {
-	return z.res.Code()
-}
-
-func (z resImpl) CodeCategory() response.CodeCategory {
-	return z.res.CodeCategory()
-}
-
-func (z resImpl) Headers() map[string]string {
-	return z.res.Headers()
-}
-
-func (z resImpl) Header(header string) string {
-	return z.res.Header(header)
-}
-
-func (z resImpl) Success() response.Body {
-	return z.res.Success()
 }
 
 func (z resImpl) IsCompleted() bool {

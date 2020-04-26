@@ -5,7 +5,20 @@ import (
 	"net/http"
 )
 
-func newErrorResponse(err error, res *http.Response) response.Response {
+func NewNoResponse(err error) response.Response {
+	return NewTransportErrorHttpResponse(err, nil)
+}
+
+func NewTransportErrorResponse(err error, res response.Response) response.Response {
+	return &errorResponse{
+		err:         err,
+		code:        res.Code(),
+		headers:     res.Headers(),
+		headerLower: createHeaderLower(res.Headers()),
+	}
+}
+
+func NewTransportErrorHttpResponse(err error, res *http.Response) response.Response {
 	if res != nil {
 		headers := createHeader(res)
 		headersLower := createHeaderLower(headers)
@@ -30,6 +43,10 @@ type errorResponse struct {
 	headerLower map[string]string
 	code        int
 	err         error
+}
+
+func (z errorResponse) Failure() (error, bool) {
+	return z.err, true
 }
 
 func (z errorResponse) Code() int {
@@ -60,6 +77,6 @@ func (z errorResponse) Alt() response.Body {
 	return newEmptyBody()
 }
 
-func (z errorResponse) Error() error {
+func (z errorResponse) TransportError() error {
 	return z.err
 }

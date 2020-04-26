@@ -79,9 +79,9 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 	svfDst := sv_file.NewFiles(z.ctxDst)
 	entriesDst, err := svfDst.List(pathDstRelToSrc)
 	if err != nil {
-		errPrefix := dbx_util.ErrorSummary(err)
-		if err != dbx_error.ErrorPathNotFound {
-			log.Debug("DST: Unable to list", zap.Error(err), zap.String("error_summary", errPrefix))
+		ers := dbx_error.NewErrors(err)
+		if !ers.Path().IsNotFound() {
+			log.Debug("DST: Unable to list", zap.Error(err), zap.String("error_summary", ers.Summary()))
 			return err
 		}
 		log.Debug("DST: Path not found. Proceed to mirror")

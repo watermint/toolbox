@@ -1,10 +1,13 @@
 package sv_group_member
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
 	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type GroupMember interface {
@@ -70,20 +73,20 @@ func (z *groupMemberImpl) List() (members []*mo_group_member.Member, err error) 
 	}
 
 	members = make([]*mo_group_member.Member, 0)
-	err = z.ctx.List("team/groups/members/list").
-		Continue("team/groups/members/list/continue").
-		Param(p).
-		ResultTag("members").
-		UseHasMore(true).
-		OnEntry(func(entry tjson.Json) error {
+	res := z.ctx.List("team/groups/members/list", api_request.Param(p)).Call(
+		dbx_list.Continue("team/groups/members/list/continue"),
+		dbx_list.ResultTag("members"),
+		dbx_list.UseHasMore(),
+		dbx_list.OnEntry(func(entry tjson.Json) error {
 			gm := &mo_group_member.Member{}
-			if _, err := entry.Model(gm); err != nil {
+			if err := entry.Model(gm); err != nil {
 				return err
 			}
 			members = append(members, gm)
 			return nil
-		}).Call()
-	if err != nil {
+		}),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return members, nil
@@ -130,18 +133,14 @@ func (z *groupMemberImpl) Add(members ...MemberOpt) (group *mo_group.Group, err 
 		ReturnMembers: false,
 	}
 
+	res := z.ctx.Async("team/groups/members/add", api_request.Param(p)).Call(
+		dbx_async.Status("team/groups/job_status/get"))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	group = &mo_group.Group{}
-	a := z.ctx.Async("team/groups/members/add").
-		Status("team/groups/job_status/get").
-		Param(p)
-	res, err := a.Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err = res.Success().Json().Model(group); err != nil {
-		return nil, err
-	}
-	return group, nil
+	err = res.Success().Json().Model(group)
+	return
 }
 
 func (z *groupMemberImpl) Remove(members ...MemberOpt) (group *mo_group.Group, err error) {
@@ -177,16 +176,12 @@ func (z *groupMemberImpl) Remove(members ...MemberOpt) (group *mo_group.Group, e
 		Users: users,
 	}
 
+	res := z.ctx.Async("team/groups/members/remove", api_request.Param(p)).Call(
+		dbx_async.Status("team/groups/job_status/get"))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	group = &mo_group.Group{}
-	a := z.ctx.Async("team/groups/members/remove").
-		Status("team/groups/job_status/get").
-		Param(p)
-	res, err := a.Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err = res.Success().Json().Model(group); err != nil {
-		return nil, err
-	}
-	return group, nil
+	err = res.Success().Json().Model(group)
+	return
 }

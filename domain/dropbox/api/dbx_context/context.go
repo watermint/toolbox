@@ -1,13 +1,17 @@
 package dbx_context
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
 	"github.com/watermint/toolbox/essentials/format/tjson"
 	"github.com/watermint/toolbox/essentials/http/response"
 	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 const (
-	DropboxApiResHeaderRetryAfter    = "Rewind-After"
+	DropboxApiResHeaderRetryAfter    = "Retry-After"
 	DropboxApiResHeaderResult        = "Dropbox-API-Result"
 	DropboxApiErrorBadInputParam     = 400
 	DropboxApiErrorBadOrExpiredToken = 401
@@ -17,22 +21,28 @@ const (
 	DropboxApiErrorRateLimit         = 429
 )
 
+type ListContext interface {
+	List(endpoint string) dbx_list.List
+}
+
+type AsyncContext interface {
+	Async(endpoint string) dbx_async.Async
+}
+
 type Context interface {
 	api_context.Context
-	api_context.PostContext
-	api_context.AsyncContext
-	api_context.ListContext
-	api_context.UploadContext
-	api_context.DownloadContext
+
+	Async(endpoint string, d ...api_request.RequestDatum) dbx_async.Async
+	List(endpoint string, d ...api_request.RequestDatum) dbx_list.List
+	Post(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
+	Upload(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
+	Download(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
+	Notify(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 
 	AsMemberId(teamMemberId string) Context
 	AsAdminId(teamMemberId string) Context
 	WithPath(pathRoot PathRoot) Context
-}
-
-type NoAuthContext interface {
-	api_context.Context
-	api_context.NotifyContext
+	NoAuth() Context
 }
 
 type PathRoot interface {

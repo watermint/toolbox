@@ -4,11 +4,12 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
+	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 var (
-	ErrorNotFound           = errors.New("not found")
-	ErrorUnexpectedResponse = errors.New("unexpected response")
+	ErrorNotFound = errors.New("not found")
 )
 
 type Release interface {
@@ -33,15 +34,13 @@ type releaseImpl struct {
 
 func (z *releaseImpl) Get(tagName string) (release *mo_release.Release, err error) {
 	endpoint := "repos/" + z.owner + "/" + z.repo + "/releases/tags/" + tagName
-	res, err := z.ctx.Get(endpoint).Call()
-	if err != nil {
+	res := z.ctx.Get(endpoint)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	release = &mo_release.Release{}
-	if _, err := res.Success().Json().Model(release); err != nil {
-		return nil, err
-	}
-	return release, nil
+	err = res.Success().Json().Model(release)
+	return
 }
 
 func (z *releaseImpl) CreateDraft(tagName, name, body, branch string) (release *mo_release.Release, err error) {
@@ -59,35 +58,30 @@ func (z *releaseImpl) CreateDraft(tagName, name, body, branch string) (release *
 		Body:            body,
 		Draft:           true,
 	}
-	res, err := z.ctx.Post(endpoint).Param(&p).Call()
-	if err != nil {
+	res := z.ctx.Post(endpoint, api_request.Param(&p))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	release = &mo_release.Release{}
-	if _, err := res.Success().Json().Model(release); err != nil {
-		return nil, err
-	}
-	return release, nil
+	err = res.Success().Json().Model(release)
+	return
 }
 
 func (z *releaseImpl) List() (releases []*mo_release.Release, err error) {
 	endpoint := "repos/" + z.owner + "/" + z.repo + "/releases"
-	res, err := z.ctx.Get(endpoint).Call()
-	if err != nil {
+	res := z.ctx.Get(endpoint)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 
 	releases = make([]*mo_release.Release, 0)
-	if entries, found := res.Success().Json().Array(); !found {
-		return nil, ErrorNotFound
-	} else {
-		for _, entry := range entries {
-			release := &mo_release.Release{}
-			if _, err := entry.Model(release); err != nil {
-				return nil, err
-			}
-			releases = append(releases, release)
+	err = res.Success().Json().ArrayEach(func(e tjson.Json) error {
+		release := &mo_release.Release{}
+		if err := e.Model(release); err != nil {
+			return err
 		}
-		return releases, nil
-	}
+		releases = append(releases, release)
+		return nil
+	})
+	return
 }

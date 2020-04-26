@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Relocation interface {
@@ -88,26 +89,22 @@ func (z *implRelocation) relocParam(from, to mo_path.DropboxPath) interface{} {
 
 func (z *implRelocation) Copy(from, to mo_path.DropboxPath) (entry mo_file.Entry, err error) {
 	p := z.relocParam(from, to)
+	res := z.ctx.Post("files/copy_v2", api_request.Param(p))
+	if err, f := res.Failure(); f {
+		return nil, err
+	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Post("files/copy_v2").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err = res.Success().Json().FindModel("metadata", entry); err != nil {
-		return nil, err
-	}
-	return entry, nil
+	err = res.Success().Json().FindModel("metadata", entry)
+	return
 }
 
 func (z *implRelocation) Move(from, to mo_path.DropboxPath) (entry mo_file.Entry, err error) {
 	p := z.relocParam(from, to)
+	res := z.ctx.Post("files/move_v2", api_request.Param(p))
+	if err, f := res.Failure(); f {
+		return nil, err
+	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Post("files/move_v2").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err = res.Success().Json().FindModel("metadata", entry); err != nil {
-		return nil, err
-	}
-	return entry, nil
+	err = res.Success().Json().FindModel("metadata", entry)
+	return
 }

@@ -20,10 +20,10 @@ var (
 	errorSummaryPostfix = regexp.MustCompile(`/\.+$`)
 )
 
-// Returns `error_summary` if an error is ApiError. Otherwise return "".
+// Returns `error_summary` if an error is DropboxError. Otherwise return "".
 func ErrorSummary(err error) string {
 	switch re := err.(type) {
-	case dbx_error.ApiError:
+	case dbx_error.DropboxError:
 		es := errorSummaryPostfix.ReplaceAllString(re.ErrorSummary, "")
 		es = strings.Trim(es, "/")
 		return es
@@ -37,10 +37,10 @@ func ErrorSummaryPrefix(err error, prefix string) bool {
 	return strings.HasPrefix(ErrorSummary(err), prefix)
 }
 
-// Returns `user_message` if an error is ApiError. Otherwise return Error().
+// Returns `user_message` if an error is DropboxError. Otherwise return Error().
 func ErrorUserMessage(err error) string {
 	switch re := err.(type) {
-	case dbx_error.ApiError:
+	case dbx_error.DropboxError:
 		if re.UserMessage == "" {
 			return re.Error()
 		}

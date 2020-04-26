@@ -1,9 +1,11 @@
 package sv_file_url
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
 	url2 "net/url"
@@ -48,17 +50,13 @@ func (z *urlImpl) Save(path mo_path.DropboxPath, url string) (entry mo_file.Entr
 	}
 
 	meta := &mo_file.Metadata{}
-	entry = meta
-	res, err := z.ctx.Async("files/save_url").
-		Status("files/save_url/check_job_status").
-		Param(p).
-		Call()
-	if err != nil {
+	res := z.ctx.Async("files/save_url", api_request.Param(p)).Call(
+		dbx_async.Status("files/save_url/check_job_status"))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
-	if _, err = res.Success().Json().Model(entry); err != nil {
-		return nil, err
-	}
+	err = res.Success().Json().Model(meta)
 	meta.EntryTag = "file" // overwrite 'complete' tag
-	return entry, nil
+	entry = meta
+	return meta, err
 }

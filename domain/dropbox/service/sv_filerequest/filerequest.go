@@ -2,9 +2,11 @@ package sv_filerequest
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type FileRequest interface {
@@ -72,15 +74,13 @@ func (z *fileRequestImpl) Update(fr *mo_filerequest.FileRequest) (req *mo_filere
 		Deadline:    deadline,
 		Open:        fr.IsOpen,
 	}
-	fr1 := &mo_filerequest.FileRequest{}
-	res, err := z.ctx.Post("file_requests/update").Param(co).Call()
-	if err != nil {
+	res := z.ctx.Post("file_requests/update", api_request.Param(co))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
-	if _, err = res.Success().Json().Model(fr1); err != nil {
-		return nil, err
-	}
-	return fr1, nil
+	req = &mo_filerequest.FileRequest{}
+	err = res.Success().Json().Model(req)
+	return
 }
 
 func (z *fileRequestImpl) Delete(ids ...string) (requests []*mo_filerequest.FileRequest, err error) {
@@ -90,39 +90,39 @@ func (z *fileRequestImpl) Delete(ids ...string) (requests []*mo_filerequest.File
 		Ids: ids,
 	}
 
-	req := z.ctx.List("file_requests/delete").
-		Continue("file_requests/list/continue").
-		Param(p).
-		UseHasMore(false).
-		ResultTag("file_requests").
-		OnEntry(func(entry tjson.Json) error {
+	res := z.ctx.List("file_requests/delete", api_request.Param(p)).Call(
+		dbx_list.Continue("file_requests/list/continue"),
+		dbx_list.ResultTag("file_requests"),
+		dbx_list.OnEntry(func(entry tjson.Json) error {
 			fr := &mo_filerequest.FileRequest{}
-			if _, err := entry.Model(fr); err != nil {
+			if err := entry.Model(fr); err != nil {
 				return err
 			}
 			requests = append(requests, fr)
 			return nil
-		})
-	if err := req.Call(); err != nil {
+		}),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return requests, nil
 }
 
 func (z *fileRequestImpl) DeleteAllClosed() (requests []*mo_filerequest.FileRequest, err error) {
-	req := z.ctx.List("file_requests/delete_all_closed").
-		Continue("file_requests/list/continue").
-		UseHasMore(false).
-		ResultTag("file_requests").
-		OnEntry(func(entry tjson.Json) error {
+	requests = make([]*mo_filerequest.FileRequest, 0)
+	res := z.ctx.List("file_requests/delete_all_closed").Call(
+		dbx_list.Continue("file_requests/list/continue"),
+		dbx_list.ResultTag("file_requests"),
+		dbx_list.OnEntry(func(entry tjson.Json) error {
 			fr := &mo_filerequest.FileRequest{}
-			if _, err := entry.Model(fr); err != nil {
+			if err := entry.Model(fr); err != nil {
 				return err
 			}
 			requests = append(requests, fr)
 			return nil
-		})
-	if err := req.Call(); err != nil {
+		}),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return requests, nil
@@ -149,33 +149,32 @@ func (z *fileRequestImpl) Create(title string, destination mo_path.DropboxPath, 
 		Destination: destination.Path(),
 		Deadline:    deadline,
 	}
-	fr := &mo_filerequest.FileRequest{}
-	res, err := z.ctx.Post("file_requests/create").Param(co).Call()
-	if err != nil {
+	res := z.ctx.Post("file_requests/create", api_request.Param(co))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
-	if _, err = res.Success().Json().Model(fr); err != nil {
-		return nil, err
-	}
-	return fr, nil
+	req = &mo_filerequest.FileRequest{}
+	err = res.Success().Json().Model(req)
+	return
 }
 
 func (z *fileRequestImpl) List() (requests []*mo_filerequest.FileRequest, err error) {
 	requests = make([]*mo_filerequest.FileRequest, 0)
 
-	req := z.ctx.List("file_requests/list_v2").
-		Continue("file_requests/list/continue").
-		UseHasMore(true).
-		ResultTag("file_requests").
-		OnEntry(func(entry tjson.Json) error {
+	res := z.ctx.List("file_requests/list_v2").Call(
+		dbx_list.Continue("file_requests/list/continue"),
+		dbx_list.UseHasMore(),
+		dbx_list.ResultTag("file_requests"),
+		dbx_list.OnEntry(func(entry tjson.Json) error {
 			fr := &mo_filerequest.FileRequest{}
-			if _, err := entry.Model(fr); err != nil {
+			if err := entry.Model(fr); err != nil {
 				return err
 			}
 			requests = append(requests, fr)
 			return nil
-		})
-	if err := req.Call(); err != nil {
+		}),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return requests, nil

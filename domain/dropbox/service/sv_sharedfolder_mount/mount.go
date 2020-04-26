@@ -2,8 +2,10 @@ package sv_sharedfolder_mount
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Mount interface {
@@ -24,20 +26,19 @@ type mountImpl struct {
 
 func (z *mountImpl) List() (mount []*mo_sharedfolder.SharedFolder, err error) {
 	mount = make([]*mo_sharedfolder.SharedFolder, 0)
-	err = z.ctx.List("sharing/list_mountable_folders").
-		Continue("sharing/list_mountable_folders/continue").
-		UseHasMore(false).
-		ResultTag("entries").
-		OnEntry(func(entry tjson.Json) error {
+	res := z.ctx.List("sharing/list_mountable_folders").Call(
+		dbx_list.Continue("sharing/list_mountable_folders/continue"),
+		dbx_list.ResultTag("entries"),
+		dbx_list.OnEntry(func(entry tjson.Json) error {
 			m := &mo_sharedfolder.SharedFolder{}
-			if _, err = entry.Model(m); err != nil {
+			if err = entry.Model(m); err != nil {
 				return err
 			}
 			mount = append(mount, m)
 			return nil
-		}).
-		Call()
-	if err != nil {
+		}),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return mount, nil
@@ -50,15 +51,13 @@ func (z *mountImpl) Mount(sf *mo_sharedfolder.SharedFolder) (mount *mo_sharedfol
 		SharedFolderId: sf.SharedFolderId,
 	}
 
+	res := z.ctx.Post("sharing/mount_folder", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	mount = &mo_sharedfolder.SharedFolder{}
-	res, err := z.ctx.Post("sharing/mount_folder").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if _, err = res.Success().Json().Model(mount); err != nil {
-		return nil, err
-	}
-	return mount, nil
+	err = res.Success().Json().Model(mount)
+	return
 }
 
 func (z *mountImpl) Unmount(sf *mo_sharedfolder.SharedFolder) (err error) {
@@ -67,8 +66,8 @@ func (z *mountImpl) Unmount(sf *mo_sharedfolder.SharedFolder) (err error) {
 	}{
 		SharedFolderId: sf.SharedFolderId,
 	}
-	_, err = z.ctx.Post("sharing/unmount_folder").Param(p).Call()
-	if err != nil {
+	res := z.ctx.Post("sharing/unmount_folder", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
 		return err
 	}
 	return nil

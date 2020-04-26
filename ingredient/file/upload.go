@@ -180,7 +180,8 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 
 		dbxEntries, err := sv_file.NewFiles(z.Context).List(dbxPath)
 		if err != nil {
-			if err == dbx_error.ErrorPathNotFound {
+			ers := dbx_error.NewErrors(err)
+			if ers.Path().IsNotFound() {
 				ll.Debug("Dropbox entry not found", zap.String("dbxPath", dbxPath.Path()), zap.Error(err))
 				dbxEntries = make([]mo_file.Entry, 0)
 			} else {

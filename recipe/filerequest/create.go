@@ -3,7 +3,7 @@ package filerequest
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
@@ -13,7 +13,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"strings"
 	"time"
 )
 
@@ -56,15 +55,11 @@ func (z *Create) Test(c app_control.Control) error {
 		m.Path = qt_recipe.NewTestDropboxFolderPath("file-request")
 		m.Deadline = mo_time.NewOptional(time.Now().Add(24 * time.Hour))
 	})
-	err, cont := qt_recipe.RecipeError(c.Log(), err)
-	switch {
-	case cont && err != nil:
-		return err
-	case strings.Contains(dbx_util.ErrorSummary(err), "rate_limit"):
+	ers := dbx_error.NewErrors(err)
+	if ers.Endpoint().IsRateLimit() {
 		// In case of the account has 4,000 > file requests
 		c.Log().Info("The test account has more than 4,000 file requests")
 		return nil
-	default:
-		return err
 	}
+	return err
 }

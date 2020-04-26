@@ -27,6 +27,9 @@ type Response interface {
 	// True on the response recognized as success.
 	IsSuccess() bool
 
+	// Returns error & true when the response is an error.
+	Failure() (error, bool)
+
 	// Response body on success.
 	// Returns empty body when the response is not recognized as success.
 	Success() Body
@@ -35,5 +38,5 @@ type Response interface {
 	Alt() Body
 
 	// Error on IO. Returns nil if no errors during the process.
-	Error() error
+	TransportError() error
 }
