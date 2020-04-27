@@ -12,6 +12,7 @@ import (
 	recipedevciauth "github.com/watermint/toolbox/recipe/dev/ci/auth"
 	recipedevdesktop "github.com/watermint/toolbox/recipe/dev/desktop"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
+	recipedevkvs "github.com/watermint/toolbox/recipe/dev/kvs"
 	recipedevrelease "github.com/watermint/toolbox/recipe/dev/release"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
@@ -91,6 +92,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevdesktop.Stop{},
 		&recipedevdesktop.Suspendupdate{},
 		&recipedevdiag.Procmon{},
+		&recipedevkvs.Dump{},
 		&recipedevrelease.Candidate{},
 		&recipedevrelease.Publish{},
 		&recipedevspec.Diff{},

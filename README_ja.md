@@ -74,6 +74,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [connect business_info](doc/generated_ja/connect-business_info.md)                                   | チームの情報アクセスに接続する                                     |
 | [connect business_mgmt](doc/generated_ja/connect-business_mgmt.md)                                   | チームの管理アクセスに接続する                                     |
 | [connect user_file](doc/generated_ja/connect-user_file.md)                                           | ユーザーのファイルアクセスに接続する                               |
+| [dev kvs dump](doc/generated_ja/dev-kvs-dump.md)                                                     | Dump KVS data                                                      |
 | [file compare account](doc/generated_ja/file-compare-account.md)                                     | 二つのアカウントのファイルを比較します                             |
 | [file compare local](doc/generated_ja/file-compare-local.md)                                         | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy](doc/generated_ja/file-copy.md)                                                           | ファイルをコピーします                                             |

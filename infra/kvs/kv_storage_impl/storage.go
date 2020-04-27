@@ -27,6 +27,15 @@ var (
 	MStorage = app_msg.Apply(&MsgStorage{}).(*MsgStorage)
 )
 
+func NewWithPath(ctl app_control.Control, path string) (kv_storage.Storage, error) {
+	name := filepath.Base(path)
+	bw := &badgerWrapper{ctl: ctl, name: name}
+	if err := bw.openWithPath(name, path); err != nil {
+		return nil, err
+	}
+	return bw, nil
+}
+
 func New(name string) kv_storage.Storage {
 	bw := &badgerWrapper{name: name}
 	return bw
@@ -78,18 +87,14 @@ func (z *badgerWrapper) Close() {
 	}
 }
 
-func (z *badgerWrapper) init(name string) (err error) {
+func (z *badgerWrapper) openWithPath(name, path string) (err error) {
 	l := z.ctl.Log().With(zap.String("name", name))
-	kvsBasePath, err := z.ctl.Workspace().Descendant("kvs")
-	if err != nil {
-		l.Debug("Unable to create kvs folder", zap.Error(err))
-		return err
-	}
-	z.path = filepath.Join(kvsBasePath, ut_filepath.Escape(name))
+	z.name = name
+	z.path = path
 
-	l = l.With(zap.String("path", z.path))
+	l = l.With(zap.String("path", path))
 	l.Debug("Open database")
-	opts := badger.DefaultOptions(z.path)
+	opts := badger.DefaultOptions(path)
 	opts = opts.WithLogger(&badgerLogger{l.WithOptions(zap.AddCallerSkip(1))})
 	opts = opts.WithMaxCacheSize(32 * 1_048_576) // 32MB
 	opts = opts.WithNumCompactors(1)
@@ -118,8 +123,19 @@ func (z *badgerWrapper) init(name string) (err error) {
 		}
 		return err
 	}
-	z.name = name
 	return nil
+}
+
+func (z *badgerWrapper) init(name string) (err error) {
+	l := z.ctl.Log().With(zap.String("name", name))
+	kvsBasePath, err := z.ctl.Workspace().Descendant("kvs")
+	if err != nil {
+		l.Debug("Unable to create kvs folder", zap.Error(err))
+		return err
+	}
+	path := filepath.Join(kvsBasePath, ut_filepath.Escape(name))
+
+	return z.openWithPath(name, path)
 }
 
 type badgerLogger struct {

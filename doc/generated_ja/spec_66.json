@@ -1011,6 +1011,54 @@
       }
     ]
   },
+  "dev kvs dump": {
+    "name": "dump",
+    "title": "Dump KVS data",
+    "desc": "",
+    "remarks": "",
+    "path": "dev kvs dump",
+    "cli_args": "-path /LOCAL/PATH/TO/kvs.data",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "result",
+        "desc": "KVS data",
+        "columns": [
+          {
+            "name": "key",
+            "desc": "KVS key"
+          },
+          {
+            "name": "value",
+            "desc": "KVS value in string"
+          },
+          {
+            "name": "value_json",
+            "desc": "KVS value in JSON"
+          }
+        ]
+      }
+    ],
+    "feeds": [],
+    "values": [
+      {
+        "name": "Path",
+        "desc": "Path to KVS data",
+        "default": "",
+        "type_name": "domain.common.model.mo_path.file_system_path_impl",
+        "type_attr": {
+          "shouldExist": false
+        }
+      }
+    ]
+  },
   "dev preflight": {
     "name": "preflight",
     "title": "リリースに向けて必要な事前準備を実施",
