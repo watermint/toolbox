@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type DetachRow struct {
@@ -40,7 +39,7 @@ func (z *Detach) Test(c app_control.Control) error {
 		m.File.SetFilePath(f)
 		m.RevokeTeamShares = false
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 	return qt_errors.ErrorHumanInteractionRequired

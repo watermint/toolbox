@@ -288,7 +288,7 @@ func (z *Upload) Test(c app_control.Control) error {
 		m.LocalPath = qt_recipe.NewTestFileSystemFolderPath(c, "up")
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("up")
 	})
-	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err
 	}
 

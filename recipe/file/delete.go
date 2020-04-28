@@ -33,8 +33,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		if err == nil {
 			return nil
 		}
-		switch dbx_util.ErrorSummary(err) {
-		case "too_many_files":
+		if dbx_util.ErrorSummaryPrefix(err, "too_many_files") {
 			entries, err := sv_file.NewFiles(ctx).List(path)
 			if err != nil {
 				return err
@@ -48,8 +47,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 				}
 			}
 			return del(path)
-
-		default:
+		} else {
 			return err
 		}
 	}
@@ -62,7 +60,7 @@ func (z *Delete) Test(c app_control.Control) error {
 		m := r.(*Delete)
 		m.Path = qt_recipe.NewTestDropboxFolderPath("delete")
 	})
-	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err
 	}
 	return qt_errors.ErrorScenarioTest

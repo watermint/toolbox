@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"strings"
@@ -83,7 +82,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 			ll.Debug("Testing: ")
 
 			timeStart := time.Now()
-			if err, _ := qt_recipe.RecipeError(l, r.Test(ct)); err != nil {
+			if err, _ := qt_errors.ErrorsForTest(l, r.Test(ct)); err != nil {
 				ll.Error("Error", zap.Error(err))
 				return err
 			}
@@ -107,7 +106,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 				return err
 			}
 
-			if err, _ := qt_recipe.RecipeError(l, r.Test(tc)); err != nil {
+			if err, _ := qt_errors.ErrorsForTest(l, r.Test(tc)); err != nil {
 				ll.Error("Error", zap.Error(err))
 				return err
 			} else {

@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 )
 
@@ -68,7 +67,7 @@ func (z *Reinvite) Test(c app_control.Control) error {
 		m := r.(*Reinvite)
 		m.Silent = true
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 	return qt_errors.ErrorHumanInteractionRequired

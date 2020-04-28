@@ -20,52 +20,17 @@ var (
 	errorSummaryPostfix = regexp.MustCompile(`/\.+$`)
 )
 
+// Deprecated:
 // Returns `error_summary` if an error is DropboxError. Otherwise return "".
 func ErrorSummary(err error) string {
-	switch re := err.(type) {
-	case dbx_error.DropboxError:
-		es := errorSummaryPostfix.ReplaceAllString(re.ErrorSummary, "")
-		es = strings.Trim(es, "/")
-		return es
-
-	default:
-		return ""
-	}
+	ers := dbx_error.NewErrors(err)
+	es := errorSummaryPostfix.ReplaceAllString(ers.Summary(), "")
+	es = strings.Trim(es, "/")
+	return es
 }
 
+// Deprecated:
 func ErrorSummaryPrefix(err error, prefix string) bool {
-	return strings.HasPrefix(ErrorSummary(err), prefix)
-}
-
-// Returns `user_message` if an error is DropboxError. Otherwise return Error().
-func ErrorUserMessage(err error) string {
-	switch re := err.(type) {
-	case dbx_error.DropboxError:
-		if re.UserMessage == "" {
-			return re.Error()
-		}
-		return re.UserMessage
-
-	default:
-		return re.Error()
-	}
-}
-
-func MsgFromError(err error) app_msg.Message {
-	if err == nil {
-		return MError.NoError
-	}
-	summary := ErrorSummary(err)
-	userMessage := ErrorUserMessage(err)
-	switch {
-	case summary == "" && userMessage != "":
-		return MError.ErrorGeneral.With("Error", userMessage)
-
-	case summary == "":
-		return MError.ErrorGeneral.With("Error", userMessage)
-
-	default:
-		errMsgKey := "dbx.err." + summary
-		return app_msg.CreateMessage(errMsgKey)
-	}
+	ers := dbx_error.NewErrors(err)
+	return strings.HasPrefix(ers.Summary(), prefix)
 }

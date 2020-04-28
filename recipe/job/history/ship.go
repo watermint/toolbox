@@ -77,7 +77,7 @@ func (z *Ship) Test(c app_control.Control) error {
 		m := r.(*Ship)
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("job-history-ship")
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return err
 	}
 

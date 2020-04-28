@@ -1,6 +1,9 @@
 package qt_errors
 
-import "errors"
+import (
+	"errors"
+	"go.uber.org/zap"
+)
 
 var (
 	// Marker error: Skip end to end test
@@ -27,3 +30,46 @@ var (
 	// Marker error: Mock
 	ErrorMock = errors.New("mock error")
 )
+
+// Returns nil even err != nil if the error type is ignorable.
+func ErrorsForTest(l *zap.Logger, err error) (resolvedErr error, cont bool) {
+	if err == nil {
+		return nil, true
+	}
+	switch err {
+	case ErrorSkipEndToEndTest:
+		l.Debug("Skip: skip end to end test")
+		return nil, false
+
+	case ErrorNoTestRequired:
+		l.Debug("Skip: No test required for this recipe")
+		return nil, false
+
+	case ErrorHumanInteractionRequired:
+		l.Debug("Skip: Human interaction required for this test")
+		return nil, false
+
+	case ErrorNotEnoughResource:
+		l.Debug("Skip: Not enough resource")
+		return nil, false
+
+	case ErrorScenarioTest:
+		l.Debug("Skip: Implemented as scenario test")
+		return nil, false
+
+	case ErrorImplementMe:
+		l.Debug("Test is not implemented for this recipe")
+		return nil, false
+
+	case ErrorUnsupportedUI:
+		l.Debug("Test is not compatible for testing UI")
+		return nil, false
+
+	case ErrorMock:
+		l.Debug("Mock test")
+		return nil, false
+
+	default:
+		return err, false
+	}
+}

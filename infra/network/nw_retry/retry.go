@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"time"
 )
@@ -32,6 +33,9 @@ func (z *Retry) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res
 	if res.IsSuccess() {
 		return res
 	}
+	if res.TransportError() == nil {
+		return res
+	}
 
 	switch er := res.TransportError().(type) {
 	case *ErrorRateLimit:
@@ -43,6 +47,9 @@ func (z *Retry) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res
 		return z.Call(ctx, req)
 
 	default:
+		if re, cont := qt_errors.ErrorsForTest(ctx.Log(), er); cont || re == nil {
+			return res
+		}
 		abort := nw_ratelimit.AddError(ctx.ClientHash(), req.Endpoint(), er)
 		if abort {
 			l.Debug("Abort retry due to retries exceeds retry limit")

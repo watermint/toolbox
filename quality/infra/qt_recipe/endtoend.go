@@ -113,49 +113,6 @@ func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	twc(ctl)
 }
 
-// Returns nil even err != nil if the error type is ignorable.
-func RecipeError(l *zap.Logger, err error) (resolvedErr error, cont bool) {
-	if err == nil {
-		return nil, true
-	}
-	switch err {
-	case qt_errors.ErrorSkipEndToEndTest:
-		l.Debug("Skip: skip end to end test")
-		return nil, false
-
-	case qt_errors.ErrorNoTestRequired:
-		l.Debug("Skip: No test required for this recipe")
-		return nil, false
-
-	case qt_errors.ErrorHumanInteractionRequired:
-		l.Debug("Skip: Human interaction required for this test")
-		return nil, false
-
-	case qt_errors.ErrorNotEnoughResource:
-		l.Debug("Skip: Not enough resource")
-		return nil, false
-
-	case qt_errors.ErrorScenarioTest:
-		l.Debug("Skip: Implemented as scenario test")
-		return nil, false
-
-	case qt_errors.ErrorImplementMe:
-		l.Debug("Test is not implemented for this recipe")
-		return nil, false
-
-	case qt_errors.ErrorUnsupportedUI:
-		l.Debug("Test is not compatible for testing UI")
-		return nil, false
-
-	case qt_errors.ErrorMock:
-		l.Debug("Mock test")
-		return nil, false
-
-	default:
-		return err, false
-	}
-}
-
 func TestRecipe(t *testing.T, re rc_recipe.Recipe) {
 	DoTestRecipe(t, re, false)
 }
@@ -193,7 +150,7 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 			return
 		}
 
-		if re, _ := RecipeError(l, err); re != nil {
+		if re, _ := qt_errors.ErrorsForTest(l, err); re != nil {
 			t.Error(re)
 		}
 	})

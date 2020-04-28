@@ -37,26 +37,19 @@ func newErrorRateLimitFromHeadersRetryAfter(retryAfter string) *ErrorRateLimit {
 		if ra > RetryAfterSecOrFixDate {
 			reset := time.Unix(ra, 0)
 			l.Debug("Retry after fix date", zap.String("reset", reset.Format(time.RFC3339)))
-			return &ErrorRateLimit{
-				Reset: reset,
-			}
+			return NewErrorRateLimitResetOnly(reset)
 		} else {
 			l.Debug("Retry after second", zap.Int64("resetSec", ra))
-			return &ErrorRateLimit{
-				Reset: time.Now().Add(time.Duration(ra) * time.Second),
-			}
+			return NewErrorRateLimitResetOnly(time.Now().Add(time.Duration(ra) * time.Second))
+
 		}
 	}
 	if reset, err := time.Parse(time.RFC1123, rat); err == nil {
 		l.Debug("Retry after fix date", zap.String("reset", reset.Format(time.RFC3339)))
-		return &ErrorRateLimit{
-			Reset: reset,
-		}
+		return NewErrorRateLimitResetOnly(reset)
 	}
 	l.Debug("Unable to determine value for `Retry-after`. Fallback to default retry-after-sec", zap.Int("defaultRetryAfter", DefaultRetryAfterSec))
-	return &ErrorRateLimit{
-		Reset: time.Now().Add(DefaultRetryAfterSec * time.Second),
-	}
+	return NewErrorRateLimitResetOnly(time.Now().Add(DefaultRetryAfterSec * time.Second))
 }
 
 func parseRateLimitQuota(limit string) int {
@@ -104,16 +97,18 @@ func NewErrorRateLimitFromHeaders(headers map[string]string) (erl *ErrorRateLimi
 	return nil, false
 }
 
-func NewErrorRateLimit(limit, remaining int, reset time.Time) error {
+func NewErrorRateLimit(limit, remaining int, reset time.Time) *ErrorRateLimit {
 	return &ErrorRateLimit{
 		Limit:     limit,
 		Remaining: remaining,
 		Reset:     reset,
+		ResetOnly: false,
 	}
 }
-func NewErrorRateLimitResetOnly(reset time.Time) error {
+func NewErrorRateLimitResetOnly(reset time.Time) *ErrorRateLimit {
 	return &ErrorRateLimit{
-		Reset: reset,
+		Reset:     reset,
+		ResetOnly: true,
 	}
 }
 
@@ -121,6 +116,7 @@ type ErrorRateLimit struct {
 	Limit     int
 	Remaining int
 	Reset     time.Time
+	ResetOnly bool
 }
 
 func (z ErrorRateLimit) Error() string {

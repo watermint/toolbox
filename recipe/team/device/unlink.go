@@ -13,7 +13,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type MsgUnlink struct {
@@ -109,7 +108,7 @@ dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,xxx+xxxx@xxxxxxxxx.xxx,active,xx,xxxxx
 		m.File.SetFilePath(f)
 		m.DeleteOnUnlink = true
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 	return qt_errors.ErrorHumanInteractionRequired

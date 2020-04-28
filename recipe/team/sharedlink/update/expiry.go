@@ -18,15 +18,16 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_time"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"math"
 	"time"
 )
 
 type MsgExpiry struct {
-	ProgressScanning app_msg.Message
-	ProgressUpdating app_msg.Message
+	ProgressScanning      app_msg.Message
+	ProgressUpdating      app_msg.Message
+	ErrorUnableScanMember app_msg.Message
 }
 
 var (
@@ -54,7 +55,10 @@ func (z *ExpiryScanWorker) Exec() error {
 	links, err := sv_sharedlink.New(ctxMember).List()
 	if err != nil {
 		l.Debug("Unable to scan shared link", zap.Error(err))
-		ui.Error(dbx_util.MsgFromError(err))
+		ui.Error(MExpiry.ErrorUnableScanMember.
+			With("Member", z.member.Email).
+			With("Error", err))
+
 		return err
 	}
 
@@ -249,7 +253,7 @@ func (z *Expiry) Test(c app_control.Control) error {
 			m := r.(*Expiry)
 			m.Days.SetValue(7)
 		})
-		if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 			return e
 		}
 	}
@@ -259,7 +263,7 @@ func (z *Expiry) Test(c app_control.Control) error {
 			m := r.(*Expiry)
 			m.At = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))
 		})
-		if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 			return e
 		}
 	}

@@ -46,11 +46,7 @@ func New(feature app_feature.Feature, opts ...ClientOpt) nw_client.Rest {
 	}
 
 	c0 := NewAssert(co.Assert, nw_capture.New(hc))
-	if feature.IsTest() {
-		return c0
-	} else {
-		return nw_retry.NewRetry(c0)
-	}
+	return nw_retry.NewRetry(c0)
 }
 
 func NewAssert(assert AssertResponse, client nw_client.Rest) nw_client.Rest {
@@ -67,7 +63,7 @@ type AssertClient struct {
 
 func (z AssertClient) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res response.Response) {
 	res = z.client.Call(ctx, req)
-	if z.assert != nil {
+	if !res.IsSuccess() && z.assert != nil {
 		return z.assert(res)
 	}
 	return res

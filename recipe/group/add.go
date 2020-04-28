@@ -11,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type Add struct {
@@ -43,7 +42,7 @@ func (z *Add) Test(c app_control.Control) error {
 		m.Name = "Marketing"
 		m.ManagementType.SetSelect("company_managed")
 	})
-	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err
 	}
 	err = rc_exec.ExecMock(c, &Add{}, func(r rc_recipe.Recipe) {
@@ -51,7 +50,7 @@ func (z *Add) Test(c app_control.Control) error {
 		m.Name = "Marketing"
 		m.ManagementType.SetSelect("user_managed")
 	})
-	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err
 	}
 

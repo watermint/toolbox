@@ -11,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type Add struct {
@@ -57,7 +56,7 @@ func (z *Add) Test(c app_control.Control) error {
 		m.GroupName = "Marketing"
 		m.MemberEmail = "john@example.com"
 	})
-	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil && err != sv_group.ErrorGroupNotFoundForName {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil && err != sv_group.ErrorGroupNotFoundForName {
 		return err
 	}
 	return qt_errors.ErrorScenarioTest

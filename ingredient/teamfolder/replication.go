@@ -27,7 +27,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"strings"
 	"time"
@@ -210,14 +209,14 @@ func (z *Replication) Test(c app_control.Control) error {
 		m := r.(*Replication)
 		m.TargetAll = true
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 	err = rc_exec.ExecMock(c, &Replication{}, func(r rc_recipe.Recipe) {
 		m := r.(*Replication)
 		m.TargetNames = []string{"Marketing", "Sales"}
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 
@@ -544,7 +543,7 @@ func (z *Replication) Mount(c app_control.Control, ctx Context, scope Scope) (er
 		if pair.Dst == nil {
 			folder, err := svt.Create(pair.Src.Name, sv_teamfolder.SyncNoSync())
 			if err != nil {
-				if strings.HasPrefix(dbx_util.ErrorSummary(err), "folder_name_already_used") {
+				if dbx_util.ErrorSummaryPrefix(err, "folder_name_already_used") {
 					l.Debug("Skip: Already created")
 					return nil
 				}

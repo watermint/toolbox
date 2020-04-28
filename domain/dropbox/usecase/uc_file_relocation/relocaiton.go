@@ -3,7 +3,7 @@ package uc_file_relocation
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_relocation"
@@ -62,13 +62,12 @@ func (z *relocationImpl) relocation(from, to mo_path.DropboxPath,
 	} else {
 		toEntry, err := svc.Resolve(to)
 		if err != nil {
-			es := dbx_util.ErrorSummary(err)
-			switch es {
-			case "path/not_found":
+			es := dbx_error.NewErrors(err)
+			if es.Path().IsNotFound() {
 				l.Debug("To not found. Do relocate", zap.Error(err))
 				return reloc(from, to)
 			}
-			l.Debug("Invalid path to relocate, or restricted", zap.Error(err), zap.String("summary", es))
+			l.Debug("Invalid path to relocate, or restricted", zap.Error(err), zap.String("summary", es.Summary()))
 			return err
 		}
 		fromToTag = fromEntry.Tag() + "-" + toEntry.Tag()

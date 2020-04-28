@@ -18,7 +18,6 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"math"
 )
@@ -128,7 +127,7 @@ func (z *Update) Test(c app_control.Control) error {
 		m.Quota.SetValue(150)
 		m.File.SetFilePath(f)
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 	return qt_errors.ErrorHumanInteractionRequired

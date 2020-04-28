@@ -31,7 +31,7 @@ func (z *Move) Test(c app_control.Control) error {
 		m.Src = qt_recipe.NewTestDropboxFolderPath("src")
 		m.Dst = qt_recipe.NewTestDropboxFolderPath("dst")
 	})
-	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err
 	}
 	return qt_errors.ErrorScenarioTest

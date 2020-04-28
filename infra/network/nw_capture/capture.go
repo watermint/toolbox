@@ -76,7 +76,7 @@ type Req struct {
 
 func (z *Req) Apply(rb nw_client.RequestBuilder, req *http.Request) {
 	z.RequestMethod = req.Method
-	z.RequestUrl = req.RequestURI
+	z.RequestUrl = req.URL.String()
 	z.RequestParam = rb.Param()
 	z.RequestHeaders = make(map[string]string)
 	z.ContentLength = req.ContentLength

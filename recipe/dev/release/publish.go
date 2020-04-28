@@ -28,7 +28,6 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
 	"github.com/watermint/toolbox/recipe/dev/test"
 	"go.uber.org/zap"
@@ -401,7 +400,7 @@ func (z *Publish) Test(c app_control.Control) error {
 		m := r.(*Publish)
 		m.ArtifactPath = mo_path2.NewFileSystemPath(d)
 	})
-	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != ErrorBuildIsNotReadyForRelease && err != nil {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != ErrorBuildIsNotReadyForRelease && err != nil {
 		return err
 	}
 	return nil

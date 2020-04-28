@@ -11,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type ReplicationRow struct {
@@ -65,7 +64,7 @@ func (z *Replication) Test(c app_control.Control) error {
 		m := r.(*Replication)
 		m.File.SetFilePath(f)
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 	return qt_errors.ErrorHumanInteractionRequired

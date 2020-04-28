@@ -1,7 +1,7 @@
 package rp_model_impl
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_writer"
@@ -93,13 +93,11 @@ func (z *TransactionReport) Failure(err error, input interface{}) {
 	defer z.mutex.Unlock()
 
 	ui := z.ctl.UI()
-	reason := dbx_util.MsgFromError(err)
-	if ui.TextOrEmpty(reason) == "" {
-		summary := dbx_util.ErrorSummary(err)
-		if summary == "" {
-			summary = err.Error()
-		}
-		reason = MTransactionReport.ErrorGeneral.With("Error", summary)
+	de := dbx_error.NewErrors(err)
+	reason := MTransactionReport.ErrorGeneral.With("Error", err)
+	if de.Summary() != "" {
+		// TODO: make this more human friendly
+		reason = MTransactionReport.ErrorGeneral.With("Error", de.Summary())
 	}
 	z.w.Row(&rp_model.TransactionRow{
 		Status:    ui.Text(MTransactionReport.Failure),

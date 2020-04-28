@@ -57,7 +57,6 @@ func (z *listImpl) handleResponse(lo dbx_list.ListOpts, res dbx_response.Respons
 
 	l.Debug("determine continue")
 	if cont, cursor := z.isContinue(lo, res); cont {
-
 		l.Debug("continue")
 		return z.listContinue(lo, cursor)
 	} else {
@@ -68,6 +67,9 @@ func (z *listImpl) handleResponse(lo dbx_list.ListOpts, res dbx_response.Respons
 
 func (z listImpl) handleEntry(lo dbx_list.ListOpts, res dbx_response.Response) error {
 	l := z.log(lo)
+	if lo.ResultTag == "" || !lo.HasOnEntry() {
+		return nil
+	}
 	if err, fail := res.Failure(); fail {
 		return err
 	}

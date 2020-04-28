@@ -19,6 +19,16 @@ type ListOpts struct {
 	onLastCursor     func(cursor string)
 }
 
+func (z ListOpts) HasOnEntry() bool {
+	return z.onEntry != nil
+}
+func (z ListOpts) HasOnResponse() bool {
+	return z.onResponse != nil
+}
+func (z ListOpts) HasLastCursor() bool {
+	return z.onLastCursor != nil
+}
+
 func (z ListOpts) OnResponse(res response.Response) error {
 	if z.onResponse != nil {
 		return z.onResponse(res)

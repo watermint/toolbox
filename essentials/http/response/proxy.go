@@ -1,7 +1,12 @@
 package response
 
+import "github.com/watermint/toolbox/infra/control/app_root"
+
 // Create new instance of the proxy instance.
 func NewProxy(res Response) Proxy {
+	if res == nil {
+		app_root.Log().Error("null response")
+	}
 	return Proxy{
 		res: res,
 	}

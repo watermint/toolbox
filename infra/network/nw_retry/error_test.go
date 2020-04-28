@@ -7,24 +7,16 @@ import (
 
 func TestNewErrorRateLimit(t *testing.T) {
 	reset := time.Now().Add(1 * 1000 * time.Millisecond)
-	er := NewErrorRateLimit(2, 1, reset)
-	if e, ok := er.(*ErrorRateLimit); ok {
-		if e.Limit != 2 || e.Remaining != 1 || e.Reset != reset {
-			t.Error("invalid")
-		}
-	} else {
+	e := NewErrorRateLimit(2, 1, reset)
+	if e.Limit != 2 || e.Remaining != 1 || e.Reset != reset {
 		t.Error("invalid")
 	}
 }
 
 func TestNewErrorTransport(t *testing.T) {
 	reset := time.Now().Add(1 * 1000 * time.Millisecond)
-	er := NewErrorRateLimitResetOnly(reset)
-	if e, ok := er.(*ErrorRateLimit); ok {
-		if e.Limit != 0 || e.Remaining != 0 || e.Reset != reset {
-			t.Error("invalid")
-		}
-	} else {
+	e := NewErrorRateLimitResetOnly(reset)
+	if e.Limit != 0 || e.Remaining != 0 || e.Reset != reset {
 		t.Error("invalid")
 	}
 }
