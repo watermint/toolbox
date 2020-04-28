@@ -1,7 +1,7 @@
 package qt_endtoend
 
 import (
-	"github.com/watermint/toolbox/essentials/behavior/environment"
+	"github.com/watermint/toolbox/essentials/runtime/es_env"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"go.uber.org/zap"
@@ -9,7 +9,7 @@ import (
 )
 
 func IsSkipEndToEndTest() bool {
-	if environment.IsEnabled(app.EnvNameEndToEndSkipTest) {
+	if es_env.IsEnabled(app.EnvNameEndToEndSkipTest) {
 		return true
 	}
 

@@ -1,12 +1,12 @@
 package rc_value
 
 import (
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"reflect"
 )
 
@@ -23,7 +23,7 @@ type ValueKvStorageStorage struct {
 }
 
 func (z *ValueKvStorageStorage) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, z.storage), nil
+	return es_reflect.Key(app.Pkg, z.storage), nil
 }
 
 func (z *ValueKvStorageStorage) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

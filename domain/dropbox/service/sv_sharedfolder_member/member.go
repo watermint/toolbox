@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
-	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -223,7 +223,7 @@ func (z *memberImpl) List() (member []mo_sharedfolder_member.Member, err error) 
 
 	res := z.ctx.List("sharing/list_folder_members", api_request.Param(p)).Call(
 		dbx_list.Continue("sharing/list_folder_members/continue"),
-		dbx_list.OnResponse(func(res response.Response) error {
+		dbx_list.OnResponse(func(res es_response.Response) error {
 			j, err := res.Success().AsJson()
 			if err != nil {
 				return err

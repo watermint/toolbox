@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/GeertJohan/go.rice"
+	"github.com/watermint/toolbox/essentials/runtime/es_terminal"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_run"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
-	"github.com/watermint/toolbox/infra/util/ut_ui"
 	"os"
 	"strings"
 )
@@ -25,7 +25,7 @@ func run(args []string, forTest bool) {
 	switch {
 	case len(args) <= 1:
 		if path, _, found := app_workflow.DefaultRunBook(forTest); found {
-			ut_ui.HideConsole()
+			es_terminal.HideConsole()
 			runRunBook(b, path, []string{})
 		} else {
 			b.Run(b.Parse(args[1:]...))

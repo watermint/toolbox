@@ -10,13 +10,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
-	"github.com/watermint/toolbox/essentials/http/download"
+	"github.com/watermint/toolbox/essentials/file/es_archive"
+	"github.com/watermint/toolbox/essentials/http/es_download"
+	"github.com/watermint/toolbox/essentials/log/es_process"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_archive"
-	"github.com/watermint/toolbox/infra/util/ut_process"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
@@ -63,7 +63,7 @@ func (z *Procmon) downloadProcmon(c app_control.Control) error {
 	procmonZip := filepath.Join(z.RepositoryPath.Path(), "procmon.zip")
 
 	// Download
-	if err := download.Download(l, z.ProcmonUrl, procmonZip); err != nil {
+	if err := es_download.Download(l, z.ProcmonUrl, procmonZip); err != nil {
 		return err
 	}
 
@@ -182,7 +182,7 @@ func (z *Procmon) runProcmon(c app_control.Control, exePath string) (cmd *exec.C
 	)
 	l.Info("Run Process monitor", zap.String("exe", exePath), zap.Strings("args", cmd.Args))
 
-	pl := ut_process.NewLogger(cmd, c)
+	pl := es_process.NewLogger(cmd, c)
 	pl.Start()
 	defer pl.Close()
 
@@ -274,7 +274,7 @@ func (z *Procmon) terminateProcmon(c app_control.Control, exePath string, cmd *e
 	termCmd := exec.Command(exePath,
 		"/Terminate",
 	)
-	pl := ut_process.NewLogger(cmd, c)
+	pl := es_process.NewLogger(cmd, c)
 	pl.Start()
 	defer pl.Close()
 
@@ -334,7 +334,7 @@ func (z *Procmon) compressProcmonLogs(c app_control.Control) (arcPath string, er
 	arcPath = filepath.Join(z.RepositoryPath.Path(), arcName+".zip")
 
 	l.Info("Start compress logs", zap.String("archive", arcPath))
-	if err := ut_archive.Create(arcPath, logPath, arcName); err != nil {
+	if err := es_archive.Create(arcPath, logPath, arcName); err != nil {
 		l.Debug("Unable to create archive file", zap.Error(err))
 		return "", err
 	}

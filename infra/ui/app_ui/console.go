@@ -3,14 +3,14 @@ package app_ui
 import (
 	"bufio"
 	"fmt"
+	"github.com/watermint/toolbox/essentials/io/ut_io"
+	"github.com/watermint/toolbox/essentials/runtime/es_open"
+	"github.com/watermint/toolbox/essentials/runtime/es_terminal"
+	"github.com/watermint/toolbox/essentials/strings/es_width"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/infra/util/ut_io"
-	"github.com/watermint/toolbox/infra/util/ut_open"
-	"github.com/watermint/toolbox/infra/util/ut_string"
-	"github.com/watermint/toolbox/infra/util/ut_terminal"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
@@ -152,7 +152,7 @@ func (z *console) Progress(m app_msg.Message) {
 func (z *console) SubHeader(m app_msg.Message) {
 	z.verifyKey(m.Key())
 	t := z.mc.Compile(m)
-	tl := ut_string.Width(t)
+	tl := es_width.Width(t)
 	z.Break()
 	z.boldPrint(t)
 	z.boldPrint(strings.Repeat("-", tl))
@@ -266,7 +266,7 @@ func (z *console) AskSecure(m app_msg.Message) (secure string, cancel bool) {
 func (z *console) Header(m app_msg.Message) {
 	z.verifyKey(m.Key())
 	t := z.mc.Compile(m)
-	tl := ut_string.Width(t)
+	tl := es_width.Width(t)
 	z.Break()
 	z.boldPrint(t)
 	z.boldPrint(strings.Repeat("=", tl))
@@ -337,7 +337,7 @@ func (z *console) OpenArtifact(path string, autoOpen bool) {
 			}
 			z.Info(MConsole.OpenArtifact.With("Path", path))
 
-			if err := ut_open.New().Open(path, true); err != nil {
+			if err := es_open.New().Open(path, true); err != nil {
 				z.Error(MConsole.OpenArtifactError.With("Error", err))
 			}
 		})
@@ -361,7 +361,7 @@ func (z *console) colorPrint(t string, color int) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	if app.IsWindows() || !z.useColor || !ut_terminal.IsTerminal() {
+	if app.IsWindows() || !z.useColor || !es_terminal.IsTerminal() {
 		fmt.Fprintf(z.out, "%s\n", t)
 	} else {
 		fmt.Fprintf(z.out, "\x1b[%dm%s\x1b[0m\n", color, t)

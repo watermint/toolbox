@@ -2,12 +2,12 @@ package app_job_impl
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/file/es_archive"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_archive"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
@@ -138,7 +138,7 @@ func (z *History) Archive() (path string, err error) {
 		metaMarshal = []byte("{}")
 	}
 
-	if err := ut_archive.Create(arcPath, logPath, string(metaMarshal)); err != nil {
+	if err := es_archive.Create(arcPath, logPath, string(metaMarshal)); err != nil {
 		l.Debug("Unable to create archive", zap.Error(err), zap.String("arcPath", arcPath))
 		return "", err
 	}

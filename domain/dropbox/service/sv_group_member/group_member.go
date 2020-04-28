@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -77,7 +77,7 @@ func (z *groupMemberImpl) List() (members []*mo_group_member.Member, err error) 
 		dbx_list.Continue("team/groups/members/list/continue"),
 		dbx_list.ResultTag("members"),
 		dbx_list.UseHasMore(),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			gm := &mo_group_member.Member{}
 			if err := entry.Model(gm); err != nil {
 				return err

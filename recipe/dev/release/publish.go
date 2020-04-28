@@ -14,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/service/sv_reference"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
+	"github.com/watermint/toolbox/essentials/file/es_filehash"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
@@ -24,7 +25,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_filehash"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
@@ -104,7 +104,7 @@ func (z *Publish) verifyArtifacts(c app_control.Control) (a []*ArtifactSum, err 
 
 	assets, assetSize, err := z.artifactAssets(c)
 
-	h := ut_filehash.NewHash(l)
+	h := es_filehash.NewHash(l)
 	for _, p := range assets {
 		sum := &ArtifactSum{
 			Filename: filepath.Base(p),

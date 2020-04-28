@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_issue"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 )
 
 var (
@@ -36,7 +36,7 @@ func (z *repoIssueImpl) List() (issues []*mo_issue.Issue, err error) {
 		return nil, err
 	}
 	issues = make([]*mo_issue.Issue, 0)
-	err = res.Success().Json().ArrayEach(func(e tjson.Json) error {
+	err = res.Success().Json().ArrayEach(func(e es_json.Json) error {
 		issue := &mo_issue.Issue{}
 		if err := e.Model(issue); err != nil {
 			return err

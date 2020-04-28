@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/io/ut_io"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"mime"
 	"os"
@@ -46,7 +46,7 @@ func (z *assetImpl) List() (assets []*mo_release_asset.Asset, err error) {
 		return nil, err
 	}
 	assets = make([]*mo_release_asset.Asset, 0)
-	err = res.Success().Json().ArrayEach(func(e tjson.Json) error {
+	err = res.Success().Json().ArrayEach(func(e es_json.Json) error {
 		asset := &mo_release_asset.Asset{}
 		if err := e.Model(asset); err != nil {
 			return err

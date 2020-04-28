@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_request"
 	"github.com/watermint/toolbox/domain/github/api/gh_response"
-	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -58,7 +58,7 @@ func (z ctxImpl) Capture() *zap.Logger {
 	return z.ctl.Capture()
 }
 
-func (z ctxImpl) Post(endpoint string, d ...api_request.RequestDatum) (res response.Response) {
+func (z ctxImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodPost,
 		ServerRpc+endpoint,
@@ -66,7 +66,7 @@ func (z ctxImpl) Post(endpoint string, d ...api_request.RequestDatum) (res respo
 	return z.client.Call(&z, b)
 }
 
-func (z ctxImpl) Get(endpoint string, d ...api_request.RequestDatum) (res response.Response) {
+func (z ctxImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodGet,
 		ServerRpc+endpoint,
@@ -74,7 +74,7 @@ func (z ctxImpl) Get(endpoint string, d ...api_request.RequestDatum) (res respon
 	return z.client.Call(&z, b)
 }
 
-func (z ctxImpl) Upload(endpoint string, d ...api_request.RequestDatum) (res response.Response) {
+func (z ctxImpl) Upload(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodPost,
 		ServerUpload+endpoint, // Upload endpoint

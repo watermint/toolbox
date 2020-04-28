@@ -7,6 +7,9 @@ import (
 	"github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/catalogue"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
+	"github.com/watermint/toolbox/essentials/io/ut_io"
+	"github.com/watermint/toolbox/essentials/log/es_stats"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
@@ -26,9 +29,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
-	"github.com/watermint/toolbox/infra/util/ut_io"
-	"github.com/watermint/toolbox/infra/util/ut_memory"
 	"github.com/watermint/toolbox/ingredient/bootstrap"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"go.uber.org/zap"
@@ -131,7 +131,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	// Up
 	so := make([]app_control.UpOpt, 0)
 	if com.Workspace.IsExists() {
-		wsPath, err := ut_filepath.FormatPathWithPredefinedVariables(com.Workspace.Value())
+		wsPath, err := es_filepath.FormatPathWithPredefinedVariables(com.Workspace.Value())
 		if err != nil {
 			ui.Error(MRun.ErrorUnableToFormatPath.With("Error", err))
 			os.Exit(app_control.FailureInvalidCommandFlags)
@@ -268,7 +268,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	// Launch monitor
 	nw_monitor.LaunchReporting(ctl.Log())
-	ut_memory.LaunchReporting(ctl.Log())
+	es_stats.LaunchReporting(ctl.Log())
 
 	// Set bandwidth
 	nw_bandwidth.SetBandwidth(com.BandwidthKb)
@@ -300,7 +300,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	}
 
 	// Dump stats
-	ut_memory.DumpStats(ctl.Log())
+	es_stats.DumpMemStats(ctl.Log())
 	nw_monitor.DumpStats(ctl.Log())
 
 	app_root.FlushSuccessShutdownHook()

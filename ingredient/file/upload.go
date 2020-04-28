@@ -11,13 +11,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_folder"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
@@ -123,7 +123,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 	createFolder := func(path string) error {
 		ll := l.With(zap.String("path", path))
 		ll.Debug("Prepare create folder")
-		rel, err := ut_filepath.Rel(localPath, path)
+		rel, err := es_filepath.Rel(localPath, path)
 		if err != nil {
 			l.Debug("unable to calculate rel path", zap.Error(err))
 			z.Uploaded.Failure(err, &UploadRow{File: path})
@@ -166,7 +166,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 			z.Uploaded.Failure(err, &UploadRow{File: path})
 			return err
 		}
-		localPathRel, err := ut_filepath.Rel(localPath, path)
+		localPathRel, err := es_filepath.Rel(localPath, path)
 		if err != nil {
 			ll.Debug("Unable to calc rel path", zap.Error(err))
 			z.Uploaded.Failure(err, &UploadRow{File: path})

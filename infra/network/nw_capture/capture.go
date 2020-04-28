@@ -2,8 +2,8 @@ package nw_capture
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/essentials/http/response"
-	"github.com/watermint/toolbox/essentials/http/response_impl"
+	"github.com/watermint/toolbox/essentials/http/es_response"
+	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/network/nw_client"
@@ -20,12 +20,12 @@ type Client struct {
 	httpClient nw_client.Http
 }
 
-func (z *Client) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res response.Response) {
+func (z *Client) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
 	l := ctx.Log()
 	hReq, err := req.Build()
 	if err != nil {
 		l.Debug("Unable to make http request", zap.Error(err))
-		return response_impl.NewNoResponse(err)
+		return es_response_impl.NewNoResponse(err)
 	}
 
 	// Call
@@ -33,9 +33,9 @@ func (z *Client) Call(ctx api_context.Context, req nw_client.RequestBuilder) (re
 
 	// Make response
 	if err != nil {
-		res = response_impl.NewTransportErrorHttpResponse(err, hRes)
+		res = es_response_impl.NewTransportErrorHttpResponse(err, hRes)
 	} else {
-		res = response_impl.New(ctx, hRes)
+		res = es_response_impl.New(ctx, hRes)
 	}
 
 	// Capture
@@ -46,7 +46,7 @@ func (z *Client) Call(ctx api_context.Context, req nw_client.RequestBuilder) (re
 }
 
 type Capture interface {
-	WithResponse(rb nw_client.RequestBuilder, req *http.Request, res response.Response, resErr error, latency int64)
+	WithResponse(rb nw_client.RequestBuilder, req *http.Request, res es_response.Response, resErr error, latency int64)
 }
 
 func NewCapture(cap *zap.Logger) Capture {
@@ -101,7 +101,7 @@ type Res struct {
 	ContentLength   int64             `json:"content_length"`
 }
 
-func (z *Res) Apply(res response.Response, resErr error) {
+func (z *Res) Apply(res es_response.Response, resErr error) {
 	z.ResponseCode = res.Code()
 	z.ContentLength = res.Success().ContentLength()
 	if res.Success().IsFile() {
@@ -115,7 +115,7 @@ func (z *Res) Apply(res response.Response, resErr error) {
 	z.ResponseHeaders = res.Headers()
 }
 
-func (z *captureImpl) WithResponse(rb nw_client.RequestBuilder, req *http.Request, res response.Response, resErr error, latency int64) {
+func (z *captureImpl) WithResponse(rb nw_client.RequestBuilder, req *http.Request, res es_response.Response, resErr error, latency int64) {
 	// request
 	rq := Req{}
 	rq.Apply(rb, req)

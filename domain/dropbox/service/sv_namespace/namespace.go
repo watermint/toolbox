@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -41,7 +41,7 @@ func (z *namespaceImpl) List() (namespaces []*mo_namespace.Namespace, err error)
 	req := z.ctx.List("team/namespaces/list", api_request.Param(p)).Call(
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("namespaces"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			n := &mo_namespace.Namespace{}
 			if err := entry.Model(n); err != nil {
 				return err

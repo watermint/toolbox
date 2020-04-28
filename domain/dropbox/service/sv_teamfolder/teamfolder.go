@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -54,7 +54,7 @@ func (z *teamFolderImpl) List() (teamfolders []*mo_teamfolder.TeamFolder, err er
 		dbx_list.Continue("team/team_folder/list/continue"),
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("team_folders"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			tf := &mo_teamfolder.TeamFolder{}
 			if err := entry.Model(tf); err != nil {
 				return err
@@ -80,7 +80,7 @@ func (z *teamFolderImpl) Resolve(teamFolderId string) (teamfolder *mo_teamfolder
 		return nil, err
 	}
 	teamfolder = &mo_teamfolder.TeamFolder{}
-	err = res.Success().Json().FindModel(tjson.PathArrayFirst, teamfolder)
+	err = res.Success().Json().FindModel(es_json.PathArrayFirst, teamfolder)
 	return
 }
 

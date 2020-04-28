@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -75,7 +75,7 @@ func (z *releaseImpl) List() (releases []*mo_release.Release, err error) {
 	}
 
 	releases = make([]*mo_release.Release, 0)
-	err = res.Success().Json().ArrayEach(func(e tjson.Json) error {
+	err = res.Success().Json().ArrayEach(func(e es_json.Json) error {
 		release := &mo_release.Release{}
 		if err := e.Model(release); err != nil {
 			return err

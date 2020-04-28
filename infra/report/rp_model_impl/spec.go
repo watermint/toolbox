@@ -1,6 +1,7 @@
 package rp_model_impl
 
 import (
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recipe/rc_doc"
@@ -8,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"go.uber.org/zap"
 )
 
@@ -42,7 +42,7 @@ func newSpec(name string, model interface{}, opts []rp_model.ReportOpt) rp_model
 			}
 		}
 
-		keyBase := ut_reflect.Key(app.Pkg, m)
+		keyBase := es_reflect.Key(app.Pkg, m)
 		for _, col := range visibleHeaders {
 			colDesc[base+col] = app_msg.CreateMessage(keyBase + "." + col + ".desc")
 		}
@@ -109,7 +109,7 @@ func (z *ColumnSpec) Model() interface{} {
 }
 
 func (z *ColumnSpec) Desc() app_msg.Message {
-	key := ut_reflect.Key(app.Pkg, z.model) + ".desc"
+	key := es_reflect.Key(app.Pkg, z.model) + ".desc"
 	return app_msg.CreateMessage(key)
 }
 

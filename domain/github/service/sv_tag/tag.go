@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_tag"
 	"github.com/watermint/toolbox/domain/github/service/sv_reference"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -40,7 +40,7 @@ func (z *tagImpl) List() (tags []*mo_tag.Tag, err error) {
 	}
 
 	tags = make([]*mo_tag.Tag, 0)
-	err = res.Success().Json().ArrayEach(func(e tjson.Json) error {
+	err = res.Success().Json().ArrayEach(func(e es_json.Json) error {
 		tag := &mo_tag.Tag{}
 		if err := e.Model(tag); err != nil {
 			return err

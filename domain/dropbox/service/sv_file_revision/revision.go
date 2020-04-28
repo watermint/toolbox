@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_revision"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"go.uber.org/zap"
 )
@@ -68,7 +68,7 @@ func (z *revisionImpl) doList(path mo_path.DropboxPath, mode string) (revs *mo_f
 		revs.ServerDeleted = x
 	}
 	revs.Entries = make([]*mo_file.ConcreteEntry, 0)
-	err = j.FindArrayEach("entries", func(e tjson.Json) error {
+	err = j.FindArrayEach("entries", func(e es_json.Json) error {
 		ce := &mo_file.ConcreteEntry{}
 		if err := e.Model(ce); err != nil {
 			l.Debug("Unable to parse entry", zap.Error(err))

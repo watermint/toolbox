@@ -4,8 +4,8 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/essentials/format/tjson"
-	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"go.uber.org/zap"
 	"strings"
@@ -42,7 +42,7 @@ func (z asyncImpl) pollDuration(ao dbx_async.AsyncOpts) time.Duration {
 	}
 }
 
-func (z asyncImpl) handleNoDotTag(ao dbx_async.AsyncOpts, res response.Response, resJson tjson.Json) (asyncRes dbx_async.Response) {
+func (z asyncImpl) handleNoDotTag(ao dbx_async.AsyncOpts, res es_response.Response, resJson es_json.Json) (asyncRes dbx_async.Response) {
 	l := z.ctx.Log()
 
 	if asyncJobIdTag, found := resJson.Find("async_job_id"); found {
@@ -64,7 +64,7 @@ func (z asyncImpl) handleNoDotTag(ao dbx_async.AsyncOpts, res response.Response,
 	return dbx_async.NewIncomplete(res)
 }
 
-func (z asyncImpl) handleTag(ao dbx_async.AsyncOpts, res response.Response, resJson tjson.Json, tag, asyncJobId string) (asyncRes dbx_async.Response) {
+func (z asyncImpl) handleTag(ao dbx_async.AsyncOpts, res es_response.Response, resJson es_json.Json, tag, asyncJobId string) (asyncRes dbx_async.Response) {
 	l := z.ctx.Log().With(zap.String("tag", tag), zap.String("asyncJobId", asyncJobId))
 
 	switch tag {
@@ -99,7 +99,7 @@ func (z asyncImpl) handleTag(ao dbx_async.AsyncOpts, res response.Response, resJ
 	}
 }
 
-func (z asyncImpl) handlePoll(ao dbx_async.AsyncOpts, res response.Response, asyncJobId string) (asyncRes dbx_async.Response) {
+func (z asyncImpl) handlePoll(ao dbx_async.AsyncOpts, res es_response.Response, asyncJobId string) (asyncRes dbx_async.Response) {
 	resJson, err := res.Success().AsJson()
 	if err != nil {
 		return dbx_async.NewIncomplete(res)
@@ -115,7 +115,7 @@ func (z asyncImpl) handlePoll(ao dbx_async.AsyncOpts, res response.Response, asy
 	return dbx_async.NewIncomplete(res)
 }
 
-func (z asyncImpl) findAsyncJobId(resJson tjson.Json, asyncJobId string) (newAsyncJobId string, err error) {
+func (z asyncImpl) findAsyncJobId(resJson es_json.Json, asyncJobId string) (newAsyncJobId string, err error) {
 	l := z.ctx.Log().With(zap.String("asyncJobId", asyncJobId))
 	if asyncJobId != "" {
 		return asyncJobId, nil
@@ -134,7 +134,7 @@ func (z asyncImpl) findAsyncJobId(resJson tjson.Json, asyncJobId string) (newAsy
 	}
 }
 
-func (z asyncImpl) handleAsyncJobId(ao dbx_async.AsyncOpts, res response.Response, resJson tjson.Json, asyncJobId string) (asyncRes dbx_async.Response) {
+func (z asyncImpl) handleAsyncJobId(ao dbx_async.AsyncOpts, res es_response.Response, resJson es_json.Json, asyncJobId string) (asyncRes dbx_async.Response) {
 	l := z.ctx.Log()
 
 	if aji, err := z.findAsyncJobId(resJson, asyncJobId); err != nil {

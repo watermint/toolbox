@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_linkedapp"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 )
 
 type LinkedApp interface {
@@ -28,7 +28,7 @@ func (z *linkedAppImpl) List() (apps []*mo_linkedapp.LinkedApp, err error) {
 		dbx_list.Continue("team/linked_apps/list_members_linked_apps"),
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("apps"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			memberId, found := entry.FindString("team_member_id")
 			if !found {
 				return nil

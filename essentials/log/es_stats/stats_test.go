@@ -1,0 +1,11 @@
+package es_stats
+
+import (
+	"github.com/watermint/toolbox/infra/control/app_log"
+	"testing"
+)
+
+func TestDumpStats(t *testing.T) {
+	l := app_log.NewConsoleLogger(true, true)
+	DumpMemStats(l)
+}

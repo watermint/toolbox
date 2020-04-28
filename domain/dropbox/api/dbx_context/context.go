@@ -4,8 +4,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
-	"github.com/watermint/toolbox/essentials/format/tjson"
-	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
@@ -85,9 +85,9 @@ func (z *namespacePathRoot) Header() string {
 	return "{\".tag\":\"namespace_id\",\"namespace_id\":\"" + z.NamespaceId + "\"}"
 }
 
-func ContentResponseData(res response.Response) tjson.Json {
-	if j, err := tjson.ParseString(res.Header(DropboxApiResHeaderResult)); err != nil {
-		return tjson.Null()
+func ContentResponseData(res es_response.Response) es_json.Json {
+	if j, err := es_json.ParseString(res.Header(DropboxApiResHeaderResult)); err != nil {
+		return es_json.Null()
 	} else {
 		return j
 	}

@@ -3,8 +3,8 @@ package dbx_response_impl
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/essentials/http/response"
-	"github.com/watermint/toolbox/essentials/http/response_impl"
+	"github.com/watermint/toolbox/essentials/http/es_response"
+	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/network/nw_retry"
 	"go.uber.org/zap"
@@ -15,7 +15,7 @@ var (
 	ErrorBadContentResponse = errors.New("bad response from server: res_code 400 with html body")
 )
 
-func AssertResponse(res response.Response) response.Response {
+func AssertResponse(res es_response.Response) es_response.Response {
 	l := app_root.Log()
 
 	switch res.Code() {
@@ -24,11 +24,11 @@ func AssertResponse(res response.Response) response.Response {
 		// Response body should be plain text
 		if strings.HasPrefix(res.Alt().BodyString(), "<!DOCTYPE html>") {
 			l.Debug("Bad response from server, assume that can retry", zap.String("response", res.Alt().BodyString()))
-			return response_impl.NewTransportErrorResponse(ErrorBadContentResponse, res)
+			return es_response_impl.NewTransportErrorResponse(ErrorBadContentResponse, res)
 		}
 
 	case dbx_context.DropboxApiErrorRateLimit:
-		return response_impl.NewTransportErrorResponse(nw_retry.NewErrorRateLimitFromHeadersFallback(res.Headers()), res)
+		return es_response_impl.NewTransportErrorResponse(nw_retry.NewErrorRateLimitFromHeadersFallback(res.Headers()), res)
 	}
 
 	return res

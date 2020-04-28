@@ -7,8 +7,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
-	"github.com/watermint/toolbox/essentials/format/tjson"
-	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"go.uber.org/zap"
 	"strings"
@@ -233,7 +233,7 @@ func (z *memberImpl) Add(email string, opts ...AddOpt) (member *mo_member.Member
 		return nil, err
 	}
 	member = &mo_member.Member{}
-	err = res.Success().Json().FindModel(tjson.PathArrayFirst, member)
+	err = res.Success().Json().FindModel(es_json.PathArrayFirst, member)
 	return
 }
 
@@ -323,7 +323,7 @@ func (z *memberImpl) Resolve(teamMemberId string) (member *mo_member.Member, err
 	return z.parseOneMember(res)
 }
 
-func (z *memberImpl) parseOneMember(res response.Response) (member *mo_member.Member, err error) {
+func (z *memberImpl) parseOneMember(res es_response.Response) (member *mo_member.Member, err error) {
 	ba, found := res.Success().Json().Array()
 	if !found || len(ba) < 1 {
 		return nil, ErrorNotFound
@@ -382,7 +382,7 @@ func (z *memberImpl) List() (members []*mo_member.Member, err error) {
 		dbx_list.Continue("team/members/list/continue"),
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("members"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			m := &mo_member.Member{}
 			if err := entry.Model(m); err != nil {
 				return err

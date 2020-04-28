@@ -2,15 +2,15 @@ package dbx_response
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
-	"github.com/watermint/toolbox/essentials/format/tjson"
-	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 )
 
 type Response interface {
-	response.Response
+	es_response.Response
 
 	// Result of the API call.
-	Result() tjson.Json
+	Result() es_json.Json
 
 	// Dropbox API error. Returns empty instance if the response is success, or
 	// the error type is not a dropbox api error.

@@ -2,10 +2,10 @@ package rc_value
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"reflect"
 	"strconv"
 )
@@ -26,7 +26,7 @@ func (z *ValueMoStringOptional) ValueText() string {
 }
 
 func (z *ValueMoStringOptional) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, z.optStr), nil
+	return es_reflect.Key(app.Pkg, z.optStr), nil
 }
 
 func (z *ValueMoStringOptional) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

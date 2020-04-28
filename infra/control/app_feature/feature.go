@@ -2,10 +2,10 @@ package app_feature
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_config"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"os/user"
 	"time"
 )
@@ -78,7 +78,7 @@ func (z OptInStatus) OptInCommit(enable bool) OptIn {
 }
 
 func (z OptInStatus) OptInName(v OptIn) string {
-	return ut_reflect.Key(app.Pkg, v)
+	return es_reflect.Key(app.Pkg, v)
 }
 
 func (z OptInStatus) OptInTimestamp() string {

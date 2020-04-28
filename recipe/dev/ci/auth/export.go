@@ -3,12 +3,12 @@ package auth
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/essentials/io/ut_io"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 )

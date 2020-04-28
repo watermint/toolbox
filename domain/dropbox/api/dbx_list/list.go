@@ -2,8 +2,8 @@ package dbx_list
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
-	"github.com/watermint/toolbox/essentials/format/tjson"
-	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 )
 
 type List interface {
@@ -14,8 +14,8 @@ type ListOpts struct {
 	ContinueEndpoint string
 	UseHasMore       bool
 	ResultTag        string
-	onResponse       func(res response.Response) error
-	onEntry          func(entry tjson.Json) error
+	onResponse       func(res es_response.Response) error
+	onEntry          func(entry es_json.Json) error
 	onLastCursor     func(cursor string)
 }
 
@@ -29,13 +29,13 @@ func (z ListOpts) HasLastCursor() bool {
 	return z.onLastCursor != nil
 }
 
-func (z ListOpts) OnResponse(res response.Response) error {
+func (z ListOpts) OnResponse(res es_response.Response) error {
 	if z.onResponse != nil {
 		return z.onResponse(res)
 	}
 	return nil
 }
-func (z ListOpts) OnEntry(entry tjson.Json) error {
+func (z ListOpts) OnEntry(entry es_json.Json) error {
 	if z.onEntry != nil {
 		return z.onEntry(entry)
 	}
@@ -67,13 +67,13 @@ func ResultTag(tag string) ListOpt {
 		return o
 	}
 }
-func OnResponse(f func(res response.Response) error) ListOpt {
+func OnResponse(f func(res es_response.Response) error) ListOpt {
 	return func(o ListOpts) ListOpts {
 		o.onResponse = f
 		return o
 	}
 }
-func OnEntry(f func(entry tjson.Json) error) ListOpt {
+func OnEntry(f func(entry es_json.Json) error) ListOpt {
 	return func(o ListOpts) ListOpts {
 		o.onEntry = f
 		return o

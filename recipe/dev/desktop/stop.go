@@ -3,10 +3,10 @@ package desktop
 import (
 	"github.com/andybrewer/mack"
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
+	"github.com/watermint/toolbox/essentials/log/es_process"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_process"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"math"
@@ -35,7 +35,7 @@ func (z *Stop) stopDarwin(c app_control.Control) error {
 func (z *Stop) stopWindows(c app_control.Control) error {
 	l := c.Log()
 	cmd := exec.Command("taskkill", "/im", "Dropbox.exe", "/f")
-	pl := ut_process.NewLogger(cmd, c)
+	pl := es_process.NewLogger(cmd, c)
 	pl.Start()
 	defer pl.Close()
 	err := cmd.Start()

@@ -3,11 +3,11 @@ package nw_client
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/http/es_response"
+	"github.com/watermint/toolbox/essentials/io/ut_io"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
-	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"net/http"
 	"strings"
@@ -15,7 +15,7 @@ import (
 )
 
 type Rest interface {
-	Call(ctx api_context.Context, req RequestBuilder) (res response.Response)
+	Call(ctx api_context.Context, req RequestBuilder) (res es_response.Response)
 }
 
 type Http interface {

@@ -9,12 +9,12 @@ import (
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
+	"github.com/watermint/toolbox/essentials/log/es_wrapper"
+	"github.com/watermint/toolbox/essentials/runtime/es_open"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_log"
-	"github.com/watermint/toolbox/infra/util/ut_open"
 	"go.uber.org/atomic"
 	"go.uber.org/zap"
 	"html/template"
@@ -104,11 +104,11 @@ func New(ctl app_control.Control, s Service, port int) Callback {
 		ctl:      ctl,
 		service:  s,
 		port:     port,
-		opener:   ut_open.New(),
+		opener:   es_open.New(),
 	}
 }
 
-func NewWithOpener(ctl app_control.Control, s Service, port int, opener ut_open.Open) Callback {
+func NewWithOpener(ctl app_control.Control, s Service, port int, opener es_open.Open) Callback {
 	c := New(ctl, s, port)
 	c.(*callbackImpl).opener = opener
 	return c
@@ -125,7 +125,7 @@ type callbackImpl struct {
 	serverReady     bool
 	flowStatus      chan struct{}
 	mutex           sync.Mutex
-	opener          ut_open.Open
+	opener          es_open.Open
 	logoImageBase64 template.URL
 }
 
@@ -262,7 +262,7 @@ func (z *callbackImpl) Start() error {
 			gin.SetMode(gin.ReleaseMode)
 		}
 		g := gin.New()
-		g.Use(ut_log.GinWrapper(l))
+		g.Use(es_wrapper.GinWrapper(l))
 		g.Use(ginzap.RecoveryWithZap(l, true))
 		g.GET(PathConnect, z.Connect)
 		g.GET(PathFailure, z.Failure)

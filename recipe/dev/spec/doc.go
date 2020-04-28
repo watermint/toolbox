@@ -3,6 +3,7 @@ package spec
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/essentials/io/ut_io"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
@@ -10,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
-	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"io"
 	"os"

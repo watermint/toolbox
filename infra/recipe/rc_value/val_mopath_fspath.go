@@ -4,12 +4,12 @@ import (
 	"errors"
 	"github.com/iancoleman/strcase"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"go.uber.org/zap"
 	"os"
 	"reflect"
@@ -36,7 +36,7 @@ func (z *ValueMoPathFileSystemPath) Spec() (typeName string, typeAttr interface{
 	if efs, ok := z.path.(mo_path2.ExistingFileSystemPath); ok {
 		se = efs.ShouldExist()
 	}
-	return ut_reflect.Key(app.Pkg, z.path), map[string]bool{
+	return es_reflect.Key(app.Pkg, z.path), map[string]bool{
 		"shouldExist": se,
 	}
 }
@@ -67,7 +67,7 @@ func (z *ValueMoPathFileSystemPath) ApplyPreset(v0 interface{}) {
 
 func (z *ValueMoPathFileSystemPath) Apply() (v interface{}) {
 	l := app_root.Log()
-	p, err := ut_filepath.FormatPathWithPredefinedVariables(z.filePath)
+	p, err := es_filepath.FormatPathWithPredefinedVariables(z.filePath)
 	if err != nil {
 		p = z.filePath
 		l.Debug("Unable to format", zap.String("path", z.filePath), zap.Error(err))

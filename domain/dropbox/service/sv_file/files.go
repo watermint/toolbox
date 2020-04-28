@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"go.uber.org/zap"
 )
@@ -171,7 +171,7 @@ func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.
 		dbx_list.Continue("files/search/continue_v2"),
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("matches"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			e := &mo_file.Match{}
 			if err := entry.Model(e); err != nil {
 				z.ctx.Log().Error("invalid", zap.Error(err))
@@ -239,7 +239,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 				dbx_list.Continue("files/list_folder/continue"),
 				dbx_list.UseHasMore(),
 				dbx_list.ResultTag("entries"),
-				dbx_list.OnEntry(func(entry tjson.Json) error {
+				dbx_list.OnEntry(func(entry es_json.Json) error {
 					e := &mo_file.Metadata{}
 					if err := entry.Model(e); err != nil {
 						z.ctx.Log().Error("invalid", zap.Error(err), zap.ByteString("entry", entry.Raw()))
@@ -321,7 +321,7 @@ func (z *filesImpl) ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_
 		dbx_list.Continue("files/list_folder/continue"),
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("entries"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			e := &mo_file.Metadata{}
 			if err := entry.Model(e); err != nil {
 				z.ctx.Log().Error("invalid", zap.Error(err), zap.ByteString("entry", entry.Raw()))

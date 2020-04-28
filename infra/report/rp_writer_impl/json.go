@@ -3,10 +3,10 @@ package rp_writer_impl
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/io/ut_io"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_writer"
-	"github.com/watermint/toolbox/infra/util/ut_io"
 	"go.uber.org/zap"
 	"io"
 	"os"

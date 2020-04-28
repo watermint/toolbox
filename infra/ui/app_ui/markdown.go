@@ -2,11 +2,11 @@ package app_ui
 
 import (
 	"fmt"
+	"github.com/watermint/toolbox/essentials/strings/es_width"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/util/ut_math"
-	"github.com/watermint/toolbox/infra/util/ut_string"
 	"go.uber.org/zap"
 	"io"
 	"strings"
@@ -192,13 +192,13 @@ func (z *markdownTable) Flush() {
 	cols := make([]int, numCols)
 
 	for i, c := range z.header {
-		cols[i] = ut_string.Width(c)
+		cols[i] = es_width.Width(c)
 	}
 
 	for _, row := range z.rows {
 		rowNumCols := ut_math.MinInt(len(row), numCols)
 		for i := 0; i < rowNumCols; i++ {
-			cols[i] = ut_math.MaxInt(cols[i], ut_string.Width(row[i]))
+			cols[i] = ut_math.MaxInt(cols[i], es_width.Width(row[i]))
 		}
 	}
 
@@ -207,7 +207,7 @@ func (z *markdownTable) Flush() {
 		for i, c := range row {
 			padding := 0
 			if i < len(cols) {
-				padding = ut_math.MaxInt(cols[i]-ut_string.Width(c), 0)
+				padding = ut_math.MaxInt(cols[i]-es_width.Width(c), 0)
 			} else {
 				l.Debug("Number of columns exceeds header columns", zap.Int("i", i), zap.Strings("row", row))
 				padding = 1

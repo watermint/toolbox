@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_device"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"go.uber.org/zap"
 )
@@ -49,7 +49,7 @@ func (z *sessionImpl) List() (sessions []mo_device.Session, err error) {
 		IncludeDesktopClients: true,
 		IncludeMobileClients:  true,
 	}
-	onEntry := func(entry tjson.Json) error {
+	onEntry := func(entry es_json.Json) error {
 		m, found := entry.FindString("team_member_id")
 		if !found {
 			z.ctx.Log().Debug("no `team_member_id` field found", zap.ByteString("entry", entry.Raw()))

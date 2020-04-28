@@ -3,6 +3,7 @@ package dispatch
 import (
 	"bytes"
 	"fmt"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -10,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"go.uber.org/zap"
 	"html/template"
@@ -134,7 +134,7 @@ func (z *LocalPattern) Exec(c app_control.Control, op func(src, dst string, c ap
 		return err
 	}
 
-	srcPath, err := ut_filepath.FormatPathWithPredefinedVariables(z.SourcePath)
+	srcPath, err := es_filepath.FormatPathWithPredefinedVariables(z.SourcePath)
 	if err != nil {
 		return err
 	}
@@ -160,14 +160,14 @@ func (z *LocalPattern) Exec(c app_control.Control, op func(src, dst string, c ap
 		}
 
 		matchValues := srcPattern.MatchValues(entry.Name())
-		matchPairs := make([]ut_filepath.Pair, 0)
+		matchPairs := make([]es_filepath.Pair, 0)
 		for k, v := range matchValues {
-			matchPairs = append(matchPairs, ut_filepath.Pair{
+			matchPairs = append(matchPairs, es_filepath.Pair{
 				Key:   k,
 				Value: v,
 			})
 		}
-		destPath, err := ut_filepath.FormatPathWithPredefinedVariables(z.DestPathPattern, matchPairs...)
+		destPath, err := es_filepath.FormatPathWithPredefinedVariables(z.DestPathPattern, matchPairs...)
 		if err != nil {
 			ui.Error(MLocal.ErrorInvalidDestPathPattern.
 				With("Path", z.DestPathPattern).

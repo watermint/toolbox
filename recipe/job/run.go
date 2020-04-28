@@ -4,10 +4,10 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/essentials/log/es_process"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_process"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"go.uber.org/zap"
 	"os"
@@ -30,7 +30,7 @@ func (z *Run) execFork(c app_control.Control) error {
 
 	l.Info("Fork", zap.String("cmd", os.Args[0]), zap.String("runbook", z.RunbookPath.Path()))
 	cmd := exec.Command(os.Args[0], "job", "run", "-runbook-path", z.RunbookPath.Path())
-	pl := ut_process.NewLogger(cmd, c)
+	pl := es_process.NewLogger(cmd, c)
 	pl.Start()
 	defer pl.Close()
 

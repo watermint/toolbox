@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"flag"
+	"github.com/watermint/toolbox/essentials/encoding/es_unicode"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -11,7 +12,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_encoding"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"go.uber.org/zap"
 	"os"
@@ -206,7 +206,7 @@ func NewRunBook(path string) (rb *RunBook, found bool) {
 		return nil, false
 	}
 
-	content, err := ut_encoding.BomAwareReadBytes(path)
+	content, err := es_unicode.BomAwareReadBytes(path)
 	if err != nil {
 		l.Error("Unable to read the runbook file", zap.Error(err))
 		return nil, false

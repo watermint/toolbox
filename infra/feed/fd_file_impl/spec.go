@@ -1,17 +1,17 @@
 package fd_file_impl
 
 import (
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
 )
 
 func newSpec(rf *RowFeed) fd_file.Spec {
 	s := &Spec{rf: rf}
-	s.base = ut_reflect.Key(app.Pkg, rf.Model())
+	s.base = es_reflect.Key(app.Pkg, rf.Model())
 	s.colDesc = make(map[string]app_msg.Message)
 	s.colExample = make(map[string]app_msg.Message)
 

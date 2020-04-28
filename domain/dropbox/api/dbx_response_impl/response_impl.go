@@ -4,29 +4,29 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
-	"github.com/watermint/toolbox/essentials/format/tjson"
-	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 )
 
-func New(res response.Response) dbx_response.Response {
+func New(res es_response.Response) dbx_response.Response {
 	return &resImpl{
-		Proxy:  response.NewProxy(res),
+		Proxy:  es_response.NewProxy(res),
 		result: nil,
 	}
 }
 
-func NewAbort(res response.Response, err error) dbx_response.Response {
+func NewAbort(res es_response.Response, err error) dbx_response.Response {
 	return &resImpl{
-		Proxy:  response.NewProxy(res),
+		Proxy:  es_response.NewProxy(res),
 		result: nil,
 		abort:  err,
 	}
 }
 
 type resImpl struct {
-	response.Proxy
+	es_response.Proxy
 
-	result tjson.Json
+	result es_json.Json
 	abort  error
 }
 
@@ -49,11 +49,11 @@ func (z resImpl) Failure() (error, bool) {
 	return z.Proxy.Failure()
 }
 
-func (z resImpl) Result() tjson.Json {
+func (z resImpl) Result() es_json.Json {
 	if z.IsSuccess() {
 		r := z.Header(dbx_context.DropboxApiResHeaderResult)
 		if r != "" {
-			return tjson.MustParseString(r)
+			return es_json.MustParseString(r)
 		}
 		return z.Success().Json()
 	}

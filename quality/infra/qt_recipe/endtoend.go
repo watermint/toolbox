@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/log/es_stats"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
@@ -20,7 +21,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_memory"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
@@ -144,7 +144,7 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 		if pr != nil {
 			pr.Stop()
 		}
-		ut_memory.DumpStats(l)
+		es_stats.DumpMemStats(l)
 
 		if err == nil {
 			return

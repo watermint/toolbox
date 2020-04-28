@@ -2,6 +2,7 @@ package rc_spec
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -13,7 +14,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"go.uber.org/zap"
 	"os"
 	"sort"
@@ -49,7 +49,7 @@ func NewSelfContained(scr rc_recipe.Recipe) rc_recipe.Spec {
 		repo = rc_value.NewRepository(scr)
 	}
 
-	path, name := ut_reflect.Path(rc_recipe.BasePackage, scr)
+	path, name := es_reflect.Path(rc_recipe.BasePackage, scr)
 	cliPath := strings.Join(append(path, name), " ")
 
 	return &specValueSelfContained{

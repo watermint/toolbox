@@ -5,7 +5,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_team"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"go.uber.org/zap"
@@ -81,6 +81,6 @@ func (z *teamImpl) Feature() (feature *mo_team.Feature, err error) {
 
 	raw := api_parser.CombineRaw(features)
 	feature = &mo_team.Feature{}
-	err = tjson.MustParse(raw).Model(feature)
+	err = es_json.MustParse(raw).Model(feature)
 	return
 }

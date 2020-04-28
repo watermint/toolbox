@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -74,7 +74,7 @@ func (z *exceptionsImpl) List() (members []*mo_profile.Profile, err error) {
 		dbx_list.Continue("team/member_space_limits/excluded_users/list/continue"),
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("users"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			p := &mo_profile.Profile{}
 			if err := entry.Model(p); err != nil {
 				return err

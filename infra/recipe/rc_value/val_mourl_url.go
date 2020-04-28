@@ -2,11 +2,11 @@ package rc_value
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"go.uber.org/zap"
 	"reflect"
 )
@@ -28,7 +28,7 @@ func (z *ValueMoUrlUrl) ValueText() string {
 }
 
 func (z *ValueMoUrlUrl) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, z.url), nil
+	return es_reflect.Key(app.Pkg, z.url), nil
 }
 
 func (z *ValueMoUrlUrl) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

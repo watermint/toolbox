@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_essential"
-	"github.com/watermint/toolbox/infra/util/ut_time"
+	"github.com/watermint/toolbox/essentials/time/ut_time"
 	"time"
 )
 

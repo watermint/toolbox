@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -61,7 +61,7 @@ func (z *activityImpl) All(handler func(event *mo_activity.Event) error) (err er
 		dbx_list.Continue("team_log/get_events/continue"),
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("events"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			e := &mo_activity.Event{}
 			if err = entry.Model(e); err != nil {
 				return err
@@ -101,7 +101,7 @@ func (z *activityImpl) List(handler func(event *mo_activity.Event) error, opts .
 		dbx_list.Continue("team_log/get_events/continue"),
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("events"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			e := &mo_activity.Event{}
 			if err := entry.Model(e); err != nil {
 				return err

@@ -1,10 +1,10 @@
 package desktop
 
 import (
+	"github.com/watermint/toolbox/essentials/log/es_process"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_process"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"go.uber.org/zap"
 	"os/exec"
@@ -31,7 +31,7 @@ func (z *Start) Exec(c app_control.Control) error {
 	}
 
 	cmd := exec.Command(desktopAppPath, "/home")
-	pl := ut_process.NewLogger(cmd, c)
+	pl := es_process.NewLogger(cmd, c)
 	pl.Start()
 	defer pl.Close()
 

@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"github.com/dgraph-io/badger/v2"
 	"github.com/dgraph-io/badger/v2/options"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs_impl"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -133,7 +133,7 @@ func (z *badgerWrapper) init(name string) (err error) {
 		l.Debug("Unable to create kvs folder", zap.Error(err))
 		return err
 	}
-	path := filepath.Join(kvsBasePath, ut_filepath.Escape(name))
+	path := filepath.Join(kvsBasePath, es_filepath.Escape(name))
 
 	return z.openWithPath(name, path)
 }

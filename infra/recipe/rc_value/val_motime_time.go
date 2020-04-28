@@ -3,10 +3,10 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_essential"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"go.uber.org/zap"
 	"reflect"
 )
@@ -33,7 +33,7 @@ type ValueMoTimeTime struct {
 }
 
 func (z *ValueMoTimeTime) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, z.time), map[string]interface{}{
+	return es_reflect.Key(app.Pkg, z.time), map[string]interface{}{
 		"optional": z.isOptional,
 	}
 }

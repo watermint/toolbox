@@ -1,7 +1,7 @@
 package nw_retry
 
 import (
-	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
@@ -21,7 +21,7 @@ type Retry struct {
 	client nw_client.Rest
 }
 
-func (z *Retry) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res response.Response) {
+func (z *Retry) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
 	l := ctx.Log().With(
 		zap.String("Url", req.Endpoint()),
 		zap.String("Routine", ut_runtime.GetGoRoutineName()),

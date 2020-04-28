@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"time"
 )
@@ -135,7 +135,7 @@ func (z *sharedLinkImpl) list(path string) (links []mo_sharedlink.SharedLink, er
 		dbx_list.Continue("sharing/list_shared_links"),
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("links"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			link := &mo_sharedlink.Metadata{}
 			if err := entry.Model(link); err != nil {
 				return err

@@ -5,10 +5,10 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
+	"github.com/watermint/toolbox/essentials/file/es_filecompare"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/util/ut_filecompare"
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"go.uber.org/zap"
 	"os"
 	"path/filepath"
@@ -38,7 +38,7 @@ func (z *UploadWorker) Exec() (err error) {
 	)
 	l.Debug("Prepare upload")
 
-	rel, err := ut_filepath.Rel(z.localBasePath, filepath.Dir(z.localFilePath))
+	rel, err := es_filepath.Rel(z.localBasePath, filepath.Dir(z.localFilePath))
 	if err != nil {
 		l.Debug("unable to calculate rel path", zap.Error(err))
 		z.upload.Uploaded.Failure(err, upRow)
@@ -68,7 +68,7 @@ func (z *UploadWorker) Exec() (err error) {
 
 	// Verify proceed
 	if z.dbxEntry != nil {
-		same, err := ut_filecompare.Compare(l, z.localFilePath, info, z.dbxEntry)
+		same, err := es_filecompare.Compare(l, z.localFilePath, info, z.dbxEntry)
 		if err != nil {
 			z.upload.Uploaded.Failure(err, upRow)
 			z.status.error()

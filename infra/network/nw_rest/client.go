@@ -1,7 +1,7 @@
 package nw_rest
 
 import (
-	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/network/nw_capture"
@@ -11,7 +11,7 @@ import (
 )
 
 // Assert broken response or rate limit for retry
-type AssertResponse func(res response.Response) response.Response
+type AssertResponse func(res es_response.Response) es_response.Response
 
 type ClientOpts struct {
 	Assert AssertResponse
@@ -61,7 +61,7 @@ type AssertClient struct {
 	client nw_client.Rest
 }
 
-func (z AssertClient) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res response.Response) {
+func (z AssertClient) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
 	res = z.client.Call(ctx, req)
 	if !res.IsSuccess() && z.assert != nil {
 		return z.assert(res)

@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -29,7 +29,7 @@ func (z *mountImpl) List() (mount []*mo_sharedfolder.SharedFolder, err error) {
 	res := z.ctx.List("sharing/list_mountable_folders").Call(
 		dbx_list.Continue("sharing/list_mountable_folders/continue"),
 		dbx_list.ResultTag("entries"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			m := &mo_sharedfolder.SharedFolder{}
 			if err = entry.Model(m); err != nil {
 				return err

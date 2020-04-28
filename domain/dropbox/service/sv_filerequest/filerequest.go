@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -93,7 +93,7 @@ func (z *fileRequestImpl) Delete(ids ...string) (requests []*mo_filerequest.File
 	res := z.ctx.List("file_requests/delete", api_request.Param(p)).Call(
 		dbx_list.Continue("file_requests/list/continue"),
 		dbx_list.ResultTag("file_requests"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			fr := &mo_filerequest.FileRequest{}
 			if err := entry.Model(fr); err != nil {
 				return err
@@ -113,7 +113,7 @@ func (z *fileRequestImpl) DeleteAllClosed() (requests []*mo_filerequest.FileRequ
 	res := z.ctx.List("file_requests/delete_all_closed").Call(
 		dbx_list.Continue("file_requests/list/continue"),
 		dbx_list.ResultTag("file_requests"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			fr := &mo_filerequest.FileRequest{}
 			if err := entry.Model(fr); err != nil {
 				return err
@@ -165,7 +165,7 @@ func (z *fileRequestImpl) List() (requests []*mo_filerequest.FileRequest, err er
 		dbx_list.Continue("file_requests/list/continue"),
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("file_requests"),
-		dbx_list.OnEntry(func(entry tjson.Json) error {
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			fr := &mo_filerequest.FileRequest{}
 			if err := entry.Model(fr); err != nil {
 				return err

@@ -4,11 +4,11 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/essentials/encoding/es_unicode"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_encoding"
 	"go.uber.org/zap"
 	"io"
 	"os"
@@ -137,7 +137,7 @@ func (z *RowFeed) Open(ctl app_control.Control) error {
 		ui.Error(MRowFeed.ErrorUnableToRead.With("Path", z.filePath).With("Error", err))
 		return err
 	}
-	z.reader = ut_encoding.NewBomAwareCsvReader(z.file)
+	z.reader = es_unicode.NewBomAwareCsvReader(z.file)
 	z.applyModel()
 
 	return nil

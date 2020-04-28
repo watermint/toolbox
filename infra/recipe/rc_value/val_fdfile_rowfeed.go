@@ -2,6 +2,8 @@ package rc_value
 
 import (
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_root"
@@ -10,8 +12,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"go.uber.org/zap"
 	"reflect"
 	"strings"
@@ -30,7 +30,7 @@ type ValueFdFileRowFeed struct {
 }
 
 func (z *ValueFdFileRowFeed) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, z.rf), nil
+	return es_reflect.Key(app.Pkg, z.rf), nil
 }
 
 func (z *ValueFdFileRowFeed) ValueText() string {
@@ -61,7 +61,7 @@ func (z *ValueFdFileRowFeed) ApplyPreset(v0 interface{}) {
 
 func (z *ValueFdFileRowFeed) Apply() (v interface{}) {
 	l := app_root.Log()
-	p, err := ut_filepath.FormatPathWithPredefinedVariables(z.path)
+	p, err := es_filepath.FormatPathWithPredefinedVariables(z.path)
 	if err != nil {
 		p = z.path
 		l.Debug("Unable to format", zap.String("path", z.path), zap.Error(err))

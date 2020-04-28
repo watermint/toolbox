@@ -6,8 +6,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response_impl"
-	"github.com/watermint/toolbox/essentials/format/tjson"
-	"github.com/watermint/toolbox/essentials/http/response"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"go.uber.org/zap"
 )
@@ -90,7 +90,7 @@ func (z listImpl) handleEntry(lo dbx_list.ListOpts, res dbx_response.Response) e
 	}
 }
 
-func (z listImpl) isContinueHasMore(lo dbx_list.ListOpts, j tjson.Json) (cont bool, cursor string) {
+func (z listImpl) isContinueHasMore(lo dbx_list.ListOpts, j es_json.Json) (cont bool, cursor string) {
 	l := z.log(lo)
 	if hasMore, e := j.FindBool("has_more"); !hasMore {
 		l.Debug("no more results; has_more == false",
@@ -101,7 +101,7 @@ func (z listImpl) isContinueHasMore(lo dbx_list.ListOpts, j tjson.Json) (cont bo
 	return z.isContinueCursor(lo, j)
 }
 
-func (z listImpl) isContinueCursor(lo dbx_list.ListOpts, j tjson.Json) (cont bool, cursor string) {
+func (z listImpl) isContinueCursor(lo dbx_list.ListOpts, j es_json.Json) (cont bool, cursor string) {
 	l := z.log(lo)
 	if cursor, found := j.FindString("cursor"); found {
 		l.Debug("cursor found", zap.String("cursor", cursor))
@@ -112,7 +112,7 @@ func (z listImpl) isContinueCursor(lo dbx_list.ListOpts, j tjson.Json) (cont boo
 	}
 }
 
-func (z listImpl) isContinue(lo dbx_list.ListOpts, res response.Response) (cont bool, cursor string) {
+func (z listImpl) isContinue(lo dbx_list.ListOpts, res es_response.Response) (cont bool, cursor string) {
 	l := z.log(lo)
 	j, err := res.Success().AsJson()
 	if err != nil {

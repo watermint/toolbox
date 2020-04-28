@@ -3,7 +3,7 @@ package sv_member_quota
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member_quota"
-	"github.com/watermint/toolbox/essentials/format/tjson"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -67,7 +67,7 @@ func (z *quotaImpl) Resolve(teamMemberId string) (quota *mo_member_quota.Quota, 
 		return nil, err
 	}
 	quota = &mo_member_quota.Quota{}
-	err = res.Success().Json().FindModel(tjson.PathArrayFirst, quota)
+	err = res.Success().Json().FindModel(es_json.PathArrayFirst, quota)
 	return
 }
 
@@ -99,6 +99,6 @@ func (z *quotaImpl) Update(quota *mo_member_quota.Quota) (updated *mo_member_quo
 		return nil, err
 	}
 	quota = &mo_member_quota.Quota{}
-	err = res.Success().Json().FindModel(tjson.PathArrayFirst, quota)
+	err = res.Success().Json().FindModel(es_json.PathArrayFirst, quota)
 	return
 }

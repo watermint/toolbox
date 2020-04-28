@@ -5,12 +5,12 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
+	"github.com/watermint/toolbox/essentials/time/ut_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_time"
 )
 
 type Event struct {

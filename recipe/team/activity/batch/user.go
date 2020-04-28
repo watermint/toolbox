@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -20,7 +21,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"go.uber.org/zap"
 	"math/rand"
@@ -118,7 +118,7 @@ func (z *User) Exec(c app_control.Control) error {
 	err := z.File.EachRow(func(m interface{}, rowIndex int) error {
 		e := m.(*UserEmail)
 
-		suffix := ut_filepath.Escape(e.Email)
+		suffix := es_filepath.Escape(e.Email)
 		ur, err := z.User.OpenNew(rp_model.Suffix("_"+suffix), rp_model.NoConsoleOutput())
 		if err != nil {
 			return err

@@ -2,10 +2,10 @@ package api_callback_test
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/essentials/runtime/es_open"
 	"github.com/watermint/toolbox/infra/api/api_callback"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
-	"github.com/watermint/toolbox/infra/util/ut_open"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"go.uber.org/zap"
 	"net/http"
@@ -81,7 +81,7 @@ func (z *MockService) PingInvalid() error {
 func TestCallbackImpl_SuccessScenario(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)
-		cb := api_callback.NewWithOpener(ctl, ms, 7800, ut_open.NewTestDummy())
+		cb := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
 		wg := sync.WaitGroup{}
 		wg.Add(1)
 		go func() {
@@ -108,7 +108,7 @@ func TestCallbackImpl_SuccessScenario(t *testing.T) {
 func TestCallbackImpl_FailureInvalidCode(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)
-		cb := api_callback.NewWithOpener(ctl, ms, 7800, ut_open.NewTestDummy())
+		cb := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
 		wg := sync.WaitGroup{}
 		wg.Add(1)
 		go func() {
@@ -135,8 +135,8 @@ func TestCallbackImpl_FailureInvalidCode(t *testing.T) {
 func TestCallbackImpl_FailureCantStart(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)
-		cb1 := api_callback.NewWithOpener(ctl, ms, 7800, ut_open.NewTestDummy())
-		cb2 := api_callback.NewWithOpener(ctl, ms, 7800, ut_open.NewTestDummy())
+		cb1 := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
+		cb2 := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
 		go func() {
 			if err := cb1.Flow(); err != nil {
 				t.Error(err)
