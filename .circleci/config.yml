@@ -37,7 +37,9 @@ jobs:
           paths:
             - /go/pkg/mod
       - store_test_results:
-          path: /go/src/github.com/watermint/toolbox/test/results
+          path:
+            - /go/src/github.com/watermint/toolbox/test/results
+            - /go/src/github.com/watermint/toolbox/test/results
       - run: bash <(curl -s https://codecov.io/bash)
 
 workflows:
