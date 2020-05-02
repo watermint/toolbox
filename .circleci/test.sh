@@ -16,3 +16,5 @@ for d in $(go list ./... | grep -v vendor); do
     rm test.out
   fi
 done
+
+cat testreport.txt | go-junit-report > test/results/all.xml
