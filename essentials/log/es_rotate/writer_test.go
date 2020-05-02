@@ -10,6 +10,7 @@ import (
 
 func TestWriterImpl_Open(t *testing.T) {
 	qt_file.TestWithTestFolder(t, "writer", false, func(path string) {
+		Startup()
 		w := NewWriter(path, "writer")
 		if err := w.Open(ChunkSize(10), NumBackup(3)); err != nil {
 			t.Error(err)
@@ -20,6 +21,7 @@ func TestWriterImpl_Open(t *testing.T) {
 		if err := w.Close(); err != nil {
 			t.Error(err)
 		}
+		Shutdown()
 	})
 }
 
