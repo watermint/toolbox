@@ -10,6 +10,7 @@ import (
 	domaindropboxusecaseuc_compare_local "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
 	domaindropboxusecaseuc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	domaindropboxusecaseuc_file_merge "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
+	essentialsloges_rotate "github.com/watermint/toolbox/essentials/log/es_rotate"
 	infraapiapi_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
 	infraapiapi_callback "github.com/watermint/toolbox/infra/api/api_callback"
 	infracontrolapp_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
@@ -55,6 +56,9 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxusecaseuc_compare_local.MsgCompare{},
 		&domaindropboxusecaseuc_compare_paths.MsgCompare{},
 		&domaindropboxusecaseuc_file_merge.MsgMerge{},
+		&essentialsloges_rotate.MsgOut{},
+		&essentialsloges_rotate.MsgPurge{},
+		&essentialsloges_rotate.MsgRotate{},
 		&infraapiapi_auth_impl.MsgApiAuth{},
 		&infraapiapi_callback.MsgCallback{},
 		&infracontrolapp_workflow.MsgRunBook{},

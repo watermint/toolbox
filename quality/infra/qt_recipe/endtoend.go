@@ -42,12 +42,21 @@ func NewTestDropboxFolderPath(rel ...string) mo_path.DropboxPath {
 	return mo_path.NewDropboxPath("/" + TestTeamFolderName).ChildPath(rel...)
 }
 
+func MustMakeTestFolder(ctl app_control.Control, name string, withContent bool) (path string) {
+	path, err := qt_file.MakeTestFolder(name, withContent)
+	if err != nil {
+		ctl.Log().Error("Unable to create test folder", zap.Error(err))
+		ctl.Abort(app_control.Reason(app_control.FailureGeneral))
+	}
+	return path
+}
+
 func NewTestFileSystemFolderPath(c app_control.Control, name string) mo_path2.FileSystemPath {
-	return mo_path2.NewFileSystemPath(qt_file.MustMakeTestFolder(c, name, true))
+	return mo_path2.NewFileSystemPath(MustMakeTestFolder(c, name, true))
 }
 
 func NewTestExistingFileSystemFolderPath(c app_control.Control, name string) mo_path2.ExistingFileSystemPath {
-	return mo_path2.NewExistingFileSystemPath(qt_file.MustMakeTestFolder(c, name, true))
+	return mo_path2.NewExistingFileSystemPath(MustMakeTestFolder(c, name, true))
 }
 
 func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {

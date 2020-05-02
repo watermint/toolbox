@@ -1,15 +1,14 @@
 package app_log
 
 import (
+	"github.com/watermint/toolbox/essentials/log/es_rotate"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"os"
-	"path/filepath"
 )
 
 type FileLogContext struct {
 	Logger *zap.Logger
-	File   *os.File
+	File   es_rotate.Writer
 }
 
 func (z *FileLogContext) Close() {
@@ -20,7 +19,6 @@ func (z *FileLogContext) Close() {
 }
 
 func NewFileLogger(path string, debug bool, test bool) (flc *FileLogContext, err error) {
-	logPath := filepath.Join(path, "toolbox.log")
 	cfg := zapcore.EncoderConfig{
 		TimeKey:        "time",
 		LevelKey:       "level",
@@ -35,11 +33,12 @@ func NewFileLogger(path string, debug bool, test bool) (flc *FileLogContext, err
 	}
 
 	var zo zapcore.WriteSyncer
-	f, err := os.Create(logPath)
-	if err != nil {
+	es_rotate.Startup()
+	rw := es_rotate.NewWriter(path, "toolbox")
+	if err := rw.Open(); err != nil {
 		return nil, err
 	}
-	zo = zapcore.AddSync(f)
+	zo = zapcore.AddSync(rw)
 
 	fileLoggerCore := zapcore.NewCore(
 		zapcore.NewJSONEncoder(cfg),
@@ -56,7 +55,7 @@ func NewFileLogger(path string, debug bool, test bool) (flc *FileLogContext, err
 
 	flc = &FileLogContext{
 		Logger: logger,
-		File:   f,
+		File:   rw,
 	}
 	return flc, nil
 }

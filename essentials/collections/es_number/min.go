@@ -1,4 +1,4 @@
-package number
+package es_number
 
 func Min(nums ...interface{}) Number {
 	unified := Unify(nums...)

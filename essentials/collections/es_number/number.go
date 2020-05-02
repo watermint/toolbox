@@ -1,4 +1,4 @@
-package number
+package es_number
 
 import (
 	"github.com/watermint/toolbox/essentials/lang"
@@ -39,6 +39,7 @@ type Number interface {
 	Format
 	Integer
 	Float
+	Compare(other Number) int
 }
 
 func Zero() Number {

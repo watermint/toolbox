@@ -1,13 +1,13 @@
 package lang
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/essentials/log/es_fallback"
 	"go.uber.org/zap"
 	"golang.org/x/text/language"
 )
 
 func Select(bcp47 string, supported []Lang) Lang {
-	l := app_root.Log().With(zap.String("bcp47", bcp47))
+	l := es_fallback.Fallback().With(zap.String("bcp47", bcp47))
 
 	tag, err := language.Parse(bcp47)
 	if err != nil {

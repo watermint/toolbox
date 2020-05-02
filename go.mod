@@ -7,7 +7,7 @@ require (
 	github.com/andybrewer/mack v0.0.0-20200107183837-a347fce911ce
 	github.com/cloudfoundry/jibber_jabber v0.0.0-20151120183258-bcc4c8345a21
 	github.com/daaku/go.zipexe v1.0.1 // indirect
-	github.com/dgraph-io/badger/v2 v2.0.1-rc1.0.20200224123928-bce069c3875e
+	github.com/dgraph-io/badger/v2 v2.0.3
 	github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13 // indirect
 	github.com/gin-contrib/zap v0.0.1
 	github.com/gin-gonic/gin v1.5.0

@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
-	"github.com/watermint/toolbox/essentials/file/es_archive"
+	"github.com/watermint/toolbox/essentials/file/es_zip"
 	"github.com/watermint/toolbox/essentials/http/es_download"
 	"github.com/watermint/toolbox/essentials/log/es_process"
 	"github.com/watermint/toolbox/infra/app"
@@ -334,7 +334,7 @@ func (z *Procmon) compressProcmonLogs(c app_control.Control) (arcPath string, er
 	arcPath = filepath.Join(z.RepositoryPath.Path(), arcName+".zip")
 
 	l.Info("Start compress logs", zap.String("archive", arcPath))
-	if err := es_archive.Create(arcPath, logPath, arcName); err != nil {
+	if err := es_zip.CompressPath(arcPath, logPath, arcName); err != nil {
 		l.Debug("Unable to create archive file", zap.Error(err))
 		return "", err
 	}

@@ -1,4 +1,4 @@
-package number
+package es_number
 
 // Convert all numbers in same precision numbers.
 // Invalid numbers will be filtered out.

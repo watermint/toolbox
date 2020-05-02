@@ -1,4 +1,4 @@
-package number
+package es_number
 
 import "testing"
 

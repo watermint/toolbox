@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/essentials/strings/es_width"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/control/app_shutdown"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
@@ -312,7 +313,7 @@ func (z *console) OpenArtifact(path string, autoOpen bool) {
 	l := z.currentLogger()
 
 	z.openArtifactOnce.Do(func() {
-		app_root.AddSuccessShutdownHook(func() {
+		app_shutdown.AddSuccessShutdownHook(func() {
 			files, err := ioutil.ReadDir(path)
 			if err != nil {
 				l.Debug("Unable to read path", zap.Error(err), zap.String("path", path))
@@ -331,7 +332,7 @@ func (z *console) OpenArtifact(path string, autoOpen bool) {
 				}
 			}
 
-			l.Debug("Register success shutdown hook", zap.String("path", path))
+			l.Debug("Open artifact on success shutdown hook", zap.String("path", path))
 			if z.testMode || !autoOpen {
 				return
 			}

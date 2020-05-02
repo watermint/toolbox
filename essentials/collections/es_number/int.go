@@ -1,4 +1,4 @@
-package number
+package es_number
 
 import (
 	"github.com/watermint/toolbox/essentials/lang"
@@ -8,6 +8,29 @@ import (
 
 type intImpl struct {
 	v int64
+}
+
+func (z intImpl) Compare(other Number) int {
+	if other.IsInt() {
+		o := other.Int64()
+		switch {
+		case z.v < o:
+			return 1
+		case z.v == o:
+			return 0
+		default:
+			return -1
+		}
+	}
+	o := int64(other.Float64())
+	switch {
+	case z.v < o:
+		return 1
+	case z.v == o:
+		return 0
+	default:
+		return -1
+	}
 }
 
 func (z intImpl) IsValid() bool {

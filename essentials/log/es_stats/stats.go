@@ -1,6 +1,7 @@
 package es_stats
 
 import (
+	"github.com/watermint/toolbox/infra/control/app_shutdown"
 	"go.uber.org/zap"
 	"runtime"
 	"time"
@@ -10,13 +11,19 @@ const (
 	reportInterval = 5 * 1000 * time.Millisecond
 )
 
+func reportLoop(t *time.Ticker, l *zap.Logger) {
+	for n := range t.C {
+		_ = n.Unix()
+		DumpMemStats(l)
+	}
+}
+
 func LaunchReporting(l *zap.Logger) {
-	go func() {
-		for {
-			time.Sleep(reportInterval)
-			DumpMemStats(l)
-		}
-	}()
+	t := time.NewTicker(reportInterval)
+	go reportLoop(t, l)
+	app_shutdown.AddShutdownHook(func() {
+		t.Stop()
+	})
 }
 
 func DumpMemStats(l *zap.Logger) {

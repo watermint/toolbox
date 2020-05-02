@@ -1,4 +1,4 @@
-package es_archive
+package es_zip
 
 import (
 	"archive/zip"
@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 )
 
-func Create(arcPath, targetPath, arcComment string) error {
+func CompressPath(arcPath, targetPath, arcComment string) error {
 	l := app_root.Log()
 	arcFile, err := os.Create(arcPath)
 	if err != nil {

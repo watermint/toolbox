@@ -14,7 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/control/app_opt"
-	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/control/app_shutdown"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"github.com/watermint/toolbox/infra/network/nw_concurrency"
 	"github.com/watermint/toolbox/infra/network/nw_diag"
@@ -286,6 +286,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	if err := rc_exec.Exec(ctl, &bootstrap.Bootstrap{}, rc_recipe.NoCustomValues); err != nil {
 		ctl.Log().Error("Bootstrap failed with an error", zap.Error(err))
 		ui.Failure(MRun.ErrorRecipeFailed.With("Error", err))
+		app_shutdown.FlushShutdownHook()
 		os.Exit(app_control.FailureGeneral)
 	}
 
@@ -296,6 +297,7 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	if lastErr != nil {
 		ctl.Log().Error("Recipe failed with an error", zap.Error(lastErr))
 		ui.Failure(MRun.ErrorRecipeFailed.With("Error", lastErr))
+		app_shutdown.FlushShutdownHook()
 		os.Exit(app_control.FailureGeneral)
 	}
 
@@ -303,7 +305,9 @@ func (z *bootstrapImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	es_stats.DumpMemStats(ctl.Log())
 	nw_monitor.DumpStats(ctl.Log())
 
-	app_root.FlushSuccessShutdownHook()
+	app_shutdown.FlushSuccessShutdownHook()
+	app_shutdown.FlushShutdownHook()
+	os.Exit(app_control.Success)
 }
 
 func (z *bootstrapImpl) ParseCommon(args []string, ignoreErrors bool) (rem []string, com *rc_spec.CommonValues) {

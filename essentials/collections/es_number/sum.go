@@ -1,4 +1,4 @@
-package number
+package es_number
 
 func Sum(nums ...interface{}) Number {
 	unified := Unify(nums...)

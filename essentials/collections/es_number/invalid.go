@@ -1,10 +1,17 @@
-package number
+package es_number
 
 import (
 	"github.com/watermint/toolbox/essentials/lang"
 )
 
 type invalid struct {
+}
+
+func (z invalid) Compare(other Number) int {
+	if other.IsValid() {
+		return 1
+	}
+	return 0
 }
 
 func (z invalid) IsValid() bool {

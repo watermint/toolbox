@@ -1,6 +1,7 @@
 package nw_monitor
 
 import (
+	"github.com/watermint/toolbox/infra/control/app_shutdown"
 	"go.uber.org/zap"
 	"net/http"
 	"sync"
@@ -35,31 +36,41 @@ var (
 	total = &counterImpl{}
 )
 
+func reportLoop(t *time.Ticker, l *zap.Logger) {
+	for n := range t.C {
+		_ = n.Unix()
+		dumpStats(l)
+	}
+}
+
 func Log(req *http.Request, res *http.Response) {
 	mon.Log(req, res)
 	total.Log(req, res)
 }
 
+func dumpStats(l *zap.Logger) {
+	cpm, qps, sps := mon.Traffic()
+	tcc, tql, tsl := total.Summary()
+	cc, ql, sl := mon.Summary()
+	l.Debug("Network stats",
+		zap.Int64("CallPerMin", cpm),
+		zap.Int64("ReqBytesPerSec", qps),
+		zap.Int64("ResBytesPerSec", sps),
+		zap.Int64("IntervalCallCount", cc),
+		zap.Int64("IntervalReqContentLen", ql),
+		zap.Int64("IntervalResContentLen", sl),
+		zap.Int64("TotalCallCount", tcc),
+		zap.Int64("TotalReqContentLen", tql),
+		zap.Int64("TotalResContentLen", tsl),
+	)
+}
+
 func LaunchReporting(l *zap.Logger) {
-	go func() {
-		for {
-			time.Sleep(reportInterval)
-			cpm, qps, sps := mon.Traffic()
-			tcc, tql, tsl := total.Summary()
-			cc, ql, sl := mon.Summary()
-			l.Debug("Network stats",
-				zap.Int64("CallPerMin", cpm),
-				zap.Int64("ReqBytesPerSec", qps),
-				zap.Int64("ResBytesPerSec", sps),
-				zap.Int64("IntervalCallCount", cc),
-				zap.Int64("IntervalReqContentLen", ql),
-				zap.Int64("IntervalResContentLen", sl),
-				zap.Int64("TotalCallCount", tcc),
-				zap.Int64("TotalReqContentLen", tql),
-				zap.Int64("TotalResContentLen", tsl),
-			)
-		}
-	}()
+	t := time.NewTicker(reportInterval)
+	go reportLoop(t, l)
+	app_shutdown.AddShutdownHook(func() {
+		t.Stop()
+	})
 }
 
 func DumpStats(l *zap.Logger) {

@@ -277,7 +277,7 @@ func (z *memberImpl) Update(member *mo_member.Member) (updated *mo_member.Member
 	p := struct {
 		User            US     `json:"user"`
 		NewEmail        string `json:"new_email,omitempty"`
-		NewExternalId   string `json:"new_external_id,omitempty"`
+		NewExternalId   string `json:"new_external_id"`
 		NewGivenName    string `json:"new_given_name,omitempty"`
 		NewSurname      string `json:"new_surname,omitempty"`
 		NewPersistentId string `json:"new_persistent_id,omitempty"`

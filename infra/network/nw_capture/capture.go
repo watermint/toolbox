@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/network/nw_client"
+	"github.com/watermint/toolbox/infra/network/nw_monitor"
 	"go.uber.org/zap"
 	"net/http"
 	"strings"
@@ -37,6 +38,9 @@ func (z *Client) Call(ctx api_context.Context, req nw_client.RequestBuilder) (re
 	} else {
 		res = es_response_impl.New(ctx, hRes)
 	}
+
+	// Monitor stats
+	nw_monitor.Log(hReq, hRes)
 
 	// Capture
 	cp := NewCapture(ctx.Capture())

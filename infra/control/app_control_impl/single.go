@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_log"
 	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/control/app_shutdown"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
@@ -326,6 +327,7 @@ func (z *Single) Abort(opts ...app_control.AbortOpt) {
 	z.cap.Close()
 	z.flc.Close()
 
+	app_shutdown.FlushShutdownHook()
 	if opt.Reason == nil {
 		os.Exit(app_control.FatalGeneral)
 	} else {

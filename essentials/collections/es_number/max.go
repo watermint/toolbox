@@ -1,4 +1,4 @@
-package number
+package es_number
 
 func Max(nums ...interface{}) Number {
 	unified := Unify(nums...)

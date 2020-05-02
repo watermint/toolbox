@@ -1,15 +1,15 @@
 package app_log
 
 import (
+	"github.com/watermint/toolbox/essentials/log/es_rotate"
+	"github.com/watermint/toolbox/infra/control/app_shutdown"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"os"
-	"path/filepath"
 )
 
 type CaptureContext struct {
 	Logger *zap.Logger
-	File   *os.File
+	File   es_rotate.Writer
 }
 
 func (z *CaptureContext) Close() {
@@ -19,7 +19,6 @@ func (z *CaptureContext) Close() {
 }
 
 func NewCaptureLogger(path string) (cc *CaptureContext, err error) {
-	logPath := filepath.Join(path, "capture.log")
 	cfg := zapcore.EncoderConfig{
 		TimeKey:        "time",
 		NameKey:        "name",
@@ -28,11 +27,12 @@ func NewCaptureLogger(path string) (cc *CaptureContext, err error) {
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
 	var zo zapcore.WriteSyncer
-	f, err := os.Create(logPath)
-	if err != nil {
+	app_shutdown.AddShutdownHook(es_rotate.Shutdown)
+	rw := es_rotate.NewWriter(path, "capture")
+	if err := rw.Open(); err != nil {
 		return nil, err
 	}
-	zo = zapcore.AddSync(f)
+	zo = zapcore.AddSync(rw)
 
 	fileLoggerCore := zapcore.NewCore(
 		zapcore.NewJSONEncoder(cfg),
@@ -48,7 +48,7 @@ func NewCaptureLogger(path string) (cc *CaptureContext, err error) {
 
 	cc = &CaptureContext{
 		Logger: logger,
-		File:   f,
+		File:   rw,
 	}
 	return cc, nil
 }
