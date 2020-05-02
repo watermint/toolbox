@@ -8,6 +8,7 @@ for d in $(go list ./... | grep -v vendor); do
   echo Testing: $d
   CGO_ENABLED=0 go test -short -v -coverprofile=profile.out -covermode=atomic $d 2>&1 > test.out
   if [ "$?" -ne "0" ]; then
+    echo Test failed: $?
     cat test.out
     exit $?
   fi
@@ -22,3 +23,4 @@ for d in $(go list ./... | grep -v vendor); do
 done
 
 cat testreport.txt | go-junit-report > test/results/all.xml
+cp  testreport.txt test/results/out.txt
