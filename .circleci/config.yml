@@ -30,18 +30,17 @@ jobs:
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
       - run: go get golang.org/x/tools/cmd/cover
-      - run: go get github.com/mattn/goveralls
+      #- run: go get github.com/mattn/goveralls
       - run: go get github.com/jstemmer/go-junit-report
       #      - run: CGO_ENABLED=0 go run tbx.go dev ci auth import
-      - run: CGO_ENABLED=0 go test -short -p 1 -v -coverprofile=.coverprofile ./... 2>&1 | go-junit-report > test/results/all.xml
+      - run: CGO_ENABLED=0 go test -short -v -coverprofile=coverage.txt ./... 2>&1 | go-junit-report > test/results/all.xml
       - save_cache:
           key: go-pkg-mod-{{ checksum "go.mod.sum" }}
           paths:
             - /go/pkg/mod
       - store_test_results:
           path: /go/src/github.com/watermint/toolbox/test/results
-      - run: goveralls -coverprofile=.coverprofile -service=circle-ci -v
-      - run: cp .coverprofile coverage.txt
+      #- run: goveralls -coverprofile=coverage.txt -service=circle-ci -v
       - run: bash <(curl -s https://codecov.io/bash)
 
 workflows:
