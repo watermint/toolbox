@@ -11,6 +11,13 @@ else
   DIST_PATH=/dist
 fi
 
+mkdir -p resources/data
+mkdir -p resources/images
+mkdir -p resources/keys
+mkdir -p resources/messages
+mkdir -p resources/templates
+mkdir -p resources/web
+
 if [ x"" = x"$TOOLBOX_BUILDERKEY" ]; then
   if [ -e resources/keys/toolbox.buildkey ]; then
     TOOLBOX_BUILDERKEY=$(cat resources/keys/toolbox.buildkey)
