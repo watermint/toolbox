@@ -6,7 +6,7 @@ echo "" >testreport.txt
 
 for d in $(go list ./... | grep -v vendor); do
   echo Testing: $d
-  CGO_ENABLED=0 go test -short -v -coverprofile=profile.out -covermode=atomic $d 2>&1 | tee test.out
+  CGO_ENABLED=0 go test -short -v -coverprofile=profile.out -covermode=atomic $d 2>&1 > test.out
   if [ "$?" -ne "0" ]; then
     echo Test failed: $?
     cat test.out
