@@ -10,7 +10,6 @@ require (
 	github.com/dgraph-io/badger/v2 v2.0.3
 	github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13 // indirect
 	github.com/eiannone/keyboard v0.0.0-20200430171636-32d709cec0bd
-	github.com/gin-contrib/zap v0.0.1
 	github.com/gin-gonic/gin v1.5.0
 	github.com/golang/protobuf v1.3.3 // indirect
 	github.com/google/go-cmp v0.4.0
