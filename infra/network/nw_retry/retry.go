@@ -1,12 +1,12 @@
 package nw_retry
 
 import (
+	"github.com/watermint/toolbox/essentials/go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"time"
 )
@@ -24,7 +24,7 @@ type Retry struct {
 func (z *Retry) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
 	l := ctx.Log().With(
 		es_log.String("Url", req.Endpoint()),
-		es_log.String("Routine", ut_runtime.GetGoRoutineName()),
+		es_log.String("Routine", es_goroutine.GetGoRoutineName()),
 	)
 
 	res = z.client.Call(ctx, req)

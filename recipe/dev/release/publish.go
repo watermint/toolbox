@@ -24,7 +24,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
@@ -207,10 +206,7 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 	if z.TestResource.IsExists() {
 		testResourcePath = z.TestResource.Value()
 	} else {
-		v, ok := ut_runtime.EnvMap()[app.EnvNameTestResource]
-		if ok {
-			testResourcePath = v
-		}
+		testResourcePath = os.Getenv(app.EnvNameTestResource)
 	}
 
 	if testResourcePath == "" {

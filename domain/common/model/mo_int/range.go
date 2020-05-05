@@ -1,7 +1,7 @@
 package mo_int
 
 import (
-	"github.com/watermint/toolbox/infra/util/ut_math"
+	"github.com/watermint/toolbox/essentials/collections/es_number"
 )
 
 type RangeInt interface {
@@ -40,8 +40,8 @@ func (z *rangeInt) Range() (min, max int64) {
 }
 
 func (z *rangeInt) SetRange(min, max, preFill int64) {
-	z.min = ut_math.MinInt64(min, max)
-	z.max = ut_math.MaxInt64(min, max)
+	z.min = es_number.Min(min, max).Int64()
+	z.max = es_number.Max(min, max).Int64()
 	z.value = preFill
 }
 

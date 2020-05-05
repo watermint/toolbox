@@ -5,6 +5,7 @@ import (
 	"errors"
 	"flag"
 	"github.com/watermint/toolbox/essentials/encoding/es_unicode"
+	"github.com/watermint/toolbox/essentials/go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -13,7 +14,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"os"
 	"path/filepath"
 	"strings"
@@ -140,7 +140,7 @@ func (z *RunBook) runWorker(wg *sync.WaitGroup, workerErrors []error, workerName
 	wg.Add(1)
 	defer wg.Done()
 
-	l := c.Log().With(es_log.String("worker", workerName), es_log.String("goroutine", ut_runtime.GetGoRoutineName()))
+	l := c.Log().With(es_log.String("worker", workerName), es_log.String("goroutine", es_goroutine.GetGoRoutineName()))
 	l.Info("Worker start")
 	for _, step := range steps {
 		if err := z.runRecipe(workerName, step, rg, c); err != nil {

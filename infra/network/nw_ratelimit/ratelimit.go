@@ -1,8 +1,8 @@
 package nw_ratelimit
 
 import (
+	"github.com/watermint/toolbox/essentials/go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/es_log"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"sync"
 	"time"
 )
@@ -115,7 +115,7 @@ func (z *limitStateImpl) logger(hash, endpoint string) es_log.Logger {
 	return es_log.Default().With(
 		es_log.String("hash", hash),
 		es_log.String("endpoint", endpoint),
-		es_log.String("Routine", ut_runtime.GetGoRoutineName()),
+		es_log.String("Routine", es_goroutine.GetGoRoutineName()),
 	)
 }
 

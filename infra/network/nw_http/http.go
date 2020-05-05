@@ -1,11 +1,11 @@
 package nw_http
 
 import (
+	"github.com/watermint/toolbox/essentials/go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_concurrency"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"net/http"
 	"time"
 )
@@ -27,7 +27,7 @@ type Client struct {
 func (z *Client) Call(hash, endpoint string, req *http.Request) (res *http.Response, latency time.Duration, err error) {
 	l := es_log.Default().With(
 		es_log.String("Endpoint", endpoint),
-		es_log.String("Routine", ut_runtime.GetGoRoutineName()),
+		es_log.String("Routine", es_goroutine.GetGoRoutineName()),
 	)
 
 	l.Debug("Call")

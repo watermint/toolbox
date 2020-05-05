@@ -10,11 +10,11 @@ import (
 	"time"
 )
 
-func TestRun(t *testing.T) {
+func SkipTestRun(t *testing.T) {
 	run([]string{os.Args[0], "dev", "echo", "-text", "Hey"}, true)
 }
 
-func TestRunbook(t *testing.T) {
+func SkipTestRunbook(t *testing.T) {
 	rbPath := filepath.Join(filepath.Dir(os.Args[0]), app_workflow.RunBookTestName)
 	rb := &app_workflow.RunBook{
 		Version: 1,
@@ -72,7 +72,7 @@ func TestRunbook(t *testing.T) {
 	run([]string{os.Args[0]}, true)
 }
 
-func TestRunbookLoop(t *testing.T) {
+func SkipTestRunbookLoop(t *testing.T) {
 	p, err := ioutil.TempDir("", "loop")
 	if err != nil {
 		t.Error(err)

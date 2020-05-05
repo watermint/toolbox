@@ -9,8 +9,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"golang.org/x/oauth2"
+	"os"
 )
 
 type Import struct {
@@ -26,9 +26,8 @@ func (z *Import) Preset() {
 
 func (z *Import) Exec(c app_control.Control) error {
 	l := c.Log().With(es_log.String("peerName", z.PeerName), es_log.String("envName", z.EnvName))
-	env := ut_runtime.EnvMap()
-	e, ok := env[z.EnvName]
-	if !ok {
+	e := os.Getenv(z.EnvName)
+	if e == "" {
 		l.Info("Environment variable not found. Skip import.")
 		return nil
 	}

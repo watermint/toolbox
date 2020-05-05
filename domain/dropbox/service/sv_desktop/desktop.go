@@ -6,8 +6,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_desktop"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"runtime"
 )
@@ -27,13 +27,13 @@ func (z *desktopImpl) findInfo() (gjson.Result, error) {
 	l := es_log.Default()
 
 	findEnvHome := func(envName string) string {
-		em := ut_runtime.EnvMap()
-		if e, ok := em[envName]; ok {
-			l.Debug("Home folder found", es_log.String("envName", envName), es_log.String("path", e))
-			return e
+		home := os.Getenv(envName)
+		if home != "" {
+			l.Debug("home folder found", es_log.String("envName", envName), es_log.String("path", home))
+		} else {
+			l.Debug("home folder not found", es_log.String("envName", envName))
 		}
-		l.Debug("Home folder not found")
-		return ""
+		return home
 	}
 	findInfoFile := func(path string) (gjson.Result, error) {
 		ll := l.With(es_log.String("path", path))

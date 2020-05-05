@@ -3,7 +3,7 @@ package es_rewinder
 import (
 	"bytes"
 	"errors"
-	"github.com/watermint/toolbox/infra/util/ut_math"
+	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"io"
 	"math"
 )
@@ -45,7 +45,7 @@ func NewReadRewinderWithLimit(r io.ReadSeeker, offset, limit int64) (rr ReadRewi
 	if err != nil {
 		return nil, err
 	}
-	rrwl.length = ut_math.MaxInt64(ut_math.MinInt64(e-offset, limit), 0)
+	rrwl.length = es_number.Max(es_number.Min(e-offset, limit), 0).Int64()
 	if err = rrwl.Rewind(); err != nil {
 		return nil, err
 	}
