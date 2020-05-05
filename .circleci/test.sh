@@ -1,26 +1,32 @@
 #!/usr/bin/env bash
 
-set -e
-echo "" >coverage.txt
-echo "" >testreport.txt
+OUT_RESULTS=test/results
+OUT_TEST=$OUT_RESULTS/last.out
+OUT_TEST_ALL=$OUT_RESULTS/all.out
+OUT_TEST_REPORT=$OUT_RESULTS/all.xml
+OUT_PROFILE=$OUT_RESULTS/profile.out
+OUT_COVERAGE=coverage.txt
+
+echo "" >$OUT_COVERAGE
+echo "" >$OUT_TEST_ALL
 
 for d in $(go list ./... | grep -v vendor); do
   echo Testing: $d
-  CGO_ENABLED=0 go test -short -v -coverprofile=profile.out -covermode=atomic $d 2>&1 > test.out
+  CGO_ENABLED=0 go test -short -v -coverprofile=$OUT_PROFILE -covermode=atomic $d 2>&1 >$OUT_TEST
   if [ "$?" -ne "0" ]; then
     echo Test failed: $?
     cat test.out
     exit $?
   fi
-  if [ -f profile.out ]; then
-    cat profile.out >>coverage.txt
-    rm profile.out
+  if [ -f $OUT_PROFILE ]; then
+    cat $OUT_PROFILE >>$OUT_COVERAGE
+    rm $OUT_PROFILE
   fi
-  if [ -f test.out ]; then
-    cat test.out >>testreport.txt
-    rm test.out
+  if [ -f $OUT_TEST ]; then
+    cat $OUT_TEST >>$OUT_TEST_ALL
+    rm $OUT_TEST
   fi
 done
 
-cat testreport.txt | go-junit-report >test/results/all.xml
-cp testreport.txt test/results/out.txt
+cat $OUT_TEST_ALL | go-junit-report >$OUT_TEST_REPORT
+
