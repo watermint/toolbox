@@ -64,15 +64,32 @@ func NewTestExistingFileSystemFolderPath(c app_control.Control, name string) mo_
 	return mo_path2.NewExistingFileSystemPath(MustMakeTestFolder(c, name, true))
 }
 
+func resBundle() es_resource.Bundle {
+	_, err := rice.FindBox("../../../resources/messages")
+	if err == nil {
+		return es_resource.New(
+			rice.MustFindBox("../../../resources/templates"),
+			rice.MustFindBox("../../../resources/messages"),
+			rice.MustFindBox("../../../resources/web"),
+			rice.MustFindBox("../../../resources/keys"),
+			rice.MustFindBox("../../../resources/images"),
+			rice.MustFindBox("../../../resources/data"),
+		)
+	} else {
+		// In case the test run from the project root
+		return es_resource.New(
+			rice.MustFindBox("resources/templates"),
+			rice.MustFindBox("resources/messages"),
+			rice.MustFindBox("resources/web"),
+			rice.MustFindBox("resources/keys"),
+			rice.MustFindBox("resources/images"),
+			rice.MustFindBox("resources/data"),
+		)
+	}
+}
+
 func Resources() (ui app_ui.UI) {
-	bundle := es_resource.New(
-		rice.MustFindBox("../../../resources/templates"),
-		rice.MustFindBox("../../../resources/messages"),
-		rice.MustFindBox("../../../resources/web"),
-		rice.MustFindBox("../../../resources/keys"),
-		rice.MustFindBox("../../../resources/images"),
-		rice.MustFindBox("../../../resources/data"),
-	)
+	bundle := resBundle()
 	lg := es_log.Default()
 	log.SetOutput(lgw_golog.NewLogWrapper(lg))
 	app_resource.SetBundle(bundle)
