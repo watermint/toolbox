@@ -15,7 +15,9 @@ for d in $(go list ./... | grep -v vendor); do
   CGO_ENABLED=0 go test -short -v -coverprofile=$OUT_PROFILE -covermode=atomic $d 2>&1 >$OUT_TEST
   if [ "$?" -ne "0" ]; then
     echo Test failed: $?
-    cat test.out
+    echo ---------------
+    cat $OUT_TEST
+    echo ---------------
     exit $?
   fi
   if [ -f $OUT_PROFILE ]; then
@@ -29,4 +31,3 @@ for d in $(go list ./... | grep -v vendor); do
 done
 
 cat $OUT_TEST_ALL | go-junit-report >$OUT_TEST_REPORT
-

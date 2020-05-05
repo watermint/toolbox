@@ -112,7 +112,11 @@ func TestGroup(t *testing.T) {
 			return rc_exec.Exec(c, &groupmember.Add{}, func(r rc_recipe.Recipe) {
 				m := r.(*groupmember.Add)
 				m.GroupName = testGroupName
-				m.MemberEmail = testMemberEmail
+				if testMemberEmail == "" {
+					m.MemberEmail = "john@example.com"
+				} else {
+					m.MemberEmail = testMemberEmail
+				}
 			})
 		})
 
@@ -155,7 +159,11 @@ func TestGroup(t *testing.T) {
 			return rc_exec.Exec(c, &groupmember.Delete{}, func(r rc_recipe.Recipe) {
 				m := r.(*groupmember.Delete)
 				m.GroupName = testGroupName
-				m.MemberEmail = testMemberEmail
+				if testMemberEmail == "" {
+					m.MemberEmail = "john@example.com"
+				} else {
+					m.MemberEmail = testMemberEmail
+				}
 			})
 		})
 
