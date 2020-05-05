@@ -3,7 +3,8 @@ services:
   app:
     build:
       context: .
-    command: dlv test --headless --listen=:2345 --api-version=2 github.com/watermint/toolbox
+    #command: dlv test --headless --listen=:2345 --api-version=2 github.com/watermint/toolbox/...
+    command: ./.circleci/test.sh
     volumes:
       - .:/app
     ports:

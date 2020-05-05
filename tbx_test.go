@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -10,11 +11,18 @@ import (
 	"time"
 )
 
-func SkipTestRun(t *testing.T) {
+func TestRun(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		return
+	}
 	run([]string{os.Args[0], "dev", "echo", "-text", "Hey"}, true)
 }
 
-func SkipTestRunbook(t *testing.T) {
+func TestRunbook(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		return
+	}
+
 	rbPath := filepath.Join(filepath.Dir(os.Args[0]), app_workflow.RunBookTestName)
 	rb := &app_workflow.RunBook{
 		Version: 1,
@@ -72,7 +80,11 @@ func SkipTestRunbook(t *testing.T) {
 	run([]string{os.Args[0]}, true)
 }
 
-func SkipTestRunbookLoop(t *testing.T) {
+func TestRunbookLoop(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		return
+	}
+
 	p, err := ioutil.TempDir("", "loop")
 	if err != nil {
 		t.Error(err)
