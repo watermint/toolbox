@@ -3,9 +3,8 @@ package api_request
 import (
 	"encoding/json"
 	"github.com/google/go-querystring/query"
-	"github.com/watermint/toolbox/essentials/io/ut_io"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/io/es_rewinder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 )
 
 const (
@@ -23,15 +22,15 @@ const (
 type RequestData struct {
 	p interface{}
 	h map[string]string
-	c ut_io.ReadRewinder
+	c es_rewinder.ReadRewinder
 }
 
 // Returns JSON form of param. Returns `null` string if an error occurred.
 func (z RequestData) ParamJson() json.RawMessage {
-	l := app_root.Log()
+	l := es_log.Default()
 	q, err := json.Marshal(z.p)
 	if err != nil {
-		l.Debug("unable to marshal param", zap.Error(err), zap.Any("p", z.p))
+		l.Debug("unable to marshal param", es_log.Error(err), es_log.Any("p", z.p))
 		return json.RawMessage("null")
 	} else {
 		return q
@@ -40,10 +39,10 @@ func (z RequestData) ParamJson() json.RawMessage {
 
 // Returns query string like "?key=value&key2=value2". Returns empty string if an error occurred.
 func (z RequestData) ParamQuery() string {
-	l := app_root.Log()
+	l := es_log.Default()
 	q, err := query.Values(z.p)
 	if err != nil {
-		l.Debug("unable to make query", zap.Error(err), zap.Any("p", z.p))
+		l.Debug("unable to make query", es_log.Error(err), es_log.Any("p", z.p))
 		return ""
 	} else {
 		return "?" + q.Encode()
@@ -60,7 +59,7 @@ func (z RequestData) Headers() map[string]string {
 	}
 	return z.h
 }
-func (z RequestData) Content() ut_io.ReadRewinder {
+func (z RequestData) Content() es_rewinder.ReadRewinder {
 	return z.c
 }
 
@@ -85,7 +84,7 @@ func Header(name, value string) RequestDatum {
 	}
 }
 
-func Content(c ut_io.ReadRewinder) RequestDatum {
+func Content(c es_rewinder.ReadRewinder) RequestDatum {
 	return func(d RequestData) RequestData {
 		d.c = c
 		return d

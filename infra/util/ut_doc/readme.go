@@ -1,15 +1,14 @@
 package ut_doc
 
 import (
-	"bufio"
-	"bytes"
-	"github.com/watermint/toolbox/essentials/io/ut_io"
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"go.uber.org/zap"
 	"os"
 	"sort"
 	"strings"
@@ -43,8 +42,8 @@ type Readme struct {
 func (z *Readme) commands() string {
 	book := make(map[string]string)
 	keys := make([]string, 0)
-	cl := z.ctl.(app_control_launcher.ControlLauncher)
-	recipes := cl.Catalogue().Recipes()
+	cat := app_catalogue.Current()
+	recipes := cat.Recipes()
 
 	ui := z.ctl.UI()
 	for _, r := range recipes {
@@ -60,61 +59,50 @@ func (z *Readme) commands() string {
 		book[q] = ui.Text(rs.Title())
 		keys = append(keys, q)
 	}
-	var b bytes.Buffer
-	w := bufio.NewWriter(&b)
 
-	mui := app_ui.NewMarkdown(z.ctl.Messages(), w, false)
-	mt := mui.InfoTable("Commands")
-
-	mt.Header(
-		MCommands.CommandHeaderCommand,
-		MCommands.CommandHeaderDesc,
-	)
-	sort.Strings(keys)
-	for _, k := range keys {
-		c := k
-		if z.markdown {
-			c = "[" + k + "](" + z.commandPath + strings.Replace(k, " ", "-", -1) + ".md)"
-		}
-		mt.RowRaw(c, book[k])
-	}
-
-	mt.Flush()
-	w.Flush()
-
-	return b.String()
+	return app_ui.MakeMarkdown(z.ctl.Messages(), func(mui app_ui.UI) {
+		mui.WithTable("Commands", func(mt app_ui.Table) {
+			mt.Header(
+				MCommands.CommandHeaderCommand,
+				MCommands.CommandHeaderDesc,
+			)
+			sort.Strings(keys)
+			for _, k := range keys {
+				c := k
+				if z.markdown {
+					c = "[" + k + "](" + z.commandPath + strings.Replace(k, " ", "-", -1) + ".md)"
+				}
+				mt.RowRaw(c, book[k])
+			}
+		})
+	})
 }
 
 func (z *Readme) Generate() error {
 	l := z.ctl.Log()
 	commands := z.commands()
 
-	l.Info("Generating README", zap.String("file", z.filename))
-	readmeBytes, err := z.ctl.Resource("README.tmpl.md")
+	l.Info("Generating README", es_log.String("file", z.filename))
+	rb := app_resource.Bundle()
+	readmeBytes, err := rb.Templates().Bytes("README.tmpl.md")
 	if err != nil {
-		l.Error("Template not found", zap.Error(err))
+		l.Error("Template not found", es_log.Error(err))
 		return err
 	}
 
 	tmpl, err := template.New("README").Funcs(msgFuncMap(z.ctl)).Parse(string(readmeBytes))
 	if err != nil {
-		l.Error("Unable to compile template", zap.Error(err))
+		l.Error("Unable to compile template", es_log.Error(err))
 		return err
 	}
 
-	bodyUsage := ""
-	{
-		var b bytes.Buffer
-		w := bufio.NewWriter(&b)
-		cui := app_ui.NewBufferConsole(z.ctl.Messages(), w)
-		if cl, ok := z.ctl.(app_control_launcher.ControlLauncher); ok {
-			cl.Catalogue().RootGroup().PrintUsage(cui, "./tbx", "xx.x.xxx")
-			w.Flush()
-			bodyUsage = b.String()
-		}
-	}
+	bodyUsage := app_ui.MakeConsoleDemo(z.ctl.Messages(), func(cui app_ui.UI) {
+		cat := app_catalogue.Current()
+		rg := cat.RootGroup()
+		rg.PrintUsage(cui, "./tbx", "xx.x.xxx")
+	})
 
-	out := ut_io.NewDefaultOut(z.ctl.Feature().IsTest())
+	out := es_stdout.NewDefaultOut(z.ctl.Feature().IsTest())
 	if !z.ctl.Feature().IsTest() {
 		out, err = os.Create(z.filename)
 		if err != nil {

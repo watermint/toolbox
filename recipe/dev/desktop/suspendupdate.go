@@ -1,11 +1,11 @@
 package desktop
 
 import (
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -32,19 +32,19 @@ func (z *Suspendupdate) Exec(c app_control.Control) error {
 		oldName = "_" + z.UpdaterName
 		newName = z.UpdaterName
 	}
-	l = l.With(zap.String("mode", mode))
+	l = l.With(es_log.String("mode", mode))
 
 	path := filepath.Join(z.UpdaterPath, oldName)
 	ls, err := os.Lstat(path)
 	if err != nil {
-		l.Info("Unable to locate Updater", zap.Error(err), zap.String("path", path))
+		l.Info("Unable to locate Updater", es_log.Error(err), es_log.String("path", path))
 		return err
 	}
-	l.Debug("Updater", zap.Any("lstat", ls))
+	l.Debug("Updater", es_log.Any("lstat", ls))
 
-	l.Info("Trying to rename Updater", zap.String("path", path), zap.String("newName", newName))
+	l.Info("Trying to rename Updater", es_log.String("path", path), es_log.String("newName", newName))
 	if err = os.Rename(path, filepath.Join(z.UpdaterPath, newName)); err != nil {
-		l.Error("Unable to rename Updater", zap.Error(err))
+		l.Error("Unable to rename Updater", es_log.Error(err))
 		return err
 	}
 	l.Info("Updater")

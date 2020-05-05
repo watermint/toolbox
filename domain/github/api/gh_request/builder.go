@@ -1,13 +1,13 @@
 package gh_request
 
 import (
-	"github.com/watermint/toolbox/essentials/io/ut_io"
+	"github.com/watermint/toolbox/essentials/io/es_rewinder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/network/nw_client"
-	"go.uber.org/zap"
 	"net/http"
 )
 
@@ -26,16 +26,16 @@ type Builder struct {
 	data   api_request.RequestData
 }
 
-func (z Builder) Log() *zap.Logger {
+func (z Builder) Log() es_log.Logger {
 	l := z.ctl.Log()
 	if z.method != "" {
-		l = l.With(zap.String("method", z.method))
+		l = l.With(es_log.String("method", z.method))
 	}
 	if z.url != "" {
-		l = l.With(zap.String("url", z.url))
+		l = l.With(es_log.String("url", z.url))
 	}
 	if z.token != nil {
-		l = l.With(zap.String("scope", z.token.Scope()))
+		l = l.With(es_log.String("scope", z.token.Scope()))
 	}
 	return l
 }
@@ -87,11 +87,11 @@ func (z Builder) reqHeaders() map[string]string {
 	return headers
 }
 
-func (z Builder) reqContent() ut_io.ReadRewinder {
+func (z Builder) reqContent() es_rewinder.ReadRewinder {
 	if z.data.Content() != nil {
 		return z.data.Content()
 	}
-	return ut_io.NewReadRewinderOnMemory(z.data.ParamJson())
+	return es_rewinder.NewReadRewinderOnMemory(z.data.ParamJson())
 }
 
 func (z Builder) reqParamString() string {
@@ -107,7 +107,7 @@ func (z Builder) Build() (*http.Request, error) {
 	rc := z.reqContent()
 	req, err := nw_client.NewHttpRequest(z.method, url, rc)
 	if err != nil {
-		l.Debug("Unable create request", zap.Error(err))
+		l.Debug("Unable create request", es_log.Error(err))
 		return nil, err
 	}
 	headers := z.reqHeaders()

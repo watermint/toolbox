@@ -6,13 +6,13 @@ import (
 	"testing"
 )
 
-func NewMessageMemory() qt_missingmsg.Message {
+func NewMessageMemory() qt_missingmsg.Missing {
 	return &messageMemory{
 		missing: make(map[string]bool),
 	}
 }
 
-func NewMessageTest(t *testing.T) qt_missingmsg.Message {
+func NewMessageTest(t *testing.T) qt_missingmsg.Missing {
 	return &messageTest{
 		t:       t,
 		missing: make(map[string]bool),

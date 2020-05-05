@@ -7,10 +7,12 @@ import (
 	"errors"
 	"fmt"
 	"github.com/iancoleman/strcase"
-	"github.com/watermint/toolbox/essentials/io/ut_io"
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -21,7 +23,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
-	"go.uber.org/zap"
 	"io"
 	"os"
 	"sort"
@@ -62,68 +63,49 @@ type Commands struct {
 }
 
 func (z *Commands) optionsTable(ctl app_control.Control, spec rc_recipe.SpecValue) string {
-	var b bytes.Buffer
-	w := bufio.NewWriter(&b)
-	mc := ctl.Messages()
-
-	mui := app_ui.NewMarkdown(mc, w, false)
-	app_doc.PrintOptionsTable(mui, spec)
-	w.Flush()
-	return b.String()
+	return app_ui.MakeMarkdown(ctl.Messages(), func(mui app_ui.UI) {
+		app_doc.PrintOptionsTable(mui, spec)
+	})
 }
 
 func (z *Commands) reportTable(ctl app_control.Control, rs rp_model.Spec) string {
-	var b bytes.Buffer
-	w := bufio.NewWriter(&b)
-	mc := ctl.Messages()
+	return app_ui.MakeMarkdown(ctl.Messages(), func(mui app_ui.UI) {
+		mui.WithTable("Reports", func(mt app_ui.Table) {
+			mt.Header(
+				MCommands.ReportHeaderName,
+				MCommands.ReportHeaderDesc,
+			)
 
-	mui := app_ui.NewMarkdown(mc, w, false)
-	mt := mui.InfoTable("")
-
-	mt.Header(
-		MCommands.ReportHeaderName,
-		MCommands.ReportHeaderDesc,
-	)
-
-	cols := rs.Columns()
-	for _, col := range cols {
-		mt.Row(
-			app_msg.Raw(col),
-			rs.ColumnDesc(col),
-		)
-	}
-
-	mt.Flush()
-	w.Flush()
-	return b.String()
+			cols := rs.Columns()
+			for _, col := range cols {
+				mt.Row(
+					app_msg.Raw(col),
+					rs.ColumnDesc(col),
+				)
+			}
+		})
+	})
 }
 
 func (z *Commands) feedTable(ctl app_control.Control, spec fd_file.Spec) string {
-	var b bytes.Buffer
-	w := bufio.NewWriter(&b)
-	mc := ctl.Messages()
+	return app_ui.MakeMarkdown(ctl.Messages(), func(mui app_ui.UI) {
+		mui.WithTable("Feed", func(mt app_ui.Table) {
+			mt.Header(
+				MCommands.FeedHeaderName,
+				MCommands.FeedHeaderDesc,
+				MCommands.FeedHeaderExample,
+			)
 
-	mui := app_ui.NewMarkdown(mc, w, false)
-	mt := mui.InfoTable(spec.Name())
-
-	mt.Header(
-		MCommands.FeedHeaderName,
-		MCommands.FeedHeaderDesc,
-		MCommands.FeedHeaderExample,
-	)
-
-	cols := spec.Columns()
-	for _, col := range cols {
-		mt.Row(
-			app_msg.Raw(col),
-			spec.ColumnDesc(col),
-			spec.ColumnExample(col),
-		)
-	}
-
-	mt.Flush()
-	w.Flush()
-	return b.String()
+			cols := spec.Columns()
+			for _, col := range cols {
+				mt.Row(
+					app_msg.Raw(col),
+					spec.ColumnDesc(col),
+					spec.ColumnExample(col),
+				)
+			}
+		})
+	})
 }
 
 func (z *Commands) feedSample(ctl app_control.Control, spec fd_file.Spec) string {
@@ -176,14 +158,14 @@ func (z *Commands) suggestCliArgs(ctl app_control.Control, r rc_recipe.Recipe) e
 			suggests = append(suggests, valArg+`\"2020-04-01 17:58:38\"`)
 
 		default:
-			l.Debug("Skip suggest", zap.Any("value", vt))
+			l.Debug("Skip suggest", es_log.Any("value", vt))
 		}
 	}
 	if len(suggests) > 0 {
 		msgCliArgs := spec.CliArgs()
 		l.Error("cli.arg might required",
-			zap.String("key", msgCliArgs.Key()),
-			zap.String("suggest", strings.Join(suggests, " ")))
+			es_log.String("key", msgCliArgs.Key()),
+			es_log.String("suggest", strings.Join(suggests, " ")))
 
 		qt_messages.SuggestMessages(ctl, func(out io.Writer) {
 			fmt.Fprintf(out, `"%s":"%s",`, msgCliArgs.Key(), strings.Join(suggests, " "))
@@ -201,16 +183,16 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 	l := ctl.Log()
 	ui := ctl.UI()
 
-	l.Info("Generating command manual", zap.String("command", spec.CliPath()))
+	l.Info("Generating command manual", es_log.String("command", spec.CliPath()))
 
-	tmplBytes, err := ctl.Resource("command.tmpl.md")
+	tmplBytes, err := app_resource.Bundle().Templates().Bytes("command.tmpl.md")
 	if err != nil {
-		l.Error("Template not found", zap.Error(err))
+		l.Error("Template not found", es_log.Error(err))
 		return err
 	}
 	tmpl, err := template.New(spec.CliPath()).Funcs(msgFuncMap(ctl)).Parse(string(tmplBytes))
 	if err != nil {
-		l.Error("Unable to compile template", zap.Error(err))
+		l.Error("Unable to compile template", es_log.Error(err))
 		return err
 	}
 	commonSpec := rc_spec.NewCommonValue()
@@ -220,16 +202,12 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 	}
 
 	authExample := ""
-	{
-		var b bytes.Buffer
-		w := bufio.NewWriter(&b)
-		cui := app_ui.NewBufferConsole(ctl.Messages(), w)
+	demo := app_ui.MakeConsoleDemo(ctl.Messages(), func(cui app_ui.UI) {
 		rc_group.AppHeader(cui, "xx.x.xxx")
 		cui.Info(api_auth_impl.MApiAuth.OauthSeq1.With("Url", "https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx"))
 		cui.Info(api_auth_impl.MApiAuth.OauthSeq2)
-		w.Flush()
-		authExample = "```\n" + b.String() + "\n```"
-	}
+	})
+	authExample = "```\n" + demo + "\n```"
 
 	params := make(map[string]interface{})
 	params["Command"] = spec.CliPath()
@@ -277,12 +255,12 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 	params["ReportAvailable"] = len(reportNames) > 0
 	params["ReportDesc"] = reportDescs
 
-	out := ut_io.NewDefaultOut(ctl.Feature().IsTest())
+	out := es_stdout.NewDefaultOut(ctl.Feature().IsTest())
 	if z.path != "" && !ctl.Feature().IsTest() {
 		outPath := z.path + strings.ReplaceAll(spec.CliPath(), " ", "-") + ".md"
 		out, err = os.Create(outPath)
 		if err != nil {
-			l.Error("Unable to create file", zap.Error(err), zap.String("outPath", outPath))
+			l.Error("Unable to create file", es_log.Error(err), es_log.String("outPath", outPath))
 			return err
 		}
 	}
@@ -290,8 +268,7 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 }
 
 func (z *Commands) GenerateAll(ctl app_control.Control) error {
-	cl := ctl.(app_control_launcher.ControlLauncher)
-	recipes := cl.Catalogue().Recipes()
+	recipes := app_catalogue.Current().Recipes()
 	l := ctl.Log()
 
 	numSecret := 0
@@ -307,6 +284,6 @@ func (z *Commands) GenerateAll(ctl app_control.Control) error {
 			return err
 		}
 	}
-	l.Info("Recipes", zap.Int("SecretRecipes", numSecret), zap.Int("Recipes", len(recipes)))
+	l.Info("Recipes", es_log.Int("SecretRecipes", numSecret), es_log.Int("Recipes", len(recipes)))
 	return nil
 }

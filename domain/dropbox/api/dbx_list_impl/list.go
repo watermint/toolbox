@@ -8,8 +8,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response_impl"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_response"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"go.uber.org/zap"
 )
 
 var (
@@ -30,10 +30,10 @@ type listImpl struct {
 	reqEndpoint string
 }
 
-func (z listImpl) log(lo dbx_list.ListOpts) *zap.Logger {
+func (z listImpl) log(lo dbx_list.ListOpts) es_log.Logger {
 	return z.ctx.Log().With(
-		zap.String("reqEndpoint", z.reqEndpoint),
-		zap.String("contEndpoint", lo.ContinueEndpoint),
+		es_log.String("reqEndpoint", z.reqEndpoint),
+		es_log.String("contEndpoint", lo.ContinueEndpoint),
 	)
 }
 
@@ -41,7 +41,7 @@ func (z *listImpl) handleResponse(lo dbx_list.ListOpts, res dbx_response.Respons
 	l := z.log(lo)
 
 	if err, fail := res.Failure(); fail {
-		l.Debug("error response", zap.Error(err))
+		l.Debug("error response", es_log.Error(err))
 		return res
 	}
 
@@ -77,12 +77,12 @@ func (z listImpl) handleEntry(lo dbx_list.ListOpts, res dbx_response.Response) e
 	j := res.Result()
 
 	if results, found := j.FindArray(lo.ResultTag); !found {
-		l.Debug("No result found", zap.ByteString("response", j.Raw()))
+		l.Debug("No result found", es_log.ByteString("response", j.Raw()))
 		return ErrorNoResult
 	} else {
 		for _, e := range results {
 			if err := lo.OnEntry(e); err != nil {
-				l.Debug("handler returned abort", zap.Error(err))
+				l.Debug("handler returned abort", es_log.Error(err))
 				return err
 			}
 		}
@@ -94,8 +94,8 @@ func (z listImpl) isContinueHasMore(lo dbx_list.ListOpts, j es_json.Json) (cont 
 	l := z.log(lo)
 	if hasMore, e := j.FindBool("has_more"); !hasMore {
 		l.Debug("no more results; has_more == false",
-			zap.Bool("e", e),
-			zap.Bool("hasMore", hasMore))
+			es_log.Bool("e", e),
+			es_log.Bool("hasMore", hasMore))
 		return false, ""
 	}
 	return z.isContinueCursor(lo, j)
@@ -104,7 +104,7 @@ func (z listImpl) isContinueHasMore(lo dbx_list.ListOpts, j es_json.Json) (cont 
 func (z listImpl) isContinueCursor(lo dbx_list.ListOpts, j es_json.Json) (cont bool, cursor string) {
 	l := z.log(lo)
 	if cursor, found := j.FindString("cursor"); found {
-		l.Debug("cursor found", zap.String("cursor", cursor))
+		l.Debug("cursor found", es_log.String("cursor", cursor))
 		return true, cursor
 	} else {
 		l.Debug("has_more returned true, but no cursor found in the body")

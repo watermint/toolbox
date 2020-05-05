@@ -2,9 +2,10 @@ package api_appkey
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/security/sc_zap"
-	"go.uber.org/zap"
 )
 
 type Resource interface {
@@ -18,7 +19,7 @@ func New(ctl app_control.Control) Resource {
 	l := ctl.Log()
 	kb, err := sc_zap.Unzap(ctl)
 	if err != nil {
-		kb, err = ctl.Resource("toolbox.appkeys")
+		kb, err = app_resource.Bundle().Keys().Bytes("toolbox.appkeys")
 		if err != nil {
 			l.Debug("Skip loading app keys")
 			return &resourceImpl{keys: keys}
@@ -26,7 +27,7 @@ func New(ctl app_control.Control) Resource {
 	}
 	err = json.Unmarshal(kb, &keys)
 	if err != nil {
-		l.Debug("Skip loading app keys: unable to unmarshal resource", zap.Error(err))
+		l.Debug("Skip loading app keys: unable to unmarshal resource", es_log.Error(err))
 		return &resourceImpl{keys: keys}
 	}
 	return &resourceImpl{keys: keys}

@@ -3,9 +3,8 @@ package mo_usage
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
 )
 
 type Usage struct {
@@ -40,7 +39,7 @@ func NewMemberUsage(member *mo_member.Member, usage *Usage) (mu *MemberUsage) {
 
 	mu = &MemberUsage{}
 	if err := api_parser.ParseModelRaw(mu, raw); err != nil {
-		app_root.Log().Warn("unexpected data format", zap.Error(err))
+		es_log.Default().Warn("unexpected data format", es_log.Error(err))
 		// return empty
 		return mu
 	}

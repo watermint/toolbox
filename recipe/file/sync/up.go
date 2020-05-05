@@ -5,13 +5,13 @@ import (
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 )
 
 type Up struct {
@@ -40,7 +40,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		ru.ChunkSizeKb = z.ChunkSizeKb.Value()
 	})
 	if z.FailOnError && err != nil {
-		l.Debug("Return error", zap.Error(err))
+		l.Debug("Return error", es_log.Error(err))
 		return err
 	}
 	return nil

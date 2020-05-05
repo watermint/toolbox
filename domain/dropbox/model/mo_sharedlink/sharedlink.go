@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
 )
 
 type SharedLink interface {
@@ -26,7 +25,7 @@ type SharedLink interface {
 func newMetadata(raw json.RawMessage) *Metadata {
 	ce := &Metadata{}
 	if err := api_parser.ParseModelRaw(ce, raw); err != nil {
-		app_root.Log().Debug("Unable to parse json", zap.Error(err), zap.ByteString("raw", raw))
+		es_log.Default().Debug("Unable to parse json", es_log.Error(err), es_log.ByteString("raw", raw))
 		return ce
 	}
 	ce.Raw = raw
@@ -236,7 +235,7 @@ type SharedLinkMember struct {
 func (z *SharedLinkMember) SharedLink() (link SharedLink) {
 	link = &Metadata{}
 	if err := api_parser.ParseModelPathRaw(link, z.Raw, "sharedlink"); err != nil {
-		app_root.Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
+		es_log.Default().Warn("unexpected data format", es_log.String("entry", string(z.Raw)), es_log.Error(err))
 		// return empty
 		return link
 	}
@@ -246,7 +245,7 @@ func (z *SharedLinkMember) SharedLink() (link SharedLink) {
 func (z *SharedLinkMember) Member() (member mo_sharedfolder_member.Member) {
 	member = &mo_sharedfolder_member.Metadata{}
 	if err := api_parser.ParseModelPathRaw(member, z.Raw, "member"); err != nil {
-		app_root.Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
+		es_log.Default().Warn("unexpected data format", es_log.String("entry", string(z.Raw)), es_log.Error(err))
 		// return empty
 		return member
 	}
@@ -261,7 +260,7 @@ func NewSharedLinkMember(link SharedLink, member *mo_member.Member) (slm *Shared
 
 	slm = &SharedLinkMember{}
 	if err := api_parser.ParseModelRaw(slm, raw); err != nil {
-		app_root.Log().Warn("unexpected data format", zap.Error(err))
+		es_log.Default().Warn("unexpected data format", es_log.Error(err))
 		// return empty
 		return slm
 	}

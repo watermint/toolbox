@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_folder"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -20,7 +21,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -79,7 +79,7 @@ func (z *Upload) Preset() {
 
 func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath string, estimate bool) (summary *UploadSummary, err error) {
 	// TODO: refactor localPath to mo_path.FileSystemPath, and DropboxPath to mo_path.DropboxPath
-	l := c.Log().With(zap.String("localPath", localPath), zap.String("dropboxPath", dropboxPath), zap.Bool("estimate", estimate))
+	l := c.Log().With(es_log.String("localPath", localPath), es_log.String("dropboxPath", dropboxPath), es_log.Bool("estimate", estimate))
 	l.Debug("execute")
 
 	status := &UploadStatus{
@@ -110,22 +110,22 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 		}
 	}()
 
-	l.Debug("upload", zap.Int("chunkSize", z.ChunkSizeKb))
+	l.Debug("upload", es_log.Int("chunkSize", z.ChunkSizeKb))
 	up := sv_file_content.NewUpload(z.Context, sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
 	q := c.NewQueue()
 
 	info, err := os.Lstat(localPath)
 	if err != nil {
-		l.Debug("Unable to fetch info", zap.Error(err))
+		l.Debug("Unable to fetch info", es_log.Error(err))
 		return nil, err
 	}
 
 	createFolder := func(path string) error {
-		ll := l.With(zap.String("path", path))
+		ll := l.With(es_log.String("path", path))
 		ll.Debug("Prepare create folder")
 		rel, err := es_filepath.Rel(localPath, path)
 		if err != nil {
-			l.Debug("unable to calculate rel path", zap.Error(err))
+			l.Debug("unable to calculate rel path", es_log.Error(err))
 			z.Uploaded.Failure(err, &UploadRow{File: path})
 			status.error()
 			return err
@@ -136,16 +136,16 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 		}
 
 		folderPath := mo_path.NewDropboxPath(dropboxPath).ChildPath(rel)
-		ll = ll.With(zap.String("folderPath", folderPath.Path()), zap.String("rel", rel))
+		ll = ll.With(es_log.String("folderPath", folderPath.Path()), es_log.String("rel", rel))
 		ll.Debug("Create folder")
 
 		entry, err := sv_file_folder.New(z.Context).Create(folderPath)
 		if err != nil {
 			if dbx_util.ErrorSummaryPrefix(err, "path/conflict/folder") {
-				ll.Debug("The folder already exist, ignore it", zap.Error(err))
+				ll.Debug("The folder already exist, ignore it", es_log.Error(err))
 				return nil
 			} else {
-				ll.Debug("Unable to create folder", zap.Error(err))
+				ll.Debug("Unable to create folder", es_log.Error(err))
 				z.Uploaded.Failure(err, &UploadRow{File: path})
 				return err
 			}
@@ -157,18 +157,18 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 
 	var scanFolder func(path string) error
 	scanFolder = func(path string) error {
-		ll := l.With(zap.String("path", path))
+		ll := l.With(es_log.String("path", path))
 
 		ll.Debug("Scanning folder")
 		localEntries, err := ioutil.ReadDir(path)
 		if err != nil {
-			ll.Debug("Unable to read dir", zap.Error(err))
+			ll.Debug("Unable to read dir", es_log.Error(err))
 			z.Uploaded.Failure(err, &UploadRow{File: path})
 			return err
 		}
 		localPathRel, err := es_filepath.Rel(localPath, path)
 		if err != nil {
-			ll.Debug("Unable to calc rel path", zap.Error(err))
+			ll.Debug("Unable to calc rel path", es_log.Error(err))
 			z.Uploaded.Failure(err, &UploadRow{File: path})
 			return err
 		}
@@ -182,10 +182,10 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 		if err != nil {
 			ers := dbx_error.NewErrors(err)
 			if ers.Path().IsNotFound() {
-				ll.Debug("Dropbox entry not found", zap.String("dbxPath", dbxPath.Path()), zap.Error(err))
+				ll.Debug("Dropbox entry not found", es_log.String("dbxPath", dbxPath.Path()), es_log.Error(err))
 				dbxEntries = make([]mo_file.Entry, 0)
 			} else {
-				ll.Debug("Unable to read Dropbox entries", zap.String("dbxPath", dbxPath.Path()), zap.Error(err))
+				ll.Debug("Unable to read Dropbox entries", es_log.String("dbxPath", dbxPath.Path()), es_log.Error(err))
 				return err
 			}
 		}
@@ -196,7 +196,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 		for _, e := range localEntries {
 			p := filepath.Join(path, e.Name())
 			if dbx_util.IsFileNameIgnored(p) {
-				ll.Debug("Ignore file", zap.String("p", p))
+				ll.Debug("Ignore file", es_log.String("p", p))
 				var ps int64 = 0
 				pi, err := os.Lstat(p)
 				if err == nil {
@@ -217,7 +217,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 				lastErr = scanFolder(filepath.Join(path, e.Name()))
 			} else {
 				dbxEntry := dbxEntryByName[strings.ToLower(e.Name())]
-				ll.Debug("Enqueue", zap.String("p", p))
+				ll.Debug("Enqueue", es_log.String("p", p))
 				q.Enqueue(&UploadWorker{
 					dropboxBasePath: dropboxPath,
 					localBasePath:   localPath,
@@ -232,7 +232,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 				})
 			}
 		}
-		l.Debug("folder scan finished", zap.Int("numEntriesProceed", numEntriesProceed), zap.Error(lastErr))
+		l.Debug("folder scan finished", es_log.Int("numEntriesProceed", numEntriesProceed), es_log.Error(lastErr))
 		if numEntriesProceed == 0 && z.CreateFolder {
 			l.Debug("Create folder for empty folder")
 			return createFolder(path)
@@ -265,7 +265,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 }
 
 func (z *Upload) Exec(c app_control.Control) error {
-	l := c.Log().With(zap.String("src", z.LocalPath.Path()), zap.String("dest", z.DropboxPath.Path()))
+	l := c.Log().With(es_log.String("src", z.LocalPath.Path()), es_log.String("dest", z.DropboxPath.Path()))
 	if err := z.Uploaded.Open(rp_model.NoConsoleOutput()); err != nil {
 		return err
 	}
@@ -277,7 +277,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 	}
 	l.Debug("Start uploading")
 	_, err := z.exec(c, z.LocalPath.Path(), z.DropboxPath.Path(), z.EstimateOnly)
-	l.Debug("Finished", zap.Error(err))
+	l.Debug("Finished", es_log.Error(err))
 	return err
 }
 

@@ -2,14 +2,13 @@ package rp_model_impl
 
 import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
-	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/report/rp_column_impl"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"go.uber.org/zap"
 )
 
 type MsgColumnSpec struct {
@@ -119,7 +118,7 @@ func (z *ColumnSpec) Columns() []string {
 
 func (z *ColumnSpec) ColumnDesc(col string) app_msg.Message {
 	if m, ok := z.colDesc[col]; !ok {
-		app_root.Log().Error("Column description not found", zap.String("col", col))
+		es_log.Default().Error("Column description not found", es_log.String("col", col))
 		return app_msg.Raw(col)
 	} else {
 		return m

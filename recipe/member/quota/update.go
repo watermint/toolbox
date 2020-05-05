@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member_quota"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member_quota"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -18,7 +19,6 @@ import (
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"go.uber.org/zap"
 	"math"
 )
 
@@ -42,7 +42,7 @@ type UpdateWorker struct {
 func (z *UpdateWorker) Exec() error {
 	l := z.ctl.Log()
 	z.ctl.UI().Progress(MUpdate.ProgressUpdate.With("MemberEmail", z.member.Email).With("Quota", z.quota))
-	l.Debug("Updating quota", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Member", z.member))
+	l.Debug("Updating quota", es_log.String("Routine", ut_runtime.GetGoRoutineName()), es_log.Any("Member", z.member))
 
 	q := &mo_member_quota.Quota{
 		TeamMemberId: z.member.TeamMemberId,

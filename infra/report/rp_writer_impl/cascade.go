@@ -85,8 +85,9 @@ func (z *cascadeWriter) Close() {
 		w.Close()
 	}
 
-	p := z.ctl.Workspace().Report()
-	ui := z.ctl.UI()
-	ui.OpenArtifact(p, z.ctl.Feature().IsAutoOpen())
+	// TODO: Open artifact:
+	//p := z.ctl.Workspace().Report()
+	//ui := z.ctl.UI()
+	//ui.OpenArtifact(p, z.ctl.Feature().IsAutoOpen())
 	z.isClosed = true
 }

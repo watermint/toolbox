@@ -3,7 +3,6 @@ package qs_group
 import (
 	"fmt"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -22,102 +21,49 @@ func TestGroup(t *testing.T) {
 		testMemberEmail := ""
 
 		// Create group
-		{
-			c, err := app_control_impl.Fork(ctl, "group-add")
-			if err != nil {
-				t.Error(err)
-				return
-			}
-			err, cnt := qt_errors.ErrorsForTest(ctl.Log(), rc_exec.Exec(c, &group.Add{}, func(r rc_recipe.Recipe) {
+		qt_recipe.ForkWithName(t, "group-add", ctl, func(c app_control.Control) error {
+			return rc_exec.Exec(c, &group.Add{}, func(r rc_recipe.Recipe) {
 				m := r.(*group.Add)
 				m.Name = testGroupName
-			}))
-			if !cnt {
-				return
-			}
-			if err != nil {
-				t.Error(err)
-				return
-			}
-		}
+			})
+		})
 
 		// Delete group
-		defer func() {
-			c, err := app_control_impl.Fork(ctl, "group-delete")
-			if err != nil {
-				t.Error(err)
-				return
-			}
-			err, cnt := qt_errors.ErrorsForTest(ctl.Log(), rc_exec.Exec(c, &group.Delete{}, func(r rc_recipe.Recipe) {
+		defer qt_recipe.ForkWithName(t, "group-delete", ctl, func(c app_control.Control) error {
+			return rc_exec.Exec(c, &group.Delete{}, func(r rc_recipe.Recipe) {
 				m := r.(*group.Delete)
 				m.Name = testGroupName
-			}))
-			if !cnt {
-				return
-			}
-			if err != nil {
-				t.Error(err)
-			}
-		}()
+			})
+		})
 
 		// Rename group
-		{
-			c, err := app_control_impl.Fork(ctl, "group-rename")
-			if err != nil {
-				t.Error(err)
-				return
-			}
-			err, cnt := qt_errors.ErrorsForTest(ctl.Log(), rc_exec.Exec(c, &group.Rename{}, func(r rc_recipe.Recipe) {
+		qt_recipe.ForkWithName(t, "group-rename", ctl, func(c app_control.Control) error {
+			return rc_exec.Exec(c, &group.Rename{}, func(r rc_recipe.Recipe) {
 				m := r.(*group.Rename)
 				m.CurrentName = testGroupName
 				m.NewName = testGroupName + "New"
-			}))
-			if !cnt {
-				return
-			}
-			if err != nil {
-				t.Error(err)
-				return
-			}
-		}
+			})
+		})
 
 		// Revert: Rename group
-		{
-			c, err := app_control_impl.Fork(ctl, "group-rename-revert")
-			if err != nil {
-				t.Error(err)
-				return
-			}
-			err, cnt := qt_errors.ErrorsForTest(ctl.Log(), rc_exec.Exec(c, &group.Rename{}, func(r rc_recipe.Recipe) {
+		qt_recipe.ForkWithName(t, "group-rename-revert", ctl, func(c app_control.Control) error {
+			return rc_exec.Exec(c, &group.Rename{}, func(r rc_recipe.Recipe) {
 				m := r.(*group.Rename)
 				m.CurrentName = testGroupName + "New"
 				m.NewName = testGroupName
-			}))
-			if !cnt {
-				return
-			}
-			if err != nil {
-				t.Error(err)
-				return
-			}
-		}
+			})
+		})
 
 		// Verify created group
-		{
-			c, err := app_control_impl.Fork(ctl, "group-list")
-			if err != nil {
-				t.Error(err)
-				return
-			}
-			err, cnt := qt_errors.ErrorsForTest(ctl.Log(), rc_exec.Exec(c, &group.List{}, func(r rc_recipe.Recipe) {}))
+		qt_recipe.ForkWithName(t, "group-rename-list", ctl, func(c app_control.Control) error {
+			err, cnt := qt_errors.ErrorsForTest(c.Log(), rc_exec.Exec(c, &group.List{}, func(r rc_recipe.Recipe) {}))
 			if !cnt {
-				return
+				return nil
 			}
 			if err != nil {
 				t.Error(err)
-				return
+				return err
 			}
-
 			found := false
 			err = qt_recipe.TestRows(c, "group", func(cols map[string]string) error {
 				if cols["group_name"] == testGroupName {
@@ -131,22 +77,18 @@ func TestGroup(t *testing.T) {
 			if !found {
 				t.Error("test group not found in the list")
 			}
-		}
+			return nil
+		})
 
 		// Member list for adding member to the group
-		{
-			c, err := app_control_impl.Fork(ctl, "member-list")
-			if err != nil {
-				t.Error(err)
-				return
-			}
+		qt_recipe.ForkWithName(t, "member-list", ctl, func(c app_control.Control) error {
 			err, cnt := qt_errors.ErrorsForTest(ctl.Log(), rc_exec.Exec(c, &member.List{}, func(r rc_recipe.Recipe) {}))
 			if !cnt {
-				return
+				return nil
 			}
 			if err != nil {
 				t.Error(err)
-				return
+				return err
 			}
 
 			err = qt_recipe.TestRows(c, "member", func(cols map[string]string) error {
@@ -162,43 +104,27 @@ func TestGroup(t *testing.T) {
 			if err != nil {
 				t.Error(err)
 			}
-		}
+			return nil
+		})
 
 		// Add a member to the group
-		{
-			c, err := app_control_impl.Fork(ctl, "group-member-add")
-			if err != nil {
-				t.Error(err)
-				return
-			}
-			err, cnt := qt_errors.ErrorsForTest(ctl.Log(), rc_exec.Exec(c, &groupmember.Add{}, func(r rc_recipe.Recipe) {
+		qt_recipe.ForkWithName(t, "group-member-add", ctl, func(c app_control.Control) error {
+			return rc_exec.Exec(c, &groupmember.Add{}, func(r rc_recipe.Recipe) {
 				m := r.(*groupmember.Add)
 				m.GroupName = testGroupName
 				m.MemberEmail = testMemberEmail
-			}))
-			if !cnt {
-				return
-			}
-			if err != nil {
-				t.Error(err)
-				return
-			}
-		}
+			})
+		})
 
 		// Verify a member of the group
-		{
-			c, err := app_control_impl.Fork(ctl, "group-member-list")
-			if err != nil {
-				t.Error(err)
-				return
-			}
+		qt_recipe.ForkWithName(t, "group-member-list", ctl, func(c app_control.Control) error {
 			err, cnt := qt_errors.ErrorsForTest(ctl.Log(), rc_exec.Exec(c, &groupmember.List{}, func(r rc_recipe.Recipe) {}))
 			if !cnt {
-				return
+				return nil
 			}
 			if err != nil {
 				t.Error(err)
-				return
+				return err
 			}
 
 			foundGroup := false
@@ -221,43 +147,27 @@ func TestGroup(t *testing.T) {
 			if !foundMember {
 				t.Error("test group member not found")
 			}
-		}
+			return nil
+		})
 
 		// Remove a member to the group
-		{
-			c, err := app_control_impl.Fork(ctl, "group-member-delete")
-			if err != nil {
-				t.Error(err)
-				return
-			}
-			err, cnt := qt_errors.ErrorsForTest(ctl.Log(), rc_exec.Exec(c, &groupmember.Delete{}, func(r rc_recipe.Recipe) {
+		qt_recipe.ForkWithName(t, "group-member-delete", ctl, func(c app_control.Control) error {
+			return rc_exec.Exec(c, &groupmember.Delete{}, func(r rc_recipe.Recipe) {
 				m := r.(*groupmember.Delete)
 				m.GroupName = testGroupName
 				m.MemberEmail = testMemberEmail
-			}))
-			if !cnt {
-				return
-			}
-			if err != nil {
-				t.Error(err)
-				return
-			}
-		}
+			})
+		})
 
 		// Verify a member of the group
-		{
-			c, err := app_control_impl.Fork(ctl, "group-member-list-after-delete")
-			if err != nil {
-				t.Error(err)
-				return
-			}
+		qt_recipe.ForkWithName(t, "group-member-list-after-delete", ctl, func(c app_control.Control) error {
 			err, cnt := qt_errors.ErrorsForTest(ctl.Log(), rc_exec.Exec(c, &groupmember.List{}, func(r rc_recipe.Recipe) {}))
 			if !cnt {
-				return
+				return nil
 			}
 			if err != nil {
 				t.Error(err)
-				return
+				return nil
 			}
 
 			foundMember := false
@@ -275,6 +185,7 @@ func TestGroup(t *testing.T) {
 			if foundMember {
 				t.Error("test group member found")
 			}
-		}
+			return nil
+		})
 	})
 }

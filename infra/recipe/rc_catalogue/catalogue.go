@@ -44,6 +44,16 @@ func (z *catalogueImpl) RootGroup() rc_group.Group {
 	return z.root
 }
 
+func NewEmptyCatalogue() Catalogue {
+	return &catalogueImpl{
+		recipes:     []rc_recipe.Recipe{},
+		ingredients: []rc_recipe.Recipe{},
+		messages:    []interface{}{},
+		features:    []app_feature.OptIn{},
+		root:        rc_group_impl.NewGroup(),
+	}
+}
+
 func NewCatalogue(recipes, ingredients []rc_recipe.Recipe, messages []interface{}, features []app_feature.OptIn) Catalogue {
 	root := rc_group_impl.NewGroup()
 	for _, r := range recipes {

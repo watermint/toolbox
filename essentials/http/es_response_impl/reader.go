@@ -6,8 +6,8 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/essentials/http/es_context"
 	"github.com/watermint/toolbox/essentials/http/es_response"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
-	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
 	"math/rand"
@@ -39,8 +39,8 @@ func Read(ctx es_context.Context, resBody io.ReadCloser) (es_response.Body, erro
 
 func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkSize int) (body es_response.Body, err error) {
 	l := ctx.Log().With(
-		zap.Int("readBufSize", readBufSize),
-		zap.Int("readChunkSize", readChunkSize))
+		es_log.Int("readBufSize", readBufSize),
+		es_log.Int("readChunkSize", readChunkSize))
 	// Subtract single chunk size from read buf size, for not to exceed read buffer.
 	readBufSize = readBufSize - readChunkSize
 	if readBufSize < 1 {
@@ -53,14 +53,14 @@ func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkS
 	defer func() {
 		// close response body, due to it's a duty of a caller.
 		if err := resBody.Close(); err != nil {
-			l.Debug("Unable to close response body", zap.Error(err))
+			l.Debug("Unable to close response body", es_log.Error(err))
 		}
 	}()
 
 	// ready content into the buffer
 	for {
 		if bodyBuf.Len() > readBufSize {
-			l.Debug("Body size exceeds read buffer size", zap.Int("readBytes", bodyBuf.Len()))
+			l.Debug("Body size exceeds read buffer size", es_log.Int("readBytes", bodyBuf.Len()))
 			break
 		}
 		n, err := io.CopyN(&bodyBuf, bodyReader, int64(readChunkSize))
@@ -76,8 +76,8 @@ func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkS
 
 		default:
 			l.Debug("Body read error",
-				zap.Int("readBytes", bodyBuf.Len()),
-				zap.Error(err))
+				es_log.Int("readBytes", bodyBuf.Len()),
+				es_log.Error(err))
 			return nil, err
 		}
 	}
@@ -85,22 +85,22 @@ func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkS
 	// Create file
 	bodyFile, err := ioutil.TempFile("", ctx.ClientHash())
 	if err != nil {
-		l.Debug("Unable to create file", zap.Error(err))
+		l.Debug("Unable to create file", es_log.Error(err))
 		return nil, err
 	}
 
 	// Keep the file safer
 	if err := bodyFile.Chmod(0600); err != nil {
-		l.Debug("Unable to change file mode", zap.Error(err))
+		l.Debug("Unable to change file mode", es_log.Error(err))
 		return nil, err
 	}
 
 	cleanupOnError := func() {
 		if err := bodyFile.Close(); err != nil {
-			l.Debug("Error on closing body file", zap.Error(err))
+			l.Debug("Error on closing body file", es_log.Error(err))
 		}
 		if err := os.Remove(bodyFile.Name()); err != nil {
-			l.Debug("Error on removing the file", zap.Error(err))
+			l.Debug("Error on removing the file", es_log.Error(err))
 		}
 	}
 
@@ -109,15 +109,15 @@ func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkS
 	fileBuf := bufio.NewWriter(bodyFile)
 	fileBytes, err := io.Copy(fileBuf, &bodyBuf)
 	if err != nil {
-		l.Debug("Unable to write read body buffer", zap.Error(err))
+		l.Debug("Unable to write read body buffer", es_log.Error(err))
 		cleanupOnError()
 		return nil, err
 	}
 
 	if fileBytes != readBodyBufSize {
 		l.Debug("Buffer content mismatch",
-			zap.Int64("writtenToFile", fileBytes),
-			zap.Int64("bodyBufferSize", readBodyBufSize))
+			es_log.Int64("writtenToFile", fileBytes),
+			es_log.Int64("bodyBufferSize", readBodyBufSize))
 		cleanupOnError()
 		return nil, ErrorInvalidBufferState
 	}
@@ -131,13 +131,13 @@ func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkS
 		case io.EOF:
 			if err := fileBuf.Flush(); err != nil {
 				l.Debug("Unable to flush content into the file",
-					zap.Int64("readBytes", fileBytes),
-					zap.Error(err))
+					es_log.Int64("readBytes", fileBytes),
+					es_log.Error(err))
 				cleanupOnError()
 				return nil, err
 			}
 			if err := bodyFile.Close(); err != nil {
-				l.Debug("Unable to close file", zap.Error(err))
+				l.Debug("Unable to close file", es_log.Error(err))
 				cleanupOnError()
 				return nil, err
 			}
@@ -151,8 +151,8 @@ func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkS
 
 		default:
 			l.Debug("Body read error",
-				zap.Int64("readBytes", fileBytes),
-				zap.Error(err))
+				es_log.Int64("readBytes", fileBytes),
+				es_log.Error(err))
 			return nil, err
 		}
 	}

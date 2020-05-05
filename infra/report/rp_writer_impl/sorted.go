@@ -2,6 +2,7 @@ package rp_writer_impl
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
@@ -12,7 +13,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_writer"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"go.uber.org/zap"
 	"sync"
 )
 
@@ -50,7 +50,7 @@ func (z *Sorted) Row(r interface{}) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	l := z.ctl.Log().With(zap.String("name", z.name))
+	l := z.ctl.Log().With(es_log.String("name", z.name))
 
 	if !z.isOpen {
 		l.Warn("The writer is not yet open")
@@ -61,7 +61,7 @@ func (z *Sorted) Row(r interface{}) {
 
 	b, err := json.Marshal(vals)
 	if err != nil {
-		l.Warn("Unable to marshal", zap.Error(err))
+		l.Warn("Unable to marshal", es_log.Error(err))
 		return
 	}
 
@@ -69,7 +69,7 @@ func (z *Sorted) Row(r interface{}) {
 		return kvs.PutRaw(b, []byte{1})
 	})
 	if err != nil {
-		l.Warn("Unable to store row", zap.Error(err))
+		l.Warn("Unable to store row", es_log.Error(err))
 	}
 }
 
@@ -85,7 +85,7 @@ func (z *Sorted) Open(ctl app_control.Control, model interface{}, opts ...rp_mod
 	z.ctl = ctl
 	z.storage = kv_storage_impl.New("rp_writer_sorted-" + z.name + ro.ReportSuffix)
 
-	l := ctl.Log().With(zap.String("name", z.name))
+	l := ctl.Log().With(es_log.String("name", z.name))
 
 	if err := z.storage.Open(ctl); err != nil {
 		l.Debug("Unable to create storage")
@@ -131,7 +131,7 @@ func (z *Sorted) Close() {
 		})
 	})
 	if err != nil {
-		l.Debug("Unable to write sorted report", zap.Error(err))
+		l.Debug("Unable to write sorted report", es_log.Error(err))
 	}
 
 	for _, w := range z.writers {

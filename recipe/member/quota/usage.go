@@ -8,13 +8,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_usage"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_usage"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 )
 
 type MsgUsage struct {
@@ -38,12 +38,12 @@ type UsageWorker struct {
 func (z *UsageWorker) Exec() error {
 	ui := z.ctl.UI()
 	ui.Progress(MUsage.ProgressScan.With("MemberEmail", z.member.Email))
-	l := z.ctl.Log().With(zap.Any("member", z.member))
+	l := z.ctl.Log().With(es_log.Any("member", z.member))
 	l.Debug("Scanning")
 
 	usage, err := sv_usage.New(z.ctx.AsMemberId(z.member.TeamMemberId)).Resolve()
 	if err != nil {
-		l.Debug("Unable to scan usage data", zap.Error(err))
+		l.Debug("Unable to scan usage data", es_log.Error(err))
 		return err
 	}
 

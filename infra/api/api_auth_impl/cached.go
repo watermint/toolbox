@@ -2,10 +2,10 @@ package api_auth_impl
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_token"
-	"go.uber.org/zap"
 )
 
 func NewConsoleCacheOnly(c app_control.Control, peerName string) api_auth.Console {
@@ -46,10 +46,10 @@ func (z *Cached) Purge(scope string) {
 }
 
 func (z *Cached) Auth(scope string) (tc api_auth.Context, err error) {
-	l := z.ctl.Log().With(zap.String("peerName", z.auth.PeerName()), zap.String("scope", scope))
+	l := z.ctl.Log().With(es_log.String("peerName", z.auth.PeerName()), es_log.String("scope", scope))
 	t, err := z.s.Get(scope)
 	if err != nil {
-		l.Debug("Unable to load from the cache", zap.Error(err))
+		l.Debug("Unable to load from the cache", es_log.Error(err))
 	} else {
 		return api_auth.NewContext(t, z.auth.PeerName(), scope), nil
 	}
@@ -60,7 +60,7 @@ func (z *Cached) Auth(scope string) (tc api_auth.Context, err error) {
 
 	l.Debug("Update cache")
 	if err := z.s.Put(scope, tc.Token()); err != nil {
-		l.Debug("Unable to update cache", zap.Error(err))
+		l.Debug("Unable to update cache", es_log.Error(err))
 		// fall thru
 	}
 	return tc, nil

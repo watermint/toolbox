@@ -2,8 +2,8 @@ package es_generate
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"go.uber.org/zap"
 	"go/ast"
 	"go/importer"
 	"go/parser"
@@ -77,8 +77,8 @@ func (z *scannerImpl) ExcludeTest() Scanner {
 	}
 }
 
-func (z *scannerImpl) log() *zap.Logger {
-	return z.c.Log().With(zap.String("path", z.path), zap.Bool("excludeTest", z.excludeTest))
+func (z *scannerImpl) log() es_log.Logger {
+	return z.c.Log().With(es_log.String("path", z.path), es_log.Bool("excludeTest", z.excludeTest))
 }
 
 func (z *scannerImpl) load() error {
@@ -90,10 +90,10 @@ func (z *scannerImpl) load() error {
 	var parseDir func(relPath string) error
 	parseDir = func(relPath string) error {
 		path0 := filepath.Join(z.path, relPath)
-		l.Debug("Scanning", zap.String("path", path0))
+		l.Debug("Scanning", es_log.String("path", path0))
 		pkgs, err := parser.ParseDir(z.fst, path0, nil, 0)
 		if err != nil {
-			l.Error("Parse error", zap.Error(err))
+			l.Error("Parse error", es_log.Error(err))
 			return err
 		}
 		for _, pkg := range pkgs {
@@ -115,7 +115,7 @@ func (z *scannerImpl) load() error {
 func (z *scannerImpl) typesConfig() *types.Config {
 	return &types.Config{
 		Error: func(err error) {
-			z.log().Debug("error", zap.Error(err))
+			z.log().Debug("error", es_log.Error(err))
 		},
 		Importer: importer.Default(),
 	}
@@ -125,19 +125,19 @@ func (z *scannerImpl) findAstInterface(refType reflect.Type) (astType *types.Int
 	l := z.log()
 
 	cfg := z.typesConfig()
-	l.Debug("Recipe type", zap.String("name", refType.Name()), zap.String("pkg", refType.PkgPath()))
+	l.Debug("Recipe type", es_log.String("name", refType.Name()), es_log.String("pkg", refType.PkgPath()))
 	for _, pkg := range z.allPkg {
 		for f0, f := range pkg.Files {
-			l.Debug("scan files", zap.String("f0", f0))
+			l.Debug("scan files", es_log.String("f0", f0))
 			if r := f.Scope.Lookup(refType.Name()); r != nil {
-				l.Debug("finding recipe", zap.String("r", r.Name))
+				l.Debug("finding recipe", es_log.String("r", r.Name))
 				info := types.Info{
 					Types: make(map[ast.Expr]types.TypeAndValue),
 					Defs:  make(map[*ast.Ident]types.Object),
 					Uses:  make(map[*ast.Ident]types.Object),
 				}
 				q, err := cfg.Check(z.path, z.fst, []*ast.File{f}, &info)
-				l.Debug("check error", zap.Error(err))
+				l.Debug("check error", es_log.Error(err))
 				ro := q.Scope().Lookup(refType.Name())
 				if rat, ok := ro.Type().Underlying().(*types.Interface); ok {
 					astType = rat
@@ -174,10 +174,10 @@ func (z *scannerImpl) FindStructImplements(refType reflect.Type) (sts []*StructT
 
 			q, err := cfg.Check(z.path, z.fst, []*ast.File{f}, &info)
 			if err != nil {
-				l.Debug("unable to check", zap.Error(err))
+				l.Debug("unable to check", es_log.Error(err))
 			}
 			for _, n := range q.Scope().Names() {
-				l.Debug("name", zap.String("name", n))
+				l.Debug("name", es_log.String("name", n))
 				obj := q.Scope().Lookup(n)
 				pkgPath := obj.Pkg().Path()
 				pkgName := obj.Pkg().Name()
@@ -195,7 +195,7 @@ func (z *scannerImpl) FindStructImplements(refType reflect.Type) (sts []*StructT
 				ut := ptr.Underlying()
 				impl := types.Implements(ut, astType)
 				if impl {
-					l.Debug("underlying", zap.String("on", obj.Name()), zap.String("pkg", obj.Pkg().Name()), zap.String("f0", f0), zap.String("rel", rel))
+					l.Debug("underlying", es_log.String("on", obj.Name()), es_log.String("pkg", obj.Pkg().Name()), es_log.String("f0", f0), es_log.String("rel", rel))
 					st := &StructType{
 						Package: rel,
 						Name:    obj.Name(),
@@ -215,17 +215,17 @@ func (z *scannerImpl) FindStructHasPrefix(prefix string) (sts []*StructType, err
 	cfg := z.typesConfig()
 	for _, pkg := range z.allPkg {
 		for f0, f := range pkg.Files {
-			l.Debug("scan files", zap.String("f0", f0))
+			l.Debug("scan files", es_log.String("f0", f0))
 			for _, r := range f.Scope.Objects {
 
-				l.Debug("finding message object", zap.String("r", r.Name))
+				l.Debug("finding message object", es_log.String("r", r.Name))
 				info := types.Info{
 					Types: make(map[ast.Expr]types.TypeAndValue),
 					Defs:  make(map[*ast.Ident]types.Object),
 					Uses:  make(map[*ast.Ident]types.Object),
 				}
 				q, err := cfg.Check(z.path, z.fst, []*ast.File{f}, &info)
-				l.Debug("check error", zap.Error(err))
+				l.Debug("check error", es_log.Error(err))
 				for _, qn := range q.Scope().Names() {
 					ro := q.Scope().Lookup(qn)
 					pkgPath := ro.Pkg().Path()

@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -15,7 +16,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 )
 
 type MsgList struct {
@@ -41,7 +41,7 @@ func (z *ListWorker) Exec() error {
 	ui := z.ctl.UI()
 
 	ui.Progress(MList.ProgressScan.With("Group", z.group.GroupName))
-	l.Debug("Scan group", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Group", z.group))
+	l.Debug("Scan group", es_log.String("Routine", ut_runtime.GetGoRoutineName()), es_log.Any("Group", z.group))
 
 	msv := sv_group_member.New(z.conn, z.group)
 	members, err := msv.List()

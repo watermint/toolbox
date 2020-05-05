@@ -12,8 +12,8 @@ else
 fi
 
 if [ x"" = x"$TOOLBOX_BUILDERKEY" ]; then
-  if [ -e resources/toolbox.buildkey ]; then
-    TOOLBOX_BUILDERKEY=$(cat resources/toolbox.buildkey)
+  if [ -e resources/keys/toolbox.buildkey ]; then
+    TOOLBOX_BUILDERKEY=$(cat resources/keys/toolbox.buildkey)
   else
     TOOLBOX_BUILDERKEY="watermint-toolbox-default"
   fi
@@ -67,13 +67,13 @@ for m in $(go list -m all | awk '{print $1}'); do
 done
 
 jq -Rn '{"github.com/watermint/toolbox":[inputs]}' LICENSE.md > $BUILD_PATH/github.com-watermint-toolbox.lic
-jq -s add $BUILD_PATH/*.lic > resources/licenses.json
+jq -s add $BUILD_PATH/*.lic > resources/data/licenses.json
 
 echo BUILD: Building tool
 
-if [ -e "resources/toolbox.appkeys" ]; then
+if [ -e "resources/keys/toolbox.appkeys" ]; then
   echo App keys file found. Verify app key file...
-  cat resources/toolbox.appkeys | jq type > /dev/null
+  cat resources/keys/toolbox.appkeys | jq type > /dev/null
   if [[ $? = 0 ]]; then
     echo Valid
   else
@@ -82,7 +82,7 @@ if [ -e "resources/toolbox.appkeys" ]; then
 
   go run infra/security/sc_zap_tool/main.go
   if [[ $? = 0 ]]; then
-    rm resources/toolbox.appkeys
+    rm resources/keys/toolbox.appkeys
   else
     echo Zap exit with code $?
     exit $?

@@ -3,13 +3,13 @@ package dbx_request
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
-	"github.com/watermint/toolbox/essentials/io/ut_io"
+	"github.com/watermint/toolbox/essentials/io/es_rewinder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/network/nw_client"
-	"go.uber.org/zap"
 	"net/http"
 )
 
@@ -59,16 +59,16 @@ func (z Builder) With(method, url string, data api_request.RequestData) Builder 
 	return z
 }
 
-func (z Builder) Log() *zap.Logger {
+func (z Builder) Log() es_log.Logger {
 	l := z.ctl.Log()
 	if z.asMemberId != "" {
-		l = l.With(zap.String("asMemberId", z.asMemberId))
+		l = l.With(es_log.String("asMemberId", z.asMemberId))
 	}
 	if z.asAdminId != "" {
-		l = l.With(zap.String("asAdminId", z.asAdminId))
+		l = l.With(es_log.String("asAdminId", z.asAdminId))
 	}
 	if z.basePath != nil {
-		l = l.With(zap.Any("basePath", z.basePath))
+		l = l.With(es_log.Any("basePath", z.basePath))
 	}
 	return l
 }
@@ -97,7 +97,7 @@ func (z Builder) ContentHash() string {
 }
 
 func (z Builder) Build() (*http.Request, error) {
-	l := z.Log().With(zap.String("method", z.method), zap.String("url", z.url))
+	l := z.Log().With(es_log.String("method", z.method), es_log.String("url", z.url))
 	rc := z.reqContent()
 	req, err := nw_client.NewHttpRequest(z.method, z.url, rc)
 	if err != nil {
@@ -130,7 +130,7 @@ func (z Builder) reqHeaders() map[string]string {
 	if z.basePath != nil {
 		p, err := dbx_util.HeaderSafeJson(z.basePath)
 		if err != nil {
-			l.Debug("Unable to marshal base path", zap.Error(err))
+			l.Debug("Unable to marshal base path", es_log.Error(err))
 		} else {
 			headers[api_request.ReqHeaderDropboxApiPathRoot] = p
 		}
@@ -138,7 +138,7 @@ func (z Builder) reqHeaders() map[string]string {
 	if z.data.Content() != nil {
 		p, err := dbx_util.HeaderSafeJson(z.data.Param())
 		if err != nil {
-			l.Debug("Unable to marshal params", zap.Error(err))
+			l.Debug("Unable to marshal params", es_log.Error(err))
 		} else {
 			headers[api_request.ReqHeaderDropboxApiArg] = p
 		}
@@ -152,11 +152,11 @@ func (z Builder) reqHeaders() map[string]string {
 	return headers
 }
 
-func (z Builder) reqContent() ut_io.ReadRewinder {
+func (z Builder) reqContent() es_rewinder.ReadRewinder {
 	if z.data.Content() != nil {
 		return z.data.Content()
 	}
-	return ut_io.NewReadRewinderOnMemory(z.data.ParamJson())
+	return es_rewinder.NewReadRewinderOnMemory(z.data.ParamJson())
 }
 
 func (z Builder) Param() string {

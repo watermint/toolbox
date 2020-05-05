@@ -1,8 +1,7 @@
 package qs_file
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -20,10 +19,10 @@ type Scenario struct {
 }
 
 func (z *Scenario) Create(short bool) (err error) {
-	l := app_root.Log()
+	l := es_log.Default()
 	z.LocalPath, err = ioutil.TempDir("", "file-upload-scenario")
 	if err != nil {
-		l.Error("unable to create temp dir", zap.Error(err))
+		l.Error("unable to create temp dir", es_log.Error(err))
 		return err
 	}
 
@@ -64,7 +63,7 @@ func (z *Scenario) Create(short bool) (err error) {
 	{
 		for f := range z.Folders {
 			if err := os.MkdirAll(filepath.Join(z.LocalPath, f), 0755); err != nil {
-				l.Error("Unable to create folder", zap.Error(err), zap.String("f", f))
+				l.Error("Unable to create folder", es_log.Error(err), es_log.String("f", f))
 				return err
 			}
 		}
@@ -74,13 +73,13 @@ func (z *Scenario) Create(short bool) (err error) {
 	{
 		for f, c := range z.Files {
 			if err := ioutil.WriteFile(filepath.Join(z.LocalPath, f), []byte(c), 0644); err != nil {
-				l.Error("Unable to create file", zap.Error(err), zap.String("f", f))
+				l.Error("Unable to create file", es_log.Error(err), es_log.String("f", f))
 				return err
 			}
 		}
 		for f, c := range z.Ignore {
 			if err := ioutil.WriteFile(filepath.Join(z.LocalPath, f), []byte(c), 0644); err != nil {
-				l.Error("Unable to create file", zap.Error(err), zap.String("f", f))
+				l.Error("Unable to create file", es_log.Error(err), es_log.String("f", f))
 				return err
 			}
 		}

@@ -6,9 +6,9 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/io/ut_io"
+	"github.com/watermint/toolbox/essentials/io/es_rewinder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"go.uber.org/zap"
 	"mime"
 	"os"
 	"path/filepath"
@@ -59,10 +59,10 @@ func (z *assetImpl) List() (assets []*mo_release_asset.Asset, err error) {
 
 func (z *assetImpl) Upload(file mo_path.ExistingFileSystemPath) (asset *mo_release_asset.Asset, err error) {
 	l := z.ctx.Log().With(
-		zap.String("owner", z.owner),
-		zap.String("repository", z.repository),
-		zap.String("release", z.release),
-		zap.String("path", file.Path()),
+		es_log.String("owner", z.owner),
+		es_log.String("repository", z.repository),
+		es_log.String("release", z.release),
+		es_log.String("path", file.Path()),
 	)
 	endpoint := "repos/" + z.owner + "/" + z.repository + "/releases/" + z.release + "/assets"
 	p := struct {
@@ -73,17 +73,17 @@ func (z *assetImpl) Upload(file mo_path.ExistingFileSystemPath) (asset *mo_relea
 	contentType := mime.TypeByExtension(filepath.Ext(file.Path()))
 
 	l.Debug("upload params",
-		zap.String("endpoint", endpoint),
-		zap.Any("param", p),
-		zap.String("contentType", contentType))
+		es_log.String("endpoint", endpoint),
+		es_log.Any("param", p),
+		es_log.String("contentType", contentType))
 
 	r, err := os.Open(file.Path())
 	if err != nil {
 		return nil, err
 	}
-	rr, err := ut_io.NewReadRewinder(r, 0)
+	rr, err := es_rewinder.NewReadRewinder(r, 0)
 	if err != nil {
-		l.Debug("Unable to create read rewinder", zap.Error(err))
+		l.Debug("Unable to create read rewinder", es_log.Error(err))
 		return nil, err
 	}
 	defer r.Close()

@@ -1,8 +1,8 @@
 package dbx_auth_test
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
@@ -15,7 +15,7 @@ func TestOAuth_Auth(t *testing.T) {
 			t.Error(a.PeerName())
 		}
 		_, err := a.Auth("test-scope")
-		if err != api_auth.ErrorUserCancelled {
+		if err != app.ErrorUserCancelled {
 			t.Error(err)
 		}
 	})

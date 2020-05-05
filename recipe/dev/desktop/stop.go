@@ -3,12 +3,12 @@ package desktop
 import (
 	"github.com/andybrewer/mack"
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/essentials/log/es_process"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
-	"go.uber.org/zap"
 	"math"
 	"os/exec"
 	"runtime"
@@ -25,10 +25,10 @@ func (z *Stop) stopDarwin(c app_control.Control) error {
 	l := c.Log()
 	r, err := mack.Tell("Dropbox", "quit")
 	if err != nil {
-		l.Error("Unable to send quit", zap.Error(err))
+		l.Error("Unable to send quit", es_log.Error(err))
 		return nil
 	}
-	l.Info("Quit", zap.String("response", r))
+	l.Info("Quit", es_log.String("response", r))
 	return nil
 }
 
@@ -40,7 +40,7 @@ func (z *Stop) stopWindows(c app_control.Control) error {
 	defer pl.Close()
 	err := cmd.Start()
 	if err != nil {
-		l.Error("Unable to start `taskkill`", zap.Error(err))
+		l.Error("Unable to start `taskkill`", es_log.Error(err))
 		return nil
 	}
 	cmd.Wait()
@@ -49,7 +49,7 @@ func (z *Stop) stopWindows(c app_control.Control) error {
 
 func (z *Stop) Exec(c app_control.Control) error {
 	if z.WaitSeconds.Value() > 0 {
-		c.Log().Info("Waiting for stop", zap.Int("seconds", int(z.WaitSeconds.Value())))
+		c.Log().Info("Waiting for stop", es_log.Int("seconds", int(z.WaitSeconds.Value())))
 		time.Sleep(time.Duration(z.WaitSeconds.Value()) * 1000 * time.Millisecond)
 	}
 	switch runtime.GOOS {

@@ -7,14 +7,15 @@ import (
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/recipe/dev"
 	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"github.com/watermint/toolbox/recipe/dev/test"
-	"go.uber.org/zap"
 	"os"
 )
 
@@ -33,7 +34,7 @@ func (z *Candidate) Preset() {
 }
 
 func (z *Candidate) verifyMessages(c app_control.Control) error {
-	enMessagesRaw, err := c.Resource("messages.json")
+	enMessagesRaw, err := app_resource.Bundle().Messages().Bytes("messages.json")
 	if err != nil {
 		return err
 	}
@@ -50,12 +51,12 @@ func (z *Candidate) verifyMessages(c app_control.Control) error {
 		code := la.CodeString()
 		suffix := la.Suffix()
 
-		ll := l.With(zap.String("Language", code))
+		ll := l.With(es_log.String("Language", code))
 		ll.Info("Verify messages for language")
 
-		msgRaw, err := c.Resource(fmt.Sprintf("messages%s.json", suffix))
+		msgRaw, err := app_resource.Bundle().Messages().Bytes(fmt.Sprintf("messages%s.json", suffix))
 		if err != nil {
-			ll.Error("Unable to load message resource", zap.Error(err))
+			ll.Error("Unable to load message resource", es_log.Error(err))
 			return err
 		}
 		msgs := make(map[string]string)
@@ -66,7 +67,7 @@ func (z *Candidate) verifyMessages(c app_control.Control) error {
 		missing := false
 		for k, v := range enMessages {
 			if _, ok := msgs[k]; !ok {
-				ll.Warn("Missing key", zap.String("key", k), zap.String("message", v))
+				ll.Warn("Missing key", es_log.String("key", k), es_log.String("message", v))
 				missing = true
 			}
 		}
@@ -106,7 +107,7 @@ func (z *Candidate) Exec(c app_control.Control) error {
 		if err == nil {
 			m.Resource = mo_string.NewOptional(z.TestResource)
 		} else {
-			l.Warn("Unable to read test resource", zap.String("path", z.TestResource), zap.Error(err))
+			l.Warn("Unable to read test resource", es_log.String("path", z.TestResource), es_log.Error(err))
 		}
 	})
 	if err != nil {
@@ -119,7 +120,7 @@ func (z *Candidate) Exec(c app_control.Control) error {
 
 func (z *Candidate) Test(c app_control.Control) error {
 	err := z.verifyMessages(c)
-	c.Log().Debug("Verify message result", zap.Error(err))
+	c.Log().Debug("Verify message result", es_log.Error(err))
 
 	return qt_errors.ErrorNoTestRequired
 }

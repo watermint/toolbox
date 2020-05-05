@@ -5,7 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"hash"
 	"io"
 	"os"
@@ -20,25 +20,25 @@ type Hash interface {
 	SHA256(filepath string) (digest string, err error)
 }
 
-func NewHash(l *zap.Logger) Hash {
+func NewHash(l es_log.Logger) Hash {
 	return &hashImpl{l: l}
 }
 
 type hashImpl struct {
-	l *zap.Logger
+	l es_log.Logger
 }
 
 func (z hashImpl) sum(filepath string, algorithm hash.Hash, sumLength int) (digest string, err error) {
-	l := z.l.With(zap.String("file", filepath))
+	l := z.l.With(es_log.String("file", filepath))
 	f, err := os.Open(filepath)
 	if err != nil {
-		l.Debug("Unable to open file", zap.Error(err))
+		l.Debug("Unable to open file", es_log.Error(err))
 		return "", err
 	}
 	defer f.Close()
 
 	if _, err := io.Copy(algorithm, f); err != nil {
-		l.Debug("Unable to calculate or read file", zap.Error(err))
+		l.Debug("Unable to calculate or read file", es_log.Error(err))
 		return "", err
 	}
 	dh := algorithm.Sum(nil)[:sumLength]

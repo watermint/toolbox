@@ -2,8 +2,7 @@ package nw_bandwidth
 
 import (
 	"github.com/watermint/bwlimit"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"io"
 )
 
@@ -14,7 +13,7 @@ var (
 
 // Set bandwidth limit in Kilo Bytes per second.
 func SetBandwidth(kps int) {
-	app_root.Log().Debug("Bandwidth limit", zap.Int("kbs", kps))
+	es_log.Default().Debug("Bandwidth limit", es_log.Int("kbs", kps))
 	throttle.SetRateLimit(kps * 1024)
 	currentLimit = kps
 }
@@ -23,7 +22,7 @@ func WrapReader(r io.Reader) io.Reader {
 	if currentLimit == 0 {
 		return r
 	}
-	app_root.Log().Debug("Create new bandwidth limited reader", zap.Int("kbs", currentLimit))
+	es_log.Default().Debug("Create new bandwidth limited reader", es_log.Int("kbs", currentLimit))
 	return throttle.Reader(r)
 }
 
@@ -31,6 +30,6 @@ func WrapWriter(w io.Writer) io.Writer {
 	if currentLimit == 0 {
 		return w
 	}
-	app_root.Log().Debug("Create new bandwidth limited writer", zap.Int("kbs", currentLimit))
+	es_log.Default().Debug("Create new bandwidth limited writer", es_log.Int("kbs", currentLimit))
 	return throttle.Writer(w)
 }

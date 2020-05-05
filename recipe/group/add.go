@@ -22,10 +22,11 @@ type Add struct {
 }
 
 func (z *Add) Exec(c app_control.Control) error {
-	opts := make([]sv_group.CreateOpt, 0)
 	if err := z.AddedGroup.Open(); err != nil {
 		return err
 	}
+	opts := make([]sv_group.CreateOpt, 0)
+	opts = append(opts, sv_group.ManagementType(z.ManagementType.Value()))
 
 	group, err := sv_group.New(z.Peer.Context()).Create(z.Name, opts...)
 	if err != nil {

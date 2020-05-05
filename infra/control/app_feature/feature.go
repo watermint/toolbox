@@ -14,14 +14,41 @@ type Feature interface {
 	IsProduction() bool
 	IsDebug() bool
 	IsTest() bool
+	IsTestWithMock() bool
 	IsQuiet() bool
 	IsSecure() bool
 	IsLowMemory() bool
 	IsAutoOpen() bool
+
+	// UI format
 	UIFormat() string
+
+	// Concurrency configuration.
+	Concurrency() int
+
+	// Toolbox home path. Returns empty if a user doesn't specify the path.
+	Home() string
+
+	// Budget for memory usage
+	BudgetMemory() string
+
+	// Budget for storage usage
+	BudgetStorage() string
+
+	// Configuration
 	Config() app_config.Config
+
+	// Retrieve feature
 	OptInGet(oi OptIn) (f OptIn, found bool)
+
+	// Update opt-in feature
 	OptInUpdate(oi OptIn) error
+
+	// With test mode
+	AsTest(useMock bool) Feature
+
+	// With quiet mode
+	AsQuiet() Feature
 }
 
 type OptIn interface {

@@ -3,9 +3,8 @@ package mo_activity
 import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
 	"time"
 )
 
@@ -18,17 +17,17 @@ type Event struct {
 }
 
 func (z *Event) Compatible() *Compatible {
-	l := app_root.Log()
+	l := es_log.Default()
 	c := &Compatible{}
 	if err := api_parser.ParseModelRaw(c, z.Raw); err != nil {
-		l.Debug("Unable to parse model", zap.Error(err))
+		l.Debug("Unable to parse model", es_log.Error(err))
 		return nil
 	}
 
 	g := gjson.ParseBytes(z.Raw)
 	dts := g.Get("timestamp").String()
 	if ts, err := time.Parse("2006-01-02T15:04:05Z", dts); err != nil {
-		l.Debug("Unable to parse time", zap.Error(err))
+		l.Debug("Unable to parse time", es_log.Error(err))
 		return nil
 	} else {
 		c.Timestamp = ts.Local().Format("2006-01-02 15:04:05")

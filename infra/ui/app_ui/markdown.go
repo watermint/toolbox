@@ -1,234 +1,128 @@
 package app_ui
 
 import (
+	"bytes"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/strings/es_width"
-	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/infra/util/ut_math"
-	"go.uber.org/zap"
 	"io"
-	"strings"
-	"text/template"
 )
 
-func NewMarkdown(mc app_msg_container.Container, out io.Writer, ignoreMissing bool) UI {
-	return &Markdown{
-		id:            newId(),
-		mc:            mc,
-		out:           out,
-		ignoreMissing: ignoreMissing,
-	}
+func MakeMarkdown(mc app_msg_container.Container, f func(ui UI)) string {
+	var buf bytes.Buffer
+	lg := es_log.Default()
+	ui := NewProxy(
+		&mdImpl{
+			mc: mc,
+			wr: &buf,
+			dg: es_dialogue.DenyAll(),
+		},
+		lg,
+	)
+	f(ui)
+
+	return buf.String()
 }
 
-type Markdown struct {
-	id            string
-	mc            app_msg_container.Container
-	out           io.Writer
-	ignoreMissing bool
+func NewMarkdown(mc app_msg_container.Container, lg es_log.Logger, wr io.Writer, dg es_dialogue.Dialogue) UI {
+	return NewProxy(
+		&mdImpl{
+			mc: mc,
+			wr: wr,
+			dg: dg,
+		},
+		lg,
+	)
 }
 
-func (z *Markdown) AskProceed(m app_msg.Message) {
+type mdImpl struct {
+	mc app_msg_container.Container
+	wr io.Writer
+	dg es_dialogue.Dialogue
 }
 
-func (z *Markdown) Id() string {
-	return z.id
+func (z mdImpl) Messages() app_msg_container.Container {
+	return z.mc
 }
 
-func (z *Markdown) Progress(m app_msg.Message) {
-	z.print("_ {{.Message}} _\n", m)
+func (z mdImpl) Header(m app_msg.Message) {
+	_, _ = fmt.Fprintf(z.wr, "# %s\n\n", z.mc.Compile(m))
 }
 
-func (z *Markdown) SubHeader(m app_msg.Message) {
-	z.print("## {{.Message}}\n\n", m)
+func (z mdImpl) SubHeader(m app_msg.Message) {
+	_, _ = fmt.Fprintf(z.wr, "## %s\n\n", z.mc.Compile(m))
 }
 
-func (z *Markdown) Code(code string) {
-	fmt.Fprintf(z.out, "```\n%s\n```\n\n", code)
+func (z mdImpl) Info(m app_msg.Message) {
+	_, _ = fmt.Fprintf(z.wr, "%s\n", z.mc.Compile(m))
 }
 
-func (z *Markdown) Exists(m app_msg.Message) bool {
-	return z.mc.Exists(m.Key())
+func (z mdImpl) InfoTable(name string) Table {
+	return newMdTable(z, z.wr, z.mc, name)
 }
 
-func (z *Markdown) AskCont(m app_msg.Message) (cont bool, cancel bool) {
-	return false, true
+func (z mdImpl) Error(m app_msg.Message) {
+	_, _ = fmt.Fprintf(z.wr, "**ERROR**: %s\n", z.mc.Compile(m))
 }
 
-func (z *Markdown) AskText(m app_msg.Message) (text string, cancel bool) {
-	return "", true
+func (z mdImpl) Break() {
+	_, _ = fmt.Fprintf(z.wr, "\n")
 }
 
-func (z *Markdown) AskSecure(m app_msg.Message) (secure string, cancel bool) {
-	return "", true
-}
-
-func (z *Markdown) Header(m app_msg.Message) {
-	z.print("# {{.Message}}\n\n", m)
-}
-
-func (z *Markdown) Text(m app_msg.Message) string {
-	return z.mc.Compile(m)
-}
-
-func (z *Markdown) TextOrEmpty(m app_msg.Message) string {
-	if z.mc.Exists(m.Key()) {
-		return z.mc.Compile(m)
-	} else {
-		return ""
-	}
-}
-
-func (z *Markdown) Info(m app_msg.Message) {
-	z.print("{{.Message}}\n", m)
-}
-
-func (z *Markdown) Error(m app_msg.Message) {
-	z.print("ERROR: {{.Message}}\n", m)
-}
-
-func (z *Markdown) print(tmpl string, m app_msg.Message) {
-	if z.ignoreMissing {
-		if !z.mc.Exists(m.Key()) {
-			return
-		}
-	}
-	t, err := template.New("").Parse(tmpl)
-	if err != nil {
-		app_root.Log().Warn("Template compile error", zap.String("template", tmpl), zap.Error(err))
-		return
-	}
-	t.Execute(z.out, map[string]interface{}{
-		"Message": z.mc.Compile(m),
+func (z mdImpl) AskProceed(m app_msg.Message) {
+	z.dg.AskProceed(func() {
+		_, _ = fmt.Fprintf(z.wr, "_%s_\n", z.mc.Compile(m))
 	})
 }
 
-func (z *Markdown) InfoTable(name string) Table {
-	return newMarkdownTable(z.mc, z.out, z.ignoreMissing)
+func (z mdImpl) AskCont(m app_msg.Message) (cont bool) {
+	p := func() {
+		_, _ = fmt.Fprintf(z.wr, "_%s_\n", z.mc.Compile(m))
+	}
+	return z.dg.AskCont(p, es_dialogue.YesNoCont)
 }
 
-func (z *Markdown) Break() {
-	fmt.Fprintln(z.out, "")
-	fmt.Fprintln(z.out, "")
+func (z mdImpl) AskText(m app_msg.Message) (text string, cancel bool) {
+	p := func() {
+		_, _ = fmt.Fprintf(z.wr, "_%s_\n", z.mc.Compile(m))
+	}
+	return z.dg.AskText(p, es_dialogue.NonEmptyText)
 }
 
-func (z *Markdown) OpenArtifact(path string, autoOpen bool) {
+func (z mdImpl) AskSecure(m app_msg.Message) (secure string, cancel bool) {
+	p := func() {
+		_, _ = fmt.Fprintf(z.wr, "_%s_\n", z.mc.Compile(m))
+	}
+	return z.dg.AskSecure(p)
 }
 
-func (z *Markdown) Success(m app_msg.Message) {
-	z.print("SUCCESS: {{.Message}}\n", m)
+func (z mdImpl) Success(m app_msg.Message) {
+	_, _ = fmt.Fprintf(z.wr, "**SUCCESS**: %s\n", z.mc.Compile(m))
 }
 
-func (z *Markdown) Failure(m app_msg.Message) {
-	z.print("FAILURE: {{.Message}}\n", m)
+func (z mdImpl) Failure(m app_msg.Message) {
+	_, _ = fmt.Fprintf(z.wr, "**FAILURE**: %s\n", z.mc.Compile(m))
 }
 
-func (z *Markdown) IsConsole() bool {
+func (z mdImpl) Progress(m app_msg.Message) {
+	_, _ = fmt.Fprintf(z.wr, "_%s_\n", z.mc.Compile(m))
+}
+
+func (z mdImpl) Code(code string) {
+	_, _ = fmt.Fprintf(z.wr, "```\n%s```\n", code)
+}
+
+func (z mdImpl) IsConsole() bool {
 	return true
 }
 
-func (z *Markdown) IsWeb() bool {
+func (z mdImpl) IsWeb() bool {
 	return false
 }
 
-func newMarkdownTable(mc app_msg_container.Container, out io.Writer, ignoreMissing bool) Table {
-	return &markdownTable{
-		mc:            mc,
-		out:           out,
-		ignoreMissing: ignoreMissing,
-		header:        make([]string, 0),
-		rows:          make([][]string, 0),
-	}
-}
-
-type markdownTable struct {
-	mc            app_msg_container.Container
-	out           io.Writer
-	ignoreMissing bool
-	header        []string
-	rows          [][]string
-}
-
-func (z *markdownTable) Header(h ...app_msg.Message) {
-	z.header = make([]string, 0)
-	for _, m := range h {
-		if z.ignoreMissing {
-			if !z.mc.Exists(m.Key()) {
-				z.header = append(z.header, "")
-				continue
-			}
-		}
-		z.header = append(z.header, z.mc.Compile(m))
-	}
-}
-
-func (z *markdownTable) HeaderRaw(h ...string) {
-	z.header = make([]string, 0)
-	z.header = append(z.header, h...)
-}
-
-func (z *markdownTable) Row(m ...app_msg.Message) {
-	row := make([]string, 0)
-	for _, n := range m {
-		if z.ignoreMissing {
-			if !z.mc.Exists(n.Key()) {
-				row = append(row, "")
-				continue
-			}
-		}
-		row = append(row, z.mc.Compile(n))
-	}
-	z.RowRaw(row...)
-}
-
-func (z *markdownTable) RowRaw(m ...string) {
-	z.rows = append(z.rows, m)
-}
-
-func (z *markdownTable) Flush() {
-	l := app_root.Log()
-	numCols := len(z.header)
-	cols := make([]int, numCols)
-
-	for i, c := range z.header {
-		cols[i] = es_width.Width(c)
-	}
-
-	for _, row := range z.rows {
-		rowNumCols := ut_math.MinInt(len(row), numCols)
-		for i := 0; i < rowNumCols; i++ {
-			cols[i] = ut_math.MaxInt(cols[i], es_width.Width(row[i]))
-		}
-	}
-
-	printCols := func(row []string) {
-		fmt.Fprintf(z.out, "|")
-		for i, c := range row {
-			padding := 0
-			if i < len(cols) {
-				padding = ut_math.MaxInt(cols[i]-es_width.Width(c), 0)
-			} else {
-				l.Debug("Number of columns exceeds header columns", zap.Int("i", i), zap.Strings("row", row))
-				padding = 1
-			}
-			fmt.Fprint(z.out, " ")
-			fmt.Fprint(z.out, c)
-			fmt.Fprint(z.out, strings.Repeat(" ", padding))
-			fmt.Fprint(z.out, " |")
-		}
-		fmt.Fprintf(z.out, "\n")
-	}
-
-	fmtBorder := "|"
-	for _, c := range cols {
-		fmtBorder += strings.Repeat("-", c+2) + "|"
-	}
-
-	printCols(z.header)
-	fmt.Fprintln(z.out, fmtBorder)
-	for _, row := range z.rows {
-		printCols(row)
-	}
-	fmt.Fprintln(z.out, "")
+func (z mdImpl) WithContainerSyntax(mc app_msg_container.Container) Syntax {
+	z.mc = mc
+	return z
 }

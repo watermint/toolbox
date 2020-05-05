@@ -3,16 +3,13 @@ package es_rotate
 import (
 	"errors"
 	"github.com/watermint/toolbox/essentials/concurrency/es_mutex"
-	"github.com/watermint/toolbox/essentials/log/es_fallback"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"io"
 	"os"
 )
 
 const (
 	logFileExtension = ".log"
-	defaultNumBackup = 10
-	defaultChunkSize = 200 * 1024 // 10 * 1048576 // 10MiB
 )
 
 var (
@@ -22,6 +19,7 @@ var (
 type Writer interface {
 	io.WriteCloser
 	Open(opts ...RotateOpt) error
+	UpdateOpt(opt RotateOpt)
 }
 
 func NewWriter(basePath, baseName string) Writer {
@@ -31,10 +29,8 @@ func NewWriter(basePath, baseName string) Writer {
 	w.ro = RotateOpts{}.Apply(
 		BasePath(basePath),
 		BaseName(baseName),
-		Compress(),
-		NumBackup(UnlimitedBackups),
-		ChunkSize(defaultChunkSize),
 	)
+	Startup()
 	return &w
 }
 
@@ -44,6 +40,10 @@ type writerImpl struct {
 	ro      RotateOpts
 	written int64
 	m       es_mutex.Mutex
+}
+
+func (z *writerImpl) UpdateOpt(opt RotateOpt) {
+	z.ro = z.ro.Apply(opt)
 }
 
 func (z *writerImpl) Write(p []byte) (n int, err error) {
@@ -89,17 +89,17 @@ func (z *writerImpl) rotate() (err error) {
 
 // this function must called from caller who owns mutex lock
 func (z *writerImpl) createCurrent() (err error) {
-	l := es_fallback.Fallback()
+	l := es_log.Default()
 	path := z.ro.CurrentPath()
 
-	l.Debug("create", zap.String("path", path))
+	l.Debug("create", es_log.String("path", path))
 	z.current, err = os.Create(path)
 	return
 }
 
 // this function must called from caller who owns mutex lock
 func (z *writerImpl) closeCurrent() (err error) {
-	l := es_fallback.Fallback().With(zap.Int64("written", z.written))
+	l := es_log.Default().With(es_log.Int64("written", z.written))
 
 	// flush written bytes
 	z.written = 0
@@ -114,9 +114,9 @@ func (z *writerImpl) closeCurrent() (err error) {
 	name := z.current.Name()
 	err = z.current.Close()
 
-	l.Debug("Close", zap.String("name", name), zap.Error(err))
+	l.Debug("Close", es_log.String("name", name), es_log.Error(err))
 	if err != nil {
-		l.Error("Unable to close current log file", zap.String("path", name), zap.Error(err))
+		l.Error("Unable to close current log file", es_log.String("path", name), es_log.Error(err))
 	}
 	z.current = nil
 

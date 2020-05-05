@@ -2,30 +2,47 @@ package main
 
 import (
 	"fmt"
-	"github.com/GeertJohan/go.rice"
-	"github.com/watermint/toolbox/essentials/runtime/es_terminal"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_run"
+	rice "github.com/GeertJohan/go.rice"
+	"github.com/watermint/toolbox/catalogue"
+	"github.com/watermint/toolbox/essentials/go/es_resource"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_golog"
+	"github.com/watermint/toolbox/essentials/terminal/es_window"
+	"github.com/watermint/toolbox/infra/control/app_bootstrap"
+	"github.com/watermint/toolbox/infra/control/app_catalogue"
+	"github.com/watermint/toolbox/infra/control/app_exit"
+	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
+	"log"
 	"os"
 	"strings"
 )
 
-func runRunBook(b app_run.Bootstrap, path string, args []string) {
+func runRunBook(b app_bootstrap.Bootstrap, path string, args []string) {
 	_, com := b.ParseCommon(args, true)
 	r, _ := b.Parse("job", "run", "-runbook-path", path)
 	b.Run(r, com)
 }
 
 func run(args []string, forTest bool) {
-	bx := rice.MustFindBox("resources")
-	web := rice.MustFindBox("web")
-	b := app_run.NewBootstrap(bx, web)
+	bundle := es_resource.New(
+		rice.MustFindBox("resources/templates"),
+		rice.MustFindBox("resources/messages"),
+		rice.MustFindBox("resources/web"),
+		rice.MustFindBox("resources/keys"),
+		rice.MustFindBox("resources/images"),
+		rice.MustFindBox("resources/data"),
+	)
+	app_resource.SetBundle(bundle)
+	app_catalogue.SetCurrent(catalogue.NewCatalogue())
+	log.SetOutput(lgw_golog.NewLogWrapper(es_log.Default()))
+
+	b := app_bootstrap.NewBootstrap()
 
 	switch {
 	case len(args) <= 1:
 		if path, _, found := app_workflow.DefaultRunBook(forTest); found {
-			es_terminal.HideConsole()
+			es_window.HideConsole()
 			runRunBook(b, path, []string{})
 		} else {
 			b.Run(b.Parse(args[1:]...))
@@ -37,7 +54,7 @@ func run(args []string, forTest bool) {
 			runRunBook(b, path, args[2:])
 		} else {
 			fmt.Errorf("Unable to execute runbook: %s\n", path)
-			os.Exit(app_control.FatalStartup)
+			app_exit.Abort(app_exit.FatalStartup)
 		}
 
 	default:

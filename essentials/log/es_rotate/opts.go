@@ -5,8 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/collections/es_array"
 	"github.com/watermint/toolbox/essentials/collections/es_value"
 	"github.com/watermint/toolbox/essentials/file/es_gzip"
-	"github.com/watermint/toolbox/essentials/log/es_fallback"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"io/ioutil"
 	"math"
 	"os"
@@ -74,11 +73,11 @@ func (z RotateOpts) CurrentPath() string {
 }
 
 func (z RotateOpts) CurrentLogs() (entries []os.FileInfo, err error) {
-	l := es_fallback.Fallback()
+	l := es_log.Default()
 
 	entries0, err := ioutil.ReadDir(z.BasePath())
 	if err != nil {
-		l.Warn("Unable to read log directory", zap.String("path", z.BasePath()), zap.Error(err))
+		l.Warn("Unable to read log directory", es_log.String("path", z.BasePath()), es_log.Error(err))
 		return nil, err
 	}
 	entries = make([]os.FileInfo, 0)
@@ -170,6 +169,14 @@ func Compress() RotateOpt {
 	}
 }
 
+// Stay uncompressed the log file on rotate
+func Uncompressed() RotateOpt {
+	return func(o RotateOpts) RotateOpts {
+		o.compress = false
+		return o
+	}
+}
+
 // Path to the log file
 func BasePath(path string) RotateOpt {
 	return func(o RotateOpts) RotateOpts {
@@ -199,8 +206,8 @@ func ChunkSize(size int64) RotateOpt {
 func NumBackup(num int) RotateOpt {
 	return func(o RotateOpts) RotateOpts {
 		if num != UnlimitedBackups && num < 0 {
-			l := es_fallback.Fallback()
-			l.Warn("Invalid number of log backups", zap.Int("num", num))
+			l := es_log.Default()
+			l.Warn("Invalid number of log backups", es_log.Int("num", num))
 			o.numBackups = 0
 		} else {
 			o.numBackups = num
@@ -212,8 +219,8 @@ func NumBackup(num int) RotateOpt {
 func Quota(quota int64) RotateOpt {
 	return func(o RotateOpts) RotateOpts {
 		if quota != UnlimitedQuota && quota < 0 {
-			l := es_fallback.Fallback()
-			l.Warn("Invalid quota size", zap.Int64("quota", quota))
+			l := es_log.Default()
+			l.Warn("Invalid quota size", es_log.Int64("quota", quota))
 			o.quota = 0
 		} else {
 			o.quota = quota

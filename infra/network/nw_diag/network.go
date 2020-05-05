@@ -2,9 +2,9 @@ package nw_diag
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"go.uber.org/zap"
 	"net/http"
 	"time"
 )
@@ -43,19 +43,19 @@ func Network(ctl app_control.Control) error {
 
 	for _, url := range NetworkDiagUrls {
 		resp, err := http.Head(url)
-		ll := l.With(zap.String("Url", url))
+		ll := l.With(es_log.String("Url", url))
 		if err != nil {
-			ll.Debug("Network test failed", zap.Error(err))
+			ll.Debug("Network test failed", es_log.Error(err))
 			ui.Error(MNetwork.ErrorUnreachable.With("Url", url).With("Error", err))
 			return err
 		}
 
 		if resp.StatusCode >= 400 {
-			ll.Debug("Bad server response", zap.Int("status_code", resp.StatusCode))
+			ll.Debug("Bad server response", es_log.Int("status_code", resp.StatusCode))
 			return errors.New("bad server response")
 		}
 
-		ll.Debug("Network test success", zap.Int("status_code", resp.StatusCode))
+		ll.Debug("Network test success", es_log.Int("status_code", resp.StatusCode))
 	}
 	ui.Info(MNetwork.ProgressTestingDone)
 	ui.Break()

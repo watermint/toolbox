@@ -3,6 +3,7 @@ package rc_spec
 import (
 	"flag"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -14,7 +15,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"go.uber.org/zap"
 	"os"
 	"sort"
 	"strings"
@@ -323,13 +323,13 @@ func (z *specValueSelfContained) ConnScopes() []string {
 }
 
 func (z *specValueSelfContained) SpinUp(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (rcp rc_recipe.Recipe, err error) {
-	l := ctl.Log().With(zap.String("name", z.name))
+	l := ctl.Log().With(es_log.String("name", z.name))
 	rcp = z.repo.Apply()
 	custom(rcp)
 	z.repo.ApplyCustom()
 	_, err = z.repo.SpinUp(ctl)
 	if err != nil {
-		l.Debug("Unable to spin up", zap.Error(err))
+		l.Debug("Unable to spin up", es_log.Error(err))
 		return nil, err
 	}
 	return rcp, nil

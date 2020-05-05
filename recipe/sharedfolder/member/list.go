@@ -8,13 +8,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 )
 
 type MsgList struct {
@@ -35,7 +35,7 @@ type ListWorker struct {
 func (z *ListWorker) Exec() error {
 	z.ctl.UI().Progress(MList.ProgressScan.With("Folder", z.folder.Name).With("FolderId", z.folder.SharedFolderId))
 
-	z.ctl.Log().Debug("Scanning folder", zap.Any("folder", z.folder))
+	z.ctl.Log().Debug("Scanning folder", es_log.Any("folder", z.folder))
 	members, err := sv_sharedfolder_member.New(z.conn, z.folder).List()
 	if err != nil {
 		return err

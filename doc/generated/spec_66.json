@@ -8285,6 +8285,44 @@
         ]
       },
       {
+        "name": "namespace_member",
+        "desc": "This report shows a list of members of namespaces in the team.",
+        "columns": [
+          {
+            "name": "namespace_name",
+            "desc": "The name of this namespace"
+          },
+          {
+            "name": "namespace_type",
+            "desc": "The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)"
+          },
+          {
+            "name": "entry_access_type",
+            "desc": "The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)"
+          },
+          {
+            "name": "entry_is_inherited",
+            "desc": "True if the member has access from a parent folder"
+          },
+          {
+            "name": "email",
+            "desc": "Email address of user."
+          },
+          {
+            "name": "display_name",
+            "desc": "Type of the session (web_session, desktop_client, or mobile_client)"
+          },
+          {
+            "name": "group_name",
+            "desc": "Name of the group"
+          },
+          {
+            "name": "invitee_email",
+            "desc": "Email address of invitee for this folder"
+          }
+        ]
+      },
+      {
         "name": "namespace_size",
         "desc": "This report shows the transaction result.",
         "columns": [
@@ -8373,6 +8411,28 @@
           {
             "name": "given_name",
             "desc": "Given name of the link owner"
+          }
+        ]
+      },
+      {
+        "name": "team_folder",
+        "desc": "This report shows a list of team folders in the team.",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "The name of the team folder."
+          },
+          {
+            "name": "status",
+            "desc": "The status of the team folder (active, archived, or archive_in_progress)"
+          },
+          {
+            "name": "is_team_shared_dropbox",
+            "desc": ""
+          },
+          {
+            "name": "sync_setting",
+            "desc": "The sync setting applied to this team folder (default, not_synced, or not_synced_inactive)"
           }
         ]
       },
@@ -9054,7 +9114,7 @@
         "name": "Name",
         "desc": "List only for the folder matched to the name",
         "default": "",
-        "type_name": "string",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {

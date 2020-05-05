@@ -3,9 +3,8 @@ package es_rotate
 import (
 	"github.com/watermint/toolbox/essentials/concurrency/es_mutex"
 	"github.com/watermint/toolbox/essentials/file/es_gzip"
-	"github.com/watermint/toolbox/essentials/log/es_fallback"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_shutdown"
-	"go.uber.org/zap"
 	"os"
 	"sync"
 )
@@ -31,8 +30,8 @@ var (
 	queueOutStatus    sync.WaitGroup
 	queueRotate       chan MsgRotate
 	queueRotateStatus sync.WaitGroup
-	queueMutex             = es_mutex.New()
-	queueAvailable    bool = false
+	queueMutex        = es_mutex.New()
+	queueAvailable    = false
 
 	// logs which unable to remove
 	poisonLogs = make(map[string]error)
@@ -62,8 +61,8 @@ func purgeLoop() {
 		// clean up
 		err = os.Remove(m.Path)
 		if err != nil {
-			l := es_fallback.Fallback()
-			l.Error("Unable to remove log file", zap.String("path", m.Path), zap.Error(err))
+			l := es_log.Default()
+			l.Error("Unable to remove log file", es_log.String("path", m.Path), es_log.Error(err))
 			poisonLogs[m.Path] = err
 		}
 	}
@@ -71,16 +70,16 @@ func purgeLoop() {
 }
 
 func execRotate(m MsgRotate) {
-	l := es_fallback.Fallback()
+	l := es_log.Default()
 
 	targets, err := m.Opts.PurgeTargets()
 	if err != nil {
-		l.Error("Unable to read log directory", zap.String("path", m.Opts.BasePath()), zap.Error(err))
+		l.Error("Unable to read log directory", es_log.String("path", m.Opts.BasePath()), es_log.Error(err))
 		return
 	}
 
 	for _, path := range targets {
-		l.Debug("Purge log", zap.String("entry", path))
+		l.Debug("Purge log", es_log.String("entry", path))
 		purge(MsgPurge{
 			Path: path,
 			Opts: m.Opts,
@@ -116,15 +115,21 @@ func execOut(m MsgOut) {
 }
 
 func purge(m MsgPurge) {
-	queuePurge <- m
+	if queuePurge != nil {
+		queuePurge <- m
+	}
 }
 
 func rotateOut(m MsgOut) {
-	queueOut <- m
+	if queueOut != nil {
+		queueOut <- m
+	}
 }
 
 func rotate(m MsgRotate) {
-	queueRotate <- m
+	if queueRotate != nil {
+		queueRotate <- m
+	}
 }
 
 func Startup() {
@@ -148,7 +153,7 @@ func Startup() {
 
 func Shutdown() {
 	queueMutex.Do(func() {
-		l := es_fallback.Fallback()
+		l := es_log.Default()
 		if queueRotate != nil {
 			l.Debug("Shutdown queue rotate")
 			close(queueRotate)

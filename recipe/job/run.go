@@ -4,12 +4,12 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/essentials/log/es_process"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"go.uber.org/zap"
 	"os"
 	"os/exec"
 	"time"
@@ -28,7 +28,7 @@ func (z *Run) execFork(c app_control.Control) error {
 	ui := c.UI()
 	l := c.Log()
 
-	l.Info("Fork", zap.String("cmd", os.Args[0]), zap.String("runbook", z.RunbookPath.Path()))
+	l.Info("Fork", es_log.String("cmd", os.Args[0]), es_log.String("runbook", z.RunbookPath.Path()))
 	cmd := exec.Command(os.Args[0], "job", "run", "-runbook-path", z.RunbookPath.Path())
 	pl := es_process.NewLogger(cmd, c)
 	pl.Start()
@@ -44,7 +44,7 @@ func (z *Run) execFork(c app_control.Control) error {
 	if z.TimeoutSeconds.Value() < 1 {
 		l.Info("Waiting for finish process")
 		if err := cmd.Wait(); err != nil {
-			l.Info("The process finished with an error", zap.Error(err))
+			l.Info("The process finished with an error", es_log.Error(err))
 		} else {
 			l.Info("The process finished")
 		}
@@ -59,7 +59,7 @@ func (z *Run) execFork(c app_control.Control) error {
 	}()
 
 	timeout := time.Now().Add(time.Duration(z.TimeoutSeconds.Value()) * 1000 * time.Millisecond)
-	l.Info("Waiting for process", zap.String("timeout", timeout.Format(time.RFC3339)))
+	l.Info("Waiting for process", es_log.String("timeout", timeout.Format(time.RFC3339)))
 	for {
 		time.Sleep(500 * time.Microsecond)
 		if !running {
@@ -68,7 +68,7 @@ func (z *Run) execFork(c app_control.Control) error {
 		if time.Now().After(timeout) {
 			l.Debug("Execution timeout, try send kill signal to the process")
 			err = cmd.Process.Kill()
-			l.Debug("Signal sent", zap.Error(err))
+			l.Debug("Signal sent", es_log.Error(err))
 			cmd.Process.Release()
 			return nil
 		}

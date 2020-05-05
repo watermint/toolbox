@@ -13,7 +13,7 @@ import (
 )
 
 func TestCatalogue(t *testing.T) {
-	_, _, _, ui := qt_recipe.Resources(t)
+	ui := qt_recipe.Resources()
 	cat := NewCatalogue()
 	testGroup(cat.RootGroup(), ui)
 	for _, r := range cat.Ingredients() {

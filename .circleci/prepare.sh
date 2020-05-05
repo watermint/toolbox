@@ -2,12 +2,8 @@
 # Prepare for release
 
 mkdir -p $HOME/.toolbox/secrets
-echo "$TOOLBOX_APPKEYS" > resources/toolbox.appkeys
-
-#if [ x"master" != x"$CIRCLE_BRANCH" ]; then
-#  echo Skip release testing: current branch "$CIRCLE_BRANCH"
-#  exit 0
-#fi
+mkdir -p resources/keys
+echo "$TOOLBOX_APPKEYS" > resources/keys/toolbox.appkeys
 
 if [ x"" == x"$TOOLBOX_TESTRESOURCE_URL" ]; then
   echo Skip testing with supplemental test resource, test resource url missing

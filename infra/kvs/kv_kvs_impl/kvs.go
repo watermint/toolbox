@@ -3,9 +3,9 @@ package kv_kvs_impl
 import (
 	"encoding/json"
 	"github.com/dgraph-io/badger/v2"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
-	"go.uber.org/zap"
 	"reflect"
 )
 
@@ -28,16 +28,16 @@ func (z *badgerWrapper) PutRaw(key, value []byte) error {
 }
 
 func (z *badgerWrapper) NextSequence(name string) (uint64, error) {
-	l := z.ctl.Log().With(zap.String("name", name))
+	l := z.ctl.Log().With(es_log.String("name", name))
 	seq, err := z.db.GetSequence([]byte(name), 100)
 	if err != nil {
-		l.Debug("Unable to get seq", zap.Error(err))
+		l.Debug("Unable to get seq", es_log.Error(err))
 		return 0, err
 	}
 	defer seq.Release()
 	s, err := seq.Next()
 	if err != nil {
-		l.Debug("Unable to generate seq", zap.Error(err))
+		l.Debug("Unable to generate seq", es_log.Error(err))
 		return 0, err
 	}
 	return s, nil
@@ -47,7 +47,7 @@ func (z *badgerWrapper) PutString(key string, value string) error {
 	l := z.ctl.Log()
 	err := z.tx.Set([]byte(key), []byte(value))
 	if err != nil {
-		l.Debug("Unable to put key/value", zap.String("key", key))
+		l.Debug("Unable to put key/value", es_log.String("key", key))
 		return err
 	}
 	return nil
@@ -57,7 +57,7 @@ func (z *badgerWrapper) PutBytes(key string, value []byte) error {
 	l := z.ctl.Log()
 	err := z.tx.Set([]byte(key), value)
 	if err != nil {
-		l.Debug("Unable to put key/value", zap.String("key", key))
+		l.Debug("Unable to put key/value", es_log.String("key", key))
 		return err
 	}
 	return nil
@@ -67,7 +67,7 @@ func (z *badgerWrapper) PutJson(key string, j json.RawMessage) error {
 	l := z.ctl.Log()
 	err := z.tx.Set([]byte(key), j)
 	if err != nil {
-		l.Debug("Unable to put key/value", zap.String("key", key))
+		l.Debug("Unable to put key/value", es_log.String("key", key))
 		return err
 	}
 	return nil
@@ -77,12 +77,12 @@ func (z *badgerWrapper) PutJsonModel(key string, v interface{}) error {
 	l := z.ctl.Log()
 	b, err := json.Marshal(v)
 	if err != nil {
-		l.Debug("Unable to marshal value", zap.Error(err))
+		l.Debug("Unable to marshal value", es_log.Error(err))
 		return err
 	}
 	err = z.tx.Set([]byte(key), b)
 	if err != nil {
-		l.Debug("Unable to put key/value", zap.String("key", key))
+		l.Debug("Unable to put key/value", es_log.String("key", key))
 		return err
 	}
 	return nil
@@ -112,7 +112,7 @@ func (z *badgerWrapper) GetJson(key string) (j json.RawMessage, err error) {
 	l := z.ctl.Log()
 	r, err := z.tx.Get([]byte(key))
 	if err != nil {
-		l.Debug("key not found", zap.String("key", key), zap.Error(err))
+		l.Debug("key not found", es_log.String("key", key), es_log.Error(err))
 		return nil, err
 	}
 	return r.ValueCopy(nil)
@@ -122,11 +122,11 @@ func (z *badgerWrapper) GetJsonModel(key string, v interface{}) (err error) {
 	l := z.ctl.Log()
 	r, err := z.GetJson(key)
 	if err != nil {
-		l.Debug("key not found", zap.String("key", key), zap.Error(err))
+		l.Debug("key not found", es_log.String("key", key), es_log.Error(err))
 		return err
 	}
 	if err = json.Unmarshal(r, v); err != nil {
-		l.Debug("unable to unmarshal", zap.String("key", key), zap.Error(err))
+		l.Debug("unable to unmarshal", es_log.String("key", key), es_log.Error(err))
 		return err
 	}
 	return nil

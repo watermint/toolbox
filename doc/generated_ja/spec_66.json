@@ -8285,6 +8285,44 @@
         ]
       },
       {
+        "name": "namespace_member",
+        "desc": "このレポートは名前空間とそのメンバー一覧を出力します.",
+        "columns": [
+          {
+            "name": "namespace_name",
+            "desc": "名前空間の名称"
+          },
+          {
+            "name": "namespace_type",
+            "desc": "名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)"
+          },
+          {
+            "name": "entry_access_type",
+            "desc": "ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment)"
+          },
+          {
+            "name": "entry_is_inherited",
+            "desc": "メンバーのアクセス権限が上位フォルダから継承されている場合true"
+          },
+          {
+            "name": "email",
+            "desc": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "display_name",
+            "desc": "セッションのタイプ (web_session, desktop_client, または mobile_client)"
+          },
+          {
+            "name": "group_name",
+            "desc": "グループ名称"
+          },
+          {
+            "name": "invitee_email",
+            "desc": "このフォルダに招待されたメールアドレス"
+          }
+        ]
+      },
+      {
         "name": "namespace_size",
         "desc": "このレポートは処理結果を出力します.",
         "columns": [
@@ -8373,6 +8411,28 @@
           {
             "name": "given_name",
             "desc": "リンク所有者の名"
+          }
+        ]
+      },
+      {
+        "name": "team_folder",
+        "desc": "このレポートはチーム内のチームフォルダを一覧します.",
+        "columns": [
+          {
+            "name": "name",
+            "desc": "チームフォルダの名称"
+          },
+          {
+            "name": "status",
+            "desc": "チームフォルダの状態 (active, archived, または archive_in_progress)"
+          },
+          {
+            "name": "is_team_shared_dropbox",
+            "desc": ""
+          },
+          {
+            "name": "sync_setting",
+            "desc": "チームフォルダに設定された同期設定 (default, not_synced, または not_synced_inactive)"
           }
         ]
       },
@@ -9054,7 +9114,7 @@
         "name": "Name",
         "desc": "指定された名前に一致するフォルダのみを一覧します",
         "default": "",
-        "type_name": "string",
+        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       },
       {

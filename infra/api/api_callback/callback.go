@@ -6,17 +6,18 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
-	"github.com/watermint/toolbox/essentials/log/es_wrapper"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_gin"
 	"github.com/watermint/toolbox/essentials/runtime/es_open"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_template_impl"
 	"go.uber.org/atomic"
-	"go.uber.org/zap"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -142,7 +143,7 @@ func (z *callbackImpl) WaitServerReady() bool {
 }
 
 func (z *callbackImpl) ping() error {
-	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
+	l := z.ctl.Log().With(es_log.Int("port", z.port), es_log.String("instance", z.instance))
 
 	l.Debug("waiting for the server ready")
 	hc := &http.Client{}
@@ -150,29 +151,29 @@ func (z *callbackImpl) ping() error {
 	for {
 		time.Sleep(100 * time.Millisecond)
 		if z.serverError != nil {
-			l.Debug("server startup failure", zap.Error(z.serverError))
+			l.Debug("server startup failure", es_log.Error(z.serverError))
 			return z.serverError
 		}
 
 		l.Debug("ping")
 		res, err := hc.Get(pingUrl)
 		if err != nil {
-			l.Debug("ping failure", zap.Error(err))
+			l.Debug("ping failure", es_log.Error(err))
 			continue
 		}
 		b, err := ioutil.ReadAll(res.Body)
 		if err != nil {
-			l.Debug("unable to read body", zap.Error(err))
+			l.Debug("unable to read body", es_log.Error(err))
 			continue
 		}
 		d := &ServerStatus{}
 		if err := json.Unmarshal(b, d); err != nil {
-			l.Debug("unable to unmarshal", zap.Error(err))
+			l.Debug("unable to unmarshal", es_log.Error(err))
 			continue
 		}
 
 		if d.Token != z.serverToken {
-			l.Debug("server token unmatched", zap.String("received", d.Token), zap.String("expected", z.serverToken))
+			l.Debug("server token unmatched", es_log.String("received", d.Token), es_log.String("expected", z.serverToken))
 			z.Shutdown()
 			return ErrorAnotherServerOnline
 		}
@@ -184,10 +185,10 @@ func (z *callbackImpl) ping() error {
 }
 
 func (z *callbackImpl) openUrl(authUrl string) {
-	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
+	l := z.ctl.Log().With(es_log.Int("port", z.port), es_log.String("instance", z.instance))
 	ui := z.ctl.UI()
 
-	l.Debug("opening auth url", zap.String("url", authUrl))
+	l.Debug("opening auth url", es_log.String("url", authUrl))
 	ui.AskProceed(MCallback.MsgHitEnterToProceed)
 
 	if err := z.opener.Open(authUrl, true); err != nil {
@@ -197,7 +198,7 @@ func (z *callbackImpl) openUrl(authUrl string) {
 }
 
 func (z *callbackImpl) Flow() error {
-	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
+	l := z.ctl.Log().With(es_log.Int("port", z.port), es_log.String("instance", z.instance))
 
 	idle := make(chan struct{})
 	url := z.service.Url(z.Url())
@@ -205,7 +206,7 @@ func (z *callbackImpl) Flow() error {
 	l.Debug("starting server")
 	go func() {
 		err := z.Start()
-		l.Debug("server finished", zap.Error(err))
+		l.Debug("server finished", es_log.Error(err))
 		close(idle)
 	}()
 
@@ -214,11 +215,11 @@ func (z *callbackImpl) Flow() error {
 	// waiting for server up
 	l.Debug("sending ping to the server")
 	if err := z.ping(); err != nil {
-		l.Debug("ping failure", zap.Error(err))
+		l.Debug("ping failure", es_log.Error(err))
 		return err
 	}
 
-	l.Debug("open url", zap.String("url", url))
+	l.Debug("open url", es_log.String("url", url))
 	z.openUrl(url)
 
 	// waiting for finish
@@ -243,7 +244,7 @@ func (z *callbackImpl) Url() string {
 
 func (z *callbackImpl) Start() error {
 	z.mutex.Lock()
-	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
+	l := z.ctl.Log().With(es_log.Int("port", z.port), es_log.String("instance", z.instance))
 
 	// in scope of the lock
 	{
@@ -254,16 +255,15 @@ func (z *callbackImpl) Start() error {
 		}
 
 		z.flowStatus = make(chan struct{})
-		hfc := z.ctl.(app_control.ControlHttpFileSystem)
-		hfs := hfc.HttpFileSystem()
-		htp := hfc.Template()
+		hfs := app_resource.Bundle().Web().HttpFileSystem()
+		htp := app_template_impl.NewDev(hfs, z.ctl)
 		htr := htp.(render.HTMLRender)
 		if !z.ctl.Feature().IsDebug() {
 			gin.SetMode(gin.ReleaseMode)
 		}
 		g := gin.New()
-		g.Use(es_wrapper.GinWrapper(l))
-		g.Use(ginzap.RecoveryWithZap(l, true))
+		g.Use(lgw_gin.GinWrapper(l))
+		g.Use(lgw_gin.GinRecovery(l))
 		g.GET(PathConnect, z.Connect)
 		g.GET(PathFailure, z.Failure)
 		g.GET(PathSuccess, z.Success)
@@ -271,7 +271,7 @@ func (z *callbackImpl) Start() error {
 		g.GET(PathPing, z.Ping)
 		if err := htp.Define("result", "layout/simple.html", "pages/auth_result.html"); err != nil {
 			z.mutex.Unlock()
-			l.Debug("Unable to prepare templates", zap.Error(err))
+			l.Debug("Unable to prepare templates", es_log.Error(err))
 			return err
 		}
 		g.StaticFS("/assets", hfs)
@@ -285,16 +285,16 @@ func (z *callbackImpl) Start() error {
 	}
 	z.mutex.Unlock()
 
-	logoImage, err := z.ctl.Resource("watermint-toolbox-256x256.png")
+	logoImage, err := app_resource.Bundle().Images().Bytes("watermint-toolbox-256x256.png")
 	if err != nil {
-		l.Debug("unable to load logo image", zap.Error(err))
+		l.Debug("unable to load logo image", es_log.Error(err))
 		return err
 	}
 	z.logoImageBase64 = template.URL(DataUriImagePng + base64.StdEncoding.EncodeToString(logoImage))
 
 	l.Debug("Starting server")
 	if err := z.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		l.Debug("Server finished with an error", zap.Error(err))
+		l.Debug("Server finished with an error", es_log.Error(err))
 		z.serverError = err
 		return err
 	}
@@ -307,7 +307,7 @@ func (z *callbackImpl) Shutdown() {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
+	l := z.ctl.Log().With(es_log.Int("port", z.port), es_log.String("instance", z.instance))
 	if z.server == nil {
 		l.Debug("Server is not yet started")
 		return
@@ -316,7 +316,7 @@ func (z *callbackImpl) Shutdown() {
 	ctx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
 	defer cancel()
 	if err := z.server.Shutdown(ctx); err != nil {
-		l.Debug("Server finished with an error", zap.Error(err))
+		l.Debug("Server finished with an error", es_log.Error(err))
 	}
 	l.Debug("Server stopped")
 	z.server = nil
@@ -338,7 +338,7 @@ func (z *callbackImpl) Ping(g *gin.Context) {
 }
 
 func (z *callbackImpl) Connect(g *gin.Context) {
-	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
+	l := z.ctl.Log().With(es_log.Int("port", z.port), es_log.String("instance", z.instance))
 	state := g.Query("state")
 	code := g.Query("code")
 	l.Debug("Verify state & code")
@@ -352,7 +352,7 @@ func (z *callbackImpl) Connect(g *gin.Context) {
 }
 
 func (z *callbackImpl) Success(g *gin.Context) {
-	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
+	l := z.ctl.Log().With(es_log.Int("port", z.port), es_log.String("instance", z.instance))
 	ui := z.ctl.UI()
 	g.HTML(
 		http.StatusOK,
@@ -369,7 +369,7 @@ func (z *callbackImpl) Success(g *gin.Context) {
 }
 
 func (z *callbackImpl) Failure(g *gin.Context) {
-	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
+	l := z.ctl.Log().With(es_log.Int("port", z.port), es_log.String("instance", z.instance))
 	ui := z.ctl.UI()
 	g.HTML(
 		http.StatusForbidden,
@@ -386,7 +386,7 @@ func (z *callbackImpl) Failure(g *gin.Context) {
 }
 
 func (z *callbackImpl) Hello(g *gin.Context) {
-	l := z.ctl.Log().With(zap.Int("port", z.port), zap.String("instance", z.instance))
+	l := z.ctl.Log().With(es_log.Int("port", z.port), es_log.String("instance", z.instance))
 	ui := z.ctl.UI()
 	g.HTML(
 		http.StatusOK,

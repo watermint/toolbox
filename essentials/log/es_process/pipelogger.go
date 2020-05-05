@@ -2,8 +2,8 @@ package es_process
 
 import (
 	"bufio"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"go.uber.org/zap"
 	"io"
 	"os"
 	"os/exec"
@@ -41,10 +41,10 @@ func (z *loggerImpl) logger(r io.Reader, prefix string) {
 		case io.EOF, os.ErrClosed:
 			return
 		case nil:
-			l.Info(prefix, zap.String("line", string(line)))
+			l.Info(prefix, es_log.String("line", string(line)))
 		default:
 			w.Do(func() {
-				l.Warn(prefix+": Read error", zap.Error(err))
+				l.Warn(prefix+": Read error", es_log.Error(err))
 			})
 		}
 		if !z.running {
@@ -60,14 +60,14 @@ func (z *loggerImpl) Start() {
 	z.running = true
 	z.so, err = z.cmd.StdoutPipe()
 	if err != nil {
-		l.Warn("Unable to create pipe of stdout", zap.Error(err))
+		l.Warn("Unable to create pipe of stdout", es_log.Error(err))
 		z.so = nil
 	} else {
 		go z.logger(z.so, "STDOUT")
 	}
 	z.se, err = z.cmd.StderrPipe()
 	if err != nil {
-		l.Warn("Unable to create pipe of stderr", zap.Error(err))
+		l.Warn("Unable to create pipe of stderr", es_log.Error(err))
 		z.se = nil
 	} else {
 		go z.logger(z.se, "STDERR")

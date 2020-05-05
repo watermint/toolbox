@@ -1,7 +1,7 @@
 package es_generate
 
 import (
-	"github.com/watermint/toolbox/essentials/io/ut_io"
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"testing"
@@ -26,7 +26,7 @@ func TestStructTypeGenerator_Generate(t *testing.T) {
 			return
 		}
 		gen := NewStructTypeGenerator(ctl, sts)
-		err = gen.Generate("source_generate_struct.go.tmpl", ut_io.NewDefaultOut(ctl.Feature().IsTest()))
+		err = gen.Generate("source_generate_struct.go.tmpl", es_stdout.NewDefaultOut(ctl.Feature().IsTest()))
 		if err != nil {
 			t.Error(err)
 			return

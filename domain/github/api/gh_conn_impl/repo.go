@@ -5,12 +5,11 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"go.uber.org/zap"
 )
 
 func NewConnGithubRepo(name string) gh_conn.ConnGithubRepo {
@@ -33,12 +32,10 @@ func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
 	ui := ctl.UI()
 	scope := z.ScopeLabel()
 
-	if c, ok := ctl.(app_control.ControlTestExtension); ok {
-		if c.TestValue(app.CtlTestExtUseMock) == true {
-			l.Debug("Test with mock")
-			z.ctx = gh_context_impl.NewMock(ctl)
-			return nil
-		}
+	if ctl.Feature().IsTestWithMock() {
+		l.Debug("Test with mock")
+		z.ctx = gh_context_impl.NewMock(ctl)
+		return nil
 	}
 	if ctl.Feature().IsTest() && qt_endtoend.IsSkipEndToEndTest() {
 		l.Debug("Skip end to end test")
@@ -54,7 +51,7 @@ func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
 		l.Debug("Enable cache")
 		a = api_auth_impl.NewConsoleCache(ctl, a)
 	}
-	l.Debug("Start auth sequence", zap.String("scope", scope))
+	l.Debug("Start auth sequence", es_log.String("scope", scope))
 	ac, err := a.Auth(scope)
 	if err != nil {
 		return err

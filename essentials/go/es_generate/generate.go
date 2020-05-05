@@ -2,6 +2,7 @@ package es_generate
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_resource"
 	"io"
 	"strings"
 	"text/template"
@@ -43,7 +44,7 @@ func (z *structTypeGenerator) Generate(tmplName string, out io.Writer) error {
 		aliasObjects = append(aliasObjects, sta)
 	}
 
-	t0, err := z.ctl.Resource(tmplName)
+	t0, err := app_resource.Bundle().Templates().Bytes(tmplName)
 	if err != nil {
 		return err
 	}

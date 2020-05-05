@@ -2,14 +2,13 @@ package dev
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/util/ut_doc"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 )
 
 type Doc struct {
@@ -31,24 +30,21 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 	l := ctl.Log()
 
 	if z.Lang.IsExists() {
-		if c, ok := app_control_launcher.ControlWithLang(z.Lang.Value(), ctl); ok {
-			ctl = c
-		}
+		ctl = ctl.WithLang(z.Lang.Value())
 	}
 
 	rme := ut_doc.NewReadme(ctl, z.Filename, z.Badge, z.MarkdownReadme, z.CommandPath)
 	cmd := ut_doc.NewCommandWithPath(z.CommandPath)
 	if err := rme.Generate(); err != nil {
-		l.Error("Failed to generate README", zap.Error(err))
+		l.Error("Failed to generate README", es_log.Error(err))
 		return err
 	}
 	if err := cmd.GenerateAll(ctl); err != nil {
-		l.Error("Failed to generate command manuals", zap.Error(err))
+		l.Error("Failed to generate command manuals", es_log.Error(err))
 		return err
 	}
 
-	qm := ctl.Messages().(app_msg_container.Quality)
-	missing := qm.MissingKeys()
+	missing := qt_missingmsg.Record().Missing()
 	if len(missing) > 0 {
 		return qt_messages.VerifyMessages(ctl)
 	}

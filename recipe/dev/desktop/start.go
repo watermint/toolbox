@@ -1,12 +1,12 @@
 package desktop
 
 import (
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/essentials/log/es_process"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
-	"go.uber.org/zap"
 	"os/exec"
 	"runtime"
 )
@@ -38,7 +38,7 @@ func (z *Start) Exec(c app_control.Control) error {
 	l.Info("Start Dropbox")
 	err := cmd.Start()
 	if err != nil {
-		l.Error("Unable to start Desktop", zap.Error(err))
+		l.Error("Unable to start Desktop", es_log.Error(err))
 		return err
 	}
 

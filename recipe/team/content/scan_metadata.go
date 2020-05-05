@@ -3,11 +3,11 @@ package content
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
-	"go.uber.org/zap"
 )
 
 type ScanNamespaceMetadata struct {
@@ -34,7 +34,7 @@ type MetadataScannerWorker struct {
 }
 
 func (z *MetadataScannerWorker) Exec() error {
-	l := z.Context.Log().With(zap.String("namespaceId", z.NamespaceId), zap.String("namespaceName", z.NamespaceName))
+	l := z.Context.Log().With(es_log.String("namespaceId", z.NamespaceId), es_log.String("namespaceName", z.NamespaceName))
 	ui := z.Control.UI()
 
 	l.Debug("Scanning metadata")
@@ -42,7 +42,7 @@ func (z *MetadataScannerWorker) Exec() error {
 
 	m, err := sv_sharedfolder.New(z.Context).Resolve(z.NamespaceId)
 	if err != nil {
-		l.Debug("Unable to retrieve metadata", zap.Error(err))
+		l.Debug("Unable to retrieve metadata", es_log.Error(err))
 		return err
 	}
 

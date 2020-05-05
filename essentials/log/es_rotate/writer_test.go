@@ -1,9 +1,8 @@
 package es_rotate
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_fallback"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"go.uber.org/zap"
 	"io/ioutil"
 	"testing"
 )
@@ -27,15 +26,15 @@ func TestWriterImpl_Open(t *testing.T) {
 
 func TestRotate(t *testing.T) {
 	qt_file.TestWithTestFolder(t, "rotate", false, func(path string) {
-		l := es_fallback.Fallback()
+		l := es_log.Default()
 		numPurge := 0
-		Startup()
 		{
 			hook := func(path string) {
-				l.Info("Path", zap.String("path", path))
+				l.Info("Path", es_log.String("path", path))
 				numPurge++
 			}
 
+			Shutdown()
 			w := NewWriter(path, "w1")
 			if err := w.Open(
 				ChunkSize(16),

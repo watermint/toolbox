@@ -2,7 +2,8 @@ package qt_errors
 
 import (
 	"errors"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/infra/app"
 )
 
 var (
@@ -32,7 +33,7 @@ var (
 )
 
 // Returns nil even err != nil if the error type is ignorable.
-func ErrorsForTest(l *zap.Logger, err error) (resolvedErr error, cont bool) {
+func ErrorsForTest(l es_log.Logger, err error) (resolvedErr error, cont bool) {
 	if err == nil {
 		return nil, true
 	}
@@ -67,6 +68,10 @@ func ErrorsForTest(l *zap.Logger, err error) (resolvedErr error, cont bool) {
 
 	case ErrorMock:
 		l.Debug("Mock test")
+		return nil, false
+
+	case app.ErrorUserCancelled:
+		l.Debug("User cancelled")
 		return nil, false
 
 	default:

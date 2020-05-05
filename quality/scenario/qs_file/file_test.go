@@ -6,10 +6,10 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -18,7 +18,6 @@ import (
 	filecompare "github.com/watermint/toolbox/recipe/file/compare"
 	filesync "github.com/watermint/toolbox/recipe/file/sync"
 	filesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
-	"go.uber.org/zap"
 	"path/filepath"
 	"testing"
 	"time"
@@ -34,18 +33,18 @@ func testContent(t *testing.T, ctl app_control.Control, scenario *Scenario, repo
 		}
 		r, err := filepath.Rel(localBase, cols["input.file"])
 		if err != nil {
-			l.Debug("unable to calc rel path", zap.Error(err))
+			l.Debug("unable to calc rel path", es_log.Error(err))
 			return err
 		}
-		ll := l.With(zap.String("r", r))
+		ll := l.With(es_log.String("r", r))
 		found[r] = true
 		ch, err := dbx_util.ContentHash(cols["input.file"])
 		if err != nil {
-			ll.Debug("unable to calc hash", zap.Error(err))
+			ll.Debug("unable to calc hash", es_log.Error(err))
 			return err
 		}
 		if cols["result.content_hash"] != ch {
-			ll.Error("Content hash mismatch", zap.String("hashOnServer", cols["result.content_hash"]), zap.String("hashOnLocal", ch))
+			ll.Error("Content hash mismatch", es_log.String("hashOnServer", cols["result.content_hash"]), es_log.String("hashOnLocal", ch))
 			t.Error("content hash mismatch")
 		}
 
@@ -57,7 +56,7 @@ func testContent(t *testing.T, ctl app_control.Control, scenario *Scenario, repo
 
 	for f := range scenario.Files {
 		if _, ok := found[f]; !ok {
-			l.Error("File missing", zap.String("file", f))
+			l.Error("File missing", es_log.String("file", f))
 			t.Error("missing file")
 		}
 	}
@@ -69,7 +68,7 @@ func testSkip(t *testing.T, ctl app_control.Control, scenario *Scenario, reportN
 	skipErr := qt_recipe.TestRows(ctl, reportName, func(cols map[string]string) error {
 		r, err := filepath.Rel(localBase, cols["input.file"])
 		if err != nil {
-			l.Debug("unable to calc rel path", zap.Error(err))
+			l.Debug("unable to calc rel path", es_log.Error(err))
 			return err
 		}
 		found[r] = true
@@ -80,7 +79,7 @@ func testSkip(t *testing.T, ctl app_control.Control, scenario *Scenario, reportN
 	}
 	for f := range scenario.Ignore {
 		if _, ok := found[f]; !ok {
-			l.Error("File missing", zap.String("file", f))
+			l.Error("File missing", es_log.String("file", f))
 			t.Error("missing file")
 		}
 	}
@@ -109,23 +108,22 @@ func execScenario(t *testing.T, ctl app_control.Control, short bool, f func(scen
 func TestFileUpload(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		execScenario(t, ctl, false, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
-			fc, err := app_control_impl.Fork(ctl, "file-upload")
-			if err != nil {
-				return
-			}
-			err = rc_exec.Exec(fc, &file.Upload{}, func(r rc_recipe.Recipe) {
-				ru := r.(*file.Upload)
-				ru.LocalPath = mo_path2.NewFileSystemPath(scenario.LocalPath)
-				ru.DropboxPath = dbxBase.ChildPath("file-upload")
-				ru.Overwrite = false
-			})
-			if err != nil {
-				t.Error(err)
-				return
-			}
+			qt_recipe.ForkWithName(t, "file-upload", ctl, func(c app_control.Control) error {
+				err := rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
+					ru := r.(*file.Upload)
+					ru.LocalPath = mo_path2.NewFileSystemPath(scenario.LocalPath)
+					ru.DropboxPath = dbxBase.ChildPath("file-upload")
+					ru.Overwrite = false
+				})
+				if err != nil {
+					t.Error(err)
+					return nil
+				}
 
-			testContent(t, fc, scenario, "uploaded", scenario.LocalPath, dbxBase.ChildPath("file-upload").Path())
-			testSkip(t, fc, scenario, "skipped", scenario.LocalPath)
+				testContent(t, c, scenario, "uploaded", scenario.LocalPath, dbxBase.ChildPath("file-upload").Path())
+				testSkip(t, c, scenario, "skipped", scenario.LocalPath)
+				return nil
+			})
 		})
 	})
 }
@@ -133,21 +131,20 @@ func TestFileUpload(t *testing.T) {
 func TestFileSyncUp(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		execScenario(t, ctl, false, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
-			fc, err := app_control_impl.Fork(ctl, "file-sync-up")
-			if err != nil {
-				return
-			}
-			err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
-				ru := r.(*filesync.Up)
-				ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
-				ru.DropboxPath = dbxBase.ChildPath("file-sync-up")
-			})
-			if err != nil {
-				t.Error(err)
-			}
+			qt_recipe.ForkWithName(t, "file-sync-up", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
+					ru := r.(*filesync.Up)
+					ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
+					ru.DropboxPath = dbxBase.ChildPath("file-sync-up")
+				})
+				if err != nil {
+					t.Error(err)
+				}
 
-			testContent(t, fc, scenario, "uploaded", scenario.LocalPath, dbxBase.ChildPath("file-sync-up").Path())
-			testSkip(t, fc, scenario, "skipped", scenario.LocalPath)
+				testContent(t, fc, scenario, "uploaded", scenario.LocalPath, dbxBase.ChildPath("file-sync-up").Path())
+				testSkip(t, fc, scenario, "skipped", scenario.LocalPath)
+				return nil
+			})
 		})
 	})
 }
@@ -156,12 +153,8 @@ func TestFileSyncUpDup(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		execScenario(t, ctl, false, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
 			// `file sync up`
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-sync-up-dup1")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-sync-up-dup1", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 					ru := r.(*filesync.Up)
 					ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 					ru.DropboxPath = dbxBase.ChildPath("file-sync-up-dup")
@@ -172,15 +165,12 @@ func TestFileSyncUpDup(t *testing.T) {
 
 				testContent(t, fc, scenario, "uploaded", scenario.LocalPath, dbxBase.ChildPath("file-sync-up-dup").Path())
 				testSkip(t, fc, scenario, "skipped", scenario.LocalPath)
-			}
+				return nil
+			})
 
 			// `file sync up`: should skip uploading for all files
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-sync-up-dup2")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-sync-up-dup2", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 					ru := r.(*filesync.Up)
 					ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 					ru.DropboxPath = dbxBase.ChildPath("file-sync-up-dup")
@@ -193,7 +183,8 @@ func TestFileSyncUpDup(t *testing.T) {
 					return errors.New("upload should not contain rows")
 				})
 				testSkip(t, fc, scenario, "skipped", scenario.LocalPath)
-			}
+				return nil
+			})
 		})
 	})
 }
@@ -201,14 +192,9 @@ func TestFileSyncUpDup(t *testing.T) {
 func TestFileCompareLocal(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		execScenario(t, ctl, false, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
-
 			// `file sync up`
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-compare-local1")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-compare-local1", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 					ru := r.(*filesync.Up)
 					ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 					ru.DropboxPath = dbxBase.ChildPath("file-compare-local")
@@ -219,14 +205,12 @@ func TestFileCompareLocal(t *testing.T) {
 
 				testContent(t, fc, scenario, "uploaded", scenario.LocalPath, dbxBase.ChildPath("file-compare-local").Path())
 				testSkip(t, fc, scenario, "skipped", scenario.LocalPath)
-			}
+				return nil
+			})
+
 			// `file compare local`
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-compare-local2")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &filecompare.Local{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-compare-local2", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &filecompare.Local{}, func(r rc_recipe.Recipe) {
 					rc := r.(*filecompare.Local)
 					rc.DropboxPath = dbxBase.ChildPath("file-compare-local")
 					rc.LocalPath = mo_path2.NewFileSystemPath(scenario.LocalPath)
@@ -235,7 +219,8 @@ func TestFileCompareLocal(t *testing.T) {
 					t.Error(err)
 				}
 				// TODO: verify result
-			}
+				return err
+			})
 		})
 	})
 }
@@ -243,19 +228,18 @@ func TestFileCompareLocal(t *testing.T) {
 func TestFileSyncPreflightUp(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		execScenario(t, ctl, true, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
-			fc, err := app_control_impl.Fork(ctl, "file-sync-preflight-up")
-			if err != nil {
-				return
-			}
-			err = rc_exec.Exec(fc, &filesyncpreflight.Up{}, func(r rc_recipe.Recipe) {
-				ru := r.(*filesyncpreflight.Up)
-				ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
-				ru.DropboxPath = dbxBase.ChildPath("file-sync-preflight-up")
+			qt_recipe.ForkWithName(t, "file-sync-preflight-up", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &filesyncpreflight.Up{}, func(r rc_recipe.Recipe) {
+					ru := r.(*filesyncpreflight.Up)
+					ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
+					ru.DropboxPath = dbxBase.ChildPath("file-sync-preflight-up")
+				})
+				if err != nil {
+					t.Error(err)
+				}
+				testSkip(t, fc, scenario, "skipped", scenario.LocalPath)
+				return nil
 			})
-			if err != nil {
-				t.Error(err)
-			}
-			testSkip(t, fc, scenario, "skipped", scenario.LocalPath)
 		})
 	})
 }
@@ -264,12 +248,8 @@ func TestFileFileList(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		execScenario(t, ctl, true, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
 			// `file sync up`
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-list1")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-list1", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 					ru := r.(*filesync.Up)
 					ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 					ru.DropboxPath = dbxBase.ChildPath("file-list")
@@ -280,14 +260,12 @@ func TestFileFileList(t *testing.T) {
 
 				testContent(t, fc, scenario, "uploaded", scenario.LocalPath, dbxBase.ChildPath("file-list").Path())
 				testSkip(t, fc, scenario, "skipped", scenario.LocalPath)
-			}
+				return nil
+			})
+
 			// `file list`
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-list2")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &file.List{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-list2", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &file.List{}, func(r rc_recipe.Recipe) {
 					rc := r.(*file.List)
 					rc.Path = dbxBase.ChildPath("file-list")
 					rc.Recursive = true
@@ -296,7 +274,8 @@ func TestFileFileList(t *testing.T) {
 					t.Error(err)
 				}
 				//TODO: verify content
-			}
+				return nil
+			})
 		})
 	})
 }
@@ -305,12 +284,8 @@ func TestFileFileCopy(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		execScenario(t, ctl, true, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
 			// `file sync up`
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-copy1")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-copy1", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 					ru := r.(*filesync.Up)
 					ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 					ru.DropboxPath = dbxBase.ChildPath("file-copy")
@@ -321,14 +296,12 @@ func TestFileFileCopy(t *testing.T) {
 
 				testContent(t, fc, scenario, "uploaded", scenario.LocalPath, dbxBase.ChildPath("file-copy").Path())
 				testSkip(t, fc, scenario, "skipped", scenario.LocalPath)
-			}
+				return nil
+			})
+
 			// `file copy`
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-copy2")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &file.Copy{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-copy2", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &file.Copy{}, func(r rc_recipe.Recipe) {
 					rc := r.(*file.Copy)
 					rc.Src = dbxBase.ChildPath("file-copy")
 					rc.Dst = dbxBase.ChildPath("file-copy2")
@@ -337,7 +310,8 @@ func TestFileFileCopy(t *testing.T) {
 					t.Error(err)
 				}
 				//TODO: verify content
-			}
+				return nil
+			})
 		})
 	})
 }
@@ -346,12 +320,8 @@ func TestFileFileMove(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		execScenario(t, ctl, true, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
 			// `file sync up`
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-move1")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-move1", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 					ru := r.(*filesync.Up)
 					ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 					ru.DropboxPath = dbxBase.ChildPath("file-move")
@@ -362,14 +332,12 @@ func TestFileFileMove(t *testing.T) {
 
 				testContent(t, fc, scenario, "uploaded", scenario.LocalPath, dbxBase.ChildPath("file-move").Path())
 				testSkip(t, fc, scenario, "skipped", scenario.LocalPath)
-			}
+				return nil
+			})
+
 			// `file move`
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-move2")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &file.Move{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-move2", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &file.Move{}, func(r rc_recipe.Recipe) {
 					rc := r.(*file.Move)
 					rc.Src = dbxBase.ChildPath("file-move")
 					rc.Dst = dbxBase.ChildPath("file-move2")
@@ -378,7 +346,8 @@ func TestFileFileMove(t *testing.T) {
 					t.Error(err)
 				}
 				//TODO: verify content
-			}
+				return nil
+			})
 		})
 	})
 }
@@ -393,12 +362,8 @@ func TestFileFileMerge(t *testing.T) {
 			}
 
 			// `file sync up`: scFrom
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-merge1")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-merge1", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 					ru := r.(*filesync.Up)
 					ru.LocalPath = mo_path2.NewExistingFileSystemPath(scFrom.LocalPath)
 					ru.DropboxPath = dbxBase.ChildPath("file-merge-from")
@@ -409,14 +374,12 @@ func TestFileFileMerge(t *testing.T) {
 
 				testContent(t, fc, scFrom, "uploaded", scFrom.LocalPath, dbxBase.ChildPath("file-merge-from").Path())
 				testSkip(t, fc, scFrom, "skipped", scFrom.LocalPath)
-			}
+				return nil
+			})
+
 			// `file sync up`: scTo
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-merge2")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-merge2", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 					ru := r.(*filesync.Up)
 					ru.LocalPath = mo_path2.NewExistingFileSystemPath(scTo.LocalPath)
 					ru.DropboxPath = dbxBase.ChildPath("file-merge-to")
@@ -427,15 +390,12 @@ func TestFileFileMerge(t *testing.T) {
 
 				testContent(t, fc, scTo, "uploaded", scTo.LocalPath, dbxBase.ChildPath("file-merge-to").Path())
 				testSkip(t, fc, scTo, "skipped", scTo.LocalPath)
-			}
+				return nil
+			})
 
 			// `file merge`
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-merge2")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &file.Merge{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-merge2", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &file.Merge{}, func(r rc_recipe.Recipe) {
 					rc := r.(*file.Merge)
 					rc.From = dbxBase.ChildPath("file-merge-from")
 					rc.To = dbxBase.ChildPath("file-merge-to")
@@ -445,7 +405,8 @@ func TestFileFileMerge(t *testing.T) {
 					t.Error(err)
 				}
 				//TODO: verify content
-			}
+				return nil
+			})
 		})
 	})
 }
@@ -454,12 +415,8 @@ func TestFileFileDelete(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		execScenario(t, ctl, true, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
 			// `file sync up`
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-delete1")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-delete1", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 					ru := r.(*filesync.Up)
 					ru.LocalPath = mo_path2.NewExistingFileSystemPath(scenario.LocalPath)
 					ru.DropboxPath = dbxBase.ChildPath("file-delete")
@@ -470,15 +427,12 @@ func TestFileFileDelete(t *testing.T) {
 
 				testContent(t, fc, scenario, "uploaded", scenario.LocalPath, dbxBase.ChildPath("file-sync-up").Path())
 				testSkip(t, fc, scenario, "skipped", scenario.LocalPath)
-			}
+				return nil
+			})
 
 			// `file delete` for clean up
-			{
-				fc, err := app_control_impl.Fork(ctl, "file-delete2")
-				if err != nil {
-					return
-				}
-				err = rc_exec.Exec(fc, &file.Delete{}, func(r rc_recipe.Recipe) {
+			qt_recipe.ForkWithName(t, "file-delete2", ctl, func(fc app_control.Control) error {
+				err := rc_exec.Exec(fc, &file.Delete{}, func(r rc_recipe.Recipe) {
 					rc := r.(*file.Delete)
 					rc.Path = dbxBase.ChildPath("file-delete")
 				})
@@ -486,7 +440,8 @@ func TestFileFileDelete(t *testing.T) {
 					t.Error(err)
 				}
 				// TODO: verify deletion
-			}
+				return nil
+			})
 		})
 	})
 }

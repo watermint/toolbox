@@ -5,12 +5,12 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_filerequest"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"go.uber.org/zap"
 )
 
 type Url struct {
@@ -38,7 +38,7 @@ func (z *Url) Exec(c app_control.Control) error {
 		return err
 	}
 	for _, r := range reqs {
-		ll := l.With(zap.Any("File request", r))
+		ll := l.With(es_log.Any("File request", r))
 		if r.Url != z.Url {
 			ll.Debug("skip unrelated file request")
 			continue
@@ -53,7 +53,7 @@ func (z *Url) Exec(c app_control.Control) error {
 				ui.Error(z.ErrorUnableToClose.With("Error", err))
 				return err
 			}
-			ll.Debug("The request closed", zap.Any("after", r))
+			ll.Debug("The request closed", es_log.Any("after", r))
 
 		case r.IsOpen:
 			ll.Debug("The file request is open")
@@ -66,7 +66,7 @@ func (z *Url) Exec(c app_control.Control) error {
 			return err
 		}
 		for _, d := range deleted {
-			l.Debug("Deleted request", zap.Any("deleted", d))
+			l.Debug("Deleted request", es_log.Any("deleted", d))
 			z.Deleted.Row(d)
 		}
 	}

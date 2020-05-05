@@ -3,13 +3,13 @@ package auth
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/essentials/io/ut_io"
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 )
 
@@ -37,7 +37,7 @@ func (z *Export) Exec(c app_control.Control) error {
 	for _, s := range Scopes {
 		t, err := a.Auth(s)
 		if err != nil {
-			l.Info("Skip export", zap.Error(err), zap.String("scope", s))
+			l.Info("Skip export", es_log.Error(err), es_log.String("scope", s))
 			return nil
 		}
 		e[s] = t.Token()
@@ -46,7 +46,7 @@ func (z *Export) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	o := ut_io.NewDefaultOut(c.Feature().IsTest())
+	o := es_stdout.NewDefaultOut(c.Feature().IsTest())
 	o.Write(b)
 	o.Write([]byte("\n"))
 	o.Close()

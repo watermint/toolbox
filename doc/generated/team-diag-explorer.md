@@ -57,18 +57,19 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 Common options:
 
-| Option          | Description                                                                      | Default              |
-|-----------------|----------------------------------------------------------------------------------|----------------------|
-| `-auto-open`    | Auto open URL or artifact folder                                                 | false                |
-| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`        | Enable debug mode                                                                | false                |
-| `-low-memory`   | Low memory footprint mode                                                        | false                |
-| `-output`       | Output format (none/text/markdown/json)                                          | text                 |
-| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`       | Do not store tokens into a file                                                  | false                |
-| `-workspace`    | Workspace path                                                                   |                      |
+| Option            | Description                                                                      | Default              |
+|-------------------|----------------------------------------------------------------------------------|----------------------|
+| `-auto-open`      | Auto open URL or artifact folder                                                 | false                |
+| `-bandwidth-kb`   | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
+| `-budget-memory`  | Memory budget (limits some feature to reduce memory footprint)                   | normal               |
+| `-budget-storage` | Storage budget (limits logs or some feature to reduce storage usage)             | normal               |
+| `-concurrency`    | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`          | Enable debug mode                                                                | false                |
+| `-output`         | Output format (none/text/markdown/json)                                          | text                 |
+| `-proxy`          | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`         | Do not store tokens into a file                                                  | false                |
+| `-workspace`      | Workspace path                                                                   |                      |
 
 # Authorization
 
@@ -363,6 +364,29 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | server_modified        | The last time the file was modified on Dropbox.                                                        |
 | size                   | The file size in bytes.                                                                                |
 
+## Report: namespace_member 
+This report shows a list of members of namespaces in the team.
+Report files are generated in three formats like below;
+* `namespace_member.csv`
+* `namespace_member.xlsx`
+* `namespace_member.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`...   
+
+| Column             | Description                                                                                               |
+|--------------------|-----------------------------------------------------------------------------------------------------------|
+| namespace_name     | The name of this namespace                                                                                |
+| namespace_type     | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)                |
+| entry_access_type  | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
+| entry_is_inherited | True if the member has access from a parent folder                                                        |
+| email              | Email address of user.                                                                                    |
+| display_name       | Type of the session (web_session, desktop_client, or mobile_client)                                       |
+| group_name         | Name of the group                                                                                         |
+| invitee_email      | Email address of invitee for this folder                                                                  |
+
 ## Report: namespace_size 
 This report shows the transaction result.
 Report files are generated in three formats like below;
@@ -412,6 +436,25 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
 | surname    | Surname of the link owner                                                                                                                                                                                               |
 | given_name | Given name of the link owner                                                                                                                                                                                            |
+
+## Report: team_folder 
+This report shows a list of team folders in the team.
+Report files are generated in three formats like below;
+* `team_folder.csv`
+* `team_folder.xlsx`
+* `team_folder.json`
+
+But if you run with `-low-memory` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
+`team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`...   
+
+| Column                 | Description                                                                                |
+|------------------------|--------------------------------------------------------------------------------------------|
+| name                   | The name of the team folder.                                                               |
+| status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
+| is_team_shared_dropbox |                                                                                            |
+| sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
 
 ## Report: usage 
 This report shows current storage usage of users.

@@ -1,7 +1,6 @@
 package api_auth
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"golang.org/x/oauth2"
 )
@@ -16,9 +15,7 @@ const (
 	Github                         = "github"
 )
 
-var (
-	ErrorUserCancelled = errors.New("user cancelled")
-)
+var ()
 
 // Application key/secret manager
 type App interface {

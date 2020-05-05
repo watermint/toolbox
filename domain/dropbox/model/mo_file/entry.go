@@ -3,9 +3,8 @@ package mo_file
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
 	"strings"
 )
 
@@ -57,7 +56,7 @@ type ConcreteEntry struct {
 func newConcreteEntry(raw json.RawMessage) *ConcreteEntry {
 	ce := &ConcreteEntry{}
 	if err := api_parser.ParseModelRaw(ce, raw); err != nil {
-		app_root.Log().Debug("Unable to parse json", zap.Error(err), zap.ByteString("raw", raw))
+		es_log.Default().Debug("Unable to parse json", es_log.Error(err), es_log.ByteString("raw", raw))
 		return ce
 	}
 	ce.Raw = raw

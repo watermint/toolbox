@@ -9,28 +9,33 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/essentials/log/es_stats"
+	"github.com/watermint/toolbox/essentials/go/es_resource"
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/stats/es_memory"
+	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_golog"
+	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_impl"
-	"github.com/watermint/toolbox/infra/control/app_feature"
-	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/control/app_exit"
+	"github.com/watermint/toolbox/infra/control/app_job_impl"
+	"github.com/watermint/toolbox/infra/control/app_opt"
+	"github.com/watermint/toolbox/infra/control/app_resource"
+	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
-	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_secure"
-	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
-	"runtime"
 	"testing"
 )
 
@@ -45,8 +50,8 @@ func NewTestDropboxFolderPath(rel ...string) mo_path.DropboxPath {
 func MustMakeTestFolder(ctl app_control.Control, name string, withContent bool) (path string) {
 	path, err := qt_file.MakeTestFolder(name, withContent)
 	if err != nil {
-		ctl.Log().Error("Unable to create test folder", zap.Error(err))
-		ctl.Abort(app_control.Reason(app_control.FailureGeneral))
+		ctl.Log().Error("Unable to create test folder", es_log.Error(err))
+		app_exit.Abort(app_exit.FailureGeneral)
 	}
 	return path
 }
@@ -59,33 +64,41 @@ func NewTestExistingFileSystemFolderPath(c app_control.Control, name string) mo_
 	return mo_path2.NewExistingFileSystemPath(MustMakeTestFolder(c, name, true))
 }
 
-func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {
-	bx = rice.MustFindBox("../../../resources")
-	web = rice.MustFindBox("../../../web")
+func Resources() (ui app_ui.UI) {
+	bundle := es_resource.New(
+		rice.MustFindBox("../../../resources/templates"),
+		rice.MustFindBox("../../../resources/messages"),
+		rice.MustFindBox("../../../resources/web"),
+		rice.MustFindBox("../../../resources/keys"),
+		rice.MustFindBox("../../../resources/images"),
+		rice.MustFindBox("../../../resources/data"),
+	)
+	lg := es_log.Default()
+	log.SetOutput(lgw_golog.NewLogWrapper(lg))
+	app_resource.SetBundle(bundle)
 
-	mc = app_msg_container_impl.NewContainer(bx)
+	mc := app_msg_container_impl.NewContainer()
 	if qt_secure.IsSecureEndToEndTest() || app.IsProduction() {
-		ui = app_ui.NewNullConsole(mc, qt_missingmsg_impl.NewMessageTest(t))
+		return app_ui.NewDiscard(mc, lg)
 	} else {
-		ui = app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageTest(t), true)
+		return app_ui.NewConsole(mc, lg, es_stdout.NewDefaultOut(true), es_dialogue.DenyAll())
 	}
-	return
 }
 
 func findTestResource() (resource gjson.Result, found bool) {
-	l := app_root.Log()
+	l := es_log.Default()
 	p, found := os.LookupEnv("TOOLBOX_TESTRESOURCE")
 	if !found {
 		return gjson.Parse("{}"), false
 	}
-	l = l.With(zap.String("path", p))
+	l = l.With(es_log.String("path", p))
 	b, err := ioutil.ReadFile(p)
 	if err != nil {
-		l.Debug("unable to read file", zap.Error(err))
+		l.Debug("unable to read file", es_log.Error(err))
 		return gjson.Parse("{}"), false
 	}
 	if !gjson.ValidBytes(b) {
-		l.Debug("invalid file content", zap.ByteString("resource", b))
+		l.Debug("invalid file content", es_log.ByteString("resource", b))
 		return gjson.Parse("{}"), false
 	}
 	return gjson.ParseBytes(b), true
@@ -100,26 +113,36 @@ func TestWithApiContext(t *testing.T, twc func(ctx dbx_context.Context)) {
 
 func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
-	bx, web, mc, ui := Resources(t)
-
-	cat := rc_catalogue.NewCatalogue([]rc_recipe.Recipe{}, []rc_recipe.Recipe{}, []interface{}{}, []app_feature.OptIn{})
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, cat)
-	cs := ctl.(*app_control_impl.Single)
-	if res, found := findTestResource(); found {
-		var err error
-		ctl, err = cs.NewTestControl(res)
-		if err != nil {
-			t.Error("Unable to create new test control", err)
-			return
-		}
-	}
-	err := ctl.Up(app_control.Test(), app_control.Concurrency(runtime.NumCPU()))
+	ui := Resources()
+	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited)
 	if err != nil {
-		os.Exit(app_control.FatalStartup)
+		t.Error(err)
+		return
 	}
-	defer ctl.Down()
+	com := app_opt.Default()
+	nop := rc_spec.New(&rc_recipe.Nop{})
+	jl := app_job_impl.NewLauncher(ui, wb, com, nop)
+	ctl, err := jl.Up()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 
-	twc(ctl)
+	twc(ctl.WithFeature(ctl.Feature().AsTest(false)))
+
+	jl.Down(nil, ctl)
+}
+
+func ForkWithName(t *testing.T, name string, c app_control.Control, f func(c app_control.Control) error) {
+	err := app_workspace.WithFork(c.WorkBundle(), name, func(fwb app_workspace.Bundle) error {
+		cf := c.WithBundle(fwb)
+		l := cf.Log()
+		l.Info("Execute", es_log.String("name", name))
+		return f(cf)
+	})
+	if re, c := qt_errors.ErrorsForTest(c.Log(), err); !c {
+		t.Error(re)
+	}
 }
 
 func TestRecipe(t *testing.T, re rc_recipe.Recipe) {
@@ -142,18 +165,17 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 				profile.MemProfile,
 			)
 		}
+		var err error
 		if useMock {
-			if c, ok := ctl.(app_control.ControlTestExtension); ok {
-				c.SetTestValue(app.CtlTestExtUseMock, true)
-			}
+			err = re.Test(ctl.WithFeature(ctl.Feature().AsTest(true)))
+		} else {
+			err = re.Test(ctl.WithFeature(ctl.Feature().AsTest(false)))
 		}
-
-		err := re.Test(ctl)
 
 		if pr != nil {
 			pr.Stop()
 		}
-		es_stats.DumpMemStats(l)
+		es_memory.DumpMemStats(l)
 
 		if err == nil {
 			return
@@ -168,14 +190,14 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 type RowTester func(cols map[string]string) error
 
 func TestRows(ctl app_control.Control, reportName string, tester RowTester) error {
-	l := ctl.Log().With(zap.String("reportName", reportName))
+	l := ctl.Log().With(es_log.String("reportName", reportName))
 	csvFile := filepath.Join(ctl.Workspace().Report(), reportName+".csv")
 
-	l.Debug("Start loading report", zap.String("csvFile", csvFile))
+	l.Debug("Start loading report", es_log.String("csvFile", csvFile))
 
 	cf, err := os.Open(csvFile)
 	if err != nil {
-		l.Warn("Unable to open report CSV", zap.Error(err))
+		l.Warn("Unable to open report CSV", es_log.Error(err))
 		return err
 	}
 	defer cf.Close()
@@ -189,7 +211,7 @@ func TestRows(ctl app_control.Control, reportName string, tester RowTester) erro
 			break
 		}
 		if err != nil {
-			l.Warn("An error occurred during read report file", zap.Error(err))
+			l.Warn("An error occurred during read report file", es_log.Error(err))
 			return err
 		}
 		if isFirstLine {
@@ -201,7 +223,7 @@ func TestRows(ctl app_control.Control, reportName string, tester RowTester) erro
 				colMap[h] = cols[i]
 			}
 			if err := tester(colMap); err != nil {
-				l.Warn("Tester returned an error", zap.Error(err), zap.Any("cols", colMap))
+				l.Warn("Tester returned an error", es_log.Error(err), es_log.Any("cols", colMap))
 				return err
 			}
 		}

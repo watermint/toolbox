@@ -1,8 +1,8 @@
 package config
 
 import (
+	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -20,14 +20,9 @@ func (z *Disable) Preset() {
 }
 
 func (z *Disable) Exec(c app_control.Control) error {
-	l := c.Log()
 	ui := c.UI()
-	cl, ok := c.(app_control_launcher.ControlLauncher)
-	if !ok {
-		l.Debug("Catalogue is not available")
-		return ErrorCatalogueIsNotAvailable
-	}
-	features := cl.Catalogue().Features()
+	cat := app_catalogue.Current()
+	features := cat.Features()
 	if c.Feature().IsTest() {
 		features = append(features, &SampleFeature{})
 	}

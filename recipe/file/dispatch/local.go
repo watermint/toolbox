@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -12,7 +13,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"go.uber.org/zap"
 	"html/template"
 	"io/ioutil"
 	"os"
@@ -93,13 +93,13 @@ func (z *LocalPattern) preview(src, dst string, c app_control.Control) error {
 }
 
 func (z *LocalPattern) move(src, dst string, c app_control.Control) error {
-	l := c.Log().With(zap.String("src", src), zap.String("dst", dst))
+	l := c.Log().With(es_log.String("src", src), es_log.String("dst", dst))
 	ui := c.UI()
 
 	dstPath := filepath.Dir(dst)
-	l.Debug("Prepare directory", zap.String("dstPath", dstPath))
+	l.Debug("Prepare directory", es_log.String("dstPath", dstPath))
 	if err := os.MkdirAll(dstPath, 0755); err != nil {
-		l.Debug("Unable to create a directory", zap.Error(err), zap.String("dstPath", dstPath))
+		l.Debug("Unable to create a directory", es_log.Error(err), es_log.String("dstPath", dstPath))
 		ui.Error(MLocal.ExecMove.With("Src", src).With("Dst", dst).With("Error", err))
 		return err
 	}
@@ -107,7 +107,7 @@ func (z *LocalPattern) move(src, dst string, c app_control.Control) error {
 	l.Debug("Moving")
 	err := os.Rename(src, dst)
 	if err != nil {
-		l.Debug("Unable to move", zap.Error(err))
+		l.Debug("Unable to move", es_log.Error(err))
 		ui.Error(MLocal.ExecMove.With("Src", src).With("Dst", dst).With("Error", err))
 		return err
 	}
@@ -147,15 +147,15 @@ func (z *LocalPattern) Exec(c app_control.Control, op func(src, dst string, c ap
 	for _, entry := range entries {
 		if !srcPattern.Match(entry.Name()) {
 			l.Debug("Skip unmatched file",
-				zap.String("pattern", z.SourceFilePattern),
-				zap.String("name", entry.Name()))
+				es_log.String("pattern", z.SourceFilePattern),
+				es_log.String("name", entry.Name()))
 			continue
 		}
 		ext := strings.ToLower(filepath.Ext(entry.Name()))
 		if "."+strings.ToLower(z.Suffix) != ext {
 			l.Debug("Skip unmatched suffix",
-				zap.String("suffix", z.Suffix),
-				zap.String("name", entry.Name()))
+				es_log.String("suffix", z.Suffix),
+				es_log.String("name", entry.Name()))
 			continue
 		}
 

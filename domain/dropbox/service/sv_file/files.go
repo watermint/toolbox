@@ -6,8 +6,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"go.uber.org/zap"
 )
 
 type Files interface {
@@ -174,7 +174,7 @@ func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.
 		dbx_list.OnEntry(func(entry es_json.Json) error {
 			e := &mo_file.Match{}
 			if err := entry.Model(e); err != nil {
-				z.ctx.Log().Error("invalid", zap.Error(err))
+				z.ctx.Log().Error("invalid", es_log.Error(err))
 				return err
 			}
 			matches = append(matches, e)
@@ -242,7 +242,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 				dbx_list.OnEntry(func(entry es_json.Json) error {
 					e := &mo_file.Metadata{}
 					if err := entry.Model(e); err != nil {
-						z.ctx.Log().Error("invalid", zap.Error(err), zap.ByteString("entry", entry.Raw()))
+						z.ctx.Log().Error("invalid", es_log.Error(err), es_log.ByteString("entry", entry.Raw()))
 						return err
 					}
 					onEntry(e)
@@ -324,7 +324,7 @@ func (z *filesImpl) ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_
 		dbx_list.OnEntry(func(entry es_json.Json) error {
 			e := &mo_file.Metadata{}
 			if err := entry.Model(e); err != nil {
-				z.ctx.Log().Error("invalid", zap.Error(err), zap.ByteString("entry", entry.Raw()))
+				z.ctx.Log().Error("invalid", es_log.Error(err), es_log.ByteString("entry", entry.Raw()))
 				return err
 			}
 			onEntry(e)

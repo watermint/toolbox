@@ -39,16 +39,16 @@ type StartLog struct {
 	AppVersion  string                 `json:"app_version"`
 }
 
-func (z *StartLog) Create(ws app_workspace.Workspace) error {
+func (z StartLog) Create(ws app_workspace.Workspace) error {
 	return create(filepath.Join(ws.Log(), StartLogName), z)
 }
 
 type ResultLog struct {
-	Success     bool   `json:"success"`
-	TimeFinish  string `json:"time_finish"`
-	ReasonAbort *int   `json:"reason_abort,omitempty"`
+	Success    bool   `json:"success"`
+	TimeFinish string `json:"time_finish"`
+	Error      string `json:"error"`
 }
 
-func (z *ResultLog) Create(ws app_workspace.Workspace) error {
+func (z ResultLog) Create(ws app_workspace.Workspace) error {
 	return create(filepath.Join(ws.Log(), FinishLogName), z)
 }

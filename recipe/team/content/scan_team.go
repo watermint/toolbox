@@ -7,9 +7,9 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
-	"go.uber.org/zap"
 )
 
 type TeamScanner struct {
@@ -28,7 +28,7 @@ func (z *TeamScanner) namespacesOfTeam() error {
 	if err != nil {
 		return err
 	}
-	l = l.With(zap.String("admin", admin.Email))
+	l = l.With(es_log.String("admin", admin.Email))
 
 	l.Debug("Scanning team folders")
 	teamfolders, err := sv_teamfolder.New(z.ctx).List()
@@ -52,7 +52,7 @@ func (z *TeamScanner) namespacesOfTeam() error {
 	for _, n := range namespaces {
 		switch n.NamespaceType {
 		case "app_folder", "team_member_folder":
-			l.Debug("Skip non-shared namespace", zap.Any("namespace", n))
+			l.Debug("Skip non-shared namespace", es_log.Any("namespace", n))
 
 		default:
 			z.teamOwnedNamespaces[n.NamespaceId] = true

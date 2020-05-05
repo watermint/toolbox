@@ -4,11 +4,10 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"go.uber.org/zap"
 	"reflect"
 )
 
@@ -53,11 +52,11 @@ func (z *ValueMoPathDropboxPath) ApplyPreset(v0 interface{}) {
 }
 
 func (z *ValueMoPathDropboxPath) Apply() (v interface{}) {
-	l := app_root.Log()
+	l := es_log.Default()
 	p, err := es_filepath.FormatPathWithPredefinedVariables(z.filePath)
 	if err != nil {
 		p = z.filePath
-		l.Debug("Unable to format", zap.String("path", z.filePath), zap.Error(err))
+		l.Debug("Unable to format", es_log.String("path", z.filePath), es_log.Error(err))
 	}
 	z.path = mo_path.NewDropboxPath(p)
 	return z.path

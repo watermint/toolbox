@@ -9,13 +9,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 )
 
 type MsgList struct {
@@ -35,7 +35,7 @@ type ListWorker struct {
 }
 
 func (z *ListWorker) Exec() error {
-	l := z.ctl.Log().With(zap.String("member", z.member.Email))
+	l := z.ctl.Log().With(es_log.String("member", z.member.Email))
 	z.ctl.UI().Progress(MList.ProgressScan.With("MemberEmail", z.member.Email))
 	mc := z.conn.AsMemberId(z.member.TeamMemberId)
 	links, err := sv_sharedlink.New(mc).List()
@@ -45,7 +45,7 @@ func (z *ListWorker) Exec() error {
 	for _, link := range links {
 		lm := mo_sharedlink.NewSharedLinkMember(link, z.member)
 		if z.visibility != "" && lm.Visibility != z.visibility {
-			l.Debug("Skipped from report", zap.Any("link", lm))
+			l.Debug("Skipped from report", es_log.Any("link", lm))
 			continue
 		}
 		z.rep.Row(lm)

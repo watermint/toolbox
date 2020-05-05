@@ -1,7 +1,6 @@
 package release
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
@@ -16,11 +15,11 @@ import (
 	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
 	"github.com/watermint/toolbox/essentials/file/es_filehash"
 	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -30,7 +29,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
 	"github.com/watermint/toolbox/recipe/dev/test"
-	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -88,7 +86,7 @@ func (z *Publish) artifactAssets(c app_control.Control) (paths []string, sizes m
 	sizes = make(map[string]int64)
 	for _, e := range entries {
 		if !strings.HasPrefix(e.Name(), "tbx-"+app.Version) || !strings.HasSuffix(e.Name(), ".zip") {
-			l.Debug("Ignore non artifact file", zap.Any("file", e))
+			l.Debug("Ignore non artifact file", es_log.Any("file", e))
 			continue
 		}
 		path := filepath.Join(z.ArtifactPath.Path(), e.Name())
@@ -112,12 +110,12 @@ func (z *Publish) verifyArtifacts(c app_control.Control) (a []*ArtifactSum, err 
 		}
 		sum.MD5, err = h.MD5(p)
 		if err != nil {
-			l.Debug("Unable to calc MD5", zap.Error(err))
+			l.Debug("Unable to calc MD5", es_log.Error(err))
 			return nil, err
 		}
 		sum.SHA256, err = h.SHA256(p)
 		if err != nil {
-			l.Debug("Unable to calc SHA256", zap.Error(err))
+			l.Debug("Unable to calc SHA256", es_log.Error(err))
 			return nil, err
 		}
 		a = append(a, sum)
@@ -129,58 +127,54 @@ func (z *Publish) verifyArtifacts(c app_control.Control) (a []*ArtifactSum, err 
 }
 
 func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNote string, err error) {
-	if cl, ok := app_control_launcher.ControlWithLang("en", c); ok {
-		c = cl
-	}
-
 	l := c.Log()
 	baseUrl := "https://github.com/watermint/toolbox/blob/" + app.Version
 
-	var buf bytes.Buffer
-	mui := app_ui.NewMarkdown(c.Messages(), &buf, true)
-	mui.Header(z.HeadingReleaseTheme)
-	mui.Break()
+	md := app_ui.MakeMarkdown(c.WithLang("en").Messages(), func(mui app_ui.UI) {
+		mui.Header(z.HeadingReleaseTheme)
+		mui.Break()
 
-	mui.Header(z.HeadingChanges)
+		mui.Header(z.HeadingChanges)
 
-	for _, la := range lang.Supported {
-		mui.Info(z.ListSpecChange.
-			With("Link", baseUrl+"/doc/generated"+la.Suffix()+"/changes.md").
-			With("Lang", la.Self()),
-		)
-	}
+		for _, la := range lang.Supported {
+			mui.Info(z.ListSpecChange.
+				With("Link", baseUrl+"/doc/generated"+la.Suffix()+"/changes.md").
+				With("Lang", la.Self()),
+			)
+		}
 
-	mui.Break()
-	mui.Header(z.HeadingDocument)
+		mui.Break()
+		mui.Header(z.HeadingDocument)
 
-	for _, la := range lang.Supported {
-		name := "README" + la.Suffix() + ".md"
-		mui.Info(z.ListReadme.
-			With("Name", name).
-			With("Link", baseUrl+"/"+name).
-			With("Lang", la.Self()),
-		)
-	}
+		for _, la := range lang.Supported {
+			name := "README" + la.Suffix() + ".md"
+			mui.Info(z.ListReadme.
+				With("Name", name).
+				With("Link", baseUrl+"/"+name).
+				With("Lang", la.Self()),
+			)
+		}
 
-	mui.Break()
-	mui.Header(z.HeadingBinary)
-	mit := mui.InfoTable("Binaries")
-	mit.Header(z.BinaryTableHeaderFilename, z.BinaryTableHeaderSize, z.BinaryTableHeaderMD5, z.BinaryTableHeaderSHA256)
+		mui.Break()
+		mui.Header(z.HeadingBinary)
+		mui.WithTable("Binaries", func(mit app_ui.Table) {
+			mit.Header(z.BinaryTableHeaderFilename, z.BinaryTableHeaderSize, z.BinaryTableHeaderMD5, z.BinaryTableHeaderSHA256)
 
-	for _, s := range sum {
-		mit.RowRaw(s.Filename, fmt.Sprintf("%d", s.Size), s.MD5, s.SHA256)
-	}
-	mit.Flush()
+			for _, s := range sum {
+				mit.RowRaw(s.Filename, fmt.Sprintf("%d", s.Size), s.MD5, s.SHA256)
+			}
+		})
+	})
 
 	relNotesPath := filepath.Join(c.Workspace().Report(), "release_notes.md")
-	err = ioutil.WriteFile(relNotesPath, buf.Bytes(), 0644)
+	err = ioutil.WriteFile(relNotesPath, []byte(md), 0644)
 	if err != nil {
-		l.Debug("Unable to write release notes", zap.Error(err), zap.String("path", relNotesPath))
+		l.Debug("Unable to write release notes", es_log.Error(err), es_log.String("path", relNotesPath))
 		return "", err
 	}
-	l.Info("Release note created", zap.String("path", relNotesPath))
+	l.Info("Release note created", es_log.String("path", relNotesPath))
 
-	return buf.String(), nil
+	return md, nil
 }
 
 func (z *Publish) endToEndTest(c app_control.Control) error {
@@ -232,7 +226,7 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 		if err == nil {
 			m.Resource = mo_string.NewOptional(testResourcePath)
 		} else {
-			l.Warn("Unable to read test resource", zap.String("path", testResourcePath), zap.Error(err))
+			l.Warn("Unable to read test resource", es_log.String("path", testResourcePath), es_log.Error(err))
 		}
 	})
 	return err
@@ -248,10 +242,10 @@ func (z *Publish) ghCtx(c app_control.Control) gh_context.Context {
 
 func (z *Publish) createTag(c app_control.Control) error {
 	l := c.Log().With(
-		zap.String("owner", app.RepositoryOwner),
-		zap.String("repository", app.RepositoryName),
-		zap.String("version", app.Version),
-		zap.String("hash", app.Hash))
+		es_log.String("owner", app.RepositoryOwner),
+		es_log.String("repository", app.RepositoryName),
+		es_log.String("version", app.Version),
+		es_log.String("hash", app.Hash))
 	svt := sv_reference.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName)
 	l.Debug("Create tag")
 	tag, err := svt.Create(
@@ -259,22 +253,22 @@ func (z *Publish) createTag(c app_control.Control) error {
 		app.Hash,
 	)
 	if err != nil && err != qt_errors.ErrorMock {
-		l.Debug("Unable to create tag", zap.Error(err))
+		l.Debug("Unable to create tag", es_log.Error(err))
 		return err
 	}
 	if err == qt_errors.ErrorMock {
 		return nil
 	}
-	l.Info("The tag created", zap.String("tag", tag.Ref))
+	l.Info("The tag created", es_log.String("tag", tag.Ref))
 	return nil
 }
 
 func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel *mo_release.Release, err error) {
 	l := c.Log().With(
-		zap.String("owner", app.RepositoryOwner),
-		zap.String("repository", app.RepositoryName),
-		zap.String("version", app.Version),
-		zap.String("hash", app.Hash))
+		es_log.String("owner", app.RepositoryOwner),
+		es_log.String("repository", app.RepositoryName),
+		es_log.String("version", app.Version),
+		es_log.String("hash", app.Hash))
 	ui := c.UI()
 
 	relName := ""
@@ -295,13 +289,13 @@ func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel
 		z.Branch,
 	)
 	if err != nil && err != qt_errors.ErrorMock {
-		l.Debug("Unable to create release draft", zap.Error(err))
+		l.Debug("Unable to create release draft", es_log.Error(err))
 		return nil, err
 	}
 	if err == qt_errors.ErrorMock {
 		return &mo_release.Release{}, nil
 	}
-	l.Info("Release created", zap.String("release", rel.Url))
+	l.Info("Release created", es_log.String("release", rel.Url))
 	return rel, nil
 }
 
@@ -314,7 +308,7 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) e
 
 	sva := sv_release_asset.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName, rel.Id)
 	for _, p := range assets {
-		l.Info("Uploading asset", zap.String("path", p))
+		l.Info("Uploading asset", es_log.String("path", p))
 		a, err := sva.Upload(mo_path2.NewExistingFileSystemPath(p))
 		if err != nil && err != qt_errors.ErrorMock {
 			return err
@@ -322,7 +316,7 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) e
 		if err == qt_errors.ErrorMock {
 			continue
 		}
-		l.Info("Uploaded", zap.Any("asset", a.Name))
+		l.Info("Uploaded", es_log.Any("asset", a.Name))
 	}
 	return nil
 }
@@ -390,7 +384,7 @@ func (z *Publish) Test(c app_control.Control) error {
 		app.Version = "dev-test"
 		err = ioutil.WriteFile(filepath.Join(d, "tbx-"+app.Version+"-"+platform+".zip"), []byte("Test artifact"), 0644)
 		if err != nil {
-			c.Log().Warn("Unable to create test artifact", zap.Error(err))
+			c.Log().Warn("Unable to create test artifact", es_log.Error(err))
 			return err
 		}
 	}

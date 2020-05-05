@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
 )
 
 type LinkedApp struct {
@@ -49,7 +48,7 @@ func NewMemberLinkedApp(member *mo_member.Member, linkedApp *LinkedApp) (mla *Me
 
 	mla = &MemberLinkedApp{}
 	if err := api_parser.ParseModelRaw(mla, raw); err != nil {
-		app_root.Log().Error("unable to parse", zap.Error(err))
+		es_log.Default().Error("unable to parse", es_log.Error(err))
 	}
 	return mla
 }

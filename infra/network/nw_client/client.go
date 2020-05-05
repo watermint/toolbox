@@ -4,11 +4,10 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/http/es_response"
-	"github.com/watermint/toolbox/essentials/io/ut_io"
+	"github.com/watermint/toolbox/essentials/io/es_rewinder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
-	"go.uber.org/zap"
 	"net/http"
 	"strings"
 	"time"
@@ -43,24 +42,24 @@ func ClientHash(seeds ...[]string) string {
 	return fmt.Sprintf("%x", sha256.Sum224([]byte(strings.Join(all, ","))))
 }
 
-func NewGetRequest(url string, content ut_io.ReadRewinder) (*http.Request, error) {
+func NewGetRequest(url string, content es_rewinder.ReadRewinder) (*http.Request, error) {
 	return NewHttpRequest(http.MethodGet, url, content)
 }
 
-func NewPostRequest(url string, content ut_io.ReadRewinder) (*http.Request, error) {
+func NewPostRequest(url string, content es_rewinder.ReadRewinder) (*http.Request, error) {
 	return NewHttpRequest(http.MethodPost, url, content)
 }
 
-func NewHttpRequest(method, url string, content ut_io.ReadRewinder) (*http.Request, error) {
-	l := app_root.Log()
+func NewHttpRequest(method, url string, content es_rewinder.ReadRewinder) (*http.Request, error) {
+	l := es_log.Default()
 	if err := content.Rewind(); err != nil {
-		l.Debug("Unable to rewind", zap.Error(err))
+		l.Debug("Unable to rewind", es_log.Error(err))
 		return nil, err
 	}
 	c := nw_bandwidth.WrapReader(content)
 	req, err := http.NewRequest(method, url, c)
 	if err != nil {
-		l.Debug("unable to create request", zap.Error(err))
+		l.Debug("unable to create request", es_log.Error(err))
 		return nil, err
 	}
 	return req, nil

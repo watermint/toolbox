@@ -2,6 +2,7 @@ package file
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
@@ -12,13 +13,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 )
 
 type MsgList struct {
@@ -46,7 +47,7 @@ func (z *ListWorker) Exec() error {
 		With("NamespaceName", z.namespace.Name).
 		With("NamespaceId", z.namespace.NamespaceId))
 
-	l := z.ctl.Log().With(zap.Any("namespace", z.namespace))
+	l := z.ctl.Log().With(es_log.Any("namespace", z.namespace))
 
 	ctn := z.ctx.WithPath(dbx_context.Namespace(z.namespace.NamespaceId))
 
@@ -69,7 +70,7 @@ func (z *ListWorker) Exec() error {
 	}, opts...)
 
 	if err != nil {
-		l.Debug("Unable to traverse", zap.Error(err))
+		l.Debug("Unable to traverse", es_log.Error(err))
 		ui.Error(MList.ErrorScanFailed.
 			With("NamespaceName", z.namespace.Name).
 			With("NamespaceId", z.namespace.NamespaceId).
@@ -86,7 +87,7 @@ type List struct {
 	IncludeMemberFolder bool
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
-	Name                string
+	Name                mo_string.OptionalString
 	NamespaceFile       rp_model.RowReport
 }
 
@@ -117,7 +118,7 @@ func (z *List) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	l.Debug("Run as admin", zap.Any("admin", admin))
+	l.Debug("Run as admin", es_log.Any("admin", admin))
 
 	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {
@@ -146,11 +147,11 @@ func (z *List) Exec(c app_control.Control) error {
 			process = true
 		}
 		if !process {
-			l.Debug("Skip", zap.Any("namespace", namespace))
+			l.Debug("Skip", es_log.Any("namespace", namespace))
 			continue
 		}
-		if z.Name != "" && namespace.Name != z.Name {
-			l.Debug("Skip", zap.Any("namespace", namespace), zap.String("filter", z.Name))
+		if z.Name.IsExists() && namespace.Name != z.Name.Value() {
+			l.Debug("Skip", es_log.Any("namespace", namespace), es_log.String("filter", z.Name.Value()))
 			continue
 		}
 
@@ -171,7 +172,7 @@ func (z *List) Exec(c app_control.Control) error {
 func (z *List) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, &List{}, func(r rc_recipe.Recipe) {
 		rc := r.(*List)
-		rc.Name = qt_recipe.TestTeamFolderName
+		rc.Name = mo_string.NewOptional(qt_recipe.TestTeamFolderName)
 	})
 	if err != nil {
 		return err

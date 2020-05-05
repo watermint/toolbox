@@ -4,15 +4,15 @@ import (
 	"encoding/json"
 	"github.com/google/go-cmp/cmp"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
-	"github.com/watermint/toolbox/essentials/io/ut_io"
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
 	"os"
@@ -57,17 +57,17 @@ func (z *Diff) loadSpec(c app_control.Control, relName string) (r map[string]*rc
 		fn = "spec_" + relName + ".json"
 	}
 	p := filepath.Join("doc/generated", fn)
-	l := c.Log().With(zap.String("path", p))
+	l := c.Log().With(es_log.String("path", p))
 	l.Debug("Loading")
 
 	j, err := ioutil.ReadFile(p)
 	if err != nil {
-		l.Error("unable to read spec", zap.Error(err))
+		l.Error("unable to read spec", es_log.Error(err))
 		return nil, err
 	}
 	r = make(map[string]*rc_doc.Recipe)
 	if err = json.Unmarshal(j, &r); err != nil {
-		l.Error("Unable to unmarshal spec", zap.Error(err))
+		l.Error("Unable to unmarshal spec", es_log.Error(err))
 		return nil, err
 	}
 	return r, nil
@@ -239,12 +239,12 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 	var w io.WriteCloser
 	shouldClose := false
 	if !z.FilePath.IsExists() {
-		w = ut_io.NewDefaultOut(c.Feature().IsTest())
+		w = es_stdout.NewDefaultOut(c.Feature().IsTest())
 	} else {
 		var err error
 		w, err = os.Create(z.FilePath.Value())
 		if err != nil {
-			l.Error("Unable to create file", zap.Error(err), zap.String("path", z.FilePath.Value()))
+			l.Error("Unable to create file", es_log.Error(err), es_log.String("path", z.FilePath.Value()))
 			return err
 		}
 		shouldClose = true
@@ -262,7 +262,7 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 		return c.UI().Text(z.ReleaseVersion.With("Release", strings.Replace(x, "_", "", 1)))
 	}
 
-	mui := app_ui.NewMarkdown(c.Messages(), w, false)
+	mui := app_ui.NewMarkdown(c.Messages(), c.Log(), w, es_dialogue.DenyAll())
 	mui.Header(z.DocHeader.With("Release1", relName(z.Release1.Value())).With("Release2", relName(z.Release2.Value())))
 
 	if len(added) > 0 {
@@ -291,7 +291,7 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 
 	// Search for changed
 	changed := make([]string, 0)
-	for r, _ := range r1 {
+	for r := range r1 {
 		if _, ok := r2[r]; ok {
 			changed = append(changed, r)
 		}
@@ -305,8 +305,8 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 }
 
 func (z *Diff) Exec(c app_control.Control) error {
-	if cl, ok := app_control_launcher.ControlWithLang(z.Lang.Value(), c); ok {
-		return z.makeDiff(cl)
+	if z.Lang.IsExists() {
+		return z.makeDiff(c.WithLang(z.Lang.Value()))
 	} else {
 		return z.makeDiff(c)
 	}

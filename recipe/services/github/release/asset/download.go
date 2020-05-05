@@ -6,13 +6,13 @@ import (
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
 	"github.com/watermint/toolbox/essentials/http/es_download"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 )
@@ -57,7 +57,7 @@ func (z *Download) Exec(c app_control.Control) error {
 	}
 
 	for _, asset := range assets {
-		l.Debug("download", zap.Any("asset", asset))
+		l.Debug("download", es_log.Any("asset", asset))
 		ui.Progress(z.Downloading.With("File", asset.Name))
 		path := filepath.Join(z.Path.Path(), asset.Name)
 		if err := es_download.Download(c.Log(), asset.DownloadUrl, path); err != nil {

@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"go.uber.org/zap"
 	"os"
 )
 
@@ -44,8 +44,8 @@ func (z *exportImpl) Export(path mo_path.DropboxPath) (export *mo_file.Export, l
 		// Try remove downloaded file
 		if removeErr := os.Remove(contentFilePath); removeErr != nil {
 			l.Debug("Unable to remove exported file",
-				zap.Error(err),
-				zap.String("path", contentFilePath))
+				es_log.Error(err),
+				es_log.String("path", contentFilePath))
 			// fall through
 		}
 

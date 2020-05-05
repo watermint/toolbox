@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -15,7 +16,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -43,10 +43,10 @@ type UploadWorker struct {
 
 func (z *UploadWorker) Exec() error {
 	l := z.ctl.Log().With(
-		zap.String("owner", z.owner),
-		zap.String("repo", z.repository),
-		zap.String("release", z.release.Id),
-		zap.String("path", z.file.Path()))
+		es_log.String("owner", z.owner),
+		es_log.String("repo", z.repository),
+		es_log.String("release", z.release.Id),
+		es_log.String("path", z.file.Path()))
 	ui := z.ctl.UI()
 
 	l.Debug("verify path")
@@ -62,7 +62,7 @@ func (z *UploadWorker) Exec() error {
 			return err
 		}
 		for _, entry := range entries {
-			l.Debug("Enqueue", zap.String("entry", entry.Name()))
+			l.Debug("Enqueue", es_log.String("entry", entry.Name()))
 			z.queue.Enqueue(&UploadWorker{
 				file:       mo_path.NewExistingFileSystemPath(filepath.Join(z.file.Path(), entry.Name())),
 				owner:      z.owner,

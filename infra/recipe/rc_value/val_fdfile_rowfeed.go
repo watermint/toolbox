@@ -4,15 +4,14 @@ import (
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"go.uber.org/zap"
 	"reflect"
 	"strings"
 )
@@ -60,11 +59,11 @@ func (z *ValueFdFileRowFeed) ApplyPreset(v0 interface{}) {
 }
 
 func (z *ValueFdFileRowFeed) Apply() (v interface{}) {
-	l := app_root.Log()
+	l := es_log.Default()
 	p, err := es_filepath.FormatPathWithPredefinedVariables(z.path)
 	if err != nil {
 		p = z.path
-		l.Debug("Unable to format", zap.String("path", z.path), zap.Error(err))
+		l.Debug("Unable to format", es_log.String("path", z.path), es_log.Error(err))
 	}
 
 	if p != "" {

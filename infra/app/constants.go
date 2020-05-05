@@ -44,6 +44,9 @@ const (
 
 	// Env variable name for test resource file. Expected format is file path.
 	EnvNameTestResource = "TOOLBOX_TEST_RESOURCE"
+
+	// Env variable name for toolbox home
+	EnvNameToolboxHome = "TOOLBOX_HOME"
 )
 
 // Test resources
@@ -62,4 +65,10 @@ const (
 
 	// Project logo
 	ProjectLogo = `![watermint toolbox](resources/watermint-toolbox-256x256.png)`
+)
+
+// Log prefix
+const (
+	LogToolbox = "toolbox"
+	LogCapture = "capture"
 )

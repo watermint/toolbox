@@ -1,11 +1,13 @@
 package es_response
 
-import "github.com/watermint/toolbox/infra/control/app_root"
+import (
+	"github.com/watermint/toolbox/essentials/log/es_log"
+)
 
 // Create new instance of the proxy instance.
 func NewProxy(res Response) Proxy {
 	if res == nil {
-		app_root.Log().Error("null response")
+		es_log.Default().Error("null response")
 	}
 	return Proxy{
 		res: res,
