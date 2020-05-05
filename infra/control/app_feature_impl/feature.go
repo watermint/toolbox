@@ -23,6 +23,10 @@ type Feature struct {
 	testWithMock bool
 }
 
+func (z Feature) ConsoleLogLevel() es_log.Level {
+	return app_feature.ConsoleLogLevel(z.test, z.com.Debug)
+}
+
 func (z Feature) AsTest(useMock bool) app_feature.Feature {
 	z.test = true
 	z.testWithMock = useMock

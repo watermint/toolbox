@@ -111,7 +111,7 @@ Report files are generated in three formats like below;
 * `team_folder.xlsx`
 * `team_folder.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`...   

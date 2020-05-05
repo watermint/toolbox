@@ -72,7 +72,7 @@ Report files are generated in three formats like below;
 * `skipped.xlsx`
 * `skipped.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`...   
@@ -97,7 +97,7 @@ Report files are generated in three formats like below;
 * `summary.xlsx`
 * `summary.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
@@ -119,7 +119,7 @@ Report files are generated in three formats like below;
 * `uploaded.xlsx`
 * `uploaded.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   

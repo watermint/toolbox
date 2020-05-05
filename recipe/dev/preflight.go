@@ -40,7 +40,7 @@ func (z *Preflight) Test(c app_control.Control) error {
 
 func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 	l := c.Log().With(es_log.String("filename", filename))
-	p := filepath.Join("resources", filename)
+	p := filepath.Join("resources/messages", filename)
 	content, err := ioutil.ReadFile(p)
 	if err != nil {
 		l.Info("SKIP: Unable to open resource file", es_log.Error(err))

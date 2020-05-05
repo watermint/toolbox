@@ -111,7 +111,7 @@ Report files are generated in three formats like below;
 * `namespace_file.xlsx`
 * `namespace_file.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   

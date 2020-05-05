@@ -1,6 +1,7 @@
 package es_container
 
 import (
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/essentials/log/es_rotate"
 	"github.com/watermint/toolbox/infra/app"
@@ -8,8 +9,11 @@ import (
 )
 
 type Logger interface {
-	// Current logger
+	// Current logger. This logger could be wrapped.
 	Logger() es_log.Logger
+
+	// Core logger.
+	Core() es_log.Logger
 
 	// Set rotate hook
 	SetRotateHook(hook es_rotate.RotateHook)
@@ -18,8 +22,8 @@ type Logger interface {
 	Close()
 }
 
-func NewDual(basePath string, budget app_budget.Budget) (t, c Logger, err error) {
-	t, err = NewToolbox(basePath, budget)
+func NewDual(basePath string, budget app_budget.Budget, consoleLevel es_log.Level) (t, c Logger, err error) {
+	t, err = NewToolbox(basePath, budget, consoleLevel)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -31,15 +35,15 @@ func NewDual(basePath string, budget app_budget.Budget) (t, c Logger, err error)
 	return t, c, nil
 }
 
-func NewToolbox(basePath string, budget app_budget.Budget) (c Logger, err error) {
-	return New(basePath, app.LogToolbox, budget, es_log.LevelDebug, es_log.FlavorFileStandard, true)
+func NewToolbox(basePath string, budget app_budget.Budget, consoleLevel es_log.Level) (c Logger, err error) {
+	return New(basePath, app.LogToolbox, budget, es_log.LevelDebug, consoleLevel, es_log.FlavorFileStandard, true)
 }
 
 func NewCapture(basePath string, budget app_budget.Budget) (c Logger, err error) {
-	return New(basePath, app.LogCapture, budget, es_log.LevelDebug, es_log.FlavorFileCompact, false)
+	return New(basePath, app.LogCapture, budget, es_log.LevelDebug, es_log.LevelInfo, es_log.FlavorFileCompact, false)
 }
 
-func New(basePath, name string, budget app_budget.Budget, level es_log.Level, flavor es_log.Flavor, teeConsole bool) (c Logger, err error) {
+func New(basePath, name string, budget app_budget.Budget, fileLevel, consoleLevel es_log.Level, flavor es_log.Flavor, teeConsole bool) (c Logger, err error) {
 	w := es_rotate.NewWriter(basePath, name)
 
 	cs, qt, nb := app_budget.StorageBudget(budget)
@@ -52,9 +56,9 @@ func New(basePath, name string, budget app_budget.Budget, level es_log.Level, fl
 	if err != nil {
 		return
 	}
-	l := es_log.NewLogCloser(level, flavor, w)
+	l := es_log.NewLogCloser(fileLevel, flavor, w)
 	if teeConsole {
-		return newTee(w, l), nil
+		return newTee(w, l, consoleLevel), nil
 	} else {
 		return &ctnImpl{
 			w: w,
@@ -66,6 +70,10 @@ func New(basePath, name string, budget app_budget.Budget, level es_log.Level, fl
 type ctnImpl struct {
 	w es_rotate.Writer
 	l es_log.LogCloser
+}
+
+func (z ctnImpl) Core() es_log.Logger {
+	return z.l
 }
 
 func (z ctnImpl) Logger() es_log.Logger {
@@ -81,10 +89,10 @@ func (z ctnImpl) Close() {
 	_ = z.w.Close()
 }
 
-func newTee(w es_rotate.Writer, l es_log.LogCloser) Logger {
+func newTee(w es_rotate.Writer, l es_log.LogCloser, consoleLevel es_log.Level) Logger {
 	t := es_log.NewTee()
 	t.AddSubscriber(l)
-	t.AddSubscriber(es_log.DefaultConsole())
+	t.AddSubscriber(es_log.New(consoleLevel, es_log.FlavorConsole, es_stdout.NewDefaultOut(false)))
 	return &teeImpl{
 		w: w,
 		l: l,
@@ -96,6 +104,10 @@ type teeImpl struct {
 	w es_rotate.Writer
 	l es_log.LogCloser
 	t es_log.Logger
+}
+
+func (z teeImpl) Core() es_log.Logger {
+	return z.l
 }
 
 func (z teeImpl) Logger() es_log.Logger {

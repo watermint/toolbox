@@ -56,6 +56,7 @@ func (z *Readme) commands() string {
 		p = append(p, n)
 		q := strings.Join(p, " ")
 
+		z.ctl.Log().Debug("recipe", es_log.String("recipe", rs.CliPath()))
 		book[q] = ui.Text(rs.Title())
 		keys = append(keys, q)
 	}

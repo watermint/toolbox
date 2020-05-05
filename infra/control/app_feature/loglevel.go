@@ -6,15 +6,15 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 )
 
-func LogLevel(feature Feature) es_log.Level {
+func ConsoleLogLevel(test, debug bool) es_log.Level {
 	switch {
 	case es_env.IsEnabled(app.EnvNameDebugVerbose):
 		return es_log.LevelDebug
 
-	case app.IsProduction() && feature.IsTest():
+	case app.IsProduction() && test:
 		return es_log.LevelQuiet
 
-	case feature.IsDebug(), feature.IsTest():
+	case debug, test:
 		return es_log.LevelDebug
 
 	default:

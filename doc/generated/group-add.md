@@ -112,7 +112,7 @@ Report files are generated in three formats like below;
 * `added_group.xlsx`
 * `added_group.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `added_group_0000.xlsx`, `added_group_0001.xlsx`, `added_group_0002.xlsx`...   

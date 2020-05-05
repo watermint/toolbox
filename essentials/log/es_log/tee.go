@@ -6,11 +6,15 @@ func NewTee() Tee {
 	}
 }
 
+// Tee implementation is mutable.
 type Tee interface {
 	Logger
 
-	AddSubscriber(l Logger)
-	RemoveSubscriber(l Logger)
+	// Add subscriber. And returns self instance.
+	AddSubscriber(l Logger) Tee
+
+	// Remove subscriber.
+	RemoveSubscriber(l Logger) Tee
 }
 
 type teeImpl struct {
@@ -80,11 +84,13 @@ func (z teeImpl) Sync() error {
 	return lastErr
 }
 
-func (z *teeImpl) AddSubscriber(l Logger) {
+func (z *teeImpl) AddSubscriber(l Logger) Tee {
 	x := l.AddCallerSkip(3)
 	z.loggers = append(z.loggers, x)
+	return z
 }
 
-func (z *teeImpl) RemoveSubscriber(l Logger) {
+func (z *teeImpl) RemoveSubscriber(l Logger) Tee {
 	// currently nothing happens
+	return z
 }

@@ -61,7 +61,7 @@ func zapTerminalEncodeLevel() zapcoreuber.LevelEncoder {
 	}
 }
 
-func terminalDefaultLevel() Level {
+func ConsoleDefaultLevel() Level {
 	switch {
 	case es_env.IsEnabled(app.EnvNameDebugVerbose):
 		return LevelDebug

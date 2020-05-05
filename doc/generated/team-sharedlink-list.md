@@ -112,7 +112,7 @@ Report files are generated in three formats like below;
 * `shared_link.xlsx`
 * `shared_link.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   

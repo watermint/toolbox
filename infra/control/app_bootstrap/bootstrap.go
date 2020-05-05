@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_exit"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -76,6 +77,7 @@ func (z *bsImpl) SelectUI(opt app_opt.CommonOpts) (ui app_ui.UI) {
 	mc := app_msg_container_impl.NewContainer()
 	out := opt.Output.Value()
 	lg := es_log.Default()
+
 	// Select UI
 	switch {
 	case opt.Quiet, out == app_opt.OutputNone:
@@ -123,7 +125,8 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	com := comSpec.Opts()
 	ui := z.SelectUI(com)
 
-	wb, err := app_workspace.NewBundle(com.Workspace.Value(), app_budget.Budget(com.BudgetStorage.Value()))
+	clv := app_feature.ConsoleLogLevel(false, com.Debug)
+	wb, err := app_workspace.NewBundle(com.Workspace.Value(), app_budget.Budget(com.BudgetStorage.Value()), clv)
 	if err != nil {
 		ui.Failure(MRun.ErrorInitialization.With("Error", err))
 		app_exit.Abort(app_exit.FatalStartup)

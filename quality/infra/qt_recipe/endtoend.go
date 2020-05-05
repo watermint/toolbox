@@ -131,7 +131,7 @@ func TestWithApiContext(t *testing.T, twc func(ctx dbx_context.Context)) {
 func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	ui := Resources()
-	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited)
+	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited, es_log.ConsoleDefaultLevel())
 	if err != nil {
 		t.Error(err)
 		return

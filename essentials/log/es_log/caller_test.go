@@ -21,11 +21,32 @@ func TestCallerWrapper(t *testing.T) {
 func TestCallerTee(t *testing.T) {
 	var buf bytes.Buffer
 
-	l := New(LevelDebug, FlavorFileStandard, &buf)
-	l2 := NewTee()
-	l2.AddSubscriber(l)
+	l1 := New(LevelDebug, FlavorFileStandard, &buf)
+	tee := NewTee()
+	tee.AddSubscriber(l1)
 
-	err := EnsureCallerSkip(l2, "msg", "caller", func() string {
+	err := EnsureCallerSkip(tee, "msg", "caller", func() string {
+		return buf.String()
+	})
+	if err != nil {
+		t.Error(err)
+	}
+	err = EnsureCallerSkip(l1, "msg", "caller", func() string {
+		return buf.String()
+	})
+	if err != nil {
+		t.Error(err)
+	}
+
+	l2 := NewLogCloser(LevelDebug, FlavorFileStandard, es_close.NewNopWriteCloser(&buf))
+	tee.AddSubscriber(l2)
+	err = EnsureCallerSkip(l2, "msg", "caller", func() string {
+		return buf.String()
+	})
+	if err != nil {
+		t.Error(err)
+	}
+	err = EnsureCallerSkip(tee, "msg", "caller", func() string {
 		return buf.String()
 	})
 	if err != nil {

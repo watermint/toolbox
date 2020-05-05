@@ -26,16 +26,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # Command spec changed: `config enable`
 
@@ -44,16 +44,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # Command spec changed: `config features`
 
@@ -62,16 +62,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # Command spec changed: `connect business_audit`
 
@@ -80,16 +80,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_audit"},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_audit"},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # Command spec changed: `connect business_file`
 
@@ -98,16 +98,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_file"},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_file"},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # Command spec changed: `connect business_info`
 
@@ -116,16 +116,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_info"},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_info"},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # Command spec changed: `connect business_mgmt`
 
@@ -134,16 +134,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_management"},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_management"},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # Command spec changed: `connect user_file`
 
@@ -152,16 +152,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "user_full"},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "user_full"},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # Command spec changed: `services github issue list`
 
@@ -170,16 +170,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: true,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: true,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # Command spec changed: `services github profile`
 
@@ -188,16 +188,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: true,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: true,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # Command spec changed: `services github release asset list`
 
@@ -206,30 +206,30 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: true,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: true,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 ## Changed report: assets
 
 ```
-  &rc_doc.Report{
-  	Name: "assets",
-  	Desc: "GitHub Release assets",
-  	Columns: []*rc_doc.ReportColumn{
-  		... // 2 identical elements
-  		&{Name: "state", Desc: "State of the asset"},
-  		&{Name: "download_count", Desc: "Number of downloads"},
-+ 		&{Name: "download_url", Desc: "Download URL"},
-  	},
-  }
+  &rc_doc.Report{
+  	Name: "assets",
+  	Desc: "GitHub Release assets",
+  	Columns: []*rc_doc.ReportColumn{
+  		... // 2 identical elements
+  		&{Name: "state", Desc: "State of the asset"},
+  		&{Name: "download_count", Desc: "Number of downloads"},
++ 		&{Name: "download_url", Desc: "Download URL"},
+  	},
+  }
 ```
 # Command spec changed: `services github release draft`
 
@@ -238,16 +238,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: true,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: true,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # Command spec changed: `services github release list`
 
@@ -256,16 +256,16 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: true,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &rc_doc.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: true,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # Command spec changed: `services github tag create`
 
@@ -274,26 +274,26 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	Name:    "create",
-  	Title:   "Create a tag on the repository",
-  	Desc:    "",
-- 	Remarks: "(Experimental, and Irreversible operation)",
-+ 	Remarks: "(Experimental)",
-  	Path:    "services github tag create",
-  	CliArgs: "",
-  	... // 3 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: true,
-- 	IsIrreversible: true,
-+ 	IsIrreversible: false,
-  	Reports:        nil,
-  	Feeds:          nil,
-  	Values:         []*rc_doc.Value{&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo"}, &{Name: "Repository", Desc: "Name of the repository", TypeName: "string"}, &{Name: "Sha1", Desc: "SHA1 hash of the commit", TypeName: "string"}, &{Name: "Tag", Desc: "Tag name", TypeName: "string"}},
-  }
+  &rc_doc.Recipe{
+  	Name:    "create",
+  	Title:   "Create a tag on the repository",
+  	Desc:    "",
+- 	Remarks: "(Experimental, and Irreversible operation)",
++ 	Remarks: "(Experimental)",
+  	Path:    "services github tag create",
+  	CliArgs: "",
+  	... // 3 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: true,
+- 	IsIrreversible: true,
++ 	IsIrreversible: false,
+  	Reports:        nil,
+  	Feeds:          nil,
+  	Values:         []*rc_doc.Value{&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo"}, &{Name: "Repository", Desc: "Name of the repository", TypeName: "string"}, &{Name: "Sha1", Desc: "SHA1 hash of the commit", TypeName: "string"}, &{Name: "Tag", Desc: "Tag name", TypeName: "string"}},
+  }
 ```
 # Command spec changed: `team diag explorer`
 
@@ -312,25 +312,25 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	... // 14 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*rc_doc.Value{
-  		... // 3 identical elements
-  		&{Name: "IncludeSharedFolder", Desc: "If true, include shared folders", Default: "true", TypeName: "bool"},
-  		&{Name: "IncludeTeamFolder", Desc: "If true, include team folders", Default: "true", TypeName: "bool"},
-  		&{
-  			Name:     "Name",
-  			Desc:     "List only for the folder matched to the name",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "domain.common.model.mo_string.opt_string",
-  			TypeAttr: nil,
-  		},
-  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
-  	},
-  }
+  &rc_doc.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*rc_doc.Value{
+  		... // 3 identical elements
+  		&{Name: "IncludeSharedFolder", Desc: "If true, include shared folders", Default: "true", TypeName: "bool"},
+  		&{Name: "IncludeTeamFolder", Desc: "If true, include team folders", Default: "true", TypeName: "bool"},
+  		&{
+  			Name:     "Name",
+  			Desc:     "List only for the folder matched to the name",
+  			Default:  "",
+- 			TypeName: "string",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
+  	},
+  }
 ```
 # Command spec changed: `teamfolder replication`
 
@@ -339,21 +339,21 @@
 
 
 ```
-  &rc_doc.Recipe{
-  	Name:    "replication",
-  	Title:   "Replicate a team folder to the other team",
-  	Desc:    "",
-- 	Remarks: "(Irreversible operation)",
-+ 	Remarks: "(Experimental, and Irreversible operation)",
-  	Path:    "teamfolder replication",
-  	CliArgs: "",
-  	... // 4 identical fields
-  	IsSecret:       false,
-  	IsConsole:      false,
-- 	IsExperimental: false,
-+ 	IsExperimental: true,
-  	IsIrreversible: true,
-  	Reports:        nil,
-  	... // 2 identical fields
-  }
+  &rc_doc.Recipe{
+  	Name:    "replication",
+  	Title:   "Replicate a team folder to the other team",
+  	Desc:    "",
+- 	Remarks: "(Irreversible operation)",
++ 	Remarks: "(Experimental, and Irreversible operation)",
+  	Path:    "teamfolder replication",
+  	CliArgs: "",
+  	... // 4 identical fields
+  	IsSecret:       false,
+  	IsConsole:      false,
+- 	IsExperimental: false,
++ 	IsExperimental: true,
+  	IsIrreversible: true,
+  	Reports:        nil,
+  	... // 2 identical fields
+  }
 ```

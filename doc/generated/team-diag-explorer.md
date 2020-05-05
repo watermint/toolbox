@@ -114,7 +114,7 @@ Report files are generated in three formats like below;
 * `device.xlsx`
 * `device.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...   
@@ -153,7 +153,7 @@ Report files are generated in three formats like below;
 * `feature.xlsx`
 * `feature.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...   
@@ -173,7 +173,7 @@ Report files are generated in three formats like below;
 * `file_request.xlsx`
 * `file_request.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`...   
@@ -200,7 +200,7 @@ Report files are generated in three formats like below;
 * `group.xlsx`
 * `group.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...   
@@ -218,7 +218,7 @@ Report files are generated in three formats like below;
 * `group_member.xlsx`
 * `group_member.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`...   
@@ -240,7 +240,7 @@ Report files are generated in three formats like below;
 * `info.xlsx`
 * `info.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
@@ -264,7 +264,7 @@ Report files are generated in three formats like below;
 * `linked_app.xlsx`
 * `linked_app.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
@@ -289,7 +289,7 @@ Report files are generated in three formats like below;
 * `member.xlsx`
 * `member.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
@@ -312,7 +312,7 @@ Report files are generated in three formats like below;
 * `member_quota.xlsx`
 * `member_quota.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`...   
@@ -329,7 +329,7 @@ Report files are generated in three formats like below;
 * `namespace.xlsx`
 * `namespace.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
@@ -347,7 +347,7 @@ Report files are generated in three formats like below;
 * `namespace_file.xlsx`
 * `namespace_file.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
@@ -371,7 +371,7 @@ Report files are generated in three formats like below;
 * `namespace_member.xlsx`
 * `namespace_member.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`...   
@@ -394,7 +394,7 @@ Report files are generated in three formats like below;
 * `namespace_size.xlsx`
 * `namespace_size.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
@@ -419,7 +419,7 @@ Report files are generated in three formats like below;
 * `shared_link.xlsx`
 * `shared_link.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
@@ -444,7 +444,7 @@ Report files are generated in three formats like below;
 * `team_folder.xlsx`
 * `team_folder.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`...   
@@ -463,7 +463,7 @@ Report files are generated in three formats like below;
 * `usage.xlsx`
 * `usage.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   

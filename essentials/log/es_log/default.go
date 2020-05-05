@@ -11,17 +11,13 @@ import (
 )
 
 var (
-	fallback   = newDefault()
-	capture    = newEmpty()
-	loggerName atomic.Int64
+	currentConsole = newDefault()
+	capture        = newEmpty()
+	loggerName     atomic.Int64
 )
 
 func Default() Logger {
-	return fallback
-}
-
-func DefaultConsole() Logger {
-	return fallback
+	return currentConsole
 }
 
 func Capture() Logger {
@@ -29,14 +25,14 @@ func Capture() Logger {
 }
 
 func newEmpty() Logger {
-	return New(terminalDefaultLevel(), FlavorConsole, ioutil.Discard)
+	return New(ConsoleDefaultLevel(), FlavorConsole, ioutil.Discard)
 }
 
 func newDefault() Logger {
-	return newTerminal(terminalDefaultLevel())
+	return newConsole(ConsoleDefaultLevel())
 }
 
-func newTerminal(level Level) Logger {
+func newConsole(level Level) Logger {
 	return New(level, FlavorConsole, es_stdout.NewDefaultOut(false))
 }
 

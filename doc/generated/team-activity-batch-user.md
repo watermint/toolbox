@@ -132,7 +132,7 @@ Report files are generated in three formats like below;
 * `combined.xlsx`
 * `combined.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `combined_0000.xlsx`, `combined_0001.xlsx`, `combined_0002.xlsx`...   
@@ -161,7 +161,7 @@ Report files are generated in three formats like below;
 * `user.xlsx`
 * `user.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`...   
