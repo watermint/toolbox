@@ -68,27 +68,27 @@ for m in $(go list -m all | awk '{print $1}'); do
     l=$(find "$d" -maxdepth 1 -iname LICENSE\*)
     if [ x"" != x"$l" ]; then
       p=$(echo $m | sed 's/\//-/g')
-      jq -Rn "{\"$m\":[inputs]}" "$l" > $BUILD_PATH/$p.lic
+      jq -Rn "{\"$m\":[inputs]}" "$l" >$BUILD_PATH/$p.lic
     fi
   fi
 done
 
-jq -Rn '{"github.com/watermint/toolbox":[inputs]}' LICENSE.md > $BUILD_PATH/github.com-watermint-toolbox.lic
-jq -s add $BUILD_PATH/*.lic > resources/data/licenses.json
+jq -Rn '{"github.com/watermint/toolbox":[inputs]}' LICENSE.md >$BUILD_PATH/github.com-watermint-toolbox.lic
+jq -s add $BUILD_PATH/*.lic >resources/data/licenses.json
 
 echo BUILD: Building tool
 
 if [ -e "resources/keys/toolbox.appkeys" ]; then
   echo App keys file found. Verify app key file...
-  cat resources/keys/toolbox.appkeys | jq type > /dev/null
-  if [[ $? = 0 ]]; then
+  cat resources/keys/toolbox.appkeys | jq type >/dev/null
+  if [[ $? == 0 ]]; then
     echo Valid
   else
     echo Invalid. return code: $?
   fi
 
   go run infra/security/sc_zap_tool/main.go
-  if [[ $? = 0 ]]; then
+  if [[ $? == 0 ]]; then
     rm resources/keys/toolbox.appkeys
   else
     echo Zap exit with code $?
@@ -110,19 +110,19 @@ X_APP_BRANCH="-X github.com/watermint/toolbox/infra/app.Branch=$CIRCLE_BRANCH"
 LD_FLAGS="$X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY $X_APP_BUILDTIMESTAMP $X_APP_BRANCH"
 
 echo Building: Windows 386
-CGO_ENABLED=0 GOOS=windows GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
+CGO_ENABLED=0 GOOS=windows GOARCH=386 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
 echo Building: Windows amd64
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win64/tbx.exe github.com/watermint/toolbox
 echo Building: Linux
-CGO_ENABLED=0 GOOS=linux   GOARCH=386   go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/linux/tbx   github.com/watermint/toolbox
+CGO_ENABLED=0 GOOS=linux GOARCH=386 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/linux/tbx github.com/watermint/toolbox
 echo Building: Darwin
-CGO_ENABLED=0 GOOS=darwin  GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/mac/tbx     github.com/watermint/toolbox
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/mac/tbx github.com/watermint/toolbox
 
 echo --------------------
 echo BUILD: Testing binary
 
 $BUILD_PATH/linux/tbx dev test resources -quiet
-if [[ $? = 0 ]]; then
+if [[ $? == 0 ]]; then
   echo Success: resources test
 else
   echo Unable to pass binary resources test: code=$?
@@ -132,18 +132,18 @@ fi
 echo --------------------
 echo BUILD: Generating documents
 
-$BUILD_PATH/linux/tbx license -quiet                            > $BUILD_PATH/LICENSE.txt
-$BUILD_PATH/linux/tbx dev doc -filename README.txt -badge=false > $BUILD_PATH/README.txt
+$BUILD_PATH/linux/tbx license -quiet >$BUILD_PATH/LICENSE.txt
+$BUILD_PATH/linux/tbx dev doc -filename README.txt -badge=false >$BUILD_PATH/README.txt
 
 echo --------------------
 echo BUILD: Packaging
 for p in win win64 mac linux; do
   echo BUILD: Packaging $p
   cp $BUILD_PATH/LICENSE.txt $BUILD_PATH/"$p"/
-  cp README.txt  $BUILD_PATH/"$p"/README.txt
-  ( cd $BUILD_PATH/"$p" && zip -9 -r $BUILD_PATH/tbx-"$BUILD_VERSION"-"$p".zip . )
+  cp README.txt $BUILD_PATH/"$p"/README.txt
+  (cd $BUILD_PATH/"$p" && zip -9 -r $BUILD_PATH/tbx-"$BUILD_VERSION"-"$p".zip .)
 done
-( cd $BUILD_PATH && zip -0 $DIST_PATH/tbx-"$BUILD_VERSION".zip *.zip)
+(cd $BUILD_PATH && zip -0 $DIST_PATH/tbx-"$BUILD_VERSION".zip *.zip)
 
 if [ x"$TOOLBOX_DEPLOY_TOKEN" = x"" ]; then
   exit 0

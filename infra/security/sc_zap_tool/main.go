@@ -56,7 +56,7 @@ const (
 )
 
 func main() {
-	keyPath := "resources/toolbox.appkeys"
+	keyPath := "resources/keys/toolbox.appkeys"
 	secretPath := keyPath + ".secret"
 	l := es_log.Default()
 
