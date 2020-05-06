@@ -46,7 +46,7 @@ func New(feature app_feature.Feature, opts ...ClientOpt) nw_client.Rest {
 	}
 
 	c0 := NewAssert(co.Assert, nw_capture.New(hc))
-	return nw_retry.NewRetry(c0)
+	return nw_retry.NewRetry(nw_retry.NewRatelimit(c0))
 }
 
 func NewAssert(assert AssertResponse, client nw_client.Rest) nw_client.Rest {
