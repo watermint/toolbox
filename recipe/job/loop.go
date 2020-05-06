@@ -8,12 +8,15 @@ import (
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"time"
 )
 
 type Loop struct {
+	rc_recipe.RemarkExperimental
+	rc_recipe.RemarkConsole
 	Until                       mo_time.Time
 	IntervalSeconds             mo_int.RangeInt
 	QuitOnError                 bool

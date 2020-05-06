@@ -28,6 +28,7 @@ const (
 )
 
 type Preflight struct {
+	rc_recipe.RemarkConsole
 	rc_recipe.RemarkSecret
 }
 

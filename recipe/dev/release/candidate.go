@@ -18,6 +18,7 @@ import (
 )
 
 type Candidate struct {
+	rc_recipe.RemarkConsole
 	rc_recipe.RemarkSecret
 	Auth *auth.Connect
 }

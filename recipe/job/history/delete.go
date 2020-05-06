@@ -9,6 +9,7 @@ import (
 )
 
 type Delete struct {
+	rc_recipe.RemarkConsole
 	Days   mo_int.RangeInt
 	Delete *job.Delete
 }

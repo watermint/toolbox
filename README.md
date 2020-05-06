@@ -74,7 +74,6 @@ Available commands:
 | [connect business_info](doc/generated/connect-business_info.md)                                   | Connect to the team info access                               |
 | [connect business_mgmt](doc/generated/connect-business_mgmt.md)                                   | Connect to the team management access                         |
 | [connect user_file](doc/generated/connect-user_file.md)                                           | Connect to user file access                                   |
-| [dev kvs dump](doc/generated/dev-kvs-dump.md)                                                     | Dump KVS data                                                 |
 | [file compare account](doc/generated/file-compare-account.md)                                     | Compare files of two accounts                                 |
 | [file compare local](doc/generated/file-compare-local.md)                                         | Compare local folders and Dropbox folders                     |
 | [file copy](doc/generated/file-copy.md)                                                           | Copy files                                                    |

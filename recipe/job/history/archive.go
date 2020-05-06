@@ -12,6 +12,7 @@ import (
 )
 
 type Archive struct {
+	rc_recipe.RemarkConsole
 	Days               mo_int.RangeInt
 	ProgressArchiving  app_msg.Message
 	ErrorFailedArchive app_msg.Message

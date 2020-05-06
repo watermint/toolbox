@@ -39,6 +39,7 @@ var (
 )
 
 type Publish struct {
+	rc_recipe.RemarkConsole
 	rc_recipe.RemarkSecret
 	ArtifactPath mo_path2.FileSystemPath
 	Branch       string

@@ -10,6 +10,7 @@ import (
 )
 
 type Wait struct {
+	rc_recipe.RemarkConsole
 	rc_recipe.RemarkSecret
 	Seconds mo_int.RangeInt
 }

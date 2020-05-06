@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
@@ -19,6 +20,7 @@ type DumpResult struct {
 }
 
 type Dump struct {
+	rc_recipe.RemarkSecret
 	Path   mo_path.FileSystemPath
 	Result rp_model.RowReport
 }
