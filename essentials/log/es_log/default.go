@@ -49,9 +49,9 @@ func zapWithName(logger *zapuber.Logger) *zapuber.Logger {
 func zapWithFlavor(flavor Flavor, logger *zapuber.Logger) *zapuber.Logger {
 	switch flavor {
 	case FlavorFileStandard:
-		return logger.WithOptions(zapuber.AddCaller(), zapuber.AddCallerSkip(1))
+		return logger.WithOptions(zapuber.AddCaller())
 	default:
-		return logger.WithOptions(zapuber.AddCallerSkip(1))
+		return logger
 	}
 }
 
@@ -61,5 +61,6 @@ func newZap(level Level, flavor Flavor, w io.Writer) *zapuber.Logger {
 		zapcoreuber.AddSync(w),
 		zapLevel(level),
 	)
-	return zapWithName(zapWithFlavor(flavor, zapuber.New(core)))
+	zl := zapuber.New(core, zapuber.AddCallerSkip(1))
+	return zapWithName(zapWithFlavor(flavor, zl))
 }
