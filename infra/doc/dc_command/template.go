@@ -1,4 +1,4 @@
-package ut_doc
+package dc_command
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"

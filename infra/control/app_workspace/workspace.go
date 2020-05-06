@@ -13,6 +13,46 @@ import (
 	"time"
 )
 
+type Application interface {
+	// Toolbox home path
+	Home() string
+}
+
+type Job interface {
+	// Path for job
+	Job() string
+
+	// Job ID
+	JobId() string
+
+	// Log path for job
+	Log() string
+
+	// Test
+	Test() string
+
+	// Report path for job
+	Report() string
+
+	// Path for KVS storage
+	KVS() string
+
+	// Create or get child folder of job folder
+	Descendant(name string) (path string, err error)
+}
+
+type User interface {
+	// Secrets path
+	Secrets() string
+}
+
+type MultiUser interface {
+	User
+
+	// User home path
+	UserHome() string
+}
+
 type Workspace interface {
 	Application
 	User

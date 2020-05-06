@@ -10,10 +10,6 @@ import (
 	"text/tabwriter"
 )
 
-const (
-	consoleNumRowsThreshold = 500
-)
-
 func newConTable(sy Syntax, wr io.Writer, mc app_msg_container.Container, name string) Table {
 	tw := new(tabwriter.Writer)
 	tw.Init(wr, 0, 2, 2, ' ', 0)
@@ -21,18 +17,17 @@ func newConTable(sy Syntax, wr io.Writer, mc app_msg_container.Container, name s
 		sy:      sy,
 		wr:      tw,
 		mc:      mc,
-		numRows: 0,
 		name:    name,
+		limiter: NewRowLimiter(sy, name),
 	}
 }
 
-// Stateful:
 type conTableImpl struct {
 	sy      Syntax
 	wr      *tabwriter.Writer
 	mc      app_msg_container.Container
-	numRows int
 	name    string
+	limiter RowLimiter
 }
 
 func (z conTableImpl) Header(h ...app_msg.Message) {
@@ -56,22 +51,12 @@ func (z conTableImpl) Row(m ...app_msg.Message) {
 }
 
 func (z *conTableImpl) RowRaw(m ...string) {
-	z.numRows++
-	if z.numRows <= consoleNumRowsThreshold {
+	z.limiter.Row(func() {
 		_, _ = fmt.Fprintln(z.wr, strings.Join(m, "\t"))
-	}
-	if z.numRows%consoleNumRowsThreshold == 0 {
-		z.sy.Info(MConsole.Progress.
-			With("Label", z.name).
-			With("Progress", z.numRows))
-	}
+	})
 }
 
 func (z conTableImpl) Flush() {
 	_ = z.wr.Flush()
-	if z.numRows >= consoleNumRowsThreshold {
-		z.sy.Info(MConsole.LargeReport.
-			With("Label", z.name).
-			With("Num", z.numRows))
-	}
+	z.limiter.Flush()
 }

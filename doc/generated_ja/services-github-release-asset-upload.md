@@ -29,17 +29,17 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション    | 説明                    | デフォルト |
-|---------------|-------------------------|------------|
-| `-asset`      | Path to assets          |            |
-| `-owner`      | Owner of the repository |            |
-| `-peer`       | Account alias           | default    |
-| `-release`    | Release tag name        |            |
-| `-repository` | Name of the repository  |            |
+| Option        | Description             | Default |
+|---------------|-------------------------|---------|
+| `-asset`      | Path to assets          |         |
+| `-owner`      | Owner of the repository |         |
+| `-peer`       | Account alias           | default |
+| `-release`    | Release tag name        |         |
+| `-repository` | Name of the repository  |         |
 
 共通のオプション:
 
-| オプション        | 説明                                                                                               | デフォルト     |
+| Option            | Description                                                                                        | Default        |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
@@ -79,7 +79,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `uploads_0000.xlsx`, `uploads_0001.xlsx`, `uploads_0002.xlsx`...   
 
-| 列                    | 説明                     |
+| Column                | Description              |
 |-----------------------|--------------------------|
 | status                | 処理の状態               |
 | reason                | 失敗またはスキップの理由 |

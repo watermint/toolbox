@@ -1,4 +1,4 @@
-package rc_doc
+package dc_recipe
 
 type DocColumn interface {
 	ColName() string

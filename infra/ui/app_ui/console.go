@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/strings/es_width"
 	"github.com/watermint/toolbox/essentials/terminal/es_color"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
+	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"io"
@@ -150,6 +151,10 @@ func (z conImpl) Progress(m app_msg.Message) {
 
 func (z conImpl) Code(code string) {
 	es_color.Colorfln(z.wr, es_color.ColorBlue, false, code)
+}
+
+func (z conImpl) Link(artifact rp_artifact.Artifact) {
+	z.Info(MConsole.PointArtifact.With("Path", artifact.Path()))
 }
 
 func (z conImpl) IsConsole() bool {

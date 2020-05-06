@@ -48,16 +48,16 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション | 説明                                | デフォルト |
-|------------|-------------------------------------|------------|
-| `-all`     | 追加のレポートを含める              | false      |
-| `-file`    | Dropbox Business ファイルアクアセス | default    |
-| `-info`    | Dropbox Business 情報アクセス       | default    |
-| `-mgmt`    | Dropbox Business 管理               | default    |
+| Option  | Description                         | Default |
+|---------|-------------------------------------|---------|
+| `-all`  | 追加のレポートを含める              | false   |
+| `-file` | Dropbox Business ファイルアクアセス | default |
+| `-info` | Dropbox Business 情報アクセス       | default |
+| `-mgmt` | Dropbox Business 管理               | default |
 
 共通のオプション:
 
-| オプション        | 説明                                                                                               | デフォルト     |
+| Option            | Description                                                                                        | Default        |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
@@ -119,7 +119,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...   
 
-| 列                            | 説明                                                                   |
+| Column                        | Description                                                            |
 |-------------------------------|------------------------------------------------------------------------|
 | team_member_id                | チームにおけるメンバーのID                                             |
 | email                         | ユーザーのメールアドレス                                               |
@@ -158,7 +158,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...   
 
-| 列                          | 説明                                                   |
+| Column                      | Description                                            |
 |-----------------------------|--------------------------------------------------------|
 | upload_api_rate_limit       | 毎月利用可能なアップロードAPIコール回数                |
 | upload_api_rate_limit_count | この月に利用されたアップロードAPIコール回数            |
@@ -178,7 +178,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`...   
 
-| 列                          | 説明                                                                      |
+| Column                      | Description                                                               |
 |-----------------------------|---------------------------------------------------------------------------|
 | email                       | ファイルリクエスト所有者のメールアドレス                                  |
 | status                      | ファイルリクエスト所有者ユーザーの状態 (active/invited/suspended/removed) |
@@ -205,7 +205,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...   
 
-| 列                    | 説明                                                                                    |
+| Column                | Description                                                                             |
 |-----------------------|-----------------------------------------------------------------------------------------|
 | group_name            | グループ名称                                                                            |
 | group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
@@ -223,7 +223,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`...   
 
-| 列                    | 説明                                                                                    |
+| Column                | Description                                                                             |
 |-----------------------|-----------------------------------------------------------------------------------------|
 | group_name            | グループ名称                                                                            |
 | group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
@@ -245,7 +245,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
 
-| 列                          | 説明                                                                                                     |
+| Column                      | Description                                                                                              |
 |-----------------------------|----------------------------------------------------------------------------------------------------------|
 | name                        | チームの名称                                                                                             |
 | team_id                     | チームのID                                                                                               |
@@ -269,7 +269,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
 
-| 列            | 説明                                                                 |
+| Column        | Description                                                          |
 |---------------|----------------------------------------------------------------------|
 | email         | ユーザーのメールアドレス                                             |
 | status        | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
@@ -294,7 +294,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
 
-| 列             | 説明                                                                                            |
+| Column         | Description                                                                                     |
 |----------------|-------------------------------------------------------------------------------------------------|
 | email          | ユーザーのメールアドレス                                                                        |
 | email_verified | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
@@ -317,10 +317,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`...   
 
-| 列    | 説明                                                                |
-|-------|---------------------------------------------------------------------|
-| email | ユーザーのメールアドレス                                            |
-| quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
+| Column | Description                                                         |
+|--------|---------------------------------------------------------------------|
+| email  | ユーザーのメールアドレス                                            |
+| quota  | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
 
 ## レポート: namespace 
 このレポートはチームの名前空間を一覧します.
@@ -334,7 +334,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
 
-| 列             | 説明                                                                                   |
+| Column         | Description                                                                            |
 |----------------|----------------------------------------------------------------------------------------|
 | name           | 名前空間の名称                                                                         |
 | namespace_type | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
@@ -352,7 +352,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
 
-| 列                     | 説明                                                                                            |
+| Column                 | Description                                                                                     |
 |------------------------|-------------------------------------------------------------------------------------------------|
 | namespace_type         | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)          |
 | namespace_name         | 名前空間の名称                                                                                  |
@@ -376,7 +376,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`...   
 
-| 列                 | 説明                                                                                                 |
+| Column             | Description                                                                                          |
 |--------------------|------------------------------------------------------------------------------------------------------|
 | namespace_name     | 名前空間の名称                                                                                       |
 | namespace_type     | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)               |
@@ -399,7 +399,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
-| 列                      | 説明                                                                                   |
+| Column                  | Description                                                                            |
 |-------------------------|----------------------------------------------------------------------------------------|
 | status                  | 処理の状態                                                                             |
 | reason                  | 失敗またはスキップの理由                                                               |
@@ -424,7 +424,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
 
-| 列         | 説明                                                                 |
+| Column     | Description                                                          |
 |------------|----------------------------------------------------------------------|
 | tag        | エントリーの種別 (file, または folder)                               |
 | url        | 共有リンクのURL.                                                     |
@@ -449,7 +449,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`...   
 
-| 列                     | 説明                                                                                 |
+| Column                 | Description                                                                          |
 |------------------------|--------------------------------------------------------------------------------------|
 | name                   | チームフォルダの名称                                                                 |
 | status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
@@ -468,7 +468,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   
 
-| 列         | 説明                                                    |
+| Column     | Description                                             |
 |------------|---------------------------------------------------------|
 | email      | アカウントのメールアドレス                              |
 | used_gb    | このユーザーの合計利用スペース (in GB, 1GB = 1024 MB).  |

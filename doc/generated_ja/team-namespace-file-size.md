@@ -48,19 +48,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション               | 説明                                             | デフォルト |
-|--------------------------|--------------------------------------------------|------------|
-| `-depth`                 | フォルダ階層数の指定                             | 1          |
-| `-include-app-folder`    | Trueの場合、アプリフォルダを含めます             | false      |
-| `-include-member-folder` | Trueの場合、チームメンバーフォルダを含めます     | false      |
-| `-include-shared-folder` | Trueの場合、共有フォルダを含めます               | true       |
-| `-include-team-folder`   | Trueの場合、チームフォルダを含めます             | true       |
-| `-name`                  | 指定された名前に一致するフォルダのみを一覧します |            |
-| `-peer`                  | アカウントの別名                                 | default    |
+| Option                   | Description                                      | Default |
+|--------------------------|--------------------------------------------------|---------|
+| `-depth`                 | フォルダ階層数の指定                             | 1       |
+| `-include-app-folder`    | Trueの場合、アプリフォルダを含めます             | false   |
+| `-include-member-folder` | Trueの場合、チームメンバーフォルダを含めます     | false   |
+| `-include-shared-folder` | Trueの場合、共有フォルダを含めます               | true    |
+| `-include-team-folder`   | Trueの場合、チームフォルダを含めます             | true    |
+| `-name`                  | 指定された名前に一致するフォルダのみを一覧します |         |
+| `-peer`                  | アカウントの別名                                 | default |
 
 共通のオプション:
 
-| オプション        | 説明                                                                                               | デフォルト     |
+| Option            | Description                                                                                        | Default        |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
@@ -122,7 +122,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
 
-| 列                      | 説明                                                                                   |
+| Column                  | Description                                                                            |
 |-------------------------|----------------------------------------------------------------------------------------|
 | status                  | 処理の状態                                                                             |
 | reason                  | 失敗またはスキップの理由                                                               |

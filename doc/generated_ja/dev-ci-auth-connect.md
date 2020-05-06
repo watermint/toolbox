@@ -48,18 +48,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション | 説明                                               | デフォルト      |
-|------------|----------------------------------------------------|-----------------|
-| `-audit`   | Dropbox Business Audit スコープで認証              | end_to_end_test |
-| `-file`    | Dropbox Business member file access スコープで認証 | end_to_end_test |
-| `-full`    | Dropbox user full access スコープで認証            | end_to_end_test |
-| `-github`  | GitHubへのデプロイメントのためのアカウント別名     | deploy          |
-| `-info`    | Dropbox Business info スコープで認証               | end_to_end_test |
-| `-mgmt`    | Dropbox Business management スコープで認証         | end_to_end_test |
+| Option    | Description                                        | Default         |
+|-----------|----------------------------------------------------|-----------------|
+| `-audit`  | Dropbox Business Audit スコープで認証              | end_to_end_test |
+| `-file`   | Dropbox Business member file access スコープで認証 | end_to_end_test |
+| `-full`   | Dropbox user full access スコープで認証            | end_to_end_test |
+| `-github` | GitHubへのデプロイメントのためのアカウント別名     | deploy          |
+| `-info`   | Dropbox Business info スコープで認証               | end_to_end_test |
+| `-mgmt`   | Dropbox Business management スコープで認証         | end_to_end_test |
 
 共通のオプション:
 
-| オプション        | 説明                                                                                               | デフォルト     |
+| Option            | Description                                                                                        | Default        |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |

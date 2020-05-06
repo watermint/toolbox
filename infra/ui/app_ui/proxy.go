@@ -3,6 +3,7 @@ package app_ui
 import (
 	"github.com/watermint/toolbox/essentials/concurrency/es_mutex"
 	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
@@ -157,6 +158,13 @@ func (z proxyImpl) Code(code string) {
 	z.lg.Debug("code", es_log.String("code", code))
 	z.mx.Do(func() {
 		z.sy.Code(code)
+	})
+}
+
+func (z proxyImpl) Link(artifact rp_artifact.Artifact) {
+	z.lg.Debug("artifact", es_log.Any("artifact", artifact))
+	z.mx.Do(func() {
+		z.sy.Link(artifact)
 	})
 }
 

@@ -48,14 +48,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション     | 説明                     | デフォルト |
-|----------------|--------------------------|------------|
-| `-all-columns` | 全てのカラムを表示します | false      |
-| `-peer`        | アカウントの別名         | default    |
+| Option         | Description              | Default |
+|----------------|--------------------------|---------|
+| `-all-columns` | 全てのカラムを表示します | false   |
+| `-peer`        | アカウントの別名         | default |
 
 共通のオプション:
 
-| オプション        | 説明                                                                                               | デフォルト     |
+| Option            | Description                                                                                        | Default        |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
@@ -117,7 +117,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`...   
 
-| 列                 | 説明                                                                                                 |
+| Column             | Description                                                                                          |
 |--------------------|------------------------------------------------------------------------------------------------------|
 | namespace_name     | 名前空間の名称                                                                                       |
 | namespace_type     | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)               |

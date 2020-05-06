@@ -3,8 +3,8 @@ package fd_file_impl
 import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
@@ -29,17 +29,17 @@ type Spec struct {
 	colExample map[string]app_msg.Message
 }
 
-func (z *Spec) Doc(ui app_ui.UI) *rc_doc.Feed {
-	cols := make([]*rc_doc.FeedColumn, 0)
+func (z *Spec) Doc(ui app_ui.UI) *dc_recipe.Feed {
+	cols := make([]*dc_recipe.FeedColumn, 0)
 	for _, col := range z.Columns() {
-		cols = append(cols, &rc_doc.FeedColumn{
+		cols = append(cols, &dc_recipe.FeedColumn{
 			Name:    col,
 			Desc:    ui.TextOrEmpty(z.ColumnDesc(col)),
 			Example: ui.TextOrEmpty(z.ColumnExample(col)),
 		})
 	}
 
-	return &rc_doc.Feed{
+	return &dc_recipe.Feed{
 		Name:    z.Name(),
 		Desc:    ui.TextOrEmpty(z.Desc()),
 		Columns: cols,

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
+	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"io"
@@ -112,6 +113,10 @@ func (z mdImpl) Progress(m app_msg.Message) {
 
 func (z mdImpl) Code(code string) {
 	_, _ = fmt.Fprintf(z.wr, "```\n%s```\n", code)
+}
+
+func (z mdImpl) Link(artifact rp_artifact.Artifact) {
+	_, _ = fmt.Fprintf(z.wr, "* [%s](%s)\n", artifact.Name(), artifact.Path())
 }
 
 func (z mdImpl) IsConsole() bool {

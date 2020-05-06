@@ -10,10 +10,20 @@ import (
 // Workspace bundle
 type Bundle interface {
 	io.Closer
+
+	// Workspace
 	Workspace() Workspace
+
+	// Logger
 	Logger() es_container.Logger
+
+	// REST logger
 	Capture() es_container.Logger
+
+	// Storage budget
 	Budget() app_budget.Budget
+
+	// Log level for console logs
 	ConsoleLogLevel() es_log.Level
 }
 

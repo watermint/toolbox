@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_doc"
+	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
@@ -26,7 +26,7 @@ func (z *Doc) Preset() {
 
 func (z *Doc) traverseCatalogue(c app_control.Control) error {
 	l := c.Log()
-	sd := make(map[string]*rc_doc.Recipe)
+	sd := make(map[string]*dc_recipe.Recipe)
 	cat := app_catalogue.Current()
 
 	for _, r := range cat.Recipes() {

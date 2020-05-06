@@ -1,4 +1,4 @@
-package app_doc
+package dc_options
 
 import (
 	"github.com/iancoleman/strcase"

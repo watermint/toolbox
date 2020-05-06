@@ -47,15 +47,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション      | 説明                   | デフォルト |
-|-----------------|------------------------|------------|
-| `-dropbox-path` | 転送先のDropboxパス    |            |
-| `-local-path`   | ローカルファイルのパス |            |
-| `-peer`         | アカウントの別名       | default    |
+| Option          | Description            | Default |
+|-----------------|------------------------|---------|
+| `-dropbox-path` | 転送先のDropboxパス    |         |
+| `-local-path`   | ローカルファイルのパス |         |
+| `-peer`         | アカウントの別名       | default |
 
 共通のオプション:
 
-| オプション        | 説明                                                                                               | デフォルト     |
+| Option            | Description                                                                                        | Default        |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
@@ -117,7 +117,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`...   
 
-| 列                     | 説明                                                         |
+| Column                 | Description                                                  |
 |------------------------|--------------------------------------------------------------|
 | status                 | 処理の状態                                                   |
 | reason                 | 失敗またはスキップの理由                                     |
@@ -142,7 +142,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
 
-| 列               | 説明                                             |
+| Column           | Description                                      |
 |------------------|--------------------------------------------------|
 | upload_start     | アップロード開始日時                             |
 | upload_end       | アップロード終了日時                             |
@@ -164,7 +164,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
 
-| 列                     | 説明                                                         |
+| Column                 | Description                                                  |
 |------------------------|--------------------------------------------------------------|
 | status                 | 処理の状態                                                   |
 | reason                 | 失敗またはスキップの理由                                     |

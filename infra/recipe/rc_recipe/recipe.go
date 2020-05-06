@@ -4,8 +4,8 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -319,7 +319,7 @@ type Spec interface {
 	New() Spec
 
 	// Specification document
-	Doc(ui app_ui.UI) *rc_doc.Recipe
+	Doc(ui app_ui.UI) *dc_recipe.Recipe
 }
 
 func NoCustomValues(r Recipe) {}

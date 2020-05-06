@@ -6,13 +6,13 @@ import (
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/doc/dc_options"
+	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_doc"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_value"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"os"
@@ -71,10 +71,10 @@ type specValueSelfContained struct {
 	repo       rc_recipe.Repository
 }
 
-func (z *specValueSelfContained) Doc(ui app_ui.UI) *rc_doc.Recipe {
-	feeds := make([]*rc_doc.Feed, 0)
+func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
+	feeds := make([]*dc_recipe.Feed, 0)
 	feedNames := make([]string, 0)
-	feedMaps := make(map[string]*rc_doc.Feed)
+	feedMaps := make(map[string]*dc_recipe.Feed)
 
 	for _, f := range z.Feeds() {
 		feedMaps[f.Name()] = f.Doc(ui)
@@ -85,9 +85,9 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *rc_doc.Recipe {
 		feeds = append(feeds, feedMaps[f])
 	}
 
-	reports := make([]*rc_doc.Report, 0)
+	reports := make([]*dc_recipe.Report, 0)
 	reportNames := make([]string, 0)
-	reportMap := make(map[string]*rc_doc.Report)
+	reportMap := make(map[string]*dc_recipe.Report)
 
 	for _, r := range z.Reports() {
 		reportMap[r.Name()] = r.Doc(ui)
@@ -98,7 +98,7 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *rc_doc.Recipe {
 		reports = append(reports, reportMap[r])
 	}
 
-	values := make([]*rc_doc.Value, 0)
+	values := make([]*dc_recipe.Value, 0)
 	valueNames := make([]string, len(z.ValueNames()))
 	copy(valueNames, z.ValueNames())
 	sort.Strings(valueNames)
@@ -113,7 +113,7 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *rc_doc.Recipe {
 		v := z.Value(vn)
 		tn, ta := v.Spec()
 		values = append(values,
-			&rc_doc.Value{
+			&dc_recipe.Value{
 				Name:     vn,
 				Default:  ui.Text(dv),
 				Desc:     ui.Text(z.ValueDesc(vn)),
@@ -123,7 +123,7 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *rc_doc.Recipe {
 		)
 	}
 
-	return &rc_doc.Recipe{
+	return &dc_recipe.Recipe{
 		Name:            z.Name(),
 		Title:           ui.Text(z.Title()),
 		Desc:            ui.TextOrEmpty(z.Desc()),
@@ -160,10 +160,10 @@ func (z *specValueSelfContained) PrintUsage(ui app_ui.UI) {
 	ui.Break()
 	ui.Header(MSelfContained.RecipeCommonFlags)
 	com := NewCommonValue()
-	app_doc.PrintOptionsTable(ui, com)
+	dc_options.PrintOptionsTable(ui, com)
 
 	ui.Header(MSelfContained.RecipeAvailableFlags)
-	app_doc.PrintOptionsTable(ui, z)
+	dc_options.PrintOptionsTable(ui, z)
 
 	ui.Break()
 }

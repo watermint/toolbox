@@ -1,4 +1,4 @@
-package ut_doc
+package dc_command
 
 import (
 	"bufio"
@@ -13,13 +13,13 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_resource"
+	"github.com/watermint/toolbox/infra/doc/dc_options"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/recipe/rc_value"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_doc"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
@@ -64,7 +64,7 @@ type Commands struct {
 
 func (z *Commands) optionsTable(ctl app_control.Control, spec rc_recipe.SpecValue) string {
 	return app_ui.MakeMarkdown(ctl.Messages(), func(mui app_ui.UI) {
-		app_doc.PrintOptionsTable(mui, spec)
+		dc_options.PrintOptionsTable(mui, spec)
 	})
 }
 

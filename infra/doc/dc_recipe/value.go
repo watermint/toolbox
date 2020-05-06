@@ -1,4 +1,4 @@
-package rc_doc
+package dc_recipe
 
 type Value struct {
 	Name     string      `json:"name"`

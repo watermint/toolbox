@@ -2,6 +2,7 @@ package app_ui
 
 import (
 	"fmt"
+	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"go.uber.org/atomic"
@@ -50,6 +51,9 @@ type Syntax interface {
 
 	// Code block
 	Code(code string)
+
+	// Link to artifact
+	Link(artifact rp_artifact.Artifact)
 
 	// True when the syntax is for console
 	IsConsole() bool

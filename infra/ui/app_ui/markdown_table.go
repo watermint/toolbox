@@ -16,19 +16,18 @@ func newMdTable(sy Syntax, wr io.Writer, mc app_msg_container.Container, name st
 		sy:      sy,
 		wr:      wr,
 		mc:      mc,
-		numRows: 0,
+		limiter: NewRowLimiter(sy, name),
 		name:    name,
 		header:  []string{},
 		rows:    make([][]string, 0),
 	}
 }
 
-// Stateful:
 type mdTableImpl struct {
 	sy      Syntax
 	wr      io.Writer
 	mc      app_msg_container.Container
-	numRows int
+	limiter RowLimiter
 	name    string
 	header  []string
 	rows    [][]string
@@ -55,15 +54,9 @@ func (z *mdTableImpl) Row(col ...app_msg.Message) {
 }
 
 func (z *mdTableImpl) RowRaw(m ...string) {
-	z.numRows++
-	if z.numRows <= consoleNumRowsThreshold {
+	z.limiter.Row(func() {
 		z.rows = append(z.rows, m)
-	}
-	if z.numRows%consoleNumRowsThreshold == 0 {
-		z.sy.Info(MConsole.Progress.
-			With("Label", z.name).
-			With("Progress", z.numRows))
-	}
+	})
 }
 
 func (z *mdTableImpl) Flush() {
@@ -113,4 +106,6 @@ func (z *mdTableImpl) Flush() {
 		printCols(row)
 	}
 	_, _ = fmt.Fprintln(z.wr, "")
+
+	z.limiter.Flush()
 }

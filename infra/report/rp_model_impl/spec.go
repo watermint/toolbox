@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
-	"github.com/watermint/toolbox/infra/recipe/rc_doc"
+	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_column_impl"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -84,15 +84,15 @@ type ColumnSpec struct {
 	colDesc map[string]app_msg.Message
 }
 
-func (z *ColumnSpec) Doc(ui app_ui.UI) *rc_doc.Report {
-	cols := make([]*rc_doc.ReportColumn, 0)
+func (z *ColumnSpec) Doc(ui app_ui.UI) *dc_recipe.Report {
+	cols := make([]*dc_recipe.ReportColumn, 0)
 	for _, col := range z.Columns() {
-		cols = append(cols, &rc_doc.ReportColumn{
+		cols = append(cols, &dc_recipe.ReportColumn{
 			Name: col,
 			Desc: ui.TextOrEmpty(z.ColumnDesc(col)),
 		})
 	}
-	return &rc_doc.Report{
+	return &dc_recipe.Report{
 		Name:    z.Name(),
 		Desc:    ui.TextOrEmpty(z.Desc()),
 		Columns: cols,

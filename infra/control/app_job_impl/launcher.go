@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"time"
 )
@@ -82,6 +83,12 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 
 func (z launchImpl) Down(err error, ctl app_control.Control) {
 	lg := ctl.Log()
+	ui := ctl.UI()
+
+	artifacts := rp_artifact.Artifacts(ctl.Workspace())
+	for _, artifact := range artifacts {
+		ui.Link(artifact)
+	}
 
 	// Dump stats
 	es_memory.DumpMemStats(lg)

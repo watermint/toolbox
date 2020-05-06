@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_doc"
+	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -51,7 +51,7 @@ type Diff struct {
 func (z *Diff) Preset() {
 }
 
-func (z *Diff) loadSpec(c app_control.Control, relName string) (r map[string]*rc_doc.Recipe, err error) {
+func (z *Diff) loadSpec(c app_control.Control, relName string) (r map[string]*dc_recipe.Recipe, err error) {
 	fn := "spec.json"
 	if relName != "" {
 		fn = "spec_" + relName + ".json"
@@ -65,7 +65,7 @@ func (z *Diff) loadSpec(c app_control.Control, relName string) (r map[string]*rc
 		l.Error("unable to read spec", es_log.Error(err))
 		return nil, err
 	}
-	r = make(map[string]*rc_doc.Recipe)
+	r = make(map[string]*dc_recipe.Recipe)
 	if err = json.Unmarshal(j, &r); err != nil {
 		l.Error("Unable to unmarshal spec", es_log.Error(err))
 		return nil, err
@@ -74,8 +74,8 @@ func (z *Diff) loadSpec(c app_control.Control, relName string) (r map[string]*rc
 }
 
 type diffRowsContext struct {
-	r1               []rc_doc.DocRows
-	r2               []rc_doc.DocRows
+	r1               []dc_recipe.DocRows
+	r2               []dc_recipe.DocRows
 	changeHeader     *sync.Once
 	changeHeaderFunc func()
 	msgAdd           app_msg.Message
@@ -84,8 +84,8 @@ type diffRowsContext struct {
 }
 
 func (z *Diff) diffRows(mui app_ui.UI, dc *diffRowsContext) {
-	r1 := make(map[string]rc_doc.DocRows)
-	r2 := make(map[string]rc_doc.DocRows)
+	r1 := make(map[string]dc_recipe.DocRows)
+	r2 := make(map[string]dc_recipe.DocRows)
 	added := make([]string, 0)
 	deleted := make([]string, 0)
 	changed := make([]string, 0)
@@ -151,7 +151,7 @@ func (z *Diff) diffRows(mui app_ui.UI, dc *diffRowsContext) {
 	}
 }
 
-func (z *Diff) diffSpec(mui app_ui.UI, s1, s2 *rc_doc.Recipe) {
+func (z *Diff) diffSpec(mui app_ui.UI, s1, s2 *dc_recipe.Recipe) {
 	wholeDiff := cmp.Diff(s1, s2)
 	// no diff
 	if wholeDiff == "" {
@@ -189,11 +189,11 @@ func (z *Diff) diffSpec(mui app_ui.UI, s1, s2 *rc_doc.Recipe) {
 		mui.Code(wholeDiff)
 	}
 
-	rr1 := make([]rc_doc.DocRows, 0)
+	rr1 := make([]dc_recipe.DocRows, 0)
 	for _, x := range r1 {
 		rr1 = append(rr1, x)
 	}
-	rr2 := make([]rc_doc.DocRows, 0)
+	rr2 := make([]dc_recipe.DocRows, 0)
 	for _, x := range r2 {
 		rr2 = append(rr2, x)
 	}

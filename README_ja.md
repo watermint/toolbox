@@ -64,7 +64,7 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## コマンド
 
-| コマンド                                                                                             | 説明                                                               |
+| Command                                                                                              | Description                                                        |
 |------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
 | [config disable](doc/generated_ja/config-disable.md)                                                 | 機能を無効化します.                                                |
 | [config enable](doc/generated_ja/config-enable.md)                                                   | 機能を有効化します.                                                |
