@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
-	"github.com/tidwall/gjson"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
@@ -32,7 +31,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_secure"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -100,25 +98,6 @@ func Resources() (ui app_ui.UI) {
 	} else {
 		return app_ui.NewConsole(mc, lg, es_stdout.NewDefaultOut(true), es_dialogue.DenyAll())
 	}
-}
-
-func findTestResource() (resource gjson.Result, found bool) {
-	l := es_log.Default()
-	p, found := os.LookupEnv("TOOLBOX_TESTRESOURCE")
-	if !found {
-		return gjson.Parse("{}"), false
-	}
-	l = l.With(es_log.String("path", p))
-	b, err := ioutil.ReadFile(p)
-	if err != nil {
-		l.Debug("unable to read file", es_log.Error(err))
-		return gjson.Parse("{}"), false
-	}
-	if !gjson.ValidBytes(b) {
-		l.Debug("invalid file content", es_log.ByteString("resource", b))
-		return gjson.Parse("{}"), false
-	}
-	return gjson.ParseBytes(b), true
 }
 
 func TestWithApiContext(t *testing.T, twc func(ctx dbx_context.Context)) {

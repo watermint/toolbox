@@ -29,10 +29,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option           | Description                        | Default                |
-|------------------|------------------------------------|------------------------|
-| `-test-resource` | Path to the test resource location | test/dev/resource.json |
-
 Common options:
 
 | Option            | Description                                                                      | Default              |

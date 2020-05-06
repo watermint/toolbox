@@ -2,6 +2,7 @@ package file
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
@@ -72,7 +73,7 @@ type Size struct {
 	IncludeTeamFolder   bool
 	IncludeMemberFolder bool
 	IncludeAppFolder    bool
-	Name                string
+	Name                mo_string.OptionalString
 	Depth               int
 	NamespaceSize       rp_model.TransactionReport
 }
@@ -136,8 +137,8 @@ func (z *Size) Exec(c app_control.Control) error {
 			l.Debug("Skip", es_log.Any("namespace", namespace))
 			continue
 		}
-		if z.Name != "" && namespace.Name != z.Name {
-			l.Debug("Skip", es_log.Any("namespace", namespace), es_log.String("filter", z.Name))
+		if z.Name.IsExists() && namespace.Name != z.Name.Value() {
+			l.Debug("Skip", es_log.Any("namespace", namespace), es_log.String("filter", z.Name.Value()))
 			continue
 		}
 
@@ -156,7 +157,7 @@ func (z *Size) Exec(c app_control.Control) error {
 func (z *Size) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, &Size{}, func(r rc_recipe.Recipe) {
 		rc := r.(*Size)
-		rc.Name = qt_recipe.TestTeamFolderName
+		rc.Name = mo_string.NewOptional(qt_recipe.TestTeamFolderName)
 		rc.IncludeTeamFolder = false
 		rc.Depth = 1
 

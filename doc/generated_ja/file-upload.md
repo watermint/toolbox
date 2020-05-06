@@ -47,22 +47,22 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| Option           | Description                       | Default |
-|------------------|-----------------------------------|---------|
-| `-chunk-size-kb` | アップロードチャンク容量(Kバイト) | 153600  |
-| `-dropbox-path`  | 転送先のDropboxパス               |         |
-| `-local-path`    | ローカルファイルのパス            |         |
-| `-overwrite`     | 既存のファイルを上書きします      | false   |
-| `-peer`          | アカウントの別名                  | default |
+| オプション       | 説明                              | デフォルト |
+|------------------|-----------------------------------|------------|
+| `-chunk-size-kb` | アップロードチャンク容量(Kバイト) | 153600     |
+| `-dropbox-path`  | 転送先のDropboxパス               |            |
+| `-local-path`    | ローカルファイルのパス            |            |
+| `-overwrite`     | 既存のファイルを上書きします      | false      |
+| `-peer`          | アカウントの別名                  | default    |
 
 共通のオプション:
 
-| Option            | Description                                                                                        | Default        |
+| オプション        | 説明                                                                                               | デフォルト     |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
-| `-budget-memory`  | Memory budget (limits some feature to reduce memory footprint)                                     | normal         |
-| `-budget-storage` | Storage budget (limits logs or some feature to reduce storage usage)                               | normal         |
+| `-budget-memory`  | メモリの割り当て目標 (メモリ使用量を減らすために幾つかの機能が制限されます)                        | normal         |
+| `-budget-storage` | ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します)                            | normal         |
 | `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
 | `-debug`          | デバッグモードを有効にする                                                                         | false          |
 | `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
@@ -114,12 +114,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `skipped.xlsx`
 * `skipped.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`...   
 
-| Column                 | Description                                                  |
+| 列                     | 説明                                                         |
 |------------------------|--------------------------------------------------------------|
 | status                 | 処理の状態                                                   |
 | reason                 | 失敗またはスキップの理由                                     |
@@ -139,12 +139,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `summary.xlsx`
 * `summary.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
 
-| Column           | Description                                      |
+| 列               | 説明                                             |
 |------------------|--------------------------------------------------|
 | upload_start     | アップロード開始日時                             |
 | upload_end       | アップロード終了日時                             |
@@ -161,12 +161,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `uploaded.xlsx`
 * `uploaded.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
 
-| Column                 | Description                                                  |
+| 列                     | 説明                                                         |
 |------------------------|--------------------------------------------------------------|
 | status                 | 処理の状態                                                   |
 | reason                 | 失敗またはスキップの理由                                     |

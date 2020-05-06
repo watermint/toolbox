@@ -1013,7 +1013,7 @@
   },
   "dev kvs dump": {
     "name": "dump",
-    "title": "Dump KVS data",
+    "title": "KVSデータのダンプ",
     "desc": "",
     "remarks": "",
     "path": "dev kvs dump",
@@ -1029,19 +1029,19 @@
     "reports": [
       {
         "name": "result",
-        "desc": "KVS data",
+        "desc": "KVS データ",
         "columns": [
           {
             "name": "key",
-            "desc": "KVS key"
+            "desc": "KVS キー"
           },
           {
             "name": "value",
-            "desc": "KVS value in string"
+            "desc": "KVSの値を文字列"
           },
           {
             "name": "value_json",
-            "desc": "KVS value in JSON"
+            "desc": "KVSの値を JSON"
           }
         ]
       }
@@ -1050,7 +1050,7 @@
     "values": [
       {
         "name": "Path",
-        "desc": "Path to KVS data",
+        "desc": "KVSデータへのパス",
         "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
@@ -1095,15 +1095,7 @@
     "is_irreversible": false,
     "reports": [],
     "feeds": [],
-    "values": [
-      {
-        "name": "TestResource",
-        "desc": "テストリソースへのパス",
-        "default": "test/dev/resource.json",
-        "type_name": "string",
-        "type_attr": null
-      }
-    ]
+    "values": []
   },
   "dev release publish": {
     "name": "publish",
@@ -1151,13 +1143,6 @@
         "desc": "エンドツーエンドテストをスキップします.",
         "default": "false",
         "type_name": "bool",
-        "type_attr": null
-      },
-      {
-        "name": "TestResource",
-        "desc": "テストリソースへのパス",
-        "default": "",
-        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       }
     ]
@@ -1337,13 +1322,6 @@
       {
         "name": "Recipe",
         "desc": "テストするレシピ名",
-        "default": "",
-        "type_name": "domain.common.model.mo_string.opt_string",
-        "type_attr": null
-      },
-      {
-        "name": "Resource",
-        "desc": "テスト用リソースへのパス",
         "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
@@ -5693,7 +5671,7 @@
   },
   "services github release asset download": {
     "name": "download",
-    "title": "Download assets",
+    "title": "アセットをダウンロードします",
     "desc": "",
     "remarks": "(試験的実装です)",
     "path": "services github release asset download",
@@ -5721,7 +5699,7 @@
           },
           {
             "name": "input.file",
-            "desc": "File path"
+            "desc": "ファイルパス"
           }
         ]
       }
@@ -5730,14 +5708,14 @@
     "values": [
       {
         "name": "Owner",
-        "desc": "Owner of the repository",
+        "desc": "レポジトリの所有者",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Path",
-        "desc": "Path to download",
+        "desc": "ダウンロード パス",
         "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
@@ -5746,21 +5724,21 @@
       },
       {
         "name": "Peer",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Release",
-        "desc": "Release tag name",
+        "desc": "リリースタグ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "Name of the repository",
+        "desc": "レポジトリ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
@@ -5805,7 +5783,7 @@
           },
           {
             "name": "download_url",
-            "desc": "Download URL"
+            "desc": "ダウンロードURL"
           }
         ]
       }
@@ -5844,7 +5822,7 @@
   },
   "services github release asset upload": {
     "name": "upload",
-    "title": "Upload assets file into the GitHub Release",
+    "title": "GitHub リリースへ成果物をアップロードします",
     "desc": "",
     "remarks": "(試験的実装です)",
     "path": "services github release asset upload",
@@ -5872,7 +5850,7 @@
           },
           {
             "name": "input.file",
-            "desc": "File path"
+            "desc": "ファイルパス"
           },
           {
             "name": "result.name",
@@ -5892,7 +5870,7 @@
           },
           {
             "name": "result.download_url",
-            "desc": "Download URL"
+            "desc": "ダウンロードURL"
           }
         ]
       }
@@ -5901,7 +5879,7 @@
     "values": [
       {
         "name": "Asset",
-        "desc": "Path to assets",
+        "desc": "成果物のパス",
         "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
@@ -5910,28 +5888,28 @@
       },
       {
         "name": "Owner",
-        "desc": "Owner of the repository",
+        "desc": "レポジトリの所有者",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Peer",
-        "desc": "Account alias",
+        "desc": "アカウントの別名",
         "default": "default",
         "type_name": "domain.github.api.gh_conn_impl.conn_github_repo",
         "type_attr": null
       },
       {
         "name": "Release",
-        "desc": "Release tag name",
+        "desc": "リリースタグ名",
         "default": "",
         "type_name": "string",
         "type_attr": null
       },
       {
         "name": "Repository",
-        "desc": "Name of the repository",
+        "desc": "レポジトリ名",
         "default": "",
         "type_name": "string",
         "type_attr": null

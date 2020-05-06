@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
-	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
@@ -45,7 +44,6 @@ type Publish struct {
 	Branch       string
 	ConnGithub   gh_conn.ConnGithubRepo
 	SkipTests    bool
-	TestResource mo_string.OptionalString
 
 	HeadingReleaseTheme       app_msg.Message
 	HeadingChanges            app_msg.Message
@@ -202,28 +200,10 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 		return qt_errors.ErrorNotEnoughResource
 	}
 
-	testResourcePath := ""
-	if z.TestResource.IsExists() {
-		testResourcePath = z.TestResource.Value()
-	} else {
-		testResourcePath = os.Getenv(app.EnvNameTestResource)
-	}
-
-	if testResourcePath == "" {
-		l.Error("Test resource is not found")
-		return qt_errors.ErrorNotEnoughResource
-	}
-
 	l.Info("Testing all end to end test")
 	err := rc_exec.Exec(c, &test.Recipe{}, func(r rc_recipe.Recipe) {
 		m := r.(*test.Recipe)
 		m.All = true
-		_, err := os.Lstat(testResourcePath)
-		if err == nil {
-			m.Resource = mo_string.NewOptional(testResourcePath)
-		} else {
-			l.Warn("Unable to read test resource", es_log.String("path", testResourcePath), es_log.Error(err))
-		}
 	})
 	return err
 }

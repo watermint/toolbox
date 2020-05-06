@@ -1095,15 +1095,7 @@
     "is_irreversible": false,
     "reports": [],
     "feeds": [],
-    "values": [
-      {
-        "name": "TestResource",
-        "desc": "Path to the test resource location",
-        "default": "test/dev/resource.json",
-        "type_name": "string",
-        "type_attr": null
-      }
-    ]
+    "values": []
   },
   "dev release publish": {
     "name": "publish",
@@ -1151,13 +1143,6 @@
         "desc": "Skip end to end tests.",
         "default": "false",
         "type_name": "bool",
-        "type_attr": null
-      },
-      {
-        "name": "TestResource",
-        "desc": "Path to test resource",
-        "default": "",
-        "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null
       }
     ]
@@ -1337,13 +1322,6 @@
       {
         "name": "Recipe",
         "desc": "Recipe name to test",
-        "default": "",
-        "type_name": "domain.common.model.mo_string.opt_string",
-        "type_attr": null
-      },
-      {
-        "name": "Resource",
-        "desc": "Test resource file path",
         "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
         "type_attr": null

@@ -2,6 +2,7 @@ package file
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -16,7 +17,7 @@ type Size struct {
 	IncludeTeamFolder   bool
 	IncludeMemberFolder bool
 	IncludeAppFolder    bool
-	Name                string
+	Name                mo_string.OptionalString
 	Depth               mo_int.RangeInt
 	NamespaceSize       *file.Size
 	Peer                dbx_conn.ConnBusinessFile
@@ -35,7 +36,6 @@ func (z *Size) Exec(c app_control.Control) error {
 		rc.IncludeTeamFolder = z.IncludeTeamFolder
 		rc.IncludeMemberFolder = z.IncludeMemberFolder
 		rc.IncludeAppFolder = z.IncludeAppFolder
-		rc.Name = z.Name
 		rc.Depth = z.Depth.Value()
 	})
 }

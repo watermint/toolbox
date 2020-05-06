@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/es_log"
@@ -16,21 +15,14 @@ import (
 	"github.com/watermint/toolbox/recipe/dev"
 	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"github.com/watermint/toolbox/recipe/dev/test"
-	"os"
-)
-
-const (
-	defaultTestResource = "test/dev/resource.json"
 )
 
 type Candidate struct {
 	rc_recipe.RemarkSecret
-	TestResource string
-	Auth         *auth.Connect
+	Auth *auth.Connect
 }
 
 func (z *Candidate) Preset() {
-	z.TestResource = defaultTestResource
 }
 
 func (z *Candidate) verifyMessages(c app_control.Control) error {
@@ -103,12 +95,6 @@ func (z *Candidate) Exec(c app_control.Control) error {
 	err = rc_exec.Exec(c, &test.Recipe{}, func(r rc_recipe.Recipe) {
 		m := r.(*test.Recipe)
 		m.All = true
-		_, err := os.Lstat(z.TestResource)
-		if err == nil {
-			m.Resource = mo_string.NewOptional(z.TestResource)
-		} else {
-			l.Warn("Unable to read test resource", es_log.String("path", z.TestResource), es_log.Error(err))
-		}
 	})
 	if err != nil {
 		return err

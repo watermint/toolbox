@@ -64,7 +64,7 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## コマンド
 
-| Command                                                                                              | Description                                                        |
+| コマンド                                                                                             | 説明                                                               |
 |------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
 | [config disable](doc/generated_ja/config-disable.md)                                                 | 機能を無効化します.                                                |
 | [config enable](doc/generated_ja/config-enable.md)                                                   | 機能を有効化します.                                                |
@@ -74,7 +74,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [connect business_info](doc/generated_ja/connect-business_info.md)                                   | チームの情報アクセスに接続する                                     |
 | [connect business_mgmt](doc/generated_ja/connect-business_mgmt.md)                                   | チームの管理アクセスに接続する                                     |
 | [connect user_file](doc/generated_ja/connect-user_file.md)                                           | ユーザーのファイルアクセスに接続する                               |
-| [dev kvs dump](doc/generated_ja/dev-kvs-dump.md)                                                     | Dump KVS data                                                      |
+| [dev kvs dump](doc/generated_ja/dev-kvs-dump.md)                                                     | KVSデータのダンプ                                                  |
 | [file compare account](doc/generated_ja/file-compare-account.md)                                     | 二つのアカウントのファイルを比較します                             |
 | [file compare local](doc/generated_ja/file-compare-local.md)                                         | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy](doc/generated_ja/file-copy.md)                                                           | ファイルをコピーします                                             |
@@ -128,9 +128,9 @@ DropboxおよびDropbox Business向けのツールセット
 | [member update profile](doc/generated_ja/member-update-profile.md)                                   | メンバーのプロフィール変更                                         |
 | [services github issue list](doc/generated_ja/services-github-issue-list.md)                         | 公開・プライベートGitHubレポジトリの課題一覧                       |
 | [services github profile](doc/generated_ja/services-github-profile.md)                               | 認証したユーザーの情報を取得                                       |
-| [services github release asset download](doc/generated_ja/services-github-release-asset-download.md) | Download assets                                                    |
+| [services github release asset download](doc/generated_ja/services-github-release-asset-download.md) | アセットをダウンロードします                                       |
 | [services github release asset list](doc/generated_ja/services-github-release-asset-list.md)         | GitHubリリースの成果物一覧                                         |
-| [services github release asset upload](doc/generated_ja/services-github-release-asset-upload.md)     | Upload assets file into the GitHub Release                         |
+| [services github release asset upload](doc/generated_ja/services-github-release-asset-upload.md)     | GitHub リリースへ成果物をアップロードします                        |
 | [services github release draft](doc/generated_ja/services-github-release-draft.md)                   | リリースの下書きを作成                                             |
 | [services github release list](doc/generated_ja/services-github-release-list.md)                     | リリースの一覧                                                     |
 | [services github tag create](doc/generated_ja/services-github-tag-create.md)                         | レポジトリにタグを作成します                                       |

@@ -29,7 +29,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| Option              | Description                                | Default                                        |
+| オプション          | 説明                                       | デフォルト                                     |
 |---------------------|--------------------------------------------|------------------------------------------------|
 | `-installer-url`    | インストーラーのダウンロードURL            | https://www.dropbox.com/download?full=1&os=win |
 | `-silent`           | サイレントインストーラーを利用します       | false                                          |
@@ -37,12 +37,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 共通のオプション:
 
-| Option            | Description                                                                                        | Default        |
+| オプション        | 説明                                                                                               | デフォルト     |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
-| `-budget-memory`  | Memory budget (limits some feature to reduce memory footprint)                                     | normal         |
-| `-budget-storage` | Storage budget (limits logs or some feature to reduce storage usage)                               | normal         |
+| `-budget-memory`  | メモリの割り当て目標 (メモリ使用量を減らすために幾つかの機能が制限されます)                        | normal         |
+| `-budget-storage` | ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します)                            | normal         |
 | `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
 | `-debug`          | デバッグモードを有効にする                                                                         | false          |
 | `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |

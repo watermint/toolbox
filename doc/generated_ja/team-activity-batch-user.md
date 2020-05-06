@@ -48,22 +48,22 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| Option        | Description                                                                           | Default |
-|---------------|---------------------------------------------------------------------------------------|---------|
-| `-category`   | 一つのイベントカテゴリのみを返すようなフィルター条件. このフィールドはオプションです. |         |
-| `-end-time`   | 終了日時 (該当同時刻を含まない).                                                      |         |
-| `-file`       | メールアドレスリストのファイル                                                        |         |
-| `-peer`       | アカウントの別名                                                                      | default |
-| `-start-time` | 開始日時 (該当時刻を含む)                                                             |         |
+| オプション    | 説明                                                                                  | デフォルト |
+|---------------|---------------------------------------------------------------------------------------|------------|
+| `-category`   | 一つのイベントカテゴリのみを返すようなフィルター条件. このフィールドはオプションです. |            |
+| `-end-time`   | 終了日時 (該当同時刻を含まない).                                                      |            |
+| `-file`       | メールアドレスリストのファイル                                                        |            |
+| `-peer`       | アカウントの別名                                                                      | default    |
+| `-start-time` | 開始日時 (該当時刻を含む)                                                             |            |
 
 共通のオプション:
 
-| Option            | Description                                                                                        | Default        |
+| オプション        | 説明                                                                                               | デフォルト     |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
-| `-budget-memory`  | Memory budget (limits some feature to reduce memory footprint)                                     | normal         |
-| `-budget-storage` | Storage budget (limits logs or some feature to reduce storage usage)                               | normal         |
+| `-budget-memory`  | メモリの割り当て目標 (メモリ使用量を減らすために幾つかの機能が制限されます)                        | normal         |
+| `-budget-storage` | ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します)                            | normal         |
 | `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
 | `-debug`          | デバッグモードを有効にする                                                                         | false          |
 | `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
@@ -78,9 +78,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 メンバーのアクティビティを一括取得するためのデータファイル. 
 
-| Column | Description              | Value example    |
-|--------|--------------------------|------------------|
-| email  | ユーザーのメールアドレス | john@example.com |
+| 列    | 説明                     | 値の例           |
+|-------|--------------------------|------------------|
+| email | ユーザーのメールアドレス | john@example.com |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
 
@@ -132,12 +132,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `combined.xlsx`
 * `combined.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `combined_0000.xlsx`, `combined_0001.xlsx`, `combined_0002.xlsx`...   
 
-| Column                   | Description                                                     |
+| 列                       | 説明                                                            |
 |--------------------------|-----------------------------------------------------------------|
 | timestamp                | このアクションが実行されたDropbox側でのタイムスタンプ.          |
 | member                   | ユーザーの表示名                                                |
@@ -161,12 +161,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `user.xlsx`
 * `user.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`...   
 
-| Column                   | Description                                                     |
+| 列                       | 説明                                                            |
 |--------------------------|-----------------------------------------------------------------|
 | timestamp                | このアクションが実行されたDropbox側でのタイムスタンプ.          |
 | member                   | ユーザーの表示名                                                |

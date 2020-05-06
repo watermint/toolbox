@@ -163,6 +163,74 @@
   	... // 3 identical fields
   }
 ```
+# Command spec changed: `dev release candidate`
+
+
+## Command configuration changed
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values: []*dc_recipe.Value{
+- 		&{
+- 			Name:     "TestResource",
+- 			Desc:     "Path to the test resource location",
+- 			Default:  "test/dev/resource.json",
+- 			TypeName: "string",
+- 		},
+- 	},
++ 	Values: []*dc_recipe.Value{},
+  }
+```
+# Command spec changed: `dev release publish`
+
+
+## Command configuration changed
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 2 identical elements
+  		&{Name: "ConnGithub", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo"},
+  		&{Name: "SkipTests", Desc: "Skip end to end tests.", Default: "false", TypeName: "bool"},
+- 		&{
+- 			Name:     "TestResource",
+- 			Desc:     "Path to test resource",
+- 			TypeName: "domain.common.model.mo_string.opt_string",
+- 		},
+  	},
+  }
+```
+# Command spec changed: `dev test recipe`
+
+
+## Command configuration changed
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "All", Desc: "Test all recipes", Default: "false", TypeName: "bool"},
+  		&{Name: "Recipe", Desc: "Recipe name to test", TypeName: "domain.common.model.mo_string.opt_string"},
+- 		&{
+- 			Name:     "Resource",
+- 			Desc:     "Test resource file path",
+- 			TypeName: "domain.common.model.mo_string.opt_string",
+- 		},
+  		&{Name: "Verbose", Desc: "Verbose output for testing", Default: "false", TypeName: "bool"},
+  	},
+  }
+```
 # Command spec changed: `services github issue list`
 
 

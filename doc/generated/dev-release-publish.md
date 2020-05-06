@@ -35,7 +35,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-branch`        | Target branch          | master  |
 | `-conn-github`   | Account alias          | default |
 | `-skip-tests`    | Skip end to end tests. | false   |
-| `-test-resource` | Path to test resource  |         |
 
 Common options:
 

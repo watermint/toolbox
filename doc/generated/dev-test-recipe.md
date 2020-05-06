@@ -29,12 +29,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option      | Description                | Default |
-|-------------|----------------------------|---------|
-| `-all`      | Test all recipes           | false   |
-| `-recipe`   | Recipe name to test        |         |
-| `-resource` | Test resource file path    |         |
-| `-verbose`  | Verbose output for testing | false   |
+| Option     | Description                | Default |
+|------------|----------------------------|---------|
+| `-all`     | Test all recipes           | false   |
+| `-recipe`  | Recipe name to test        |         |
+| `-verbose` | Verbose output for testing | false   |
 
 Common options:
 

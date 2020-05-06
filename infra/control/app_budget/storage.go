@@ -1,6 +1,7 @@
 package app_budget
 
 import (
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/essentials/log/es_rotate"
 	"math"
 )
@@ -39,6 +40,8 @@ func StorageBudget(budget Budget) (chunkSize, quota int64, numBackup int) {
 	case BudgetUnlimited:
 		return unlimitedChunkSize, unlimitedQuota, unlimitedNumBackup
 	default:
-		panic("unsupported budget type :" + budget)
+		l := es_log.Default()
+		l.Error("Unsupported budget type, fallback to BudgetNormal", es_log.String("budget", string(budget)))
+		return StorageBudget(BudgetNormal)
 	}
 }

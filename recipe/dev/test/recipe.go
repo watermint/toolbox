@@ -2,7 +2,6 @@ package test
 
 import (
 	"errors"
-	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
@@ -10,18 +9,17 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"io/ioutil"
 	"strings"
 	"time"
 )
 
 type Recipe struct {
 	rc_recipe.RemarkSecret
-	All      bool
-	Recipe   mo_string.OptionalString
-	Resource mo_string.OptionalString
-	Verbose  bool
+	All     bool
+	Recipe  mo_string.OptionalString
+	Verbose bool
 }
 
 func (z *Recipe) Preset() {
@@ -39,9 +37,9 @@ func (z *Recipe) runSingle(c app_control.Control, r rc_recipe.Recipe) error {
 
 	cn := strings.Join(path, "-") + "-" + name
 	return app_workspace.WithFork(c.WorkBundle(), cn, func(fwb app_workspace.Bundle) error {
-		cf := c.WithBundle(fwb)
+		cf := c.WithBundle(fwb).WithFeature(c.Feature().AsTest(false))
 		if !z.Verbose {
-			cf = cf.WithFeature(cf.Feature().AsQuiet())
+			cf = cf.WithFeature(cf.Feature().AsQuiet()).WithUI(app_ui.NewDiscard(c.Messages(), c.Log()))
 		}
 
 		l.Debug("Testing: ")
@@ -74,21 +72,11 @@ func (z *Recipe) Exec(c app_control.Control) error {
 	cat := app_catalogue.Current()
 	l := c.Log()
 
-	if z.Resource.IsExists() {
-		ll := l.With(es_log.String("resource", z.Resource.Value()))
-		b, err := ioutil.ReadFile(z.Resource.Value())
-		if err != nil {
-			ll.Error("Unable to read resource file", es_log.Error(err))
-			return err
-		}
-		if !gjson.ValidBytes(b) {
-			ll.Error("Invalid JSON format of resource file")
-			return err
-		}
-	}
-
 	switch {
 	case z.All:
+		if err := z.runAll(c); err != nil {
+			return err
+		}
 
 	case z.Recipe.IsExists():
 		for _, r := range cat.Recipes() {

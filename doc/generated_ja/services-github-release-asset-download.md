@@ -1,6 +1,6 @@
 # services github release asset download 
 
-Download assets (試験的実装です)
+アセットをダウンロードします (試験的実装です)
 
 # 利用方法
 
@@ -29,22 +29,22 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-owner`      | Owner of the repository |         |
-| `-path`       | Path to download        |         |
-| `-peer`       | Account alias           | default |
-| `-release`    | Release tag name        |         |
-| `-repository` | Name of the repository  |         |
+| オプション    | 説明               | デフォルト |
+|---------------|--------------------|------------|
+| `-owner`      | レポジトリの所有者 |            |
+| `-path`       | ダウンロード パス  |            |
+| `-peer`       | アカウントの別名   | default    |
+| `-release`    | リリースタグ名     |            |
+| `-repository` | レポジトリ名       |            |
 
 共通のオプション:
 
-| Option            | Description                                                                                        | Default        |
+| オプション        | 説明                                                                                               | デフォルト     |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
-| `-budget-memory`  | Memory budget (limits some feature to reduce memory footprint)                                     | normal         |
-| `-budget-storage` | Storage budget (limits logs or some feature to reduce storage usage)                               | normal         |
+| `-budget-memory`  | メモリの割り当て目標 (メモリ使用量を減らすために幾つかの機能が制限されます)                        | normal         |
+| `-budget-storage` | ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します)                            | normal         |
 | `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
 | `-debug`          | デバッグモードを有効にする                                                                         | false          |
 | `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
@@ -74,14 +74,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 * `downloads.xlsx`
 * `downloads.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `downloads_0000.xlsx`, `downloads_0001.xlsx`, `downloads_0002.xlsx`...   
 
-| Column     | Description              |
+| 列         | 説明                     |
 |------------|--------------------------|
 | status     | 処理の状態               |
 | reason     | 失敗またはスキップの理由 |
-| input.file | File path                |
+| input.file | ファイルパス             |
 
