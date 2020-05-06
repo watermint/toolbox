@@ -29,7 +29,7 @@ var (
 )
 
 func Network(ctl app_control.Control) error {
-	l := ctl.Log()
+	l := ctl.WorkBundle().Summary().Logger()
 	ui := ctl.UI()
 	ui.Info(MNetwork.ProgressTesting)
 	doPrompt := true

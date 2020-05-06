@@ -12,7 +12,7 @@ func Runtime(ctl app_control.Control) error {
 	hostname, _ := os.Hostname()
 	wd, _ := os.Getwd()
 	usr, _ := user.Current()
-	l := ctl.Log()
+	l := ctl.WorkBundle().Summary().Logger()
 
 	l.Debug("Runtime",
 		es_log.String("os", runtime.GOOS),

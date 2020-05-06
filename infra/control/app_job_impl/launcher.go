@@ -60,6 +60,7 @@ func (z launchImpl) recordResultLog(err error) error {
 
 func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	lg := z.wb.Logger().Logger()
+	sm := z.wb.Summary().Logger()
 	fe := app_feature_impl.NewFeature(z.com, z.wb.Workspace())
 	ctl = app_control_impl.New(z.wb, z.ui, fe)
 
@@ -71,7 +72,7 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	es_http.LaunchReporting(lg)
 	es_memory.LaunchReporting(lg)
 
-	lg.Debug("Up completed",
+	sm.Debug("Up completed",
 		es_log.String("name", app.Name),
 		es_log.String("ver", app.Version),
 		es_log.String("hash", app.Hash),
@@ -82,7 +83,7 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 }
 
 func (z launchImpl) Down(err error, ctl app_control.Control) {
-	lg := ctl.Log()
+	sm := ctl.WorkBundle().Summary().Logger()
 	ui := ctl.UI()
 
 	artifacts := rp_artifact.Artifacts(ctl.Workspace())
@@ -91,12 +92,12 @@ func (z launchImpl) Down(err error, ctl app_control.Control) {
 	}
 
 	// Dump stats
-	es_memory.DumpMemStats(lg)
-	es_http.DumpStats(lg)
+	es_memory.DumpMemStats(sm)
+	es_http.DumpStats(sm)
 
 	_ = z.recordResultLog(err)
 
-	lg.Debug("Down completed", es_log.Error(err))
+	sm.Debug("Down completed", es_log.Error(err))
 
 	// Close work bundle
 	_ = z.wb.Close()

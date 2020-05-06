@@ -174,6 +174,14 @@ func (z RotateOpts) Apply(opts ...RotateOpt) RotateOpts {
 type RotateOpt func(o RotateOpts) RotateOpts
 
 // Compress the log file on rotate
+func CompressEnabled(enabled bool) RotateOpt {
+	return func(o RotateOpts) RotateOpts {
+		o.compress = enabled
+		return o
+	}
+}
+
+// Compress the log file on rotate
 func Compress() RotateOpt {
 	return func(o RotateOpts) RotateOpts {
 		o.compress = true

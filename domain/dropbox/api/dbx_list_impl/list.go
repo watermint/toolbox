@@ -139,6 +139,7 @@ func (z listImpl) isContinue(lo dbx_list.ListOpts, res es_response.Response) (co
 }
 
 func (z listImpl) list(lo dbx_list.ListOpts) dbx_response.Response {
+	app_ui.ShowLongRunningProgress(z.ctx.UI(), z.reqEndpoint, MList.ProgressRetrieve)
 	res := z.ctx.Post(z.reqEndpoint, z.reqData...)
 	return z.handleResponse(lo, res)
 }

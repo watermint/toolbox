@@ -11,7 +11,7 @@ import (
 const (
 	FlavorConsole      = iota
 	FlavorFileStandard // for debug log
-	FlavorFileCompact  // for capture log
+	FlavorFileCapture  // for capture log
 )
 
 type Flavor int
@@ -39,10 +39,10 @@ func newFlavor(f Flavor) zapcoreuber.Encoder {
 			EncodeCaller:   zapcoreuber.ShortCallerEncoder,
 		})
 
-	case FlavorFileCompact:
+	case FlavorFileCapture:
 		return zapcoreuber.NewJSONEncoder(zapcoreuber.EncoderConfig{
 			TimeKey:        "time",
-			NameKey:        "name",
+			MessageKey:     "msg",
 			EncodeTime:     zapcoreuber.ISO8601TimeEncoder,
 			EncodeDuration: zapcoreuber.StringDurationEncoder,
 			EncodeCaller:   zapcoreuber.ShortCallerEncoder,

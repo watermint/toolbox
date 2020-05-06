@@ -71,4 +71,5 @@ const (
 const (
 	LogToolbox = "toolbox"
 	LogCapture = "capture"
+	LogSummary = "summary"
 )

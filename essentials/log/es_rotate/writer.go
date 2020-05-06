@@ -80,7 +80,7 @@ func (z *writerImpl) rotate() (err error) {
 	}
 
 	// Enqueue rotation
-	rotate(MsgRotate{
+	enqueueRotate(MsgRotate{
 		Opts: z.ro,
 	})
 

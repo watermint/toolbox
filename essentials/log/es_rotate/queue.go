@@ -58,10 +58,11 @@ func purgeLoop() {
 			m.Opts.rotateHook(m.Path)
 		}
 
+		l := es_log.Default()
 		// clean up
+		l.Info("Removing the old log that exceeds the quota", es_log.String("path", m.Path))
 		err = os.Remove(m.Path)
 		if err != nil {
-			l := es_log.Default()
 			l.Error("Unable to remove log file", es_log.String("path", m.Path), es_log.Error(err))
 			poisonLogs[m.Path] = err
 		}
@@ -80,7 +81,7 @@ func execRotate(m MsgRotate) {
 
 	for _, path := range targets {
 		l.Debug("Purge log", es_log.String("entry", path))
-		purge(MsgPurge{
+		enqueuePurge(MsgPurge{
 			Path: path,
 			Opts: m.Opts,
 		})
@@ -114,7 +115,7 @@ func execOut(m MsgOut) {
 	_ = es_gzip.Compress(m.Path)
 }
 
-func purge(m MsgPurge) {
+func enqueuePurge(m MsgPurge) {
 	if queuePurge != nil {
 		queuePurge <- m
 	}
@@ -129,7 +130,7 @@ func rotateOut(m MsgOut) bool {
 	}
 }
 
-func rotate(m MsgRotate) {
+func enqueueRotate(m MsgRotate) {
 	if queueRotate != nil {
 		queueRotate <- m
 	}

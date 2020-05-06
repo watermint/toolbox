@@ -22,33 +22,43 @@ type Logger interface {
 	Close()
 }
 
-func NewDual(basePath string, budget app_budget.Budget, consoleLevel es_log.Level) (t, c Logger, err error) {
+func NewAll(basePath string, budget app_budget.Budget, consoleLevel es_log.Level) (t, c, s Logger, err error) {
 	t, err = NewToolbox(basePath, budget, consoleLevel)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
 	c, err = NewCapture(basePath, budget)
 	if err != nil {
 		t.Close()
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
-	return t, c, nil
+	s, err = LogSummary(basePath)
+	if err != nil {
+		t.Close()
+		c.Close()
+		return nil, nil, nil, err
+	}
+	return
 }
 
 func NewToolbox(basePath string, budget app_budget.Budget, consoleLevel es_log.Level) (c Logger, err error) {
-	return New(basePath, app.LogToolbox, budget, es_log.LevelDebug, consoleLevel, es_log.FlavorFileStandard, true)
+	return New(basePath, app.LogToolbox, budget, es_log.LevelDebug, consoleLevel, es_log.FlavorFileStandard, true, true)
 }
 
 func NewCapture(basePath string, budget app_budget.Budget) (c Logger, err error) {
-	return New(basePath, app.LogCapture, budget, es_log.LevelDebug, es_log.LevelInfo, es_log.FlavorFileCompact, false)
+	return New(basePath, app.LogCapture, budget, es_log.LevelDebug, es_log.LevelInfo, es_log.FlavorFileCapture, false, true)
 }
 
-func New(basePath, name string, budget app_budget.Budget, fileLevel, consoleLevel es_log.Level, flavor es_log.Flavor, teeConsole bool) (c Logger, err error) {
+func LogSummary(basePath string) (c Logger, err error) {
+	return New(basePath, app.LogSummary, app_budget.BudgetUnlimited, es_log.LevelDebug, es_log.LevelInfo, es_log.FlavorFileStandard, false, false)
+}
+
+func New(basePath, name string, budget app_budget.Budget, fileLevel, consoleLevel es_log.Level, flavor es_log.Flavor, teeConsole, compress bool) (c Logger, err error) {
 	w := es_rotate.NewWriter(basePath, name)
 
 	cs, qt, nb := app_budget.StorageBudget(budget)
 	err = w.Open(
-		es_rotate.Compress(),
+		es_rotate.CompressEnabled(compress),
 		es_rotate.ChunkSize(cs),
 		es_rotate.Quota(qt),
 		es_rotate.NumBackup(nb),

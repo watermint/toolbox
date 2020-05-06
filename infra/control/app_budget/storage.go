@@ -1,16 +1,19 @@
 package app_budget
 
-import "github.com/watermint/toolbox/essentials/log/es_rotate"
+import (
+	"github.com/watermint/toolbox/essentials/log/es_rotate"
+	"math"
+)
 
 const (
-	unlimitedChunkSize = 400 * 1048576 // 400KiB
+	unlimitedChunkSize = math.MaxInt64 // no rotate
 	unlimitedQuota     = es_rotate.UnlimitedQuota
 	unlimitedNumBackup = es_rotate.UnlimitedBackups
-	standardChunkSize  = 200 * 1024   // 200KiB
-	standardQuota      = 50 * 1048576 // 100MiB
+	standardChunkSize  = 200 * 1024    // 200KiB
+	standardQuota      = 500 * 1048576 // 500MiB * 2 = 1000MiB
 	standardNumBackup  = es_rotate.UnlimitedBackups
-	lowChunkSize       = 100 * 1024  // 100KiB
-	lowQuota           = 5 * 1048576 // 10MiB
+	lowChunkSize       = 100 * 1024   // 100KiB
+	lowQuota           = 50 * 1048576 // 5MiB * 2 =  100MiB
 	lowNumBackup       = es_rotate.UnlimitedBackups
 
 	BudgetLow       Budget = "low"

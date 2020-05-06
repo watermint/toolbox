@@ -20,6 +20,9 @@ type Bundle interface {
 	// REST logger
 	Capture() es_container.Logger
 
+	// Summary logger
+	Summary() es_container.Logger
+
 	// Storage budget
 	Budget() app_budget.Budget
 
@@ -32,7 +35,7 @@ func ForkBundle(wb Bundle, name string) (bundle Bundle, err error) {
 	if err != nil {
 		return nil, err
 	}
-	l, c, err := es_container.NewDual(nws.Log(), wb.Budget(), wb.ConsoleLogLevel())
+	l, c, s, err := es_container.NewAll(nws.Log(), wb.Budget(), wb.ConsoleLogLevel())
 	if err != nil {
 		return nil, err
 	}
@@ -40,6 +43,7 @@ func ForkBundle(wb Bundle, name string) (bundle Bundle, err error) {
 		ws:      nws,
 		logger:  l,
 		capture: c,
+		summary: s,
 	}, nil
 }
 
@@ -59,7 +63,7 @@ func NewBundle(home string, budget app_budget.Budget, consoleLevel es_log.Level)
 	if err != nil {
 		return nil, err
 	}
-	l, c, err := es_container.NewDual(ws.Log(), budget, consoleLevel)
+	l, c, s, err := es_container.NewAll(ws.Log(), budget, consoleLevel)
 	if err != nil {
 		return nil, err
 	}
@@ -69,6 +73,7 @@ func NewBundle(home string, budget app_budget.Budget, consoleLevel es_log.Level)
 		ws:      ws,
 		logger:  l,
 		capture: c,
+		summary: s,
 	}, nil
 }
 
@@ -77,7 +82,12 @@ type bdlImpl struct {
 	conLv   es_log.Level
 	capture es_container.Logger
 	logger  es_container.Logger
+	summary es_container.Logger
 	ws      Workspace
+}
+
+func (z bdlImpl) Summary() es_container.Logger {
+	return z.summary
 }
 
 func (z bdlImpl) ConsoleLogLevel() es_log.Level {
@@ -91,6 +101,7 @@ func (z bdlImpl) Budget() app_budget.Budget {
 func (z bdlImpl) Close() error {
 	z.logger.Close()
 	z.capture.Close()
+	z.summary.Close()
 	return nil
 }
 

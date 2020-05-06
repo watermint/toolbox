@@ -188,7 +188,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	// Run
 	var lastErr error
-	ctl.Log().Debug("Run recipe", es_log.Any("vo", rcp.Debug()), es_log.Any("common", com))
+	ctl.WorkBundle().Summary().Logger().Debug("Run recipe", es_log.Any("vo", rcp.Debug()), es_log.Any("common", com))
 	lastErr = rc_exec.ExecSpec(ctl, rcp, rc_recipe.NoCustomValues)
 
 	// shutdown job
