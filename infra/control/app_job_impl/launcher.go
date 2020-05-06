@@ -96,6 +96,8 @@ func (z launchImpl) Down(err error, ctl app_control.Control) {
 
 	_ = z.recordResultLog(err)
 
+	lg.Debug("Down completed", es_log.Error(err))
+
 	// Close work bundle
 	_ = z.wb.Close()
 }

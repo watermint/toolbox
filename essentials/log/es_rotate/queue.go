@@ -120,9 +120,12 @@ func purge(m MsgPurge) {
 	}
 }
 
-func rotateOut(m MsgOut) {
+func rotateOut(m MsgOut) bool {
 	if queueOut != nil {
 		queueOut <- m
+		return true
+	} else {
+		return false
 	}
 }
 

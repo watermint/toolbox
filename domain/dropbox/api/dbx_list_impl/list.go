@@ -10,6 +10,16 @@ import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
+)
+
+type MsgList struct {
+	ProgressRetrieve app_msg.Message
+}
+
+var (
+	MList = app_msg.Apply(&MsgList{}).(*MsgList)
 )
 
 var (
@@ -139,6 +149,7 @@ func (z listImpl) listContinue(lo dbx_list.ListOpts, cursor string) dbx_response
 	}{
 		Cursor: cursor,
 	}
+	app_ui.ShowLongRunningProgress(z.ctx.UI(), z.reqEndpoint, MList.ProgressRetrieve)
 	res := z.ctx.Post(lo.ContinueEndpoint, api_request.Param(p))
 
 	return z.handleResponse(lo, res)

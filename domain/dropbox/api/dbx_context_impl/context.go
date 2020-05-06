@@ -15,6 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_rest"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"net/http"
 )
 
@@ -43,6 +44,10 @@ type ctxImpl struct {
 	client  nw_client.Rest
 	ctl     app_control.Control
 	builder dbx_request.Builder
+}
+
+func (z ctxImpl) UI() app_ui.UI {
+	return z.ctl.UI()
 }
 
 func (z ctxImpl) ClientHash() string {

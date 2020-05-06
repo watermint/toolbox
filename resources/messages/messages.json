@@ -876,6 +876,8 @@
   "infra.report.rp_model_impl.msg_transaction_report.failure": "Failure",
   "infra.report.rp_model_impl.msg_transaction_report.skip": "Skip",
   "infra.report.rp_model_impl.msg_transaction_report.success": "Success",
+  "domain.dropbox.api.dbx_list_impl.msg_list.progress_retrieve": " {{.Time}}: Retrieving data from Dropbox...",
+  "infra.report.rp_writer_impl.msg_sorted_writer.progress_preparing": "Preparing report: {{.Counter}}",
   "infra.report.rp_writer_impl.msg_sorted_writer.progress_sorting": "Sorting report: {{.Counter}}",
   "infra.report.rp_writer_impl.msg_xlsx_writer.unable_to_open": "xlsx Report: Unable to create report file `{{.Path}}` with an error: {{.Error}}",
   "infra.ui.app_ui.msg_console.large_report": "{{.Num}} records. Please see the report file for more detail.",

@@ -168,17 +168,34 @@ func TestArrayImpl_Append(t *testing.T) {
 }
 
 func TestArrayImpl_Intersection(t *testing.T) {
-	a := NewByInterface(1, 2, 3)
-	b := a.Intersection(NewByInterface(2, 3, 4))
-	if b.Size() != 2 {
-		t.Error(b.Size())
+	{
+		a := NewByInterface(1, 2, 3)
+		b := a.Intersection(NewByInterface(2, 3, 4))
+		if b.Size() != 2 {
+			t.Error(b.Size())
+		}
+		c := b.Sort()
+		if x := c.Entries()[0].AsNumber().Int(); x != 2 {
+			t.Error(x)
+		}
+		if x := c.Entries()[1].AsNumber().Int(); x != 3 {
+			t.Error(x)
+		}
 	}
-	c := b.Sort()
-	if x := c.Entries()[0].AsNumber().Int(); x != 2 {
-		t.Error(x)
-	}
-	if x := c.Entries()[1].AsNumber().Int(); x != 3 {
-		t.Error(x)
+
+	{
+		a := NewByInterface("1", "2", "3")
+		b := a.Intersection(NewByInterface("2", "3", "4"))
+		if b.Size() != 2 {
+			t.Error(b.Size())
+		}
+		c := b.Sort()
+		if x := c.Entries()[0].Hash(); x != "2" {
+			t.Error(x)
+		}
+		if x := c.Entries()[1].Hash(); x != "3" {
+			t.Error(x)
+		}
 	}
 }
 
@@ -206,18 +223,49 @@ func TestArrayImpl_Union(t *testing.T) {
 	}
 }
 
+func TestArrayImpl_Diff(t *testing.T) {
+	a := NewByInterface(1, 2, 3)
+	b := a.Diff(NewByInterface(3, 8, 9))
+	if b.Size() != 2 {
+		t.Error(b.Size())
+	}
+	c := b.Sort()
+	if x := c.Entries()[0].AsNumber().Int(); x != 1 {
+		t.Error(x)
+	}
+	if x := c.Entries()[1].AsNumber().Int(); x != 2 {
+		t.Error(x)
+	}
+}
+
 func TestArrayImpl_Sort(t *testing.T) {
-	a := NewByInterface(3, 1, 2)
-	b := a.Sort()
-	if x := b.Entries()[0].AsNumber().Int(); x != 1 {
-		t.Error(x)
+	{
+		a := NewByInterface(3, 1, 2)
+		b := a.Sort()
+		if x := b.Entries()[0].AsNumber().Int(); x != 1 {
+			t.Error(x)
+		}
+		if x := b.Entries()[1].AsNumber().Int(); x != 2 {
+			t.Error(x)
+		}
+		if x := b.Entries()[2].AsNumber().Int(); x != 3 {
+			t.Error(x)
+		}
 	}
-	if x := b.Entries()[1].AsNumber().Int(); x != 2 {
-		t.Error(x)
+	{
+		a := NewByInterface("3", "1", "2")
+		b := a.Sort()
+		if x := b.Entries()[0].Hash(); x != "1" {
+			t.Error(x)
+		}
+		if x := b.Entries()[1].Hash(); x != "2" {
+			t.Error(x)
+		}
+		if x := b.Entries()[2].Hash(); x != "3" {
+			t.Error(x)
+		}
 	}
-	if x := b.Entries()[2].AsNumber().Int(); x != 3 {
-		t.Error(x)
-	}
+
 }
 
 func TestArrayImpl_AsStringArray(t *testing.T) {

@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 const (
@@ -43,6 +44,8 @@ type Context interface {
 	AsAdminId(teamMemberId string) Context
 	WithPath(pathRoot PathRoot) Context
 	NoAuth() Context
+
+	UI() app_ui.UI
 }
 
 type PathRoot interface {

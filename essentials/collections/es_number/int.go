@@ -15,21 +15,21 @@ func (z intImpl) Compare(other Number) int {
 		o := other.Int64()
 		switch {
 		case z.v < o:
-			return 1
+			return -1
 		case z.v == o:
 			return 0
 		default:
-			return -1
+			return 1
 		}
 	}
 	o := int64(other.Float64())
 	switch {
 	case z.v < o:
-		return 1
+		return -1
 	case z.v == o:
 		return 0
 	default:
-		return -1
+		return 1
 	}
 }
 

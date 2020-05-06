@@ -6,6 +6,7 @@ import (
 	domaindropboxapidbx_auth "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	domaindropboxapidbx_auth_attr "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	domaindropboxapidbx_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	domaindropboxapidbx_list_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_list_impl"
 	domaindropboxapidbx_util "github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	domaindropboxusecaseuc_compare_local "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
 	domaindropboxusecaseuc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
@@ -14,8 +15,8 @@ import (
 	infraapiapi_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
 	infraapiapi_callback "github.com/watermint/toolbox/infra/api/api_callback"
 	infracontrolapp_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
-	infrautilut_doc "github.com/watermint/toolbox/infra/doc/dc_command"
-	infrauiapp_doc "github.com/watermint/toolbox/infra/doc/dc_options"
+	infradocdc_command "github.com/watermint/toolbox/infra/doc/dc_command"
+	infradocdc_options "github.com/watermint/toolbox/infra/doc/dc_options"
 	infrafeedfd_file_impl "github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	infrakvskv_storage_impl "github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
 	infranetworknw_diag "github.com/watermint/toolbox/infra/network/nw_diag"
@@ -52,6 +53,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxapidbx_auth.MsgGenerated{},
 		&domaindropboxapidbx_auth_attr.MsgAttr{},
 		&domaindropboxapidbx_conn_impl.MsgConnect{},
+		&domaindropboxapidbx_list_impl.MsgList{},
 		&domaindropboxapidbx_util.MsgError{},
 		&domaindropboxusecaseuc_compare_local.MsgCompare{},
 		&domaindropboxusecaseuc_compare_paths.MsgCompare{},
@@ -62,6 +64,9 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infraapiapi_auth_impl.MsgApiAuth{},
 		&infraapiapi_callback.MsgCallback{},
 		&infracontrolapp_workflow.MsgRunBook{},
+		&infradocdc_command.MsgCommands{},
+		&infradocdc_command.MsgDoc{},
+		&infradocdc_options.MsgDoc{},
 		&infrafeedfd_file_impl.MsgRowFeed{},
 		&infrakvskv_storage_impl.MsgStorage{},
 		&infranetworknw_diag.MsgNetwork{},
@@ -74,11 +79,8 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infrareportrp_model_impl.MsgTransactionReport{},
 		&infrareportrp_writer_impl.MsgSortedWriter{},
 		&infrareportrp_writer_impl.MsgXlsxWriter{},
-		&infrauiapp_doc.MsgDoc{},
 		&infrauiapp_ui.MsgConsole{},
 		&infrauiapp_ui.MsgProgress{},
-		&infrautilut_doc.MsgCommands{},
-		&infrautilut_doc.MsgDoc{},
 		&ingredientfile.MsgUpload{},
 		&ingredientteamnamespacefile.MsgList{},
 		&ingredientteamnamespacefile.MsgSize{},

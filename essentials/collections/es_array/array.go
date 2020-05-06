@@ -59,6 +59,9 @@ type Array interface {
 	// Returns unique union entries of other and this array.
 	Union(other Array) Array
 
+	// Returns an array removing all occurrences of entries in other.
+	Diff(other Array) Array
+
 	// Returns sorted array
 	Sort() Array
 
@@ -84,6 +87,16 @@ type Array interface {
 func Empty() Array {
 	return &arrayImpl{
 		entries: make([]interface{}, 0),
+	}
+}
+
+func NewByString(entries ...string) Array {
+	vals := make([]interface{}, len(entries))
+	for i, entry := range entries {
+		vals[i] = entry
+	}
+	return &arrayImpl{
+		entries: vals,
 	}
 }
 
@@ -282,10 +295,19 @@ func (z arrayImpl) Union(other Array) Array {
 	return NewByHashValueMap(em)
 }
 
+func (z arrayImpl) Diff(other Array) Array {
+	em := z.HashMap()
+	em2 := other.HashMap()
+	for k := range em2 {
+		delete(em, k)
+	}
+	return NewByHashValueMap(em)
+}
+
 func (z arrayImpl) Sort() Array {
 	entries := z.Entries()
 	sort.SliceStable(entries, func(i, j int) bool {
-		return entries[i].Compare(entries[j]) > 0
+		return entries[i].Compare(entries[j]) < 0
 	})
 	return NewByValue(entries...)
 }

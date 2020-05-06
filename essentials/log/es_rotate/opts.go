@@ -42,6 +42,18 @@ type RotateOpts struct {
 	rotateHook RotateHook
 }
 
+func NewRotateOpts() RotateOpts {
+	return RotateOpts{
+		basePath:   "",
+		baseName:   "",
+		chunkSize:  0,
+		numBackups: UnlimitedBackups,
+		quota:      UnlimitedQuota,
+		compress:   false,
+		rotateHook: nil,
+	}
+}
+
 func (z RotateOpts) IsCompress() bool {
 	return z.compress
 }
@@ -119,15 +131,15 @@ func (z RotateOpts) targetsByQuota(entries []os.FileInfo) (purge es_array.Array)
 	}
 
 	var used int64
-	return es_array.NewByFileInfo(entries...).
-		Sort().
-		RightWhile(
-			func(v es_value.Value) bool {
-				fi := v.AsInterface().(os.FileInfo)
-				used += fi.Size()
-				return used < z.quota
-			},
-		)
+	all := es_array.NewByFileInfo(entries...)
+	preserve := all.Sort().RightWhile(
+		func(v es_value.Value) bool {
+			fi := v.AsInterface().(os.FileInfo)
+			used += fi.Size()
+			return used <= z.quota
+		},
+	)
+	return all.Diff(preserve)
 }
 
 func (z RotateOpts) PurgeTargets() (purge []string, err error) {

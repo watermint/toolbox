@@ -86,7 +86,7 @@ func (z *Console) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.Token,
 func (z *Console) oauthCode(state string) string {
 	ui := z.ctl.UI()
 	for {
-		code, cancel := ui.AskSecure(MApiAuth.OauthSeq2)
+		code, cancel := ui.AskText(MApiAuth.OauthSeq2)
 		if cancel {
 			return ""
 		}

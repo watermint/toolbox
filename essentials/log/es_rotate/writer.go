@@ -26,7 +26,7 @@ func NewWriter(basePath, baseName string) Writer {
 	w := writerImpl{
 		m: es_mutex.New(),
 	}
-	w.ro = RotateOpts{}.Apply(
+	w.ro = NewRotateOpts().Apply(
 		BasePath(basePath),
 		BaseName(baseName),
 	)
@@ -120,10 +120,13 @@ func (z *writerImpl) closeCurrent() (err error) {
 	}
 	z.current = nil
 
-	rotateOut(MsgOut{
+	ror := rotateOut(MsgOut{
 		Path: name,
 		Opts: z.ro,
 	})
+	if !ror {
+		l.Error("Unable to enqueue rotate out", es_log.String("path", name))
+	}
 
 	return
 }

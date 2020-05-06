@@ -17,7 +17,8 @@ import (
 )
 
 type MsgSortedWriter struct {
-	ProgressSorting app_msg.Message
+	ProgressSorting   app_msg.Message
+	ProgressPreparing app_msg.Message
 }
 
 var (
@@ -68,6 +69,7 @@ func (z *Sorted) Row(r interface{}) {
 	err = z.storage.Update(func(kvs kv_kvs.Kvs) error {
 		return kvs.PutRaw(b, []byte{1})
 	})
+	app_ui.ShowProgressWithMessage(z.ctl.UI(), MSortedWriter.ProgressPreparing)
 	if err != nil {
 		l.Warn("Unable to store row", es_log.Error(err))
 	}
