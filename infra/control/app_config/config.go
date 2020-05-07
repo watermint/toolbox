@@ -33,7 +33,7 @@ type configImpl struct {
 	path string
 }
 
-func (z *configImpl) load() (values map[string]interface{}, err error) {
+func (z configImpl) load() (values map[string]interface{}, err error) {
 	values = make(map[string]interface{})
 	l := es_log.Default()
 	p := filepath.Join(z.path, ConfigFileName)
@@ -57,7 +57,7 @@ func (z *configImpl) load() (values map[string]interface{}, err error) {
 	return
 }
 
-func (z *configImpl) save(key string, v interface{}) (err error) {
+func (z configImpl) save(key string, v interface{}) (err error) {
 	l := es_log.Default()
 	p := filepath.Join(z.path, ConfigFileName)
 	l.Debug("load config", es_log.String("path", p))
@@ -79,7 +79,7 @@ func (z *configImpl) save(key string, v interface{}) (err error) {
 	return nil
 }
 
-func (z *configImpl) Get(key string) (v interface{}, err error) {
+func (z configImpl) Get(key string) (v interface{}, err error) {
 	if values, err := z.load(); err != nil {
 		return nil, err
 	} else if v, ok := values[key]; ok {
@@ -89,10 +89,10 @@ func (z *configImpl) Get(key string) (v interface{}, err error) {
 	}
 }
 
-func (z *configImpl) Put(key string, v interface{}) (err error) {
+func (z configImpl) Put(key string, v interface{}) (err error) {
 	return z.save(key, v)
 }
 
-func (z *configImpl) List() (settings map[string]interface{}, err error) {
+func (z configImpl) List() (settings map[string]interface{}, err error) {
 	return z.load()
 }
