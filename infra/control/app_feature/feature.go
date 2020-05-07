@@ -48,7 +48,7 @@ type Feature interface {
 	// With test mode
 	AsTest(useMock bool) Feature
 
-	// With quiet mode
+	// With quiet mode, but this will not guarantee UI/log are converted into quiet mode.
 	AsQuiet() Feature
 
 	// Console log level

@@ -102,7 +102,9 @@ func (z ctnImpl) Close() {
 func newTee(w es_rotate.Writer, l es_log.LogCloser, consoleLevel es_log.Level) Logger {
 	t := es_log.NewTee()
 	t.AddSubscriber(l)
-	t.AddSubscriber(es_log.New(consoleLevel, es_log.FlavorConsole, es_stdout.NewDefaultOut(false)))
+	if consoleLevel != es_log.LevelQuiet {
+		t.AddSubscriber(es_log.New(consoleLevel, es_log.FlavorConsole, es_stdout.NewDefaultOut(false)))
+	}
 	return &teeImpl{
 		w: w,
 		l: l,

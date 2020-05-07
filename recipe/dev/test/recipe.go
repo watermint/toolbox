@@ -6,11 +6,12 @@ import (
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_workspace"
+	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/recipe/dev"
 	"strings"
 	"time"
 )
@@ -36,23 +37,21 @@ func (z *Recipe) runSingle(c app_control.Control, r rc_recipe.Recipe) error {
 	}
 
 	cn := strings.Join(append(path, name), "-")
-	return app_workspace.WithFork(c.WorkBundle(), cn, func(fwb app_workspace.Bundle) error {
-		cf := c.WithBundle(fwb).WithFeature(c.Feature().AsTest(false))
-		if !z.Verbose {
-			cf = cf.WithFeature(cf.Feature().AsQuiet()).WithUI(app_ui.NewDiscard(c.Messages(), c.Log()))
-		}
+	cf, err := app_control_impl.ForkQuiet(c.WithFeature(c.Feature().AsTest(false)), cn)
+	if err != nil {
+		return err
+	}
+	defer cf.WorkBundle().Close()
+	l.Debug("Testing: ")
 
-		l.Debug("Testing: ")
-
-		timeStart := time.Now()
-		if err, _ := qt_errors.ErrorsForTest(l, r.Test(cf)); err != nil {
-			l.Error("Error", es_log.Error(err))
-			return err
-		}
-		timeEnd := time.Now()
-		l.Info("Recipe test success", es_log.Int64("duration", timeEnd.Sub(timeStart).Milliseconds()))
-		return nil
-	})
+	timeStart := time.Now()
+	if err, _ := qt_errors.ErrorsForTest(l, r.Test(cf)); err != nil {
+		l.Error("Error", es_log.Error(err))
+		return err
+	}
+	timeEnd := time.Now()
+	l.Info("Recipe test success", es_log.Int64("duration", timeEnd.Sub(timeStart).Milliseconds()))
+	return nil
 }
 
 func (z *Recipe) runAll(c app_control.Control) error {
@@ -101,5 +100,8 @@ func (z *Recipe) Exec(c app_control.Control) error {
 }
 
 func (z *Recipe) Test(c app_control.Control) error {
-	return qt_errors.ErrorNoTestRequired
+	return rc_exec.Exec(c, &Recipe{}, func(r rc_recipe.Recipe) {
+		m := r.(*Recipe)
+		m.Recipe = mo_string.NewOptional(rc_recipe.Key(&dev.Echo{}))
+	})
 }

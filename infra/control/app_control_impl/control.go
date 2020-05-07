@@ -21,6 +21,16 @@ func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature) app
 	}
 }
 
+func ForkQuiet(ctl app_control.Control, name string) (app_control.Control, error) {
+	wb, err := app_workspace.ForkBundleWithLevel(ctl.WorkBundle(), name, es_log.LevelQuiet)
+	if err != nil {
+		return nil, err
+	}
+	qui := app_ui.NewDiscard(ctl.Messages(), wb.Logger().Logger())
+	qfe := ctl.Feature().AsQuiet()
+	return ctl.WithFeature(qfe).WithUI(qui).WithBundle(wb), nil
+}
+
 type ctlImpl struct {
 	feature app_feature.Feature
 	ui      app_ui.UI

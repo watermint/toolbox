@@ -31,11 +31,15 @@ type Bundle interface {
 }
 
 func ForkBundle(wb Bundle, name string) (bundle Bundle, err error) {
+	return ForkBundleWithLevel(wb, name, wb.ConsoleLogLevel())
+}
+
+func ForkBundleWithLevel(wb Bundle, name string, consoleLevel es_log.Level) (bundle Bundle, err error) {
 	nws, err := Fork(wb.Workspace(), name)
 	if err != nil {
 		return nil, err
 	}
-	l, c, s, err := es_container.NewAll(nws.Log(), wb.Budget(), wb.ConsoleLogLevel())
+	l, c, s, err := es_container.NewAll(nws.Log(), wb.Budget(), consoleLevel)
 	if err != nil {
 		return nil, err
 	}
