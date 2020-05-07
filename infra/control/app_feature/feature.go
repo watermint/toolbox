@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
-	"github.com/watermint/toolbox/infra/control/app_config"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"os/user"
 	"time"
@@ -35,9 +34,6 @@ type Feature interface {
 
 	// Budget for storage usage
 	BudgetStorage() string
-
-	// Configuration
-	Config() app_config.Config
 
 	// Retrieve feature
 	OptInGet(oi OptIn) (f OptIn, found bool)
