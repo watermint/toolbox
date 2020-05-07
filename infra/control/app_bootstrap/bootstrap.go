@@ -132,6 +132,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 		app_exit.Abort(app_exit.FatalStartup)
 	}
 	z.verifyMessages(ui, wb.Logger().Logger())
+	es_log.AddDefaultSubscriber(wb.Logger().Core())
 
 	jl := app_job_impl.NewLauncher(ui, wb, com, rcp)
 	ctl, err := jl.Up()

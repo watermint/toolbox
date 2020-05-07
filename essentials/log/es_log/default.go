@@ -11,12 +11,17 @@ import (
 )
 
 var (
-	currentConsole = newDefault()
-	capture        = newEmpty()
+	currentDefault Tee = newDefault()
+	currentConsole     = newConsole(ConsoleDefaultLevel())
+	capture            = newEmpty()
 	loggerName     atomic.Int64
 )
 
 func Default() Logger {
+	return currentDefault
+}
+
+func ConsoleOnly() Logger {
 	return currentConsole
 }
 
@@ -28,8 +33,14 @@ func newEmpty() Logger {
 	return New(ConsoleDefaultLevel(), FlavorConsole, ioutil.Discard)
 }
 
-func newDefault() Logger {
-	return newConsole(ConsoleDefaultLevel())
+func newDefault() Tee {
+	t := NewTee()
+	t.AddSubscriber(currentConsole)
+	return t
+}
+
+func AddDefaultSubscriber(l Logger) {
+	currentDefault.AddSubscriber(l)
 }
 
 func newConsole(level Level) Logger {

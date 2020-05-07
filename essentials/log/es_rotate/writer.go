@@ -89,7 +89,9 @@ func (z *writerImpl) rotate() (err error) {
 
 // this function must called from caller who owns mutex lock
 func (z *writerImpl) createCurrent() (err error) {
-	l := es_log.Default()
+	// Can't use es_log.Default(), because that cause race.
+	// Use TOOLBOX_DEBUG_VERBOSE for view this log
+	l := es_log.ConsoleOnly()
 	path := z.ro.CurrentPath()
 
 	l.Debug("create", es_log.String("path", path))
@@ -99,7 +101,9 @@ func (z *writerImpl) createCurrent() (err error) {
 
 // this function must called from caller who owns mutex lock
 func (z *writerImpl) closeCurrent() (err error) {
-	l := es_log.Default().With(es_log.Int64("written", z.written))
+	// Can't use es_log.Default(), because that cause race
+	// Use TOOLBOX_DEBUG_VERBOSE for view this log
+	l := es_log.ConsoleOnly().With(es_log.Int64("written", z.written))
 
 	// flush written bytes
 	z.written = 0

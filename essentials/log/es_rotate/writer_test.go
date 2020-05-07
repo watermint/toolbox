@@ -26,7 +26,7 @@ func TestWriterImpl_Open(t *testing.T) {
 
 func TestRotate(t *testing.T) {
 	qt_file.TestWithTestFolder(t, "rotate", false, func(path string) {
-		l := es_log.Default()
+		l := es_log.ConsoleOnly()
 		numPurge := 0
 		{
 			hook := func(path string) {
