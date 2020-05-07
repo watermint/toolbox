@@ -18,7 +18,7 @@ for d in $(go list ./... | grep -v vendor); do
     echo ---------------
     cat $OUT_TEST
     echo ---------------
-    exit $?
+    exit 1
   fi
   if [ -f $OUT_PROFILE ]; then
     cat $OUT_PROFILE >>$OUT_COVERAGE
