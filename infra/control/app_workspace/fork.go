@@ -3,9 +3,13 @@ package app_workspace
 import (
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"path/filepath"
+	"strings"
 )
 
 func Fork(ws Workspace, name string) (Workspace, error) {
+	if strings.HasPrefix(name, "-") {
+		name = strings.TrimPrefix(name, "-")
+	}
 	fws := &forkWorkspace{
 		name:   name,
 		parent: ws,

@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_workspace"
+	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
@@ -33,18 +33,18 @@ func (z exploreRecipe) exec(c app_control.Control) error {
 	spec := rc_spec.New(z.recipe)
 	name := strings.ReplaceAll(spec.CliPath(), " ", "-")
 	l := c.Log().With(es_log.String("Name", name))
-	ui := c.UI()
-	ui.Info(spec.Title())
-	l.Info("Execute:")
+	l.Info("Execute:", es_log.String("Title", c.UI().Text(spec.Title())))
 
-	return app_workspace.WithFork(c.WorkBundle(), name, func(fwb app_workspace.Bundle) error {
-		cf := c.WithBundle(fwb)
-		if err := rc_exec.Exec(cf, z.recipe, z.custom); err != nil {
-			l.Error("Recipe failed", es_log.Error(err))
-			return err
-		}
-		return nil
-	})
+	cf, err := app_control_impl.ForkQuiet(c, name)
+	if err != nil {
+		return err
+	}
+	defer cf.WorkBundle().Close()
+	if err := rc_exec.Exec(cf, z.recipe, z.custom); err != nil {
+		l.Error("Recipe failed", es_log.Error(err))
+		return err
+	}
+	return nil
 }
 
 type Explorer struct {
