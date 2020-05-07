@@ -42,7 +42,7 @@ func (z featureImpl) pathConfig() string {
 func (z featureImpl) loadConfig() (values map[string]interface{}, err error) {
 	values = make(map[string]interface{})
 	l := es_log.Default()
-	p := filepath.Join(z.pathConfig(), ConfigFileName)
+	p := z.pathConfig()
 
 	_, err = os.Lstat(p)
 	if err != nil {
