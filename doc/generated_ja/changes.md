@@ -15,6 +15,10 @@
 
 | コマンド                         | タイトル                                   |
 |----------------------------------|--------------------------------------------|
+| dev desktop install              | Install Dropbox client                     |
+| dev desktop start                | Launch Dropbox Desktop desktop app         |
+| dev desktop stop                 | Try stopping Dropbox desktop app           |
+| dev desktop suspendupdate        | Suspend/unsuspend Dropbox Updater          |
 | dev diag procmon                 | Collect Process monitor logs               |
 | services github release asset up | Upload assets file into the GitHub Release |
 | web                              | Launch web console                         |
