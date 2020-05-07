@@ -184,7 +184,7 @@ func ForkWithName(t *testing.T, name string, c app_control.Control, f func(c app
 		l.Info("Execute", es_log.String("name", name))
 		return f(cf)
 	})
-	if re, c := qt_errors.ErrorsForTest(c.Log(), err); !c {
+	if re, c := qt_errors.ErrorsForTest(c.Log(), err); !c && re != nil {
 		t.Error(re)
 	}
 }
