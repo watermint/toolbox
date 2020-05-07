@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"time"
 )
 
@@ -53,7 +53,7 @@ func (z *Create) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, z, func(r rc_recipe.Recipe) {
 		m := r.(*Create)
 		m.Title = "watermint toolbox " + time.Now().String()
-		m.Path = qt_recipe.NewTestDropboxFolderPath("file-request")
+		m.Path = qtr_endtoend.NewTestDropboxFolderPath("file-request")
 		m.Deadline = mo_time.NewOptional(time.Now().Add(24 * time.Hour))
 	})
 	ers := dbx_error.NewErrors(err)

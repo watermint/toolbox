@@ -15,8 +15,8 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_resource"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
 	"path/filepath"
 	"time"
@@ -135,7 +135,7 @@ func (z *Externalid) Test(c app_control.Control) error {
 				rc.File.SetFilePath(dataFile)
 			})
 
-			qt_recipe.TestRows(c, "operation_log", func(cols map[string]string) error {
+			qtr_endtoend.TestRows(c, "operation_log", func(cols map[string]string) error {
 				email := cols["email"]
 				extid := cols["external_id"]
 				if pair[email] != extid {

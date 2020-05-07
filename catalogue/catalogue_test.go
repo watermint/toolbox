@@ -7,13 +7,13 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
 	"testing"
 )
 
 func TestCatalogue(t *testing.T) {
-	ui := qt_recipe.Resources()
+	ui := qtr_endtoend.Resources()
 	cat := NewCatalogue()
 	testGroup(cat.RootGroup(), ui)
 	for _, r := range cat.Ingredients() {

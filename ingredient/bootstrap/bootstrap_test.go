@@ -1,10 +1,10 @@
 package bootstrap
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestBootstrap_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Bootstrap{})
+	qtr_endtoend.TestRecipe(t, &Bootstrap{})
 }

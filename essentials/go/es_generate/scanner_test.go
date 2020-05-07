@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"reflect"
 	"testing"
 )
@@ -15,7 +15,7 @@ func TestScannerImpl(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		sc, err := NewScanner(ctl, rr)
 		if err != nil {
 			t.Error(err)

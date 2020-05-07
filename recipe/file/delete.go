@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type Delete struct {
@@ -59,7 +59,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 func (z *Delete) Test(c app_control.Control) error {
 	err := rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
 		m := r.(*Delete)
-		m.Path = qt_recipe.NewTestDropboxFolderPath("delete")
+		m.Path = qtr_endtoend.NewTestDropboxFolderPath("delete")
 	})
 	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err

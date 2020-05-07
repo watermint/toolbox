@@ -1,10 +1,10 @@
 package teamfolder
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestArchive_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Archive{})
+	qtr_endtoend.TestRecipe(t, &Archive{})
 }

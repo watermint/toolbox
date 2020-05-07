@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_callback"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"net/http"
 	"net/url"
 	"sync"
@@ -79,7 +79,7 @@ func (z *MockService) PingInvalid() error {
 }
 
 func TestCallbackImpl_SuccessScenario(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)
 		cb := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
 		wg := sync.WaitGroup{}
@@ -106,7 +106,7 @@ func TestCallbackImpl_SuccessScenario(t *testing.T) {
 }
 
 func TestCallbackImpl_FailureInvalidCode(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)
 		cb := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
 		wg := sync.WaitGroup{}
@@ -133,7 +133,7 @@ func TestCallbackImpl_FailureInvalidCode(t *testing.T) {
 }
 
 func TestCallbackImpl_FailureCantStart(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)
 		cb1 := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
 		cb2 := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())

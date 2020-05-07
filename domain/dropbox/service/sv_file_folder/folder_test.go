@@ -3,14 +3,14 @@ package sv_file_folder
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestFolderImpl_Create(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
-		_, err := sv.Create(qt_recipe.NewTestDropboxFolderPath())
+		_, err := sv.Create(qtr_endtoend.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {
 			t.Error(err)
 		}

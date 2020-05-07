@@ -14,7 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type MsgList struct {
@@ -92,7 +92,7 @@ func (z *List) Test(c app_control.Control) error {
 	if err := rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues); err != nil {
 		return err
 	}
-	return qt_recipe.TestRows(c, "member", func(cols map[string]string) error {
+	return qtr_endtoend.TestRows(c, "member", func(cols map[string]string) error {
 		if _, ok := cols["email"]; !ok {
 			return errors.New("email is not found")
 		}

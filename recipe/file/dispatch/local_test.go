@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -12,7 +12,7 @@ import (
 )
 
 func TestLocal_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Local{})
+	qtr_endtoend.TestRecipe(t, &Local{})
 }
 
 func TestNamePattern_Match(t *testing.T) {
@@ -84,7 +84,7 @@ func TestLocalPattern_Preview(t *testing.T) {
 		os.RemoveAll(dst)
 	}()
 
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		lp := &LocalPattern{}
 		lp.preview(src, dst, ctl)
 	})
@@ -117,7 +117,7 @@ func TestLocalPattern_Move(t *testing.T) {
 		return
 	}
 
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		lp := &LocalPattern{}
 		if err := lp.move(srcPath, dstPath, ctl); err != nil {
 			t.Error(err)
@@ -156,7 +156,7 @@ func TestLocalPattern_Exec(t *testing.T) {
 		return
 	}
 
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		lp := &LocalPattern{
 			Suffix:            "txt",
 			SourcePath:        src,

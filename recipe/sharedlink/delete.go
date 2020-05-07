@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"path/filepath"
 	"strings"
 )
@@ -118,7 +118,7 @@ func (z *Delete) Test(c app_control.Control) error {
 	// Non-recursive
 	err := rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
 		m := r.(*Delete)
-		m.Path = qt_recipe.NewTestDropboxFolderPath("sharedlink-delete")
+		m.Path = qtr_endtoend.NewTestDropboxFolderPath("sharedlink-delete")
 		m.Recursive = false
 	})
 	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
@@ -128,7 +128,7 @@ func (z *Delete) Test(c app_control.Control) error {
 	// Recursive
 	err = rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
 		m := r.(*Delete)
-		m.Path = qt_recipe.NewTestDropboxFolderPath("sharedlink-delete")
+		m.Path = qtr_endtoend.NewTestDropboxFolderPath("sharedlink-delete")
 		m.Recursive = true
 	})
 	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {

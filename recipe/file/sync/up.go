@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type Up struct {
@@ -50,8 +50,8 @@ func (z *Up) Exec(c app_control.Control) error {
 func (z *Up) Test(c app_control.Control) error {
 	err := rc_exec.ExecMock(c, &Up{}, func(r rc_recipe.Recipe) {
 		m := r.(*Up)
-		m.LocalPath = qt_recipe.NewTestExistingFileSystemFolderPath(c, "up")
-		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("up")
+		m.LocalPath = qtr_endtoend.NewTestExistingFileSystemFolderPath(c, "up")
+		m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("up")
 	})
 	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err

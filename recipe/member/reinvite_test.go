@@ -1,10 +1,10 @@
 package member
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestReinvite_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Reinvite{})
+	qtr_endtoend.TestRecipe(t, &Reinvite{})
 }

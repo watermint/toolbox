@@ -1,4 +1,4 @@
-package qt_recipespec_test
+package qtr_recipespec_test
 
 import (
 	"errors"
@@ -15,7 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"io/ioutil"
 	"path/filepath"
 	"testing"
@@ -107,7 +107,7 @@ func (z *SelfContainedTestRecipe) Preset() {
 }
 
 func TestSpecSelfContained_ApplyValues(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		scr := &SelfContainedTestRecipe{}
 		spec := rc_spec.NewSelfContained(scr)
 

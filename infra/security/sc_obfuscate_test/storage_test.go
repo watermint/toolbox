@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
 	"path/filepath"
 	"testing"
@@ -31,7 +31,7 @@ func TestStorageImpl_PutGet(t *testing.T) {
 		Quantity: 12,
 	}
 
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		s := sc_obfuscate.NewStorage(ctl)
 
 		if err := s.Get(p, &ObfuscateTest{}); err != sc_obfuscate.ErrorStorageNotFound {

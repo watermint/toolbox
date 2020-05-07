@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type Url struct {
@@ -57,6 +57,6 @@ func (z *Url) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Url{}, func(r rc_recipe.Recipe) {
 		ru := r.(*Url)
 		ru.Url = "https://dummyimage.com/10x10/000/fff"
-		ru.Path = qt_recipe.NewTestDropboxFolderPath("file-import-url")
+		ru.Path = qtr_endtoend.NewTestDropboxFolderPath("file-import-url")
 	})
 }

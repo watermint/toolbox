@@ -19,7 +19,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"time"
 )
 
@@ -168,7 +168,7 @@ func (z *User) Test(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	return qt_recipe.TestRows(c, "user_summary", func(cols map[string]string) error {
+	return qtr_endtoend.TestRows(c, "user_summary", func(cols map[string]string) error {
 		if _, ok := cols["result.logins"]; !ok {
 			return errors.New("`logins` is not found")
 		}

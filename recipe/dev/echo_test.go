@@ -1,10 +1,10 @@
 package dev
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestEcho_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Echo{})
+	qtr_endtoend.TestRecipe(t, &Echo{})
 }

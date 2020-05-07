@@ -3,7 +3,7 @@ package es_download
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -11,7 +11,7 @@ import (
 )
 
 func TestDownload(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		url := "https://postman-echo.com/get?hello=world"
 		ws := ctl.Workspace().Test()
 		if err := os.MkdirAll(ws, 0755); err != nil {

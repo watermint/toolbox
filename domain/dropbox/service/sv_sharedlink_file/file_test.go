@@ -5,14 +5,14 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestFileImpl_List(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
-		err := sv.List(mo_url.NewEmptyUrl(), qt_recipe.NewTestDropboxFolderPath(), func(entry mo_file.Entry) {},
+		err := sv.List(mo_url.NewEmptyUrl(), qtr_endtoend.NewTestDropboxFolderPath(), func(entry mo_file.Entry) {},
 			IncludeDeleted(),
 			IncludeHasExplicitSharedMembers(),
 			Password("test"),
@@ -24,7 +24,7 @@ func TestFileImpl_List(t *testing.T) {
 }
 
 func TestFileImpl_ListRecursive(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		err := sv.ListRecursive(mo_url.NewEmptyUrl(), func(entry mo_file.Entry) {},
 			IncludeDeleted(),

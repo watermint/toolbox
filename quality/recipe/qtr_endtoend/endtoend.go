@@ -1,4 +1,4 @@
-package qt_recipe
+package qtr_endtoend
 
 import (
 	"encoding/csv"
@@ -33,6 +33,7 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_secure"
+	"github.com/watermint/toolbox/quality/recipe/qtr_timeout"
 	"io"
 	"io/ioutil"
 	"log"
@@ -209,13 +210,7 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 				profile.MemProfile,
 			)
 		}
-		var err error
-		if useMock {
-			err = re.Test(ctl.WithFeature(ctl.Feature().AsTest(true)))
-		} else {
-			err = re.Test(ctl.WithFeature(ctl.Feature().AsTest(false)))
-		}
-
+		err := qtr_timeout.RunRecipeTestWithTimeout(ctl, re, true, useMock)
 		if pr != nil {
 			pr.Stop()
 		}

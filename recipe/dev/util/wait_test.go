@@ -1,10 +1,10 @@
 package util
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestWait_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Wait{})
+	qtr_endtoend.TestRecipe(t, &Wait{})
 }

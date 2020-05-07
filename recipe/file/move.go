@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type Move struct {
@@ -29,8 +29,8 @@ func (z *Move) Exec(c app_control.Control) error {
 func (z *Move) Test(c app_control.Control) error {
 	err := rc_exec.ExecMock(c, &Move{}, func(r rc_recipe.Recipe) {
 		m := r.(*Move)
-		m.Src = qt_recipe.NewTestDropboxFolderPath("src")
-		m.Dst = qt_recipe.NewTestDropboxFolderPath("dst")
+		m.Src = qtr_endtoend.NewTestDropboxFolderPath("src")
+		m.Dst = qtr_endtoend.NewTestDropboxFolderPath("dst")
 	})
 	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err

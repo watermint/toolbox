@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
@@ -35,9 +35,9 @@ func TestPathWithName(t *testing.T) {
 }
 
 func TestUrlImpl_Save(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
-		_, err := sv.Save(qt_recipe.NewTestDropboxFolderPath(), "https://www.dropbox.com")
+		_, err := sv.Save(qtr_endtoend.NewTestDropboxFolderPath(), "https://www.dropbox.com")
 		if err != nil && err != qt_errors.ErrorMock {
 			t.Error(err)
 		}

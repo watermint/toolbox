@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type Feature struct {
@@ -25,7 +25,7 @@ func (z *Feature) Test(c app_control.Control) error {
 	if err := rc_exec.Exec(c, &Feature{}, rc_recipe.NoCustomValues); err != nil {
 		return err
 	}
-	return qt_recipe.TestRows(c, "feature", func(cols map[string]string) error {
+	return qtr_endtoend.TestRows(c, "feature", func(cols map[string]string) error {
 		if _, ok := cols["upload_api_rate_limit"]; !ok {
 			return errors.New("`upload_api_rate_limit` is not found")
 		}

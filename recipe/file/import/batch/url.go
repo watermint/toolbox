@@ -15,7 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
 	"path/filepath"
 )
@@ -127,8 +127,8 @@ func (z *Url) Test(c app_control.Control) error {
 		return err
 	}
 	testCsv := csv.NewWriter(testFile)
-	testCsv.Write([]string{"https://dummyimage.com/10x10/000/fff", "/" + qt_recipe.TestTeamFolderName + "/file-import-batch-url/fff.png"})
-	testCsv.Write([]string{"https://dummyimage.com/10x10/000/eee", "/" + qt_recipe.TestTeamFolderName + "/file-import-batch-url/eee.png"})
+	testCsv.Write([]string{"https://dummyimage.com/10x10/000/fff", "/" + qtr_endtoend.TestTeamFolderName + "/file-import-batch-url/fff.png"})
+	testCsv.Write([]string{"https://dummyimage.com/10x10/000/eee", "/" + qtr_endtoend.TestTeamFolderName + "/file-import-batch-url/eee.png"})
 	testCsv.Flush()
 	testFile.Close()
 

@@ -1,10 +1,10 @@
 package activity
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestActivity_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Event{})
+	qtr_endtoend.TestRecipe(t, &Event{})
 }

@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
 	"path/filepath"
 )
@@ -52,8 +52,8 @@ func (z *Doc) Exec(c app_control.Control) error {
 func (z *Doc) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Doc{}, func(r rc_recipe.Recipe) {
 		m := r.(*Doc)
-		m.LocalPath = qt_recipe.NewTestFileSystemFolderPath(c, "export-doc")
-		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("file-export-doc")
+		m.LocalPath = qtr_endtoend.NewTestFileSystemFolderPath(c, "export-doc")
+		m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("file-export-doc")
 	})
 }
 

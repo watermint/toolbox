@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type List struct {
@@ -68,13 +68,13 @@ func (z *List) Exec(c app_control.Control) error {
 func (z *List) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, &List{}, func(r rc_recipe.Recipe) {
 		r0 := r.(*List)
-		r0.Path = qt_recipe.NewTestDropboxFolderPath()
+		r0.Path = qtr_endtoend.NewTestDropboxFolderPath()
 		r0.Recursive = false
 	})
 	if err != nil {
 		return err
 	}
-	return qt_recipe.TestRows(c, "file_list", func(cols map[string]string) error {
+	return qtr_endtoend.TestRows(c, "file_list", func(cols map[string]string) error {
 		if _, ok := cols["name"]; !ok {
 			return errors.New("`name` is not found")
 		}
