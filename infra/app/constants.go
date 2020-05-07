@@ -64,7 +64,7 @@ const (
 `
 
 	// Project logo
-	ProjectLogo = `![watermint toolbox](resources/watermint-toolbox-256x256.png)`
+	ProjectLogo = `![watermint toolbox](resources/images/watermint-toolbox-256x256.png)`
 )
 
 // Log prefix
