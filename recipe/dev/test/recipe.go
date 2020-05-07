@@ -24,7 +24,7 @@ var (
 type Recipe struct {
 	rc_recipe.RemarkSecret
 	All       bool
-	Recipe    mo_string.OptionalString
+	Single    mo_string.OptionalString
 	NoTimeout bool
 	Verbose   bool
 }
@@ -117,10 +117,10 @@ func (z *Recipe) Exec(c app_control.Control) error {
 			return err
 		}
 
-	case z.Recipe.IsExists():
+	case z.Single.IsExists():
 		for _, r := range cat.Recipes() {
 			p := rc_recipe.Key(r)
-			if p != z.Recipe.Value() {
+			if p != z.Single.Value() {
 				continue
 			}
 			if err := z.runSingle(c, r); err != nil {
@@ -129,11 +129,11 @@ func (z *Recipe) Exec(c app_control.Control) error {
 			l.Info("Recipe test success")
 			return nil
 		}
-		l.Error("recipe not found", es_log.String("vo.Recipe", z.Recipe.Value()))
+		l.Error("recipe not found", es_log.String("vo.Recipe", z.Single.Value()))
 		return errors.New("recipe not found")
 
 	default:
-		l.Error("require -all or -recipe option")
+		l.Error("require -all or -single option")
 		return errors.New("missing option")
 	}
 	return nil
@@ -142,7 +142,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 func (z *Recipe) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Recipe{}, func(r rc_recipe.Recipe) {
 		m := r.(*Recipe)
-		m.Recipe = mo_string.NewOptional(rc_recipe.Key(&dev.Echo{}))
+		m.Single = mo_string.NewOptional(rc_recipe.Key(&dev.Echo{}))
 		m.NoTimeout = false
 	})
 }
