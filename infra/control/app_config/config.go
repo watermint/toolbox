@@ -7,8 +7,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"sync"
-	"time"
 )
 
 const (
@@ -27,60 +25,49 @@ type Config interface {
 
 func NewConfig(path string) Config {
 	return &configImpl{
-		path:     path,
-		values:   make(map[string]interface{}),
-		mutex:    sync.Mutex{},
-		loadTime: time.Time{},
+		path: path,
 	}
 }
 
 type configImpl struct {
-	path     string
-	values   map[string]interface{}
-	mutex    sync.Mutex
-	loadTime time.Time
+	path string
 }
 
-func (z *configImpl) load() (err error) {
-	z.mutex.Lock()
-	defer z.mutex.Unlock()
-
+func (z *configImpl) load() (values map[string]interface{}, err error) {
+	values = make(map[string]interface{})
 	l := es_log.Default()
 	p := filepath.Join(z.path, ConfigFileName)
 
-	s, err := os.Lstat(p)
+	_, err = os.Lstat(p)
 	if err != nil {
 		l.Debug("No file information; skip loading", es_log.Error(err))
-		return nil
-	}
-
-	if z.loadTime.After(s.ModTime()) {
-		l.Debug("Skip loading")
-		return nil
+		return values, nil
 	}
 
 	l.Debug("load config", es_log.String("path", p))
 	b, err := ioutil.ReadFile(p)
 	if err != nil {
 		l.Debug("Unable to read config", es_log.Error(err))
-		return err
+		return
 	}
-	if err := json.Unmarshal(b, &z.values); err != nil {
+	if err := json.Unmarshal(b, &values); err != nil {
 		l.Debug("unable to unmarshal", es_log.Error(err))
-		return err
+		return values, err
 	}
-	z.loadTime = time.Now()
-	return nil
+	return
 }
 
-func (z *configImpl) save() (err error) {
-	z.mutex.Lock()
-	defer z.mutex.Unlock()
-
+func (z *configImpl) save(key string, v interface{}) (err error) {
 	l := es_log.Default()
 	p := filepath.Join(z.path, ConfigFileName)
 	l.Debug("load config", es_log.String("path", p))
-	b, err := json.Marshal(z.values)
+	values, err := z.load()
+	if err != nil {
+		return err
+	}
+	values[key] = v
+
+	b, err := json.Marshal(values)
 	if err != nil {
 		l.Debug("Unable to marshal", es_log.Error(err))
 		return err
@@ -93,10 +80,9 @@ func (z *configImpl) save() (err error) {
 }
 
 func (z *configImpl) Get(key string) (v interface{}, err error) {
-	if err := z.load(); err != nil {
+	if values, err := z.load(); err != nil {
 		return nil, err
-	}
-	if v, ok := z.values[key]; ok {
+	} else if v, ok := values[key]; ok {
 		return v, nil
 	} else {
 		return nil, ErrorValueNotFound
@@ -104,18 +90,9 @@ func (z *configImpl) Get(key string) (v interface{}, err error) {
 }
 
 func (z *configImpl) Put(key string, v interface{}) (err error) {
-	z.mutex.Lock()
-	if z.values == nil {
-		z.values = make(map[string]interface{})
-	}
-	z.values[key] = v
-	z.mutex.Unlock()
-	return z.save()
+	return z.save(key, v)
 }
 
 func (z *configImpl) List() (settings map[string]interface{}, err error) {
-	if err := z.load(); err != nil {
-		return nil, err
-	}
-	return z.values, nil
+	return z.load()
 }
