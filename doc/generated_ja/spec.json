@@ -1112,7 +1112,7 @@
         "type_attr": null
       },
       {
-        "name": "Recipe",
+        "name": "Single",
         "desc": "テストするレシピ名",
         "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
@@ -4206,30 +4206,12 @@
     "feeds": [],
     "values": [
       {
-        "name": "Fork",
-        "desc": "ワークフローを実行する際にプロセスをフォークする.",
-        "default": "false",
-        "type_name": "bool",
-        "type_attr": null
-      },
-      {
         "name": "RunbookPath",
         "desc": "Runbookへのパス.",
         "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
-        }
-      },
-      {
-        "name": "TimeoutSeconds",
-        "desc": "指定時間を経過したしたためプロセスを終了します.",
-        "default": "0",
-        "type_name": "domain.common.model.mo_int.range_int",
-        "type_attr": {
-          "max": 31536000,
-          "min": 0,
-          "value": 0
         }
       }
     ]

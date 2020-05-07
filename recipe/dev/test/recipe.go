@@ -12,7 +12,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/recipe/dev"
 	"strings"
 	"time"
 )
@@ -142,7 +141,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 func (z *Recipe) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Recipe{}, func(r rc_recipe.Recipe) {
 		m := r.(*Recipe)
-		m.Single = mo_string.NewOptional(rc_recipe.Key(&dev.Echo{}))
+		m.All = true
 		m.NoTimeout = false
 	})
 }

@@ -33,7 +33,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |---------------|-------------------------------------|---------|
 | `-all`        | Test all recipes                    | false   |
 | `-no-timeout` | Do not timeout running recipe tests | false   |
-| `-recipe`     | Recipe name to test                 |         |
+| `-single`     | Recipe name to test                 |         |
 | `-verbose`    | Verbose output for testing          | false   |
 
 Common options:
