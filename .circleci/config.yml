@@ -39,9 +39,7 @@ jobs:
       - store_test_results:
           path: /go/src/github.com/watermint/toolbox/test/results
       - store_artifacts:
-          path:
-            - /go/src/github.com/watermint/toolbox/test/results
-            - $HOME/.toolbox/job
+          path: /go/src/github.com/watermint/toolbox/test/results
       - run: bash <(curl -s https://codecov.io/bash)
 
 workflows:
