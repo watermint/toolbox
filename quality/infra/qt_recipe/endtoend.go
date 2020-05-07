@@ -2,12 +2,14 @@ package qt_recipe
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/go/es_resource"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/es_log"
@@ -23,6 +25,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
+	"github.com/watermint/toolbox/infra/network/nw_replay"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
@@ -31,6 +34,7 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_secure"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -86,6 +90,38 @@ func resBundle() es_resource.Bundle {
 	}
 }
 
+func findTestFolder() string {
+	l := es_log.Default()
+
+	root, err := es_project.DetectRepositoryRoot()
+	if err != nil {
+		l.Error("Test path not found")
+		panic(err)
+	}
+	return filepath.Join(root, "test")
+}
+
+func loadReplay(name string) (rr []nw_replay.Response, err error) {
+	l := es_log.Default().With(es_log.String("name", name))
+	tp := findTestFolder()
+	rp := filepath.Join(tp, "replay", name)
+
+	l.Debug("Loading replay", es_log.String("path", rp))
+	b, err := ioutil.ReadFile(rp)
+	if err != nil {
+		l.Debug("Unable to load", es_log.Error(err))
+		return nil, err
+	}
+
+	if err := json.Unmarshal(b, &rr); err != nil {
+		l.Debug("Unable to unmarshal", es_log.Error(err))
+		return nil, err
+	}
+
+	l.Debug("Replay loaded", es_log.Int("numRecords", len(rr)))
+	return rr, nil
+}
+
 func Resources() (ui app_ui.UI) {
 	bundle := resBundle()
 	lg := es_log.Default()
@@ -100,9 +136,21 @@ func Resources() (ui app_ui.UI) {
 	}
 }
 
-func TestWithApiContext(t *testing.T, twc func(ctx dbx_context.Context)) {
+func TestWithDbxContext(t *testing.T, twc func(ctx dbx_context.Context)) {
 	TestWithControl(t, func(ctl app_control.Control) {
 		ctx := dbx_context_impl.NewMock(ctl)
+		twc(ctx)
+	})
+}
+
+func TestWithReplayDbxContext(t *testing.T, name string, twc func(ctx dbx_context.Context)) {
+	TestWithControl(t, func(ctl app_control.Control) {
+		rm, err := loadReplay(name)
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		ctx := dbx_context_impl.NewReplayMock(ctl, rm)
 		twc(ctx)
 	})
 }

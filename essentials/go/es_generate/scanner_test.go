@@ -1,6 +1,7 @@
 package es_generate
 
 import (
+	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
@@ -9,7 +10,7 @@ import (
 )
 
 func TestScannerImpl(t *testing.T) {
-	rr, err := DetectRepositoryRoot()
+	rr, err := es_project.DetectRepositoryRoot()
 	if err != nil {
 		t.Error(err)
 		return

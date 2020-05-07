@@ -3,6 +3,7 @@ package dev
 import (
 	"fmt"
 	"github.com/watermint/toolbox/essentials/go/es_generate"
+	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -95,7 +96,7 @@ func (z *Catalogue) generateFeatures(rr string, sc es_generate.Scanner, c app_co
 }
 
 func (z *Catalogue) Exec(c app_control.Control) error {
-	rr, err := es_generate.DetectRepositoryRoot()
+	rr, err := es_project.DetectRepositoryRoot()
 	if err != nil {
 		return err
 	}

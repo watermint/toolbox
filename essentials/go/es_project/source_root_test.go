@@ -1,4 +1,4 @@
-package es_generate
+package es_project
 
 import "testing"
 

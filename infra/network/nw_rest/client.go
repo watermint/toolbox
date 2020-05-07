@@ -3,10 +3,10 @@ package nw_rest
 import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/network/nw_capture"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_http"
+	"github.com/watermint/toolbox/infra/network/nw_replay"
 	"github.com/watermint/toolbox/infra/network/nw_retry"
 )
 
@@ -14,8 +14,21 @@ import (
 type AssertResponse func(res es_response.Response) es_response.Response
 
 type ClientOpts struct {
-	Assert AssertResponse
-	Mock   bool
+	Assert     AssertResponse
+	Mock       bool
+	ReplayMock []nw_replay.Response
+}
+
+func (z ClientOpts) Apply(opts ...ClientOpt) ClientOpts {
+	switch len(opts) {
+	case 0:
+		return z
+	case 1:
+		return opts[0](z)
+	default:
+		x, y := opts[0], opts[1:]
+		return x(z).Apply(y...)
+	}
 }
 
 type ClientOpt func(o ClientOpts) ClientOpts
@@ -26,6 +39,14 @@ func Mock() ClientOpt {
 		return o
 	}
 }
+
+func ReplayMock(rm []nw_replay.Response) ClientOpt {
+	return func(o ClientOpts) ClientOpts {
+		o.ReplayMock = rm
+		return o
+	}
+}
+
 func Assert(ar AssertResponse) ClientOpt {
 	return func(o ClientOpts) ClientOpts {
 		o.Assert = ar
@@ -33,15 +54,15 @@ func Assert(ar AssertResponse) ClientOpt {
 	}
 }
 
-func New(feature app_feature.Feature, opts ...ClientOpt) nw_client.Rest {
-	co := ClientOpts{}
-	for _, o := range opts {
-		co = o(co)
-	}
+func New(opts ...ClientOpt) nw_client.Rest {
+	co := ClientOpts{}.Apply(opts...)
 	var hc nw_client.Http
-	if co.Mock {
+	switch {
+	case co.Mock:
 		hc = nw_http.Mock{}
-	} else {
+	case len(co.ReplayMock) > 0:
+		hc = nw_replay.NewReplay(co.ReplayMock)
+	default:
 		hc = nw_http.NewClient()
 	}
 

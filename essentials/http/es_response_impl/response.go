@@ -22,17 +22,18 @@ func New(ctx es_context.Context, res *http.Response) es_response.Response {
 	switch res.StatusCode / 100 {
 	case es_response.Code2xxSuccess:
 		l.Debug("Success response")
-		return newSuccessResponse(res.StatusCode, headers, body)
+		return newSuccessResponse(res.StatusCode, res.Proto, headers, body)
 
 	default:
 		l.Debug("Alternative response")
-		return newAltResponse(res.StatusCode, headers, body)
+		return newAltResponse(res.StatusCode, res.Proto, headers, body)
 	}
 }
 
-func newSuccessResponse(code int, headers map[string]string, body es_response.Body) es_response.Response {
+func newSuccessResponse(code int, proto string, headers map[string]string, body es_response.Body) es_response.Response {
 	return &resImpl{
 		code:         code,
+		proto:        proto,
 		headers:      headers,
 		headersLower: createHeaderLower(headers),
 		success:      body,
@@ -41,9 +42,10 @@ func newSuccessResponse(code int, headers map[string]string, body es_response.Bo
 	}
 }
 
-func newAltResponse(code int, headers map[string]string, body es_response.Body) es_response.Response {
+func newAltResponse(code int, proto string, headers map[string]string, body es_response.Body) es_response.Response {
 	return &resImpl{
 		code:         code,
+		proto:        proto,
 		headers:      headers,
 		headersLower: createHeaderLower(headers),
 		success:      newEmptyBody(),
@@ -70,11 +72,16 @@ func createHeaderLower(headers map[string]string) map[string]string {
 
 type resImpl struct {
 	code         int
+	proto        string
 	headers      map[string]string
 	headersLower map[string]string
 	success      es_response.Body
 	alt          es_response.Body
 	isSuccess    bool
+}
+
+func (z resImpl) Proto() string {
+	return z.proto
 }
 
 func (z resImpl) Failure() (error, bool) {

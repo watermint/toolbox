@@ -10,7 +10,7 @@ import (
 // Mock tests
 
 func TestProfileImpl_Current(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewProfile(ctx)
 		_, err := sv.Current()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -20,7 +20,7 @@ func TestProfileImpl_Current(t *testing.T) {
 }
 
 func TestTeamImpl_Admin(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewTeam(ctx)
 		_, err := sv.Admin()
 		if err != nil && err != qt_errors.ErrorMock {

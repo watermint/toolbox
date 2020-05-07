@@ -8,7 +8,7 @@ import (
 )
 
 func TestRelocationImpl_Copy(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		err := sv.Copy(qt_recipe.NewTestDropboxFolderPath("from"), qt_recipe.NewTestDropboxFolderPath("to"))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -18,7 +18,7 @@ func TestRelocationImpl_Copy(t *testing.T) {
 }
 
 func TestRelocationImpl_Move(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		err := sv.Move(qt_recipe.NewTestDropboxFolderPath("from"), qt_recipe.NewTestDropboxFolderPath("to"))
 		if err != nil && err != qt_errors.ErrorMock {

@@ -8,7 +8,7 @@ import (
 )
 
 func TestTeamImpl_Feature(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		_, err := sv.Feature()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -18,7 +18,7 @@ func TestTeamImpl_Feature(t *testing.T) {
 }
 
 func TestTeamImpl_Info(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		_, err := sv.Info()
 		if err != nil && err != qt_errors.ErrorMock {

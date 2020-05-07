@@ -17,6 +17,9 @@ type Response interface {
 	// Status code category.
 	CodeCategory() CodeCategory
 
+	// Protocol
+	Proto() string
+
 	// Response headers.
 	Headers() map[string]string
 

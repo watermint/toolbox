@@ -14,13 +14,14 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/network/nw_client"
+	"github.com/watermint/toolbox/infra/network/nw_replay"
 	"github.com/watermint/toolbox/infra/network/nw_rest"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"net/http"
 )
 
 func NewMock(ctl app_control.Control) dbx_context.Context {
-	client := nw_rest.New(ctl.Feature(),
+	client := nw_rest.New(
 		nw_rest.Assert(dbx_response_impl.AssertResponse),
 		nw_rest.Mock())
 	return &ctxImpl{
@@ -30,8 +31,19 @@ func NewMock(ctl app_control.Control) dbx_context.Context {
 	}
 }
 
+func NewReplayMock(ctl app_control.Control, rr []nw_replay.Response) dbx_context.Context {
+	client := nw_rest.New(
+		nw_rest.Assert(dbx_response_impl.AssertResponse),
+		nw_rest.ReplayMock(rr))
+	return &ctxImpl{
+		client:  client,
+		ctl:     ctl,
+		builder: dbx_request.NewBuilder(ctl, nil),
+	}
+}
+
 func New(ctl app_control.Control, token api_auth.Context) dbx_context.Context {
-	client := nw_rest.New(ctl.Feature(),
+	client := nw_rest.New(
 		nw_rest.Assert(dbx_response_impl.AssertResponse))
 	return &ctxImpl{
 		client:  client,

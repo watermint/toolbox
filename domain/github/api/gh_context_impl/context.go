@@ -20,7 +20,7 @@ const (
 )
 
 func NewMock(ctl app_control.Control) gh_context.Context {
-	client := nw_rest.New(ctl.Feature(),
+	client := nw_rest.New(
 		nw_rest.Assert(gh_response.AssertResponse),
 		nw_rest.Mock())
 	return &ctxImpl{
@@ -31,7 +31,7 @@ func NewMock(ctl app_control.Control) gh_context.Context {
 }
 
 func New(ctl app_control.Control, token api_auth.Context) gh_context.Context {
-	client := nw_rest.New(ctl.Feature(),
+	client := nw_rest.New(
 		nw_rest.Assert(gh_response.AssertResponse))
 	return &ctxImpl{
 		client:  client,

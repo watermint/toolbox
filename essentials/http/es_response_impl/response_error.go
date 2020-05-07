@@ -12,6 +12,7 @@ func NewNoResponse(err error) es_response.Response {
 func NewTransportErrorResponse(err error, res es_response.Response) es_response.Response {
 	return &errorResponse{
 		err:         err,
+		proto:       res.Proto(),
 		code:        res.Code(),
 		headers:     res.Headers(),
 		headerLower: createHeaderLower(res.Headers()),
@@ -24,6 +25,7 @@ func NewTransportErrorHttpResponse(err error, res *http.Response) es_response.Re
 		headersLower := createHeaderLower(headers)
 		return &errorResponse{
 			err:         err,
+			proto:       res.Proto,
 			code:        res.StatusCode,
 			headers:     headers,
 			headerLower: headersLower,
@@ -42,7 +44,12 @@ type errorResponse struct {
 	headers     map[string]string
 	headerLower map[string]string
 	code        int
+	proto       string
 	err         error
+}
+
+func (z errorResponse) Proto() string {
+	return z.proto
 }
 
 func (z errorResponse) Failure() (error, bool) {

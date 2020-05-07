@@ -19,6 +19,10 @@ type Proxy struct {
 	res Response
 }
 
+func (z Proxy) Proto() string {
+	return z.res.Proto()
+}
+
 func (z Proxy) Failure() (error, bool) {
 	return z.res.Failure()
 }

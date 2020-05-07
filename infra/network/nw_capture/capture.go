@@ -98,6 +98,7 @@ func (z *Req) Apply(rb nw_client.RequestBuilder, req *http.Request) {
 
 type Res struct {
 	ResponseCode    int               `json:"code"`
+	ResponseProto   string            `json:"proto,omitempty"`
 	ResponseBody    string            `json:"body,omitempty"`
 	ResponseHeaders map[string]string `json:"headers"`
 	ResponseJson    json.RawMessage   `json:"json,omitempty"`
@@ -107,6 +108,7 @@ type Res struct {
 
 func (z *Res) Apply(res es_response.Response, resErr error) {
 	z.ResponseCode = res.Code()
+	z.ResponseProto = res.Proto()
 	z.ContentLength = res.Success().ContentLength()
 	if res.Success().IsFile() {
 		z.ResponseBody = ""

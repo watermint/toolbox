@@ -35,7 +35,7 @@ func (z *Recipe) runSingle(c app_control.Control, r rc_recipe.Recipe) error {
 		return nil
 	}
 
-	cn := strings.Join(path, "-") + "-" + name
+	cn := strings.Join(append(path, name), "-")
 	return app_workspace.WithFork(c.WorkBundle(), cn, func(fwb app_workspace.Bundle) error {
 		cf := c.WithBundle(fwb).WithFeature(c.Feature().AsTest(false))
 		if !z.Verbose {
