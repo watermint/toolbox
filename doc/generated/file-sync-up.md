@@ -1,6 +1,6 @@
 # file sync up 
 
-Upstream sync with Dropbox 
+Upstream sync with Dropbox (Irreversible operation)
 
 # Security
 

@@ -1,6 +1,6 @@
 # services github tag create 
 
-Create a tag on the repository (Experimental)
+Create a tag on the repository (Experimental, and Irreversible operation)
 
 # Usage
 

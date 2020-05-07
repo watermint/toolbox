@@ -17,6 +17,7 @@ import (
 )
 
 type Create struct {
+	rc_recipe.RemarkIrreversible
 	Title            string
 	Path             mo_path.DropboxPath
 	Deadline         mo_time.TimeOptional

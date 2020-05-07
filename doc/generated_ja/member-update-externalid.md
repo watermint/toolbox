@@ -1,6 +1,6 @@
 # member update externalid 
 
-チームメンバーのExternal IDを更新します. 
+チームメンバーのExternal IDを更新します. (非可逆な操作です)
 
 # セキュリティ
 

@@ -1,6 +1,6 @@
 # member update profile 
 
-Update member profile 
+Update member profile (Irreversible operation)
 
 # Security
 

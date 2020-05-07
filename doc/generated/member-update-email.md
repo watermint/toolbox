@@ -1,6 +1,6 @@
 # member update email 
 
-Member email operation 
+Member email operation (Irreversible operation)
 
 # Security
 

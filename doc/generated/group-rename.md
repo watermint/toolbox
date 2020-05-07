@@ -1,6 +1,6 @@
 # group rename 
 
-Rename the group 
+Rename the group (Irreversible operation)
 
 # Security
 

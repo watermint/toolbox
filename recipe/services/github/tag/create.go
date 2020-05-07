@@ -13,6 +13,7 @@ import (
 
 type Create struct {
 	rc_recipe.RemarkExperimental
+	rc_recipe.RemarkIrreversible
 	Owner      string
 	Repository string
 	Tag        string

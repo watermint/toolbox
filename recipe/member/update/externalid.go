@@ -28,6 +28,7 @@ type ExternalIdRow struct {
 }
 
 type Externalid struct {
+	rc_recipe.RemarkIrreversible
 	Peer         dbx_conn.ConnBusinessMgmt
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport

@@ -15,6 +15,7 @@ import (
 )
 
 type Up struct {
+	rc_recipe.RemarkIrreversible
 	Peer        dbx_conn.ConnUserFile
 	LocalPath   mo_path2.ExistingFileSystemPath
 	DropboxPath mo_path.DropboxPath

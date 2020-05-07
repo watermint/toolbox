@@ -14,6 +14,7 @@ import (
 )
 
 type Url struct {
+	rc_recipe.RemarkIrreversible
 	Url                    string
 	Peer                   dbx_conn.ConnUserFile
 	Deleted                rp_model.RowReport

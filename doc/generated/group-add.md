@@ -1,6 +1,6 @@
 # group add 
 
-Create new group 
+Create new group (Irreversible operation)
 
 # Security
 

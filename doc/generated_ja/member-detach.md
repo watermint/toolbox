@@ -1,6 +1,6 @@
 # member detach 
 
-Dropbox BusinessユーザーをBasicユーザーに変更します 
+Dropbox BusinessユーザーをBasicユーザーに変更します (非可逆な操作です)
 
 # セキュリティ
 

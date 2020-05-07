@@ -17,6 +17,7 @@ type DetachRow struct {
 }
 
 type Detach struct {
+	rc_recipe.RemarkIrreversible
 	File             fd_file.RowFeed
 	Peer             dbx_conn.ConnBusinessMgmt
 	RevokeTeamShares bool

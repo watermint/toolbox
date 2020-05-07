@@ -1113,6 +1113,7 @@
   "recipe.dev.test.monkey.flag.seconds": "Monkey test duration in seconds",
   "recipe.dev.test.monkey.title": "Monkey testing",
   "recipe.dev.test.recipe.flag.all": "Test all recipes",
+  "recipe.dev.test.recipe.flag.no_timeout": "Do not timeout running recipe tests",
   "recipe.dev.test.recipe.flag.recipe": "Recipe name to test",
   "recipe.dev.test.recipe.flag.resource": "Test resource file path",
   "recipe.dev.test.recipe.flag.verbose": "Verbose output for testing",

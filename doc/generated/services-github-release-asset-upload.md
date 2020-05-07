@@ -1,6 +1,6 @@
 # services github release asset upload 
 
-Upload assets file into the GitHub Release (Experimental)
+Upload assets file into the GitHub Release (Experimental, and Irreversible operation)
 
 # Usage
 

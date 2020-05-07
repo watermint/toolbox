@@ -12,6 +12,7 @@ import (
 )
 
 type Rename struct {
+	rc_recipe.RemarkIrreversible
 	Peer         dbx_conn.ConnBusinessMgmt
 	CurrentName  string
 	NewName      string

@@ -17,6 +17,7 @@ type DeleteRow struct {
 }
 
 type Delete struct {
+	rc_recipe.RemarkIrreversible
 	File         fd_file.RowFeed
 	Peer         dbx_conn.ConnBusinessMgmt
 	WipeData     bool

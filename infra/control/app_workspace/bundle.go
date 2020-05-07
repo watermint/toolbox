@@ -43,12 +43,7 @@ func ForkBundleWithLevel(wb Bundle, name string, consoleLevel es_log.Level) (bun
 	if err != nil {
 		return nil, err
 	}
-	return &bdlImpl{
-		ws:      nws,
-		logger:  l,
-		capture: c,
-		summary: s,
-	}, nil
+	return newBundleInternal(nws, wb.Budget(), c, l, s, consoleLevel), nil
 }
 
 func WithFork(wb Bundle, name string, f func(fwb Bundle) error) error {
@@ -71,14 +66,25 @@ func NewBundle(home string, budget app_budget.Budget, consoleLevel es_log.Level)
 	if err != nil {
 		return nil, err
 	}
+	return newBundleInternal(
+		ws,
+		budget,
+		c,
+		l,
+		s,
+		consoleLevel,
+	), nil
+}
+
+func newBundleInternal(ws Workspace, budget app_budget.Budget, capture, logger, summary es_container.Logger, consoleLevel es_log.Level) Bundle {
 	return &bdlImpl{
-		conLv:   consoleLevel,
 		budget:  budget,
+		conLv:   consoleLevel,
+		capture: capture,
+		logger:  logger,
+		summary: summary,
 		ws:      ws,
-		logger:  l,
-		capture: c,
-		summary: s,
-	}, nil
+	}
 }
 
 type bdlImpl struct {

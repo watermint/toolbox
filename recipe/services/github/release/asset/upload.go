@@ -97,6 +97,7 @@ type UploadFile struct {
 
 type Upload struct {
 	rc_recipe.RemarkExperimental
+	rc_recipe.RemarkIrreversible
 	Asset      mo_path.ExistingFileSystemPath
 	Owner      string
 	Repository string

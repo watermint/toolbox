@@ -1,6 +1,6 @@
 # teamfolder archive 
 
-Archive team folder 
+Archive team folder (Irreversible operation)
 
 # Security
 

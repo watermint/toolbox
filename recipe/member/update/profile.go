@@ -21,6 +21,7 @@ type ProfileRow struct {
 }
 
 type Profile struct {
+	rc_recipe.RemarkIrreversible
 	File                fd_file.RowFeed
 	Peer                dbx_conn.ConnBusinessMgmt
 	OperationLog        rp_model.TransactionReport

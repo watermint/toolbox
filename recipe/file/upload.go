@@ -15,6 +15,7 @@ import (
 )
 
 type Upload struct {
+	rc_recipe.RemarkIrreversible
 	Peer        dbx_conn.ConnUserFile
 	LocalPath   mo_path2.FileSystemPath
 	DropboxPath mo_path.DropboxPath

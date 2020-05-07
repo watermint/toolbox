@@ -1,6 +1,6 @@
 # file dispatch local 
 
-Dispatch local files 
+Dispatch local files (Irreversible operation)
 
 # Usage
 

@@ -17,6 +17,7 @@ import (
 )
 
 type Create struct {
+	rc_recipe.RemarkIrreversible
 	Peer     dbx_conn.ConnUserFile
 	Path     mo_path.DropboxPath
 	TeamOnly bool

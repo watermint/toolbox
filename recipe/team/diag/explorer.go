@@ -35,16 +35,13 @@ func (z exploreRecipe) exec(c app_control.Control) error {
 	l := c.Log().With(es_log.String("Name", name))
 	l.Info("Execute:", es_log.String("Title", c.UI().Text(spec.Title())))
 
-	cf, err := app_control_impl.ForkQuiet(c, name)
-	if err != nil {
-		return err
-	}
-	defer cf.WorkBundle().Close()
-	if err := rc_exec.Exec(cf, z.recipe, z.custom); err != nil {
-		l.Error("Recipe failed", es_log.Error(err))
-		return err
-	}
-	return nil
+	return app_control_impl.WithForkedQuiet(c, name, func(cf app_control.Control) error {
+		if err := rc_exec.Exec(cf, z.recipe, z.custom); err != nil {
+			l.Error("Recipe failed", es_log.Error(err))
+			return err
+		}
+		return nil
+	})
 }
 
 type Explorer struct {

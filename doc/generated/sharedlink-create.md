@@ -1,6 +1,6 @@
 # sharedlink create 
 
-Create shared link 
+Create shared link (Irreversible operation)
 
 # Security
 

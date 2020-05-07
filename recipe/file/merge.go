@@ -12,6 +12,7 @@ import (
 )
 
 type Merge struct {
+	rc_recipe.RemarkIrreversible
 	Peer                dbx_conn.ConnUserFile
 	From                mo_path.DropboxPath
 	To                  mo_path.DropboxPath

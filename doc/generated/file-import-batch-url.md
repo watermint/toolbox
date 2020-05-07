@@ -1,6 +1,6 @@
 # file import batch url 
 
-Batch import files from URL 
+Batch import files from URL (Irreversible operation)
 
 # Security
 

@@ -193,6 +193,7 @@ func (z *LocalPattern) Exec(c app_control.Control, op func(src, dst string, c ap
 }
 
 type Local struct {
+	rc_recipe.RemarkIrreversible
 	File    fd_file.RowFeed
 	Preview bool
 }

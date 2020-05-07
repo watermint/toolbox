@@ -1320,6 +1320,13 @@
         "type_attr": null
       },
       {
+        "name": "NoTimeout",
+        "desc": "Do not timeout running recipe tests",
+        "default": "false",
+        "type_name": "bool",
+        "type_attr": null
+      },
+      {
         "name": "Recipe",
         "desc": "Recipe name to test",
         "default": "",
@@ -1694,7 +1701,7 @@
     "name": "delete",
     "title": "Delete file or folder",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "file delete",
     "cli_args": "-path /PATH/TO/DELETE",
     "cli_note": "",
@@ -1706,7 +1713,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -1730,7 +1737,7 @@
     "name": "local",
     "title": "Dispatch local files",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "file dispatch local",
     "cli_args": "-file /PATH/TO/DATA_FILE.csv",
     "cli_note": "",
@@ -1740,7 +1747,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [],
     "feeds": [
       {
@@ -1952,7 +1959,7 @@
     "name": "url",
     "title": "Batch import files from URL",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "file import batch url",
     "cli_args": "-file /path/to/data/file -path /path/to/import",
     "cli_note": "",
@@ -1964,7 +1971,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -2059,7 +2066,7 @@
     "name": "url",
     "title": "Import file from the URL",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "file import url",
     "cli_args": "-url URL -path /path/to/import",
     "cli_note": "",
@@ -2071,7 +2078,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -2225,7 +2232,7 @@
     "name": "merge",
     "title": "Merge paths",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "file merge",
     "cli_args": "-from /from/path -to /path/to",
     "cli_note": "Please add `-dry-run=false` option after verify integrity of expected result.",
@@ -2237,7 +2244,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -2289,7 +2296,7 @@
     "name": "move",
     "title": "Move files",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "file move",
     "cli_args": "-src /SRC/PATH -dst /DST/PATH",
     "cli_note": "",
@@ -2301,7 +2308,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -2332,7 +2339,7 @@
     "name": "replication",
     "title": "Replicate file content to the other account",
     "desc": "This command will replicate files/folders. But it does not include sharing permissions. The command replicates only for folder contents of given path.",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "file replication",
     "cli_args": "-src source -src-path /path/src -dst dest -dst-path /path/dest",
     "cli_note": "",
@@ -2345,7 +2352,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "replication_diff",
@@ -2426,7 +2433,7 @@
     "name": "restore",
     "title": "Restore files under given path",
     "desc": "",
-    "remarks": "(Experimental)",
+    "remarks": "(Experimental, and Irreversible operation)",
     "path": "file restore",
     "cli_args": "-path /DROPBOX/PATH/TO/RESTORE",
     "cli_note": "",
@@ -2438,7 +2445,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -2857,7 +2864,7 @@
     "name": "up",
     "title": "Upstream sync with Dropbox",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "file sync up",
     "cli_args": "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT",
     "cli_note": "",
@@ -2869,7 +2876,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "skipped",
@@ -3047,7 +3054,7 @@
     "name": "upload",
     "title": "Upload file",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "file upload",
     "cli_args": "-local-path /PATH/TO/UPLOAD -dropbox-path /DROPBOX/PATH",
     "cli_note": "",
@@ -3059,7 +3066,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "skipped",
@@ -3280,7 +3287,7 @@
     "name": "create",
     "title": "Create a file request",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "filerequest create",
     "cli_args": "-path /DROPBOX/PATH/OF/FILEREQUEST",
     "cli_note": "",
@@ -3292,7 +3299,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "file_request",
@@ -3382,7 +3389,7 @@
     "name": "closed",
     "title": "Delete all closed file requests on this account.",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "filerequest delete closed",
     "cli_args": "",
     "cli_note": "",
@@ -3394,7 +3401,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "deleted",
@@ -3454,7 +3461,7 @@
     "name": "url",
     "title": "Delete a file request by the file request URL",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "filerequest delete url",
     "cli_args": "",
     "cli_note": "",
@@ -3466,7 +3473,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "deleted",
@@ -3612,7 +3619,7 @@
     "name": "add",
     "title": "Create new group",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "group add",
     "cli_args": "",
     "cli_note": "",
@@ -3624,7 +3631,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "added_group",
@@ -3842,7 +3849,7 @@
     "name": "add",
     "title": "Add a member to the group",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "group member add",
     "cli_args": "",
     "cli_note": "",
@@ -3854,7 +3861,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -4062,7 +4069,7 @@
     "name": "rename",
     "title": "Rename the group",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "group rename",
     "cli_args": "",
     "cli_note": "",
@@ -4074,7 +4081,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -4465,7 +4472,7 @@
     "name": "delete",
     "title": "Delete members",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "member delete",
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
@@ -4477,7 +4484,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -4539,7 +4546,7 @@
     "name": "detach",
     "title": "Convert Dropbox Business accounts to a Basic account",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "member detach",
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
@@ -4551,7 +4558,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -4613,7 +4620,7 @@
     "name": "invite",
     "title": "Invite member(s)",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "member invite",
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
@@ -4625,7 +4632,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -5004,7 +5011,7 @@
     "name": "reinvite",
     "title": "Reinvite invited status members to the team",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "member reinvite",
     "cli_args": "",
     "cli_note": "",
@@ -5016,7 +5023,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -5211,7 +5218,7 @@
     "name": "email",
     "title": "Member email operation",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "member update email",
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
@@ -5223,7 +5230,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -5330,7 +5337,7 @@
     "name": "externalid",
     "title": "Update External ID of team members",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "member update externalid",
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
@@ -5342,7 +5349,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -5442,7 +5449,7 @@
     "name": "profile",
     "title": "Update member profile",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "member update profile",
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
@@ -5454,7 +5461,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -5824,7 +5831,7 @@
     "name": "upload",
     "title": "Upload assets file into the GitHub Release",
     "desc": "",
-    "remarks": "(Experimental)",
+    "remarks": "(Experimental, and Irreversible operation)",
     "path": "services github release asset upload",
     "cli_args": "-asset /LOCAL/PATH/TO/assets",
     "cli_note": "",
@@ -5834,7 +5841,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "uploads",
@@ -5920,7 +5927,7 @@
     "name": "draft",
     "title": "Create release draft",
     "desc": "",
-    "remarks": "(Experimental)",
+    "remarks": "(Experimental, and Irreversible operation)",
     "path": "services github release draft",
     "cli_args": "-body-file /LOCAL/PATH/TO/body.txt",
     "cli_note": "",
@@ -5930,7 +5937,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "release",
@@ -6082,7 +6089,7 @@
     "name": "create",
     "title": "Create a tag on the repository",
     "desc": "",
-    "remarks": "(Experimental)",
+    "remarks": "(Experimental, and Irreversible operation)",
     "path": "services github tag create",
     "cli_args": "",
     "cli_note": "",
@@ -6092,7 +6099,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "created",
@@ -6336,7 +6343,7 @@
     "name": "create",
     "title": "Create shared link",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "sharedlink create",
     "cli_args": "-path /path/to/share",
     "cli_note": "",
@@ -6348,7 +6355,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "created",
@@ -8533,7 +8540,7 @@
     "name": "clone",
     "title": "Clone file requests by given data",
     "desc": "",
-    "remarks": "(Experimental)",
+    "remarks": "(Experimental, and Irreversible operation)",
     "path": "team filerequest clone",
     "cli_args": "-file /PATH/TO/DATA_FILE.csv",
     "cli_note": "",
@@ -8545,7 +8552,7 @@
     "is_secret": true,
     "is_console": false,
     "is_experimental": true,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -9613,7 +9620,7 @@
     "name": "archive",
     "title": "Archive team folder",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "teamfolder archive",
     "cli_args": "-name TEAMFOLDER_NAME",
     "cli_note": "",
@@ -9625,7 +9632,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -9649,7 +9656,7 @@
     "name": "archive",
     "title": "Archiving team folders",
     "desc": "",
-    "remarks": "",
+    "remarks": "(Irreversible operation)",
     "path": "teamfolder batch archive",
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
@@ -9661,7 +9668,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",

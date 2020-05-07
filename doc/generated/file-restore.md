@@ -1,6 +1,6 @@
 # file restore 
 
-Restore files under given path (Experimental)
+Restore files under given path (Experimental, and Irreversible operation)
 
 # Security
 

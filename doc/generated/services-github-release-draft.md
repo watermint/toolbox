@@ -1,6 +1,6 @@
 # services github release draft 
 
-Create release draft (Experimental)
+Create release draft (Experimental, and Irreversible operation)
 
 # Usage
 

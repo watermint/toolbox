@@ -1,6 +1,6 @@
 # filerequest delete closed 
 
-Delete all closed file requests on this account. 
+Delete all closed file requests on this account. (Irreversible operation)
 
 # Security
 

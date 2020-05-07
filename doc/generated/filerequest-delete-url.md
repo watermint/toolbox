@@ -1,6 +1,6 @@
 # filerequest delete url 
 
-Delete a file request by the file request URL 
+Delete a file request by the file request URL (Irreversible operation)
 
 # Security
 

@@ -1,6 +1,6 @@
 # file merge 
 
-Merge paths 
+Merge paths (Irreversible operation)
 
 # Security
 

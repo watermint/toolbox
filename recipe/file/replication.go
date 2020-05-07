@@ -15,6 +15,7 @@ import (
 )
 
 type Replication struct {
+	rc_recipe.RemarkIrreversible
 	Src             dbx_conn.ConnUserFile
 	Dst             dbx_conn.ConnUserFile
 	SrcPath         mo_path.DropboxPath

@@ -1320,6 +1320,13 @@
         "type_attr": null
       },
       {
+        "name": "NoTimeout",
+        "desc": "レシピのテスト時にタイムアウトしません",
+        "default": "false",
+        "type_name": "bool",
+        "type_attr": null
+      },
+      {
         "name": "Recipe",
         "desc": "テストするレシピ名",
         "default": "",
@@ -1694,7 +1701,7 @@
     "name": "delete",
     "title": "ファイルまたはフォルダは削除します.",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "file delete",
     "cli_args": "-path /PATH/TO/DELETE",
     "cli_note": "",
@@ -1706,7 +1713,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -1730,7 +1737,7 @@
     "name": "local",
     "title": "ローカルファイルを整理します",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "file dispatch local",
     "cli_args": "-file /PATH/TO/DATA_FILE.csv",
     "cli_note": "",
@@ -1740,7 +1747,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [],
     "feeds": [
       {
@@ -1952,7 +1959,7 @@
     "name": "url",
     "title": "URLからファイルを一括インポートします",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "file import batch url",
     "cli_args": "-file /path/to/data/file -path /path/to/import",
     "cli_note": "",
@@ -1964,7 +1971,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -2059,7 +2066,7 @@
     "name": "url",
     "title": "URLからファイルをインポートします",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "file import url",
     "cli_args": "-url URL -path /path/to/import",
     "cli_note": "",
@@ -2071,7 +2078,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -2225,7 +2232,7 @@
     "name": "merge",
     "title": "フォルダを統合します",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "file merge",
     "cli_args": "-from /from/path -to /path/to",
     "cli_note": "期待する結果と整合性があうことを確認できたら`-dry-run=false` オプションを追加して実行してください",
@@ -2237,7 +2244,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -2289,7 +2296,7 @@
     "name": "move",
     "title": "ファイルを移動します",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "file move",
     "cli_args": "-src /SRC/PATH -dst /DST/PATH",
     "cli_note": "",
@@ -2301,7 +2308,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -2332,7 +2339,7 @@
     "name": "replication",
     "title": "ファイルコンテンツを他のアカウントに複製します",
     "desc": "このコマンドはファイルとフォルダを複製します. しかし、ファイルの共有権限については複製しません. このコマンドは指定されたパスのフォルダコンテンツのみを複製します",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "file replication",
     "cli_args": "-src source -src-path /path/src -dst dest -dst-path /path/dest",
     "cli_note": "",
@@ -2345,7 +2352,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "replication_diff",
@@ -2426,7 +2433,7 @@
     "name": "restore",
     "title": "指定されたパス以下をリストアします",
     "desc": "",
-    "remarks": "(試験的実装です)",
+    "remarks": "(試験的実装かつ非可逆な操作です)",
     "path": "file restore",
     "cli_args": "-path /DROPBOX/PATH/TO/RESTORE",
     "cli_note": "",
@@ -2438,7 +2445,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -2857,7 +2864,7 @@
     "name": "up",
     "title": "Dropboxと上り方向で同期します",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "file sync up",
     "cli_args": "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT",
     "cli_note": "",
@@ -2869,7 +2876,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "skipped",
@@ -3047,7 +3054,7 @@
     "name": "upload",
     "title": "ファイルのアップロード",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "file upload",
     "cli_args": "-local-path /PATH/TO/UPLOAD -dropbox-path /DROPBOX/PATH",
     "cli_note": "",
@@ -3059,7 +3066,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "skipped",
@@ -3280,7 +3287,7 @@
     "name": "create",
     "title": "ファイルリクエストを作成します",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "filerequest create",
     "cli_args": "-path /DROPBOX/PATH/OF/FILEREQUEST",
     "cli_note": "",
@@ -3292,7 +3299,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "file_request",
@@ -3382,7 +3389,7 @@
     "name": "closed",
     "title": "このアカウントの全ての閉じられているファイルリクエストを削除します",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "filerequest delete closed",
     "cli_args": "",
     "cli_note": "",
@@ -3394,7 +3401,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "deleted",
@@ -3454,7 +3461,7 @@
     "name": "url",
     "title": "ファイルリクエストのURLを指定して削除",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "filerequest delete url",
     "cli_args": "",
     "cli_note": "",
@@ -3466,7 +3473,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "deleted",
@@ -3612,7 +3619,7 @@
     "name": "add",
     "title": "グループを作成します",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "group add",
     "cli_args": "",
     "cli_note": "",
@@ -3624,7 +3631,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "added_group",
@@ -3842,7 +3849,7 @@
     "name": "add",
     "title": "メンバーをグループに追加",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "group member add",
     "cli_args": "",
     "cli_note": "",
@@ -3854,7 +3861,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -4062,7 +4069,7 @@
     "name": "rename",
     "title": "グループの改名",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "group rename",
     "cli_args": "",
     "cli_note": "",
@@ -4074,7 +4081,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -4465,7 +4472,7 @@
     "name": "delete",
     "title": "メンバーを削除します",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "member delete",
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
@@ -4477,7 +4484,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -4539,7 +4546,7 @@
     "name": "detach",
     "title": "Dropbox BusinessユーザーをBasicユーザーに変更します",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "member detach",
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
@@ -4551,7 +4558,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -4613,7 +4620,7 @@
     "name": "invite",
     "title": "メンバーを招待します",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "member invite",
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
@@ -4625,7 +4632,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -5004,7 +5011,7 @@
     "name": "reinvite",
     "title": "招待済み状態メンバーをチームに再招待します",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "member reinvite",
     "cli_args": "",
     "cli_note": "",
@@ -5016,7 +5023,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -5211,7 +5218,7 @@
     "name": "email",
     "title": "メンバーのメールアドレス処理",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "member update email",
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
@@ -5223,7 +5230,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -5330,7 +5337,7 @@
     "name": "externalid",
     "title": "チームメンバーのExternal IDを更新します.",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "member update externalid",
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
@@ -5342,7 +5349,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -5442,7 +5449,7 @@
     "name": "profile",
     "title": "メンバーのプロフィール変更",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "member update profile",
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
@@ -5454,7 +5461,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -5824,7 +5831,7 @@
     "name": "upload",
     "title": "GitHub リリースへ成果物をアップロードします",
     "desc": "",
-    "remarks": "(試験的実装です)",
+    "remarks": "(試験的実装かつ非可逆な操作です)",
     "path": "services github release asset upload",
     "cli_args": "-asset /LOCAL/PATH/TO/assets",
     "cli_note": "",
@@ -5834,7 +5841,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "uploads",
@@ -5920,7 +5927,7 @@
     "name": "draft",
     "title": "リリースの下書きを作成",
     "desc": "",
-    "remarks": "(試験的実装です)",
+    "remarks": "(試験的実装かつ非可逆な操作です)",
     "path": "services github release draft",
     "cli_args": "-body-file /LOCAL/PATH/TO/body.txt",
     "cli_note": "",
@@ -5930,7 +5937,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "release",
@@ -6082,7 +6089,7 @@
     "name": "create",
     "title": "レポジトリにタグを作成します",
     "desc": "",
-    "remarks": "(試験的実装です)",
+    "remarks": "(試験的実装かつ非可逆な操作です)",
     "path": "services github tag create",
     "cli_args": "",
     "cli_note": "",
@@ -6092,7 +6099,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "created",
@@ -6336,7 +6343,7 @@
     "name": "create",
     "title": "共有リンクの作成",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "sharedlink create",
     "cli_args": "-path /path/to/share",
     "cli_note": "",
@@ -6348,7 +6355,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "created",
@@ -8533,7 +8540,7 @@
     "name": "clone",
     "title": "ファイルリクエストを入力データに従い複製します",
     "desc": "",
-    "remarks": "(試験的実装です)",
+    "remarks": "(試験的実装かつ非可逆な操作です)",
     "path": "team filerequest clone",
     "cli_args": "-file /PATH/TO/DATA_FILE.csv",
     "cli_note": "",
@@ -8545,7 +8552,7 @@
     "is_secret": true,
     "is_console": false,
     "is_experimental": true,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",
@@ -9613,7 +9620,7 @@
     "name": "archive",
     "title": "チームフォルダのアーカイブ",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "teamfolder archive",
     "cli_args": "-name チームフォルダ名",
     "cli_note": "",
@@ -9625,7 +9632,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -9649,7 +9656,7 @@
     "name": "archive",
     "title": "複数のチームフォルダをアーカイブします",
     "desc": "",
-    "remarks": "",
+    "remarks": "(非可逆な操作です)",
     "path": "teamfolder batch archive",
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
@@ -9661,7 +9668,7 @@
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
-    "is_irreversible": false,
+    "is_irreversible": true,
     "reports": [
       {
         "name": "operation_log",

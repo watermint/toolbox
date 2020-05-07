@@ -1,6 +1,6 @@
 # file replication 
 
-Replicate file content to the other account 
+Replicate file content to the other account (Irreversible operation)
 
 This command will replicate files/folders. But it does not include sharing permissions. The command replicates only for folder contents of given path.
 

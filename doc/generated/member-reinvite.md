@@ -1,6 +1,6 @@
 # member reinvite 
 
-Reinvite invited status members to the team 
+Reinvite invited status members to the team (Irreversible operation)
 
 # Security
 

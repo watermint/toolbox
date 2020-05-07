@@ -58,6 +58,7 @@ func (z *UrlWorker) Exec() error {
 }
 
 type Url struct {
+	rc_recipe.RemarkIrreversible
 	Peer            dbx_conn.ConnUserFile
 	File            fd_file.RowFeed
 	Path            mo_string.OptionalString

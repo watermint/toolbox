@@ -14,6 +14,7 @@ import (
 )
 
 type Add struct {
+	rc_recipe.RemarkIrreversible
 	Peer                  dbx_conn.ConnBusinessMgmt
 	Name                  string
 	ManagementType        mo_string.SelectString

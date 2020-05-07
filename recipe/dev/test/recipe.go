@@ -1,6 +1,7 @@
 package test
 
 import (
+	"context"
 	"errors"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/essentials/log/es_log"
@@ -16,14 +17,68 @@ import (
 	"time"
 )
 
+var (
+	recipeTimeout = 30 * time.Second
+)
+
 type Recipe struct {
 	rc_recipe.RemarkSecret
-	All     bool
-	Recipe  mo_string.OptionalString
-	Verbose bool
+	All       bool
+	Recipe    mo_string.OptionalString
+	NoTimeout bool
+	Verbose   bool
 }
 
 func (z *Recipe) Preset() {
+}
+
+func (z *Recipe) execRecipe(c app_control.Control, r rc_recipe.Recipe, spec rc_recipe.Spec, timeoutEnabled bool) error {
+	path, name := spec.Path()
+	l := c.Log().With(es_log.Strings("path", path), es_log.String("name", name), es_log.Bool("timeoutEnabled", timeoutEnabled))
+	l.Debug("Testing: ")
+	cn := strings.Join(append(path, name), "-")
+	ct := c.WithFeature(c.Feature().AsTest(false))
+
+	return app_control_impl.WithForkedQuiet(ct, cn, func(cf app_control.Control) error {
+		timeStart := time.Now()
+		if err, _ := qt_errors.ErrorsForTest(l, r.Test(cf)); err != nil {
+			l.Error("Error", es_log.Error(err))
+			return err
+		}
+		timeEnd := time.Now()
+		l.Info("Recipe test success", es_log.Int64("duration", timeEnd.Sub(timeStart).Milliseconds()))
+		return nil
+	})
+}
+
+func (z *Recipe) runRecipeWithTimeout(c app_control.Control, r rc_recipe.Recipe, spec rc_recipe.Spec) (err error) {
+	path, name := spec.Path()
+	l := c.Log().With(es_log.Strings("path", path), es_log.String("name", name))
+
+	// Run without timeout
+	if spec.IsIrreversible() || z.NoTimeout {
+		l.Debug("Run recipe without timeout")
+		return z.execRecipe(c, r, spec, false)
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), recipeTimeout)
+	defer cancel()
+
+	result := make(chan error)
+	go func() {
+		errRecipe := z.execRecipe(c, r, spec, true)
+		result <- errRecipe
+	}()
+
+	select {
+	case errRecipe := <-result:
+		l.Debug("Recipe finished without timeout", es_log.Error(errRecipe))
+		return errRecipe
+
+	case <-ctx.Done():
+		l.Info("Recipe test finished with timeout")
+		return nil
+	}
 }
 
 func (z *Recipe) runSingle(c app_control.Control, r rc_recipe.Recipe) error {
@@ -36,22 +91,7 @@ func (z *Recipe) runSingle(c app_control.Control, r rc_recipe.Recipe) error {
 		return nil
 	}
 
-	cn := strings.Join(append(path, name), "-")
-	cf, err := app_control_impl.ForkQuiet(c.WithFeature(c.Feature().AsTest(false)), cn)
-	if err != nil {
-		return err
-	}
-	defer cf.WorkBundle().Close()
-	l.Debug("Testing: ")
-
-	timeStart := time.Now()
-	if err, _ := qt_errors.ErrorsForTest(l, r.Test(cf)); err != nil {
-		l.Error("Error", es_log.Error(err))
-		return err
-	}
-	timeEnd := time.Now()
-	l.Info("Recipe test success", es_log.Int64("duration", timeEnd.Sub(timeStart).Milliseconds()))
-	return nil
+	return z.runRecipeWithTimeout(c, r, rs)
 }
 
 func (z *Recipe) runAll(c app_control.Control) error {
@@ -103,5 +143,6 @@ func (z *Recipe) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Recipe{}, func(r rc_recipe.Recipe) {
 		m := r.(*Recipe)
 		m.Recipe = mo_string.NewOptional(rc_recipe.Key(&dev.Echo{}))
+		m.NoTimeout = false
 	})
 }

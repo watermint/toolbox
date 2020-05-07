@@ -14,6 +14,7 @@ import (
 )
 
 type Archive struct {
+	rc_recipe.RemarkIrreversible
 	Peer                           dbx_conn.ConnBusinessFile
 	Name                           string
 	ErrorUnableToResolveTeamfolder app_msg.Message

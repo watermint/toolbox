@@ -31,6 +31,15 @@ func ForkQuiet(ctl app_control.Control, name string) (app_control.Control, error
 	return ctl.WithFeature(qfe).WithUI(qui).WithBundle(wb), nil
 }
 
+func WithForkedQuiet(ctl app_control.Control, name string, f func(c app_control.Control) error) error {
+	cf, err := ForkQuiet(ctl, name)
+	if err != nil {
+		return err
+	}
+	defer cf.WorkBundle().Close()
+	return f(cf)
+}
+
 type ctlImpl struct {
 	feature app_feature.Feature
 	ui      app_ui.UI

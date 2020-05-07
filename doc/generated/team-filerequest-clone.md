@@ -1,6 +1,6 @@
 # team filerequest clone 
 
-Clone file requests by given data (Experimental)
+Clone file requests by given data (Experimental, and Irreversible operation)
 
 # Security
 

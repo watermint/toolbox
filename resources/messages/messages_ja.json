@@ -1113,6 +1113,7 @@
   "recipe.dev.test.monkey.flag.seconds": "モンキーテストの実施時間(秒)",
   "recipe.dev.test.monkey.title": "モンキーテスト",
   "recipe.dev.test.recipe.flag.all": "全てのレシピをテストします",
+  "recipe.dev.test.recipe.flag.no_timeout": "レシピのテスト時にタイムアウトしません",
   "recipe.dev.test.recipe.flag.recipe": "テストするレシピ名",
   "recipe.dev.test.recipe.flag.resource": "テスト用リソースへのパス",
   "recipe.dev.test.recipe.flag.verbose": "テスト結果の詳細出力",

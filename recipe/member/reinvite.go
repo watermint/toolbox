@@ -14,6 +14,7 @@ import (
 )
 
 type Reinvite struct {
+	rc_recipe.RemarkIrreversible
 	Peer             dbx_conn.ConnBusinessMgmt
 	Silent           bool
 	OperationLog     rp_model.TransactionReport

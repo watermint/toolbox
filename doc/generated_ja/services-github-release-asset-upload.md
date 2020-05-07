@@ -1,6 +1,6 @@
 # services github release asset upload 
 
-GitHub リリースへ成果物をアップロードします (試験的実装です)
+GitHub リリースへ成果物をアップロードします (試験的実装かつ非可逆な操作です)
 
 # 利用方法
 

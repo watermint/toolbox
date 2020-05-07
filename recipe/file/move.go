@@ -12,6 +12,7 @@ import (
 )
 
 type Move struct {
+	rc_recipe.RemarkIrreversible
 	Peer dbx_conn.ConnUserFile
 	Src  mo_path.DropboxPath
 	Dst  mo_path.DropboxPath

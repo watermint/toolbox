@@ -71,6 +71,7 @@ func (z *EmailWorker) Exec() error {
 }
 
 type Email struct {
+	rc_recipe.RemarkIrreversible
 	Peer                dbx_conn.ConnBusinessMgmt
 	File                fd_file.RowFeed
 	UpdateUnverified    bool

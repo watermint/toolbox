@@ -1,6 +1,6 @@
 # file sync up 
 
-Dropboxと上り方向で同期します 
+Dropboxと上り方向で同期します (非可逆な操作です)
 
 # セキュリティ
 

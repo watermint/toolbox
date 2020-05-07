@@ -1,6 +1,6 @@
 # member update externalid 
 
-Update External ID of team members 
+Update External ID of team members (Irreversible operation)
 
 # Security
 

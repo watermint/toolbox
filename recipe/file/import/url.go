@@ -14,6 +14,7 @@ import (
 )
 
 type Url struct {
+	rc_recipe.RemarkIrreversible
 	Peer           dbx_conn.ConnUserFile
 	Path           mo_path.DropboxPath
 	Url            string
