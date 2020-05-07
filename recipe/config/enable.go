@@ -40,24 +40,25 @@ func (z *Enable) Exec(c app_control.Control) error {
 	if c.Feature().IsTest() {
 		features = append(features, &SampleFeature{})
 	}
-	var feature app_feature.OptIn = nil
+	var optIn app_feature.OptIn = nil
 	for _, f := range features {
-		if f.OptInName(f) == z.Key {
-			feature = f
+		if app_feature.OptInName(f) == z.Key {
+			optIn = f
 		}
 	}
-	if feature == nil {
+	if optIn == nil {
 		ui.Error(z.ErrorInvalidKey.With("Key", z.Key))
 		return ErrorInvalidKey
 	}
 
-	ui.Info(app_feature.OptInDescription(feature))
-	cont := ui.AskCont(app_feature.OptInAgreement(feature))
+	ui.Info(app_feature.OptInDescription(optIn))
+	cont := ui.AskCont(app_feature.OptInAgreement(optIn))
 	if !cont {
 		ui.Info(z.InfoCancelled)
 		return nil
 	}
-	if err := c.Feature().OptInUpdate(feature.OptInCommit(true)); err != nil {
+	optIn.OptInCommit(true)
+	if err := c.Feature().OptInUpdate(optIn); err != nil {
 		ui.Error(z.ErrorUnableToEnableFeature.With("Key", z.Key))
 		return err
 	}
@@ -69,7 +70,7 @@ func (z *Enable) Test(c app_control.Control) error {
 	if err := rc_exec.Exec(c, &Enable{}, func(r rc_recipe.Recipe) {
 		f := &SampleFeatureNotInCatalogue{}
 		m := r.(*Enable)
-		m.Key = f.OptInName(f)
+		m.Key = app_feature.OptInName(f)
 	}); err != ErrorInvalidKey {
 		return ErrorInvalidKey
 	}
@@ -77,7 +78,7 @@ func (z *Enable) Test(c app_control.Control) error {
 	if err := rc_exec.Exec(c, &Enable{}, func(r rc_recipe.Recipe) {
 		f := &SampleFeature{}
 		m := r.(*Enable)
-		m.Key = f.OptInName(f)
+		m.Key = app_feature.OptInName(f)
 	}); err != nil {
 		return err
 	}

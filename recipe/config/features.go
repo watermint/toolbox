@@ -33,7 +33,7 @@ func (z *Features) Exec(c app_control.Control) error {
 		uit.Header(z.HeaderKey, z.HeaderDesc)
 		for _, f := range cat.Features() {
 			uit.Row(
-				app_msg.Raw(f.OptInName(f)),
+				app_msg.Raw(app_feature.OptInName(f)),
 				app_feature.OptInDescription(f),
 			)
 		}
@@ -45,7 +45,7 @@ func (z *Features) Exec(c app_control.Control) error {
 		for _, f := range cat.Features() {
 			if g, found := c.Feature().OptInGet(f); found {
 				uit.RowRaw(
-					g.OptInName(g),
+					app_feature.OptInName(g),
 					strconv.FormatBool(g.OptInIsEnabled()),
 					g.OptInUser(),
 					g.OptInTimestamp(),

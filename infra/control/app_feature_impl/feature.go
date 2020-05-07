@@ -112,7 +112,7 @@ func (z featureImpl) AsQuiet() app_feature.Feature {
 
 func (z featureImpl) OptInGet(oi app_feature.OptIn) (f app_feature.OptIn, found bool) {
 	l := es_log.Default()
-	key := oi.OptInName(oi)
+	key := app_feature.OptInName(oi)
 	l.Debug("OptInGet", es_log.String("key", key))
 	if v, err := z.getConfig(key); err != nil {
 		l.Debug("The key not found in the current config", es_log.Error(err))
@@ -128,7 +128,7 @@ func (z featureImpl) OptInGet(oi app_feature.OptIn) (f app_feature.OptIn, found 
 
 func (z featureImpl) OptInUpdate(oi app_feature.OptIn) error {
 	l := es_log.Default()
-	key := oi.OptInName(oi)
+	key := app_feature.OptInName(oi)
 	l = l.With(es_log.String("key", key))
 	l.Debug("OptInUpdate")
 	if err := z.saveConfig(key, oi); err != nil {
