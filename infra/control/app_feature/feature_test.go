@@ -31,14 +31,14 @@ func TestOptInFrom(t *testing.T) {
 
 func TestOptInStatus_OptInCommit(t *testing.T) {
 	soi := &SampleOptIn{}
-	signed := soi.OptInCommit(true)
-	if signed.OptInUser() == "" {
+	soi.OptInCommit(true)
+	if soi.OptInUser() == "" {
 		t.Error(soi.User)
 	}
-	if !signed.OptInIsEnabled() {
+	if !soi.OptInIsEnabled() {
 		t.Error(soi.Status)
 	}
-	if signed.OptInTimestamp() == "" {
+	if soi.OptInTimestamp() == "" {
 		t.Error(soi.Timestamp)
 	}
 }
