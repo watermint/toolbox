@@ -48,11 +48,12 @@ func (z *Replay) Call(clientHash string, endpoint string, req *http.Request) (re
 	if z.index < len(z.records) {
 		fakeLatency := time.Duration(rand.Int63n(1000000) + 1000000)
 		rec := z.records[z.index]
+		z.index++
+
 		if rec.Code < 0 {
 			return nil, fakeLatency, errors.New(rec.Error)
 		}
 		res = rec.Http()
-		z.index++
 		return res, fakeLatency, nil
 	}
 	return nil, 0, qt_errors.ErrorMock

@@ -26,16 +26,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `config enable`
 
@@ -44,16 +44,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `config features`
 
@@ -62,16 +62,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `connect business_audit`
 
@@ -80,16 +80,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_audit"},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_audit"},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `connect business_file`
 
@@ -98,16 +98,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_file"},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_file"},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `connect business_info`
 
@@ -116,16 +116,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_info"},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_info"},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `connect business_mgmt`
 
@@ -134,16 +134,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "business_management"},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "business_management"},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `connect user_file`
 
@@ -152,16 +152,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{"Peer": "user_full"},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{"Peer": "user_full"},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev preflight`
 
@@ -170,16 +170,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       true,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       true,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev release candidate`
 
@@ -188,26 +188,26 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       true,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	Reports:        nil,
-  	Feeds:          nil,
-- 	Values: []*dc_recipe.Value{
-- 		&{
-- 			Name:     "TestResource",
-- 			Desc:     "Path to the test resource location",
-- 			Default:  "test/dev/resource.json",
-- 			TypeName: "string",
-- 		},
-- 	},
-+ 	Values: []*dc_recipe.Value{},
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       true,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	Reports:        nil,
+  	Feeds:          nil,
+- 	Values: []*dc_recipe.Value{
+- 		&{
+- 			Name:     "TestResource",
+- 			Desc:     "Path to the test resource location",
+- 			Default:  "test/dev/resource.json",
+- 			TypeName: "string",
+- 		},
+- 	},
++ 	Values: []*dc_recipe.Value{},
+  }
 ```
 # コマンド仕様の変更: `dev release publish`
 
@@ -216,27 +216,27 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       true,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	Reports:        nil,
-  	Feeds:          nil,
-  	Values: []*dc_recipe.Value{
-  		... // 2 identical elements
-  		&{Name: "ConnGithub", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo"},
-  		&{Name: "SkipTests", Desc: "Skip end to end tests.", Default: "false", TypeName: "bool"},
-- 		&{
-- 			Name:     "TestResource",
-- 			Desc:     "Path to test resource",
-- 			TypeName: "domain.common.model.mo_string.opt_string",
-- 		},
-  	},
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       true,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	Reports:        nil,
+  	Feeds:          nil,
+  	Values: []*dc_recipe.Value{
+  		... // 2 identical elements
+  		&{Name: "ConnGithub", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo"},
+  		&{Name: "SkipTests", Desc: "Skip end to end tests.", Default: "false", TypeName: "bool"},
+- 		&{
+- 			Name:     "TestResource",
+- 			Desc:     "Path to test resource",
+- 			TypeName: "domain.common.model.mo_string.opt_string",
+- 		},
+  	},
+  }
 ```
 # コマンド仕様の変更: `dev test recipe`
 
@@ -245,21 +245,21 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 14 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "All", Desc: "Test all recipes", Default: "false", TypeName: "bool"},
-  		&{Name: "Recipe", Desc: "Recipe name to test", TypeName: "domain.common.model.mo_string.opt_string"},
-- 		&{
-- 			Name:     "Resource",
-- 			Desc:     "Test resource file path",
-- 			TypeName: "domain.common.model.mo_string.opt_string",
-- 		},
-  		&{Name: "Verbose", Desc: "Verbose output for testing", Default: "false", TypeName: "bool"},
-  	},
-  }
+  &dc_recipe.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "All", Desc: "Test all recipes", Default: "false", TypeName: "bool"},
+  		&{Name: "Recipe", Desc: "Recipe name to test", TypeName: "domain.common.model.mo_string.opt_string"},
+- 		&{
+- 			Name:     "Resource",
+- 			Desc:     "Test resource file path",
+- 			TypeName: "domain.common.model.mo_string.opt_string",
+- 		},
+  		&{Name: "Verbose", Desc: "Verbose output for testing", Default: "false", TypeName: "bool"},
+  	},
+  }
 ```
 # コマンド仕様の変更: `dev util curl`
 
@@ -268,16 +268,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       true,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       true,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev util wait`
 
@@ -286,16 +286,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       true,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       true,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `job history archive`
 
@@ -304,16 +304,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `job history delete`
 
@@ -322,16 +322,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-  	IsExperimental: false,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+  	IsExperimental: false,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `job loop`
 
@@ -340,25 +340,25 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	Name:    "loop",
-  	Title:   "Run runbook until specified date/time",
-  	Desc:    "",
-- 	Remarks: "",
-+ 	Remarks: "(Experimental)",
-  	Path:    "job loop",
-  	CliArgs: `-runbook-path /LOCAL/PATH/TO/RUNBOOK.runbook -until "2020-04-01 17:58:38"`,
-  	... // 3 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-- 	IsExperimental: false,
-+ 	IsExperimental: true,
-  	IsIrreversible: false,
-  	Reports:        nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	Name:    "loop",
+  	Title:   "Run runbook until specified date/time",
+  	Desc:    "",
+- 	Remarks: "",
++ 	Remarks: "(Experimental)",
+  	Path:    "job loop",
+  	CliArgs: `-runbook-path /LOCAL/PATH/TO/RUNBOOK.runbook -until "2020-04-01 17:58:38"`,
+  	... // 3 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+- 	IsExperimental: false,
++ 	IsExperimental: true,
+  	IsIrreversible: false,
+  	Reports:        nil,
+  	... // 2 identical fields
+  }
 ```
 # コマンド仕様の変更: `job run`
 
@@ -367,25 +367,25 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	Name:    "run",
-  	Title:   "Run workflow with *.runbook file",
-  	Desc:    "",
-- 	Remarks: "",
-+ 	Remarks: "(Experimental)",
-  	Path:    "job run",
-  	CliArgs: "-runbook-path /LOCAL/PATH/TO/RUNBOOK.runbook",
-  	... // 3 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      false,
-+ 	IsConsole:      true,
-- 	IsExperimental: false,
-+ 	IsExperimental: true,
-  	IsIrreversible: false,
-  	Reports:        nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	Name:    "run",
+  	Title:   "Run workflow with *.runbook file",
+  	Desc:    "",
+- 	Remarks: "",
++ 	Remarks: "(Experimental)",
+  	Path:    "job run",
+  	CliArgs: "-runbook-path /LOCAL/PATH/TO/RUNBOOK.runbook",
+  	... // 3 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      false,
++ 	IsConsole:      true,
+- 	IsExperimental: false,
++ 	IsExperimental: true,
+  	IsIrreversible: false,
+  	Reports:        nil,
+  	... // 2 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github issue list`
 
@@ -394,16 +394,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: true,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: true,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github profile`
 
@@ -412,16 +412,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: true,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: true,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github release asset list`
 
@@ -430,30 +430,30 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: true,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: true,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 ## 変更されたレポート: assets
 
 ```
-  &dc_recipe.Report{
-  	Name: "assets",
-  	Desc: "GitHub Release assets",
-  	Columns: []*dc_recipe.ReportColumn{
-  		... // 2 identical elements
-  		&{Name: "state", Desc: "State of the asset"},
-  		&{Name: "download_count", Desc: "Number of downloads"},
-+ 		&{Name: "download_url", Desc: "Download URL"},
-  	},
-  }
+  &dc_recipe.Report{
+  	Name: "assets",
+  	Desc: "GitHub Release assets",
+  	Columns: []*dc_recipe.ReportColumn{
+  		... // 2 identical elements
+  		&{Name: "state", Desc: "State of the asset"},
+  		&{Name: "download_count", Desc: "Number of downloads"},
++ 		&{Name: "download_url", Desc: "Download URL"},
+  	},
+  }
 ```
 # コマンド仕様の変更: `services github release draft`
 
@@ -462,16 +462,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: true,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: true,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github release list`
 
@@ -480,16 +480,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: true,
-  	IsIrreversible: false,
-  	... // 3 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: true,
+  	IsIrreversible: false,
+  	... // 3 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github tag create`
 
@@ -498,26 +498,26 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	Name:    "create",
-  	Title:   "Create a tag on the repository",
-  	Desc:    "",
-- 	Remarks: "(Experimental, and Irreversible operation)",
-+ 	Remarks: "(Experimental)",
-  	Path:    "services github tag create",
-  	CliArgs: "",
-  	... // 3 identical fields
-  	ConnScopes:     map[string]string{},
-  	IsSecret:       false,
-- 	IsConsole:      true,
-+ 	IsConsole:      false,
-  	IsExperimental: true,
-- 	IsIrreversible: true,
-+ 	IsIrreversible: false,
-  	Reports:        nil,
-  	Feeds:          nil,
-  	Values:         []*dc_recipe.Value{&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo"}, &{Name: "Repository", Desc: "Name of the repository", TypeName: "string"}, &{Name: "Sha1", Desc: "SHA1 hash of the commit", TypeName: "string"}, &{Name: "Tag", Desc: "Tag name", TypeName: "string"}},
-  }
+  &dc_recipe.Recipe{
+  	Name:    "create",
+  	Title:   "Create a tag on the repository",
+  	Desc:    "",
+- 	Remarks: "(Experimental, and Irreversible operation)",
++ 	Remarks: "(Experimental)",
+  	Path:    "services github tag create",
+  	CliArgs: "",
+  	... // 3 identical fields
+  	ConnScopes:     map[string]string{},
+  	IsSecret:       false,
+- 	IsConsole:      true,
++ 	IsConsole:      false,
+  	IsExperimental: true,
+- 	IsIrreversible: true,
++ 	IsIrreversible: false,
+  	Reports:        nil,
+  	Feeds:          nil,
+  	Values:         []*dc_recipe.Value{&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo"}, &{Name: "Repository", Desc: "Name of the repository", TypeName: "string"}, &{Name: "Sha1", Desc: "SHA1 hash of the commit", TypeName: "string"}, &{Name: "Tag", Desc: "Tag name", TypeName: "string"}},
+  }
 ```
 # コマンド仕様の変更: `team diag explorer`
 
@@ -536,25 +536,25 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 14 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		... // 3 identical elements
-  		&{Name: "IncludeSharedFolder", Desc: "If true, include shared folders", Default: "true", TypeName: "bool"},
-  		&{Name: "IncludeTeamFolder", Desc: "If true, include team folders", Default: "true", TypeName: "bool"},
-  		&{
-  			Name:     "Name",
-  			Desc:     "List only for the folder matched to the name",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "domain.common.model.mo_string.opt_string",
-  			TypeAttr: nil,
-  		},
-  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
-  	},
-  }
+  &dc_recipe.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 3 identical elements
+  		&{Name: "IncludeSharedFolder", Desc: "If true, include shared folders", Default: "true", TypeName: "bool"},
+  		&{Name: "IncludeTeamFolder", Desc: "If true, include team folders", Default: "true", TypeName: "bool"},
+  		&{
+  			Name:     "Name",
+  			Desc:     "List only for the folder matched to the name",
+  			Default:  "",
+- 			TypeName: "string",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
+  	},
+  }
 ```
 # コマンド仕様の変更: `team namespace file size`
 
@@ -563,25 +563,25 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 14 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		... // 3 identical elements
-  		&{Name: "IncludeSharedFolder", Desc: "If true, include shared folders", Default: "true", TypeName: "bool"},
-  		&{Name: "IncludeTeamFolder", Desc: "If true, include team folders", Default: "true", TypeName: "bool"},
-  		&{
-  			Name:     "Name",
-  			Desc:     "List only for the folder matched to the name",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "domain.common.model.mo_string.opt_string",
-  			TypeAttr: nil,
-  		},
-  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
-  	},
-  }
+  &dc_recipe.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 3 identical elements
+  		&{Name: "IncludeSharedFolder", Desc: "If true, include shared folders", Default: "true", TypeName: "bool"},
+  		&{Name: "IncludeTeamFolder", Desc: "If true, include team folders", Default: "true", TypeName: "bool"},
+  		&{
+  			Name:     "Name",
+  			Desc:     "List only for the folder matched to the name",
+  			Default:  "",
+- 			TypeName: "string",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
+  	},
+  }
 ```
 # コマンド仕様の変更: `teamfolder replication`
 
@@ -590,21 +590,21 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	Name:    "replication",
-  	Title:   "Replicate a team folder to the other team",
-  	Desc:    "",
-- 	Remarks: "(Irreversible operation)",
-+ 	Remarks: "(Experimental, and Irreversible operation)",
-  	Path:    "teamfolder replication",
-  	CliArgs: "",
-  	... // 4 identical fields
-  	IsSecret:       false,
-  	IsConsole:      false,
-- 	IsExperimental: false,
-+ 	IsExperimental: true,
-  	IsIrreversible: true,
-  	Reports:        nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	Name:    "replication",
+  	Title:   "Replicate a team folder to the other team",
+  	Desc:    "",
+- 	Remarks: "(Irreversible operation)",
++ 	Remarks: "(Experimental, and Irreversible operation)",
+  	Path:    "teamfolder replication",
+  	CliArgs: "",
+  	... // 4 identical fields
+  	IsSecret:       false,
+  	IsConsole:      false,
+- 	IsExperimental: false,
++ 	IsExperimental: true,
+  	IsIrreversible: true,
+  	Reports:        nil,
+  	... // 2 identical fields
+  }
 ```
