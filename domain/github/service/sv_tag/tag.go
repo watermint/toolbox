@@ -5,7 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_tag"
 	"github.com/watermint/toolbox/domain/github/service/sv_reference"
-	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 var (
@@ -33,26 +34,21 @@ type tagImpl struct {
 
 func (z *tagImpl) List() (tags []*mo_tag.Tag, err error) {
 	endpoint := "repos/" + z.owner + "/" + z.repo + "/tags"
-	res, err := z.ctx.Get(endpoint).Call()
-	if err != nil {
+	res := z.ctx.Get(endpoint)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
-	j, err := res.Json()
-	if err != nil {
-		return nil, err
-	}
-	if !j.IsArray() {
-		return nil, ErrorUnexpectedResponse
-	}
+
 	tags = make([]*mo_tag.Tag, 0)
-	for _, entry := range j.Array() {
+	err = res.Success().Json().ArrayEach(func(e es_json.Json) error {
 		tag := &mo_tag.Tag{}
-		if err := api_parser.ParseModel(tag, entry); err != nil {
-			return nil, err
+		if err := e.Model(tag); err != nil {
+			return err
 		}
 		tags = append(tags, tag)
-	}
-	return tags, nil
+		return nil
+	})
+	return
 }
 
 func (z *tagImpl) Create(tagName, message, sha string) (tag *mo_tag.Tag, err error) {
@@ -69,16 +65,13 @@ func (z *tagImpl) Create(tagName, message, sha string) (tag *mo_tag.Tag, err err
 		Object:  sha,
 		Type:    "commit",
 	}
-	res, err := z.ctx.Post(endpoint).Param(&p).Call()
-	if err != nil {
-		return nil, err
-	}
-	j, err := res.Json()
-	if err != nil {
+	res := z.ctx.Post(endpoint, api_request.Param(p))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	tag = &mo_tag.Tag{}
-	if err := api_parser.ParseModel(tag, j); err != nil {
+	err = res.Success().Json().Model(tag)
+	if err != nil {
 		return nil, err
 	}
 

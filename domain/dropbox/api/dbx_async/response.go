@@ -1,33 +1,46 @@
 package dbx_async
 
 import (
-	"errors"
-	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/api/api_response"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 )
 
-var (
-	ErrorNoResult = errors.New("no result")
-)
+type Response interface {
+	es_response.Response
 
-type responseImpl struct {
-	res            api_response.Response
-	complete       gjson.Result
-	completeExists bool
+	// True when the async job completed.
+	IsCompleted() bool
+
+	// Completed body. Returns nil if the operation is not yet completed.
+	Complete() es_json.Json
 }
 
-func (z *responseImpl) Json() (res gjson.Result, err error) {
-	return z.complete, nil
-}
-
-func (z *responseImpl) Model(v interface{}) error {
-	return api_parser.ParseModel(v, z.complete)
-}
-
-func (z *responseImpl) ModelWithPath(v interface{}, path string) error {
-	if !z.completeExists {
-		return ErrorNoResult
+func NewCompleted(res es_response.Response, complete es_json.Json) Response {
+	return &resImpl{
+		Proxy:     es_response.NewProxy(res),
+		completed: true,
+		complete:  complete,
 	}
-	return api_parser.ParseModel(v, z.complete.Get(path))
+}
+
+func NewIncomplete(res es_response.Response) Response {
+	return &resImpl{
+		Proxy:     es_response.NewProxy(res),
+		completed: false,
+		complete:  nil,
+	}
+}
+
+type resImpl struct {
+	es_response.Proxy
+	completed bool
+	complete  es_json.Json
+}
+
+func (z resImpl) IsCompleted() bool {
+	return z.completed
+}
+
+func (z resImpl) Complete() es_json.Json {
+	return z.complete
 }

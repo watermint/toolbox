@@ -14,8 +14,10 @@ import (
 )
 
 type Delete struct {
-	Peer dbx_conn.ConnUserFile
-	Path mo_path.DropboxPath
+	rc_recipe.RemarkIrreversible
+	Peer           dbx_conn.ConnUserFile
+	Path           mo_path.DropboxPath
+	ProgressDelete app_msg.Message
 }
 
 func (z *Delete) Preset() {
@@ -25,37 +27,33 @@ func (z *Delete) Exec(c app_control.Control) error {
 	ui := c.UI()
 	ctx := z.Peer.Context()
 
-	var delete func(path mo_path.DropboxPath) error
-	delete = func(path mo_path.DropboxPath) error {
-		ui.InfoK("recipe.file.delete.progress.deleting", app_msg.P{
-			"Path": path.Path(),
-		})
+	var del func(path mo_path.DropboxPath) error
+	del = func(path mo_path.DropboxPath) error {
+		ui.Progress(z.ProgressDelete.With("Path", path.Path()))
 		_, err := sv_file.NewFiles(ctx).Remove(path)
 		if err == nil {
 			return nil
 		}
-		switch dbx_util.ErrorSummary(err) {
-		case "too_many_files":
+		if dbx_util.ErrorSummaryPrefix(err, "too_many_files") {
 			entries, err := sv_file.NewFiles(ctx).List(path)
 			if err != nil {
 				return err
 			}
 			for _, entry := range entries {
 				if f, ok := entry.File(); ok {
-					delete(f.Path())
+					del(f.Path())
 				}
 				if f, ok := entry.Folder(); ok {
-					delete(f.Path())
+					del(f.Path())
 				}
 			}
-			return delete(path)
-
-		default:
+			return del(path)
+		} else {
 			return err
 		}
 	}
 
-	return delete(z.Path)
+	return del(z.Path)
 }
 
 func (z *Delete) Test(c app_control.Control) error {
@@ -63,7 +61,7 @@ func (z *Delete) Test(c app_control.Control) error {
 		m := r.(*Delete)
 		m.Path = qt_recipe.NewTestDropboxFolderPath("delete")
 	})
-	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err
 	}
 	return qt_errors.ErrorScenarioTest

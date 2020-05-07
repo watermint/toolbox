@@ -2,8 +2,10 @@ package sv_activity
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Activity interface {
@@ -55,17 +57,22 @@ type activityImpl struct {
 }
 
 func (z *activityImpl) All(handler func(event *mo_activity.Event) error) (err error) {
-	return z.ctx.List("team_log/get_events").
-		Continue("team_log/get_events/continue").
-		UseHasMore(true).
-		ResultTag("events").
-		OnEntry(func(entry api_list.ListEntry) error {
+	res := z.ctx.List("team_log/get_events").Call(
+		dbx_list.Continue("team_log/get_events/continue"),
+		dbx_list.UseHasMore(),
+		dbx_list.ResultTag("events"),
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			e := &mo_activity.Event{}
 			if err = entry.Model(e); err != nil {
 				return err
 			}
 			return handler(e)
-		}).Call()
+		}),
+	)
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }
 
 func (z *activityImpl) List(handler func(event *mo_activity.Event) error, opts ...ListOpt) error {
@@ -90,16 +97,20 @@ func (z *activityImpl) List(handler func(event *mo_activity.Event) error, opts .
 		Category: los.Category,
 	}
 
-	return z.ctx.List("team_log/get_events").
-		Continue("team_log/get_events/continue").
-		UseHasMore(true).
-		Param(p).
-		ResultTag("events").
-		OnEntry(func(entry api_list.ListEntry) error {
+	res := z.ctx.List("team_log/get_events", api_request.Param(p)).Call(
+		dbx_list.Continue("team_log/get_events/continue"),
+		dbx_list.UseHasMore(),
+		dbx_list.ResultTag("events"),
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			e := &mo_activity.Event{}
 			if err := entry.Model(e); err != nil {
 				return err
 			}
 			return handler(e)
-		}).Call()
+		}),
+	)
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }

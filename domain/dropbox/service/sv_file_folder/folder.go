@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Folder interface {
@@ -30,13 +31,11 @@ func (z *folderImpl) Create(path mo_path.DropboxPath) (entry mo_file.Entry, err 
 		Path:       path.Path(),
 		Autorename: false,
 	}
+	res := z.ctx.Post("files/create_folder_v2", api_request.Param(p))
+	if err, f := res.Failure(); f {
+		return nil, err
+	}
 	entry = &mo_file.Folder{}
-	res, err := z.ctx.Post("files/create_folder_v2").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if err := res.ModelWithPath(entry, "metadata"); err != nil {
-		return nil, err
-	}
-	return entry, nil
+	err = res.Success().Json().FindModel("metadata", entry)
+	return
 }

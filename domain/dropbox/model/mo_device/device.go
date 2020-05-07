@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
 )
 
 const (
@@ -92,7 +91,7 @@ func (z *Metadata) Web() (web *Web, e bool) {
 	}
 	web = &Web{}
 	if err := api_parser.ParseModelRaw(web, z.Raw); err != nil {
-		app_root.Log().Debug("parse error", zap.Error(err))
+		es_log.Default().Debug("parse error", es_log.Error(err))
 		return nil, false
 	}
 	web.Tag = DeviceTypeWeb
@@ -106,7 +105,7 @@ func (z *Metadata) Desktop() (desktop *Desktop, e bool) {
 	}
 	desktop = &Desktop{}
 	if err := api_parser.ParseModelRaw(desktop, z.Raw); err != nil {
-		app_root.Log().Debug("parse error", zap.Error(err))
+		es_log.Default().Debug("parse error", es_log.Error(err))
 		return nil, false
 	}
 	desktop.Tag = DeviceTypeDesktop
@@ -120,7 +119,7 @@ func (z *Metadata) Mobile() (mobile *Mobile, e bool) {
 	}
 	mobile = &Mobile{}
 	if err := api_parser.ParseModelRaw(mobile, z.Raw); err != nil {
-		app_root.Log().Debug("parse error", zap.Error(err))
+		es_log.Default().Debug("parse error", es_log.Error(err))
 		return nil, false
 	}
 	mobile.Tag = DeviceTypeMobile
@@ -364,7 +363,7 @@ type MemberSession struct {
 func (z *MemberSession) Session() Session {
 	session := &Metadata{}
 	if err := api_parser.ParseModelPathRaw(session, z.Raw, "session"); err != nil {
-		app_root.Log().Warn("unexpected data format", zap.String("entry", string(z.Raw)), zap.Error(err))
+		es_log.Default().Warn("unexpected data format", es_log.String("entry", string(z.Raw)), es_log.Error(err))
 		// return empty
 		return session
 	}
@@ -377,7 +376,7 @@ func NewMemberSession(member *mo_member.Member, session Session) *MemberSession 
 	tag, err := json.Marshal(session.EntryTag())
 	if err != nil {
 		// should not fail
-		app_root.Log().Error("unable to create MemberSession", zap.Error(err))
+		es_log.Default().Error("unable to create MemberSession", es_log.Error(err))
 	}
 	prof := gjson.ParseBytes(member.Raw).Get("profile")
 	raws := make(map[string]json.RawMessage)
@@ -389,7 +388,7 @@ func NewMemberSession(member *mo_member.Member, session Session) *MemberSession 
 	ms := &MemberSession{}
 	if err := api_parser.ParseModelRaw(ms, raw); err != nil {
 		// should not fail
-		app_root.Log().Error("unable to create MemberSession", zap.Error(err))
+		es_log.Default().Error("unable to create MemberSession", es_log.Error(err))
 	}
 	return ms
 }

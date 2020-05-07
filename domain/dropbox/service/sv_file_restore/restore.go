@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Restore interface {
@@ -28,13 +29,11 @@ func (z *restoreImpl) Restore(path mo_path.DropboxPath, rev string) (entry mo_fi
 		Path: path.Path(),
 		Rev:  rev,
 	}
+	res := z.ctx.Post("files/restore", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Post("files/restore").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if err := res.Model(entry); err != nil {
-		return nil, err
-	}
-	return entry, nil
+	err = res.Success().Json().Model(entry)
+	return
 }

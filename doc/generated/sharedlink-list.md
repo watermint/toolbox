@@ -53,18 +53,19 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 Common options:
 
-| Option          | Description                                                                      | Default              |
-|-----------------|----------------------------------------------------------------------------------|----------------------|
-| `-auto-open`    | Auto open URL or artifact folder                                                 | false                |
-| `-bandwidth-kb` | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-concurrency`  | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`        | Enable debug mode                                                                | false                |
-| `-low-memory`   | Low memory footprint mode                                                        | false                |
-| `-output`       | Output format (none/text/markdown/json)                                          | text                 |
-| `-proxy`        | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`        | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`       | Do not store tokens into a file                                                  | false                |
-| `-workspace`    | Workspace path                                                                   |                      |
+| Option            | Description                                                                      | Default              |
+|-------------------|----------------------------------------------------------------------------------|----------------------|
+| `-auto-open`      | Auto open URL or artifact folder                                                 | false                |
+| `-bandwidth-kb`   | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
+| `-budget-memory`  | Memory budget (limits some feature to reduce memory footprint)                   | normal               |
+| `-budget-storage` | Storage budget (limits logs or some feature to reduce storage usage)             | normal               |
+| `-concurrency`    | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`          | Enable debug mode                                                                | false                |
+| `-output`         | Output format (none/text/markdown/json)                                          | text                 |
+| `-proxy`          | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`         | Do not store tokens into a file                                                  | false                |
+| `-workspace`      | Workspace path                                                                   |                      |
 
 # Authorization
 
@@ -109,7 +110,7 @@ Report files are generated in three formats like below;
 * `shared_link.xlsx`
 * `shared_link.json`
 
-But if you run with `-low-memory` option, the command will generate only JSON format report.
+But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   

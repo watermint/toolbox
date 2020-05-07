@@ -2,7 +2,7 @@ package fd_file
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_doc"
+	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
@@ -31,5 +31,5 @@ type Spec interface {
 	ColumnExample(col string) app_msg.Message
 
 	// Generate spec doc of the feed
-	Doc(ui app_ui.UI) *rc_doc.Feed
+	Doc(ui app_ui.UI) *dc_recipe.Feed
 }

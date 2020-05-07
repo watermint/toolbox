@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -11,10 +12,17 @@ import (
 )
 
 func TestRun(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		return
+	}
 	run([]string{os.Args[0], "dev", "echo", "-text", "Hey"}, true)
 }
 
 func TestRunbook(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		return
+	}
+
 	rbPath := filepath.Join(filepath.Dir(os.Args[0]), app_workflow.RunBookTestName)
 	rb := &app_workflow.RunBook{
 		Version: 1,
@@ -73,6 +81,10 @@ func TestRunbook(t *testing.T) {
 }
 
 func TestRunbookLoop(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		return
+	}
+
 	p, err := ioutil.TempDir("", "loop")
 	if err != nil {
 		t.Error(err)
@@ -102,7 +114,7 @@ func TestRunbookLoop(t *testing.T) {
 	run([]string{os.Args[0],
 		"job", "loop",
 		"-runbook-path", rbPath,
-		"-until", time.Now().Add(2 * time.Second).Format(time.RFC3339),
+		"-until", time.Now().Add(2 * 1000 * time.Millisecond).Format(time.RFC3339),
 		"-interval-seconds", "1",
 	}, true)
 }

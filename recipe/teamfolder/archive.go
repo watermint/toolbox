@@ -5,17 +5,21 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"go.uber.org/zap"
 	"strings"
 )
 
 type Archive struct {
-	Peer dbx_conn.ConnBusinessFile
-	Name string
+	rc_recipe.RemarkIrreversible
+	Peer                           dbx_conn.ConnBusinessFile
+	Name                           string
+	ErrorUnableToResolveTeamfolder app_msg.Message
+	ErrorUnableToArchiveTeamfolder app_msg.Message
+	SuccessArchived                app_msg.Message
 }
 
 func (z *Archive) Preset() {
@@ -24,17 +28,9 @@ func (z *Archive) Preset() {
 func (z *Archive) Exec(c app_control.Control) error {
 	ui := c.UI()
 
-	if z.Name == "" {
-		ui.ErrorK("recipe.teamfolder.archive.err.missing_option.name")
-		return errors.New("missing required option")
-	}
-
 	teamfolders, err := sv_teamfolder.New(z.Peer.Context()).List()
 	if err != nil {
-		ui.ErrorK("recipe.teamfolder.archive.err.unable_to_resolve_teamfolder",
-			app_msg.P{
-				"Error": err.Error(),
-			})
+		ui.Error(z.ErrorUnableToResolveTeamfolder.With("Error", err))
 		return err
 	}
 	var teamfolder *mo_teamfolder.TeamFolder
@@ -45,25 +41,18 @@ func (z *Archive) Exec(c app_control.Control) error {
 		}
 	}
 	if teamfolder == nil {
-		ui.ErrorK("recipe.teamfolder.archive.err.unable_to_resolve_teamfolder",
-			app_msg.P{
-				"Error": "Unable to find team folder",
-			})
+		ui.Error(z.ErrorUnableToResolveTeamfolder.With("Error", err))
 		return errors.New("unable to find team folder")
 	}
 
-	c.Log().Debug("Archiving team folder", zap.Any("teamfolder", teamfolder))
+	c.Log().Debug("Archiving team folder", es_log.Any("teamfolder", teamfolder))
 
 	_, err = sv_teamfolder.New(z.Peer.Context()).Archive(teamfolder)
 	if err != nil {
-		ui.ErrorK("recipe.teamfolder.archive.err.unable_to_remove_teamfolder", app_msg.P{
-			"Error": err.Error(),
-		})
+		ui.Error(z.ErrorUnableToArchiveTeamfolder.With("Error", err))
 		return err
 	}
-	ui.SuccessK("recipe.teamfolder.archive.success.archived", app_msg.P{
-		"TeamFolderName": teamfolder.Name,
-	})
+	ui.Success(z.SuccessArchived.With("TeamFolderName", teamfolder.Name))
 	return nil
 }
 

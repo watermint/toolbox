@@ -1,11 +1,12 @@
 package sv_file_url
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/infra/api/api_request"
 	url2 "net/url"
 	"path/filepath"
 )
@@ -24,7 +25,7 @@ func New(ctx dbx_context.Context) Url {
 func PathWithName(base mo_path.DropboxPath, url string) (path mo_path.DropboxPath) {
 	u, err := url2.Parse(url)
 	if err != nil {
-		app_root.Log().Debug("Unable to parse url", zap.Error(err), zap.String("url", url))
+		es_log.Default().Debug("Unable to parse url", es_log.Error(err), es_log.String("url", url))
 		n := filepath.Base(url)
 		return base.ChildPath(n)
 	}
@@ -48,17 +49,13 @@ func (z *urlImpl) Save(path mo_path.DropboxPath, url string) (entry mo_file.Entr
 	}
 
 	meta := &mo_file.Metadata{}
-	entry = meta
-	res, err := z.ctx.Async("files/save_url").
-		Status("files/save_url/check_job_status").
-		Param(p).
-		Call()
-	if err != nil {
+	res := z.ctx.Async("files/save_url", api_request.Param(p)).Call(
+		dbx_async.Status("files/save_url/check_job_status"))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
-	if err = res.Model(entry); err != nil {
-		return nil, err
-	}
+	err = res.Success().Json().Model(meta)
 	meta.EntryTag = "file" // overwrite 'complete' tag
-	return entry, nil
+	entry = meta
+	return meta, err
 }

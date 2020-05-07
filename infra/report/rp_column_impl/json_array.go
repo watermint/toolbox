@@ -3,9 +3,8 @@ package rp_column_impl
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/report/rp_column"
-	"go.uber.org/zap"
 )
 
 func NewBson(header []string) rp_column.Column {
@@ -21,21 +20,21 @@ func (z *JsonArray) Header() []string {
 }
 
 func (z *JsonArray) Values(r interface{}) (cols []interface{}) {
-	l := app_root.Log()
+	l := es_log.Default()
 	b := r.([]byte)
 	if err := json.Unmarshal(b, &cols); err != nil {
-		l.Error("Unable to unmarshal", zap.Error(err))
+		l.Error("Unable to unmarshal", es_log.Error(err))
 		return
 	}
 	return
 }
 
 func (z *JsonArray) ValueStrings(r interface{}) (cols []string) {
-	l := app_root.Log()
+	l := es_log.Default()
 	b := r.([]byte)
 	rawCols := make([]interface{}, 0)
 	if err := json.Unmarshal(b, &rawCols); err != nil {
-		l.Error("Unable to unmarshal", zap.Error(err))
+		l.Error("Unable to unmarshal", es_log.Error(err))
 		return
 	}
 	cols = make([]string, 0)

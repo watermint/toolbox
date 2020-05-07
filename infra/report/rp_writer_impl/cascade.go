@@ -84,9 +84,5 @@ func (z *cascadeWriter) Close() {
 	for _, w := range z.writers {
 		w.Close()
 	}
-
-	p := z.ctl.Workspace().Report()
-	ui := z.ctl.UI()
-	ui.OpenArtifact(p, z.ctl.Feature().IsAutoOpen())
 	z.isClosed = true
 }

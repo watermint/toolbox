@@ -2,17 +2,16 @@ package rc_value
 
 import (
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
-	"go.uber.org/zap"
 	"reflect"
 	"strings"
 )
@@ -30,7 +29,7 @@ type ValueFdFileRowFeed struct {
 }
 
 func (z *ValueFdFileRowFeed) Spec() (typeName string, typeAttr interface{}) {
-	return ut_reflect.Key(app.Pkg, z.rf), nil
+	return es_reflect.Key(app.Pkg, z.rf), nil
 }
 
 func (z *ValueFdFileRowFeed) ValueText() string {
@@ -60,11 +59,11 @@ func (z *ValueFdFileRowFeed) ApplyPreset(v0 interface{}) {
 }
 
 func (z *ValueFdFileRowFeed) Apply() (v interface{}) {
-	l := app_root.Log()
-	p, err := ut_filepath.FormatPathWithPredefinedVariables(z.path)
+	l := es_log.Default()
+	p, err := es_filepath.FormatPathWithPredefinedVariables(z.path)
 	if err != nil {
 		p = z.path
-		l.Debug("Unable to format", zap.String("path", z.path), zap.Error(err))
+		l.Debug("Unable to format", es_log.String("path", z.path), es_log.Error(err))
 	}
 
 	if p != "" {
@@ -125,7 +124,7 @@ func FeedSpec(spec fd_file.Spec, ui app_ui.UI) {
 	)
 	for _, col := range cols {
 		t.Row(
-			app_msg.M("raw", app_msg.P{"Raw": col}),
+			app_msg.Raw(col),
 			spec.ColumnDesc(col),
 			spec.ColumnExample(col),
 		)

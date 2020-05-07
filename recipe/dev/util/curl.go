@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"github.com/tdewolff/parse/buffer"
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/network/nw_capture"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_io"
-	"go.uber.org/zap"
 	"io"
 	"os"
 	"sort"
@@ -19,6 +19,8 @@ import (
 )
 
 type Curl struct {
+	rc_recipe.RemarkConsole
+	rc_recipe.RemarkSecret
 	Record     string
 	BufferSize mo_int.RangeInt
 }
@@ -29,7 +31,7 @@ func (z *Curl) Preset() {
 
 func (z *Curl) Exec(c app_control.Control) error {
 	l := c.Log()
-	w := ut_io.NewDefaultOut(c.Feature().IsTest())
+	w := es_stdout.NewDefaultOut(c.Feature().IsTest())
 	bw := bufio.NewWriter(w)
 	defer bw.Flush()
 	var r io.Reader
@@ -48,7 +50,7 @@ func (z *Curl) Exec(c app_control.Control) error {
 		case nil:
 			rec := &nw_capture.Record{}
 			if pe := json.Unmarshal(line, rec); pe != nil {
-				l.Error("Unable to unmarshal", zap.Error(err), zap.String("line", string(line)))
+				l.Error("Unable to unmarshal", es_log.Error(err), es_log.String("line", string(line)))
 				return err
 			}
 			fmt.Fprintf(bw, "curl -D - -X POST %s \\\n", rec.Req.RequestUrl)

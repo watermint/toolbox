@@ -10,7 +10,7 @@ import (
 )
 
 func TestFileImpl_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		err := sv.List(mo_url.NewEmptyUrl(), qt_recipe.NewTestDropboxFolderPath(), func(entry mo_file.Entry) {},
 			IncludeDeleted(),
@@ -24,7 +24,7 @@ func TestFileImpl_List(t *testing.T) {
 }
 
 func TestFileImpl_ListRecursive(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		err := sv.ListRecursive(mo_url.NewEmptyUrl(), func(entry mo_file.Entry) {},
 			IncludeDeleted(),

@@ -11,6 +11,7 @@ import (
 )
 
 type Profile struct {
+	rc_recipe.RemarkExperimental
 	Peer gh_conn.ConnGithubRepo
 	User rp_model.RowReport
 }

@@ -1,10 +1,11 @@
 package dbx_auth
 
 import (
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"strings"
 )
@@ -67,7 +68,7 @@ func (z *Generated) generatedTokenInstruction(scope string) {
 		api = "Dropbox Business API"
 		toa = "Team member management"
 	default:
-		z.ctl.Log().Fatal("Undefined token type", zap.String("type", scope))
+		z.ctl.Log().Error("Undefined token type", es_log.String("type", scope))
 	}
 
 	ui.Info(MGenerated.GeneratedToken1.With("API", api).With("TypeOfAccess", toa))
@@ -79,7 +80,7 @@ func (z *Generated) generatedToken(scope string) (*oauth2.Token, error) {
 	for {
 		code, cancel := ui.AskSecure(MGenerated.GeneratedToken2)
 		if cancel {
-			return nil, api_auth.ErrorUserCancelled
+			return nil, app.ErrorUserCancelled
 		}
 		trim := strings.TrimSpace(code)
 		if len(trim) > 0 {

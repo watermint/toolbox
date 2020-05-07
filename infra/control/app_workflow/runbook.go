@@ -4,16 +4,16 @@ import (
 	"encoding/json"
 	"errors"
 	"flag"
+	"github.com/watermint/toolbox/essentials/encoding/es_unicode"
+	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_launcher"
-	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_encoding"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
-	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 	"strings"
@@ -61,12 +61,7 @@ type RunBook struct {
 }
 
 func (z *RunBook) Verify(c app_control.Control) (lastErr error) {
-	cl, ok := c.(app_control_launcher.ControlLauncher)
-	if !ok {
-		c.Log().Debug("Skip verification")
-		return nil
-	}
-	cat := cl.Catalogue()
+	cat := app_catalogue.Current()
 	rg := cat.RootGroup()
 	ui := c.UI()
 	lastErr = nil
@@ -110,9 +105,9 @@ func (z *RunBook) Verify(c app_control.Control) (lastErr error) {
 	return lastErr
 }
 
-func (z *RunBook) runRecipe(workerName string, step *RunStep, rg rc_group.Group, cp app_control.Control, cf app_control_launcher.ControlFork) error {
-	l := cp.Log().With(zap.String("workerName", workerName), zap.String("stepName", step.Name))
-	ui := cp.UI()
+func (z *RunBook) runRecipe(workerName string, step *RunStep, rg rc_group.Group, c app_control.Control) error {
+	l := c.Log().With(es_log.String("workerName", workerName), es_log.String("stepName", step.Name))
+	ui := c.UI()
 	ui.Info(MRunBook.ProgressRecipeStart.With("Worker", workerName).With("Args", strings.Join(step.Args, " ")))
 	_, rOrig, args, err := rg.Select(step.Args)
 	if err != nil || rOrig == nil {
@@ -120,39 +115,36 @@ func (z *RunBook) runRecipe(workerName string, step *RunStep, rg rc_group.Group,
 	}
 	r := rOrig.New()
 	f := flag.NewFlagSet(r.CliPath(), flag.ContinueOnError)
-	r.SetFlags(f, cp.UI())
+	r.SetFlags(f, c.UI())
 	if err := f.Parse(args); err != nil {
 		ui.Error(MRunBook.ErrorFailedParseArgs.With("Error", err))
 		return err
 	}
-	so := make([]app_control.UpOpt, 0)
-	so = append(so, app_control.RecipeName(r.CliPath()))
-	so = append(so, app_control.RecipeOptions(r.Debug()))
 
-	fc, err := cf.Fork(workerName+"-"+step.Name, so...)
-	if err != nil {
-		ui.Error(MRunBook.ErrorUnableStart.With("Error", err))
-		return err
-	}
-	defer fc.Down()
-	l.Debug("Run step", zap.Any("vo", r.Debug()))
-	if err = rc_exec.ExecSpec(fc, r, rc_recipe.NoCustomValues); err != nil {
-		ui.Error(MRunBook.ErrorRecipeFailed.With("Error", err))
-		return err
-	}
-	ui.Info(MRunBook.ProgressRecipeFinished)
-	return nil
+	// fork control
+	runName := workerName + "-" + step.Name
+	return app_workspace.WithFork(c.WorkBundle(), runName, func(fwb app_workspace.Bundle) error {
+		cf := c.WithBundle(fwb)
+
+		l.Debug("Run step", es_log.Any("vo", r.Debug()))
+		if err = rc_exec.ExecSpec(cf, r, rc_recipe.NoCustomValues); err != nil {
+			ui.Error(MRunBook.ErrorRecipeFailed.With("Error", err))
+			return err
+		}
+		ui.Info(MRunBook.ProgressRecipeFinished)
+		return nil
+	})
 }
 
-func (z *RunBook) runWorker(wg *sync.WaitGroup, workerErrors []error, workerName string, steps []*RunStep, rg rc_group.Group, cp app_control.Control, cf app_control_launcher.ControlFork) error {
+func (z *RunBook) runWorker(wg *sync.WaitGroup, workerErrors []error, workerName string, steps []*RunStep, rg rc_group.Group, c app_control.Control) error {
 	wg.Add(1)
 	defer wg.Done()
 
-	l := cp.Log().With(zap.String("worker", workerName), zap.String("goroutine", ut_runtime.GetGoRoutineName()))
+	l := c.Log().With(es_log.String("worker", workerName), es_log.String("goroutine", es_goroutine.GetGoRoutineName()))
 	l.Info("Worker start")
 	for _, step := range steps {
-		if err := z.runRecipe(workerName, step, rg, cp, cf); err != nil {
-			l.Error("Failed exec recipe", zap.Error(err))
+		if err := z.runRecipe(workerName, step, rg, c); err != nil {
+			l.Error("Failed exec recipe", es_log.Error(err))
 			workerErrors = append(workerErrors, err)
 			return err
 		}
@@ -163,29 +155,19 @@ func (z *RunBook) runWorker(wg *sync.WaitGroup, workerErrors []error, workerName
 
 func (z *RunBook) Run(c app_control.Control) error {
 	l := c.Log()
-	cl, ok := c.(app_control_launcher.ControlLauncher)
-	if !ok {
-		l.Debug("Skip run")
-		return nil
-	}
-	cf, ok := c.(app_control_launcher.ControlFork)
-	if !ok {
-		l.Debug("Skip run")
-		return nil
-	}
 
-	cat := cl.Catalogue()
+	cat := app_catalogue.Current()
 	rg := cat.RootGroup()
 	wg := sync.WaitGroup{}
 	workerErrors := make([]error, 0)
 
 	l.Debug("Run runbook")
 	if z.Steps != nil && len(z.Steps) > 0 {
-		go z.runWorker(&wg, workerErrors, RootWorkerName, z.Steps, rg, c, cf)
+		go z.runWorker(&wg, workerErrors, RootWorkerName, z.Steps, rg, c)
 	}
 	if z.Workers != nil && len(z.Workers) > 0 {
 		for _, worker := range z.Workers {
-			go z.runWorker(&wg, workerErrors, worker.Name, worker.Steps, rg, c, cf)
+			go z.runWorker(&wg, workerErrors, worker.Name, worker.Steps, rg, c)
 		}
 	}
 
@@ -193,28 +175,28 @@ func (z *RunBook) Run(c app_control.Control) error {
 	wg.Wait()
 	l.Info("Workers finished")
 	if len(workerErrors) > 0 {
-		l.Error("One or more errors from workers", zap.Errors("worker", workerErrors))
+		l.Error("One or more errors from workers", es_log.Errors("worker", workerErrors))
 		return workerErrors[0]
 	}
 	return nil
 }
 
 func NewRunBook(path string) (rb *RunBook, found bool) {
-	l := app_root.Log()
+	l := es_log.Default()
 	_, err := os.Lstat(path)
 	if err != nil {
 		return nil, false
 	}
 
-	content, err := ut_encoding.BomAwareReadBytes(path)
+	content, err := es_unicode.BomAwareReadBytes(path)
 	if err != nil {
-		l.Error("Unable to read the runbook file", zap.Error(err))
+		l.Error("Unable to read the runbook file", es_log.Error(err))
 		return nil, false
 	}
 
 	rb = &RunBook{}
 	if err = json.Unmarshal(content, rb); err != nil {
-		l.Error("Unable to unmarshal the runbook file", zap.Error(err))
+		l.Error("Unable to unmarshal the runbook file", es_log.Error(err))
 		return nil, false
 	}
 

@@ -11,12 +11,12 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
-	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"io"
 	"io/ioutil"
@@ -61,15 +61,15 @@ func (z *Web) New(tokenType, redirectUrl string) (state, url string, err error) 
 	peerName := z.generatePeerName()
 
 	l := z.control.Log().With(
-		zap.String("peerName", peerName),
-		zap.String("tokenType", tokenType),
+		es_log.String("peerName", peerName),
+		es_log.String("tokenType", tokenType),
 	)
-	l.Debug("Start Web OAuth sequence", zap.String("redirectUrl", redirectUrl))
+	l.Debug("Start Web OAuth sequence", es_log.String("redirectUrl", redirectUrl))
 
 	for {
 		state, err = sc_random.GenerateRandomString(12)
 		if err != nil {
-			l.Error("Unable to generate `state`", zap.Error(err))
+			l.Error("Unable to generate `state`", es_log.Error(err))
 			return "", "", err
 		}
 		if _, ok := z.sessions[state]; !ok {
@@ -90,7 +90,7 @@ func (z *Web) New(tokenType, redirectUrl string) (state, url string, err error) 
 		oauth2.SetAuthURLParam("response_type", "code"),
 		oauth2.SetAuthURLParam("redirect_uri", redirectUrl),
 	)
-	l.Debug("Auth url generated", zap.String("url", url))
+	l.Debug("Auth url generated", es_log.String("url", url))
 	return
 }
 
@@ -99,8 +99,8 @@ func (z *Web) Auth(state, code string) (peerName string, ctx api_context.Context
 	defer z.sessionLock.Unlock()
 
 	l := z.control.Log().With(
-		zap.String("peerName", peerName),
-		zap.String("state", state),
+		es_log.String("peerName", peerName),
+		es_log.String("state", state),
 	)
 	l.Debug("Start auth sequence")
 
@@ -114,7 +114,7 @@ func (z *Web) Auth(state, code string) (peerName string, ctx api_context.Context
 	cfg.RedirectURL = session.RedirectUrl
 	token, err := cfg.Exchange(context.Background(), code)
 	if err != nil {
-		l.Debug("Auth failed", zap.Error(err))
+		l.Debug("Auth failed", es_log.Error(err))
 		return "", nil, err
 	}
 
@@ -123,7 +123,7 @@ func (z *Web) Auth(state, code string) (peerName string, ctx api_context.Context
 
 	tc, err = VerifyToken(tc, z.control)
 	if err != nil {
-		l.Debug("Verification failed", zap.Error(err))
+		l.Debug("Verification failed", es_log.Error(err))
 		return "", nil, err
 	}
 
@@ -141,14 +141,14 @@ func (z *Web) Get(state string) (peerName string, ctx api_context.Context, err e
 			return c.PeerName, ctx, nil
 		}
 	}
-	z.control.Log().Debug("State not found", zap.String("state", state))
+	z.control.Log().Debug("State not found", es_log.String("state", state))
 	return "", nil, errors.New("state not found")
 }
 
 func (z *Web) List(tokenType string) (token []api_auth.Context, err error) {
 	token = make([]api_auth.Context, 0)
 	tf := z.databaseFile(tokenType)
-	l := z.control.Log().With(zap.String("tokenType", tokenType))
+	l := z.control.Log().With(es_log.String("tokenType", tokenType))
 
 	_, err = os.Stat(tf)
 	if os.IsNotExist(err) {
@@ -156,30 +156,30 @@ func (z *Web) List(tokenType string) (token []api_auth.Context, err error) {
 	}
 	tb, err := ioutil.ReadFile(tf)
 	if err != nil {
-		l.Debug("unable to read tokens file", zap.String("path", tf), zap.Error(err))
+		l.Debug("unable to read tokens file", es_log.String("path", tf), es_log.Error(err))
 		return
 	}
 
 	bk, err := aes.NewCipher(z.databaseKey())
 	if err != nil {
-		l.Debug("unable to create new cipher", zap.Error(err))
+		l.Debug("unable to create new cipher", es_log.Error(err))
 		return
 	}
 	gcm, err := cipher.NewGCM(bk)
 	if err != nil {
-		l.Debug("unable to create new GCM", zap.Error(err))
+		l.Debug("unable to create new GCM", es_log.Error(err))
 		return
 	}
 	ns := gcm.NonceSize()
 	nonce, ct := tb[:ns], tb[ns:]
 	v, err := gcm.Open(nil, nonce, ct, nil)
 	if err != nil {
-		l.Debug("unable to open gcm", zap.Error(err))
+		l.Debug("unable to open gcm", es_log.Error(err))
 		return
 	}
 	err = json.Unmarshal(v, &token)
 	if err != nil {
-		l.Debug("unable to unmarshal tokens file", zap.Error(err))
+		l.Debug("unable to unmarshal tokens file", es_log.Error(err))
 		return
 	}
 	return
@@ -210,7 +210,7 @@ func (z *Web) updateDatabase(tc api_auth.Context) {
 
 	tokens, err := z.List(tc.Scope())
 	if err != nil {
-		l.Debug("Unable to retrieve existing tokens", zap.Error(err))
+		l.Debug("Unable to retrieve existing tokens", es_log.Error(err))
 		return
 	}
 
@@ -218,22 +218,22 @@ func (z *Web) updateDatabase(tc api_auth.Context) {
 
 	tb, err := json.Marshal(tokens)
 	if err != nil {
-		l.Debug("Unable to marshal tokens into JSON", zap.Error(err))
+		l.Debug("Unable to marshal tokens into JSON", es_log.Error(err))
 		return
 	}
 	bk, err := aes.NewCipher(z.databaseKey())
 	if err != nil {
-		l.Debug("Unable to create new cipher", zap.Error(err))
+		l.Debug("Unable to create new cipher", es_log.Error(err))
 		return
 	}
 	gcm, err := cipher.NewGCM(bk)
 	if err != nil {
-		l.Debug("Unable to create new GCM", zap.Error(err))
+		l.Debug("Unable to create new GCM", es_log.Error(err))
 		return
 	}
 	nonce := make([]byte, gcm.NonceSize())
 	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
-		l.Debug("Unable to prepare nonce", zap.Error(err))
+		l.Debug("Unable to prepare nonce", es_log.Error(err))
 		return
 	}
 	sealed := gcm.Seal(nonce, nonce, tb, nil)
@@ -241,7 +241,7 @@ func (z *Web) updateDatabase(tc api_auth.Context) {
 	tf := z.databaseFile(tc.Scope())
 	err = ioutil.WriteFile(tf, sealed, 0600)
 	if err != nil {
-		l.Debug("unable to write tokens into file", zap.Error(err))
+		l.Debug("unable to write tokens into file", es_log.Error(err))
 		return
 	}
 }

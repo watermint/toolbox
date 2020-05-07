@@ -3,8 +3,7 @@ package app_config
 import (
 	"encoding/json"
 	"errors"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -46,12 +45,12 @@ func (z *configImpl) load() (err error) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	l := app_root.Log()
+	l := es_log.Default()
 	p := filepath.Join(z.path, ConfigFileName)
 
 	s, err := os.Lstat(p)
 	if err != nil {
-		l.Debug("No file information; skip loading", zap.Error(err))
+		l.Debug("No file information; skip loading", es_log.Error(err))
 		return nil
 	}
 
@@ -60,14 +59,14 @@ func (z *configImpl) load() (err error) {
 		return nil
 	}
 
-	l.Debug("load config", zap.String("path", p))
+	l.Debug("load config", es_log.String("path", p))
 	b, err := ioutil.ReadFile(p)
 	if err != nil {
-		l.Debug("Unable to read config", zap.Error(err))
+		l.Debug("Unable to read config", es_log.Error(err))
 		return err
 	}
 	if err := json.Unmarshal(b, &z.values); err != nil {
-		l.Debug("unable to unmarshal", zap.Error(err))
+		l.Debug("unable to unmarshal", es_log.Error(err))
 		return err
 	}
 	z.loadTime = time.Now()
@@ -78,16 +77,16 @@ func (z *configImpl) save() (err error) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	l := app_root.Log()
+	l := es_log.Default()
 	p := filepath.Join(z.path, ConfigFileName)
-	l.Debug("load config", zap.String("path", p))
+	l.Debug("load config", es_log.String("path", p))
 	b, err := json.Marshal(z.values)
 	if err != nil {
-		l.Debug("Unable to marshal", zap.Error(err))
+		l.Debug("Unable to marshal", es_log.Error(err))
 		return err
 	}
 	if err := ioutil.WriteFile(p, b, 0644); err != nil {
-		l.Debug("Unable to write config", zap.Error(err))
+		l.Debug("Unable to write config", es_log.Error(err))
 		return err
 	}
 	return nil

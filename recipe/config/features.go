@@ -1,11 +1,13 @@
 package config
 
 import (
+	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"strconv"
 )
 
@@ -23,33 +25,24 @@ func (z *Features) Preset() {
 }
 
 func (z *Features) Exec(c app_control.Control) error {
-	l := c.Log()
 	ui := c.UI()
-
-	cl, ok := c.(app_control_launcher.ControlLauncher)
-	if !ok {
-		l.Info("The catalogue is not available; skip listing features.")
-		return nil
-	}
+	cat := app_catalogue.Current()
 
 	ui.Header(z.SectionDescription)
-	{
-		uit := ui.InfoTable("description")
+	ui.WithTable("Description", func(uit app_ui.Table) {
 		uit.Header(z.HeaderKey, z.HeaderDesc)
-		for _, f := range cl.Catalogue().Features() {
+		for _, f := range cat.Features() {
 			uit.Row(
 				app_msg.Raw(f.OptInName(f)),
-				f.OptInDescription(f),
+				app_feature.OptInDescription(f),
 			)
 		}
-		uit.Flush()
-	}
+	})
 
 	ui.Header(z.SectionSettings)
-	{
-		uit := ui.InfoTable("settings")
+	ui.WithTable("Settings", func(uit app_ui.Table) {
 		uit.Header(z.HeaderKey, z.HeaderStatus, z.HeaderOptInUser, z.HeaderOptInTimestamp)
-		for _, f := range cl.Catalogue().Features() {
+		for _, f := range cat.Features() {
 			if g, found := c.Feature().OptInGet(f); found {
 				uit.RowRaw(
 					g.OptInName(g),
@@ -59,8 +52,8 @@ func (z *Features) Exec(c app_control.Control) error {
 				)
 			}
 		}
-		uit.Flush()
-	}
+	})
+
 	return nil
 }
 

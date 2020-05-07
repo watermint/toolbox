@@ -5,12 +5,11 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
+	"github.com/watermint/toolbox/essentials/file/es_filecompare"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_filecompare"
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
-	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 	"strings"
@@ -33,15 +32,15 @@ func (z *UploadWorker) Exec() (err error) {
 	ui := z.ctl.UI()
 	upRow := &UploadRow{File: z.localFilePath}
 	l := z.ctl.Log().With(
-		zap.String("dropboxBasePath", z.dropboxBasePath),
-		zap.String("localBasePath", z.localBasePath),
-		zap.String("localFilePath", z.localFilePath),
+		es_log.String("dropboxBasePath", z.dropboxBasePath),
+		es_log.String("localBasePath", z.localBasePath),
+		es_log.String("localFilePath", z.localFilePath),
 	)
 	l.Debug("Prepare upload")
 
-	rel, err := ut_filepath.Rel(z.localBasePath, filepath.Dir(z.localFilePath))
+	rel, err := es_filepath.Rel(z.localBasePath, filepath.Dir(z.localFilePath))
 	if err != nil {
-		l.Debug("unable to calculate rel path", zap.Error(err))
+		l.Debug("unable to calculate rel path", es_log.Error(err))
 		z.upload.Uploaded.Failure(err, upRow)
 		z.status.error()
 		return err
@@ -51,7 +50,7 @@ func (z *UploadWorker) Exec() (err error) {
 	case rel == ".":
 		l.Debug("upload to base path")
 	case strings.HasPrefix(rel, ".."):
-		l.Debug("invalid rel path", zap.String("rel", rel))
+		l.Debug("invalid rel path", es_log.String("rel", rel))
 		z.upload.Uploaded.Failure(errors.New("invalid path"), &UploadRow{File: z.localFilePath})
 		z.status.error()
 		return errors.New("invalid rel path")
@@ -69,7 +68,7 @@ func (z *UploadWorker) Exec() (err error) {
 
 	// Verify proceed
 	if z.dbxEntry != nil {
-		same, err := ut_filecompare.Compare(l, z.localFilePath, info, z.dbxEntry)
+		same, err := es_filecompare.Compare(l, z.localFilePath, info, z.dbxEntry)
 		if err != nil {
 			z.upload.Uploaded.Failure(err, upRow)
 			z.status.error()
@@ -80,7 +79,7 @@ func (z *UploadWorker) Exec() (err error) {
 			//	"File": z.localFilePath,
 			//})
 
-			z.upload.Skipped.Skip(app_msg.M("usecase.uc_file_upload.skip.file_exists"), upRow)
+			z.upload.Skipped.Skip(MUpload.SkipFileExists, upRow)
 			z.status.skip()
 			return nil
 		}

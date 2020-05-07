@@ -11,6 +11,7 @@ import (
 )
 
 type Closed struct {
+	rc_recipe.RemarkIrreversible
 	Peer    dbx_conn.ConnUserFile
 	Deleted rp_model.RowReport
 }

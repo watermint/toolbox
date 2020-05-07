@@ -5,12 +5,12 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 )
 
 type List struct {
@@ -50,7 +50,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 	for _, folder := range folders {
-		c.Log().Debug("Folder", zap.Any("folder", folder))
+		c.Log().Debug("Folder", es_log.Any("folder", folder))
 		z.TeamFolder.Row(folder)
 	}
 

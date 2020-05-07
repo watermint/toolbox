@@ -4,8 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -17,14 +16,14 @@ import (
 //
 // Returns error if any char that is Unicode plane 1 or above
 func HeaderSafeJson(p interface{}) (string, error) {
-	l := app_root.Log()
+	l := es_log.Default()
 
 	buf := &bytes.Buffer{}
 	enc := json.NewEncoder(buf)
 	enc.SetEscapeHTML(false)
 
 	if err := enc.Encode(p); err != nil {
-		l.Debug("Unable to encode", zap.Error(err))
+		l.Debug("Unable to encode", es_log.Error(err))
 	}
 	sq := buf.String()
 	sq1 := strings.Trim(sq, "\n")
@@ -37,8 +36,8 @@ func HeaderSafeJson(p interface{}) (string, error) {
 	extCharPattern := regexp.MustCompile("\\\\U([0-9a-fA-F]{8})")
 	if extCharPattern.MatchString(safeUnquoted3) {
 		l.Debug("Found extended char",
-			zap.String("Encoded", safeUnquoted3),
-			zap.Strings("ExtChars", extCharPattern.FindAllString(safeUnquoted3, -1)),
+			es_log.String("Encoded", safeUnquoted3),
+			es_log.Strings("ExtChars", extCharPattern.FindAllString(safeUnquoted3, -1)),
 		)
 		return "", errors.New("does not support unicode extended character")
 	}

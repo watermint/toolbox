@@ -9,10 +9,10 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type Rename struct {
+	rc_recipe.RemarkIrreversible
 	Peer         dbx_conn.ConnBusinessMgmt
 	CurrentName  string
 	NewName      string
@@ -55,7 +55,7 @@ func (z *Rename) Test(c app_control.Control) error {
 		m.CurrentName = "Marketing"
 		m.NewName = "Marketing (Archived)"
 	})
-	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil && err != sv_group.ErrorGroupNotFoundForName {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil && err != sv_group.ErrorGroupNotFoundForName {
 		return err
 	}
 	return qt_errors.ErrorScenarioTest

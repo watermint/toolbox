@@ -1,7 +1,7 @@
 package mo_path
 
 import (
-	"github.com/watermint/toolbox/infra/util/ut_filepath"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"path/filepath"
 )
 
@@ -17,7 +17,7 @@ type ExistingFileSystemPath interface {
 }
 
 func NewFileSystemPath(path string) FileSystemPath {
-	p, err := ut_filepath.FormatPathWithPredefinedVariables(path)
+	p, err := es_filepath.FormatPathWithPredefinedVariables(path)
 	if err != nil {
 		p = path
 	}
@@ -25,7 +25,7 @@ func NewFileSystemPath(path string) FileSystemPath {
 }
 
 func NewExistingFileSystemPath(path string) ExistingFileSystemPath {
-	p, err := ut_filepath.FormatPathWithPredefinedVariables(path)
+	p, err := es_filepath.FormatPathWithPredefinedVariables(path)
 	if err != nil {
 		p = path
 	}

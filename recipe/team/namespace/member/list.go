@@ -8,13 +8,21 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
+)
+
+type MsgList struct {
+	ProgressScan app_msg.Message
+}
+
+var (
+	MList = app_msg.Apply(&MsgList{}).(*MsgList)
 )
 
 type ListVO struct {
@@ -29,16 +37,14 @@ type ListWorker struct {
 
 func (z *ListWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.InfoK("recipe.team.namespace.member.list.scan",
-		app_msg.P{
-			"NamespaceName": z.namespace.Name,
-			"NamespaceId":   z.namespace.NamespaceId,
-		})
-	l := z.ctl.Log().With(zap.Any("namespace", z.namespace))
+	ui.Progress(MList.ProgressScan.
+		With("NamespaceName", z.namespace.Name).
+		With("NamespaceId", z.namespace.NamespaceId))
+	l := z.ctl.Log().With(es_log.Any("namespace", z.namespace))
 
 	members, err := sv_sharedfolder_member.NewBySharedFolderId(z.ctx, z.namespace.NamespaceId).List()
 	if err != nil {
-		l.Debug("Unable to list namespace member", zap.Error(err))
+		l.Debug("Unable to list namespace member", es_log.Error(err))
 		return nil
 	}
 
@@ -74,7 +80,7 @@ func (z *List) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	l.Debug("Run as admin", zap.Any("admin", admin))
+	l.Debug("Run as admin", es_log.Any("admin", admin))
 
 	namespaces, err := sv_namespace.New(z.Peer.Context()).List()
 	if err != nil {
@@ -87,7 +93,7 @@ func (z *List) Exec(c app_control.Control) error {
 	for _, namespace := range namespaces {
 		if namespace.NamespaceType != "team_folder" &&
 			namespace.NamespaceType != "shared_folder" {
-			l.Debug("Skip", zap.Any("namespace", namespace))
+			l.Debug("Skip", es_log.Any("namespace", namespace))
 			continue
 		}
 

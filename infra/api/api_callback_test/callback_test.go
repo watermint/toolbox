@@ -2,12 +2,12 @@ package api_callback_test
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/runtime/es_open"
 	"github.com/watermint/toolbox/infra/api/api_callback"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
-	"github.com/watermint/toolbox/infra/util/ut_open"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 	"net/http"
 	"net/url"
 	"sync"
@@ -41,11 +41,11 @@ func (z *MockService) Url(redirectUrl string) string {
 func (z *MockService) Verify(state, code string) bool {
 	l := z.ctl.Log()
 	if state != z.state {
-		l.Debug("Wrong state", zap.String("given", state), zap.String("expected", z.state))
+		l.Debug("Wrong state", es_log.String("given", state), es_log.String("expected", z.state))
 		return false
 	}
 	if code != z.code {
-		l.Debug("Wrong code", zap.String("given", code), zap.String("expected", z.code))
+		l.Debug("Wrong code", es_log.String("given", code), es_log.String("expected", z.code))
 		return false
 	}
 	l.Debug("verification succeed")
@@ -55,14 +55,14 @@ func (z *MockService) Verify(state, code string) bool {
 func (z *MockService) Ping(url string) error {
 	l := z.ctl.Log()
 	hc := http.Client{}
-	l.Debug("Ping valid request", zap.String("url", url))
+	l.Debug("Ping valid request", es_log.String("url", url))
 
 	res, err := hc.Get(url)
 	if err != nil {
-		l.Debug("Error from ping", zap.Error(err))
+		l.Debug("Error from ping", es_log.Error(err))
 		return err
 	}
-	l.Debug("Response", zap.Int("code", res.StatusCode))
+	l.Debug("Response", es_log.Int("code", res.StatusCode))
 	if res.StatusCode == http.StatusOK {
 		l.Debug("Return success")
 		return nil
@@ -81,7 +81,7 @@ func (z *MockService) PingInvalid() error {
 func TestCallbackImpl_SuccessScenario(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)
-		cb := api_callback.NewWithOpener(ctl, ms, 7800, ut_open.NewTestDummy())
+		cb := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
 		wg := sync.WaitGroup{}
 		wg.Add(1)
 		go func() {
@@ -108,7 +108,7 @@ func TestCallbackImpl_SuccessScenario(t *testing.T) {
 func TestCallbackImpl_FailureInvalidCode(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)
-		cb := api_callback.NewWithOpener(ctl, ms, 7800, ut_open.NewTestDummy())
+		cb := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
 		wg := sync.WaitGroup{}
 		wg.Add(1)
 		go func() {
@@ -135,8 +135,8 @@ func TestCallbackImpl_FailureInvalidCode(t *testing.T) {
 func TestCallbackImpl_FailureCantStart(t *testing.T) {
 	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)
-		cb1 := api_callback.NewWithOpener(ctl, ms, 7800, ut_open.NewTestDummy())
-		cb2 := api_callback.NewWithOpener(ctl, ms, 7800, ut_open.NewTestDummy())
+		cb1 := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
+		cb2 := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
 		go func() {
 			if err := cb1.Flow(); err != nil {
 				t.Error(err)

@@ -34,5 +34,5 @@ func (z *ConnGithubPublic) Connect(ctl app_control.Control) (err error) {
 }
 
 func (z *ConnGithubPublic) Context() gh_context.Context {
-	return gh_context_impl.NewNoAuth(z.ctl)
+	return gh_context_impl.New(z.ctl, nil)
 }

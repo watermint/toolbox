@@ -6,10 +6,11 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 )
 
 type Replication struct {
+	rc_recipe.RemarkIrreversible
+	rc_recipe.RemarkExperimental
 	Name        string
 	Replication *teamfolder.Replication
 	SrcPeerName string
@@ -37,7 +38,7 @@ func (z *Replication) Test(c app_control.Control) error {
 		m := r.(*Replication)
 		m.Name = "Sales"
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 	return qt_errors.ErrorHumanInteractionRequired

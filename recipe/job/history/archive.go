@@ -2,16 +2,17 @@ package history
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"go.uber.org/zap"
 	"time"
 )
 
 type Archive struct {
+	rc_recipe.RemarkConsole
 	Days               mo_int.RangeInt
 	ProgressArchiving  app_msg.Message
 	ErrorFailedArchive app_msg.Message
@@ -33,13 +34,13 @@ func (z *Archive) Exec(c app_control.Control) error {
 			continue
 		}
 		if ts.After(threshold) {
-			l.Debug("Skip: Time start is in range of retain", zap.String("jobId", h.JobId()))
+			l.Debug("Skip: Time start is in range of retain", es_log.String("jobId", h.JobId()))
 			continue
 		}
 		c.UI().Info(z.ProgressArchiving.With("JobId", h.JobId()))
 		_, err := h.Archive()
 		if err != nil {
-			l.Debug("Unable to archive", zap.Error(err), zap.Any("history", h))
+			l.Debug("Unable to archive", es_log.Error(err), es_log.Any("history", h))
 			c.UI().Error(z.ErrorFailedArchive.With("JobId", h.JobId()).With("Error", err.Error()))
 		}
 	}

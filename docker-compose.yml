@@ -1,0 +1,13 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+    #command: dlv test --headless --listen=:2345 --api-version=2 github.com/watermint/toolbox/...
+    command: ./.circleci/test.sh
+    volumes:
+      - .:/app
+    ports:
+      - 2345:2345
+    security_opt:
+      - seccomp:unconfined

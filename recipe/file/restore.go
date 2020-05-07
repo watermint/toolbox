@@ -9,13 +9,23 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_restore"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_revision"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
+)
+
+type MsgRestore struct {
+	ProgressRestore  app_msg.Message
+	ProgressFinish   app_msg.Message
+	SkipIsNotDeleted app_msg.Message
+}
+
+var (
+	MRestore = app_msg.Apply(&MsgRestore{}).(*MsgRestore)
 )
 
 type RestoreWorker struct {
@@ -30,22 +40,22 @@ type RestoreTarget struct {
 }
 
 func (z *RestoreWorker) Exec() error {
-	l := z.ctl.Log().With(zap.String("path", z.path.Path()))
+	l := z.ctl.Log().With(es_log.String("path", z.path.Path()))
 	ui := z.ctl.UI()
-	ui.InfoK("recipe.file.restore.progress.restore_file", app_msg.P{"Path": z.path.Path()})
+	ui.Progress(MRestore.ProgressRestore.With("Path", z.path.Path()))
 	target := &RestoreTarget{
 		Path: z.path.Path(),
 	}
 
 	revs, err := sv_file_revision.New(z.ctx).List(z.path)
 	if err != nil {
-		l.Debug("Unable to retrieve revisions", zap.Error(err))
+		l.Debug("Unable to retrieve revisions", es_log.Error(err))
 		z.rep.Failure(err, target)
 		return err
 	}
 	if !revs.IsDeleted {
 		l.Debug("The file is not deleted")
-		z.rep.Skip(app_msg.M("recipe.file.restore.skip.is_not_deleted"), target)
+		z.rep.Skip(MRestore.SkipIsNotDeleted, target)
 		return nil
 	}
 	if len(revs.Entries) < 1 {
@@ -55,7 +65,7 @@ func (z *RestoreWorker) Exec() error {
 		return err
 	}
 	targetRev := revs.Entries[0].Revision
-	l.Debug("Restoring to most recent state", zap.String("targetRev", targetRev))
+	l.Debug("Restoring to most recent state", es_log.String("targetRev", targetRev))
 
 	e, err := sv_file_restore.New(z.ctx).Restore(z.path, targetRev)
 	if err != nil {
@@ -67,6 +77,8 @@ func (z *RestoreWorker) Exec() error {
 }
 
 type Restore struct {
+	rc_recipe.RemarkExperimental
+	rc_recipe.RemarkIrreversible
 	Peer         dbx_conn.ConnUserFile
 	Path         mo_path.DropboxPath
 	OperationLog rp_model.TransactionReport
@@ -117,9 +129,7 @@ func (z *Restore) Exec(c app_control.Control) error {
 	)
 	q.Wait()
 
-	ui.InfoK("recipe.file.restore.progress.finish", app_msg.P{
-		"Count": count,
-	})
+	ui.Info(MRestore.ProgressFinish.With("Count", count))
 
 	return lastErr
 }

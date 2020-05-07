@@ -3,10 +3,10 @@ package sc_token
 import (
 	"crypto/sha256"
 	"fmt"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
-	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"os"
 	"path/filepath"
@@ -42,10 +42,10 @@ func (z *ObfuscatedStorage) PeerName() string {
 	return z.peerName
 }
 
-func (z *ObfuscatedStorage) log(scope string) (path string, l *zap.Logger) {
-	l = z.c.Log().With(zap.String("peerName", z.peerName))
+func (z *ObfuscatedStorage) log(scope string) (path string, l es_log.Logger) {
+	l = z.c.Log().With(es_log.String("peerName", z.peerName))
 	p := z.path(scope)
-	l = l.With(zap.String("path", p))
+	l = l.With(es_log.String("path", p))
 	return p, l
 }
 
@@ -58,7 +58,7 @@ func (z *ObfuscatedStorage) Purge(scope string) {
 
 	l.Debug("Purge obfuscate storage")
 	if err := os.Remove(p); err != nil {
-		l.Debug("Unable to purge", zap.Error(err))
+		l.Debug("Unable to purge", es_log.Error(err))
 	}
 }
 
@@ -78,7 +78,7 @@ func (z *ObfuscatedStorage) Put(scope string, token *oauth2.Token) error {
 
 	l.Debug("Load obfuscated storage")
 	if err := z.s.Put(p, token); err != nil {
-		l.Debug("Unable to store", zap.Error(err))
+		l.Debug("Unable to store", es_log.Error(err))
 		return err
 	}
 	return nil

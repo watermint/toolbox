@@ -30,8 +30,8 @@ func (z *CommonValues) Debug() map[string]interface{} {
 	return z.repo.Debug()
 }
 
-func (z *CommonValues) Opts() *app_opt.CommonOpts {
-	return z.repo.(*rc_value.RepositoryImpl).Current().(*app_opt.CommonOpts)
+func (z *CommonValues) Opts() app_opt.CommonOpts {
+	return *z.repo.(*rc_value.RepositoryImpl).Current().(*app_opt.CommonOpts)
 }
 
 func (z *CommonValues) Apply() {

@@ -1,15 +1,23 @@
 package rp_model_impl
 
 import (
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/recipe/rc_doc"
+	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_column_impl"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
-	"go.uber.org/zap"
+)
+
+type MsgColumnSpec struct {
+	TransactionRowStatus app_msg.Message
+	TransactionRowReason app_msg.Message
+}
+
+var (
+	MColumnSpec = app_msg.Apply(&MsgColumnSpec{}).(*MsgColumnSpec)
 )
 
 func newSpec(name string, model interface{}, opts []rp_model.ReportOpt) rp_model.Spec {
@@ -33,9 +41,9 @@ func newSpec(name string, model interface{}, opts []rp_model.ReportOpt) rp_model
 			}
 		}
 
-		keyBase := ut_reflect.Key(app.Pkg, m)
+		keyBase := es_reflect.Key(app.Pkg, m)
 		for _, col := range visibleHeaders {
-			colDesc[base+col] = app_msg.M(keyBase + "." + col + ".desc")
+			colDesc[base+col] = app_msg.CreateMessage(keyBase + "." + col + ".desc")
 		}
 		colsWithBase := make([]string, 0)
 		for _, c := range visibleHeaders {
@@ -52,8 +60,8 @@ func newSpec(name string, model interface{}, opts []rp_model.ReportOpt) rp_model
 		cols = append(cols, cm(md.Input, "input.")...)
 		cols = append(cols, cm(md.Result, "result.")...)
 
-		colDesc["status"] = app_msg.M("infra.report.rp_model.transactionrow.status")
-		colDesc["reason"] = app_msg.M("infra.report.rp_model.transactionrow.reason")
+		colDesc["status"] = MColumnSpec.TransactionRowStatus
+		colDesc["reason"] = MColumnSpec.TransactionRowReason
 
 	default:
 		cols = cm(model, "")
@@ -76,15 +84,15 @@ type ColumnSpec struct {
 	colDesc map[string]app_msg.Message
 }
 
-func (z *ColumnSpec) Doc(ui app_ui.UI) *rc_doc.Report {
-	cols := make([]*rc_doc.ReportColumn, 0)
+func (z *ColumnSpec) Doc(ui app_ui.UI) *dc_recipe.Report {
+	cols := make([]*dc_recipe.ReportColumn, 0)
 	for _, col := range z.Columns() {
-		cols = append(cols, &rc_doc.ReportColumn{
+		cols = append(cols, &dc_recipe.ReportColumn{
 			Name: col,
 			Desc: ui.TextOrEmpty(z.ColumnDesc(col)),
 		})
 	}
-	return &rc_doc.Report{
+	return &dc_recipe.Report{
 		Name:    z.Name(),
 		Desc:    ui.TextOrEmpty(z.Desc()),
 		Columns: cols,
@@ -100,8 +108,8 @@ func (z *ColumnSpec) Model() interface{} {
 }
 
 func (z *ColumnSpec) Desc() app_msg.Message {
-	key := ut_reflect.Key(app.Pkg, z.model) + ".desc"
-	return app_msg.M(key)
+	key := es_reflect.Key(app.Pkg, z.model) + ".desc"
+	return app_msg.CreateMessage(key)
 }
 
 func (z *ColumnSpec) Columns() []string {
@@ -110,7 +118,7 @@ func (z *ColumnSpec) Columns() []string {
 
 func (z *ColumnSpec) ColumnDesc(col string) app_msg.Message {
 	if m, ok := z.colDesc[col]; !ok {
-		app_root.Log().Error("Column description not found", zap.String("col", col))
+		es_log.Default().Error("Column description not found", es_log.String("col", col))
 		return app_msg.Raw(col)
 	} else {
 		return m

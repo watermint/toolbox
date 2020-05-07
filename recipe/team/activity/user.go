@@ -11,16 +11,24 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/strings/es_mailaddr"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_mailaddr"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 	"time"
+)
+
+type MsgUser struct {
+	ProgressScanUser app_msg.Message
+}
+
+var (
+	MUser = app_msg.Apply(&MsgUser{}).(*MsgUser)
 )
 
 type UserSummary struct {
@@ -51,22 +59,20 @@ type UserWorker struct {
 func (z *UserWorker) Exec() error {
 	userIn := &UserIn{User: z.user.Email}
 	ui := z.ctl.UI()
-	l := z.ctl.Log().With(zap.Any("userIn", userIn))
+	l := z.ctl.Log().With(es_log.Any("userIn", userIn))
 
 	rep, err := z.reps.OpenNew(
-		rp_model.Suffix("-"+ut_mailaddr.EscapeSpecial(z.user.Email, "_")),
+		rp_model.Suffix("-"+es_mailaddr.EscapeSpecial(z.user.Email, "_")),
 		rp_model.NoConsoleOutput(),
 	)
 	if err != nil {
-		l.Debug("unable to create report", zap.Error(err))
+		l.Debug("unable to create report", es_log.Error(err))
 		z.repSummary.Failure(err, userIn)
 		return err
 	}
 	defer rep.Close()
 
-	ui.InfoK("recipe.team.activity.user.progress.scan_user", app_msg.P{
-		"User": userIn.User,
-	})
+	ui.Progress(MUser.ProgressScanUser.With("User", userIn.User))
 
 	summary := &UserSummary{
 		User: z.user.Email,

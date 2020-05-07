@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_issue"
-	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 )
 
 var (
@@ -31,24 +31,18 @@ type repoIssueImpl struct {
 
 func (z *repoIssueImpl) List() (issues []*mo_issue.Issue, err error) {
 	endpoint := "repos/" + z.owner + "/" + z.repo + "/issues"
-	res, err := z.ctx.Get(endpoint).Call()
-	if err != nil {
+	res := z.ctx.Get(endpoint)
+	if err, f := res.Failure(); f {
 		return nil, err
-	}
-	j, err := res.Json()
-	if err != nil {
-		return nil, err
-	}
-	if !j.IsArray() {
-		return nil, ErrorUnexpectedResponse
 	}
 	issues = make([]*mo_issue.Issue, 0)
-	for _, entry := range j.Array() {
+	err = res.Success().Json().ArrayEach(func(e es_json.Json) error {
 		issue := &mo_issue.Issue{}
-		if err := api_parser.ParseModel(issue, entry); err != nil {
-			return nil, err
+		if err := e.Model(issue); err != nil {
+			return err
 		}
 		issues = append(issues, issue)
-	}
-	return issues, nil
+		return nil
+	})
+	return issues, err
 }

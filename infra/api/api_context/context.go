@@ -1,53 +1,27 @@
 package api_context
 
 import (
-	"errors"
-	"github.com/watermint/toolbox/infra/api/api_async"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/http/es_context"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"github.com/watermint/toolbox/infra/api/api_response"
-	"github.com/watermint/toolbox/infra/util/ut_io"
-	"go.uber.org/zap"
-	"net/http"
 )
 
-var (
-	ErrorIncompatibleContextType = errors.New("incompatible context type")
-)
-
-type ClientGroup interface {
-	ClientHash() string
+type Notify interface {
+	Notify(endpoint string, d ...api_request.RequestDatum) (res es_response.Response)
 }
-
-type AsyncContext interface {
-	Async(endpoint string) api_async.Async
+type Upload interface {
+	Upload(endpoint string, d ...api_request.RequestDatum) (res es_response.Response)
 }
-type ListContext interface {
-	List(endpoint string) api_list.List
+type Download interface {
+	Download(endpoint string, d ...api_request.RequestDatum) (res es_response.Response)
 }
-type NotifyContext interface {
-	Notify(endpoint string) api_request.Request
+type Post interface {
+	Post(endpoint string, d ...api_request.RequestDatum) (res es_response.Response)
 }
-type UploadContext interface {
-	Upload(endpoint string, content ut_io.ReadRewinder) api_request.Request
-}
-type DownloadContext interface {
-	Download(endpoint string) api_request.Request
-}
-type PostContext interface {
-	Post(endpoint string) api_request.Request
-}
-type GetContext interface {
-	Get(endpoint string) api_request.Request
+type Get interface {
+	Get(endpoint string, d ...api_request.RequestDatum) (res es_response.Response)
 }
 
 type Context interface {
-	ClientGroup
-
-	Log() *zap.Logger
-	Capture() *zap.Logger
-
-	NoRetryOnError() Context
-	IsNoRetry() bool
-	MakeResponse(req *http.Request, res *http.Response) (api_response.Response, error)
+	es_context.Context
 }

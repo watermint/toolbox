@@ -2,11 +2,12 @@ package sv_file
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_list"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Files interface {
@@ -166,22 +167,21 @@ func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.
 
 	matches = make([]*mo_file.Match, 0)
 
-	req := z.ctx.List("files/search_v2").
-		Continue("files/search/continue_v2").
-		Param(p).
-		UseHasMore(true).
-		ResultTag("matches").
-		OnEntry(func(entry api_list.ListEntry) error {
+	res := z.ctx.List("files/search_v2", api_request.Param(p)).Call(
+		dbx_list.Continue("files/search/continue_v2"),
+		dbx_list.UseHasMore(),
+		dbx_list.ResultTag("matches"),
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			e := &mo_file.Match{}
 			if err := entry.Model(e); err != nil {
-				j, _ := entry.Json()
-				z.ctx.Log().Error("invalid", zap.Error(err), zap.String("entry", j.Raw))
+				z.ctx.Log().Error("invalid", es_log.Error(err))
 				return err
 			}
 			matches = append(matches, e)
 			return nil
-		})
-	if err = req.Call(); err != nil {
+		}),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return matches, nil
@@ -215,44 +215,44 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 		Changes bool `path:"changes"  json:"changes"`
 	}
 
-	res, err := z.ctx.Post("files/list_folder/get_latest_cursor").Param(p).Call()
-	if err != nil {
+	res := z.ctx.Post("files/list_folder/get_latest_cursor", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
 		return err
 	}
 	cursor := &Cursor{}
-	if err = res.Model(cursor); err != nil {
+	if err := res.Success().Json().Model(cursor); err != nil {
 		return err
 	}
 
-	noAuthCtx := dbx_context_impl.NewNoAuth()
+	noAuthCtx := z.ctx.NoAuth()
 	for {
-		res, err := noAuthCtx.Notify("files/list_folder/longpoll").Param(cursor).Call()
-		if err != nil {
+		res := noAuthCtx.Notify("files/list_folder/longpoll", api_request.Param(cursor))
+		if err, fail := res.Failure(); fail {
 			return err
 		}
 		changes := &LongPoll{}
-		if err = res.Model(changes); err != nil {
+		if err := res.Success().Json().Model(changes); err != nil {
 			return err
 		}
 		if changes.Changes {
-			err = z.ctx.List("files/list_folder/continue").
-				Continue("files/list_folder/continue").
-				Param(cursor).
-				UseHasMore(true).
-				ResultTag("entries").
-				OnEntry(func(entry api_list.ListEntry) error {
+			res := z.ctx.List("files/list_folder/continue", api_request.Param(cursor)).Call(
+				dbx_list.Continue("files/list_folder/continue"),
+				dbx_list.UseHasMore(),
+				dbx_list.ResultTag("entries"),
+				dbx_list.OnEntry(func(entry es_json.Json) error {
 					e := &mo_file.Metadata{}
 					if err := entry.Model(e); err != nil {
-						j, _ := entry.Json()
-						z.ctx.Log().Error("invalid", zap.Error(err), zap.String("entry", j.Raw))
+						z.ctx.Log().Error("invalid", es_log.Error(err), es_log.ByteString("entry", entry.Raw()))
 						return err
 					}
 					onEntry(e)
 					return nil
-				}).OnLastCursor(func(c string) {
-				cursor.Cursor = c
-			}).Call()
-			if err != nil {
+				}),
+				dbx_list.OnLastCursor(func(c string) {
+					cursor.Cursor = c
+				}),
+			)
+			if err, fail := res.Failure(); fail {
 				return err
 			}
 		}
@@ -271,15 +271,13 @@ func (z *filesImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err 
 		IncludeMediaInfo:                true,
 		IncludeDeleted:                  false,
 	}
+	res := z.ctx.Post("files/get_metadata", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Post("files/get_metadata").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if err := res.Model(entry); err != nil {
-		return nil, err
-	}
-	return entry, nil
+	err = res.Success().Json().Model(entry)
+	return
 }
 
 func (z *filesImpl) List(path mo_path.DropboxPath, opts ...ListOpt) (entries []mo_file.Entry, err error) {
@@ -319,22 +317,24 @@ func (z *filesImpl) ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_
 		IncludeHasExplicitSharedMembers: lo.IncludeHasExplicitSharedMembers,
 	}
 
-	req := z.ctx.List("files/list_folder").
-		Continue("files/list_folder/continue").
-		Param(p).
-		UseHasMore(true).
-		ResultTag("entries").
-		OnEntry(func(entry api_list.ListEntry) error {
+	res := z.ctx.List("files/list_folder", api_request.Param(p)).Call(
+		dbx_list.Continue("files/list_folder/continue"),
+		dbx_list.UseHasMore(),
+		dbx_list.ResultTag("entries"),
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			e := &mo_file.Metadata{}
 			if err := entry.Model(e); err != nil {
-				j, _ := entry.Json()
-				z.ctx.Log().Error("invalid", zap.Error(err), zap.String("entry", j.Raw))
+				z.ctx.Log().Error("invalid", es_log.Error(err), es_log.ByteString("entry", entry.Raw()))
 				return err
 			}
 			onEntry(e)
 			return nil
-		})
-	return req.Call()
+		}),
+	)
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }
 
 func (z *filesImpl) Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry mo_file.Entry, err error) {
@@ -351,13 +351,11 @@ func (z *filesImpl) Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry m
 		ParentRev: opt.revision,
 	}
 
+	res := z.ctx.Post("files/delete_v2", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	entry = &mo_file.Metadata{}
-	res, err := z.ctx.Post("files/delete_v2").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if err := res.Model(entry); err != nil {
-		return nil, err
-	}
-	return entry, nil
+	err = res.Success().Json().Model(entry)
+	return
 }

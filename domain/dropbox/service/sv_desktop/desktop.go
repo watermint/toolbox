@@ -4,11 +4,10 @@ import (
 	"errors"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_desktop"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
-	"go.uber.org/zap"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"runtime"
 )
@@ -25,26 +24,26 @@ type desktopImpl struct {
 }
 
 func (z *desktopImpl) findInfo() (gjson.Result, error) {
-	l := app_root.Log()
+	l := es_log.Default()
 
 	findEnvHome := func(envName string) string {
-		em := ut_runtime.EnvMap()
-		if e, ok := em[envName]; ok {
-			l.Debug("Home folder found", zap.String("envName", envName), zap.String("path", e))
-			return e
+		home := os.Getenv(envName)
+		if home != "" {
+			l.Debug("home folder found", es_log.String("envName", envName), es_log.String("path", home))
+		} else {
+			l.Debug("home folder not found", es_log.String("envName", envName))
 		}
-		l.Debug("Home folder not found")
-		return ""
+		return home
 	}
 	findInfoFile := func(path string) (gjson.Result, error) {
-		ll := l.With(zap.String("path", path))
+		ll := l.With(es_log.String("path", path))
 		b, err := ioutil.ReadFile(path)
 		if err != nil {
-			ll.Debug("Unable to read info.json", zap.Error(err))
+			ll.Debug("Unable to read info.json", es_log.Error(err))
 			return gjson.Parse("{}"), err
 		}
 		if !gjson.ValidBytes(b) {
-			ll.Debug("Invalid JSON format", zap.Error(err))
+			ll.Debug("Invalid JSON format", es_log.Error(err))
 			return gjson.Parse("{}"), err
 		}
 		j := gjson.ParseBytes(b)
@@ -76,11 +75,11 @@ func (z *desktopImpl) findInfo() (gjson.Result, error) {
 }
 
 func (z *desktopImpl) Lookup() (personal *mo_desktop.Desktop, business *mo_desktop.Desktop, err error) {
-	l := app_root.Log()
+	l := es_log.Default()
 
 	info, err := z.findInfo()
 	if err != nil {
-		l.Debug("info.json not found or invalid", zap.Error(err))
+		l.Debug("info.json not found or invalid", es_log.Error(err))
 		return nil, nil, err
 	}
 	personal = &mo_desktop.Desktop{}
@@ -88,12 +87,12 @@ func (z *desktopImpl) Lookup() (personal *mo_desktop.Desktop, business *mo_deskt
 
 	var lastErr error
 	if err := api_parser.ParseModel(personal, info.Get(mo_desktop.TypePersonal)); err != nil || personal.Path == "" {
-		l.Debug("personal Dropbox not found or invalid", zap.Error(err))
+		l.Debug("personal Dropbox not found or invalid", es_log.Error(err))
 		personal = nil
 		lastErr = err
 	}
 	if err := api_parser.ParseModel(business, info.Get(mo_desktop.TypeBusiness)); err != nil || business.Path == "" {
-		l.Debug("business Dropbox not found or invalid", zap.Error(err))
+		l.Debug("business Dropbox not found or invalid", es_log.Error(err))
 		business = nil
 		lastErr = err
 	}

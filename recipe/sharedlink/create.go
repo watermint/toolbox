@@ -17,12 +17,14 @@ import (
 )
 
 type Create struct {
+	rc_recipe.RemarkIrreversible
 	Peer     dbx_conn.ConnUserFile
 	Path     mo_path.DropboxPath
 	TeamOnly bool
 	Password mo_string.OptionalString
 	Expires  mo_time.TimeOptional
 	Created  rp_model.RowReport
+	Success  app_msg.Message
 }
 
 func (z *Create) Preset() {
@@ -51,9 +53,7 @@ func (z *Create) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	ui.InfoK("recipe.sharedlink.create.success", app_msg.P{
-		"Url": link.LinkUrl(),
-	})
+	ui.Success(z.Success.With("Url", link.LinkUrl()))
 
 	z.Created.Row(link.Metadata())
 	return nil
@@ -65,6 +65,6 @@ func (z *Create) Test(c app_control.Control) error {
 		m.Path = qt_recipe.NewTestDropboxFolderPath("sharedlink-create")
 		m.Password = mo_string.NewOptional("1234")
 		m.TeamOnly = true
-		m.Expires = mo_time.NewOptional(time.Now().Add(1 * time.Second))
+		m.Expires = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))
 	})
 }

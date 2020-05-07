@@ -22,14 +22,12 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_mirror"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 	"strings"
 	"time"
 )
@@ -211,14 +209,14 @@ func (z *Replication) Test(c app_control.Control) error {
 		m := r.(*Replication)
 		m.TargetAll = true
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 	err = rc_exec.ExecMock(c, &Replication{}, func(r rc_recipe.Recipe) {
 		m := r.(*Replication)
 		m.TargetNames = []string{"Marketing", "Sales"}
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 
@@ -376,10 +374,10 @@ func (z *Replication) Inspect(c app_control.Control, ctx Context) (err error) {
 			return err
 		}
 		l.Debug("Admins identified",
-			zap.String("srcId", adminSrc.TeamMemberId),
-			zap.String("srcEmail", adminSrc.Email),
-			zap.String("dstId", adminDst.TeamMemberId),
-			zap.String("dstEmail", adminDst.Email),
+			es_log.String("srcId", adminSrc.TeamMemberId),
+			es_log.String("srcEmail", adminSrc.Email),
+			es_log.String("dstId", adminDst.TeamMemberId),
+			es_log.String("dstEmail", adminDst.Email),
 		)
 		ctx.SetAdmins(adminSrc, adminDst)
 		return nil
@@ -399,14 +397,14 @@ func (z *Replication) Inspect(c app_control.Control, ctx Context) (err error) {
 			return err
 		}
 		l.Debug("Team info",
-			zap.String("srcId", infoSrc.TeamId),
-			zap.String("srcName", infoSrc.Name),
-			zap.Int("srcLicenses", infoSrc.NumLicensedUsers),
-			zap.Int("srcProvisioned", infoSrc.NumProvisionedUsers),
-			zap.String("dstId", infoDst.TeamId),
-			zap.String("dstName", infoDst.Name),
-			zap.Int("dstLicenses", infoDst.NumLicensedUsers),
-			zap.Int("dstProvisioned", infoDst.NumProvisionedUsers),
+			es_log.String("srcId", infoSrc.TeamId),
+			es_log.String("srcName", infoSrc.Name),
+			es_log.Int("srcLicenses", infoSrc.NumLicensedUsers),
+			es_log.Int("srcProvisioned", infoSrc.NumProvisionedUsers),
+			es_log.String("dstId", infoDst.TeamId),
+			es_log.String("dstName", infoDst.Name),
+			es_log.Int("dstLicenses", infoDst.NumLicensedUsers),
+			es_log.Int("dstProvisioned", infoDst.NumProvisionedUsers),
 		)
 		if infoSrc.TeamId == infoDst.TeamId {
 			l.Warn("Source and destination team are the same team.")
@@ -424,15 +422,15 @@ func (z *Replication) Inspect(c app_control.Control, ctx Context) (err error) {
 		inspectErr = nil
 		for _, pair := range ctx.Pairs() {
 			l.Info("SRC: Team folder status",
-				zap.String("id", pair.Src.TeamFolderId),
-				zap.String("name", pair.Src.Name),
-				zap.String("status", pair.Src.Status),
+				es_log.String("id", pair.Src.TeamFolderId),
+				es_log.String("name", pair.Src.Name),
+				es_log.String("status", pair.Src.Status),
 			)
 			if pair.Src.Status != "active" {
 				l.Warn("SRC: Non active folder found",
-					zap.String("srcId", pair.Src.TeamFolderId),
-					zap.String("srcName", pair.Src.Name),
-					zap.String("srcStatus", pair.Src.Status),
+					es_log.String("srcId", pair.Src.TeamFolderId),
+					es_log.String("srcName", pair.Src.Name),
+					es_log.String("srcStatus", pair.Src.Status),
 				)
 				//inspectErr = errors.New("one or more team folders are not active")
 			}
@@ -475,18 +473,18 @@ func (z *Replication) Inspect(c app_control.Control, ctx Context) (err error) {
 		for _, pair := range ctx.Pairs() {
 			if folder := pair.Dst; folder != nil {
 				l.Info("DST: Team folder status",
-					zap.String("srcId", pair.Src.TeamFolderId),
-					zap.String("srcName", pair.Src.Name),
-					zap.String("srcStatus", pair.Src.Status),
-					zap.String("dstId", folder.TeamFolderId),
-					zap.String("dstName", folder.Name),
-					zap.String("dstStatus", folder.Status),
+					es_log.String("srcId", pair.Src.TeamFolderId),
+					es_log.String("srcName", pair.Src.Name),
+					es_log.String("srcStatus", pair.Src.Status),
+					es_log.String("dstId", folder.TeamFolderId),
+					es_log.String("dstName", folder.Name),
+					es_log.String("dstStatus", folder.Status),
 				)
 				if pair.Dst.Status != "active" {
 					l.Info("DST: Non active folder found",
-						zap.String("dstId", folder.TeamFolderId),
-						zap.String("dstName", folder.Name),
-						zap.String("dstStatus", folder.Status),
+						es_log.String("dstId", folder.TeamFolderId),
+						es_log.String("dstName", folder.Name),
+						es_log.String("dstStatus", folder.Status),
 					)
 					inspectErr = errors.New("one or more team folders are not active")
 				}
@@ -504,7 +502,7 @@ func (z *Replication) Inspect(c app_control.Control, ctx Context) (err error) {
 func (z *Replication) Bridge(c app_control.Control, ctx Context) (err error) {
 	l := c.Log()
 	groupName := fmt.Sprintf("%s-%x", MirrorGroupNamePrefix, time.Now().Unix())
-	l.Info("Bridge", zap.String("groupName", groupName))
+	l.Info("Bridge", es_log.String("groupName", groupName))
 
 	// Create groups
 	groupSrc, err := sv_group.New(z.SrcMgmt.Context()).Create(groupName, sv_group.CompanyManaged())
@@ -518,7 +516,7 @@ func (z *Replication) Bridge(c app_control.Control, ctx Context) (err error) {
 		return err
 	}
 	ctx.SetGroups(groupSrc, groupDst)
-	l.Debug("Groups created", zap.String("srcGroupId", groupSrc.GroupId), zap.String("dstGroupId", groupDst.GroupId), zap.String("groupName", groupName))
+	l.Debug("Groups created", es_log.String("srcGroupId", groupSrc.GroupId), es_log.String("dstGroupId", groupDst.GroupId), es_log.String("groupName", groupName))
 
 	// Add admins to groups
 	_, err = sv_group_member.New(z.SrcMgmt.Context(), groupSrc).Add(sv_group_member.ByTeamMemberId(ctx.AdminSrc().TeamMemberId))
@@ -529,13 +527,13 @@ func (z *Replication) Bridge(c app_control.Control, ctx Context) (err error) {
 	if err != nil {
 		return err
 	}
-	l.Debug("Admins added to groups", zap.String("srcGroupId", groupSrc.GroupId), zap.String("dstGroupId", groupDst.GroupId), zap.String("groupName", groupName))
+	l.Debug("Admins added to groups", es_log.String("srcGroupId", groupSrc.GroupId), es_log.String("dstGroupId", groupDst.GroupId), es_log.String("groupName", groupName))
 
 	return nil
 }
 
 func (z *Replication) Mount(c app_control.Control, ctx Context, scope Scope) (err error) {
-	l := c.Log().With(zap.Any("pair", scope.Pair()))
+	l := c.Log().With(es_log.Any("pair", scope.Pair()))
 	l.Info("Mount")
 
 	// Create team folder if required
@@ -545,14 +543,14 @@ func (z *Replication) Mount(c app_control.Control, ctx Context, scope Scope) (er
 		if pair.Dst == nil {
 			folder, err := svt.Create(pair.Src.Name, sv_teamfolder.SyncNoSync())
 			if err != nil {
-				if strings.HasPrefix(dbx_util.ErrorSummary(err), "folder_name_already_used") {
+				if dbx_util.ErrorSummaryPrefix(err, "folder_name_already_used") {
 					l.Debug("Skip: Already created")
 					return nil
 				}
-				l.Warn("DST: Unable to create team folder", zap.String("name", pair.Src.Name), zap.Error(err))
+				l.Warn("DST: Unable to create team folder", es_log.String("name", pair.Src.Name), es_log.Error(err))
 				return errors.New("could not create one or more team folders in the destination team")
 			}
-			l.Debug("DST: Team folder created", zap.String("id", folder.TeamFolderId), zap.String("name", folder.Name))
+			l.Debug("DST: Team folder created", es_log.String("id", folder.TeamFolderId), es_log.String("name", folder.Name))
 			pair.Dst = folder
 		}
 		return nil
@@ -597,11 +595,11 @@ func (z *Replication) Mount(c app_control.Control, ctx Context, scope Scope) (er
 		return nil
 	}
 	if err := ensureAccess(ctx.AdminSrc(), z.SrcFile.Context(), scope.Pair().Src); err != nil {
-		l.Warn("Could not access to src team folder", zap.String("srcName", scope.Pair().Src.Name))
+		l.Warn("Could not access to src team folder", es_log.String("srcName", scope.Pair().Src.Name))
 		return err
 	}
 	if err := ensureAccess(ctx.AdminDst(), z.DstFile.Context(), scope.Pair().Dst); err != nil {
-		l.Warn("Could not access to src team folder", zap.String("dstName", scope.Pair().Dst.Name))
+		l.Warn("Could not access to src team folder", es_log.String("dstName", scope.Pair().Dst.Name))
 		return err
 	}
 	return nil
@@ -609,10 +607,10 @@ func (z *Replication) Mount(c app_control.Control, ctx Context, scope Scope) (er
 
 func (z *Replication) Content(c app_control.Control, ctx Context, scope Scope) (err error) {
 	l := c.Log().With(
-		zap.String("folderSrcId", scope.Pair().Src.TeamFolderId),
-		zap.String("folderSrcName", scope.Pair().Src.Name),
-		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
-		zap.String("folderDstName", scope.Pair().Dst.Name),
+		es_log.String("folderSrcId", scope.Pair().Src.TeamFolderId),
+		es_log.String("folderSrcName", scope.Pair().Src.Name),
+		es_log.String("folderDstId", scope.Pair().Dst.TeamFolderId),
+		es_log.String("folderDstName", scope.Pair().Dst.Name),
 	)
 	l.Info("Mirroring content")
 
@@ -629,15 +627,13 @@ func (z *Replication) Content(c app_control.Control, ctx Context, scope Scope) (
 
 func (z *Replication) Verify(c app_control.Control, ctx Context, scope Scope) (err error) {
 	l := c.Log().With(
-		zap.String("folderSrcId", scope.Pair().Src.TeamFolderId),
-		zap.String("folderSrcName", scope.Pair().Src.Name),
-		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
-		zap.String("folderDstName", scope.Pair().Dst.Name),
+		es_log.String("folderSrcId", scope.Pair().Src.TeamFolderId),
+		es_log.String("folderSrcName", scope.Pair().Src.Name),
+		es_log.String("folderDstId", scope.Pair().Dst.TeamFolderId),
+		es_log.String("folderDstName", scope.Pair().Dst.Name),
 	)
 	if err := z.Verification.Open(); err != nil {
-		c.UI().ErrorK("usecase.uc_teamfolder_mirror.err.unable_to_create_diff_report", app_msg.P{
-			"Error": err.Error(),
-		})
+		l.Error("Unable to create diff report", es_log.Error(err))
 		return err
 	}
 
@@ -654,23 +650,23 @@ func (z *Replication) Verify(c app_control.Control, ctx Context, scope Scope) (e
 	count, err := ucc.Diff(
 		mo_path.NewDropboxPath(""), mo_path.NewDropboxPath(""),
 		func(diff mo_file_diff.Diff) error {
-			l.Warn("Diff", zap.Any("diff", diff))
+			l.Warn("Diff", es_log.Any("diff", diff))
 			z.Verification.Row(&diff)
 			return nil
 		})
 
 	if count > 0 {
-		l.Warn("Content diff found", zap.Int("Num diffs", count))
+		l.Warn("Content diff found", es_log.Int("Num diffs", count))
 	}
 	return err
 }
 
 func (z *Replication) Unmount(c app_control.Control, ctx Context, scope Scope) (err error) {
 	l := c.Log().With(
-		zap.String("folderSrcId", scope.Pair().Src.TeamFolderId),
-		zap.String("folderSrcName", scope.Pair().Src.Name),
-		zap.String("folderDstId", scope.Pair().Dst.TeamFolderId),
-		zap.String("folderDstName", scope.Pair().Dst.Name),
+		es_log.String("folderSrcId", scope.Pair().Src.TeamFolderId),
+		es_log.String("folderSrcName", scope.Pair().Src.Name),
+		es_log.String("folderDstId", scope.Pair().Dst.TeamFolderId),
+		es_log.String("folderDstName", scope.Pair().Dst.Name),
 	)
 	l.Info("Unmount: detach admin from team folder(s)")
 
@@ -699,7 +695,7 @@ func (z *Replication) Unmount(c app_control.Control, ctx Context, scope Scope) (
 
 func (z *Replication) Archive(c app_control.Control, ctx Context, scope Scope) (err error) {
 	l := c.Log()
-	l.Info("Archive: Archiving team folder", zap.String("name", scope.Pair().Src.Name))
+	l.Info("Archive: Archiving team folder", es_log.String("name", scope.Pair().Src.Name))
 	svt := sv_teamfolder.New(z.SrcFile.Context())
 	if _, err := svt.Archive(scope.Pair().Src); err != nil {
 		return err
@@ -714,17 +710,17 @@ func (z *Replication) Cleanup(c app_control.Control, ctx Context) (err error) {
 	err = nil
 
 	// Remove groups
-	l.Info("Cleanup: Remove temporary group (source)", zap.String("name", ctx.GroupSrc().GroupName))
+	l.Info("Cleanup: Remove temporary group (source)", es_log.String("name", ctx.GroupSrc().GroupName))
 	errSrc := sv_group.New(z.SrcMgmt.Context()).Remove(ctx.GroupSrc().GroupId)
 	if errSrc != nil {
-		l.Warn("SRC: Could not remove group", zap.String("groupName", ctx.GroupSrc().GroupName), zap.Error(errSrc))
+		l.Warn("SRC: Could not remove group", es_log.String("groupName", ctx.GroupSrc().GroupName), es_log.Error(errSrc))
 		err = errSrc
 	}
 
-	l.Info("Cleanup: Remove temporary group (dest)", zap.String("name", ctx.GroupDst().GroupName))
+	l.Info("Cleanup: Remove temporary group (dest)", es_log.String("name", ctx.GroupDst().GroupName))
 	errDst := sv_group.New(z.DstMgmt.Context()).Remove(ctx.GroupDst().GroupId)
 	if errDst != nil {
-		l.Warn("SRC: Could not remove group", zap.String("groupName", ctx.GroupDst().GroupName), zap.Error(errDst))
+		l.Warn("SRC: Could not remove group", es_log.String("groupName", ctx.GroupDst().GroupName), es_log.Error(errDst))
 		err = errDst
 	}
 

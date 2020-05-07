@@ -3,7 +3,7 @@ package sv_reference
 import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_reference"
-	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Reference interface {
@@ -34,17 +34,11 @@ func (z *referenceImpl) Create(ref, sha string) (created *mo_reference.Reference
 		Ref: ref,
 		Sha: sha,
 	}
-	res, err := z.ctx.Post(endpoint).Param(&p).Call()
-	if err != nil {
-		return nil, err
-	}
-	j, err := res.Json()
-	if err != nil {
+	res := z.ctx.Post(endpoint, api_request.Param(&p))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	created = &mo_reference.Reference{}
-	if err := api_parser.ParseModel(created, j); err != nil {
-		return nil, err
-	}
-	return created, nil
+	err = res.Success().Json().Model(created)
+	return
 }

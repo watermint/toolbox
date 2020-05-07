@@ -9,7 +9,7 @@ import (
 )
 
 func TestFilesImpl_ListChunked(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		err := sv.ListChunked(qt_recipe.NewTestDropboxFolderPath(), func(entry mo_file.Entry) {},
 			Recursive(),
@@ -24,7 +24,7 @@ func TestFilesImpl_ListChunked(t *testing.T) {
 }
 
 func TestFilesImpl_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		_, err := sv.List(qt_recipe.NewTestDropboxFolderPath(),
 			Recursive(),
@@ -39,7 +39,7 @@ func TestFilesImpl_List(t *testing.T) {
 }
 
 func TestFilesImpl_Poll(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		err := sv.Poll(qt_recipe.NewTestDropboxFolderPath(), func(entry mo_file.Entry) {
 		})
@@ -50,7 +50,7 @@ func TestFilesImpl_Poll(t *testing.T) {
 }
 
 func TestFilesImpl_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		_, err := sv.Remove(qt_recipe.NewTestDropboxFolderPath(), RemoveRevision("test"))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -60,7 +60,7 @@ func TestFilesImpl_Remove(t *testing.T) {
 }
 
 func TestFilesImpl_Resolve(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		_, err := sv.Resolve(qt_recipe.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -70,7 +70,7 @@ func TestFilesImpl_Resolve(t *testing.T) {
 }
 
 func TestFilesImpl_Search(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		_, err := sv.Search("test",
 			SearchPath(qt_recipe.NewTestDropboxFolderPath()),

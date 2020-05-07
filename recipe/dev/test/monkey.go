@@ -9,11 +9,11 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 	"golang.org/x/sync/semaphore"
 	"io/ioutil"
 	"math"
@@ -35,7 +35,7 @@ func (z *MonkeyWorker) upload() error {
 	l := z.Context.Log()
 	tf, err := ioutil.TempFile("", "monkey")
 	if err != nil {
-		l.Debug("Unable to create temp file", zap.Error(err))
+		l.Debug("Unable to create temp file", es_log.Error(err))
 		return err
 	}
 	td := make([]byte, rand.Intn(384)+1)
@@ -47,24 +47,24 @@ func (z *MonkeyWorker) upload() error {
 	defer os.Remove(path)
 
 	entry, err := sv_file_content.NewUpload(z.Context).Overwrite(z.Base, path)
-	l.Info("Create or update", zap.Any("entry", entry), zap.Error(err))
+	l.Info("Create or update", es_log.Any("entry", entry), es_log.Error(err))
 	return nil
 }
 
 func (z *MonkeyWorker) delete() error {
 	l := z.Context.Log()
 	entry, err := sv_file.NewFiles(z.Context).Remove(z.Base.ChildPath(z.Name))
-	l.Info("Delete", zap.Any("entry", entry), zap.Error(err))
+	l.Info("Delete", es_log.Any("entry", entry), es_log.Error(err))
 	return nil
 }
 
 func (z *MonkeyWorker) Exec() error {
 	defer z.Sem.Release(1)
 
-	l := z.Context.Log().With(zap.String("base", z.Base.Path()), zap.String("name", z.Name))
+	l := z.Context.Log().With(es_log.String("base", z.Base.Path()), es_log.String("name", z.Name))
 	entry, err := sv_file.NewFiles(z.Context).Resolve(z.Base.ChildPath(z.Name))
 
-	l.Debug("Entry", zap.Any("entry", entry), zap.Error(err))
+	l.Debug("Entry", es_log.Any("entry", entry), es_log.Error(err))
 
 	// Create if the file not found
 	if err != nil {
@@ -81,6 +81,7 @@ func (z *MonkeyWorker) Exec() error {
 }
 
 type Monkey struct {
+	rc_recipe.RemarkSecret
 	Seconds      mo_int.RangeInt
 	Distribution mo_int.RangeInt
 	Path         mo_path.DropboxPath
@@ -104,14 +105,14 @@ func (z *Monkey) Exec(c app_control.Control) error {
 	}
 	sem := semaphore.NewWeighted(100)
 	l := c.Log()
-	l.Info("Monkey test start", zap.Int("Distribution", z.Distribution.Value()), zap.Int("Running time", z.Seconds.Value()))
+	l.Info("Monkey test start", es_log.Int("Distribution", z.Distribution.Value()), es_log.Int("Running time", z.Seconds.Value()))
 
 	q := c.NewQueue()
 	go func() {
 		for {
 			err := sem.Acquire(context.Background(), 1)
 			if err != nil {
-				l.Debug("Unable to acquire semaphore", zap.Error(err))
+				l.Debug("Unable to acquire semaphore", es_log.Error(err))
 				return
 			}
 
@@ -119,7 +120,7 @@ func (z *Monkey) Exec(c app_control.Control) error {
 			file := files[index]
 			folder := folders[index]
 
-			l.Debug("Enqueue file", zap.String("path", folder.Path()), zap.String("name", file))
+			l.Debug("Enqueue file", es_log.String("path", folder.Path()), es_log.String("name", file))
 			q.Enqueue(&MonkeyWorker{
 				Context: z.Peer.Context(),
 				Base:    folder,
@@ -129,7 +130,7 @@ func (z *Monkey) Exec(c app_control.Control) error {
 		}
 	}()
 
-	time.Sleep(time.Duration(z.Seconds.Value()) * time.Second)
+	time.Sleep(time.Duration(z.Seconds.Value()) * 1000 * time.Millisecond)
 	return nil
 }
 

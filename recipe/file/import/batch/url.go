@@ -20,6 +20,15 @@ import (
 	"path/filepath"
 )
 
+type MsgUrl struct {
+	ProgressImport   app_msg.Message
+	ErrorPathMissing app_msg.Message
+}
+
+var (
+	MUrl = app_msg.Apply(&MsgUrl{}).(*MsgUrl)
+)
+
 type UrlRow struct {
 	Url  string `json:"url"`
 	Path string `json:"path"`
@@ -36,10 +45,7 @@ func (z *UrlWorker) Exec() error {
 	ui := z.ctl.UI()
 
 	path := sv_file_url.PathWithName(mo_path.NewDropboxPath(z.row.Path), z.row.Url)
-	ui.InfoK("recipe.file.import.batch.url.progress", app_msg.P{
-		"Url":  z.row.Url,
-		"Path": path.Path(),
-	})
+	ui.Progress(MUrl.ProgressImport.With("Url", z.row.Url).With("Path", path.Path()))
 
 	entry, err := sv_file_url.New(z.ctx).Save(path, z.row.Url)
 	if err != nil {
@@ -52,6 +58,7 @@ func (z *UrlWorker) Exec() error {
 }
 
 type Url struct {
+	rc_recipe.RemarkIrreversible
 	Peer            dbx_conn.ConnUserFile
 	File            fd_file.RowFeed
 	Path            mo_string.OptionalString
@@ -94,7 +101,7 @@ func (z *Url) Exec(c app_control.Control) error {
 			path = z.Path.Value()
 		default:
 			z.OperationLog.Skip(z.SkipPathMissing, r)
-			ui.ErrorK("recipe.file.import.batch.url.err.path_missing")
+			ui.Error(MUrl.ErrorPathMissing)
 			return errors.New("no path to save")
 		}
 

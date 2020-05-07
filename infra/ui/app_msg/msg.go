@@ -2,8 +2,8 @@ package app_msg
 
 import (
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"reflect"
 	"strings"
 )
@@ -85,7 +85,7 @@ func (z *messageOptionalImpl) Params() []P {
 	return z.P
 }
 
-func M(key string, p ...P) Message {
+func CreateMessage(key string, p ...P) Message {
 	return &messageImpl{
 		K: key,
 		P: p,
@@ -159,5 +159,5 @@ func Messages(mo interface{}) []Message {
 }
 
 func ObjMessage(r interface{}, suffix string) Message {
-	return M(ut_reflect.Key(app.Pkg, r) + "." + suffix)
+	return CreateMessage(es_reflect.Key(app.Pkg, r) + "." + suffix)
 }

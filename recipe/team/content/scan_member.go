@@ -4,8 +4,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"go.uber.org/zap"
 )
 
 type MemberScannerWorker struct {
@@ -17,7 +17,7 @@ type MemberScannerWorker struct {
 }
 
 func (z *MemberScannerWorker) Exec() error {
-	l := z.Context.Log().With(zap.String("member", z.Member.Email))
+	l := z.Context.Log().With(es_log.String("member", z.Member.Email))
 	ui := z.Control.UI()
 
 	l.Debug("Scanning member")
@@ -30,7 +30,7 @@ func (z *MemberScannerWorker) Exec() error {
 
 	for _, f := range folders {
 		if z.TeamOwnedNamespaces[f.SharedFolderId] {
-			l.Debug("Skip team owned folder", zap.Any("folder", f))
+			l.Debug("Skip team owned folder", es_log.Any("folder", f))
 			continue
 		}
 		z.Scanner.Scan(z.Control, z.Context, f.Name, f.SharedFolderId)

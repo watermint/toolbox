@@ -1,120 +1,135 @@
 package test
 
 import (
+	"context"
 	"errors"
-	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
-	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
-	"io/ioutil"
+	"github.com/watermint/toolbox/recipe/dev"
 	"strings"
 	"time"
 )
 
+var (
+	recipeTimeout = 30 * time.Second
+)
+
 type Recipe struct {
-	All      bool
-	Recipe   mo_string.OptionalString
-	Resource mo_string.OptionalString
-	Verbose  bool
+	rc_recipe.RemarkSecret
+	All       bool
+	Recipe    mo_string.OptionalString
+	NoTimeout bool
+	Verbose   bool
 }
 
 func (z *Recipe) Preset() {
 }
 
-func (z *Recipe) Exec(c app_control.Control) error {
-	cl := c.(app_control_launcher.ControlLauncher)
-	cat := cl.Catalogue()
+func (z *Recipe) execRecipe(c app_control.Control, r rc_recipe.Recipe, spec rc_recipe.Spec, timeoutEnabled bool) error {
+	path, name := spec.Path()
+	l := c.Log().With(es_log.Strings("path", path), es_log.String("name", name), es_log.Bool("timeoutEnabled", timeoutEnabled))
+	l.Debug("Testing: ")
+	cn := strings.Join(append(path, name), "-")
+	ct := c.WithFeature(c.Feature().AsTest(false))
+
+	return app_control_impl.WithForkedQuiet(ct, cn, func(cf app_control.Control) error {
+		timeStart := time.Now()
+		if err, _ := qt_errors.ErrorsForTest(l, r.Test(cf)); err != nil {
+			l.Error("Error", es_log.Error(err))
+			return err
+		}
+		timeEnd := time.Now()
+		l.Info("Recipe test success", es_log.Int64("duration", timeEnd.Sub(timeStart).Milliseconds()))
+		return nil
+	})
+}
+
+func (z *Recipe) runRecipeWithTimeout(c app_control.Control, r rc_recipe.Recipe, spec rc_recipe.Spec) (err error) {
+	path, name := spec.Path()
+	l := c.Log().With(es_log.Strings("path", path), es_log.String("name", name))
+
+	// Run without timeout
+	if spec.IsIrreversible() || z.NoTimeout {
+		l.Debug("Run recipe without timeout")
+		return z.execRecipe(c, r, spec, false)
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), recipeTimeout)
+	defer cancel()
+
+	result := make(chan error)
+	go func() {
+		errRecipe := z.execRecipe(c, r, spec, true)
+		result <- errRecipe
+	}()
+
+	select {
+	case errRecipe := <-result:
+		l.Debug("Recipe finished without timeout", es_log.Error(errRecipe))
+		return errRecipe
+
+	case <-ctx.Done():
+		l.Info("Recipe test finished with timeout")
+		return nil
+	}
+}
+
+func (z *Recipe) runSingle(c app_control.Control, r rc_recipe.Recipe) error {
+	rs := rc_spec.New(r)
+	path, name := rs.Path()
+	l := c.Log().With(es_log.Strings("path", path), es_log.String("name", name))
+
+	if rs.IsSecret() {
+		l.Info("Skip secret recipe")
+		return nil
+	}
+
+	return z.runRecipeWithTimeout(c, r, rs)
+}
+
+func (z *Recipe) runAll(c app_control.Control) error {
+	cat := app_catalogue.Current()
 	l := c.Log()
 
-	testResource := gjson.Parse("{}")
-
-	if z.Resource.IsExists() {
-		ll := l.With(zap.String("resource", z.Resource.Value()))
-		b, err := ioutil.ReadFile(z.Resource.Value())
-		if err != nil {
-			ll.Error("Unable to read resource file", zap.Error(err))
+	for _, r := range cat.Recipes() {
+		if err := z.runSingle(c, r); err != nil {
 			return err
 		}
-		if !gjson.ValidBytes(b) {
-			ll.Error("Invalid JSON format of resource file")
-			return err
-		}
-		testResource = gjson.ParseBytes(b)
 	}
+	l.Info("All tests passed without error")
+	return nil
+}
+
+func (z *Recipe) Exec(c app_control.Control) error {
+	cat := app_catalogue.Current()
+	l := c.Log()
 
 	switch {
 	case z.All:
-		for _, r := range cat.Recipes() {
-			rs := rc_spec.New(r)
-			path, name := rs.Path()
-			ll := l.With(zap.Strings("path", path), zap.String("name", name))
-			if rs.IsSecret() {
-				ll.Info("Skip secret recipe")
-				continue
-			}
-
-			cn := strings.Join(path, "-") + "-" + name
-			cf, ok := c.(app_control_launcher.ControlFork)
-			if !ok {
-				return errors.New("unable to fork control")
-			}
-			var c0, c1 app_control.Control
-			c0, err := cf.Fork(cn)
-			if err != nil {
-				return err
-			}
-			if z.Verbose {
-				c1 = c0
-			} else {
-				c1 = c0.(*app_control_impl.Single).Quiet()
-			}
-			ct, err := c1.(*app_control_impl.Single).NewTestControl(testResource)
-			if err != nil {
-				return err
-			}
-
-			ll.Debug("Testing: ")
-
-			timeStart := time.Now()
-			if err, _ := qt_recipe.RecipeError(l, r.Test(ct)); err != nil {
-				ll.Error("Error", zap.Error(err))
-				return err
-			}
-			timeEnd := time.Now()
-			ll.Info("Recipe test success", zap.Int64("duration", timeEnd.Sub(timeStart).Milliseconds()))
+		if err := z.runAll(c); err != nil {
+			return err
 		}
-		l.Info("All tests passed without error")
 
 	case z.Recipe.IsExists():
-
 		for _, r := range cat.Recipes() {
 			p := rc_recipe.Key(r)
 			if p != z.Recipe.Value() {
 				continue
 			}
-			ll := l.With(zap.String("recipeKey", p))
-			ll.Debug("Testing: ")
-			tc, err := c.(*app_control_impl.Single).NewTestControl(testResource)
-			if err != nil {
-				ll.Error("Unable to create test control", zap.Error(err))
+			if err := z.runSingle(c, r); err != nil {
 				return err
 			}
-
-			if err, _ := qt_recipe.RecipeError(l, r.Test(tc)); err != nil {
-				ll.Error("Error", zap.Error(err))
-				return err
-			} else {
-				ll.Info("Recipe test success")
-				return nil
-			}
+			l.Info("Recipe test success")
+			return nil
 		}
-		l.Error("recipe not found", zap.String("vo.Recipe", z.Recipe.Value()))
+		l.Error("recipe not found", es_log.String("vo.Recipe", z.Recipe.Value()))
 		return errors.New("recipe not found")
 
 	default:
@@ -125,5 +140,9 @@ func (z *Recipe) Exec(c app_control.Control) error {
 }
 
 func (z *Recipe) Test(c app_control.Control) error {
-	return qt_errors.ErrorNoTestRequired
+	return rc_exec.Exec(c, &Recipe{}, func(r rc_recipe.Recipe) {
+		m := r.(*Recipe)
+		m.Recipe = mo_string.NewOptional(rc_recipe.Key(&dev.Echo{}))
+		m.NoTimeout = false
+	})
 }

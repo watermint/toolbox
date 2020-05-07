@@ -11,6 +11,7 @@ import (
 )
 
 type List struct {
+	rc_recipe.RemarkExperimental
 	Owner      string
 	Repository string
 	Issues     rp_model.RowReport

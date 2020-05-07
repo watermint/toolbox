@@ -1,9 +1,6 @@
 package mo_string
 
-import (
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
-)
+import "github.com/watermint/toolbox/essentials/log/es_log"
 
 type SelectString interface {
 	String
@@ -41,10 +38,10 @@ func (z *selectString) SetOptions(opts []string, selected string) {
 func (z *selectString) SetSelect(selected string) {
 	z.selected = selected
 	if !z.IsValid() {
-		l := app_root.Log()
+		l := es_log.Default()
 		l.Debug("The value `selected` is not in `opts`",
-			zap.String("selected", selected),
-			zap.Strings("opts", z.opts))
+			es_log.String("selected", selected),
+			es_log.Strings("opts", z.opts))
 	}
 }
 

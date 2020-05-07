@@ -1,10 +1,10 @@
 package rc_worker_impl
 
 import (
+	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
-	"go.uber.org/zap"
 	"sync"
 )
 
@@ -29,17 +29,17 @@ type Queue struct {
 }
 
 func (z *Queue) dequeue() {
-	l := z.ctl.Log().With(zap.String("Routine", ut_runtime.GetGoRoutineName()))
+	l := z.ctl.Log().With(es_log.String("Routine", es_goroutine.GetGoRoutineName()))
 	jobId := 0
 
 	for w := range z.q {
-		ll := l.With(zap.Int("Seq", jobId))
+		ll := l.With(es_log.Int("Seq", jobId))
 		jobId++
 
 		ll.Debug("Run work")
 		if err := w.Exec(); err != nil {
 			z.lastErr = err
-			ll.Debug("Failure", zap.Error(err))
+			ll.Debug("Failure", es_log.Error(err))
 		} else {
 			ll.Debug("Success")
 		}
@@ -49,26 +49,26 @@ func (z *Queue) dequeue() {
 }
 
 func (z *Queue) Launch(concurrency int) {
-	l := z.ctl.Log().With(zap.String("Routine", ut_runtime.GetGoRoutineName()))
+	l := z.ctl.Log().With(es_log.String("Routine", es_goroutine.GetGoRoutineName()))
 	if concurrency < 1 {
-		l.Debug("RunConcurrently must positive number, use 1 as default", zap.Int("concurrency", concurrency))
+		l.Debug("RunConcurrently must positive number, use 1 as default", es_log.Int("concurrency", concurrency))
 		concurrency = 1
 	}
 
-	l.Debug("Launch first worker", zap.Int("concurrency", concurrency))
+	l.Debug("Launch first worker", es_log.Int("concurrency", concurrency))
 	z.maxWorker = concurrency
 	z.numWorker = 1
 	go z.dequeue()
 }
 
 func (z *Queue) Enqueue(w rc_worker.Worker) {
-	l := z.ctl.Log().With(zap.String("Routine", ut_runtime.GetGoRoutineName()))
+	l := z.ctl.Log().With(es_log.String("Routine", es_goroutine.GetGoRoutineName()))
 
 	z.workerMutex.Lock()
 	defer z.workerMutex.Unlock()
 
 	if z.numWorker < z.maxWorker {
-		l.Debug("Launch additional worker", zap.Int("numWorker", z.numWorker), zap.Int("maxWorker", z.maxWorker))
+		l.Debug("Launch additional worker", es_log.Int("numWorker", z.numWorker), es_log.Int("maxWorker", z.maxWorker))
 		go z.dequeue()
 		z.numWorker++
 	}
@@ -78,7 +78,7 @@ func (z *Queue) Enqueue(w rc_worker.Worker) {
 }
 
 func (z *Queue) Wait() error {
-	l := z.ctl.Log().With(zap.String("Routine", ut_runtime.GetGoRoutineName()))
+	l := z.ctl.Log().With(es_log.String("Routine", es_goroutine.GetGoRoutineName()))
 	l.Debug("Waiting for worker shutdown")
 	z.wg.Wait()
 	close(z.q)

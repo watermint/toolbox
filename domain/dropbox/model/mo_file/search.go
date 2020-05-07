@@ -3,9 +3,8 @@ package mo_file
 import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
 	"html"
 )
 
@@ -20,7 +19,7 @@ type Match struct {
 func (z *Match) Concrete() *ConcreteEntry {
 	ce := &ConcreteEntry{}
 	if err := api_parser.ParseModelPathRaw(ce, z.Raw, "metadata.metadata"); err != nil {
-		app_root.Log().Debug("Unable to parse json", zap.Error(err), zap.ByteString("raw", z.Raw))
+		es_log.Default().Debug("Unable to parse json", es_log.Error(err), es_log.ByteString("raw", z.Raw))
 		return ce
 	}
 	ce.Raw = json.RawMessage(gjson.ParseBytes(z.Raw).Get("metadata.metadata").Raw)

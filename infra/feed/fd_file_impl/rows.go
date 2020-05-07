@@ -4,16 +4,23 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/essentials/encoding/es_unicode"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_root"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_encoding"
-	"go.uber.org/zap"
 	"io"
 	"os"
 	"reflect"
 	"strconv"
+)
+
+type MsgRowFeed struct {
+	ErrorUnableToRead app_msg.Message
+}
+
+var (
+	MRowFeed = app_msg.Apply(&MsgRowFeed{}).(*MsgRowFeed)
 )
 
 func NewRowFeed(name string) fd_file.RowFeed {
@@ -78,7 +85,7 @@ func (z *RowFeed) Model() interface{} {
 }
 
 func (z *RowFeed) applyModel() {
-	l := app_root.Log()
+	l := es_log.Default()
 	if z.md == nil {
 		l.Debug("No model defined")
 		return
@@ -126,15 +133,10 @@ func (z *RowFeed) Open(ctl app_control.Control) error {
 	var err error
 	z.file, err = os.Open(z.filePath)
 	if err != nil {
-		ui.ErrorK("flow.error.unable_to_read",
-			app_msg.P{
-				"Path":  z.filePath,
-				"Error": err,
-			},
-		)
+		ui.Error(MRowFeed.ErrorUnableToRead.With("Path", z.filePath).With("Error", err))
 		return err
 	}
-	z.reader = ut_encoding.NewBomAwareCsvReader(z.file)
+	z.reader = es_unicode.NewBomAwareCsvReader(z.file)
 	z.applyModel()
 
 	return nil
@@ -142,7 +144,7 @@ func (z *RowFeed) Open(ctl app_control.Control) error {
 
 func (z *RowFeed) header(cols []string) (consumeLine bool, err error) {
 	l := z.ctl.Log()
-	l.Debug("Parse header", zap.Strings("cols", cols))
+	l.Debug("Parse header", es_log.Strings("cols", cols))
 
 	z.headers = make([]string, len(cols))
 	for i, col := range cols {
@@ -154,7 +156,7 @@ func (z *RowFeed) header(cols []string) (consumeLine bool, err error) {
 			z.mode = "order"
 		}
 	}
-	l = l.With(zap.String("mode", z.mode))
+	l = l.With(es_log.String("mode", z.mode))
 	l.Debug("Feed injection mode")
 
 	fieldSet := func(v reflect.Value, s string) error {
@@ -162,7 +164,7 @@ func (z *RowFeed) header(cols []string) (consumeLine bool, err error) {
 		case reflect.Bool:
 			b, err := strconv.ParseBool(s)
 			if err != nil {
-				l.Debug("Failed to parse field", zap.String("s", s), zap.Error(err))
+				l.Debug("Failed to parse field", es_log.String("s", s), es_log.Error(err))
 				return err
 			}
 			v.SetBool(b)
@@ -170,7 +172,7 @@ func (z *RowFeed) header(cols []string) (consumeLine bool, err error) {
 		case reflect.Int:
 			n, err := strconv.ParseInt(s, 10, 64)
 			if err != nil {
-				l.Debug("Failed to parse field", zap.String("s", s), zap.Error(err))
+				l.Debug("Failed to parse field", es_log.String("s", s), es_log.Error(err))
 				return err
 			}
 			v.SetInt(n)
@@ -185,15 +187,15 @@ func (z *RowFeed) header(cols []string) (consumeLine bool, err error) {
 	case "fieldName":
 		z.colIndexToField = func(ci int, v reflect.Value, s string) error {
 			if ci >= len(z.headers) {
-				l.Debug("Column index out of range", zap.Int("ci", ci))
+				l.Debug("Column index out of range", es_log.Int("ci", ci))
 				return nil // ignore error
 			}
 			fieldName := z.headers[ci]
 			f := v.Elem().FieldByName(strcase.ToCamel(fieldName))
 			if !f.IsValid() || !f.CanSet() {
 				l.Debug("Invalid column",
-					zap.Bool("isValid", f.IsValid()),
-					zap.Bool("canSet", f.CanSet()),
+					es_log.Bool("isValid", f.IsValid()),
+					es_log.Bool("canSet", f.CanSet()),
 				)
 				return errors.New("invalid field")
 			}
@@ -205,14 +207,14 @@ func (z *RowFeed) header(cols []string) (consumeLine bool, err error) {
 		z.colIndexToField = func(ci int, v reflect.Value, s string) error {
 			fieldName, ok := z.orderToFieldName[ci]
 			if !ok {
-				l.Debug("Column for field not found", zap.Int("ci", ci))
+				l.Debug("Column for field not found", es_log.Int("ci", ci))
 				return errors.New("column for field not found")
 			}
 			f := v.Elem().FieldByName(fieldName)
 			if !f.IsValid() || !f.CanSet() {
 				l.Debug("Invalid column",
-					zap.Bool("isValid", f.IsValid()),
-					zap.Bool("canSet", f.CanSet()),
+					es_log.Bool("isValid", f.IsValid()),
+					es_log.Bool("canSet", f.CanSet()),
 				)
 				return errors.New("invalid field")
 			}
@@ -260,12 +262,7 @@ func (z *RowFeed) EachRow(exec func(m interface{}, rowIndex int) error) error {
 			return nil
 
 		case err != nil:
-			ui.ErrorK("flow.error.unable_to_read",
-				app_msg.P{
-					"Path":  z.filePath,
-					"Error": err,
-				},
-			)
+			ui.Error(MRowFeed.ErrorUnableToRead.With("Path", z.filePath).With("Error", err))
 			return err
 
 		case ri == 0:

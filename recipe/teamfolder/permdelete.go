@@ -5,17 +5,21 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"go.uber.org/zap"
 	"strings"
 )
 
 type Permdelete struct {
-	Peer dbx_conn.ConnBusinessFile
-	Name string
+	rc_recipe.RemarkIrreversible
+	Peer                           dbx_conn.ConnBusinessFile
+	Name                           string
+	ErrorUnableToResolveTeamfolder app_msg.Message
+	ErrorUnableToRemoveTeamfolder  app_msg.Message
+	SuccessPermdeleted             app_msg.Message
 }
 
 func (z *Permdelete) Preset() {
@@ -24,17 +28,9 @@ func (z *Permdelete) Preset() {
 func (z *Permdelete) Exec(c app_control.Control) error {
 	ui := c.UI()
 
-	if z.Name == "" {
-		ui.ErrorK("recipe.teamfolder.permdelete.err.missing_option.name")
-		return errors.New("missing required option")
-	}
-
 	teamfolders, err := sv_teamfolder.New(z.Peer.Context()).List()
 	if err != nil {
-		ui.ErrorK("recipe.teamfolder.permdelete.err.unable_to_resolve_teamfolder",
-			app_msg.P{
-				"Error": err.Error(),
-			})
+		ui.Error(z.ErrorUnableToResolveTeamfolder.With("Error", err))
 		return err
 	}
 	var teamfolder *mo_teamfolder.TeamFolder
@@ -45,25 +41,18 @@ func (z *Permdelete) Exec(c app_control.Control) error {
 		}
 	}
 	if teamfolder == nil {
-		ui.ErrorK("recipe.teamfolder.permdelete.err.unable_to_resolve_teamfolder",
-			app_msg.P{
-				"Error": "Unable to find team folder",
-			})
+		ui.Error(z.ErrorUnableToResolveTeamfolder.With("Error", err))
 		return errors.New("unable to find team folder")
 	}
 
-	c.Log().Debug("Archiving team folder", zap.Any("teamfolder", teamfolder))
+	c.Log().Debug("Archiving team folder", es_log.Any("teamfolder", teamfolder))
 
 	err = sv_teamfolder.New(z.Peer.Context()).PermDelete(teamfolder)
 	if err != nil {
-		ui.ErrorK("recipe.teamfolder.permdelete.err.unable_to_remove_teamfolder", app_msg.P{
-			"Error": err.Error(),
-		})
+		ui.Error(z.ErrorUnableToRemoveTeamfolder.With("Error", err))
 		return err
 	}
-	ui.SuccessK("recipe.teamfolder.permdelete.success.permdeleted", app_msg.P{
-		"TeamFolderName": teamfolder.Name,
-	})
+	ui.Success(z.SuccessPermdeleted.With("TeamFolderName", teamfolder.Name))
 	return nil
 }
 

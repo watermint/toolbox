@@ -5,16 +5,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
-	"github.com/watermint/toolbox/infra/ui/app_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"github.com/watermint/toolbox/recipe/dev/spec"
-	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -27,6 +28,8 @@ const (
 )
 
 type Preflight struct {
+	rc_recipe.RemarkConsole
+	rc_recipe.RemarkSecret
 }
 
 func (z *Preflight) Preset() {
@@ -37,16 +40,16 @@ func (z *Preflight) Test(c app_control.Control) error {
 }
 
 func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
-	l := c.Log().With(zap.String("filename", filename))
-	p := filepath.Join("resources", filename)
+	l := c.Log().With(es_log.String("filename", filename))
+	p := filepath.Join("resources/messages", filename)
 	content, err := ioutil.ReadFile(p)
 	if err != nil {
-		l.Info("SKIP: Unable to open resource file", zap.Error(err))
+		l.Info("SKIP: Unable to open resource file", es_log.Error(err))
 		return nil
 	}
 	messages := make(map[string]string)
 	if err = json.Unmarshal(content, &messages); err != nil {
-		l.Warn("Unable to unmarshal message file", zap.Error(err))
+		l.Warn("Unable to unmarshal message file", es_log.Error(err))
 		return err
 	}
 	buf := &bytes.Buffer{}
@@ -54,11 +57,11 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 	je.SetEscapeHTML(false)
 	je.SetIndent("", "  ")
 	if err = je.Encode(messages); err != nil {
-		l.Warn("Unable to create sorted image", zap.Error(err))
+		l.Warn("Unable to create sorted image", es_log.Error(err))
 		return err
 	}
 	if err := ioutil.WriteFile(p, buf.Bytes(), 0644); err != nil {
-		l.Warn("Unable to update message", zap.Error(err))
+		l.Warn("Unable to update message", es_log.Error(err))
 		return err
 	}
 	return nil
@@ -91,7 +94,7 @@ func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) 
 			}
 			err := os.Remove(p)
 			if err != nil {
-				l.Error("Unable to remove file", zap.Error(err), zap.String("path", p))
+				l.Error("Unable to remove file", es_log.Error(err), es_log.String("path", p))
 				return nil
 			}
 		}
@@ -107,12 +110,12 @@ func (z *Preflight) cloneSpec(c app_control.Control, path string, release int) e
 	}
 	s, err := ioutil.ReadFile(filepath.Join(path, "spec.json"))
 	if err != nil {
-		l.Error("Unable to open current spec file", zap.Error(err))
+		l.Error("Unable to open current spec file", es_log.Error(err))
 		return err
 	}
 	err = ioutil.WriteFile(filepath.Join(path, fmt.Sprintf("spec_%d.json", release)), s, 0644)
 	if err != nil {
-		l.Error("Unable to create version spec file", zap.Error(err))
+		l.Error("Unable to create version spec file", es_log.Error(err))
 		return err
 	}
 	return nil
@@ -125,22 +128,22 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	if !c.Feature().IsTest() {
 		v, err := ioutil.ReadFile("version")
 		if err != nil {
-			l.Error("Unable to read version file", zap.Error(err))
+			l.Error("Unable to read version file", es_log.Error(err))
 			return err
 		}
 		release, err = strconv.Atoi(string(v))
 		if err != nil {
-			l.Error("Unable to parse version number", zap.Error(err))
+			l.Error("Unable to parse version number", es_log.Error(err))
 			return err
 		}
 	}
 
-	for _, lang := range app_lang.SupportedLanguages {
-		langCode := app_lang.Base(lang)
-		suffix := app_lang.PathSuffix(lang)
+	for _, la := range lang.Supported {
+		langCode := la.CodeString()
+		suffix := la.Suffix()
 
 		path := fmt.Sprintf("doc/generated%s/", suffix)
-		ll := l.With(zap.String("lang", langCode), zap.String("suffix", suffix))
+		ll := l.With(es_log.String("lang", langCode), es_log.String("suffix", suffix))
 
 		if !c.Feature().IsTest() {
 			ll.Info("Clean up generated document folder")
@@ -158,7 +161,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				rr.CommandPath = path
 			})
 			if err != nil {
-				l.Error("Failed to generate documents", zap.Error(err))
+				l.Error("Failed to generate documents", es_log.Error(err))
 				return err
 			}
 
@@ -169,7 +172,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "spec.json"))
 			})
 			if err != nil {
-				l.Error("Failed to generate documents", zap.Error(err))
+				l.Error("Failed to generate documents", es_log.Error(err))
 				return err
 			}
 			l.Info("Verify message resources")
@@ -198,20 +201,19 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "changes.md"))
 			})
 			if err != nil {
-				l.Error("Failed to generate documents", zap.Error(err))
+				l.Error("Failed to generate documents", es_log.Error(err))
 				return err
 			}
 		}
 	}
 
 	{
-		cl := c.(app_control_launcher.ControlLauncher)
-		cat := cl.Catalogue()
+		cat := app_catalogue.Current()
 		l.Info("Verify recipes")
 		for _, r := range cat.Recipes() {
 			spec := rc_spec.New(r)
 			for _, m := range spec.Messages() {
-				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m)))
+				l.Debug("message", es_log.String("key", m.Key()), es_log.String("text", c.UI().Text(m)))
 			}
 		}
 
@@ -219,25 +221,26 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		for _, r := range cat.Ingredients() {
 			spec := rc_spec.New(r)
 			for _, m := range spec.Messages() {
-				l.Debug("message", zap.String("key", m.Key()), zap.String("text", c.UI().Text(m)))
+				l.Debug("message", es_log.String("key", m.Key()), es_log.String("text", c.UI().Text(m)))
 			}
 		}
 
 		l.Info("Verify message objects")
 		for _, m := range cat.Messages() {
-			msgs := app_msg.Messages(m)
+			m1 := app_msg.Apply(m)
+			msgs := app_msg.Messages(m1)
 			for _, msg := range msgs {
-				l.Debug("message", zap.String("key", msg.Key()), zap.String("text", c.UI().Text(msg)))
+				l.Debug("message", es_log.String("key", msg.Key()), es_log.String("text", c.UI().Text(msg)))
 			}
 		}
 
 		l.Info("Verify features")
 		for _, f := range cat.Features() {
 			key := f.OptInName(f)
-			ll := l.With(zap.String("key", key))
-			ll.Debug("feature disclaimer", zap.String("msg", c.UI().Text(f.OptInDisclaimer(f))))
-			ll.Debug("feature agreement", zap.String("msg", c.UI().Text(f.OptInAgreement(f))))
-			ll.Debug("feature desc", zap.String("msg", c.UI().Text(f.OptInDescription(f))))
+			ll := l.With(es_log.String("key", key))
+			ll.Debug("feature disclaimer", es_log.String("msg", c.UI().Text(app_feature.OptInDisclaimer(f))))
+			ll.Debug("feature agreement", es_log.String("msg", c.UI().Text(app_feature.OptInAgreement(f))))
+			ll.Debug("feature desc", es_log.String("msg", c.UI().Text(app_feature.OptInDescription(f))))
 		}
 	}
 

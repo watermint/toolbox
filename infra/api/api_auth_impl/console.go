@@ -3,11 +3,12 @@ package api_auth_impl
 import (
 	"context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"strings"
 )
@@ -41,13 +42,13 @@ func (z *Console) PeerName() string {
 }
 
 func (z *Console) Auth(scope string) (tc api_auth.Context, err error) {
-	l := z.ctl.Log().With(zap.String("peerName", z.peerName), zap.String("scope", scope))
+	l := z.ctl.Log().With(es_log.String("peerName", z.peerName), es_log.String("scope", scope))
 	ui := z.ctl.UI()
 
 	l.Debug("Start OAuth sequence")
 	t, err := z.oauthStart(scope)
 	if err != nil {
-		l.Debug("Authentication finished with an error", zap.Error(err))
+		l.Debug("Authentication finished with an error", es_log.Error(err))
 		ui.Error(MApiAuth.FailedOrCancelled.With("Cause", err))
 		return nil, err
 	}
@@ -59,13 +60,13 @@ func (z *Console) oauthStart(scope string) (*oauth2.Token, error) {
 	l.Debug("Start OAuth sequence")
 	state, err := sc_random.GenerateRandomString(8)
 	if err != nil {
-		l.Error("Unable to generate `state`", zap.Error(err))
+		l.Error("Unable to generate `state`", es_log.Error(err))
 		return nil, err
 	}
 
 	tok, err := z.oauthAskCode(scope, state)
 	if err != nil {
-		l.Debug("Authentication failed due to the error", zap.Error(err))
+		l.Debug("Authentication failed due to the error", es_log.Error(err))
 		return nil, err
 	}
 	return tok, nil
@@ -85,7 +86,7 @@ func (z *Console) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.Token,
 func (z *Console) oauthCode(state string) string {
 	ui := z.ctl.UI()
 	for {
-		code, cancel := ui.AskSecure(MApiAuth.OauthSeq2)
+		code, cancel := ui.AskText(MApiAuth.OauthSeq2)
 		if cancel {
 			return ""
 		}
@@ -105,7 +106,7 @@ func (z *Console) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
 
 	code := z.oauthCode(state)
 	if code == "" {
-		return nil, api_auth.ErrorUserCancelled
+		return nil, app.ErrorUserCancelled
 	}
 
 	return z.oauthExchange(cfg, code)

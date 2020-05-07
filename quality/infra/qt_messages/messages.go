@@ -4,17 +4,17 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_launcher"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_group_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_io"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 	"io"
 	"os"
 	"sort"
@@ -22,7 +22,7 @@ import (
 )
 
 func SuggestMessages(ctl app_control.Control, suggest func(out io.Writer)) {
-	out := ut_io.NewDefaultOut(ctl.Feature().IsTest())
+	out := es_stdout.NewDefaultOut(ctl.Feature().IsTest())
 	fmt.Fprintln(out, "Please add those messages to message resource files:")
 	fmt.Fprintln(out, "====================================================")
 	suggest(out)
@@ -30,8 +30,7 @@ func SuggestMessages(ctl app_control.Control, suggest func(out io.Writer)) {
 }
 
 func VerifyMessages(ctl app_control.Control) error {
-	cl := ctl.(app_control_launcher.ControlLauncher)
-	cat := cl.Catalogue()
+	cat := app_catalogue.Current()
 	recipes := cat.Recipes()
 	root := rc_group_impl.NewGroup()
 	for _, r := range recipes {
@@ -39,18 +38,14 @@ func VerifyMessages(ctl app_control.Control) error {
 		root.Add(s)
 	}
 
-	qui := app_ui.NewQuiet(ctl.Messages())
-	if qui, ok := qui.(*app_ui.Quiet); ok {
-		qui.SetLogger(ctl.Log())
-	}
+	qui := app_ui.NewDiscard(ctl.Messages(), ctl.Log())
 	verifyGroup(root, qui)
 
-	qm := ctl.Messages().(app_msg_container.Quality)
-	missing := qm.MissingKeys()
+	missing := qt_missingmsg.Record().Missing()
 	if len(missing) > 0 {
 		sort.Strings(missing)
 		for _, k := range missing {
-			ctl.Log().Error("Key missing", zap.String(k, ""))
+			ctl.Log().Error("Key missing", es_log.String(k, ""))
 		}
 
 		SuggestMessages(ctl, func(out io.Writer) {

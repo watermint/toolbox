@@ -1,12 +1,15 @@
 package api_request
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_response"
-	"net/http"
+	"encoding/json"
+	"github.com/google/go-querystring/query"
+	"github.com/watermint/toolbox/essentials/io/es_rewinder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 )
 
 const (
 	ReqHeaderContentType           = "Content-Type"
+	ReqHeaderAccept                = "Accept"
 	ReqHeaderContentLength         = "Content-Length"
 	ReqHeaderAuthorization         = "Authorization"
 	ReqHeaderUserAgent             = "User-Agent"
@@ -16,34 +19,83 @@ const (
 	ReqHeaderDropboxApiArg         = "Dropbox-API-Arg"
 )
 
-type Request interface {
-	// Request param as string. Might be empty string until Make call.
-	ParamString() string
+type RequestData struct {
+	p interface{}
+	h map[string]string
+	c es_rewinder.ReadRewinder
+}
 
-	// With a param
-	Param(p interface{}) Request
+// Returns JSON form of param. Returns `null` string if an error occurred.
+func (z RequestData) ParamJson() json.RawMessage {
+	l := es_log.Default()
+	q, err := json.Marshal(z.p)
+	if err != nil {
+		l.Debug("unable to marshal param", es_log.Error(err), es_log.Any("p", z.p))
+		return json.RawMessage("null")
+	} else {
+		return q
+	}
+}
 
-	// With a header
-	Header(key, value string) Request
+// Returns query string like "?key=value&key2=value2". Returns empty string if an error occurred.
+func (z RequestData) ParamQuery() string {
+	l := es_log.Default()
+	q, err := query.Values(z.p)
+	if err != nil {
+		l.Debug("unable to make query", es_log.Error(err), es_log.Any("p", z.p))
+		return ""
+	} else {
+		return "?" + q.Encode()
+	}
+}
 
-	// Call request
-	Call() (res api_response.Response, err error)
+func (z RequestData) Param() interface{} {
+	return z.p
+}
 
-	// Endpoint.
-	Endpoint() string
+func (z RequestData) Headers() map[string]string {
+	if z.h == nil {
+		return map[string]string{}
+	}
+	return z.h
+}
+func (z RequestData) Content() es_rewinder.ReadRewinder {
+	return z.c
+}
 
-	// Request url. Might be empty string until Make call.
-	Url() string
+type RequestDatum func(d RequestData) RequestData
 
-	// Headers. Might be empty map until Make call.
-	Headers() map[string]string
+func Param(p interface{}) RequestDatum {
+	return func(d RequestData) RequestData {
+		d.p = p
+		return d
+	}
+}
 
-	// Method. Might be empty string until Make call.
-	Method() string
+func Header(name, value string) RequestDatum {
+	return func(d RequestData) RequestData {
+		h := make(map[string]string)
+		for k, v := range d.h {
+			h[k] = v
+		}
+		h[name] = value
+		d.h = h
+		return d
+	}
+}
 
-	// Content length. Might be zero until Make call.
-	ContentLength() int64
+func Content(c es_rewinder.ReadRewinder) RequestDatum {
+	return func(d RequestData) RequestData {
+		d.c = c
+		return d
+	}
+}
 
-	// Make request
-	Make() (req *http.Request, err error)
+// Combine datum into data
+func Combine(rds []RequestDatum) RequestData {
+	rd := RequestData{}
+	for _, d := range rds {
+		rd = d(rd)
+	}
+	return rd
 }

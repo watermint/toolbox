@@ -2,10 +2,11 @@ package app_feature
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_config"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_reflect"
 	"os/user"
 	"time"
 )
@@ -14,14 +15,44 @@ type Feature interface {
 	IsProduction() bool
 	IsDebug() bool
 	IsTest() bool
+	IsTestWithMock() bool
 	IsQuiet() bool
 	IsSecure() bool
 	IsLowMemory() bool
 	IsAutoOpen() bool
+
+	// UI format
 	UIFormat() string
+
+	// Concurrency configuration.
+	Concurrency() int
+
+	// Toolbox home path. Returns empty if a user doesn't specify the path.
+	Home() string
+
+	// Budget for memory usage
+	BudgetMemory() string
+
+	// Budget for storage usage
+	BudgetStorage() string
+
+	// Configuration
 	Config() app_config.Config
+
+	// Retrieve feature
 	OptInGet(oi OptIn) (f OptIn, found bool)
+
+	// Update opt-in feature
 	OptInUpdate(oi OptIn) error
+
+	// With test mode
+	AsTest(useMock bool) Feature
+
+	// With quiet mode, but this will not guarantee UI/log are converted into quiet mode.
+	AsQuiet() Feature
+
+	// Console log level
+	ConsoleLogLevel() es_log.Level
 }
 
 type OptIn interface {
@@ -38,17 +69,8 @@ type OptIn interface {
 	// Name of the feature.
 	OptInName(v OptIn) string
 
-	// Description of the feature.
-	OptInDescription(v OptIn) app_msg.Message
-
-	// Message on enable this feature.
-	OptInAgreement(v OptIn) app_msg.Message
-
-	// Disclaimer message when the feature enabled runtime.
-	OptInDisclaimer(v OptIn) app_msg.Message
-
 	// Opt-in
-	OptInCommit(enable bool)
+	OptInCommit(enable bool) OptIn
 }
 
 func OptInFrom(v map[string]interface{}, oi OptIn) error {
@@ -70,7 +92,7 @@ type OptInStatus struct {
 	Status bool `json:"status"`
 }
 
-func (z *OptInStatus) OptInCommit(enable bool) {
+func (z OptInStatus) OptInCommit(enable bool) OptIn {
 	usr, _ := user.Current()
 
 	switch {
@@ -83,32 +105,33 @@ func (z *OptInStatus) OptInCommit(enable bool) {
 	}
 	z.Status = enable
 	z.Timestamp = time.Now().Format(time.RFC3339)
+	return &z
 }
 
-func (z *OptInStatus) OptInName(v OptIn) string {
-	return ut_reflect.Key(app.Pkg, v)
+func (z OptInStatus) OptInName(v OptIn) string {
+	return es_reflect.Key(app.Pkg, v)
 }
 
-func (z *OptInStatus) OptInTimestamp() string {
+func (z OptInStatus) OptInTimestamp() string {
 	return z.Timestamp
 }
 
-func (z *OptInStatus) OptInUser() string {
+func (z OptInStatus) OptInUser() string {
 	return z.User
 }
 
-func (z *OptInStatus) OptInIsEnabled() bool {
+func (z OptInStatus) OptInIsEnabled() bool {
 	return z.Status
 }
 
-func (z *OptInStatus) OptInAgreement(v OptIn) app_msg.Message {
+func OptInAgreement(v OptIn) app_msg.Message {
 	return app_msg.ObjMessage(v, "agreement")
 }
 
-func (z *OptInStatus) OptInDisclaimer(v OptIn) app_msg.Message {
+func OptInDisclaimer(v OptIn) app_msg.Message {
 	return app_msg.ObjMessage(v, "disclaimer")
 }
 
-func (z *OptInStatus) OptInDescription(v OptIn) app_msg.Message {
+func OptInDescription(v OptIn) app_msg.Message {
 	return app_msg.ObjMessage(v, "desc")
 }

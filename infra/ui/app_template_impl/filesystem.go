@@ -5,9 +5,9 @@ import (
 	"github.com/gin-gonic/gin/render"
 	"github.com/tdewolff/minify"
 	"github.com/tdewolff/minify/html"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_template"
-	"go.uber.org/zap"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -36,12 +36,12 @@ func (z *DevFileSystem) Instance(name string, data interface{}) render.Render {
 }
 
 func (z *DevFileSystem) Define(name string, resNames ...string) error {
-	l := z.ctl.Log().With(zap.String("name", name))
-	l.Debug("Loading", zap.Strings("resources", resNames))
+	l := z.ctl.Log().With(es_log.String("name", name))
+	l.Debug("Loading", es_log.Strings("resources", resNames))
 	for _, r := range resNames {
 		f, err := z.fs.Open(r)
 		if err != nil {
-			l.Error("Unable to open resource", zap.Error(err))
+			l.Error("Unable to open resource", es_log.Error(err))
 			return err
 		}
 		f.Close()
@@ -51,7 +51,7 @@ func (z *DevFileSystem) Define(name string, resNames ...string) error {
 }
 
 func (z *DevFileSystem) tmpl(name string) *template.Template {
-	l := z.ctl.Log().With(zap.String("name", name))
+	l := z.ctl.Log().With(es_log.String("name", name))
 	t := template.New("render")
 	rs, ok := z.resNames[name]
 	if !ok {
@@ -59,21 +59,21 @@ func (z *DevFileSystem) tmpl(name string) *template.Template {
 		return nil
 	}
 	for _, r := range rs {
-		ll := l.With(zap.String("resource", r))
+		ll := l.With(es_log.String("resource", r))
 		f, err := z.fs.Open(r)
 		if err != nil {
-			ll.Error("Unable to open resource", zap.Error(err))
+			ll.Error("Unable to open resource", es_log.Error(err))
 			return nil
 		}
 		b, err := ioutil.ReadAll(f)
 		if err != nil {
-			ll.Error("Unable to read resource", zap.Error(err))
+			ll.Error("Unable to read resource", es_log.Error(err))
 			return nil
 		}
 		f.Close()
 		t, err = t.Parse(string(b))
 		if err != nil {
-			ll.Error("Unable to parse template", zap.Error(err))
+			ll.Error("Unable to parse template", es_log.Error(err))
 			return nil
 		}
 	}
@@ -81,7 +81,7 @@ func (z *DevFileSystem) tmpl(name string) *template.Template {
 }
 
 func (z *DevFileSystem) Render(name string, d ...app_template.D) string {
-	l := z.ctl.Log().With(zap.String("name", name))
+	l := z.ctl.Log().With(es_log.String("name", name))
 	t := z.tmpl(name)
 	if t == nil {
 		return ""
@@ -97,7 +97,7 @@ func (z *DevFileSystem) Render(name string, d ...app_template.D) string {
 	var doc bytes.Buffer
 	err := t.Execute(&doc, data)
 	if err != nil {
-		l.Error("Unable to execute template", zap.Error(err))
+		l.Error("Unable to execute template", es_log.Error(err))
 		return ""
 	}
 
@@ -105,7 +105,7 @@ func (z *DevFileSystem) Render(name string, d ...app_template.D) string {
 	m.AddFunc("text/html", html.Minify)
 	h, err := m.String("text/html", doc.String())
 	if err != nil {
-		l.Warn("Unable to minify result", zap.Error(err))
+		l.Warn("Unable to minify result", es_log.Error(err))
 		return doc.String()
 	}
 	return h

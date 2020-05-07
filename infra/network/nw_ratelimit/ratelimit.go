@@ -1,9 +1,8 @@
 package nw_ratelimit
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"sync"
 	"time"
 )
@@ -12,7 +11,7 @@ const (
 	MaxLastErrors                  = 100
 	SameErrorThreshold             = 80
 	LastErrorRecycleTimeMultiplier = 100
-	ShortWait                      = 3 * time.Second
+	ShortWait                      = 3 * 1000 * time.Millisecond
 	LongWait                       = 1 * time.Minute
 	LongWaitAlertThreshold         = 5 * time.Minute
 )
@@ -112,11 +111,11 @@ func (z *limitStateImpl) retryActionFor(key string) (action int, wait, recycle t
 	}
 }
 
-func (z *limitStateImpl) logger(hash, endpoint string) *zap.Logger {
-	return app_root.Log().With(
-		zap.String("hash", hash),
-		zap.String("endpoint", endpoint),
-		zap.String("Routine", ut_runtime.GetGoRoutineName()),
+func (z *limitStateImpl) logger(hash, endpoint string) es_log.Logger {
+	return es_log.Default().With(
+		es_log.String("hash", hash),
+		es_log.String("endpoint", endpoint),
+		es_log.String("Routine", es_goroutine.GetGoRoutineName()),
 	)
 }
 
@@ -189,12 +188,12 @@ func (z *limitStateImpl) AddError(hash, endpoint string, err error) (abort bool)
 
 	abort = retryAction == RetryActionAbort
 	l.Debug("Wait for SLA",
-		zap.Error(err),
-		zap.Int("retryAction", retryAction),
-		zap.Bool("retryActionPromote", retryActionPromote),
-		zap.Bool("abort", abort),
-		zap.Bool("purgeLastError", purgeLastError),
-		zap.String("wait", wait.String()),
+		es_log.Error(err),
+		es_log.Int("retryAction", retryAction),
+		es_log.Bool("retryActionPromote", retryActionPromote),
+		es_log.Bool("abort", abort),
+		es_log.Bool("purgeLastError", purgeLastError),
+		es_log.String("wait", wait.String()),
 	)
 	z.UpdateRetryAfter(hash, endpoint, time.Now().Add(wait))
 	time.Sleep(wait)
@@ -224,15 +223,15 @@ func (z *limitStateImpl) WaitIfRequired(hash, endpoint string) {
 	if ok {
 		dur := retryAfter.Sub(time.Now())
 		if dur > LongWaitAlertThreshold {
-			l.Warn("Waiting for server rate limit", zap.String("duration", dur.String()))
+			l.Warn("Waiting for server rate limit", es_log.String("duration", dur.String()))
 			if isTest {
 				panic("server rate limit exceeds threshold")
 			}
 		}
 		if dur > 0 {
 			l.Debug("Waiting",
-				zap.String("retryAfter", retryAfter.String()),
-				zap.String("duration", dur.String()),
+				es_log.String("retryAfter", retryAfter.String()),
+				es_log.String("duration", dur.String()),
 			)
 			time.Sleep(dur)
 		}

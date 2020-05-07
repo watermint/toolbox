@@ -4,14 +4,15 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"go.uber.org/zap"
 )
 
 type Delete struct {
+	rc_recipe.RemarkIrreversible
 	Peer                      dbx_conn.ConnBusinessMgmt
 	Name                      string
 	ErrorMissingOptionName    app_msg.Message
@@ -36,7 +37,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		ui.Error(z.ErrorUnableToResolveGroup.With("Error", err))
 		return err
 	}
-	c.Log().Debug("Removing group", zap.Any("group", group))
+	c.Log().Debug("Removing group", es_log.Any("group", group))
 
 	err = sv_group.New(z.Peer.Context()).Remove(group.GroupId)
 	if err != nil {

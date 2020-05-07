@@ -1,0 +1,11 @@
+{{define "title"}}{{.Header}}{{end}}
+{{define "content"}}
+    {{ $logodata := .LogoData }}
+    <div class="text-center">
+        <main class="inner cover pb-5" role="main">
+            <h1 class="display-1">{{.Header}}</h1>
+            <img src="{{ $logodata }}"/>
+            <p class="lead">{{.Detail}}</p>
+        </main>
+    </div>
+{{end}}

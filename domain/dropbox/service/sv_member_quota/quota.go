@@ -3,6 +3,8 @@ package sv_member_quota
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member_quota"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Quota interface {
@@ -37,8 +39,11 @@ func (z *quotaImpl) Remove(teamMemberId string) (err error) {
 		},
 	}
 
-	_, err = z.ctx.Post("team/member_space_limits/remove_custom_quota").Param(p).Call()
-	return err
+	res := z.ctx.Post("team/member_space_limits/remove_custom_quota", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }
 
 func (z *quotaImpl) Resolve(teamMemberId string) (quota *mo_member_quota.Quota, err error) {
@@ -57,15 +62,13 @@ func (z *quotaImpl) Resolve(teamMemberId string) (quota *mo_member_quota.Quota, 
 		},
 	}
 
+	res := z.ctx.Post("team/member_space_limits/get_custom_quota", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	quota = &mo_member_quota.Quota{}
-	res, err := z.ctx.Post("team/member_space_limits/get_custom_quota").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if err = res.ModelArrayFirst(quota); err != nil {
-		return nil, err
-	}
-	return quota, nil
+	err = res.Success().Json().FindModel(es_json.PathArrayFirst, quota)
+	return
 }
 
 func (z *quotaImpl) Update(quota *mo_member_quota.Quota) (updated *mo_member_quota.Quota, err error) {
@@ -91,13 +94,11 @@ func (z *quotaImpl) Update(quota *mo_member_quota.Quota) (updated *mo_member_quo
 		},
 	}
 
+	res := z.ctx.Post("team/member_space_limits/set_custom_quota", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	quota = &mo_member_quota.Quota{}
-	res, err := z.ctx.Post("team/member_space_limits/set_custom_quota").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if err = res.ModelArrayFirst(quota); err != nil {
-		return nil, err
-	}
-	return quota, nil
+	err = res.Success().Json().FindModel(es_json.PathArrayFirst, quota)
+	return
 }

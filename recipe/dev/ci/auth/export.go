@@ -3,17 +3,18 @@ package auth
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_io"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
-	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 )
 
 type Export struct {
+	rc_recipe.RemarkSecret
 	Full  dbx_conn.ConnUserFile
 	Info  dbx_conn.ConnBusinessInfo
 	File  dbx_conn.ConnBusinessFile
@@ -22,21 +23,21 @@ type Export struct {
 }
 
 func (z *Export) Preset() {
-	z.Full.SetPeerName(qt_endtoend.EndToEndPeer)
-	z.Info.SetPeerName(qt_endtoend.EndToEndPeer)
-	z.File.SetPeerName(qt_endtoend.EndToEndPeer)
-	z.Audit.SetPeerName(qt_endtoend.EndToEndPeer)
-	z.Mgmt.SetPeerName(qt_endtoend.EndToEndPeer)
+	z.Full.SetPeerName(app.PeerEndToEndTest)
+	z.Info.SetPeerName(app.PeerEndToEndTest)
+	z.File.SetPeerName(app.PeerEndToEndTest)
+	z.Audit.SetPeerName(app.PeerEndToEndTest)
+	z.Mgmt.SetPeerName(app.PeerEndToEndTest)
 }
 
 func (z *Export) Exec(c app_control.Control) error {
 	l := c.Log()
 	e := make(map[string]*oauth2.Token)
-	a := api_auth_impl.NewConsoleCacheOnly(c, qt_endtoend.EndToEndPeer)
+	a := api_auth_impl.NewConsoleCacheOnly(c, app.PeerEndToEndTest)
 	for _, s := range Scopes {
 		t, err := a.Auth(s)
 		if err != nil {
-			l.Info("Skip export", zap.Error(err), zap.String("scope", s))
+			l.Info("Skip export", es_log.Error(err), es_log.String("scope", s))
 			return nil
 		}
 		e[s] = t.Token()
@@ -45,7 +46,7 @@ func (z *Export) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	o := ut_io.NewDefaultOut(c.Feature().IsTest())
+	o := es_stdout.NewDefaultOut(c.Feature().IsTest())
 	o.Write(b)
 	o.Write([]byte("\n"))
 	o.Close()

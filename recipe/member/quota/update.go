@@ -9,18 +9,25 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member_quota"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member_quota"
+	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 	"math"
+)
+
+type MsgUpdate struct {
+	ProgressUpdate app_msg.Message
+}
+
+var (
+	MUpdate = app_msg.Apply(&MsgUpdate{}).(*MsgUpdate)
 )
 
 type UpdateWorker struct {
@@ -34,12 +41,8 @@ type UpdateWorker struct {
 
 func (z *UpdateWorker) Exec() error {
 	l := z.ctl.Log()
-	z.ctl.UI().InfoK("recipe.member.quota.update.progress",
-		app_msg.P{
-			"MemberEmail": z.member.Email,
-			"Quota":       z.quota,
-		})
-	l.Debug("Updating quota", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Member", z.member))
+	z.ctl.UI().Progress(MUpdate.ProgressUpdate.With("MemberEmail", z.member.Email).With("Quota", z.quota))
+	l.Debug("Updating quota", es_log.String("Routine", es_goroutine.GetGoRoutineName()), es_log.Any("Member", z.member))
 
 	q := &mo_member_quota.Quota{
 		TeamMemberId: z.member.TeamMemberId,
@@ -124,7 +127,7 @@ func (z *Update) Test(c app_control.Control) error {
 		m.Quota.SetValue(150)
 		m.File.SetFilePath(f)
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 	return qt_errors.ErrorHumanInteractionRequired

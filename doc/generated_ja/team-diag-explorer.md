@@ -57,18 +57,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 共通のオプション:
 
-| オプション      | 説明                                                                                               | デフォルト     |
-|-----------------|----------------------------------------------------------------------------------------------------|----------------|
-| `-auto-open`    | 成果物フォルダまたはURLを自動で開く                                                                | false          |
-| `-bandwidth-kb` | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
-| `-concurrency`  | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
-| `-debug`        | デバッグモードを有効にする                                                                         | false          |
-| `-low-memory`   | 省メモリモード                                                                                     | false          |
-| `-output`       | 出力書式 (none/text/markdown/json)                                                                 | text           |
-| `-proxy`        | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                          |                |
-| `-quiet`        | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
-| `-secure`       | トークンをファイルに保存しません                                                                   | false          |
-| `-workspace`    | ワークスペースへのパス                                                                             |                |
+| オプション        | 説明                                                                                               | デフォルト     |
+|-------------------|----------------------------------------------------------------------------------------------------|----------------|
+| `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
+| `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
+| `-budget-memory`  | メモリの割り当て目標 (メモリ使用量を減らすために幾つかの機能が制限されます)                        | normal         |
+| `-budget-storage` | ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します)                            | normal         |
+| `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
+| `-debug`          | デバッグモードを有効にする                                                                         | false          |
+| `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
+| `-proxy`          | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                          |                |
+| `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
+| `-secure`         | トークンをファイルに保存しません                                                                   | false          |
+| `-workspace`      | ワークスペースへのパス                                                                             |                |
 
 # 認可
 
@@ -113,7 +114,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `device.xlsx`
 * `device.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...   
@@ -152,7 +153,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `feature.xlsx`
 * `feature.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...   
@@ -172,7 +173,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `file_request.xlsx`
 * `file_request.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`...   
@@ -199,7 +200,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `group.xlsx`
 * `group.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...   
@@ -217,7 +218,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `group_member.xlsx`
 * `group_member.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`...   
@@ -239,7 +240,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `info.xlsx`
 * `info.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
@@ -263,7 +264,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `linked_app.xlsx`
 * `linked_app.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
@@ -288,7 +289,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `member.xlsx`
 * `member.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
@@ -311,7 +312,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `member_quota.xlsx`
 * `member_quota.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`...   
@@ -328,7 +329,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `namespace.xlsx`
 * `namespace.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
@@ -346,7 +347,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `namespace_file.xlsx`
 * `namespace_file.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
@@ -363,6 +364,29 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | server_modified        | Dropbox上で最後に更新された日時                                                                 |
 | size                   | ファイルサイズ(バイト単位)                                                                      |
 
+## レポート: namespace_member 
+このレポートは名前空間とそのメンバー一覧を出力します.
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `namespace_member.csv`
+* `namespace_member.xlsx`
+* `namespace_member.json`
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`...   
+
+| 列                 | 説明                                                                                                 |
+|--------------------|------------------------------------------------------------------------------------------------------|
+| namespace_name     | 名前空間の名称                                                                                       |
+| namespace_type     | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)               |
+| entry_access_type  | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
+| entry_is_inherited | メンバーのアクセス権限が上位フォルダから継承されている場合true                                       |
+| email              | ユーザーのメールアドレス                                                                             |
+| display_name       | セッションのタイプ (web_session, desktop_client, または mobile_client)                               |
+| group_name         | グループ名称                                                                                         |
+| invitee_email      | このフォルダに招待されたメールアドレス                                                               |
+
 ## レポート: namespace_size 
 このレポートは処理結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
@@ -370,7 +394,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `namespace_size.xlsx`
 * `namespace_size.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
@@ -395,7 +419,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `shared_link.xlsx`
 * `shared_link.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
@@ -413,6 +437,25 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | surname    | リンク所有者の名字                                                   |
 | given_name | リンク所有者の名                                                     |
 
+## レポート: team_folder 
+このレポートはチーム内のチームフォルダを一覧します.
+レポートファイルは次の3種類のフォーマットで出力されます;
+* `team_folder.csv`
+* `team_folder.xlsx`
+* `team_folder.json`
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
+`team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`...   
+
+| 列                     | 説明                                                                                 |
+|------------------------|--------------------------------------------------------------------------------------|
+| name                   | チームフォルダの名称                                                                 |
+| status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
+| is_team_shared_dropbox |                                                                                      |
+| sync_setting           | チームフォルダに設定された同期設定 (default, not_synced, または not_synced_inactive) |
+
 ## レポート: usage 
 このレポートはユーザーの現在のストレージ利用容量を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
@@ -420,7 +463,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 * `usage.xlsx`
 * `usage.json`
 
-`-low-memory`オプションを指定した場合には、コマンドはJSONフォーマットのレポートのみを出力します.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   

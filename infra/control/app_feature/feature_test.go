@@ -31,14 +31,14 @@ func TestOptInFrom(t *testing.T) {
 
 func TestOptInStatus_OptInCommit(t *testing.T) {
 	soi := &SampleOptIn{}
-	soi.OptInCommit(true)
-	if soi.User == "" {
+	signed := soi.OptInCommit(true)
+	if signed.OptInUser() == "" {
 		t.Error(soi.User)
 	}
-	if !soi.Status {
+	if !signed.OptInIsEnabled() {
 		t.Error(soi.Status)
 	}
-	if soi.Timestamp == "" {
+	if signed.OptInTimestamp() == "" {
 		t.Error(soi.Timestamp)
 	}
 }
@@ -53,15 +53,15 @@ func TestOptInStatus_OptInName(t *testing.T) {
 
 func TestOptInStatus_OptInMessages(t *testing.T) {
 	soi := &SampleOptIn{}
-	ma := soi.OptInAgreement(soi)
+	ma := OptInAgreement(soi)
 	if ma.Key() != "infra.control.app_feature.sample_opt_in.agreement" {
 		t.Error(ma.Key())
 	}
-	md := soi.OptInDisclaimer(soi)
+	md := OptInDisclaimer(soi)
 	if md.Key() != "infra.control.app_feature.sample_opt_in.disclaimer" {
 		t.Error(md.Key())
 	}
-	mc := soi.OptInDescription(soi)
+	mc := OptInDescription(soi)
 	if mc.Key() != "infra.control.app_feature.sample_opt_in.desc" {
 		t.Error(mc.Key())
 	}

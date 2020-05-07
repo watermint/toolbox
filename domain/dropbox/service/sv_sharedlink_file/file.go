@@ -3,12 +3,14 @@ package sv_sharedlink_file
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
-	"github.com/watermint/toolbox/infra/api/api_list"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/infra/api/api_request"
 	"strings"
 )
 
@@ -134,20 +136,22 @@ func (z *fileImpl) List(url mo_url.Url, path mo_path.DropboxPath, onEntry func(e
 		IncludeHasExplicitSharedMembers: lo.IncludeHasExplicitSharedMembers,
 	}
 
-	req := z.ctx.List("files/list_folder").
-		Continue("files/list_folder/continue").
-		Param(p).
-		UseHasMore(true).
-		ResultTag("entries").
-		OnEntry(func(entry api_list.ListEntry) error {
+	res := z.ctx.List("files/list_folder", api_request.Param(p)).Call(
+		dbx_list.Continue("files/list_folder/continue"),
+		dbx_list.UseHasMore(),
+		dbx_list.ResultTag("entries"),
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			e := &mo_file.Metadata{}
 			if err := entry.Model(e); err != nil {
-				j, _ := entry.Json()
-				z.ctx.Log().Error("invalid", zap.Error(err), zap.String("entry", j.Raw))
+				z.ctx.Log().Error("invalid", es_log.Error(err), es_log.ByteString("entry", entry.Raw()))
 				return err
 			}
 			onEntry(e)
 			return nil
-		})
-	return req.Call()
+		}),
+	)
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }

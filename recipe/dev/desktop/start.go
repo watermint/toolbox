@@ -1,16 +1,18 @@
 package desktop
 
 import (
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/es_process"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/util/ut_process"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"os/exec"
 	"runtime"
 )
 
 type Start struct {
+	rc_recipe.RemarkSecret
 }
 
 func (z *Start) Exec(c app_control.Control) error {
@@ -29,14 +31,14 @@ func (z *Start) Exec(c app_control.Control) error {
 	}
 
 	cmd := exec.Command(desktopAppPath, "/home")
-	pl := ut_process.NewLogger(cmd, c)
+	pl := es_process.NewLogger(cmd, c)
 	pl.Start()
 	defer pl.Close()
 
 	l.Info("Start Dropbox")
 	err := cmd.Start()
 	if err != nil {
-		l.Error("Unable to start Desktop", zap.Error(err))
+		l.Error("Unable to start Desktop", es_log.Error(err))
 		return err
 	}
 
@@ -46,6 +48,9 @@ func (z *Start) Exec(c app_control.Control) error {
 }
 
 func (z *Start) Test(c app_control.Control) error {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		return nil
+	}
 	return rc_exec.Exec(c, &Start{}, func(r rc_recipe.Recipe) {})
 }
 

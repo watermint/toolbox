@@ -2,8 +2,10 @@ package sv_member_quota
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Exceptions interface {
@@ -37,8 +39,11 @@ func (z *exceptionsImpl) Add(teamMemberId string) (err error) {
 			},
 		},
 	}
-	_, err = z.ctx.Post("team/member_space_limits/excluded_users/add").Param(p).Call()
-	return err
+	res := z.ctx.Post("team/member_space_limits/excluded_users/add", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }
 
 func (z *exceptionsImpl) Remove(teamMemberId string) (err error) {
@@ -56,26 +61,29 @@ func (z *exceptionsImpl) Remove(teamMemberId string) (err error) {
 			},
 		},
 	}
-	_, err = z.ctx.Post("team/member_space_limits/excluded_users/remove").Param(p).Call()
-	return err
+	res := z.ctx.Post("team/member_space_limits/excluded_users/remove", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }
 
 func (z *exceptionsImpl) List() (members []*mo_profile.Profile, err error) {
 	members = make([]*mo_profile.Profile, 0)
-	err = z.ctx.List("team/member_space_limits/excluded_users/list").
-		Continue("team/member_space_limits/excluded_users/list/continue").
-		UseHasMore(true).
-		ResultTag("users").
-		OnEntry(func(entry api_list.ListEntry) error {
+	res := z.ctx.List("team/member_space_limits/excluded_users/list").Call(
+		dbx_list.Continue("team/member_space_limits/excluded_users/list/continue"),
+		dbx_list.UseHasMore(),
+		dbx_list.ResultTag("users"),
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			p := &mo_profile.Profile{}
 			if err := entry.Model(p); err != nil {
 				return err
 			}
 			members = append(members, p)
 			return nil
-		}).
-		Call()
-	if err != nil {
+		}),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return members, nil

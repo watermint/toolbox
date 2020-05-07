@@ -8,6 +8,7 @@ import (
 )
 
 type Echo struct {
+	rc_recipe.RemarkSecret
 	Text string
 }
 

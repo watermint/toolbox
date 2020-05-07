@@ -2,9 +2,12 @@ package sv_group
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
-	"github.com/watermint/toolbox/infra/api/api_list"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/infra/api/api_request"
 	"strings"
 )
 
@@ -158,15 +161,13 @@ func (z *implGroup) Create(name string, opt ...CreateOpt) (g *mo_group.Group, er
 			Tag: co.mgmtType,
 		},
 	}
+	res := z.ctx.Post("team/groups/create", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	g = &mo_group.Group{}
-	res, err := z.ctx.Post("team/groups/create").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if err = res.Model(g); err != nil {
-		return nil, err
-	}
-	return g, nil
+	err = res.Success().Json().Model(g)
+	return
 }
 
 func (z *implGroup) Remove(groupId string) error {
@@ -177,10 +178,10 @@ func (z *implGroup) Remove(groupId string) error {
 		Tag:     "group_id",
 		GroupId: groupId,
 	}
-	_, err := z.ctx.Async("team/groups/delete").
-		Status("team/groups/job_status/get").
-		Param(p).Call()
-	if err != nil {
+	res := z.ctx.Async("team/groups/delete", api_request.Param(p)).Call(
+		dbx_async.Status("team/groups/job_status/get"),
+	)
+	if err, fail := res.Failure(); fail {
 		return err
 	}
 	return nil
@@ -194,20 +195,20 @@ func (z *implGroup) List() (groups []*mo_group.Group, err error) {
 		Limit: z.limit,
 	}
 
-	req := z.ctx.List("team/groups/list").
-		Continue("team/groups/list/continue").
-		Param(p).
-		UseHasMore(true).
-		ResultTag("groups").
-		OnEntry(func(entry api_list.ListEntry) error {
+	res := z.ctx.List("team/groups/list", api_request.Param(p)).Call(
+		dbx_list.Continue("team/groups/list/continue"),
+		dbx_list.UseHasMore(),
+		dbx_list.ResultTag("groups"),
+		dbx_list.OnEntry(func(entry es_json.Json) error {
 			g := &mo_group.Group{}
 			if err := entry.Model(g); err != nil {
 				return err
 			}
 			groups = append(groups, g)
 			return nil
-		})
-	if err := req.Call(); err != nil {
+		}),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return groups, nil
@@ -221,15 +222,13 @@ func (z *implGroup) Resolve(groupId string) (g *mo_group.Group, err error) {
 		Tag:      "group_ids",
 		GroupIds: []string{groupId},
 	}
+	res := z.ctx.Post("team/groups/get_info", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	g = &mo_group.Group{}
-	res, err := z.ctx.Post("team/groups/get_info").Param(p).Call()
-	if err != nil {
-		return nil, err
-	}
-	if err := res.ModelArrayFirst(g); err != nil {
-		return nil, err
-	}
-	return g, nil
+	err = res.Success().Json().FindModel(es_json.PathArrayFirst, g)
+	return
 }
 
 func (z *implGroup) Update(group *mo_group.Group) (g *mo_group.Group, err error) {
@@ -251,13 +250,11 @@ func (z *implGroup) Update(group *mo_group.Group) (g *mo_group.Group, err error)
 		NewGroupExternalId:     group.GroupExternalId,
 		NewGroupManagementType: group.GroupManagementType,
 	}
+	res := z.ctx.Post("team/groups/update", api_request.Param(u))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	g = &mo_group.Group{}
-	res, err := z.ctx.Post("team/groups/update").Param(u).Call()
-	if err != nil {
-		return nil, err
-	}
-	if err = res.Model(g); err != nil {
-		return nil, err
-	}
-	return g, nil
+	err = res.Success().Json().Model(g)
+	return
 }

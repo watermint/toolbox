@@ -12,6 +12,7 @@ import (
 )
 
 type Merge struct {
+	rc_recipe.RemarkIrreversible
 	Peer                dbx_conn.ConnUserFile
 	From                mo_path.DropboxPath
 	To                  mo_path.DropboxPath
@@ -51,7 +52,7 @@ func (z *Merge) Test(c app_control.Control) error {
 		m.From = qt_recipe.NewTestDropboxFolderPath("from")
 		m.To = qt_recipe.NewTestDropboxFolderPath("to")
 	})
-	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err
 	}
 	err = rc_exec.ExecMock(c, &Merge{}, func(r rc_recipe.Recipe) {
@@ -62,7 +63,7 @@ func (z *Merge) Test(c app_control.Control) error {
 		m.From = qt_recipe.NewTestDropboxFolderPath("from")
 		m.To = qt_recipe.NewTestDropboxFolderPath("to")
 	})
-	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err
 	}
 	return qt_errors.ErrorScenarioTest

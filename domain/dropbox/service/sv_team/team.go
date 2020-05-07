@@ -2,10 +2,17 @@ package sv_team
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_team"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_parser"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/infra/api/api_request"
+)
+
+var (
+	ErrorUnexpectedFormat = errors.New("unexpected response format")
 )
 
 type Team interface {
@@ -24,15 +31,13 @@ type teamImpl struct {
 }
 
 func (z *teamImpl) Info() (info *mo_team.Info, err error) {
+	res := z.ctx.Post("team/get_info")
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
 	info = &mo_team.Info{}
-	res, err := z.ctx.Post("team/get_info").Call()
-	if err != nil {
-		return nil, err
-	}
-	if err = res.Model(info); err != nil {
-		return nil, err
-	}
-	return info, nil
+	err = res.Success().Json().Model(info)
+	return
 }
 
 func (z *teamImpl) Feature() (feature *mo_team.Feature, err error) {
@@ -52,36 +57,30 @@ func (z *teamImpl) Feature() (feature *mo_team.Feature, err error) {
 	features := make(map[string]json.RawMessage)
 
 	for _, tag := range featureTags {
-		z.ctx.Log().Debug("Feature", zap.String("tag", tag))
+		z.ctx.Log().Debug("Feature", es_log.String("tag", tag))
 		p := FP{Values: []FT{{Tag: tag}}}
-		res, err := z.ctx.Post("team/features/get_values").Param(p).Call()
-		if err != nil {
+		res := z.ctx.Post("team/features/get_values", api_request.Param(p))
+		if err, fail := res.Failure(); fail {
 			return nil, err
 		}
-		j, err := res.Json()
-		if err != nil {
-			return nil, err
+		firstValue, found := res.Success().Json().Find("values.0")
+		if !found {
+			return nil, ErrorUnexpectedFormat
 		}
-		values := j.Get("values")
-		if !values.IsArray() {
-			return nil, err
+		valueTag, found := firstValue.FindString("\\.tag")
+		if !found {
+			return nil, ErrorUnexpectedFormat
 		}
-		first := values.Array()[0]
-		valueTag := first.Get("\\.tag")
-		if !valueTag.Exists() {
-			return nil, err
+		value, found := firstValue.Find(valueTag)
+		if !found {
+			return nil, ErrorUnexpectedFormat
 		}
-		value := first.Get(valueTag.String())
-		if !value.Exists() {
-			return nil, err
-		}
-		features[tag] = json.RawMessage(value.Raw)
+
+		features[tag] = value.Raw()
 	}
 
 	raw := api_parser.CombineRaw(features)
 	feature = &mo_team.Feature{}
-	if err = api_parser.ParseModelRaw(feature, raw); err != nil {
-		return nil, err
-	}
-	return feature, nil
+	err = es_json.MustParse(raw).Model(feature)
+	return
 }

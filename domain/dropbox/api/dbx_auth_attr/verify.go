@@ -3,38 +3,41 @@ package dbx_auth_attr
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"go.uber.org/zap"
 )
 
 var (
 	ErrorUnableToRetrieveResponse = errors.New("unable to retrieve json response")
 	ErrorNoVerification           = errors.New("no verification")
+	ErrorUnexpectedResponseFormat = errors.New("unexpected response format")
 )
 
 // Returns description of the account
 func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.Context, err error) {
-	l := ctl.Log().With(zap.String("peerName", ctx.PeerName()), zap.String("scope", ctx.Scope()))
+	l := ctl.Log().With(es_log.String("peerName", ctx.PeerName()), es_log.String("scope", ctx.Scope()))
 	ui := ctl.UI()
 
 	switch ctx.Scope() {
 	case api_auth.DropboxTokenFull, api_auth.DropboxTokenApp:
 		apiCtx := dbx_context_impl.New(ctl, ctx)
-		p, err := apiCtx.Post("users/get_current_account").Call()
-		if err != nil {
-			l.Debug("Unable to verify token", zap.Error(err))
+		res := apiCtx.Post("users/get_current_account")
+		if err, fail := res.Failure(); fail {
+			l.Debug("Unable to verify token", es_log.Error(err))
 			return nil, err
 		}
 
-		j, err := p.Json()
-		if err != nil {
-			l.Debug("Unable to retrieve JSON response", zap.Error(err))
-			return nil, ErrorUnableToRetrieveResponse
+		j := res.Success().Json()
+		desc, found := j.FindString("name.display_name")
+		if !found {
+			return nil, ErrorUnexpectedResponseFormat
 		}
-		desc := j.Get("name.display_name").String()
-		suppl := j.Get("email").String()
-		l.Debug("Token Verified", zap.String("desc", desc))
+		suppl, found := j.FindString("email")
+		if !found {
+			return nil, ErrorUnexpectedResponseFormat
+		}
+		l.Debug("Token Verified", es_log.String("desc", desc))
 
 		return api_auth.NewContextWithAttr(ctx, desc, suppl), nil
 
@@ -43,21 +46,22 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 		api_auth.DropboxTokenBusinessFile,
 		api_auth.DropboxTokenBusinessAudit:
 		apiCtx := dbx_context_impl.New(ctl, ctx)
-		p, err := apiCtx.Post("team/get_info").Call()
-		if err != nil {
-			l.Debug("Unable to verify token", zap.Error(err))
+		res := apiCtx.Post("team/get_info")
+		if err, fail := res.Failure(); fail {
+			l.Debug("Unable to verify token", es_log.Error(err))
 			return nil, err
 		}
-		j, err := p.Json()
-		if err != nil {
-			l.Debug("Unable to retrieve JSON response", zap.Error(err))
-			return nil, ErrorUnableToRetrieveResponse
+		j := res.Success().Json()
+		desc, found := j.FindString("name")
+		if !found {
+			return nil, ErrorUnexpectedResponseFormat
 		}
-
-		desc := j.Get("name").String()
-		supplLic := j.Get("num_licensed_users").Int()
+		supplLic, found := j.FindNumber("num_licensed_users")
+		if !found {
+			return nil, ErrorUnexpectedResponseFormat
+		}
 		suppl := ui.Text(MAttr.AttrTeamLicenses.With("Licenses", supplLic))
-		l.Debug("Token Verified", zap.String("desc", desc), zap.String("suppl", suppl))
+		l.Debug("Token Verified", es_log.String("desc", desc), es_log.String("suppl", suppl))
 
 		return api_auth.NewContextWithAttr(ctx, desc, suppl), nil
 

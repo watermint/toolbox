@@ -9,4 +9,5 @@ type Asset struct {
 	Size          int64  `path:"size" json:"size"`
 	State         string `path:"state" json:"state"`
 	DownloadCount int64  `path:"download_count" json:"download_count"`
+	DownloadUrl   string `path:"browser_download_url" json:"download_url"`
 }

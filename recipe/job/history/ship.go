@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -13,7 +14,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 	"os"
 )
 
@@ -52,20 +52,20 @@ func (z *Ship) Exec(c app_control.Control) error {
 		c.UI().Info(z.ProgressUploading.With("JobId", h.JobId()))
 		path, err := h.Archive()
 		if err != nil {
-			l.Debug("Unable to archive", zap.Error(err), zap.Any("history", h))
+			l.Debug("Unable to archive", es_log.Error(err), es_log.Any("history", h))
 			c.UI().Error(z.ErrorFailedArchive.With("JobId", h.JobId()).With("Error", err.Error()))
 			z.OperationLog.Failure(err, si)
 			continue
 		}
 		entry, err := sv_file_content.NewUpload(z.Peer.Context()).Add(z.DropboxPath, path)
 		if err != nil {
-			l.Debug("Unable to upload", zap.Error(err), zap.Any("history", h))
+			l.Debug("Unable to upload", es_log.Error(err), es_log.Any("history", h))
 			c.UI().Error(z.ErrorFailedUpload.With("JobId", h.JobId()).With("Error", err.Error()))
 			z.OperationLog.Failure(err, si)
 			continue
 		}
 		if err = os.Remove(path); err != nil {
-			l.Debug("Unable to remove archive", zap.Error(err), zap.String("path", path))
+			l.Debug("Unable to remove archive", es_log.Error(err), es_log.String("path", path))
 		}
 		z.OperationLog.Success(si, entry.Concrete())
 	}
@@ -77,7 +77,7 @@ func (z *Ship) Test(c app_control.Control) error {
 		m := r.(*Ship)
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("job-history-ship")
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return err
 	}
 

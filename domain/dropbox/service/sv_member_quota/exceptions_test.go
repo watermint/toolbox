@@ -10,7 +10,7 @@ import (
 // mock tests
 
 func TestExceptionsImpl_Add(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewExceptions(ctx)
 		err := sv.Add("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -20,7 +20,7 @@ func TestExceptionsImpl_Add(t *testing.T) {
 }
 
 func TestExceptionsImpl_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewExceptions(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -30,7 +30,7 @@ func TestExceptionsImpl_List(t *testing.T) {
 }
 
 func TestExceptionsImpl_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewExceptions(ctx)
 		err := sv.Remove("test")
 		if err != nil && err != qt_errors.ErrorMock {

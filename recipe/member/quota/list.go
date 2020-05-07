@@ -8,14 +8,22 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member_quota"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member_quota"
+	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
+)
+
+type MsgList struct {
+	ProgressScan app_msg.Message
+}
+
+var (
+	MList = app_msg.Apply(&MsgList{}).(*MsgList)
 )
 
 type ListWorker struct {
@@ -27,9 +35,9 @@ type ListWorker struct {
 
 func (z *ListWorker) Exec() error {
 	l := z.ctl.Log()
+	z.ctl.UI().Progress(MList.ProgressScan.With("MemberEmail", z.member.Email))
 
-	z.ctl.UI().InfoK("recipe.member.quota.list.scan", app_msg.P{"MemberEmail": z.member.Email})
-	l.Debug("Scan member", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Member", z.member))
+	l.Debug("Scan member", es_log.String("Routine", es_goroutine.GetGoRoutineName()), es_log.Any("Member", z.member))
 
 	q, err := sv_member_quota.NewQuota(z.ctx).Resolve(z.member.TeamMemberId)
 	if err != nil {

@@ -10,14 +10,14 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
+	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_launcher"
+	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
-	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 	"sort"
@@ -35,7 +35,7 @@ type AsyncWorker struct {
 
 func (z *AsyncWorker) Exec() error {
 	l := z.ctl.Log()
-	l.Debug("Scan group (Multi thread)", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Group", z.group))
+	l.Debug("Scan group (Multi thread)", es_log.String("Routine", es_goroutine.GetGoRoutineName()), es_log.Any("Group", z.group))
 
 	msv := sv_group_member.New(z.conn, z.group)
 	members, err := msv.List()
@@ -50,6 +50,7 @@ func (z *AsyncWorker) Exec() error {
 }
 
 type Async struct {
+	rc_recipe.RemarkSecret
 	RunConcurrently bool
 	Peer            dbx_conn.ConnBusinessInfo
 	Rows            rp_model.RowReport
@@ -97,7 +98,7 @@ func (z *Async) Exec(c app_control.Control) error {
 			}
 			q.Enqueue(w)
 		} else {
-			c.Log().Debug("Scan group (Single thread)", zap.String("Routine", ut_runtime.GetGoRoutineName()), zap.Any("Group", group))
+			c.Log().Debug("Scan group (Single thread)", es_log.String("Routine", es_goroutine.GetGoRoutineName()), es_log.Any("Group", group))
 			msv := sv_group_member.New(ctxInfo, group)
 			members, err := msv.List()
 			if err != nil {
@@ -120,14 +121,10 @@ func (z *Async) Test(c app_control.Control) error {
 	var singleTheadReport, multiThreadReport string
 
 	// Concurrent
-	{
+	err := app_workspace.WithFork(c.WorkBundle(), "async", func(fwb app_workspace.Bundle) error {
 		l.Info("Running multi thread operation")
-		cf := c.(app_control_launcher.ControlFork)
-		cc, err := cf.Fork("async")
-		if err != nil {
-			return err
-		}
-		err = rc_exec.Exec(cc, &Async{}, func(r rc_recipe.Recipe) {
+		cc := c.WithBundle(fwb)
+		err := rc_exec.Exec(cc, &Async{}, func(r rc_recipe.Recipe) {
 			ar := r.(*Async)
 			ar.RunConcurrently = true
 		})
@@ -135,16 +132,16 @@ func (z *Async) Test(c app_control.Control) error {
 			return err
 		}
 		multiThreadReport = filepath.Join(cc.Workspace().Report(), "rows.csv")
+		return nil
+	})
+	if err != nil {
+		return err
 	}
 
 	// Single thread
-	{
+	err = app_workspace.WithFork(c.WorkBundle(), "single-thread", func(fwb app_workspace.Bundle) error {
+		cc := c.WithBundle(fwb)
 		l.Info("Running single-thread operation")
-		cf := c.(app_control_launcher.ControlFork)
-		cc, err := cf.Fork("single-thread")
-		if err != nil {
-			return err
-		}
 		err = rc_exec.Exec(cc, &Async{}, func(r rc_recipe.Recipe) {
 			ar := r.(*Async)
 			ar.RunConcurrently = true
@@ -153,6 +150,10 @@ func (z *Async) Test(c app_control.Control) error {
 			return err
 		}
 		singleTheadReport = filepath.Join(cc.Workspace().Report(), "rows.csv")
+		return nil
+	})
+	if err != nil {
+		return err
 	}
 
 	singleReport := make([]string, 0)
@@ -184,7 +185,7 @@ func (z *Async) Test(c app_control.Control) error {
 	d := cmp.Diff(singleReport, concurrentReport)
 	l.Debug("Diff")
 	if d != "" {
-		l.Error("Diff found", zap.String("diff", d))
+		l.Error("Diff found", es_log.String("diff", d))
 		return errors.New("diff found")
 	}
 	return nil

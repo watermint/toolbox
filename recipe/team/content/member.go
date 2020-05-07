@@ -5,13 +5,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"go.uber.org/zap"
 )
 
 type Member struct {
@@ -115,20 +115,20 @@ func (z *Member) Exec(c app_control.Control) error {
 	return z.Tree.View(func(treeKvs kv_kvs.Kvs) error {
 		return treeKvs.ForEachModel(&Tree{}, func(key string, m interface{}) error {
 			t := m.(*Tree)
-			ll := l.With(zap.String("nsid", t.NamespaceId))
+			ll := l.With(es_log.String("nsid", t.NamespaceId))
 			ll.Debug("Preparing for report")
 			meta := &mo_sharedfolder.SharedFolder{}
 			err := z.Metadata.View(func(metaKvs kv_kvs.Kvs) error {
 				return metaKvs.GetJsonModel(t.NamespaceId, meta)
 			})
 			if err != nil {
-				ll.Debug("Unable to get metadata for the namespace", zap.Error(err))
+				ll.Debug("Unable to get metadata for the namespace", es_log.Error(err))
 				return err
 			}
 			return z.MembershipList.View(func(memberKvs kv_kvs.Kvs) error {
 				members := make([]mo_sharedfolder_member.Metadata, 0)
 				if err := memberKvs.GetJsonModel(t.NamespaceId, &members); err != nil {
-					l.Debug("Unable to retrieve model", zap.Error(err))
+					l.Debug("Unable to retrieve model", es_log.Error(err))
 					return err
 				}
 				if len(members) < 1 {

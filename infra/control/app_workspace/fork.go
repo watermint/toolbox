@@ -1,12 +1,15 @@
 package app_workspace
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"path/filepath"
+	"strings"
 )
 
 func Fork(ws Workspace, name string) (Workspace, error) {
+	if strings.HasPrefix(name, "-") {
+		name = strings.TrimPrefix(name, "-")
+	}
 	fws := &forkWorkspace{
 		name:   name,
 		parent: ws,
@@ -61,7 +64,7 @@ func (z *forkWorkspace) Log() string {
 func (z *forkWorkspace) Test() string {
 	t, err := z.Descendant(nameTest)
 	if err != nil {
-		app_root.Log().Error("Unable to create test folder", zap.Error(err))
+		es_log.Default().Error("Unable to create test folder", es_log.Error(err))
 		t = filepath.Join(z.Job(), nameTest)
 	}
 	return t
@@ -70,7 +73,7 @@ func (z *forkWorkspace) Test() string {
 func (z *forkWorkspace) KVS() string {
 	t, err := z.Descendant(nameKvs)
 	if err != nil {
-		app_root.Log().Error("Unable to create KVS folder", zap.Error(err))
+		es_log.Default().Error("Unable to create KVS folder", es_log.Error(err))
 		t = filepath.Join(z.Job(), nameKvs)
 	}
 	return t

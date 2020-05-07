@@ -67,7 +67,7 @@ func (z *groupImpl) GroupDesc() app_msg.Message {
 	grpDesc = append(grpDesc, z.path...)
 	grpDesc = append(grpDesc, "title")
 
-	return app_msg.M(strings.Join(grpDesc, "."))
+	return app_msg.CreateMessage(strings.Join(grpDesc, "."))
 }
 
 func (z *groupImpl) AddToPath(fullPath []string, relPath []string, name string, r rc_recipe.Spec) {
@@ -117,7 +117,7 @@ func (z *groupImpl) CommandTitle(cmd string) app_msg.Message {
 	keyPath = append(keyPath, "title")
 	key := strings.Join(keyPath, ".")
 
-	return app_msg.M(key)
+	return app_msg.CreateMessage(key)
 }
 
 func (z *groupImpl) IsSecret() bool {

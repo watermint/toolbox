@@ -1,12 +1,11 @@
 package nw_http
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_concurrency"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
-	"github.com/watermint/toolbox/infra/util/ut_runtime"
-	"go.uber.org/zap"
 	"net/http"
 	"time"
 )
@@ -26,9 +25,9 @@ type Client struct {
 
 // Call RPC. res will be nil on an error
 func (z *Client) Call(hash, endpoint string, req *http.Request) (res *http.Response, latency time.Duration, err error) {
-	l := app_root.Log().With(
-		zap.String("Endpoint", endpoint),
-		zap.String("Routine", ut_runtime.GetGoRoutineName()),
+	l := es_log.Default().With(
+		es_log.String("Endpoint", endpoint),
+		es_log.String("Routine", es_goroutine.GetGoRoutineName()),
 	)
 
 	l.Debug("Call")

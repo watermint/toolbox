@@ -2,11 +2,13 @@ package test
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
 )
 
 type Resources struct {
+	rc_recipe.RemarkSecret
 }
 
 func (z *Resources) Preset() {

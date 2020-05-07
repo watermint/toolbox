@@ -2,11 +2,14 @@ package nw_capture
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/http/es_response"
+	"github.com/watermint/toolbox/essentials/http/es_response_impl"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/stats/es_http"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/network/nw_client"
-	"go.uber.org/zap"
+	"net/http"
 	"strings"
 )
 
@@ -18,44 +21,46 @@ type Client struct {
 	httpClient nw_client.Http
 }
 
-func (z *Client) Call(ctx api_context.Context, req api_request.Request) (res api_response.Response, err error) {
+func (z *Client) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
 	l := ctx.Log()
-	hReq, err := req.Make()
+	hReq, err := req.Build()
 	if err != nil {
-		l.Debug("Unable to make http request", zap.Error(err))
-		return nil, err
+		l.Debug("Unable to make http request", es_log.Error(err))
+		return es_response_impl.NewNoResponse(err)
 	}
 
 	// Call
 	hRes, latency, err := z.httpClient.Call(ctx.ClientHash(), req.Endpoint(), hReq)
 
 	// Make response
-	cp := NewCapture(ctx.Capture())
-
-	res, mkResErr := ctx.MakeResponse(hReq, hRes)
-	if mkResErr != nil {
-		l.Debug("Unable to make http response", zap.Error(mkResErr))
-		cp.NoResponse(req, mkResErr, latency.Nanoseconds())
-		return nil, mkResErr
+	if err != nil {
+		res = es_response_impl.NewTransportErrorHttpResponse(err, hRes)
+	} else {
+		res = es_response_impl.New(ctx, hRes)
 	}
-	cp.WithResponse(req, res, err, latency.Nanoseconds())
 
-	return res, nil
+	// Monitor stats
+	es_http.Log(hReq, hRes)
+
+	// Capture
+	cp := NewCapture(ctx.Capture())
+	cp.WithResponse(req, hReq, res, err, latency.Nanoseconds())
+
+	return res
 }
 
 type Capture interface {
-	WithResponse(req api_request.Request, res api_response.Response, resErr error, latency int64)
-	NoResponse(req api_request.Request, resErr error, latency int64)
+	WithResponse(rb nw_client.RequestBuilder, req *http.Request, res es_response.Response, resErr error, latency int64)
 }
 
-func NewCapture(cap *zap.Logger) Capture {
+func NewCapture(cap es_log.Logger) Capture {
 	return &captureImpl{
 		capture: cap,
 	}
 }
 
 type captureImpl struct {
-	capture *zap.Logger
+	capture es_log.Logger
 }
 
 type Record struct {
@@ -73,25 +78,27 @@ type Req struct {
 	ContentLength  int64             `json:"content_length"`
 }
 
-func (z *Req) Apply(req api_request.Request) {
-	z.RequestMethod = req.Method()
-	z.RequestUrl = req.Url()
-	z.RequestParam = req.ParamString()
+func (z *Req) Apply(rb nw_client.RequestBuilder, req *http.Request) {
+	z.RequestMethod = req.Method
+	z.RequestUrl = req.URL.String()
+	z.RequestParam = rb.Param()
 	z.RequestHeaders = make(map[string]string)
-	z.ContentLength = req.ContentLength()
-	for k, v := range req.Headers() {
+	z.ContentLength = req.ContentLength
+	for k, v := range req.Header {
+		v0 := v[0]
 		// Anonymize token
 		if k == api_request.ReqHeaderAuthorization {
-			vv := strings.Split(v, " ")
+			vv := strings.Split(v0, " ")
 			z.RequestHeaders[k] = vv[0] + " <secret>"
 		} else {
-			z.RequestHeaders[k] = v
+			z.RequestHeaders[k] = v0
 		}
 	}
 }
 
 type Res struct {
 	ResponseCode    int               `json:"code"`
+	ResponseProto   string            `json:"proto,omitempty"`
 	ResponseBody    string            `json:"body,omitempty"`
 	ResponseHeaders map[string]string `json:"headers"`
 	ResponseJson    json.RawMessage   `json:"json,omitempty"`
@@ -99,16 +106,14 @@ type Res struct {
 	ContentLength   int64             `json:"content_length"`
 }
 
-func (z *Res) Apply(res api_response.Response, resErr error) {
-	z.ResponseCode = res.StatusCode()
-	z.ContentLength = res.ContentLength()
-	resBody, _ := res.Result()
-	if len(resBody) == 0 {
+func (z *Res) Apply(res es_response.Response, resErr error) {
+	z.ResponseCode = res.Code()
+	z.ResponseProto = res.Proto()
+	z.ContentLength = res.Success().ContentLength()
+	if res.Success().IsFile() {
 		z.ResponseBody = ""
-	} else if resBody[0] == '[' || resBody[0] == '{' {
-		z.ResponseJson = []byte(resBody)
 	} else {
-		z.ResponseBody = resBody
+		z.ResponseBody = res.Success().BodyString()
 	}
 	if resErr != nil {
 		z.ResponseError = resErr.Error()
@@ -116,26 +121,26 @@ func (z *Res) Apply(res api_response.Response, resErr error) {
 	z.ResponseHeaders = res.Headers()
 }
 
-func (z *captureImpl) WithResponse(req api_request.Request, res api_response.Response, resErr error, latency int64) {
+func (z *captureImpl) WithResponse(rb nw_client.RequestBuilder, req *http.Request, res es_response.Response, resErr error, latency int64) {
 	// request
 	rq := Req{}
-	rq.Apply(req)
+	rq.Apply(rb, req)
 
 	// response
 	rs := Res{}
 	rs.Apply(res, resErr)
 
 	z.capture.Debug("",
-		zap.Any("req", rq),
-		zap.Any("res", rs),
-		zap.Int64("latency", latency),
+		es_log.Any("req", rq),
+		es_log.Any("res", rs),
+		es_log.Int64("latency", latency),
 	)
 }
 
-func (z *captureImpl) NoResponse(req api_request.Request, resErr error, latency int64) {
+func (z *captureImpl) NoResponse(rb nw_client.RequestBuilder, req *http.Request, resErr error, latency int64) {
 	// request
 	rq := Req{}
-	rq.Apply(req)
+	rq.Apply(rb, req)
 
 	// response
 	rs := Res{}
@@ -144,8 +149,8 @@ func (z *captureImpl) NoResponse(req api_request.Request, resErr error, latency 
 	}
 
 	z.capture.Debug("",
-		zap.Any("req", rq),
-		zap.Any("res", rs),
-		zap.Int64("latency", latency),
+		es_log.Any("req", rq),
+		es_log.Any("res", rs),
+		es_log.Int64("latency", latency),
 	)
 }

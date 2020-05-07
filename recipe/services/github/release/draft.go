@@ -15,6 +15,8 @@ import (
 )
 
 type Draft struct {
+	rc_recipe.RemarkExperimental
+	rc_recipe.RemarkIrreversible
 	Peer       gh_conn.ConnGithubRepo
 	Owner      string
 	Repository string

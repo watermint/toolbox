@@ -5,10 +5,10 @@ import (
 	"github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
-	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/io/es_rewinder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"github.com/watermint/toolbox/infra/util/ut_io"
-	"go.uber.org/zap"
 	"mime"
 	"os"
 	"path/filepath"
@@ -41,34 +41,28 @@ type assetImpl struct {
 
 func (z *assetImpl) List() (assets []*mo_release_asset.Asset, err error) {
 	endpoint := "repos/" + z.owner + "/" + z.repository + "/releases/" + z.release + "/assets"
-	res, err := z.ctx.Get(endpoint).Call()
-	if err != nil {
+	res := z.ctx.Get(endpoint)
+	if err, fail := res.Failure(); fail {
 		return nil, err
-	}
-	j, err := res.Json()
-	if err != nil {
-		return nil, err
-	}
-	if !j.IsArray() {
-		return nil, ErrorUnexpectedResponse
 	}
 	assets = make([]*mo_release_asset.Asset, 0)
-	for _, entry := range j.Array() {
+	err = res.Success().Json().ArrayEach(func(e es_json.Json) error {
 		asset := &mo_release_asset.Asset{}
-		if err := api_parser.ParseModel(asset, entry); err != nil {
-			return nil, err
+		if err := e.Model(asset); err != nil {
+			return err
 		}
 		assets = append(assets, asset)
-	}
-	return assets, nil
+		return nil
+	})
+	return
 }
 
 func (z *assetImpl) Upload(file mo_path.ExistingFileSystemPath) (asset *mo_release_asset.Asset, err error) {
 	l := z.ctx.Log().With(
-		zap.String("owner", z.owner),
-		zap.String("repository", z.repository),
-		zap.String("release", z.release),
-		zap.String("path", file.Path()),
+		es_log.String("owner", z.owner),
+		es_log.String("repository", z.repository),
+		es_log.String("release", z.release),
+		es_log.String("path", file.Path()),
 	)
 	endpoint := "repos/" + z.owner + "/" + z.repository + "/releases/" + z.release + "/assets"
 	p := struct {
@@ -79,31 +73,29 @@ func (z *assetImpl) Upload(file mo_path.ExistingFileSystemPath) (asset *mo_relea
 	contentType := mime.TypeByExtension(filepath.Ext(file.Path()))
 
 	l.Debug("upload params",
-		zap.String("endpoint", endpoint),
-		zap.Any("param", p),
-		zap.String("contentType", contentType))
+		es_log.String("endpoint", endpoint),
+		es_log.Any("param", p),
+		es_log.String("contentType", contentType))
 
 	r, err := os.Open(file.Path())
 	if err != nil {
 		return nil, err
 	}
-	rr, err := ut_io.NewReadRewinder(r, 0)
+	rr, err := es_rewinder.NewReadRewinder(r, 0)
 	if err != nil {
-		l.Debug("Unable to create read rewinder", zap.Error(err))
+		l.Debug("Unable to create read rewinder", es_log.Error(err))
 		return nil, err
 	}
 	defer r.Close()
 
-	res, err := z.ctx.Upload(endpoint, rr).Param(p).
-		Header(api_request.ReqHeaderContentType, contentType).Call()
-	if err != nil {
-		l.Debug("unable to upload", zap.Error(err))
+	res := z.ctx.Upload(endpoint,
+		api_request.Content(rr),
+		api_request.Param(p),
+		api_request.Header(api_request.ReqHeaderContentType, contentType))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	asset = &mo_release_asset.Asset{}
-	if err := res.Model(asset); err != nil {
-		l.Debug("failed to parse", zap.Error(err))
-		return nil, err
-	}
-	return asset, nil
+	err = res.Success().Json().Model(asset)
+	return
 }

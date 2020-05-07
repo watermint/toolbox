@@ -16,6 +16,7 @@ import (
 )
 
 type Archive struct {
+	rc_recipe.RemarkIrreversible
 	ErrTeamFolderNotFound                 app_msg.Message
 	ErrUnableToArchive                    app_msg.Message
 	ErrUnableToRetrieveCurrentTeamFolders app_msg.Message

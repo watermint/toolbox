@@ -4,8 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/infra/control/app_root"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 )
 
 var (
@@ -13,10 +12,10 @@ var (
 )
 
 func Headers(r interface{}, isHidden func(name string) bool) (headers []string, err error) {
-	l := app_root.Log()
+	l := es_log.Default()
 	b, err := json.Marshal(r)
 	if err != nil {
-		l.Debug("Unable to marshal", zap.Error(err))
+		l.Debug("Unable to marshal", es_log.Error(err))
 		return nil, err
 	}
 	if !gjson.ValidBytes(b) {
@@ -52,10 +51,10 @@ func Headers(r interface{}, isHidden func(name string) bool) (headers []string, 
 }
 
 func Parse(r interface{}) (s gjson.Result, err error) {
-	l := app_root.Log()
+	l := es_log.Default()
 	b, err := json.Marshal(r)
 	if err != nil {
-		l.Debug("Unable to marshal", zap.Error(err))
+		l.Debug("Unable to marshal", es_log.Error(err))
 		return gjson.Parse("{}"), ErrorInvalidRowDataFormat
 	}
 	if !gjson.ValidBytes(b) {

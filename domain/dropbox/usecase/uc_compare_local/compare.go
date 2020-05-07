@@ -8,13 +8,21 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
+)
+
+type MsgCompare struct {
+	ProgressScanFolder app_msg.Message
+}
+
+var (
+	MCompare = app_msg.Apply(&MsgCompare{}).(*MsgCompare)
 )
 
 type Compare interface {
@@ -51,9 +59,9 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 	dropboxFolders := make(map[string]*mo_file.Folder)
 
 	l := z.ctx.Log().With(
-		zap.String("local", local.Path()),
-		zap.String("dropbox", dropbox.Path()),
-		zap.String("path", path))
+		es_log.String("local", local.Path()),
+		es_log.String("dropbox", dropbox.Path()),
+		es_log.String("path", path))
 
 	localPath := func(info os.FileInfo) string {
 		if path == "" {
@@ -70,9 +78,7 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 		}
 	}
 
-	z.ui.InfoK("usecase.uc_compare_local.scan_folder", app_msg.P{
-		"Path": path,
-	})
+	z.ui.Progress(MCompare.ProgressScanFolder.With("Path", path))
 
 	// Scan local
 	{
@@ -99,7 +105,7 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 		dropboxPath := dropbox.ChildPath(filepath.ToSlash(path))
 		entries, err := sv_file.NewFiles(z.ctx).List(dropboxPath)
 		if err != nil {
-			l.Debug("unable to list dropbox path", zap.Error(err))
+			l.Debug("unable to list dropbox path", es_log.Error(err))
 			return 0, err
 		}
 		for _, entry := range entries {
@@ -121,7 +127,7 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 			hash, err := dbx_util.ContentHash(p)
 			if err != nil {
 				hash = "<failed to calculate content hash>"
-				l.Debug("Unable to calculate hash", zap.String("localPath", p), zap.Error(err))
+				l.Debug("Unable to calculate hash", es_log.String("localPath", p), es_log.Error(err))
 			}
 			return hash
 		}
@@ -148,7 +154,7 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 				}
 				diffCount++
 				if err := onDiff(diff); err != nil {
-					l.Debug("onDiff returned an error", zap.Error(err))
+					l.Debug("onDiff returned an error", es_log.Error(err))
 					return diffCount, err
 				}
 			}
@@ -172,7 +178,7 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 			}
 			diffCount++
 			if err := onDiff(diff); err != nil {
-				l.Debug("onDiff returned an error", zap.Error(err))
+				l.Debug("onDiff returned an error", es_log.Error(err))
 				return diffCount, err
 			}
 		}
@@ -203,10 +209,10 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 		if _, e := dropboxFolders[name]; e {
 			// proceed to descendants
 			rp := relPath(lf)
-			l.Debug("Proceed to descendants", zap.String("rp", rp))
+			l.Debug("Proceed to descendants", es_log.String("rp", rp))
 			dc, err := z.cmpLevel(local, dropbox, rp, onDiff)
 			if err != nil {
-				l.Debug("Descendant returned an error", zap.Error(err))
+				l.Debug("Descendant returned an error", es_log.Error(err))
 				return diffCount + dc, err
 			}
 			diffCount += dc
@@ -222,7 +228,7 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 			}
 			diffCount++
 			if err := onDiff(diff); err != nil {
-				l.Debug("onDiff returned an error", zap.Error(err))
+				l.Debug("onDiff returned an error", es_log.Error(err))
 				return diffCount, err
 			}
 		}
@@ -238,13 +244,13 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 			}
 			diffCount++
 			if err := onDiff(diff); err != nil {
-				l.Debug("onDiff returned an error", zap.Error(err))
+				l.Debug("onDiff returned an error", es_log.Error(err))
 				return diffCount, err
 			}
 		}
 	}
 
-	l.Debug("Completed", zap.Int("diffCount", diffCount))
+	l.Debug("Completed", es_log.Int("diffCount", diffCount))
 	return diffCount, nil
 }
 

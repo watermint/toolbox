@@ -5,18 +5,18 @@ go 1.14
 require (
 	github.com/GeertJohan/go.rice v1.0.1-0.20191102153406-d954009f7238
 	github.com/andybrewer/mack v0.0.0-20200107183837-a347fce911ce
-	github.com/cloudfoundry-attic/jibber_jabber v0.0.0-20151120183258-bcc4c8345a21
-	github.com/cloudfoundry/jibber_jabber v0.0.0-20151120183258-bcc4c8345a21 // indirect
+	github.com/cloudfoundry/jibber_jabber v0.0.0-20151120183258-bcc4c8345a21
 	github.com/daaku/go.zipexe v1.0.1 // indirect
-	github.com/dgraph-io/badger/v2 v2.0.1-rc1.0.20200224123928-bce069c3875e
+	github.com/dgraph-io/badger/v2 v2.0.3
 	github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13 // indirect
-	github.com/gin-contrib/zap v0.0.1
+	github.com/eiannone/keyboard v0.0.0-20200430171636-32d709cec0bd
 	github.com/gin-gonic/gin v1.5.0
 	github.com/golang/protobuf v1.3.3 // indirect
 	github.com/google/go-cmp v0.4.0
 	github.com/google/go-querystring v1.0.0
 	github.com/iancoleman/strcase v0.0.0-20191112232945-16388991a334
 	github.com/json-iterator/go v1.1.9 // indirect
+	github.com/mattn/go-colorable v0.1.6
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/onsi/ginkgo v1.12.0 // indirect
@@ -38,7 +38,7 @@ require (
 	golang.org/x/net v0.0.0-20200222125558-5a598a2470a0 // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
-	golang.org/x/sys v0.0.0-20200223170610-d5e6a3e2c0ae // indirect
+	golang.org/x/sys v0.0.0-20200501145240-bc7a7d42d5c3 // indirect
 	golang.org/x/text v0.3.3-0.20191230102452-929e72ca90de
 	gopkg.in/yaml.v2 v2.2.5 // indirect
 )

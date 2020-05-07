@@ -3,10 +3,11 @@ package sv_device
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_device"
-	"github.com/watermint/toolbox/infra/api/api_list"
-	"github.com/watermint/toolbox/infra/api/api_parser"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Session interface {
@@ -48,71 +49,67 @@ func (z *sessionImpl) List() (sessions []mo_device.Session, err error) {
 		IncludeDesktopClients: true,
 		IncludeMobileClients:  true,
 	}
-	err = z.ctx.List("team/devices/list_members_devices").
-		Continue("team/devices/list_members_devices").
-		Param(p).
-		UseHasMore(true).
-		ResultTag("devices").
-		OnEntry(func(entry api_list.ListEntry) error {
-			ej, err := entry.Json()
-			if err != nil {
-				return err
-			}
-			m := ej.Get("team_member_id")
-			if !m.Exists() {
-				z.ctx.Log().Debug("no `team_member_id` field found", zap.String("entry", ej.Raw))
-				return errors.New("team_member_id not found")
-			}
-			teamMemberId := m.String()
-			{
-				ws := ej.Get("web_sessions")
-				if ws.Exists() && ws.IsArray() {
-					for _, w := range ws.Array() {
-						mw := &mo_device.Web{}
-						if err := api_parser.ParseModel(mw, w); err != nil {
-							z.ctx.Log().Debug("unable to parse web_session", zap.Error(err), zap.String("entry", w.Raw))
-							return err
-						}
-						mw.TeamMemberId = teamMemberId
-						mw.Tag = mo_device.DeviceTypeWeb
-						sessions = append(sessions, mw)
+	onEntry := func(entry es_json.Json) error {
+		m, found := entry.FindString("team_member_id")
+		if !found {
+			z.ctx.Log().Debug("no `team_member_id` field found", es_log.ByteString("entry", entry.Raw()))
+			return errors.New("team_member_id not found")
+		}
+		teamMemberId := m
+		{
+			ws, found := entry.FindArray("web_sessions")
+			if found {
+				for _, w := range ws {
+					mw := &mo_device.Web{}
+					if err := w.Model(mw); err != nil {
+						z.ctx.Log().Debug("unable to parse web_session", es_log.Error(err), es_log.ByteString("entry", entry.Raw()))
+						return err
 					}
+					mw.TeamMemberId = teamMemberId
+					mw.Tag = mo_device.DeviceTypeWeb
+					sessions = append(sessions, mw)
 				}
 			}
-			{
-				ds := ej.Get("desktop_clients")
-				if ds.Exists() && ds.IsArray() {
-					for _, d := range ds.Array() {
-						md := &mo_device.Desktop{}
-						if err := api_parser.ParseModel(md, d); err != nil {
-							z.ctx.Log().Debug("unable to parse desktop_session", zap.Error(err), zap.String("entry", d.Raw))
-							return err
-						}
-						md.TeamMemberId = teamMemberId
-						md.Tag = mo_device.DeviceTypeDesktop
-						sessions = append(sessions, md)
+		}
+		{
+			ds, found := entry.FindArray("desktop_clients")
+			if found {
+				for _, d := range ds {
+					md := &mo_device.Desktop{}
+					if err := d.Model(md); err != nil {
+						z.ctx.Log().Debug("unable to parse desktop_session", es_log.Error(err), es_log.ByteString("entry", entry.Raw()))
+						return err
 					}
+					md.TeamMemberId = teamMemberId
+					md.Tag = mo_device.DeviceTypeDesktop
+					sessions = append(sessions, md)
 				}
 			}
-			{
-				ms := ej.Get("mobile_clients")
-				if ms.Exists() && ms.IsArray() {
-					for _, m := range ms.Array() {
-						mm := &mo_device.Mobile{}
-						if err := api_parser.ParseModel(mm, m); err != nil {
-							z.ctx.Log().Debug("unable to parse desktop_session", zap.Error(err), zap.String("entry", m.Raw))
-							return err
-						}
-						mm.TeamMemberId = teamMemberId
-						mm.Tag = mo_device.DeviceTypeMobile
-						sessions = append(sessions, mm)
+		}
+		{
+			ms, found := entry.FindArray("mobile_clients")
+			if found {
+				for _, m := range ms {
+					mm := &mo_device.Mobile{}
+					if err := m.Model(mm); err != nil {
+						z.ctx.Log().Debug("unable to parse desktop_session", es_log.Error(err), es_log.ByteString("entry", entry.Raw()))
+						return err
 					}
+					mm.TeamMemberId = teamMemberId
+					mm.Tag = mo_device.DeviceTypeMobile
+					sessions = append(sessions, mm)
 				}
 			}
-			return nil
-		}).
-		Call()
-	if err != nil {
+		}
+		return nil
+	}
+	res := z.ctx.List("team/devices/list_members_devices", api_request.Param(p)).Call(
+		dbx_list.Continue("team/devices/list_members_devices"),
+		dbx_list.UseHasMore(),
+		dbx_list.ResultTag("devices"),
+		dbx_list.OnEntry(onEntry),
+	)
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	return sessions, nil
@@ -135,6 +132,9 @@ func (z *sessionImpl) Revoke(session mo_device.Session, opts ...RevokeOption) (e
 		DeleteOnUnlink: ro.deleteOnUnlink,
 	}
 
-	_, err = z.ctx.Post("team/devices/revoke_device_session").Param(p).Call()
-	return err
+	res := z.ctx.Post("team/devices/revoke_device_session", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }

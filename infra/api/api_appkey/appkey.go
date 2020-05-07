@@ -2,9 +2,10 @@ package api_appkey
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/security/sc_zap"
-	"go.uber.org/zap"
 )
 
 type Resource interface {
@@ -13,38 +14,30 @@ type Resource interface {
 }
 
 func New(ctl app_control.Control) Resource {
-	return &resourceImpl{
-		ctl: ctl,
+	keys := make(map[string]string)
+
+	l := ctl.Log()
+	kb, err := sc_zap.Unzap(ctl)
+	if err != nil {
+		kb, err = app_resource.Bundle().Keys().Bytes("toolbox.appkeys")
+		if err != nil {
+			l.Debug("Skip loading app keys")
+			return &resourceImpl{keys: keys}
+		}
 	}
+	err = json.Unmarshal(kb, &keys)
+	if err != nil {
+		l.Debug("Skip loading app keys: unable to unmarshal resource", es_log.Error(err))
+		return &resourceImpl{keys: keys}
+	}
+	return &resourceImpl{keys: keys}
 }
 
 type resourceImpl struct {
-	ctl  app_control.Control
 	keys map[string]string
 }
 
-func (z *resourceImpl) load() {
-	l := z.ctl.Log()
-	kb, err := sc_zap.Unzap(z.ctl)
-	if err != nil {
-		kb, err = z.ctl.Resource("toolbox.appkeys")
-		if err != nil {
-			l.Debug("Skip loading app keys")
-			return
-		}
-	}
-	err = json.Unmarshal(kb, &z.keys)
-	if err != nil {
-		l.Debug("Skip loading app keys: unable to unmarshal resource", zap.Error(err))
-		return
-	}
-}
-
-func (z *resourceImpl) Key(scope string) (key, secret string) {
-	if z.keys == nil {
-		z.load()
-	}
-
+func (z resourceImpl) Key(scope string) (key, secret string) {
 	var e bool
 	if key, e = z.keys[scope+".key"]; !e {
 		return "", ""

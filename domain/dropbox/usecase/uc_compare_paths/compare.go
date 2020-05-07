@@ -6,11 +6,19 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"go.uber.org/zap"
 	"path/filepath"
 	"strings"
+)
+
+type MsgCompare struct {
+	ProgressScanFolder app_msg.Message
+}
+
+var (
+	MCompare = app_msg.Apply(&MsgCompare{}).(*MsgCompare)
 )
 
 type Compare interface {
@@ -49,11 +57,9 @@ func (z *compareImpl) cmpLevel(left, right mo_path.DropboxPath, path string, onD
 	rightFiles := make(map[string]*mo_file.File)
 	rightFolders := make(map[string]*mo_file.Folder)
 
-	l := z.ctxLeft.Log().With(zap.String("path", path))
+	l := z.ctxLeft.Log().With(es_log.String("path", path))
 
-	z.ui.InfoK("usecase.uc_compare_paths.scan_folder", app_msg.P{
-		"Path": path,
-	})
+	z.ui.Progress(MCompare.ProgressScanFolder.With("Path", path))
 
 	// Scan left
 	{
@@ -61,7 +67,7 @@ func (z *compareImpl) cmpLevel(left, right mo_path.DropboxPath, path string, onD
 		leftPath := left.ChildPath(path)
 		entries, err := sv_file.NewFiles(z.ctxLeft).List(leftPath)
 		if err != nil {
-			l.Debug("unable to list left path", zap.Error(err))
+			l.Debug("unable to list left path", es_log.Error(err))
 			return 0, err
 		}
 		for _, entry := range entries {
@@ -80,7 +86,7 @@ func (z *compareImpl) cmpLevel(left, right mo_path.DropboxPath, path string, onD
 		rightPath := right.ChildPath(path)
 		entries, err := sv_file.NewFiles(z.ctxRight).List(rightPath)
 		if err != nil {
-			l.Debug("unable to list right path", zap.Error(err))
+			l.Debug("unable to list right path", es_log.Error(err))
 			return 0, err
 		}
 		for _, entry := range entries {
@@ -124,7 +130,7 @@ func (z *compareImpl) cmpLevel(left, right mo_path.DropboxPath, path string, onD
 			}
 			diffCount++
 			if err := onDiff(diff); err != nil {
-				l.Debug("onDiff returned an error", zap.Error(err))
+				l.Debug("onDiff returned an error", es_log.Error(err))
 				return diffCount, err
 			}
 		}
@@ -143,7 +149,7 @@ func (z *compareImpl) cmpLevel(left, right mo_path.DropboxPath, path string, onD
 			}
 			diffCount++
 			if err := onDiff(diff); err != nil {
-				l.Debug("onDiff returned an error", zap.Error(err))
+				l.Debug("onDiff returned an error", es_log.Error(err))
 				return diffCount, err
 			}
 		}
@@ -160,14 +166,14 @@ func (z *compareImpl) cmpLevel(left, right mo_path.DropboxPath, path string, onD
 			}
 			pd, err := filepath.Rel(lp, lf.PathLower())
 			if err != nil {
-				l.Warn("unable to calculate relative path", zap.String("leftPathBase", lp), zap.String("leftPath", lf.PathLower()), zap.Error(err))
+				l.Warn("unable to calculate relative path", es_log.String("leftPathBase", lp), es_log.String("leftPath", lf.PathLower()), es_log.Error(err))
 				continue
 			}
 			if strings.HasPrefix(pd, "..") {
-				l.Error("invalid relative path", zap.String("pd", pd), zap.String("zLeftPath", left.Path()), zap.String("lfPathLower", lf.PathLower()))
+				l.Error("invalid relative path", es_log.String("pd", pd), es_log.String("zLeftPath", left.Path()), es_log.String("lfPathLower", lf.PathLower()))
 				continue
 			}
-			l.Debug("Proceed into descendants", zap.String("pathDescendants", pd))
+			l.Debug("Proceed into descendants", es_log.String("pathDescendants", pd))
 			dc, err := z.cmpLevel(left, right, pd, onDiff)
 			if err != nil {
 				return dc, err
@@ -181,7 +187,7 @@ func (z *compareImpl) cmpLevel(left, right mo_path.DropboxPath, path string, onD
 			}
 			diffCount++
 			if err := onDiff(diff); err != nil {
-				l.Debug("onDiff returned an error", zap.Error(err))
+				l.Debug("onDiff returned an error", es_log.Error(err))
 				return diffCount, err
 			}
 		}
@@ -198,13 +204,13 @@ func (z *compareImpl) cmpLevel(left, right mo_path.DropboxPath, path string, onD
 			}
 			diffCount++
 			if err := onDiff(diff); err != nil {
-				l.Debug("onDiff returned an error", zap.Error(err))
+				l.Debug("onDiff returned an error", es_log.Error(err))
 				return diffCount, err
 			}
 		}
 	}
 
-	l.Debug("Completed", zap.Int("diffCount", diffCount))
+	l.Debug("Completed", es_log.Int("diffCount", diffCount))
 	return diffCount, nil
 }
 

@@ -15,11 +15,13 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
 	"strings"
 )
 
 type Clone struct {
+	rc_recipe.RemarkExperimental
+	rc_recipe.RemarkSecret
+	rc_recipe.RemarkIrreversible
 	File         fd_file.RowFeed
 	Peer         dbx_conn.ConnBusinessFile
 	OperationLog rp_model.TransactionReport
@@ -27,7 +29,18 @@ type Clone struct {
 
 func (z *Clone) Preset() {
 	z.File.SetModel(&mo_filerequest.MemberFileRequest{})
-	z.OperationLog.SetModel(&mo_filerequest.MemberFileRequest{}, &mo_filerequest.MemberFileRequest{})
+	z.OperationLog.SetModel(
+		&mo_filerequest.MemberFileRequest{},
+		&mo_filerequest.MemberFileRequest{},
+		rp_model.HiddenColumns(
+			"input.account_id",
+			"input.file_request_id",
+			"input.team_member_id",
+			"result.account_id",
+			"result.file_request_id",
+			"result.team_member_id",
+		),
+	)
 }
 
 func (z *Clone) Exec(c app_control.Control) error {
@@ -85,7 +98,7 @@ dbid:xxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxx,dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		m := r.(*Clone)
 		m.File.SetFilePath(f)
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 	return qt_errors.ErrorHumanInteractionRequired

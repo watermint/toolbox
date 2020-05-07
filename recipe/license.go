@@ -3,12 +3,13 @@ package recipe
 import (
 	"encoding/json"
 	"errors"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"go.uber.org/zap"
 	"sort"
 	"strings"
 )
@@ -56,14 +57,14 @@ func (z *License) Exec(c app_control.Control) error {
 
 func LoadLicense(ctl app_control.Control) (tbxLicense []string, otherLicenses map[string][]string, order []string, err error) {
 	l := ctl.Log()
-	lic, err := ctl.Resource("licenses.json")
+	lic, err := app_resource.Bundle().Data().Bytes("licenses.json")
 	if err != nil {
 		return nil, nil, nil, err
 	}
 	otherLicenses = make(map[string][]string)
 	licenses := make(map[string][]string)
 	if err = json.Unmarshal(lic, &licenses); err != nil {
-		l.Error("Invalid license file format", zap.Error(err))
+		l.Error("Invalid license file format", es_log.Error(err))
 		return nil, nil, nil, err
 	}
 

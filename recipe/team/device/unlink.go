@@ -13,7 +13,14 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+)
+
+type MsgUnlink struct {
+	ProgressUnlink app_msg.Message
+}
+
+var (
+	MUnlink = app_msg.Apply(&MsgUnlink{}).(*MsgUnlink)
 )
 
 type UnlinkVO struct {
@@ -28,11 +35,10 @@ type UnlinkWorker struct {
 
 func (z *UnlinkWorker) Exec() error {
 	ui := z.ctl.UI()
-	ui.InfoK("recipe.team.device.unlink.progress", app_msg.P{
-		"Member":      z.session.Email,
-		"SessionType": z.session.DeviceTag,
-		"SessionId":   z.session.Id,
-	})
+	ui.Progress(MUnlink.ProgressUnlink.
+		With("Member", z.session.Email).
+		With("SessionType", z.session.DeviceTag).
+		With("SessionId", z.session.Id))
 
 	s := &mo_device.Metadata{
 		Tag:          z.session.DeviceTag,
@@ -49,6 +55,7 @@ func (z *UnlinkWorker) Exec() error {
 }
 
 type Unlink struct {
+	rc_recipe.RemarkIrreversible
 	DeleteOnUnlink bool
 	File           fd_file.RowFeed
 	Peer           dbx_conn.ConnBusinessFile
@@ -101,7 +108,7 @@ dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,xxx+xxxx@xxxxxxxxx.xxx,active,xx,xxxxx
 		m.File.SetFilePath(f)
 		m.DeleteOnUnlink = true
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 	return qt_errors.ErrorHumanInteractionRequired

@@ -1,11 +1,10 @@
 package qt_file
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"go.uber.org/zap"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"testing"
 	"time"
 )
 
@@ -23,6 +22,16 @@ func MakeDummyFile(name string) (path string, err error) {
 	return d.Name(), nil
 }
 
+func TestWithTestFile(t *testing.T, name, content string, f func(path string)) {
+	tf, err := MakeTestFile(name, content)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	f(tf)
+	_ = os.Remove(tf)
+}
+
 func MakeTestFile(name string, content string) (path string, err error) {
 	d, err := ioutil.TempFile("", name)
 	if err != nil {
@@ -30,11 +39,23 @@ func MakeTestFile(name string, content string) (path string, err error) {
 	}
 	_, err = d.Write([]byte(content))
 	if err != nil {
-		os.Remove(d.Name())
+		_ = os.Remove(d.Name())
 		return "", err
 	}
-	d.Close()
+	_ = d.Close()
 	return d.Name(), nil
+}
+
+func TestWithTestFolder(t *testing.T, name string, withContent bool, f func(path string)) {
+	path, err := MakeTestFolder(name, withContent)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	f(path)
+	if err = os.RemoveAll(path); err != nil {
+		t.Error(err)
+	}
 }
 
 func MakeTestFolder(name string, withContent bool) (path string, err error) {
@@ -50,13 +71,4 @@ func MakeTestFolder(name string, withContent bool) (path string, err error) {
 		}
 	}
 	return path, nil
-}
-
-func MustMakeTestFolder(ctl app_control.Control, name string, withContent bool) (path string) {
-	path, err := MakeTestFolder(name, withContent)
-	if err != nil {
-		ctl.Log().Error("Unable to create test folder", zap.Error(err))
-		ctl.Abort(app_control.Reason(app_control.FailureGeneral))
-	}
-	return path
 }

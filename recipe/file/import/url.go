@@ -14,10 +14,12 @@ import (
 )
 
 type Url struct {
-	Peer         dbx_conn.ConnUserFile
-	Path         mo_path.DropboxPath
-	Url          string
-	OperationLog rp_model.RowReport
+	rc_recipe.RemarkIrreversible
+	Peer           dbx_conn.ConnUserFile
+	Path           mo_path.DropboxPath
+	Url            string
+	OperationLog   rp_model.RowReport
+	ProgressImport app_msg.Message
 }
 
 func (z *Url) Preset() {
@@ -42,10 +44,7 @@ func (z *Url) Exec(c app_control.Control) error {
 	}
 
 	path := sv_file_url.PathWithName(z.Path, z.Url)
-	ui.InfoK("recipe.file.import.url.progress", app_msg.P{
-		"Path": path.Path(),
-		"Url":  z.Url,
-	})
+	ui.Progress(z.ProgressImport.With("Path", path.Path()).With("Url", z.Url))
 	entry, err := sv_file_url.New(ctx).Save(path, z.Url)
 	if err != nil {
 		return err

@@ -1,196 +1,95 @@
 package dbx_list
 
 import (
-	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_list"
-	"github.com/watermint/toolbox/infra/api/api_response"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 )
 
-func New(ctx dbx_context.Context, endpoint string, asMemberId, asAdminId string, base dbx_context.PathRoot) api_list.List {
-	return &listImpl{
-		ctx:             ctx,
-		requestEndpoint: endpoint,
-		asMemberId:      asMemberId,
-		asAdminId:       asAdminId,
-		base:            base,
-	}
+type List interface {
+	Call(opts ...ListOpt) dbx_response.Response
 }
 
-type listImpl struct {
-	ctx              dbx_context.Context
-	asMemberId       string
-	asAdminId        string
-	base             dbx_context.PathRoot
-	param            interface{}
-	token            api_auth.Context
-	useHasMore       bool
-	resultTag        string
-	requestEndpoint  string
-	continueEndpoint string
-	onEntry          func(res api_list.ListEntry) error
-	onResponse       func(res api_response.Response) error
-	onFailure        func(err error) error
+type ListOpts struct {
+	ContinueEndpoint string
+	UseHasMore       bool
+	ResultTag        string
+	onResponse       func(res es_response.Response) error
+	onEntry          func(entry es_json.Json) error
 	onLastCursor     func(cursor string)
 }
 
-func (z *listImpl) Param(param interface{}) api_list.List {
-	z.param = param
-	return z
+func (z ListOpts) HasOnEntry() bool {
+	return z.onEntry != nil
+}
+func (z ListOpts) HasOnResponse() bool {
+	return z.onResponse != nil
+}
+func (z ListOpts) HasLastCursor() bool {
+	return z.onLastCursor != nil
 }
 
-func (z *listImpl) Continue(endpoint string) api_list.List {
-	z.continueEndpoint = endpoint
-	return z
-}
-
-func (z *listImpl) UseHasMore(use bool) api_list.List {
-	z.useHasMore = use
-	return z
-}
-
-func (z *listImpl) ResultTag(tag string) api_list.List {
-	z.resultTag = tag
-	return z
-}
-
-func (z *listImpl) OnFailure(failure func(err error) error) api_list.List {
-	z.onFailure = failure
-	return z
-}
-
-func (z *listImpl) OnResponse(response func(res api_response.Response) error) api_list.List {
-	z.onResponse = response
-	return z
-}
-
-func (z *listImpl) OnEntry(entry func(entry api_list.ListEntry) error) api_list.List {
-	z.onEntry = entry
-	return z
-}
-
-func (z *listImpl) OnLastCursor(f func(cursor string)) api_list.List {
-	z.onLastCursor = f
-	return z
-}
-
-func (z *listImpl) handleResponse(endpoint string, res api_response.Response, err error) error {
-	log := z.ctx.Log().With(zap.String("endpoint", endpoint))
-
-	if err != nil {
-		if z.onFailure != nil {
-			return z.onFailure(err)
-		}
-		return err
-	}
-
-	if res == nil {
-		log.Warn("Response is null")
-		return errors.New("response is null")
-	}
-
+func (z ListOpts) OnResponse(res es_response.Response) error {
 	if z.onResponse != nil {
-		if err = z.onResponse(res); err != nil {
-			log.Debug("OnResponseBody returned abort", zap.Error(err))
-			return err
-		}
+		return z.onResponse(res)
 	}
-
+	return nil
+}
+func (z ListOpts) OnEntry(entry es_json.Json) error {
 	if z.onEntry != nil {
-		if err = z.handleEntry(res); err != nil {
-			return err
-		}
+		return z.onEntry(entry)
 	}
-
-	if cont, cursor := z.isContinue(res); cont {
-		if err = z.listContinue(cursor); err != nil {
-			return err
-		}
-	} else if z.onLastCursor != nil {
+	return nil
+}
+func (z ListOpts) OnLastCursor(cursor string) {
+	if z.onLastCursor != nil {
 		z.onLastCursor(cursor)
 	}
-	return nil
 }
 
-func (z *listImpl) handleEntry(res api_response.Response) error {
-	if z.onEntry == nil {
-		return nil
-	}
+type ListOpt func(o ListOpts) ListOpts
 
-	log := z.ctx.Log().With(zap.String("endpoint", z.requestEndpoint), zap.String("result_tag", z.resultTag))
-	j, err := res.Json()
-	if err != nil {
-		return err
+func Continue(endpoint string) ListOpt {
+	return func(o ListOpts) ListOpts {
+		o.ContinueEndpoint = endpoint
+		return o
 	}
-
-	results := j.Get(z.resultTag)
-	if !results.Exists() {
-		log.Debug("No result found")
-		return errors.New("no result found")
+}
+func UseHasMore() ListOpt {
+	return func(o ListOpts) ListOpts {
+		o.UseHasMore = true
+		return o
 	}
-
-	if !results.IsArray() {
-		log.Debug("result was not an array")
-		return errors.New("result was not an array")
+}
+func ResultTag(tag string) ListOpt {
+	return func(o ListOpts) ListOpts {
+		o.ResultTag = tag
+		return o
 	}
-
-	for _, e := range results.Array() {
-		le := &listEntryImpl{
-			entry: e,
-		}
-		if err = z.onEntry(le); err != nil {
-			log.Debug("handler returned abort")
-			return err
-		}
+}
+func OnResponse(f func(res es_response.Response) error) ListOpt {
+	return func(o ListOpts) ListOpts {
+		o.onResponse = f
+		return o
 	}
-	return nil
+}
+func OnEntry(f func(entry es_json.Json) error) ListOpt {
+	return func(o ListOpts) ListOpts {
+		o.onEntry = f
+		return o
+	}
+}
+func OnLastCursor(f func(cursor string)) ListOpt {
+	return func(o ListOpts) ListOpts {
+		o.onLastCursor = f
+		return o
+	}
 }
 
-func (z *listImpl) isContinue(res api_response.Response) (cont bool, cursor string) {
-	log := z.ctx.Log().With(zap.String("endpoint", z.continueEndpoint))
-	j, err := res.Json()
-	if err != nil {
-		return false, ""
+func Combined(opts []ListOpt) ListOpts {
+	lo := ListOpts{}
+	for _, o := range opts {
+		lo = o(lo)
 	}
-
-	if z.useHasMore {
-		cursor = j.Get("cursor").String()
-		if j.Get("has_more").Bool() {
-			if cursor != "" {
-				return true, cursor
-			}
-			log.Debug("has_more returned true, but no cursor found in the body")
-			return false, ""
-		} else {
-			return false, cursor
-		}
-	}
-
-	cursor = j.Get("cursor").String()
-	if cursor != "" {
-		return true, cursor
-	}
-	return false, cursor
-}
-
-func (z *listImpl) list() error {
-	res, err := z.ctx.Post(z.requestEndpoint).Param(z.param).Call()
-	return z.handleResponse(z.requestEndpoint, res, err)
-}
-
-func (z *listImpl) listContinue(cursor string) error {
-	p := struct {
-		Cursor string `json:"cursor"`
-	}{
-		Cursor: cursor,
-	}
-	res, err := z.ctx.Post(z.continueEndpoint).Param(p).Call()
-
-	return z.handleResponse(z.continueEndpoint, res, err)
-}
-
-func (z *listImpl) Call() (err error) {
-	return z.list()
+	return lo
 }

@@ -5,16 +5,17 @@ import (
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
 )
 
 type Up struct {
+	rc_recipe.RemarkIrreversible
 	Peer        dbx_conn.ConnUserFile
 	LocalPath   mo_path2.ExistingFileSystemPath
 	DropboxPath mo_path.DropboxPath
@@ -40,7 +41,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		ru.ChunkSizeKb = z.ChunkSizeKb.Value()
 	})
 	if z.FailOnError && err != nil {
-		l.Debug("Return error", zap.Error(err))
+		l.Debug("Return error", es_log.Error(err))
 		return err
 	}
 	return nil
@@ -52,7 +53,7 @@ func (z *Up) Test(c app_control.Control) error {
 		m.LocalPath = qt_recipe.NewTestExistingFileSystemFolderPath(c, "up")
 		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("up")
 	})
-	if err, _ = qt_recipe.RecipeError(c.Log(), err); err != nil {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err
 	}
 

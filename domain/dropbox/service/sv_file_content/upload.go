@@ -5,8 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/util/ut_io"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/essentials/io/es_rewinder"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/infra/api/api_request"
 	"os"
 	"path/filepath"
 	"sync"
@@ -42,12 +43,12 @@ func NewUpload(ctx dbx_context.Context, opts ...UploadOpt) Upload {
 		o(uo)
 	}
 	if uo.ChunkSize < 1 {
-		ctx.Log().Debug("Zero or negative chunk size. Fallback to max chunk size", zap.Int64("givenChunkSize", uo.ChunkSize))
+		ctx.Log().Debug("Zero or negative chunk size. Fallback to max chunk size", es_log.Int64("givenChunkSize", uo.ChunkSize))
 		uo.ChunkSize = MaxChunkSize
 	}
 	if uo.ChunkSize > MaxChunkSize {
 		warnExceededChunkSize.Do(func() {
-			ctx.Log().Warn("Chunk size exceed maximum size, chunk size will be adjusted to maximum size", zap.Int64("givenChunkSize", uo.ChunkSize))
+			ctx.Log().Warn("Chunk size exceed maximum size, chunk size will be adjusted to maximum size", es_log.Int64("givenChunkSize", uo.ChunkSize))
 		})
 		uo.ChunkSize = MaxChunkSize
 	}
@@ -131,34 +132,34 @@ func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.DropboxPath, 
 }
 
 func (z *uploadImpl) uploadSingle(info os.FileInfo, destPath mo_path.DropboxPath, filePath string, mode string, revision string) (entry mo_file.Entry, err error) {
-	l := z.ctx.Log().With(zap.String("filePath", filePath), zap.Int64("size", info.Size()))
+	l := z.ctx.Log().With(es_log.String("filePath", filePath), es_log.Int64("size", info.Size()))
 	l.Debug("Uploading file")
 
 	r, err := os.Open(filePath)
 	if err != nil {
 		return nil, err
 	}
-	rr, err := ut_io.NewReadRewinder(r, 0)
+	rr, err := es_rewinder.NewReadRewinder(r, 0)
 	if err != nil {
-		l.Debug("Unable to create read rewinder", zap.Error(err))
+		l.Debug("Unable to create read rewinder", es_log.Error(err))
 		return nil, err
 	}
 	defer r.Close()
 
-	res, err := z.ctx.Upload("files/upload", rr).
-		Param(z.makeParams(info, destPath, mode, revision)).Call()
-	if err != nil {
+	res := z.ctx.Upload("files/upload",
+		api_request.Content(rr),
+		api_request.Param(z.makeParams(info, destPath, mode, revision)))
+	if err, f := res.Failure(); f {
 		return nil, err
 	}
+
 	entry = &mo_file.Metadata{}
-	if err := res.Model(entry); err != nil {
-		return nil, err
-	}
-	return entry, nil
+	err = res.Success().Json().Model(entry)
+	return
 }
 
 func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.DropboxPath, filePath string, mode string, revision string) (entry mo_file.Entry, err error) {
-	l := z.ctx.Log().With(zap.String("filePath", filePath), zap.Int64("size", info.Size()))
+	l := z.ctx.Log().With(es_log.String("filePath", filePath), es_log.Int64("size", info.Size()))
 
 	total := info.Size()
 	var written int64
@@ -169,7 +170,7 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.DropboxPat
 	defer f.Close()
 
 	type SessionId struct {
-		SessionId string `json:"session_id"`
+		SessionId string `path:"session_id" json:"session_id"`
 	}
 	type CursorInfo struct {
 		SessionId string `json:"session_id"`
@@ -184,39 +185,40 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.DropboxPat
 	}
 
 	l.Debug("Upload session start")
-	r, err := ut_io.NewReadRewinderWithLimit(f, 0, z.uo.ChunkSize)
+	r, err := es_rewinder.NewReadRewinderWithLimit(f, 0, z.uo.ChunkSize)
 	if err != nil {
-		l.Debug("Unable to create read rewinder", zap.Error(err))
+		l.Debug("Unable to create read rewinder", es_log.Error(err))
 		return nil, err
 	}
-	res, err := z.ctx.Upload("files/upload_session/start", r).Call()
-	if err != nil {
+	res := z.ctx.Upload("files/upload_session/start",
+		api_request.Content(r))
+	if err, f := res.Failure(); f {
 		return nil, err
 	}
 	sid := &SessionId{}
-	if j, err := res.Json(); err != nil {
+	if err := res.Success().Json().Model(sid); err != nil {
 		return nil, err
-	} else {
-		sid.SessionId = j.Get("session_id").String()
 	}
 	written += z.uo.ChunkSize
-	l = l.With(zap.String("sessionId", sid.SessionId))
+	l = l.With(es_log.String("sessionId", sid.SessionId))
 
 	for (total - written) > z.uo.ChunkSize {
-		l.Debug("Append chunk", zap.Int64("written", written))
+		l.Debug("Append chunk", es_log.Int64("written", written))
 		ai := &AppendInfo{
 			Cursor: &CursorInfo{
 				SessionId: sid.SessionId,
 				Offset:    written,
 			},
 		}
-		r, err := ut_io.NewReadRewinderWithLimit(f, written, z.uo.ChunkSize)
+		r, err := es_rewinder.NewReadRewinderWithLimit(f, written, z.uo.ChunkSize)
 		if err != nil {
-			l.Debug("Unable to create read rewinder", zap.Error(err))
+			l.Debug("Unable to create read rewinder", es_log.Error(err))
 			return nil, err
 		}
-		_, err = z.ctx.Upload("files/upload_session/append_v2", r).Param(ai).Call()
-		if err != nil {
+		res = z.ctx.Upload("files/upload_session/append_v2",
+			api_request.Content(r),
+			api_request.Param(ai))
+		if err, fail := res.Failure(); fail {
 			return nil, err
 		}
 		written += z.uo.ChunkSize
@@ -230,18 +232,18 @@ func (z *uploadImpl) uploadChunked(info os.FileInfo, destPath mo_path.DropboxPat
 		},
 		Commit: z.makeParams(info, destPath, mode, revision),
 	}
-	r, err = ut_io.NewReadRewinderWithLimit(f, written, z.uo.ChunkSize)
+	r, err = es_rewinder.NewReadRewinderWithLimit(f, written, z.uo.ChunkSize)
 	if err != nil {
-		l.Debug("Unable to create read rewinder", zap.Error(err))
+		l.Debug("Unable to create read rewinder", es_log.Error(err))
 		return nil, err
 	}
-	res, err = z.ctx.Upload("files/upload_session/finish", r).Param(ci).Call()
-	if err != nil {
+	res = z.ctx.Upload("files/upload_session/finish",
+		api_request.Content(r),
+		api_request.Param(ci))
+	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
 	entry = &mo_file.Metadata{}
-	if err := res.Model(entry); err != nil {
-		return nil, err
-	}
+	err = res.Success().Json().Model(entry)
 	return entry, nil
 }

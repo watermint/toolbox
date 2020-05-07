@@ -2,36 +2,42 @@ package qt_recipe
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
-	"github.com/tidwall/gjson"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/go/es_project"
+	"github.com/watermint/toolbox/essentials/go/es_resource"
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/stats/es_memory"
+	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_golog"
+	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_control_impl"
-	"github.com/watermint/toolbox/infra/control/app_feature"
-	"github.com/watermint/toolbox/infra/control/app_root"
+	"github.com/watermint/toolbox/infra/control/app_exit"
+	"github.com/watermint/toolbox/infra/control/app_job_impl"
+	"github.com/watermint/toolbox/infra/control/app_opt"
+	"github.com/watermint/toolbox/infra/control/app_resource"
+	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
-	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
+	"github.com/watermint/toolbox/infra/network/nw_replay"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/infra/util/ut_memory"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_missingmsg_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_secure"
-	"go.uber.org/zap"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
-	"runtime"
 	"testing"
 )
 
@@ -43,109 +49,143 @@ func NewTestDropboxFolderPath(rel ...string) mo_path.DropboxPath {
 	return mo_path.NewDropboxPath("/" + TestTeamFolderName).ChildPath(rel...)
 }
 
+func MustMakeTestFolder(ctl app_control.Control, name string, withContent bool) (path string) {
+	path, err := qt_file.MakeTestFolder(name, withContent)
+	if err != nil {
+		ctl.Log().Error("Unable to create test folder", es_log.Error(err))
+		app_exit.Abort(app_exit.FailureGeneral)
+	}
+	return path
+}
+
 func NewTestFileSystemFolderPath(c app_control.Control, name string) mo_path2.FileSystemPath {
-	return mo_path2.NewFileSystemPath(qt_file.MustMakeTestFolder(c, name, true))
+	return mo_path2.NewFileSystemPath(MustMakeTestFolder(c, name, true))
 }
 
 func NewTestExistingFileSystemFolderPath(c app_control.Control, name string) mo_path2.ExistingFileSystemPath {
-	return mo_path2.NewExistingFileSystemPath(qt_file.MustMakeTestFolder(c, name, true))
+	return mo_path2.NewExistingFileSystemPath(MustMakeTestFolder(c, name, true))
 }
 
-func Resources(t *testing.T) (bx, web *rice.Box, mc app_msg_container.Container, ui app_ui.UI) {
-	bx = rice.MustFindBox("../../../resources")
-	web = rice.MustFindBox("../../../web")
-
-	mc = app_msg_container_impl.NewContainer(bx)
-	if qt_secure.IsSecureEndToEndTest() || app.IsProduction() {
-		ui = app_ui.NewNullConsole(mc, qt_missingmsg_impl.NewMessageTest(t))
+func resBundle() es_resource.Bundle {
+	_, err := rice.FindBox("../../../resources/messages")
+	if err == nil {
+		return es_resource.New(
+			rice.MustFindBox("../../../resources/templates"),
+			rice.MustFindBox("../../../resources/messages"),
+			rice.MustFindBox("../../../resources/web"),
+			rice.MustFindBox("../../../resources/keys"),
+			rice.MustFindBox("../../../resources/images"),
+			rice.MustFindBox("../../../resources/data"),
+		)
 	} else {
-		ui = app_ui.NewConsole(mc, qt_missingmsg_impl.NewMessageTest(t), true)
+		// In case the test run from the project root
+		return es_resource.New(
+			rice.MustFindBox("resources/templates"),
+			rice.MustFindBox("resources/messages"),
+			rice.MustFindBox("resources/web"),
+			rice.MustFindBox("resources/keys"),
+			rice.MustFindBox("resources/images"),
+			rice.MustFindBox("resources/data"),
+		)
 	}
-	return
 }
 
-func findTestResource() (resource gjson.Result, found bool) {
-	l := app_root.Log()
-	p, found := os.LookupEnv("TOOLBOX_TESTRESOURCE")
-	if !found {
-		return gjson.Parse("{}"), false
-	}
-	l = l.With(zap.String("path", p))
-	b, err := ioutil.ReadFile(p)
+func findTestFolder() string {
+	l := es_log.Default()
+
+	root, err := es_project.DetectRepositoryRoot()
 	if err != nil {
-		l.Debug("unable to read file", zap.Error(err))
-		return gjson.Parse("{}"), false
+		l.Error("Test path not found")
+		panic(err)
 	}
-	if !gjson.ValidBytes(b) {
-		l.Debug("invalid file content", zap.ByteString("resource", b))
-		return gjson.Parse("{}"), false
-	}
-	return gjson.ParseBytes(b), true
+	return filepath.Join(root, "test")
 }
 
-func TestWithApiContext(t *testing.T, twc func(ctx dbx_context.Context)) {
+func loadReplay(name string) (rr []nw_replay.Response, err error) {
+	l := es_log.Default().With(es_log.String("name", name))
+	tp := findTestFolder()
+	rp := filepath.Join(tp, "replay", name)
+
+	l.Debug("Loading replay", es_log.String("path", rp))
+	b, err := ioutil.ReadFile(rp)
+	if err != nil {
+		l.Debug("Unable to load", es_log.Error(err))
+		return nil, err
+	}
+
+	if err := json.Unmarshal(b, &rr); err != nil {
+		l.Debug("Unable to unmarshal", es_log.Error(err))
+		return nil, err
+	}
+
+	l.Debug("Replay loaded", es_log.Int("numRecords", len(rr)))
+	return rr, nil
+}
+
+func Resources() (ui app_ui.UI) {
+	bundle := resBundle()
+	lg := es_log.Default()
+	log.SetOutput(lgw_golog.NewLogWrapper(lg))
+	app_resource.SetBundle(bundle)
+
+	mc := app_msg_container_impl.NewContainer()
+	if qt_secure.IsSecureEndToEndTest() || app.IsProduction() {
+		return app_ui.NewDiscard(mc, lg)
+	} else {
+		return app_ui.NewConsole(mc, lg, es_stdout.NewDefaultOut(true), es_dialogue.DenyAll())
+	}
+}
+
+func TestWithDbxContext(t *testing.T, twc func(ctx dbx_context.Context)) {
 	TestWithControl(t, func(ctl app_control.Control) {
 		ctx := dbx_context_impl.NewMock(ctl)
 		twc(ctx)
 	})
 }
 
-func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
-	nw_ratelimit.SetTestMode(true)
-	bx, web, mc, ui := Resources(t)
-
-	cat := rc_catalogue.NewCatalogue([]rc_recipe.Recipe{}, []rc_recipe.Recipe{}, []interface{}{}, []app_feature.OptIn{})
-	ctl := app_control_impl.NewSingle(ui, bx, web, mc, cat)
-	cs := ctl.(*app_control_impl.Single)
-	if res, found := findTestResource(); found {
-		var err error
-		ctl, err = cs.NewTestControl(res)
+func TestWithReplayDbxContext(t *testing.T, name string, twc func(ctx dbx_context.Context)) {
+	TestWithControl(t, func(ctl app_control.Control) {
+		rm, err := loadReplay(name)
 		if err != nil {
-			t.Error("Unable to create new test control", err)
+			t.Error(err)
 			return
 		}
-	}
-	err := ctl.Up(app_control.Test(), app_control.Concurrency(runtime.NumCPU()))
-	if err != nil {
-		os.Exit(app_control.FatalStartup)
-	}
-	defer ctl.Down()
-
-	twc(ctl)
+		ctx := dbx_context_impl.NewReplayMock(ctl, rm)
+		twc(ctx)
+	})
 }
 
-// Returns nil even err != nil if the error type is ignorable.
-func RecipeError(l *zap.Logger, err error) (resolvedErr error, cont bool) {
-	if err == nil {
-		return nil, true
+func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
+	nw_ratelimit.SetTestMode(true)
+	ui := Resources()
+	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited, es_log.ConsoleDefaultLevel())
+	if err != nil {
+		t.Error(err)
+		return
 	}
-	switch err {
-	case qt_errors.ErrorNoTestRequired:
-		l.Debug("Skip: No test required for this recipe")
-		return nil, false
+	com := app_opt.Default()
+	nop := rc_spec.New(&rc_recipe.Nop{})
+	jl := app_job_impl.NewLauncher(ui, wb, com, nop)
+	ctl, err := jl.Up()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 
-	case qt_errors.ErrorHumanInteractionRequired:
-		l.Debug("Skip: Human interaction required for this test")
-		return nil, false
+	twc(ctl.WithFeature(ctl.Feature().AsTest(false)))
 
-	case qt_errors.ErrorNotEnoughResource:
-		l.Debug("Skip: Not enough resource")
-		return nil, false
+	jl.Down(nil, ctl)
+}
 
-	case qt_errors.ErrorScenarioTest:
-		l.Debug("Skip: Implemented as scenario test")
-		return nil, false
-
-	case qt_errors.ErrorImplementMe:
-		l.Debug("Test is not implemented for this recipe")
-		return nil, false
-
-	case qt_errors.ErrorMock:
-		l.Debug("Mock test")
-		return nil, false
-
-	default:
-		return err, false
+func ForkWithName(t *testing.T, name string, c app_control.Control, f func(c app_control.Control) error) {
+	err := app_workspace.WithFork(c.WorkBundle(), name, func(fwb app_workspace.Bundle) error {
+		cf := c.WithBundle(fwb)
+		l := cf.Log()
+		l.Info("Execute", es_log.String("name", name))
+		return f(cf)
+	})
+	if re, c := qt_errors.ErrorsForTest(c.Log(), err); !c {
+		t.Error(re)
 	}
 }
 
@@ -169,24 +209,23 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 				profile.MemProfile,
 			)
 		}
+		var err error
 		if useMock {
-			if c, ok := ctl.(app_control.ControlTestExtension); ok {
-				c.SetTestValue(qt_endtoend.CtlTestExtUseMock, true)
-			}
+			err = re.Test(ctl.WithFeature(ctl.Feature().AsTest(true)))
+		} else {
+			err = re.Test(ctl.WithFeature(ctl.Feature().AsTest(false)))
 		}
-
-		err := re.Test(ctl)
 
 		if pr != nil {
 			pr.Stop()
 		}
-		ut_memory.DumpStats(l)
+		es_memory.DumpMemStats(l)
 
 		if err == nil {
 			return
 		}
 
-		if re, _ := RecipeError(l, err); re != nil {
+		if re, _ := qt_errors.ErrorsForTest(l, err); re != nil {
 			t.Error(re)
 		}
 	})
@@ -195,14 +234,14 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 type RowTester func(cols map[string]string) error
 
 func TestRows(ctl app_control.Control, reportName string, tester RowTester) error {
-	l := ctl.Log().With(zap.String("reportName", reportName))
+	l := ctl.Log().With(es_log.String("reportName", reportName))
 	csvFile := filepath.Join(ctl.Workspace().Report(), reportName+".csv")
 
-	l.Debug("Start loading report", zap.String("csvFile", csvFile))
+	l.Debug("Start loading report", es_log.String("csvFile", csvFile))
 
 	cf, err := os.Open(csvFile)
 	if err != nil {
-		l.Warn("Unable to open report CSV", zap.Error(err))
+		l.Warn("Unable to open report CSV", es_log.Error(err))
 		return err
 	}
 	defer cf.Close()
@@ -216,7 +255,7 @@ func TestRows(ctl app_control.Control, reportName string, tester RowTester) erro
 			break
 		}
 		if err != nil {
-			l.Warn("An error occurred during read report file", zap.Error(err))
+			l.Warn("An error occurred during read report file", es_log.Error(err))
 			return err
 		}
 		if isFirstLine {
@@ -228,7 +267,7 @@ func TestRows(ctl app_control.Control, reportName string, tester RowTester) erro
 				colMap[h] = cols[i]
 			}
 			if err := tester(colMap); err != nil {
-				l.Warn("Tester returned an error", zap.Error(err), zap.Any("cols", colMap))
+				l.Warn("Tester returned an error", es_log.Error(err), es_log.Any("cols", colMap))
 				return err
 			}
 		}

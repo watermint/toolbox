@@ -9,7 +9,7 @@ import (
 )
 
 func TestGroupMemberImpl_Add(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx, &mo_group.Group{})
 		_, err := sv.Add(ByEmail("test@example.com"))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -19,7 +19,7 @@ func TestGroupMemberImpl_Add(t *testing.T) {
 }
 
 func TestGroupMemberImpl_List(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx, &mo_group.Group{})
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -29,7 +29,7 @@ func TestGroupMemberImpl_List(t *testing.T) {
 }
 
 func TestGroupMemberImpl_Remove(t *testing.T) {
-	qt_recipe.TestWithApiContext(t, func(ctx dbx_context.Context) {
+	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx, &mo_group.Group{})
 		_, err := sv.Remove(ByTeamMemberId("test"))
 		if err != nil && err != qt_errors.ErrorMock {

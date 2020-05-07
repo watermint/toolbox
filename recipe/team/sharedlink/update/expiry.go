@@ -12,16 +12,26 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
+	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/time/ut_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/util/ut_time"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
-	"go.uber.org/zap"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"math"
 	"time"
+)
+
+type MsgExpiry struct {
+	ProgressScanning      app_msg.Message
+	ProgressUpdating      app_msg.Message
+	ErrorUnableScanMember app_msg.Message
+}
+
+var (
+	MExpiry = app_msg.Apply(&MsgExpiry{}).(*MsgExpiry)
 )
 
 type ExpiryScanWorker struct {
@@ -36,25 +46,28 @@ type ExpiryScanWorker struct {
 
 func (z *ExpiryScanWorker) Exec() error {
 	ui := z.ctl.UI()
-	l := z.ctl.Log().With(zap.Any("member", z.member))
+	l := z.ctl.Log().With(es_log.Any("member", z.member))
 
 	l.Debug("Scanning member shared links")
-	ui.InfoK("recipe.team.sharedlink.update.expiry.scan", app_msg.P{"MemberEmail": z.member.Email})
+	ui.Progress(MExpiry.ProgressScanning.With("MemberEmail", z.member.Email))
 
 	ctxMember := z.ctx.AsMemberId(z.member.TeamMemberId)
 	links, err := sv_sharedlink.New(ctxMember).List()
 	if err != nil {
-		l.Debug("Unable to scan shared link", zap.Error(err))
-		ui.Error(dbx_util.MsgFromError(err))
+		l.Debug("Unable to scan shared link", es_log.Error(err))
+		ui.Error(MExpiry.ErrorUnableScanMember.
+			With("Member", z.member.Email).
+			With("Error", err))
+
 		return err
 	}
 
 	q := z.ctl.NewQueue()
 
 	for _, link := range links {
-		ll := l.With(zap.Any("link", link))
+		ll := l.With(es_log.Any("link", link))
 		if link.LinkVisibility() != z.visibility {
-			ll.Debug("Skip link", zap.String("targetVisibility", z.visibility))
+			ll.Debug("Skip link", es_log.String("targetVisibility", z.visibility))
 			z.repSkipped.Row(mo_sharedlink.NewSharedLinkMember(link, z.member))
 			continue
 		}
@@ -110,14 +123,12 @@ type ExpiryWorker struct {
 
 func (z *ExpiryWorker) Exec() error {
 	ui := z.ctl.UI()
-	l := z.ctl.Log().With(zap.Any("link", z.link.Metadata()))
+	l := z.ctl.Log().With(es_log.Any("link", z.link.Metadata()))
 
-	ui.InfoK("recipe.team.sharedlink.update.expiry.updating", app_msg.P{
-		"MemberEmail":   z.member.Email,
-		"Url":           z.link.LinkUrl(),
-		"CurrentExpiry": z.link.LinkExpires(),
-		"NewExpiry":     dbx_util.RebaseAsString(z.newExpiry),
-	})
+	ui.Progress(MExpiry.ProgressUpdating.With("MemberEmail", z.member.Email).
+		With("Url", z.link.LinkUrl()).
+		With("CurrentExpiry", z.link.LinkExpires()).
+		With("NewExpiry", dbx_util.RebaseAsString(z.newExpiry)))
 
 	updated, err := sv_sharedlink.New(z.ctx).Update(z.link, sv_sharedlink.Expires(z.newExpiry))
 	if err != nil {
@@ -126,7 +137,7 @@ func (z *ExpiryWorker) Exec() error {
 		return err
 	}
 
-	l.Debug("Updated", zap.Any("updated", updated))
+	l.Debug("Updated", es_log.Any("updated", updated))
 	z.rep.Success(
 		mo_sharedlink.NewSharedLinkMember(z.link, z.member),
 		updated,
@@ -136,12 +147,15 @@ func (z *ExpiryWorker) Exec() error {
 }
 
 type Expiry struct {
-	Peer       dbx_conn.ConnBusinessFile
-	Days       mo_int.RangeInt
-	At         mo_time.TimeOptional
-	Visibility mo_string.SelectString
-	Updated    rp_model.TransactionReport
-	Skipped    rp_model.RowReport
+	rc_recipe.RemarkIrreversible
+	Peer                       dbx_conn.ConnBusinessFile
+	Days                       mo_int.RangeInt
+	At                         mo_time.TimeOptional
+	Visibility                 mo_string.SelectString
+	Updated                    rp_model.TransactionReport
+	Skipped                    rp_model.RowReport
+	ErrorPleaseSpecifyDaysOrAt app_msg.Message
+	ErrorInvalidDateTime       app_msg.Message
 }
 
 func (z *Expiry) Preset() {
@@ -170,26 +184,26 @@ func (z *Expiry) Exec(c app_control.Control) error {
 	l := c.Log()
 	var newExpiry time.Time
 	if z.Days.Value() > 0 && z.At.Ok() {
-		l.Debug("Both Days/At specified", zap.Int("evo.Days", z.Days.Value()), zap.String("evo.At", z.At.Value()))
-		ui.ErrorK("recipe.team.sharedlink.update.expiry.err.please_specify_days_or_at")
+		l.Debug("Both Days/At specified", es_log.Int("evo.Days", z.Days.Value()), es_log.String("evo.At", z.At.Value()))
+		ui.Error(z.ErrorPleaseSpecifyDaysOrAt)
 		return errors.New("please specify one of `-days` or `-at`")
 	}
 
 	switch {
 	case z.Days.Value() > 0:
 		newExpiry = dbx_util.RebaseTime(time.Now().Add(time.Duration(z.Days.Value()*24) * time.Hour))
-		l.Debug("New expiry", zap.Int("evo.Days", z.Days.Value()), zap.String("newExpiry", newExpiry.String()))
+		l.Debug("New expiry", es_log.Int("evo.Days", z.Days.Value()), es_log.String("newExpiry", newExpiry.String()))
 
 	default:
 		if !z.At.Ok() {
-			l.Debug("Invalid date/time format for at option", zap.String("evo.At", z.At.Value()))
-			ui.ErrorK("recipe.team.sharedlink.update.expiry.err.invalid_date_time_format_for_at_option")
+			l.Debug("Invalid date/time format for at option", es_log.String("evo.At", z.At.Value()))
+			ui.Error(z.ErrorInvalidDateTime.With("Time", z.At.Value()))
 			return errors.New("invalid date/time format for `at`")
 		}
 		newExpiry = z.At.Time()
 	}
 
-	l = l.With(zap.String("newExpiry", newExpiry.String()))
+	l = l.With(es_log.String("newExpiry", newExpiry.String()))
 
 	if err := z.Updated.Open(); err != nil {
 		return err
@@ -227,7 +241,7 @@ func (z *Expiry) Test(c app_control.Control) error {
 		err := rc_exec.Exec(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			rc := r.(*Expiry)
 			rc.Days.SetValue(1)
-			rc.At = mo_time.NewOptional(time.Now().Add(1 * time.Second))
+			rc.At = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))
 		})
 		if err == nil {
 			return errors.New("days and at should not be accepted same time")
@@ -239,7 +253,7 @@ func (z *Expiry) Test(c app_control.Control) error {
 			m := r.(*Expiry)
 			m.Days.SetValue(7)
 		})
-		if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 			return e
 		}
 	}
@@ -247,9 +261,9 @@ func (z *Expiry) Test(c app_control.Control) error {
 	{
 		err := rc_exec.ExecMock(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			m := r.(*Expiry)
-			m.At = mo_time.NewOptional(time.Now().Add(1 * time.Second))
+			m.At = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))
 		})
-		if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+		if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 			return e
 		}
 	}

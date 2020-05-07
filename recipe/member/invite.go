@@ -13,7 +13,16 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+)
+
+type MsgInvite struct {
+	TagUserAlreadyOnTeam app_msg.Message
+	TagUserOnAnotherTeam app_msg.Message
+	TagUndefined         app_msg.Message
+}
+
+var (
+	MInvite = app_msg.Apply(&MsgInvite{}).(*MsgInvite)
 )
 
 type InviteRow struct {
@@ -30,6 +39,7 @@ func (z *InviteRow) Validate() error {
 }
 
 type Invite struct {
+	rc_recipe.RemarkIrreversible
 	File         fd_file.RowFeed
 	Peer         dbx_conn.ConnBusinessMgmt
 	OperationLog rp_model.TransactionReport
@@ -63,14 +73,20 @@ func (z *Invite) Test(c app_control.Control) error {
 		m.SilentInvite = true
 		m.File.SetFilePath(f)
 	})
-	if e, _ := qt_recipe.RecipeError(c.Log(), err); e != nil {
+	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return e
 	}
 	return qt_errors.ErrorHumanInteractionRequired
 }
 
 func (z *Invite) msgFromTag(tag string) app_msg.Message {
-	return app_msg.M("recipe.member.invite.tag." + tag)
+	switch tag {
+	case "user_already_on_team":
+		return MInvite.TagUserAlreadyOnTeam
+	case "user_on_another_team":
+		return MInvite.TagUserOnAnotherTeam
+	}
+	return MInvite.TagUndefined.With("Tag", tag)
 }
 
 func (z *Invite) Exec(c app_control.Control) error {
