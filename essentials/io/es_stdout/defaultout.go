@@ -2,59 +2,104 @@ package es_stdout
 
 import (
 	"github.com/mattn/go-colorable"
+	"github.com/watermint/toolbox/essentials/runtime/es_env"
 	"github.com/watermint/toolbox/essentials/terminal/es_terminfo"
 	"github.com/watermint/toolbox/quality/infra/qt_secure"
 	"io"
 	"io/ioutil"
 	"os"
+	"sync"
 )
 
 func NewDefaultOut(test bool) io.WriteCloser {
 	if test {
 		if qt_secure.IsSecureEndToEndTest() {
-			return &Discard{}
+			return &syncOut{co: ioutil.Discard}
 		} else {
-			return &Stdout{}
+			return &syncOut{co: os.Stdout}
 		}
 	} else {
 		if es_terminfo.IsOutColorTerminal() {
-			return &Colorable{co: colorable.NewColorableStdout()}
+			return newWriteCloser(colorable.NewColorableStdout())
 		} else {
-			return &Stdout{}
+			return newWriteCloser(os.Stdout)
 		}
 	}
 }
 
-type Colorable struct {
+func newWriteCloser(co io.Writer) io.WriteCloser {
+	if es_env.IsEnabled("TOOLBOX_ASYNC_CONSOLE") {
+		return newAsync(co)
+	} else {
+		return newSync(co)
+	}
+}
+
+type AsyncMsg struct {
+	Wr      io.Writer
+	Payload []byte
+}
+
+var (
+	asyncQueue         = make(chan *AsyncMsg, 100)
+	discardQueue       = make(chan *AsyncMsg)
+	asyncQueueLauncher sync.Once
+)
+
+func newSync(co io.Writer) io.WriteCloser {
+	return &syncOut{
+		co: co,
+	}
+}
+
+type syncOut struct {
 	co io.Writer
 }
 
-func (z Colorable) Write(p []byte) (n int, err error) {
+func (z syncOut) Write(p []byte) (n int, err error) {
 	return z.co.Write(p)
 }
 
-func (z Colorable) Close() error {
+func (z syncOut) Close() error {
 	return nil
 }
 
-type Stdout struct {
+func asyncLoop() {
+	for m := range asyncQueue {
+		m.Wr.Write(m.Payload)
+	}
+}
+func discardLoop() {
+	for range discardQueue {
+	}
 }
 
-func (z *Stdout) Write(p []byte) (n int, err error) {
-	return os.Stdout.Write(p)
+func newAsync(co io.Writer) io.WriteCloser {
+	asyncQueueLauncher.Do(func() {
+		go asyncLoop()
+		go discardLoop()
+	})
+	return &asyncOut{
+		co: co,
+	}
 }
 
-func (z *Stdout) Close() error {
-	return nil
+type asyncOut struct {
+	co io.Writer
 }
 
-type Discard struct {
+func (z *asyncOut) Write(p []byte) (n int, err error) {
+	m := &AsyncMsg{
+		Wr:      z.co,
+		Payload: p,
+	}
+	select {
+	case asyncQueue <- m:
+	case discardQueue <- m:
+	}
+	return len(p), nil
 }
 
-func (z *Discard) Write(p []byte) (n int, err error) {
-	return ioutil.Discard.Write(p)
-}
-
-func (z *Discard) Close() error {
+func (z *asyncOut) Close() error {
 	return nil
 }
