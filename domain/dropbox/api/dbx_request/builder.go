@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/app"
@@ -59,16 +59,16 @@ func (z Builder) With(method, url string, data api_request.RequestData) Builder 
 	return z
 }
 
-func (z Builder) Log() es_log.Logger {
+func (z Builder) Log() esl.Logger {
 	l := z.ctl.Log()
 	if z.asMemberId != "" {
-		l = l.With(es_log.String("asMemberId", z.asMemberId))
+		l = l.With(esl.String("asMemberId", z.asMemberId))
 	}
 	if z.asAdminId != "" {
-		l = l.With(es_log.String("asAdminId", z.asAdminId))
+		l = l.With(esl.String("asAdminId", z.asAdminId))
 	}
 	if z.basePath != nil {
-		l = l.With(es_log.Any("basePath", z.basePath))
+		l = l.With(esl.Any("basePath", z.basePath))
 	}
 	return l
 }
@@ -97,7 +97,7 @@ func (z Builder) ContentHash() string {
 }
 
 func (z Builder) Build() (*http.Request, error) {
-	l := z.Log().With(es_log.String("method", z.method), es_log.String("url", z.url))
+	l := z.Log().With(esl.String("method", z.method), esl.String("url", z.url))
 	rc := z.reqContent()
 	req, err := nw_client.NewHttpRequest(z.method, z.url, rc)
 	if err != nil {
@@ -130,7 +130,7 @@ func (z Builder) reqHeaders() map[string]string {
 	if z.basePath != nil {
 		p, err := dbx_util.HeaderSafeJson(z.basePath)
 		if err != nil {
-			l.Debug("Unable to marshal base path", es_log.Error(err))
+			l.Debug("Unable to marshal base path", esl.Error(err))
 		} else {
 			headers[api_request.ReqHeaderDropboxApiPathRoot] = p
 		}
@@ -138,7 +138,7 @@ func (z Builder) reqHeaders() map[string]string {
 	if z.data.Content() != nil {
 		p, err := dbx_util.HeaderSafeJson(z.data.Param())
 		if err != nil {
-			l.Debug("Unable to marshal params", es_log.Error(err))
+			l.Debug("Unable to marshal params", esl.Error(err))
 		} else {
 			headers[api_request.ReqHeaderDropboxApiArg] = p
 		}

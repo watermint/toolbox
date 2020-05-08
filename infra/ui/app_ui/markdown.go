@@ -3,7 +3,7 @@ package app_ui
 import (
 	"bytes"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -13,7 +13,7 @@ import (
 
 func MakeMarkdown(mc app_msg_container.Container, f func(ui UI)) string {
 	var buf bytes.Buffer
-	lg := es_log.Default()
+	lg := esl.Default()
 	ui := NewProxy(
 		&mdImpl{
 			mc: mc,
@@ -27,7 +27,7 @@ func MakeMarkdown(mc app_msg_container.Container, f func(ui UI)) string {
 	return buf.String()
 }
 
-func NewMarkdown(mc app_msg_container.Container, lg es_log.Logger, wr io.Writer, dg es_dialogue.Dialogue) UI {
+func NewMarkdown(mc app_msg_container.Container, lg esl.Logger, wr io.Writer, dg es_dialogue.Dialogue) UI {
 	return NewProxy(
 		&mdImpl{
 			mc: mc,

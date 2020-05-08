@@ -1,7 +1,7 @@
 package nw_retry
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"strconv"
 	"strings"
 	"time"
@@ -30,24 +30,24 @@ const (
 
 func newErrorRateLimitFromHeadersRetryAfter(retryAfter string) *ErrorRateLimit {
 	rat := strings.TrimSpace(retryAfter)
-	l := es_log.Default().With(es_log.String("retryAfter", retryAfter))
+	l := esl.Default().With(esl.String("retryAfter", retryAfter))
 
 	if ra, err := strconv.ParseInt(rat, 10, 64); err == nil {
 		if ra > RetryAfterSecOrFixDate {
 			reset := time.Unix(ra, 0)
-			l.Debug("Retry after fix date", es_log.String("reset", reset.Format(time.RFC3339)))
+			l.Debug("Retry after fix date", esl.String("reset", reset.Format(time.RFC3339)))
 			return NewErrorRateLimitResetOnly(reset)
 		} else {
-			l.Debug("Retry after second", es_log.Int64("resetSec", ra))
+			l.Debug("Retry after second", esl.Int64("resetSec", ra))
 			return NewErrorRateLimitResetOnly(time.Now().Add(time.Duration(ra) * time.Second))
 
 		}
 	}
 	if reset, err := time.Parse(time.RFC1123, rat); err == nil {
-		l.Debug("Retry after fix date", es_log.String("reset", reset.Format(time.RFC3339)))
+		l.Debug("Retry after fix date", esl.String("reset", reset.Format(time.RFC3339)))
 		return NewErrorRateLimitResetOnly(reset)
 	}
-	l.Debug("Unable to determine value for `Retry-after`. Fallback to default retry-after-sec", es_log.Int("defaultRetryAfter", DefaultRetryAfterSec))
+	l.Debug("Unable to determine value for `Retry-after`. Fallback to default retry-after-sec", esl.Int("defaultRetryAfter", DefaultRetryAfterSec))
 	return NewErrorRateLimitResetOnly(time.Now().Add(DefaultRetryAfterSec * time.Second))
 }
 

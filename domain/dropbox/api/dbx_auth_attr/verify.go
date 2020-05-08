@@ -3,7 +3,7 @@ package dbx_auth_attr
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
@@ -16,7 +16,7 @@ var (
 
 // Returns description of the account
 func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.Context, err error) {
-	l := ctl.Log().With(es_log.String("peerName", ctx.PeerName()), es_log.String("scope", ctx.Scope()))
+	l := ctl.Log().With(esl.String("peerName", ctx.PeerName()), esl.String("scope", ctx.Scope()))
 	ui := ctl.UI()
 
 	switch ctx.Scope() {
@@ -24,7 +24,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 		apiCtx := dbx_context_impl.New(ctl, ctx)
 		res := apiCtx.Post("users/get_current_account")
 		if err, fail := res.Failure(); fail {
-			l.Debug("Unable to verify token", es_log.Error(err))
+			l.Debug("Unable to verify token", esl.Error(err))
 			return nil, err
 		}
 
@@ -37,7 +37,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 		if !found {
 			return nil, ErrorUnexpectedResponseFormat
 		}
-		l.Debug("Token Verified", es_log.String("desc", desc))
+		l.Debug("Token Verified", esl.String("desc", desc))
 
 		return api_auth.NewContextWithAttr(ctx, desc, suppl), nil
 
@@ -48,7 +48,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 		apiCtx := dbx_context_impl.New(ctl, ctx)
 		res := apiCtx.Post("team/get_info")
 		if err, fail := res.Failure(); fail {
-			l.Debug("Unable to verify token", es_log.Error(err))
+			l.Debug("Unable to verify token", esl.Error(err))
 			return nil, err
 		}
 		j := res.Success().Json()
@@ -61,7 +61,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 			return nil, ErrorUnexpectedResponseFormat
 		}
 		suppl := ui.Text(MAttr.AttrTeamLicenses.With("Licenses", supplLic))
-		l.Debug("Token Verified", es_log.String("desc", desc), es_log.String("suppl", suppl))
+		l.Debug("Token Verified", esl.String("desc", desc), esl.String("suppl", suppl))
 
 		return api_auth.NewContextWithAttr(ctx, desc, suppl), nil
 

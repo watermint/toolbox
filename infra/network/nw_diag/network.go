@@ -2,7 +2,7 @@ package nw_diag
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"net/http"
@@ -43,19 +43,19 @@ func Network(ctl app_control.Control) error {
 
 	for _, url := range NetworkDiagUrls {
 		resp, err := http.Head(url)
-		ll := l.With(es_log.String("Url", url))
+		ll := l.With(esl.String("Url", url))
 		if err != nil {
-			ll.Debug("Network test failed", es_log.Error(err))
+			ll.Debug("Network test failed", esl.Error(err))
 			ui.Error(MNetwork.ErrorUnreachable.With("Url", url).With("Error", err))
 			return err
 		}
 
 		if resp.StatusCode >= 400 {
-			ll.Debug("Bad server response", es_log.Int("status_code", resp.StatusCode))
+			ll.Debug("Bad server response", esl.Int("status_code", resp.StatusCode))
 			return errors.New("bad server response")
 		}
 
-		ll.Debug("Network test success", es_log.Int("status_code", resp.StatusCode))
+		ll.Debug("Network test success", esl.Int("status_code", resp.StatusCode))
 	}
 	ui.Info(MNetwork.ProgressTestingDone)
 	ui.Break()

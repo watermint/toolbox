@@ -2,7 +2,7 @@ package lgw_golog
 
 import (
 	"bytes"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 var (
@@ -14,7 +14,7 @@ var (
 	}
 )
 
-func NewLogWrapper(logger es_log.Logger) *LogWrapper {
+func NewLogWrapper(logger esl.Logger) *LogWrapper {
 	lw := &LogWrapper{
 		logger: logger,
 	}
@@ -23,7 +23,7 @@ func NewLogWrapper(logger es_log.Logger) *LogWrapper {
 }
 
 type LogWrapper struct {
-	logger es_log.Logger
+	logger esl.Logger
 	line   *LineWriter
 }
 
@@ -39,7 +39,7 @@ func (z *LogWrapper) init() {
 	}
 }
 
-func (z *LogWrapper) SetLogger(logger es_log.Logger) {
+func (z *LogWrapper) SetLogger(logger esl.Logger) {
 	z.logger = logger
 }
 

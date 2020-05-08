@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -33,18 +33,18 @@ func testContent(t *testing.T, ctl app_control.Control, scenario *Scenario, repo
 		}
 		r, err := filepath.Rel(localBase, cols["input.file"])
 		if err != nil {
-			l.Debug("unable to calc rel path", es_log.Error(err))
+			l.Debug("unable to calc rel path", esl.Error(err))
 			return err
 		}
-		ll := l.With(es_log.String("r", r))
+		ll := l.With(esl.String("r", r))
 		found[r] = true
 		ch, err := dbx_util.ContentHash(cols["input.file"])
 		if err != nil {
-			ll.Debug("unable to calc hash", es_log.Error(err))
+			ll.Debug("unable to calc hash", esl.Error(err))
 			return err
 		}
 		if cols["result.content_hash"] != ch {
-			ll.Error("Content hash mismatch", es_log.String("hashOnServer", cols["result.content_hash"]), es_log.String("hashOnLocal", ch))
+			ll.Error("Content hash mismatch", esl.String("hashOnServer", cols["result.content_hash"]), esl.String("hashOnLocal", ch))
 			t.Error("content hash mismatch")
 		}
 
@@ -56,7 +56,7 @@ func testContent(t *testing.T, ctl app_control.Control, scenario *Scenario, repo
 
 	for f := range scenario.Files {
 		if _, ok := found[f]; !ok {
-			l.Error("File missing", es_log.String("file", f))
+			l.Error("File missing", esl.String("file", f))
 			t.Error("missing file")
 		}
 	}
@@ -68,7 +68,7 @@ func testSkip(t *testing.T, ctl app_control.Control, scenario *Scenario, reportN
 	skipErr := qtr_endtoend.TestRows(ctl, reportName, func(cols map[string]string) error {
 		r, err := filepath.Rel(localBase, cols["input.file"])
 		if err != nil {
-			l.Debug("unable to calc rel path", es_log.Error(err))
+			l.Debug("unable to calc rel path", esl.Error(err))
 			return err
 		}
 		found[r] = true
@@ -79,7 +79,7 @@ func testSkip(t *testing.T, ctl app_control.Control, scenario *Scenario, reportN
 	}
 	for f := range scenario.Ignore {
 		if _, ok := found[f]; !ok {
-			l.Error("File missing", es_log.String("file", f))
+			l.Error("File missing", esl.String("file", f))
 			t.Error("missing file")
 		}
 	}

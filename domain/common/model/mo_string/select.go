@@ -1,6 +1,6 @@
 package mo_string
 
-import "github.com/watermint/toolbox/essentials/log/es_log"
+import "github.com/watermint/toolbox/essentials/log/esl"
 
 type SelectString interface {
 	String
@@ -38,10 +38,10 @@ func (z *selectString) SetOptions(opts []string, selected string) {
 func (z *selectString) SetSelect(selected string) {
 	z.selected = selected
 	if !z.IsValid() {
-		l := es_log.Default()
+		l := esl.Default()
 		l.Debug("The value `selected` is not in `opts`",
-			es_log.String("selected", selected),
-			es_log.Strings("opts", z.opts))
+			esl.String("selected", selected),
+			esl.Strings("opts", z.opts))
 	}
 }
 

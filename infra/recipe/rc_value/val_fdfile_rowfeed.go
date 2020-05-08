@@ -4,7 +4,7 @@ import (
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -59,11 +59,11 @@ func (z *ValueFdFileRowFeed) ApplyPreset(v0 interface{}) {
 }
 
 func (z *ValueFdFileRowFeed) Apply() (v interface{}) {
-	l := es_log.Default()
+	l := esl.Default()
 	p, err := es_filepath.FormatPathWithPredefinedVariables(z.path)
 	if err != nil {
 		p = z.path
-		l.Debug("Unable to format", es_log.String("path", z.path), es_log.Error(err))
+		l.Debug("Unable to format", esl.String("path", z.path), esl.Error(err))
 	}
 
 	if p != "" {

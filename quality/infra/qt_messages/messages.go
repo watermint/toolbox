@@ -5,7 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -45,7 +45,7 @@ func VerifyMessages(ctl app_control.Control) error {
 	if len(missing) > 0 {
 		sort.Strings(missing)
 		for _, k := range missing {
-			ctl.Log().Error("Key missing", es_log.String(k, ""))
+			ctl.Log().Error("Key missing", esl.String(k, ""))
 		}
 
 		SuggestMessages(ctl, func(out io.Writer) {

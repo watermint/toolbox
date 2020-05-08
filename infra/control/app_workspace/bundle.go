@@ -1,8 +1,8 @@
 package app_workspace
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_container"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/log/esl_container"
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"io"
 )
@@ -15,31 +15,31 @@ type Bundle interface {
 	Workspace() Workspace
 
 	// Logger
-	Logger() es_container.Logger
+	Logger() esl_container.Logger
 
 	// REST logger
-	Capture() es_container.Logger
+	Capture() esl_container.Logger
 
 	// Summary logger
-	Summary() es_container.Logger
+	Summary() esl_container.Logger
 
 	// Storage budget
 	Budget() app_budget.Budget
 
 	// Log level for console logs
-	ConsoleLogLevel() es_log.Level
+	ConsoleLogLevel() esl.Level
 }
 
 func ForkBundle(wb Bundle, name string) (bundle Bundle, err error) {
 	return ForkBundleWithLevel(wb, name, wb.ConsoleLogLevel())
 }
 
-func ForkBundleWithLevel(wb Bundle, name string, consoleLevel es_log.Level) (bundle Bundle, err error) {
+func ForkBundleWithLevel(wb Bundle, name string, consoleLevel esl.Level) (bundle Bundle, err error) {
 	nws, err := Fork(wb.Workspace(), name)
 	if err != nil {
 		return nil, err
 	}
-	l, c, s, err := es_container.NewAll(nws.Log(), wb.Budget(), consoleLevel)
+	l, c, s, err := esl_container.NewAll(nws.Log(), wb.Budget(), consoleLevel)
 	if err != nil {
 		return nil, err
 	}
@@ -57,12 +57,12 @@ func WithFork(wb Bundle, name string, f func(fwb Bundle) error) error {
 	return f(fwb)
 }
 
-func NewBundle(home string, budget app_budget.Budget, consoleLevel es_log.Level) (bundle Bundle, err error) {
+func NewBundle(home string, budget app_budget.Budget, consoleLevel esl.Level) (bundle Bundle, err error) {
 	ws, err := NewWorkspace(home)
 	if err != nil {
 		return nil, err
 	}
-	l, c, s, err := es_container.NewAll(ws.Log(), budget, consoleLevel)
+	l, c, s, err := esl_container.NewAll(ws.Log(), budget, consoleLevel)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func NewBundle(home string, budget app_budget.Budget, consoleLevel es_log.Level)
 	), nil
 }
 
-func newBundleInternal(ws Workspace, budget app_budget.Budget, capture, logger, summary es_container.Logger, consoleLevel es_log.Level) Bundle {
+func newBundleInternal(ws Workspace, budget app_budget.Budget, capture, logger, summary esl_container.Logger, consoleLevel esl.Level) Bundle {
 	return &bdlImpl{
 		budget:  budget,
 		conLv:   consoleLevel,
@@ -89,18 +89,18 @@ func newBundleInternal(ws Workspace, budget app_budget.Budget, capture, logger, 
 
 type bdlImpl struct {
 	budget  app_budget.Budget
-	conLv   es_log.Level
-	capture es_container.Logger
-	logger  es_container.Logger
-	summary es_container.Logger
+	conLv   esl.Level
+	capture esl_container.Logger
+	logger  esl_container.Logger
+	summary esl_container.Logger
 	ws      Workspace
 }
 
-func (z bdlImpl) Summary() es_container.Logger {
+func (z bdlImpl) Summary() esl_container.Logger {
 	return z.summary
 }
 
-func (z bdlImpl) ConsoleLogLevel() es_log.Level {
+func (z bdlImpl) ConsoleLogLevel() esl.Level {
 	return z.conLv
 }
 
@@ -119,10 +119,10 @@ func (z bdlImpl) Workspace() Workspace {
 	return z.ws
 }
 
-func (z bdlImpl) Logger() es_container.Logger {
+func (z bdlImpl) Logger() esl_container.Logger {
 	return z.logger
 }
 
-func (z bdlImpl) Capture() es_container.Logger {
+func (z bdlImpl) Capture() esl_container.Logger {
 	return z.capture
 }

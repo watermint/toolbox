@@ -2,7 +2,7 @@ package nw_ratelimit
 
 import (
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"sync"
 	"time"
 )
@@ -111,11 +111,11 @@ func (z *limitStateImpl) retryActionFor(key string) (action int, wait, recycle t
 	}
 }
 
-func (z *limitStateImpl) logger(hash, endpoint string) es_log.Logger {
-	return es_log.Default().With(
-		es_log.String("hash", hash),
-		es_log.String("endpoint", endpoint),
-		es_log.String("Routine", es_goroutine.GetGoRoutineName()),
+func (z *limitStateImpl) logger(hash, endpoint string) esl.Logger {
+	return esl.Default().With(
+		esl.String("hash", hash),
+		esl.String("endpoint", endpoint),
+		esl.String("Routine", es_goroutine.GetGoRoutineName()),
 	)
 }
 
@@ -188,12 +188,12 @@ func (z *limitStateImpl) AddError(hash, endpoint string, err error) (abort bool)
 
 	abort = retryAction == RetryActionAbort
 	l.Debug("Wait for SLA",
-		es_log.Error(err),
-		es_log.Int("retryAction", retryAction),
-		es_log.Bool("retryActionPromote", retryActionPromote),
-		es_log.Bool("abort", abort),
-		es_log.Bool("purgeLastError", purgeLastError),
-		es_log.String("wait", wait.String()),
+		esl.Error(err),
+		esl.Int("retryAction", retryAction),
+		esl.Bool("retryActionPromote", retryActionPromote),
+		esl.Bool("abort", abort),
+		esl.Bool("purgeLastError", purgeLastError),
+		esl.String("wait", wait.String()),
 	)
 	z.UpdateRetryAfter(hash, endpoint, time.Now().Add(wait))
 	time.Sleep(wait)
@@ -223,15 +223,15 @@ func (z *limitStateImpl) WaitIfRequired(hash, endpoint string) {
 	if ok {
 		dur := retryAfter.Sub(time.Now())
 		if dur > LongWaitAlertThreshold {
-			l.Warn("Waiting for server rate limit", es_log.String("duration", dur.String()))
+			l.Warn("Waiting for server rate limit", esl.String("duration", dur.String()))
 			if isTest {
 				panic("server rate limit exceeds threshold")
 			}
 		}
 		if dur > 0 {
 			l.Debug("Waiting",
-				es_log.String("retryAfter", retryAfter.String()),
-				es_log.String("duration", dur.String()),
+				esl.String("retryAfter", retryAfter.String()),
+				esl.String("duration", dur.String()),
 			)
 			time.Sleep(dur)
 		}

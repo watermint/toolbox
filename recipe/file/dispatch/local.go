@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -93,13 +93,13 @@ func (z *LocalPattern) preview(src, dst string, c app_control.Control) error {
 }
 
 func (z *LocalPattern) move(src, dst string, c app_control.Control) error {
-	l := c.Log().With(es_log.String("src", src), es_log.String("dst", dst))
+	l := c.Log().With(esl.String("src", src), esl.String("dst", dst))
 	ui := c.UI()
 
 	dstPath := filepath.Dir(dst)
-	l.Debug("Prepare directory", es_log.String("dstPath", dstPath))
+	l.Debug("Prepare directory", esl.String("dstPath", dstPath))
 	if err := os.MkdirAll(dstPath, 0755); err != nil {
-		l.Debug("Unable to create a directory", es_log.Error(err), es_log.String("dstPath", dstPath))
+		l.Debug("Unable to create a directory", esl.Error(err), esl.String("dstPath", dstPath))
 		ui.Error(MLocal.ExecMove.With("Src", src).With("Dst", dst).With("Error", err))
 		return err
 	}
@@ -107,7 +107,7 @@ func (z *LocalPattern) move(src, dst string, c app_control.Control) error {
 	l.Debug("Moving")
 	err := os.Rename(src, dst)
 	if err != nil {
-		l.Debug("Unable to move", es_log.Error(err))
+		l.Debug("Unable to move", esl.Error(err))
 		ui.Error(MLocal.ExecMove.With("Src", src).With("Dst", dst).With("Error", err))
 		return err
 	}
@@ -147,15 +147,15 @@ func (z *LocalPattern) Exec(c app_control.Control, op func(src, dst string, c ap
 	for _, entry := range entries {
 		if !srcPattern.Match(entry.Name()) {
 			l.Debug("Skip unmatched file",
-				es_log.String("pattern", z.SourceFilePattern),
-				es_log.String("name", entry.Name()))
+				esl.String("pattern", z.SourceFilePattern),
+				esl.String("name", entry.Name()))
 			continue
 		}
 		ext := strings.ToLower(filepath.Ext(entry.Name()))
 		if "."+strings.ToLower(z.Suffix) != ext {
 			l.Debug("Skip unmatched suffix",
-				es_log.String("suffix", z.Suffix),
-				es_log.String("name", entry.Name()))
+				esl.String("suffix", z.Suffix),
+				esl.String("name", entry.Name()))
 			continue
 		}
 

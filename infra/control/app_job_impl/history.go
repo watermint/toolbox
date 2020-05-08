@@ -3,7 +3,7 @@ package app_job_impl
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/file/es_zip"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job"
@@ -39,11 +39,11 @@ func newHistory(ctl app_control.Control, jobId string) (h app_job.History, found
 	startLogPath := filepath.Join(logPath, "logs", app_job.StartLogName)
 	finishLogPath := filepath.Join(logPath, "logs", app_job.FinishLogName)
 	if err := parse(startLogPath, start); err != nil {
-		l.Debug("Unable to load start log", es_log.Error(err))
+		l.Debug("Unable to load start log", esl.Error(err))
 		return nil, false
 	}
 	if err := parse(finishLogPath, finish); err != nil {
-		l.Debug("Unable to load finish log", es_log.Error(err))
+		l.Debug("Unable to load finish log", esl.Error(err))
 	}
 
 	return &History{
@@ -95,7 +95,7 @@ func (z *History) TimeStart() (t time.Time, found bool) {
 	}
 	t, err := time.Parse(time.RFC3339, z.start.TimeStart)
 	if err != nil {
-		z.ctl.Log().Debug("Unable to parse time", es_log.Error(err), es_log.String("time", z.start.TimeStart))
+		z.ctl.Log().Debug("Unable to parse time", esl.Error(err), esl.String("time", z.start.TimeStart))
 		return time.Time{}, false
 	}
 	return t, true
@@ -107,7 +107,7 @@ func (z *History) TimeFinish() (t time.Time, found bool) {
 	}
 	t, err := time.Parse(time.RFC3339, z.finish.TimeFinish)
 	if err != nil {
-		z.ctl.Log().Debug("Unable to parse time", es_log.Error(err), es_log.String("time", z.finish.TimeFinish))
+		z.ctl.Log().Debug("Unable to parse time", esl.Error(err), esl.String("time", z.finish.TimeFinish))
 		return time.Time{}, false
 	}
 	return t, true
@@ -116,9 +116,9 @@ func (z *History) TimeFinish() (t time.Time, found bool) {
 func (z *History) Delete() error {
 	l := z.ctl.Log()
 	logPath := filepath.Join(z.ctl.Workspace().Home(), "jobs", z.jobId)
-	l.Debug("Trying remove history", es_log.String("path", logPath))
+	l.Debug("Trying remove history", esl.String("path", logPath))
 	if err := os.RemoveAll(logPath); err != nil {
-		l.Debug("Unable to remove", es_log.Error(err))
+		l.Debug("Unable to remove", esl.Error(err))
 		return err
 	}
 	return nil
@@ -136,15 +136,15 @@ func (z *History) Archive() (path string, err error) {
 	}
 
 	if err := es_zip.CompressPath(arcPath, logPath, string(metaMarshal)); err != nil {
-		l.Debug("Unable to create archive", es_log.Error(err), es_log.String("arcPath", arcPath))
+		l.Debug("Unable to create archive", esl.Error(err), esl.String("arcPath", arcPath))
 		return "", err
 	}
 
-	l.Debug("Try removing processed path", es_log.String("logPath", logPath))
+	l.Debug("Try removing processed path", esl.String("logPath", logPath))
 	err = os.RemoveAll(logPath)
-	l.Debug("Remove result", es_log.Error(err))
+	l.Debug("Remove result", esl.Error(err))
 	if err != nil {
-		l.Debug("Unable to remove", es_log.Error(err))
+		l.Debug("Unable to remove", esl.Error(err))
 		return "", err
 	}
 	return arcPath, nil
@@ -165,7 +165,7 @@ func (z *Historian) Histories() (histories []app_job.History) {
 	path := filepath.Join(z.ctl.Workspace().Home(), "jobs")
 	entries, err := ioutil.ReadDir(path)
 	if err != nil {
-		l.Debug("Unable to read dir", es_log.Error(err))
+		l.Debug("Unable to read dir", esl.Error(err))
 		return
 	}
 

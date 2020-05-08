@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_revision"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -45,7 +45,7 @@ type revisionImpl struct {
 }
 
 func (z *revisionImpl) doList(path mo_path.DropboxPath, mode string) (revs *mo_file_revision.Revisions, err error) {
-	l := z.ctx.Log().With(es_log.String("path", path.Path()), es_log.String("mode", mode))
+	l := z.ctx.Log().With(esl.String("path", path.Path()), esl.String("mode", mode))
 	p := struct {
 		Path  string `json:"path"`
 		Mode  string `json:"mode"`
@@ -71,7 +71,7 @@ func (z *revisionImpl) doList(path mo_path.DropboxPath, mode string) (revs *mo_f
 	err = j.FindArrayEach("entries", func(e es_json.Json) error {
 		ce := &mo_file.ConcreteEntry{}
 		if err := e.Model(ce); err != nil {
-			l.Debug("Unable to parse entry", es_log.Error(err))
+			l.Debug("Unable to parse entry", esl.Error(err))
 			return err
 		}
 		revs.Entries = append(revs.Entries, ce)

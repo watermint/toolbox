@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -158,14 +158,14 @@ func (z *Commands) suggestCliArgs(ctl app_control.Control, r rc_recipe.Recipe) e
 			suggests = append(suggests, valArg+`\"2020-04-01 17:58:38\"`)
 
 		default:
-			l.Debug("Skip suggest", es_log.Any("value", vt))
+			l.Debug("Skip suggest", esl.Any("value", vt))
 		}
 	}
 	if len(suggests) > 0 {
 		msgCliArgs := spec.CliArgs()
 		l.Error("cli.arg might required",
-			es_log.String("key", msgCliArgs.Key()),
-			es_log.String("suggest", strings.Join(suggests, " ")))
+			esl.String("key", msgCliArgs.Key()),
+			esl.String("suggest", strings.Join(suggests, " ")))
 
 		qt_messages.SuggestMessages(ctl, func(out io.Writer) {
 			fmt.Fprintf(out, `"%s":"%s",`, msgCliArgs.Key(), strings.Join(suggests, " "))
@@ -183,16 +183,16 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 	l := ctl.Log()
 	ui := ctl.UI()
 
-	l.Info("Generating command manual", es_log.String("command", spec.CliPath()))
+	l.Info("Generating command manual", esl.String("command", spec.CliPath()))
 
 	tmplBytes, err := app_resource.Bundle().Templates().Bytes("command.tmpl.md")
 	if err != nil {
-		l.Error("Template not found", es_log.Error(err))
+		l.Error("Template not found", esl.Error(err))
 		return err
 	}
 	tmpl, err := template.New(spec.CliPath()).Funcs(msgFuncMap(ctl)).Parse(string(tmplBytes))
 	if err != nil {
-		l.Error("Unable to compile template", es_log.Error(err))
+		l.Error("Unable to compile template", esl.Error(err))
 		return err
 	}
 	commonSpec := rc_spec.NewCommonValue()
@@ -260,7 +260,7 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 		outPath := z.path + strings.ReplaceAll(spec.CliPath(), " ", "-") + ".md"
 		out, err = os.Create(outPath)
 		if err != nil {
-			l.Error("Unable to create file", es_log.Error(err), es_log.String("outPath", outPath))
+			l.Error("Unable to create file", esl.Error(err), esl.String("outPath", outPath))
 			return err
 		}
 	}
@@ -284,6 +284,6 @@ func (z *Commands) GenerateAll(ctl app_control.Control) error {
 			return err
 		}
 	}
-	l.Info("Recipes", es_log.Int("SecretRecipes", numSecret), es_log.Int("Recipes", len(recipes)))
+	l.Info("Recipes", esl.Int("SecretRecipes", numSecret), esl.Int("Recipes", len(recipes)))
 	return nil
 }

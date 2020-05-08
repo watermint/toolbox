@@ -3,7 +3,7 @@ package rp_writer_impl
 import (
 	"fmt"
 	"github.com/tealeg/xlsx"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_column"
 	"github.com/watermint/toolbox/infra/report/rp_column_impl"
@@ -88,7 +88,7 @@ func (z *xlsxWriter) rotate() {
 		return
 	}
 
-	l.Debug("Rotate xlsx report", es_log.Int("fileIndex", z.fileIndex))
+	l.Debug("Rotate xlsx report", esl.Int("fileIndex", z.fileIndex))
 
 	// rotate
 	if err := z.open(); err != nil {
@@ -111,7 +111,7 @@ func (z *xlsxWriter) open() (err error) {
 			path = filepath.Join(z.ctl.Workspace().Report(), z.name+z.nameSuffix+"_0000.xlsx")
 		}
 		if err = z.file.Save(path); err != nil {
-			l.Debug("Unable to save file", es_log.Error(err), es_log.String("path", path))
+			l.Debug("Unable to save file", esl.Error(err), esl.String("path", path))
 			return err
 		}
 	}
@@ -122,18 +122,18 @@ func (z *xlsxWriter) open() (err error) {
 	if z.fileIndex != 0 {
 		name = fmt.Sprintf("%s_%04d", z.name, z.fileIndex)
 	}
-	l = l.With(es_log.String("name", name))
+	l = l.With(esl.String("name", name))
 	z.filePath = filepath.Join(z.ctl.Workspace().Report(), name+z.nameSuffix+".xlsx")
 
 	file := xlsx.NewFile()
-	l.Debug("Create xlsx report", es_log.String("filePath", z.filePath))
+	l.Debug("Create xlsx report", esl.String("filePath", z.filePath))
 	sheetName := z.name
 	if len(sheetName) >= 31 {
 		sheetName = sheetName[:30]
 	}
 	sheet, err := file.AddSheet(sheetName)
 	if err != nil {
-		l.Debug("Unable to add sheet", es_log.Error(err))
+		l.Debug("Unable to add sheet", esl.Error(err))
 		return err
 	}
 

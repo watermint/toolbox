@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/essentials/go/es_generate"
 	"github.com/watermint/toolbox/essentials/go/es_project"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -36,7 +36,7 @@ func (z *Catalogue) generateRecipe(rr string, sc es_generate.Scanner, c app_cont
 			return err
 		}
 
-		l.Info("Generating recipe", es_log.String("source", op))
+		l.Info("Generating recipe", esl.String("source", op))
 		tmplName := fmt.Sprintf("catalogue_%s.go.tmpl", rc)
 		if err := sg.Generate(tmplName, f); err != nil {
 			f.Close()
@@ -61,7 +61,7 @@ func (z *Catalogue) generateMessages(rr string, sc es_generate.Scanner, c app_co
 		return err
 	}
 
-	l.Info("Generating message", es_log.String("source", op))
+	l.Info("Generating message", esl.String("source", op))
 	tmplName := fmt.Sprintf("catalogue_message.go.tmpl")
 	if err := sg.Generate(tmplName, f); err != nil {
 		f.Close()
@@ -85,7 +85,7 @@ func (z *Catalogue) generateFeatures(rr string, sc es_generate.Scanner, c app_co
 		return err
 	}
 
-	l.Info("Generating feature", es_log.String("source", op))
+	l.Info("Generating feature", esl.String("source", op))
 	tmplName := fmt.Sprintf("catalogue_feature.go.tmpl")
 	if err := sg.Generate(tmplName, f); err != nil {
 		f.Close()

@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workflow"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -46,7 +46,7 @@ func (z *Loop) Exec(c app_control.Control) error {
 		is := time.Now()
 		ie := is.Add(time.Duration(z.IntervalSeconds.Value()) * 1000 * time.Millisecond)
 		if is.After(z.Until.Time()) {
-			l.Debug("Finished", es_log.String("now", is.String()), es_log.String("until", z.Until.Time().String()))
+			l.Debug("Finished", esl.String("now", is.String()), esl.String("until", z.Until.Time().String()))
 			ui.Info(z.ProgressLoopFinished)
 			return nil
 		}

@@ -3,7 +3,7 @@ package recipe
 import (
 	"encoding/json"
 	"errors"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_resource"
@@ -64,7 +64,7 @@ func LoadLicense(ctl app_control.Control) (tbxLicense []string, otherLicenses ma
 	otherLicenses = make(map[string][]string)
 	licenses := make(map[string][]string)
 	if err = json.Unmarshal(lic, &licenses); err != nil {
-		l.Error("Invalid license file format", es_log.Error(err))
+		l.Error("Invalid license file format", esl.Error(err))
 		return nil, nil, nil, err
 	}
 

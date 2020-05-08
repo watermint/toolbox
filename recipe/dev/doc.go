@@ -2,7 +2,7 @@ package dev
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/doc/dc_command"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -36,11 +36,11 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 	rme := dc_command.NewReadme(ctl, z.Filename, z.Badge, z.MarkdownReadme, z.CommandPath)
 	cmd := dc_command.NewCommandWithPath(z.CommandPath)
 	if err := rme.Generate(); err != nil {
-		l.Error("Failed to generate README", es_log.Error(err))
+		l.Error("Failed to generate README", esl.Error(err))
 		return err
 	}
 	if err := cmd.GenerateAll(ctl); err != nil {
-		l.Error("Failed to generate command manuals", es_log.Error(err))
+		l.Error("Failed to generate command manuals", esl.Error(err))
 		return err
 	}
 

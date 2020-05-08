@@ -1,7 +1,7 @@
 package app_workspace
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"path/filepath"
 )
 
@@ -91,7 +91,7 @@ type multiJob struct {
 func (z *multiJob) KVS() string {
 	t, err := z.Descendant(nameKvs)
 	if err != nil {
-		es_log.Default().Error("Unable to create KVS folder", es_log.Error(err))
+		esl.Default().Error("Unable to create KVS folder", esl.Error(err))
 		t = filepath.Join(z.Job(), nameKvs)
 	}
 	return t
@@ -100,7 +100,7 @@ func (z *multiJob) KVS() string {
 func (z *multiJob) Test() string {
 	t, err := z.Descendant(nameTest)
 	if err != nil {
-		es_log.Default().Error("Unable to create test folder", es_log.Error(err))
+		esl.Default().Error("Unable to create test folder", esl.Error(err))
 		t = filepath.Join(z.Job(), nameTest)
 	}
 	return t

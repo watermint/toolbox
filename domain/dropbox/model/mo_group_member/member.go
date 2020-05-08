@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
@@ -42,7 +42,7 @@ func NewGroupMember(group *mo_group.Group, member *Member) (gm *GroupMember) {
 
 	gm = &GroupMember{}
 	if err := api_parser.ParseModelRaw(gm, raw); err != nil {
-		es_log.Default().Error("unable to parse", es_log.Error(err))
+		esl.Default().Error("unable to parse", esl.Error(err))
 	}
 	return gm
 }
@@ -65,7 +65,7 @@ type GroupMember struct {
 func (z *GroupMember) Group() (group *mo_group.Group) {
 	group = &mo_group.Group{}
 	if err := api_parser.ParseModelPathRaw(group, z.Raw, "group"); err != nil {
-		es_log.Default().Warn("unexpected data format", es_log.String("entry", string(z.Raw)), es_log.Error(err))
+		esl.Default().Warn("unexpected data format", esl.String("entry", string(z.Raw)), esl.Error(err))
 		// return empty
 		return group
 	}
@@ -75,7 +75,7 @@ func (z *GroupMember) Group() (group *mo_group.Group) {
 func (z *GroupMember) Member() (member *Member) {
 	member = &Member{}
 	if err := api_parser.ParseModelPathRaw(member, z.Raw, "member"); err != nil {
-		es_log.Default().Warn("unexpected data format", es_log.String("entry", string(z.Raw)), es_log.Error(err))
+		esl.Default().Warn("unexpected data format", esl.String("entry", string(z.Raw)), esl.Error(err))
 		// return empty
 		return member
 	}

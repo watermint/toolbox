@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response_impl"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -66,11 +66,11 @@ func (z ctxImpl) ClientHash() string {
 	return z.builder.ContentHash()
 }
 
-func (z ctxImpl) Log() es_log.Logger {
+func (z ctxImpl) Log() esl.Logger {
 	return z.builder.Log()
 }
 
-func (z ctxImpl) Capture() es_log.Logger {
+func (z ctxImpl) Capture() esl.Logger {
 	return z.ctl.Capture()
 }
 

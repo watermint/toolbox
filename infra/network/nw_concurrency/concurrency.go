@@ -2,7 +2,7 @@ package nw_concurrency
 
 import (
 	"context"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"golang.org/x/sync/semaphore"
 	"runtime"
 	"sync"
@@ -43,11 +43,11 @@ type concurrencyImpl struct {
 func (z *concurrencyImpl) SetConcurrency(c int) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
-	l := es_log.Default()
+	l := esl.Default()
 	if c < 1 {
-		l.Debug("Ignore setting concurrency for less than 1", es_log.Int("concurrency", c))
+		l.Debug("Ignore setting concurrency for less than 1", esl.Int("concurrency", c))
 	} else {
-		l.Debug("Set concurrency", es_log.Int("concurrency", c))
+		l.Debug("Set concurrency", esl.Int("concurrency", c))
 		z.w = semaphore.NewWeighted(int64(c))
 	}
 }
@@ -55,8 +55,8 @@ func (z *concurrencyImpl) SetConcurrency(c int) {
 func (z *concurrencyImpl) Start() {
 	err := z.w.Acquire(context.Background(), 1)
 	if err != nil {
-		l := es_log.Default()
-		l.Debug("Unable to acquire semaphore", es_log.Error(err))
+		l := esl.Default()
+		l.Debug("Unable to acquire semaphore", esl.Error(err))
 	}
 }
 

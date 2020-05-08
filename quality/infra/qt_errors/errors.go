@@ -2,7 +2,7 @@ package qt_errors
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 )
 
@@ -33,7 +33,7 @@ var (
 )
 
 // Returns nil even err != nil if the error type is ignorable.
-func ErrorsForTest(l es_log.Logger, err error) (resolvedErr error, cont bool) {
+func ErrorsForTest(l esl.Logger, err error) (resolvedErr error, cont bool) {
 	if err == nil {
 		return nil, true
 	}

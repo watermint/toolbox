@@ -1,7 +1,7 @@
 package app_job_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/stats/es_http"
 	"github.com/watermint/toolbox/essentials/log/stats/es_memory"
 	"github.com/watermint/toolbox/infra/app"
@@ -73,10 +73,10 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	es_memory.LaunchReporting(lg)
 
 	sm.Debug("Up completed",
-		es_log.String("name", app.Name),
-		es_log.String("ver", app.Version),
-		es_log.String("hash", app.Hash),
-		es_log.String("recipe", z.rcp.CliPath()),
+		esl.String("name", app.Name),
+		esl.String("ver", app.Version),
+		esl.String("hash", app.Hash),
+		esl.String("recipe", z.rcp.CliPath()),
 	)
 
 	return ctl, nil
@@ -97,7 +97,7 @@ func (z launchImpl) Down(err error, ctl app_control.Control) {
 
 	_ = z.recordResultLog(err)
 
-	sm.Debug("Down completed", es_log.Error(err))
+	sm.Debug("Down completed", esl.Error(err))
 
 	// Close work bundle
 	_ = z.wb.Close()

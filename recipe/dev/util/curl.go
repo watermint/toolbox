@@ -7,7 +7,7 @@ import (
 	"github.com/tdewolff/parse/buffer"
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/network/nw_capture"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -50,7 +50,7 @@ func (z *Curl) Exec(c app_control.Control) error {
 		case nil:
 			rec := &nw_capture.Record{}
 			if pe := json.Unmarshal(line, rec); pe != nil {
-				l.Error("Unable to unmarshal", es_log.Error(err), es_log.String("line", string(line)))
+				l.Error("Unable to unmarshal", esl.Error(err), esl.String("line", string(line)))
 				return err
 			}
 			fmt.Fprintf(bw, "curl -D - -X POST %s \\\n", rec.Req.RequestUrl)

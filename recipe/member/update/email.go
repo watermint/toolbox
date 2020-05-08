@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -49,11 +49,11 @@ func (z *EmailWorker) Exec() error {
 	ui := z.ctl.UI()
 	ui.Progress(MEmail.ProgressUpdate.With("EmailFrom", z.transaction.FromEmail).With("EmailTo", z.transaction.ToEmail))
 
-	l := z.ctl.Log().With(es_log.Any("beforeMember", z.member))
+	l := z.ctl.Log().With(esl.Any("beforeMember", z.member))
 
 	newEmail := &mo_member.Member{}
 	if err := api_parser.ParseModelRaw(newEmail, z.member.Raw); err != nil {
-		l.Debug("Unable to clone member data", es_log.Error(err))
+		l.Debug("Unable to clone member data", esl.Error(err))
 		z.rep.Failure(err, z.transaction)
 		return err
 	}
@@ -61,7 +61,7 @@ func (z *EmailWorker) Exec() error {
 	newEmail.Email = z.transaction.ToEmail
 	newMember, err := sv_member.New(z.ctx).Update(newEmail)
 	if err != nil {
-		l.Debug("API returned an error", es_log.Error(err))
+		l.Debug("API returned an error", esl.Error(err))
 		z.rep.Failure(err, z.transaction)
 		return err
 	}
@@ -115,7 +115,7 @@ func (z *Email) Exec(c app_control.Control) error {
 	q := c.NewQueue()
 	err = z.File.EachRow(func(m interface{}, rowIndex int) error {
 		row := m.(*EmailRow)
-		ll := l.With(es_log.Any("row", row))
+		ll := l.With(esl.Any("row", row))
 
 		if row.FromEmail == row.ToEmail {
 			ll.Debug("Skip")
@@ -168,8 +168,8 @@ func (z *Email) Test(c app_control.Control) error {
 
 			if !dbx_util.RegexEmail.MatchString(row.From) || !dbx_util.RegexEmail.MatchString(row.To) {
 				l.Error("from or to email address unmatched to email address format",
-					es_log.String("from", row.From),
-					es_log.String("to", row.To))
+					esl.String("from", row.From),
+					esl.String("to", row.To))
 				return errors.New("invalid input")
 			}
 			pair[row.From] = row.To
@@ -181,10 +181,10 @@ func (z *Email) Test(c app_control.Control) error {
 		}
 
 		createCsv := func(path string, reverse bool) error {
-			l.Info("Create test file", es_log.String("path", path))
+			l.Info("Create test file", esl.String("path", path))
 			f, err := os.Create(path)
 			if err != nil {
-				l.Debug("Unable to create test file", es_log.Error(err))
+				l.Debug("Unable to create test file", esl.Error(err))
 				return err
 			}
 			cw := csv.NewWriter(f)
@@ -211,11 +211,11 @@ func (z *Email) Test(c app_control.Control) error {
 		pathBackward := filepath.Join(c.Workspace().Test(), "testdata_backward.csv")
 
 		if err := createCsv(pathForward, false); err != nil {
-			l.Error("Unable to create test file", es_log.String("pathForward", pathForward), es_log.Error(err))
+			l.Error("Unable to create test file", esl.String("pathForward", pathForward), esl.Error(err))
 			return err
 		}
 		if err := createCsv(pathBackward, true); err != nil {
-			l.Error("Unable to create test file", es_log.String("pathForward", pathForward), es_log.Error(err))
+			l.Error("Unable to create test file", esl.String("pathForward", pathForward), esl.Error(err))
 			return err
 		}
 
@@ -225,14 +225,14 @@ func (z *Email) Test(c app_control.Control) error {
 			repPath := c.Workspace().Report() + suffix
 			err := os.Rename(c.Workspace().Report(), repPath)
 			if err != nil {
-				l.Warn("Unable to preserve forward report", es_log.Error(err))
+				l.Warn("Unable to preserve forward report", esl.Error(err))
 				repPath = c.Workspace().Report()
 			}
 
 			// create alt report folder
 			err = os.MkdirAll(c.Workspace().Report(), 0701)
 			if err != nil {
-				l.Error("Unable to create workspace path", es_log.Error(err))
+				l.Error("Unable to create workspace path", esl.Error(err))
 				return err
 			}
 			return nil
@@ -242,7 +242,7 @@ func (z *Email) Test(c app_control.Control) error {
 			resultPath := filepath.Join(c.Workspace().Report(), "operation_log.json")
 			resultFile, err := os.Open(resultPath)
 			if err != nil {
-				l.Warn("Unable to open", es_log.Error(err))
+				l.Warn("Unable to open", esl.Error(err))
 			} else {
 				scanner := bufio.NewScanner(resultFile)
 				for scanner.Scan() {
@@ -255,15 +255,15 @@ func (z *Email) Test(c app_control.Control) error {
 					resultEmail := row.Get("result.email").String()
 
 					ll := l.With(
-						es_log.String("status", status),
-						es_log.String("inputFrom", inputFrom),
-						es_log.String("inputTo", inputTo),
-						es_log.String("resultEmail", resultEmail),
-						es_log.String("reason", reason),
+						esl.String("status", status),
+						esl.String("inputFrom", inputFrom),
+						esl.String("inputTo", inputTo),
+						esl.String("resultEmail", resultEmail),
+						esl.String("reason", reason),
 					)
 					isNonExistent := noExist[inputFrom] || noExist[inputTo]
 
-					ll.Info("Feed file row", es_log.Bool("isNonExist", isNonExistent))
+					ll.Info("Feed file row", esl.Bool("isNonExist", isNonExistent))
 
 					switch {
 					case status == rp_model.StatusTagFailure && isNonExistent:

@@ -1,13 +1,13 @@
 package lgw_golog
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"log"
 	"testing"
 )
 
 func TestLogWrapper_Write(t *testing.T) {
-	zl := es_log.Default()
+	zl := esl.Default()
 	lw := NewLogWrapper(zl)
 	log.SetOutput(lw)
 

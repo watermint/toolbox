@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
@@ -76,7 +76,7 @@ type bsImpl struct {
 func (z *bsImpl) SelectUI(opt app_opt.CommonOpts) (ui app_ui.UI) {
 	mc := app_msg_container_impl.NewContainer()
 	out := opt.Output.Value()
-	lg := es_log.Default()
+	lg := esl.Default()
 
 	// Select UI
 	switch {
@@ -104,7 +104,7 @@ func (z *bsImpl) SelectUI(opt app_opt.CommonOpts) (ui app_ui.UI) {
 	}
 }
 
-func (z *bsImpl) verifyMessages(ui app_ui.UI, l es_log.Logger) {
+func (z *bsImpl) verifyMessages(ui app_ui.UI, l esl.Logger) {
 	// Test MRun message, due to unable to test because of package dependency
 	if !app.IsProduction() {
 		for _, msg := range app_msg.Messages(MRun) {
@@ -114,7 +114,7 @@ func (z *bsImpl) verifyMessages(ui app_ui.UI, l es_log.Logger) {
 		if len(missing) > 0 {
 			w := es_stdout.NewDefaultOut(false)
 			for _, k := range missing {
-				l.Error("Key missing", es_log.String("key", k))
+				l.Error("Key missing", esl.String("key", k))
 				_, _ = fmt.Fprintf(w, `"%s":"",\n`, k)
 			}
 		}
@@ -132,7 +132,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 		app_exit.Abort(app_exit.FatalStartup)
 	}
 	z.verifyMessages(ui, wb.Logger().Logger())
-	es_log.AddDefaultSubscriber(wb.Logger().Core())
+	esl.AddDefaultSubscriber(wb.Logger().Core())
 
 	jl := app_job_impl.NewLauncher(ui, wb, com, rcp)
 	ctl, err := jl.Up()
@@ -181,7 +181,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	// Bootstrap recipe
 	if err := rc_exec.Exec(ctl, &bootstrap.Bootstrap{}, rc_recipe.NoCustomValues); err != nil {
-		ctl.Log().Error("Bootstrap failed with an error", es_log.Error(err))
+		ctl.Log().Error("Bootstrap failed with an error", esl.Error(err))
 		ui.Failure(MRun.ErrorRecipeFailed.With("Error", err))
 		jl.Down(err, ctl)
 		app_exit.Abort(app_exit.FailureGeneral)
@@ -189,7 +189,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	// Run
 	var lastErr error
-	ctl.WorkBundle().Summary().Logger().Debug("Run recipe", es_log.Any("vo", rcp.Debug()), es_log.Any("common", com))
+	ctl.WorkBundle().Summary().Logger().Debug("Run recipe", esl.Any("vo", rcp.Debug()), esl.Any("common", com))
 	lastErr = rc_exec.ExecSpec(ctl, rcp, rc_recipe.NoCustomValues)
 
 	// shutdown job
@@ -197,7 +197,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	// abort on error
 	if lastErr != nil {
-		ctl.Log().Error("Recipe failed with an error", es_log.Error(lastErr))
+		ctl.Log().Error("Recipe failed with an error", esl.Error(lastErr))
 		ui.Failure(MRun.ErrorRecipeFailed.With("Error", lastErr))
 		app_exit.Abort(app_exit.FailureGeneral)
 	}
@@ -206,7 +206,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 }
 
 func (z bsImpl) bootUI() app_ui.UI {
-	lg := es_log.Default()
+	lg := esl.Default()
 	mc := app_msg_container_impl.NewContainer()
 	wr := es_stdout.NewDefaultOut(false)
 	dg := es_dialogue.New(wr)
@@ -296,7 +296,7 @@ func trapSignal(sig chan os.Signal, ctl app_control.Control) {
 	ui := ctl.UI()
 	for s := range sig {
 		// fatal shutdown
-		l.Debug("Signal", es_log.Any("signal", s))
+		l.Debug("Signal", esl.Any("signal", s))
 		pc := make([]uintptr, 16)
 		n := runtime.Callers(0, pc)
 		pc = pc[:n]
@@ -304,10 +304,10 @@ func trapSignal(sig chan os.Signal, ctl app_control.Control) {
 		for f := 0; ; f++ {
 			frame, more := frames.Next()
 			ctl.Log().Debug("Frame",
-				es_log.Int("Frame", f),
-				es_log.String("File", frame.File),
-				es_log.Int("Line", frame.Line),
-				es_log.String("Function", frame.Function),
+				esl.Int("Frame", f),
+				esl.String("File", frame.File),
+				esl.Int("Line", frame.Line),
+				esl.String("Function", frame.Function),
 			)
 			if !more {
 				break
@@ -334,9 +334,9 @@ func trapPanic(ctl app_control.Control) {
 				break
 			}
 			l.Debug("Trace",
-				es_log.Int("Depth", depth),
-				es_log.String("File", file),
-				es_log.Int("Line", line),
+				esl.Int("Depth", depth),
+				esl.String("File", file),
+				esl.Int("Line", line),
 			)
 		}
 		app_exit.Abort(app_exit.FatalPanic)

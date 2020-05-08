@@ -3,7 +3,7 @@ package dbx_util
 import (
 	"crypto/sha256"
 	"encoding/hex"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"io"
 	"os"
 	"path/filepath"
@@ -38,7 +38,7 @@ func IsFileNameIgnored(filename string) bool {
 	// file/folder types
 	stat, err := os.Lstat(filename)
 	if err != nil {
-		es_log.Default().Debug("unable to ensure file stat", es_log.String("file", filename), es_log.Error(err))
+		esl.Default().Debug("unable to ensure file stat", esl.String("file", filename), esl.Error(err))
 		return false
 	}
 	if stat.Mode()&os.ModeSymlink == os.ModeSymlink {
@@ -50,11 +50,11 @@ func IsFileNameIgnored(filename string) bool {
 
 // Calculate File content hash
 func ContentHash(path string) (string, error) {
-	l := es_log.Default().With(es_log.String("path", path))
+	l := esl.Default().With(esl.String("path", path))
 
 	info, err := os.Lstat(path)
 	if err != nil {
-		l.Debug("Unable to acquire information", es_log.Error(err))
+		l.Debug("Unable to acquire information", esl.Error(err))
 		return "", err
 	}
 	if info.Size() == 0 {
@@ -63,7 +63,7 @@ func ContentHash(path string) (string, error) {
 
 	f, err := os.Open(path)
 	if err != nil {
-		l.Debug("Unable to open file", es_log.Error(err))
+		l.Debug("Unable to open file", esl.Error(err))
 		return "", err
 	}
 	defer f.Close()
@@ -82,7 +82,7 @@ func ContentHash(path string) (string, error) {
 			break
 		}
 		if err != nil {
-			l.Debug("unable to load file", es_log.Error(err))
+			l.Debug("unable to load file", esl.Error(err))
 			return "", err
 		}
 

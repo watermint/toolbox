@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"sync"
@@ -80,16 +80,16 @@ type scaleWorker struct {
 
 func (z *scaleWorker) Exec() error {
 	ns, _ := z.path.Namespace()
-	l := z.ctx.Log().With(es_log.String("ns", ns),
-		es_log.String("path", z.path.Path()),
-		es_log.Int("curDepth", z.curDepth),
+	l := z.ctx.Log().With(esl.String("ns", ns),
+		esl.String("path", z.path.Path()),
+		esl.Int("curDepth", z.curDepth),
 	)
 	current := mo_file_size.Size{
 		Path: z.path.Path(),
 	}
 	entries, err := z.svc.List(z.path)
 	if err != nil {
-		l.Debug("Unable to fetch list", es_log.Error(err))
+		l.Debug("Unable to fetch list", esl.Error(err))
 		for _, kp := range z.keyPaths {
 			z.ed.add(kp, err)
 		}
@@ -124,9 +124,9 @@ func (z *scaleWorker) Exec() error {
 				kpsDebug = append(kpsDebug, k.Path())
 			}
 			l.Debug("Process into child",
-				es_log.String("childPath", np.Path()),
-				es_log.Strings("keyPaths", kpsDebug),
-				es_log.Int("childDepth", nd),
+				esl.String("childPath", np.Path()),
+				esl.Strings("keyPaths", kpsDebug),
+				esl.Int("childDepth", nd),
 			)
 			q.Enqueue(&scaleWorker{
 				ctl:      z.ctl,

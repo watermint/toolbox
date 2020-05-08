@@ -3,7 +3,7 @@ package nw_retry
 import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"net/http"
@@ -20,7 +20,7 @@ type RateLimit struct {
 }
 
 func (z RateLimit) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
-	l := es_log.Default()
+	l := esl.Default()
 
 	res = z.client.Call(ctx, req)
 	if res.IsSuccess() || res.TransportError() == nil {
@@ -29,7 +29,7 @@ func (z RateLimit) Call(ctx api_context.Context, req nw_client.RequestBuilder) (
 
 	switch res.Code() {
 	case http.StatusTooManyRequests:
-		l.Debug("Ratelimit", es_log.Int("code", res.Code()))
+		l.Debug("Ratelimit", esl.Int("code", res.Code()))
 		return es_response_impl.NewTransportErrorResponse(NewErrorRateLimitFromHeadersFallback(res.Headers()), res)
 	}
 	return res

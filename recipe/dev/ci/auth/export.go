@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -37,7 +37,7 @@ func (z *Export) Exec(c app_control.Control) error {
 	for _, s := range Scopes {
 		t, err := a.Auth(s)
 		if err != nil {
-			l.Info("Skip export", es_log.Error(err), es_log.String("scope", s))
+			l.Info("Skip export", esl.Error(err), esl.String("scope", s))
 			return nil
 		}
 		e[s] = t.Token()

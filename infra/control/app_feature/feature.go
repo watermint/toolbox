@@ -3,7 +3,7 @@ package app_feature
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"os/user"
@@ -48,7 +48,7 @@ type Feature interface {
 	AsQuiet() Feature
 
 	// Console log level
-	ConsoleLogLevel() es_log.Level
+	ConsoleLogLevel() esl.Level
 }
 
 type OptIn interface {

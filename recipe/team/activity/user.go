@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/strings/es_mailaddr"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -59,14 +59,14 @@ type UserWorker struct {
 func (z *UserWorker) Exec() error {
 	userIn := &UserIn{User: z.user.Email}
 	ui := z.ctl.UI()
-	l := z.ctl.Log().With(es_log.Any("userIn", userIn))
+	l := z.ctl.Log().With(esl.Any("userIn", userIn))
 
 	rep, err := z.reps.OpenNew(
 		rp_model.Suffix("-"+es_mailaddr.EscapeSpecial(z.user.Email, "_")),
 		rp_model.NoConsoleOutput(),
 	)
 	if err != nil {
-		l.Debug("unable to create report", es_log.Error(err))
+		l.Debug("unable to create report", esl.Error(err))
 		z.repSummary.Failure(err, userIn)
 		return err
 	}

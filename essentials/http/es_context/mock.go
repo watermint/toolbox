@@ -1,7 +1,7 @@
 package es_context
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 func NewMock() Context {
@@ -15,10 +15,10 @@ func (z mockImpl) ClientHash() string {
 	return ""
 }
 
-func (z mockImpl) Log() es_log.Logger {
-	return es_log.Default()
+func (z mockImpl) Log() esl.Logger {
+	return esl.Default()
 }
 
-func (z mockImpl) Capture() es_log.Logger {
-	return es_log.Capture()
+func (z mockImpl) Capture() esl.Logger {
+	return esl.Capture()
 }

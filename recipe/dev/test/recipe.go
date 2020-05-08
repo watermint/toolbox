@@ -3,7 +3,7 @@ package test
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -31,7 +31,7 @@ func (z *Recipe) Preset() {
 func (z *Recipe) runSingle(c app_control.Control, r rc_recipe.Recipe) error {
 	rs := rc_spec.New(r)
 	path, name := rs.Path()
-	l := c.Log().With(es_log.Strings("path", path), es_log.String("name", name))
+	l := c.Log().With(esl.Strings("path", path), esl.String("name", name))
 
 	if rs.IsSecret() {
 		l.Info("Skip secret recipe")
@@ -76,7 +76,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 			l.Info("Recipe test success")
 			return nil
 		}
-		l.Error("recipe not found", es_log.String("vo.Recipe", z.Single.Value()))
+		l.Error("recipe not found", esl.String("vo.Recipe", z.Single.Value()))
 		return errors.New("recipe not found")
 
 	default:

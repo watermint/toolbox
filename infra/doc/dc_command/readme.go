@@ -2,7 +2,7 @@ package dc_command
 
 import (
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -56,7 +56,7 @@ func (z *Readme) commands() string {
 		p = append(p, n)
 		q := strings.Join(p, " ")
 
-		z.ctl.Log().Debug("recipe", es_log.String("recipe", rs.CliPath()))
+		z.ctl.Log().Debug("recipe", esl.String("recipe", rs.CliPath()))
 		book[q] = ui.Text(rs.Title())
 		keys = append(keys, q)
 	}
@@ -83,17 +83,17 @@ func (z *Readme) Generate() error {
 	l := z.ctl.Log()
 	commands := z.commands()
 
-	l.Info("Generating README", es_log.String("file", z.filename))
+	l.Info("Generating README", esl.String("file", z.filename))
 	rb := app_resource.Bundle()
 	readmeBytes, err := rb.Templates().Bytes("README.tmpl.md")
 	if err != nil {
-		l.Error("Template not found", es_log.Error(err))
+		l.Error("Template not found", esl.Error(err))
 		return err
 	}
 
 	tmpl, err := template.New("README").Funcs(msgFuncMap(z.ctl)).Parse(string(readmeBytes))
 	if err != nil {
-		l.Error("Unable to compile template", es_log.Error(err))
+		l.Error("Unable to compile template", esl.Error(err))
 		return err
 	}
 

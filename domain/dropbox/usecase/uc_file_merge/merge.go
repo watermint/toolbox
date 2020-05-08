@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_relocation"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"path/filepath"
@@ -89,35 +89,35 @@ func (z *mergeImpl) doOperation(msg app_msg.Message, op func() error) error {
 }
 
 func (z *mergeImpl) mergeFile(from, to *mo_file.File) error {
-	l := z.ctl.Log().With(es_log.String("from", from.PathDisplay()), es_log.String("to", to.PathDisplay()))
+	l := z.ctl.Log().With(esl.String("from", from.PathDisplay()), esl.String("to", to.PathDisplay()))
 
 	// remove same content hash file
 	if from.ContentHash == to.ContentHash {
-		l.Debug("Same content hash", es_log.String("contentHash", from.ContentHash))
+		l.Debug("Same content hash", esl.String("contentHash", from.ContentHash))
 		m := MMerge.RemoveDuplicatedFile.With("FromPath", from.PathDisplay())
 		return z.doOperation(m, func() error {
 			entry, err := sv_file.NewFiles(z.ctx).Remove(mo_path.NewPathDisplay(from.PathDisplay()))
 			if err != nil {
-				l.Debug("Unable to remove file", es_log.Error(err))
+				l.Debug("Unable to remove file", esl.Error(err))
 				return err
 			}
-			l.Debug("File removed", es_log.Any("removedEntry", entry.Concrete()))
+			l.Debug("File removed", esl.Any("removedEntry", entry.Concrete()))
 			return nil
 		})
 	}
 
 	fromTs, err := time.Parse(time.RFC3339, from.ServerModified)
 	if err != nil {
-		l.Warn("Invalid time format", es_log.Error(err), es_log.String("from.ServerModified", from.ServerModified))
+		l.Warn("Invalid time format", esl.Error(err), esl.String("from.ServerModified", from.ServerModified))
 		return err
 	}
 	toTs, err := time.Parse(time.RFC3339, to.ServerModified)
 	if err != nil {
-		l.Warn("Invalid time format", es_log.Error(err), es_log.String("to.ServerModified", to.ServerModified))
+		l.Warn("Invalid time format", esl.Error(err), esl.String("to.ServerModified", to.ServerModified))
 		return err
 	}
 
-	l = l.With(es_log.String("fromServerModified", from.ServerModified), es_log.String("toServerModified", to.ServerModified))
+	l = l.With(esl.String("fromServerModified", from.ServerModified), esl.String("toServerModified", to.ServerModified))
 
 	// remove old content
 	if toTs.After(fromTs) {
@@ -126,10 +126,10 @@ func (z *mergeImpl) mergeFile(from, to *mo_file.File) error {
 		return z.doOperation(m, func() error {
 			entry, err := sv_file.NewFiles(z.ctx).Remove(mo_path.NewPathDisplay(from.PathDisplay()))
 			if err != nil {
-				l.Debug("Unable to remove file", es_log.Error(err))
+				l.Debug("Unable to remove file", esl.Error(err))
 				return err
 			}
-			l.Debug("File removed", es_log.Any("removedEntry", entry.Concrete()))
+			l.Debug("File removed", esl.Any("removedEntry", entry.Concrete()))
 			return nil
 		})
 	}
@@ -141,26 +141,26 @@ func (z *mergeImpl) mergeFile(from, to *mo_file.File) error {
 	return z.doOperation(m, func() error {
 		entry, err := sv_file_relocation.New(z.ctx, sv_file_relocation.AutoRename(false)).Move(fp, tp)
 		if err != nil {
-			l.Debug("Unable to move file", es_log.Error(err))
+			l.Debug("Unable to move file", esl.Error(err))
 			return err
 		}
-		l.Debug("File moved", es_log.Any("movedEntry", entry.Concrete()))
+		l.Debug("File moved", esl.Any("movedEntry", entry.Concrete()))
 
 		return nil
 	})
 }
 
 func (z *mergeImpl) moveFile(from *mo_file.File) error {
-	l := z.ctl.Log().With(es_log.Any("from", from.Concrete()))
+	l := z.ctl.Log().With(esl.Any("from", from.Concrete()))
 	l.Debug("Move file")
 	p, err := filepath.Rel(z.fromEntry.PathLower(), from.PathLower())
 	if err != nil {
-		l.Warn("Unable to calc relative path", es_log.Error(err))
+		l.Warn("Unable to calc relative path", esl.Error(err))
 		// TODO: do reporting
 		return err
 	}
 	if strings.HasPrefix(p, "..") {
-		l.Warn("Invalid relative path", es_log.String("rel", p))
+		l.Warn("Invalid relative path", esl.String("rel", p))
 		// TODO; do reporting
 		return errors.New("invalid relative path")
 	}
@@ -172,32 +172,32 @@ func (z *mergeImpl) moveFile(from *mo_file.File) error {
 	return z.doOperation(m, func() error {
 		entry, err := sv_file_relocation.New(z.ctx).Move(fp, tp)
 		if err != nil {
-			l.Debug("Unable to move", es_log.Error(err))
+			l.Debug("Unable to move", esl.Error(err))
 			return err
 		}
-		l.Debug("file moved", es_log.Any("entry", entry.Concrete()))
+		l.Debug("file moved", esl.Any("entry", entry.Concrete()))
 		return nil
 	})
 }
 
 func (z *mergeImpl) moveFolder(from *mo_file.Folder) error {
-	l := z.ctl.Log().With(es_log.Any("from", from.Concrete()))
+	l := z.ctl.Log().With(esl.Any("from", from.Concrete()))
 	l.Debug("Move folder")
 	p, err := filepath.Rel(z.fromEntry.PathLower(), from.PathLower())
 	if err != nil {
-		l.Warn("Unable to calc relative path", es_log.Error(err))
+		l.Warn("Unable to calc relative path", esl.Error(err))
 		// TODO: do reporting
 		return err
 	}
 	if strings.HasPrefix(p, "..") {
-		l.Warn("Invalid relative path", es_log.String("rel", p))
+		l.Warn("Invalid relative path", esl.String("rel", p))
 		// TODO; do reporting
 		return errors.New("invalid relative path")
 	}
 	fp := mo_path.NewPathDisplay(from.PathDisplay())
 	tp := z.to.ChildPath(filepath.Dir(p), from.Name())
 
-	l = l.With(es_log.String("toPath", tp.Path()))
+	l = l.With(esl.String("toPath", tp.Path()))
 
 	// move
 	m := MMerge.MoveFile.With("FromPath", from.PathDisplay()).With("ToPath", tp.Path())
@@ -218,7 +218,7 @@ func (z *mergeImpl) validatePaths(from, to mo_file.Entry) error {
 	if !e {
 		return errors.New("`to` path is not a folder")
 	}
-	l = l.With(es_log.Any("from", ff.Concrete()), es_log.Any("to", tf.Concrete()))
+	l = l.With(esl.Any("from", ff.Concrete()), esl.Any("to", tf.Concrete()))
 
 	if !z.opts.WithinSameNamespace {
 		l.Debug("Skip validate namespace")
@@ -242,7 +242,7 @@ func (z *mergeImpl) merge(path string) error {
 	toFiles := make(map[string]*mo_file.File)
 	toFolders := make(map[string]*mo_file.Folder)
 
-	l := z.ctl.Log().With(es_log.String("path", path))
+	l := z.ctl.Log().With(esl.String("path", path))
 	l.Debug("merge")
 
 	fromPath := z.from.ChildPath(path)
@@ -284,18 +284,18 @@ func (z *mergeImpl) merge(path string) error {
 
 	// move or merge files
 	for ffn, ff := range fromFiles {
-		ll := l.With(es_log.String("from", ff.EntryPathDisplay))
+		ll := l.With(esl.String("from", ff.EntryPathDisplay))
 		if tf, e := toFiles[ffn]; e {
-			ll = ll.With(es_log.String("to", tf.EntryPathDisplay))
+			ll = ll.With(esl.String("to", tf.EntryPathDisplay))
 			if err := z.mergeFile(ff, tf); err != nil {
-				ll.Debug("Unable to merge", es_log.Error(err))
+				ll.Debug("Unable to merge", esl.Error(err))
 				lastErr = err
 			} else {
 				ll.Debug("File merged")
 			}
 		} else {
 			if err := z.moveFile(ff); err != nil {
-				ll.Debug("Unable to move", es_log.Error(err))
+				ll.Debug("Unable to move", esl.Error(err))
 				lastErr = err
 			} else {
 				ll.Debug("File moved")
@@ -305,29 +305,29 @@ func (z *mergeImpl) merge(path string) error {
 
 	// move or merge folders
 	for ffn, ff := range fromFolders {
-		ll := l.With(es_log.String("from", ff.EntryPathDisplay))
+		ll := l.With(esl.String("from", ff.EntryPathDisplay))
 		if _, e := toFolders[ffn]; e {
 			ll.Debug("Proceed into descendants")
 			p, err := filepath.Rel(z.fromEntry.PathLower(), ff.PathLower())
 			if err != nil {
-				ll.Warn("Unable to calc relative path", es_log.Error(err))
+				ll.Warn("Unable to calc relative path", esl.Error(err))
 				// TODO: do reporting
 				continue
 			}
 			if strings.HasPrefix(p, "..") {
-				ll.Warn("Invalid relative path", es_log.String("rel", p))
+				ll.Warn("Invalid relative path", esl.String("rel", p))
 				// TODO; do reporting
 				continue
 			}
 
 			if err := z.merge(p); err != nil {
-				ll.Debug("One or more error in descendant", es_log.Error(err))
+				ll.Debug("One or more error in descendant", esl.Error(err))
 				lastErr = err
 			}
 
 		} else {
 			if err := z.moveFolder(ff); err != nil {
-				ll.Debug("Unable to move", es_log.Error(err))
+				ll.Debug("Unable to move", esl.Error(err))
 				lastErr = err
 			} else {
 				ll.Debug("Folder moved")
@@ -339,7 +339,7 @@ func (z *mergeImpl) merge(path string) error {
 	if z.opts.CleanEmptyFolder {
 		entries, err := sv_file.NewFiles(z.ctx).List(fromPath)
 		if err != nil {
-			l.Debug("Unable to list", es_log.Error(err))
+			l.Debug("Unable to list", esl.Error(err))
 			return lastErr
 		}
 		if len(entries) < 1 {
@@ -348,14 +348,14 @@ func (z *mergeImpl) merge(path string) error {
 			z.doOperation(m, func() error {
 				entry, err := sv_file.NewFiles(z.ctx).Remove(fromPath)
 				if err != nil {
-					l.Debug("Unable to remove folder", es_log.Error(err))
+					l.Debug("Unable to remove folder", esl.Error(err))
 					return err
 				}
-				l.Debug("Removed", es_log.Any("removed", entry.Concrete()))
+				l.Debug("Removed", esl.Any("removed", entry.Concrete()))
 				return nil
 			})
 		} else {
-			l.Debug("Remaining entries", es_log.Int("entries", len(entries)))
+			l.Debug("Remaining entries", esl.Int("entries", len(entries)))
 		}
 	}
 
@@ -369,17 +369,17 @@ func (z *mergeImpl) Merge(from, to mo_path.DropboxPath, opts ...MergeOpt) (err e
 	}
 	z.from = from
 	z.to = to
-	l := z.ctl.Log().With(es_log.String("from", from.Path()), es_log.String("to", to.Path()))
+	l := z.ctl.Log().With(esl.String("from", from.Path()), esl.String("to", to.Path()))
 
 	z.fromEntry, err = sv_file.NewFiles(z.ctx).Resolve(from)
 	if err != nil {
-		l.Debug("Unable to resolve fromFolder", es_log.Error(err))
+		l.Debug("Unable to resolve fromFolder", esl.Error(err))
 		return err
 	}
 
 	z.toEntry, err = sv_file.NewFiles(z.ctx).Resolve(to)
 	if err != nil {
-		l.Debug("Unable to resolve toFolder", es_log.Error(err))
+		l.Debug("Unable to resolve toFolder", esl.Error(err))
 		return err
 	}
 

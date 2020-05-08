@@ -2,7 +2,7 @@ package qt_runtime
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_exit"
@@ -39,14 +39,14 @@ func checkZap(ctl app_control.Control) {
 	l := ctl.Log()
 	b, err := sc_zap.Unzap(ctl)
 	if err != nil {
-		l.Error("Unzap failed", es_log.Error(err))
+		l.Error("Unzap failed", esl.Error(err))
 		app_exit.Abort(app_exit.FatalResourceUnavailable)
 		return
 	}
 	var keys map[string]string
 	err = json.Unmarshal(b, &keys)
 	if err != nil {
-		l.Error("Unable to unmarshal", es_log.Error(err))
+		l.Error("Unable to unmarshal", esl.Error(err))
 		app_exit.Abort(app_exit.FatalResourceUnavailable)
 		return
 	}
@@ -56,7 +56,7 @@ func checkLicense(ctl app_control.Control) {
 	l := ctl.Log()
 	_, _, _, err := recipe.LoadLicense(ctl)
 	if err != nil {
-		l.Error("Unable to load license", es_log.Error(err))
+		l.Error("Unable to load license", esl.Error(err))
 		app_exit.Abort(app_exit.FatalResourceUnavailable)
 		return
 	}

@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -35,7 +35,7 @@ func (z *MonkeyWorker) upload() error {
 	l := z.Context.Log()
 	tf, err := ioutil.TempFile("", "monkey")
 	if err != nil {
-		l.Debug("Unable to create temp file", es_log.Error(err))
+		l.Debug("Unable to create temp file", esl.Error(err))
 		return err
 	}
 	td := make([]byte, rand.Intn(384)+1)
@@ -47,24 +47,24 @@ func (z *MonkeyWorker) upload() error {
 	defer os.Remove(path)
 
 	entry, err := sv_file_content.NewUpload(z.Context).Overwrite(z.Base, path)
-	l.Info("Create or update", es_log.Any("entry", entry), es_log.Error(err))
+	l.Info("Create or update", esl.Any("entry", entry), esl.Error(err))
 	return nil
 }
 
 func (z *MonkeyWorker) delete() error {
 	l := z.Context.Log()
 	entry, err := sv_file.NewFiles(z.Context).Remove(z.Base.ChildPath(z.Name))
-	l.Info("Delete", es_log.Any("entry", entry), es_log.Error(err))
+	l.Info("Delete", esl.Any("entry", entry), esl.Error(err))
 	return nil
 }
 
 func (z *MonkeyWorker) Exec() error {
 	defer z.Sem.Release(1)
 
-	l := z.Context.Log().With(es_log.String("base", z.Base.Path()), es_log.String("name", z.Name))
+	l := z.Context.Log().With(esl.String("base", z.Base.Path()), esl.String("name", z.Name))
 	entry, err := sv_file.NewFiles(z.Context).Resolve(z.Base.ChildPath(z.Name))
 
-	l.Debug("Entry", es_log.Any("entry", entry), es_log.Error(err))
+	l.Debug("Entry", esl.Any("entry", entry), esl.Error(err))
 
 	// Create if the file not found
 	if err != nil {
@@ -105,14 +105,14 @@ func (z *Monkey) Exec(c app_control.Control) error {
 	}
 	sem := semaphore.NewWeighted(100)
 	l := c.Log()
-	l.Info("Monkey test start", es_log.Int("Distribution", z.Distribution.Value()), es_log.Int("Running time", z.Seconds.Value()))
+	l.Info("Monkey test start", esl.Int("Distribution", z.Distribution.Value()), esl.Int("Running time", z.Seconds.Value()))
 
 	q := c.NewQueue()
 	go func() {
 		for {
 			err := sem.Acquire(context.Background(), 1)
 			if err != nil {
-				l.Debug("Unable to acquire semaphore", es_log.Error(err))
+				l.Debug("Unable to acquire semaphore", esl.Error(err))
 				return
 			}
 
@@ -120,7 +120,7 @@ func (z *Monkey) Exec(c app_control.Control) error {
 			file := files[index]
 			folder := folders[index]
 
-			l.Debug("Enqueue file", es_log.String("path", folder.Path()), es_log.String("name", file))
+			l.Debug("Enqueue file", esl.String("path", folder.Path()), esl.String("name", file))
 			q.Enqueue(&MonkeyWorker{
 				Context: z.Peer.Context(),
 				Base:    folder,

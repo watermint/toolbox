@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_team"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
@@ -57,7 +57,7 @@ func (z *teamImpl) Feature() (feature *mo_team.Feature, err error) {
 	features := make(map[string]json.RawMessage)
 
 	for _, tag := range featureTags {
-		z.ctx.Log().Debug("Feature", es_log.String("tag", tag))
+		z.ctx.Log().Debug("Feature", esl.String("tag", tag))
 		p := FP{Values: []FT{{Tag: tag}}}
 		res := z.ctx.Post("team/features/get_values", api_request.Param(p))
 		if err, fail := res.Failure(); fail {

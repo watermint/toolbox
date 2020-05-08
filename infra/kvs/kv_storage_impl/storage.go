@@ -5,7 +5,7 @@ import (
 	"github.com/dgraph-io/badger/v2"
 	"github.com/dgraph-io/badger/v2/options"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_badger"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -67,11 +67,11 @@ func (z *badgerWrapper) Update(f func(kv kv_kvs.Kvs) error) error {
 }
 
 func (z *badgerWrapper) Close() {
-	l := z.ctl.Log().With(es_log.String("name", z.name))
+	l := z.ctl.Log().With(esl.String("name", z.name))
 	l.Debug("Closing database")
 	z.closed = true
 	err := z.db.Close()
-	l.Debug("Database closed", es_log.Error(err))
+	l.Debug("Database closed", esl.Error(err))
 
 	// #323 : remove storage data on close unless debug option enabled
 	if z.ctl.Feature().IsDebug() {
@@ -79,20 +79,20 @@ func (z *badgerWrapper) Close() {
 		return
 	}
 
-	l.Debug("Trying to clean up database", es_log.String("path", z.path))
+	l.Debug("Trying to clean up database", esl.String("path", z.path))
 	if err := os.RemoveAll(z.path); err != nil {
-		l.Debug("Unable to delete database", es_log.Error(err))
+		l.Debug("Unable to delete database", esl.Error(err))
 	} else {
 		l.Debug("The database removed")
 	}
 }
 
 func (z *badgerWrapper) openWithPath(name, path string) (err error) {
-	l := z.ctl.Log().With(es_log.String("name", name))
+	l := z.ctl.Log().With(esl.String("name", name))
 	z.name = name
 	z.path = path
 
-	l = l.With(es_log.String("path", path))
+	l = l.With(esl.String("path", path))
 	l.Debug("Open database")
 	opts := badger.DefaultOptions(path)
 	opts = opts.WithLogger(lgw_badger.New(l))
@@ -108,14 +108,14 @@ func (z *badgerWrapper) openWithPath(name, path string) (err error) {
 
 	z.db, err = badger.Open(opts)
 	if err != nil {
-		l.Debug("Unable to open database", es_log.Error(err))
+		l.Debug("Unable to open database", esl.Error(err))
 		// Temporary workaround:
 		// https://github.com/watermint/toolbox/issues/297
 		// Win 64 bit / GOARCH=386 : MapViewOfFile: Not enough memory resources are available to process this command
 		// Win 32 bit / GOARCH=386 : MapViewOfFile: The parameter is incorrect.
 		// This look like: https://github.com/dgraph-io/badger/issues/1072
 		if strings.Contains(err.Error(), "MapViewOfFile") {
-			l.Debug("Memory map error", es_log.Error(err))
+			l.Debug("Memory map error", esl.Error(err))
 			if app.IsWindows() && runtime.GOARCH == "386" {
 				z.ctl.UI().Error(MStorage.ErrorThisCommandMayNotWorkOnWin32)
 				return errors.New("this command may not work on 32 bit windows")
@@ -127,10 +127,10 @@ func (z *badgerWrapper) openWithPath(name, path string) (err error) {
 }
 
 func (z *badgerWrapper) init(name string) (err error) {
-	l := z.ctl.Log().With(es_log.String("name", name))
+	l := z.ctl.Log().With(esl.String("name", name))
 	kvsBasePath, err := z.ctl.Workspace().Descendant("kvs")
 	if err != nil {
-		l.Debug("Unable to create kvs folder", es_log.Error(err))
+		l.Debug("Unable to create kvs folder", esl.Error(err))
 		return err
 	}
 	path := filepath.Join(kvsBasePath, es_filepath.Escape(name))

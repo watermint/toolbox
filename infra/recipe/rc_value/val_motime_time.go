@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_essential"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -101,7 +101,7 @@ func (z *ValueMoTimeTime) SpinUp(ctl app_control.Control) (err error) {
 
 	ti := z.time.(*mo_time.TimeImpl)
 	if err = ti.UpdateTime(z.dateTime); err != nil {
-		l.Debug("Unable to parse", es_log.Error(err), es_log.String("dateTime", z.dateTime))
+		l.Debug("Unable to parse", esl.Error(err), esl.String("dateTime", z.dateTime))
 		return err
 	}
 	return nil

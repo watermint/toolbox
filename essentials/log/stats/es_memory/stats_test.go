@@ -1,11 +1,11 @@
 package es_memory
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"testing"
 )
 
 func TestDumpStats(t *testing.T) {
-	l := es_log.Default()
+	l := esl.Default()
 	DumpMemStats(l)
 }

@@ -2,7 +2,7 @@ package app_msg_container_impl
 
 import (
 	"github.com/watermint/toolbox/essentials/lang"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 )
 
@@ -22,7 +22,7 @@ func NewContainer() app_msg_container.Container {
 		containers[la.Code()] = c
 	}
 	if len(containers) < 1 {
-		es_log.Default().Error("No resources loaded", es_log.Error(lastErr))
+		esl.Default().Error("No resources loaded", esl.Error(lastErr))
 		panic("At least one message resource required")
 	}
 

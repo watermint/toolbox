@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
 	"net/http"
@@ -51,15 +51,15 @@ func NewPostRequest(url string, content es_rewinder.ReadRewinder) (*http.Request
 }
 
 func NewHttpRequest(method, url string, content es_rewinder.ReadRewinder) (*http.Request, error) {
-	l := es_log.Default()
+	l := esl.Default()
 	if err := content.Rewind(); err != nil {
-		l.Debug("Unable to rewind", es_log.Error(err))
+		l.Debug("Unable to rewind", esl.Error(err))
 		return nil, err
 	}
 	c := nw_bandwidth.WrapReader(content)
 	req, err := http.NewRequest(method, url, c)
 	if err != nil {
-		l.Debug("unable to create request", es_log.Error(err))
+		l.Debug("unable to create request", esl.Error(err))
 		return nil, err
 	}
 	return req, nil

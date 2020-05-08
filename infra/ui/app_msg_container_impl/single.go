@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/lang"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -26,17 +26,17 @@ func NewSingleWithMessages(msgs map[string]string) app_msg_container.Container {
 }
 
 func newFromBytes(la lang.Lang, loader func(name string) ([]byte, error)) (c app_msg_container.Container, err error) {
-	l := es_log.Default().With(es_log.String("lang", la.String()))
+	l := esl.Default().With(esl.String("lang", la.String()))
 
 	resName := fmt.Sprintf("messages%s.json", la.Suffix())
-	l = l.With(es_log.String("name", resName))
+	l = l.With(esl.String("name", resName))
 	resData, err := loader(resName)
 	if err != nil {
 		return nil, err
 	}
 	resMsgs := make(map[string]string)
 	if err = json.Unmarshal(resData, &resMsgs); err != nil {
-		l.Error("Unable to unmarshal message resource", es_log.Error(err))
+		l.Error("Unable to unmarshal message resource", esl.Error(err))
 		return nil, err
 	}
 
@@ -64,7 +64,7 @@ func (z *sglContainer) Exists(key string) bool {
 }
 
 func (z *sglContainer) Compile(m app_msg.Message) string {
-	l := es_log.Default()
+	l := esl.Default()
 	key := m.Key()
 	if msg, ok := z.messages[key]; !ok {
 		return AltCompile(m)
@@ -78,18 +78,18 @@ func (z *sglContainer) Compile(m app_msg.Message) string {
 		t, err := template.New(key).Parse(msg)
 		if err != nil {
 			l.Warn("Unable to compile message",
-				es_log.String("key", key),
-				es_log.String("msg", msg),
-				es_log.Error(err),
+				esl.String("key", key),
+				esl.String("msg", msg),
+				esl.Error(err),
 			)
 			return AltCompile(m)
 		}
 		var buf bytes.Buffer
 		if err = t.Execute(&buf, params); err != nil {
 			l.Warn("Unable to format message",
-				es_log.String("key", key),
-				es_log.String("msg", msg),
-				es_log.Error(err),
+				esl.String("key", key),
+				esl.String("msg", msg),
+				esl.Error(err),
 			)
 			return AltCompile(m)
 		}

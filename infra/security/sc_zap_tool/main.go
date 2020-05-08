@@ -3,7 +3,7 @@ package main
 import (
 	"crypto/sha256"
 	"encoding/base32"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
 	"io/ioutil"
 	"os"
@@ -58,7 +58,7 @@ const (
 func main() {
 	keyPath := "resources/keys/toolbox.appkeys"
 	secretPath := keyPath + ".secret"
-	l := es_log.Default()
+	l := esl.Default()
 
 	keyFile, err := os.Open(keyPath)
 	if err != nil {

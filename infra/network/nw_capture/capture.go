@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/stats/es_http"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -25,7 +25,7 @@ func (z *Client) Call(ctx api_context.Context, req nw_client.RequestBuilder) (re
 	l := ctx.Log()
 	hReq, err := req.Build()
 	if err != nil {
-		l.Debug("Unable to make http request", es_log.Error(err))
+		l.Debug("Unable to make http request", esl.Error(err))
 		return es_response_impl.NewNoResponse(err)
 	}
 
@@ -53,14 +53,14 @@ type Capture interface {
 	WithResponse(rb nw_client.RequestBuilder, req *http.Request, res es_response.Response, resErr error, latency int64)
 }
 
-func NewCapture(cap es_log.Logger) Capture {
+func NewCapture(cap esl.Logger) Capture {
 	return &captureImpl{
 		capture: cap,
 	}
 }
 
 type captureImpl struct {
-	capture es_log.Logger
+	capture esl.Logger
 }
 
 type Record struct {
@@ -131,9 +131,9 @@ func (z *captureImpl) WithResponse(rb nw_client.RequestBuilder, req *http.Reques
 	rs.Apply(res, resErr)
 
 	z.capture.Debug("",
-		es_log.Any("req", rq),
-		es_log.Any("res", rs),
-		es_log.Int64("latency", latency),
+		esl.Any("req", rq),
+		esl.Any("res", rs),
+		esl.Int64("latency", latency),
 	)
 }
 
@@ -149,8 +149,8 @@ func (z *captureImpl) NoResponse(rb nw_client.RequestBuilder, req *http.Request,
 	}
 
 	z.capture.Debug("",
-		es_log.Any("req", rq),
-		es_log.Any("res", rs),
-		es_log.Int64("latency", latency),
+		esl.Any("req", rq),
+		esl.Any("res", rs),
+		esl.Int64("latency", latency),
 	)
 }

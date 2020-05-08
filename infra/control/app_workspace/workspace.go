@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"go.uber.org/atomic"
 	"os"
@@ -117,17 +117,17 @@ func NewWorkspace(home string) (Workspace, error) {
 
 // create or get fully qualified path
 func getOrCreate(fqp string) (path string, err error) {
-	l := es_log.Default().With(es_log.String("path", fqp))
+	l := esl.Default().With(esl.String("path", fqp))
 	st, err := os.Stat(fqp)
 	switch {
 	case err != nil && os.IsNotExist(err):
 		err = os.MkdirAll(fqp, 0701)
 		if err != nil {
-			l.Error("Unable to create workspace path", es_log.Error(err))
+			l.Error("Unable to create workspace path", esl.Error(err))
 			return "", err
 		}
 	case err != nil:
-		l.Error("Unable to setup path", es_log.Error(err))
+		l.Error("Unable to setup path", esl.Error(err))
 		return "", err
 
 	case !st.IsDir():
@@ -135,7 +135,7 @@ func getOrCreate(fqp string) (path string, err error) {
 		return "", errors.New("workspace path is not a directory")
 
 	case st.Mode()&0700 == 0:
-		l.Error("No permission to read and write at workspace path", es_log.Any("mode", st.Mode()))
+		l.Error("No permission to read and write at workspace path", esl.Any("mode", st.Mode()))
 		return "", errors.New("no permission")
 	}
 	return fqp, nil

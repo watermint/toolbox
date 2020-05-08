@@ -1,21 +1,21 @@
 package app_budget
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
-	"github.com/watermint/toolbox/essentials/log/es_rotate"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/log/esl_rotate"
 	"math"
 )
 
 const (
 	unlimitedChunkSize = math.MaxInt64 // no rotate
-	unlimitedQuota     = es_rotate.UnlimitedQuota
-	unlimitedNumBackup = es_rotate.UnlimitedBackups
+	unlimitedQuota     = esl_rotate.UnlimitedQuota
+	unlimitedNumBackup = esl_rotate.UnlimitedBackups
 	standardChunkSize  = 200 * 1024    // 200KiB
 	standardQuota      = 500 * 1048576 // 500MiB * 2 = 1000MiB
-	standardNumBackup  = es_rotate.UnlimitedBackups
+	standardNumBackup  = esl_rotate.UnlimitedBackups
 	lowChunkSize       = 100 * 1024   // 100KiB
 	lowQuota           = 50 * 1048576 // 5MiB * 2 =  100MiB
-	lowNumBackup       = es_rotate.UnlimitedBackups
+	lowNumBackup       = esl_rotate.UnlimitedBackups
 
 	BudgetLow       Budget = "low"
 	BudgetNormal    Budget = "normal"
@@ -40,8 +40,8 @@ func StorageBudget(budget Budget) (chunkSize, quota int64, numBackup int) {
 	case BudgetUnlimited:
 		return unlimitedChunkSize, unlimitedQuota, unlimitedNumBackup
 	default:
-		l := es_log.Default()
-		l.Error("Unsupported budget type, fallback to BudgetNormal", es_log.String("budget", string(budget)))
+		l := esl.Default()
+		l.Error("Unsupported budget type, fallback to BudgetNormal", esl.String("budget", string(budget)))
 		return StorageBudget(BudgetNormal)
 	}
 }

@@ -1,23 +1,23 @@
 package app_feature
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/runtime/es_env"
 	"github.com/watermint/toolbox/infra/app"
 )
 
-func ConsoleLogLevel(test, debug bool) es_log.Level {
+func ConsoleLogLevel(test, debug bool) esl.Level {
 	switch {
 	case es_env.IsEnabled(app.EnvNameDebugVerbose):
-		return es_log.LevelDebug
+		return esl.LevelDebug
 
 	case app.IsProduction() && test:
-		return es_log.LevelQuiet
+		return esl.LevelQuiet
 
 	case debug, test:
-		return es_log.LevelDebug
+		return esl.LevelDebug
 
 	default:
-		return es_log.LevelInfo
+		return esl.LevelInfo
 	}
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -64,7 +64,7 @@ func valueOfType(t reflect.Type, r interface{}, name string) rc_recipe.Value {
 
 // Returns nil if the given rcp is not supported type.
 func NewRepository(scr interface{}) rc_recipe.Repository {
-	l := es_log.Default()
+	l := esl.Default()
 
 	// Create a new recipe instance
 	srt := reflect.ValueOf(scr).Elem().Type()
@@ -75,7 +75,7 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 	rv := reflect.ValueOf(rcp).Elem()
 
 	if rt.Kind() != reflect.Struct {
-		l.Error("Recipe is not a struct", es_log.String("name", rt.Name()), es_log.String("pkg", rt.PkgPath()))
+		l.Error("Recipe is not a struct", esl.String("name", rt.Name()), esl.String("pkg", rt.PkgPath()))
 		return nil
 	}
 
@@ -88,17 +88,17 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 		var rtf = rt.Field(i)
 		var rvf = rv.Field(i)
 		fn := rtf.Name
-		ll := l.With(es_log.String("fieldName", fn))
+		ll := l.With(esl.String("fieldName", fn))
 
 		vot := valueOfType(rtf.Type, rcp, fn)
 		if vot != nil {
-			ll.Debug("Set value", es_log.Any("debug", vot.Debug()))
+			ll.Debug("Set value", esl.Any("debug", vot.Debug()))
 			vals[fn] = vot
 			fieldValue[fn] = rvf
 
 			vi := vot.Init()
 			if vi != nil {
-				ll.Debug("Set initial value", es_log.Any("valueInstance", vi))
+				ll.Debug("Set initial value", esl.Any("valueInstance", vi))
 				switch rtf.Type.Kind() {
 				case reflect.Bool:
 					rvf.SetBool(vi.(bool))
@@ -139,10 +139,10 @@ type RepositoryImpl struct {
 }
 
 func (z *RepositoryImpl) ApplyCustom() {
-	l := es_log.Default()
+	l := esl.Default()
 	for k, v := range z.values {
 		f := z.fieldValue[k]
-		l.Debug("Apply preset", es_log.String("k", k), es_log.Any("v", f.Interface()))
+		l.Debug("Apply preset", esl.String("k", k), esl.Any("v", f.Interface()))
 		v.ApplyPreset(f.Interface())
 	}
 }
@@ -257,7 +257,7 @@ func (z *RepositoryImpl) ReportSpecs() map[string]rp_model.Spec {
 }
 
 func (z *RepositoryImpl) Apply() rc_recipe.Recipe {
-	l := es_log.Default()
+	l := esl.Default()
 	for k, v := range z.values {
 		fv, ok := z.fieldValue[k]
 		if !ok {
@@ -266,16 +266,16 @@ func (z *RepositoryImpl) Apply() rc_recipe.Recipe {
 		av := v.Apply()
 		switch fv.Type().Kind() {
 		case reflect.Bool:
-			l.Debug("apply bool", es_log.String("k", k), es_log.Any("av", av))
+			l.Debug("apply bool", esl.String("k", k), esl.Any("av", av))
 			fv.SetBool(av.(bool))
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-			l.Debug("apply int", es_log.String("k", k), es_log.Any("av", av))
+			l.Debug("apply int", esl.String("k", k), esl.Any("av", av))
 			fv.SetInt(av.(int64))
 		case reflect.String:
-			l.Debug("apply string", es_log.String("k", k), es_log.Any("av", av))
+			l.Debug("apply string", esl.String("k", k), esl.Any("av", av))
 			fv.SetString(av.(string))
 		default:
-			l.Debug("apply interface", es_log.String("k", k), es_log.Any("av", av))
+			l.Debug("apply interface", esl.String("k", k), esl.Any("av", av))
 			fv.Set(reflect.ValueOf(av))
 		}
 	}
@@ -306,7 +306,7 @@ func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 				prompt = true
 			}
 		}
-		l.Debug("spin up", es_log.String("k", k), es_log.Any("v.debug", v.Debug()))
+		l.Debug("spin up", esl.String("k", k), esl.Any("v.debug", v.Debug()))
 
 		err := v.SpinUp(ctl)
 		switch err {
@@ -326,7 +326,7 @@ func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 
 		default:
 			// TODO: replace with UI message
-			l.Error("Invalid argument, or unable to spin up", es_log.String("key", k), es_log.Error(err))
+			l.Error("Invalid argument, or unable to spin up", esl.String("key", k), esl.Error(err))
 			lastErr = err
 		}
 	}
@@ -350,7 +350,7 @@ func (z *RepositoryImpl) SpinDown(ctl app_control.Control) error {
 		if err != nil {
 			lastErr = err
 			// TODO: replace with UI message
-			l.Error("Unable to spin down", es_log.String("key", k), es_log.Error(err))
+			l.Error("Unable to spin down", esl.String("key", k), esl.Error(err))
 		}
 	}
 	if lastErr != nil {

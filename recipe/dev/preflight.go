@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/essentials/lang"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
@@ -40,16 +40,16 @@ func (z *Preflight) Test(c app_control.Control) error {
 }
 
 func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
-	l := c.Log().With(es_log.String("filename", filename))
+	l := c.Log().With(esl.String("filename", filename))
 	p := filepath.Join("resources/messages", filename)
 	content, err := ioutil.ReadFile(p)
 	if err != nil {
-		l.Info("SKIP: Unable to open resource file", es_log.Error(err))
+		l.Info("SKIP: Unable to open resource file", esl.Error(err))
 		return nil
 	}
 	messages := make(map[string]string)
 	if err = json.Unmarshal(content, &messages); err != nil {
-		l.Warn("Unable to unmarshal message file", es_log.Error(err))
+		l.Warn("Unable to unmarshal message file", esl.Error(err))
 		return err
 	}
 	buf := &bytes.Buffer{}
@@ -57,11 +57,11 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 	je.SetEscapeHTML(false)
 	je.SetIndent("", "  ")
 	if err = je.Encode(messages); err != nil {
-		l.Warn("Unable to create sorted image", es_log.Error(err))
+		l.Warn("Unable to create sorted image", esl.Error(err))
 		return err
 	}
 	if err := ioutil.WriteFile(p, buf.Bytes(), 0644); err != nil {
-		l.Warn("Unable to update message", es_log.Error(err))
+		l.Warn("Unable to update message", esl.Error(err))
 		return err
 	}
 	return nil
@@ -94,7 +94,7 @@ func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) 
 			}
 			err := os.Remove(p)
 			if err != nil {
-				l.Error("Unable to remove file", es_log.Error(err), es_log.String("path", p))
+				l.Error("Unable to remove file", esl.Error(err), esl.String("path", p))
 				return nil
 			}
 		}
@@ -110,12 +110,12 @@ func (z *Preflight) cloneSpec(c app_control.Control, path string, release int) e
 	}
 	s, err := ioutil.ReadFile(filepath.Join(path, "spec.json"))
 	if err != nil {
-		l.Error("Unable to open current spec file", es_log.Error(err))
+		l.Error("Unable to open current spec file", esl.Error(err))
 		return err
 	}
 	err = ioutil.WriteFile(filepath.Join(path, fmt.Sprintf("spec_%d.json", release)), s, 0644)
 	if err != nil {
-		l.Error("Unable to create version spec file", es_log.Error(err))
+		l.Error("Unable to create version spec file", esl.Error(err))
 		return err
 	}
 	return nil
@@ -128,12 +128,12 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	if !c.Feature().IsTest() {
 		v, err := ioutil.ReadFile("version")
 		if err != nil {
-			l.Error("Unable to read version file", es_log.Error(err))
+			l.Error("Unable to read version file", esl.Error(err))
 			return err
 		}
 		release, err = strconv.Atoi(string(v))
 		if err != nil {
-			l.Error("Unable to parse version number", es_log.Error(err))
+			l.Error("Unable to parse version number", esl.Error(err))
 			return err
 		}
 	}
@@ -143,7 +143,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		suffix := la.Suffix()
 
 		path := fmt.Sprintf("doc/generated%s/", suffix)
-		ll := l.With(es_log.String("lang", langCode), es_log.String("suffix", suffix))
+		ll := l.With(esl.String("lang", langCode), esl.String("suffix", suffix))
 
 		if !c.Feature().IsTest() {
 			ll.Info("Clean up generated document folder")
@@ -161,7 +161,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				rr.CommandPath = path
 			})
 			if err != nil {
-				l.Error("Failed to generate documents", es_log.Error(err))
+				l.Error("Failed to generate documents", esl.Error(err))
 				return err
 			}
 
@@ -172,7 +172,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "spec.json"))
 			})
 			if err != nil {
-				l.Error("Failed to generate documents", es_log.Error(err))
+				l.Error("Failed to generate documents", esl.Error(err))
 				return err
 			}
 			l.Info("Verify message resources")
@@ -201,7 +201,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "changes.md"))
 			})
 			if err != nil {
-				l.Error("Failed to generate documents", es_log.Error(err))
+				l.Error("Failed to generate documents", esl.Error(err))
 				return err
 			}
 		}
@@ -213,7 +213,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		for _, r := range cat.Recipes() {
 			spec := rc_spec.New(r)
 			for _, m := range spec.Messages() {
-				l.Debug("message", es_log.String("key", m.Key()), es_log.String("text", c.UI().Text(m)))
+				l.Debug("message", esl.String("key", m.Key()), esl.String("text", c.UI().Text(m)))
 			}
 		}
 
@@ -221,7 +221,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		for _, r := range cat.Ingredients() {
 			spec := rc_spec.New(r)
 			for _, m := range spec.Messages() {
-				l.Debug("message", es_log.String("key", m.Key()), es_log.String("text", c.UI().Text(m)))
+				l.Debug("message", esl.String("key", m.Key()), esl.String("text", c.UI().Text(m)))
 			}
 		}
 
@@ -230,17 +230,17 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			m1 := app_msg.Apply(m)
 			msgs := app_msg.Messages(m1)
 			for _, msg := range msgs {
-				l.Debug("message", es_log.String("key", msg.Key()), es_log.String("text", c.UI().Text(msg)))
+				l.Debug("message", esl.String("key", msg.Key()), esl.String("text", c.UI().Text(msg)))
 			}
 		}
 
 		l.Info("Verify features")
 		for _, f := range cat.Features() {
 			key := app_feature.OptInName(f)
-			ll := l.With(es_log.String("key", key))
-			ll.Debug("feature disclaimer", es_log.String("msg", c.UI().Text(app_feature.OptInDisclaimer(f))))
-			ll.Debug("feature agreement", es_log.String("msg", c.UI().Text(app_feature.OptInAgreement(f))))
-			ll.Debug("feature desc", es_log.String("msg", c.UI().Text(app_feature.OptInDescription(f))))
+			ll := l.With(esl.String("key", key))
+			ll.Debug("feature disclaimer", esl.String("msg", c.UI().Text(app_feature.OptInDisclaimer(f))))
+			ll.Debug("feature agreement", esl.String("msg", c.UI().Text(app_feature.OptInAgreement(f))))
+			ll.Debug("feature desc", esl.String("msg", c.UI().Text(app_feature.OptInDescription(f))))
 		}
 	}
 

@@ -5,7 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"hash"
 	"io"
 	"os"
@@ -20,25 +20,25 @@ type Hash interface {
 	SHA256(filepath string) (digest string, err error)
 }
 
-func NewHash(l es_log.Logger) Hash {
+func NewHash(l esl.Logger) Hash {
 	return &hashImpl{l: l}
 }
 
 type hashImpl struct {
-	l es_log.Logger
+	l esl.Logger
 }
 
 func (z hashImpl) sum(filepath string, algorithm hash.Hash, sumLength int) (digest string, err error) {
-	l := z.l.With(es_log.String("file", filepath))
+	l := z.l.With(esl.String("file", filepath))
 	f, err := os.Open(filepath)
 	if err != nil {
-		l.Debug("Unable to open file", es_log.Error(err))
+		l.Debug("Unable to open file", esl.Error(err))
 		return "", err
 	}
 	defer f.Close()
 
 	if _, err := io.Copy(algorithm, f); err != nil {
-		l.Debug("Unable to calculate or read file", es_log.Error(err))
+		l.Debug("Unable to calculate or read file", esl.Error(err))
 		return "", err
 	}
 	dh := algorithm.Sum(nil)[:sumLength]

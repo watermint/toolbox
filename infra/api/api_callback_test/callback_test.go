@@ -2,7 +2,7 @@ package api_callback_test
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/runtime/es_open"
 	"github.com/watermint/toolbox/infra/api/api_callback"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -41,11 +41,11 @@ func (z *MockService) Url(redirectUrl string) string {
 func (z *MockService) Verify(state, code string) bool {
 	l := z.ctl.Log()
 	if state != z.state {
-		l.Debug("Wrong state", es_log.String("given", state), es_log.String("expected", z.state))
+		l.Debug("Wrong state", esl.String("given", state), esl.String("expected", z.state))
 		return false
 	}
 	if code != z.code {
-		l.Debug("Wrong code", es_log.String("given", code), es_log.String("expected", z.code))
+		l.Debug("Wrong code", esl.String("given", code), esl.String("expected", z.code))
 		return false
 	}
 	l.Debug("verification succeed")
@@ -55,14 +55,14 @@ func (z *MockService) Verify(state, code string) bool {
 func (z *MockService) Ping(url string) error {
 	l := z.ctl.Log()
 	hc := http.Client{}
-	l.Debug("Ping valid request", es_log.String("url", url))
+	l.Debug("Ping valid request", esl.String("url", url))
 
 	res, err := hc.Get(url)
 	if err != nil {
-		l.Debug("Error from ping", es_log.Error(err))
+		l.Debug("Error from ping", esl.Error(err))
 		return err
 	}
-	l.Debug("Response", es_log.Int("code", res.StatusCode))
+	l.Debug("Response", esl.Int("code", res.StatusCode))
 	if res.StatusCode == http.StatusOK {
 		l.Debug("Return success")
 		return nil

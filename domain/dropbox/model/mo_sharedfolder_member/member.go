@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
@@ -57,7 +57,7 @@ func (z *Metadata) MemberType() string {
 	if j.Get("invitee").Exists() {
 		return MemberTypeInvitee
 	}
-	es_log.Default().Warn("Unknown member type", es_log.String("entry", string(z.Raw)))
+	esl.Default().Warn("Unknown member type", esl.String("entry", string(z.Raw)))
 	return ""
 }
 
@@ -237,7 +237,7 @@ func NewSharedFolderMember(sf *mo_sharedfolder.SharedFolder, m Member) *SharedFo
 
 	sfm := &SharedFolderMember{}
 	if err := api_parser.ParseModelRaw(sfm, raw); err != nil {
-		es_log.Default().Error("unable to parse", es_log.Error(err))
+		esl.Default().Error("unable to parse", esl.Error(err))
 	}
 	return sfm
 }

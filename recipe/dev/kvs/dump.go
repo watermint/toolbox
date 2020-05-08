@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/domain/common/model/mo_path"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
@@ -33,7 +33,7 @@ func (z *Dump) Exec(c app_control.Control) error {
 	l := c.Log()
 	kv, err := kv_storage_impl.NewWithPath(c, z.Path.Path())
 	if err != nil {
-		l.Debug("unable to open", es_log.Error(err))
+		l.Debug("unable to open", esl.Error(err))
 		return err
 	}
 

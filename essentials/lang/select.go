@@ -1,16 +1,16 @@
 package lang
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"golang.org/x/text/language"
 )
 
 func Select(bcp47 string, supported []Lang) Lang {
-	l := es_log.Default().With(es_log.String("bcp47", bcp47))
+	l := esl.Default().With(esl.String("bcp47", bcp47))
 
 	tag, err := language.Parse(bcp47)
 	if err != nil {
-		l.Debug("unable to parse language, fallback", es_log.Error(err))
+		l.Debug("unable to parse language, fallback", esl.Error(err))
 		return Default
 	}
 	supportedTags := make([]language.Tag, len(supported))
@@ -22,14 +22,14 @@ func Select(bcp47 string, supported []Lang) Lang {
 	switch confidence {
 	case language.No, language.Low:
 		l.Debug("fallback to default, due to lower confidence",
-			es_log.Error(err),
-			es_log.String("confidence", confidence.String()))
+			esl.Error(err),
+			esl.String("confidence", confidence.String()))
 		return Default
 
 	default:
 		l.Debug("selected",
-			es_log.String("selected", selected.String()),
-			es_log.String("confidence", confidence.String()))
+			esl.String("selected", selected.String()),
+			esl.String("confidence", confidence.String()))
 		return New(selected)
 	}
 }

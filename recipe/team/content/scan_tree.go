@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage"
@@ -35,7 +35,7 @@ func (z *TeamFolderNestedFolderScanWorker) addTree(t *Tree) error {
 
 func (z *TeamFolderNestedFolderScanWorker) Exec() error {
 	// Breadth first search for nested folders
-	l := z.ctl.Log().With(es_log.String("teamFolderId", z.teamFolderId))
+	l := z.ctl.Log().With(esl.String("teamFolderId", z.teamFolderId))
 	teamFolderName := ""
 	l.Debug("lookup team folder name")
 	err := z.metadata.View(func(kvs kv_kvs.Kvs) error {
@@ -49,7 +49,7 @@ func (z *TeamFolderNestedFolderScanWorker) Exec() error {
 	if err != nil {
 		return err
 	}
-	l = l.With(es_log.String("teamFolderName", teamFolderName))
+	l = l.With(esl.String("teamFolderName", teamFolderName))
 
 	err = z.tree.Update(func(kvs kv_kvs.Kvs) error {
 		return kvs.PutJsonModel(z.teamFolderId, &Tree{
@@ -62,7 +62,7 @@ func (z *TeamFolderNestedFolderScanWorker) Exec() error {
 		return err
 	}
 
-	l.Debug("search nested folders", es_log.Strings("descendants", z.descendants))
+	l.Debug("search nested folders", esl.Strings("descendants", z.descendants))
 	traverse := make(map[string]bool)
 	for _, d := range z.descendants {
 		traverse[d] = false
@@ -82,7 +82,7 @@ func (z *TeamFolderNestedFolderScanWorker) Exec() error {
 	scan = func(path mo_path.DropboxPath) error {
 		entries, err := sv_file.NewFiles(ctx).List(path)
 		if err != nil {
-			l.Debug("Unable to retrieve entries", es_log.Error(err), es_log.String("path", path.Path()))
+			l.Debug("Unable to retrieve entries", esl.Error(err), esl.String("path", path.Path()))
 			return err
 		}
 
@@ -121,7 +121,7 @@ func (z *TeamFolderNestedFolderScanWorker) Exec() error {
 	}
 
 	if err := scan(mo_path.NewDropboxPath("")); err != nil && err != ErrorScanCompleted {
-		l.Debug("The error occurred on scanning team folder", es_log.Error(err))
+		l.Debug("The error occurred on scanning team folder", esl.Error(err))
 		return err
 	}
 
@@ -155,7 +155,7 @@ func (z *TeamFolderScanner) parentChildRelationship() (relation map[string]strin
 	if err != nil {
 		return nil, err
 	}
-	l.Debug("Relation", es_log.Any("relation", relation))
+	l.Debug("Relation", esl.Any("relation", relation))
 
 	return relation, nil
 }
@@ -172,7 +172,7 @@ func (z *TeamFolderScanner) namespaceToTopNamespaceId() (top map[string]string, 
 
 	l.Debug("Making child - top level folder namespace mapping")
 	for nsid := range relation {
-		ll := l.With(es_log.String("namespace_id", nsid))
+		ll := l.With(esl.String("namespace_id", nsid))
 		top[nsid] = ""
 		chain := make([]string, 0)
 		parent := relation[nsid]
@@ -188,7 +188,7 @@ func (z *TeamFolderScanner) namespaceToTopNamespaceId() (top map[string]string, 
 			parent = current
 		}
 		top[nsid] = parent
-		ll.Debug("Top folder", es_log.String("top", parent))
+		ll.Debug("Top folder", esl.String("top", parent))
 	}
 
 	return top, nil
@@ -220,8 +220,8 @@ func (z *TeamFolderScanner) nestedFolderNamespaceIds() (nested map[string][]stri
 		nested[t] = append(nested[t], nsid)
 	}
 
-	l.Debug("Team folders and nested folders", es_log.Any("nested", nested))
-	l.Debug("Others", es_log.Strings("others", others))
+	l.Debug("Team folders and nested folders", esl.Any("nested", nested))
+	l.Debug("Others", esl.Strings("others", others))
 
 	return nested, others, nil
 }
@@ -261,7 +261,7 @@ func (z *TeamFolderScanner) Scan() error {
 			})
 		})
 		if err != nil {
-			l.Debug("Unable to convert namespace_id to tree", es_log.String("nsid", nsid), es_log.Error(err))
+			l.Debug("Unable to convert namespace_id to tree", esl.String("nsid", nsid), esl.Error(err))
 			lastErr = err
 		}
 	}

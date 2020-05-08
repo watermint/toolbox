@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
@@ -24,7 +24,7 @@ func NewNamespaceMember(namespace *Namespace, member mo_sharedfolder_member.Memb
 
 	nm = &NamespaceMember{}
 	if err := api_parser.ParseModelRaw(nm, raw); err != nil {
-		es_log.Default().Error("unable to parse", es_log.Error(err))
+		esl.Default().Error("unable to parse", esl.Error(err))
 	}
 	return nm
 }
@@ -49,7 +49,7 @@ type NamespaceMember struct {
 func (z *NamespaceMember) Namespace() (namespace *Namespace) {
 	namespace = &Namespace{}
 	if err := api_parser.ParseModelPathRaw(namespace, z.Raw, "namespace"); err != nil {
-		es_log.Default().Warn("unexpected data format", es_log.String("entry", string(z.Raw)), es_log.Error(err))
+		esl.Default().Warn("unexpected data format", esl.String("entry", string(z.Raw)), esl.Error(err))
 		// return empty
 		return namespace
 	}
@@ -59,7 +59,7 @@ func (z *NamespaceMember) Namespace() (namespace *Namespace) {
 func (z *NamespaceMember) Member() (member mo_sharedfolder_member.Member) {
 	member = &mo_sharedfolder_member.Metadata{}
 	if err := api_parser.ParseModelPathRaw(member, z.Raw, "member"); err != nil {
-		es_log.Default().Warn("unexpected data format", es_log.String("entry", string(z.Raw)), es_log.Error(err))
+		esl.Default().Warn("unexpected data format", esl.String("entry", string(z.Raw)), esl.Error(err))
 		// return empty
 		return member
 	}
@@ -93,7 +93,7 @@ func NewNamespaceEntry(namespace *Namespace, entry *mo_file.ConcreteEntry) (ne *
 
 	ne = &NamespaceEntry{}
 	if err := api_parser.ParseModelRaw(ne, raw); err != nil {
-		es_log.Default().Error("unable to parse", es_log.Error(err))
+		esl.Default().Error("unable to parse", esl.Error(err))
 	}
 	return ne
 }

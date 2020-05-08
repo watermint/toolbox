@@ -3,7 +3,7 @@ package es_open
 import (
 	"errors"
 	"github.com/skratchdot/open-golang/open"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 var (
@@ -42,8 +42,8 @@ type dummyOpener struct {
 }
 
 func (z *dummyOpener) Open(input string, blocking bool) error {
-	l := es_log.Default()
-	l.Debug("Open", es_log.String("input", input), es_log.Bool("blocking", blocking))
+	l := esl.Default()
+	l.Debug("Open", esl.String("input", input), esl.Bool("blocking", blocking))
 	return nil
 }
 
@@ -51,7 +51,7 @@ type errorOpener struct {
 }
 
 func (z *errorOpener) Open(input string, blocking bool) error {
-	l := es_log.Default()
-	l.Debug("Open", es_log.String("input", input), es_log.Bool("blocking", blocking))
+	l := esl.Default()
+	l.Debug("Open", esl.String("input", input), esl.Bool("blocking", blocking))
 	return ErrorAlwaysError
 }

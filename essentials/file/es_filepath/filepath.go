@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_desktop"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"math/rand"
 	"os"
@@ -22,7 +22,7 @@ var (
 )
 
 func Rel(basePath, targetPath string) (rel string, err error) {
-	l := es_log.Default()
+	l := esl.Default()
 
 	isSeparator := func(c rune) bool {
 		switch {
@@ -41,7 +41,7 @@ func Rel(basePath, targetPath string) (rel string, err error) {
 	bl := len(bpr)
 	tl := len(tpr)
 
-	l = l.With(es_log.Int("basePathLen", bl), es_log.Int("targetPathLen", tl))
+	l = l.With(esl.Int("basePathLen", bl), esl.Int("targetPathLen", tl))
 
 	if bl < 1 || tl < 1 {
 		l.Debug("Empty path")

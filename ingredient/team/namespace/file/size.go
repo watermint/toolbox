@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_size"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -42,7 +42,7 @@ func (z *SizeWorker) Exec() error {
 	ui.Progress(MSize.ProgressScan.
 		With("NamespaceName", z.namespace.Name).
 		With("NamespaceId", z.namespace.NamespaceId))
-	l := z.ctl.Log().With(es_log.Any("namespace", z.namespace))
+	l := z.ctl.Log().With(esl.Any("namespace", z.namespace))
 
 	ctn := z.ctx.WithPath(dbx_context.Namespace(z.namespace.NamespaceId))
 
@@ -51,7 +51,7 @@ func (z *SizeWorker) Exec() error {
 
 	for p, size := range sizes {
 		if err, ok := errs[p]; ok {
-			l.Debug("Unable to traverse", es_log.Error(err))
+			l.Debug("Unable to traverse", esl.Error(err))
 			ui.Error(MSize.ErrorScanFailed.
 				With("NamespaceName", z.namespace.Name).
 				With("NamespaceId", z.namespace.NamespaceId).
@@ -111,7 +111,7 @@ func (z *Size) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	l.Debug("Run as admin", es_log.Any("admin", admin))
+	l.Debug("Run as admin", esl.Any("admin", admin))
 
 	namespaces, err := sv_namespace.New(z.Peer.Context()).List()
 	if err != nil {
@@ -134,11 +134,11 @@ func (z *Size) Exec(c app_control.Control) error {
 			process = true
 		}
 		if !process {
-			l.Debug("Skip", es_log.Any("namespace", namespace))
+			l.Debug("Skip", esl.Any("namespace", namespace))
 			continue
 		}
 		if z.Name.IsExists() && namespace.Name != z.Name.Value() {
-			l.Debug("Skip", es_log.Any("namespace", namespace), es_log.String("filter", z.Name.Value()))
+			l.Debug("Skip", esl.Any("namespace", namespace), esl.String("filter", z.Name.Value()))
 			continue
 		}
 

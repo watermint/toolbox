@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_response"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"strings"
 )
@@ -333,7 +333,7 @@ func (z *memberImpl) parseOneMember(res es_response.Response) (member *mo_member
 	// id_not_found response:
 	// {".tag": "id_not_found", "id_not_found": "xxx+xxxxx@xxxxxxxxx.xxx"}
 	if id, found := a.FindString("id_not_found"); found {
-		z.ctx.Log().Debug("`id_not_found`", es_log.String("id", id))
+		z.ctx.Log().Debug("`id_not_found`", esl.String("id", id))
 		return nil, dbx_error.DropboxError{
 			ErrorTag:     "id_not_found",
 			ErrorSummary: "id_not_found",

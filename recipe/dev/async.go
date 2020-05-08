@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -35,7 +35,7 @@ type AsyncWorker struct {
 
 func (z *AsyncWorker) Exec() error {
 	l := z.ctl.Log()
-	l.Debug("Scan group (Multi thread)", es_log.String("Routine", es_goroutine.GetGoRoutineName()), es_log.Any("Group", z.group))
+	l.Debug("Scan group (Multi thread)", esl.String("Routine", es_goroutine.GetGoRoutineName()), esl.Any("Group", z.group))
 
 	msv := sv_group_member.New(z.conn, z.group)
 	members, err := msv.List()
@@ -98,7 +98,7 @@ func (z *Async) Exec(c app_control.Control) error {
 			}
 			q.Enqueue(w)
 		} else {
-			c.Log().Debug("Scan group (Single thread)", es_log.String("Routine", es_goroutine.GetGoRoutineName()), es_log.Any("Group", group))
+			c.Log().Debug("Scan group (Single thread)", esl.String("Routine", es_goroutine.GetGoRoutineName()), esl.Any("Group", group))
 			msv := sv_group_member.New(ctxInfo, group)
 			members, err := msv.List()
 			if err != nil {
@@ -185,7 +185,7 @@ func (z *Async) Test(c app_control.Control) error {
 	d := cmp.Diff(singleReport, concurrentReport)
 	l.Debug("Diff")
 	if d != "" {
-		l.Error("Diff found", es_log.String("diff", d))
+		l.Error("Diff found", esl.String("diff", d))
 		return errors.New("diff found")
 	}
 	return nil

@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/go/es_resource"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/stats/es_memory"
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_golog"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
@@ -53,7 +53,7 @@ func NewTestDropboxFolderPath(rel ...string) mo_path.DropboxPath {
 func MustMakeTestFolder(ctl app_control.Control, name string, withContent bool) (path string) {
 	path, err := qt_file.MakeTestFolder(name, withContent)
 	if err != nil {
-		ctl.Log().Error("Unable to create test folder", es_log.Error(err))
+		ctl.Log().Error("Unable to create test folder", esl.Error(err))
 		app_exit.Abort(app_exit.FailureGeneral)
 	}
 	return path
@@ -92,7 +92,7 @@ func resBundle() es_resource.Bundle {
 }
 
 func findTestFolder() string {
-	l := es_log.Default()
+	l := esl.Default()
 
 	root, err := es_project.DetectRepositoryRoot()
 	if err != nil {
@@ -103,29 +103,29 @@ func findTestFolder() string {
 }
 
 func loadReplay(name string) (rr []nw_replay.Response, err error) {
-	l := es_log.Default().With(es_log.String("name", name))
+	l := esl.Default().With(esl.String("name", name))
 	tp := findTestFolder()
 	rp := filepath.Join(tp, "replay", name)
 
-	l.Debug("Loading replay", es_log.String("path", rp))
+	l.Debug("Loading replay", esl.String("path", rp))
 	b, err := ioutil.ReadFile(rp)
 	if err != nil {
-		l.Debug("Unable to load", es_log.Error(err))
+		l.Debug("Unable to load", esl.Error(err))
 		return nil, err
 	}
 
 	if err := json.Unmarshal(b, &rr); err != nil {
-		l.Debug("Unable to unmarshal", es_log.Error(err))
+		l.Debug("Unable to unmarshal", esl.Error(err))
 		return nil, err
 	}
 
-	l.Debug("Replay loaded", es_log.Int("numRecords", len(rr)))
+	l.Debug("Replay loaded", esl.Int("numRecords", len(rr)))
 	return rr, nil
 }
 
 func Resources() (ui app_ui.UI) {
 	bundle := resBundle()
-	lg := es_log.Default()
+	lg := esl.Default()
 	log.SetOutput(lgw_golog.NewLogWrapper(lg))
 	app_resource.SetBundle(bundle)
 
@@ -159,7 +159,7 @@ func TestWithReplayDbxContext(t *testing.T, name string, twc func(ctx dbx_contex
 func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	ui := Resources()
-	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited, es_log.ConsoleDefaultLevel())
+	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited, esl.ConsoleDefaultLevel())
 	if err != nil {
 		t.Error(err)
 		return
@@ -182,7 +182,7 @@ func ForkWithName(t *testing.T, name string, c app_control.Control, f func(c app
 	err := app_workspace.WithFork(c.WorkBundle(), name, func(fwb app_workspace.Bundle) error {
 		cf := c.WithBundle(fwb)
 		l := cf.Log()
-		l.Info("Execute", es_log.String("name", name))
+		l.Info("Execute", esl.String("name", name))
 		return f(cf)
 	})
 	if re, c := qt_errors.ErrorsForTest(c.Log(), err); !c && re != nil {
@@ -229,14 +229,14 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 type RowTester func(cols map[string]string) error
 
 func TestRows(ctl app_control.Control, reportName string, tester RowTester) error {
-	l := ctl.Log().With(es_log.String("reportName", reportName))
+	l := ctl.Log().With(esl.String("reportName", reportName))
 	csvFile := filepath.Join(ctl.Workspace().Report(), reportName+".csv")
 
-	l.Debug("Start loading report", es_log.String("csvFile", csvFile))
+	l.Debug("Start loading report", esl.String("csvFile", csvFile))
 
 	cf, err := os.Open(csvFile)
 	if err != nil {
-		l.Warn("Unable to open report CSV", es_log.Error(err))
+		l.Warn("Unable to open report CSV", esl.Error(err))
 		return err
 	}
 	defer cf.Close()
@@ -250,7 +250,7 @@ func TestRows(ctl app_control.Control, reportName string, tester RowTester) erro
 			break
 		}
 		if err != nil {
-			l.Warn("An error occurred during read report file", es_log.Error(err))
+			l.Warn("An error occurred during read report file", esl.Error(err))
 			return err
 		}
 		if isFirstLine {
@@ -262,7 +262,7 @@ func TestRows(ctl app_control.Control, reportName string, tester RowTester) erro
 				colMap[h] = cols[i]
 			}
 			if err := tester(colMap); err != nil {
-				l.Warn("Tester returned an error", es_log.Error(err), es_log.Any("cols", colMap))
+				l.Warn("Tester returned an error", esl.Error(err), esl.Any("cols", colMap))
 				return err
 			}
 		}

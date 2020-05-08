@@ -2,7 +2,7 @@ package nw_http
 
 import (
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/network/nw_client"
 	"github.com/watermint/toolbox/infra/network/nw_concurrency"
 	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
@@ -25,9 +25,9 @@ type Client struct {
 
 // Call RPC. res will be nil on an error
 func (z *Client) Call(hash, endpoint string, req *http.Request) (res *http.Response, latency time.Duration, err error) {
-	l := es_log.Default().With(
-		es_log.String("Endpoint", endpoint),
-		es_log.String("Routine", es_goroutine.GetGoRoutineName()),
+	l := esl.Default().With(
+		esl.String("Endpoint", endpoint),
+		esl.String("Routine", es_goroutine.GetGoRoutineName()),
 	)
 
 	l.Debug("Call")

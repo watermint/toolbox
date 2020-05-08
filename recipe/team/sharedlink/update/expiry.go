@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/time/ut_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -46,7 +46,7 @@ type ExpiryScanWorker struct {
 
 func (z *ExpiryScanWorker) Exec() error {
 	ui := z.ctl.UI()
-	l := z.ctl.Log().With(es_log.Any("member", z.member))
+	l := z.ctl.Log().With(esl.Any("member", z.member))
 
 	l.Debug("Scanning member shared links")
 	ui.Progress(MExpiry.ProgressScanning.With("MemberEmail", z.member.Email))
@@ -54,7 +54,7 @@ func (z *ExpiryScanWorker) Exec() error {
 	ctxMember := z.ctx.AsMemberId(z.member.TeamMemberId)
 	links, err := sv_sharedlink.New(ctxMember).List()
 	if err != nil {
-		l.Debug("Unable to scan shared link", es_log.Error(err))
+		l.Debug("Unable to scan shared link", esl.Error(err))
 		ui.Error(MExpiry.ErrorUnableScanMember.
 			With("Member", z.member.Email).
 			With("Error", err))
@@ -65,9 +65,9 @@ func (z *ExpiryScanWorker) Exec() error {
 	q := z.ctl.NewQueue()
 
 	for _, link := range links {
-		ll := l.With(es_log.Any("link", link))
+		ll := l.With(esl.Any("link", link))
 		if link.LinkVisibility() != z.visibility {
-			ll.Debug("Skip link", es_log.String("targetVisibility", z.visibility))
+			ll.Debug("Skip link", esl.String("targetVisibility", z.visibility))
 			z.repSkipped.Row(mo_sharedlink.NewSharedLinkMember(link, z.member))
 			continue
 		}
@@ -123,7 +123,7 @@ type ExpiryWorker struct {
 
 func (z *ExpiryWorker) Exec() error {
 	ui := z.ctl.UI()
-	l := z.ctl.Log().With(es_log.Any("link", z.link.Metadata()))
+	l := z.ctl.Log().With(esl.Any("link", z.link.Metadata()))
 
 	ui.Progress(MExpiry.ProgressUpdating.With("MemberEmail", z.member.Email).
 		With("Url", z.link.LinkUrl()).
@@ -137,7 +137,7 @@ func (z *ExpiryWorker) Exec() error {
 		return err
 	}
 
-	l.Debug("Updated", es_log.Any("updated", updated))
+	l.Debug("Updated", esl.Any("updated", updated))
 	z.rep.Success(
 		mo_sharedlink.NewSharedLinkMember(z.link, z.member),
 		updated,
@@ -184,7 +184,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 	l := c.Log()
 	var newExpiry time.Time
 	if z.Days.Value() > 0 && z.At.Ok() {
-		l.Debug("Both Days/At specified", es_log.Int("evo.Days", z.Days.Value()), es_log.String("evo.At", z.At.Value()))
+		l.Debug("Both Days/At specified", esl.Int("evo.Days", z.Days.Value()), esl.String("evo.At", z.At.Value()))
 		ui.Error(z.ErrorPleaseSpecifyDaysOrAt)
 		return errors.New("please specify one of `-days` or `-at`")
 	}
@@ -192,18 +192,18 @@ func (z *Expiry) Exec(c app_control.Control) error {
 	switch {
 	case z.Days.Value() > 0:
 		newExpiry = dbx_util.RebaseTime(time.Now().Add(time.Duration(z.Days.Value()*24) * time.Hour))
-		l.Debug("New expiry", es_log.Int("evo.Days", z.Days.Value()), es_log.String("newExpiry", newExpiry.String()))
+		l.Debug("New expiry", esl.Int("evo.Days", z.Days.Value()), esl.String("newExpiry", newExpiry.String()))
 
 	default:
 		if !z.At.Ok() {
-			l.Debug("Invalid date/time format for at option", es_log.String("evo.At", z.At.Value()))
+			l.Debug("Invalid date/time format for at option", esl.String("evo.At", z.At.Value()))
 			ui.Error(z.ErrorInvalidDateTime.With("Time", z.At.Value()))
 			return errors.New("invalid date/time format for `at`")
 		}
 		newExpiry = z.At.Time()
 	}
 
-	l = l.With(es_log.String("newExpiry", newExpiry.String()))
+	l = l.With(esl.String("newExpiry", newExpiry.String()))
 
 	if err := z.Updated.Open(); err != nil {
 		return err

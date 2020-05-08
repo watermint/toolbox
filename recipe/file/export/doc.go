@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -37,9 +37,9 @@ func (z *Doc) Exec(c app_control.Control) error {
 	dest := filepath.Join(z.LocalPath.Path(), export.ExportName)
 	if err := os.Rename(path.Path(), dest); err != nil {
 		l.Debug("Unable to move file to specified path",
-			es_log.Error(err),
-			es_log.String("downloaded", path.Path()),
-			es_log.String("destination", dest),
+			esl.Error(err),
+			esl.String("downloaded", path.Path()),
+			esl.String("destination", dest),
 		)
 		return err
 	}

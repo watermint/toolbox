@@ -5,7 +5,7 @@ import (
 	"errors"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/essentials/collections/es_number"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"reflect"
 	"strings"
 )
@@ -193,12 +193,12 @@ func (z wrapperImpl) String() (v string, t bool) {
 }
 
 func (z wrapperImpl) Model(v interface{}) (err error) {
-	l := es_log.Default()
+	l := esl.Default()
 
 	vv := reflect.ValueOf(v).Elem()
 	vt := vv.Type()
 
-	l = l.With(es_log.String("valueType", vt.Name()))
+	l = l.With(esl.String("valueType", vt.Name()))
 
 	for i := vt.NumField() - 1; i >= 0; i-- {
 		vtf := vt.Field(i)
@@ -224,8 +224,8 @@ func (z wrapperImpl) Model(v interface{}) (err error) {
 		if !jv.Exists() {
 			if required {
 				l.Debug("Missing required field",
-					es_log.String("field", vtf.Name),
-					es_log.String("path", p))
+					esl.String("field", vtf.Name),
+					esl.String("path", p))
 				return ErrorMissingRequired
 			}
 			continue
@@ -244,7 +244,7 @@ func (z wrapperImpl) Model(v interface{}) (err error) {
 			vvf.SetFloat(jv.Float())
 
 		default:
-			l.Error("unexpected type found", es_log.String("type.kind", vtf.Type.Kind().String()))
+			l.Error("unexpected type found", esl.String("type.kind", vtf.Type.Kind().String()))
 			return ErrorUnsupportedFieldType
 		}
 	}

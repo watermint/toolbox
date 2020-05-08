@@ -3,7 +3,7 @@ package auth
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -25,7 +25,7 @@ func (z *Import) Preset() {
 }
 
 func (z *Import) Exec(c app_control.Control) error {
-	l := c.Log().With(es_log.String("peerName", z.PeerName), es_log.String("envName", z.EnvName))
+	l := c.Log().With(esl.String("peerName", z.PeerName), esl.String("envName", z.EnvName))
 	e := os.Getenv(z.EnvName)
 	if e == "" {
 		l.Info("Environment variable not found. Skip import.")
@@ -33,7 +33,7 @@ func (z *Import) Exec(c app_control.Control) error {
 	}
 	tokens := make(map[string]*oauth2.Token)
 	if err := json.Unmarshal([]byte(e), &tokens); err != nil {
-		l.Debug("Unable to unmarshal", es_log.Error(err))
+		l.Debug("Unable to unmarshal", esl.Error(err))
 		return err
 	}
 
@@ -42,9 +42,9 @@ func (z *Import) Exec(c app_control.Control) error {
 
 	for _, scope := range Scopes {
 		if _, err := ca.Auth(scope); err != nil {
-			l.Info("Skip loading", es_log.String("scope", scope), es_log.Error(err))
+			l.Info("Skip loading", esl.String("scope", scope), esl.Error(err))
 		} else {
-			l.Info("Loaded", es_log.String("scope", scope))
+			l.Info("Loaded", esl.String("scope", scope))
 		}
 	}
 	l.Info("Tokens loaded")

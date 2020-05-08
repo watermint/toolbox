@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member_quota"
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -42,7 +42,7 @@ type UpdateWorker struct {
 func (z *UpdateWorker) Exec() error {
 	l := z.ctl.Log()
 	z.ctl.UI().Progress(MUpdate.ProgressUpdate.With("MemberEmail", z.member.Email).With("Quota", z.quota))
-	l.Debug("Updating quota", es_log.String("Routine", es_goroutine.GetGoRoutineName()), es_log.Any("Member", z.member))
+	l.Debug("Updating quota", esl.String("Routine", es_goroutine.GetGoRoutineName()), esl.Any("Member", z.member))
 
 	q := &mo_member_quota.Quota{
 		TeamMemberId: z.member.TeamMemberId,

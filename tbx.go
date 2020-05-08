@@ -5,7 +5,7 @@ import (
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/catalogue"
 	"github.com/watermint/toolbox/essentials/go/es_resource"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_golog"
 	"github.com/watermint/toolbox/essentials/terminal/es_window"
 	"github.com/watermint/toolbox/infra/control/app_bootstrap"
@@ -35,7 +35,7 @@ func run(args []string, forTest bool) {
 	)
 	app_resource.SetBundle(bundle)
 	app_catalogue.SetCurrent(catalogue.NewCatalogue())
-	log.SetOutput(lgw_golog.NewLogWrapper(es_log.Default()))
+	log.SetOutput(lgw_golog.NewLogWrapper(esl.Default()))
 
 	b := app_bootstrap.NewBootstrap()
 

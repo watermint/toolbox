@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -35,7 +35,7 @@ func (z *Reinvite) Exec(c app_control.Control) error {
 	}
 
 	for _, member := range members {
-		ll := l.With(es_log.Any("member", member))
+		ll := l.With(esl.Any("member", member))
 		if member.Status != "invited" {
 			ll.Debug("Skip")
 			continue
@@ -43,7 +43,7 @@ func (z *Reinvite) Exec(c app_control.Control) error {
 
 		ui.Info(z.ProgressReinvite.With("MemberEmail", member.Email))
 		if err = sv_member.New(z.Peer.Context()).Remove(member); err != nil {
-			ll.Debug("Unable to remove", es_log.Error(err))
+			ll.Debug("Unable to remove", esl.Error(err))
 			z.OperationLog.Failure(err, member)
 			continue
 		}
@@ -53,7 +53,7 @@ func (z *Reinvite) Exec(c app_control.Control) error {
 		}
 		invite, err := sv_member.New(z.Peer.Context()).Add(member.Email, opts...)
 		if err != nil {
-			ll.Debug("Unable to invite", es_log.Error(err))
+			ll.Debug("Unable to invite", esl.Error(err))
 			z.OperationLog.Failure(err, member)
 			continue
 		}

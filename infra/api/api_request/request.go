@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/google/go-querystring/query"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 const (
@@ -27,10 +27,10 @@ type RequestData struct {
 
 // Returns JSON form of param. Returns `null` string if an error occurred.
 func (z RequestData) ParamJson() json.RawMessage {
-	l := es_log.Default()
+	l := esl.Default()
 	q, err := json.Marshal(z.p)
 	if err != nil {
-		l.Debug("unable to marshal param", es_log.Error(err), es_log.Any("p", z.p))
+		l.Debug("unable to marshal param", esl.Error(err), esl.Any("p", z.p))
 		return json.RawMessage("null")
 	} else {
 		return q
@@ -39,10 +39,10 @@ func (z RequestData) ParamJson() json.RawMessage {
 
 // Returns query string like "?key=value&key2=value2". Returns empty string if an error occurred.
 func (z RequestData) ParamQuery() string {
-	l := es_log.Default()
+	l := esl.Default()
 	q, err := query.Values(z.p)
 	if err != nil {
-		l.Debug("unable to make query", es_log.Error(err), es_log.Any("p", z.p))
+		l.Debug("unable to make query", esl.Error(err), esl.Any("p", z.p))
 		return ""
 	} else {
 		return "?" + q.Encode()

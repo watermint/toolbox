@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_context"
 	"github.com/watermint/toolbox/essentials/http/es_response"
-	"github.com/watermint/toolbox/essentials/log/es_encode"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/log/esl_encode"
 	"io/ioutil"
 )
 
@@ -41,18 +41,18 @@ func (z bodyFileImpl) BodyString() string {
 }
 
 func (z bodyFileImpl) AsJson() (es_json.Json, error) {
-	l := z.ctx.Log().With(es_log.String("path", z.path))
+	l := z.ctx.Log().With(esl.String("path", z.path))
 	if z.contentLength > es_response.MaximumJsonSize {
-		l.Debug("content is too large for parse", es_log.Int64("size", z.contentLength))
+		l.Debug("content is too large for parse", esl.Int64("size", z.contentLength))
 		return nil, es_response.ErrorContentIsTooLarge
 	}
 	content, err := ioutil.ReadFile(z.path)
 	if err != nil {
-		l.Debug("unable to read file", es_log.Error(err))
+		l.Debug("unable to read file", esl.Error(err))
 		return nil, err
 	}
 	if !gjson.ValidBytes(content) {
-		l.Debug("invalid bytes", es_log.Any("content", es_encode.ByteDigest(content)))
+		l.Debug("invalid bytes", esl.Any("content", esl_encode.ByteDigest(content)))
 		return nil, es_response.ErrorContentIsNotAJSON
 	}
 	return es_json.Parse(content)
