@@ -36,7 +36,7 @@ func EnsureCallerSkip(l Logger, msgKey, callerKey string, fetchOut func() string
 }
 
 func ensureCallerSkipLine(testMsg, msgKey, callerKey string, line string) (found bool, err error) {
-	expectedCallerPrefix := "es_log/caller.go:"
+	expectedCallerPrefix := "esl/caller.go:"
 	if !gjson.Valid(line) {
 		return false, ErrorCallerTestLineIsNotJSON
 	}
