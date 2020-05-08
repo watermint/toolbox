@@ -14,7 +14,7 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"os"
 	"time"
@@ -77,6 +77,6 @@ func (z *Up) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, z, func(r rc_recipe.Recipe) {
 		m := r.(*Up)
 		m.LocalPath = mo_path2.NewFileSystemPath(tp)
-		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("dev-ci-artifact", time.Now().Format("2006-01-02-15-04-05"))
+		m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("dev-ci-artifact", time.Now().Format("2006-01-02-15-04-05"))
 	})
 }

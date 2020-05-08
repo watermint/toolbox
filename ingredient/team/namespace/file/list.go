@@ -19,7 +19,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type MsgList struct {
@@ -172,12 +172,12 @@ func (z *List) Exec(c app_control.Control) error {
 func (z *List) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, &List{}, func(r rc_recipe.Recipe) {
 		rc := r.(*List)
-		rc.Name = mo_string.NewOptional(qt_recipe.TestTeamFolderName)
+		rc.Name = mo_string.NewOptional(qtr_endtoend.TestTeamFolderName)
 	})
 	if err != nil {
 		return err
 	}
-	return qt_recipe.TestRows(c, "namespace_file", func(cols map[string]string) error {
+	return qtr_endtoend.TestRows(c, "namespace_file", func(cols map[string]string) error {
 		if _, ok := cols["namespace_name"]; !ok {
 			return errors.New("`namespace_name` is not found")
 		}

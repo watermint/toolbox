@@ -1,10 +1,13 @@
 package catalogue
 
-import "testing"
+import (
+	"github.com/watermint/toolbox/infra/control/app_feature"
+	"testing"
+)
 
 func TestAutoDetectedFeatures(t *testing.T) {
 	fs := AutoDetectedFeatures()
 	for _, f := range fs {
-		f.OptInName(f)
+		app_feature.OptInName(f)
 	}
 }

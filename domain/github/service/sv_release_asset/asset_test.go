@@ -6,12 +6,12 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestAssetImpl_Upload(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		mc := gh_context_impl.NewMock(ctl)
 		sv := New(mc, "watermint", "toolbox", "25040282")
 		fp, err := qt_file.MakeTestFile("test.txt", "hello this is test")
@@ -27,7 +27,7 @@ func TestAssetImpl_Upload(t *testing.T) {
 }
 
 func TestAssetImpl_List(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		mc := gh_context_impl.NewMock(ctl)
 		sv := New(mc, "watermint", "toolbox", "25040282")
 		if _, err := sv.List(); err != qt_errors.ErrorMock {

@@ -7,12 +7,12 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestPutGetString(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		var err error
 		db := kv_storage_impl.New("coffee_put-get-string")
 		if err := db.Open(ctl); err != nil {
@@ -56,7 +56,7 @@ func TestPutGetString(t *testing.T) {
 }
 
 func TestPutGetBytes(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		var err error
 		db := kv_storage_impl.New("coffee_put-get-bytes")
 		if err := db.Open(ctl); err != nil {
@@ -93,7 +93,7 @@ func TestPutGetBytes(t *testing.T) {
 }
 
 func TestPutGetJSON(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		var err error
 		db := kv_storage_impl.New("coffee_put-get-json")
 		if err := db.Open(ctl); err != nil {
@@ -154,7 +154,7 @@ func TestPutGetJSON(t *testing.T) {
 }
 
 func TestPutGetJSONModel(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		var err error
 		db := kv_storage_impl.New("coffee_put-get-json-model")
 		if err := db.Open(ctl); err != nil {
@@ -246,7 +246,7 @@ func TestPutGetJSONModel(t *testing.T) {
 }
 
 func TestPutGetJSONModel2(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		var err error
 		db := kv_storage_impl.New("coffee_put-get-json-model2")
 		if err := db.Open(ctl); err != nil {

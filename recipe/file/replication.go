@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type Replication struct {
@@ -58,7 +58,7 @@ func (z *Replication) Exec(c app_control.Control) error {
 func (z *Replication) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Replication{}, func(r rc_recipe.Recipe) {
 		m := r.(*Replication)
-		m.SrcPath = qt_recipe.NewTestDropboxFolderPath("src")
-		m.DstPath = qt_recipe.NewTestDropboxFolderPath("dst")
+		m.SrcPath = qtr_endtoend.NewTestDropboxFolderPath("src")
+		m.DstPath = qtr_endtoend.NewTestDropboxFolderPath("dst")
 	})
 }

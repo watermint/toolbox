@@ -13,7 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
 )
 
@@ -75,7 +75,7 @@ func (z *Ship) Exec(c app_control.Control) error {
 func (z *Ship) Test(c app_control.Control) error {
 	err := rc_exec.ExecMock(c, &Ship{}, func(r rc_recipe.Recipe) {
 		m := r.(*Ship)
-		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("job-history-ship")
+		m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("job-history-ship")
 	})
 	if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
 		return err

@@ -17,7 +17,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type MsgSize struct {
@@ -157,7 +157,7 @@ func (z *Size) Exec(c app_control.Control) error {
 func (z *Size) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, &Size{}, func(r rc_recipe.Recipe) {
 		rc := r.(*Size)
-		rc.Name = mo_string.NewOptional(qt_recipe.TestTeamFolderName)
+		rc.Name = mo_string.NewOptional(qtr_endtoend.TestTeamFolderName)
 		rc.IncludeTeamFolder = false
 		rc.Depth = 1
 
@@ -165,7 +165,7 @@ func (z *Size) Test(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	return qt_recipe.TestRows(c, "namespace_size", func(cols map[string]string) error {
+	return qtr_endtoend.TestRows(c, "namespace_size", func(cols map[string]string) error {
 		if _, ok := cols["input.namespace_id"]; !ok {
 			return errors.New("`namespace_id` is not found")
 		}

@@ -85,7 +85,7 @@ func (z RotateOpts) CurrentPath() string {
 }
 
 func (z RotateOpts) CurrentLogs() (entries []os.FileInfo, err error) {
-	l := es_log.Default()
+	l := es_log.ConsoleOnly()
 
 	entries0, err := ioutil.ReadDir(z.BasePath())
 	if err != nil {
@@ -226,7 +226,7 @@ func ChunkSize(size int64) RotateOpt {
 func NumBackup(num int) RotateOpt {
 	return func(o RotateOpts) RotateOpts {
 		if num != UnlimitedBackups && num < 0 {
-			l := es_log.Default()
+			l := es_log.ConsoleOnly()
 			l.Warn("Invalid number of log backups", es_log.Int("num", num))
 			o.numBackups = 0
 		} else {
@@ -239,7 +239,7 @@ func NumBackup(num int) RotateOpt {
 func Quota(quota int64) RotateOpt {
 	return func(o RotateOpts) RotateOpts {
 		if quota != UnlimitedQuota && quota < 0 {
-			l := es_log.Default()
+			l := es_log.ConsoleOnly()
 			l.Warn("Invalid quota size", es_log.Int64("quota", quota))
 			o.quota = 0
 		} else {

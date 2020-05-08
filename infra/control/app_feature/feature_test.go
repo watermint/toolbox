@@ -31,21 +31,21 @@ func TestOptInFrom(t *testing.T) {
 
 func TestOptInStatus_OptInCommit(t *testing.T) {
 	soi := &SampleOptIn{}
-	signed := soi.OptInCommit(true)
-	if signed.OptInUser() == "" {
+	soi.OptInCommit(true)
+	if soi.OptInUser() == "" {
 		t.Error(soi.User)
 	}
-	if !signed.OptInIsEnabled() {
+	if !soi.OptInIsEnabled() {
 		t.Error(soi.Status)
 	}
-	if signed.OptInTimestamp() == "" {
+	if soi.OptInTimestamp() == "" {
 		t.Error(soi.Timestamp)
 	}
 }
 
 func TestOptInStatus_OptInName(t *testing.T) {
 	soi := &SampleOptIn{}
-	name := soi.OptInName(soi)
+	name := OptInName(soi)
 	if name != "infra.control.app_feature.sample_opt_in" {
 		t.Error(name)
 	}

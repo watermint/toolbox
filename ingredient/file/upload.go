@@ -20,7 +20,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -285,8 +285,8 @@ func (z *Upload) Test(c app_control.Control) error {
 	err := rc_exec.ExecMock(c, &Upload{}, func(r rc_recipe.Recipe) {
 		m := r.(*Upload)
 		m.Context = dbx_context_impl.NewMock(c)
-		m.LocalPath = qt_recipe.NewTestFileSystemFolderPath(c, "up")
-		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("up")
+		m.LocalPath = qtr_endtoend.NewTestFileSystemFolderPath(c, "up")
+		m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("up")
 	})
 	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err

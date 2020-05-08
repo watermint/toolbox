@@ -58,7 +58,7 @@ func purgeLoop() {
 			m.Opts.rotateHook(m.Path)
 		}
 
-		l := es_log.Default()
+		l := es_log.ConsoleOnly()
 		// clean up
 		l.Info("Removing the old log that exceeds the quota", es_log.String("path", m.Path))
 		err = os.Remove(m.Path)
@@ -71,7 +71,7 @@ func purgeLoop() {
 }
 
 func execRotate(m MsgRotate) {
-	l := es_log.Default()
+	l := es_log.ConsoleOnly()
 
 	targets, err := m.Opts.PurgeTargets()
 	if err != nil {
@@ -157,7 +157,7 @@ func Startup() {
 
 func Shutdown() {
 	queueMutex.Do(func() {
-		l := es_log.Default()
+		l := es_log.ConsoleOnly()
 		if queueRotate != nil {
 			l.Debug("Shutdown queue rotate")
 			close(queueRotate)

@@ -5,16 +5,16 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 // Mock tests
 
 func TestSharedFolderImpl_Create(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
-		_, err := sv.Create(qt_recipe.NewTestDropboxFolderPath())
+		_, err := sv.Create(qtr_endtoend.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {
 			t.Error(err)
 		}
@@ -22,7 +22,7 @@ func TestSharedFolderImpl_Create(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Leave(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		err := sv.Leave(&mo_sharedfolder.SharedFolder{}, LeaveACopy())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -32,7 +32,7 @@ func TestSharedFolderImpl_Leave(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Remove(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		err := sv.Remove(&mo_sharedfolder.SharedFolder{}, LeaveACopy())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -42,7 +42,7 @@ func TestSharedFolderImpl_Remove(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Resolve(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		_, err := sv.Resolve("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -52,7 +52,7 @@ func TestSharedFolderImpl_Resolve(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Transfer(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		err := sv.Transfer(&mo_sharedfolder.SharedFolder{}, ToProfile(&mo_profile.Profile{}))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -70,7 +70,7 @@ func TestSharedFolderImpl_Transfer(t *testing.T) {
 }
 
 func TestSharedFolderImpl_UpdatePolicy(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
 		_, err := sv.UpdatePolicy("test", MemberPolicy("test"))
 		if err != nil && err != qt_errors.ErrorMock {

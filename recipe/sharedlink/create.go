@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"time"
 )
 
@@ -62,7 +62,7 @@ func (z *Create) Exec(c app_control.Control) error {
 func (z *Create) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Create{}, func(r rc_recipe.Recipe) {
 		m := r.(*Create)
-		m.Path = qt_recipe.NewTestDropboxFolderPath("sharedlink-create")
+		m.Path = qtr_endtoend.NewTestDropboxFolderPath("sharedlink-create")
 		m.Password = mo_string.NewOptional("1234")
 		m.TeamOnly = true
 		m.Expires = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))

@@ -13,7 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"golang.org/x/sync/semaphore"
 	"io/ioutil"
 	"math"
@@ -137,7 +137,7 @@ func (z *Monkey) Exec(c app_control.Control) error {
 func (z *Monkey) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Monkey{}, func(r rc_recipe.Recipe) {
 		m := r.(*Monkey)
-		m.Path = qt_recipe.NewTestDropboxFolderPath("dev-monkey")
+		m.Path = qtr_endtoend.NewTestDropboxFolderPath("dev-monkey")
 		m.Seconds.SetValue(1)
 		m.Distribution.SetValue(1000)
 	})

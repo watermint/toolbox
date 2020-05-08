@@ -5,13 +5,13 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 	"time"
 )
 
 func TestCached_Auth(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		name := "test-cached-auth-" + time.Now().String()
 		a := api_auth_impl.NewConsoleCacheOnly(ctl, name)
 		_, err := a.Auth("test-cached-auth")

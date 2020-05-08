@@ -236,7 +236,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 
 		l.Info("Verify features")
 		for _, f := range cat.Features() {
-			key := f.OptInName(f)
+			key := app_feature.OptInName(f)
 			ll := l.With(es_log.String("key", key))
 			ll.Debug("feature disclaimer", es_log.String("msg", c.UI().Text(app_feature.OptInDisclaimer(f))))
 			ll.Debug("feature agreement", es_log.String("msg", c.UI().Text(app_feature.OptInAgreement(f))))

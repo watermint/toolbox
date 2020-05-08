@@ -4,14 +4,14 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
 	"github.com/watermint/toolbox/infra/security/sc_token"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"golang.org/x/oauth2"
 	"testing"
 	"time"
 )
 
 func TestObfuscatedStorage_PutGet(t *testing.T) {
-	qt_recipe.TestWithControl(t, func(c app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(c app_control.Control) {
 		s := sc_token.NewObfuscated(c, "TestObfuscatedStorage_PutGet")
 		s.Purge("test1")
 

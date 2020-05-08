@@ -669,221 +669,6 @@
       }
     ]
   },
-  "dev desktop install": {
-    "name": "install",
-    "title": "Dropboxクライアントをインストールします",
-    "desc": "",
-    "remarks": "",
-    "path": "dev desktop install",
-    "cli_args": "",
-    "cli_note": "",
-    "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "is_secret": true,
-    "is_console": false,
-    "is_experimental": false,
-    "is_irreversible": false,
-    "reports": [],
-    "feeds": [],
-    "values": [
-      {
-        "name": "InstallerUrl",
-        "desc": "インストーラーのダウンロードURL",
-        "default": "https://www.dropbox.com/download?full=1&os=win",
-        "type_name": "string",
-        "type_attr": null
-      },
-      {
-        "name": "Silent",
-        "desc": "サイレントインストーラーを利用します",
-        "default": "false",
-        "type_name": "bool",
-        "type_attr": null
-      },
-      {
-        "name": "SilentNoLaunch",
-        "desc": "エンタープライズインストーラーを利用します",
-        "default": "false",
-        "type_name": "bool",
-        "type_attr": null
-      }
-    ]
-  },
-  "dev desktop start": {
-    "name": "start",
-    "title": "Dropbox Desktopアプリケーションを起動します",
-    "desc": "",
-    "remarks": "",
-    "path": "dev desktop start",
-    "cli_args": "",
-    "cli_note": "",
-    "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "is_secret": true,
-    "is_console": false,
-    "is_experimental": false,
-    "is_irreversible": false,
-    "reports": [],
-    "feeds": [],
-    "values": []
-  },
-  "dev desktop stop": {
-    "name": "stop",
-    "title": "Dropboxデスクトップアプリケーションの停止を試みます",
-    "desc": "",
-    "remarks": "",
-    "path": "dev desktop stop",
-    "cli_args": "",
-    "cli_note": "",
-    "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "is_secret": true,
-    "is_console": false,
-    "is_experimental": false,
-    "is_irreversible": false,
-    "reports": [],
-    "feeds": [],
-    "values": [
-      {
-        "name": "WaitSeconds",
-        "desc": "指定秒数後にアプリケーションの停止を試みます",
-        "default": "0",
-        "type_name": "domain.common.model.mo_int.range_int",
-        "type_attr": {
-          "max": 2147483647,
-          "min": 0,
-          "value": 0
-        }
-      }
-    ]
-  },
-  "dev desktop suspendupdate": {
-    "name": "suspendupdate",
-    "title": "Dropbox Updaterを停止・再開します",
-    "desc": "",
-    "remarks": "",
-    "path": "dev desktop suspendupdate",
-    "cli_args": "",
-    "cli_note": "",
-    "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "is_secret": true,
-    "is_console": false,
-    "is_experimental": false,
-    "is_irreversible": false,
-    "reports": [],
-    "feeds": [],
-    "values": [
-      {
-        "name": "Unsuspend",
-        "desc": "指定すると一時停止を解除します (通常に戻します)",
-        "default": "false",
-        "type_name": "bool",
-        "type_attr": null
-      },
-      {
-        "name": "UpdaterName",
-        "desc": "Dropbox Updaterの実行ファイル名",
-        "default": "DropboxUpdate.exe",
-        "type_name": "string",
-        "type_attr": null
-      },
-      {
-        "name": "UpdaterPath",
-        "desc": "Dropbox Updaterへのパス",
-        "default": "C:/Program Files (x86)/Dropbox/Update",
-        "type_name": "string",
-        "type_attr": null
-      }
-    ]
-  },
-  "dev diag procmon": {
-    "name": "procmon",
-    "title": "Process monitorのログを収集します",
-    "desc": "",
-    "remarks": "",
-    "path": "dev diag procmon",
-    "cli_args": "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -repository-path /LOCAL/PATH/TO/PROCESS",
-    "cli_note": "",
-    "conn_use_personal": true,
-    "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
-    "is_secret": true,
-    "is_console": false,
-    "is_experimental": false,
-    "is_irreversible": false,
-    "reports": [],
-    "feeds": [],
-    "values": [
-      {
-        "name": "DropboxPath",
-        "desc": "procmonのログをアップロードするDropboxパス",
-        "default": "",
-        "type_name": "domain.dropbox.model.mo_path.dropbox_path_impl",
-        "type_attr": null
-      },
-      {
-        "name": "Peer",
-        "desc": "アカウントの別名",
-        "default": "default",
-        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_user_file",
-        "type_attr": null
-      },
-      {
-        "name": "ProcmonUrl",
-        "desc": "Process MonitorのダウンロードURL",
-        "default": "https://download.sysinternals.com/files/ProcessMonitor.zip",
-        "type_name": "string",
-        "type_attr": null
-      },
-      {
-        "name": "RepositoryPath",
-        "desc": "Process Monitorの作業ディレクトリ",
-        "default": "",
-        "type_name": "domain.common.model.mo_path.file_system_path_impl",
-        "type_attr": {
-          "shouldExist": false
-        }
-      },
-      {
-        "name": "RetainLogs",
-        "desc": "維持するProcmonのログ数",
-        "default": "4",
-        "type_name": "domain.common.model.mo_int.range_int",
-        "type_attr": {
-          "max": 10000,
-          "min": 0,
-          "value": 4
-        }
-      },
-      {
-        "name": "RunUntil",
-        "desc": "指定日時以降は実行をスキップ",
-        "default": "",
-        "type_name": "domain.dropbox.model.mo_time.time_impl",
-        "type_attr": {
-          "optional": true
-        }
-      },
-      {
-        "name": "Seconds",
-        "desc": "procmonの実行待機時間",
-        "default": "1800",
-        "type_name": "domain.common.model.mo_int.range_int",
-        "type_attr": {
-          "max": 86400,
-          "min": 10,
-          "value": 1800
-        }
-      }
-    ]
-  },
   "dev doc": {
     "name": "doc",
     "title": "ドキュメントを生成",
@@ -1327,7 +1112,7 @@
         "type_attr": null
       },
       {
-        "name": "Recipe",
+        "name": "Single",
         "desc": "テストするレシピ名",
         "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
@@ -4421,30 +4206,12 @@
     "feeds": [],
     "values": [
       {
-        "name": "Fork",
-        "desc": "ワークフローを実行する際にプロセスをフォークする.",
-        "default": "false",
-        "type_name": "bool",
-        "type_attr": null
-      },
-      {
         "name": "RunbookPath",
         "desc": "Runbookへのパス.",
         "default": "",
         "type_name": "domain.common.model.mo_path.file_system_path_impl",
         "type_attr": {
           "shouldExist": false
-        }
-      },
-      {
-        "name": "TimeoutSeconds",
-        "desc": "指定時間を経過したしたためプロセスを終了します.",
-        "default": "0",
-        "type_name": "domain.common.model.mo_int.range_int",
-        "type_attr": {
-          "max": 31536000,
-          "min": 0,
-          "value": 0
         }
       }
     ]

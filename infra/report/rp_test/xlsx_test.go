@@ -5,7 +5,7 @@ import (
 	"github.com/tealeg/xlsx"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"path/filepath"
 	"testing"
 )
@@ -16,7 +16,7 @@ func TestXlsx_Rotate(t *testing.T) {
 		Value string `json:"value"`
 	}
 
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		name := "xlsx_less_than_threshold"
 		x := rp_writer_impl.NewXlsxWriter(name, ctl)
 		err := x.Open(ctl, &Data{})
@@ -54,7 +54,7 @@ func TestXlsx_Rotate(t *testing.T) {
 		}
 	})
 
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		name := "xlsx_equals_to_threshold"
 		x := rp_writer_impl.NewXlsxWriter(name, ctl)
 		err := x.Open(ctl, &Data{})
@@ -102,7 +102,7 @@ func TestXlsx_Rotate(t *testing.T) {
 		}
 	})
 
-	qt_recipe.TestWithControl(t, func(ctl app_control.Control) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		name := "xlsx_rotate"
 		x := rp_writer_impl.NewXlsxWriter(name, ctl)
 		err := x.Open(ctl, &Data{})

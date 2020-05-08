@@ -1,10 +1,10 @@
 package connect
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestUserFile_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &UserFile{})
+	qtr_endtoend.TestRecipe(t, &UserFile{})
 }

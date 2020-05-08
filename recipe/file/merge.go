@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type Merge struct {
@@ -49,8 +49,8 @@ func (z *Merge) Test(c app_control.Control) error {
 		m.DryRun = true
 		m.KeepEmptyFolder = true
 		m.WithinSameNamespace = true
-		m.From = qt_recipe.NewTestDropboxFolderPath("from")
-		m.To = qt_recipe.NewTestDropboxFolderPath("to")
+		m.From = qtr_endtoend.NewTestDropboxFolderPath("from")
+		m.To = qtr_endtoend.NewTestDropboxFolderPath("to")
 	})
 	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err
@@ -60,8 +60,8 @@ func (z *Merge) Test(c app_control.Control) error {
 		m.DryRun = false
 		m.KeepEmptyFolder = false
 		m.WithinSameNamespace = false
-		m.From = qt_recipe.NewTestDropboxFolderPath("from")
-		m.To = qt_recipe.NewTestDropboxFolderPath("to")
+		m.From = qtr_endtoend.NewTestDropboxFolderPath("from")
+		m.To = qtr_endtoend.NewTestDropboxFolderPath("to")
 	})
 	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 		return err

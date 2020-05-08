@@ -29,11 +29,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option             | Description                              | Default |
-|--------------------|------------------------------------------|---------|
-| `-fork`            | Fork process on running the workflow     | false   |
-| `-runbook-path`    | Path to the runbook                      |         |
-| `-timeout-seconds` | Terminate process when given time passed | 0       |
+| Option          | Description         | Default |
+|-----------------|---------------------|---------|
+| `-runbook-path` | Path to the runbook |         |
 
 Common options:
 

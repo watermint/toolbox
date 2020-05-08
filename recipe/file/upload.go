@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
 )
 
@@ -60,7 +60,7 @@ func (z *Upload) Test(c app_control.Control) error {
 		err := rc_exec.Exec(c, &Upload{}, func(r rc_recipe.Recipe) {
 			ru := r.(*Upload)
 			ru.LocalPath = mo_path2.NewFileSystemPath(file)
-			ru.DropboxPath = qt_recipe.NewTestDropboxFolderPath()
+			ru.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath()
 			ru.Overwrite = true
 		})
 		if err != nil {
@@ -73,7 +73,7 @@ func (z *Upload) Test(c app_control.Control) error {
 		err := rc_exec.Exec(c, &Upload{}, func(r rc_recipe.Recipe) {
 			ru := r.(*Upload)
 			ru.LocalPath = mo_path2.NewFileSystemPath(file)
-			ru.DropboxPath = qt_recipe.NewTestDropboxFolderPath()
+			ru.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath()
 			ru.Overwrite = true
 			ru.ChunkSizeKb.SetValue(1)
 		})

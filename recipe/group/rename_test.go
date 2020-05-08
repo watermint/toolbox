@@ -1,10 +1,10 @@
 package group
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestRename_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Rename{})
+	qtr_endtoend.TestRecipe(t, &Rename{})
 }

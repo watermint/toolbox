@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type Account struct {
@@ -61,7 +61,7 @@ func (z *Account) Exec(c app_control.Control) error {
 func (z *Account) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Account{}, func(r rc_recipe.Recipe) {
 		m := r.(*Account)
-		m.LeftPath = qt_recipe.NewTestDropboxFolderPath("left")
-		m.RightPath = qt_recipe.NewTestDropboxFolderPath("right")
+		m.LeftPath = qtr_endtoend.NewTestDropboxFolderPath("left")
+		m.RightPath = qtr_endtoend.NewTestDropboxFolderPath("right")
 	})
 }

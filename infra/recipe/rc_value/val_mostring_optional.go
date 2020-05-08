@@ -50,6 +50,7 @@ func (z *ValueMoStringOptional) ApplyPreset(v0 interface{}) {
 }
 
 func (z *ValueMoStringOptional) Apply() (v interface{}) {
+	z.optStr = mo_string.NewOptional(z.valStr)
 	return z.optStr
 }
 

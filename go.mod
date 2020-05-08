@@ -4,7 +4,6 @@ go 1.14
 
 require (
 	github.com/GeertJohan/go.rice v1.0.1-0.20191102153406-d954009f7238
-	github.com/andybrewer/mack v0.0.0-20200107183837-a347fce911ce
 	github.com/cloudfoundry/jibber_jabber v0.0.0-20151120183258-bcc4c8345a21
 	github.com/daaku/go.zipexe v1.0.1 // indirect
 	github.com/dgraph-io/badger/v2 v2.0.3

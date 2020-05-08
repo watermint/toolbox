@@ -15,7 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type MsgRestore struct {
@@ -137,6 +137,6 @@ func (z *Restore) Exec(c app_control.Control) error {
 func (z *Restore) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Restore{}, func(r rc_recipe.Recipe) {
 		m := r.(*Restore)
-		m.Path = qt_recipe.NewTestDropboxFolderPath("file-restore")
+		m.Path = qtr_endtoend.NewTestDropboxFolderPath("file-restore")
 	})
 }

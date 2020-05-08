@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestAuth_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Connect{})
+	qtr_endtoend.TestRecipe(t, &Connect{})
 }

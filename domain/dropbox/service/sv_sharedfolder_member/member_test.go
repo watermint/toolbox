@@ -7,14 +7,14 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 // Mock tests
 
 func TestMemberImpl_Remove(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx, &mo_sharedfolder.SharedFolder{})
 		err := sv.Remove(RemoveByEmail("test@example.com"), LeaveACopy())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -40,7 +40,7 @@ func TestMemberImpl_Remove(t *testing.T) {
 }
 
 func TestMemberImpl_List(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewByTeamFolder(ctx, &mo_teamfolder.TeamFolder{})
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -50,7 +50,7 @@ func TestMemberImpl_List(t *testing.T) {
 }
 
 func TestMemberImpl_Add(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx, &mo_sharedfolder.SharedFolder{})
 		err := sv.Add(AddByEmail("test@example.com", LevelEditor),
 			AddQuiet(),
@@ -97,7 +97,7 @@ func TestMemberImpl_Add(t *testing.T) {
 // Mock test : cached
 
 func TestCachedMember_Remove(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewCached(ctx, "test")
 		err := sv.Remove(RemoveByTeamMemberId("test"))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -107,7 +107,7 @@ func TestCachedMember_Remove(t *testing.T) {
 }
 
 func TestCachedMember_List(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewCached(ctx, "test")
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -117,7 +117,7 @@ func TestCachedMember_List(t *testing.T) {
 }
 
 func TestCachedMember_Add(t *testing.T) {
-	qt_recipe.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewCached(ctx, "test")
 		err := sv.Add(AddByEmail("test", LevelEditor))
 		if err != nil && err != qt_errors.ErrorMock {

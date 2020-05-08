@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/es_log"
 	"github.com/watermint/toolbox/infra/app"
-	"github.com/watermint/toolbox/infra/control/app_config"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"os/user"
 	"time"
@@ -36,9 +35,6 @@ type Feature interface {
 	// Budget for storage usage
 	BudgetStorage() string
 
-	// Configuration
-	Config() app_config.Config
-
 	// Retrieve feature
 	OptInGet(oi OptIn) (f OptIn, found bool)
 
@@ -66,11 +62,8 @@ type OptIn interface {
 	// True when this feature enabled.
 	OptInIsEnabled() bool
 
-	// Name of the feature.
-	OptInName(v OptIn) string
-
 	// Opt-in
-	OptInCommit(enable bool) OptIn
+	OptInCommit(enable bool)
 }
 
 func OptInFrom(v map[string]interface{}, oi OptIn) error {
@@ -92,7 +85,7 @@ type OptInStatus struct {
 	Status bool `json:"status"`
 }
 
-func (z OptInStatus) OptInCommit(enable bool) OptIn {
+func (z *OptInStatus) OptInCommit(enable bool) {
 	usr, _ := user.Current()
 
 	switch {
@@ -105,11 +98,6 @@ func (z OptInStatus) OptInCommit(enable bool) OptIn {
 	}
 	z.Status = enable
 	z.Timestamp = time.Now().Format(time.RFC3339)
-	return &z
-}
-
-func (z OptInStatus) OptInName(v OptIn) string {
-	return es_reflect.Key(app.Pkg, v)
 }
 
 func (z OptInStatus) OptInTimestamp() string {
@@ -122,6 +110,10 @@ func (z OptInStatus) OptInUser() string {
 
 func (z OptInStatus) OptInIsEnabled() bool {
 	return z.Status
+}
+
+func OptInName(v OptIn) string {
+	return es_reflect.Key(app.Pkg, v)
 }
 
 func OptInAgreement(v OptIn) app_msg.Message {

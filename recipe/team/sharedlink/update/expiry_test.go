@@ -1,10 +1,10 @@
 package update
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestExpiry_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Expiry{})
+	qtr_endtoend.TestRecipe(t, &Expiry{})
 }

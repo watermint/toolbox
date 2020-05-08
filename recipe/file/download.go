@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
 	"path/filepath"
 )
@@ -66,7 +66,7 @@ func (z *Download) Exec(c app_control.Control) error {
 func (z *Download) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Download{}, func(r rc_recipe.Recipe) {
 		m := r.(*Download)
-		m.LocalPath = qt_recipe.NewTestFileSystemFolderPath(c, "download")
-		m.DropboxPath = qt_recipe.NewTestDropboxFolderPath("file-download")
+		m.LocalPath = qtr_endtoend.NewTestFileSystemFolderPath(c, "download")
+		m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("file-download")
 	})
 }

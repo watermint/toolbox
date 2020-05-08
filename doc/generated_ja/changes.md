@@ -15,6 +15,11 @@
 
 | コマンド                         | タイトル                                   |
 |----------------------------------|--------------------------------------------|
+| dev desktop install              | Install Dropbox client                     |
+| dev desktop start                | Launch Dropbox Desktop desktop app         |
+| dev desktop stop                 | Try stopping Dropbox desktop app           |
+| dev desktop suspendupdate        | Suspend/unsuspend Dropbox Updater          |
+| dev diag procmon                 | Collect Process monitor logs               |
 | services github release asset up | Upload assets file into the GitHub Release |
 | web                              | Launch web console                         |
 
@@ -264,7 +269,7 @@
 + 		},
   		&{
 - 			Name:     "Resource",
-+ 			Name:     "Recipe",
++ 			Name:     "Single",
 - 			Desc:     "Test resource file path",
 + 			Desc:     "Recipe name to test",
   			Default:  "",
@@ -798,7 +803,23 @@
 + 	IsExperimental: true,
   	IsIrreversible: false,
   	Reports:        nil,
-  	... // 2 identical fields
+  	Feeds:          nil,
+  	Values: []*dc_recipe.Value{
+- 		&{
+- 			Name:     "Fork",
+- 			Desc:     "Fork process on running the workflow",
+- 			Default:  "false",
+- 			TypeName: "bool",
+- 		},
+  		&{Name: "RunbookPath", Desc: "Path to the runbook", TypeName: "domain.common.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+- 		&{
+- 			Name:     "TimeoutSeconds",
+- 			Desc:     "Terminate process when given time passed",
+- 			Default:  "0",
+- 			TypeName: "domain.common.model.mo_int.range_int",
+- 			TypeAttr: map[string]interface{}{"max": float64(3.1536e+07), "min": float64(0), "value": float64(0)},
+- 		},
+  	},
   }
 ```
 # コマンド仕様の変更: `member delete`

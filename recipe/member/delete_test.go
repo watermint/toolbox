@@ -1,10 +1,10 @@
 package member
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestRemove_Exec(t *testing.T) {
-	qt_recipe.TestRecipe(t, &Delete{})
+	qtr_endtoend.TestRecipe(t, &Delete{})
 }
