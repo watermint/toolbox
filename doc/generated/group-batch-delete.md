@@ -91,19 +91,19 @@ For the first run, `tbx` will ask you an authentication with your Dropbox accoun
 
 ```
 
-watermint toolbox xx.x.xxx
-==========================
+[1mwatermint toolbox xx.x.xxx[0m
+[1m==========================[0m
 
-© 2016-2020 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
+[37m© 2016-2020 Takayuki Okazaki[0m
+[37mLicensed under open source licenses. Use the `license` command for more detail.[0m
 
-1. Visit the URL for the auth dialogue:
+[37m1. Visit the URL for the auth dialogue:
 
 https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
 
 2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
+3. Copy the authorisation code:[0m
+[37mEnter the authorisation code[0m
 
 ```
 

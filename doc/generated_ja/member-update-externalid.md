@@ -92,19 +92,19 @@ john@example.com,0123456789
 
 ```
 
-watermint toolbox xx.x.xxx
-==========================
+[1mwatermint toolbox xx.x.xxx[0m
+[1m==========================[0m
 
-© 2016-2020 Takayuki Okazaki
-オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
+[37m© 2016-2020 Takayuki Okazaki[0m
+[37mオープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.[0m
 
-1. 次のURLを開き認証ダイアログを開いてください:
+[37m1. 次のURLを開き認証ダイアログを開いてください:
 
 https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
 
 2. 'Allow'をクリックします (先にログインしておく必要があります):
-3. 認証コードをコピーします:
-認証コードを入力してください
+3. 認証コードをコピーします:[0m
+[37m認証コードを入力してください[0m
 
 ```
 

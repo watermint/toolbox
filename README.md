@@ -30,21 +30,21 @@ You can see available commands and options by running executable without argumen
 ```
 % ./tbx
 
-watermint toolbox xx.x.xxx
-==========================
+[1mwatermint toolbox xx.x.xxx[0m
+[1m==========================[0m
 
-© 2016-2020 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
+[37m© 2016-2020 Takayuki Okazaki[0m
+[37mLicensed under open source licenses. Use the `license` command for more detail.[0m
 
-Tools for Dropbox and Dropbox Business
+[37mTools for Dropbox and Dropbox Business[0m
 
-Usage:
-======
+[1mUsage:[0m
+[1m======[0m
 
-./tbx  command
+[37m./tbx  command[0m
 
-Available commands:
-===================
+[1mAvailable commands:[0m
+[1m===================[0m
 
    config        watermint toolbox configuration  
    connect       Connect to the account           
