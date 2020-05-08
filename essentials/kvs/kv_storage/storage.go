@@ -1,8 +1,8 @@
 package kv_storage
 
 import (
+	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 )
 
 // Storage interface.

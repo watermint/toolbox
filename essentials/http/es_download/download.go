@@ -2,7 +2,7 @@ package es_download
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
+	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
 	"io"
 	"net/http"
 	"os"

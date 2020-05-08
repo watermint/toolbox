@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
-	"github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )

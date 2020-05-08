@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/http/es_context"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
+	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
 	"io"
 	"io/ioutil"
 	"math/rand"

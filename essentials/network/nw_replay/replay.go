@@ -3,7 +3,7 @@ package nw_replay
 import (
 	"bytes"
 	"errors"
-	"github.com/watermint/toolbox/infra/network/nw_client"
+	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"io/ioutil"
 	"math/rand"

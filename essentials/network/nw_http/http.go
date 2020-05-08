@@ -3,9 +3,9 @@ package nw_http
 import (
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/network/nw_client"
-	"github.com/watermint/toolbox/infra/network/nw_concurrency"
-	"github.com/watermint/toolbox/infra/network/nw_ratelimit"
+	"github.com/watermint/toolbox/essentials/network/nw_client"
+	"github.com/watermint/toolbox/essentials/network/nw_concurrency"
+	"github.com/watermint/toolbox/essentials/network/nw_ratelimit"
 	"net/http"
 	"time"
 )

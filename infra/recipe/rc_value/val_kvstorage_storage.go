@@ -2,10 +2,10 @@ package rc_value
 
 import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/kvs/kv_storage"
-	"github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
 )

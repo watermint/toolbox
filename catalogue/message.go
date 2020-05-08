@@ -11,15 +11,15 @@ import (
 	domaindropboxusecaseuc_compare_local "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
 	domaindropboxusecaseuc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	domaindropboxusecaseuc_file_merge "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
+	essentialskvskv_storage_impl "github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	essentialslogesl_rotate "github.com/watermint/toolbox/essentials/log/esl_rotate"
+	essentialsnetworknw_diag "github.com/watermint/toolbox/essentials/network/nw_diag"
 	infraapiapi_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
 	infraapiapi_callback "github.com/watermint/toolbox/infra/api/api_callback"
 	infracontrolapp_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
 	infradocdc_command "github.com/watermint/toolbox/infra/doc/dc_command"
 	infradocdc_options "github.com/watermint/toolbox/infra/doc/dc_options"
 	infrafeedfd_file_impl "github.com/watermint/toolbox/infra/feed/fd_file_impl"
-	infrakvskv_storage_impl "github.com/watermint/toolbox/infra/kvs/kv_storage_impl"
-	infranetworknw_diag "github.com/watermint/toolbox/infra/network/nw_diag"
 	infrareciperc_group "github.com/watermint/toolbox/infra/recipe/rc_group"
 	infrareciperc_group_impl "github.com/watermint/toolbox/infra/recipe/rc_group_impl"
 	infrareciperc_spec "github.com/watermint/toolbox/infra/recipe/rc_spec"
@@ -58,9 +58,11 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxusecaseuc_compare_local.MsgCompare{},
 		&domaindropboxusecaseuc_compare_paths.MsgCompare{},
 		&domaindropboxusecaseuc_file_merge.MsgMerge{},
+		&essentialskvskv_storage_impl.MsgStorage{},
 		&essentialslogesl_rotate.MsgOut{},
 		&essentialslogesl_rotate.MsgPurge{},
 		&essentialslogesl_rotate.MsgRotate{},
+		&essentialsnetworknw_diag.MsgNetwork{},
 		&infraapiapi_auth_impl.MsgApiAuth{},
 		&infraapiapi_callback.MsgCallback{},
 		&infracontrolapp_workflow.MsgRunBook{},
@@ -68,8 +70,6 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infradocdc_command.MsgDoc{},
 		&infradocdc_options.MsgDoc{},
 		&infrafeedfd_file_impl.MsgRowFeed{},
-		&infrakvskv_storage_impl.MsgStorage{},
-		&infranetworknw_diag.MsgNetwork{},
 		&infrareciperc_group.MsgHeader{},
 		&infrareciperc_group_impl.MsgGroup{},
 		&infrareciperc_spec.MsgSelfContained{},

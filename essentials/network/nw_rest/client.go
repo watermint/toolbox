@@ -2,12 +2,12 @@ package nw_rest
 
 import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
+	"github.com/watermint/toolbox/essentials/network/nw_capture"
+	"github.com/watermint/toolbox/essentials/network/nw_client"
+	"github.com/watermint/toolbox/essentials/network/nw_http"
+	"github.com/watermint/toolbox/essentials/network/nw_replay"
+	"github.com/watermint/toolbox/essentials/network/nw_retry"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/network/nw_capture"
-	"github.com/watermint/toolbox/infra/network/nw_client"
-	"github.com/watermint/toolbox/infra/network/nw_http"
-	"github.com/watermint/toolbox/infra/network/nw_replay"
-	"github.com/watermint/toolbox/infra/network/nw_retry"
 )
 
 // Assert broken response or rate limit for retry

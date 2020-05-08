@@ -3,9 +3,9 @@ package kv_kvs_impl
 import (
 	"encoding/json"
 	"github.com/dgraph-io/badger/v2"
+	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
 	"reflect"
 )
 
