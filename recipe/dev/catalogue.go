@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"os"
+	"io/ioutil"
 	"path/filepath"
 	"reflect"
 )
@@ -31,18 +31,15 @@ func (z *Catalogue) generateRecipe(rr string, sc es_generate.Scanner, c app_cont
 		}
 		sg := es_generate.NewStructTypeGenerator(c, sts)
 		op := filepath.Join(rr, "catalogue", rc+".go")
-		f, err := os.Create(op)
-		if err != nil {
-			return err
-		}
 
 		l.Info("Generating recipe", esl.String("source", op))
 		tmplName := fmt.Sprintf("catalogue_%s.go.tmpl", rc)
-		if err := sg.Generate(tmplName, f); err != nil {
-			f.Close()
+		src, err := sg.Generate(tmplName)
+		if err != nil {
+			l.Debug("Unable to generate", esl.Error(err))
 			return err
 		}
-		f.Close()
+		return ioutil.WriteFile(op, src, 0644)
 	}
 	return nil
 }
@@ -56,19 +53,15 @@ func (z *Catalogue) generateMessages(rr string, sc es_generate.Scanner, c app_co
 	}
 	sg := es_generate.NewStructTypeGenerator(c, sts)
 	op := filepath.Join(rr, "catalogue/message.go")
-	f, err := os.Create(op)
-	if err != nil {
-		return err
-	}
 
 	l.Info("Generating message", esl.String("source", op))
 	tmplName := fmt.Sprintf("catalogue_message.go.tmpl")
-	if err := sg.Generate(tmplName, f); err != nil {
-		f.Close()
+	src, err := sg.Generate(tmplName)
+	if err != nil {
+		l.Debug("Unable to generate", esl.Error(err))
 		return err
 	}
-	f.Close()
-	return nil
+	return ioutil.WriteFile(op, src, 0644)
 }
 
 func (z *Catalogue) generateFeatures(rr string, sc es_generate.Scanner, c app_control.Control) error {
@@ -80,19 +73,14 @@ func (z *Catalogue) generateFeatures(rr string, sc es_generate.Scanner, c app_co
 	}
 	sg := es_generate.NewStructTypeGenerator(c, sts)
 	op := filepath.Join(rr, "catalogue/feature.go")
-	f, err := os.Create(op)
-	if err != nil {
-		return err
-	}
 
 	l.Info("Generating feature", esl.String("source", op))
 	tmplName := fmt.Sprintf("catalogue_feature.go.tmpl")
-	if err := sg.Generate(tmplName, f); err != nil {
-		f.Close()
+	src, err := sg.Generate(tmplName)
+	if err != nil {
 		return err
 	}
-	f.Close()
-	return nil
+	return ioutil.WriteFile(op, src, 0644)
 }
 
 func (z *Catalogue) Exec(c app_control.Control) error {

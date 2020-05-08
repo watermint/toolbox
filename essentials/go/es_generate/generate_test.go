@@ -27,10 +27,12 @@ func TestStructTypeGenerator_Generate(t *testing.T) {
 			return
 		}
 		gen := NewStructTypeGenerator(ctl, sts)
-		err = gen.Generate("source_generate_struct.go.tmpl", es_stdout.NewDefaultOut(ctl.Feature().IsTest()))
+		src, err := gen.Generate("source_generate_struct.go.tmpl")
 		if err != nil {
 			t.Error(err)
 			return
 		}
+		out := es_stdout.NewDefaultOut(ctl.Feature().IsTest())
+		_, _ = out.Write(src)
 	})
 }
