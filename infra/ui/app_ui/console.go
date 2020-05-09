@@ -1,7 +1,6 @@
 package app_ui
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/strings/es_width"
@@ -34,22 +33,6 @@ func NewConsole(mc app_msg_container.Container, lg esl.Logger, wr io.Writer, dg 
 		},
 		lg,
 	)
-}
-
-func MakeConsoleDemo(mc app_msg_container.Container, f func(ui UI)) string {
-	var buf bytes.Buffer
-	lg := esl.Default()
-	ui := NewProxy(
-		&conImpl{
-			mc: mc,
-			wr: &buf,
-			dg: es_dialogue.DenyAll(),
-		},
-		lg,
-	)
-	f(ui)
-
-	return buf.String()
 }
 
 type MsgConsole struct {

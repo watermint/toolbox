@@ -10,7 +10,7 @@ import (
 	"text/tabwriter"
 )
 
-func newConTable(sy Syntax, wr io.Writer, mc app_msg_container.Container, name string) Table {
+func newPlainTable(sy Syntax, wr io.Writer, mc app_msg_container.Container, name string) Table {
 	tw := new(tabwriter.Writer)
 	tw.Init(wr, 0, 2, 2, ' ', 0)
 	return &conTableImpl{
@@ -22,7 +22,7 @@ func newConTable(sy Syntax, wr io.Writer, mc app_msg_container.Container, name s
 	}
 }
 
-type conTableImpl struct {
+type plainTableImpl struct {
 	sy      Syntax
 	wr      *tabwriter.Writer
 	mc      app_msg_container.Container
@@ -30,7 +30,7 @@ type conTableImpl struct {
 	limiter RowLimiter
 }
 
-func (z conTableImpl) Header(h ...app_msg.Message) {
+func (z plainTableImpl) Header(h ...app_msg.Message) {
 	headers := make([]string, 0)
 	for _, hdr := range h {
 		headers = append(headers, z.mc.Compile(hdr))
@@ -38,11 +38,11 @@ func (z conTableImpl) Header(h ...app_msg.Message) {
 	z.HeaderRaw(headers...)
 }
 
-func (z conTableImpl) HeaderRaw(h ...string) {
+func (z plainTableImpl) HeaderRaw(h ...string) {
 	es_color.Boldfln(z.wr, strings.Join(h, "\t"))
 }
 
-func (z conTableImpl) Row(m ...app_msg.Message) {
+func (z plainTableImpl) Row(m ...app_msg.Message) {
 	ms := make([]string, 0)
 	for _, msg := range m {
 		ms = append(ms, z.mc.Compile(msg))
@@ -50,13 +50,13 @@ func (z conTableImpl) Row(m ...app_msg.Message) {
 	z.RowRaw(ms...)
 }
 
-func (z conTableImpl) RowRaw(m ...string) {
+func (z plainTableImpl) RowRaw(m ...string) {
 	z.limiter.Row(func() {
 		_, _ = fmt.Fprintln(z.wr, strings.Join(m, "\t"))
 	})
 }
 
-func (z conTableImpl) Flush() {
+func (z plainTableImpl) Flush() {
 	_ = z.wr.Flush()
 	z.limiter.Flush()
 }

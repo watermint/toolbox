@@ -30,21 +30,21 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 ```
 % ./tbx
 
-[1mwatermint toolbox xx.x.xxx[0m
-[1m==========================[0m
+watermint toolbox xx.x.xxx
+==========================
 
-[37m© 2016-2020 Takayuki Okazaki[0m
-[37mオープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.[0m
+© 2016-2020 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-[37mDropboxおよびDropbox Business向けのツールセット[0m
+DropboxおよびDropbox Business向けのツールセット
 
-[1m使い方:[0m
-[1m=======[0m
+使い方:
+=======
 
-[37m./tbx  コマンド[0m
+./tbx  コマンド
 
-[1m利用可能なコマンド:[0m
-[1m===================[0m
+利用可能なコマンド:
+===================
 
    config        watermint toolbox の設定  
    connect       アカウントに接続する             
