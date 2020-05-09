@@ -23,7 +23,7 @@ import (
 	"time"
 )
 
-func testContent(t *testing.T, ctl app_control.Control, scenario *Scenario, reportName, localBase, dbxBase string) {
+func testContent(t *testing.T, ctl app_control.Control, scenario Scenario, reportName, localBase, dbxBase string) {
 	l := ctl.Log()
 	found := make(map[string]bool)
 	contentErr := qtr_endtoend.TestRows(ctl, reportName, func(cols map[string]string) error {
@@ -62,7 +62,7 @@ func testContent(t *testing.T, ctl app_control.Control, scenario *Scenario, repo
 	}
 }
 
-func testSkip(t *testing.T, ctl app_control.Control, scenario *Scenario, reportName, localBase string) {
+func testSkip(t *testing.T, ctl app_control.Control, scenario Scenario, reportName, localBase string) {
 	l := ctl.Log()
 	found := make(map[string]bool)
 	skipErr := qtr_endtoend.TestRows(ctl, reportName, func(cols map[string]string) error {
@@ -85,7 +85,7 @@ func testSkip(t *testing.T, ctl app_control.Control, scenario *Scenario, reportN
 	}
 }
 
-func execScenario(t *testing.T, ctl app_control.Control, short bool, f func(scenario *Scenario, dbxBase mo_path.DropboxPath)) {
+func execScenario(t *testing.T, ctl app_control.Control, short bool, f func(scenario Scenario, dbxBase mo_path.DropboxPath)) {
 	l := ctl.Log()
 	if qt_endtoend.IsSkipEndToEndTest() {
 		l.Info("Skip end to end test")
@@ -96,18 +96,18 @@ func execScenario(t *testing.T, ctl app_control.Control, short bool, f func(scen
 		return
 	}
 
-	scenario := &Scenario{}
-	if err := scenario.Create(short); err != nil {
+	if sc, err := NewScenario(short); err != nil {
 		t.Error(err)
 		return
+	} else {
+		dbxBase := qtr_endtoend.NewTestDropboxFolderPath(time.Now().Format("2006-01-02T15-04-05"))
+		f(sc, dbxBase)
 	}
-	dbxBase := qtr_endtoend.NewTestDropboxFolderPath(time.Now().Format("2006-01-02T15-04-05"))
-	f(scenario, dbxBase)
 }
 
 func TestFileUpload(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		execScenario(t, ctl, false, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
+		execScenario(t, ctl, false, func(scenario Scenario, dbxBase mo_path.DropboxPath) {
 			qtr_endtoend.ForkWithName(t, "file-upload", ctl, func(c app_control.Control) error {
 				err := rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
 					ru := r.(*file.Upload)
@@ -130,7 +130,7 @@ func TestFileUpload(t *testing.T) {
 
 func TestFileSyncUp(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		execScenario(t, ctl, false, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
+		execScenario(t, ctl, false, func(scenario Scenario, dbxBase mo_path.DropboxPath) {
 			qtr_endtoend.ForkWithName(t, "file-sync-up", ctl, func(fc app_control.Control) error {
 				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
 					ru := r.(*filesync.Up)
@@ -151,7 +151,7 @@ func TestFileSyncUp(t *testing.T) {
 
 func TestFileSyncUpDup(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		execScenario(t, ctl, false, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
+		execScenario(t, ctl, false, func(scenario Scenario, dbxBase mo_path.DropboxPath) {
 			// `file sync up`
 			qtr_endtoend.ForkWithName(t, "file-sync-up-dup1", ctl, func(fc app_control.Control) error {
 				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
@@ -191,7 +191,7 @@ func TestFileSyncUpDup(t *testing.T) {
 
 func TestFileCompareLocal(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		execScenario(t, ctl, false, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
+		execScenario(t, ctl, false, func(scenario Scenario, dbxBase mo_path.DropboxPath) {
 			// `file sync up`
 			qtr_endtoend.ForkWithName(t, "file-compare-local1", ctl, func(fc app_control.Control) error {
 				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
@@ -227,7 +227,7 @@ func TestFileCompareLocal(t *testing.T) {
 
 func TestFileSyncPreflightUp(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		execScenario(t, ctl, true, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
+		execScenario(t, ctl, true, func(scenario Scenario, dbxBase mo_path.DropboxPath) {
 			qtr_endtoend.ForkWithName(t, "file-sync-preflight-up", ctl, func(fc app_control.Control) error {
 				err := rc_exec.Exec(fc, &filesyncpreflight.Up{}, func(r rc_recipe.Recipe) {
 					ru := r.(*filesyncpreflight.Up)
@@ -246,7 +246,7 @@ func TestFileSyncPreflightUp(t *testing.T) {
 
 func TestFileFileList(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		execScenario(t, ctl, true, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
+		execScenario(t, ctl, true, func(scenario Scenario, dbxBase mo_path.DropboxPath) {
 			// `file sync up`
 			qtr_endtoend.ForkWithName(t, "file-list1", ctl, func(fc app_control.Control) error {
 				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
@@ -282,7 +282,7 @@ func TestFileFileList(t *testing.T) {
 
 func TestFileFileCopy(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		execScenario(t, ctl, true, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
+		execScenario(t, ctl, true, func(scenario Scenario, dbxBase mo_path.DropboxPath) {
 			// `file sync up`
 			qtr_endtoend.ForkWithName(t, "file-copy1", ctl, func(fc app_control.Control) error {
 				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
@@ -318,7 +318,7 @@ func TestFileFileCopy(t *testing.T) {
 
 func TestFileFileMove(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		execScenario(t, ctl, true, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
+		execScenario(t, ctl, true, func(scenario Scenario, dbxBase mo_path.DropboxPath) {
 			// `file sync up`
 			qtr_endtoend.ForkWithName(t, "file-move1", ctl, func(fc app_control.Control) error {
 				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
@@ -354,9 +354,9 @@ func TestFileFileMove(t *testing.T) {
 
 func TestFileFileMerge(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		execScenario(t, ctl, false, func(scFrom *Scenario, dbxBase mo_path.DropboxPath) {
-			scTo := &Scenario{}
-			if err := scTo.Create(true); err != nil {
+		execScenario(t, ctl, false, func(scFrom Scenario, dbxBase mo_path.DropboxPath) {
+			scTo, err := NewScenario(true)
+			if err != nil {
 				t.Error(err)
 				return
 			}
@@ -413,7 +413,7 @@ func TestFileFileMerge(t *testing.T) {
 
 func TestFileFileDelete(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		execScenario(t, ctl, true, func(scenario *Scenario, dbxBase mo_path.DropboxPath) {
+		execScenario(t, ctl, true, func(scenario Scenario, dbxBase mo_path.DropboxPath) {
 			// `file sync up`
 			qtr_endtoend.ForkWithName(t, "file-delete1", ctl, func(fc app_control.Control) error {
 				err := rc_exec.Exec(fc, &filesync.Up{}, func(r rc_recipe.Recipe) {
