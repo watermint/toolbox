@@ -64,6 +64,10 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	fe := app_feature_impl.NewFeature(z.com, z.wb.Workspace(), z.rcp.IsTransient())
 	ctl = app_control_impl.New(z.wb, z.ui, fe)
 
+	if ctl.Feature().IsTransient() {
+		return ctl, nil
+	}
+
 	if err := z.recordStartLog(); err != nil {
 		return nil, err
 	}
@@ -83,6 +87,10 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 }
 
 func (z launchImpl) Down(err error, ctl app_control.Control) {
+	if ctl.Feature().IsTransient() {
+		return
+	}
+
 	sm := ctl.WorkBundle().Summary().Logger()
 	ui := ctl.UI()
 

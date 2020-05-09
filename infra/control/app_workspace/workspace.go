@@ -100,12 +100,19 @@ func newWorkspaceWithPath(path string) (ws Workspace, err error) {
 	return sws, err
 }
 
+func newWorkspaceWithPathNoSetup(path string) (ws Workspace) {
+	return &singleWorkspace{
+		home:  path,
+		jobId: NewJobId(),
+	}
+}
+
 func NewWorkspace(home string, transient bool) (Workspace, error) {
 	if transient {
 		if path, err := ioutil.TempDir("", "transient"); err != nil {
 			return nil, err
 		} else {
-			return newWorkspaceWithPath(path)
+			return newWorkspaceWithPathNoSetup(path), nil
 		}
 	}
 
