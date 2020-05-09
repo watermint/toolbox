@@ -41,31 +41,43 @@ type RemarkRecipeIrreversible interface {
 	// True if the operation is irreversible.
 	IsIrreversible() bool
 }
+type RemarkRecipeTransient interface {
+	// True if the operation is transient. Logs will not be managed as like regular commands.
+	IsTransient() bool
+}
+
 type RemarkSecret struct {
 }
 
-func (z *RemarkSecret) IsSecret() bool {
+func (z RemarkSecret) IsSecret() bool {
 	return true
 }
 
 type RemarkExperimental struct {
 }
 
-func (z *RemarkExperimental) IsExperimental() bool {
+func (z RemarkExperimental) IsExperimental() bool {
 	return true
 }
 
 type RemarkIrreversible struct {
 }
 
-func (z *RemarkIrreversible) IsIrreversible() bool {
+func (z RemarkIrreversible) IsIrreversible() bool {
 	return true
 }
 
 type RemarkConsole struct {
 }
 
-func (z *RemarkConsole) IsConsole() bool {
+func (z RemarkConsole) IsConsole() bool {
+	return true
+}
+
+type RemarkTransient struct {
+}
+
+func (z RemarkTransient) IsTransient() bool {
 	return true
 }
 
@@ -86,6 +98,9 @@ type Annotation interface {
 
 	// True if the operation is irreversible.
 	IsIrreversible() bool
+
+	// True if the operation is transient.
+	IsTransient() bool
 }
 
 func NewAnnotated(seed Recipe) Annotation {
@@ -98,129 +113,55 @@ type AnnotatedRecipe struct {
 	seed Recipe
 }
 
-func (z *AnnotatedRecipe) Preset() {
+func (z AnnotatedRecipe) Preset() {
 	z.seed.Preset()
 }
 
-func (z *AnnotatedRecipe) Exec(c app_control.Control) error {
+func (z AnnotatedRecipe) Exec(c app_control.Control) error {
 	return z.seed.Exec(c)
 }
 
-func (z *AnnotatedRecipe) Test(c app_control.Control) error {
+func (z AnnotatedRecipe) Test(c app_control.Control) error {
 	return z.seed.Test(c)
 }
 
-func (z *AnnotatedRecipe) Seed() Recipe {
+func (z AnnotatedRecipe) Seed() Recipe {
 	return z.seed
 }
 
-func (z *AnnotatedRecipe) IsSecret() bool {
+func (z AnnotatedRecipe) IsSecret() bool {
 	if r, ok := z.seed.(RemarkRecipeSecret); ok {
 		return r.IsSecret()
 	}
 	return false
 }
 
-func (z *AnnotatedRecipe) IsConsole() bool {
+func (z AnnotatedRecipe) IsConsole() bool {
 	if r, ok := z.seed.(RemarkRecipeConsole); ok {
 		return r.IsConsole()
 	}
 	return false
 }
 
-func (z *AnnotatedRecipe) IsExperimental() bool {
+func (z AnnotatedRecipe) IsExperimental() bool {
 	if r, ok := z.seed.(RemarkRecipeExperimental); ok {
 		return r.IsExperimental()
 	}
 	return false
 }
 
-func (z *AnnotatedRecipe) IsIrreversible() bool {
+func (z AnnotatedRecipe) IsIrreversible() bool {
 	if r, ok := z.seed.(RemarkRecipeIrreversible); ok {
 		return r.IsIrreversible()
 	}
 	return false
 }
 
-type RecipeProperty func(ro *RecipeProps) *RecipeProps
-type RecipeProps struct {
-	Secret       bool
-	Console      bool
-	Experimental bool
-	Irreversible bool
-}
-
-func Secret() RecipeProperty {
-	return func(ro *RecipeProps) *RecipeProps {
-		ro.Secret = true
-		return ro
+func (z AnnotatedRecipe) IsTransient() bool {
+	if r, ok := z.seed.(RemarkRecipeTransient); ok {
+		return r.IsTransient()
 	}
-}
-func Console() RecipeProperty {
-	return func(ro *RecipeProps) *RecipeProps {
-		ro.Console = true
-		return ro
-	}
-}
-func Experimental() RecipeProperty {
-	return func(ro *RecipeProps) *RecipeProps {
-		ro.Experimental = true
-		return ro
-	}
-}
-func Irreversible() RecipeProperty {
-	return func(ro *RecipeProps) *RecipeProps {
-		ro.Irreversible = true
-		return ro
-	}
-}
-
-type annotatedRecipe struct {
-	seed Recipe
-	opts *RecipeProps
-}
-
-func (z *annotatedRecipe) Exec(c app_control.Control) error {
-	return z.seed.Exec(c)
-}
-
-func (z *annotatedRecipe) Test(c app_control.Control) error {
-	return z.seed.Test(c)
-}
-
-func (z *annotatedRecipe) Preset() {
-	z.seed.Preset()
-}
-
-func (z *annotatedRecipe) Seed() Recipe {
-	return z.seed
-}
-
-func (z *annotatedRecipe) IsSecret() bool {
-	return z.opts.Secret
-}
-
-func (z *annotatedRecipe) IsConsole() bool {
-	return z.opts.Console
-}
-
-func (z *annotatedRecipe) IsExperimental() bool {
-	return z.opts.Experimental
-}
-
-func (z *annotatedRecipe) IsIrreversible() bool {
-	return z.opts.Irreversible
-}
-
-func Annotate(r Recipe, props ...RecipeProperty) Annotation {
-	rp := &RecipeProps{}
-	for _, p := range props {
-		p(rp)
-	}
-	return &annotatedRecipe{
-		seed: r,
-		opts: rp,
-	}
+	return false
 }
 
 type SpecValue interface {
@@ -311,6 +252,9 @@ type Spec interface {
 
 	// True if the operation is irreversible.
 	IsIrreversible() bool
+
+	// True if the operation is transient.
+	IsTransient() bool
 
 	// Print usage
 	PrintUsage(ui app_ui.UI)

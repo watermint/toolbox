@@ -18,72 +18,72 @@ type Scenario struct {
 	Folders map[string]bool
 }
 
-func (z *Scenario) Create(short bool) (err error) {
+func NewScenario(short bool) (sc Scenario, err error) {
 	l := esl.Default()
-	z.LocalPath, err = ioutil.TempDir("", "file-upload-scenario")
+	sc.LocalPath, err = ioutil.TempDir("", "file-upload-scenario")
 	if err != nil {
 		l.Error("unable to create temp dir", esl.Error(err))
-		return err
+		return
 	}
 
-	z.Files = make(map[string]string)
-	z.Files["zyx/wvu.txt"] = "wvu"
-	z.Files["アイウ/エオ.txt"] = time.Now().String()
+	sc.Files = make(map[string]string)
+	sc.Files["zyx/wvu.txt"] = "wvu"
+	sc.Files["アイウ/エオ.txt"] = time.Now().String()
 
 	if !short {
-		z.Files["a-b-c/time.txt"] = time.Now().String()
-		z.Files["123.txt"] = "123"
-		z.Files["abc.txt"] = "abc"
-		z.Files["あいう.txt"] = "あいう"
-		z.Files["time.txt"] = time.Now().String()
-		z.Files["987/654.txt"] = "654"
+		sc.Files["a-b-c/time.txt"] = time.Now().String()
+		sc.Files["123.txt"] = "123"
+		sc.Files["abc.txt"] = "abc"
+		sc.Files["あいう.txt"] = "あいう"
+		sc.Files["time.txt"] = time.Now().String()
+		sc.Files["987/654.txt"] = "654"
 	}
 
-	z.Ignore = make(map[string]string)
-	z.Ignore[".DS_Store"] = "ignore-dsstore"
+	sc.Ignore = make(map[string]string)
+	sc.Ignore[".DS_Store"] = "ignore-dsstore"
 	if !short {
-		z.Ignore["987/~$abc"] = "ignore-abc"
-		z.Ignore["d-e-f/.~abc"] = "ignore-dot-tilde"
-		z.Ignore["~123.tmp"] = "ignore-123"
+		sc.Ignore["987/~$abc"] = "ignore-abc"
+		sc.Ignore["d-e-f/.~abc"] = "ignore-dot-tilde"
+		sc.Ignore["~123.tmp"] = "ignore-123"
 	}
 
 	// Empty folders
-	z.Folders = make(map[string]bool)
-	z.Folders["987"] = true
-	z.Folders["zyx"] = true
-	z.Folders["アイウ"] = true
+	sc.Folders = make(map[string]bool)
+	sc.Folders["987"] = true
+	sc.Folders["zyx"] = true
+	sc.Folders["アイウ"] = true
 	if !short {
-		z.Folders["a-b-c"] = true
-		z.Folders["d-e-f"] = true
-		z.Folders["1-2-3"] = true
-		z.Folders["g-h-i/j-k-l"] = true
+		sc.Folders["a-b-c"] = true
+		sc.Folders["d-e-f"] = true
+		sc.Folders["1-2-3"] = true
+		sc.Folders["g-h-i/j-k-l"] = true
 	}
 
 	// Create test folders
 	{
-		for f := range z.Folders {
-			if err := os.MkdirAll(filepath.Join(z.LocalPath, f), 0755); err != nil {
+		for f := range sc.Folders {
+			if err = os.MkdirAll(filepath.Join(sc.LocalPath, f), 0755); err != nil {
 				l.Error("Unable to create folder", esl.Error(err), esl.String("f", f))
-				return err
+				return
 			}
 		}
 	}
 
 	// Create test files
 	{
-		for f, c := range z.Files {
-			if err := ioutil.WriteFile(filepath.Join(z.LocalPath, f), []byte(c), 0644); err != nil {
+		for f, c := range sc.Files {
+			if err = ioutil.WriteFile(filepath.Join(sc.LocalPath, f), []byte(c), 0644); err != nil {
 				l.Error("Unable to create file", esl.Error(err), esl.String("f", f))
-				return err
+				return
 			}
 		}
-		for f, c := range z.Ignore {
-			if err := ioutil.WriteFile(filepath.Join(z.LocalPath, f), []byte(c), 0644); err != nil {
+		for f, c := range sc.Ignore {
+			if err := ioutil.WriteFile(filepath.Join(sc.LocalPath, f), []byte(c), 0644); err != nil {
 				l.Error("Unable to create file", esl.Error(err), esl.String("f", f))
-				return err
+				return
 			}
 		}
 	}
 
-	return nil
+	return
 }

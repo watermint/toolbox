@@ -126,7 +126,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	ui := z.SelectUI(com)
 
 	clv := app_feature.ConsoleLogLevel(false, com.Debug)
-	wb, err := app_workspace.NewBundle(com.Workspace.Value(), app_budget.Budget(com.BudgetStorage.Value()), clv)
+	wb, err := app_workspace.NewBundle(com.Workspace.Value(), app_budget.Budget(com.BudgetStorage.Value()), clv, rcp.IsTransient())
 	if err != nil {
 		ui.Failure(MRun.ErrorInitialization.With("Error", err))
 		app_exit.Abort(app_exit.FatalStartup)

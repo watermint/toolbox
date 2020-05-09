@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"go.uber.org/atomic"
+	"io/ioutil"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -99,7 +100,15 @@ func newWorkspaceWithPath(path string) (ws Workspace, err error) {
 	return sws, err
 }
 
-func NewWorkspace(home string) (Workspace, error) {
+func NewWorkspace(home string, transient bool) (Workspace, error) {
+	if transient {
+		if path, err := ioutil.TempDir("", "transient"); err != nil {
+			return nil, err
+		} else {
+			return newWorkspaceWithPath(path)
+		}
+	}
+
 	if home == "" {
 		if path, err := DefaultAppPath(); err != nil {
 			return nil, err

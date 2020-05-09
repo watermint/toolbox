@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"os/user"
 	"time"
@@ -17,8 +18,8 @@ type Feature interface {
 	IsTestWithMock() bool
 	IsQuiet() bool
 	IsSecure() bool
-	IsLowMemory() bool
 	IsAutoOpen() bool
+	IsTransient() bool
 
 	// UI format
 	UIFormat() string
@@ -30,10 +31,10 @@ type Feature interface {
 	Home() string
 
 	// Budget for memory usage
-	BudgetMemory() string
+	BudgetMemory() app_budget.Budget
 
 	// Budget for storage usage
-	BudgetStorage() string
+	BudgetStorage() app_budget.Budget
 
 	// Retrieve feature
 	OptInGet(oi OptIn) (f OptIn, found bool)

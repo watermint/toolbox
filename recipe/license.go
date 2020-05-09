@@ -15,6 +15,7 @@ import (
 )
 
 type License struct {
+	rc_recipe.RemarkTransient
 	ErrorLicenseInfoNotFound app_msg.Message
 	ToolboxHeader            app_msg.Message
 	ThirdPartyHeader         app_msg.Message

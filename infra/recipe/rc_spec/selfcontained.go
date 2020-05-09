@@ -200,6 +200,13 @@ func (z *specValueSelfContained) IsIrreversible() bool {
 	return false
 }
 
+func (z *specValueSelfContained) IsTransient() bool {
+	if z.annotation != nil {
+		return z.annotation.IsTransient()
+	}
+	return false
+}
+
 func (z *specValueSelfContained) Value(name string) rc_recipe.Value {
 	return z.repo.FieldValue(name)
 }

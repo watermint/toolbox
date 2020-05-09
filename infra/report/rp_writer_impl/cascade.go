@@ -7,29 +7,39 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_writer"
 )
 
-func NewCascade(name string, ctl app_control.Control) rp_writer.Writer {
+func NewCascade(name string, c app_control.Control) rp_writer.Writer {
 	fileWriters := make([]rp_writer.Writer, 0)
 	consoleWriters := make([]rp_writer.Writer, 0)
+	feature := c.Feature()
 
-	fileWriters = append(fileWriters, NewJsonWriter(name, ctl, false))
-	if !ctl.Feature().IsLowMemory() {
+	// file writers
+	switch {
+	case feature.IsTransient():
+		// no file writer
+
+	case feature.BudgetMemory() == app_opt.BudgetLow:
+		fileWriters = append(fileWriters, NewJsonWriter(name, c, false))
+
+	default:
+		fileWriters = append(fileWriters, NewJsonWriter(name, c, false))
 		columnWriters := make([]rp_writer.Writer, 0)
-		columnWriters = append(columnWriters, NewCsvWriter(name, ctl))
-		columnWriters = append(columnWriters, NewXlsxWriter(name, ctl))
+		columnWriters = append(columnWriters, NewCsvWriter(name, c))
+		columnWriters = append(columnWriters, NewXlsxWriter(name, c))
 		sortedWriter := NewSorted(name, columnWriters)
 		fileWriters = append(fileWriters, sortedWriter)
 	}
 
-	if !ctl.Feature().IsQuiet() {
-		if ctl.Feature().UIFormat() == app_opt.OutputJson {
-			consoleWriters = append(consoleWriters, NewJsonWriter(name, ctl, true))
+	// console writer
+	if !feature.IsQuiet() {
+		if feature.UIFormat() == app_opt.OutputJson {
+			consoleWriters = append(consoleWriters, NewJsonWriter(name, c, true))
 		} else {
-			consoleWriters = append(consoleWriters, newUIWriter(name, ctl))
+			consoleWriters = append(consoleWriters, newUIWriter(name, c))
 		}
 	}
 
 	return &cascadeWriter{
-		ctl:            ctl,
+		ctl:            c,
 		name:           name,
 		fileWriters:    fileWriters,
 		consoleWriters: consoleWriters,

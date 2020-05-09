@@ -20,7 +20,7 @@ func WithControl(f func(c app_control.Control) error) error {
 		l.Debug("unable to create home", esl.Error(err))
 		return err
 	}
-	wb, err := app_workspace.NewBundle(home, app_budget.BudgetUnlimited, esl.LevelQuiet)
+	wb, err := app_workspace.NewBundle(home, app_budget.BudgetUnlimited, esl.LevelQuiet, false)
 	if err != nil {
 		l.Debug("unable to create bundle", esl.Error(err))
 		return err
@@ -28,7 +28,7 @@ func WithControl(f func(c app_control.Control) error) error {
 	defer wb.Close()
 
 	com := app_opt.Default()
-	fe := app_feature_impl.NewFeature(com, wb.Workspace())
+	fe := app_feature_impl.NewFeature(com, wb.Workspace(), false)
 	mc := app_msg_container_impl.NewSingleWithMessages(map[string]string{})
 	ui := app_ui.NewDiscard(mc, wb.Logger().Logger())
 	ctl := app_control_impl.New(wb, ui, fe)

@@ -48,8 +48,12 @@ func newConsole(level Level) Logger {
 }
 
 func New(level Level, flavor Flavor, w io.Writer) Logger {
-	return &zapWrapper{
-		zl: newZap(level, flavor, w),
+	switch level {
+	case LevelQuiet:
+		return newEmpty()
+
+	default:
+		return &zapWrapper{zl: newZap(level, flavor, w)}
 	}
 }
 

@@ -28,7 +28,7 @@ func TestFeatureImpl_OptInGetSet(t *testing.T) {
 		_ = os.RemoveAll(p)
 	}()
 	com := app_opt.Default()
-	fe := NewFeature(com, ws)
+	fe := NewFeature(com, ws, true)
 
 	sfo := &SampleFeatureOptIn{}
 	if sfo1, found := fe.OptInGet(sfo); found {

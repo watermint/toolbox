@@ -22,6 +22,13 @@ type Logger interface {
 	Close()
 }
 
+func NewTransient(consoleLevel esl.Level) (t, c, s Logger) {
+	t = newTransient(consoleLevel, esl.FlavorConsole)
+	c = newTransient(esl.LevelQuiet, esl.FlavorFileCapture)
+	s = newTransient(esl.LevelQuiet, esl.FlavorConsole)
+	return
+}
+
 func NewAll(basePath string, budget app_budget.Budget, consoleLevel esl.Level) (t, c, s Logger, err error) {
 	t, err = NewToolbox(basePath, budget, consoleLevel)
 	if err != nil {
@@ -133,4 +140,29 @@ func (z teeImpl) SetRotateHook(hook esl_rotate.RotateHook) {
 func (z teeImpl) Close() {
 	_ = z.l.Close()
 	_ = z.w.Close()
+}
+
+func newTransient(level esl.Level, flavor esl.Flavor) Logger {
+	l := esl.New(level, flavor, es_stdout.NewDefaultOut(false))
+	return &transientImpl{
+		l: l,
+	}
+}
+
+type transientImpl struct {
+	l esl.Logger
+}
+
+func (z transientImpl) Logger() esl.Logger {
+	return z.l
+}
+
+func (z transientImpl) Core() esl.Logger {
+	return z.l
+}
+
+func (z transientImpl) SetRotateHook(hook esl_rotate.RotateHook) {
+}
+
+func (z transientImpl) Close() {
 }

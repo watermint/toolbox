@@ -61,7 +61,7 @@ func (z launchImpl) recordResultLog(err error) error {
 func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	lg := z.wb.Logger().Logger()
 	sm := z.wb.Summary().Logger()
-	fe := app_feature_impl.NewFeature(z.com, z.wb.Workspace())
+	fe := app_feature_impl.NewFeature(z.com, z.wb.Workspace(), z.rcp.IsTransient())
 	ctl = app_control_impl.New(z.wb, z.ui, fe)
 
 	if err := z.recordStartLog(); err != nil {

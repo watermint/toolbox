@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -21,10 +22,11 @@ var (
 	ErrorValueNotFound = errors.New("value not found")
 )
 
-func NewFeature(opts app_opt.CommonOpts, ws app_workspace.Workspace) app_feature.Feature {
+func NewFeature(opts app_opt.CommonOpts, ws app_workspace.Workspace, transient bool) app_feature.Feature {
 	return &featureImpl{
-		com: opts,
-		ws:  ws,
+		com:       opts,
+		ws:        ws,
+		transient: transient,
 	}
 }
 
@@ -33,6 +35,11 @@ type featureImpl struct {
 	ws           app_workspace.Workspace
 	test         bool
 	testWithMock bool
+	transient    bool
+}
+
+func (z featureImpl) IsTransient() bool {
+	return z.transient
 }
 
 func (z featureImpl) pathConfig() string {
@@ -146,12 +153,12 @@ func (z featureImpl) Home() string {
 	return z.com.Workspace.Value()
 }
 
-func (z featureImpl) BudgetMemory() string {
-	return z.com.BudgetMemory.Value()
+func (z featureImpl) BudgetMemory() app_budget.Budget {
+	return app_budget.Budget(z.com.BudgetMemory.Value())
 }
 
-func (z featureImpl) BudgetStorage() string {
-	return z.com.BudgetStorage.Value()
+func (z featureImpl) BudgetStorage() app_budget.Budget {
+	return app_budget.Budget(z.com.BudgetStorage.Value())
 }
 
 func (z featureImpl) Concurrency() int {
@@ -176,10 +183,6 @@ func (z featureImpl) IsQuiet() bool {
 
 func (z featureImpl) IsSecure() bool {
 	return z.com.Secure
-}
-
-func (z featureImpl) IsLowMemory() bool {
-	return z.com.BudgetMemory.Value() == app_opt.BudgetLow
 }
 
 func (z featureImpl) IsAutoOpen() bool {

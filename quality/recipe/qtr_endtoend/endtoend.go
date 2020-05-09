@@ -159,7 +159,7 @@ func TestWithReplayDbxContext(t *testing.T, name string, twc func(ctx dbx_contex
 func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	ui := Resources()
-	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited, esl.ConsoleDefaultLevel())
+	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited, esl.ConsoleDefaultLevel(), false)
 	if err != nil {
 		t.Error(err)
 		return
