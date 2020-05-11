@@ -21,13 +21,13 @@ func TestScenario_CreateShort(t *testing.T) {
 		t.Error(err)
 	}
 
-	for _, f := range sc.Files {
+	for f := range sc.Files {
 		_, err := os.Lstat(filepath.Join(sc.LocalPath, f))
 		if err != nil {
 			t.Error(err)
 		}
 	}
-	for _, f := range sc.Ignore {
+	for f := range sc.Ignore {
 		_, err := os.Lstat(filepath.Join(sc.LocalPath, f))
 		if err != nil {
 			t.Error(err)
