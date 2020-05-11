@@ -1389,6 +1389,7 @@
   "recipe.job.history.job_record.recipe_name.desc": "Command",
   "recipe.job.history.job_record.time_finish.desc": "Time Finished",
   "recipe.job.history.job_record.time_start.desc": "Time Started",
+  "recipe.job.history.list.flag.path": "Path to workspace",
   "recipe.job.history.list.title": "Show job history",
   "recipe.job.history.ship.cli.args": "-dropbox-path /DROPBOX/PATH/TO/UPLOAD",
   "recipe.job.history.ship.error_failed_archive": "Failed archive {{.JobId}} with an error {{.Error}}",

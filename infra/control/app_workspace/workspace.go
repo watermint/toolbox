@@ -61,13 +61,13 @@ type Workspace interface {
 }
 
 const (
-	nameSecrets = "secrets"
-	nameUser    = "user"
-	nameJobs    = "jobs"
-	nameLogs    = "logs"
-	nameReport  = "report"
-	nameTest    = "test"
-	nameKvs     = "kvs"
+	NameSecrets = "secrets"
+	NameUser    = "user"
+	NameJobs    = "jobs"
+	NameLogs    = "logs"
+	NameReport  = "report"
+	NameTest    = "test"
+	NameKvs     = "kvs"
 	JobIdFormat = "20060102-150405"
 )
 
@@ -118,9 +118,7 @@ func NewWorkspace(home string, transient bool) (Workspace, error) {
 // Create workspace instance by job path.
 // This will not create directories. Just matches to existing folder structure.
 // Returns error if a
-func NewWorkspaceByJobPath(home Application, path string) (ws Workspace, err error) {
-	jobId := filepath.Base(path)
-
+func NewWorkspaceByJobPath(home Application, jobId string) (ws Workspace, err error) {
 	ws = newWorkspaceWithJobIdNoSetup(home.Home(), jobId)
 	p, err := os.Lstat(ws.Log())
 	if err != nil {

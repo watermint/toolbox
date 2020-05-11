@@ -31,13 +31,13 @@ func parse(path string, model interface{}) error {
 	return nil
 }
 
-func newHistory(app app_workspace.Application, jobId string) (h app_job.History, found bool) {
+func newHistory(app app_workspace.Application, jobId []string) (h app_job.History, found bool) {
 	l := esl.Default()
 	start := &app_job.StartLog{}
 	finish := &app_job.ResultLog{}
 
-	jobPath := filepath.Join(app.Home(), "jobs", jobId)
-	ws, err := app_workspace.NewWorkspaceByJobPath(app, jobPath)
+	fqj := filepath.Join(jobId...)
+	ws, err := app_workspace.NewWorkspaceByJobPath(app, fqj)
 	if err != nil {
 		l.Debug("Unable to determine the path as job", esl.Error(err))
 		return nil, false
@@ -47,7 +47,7 @@ func newHistory(app app_workspace.Application, jobId string) (h app_job.History,
 	finishLogPath := filepath.Join(ws.Log(), app_job.FinishLogName)
 	if err := parse(startLogPath, start); err != nil {
 		l.Debug("Unable to load start log", esl.Error(err))
-		return nil, false
+		//return nil, false
 	}
 	if err := parse(finishLogPath, finish); err != nil {
 		l.Debug("Unable to load finish log", esl.Error(err))
@@ -55,7 +55,7 @@ func newHistory(app app_workspace.Application, jobId string) (h app_job.History,
 
 	return &History{
 		ws:     ws,
-		jobId:  jobId,
+		jobId:  fqj,
 		start:  start,
 		finish: finish,
 	}, true

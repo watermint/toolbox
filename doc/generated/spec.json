@@ -4034,7 +4034,15 @@
       }
     ],
     "feeds": [],
-    "values": []
+    "values": [
+      {
+        "name": "Path",
+        "desc": "Path to workspace",
+        "default": "",
+        "type_name": "domain.common.model.mo_string.opt_string",
+        "type_attr": null
+      }
+    ]
   },
   "job history ship": {
     "name": "ship",

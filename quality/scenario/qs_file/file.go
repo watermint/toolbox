@@ -78,7 +78,7 @@ func NewScenario(short bool) (sc Scenario, err error) {
 			}
 		}
 		for f, c := range sc.Ignore {
-			if err := ioutil.WriteFile(filepath.Join(sc.LocalPath, f), []byte(c), 0644); err != nil {
+			if err = ioutil.WriteFile(filepath.Join(sc.LocalPath, f), []byte(c), 0644); err != nil {
 				l.Error("Unable to create file", esl.Error(err), esl.String("f", f))
 				return
 			}

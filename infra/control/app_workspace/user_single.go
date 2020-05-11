@@ -61,15 +61,15 @@ func (z *singleWorkspace) Home() string {
 }
 
 func (z *singleWorkspace) Log() string {
-	return filepath.Join(z.Job(), nameLogs)
+	return filepath.Join(z.Job(), NameLogs)
 }
 
 func (z *singleWorkspace) Secrets() string {
-	return filepath.Join(z.home, nameSecrets)
+	return filepath.Join(z.home, NameSecrets)
 }
 
 func (z *singleWorkspace) Job() string {
-	return filepath.Join(z.home, nameJobs, z.jobId)
+	return filepath.Join(z.home, NameJobs, z.jobId)
 }
 
 func (z *singleWorkspace) Descendant(name string) (path string, err error) {
@@ -77,23 +77,23 @@ func (z *singleWorkspace) Descendant(name string) (path string, err error) {
 }
 
 func (z *singleWorkspace) Report() string {
-	return filepath.Join(z.Job(), nameReport)
+	return filepath.Join(z.Job(), NameReport)
 }
 
 func (z *singleWorkspace) KVS() string {
-	t, err := z.Descendant(nameKvs)
+	t, err := z.Descendant(NameKvs)
 	if err != nil {
 		esl.Default().Error("Unable to create KVS folder", esl.Error(err))
-		t = filepath.Join(z.Job(), nameKvs)
+		t = filepath.Join(z.Job(), NameKvs)
 	}
 	return t
 }
 
 func (z *singleWorkspace) Test() string {
-	t, err := z.Descendant(nameTest)
+	t, err := z.Descendant(NameTest)
 	if err != nil {
 		esl.Default().Error("Unable to create test folder", esl.Error(err))
-		t = filepath.Join(z.Job(), nameTest)
+		t = filepath.Join(z.Job(), NameTest)
 	}
 	return t
 }
