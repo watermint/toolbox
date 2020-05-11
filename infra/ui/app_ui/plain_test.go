@@ -42,7 +42,7 @@ func TestMakeConsoleDemo(t *testing.T) {
 			}
 		})
 	})
-	if s == "" || !strings.HasPrefix(s, "Ping Pong\n") {
+	if s == "" || !strings.HasPrefix(strings.TrimSpace(s), "Ping Pong\n") {
 		t.Error(s)
 	}
 }

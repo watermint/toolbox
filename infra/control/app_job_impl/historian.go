@@ -6,6 +6,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"io/ioutil"
 	"path/filepath"
+	"sort"
+	"strings"
 )
 
 func NewHistorian(ws app_workspace.Workspace) app_job.Historian {
@@ -36,5 +38,9 @@ func (z Historian) Histories() (histories []app_job.History, err error) {
 			histories = append(histories, h)
 		}
 	}
+	sort.Slice(histories, func(i, j int) bool {
+		return strings.Compare(histories[i].JobId(), histories[j].JobId()) < 0
+	})
+
 	return histories, nil
 }

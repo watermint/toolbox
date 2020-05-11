@@ -2,8 +2,9 @@
 
 # 追加されたコマンド
 
-| コマンド     | タイトル                     |
-|--------------|------------------------------|
-| job log last | Print the last job log files |
+| コマンド     | タイトル                                         |
+|--------------|--------------------------------------------------|
+| job log kind | Concatenate and print logs of specified log kind |
+| job log last | Print the last job log files                     |
 
 

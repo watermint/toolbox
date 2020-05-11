@@ -1,6 +1,6 @@
-# job log last 
+# job log kind 
 
-Print the last job log files 
+Concatenate and print logs of specified log kind 
 
 # 利用方法
 
@@ -12,13 +12,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe job log last 
+.\tbx.exe job log kind 
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx job log last 
+$HOME/Desktop/tbx job log kind 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -31,7 +31,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション | 説明               | デフォルト |
 |------------|--------------------|------------|
-| `-kind`    | Log kind           | toolbox    |
+| `-kind`    | Log kind.          | toolbox    |
 | `-path`    | Path to workspace. |            |
 
 共通のオプション:

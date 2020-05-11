@@ -13,19 +13,18 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
-type Last struct {
+type Kind struct {
 	rc_recipe.RemarkTransient
 	Path              mo_string.OptionalString
 	Kind              mo_string.SelectString
-	NoticeNoLogFound  app_msg.Message
 	ErrorUnableToRead app_msg.Message
 }
 
-func (z *Last) Preset() {
+func (z *Kind) Preset() {
 	z.Kind.SetOptions(app_job.LogFileTypes, string(app_job.LogFileTypeToolbox))
 }
 
-func (z *Last) Exec(c app_control.Control) error {
+func (z *Kind) Exec(c app_control.Control) error {
 	l := c.Log()
 
 	home := ""
@@ -47,38 +46,38 @@ func (z *Last) Exec(c app_control.Control) error {
 	}
 	if len(histories) < 1 {
 		l.Debug("No log found", esl.Any("histories", histories))
-		c.UI().Success(z.NoticeNoLogFound)
 		return nil
 	}
 
 	l.Debug("Sorting by job id")
 
-	last := histories[len(histories)-1]
-	l.Debug("Last job", esl.String("jobId", last.JobId()))
-
-	logs, err := last.Logs()
-	if err != nil {
-		l.Debug("Unable to retrieve logs", esl.Error(err))
-		return err
-	}
-
 	out := es_stdout.NewDefaultOut(c.Feature().IsTest())
-	for _, lf := range logs {
-		if app_job.LogFileType(z.Kind.Value()) != lf.Type() {
-			l.Debug("skip non target log type", esl.String("name", lf.Name()), esl.Any("type", lf.Type()))
-			continue
-		}
 
-		l.Debug("Copying", esl.String("name", lf.Name()))
-		if err := lf.CopyTo(out); err != nil {
-			l.Debug("Failed copy", esl.Error(err), esl.String("name", lf.Name()))
-			c.UI().Error(z.ErrorUnableToRead.With("Name", lf.Name()).With("Error", err))
-			continue
+	for _, h := range histories {
+		logs, err := h.Logs()
+		if err != nil {
+			l.Debug("Unable to retrieve logs", esl.Error(err))
+			return err
+		}
+		l.Debug("Last job", esl.String("jobId", h.JobId()))
+
+		for _, lf := range logs {
+			if app_job.LogFileType(z.Kind.Value()) != lf.Type() {
+				l.Debug("skip non target log type", esl.String("name", lf.Name()), esl.Any("type", lf.Type()))
+				continue
+			}
+
+			l.Debug("Copying", esl.String("name", lf.Name()))
+			if err := lf.CopyTo(out); err != nil {
+				l.Debug("Failed copy", esl.Error(err), esl.String("name", lf.Name()))
+				c.UI().Error(z.ErrorUnableToRead.With("Name", lf.Name()).With("Error", err))
+				continue
+			}
 		}
 	}
 	return nil
 }
 
-func (z *Last) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &Last{}, rc_recipe.NoCustomValues)
+func (z *Kind) Test(c app_control.Control) error {
+	return rc_exec.Exec(c, &Kind{}, rc_recipe.NoCustomValues)
 }

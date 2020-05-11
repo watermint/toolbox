@@ -134,6 +134,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipejobhistory.Delete{},
 		&recipejobhistory.List{},
 		&recipejobhistory.Ship{},
+		&recipejoblog.Kind{},
 		&recipejoblog.Last{},
 		&recipemember.Delete{},
 		&recipemember.Detach{},

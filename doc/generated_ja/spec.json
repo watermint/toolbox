@@ -4131,6 +4131,48 @@
       }
     ]
   },
+  "job log kind": {
+    "name": "kind",
+    "title": "Concatenate and print logs of specified log kind",
+    "desc": "",
+    "remarks": "",
+    "path": "job log kind",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": [],
+    "values": [
+      {
+        "name": "Kind",
+        "desc": "Log kind.",
+        "default": "toolbox",
+        "type_name": "domain.common.model.mo_string.select_string",
+        "type_attr": {
+          "options": [
+            "toolbox",
+            "capture",
+            "summary",
+            "recipe",
+            "result"
+          ]
+        }
+      },
+      {
+        "name": "Path",
+        "desc": "Path to workspace.",
+        "default": "",
+        "type_name": "domain.common.model.mo_string.opt_string",
+        "type_attr": null
+      }
+    ]
+  },
   "job log last": {
     "name": "last",
     "title": "Print the last job log files",
@@ -4163,6 +4205,13 @@
             "result"
           ]
         }
+      },
+      {
+        "name": "Path",
+        "desc": "Path to workspace.",
+        "default": "",
+        "type_name": "domain.common.model.mo_string.opt_string",
+        "type_attr": null
       }
     ]
   },

@@ -2,8 +2,9 @@
 
 # Commands added
 
-| Command      | Title                        |
-|--------------|------------------------------|
-| job log last | Print the last job log files |
+| Command      | Title                                            |
+|--------------|--------------------------------------------------|
+| job log kind | Concatenate and print logs of specified log kind |
+| job log last | Print the last job log files                     |
 
 
