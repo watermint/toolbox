@@ -19,7 +19,7 @@ func AssertResponse(res es_response.Response) es_response.Response {
 
 	switch res.Code() {
 	case dbx_context.DropboxApiErrorBadInputParam:
-		// In case of the server returned unexpected HTML response
+		// In case of the server returned unexpected HTML response;
 		// Response body should be plain text
 		if strings.HasPrefix(res.Alt().BodyString(), "<!DOCTYPE html>") {
 			l.Debug("Bad response from server, assume that can retry", esl.String("response", res.Alt().BodyString()))

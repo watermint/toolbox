@@ -48,6 +48,10 @@ if [ "$TOOLBOX_BUILD_ID"x = ""x ]; then
       TOOLBOX_BUILD_ID=2.$CIRCLE_BUILD_NUM
     fi
 
+  # GitHub Actions
+  elif [ "$GITHUB_RUN_ID"x != ""x ]; then
+    TOOLBOX_BUILD_ID=3.$GITHUB_RUN_ID
+
   # Gitlab
   elif [ "$CI_PIPELINE_IID" ]; then
     TOOLBOX_BUILD_ID=1.$CI_PIPELINE_IID
