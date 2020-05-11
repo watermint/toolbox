@@ -17,8 +17,11 @@ type Delete struct {
 }
 
 func (z *Delete) Exec(c app_control.Control) error {
-	historian := app_job_impl.NewHistorian(c)
-	histories := historian.Histories()
+	historian := app_job_impl.NewHistorian(c.Workspace())
+	histories, err := historian.Histories()
+	if err != nil {
+		return err
+	}
 	threshold := time.Now().Add(time.Duration(-z.Days*24) * time.Hour)
 	l := c.Log()
 

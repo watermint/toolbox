@@ -5,6 +5,24 @@ import (
 	"path/filepath"
 )
 
+func newWorkspace(home string) (Workspace, error) {
+	sw := &singleWorkspace{
+		home:  home,
+		jobId: NewJobId(),
+	}
+	if err := sw.setup(); err != nil {
+		return nil, err
+	}
+	return sw, nil
+}
+
+func newWorkspaceWithJobIdNoSetup(home, jobId string) Workspace {
+	return &singleWorkspace{
+		home:  home,
+		jobId: jobId,
+	}
+}
+
 type singleWorkspace struct {
 	home  string
 	jobId string

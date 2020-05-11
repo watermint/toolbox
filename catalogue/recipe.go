@@ -31,6 +31,7 @@ import (
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
 	recipejob "github.com/watermint/toolbox/recipe/job"
 	recipejobhistory "github.com/watermint/toolbox/recipe/job/history"
+	recipejoblog "github.com/watermint/toolbox/recipe/job/log"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
@@ -133,6 +134,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipejobhistory.Delete{},
 		&recipejobhistory.List{},
 		&recipejobhistory.Ship{},
+		&recipejoblog.Last{},
 		&recipemember.Delete{},
 		&recipemember.Detach{},
 		&recipemember.Invite{},

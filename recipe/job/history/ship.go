@@ -32,8 +32,11 @@ type ShipInfo struct {
 }
 
 func (z *Ship) Exec(c app_control.Control) error {
-	historian := app_job_impl.NewHistorian(c)
-	histories := historian.Histories()
+	historian := app_job_impl.NewHistorian(c.Workspace())
+	histories, err := historian.Histories()
+	if err != nil {
+		return err
+	}
 	l := c.Log()
 
 	if err := z.OperationLog.Open(); err != nil {

@@ -91,28 +91,12 @@ func DefaultAppPath() (path string, err error) {
 	return filepath.Join(u.HomeDir, ".toolbox"), nil
 }
 
-func newWorkspaceWithPath(path string) (ws Workspace, err error) {
-	sws := &singleWorkspace{
-		home:  path,
-		jobId: NewJobId(),
-	}
-	err = sws.setup()
-	return sws, err
-}
-
-func newWorkspaceWithPathNoSetup(path string) (ws Workspace) {
-	return &singleWorkspace{
-		home:  path,
-		jobId: NewJobId(),
-	}
-}
-
 func NewWorkspace(home string, transient bool) (Workspace, error) {
 	if transient {
 		if path, err := ioutil.TempDir("", "transient"); err != nil {
 			return nil, err
 		} else {
-			return newWorkspaceWithPathNoSetup(path), nil
+			return newWorkspaceWithJobIdNoSetup(path, NewJobId()), nil
 		}
 	}
 
@@ -120,15 +104,32 @@ func NewWorkspace(home string, transient bool) (Workspace, error) {
 		if path, err := DefaultAppPath(); err != nil {
 			return nil, err
 		} else {
-			return newWorkspaceWithPath(path)
+			return newWorkspace(path)
 		}
 	} else {
 		if path, err := es_filepath.FormatPathWithPredefinedVariables(home); err != nil {
 			return nil, err
 		} else {
-			return newWorkspaceWithPath(path)
+			return newWorkspace(path)
 		}
 	}
+}
+
+// Create workspace instance by job path.
+// This will not create directories. Just matches to existing folder structure.
+// Returns error if a
+func NewWorkspaceByJobPath(home Application, path string) (ws Workspace, err error) {
+	jobId := filepath.Base(path)
+
+	ws = newWorkspaceWithJobIdNoSetup(home.Home(), jobId)
+	p, err := os.Lstat(ws.Log())
+	if err != nil {
+		return nil, err
+	}
+	if p.IsDir() {
+		return ws, nil
+	}
+	return nil, errors.New("given path look like not a workspace path")
 }
 
 // create or get fully qualified path

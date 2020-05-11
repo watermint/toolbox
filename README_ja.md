@@ -110,6 +110,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [job history delete](doc/generated_ja/job-history-delete.md)                                         | 古いジョブ履歴の削除                                               |
 | [job history list](doc/generated_ja/job-history-list.md)                                             | ジョブ履歴の表示                                                   |
 | [job history ship](doc/generated_ja/job-history-ship.md)                                             | ログの転送先Dropboxパス                                            |
+| [job log last](doc/generated_ja/job-log-last.md)                                                     | Print the last job log files                                       |
 | [job loop](doc/generated_ja/job-loop.md)                                                             | 指定日時までrunbookを実行します.                                   |
 | [job run](doc/generated_ja/job-run.md)                                                               | *.runbookoファイルにてワークフローを実行します                     |
 | [license](doc/generated_ja/license.md)                                                               | ライセンス情報を表示します                                         |

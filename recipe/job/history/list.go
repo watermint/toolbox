@@ -22,8 +22,11 @@ type JobRecord struct {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	historian := app_job_impl.NewHistorian(c)
-	histories := historian.Histories()
+	historian := app_job_impl.NewHistorian(c.Workspace())
+	histories, err := historian.Histories()
+	if err != nil {
+		return err
+	}
 	if err := z.Log.Open(); err != nil {
 		return err
 	}

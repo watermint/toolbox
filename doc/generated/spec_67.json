@@ -4131,6 +4131,41 @@
       }
     ]
   },
+  "job log last": {
+    "name": "last",
+    "title": "Print the last job log files",
+    "desc": "",
+    "remarks": "",
+    "path": "job log last",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": [],
+    "values": [
+      {
+        "name": "Kind",
+        "desc": "Log kind",
+        "default": "toolbox",
+        "type_name": "domain.common.model.mo_string.select_string",
+        "type_attr": {
+          "options": [
+            "toolbox",
+            "capture",
+            "summary",
+            "recipe",
+            "result"
+          ]
+        }
+      }
+    ]
+  },
   "job loop": {
     "name": "loop",
     "title": "Run runbook until specified date/time",

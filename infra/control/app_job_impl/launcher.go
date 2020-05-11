@@ -42,7 +42,7 @@ func (z launchImpl) recordStartLog() error {
 		AppHash:     app.Hash,
 		AppVersion:  app.Version,
 	}
-	return sl.Create(z.wb.Workspace())
+	return sl.Write(z.wb.Workspace())
 }
 
 func (z launchImpl) recordResultLog(err error) error {
@@ -55,7 +55,7 @@ func (z launchImpl) recordResultLog(err error) error {
 		TimeFinish: time.Now().Format(time.RFC3339),
 		Error:      errText,
 	}
-	return rl.Create(z.wb.Workspace())
+	return rl.Write(z.wb.Workspace())
 }
 
 func (z launchImpl) Up() (ctl app_control.Control, err error) {
