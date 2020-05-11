@@ -19,7 +19,7 @@ func TestFeatureImpl_OptInGetSet(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	ws, err := app_workspace.NewWorkspace(p)
+	ws, err := app_workspace.NewWorkspace(p, false)
 	if err != nil {
 		t.Error(err)
 		return
