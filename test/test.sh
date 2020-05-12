@@ -7,6 +7,8 @@ OUT_TEST_REPORT=$OUT_RESULTS/all.xml
 OUT_PROFILE=$OUT_RESULTS/profile.out
 OUT_COVERAGE=coverage.txt
 
+mkdir -p resources/keys
+
 echo "" >$OUT_COVERAGE
 echo "" >$OUT_TEST_ALL
 
