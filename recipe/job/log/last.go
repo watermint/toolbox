@@ -6,8 +6,6 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job"
-	"github.com/watermint/toolbox/infra/control/app_job_impl"
-	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -28,30 +26,13 @@ func (z *Last) Preset() {
 func (z *Last) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	home := ""
-	if z.Path.IsExists() {
-		home = z.Path.Value()
-	}
-
-	// default non transient workspace
-	ws, err := app_workspace.NewWorkspace(home, false)
+	histories, err := getHistories(z.Path)
 	if err != nil {
-		return err
-	}
-
-	historian := app_job_impl.NewHistorian(ws)
-	histories, err := historian.Histories()
-	if err != nil {
-		l.Debug("Unable to retrieve histories", esl.Error(err))
 		return err
 	}
 	if len(histories) < 1 {
-		l.Debug("No log found", esl.Any("histories", histories))
-		c.UI().Success(z.NoticeNoLogFound)
 		return nil
 	}
-
-	l.Debug("Sorting by job id")
 
 	last := histories[len(histories)-1]
 	l.Debug("Last job", esl.String("jobId", last.JobId()))

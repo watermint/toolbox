@@ -110,6 +110,7 @@ Available commands:
 | [job history delete](doc/generated/job-history-delete.md)                                         | Delete old job history                                        |
 | [job history list](doc/generated/job-history-list.md)                                             | Show job history                                              |
 | [job history ship](doc/generated/job-history-ship.md)                                             | Ship Job logs to Dropbox path                                 |
+| [job log jobid](doc/generated/job-log-jobid.md)                                                   | Retrieve logs of specified Job ID                             |
 | [job log kind](doc/generated/job-log-kind.md)                                                     | Concatenate and print logs of specified log kind              |
 | [job log last](doc/generated/job-log-last.md)                                                     | Print the last job log files                                  |
 | [job loop](doc/generated/job-loop.md)                                                             | Run runbook until specified date/time                         |

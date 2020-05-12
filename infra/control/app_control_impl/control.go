@@ -36,7 +36,9 @@ func WithForkedQuiet(ctl app_control.Control, name string, f func(c app_control.
 	if err != nil {
 		return err
 	}
-	defer cf.WorkBundle().Close()
+	defer func() {
+		_ = cf.WorkBundle().Close()
+	}()
 	return f(cf)
 }
 

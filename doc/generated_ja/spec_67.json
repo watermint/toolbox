@@ -4139,6 +4139,55 @@
       }
     ]
   },
+  "job log jobid": {
+    "name": "jobid",
+    "title": "Retrieve logs of specified Job ID",
+    "desc": "",
+    "remarks": "",
+    "path": "job log jobid",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": [],
+    "values": [
+      {
+        "name": "Id",
+        "desc": "Job ID",
+        "default": "",
+        "type_name": "string",
+        "type_attr": null
+      },
+      {
+        "name": "Kind",
+        "desc": "Kind of log",
+        "default": "toolbox",
+        "type_name": "domain.common.model.mo_string.select_string",
+        "type_attr": {
+          "options": [
+            "toolbox",
+            "capture",
+            "summary",
+            "recipe",
+            "result"
+          ]
+        }
+      },
+      {
+        "name": "Path",
+        "desc": "Path to the workspace",
+        "default": "",
+        "type_name": "domain.common.model.mo_string.opt_string",
+        "type_attr": null
+      }
+    ]
+  },
   "job log kind": {
     "name": "kind",
     "title": "Concatenate and print logs of specified log kind",
