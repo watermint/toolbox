@@ -8,6 +8,7 @@ OUT_PROFILE=$OUT_RESULTS/profile.out
 OUT_COVERAGE=coverage.txt
 
 mkdir -p resources/keys
+mkdir -p $OUT_RESULTS
 
 echo "" >$OUT_COVERAGE
 echo "" >$OUT_TEST_ALL

@@ -19,7 +19,7 @@ mkdir -p resources/templates
 mkdir -p resources/web
 
 if [ x"" != x"$TOOLBOX_APPKEYS" ]; then
-  echo "$TOOLBOX_APPKEYS" > resources/keys/toolbox.appkeys
+  echo "$TOOLBOX_APPKEYS" >resources/keys/toolbox.appkeys
 fi
 
 if [ x"" = x"$TOOLBOX_BUILDERKEY" ]; then

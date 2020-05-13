@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -22,29 +23,30 @@ import (
 
 var (
 	valueTypes = []rc_recipe.Value{
-		newValueBool(),
-		newValueInt(),
-		newValueString(),
-		newValueKvStorageStorage(""),
 		newValueAppMsgMessage("", app_msg.Raw("")),
-		newValueMoTimeTime(""),
-		newValueMoPathDropboxPath(""),
-		newValueMoPathFileSystemPath(""),
-		newValueMoUrlUrl(""),
-		newValueRcRecipeRecipe("", nil),
+		newValueBool(),
+		newValueDbxConnBusinessAudit(dbx_conn_impl.DefaultPeerName),
+		newValueDbxConnBusinessFile(dbx_conn_impl.DefaultPeerName),
 		newValueDbxConnBusinessInfo(dbx_conn_impl.DefaultPeerName),
 		newValueDbxConnBusinessMgmt(dbx_conn_impl.DefaultPeerName),
-		newValueDbxConnBusinessFile(dbx_conn_impl.DefaultPeerName),
-		newValueDbxConnBusinessAudit(dbx_conn_impl.DefaultPeerName),
 		newValueDbxConnUserFile(dbx_conn_impl.DefaultPeerName),
+		newValueFdFileRowFeed(""),
 		newValueGhConnGithubPublic(),
 		newValueGhConnGithubRepo(dbx_conn_impl.DefaultPeerName),
+		newValueInt(),
+		newValueKvStorageStorage(""),
+		newValueMoFilter(""),
+		newValueMoPathDropboxPath(""),
+		newValueMoPathFileSystemPath(""),
+		newValueMoTimeTime(""),
+		newValueMoUrlUrl(""),
+		newValueOptionalString(),
+		newValueRangeInt(),
+		newValueRcRecipeRecipe("", nil),
 		newValueRpModelRowReport(""),
 		newValueRpModelTransactionReport(""),
-		newValueFdFileRowFeed(""),
-		newValueOptionalString(),
 		newValueSelectString(),
-		newValueRangeInt(),
+		newValueString(),
 	}
 
 	ErrorMissingRequiredOption = errors.New("missing required option")
@@ -373,6 +375,8 @@ func (z *RepositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
 				f.Int64Var(bv, flagName, *bv, ui.Text(flagDesc))
 			case *string:
 				f.StringVar(bv, flagName, *bv, ui.Text(flagDesc))
+			case mo_filter.FlagSetter:
+				bv.ApplyFlags(f, flagDesc, ui)
 			}
 		}
 	}
