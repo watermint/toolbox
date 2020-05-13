@@ -24,7 +24,7 @@ func (z mlContainer) Text(key string) string {
 	l := esl.Default()
 	for _, la := range z.priority {
 		if c, ok := z.containers[la.Code()]; ok {
-			if c.Exists(key) {
+			if c.ExistsKey(key) {
 				return c.Text(key)
 			}
 		}
@@ -34,10 +34,21 @@ func (z mlContainer) Text(key string) string {
 	return AltText(key)
 }
 
-func (z *mlContainer) Exists(key string) bool {
+func (z *mlContainer) Exists(msg app_msg.Message) bool {
 	for _, la := range z.priority {
 		if c, ok := z.containers[la.Code()]; ok {
-			if c.Exists(key) {
+			if c.Exists(msg) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func (z *mlContainer) ExistsKey(key string) bool {
+	for _, la := range z.priority {
+		if c, ok := z.containers[la.Code()]; ok {
+			if c.ExistsKey(key) {
 				return true
 			}
 		}
@@ -49,7 +60,7 @@ func (z *mlContainer) Compile(m app_msg.Message) string {
 	l := esl.Default()
 	for _, la := range z.priority {
 		if c, ok := z.containers[la.Code()]; ok {
-			if c.Exists(m.Key()) {
+			if c.Exists(m) {
 				return c.Compile(m)
 			}
 		}

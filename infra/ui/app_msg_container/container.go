@@ -4,7 +4,11 @@ import "github.com/watermint/toolbox/infra/ui/app_msg"
 
 type Container interface {
 	// Verify the key exists on the container.
-	Exists(key string) bool
+	// This does not compute message type such as app_msg.MessageComplex.
+	ExistsKey(key string) bool
+
+	// Verify the message and keys exists on the container.
+	Exists(msg app_msg.Message) bool
 
 	// Compile message.
 	Compile(m app_msg.Message) string

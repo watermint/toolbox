@@ -18,7 +18,7 @@ type proxyTableImpl struct {
 func (z proxyTableImpl) verifyMessages(ms []app_msg.Message) {
 	for _, m := range ms {
 		k := m.Key()
-		if !z.mc.Exists(k) {
+		if !z.mc.Exists(m) {
 			z.lg.Debug("Message key not found", esl.String("key", k))
 			qt_missingmsg.Record().NotFound(k)
 		}

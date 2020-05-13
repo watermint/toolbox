@@ -59,11 +59,22 @@ func (z sglContainer) Text(key string) string {
 	}
 }
 
-func (z sglContainer) Exists(key string) bool {
-	if app_msg.IsSpecialKey(key) {
-		return true
-	}
+func (z sglContainer) Exists(msg app_msg.Message) bool {
+	switch m := msg.(type) {
+	case app_msg.MessageComplex:
+		for _, mm := range m.Messages() {
+			if z.ExistsKey(mm.Key()) {
+				return true
+			}
+		}
+		return false
 
+	default:
+		return z.ExistsKey(msg.Key())
+	}
+}
+
+func (z sglContainer) ExistsKey(key string) bool {
 	_, ok := z.messages[key]
 	return ok
 }

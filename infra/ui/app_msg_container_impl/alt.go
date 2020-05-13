@@ -13,7 +13,11 @@ func (z Alt) Text(key string) string {
 	return AltText(key)
 }
 
-func (z Alt) Exists(key string) bool {
+func (z Alt) Exists(msg app_msg.Message) bool {
+	return false
+}
+
+func (z Alt) ExistsKey(key string) bool {
 	return false
 }
 

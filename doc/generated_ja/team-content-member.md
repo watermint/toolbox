@@ -48,12 +48,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション            | 説明                                                                                                                                                | デフォルト |
-|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-folder-name`        | {"key":"recipe.team.content.member.flag.folder","params":{}} {"key":"domain.common.model.mo_filter.msg_filter.desc_filter_name","params":{}}        |            |
-| `-folder-name-prefix` | {"key":"recipe.team.content.member.flag.folder","params":{}} {"key":"domain.common.model.mo_filter.msg_filter.desc_filter_name_prefix","params":{}} |            |
-| `-folder-name-suffix` | {"key":"recipe.team.content.member.flag.folder","params":{}} {"key":"domain.common.model.mo_filter.msg_filter.desc_filter_name_suffix","params":{}} |            |
-| `-peer`               | アカウントの別名                                                                                                                                    | default    |
+| オプション            | 説明                                                       | デフォルト |
+|-----------------------|------------------------------------------------------------|------------|
+| `-folder-name`        | Filter by folder name. Filter by exact match to the name.  |            |
+| `-folder-name-prefix` | Filter by folder name. Filter by name match to the prefix. |            |
+| `-folder-name-suffix` | Filter by folder name. Filter by name match to the suffix. |            |
+| `-peer`               | アカウントの別名                                           | default    |
 
 共通のオプション:
 

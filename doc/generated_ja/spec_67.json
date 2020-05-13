@@ -7219,21 +7219,21 @@
     "values": [
       {
         "name": "FolderName",
-        "desc": "{\"key\":\"recipe.team.content.member.flag.folder\",\"params\":{}} {\"key\":\"domain.common.model.mo_filter.msg_filter.desc_filter_name\",\"params\":{}}",
+        "desc": "Filter by folder name. Filter by exact match to the name.",
         "default": "",
         "type_name": "",
         "type_attr": null
       },
       {
         "name": "FolderNamePrefix",
-        "desc": "{\"key\":\"recipe.team.content.member.flag.folder\",\"params\":{}} {\"key\":\"domain.common.model.mo_filter.msg_filter.desc_filter_name_prefix\",\"params\":{}}",
+        "desc": "Filter by folder name. Filter by name match to the prefix.",
         "default": "",
         "type_name": "",
         "type_attr": null
       },
       {
         "name": "FolderNameSuffix",
-        "desc": "{\"key\":\"recipe.team.content.member.flag.folder\",\"params\":{}} {\"key\":\"domain.common.model.mo_filter.msg_filter.desc_filter_name_suffix\",\"params\":{}}",
+        "desc": "Filter by folder name. Filter by name match to the suffix.",
         "default": "",
         "type_name": "",
         "type_attr": null
@@ -7304,21 +7304,21 @@
     "values": [
       {
         "name": "FolderName",
-        "desc": "{\"key\":\"recipe.team.content.policy.flag.folder\",\"params\":{}} {\"key\":\"domain.common.model.mo_filter.msg_filter.desc_filter_name\",\"params\":{}}",
+        "desc": "Filter by folder name. Filter by exact match to the name.",
         "default": "",
         "type_name": "",
         "type_attr": null
       },
       {
         "name": "FolderNamePrefix",
-        "desc": "{\"key\":\"recipe.team.content.policy.flag.folder\",\"params\":{}} {\"key\":\"domain.common.model.mo_filter.msg_filter.desc_filter_name_prefix\",\"params\":{}}",
+        "desc": "Filter by folder name. Filter by name match to the prefix.",
         "default": "",
         "type_name": "",
         "type_attr": null
       },
       {
         "name": "FolderNameSuffix",
-        "desc": "{\"key\":\"recipe.team.content.policy.flag.folder\",\"params\":{}} {\"key\":\"domain.common.model.mo_filter.msg_filter.desc_filter_name_suffix\",\"params\":{}}",
+        "desc": "Filter by folder name. Filter by name match to the suffix.",
         "default": "",
         "type_name": "",
         "type_attr": null

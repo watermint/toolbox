@@ -38,7 +38,7 @@ func (z proxyImpl) WithTable(name string, f func(t Table)) {
 
 func (z proxyImpl) verifyKey(m app_msg.Message) {
 	k := m.Key()
-	if !z.sy.Messages().Exists(k) {
+	if !z.sy.Messages().Exists(m) {
 		z.lg.Debug("Message key not found", esl.String("key", k))
 		qt_missingmsg.Record().NotFound(k)
 	}
@@ -94,7 +94,7 @@ func (z proxyImpl) Break() {
 }
 
 func (z proxyImpl) Exists(m app_msg.Message) bool {
-	return z.sy.Messages().Exists(m.Key())
+	return z.sy.Messages().Exists(m)
 }
 
 func (z proxyImpl) Text(m app_msg.Message) string {
@@ -102,7 +102,7 @@ func (z proxyImpl) Text(m app_msg.Message) string {
 }
 
 func (z proxyImpl) TextOrEmpty(m app_msg.Message) string {
-	if z.sy.Messages().Exists(m.Key()) {
+	if z.sy.Messages().Exists(m) {
 		return z.sy.Messages().Compile(m)
 	} else {
 		return ""

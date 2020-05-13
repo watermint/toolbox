@@ -34,4 +34,4 @@ for d in $(go list ./... | grep -v vendor); do
 done
 
 hash go-junit-report 2> /dev/null || { echo "Skip generating JUnit style report"; exit 0 }
-cat $OUT_TEST_ALL | go-junit-report >$OUT_TEST_REPORT || echo done
+cat $OUT_TEST_ALL | go-junit-report >$OUT_TEST_REPORT

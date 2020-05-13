@@ -16,19 +16,19 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 14 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-- 	Values:  []*dc_recipe.Value{},
-+ 	Values: []*dc_recipe.Value{
-+ 		&{
-+ 			Name:     "Path",
-+ 			Desc:     "Path to workspace",
-+ 			TypeName: "domain.common.model.mo_string.opt_string",
-+ 		},
-+ 	},
-  }
+  &dc_recipe.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+- 	Values:  []*dc_recipe.Value{},
++ 	Values: []*dc_recipe.Value{
++ 		&{
++ 			Name:     "Path",
++ 			Desc:     "Path to workspace",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
++ 	},
+  }
 ```
 # Command spec changed: `team content member`
 
@@ -37,26 +37,26 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 14 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-+ 		&{
-+ 			Name: "FolderName",
-+ 			Desc: "Filter by folder name. Filter by exact match to the name.",
-+ 		},
-+ 		&{
-+ 			Name: "FolderNamePrefix",
-+ 			Desc: "Filter by folder name. Filter by name match to the prefix.",
-+ 		},
-+ 		&{
-+ 			Name: "FolderNameSuffix",
-+ 			Desc: "Filter by folder name. Filter by name match to the suffix.",
-+ 		},
-  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
-  	},
-  }
+  &dc_recipe.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
++ 		&{
++ 			Name: "FolderName",
++ 			Desc: "Filter by folder name. Filter by exact match to the name.",
++ 		},
++ 		&{
++ 			Name: "FolderNamePrefix",
++ 			Desc: "Filter by folder name. Filter by name match to the prefix.",
++ 		},
++ 		&{
++ 			Name: "FolderNameSuffix",
++ 			Desc: "Filter by folder name. Filter by name match to the suffix.",
++ 		},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
+  	},
+  }
 ```
 # Command spec changed: `team content policy`
 
@@ -65,24 +65,24 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 14 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-+ 		&{
-+ 			Name: "FolderName",
-+ 			Desc: "Filter by folder name. Filter by exact match to the name.",
-+ 		},
-+ 		&{
-+ 			Name: "FolderNamePrefix",
-+ 			Desc: "Filter by folder name. Filter by name match to the prefix.",
-+ 		},
-+ 		&{
-+ 			Name: "FolderNameSuffix",
-+ 			Desc: "Filter by folder name. Filter by name match to the suffix.",
-+ 		},
-  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
-  	},
-  }
+  &dc_recipe.Recipe{
+  	... // 14 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
++ 		&{
++ 			Name: "FolderName",
++ 			Desc: "Filter by folder name. Filter by exact match to the name.",
++ 		},
++ 		&{
++ 			Name: "FolderNamePrefix",
++ 			Desc: "Filter by folder name. Filter by name match to the prefix.",
++ 		},
++ 		&{
++ 			Name: "FolderNameSuffix",
++ 			Desc: "Filter by folder name. Filter by name match to the suffix.",
++ 		},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
+  	},
+  }
 ```
