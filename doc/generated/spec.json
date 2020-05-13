@@ -7218,6 +7218,27 @@
     "feeds": [],
     "values": [
       {
+        "name": "FolderName",
+        "desc": "Filter by folder name. Filter by exact match to the name.",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "FolderNamePrefix",
+        "desc": "Filter by folder name. Filter by name match to the prefix.",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "FolderNameSuffix",
+        "desc": "Filter by folder name. Filter by name match to the suffix.",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
         "name": "Peer",
         "desc": "Account alias",
         "default": "default",
@@ -7281,6 +7302,27 @@
     ],
     "feeds": [],
     "values": [
+      {
+        "name": "FolderName",
+        "desc": "Filter by folder name. Filter by exact match to the name.",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "FolderNamePrefix",
+        "desc": "Filter by folder name. Filter by name match to the prefix.",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "FolderNameSuffix",
+        "desc": "Filter by folder name. Filter by name match to the suffix.",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
       {
         "name": "Peer",
         "desc": "Account alias",

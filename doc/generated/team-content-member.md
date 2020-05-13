@@ -48,9 +48,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
+| Option                | Description                                                | Default |
+|-----------------------|------------------------------------------------------------|---------|
+| `-folder-name`        | Filter by folder name. Filter by exact match to the name.  |         |
+| `-folder-name-prefix` | Filter by folder name. Filter by name match to the prefix. |         |
+| `-folder-name-suffix` | Filter by folder name. Filter by name match to the suffix. |         |
+| `-peer`               | Account alias                                              | default |
 
 Common options:
 

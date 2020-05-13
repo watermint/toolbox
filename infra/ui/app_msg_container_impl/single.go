@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
+	"strings"
 	"text/template"
 )
 
@@ -58,42 +59,76 @@ func (z sglContainer) Text(key string) string {
 	}
 }
 
-func (z *sglContainer) Exists(key string) bool {
+func (z sglContainer) Exists(key string) bool {
+	if app_msg.IsSpecialKey(key) {
+		return true
+	}
+
 	_, ok := z.messages[key]
 	return ok
 }
 
-func (z *sglContainer) Compile(m app_msg.Message) string {
+func (z sglContainer) compileMessage(m app_msg.Message, msg string) string {
 	l := esl.Default()
 	key := m.Key()
-	if msg, ok := z.messages[key]; !ok {
+	params := make(map[string]interface{})
+	for _, p := range m.Params() {
+		for k, v := range p {
+			params[k] = v
+		}
+	}
+	t, err := template.New(key).Parse(msg)
+	if err != nil {
+		l.Warn("Unable to compile message",
+			esl.String("key", key),
+			esl.String("msg", msg),
+			esl.Error(err),
+		)
 		return AltCompile(m)
-	} else {
-		params := make(map[string]interface{})
-		for _, p := range m.Params() {
-			for k, v := range p {
-				params[k] = v
+	}
+	var buf bytes.Buffer
+	if err = t.Execute(&buf, params); err != nil {
+		l.Warn("Unable to format message",
+			esl.String("key", key),
+			esl.String("msg", msg),
+			esl.Error(err),
+		)
+		return AltCompile(m)
+	}
+
+	return buf.String()
+}
+
+func (z sglContainer) compileComplex(messages []app_msg.Message) string {
+	compiled := make([]string, 0)
+	for _, msg := range messages {
+		compiled = append(compiled, z.Compile(msg))
+	}
+	return strings.Join(compiled, " ")
+}
+
+func (z sglContainer) Compile(m app_msg.Message) string {
+	key := m.Key()
+	switch m0 := m.(type) {
+	case app_msg.MessageComplex:
+		return z.compileComplex(m0.Messages())
+
+	case app_msg.MessageOptional:
+		if msg, ok := z.messages[key]; !ok {
+			if m0.Optional() {
+				return ""
+			} else {
+				return AltCompile(m)
 			}
-		}
-		t, err := template.New(key).Parse(msg)
-		if err != nil {
-			l.Warn("Unable to compile message",
-				esl.String("key", key),
-				esl.String("msg", msg),
-				esl.Error(err),
-			)
-			return AltCompile(m)
-		}
-		var buf bytes.Buffer
-		if err = t.Execute(&buf, params); err != nil {
-			l.Warn("Unable to format message",
-				esl.String("key", key),
-				esl.String("msg", msg),
-				esl.Error(err),
-			)
-			return AltCompile(m)
+		} else {
+			return z.compileMessage(m, msg)
 		}
 
-		return buf.String()
+	default:
+		if msg, ok := z.messages[key]; !ok {
+			return AltCompile(m)
+		} else {
+			return z.compileMessage(m, msg)
+		}
 	}
 }

@@ -43,7 +43,7 @@ func (z *ValueMoFilterFilter) Apply() (v interface{}) {
 }
 
 func (z *ValueMoFilterFilter) Debug() interface{} {
-	return z.filter // TODO: debug info
+	return z.filter.Debug()
 }
 
 func (z *ValueMoFilterFilter) SpinUp(ctl app_control.Control) error {

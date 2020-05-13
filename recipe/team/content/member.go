@@ -1,6 +1,7 @@
 package content
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
@@ -21,6 +22,7 @@ type Member struct {
 	Tree           kv_storage.Storage
 	Membership     rp_model.RowReport
 	NoMember       rp_model.RowReport
+	Folder         mo_filter.Filter
 }
 
 type Membership struct {
@@ -64,6 +66,11 @@ func (z *Member) Preset() {
 			"namespace_name",
 		),
 	)
+	z.Folder.SetOptions(
+		mo_filter.NewNameFilter(),
+		mo_filter.NewNamePrefixFilter(),
+		mo_filter.NewNameSuffixFilter(),
+	)
 }
 
 func (z *Member) Exec(c app_control.Control) error {
@@ -71,9 +78,10 @@ func (z *Member) Exec(c app_control.Control) error {
 
 	q := c.NewQueue()
 	s := &TeamScanner{
-		ctx:   z.Peer.Context(),
-		ctl:   c,
-		queue: q,
+		ctx:    z.Peer.Context(),
+		ctl:    c,
+		queue:  q,
+		filter: z.Folder,
 		scanner: &ScanNamespaceMetadataAndMembership{
 			metadata: &ScanNamespaceMetadata{
 				metadata: z.Metadata,

@@ -1,6 +1,7 @@
 package content
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -18,6 +19,7 @@ type TeamScanner struct {
 	teamOwnedNamespaces map[string]bool
 	scanner             ScanNamespace
 	queue               rc_worker.Queue
+	filter              mo_filter.Filter
 }
 
 func (z *TeamScanner) namespacesOfTeam() error {
@@ -46,10 +48,16 @@ func (z *TeamScanner) namespacesOfTeam() error {
 	z.teamOwnedNamespaces = make(map[string]bool)
 	teamOwnedNamespaceWithName := make(map[string]string)
 	for _, f := range teamfolders {
-		z.teamOwnedNamespaces[f.TeamFolderId] = true
-		teamOwnedNamespaceWithName[f.TeamFolderId] = f.Name
+		if z.filter.Accept(f.Name) {
+			z.teamOwnedNamespaces[f.TeamFolderId] = true
+			teamOwnedNamespaceWithName[f.TeamFolderId] = f.Name
+		}
 	}
 	for _, n := range namespaces {
+		if !z.filter.Accept(n.Name) {
+			continue
+		}
+
 		switch n.NamespaceType {
 		case "app_folder", "team_member_folder":
 			l.Debug("Skip non-shared namespace", esl.Any("namespace", n))

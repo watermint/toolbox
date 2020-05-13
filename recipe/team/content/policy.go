@@ -1,6 +1,7 @@
 package content
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
@@ -18,6 +19,7 @@ type Policy struct {
 	Metadata kv_storage.Storage
 	Tree     kv_storage.Storage
 	Policy   rp_model.RowReport
+	Folder   mo_filter.Filter
 }
 
 type FolderPolicy struct {
@@ -42,6 +44,11 @@ func (z *Policy) Preset() {
 			"namespace_name",
 		),
 	)
+	z.Folder.SetOptions(
+		mo_filter.NewNameFilter(),
+		mo_filter.NewNamePrefixFilter(),
+		mo_filter.NewNameSuffixFilter(),
+	)
 }
 
 func (z *Policy) Exec(c app_control.Control) error {
@@ -49,9 +56,10 @@ func (z *Policy) Exec(c app_control.Control) error {
 
 	q := c.NewQueue()
 	s := &TeamScanner{
-		ctx:   z.Peer.Context(),
-		ctl:   c,
-		queue: q,
+		ctx:    z.Peer.Context(),
+		ctl:    c,
+		queue:  q,
+		filter: z.Folder,
 		scanner: &ScanNamespaceMetadata{
 			metadata: z.Metadata,
 			queue:    q,

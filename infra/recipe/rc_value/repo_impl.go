@@ -5,7 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/iancoleman/strcase"
-	"github.com/watermint/toolbox/domain/common/model/mo_filter"
+	"github.com/watermint/toolbox/domain/common/model/mo_multi"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -177,7 +177,12 @@ func (z *RepositoryImpl) Messages() []app_msg.Message {
 func (z *RepositoryImpl) FieldNames() []string {
 	names := make([]string, 0)
 	for k, v := range z.values {
-		if v.Bind() != nil {
+		switch b := v.Bind().(type) {
+		case nil:
+			continue
+		case mo_multi.MultiValue:
+			names = append(names, b.Fields()...)
+		default:
 			names = append(names, k)
 		}
 	}
@@ -186,8 +191,9 @@ func (z *RepositoryImpl) FieldNames() []string {
 }
 
 func (z *RepositoryImpl) FieldValueText(name string) string {
-	v := z.values[name]
-	if cv, ok := v.(rc_recipe.ValueCustomValueText); ok {
+	if v, ok := z.values[name]; !ok {
+		return "" // Might be nested value in MultiValue
+	} else if cv, ok := v.(rc_recipe.ValueCustomValueText); ok {
 		return cv.ValueText()
 	} else {
 		av := v.Apply()
@@ -375,18 +381,22 @@ func (z *RepositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
 				f.Int64Var(bv, flagName, *bv, ui.Text(flagDesc))
 			case *string:
 				f.StringVar(bv, flagName, *bv, ui.Text(flagDesc))
-			case mo_filter.FlagSetter:
+			case mo_multi.MultiValue:
 				bv.ApplyFlags(f, flagDesc, ui)
 			}
 		}
 	}
 }
 
-func (z *RepositoryImpl) fieldMessageKey(name string) string {
+func (z *RepositoryImpl) fieldMessageKeyBase() string {
 	key := z.rcpName
 	key = strings.ReplaceAll(key, app.Pkg+"/", "")
 	key = strings.ReplaceAll(key, "/", ".")
-	return key + ".flag." + strcase.ToSnake(name)
+	return key + ".flag."
+}
+
+func (z *RepositoryImpl) fieldMessageKey(name string) string {
+	return z.fieldMessageKeyBase() + strcase.ToSnake(name)
 }
 
 func (z *RepositoryImpl) FieldCustomDefault(name string) app_msg.MessageOptional {
@@ -394,7 +404,20 @@ func (z *RepositoryImpl) FieldCustomDefault(name string) app_msg.MessageOptional
 }
 
 func (z *RepositoryImpl) FieldDesc(name string) app_msg.Message {
-	return app_msg.CreateMessage(z.fieldMessageKey(name))
+	msg := app_msg.CreateMessage(z.fieldMessageKey(name))
+	for k, v := range z.values {
+		if k == name {
+			return msg
+		}
+		switch v0 := v.Bind().(type) {
+		case mo_multi.MultiValue:
+			if strings.HasPrefix(name, v0.Name()) {
+				base := app_msg.CreateMessage(z.fieldMessageKeyBase() + strcase.ToSnake(v0.Name()))
+				return v0.FieldDesc(base, name)
+			}
+		}
+	}
+	return msg
 }
 
 func (z *RepositoryImpl) Debug() map[string]interface{} {

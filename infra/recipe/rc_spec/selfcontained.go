@@ -111,16 +111,26 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 			dv = app_msg.Raw(z.ValueDefault(vn))
 		}
 		v := z.Value(vn)
-		tn, ta := v.Spec()
-		values = append(values,
-			&dc_recipe.Value{
-				Name:     vn,
-				Default:  ui.Text(dv),
-				Desc:     ui.Text(z.ValueDesc(vn)),
-				TypeName: tn,
-				TypeAttr: ta,
-			},
-		)
+		if v == nil {
+			values = append(values,
+				&dc_recipe.Value{
+					Name:    vn,
+					Default: ui.Text(dv),
+					Desc:    ui.Text(z.ValueDesc(vn)),
+				},
+			)
+		} else {
+			tn, ta := v.Spec()
+			values = append(values,
+				&dc_recipe.Value{
+					Name:     vn,
+					Default:  ui.Text(dv),
+					Desc:     ui.Text(z.ValueDesc(vn)),
+					TypeName: tn,
+					TypeAttr: ta,
+				},
+			)
+		}
 	}
 
 	return &dc_recipe.Recipe{

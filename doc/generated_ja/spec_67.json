@@ -7218,6 +7218,27 @@
     "feeds": [],
     "values": [
       {
+        "name": "FolderName",
+        "desc": "{\"key\":\"recipe.team.content.member.flag.folder\",\"params\":{}} {\"key\":\"domain.common.model.mo_filter.msg_filter.desc_filter_name\",\"params\":{}}",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "FolderNamePrefix",
+        "desc": "{\"key\":\"recipe.team.content.member.flag.folder\",\"params\":{}} {\"key\":\"domain.common.model.mo_filter.msg_filter.desc_filter_name_prefix\",\"params\":{}}",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "FolderNameSuffix",
+        "desc": "{\"key\":\"recipe.team.content.member.flag.folder\",\"params\":{}} {\"key\":\"domain.common.model.mo_filter.msg_filter.desc_filter_name_suffix\",\"params\":{}}",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
         "name": "Peer",
         "desc": "アカウントの別名",
         "default": "default",
@@ -7281,6 +7302,27 @@
     ],
     "feeds": [],
     "values": [
+      {
+        "name": "FolderName",
+        "desc": "{\"key\":\"recipe.team.content.policy.flag.folder\",\"params\":{}} {\"key\":\"domain.common.model.mo_filter.msg_filter.desc_filter_name\",\"params\":{}}",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "FolderNamePrefix",
+        "desc": "{\"key\":\"recipe.team.content.policy.flag.folder\",\"params\":{}} {\"key\":\"domain.common.model.mo_filter.msg_filter.desc_filter_name_prefix\",\"params\":{}}",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "FolderNameSuffix",
+        "desc": "{\"key\":\"recipe.team.content.policy.flag.folder\",\"params\":{}} {\"key\":\"domain.common.model.mo_filter.msg_filter.desc_filter_name_suffix\",\"params\":{}}",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
       {
         "name": "Peer",
         "desc": "アカウントの別名",
