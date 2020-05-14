@@ -48,12 +48,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション            | 説明                                                       | デフォルト |
-|-----------------------|------------------------------------------------------------|------------|
-| `-folder-name`        | Filter by folder name. Filter by exact match to the name.  |            |
-| `-folder-name-prefix` | Filter by folder name. Filter by name match to the prefix. |            |
-| `-folder-name-suffix` | Filter by folder name. Filter by name match to the suffix. |            |
-| `-peer`               | アカウントの別名                                           | default    |
+| オプション              | 説明                                                                          | デフォルト |
+|-------------------------|-------------------------------------------------------------------------------|------------|
+| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                     |            |
+| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                    |            |
+| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                    |            |
+| `-member-type-external` | Filter folder members. Keep only members are external (not in the same team). |            |
+| `-member-type-internal` | Filter folder members. Keep only members are internal (in the same team).     |            |
+| `-peer`                 | アカウントの別名                                                              | default    |
 
 共通のオプション:
 
@@ -119,15 +121,16 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
 `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`...   
 
-| 列              | 説明                                                                                                             |
-|-----------------|------------------------------------------------------------------------------------------------------------------|
-| path            | パス                                                                                                             |
-| folder_type     | フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ) |
-| owner_team_name | このフォルダを所有するチームの名前                                                                               |
-| access_type     | このフォルダに対するユーザーのアクセスレベル                                                                     |
-| member_type     | メンバーの種類 (user, group または invitee)                                                                      |
-| member_name     | このメンバーの名前                                                                                               |
-| member_email    | このメンバーのメールアドレス                                                                                     |
+| 列              | 説明                                                                                                                                 |
+|-----------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| path            | パス                                                                                                                                 |
+| folder_type     | フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ)                     |
+| owner_team_name | このフォルダを所有するチームの名前                                                                                                   |
+| access_type     | このフォルダに対するユーザーのアクセスレベル                                                                                         |
+| member_type     | メンバーの種類 (user, group または invitee)                                                                                          |
+| member_name     | このメンバーの名前                                                                                                                   |
+| member_email    | このメンバーのメールアドレス                                                                                                         |
+| same_team       | Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not. |
 
 ## レポート: no_member 
 このレポートはメンバーのいないフォルダの一覧を出力します.

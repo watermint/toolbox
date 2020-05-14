@@ -9,6 +9,7 @@ import (
 	domaindropboxapidbx_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	domaindropboxapidbx_list_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_list_impl"
 	domaindropboxapidbx_util "github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	domaindropboxmodelmo_sharedfolder_member "github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	domaindropboxusecaseuc_compare_local "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
 	domaindropboxusecaseuc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	domaindropboxusecaseuc_file_merge "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
@@ -57,6 +58,8 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxapidbx_conn_impl.MsgConnect{},
 		&domaindropboxapidbx_list_impl.MsgList{},
 		&domaindropboxapidbx_util.MsgError{},
+		&domaindropboxmodelmo_sharedfolder_member.MsgExternalOpt{},
+		&domaindropboxmodelmo_sharedfolder_member.MsgInternalOpt{},
 		&domaindropboxusecaseuc_compare_local.MsgCompare{},
 		&domaindropboxusecaseuc_compare_paths.MsgCompare{},
 		&domaindropboxusecaseuc_file_merge.MsgMerge{},

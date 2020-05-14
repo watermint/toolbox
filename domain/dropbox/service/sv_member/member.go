@@ -22,11 +22,35 @@ var (
 
 type Member interface {
 	Update(member *mo_member.Member) (updated *mo_member.Member, err error)
-	List() (members []*mo_member.Member, err error)
+	List(opts ...ListOpt) (members []*mo_member.Member, err error)
 	Resolve(teamMemberId string) (member *mo_member.Member, err error)
 	ResolveByEmail(email string) (member *mo_member.Member, err error)
 	Add(email string, opts ...AddOpt) (member *mo_member.Member, err error)
 	Remove(member *mo_member.Member, opts ...RemoveOpt) (err error)
+}
+
+type ListOpt func(opt listOpts) listOpts
+type listOpts struct {
+	includeRemoved bool
+}
+
+func (z listOpts) Apply(opts ...ListOpt) listOpts {
+	switch len(opts) {
+	case 0:
+		return z
+	case 1:
+		return opts[0](z)
+	default:
+		x, y := opts[0], opts[1:]
+		return x(z).Apply(y...)
+	}
+}
+
+func IncludeDeleted(enabled bool) ListOpt {
+	return func(opt listOpts) listOpts {
+		opt.includeRemoved = enabled
+		return opt
+	}
 }
 
 type AddOpt func(opt *addOptions) *addOptions
@@ -139,9 +163,9 @@ func (z *cachedMember) Update(member *mo_member.Member) (updated *mo_member.Memb
 	return z.impl.Update(member)
 }
 
-func (z *cachedMember) List() (members []*mo_member.Member, err error) {
+func (z *cachedMember) List(opt ...ListOpt) (members []*mo_member.Member, err error) {
 	if z.members == nil {
-		z.members, err = z.impl.List()
+		z.members, err = z.impl.List(opt...)
 		if err != nil {
 			return nil, err
 		}
@@ -191,9 +215,8 @@ func (z *cachedMember) Remove(member *mo_member.Member, opts ...RemoveOpt) (err 
 }
 
 type memberImpl struct {
-	ctx            dbx_context.Context
-	includeDeleted bool
-	limit          int
+	ctx   dbx_context.Context
+	limit int
 }
 
 func (z *memberImpl) Add(email string, opts ...AddOpt) (member *mo_member.Member, err error) {
@@ -368,13 +391,14 @@ func (z *memberImpl) ResolveByEmail(email string) (member *mo_member.Member, err
 	return z.parseOneMember(res)
 }
 
-func (z *memberImpl) List() (members []*mo_member.Member, err error) {
+func (z *memberImpl) List(opts ...ListOpt) (members []*mo_member.Member, err error) {
+	lo := listOpts{}.Apply(opts...)
 	members = make([]*mo_member.Member, 0)
 	p := struct {
 		IncludeRemoved bool `json:"include_removed,omitempty"`
 		Limit          int  `json:"limit,omitempty"`
 	}{
-		IncludeRemoved: z.includeDeleted,
+		IncludeRemoved: lo.includeRemoved,
 		Limit:          z.limit,
 	}
 

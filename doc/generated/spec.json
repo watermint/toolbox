@@ -4712,6 +4712,13 @@
     "feeds": [],
     "values": [
       {
+        "name": "IncludeDeleted",
+        "desc": "Include deleted members.",
+        "default": "false",
+        "type_name": "bool",
+        "type_attr": null
+      },
+      {
         "name": "Peer",
         "desc": "Account alias",
         "default": "default",
@@ -7193,6 +7200,10 @@
           {
             "name": "member_email",
             "desc": "Email address of this member"
+          },
+          {
+            "name": "same_team",
+            "desc": "Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not."
           }
         ]
       },
@@ -7234,6 +7245,20 @@
       {
         "name": "FolderNameSuffix",
         "desc": "Filter by folder name. Filter by name match to the suffix.",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "MemberTypeExternal",
+        "desc": "Filter folder members. Keep only members are external (not in the same team).",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "MemberTypeInternal",
+        "desc": "Filter folder members. Keep only members are internal (in the same team).",
         "default": "",
         "type_name": "",
         "type_attr": null

@@ -48,12 +48,14 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option                | Description                                                | Default |
-|-----------------------|------------------------------------------------------------|---------|
-| `-folder-name`        | Filter by folder name. Filter by exact match to the name.  |         |
-| `-folder-name-prefix` | Filter by folder name. Filter by name match to the prefix. |         |
-| `-folder-name-suffix` | Filter by folder name. Filter by name match to the suffix. |         |
-| `-peer`               | Account alias                                              | default |
+| Option                  | Description                                                                   | Default |
+|-------------------------|-------------------------------------------------------------------------------|---------|
+| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                     |         |
+| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                    |         |
+| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                    |         |
+| `-member-type-external` | Filter folder members. Keep only members are external (not in the same team). |         |
+| `-member-type-internal` | Filter folder members. Keep only members are internal (in the same team).     |         |
+| `-peer`                 | Account alias                                                                 | default |
 
 Common options:
 
@@ -119,15 +121,16 @@ But if you run with `-budget-memory low` option, the command will generate only 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
 `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`...   
 
-| Column          | Description                                                                                              |
-|-----------------|----------------------------------------------------------------------------------------------------------|
-| path            | Path                                                                                                     |
-| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
-| owner_team_name | Team name of the team that owns the folder                                                               |
-| access_type     | User's access level for this folder                                                                      |
-| member_type     | Type of this member (user, group, or invitee)                                                            |
-| member_name     | Name of this member                                                                                      |
-| member_email    | Email address of this member                                                                             |
+| Column          | Description                                                                                                                          |
+|-----------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| path            | Path                                                                                                                                 |
+| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                             |
+| owner_team_name | Team name of the team that owns the folder                                                                                           |
+| access_type     | User's access level for this folder                                                                                                  |
+| member_type     | Type of this member (user, group, or invitee)                                                                                        |
+| member_name     | Name of this member                                                                                                                  |
+| member_email    | Email address of this member                                                                                                         |
+| same_team       | Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not. |
 
 ## Report: no_member 
 This report shows folders without members.

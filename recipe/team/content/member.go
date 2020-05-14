@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
@@ -16,13 +17,16 @@ import (
 )
 
 type Member struct {
-	Peer           dbx_conn.ConnBusinessFile
-	Metadata       kv_storage.Storage
-	MembershipList kv_storage.Storage
-	Tree           kv_storage.Storage
-	Membership     rp_model.RowReport
-	NoMember       rp_model.RowReport
-	Folder         mo_filter.Filter
+	Peer               dbx_conn.ConnBusinessFile
+	Metadata           kv_storage.Storage
+	MembershipList     kv_storage.Storage
+	Tree               kv_storage.Storage
+	Membership         rp_model.RowReport
+	NoMember           rp_model.RowReport
+	Folder             mo_filter.Filter
+	MemberType         mo_filter.Filter
+	memberTypeInternal mo_sharedfolder_member.FolderMemberFilter
+	memberTypeExternal mo_sharedfolder_member.FolderMemberFilter
 }
 
 type Membership struct {
@@ -37,6 +41,7 @@ type Membership struct {
 	MemberId      string `json:"member_id"`
 	MemberName    string `json:"member_name"`
 	MemberEmail   string `json:"member_email"`
+	SameTeam      string `json:"same_team"`
 }
 
 type NoMember struct {
@@ -71,6 +76,12 @@ func (z *Member) Preset() {
 		mo_filter.NewNamePrefixFilter(),
 		mo_filter.NewNameSuffixFilter(),
 	)
+	z.memberTypeInternal = mo_sharedfolder_member.NewInternalOpt()
+	z.memberTypeExternal = mo_sharedfolder_member.NewExternalOpt()
+	z.MemberType.SetOptions(
+		z.memberTypeInternal,
+		z.memberTypeExternal,
+	)
 }
 
 func (z *Member) Exec(c app_control.Control) error {
@@ -103,6 +114,15 @@ func (z *Member) Exec(c app_control.Control) error {
 	}
 	if err := z.NoMember.Open(); err != nil {
 		return err
+	}
+
+	if z.memberTypeExternal.Enabled() || z.memberTypeInternal.Enabled() {
+		members, err := sv_member.New(z.Peer.Context()).List()
+		if err != nil {
+			return err
+		}
+		z.memberTypeInternal.SetMembers(members)
+		z.memberTypeExternal.SetMembers(members)
 	}
 
 	admin, err := sv_profile.NewTeam(z.Peer.Context()).Admin()
@@ -179,9 +199,12 @@ func (z *Member) Exec(c app_control.Control) error {
 						MemberId:      memberId,
 						MemberName:    memberName,
 						MemberEmail:   memberEmail,
+						SameTeam:      member.SameTeam(),
 					}
 
-					z.Membership.Row(ms)
+					if z.MemberType.Accept(&member) {
+						z.Membership.Row(ms)
+					}
 				}
 
 				return nil

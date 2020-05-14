@@ -48,9 +48,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
+| Option             | Description              | Default |
+|--------------------|--------------------------|---------|
+| `-include-deleted` | Include deleted members. | false   |
+| `-peer`            | Account alias            | default |
 
 Common options:
 
