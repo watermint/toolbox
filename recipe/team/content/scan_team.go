@@ -55,6 +55,7 @@ func (z *TeamScanner) namespacesOfTeam() error {
 	}
 	for _, n := range namespaces {
 		if !z.filter.Accept(n.Name) {
+			l.Debug("Skip folder that unmatched to filter condition", esl.String("name", n.Name))
 			continue
 		}
 
@@ -84,6 +85,7 @@ func (z *TeamScanner) namespaceOfMember(member *mo_member.Member) error {
 		Context:             z.ctx.AsMemberId(member.TeamMemberId),
 		TeamOwnedNamespaces: z.teamOwnedNamespaces,
 		Scanner:             z.scanner,
+		Folder:              z.filter,
 	})
 	return nil
 }
