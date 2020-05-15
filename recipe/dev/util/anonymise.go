@@ -140,7 +140,7 @@ func (z Anon) handleValue(j es_json.Json) interface{} {
 	l := esl.Default()
 	if x, ok := j.String(); ok {
 		y := z.handleString(x)
-		l.Info("Diff", esl.String("orig", x), esl.String("anon", y))
+		l.Debug("Diff", esl.String("orig", x), esl.String("anon", y))
 		return y
 	}
 	if x, ok := j.Number(); ok {
