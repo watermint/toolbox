@@ -94,6 +94,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevtest.Monkey{},
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},
+		&recipedevutil.Anonymise{},
 		&recipedevutil.Curl{},
 		&recipedevutil.Wait{},
 		&recipefile.Copy{},

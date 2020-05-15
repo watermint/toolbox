@@ -9,6 +9,7 @@ import (
 
 type Resources struct {
 	rc_recipe.RemarkSecret
+	rc_recipe.RemarkTransient
 }
 
 func (z *Resources) Preset() {

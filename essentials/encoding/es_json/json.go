@@ -29,6 +29,9 @@ type Json interface {
 	// Raw JSON message
 	Raw() json.RawMessage
 
+	// Raw string
+	RawString() string
+
 	// True if the instance is null
 	IsNull() bool
 
@@ -114,6 +117,10 @@ func newWrapper(r gjson.Result) Json {
 
 type wrapperImpl struct {
 	r gjson.Result
+}
+
+func (z wrapperImpl) RawString() string {
+	return z.r.Str
 }
 
 func (z wrapperImpl) FindArrayEach(path string, f func(e Json) error) error {

@@ -9,6 +9,7 @@ import (
 
 type Echo struct {
 	rc_recipe.RemarkSecret
+	rc_recipe.RemarkTransient
 	Text string
 }
 

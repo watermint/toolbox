@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job"
+	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -25,7 +26,7 @@ func (z *Kind) Preset() {
 func (z *Kind) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	histories, err := getHistories(z.Path)
+	histories, err := app_job_impl.GetHistories(z.Path)
 	if err != nil {
 		return err
 	}

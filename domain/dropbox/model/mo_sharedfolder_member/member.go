@@ -119,7 +119,7 @@ type User struct {
 	Email            string `path:"user.email" json:"email"`
 	DisplayName      string `path:"user.display_name" json:"display_name"`
 	// boolean form of determine same team. Returns false if an attribute is not found in JSON.
-	IsSameTeam bool `path:"user.same_team" json:"same_team"`
+	IsSameTeam bool `path:"user.same_team" json:"is_same_team"`
 	// string form of IsSameTeam. Returns empty string if `same_team` attr is not found.
 	EntrySameTeam string `path:"user.same_team" json:"same_team"`
 	TeamMemberId  string `path:"user.team_member_id" json:"team_member_id"`
@@ -168,7 +168,7 @@ type Group struct {
 	IsMember            bool   `path:"group.is_member" json:"is_member"`
 	IsOwner             bool   `path:"group.is_owner" json:"is_owner"`
 	// boolean form of determine same team. Returns false if an attribute is not found in JSON.
-	IsSameTeam bool `path:"group.same_team" json:"same_team"`
+	IsSameTeam bool `path:"group.same_team" json:"is_same_team"`
 	// string form of IsSameTeam. Returns empty string if `same_team` attr is not found.
 	EntrySameTeam   string `path:"group.same_team" json:"same_team"`
 	GroupExternalId string `path:"group.group_external_id" json:"group_external_id"`
@@ -213,7 +213,7 @@ type Invitee struct {
 	EntryIsInherited bool   `path:"is_inherited" json:"is_inherited"`
 	InviteeEmail     string `path:"invitee.email" json:"invitee_email"`
 	// boolean form of determine same team. Returns false if an attribute is not found in JSON.
-	IsSameTeam bool `path:"group.same_team" json:"same_team"`
+	IsSameTeam bool `path:"user.same_team" json:"is_same_team"`
 	// string form of IsSameTeam. Returns empty string if `same_team` attr is not found.
 	EntrySameTeam string `path:"user.same_team" json:"same_team"`
 }

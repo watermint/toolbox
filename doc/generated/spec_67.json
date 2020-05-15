@@ -1146,6 +1146,54 @@
     "feeds": [],
     "values": []
   },
+  "dev util anonymise": {
+    "name": "anonymise",
+    "title": "Anonymise capture log",
+    "desc": "",
+    "remarks": "",
+    "path": "dev util anonymise",
+    "cli_args": "",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "is_secret": true,
+    "is_console": true,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [],
+    "feeds": [],
+    "values": [
+      {
+        "name": "JobIdName",
+        "desc": "Filter by job id name Filter by exact match to the name.",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "JobIdNamePrefix",
+        "desc": "Filter by job id name Filter by name match to the prefix.",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "JobIdNameSuffix",
+        "desc": "Filter by job id name Filter by name match to the suffix.",
+        "default": "",
+        "type_name": "",
+        "type_attr": null
+      },
+      {
+        "name": "Path",
+        "desc": "Path to the workspace",
+        "default": "",
+        "type_name": "domain.common.model.mo_string.opt_string",
+        "type_attr": null
+      }
+    ]
+  },
   "dev util curl": {
     "name": "curl",
     "title": "Generate cURL preview from capture log",

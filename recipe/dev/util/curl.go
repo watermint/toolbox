@@ -21,6 +21,7 @@ import (
 type Curl struct {
 	rc_recipe.RemarkConsole
 	rc_recipe.RemarkSecret
+	rc_recipe.RemarkTransient
 	Record     string
 	BufferSize mo_int.RangeInt
 }
