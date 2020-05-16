@@ -62,6 +62,10 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 		l.Debug("Test with mock")
 		return dbx_context_impl.NewMock(ctl), nil
 	}
+	if replay, enabled := ctl.Feature().IsTestWithReplay(); enabled {
+		l.Debug("Test with replay")
+		return dbx_context_impl.NewReplayMock(ctl, replay), nil
+	}
 
 	switch {
 	case ctl.Feature().IsTest():

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_feature"
@@ -36,6 +37,20 @@ type featureImpl struct {
 	test         bool
 	testWithMock bool
 	transient    bool
+	replay       []nw_replay.Response
+}
+
+func (z featureImpl) AsReplayTest(replay []nw_replay.Response) app_feature.Feature {
+	z.replay = replay
+	return z
+}
+
+func (z featureImpl) IsTestWithReplay() (replay []nw_replay.Response, enabled bool) {
+	if len(z.replay) > 0 {
+		return z.replay, true
+	} else {
+		return nil, false
+	}
 }
 
 func (z featureImpl) IsTransient() bool {

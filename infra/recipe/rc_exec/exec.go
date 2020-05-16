@@ -6,6 +6,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_replay"
 )
 
 func Exec(ctl app_control.Control, r rc_recipe.Recipe, custom func(r rc_recipe.Recipe)) error {
@@ -15,6 +17,16 @@ func Exec(ctl app_control.Control, r rc_recipe.Recipe, custom func(r rc_recipe.R
 // Execute with mock test mode
 func ExecMock(ctl app_control.Control, r rc_recipe.Recipe, custom func(r rc_recipe.Recipe)) error {
 	cte := ctl.WithFeature(ctl.Feature().AsTest(true))
+	return ExecSpec(cte, rc_spec.New(r), custom)
+}
+
+// Execute with mock test mode
+func ExecReplay(ctl app_control.Control, r rc_recipe.Recipe, replayName string, custom func(r rc_recipe.Recipe)) error {
+	replay, err := qt_replay.LoadReplay(replayName)
+	if err != nil {
+		return qt_errors.ErrorNotEnoughResource
+	}
+	cte := ctl.WithFeature(ctl.Feature().AsReplayTest(replay))
 	return ExecSpec(cte, rc_spec.New(r), custom)
 }
 

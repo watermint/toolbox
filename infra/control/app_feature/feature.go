@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -16,6 +17,7 @@ type Feature interface {
 	IsDebug() bool
 	IsTest() bool
 	IsTestWithMock() bool
+	IsTestWithReplay() (replay []nw_replay.Response, enabled bool)
 	IsQuiet() bool
 	IsSecure() bool
 	IsAutoOpen() bool
@@ -44,6 +46,9 @@ type Feature interface {
 
 	// With test mode
 	AsTest(useMock bool) Feature
+
+	// With test mode
+	AsReplayTest(replay []nw_replay.Response) Feature
 
 	// With quiet mode, but this will not guarantee UI/log are converted into quiet mode.
 	AsQuiet() Feature

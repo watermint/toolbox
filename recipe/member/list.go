@@ -35,6 +35,9 @@ func (z *List) Preset() {
 }
 
 func (z *List) Test(c app_control.Control) error {
+	if err := rc_exec.ExecReplay(c, &List{}, "recipe-member-list.json.gz", rc_recipe.NoCustomValues); err != nil {
+		return err
+	}
 	if err := rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues); err != nil {
 		return err
 	}

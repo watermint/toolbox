@@ -2,21 +2,18 @@ package qtr_endtoend
 
 import (
 	"encoding/csv"
-	"encoding/json"
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/go/es_resource"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/stats/es_memory"
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_golog"
 	"github.com/watermint/toolbox/essentials/network/nw_ratelimit"
-	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
@@ -32,10 +29,10 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"github.com/watermint/toolbox/quality/infra/qt_replay"
 	"github.com/watermint/toolbox/quality/infra/qt_secure"
 	"github.com/watermint/toolbox/quality/recipe/qtr_timeout"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -91,38 +88,6 @@ func resBundle() es_resource.Bundle {
 	}
 }
 
-func findTestFolder() string {
-	l := esl.Default()
-
-	root, err := es_project.DetectRepositoryRoot()
-	if err != nil {
-		l.Error("Test path not found")
-		panic(err)
-	}
-	return filepath.Join(root, "test")
-}
-
-func loadReplay(name string) (rr []nw_replay.Response, err error) {
-	l := esl.Default().With(esl.String("name", name))
-	tp := findTestFolder()
-	rp := filepath.Join(tp, "replay", name)
-
-	l.Debug("Loading replay", esl.String("path", rp))
-	b, err := ioutil.ReadFile(rp)
-	if err != nil {
-		l.Debug("Unable to load", esl.Error(err))
-		return nil, err
-	}
-
-	if err := json.Unmarshal(b, &rr); err != nil {
-		l.Debug("Unable to unmarshal", esl.Error(err))
-		return nil, err
-	}
-
-	l.Debug("Replay loaded", esl.Int("numRecords", len(rr)))
-	return rr, nil
-}
-
 func Resources() (ui app_ui.UI) {
 	bundle := resBundle()
 	lg := esl.Default()
@@ -146,7 +111,7 @@ func TestWithDbxContext(t *testing.T, twc func(ctx dbx_context.Context)) {
 
 func TestWithReplayDbxContext(t *testing.T, name string, twc func(ctx dbx_context.Context)) {
 	TestWithControl(t, func(ctl app_control.Control) {
-		rm, err := loadReplay(name)
+		rm, err := qt_replay.LoadReplay(name)
 		if err != nil {
 			t.Error(err)
 			return
