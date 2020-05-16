@@ -21,12 +21,36 @@ var (
 )
 
 type Member interface {
-	Update(member *mo_member.Member) (updated *mo_member.Member, err error)
+	Update(member *mo_member.Member, opts ...UpdateOpt) (updated *mo_member.Member, err error)
 	List(opts ...ListOpt) (members []*mo_member.Member, err error)
 	Resolve(teamMemberId string) (member *mo_member.Member, err error)
 	ResolveByEmail(email string) (member *mo_member.Member, err error)
 	Add(email string, opts ...AddOpt) (member *mo_member.Member, err error)
 	Remove(member *mo_member.Member, opts ...RemoveOpt) (err error)
+}
+
+type UpdateOpt func(opt updateOpts) updateOpts
+type updateOpts struct {
+	clearExternalid bool
+}
+
+func (z updateOpts) Apply(opts ...UpdateOpt) updateOpts {
+	switch len(opts) {
+	case 0:
+		return z
+	case 1:
+		return opts[0](z)
+	default:
+		x, y := opts[0], opts[1:]
+		return x(z).Apply(y...)
+	}
+}
+
+func ClearExternalId() UpdateOpt {
+	return func(opt updateOpts) updateOpts {
+		opt.clearExternalid = true
+		return opt
+	}
 }
 
 type ListOpt func(opt listOpts) listOpts
@@ -158,9 +182,9 @@ type cachedMember struct {
 	members []*mo_member.Member
 }
 
-func (z *cachedMember) Update(member *mo_member.Member) (updated *mo_member.Member, err error) {
-	z.members = nil // invalidate
-	return z.impl.Update(member)
+func (z *cachedMember) Update(member *mo_member.Member, opts ...UpdateOpt) (updated *mo_member.Member, err error) {
+	//	z.members = nil // invalidate
+	return z.impl.Update(member, opts...)
 }
 
 func (z *cachedMember) List(opt ...ListOpt) (members []*mo_member.Member, err error) {
@@ -292,30 +316,57 @@ func (z *memberImpl) Remove(member *mo_member.Member, opts ...RemoveOpt) (err er
 	return nil
 }
 
-func (z *memberImpl) Update(member *mo_member.Member) (updated *mo_member.Member, err error) {
+func (z *memberImpl) Update(member *mo_member.Member, opts ...UpdateOpt) (updated *mo_member.Member, err error) {
+	uo := updateOpts{}.Apply(opts...)
+
 	type US struct {
 		Tag          string `json:".tag"`
 		TeamMemberId string `json:"team_member_id"`
 	}
-	p := struct {
+	type UP1 struct {
 		User            US     `json:"user"`
 		NewEmail        string `json:"new_email,omitempty"`
 		NewExternalId   string `json:"new_external_id,omitempty"`
 		NewGivenName    string `json:"new_given_name,omitempty"`
 		NewSurname      string `json:"new_surname,omitempty"`
 		NewPersistentId string `json:"new_persistent_id,omitempty"`
-	}{
-		User: US{
-			Tag:          "team_member_id",
-			TeamMemberId: member.TeamMemberId,
-		},
-		NewEmail:        member.Email,
-		NewExternalId:   member.ExternalId,
-		NewGivenName:    member.GivenName,
-		NewSurname:      member.Surname,
-		NewPersistentId: member.PersistentId,
 	}
-	res := z.ctx.Post("team/members/set_profile", api_request.Param(p))
+	// for clear external id
+	type UP2 struct {
+		User            US     `json:"user"`
+		NewEmail        string `json:"new_email,omitempty"`
+		NewExternalId   string `json:"new_external_id"`
+		NewGivenName    string `json:"new_given_name,omitempty"`
+		NewSurname      string `json:"new_surname,omitempty"`
+		NewPersistentId string `json:"new_persistent_id,omitempty"`
+	}
+
+	usr := US{
+		Tag:          "team_member_id",
+		TeamMemberId: member.TeamMemberId,
+	}
+
+	var param api_request.RequestDatum
+	if uo.clearExternalid {
+		param = api_request.Param(UP2{
+			User:            usr,
+			NewEmail:        member.Email,
+			NewExternalId:   "",
+			NewGivenName:    member.GivenName,
+			NewSurname:      member.Surname,
+			NewPersistentId: member.PersistentId,
+		})
+	} else {
+		param = api_request.Param(UP1{
+			User:            usr,
+			NewEmail:        member.Email,
+			NewExternalId:   member.ExternalId,
+			NewGivenName:    member.GivenName,
+			NewSurname:      member.Surname,
+			NewPersistentId: member.PersistentId,
+		})
+	}
+	res := z.ctx.Post("team/members/set_profile", param)
 	if err, fail := res.Failure(); fail {
 		return nil, err
 	}

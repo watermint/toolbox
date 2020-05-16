@@ -1,6 +1,6 @@
-# team content member 
+# member clear externalid 
 
-List team folder & shared folder members 
+Clear external_id of members 
 
 # Security
 
@@ -19,7 +19,6 @@ Please see below help article for more detail:
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 This command use following access type(s) during the operation:
-* Dropbox Business File access
 
 # Usage
 
@@ -31,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe team content member 
+.\tbx.exe member clear externalid -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx team content member 
+$HOME/Desktop/tbx member clear externalid -file /PATH/TO/DATA_FILE.csv
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -48,14 +47,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option                  | Description                                                                                                                        | Default |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                          |         |
-| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                         |         |
-| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                         |         |
-| `-member-type-external` | Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member. |         |
-| `-member-type-internal` | Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.     |         |
-| `-peer`                 | Account alias                                                                                                                      | default |
+| Option  | Description       | Default |
+|---------|-------------------|---------|
+| `-file` | Path to data file |         |
+| `-peer` | Account alias     | default |
 
 Common options:
 
@@ -72,6 +67,23 @@ Common options:
 | `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`         | Do not store tokens into a file                                                  | false                |
 | `-workspace`      | Workspace path                                                                   |                      |
+
+# File formats
+
+## Format: File
+
+Email addresses of team members 
+
+| Column | Description                 | Value example    |
+|--------|-----------------------------|------------------|
+| email  | Email address of the member | john@example.com |
+
+The first line is a header line. The program will accept file without the header.
+
+```csv
+email
+john@example.com
+```
 
 # Authorization
 
@@ -109,44 +121,37 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## Report: membership 
-This report shows a list of shared folders and team folders with their members. If a folder has multiple members, then members are listed with rows.
+## Report: operation_log 
+This report shows the transaction result.
 Report files are generated in three formats like below;
-* `membership.csv`
-* `membership.xlsx`
-* `membership.json`
+* `operation_log.csv`
+* `operation_log.xlsx`
+* `operation_log.json`
 
 But if you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`...   
+`operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| Column          | Description                                                                                                                          |
-|-----------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| path            | Path                                                                                                                                 |
-| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                             |
-| owner_team_name | Team name of the team that owns the folder                                                                                           |
-| access_type     | User's access level for this folder                                                                                                  |
-| member_type     | Type of this member (user, group, or invitee)                                                                                        |
-| member_name     | Name of this member                                                                                                                  |
-| member_email    | Email address of this member                                                                                                         |
-| same_team       | Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not. |
-
-## Report: no_member 
-This report shows folders without members.
-Report files are generated in three formats like below;
-* `no_member.csv`
-* `no_member.xlsx`
-* `no_member.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`...   
-
-| Column          | Description                                                                                              |
-|-----------------|----------------------------------------------------------------------------------------------------------|
-| owner_team_name | Team name of the team that owns the folder                                                               |
-| path            | Path                                                                                                     |
-| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
+| Column                  | Description                                                                                                          |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------|
+| status                  | Status of the operation                                                                                              |
+| reason                  | Reason of failure or skipped operation                                                                               |
+| input.email             | Email address of the member                                                                                          |
+| result.team_member_id   | ID of user as a member of a team.                                                                                    |
+| result.email            | Email address of user.                                                                                               |
+| result.email_verified   | Is true if the user's email is verified to be owned by the user.                                                     |
+| result.status           | The user's status as a member of a specific team. (active/invited/suspended/removed)                                 |
+| result.given_name       | Also known as a first name                                                                                           |
+| result.surname          | Also known as a last name or family name.                                                                            |
+| result.familiar_name    | Locale-dependent name                                                                                                |
+| result.display_name     | A name that can be used directly to represent the name of a user's Dropbox account.                                  |
+| result.abbreviated_name | An abbreviated form of the person's name.                                                                            |
+| result.member_folder_id | The namespace id of the user's root folder.                                                                          |
+| result.external_id      | External ID that a team can attach to the user.                                                                      |
+| result.account_id       | A user's account identifier.                                                                                         |
+| result.persistent_id    | Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication. |
+| result.joined_on        | The date and time the user joined as a member of a specific team.                                                    |
+| result.role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
+| result.tag              | Operation tag                                                                                                        |
 

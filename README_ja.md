@@ -116,6 +116,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [job loop](doc/generated_ja/job-loop.md)                                                             | 指定日時までrunbookを実行します.                                   |
 | [job run](doc/generated_ja/job-run.md)                                                               | *.runbookoファイルにてワークフローを実行します                     |
 | [license](doc/generated_ja/license.md)                                                               | ライセンス情報を表示します                                         |
+| [member clear externalid](doc/generated_ja/member-clear-externalid.md)                               | Clear external_id of members                                       |
 | [member delete](doc/generated_ja/member-delete.md)                                                   | メンバーを削除します                                               |
 | [member detach](doc/generated_ja/member-detach.md)                                                   | Dropbox BusinessユーザーをBasicユーザーに変更します                |
 | [member invite](doc/generated_ja/member-invite.md)                                                   | メンバーを招待します                                               |

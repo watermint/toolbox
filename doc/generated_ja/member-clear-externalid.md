@@ -1,6 +1,6 @@
-# team content member 
+# member clear externalid 
 
-チームフォルダや共有フォルダのメンバー一覧 
+Clear external_id of members 
 
 # セキュリティ
 
@@ -19,7 +19,6 @@
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 このコマンドは次のアクセスタイプを処理に利用します:
-* Dropbox Business File access
 
 # 利用方法
 
@@ -31,13 +30,13 @@ Windows:
 
 ```powershell
 cd $HOME\Desktop
-.\tbx.exe team content member 
+.\tbx.exe member clear externalid -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 
 ```bash
-$HOME/Desktop/tbx team content member 
+$HOME/Desktop/tbx member clear externalid -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -48,14 +47,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション
 
-| オプション              | 説明                                                                                                                               | デフォルト |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                          |            |
-| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                         |            |
-| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                         |            |
-| `-member-type-external` | Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member. |            |
-| `-member-type-internal` | Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.     |            |
-| `-peer`                 | アカウントの別名                                                                                                                   | default    |
+| オプション | 説明              | デフォルト |
+|------------|-------------------|------------|
+| `-file`    | Path to data file |            |
+| `-peer`    | Account alias     | default    |
 
 共通のオプション:
 
@@ -72,6 +67,23 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
+
+# ファイル書式
+
+## 書式: File
+
+Email addresses of team members 
+
+| 列    | 説明                        | 値の例           |
+|-------|-----------------------------|------------------|
+| email | Email address of the member | john@example.com |
+
+最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
+
+```csv
+email
+john@example.com
+```
 
 # 認可
 
@@ -109,44 +121,37 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
 
-## レポート: membership 
-このレポートは共有フォルダまたはチームフォルダと、そのメンバーを一覧できます. フォルダに複数メンバーがいる場合には、メンバーは1行ずつ出力されます.
+## レポート: operation_log 
+このレポートは処理結果を出力します.
 レポートファイルは次の3種類のフォーマットで出力されます;
-* `membership.csv`
-* `membership.xlsx`
-* `membership.json`
+* `operation_log.csv`
+* `operation_log.xlsx`
+* `operation_log.json`
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`...   
+`operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
 
-| 列              | 説明                                                                                                                                 |
-|-----------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| path            | パス                                                                                                                                 |
-| folder_type     | フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ)                     |
-| owner_team_name | このフォルダを所有するチームの名前                                                                                                   |
-| access_type     | このフォルダに対するユーザーのアクセスレベル                                                                                         |
-| member_type     | メンバーの種類 (user, group または invitee)                                                                                          |
-| member_name     | このメンバーの名前                                                                                                                   |
-| member_email    | このメンバーのメールアドレス                                                                                                         |
-| same_team       | Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not. |
-
-## レポート: no_member 
-このレポートはメンバーのいないフォルダの一覧を出力します.
-レポートファイルは次の3種類のフォーマットで出力されます;
-* `no_member.csv`
-* `no_member.xlsx`
-* `no_member.json`
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`...   
-
-| 列              | 説明                                                                                                             |
-|-----------------|------------------------------------------------------------------------------------------------------------------|
-| owner_team_name | このフォルダを所有するチームの名前                                                                               |
-| path            | パス                                                                                                             |
-| folder_type     | フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ) |
+| 列                      | 説明                                                                                            |
+|-------------------------|-------------------------------------------------------------------------------------------------|
+| status                  | 処理の状態                                                                                      |
+| reason                  | 失敗またはスキップの理由                                                                        |
+| input.email             | Email address of the member                                                                     |
+| result.team_member_id   | チームにおけるメンバーのID                                                                      |
+| result.email            | ユーザーのメールアドレス                                                                        |
+| result.email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
+| result.status           | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
+| result.given_name       | 名                                                                                              |
+| result.surname          | 名字                                                                                            |
+| result.familiar_name    | ロケール依存の名前                                                                              |
+| result.display_name     | ユーザーのDropboxアカウントの表示名称                                                           |
+| result.abbreviated_name | ユーザーの省略名称                                                                              |
+| result.member_folder_id | ユーザールートフォルダの名前空間ID.                                                             |
+| result.external_id      | このユーザーに関連づけられた外部ID                                                              |
+| result.account_id       | ユーザーのアカウントID                                                                          |
+| result.persistent_id    | ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです.                             |
+| result.joined_on        | メンバーがチームに参加した日時.                                                                 |
+| result.role             | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
+| result.tag              | 処理のタグ                                                                                      |
 

@@ -4424,6 +4424,137 @@
     "feeds": [],
     "values": []
   },
+  "member clear externalid": {
+    "name": "externalid",
+    "title": "Clear external_id of members",
+    "desc": "",
+    "remarks": "",
+    "path": "member clear externalid",
+    "cli_args": "-file /PATH/TO/DATA_FILE.csv",
+    "cli_note": "",
+    "conn_use_personal": false,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "is_secret": false,
+    "is_console": false,
+    "is_experimental": false,
+    "is_irreversible": false,
+    "reports": [
+      {
+        "name": "operation_log",
+        "desc": "This report shows the transaction result.",
+        "columns": [
+          {
+            "name": "status",
+            "desc": "Status of the operation"
+          },
+          {
+            "name": "reason",
+            "desc": "Reason of failure or skipped operation"
+          },
+          {
+            "name": "input.email",
+            "desc": "Email address of the member"
+          },
+          {
+            "name": "result.team_member_id",
+            "desc": "ID of user as a member of a team."
+          },
+          {
+            "name": "result.email",
+            "desc": "Email address of user."
+          },
+          {
+            "name": "result.email_verified",
+            "desc": "Is true if the user's email is verified to be owned by the user."
+          },
+          {
+            "name": "result.status",
+            "desc": "The user's status as a member of a specific team. (active/invited/suspended/removed)"
+          },
+          {
+            "name": "result.given_name",
+            "desc": "Also known as a first name"
+          },
+          {
+            "name": "result.surname",
+            "desc": "Also known as a last name or family name."
+          },
+          {
+            "name": "result.familiar_name",
+            "desc": "Locale-dependent name"
+          },
+          {
+            "name": "result.display_name",
+            "desc": "A name that can be used directly to represent the name of a user's Dropbox account."
+          },
+          {
+            "name": "result.abbreviated_name",
+            "desc": "An abbreviated form of the person's name."
+          },
+          {
+            "name": "result.member_folder_id",
+            "desc": "The namespace id of the user's root folder."
+          },
+          {
+            "name": "result.external_id",
+            "desc": "External ID that a team can attach to the user."
+          },
+          {
+            "name": "result.account_id",
+            "desc": "A user's account identifier."
+          },
+          {
+            "name": "result.persistent_id",
+            "desc": "Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication."
+          },
+          {
+            "name": "result.joined_on",
+            "desc": "The date and time the user joined as a member of a specific team."
+          },
+          {
+            "name": "result.role",
+            "desc": "The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)"
+          },
+          {
+            "name": "result.tag",
+            "desc": "Operation tag"
+          }
+        ]
+      }
+    ],
+    "feeds": [
+      {
+        "name": "File",
+        "desc": "Email addresses of team members",
+        "columns": [
+          {
+            "name": "email",
+            "desc": "Email address of the member",
+            "example": "john@example.com"
+          }
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "File",
+        "desc": "Path to data file",
+        "default": "",
+        "type_name": "infra.feed.fd_file_impl.row_feed",
+        "type_attr": null
+      },
+      {
+        "name": "Peer",
+        "desc": "Account alias",
+        "default": "default",
+        "type_name": "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt",
+        "type_attr": null
+      }
+    ]
+  },
   "member delete": {
     "name": "delete",
     "title": "Delete members",
@@ -7299,14 +7430,14 @@
       },
       {
         "name": "MemberTypeExternal",
-        "desc": "Filter folder members. Keep only members are external (not in the same team).",
+        "desc": "Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member.",
         "default": "",
         "type_name": "",
         "type_attr": null
       },
       {
         "name": "MemberTypeInternal",
-        "desc": "Filter folder members. Keep only members are internal (in the same team).",
+        "desc": "Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.",
         "default": "",
         "type_name": "",
         "type_attr": null

@@ -116,6 +116,7 @@ Available commands:
 | [job loop](doc/generated/job-loop.md)                                                             | Run runbook until specified date/time                         |
 | [job run](doc/generated/job-run.md)                                                               | Run workflow with *.runbook file                              |
 | [license](doc/generated/license.md)                                                               | Show license information                                      |
+| [member clear externalid](doc/generated/member-clear-externalid.md)                               | Clear external_id of members                                  |
 | [member delete](doc/generated/member-delete.md)                                                   | Delete members                                                |
 | [member detach](doc/generated/member-detach.md)                                                   | Convert Dropbox Business accounts to a Basic account          |
 | [member invite](doc/generated/member-invite.md)                                                   | Invite member(s)                                              |

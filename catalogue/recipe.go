@@ -33,6 +33,7 @@ import (
 	recipejobhistory "github.com/watermint/toolbox/recipe/job/history"
 	recipejoblog "github.com/watermint/toolbox/recipe/job/log"
 	recipemember "github.com/watermint/toolbox/recipe/member"
+	recipememberclear "github.com/watermint/toolbox/recipe/member/clear"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
@@ -144,6 +145,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipemember.List{},
 		&recipemember.Reinvite{},
 		&recipemember.Replication{},
+		&recipememberclear.Externalid{},
 		&recipememberquota.List{},
 		&recipememberquota.Update{},
 		&recipememberquota.Usage{},
