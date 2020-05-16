@@ -1,4 +1,4 @@
-package qs_file
+package qdm_file
 
 import (
 	"os"

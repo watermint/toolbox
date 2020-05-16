@@ -57,6 +57,17 @@ func (z *Delete) Exec(c app_control.Control) error {
 }
 
 func (z *Delete) Test(c app_control.Control) error {
+	// replay test
+	{
+		err := rc_exec.ExecReplay(c, &Delete{}, "recipe-file-delete.json.gz", func(r rc_recipe.Recipe) {
+			m := r.(*Delete)
+			m.Path = mo_path.NewDropboxPath("target")
+		})
+		if err != nil {
+			return err
+		}
+	}
+
 	err := rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
 		m := r.(*Delete)
 		m.Path = qtr_endtoend.NewTestDropboxFolderPath("delete")

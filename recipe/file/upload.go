@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/quality/demo/qdm_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
@@ -43,6 +44,24 @@ func (z *Upload) Exec(c app_control.Control) error {
 
 func (z *Upload) Test(c app_control.Control) error {
 	l := c.Log()
+
+	// replay test
+	{
+		sc, err := qdm_file.NewScenario(false)
+		if err != nil {
+			return err
+		}
+		err = rc_exec.ExecReplay(c, &Upload{}, "recipe-file-upload.json.gz", func(r rc_recipe.Recipe) {
+			m := r.(*Upload)
+			m.LocalPath = mo_path2.NewFileSystemPath(sc.LocalPath)
+			m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("file-upload")
+			m.Overwrite = false
+		})
+		if err != nil {
+			return err
+		}
+	}
+
 	fileCandidates := []string{"README.md", "upload.go", "upload_test.go"}
 	file := ""
 	for _, f := range fileCandidates {

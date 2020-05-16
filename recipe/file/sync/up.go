@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/quality/demo/qdm_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
@@ -48,6 +49,22 @@ func (z *Up) Exec(c app_control.Control) error {
 }
 
 func (z *Up) Test(c app_control.Control) error {
+	// replay test
+	{
+		sc, err := qdm_file.NewScenario(false)
+		if err != nil {
+			return err
+		}
+		err = rc_exec.ExecReplay(c, &Up{}, "recipe-file-sync-up.json.gz", func(r rc_recipe.Recipe) {
+			m := r.(*Up)
+			m.LocalPath = mo_path2.NewExistingFileSystemPath(sc.LocalPath)
+			m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("file-sync-up")
+		})
+		if err != nil {
+			return err
+		}
+	}
+
 	err := rc_exec.ExecMock(c, &Up{}, func(r rc_recipe.Recipe) {
 		m := r.(*Up)
 		m.LocalPath = qtr_endtoend.NewTestExistingFileSystemFolderPath(c, "up")
