@@ -26,6 +26,11 @@ const (
 	ScopePublicRepo = "public_repo"
 )
 
+const (
+	ScopeLabelPublic = "github_public"
+	ScopeLabelRepo   = "github_repo"
+)
+
 func NewApp(ctl app_control.Control) api_auth.App {
 	return &App{
 		ctl: ctl,

@@ -15,8 +15,6 @@ const (
 	Github                         = "github"
 )
 
-var ()
-
 // Application key/secret manager
 type App interface {
 	// Key/secret for token type

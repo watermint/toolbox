@@ -2,8 +2,10 @@ package rc_spec
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/essentials/collections/es_array"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/doc/dc_options"
@@ -144,10 +146,12 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 		ConnUsePersonal: z.ConnUsePersonal(),
 		ConnUseBusiness: z.ConnUseBusiness(),
 		ConnScopes:      z.ConnScopeMap(),
+		Services:        z.Services(),
 		IsSecret:        z.IsSecret(),
 		IsConsole:       z.IsConsole(),
 		IsExperimental:  z.IsExperimental(),
 		IsIrreversible:  z.IsIrreversible(),
+		IsTransient:     z.IsTransient(),
 		Feeds:           feeds,
 		Reports:         reports,
 		Values:          values,
@@ -306,10 +310,18 @@ func (z *specValueSelfContained) Feeds() map[string]fd_file.Spec {
 	return z.repo.FeedSpecs()
 }
 
+func (z *specValueSelfContained) Services() []string {
+	services := make([]string, 0)
+	for _, c := range z.repo.Conns() {
+		services = append(services, c.ServiceName())
+	}
+	return es_array.NewByString(services...).Unique().Sort().AsStringArray()
+}
+
 func (z *specValueSelfContained) ConnUsePersonal() bool {
 	use := false
 	for _, c := range z.repo.Conns() {
-		if c.IsPersonal() {
+		if c.ServiceName() == api_conn.ServiceDropbox {
 			use = true
 		}
 	}
@@ -319,7 +331,7 @@ func (z *specValueSelfContained) ConnUsePersonal() bool {
 func (z *specValueSelfContained) ConnUseBusiness() bool {
 	use := false
 	for _, c := range z.repo.Conns() {
-		if c.IsBusiness() {
+		if c.ServiceName() == api_conn.ServiceDropboxBusiness {
 			use = true
 		}
 	}

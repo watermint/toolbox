@@ -1,7 +1,14 @@
-package rc_conn
+package api_conn
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
+)
+
+const (
+	ServiceDropbox         = "dropbox"
+	ServiceDropboxBusiness = "dropbox_business"
+	ServiceGithub          = "github"
+	ServiceGoogle          = "google"
 )
 
 type Connection interface {
@@ -16,4 +23,7 @@ type Connection interface {
 
 	// Scope label
 	ScopeLabel() string
+
+	// Name tag of the service
+	ServiceName() string
 }

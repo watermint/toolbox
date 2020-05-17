@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/domain/common/model/mo_multi"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -201,8 +201,8 @@ func (z *RepositoryImpl) FieldValueText(name string) string {
 	}
 }
 
-func (z *RepositoryImpl) Conns() map[string]dbx_conn.ConnDropboxApi {
-	conns := make(map[string]dbx_conn.ConnDropboxApi)
+func (z *RepositoryImpl) Conns() map[string]api_conn.Connection {
+	conns := make(map[string]api_conn.Connection)
 	for k, v := range z.values {
 		if vc, ok := v.(rc_recipe.ValueConn); ok {
 			if conn, ok := vc.Conn(); ok {

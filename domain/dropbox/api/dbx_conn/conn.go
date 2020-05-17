@@ -2,11 +2,11 @@ package dbx_conn
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/infra/recipe/rc_conn"
+	"github.com/watermint/toolbox/infra/api/api_conn"
 )
 
 type ConnDropboxApi interface {
-	rc_conn.Connection
+	api_conn.Connection
 
 	Context() dbx_context.Context
 

@@ -10,10 +10,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -37,10 +39,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -64,10 +68,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": []
@@ -81,14 +87,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_audit"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -110,14 +116,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -139,14 +145,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_info"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -168,14 +174,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -196,15 +202,15 @@
     "path": "connect user_file",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -226,14 +232,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_info"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "rows",
@@ -299,10 +305,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": []
@@ -315,15 +323,15 @@
     "path": "dev ci artifact connect",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Full": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -347,10 +355,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "skipped",
@@ -514,19 +524,15 @@
     "path": "dev ci auth connect",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": true,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Audit": "business_audit",
-      "File": "business_file",
-      "Full": "user_full",
-      "Info": "business_info",
-      "Mgmt": "business_management"
-    },
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -582,19 +588,15 @@
     "path": "dev ci auth export",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": true,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Audit": "business_audit",
-      "File": "business_file",
-      "Full": "user_full",
-      "Info": "business_info",
-      "Mgmt": "business_management"
-    },
+    "conn_use_personal": false,
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -646,10 +648,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -680,10 +684,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -735,10 +741,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -780,10 +788,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -807,10 +817,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "result",
@@ -855,10 +867,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": []
@@ -874,10 +888,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": []
@@ -893,10 +909,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -943,10 +961,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -991,10 +1011,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -1022,15 +1044,15 @@
     "path": "dev test monkey",
     "cli_args": "-path /DROPBOX/PATH/TO/PROCESS",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -1090,10 +1112,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -1138,10 +1162,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": true,
     "reports": [],
     "feeds": [],
     "values": []
@@ -1157,10 +1183,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -1205,10 +1233,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -1243,10 +1273,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -1271,16 +1303,15 @@
     "path": "file compare account",
     "cli_args": "-left left -left-path /path/to/compare -right right -right-path /path/to/compare",
     "cli_note": "If you want to compare different path in same account, please specify same alias name to `-left` and `-right`.",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Left": "user_full",
-      "Right": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "diff",
@@ -1365,15 +1396,15 @@
     "path": "file compare local",
     "cli_args": "-local-path /path/to/local -dropbox-path /path/on/dropbox",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "diff",
@@ -1495,15 +1526,15 @@
     "path": "file copy",
     "cli_args": "-src /SRC/PATH -dst /DST/PATH",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -1538,15 +1569,15 @@
     "path": "file delete",
     "cli_args": "-path /PATH/TO/DELETE",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -1577,10 +1608,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [],
     "feeds": [
       {
@@ -1640,15 +1673,15 @@
     "path": "file download",
     "cli_args": "-dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -1716,15 +1749,15 @@
     "path": "file export doc",
     "cli_args": "-dropbox-path /DROPBOX/PATH/TO/FILE -local-path /LOCAL/PATH/TO/EXPORT",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -1796,15 +1829,15 @@
     "path": "file import batch url",
     "cli_args": "-file /path/to/data/file -path /path/to/import",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -1903,15 +1936,15 @@
     "path": "file import url",
     "cli_args": "-url URL -path /path/to/import",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -1981,15 +2014,15 @@
     "path": "file list",
     "cli_args": "-path /path",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "file_list",
@@ -2069,15 +2102,15 @@
     "path": "file merge",
     "cli_args": "-from /from/path -to /path/to",
     "cli_note": "Please add `-dry-run=false` option after verify integrity of expected result.",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -2133,15 +2166,15 @@
     "path": "file move",
     "cli_args": "-src /SRC/PATH -dst /DST/PATH",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -2176,16 +2209,15 @@
     "path": "file replication",
     "cli_args": "-src source -src-path /path/src -dst dest -dst-path /path/dest",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Dst": "user_full",
-      "Src": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "replication_diff",
@@ -2270,15 +2302,15 @@
     "path": "file restore",
     "cli_args": "-path /DROPBOX/PATH/TO/RESTORE",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -2349,15 +2381,15 @@
     "path": "file search content",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "matches",
@@ -2439,15 +2471,15 @@
     "path": "file search name",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "matches",
@@ -2529,15 +2561,15 @@
     "path": "file sync preflight up",
     "cli_args": "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "skipped",
@@ -2701,15 +2733,15 @@
     "path": "file sync up",
     "cli_args": "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "skipped",
@@ -2891,15 +2923,15 @@
     "path": "file upload",
     "cli_args": "-local-path /PATH/TO/UPLOAD -dropbox-path /DROPBOX/PATH",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "skipped",
@@ -3081,15 +3113,15 @@
     "path": "file watch",
     "cli_args": "-path /DROPBOX/PATH/TO/WATCH",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -3124,15 +3156,15 @@
     "path": "filerequest create",
     "cli_args": "-path /DROPBOX/PATH/OF/FILEREQUEST",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "file_request",
@@ -3226,15 +3258,15 @@
     "path": "filerequest delete closed",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "deleted",
@@ -3298,15 +3330,15 @@
     "path": "filerequest delete url",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "deleted",
@@ -3384,15 +3416,15 @@
     "path": "filerequest list",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "file_requests",
@@ -3457,14 +3489,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "added_group",
@@ -3524,14 +3556,14 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -3603,14 +3635,14 @@
     "cli_args": "-name GROUP_NAME",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -3639,14 +3671,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_info"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "group",
@@ -3687,14 +3719,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -3765,14 +3797,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -3843,14 +3875,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_info"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "group_member",
@@ -3907,14 +3939,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -3987,10 +4019,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -4018,10 +4052,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": true,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -4049,10 +4085,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": true,
     "reports": [
       {
         "name": "log",
@@ -4100,15 +4138,15 @@
     "path": "job history ship",
     "cli_args": "-dropbox-path /DROPBOX/PATH/TO/UPLOAD",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -4198,10 +4236,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -4247,10 +4287,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -4289,10 +4331,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": true,
     "reports": [],
     "feeds": [],
     "values": [
@@ -4331,10 +4375,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": true,
     "is_experimental": true,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -4387,10 +4433,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": true,
     "is_experimental": true,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -4416,10 +4464,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": true,
     "reports": [],
     "feeds": [],
     "values": []
@@ -4433,14 +4483,14 @@
     "cli_args": "-file /PATH/TO/DATA_FILE.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -4564,14 +4614,14 @@
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -4638,14 +4688,14 @@
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -4712,14 +4762,14 @@
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -4840,14 +4890,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_info"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "member",
@@ -4915,14 +4965,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "member_quota",
@@ -4959,14 +5009,14 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -5054,14 +5104,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "usage",
@@ -5110,14 +5160,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -5233,15 +5283,14 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Dst": "business_file",
-      "Src": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -5317,14 +5366,14 @@
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -5436,14 +5485,14 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -5548,14 +5597,14 @@
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -5671,10 +5720,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "issues",
@@ -5735,10 +5786,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "user",
@@ -5781,10 +5834,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "downloads",
@@ -5857,10 +5912,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "assets",
@@ -5932,10 +5989,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "uploads",
@@ -6028,10 +6087,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "release",
@@ -6126,10 +6187,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "releases",
@@ -6190,10 +6253,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "created",
@@ -6289,15 +6354,15 @@
     "path": "sharedfolder list",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "shared_folder",
@@ -6365,15 +6430,15 @@
     "path": "sharedfolder member list",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "member",
@@ -6441,15 +6506,15 @@
     "path": "sharedlink create",
     "cli_args": "-path /path/to/share",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "created",
@@ -6535,15 +6600,15 @@
     "path": "sharedlink delete",
     "cli_args": "-path /path/to/delete",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "shared_link",
@@ -6617,15 +6682,15 @@
     "path": "sharedlink file list",
     "cli_args": "-url SHAREDLINK_URL",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "file_list",
@@ -6691,15 +6756,15 @@
     "path": "sharedlink list",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": true,
+    "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {
-      "Peer": "user_full"
-    },
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "shared_link",
@@ -6752,14 +6817,14 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_audit"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "combined",
@@ -6950,14 +7015,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_audit"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "event",
@@ -7063,14 +7128,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_audit"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "event",
@@ -7180,14 +7245,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_audit"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "user",
@@ -7339,14 +7404,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "membership",
@@ -7460,14 +7525,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "policy",
@@ -7545,14 +7610,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "device",
@@ -7677,14 +7742,14 @@
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -7978,16 +8043,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "File": "business_file",
-      "Info": "business_info",
-      "Mgmt": "business_management"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "device",
@@ -8643,14 +8706,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_info"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "feature",
@@ -8699,14 +8762,14 @@
     "cli_args": "-file /PATH/TO/DATA_FILE.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": true,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -8928,14 +8991,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "file_request",
@@ -9012,14 +9075,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_info"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "info",
@@ -9084,14 +9147,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "linked_app",
@@ -9160,14 +9223,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "namespace_file",
@@ -9274,14 +9337,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "namespace_size",
@@ -9396,14 +9459,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "namespace",
@@ -9444,14 +9507,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "namespace_member",
@@ -9519,14 +9582,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "shared_link",
@@ -9610,14 +9673,14 @@
     "cli_args": "-days 28",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "skipped",
@@ -9779,14 +9842,14 @@
     "cli_args": "-name TEAMFOLDER_NAME",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -9815,14 +9878,14 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -9898,14 +9961,14 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "operation_log",
@@ -9967,10 +10030,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "verification",
@@ -10061,14 +10126,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "namespace_file",
@@ -10133,14 +10198,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "namespace_size",
@@ -10220,14 +10285,14 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": false,
     "reports": [
       {
         "name": "team_folder",
@@ -10272,14 +10337,14 @@
     "cli_args": "-name TEAMFOLDER_NAME",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": true,
-    "conn_scopes": {
-      "Peer": "business_file"
-    },
+    "conn_use_business": false,
+    "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [],
     "feeds": [],
     "values": [
@@ -10310,10 +10375,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
     "is_irreversible": true,
+    "is_transient": false,
     "reports": [
       {
         "name": "verification",
@@ -10394,10 +10461,12 @@
     "conn_use_personal": false,
     "conn_use_business": false,
     "conn_scopes": {},
+    "services": [],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
     "is_irreversible": false,
+    "is_transient": true,
     "reports": [
       {
         "name": "versions",
